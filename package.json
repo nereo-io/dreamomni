@@ -12,9 +12,11 @@
     "analyze": "ANALYZE=true pnpm build",
     "cf:build": "npx @cloudflare/next-on-pages",
     "cf:preview": "pnpm cf:build && wrangler pages dev",
-    "cf:deploy": "pnpm cf:build && wrangler pages deploy"
+    "cf:deploy": "pnpm cf:build && wrangler pages deploy",
+    "clean": "rm -rf node_modules .next && rm -f pnpm-lock.yaml"
   },
   "dependencies": {
+    "@auth/core": "^0.37.4",
     "@devnomic/marquee": "^1.0.2",
     "@next/third-parties": "^15.1.2",
     "@openpanel/nextjs": "^1.0.7",
@@ -61,6 +63,7 @@
     "stripe": "^17.5.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
+    "undici": "^7.2.0",
     "uuid": "^11.0.3",
     "vaul": "^1.1.2"
   },
