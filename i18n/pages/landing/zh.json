@@ -1,12 +1,12 @@
 {
-  "template": "shipany-template-one",
+  "template": "luckbox-template",
   "theme": "light",
   "header": {
     "brand": {
-      "title": "ShipAny",
+      "title": "幸运盒子",
       "logo": {
-        "src": "/logo.png",
-        "alt": "ShipAny"
+        "src": "/logo.svg",
+        "alt": "LuckBox"
       },
       "url": "/"
     },
@@ -15,43 +15,27 @@
         {
           "title": "功能特点",
           "url": "/#feature",
-          "icon": "HiOutlineSparkles"
+          "icon": "RiSparklingLine"
         },
         {
-          "title": "定价",
-          "url": "/#pricing",
-          "icon": "MdPayment"
+          "title": "解读类型",
+          "url": "/#readings",
+          "icon": "RiCompassDiscoverLine"
         },
         {
-          "title": "案例展示",
-          "url": "/#showcase",
-          "icon": "BiCube",
-          "children": [
-            {
-              "title": "AI壁纸商店",
-              "description": "AI壁纸生成器",
-              "icon": "MdOutlineWallpaper",
-              "url": "https://aiwallpaper.shop",
-              "target": "_blank"
-            },
-            {
-              "title": "AI封面生成器",
-              "description": "AI封面生成器",
-              "icon": "RiRedPacketLine",
-              "url": "https://aicover.design",
-              "target": "_blank"
-            }
-          ]
+          "title": "用户评价",
+          "url": "/#testimonial",
+          "icon": "RiUserHeartLine"
         }
       ]
     },
     "buttons": [
       {
-        "title": "获取 ShipAny",
-        "url": "https://shipany.ai",
-        "target": "_blank",
-        "variant": "link",
-        "icon": "RiArrowRightUpLine"
+        "title": "免费体验",
+        "url": "/reading",
+        "target": "_self",
+        "variant": "default",
+        "icon": "RiMagicLine"
       }
     ],
     "show_sign": true,
@@ -59,478 +43,219 @@
     "show_locale": true
   },
   "hero": {
-    "title": "几小时内快速构建 AI 创业项目，而不是几天",
-    "highlight_text": "Ship Any",
-    "description": "ShipAny 是一个用于构建 AI SaaS 创业项目的 NextJS 模板。<br/>通过丰富的模板和组件快速启动。",
+    "title": "指引人生旅程：感情•事业•财运",
+    "highlight_text": "感情•事业•财运",
+    "description": "幸运盒子 结合传统命理学智慧与AI技术，为您提供免费的命理解读。",
     "announcement": {
-      "label": "2025",
-      "title": "🎉 新年快乐",
-      "url": "/#pricing"
+      "label": "新功能",
+      "title": "✨ 体验AI感情解读",
+      "url": "/reading/love"
     },
-    "tip": "🎁 2025年前五折优惠",
+    "tip": "🎁 新用户首次解读免费",
     "buttons": [
       {
-        "title": "立即开始",
-        "icon": "RiFlashlightFill",
-        "url": "/#pricing",
+        "title": "开始免费解读",
+        "icon": "RiMagicLine",
+        "url": "/reading",
         "target": "_self",
         "variant": "default"
       },
       {
-        "title": "加入 Discord",
-        "icon": "RiDiscordFill",
-        "url": "https://discord.gg/HQNnrzjZQS",
-        "target": "_blank",
+        "title": "了解更多",
+        "icon": "RiInformationLine",
+        "url": "/#feature",
+        "target": "_self",
         "variant": "outline"
       }
     ],
     "show_happy_users": true,
     "show_badge": false
   },
-  "branding": {
-    "title": "ShipAny 建立在巨人的肩膀上",
-    "items": [
-      {
-        "title": "Next.js",
-        "image": {
-          "src": "/imgs/logos/nextjs.svg",
-          "alt": "Next.js"
-        }
-      },
-      {
-        "title": "React",
-        "image": {
-          "src": "/imgs/logos/react.svg",
-          "alt": "React"
-        }
-      },
-      {
-        "title": "TailwindCSS",
-        "image": {
-          "src": "/imgs/logos/tailwindcss.svg",
-          "alt": "TailwindCSS"
-        }
-      },
-      {
-        "title": "Shadcn/UI",
-        "image": {
-          "src": "/imgs/logos/shadcn.svg",
-          "alt": "Shadcn/UI"
-        }
-      },
-      {
-        "title": "Vercel",
-        "image": {
-          "src": "/imgs/logos/vercel.svg",
-          "alt": "Vercel"
-        }
-      }
-    ]
-  },
-  "introduce": {
-    "name": "introduce",
-    "title": "什么是 ShipAny",
-    "label": "介绍",
-    "description": "ShipAny 是一个用于构建 AI SaaS 创业项目的 NextJS 模板，内置多种模板和组件。",
-    "image": {
-      "src": "/imgs/features/1.png"
-    },
-    "items": [
-      {
-        "title": "即用型模板",
-        "description": "从数十个生产就绪的 AI SaaS 模板中选择，快速启动您的项目。",
-        "icon": "RiNextjsFill"
-      },
-      {
-        "title": "基础设施配置",
-        "description": "立即获取内置最佳实践的可扩展基础设施。",
-        "icon": "RiDatabase2Line"
-      },
-      {
-        "title": "快速部署",
-        "description": "在几小时内将您的 AI SaaS 应用部署到生产环境，而不是几天。",
-        "icon": "RiCloudyFill"
-      }
-    ]
-  },
-  "benefit": {
-    "name": "benefit",
-    "title": "为什么选择 ShipAny",
-    "label": "优势",
-    "description": "获取启动 AI 创业所需的一切 - 从即用型模板到技术支持。",
-    "items": [
-      {
-        "title": "完整框架",
-        "description": "基于 Next.js 构建，集成身份验证、支付和 AI 功能 - 一切开箱即用。",
-        "icon": "RiNextjsFill",
-        "image": {
-          "src": "/imgs/features/2.png"
-        }
-      },
-      {
-        "title": "丰富的模板库",
-        "description": "选择各种 AI SaaS 模板来启动您的项目 - 聊天机器人、图像生成等。",
-        "icon": "RiClapperboardAiLine",
-        "image": {
-          "src": "/imgs/features/3.png"
-        }
-      },
-      {
-        "title": "技术指导",
-        "description": "获得专门支持并加入我们的开发者社区，确保您成功启动。",
-        "icon": "RiCodeFill",
-        "image": {
-          "src": "/imgs/features/4.png"
-        }
-      }
-    ]
-  },
-  "usage": {
-    "name": "usage",
-    "title": "如何使用 ShipAny 启动项目",
-    "description": "通过三个简单步骤启动您的 AI SaaS 创业项目：",
-    "image": {
-      "src": "/imgs/features/1.png"
-    },
-    "image_position": "left",
-    "text_align": "center",
-    "items": [
-      {
-        "title": "获取 ShipAny",
-        "description": "一次性付款购买 ShipAny。查收邮件获取代码和文档。",
-        "image": {
-          "src": "/imgs/features/5.png"
-        }
-      },
-      {
-        "title": "开始您的项目",
-        "description": "阅读文档并克隆 ShipAny 代码。开始构建您的 AI SaaS 创业项目。",
-        "image": {
-          "src": "/imgs/features/6.png"
-        }
-      },
-      {
-        "title": "定制您的项目",
-        "description": "使用您的数据和内容修改模板。满足特定的 AI 功能需求。",
-        "image": {
-          "src": "/imgs/features/7.png"
-        }
-      },
-      {
-        "title": "部署到生产环境",
-        "description": "通过几个步骤将项目部署到生产环境，立即开始服务客户。",
-        "image": {
-          "src": "/imgs/features/8.png"
-        }
-      }
-    ]
-  },
   "feature": {
     "name": "feature",
-    "title": "ShipAny 核心功能",
-    "description": "快速高效启动 AI SaaS 创业所需的一切。",
+    "title": "为什么选择 LuckBox",
+    "description": "先进AI技术与传统命理智慧的完美结合，为您提供精准的命运指引",
     "items": [
       {
-        "title": "Next.js 模板",
-        "description": "生产就绪的 Next.js 模板，支持 SEO 友好结构和国际化。",
-        "icon": "RiNextjsFill"
-      },
-      {
-        "title": "身份验证和支付",
-        "description": "集成 Google OAuth、一键登录和 Stripe 支付处理。",
-        "icon": "RiKey2Fill"
-      },
-      {
-        "title": "数据基础设施",
-        "description": "内置 Supabase 集成，提供可靠和可扩展的数据存储。",
-        "icon": "RiDatabase2Line"
-      },
-      {
-        "title": "一键部署",
-        "description": "无缝部署到 Vercel 或 Cloudflare，自动化设置。",
-        "icon": "RiCloudy2Fill"
-      },
-      {
-        "title": "业务分析",
-        "description": "集成 Google Analytics 和 Search Console 追踪增长。",
-        "icon": "RiBarChart2Line"
-      },
-      {
-        "title": "AI 就绪基础设施",
-        "description": "预配置 AI 集成，内置积分系统和 API 销售。",
+        "title": "AI智能解读",
+        "description": "我们的AI系统通过分析您的生辰八字，提供精准且个性化的命理解读。",
         "icon": "RiRobot2Line"
+      },
+      {
+        "title": "个性化体验",
+        "description": "根据您的独特八字和生活环境，获取定制化的详细解读。",
+        "icon": "RiUserSettingsLine"
+      },
+      {
+        "title": "全天候服务",
+        "description": "随时随地获取命理解读，我们的AI解读师24小时在线为您服务。",
+        "icon": "Ri24HoursLine"
+      },
+      {
+        "title": "多维度解读",
+        "description": "从感情、事业到财运，为人生的各个方面提供专业指导。",
+        "icon": "RiHeartLine"
+      },
+      {
+        "title": "简单易懂",
+        "description": "将复杂的命理概念转化为简单易懂的见解，让您轻松掌握。",
+        "icon": "RiLightbulbLine"
+      },
+      {
+        "title": "定期更新",
+        "description": "根据您的八字，每日更新运势预测和指引。",
+        "icon": "RiRefreshLine"
       }
     ]
   },
   "showcase": {
-    "name": "showcase",
-    "title": "使用 ShipAny 构建的 AI SaaS 创业项目",
-    "description": "易于使用，快速发布。",
+    "name": "readings",
+    "title": "探索解读类型",
+    "description": "全方位的人生指引",
     "items": [
       {
-        "title": "ThinkAny",
-        "description": "AI 搜索引擎",
-        "url": "https://thinkany.ai",
-        "target": "_blank",
+        "title": "免费命理解读",
+        "description": "获取个性化的人生轨迹分析",
+        "url": "/reading/destiny",
+        "target": "_self",
+        "label": "免费",
         "image": {
-          "src": "/imgs/showcases/7.png"
+          "src": "/imgs/readings/1.png"
         }
       },
       {
-        "title": "HeyBeauty",
-        "description": "AI 虚拟试妆",
-        "url": "https://heybeauty.ai",
-        "target": "_blank",
+        "title": "感情解读",
+        "description": "了解您的感情生活和人际关系",
+        "url": "/reading/love",
+        "target": "_self",
         "image": {
-          "src": "/imgs/showcases/5.png"
+          "src": "/imgs/readings/2.png"
         }
       },
       {
-        "title": "AI Wallpaper",
-        "description": "AI 壁纸生成器",
-        "url": "https://aiwallpaper.shop",
-        "target": "_blank",
+        "title": "事业解读",
+        "description": "获取职业发展方向的指引",
+        "url": "/reading/career",
+        "target": "_self",
         "image": {
-          "src": "/imgs/showcases/1.png"
+          "src": "/imgs/readings/3.png"
         }
       },
       {
-        "title": "AI Cover",
-        "description": "AI 封面生成器",
-        "url": "https://aicover.design",
-        "target": "_blank",
+        "title": "财运解读",
+        "description": "发掘财富机遇的指引",
+        "url": "/reading/wealth",
+        "target": "_self",
         "image": {
-          "src": "/imgs/showcases/2.png"
+          "src": "/imgs/readings/4.png"
         }
-      },
-      {
-        "title": "GPTs Works",
-        "description": "GPTs 目录",
-        "url": "https://gpts.works",
-        "target": "_blank",
-        "image": {
-          "src": "/imgs/showcases/3.png"
-        }
-      },
-      {
-        "title": "Melodisco",
-        "description": "AI 音乐播放器",
-        "url": "https://melodis.co",
-        "target": "_blank",
-        "image": {
-          "src": "/imgs/showcases/4.png"
-        }
-      },
-      {
-        "title": "Pagen",
-        "description": "AI 落地页生成器",
-        "url": "https://pagen.so",
-        "target": "_blank",
-        "image": {
-          "src": "/imgs/showcases/6.png"
-        }
-      },
-      {
-        "title": "SoraFM",
-        "description": "AI 视频生成器",
-        "url": "https://sorafm.trys.ai",
-        "target": "_blank",
-        "image": {
-          "src": "/imgs/showcases/8.png"
-        }
-      },
-      {
-        "title": "PodLM",
-        "description": "AI 播客生成器",
-        "url": "https://podlm.ai",
-        "target": "_blank",
-        "image": {
-          "src": "/imgs/showcases/9.png"
-        }
-      }
-    ]
-  },
-  "stats": {
-    "name": "stats",
-    "label": "统计",
-    "title": "用户喜爱 ShipAny",
-    "description": "因为它易于使用且快速发布。",
-    "icon": "FaRegHeart",
-    "items": [
-      {
-        "title": "信任",
-        "label": "99+",
-        "description": "客户"
-      },
-      {
-        "title": "内置",
-        "label": "20+",
-        "description": "组件"
-      },
-      {
-        "title": "快速发布",
-        "label": "5",
-        "description": "分钟"
-      }
-    ]
-  },
-  "pricing": {
-    "name": "pricing",
-    "label": "定价",
-    "title": "定价",
-    "description": "获取 ShipAny 的所有功能，快速启动您的 AI SaaS 创业项目。",
-    "groups": [],
-    "items": [
-      {
-        "title": "入门版",
-        "description": "开始您的第一个 SaaS 创业项目。",
-        "features_title": "包含",
-        "features": [
-          "NextJS 模板",
-          "SEO 友好结构",
-          "Stripe 支付",
-          "Supabase 数据存储",
-          "Google OAuth 和一键登录",
-          "国际化支持"
-        ],
-        "interval": "one-time",
-        "amount": 9900,
-        "cn_amount": 69900,
-        "currency": "USD",
-        "price": "$99",
-        "original_price": "$199",
-        "unit": "USD",
-        "is_featured": false,
-        "tip": "一次付费，无限项目！",
-        "button": {
-          "title": "获取 ShipAny",
-          "url": "/#pricing",
-          "icon": "RiFlashlightFill"
-        },
-        "product_id": "starter",
-        "product_name": "ShipAny 模板入门版",
-        "credits": 1,
-        "valid_months": -1
-      },
-      {
-        "title": "标准版",
-        "description": "快速启动您的 SaaS 创业项目。",
-        "label": "热门",
-        "features_title": "包含入门版所有功能，另加",
-        "features": [
-          "Vercel 或 Cloudflare 部署",
-          "隐私和条款生成",
-          "Google Analytics 集成",
-          "Google Search Console 集成",
-          "Discord 社区",
-          "首次发布技术支持",
-          "终身更新"
-        ],
-        "interval": "one-time",
-        "amount": 19900,
-        "cn_amount": 139900,
-        "currency": "USD",
-        "price": "$199",
-        "original_price": "$299",
-        "unit": "USD",
-        "is_featured": true,
-        "tip": "一次付费，无限项目！",
-        "button": {
-          "title": "获取 ShipAny",
-          "url": "/#pricing",
-          "icon": "RiFlashlightFill"
-        },
-        "product_id": "standard",
-        "product_name": "ShipAny 模板标准版",
-        "credits": 1,
-        "valid_months": -1
-      },
-      {
-        "title": "高级版",
-        "description": "构建任何 AI SaaS 创业项目。",
-        "features_title": "包含标准版所有功能，另加",
-        "features": [
-          "AI 业务功能",
-          "用户中心",
-          "积分系统",
-          "SaaS API 销售",
-          "管理系统",
-          "优先技术支持"
-        ],
-        "interval": "one-time",
-        "amount": 29900,
-        "cn_amount": 199900,
-        "currency": "USD",
-        "price": "$299",
-        "original_price": "$399",
-        "unit": "USD",
-        "is_featured": false,
-        "tip": "一次付费，无限项目！",
-        "button": {
-          "title": "获取 ShipAny",
-          "url": "/#pricing",
-          "icon": "RiFlashlightFill"
-        },
-        "product_id": "premium",
-        "product_name": "ShipAny 模板高级版",
-        "credits": 1,
-        "valid_months": -1
       }
     ]
   },
   "testimonial": {
     "name": "testimonial",
     "label": "用户评价",
-    "title": "用户如何评价 ShipAny",
-    "description": "听听使用 ShipAny 启动 AI 创业项目的开发者和创始人怎么说。",
-    "icon": "GoThumbsup",
+    "title": "用户如何评价 LuckBox",
+    "description": "来自真实用户的使用体验",
+    "icon": "RiUserHeartLine",
     "items": [
       {
-        "title": "陈大卫",
-        "label": "AIWallpaper.shop 创始人",
-        "description": "ShipAny 为我们节省了数月的开发时间。我们仅用 2 天就启动了 AI 壁纸业务，一周内就获得了第一个付费客户！",
+        "title": "陈小华",
+        "label": "普通用户",
+        "description": "事业解读非常准确！帮助我做出了重要的工作决定。AI的见解与我的情况完全吻合。",
         "image": {
           "src": "/imgs/users/1.png"
         }
       },
       {
-        "title": "金瑞秋",
-        "label": "HeyBeauty.ai 技术总监",
-        "description": "预构建的 AI 基础设施是一个游戏规则改变者。我们无需担心架构 - 只需专注于 AI 美容技术并快速上线。",
+        "title": "王明",
+        "label": "高级会员",
+        "description": "一开始我很怀疑，但感情解读给了我很有价值的建议，真的帮助改善了我的感情。每月的更新都很有价值。",
         "image": {
           "src": "/imgs/users/2.png"
         }
       },
       {
-        "title": "马库斯",
-        "label": "独立开发者",
-        "description": "作为独立开发者，ShipAny 给了我所需的一切 - 身份验证、支付、AI 集成和漂亮的 UI。一个周末就启动了我的 SaaS！",
+        "title": "张雯",
+        "label": "高级会员",
+        "description": "财运解读帮我找到了最佳的投资时机。按照指引操作了3个月，已经看到了明显的成效。",
         "image": {
           "src": "/imgs/users/3.png"
         }
       },
       {
-        "title": "索菲亚",
-        "label": "Melodisco CEO",
-        "description": "这些模板可直接用于生产且高度可定制。我们用几小时而不是几个月就建立了 AI 音乐平台。上市时间令人难以置信！",
+        "title": "李大伟",
+        "label": "普通用户",
+        "description": "最让我印象深刻的是AI如何将传统八字智慧与现代解读结合。就像随时有个命理师在身边。",
         "image": {
           "src": "/imgs/users/4.png"
         }
       },
       {
-        "title": "詹姆斯",
-        "label": "GPTs.works 技术主管",
-        "description": "ShipAny 的基础设施非常稳固。我们从 0 扩展到 1 万用户都没碰后端。这是我们 AI 创业最好的投资。",
+        "title": "王丽莎",
+        "label": "高级会员",
+        "description": "命理解读清晰地揭示了我的人生路径。了解自己的优势和挑战后，规划更有方向。",
         "image": {
           "src": "/imgs/users/5.png"
         }
       },
       {
-        "title": "张安娜",
-        "label": "创业者",
-        "description": "从想法到上线只用了 3 天！ShipAny 的模板和部署工具让我们能够以令人难以置信的速度测试 AI 业务概念。",
+        "title": "吴杰明",
+        "label": "普通用户",
+        "description": "LuckBox指导我做所有重要决定。无论是个人还是职业选择都能得到有力的指引。",
         "image": {
           "src": "/imgs/users/6.png"
+        }
+      }
+    ]
+  },
+  "pricing": {
+    "name": "pricing",
+    "label": "套餐",
+    "title": "选择您的解读套餐",
+    "description": "灵活的选择以满足您的需求",
+    "items": [
+      {
+        "title": "基础版",
+        "description": "适合首次体验的用户",
+        "features": [
+          "每日运势概览",
+          "基础感情合适度",
+          "事业指导",
+          "24/7 AI解读服务"
+        ],
+        "interval": "monthly",
+        "amount": 999,
+        "currency": "CNY",
+        "price": "¥9.9",
+        "unit": "月",
+        "is_featured": false,
+        "button": {
+          "title": "免费开始",
+          "url": "/reading",
+          "icon": "RiMagicLine"
+        }
+      },
+      {
+        "title": "高级版",
+        "description": "获取更深入的解读",
+        "features": [
+          "包含基础版所有功能",
+          "详细月度运势预测",
+          "深度感情分析",
+          "财运机遇指引",
+          "优先客服支持"
+        ],
+        "interval": "monthly",
+        "amount": 1999,
+        "currency": "CNY",
+        "price": "¥19.9",
+        "unit": "月",
+        "is_featured": true,
+        "button": {
+          "title": "选择高级版",
+          "url": "/premium",
+          "icon": "RiVipCrownLine"
         }
       }
     ]
@@ -538,50 +263,50 @@
   "faq": {
     "name": "faq",
     "label": "常见问题",
-    "title": "关于 ShipAny 的常见问题",
-    "description": "还有其他问题？通过 Discord 或电子邮件联系我们。",
+    "title": "常见问题解答",
+    "description": "还有其他问题？请联系我们的客服团队。",
     "items": [
       {
-        "title": "ShipAny 究竟是什么，它是如何工作的？",
-        "description": "ShipAny 是一个专门为构建 AI SaaS 创业项目设计的综合性 NextJS 模板。它提供即用型模板、基础设施设置和部署工具，帮助您在几小时内而不是几天内启动 AI 业务。"
+        "title": "AI解读的准确度如何？",
+        "description": "我们的AI系统基于传统八字原理和现代数据分析，根据您的生辰八字提供高度准确的解读。系统通过大量用户反馈不断学习和优化。"
       },
       {
-        "title": "使用 ShipAny 需要高级技术技能吗？",
-        "description": "虽然基本的编程知识会有帮助，但 ShipAny 设计得非常开发者友好。我们的模板和文档使您即使不是 AI 或云基础设施专家也能轻松入门。"
+        "title": "需要提供哪些信息？",
+        "description": "我们只需要您的出生日期、时间和地点来生成准确的解读。您的信息将受到严格保密，并采用企业级安全保护。"
       },
       {
-        "title": "我可以用 ShipAny 构建什么类型的 AI SaaS？",
-        "description": "ShipAny 支持广泛的 AI 应用，从内容生成到数据分析工具。我们的模板涵盖流行用例，如 AI 聊天机器人、内容生成器、图像处理应用等。"
+        "title": "解读多久更新一次？",
+        "description": "每日运势每天更新，详细预测按月提供或根据您选择的套餐而定。高级会员还可获得每周额外的深度解读。"
       },
       {
-        "title": "使用 ShipAny 通常需要多长时间才能启动？",
-        "description": "使用 ShipAny，您可以在几小时内完成工作原型，并在几小时内完成生产就绪的应用。我们的一键部署和预配置基础设施显著缩短了传统的数月开发周期。"
+        "title": "能否获得不同方面的解读？",
+        "description": "是的！我们提供专门的感情、事业、财运和综合命理解读。每种解读都专注于您生活的特定方面，提供详细的见解和指导。"
       },
       {
-        "title": "ShipAny 的基础设施包括什么？",
-        "description": "ShipAny 提供完整的基础设施栈，包括身份验证、数据库设置、API 集成、支付处理和可扩展的云部署。一切都按照行业最佳实践预先配置。"
+        "title": "LuckBox与传统算命有什么不同？",
+        "description": "LuckBox将中国传统命理与AI技术相结合，提供客观、数据驱动的解读。我们的系统分析了大量传统典籍和现代案例，以提供准确的个性化解读。"
       },
       {
-        "title": "我可以自定义模板以匹配我的品牌吗？",
-        "description": "当然可以！所有 ShipAny 模板都完全可定制。您可以修改设计、功能和功能性以匹配您的品牌标识和特定业务需求，同时保持强大的底层基础设施。"
+        "title": "首次解读真的免费吗？",
+        "description": "是的！我们为所有新用户提供一次免费的综合命理解读，包括对您人生路径、感情、事业和财运的基础分析。"
       }
     ]
   },
   "cta": {
     "name": "cta",
-    "title": "启动您的第一个 AI SaaS 创业项目",
-    "description": "从这里开始，使用 ShipAny 启动。",
+    "title": "开启您的命理解读之旅",
+    "description": "从这里开始，探索您的人生轨迹。",
     "buttons": [
       {
-        "title": "获取 ShipAny",
-        "url": "https://shipany.ai",
-        "target": "_blank",
-        "icon": "GoArrowUpRight"
+        "title": "免费体验",
+        "url": "/reading",
+        "target": "_self",
+        "icon": "RiMagicLine"
       },
       {
-        "title": "阅读文档",
-        "url": "https://docs.shipany.ai",
-        "target": "_blank",
+        "title": "了解更多",
+        "url": "/#feature",
+        "target": "_self",
         "variant": "outline"
       }
     ]
@@ -589,15 +314,15 @@
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "ShipAny",
-      "description": "ShipAny 是一个用于构建 AI SaaS 创业项目的 NextJS 模板。通过丰富的模板和组件快速启动。",
+      "title": "LuckBox",
+      "description": "结合传统命理智慧与AI技术，为您提供准确的人生指引。",
       "logo": {
-        "src": "/logo.png",
-        "alt": "ShipAny"
+        "src": "/logo.svg",
+        "alt": "LuckBox"
       },
       "url": "/"
     },
-    "copyright": "© 2024 • ShipAny 保留所有权利。",
+    "copyright": "© 2024 • LuckBox 保留所有权利",
     "nav": {
       "items": [
         {
@@ -609,54 +334,24 @@
               "target": "_self"
             },
             {
-              "title": "案例展示",
-              "url": "/#showcase",
-              "target": "_self"
-            },
-            {
-              "title": "定价",
-              "url": "/#pricing",
+              "title": "解读类型",
+              "url": "/#readings",
               "target": "_self"
             }
           ]
         },
         {
-          "title": "资源",
+          "title": "支持",
           "children": [
             {
-              "title": "文档",
-              "url": "https://docs.shipany.ai",
-              "target": "_blank"
+              "title": "常见问题",
+              "url": "/#faq",
+              "target": "_self"
             },
             {
-              "title": "组件",
-              "url": "https://shipany.ai/components",
-              "target": "_blank"
-            },
-            {
-              "title": "模板",
-              "url": "https://shipany.ai/templates",
-              "target": "_blank"
-            }
-          ]
-        },
-        {
-          "title": "友情链接",
-          "children": [
-            {
-              "title": "ThinkAny",
-              "url": "https://thinkany.ai",
-              "target": "_blank"
-            },
-            {
-              "title": "HeyBeauty",
-              "url": "https://heybeauty.ai",
-              "target": "_blank"
-            },
-            {
-              "title": "Pagen",
-              "url": "https://pagen.so",
-              "target": "_blank"
+              "title": "联系我们",
+              "url": "/contact",
+              "target": "_self"
             }
           ]
         }
@@ -667,25 +362,19 @@
         {
           "title": "X",
           "icon": "RiTwitterXFill",
-          "url": "https://x.com/shipanyai",
+          "url": "https://x.com/luckbox",
           "target": "_blank"
         },
         {
-          "title": "Github",
-          "icon": "RiGithubFill",
-          "url": "https://github.com/shipanyai",
-          "target": "_blank"
-        },
-        {
-          "title": "Discord",
-          "icon": "RiDiscordFill",
-          "url": "https://discord.gg/HQNnrzjZQS",
-          "target": "_blank"
+          "title": "微信",
+          "icon": "RiWechatLine",
+          "url": "#",
+          "target": "_self"
         },
         {
           "title": "邮箱",
           "icon": "RiMailLine",
-          "url": "mailto:support@shipany.ai",
+          "url": "mailto:support@luckbox.ai",
           "target": "_self"
         }
       ]

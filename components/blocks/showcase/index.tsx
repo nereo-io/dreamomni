@@ -90,9 +90,9 @@ export default function Showcase({ section }: { section: SectionType }) {
                 <a
                   href={item.url}
                   target={item.target}
-                  className="group flex flex-col justify-between rounded-xl border border-border bg-card p-6"
+                  className="group flex h-full flex-col justify-between rounded-xl border border-border bg-card p-6"
                 >
-                  <div>
+                  <div className="flex flex-col h-full">
                     <div className="flex aspect-[3/2] overflow-clip rounded-xl">
                       <div className="flex-1">
                         <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
@@ -104,17 +104,17 @@ export default function Showcase({ section }: { section: SectionType }) {
                         </div>
                       </div>
                     </div>
-                  </div>
-                  {item.label && (
-                    <div className="mt-6">
-                      <Badge>{item.label}</Badge>
+                    {item.label && (
+                      <div className="mt-6">
+                        <Badge>{item.label}</Badge>
+                      </div>
+                    )}
+                    <div className="mb-2 line-clamp-3 break-words pt-4 text-lg font-medium md:mb-3 md:pt-4 md:text-xl lg:pt-4 lg:text-2xl">
+                      {item.title}
                     </div>
-                  )}
-                  <div className="mb-2 line-clamp-3 break-words pt-4 text-lg font-medium md:mb-3 md:pt-4 md:text-xl lg:pt-4 lg:text-2xl">
-                    {item.title}
-                  </div>
-                  <div className="mb-2 line-clamp-2 text-sm text-muted-foreground md:mb-2 md:text-base lg:mb-2">
-                    {item.description}
+                    <div className="mb-2 line-clamp-2 text-sm text-muted-foreground md:mb-2 md:text-base lg:mb-2">
+                      {item.description}
+                    </div>
                   </div>
                 </a>
               </CarouselItem>
