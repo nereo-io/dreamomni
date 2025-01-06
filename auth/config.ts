@@ -14,8 +14,7 @@ let providers: Provider[] = [];
 // Google One Tap Auth
 if (
   process.env.NEXT_PUBLIC_AUTH_GOOGLE_ONE_TAP_ENABLED === "true" &&
-  process.env.AUTH_GOOGLE_ID &&
-  process.env.AUTH_GOOGLE_SECRET
+  process.env.NEXT_PUBLIC_AUTH_GOOGLE_ID
 ) {
   providers.push(
     CredentialsProvider({
@@ -27,7 +26,7 @@ if (
       },
 
       async authorize(credentials, req) {
-        const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+        const googleClientId = process.env.NEXT_PUBLIC_AUTH_GOOGLE_ID;
         if (!googleClientId) {
           console.log("invalid google auth config");
           return null;

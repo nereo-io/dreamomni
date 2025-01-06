@@ -20,8 +20,7 @@ export const useAppContext = () => useContext(AppContext);
 export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   if (
     process.env.NEXT_PUBLIC_AUTH_GOOGLE_ONE_TAP_ENABLED === "true" &&
-    process.env.AUTH_GOOGLE_ID &&
-    process.env.AUTH_GOOGLE_SECRET
+    process.env.NEXT_PUBLIC_AUTH_GOOGLE_ID
   ) {
     useOneTapLogin();
   }

@@ -1,20 +1,4 @@
-import Markdown from "@/components/markdown";
-import { MdOutlineHome } from "react-icons/md";
-import { Metadata } from "next";
-
-export const runtime = "edge";
-
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "Privacy Policy",
-    alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_WEB_URL}/privacy-policy`,
-    },
-  };
-}
-
-export default function () {
-  const content = `# Privacy Policy for ShipAny
+# Privacy Policy for ShipAny
 
 ## Introduction
 
@@ -25,18 +9,22 @@ Welcome to ShipAny, the **NextJS Boilerplate** designed to help you build AI Saa
 We collect the following types of data to provide you with a better experience while using ShipAny:
 
 1. **Account Information**
+
    - **What We Collect**: This includes your name, email address, and any other information you provide when creating an account.
    - **Purpose**: To manage your account and provide customer support.
 
 2. **Usage Details**
+
    - **What We Collect**: Information about how you use ShipAny, including your interactions, features accessed, and usage frequency.
    - **Purpose**: To analyze user engagement and improve our services.
 
 3. **Device Information**
+
    - **What We Collect**: Data regarding the devices you use to access ShipAny, such as device type, operating system, and browser type.
    - **Purpose**: To optimize our services for different devices and ensure compatibility.
 
 4. **Cookies**
+
    - **What We Collect**: Small data files placed on your device that help us track user preferences and improve user experience.
    - **Purpose**: To enhance the functionality of our services and personalize your experience.
 
@@ -68,16 +56,3 @@ If you have any questions or concerns about this privacy policy or our data prac
 **Email**: [support@shipany.ai](mailto:support@shipany.ai)
 
 By using ShipAny, you consent to our privacy policy and agree to its terms. Thank you for trusting us with your information!
-`;
-  return (
-    <div>
-      <a className="text-base-content cursor-pointer" href="/">
-        <MdOutlineHome className="text-2xl mx-8 my-8" />
-        {/* <img className="w-10 h-10 mx-4 my-4" src="/logo.png" /> */}
-      </a>
-      <div className="max-w-3xl mx-auto leading-loose pt-4 pb-8 px-8">
-        <Markdown content={content} />
-      </div>
-    </div>
-  );
-}

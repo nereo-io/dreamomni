@@ -20,7 +20,7 @@ export default function Branding({ section }: { section: SectionType }) {
                     key={idx}
                     src={item.image.src}
                     alt={item.image.alt || item.title}
-                    className="h-7"
+                    className="h-7 dark:invert"
                   />
                 );
               }

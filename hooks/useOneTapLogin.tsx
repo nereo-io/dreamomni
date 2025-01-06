@@ -10,7 +10,7 @@ export default function () {
 
   const oneTapLogin = async function () {
     const options = {
-      client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+      client_id: process.env.NEXT_PUBLIC_AUTH_GOOGLE_ID,
       auto_select: false,
       cancel_on_tap_outside: false,
       context: "signin",

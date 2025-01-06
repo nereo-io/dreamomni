@@ -1,0 +1,9 @@
+@baseUrl = http://localhost:3000
+
+### ping api
+POST {{baseUrl}}/api/ping
+Content-Type: application/json
+
+{
+  "message": "hello"
+}
