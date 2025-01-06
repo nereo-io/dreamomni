@@ -3,7 +3,7 @@
   "theme": "light",
   "header": {
     "brand": {
-      "title": "幸运盒子",
+      "title": "好运盒子",
       "logo": {
         "src": "/logo.svg",
         "alt": "LuckBox"
@@ -45,7 +45,7 @@
   "hero": {
     "title": "指引人生旅程：感情•事业•财运",
     "highlight_text": "感情•事业•财运",
-    "description": "幸运盒子 结合传统命理学智慧与AI技术，为您提供免费的命理解读。",
+    "description": "好运盒子 结合传统命理学智慧与AI技术，为您提供免费的命理解读。",
     "announcement": {
       "label": "新功能",
       "title": "✨ 体验AI感情解读",
