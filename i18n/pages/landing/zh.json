@@ -32,7 +32,7 @@
     "buttons": [
       {
         "title": "免费体验",
-        "url": "/reading",
+        "url": "/qingfeng",
         "target": "_self",
         "variant": "default",
         "icon": "RiMagicLine"
@@ -56,7 +56,7 @@
       {
         "title": "开始免费解读",
         "icon": "RiMagicLine",
-        "url": "/reading",
+        "url": "/qingfeng",
         "target": "_self",
         "variant": "default"
       },

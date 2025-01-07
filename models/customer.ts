@@ -10,14 +10,14 @@ export async function createCustomer(data: Omit<CustomerInput, 'id'>) {
     .insert({
       name: data.name,
       gender: data.gender,
-      birth_date_time: data.birth_date_time,
-      true_solar_time: data.true_solar_time,
-      birth_city: data.birth_city,
-      city_adcode: data.city_adcode,
-      city_address: data.city_address,
-      city_lng: data.city_lng,
-      city_lat: data.city_lat,
-      user_uuid: data.user_uuid,
+      birth_date_time: data.birthDateTime,
+      true_solar_time: data.trueSolarTime,
+      birth_city: data.birthCity,
+      city_adcode: data.cityAdcode,
+      city_address: data.cityAddress,
+      city_lng: data.cityLng,
+      city_lat: data.cityLat,
+      user_uuid: data.userUuid,
       timezone: data.timezone,
     })
     .select()
