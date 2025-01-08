@@ -140,7 +140,7 @@ export async function getBaziAnalysis(customerId: string) {
     return undefined;
   }
 
-  return data;
+  return {baziResult: data.bazi_result};
 }
 
 // 获取用户的所有客户信息
