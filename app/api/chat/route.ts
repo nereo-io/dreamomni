@@ -24,28 +24,28 @@ export async function POST(req: Request) {
     } else {
       baziAnalysis = baziAnalysisCache.get(customerId);
     }
-    
+
     // 创建DeepSeek实例
     const deepseek = createDeepSeek({
-    apiKey: process.env.DEEPSEEK_API_KEY ?? '',
+      apiKey: process.env.DEEPSEEK_API_KEY ?? '',
     });
 
-    // 构建消息历史
+    // 构建消息历史，确保格式正确
     const messageHistory = [
-      new SystemMessage(
-        `你是一位名叫"清风明月"的AI算命大师，擅长八字命理分析。基于以下八字信息进行解答：${baziAnalysis}\n
+      {
+        role: 'system',
+        content: `你是一位名叫"清风明月"的AI算命大师，擅长八字命理分析。基于以下八字信息进行解答：${baziAnalysis}\n
         你的回答应当：
         1. 解释要通俗易懂，适当使用比喻
         2. 既要指出优势，也要说明潜在挑战
         3. 每个分析都要给出切实可行的建议
         4. 用markdown格式输出
         5. 今年是2025年`
-      ),
-      ...messages.map((m: Message) => 
-        m.role === 'user' 
-          ? new HumanMessage(m.content) 
-          : new AIMessage(m.content)
-      ),
+      },
+      ...messages.map((m: Message) => ({
+        role: m.role === 'user' ? 'user' : 'assistant',
+        content: m.content
+      }))
     ];
 
     const result = streamText({

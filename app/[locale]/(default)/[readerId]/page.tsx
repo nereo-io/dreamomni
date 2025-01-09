@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "@/lib/utils"
+import { logInfo } from "@/lib/utils/logger"
 
 interface FormData {
     name: string;
@@ -36,9 +37,14 @@ export default function CustomerInput() {
     setState(result);
     setIsPending(false);
 
+    // logInfo(JSON.stringify(result));
+
     if (result.message === 'Success' && result.values?.customerId) {
-      const readerId = window.location.pathname.split('/')[1];
-      router.push(`/${readerId}/${result.values.customerId}`);
+      const paths = window.location.pathname.split('/');
+      const locale = paths[1];  // 获取语言代码 'zh'
+      const readerId = paths[2]; // 获取 readerId
+      logInfo(`/${locale}/${readerId}/${result.values.customerId}`);
+      router.push(`/${locale}/${readerId}/${result.values.customerId}`);
     }
   };
 

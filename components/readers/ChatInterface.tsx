@@ -31,11 +31,11 @@ export default function ChatInterface({ aiReader, customerId }: ChatInterfacePro
     },
     onFinish: (message) => {
       // 添加日志：查看完整消息
-      // console.log('Chat Finished. Message:', {
-      //   role: message.role,
-      //   content: message.content,
-      //   rawContent: JSON.stringify(message.content)  // 显示原始字符串，包括换行符
-      // });
+      console.log('Chat Finished. Message:', {
+        role: message.role,
+        content: message.content,
+        rawContent: JSON.stringify(message.content)  // 显示原始字符串，包括换行符
+      });
     },
     onError: (error) => {
       setError(error.message);
@@ -182,6 +182,12 @@ export default function ChatInterface({ aiReader, customerId }: ChatInterfacePro
                       h2: ({children}) => (
                         <h2 className="text-lg font-semibold my-2">{children}</h2>
                       ),
+                      h3: ({children}) => (
+                        <h3 className="text-lg font-semibold my-2">{children}</h3>
+                      ),
+                      h4: ({children}) => (
+                        <h4 className="text-base font-semibold my-2">{children}</h4>
+                      ),
                       ul: ({children}) => (
                         <ul className="list-disc list-inside my-2">{children}</ul>
                       ),
@@ -192,6 +198,40 @@ export default function ChatInterface({ aiReader, customerId }: ChatInterfacePro
                         <blockquote className="border-l-4 border-gray-300 pl-4 my-2 italic">
                           {children}
                         </blockquote>
+                      ),
+                      hr: () => (
+                        <hr className="hidden" />
+                      ),
+                      // 表格相关组件
+                      table: ({children}) => (
+                        <table className="min-w-full my-4 border-collapse border border-gray-200">
+                          {children}
+                        </table>
+                      ),
+                      thead: ({children}) => (
+                        <thead className="bg-gray-50">
+                          {children}
+                        </thead>
+                      ),
+                      tbody: ({children}) => (
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {children}
+                        </tbody>
+                      ),
+                      tr: ({children}) => (
+                        <tr className="hover:bg-gray-50">
+                          {children}
+                        </tr>
+                      ),
+                      th: ({children}) => (
+                        <th className="px-4 py-2 text-left text-sm font-semibold text-gray-600 border border-gray-200">
+                          {children}
+                        </th>
+                      ),
+                      td: ({children}) => (
+                        <td className="px-4 py-2 text-sm text-gray-500 border border-gray-200">
+                          {children}
+                        </td>
                       ),
                     }}
                   >
