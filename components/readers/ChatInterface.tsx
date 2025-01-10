@@ -8,6 +8,8 @@ import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
+import { cn } from '@/lib/utils';
+import { ChatPage } from '@/types/pages/chat';
 
 interface AiReader {
   name: string;
@@ -18,9 +20,14 @@ interface AiReader {
 interface ChatInterfaceProps {
   aiReader: AiReader;
   customerId: string;
+  lomessages: ChatPage;
+  locale: string;
 }
 
-export default function ChatInterface({ aiReader, customerId }: ChatInterfaceProps) {
+export default function ChatInterface({ aiReader, customerId, lomessages, locale }: ChatInterfaceProps) {
+  // const [chatMessages, setChatMessages] = useState<Message[]>([]);
+  // const [input, setInput] = useState('');
+  // const [isLoading, setIsLoading] = useState(true);
   const [isInitializing, setIsInitializing] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -52,7 +59,7 @@ export default function ChatInterface({ aiReader, customerId }: ChatInterfacePro
           const response = await fetch('/api/chat/initialize', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ customerId }),
+            body: JSON.stringify({ customerId, locale }),
           });
 
           if (!response.ok) throw new Error('初始化消息失败');
@@ -123,14 +130,8 @@ export default function ChatInterface({ aiReader, customerId }: ChatInterfacePro
                   <div className="w-3 h-3 bg-[#e9d5a1] rounded-full animate-bounce [animation-delay:0.4s]" />
                 </div>
                 <p className="text-gray-500 animate-pulse">
-                  正在为您生成个性化八字分析...
+                  {lomessages.loading}
                 </p>
-              </div>
-
-              {/* 提示文本 */}
-              <div className="text-center text-sm text-gray-400 max-w-sm">
-                <p>清风明月正在仔细研究您的八字命盘</p>
-                <p>大约需要30秒钟</p>
               </div>
             </div>
           ) : (
@@ -265,18 +266,18 @@ export default function ChatInterface({ aiReader, customerId }: ChatInterfacePro
               <Input
                 value={input}
                 onChange={handleInputChange}
-                placeholder="请输入您想咨询的问题..."
+                placeholder={lomessages.placeholder}
                 disabled={isLoading}
                 className="bg-white h-12"
               />
               <Button type="submit" disabled={isLoading} className="h-12">
-                发送
+                {lomessages.send}
               </Button>
             </div>
           </form>
           
           <div className="text-center text-xs md:text-sm text-gray-400">
-            每次解答都经过专业命理系统分析，仅供参考
+            {lomessages.footer}
           </div>
         </div>
       </div>

@@ -1,0 +1,12 @@
+{
+  "title": "Your Reading",
+  "loading": "Analyzing your birth information...\nIt will take about 30 seconds",
+  "placeholder": "Type your message here...",
+  "send": "Send",
+  "systemMessages": {
+    "welcome": "Hello! I am your personal destiny analyst. I will provide you with a detailed analysis based on your birth information.",
+    "initialAnalysis": "Based on your birth information, here is my analysis:",
+    "error": "Sorry, there was an error processing your request. Please try again."
+  },
+  "footer": "Each reading is analyzed by our professional destiny system and is for reference only."
+} 
