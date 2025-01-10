@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useCallback } from "react"
-import { useRouter } from 'next/navigation'
+import { useRouter,useParams } from 'next/navigation'
 import { createCustomerInput, State } from "@/services/customerInputAction"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -23,6 +23,7 @@ interface FormData {
 
 export default function CustomerInput() {
   const router = useRouter();
+  const params = useParams();
   const initialState: State = { message: null, errors: {}, values: {} as FormData };
   const [state, setState] = useState(initialState);
   const [gender, setGender] = useState(state.values?.gender || '');
@@ -49,11 +50,13 @@ export default function CustomerInput() {
     setIsPending(false);
 
     if (result.message === 'Success' && result.values?.customerId) {
-      const paths = window.location.pathname.split('/');
-      const locale = paths[1];
-      const readerId = paths[2];
-      logInfo(`/${locale}/${readerId}/${result.values.customerId}`);
-      router.push(`/${locale}/${readerId}/${result.values.customerId}`);
+      const { locale, readerId } = params;
+      const path = locale 
+        ? `/${locale}/${readerId}/${result.values.customerId}`
+        : `/${readerId}/${result.values.customerId}`;
+        
+      logInfo(`Redirecting to: ${path}`);
+      router.push(path);
     }
   };
 
