@@ -1,0 +1,26 @@
+{
+  "title": "Basic Information",
+  "description": "We value your privacy, all information is only used for interpretation and analysis",
+  "form": {
+    "name": {
+      "label": "Name",
+      "placeholder": "Please enter your name"
+    },
+    "gender": {
+      "label": "Gender",
+      "male": "Male",
+      "female": "Female"
+    },
+    "birthDate": {
+      "label": "Birth Date"
+    },
+    "birthTime": {
+      "label": "Birth Time"
+    }
+  },
+  "button": {
+    "submit": "Get My Reading",
+    "submitting": "Processing...",
+    "back": "Back"
+  }
+} 

@@ -1,0 +1,26 @@
+{
+  "title": "基本信息",
+  "description": "我们重视您的隐私，所有信息仅用于解读分析",
+  "form": {
+    "name": {
+      "label": "姓名",
+      "placeholder": "请输入您的姓名"
+    },
+    "gender": {
+      "label": "性别",
+      "male": "男",
+      "female": "女"
+    },
+    "birthDate": {
+      "label": "出生日期"
+    },
+    "birthTime": {
+      "label": "出生时间"
+    }
+  },
+  "button": {
+    "submit": "获取我的解读",
+    "submitting": "处理中...",
+    "back": "返回"
+  }
+} 
