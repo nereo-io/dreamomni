@@ -1,9 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState, useCallback } from "react"
 import { useRouter } from 'next/navigation'
 import { createCustomerInput, State } from "@/services/customerInputAction"
-import { MapPin, User, CalendarDays, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -11,6 +10,9 @@ import { Label } from "@/components/ui/label"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "@/lib/utils"
 import { logInfo } from "@/lib/utils/logger"
+import { DatePicker } from "@/components/ui/date-picker"
+import { HourSelect } from "@/components/ui/hour-select"
+import { IoMale, IoFemale } from "react-icons/io5"
 
 interface FormData {
     name: string;
@@ -24,25 +26,32 @@ export default function CustomerInput() {
   const initialState: State = { message: null, errors: {}, values: {} as FormData };
   const [state, setState] = useState(initialState);
   const [gender, setGender] = useState(state.values?.gender || '');
+  const [birthYear, setBirthYear] = useState<number>(new Date().getFullYear() - 18);
+  const [birthMonth, setBirthMonth] = useState<number>(new Date().getMonth() + 1);
+  const [birthDay, setBirthDay] = useState<number>(new Date().getDate());
+  const [birthHour, setBirthHour] = useState<number>(new Date().getHours());
   const [isPending, setIsPending] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsPending(true);
 
-    // 校验数据
     const formData = new FormData(event.currentTarget as HTMLFormElement);
+    
+    formData.set('birthYear', birthYear.toString());
+    formData.set('birthMonth', birthMonth.toString());
+    formData.set('birthDay', birthDay.toString());
+    formData.set('birthHour', birthHour.toString());
+
     const result = await createCustomerInput(state, formData);
 
     setState(result);
     setIsPending(false);
 
-    // logInfo(JSON.stringify(result));
-
     if (result.message === 'Success' && result.values?.customerId) {
       const paths = window.location.pathname.split('/');
-      const locale = paths[1];  // 获取语言代码 'zh'
-      const readerId = paths[2]; // 获取 readerId
+      const locale = paths[1];
+      const readerId = paths[2];
       logInfo(`/${locale}/${readerId}/${result.values.customerId}`);
       router.push(`/${locale}/${readerId}/${result.values.customerId}`);
     }
@@ -98,16 +107,16 @@ export default function CustomerInput() {
                 >
                   <ToggleGroupItem 
                     value="male"
-                    className="flex-1 data-[state=on]:bg-primary/50"
+                    className="flex-1 data-[state=on]:bg-primary/50 rounded-md"
                   >
-                    <User className="w-4 h-4 mr-2" />
+                    <IoMale className="w-4 h-4 mr-2" />
                     男
                   </ToggleGroupItem>
                   <ToggleGroupItem 
                     value="female"
-                    className="flex-1 data-[state=on]:bg-primary/50"
+                    className="flex-1 data-[state=on]:bg-primary/50 rounded-md"
                   >
-                    <User className="w-4 h-4 mr-2" />
+                    <IoFemale className="w-4 h-4 mr-2" />
                     女
                   </ToggleGroupItem>
                 </ToggleGroup>
@@ -117,49 +126,31 @@ export default function CustomerInput() {
               </div>
 
               {/* 出生日期和时间 */}
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="birthDate">出生日期</Label>
-                  <div className="relative">
-                    <Input
-                      type="date"
-                      id="birthDate"
-                      name="birthDate"
-                      defaultValue={state.values?.birthDate || ''}
-                      className={cn(
-                        "w-full pl-10",
-                        state.errors?.birthDate && "border-danger-500"
-                      )}
-                    />
-                    <CalendarDays className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-                  </div>
-                  {state.errors?.birthDate && (
-                    <p className="text-sm text-destructive">{state.errors.birthDate[0]}</p>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="birthTime">出生时间</Label>
-                  <div className="relative">
-                    <Input
-                      type="time"
-                      id="birthTime"
-                      name="birthTime"
-                      defaultValue={state.values?.birthTime || ''}
-                      className={cn(
-                        "w-full pl-10",
-                        state.errors?.birthTime && "border-danger-500"
-                      )}
-                    />
-                    <Clock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-                  </div>
-                  {state.errors?.birthTime && (
-                    <p className="text-sm text-destructive">{state.errors.birthTime[0]}</p>
-                  )}
-                </div>
+              <div className="space-y-2">
+                <Label>出生日期</Label>
+                <DatePicker
+                  year={birthYear}
+                  month={birthMonth}
+                  day={birthDay}
+                  onYearChange={setBirthYear}
+                  onMonthChange={setBirthMonth}
+                  onDayChange={setBirthDay}
+                />
+                {/* {state.errors?.birthDate && (
+                  <p className="text-sm text-destructive">{state.errors.birthDate[0]}</p>
+                )} */}
               </div>
 
-              
+              <div className="space-y-2">
+                <Label>出生时间</Label>
+                <HourSelect
+                  value={birthHour}
+                  onChange={setBirthHour}
+                />
+                {/* {state.errors?.birthTime && (
+                  <p className="text-sm text-destructive">{state.errors.birthTime[0]}</p>
+                )} */}
+              </div>
 
               {/* 按钮组 */}
               <div className="space-y-4 pt-4">

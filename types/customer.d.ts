@@ -7,7 +7,10 @@ export interface CustomerInput {
   // 个人信息
   name: string;                  // 姓名
   gender: string;                // 性别
-  birthDateTime: Date;         // 出生时间
+  birthYear: number;    // 出生年
+  birthMonth: number;   // 出生月
+  birthDay: number;     // 出生日
+  birthHour: number;    // 出生时辰（小时）
   
   // 地理信息
   birthCity?: string;             // 出生城市
@@ -18,7 +21,7 @@ export interface CustomerInput {
   
   // 时间信息
   trueSolarTime?: Date;         // 真太阳时
-  timezone: string;              // 时区
+  timezone?: string;              // 时区
 }
 
 export interface CustomerAnalysis {

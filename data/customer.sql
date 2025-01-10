@@ -28,3 +28,31 @@ CREATE TABLE customer_analysis (
     updated_at timestamptz DEFAULT NOW(),
     FOREIGN KEY (customer_id) REFERENCES customer_inputs(id)
 );
+
+-- 1. 首先添加新列，允许为空
+ALTER TABLE customers 
+ADD COLUMN birth_year INTEGER,
+ADD COLUMN birth_month INTEGER,
+ADD COLUMN birth_day INTEGER,
+ADD COLUMN birth_hour INTEGER;
+
+-- 2. 更新现有数据
+UPDATE customers 
+SET 
+  birth_year = EXTRACT(YEAR FROM birth_date_time),
+  birth_month = EXTRACT(MONTH FROM birth_date_time),
+  birth_day = EXTRACT(DAY FROM birth_date_time),
+  birth_hour = EXTRACT(HOUR FROM birth_date_time)
+WHERE birth_date_time IS NOT NULL;
+
+-- 3. 将新列设置为非空
+ALTER TABLE customers 
+ALTER COLUMN birth_year SET NOT NULL,
+ALTER COLUMN birth_month SET NOT NULL,
+ALTER COLUMN birth_day SET NOT NULL,
+ALTER COLUMN birth_hour SET NOT NULL;
+
+-- 4. 最后删除旧列
+ALTER TABLE customers 
+DROP COLUMN birth_date_time;
+

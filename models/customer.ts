@@ -10,15 +10,11 @@ export async function createCustomer(data: Omit<CustomerInput, 'id'>) {
     .insert({
       name: data.name,
       gender: data.gender,
-      birth_date_time: data.birthDateTime,
-      true_solar_time: data.trueSolarTime,
-      birth_city: data.birthCity,
-      city_adcode: data.cityAdcode,
-      city_address: data.cityAddress,
-      city_lng: data.cityLng,
-      city_lat: data.cityLat,
+      birth_year: data.birthYear,
+      birth_month: data.birthMonth,
+      birth_day: data.birthDay,
+      birth_hour: data.birthHour,
       user_uuid: data.userUuid,
-      timezone: data.timezone,
     })
     .select()
     .single();
@@ -55,10 +51,11 @@ export async function getCustomerBaziInfo(customerId: string) {
   const { data: customer, error } = await supabase
     .from("customer_inputs")
     .select(`
-      birth_date_time,
-      gender,
-      true_solar_time,
-      timezone
+      birth_year,
+      birth_month,
+      birth_day,
+      birth_hour,
+      gender
     `)
     .eq("id", customerId)
     .single();
@@ -66,17 +63,12 @@ export async function getCustomerBaziInfo(customerId: string) {
   if (error || !customer) {
     throw new Error('Customer not found');
   }
-
-  // 使用 Luxon 处理时区
-  const birthDate = DateTime
-    .fromISO(customer.true_solar_time || customer.birth_date_time)
-    .setZone(customer.timezone);
     
   return {
-    year: birthDate.year,
-    month: birthDate.month,
-    day: birthDate.day,
-    hour: birthDate.hour,
+    year: customer.birth_year,
+    month: customer.birth_month,
+    day: customer.birth_day,
+    hour: customer.birth_hour,
     gender: customer.gender as 'male' | 'female',
   };
 }

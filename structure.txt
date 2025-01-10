@@ -1,0 +1,287 @@
+.
+├── LICENSE
+├── README.md
+├── app
+│   ├── (legal)
+│   │   ├── layout.tsx
+│   │   ├── privacy-policy
+│   │   │   └── page.mdx
+│   │   └── terms-of-service
+│   │       └── page.mdx
+│   ├── [locale]
+│   │   ├── (default)
+│   │   │   ├── [readerId]
+│   │   │   │   ├── [customerId]
+│   │   │   │   │   └── page.tsx
+│   │   │   │   └── page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   ├── my-orders
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── auth
+│   │   │   └── signin
+│   │   │       └── page.tsx
+│   │   ├── layout.tsx
+│   │   └── pay-success
+│   │       └── [session_id]
+│   │           └── page.tsx
+│   ├── api
+│   │   ├── auth
+│   │   │   └── [...nextauth]
+│   │   │       └── route.ts
+│   │   ├── chat
+│   │   │   ├── initialize
+│   │   │   │   └── route.ts
+│   │   │   └── route.ts
+│   │   ├── checkout
+│   │   │   └── route.ts
+│   │   └── ping
+│   │       └── route.ts
+│   ├── globals.css
+│   └── theme.css
+├── auth
+│   ├── config.ts
+│   ├── index.ts
+│   └── session.tsx
+├── components
+│   ├── analytics
+│   │   ├── google-analytics.tsx
+│   │   ├── index.tsx
+│   │   └── open-panel.tsx
+│   ├── blocks
+│   │   ├── branding
+│   │   │   └── index.tsx
+│   │   ├── cta
+│   │   │   └── index.tsx
+│   │   ├── faq
+│   │   │   └── index.tsx
+│   │   ├── feature
+│   │   │   └── index.tsx
+│   │   ├── feature1
+│   │   │   └── index.tsx
+│   │   ├── feature2
+│   │   │   └── index.tsx
+│   │   ├── feature3
+│   │   │   └── index.tsx
+│   │   ├── footer
+│   │   │   └── index.tsx
+│   │   ├── header
+│   │   │   └── index.tsx
+│   │   ├── hero
+│   │   │   ├── bg.tsx
+│   │   │   ├── happy-users.tsx
+│   │   │   └── index.tsx
+│   │   ├── pricing
+│   │   │   └── index.tsx
+│   │   ├── showcase
+│   │   │   └── index.tsx
+│   │   ├── stats
+│   │   │   └── index.tsx
+│   │   ├── table
+│   │   │   └── index.tsx
+│   │   └── testimonial
+│   │       └── index.tsx
+│   ├── icon
+│   │   └── index.tsx
+│   ├── locale
+│   │   └── toggle.tsx
+│   ├── markdown
+│   │   ├── index.tsx
+│   │   └── markdown.css
+│   ├── readers
+│   │   └── ChatInterface.tsx
+│   ├── sign
+│   │   ├── form.tsx
+│   │   ├── modal.tsx
+│   │   ├── sign_in.tsx
+│   │   ├── toggle.tsx
+│   │   └── user.tsx
+│   ├── theme
+│   │   └── toggle.tsx
+│   └── ui
+│       ├── accordion.tsx
+│       ├── avatar.tsx
+│       ├── badge.tsx
+│       ├── button.tsx
+│       ├── card.tsx
+│       ├── carousel.tsx
+│       ├── date-picker.tsx
+│       ├── dialog.tsx
+│       ├── drawer.tsx
+│       ├── dropdown-menu.tsx
+│       ├── hour-select.tsx
+│       ├── icon.tsx
+│       ├── input.tsx
+│       ├── label.tsx
+│       ├── navigation-menu.tsx
+│       ├── radio-group.tsx
+│       ├── select.tsx
+│       ├── separator.tsx
+│       ├── sheet.tsx
+│       ├── sonner.tsx
+│       ├── switch.tsx
+│       ├── table.tsx
+│       ├── tabs.tsx
+│       ├── toggle-group.tsx
+│       ├── toggle.tsx
+│       └── tooltip.tsx
+├── components.json
+├── contexts
+│   └── app.tsx
+├── data
+│   ├── customer.sql
+│   └── install.sql
+├── debug
+│   └── apitest.http
+├── hooks
+│   ├── useMediaQuery.tsx
+│   └── useOneTapLogin.tsx
+├── i18n
+│   ├── locale.ts
+│   ├── messages
+│   │   ├── en.json
+│   │   └── zh.json
+│   ├── pages
+│   │   └── landing
+│   │       ├── en.json
+│   │       └── zh.json
+│   ├── request.ts
+│   └── routing.ts
+├── lib
+│   ├── browser.ts
+│   ├── cache.ts
+│   ├── exceptions
+│   │   └── AppError.ts
+│   ├── hash.ts
+│   ├── ip.ts
+│   ├── resp.ts
+│   ├── time.ts
+│   ├── tools.ts
+│   ├── utils
+│   │   ├── logger.ts
+│   │   ├── solarTime.ts
+│   │   └── timezone.ts
+│   └── utils.ts
+├── mdx-components.tsx
+├── middleware.ts
+├── models
+│   ├── __tests__
+│   │   └── customer.test.ts
+│   ├── customer.ts
+│   ├── db.ts
+│   ├── order.ts
+│   └── user.ts
+├── next-env.d.ts
+├── next.config.mjs
+├── package.json
+├── pnpm-lock 2.yaml
+├── pnpm-lock.yaml
+├── postcss.config.mjs
+├── preview.png
+├── providers
+│   └── theme.tsx
+├── public
+│   ├── favicon.ico
+│   ├── hero.png
+│   ├── imgs
+│   │   ├── badges
+│   │   │   └── phdaily.svg
+│   │   ├── cnpay.png
+│   │   ├── features
+│   │   │   ├── 1.png
+│   │   │   ├── 2.png
+│   │   │   ├── 3.png
+│   │   │   ├── 4.png
+│   │   │   ├── 5.png
+│   │   │   ├── 6.png
+│   │   │   ├── 7.png
+│   │   │   ├── 8.png
+│   │   │   └── 9.png
+│   │   ├── icons
+│   │   │   ├── 1.svg
+│   │   │   ├── 2.svg
+│   │   │   ├── 3.svg
+│   │   │   ├── 4.svg
+│   │   │   ├── 5.svg
+│   │   │   └── 6.svg
+│   │   ├── logos
+│   │   │   ├── nextjs.svg
+│   │   │   ├── react.svg
+│   │   │   ├── shadcn.svg
+│   │   │   ├── supabase.svg
+│   │   │   ├── tailwindcss.svg
+│   │   │   └── vercel.svg
+│   │   ├── masks
+│   │   │   ├── circle.svg
+│   │   │   └── line.svg
+│   │   ├── placeholder.png
+│   │   ├── readings
+│   │   │   ├── 1.png
+│   │   │   ├── 2.png
+│   │   │   ├── 3.png
+│   │   │   └── 4.png
+│   │   ├── showcases
+│   │   │   ├── 1.png
+│   │   │   ├── 2.png
+│   │   │   ├── 3.png
+│   │   │   ├── 4.png
+│   │   │   ├── 5.png
+│   │   │   ├── 6.png
+│   │   │   ├── 7.png
+│   │   │   ├── 8.png
+│   │   │   └── 9.png
+│   │   └── users
+│   │       ├── 1.png
+│   │       ├── 10.png
+│   │       ├── 11.png
+│   │       ├── 12.png
+│   │       ├── 13.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       ├── 5.png
+│   │       ├── 6.png
+│   │       ├── 7.png
+│   │       ├── 8.png
+│   │       └── 9.png
+│   ├── logo.svg
+│   ├── qingfeng.png
+│   ├── robots.txt
+│   └── sitemap.xml
+├── services
+│   ├── chat
+│   │   └── baziAPIService.ts
+│   ├── constant.ts
+│   ├── customerInputAction.ts
+│   ├── order.ts
+│   ├── page.ts
+│   ├── readers
+│   │   └── aiReaderInfo.ts
+│   └── user.ts
+├── structure.txt
+├── tailwind.config.ts
+├── tsconfig.json
+├── types
+│   ├── blocks
+│   │   ├── base.d.ts
+│   │   ├── footer.d.ts
+│   │   ├── header.d.ts
+│   │   ├── hero.d.ts
+│   │   ├── pricing.d.ts
+│   │   ├── section.d.ts
+│   │   └── table.d.ts
+│   ├── context.d.ts
+│   ├── customer.d.ts
+│   ├── enums.ts
+│   ├── global.d.ts
+│   ├── interfaces.ts
+│   ├── mdx.d.ts
+│   ├── next-auth.d.ts
+│   ├── order.d.ts
+│   ├── pages
+│   │   └── landing.d.ts
+│   └── user.d.ts
+├── vercel.json
+└── wrangler.toml.example
+
+77 directories, 208 files
