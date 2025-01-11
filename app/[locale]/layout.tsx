@@ -10,6 +10,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { ThemeProvider } from "@/providers/theme";
 import { cn } from "@/lib/utils";
 
+import { Analytics } from "@vercel/analytics/react"
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -58,6 +60,7 @@ export default async function RootLayout({
             </AppContextProvider>
           </NextAuthSessionProvider>
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );
