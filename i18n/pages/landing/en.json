@@ -349,22 +349,28 @@
     "social": {
       "items": [
         {
-          "title": "X",
-          "icon": "RiTwitterXFill",
-          "url": "https://x.com/luckbox",
+          "title": "TikTok",
+          "icon": "RiTiktokFill",
+          "url": "https://www.tiktok.com/@ruoxipaipan?_t=ZS-8stQCFaeosB&_r=1",
           "target": "_blank"
         },
         {
           "title": "Instagram",
           "icon": "RiInstagramLine",
-          "url": "https://instagram.com/luckbox",
+          "url": "https://www.instagram.com/ruoxipaipan?igsh=Mjg5cG11Nm9hcG41&utm_source=qr",
           "target": "_blank"
         },
         {
-          "title": "Email",
-          "icon": "RiMailLine",
-          "url": "mailto:support@luckbox.ai",
-          "target": "_self"
+          "title": "Facebook",
+          "icon": "RiFacebookCircleFill",
+          "url": "https://www.facebook.com/profile.php?id=61571482691393",
+          "target": "_blank"
+        },
+        {
+          "title": "X",
+          "icon": "RiTwitterXFill",
+          "url": "https://x.com/ruoxishuo?s=21",
+          "target": "_blank"
         }
       ]
     },
