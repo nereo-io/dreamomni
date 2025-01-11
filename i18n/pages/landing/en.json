@@ -32,7 +32,7 @@
     "buttons": [
       {
         "title": "Try Free Reading",
-        "url": "/qingfeng",
+        "url": "/destiny",
         "target": "_self",
         "variant": "default",
         "icon": "RiMagicLine"
@@ -56,7 +56,7 @@
       {
         "title": "Start Free Reading",
         "icon": "RiMagicLine",
-        "url": "/qingfeng",
+        "url": "/destiny",
         "target": "_self",
         "variant": "default"
       },

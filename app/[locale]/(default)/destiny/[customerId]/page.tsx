@@ -25,12 +25,12 @@ export async function generateMetadata({
 export default async function CustomerReading({ 
   params 
 }: { 
-  params: { readerId: string; customerId: string; locale: string } 
+  params: { customerId: string; locale: string } 
 }) {
-  const { readerId, customerId, locale } = params;
+  const { customerId, locale } = params;
   
   const [aiReader, messages] = await Promise.all([
-    getAiReaderInfo(readerId, locale),
+    getAiReaderInfo('destiny', locale),
     getChatPage(locale)
   ]);
 

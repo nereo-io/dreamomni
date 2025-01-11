@@ -55,10 +55,10 @@ export default function CustomerInputForm({ messages }: Props) {
     setIsPending(false);
 
     if (result.message === 'Success' && result.values?.customerId) {
-      const { locale, readerId } = params;
+      const { locale } = params;
       const path = locale 
-        ? `/${locale}/${readerId}/${result.values.customerId}`
-        : `/${readerId}/${result.values.customerId}`;
+        ? `/${locale}/destiny/${result.values.customerId}`
+        : `/destiny/${result.values.customerId}`;
         
       logInfo(`Redirecting to: ${path}`);
       router.push(path);
