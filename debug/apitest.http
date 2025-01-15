@@ -7,3 +7,23 @@ Content-Type: application/json
 {
   "message": "hello"
 }
+
+### gen image
+POST {{baseUrl}}/api/demo/gen-image
+Content-Type: application/json
+
+{
+  "prompt": "a beautiful girl running with 2 cats",
+  "provider": "kling",
+  "model": "kling-v1"
+}
+
+### gen video
+POST {{baseUrl}}/api/demo/gen-video
+Content-Type: application/json
+
+{
+  "prompt": "a beautiful girl running with 2 cats",
+  "provider": "kling",
+  "model": "kling-v1-6"
+}

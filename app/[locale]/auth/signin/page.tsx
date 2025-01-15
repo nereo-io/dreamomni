@@ -2,8 +2,6 @@ import SignForm from "@/components/sign/form";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
-export const runtime = "edge";
-
 export default async function SignInPage({
   searchParams,
 }: {

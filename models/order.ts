@@ -209,3 +209,22 @@ export async function getOrdersByPaidEmail(
 
   return data;
 }
+
+export async function getPaiedOrders(
+  page: number,
+  limit: number
+): Promise<Order[] | undefined> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("orders")
+    .select("*")
+    .eq("status", "paid")
+    .order("created_at", { ascending: false })
+    .range((page - 1) * limit, page * limit);
+
+  if (error) {
+    return undefined;
+  }
+
+  return data;
+}

@@ -47,6 +47,8 @@ export interface NavItem {
   image?: Image;
   url?: string;
   target?: string;
+  is_active?: boolean;
+  is_expand?: boolean;
   className?: string;
   children?: NavItem[];
 }
@@ -58,6 +60,21 @@ export interface Nav {
   image?: Image;
   className?: string;
   items?: NavItem[];
+}
+
+export interface Crumb {
+  items?: NavItem[];
+}
+
+export interface Toolbar {
+  items?: Button[];
+}
+
+export interface Tip {
+  title?: string;
+  description?: string;
+  icon?: string;
+  type?: "info" | "warning" | "error";
 }
 
 export interface SocialItem {

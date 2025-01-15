@@ -11,7 +11,8 @@ export const defaultLocale = "en";
 
 export const localePrefix = "as-needed";
 
-export const localeDetection = true;
+export const localeDetection =
+  process.env.NEXT_PUBLIC_LOCALE_DETECTION === "true";
 
 export const pathnames = {
   en: {

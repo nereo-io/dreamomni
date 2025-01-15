@@ -3,10 +3,8 @@ import { findOrderByOrderNo, updateOrderStatus } from "@/models/order";
 import Stripe from "stripe";
 import { getIsoTimestr } from "@/lib/time";
 
-export async function handleOrderSession(session_id: string) {
-  const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY || "");
+export async function handleOrderSession(session: Stripe.Checkout.Session) {
   try {
-    const session = await stripe.checkout.sessions.retrieve(session_id);
     if (
       !session ||
       !session.metadata ||
@@ -28,7 +26,16 @@ export async function handleOrderSession(session_id: string) {
 
     const paid_at = getIsoTimestr();
     await updateOrderStatus(order_no, "paid", paid_at, paid_email, paid_detail);
+
+    console.log(
+      "handle order session successed: ",
+      order_no,
+      paid_at,
+      paid_email,
+      paid_detail
+    );
   } catch (e) {
+    console.log("handle order session failed: ", e);
     throw e;
   }
 }

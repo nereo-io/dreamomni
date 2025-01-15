@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Section as SectionType } from "@/types/blocks/section";
 
 export default function Feature3({ section }: { section: SectionType }) {
-  if (!section.disabled) {
+  if (section.disabled) {
     return null;
   }
 

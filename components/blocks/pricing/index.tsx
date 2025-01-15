@@ -11,11 +11,14 @@ import Icon from "@/components/icon";
 import { Label } from "@/components/ui/label";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "sonner";
+import { useAppContext } from "@/contexts/app";
 
 export default function Pricing({ pricing }: { pricing: PricingType }) {
   if (pricing.disabled) {
     return null;
   }
+
+  const { user, setShowSignModal } = useAppContext();
 
   const [group, setGroup] = useState(pricing.groups?.[0]?.name);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +26,11 @@ export default function Pricing({ pricing }: { pricing: PricingType }) {
 
   const handleCheckout = async (item: PricingItem, cn_pay: boolean = false) => {
     try {
+      if (!user) {
+        setShowSignModal(true);
+        return;
+      }
+
       const params = {
         product_id: item.product_id,
         product_name: item.product_name,
@@ -48,7 +56,7 @@ export default function Pricing({ pricing }: { pricing: PricingType }) {
         setIsLoading(false);
         setProductId(null);
 
-        // setShowSignModal(true);
+        setShowSignModal(true);
         return;
       }
 
@@ -106,8 +114,8 @@ export default function Pricing({ pricing }: { pricing: PricingType }) {
           {pricing.groups && pricing.groups.length > 0 && (
             <div className="flex h-12 mb-12 items-center rounded-md bg-muted p-1 text-lg">
               <RadioGroup
-                defaultValue="monthly"
-                className="h-full grid-cols-2"
+                value={group}
+                className={`h-full grid-cols-${pricing.groups.length}`}
                 onValueChange={(value) => {
                   setGroup(value);
                 }}
@@ -144,7 +152,7 @@ export default function Pricing({ pricing }: { pricing: PricingType }) {
             </div>
           )}
           <div
-            className={`w-full mt-0 grid gap-6 md:grid-cols-${
+            className={`md:min-w-96 mt-0 grid gap-6 md:grid-cols-${
               pricing.items?.filter(
                 (item) => !item.group || item.group === group
               )?.length

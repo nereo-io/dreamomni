@@ -85,15 +85,9 @@ export async function saveBaziAnalysis(customerId: string, analysis: string) {
     }
 
     const supabase = getSupabaseClient();
-    
-    // 首先检查表是否存在
-    const { data: tableInfo, error: tableError } = await supabase
-      .from('customer_analysis')
-      .select('*')
-      .limit(1);
-    
-    console.log('Table check result:', { tableInfo, tableError });
 
+    console.log('DB saveBaziAnalysis', customerId, analysis.slice(0, 100) + (analysis.length > 100 ? '...' : ''));
+    
     // 尝试直接插入而不是 upsert
     const { data, error } = await supabase
       .from("customer_analysis")
@@ -116,6 +110,7 @@ export async function saveBaziAnalysis(customerId: string, analysis: string) {
     throw error;
   }
 }
+
 
 // 获取已保存的八字分析结果
 export async function getBaziAnalysis(customerId: string) {

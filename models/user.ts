@@ -45,3 +45,26 @@ export async function findUserByUuid(uuid: string): Promise<User | undefined> {
 
   return data;
 }
+
+export async function getUsers(
+  page: number = 1,
+  limit: number = 50
+): Promise<User[] | undefined> {
+  if (page < 1) page = 1;
+  if (limit <= 0) limit = 50;
+
+  const offset = (page - 1) * limit;
+  const supabase = getSupabaseClient();
+
+  const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .range(offset, offset + limit - 1);
+
+  if (error) {
+    return undefined;
+  }
+
+  return data;
+}
