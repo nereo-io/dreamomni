@@ -13,50 +13,48 @@
     "nav": {
       "items": [
         {
-          "title": "Features",
-          "url": "/#feature",
-          "icon": "RiSparklingLine"
+          "title": "Career",
+          "url": "/career",
+          "icon": "RiBriefcaseLine"
         },
         {
-          "title": "Reading Types",
-          "url": "/#readings",
-          "icon": "RiCompassDiscoverLine"
+          "title": "Love",
+          "url": "/love",
+          "icon": "RiHeartLine"
         },
         {
-          "title": "Testimonials",
-          "url": "/#testimonial",
-          "icon": "RiUserHeartLine"
+          "title": "Fortune",
+          "url": "/fortune",
+          "icon": "RiMoneyDollarCircleLine"
+        },
+        {
+          "title": "Life",
+          "url": "/life",
+          "icon": "RiLeafLine"
         }
       ]
     },
     "buttons": [
-      {
-        "title": "Try Free Reading",
-        "url": "/destiny",
-        "target": "_self",
-        "variant": "default",
-        "icon": "RiMagicLine"
-      }
     ],
     "show_sign": true,
     "show_theme": true,
     "show_locale": true
   },
   "hero": {
-    "title": "Navigate Life's Journey: Love, Career & Wealth",
-    "highlight_text": "Love, Career & Wealth",
-    "description": "LuckBox combines ancient Chinese wisdom with AI technology to provide free destiny readings.",
+    "title": "AI-Powered Eastern Wisdom for Life's Decisions",
+    "highlight_text": "Life's Decisions",
+    "description": "Discover personalized insights for your career, love, fortune, and life path through the perfect blend of AI technology and traditional Eastern wisdom.",
     "announcement": {
       "label": "New",
-      "title": "✨ Try Our AI Love Reading",
-      "url": "/reading/love"
+      "title": "✨ Career Reading Available Now",
+      "url": "/career"
     },
-    "tip": "🎁 First reading free for new users",
+    "tip": "🎁 Get your first career reading free",
     "buttons": [
       {
-        "title": "Start Free Reading",
-        "icon": "RiMagicLine",
-        "url": "/destiny",
+        "title": "Explore Career Insights",
+        "icon": "RiBriefcaseLine",
+        "url": "/career",
         "target": "_self",
         "variant": "default"
       },
@@ -71,83 +69,92 @@
     "show_happy_users": false,
     "show_badge": false
   },
-  "feature": {
-    "name": "feature",
-    "title": "Why Choose LuckBox",
-    "description": "Advanced AI technology meets traditional Bazi wisdom for accurate destiny insights",
+  "introduce": {
+    "name": "introduce",
+    "title": "Your Personal AI Life Advisor",
+    "label": "Features",
+    "description": "Blend AI precision with ancient Eastern forecasting wisdom to guide your life's important decisions",
+    "image": {
+      "src": "/imgs/services/introduce.png"
+    },
     "items": [
       {
-        "title": "AI-Powered Precision",
-        "description": "Our advanced AI analyzes your birth date and time to provide accurate and personalized Bazi readings.",
+        "title": "AI-Powered Analysis",
+        "description": "Get data-driven insights with our advanced AI prediction system",
         "icon": "RiRobot2Line"
       },
       {
-        "title": "Personalized Experience",
-        "description": "Get detailed insights customized to your unique birth chart and life circumstances.",
-        "icon": "RiUserSettingsLine"
+        "title": "Eastern Wisdom",
+        "description": "Leverage time-tested Eastern divination methods for accurate forecasting",
+        "icon": "RiCompass3Line"
       },
       {
-        "title": "24/7 Availability",
-        "description": "Access your destiny readings anytime, anywhere - our AI reader is always ready to guide you.",
+        "title": "24/7 Instant Access",
+        "description": "Your personal fortune guide is always ready to help, anytime and anywhere",
         "icon": "Ri24HoursLine"
-      },
-      {
-        "title": "Multiple Reading Types",
-        "description": "From love and relationships to career and wealth - get specific guidance for every aspect of life.",
-        "icon": "RiHeartLine"
-      },
-      {
-        "title": "Easy to Understand",
-        "description": "Complex Bazi concepts explained in simple, actionable insights you can apply immediately.",
-        "icon": "RiLightbulbLine"
-      },
-      {
-        "title": "Regular Updates",
-        "description": "Get fresh insights and predictions updated daily based on your Bazi chart.",
-        "icon": "RiRefreshLine"
       }
     ]
   },
   "showcase": {
     "name": "readings",
-    "title": "Explore Our Reading Types",
-    "description": "Comprehensive insights for every aspect of your life",
+    "title": "Services on LuckBox",
+    "description": "Choose your path to enlightenment",
     "items": [
       {
-        "title": "Free Destiny Reading",
-        "description": "Get your personalized life path analysis",
-        "url": "/reading/destiny",
+        "title": "Career",
+        "description": "Career Path & Timing Guide",
+        "url": "/career/reading",
         "target": "_self",
-        "label": "Free",
+        "label": "Available Now",
+        "button": {
+          "title": "Try Now",
+          "url": "/career",
+          "variant": "default"
+        },
         "image": {
-          "src": "/imgs/readings/1.png"
+          "src": "/imgs/services/career.png"
         }
       },
       {
-        "title": "Love Reading",
-        "description": "Understand your love life and relationships",
-        "url": "/reading/love",
+        "title": "Love",
+        "description": "Understand your love life and relationships.(Coming Soon)",
+        "url": "/",
         "target": "_self",
+        "button": {
+          "title": "Join Waitlist",
+          "url": "/waitlist/love",
+          "variant": "outline"
+        },
         "image": {
-          "src": "/imgs/readings/2.png"
+          "src": "/imgs/services/love.png"
         }
       },
       {
-        "title": "Career Reading",
-        "description": "Get guidance on your professional path",
-        "url": "/reading/career",
+        "title": "Fortune",
+        "description": "Get guidance on financial opportunities.(Coming Soon)",
+        "url": "/",
         "target": "_self",
+        "button": {
+          "title": "Join Waitlist",
+          "url": "/waitlist/fortune",
+          "variant": "outline"
+        },
         "image": {
-          "src": "/imgs/readings/3.png"
+          "src": "/imgs/services/fortune.png"
         }
       },
       {
-        "title": "Wealth Reading",
-        "description": "Insights on financial opportunities",
-        "url": "/reading/wealth",
+        "title": "Life",
+        "description": "Insights on your life path.(Coming Soon)",
+        "url": "/",
         "target": "_self",
+        "button": {
+          "title": "Join Waitlist",
+          "url": "/waitlist/life",
+          "variant": "outline"
+        },
         "image": {
-          "src": "/imgs/readings/4.png"
+          "src": "/imgs/services/life.png"
         }
       }
     ]
@@ -213,37 +220,37 @@
     "name": "pricing",
     "label": "Plans",
     "title": "Choose Your Reading Plan",
-    "description": "Flexible options to suit your needs",
+    "description": "Get personalized insights that match your needs",
     "items": [
       {
         "title": "Basic",
-        "description": "Perfect for first-time users",
+        "description": "Start your journey with free readings",
         "features": [
-          "Daily luck overview",
-          "Basic love compatibility",
-          "Career guidance",
-          "24/7 AI reader access"
+          "Basic career reading",
+          "Limited AI interactions",
+          "Simple report",
+          "24/7 access"
         ],
-        "interval": "monthly",
-        "amount": 999,
+        "interval": "free",
+        "amount": 0,
         "currency": "USD",
-        "price": "$9.99",
-        "unit": "month",
+        "price": "Free",
+        "unit": "forever",
         "is_featured": false,
         "button": {
           "title": "Start Free",
-          "url": "/reading",
+          "url": "/career/reading",
           "icon": "RiMagicLine"
         }
       },
       {
         "title": "Premium",
-        "description": "For deeper insights",
+        "description": "Unlock comprehensive insights",
         "features": [
-          "Everything in Basic",
-          "Detailed monthly forecast",
-          "Relationship analysis",
-          "Wealth opportunities",
+          "Deep readings in all areas",
+          "Unlimited AI consultations",
+          "Monthly updates",
+          "Multi-domain analysis",
           "Priority support"
         ],
         "interval": "monthly",
@@ -253,9 +260,31 @@
         "unit": "month",
         "is_featured": true,
         "button": {
-          "title": "Choose Premium",
+          "title": "Go Premium",
           "url": "/premium",
           "icon": "RiVipCrownLine"
+        }
+      },
+      {
+        "title": "Pro",
+        "description": "For serious seekers of wisdom",
+        "features": [
+          "All Premium features",
+          "Priority consultation",
+          "Customized reports",
+          "Critical moment alerts",
+          "VIP support"
+        ],
+        "interval": "monthly",
+        "amount": 4999,
+        "currency": "USD",
+        "price": "$49.99",
+        "unit": "month",
+        "is_featured": false,
+        "button": {
+          "title": "Choose Pro",
+          "url": "/pro",
+          "icon": "RiVipDiamondLine"
         }
       }
     ]
@@ -264,39 +293,23 @@
     "name": "faq",
     "label": "FAQ",
     "title": "Frequently Asked Questions",
-    "description": "Have more questions? Contact our support team.",
+    "description": "Learn more about how LuckBox works",
     "items": [
       {
-        "title": "How accurate are the AI readings?",
-        "description": "Our AI is trained on traditional Bazi principles and modern data analysis, providing highly accurate readings based on your birth date and time. The system continuously learns and improves from thousands of user interactions."
+        "title": "What exactly is LuckBox?",
+        "description": "LuckBox is your AI-powered life guidance platform that combines Eastern wisdom with modern technology. Think of it as having a personal fortune advisor available 24/7, providing insights for your career, relationships, and life decisions using both ancient Eastern philosophy and advanced AI analysis."
       },
       {
-        "title": "What information do I need to provide?",
-        "description": "We only need your birth date, time, and location to generate accurate readings. Your information is kept strictly confidential and protected with enterprise-grade security."
+        "title": "How does LuckBox generate accurate readings?",
+        "description": "Our system uses a sophisticated AI model trained on thousands of traditional Eastern astrology cases and modern data. When you input your birth information, our AI analyzes your unique birth chart using traditional Eastern methods, then combines this with modern analytical techniques to provide personalized insights and predictions."
       },
       {
-        "title": "How often are readings updated?",
-        "description": "Daily luck readings are updated every day, while detailed forecasts are provided monthly or as specified in your chosen plan. Premium members receive additional weekly insights."
+        "title": "How reliable are the predictions?",
+        "description": "LuckBox achieves high accuracy through a dual-validation approach: we combine time-tested Eastern astrology principles with AI pattern recognition. Our system continuously learns from user feedback and outcomes, allowing it to refine and improve its predictions over time. We also provide transparency by explaining the reasoning behind each prediction."
       },
       {
-        "title": "Can I get readings for different aspects of life?",
-        "description": "Yes! We offer specialized readings for love, career, wealth, and general destiny. Each reading type focuses on specific aspects of your life with detailed insights and guidance."
-      },
-      {
-        "title": "How is LuckBox different from traditional fortune telling?",
-        "description": "LuckBox combines ancient Chinese astrology with AI technology to provide objective, data-driven insights. Our system analyzes thousands of traditional texts and modern cases to deliver accurate, personalized readings."
-      },
-      {
-        "title": "Is my first reading really free?",
-        "description": "Yes! We offer a comprehensive free destiny reading for all new users. This includes a basic analysis of your life path, relationships, career, and wealth aspects."
-      },
-      {
-        "title": "Can I upgrade or change my plan later?",
-        "description": "Absolutely! You can upgrade to Premium at any time to access more detailed readings and features. You can also downgrade or cancel your subscription whenever you want."
-      },
-      {
-        "title": "Do you offer customer support?",
-        "description": "Yes, we provide 24/7 customer support through email and chat. Premium members also get priority support with faster response times."
+        "title": "What makes LuckBox different from traditional fortune telling?",
+        "description": "Unlike traditional fortune telling, LuckBox offers objective, data-driven insights backed by AI analysis. We don't just tell you what might happen - we provide actionable guidance based on both Eastern wisdom and modern analytical methods. Plus, you can access your readings anytime, track predictions over time, and receive updates as circumstances change."
       }
     ]
   },
@@ -304,7 +317,7 @@
     "name": "footer",
     "brand": {
       "title": "LuckBox",
-      "description": "Your AI-powered destiny guide for love, career, and personal growth.",
+      "description": "Your AI-powered guide combining Eastern wisdom with modern technology for life's important decisions.",
       "logo": {
         "src": "/logo.svg",
         "alt": "LuckBox"
@@ -315,16 +328,26 @@
     "nav": {
       "items": [
         {
-          "title": "About",
+          "title": "Services",
           "children": [
             {
-              "title": "Features",
-              "url": "/#feature",
+              "title": "Career Reading",
+              "url": "/career",
               "target": "_self"
             },
             {
-              "title": "Reading Types",
-              "url": "/#readings",
+              "title": "Love Reading",
+              "url": "/love",
+              "target": "_self"
+            },
+            {
+              "title": "Fortune Reading",
+              "url": "/fortune",
+              "target": "_self"
+            },
+            {
+              "title": "Life Reading",
+              "url": "/life",
               "target": "_self"
             }
           ]
@@ -340,6 +363,11 @@
             {
               "title": "Contact",
               "url": "/contact",
+              "target": "_self"
+            },
+            {
+              "title": "Blog",
+              "url": "/blog",
               "target": "_self"
             }
           ]

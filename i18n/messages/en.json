@@ -1,9 +1,10 @@
 {
   "metadata": {
-    "title": "LuckBox | AI-Powered Life Path Analysis",
-    "description": "Navigate your life journey with AI-powered insights for love, career, and wealth. Get personalized guidance for your future path.",
+    "title": "LuckBox - AI-Powered Eastern Wisdom for Life's Journey",
+    "description": "Discover personalized insights for your career, love, fortune, and life path through the perfect blend of AI technology and traditional Eastern wisdom.",
     "keywords": "life path analysis, AI destiny reading, love reading, career guidance, wealth insights, future prediction"
   },
+
   "user": {
     "sign_in": "Sign In",
     "sign_out": "Sign Out",

@@ -1,6 +1,6 @@
 # 1. 主页架构 (luckbox.com):
 - Title: "LuckBox - AI-Powered Eastern Wisdom for Life's Journey"
-- Description: "Discover personalized insights for your career, love, and life path through the perfect blend of AI technology and traditional Eastern wisdom."
+- Description: "Discover personalized insights for your career, love, fortune, and life path through the perfect blend of AI technology and traditional Eastern wisdom."
 
 ## 1.1 Career 频道 (luckbox.com/career):
 - Title: "LuckBox Career - AI Career Reading & Professional Path Guidance"
