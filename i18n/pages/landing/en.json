@@ -71,7 +71,7 @@
   },
   "introduce": {
     "name": "introduce",
-    "title": "Your Personal AI Life Advisor",
+    "title": "Your AI-Powered Eastern Fortune Guide",
     "label": "Features",
     "description": "Blend AI precision with ancient Eastern forecasting wisdom to guide your life's important decisions",
     "image": {
@@ -317,7 +317,7 @@
     "name": "footer",
     "brand": {
       "title": "LuckBox",
-      "description": "Your AI-powered guide combining Eastern wisdom with modern technology for life's important decisions.",
+      "description": "Your AI-powered fortune guide combining Eastern wisdom with modern technology for life's important decisions.",
       "logo": {
         "src": "/logo.svg",
         "alt": "LuckBox"

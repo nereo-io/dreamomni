@@ -1,0 +1,73 @@
+{
+  "hero": {
+    "title": "解锁你的职业道路",
+    "description": "AI + 东方智慧指引",
+    "cta": "获取职业解读"
+  },
+  "valueProps": {
+    "name": "value-props",
+    "title": "为什么选择我们",
+    "items": [
+      {
+        "title": "时机",
+        "description": "知晓何时采取行动",
+        "icon": "clock"
+      },
+      {
+        "title": "方向",
+        "description": "找到你的真实道路",
+        "icon": "compass"
+      },
+      {
+        "title": "命运",
+        "description": "了解你的天赋禀赋",
+        "icon": "star"
+      }
+    ]
+  },
+  "howItWorks": {
+    "name": "how-it-works",
+    "title": "如何运作",
+    "description": "获取职业指导的简单步骤",
+    "items": [
+      {
+        "title": "输入信息",
+        "description": "提供你的生辰和职业背景",
+        "icon": "user"
+      },
+      {
+        "title": "AI分析",
+        "description": "我们的AI分析你的独特情况",
+        "icon": "brain"
+      },
+      {
+        "title": "获取指导",
+        "description": "接收个性化的职业指导",
+        "icon": "map"
+      }
+    ]
+  },
+  "questionSelector": {
+    "title": "提出你的职业问题",
+    "subtitle": "你想了解关于职业的什么?",
+    "placeholder": "在这里输入你的职业问题...",
+    "categories": {
+      "all": "全部",
+      "career": "职业",
+      "future": "未来",
+      "timing": "时机",
+      "direction": "方向"
+    },
+    "questions": {
+      "career1": "我应该选择什么职业道路?",
+      "career2": "我应该换工作吗?",
+      "career3": "什么时候是转换职业的最佳时机?",
+      "future1": "我在选择的领域会成功吗?",
+      "future2": "我的职业生涯会面临哪些挑战?",
+      "timing1": "我什么时候会得到下一次晋升?",
+      "timing2": "现在是开始创业的好时机吗?",
+      "direction1": "我现在的职业道路正确吗?",
+      "direction2": "我应该为未来职业发展哪些技能?"
+    }
+  }
+} 

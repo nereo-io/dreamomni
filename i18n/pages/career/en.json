@@ -1,0 +1,73 @@
+{
+  "hero": {
+    "title": "Unlock Your Career Path",
+    "description": "AI + Eastern Wisdom Guidance",
+    "cta": "Get Career Reading"
+  },
+  "valueProps": {
+    "name": "value-props",
+    "title": "Why Choose Us",
+    "items": [
+      {
+        "title": "TIMING",
+        "description": "Know when to make moves",
+        "icon": "clock"
+      },
+      {
+        "title": "DIRECTION",
+        "description": "Find your true path",
+        "icon": "compass"
+      },
+      {
+        "title": "DESTINY",
+        "description": "Understand your gifts",
+        "icon": "star"
+      }
+    ]
+  },
+  "howItWorks": {
+    "name": "how-it-works",
+    "title": "How It Works",
+    "description": "Simple steps to get your career guidance",
+    "items": [
+      {
+        "title": "Enter Info",
+        "description": "Provide your birth details and career context",
+        "icon": "user"
+      },
+      {
+        "title": "AI Analysis",
+        "description": "Our AI analyzes your unique situation",
+        "icon": "brain"
+      },
+      {
+        "title": "Get Guide",
+        "description": "Receive personalized career guidance",
+        "icon": "map"
+      }
+    ]
+  },
+  "questionSelector": {
+    "title": "Ask Your Career Question",
+    "subtitle": "What would you like to know about your career?",
+    "placeholder": "Type your career question here...",
+    "categories": {
+      "all": "All",
+      "career": "Career",
+      "future": "Future",
+      "timing": "Timing",
+      "direction": "Direction"
+    },
+    "questions": {
+      "career1": "What career path should I pursue?",
+      "career2": "Should I change my current job?",
+      "career3": "When is the best time for a career change?",
+      "future1": "Will I be successful in my chosen field?",
+      "future2": "What challenges will I face in my career?",
+      "timing1": "When will I get my next promotion?",
+      "timing2": "Is now a good time to start my own business?",
+      "direction1": "Am I on the right career path?",
+      "direction2": "What skills should I develop for my future career?"
+    }
+  }
+} 

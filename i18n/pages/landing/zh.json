@@ -6,57 +6,55 @@
       "title": "好运盒子",
       "logo": {
         "src": "/logo.svg",
-        "alt": "LuckBox"
+        "alt": "好运盒子"
       },
       "url": "/"
     },
     "nav": {
       "items": [
         {
-          "title": "功能特点",
-          "url": "/#feature",
-          "icon": "RiSparklingLine"
+          "title": "事业运",
+          "url": "/career",
+          "icon": "RiBriefcaseLine"
         },
         {
-          "title": "解读类型",
-          "url": "/#readings",
-          "icon": "RiCompassDiscoverLine"
+          "title": "感情运",
+          "url": "/love",
+          "icon": "RiHeartLine"
         },
         {
-          "title": "用户评价",
-          "url": "/#testimonial",
-          "icon": "RiUserHeartLine"
+          "title": "财运",
+          "url": "/fortune",
+          "icon": "RiMoneyDollarCircleLine"
+        },
+        {
+          "title": "人生运",
+          "url": "/life",
+          "icon": "RiLeafLine"
         }
       ]
     },
     "buttons": [
-      {
-        "title": "免费体验",
-        "url": "/destiny",
-        "target": "_self",
-        "variant": "default",
-        "icon": "RiMagicLine"
-      }
     ],
     "show_sign": true,
     "show_theme": true,
     "show_locale": true
   },
   "hero": {
-    "title": "指引人生旅程：感情•事业•财运",
-    "highlight_text": "感情•事业•财运",
-    "description": "好运盒子 结合传统命理学智慧与AI技术，为您提供免费的命理解读。",
+    "title": "AI智能命理，助您把握人生重要抉择",
+    "highlight_text": "把握人生重要抉择",
+    "description": "融合传统命理智慧与人工智能科技，为您的事业、感情、财运和人生提供精准指引",
     "announcement": {
       "label": "新功能",
-      "title": "✨ 体验AI感情解读",
-      "url": "/reading/love"
+      "title": "✨ 事业运势解读已上线",
+      "url": "/career"
     },
-    "tip": "🎁 新用户首次解读免费",
+    "tip": "🎁 新用户免费体验事业运势解读",
     "buttons": [
       {
-        "title": "开始免费解读",
-        "icon": "RiMagicLine",
-        "url": "/destiny",
+        "title": "探索事业运势",
+        "icon": "RiBriefcaseLine",
+        "url": "/career",
         "target": "_self",
         "variant": "default"
       },
@@ -71,138 +69,147 @@
     "show_happy_users": false,
     "show_badge": false
   },
-  "feature": {
-    "name": "feature",
-    "title": "为什么选择 LuckBox",
-    "description": "先进AI技术与传统命理智慧的完美结合，为您提供精准的命运指引",
+  "introduce": {
+    "name": "introduce",
+    "title": "您的AI智能命理顾问",
+    "label": "特色功能",
+    "description": "结合AI精准分析与传统命理智慧，助您把握人生重要抉择",
+    "image": {
+      "src": "/imgs/services/introduce.png"
+    },
     "items": [
       {
         "title": "AI智能解读",
-        "description": "我们的AI系统通过分析您的生辰八字，提供精准且个性化的命理解读。",
+        "description": "运用先进AI技术，提供数据驱动的精准预测",
         "icon": "RiRobot2Line"
       },
       {
-        "title": "个性化体验",
-        "description": "根据您的独特八字和生活环境，获取定制化的详细解读。",
-        "icon": "RiUserSettingsLine"
+        "title": "东方智慧",
+        "description": "传承千年命理精髓，融合现代解读方法",
+        "icon": "RiCompass3Line"
       },
       {
-        "title": "全天候服务",
-        "description": "随时随地获取命理解读，我们的AI解读师24小时在线为您服务。",
+        "title": "随时咨询",
+        "description": "您的专属命理顾问，24小时在线解惑",
         "icon": "Ri24HoursLine"
-      },
-      {
-        "title": "多维度解读",
-        "description": "从感情、事业到财运，为人生的各个方面提供专业指导。",
-        "icon": "RiHeartLine"
-      },
-      {
-        "title": "简单易懂",
-        "description": "将复杂的命理概念转化为简单易懂的见解，让您轻松掌握。",
-        "icon": "RiLightbulbLine"
-      },
-      {
-        "title": "定期更新",
-        "description": "根据您的八字，每日更新运势预测和指引。",
-        "icon": "RiRefreshLine"
       }
     ]
   },
   "showcase": {
     "name": "readings",
-    "title": "探索解读类型",
-    "description": "全方位的人生指引",
+    "title": "运势解读服务",
+    "description": "探索您的命运轨迹",
     "items": [
       {
-        "title": "免费命理解读",
-        "description": "获取个性化的人生轨迹分析",
-        "url": "/reading/destiny",
+        "title": "事业运",
+        "description": "事业发展指引与时机把握",
+        "url": "/career/reading",
         "target": "_self",
-        "label": "免费",
+        "label": "已上线",
+        "button": {
+          "title": "立即体验",
+          "url": "/career",
+          "variant": "default"
+        },
         "image": {
-          "src": "/imgs/readings/1.png"
+          "src": "/imgs/services/career.png"
         }
       },
       {
-        "title": "感情解读",
-        "description": "了解您的感情生活和人际关系",
-        "url": "/reading/love",
+        "title": "感情运",
+        "description": "感情关系与缘分解读（即将上线）",
+        "url": "/",
         "target": "_self",
+        "button": {
+          "title": "加入等待名单",
+          "url": "/waitlist/love",
+          "variant": "outline"
+        },
         "image": {
-          "src": "/imgs/readings/2.png"
+          "src": "/imgs/services/love.png"
         }
       },
       {
-        "title": "事业解读",
-        "description": "获取职业发展方向的指引",
-        "url": "/reading/career",
+        "title": "财运",
+        "description": "财运机遇与投资时机（即将上线）",
+        "url": "/",
         "target": "_self",
+        "button": {
+          "title": "加入等待名单",
+          "url": "/waitlist/fortune",
+          "variant": "outline"
+        },
         "image": {
-          "src": "/imgs/readings/3.png"
+          "src": "/imgs/services/fortune.png"
         }
       },
       {
-        "title": "财运解读",
-        "description": "发掘财富机遇的指引",
-        "url": "/reading/wealth",
+        "title": "人生运",
+        "description": "人生方向与重要抉择（即将上线）",
+        "url": "/",
         "target": "_self",
+        "button": {
+          "title": "加入等待名单",
+          "url": "/waitlist/life",
+          "variant": "outline"
+        },
         "image": {
-          "src": "/imgs/readings/4.png"
+          "src": "/imgs/services/life.png"
         }
       }
     ]
   },
   "testimonial": {
     "name": "testimonial",
-    "label": "用户评价",
-    "title": "用户如何评价 LuckBox",
-    "description": "来自真实用户的使用体验",
+    "label": "用户反馈",
+    "title": "用户真实体验",
+    "description": "来自好运盒子用户的真实反馈",
     "icon": "RiUserHeartLine",
     "items": [
       {
-        "title": "陈小华",
+        "title": "陈小姐",
         "label": "普通用户",
-        "description": "事业解读非常准确！帮助我做出了重要的工作决定。AI的见解与我的情况完全吻合。",
+        "description": "事业运势解读非常准确！帮助我做出了重要的工作决定。AI给出的建议与我的实际情况完全吻合。",
         "image": {
           "src": "/imgs/users/1.png"
         }
       },
       {
-        "title": "王明",
+        "title": "王先生",
         "label": "高级会员",
-        "description": "一开始我很怀疑，但感情解读给了我很有价值的建议，真的帮助改善了我的感情。每月的更新都很有价值。",
+        "description": "一开始我很怀疑，但感情解读确实给了我很多有用的建议。每月的运势更新非常有价值。",
         "image": {
           "src": "/imgs/users/2.png"
         }
       },
       {
-        "title": "张雯",
+        "title": "张女士",
         "label": "高级会员",
-        "description": "财运解读帮我找到了最佳的投资时机。按照指引操作了3个月，已经看到了明显的成效。",
+        "description": "财运解读帮我找到了最佳投资时机。按照指引操作三个月，已经看到了明显的成效。",
         "image": {
           "src": "/imgs/users/3.png"
         }
       },
       {
-        "title": "李大伟",
+        "title": "李先生",
         "label": "普通用户",
-        "description": "最让我印象深刻的是AI如何将传统八字智慧与现代解读结合。就像随时有个命理师在身边。",
+        "description": "最让我印象深刻的是AI如何将传统八字与现代解读结合。就像随时有个命理大师在身边指点。",
         "image": {
           "src": "/imgs/users/4.png"
         }
       },
       {
-        "title": "王丽莎",
+        "title": "王女士",
         "label": "高级会员",
-        "description": "命理解读清晰地揭示了我的人生路径。了解自己的优势和挑战后，规划更有方向。",
+        "description": "运势解读清晰地展示了我的人生轨迹。了解自己的优势和挑战后，规划更有方向。",
         "image": {
           "src": "/imgs/users/5.png"
         }
       },
       {
-        "title": "吴杰明",
+        "title": "吴先生",
         "label": "普通用户",
-        "description": "LuckBox指导我做所有重要决定。无论是个人还是职业选择都能得到有力的指引。",
+        "description": "好运盒子指导我做所有重要决定。无论是个人还是事业选择，都能得到简单而有力的建议。",
         "image": {
           "src": "/imgs/users/6.png"
         }
@@ -211,51 +218,73 @@
   },
   "pricing": {
     "name": "pricing",
-    "label": "套餐",
-    "title": "选择您的解读套餐",
-    "description": "灵活的选择以满足您的需求",
+    "label": "会员方案",
+    "title": "选择您的解读方案",
+    "description": "为您提供个性化的运势解读服务",
     "items": [
       {
         "title": "基础版",
-        "description": "适合首次体验的用户",
+        "description": "免费开启您的运势解读之旅",
         "features": [
-          "每日运势概览",
-          "基础感情合适度",
-          "事业指导",
-          "24/7 AI解读服务"
+          "基础事业运势解读",
+          "有限次AI互动",
+          "简单运势报告",
+          "全天候访问"
         ],
-        "interval": "monthly",
-        "amount": 999,
+        "interval": "free",
+        "amount": 0,
         "currency": "CNY",
-        "price": "¥9.9",
-        "unit": "月",
+        "price": "免费",
+        "unit": "永久",
         "is_featured": false,
         "button": {
           "title": "免费开始",
-          "url": "/reading",
+          "url": "/career/reading",
           "icon": "RiMagicLine"
         }
       },
       {
         "title": "高级版",
-        "description": "获取更深入的解读",
+        "description": "解锁全面运势解读",
         "features": [
-          "包含基础版所有功能",
-          "详细月度运势预测",
-          "深度感情分析",
-          "财运机遇指引",
-          "优先客服支持"
+          "全方位运势深度解读",
+          "无限次AI咨询",
+          "每月运势更新",
+          "多维度分析",
+          "优先支持服务"
         ],
         "interval": "monthly",
-        "amount": 1999,
+        "amount": 9900,
         "currency": "CNY",
-        "price": "¥19.9",
+        "price": "¥99",
         "unit": "月",
         "is_featured": true,
         "button": {
-          "title": "选择高级版",
+          "title": "升级高级版",
           "url": "/premium",
           "icon": "RiVipCrownLine"
+        }
+      },
+      {
+        "title": "专业版",
+        "description": "寻求深度智慧指引",
+        "features": [
+          "包含所有高级版功能",
+          "优先咨询服务",
+          "定制化解读报告",
+          "关键时刻提醒",
+          "VIP专属服务"
+        ],
+        "interval": "monthly",
+        "amount": 29900,
+        "currency": "CNY",
+        "price": "¥299",
+        "unit": "月",
+        "is_featured": false,
+        "button": {
+          "title": "选择专业版",
+          "url": "/pro",
+          "icon": "RiVipDiamondLine"
         }
       }
     ]
@@ -264,84 +293,67 @@
     "name": "faq",
     "label": "常见问题",
     "title": "常见问题解答",
-    "description": "还有其他问题？请联系我们的客服团队。",
+    "description": "了解好运盒子如何为您服务",
     "items": [
       {
-        "title": "AI解读的准确度如何？",
-        "description": "我们的AI系统基于传统八字原理和现代数据分析，根据您的生辰八字提供高度准确的解读。系统通过大量用户反馈不断学习和优化。"
+        "title": "好运盒子是什么？",
+        "description": "好运盒子是一个融合AI技术与东方智慧的生活指导平台。它就像您的专属命理顾问，24小时在线为您的事业、感情和人生重要决策提供指引，将传统命理与现代科技完美结合。"
       },
       {
-        "title": "需要提供哪些信息？",
-        "description": "我们只需要您的出生日期、时间和地点来生成准确的解读。您的信息将受到严格保密，并采用企业级安全保护。"
+        "title": "好运盒子如何保证解读准确性？",
+        "description": "我们的系统采用先进的AI模型，基于数千个传统命理案例和现代数据进行训练。当您输入生辰信息后，AI会运用传统命理方法分析您的八字，并结合现代分析技术，提供个性化的见解和预测。"
       },
       {
-        "title": "解读多久更新一次？",
-        "description": "每日运势每天更新，详细预测按月提供或根据您选择的套餐而定。高级会员还可获得每周额外的深度解读。"
+        "title": "运势预测的可靠性如何？",
+        "description": "好运盒子通过双重验证确保预测准确性：结合经过时间检验的传统命理原则与AI模式识别。系统会不断从用户反馈和实际结果中学习，持续提升预测准确度。我们还会详细解释每个预测背后的依据。"
       },
       {
-        "title": "能否获得不同方面的解读？",
-        "description": "是的！我们提供专门的感情、事业、财运和综合命理解读。每种解读都专注于您生活的特定方面，提供详细的见解和指导。"
-      },
-      {
-        "title": "LuckBox与传统算命有什么不同？",
-        "description": "LuckBox将中国传统命理与AI技术相结合，提供客观、数据驱动的解读。我们的系统分析了大量传统典籍和现代案例，以提供准确的个性化解读。"
-      },
-      {
-        "title": "首次解读真的免费吗？",
-        "description": "是的！我们为所有新用户提供一次免费的综合命理解读，包括对您人生路径、感情、事业和财运的基础分析。"
-      }
-    ]
-  },
-  "cta": {
-    "name": "cta",
-    "title": "开启您的命理解读之旅",
-    "description": "从这里开始，探索您的人生轨迹。",
-    "buttons": [
-      {
-        "title": "免费体验",
-        "url": "/reading",
-        "target": "_self",
-        "icon": "RiMagicLine"
-      },
-      {
-        "title": "了解更多",
-        "url": "/#feature",
-        "target": "_self",
-        "variant": "outline"
+        "title": "与传统算命相比有什么不同？",
+        "description": "不同于传统算命，好运盒子提供基于AI分析的客观、数据驱动的见解。我们不仅告诉您可能发生什么，还会基于东方智慧和现代分析方法提供可行的指导建议。您可以随时查看运势，追踪预测效果，并随着环境变化获得更新。"
       }
     ]
   },
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "LuckBox",
-      "description": "结合传统命理智慧与AI技术，为您提供准确的人生指引。",
+      "title": "好运盒子",
+      "description": "您的AI智能命理顾问，融合东方智慧与现代科技，指引人生重要决策。",
       "logo": {
         "src": "/logo.svg",
-        "alt": "LuckBox"
+        "alt": "好运盒子"
       },
       "url": "/"
     },
-    "copyright": "© 2024 • LuckBox 保留所有权利",
+    "copyright": "© 2024 • 好运盒子 版权所有",
     "nav": {
       "items": [
         {
-          "title": "关于",
+          "title": "服务项目",
           "children": [
             {
-              "title": "功能特点",
-              "url": "/#feature",
+              "title": "事业运势",
+              "url": "/career",
               "target": "_self"
             },
             {
-              "title": "解读类型",
-              "url": "/#readings",
+              "title": "感情运势",
+              "url": "/love",
+              "target": "_self"
+            },
+            {
+              "title": "财运预测",
+              "url": "/fortune",
+              "target": "_self"
+            },
+            {
+              "title": "人生解读",
+              "url": "/life",
               "target": "_self"
             }
           ]
         },
         {
-          "title": "支持",
+          "title": "帮助支持",
           "children": [
             {
               "title": "常见问题",
@@ -352,6 +364,11 @@
               "title": "联系我们",
               "url": "/contact",
               "target": "_self"
+            },
+            {
+              "title": "博客资讯",
+              "url": "/blog",
+              "target": "_self"
             }
           ]
         }
@@ -360,19 +377,19 @@
     "social": {
       "items": [
         {
-          "title": "TikTok",
+          "title": "抖音",
           "icon": "RiTiktokFill",
           "url": "https://www.tiktok.com/@ruoxipaipan?_t=ZS-8stQCFaeosB&_r=1",
           "target": "_blank"
         },
         {
-          "title": "Instagram",
+          "title": "小红书",
           "icon": "RiInstagramLine",
           "url": "https://www.instagram.com/ruoxipaipan?igsh=Mjg5cG11Nm9hcG41&utm_source=qr",
           "target": "_blank"
         },
         {
-          "title": "X",
+          "title": "微博",
           "icon": "RiTwitterXFill",
           "url": "https://x.com/ruoxishuo?s=21",
           "target": "_blank"

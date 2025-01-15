@@ -123,7 +123,7 @@ B. 社交媒体内容：
 - 深度分析报告
 - 个性化建议
 
-2. 付费层级
+# 2. 付费层级
 - Basic (免费):
   - 基础运势解读
   - 有限AI互动
@@ -138,4 +138,12 @@ B. 社交媒体内容：
   - 优先咨询权
   - 定制化报告
   - 关键时刻提醒
+
+
+# 3. intruction
+
+按照如下顺序顺序新建career/page.tsx页面
+
+1. 基于线框图，调用components/block文件夹中的组件实现page.tsx，在app/[locale]/(default)/文件夹下新建对应的文件夹，并实现page.tsx
+2. 因为要实现多语言，所以需要实现多语言的页面， 在app/i18n中新建文件夹，实现中文和英文的json文件。在 services/page.ts 中 实现getXXXPage 的的方法，在types/pages/xxxx.d.ts 中定义对应的接口
 

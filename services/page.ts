@@ -1,6 +1,7 @@
 import { LandingPage } from "@/types/pages/landing";
 import { ReaderPage } from "@/types/pages/reader";
 import { ChatPage } from "@/types/pages/chat";
+import { CareerPage } from "@/types/pages/career";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -14,6 +15,21 @@ export async function getLandingPage(locale: string): Promise<LandingPage> {
     console.warn(`Failed to load ${locale}.json, falling back to en.json`);
     return await import("@/i18n/pages/landing/en.json").then(
       (module) => module.default as LandingPage
+    );
+  }
+}
+export async function getCareerPage(locale: string): Promise<CareerPage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/career/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(`Failed to load career/${locale}.json, falling back to en.json`);
+    return await import("@/i18n/pages/career/en.json").then(
+      (module) => module.default as CareerPage
     );
   }
 }
