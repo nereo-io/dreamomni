@@ -27,30 +27,35 @@
   },
   "howItWorks": {
     "name": "how-it-works",
-    "title": "How It Works",
-    "description": "Simple steps to get your career guidance",
+    "title": "How to Get Your Career Fortune Reading",
+    "description": "Simple steps to unlock your career insights",
     "items": [
       {
-        "title": "Enter Info",
-        "description": "Provide your birth details and career context",
-        "icon": "user"
+        "title": "Ask Question",
+        "description": "Start by asking any career-related questions you have in mind",
+        "icon": "message-circle"
       },
       {
-        "title": "AI Analysis",
-        "description": "Our AI analyzes your unique situation",
-        "icon": "brain"
+        "title": "Enter Birth Info",
+        "description": "Provide your birth details for personalized Eastern wisdom analysis",
+        "icon": "calendar"
       },
       {
-        "title": "Get Guide",
-        "description": "Receive personalized career guidance",
-        "icon": "map"
+        "title": "Get Fortune Reading",
+        "description": "Receive your initial career fortune reading and insights",
+        "icon": "book-open"
+      },
+      {
+        "title": "Deep Dive",
+        "description": "Continue the conversation to explore specific aspects of your career path",
+        "icon": "sparkles"
       }
     ]
   },
   "questionSelector": {
     "title": "Ask Your Career Question",
-    "subtitle": "What would you like to know about your career?",
-    "placeholder": "Type your career question here...",
+    "subtitle": "What would you like to know about your career path?",
+    "placeholder": "Type your career question here or select from suggestions below...",
     "categories": {
       "all": "All",
       "career": "Career",

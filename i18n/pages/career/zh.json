@@ -27,30 +27,35 @@
   },
   "howItWorks": {
     "name": "how-it-works",
-    "title": "如何运作",
-    "description": "获取职业指导的简单步骤",
+    "title": "如何获取职业运势解读",
+    "description": "简单步骤解锁你的职业洞察",
     "items": [
       {
-        "title": "输入信息",
-        "description": "提供你的生辰和职业背景",
-        "icon": "user"
+        "title": "提出问题",
+        "description": "从你关心的职业问题开始",
+        "icon": "message-circle"
       },
       {
-        "title": "AI分析",
-        "description": "我们的AI分析你的独特情况",
-        "icon": "brain"
+        "title": "输入生辰信息",
+        "description": "提供生辰信息获取东方智慧分析",
+        "icon": "calendar"
       },
       {
-        "title": "获取指导",
-        "description": "接收个性化的职业指导",
-        "icon": "map"
+        "title": "获取运势解读",
+        "description": "接收初步的职业运势解读和见解",
+        "icon": "book-open"
+      },
+      {
+        "title": "深入探讨",
+        "description": "继续对话探索职业道路的具体方面",
+        "icon": "sparkles"
       }
     ]
   },
   "questionSelector": {
     "title": "提出你的职业问题",
-    "subtitle": "你想了解关于职业的什么?",
-    "placeholder": "在这里输入你的职业问题...",
+    "subtitle": "你想了解职业发展的哪些方面？",
+    "placeholder": "在这里输入你的问题，或从下方建议中选择...",
     "categories": {
       "all": "全部",
       "career": "职业",

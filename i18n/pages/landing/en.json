@@ -23,8 +23,8 @@
           "icon": "RiHeartLine"
         },
         {
-          "title": "Fortune",
-          "url": "/fortune",
+          "title": "Wealth",
+          "url": "/wealth",
           "icon": "RiMoneyDollarCircleLine"
         },
         {
@@ -43,7 +43,7 @@
   "hero": {
     "title": "AI-Powered Eastern Wisdom for Life's Decisions",
     "highlight_text": "Life's Decisions",
-    "description": "Discover personalized insights for your career, love, fortune, and life path through the perfect blend of AI technology and traditional Eastern wisdom.",
+    "description": "Discover personalized fortune for your career, love, wealth, and life path through the perfect blend of AI technology and traditional Eastern wisdom.",
     "announcement": {
       "label": "New",
       "title": "✨ Career Reading Available Now",
@@ -52,7 +52,7 @@
     "tip": "🎁 Get your first career reading free",
     "buttons": [
       {
-        "title": "Explore Career Insights",
+        "title": "Explore Career Fortune",
         "icon": "RiBriefcaseLine",
         "url": "/career",
         "target": "_self",
@@ -130,17 +130,17 @@
         }
       },
       {
-        "title": "Fortune",
+        "title": "Wealth",
         "description": "Get guidance on financial opportunities.(Coming Soon)",
         "url": "/",
         "target": "_self",
         "button": {
           "title": "Join Waitlist",
-          "url": "/waitlist/fortune",
+          "url": "/waitlist/wealth",
           "variant": "outline"
         },
         "image": {
-          "src": "/imgs/services/fortune.png"
+          "src": "/imgs/services/wealth.png"
         }
       },
       {
@@ -220,7 +220,7 @@
     "name": "pricing",
     "label": "Plans",
     "title": "Choose Your Reading Plan",
-    "description": "Get personalized insights that match your needs",
+    "description": "Get personalized fortune that match your needs",
     "items": [
       {
         "title": "Basic",
@@ -245,7 +245,7 @@
       },
       {
         "title": "Premium",
-        "description": "Unlock comprehensive insights",
+        "description": "Unlock comprehensive fortune",
         "features": [
           "Deep readings in all areas",
           "Unlimited AI consultations",
@@ -341,8 +341,8 @@
               "target": "_self"
             },
             {
-              "title": "Fortune Reading",
-              "url": "/fortune",
+              "title": "Wealth Reading",
+              "url": "/wealth",
               "target": "_self"
             },
             {

@@ -38,6 +38,12 @@
 | [Icon] | [Icon]  | [Icon]  |
 +--------+---------+---------+
 ```
+how to get your career fortune Reading?
+1. ask your career question
+2. enter your birth info
+3. get career fortune reading
+4. deep dive into your career path
+
 
 ## 2. Information Collection Flow
 

@@ -70,29 +70,29 @@ export default function QuestionSelector({
   };
 
   return (
-    <section className="py-16 bg-muted/30">
-      <div className="container max-w-4xl">
-        <div className="text-center mb-10">
-          <h2 className="text-4xl font-bold mb-3">
+    <section className="py-8 md:py-16 bg-muted/30">
+      <div className="container px-4 md:px-6 max-w-4xl">
+        <div className="text-center mb-6 md:mb-10">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 md:mb-3">
             <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
               {title}
             </span>
           </h2>
-          <p className="text-muted-foreground text-lg">{subtitle}</p>
+          <p className="text-base md:text-lg text-muted-foreground">{subtitle}</p>
         </div>
 
-        <Card className="p-6">
+        <Card className="p-4 md:p-6">
           {/* 输入区域 */}
-          <div className="relative mb-8">
+          <div className="relative mb-6 md:mb-8">
             <Textarea
               value={question}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               placeholder={placeholder}
-              className="pr-24 min-h-[100px] text-lg resize-none"
+              className="pr-24 min-h-[80px] md:min-h-[100px] text-base md:text-lg resize-none"
             />
             <div className="absolute right-2 bottom-2 flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">
+              <span className="text-xs md:text-sm text-muted-foreground">
                 {charCount}/{maxChars}
               </span>
               <Button 
@@ -106,13 +106,13 @@ export default function QuestionSelector({
           </div>
 
           {/* 分类标签 */}
-          <div className="flex gap-2 flex-wrap mb-6">
+          <div className="flex gap-1.5 md:gap-2 flex-wrap mb-4 md:mb-6">
             {Object.entries(categories).map(([key, label]) => (
               <Badge
                 key={key}
                 variant={selectedCategory === key ? "default" : "outline"}
                 className={`
-                  cursor-pointer text-sm px-4 py-1.5 
+                  cursor-pointer text-xs md:text-sm px-3 md:px-4 py-1 md:py-1.5
                   ${selectedCategory === key 
                     ? 'bg-orange-500 hover:bg-orange-600' 
                     : 'hover:bg-orange-500/10'
@@ -126,15 +126,15 @@ export default function QuestionSelector({
           </div>
 
           {/* 问题列表 */}
-          <ScrollArea className="h-[400px] rounded-md">
-            <div className="grid gap-2 pr-4">
+          <ScrollArea className="h-[300px] md:h-[400px] rounded-md">
+            <div className="grid gap-2 pr-3 md:pr-4">
               {filteredQuestions.map((q) => (
                 <Card
                   key={q.id}
-                  className="p-4 cursor-pointer transition-colors hover:bg-orange-500/5 group"
+                  className="p-3 md:p-4 cursor-pointer transition-colors hover:bg-orange-500/5 group"
                   onClick={() => handleQuestionClick(q.text)}
                 >
-                  <p className="text-base group-hover:text-orange-600">{q.text}</p>
+                  <p className="text-sm md:text-base group-hover:text-orange-600">{q.text}</p>
                 </Card>
               ))}
             </div>
