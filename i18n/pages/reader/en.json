@@ -2,24 +2,23 @@
   "title": "Basic Information",
   "description": "We value your privacy, all information is only used for interpretation and analysis",
   "form": {
-    "name": {
-      "label": "Name",
-      "placeholder": "Please enter your name"
+    "birthDate": {
+      "label": "Birth Date",
+      "info": "Your birth date determines your BaZi (Chinese Four Pillars of Destiny), a profound system for understanding life's path"
+    },
+    "birthTime": {
+      "label": "Birth Time",
+      "info": "The hour of birth completes your BaZi chart, revealing key aspects of your destiny"
     },
     "gender": {
       "label": "Gender",
       "male": "Male",
-      "female": "Female"
-    },
-    "birthDate": {
-      "label": "Birth Date"
-    },
-    "birthTime": {
-      "label": "Birth Time"
+      "female": "Female",
+      "info": "Gender influences the interpretation of your BaZi chart, helping us provide more accurate guidance"
     }
   },
   "button": {
-    "submit": "Get My Reading",
+    "submit": "Get Reading",
     "submitting": "Processing...",
     "back": "Back"
   }

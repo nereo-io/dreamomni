@@ -2,24 +2,23 @@
   "title": "基本信息",
   "description": "我们重视您的隐私，所有信息仅用于解读分析",
   "form": {
-    "name": {
-      "label": "姓名",
-      "placeholder": "请输入您的姓名"
+    "birthDate": {
+      "label": "出生日期",
+      "info": "您的出生日期决定了八字命盘中的年月日三柱，是解读命理的重要基础"
+    },
+    "birthTime": {
+      "label": "出生时辰",
+      "info": "出生时辰构成八字命盘中的时柱，对命理有着关键影响"
     },
     "gender": {
       "label": "性别",
       "male": "男",
-      "female": "女"
-    },
-    "birthDate": {
-      "label": "出生日期"
-    },
-    "birthTime": {
-      "label": "出生时间"
+      "female": "女",
+      "info": "性别在八字命理中有着独特的解读方式，能帮助我们提供更准确的指引"
     }
   },
   "button": {
-    "submit": "获取我的解读",
+    "submit": "开始解读",
     "submitting": "处理中...",
     "back": "返回"
   }

@@ -8,12 +8,12 @@ export async function createCustomer(data: Omit<CustomerInput, 'id'>) {
   const { data: result, error } = await supabase
     .from("customer_inputs")
     .insert({
-      name: data.name,
       gender: data.gender,
       birth_year: data.birthYear,
       birth_month: data.birthMonth,
       birth_day: data.birthDay,
       birth_hour: data.birthHour,
+      career_question: data.careerQuestion,
       user_uuid: data.userUuid,
     })
     .select()

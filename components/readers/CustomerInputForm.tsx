@@ -1,14 +1,12 @@
 "use client"
 
 import React, { useState } from "react"
-import { useRouter, useParams } from 'next/navigation'
+import { useRouter, useParams, usePathname } from 'next/navigation'
 import { createCustomerInput, State } from "@/services/customerInputAction"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import { cn } from "@/lib/utils"
 import { logInfo } from "@/lib/utils/logger"
 import { DatePicker } from "@/components/ui/date-picker"
 import { HourSelect } from "@/components/ui/hour-select"
@@ -16,7 +14,6 @@ import { IoMale, IoFemale } from "react-icons/io5"
 import { ReaderPage } from "@/types/pages/reader"
 
 interface FormData {
-    name: string;
     gender: string;
     birthDate: string;
     birthTime: string;
@@ -30,6 +27,7 @@ interface Props {
 export default function CustomerInputForm({ messages, selectedQuestion }: Props) {
   const router = useRouter();
   const params = useParams();
+  const pathname = usePathname();
   const initialState: State = { message: null, errors: {}, values: {} as FormData };
   const [state, setState] = useState(initialState);
   const [gender, setGender] = useState(state.values?.gender || '');
@@ -56,18 +54,22 @@ export default function CustomerInputForm({ messages, selectedQuestion }: Props)
 
     const result = await createCustomerInput(state, formData);
 
-    setState(result);
-    setIsPending(false);
-
     if (result.message === 'Success' && result.values?.customerId) {
       const { locale } = params;
+      const pathParts = pathname.split('/');
+      const type = locale==='zh' ? pathParts[2] : pathParts[1];
+
       const path = locale 
-        ? `/${locale}/destiny/${result.values.customerId}`
-        : `/destiny/${result.values.customerId}`;
+        ? `/${locale}/${type}/${result.values.customerId}`
+        : `/${type}/${result.values.customerId}`;
         
       logInfo(`Redirecting to: ${path}`);
       router.push(path);
+      return;
     }
+
+    setState(result);
+    setIsPending(false);
   };
 
   return (
@@ -84,28 +86,42 @@ export default function CustomerInputForm({ messages, selectedQuestion }: Props)
 
         <form noValidate onSubmit={handleSubmit}>
           <Card className="p-4 md:p-6">
-            <CardContent className="space-y-6 p-0">
-              {/* 姓名输入 */}
-              <div className="space-y-2">
-                <Label htmlFor="name" className="text-base">{messages.form.name.label}</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  placeholder={messages.form.name.placeholder}
-                  defaultValue={state.values?.name || ''}
-                  className={cn(
-                    "w-full text-base",
-                    state.errors?.name && "border-danger-500 focus-visible:ring-danger-500"
-                  )}
-                />
-                {state.errors?.name && (
-                  <p className="text-sm text-destructive">{state.errors.name[0]}</p>
-                )}
+            <CardContent className="space-y-8 p-0">
+              {/* 出生日期和时间 */}
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <div className="space-y-1">
+                    <Label className="text-base">{messages.form.birthDate.label}</Label>
+                    <p className="text-sm text-muted-foreground">{messages.form.birthDate.info}</p>
+                  </div>
+                  <DatePicker
+                    year={birthYear}
+                    month={birthMonth}
+                    day={birthDay}
+                    onYearChange={setBirthYear}
+                    onMonthChange={setBirthMonth}
+                    onDayChange={setBirthDay}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <div className="space-y-1">
+                    <Label className="text-base">{messages.form.birthTime.label}</Label>
+                    <p className="text-sm text-muted-foreground">{messages.form.birthTime.info}</p>
+                  </div>
+                  <HourSelect
+                    value={birthHour}
+                    onChange={setBirthHour}
+                  />
+                </div>
               </div>
 
               {/* 性别选择 */}
               <div className="space-y-2">
-                <Label className="text-base">{messages.form.gender.label}</Label>
+                <div className="space-y-1">
+                  <Label className="text-base">{messages.form.gender.label}</Label>
+                  <p className="text-sm text-muted-foreground">{messages.form.gender.info}</p>
+                </div>
                 <input type="hidden" name="gender" value={gender} />
                 <ToggleGroup
                   type="single"
@@ -120,14 +136,16 @@ export default function CustomerInputForm({ messages, selectedQuestion }: Props)
                 >
                   <ToggleGroupItem 
                     value="male"
-                    className="flex-1 data-[state=on]:bg-orange-500 data-[state=on]:text-white rounded-md text-base"
+                    className="flex-1 h-12 border border-input data-[state=on]:border-0 
+                    data-[state=on]:bg-orange-500 data-[state=on]:text-white rounded-md text-base"
                   >
                     <IoMale className="w-5 h-5 mr-2" />
                     {messages.form.gender.male}
                   </ToggleGroupItem>
                   <ToggleGroupItem 
                     value="female"
-                    className="flex-1 data-[state=on]:bg-orange-500 data-[state=on]:text-white rounded-md text-base"
+                    className="flex-1 h-12 border border-input data-[state=on]:border-0 
+                    data-[state=on]:bg-orange-500 data-[state=on]:text-white rounded-md text-base"
                   >
                     <IoFemale className="w-5 h-5 mr-2" />
                     {messages.form.gender.female}
@@ -136,27 +154,6 @@ export default function CustomerInputForm({ messages, selectedQuestion }: Props)
                 {state.errors?.gender && (
                   <p className="text-sm text-destructive">{state.errors.gender[0]}</p>
                 )}
-              </div>
-
-              {/* 出生日期和时间 */}
-              <div className="space-y-2">
-                <Label className="text-base">{messages.form.birthDate.label}</Label>
-                <DatePicker
-                  year={birthYear}
-                  month={birthMonth}
-                  day={birthDay}
-                  onYearChange={setBirthYear}
-                  onMonthChange={setBirthMonth}
-                  onDayChange={setBirthDay}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label className="text-base">{messages.form.birthTime.label}</Label>
-                <HourSelect
-                  value={birthHour}
-                  onChange={setBirthHour}
-                />
               </div>
 
               {/* 按钮组 */}
@@ -182,5 +179,5 @@ export default function CustomerInputForm({ messages, selectedQuestion }: Props)
         </form>
       </div>
     </section>
-  )
+  );
 } 

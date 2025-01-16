@@ -5,12 +5,12 @@ export interface CustomerInput {
   updatedAt?: string;            // 更新时间
   
   // 个人信息
-  name: string;                  // 姓名
   gender: string;                // 性别
   birthYear: number;    // 出生年
   birthMonth: number;   // 出生月
   birthDay: number;     // 出生日
   birthHour: number;    // 出生时辰（小时）
+  careerQuestion: string;        // 职业问题
   
   // 地理信息
   birthCity?: string;             // 出生城市

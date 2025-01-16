@@ -7,7 +7,6 @@ import { logInfo, logError } from '@/lib/utils/logger';
 import { BusinessError, DatabaseError } from '@/lib/exceptions/AppError';
 
 const FormSchema = z.object({
-  name: z.string().min(1, '请输入姓名'),
   gender: z.enum(['male', 'female', 'other'], {
     message: '请选择性别',
     invalid_type_error: '请选择有效的性别',
@@ -28,16 +27,19 @@ const FormSchema = z.object({
     required_error: "请选择出生时辰",
     invalid_type_error: "出生时辰格式不正确",
   }).min(0, "请选择有效的时辰").max(23, "请选择有效的时辰"),
+  careerQuestion: z.string({
+    required_error: "请输入您的问题",
+  }).min(1, "请输入您的问题"),
 });
 
 export type State = {
   errors?: {
-    name?: string[];
     gender?: string[];
     birthYear?: string[];
     birthMonth?: string[];
     birthDay?: string[];
     birthHour?: string[];
+    careerQuestion?: string[];
   };
   message?: string | null;
   values?: Record<string, any>;
@@ -46,12 +48,12 @@ export type State = {
 export async function createCustomerInput(prevState: State, formData: FormData): Promise<State> {
   // 1. 收集表单数据
   const rawFormData = {
-    name: formData.get('name'),
     gender: formData.get('gender'),
     birthYear: Number(formData.get('birthYear')),
     birthMonth: Number(formData.get('birthMonth')),
     birthDay: Number(formData.get('birthDay')),
     birthHour: Number(formData.get('birthHour')),
+    careerQuestion: formData.get('question') || '帮我算一下2025年运势', // 使用默认问题
     userId: '785a4c2e-5ccc-4c50-9160-7bfc4e98bbfc', // 这里应该是动态获取的用户ID
   };
 
@@ -67,12 +69,12 @@ export async function createCustomerInput(prevState: State, formData: FormData):
     }
 
     const customer = await createCustomer({
-      name: validatedFields.data.name,
       gender: validatedFields.data.gender as Gender,
       birthYear: validatedFields.data.birthYear,
       birthMonth: validatedFields.data.birthMonth,
       birthDay: validatedFields.data.birthDay,
       birthHour: validatedFields.data.birthHour,
+      careerQuestion: validatedFields.data.careerQuestion,
       userUuid: rawFormData.userId,
     });
     
