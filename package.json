@@ -17,6 +17,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^1.0.9",
     "@ai-sdk/deepseek": "^0.0.2",
     "@ai-sdk/openai": "^1.0.18",
     "@ai-sdk/provider": "^1.0.4",

@@ -8,8 +8,8 @@ import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
-import { cn } from '@/lib/utils';
 import { ChatPage } from '@/types/pages/chat';
+import { cn } from '@/lib/utils';
 
 interface AiReader {
   name: string;
@@ -25,69 +25,33 @@ interface ChatInterfaceProps {
 }
 
 export default function ChatInterface({ aiReader, customerId, lomessages, locale }: ChatInterfaceProps) {
-  // const [chatMessages, setChatMessages] = useState<Message[]>([]);
-  // const [input, setInput] = useState('');
-  // const [isLoading, setIsLoading] = useState(true);
-  const [isInitializing, setIsInitializing] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading, setMessages } = useChat({
+  const { append, messages, input, handleInputChange, handleSubmit, isLoading, setMessages } = useChat({
     api: '/api/chat',
+    id: 'chat',
     body: {
       customerId,
+      locale,
+      isInitializing: !isInitialized
     },
-    onFinish: (message) => {
-      // 添加日志：查看完整消息
-      console.log('Chat Finished. Message:', {
-        role: message.role,
-        content: message.content,
-        rawContent: JSON.stringify(message.content)  // 显示原始字符串，包括换行符
-      });
-    },
-    onError: (error) => {
-      setError(error.message);
-      console.error('Chat error:', error);
-    },
-  });
-
-  // 处理初始化消息
-  useEffect(() => {
-    const initializeChat = async () => {
-      if (messages.length === 0) {
-        try {
-          setIsInitializing(true);
-          const response = await fetch('/api/chat/initialize', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ customerId, locale }),
-          });
-
-          if (!response.ok) throw new Error('初始化消息失败');
-
-          const reader = response.body?.getReader();
-          const decoder = new TextDecoder();
-          let content = '';
-
-          while (reader) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            content += decoder.decode(value);
-          }
-
-          setMessages([
-            { id: Date.now().toString(), role: 'assistant', content }
-          ]);
-        } catch (err) {
-          console.error('初始化聊天失败:', err);
-          setError('初始化聊天失败，请刷新页面重试');
-        } finally {
-          setIsInitializing(false);
-        }
+    onResponse: (response) => {
+      if (!isInitialized) {
+        setIsInitialized(true);
       }
-    };
+    }
+  });      
 
-    initializeChat();
-  }, []);
+  useEffect(() => {
+    append({ role: 'user', content: '大师请回答我的问题' })
+  }, [])
+
+  // 状态监控
+  useEffect(() => {
+    console.log('状态更新:', {
+      isInitialized,
+    });
+  }, [isInitialized]);
 
   return (
     <div className="relative h-full flex flex-col">
@@ -117,7 +81,7 @@ export default function ChatInterface({ aiReader, customerId, lomessages, locale
       <div className="flex-1 overflow-y-auto px-4">
         <div className="max-w-6xl mx-auto space-y-4 py-4">
           {/* 首次加载动画 */}
-          {messages.length === 0 && isInitializing ? (
+          {!isInitialized && messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center p-8 space-y-4">
               {/* 占位头像 */}
               <div className="w-16 h-16 rounded-full bg-gradient-to-r from-[#e9d5a1] to-[#f3e4c0] animate-pulse" />
@@ -267,10 +231,10 @@ export default function ChatInterface({ aiReader, customerId, lomessages, locale
                 value={input}
                 onChange={handleInputChange}
                 placeholder={lomessages.placeholder}
-                disabled={isLoading}
+                disabled={isLoading  || !isInitialized}
                 className="bg-white h-12"
               />
-              <Button type="submit" disabled={isLoading} className="h-12">
+              <Button type="submit" disabled={isLoading || !isInitialized} className="h-12">
                 {lomessages.send}
               </Button>
             </div>

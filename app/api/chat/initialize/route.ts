@@ -1,30 +1,23 @@
-import { ChatOpenAI } from '@langchain/openai';
-import { SystemMessage, HumanMessage } from '@langchain/core/messages';
-import { StringOutputParser } from '@langchain/core/output_parsers';
+console.log('Route file loaded');
+
+import { CoreMessage, streamText } from 'ai';
+import { createDeepSeek } from '@ai-sdk/deepseek';
 import { BaziFastApiService } from '@/services/chat/baziAPIService';
 
 export async function POST(req: Request) {
   try {
+    console.log('Initialize API called');
+    
     const { customerId, locale } = await req.json();
+    const deepseek = createDeepSeek({
+      apiKey: process.env.DEEPSEEK_API_KEY ?? '',
+    });
     
     // 1. 获取八字分析
     const baziAnalysis = await BaziFastApiService.getAnalysisForCustomer(customerId);
+    console.log('Bazi analysis received:', !!baziAnalysis);
     
-    // 2. 配置 LLM
-    const llm = new ChatOpenAI({
-      modelName: 'deepseek-chat',
-      streaming: true,
-      temperature: 0.7,
-      maxTokens: 8000,
-      configuration: {
-        baseURL: "https://api.deepseek.com/v1",
-        apiKey: process.env.DEEPSEEK_API_KEY,
-      }
-    });
-
-    const parser = new StringOutputParser();
-    
-    // 3. 根据语言构建系统提示词
+    // 2. 根据语言构建系统提示词
     const systemPrompt = locale === 'zh' 
       ? `你是一位名叫"清风明月"的AI算命大师，擅长八字命理分析。基于以下八字信息进行解答：${baziAnalysis}\n
         你的回答应当：
@@ -48,37 +41,30 @@ export async function POST(req: Request) {
       ? "今年是2025年，请为我提供一个全面的分析。包括：1. 我的整体性格特点和潜质2. 我的上一个大运、当前大运和2025年的运势走向3. 最近的事业发展机会4. 感情状况分析 5. 健康隐患 6.总结。希望分析能够细致准确，体现出您做命理分析的功底。"
       : "It's 2025, please provide me with a comprehensive analysis including: 1. My overall personality traits and potential 2. My previous luck cycle, current luck cycle, and 2025 destiny trends 3. Recent career opportunities 4. Relationship analysis 5. Health concerns 6. Summary. I hope the analysis can be detailed and accurate.";
 
-    const systemMessage = new SystemMessage(systemPrompt);
-    const initialMessage = new HumanMessage(initialPrompt);
+    // 3. 创建流式响应
+    const messages: CoreMessage[] = [{
+      role: 'user',
+      content: initialPrompt
+    }] 
 
-    // 4. 创建流式响应
-    const stream = await llm.pipe(parser).stream([systemMessage, initialMessage]);
+    try {
+      // 3. 使用 streamText
+      const result = streamText({
+        model: deepseek('deepseek-chat'),
+        system: systemPrompt,
+        messages,
+        maxTokens: 8000,
+        temperature: 0.7,
+      });
 
-    // 5. 创建并返回自定义流式响应
-    const encoder = new TextEncoder();
-    const customStream = new ReadableStream({
-      async start(controller) {
-        try {
-          for await (const chunk of stream) {
-            const encoded = encoder.encode(chunk);
-            controller.enqueue(encoded);
-          }
-          controller.close();
-        } catch (error) {
-          controller.error(error);
-        }
-      },
-    });
+      console.log('Stream created successfully');
+      return result.toDataStreamResponse();
+      
+    } catch (streamError) {
+      console.error('Stream creation error:', streamError);
+      throw streamError;
+    }
 
-    return new Response(customStream, {
-      headers: {
-        'Content-Type': 'text/plain; charset=utf-8',
-        'Transfer-Encoding': 'chunked',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-      },
-    });
-    
   } catch (error) {
     console.error('Initialize chat error:', error);
     return new Response(
