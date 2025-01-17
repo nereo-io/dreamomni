@@ -54,25 +54,51 @@
   },
   "questionSelector": {
     "title": "Ask Your Career Question",
-    "subtitle": "What would you like to know about your career path?",
-    "placeholder": "Type your career question here or select from suggestions below...",
+    "subtitle": "What aspects of your career would you like to explore?",
+    "placeholder": "Type your question here or select from suggestions below...",
     "categories": {
       "all": "All",
-      "career": "Career",
-      "future": "Future",
-      "timing": "Timing",
-      "direction": "Direction"
+      "career": "Career Fortune",
+      "job": "Career Choice",
+      "change": "Job Change",
+      "relation": "Workplace Relations",
+      "startup": "Business & Investment",
+      "balance": "Work Balance",
+      "specific": "Specific Questions"
     },
     "questions": {
-      "career1": "What career path should I pursue?",
-      "career2": "Should I change my current job?",
-      "career3": "When is the best time for a career change?",
-      "future1": "Will I be successful in my chosen field?",
-      "future2": "What challenges will I face in my career?",
-      "timing1": "When will I get my next promotion?",
-      "timing2": "Is now a good time to start my own business?",
-      "direction1": "Am I on the right career path?",
-      "direction2": "What skills should I develop for my future career?"
+      "career1": "How will my career develop in the next 5 years? What key opportunities and challenges await?",
+      "career2": "How's my career fortune in 2025? Is it suitable for making major decisions?",
+      "career3": "What are my career bottlenecks and how can I breakthrough?",
+      "career4": "Which factors in my birth chart significantly influence my career? How can I leverage these advantages?",
+      
+      "job1": "Which industries suit me best? Where can I maximize my potential?",
+      "job2": "What positions match my personality and abilities?",
+      "job3": "Am I on the right career path?",
+      "job4": "What skills should I develop for my future career?",
+      
+      "change1": "Is this year suitable for a job change? When's the best timing?",
+      "change2": "If I change jobs, what type of company or position should I choose?",
+      "change3": "What preparations should I make before changing jobs?",
+      "change4": "If I want to transition careers, what direction should I take?",
+      
+      "relation1": "Will I encounter difficult people this year? How can I handle them?",
+      "relation2": "How can I improve relationships with leaders and colleagues?",
+      "relation3": "What kind of mentors am I likely to meet? How can I attract helpful people?",
+      "relation4": "How can I avoid workplace conflicts and disputes?",
+      
+      "startup1": "Am I suitable for entrepreneurship? If so, what's the best field?",
+      "startup2": "Is now a good time to start a business?",
+      "startup3": "How's my financial fortune? Is it suitable for investment?",
+      "startup4": "What risks should I be aware of in business or investment? How to avoid them?",
+      
+      "balance1": "How can I balance career and health, avoiding work-related stress?",
+      "balance2": "How does my family influence my career, both positively and negatively?",
+      "balance3": "How should I arrange my office space to enhance career fortune?",
+      
+      "specific1": "I have a new project, will it be successful?",
+      "specific2": "Am I compatible with a potential business partner?",
+      "specific3": "Should I change my current job?"
     }
   }
 } 

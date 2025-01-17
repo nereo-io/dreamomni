@@ -19,17 +19,17 @@
         },
         {
           "title": "Love",
-          "url": "/love",
+          "url": "/",
           "icon": "RiHeartLine"
         },
         {
           "title": "Wealth",
-          "url": "/wealth",
+          "url": "/",
           "icon": "RiMoneyDollarCircleLine"
         },
         {
           "title": "Life",
-          "url": "/life",
+          "url": "/",
           "icon": "RiLeafLine"
         }
       ]
@@ -103,7 +103,7 @@
       {
         "title": "Career",
         "description": "Career Path & Timing Guide",
-        "url": "/career/reading",
+        "url": "/career",
         "target": "_self",
         "label": "Available Now",
         "button": {

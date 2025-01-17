@@ -19,17 +19,17 @@
         },
         {
           "title": "感情运",
-          "url": "/love",
+          "url": "/",
           "icon": "RiHeartLine"
         },
         {
           "title": "财运",
-          "url": "/fortune",
+          "url": "/",
           "icon": "RiMoneyDollarCircleLine"
         },
         {
           "title": "人生运",
-          "url": "/life",
+          "url": "/",
           "icon": "RiLeafLine"
         }
       ]
@@ -41,7 +41,7 @@
     "show_locale": true
   },
   "hero": {
-    "title": "AI智能命理，助您把握人生重要抉择",
+    "title": "AI命理顾问，助您把握人生重要抉择",
     "highlight_text": "把握人生重要抉择",
     "description": "融合传统命理智慧与人工智能科技，为您的事业、感情、财运和人生提供精准指引",
     "announcement": {
@@ -103,7 +103,7 @@
       {
         "title": "事业运",
         "description": "事业发展指引与时机把握",
-        "url": "/career/reading",
+        "url": "/career",
         "target": "_self",
         "label": "已上线",
         "button": {
