@@ -23,11 +23,17 @@ export default function QuestionForm({ messages, questionSelector }: Props) {
   return (
     <div>
       {!showForm ? (
-        <QuestionSelector {...questionSelector} onSubmit={handleQuestionSubmit} />
+        <QuestionSelector 
+          {...questionSelector} 
+          onSubmit={handleQuestionSubmit}
+          defaultQuestion={selectedQuestion}
+          send={questionSelector.send}
+        />
       ) : (
         <CustomerInputForm 
           messages={messages} 
           selectedQuestion={selectedQuestion}
+          onBack={() => setShowForm(false)}
         />
       )}
     </div>

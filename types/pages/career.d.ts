@@ -10,6 +10,7 @@ export interface QuestionSelectorSection {
   title: string;
   subtitle: string;
   placeholder: string;
+  send: string;
   categories: {
     [key: string]: string; // key 是分类ID (all, career, future 等)
   };

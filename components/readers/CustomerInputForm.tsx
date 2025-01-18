@@ -22,11 +22,13 @@ interface FormData {
 interface Props {
   messages: ReaderPage;
   selectedQuestion?: string;
+  onBack?: () => void;
 }
 
 export default function CustomerInputForm({
   messages,
   selectedQuestion,
+  onBack,
 }: Props) {
   const router = useRouter();
   const params = useParams();
@@ -193,7 +195,7 @@ export default function CustomerInputForm({
                   type="button"
                   variant="ghost"
                   className="w-full text-base hover:bg-orange-500/10"
-                  onClick={() => router.push("/")}
+                  onClick={onBack}
                 >
                   {messages.button.back}
                 </Button>

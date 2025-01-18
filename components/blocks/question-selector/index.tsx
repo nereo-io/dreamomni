@@ -11,6 +11,8 @@ import { Card } from "@/components/ui/card";
 
 interface Props extends QuestionSelectorSection {
   onSubmit: (question: string) => void;
+  defaultQuestion?: string;
+  send: string;
 }
 
 export default function QuestionSelector({
@@ -20,10 +22,12 @@ export default function QuestionSelector({
   categories,
   questions,
   onSubmit,
+  defaultQuestion,
+  send,
 }: Props) {
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [question, setQuestion] = useState("");
-  const [charCount, setCharCount] = useState(0);
+  const [question, setQuestion] = useState(defaultQuestion || "");
+  const [charCount, setCharCount] = useState(defaultQuestion?.length || 0);
   const maxChars = 300;
 
   // 将问题数据转换为数组，并添加分类信息
@@ -97,10 +101,10 @@ export default function QuestionSelector({
               </span>
               <Button 
                 onClick={handleSubmit} 
-                size="icon"
-                className="bg-orange-500 hover:bg-orange-600"
+                className="bg-orange-500 hover:bg-orange-600 h-9 px-4"
               >
-                <Send className="h-4 w-4" />
+                <Send className="h-4 w-4 mr-2" />
+                {send}
               </Button>
             </div>
           </div>
