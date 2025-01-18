@@ -408,5 +408,41 @@
         }
       ]
     }
+  },
+  "questionForm": {
+    "questionSelector": {
+      "title": "Choose Your Question",
+      "subtitle": "What aspects would you like to explore?",
+      "placeholder": "Type your question here or select from suggestions below...",
+      "categories": {
+        "all": "All",
+        "personality": "Personality",
+        "career": "Career",
+        "love": "Love",
+        "health": "Health",
+        "fortune": "Fortune"
+      },
+      "questions": {
+        "personality1": "What are my personality traits and potential? What are my strengths and weaknesses?",
+        "personality2": "What kind of work and career suits me best?",
+        "personality3": "What are my patterns in interpersonal relationships?",
+        
+        "career1": "How will my career develop in the next 5 years? What opportunities and challenges await?",
+        "career2": "How's my career fortune in 2025? Is it suitable for making major decisions?",
+        "career3": "What are my career bottlenecks and how can I breakthrough?",
+        
+        "love1": "How's my love fortune? When will I meet my significant other?",
+        "love2": "Is my current relationship suitable for development?",
+        "love3": "How can I improve my love fortune?",
+        
+        "health1": "What health issues should I be aware of?",
+        "health2": "How can I improve my health through lifestyle changes?",
+        "health3": "What potential health risks should I prevent?",
+        
+        "fortune1": "How's my overall fortune recently?",
+        "fortune2": "When are my fortune peaks?",
+        "fortune3": "How can I avoid misfortune and seize opportunities?"
+      }
+    }
   }
 }

@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import { useRouter, useParams, usePathname } from 'next/navigation'
-import { createCustomerInput, State } from "@/services/customerInputAction"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import { logInfo } from "@/lib/utils/logger"
-import { DatePicker } from "@/components/ui/date-picker"
-import { HourSelect } from "@/components/ui/hour-select"
-import { IoMale, IoFemale } from "react-icons/io5"
-import { ReaderPage } from "@/types/pages/reader"
+import React, { useState } from "react";
+import { useRouter, useParams, usePathname } from "next/navigation";
+import { createCustomerInput, State } from "@/services/customerInputAction";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { logInfo } from "@/lib/utils/logger";
+import { DatePicker } from "@/components/ui/date-picker";
+import { HourSelect } from "@/components/ui/hour-select";
+import { IoMale, IoFemale } from "react-icons/io5";
+import { ReaderPage } from "@/types/pages/reader";
 
 interface FormData {
-    gender: string;
-    birthDate: string;
-    birthTime: string;
+  gender: string;
+  birthDate: string;
+  birthTime: string;
 }
 
 interface Props {
@@ -24,15 +24,26 @@ interface Props {
   selectedQuestion?: string;
 }
 
-export default function CustomerInputForm({ messages, selectedQuestion }: Props) {
+export default function CustomerInputForm({
+  messages,
+  selectedQuestion,
+}: Props) {
   const router = useRouter();
   const params = useParams();
   const pathname = usePathname();
-  const initialState: State = { message: null, errors: {}, values: {} as FormData };
+  const initialState: State = {
+    message: null,
+    errors: {},
+    values: {} as FormData,
+  };
   const [state, setState] = useState(initialState);
-  const [gender, setGender] = useState(state.values?.gender || '');
-  const [birthYear, setBirthYear] = useState<number>(new Date().getFullYear() - 18);
-  const [birthMonth, setBirthMonth] = useState<number>(new Date().getMonth() + 1);
+  const [gender, setGender] = useState(state.values?.gender || "");
+  const [birthYear, setBirthYear] = useState<number>(
+    new Date().getFullYear() - 18
+  );
+  const [birthMonth, setBirthMonth] = useState<number>(
+    new Date().getMonth() + 1
+  );
   const [birthDay, setBirthDay] = useState<number>(new Date().getDate());
   const [birthHour, setBirthHour] = useState<number>(new Date().getHours());
   const [isPending, setIsPending] = useState(false);
@@ -42,27 +53,25 @@ export default function CustomerInputForm({ messages, selectedQuestion }: Props)
     setIsPending(true);
 
     const formData = new FormData(event.currentTarget as HTMLFormElement);
-    
-    formData.set('birthYear', birthYear.toString());
-    formData.set('birthMonth', birthMonth.toString());
-    formData.set('birthDay', birthDay.toString());
-    formData.set('birthHour', birthHour.toString());
-    
+
+    formData.set("birthYear", birthYear.toString());
+    formData.set("birthMonth", birthMonth.toString());
+    formData.set("birthDay", birthDay.toString());
+    formData.set("birthHour", birthHour.toString());
+
     if (selectedQuestion) {
-      formData.set('question', selectedQuestion);
+      formData.set("question", selectedQuestion);
     }
 
     const result = await createCustomerInput(state, formData);
 
-    if (result.message === 'Success' && result.values?.customerId) {
+    if (result.message === "Success" && result.values?.customerId) {
       const { locale } = params;
-      const pathParts = pathname.split('/');
-      const type = locale==='zh' ? pathParts[2] : pathParts[1];
 
-      const path = locale 
-        ? `/${locale}/${type}/${result.values.customerId}`
-        : `/${type}/${result.values.customerId}`;
-        
+      const path = locale
+        ? `/${locale}/reading/${result.values.customerId}`
+        : `/reading/${result.values.customerId}`;
+
       logInfo(`Redirecting to: ${path}`);
       router.push(path);
       return;
@@ -81,7 +90,9 @@ export default function CustomerInputForm({ messages, selectedQuestion }: Props)
               {messages.title}
             </span>
           </h2>
-          <p className="text-base md:text-lg text-muted-foreground">{messages.description}</p>
+          <p className="text-base md:text-lg text-muted-foreground">
+            {messages.description}
+          </p>
         </div>
 
         <form noValidate onSubmit={handleSubmit}>
@@ -91,8 +102,12 @@ export default function CustomerInputForm({ messages, selectedQuestion }: Props)
               <div className="space-y-6">
                 <div className="space-y-2">
                   <div className="space-y-1">
-                    <Label className="text-base">{messages.form.birthDate.label}</Label>
-                    <p className="text-sm text-muted-foreground">{messages.form.birthDate.info}</p>
+                    <Label className="text-base">
+                      {messages.form.birthDate.label}
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      {messages.form.birthDate.info}
+                    </p>
                   </div>
                   <DatePicker
                     year={birthYear}
@@ -106,21 +121,26 @@ export default function CustomerInputForm({ messages, selectedQuestion }: Props)
 
                 <div className="space-y-2">
                   <div className="space-y-1">
-                    <Label className="text-base">{messages.form.birthTime.label}</Label>
-                    <p className="text-sm text-muted-foreground">{messages.form.birthTime.info}</p>
+                    <Label className="text-base">
+                      {messages.form.birthTime.label}
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      {messages.form.birthTime.info}
+                    </p>
                   </div>
-                  <HourSelect
-                    value={birthHour}
-                    onChange={setBirthHour}
-                  />
+                  <HourSelect value={birthHour} onChange={setBirthHour} />
                 </div>
               </div>
 
               {/* 性别选择 */}
               <div className="space-y-2">
                 <div className="space-y-1">
-                  <Label className="text-base">{messages.form.gender.label}</Label>
-                  <p className="text-sm text-muted-foreground">{messages.form.gender.info}</p>
+                  <Label className="text-base">
+                    {messages.form.gender.label}
+                  </Label>
+                  <p className="text-sm text-muted-foreground">
+                    {messages.form.gender.info}
+                  </p>
                 </div>
                 <input type="hidden" name="gender" value={gender} />
                 <ToggleGroup
@@ -134,7 +154,7 @@ export default function CustomerInputForm({ messages, selectedQuestion }: Props)
                   }}
                   className="justify-start gap-4"
                 >
-                  <ToggleGroupItem 
+                  <ToggleGroupItem
                     value="male"
                     className="flex-1 h-12 border border-input data-[state=on]:border-0 
                     data-[state=on]:bg-orange-500 data-[state=on]:text-white rounded-md text-base"
@@ -142,7 +162,7 @@ export default function CustomerInputForm({ messages, selectedQuestion }: Props)
                     <IoMale className="w-5 h-5 mr-2" />
                     {messages.form.gender.male}
                   </ToggleGroupItem>
-                  <ToggleGroupItem 
+                  <ToggleGroupItem
                     value="female"
                     className="flex-1 h-12 border border-input data-[state=on]:border-0 
                     data-[state=on]:bg-orange-500 data-[state=on]:text-white rounded-md text-base"
@@ -152,7 +172,9 @@ export default function CustomerInputForm({ messages, selectedQuestion }: Props)
                   </ToggleGroupItem>
                 </ToggleGroup>
                 {state.errors?.gender && (
-                  <p className="text-sm text-destructive">{state.errors.gender[0]}</p>
+                  <p className="text-sm text-destructive">
+                    {state.errors.gender[0]}
+                  </p>
                 )}
               </div>
 
@@ -163,13 +185,15 @@ export default function CustomerInputForm({ messages, selectedQuestion }: Props)
                   className="w-full bg-orange-500 hover:bg-orange-600 text-base"
                   disabled={isPending}
                 >
-                  {isPending ? messages.button.submitting : messages.button.submit}
+                  {isPending
+                    ? messages.button.submitting
+                    : messages.button.submit}
                 </Button>
                 <Button
                   type="button"
                   variant="ghost"
                   className="w-full text-base hover:bg-orange-500/10"
-                  onClick={() => router.push('/')}
+                  onClick={() => router.push("/")}
                 >
                   {messages.button.back}
                 </Button>
@@ -180,4 +204,4 @@ export default function CustomerInputForm({ messages, selectedQuestion }: Props)
       </div>
     </section>
   );
-} 
+}

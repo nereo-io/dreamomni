@@ -10,7 +10,8 @@ import Pricing from "@/components/blocks/pricing";
 import Showcase from "@/components/blocks/showcase";
 import Stats from "@/components/blocks/stats";
 import Testimonial from "@/components/blocks/testimonial";
-import { getLandingPage } from "@/services/page";
+import QuestionForm from "@/components/blocks/question-form";
+import { getLandingPage, getReaderPage } from "@/services/page";
 
 export async function generateMetadata({
   params: { locale },
@@ -36,16 +37,21 @@ export default async function LandingPage({
   params: { locale: string };
 }) {
   const page = await getLandingPage(locale);
+  const readerPage = await getReaderPage(locale);
 
   return (
     <>
       {page.hero && <Hero hero={page.hero} />}
+      {page.questionForm && (
+        <QuestionForm
+          messages={readerPage}
+          questionSelector={page.questionForm.questionSelector}
+        />
+      )}
       {page.branding && <Branding section={page.branding} />}
       {page.introduce && <Feature1 section={page.introduce} />}
       {page.feature && <Feature section={page.feature} />}
-
       {page.showcase && <Showcase section={page.showcase} />}
-
       {page.benefit && <Feature2 section={page.benefit} />}
       {page.usage && <Feature3 section={page.usage} />}
       {page.stats && <Stats section={page.stats} />}

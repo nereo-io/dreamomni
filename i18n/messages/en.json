@@ -1,8 +1,15 @@
 {
   "metadata": {
     "title": "LuckBox - Your AI-Powered Eastern Fortune Guide",
-    "description": "Experience personalized fortune reading powered by AI and Eastern wisdom. Get expert guidance for career decisions, relationships, and life choices. Access instant fortune readings 24/7.",
+    "description": "Discover your destiny with LuckBox's AI-powered fortune reading platform. Blend ancient Eastern wisdom with modern AI for career, love, and wealth insights. Start your free personalized reading now - available 24/7!",
     "keywords": "LuckBox, AI fortune, Eastern wisdom, career guidance, relationship insights, life choices, fortune reading, AI-powered, 24/7 access"
+  },
+
+  "career": {
+    "metadata": {
+      "title": "LuckBox - AI-Powered Career Fortune Reading",
+      "description": "Unlock your career potential with AI-powered fortune reading and Eastern astrology. Get instant insights on job changes, career path, promotions, and workplace success. Free personalized career analysis available 24/7."
+    }
   },
 
   "user": {
