@@ -12,6 +12,8 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { HourSelect } from "@/components/ui/hour-select";
 import { IoMale, IoFemale } from "react-icons/io5";
 import { ReaderPage } from "@/types/pages/reader";
+import { useAppContext } from "@/contexts/app";
+import { toast } from "sonner";
 
 interface FormData {
   gender: string;
@@ -33,6 +35,8 @@ export default function CustomerInputForm({
   const router = useRouter();
   const params = useParams();
   const pathname = usePathname();
+  const { user, setShowSignModal } = useAppContext();
+  
   const initialState: State = {
     message: null,
     errors: {},
@@ -52,35 +56,74 @@ export default function CustomerInputForm({
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setIsPending(true);
-
-    const formData = new FormData(event.currentTarget as HTMLFormElement);
-
-    formData.set("birthYear", birthYear.toString());
-    formData.set("birthMonth", birthMonth.toString());
-    formData.set("birthDay", birthDay.toString());
-    formData.set("birthHour", birthHour.toString());
-
-    if (selectedQuestion) {
-      formData.set("question", selectedQuestion);
-    }
-
-    const result = await createCustomerInput(state, formData);
-
-    if (result.message === "Success" && result.values?.customerId) {
-      const { locale } = params;
-
-      const path = locale
-        ? `/${locale}/reading/${result.values.customerId}`
-        : `/reading/${result.values.customerId}`;
-
-      logInfo(`Redirecting to: ${path}`);
-      router.push(path);
+    
+    // 1. 检查登录状态
+    if (!user?.uuid) {
+      toast.error("请先登录后继续");
+      setShowSignModal(true);
       return;
     }
 
-    setState(result);
-    setIsPending(false);
+    // 2. 检查使用次数
+    try {
+      const response = await fetch("/api/readings/check");
+      const data = await response.json();
+      
+      if (!data.success) {
+        toast.error(data.message || "检查使用次数失败");
+        return;
+      }
+
+      if (!data.data.canRead) {
+        toast.error(`今日解读次数已用完,请明天再来`);
+        return;
+      }
+
+      // 3. 记录本次使用
+      const createResponse = await fetch("/api/readings/create", {
+        method: "POST"
+      });
+      const createData = await createResponse.json();
+      
+      if (!createData.success) {
+        toast.error(createData.message || "记录使用次数失败");
+        return;
+      }
+
+      // 4. 继续原有的表单提交逻辑
+      setIsPending(true);
+      const formData = new FormData(event.currentTarget as HTMLFormElement);
+
+      formData.set("birthYear", birthYear.toString());
+      formData.set("birthMonth", birthMonth.toString());
+      formData.set("birthDay", birthDay.toString());
+      formData.set("birthHour", birthHour.toString());
+
+      if (selectedQuestion) {
+        formData.set("question", selectedQuestion);
+      }
+
+      const result = await createCustomerInput(state, formData);
+
+      if (result.message === "Success" && result.values?.customerId) {
+        const { locale } = params;
+
+        const path = locale
+          ? `/${locale}/reading/${result.values.customerId}`
+          : `/reading/${result.values.customerId}`;
+
+        logInfo(`Redirecting to: ${path}`);
+        router.push(path);
+        return;
+      }
+
+      setState(result);
+      setIsPending(false);
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("操作失败,请稍后重试");
+      setIsPending(false);
+    }
   };
 
   return (

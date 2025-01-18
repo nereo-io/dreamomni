@@ -36,7 +36,7 @@
         "icon": "message-circle"
       },
       {
-        "title": "输入生辰信息",
+        "title": "填写生辰信息",
         "description": "提供生辰信息获取东方智慧分析",
         "icon": "calendar"
       },

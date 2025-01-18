@@ -12,6 +12,7 @@
 - Use next-auth for authentication.
 - Use next-intl for internationalization.
 - Use Stripe for payment.
+- Use Supabase for database.
 
 ## File Structure
 
