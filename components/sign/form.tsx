@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SiGithub, SiGoogle } from "react-icons/si";
+import { SiGithub, SiGoogle, SiApple } from "react-icons/si";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -52,6 +52,16 @@ export default function SignForm({
                 <SiGithub className="w-4 h-4" />
                 {t("sign_modal.github_sign_in")}
               </Button>
+              {process.env.NEXT_PUBLIC_AUTH_APPLE_ENABLED === "true" && (
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => signIn("apple")}
+                >
+                  <SiApple className="w-4 h-4" />
+                  {t("sign_modal.apple_sign_in")}
+                </Button>
+              )}
             </div>
 
             {false && (

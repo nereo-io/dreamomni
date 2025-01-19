@@ -33,6 +33,7 @@
     "email_sign_in": "使用邮箱登录",
     "google_sign_in": "使用 Google 登录",
     "github_sign_in": "使用 GitHub 登录",
+    "apple_sign_in": "使用 Apple 登录",
     "close_title": "关闭",
     "cancel_title": "取消"
   },

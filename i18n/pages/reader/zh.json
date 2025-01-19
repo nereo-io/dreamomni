@@ -1,6 +1,13 @@
 {
   "title": "填写基本信息",
   "description": "我们重视你的隐私，所有信息仅用于解读分析",
+  "loginPrompt": "登录后每天可免费解读3次",
+  "errors": {
+    "pleaseLogin": "请先登录，登录后每天可免费解读3次",
+    "checkUsageError": "检查使用次数失败",
+    "noRemainingReadings": "今日解读次数已用完，请明天再来",
+    "recordUsageError": "记录使用次数失败"
+  },
   "form": {
     "birthDate": {
       "label": "出生日期",

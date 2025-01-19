@@ -1,6 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
+import AppleProvider from "next-auth/providers/apple";
 import { NextAuthConfig } from "next-auth";
 import { Provider } from "next-auth/providers/index";
 import { User } from "@/types/user";
@@ -99,6 +100,20 @@ if (
     GitHubProvider({
       clientId: process.env.AUTH_GITHUB_ID,
       clientSecret: process.env.AUTH_GITHUB_SECRET,
+    })
+  );
+}
+
+// Apple Auth
+if (
+  process.env.NEXT_PUBLIC_AUTH_APPLE_ENABLED === "true" &&
+  process.env.AUTH_APPLE_ID &&
+  process.env.AUTH_APPLE_SECRET
+) {
+  providers.push(
+    AppleProvider({
+      clientId: process.env.AUTH_APPLE_ID,
+      clientSecret: process.env.AUTH_APPLE_SECRET,
     })
   );
 }

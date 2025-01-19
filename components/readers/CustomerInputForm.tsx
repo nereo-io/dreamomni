@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter, useParams, usePathname } from "next/navigation";
 import { createCustomerInput, State } from "@/services/customerInputAction";
 import { Button } from "@/components/ui/button";
@@ -53,13 +53,27 @@ export default function CustomerInputForm({
   const [birthDay, setBirthDay] = useState<number>(new Date().getDate());
   const [birthHour, setBirthHour] = useState<number>(new Date().getHours());
   const [isPending, setIsPending] = useState(false);
+  const [remainingCount, setRemainingCount] = useState<number>(3);
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  // 获取剩余次数
+  useEffect(() => {
+    if (user?.uuid) {
+      fetch("/api/readings/check")
+        .then(res => res.json())
+        .then(data => {
+          if (data.code === 0) {
+            setRemainingCount(data.data.remainingCount);
+          }
+        });
+    }
+  }, [user?.uuid]);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     
     // 1. 检查登录状态
     if (!user?.uuid) {
-      toast.error("请先登录后继续");
+      toast.error(messages.errors.pleaseLogin);
       setShowSignModal(true);
       return;
     }
@@ -69,13 +83,13 @@ export default function CustomerInputForm({
       const response = await fetch("/api/readings/check");
       const data = await response.json();
       
-      if (!data.success) {
-        toast.error(data.message || "检查使用次数失败");
+      if (data.code !== 0) {
+        toast.error(data.message || messages.errors.checkUsageError);
         return;
       }
 
       if (!data.data.canRead) {
-        toast.error(`今日解读次数已用完,请明天再来`);
+        toast.error(messages.errors.noRemainingReadings);
         return;
       }
 
@@ -85,15 +99,17 @@ export default function CustomerInputForm({
       });
       const createData = await createResponse.json();
       
-      if (!createData.success) {
-        toast.error(createData.message || "记录使用次数失败");
+      if (data.code !== 0) {
+        toast.error(createData.message || messages.errors.recordUsageError);
         return;
       }
 
       // 4. 继续原有的表单提交逻辑
       setIsPending(true);
-      const formData = new FormData(event.currentTarget as HTMLFormElement);
+      const formData = new FormData();
 
+      // 手动设置所有需要的字段
+      formData.set("gender", gender);
       formData.set("birthYear", birthYear.toString());
       formData.set("birthMonth", birthMonth.toString());
       formData.set("birthDay", birthDay.toString());
@@ -225,6 +241,17 @@ export default function CustomerInputForm({
 
               {/* 按钮组 */}
               <div className="space-y-4 pt-4">
+                <div className="text-center">
+                  {user?.uuid ? (
+                    <p className="text-sm text-muted-foreground">
+                      今日剩余解读次数：{remainingCount} 次
+                    </p>
+                  ) : (
+                    <p className="text-sm text-orange-500">
+                      {messages.loginPrompt}
+                    </p>
+                  )}
+                </div>
                 <Button
                   type="submit"
                   className="w-full bg-orange-500 hover:bg-orange-600 text-base"

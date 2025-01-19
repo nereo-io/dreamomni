@@ -1,6 +1,13 @@
 {
   "title": "Enter Basic Information",
   "description": "We value your privacy, all information is only used for interpretation and analysis",
+  "loginPrompt": "Sign in to get 3 free readings per day",
+  "errors": {
+    "pleaseLogin": "Please sign in to get 3 free readings per day",
+    "checkUsageError": "Failed to check reading count",
+    "noRemainingReadings": "You've used all readings for today, please come back tomorrow",
+    "recordUsageError": "Failed to record reading usage"
+  },
   "form": {
     "birthDate": {
       "label": "Birth Date",

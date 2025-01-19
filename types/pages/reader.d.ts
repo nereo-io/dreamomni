@@ -1,13 +1,14 @@
 export interface ReaderPage {
   title: string;
   description: string;
+  loginPrompt: string;
+  errors: {
+    pleaseLogin: string;
+    checkUsageError: string;
+    noRemainingReadings: string;
+    recordUsageError: string;
+  };
   form: {
-    gender: {
-      label: string;
-      male: string;
-      female: string;
-      info: string;
-    };
     birthDate: {
       label: string;
       info: string;
@@ -15,6 +16,12 @@ export interface ReaderPage {
     birthTime: {
       label: string;
       info: string;
+    };
+    gender: {
+      label: string;
+      info: string;
+      male: string;
+      female: string;
     };
   };
   button: {

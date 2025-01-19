@@ -20,7 +20,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { SiGithub, SiGmail, SiGoogle } from "react-icons/si";
+import { SiGithub, SiGmail, SiGoogle, SiApple } from "react-icons/si";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -113,6 +113,19 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
         >
           <SiGithub className="w-4 h-4" />
           {t("sign_modal.github_sign_in")}
+        </Button>
+      )}
+
+      {process.env.NEXT_PUBLIC_AUTH_APPLE_ENABLED === "true" && (
+        <Button
+          variant="outline"
+          className="w-full flex items-center gap-2"
+          onClick={() => {
+            signIn("apple");
+          }}
+        >
+          <SiApple className="w-4 h-4" />
+          {t("sign_modal.apple_sign_in")}
         </Button>
       )}
     </div>

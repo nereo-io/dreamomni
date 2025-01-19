@@ -1,7 +1,7 @@
 import { getTodayReadingCount, updateReadingCount } from "@/models/reading";
 import { getUserUuid } from "./user";
 
-const MAX_DAILY_READINGS = 3;
+const MAX_DAILY_READINGS = process.env.NEXT_PUBLIC_MAX_DAILY_READINGS ? parseInt(process.env.NEXT_PUBLIC_MAX_DAILY_READINGS) : 3;
 
 // 检查用户是否可以继续阅读
 export async function checkReadingPermission() {
