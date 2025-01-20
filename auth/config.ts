@@ -123,7 +123,7 @@ if (
         },
       },
       profile(profile) {
-        console.log("[Apple Auth] Raw profile:", profile);
+        // console.log("[Apple Auth] Raw profile:", profile);
         
         let name = "Apple User";
         // 处理名字
