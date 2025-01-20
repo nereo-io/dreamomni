@@ -114,6 +114,7 @@ if (
     AppleProvider({
       clientId: process.env.AUTH_APPLE_ID,
       clientSecret: process.env.AUTH_APPLE_SECRET,
+      authorization: { params: { scope: "name email" } },
     })
   );
 }
@@ -131,11 +132,21 @@ export const providerMap = providers
 
 export const authOptions: NextAuthConfig = {
   providers,
+  debug: true,
   pages: {
     signIn: "/auth/signin",
+    error: "/auth/error",
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
+      console.log("[NextAuth] Sign in attempt:", {
+        user,
+        account,
+        profile,
+        email,
+        credentials,
+      });
+      
       const isAllowedToSignIn = true;
       if (isAllowedToSignIn) {
         return true;
@@ -147,6 +158,7 @@ export const authOptions: NextAuthConfig = {
       }
     },
     async redirect({ url, baseUrl }) {
+      console.log("[NextAuth] Redirect attempt:", { url, baseUrl });
       // Allows relative callback URLs
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       // Allows callback URLs on the same origin
@@ -154,12 +166,14 @@ export const authOptions: NextAuthConfig = {
       return baseUrl;
     },
     async session({ session, token, user }) {
+      console.log("[NextAuth] Session callback:", { session, token, user });
       if (token && token.user && token.user) {
         session.user = token.user;
       }
       return session;
     },
     async jwt({ token, user, account }) {
+      console.log("[NextAuth] JWT callback:", { token, user, account });
       // Persist the OAuth access_token and or the user id to the token right after signin
       if (user && user.email && account) {
         const dbUser: User = {
@@ -185,7 +199,7 @@ export const authOptions: NextAuthConfig = {
             created_at: savedUser.created_at,
           };
         } catch (e) {
-          console.error("save user failed:", e);
+          console.error("[NextAuth] Save user failed:", e);
         }
       }
       return token;
