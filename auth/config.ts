@@ -9,6 +9,7 @@ import { getClientIp } from "@/lib/ip";
 import { getIsoTimestr } from "@/lib/time";
 import { getUuid } from "@/lib/hash";
 import { saveUser } from "@/services/user";
+import { getDefaultAvatar } from "@/lib/avatar";
 
 let providers: Provider[] = [];
 
@@ -163,55 +164,37 @@ export const providerMap = providers
 
 export const authOptions: NextAuthConfig = {
   providers,
-  debug: true,
   pages: {
     signIn: "/auth/signin",
     error: "/auth/error",
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      console.log("[NextAuth] Sign in attempt:", {
-        user,
-        account,
-        profile,
-        email,
-        credentials,
-      });
-      
       const isAllowedToSignIn = true;
       if (isAllowedToSignIn) {
         return true;
       } else {
-        // Return false to display a default error message
         return false;
-        // Or you can return a URL to redirect to:
-        // return '/unauthorized'
       }
     },
     async redirect({ url, baseUrl }) {
-      console.log("[NextAuth] Redirect attempt:", { url, baseUrl });
-      // Allows relative callback URLs
       if (url.startsWith("/")) return `${baseUrl}${url}`;
-      // Allows callback URLs on the same origin
       else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
     async session({ session, token, user }) {
-      console.log("[NextAuth] Session callback:", { session, token, user });
       if (token && token.user && token.user) {
         session.user = token.user;
       }
       return session;
     },
     async jwt({ token, user, account }) {
-      console.log("[NextAuth] JWT callback:", { token, user, account });
-      // Persist the OAuth access_token and or the user id to the token right after signin
       if (user && user.email && account) {
         const dbUser: User = {
           uuid: getUuid(),
           email: user.email,
           nickname: user.name || "",
-          avatar_url: user.image || "",
+          avatar_url: user.image || getDefaultAvatar(user.email),
           signin_type: account.type,
           signin_provider: account.provider,
           signin_openid: account.providerAccountId,
@@ -221,7 +204,6 @@ export const authOptions: NextAuthConfig = {
 
         try {
           const savedUser = await saveUser(dbUser);
-
           token.user = {
             uuid: savedUser.uuid,
             email: savedUser.email,
@@ -230,7 +212,7 @@ export const authOptions: NextAuthConfig = {
             created_at: savedUser.created_at,
           };
         } catch (e) {
-          console.error("[NextAuth] Save user failed:", e);
+          console.error("Save user failed:", e);
         }
       }
       return token;
