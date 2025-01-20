@@ -122,9 +122,26 @@ if (
         },
       },
       profile(profile) {
+        console.log("[Apple Auth] Raw profile:", profile);
+        
+        let name = "Apple User";
+        // 处理名字
+        if (profile.name) {
+          const parts = [];
+          if (profile.name.firstName) parts.push(profile.name.firstName);
+          if (profile.name.lastName) parts.push(profile.name.lastName);
+          if (parts.length > 0) {
+            name = parts.join(" ");
+          }
+        }
+        // 如果没有名字，使用邮箱前缀
+        if (name === "Apple User" && profile.email) {
+          name = profile.email.split("@")[0];
+        }
+
         return {
           id: profile.sub,
-          name: profile.name?.firstName + " " + profile.name?.lastName,
+          name: name,
           email: profile.email,
           image: null,
         }
