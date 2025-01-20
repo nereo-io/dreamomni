@@ -39,7 +39,7 @@
   },
   "my_orders": {
     "title": "我的订单",
-    "description": "在 ShipAny 上购买的订单。",
+    "description": "在好运盒子上购买的订单。",
     "no_orders": "未找到订单",
     "tip": "",
     "activate_order": "激活订单",

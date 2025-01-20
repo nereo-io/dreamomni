@@ -48,21 +48,21 @@ export default async function () {
     title: t("my_orders.title"),
     description: t("my_orders.description"),
     toolbar: {
-      items: [
-        {
-          title: t("my_orders.read_docs"),
-          icon: "RiBookLine",
-          url: "https://docs.shipany.ai",
-          target: "_blank",
-          variant: "outline",
-        },
-        {
-          title: t("my_orders.join_discord"),
-          icon: "RiDiscordFill",
-          url: "https://discord.gg/HQNnrzjZQS",
-          target: "_blank",
-        },
-      ],
+      // items: [
+      //   {
+      //     title: t("my_orders.read_docs"),
+      //     icon: "RiBookLine",
+      //     url: "https://docs.shipany.ai",
+      //     target: "_blank",
+      //     variant: "outline",
+      //   },
+      //   {
+      //     title: t("my_orders.join_discord"),
+      //     icon: "RiDiscordFill",
+      //     url: "https://discord.gg/HQNnrzjZQS",
+      //     target: "_blank",
+      //   },
+      // ],
     },
     columns: columns,
     data: orders,

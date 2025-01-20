@@ -41,7 +41,7 @@
   },
   "my_orders": {
     "title": "My Orders",
-    "description": "orders paid with ShipAny.",
+    "description": "orders paid with LuckBox.",
     "no_orders": "No orders found",
     "tip": "",
     "activate_order": "Activate Order",
