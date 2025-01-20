@@ -3,10 +3,50 @@ import { BaziFastApiService } from "@/services/chat/baziAPIService";
 import { createDeepSeek } from "@ai-sdk/deepseek";
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { getCustomerById } from "@/models/customer";
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+
+interface DeepSeekMessage {
+  role: "user" | "assistant" | "system";
+  content: string;
+  reasoning_content?: string;
+}
+
+// 创建自定义的 DeepSeek provider
+const customDeepSeek = createOpenAICompatible({
+  name: 'deepseek',
+  apiKey: process.env.DEEPSEEK_API_KEY ?? "",
+  baseURL: 'https://api.deepseek.com/v1',
+  // 自定义请求拦截，移除不支持的参数
+  fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
+    const url = input.toString();
+    if (init?.body) {
+      const body = JSON.parse(init.body.toString());
+      // 删除不支持的参数
+      delete body.temperature;
+      delete body.top_p;
+      delete body.presence_penalty;
+      delete body.frequency_penalty;
+      delete body.logprobs;
+      delete body.top_logprobs;
+
+      // 确保消息中不包含 reasoning_content
+      if (body.messages) {
+        body.messages = body.messages.map((msg: DeepSeekMessage) => ({
+          role: msg.role,
+          content: msg.content
+        }));
+      }
+
+      init.body = JSON.stringify(body);
+    }
+    return fetch(input, init);
+  }
+});
 
 export interface Message {
   role: "user" | "assistant";
   content: string;
+  reasoning_content?: string;
 }
 
 // 缓存 baziAnalysis 结果
@@ -75,41 +115,53 @@ export async function POST(req: Request) {
 
       const messages: CoreMessage[] = [
         {
+          role: "system",
+          content: systemPrompt
+        },
+        {
           role: "user",
           content: initialPrompt,
         },
       ];
 
+      console.log("Calling LLM with initial message");
       const result = streamText({
-        model: anthropic("claude-3-5-sonnet-20241022"),
-        system: systemPrompt,
+        model: customDeepSeek('deepseek-reasoner'),
         messages,
-        maxTokens: 8000,
-        temperature: 0.7,
+        maxTokens: 8000
       });
 
+      console.log("LLM stream initialized, converting to response");
       return result.toDataStreamResponse();
     } else {
-      console.log("isInitializing:", isInitializing);
+      console.log("Handling conversation request");
+      console.log("Message history length:", messages?.length);
 
       // 构建消息历史，确保格式正确
       const messageHistory = [
+        {
+          role: "system",
+          content: systemPrompt
+        },
         ...messages.map((m: Message) => ({
           role: m.role === "user" ? "user" : "assistant",
-          content: m.content,
-        })),
+          content: m.content
+        }))
       ];
 
+      console.log("Calling LLM with conversation history");
       const result = streamText({
-        model: deepseek("deepseek-chat"),
-        system: systemPrompt,
+        model: customDeepSeek('deepseek-reasoner'),
         messages: messageHistory,
-        maxTokens: 8000,
-        temperature: 0.7,
+        maxTokens: 8000
       });
 
+      console.log("LLM stream initialized for conversation, converting to response");
       return result.toDataStreamResponse({
-        getErrorMessage: (error) => `聊天服务出错: ${error}`,
+        getErrorMessage: (error) => {
+          console.error("Stream error:", error);
+          return `聊天服务出错: ${error}`;
+        },
       });
     }
   } catch (error) {
