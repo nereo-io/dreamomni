@@ -56,7 +56,7 @@ export default function ChatInterface({ aiReader, customerId, lomessages, locale
   return (
     <div className="relative h-full flex flex-col">
       {/* 顶部 AI Reader 信息层 */}
-      <div className="sticky top-0 z-10 bg-gradient-to-b from-white/80 to-transparent pb-4">
+      <div className="flex-none">
         <div className="container max-w-6xl mx-auto px-4 pt-4">
           <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-gray-100 p-3 md:p-4">
             <div className="flex items-center gap-3 md:gap-4">
@@ -78,8 +78,8 @@ export default function ChatInterface({ aiReader, customerId, lomessages, locale
       </div>
 
       {/* 聊天内容区域 */}
-      <div className="flex-1 overflow-y-auto px-4">
-        <div className="max-w-6xl mx-auto space-y-4 py-4">
+      <div className="flex-1 overflow-y-auto min-h-0">
+        <div className="max-w-6xl mx-auto space-y-4 px-4 py-4">
           {/* 首次加载动画 */}
           {!isInitialized && messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center p-8 space-y-4">
@@ -223,7 +223,7 @@ export default function ChatInterface({ aiReader, customerId, lomessages, locale
       </div>
 
       {/* 底部输入框和版权信息层 */}
-      <div className="sticky bottom-0 z-10 bg-gradient-to-t from-white/80 to-transparent pt-4">
+      <div className="flex-none">
         <div className="container max-w-6xl mx-auto px-4 pb-4 space-y-4">
           <form onSubmit={handleSubmit} className="bg-white/80 backdrop-blur-sm rounded-lg shadow-lg border border-gray-100 p-3">
             <div className="flex gap-2">
@@ -231,7 +231,7 @@ export default function ChatInterface({ aiReader, customerId, lomessages, locale
                 value={input}
                 onChange={handleInputChange}
                 placeholder={lomessages.placeholder}
-                disabled={isLoading  || !isInitialized}
+                disabled={isLoading || !isInitialized}
                 className="bg-white h-12"
               />
               <Button type="submit" disabled={isLoading || !isInitialized} className="h-12">
