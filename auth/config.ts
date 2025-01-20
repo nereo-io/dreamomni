@@ -114,7 +114,21 @@ if (
     AppleProvider({
       clientId: process.env.AUTH_APPLE_ID,
       clientSecret: process.env.AUTH_APPLE_SECRET,
-      authorization: { params: { scope: "name email" } },
+      authorization: {
+        params: {
+          scope: "name email",
+          response_mode: "form_post",
+          response_type: "code id_token",
+        },
+      },
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name?.firstName + " " + profile.name?.lastName,
+          email: profile.email,
+          image: null,
+        }
+      },
     })
   );
 }
