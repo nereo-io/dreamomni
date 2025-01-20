@@ -118,7 +118,7 @@ if (
         params: {
           scope: "name email",
           response_mode: "form_post",
-          response_type: "code id_token",
+          response_type: "code",
         },
       },
       profile(profile) {
