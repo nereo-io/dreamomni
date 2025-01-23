@@ -27,3 +27,42 @@ Content-Type: application/json
   "provider": "kling",
   "model": "kling-v1-6"
 }
+
+### 测试支付创建订单
+POST http://localhost:3000/api/checkout
+Content-Type: application/json
+
+{
+    "priceId": "price_H5ggYwtDq4fbrJ",
+    "successUrl": "http://localhost:3000/pay-success",
+    "cancelUrl": "http://localhost:3000"
+}
+
+### 测试支付回调
+POST http://localhost:3000/api/stripe-notify
+Content-Type: application/json
+
+{
+    "type": "checkout.session.completed",
+    "data": {
+        "object": {
+            "id": "cs_test_xxx",
+            "customer": "cus_xxx",
+            "subscription": "sub_xxx",
+            "payment_status": "paid",
+            "amount_total": 1999
+        }
+    }
+}
+
+### 测试检查会员状态
+GET http://localhost:3000/api/membership/check
+Authorization: Bearer YOUR_ACCESS_TOKEN
+
+### 测试获取订单列表
+GET http://localhost:3000/api/orders
+Authorization: Bearer YOUR_ACCESS_TOKEN
+
+### 测试获取单个订单详情
+GET http://localhost:3000/api/orders/ORDER_ID
+Authorization: Bearer YOUR_ACCESS_TOKEN

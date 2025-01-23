@@ -42,10 +42,6 @@
     "title": "我的订单",
     "description": "查看您的所有订单记录",
     "no_orders": "暂无订单记录",
-    "membership": {
-      "title": "会员状态",
-      "description": "查看您的会员信息和有效期"
-    },
     "tip": "",
     "activate_order": "激活订单",
     "actived": "已激活",
@@ -65,7 +61,7 @@
     "title": "会员状态",
     "description": "查看您的会员信息和有效期",
     "status": "会员状态",
-    "status_active": "有效",
+    "status_active": "已开通",
     "status_expired": "已过期",
     "type": "会员类型",
     "type_monthly": "月度会员",
@@ -74,6 +70,6 @@
     "end_date": "到期时间",
     "remaining_days": "剩余天数",
     "days": "天",
-    "no_membership": "暂无会员信息"
+    "no_membership": "暂未开通"
   }
 }

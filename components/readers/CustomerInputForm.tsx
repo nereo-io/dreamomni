@@ -77,9 +77,12 @@ export default function CustomerInputForm({
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // 立即设置加载状态
+    setIsPending(true);
     
     // 1. 检查登录状态
     if (!user?.uuid) {
+      setIsPending(false);
       toast.error(messages.errors.pleaseLogin);
       setShowSignModal(true);
       return;
@@ -91,6 +94,7 @@ export default function CustomerInputForm({
       const data = await response.json();
       
       if (data.code !== 0) {
+        setIsPending(false); 
         toast.error(data.message || messages.errors.checkUsageError);
         return;
       }
@@ -120,7 +124,6 @@ export default function CustomerInputForm({
       }
 
       // 4. 继续原有的表单提交逻辑
-      setIsPending(true);
       const formData = new FormData();
 
       // 手动设置所有需要的字段

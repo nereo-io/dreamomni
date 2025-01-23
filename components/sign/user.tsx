@@ -39,18 +39,22 @@ export default function ({ user }: { user: User }) {
         <DropdownMenuItem className="cursor-pointer">
           <Link href="/membership" className="flex justify-between items-center w-full">
             <span>{t("user.membership")}</span>
-            {membership ? (
+            {isLoadingMembership ? (
+              <Badge variant="secondary" className="ml-2 animate-pulse">
+                加载中...
+              </Badge>
+            ) : !membership ? (
+              <Badge variant="secondary" className="ml-2">
+                {t("membership.no_membership")}
+              </Badge>
+            ) : (
               <Badge 
                 variant={membership.status === 'active' ? 'default' : 'secondary'} 
                 className="ml-2"
               >
                 {membership.status === 'active' ? t("membership.status_active") : t("membership.status_expired")}
               </Badge>
-            ) : isLoadingMembership ? (
-              <Badge variant="secondary" className="ml-2 animate-pulse">
-                加载中...
-              </Badge>
-            ) : null}
+            )}
           </Link>
         </DropdownMenuItem>
 

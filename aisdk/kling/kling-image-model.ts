@@ -62,7 +62,21 @@ export class KlingImageModel implements ImageModelV1 {
         type: "other",
         message: "Kling access key or secret key is not set",
       });
-      return { images, warnings };
+      return { 
+        images, 
+        warnings,
+        response: {
+          timestamp: new Date(),
+          modelId: this.modelId,
+          headers: headers ? 
+            Object.fromEntries(
+              Object.entries(headers)
+                .filter(([_, v]) => v !== undefined)
+                .map(([k, v]) => [k, v as string])
+            ) as Record<string, string> : 
+            undefined
+        }
+      };
     }
 
     try {
@@ -85,7 +99,21 @@ export class KlingImageModel implements ImageModelV1 {
           type: "other",
           message: task.message,
         });
-        return { images, warnings };
+        return { 
+          images, 
+          warnings,
+          response: {
+            timestamp: new Date(),
+            modelId: this.modelId,
+            headers: headers ? 
+              Object.fromEntries(
+                Object.entries(headers)
+                  .filter(([_, v]) => v !== undefined)
+                  .map(([k, v]) => [k, v as string])
+              ) as Record<string, string> : 
+              undefined
+          }
+        };
       }
 
       const taskId = task.data.task_id;
@@ -144,7 +172,21 @@ export class KlingImageModel implements ImageModelV1 {
         type: "other",
         message: "No images generated",
       });
-      return { images, warnings };
+      return { 
+        images, 
+        warnings,
+        response: {
+          timestamp: new Date(),
+          modelId: this.modelId,
+          headers: headers ? 
+            Object.fromEntries(
+              Object.entries(headers)
+                .filter(([_, v]) => v !== undefined)
+                .map(([k, v]) => [k, v as string])
+            ) as Record<string, string> : 
+            undefined
+        }
+      };
     }
 
     images = await Promise.all(
@@ -154,6 +196,20 @@ export class KlingImageModel implements ImageModelV1 {
       })
     );
 
-    return { images, warnings };
+    return { 
+      images, 
+      warnings,
+      response: {
+        timestamp: new Date(),
+        modelId: this.modelId,
+        headers: headers ? 
+          Object.fromEntries(
+            Object.entries(headers)
+              .filter(([_, v]) => v !== undefined)
+              .map(([k, v]) => [k, v as string])
+          ) as Record<string, string> : 
+          undefined
+      }
+    };
   }
 }

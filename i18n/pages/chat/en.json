@@ -8,5 +8,9 @@
     "initialAnalysis": "Based on your birth information, here is my analysis:",
     "error": "Sorry, there was an error processing your request. Please try again."
   },
-  "footer": "Each reading is analyzed by our professional destiny system and is for reference only."
+  "footer": "Each reading is analyzed by our professional destiny system and is for reference only",
+  "membership": {
+    "required": "Membership required to use this feature",
+    "upgrade": "Upgrade to Member"
+  }
 } 

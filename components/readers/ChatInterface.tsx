@@ -13,6 +13,7 @@ import { cn } from '@/lib/utils';
 import { useAppContext } from "@/contexts/app";
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface AiReader {
   name: string;
@@ -28,11 +29,11 @@ interface ChatInterfaceProps {
 }
 
 export default function ChatInterface({ aiReader, customerId, lomessages, locale }: ChatInterfaceProps) {
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [canAskMore, setCanAskMore] = useState(true);
-  const router = useRouter();
   const { membership } = useAppContext();
   const isMember = membership?.status === 'active';
+  
+  const [isInitialized, setIsInitialized] = useState(false);
+  const router = useRouter();
 
   const { append, messages, input, handleInputChange, handleSubmit: originalHandleSubmit, isLoading, setMessages } = useChat({
     api: '/api/chat',
@@ -53,33 +54,13 @@ export default function ChatInterface({ aiReader, customerId, lomessages, locale
     append({ role: 'user', content: '大师请回答我的问题' })
   }, [])
 
-  // 检查会员状态
-  useEffect(() => {
-    if (messages.length > 2) {
-      setCanAskMore(isMember);
-    }
-  }, [messages.length, isMember]);
-
-  // 状态监控
-  useEffect(() => {
-    console.log('状态更新:', {
-      isInitialized,
-    });
-  }, [isInitialized]);
-
   // 处理消息提交
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-    // 如果是第一条消息，直接发送
-    if (messages.length <= 2) {
-      originalHandleSubmit(e);
-      return;
-    }
-
-    // 检查是否可以追问
+    // 检查会员状态
     if (!isMember) {
-      toast.error('需要开通会员才可以追问');
+      toast.error('需要开通会员才可以使用');
       // router.push('/pricing');
       return;
     }
@@ -152,6 +133,27 @@ export default function ChatInterface({ aiReader, customerId, lomessages, locale
                     remarkPlugins={[remarkGfm]}
                     rehypePlugins={[rehypeRaw, rehypeSanitize]}
                     components={{
+                      // 自定义列表项渲染，解决换行展示的问题
+                      li: ({children, ...props}: React.HTMLProps<HTMLLIElement> & {
+                        ordered?: boolean;
+                        index?: number;
+                      }) => {
+                        const content = React.Children.map(children, child => {
+                          if (typeof child === 'string') {
+                            return <span>{child}</span>;
+                          }
+                          return child;
+                        });
+
+                        return (
+                          <li className="flex items-start my-2">
+                            <span className="flex-shrink-0 min-w-[1.2em]">
+                              {props.ordered ? `${(props.index ?? 0) + 1}.` : '•'}
+                            </span>
+                            <span className="flex-1 -ml-1">{content}</span>
+                          </li>
+                        );
+                      },
                       a: ({node, ...props}) => (
                         <a className="text-blue-500 hover:underline" {...props} />
                       ),
@@ -248,21 +250,24 @@ export default function ChatInterface({ aiReader, customerId, lomessages, locale
                   value={input}
                   onChange={handleInputChange}
                   placeholder={lomessages.placeholder}
-                  disabled={isLoading || !isInitialized || (messages.length > 2 && !canAskMore)}
+                  disabled={isLoading || !isInitialized || !isMember}
                   className="bg-white h-12"
                 />
                 <Button 
                   type="submit" 
-                  disabled={isLoading || !isInitialized || (messages.length > 2 && !canAskMore)} 
+                  disabled={isLoading || !isInitialized || !isMember} 
                   className="h-12"
                 >
                   {lomessages.send}
                 </Button>
               </div>
-              {messages.length > 2 && !canAskMore && (
-                <p className="text-sm text-red-500 text-center">
-                  需要开通会员才可以追问
-                </p>
+              {!isMember && (
+                <div className="text-sm text-center flex items-center justify-center gap-2">
+                  <p className="text-red-500">{lomessages.membership.required}</p>
+                  <Link href="/#pricing" className="text-primary hover:underline">
+                    {lomessages.membership.upgrade}
+                  </Link>
+                </div>
               )}
             </div>
           </form>

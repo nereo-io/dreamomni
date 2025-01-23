@@ -8,12 +8,3 @@ export interface Membership {
   created_at: string;
   updated_at: string;
 }
-
-// export interface MembershipPlan {
-//   id: string;
-//   name: string;
-//   type: 'monthly' | 'yearly';
-//   price: number;
-//   description: string;
-//   features: string[];
-// } 

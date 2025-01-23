@@ -9,4 +9,8 @@ export interface ChatPage {
     error: string;
   };
   footer: string;
+  membership: {
+    required: string;
+    upgrade: string;
+  };
 } 

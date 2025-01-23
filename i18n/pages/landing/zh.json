@@ -221,71 +221,58 @@
     "label": "会员方案",
     "title": "选择你的解读方案",
     "description": "为你提供个性化的运势解读服务",
+    "groups": [],
     "items": [
       {
         "title": "基础版",
         "description": "免费开启你的运势解读之旅",
+        "features_title": "包含功能",
         "features": [
           "基础事业运势解读",
           "有限次AI互动",
           "简单运势报告",
           "全天候访问"
         ],
-        "interval": "free",
+        "interval": "month",
         "amount": 0,
-        "currency": "CNY",
+        "currency": "USD",
         "price": "免费",
-        "unit": "永久",
+        "unit": "/月",
         "is_featured": false,
         "button": {
           "title": "免费开始",
-          "url": "/career/reading",
-          "icon": "RiMagicLine"
+          "url": "/career",
+          "icon": "RiMagicLine",
+          "disabled": true
         }
       },
       {
         "title": "高级版",
         "description": "解锁全面运势解读",
+        "label": "热门",
+        "features_title": "包含基础版所有功能，另加",
         "features": [
-          "全方位运势深度解读",
-          "无限次AI咨询",
-          "每月运势更新",
-          "多维度分析",
-          "优先支持服务"
+          "无限次运势解读",
+          "AI智能问答",
+          "追问服务"
         ],
-        "interval": "monthly",
-        "amount": 9900,
-        "currency": "CNY",
-        "price": "¥99",
-        "unit": "月",
+        "interval": "month",
+        "amount": 999,
+        "currency": "USD",
+        "price": "$9.99",
+        "original_price": "¥$19.99",
+        "unit": "/月",
         "is_featured": true,
+        "discount_label": "5折优惠",
         "button": {
           "title": "升级高级版",
-          "url": "/premium",
-          "icon": "RiVipCrownLine"
-        }
-      },
-      {
-        "title": "专业版",
-        "description": "寻求深度智慧指引",
-        "features": [
-          "包含所有高级版功能",
-          "优先咨询服务",
-          "定制化解读报告",
-          "关键时刻提醒",
-          "VIP专属服务"
-        ],
-        "interval": "monthly",
-        "amount": 29900,
-        "currency": "CNY",
-        "price": "¥299",
-        "unit": "月",
-        "is_featured": false,
-        "button": {
-          "title": "选择专业版",
           "url": "/pro",
-          "icon": "RiVipDiamondLine"
-        }
+          "icon": "RiVipCrownLine"
+        },
+        "product_id": "pro",
+        "product_name": "好运盒子高级版",
+        "credits": 1,
+        "valid_months": 1
       }
     ]
   },

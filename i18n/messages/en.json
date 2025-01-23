@@ -17,7 +17,8 @@
     "sign_out": "Sign Out",
     "credits": "Credits",
     "api_keys": "API Keys",
-    "my_orders": "My Orders"
+    "my_orders": "My Orders",
+    "membership": "Membership"
   },
   "sign_modal": {
     "sign_in_title": "Sign In",
@@ -57,5 +58,20 @@
       "github_username": "GitHub Username",
       "status": "Status"
     }
+  },
+  "membership": {
+    "title": "Membership",
+    "description": "View your membership information and validity period",
+    "status": "Membership",
+    "status_active": "Active",
+    "status_expired": "Expired",
+    "type": "Membership Type",
+    "type_monthly": "Monthly Plan",
+    "type_yearly": "Yearly Plan",
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "remaining_days": "Remaining Days",
+    "days": "days",
+    "no_membership": "No Active Membership"
   }
 }

@@ -1,3 +1,4 @@
+// import "@/lib/proxy";
 import "@/app/globals.css";
 
 import { getMessages, getTranslations } from "next-intl/server";
