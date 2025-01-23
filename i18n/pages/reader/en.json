@@ -28,5 +28,11 @@
     "submit": "Get Reading",
     "submitting": "Processing...",
     "back": "Back"
+  },
+  "customer": {
+    "input": {
+      "unlimited_usage": "Member - Unlimited Usage",
+      "remaining_readings": "Remaining readings today: {count}"
+    }
   }
 } 

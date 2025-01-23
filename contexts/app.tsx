@@ -11,6 +11,7 @@ import {
 import { ContextValue } from "@/types/context";
 import { User } from "@/types/user";
 import useOneTapLogin from "@/hooks/useOneTapLogin";
+import useMembership from "@/hooks/useMembership";
 import { useSession } from "next-auth/react";
 
 const AppContext = createContext({} as ContextValue);
@@ -26,6 +27,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const { data: session } = useSession();
+  const { membership, isLoadingMembership, refreshMembership } = useMembership();
 
   const [theme, setTheme] = useState<string>("light");
   const [showSignModal, setShowSignModal] = useState<boolean>(false);
@@ -37,6 +39,13 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [session]);
 
+  // 当用户登录状态改变时，刷新会员状态
+  useEffect(() => {
+    if (user?.uuid) {
+      refreshMembership();
+    }
+  }, [user?.uuid]);
+
   return (
     <AppContext.Provider
       value={{
@@ -46,6 +55,9 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
         setShowSignModal,
         user,
         setUser,
+        membership,
+        isLoadingMembership,
+        refreshMembership,
       }}
     >
       {children}

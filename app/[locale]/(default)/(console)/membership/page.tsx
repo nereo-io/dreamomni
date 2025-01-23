@@ -1,0 +1,71 @@
+import { getUserUuid } from "@/services/user";
+import { findActiveMembershipByUserUuid } from "@/models/membership";
+import { getTranslations } from "next-intl/server";
+import { redirect } from "next/navigation";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import moment from "moment";
+
+export default async function () {
+  const t = await getTranslations();
+
+  const user_uuid = await getUserUuid();
+  const callbackUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/membership`;
+  if (!user_uuid) {
+    redirect(`/auth/signin?callbackUrl=${encodeURIComponent(callbackUrl)}`);
+  }
+
+  // 获取会员信息
+  const membership = await findActiveMembershipByUserUuid(user_uuid);
+
+  return (
+    <div className="container px-4 md:px-6 max-w-5xl py-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>{t("membership.title")}</CardTitle>
+          <CardDescription>{t("membership.description")}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {membership ? (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">{t("membership.status")}</span>
+                <Badge variant={membership.status === 'active' ? 'default' : 'secondary'}>
+                  {membership.status === 'active' ? t("membership.status_active") : t("membership.status_expired")}
+                </Badge>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">{t("membership.type")}</span>
+                <span className="text-sm font-medium">
+                  {membership.plan_type === 'monthly' ? t("membership.type_monthly") : t("membership.type_yearly")}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">{t("membership.start_date")}</span>
+                <span className="text-sm font-medium">
+                  {moment(membership.start_date).format('YYYY-MM-DD HH:mm')}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">{t("membership.end_date")}</span>
+                <span className="text-sm font-medium">
+                  {moment(membership.end_date).format('YYYY-MM-DD HH:mm')}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">{t("membership.remaining_days")}</span>
+                <span className="text-sm font-medium">
+                  {moment(membership.end_date).diff(moment(), 'days')} {t("membership.days")}
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div className="text-center py-6">
+              <p className="text-sm text-muted-foreground">{t("membership.no_membership")}</p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+} 

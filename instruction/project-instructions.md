@@ -128,12 +128,12 @@ B. 社交媒体内容：
   - 基础运势解读
   - 有限AI互动
   - 简单报告
-- Premium ($19.99/月):
+- Pro ($19.99/月):
   - 深度解读
   - 无限AI咨询
   - 月度运势更新
   - 多领域分析
-- Pro ($49.99/月):
+- 终极 ($49.99/月):
   - 全部Premium功能
   - 优先咨询权
   - 定制化报告
@@ -142,8 +142,23 @@ B. 社交媒体内容：
 
 # 3. intruction
 
-按照如下顺序顺序新建career/page.tsx页面
+## 3.1 按照如下顺序顺序新建career/page.tsx页面
 
 1. 基于线框图，调用components/block文件夹中的组件实现page.tsx，在app/[locale]/(default)/文件夹下新建对应的文件夹，并实现page.tsx
 2. 因为要实现多语言，所以需要实现多语言的页面， 在app/i18n中新建文件夹，实现中文和英文的json文件。在 services/page.ts 中 实现getXXXPage 的的方法，在types/pages/xxxx.d.ts 中定义对应的接口
 
+
+## 3.2 支付以及会员体系建设
+
+1. 目前已经接入stripe，完成付费组件的设计，异同支付完成的回调逻辑。此部分已经已经实现。
+- 价格表组件：components/blocks/pricing/index.tsx
+- 支付下单接口：app/api/checkout/route.ts
+- 支付回调逻辑：app/api/stripe-notify/route.ts
+
+现在需要实现：
+2. 现在需要在services/order.ts中实现支付逻辑，用户完成支付后，可以记录用户的订单信息，并更新用户的会员状态
+3. 需要建立会员产品功能，用户完成月度订阅后，会员体系可以记录用户的会员有效时长。需要新建会员表，同时增加会员的产品逻辑
+4. 会员的作用是1）用户可以无限次使用reading服务，在services/reading.ts中实现 2）用户可以无限次使用ai咨询的服务，非会员用户不能使用ai咨询，这个逻辑需要开发
+5. 用户可以在个人中心app/mu-orders中查看自己的订单信息（目前已经实现），以及会员状态（需要实现）
+
+## 3.3 会员体系

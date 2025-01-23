@@ -14,6 +14,7 @@ import { IoMale, IoFemale } from "react-icons/io5";
 import { ReaderPage } from "@/types/pages/reader";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
+import { Membership } from '@/types/membership';
 
 interface FormData {
   gender: string;
@@ -34,8 +35,7 @@ export default function CustomerInputForm({
 }: Props) {
   const router = useRouter();
   const params = useParams();
-  const pathname = usePathname();
-  const { user, setShowSignModal } = useAppContext();
+  const { user, setShowSignModal, membership, isLoadingMembership } = useAppContext();
   
   const initialState: State = {
     message: null,
@@ -57,15 +57,22 @@ export default function CustomerInputForm({
 
   // 获取剩余次数
   useEffect(() => {
-    if (user?.uuid) {
-      fetch("/api/readings/check")
-        .then(res => res.json())
-        .then(data => {
-          if (data.code === 0) {
-            setRemainingCount(data.data.remainingCount);
-          }
-        });
-    }
+    const fetchReadingCount = async () => {
+      if (!user?.uuid) return;
+      
+      try {
+        const response = await fetch('/api/readings/check');
+        const data = await response.json();
+        
+        if (data.code === 0) {
+          setRemainingCount(data.data.remainingCount);
+        }
+      } catch (error) {
+        console.error("Failed to fetch reading count:", error);
+      }
+    };
+
+    fetchReadingCount();
   }, [user?.uuid]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -89,8 +96,11 @@ export default function CustomerInputForm({
       }
 
       if (!data.data.canRead) {
-        toast.error(messages.errors.noRemainingReadings);
-        return;
+        // 如果是会员，不需要检查剩余次数
+        if (!data.data.isMember) {
+          toast.error(messages.errors.noRemainingReadings);
+          return;
+        }
       }
 
       // 3. 记录本次使用
@@ -99,9 +109,14 @@ export default function CustomerInputForm({
       });
       const createData = await createResponse.json();
       
-      if (data.code !== 0) {
+      if (createData.code !== 0) {
         toast.error(createData.message || messages.errors.recordUsageError);
         return;
+      }
+
+      // 更新剩余次数显示
+      if (!data.data.isMember) {
+        setRemainingCount(createData.data.remainingCount);
       }
 
       // 4. 继续原有的表单提交逻辑
@@ -241,17 +256,25 @@ export default function CustomerInputForm({
 
               {/* 按钮组 */}
               <div className="space-y-4 pt-4">
-                <div className="text-center">
-                  {user?.uuid ? (
-                    <p className="text-sm text-muted-foreground">
-                      今日剩余解读次数：{remainingCount} 次
-                    </p>
-                  ) : (
-                    <p className="text-sm text-orange-500">
-                      {messages.loginPrompt}
-                    </p>
-                  )}
-                </div>
+                {/* 使用次数提示 - 只在加载完成且有用户登录时显示 */}
+                {user?.uuid && !isLoadingMembership && (
+                  <div className="text-center">
+                    {membership?.status === 'active' ? (
+                      <p className="text-sm text-orange-500">
+                        {messages.customer.input.unlimited_usage}
+                      </p>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">
+                        {messages.customer.input.remaining_readings.replace('{count}', remainingCount.toString())}
+                      </p>
+                    )}
+                  </div>
+                )}
+                {!user?.uuid && (
+                  <p className="text-center text-sm text-orange-500">
+                    {messages.loginPrompt}
+                  </p>
+                )}
                 <Button
                   type="submit"
                   className="w-full bg-orange-500 hover:bg-orange-600 text-base"

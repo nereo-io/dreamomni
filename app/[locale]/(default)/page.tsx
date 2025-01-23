@@ -55,7 +55,7 @@ export default async function LandingPage({
       {page.benefit && <Feature2 section={page.benefit} />}
       {page.usage && <Feature3 section={page.usage} />}
       {page.stats && <Stats section={page.stats} />}
-      {/* {page.pricing && <Pricing pricing={page.pricing} />} */}
+      {page.pricing && <Pricing pricing={page.pricing} />}
       {page.testimonial && <Testimonial section={page.testimonial} />}
       {page.faq && <FAQ section={page.faq} />}
       {page.cta && <CTA section={page.cta} />}

@@ -15,7 +15,8 @@
     "sign_out": "退出登录",
     "credits": "额度",
     "api_keys": "API 密钥",
-    "my_orders": "我的订单"
+    "my_orders": "我的订单",
+    "membership": "会员状态"
   },
   "sign_modal": {
     "sign_in_title": "登录",
@@ -39,8 +40,12 @@
   },
   "my_orders": {
     "title": "我的订单",
-    "description": "在好运盒子上购买的订单。",
-    "no_orders": "未找到订单",
+    "description": "查看您的所有订单记录",
+    "no_orders": "暂无订单记录",
+    "membership": {
+      "title": "会员状态",
+      "description": "查看您的会员信息和有效期"
+    },
     "tip": "",
     "activate_order": "激活订单",
     "actived": "已激活",
@@ -55,5 +60,20 @@
       "github_username": "GitHub 用户名",
       "status": "状态"
     }
+  },
+  "membership": {
+    "title": "会员状态",
+    "description": "查看您的会员信息和有效期",
+    "status": "会员状态",
+    "status_active": "有效",
+    "status_expired": "已过期",
+    "type": "会员类型",
+    "type_monthly": "月度会员",
+    "type_yearly": "年度会员",
+    "start_date": "开始时间",
+    "end_date": "到期时间",
+    "remaining_days": "剩余天数",
+    "days": "天",
+    "no_membership": "暂无会员信息"
   }
 }

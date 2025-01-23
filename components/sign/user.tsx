@@ -1,25 +1,26 @@
 "use client";
 
 import * as React from "react";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { User } from "@/types/user";
 import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { useAppContext } from "@/contexts/app";
+import { cn } from "@/lib/utils";
 
 export default function ({ user }: { user: User }) {
   const t = useTranslations();
+  const { membership, isLoadingMembership } = useAppContext();
 
   return (
     <DropdownMenu>
@@ -35,8 +36,28 @@ export default function ({ user }: { user: User }) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem className="flex justify-center cursor-pointer">
-          <Link href="/my-orders">{t("user.my_orders")}</Link>
+        <DropdownMenuItem className="cursor-pointer">
+          <Link href="/membership" className="flex justify-between items-center w-full">
+            <span>{t("user.membership")}</span>
+            {membership ? (
+              <Badge 
+                variant={membership.status === 'active' ? 'default' : 'secondary'} 
+                className="ml-2"
+              >
+                {membership.status === 'active' ? t("membership.status_active") : t("membership.status_expired")}
+              </Badge>
+            ) : isLoadingMembership ? (
+              <Badge variant="secondary" className="ml-2 animate-pulse">
+                加载中...
+              </Badge>
+            ) : null}
+          </Link>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem className="cursor-pointer">
+          <Link href="/my-orders" className="w-full text-center">
+            {t("user.my_orders")}
+          </Link>
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />

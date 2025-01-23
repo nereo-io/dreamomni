@@ -28,5 +28,11 @@
     "submit": "开始解读",
     "submitting": "处理中...",
     "back": "返回"
+  },
+  "customer": {
+    "input": {
+      "unlimited_usage": "会员 - 无限次使用",
+      "remaining_readings": "今日剩余解读次数：{count}"
+    }
   }
 } 

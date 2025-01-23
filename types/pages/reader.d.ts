@@ -29,4 +29,10 @@ export interface ReaderPage {
     submitting: string;
     back: string;
   };
+  customer: {
+    input: {
+      unlimited_usage: string;
+      remaining_readings: string;
+    };
+  };
 } 

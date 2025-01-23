@@ -10,6 +10,9 @@ import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
 import { ChatPage } from '@/types/pages/chat';
 import { cn } from '@/lib/utils';
+import { useAppContext } from "@/contexts/app";
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 interface AiReader {
   name: string;
@@ -26,8 +29,12 @@ interface ChatInterfaceProps {
 
 export default function ChatInterface({ aiReader, customerId, lomessages, locale }: ChatInterfaceProps) {
   const [isInitialized, setIsInitialized] = useState(false);
+  const [canAskMore, setCanAskMore] = useState(true);
+  const router = useRouter();
+  const { membership } = useAppContext();
+  const isMember = membership?.status === 'active';
 
-  const { append, messages, input, handleInputChange, handleSubmit, isLoading, setMessages } = useChat({
+  const { append, messages, input, handleInputChange, handleSubmit: originalHandleSubmit, isLoading, setMessages } = useChat({
     api: '/api/chat',
     id: 'chat',
     body: {
@@ -46,12 +53,39 @@ export default function ChatInterface({ aiReader, customerId, lomessages, locale
     append({ role: 'user', content: '大师请回答我的问题' })
   }, [])
 
+  // 检查会员状态
+  useEffect(() => {
+    if (messages.length > 2) {
+      setCanAskMore(isMember);
+    }
+  }, [messages.length, isMember]);
+
   // 状态监控
   useEffect(() => {
     console.log('状态更新:', {
       isInitialized,
     });
   }, [isInitialized]);
+
+  // 处理消息提交
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    // 如果是第一条消息，直接发送
+    if (messages.length <= 2) {
+      originalHandleSubmit(e);
+      return;
+    }
+
+    // 检查是否可以追问
+    if (!isMember) {
+      toast.error('需要开通会员才可以追问');
+      // router.push('/pricing');
+      return;
+    }
+
+    originalHandleSubmit(e);
+  };
 
   return (
     <div className="relative h-full flex flex-col">
@@ -107,37 +141,20 @@ export default function ChatInterface({ aiReader, customerId, lomessages, locale
                 }`}
               >
                 <div
-                  className={`max-w-[80%] rounded-lg p-4 ${
+                  className={cn(
+                    'max-w-[80%] rounded-lg p-4',
                     message.role === 'user'
                       ? 'bg-primary text-primary-foreground'
                       : 'bg-white/80 backdrop-blur-sm'
-                  } prose prose-sm max-w-none`}
+                  )}
                 >
-                  <Markdown 
+                  <Markdown
                     remarkPlugins={[remarkGfm]}
                     rehypePlugins={[rehypeRaw, rehypeSanitize]}
                     components={{
-                      // 自定义列表项渲染，解决换行展示的问题
-                      li: ({children, ...props}: React.HTMLProps<HTMLLIElement> & {
-                        ordered?: boolean;
-                        index?: number;
-                      }) => {
-                        const content = React.Children.map(children, child => {
-                          if (typeof child === 'string') {
-                            return <span>{child}</span>;
-                          }
-                          return child;
-                        });
-
-                        return (
-                          <li className="flex items-start my-2">
-                            <span className="flex-shrink-0 min-w-[1.2em]">
-                              {props.ordered ? `${(props.index ?? 0) + 1}.` : '•'}
-                            </span>
-                            <span className="flex-1 -ml-1">{content}</span>
-                          </li>
-                        );
-                      },
+                      a: ({node, ...props}) => (
+                        <a className="text-blue-500 hover:underline" {...props} />
+                      ),
                       p: ({children}) => (
                         <p className="m-0 leading-relaxed">{children}</p>
                       ),
@@ -167,7 +184,6 @@ export default function ChatInterface({ aiReader, customerId, lomessages, locale
                       hr: () => (
                         <hr className="hidden" />
                       ),
-                      // 表格相关组件
                       table: ({children}) => (
                         <table className="min-w-full my-4 border-collapse border border-gray-200">
                           {children}
@@ -197,7 +213,7 @@ export default function ChatInterface({ aiReader, customerId, lomessages, locale
                         <td className="px-4 py-2 text-sm text-gray-500 border border-gray-200">
                           {children}
                         </td>
-                      ),
+                      )
                     }}
                   >
                     {message.content.trim()}
@@ -226,17 +242,28 @@ export default function ChatInterface({ aiReader, customerId, lomessages, locale
       <div className="flex-none">
         <div className="container max-w-6xl mx-auto px-4 pb-4 space-y-4">
           <form onSubmit={handleSubmit} className="bg-white/80 backdrop-blur-sm rounded-lg shadow-lg border border-gray-100 p-3">
-            <div className="flex gap-2">
-              <Input
-                value={input}
-                onChange={handleInputChange}
-                placeholder={lomessages.placeholder}
-                disabled={isLoading || !isInitialized}
-                className="bg-white h-12"
-              />
-              <Button type="submit" disabled={isLoading || !isInitialized} className="h-12">
-                {lomessages.send}
-              </Button>
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-2">
+                <Input
+                  value={input}
+                  onChange={handleInputChange}
+                  placeholder={lomessages.placeholder}
+                  disabled={isLoading || !isInitialized || (messages.length > 2 && !canAskMore)}
+                  className="bg-white h-12"
+                />
+                <Button 
+                  type="submit" 
+                  disabled={isLoading || !isInitialized || (messages.length > 2 && !canAskMore)} 
+                  className="h-12"
+                >
+                  {lomessages.send}
+                </Button>
+              </div>
+              {messages.length > 2 && !canAskMore && (
+                <p className="text-sm text-red-500 text-center">
+                  需要开通会员才可以追问
+                </p>
+              )}
             </div>
           </form>
           

@@ -47,7 +47,7 @@ export async function POST(req: Request) {
 
     const user_uuid = await getUserUuid();
     if (!user_uuid) {
-      // return respErr("no auth, please sign-in");
+      return respErr("no auth, please sign-in");
     }
 
     let user_email = await getUserEmail();
@@ -58,7 +58,7 @@ export async function POST(req: Request) {
       }
     }
     if (!user_email) {
-      // return respErr("invalid user");
+      return respErr("invalid user");
     }
 
     const order_no = getSnowId();

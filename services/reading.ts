@@ -1,5 +1,6 @@
 import { getTodayReadingCount, updateReadingCount } from "@/models/reading";
 import { getUserUuid } from "./user";
+import { checkMembershipStatus } from "./membership";
 
 const MAX_DAILY_READINGS = process.env.NEXT_PUBLIC_MAX_DAILY_READINGS ? parseInt(process.env.NEXT_PUBLIC_MAX_DAILY_READINGS) : 3;
 
@@ -12,7 +13,22 @@ export async function checkReadingPermission() {
       isLoggedIn: false,
       todayCount: 0,
       remainingCount: 0,
-      canRead: false
+      canRead: false,
+      isMember: false
+    };
+  }
+
+  // 检查会员状态
+  const { isMember } = await checkMembershipStatus();
+  
+  // 如果是会员，直接允许阅读
+  if (isMember) {
+    return {
+      isLoggedIn: true,
+      todayCount: 0,
+      remainingCount: -1, // -1 表示无限制
+      canRead: true,
+      isMember: true
     };
   }
 
@@ -23,7 +39,8 @@ export async function checkReadingPermission() {
     isLoggedIn: true,
     todayCount,
     remainingCount,
-    canRead: remainingCount > 0
+    canRead: remainingCount > 0,
+    isMember: false
   };
 }
 
@@ -33,6 +50,18 @@ export async function recordReading() {
   
   if (!userUuid) {
     throw new Error("用户未登录");
+  }
+
+  // 检查会员状态
+  const { isMember } = await checkMembershipStatus();
+  
+  // 如果是会员，不需要记录次数
+  if (isMember) {
+    return {
+      todayCount: 0,
+      remainingCount: -1, // -1 表示无限制
+      isMember: true
+    };
   }
 
   const todayCount = await getTodayReadingCount(userUuid);
@@ -46,6 +75,7 @@ export async function recordReading() {
 
   return {
     todayCount: newCount,
-    remainingCount
+    remainingCount,
+    isMember: false
   };
 } 

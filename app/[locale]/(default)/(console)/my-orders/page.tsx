@@ -19,6 +19,7 @@ export default async function () {
     redirect(`/auth/signin?callbackUrl=${encodeURIComponent(callbackUrl)}`);
   }
 
+  // 获取订单信息
   let orders = await getOrdersByUserUuid(user_uuid);
   if (!orders || orders.length === 0) {
     orders = await getOrdersByPaidEmail(user_email);

@@ -254,7 +254,7 @@ export default function Pricing({ pricing }: { pricing: PricingType }) {
                       {item.button && (
                         <Button
                           className="w-full flex items-center justify-center gap-2 font-semibold"
-                          disabled={isLoading}
+                          disabled={isLoading || item.button.disabled}
                           onClick={() => {
                             if (isLoading) {
                               return;

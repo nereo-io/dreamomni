@@ -218,74 +218,61 @@
   },
   "pricing": {
     "name": "pricing",
-    "label": "Plans",
-    "title": "Choose Your Reading Plan",
-    "description": "Get personalized fortune that match your needs",
+    "label": "Pricing",
+    "title": "Pricing",
+    "description": "Select the plan that fits your needs",
+    "groups": [],
     "items": [
       {
-        "title": "Basic",
-        "description": "Start your journey with free readings",
+        "title": "Free",
+        "description": "Start your fortune journey",
+        "features_title": "Includes",
         "features": [
-          "Basic career reading",
-          "Limited AI interactions",
-          "Simple report",
-          "24/7 access"
+          "3 readings per day",
+          "Basic fortune analysis",
+          "Essential life guidance",
+          "Access to all reading types"
         ],
-        "interval": "free",
+        "interval": "month",
         "amount": 0,
         "currency": "USD",
         "price": "Free",
-        "unit": "forever",
+        "unit": "/month",
         "is_featured": false,
         "button": {
           "title": "Start Free",
-          "url": "/career/reading",
-          "icon": "RiMagicLine"
-        }
-      },
-      {
-        "title": "Premium",
-        "description": "Unlock comprehensive fortune",
-        "features": [
-          "Deep readings in all areas",
-          "Unlimited AI consultations",
-          "Monthly updates",
-          "Multi-domain analysis",
-          "Priority support"
-        ],
-        "interval": "monthly",
-        "amount": 1999,
-        "currency": "USD",
-        "price": "$19.99",
-        "unit": "month",
-        "is_featured": true,
-        "button": {
-          "title": "Go Premium",
-          "url": "/premium",
-          "icon": "RiVipCrownLine"
+          "url": "/career",
+          "icon": "RiMagicLine",
+          "disabled": true
         }
       },
       {
         "title": "Pro",
-        "description": "For serious seekers of wisdom",
+        "description": "Unlock Full Experience",
+        "label": "Popular",
+        "features_title": "Everything in Free, plus",
         "features": [
-          "All Premium features",
-          "Priority consultation",
-          "Customized reports",
-          "Critical moment alerts",
-          "VIP support"
+          "Unlimited readings per day",
+          "Interactive chat with AI",
+          "Follow-up questions"
         ],
-        "interval": "monthly",
-        "amount": 4999,
+        "interval": "month",
+        "amount": 999,
         "currency": "USD",
-        "price": "$49.99",
-        "unit": "month",
-        "is_featured": false,
+        "price": "$9.99",
+        "original_price": "$19.99",
+        "unit": "/month",
+        "is_featured": true,
+        "discount_label": "50% OFF",
         "button": {
-          "title": "Choose Pro",
+          "title": "Go Pro",
           "url": "/pro",
-          "icon": "RiVipDiamondLine"
-        }
+          "icon": "RiVipCrownLine"
+        },
+        "product_id": "pro",
+        "product_name": "LuckBox Pro",
+        "credits": 1,
+        "valid_months": 1
       }
     ]
   },
