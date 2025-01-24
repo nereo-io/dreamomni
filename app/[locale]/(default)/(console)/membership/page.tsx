@@ -1,9 +1,11 @@
 import { getUserUuid } from "@/services/user";
 import { findActiveMembershipByUserUuid } from "@/models/membership";
+import { getStripeCustomerId } from "@/models/user";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { ManageSubscriptionButton } from "@/components/subscription/manage-subscription-button";
 import moment from "moment";
 
 export default async function () {
@@ -17,12 +19,19 @@ export default async function () {
 
   // 获取会员信息
   const membership = await findActiveMembershipByUserUuid(user_uuid);
+  // 获取 Stripe Customer ID
+  const stripeCustomerId = await getStripeCustomerId(user_uuid);
 
   return (
     <div className="container px-4 md:px-6 max-w-5xl py-6">
       <Card>
         <CardHeader>
-          <CardTitle>{t("membership.title")}</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle>{t("membership.title")}</CardTitle>
+            {stripeCustomerId && (
+              <ManageSubscriptionButton customerId={stripeCustomerId} />
+            )}
+          </div>
           <CardDescription>{t("membership.description")}</CardDescription>
         </CardHeader>
         <CardContent>
@@ -68,4 +77,4 @@ export default async function () {
       </Card>
     </div>
   );
-} 
+}

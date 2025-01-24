@@ -62,16 +62,18 @@
   "membership": {
     "title": "Membership",
     "description": "View your membership information and validity period",
-    "status": "Membership",
+    "status": "Status",
     "status_active": "Active",
     "status_expired": "Expired",
-    "type": "Membership Type",
+    "type": "Type",
     "type_monthly": "Monthly Plan",
     "type_yearly": "Yearly Plan",
     "start_date": "Start Date",
     "end_date": "End Date",
     "remaining_days": "Remaining Days",
     "days": "days",
-    "no_membership": "No Active Membership"
+    "no_membership": "No Active membership",
+    "manage_subscription": "Manage Subscription",
+    "loading": "Loading..."
   }
 }

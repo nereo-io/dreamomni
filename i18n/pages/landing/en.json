@@ -257,15 +257,15 @@
           "Follow-up questions"
         ],
         "interval": "month",
-        "amount": 999,
+        "amount": 499,
         "currency": "USD",
-        "price": "$9.99",
+        "price": "$4.99",
         "original_price": "$19.99",
         "unit": "/month",
         "is_featured": true,
-        "discount_label": "50% OFF",
+        "discount_label": "75% OFF",
         "button": {
-          "title": "Go Pro",
+          "title": "Upgrade to Pro",
           "url": "/pro",
           "icon": "RiVipCrownLine"
         },
@@ -311,7 +311,7 @@
       },
       "url": "/"
     },
-    "copyright": "© 2024 • LuckBox All rights reserved.",
+    "copyright": " 2024 • LuckBox All rights reserved.",
     "nav": {
       "items": [
         {

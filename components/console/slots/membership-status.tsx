@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Membership } from "@/types/membership";
+import { ManageSubscriptionButton } from "@/components/subscription/manage-subscription-button";
 import moment from "moment";
 import { Badge } from "@/components/ui/badge";
 
@@ -7,14 +8,20 @@ interface Props {
   title: string;
   description: string;
   membership?: Membership;
+  stripeCustomerId?: string | null;
 }
 
-export default function MembershipStatus({ title, description, membership }: Props) {
+export default function MembershipStatus({ title, description, membership, stripeCustomerId }: Props) {
   return (
     <Card className="mb-8">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+        <div className="flex items-center gap-2">
+          <CardDescription>{description}</CardDescription>
+          {stripeCustomerId && (
+            <ManageSubscriptionButton customerId={stripeCustomerId} />
+          )}
+        </div>
       </CardHeader>
       <CardContent>
         {membership ? (
@@ -52,4 +59,4 @@ export default function MembershipStatus({ title, description, membership }: Pro
       </CardContent>
     </Card>
   );
-} 
+}

@@ -257,13 +257,13 @@
           "追问服务"
         ],
         "interval": "month",
-        "amount": 999,
+        "amount": 499,
         "currency": "USD",
-        "price": "$9.99",
+        "price": "$4.99",
         "original_price": "¥$19.99",
         "unit": "/月",
         "is_featured": true,
-        "discount_label": "5折优惠",
+        "discount_label": "75折优惠",
         "button": {
           "title": "升级高级版",
           "url": "/pro",
@@ -311,7 +311,7 @@
       },
       "url": "/"
     },
-    "copyright": "© 2024 • 好运盒子 版权所有",
+    "copyright": " 2024 • 好运盒子 版权所有",
     "nav": {
       "items": [
         {

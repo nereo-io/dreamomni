@@ -70,6 +70,8 @@
     "end_date": "到期时间",
     "remaining_days": "剩余天数",
     "days": "天",
-    "no_membership": "暂未开通"
+    "no_membership": "暂未开通",
+    "manage_subscription": "管理订阅",
+    "loading": "加载中..."
   }
 }

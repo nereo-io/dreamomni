@@ -1,5 +1,6 @@
 import { User } from "@/types/user";
 import { getSupabaseClient } from "./db";
+import Stripe from "stripe";
 
 export async function insertUser(user: User) {
   const supabase = getSupabaseClient();
@@ -67,4 +68,32 @@ export async function getUsers(
   }
 
   return data;
+}
+
+export async function getStripeCustomerId(userUuid: string): Promise<string | null> {
+  const supabase = getSupabaseClient();
+  
+  // 获取用户最近的已支付订单
+  const { data: order, error } = await supabase
+    .from("orders")
+    .select("stripe_session_id")
+    .eq("user_uuid", userUuid)
+    .eq("status", "paid")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .single();
+
+  if (error || !order || !order.stripe_session_id) {
+    return null;
+  }
+
+  try {
+    // 使用 Stripe Session ID 获取 Customer ID
+    const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY || "");
+    const session = await stripe.checkout.sessions.retrieve(order.stripe_session_id);
+    return session.customer as string;
+  } catch (error) {
+    console.error("Error getting Stripe customer ID:", error);
+    return null;
+  }
 }
