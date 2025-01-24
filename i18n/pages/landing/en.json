@@ -41,73 +41,93 @@
     "show_locale": true
   },
   "hero": {
-    "title": "AI-Powered Eastern Wisdom for Life's Decisions",
-    "highlight_text": "Life's Decisions",
-    "description": "Discover personalized fortune for your career, love, wealth, and life path through the perfect blend of AI technology and traditional Eastern wisdom.",
+    "title": "Free AI-Powered Fortune Guide for Life's Decisions",
+    "highlight_text": "Fortune Guide",
     "announcement": {
       "label": "New",
-      "title": "✨ Career Reading Available Now",
+      "title": "✨ AI Fortune Reading for Career Available Now",
       "url": "/career"
     },
-    "tip": "🎁 Get your first career reading free",
-    "buttons": [
-      {
-        "title": "Explore Career Fortune",
-        "icon": "RiBriefcaseLine",
-        "url": "/career",
-        "target": "_self",
-        "variant": "default"
-      },
-      {
-        "title": "Learn More",
-        "icon": "RiInformationLine",
-        "url": "/#feature",
-        "target": "_self",
-        "variant": "outline"
-      }
-    ],
     "show_happy_users": false,
     "show_badge": false
   },
   "introduce": {
     "name": "introduce",
-    "title": "Your AI-Powered Eastern Fortune Guide",
+    "title": "Your AI Fortune Guide for Life Success",
     "label": "Features",
-    "description": "Blend AI precision with ancient Eastern forecasting wisdom to guide your life's important decisions",
+    "description": "Experience the power of AI fortune analysis combined with ancient Eastern wisdom for accurate life predictions",
     "image": {
       "src": "/imgs/services/introduce.png"
     },
     "items": [
       {
-        "title": "AI-Powered Analysis",
-        "description": "Get data-driven insights with our advanced AI prediction system",
+        "title": "AI Fortune Analysis",
+        "description": "Advanced AI system provides data-driven fortune insights and predictions",
         "icon": "RiRobot2Line"
       },
       {
-        "title": "Eastern Wisdom",
-        "description": "Leverage time-tested Eastern divination methods for accurate forecasting",
+        "title": "Eastern Fortune Wisdom",
+        "description": "Traditional fortune-telling methods enhanced by AI technology",
         "icon": "RiCompass3Line"
       },
       {
-        "title": "24/7 Instant Access",
-        "description": "Your personal fortune guide is always ready to help, anytime and anywhere",
+        "title": "24/7 Fortune Access",
+        "description": "Your AI fortune guide is always ready with instant readings",
         "icon": "Ri24HoursLine"
+      }
+    ]
+  },
+  "feature": {
+    "name": "feature",
+    "title": "AI-Powered Fortune Reading Benefits",
+    "label": "Benefits",
+    "description": "Discover how our AI fortune technology provides accurate insights for your life journey",
+    "items": [
+      {
+        "title": "Advanced AI Fortune Analysis",
+        "description": "Our sophisticated AI system analyzes your unique fortune patterns to provide actionable insights for career, relationships, and life decisions.",
+        "icon": "RiRobot2Line"
+      },
+      {
+        "title": "Traditional Fortune Wisdom",
+        "description": "Access centuries of fortune-telling knowledge, enhanced by AI technology for deeper understanding of your destiny.",
+        "icon": "RiCompass3Line"
+      },
+      {
+        "title": "Instant Fortune Access",
+        "description": "Get immediate fortune readings anytime. Your AI fortune advisor is always ready to provide guidance when you need it.",
+        "icon": "Ri24HoursLine"
+      },
+      {
+        "title": "Complete Fortune Analysis",
+        "description": "AI-powered insights covering career fortune, love fortune, wealth fortune, and life path predictions.",
+        "icon": "RiBookOpenLine"
+      },
+      {
+        "title": "AI Interactive Experience",
+        "description": "Engage with our AI fortune system through follow-up questions for deeper fortune insights.",
+        "icon": "RiDiscussLine"
+      },
+      {
+        "title": "Fortune Reading Plans",
+        "description": "Choose from various fortune reading plans, from free basic readings to unlimited premium AI fortune analysis.",
+        "icon": "RiVipCrownLine"
       }
     ]
   },
   "showcase": {
     "name": "readings",
-    "title": "Services on LuckBox",
-    "description": "Choose your path to enlightenment",
+    "title": "AI Fortune Reading Services",
+    "description": "Choose your personalized fortune reading path",
     "items": [
       {
-        "title": "Career",
-        "description": "Career Path & Timing Guide",
+        "title": "Career Fortune",
+        "description": "AI-powered career fortune reading and timing guidance",
         "url": "/career",
         "target": "_self",
         "label": "Available Now",
         "button": {
-          "title": "Try Now",
+          "title": "Get Fortune Reading",
           "url": "/career",
           "variant": "default"
         },
@@ -116,12 +136,12 @@
         }
       },
       {
-        "title": "Love",
-        "description": "Understand your love life and relationships.(Coming Soon)",
+        "title": "Love Fortune",
+        "description": "AI analysis of your love life fortune and relationships (Coming Soon)",
         "url": "/",
         "target": "_self",
         "button": {
-          "title": "Join Waitlist",
+          "title": "Join Fortune Waitlist",
           "url": "/waitlist/love",
           "variant": "outline"
         },
@@ -130,12 +150,12 @@
         }
       },
       {
-        "title": "Wealth",
-        "description": "Get guidance on financial opportunities.(Coming Soon)",
+        "title": "Wealth Fortune",
+        "description": "AI-powered wealth fortune guidance and timing (Coming Soon)",
         "url": "/",
         "target": "_self",
         "button": {
-          "title": "Join Waitlist",
+          "title": "Join Fortune Waitlist",
           "url": "/waitlist/wealth",
           "variant": "outline"
         },
@@ -144,12 +164,12 @@
         }
       },
       {
-        "title": "Life",
-        "description": "Insights on your life path.(Coming Soon)",
+        "title": "Life Fortune",
+        "description": "Complete AI fortune analysis for your life path (Coming Soon)",
         "url": "/",
         "target": "_self",
         "button": {
-          "title": "Join Waitlist",
+          "title": "Join Fortune Waitlist",
           "url": "/waitlist/life",
           "variant": "outline"
         },
@@ -162,14 +182,14 @@
   "testimonial": {
     "name": "testimonial",
     "label": "Testimonials",
-    "title": "What Our Users Say",
-    "description": "Real experiences from people who found clarity through LuckBox",
+    "title": "What Our AI Fortune Reading Users Say",
+    "description": "Real experiences from people who found clarity through our AI-powered fortune readings",
     "icon": "RiUserHeartLine",
     "items": [
       {
         "title": "Sarah Chen",
-        "label": "Regular User",
-        "description": "The career reading was surprisingly accurate! It helped me make an important decision about my job change. The AI's insights matched perfectly with my situation.",
+        "label": "Tech Professional",
+        "description": "The AI fortune reading was incredibly accurate! The AI system analyzed my career path and provided specific insights about my potential job transition. Following the AI-guided advice, I successfully switched from marketing to product management with a 30% salary increase. The AI timing prediction was spot-on!",
         "image": {
           "src": "/imgs/users/1.png"
         }
@@ -177,39 +197,39 @@
       {
         "title": "Michael Wong",
         "label": "Premium Member",
-        "description": "I was skeptical at first, but the love reading gave me insights that really helped my relationship. The monthly updates are incredibly valuable.",
+        "description": "The AI-powered love compatibility reading transformed my relationship. The AI identified potential challenges and suggested practical solutions. After 6 months of following the AI guidance, my partner and I have better communication and understanding. The AI monthly forecast updates are invaluable.",
         "image": {
           "src": "/imgs/users/2.png"
         }
       },
       {
         "title": "Emily Zhang",
-        "label": "Premium Member",
-        "description": "The wealth reading helped me identify the best timing for my investments. I've been following the guidance for 3 months and seeing positive results.",
+        "label": "Investment Analyst",
+        "description": "As a financial professional, I was skeptical at first. But the AI wealth reading provided remarkable timing insights for my investments. Following the AI guidance on favorable periods, I've seen a 25% improvement in investment returns. The AI market timing analysis is exceptional.",
         "image": {
           "src": "/imgs/users/3.png"
         }
       },
       {
         "title": "David Lee",
-        "label": "Regular User",
-        "description": "What impressed me most was how the AI combined traditional Bazi wisdom with modern interpretation. It's like having a personal fortune teller available 24/7.",
+        "label": "Business Owner",
+        "description": "The AI integration with traditional fortune analysis is revolutionary! The AI helped me understand business cycles and optimal timing for expansion. The AI predictions about challenging periods helped me prepare and adapt strategies. It's like having an AI strategic advisor available 24/7.",
         "image": {
           "src": "/imgs/users/4.png"
         }
       },
       {
         "title": "Lisa Wang",
-        "label": "Premium Member",
-        "description": "The destiny reading revealed my life path clearly. Understanding my strengths and challenges helped me plan better.",
+        "label": "Life Coach",
+        "description": "The AI destiny reading provided deep insights into my life path. The AI system identified my natural talents and potential challenges with remarkable accuracy. I've used these AI insights to guide my career transition into life coaching, and now I recommend AI fortune readings to my clients.",
         "image": {
           "src": "/imgs/users/5.png"
         }
       },
       {
         "title": "James Wilson",
-        "label": "Regular User",
-        "description": "LuckBox guides all my major life decisions. Simple yet powerful insights for both personal and career choices.",
+        "label": "Startup Founder",
+        "description": "The AI fortune system has become my secret weapon for decision-making. From choosing business partners to timing major launches, the AI insights have been invaluable. The combination of AI analysis and Eastern wisdom provides a unique perspective that helped my startup grow by 200% this year.",
         "image": {
           "src": "/imgs/users/6.png"
         }
@@ -219,19 +239,19 @@
   "pricing": {
     "name": "pricing",
     "label": "Pricing",
-    "title": "Pricing",
-    "description": "Select the plan that fits your needs",
+    "title": "AI Fortune Reading Plans",
+    "description": "Select your AI-powered fortune reading plan",
     "groups": [],
     "items": [
       {
-        "title": "Free",
-        "description": "Start your fortune journey",
+        "title": "Free AI Reading",
+        "description": "Start your AI fortune reading journey",
         "features_title": "Includes",
         "features": [
-          "3 readings per day",
-          "Basic fortune analysis",
-          "Essential life guidance",
-          "Access to all reading types"
+          "3 AI fortune readings per day",
+          "Basic AI fortune analysis",
+          "Essential AI guidance",
+          "Access to all AI reading types"
         ],
         "interval": "month",
         "amount": 0,
@@ -240,7 +260,7 @@
         "unit": "/month",
         "is_featured": false,
         "button": {
-          "title": "Start Free",
+          "title": "Start Free AI Reading",
           "url": "/career",
           "icon": "RiMagicLine",
           "disabled": true
@@ -248,13 +268,13 @@
       },
       {
         "title": "Pro",
-        "description": "Unlock Full Experience",
+        "description": "Unlock Full AI Experience",
         "label": "Popular",
         "features_title": "Everything in Free, plus",
         "features": [
-          "Unlimited readings per day",
-          "Interactive chat with AI",
-          "Follow-up questions"
+          "Unlimited AI fortune readings",
+          "Advanced AI chat system",
+          "AI-powered follow-up analysis"
         ],
         "interval": "month",
         "amount": 499,
@@ -265,12 +285,12 @@
         "is_featured": true,
         "discount_label": "75% OFF",
         "button": {
-          "title": "Upgrade to Pro",
+          "title": "Upgrade to AI Pro",
           "url": "/pro",
           "icon": "RiVipCrownLine"
         },
         "product_id": "pro",
-        "product_name": "LuckBox Pro",
+        "product_name": "LuckBox AI Pro",
         "credits": 1,
         "valid_months": 1
       }
@@ -283,20 +303,44 @@
     "description": "Learn more about how LuckBox works",
     "items": [
       {
-        "title": "What exactly is LuckBox?",
-        "description": "LuckBox is your AI-powered life guidance platform that combines Eastern wisdom with modern technology. Think of it as having a personal fortune advisor available 24/7, providing insights for your career, relationships, and life decisions using both ancient Eastern philosophy and advanced AI analysis."
+        "title": "What is LuckBox and how does it work?",
+        "description": "LuckBox is an innovative AI-powered fortune guidance platform that combines traditional Eastern wisdom with cutting-edge technology. Think of it as your personal advisor available 24/7, offering insights for career decisions, relationship guidance, and life choices. Our platform analyzes your birth information using both ancient Eastern methodologies and advanced AI to provide personalized, actionable advice."
       },
       {
         "title": "How does LuckBox generate accurate readings?",
-        "description": "Our system uses a sophisticated AI model trained on thousands of traditional Eastern astrology cases and modern data. When you input your birth information, our AI analyzes your unique birth chart using traditional Eastern methods, then combines this with modern analytical techniques to provide personalized insights and predictions."
+        "description": "LuckBox creates accurate readings through a unique dual-approach system. When you input your birth information, our sophisticated AI analyzes it using traditional Eastern astrology principles combined with modern data analysis. This blend of ancient wisdom and technology ensures comprehensive, personalized insights that become more refined over time through continuous learning from user feedback."
       },
       {
-        "title": "How reliable are the predictions?",
-        "description": "LuckBox achieves high accuracy through a dual-validation approach: we combine time-tested Eastern astrology principles with AI pattern recognition. Our system continuously learns from user feedback and outcomes, allowing it to refine and improve its predictions over time. We also provide transparency by explaining the reasoning behind each prediction."
+        "title": "What types of readings does LuckBox offer?",
+        "description": "LuckBox provides a comprehensive range of readings covering all major life aspects: career guidance, love and relationships, wealth opportunities, personality analysis, and health insights. Each reading type is specifically designed to offer deep insights and practical advice for your unique situation, helping you make informed decisions about your future."
+      },
+      {
+        "title": "Can I try LuckBox for free?",
+        "description": "Yes! LuckBox offers a free plan that includes 3 readings per day, basic fortune analysis, essential life guidance, and access to all reading types. This allows you to experience our platform's capabilities and understand how our AI-powered insights can benefit your life decisions before choosing a premium plan."
       },
       {
         "title": "What makes LuckBox different from traditional fortune telling?",
-        "description": "Unlike traditional fortune telling, LuckBox offers objective, data-driven insights backed by AI analysis. We don't just tell you what might happen - we provide actionable guidance based on both Eastern wisdom and modern analytical methods. Plus, you can access your readings anytime, track predictions over time, and receive updates as circumstances change."
+        "description": "Unlike traditional fortune telling, LuckBox provides data-driven, actionable insights powered by AI technology. We don't just predict what might happen - we offer clear, practical guidance based on both Eastern wisdom and modern analytical methods. Plus, you can access your readings anytime, track predictions, and receive regular updates as circumstances change."
+      },
+      {
+        "title": "How can I get the most out of my LuckBox readings?",
+        "description": "To maximize your LuckBox experience, we recommend starting with specific questions about areas of your life you want to explore. Premium users can ask follow-up questions for deeper insights, track their readings over time, and use our interactive AI chat feature for clarification. Regular readings help you stay aligned with your life's optimal path."
+      },
+      {
+        "title": "Is my personal information secure with LuckBox?",
+        "description": "Absolutely. LuckBox takes data privacy seriously and employs industry-standard encryption to protect your personal information. We only use your birth information to generate accurate readings and never share your data with third parties. Your trust and privacy are our top priorities."
+      },
+      {
+        "title": "How often should I consult LuckBox?",
+        "description": "While you can access LuckBox 24/7, we recommend regular consultations - perhaps weekly or monthly - to stay aligned with your life's path. Important decisions or life changes are ideal times for additional readings. Premium users have unlimited access and can consult whenever they need guidance."
+      },
+      {
+        "title": "Can LuckBox help with specific life decisions?",
+        "description": "Yes! Whether you're considering a career change, exploring relationship possibilities, or making important life choices, LuckBox provides targeted insights and practical guidance. Our AI analyzes your unique circumstances to offer personalized advice that helps you make informed decisions."
+      },
+      {
+        "title": "What's included in the Premium plan?",
+        "description": "The Premium plan offers unlimited readings, interactive AI chat capabilities, follow-up questions, and deeper insights across all reading types. Premium users enjoy priority access to new features, comprehensive analysis, and the ability to track their fortune patterns over time for more informed decision-making."
       }
     ]
   },
