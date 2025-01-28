@@ -1,14 +1,16 @@
 import { getTodayReadingCount, updateReadingCount } from "@/models/reading";
 import { getUserUuid } from "./user";
 import { checkMembershipStatus } from "./membership";
+import { User } from "@/types/user";
 
 const MAX_DAILY_READINGS = process.env.NEXT_PUBLIC_MAX_DAILY_READINGS ? parseInt(process.env.NEXT_PUBLIC_MAX_DAILY_READINGS) : 3;
 
 // 检查用户是否可以继续阅读
-export async function checkReadingPermission() {
-  const userUuid = await getUserUuid();
+export async function checkReadingPermission(user: User) {
+  // const userUuid = await getUserUuid();
   
-  if (!userUuid) {
+  console.log("checkReadingPermission", user);
+  if (!user.uuid) {
     return {
       isLoggedIn: false,
       todayCount: 0,
@@ -32,7 +34,7 @@ export async function checkReadingPermission() {
     };
   }
 
-  const todayCount = await getTodayReadingCount(userUuid);
+  const todayCount = await getTodayReadingCount(user.uuid);
   const remainingCount = MAX_DAILY_READINGS - todayCount;
 
   return {
@@ -45,10 +47,11 @@ export async function checkReadingPermission() {
 }
 
 // 记录一次阅读
-export async function recordReading() {
-  const userUuid = await getUserUuid();
+export async function recordReading(user: User) {
+  // const userUuid = await getUserUuid();
   
-  if (!userUuid) {
+  console.log("recordReading", user);
+  if (!user.uuid) {
     throw new Error("用户未登录");
   }
 
@@ -64,13 +67,13 @@ export async function recordReading() {
     };
   }
 
-  const todayCount = await getTodayReadingCount(userUuid);
+  const todayCount = await getTodayReadingCount(user.uuid);
   
   if (todayCount >= MAX_DAILY_READINGS) {
     throw new Error("今日解读次数已用完");
   }
 
-  const newCount = await updateReadingCount(userUuid);
+  const newCount = await updateReadingCount(user.uuid);
   const remainingCount = MAX_DAILY_READINGS - newCount;
 
   return {

@@ -26,7 +26,9 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
     useOneTapLogin();
   }
 
-  const { data: session } = useSession();
+  const { data: session } = useSession({
+    required: false,
+  });
   const { membership, isLoadingMembership, refreshMembership } = useMembership();
 
   const [theme, setTheme] = useState<string>("light");
