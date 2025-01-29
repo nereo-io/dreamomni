@@ -7,13 +7,14 @@ import {
   checkAndUpdateMembershipStatus,
   getMembershipHistory
 } from '@/models/membership';
+import { User } from '@/types/user';
 
 // 检查用户的会员状态
-export async function checkMembershipStatus(): Promise<{
+export async function checkMembershipStatus(user: User): Promise<{
   isMember: boolean;
   membership?: Membership;
 }> {
-  const userUuid = await getUserUuid();
+  const userUuid = user.uuid;
   if (!userUuid) {
     return { isMember: false };
   }

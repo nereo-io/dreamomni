@@ -10,7 +10,8 @@ const deepseek = createDeepSeek({
 });
 
 const MODEL_CONFIG = {
-  model: 'deepseek-reasoner',
+  // model: 'deepseek-reasoner',
+  model: 'deepseek-chat',
   maxTokens: 8000
 } as const;
 
@@ -37,11 +38,25 @@ export async function POST(req: Request) {
       // console.log('=== Initial Messages ===');
       // console.log(JSON.stringify(initialMessages, null, 2));
 
-      return streamText({
-        model: deepseek(MODEL_CONFIG.model),
-        messages: initialMessages,
-        maxTokens: MODEL_CONFIG.maxTokens
-      }).toDataStreamResponse();
+      try {
+        return streamText({
+          model: deepseek(MODEL_CONFIG.model),
+          messages: initialMessages,
+          maxTokens: MODEL_CONFIG.maxTokens
+        }).toDataStreamResponse();
+      } catch (error: any) {
+        console.error("DeepSeek API error (initial):", error);
+        return new Response(
+          JSON.stringify({ 
+            error: {
+              message: "AI服务暂时不可用",
+              code: 'AI_SERVICE_UNAVAILABLE',
+              details: error?.message || '未知错误'
+            }
+          }), 
+          { status: 500 }
+        );
+      }
     }
 
     const messageHistory = ChatService.buildMessageHistory(systemPrompt, messages);
@@ -49,19 +64,39 @@ export async function POST(req: Request) {
     // console.log('=== Processed Messages ===');
     // console.log(JSON.stringify(messageHistory, null, 2));
 
-    return streamText({
-      model: deepseek(MODEL_CONFIG.model),
-      messages: messageHistory,
-      maxTokens: MODEL_CONFIG.maxTokens
-    }).toDataStreamResponse();
+    try {
+      return streamText({
+        model: deepseek(MODEL_CONFIG.model),
+        messages: messageHistory,
+        maxTokens: MODEL_CONFIG.maxTokens
+      }).toDataStreamResponse();
+    } catch (error: any) {
+      console.error("DeepSeek API error (chat):", error);
+      return new Response(
+        JSON.stringify({ 
+          error: {
+            message: "AI服务暂时不可用",
+            code: 'AI_SERVICE_UNAVAILABLE',
+            details: error?.message || '未知错误',
+            context: {
+              model: MODEL_CONFIG.model,
+              maxTokens: MODEL_CONFIG.maxTokens
+            }
+          }
+        }), 
+        { status: 500 }
+      );
+    }
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("Chat API error:", error);
     return new Response(
       JSON.stringify({ 
         error: {
           message: "聊天服务暂时不可用",
-          code: 'CHAT_SERVICE_UNAVAILABLE'
+          code: 'CHAT_SERVICE_UNAVAILABLE',
+          details: error?.message || '未知错误',
+          timestamp: new Date().toISOString()
         }
       }), 
       { status: 500 }
