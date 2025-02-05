@@ -1,24 +1,29 @@
 // app/api/chat/route.ts
-import { ChatService } from '@/services/chat/chatService';
-import { ChatRequest } from '@/types/chat';
-import { getChatSystemPrompt } from '@/i18n/prompts/chat';
+import { ChatService } from "@/services/chat/chatService";
+import { ChatRequest } from "@/types/chat";
+import { getChatSystemPrompt } from "@/i18n/prompts/chat";
 import { createDeepSeek } from "@ai-sdk/deepseek";
 import { streamText } from "ai";
 
 const deepseek = createDeepSeek({
-  apiKey: process.env.DEEPSEEK_API_KEY ?? '',
+  apiKey: process.env.DEEPSEEK_API_KEY ?? "",
+});
+
+const deepseekARK = createDeepSeek({
+  apiKey: process.env.ARK_API_KEY ?? "",
+  baseURL: "https://ark.cn-beijing.volces.com/api/v3",
 });
 
 const MODEL_CONFIG = {
   // model: 'deepseek-reasoner',
-  model: 'deepseek-chat',
-  maxTokens: 8000
+  model: "deepseek-chat",
 } as const;
 
 export async function POST(req: Request) {
   try {
-    const { isInitializing, messages, customerId, locale } = await req.json() as ChatRequest;
-    
+    const { isInitializing, messages, customerId, locale } =
+      (await req.json()) as ChatRequest;
+
     // console.log('=== Chat Request Debug ===');
     // console.log('Is Initializing:', isInitializing);
     // console.log('Customer ID:', customerId);
@@ -30,9 +35,12 @@ export async function POST(req: Request) {
     const systemPrompt = getChatSystemPrompt(locale, baziAnalysis);
 
     if (isInitializing) {
-      const initialPrompt = await ChatService.buildInitialMessage(customerId, locale);
+      const initialPrompt = await ChatService.buildInitialMessage(
+        customerId,
+        locale
+      );
       const initialMessages = ChatService.buildMessageHistory(systemPrompt, [
-        { role: 'user', content: initialPrompt }
+        { role: "user", content: initialPrompt },
       ]);
 
       // console.log('=== Initial Messages ===');
@@ -40,65 +48,72 @@ export async function POST(req: Request) {
 
       try {
         return streamText({
-          model: deepseek(MODEL_CONFIG.model),
+          model: deepseekARK("ep-20250205155325-bsdb5"),
           messages: initialMessages,
-          maxTokens: MODEL_CONFIG.maxTokens
-        }).toDataStreamResponse();
+          maxTokens: 8000,
+        }).toDataStreamResponse({
+          sendReasoning: true,
+        });
       } catch (error: any) {
         console.error("DeepSeek API error (initial):", error);
         return new Response(
-          JSON.stringify({ 
+          JSON.stringify({
             error: {
               message: "AI服务暂时不可用",
-              code: 'AI_SERVICE_UNAVAILABLE',
-              details: error?.message || '未知错误'
-            }
-          }), 
+              code: "AI_SERVICE_UNAVAILABLE",
+              details: error?.message || "未知错误",
+            },
+          }),
           { status: 500 }
         );
       }
     }
 
-    const messageHistory = ChatService.buildMessageHistory(systemPrompt, messages);
-    
+    const messageHistory = ChatService.buildMessageHistory(
+      systemPrompt,
+      messages
+    );
+
     // console.log('=== Processed Messages ===');
     // console.log(JSON.stringify(messageHistory, null, 2));
 
     try {
       return streamText({
-        model: deepseek(MODEL_CONFIG.model),
+        // model: deepseek(MODEL_CONFIG.model),
+        model: deepseekARK("ep-20250205155325-bsdb5"),
         messages: messageHistory,
-        maxTokens: MODEL_CONFIG.maxTokens
-      }).toDataStreamResponse();
+        maxTokens: 8000,
+      }).toDataStreamResponse({
+        sendReasoning: true,
+      });
     } catch (error: any) {
       console.error("DeepSeek API error (chat):", error);
       return new Response(
-        JSON.stringify({ 
+        JSON.stringify({
           error: {
             message: "AI服务暂时不可用",
-            code: 'AI_SERVICE_UNAVAILABLE',
-            details: error?.message || '未知错误',
+            code: "AI_SERVICE_UNAVAILABLE",
+            details: error?.message || "未知错误",
             context: {
               model: MODEL_CONFIG.model,
-              maxTokens: MODEL_CONFIG.maxTokens
-            }
-          }
-        }), 
+              maxTokens: 8000,
+            },
+          },
+        }),
         { status: 500 }
       );
     }
-
   } catch (error: any) {
     console.error("Chat API error:", error);
     return new Response(
-      JSON.stringify({ 
+      JSON.stringify({
         error: {
           message: "聊天服务暂时不可用",
-          code: 'CHAT_SERVICE_UNAVAILABLE',
-          details: error?.message || '未知错误',
-          timestamp: new Date().toISOString()
-        }
-      }), 
+          code: "CHAT_SERVICE_UNAVAILABLE",
+          details: error?.message || "未知错误",
+          timestamp: new Date().toISOString(),
+        },
+      }),
       { status: 500 }
     );
   }
