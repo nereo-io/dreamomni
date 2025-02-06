@@ -189,33 +189,40 @@ export const authOptions: NextAuthConfig = {
       return session;
     },
     async jwt({ token, user, account }) {
-      if (user && user.email && account) {
-        const dbUser: User = {
-          uuid: getUuid(),
-          email: user.email,
-          nickname: user.name || "",
-          avatar_url: user.image || getDefaultAvatar(user.email),
-          signin_type: account.type,
-          signin_provider: account.provider,
-          signin_openid: account.providerAccountId,
-          created_at: getIsoTimestr(),
-          signin_ip: await getClientIp(),
-        };
-
-        try {
-          const savedUser = await saveUser(dbUser);
-          token.user = {
-            uuid: savedUser.uuid,
-            email: savedUser.email,
-            nickname: savedUser.nickname,
-            avatar_url: savedUser.avatar_url,
-            created_at: savedUser.created_at,
+      // Persist the OAuth access_token and or the user id to the token right after signin
+      try {
+        if (user && user.email && account) {
+          const dbUser: User = {
+            uuid: getUuid(),
+            email: user.email,
+            nickname: user.name || "",
+            avatar_url: user.image || "",
+            signin_type: account.type,
+            signin_provider: account.provider,
+            signin_openid: account.providerAccountId,
+            created_at: getIsoTimestr(),
+            signin_ip: await getClientIp(),
           };
-        } catch (e) {
-          console.error("Save user failed:", e);
+
+          try {
+            const savedUser = await saveUser(dbUser);
+
+            token.user = {
+              uuid: savedUser.uuid,
+              email: savedUser.email,
+              nickname: savedUser.nickname,
+              avatar_url: savedUser.avatar_url,
+              created_at: savedUser.created_at,
+            };
+          } catch (e) {
+            console.error("save user failed:", e);
+          }
         }
+        return token;
+      } catch (e) {
+        console.error("jwt callback error:", e);
+        return token;
       }
-      return token;
     },
   },
 };

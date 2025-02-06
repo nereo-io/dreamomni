@@ -40,3 +40,40 @@ CREATE TABLE orders (
     paid_email VARCHAR(255),
     paid_detail TEXT
 );
+
+
+CREATE TABLE apikeys (
+    id SERIAL PRIMARY KEY,
+    api_key VARCHAR(255) UNIQUE NOT NULL,
+    title VARCHAR(100),
+    user_uuid VARCHAR(255) NOT NULL,
+    created_at timestamptz,
+    status VARCHAR(50)
+);
+
+CREATE TABLE credits (
+    id SERIAL PRIMARY KEY,
+    trans_no VARCHAR(255) UNIQUE NOT NULL,
+    created_at timestamptz,
+    user_uuid VARCHAR(255) NOT NULL,
+    trans_type VARCHAR(50) NOT NULL,
+    credits INT NOT NULL,
+    order_no VARCHAR(255),
+    expired_at timestamptz
+);
+
+CREATE TABLE posts (
+    id SERIAL PRIMARY KEY,
+    uuid VARCHAR(255) UNIQUE NOT NULL,
+    slug VARCHAR(255),
+    title VARCHAR(255),
+    description TEXT,
+    content TEXT,
+    created_at timestamptz,
+    updated_at timestamptz,
+    status VARCHAR(50),
+    cover_url VARCHAR(255),
+    author_name VARCHAR(255),
+    author_avatar_url VARCHAR(255),
+    locale VARCHAR(50)
+);

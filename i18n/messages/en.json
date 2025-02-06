@@ -75,5 +75,39 @@
     "no_membership": "No Active",
     "manage_subscription": "Manage Subscription",
     "loading": "Loading..."
+  },
+  "my_credits": {
+    "title": "My Credits",
+    "left_tip": "left credits: {left_credits}",
+    "no_credits": "No credits records",
+    "recharge": "Recharge",
+    "table": {
+      "trans_no": "Trans No",
+      "trans_type": "Trans Type",
+      "credits": "Credits",
+      "updated_at": "Updated At",
+      "status": "Status"
+    }
+  },
+  "api_keys": {
+    "title": "API Keys",
+    "tip": "Please keep your apikey safe to avoid leaks",
+    "no_api_keys": "No API Keys",
+    "create_api_key": "Create API Key",
+    "table": {
+      "name": "Name",
+      "key": "Key",
+      "created_at": "Created At"
+    },
+    "form": {
+      "name": "Name",
+      "name_placeholder": "API Key Name",
+      "submit": "Submit"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "News, resources, and updates about ShipAny",
+    "read_more_text": "Read More"
   }
 }

@@ -10,14 +10,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { FormField as FormFieldType, FormSubmit } from "@/types/blocks/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import { Button } from "@/components/ui/button";
-import { Button as ButtonType } from "@/types/blocks/base";
 import Icon from "@/components/icon";
 import { Input } from "@/components/ui/input";
 import { Loader } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -70,20 +78,28 @@ const generateFormSchema = (fields: FormFieldType[]) => {
 
 export default function ({
   fields,
+  data,
+  passby,
   submit,
   loading,
 }: {
-  fields: FormFieldType[];
+  fields?: FormFieldType[];
+  data?: any;
+  passby?: any;
   submit?: FormSubmit;
   loading?: boolean;
 }) {
-  const FormSchema = generateFormSchema(fields);
+  if (!fields) {
+    fields = [];
+  }
 
+  const router = useRouter();
+  const FormSchema = generateFormSchema(fields);
   const defaultValues: Record<string, string> = {};
 
   fields.forEach((field) => {
     if (field.name) {
-      defaultValues[field.name] = field.value || "";
+      defaultValues[field.name] = data?.[field.name] || field.value || "";
     }
   });
 
@@ -92,11 +108,43 @@ export default function ({
     defaultValues,
   });
 
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    if (!submit?.handler) return;
+
+    try {
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+
+      const res = await submit.handler(formData, passby);
+
+      if (!res) {
+        throw new Error("No response received from server");
+      }
+
+      if (res.message) {
+        if (res.status === "success") {
+          toast.success(res.message);
+        } else {
+          toast.error(res.message);
+        }
+      }
+
+      if (res.redirect_url) {
+        router.push(res.redirect_url);
+      }
+    } catch (err: any) {
+      console.log("submit form error", err);
+      toast.error(err.message || "submit form failed");
+    }
+  }
+
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(submit?.handler || (() => {}))}
-        className="w-full md:w-2/3 lg:w-1/3 space-y-6"
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full md:w-1/2 lg:w-1/3 space-y-6 px-2 pb-8"
       >
         {fields.map((item, index) => {
           return (
@@ -113,13 +161,43 @@ export default function ({
                     )}
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      placeholder={item.placeholder}
-                      {...item.attributes}
-                    />
+                    {item.type === "textarea" ? (
+                      <Textarea
+                        {...field}
+                        placeholder={item.placeholder}
+                        {...item.attributes}
+                      />
+                    ) : item.type === "select" ? (
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        {...item.attributes}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder={item.placeholder} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {item.options?.map((option: any) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.title}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <Input
+                        {...field}
+                        type={item.type || "text"}
+                        placeholder={item.placeholder}
+                        {...item.attributes}
+                      />
+                    )}
                   </FormControl>
-                  <FormDescription>{item.tip}</FormDescription>
+                  {item.tip && (
+                    <FormDescription
+                      dangerouslySetInnerHTML={{ __html: item.tip }}
+                    />
+                  )}
                   <FormMessage />
                 </FormItem>
               )}

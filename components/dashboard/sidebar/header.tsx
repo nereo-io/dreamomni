@@ -4,13 +4,17 @@ import { SidebarMenu, SidebarMenuItem } from "@/components/ui/sidebar";
 
 import { Brand as BrandType } from "@/types/blocks/base";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 export default function ({ brand }: { brand: BrandType }) {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-          <div className="flex items-center gap-1 py-2">
+          <Link
+            href={brand?.url || "javascript:void(0)"}
+            className="flex items-center gap-1 py-2"
+          >
             <div className="flex aspect-square size-8 items-center justify-center rounded-lg text-sidebar-primary-foreground">
               <img
                 src={brand?.logo?.src}
@@ -22,7 +26,7 @@ export default function ({ brand }: { brand: BrandType }) {
               <span className="truncate font-medium">{brand?.title}</span>
             </div>
             {/* {open && <SidebarTrigger />} */}
-          </div>
+          </Link>
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>

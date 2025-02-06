@@ -7,4 +7,6 @@ export interface Slot {
   crumb?: Crumb;
   toolbar?: Toolbar;
   loading?: boolean;
+  data?: any;
+  passby?: any;
 }

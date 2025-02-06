@@ -29,7 +29,10 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   const { data: session } = useSession();
   const { membership, isLoadingMembership, refreshMembership } = useMembership();
 
-  const [theme, setTheme] = useState<string>("light");
+  const [theme, setTheme] = useState<string>(() => {
+    return process.env.NEXT_PUBLIC_DEFAULT_THEME || "";
+  });
+
   const [showSignModal, setShowSignModal] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
 

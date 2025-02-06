@@ -15,24 +15,32 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
 
   useEffect(() => {
     const themeInCache = cacheGet(CacheKey.Theme);
-    if (themeInCache && ["dark", "light"].includes(themeInCache)) {
-      setTheme(themeInCache);
-      return;
+    if (themeInCache) {
+      // theme setted
+      if (["dark", "light"].includes(themeInCache)) {
+        setTheme(themeInCache);
+        return;
+      }
+    } else {
+      // theme not set
+      const defaultTheme = process.env.NEXT_PUBLIC_DEFAULT_THEME;
+      if (defaultTheme && ["dark", "light"].includes(defaultTheme)) {
+        setTheme(defaultTheme);
+        return;
+      }
     }
 
-    if (!themeInCache || themeInCache === "system") {
-      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    setTheme(mediaQuery.matches ? "dark" : "light");
+
+    const handleChange = () => {
       setTheme(mediaQuery.matches ? "dark" : "light");
+    };
+    mediaQuery.addListener(handleChange);
 
-      const handleChange = () => {
-        setTheme(mediaQuery.matches ? "dark" : "light");
-      };
-      mediaQuery.addListener(handleChange);
-
-      return () => {
-        mediaQuery.removeListener(handleChange);
-      };
-    }
+    return () => {
+      mediaQuery.removeListener(handleChange);
+    };
   }, []);
 
   return (

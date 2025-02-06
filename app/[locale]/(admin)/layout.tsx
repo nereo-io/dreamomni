@@ -1,4 +1,5 @@
 import DashboardLayout from "@/components/dashboard/layout";
+import Empty from "@/components/blocks/empty";
 import { ReactNode } from "react";
 import { Sidebar } from "@/types/blocks/sidebar";
 import { getUserInfo } from "@/services/user";
@@ -16,11 +17,7 @@ export default async function AdminLayout({
 
   const adminEmails = process.env.ADMIN_EMAILS?.split(",");
   if (!adminEmails?.includes(userInfo?.email)) {
-    return (
-      <div className="w-screen h-screen flex items-center justify-center">
-        No access
-      </div>
-    );
+    return <Empty message="No access" />;
   }
 
   const sidebar: Sidebar = {
@@ -30,6 +27,7 @@ export default async function AdminLayout({
         src: "/logo.png",
         alt: "ShipAny",
       },
+      url: "/admin",
     },
     nav: {
       items: [
@@ -48,6 +46,11 @@ export default async function AdminLayout({
               url: "/admin/paid-orders",
             },
           ],
+        },
+        {
+          title: "Posts",
+          url: "/admin/posts",
+          icon: "RiArticleLine",
         },
       ],
     },

@@ -1,7 +1,9 @@
+import { CreditsTransType, increaseCredits } from "./credit";
 import { findOrderByOrderNo, updateOrderStatus } from "@/models/order";
 import { createOrUpdateMembership } from "./membership";
+import { getIsoTimestr, getOneYearLaterTimestr } from "@/lib/time";
+
 import Stripe from "stripe";
-import { getIsoTimestr } from "@/lib/time";
 
 export async function handleOrderSession(session: Stripe.Checkout.Session) {
   try {
@@ -38,6 +40,16 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
     // 更新会员状态 - 目前只支持月度会员
     console.log("Updating membership for user:", user_uuid);
     await createOrUpdateMembership(user_uuid, 'monthly');
+    if (order.user_uuid && order.credits > 0) {
+      // increase credits for paied order
+      await increaseCredits({
+        user_uuid: order.user_uuid,
+        trans_type: CreditsTransType.OrderPay,
+        credits: order.credits,
+        expired_at: order.expired_at,
+        order_no: order_no,
+      });
+    }
 
     console.log(
       "handle order session successed: ",

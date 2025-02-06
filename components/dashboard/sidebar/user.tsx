@@ -36,7 +36,7 @@ import { useTranslations } from "next-intl";
 export default function () {
   const t = useTranslations();
 
-  const { user } = useAppContext();
+  const { user, setShowSignModal } = useAppContext();
   const { isMobile, open } = useSidebar();
 
   return (
@@ -109,9 +109,9 @@ export default function () {
         <>
           {open ? (
             <div className="flex justify-center items-center h-full px-4 py-4">
-              {/* <Button className="w-full" onClick={() => setShowSignModal(true)}>
-                Sign In
-              </Button> */}
+              <Button className="w-full" onClick={() => setShowSignModal(true)}>
+                {t("user.sign_in")}
+              </Button>
             </div>
           ) : (
             <SidebarMenu>

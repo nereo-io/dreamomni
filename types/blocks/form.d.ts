@@ -11,8 +11,21 @@ type ValidationRule = {
 export interface FormField {
   name?: string;
   title?: string;
-  type?: "text" | "textarea" | "number" | "email" | "password" | "select";
+  type?:
+    | "text"
+    | "textarea"
+    | "number"
+    | "email"
+    | "password"
+    | "select"
+    | "url"
+    | "code_editor"
+    | "markdown_editor";
   placeholder?: string;
+  options?: {
+    title: string;
+    value: string;
+  }[];
   value?: string;
   tip?: string;
   attributes?: Record<string, any>;
@@ -21,7 +34,18 @@ export interface FormField {
 
 export interface FormSubmit {
   button?: Button;
-  handler?: (data: any) => any;
+  handler?: (
+    data: FormData,
+    passby?: any
+  ) => Promise<
+    | {
+        status: "success" | "error";
+        message: string;
+        redirect_url?: string;
+      }
+    | undefined
+    | void
+  >;
 }
 
 export interface Form {

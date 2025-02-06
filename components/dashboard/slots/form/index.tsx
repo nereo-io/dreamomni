@@ -11,6 +11,8 @@ export default function ({ ...form }: FormSlotType) {
         <div className="overflow-x-auto">
           <FormBlock
             fields={form.fields}
+            data={form.data}
+            passby={form.passby}
             submit={form.submit}
             loading={form.loading}
           />

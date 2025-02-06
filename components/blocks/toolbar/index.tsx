@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Toolbar({ items }: { items?: ButtonType[] }) {
   return (
-    <div className="flex space-x-4">
+    <div className="flex space-x-4 mb-8">
       {items?.map((item, idx) => (
         <Button
           key={idx}

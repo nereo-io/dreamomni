@@ -13,3 +13,11 @@ export const getMillisecond = () => {
 
   return time;
 };
+
+export const getOneYearLaterTimestr = () => {
+  const currentDate = new Date();
+  const oneYearLater = new Date(currentDate);
+  oneYearLater.setFullYear(currentDate.getFullYear() + 1);
+
+  return oneYearLater.toISOString();
+};

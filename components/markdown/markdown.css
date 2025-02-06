@@ -3,7 +3,6 @@
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   line-height: 1.6;
-  color: #333;
 }
 
 .markdown h1,
@@ -58,8 +57,9 @@
 
 .markdown ul,
 .markdown ol {
-  padding-left: 2em;
+  padding-left: 1em;
   margin-bottom: 16px;
+  list-style-type: square;
 }
 
 .markdown img {
