@@ -3,10 +3,10 @@
   "theme": "light",
   "header": {
     "brand": {
-      "title": "LuckBox",
+      "title": "BaziAI",
       "logo": {
         "src": "/logo.svg",
-        "alt": "LuckBox"
+        "alt": "BaziAI"
       },
       "url": "/"
     },
@@ -16,21 +16,6 @@
           "title": "Career",
           "url": "/career",
           "icon": "RiBriefcaseLine"
-        },
-        {
-          "title": "Love",
-          "url": "/",
-          "icon": "RiHeartLine"
-        },
-        {
-          "title": "Wealth",
-          "url": "/",
-          "icon": "RiMoneyDollarCircleLine"
-        },
-        {
-          "title": "Life",
-          "url": "/",
-          "icon": "RiLeafLine"
         }
       ]
     },
@@ -41,11 +26,11 @@
     "show_locale": true
   },
   "hero": {
-    "title": "Free AI-Powered Fortune Guide for Life's Decisions",
-    "highlight_text": "Fortune Guide",
+    "title": "Free AI-Powered Bazi Analysis for Life's Decisions",
+    "highlight_text": "Bazi Analysis",
     "announcement": {
       "label": "New",
-      "title": "✨ AI Fortune Reading for Career Available Now",
+      "title": "✨ AI Bazi Reading for Career Available Now",
       "url": "/career"
     },
     "show_happy_users": false,
@@ -53,81 +38,81 @@
   },
   "introduce": {
     "name": "introduce",
-    "title": "Your AI Fortune Guide for Life Success",
+    "title": "Your AI Bazi Analysis for Life Success",
     "label": "Features",
-    "description": "Experience the power of AI fortune analysis combined with ancient Eastern wisdom for accurate life predictions",
+    "description": "Experience the power of AI Bazi analysis combined with ancient Eastern wisdom for accurate life predictions",
     "image": {
       "src": "/imgs/services/introduce.png"
     },
     "items": [
       {
-        "title": "AI Fortune Analysis",
-        "description": "Advanced AI system provides data-driven fortune insights and predictions",
+        "title": "AI Bazi Analysis",
+        "description": "Advanced AI system provides data-driven Bazi insights and predictions",
         "icon": "RiRobot2Line"
       },
       {
-        "title": "Eastern Fortune Wisdom",
-        "description": "Traditional fortune-telling methods enhanced by AI technology",
+        "title": "Eastern Bazi Wisdom",
+        "description": "Traditional Bazi-telling methods enhanced by AI technology",
         "icon": "RiCompass3Line"
       },
       {
-        "title": "24/7 Fortune Access",
-        "description": "Your AI fortune guide is always ready with instant readings",
+        "title": "24/7 Bazi Access",
+        "description": "Your AI Bazi guide is always ready with instant readings",
         "icon": "Ri24HoursLine"
       }
     ]
   },
   "feature": {
     "name": "feature",
-    "title": "AI-Powered Fortune Reading Benefits",
+    "title": "AI-Powered Bazi Reading Benefits",
     "label": "Benefits",
-    "description": "Discover how our AI fortune technology provides accurate insights for your life journey",
+    "description": "Discover how our AI Bazi technology provides accurate insights for your life journey",
     "items": [
       {
-        "title": "Advanced AI Fortune Analysis",
-        "description": "Our sophisticated AI system analyzes your unique fortune patterns to provide actionable insights for career, relationships, and life decisions.",
+        "title": "Advanced AI Bazi Analysis",
+        "description": "Our sophisticated AI system analyzes your unique Bazi patterns to provide actionable insights for career, relationships, and life decisions.",
         "icon": "RiRobot2Line"
       },
       {
-        "title": "Traditional Fortune Wisdom",
-        "description": "Access centuries of fortune-telling knowledge, enhanced by AI technology for deeper understanding of your destiny.",
+        "title": "Traditional Bazi Wisdom",
+        "description": "Access centuries of Bazi-telling knowledge, enhanced by AI technology for deeper understanding of your destiny.",
         "icon": "RiCompass3Line"
       },
       {
-        "title": "Instant Fortune Access",
-        "description": "Get immediate fortune readings anytime. Your AI fortune advisor is always ready to provide guidance when you need it.",
+        "title": "Instant Bazi Access",
+        "description": "Get immediate Bazi readings anytime. Your AI Bazi advisor is always ready to provide guidance when you need it.",
         "icon": "Ri24HoursLine"
       },
       {
-        "title": "Complete Fortune Analysis",
-        "description": "AI-powered insights covering career fortune, love fortune, wealth fortune, and life path predictions.",
+        "title": "Complete Bazi Analysis",
+        "description": "AI-powered insights covering career Bazi, love Bazi, wealth Bazi, and life path predictions.",
         "icon": "RiBookOpenLine"
       },
       {
         "title": "AI Interactive Experience",
-        "description": "Engage with our AI fortune system through follow-up questions for deeper fortune insights.",
+        "description": "Engage with our AI Bazi system through follow-up questions for deeper Bazi insights.",
         "icon": "RiDiscussLine"
       },
       {
-        "title": "Fortune Reading Plans",
-        "description": "Choose from various fortune reading plans, from free basic readings to unlimited premium AI fortune analysis.",
+        "title": "Bazi Reading Plans",
+        "description": "Choose from various Bazi reading plans, from free basic readings to unlimited premium AI Bazi analysis.",
         "icon": "RiVipCrownLine"
       }
     ]
   },
   "showcase": {
     "name": "readings",
-    "title": "AI Fortune Reading Services",
-    "description": "Choose your personalized fortune reading path",
+    "title": "AI Bazi Reading Services",
+    "description": "Choose your personalized Bazi reading path",
     "items": [
       {
-        "title": "Career Fortune",
-        "description": "AI-powered career fortune reading and timing guidance",
+        "title": "Career Bazi",
+        "description": "AI-powered career Bazi reading and timing guidance",
         "url": "/career",
         "target": "_self",
         "label": "Available Now",
         "button": {
-          "title": "Get Fortune Reading",
+          "title": "Get Bazi Reading",
           "url": "/career",
           "variant": "default"
         },
@@ -136,12 +121,12 @@
         }
       },
       {
-        "title": "Love Fortune",
-        "description": "AI analysis of your love life fortune and relationships (Coming Soon)",
+        "title": "Love Bazi",
+        "description": "AI analysis of your love life Bazi and relationships (Coming Soon)",
         "url": "/",
         "target": "_self",
         "button": {
-          "title": "Join Fortune Waitlist",
+          "title": "Join Bazi Waitlist",
           "url": "/waitlist/love",
           "variant": "outline"
         },
@@ -150,12 +135,12 @@
         }
       },
       {
-        "title": "Wealth Fortune",
-        "description": "AI-powered wealth fortune guidance and timing (Coming Soon)",
+        "title": "Wealth Bazi",
+        "description": "AI-powered wealth Bazi guidance and timing (Coming Soon)",
         "url": "/",
         "target": "_self",
         "button": {
-          "title": "Join Fortune Waitlist",
+          "title": "Join Bazi Waitlist",
           "url": "/waitlist/wealth",
           "variant": "outline"
         },
@@ -164,12 +149,12 @@
         }
       },
       {
-        "title": "Life Fortune",
-        "description": "Complete AI fortune analysis for your life path (Coming Soon)",
+        "title": "Life Bazi",
+        "description": "Complete AI Bazi analysis for your life path (Coming Soon)",
         "url": "/",
         "target": "_self",
         "button": {
-          "title": "Join Fortune Waitlist",
+          "title": "Join Bazi Waitlist",
           "url": "/waitlist/life",
           "variant": "outline"
         },
@@ -182,14 +167,14 @@
   "testimonial": {
     "name": "testimonial",
     "label": "Testimonials",
-    "title": "What Our AI Fortune Reading Users Say",
-    "description": "Real experiences from people who found clarity through our AI-powered fortune readings",
+    "title": "What Our AI Bazi Reading Users Say",
+    "description": "Real experiences from people who found clarity through our AI-powered Bazi readings",
     "icon": "RiUserHeartLine",
     "items": [
       {
         "title": "Sarah Chen",
         "label": "Tech Professional",
-        "description": "The AI fortune reading was incredibly accurate! The AI system analyzed my career path and provided specific insights about my potential job transition. Following the AI-guided advice, I successfully switched from marketing to product management with a 30% salary increase. The AI timing prediction was spot-on!",
+        "description": "The AI Bazi reading was incredibly accurate! The AI system analyzed my career path and provided specific insights about my potential job transition. Following the AI-guided advice, I successfully switched from marketing to product management with a 30% salary increase. The AI timing prediction was spot-on!",
         "image": {
           "src": "/imgs/users/1.png"
         }
@@ -213,7 +198,7 @@
       {
         "title": "David Lee",
         "label": "Business Owner",
-        "description": "The AI integration with traditional fortune analysis is revolutionary! The AI helped me understand business cycles and optimal timing for expansion. The AI predictions about challenging periods helped me prepare and adapt strategies. It's like having an AI strategic advisor available 24/7.",
+        "description": "The AI integration with traditional Bazi analysis is revolutionary! The AI helped me understand business cycles and optimal timing for expansion. The AI predictions about challenging periods helped me prepare and adapt strategies. It's like having an AI strategic advisor available 24/7.",
         "image": {
           "src": "/imgs/users/4.png"
         }
@@ -221,7 +206,7 @@
       {
         "title": "Lisa Wang",
         "label": "Life Coach",
-        "description": "The AI destiny reading provided deep insights into my life path. The AI system identified my natural talents and potential challenges with remarkable accuracy. I've used these AI insights to guide my career transition into life coaching, and now I recommend AI fortune readings to my clients.",
+        "description": "The AI destiny reading provided deep insights into my life path. The AI system identified my natural talents and potential challenges with remarkable accuracy. I've used these AI insights to guide my career transition into life coaching, and now I recommend AI Bazi readings to my clients.",
         "image": {
           "src": "/imgs/users/5.png"
         }
@@ -229,7 +214,7 @@
       {
         "title": "James Wilson",
         "label": "Startup Founder",
-        "description": "The AI fortune system has become my secret weapon for decision-making. From choosing business partners to timing major launches, the AI insights have been invaluable. The combination of AI analysis and Eastern wisdom provides a unique perspective that helped my startup grow by 200% this year.",
+        "description": "The AI Bazi system has become my secret weapon for decision-making. From choosing business partners to timing major launches, the AI insights have been invaluable. The combination of AI analysis and Eastern wisdom provides a unique perspective that helped my startup grow by 200% this year.",
         "image": {
           "src": "/imgs/users/6.png"
         }
@@ -239,18 +224,18 @@
   "pricing": {
     "name": "pricing",
     "label": "Pricing",
-    "title": "AI Fortune Reading Plans",
-    "description": "Select your AI-powered fortune reading plan",
+    "title": "AI Bazi Reading Plans",
+    "description": "Select your AI-powered Bazi reading plan",
     "groups": [],
     "items": [
       {
         "title": "Free AI Reading",
-        "description": "Start your AI fortune reading journey",
+        "description": "Start your AI Bazi reading journey",
         "features_title": "Includes",
         "features": [
-          "3 AI fortune readings per day",
-          "Basic AI fortune analysis",
-          "Essential AI guidance",
+          "3 AI Bazi readings per day",
+          "Basic AI Bazi analysis",
+          "Essential life guidance",
           "Access to all AI reading types"
         ],
         "interval": "month",
@@ -272,7 +257,7 @@
         "label": "Popular",
         "features_title": "Everything in Free, plus",
         "features": [
-          "Unlimited AI fortune readings",
+          "Unlimited AI Bazi readings",
           "Advanced AI chat system",
           "AI-powered follow-up analysis"
         ],
@@ -290,7 +275,7 @@
           "icon": "RiVipCrownLine"
         },
         "product_id": "pro",
-        "product_name": "LuckBox AI Pro",
+        "product_name": "BaziAI AI Pro",
         "credits": 1,
         "valid_months": 1
       }
@@ -300,62 +285,62 @@
     "name": "faq",
     "label": "FAQ",
     "title": "Frequently Asked Questions",
-    "description": "Learn more about how LuckBox works",
+    "description": "Learn more about how BaziAI works",
     "items": [
       {
-        "title": "What is LuckBox and how does it work?",
-        "description": "LuckBox is an innovative AI-powered fortune guidance platform that combines traditional Eastern wisdom with cutting-edge technology. Think of it as your personal advisor available 24/7, offering insights for career decisions, relationship guidance, and life choices. Our platform analyzes your birth information using both ancient Eastern methodologies and advanced AI to provide personalized, actionable advice."
+        "title": "What is BaziAI and how does it work?",
+        "description": "BaziAI is an innovative AI-powered Bazi guidance platform that combines traditional Eastern wisdom with cutting-edge technology. Think of it as your personal advisor available 24/7, offering insights for career decisions, relationship guidance, and life choices. Our platform analyzes your birth information using both ancient Eastern methodologies and advanced AI to provide personalized, actionable advice."
       },
       {
-        "title": "How does LuckBox generate accurate readings?",
-        "description": "LuckBox creates accurate readings through a unique dual-approach system. When you input your birth information, our sophisticated AI analyzes it using traditional Eastern astrology principles combined with modern data analysis. This blend of ancient wisdom and technology ensures comprehensive, personalized insights that become more refined over time through continuous learning from user feedback."
+        "title": "How does BaziAI generate accurate readings?",
+        "description": "BaziAI creates accurate readings through a unique dual-approach system. When you input your birth information, our sophisticated AI analyzes it using traditional Eastern Bazi principles combined with modern data analysis. This blend of ancient wisdom and technology ensures comprehensive, personalized insights that become more refined over time through continuous learning from user feedback."
       },
       {
-        "title": "What types of readings does LuckBox offer?",
-        "description": "LuckBox provides a comprehensive range of readings covering all major life aspects: career guidance, love and relationships, wealth opportunities, personality analysis, and health insights. Each reading type is specifically designed to offer deep insights and practical advice for your unique situation, helping you make informed decisions about your future."
+        "title": "What types of readings does BaziAI offer?",
+        "description": "BaziAI provides a comprehensive range of readings covering all major life aspects: career guidance, love and relationships, wealth opportunities, personality analysis, and health insights. Each reading type is specifically designed to offer deep insights and practical advice for your unique situation, helping you make informed decisions about your future."
       },
       {
-        "title": "Can I try LuckBox for free?",
-        "description": "Yes! LuckBox offers a free plan that includes 3 readings per day, basic fortune analysis, essential life guidance, and access to all reading types. This allows you to experience our platform's capabilities and understand how our AI-powered insights can benefit your life decisions before choosing a premium plan."
+        "title": "Can I try BaziAI for free?",
+        "description": "Yes! BaziAI offers a free plan that includes 3 readings per day, basic Bazi analysis, essential life guidance, and access to all reading types. This allows you to experience our platform's capabilities and understand how our AI-powered insights can benefit your life decisions before choosing a premium plan."
       },
       {
-        "title": "What makes LuckBox different from traditional fortune telling?",
-        "description": "Unlike traditional fortune telling, LuckBox provides data-driven, actionable insights powered by AI technology. We don't just predict what might happen - we offer clear, practical guidance based on both Eastern wisdom and modern analytical methods. Plus, you can access your readings anytime, track predictions, and receive regular updates as circumstances change."
+        "title": "What makes BaziAI different from traditional Bazi telling?",
+        "description": "Unlike traditional Bazi telling, BaziAI provides data-driven, actionable insights powered by AI technology. We don't just predict what might happen - we offer clear, practical guidance based on both Eastern wisdom and modern analytical methods. Plus, you can access your readings anytime, track predictions, and receive regular updates as circumstances change."
       },
       {
-        "title": "How can I get the most out of my LuckBox readings?",
-        "description": "To maximize your LuckBox experience, we recommend starting with specific questions about areas of your life you want to explore. Premium users can ask follow-up questions for deeper insights, track their readings over time, and use our interactive AI chat feature for clarification. Regular readings help you stay aligned with your life's optimal path."
+        "title": "How can I get the most out of my BaziAI readings?",
+        "description": "To maximize your BaziAI experience, we recommend starting with specific questions about areas of your life you want to explore. Premium users can ask follow-up questions for deeper insights, track their readings over time, and use our interactive AI chat feature for clarification. Regular readings help you stay aligned with your life's optimal path."
       },
       {
-        "title": "Is my personal information secure with LuckBox?",
-        "description": "Absolutely. LuckBox takes data privacy seriously and employs industry-standard encryption to protect your personal information. We only use your birth information to generate accurate readings and never share your data with third parties. Your trust and privacy are our top priorities."
+        "title": "Is my personal information secure with BaziAI?",
+        "description": "Absolutely. BaziAI takes data privacy seriously and employs industry-standard encryption to protect your personal information. We only use your birth information to generate accurate readings and never share your data with third parties. Your trust and privacy are our top priorities."
       },
       {
-        "title": "How often should I consult LuckBox?",
-        "description": "While you can access LuckBox 24/7, we recommend regular consultations - perhaps weekly or monthly - to stay aligned with your life's path. Important decisions or life changes are ideal times for additional readings. Premium users have unlimited access and can consult whenever they need guidance."
+        "title": "How often should I consult BaziAI?",
+        "description": "While you can access BaziAI 24/7, we recommend regular consultations - perhaps weekly or monthly - to stay aligned with your life's path. Important decisions or life changes are ideal times for additional readings. Premium users have unlimited access and can consult whenever they need guidance."
       },
       {
-        "title": "Can LuckBox help with specific life decisions?",
-        "description": "Yes! Whether you're considering a career change, exploring relationship possibilities, or making important life choices, LuckBox provides targeted insights and practical guidance. Our AI analyzes your unique circumstances to offer personalized advice that helps you make informed decisions."
+        "title": "Can BaziAI help with specific life decisions?",
+        "description": "Yes! Whether you're considering a career change, exploring relationship possibilities, or making important life choices, BaziAI provides targeted insights and practical guidance. Our AI analyzes your unique circumstances to offer personalized advice that helps you make informed decisions."
       },
       {
         "title": "What's included in the Premium plan?",
-        "description": "The Premium plan offers unlimited readings, interactive AI chat capabilities, follow-up questions, and deeper insights across all reading types. Premium users enjoy priority access to new features, comprehensive analysis, and the ability to track their fortune patterns over time for more informed decision-making."
+        "description": "The Premium plan offers unlimited readings, interactive AI chat capabilities, follow-up questions, and deeper insights across all reading types. Premium users enjoy priority access to new features, comprehensive analysis, and the ability to track their Bazi patterns over time for more informed decision-making."
       }
     ]
   },
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "LuckBox",
-      "description": "Your AI-powered fortune guide combining Eastern wisdom with modern technology for life's important decisions.",
+      "title": "BaziAI",
+      "description": "Your AI-powered Bazi analysis platform combining Eastern wisdom with modern technology for life's important decisions.",
       "logo": {
         "src": "/logo.svg",
-        "alt": "LuckBox"
+        "alt": "BaziAI"
       },
       "url": "/"
     },
-    "copyright": " 2024 • LuckBox All rights reserved.",
+    "copyright": " 2024 • BaziAI All rights reserved.",
     "nav": {
       "items": [
         {
