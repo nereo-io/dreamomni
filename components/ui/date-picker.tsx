@@ -29,7 +29,7 @@ export function DatePicker({
   // Generate arrays for options
   const years = Array.from(
     { length: 100 },
-    (_, i) => new Date().getFullYear() - 117 + i
+    (_, i) => new Date().getFullYear() - 99 + i
   )
   const months = [
     'January', 'February', 'March', 'April', 'May', 'June',
