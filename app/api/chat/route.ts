@@ -14,6 +14,12 @@ const deepseekARK = createDeepSeek({
   baseURL: "https://ark.cn-beijing.volces.com/api/v3",
 });
 
+const deepseekALI = createDeepSeek({
+  apiKey: process.env.ALI_API_KEY ?? "",
+  baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1",
+});
+
+
 const MODEL_CONFIG = {
   // model: 'deepseek-reasoner',
   model: "deepseek-chat",
@@ -35,24 +41,25 @@ export async function POST(req: Request) {
     const systemPrompt = getChatSystemPrompt(locale, baziAnalysis);
 
     if (isInitializing) {
-      const initialPrompt = await ChatService.buildInitialMessage(
+      const initialMessage = await ChatService.buildInitialMessage(
         customerId,
         locale
       );
       const initialMessages = ChatService.buildMessageHistory(systemPrompt, [
-        { role: "user", content: initialPrompt },
+        { role: "user", content: initialMessage },
       ]);
 
-      // console.log('=== Initial Messages ===');
-      // console.log(JSON.stringify(initialMessages, null, 2));
+      console.log('=== Initial Messages ===');
+      console.log(JSON.stringify(initialMessages, null, 2));
 
       try {
         return streamText({
           model: deepseekARK("ep-20250205155325-bsdb5"),
+          // model: deepseekALI('deepseek-r1'),
           messages: initialMessages,
           maxTokens: 8000,
         }).toDataStreamResponse({
-          sendReasoning: true,
+          // sendReasoning: true,
         });
       } catch (error: any) {
         console.error("DeepSeek API error (initial):", error);
@@ -81,10 +88,11 @@ export async function POST(req: Request) {
       return streamText({
         // model: deepseek(MODEL_CONFIG.model),
         model: deepseekARK("ep-20250205155325-bsdb5"),
+        // model: deepseekALI('deepseek-r1'),
         messages: messageHistory,
         maxTokens: 8000,
       }).toDataStreamResponse({
-        sendReasoning: true,
+        // sendReasoning: true,
       });
     } catch (error: any) {
       console.error("DeepSeek API error (chat):", error);

@@ -10,8 +10,10 @@ import { ChatPage } from "@/types/pages/chat";
 import { cn } from "@/lib/utils";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import LoadingAnimation from "./LoadingAnimation";
+
 
 interface AiReader {
   name: string;
@@ -61,9 +63,20 @@ export default function ChatInterface({
     },
   });
 
+  const searchParams = useSearchParams();
+  
   useEffect(() => {
-    append({ role: "user", content: "大师请回答我的问题" });
-  }, []);
+    const encodedQuestion = searchParams.get('q');
+    if (encodedQuestion) {
+      try {
+        // 先解码Base64，再解码URL编码
+        const decodedQuestion = decodeURIComponent(atob(encodedQuestion));
+        append({ role: "user", content: decodedQuestion });
+      } catch (error) {
+        console.error('Failed to decode question:', error);
+      }
+    }
+  }, [searchParams]);
 
   // 处理消息提交
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -80,13 +93,13 @@ export default function ChatInterface({
   };
 
   return (
-    <div className="relative h-full flex flex-col">
+    <div className="relative h-full flex flex-col bg-background text-foreground">
       {/* 顶部 AI Reader 信息层 */}
       <div className="flex-none">
         <div className="container max-w-6xl mx-auto px-4 pt-4">
-          <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-gray-100 p-3 md:p-4">
+          <div className="bg-card text-card-foreground backdrop-blur-sm rounded-lg shadow-sm border border-border p-3 md:p-4">
             <div className="flex items-center gap-3 md:gap-4">
-              <div className="w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-[#e9d5a1] flex-shrink-0">
+              <div className="w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-primary flex-shrink-0">
                 <img
                   src={aiReader.avatar}
                   alt={aiReader.name}
@@ -95,10 +108,10 @@ export default function ChatInterface({
                 />
               </div>
               <div className="min-w-0">
-                <h1 className="text-lg md:text-xl font-medium text-gray-900 truncate">
+                <h1 className="text-lg md:text-xl font-medium text-card-foreground truncate">
                   {aiReader.name}
                 </h1>
-                <p className="text-xs md:text-sm text-gray-500 line-clamp-2">
+                <p className="text-xs md:text-sm text-muted-foreground line-clamp-2">
                   {aiReader.description}
                 </p>
               </div>
@@ -108,7 +121,7 @@ export default function ChatInterface({
       </div>
 
       {/* 聊天内容区域 */}
-      <div className="flex-1 overflow-y-auto min-h-0">
+      <div className="flex-1 overflow-y-auto min-h-0 bg-background">
         <div className="max-w-6xl mx-auto space-y-4 px-4 py-4">
           {/* 首次加载动画 */}
           {!isInitialized && messages.length === 0 ? (
@@ -141,14 +154,14 @@ export default function ChatInterface({
                     "max-w-[80%] rounded-lg p-4",
                     message.role === "user"
                       ? "bg-primary text-primary-foreground"
-                      : "bg-white/80 backdrop-blur-sm"
+                      : "bg-card text-card-foreground backdrop-blur-sm"
                   )}
                 >
-                  {message.reasoning && (
+                  {/* {false && message.reasoning && (
                     <blockquote className="mb-4 border-l-4 border-gray-300 dark:border-gray-700 pl-4 text-sm text-gray-500 dark:text-gray-400">
                       {message.reasoning.trim()}
                     </blockquote>
-                  )}
+                  )} */}
                   <Markdown
                     remarkPlugins={[remarkGfm]}
                     components={{
@@ -260,17 +273,28 @@ export default function ChatInterface({
           )}
 
           {/* 消息加载动画 */}
-          {isLoading && messages.length > 0 && (
-            <div className="flex justify-start">
-              <div className="max-w-[80%] rounded-lg p-4 bg-white/80 backdrop-blur-sm">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-current rounded-full animate-bounce" />
-                  <div className="w-2 h-2 bg-current rounded-full animate-bounce [animation-delay:0.2s]" />
-                  <div className="w-2 h-2 bg-current rounded-full animate-bounce [animation-delay:0.4s]" />
+          {(() => {
+            // 确保有消息且正在加载
+            if (!isLoading || messages.length === 0) {
+              return null;
+            }
+
+            const lastMessage = messages[messages.length - 1];
+
+            // 如果最后一条消息是用户的，并且正在加载，显示动画
+            if (lastMessage && lastMessage.role === 'user' && isLoading) {
+              return (
+                <div className="flex justify-start">
+                  <div className="max-w-[80%] p-4">
+                    <LoadingAnimation messages={lomessages} />
+                  </div>
                 </div>
-              </div>
-            </div>
-          )}
+              );
+            }
+
+            return null;
+          })()
+          }
         </div>
       </div>
 
@@ -279,7 +303,7 @@ export default function ChatInterface({
         <div className="container max-w-6xl mx-auto px-4 pb-4 space-y-4">
           <form
             onSubmit={handleSubmit}
-            className="bg-white/80 backdrop-blur-sm rounded-lg shadow-lg border border-gray-100 p-3"
+            className="bg-card text-card-foreground backdrop-blur-sm rounded-lg shadow-lg border border-border p-3"
           >
             <div className="flex flex-col gap-2">
               <div className="flex gap-2">
@@ -288,7 +312,7 @@ export default function ChatInterface({
                   onChange={handleInputChange}
                   placeholder={lomessages.placeholder}
                   disabled={isLoading || !isInitialized || !isMember}
-                  className="bg-white h-12"
+                  className="bg-background text-foreground h-12"
                 />
                 <Button
                   type="submit"
@@ -314,7 +338,7 @@ export default function ChatInterface({
             </div>
           </form>
 
-          <div className="text-center text-xs md:text-sm text-gray-400">
+          <div className="text-center text-xs md:text-sm text-muted-foreground">
             {lomessages.footer}
           </div>
         </div>

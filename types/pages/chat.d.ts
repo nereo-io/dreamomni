@@ -13,4 +13,26 @@ export interface ChatPage {
     required: string;
     upgrade: string;
   };
+  loadingAnimation: {
+    waitTime: string;
+    pillars: {
+      year: {
+        name: string;
+        desc: string;
+      };
+      month: {
+        name: string;
+        desc: string;
+      };
+      day: {
+        name: string;
+        desc: string;
+      };
+      hour: {
+        name: string;
+        desc: string;
+      };
+    };
+    phrases: string[];
+  };
 } 

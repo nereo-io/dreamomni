@@ -18,9 +18,12 @@ export class ChatService {
 
   static async buildInitialMessage(customerId: string, locale: string): Promise<string> {
     const customerData = await getCustomerById(customerId);
-    return locale === 'zh'
-      ? `今年是2025年，请先理解我的问题，再回答我的问题：${customerData?.career_question}\n`
-      : `It's 2025, please understand and answer my question: ${customerData?.career_question}\n`;
+
+    return `${customerData?.career_question}`;
+
+    // return locale === 'zh'
+    //   ? `今年是2025年，请先理解我的问题，再回答我的问题：${customerData?.career_question}\n`
+    //   : `It's 2025, please understand and answer my question: ${customerData?.career_question}\n`;
   }
 
   static buildMessageHistory(systemPrompt: string, messages: Message[]): CoreMessage[] {

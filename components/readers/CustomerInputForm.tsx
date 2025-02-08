@@ -142,12 +142,21 @@ export default function CustomerInputForm({
       if (result.message === "Success" && result.values?.customerId) {
         const { locale } = params;
 
-        const path = locale
+        let basePath = locale
           ? `/${locale}/reading/${result.values.customerId}`
           : `/reading/${result.values.customerId}`;
 
-        logInfo(`Redirecting to: ${path}`);
-        router.push(path);
+        // 如果有问题，添加到URL参数中
+        const question = formData.get('question');
+        if (question && typeof question === 'string') {
+          // 使用Base64编码问题内容
+          const encodedQuestion = btoa(encodeURIComponent(question));
+          basePath += `?q=${encodedQuestion}`;
+        }
+
+        logInfo(`Redirecting to: ${basePath}`);
+
+        router.push(basePath);
         return;
       }
 
