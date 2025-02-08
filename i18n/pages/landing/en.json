@@ -26,28 +26,32 @@
     "show_locale": true
   },
   "hero": {
-    "title": "Free AI-Powered Bazi Analysis for Life's Decisions",
-    "highlight_text": "Bazi Analysis",
-    "announcement": {
-      "label": "New",
-      "title": "✨ AI Bazi Reading for Career Available Now",
-      "url": "/career"
-    },
+    "title": "DeepSeek R1 AI Bazi Analysis Tool",
+    "highlight_text": "DeepSeek R1",
+    "description": "Ancient Wisdom, Modern AI - Your Life Decoded",
+    "tip": "🎁 Get 3 Free AI Readings Every Day",
     "show_happy_users": false,
-    "show_badge": false
+    "show_badge": false,
+    "buttons": [
+      {
+        "title": "Start Free Reading",
+        "url": "/career",
+        "type": "primary"
+      }
+    ]
   },
   "introduce": {
     "name": "introduce",
-    "title": "Your AI Bazi Analysis for Life Success",
+    "title": "BaziAI = Bazi Analysis + DeepSeek R1 Reading",
     "label": "Features",
-    "description": "Experience the power of AI Bazi analysis combined with ancient Eastern wisdom for accurate life predictions",
+    "description": "Experience the revolutionary combination of traditional Bazi analysis and DeepSeek R1's advanced AI reading capabilities",
     "image": {
       "src": "/imgs/services/introduce.png"
     },
     "items": [
       {
-        "title": "AI Bazi Analysis",
-        "description": "Advanced AI system provides data-driven Bazi insights and predictions",
+        "title": "DeepSeek R1 AI Reading",
+        "description": "State-of-the-art DeepSeek R1 AI provides deep, insightful Bazi analysis and predictions",
         "icon": "RiRobot2Line"
       },
       {
@@ -64,13 +68,13 @@
   },
   "feature": {
     "name": "feature",
-    "title": "AI-Powered Bazi Reading Benefits",
+    "title": "DeepSeek R1 AI Bazi Analysis Benefits",
     "label": "Benefits",
-    "description": "Discover how our AI Bazi technology provides accurate insights for your life journey",
+    "description": "Discover how DeepSeek R1's advanced AI technology delivers precise and personalized Bazi insights",
     "items": [
       {
-        "title": "Advanced AI Bazi Analysis",
-        "description": "Our sophisticated AI system analyzes your unique Bazi patterns to provide actionable insights for career, relationships, and life decisions.",
+        "title": "DeepSeek R1 Analysis Engine",
+        "description": "Leveraging DeepSeek R1's state-of-the-art AI to analyze your unique Bazi patterns with unprecedented accuracy and depth.",
         "icon": "RiRobot2Line"
       },
       {
@@ -102,7 +106,7 @@
   },
   "showcase": {
     "name": "readings",
-    "title": "AI Bazi Reading Services",
+    "title": "BaziAI Reading Services",
     "description": "Choose your personalized Bazi reading path",
     "items": [
       {
@@ -167,7 +171,7 @@
   "testimonial": {
     "name": "testimonial",
     "label": "Testimonials",
-    "title": "What Our AI Bazi Reading Users Say",
+    "title": "What Our BaziAI Reading Users Say",
     "description": "Real experiences from people who found clarity through our AI-powered Bazi readings",
     "icon": "RiUserHeartLine",
     "items": [
@@ -224,14 +228,13 @@
   "pricing": {
     "name": "pricing",
     "label": "Pricing",
-    "title": "AI Bazi Reading Plans",
+    "title": "BaziAI Reading Plans",
     "description": "Select your AI-powered Bazi reading plan",
     "groups": [],
     "items": [
       {
-        "title": "Free AI Reading",
-        "description": "Start your AI Bazi reading journey",
-        "features_title": "Includes",
+        "title": "Free AI Bazi Reading",
+        "description": "Start your BaziAI reading journey",
         "features": [
           "3 AI Bazi readings per day",
           "Basic AI Bazi analysis",
@@ -333,7 +336,7 @@
     "name": "footer",
     "brand": {
       "title": "BaziAI",
-      "description": "Your AI-powered Bazi analysis platform combining Eastern wisdom with modern technology for life's important decisions.",
+      "description": "Your Bazi analysis platform powered by DeepSeek R1, combining ancient wisdom with cutting-edge AI technology for precise life guidance.",
       "logo": {
         "src": "/logo.svg",
         "alt": "BaziAI"
