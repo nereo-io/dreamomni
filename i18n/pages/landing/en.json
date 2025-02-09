@@ -265,13 +265,13 @@
           "AI-powered follow-up analysis"
         ],
         "interval": "month",
-        "amount": 199,
+        "amount": 499,
         "currency": "USD",
-        "price": "$1.99",
+        "price": "$4.99",
         "original_price": "$19.99",
         "unit": "/month",
         "is_featured": true,
-        "discount_label": "90% OFF",
+        "discount_label": "75% OFF",
         "button": {
           "title": "Upgrade to AI Pro",
           "url": "/pro",

@@ -35,8 +35,8 @@ export default function ChatInterface({
   lomessages,
   locale,
 }: ChatInterfaceProps) {
-  // const { membership } = useAppContext();
-  // const isMember = membership?.status === "active";
+  const { membership } = useAppContext();
+  const isMember = membership?.status === "active";
 
   const [isInitialized, setIsInitialized] = useState(false);
   const {
@@ -314,6 +314,19 @@ export default function ChatInterface({
       {/* 底部输入框和版权信息层 */}
       <div className="flex-none">
         <div className="container max-w-6xl mx-auto px-1 pb-1 space-y-1">
+          {isMember && (
+            <div className="text-sm text-center flex items-center justify-center gap-2">
+              <p className="text-red-500">
+                {lomessages.membership.required}
+                <Link
+                href="/#pricing"
+                className="text-primary hover:underline"
+              >
+                {lomessages.membership.upgrade}
+              </Link>
+              </p>
+            </div>
+          )}
           <form
             onSubmit={handleSubmit}
             className="px-2"
@@ -329,30 +342,17 @@ export default function ChatInterface({
                   }
                 }}
                 placeholder={lomessages.placeholder}
-                disabled={isLoading || !isInitialized}
+                disabled={isLoading || !isInitialized || !isMember}
                 className="flex min-h-[60px] w-full rounded-lg border border-input bg-card pr-12 pl-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus:border-primary disabled:cursor-not-allowed disabled:opacity-50 resize-none"
                 rows={2}
               />
               <Button
                 type="submit"
-                disabled={isLoading || !isInitialized}
-                className="absolute right-2 bottom-2 h-8 px-4 text-sm"
+                disabled={isLoading || !isInitialized || !isMember}
+                className="absolute right-2 bottom-2 h-11 px-4 text-sm"
               >
                 {lomessages.send}
-              </Button>
-              {/* {!isMember && (
-                <div className="text-sm text-center flex items-center justify-center gap-2">
-                  <p className="text-red-500">
-                    {lomessages.membership.required}
-                  </p>
-                  <Link
-                    href="/#pricing"
-                    className="text-primary hover:underline"
-                  >
-                    {lomessages.membership.upgrade}
-                  </Link>
-                </div>
-              )} */}
+              </Button>           
             </div>
           </form>
 

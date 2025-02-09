@@ -53,34 +53,32 @@ export default function CustomerInputForm({
   const [birthDay, setBirthDay] = useState<number>(new Date().getDate());
   const [birthHour, setBirthHour] = useState<number>(new Date().getHours());
   const [isPending, setIsPending] = useState(false);
-  // const [remainingCount, setRemainingCount] = useState<number>(3); 
+  const [remainingCount, setRemainingCount] = useState<number>(3); 
 
   // 获取剩余次数
-  // useEffect(() => {
-  //   const fetchReadingCount = async () => {
-  //     if (!user?.uuid) return;
+  useEffect(() => {
+    const fetchReadingCount = async () => {
+      if (!user?.uuid) return;
       
-  //     try {
-  //       const response = await fetch('/api/readings/check');
-  //       const data = await response.json();
+      try {
+        const response = await fetch('/api/readings/check');
+        const data = await response.json();
         
-  //       if (data.code === 0) {
-  //         setRemainingCount(data.data.remainingCount);
-  //       }
-  //     } catch (error) {
-  //       console.error("Failed to fetch reading count:", error);
-  //     }
-  //   };
+        if (data.code === 0) {
+          setRemainingCount(data.data.remainingCount);
+        }
+      } catch (error) {
+        console.error("Failed to fetch reading count:", error);
+      }
+    };
 
-  //   fetchReadingCount();
-  // }, [user?.uuid]);
+    fetchReadingCount();
+  }, [user?.uuid]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsPending(true);
     
-    // 注释掉的验证逻辑
-    /*
     // 1. 检查登录状态
     if (!user?.uuid) {
       setIsPending(false);
@@ -128,10 +126,10 @@ export default function CustomerInputForm({
       setIsPending(false);
       return;
     }
-    */
+
+    // 4. 继续原有的表单提交逻辑
 
     try {
-      // 继续原有的表单提交逻辑
       const formData = new FormData();
 
       // 手动设置所有需要的字段
@@ -277,7 +275,7 @@ export default function CustomerInputForm({
               {/* 按钮组 */}
               <div className="space-y-4 pt-4">
                 {/* 使用次数提示 - 只在加载完成且有用户登录时显示 */}
-                {/* {user?.uuid && !isLoadingMembership && (
+                 {user?.uuid && !isLoadingMembership && (
                   <div className="text-center">
                     {membership?.status === 'active' ? (
                       <p className="text-sm text-orange-500">
@@ -289,12 +287,12 @@ export default function CustomerInputForm({
                       </p>
                     )}
                   </div>
-                )} */}
-                {/* {!user?.uuid && (
+                )} 
+                {!user?.uuid && (
                   <p className="text-center text-sm text-orange-500">
                     {messages.loginPrompt}
                   </p>
-                )} */}
+                )} 
                 <Button
                   type="submit"
                   className="w-full bg-orange-500 hover:bg-orange-600 text-base"
