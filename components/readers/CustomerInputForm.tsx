@@ -53,7 +53,7 @@ export default function CustomerInputForm({
   const [birthDay, setBirthDay] = useState<number>(new Date().getDate());
   const [birthHour, setBirthHour] = useState<number>(new Date().getHours());
   const [isPending, setIsPending] = useState(false);
-  const [remainingCount, setRemainingCount] = useState<number>(3); 
+  const [remainingCount, setRemainingCount] = useState<number | null>(null);
 
   // 获取剩余次数
   useEffect(() => {
@@ -275,7 +275,7 @@ export default function CustomerInputForm({
               {/* 按钮组 */}
               <div className="space-y-4 pt-4">
                 {/* 使用次数提示 - 只在加载完成且有用户登录时显示 */}
-                 {user?.uuid && !isLoadingMembership && (
+                 {user?.uuid && !isLoadingMembership && remainingCount !== null && (
                   <div className="text-center">
                     {membership?.status === 'active' ? (
                       <p className="text-sm text-orange-500">

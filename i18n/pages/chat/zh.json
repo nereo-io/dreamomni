@@ -40,8 +40,20 @@
     "error": "抱歉，处理您的请求时出现错误。请重试。"
   },
   "footer": "每次解答都经过专业命理系统分析",
+  "credits": {
+    "remaining": "今日剩余 {count} 次免费提问",
+    "upgrade": "升级无限提问",
+    "member": "会员用户不限制提问次数"
+  },
+  "errors": {
+    "checkUsageError": "检查使用次数失败，请稍后重试",
+    "noRemainingReadings": "今日免费提问次数已用完",
+    "recordUsageError": "记录使用失败，请稍后重试",
+    "generalError": "操作失败，请稍后重试",
+    "pleaseLogin": "请先登录"
+  },
   "membership": {
-    "required": "需要开通会员才可以使用",
+    "required": "需要会员才可以使用。",
     "upgrade": "立即开通会员"
   }
-} 
+}

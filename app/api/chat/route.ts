@@ -54,8 +54,8 @@ export async function POST(req: Request) {
 
       try {
         return streamText({
-          // model: deepseekARK("ep-20250205155325-bsdb5"), // r1
-          model: deepseekARK("ep-20250208110123-np259"), // deepseek-qwen-32B
+          model: deepseekARK("ep-20250205155325-bsdb5"), // r1
+          // model: deepseekARK("ep-20250208110123-np259"), // deepseek-qwen-32B
           // model: deepseekALI('deepseek-r1'),
           messages: initialMessages,
           maxTokens: 8000,

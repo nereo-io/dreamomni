@@ -24,10 +24,10 @@ export default function () {
       setIsLoadingMembership(false);
     }
   };
-
+  
   return {
     membership,
     isLoadingMembership,
     refreshMembership: checkMembership
   };
-} 
+}

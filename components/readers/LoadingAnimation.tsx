@@ -22,7 +22,7 @@ const LoadingAnimation = ({ messages }: LoadingAnimationProps) => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentPhrase((prev) => (prev + 1) % phrases.length);
-    }, 3000);
+    }, 800);
     return () => clearInterval(timer);
   }, [phrases.length]);
 
@@ -37,7 +37,7 @@ const LoadingAnimation = ({ messages }: LoadingAnimationProps) => {
           <img 
             src="/imgs/chat/taiji.svg" 
             alt="太极图" 
-            className="w-full h-full"
+            className="w-full h-full dark:invert dark:brightness-90"
           />
         </motion.div>
 
@@ -51,12 +51,12 @@ const LoadingAnimation = ({ messages }: LoadingAnimationProps) => {
             transition={{ duration: 0.3 }}
             className="text-center"
           >
-            <p className="text-sm text-muted-foreground px-4">{phrases[currentPhrase]}</p>
+            <p className="text-sm text-muted-foreground dark:text-muted-foreground/70 px-4">{phrases[currentPhrase]}</p>
             <div className="mt-3 flex justify-center space-x-1.5">
               {[0, 1, 2].map(i => (
                 <motion.div
                   key={i}
-                  className="w-1 h-1 rounded-full bg-primary/40"
+                  className="w-1 h-1 rounded-full bg-primary/40 dark:bg-primary/60"
                   animate={{
                     scale: [1, 1.3, 1],
                     opacity: [0.4, 0.8, 0.4],

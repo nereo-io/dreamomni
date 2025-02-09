@@ -28,7 +28,6 @@ interface ChatInterfaceProps {
   locale: string;
 }
 
-
 export default function ChatInterface({
   aiReader,
   customerId,
@@ -36,7 +35,28 @@ export default function ChatInterface({
   locale,
 }: ChatInterfaceProps) {
   const { membership } = useAppContext();
-  const isMember = membership?.status === "active";
+  const [remainingCount, setRemainingCount] = useState<number | null>(null);
+  const [isLoadingCount, setIsLoadingCount] = useState(true);
+
+  useEffect(() => {
+    const checkRemainingCredits = async () => {
+      setIsLoadingCount(true);
+      try {
+        const response = await fetch('/api/readings/check');
+        const data = await response.json();
+        
+        if (data.code === 0) {
+          setRemainingCount(data.data.remainingCount);
+        }
+      } catch (error) {
+        console.error("Failed to fetch reading count:", error);
+      } finally {
+        setIsLoadingCount(false);
+      }
+    };
+
+    checkRemainingCredits();
+  }, []);
 
   const [isInitialized, setIsInitialized] = useState(false);
   const {
@@ -44,8 +64,7 @@ export default function ChatInterface({
     messages,
     input,
     handleInputChange,
-    handleSubmit,
-    // handleSubmit: originalHandleSubmit,
+    handleSubmit: originalHandleSubmit,
     isLoading,
     setMessages,
   } = useChat({
@@ -78,19 +97,46 @@ export default function ChatInterface({
     }
   }, [searchParams]);
 
-  // 处理消息提交
-  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    try {
+      const checkResponse = await fetch("/api/readings/check");
+      const checkData = await checkResponse.json();
+      
+      if (checkData.code !== 0) {
+        toast.error(lomessages.errors.checkUsageError);
+        return;
+      }
 
-  //   // 检查会员状态
-  //   if (!isMember) {
-  //     toast.error("需要开通会员才可以使用");
-  //     // router.push('/pricing');
-  //     return;
-  //   }
+      if (!checkData.data.canRead && !checkData.data.isMember) {
+        toast.error(lomessages.errors.noRemainingReadings);
+        return;
+      }
 
-  //   originalHandleSubmit(e);
-  // };
+      const createResponse = await fetch("/api/readings/create", {
+        method: "POST"
+      });
+      const createData = await createResponse.json();
+      
+      if (createData.code !== 0) {
+        toast.error(createData.message || lomessages.errors.recordUsageError);
+        return;
+      }
+
+      if (!checkData.data.isMember) {
+        setRemainingCount(createData.data.remainingCount);
+      }
+
+      append({
+        role: "user",
+        content: input,
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error(lomessages.errors.generalError);
+    }
+  };
 
   return (
     <div className="relative h-full flex flex-col bg-background text-foreground">
@@ -297,8 +343,8 @@ export default function ChatInterface({
             // 如果最后一条消息是用户的，并且正在加载，显示动画
             if (lastMessage && lastMessage.role === 'user' && isLoading) {
               return (
-                <div className="flex justify-start">
-                  <div className="max-w-[80%] p-4">
+                <div className="flex justify-center">
+                  <div className="p-4">
                     <LoadingAnimation messages={lomessages} />
                   </div>
                 </div>
@@ -314,16 +360,16 @@ export default function ChatInterface({
       {/* 底部输入框和版权信息层 */}
       <div className="flex-none">
         <div className="container max-w-6xl mx-auto px-1 pb-1 space-y-1">
-          {isMember && (
+          {!isLoadingCount && membership?.status !== "active" && remainingCount !== null && remainingCount >= 0 && (
             <div className="text-sm text-center flex items-center justify-center gap-2">
-              <p className="text-red-500">
-                {lomessages.membership.required}
+              <p className="text-muted-foreground">
+                {lomessages.credits.remaining.replace('{count}', remainingCount.toString())}
                 <Link
-                href="/#pricing"
-                className="text-primary hover:underline"
-              >
-                {lomessages.membership.upgrade}
-              </Link>
+                  href="/#pricing"
+                  className="text-primary hover:underline ml-2"
+                >
+                  {lomessages.credits.upgrade}
+                </Link>
               </p>
             </div>
           )}
@@ -342,13 +388,13 @@ export default function ChatInterface({
                   }
                 }}
                 placeholder={lomessages.placeholder}
-                disabled={isLoading || !isInitialized || !isMember}
+                disabled={isLoading || !isInitialized}
                 className="flex min-h-[60px] w-full rounded-lg border border-input bg-card pr-12 pl-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus:border-primary disabled:cursor-not-allowed disabled:opacity-50 resize-none"
                 rows={2}
               />
               <Button
                 type="submit"
-                disabled={isLoading || !isInitialized || !isMember}
+                disabled={isLoading || !isInitialized}
                 className="absolute right-2 bottom-2 h-11 px-4 text-sm"
               >
                 {lomessages.send}

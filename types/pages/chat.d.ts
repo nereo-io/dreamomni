@@ -9,6 +9,18 @@ export interface ChatPage {
     error: string;
   };
   footer: string;
+  credits: {
+    remaining: string;
+    upgrade: string;
+    member: string;
+  };
+  errors: {
+    checkUsageError: string;
+    noRemainingReadings: string;
+    recordUsageError: string;
+    generalError: string;
+    pleaseLogin: string;
+  };
   membership: {
     required: string;
     upgrade: string;
@@ -35,4 +47,4 @@ export interface ChatPage {
     };
     phrases: string[];
   };
-} 
+}
