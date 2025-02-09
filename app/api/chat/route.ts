@@ -49,17 +49,18 @@ export async function POST(req: Request) {
         { role: "user", content: initialMessage },
       ]);
 
-      console.log('=== Initial Messages ===');
-      console.log(JSON.stringify(initialMessages, null, 2));
+      // console.log('=== Initial Messages ===');
+      // console.log(JSON.stringify(initialMessages, null, 2));
 
       try {
         return streamText({
-          model: deepseekARK("ep-20250205155325-bsdb5"),
+          // model: deepseekARK("ep-20250205155325-bsdb5"), // r1
+          model: deepseekARK("ep-20250208110123-np259"), // deepseek-qwen-32B
           // model: deepseekALI('deepseek-r1'),
           messages: initialMessages,
           maxTokens: 8000,
         }).toDataStreamResponse({
-          // sendReasoning: true,
+          sendReasoning: true,
         });
       } catch (error: any) {
         console.error("DeepSeek API error (initial):", error);
@@ -81,18 +82,19 @@ export async function POST(req: Request) {
       messages
     );
 
-    // console.log('=== Processed Messages ===');
-    // console.log(JSON.stringify(messageHistory, null, 2));
+    console.log('=== Processed Messages ===');
+    console.log(JSON.stringify(messageHistory, null, 2));
 
     try {
       return streamText({
         // model: deepseek(MODEL_CONFIG.model),
-        model: deepseekARK("ep-20250205155325-bsdb5"),
+        // model: deepseekARK("ep-20250205155325-bsdb5"),  //r1
+        model: deepseekARK("ep-20250208110123-np259"),  // deepseek-qwen-32B
         // model: deepseekALI('deepseek-r1'),
         messages: messageHistory,
         maxTokens: 8000,
       }).toDataStreamResponse({
-        // sendReasoning: true,
+        sendReasoning: true,
       });
     } catch (error: any) {
       console.error("DeepSeek API error (chat):", error);

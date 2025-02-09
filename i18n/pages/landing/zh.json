@@ -37,13 +37,6 @@
         "url": "/career",
         "target": "_self",
         "variant": "default"
-      },
-      {
-        "title": "探索AI八字分析指引",
-        "icon": "RiInformationLine",
-        "url": "/#feature",
-        "target": "_self",
-        "variant": "outline"
       }
     ],
     "show_happy_users": false,

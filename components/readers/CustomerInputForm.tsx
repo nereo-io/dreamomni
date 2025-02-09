@@ -45,7 +45,7 @@ export default function CustomerInputForm({
   const [state, setState] = useState(initialState);
   const [gender, setGender] = useState(state.values?.gender || "");
   const [birthYear, setBirthYear] = useState<number>(
-    new Date().getFullYear() 
+    new Date().getFullYear() - 18
   );
   const [birthMonth, setBirthMonth] = useState<number>(
     new Date().getMonth() + 1
