@@ -97,41 +97,42 @@ export default function ChatInterface({
     }
   }, [searchParams]);
 
+  // 创建一个ref来存储消息容器
+  const messagesEndRef = React.useRef<HTMLDivElement>(null);
+
+  // 滚动到底部的函数
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // 监听消息变化，只在用户发送消息时滚动到底部
+  useEffect(() => {
+    if (messages.length > 0) {
+      const lastMessage = messages[messages.length - 1];
+      // 只在最后一条消息是用户消息时滚动
+      if (lastMessage.role === 'user') {
+        scrollToBottom();
+      }
+    }
+  }, [messages, scrollToBottom]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
+    if (!input.trim() || isLoading || !isInitialized) {
+      return;
+    }
+
     try {
-      const checkResponse = await fetch("/api/readings/check");
-      const checkData = await checkResponse.json();
-      
-      if (checkData.code !== 0) {
-        toast.error(lomessages.errors.checkUsageError);
-        return;
-      }
+      // 直接发送消息，让后端处理权限检查
+      await originalHandleSubmit(e);
 
-      if (!checkData.data.canRead && !checkData.data.isMember) {
-        toast.error(lomessages.errors.noRemainingReadings);
-        return;
+      // 只更新剩余次数
+      const response = await fetch('/api/readings/check');
+      const data = await response.json();
+      if (data.code === 0 && !data.data.isMember) {
+        setRemainingCount(data.data.remainingCount);
       }
-
-      const createResponse = await fetch("/api/readings/create", {
-        method: "POST"
-      });
-      const createData = await createResponse.json();
-      
-      if (createData.code !== 0) {
-        toast.error(createData.message || lomessages.errors.recordUsageError);
-        return;
-      }
-
-      if (!checkData.data.isMember) {
-        setRemainingCount(createData.data.remainingCount);
-      }
-
-      append({
-        role: "user",
-        content: input,
-      });
     } catch (error) {
       console.error(error);
       toast.error(lomessages.errors.generalError);
@@ -322,6 +323,8 @@ export default function ChatInterface({
                           {children}
                         </td>
                       ),
+                      // 不显示图片
+                      img: () => null,
                     }}
                   >
                     {message.content.trim()}
@@ -330,6 +333,9 @@ export default function ChatInterface({
               </div>
             ))
           )}
+
+          {/* 用于滚动的空div */}
+          <div ref={messagesEndRef} />
 
           {/* 消息加载动画 */}
           {(() => {
@@ -384,18 +390,20 @@ export default function ChatInterface({
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
-                    handleSubmit(e as any);
+                    if (!isLoading && isInitialized) {
+                      handleSubmit(e as any);
+                    }
                   }
                 }}
                 placeholder={lomessages.placeholder}
                 disabled={isLoading || !isInitialized}
-                className="flex min-h-[60px] w-full rounded-lg border border-input bg-card pr-12 pl-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus:border-primary disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+                className="flex min-h-[60px] w-full rounded-lg border border-input bg-card pr-12 pl-3 py-2 text-base placeholder:text-muted-foreground focus-visible:outline-none focus:border-primary disabled:cursor-not-allowed disabled:opacity-50 resize-none"
                 rows={2}
               />
               <Button
                 type="submit"
                 disabled={isLoading || !isInitialized}
-                className="absolute right-2 bottom-2 h-11 px-4 text-sm"
+                className="absolute right-2 bottom-1/2 transform translate-y-1/2 h-11 px-4 text-sm"
               >
                 {lomessages.send}
               </Button>           
