@@ -26,10 +26,14 @@
     "show_locale": true
   },
   "hero": {
-    "title": "DeepSeek R1 AI八字分析工具",
-    "highlight_text": "DeepSeek R1",
+    "title": "免费八字AI分析工具",
+    "highlight_text": "八字AI",
     "description": "传统智慧与现代AI的完美结合，解码人生密码",
-    "tip": "🎁 每天免费体验三次AI解读",
+    "announcement": {
+      "title": "✨DeepSeek R1 全新上线✨",
+      "description": "体验传统八字分析与DeepSeek R1尖端AI技术的革命性结合",
+      "label": "公告"
+    },
     "buttons": [
       {
         "title": "立即解读事业运势",
@@ -48,7 +52,7 @@
     "label": "特色功能",
     "description": "体验传统八字分析与DeepSeek R1尖端AI技术的革命性结合",
     "image": {
-      "src": "/imgs/services/introduce.png"
+      "src": "/imgs/features/generating.gif"
     },
     "items": [
       {
@@ -68,7 +72,40 @@
       }
     ]
   },
+  "benefit": {
+    "name": "benefit",
+    "title": "BaziAI：传统智慧与现代科技的完美融合",
+    "label": "核心优势",
+    "description": "全球超50万用户信赖的精准命运解析系统",
+    "items": [
+      {
+        "title": "30+维度AI解析",
+        "description": "多维度全方位分析你的八字命盘，涵盖事业、感情、健康、财运等维度，揭示隐藏机遇",
+        "icon": "RiCompass3Line",
+        "image": {
+          "src": "/imgs/features/year-by-year-guide.png"
+        }
+      },
+      {
+        "title": "通俗易懂的解读",
+        "description": "复杂的命理概念转化为清晰易懂的建议，通过自然对话方式呈现 - 无晦涩术语，直达本质",
+        "icon": "RiLightbulbLine",
+        "image": {
+          "src": "/imgs/features/challenge-detailed-explanations.png"
+        }
+      },
+      {
+        "title": "主动预测与化解",
+        "description": "获取量身定制的人生策略，从事业转折到情感困扰，为你指明前进方向",
+        "icon": "RiRoadMapLine",
+        "image": {
+          "src": "/imgs/features/pratical-solution.png"
+        }
+      }
+    ]
+  },
   "showcase": {
+    "disabled": true,
     "name": "readings",
     "title": "BaziAI解读服务",
     "description": "选择你的个性化运势解读方案",
@@ -133,6 +170,7 @@
     ]
   },
   "feature": {
+    "disabled": true,
     "name": "feature",
     "title": "DeepSeek R1 AI八字分析优势",
     "label": "产品优势",
@@ -171,6 +209,7 @@
     ]
   },
   "testimonial": {
+    "disabled": true,
     "name": "testimonial",
     "label": "用户反馈",
     "title": "BaziAI用户真实体验",
@@ -356,21 +395,6 @@
               "title": "事业运势",
               "url": "/career",
               "target": "_self"
-            },
-            {
-              "title": "感情运势",
-              "url": "/love",
-              "target": "_self"
-            },
-            {
-              "title": "财运预测",
-              "url": "/fortune",
-              "target": "_self"
-            },
-            {
-              "title": "人生解读",
-              "url": "/life",
-              "target": "_self"
             }
           ]
         },
@@ -380,11 +404,6 @@
             {
               "title": "常见问题",
               "url": "/#faq",
-              "target": "_self"
-            },
-            {
-              "title": "联系我们",
-              "url": "/contact",
               "target": "_self"
             },
             {

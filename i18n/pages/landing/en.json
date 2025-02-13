@@ -110,7 +110,7 @@
     "items": [
       {
         "title": "30+ Dimension AI Analysis",
-        "description": "Military-grade algorithms dissect your Bazi profile across career, relationships, health and fortune - revealing hidden opportunities",
+        "description": "Dissect your Bazi profile multi-dimensionally across career, relationships, health and fortune - revealing hidden opportunities",
         "icon": "RiCompass3Line",
         "image": {
           "src": "/imgs/features/year-by-year-guide.png"
@@ -383,21 +383,6 @@
               "title": "Career Reading",
               "url": "/career",
               "target": "_self"
-            },
-            {
-              "title": "Love Reading",
-              "url": "/love",
-              "target": "_self"
-            },
-            {
-              "title": "Wealth Reading",
-              "url": "/wealth",
-              "target": "_self"
-            },
-            {
-              "title": "Life Reading",
-              "url": "/life",
-              "target": "_self"
             }
           ]
         },
@@ -407,11 +392,6 @@
             {
               "title": "FAQ",
               "url": "/#faq",
-              "target": "_self"
-            },
-            {
-              "title": "Contact",
-              "url": "/contact",
               "target": "_self"
             },
             {
