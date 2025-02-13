@@ -74,16 +74,16 @@ export default function QuestionSelector({
   };
 
   return (
-    <section className="py-8 md:py-16 bg-muted/30">
+    <section className="pb-8 pt-2 md:pb-16 md:pt-4">
       <div className="container px-4 md:px-6 max-w-4xl">
-        <div className="text-center mb-6 md:mb-10">
+        {/* <div className="text-center mb-6 md:mb-10">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 md:mb-3">
             <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
               {title}
             </span>
           </h2>
           <p className="text-base md:text-lg text-muted-foreground">{subtitle}</p>
-        </div>
+        </div> */}
 
         <Card className="p-4 md:p-6">
           {/* 输入区域 */}

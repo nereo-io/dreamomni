@@ -51,12 +51,12 @@ export default async function LandingPage({
       {page.branding && <Branding section={page.branding} />}
       {page.introduce && <Feature1 section={page.introduce} />}
       {page.feature && <Feature section={page.feature} />}
-      {page.showcase && <Showcase section={page.showcase} />}
+      {/* {page.showcase && <Showcase section={page.showcase} />} */}
       {page.benefit && <Feature2 section={page.benefit} />}
       {page.usage && <Feature3 section={page.usage} />}
       {page.stats && <Stats section={page.stats} />}
       {page.pricing && <Pricing pricing={page.pricing} />}
-      {page.testimonial && <Testimonial section={page.testimonial} />}
+      {/* {page.testimonial && <Testimonial section={page.testimonial} />} */}
       {page.faq && <FAQ section={page.faq} />}
       {page.cta && <CTA section={page.cta} />}
     </>

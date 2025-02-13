@@ -176,21 +176,20 @@ export default function CustomerInputForm({
   };
 
   return (
-    <section className="py-8 md:py-16 bg-muted/30">
+    <section className="pb-8 pt-2 md:pb-16 md:pt-4">
       <div className="container px-4 md:px-6 max-w-2xl">
-        <div className="text-center mb-6 md:mb-10">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 md:mb-3">
-            <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
-              {messages.title}
-            </span>
-          </h2>
-          <p className="text-base md:text-lg text-muted-foreground">
-            {messages.description}
-          </p>
-        </div>
-
         <form noValidate onSubmit={handleSubmit}>
           <Card className="p-4 md:p-6">
+            <div className="text-center mb-6 md:mb-10">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 md:mb-3">
+                <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+                  {messages.title}
+                </span>
+              </h2>
+              <p className="text-base text-muted-foreground">
+                {messages.description}
+              </p>
+            </div>
             <CardContent className="space-y-8 p-0">
               {/* 出生日期和时间 */}
               <div className="space-y-6">

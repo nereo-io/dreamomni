@@ -26,19 +26,16 @@
     "show_locale": true
   },
   "hero": {
-    "title": "DeepSeek R1 AI Bazi Analysis Tool",
-    "highlight_text": "DeepSeek R1",
-    "description": "Ancient Wisdom, Modern AI - Your Life Decoded",
-    "tip": "🎁 Get 3 Free AI Readings Every Day",
+    "title": "Free Bazi AI Analysis Tool",
+    "highlight_text": "Bazi AI",
+    "announcement": {
+      "title": "✨DeepSeek R1 Now Available✨",
+      "description": "Experience the revolutionary combination of traditional Bazi analysis and DeepSeek R1's advanced AI reading capabilities",
+      "label": "Announcement"
+    },
+    "description": "Ancient Wisdom, Modern AI - Your Life Decoded!",
     "show_happy_users": false,
-    "show_badge": false,
-    "buttons": [
-      {
-        "title": "Start Free Reading",
-        "url": "/career",
-        "type": "primary"
-      }
-    ]
+    "show_badge": false
   },
   "introduce": {
     "name": "introduce",
@@ -46,7 +43,7 @@
     "label": "Features",
     "description": "Experience the revolutionary combination of traditional Bazi analysis and DeepSeek R1's advanced AI reading capabilities",
     "image": {
-      "src": "/imgs/services/introduce.png"
+      "src": "/imgs/features/generating.gif"
     },
     "items": [
       {
@@ -67,6 +64,7 @@
     ]
   },
   "feature": {
+    "disabled": true,
     "name": "feature",
     "title": "DeepSeek R1 AI Bazi Analysis Benefits",
     "label": "Benefits",
@@ -101,6 +99,38 @@
         "title": "Bazi Reading Plans",
         "description": "Choose from various Bazi reading plans, from free basic readings to unlimited premium AI Bazi analysis.",
         "icon": "RiVipCrownLine"
+      }
+    ]
+  },
+  "benefit": {
+    "name": "benefit",
+    "title": "BaziAI: Where Ancient Wisdom Meets Modern Technology",
+    "label": "Core Advantages",
+    "description": "Experience precision-engineered destiny analysis trusted by over 500,000 users worldwide",
+    "items": [
+      {
+        "title": "30+ Dimension AI Analysis",
+        "description": "Military-grade algorithms dissect your Bazi profile across career, relationships, health and fortune - revealing hidden opportunities",
+        "icon": "RiCompass3Line",
+        "image": {
+          "src": "/imgs/features/year-by-year-guide.png"
+        }
+      },
+      {
+        "title": "Crystal-Clear Explanations",
+        "description": "Complex astrological patterns translated into actionable advice through natural conversation - no jargon, just clarity",
+        "icon": "RiLightbulbLine",
+        "image": {
+          "src": "/imgs/features/challenge-detailed-explanations.png"
+        }
+      },
+      {
+        "title": "Proactive Solutions",
+        "description": "Get tailored strategies to navigate life's challenges - from career crossroads to relationship dilemmas",
+        "icon": "RiRoadMapLine",
+        "image": {
+          "src": "/imgs/features/pratical-solution.png"
+        }
       }
     ]
   },
