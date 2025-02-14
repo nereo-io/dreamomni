@@ -11,6 +11,7 @@ import Showcase from "@/components/blocks/showcase";
 import Stats from "@/components/blocks/stats";
 import Testimonial from "@/components/blocks/testimonial";
 import QuestionForm from "@/components/blocks/question-form";
+import ProductHunt from "@/components/blocks/producthunt";
 import { getLandingPage, getReaderPage } from "@/services/page";
 
 export async function generateMetadata({
@@ -42,6 +43,7 @@ export default async function LandingPage({
   return (
     <>
       {page.hero && <Hero hero={page.hero} />}
+      <ProductHunt />
       {page.questionForm && (
         <QuestionForm
           messages={readerPage}

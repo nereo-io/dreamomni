@@ -34,15 +34,6 @@
       "description": "体验传统八字分析与DeepSeek R1尖端AI技术的革命性结合",
       "label": "公告"
     },
-    "buttons": [
-      {
-        "title": "立即解读事业运势",
-        "icon": "RiBriefcaseLine",
-        "url": "/career",
-        "target": "_self",
-        "variant": "default"
-      }
-    ],
     "show_happy_users": false,
     "show_badge": false
   },
