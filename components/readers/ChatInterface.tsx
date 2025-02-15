@@ -37,28 +37,24 @@ export default function ChatInterface({
   const { membership } = useAppContext();
   const [remainingCount, setRemainingCount] = useState<number | null>(null);
   const [isLoadingCount, setIsLoadingCount] = useState(true);
-
-  useEffect(() => {
-    const checkRemainingCredits = async () => {
-      setIsLoadingCount(true);
-      try {
-        const response = await fetch('/api/readings/check');
-        const data = await response.json();
-        
-        if (data.code === 0) {
-          setRemainingCount(data.data.remainingCount);
-        }
-      } catch (error) {
-        console.error("Failed to fetch reading count:", error);
-      } finally {
-        setIsLoadingCount(false);
-      }
-    };
-
-    checkRemainingCredits();
-  }, []);
-
   const [isInitialized, setIsInitialized] = useState(false);
+
+  const checkRemainingCredits = async () => {
+    setIsLoadingCount(true);
+    try {
+      const response = await fetch('/api/readings/check');
+      const data = await response.json();
+      
+      if (data.code === 0) {
+        setRemainingCount(data.data.remainingCount);
+      }
+    } catch (error) {
+      console.error("Failed to fetch reading count:", error);
+    } finally {
+      setIsLoadingCount(false);
+    }
+  };
+
   const {
     append,
     messages,
@@ -82,6 +78,13 @@ export default function ChatInterface({
     },
   });
 
+  // 在组件加载时和 AI 开始回复时更新剩余次数
+  useEffect(() => {
+    if (!isInitialized || !isLoading) {
+      checkRemainingCredits();
+    }
+  }, [isInitialized, isLoading]);
+  
   const searchParams = useSearchParams();
   
   useEffect(() => {
@@ -116,6 +119,7 @@ export default function ChatInterface({
     }
   }, [messages, scrollToBottom]);
 
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
@@ -126,18 +130,13 @@ export default function ChatInterface({
     try {
       // 直接发送消息，让后端处理权限检查
       await originalHandleSubmit(e);
-
-      // 只更新剩余次数
-      const response = await fetch('/api/readings/check');
-      const data = await response.json();
-      if (data.code === 0 && !data.data.isMember) {
-        setRemainingCount(data.data.remainingCount);
-      }
     } catch (error) {
       console.error(error);
       toast.error(lomessages.errors.generalError);
     }
   };
+
+
 
   return (
     <div className="relative h-full flex flex-col bg-background text-foreground">
