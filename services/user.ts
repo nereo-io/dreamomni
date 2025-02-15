@@ -15,12 +15,12 @@ export async function saveUser(user: User) {
       await insertUser(user);
 
       // increase credits for new user, expire in one year
-      await increaseCredits({
-        user_uuid: user.uuid || "",
-        trans_type: CreditsTransType.NewUser,
-        credits: CreditsAmount.NewUserGet,
-        expired_at: getOneYearLaterTimestr(),
-      });
+      // await increaseCredits({
+      //   user_uuid: user.uuid || "",
+      //   trans_type: CreditsTransType.NewUser,
+      //   credits: CreditsAmount.NewUserGet,
+      //   expired_at: getOneYearLaterTimestr(),
+      // });
     } else {
       user.id = existUser.id;
       user.uuid = existUser.uuid;
