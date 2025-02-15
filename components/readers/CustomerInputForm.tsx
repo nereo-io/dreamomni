@@ -106,21 +106,21 @@ export default function CustomerInputForm({
         }
       }
 
-      // 3. 记录本次使用
-      const createResponse = await fetch("/api/readings/create", {
-        method: "POST"
-      });
-      const createData = await createResponse.json();
+      // 3. 记录本次使用 （chat界面会做处理）
+      // const createResponse = await fetch("/api/readings/create", {
+      //   method: "POST"
+      // });
+      // const createData = await createResponse.json();
       
-      if (createData.code !== 0) {
-        toast.error(createData.message || messages.errors.recordUsageError);
-        return;
-      }
+      // if (createData.code !== 0) {
+      //   toast.error(createData.message || messages.errors.recordUsageError);
+      //   return;
+      // }
 
       // 更新剩余次数显示
-      if (!data.data.isMember) {
-        setRemainingCount(createData.data.remainingCount);
-      }
+      // if (!data.data.isMember) {
+      //   setRemainingCount(createData.data.remainingCount);
+      // }
     } catch (error) {
       console.error(error);
       setIsPending(false);
