@@ -35,8 +35,9 @@ export default function CustomerInputForm({
 }: Props) {
   const router = useRouter();
   const params = useParams();
-  const { user, setShowSignModal, membership, isLoadingMembership } = useAppContext();
-  
+  const { user, setShowSignModal, membership, isLoadingMembership } =
+    useAppContext();
+
   const initialState: State = {
     message: null,
     errors: {},
@@ -59,11 +60,11 @@ export default function CustomerInputForm({
   useEffect(() => {
     const fetchReadingCount = async () => {
       if (!user?.uuid) return;
-      
+
       try {
-        const response = await fetch('/api/readings/check');
+        const response = await fetch("/api/readings/check");
         const data = await response.json();
-        
+
         if (data.code === 0) {
           setRemainingCount(data.data.remainingCount);
         }
@@ -78,7 +79,7 @@ export default function CustomerInputForm({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsPending(true);
-    
+
     // 1. 检查登录状态
     if (!user?.uuid) {
       setIsPending(false);
@@ -87,48 +88,20 @@ export default function CustomerInputForm({
       return;
     }
 
-    // 2. 检查使用次数
+    // 2. 使用已缓存的状态，remainingCount为0时表示无法继续阅读
     try {
-      const response = await fetch("/api/readings/check");
-      const data = await response.json();
-      
-      if (data.code !== 0) {
-        setIsPending(false); 
-        toast.error(data.message || messages.errors.checkUsageError);
+      if (remainingCount === 0) {
+        setIsPending(false);
+        toast.error(messages.errors.noRemainingReadings);
         return;
       }
-
-      if (!data.data.canRead) {
-        // 如果是会员，不需要检查剩余次数
-        if (!data.data.isMember) {
-          toast.error(messages.errors.noRemainingReadings);
-          return;
-        }
-      }
-
-      // 3. 记录本次使用 （chat界面会做处理）
-      // const createResponse = await fetch("/api/readings/create", {
-      //   method: "POST"
-      // });
-      // const createData = await createResponse.json();
-      
-      // if (createData.code !== 0) {
-      //   toast.error(createData.message || messages.errors.recordUsageError);
-      //   return;
-      // }
-
-      // 更新剩余次数显示
-      // if (!data.data.isMember) {
-      //   setRemainingCount(createData.data.remainingCount);
-      // }
     } catch (error) {
       console.error(error);
       setIsPending(false);
       return;
     }
 
-    // 4. 继续原有的表单提交逻辑
-
+    // 3. 继续原有的表单提交逻辑
     try {
       const formData = new FormData();
 
@@ -138,6 +111,7 @@ export default function CustomerInputForm({
       formData.set("birthMonth", birthMonth.toString());
       formData.set("birthDay", birthDay.toString());
       formData.set("birthHour", birthHour.toString());
+      formData.set("userId", user?.uuid || "");
 
       if (selectedQuestion) {
         formData.set("question", selectedQuestion);
@@ -153,8 +127,8 @@ export default function CustomerInputForm({
           : `/reading/${result.values.customerId}`;
 
         // 如果有问题，添加到URL参数中
-        const question = formData.get('question');
-        if (question && typeof question === 'string') {
+        const question = formData.get("question");
+        if (question && typeof question === "string") {
           // 使用Base64编码问题内容
           const encodedQuestion = btoa(encodeURIComponent(question));
           basePath += `?q=${encodedQuestion}`;
@@ -274,24 +248,29 @@ export default function CustomerInputForm({
               {/* 按钮组 */}
               <div className="space-y-4 pt-4">
                 {/* 使用次数提示 - 只在加载完成且有用户登录时显示 */}
-                 {user?.uuid && !isLoadingMembership && remainingCount !== null && (
-                  <div className="text-center">
-                    {membership?.status === 'active' ? (
-                      <p className="text-sm text-orange-500">
-                        {messages.customer.input.unlimited_usage}
-                      </p>
-                    ) : (
-                      <p className="text-sm text-muted-foreground">
-                        {messages.customer.input.remaining_readings.replace('{count}', remainingCount.toString())}
-                      </p>
-                    )}
-                  </div>
-                )} 
+                {user?.uuid &&
+                  !isLoadingMembership &&
+                  remainingCount !== null && (
+                    <div className="text-center">
+                      {membership?.status === "active" ? (
+                        <p className="text-sm text-orange-500">
+                          {messages.customer.input.unlimited_usage}
+                        </p>
+                      ) : (
+                        <p className="text-sm text-muted-foreground">
+                          {messages.customer.input.remaining_readings.replace(
+                            "{count}",
+                            remainingCount.toString()
+                          )}
+                        </p>
+                      )}
+                    </div>
+                  )}
                 {!user?.uuid && (
                   <p className="text-center text-sm text-orange-500">
                     {messages.loginPrompt}
                   </p>
-                )} 
+                )}
                 <Button
                   type="submit"
                   className="w-full bg-orange-500 hover:bg-orange-600 text-base"

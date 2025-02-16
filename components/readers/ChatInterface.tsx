@@ -42,9 +42,9 @@ export default function ChatInterface({
   const checkRemainingCredits = async () => {
     setIsLoadingCount(true);
     try {
-      const response = await fetch('/api/readings/check');
+      const response = await fetch("/api/readings/check");
       const data = await response.json();
-      
+
       if (data.code === 0) {
         setRemainingCount(data.data.remainingCount);
       }
@@ -78,24 +78,24 @@ export default function ChatInterface({
     },
   });
 
-  // 在组件加载时和 AI 开始回复时更新剩余次数
+  // 在AI 开始回复时更新剩余次数
   useEffect(() => {
-    if (!isInitialized || !isLoading) {
+    if (!isLoading) {
       checkRemainingCredits();
     }
-  }, [isInitialized, isLoading]);
-  
+  }, [isLoading]);
+
   const searchParams = useSearchParams();
-  
+
   useEffect(() => {
-    const encodedQuestion = searchParams.get('q');
+    const encodedQuestion = searchParams.get("q");
     if (encodedQuestion) {
       try {
         // 先解码Base64，再解码URL编码
         const decodedQuestion = decodeURIComponent(atob(encodedQuestion));
         append({ role: "user", content: decodedQuestion });
       } catch (error) {
-        console.error('Failed to decode question:', error);
+        console.error("Failed to decode question:", error);
       }
     }
   }, [searchParams]);
@@ -113,16 +113,15 @@ export default function ChatInterface({
     if (messages.length > 0) {
       const lastMessage = messages[messages.length - 1];
       // 只在最后一条消息是用户消息时滚动
-      if (lastMessage.role === 'user') {
+      if (lastMessage.role === "user") {
         scrollToBottom();
       }
     }
   }, [messages, scrollToBottom]);
 
-  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     if (!input.trim() || isLoading || !isInitialized) {
       return;
     }
@@ -135,8 +134,6 @@ export default function ChatInterface({
       toast.error(lomessages.errors.generalError);
     }
   };
-
-
 
   return (
     <div className="relative h-full flex flex-col bg-background text-foreground">
@@ -346,7 +343,7 @@ export default function ChatInterface({
             const lastMessage = messages[messages.length - 1];
 
             // 如果最后一条消息是用户的，并且正在加载，显示动画
-            if (lastMessage && lastMessage.role === 'user' && isLoading) {
+            if (lastMessage && lastMessage.role === "user" && isLoading) {
               return (
                 <div className="flex justify-center">
                   <div className="p-4">
@@ -357,37 +354,39 @@ export default function ChatInterface({
             }
 
             return null;
-          })()
-          }
+          })()}
         </div>
       </div>
 
       {/* 底部输入框和版权信息层 */}
       <div className="flex-none">
         <div className="container max-w-6xl mx-auto px-1 pb-1 space-y-1">
-          {!isLoadingCount && membership?.status !== "active" && remainingCount !== null && remainingCount >= 0 && (
-            <div className="text-sm text-center flex items-center justify-center gap-2">
-              <p className="text-muted-foreground">
-                {lomessages.credits.remaining.replace('{count}', remainingCount.toString())}
-                <Link
-                  href="/#pricing"
-                  className="text-primary hover:underline ml-2"
-                >
-                  {lomessages.credits.upgrade}
-                </Link>
-              </p>
-            </div>
-          )}
-          <form
-            onSubmit={handleSubmit}
-            className="px-2"
-          >
+          {!isLoadingCount &&
+            membership?.status !== "active" &&
+            remainingCount !== null &&
+            remainingCount >= 0 && (
+              <div className="text-sm text-center flex items-center justify-center gap-2">
+                <p className="text-muted-foreground">
+                  {lomessages.credits.remaining.replace(
+                    "{count}",
+                    remainingCount.toString()
+                  )}
+                  <Link
+                    href="/#pricing"
+                    className="text-primary hover:underline ml-2"
+                  >
+                    {lomessages.credits.upgrade}
+                  </Link>
+                </p>
+              </div>
+            )}
+          <form onSubmit={handleSubmit} className="px-2">
             <div className="relative">
               <textarea
                 value={input}
                 onChange={handleInputChange}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
+                  if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
                     if (!isLoading && isInitialized) {
                       handleSubmit(e as any);
@@ -405,7 +404,7 @@ export default function ChatInterface({
                 className="absolute right-2 bottom-1/2 transform translate-y-1/2 h-11 px-4 text-sm"
               >
                 {lomessages.send}
-              </Button>           
+              </Button>
             </div>
           </form>
 
