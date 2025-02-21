@@ -19,8 +19,7 @@
         }
       ]
     },
-    "buttons": [
-    ],
+    "buttons": [],
     "show_sign": true,
     "show_theme": true,
     "show_locale": true
@@ -292,11 +291,7 @@
         "description": "解锁完整AI体验",
         "label": "热门",
         "features_title": "包含免费版所有功能，另加",
-        "features": [
-          "无限次AI运势解读",
-          "高级AI对话系统",
-          "AI智能追问分析"
-        ],
+        "features": ["无限次AI运势解读", "高级AI对话系统", "AI智能追问分析"],
         "interval": "month",
         "amount": 499,
         "currency": "USD",
@@ -447,6 +442,19 @@
       "subtitle": "你想探索哪些方面？",
       "placeholder": "在此输入你的问题或从以下建议中选择...",
       "send": "发送",
+      "loginPrompt": "登录后每天可免费解读3次",
+      "errors": {
+        "pleaseLogin": "请先登录，登录后每天可免费解读3次",
+        "checkUsageError": "检查使用次数失败",
+        "noRemainingReadings": "今日解读次数已用完，请明天再来",
+        "recordUsageError": "记录使用次数失败"
+      },
+      "customer": {
+        "input": {
+          "unlimited_usage": "会员 - 无限次使用",
+          "remaining_readings": "今日剩余解读次数：{count}"
+        }
+      },
       "categories": {
         "all": "全部",
         "personality": "性格特点",
@@ -459,19 +467,19 @@
         "personality1": "我的性格特点和潜质如何？有哪些优势和不足？",
         "personality2": "我适合从事什么样的工作和事业？",
         "personality3": "我的人际关系模式是怎样的？",
-        
+
         "career1": "我未来5年的事业发展如何？有哪些机遇和挑战？",
         "career2": "2025年的事业运势如何？适合做重大决定吗？",
         "career3": "我的事业瓶颈在哪里？如何突破？",
-        
+
         "love1": "我的感情运势如何？什么时候会遇到良缘？",
         "love2": "我目前的感情状况适合发展吗？",
         "love3": "我该如何提升自己的桃花运？",
-        
+
         "health1": "我需要注意哪些健康问题？",
         "health2": "如何通过调整生活方式改善健康？",
         "health3": "我有什么潜在的健康隐患需要预防？",
-        
+
         "fortune1": "我近期的整体运势如何？",
         "fortune2": "哪些时期是我的运势高峰？",
         "fortune3": "如何趋吉避凶，把握机遇？"

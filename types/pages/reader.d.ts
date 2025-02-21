@@ -1,13 +1,6 @@
 export interface ReaderPage {
   title: string;
   description: string;
-  loginPrompt: string;
-  errors: {
-    pleaseLogin: string;
-    checkUsageError: string;
-    noRemainingReadings: string;
-    recordUsageError: string;
-  };
   form: {
     birthDate: {
       label: string;
@@ -29,10 +22,4 @@ export interface ReaderPage {
     submitting: string;
     back: string;
   };
-  customer: {
-    input: {
-      unlimited_usage: string;
-      remaining_readings: string;
-    };
-  };
-} 
+}

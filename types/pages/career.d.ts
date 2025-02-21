@@ -11,6 +11,20 @@ export interface QuestionSelectorSection {
   subtitle: string;
   placeholder: string;
   send: string;
+  loginPrompt: string;
+  errors: {
+    pleaseLogin: string;
+    checkUsageError: string;
+    noRemainingReadings: string;
+    recordUsageError: string;
+    pleaseInputBirthInfo: string;
+  };
+  customer: {
+    input: {
+      unlimited_usage: string;
+      remaining_readings: string;
+    };
+  };
   categories: {
     [key: string]: string; // key 是分类ID (all, career, future 等)
   };

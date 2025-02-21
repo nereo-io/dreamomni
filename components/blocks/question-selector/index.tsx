@@ -1,41 +1,109 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send } from "lucide-react";
+import { Send, Calendar } from "lucide-react";
 import { QuestionSelectorSection } from "@/types/pages/career";
 import { Card } from "@/components/ui/card";
+import CustomerInputFormModal from "@/components/readers/CustomerInputFormModal";
+import { useAppContext } from "@/contexts/app";
+import { ReaderPage } from "@/types/pages/reader";
+import { toast } from "sonner";
+import { CustomerInfo } from "@/types/customer";
+import { Chat, ChatStatus } from "@/types/chat.d";
+import { useRouter } from "next/navigation";
+import { getUniSeq } from "@/lib/hash";
 
-interface Props extends QuestionSelectorSection {
-  onSubmit: (question: string) => void;
-  defaultQuestion?: string;
-  send: string;
+interface Props {
+  formMessages: ReaderPage;
+  questionSelector: QuestionSelectorSection;
 }
 
 export default function QuestionSelector({
-  title,
-  subtitle,
-  placeholder,
-  categories,
-  questions,
-  onSubmit,
-  defaultQuestion,
-  send,
+  formMessages,
+  questionSelector,
 }: Props) {
+  const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [question, setQuestion] = useState(defaultQuestion || "");
-  const [charCount, setCharCount] = useState(defaultQuestion?.length || 0);
-  const maxChars = 300;
+  const [question, setQuestion] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // 获取剩余次数
+  const [isPending, setIsPending] = useState(false);
+  const [remainingCount, setRemainingCount] = useState<number | null>(null);
+
+  // 获取用户信息
+  const { user, setShowSignModal, membership, isLoadingMembership, setChat } =
+    useAppContext();
+
+  // 处理customerInfo
+  const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // 获取剩余次数
+  useEffect(() => {
+    const fetchReadingCount = async () => {
+      if (!user?.uuid) {
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/readings/check");
+        const data = await response.json();
+
+        if (data.code === 0) {
+          setRemainingCount(data.data.remainingCount);
+        }
+      } catch (error) {
+        console.error("Failed to fetch reading count:", error);
+      }
+    };
+
+    fetchReadingCount();
+  }, [user?.uuid]);
+
+  // 格式化日期显示
+  const formatBirthInfo = (info: CustomerInfo) => {
+    return `${info.birthMonth}-${info.birthDay}-${info.birthYear} ${info.gender}`;
+  };
+
+  // 获取用户信息
+  const fetchCustomerInfo = async () => {
+    if (!user?.uuid) {
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/customer-info/list");
+      const result = await response.json();
+
+      if (result.code === 0) {
+        setCustomerInfo(result.data); // data 可能是 CustomerInfo 或 null
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error("获取客户信息失败:", error);
+      setCustomerInfo(null);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCustomerInfo();
+  }, [user?.uuid]);
 
   // 将问题数据转换为数组，并添加分类信息
-  const questionList = Object.entries(questions).map(([id, text]) => ({
-    id,
-    text,
-    category: id.replace(/\d+$/, ""),
-  }));
+  const questionList = Object.entries(questionSelector.questions).map(
+    ([id, text]) => ({
+      id,
+      text,
+      category: id.replace(/\d+$/, ""),
+    })
+  );
 
   // 根据选中的分类筛选问题
   const filteredQuestions = questionList.filter(
@@ -43,32 +111,69 @@ export default function QuestionSelector({
   );
 
   const handleQuestionClick = (text: string) => {
-    if (text.length <= maxChars) {
-      setQuestion(text);
-      setCharCount(text.length);
-    }
+    setQuestion(text);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const text = e.target.value;
-    if (text.length <= maxChars) {
-      setQuestion(text);
-      setCharCount(text.length);
-    }
+    setQuestion(e.target.value);
   };
 
   const handleSubmit = () => {
+    // 1. 检查登录状态
+    if (!user?.uuid) {
+      setIsPending(false);
+      toast.message(questionSelector.errors.pleaseLogin);
+      setShowSignModal(true);
+      return;
+    }
+
+    // 2. 使用已缓存的状态，remainingCount为0时表示无法继续阅读
+    try {
+      if (remainingCount === 0) {
+        setIsPending(false);
+        toast.error(questionSelector.errors.noRemainingReadings);
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+      setIsPending(false);
+      return;
+    }
+
+    // 3. 检查是否填写生辰信息
+    console.log("customerInfo", customerInfo);
+    console.log("customerInfo.length", !customerInfo);
+    if (
+      customerInfo === null ||
+      (Array.isArray(customerInfo) && customerInfo.length === 0)
+    ) {
+      setIsPending(false);
+      toast.message(questionSelector.errors.pleaseInputBirthInfo);
+      setIsModalOpen(true);
+      return;
+    }
+
     if (question.trim()) {
-      onSubmit(question);
-      setQuestion("");
-      setCharCount(0);
+      const chat: Chat = {
+        uuid: getUniSeq(),
+        title: question,
+        status: ChatStatus.New,
+        created_at: new Date(),
+        customer_info: customerInfo,
+      };
+      setChat(chat);
+
+      const jump_url = `/chat/${chat.uuid}`;
+      router.push(jump_url);
     }
   };
 
   // 处理回车键提交
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
+      setIsPending(true);
+
       handleSubmit();
     }
   };
@@ -76,15 +181,6 @@ export default function QuestionSelector({
   return (
     <section className="pb-8 pt-2 md:pb-16 md:pt-4">
       <div className="container px-4 md:px-6 max-w-4xl">
-        {/* <div className="text-center mb-6 md:mb-10">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 md:mb-3">
-            <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
-              {title}
-            </span>
-          </h2>
-          <p className="text-base md:text-lg text-muted-foreground">{subtitle}</p>
-        </div> */}
-
         <Card className="p-4 md:p-6">
           {/* 输入区域 */}
           <div className="relative mb-6 md:mb-8">
@@ -92,34 +188,74 @@ export default function QuestionSelector({
               value={question}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
-              placeholder={placeholder}
+              placeholder={questionSelector.placeholder}
               className="pr-24 min-h-[80px] md:min-h-[100px] text-base md:text-lg resize-none"
             />
             <div className="absolute right-2 bottom-2 flex items-center gap-2">
-              <span className="text-xs md:text-sm text-muted-foreground">
-                {charCount}/{maxChars}
-              </span>
-              <Button 
-                onClick={handleSubmit} 
+              {/* 使用次数提示 - 只在加载完成且有用户登录时显示 */}
+              {user?.uuid &&
+                !isLoadingMembership &&
+                remainingCount !== null && (
+                  <div className="text-center">
+                    {membership?.status === "active" ? (
+                      <p className="text-sm text-orange-500">
+                        {questionSelector.customer.input.unlimited_usage}
+                      </p>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">
+                        {questionSelector.customer.input.remaining_readings.replace(
+                          "{count}",
+                          remainingCount.toString()
+                        )}
+                      </p>
+                    )}
+                  </div>
+                )}
+              {!user?.uuid && !isPending && (
+                <p className="text-center text-sm text-orange-500">
+                  {questionSelector.loginPrompt}
+                </p>
+              )}
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsModalOpen(true)}
+                className="h-9"
+                disabled={isLoading}
+              >
+                <Calendar className="h-4 w-4 mr-2" />
+                {customerInfo === null ||
+                (Array.isArray(customerInfo) && customerInfo.length === 0) ? (
+                  <span className="flex items-center">"输入生辰"</span>
+                ) : (
+                  <span className="flex items-center">
+                    {formatBirthInfo(customerInfo)}
+                  </span>
+                )}
+              </Button>
+              <Button
+                onClick={handleSubmit}
                 className="bg-orange-500 hover:bg-orange-600 h-9 px-4"
               >
                 <Send className="h-4 w-4 mr-2" />
-                {send}
+                {questionSelector.send}
               </Button>
             </div>
           </div>
 
           {/* 分类标签 */}
           <div className="flex gap-1.5 md:gap-2 flex-wrap mb-4 md:mb-6">
-            {Object.entries(categories).map(([key, label]) => (
+            {Object.entries(questionSelector.categories).map(([key, label]) => (
               <Badge
                 key={key}
                 variant={selectedCategory === key ? "default" : "outline"}
                 className={`
                   cursor-pointer text-xs md:text-sm px-3 md:px-4 py-1 md:py-1.5
-                  ${selectedCategory === key 
-                    ? 'bg-orange-500 hover:bg-orange-600' 
-                    : 'hover:bg-orange-500/10'
+                  ${
+                    selectedCategory === key
+                      ? "bg-orange-500 hover:bg-orange-600"
+                      : "hover:bg-orange-500/10"
                   }
                 `}
                 onClick={() => setSelectedCategory(key)}
@@ -138,13 +274,24 @@ export default function QuestionSelector({
                   className="p-3 md:p-4 cursor-pointer transition-colors hover:bg-orange-500/5 group"
                   onClick={() => handleQuestionClick(q.text)}
                 >
-                  <p className="text-sm md:text-base group-hover:text-orange-600">{q.text}</p>
+                  <p className="text-sm md:text-base group-hover:text-orange-600">
+                    {q.text}
+                  </p>
                 </Card>
               ))}
             </div>
           </ScrollArea>
         </Card>
+
+        {/* 生辰信息模态框 */}
+        <CustomerInputFormModal
+          messages={formMessages}
+          open={isModalOpen}
+          onOpenChange={setIsModalOpen}
+          customerInfo={customerInfo}
+          onSuccess={fetchCustomerInfo}
+        />
       </div>
     </section>
   );
-} 
+}

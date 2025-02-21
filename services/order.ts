@@ -19,14 +19,15 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
 
     const order_no = session.metadata.order_no;
     const user_uuid = session.metadata.user_uuid;
-    
+
     // 打印订单和用户信息
     console.log("Processing order:", {
       order_no,
       user_uuid,
     });
 
-    const paid_email = session.customer_details?.email || session.customer_email || "";
+    const paid_email =
+      session.customer_details?.email || session.customer_email || "";
     const paid_detail = JSON.stringify(session);
 
     const order = await findOrderByOrderNo(order_no);
@@ -39,17 +40,17 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
 
     // 更新会员状态 - 目前只支持月度会员
     console.log("Updating membership for user:", user_uuid);
-    await createOrUpdateMembership(user_uuid, 'monthly');
-    if (order.user_uuid && order.credits > 0) {
-      // increase credits for paied order
-      await increaseCredits({
-        user_uuid: order.user_uuid,
-        trans_type: CreditsTransType.OrderPay,
-        credits: order.credits,
-        expired_at: order.expired_at,
-        order_no: order_no,
-      });
-    }
+    await createOrUpdateMembership(user_uuid, "monthly");
+    // if (order.user_uuid && order.credits > 0) {
+    //   // increase credits for paied order
+    //   await increaseCredits({
+    //     user_uuid: order.user_uuid,
+    //     trans_type: CreditsTransType.OrderPay,
+    //     credits: order.credits,
+    //     expired_at: order.expired_at,
+    //     order_no: order_no,
+    //   });
+    // }
 
     console.log(
       "handle order session successed: ",

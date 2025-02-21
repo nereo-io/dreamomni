@@ -169,7 +169,10 @@ export default function Header({ header }: { header: HeaderType }) {
 
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+            <a
+              href={header.brand?.url || ""}
+              className="flex items-center gap-2"
+            >
               {header.brand?.logo?.src && (
                 <img
                   src={header.brand.logo.src}
@@ -182,7 +185,7 @@ export default function Header({ header }: { header: HeaderType }) {
                   {header.brand?.title || ""}
                 </span>
               )}
-            </div>
+            </a>
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="default" size="icon">

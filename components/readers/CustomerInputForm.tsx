@@ -1,20 +1,18 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter, useParams, usePathname } from "next/navigation";
 import { createCustomerInput, State } from "@/services/customerInputAction";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { logInfo } from "@/lib/utils/logger";
 import { DatePicker } from "@/components/ui/date-picker";
 import { HourSelect } from "@/components/ui/hour-select";
 import { IoMale, IoFemale } from "react-icons/io5";
 import { ReaderPage } from "@/types/pages/reader";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
-// import { Membership } from '@/types/membership';
+import { CustomerInfo } from "@/types/customer";
 
 interface FormData {
   gender: string;
@@ -24,19 +22,16 @@ interface FormData {
 
 interface Props {
   messages: ReaderPage;
-  selectedQuestion?: string;
-  onBack?: () => void;
+  onSuccess?: () => void;
+  customerInfo?: CustomerInfo | null;
 }
 
 export default function CustomerInputForm({
   messages,
-  selectedQuestion,
-  onBack,
+  onSuccess,
+  customerInfo,
 }: Props) {
-  const router = useRouter();
-  const params = useParams();
-  const { user, setShowSignModal, membership, isLoadingMembership } =
-    useAppContext();
+  const { user } = useAppContext();
 
   const initialState: State = {
     message: null,
@@ -44,65 +39,32 @@ export default function CustomerInputForm({
     values: {} as FormData,
   };
   const [state, setState] = useState(initialState);
-  const [gender, setGender] = useState(state.values?.gender || "");
+  const [gender, setGender] = useState(customerInfo?.gender || "");
   const [birthYear, setBirthYear] = useState<number>(
-    new Date().getFullYear() - 18
+    customerInfo?.birthYear || new Date().getFullYear() - 18
   );
   const [birthMonth, setBirthMonth] = useState<number>(
-    new Date().getMonth() + 1
+    customerInfo?.birthMonth || new Date().getMonth() + 1
   );
-  const [birthDay, setBirthDay] = useState<number>(new Date().getDate());
-  const [birthHour, setBirthHour] = useState<number>(new Date().getHours());
+  const [birthDay, setBirthDay] = useState<number>(
+    customerInfo?.birthDay || new Date().getDate()
+  );
+  const [birthHour, setBirthHour] = useState<number>(
+    customerInfo?.birthHour || new Date().getHours()
+  );
   const [isPending, setIsPending] = useState(false);
-  const [remainingCount, setRemainingCount] = useState<number | null>(null);
-
-  // 获取剩余次数
-  useEffect(() => {
-    const fetchReadingCount = async () => {
-      if (!user?.uuid) return;
-
-      try {
-        const response = await fetch("/api/readings/check");
-        const data = await response.json();
-
-        if (data.code === 0) {
-          setRemainingCount(data.data.remainingCount);
-        }
-      } catch (error) {
-        console.error("Failed to fetch reading count:", error);
-      }
-    };
-
-    fetchReadingCount();
-  }, [user?.uuid]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsPending(true);
 
-    // 1. 检查登录状态
-    if (!user?.uuid) {
-      setIsPending(false);
-      toast.error(messages.errors.pleaseLogin);
-      setShowSignModal(true);
-      return;
-    }
-
-    // 2. 使用已缓存的状态，remainingCount为0时表示无法继续阅读
     try {
-      if (remainingCount === 0) {
+      if (!user) {
+        toast.error("请先登录");
         setIsPending(false);
-        toast.error(messages.errors.noRemainingReadings);
         return;
       }
-    } catch (error) {
-      console.error(error);
-      setIsPending(false);
-      return;
-    }
 
-    // 3. 继续原有的表单提交逻辑
-    try {
       const formData = new FormData();
 
       // 手动设置所有需要的字段
@@ -113,35 +75,17 @@ export default function CustomerInputForm({
       formData.set("birthHour", birthHour.toString());
       formData.set("userId", user?.uuid || "");
 
-      if (selectedQuestion) {
-        formData.set("question", selectedQuestion);
-      }
+      const result = await createCustomerInput(formData);
 
-      const result = await createCustomerInput(state, formData);
-
-      if (result.message === "Success" && result.values?.customerId) {
-        const { locale } = params;
-
-        let basePath = locale
-          ? `/${locale}/reading/${result.values.customerId}`
-          : `/reading/${result.values.customerId}`;
-
-        // 如果有问题，添加到URL参数中
-        const question = formData.get("question");
-        if (question && typeof question === "string") {
-          // 使用Base64编码问题内容
-          const encodedQuestion = btoa(encodeURIComponent(question));
-          basePath += `?q=${encodedQuestion}`;
-        }
-
-        logInfo(`Redirecting to: ${basePath}`);
-
-        router.push(basePath);
+      if (result.message === "Success" && result.values?.customerInfoId) {
+        toast.success("提交成功！"); // 添加成功提示
+        onSuccess?.(); // 调用成功回调
         return;
       }
 
-      setState(result);
+      //如果没有保存成功，提示原因
       setIsPending(false);
+      setState(result);
     } catch (error) {
       console.error("Error:", error);
       toast.error("操作失败,请稍后重试");
@@ -154,16 +98,6 @@ export default function CustomerInputForm({
       <div className="container px-4 md:px-6 max-w-2xl">
         <form noValidate onSubmit={handleSubmit}>
           <Card className="p-4 md:p-6">
-            <div className="text-center mb-6 md:mb-10">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 md:mb-3">
-                <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
-                  {messages.title}
-                </span>
-              </h2>
-              <p className="text-base text-muted-foreground">
-                {messages.description}
-              </p>
-            </div>
             <CardContent className="space-y-8 p-0">
               {/* 出生日期和时间 */}
               <div className="space-y-6">
@@ -247,30 +181,6 @@ export default function CustomerInputForm({
 
               {/* 按钮组 */}
               <div className="space-y-4 pt-4">
-                {/* 使用次数提示 - 只在加载完成且有用户登录时显示 */}
-                {user?.uuid &&
-                  !isLoadingMembership &&
-                  remainingCount !== null && (
-                    <div className="text-center">
-                      {membership?.status === "active" ? (
-                        <p className="text-sm text-orange-500">
-                          {messages.customer.input.unlimited_usage}
-                        </p>
-                      ) : (
-                        <p className="text-sm text-muted-foreground">
-                          {messages.customer.input.remaining_readings.replace(
-                            "{count}",
-                            remainingCount.toString()
-                          )}
-                        </p>
-                      )}
-                    </div>
-                  )}
-                {!user?.uuid && (
-                  <p className="text-center text-sm text-orange-500">
-                    {messages.loginPrompt}
-                  </p>
-                )}
                 <Button
                   type="submit"
                   className="w-full bg-orange-500 hover:bg-orange-600 text-base"
@@ -279,14 +189,6 @@ export default function CustomerInputForm({
                   {isPending
                     ? messages.button.submitting
                     : messages.button.submit}
-                </Button>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  className="w-full text-base hover:bg-orange-500/10"
-                  onClick={onBack}
-                >
-                  {messages.button.back}
                 </Button>
               </div>
             </CardContent>

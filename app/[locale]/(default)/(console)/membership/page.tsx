@@ -3,7 +3,13 @@ import { findActiveMembershipByUserUuid } from "@/models/membership";
 import { getStripeCustomerId } from "@/models/user";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ManageSubscriptionButton } from "@/components/subscription/manage-subscription-button";
 import moment from "moment";
@@ -38,39 +44,60 @@ export default async function () {
           {membership ? (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">{t("membership.status")}</span>
-                <Badge variant={membership.status === 'active' ? 'default' : 'secondary'}>
-                  {membership.status === 'active' ? t("membership.status_active") : t("membership.status_expired")}
+                <span className="text-sm text-muted-foreground">
+                  {t("membership.status")}
+                </span>
+                <Badge
+                  variant={
+                    membership.status === "active" ? "default" : "secondary"
+                  }
+                >
+                  {membership.status === "active"
+                    ? t("membership.status_active")
+                    : t("membership.status_expired")}
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">{t("membership.type")}</span>
+                <span className="text-sm text-muted-foreground">
+                  {t("membership.type")}
+                </span>
                 <span className="text-sm font-medium">
-                  {membership.plan_type === 'monthly' ? t("membership.type_monthly") : t("membership.type_yearly")}
+                  {membership.plan_type === "monthly"
+                    ? t("membership.type_monthly")
+                    : t("membership.type_yearly")}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">{t("membership.start_date")}</span>
+                <span className="text-sm text-muted-foreground">
+                  {t("membership.start_date")}
+                </span>
                 <span className="text-sm font-medium">
-                  {moment(membership.start_date).format('YYYY-MM-DD HH:mm')}
+                  {moment(membership.start_date).format("YYYY-MM-DD HH:mm")}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">{t("membership.end_date")}</span>
+                <span className="text-sm text-muted-foreground">
+                  {t("membership.end_date")}
+                </span>
                 <span className="text-sm font-medium">
-                  {moment(membership.end_date).format('YYYY-MM-DD HH:mm')}
+                  {moment(membership.end_date).format("YYYY-MM-DD HH:mm")}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">{t("membership.remaining_days")}</span>
+                <span className="text-sm text-muted-foreground">
+                  {t("membership.remaining_days")}
+                </span>
                 <span className="text-sm font-medium">
-                  {moment(membership.end_date).diff(moment(), 'days')} {t("membership.days")}
+                  {moment(membership.end_date).diff(moment(), "days")}{" "}
+                  {t("membership.days")}
                 </span>
               </div>
             </div>
           ) : (
             <div className="text-center py-6">
-              <p className="text-sm text-muted-foreground">{t("membership.no_membership")}</p>
+              <p className="text-sm text-muted-foreground">
+                {t("membership.no_membership")}
+              </p>
             </div>
           )}
         </CardContent>

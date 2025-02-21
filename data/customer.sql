@@ -56,3 +56,28 @@ ALTER COLUMN birth_hour SET NOT NULL;
 ALTER TABLE customers 
 DROP COLUMN birth_date_time;
 
+
+-- 添加 customer_info 表
+CREATE TABLE customer_info (
+    id VARCHAR(255) PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_uuid VARCHAR(255) NOT NULL,
+    created_at timestamptz DEFAULT NOW(),
+    updated_at timestamptz DEFAULT NOW(),
+
+    gender VARCHAR(50) NOT NULL,
+    birth_year INTEGER NOT NULL,
+    birth_month INTEGER NOT NULL,
+    birth_day INTEGER NOT NULL,
+    birth_hour INTEGER NOT NULL,
+
+    birth_city VARCHAR(255) NOT NULL,
+    city_adcode VARCHAR(255) NOT NULL,
+    city_address VARCHAR(255) NOT NULL,
+    city_lat VARCHAR(255) NOT NULL,
+    city_lng VARCHAR(255) NOT NULL,
+    true_solar_time timestamptz NOT NULL,
+    timezone VARCHAR(50) NOT NULL,
+    FOREIGN KEY (user_uuid) REFERENCES users(uuid)
+);
+
+

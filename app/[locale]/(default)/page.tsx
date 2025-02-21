@@ -10,7 +10,7 @@ import Pricing from "@/components/blocks/pricing";
 import Showcase from "@/components/blocks/showcase";
 import Stats from "@/components/blocks/stats";
 import Testimonial from "@/components/blocks/testimonial";
-import QuestionForm from "@/components/blocks/question-form";
+import QuestionSelector from "@/components/blocks/question-selector";
 import ProductHunt from "@/components/blocks/producthunt";
 import { getLandingPage, getReaderPage } from "@/services/page";
 
@@ -45,8 +45,8 @@ export default async function LandingPage({
       {page.hero && <Hero hero={page.hero} />}
       <ProductHunt />
       {page.questionForm && (
-        <QuestionForm
-          messages={readerPage}
+        <QuestionSelector
+          formMessages={readerPage}
           questionSelector={page.questionForm.questionSelector}
         />
       )}

@@ -10,8 +10,8 @@ import { NextAuthSessionProvider } from "@/auth/session";
 import { NextIntlClientProvider } from "next-intl";
 import { ThemeProvider } from "@/providers/theme";
 import { cn } from "@/lib/utils";
-import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Analytics } from "@vercel/analytics/react"
+// import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from "@vercel/analytics/react";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -61,7 +61,7 @@ export default async function RootLayout({
             </AppContextProvider>
           </NextAuthSessionProvider>
         </NextIntlClientProvider>
-        <SpeedInsights />
+        {/* <SpeedInsights /> */}
         <Analytics />
       </body>
     </html>
