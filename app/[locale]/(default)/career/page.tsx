@@ -1,5 +1,5 @@
 import Feature3 from "@/components/blocks/feature3";
-import QuestionForm from "@/components/blocks/question-form";
+import QuestionSelector from "@/components/blocks/question-selector";
 import { getCareerPage, getReaderPage } from "@/services/page";
 import { getTranslations } from "next-intl/server";
 import { Metadata } from "next";
@@ -18,7 +18,7 @@ export async function generateMetadata({
 
   return {
     title: {
-      absolute: t("career.metadata.title")
+      absolute: t("career.metadata.title"),
     },
     description: t("career.metadata.description"),
     alternates: {
@@ -34,15 +34,19 @@ export default async function CareerPage({
 }) {
   const [pageData, messages] = await Promise.all([
     getCareerPage(locale),
-    getReaderPage(locale)
+    getReaderPage(locale),
   ]);
 
   return (
     <main>
-      <QuestionForm 
+      {/* <QuestionForm 
         messages={messages} 
         questionSelector={pageData.questionSelector} 
-      />
+      /> */}
+      {/* <QuestionSelector
+        formMessages={messages}
+        questionSelector={pageData.questionSelector}
+      /> */}
       {pageData.howItWorks && <Feature3 section={pageData.howItWorks} />}
     </main>
   );
