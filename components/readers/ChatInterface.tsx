@@ -12,6 +12,9 @@ import { toast } from "sonner";
 import Link from "next/link";
 import LoadingAnimation from "./LoadingAnimation";
 import { IoArrowBack } from "react-icons/io5";
+import { ChatSession, ChatStatus } from "@/types/chat.d";
+import { chatSessionApi } from "@/services/api/chatSession";
+import { useParams } from "next/navigation";
 
 interface AiReader {
   name: string;
@@ -25,14 +28,28 @@ interface ChatInterfaceProps {
   locale: string;
 }
 
+interface Message {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+  createdAt?: Date;
+}
+
 export default function ChatInterface({
   aiReader,
   lomessages,
   locale,
 }: ChatInterfaceProps) {
-  const { membership, chat } = useAppContext();
+  const params = useParams();
+  const {
+    membership,
+    chat: contextChat,
+    setChat: setContextChat,
+  } = useAppContext();
+  const [initialMessages, setInitialMessages] = useState<Message[]>([]);
   const [remainingCount, setRemainingCount] = useState<number | null>(null);
   const [isLoadingCount, setIsLoadingCount] = useState(true);
+  const [lastSavedMessageId, setLastSavedMessageId] = useState<string>("");
 
   const checkRemainingCredits = async () => {
     setIsLoadingCount(true);
@@ -50,6 +67,65 @@ export default function ChatInterface({
     }
   };
 
+  // 初始化聊天会话和历史消息
+  useEffect(() => {
+    let mounted = true;
+
+    const initializeChat = async () => {
+      try {
+        let chatSession: ChatSession | null = null;
+        // console.log("contextChat", contextChat);
+
+        if (contextChat?.uuid && contextChat.status === ChatStatus.New) {
+          chatSession = await chatSessionApi.create(contextChat);
+        } else {
+          const chatId = params.chatId as string;
+          if (chatId) {
+            chatSession = await chatSessionApi.get(chatId);
+          }
+        }
+
+        if (mounted && chatSession) {
+          setContextChat(chatSession);
+          // console.log("chatSession", chatSession);
+
+          // 如果会话是新会话，发送标题
+          if (contextChat?.status === ChatStatus.New && contextChat.title) {
+            append({ role: "user", content: contextChat.title });
+          }
+          // 如果会话已经创建，加载历史消息
+          else {
+            const messagesHistory = await chatSessionApi.getMessages(
+              chatSession.uuid
+            );
+            if (messagesHistory) {
+              // 直接设置初始消息
+              setInitialMessages(
+                messagesHistory.map((msg) => ({
+                  id: msg.id || "",
+                  role: msg.role as "user" | "assistant",
+                  content: msg.content,
+                  reasoning: msg.reasoning_content,
+                }))
+              );
+            }
+          }
+        }
+      } catch (error) {
+        console.error("初始化聊天会话失败:", error);
+        if (mounted) {
+          // toast.error(lomessages.errors.failedToLoadChat);
+        }
+      }
+    };
+
+    initializeChat();
+
+    return () => {
+      mounted = false;
+    };
+  }, [params.chatId]);
+
   const {
     append,
     messages,
@@ -58,13 +134,61 @@ export default function ChatInterface({
     handleSubmit: originalHandleSubmit,
     isLoading,
   } = useChat({
-    api: "/api/chat",
-    id: chat.uuid,
+    api: "/api/chat-completion",
+    id: contextChat?.uuid || "", // 确保有 chat 时才提供 id
+    initialMessages, // 使用初始消息
     body: {
       locale,
-      customer_info: chat?.customer_info,
+      customer_info: contextChat?.customer_info,
     },
   });
+
+  // 监听消息变化并保存
+  useEffect(() => {
+    const saveMessage = async () => {
+      if (!contextChat?.uuid || messages.length === 0) return;
+
+      const lastMessage = messages[messages.length - 1];
+
+      // 如果这条消息已经保存过，直接返回
+      if (lastMessage.id === lastSavedMessageId) return;
+
+      try {
+        // 保存最新消息
+        await chatSessionApi.saveMessage(contextChat.uuid, {
+          session_id: contextChat.uuid,
+          role: lastMessage.role as "user" | "assistant",
+          content: lastMessage.content,
+          reasoning_content: lastMessage.reasoning,
+          id: lastMessage.id,
+        });
+
+        // 更新最后保存的消息ID
+        setLastSavedMessageId(lastMessage.id);
+
+        // 更新会话状态
+        if (
+          lastMessage.role === "assistant" &&
+          contextChat?.status === ChatStatus.New
+        ) {
+          const updatedChat = await chatSessionApi.updateStatus(
+            contextChat.uuid,
+            ChatStatus.Created
+          );
+          setContextChat({
+            ...contextChat,
+            status: ChatStatus.Created,
+          });
+        }
+        // console.log("contextChat", contextChat);
+      } catch (error) {
+        console.error("保存消息失败:", error);
+        // toast.error(lomessages.errors.failedToSaveMessage);
+      }
+    };
+
+    saveMessage();
+  }, [isLoading]);
 
   // 在AI 开始回复时更新剩余次数
   useEffect(() => {
@@ -72,13 +196,6 @@ export default function ChatInterface({
       checkRemainingCredits();
     }
   }, [isLoading]);
-
-  useEffect(() => {
-    console.log("chat", chat);
-    if (chat.title) {
-      append({ role: "user", content: chat.title });
-    }
-  }, []);
 
   // 创建一个ref来存储消息容器
   const messagesEndRef = React.useRef<HTMLDivElement>(null);

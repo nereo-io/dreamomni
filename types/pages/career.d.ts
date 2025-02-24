@@ -23,6 +23,7 @@ export interface QuestionSelectorSection {
     input: {
       unlimited_usage: string;
       remaining_readings: string;
+      add_birth_info: string;
     };
   };
   categories: {

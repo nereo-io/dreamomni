@@ -43,7 +43,6 @@ export default async function LandingPage({
   return (
     <>
       {page.hero && <Hero hero={page.hero} />}
-      <ProductHunt />
       {page.questionForm && (
         <QuestionSelector
           formMessages={readerPage}

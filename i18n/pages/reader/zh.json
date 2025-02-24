@@ -1,6 +1,14 @@
 {
   "title": "填写基本信息",
   "description": "我们重视你的隐私，所有信息仅用于解读分析",
+  "loginPrompt": "登录即可获得每天3次免费解读机会",
+  "errors": {
+    "pleaseLogin": "请登录以获得每天3次免费解读机会",
+    "checkUsageError": "查询解读次数失败",
+    "noRemainingReadings": "今日解读次数已用完，请明天再来",
+    "recordUsageError": "记录解读使用失败",
+    "operationFailed": "操作失败，请稍后重试"
+  },
   "form": {
     "birthDate": {
       "label": "出生日期",
@@ -18,8 +26,9 @@
     }
   },
   "button": {
-    "submit": "开始解读",
-    "submitting": "处理中...",
-    "back": "返回"
+    "submit": "保存",
+    "submitting": "保存中...",
+    "back": "返回",
+    "saveSuccess": "保存成功！"
   }
 }

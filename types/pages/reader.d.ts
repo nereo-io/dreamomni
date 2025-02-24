@@ -1,6 +1,13 @@
 export interface ReaderPage {
   title: string;
   description: string;
+  errors: {
+    pleaseLogin: string;
+    checkUsageError: string;
+    noRemainingReadings: string;
+    recordUsageError: string;
+    operationFailed: string;
+  };
   form: {
     birthDate: {
       label: string;
@@ -21,5 +28,6 @@ export interface ReaderPage {
     submit: string;
     submitting: string;
     back: string;
+    saveSuccess: string;
   };
 }

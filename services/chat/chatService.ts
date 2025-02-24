@@ -1,50 +1,95 @@
-// services/chat/ChatService.ts
-import { BaziFastApiService } from "./baziAPIService";
-import { Message, ChatRequest } from "@/types/chat";
-import { getCustomerInputById } from "@/models/customer";
-import { getChatSystemPrompt } from "@/i18n/prompts/chat";
-import { CoreMessage } from "ai";
-import { CustomerInfo } from "@/types/customer";
-export class ChatService {
-  private static chatSystemPromptCache = new Map<string, string>();
+import {
+  ChatSession,
+  ChatStatus,
+  ChatMessage,
+  ChatSessionDB,
+} from "@/types/chat.d";
+import {
+  createChatSession,
+  getChatSessionByUuid,
+  createOrUpdateChatMessage,
+  getChatMessagesByChatSessionId,
+  updateChatSessionStatus,
+} from "@/models/chat";
+import { getCustomerInfoById } from "@/models/customer";
 
-  static async buildSystemPrompt(
-    customer_info: CustomerInfo,
-    locale: string
-  ): Promise<string> {
-    if (!customer_info.id) {
-      throw new Error("Customer ID is required");
-    }
-
-    if (this.chatSystemPromptCache.has(customer_info.id)) {
-      return this.chatSystemPromptCache.get(customer_info.id) as string;
-    }
+export const ChatService = {
+  async createChatSession(chat: ChatSessionDB): Promise<ChatSession> {
     try {
-      const baziAnalysis = await BaziFastApiService.getAnalysisForCustomer(
-        customer_info
+      // 保存会话基本信息
+      const savedSession = await createChatSession(chat);
+      const customerInfo = await getCustomerInfoById(
+        savedSession.customer_info_id
       );
-      const systemPrompt = getChatSystemPrompt(locale, baziAnalysis);
-      this.chatSystemPromptCache.set(customer_info.id, systemPrompt);
-      return systemPrompt;
+      // 组装完整的会话信息
+      return {
+        ...savedSession,
+        customer_info: customerInfo,
+      };
     } catch (error) {
-      console.error(error);
-      return "";
+      console.error("Failed to create chat session:", error);
+      throw error;
     }
-  }
+  },
 
-  static buildMessageHistory(
-    systemPrompt: string,
-    messages: Message[]
-  ): CoreMessage[] {
-    return [
-      {
-        role: "system" as const,
-        content: systemPrompt,
-      },
-      ...messages.map((m) => ({
-        role: m.role as "user" | "assistant",
-        content: m.content,
-      })),
-    ];
-  }
-}
+  async getChatSession(uuid: string): Promise<ChatSession | null> {
+    try {
+      // 获取会话基本信息
+      console.log("uuid", uuid);
+
+      const session = await getChatSessionByUuid(uuid);
+      if (!session) return null;
+      console.log("session", session);
+
+      // 获取客户信息
+      const customerInfo = await getCustomerInfoById(session.customer_info_id);
+
+      // 组装完整的会话信息
+      return {
+        ...session,
+        customer_info: customerInfo,
+      };
+    } catch (error) {
+      console.error("Failed to get chat session:", error);
+      throw error;
+    }
+  },
+
+  async saveMessage(message: ChatMessage): Promise<ChatMessage> {
+    try {
+      return await createOrUpdateChatMessage(message);
+    } catch (error) {
+      console.error("Failed to save chat message:", error);
+      throw error;
+    }
+  },
+
+  async updateChatStatus(
+    uuid: string,
+    status: ChatStatus
+  ): Promise<ChatSession | null> {
+    try {
+      // 先获取现有会话
+      const session = await getChatSessionByUuid(uuid);
+      if (!session) return null;
+
+      // 更新状态
+      const updatedSession = await updateChatSessionStatus(uuid, status);
+      if (!updatedSession) return null;
+
+      // 获取客户信息
+      const customerInfo = await getCustomerInfoById(
+        updatedSession.customer_info_id
+      );
+
+      // 返回完整的会话信息
+      return {
+        ...updatedSession,
+        customer_info: customerInfo,
+      };
+    } catch (error) {
+      console.error("Failed to update chat status:", error);
+      throw error;
+    }
+  },
+};

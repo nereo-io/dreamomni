@@ -1,8 +1,68 @@
 @baseUrl = http://localhost:3000/api
+@authToken = authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiMjdjQzA0V0toaXVJbUNVOEtSOUpFREFhS0RNemVILXgzU0Vqc3pqRnZBYkFEUjE4VzVkWVB2Y0dSZXUyQkZhRnY2MGMxSGlSUVJyUk95bDFNR09VNVEifQ..4ypZmGbUDvow0VYjxEEfOg.Ujm8LjooG1XZ6HzpgJcLT95v-pWH0MMfjfaYz6OQDfR1ev4OL6zEU9m0UkvME1VDro_fU9IDjyTRvLifQKVMFAWLTZPm85IRKk062t27YwpVt3WRg16enuqPWf42weJJGsV_8kssRc1MURFvemwhr3VndpLkyAuwfJkjGdrM6MolGIBD6e2JQif8m3aj_wGQw8GF94mrujdKhVxjBMRq52swA5FjAcumMiwkSEuiv_iLD5-lTD6bdZpp1RAVcILa_FSjnOh48zbzKPQg13rNNy4zJqEeOknC6OhWudHpncZ8AnMyXm0bCkpQ02NoNDXvOnFGwt-bKj69Hn4HcTOXQG1FG2I54Wda6JvIxnsH_TUo9n8CU3-Pycjsry8Qt4w-gENct_VOKV-6XChpfR66EGn7Bqd8RV-_KOY-MJzXzTB9oqJaIEkVEQtLsO5aEqWpplgvXDwmWhd4bjkLiy9DpORbEEyRdnjro1I1hU55o_0erlW51vA1NBd5q1d4VTQlzrpDw1PGKLzlKekz6wtNROqxPjapHyi-eZkwWRyq2GD0GKNYgeUVxEFwgCMGh0XNBrtrywpRwYSIgEpniW8S1oKhGh5yu_0zypb7DQQX3yRT6Zus4gGN5NGHf1nLL3CTxwAU7VRuREIHFEiVp5bss1XAec1SKO_EqV_b4_qP5gDEAED70WhT-OcV76g4Je8fYVKoV8F_pkObHnBNjajtCft3M6-r5k78oqdOhjfhPrQ.WShGBwjTneJaHFNUPKXYy2jgP-_lYCKTK_HMrxpg9yw 
+@chatId = 3e44d60c-09af-4601-86f7-1d0a93086f41
 
 ### 获取客户信息列表 - 未授权测试
 GET {{baseUrl}}/customer-info/list
 
 ### 获取客户信息列表 - 使用 Session Token
 GET {{baseUrl}}/customer-info/list
-Cookie: authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiMjdjQzA0V0toaXVJbUNVOEtSOUpFREFhS0RNemVILXgzU0Vqc3pqRnZBYkFEUjE4VzVkWVB2Y0dSZXUyQkZhRnY2MGMxSGlSUVJyUk95bDFNR09VNVEifQ..z0qUFTvNz9tLvZZCaH5hrw.fxCtXy10YFjsp3VNbqMRHOgHTlX-YgkeYFyz9fmQOAc-5YuW1LjA7hjwScutTtl7gmsND_f_kvJw1izGyQqlXWJoyXNhVJ25pcvBFoG_7TRLomvgOqkk3xHKRG1klFCPbBHwXT67q8i7U0akmbVowA0ilsAUAwkrskD94oNazPWO0YW6nRbTIcg0gDep6bkh3Ij2Hs2pMxmjJMsugV68kdtZNaeTMEholw9wkg1isJVNsnAVE8TJZs2-j-2E7eu7BtvYh6vtAy-ss2WEA1BO-ZdC7d1b7A_YhwgSc4eQjwffbxVIoJV0J9LFc_xQ9kDsuE4pNkj-gFtWP7AfMbT2gJ8uSgubD0rGC3GdCiYqGv7K2HRcc-RpZGc3UswXaLrjt3Ajtdxd2dpTLclJdogtGmyaR8uA2khXmLy-kBPWwRkPS3kO0Qigc0jKO8vgXJ-3SEC6hqpfXV3WkCTvkpVZOv8XwFXnjX6BUwMjVwI7lwahVPNf_x7BQterp4reSG9rcphngyamsf-DyOMkT4k9xlPabRT-0CeFyzA1RP-YawqDtHj1gDB5x4eTmcF51DaujWx-sp7lB6XueIV8zpyw2JvnEG4znMVM7mMPRXlDUO8.7QVtP4UwQ78ET7V7pX7F591z3EhyBVtRLHUukrQg4ow 
+Cookie: {{authToken}}
+
+### 测试创建聊天会话
+POST {{baseUrl}}/chat-session
+Content-Type: application/json
+Cookie: {{authToken}}
+
+{
+  "uuid": "{{chatId}}",
+  "user_uuid": "785a4c2e-5ccc-4c50-9160-7bfc4e98bbfc",
+  "title": "测试聊天会话",
+  "status": "new",
+  "created_at": "2024-01-01",
+  "updated_at": "2024-01-01",
+  "customer_info_id": "57b2695b-b1e3-4c81-adc8-f9d35a24b96f"
+}
+
+### 测试get聊天会话
+GET {{baseUrl}}/chat-session/{{chatId}}
+Cookie: {{authToken}}
+
+### 更新聊天会话状态
+PUT {{baseUrl}}/chat-session/{{chatId}}
+Content-Type: application/json
+Cookie: {{authToken}}
+
+{
+  "status": "created"
+}
+
+### 获取聊天消息列表
+GET {{baseUrl}}/chat-session/{{chatId}}/messages
+Cookie: {{authToken}}
+
+### 发送新消息
+POST {{baseUrl}}/chat-session/{{chatId}}/messages
+Content-Type: application/json
+Cookie: {{authToken}}
+
+{
+  "role": "user",
+  "content": "这是一条测试消息",
+  "reasoning_content": "这是一条测试推理消息"
+}
+
+### 未授权测试 - 创建会话
+POST {{baseUrl}}/chat-session
+Content-Type: application/json
+
+{
+  "title": "未授权测试"
+}
+
+### 未授权测试 - 获取会话
+GET {{baseUrl}}/chat-session/{{chatId}}
+
+### 获取会话
+GET {{baseUrl}}/chat-session/{{chatId}}
+Cookie: {{authToken}}

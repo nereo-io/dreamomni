@@ -43,10 +43,10 @@ export default async function CareerPage({
         messages={messages} 
         questionSelector={pageData.questionSelector} 
       /> */}
-      {/* <QuestionSelector
+      <QuestionSelector
         formMessages={messages}
         questionSelector={pageData.questionSelector}
-      /> */}
+      />
       {pageData.howItWorks && <Feature3 section={pageData.howItWorks} />}
     </main>
   );

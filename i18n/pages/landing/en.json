@@ -453,8 +453,9 @@
       },
       "customer": {
         "input": {
-          "unlimited_usage": "Member - Unlimited Usage",
-          "remaining_readings": "Remaining readings today: {count}"
+          "unlimited_usage": "Member",
+          "remaining_readings": "Remaining {count} times",
+          "add_birth_info": "add birth info"
         }
       },
       "categories": {

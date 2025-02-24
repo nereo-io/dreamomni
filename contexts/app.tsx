@@ -13,7 +13,7 @@ import { User } from "@/types/user";
 import useOneTapLogin from "@/hooks/useOneTapLogin";
 import useMembership from "@/hooks/useMembership";
 import { useSession } from "next-auth/react";
-import { Chat } from "@/types/chat";
+import { ChatSession } from "@/types/chat";
 const AppContext = createContext({} as ContextValue);
 
 export const useAppContext = () => useContext(AppContext);
@@ -37,7 +37,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   const [showSignModal, setShowSignModal] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
 
-  const [chat, setChat] = useState<Chat | null>(null);
+  const [chat, setChat] = useState<ChatSession | null>(null);
 
   useEffect(() => {
     if (session && session.user) {

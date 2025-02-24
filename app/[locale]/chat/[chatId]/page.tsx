@@ -25,9 +25,9 @@ export async function generateMetadata({
 export default async function CustomerChat({
   params,
 }: {
-  params: { locale: string };
+  params: { locale: string; chatId: string };
 }) {
-  const { locale } = params;
+  const { locale, chatId } = params;
 
   const [aiReader, messages] = await Promise.all([
     getAiReaderInfo("destiny", locale),

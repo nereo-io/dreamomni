@@ -451,8 +451,9 @@
       },
       "customer": {
         "input": {
-          "unlimited_usage": "会员 - 无限次使用",
-          "remaining_readings": "今日剩余解读次数：{count}"
+          "unlimited_usage": "会员",
+          "remaining_readings": "剩余{count}次",
+          "add_birth_info": "添加生辰信息"
         }
       },
       "categories": {

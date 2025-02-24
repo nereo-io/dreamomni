@@ -111,8 +111,9 @@
     },
     "customer": {
       "input": {
-        "unlimited_usage": "Member - Unlimited Usage",
-        "remaining_readings": "Remaining readings today: {count}"
+        "unlimited_usage": "Unlimited Usage",
+        "remaining_readings": "Remaining Readings: {count}",
+        "add_birth_info": "Add Birth Info"
       }
     }
   }

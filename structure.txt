@@ -1,12 +1,9 @@
 .
-├── LICENSE
-├── README.md
 ├── aisdk
 │   ├── generate-video
 │   │   ├── generate-video-result.ts
 │   │   ├── generate-video.ts
 │   │   └── index.ts
-│   ├── index.ts
 │   ├── kling
 │   │   ├── client.ts
 │   │   ├── image-generation.ts
@@ -19,27 +16,27 @@
 │   │   ├── kling-video-settings.ts
 │   │   └── text2video.ts
 │   ├── provider
-│   │   ├── index.ts
-│   │   └── video-model
-│   │       ├── index.ts
-│   │       └── v1
-│   │           ├── index.ts
-│   │           ├── video-model-v1-call-options.ts
-│   │           ├── video-model-v1-call-warning.ts
-│   │           └── video-model-v1.ts
-│   └── types
-│       └── video-model.ts
+│   │   ├── video-model
+│   │   │   ├── v1
+│   │   │   │   ├── index.ts
+│   │   │   │   ├── video-model-v1-call-options.ts
+│   │   │   │   ├── video-model-v1-call-warning.ts
+│   │   │   │   └── video-model-v1.ts
+│   │   │   └── index.ts
+│   │   └── index.ts
+│   ├── types
+│   │   └── video-model.ts
+│   └── index.ts
 ├── app
 │   ├── (legal)
-│   │   ├── layout.tsx
 │   │   ├── privacy-policy
 │   │   │   └── page.mdx
-│   │   └── terms-of-service
-│   │       └── page.mdx
+│   │   ├── terms-of-service
+│   │   │   └── page.mdx
+│   │   └── layout.tsx
 │   ├── [locale]
 │   │   ├── (admin)
 │   │   │   ├── admin
-│   │   │   │   ├── page.tsx
 │   │   │   │   ├── paid-orders
 │   │   │   │   │   └── page.tsx
 │   │   │   │   ├── posts
@@ -49,8 +46,9 @@
 │   │   │   │   │   ├── add
 │   │   │   │   │   │   └── page.tsx
 │   │   │   │   │   └── page.tsx
-│   │   │   │   └── users
-│   │   │   │       └── page.tsx
+│   │   │   │   ├── users
+│   │   │   │   │   └── page.tsx
+│   │   │   │   └── page.tsx
 │   │   │   └── layout.tsx
 │   │   ├── (default)
 │   │   │   ├── (console)
@@ -58,32 +56,31 @@
 │   │   │   │   │   ├── create
 │   │   │   │   │   │   └── page.tsx
 │   │   │   │   │   └── page.tsx
-│   │   │   │   ├── layout.tsx
 │   │   │   │   ├── membership
 │   │   │   │   │   └── page.tsx
 │   │   │   │   ├── my-credits
 │   │   │   │   │   └── page.tsx
-│   │   │   │   └── my-orders
-│   │   │   │       └── page.tsx
+│   │   │   │   ├── my-orders
+│   │   │   │   │   └── page.tsx
+│   │   │   │   └── layout.tsx
 │   │   │   ├── career
-│   │   │   │   ├── [customerId]
+│   │   │   │   └── page.tsx
+│   │   │   ├── posts
+│   │   │   │   ├── [slug]
+│   │   │   │   │   └── page.tsx
 │   │   │   │   └── page.tsx
 │   │   │   ├── layout.tsx
-│   │   │   ├── page.tsx
-│   │   │   └── posts
-│   │   │       ├── [slug]
-│   │   │       │   └── page.tsx
-│   │   │       └── page.tsx
+│   │   │   └── page.tsx
 │   │   ├── auth
 │   │   │   └── signin
 │   │   │       └── page.tsx
-│   │   ├── layout.tsx
+│   │   ├── chat
+│   │   │   └── [chatId]
+│   │   │       └── page.tsx
 │   │   ├── pay-success
 │   │   │   └── [session_id]
 │   │   │       └── page.tsx
-│   │   └── reading
-│   │       └── [customerId]
-│   │           └── page.tsx
+│   │   └── layout.tsx
 │   ├── api
 │   │   ├── auth
 │   │   │   └── [...nextauth]
@@ -92,8 +89,8 @@
 │   │   │   └── route.ts
 │   │   ├── checkout
 │   │   │   └── route.ts
-│   │   ├── customer
-│   │   │   └── career-question
+│   │   ├── customer-info
+│   │   │   └── list
 │   │   │       └── route.ts
 │   │   ├── customer-portal
 │   │   │   └── route.ts
@@ -160,7 +157,7 @@
 │   │   │   └── index.tsx
 │   │   ├── pricing
 │   │   │   └── index.tsx
-│   │   ├── question-form
+│   │   ├── producthunt
 │   │   │   └── index.tsx
 │   │   ├── question-selector
 │   │   │   ├── index.tsx
@@ -178,30 +175,30 @@
 │   │   └── toolbar
 │   │       └── index.tsx
 │   ├── console
-│   │   ├── layout.tsx
 │   │   ├── sidebar
 │   │   │   └── nav.tsx
-│   │   └── slots
-│   │       ├── form
-│   │       │   └── index.tsx
-│   │       ├── membership-status.tsx
-│   │       └── table
-│   │           └── index.tsx
+│   │   ├── slots
+│   │   │   ├── form
+│   │   │   │   └── index.tsx
+│   │   │   ├── table
+│   │   │   │   └── index.tsx
+│   │   │   └── membership-status.tsx
+│   │   └── layout.tsx
 │   ├── dashboard
 │   │   ├── header
 │   │   │   └── index.tsx
-│   │   ├── layout.tsx
 │   │   ├── sidebar
 │   │   │   ├── footer.tsx
 │   │   │   ├── header.tsx
 │   │   │   ├── index.tsx
 │   │   │   ├── nav.tsx
 │   │   │   └── user.tsx
-│   │   └── slots
-│   │       ├── form
-│   │       │   └── index.tsx
-│   │       └── table
-│   │           └── index.tsx
+│   │   ├── slots
+│   │   │   ├── form
+│   │   │   │   └── index.tsx
+│   │   │   └── table
+│   │   │       └── index.tsx
+│   │   └── layout.tsx
 │   ├── icon
 │   │   └── index.tsx
 │   ├── locale
@@ -211,7 +208,9 @@
 │   │   └── markdown.css
 │   ├── readers
 │   │   ├── ChatInterface.tsx
-│   │   └── CustomerInputForm.tsx
+│   │   ├── CustomerInputForm.tsx
+│   │   ├── CustomerInputFormModal.tsx
+│   │   └── LoadingAnimation.tsx
 │   ├── sign
 │   │   ├── form.tsx
 │   │   ├── modal.tsx
@@ -257,7 +256,6 @@
 │       ├── toggle-group.tsx
 │       ├── toggle.tsx
 │       └── tooltip.tsx
-├── components.json
 ├── contexts
 │   └── app.tsx
 ├── data
@@ -273,7 +271,6 @@
 │   ├── useMembership.tsx
 │   └── useOneTapLogin.tsx
 ├── i18n
-│   ├── locale.ts
 │   ├── messages
 │   │   ├── en.json
 │   │   └── zh.json
@@ -292,18 +289,24 @@
 │   │       └── zh.json
 │   ├── prompts
 │   │   └── chat.ts
+│   ├── locale.ts
 │   ├── request.ts
 │   └── routing.ts
 ├── instruction
 │   ├── career-wireframe.md
 │   ├── homepage-wireframe.md
+│   ├── note.md
 │   └── project-instructions.md
 ├── lib
+│   ├── exceptions
+│   │   └── AppError.ts
+│   ├── utils
+│   │   ├── logger.ts
+│   │   ├── solarTime.ts
+│   │   └── timezone.ts
 │   ├── avatar.ts
 │   ├── browser.ts
 │   ├── cache.ts
-│   ├── exceptions
-│   │   └── AppError.ts
 │   ├── hash.ts
 │   ├── ip.ts
 │   ├── proxy.ts
@@ -311,16 +314,10 @@
 │   ├── storage.ts
 │   ├── time.ts
 │   ├── tools.ts
-│   ├── utils
-│   │   ├── logger.ts
-│   │   ├── solarTime.ts
-│   │   └── timezone.ts
 │   └── utils.ts
-├── mdx-components.tsx
-├── middleware.ts
 ├── models
-│   ├── __tests__
 │   ├── apikey.ts
+│   ├── chat.ts
 │   ├── credit.ts
 │   ├── customer.ts
 │   ├── db.ts
@@ -329,32 +326,26 @@
 │   ├── post.ts
 │   ├── reading.ts
 │   └── user.ts
-├── next-env.d.ts
-├── next.config.mjs
-├── package-lock.json
-├── package.json
-├── pnpm-lock.yaml
-├── postcss.config.mjs
-├── preview.png
 ├── providers
 │   └── theme.tsx
 ├── public
-│   ├── favicon.ico
-│   ├── hero.png
 │   ├── imgs
 │   │   ├── badges
 │   │   │   └── phdaily.svg
-│   │   ├── cnpay.png
+│   │   ├── chat
+│   │   │   ├── ancient-book.png
+│   │   │   └── taiji.svg
 │   │   ├── features
-│   │   │   ├── 1.png
-│   │   │   ├── 2.png
-│   │   │   ├── 3.png
-│   │   │   ├── 4.png
-│   │   │   ├── 5.png
-│   │   │   ├── 6.png
-│   │   │   ├── 7.png
-│   │   │   ├── 8.png
-│   │   │   └── 9.png
+│   │   │   ├── 2025-career-question.gif
+│   │   │   ├── analysis1.png
+│   │   │   ├── analysis2.png
+│   │   │   ├── challenge-address.gif
+│   │   │   ├── challenge-detailed-explanations.png
+│   │   │   ├── generating.gif
+│   │   │   ├── loading.gif
+│   │   │   ├── pratical-solution.png
+│   │   │   ├── question-input.gif
+│   │   │   └── year-by-year-guide.png
 │   │   ├── icons
 │   │   │   ├── 1.svg
 │   │   │   ├── 2.svg
@@ -365,41 +356,43 @@
 │   │   ├── masks
 │   │   │   ├── circle.svg
 │   │   │   └── line.svg
-│   │   ├── placeholder.png
 │   │   ├── services
-│   │   │   ├── 1.png
-│   │   │   ├── 2.png
-│   │   │   ├── 3.png
-│   │   │   ├── 4.png
 │   │   │   ├── career.png
 │   │   │   ├── fortune.png
 │   │   │   ├── introduce.png
 │   │   │   ├── life.png
 │   │   │   ├── love.png
 │   │   │   └── wealth.png
-│   │   └── users
-│   │       ├── 1.png
-│   │       ├── 10.png
-│   │       ├── 11.png
-│   │       ├── 12.png
-│   │       ├── 13.png
-│   │       ├── 2.png
-│   │       ├── 3.png
-│   │       ├── 4.png
-│   │       ├── 5.png
-│   │       ├── 6.png
-│   │       ├── 7.png
-│   │       ├── 8.png
-│   │       └── 9.png
+│   │   ├── users
+│   │   │   ├── 1.png
+│   │   │   ├── 10.png
+│   │   │   ├── 11.png
+│   │   │   ├── 12.png
+│   │   │   ├── 13.png
+│   │   │   ├── 2.png
+│   │   │   ├── 3.png
+│   │   │   ├── 4.png
+│   │   │   ├── 5.png
+│   │   │   ├── 6.png
+│   │   │   ├── 7.png
+│   │   │   ├── 8.png
+│   │   │   └── 9.png
+│   │   ├── cnpay.png
+│   │   └── placeholder.png
+│   ├── favicon.ico
+│   ├── hero.png
 │   ├── logo.svg
 │   ├── qingfeng.png
 │   ├── robots.txt
 │   └── sitemap.xml
 ├── services
-│   ├── apikey.ts
 │   ├── chat
 │   │   ├── baziAPIService.ts
+│   │   ├── chatPromptService.ts
 │   │   └── chatService.ts
+│   ├── readers
+│   │   └── aiReaderInfo.ts
+│   ├── apikey.ts
 │   ├── chat.ts
 │   ├── constant.ts
 │   ├── credit.ts
@@ -407,15 +400,11 @@
 │   ├── membership.ts
 │   ├── order.ts
 │   ├── page.ts
-│   ├── readers
-│   │   └── aiReaderInfo.ts
 │   ├── reading.ts
 │   └── user.ts
-├── structure.txt
-├── tailwind.config.ts
-├── tsconfig.json
+├── tests
+│   └── customer-info.http
 ├── types
-│   ├── apikey.d.ts
 │   ├── blocks
 │   │   ├── base.d.ts
 │   │   ├── blog.d.ts
@@ -427,6 +416,16 @@
 │   │   ├── section.d.ts
 │   │   ├── sidebar.d.ts
 │   │   └── table.d.ts
+│   ├── pages
+│   │   ├── career.d.ts
+│   │   ├── chat.d.ts
+│   │   ├── landing.d.ts
+│   │   └── reader.d.ts
+│   ├── slots
+│   │   ├── base.d.ts
+│   │   ├── form.d.ts
+│   │   └── table.d.ts
+│   ├── apikey.d.ts
 │   ├── chat.d.ts
 │   ├── context.d.ts
 │   ├── credit.d.ts
@@ -438,19 +437,24 @@
 │   ├── membership.ts
 │   ├── next-auth.d.ts
 │   ├── order.d.ts
-│   ├── pages
-│   │   ├── career.d.ts
-│   │   ├── chat.d.ts
-│   │   ├── landing.d.ts
-│   │   └── reader.d.ts
 │   ├── post.d.ts
 │   ├── reading.d.ts
-│   ├── slots
-│   │   ├── base.d.ts
-│   │   ├── form.d.ts
-│   │   └── table.d.ts
 │   └── user.d.ts
+├── LICENSE
+├── README.md
+├── components.json
+├── mdx-components.tsx
+├── middleware.ts
+├── next-env.d.ts
+├── next.config.mjs
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.mjs
+├── preview.png
+├── structure.txt
+├── tailwind.config.ts
+├── tsconfig.json
 ├── vercel.json
 └── wrangler.toml.example
 
-135 directories, 319 files
+135 directories, 323 files

@@ -6,7 +6,8 @@
     "pleaseLogin": "Please sign in to get 3 free readings per day",
     "checkUsageError": "Failed to check reading count",
     "noRemainingReadings": "You've used all readings for today, please come back tomorrow",
-    "recordUsageError": "Failed to record reading usage"
+    "recordUsageError": "Failed to record reading usage",
+    "operationFailed": "Operation failed, please try again later"
   },
   "form": {
     "birthDate": {
@@ -25,8 +26,9 @@
     }
   },
   "button": {
-    "submit": "Get Reading",
-    "submitting": "Processing...",
-    "back": "Back"
+    "submit": "Save",
+    "submitting": "Saving...",
+    "back": "Back",
+    "saveSuccess": "Save successfully!"
   }
 }

@@ -1,5 +1,5 @@
 // app/api/chat/route.ts
-import { ChatService } from "@/services/chat/chatService";
+import { ChatPromptService } from "@/services/chat/chatPromptService";
 import { ChatRequest } from "@/types/chat";
 import { createDeepSeek } from "@ai-sdk/deepseek";
 import { streamText } from "ai";
@@ -77,20 +77,22 @@ export async function POST(req: Request) {
     }
 
     try {
-      const systemPrompt = await ChatService.buildSystemPrompt(
+      const systemPrompt = await ChatPromptService.buildSystemPrompt(
         customer_info,
         locale
       );
-      const messageHistory = ChatService.buildMessageHistory(
+      const messageHistory = ChatPromptService.buildMessageHistory(
         systemPrompt,
         messages
       );
 
       return streamText({
         model: deepseekARK("ep-20250205155325-bsdb5"), //r1
-        // model: deepseekARK("ep-20250208110123-np259"),  // deepseek-qwen-32B
+        // model: deepseekARK("ep-20250208110123-np259"), // deepseek-qwen-32B
         // model: deepseekARK("ep-20250210120542-75dn2"), // deepseek-qwen-7B
         // model: deepseekALI('deepseek-r1'),
+        // model: deepseekALI("qwen-max-latest"),
+        // model: deepseekALI("qwen2.5-vl-7b-instruct"),
         messages: messageHistory,
         maxTokens: 8000,
       }).toDataStreamResponse({

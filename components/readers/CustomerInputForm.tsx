@@ -60,7 +60,7 @@ export default function CustomerInputForm({
 
     try {
       if (!user) {
-        toast.error("请先登录");
+        // toast.error("请先登录");
         setIsPending(false);
         return;
       }
@@ -78,7 +78,7 @@ export default function CustomerInputForm({
       const result = await createCustomerInput(formData);
 
       if (result.message === "Success" && result.values?.customerInfoId) {
-        toast.success("提交成功！"); // 添加成功提示
+        toast.success(messages.button.saveSuccess); // 添加成功提示
         onSuccess?.(); // 调用成功回调
         return;
       }
@@ -88,7 +88,7 @@ export default function CustomerInputForm({
       setState(result);
     } catch (error) {
       console.error("Error:", error);
-      toast.error("操作失败,请稍后重试");
+      toast.error(messages.errors.operationFailed);
       setIsPending(false);
     }
   };

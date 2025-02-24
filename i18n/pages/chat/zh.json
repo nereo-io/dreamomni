@@ -1,5 +1,6 @@
 {
-  "title": "您的命理解读",
+  "title": "AI 助手",
+  "description": "与 AI 助手对话",
   "loadingAnimation": {
     "waitTime": "预计等待时间：1分钟",
     "pillars": {
@@ -49,8 +50,10 @@
     "checkUsageError": "检查使用次数失败，请稍后重试",
     "noRemainingReadings": "今日免费提问次数已用完",
     "recordUsageError": "记录使用失败，请稍后重试",
-    "generalError": "操作失败，请稍后重试",
-    "pleaseLogin": "请先登录"
+    "generalError": "发生错误，请稍后重试",
+    "pleaseLogin": "请先登录",
+    "failedToLoadChat": "加载聊天记录失败",
+    "failedToSaveMessage": "保存消息失败"
   },
   "membership": {
     "required": "需要会员才可以使用。",

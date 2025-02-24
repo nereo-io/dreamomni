@@ -1,8 +1,4 @@
-import {
-  CustomerInput,
-  CustomerAnalysis,
-  CustomerInfo,
-} from "@/types/customer";
+import { CustomerInput, CustomerInfo } from "@/types/customer";
 import { getSupabaseClient } from "./db";
 
 // 创建客户Info信息
@@ -45,10 +41,22 @@ export async function getCustomerInfoById(id: string) {
     .single();
 
   if (error) {
-    return undefined;
+    throw error;
   }
 
-  return data;
+  const customerInfo: CustomerInfo = {
+    id: data.id,
+    gender: data.gender,
+    birthYear: data.birth_year,
+    birthMonth: data.birth_month,
+    birthDay: data.birth_day,
+    birthHour: data.birth_hour,
+    userUuid: data.user_uuid,
+    createdAt: data.created_at,
+    updatedAt: data.updated_at,
+  };
+
+  return customerInfo;
 }
 
 // 根据用户UUID获取客户Info信息

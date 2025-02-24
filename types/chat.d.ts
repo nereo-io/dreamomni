@@ -1,4 +1,5 @@
-// types/chat.d.ts
+import { CustomerInfo } from "./customer";
+
 export interface ChatRequest {
   isInitializing: boolean;
   messages: Message[];
@@ -22,18 +23,35 @@ export interface ChatResponse {
 }
 
 export enum ChatStatus {
-  New = "new",
-  Pending = "pending",
-  Created = "created",
-  InProgress = "in_progress",
-  Completed = "completed",
-  Error = "error",
+  New = "new", // context中的新会话
+  Creating = "creating", // 正在保存到数据库
+  Created = "created", // 已保存且正在使用
+  Completed = "completed", // 对话已完成
+  Error = "error", // 发生错误
 }
 
-export interface Chat {
+// 数据库表对应的类型
+export interface ChatSessionDB {
   uuid: string;
+  user_uuid: string;
   title: string;
   status: ChatStatus;
+  customer_info_id: string;
   created_at: Date;
-  customer_info: CustomerInfo;
+  updated_at?: Date;
+}
+
+// 消息类型保持不变
+export interface ChatMessage {
+  id?: string;
+  session_id: string;
+  role: "user" | "assistant";
+  content: string;
+  reasoning_content?: string;
+  created_at?: Date;
+}
+
+// 前端使用的完整类型
+export interface ChatSession extends ChatSessionDB {
+  customer_info: CustomerInfo; // 前端始终需要完整的客户信息
 }

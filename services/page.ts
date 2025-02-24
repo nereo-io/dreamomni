@@ -27,7 +27,9 @@ export async function getCareerPage(locale: string): Promise<CareerPage> {
       `@/i18n/pages/career/${locale.toLowerCase()}.json`
     ).then((module) => module.default);
   } catch (error) {
-    console.warn(`Failed to load career/${locale}.json, falling back to en.json`);
+    console.warn(
+      `Failed to load career/${locale}.json, falling back to en.json`
+    );
     return await import("@/i18n/pages/career/en.json").then(
       (module) => module.default as CareerPage
     );
@@ -43,7 +45,9 @@ export async function getReaderPage(locale: string): Promise<ReaderPage> {
       `@/i18n/pages/reader/${locale.toLowerCase()}.json`
     ).then((module) => module.default);
   } catch (error) {
-    console.warn(`Failed to load reader/${locale}.json, falling back to en.json`);
+    console.warn(
+      `Failed to load reader/${locale}.json, falling back to en.json`
+    );
     return await import("@/i18n/pages/reader/en.json").then(
       (module) => module.default as ReaderPage
     );
@@ -55,9 +59,9 @@ export async function getChatPage(locale: string): Promise<ChatPage> {
     if (locale === "zh-CN") {
       locale = "zh";
     }
-    return await import(
-      `@/i18n/pages/chat/${locale.toLowerCase()}.json`
-    ).then((module) => module.default);
+    return await import(`@/i18n/pages/chat/${locale.toLowerCase()}.json`).then(
+      (module) => module.default
+    );
   } catch (error) {
     console.warn(`Failed to load chat/${locale}.json, falling back to en.json`);
     return await import("@/i18n/pages/chat/en.json").then(

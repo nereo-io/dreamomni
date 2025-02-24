@@ -1,5 +1,6 @@
 {
-  "title": "Your Reading",
+  "title": "AI Assistant",
+  "description": "Chat with AI Assistant",
   "loadingAnimation": {
     "waitTime": "Estimated wait time: 1 minute",
     "pillars": {
@@ -49,8 +50,10 @@
     "checkUsageError": "Failed to check usage count, please try again later",
     "noRemainingReadings": "You have used all free questions for today",
     "recordUsageError": "Failed to record usage, please try again later",
-    "generalError": "Operation failed, please try again later",
-    "pleaseLogin": "Please login first"
+    "generalError": "An error occurred, please try again later",
+    "pleaseLogin": "Please login first",
+    "failedToLoadChat": "Failed to load chat history",
+    "failedToSaveMessage": "Failed to save message"
   },
   "membership": {
     "required": "Membership required to use this feature.",

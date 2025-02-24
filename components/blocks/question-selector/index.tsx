@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Calendar } from "lucide-react";
+import { Send, CalendarDays } from "lucide-react";
 import { QuestionSelectorSection } from "@/types/pages/career";
 import { Card } from "@/components/ui/card";
 import CustomerInputFormModal from "@/components/readers/CustomerInputFormModal";
@@ -13,9 +13,9 @@ import { useAppContext } from "@/contexts/app";
 import { ReaderPage } from "@/types/pages/reader";
 import { toast } from "sonner";
 import { CustomerInfo } from "@/types/customer";
-import { Chat, ChatStatus } from "@/types/chat.d";
+import { ChatSession, ChatStatus } from "@/types/chat.d";
 import { useRouter } from "next/navigation";
-import { getUniSeq } from "@/lib/hash";
+import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   formMessages: ReaderPage;
@@ -67,7 +67,7 @@ export default function QuestionSelector({
 
   // 格式化日期显示
   const formatBirthInfo = (info: CustomerInfo) => {
-    return `${info.birthMonth}-${info.birthDay}-${info.birthYear} ${info.gender}`;
+    return `${info.birthMonth}-${info.birthDay}-${info.birthYear}`;
   };
 
   // 获取用户信息
@@ -141,8 +141,8 @@ export default function QuestionSelector({
     }
 
     // 3. 检查是否填写生辰信息
-    console.log("customerInfo", customerInfo);
-    console.log("customerInfo.length", !customerInfo);
+    // console.log("customerInfo", customerInfo);
+    // console.log("customerInfo.length", !customerInfo);
     if (
       customerInfo === null ||
       (Array.isArray(customerInfo) && customerInfo.length === 0)
@@ -153,9 +153,11 @@ export default function QuestionSelector({
       return;
     }
 
-    if (question.trim()) {
-      const chat: Chat = {
-        uuid: getUniSeq(),
+    if (question.trim() && customerInfo?.id) {
+      const chat: ChatSession = {
+        uuid: uuidv4(),
+        user_uuid: user.uuid,
+        customer_info_id: customerInfo.id,
         title: question,
         status: ChatStatus.New,
         created_at: new Date(),
@@ -189,10 +191,29 @@ export default function QuestionSelector({
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               placeholder={questionSelector.placeholder}
-              className="pr-24 min-h-[80px] md:min-h-[100px] text-base md:text-lg resize-none"
+              className="pb-12 min-h-[80px] md:min-h-[100px] text-base md:text-lg resize-none"
             />
             <div className="absolute right-2 bottom-2 flex items-center gap-2">
-              {/* 使用次数提示 - 只在加载完成且有用户登录时显示 */}
+              {/* 生辰信息标签 */}
+              <div
+                onClick={() => setIsModalOpen(true)}
+                className={`
+                  inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-sm cursor-pointer
+                  ${
+                    customerInfo === null ||
+                    (Array.isArray(customerInfo) && customerInfo.length === 0)
+                      ? "text-muted-foreground hover:bg-gray-100"
+                      : "text-orange-500  hover:bg-orange-500/5"
+                  }
+                `}
+              >
+                <CalendarDays className="w-4 h-4" />
+                {customerInfo === null ||
+                (Array.isArray(customerInfo) && customerInfo.length === 0)
+                  ? questionSelector.customer.input.add_birth_info
+                  : formatBirthInfo(customerInfo)}
+              </div>
+              {/* 使用次数提示 - 只在加载完成且有用户登录时显示
               {user?.uuid &&
                 !isLoadingMembership &&
                 remainingCount !== null && (
@@ -210,30 +231,7 @@ export default function QuestionSelector({
                       </p>
                     )}
                   </div>
-                )}
-              {!user?.uuid && !isPending && (
-                <p className="text-center text-sm text-orange-500">
-                  {questionSelector.loginPrompt}
-                </p>
-              )}
-
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setIsModalOpen(true)}
-                className="h-9"
-                disabled={isLoading}
-              >
-                <Calendar className="h-4 w-4 mr-2" />
-                {customerInfo === null ||
-                (Array.isArray(customerInfo) && customerInfo.length === 0) ? (
-                  <span className="flex items-center">"输入生辰"</span>
-                ) : (
-                  <span className="flex items-center">
-                    {formatBirthInfo(customerInfo)}
-                  </span>
-                )}
-              </Button>
+                )} */}
               <Button
                 onClick={handleSubmit}
                 className="bg-orange-500 hover:bg-orange-600 h-9 px-4"
