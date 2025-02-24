@@ -2,7 +2,9 @@ import { Membership } from "@/types/membership";
 import { getSupabaseClient } from "./db";
 
 // 根据用户UUID查找有效会员
-export async function findActiveMembershipByUserUuid(userUuid: string): Promise<Membership | undefined> {
+export async function findActiveMembershipByUserUuid(
+  userUuid: string
+): Promise<Membership | undefined> {
   const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from("memberships")
@@ -18,12 +20,28 @@ export async function findActiveMembershipByUserUuid(userUuid: string): Promise<
   return data;
 }
 
-// 创建新会员记录
-export async function insertMembership(membership: Membership) {
+// 根据用户UUID查找会员记录(不限制状态)
+export async function findMembershipByUserUuid(
+  userUuid: string
+): Promise<Membership | undefined> {
   const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from("memberships")
-    .insert(membership);
+    .select("*")
+    .eq("user_uuid", userUuid)
+    .single();
+
+  if (error) {
+    return undefined;
+  }
+
+  return data;
+}
+
+// 创建新会员记录
+export async function insertMembership(membership: Membership) {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase.from("memberships").insert(membership);
 
   if (error) {
     throw error;
@@ -33,7 +51,10 @@ export async function insertMembership(membership: Membership) {
 }
 
 // 更新会员记录
-export async function updateMembership(userUuid: string, membership: Partial<Membership>) {
+export async function updateMembership(
+  userUuid: string,
+  membership: Partial<Membership>
+) {
   const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from("memberships")
@@ -74,7 +95,9 @@ export async function getMembershipHistory(
 }
 
 // 检查会员是否过期并更新状态
-export async function checkAndUpdateMembershipStatus(userUuid: string): Promise<void> {
+export async function checkAndUpdateMembershipStatus(
+  userUuid: string
+): Promise<void> {
   const supabase = getSupabaseClient();
   const now = new Date().toISOString();
 
@@ -85,4 +108,4 @@ export async function checkAndUpdateMembershipStatus(userUuid: string): Promise<
     .eq("user_uuid", userUuid)
     .eq("status", "active")
     .lt("end_date", now);
-} 
+}

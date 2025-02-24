@@ -6,6 +6,7 @@ import {
   updateMembership,
   checkAndUpdateMembershipStatus,
   getMembershipHistory,
+  findMembershipByUserUuid,
 } from "@/models/membership";
 import { User } from "@/types/user";
 
@@ -50,9 +51,12 @@ export async function createOrUpdateMembership(
     endDate.setFullYear(endDate.getFullYear() + 1);
   }
 
-  const membership = await findActiveMembershipByUserUuid(userUuid);
+  // 查询用户是否有会员记录(不限制状态)
+  const membership = await findMembershipByUserUuid(userUuid);
+
   if (membership) {
     // 更新现有会员
+    console.log("membership", membership);
     await updateMembership(userUuid, {
       start_date: startDate,
       end_date: endDate.toISOString(),
