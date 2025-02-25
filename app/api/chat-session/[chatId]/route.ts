@@ -22,9 +22,9 @@ export async function GET(
     }
 
     // 3. 验证权限
-    // if (chat.user_uuid !== session.user.uuid) {
-    //   return Response.json({ error: "Forbidden" }, { status: 403 });
-    // }
+    if (chat.user_uuid !== session.user.uuid) {
+      return Response.json({ error: "Forbidden" }, { status: 403 });
+    }
 
     return respData(chat);
   } catch (error) {

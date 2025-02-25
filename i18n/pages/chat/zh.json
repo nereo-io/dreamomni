@@ -52,7 +52,7 @@
     "recordUsageError": "记录使用失败，请稍后重试",
     "generalError": "发生错误，请稍后重试",
     "pleaseLogin": "请先登录",
-    "failedToLoadChat": "加载聊天记录失败",
+    "failedToLoadChat": "消息内容为空",
     "failedToSaveMessage": "保存消息失败"
   },
   "membership": {

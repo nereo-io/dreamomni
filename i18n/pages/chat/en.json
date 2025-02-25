@@ -52,7 +52,7 @@
     "recordUsageError": "Failed to record usage, please try again later",
     "generalError": "An error occurred, please try again later",
     "pleaseLogin": "Please login first",
-    "failedToLoadChat": "Failed to load chat history",
+    "failedToLoadChat": "Message content is empty",
     "failedToSaveMessage": "Failed to save message"
   },
   "membership": {

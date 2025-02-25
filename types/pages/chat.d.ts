@@ -20,6 +20,7 @@ export interface ChatPage {
     recordUsageError: string;
     generalError: string;
     pleaseLogin: string;
+    failedToLoadChat: string;
   };
   membership: {
     required: string;

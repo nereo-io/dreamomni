@@ -78,6 +78,7 @@ export default function ChatInterface({
 
         if (contextChat?.uuid && contextChat.status === ChatStatus.New) {
           chatSession = await chatSessionApi.create(contextChat);
+          append({ role: "user", content: contextChat.title });
         } else {
           const chatId = params.chatId as string;
           if (chatId) {
@@ -91,7 +92,7 @@ export default function ChatInterface({
 
           // 如果会话是新会话，发送标题
           if (contextChat?.status === ChatStatus.New && contextChat.title) {
-            append({ role: "user", content: contextChat.title });
+            // append({ role: "user", content: contextChat.title });
           }
           // 如果会话已经创建，加载历史消息
           else {
@@ -108,13 +109,15 @@ export default function ChatInterface({
                   reasoning: msg.reasoning_content,
                 }))
               );
+            } else {
+              toast.error(lomessages.errors.failedToLoadChat);
             }
           }
         }
       } catch (error) {
         console.error("初始化聊天会话失败:", error);
         if (mounted) {
-          // toast.error(lomessages.errors.failedToLoadChat);
+          toast.error(lomessages.errors.failedToLoadChat);
         }
       }
     };
