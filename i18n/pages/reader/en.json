@@ -10,6 +10,12 @@
     "operationFailed": "Operation failed, please try again later"
   },
   "form": {
+    "optional": "(Optional)",
+    "name": {
+      "label": "Name",
+      "placeholder": "Enter your name",
+      "info": "Your name helps us provide more personalized readings"
+    },
     "birthDate": {
       "label": "Birth Date",
       "info": "Your birth date determines your BaZi (Chinese Four Pillars of Destiny), a profound system for understanding life's path"
@@ -23,6 +29,38 @@
       "male": "Male",
       "female": "Female",
       "info": "Gender influences the interpretation of your BaZi chart, helping us provide more accurate guidance"
+    },
+    "relationshipStatus": {
+      "label": "Relationship Status",
+      "placeholder": "Select relationship status",
+      "options": {
+        "single": "Single",
+        "dating": "Dating",
+        "engaged": "Engaged",
+        "married": "Married",
+        "divorced": "Divorced",
+        "widowed": "Widowed",
+        "complicated": "It's complicated"
+      },
+      "info": "Your relationship status helps us provide more accurate readings about your love life"
+    },
+    "jobStatus": {
+      "label": "Work Status",
+      "placeholder": "Select work status",
+      "options": {
+        "student": "Student",
+        "employed": "Employed",
+        "selfEmployed": "Self-employed/Entrepreneur",
+        "unemployed": "Unemployed",
+        "retired": "Retired",
+        "homemaker": "Homemaker"
+      },
+      "info": "Your work status helps us provide more accurate readings about your career"
+    },
+    "additionalInfo": {
+      "label": "Additional Information",
+      "placeholder": "Enter additional information",
+      "info": "You can add any information that you think might be helpful for your reading"
     }
   },
   "button": {

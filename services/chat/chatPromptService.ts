@@ -23,7 +23,11 @@ export class ChatPromptService {
       const baziAnalysis = await BaziFastApiService.getAnalysisForCustomer(
         customer_info
       );
-      const systemPrompt = getChatSystemPrompt(locale, baziAnalysis);
+      const systemPrompt = getChatSystemPrompt(
+        locale,
+        customer_info,
+        baziAnalysis
+      );
       this.chatSystemPromptCache.set(customer_info.id, systemPrompt);
       return systemPrompt;
     } catch (error) {

@@ -15,6 +15,10 @@ export async function createCustomerInfo(data: Omit<CustomerInfo, "id">) {
         birth_day: data.birthDay,
         birth_hour: data.birthHour,
         user_uuid: data.userUuid,
+        name: data.name,
+        relationship_status: data.relationshipStatus,
+        job_status: data.jobStatus,
+        additional_info: data.additionalInfo,
       },
       {
         // 指定唯一约束，基于 user_uuid 进行更新
@@ -54,6 +58,10 @@ export async function getCustomerInfoById(id: string) {
     userUuid: data.user_uuid,
     createdAt: data.created_at,
     updatedAt: data.updated_at,
+    name: data.name,
+    relationshipStatus: data.relationship_status,
+    jobStatus: data.job_status,
+    additionalInfo: data.additional_info,
   };
 
   return customerInfo;
@@ -97,6 +105,10 @@ export async function getCustomerInfoByUserUuid(userUuid: string): Promise<{
     userUuid: data.user_uuid,
     createdAt: data.created_at,
     updatedAt: data.updated_at,
+    name: data.name,
+    relationshipStatus: data.relationship_status,
+    jobStatus: data.job_status,
+    additionalInfo: data.additional_info,
   };
 
   return {

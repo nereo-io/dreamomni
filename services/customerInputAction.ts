@@ -28,6 +28,10 @@ export async function createCustomerInput(formData: FormData): Promise<State> {
     birthDay: Number(formData.get("birthDay")),
     birthHour: Number(formData.get("birthHour")),
     userId: formData.get("userId") || "",
+    name: formData.get("name") || "",
+    relationshipStatus: formData.get("relationshipStatus") || "",
+    jobStatus: formData.get("jobStatus") || "",
+    additionalInfo: formData.get("additionalInfo") || "",
   };
 
   try {
@@ -40,6 +44,7 @@ export async function createCustomerInput(formData: FormData): Promise<State> {
         values: rawFormData,
       };
     }
+    console.log("rawFormData.name", rawFormData.name);
 
     // 1. 先创建或更新 customer_info
     const customerInfo = await createCustomerInfo({
@@ -49,6 +54,10 @@ export async function createCustomerInput(formData: FormData): Promise<State> {
       birthDay: rawFormData.birthDay,
       birthHour: rawFormData.birthHour,
       userUuid: rawFormData.userId as string,
+      name: rawFormData.name as string,
+      relationshipStatus: rawFormData.relationshipStatus as string,
+      jobStatus: rawFormData.jobStatus as string,
+      additionalInfo: rawFormData.additionalInfo as string,
     });
 
     logInfo("客户信息创建成功:", {

@@ -148,7 +148,7 @@ export default function QuestionSelector({
       (Array.isArray(customerInfo) && customerInfo.length === 0)
     ) {
       setIsPending(false);
-      toast.message(questionSelector.errors.pleaseInputBirthInfo);
+      // toast.message(questionSelector.errors.pleaseInputBirthInfo);
       setIsModalOpen(true);
       return;
     }

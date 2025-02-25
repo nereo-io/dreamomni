@@ -26,8 +26,8 @@ export default function CustomerInputFormModal({
 }: Props) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
-        <DialogHeader>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+        <DialogHeader className="flex-shrink-0">
           <DialogTitle className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 md:mb-3 text-center">
             <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
               {messages.title}
@@ -37,14 +37,16 @@ export default function CustomerInputFormModal({
             {messages.description}
           </p>
         </DialogHeader>
-        <CustomerInputForm
-          messages={messages}
-          onSuccess={() => {
-            onSuccess?.();
-            onOpenChange(false);
-          }}
-          customerInfo={customerInfo}
-        />
+        <div className="flex-grow overflow-y-auto">
+          <CustomerInputForm
+            messages={messages}
+            onSuccess={() => {
+              onSuccess?.();
+              onOpenChange(false);
+            }}
+            customerInfo={customerInfo}
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );

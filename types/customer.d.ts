@@ -38,6 +38,10 @@ export interface CustomerInfo {
   birthMonth: number; // 出生月
   birthDay: number; // 出生日
   birthHour: number; // 出生时辰（小时）
+  name?: string; // 姓名
+  relationshipStatus?: string; // 关系状态
+  jobStatus?: string; // 职业状态
+  additionalInfo?: string; // 其他信息
 
   // 地理信息
   birthCity?: string; // 出生城市
