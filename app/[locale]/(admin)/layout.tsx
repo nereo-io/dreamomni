@@ -22,10 +22,10 @@ export default async function AdminLayout({
 
   const sidebar: Sidebar = {
     brand: {
-      title: "ShipAny",
+      title: "BaziAI",
       logo: {
-        src: "/logo.png",
-        alt: "ShipAny",
+        src: "/logo.svg",
+        alt: "BaziAI",
       },
       url: "/admin",
     },
@@ -46,6 +46,11 @@ export default async function AdminLayout({
               url: "/admin/paid-orders",
             },
           ],
+        },
+        {
+          title: "Chat",
+          url: "/admin/chat",
+          icon: "RiChatSmile2Line",
         },
         {
           title: "Posts",

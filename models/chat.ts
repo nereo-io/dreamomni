@@ -27,6 +27,19 @@ export async function createChatSession(data: ChatSessionDB) {
   return result as ChatSessionDB;
 }
 
+export async function getChatSessionList(page: number, pageSize: number) {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("chat_sessions")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .range((page - 1) * pageSize, page * pageSize - 1);
+  if (error) {
+    throw error;
+  }
+  return data as ChatSessionDB[];
+}
+
 // 根据ID获取聊天会话信息
 export async function getChatSessionByUuid(uuid: string) {
   const supabase = getSupabaseClient();

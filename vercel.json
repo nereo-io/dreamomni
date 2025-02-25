@@ -1,6 +1,6 @@
 {
   "functions": {
-    "app/api/chat/*": {
+    "app/api/chat-completion/*": {
       "maxDuration": 300
     },
     "app/api/**/*": {
