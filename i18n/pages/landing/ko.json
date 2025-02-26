@@ -1,0 +1,418 @@
+{
+  "template": "luckbox-template",
+  "theme": "light",
+  "header": {
+    "brand": {
+      "title": "BaziAI",
+      "logo": {
+        "src": "/logo.svg",
+        "alt": "BaziAI"
+      },
+      "url": "/"
+    },
+    "nav": {
+      "items": [
+        {
+          "title": "경력",
+          "url": "/career",
+          "icon": "RiBriefcaseLine"
+        }
+      ]
+    },
+    "buttons": [],
+    "show_sign": true,
+    "show_theme": true,
+    "show_locale": true
+  },
+  "hero": {
+    "title": "무료 팔자 AI 분석 도구",
+    "highlight_text": "팔자 AI",
+    "announcement": {
+      "title": "✨DeepSeek R1 이제 사용 가능✨",
+      "description": "전통적인 팔자 분석과 DeepSeek R1의 고급 AI 해석 기능의 혁명적인 조합을 경험하세요",
+      "label": "공지사항"
+    },
+    "description": "고대의 지혜, 현대 AI - 당신의 인생을 해독합니다!",
+    "show_happy_users": false,
+    "show_badge": false
+  },
+  "introduce": {
+    "name": "introduce",
+    "title": "BaziAI = 팔자 분석 + DeepSeek R1 해석",
+    "label": "기능",
+    "description": "전통적인 팔자 분석과 DeepSeek R1의 고급 AI 해석 기능의 혁명적인 조합을 경험하세요",
+    "image": {
+      "src": "/imgs/features/generating.gif"
+    },
+    "items": [
+      {
+        "title": "DeepSeek R1 AI 해석",
+        "description": "최첨단 DeepSeek R1 AI가 깊고 통찰력 있는 팔자 분석과 예측을 제공합니다",
+        "icon": "RiRobot2Line"
+      },
+      {
+        "title": "동양 팔자 지혜",
+        "description": "AI 기술로 향상된 전통적인 팔자 점술 방법",
+        "icon": "RiCompass3Line"
+      },
+      {
+        "title": "24/7 팔자 접근",
+        "description": "당신의 AI 팔자 가이드는 언제든지 즉각적인 해석을 제공할 준비가 되어 있습니다",
+        "icon": "Ri24HoursLine"
+      }
+    ]
+  },
+  "feature": {
+    "disabled": true,
+    "name": "feature",
+    "title": "DeepSeek R1 AI 팔자 분석 혜택",
+    "label": "혜택",
+    "description": "DeepSeek R1의 고급 AI 기술이 어떻게 정확하고 개인화된 팔자 통찰력을 제공하는지 알아보세요",
+    "items": [
+      {
+        "title": "DeepSeek R1 분석 엔진",
+        "description": "DeepSeek R1의 최첨단 AI를 활용하여 전례 없는 정확도와 깊이로 당신의 고유한 팔자 패턴을 분석합니다.",
+        "icon": "RiRobot2Line"
+      },
+      {
+        "title": "전통적인 팔자 지혜",
+        "description": "수세기에 걸친 팔자 점술 지식에 접근하고, AI 기술로 향상된 당신의 운명에 대한 더 깊은 이해를 얻으세요.",
+        "icon": "RiCompass3Line"
+      },
+      {
+        "title": "즉각적인 팔자 접근",
+        "description": "언제든지 즉시 팔자 해석을 받으세요. 당신의 AI 팔자 어드바이저는 필요할 때 항상 안내를 제공할 준비가 되어 있습니다.",
+        "icon": "Ri24HoursLine"
+      },
+      {
+        "title": "완전한 팔자 분석",
+        "description": "경력 팔자, 사랑 팔자, 재물 팔자 및 인생 경로 예측을 포함한 AI 기반 통찰력.",
+        "icon": "RiBookOpenLine"
+      },
+      {
+        "title": "AI 대화형 경험",
+        "description": "더 깊은 팔자 통찰력을 위해 후속 질문을 통해 AI 팔자 시스템과 상호작용하세요.",
+        "icon": "RiDiscussLine"
+      },
+      {
+        "title": "팔자 해석 플랜",
+        "description": "무료 기본 해석부터 무제한 프리미엄 AI 팔자 분석까지 다양한 팔자 해석 플랜 중에서 선택하세요.",
+        "icon": "RiVipCrownLine"
+      }
+    ]
+  },
+  "benefit": {
+    "name": "benefit",
+    "title": "BaziAI: 고대 지혜와 현대 기술의 만남",
+    "label": "핵심 장점",
+    "description": "전 세계 500,000명 이상의 사용자가 신뢰하는 정밀 설계된 운명 분석을 경험하세요",
+    "items": [
+      {
+        "title": "30+ 차원 AI 분석",
+        "description": "경력, 관계, 건강 및 운세 전반에 걸쳐 다차원적으로 팔자 프로필을 분석하여 숨겨진 기회를 발견합니다",
+        "icon": "RiCompass3Line",
+        "image": {
+          "src": "/imgs/features/year-by-year-guide.png"
+        }
+      },
+      {
+        "title": "명확한 설명",
+        "description": "복잡한 점성학적 패턴을 자연스러운 대화를 통해 실행 가능한 조언으로 변환 - 전문 용어 없이 명확함만 제공",
+        "icon": "RiLightbulbLine",
+        "image": {
+          "src": "/imgs/features/challenge-detailed-explanations.png"
+        }
+      },
+      {
+        "title": "사전 예방적 솔루션",
+        "description": "경력 갈림길부터 관계 딜레마까지 인생의 도전을 헤쳐나갈 맞춤형 전략을 얻으세요",
+        "icon": "RiRoadMapLine",
+        "image": {
+          "src": "/imgs/features/pratical-solution.png"
+        }
+      }
+    ]
+  },
+  "pricing": {
+    "name": "pricing",
+    "label": "가격",
+    "title": "BaziAI 해석 플랜",
+    "description": "AI 기반 팔자 해석 플랜 선택",
+    "groups": [],
+    "items": [
+      {
+        "title": "무료 AI 팔자 해석",
+        "description": "BaziAI 해석 여정을 시작하세요",
+        "features": [
+          "하루 3회 AI 팔자 해석",
+          "기본 AI 팔자 분석",
+          "필수 인생 가이드",
+          "모든 AI 해석 유형 접근"
+        ],
+        "interval": "month",
+        "amount": 0,
+        "currency": "USD",
+        "price": "무료",
+        "unit": "/월",
+        "is_featured": false,
+        "button": {
+          "title": "무료로 시작하기",
+          "url": "/chat",
+          "icon": "RiMagicLine",
+          "disabled": true
+        }
+      },
+      {
+        "title": "프로",
+        "description": "완전한 AI 경험 해제",
+        "label": "인기",
+        "features_title": "무료 플랜의 모든 기능에 추가로",
+        "features": [
+          "무제한 AI 팔자 해석",
+          "고급 AI 채팅 시스템",
+          "AI 기반 후속 분석"
+        ],
+        "interval": "month",
+        "amount": 4.99,
+        "currency": "USD",
+        "price": "$4.99",
+        "original_price": "$19.99",
+        "unit": "/월",
+        "is_featured": true,
+        "discount_label": "75% 할인",
+        "button": {
+          "title": "AI 프로로 업그레이드",
+          "url": "/pro",
+          "icon": "RiVipCrownLine"
+        },
+        "product_id": "pro",
+        "product_name": "BaziAI AI 프로",
+        "credits": 1,
+        "valid_months": 1
+      }
+    ]
+  },
+  "testimonial": {
+    "name": "testimonial",
+    "title": "사용자들이 BaziAI에 대해 말하는 것",
+    "label": "추천사",
+    "description": "전 세계 사용자들이 BaziAI의 정확성과 통찰력에 대해 어떻게 말하는지 확인하세요",
+    "items": [
+      {
+        "content": "BaziAI는 제 인생을 바꿨습니다. 제공된 통찰력은 놀랍도록 정확했고, 경력 변화에 대한 조언은 제가 꿈의 직업을 찾는 데 도움이 되었습니다.",
+        "author": {
+          "name": "김지영",
+          "title": "마케팅 전문가",
+          "avatar": {
+            "src": "/imgs/avatars/avatar-1.png"
+          }
+        }
+      },
+      {
+        "content": "BaziAI의 관계 통찰력은 제 파트너와의 소통 방식을 완전히 바꿨습니다. 이제 우리는 서로를 더 잘 이해하고 더 강한 유대감을 형성했습니다.",
+        "author": {
+          "name": "박민수",
+          "title": "기업가",
+          "avatar": {
+            "src": "/imgs/avatars/avatar-2.png"
+          }
+        }
+      },
+      {
+        "content": "회의론자로서, BaziAI의 정확성에 놀랐습니다. 제공된 통찰력은 내가 경력과 개인 생활에서 더 나은 선택을 하는 데 도움이 되었습니다.",
+        "author": {
+          "name": "이준호",
+          "title": "소프트웨어 엔지니어",
+          "avatar": {
+            "src": "/imgs/avatars/avatar-3.png"
+          }
+        }
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "title": "자주 묻는 질문",
+    "label": "FAQ",
+    "description": "BaziAI와 팔자 해석에 관한 일반적인 질문",
+    "items": [
+      {
+        "title": "팔자란 무엇인가요?",
+        "description": "팔자는 태어난 년, 월, 일, 시(사주 또는 팔자)를 기반으로 한 사람의 운명, 성격, 인생 경로를 분석하는 고대 중국의 운명 체계입니다."
+      },
+      {
+        "title": "BaziAI는 어떻게 정확한 해석을 생성하나요?",
+        "description": "BaziAI는 독특한 이중 접근 시스템을 통해 정확한 해석을 생성합니다. 출생 정보를 입력하면, 정교한 AI가 전통적인 동양 팔자 원칙과 현대 데이터 분석을 결합하여 분석합니다. 이 고대 지혜와 기술의 조합은 사용자 피드백을 통한 지속적인 학습으로 시간이 지남에 따라 더욱 정교해지는 포괄적이고 개인화된 통찰력을 보장합니다."
+      },
+      {
+        "title": "BaziAI는 어떤 유형의 해석을 제공하나요?",
+        "description": "BaziAI는 모든 주요 생활 측면을 다루는 포괄적인 해석을 제공합니다: 경력 지침, 사랑과 관계, 재물 기회, 성격 분석, 건강 통찰력. 각 해석 유형은 귀하의 독특한 상황에 대한 깊은 통찰력과 실용적인 조언을 제공하도록 특별히 설계되어 미래에 대한 정보에 기반한 결정을 내리는 데 도움이 됩니다."
+      },
+      {
+        "title": "BaziAI를 무료로 사용해 볼 수 있나요?",
+        "description": "네! BaziAI는 하루 3회 해석, 기본 팔자 분석, 필수 인생 지침, 모든 해석 유형에 대한 접근을 포함하는 무료 플랜을 제공합니다. 이를 통해 프리미엄 플랜을 선택하기 전에 우리 플랫폼의 기능을 경험하고 AI 기반 통찰력이 귀하의 인생 결정에 어떻게 도움이 될 수 있는지 이해할 수 있습니다."
+      },
+      {
+        "title": "BaziAI가 전통적인 팔자 점술과 다른 점은 무엇인가요?",
+        "description": "전통적인 팔자 점술과 달리, BaziAI는 AI 기술로 구동되는 데이터 기반의 실행 가능한 통찰력을 제공합니다. 우리는 단순히 일어날 수 있는 일을 예측하는 것이 아니라, 동양의 지혜와 현대적인 분석 방법 모두에 기반한 명확하고 실용적인 지침을 제공합니다. 또한 언제든지 해석에 접근하고, 예측을 추적하고, 상황이 변화함에 따라 정기적인 업데이트를 받을 수 있습니다."
+      },
+      {
+        "title": "BaziAI 해석을 최대한 활용하려면 어떻게 해야 하나요?",
+        "description": "BaziAI 경험을 최대화하기 위해, 우리는 탐색하고 싶은 생활 영역에 대한 구체적인 질문으로 시작하는 것을 권장합니다. 프리미엄 사용자는 더 깊은 통찰력을 위해 후속 질문을 할 수 있고, 시간이 지남에 따라 해석을 추적하고, 명확화를 위해 대화형 AI 채팅 기능을 사용할 수 있습니다. 정기적인 해석은 인생의 최적 경로에 맞춰 유지하는 데 도움이 됩니다."
+      },
+      {
+        "title": "내 개인 정보는 BaziAI에서 안전한가요?",
+        "description": "물론입니다. BaziAI는 데이터 개인 정보 보호를 중요하게 생각하며 개인 정보를 보호하기 위해 업계 표준 암호화를 사용합니다. 우리는 정확한 해석을 생성하기 위해 귀하의 출생 정보만 사용하며 절대로 제3자와 데이터를 공유하지 않습니다. 귀하의 신뢰와 개인 정보 보호가 우리의 최우선 과제입니다."
+      },
+      {
+        "title": "BaziAI를 얼마나 자주 상담해야 하나요?",
+        "description": "BaziAI에 24/7 접근할 수 있지만, 우리는 인생의 경로에 맞춰 유지하기 위해 정기적인 상담 - 아마도 주간 또는 월간 - 을 권장합니다. 중요한 결정이나 인생의 변화는 추가 해석을 위한 이상적인 시간입니다. 프리미엄 사용자는 무제한 접근이 가능하며 지침이 필요할 때마다 상담할 수 있습니다."
+      },
+      {
+        "title": "BaziAI가 특정 인생 결정에 도움이 될 수 있나요?",
+        "description": "네! 경력 변경을 고려하든, 관계 가능성을 탐색하든, 중요한 인생 선택을 하든, BaziAI는 대상 통찰력과 실용적인 지침을 제공합니다. 우리의 AI는 귀하의 독특한 상황을 분석하여 정보에 기반한 결정을 내리는 데 도움이 되는 개인화된 조언을 제공합니다."
+      },
+      {
+        "title": "프리미엄 플랜에는 무엇이 포함되어 있나요?",
+        "description": "프리미엄 플랜은 무제한 해석, 대화형 AI 채팅 기능, 후속 질문, 모든 해석 유형에 대한 더 깊은 통찰력을 제공합니다. 프리미엄 사용자는 새로운 기능에 우선 접근, 포괄적인 분석, 더 정보에 기반한 의사 결정을 위해 시간이 지남에 따라 팔자 패턴을 추적하는 능력을 즐길 수 있습니다."
+      }
+    ]
+  },
+  "cta": {
+    "name": "cta",
+    "title": "당신의 운명을 탐색할 준비가 되셨나요?",
+    "description": "지금 AI 팔자 여정을 시작하여 개인화된 운명 통찰력과 지침을 얻으세요",
+    "cta": {
+      "text": "무료로 시작하기",
+      "url": "/chat"
+    }
+  },
+  "footer": {
+    "name": "footer",
+    "brand": {
+      "title": "BaziAI",
+      "description": "DeepSeek R1을 활용한 팔자 분석 플랫폼으로, 정확한 인생 지침을 위해 고대 지혜와 최첨단 AI 기술을 결합합니다.",
+      "logo": {
+        "src": "/logo.svg",
+        "alt": "BaziAI"
+      },
+      "url": "/"
+    },
+    "copyright": "© 2024 BaziAI. 모든 권리 보유.",
+    "nav": {
+      "items": [
+        {
+          "title": "서비스",
+          "children": [
+            {
+              "title": "경력 해석",
+              "url": "/career",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "지원",
+          "children": [
+            {
+              "title": "FAQ",
+              "url": "/#faq",
+              "target": "_self"
+            },
+            {
+              "title": "블로그",
+              "url": "/blog",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    "social": {
+      "items": [
+        {
+          "title": "TikTok",
+          "icon": "RiTiktokFill",
+          "url": "https://www.tiktok.com/@ruoxipaipan?_t=ZS-8stQCFaeosB&_r=1",
+          "target": "_blank"
+        },
+        {
+          "title": "Instagram",
+          "icon": "RiInstagramLine",
+          "url": "https://www.instagram.com/ruoxipaipan?igsh=Mjg5cG11Nm9hcG41&utm_source=qr",
+          "target": "_blank"
+        },
+        {
+          "title": "X",
+          "icon": "RiTwitterXFill",
+          "url": "https://x.com/ruoxishuo?s=21",
+          "target": "_blank"
+        }
+      ]
+    },
+    "agreement": {
+      "items": [
+        {
+          "title": "개인정보 정책",
+          "url": "/privacy-policy"
+        },
+        {
+          "title": "서비스 약관",
+          "url": "/terms-of-service"
+        }
+      ]
+    }
+  },
+  "questionForm": {
+    "questionSelector": {
+      "title": "질문 선택",
+      "subtitle": "어떤 측면을 탐색하고 싶으신가요?",
+      "placeholder": "여기에 질문을 입력하거나 아래 제안에서 선택하세요...",
+      "send": "보내기",
+      "loginPrompt": "하루 3회 무료 해석을 받으려면 로그인하세요",
+      "errors": {
+        "pleaseLogin": "하루 3회 무료 해석을 받으려면 로그인하세요",
+        "checkUsageError": "해석 횟수 확인 실패",
+        "noRemainingReadings": "오늘의 모든 해석을 사용했습니다. 내일 다시 오세요",
+        "recordUsageError": "해석 사용 기록 실패",
+        "pleaseInputBirthInfo": "먼저 출생 정보를 입력하세요"
+      },
+      "customer": {
+        "input": {
+          "unlimited_usage": "회원",
+          "remaining_readings": "남은 횟수 {count}회",
+          "add_birth_info": "출생 정보 추가"
+        }
+      },
+      "categories": {
+        "all": "전체",
+        "personality": "성격",
+        "career": "경력",
+        "love": "사랑",
+        "health": "건강",
+        "fortune": "운세"
+      },
+      "questions": {
+        "personality1": "내 성격 특성과 잠재력은 무엇인가요? 내 강점과 약점은 무엇인가요?",
+        "personality2": "어떤 종류의 일과 경력이 나에게 가장 적합한가요?",
+        "personality3": "대인 관계에서 내 패턴은 무엇인가요?",
+
+        "career1": "향후 5년 동안 내 경력은 어떻게 발전할까요? 어떤 기회와 도전이 기다리고 있나요?",
+        "career2": "2025년 내 경력 운세는 어떤가요? 중요한 결정을 내리기에 적합한가요?",
+        "career3": "내 경력의 병목 현상은 무엇이며 어떻게 돌파할 수 있나요?",
+
+        "love1": "내 사랑 운세는 어떤가요? 언제 내 반쪽을 만날까요?",
+        "love2": "현재 관계가 발전하기에 적합한가요?",
+        "love3": "어떻게 내 사랑 운세를 향상시킬 수 있나요?",
+
+        "health1": "어떤 건강 문제에 주의해야 하나요?",
+        "health2": "생활 방식 변화를 통해 어떻게 건강을 개선할 수 있나요?",
+        "health3": "어떤 잠재적 건강 위험을 예방해야 하나요?",
+
+        "fortune1": "최근 내 전반적인 운세는 어떤가요?",
+        "fortune2": "내 운세 정점은 언제인가요?",
+        "fortune3": "어떻게 불운을 피하고 기회를 잡을 수 있나요?"
+      }
+    }
+  }
+}

@@ -1,0 +1,418 @@
+{
+  "template": "luckbox-template",
+  "theme": "light",
+  "header": {
+    "brand": {
+      "title": "BaziAI",
+      "logo": {
+        "src": "/logo.svg",
+        "alt": "BaziAI"
+      },
+      "url": "/"
+    },
+    "nav": {
+      "items": [
+        {
+          "title": "職業",
+          "url": "/career",
+          "icon": "RiBriefcaseLine"
+        }
+      ]
+    },
+    "buttons": [],
+    "show_sign": true,
+    "show_theme": true,
+    "show_locale": true
+  },
+  "hero": {
+    "title": "免費八字 AI 分析工具",
+    "highlight_text": "八字 AI",
+    "announcement": {
+      "title": "✨DeepSeek R1 現已推出✨",
+      "description": "體驗傳統八字分析與 DeepSeek R1 先進 AI 解讀能力的革命性結合",
+      "label": "公告"
+    },
+    "description": "古老智慧，現代 AI - 解讀您的人生！",
+    "show_happy_users": false,
+    "show_badge": false
+  },
+  "introduce": {
+    "name": "introduce",
+    "title": "BaziAI = 八字分析 + DeepSeek R1 解讀",
+    "label": "功能",
+    "description": "體驗傳統八字分析與 DeepSeek R1 先進 AI 解讀能力的革命性結合",
+    "image": {
+      "src": "/imgs/features/generating.gif"
+    },
+    "items": [
+      {
+        "title": "DeepSeek R1 AI 解讀",
+        "description": "最先進的 DeepSeek R1 AI 提供深入、有洞察力的八字分析和預測",
+        "icon": "RiRobot2Line"
+      },
+      {
+        "title": "東方八字智慧",
+        "description": "由 AI 技術增強的傳統八字算命方法",
+        "icon": "RiCompass3Line"
+      },
+      {
+        "title": "全天候八字服務",
+        "description": "您的 AI 八字指南隨時準備提供即時解讀",
+        "icon": "Ri24HoursLine"
+      }
+    ]
+  },
+  "feature": {
+    "disabled": true,
+    "name": "feature",
+    "title": "DeepSeek R1 AI 八字分析優勢",
+    "label": "優勢",
+    "description": "探索 DeepSeek R1 先進 AI 技術如何提供精確且個人化的八字洞察",
+    "items": [
+      {
+        "title": "DeepSeek R1 分析引擎",
+        "description": "利用 DeepSeek R1 最先進的 AI 技術，以前所未有的準確度和深度分析您獨特的八字模式。",
+        "icon": "RiRobot2Line"
+      },
+      {
+        "title": "傳統八字智慧",
+        "description": "獲取數百年的八字算命知識，由 AI 技術增強，更深入地理解您的命運。",
+        "icon": "RiCompass3Line"
+      },
+      {
+        "title": "即時八字訪問",
+        "description": "隨時獲取即時八字解讀。您的 AI 八字顧問隨時準備在您需要時提供指導。",
+        "icon": "Ri24HoursLine"
+      },
+      {
+        "title": "完整八字分析",
+        "description": "AI 驅動的洞察，涵蓋事業八字、愛情八字、財富八字和人生道路預測。",
+        "icon": "RiBookOpenLine"
+      },
+      {
+        "title": "AI 互動體驗",
+        "description": "通過後續問題與我們的 AI 八字系統互動，獲取更深入的八字洞察。",
+        "icon": "RiDiscussLine"
+      },
+      {
+        "title": "八字解讀計劃",
+        "description": "從免費基本解讀到無限高級 AI 八字分析，選擇各種八字解讀計劃。",
+        "icon": "RiVipCrownLine"
+      }
+    ]
+  },
+  "benefit": {
+    "name": "benefit",
+    "title": "BaziAI：古老智慧與現代技術的結合",
+    "label": "核心優勢",
+    "description": "體驗精確設計的命運分析，全球超過50萬用戶的信賴之選",
+    "items": [
+      {
+        "title": "30+維度 AI 分析",
+        "description": "多維度解析您的八字資料，涵蓋職業、人際關係、健康和財運 - 揭示隱藏的機會",
+        "icon": "RiCompass3Line",
+        "image": {
+          "src": "/imgs/features/year-by-year-guide.png"
+        }
+      },
+      {
+        "title": "清晰明瞭的解釋",
+        "description": "複雜的星象模式通過自然對話轉化為可行的建議 - 沒有專業術語，只有清晰度",
+        "icon": "RiLightbulbLine",
+        "image": {
+          "src": "/imgs/features/challenge-detailed-explanations.png"
+        }
+      },
+      {
+        "title": "主動解決方案",
+        "description": "獲取量身定制的策略來應對生活挑戰 - 從職業十字路口到關係困境",
+        "icon": "RiRoadMapLine",
+        "image": {
+          "src": "/imgs/features/pratical-solution.png"
+        }
+      }
+    ]
+  },
+  "pricing": {
+    "name": "pricing",
+    "label": "價格",
+    "title": "BaziAI 解讀計劃",
+    "description": "選擇您的 AI 驅動八字解讀計劃",
+    "groups": [],
+    "items": [
+      {
+        "title": "免費 AI 八字解讀",
+        "description": "開始您的 BaziAI 解讀之旅",
+        "features": [
+          "每天 3 次 AI 八字解讀",
+          "基本 AI 八字分析",
+          "基本生活指導",
+          "訪問所有 AI 解讀類型"
+        ],
+        "interval": "month",
+        "amount": 0,
+        "currency": "USD",
+        "price": "免費",
+        "unit": "/月",
+        "is_featured": false,
+        "button": {
+          "title": "開始免費 AI 解讀",
+          "url": "/career",
+          "icon": "RiMagicLine",
+          "disabled": true
+        }
+      },
+      {
+        "title": "專業版",
+        "description": "解鎖完整 AI 體驗",
+        "label": "熱門",
+        "features_title": "免費版的所有功能，加上",
+        "features": [
+          "無限 AI 八字解讀",
+          "進階 AI 聊天系統",
+          "AI 驅動的後續分析"
+        ],
+        "interval": "month",
+        "amount": 499,
+        "currency": "USD",
+        "price": "$4.99",
+        "original_price": "$19.99",
+        "unit": "/月",
+        "is_featured": true,
+        "discount_label": "75% 折扣",
+        "button": {
+          "title": "升級至 AI 專業版",
+          "url": "/pro",
+          "icon": "RiVipCrownLine"
+        },
+        "product_id": "pro",
+        "product_name": "BaziAI AI 專業版",
+        "credits": 1,
+        "valid_months": 1
+      }
+    ]
+  },
+  "testimonial": {
+    "name": "testimonial",
+    "title": "用戶如何評價 BaziAI",
+    "label": "推薦",
+    "description": "來自世界各地用戶的真實體驗",
+    "items": [
+      {
+        "content": "BaziAI 的解讀驚人地準確。它幫助我理解了我的優勢和挑戰，並在我的職業道路上做出更明智的決定。",
+        "author": {
+          "name": "陳美玲",
+          "title": "市場經理",
+          "avatar": {
+            "src": "/imgs/avatars/avatar-1.png"
+          }
+        }
+      },
+      {
+        "content": "作為一個對東方命理感興趣的人，我發現 BaziAI 是傳統智慧和現代技術的完美結合。解讀非常深入且個人化。",
+        "author": {
+          "name": "王大偉",
+          "title": "創業家",
+          "avatar": {
+            "src": "/imgs/avatars/avatar-2.png"
+          }
+        }
+      },
+      {
+        "content": "作為一個懷疑論者，我對 BaziAI 的準確性感到驚訝。它提供的洞察幫助我在職業和個人生活中做出更好的選擇。",
+        "author": {
+          "name": "林志明",
+          "title": "軟體工程師",
+          "avatar": {
+            "src": "/imgs/avatars/avatar-3.png"
+          }
+        }
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "常見問題",
+    "description": "了解更多關於 BaziAI 的運作方式",
+    "items": [
+      {
+        "title": "什麼是 BaziAI，它是如何運作的？",
+        "description": "BaziAI 是一個創新的 AI 驅動八字指導平台，結合了傳統東方智慧與尖端技術。把它想像成您的個人顧問，全天候提供職業決策、關係指導和生活選擇的見解。我們的平台使用古老的東方方法和先進的 AI 分析您的出生信息，提供個性化、可行的建議。"
+      },
+      {
+        "title": "BaziAI 如何生成準確的解讀？",
+        "description": "BaziAI 通過獨特的雙重方法系統創建準確的解讀。當您輸入出生信息時，我們的複雜 AI 使用傳統東方八字原則結合現代數據分析進行分析。這種古老智慧與技術的結合確保了全面、個性化的見解，通過用戶反饋的持續學習，隨著時間的推移變得更加精煉。"
+      },
+      {
+        "title": "BaziAI 提供哪些類型的解讀？",
+        "description": "BaziAI 提供涵蓋所有主要生活方面的全面解讀：職業指導、愛情和關係、財富機會、性格分析和健康見解。每種解讀類型都專為提供深入見解和針對您獨特情況的實用建議而設計，幫助您對未來做出明智決定。"
+      },
+      {
+        "title": "我可以免費試用 BaziAI 嗎？",
+        "description": "是的！BaziAI 提供免費計劃，包括每天 3 次解讀、基本八字分析、基本生活指導和訪問所有解讀類型。這使您能夠體驗我們平台的功能，並在選擇高級計劃之前了解我們的 AI 驅動見解如何有益於您的生活決策。"
+      },
+      {
+        "title": "BaziAI 與傳統八字算命有何不同？",
+        "description": "與傳統八字算命不同，BaziAI 提供由 AI 技術驅動的數據驅動、可行的見解。我們不僅預測可能發生的事情，還基於東方智慧和現代分析方法提供清晰、實用的指導。此外，您可以隨時訪問您的解讀，追蹤預測，並在情況變化時接收定期更新。"
+      },
+      {
+        "title": "如何充分利用我的 BaziAI 解讀？",
+        "description": "為了最大化您的 BaziAI 體驗，我們建議從您想探索的生活領域的具體問題開始。高級用戶可以提出後續問題以獲取更深入的見解，隨時間追蹤解讀，並使用我們的互動 AI 聊天功能進行澄清。定期解讀幫助您保持與生活最佳路徑的一致。"
+      },
+      {
+        "title": "我的個人信息在 BaziAI 是否安全？",
+        "description": "絕對安全。BaziAI 認真對待數據隱私，採用行業標準加密保護您的個人信息。我們只使用您的出生信息生成準確的解讀，絕不與第三方共享您的數據。您的信任和隱私是我們的首要任務。"
+      },
+      {
+        "title": "我應該多久諮詢一次 BaziAI？",
+        "description": "雖然您可以全天候訪問 BaziAI，但我們建議定期諮詢 - 也許每週或每月一次 - 以保持與您生活路徑的一致。重要決定或生活變化是額外解讀的理想時機。高級用戶擁有無限訪問權，可以在需要指導時隨時諮詢。"
+      },
+      {
+        "title": "BaziAI 能幫助特定的生活決策嗎？",
+        "description": "是的！無論您是考慮職業變動、探索關係可能性，還是做出重要的生活選擇，BaziAI 都提供有針對性的見解和實用指導。我們的 AI 分析您的獨特情況，提供個性化建議，幫助您做出明智決定。"
+      },
+      {
+        "title": "高級計劃包括什麼？",
+        "description": "高級計劃提供無限解讀、互動 AI 聊天功能、後續問題和所有解讀類型的深入見解。高級用戶享有新功能的優先訪問權、全面分析和追蹤八字模式的能力，以便更明智地決策。"
+      }
+    ]
+  },
+  "cta": {
+    "name": "cta",
+    "title": "準備好探索您的命運了嗎？",
+    "description": "立即開始您的 AI 八字之旅，獲取個人化的命運洞察和指導",
+    "cta": {
+      "text": "免費開始",
+      "url": "/chat"
+    }
+  },
+  "footer": {
+    "name": "footer",
+    "brand": {
+      "title": "BaziAI",
+      "description": "您的八字分析平台由 DeepSeek R1 驅動，結合古老智慧與尖端 AI 技術，提供精確的生活指導。",
+      "logo": {
+        "src": "/logo.svg",
+        "alt": "BaziAI"
+      },
+      "url": "/"
+    },
+    "copyright": "© 2024 • BaziAI 保留所有權利。",
+    "nav": {
+      "items": [
+        {
+          "title": "服務",
+          "children": [
+            {
+              "title": "職業解讀",
+              "url": "/career",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "支持",
+          "children": [
+            {
+              "title": "FAQ",
+              "url": "/#faq",
+              "target": "_self"
+            },
+            {
+              "title": "部落格",
+              "url": "/blog",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    "social": {
+      "items": [
+        {
+          "title": "TikTok",
+          "icon": "RiTiktokFill",
+          "url": "https://www.tiktok.com/@ruoxipaipan?_t=ZS-8stQCFaeosB&_r=1",
+          "target": "_blank"
+        },
+        {
+          "title": "Instagram",
+          "icon": "RiInstagramLine",
+          "url": "https://www.instagram.com/ruoxipaipan?igsh=Mjg5cG11Nm9hcG41&utm_source=qr",
+          "target": "_blank"
+        },
+        {
+          "title": "X",
+          "icon": "RiTwitterXFill",
+          "url": "https://x.com/ruoxishuo?s=21",
+          "target": "_blank"
+        }
+      ]
+    },
+    "agreement": {
+      "items": [
+        {
+          "title": "隱私政策",
+          "url": "/privacy-policy"
+        },
+        {
+          "title": "服務條款",
+          "url": "/terms-of-service"
+        }
+      ]
+    }
+  },
+  "questionForm": {
+    "questionSelector": {
+      "title": "選擇您的問題",
+      "subtitle": "您想探索哪些方面？",
+      "placeholder": "在此輸入您的問題或從下方建議中選擇...",
+      "send": "發送",
+      "loginPrompt": "登入以獲得每天3次免費解讀",
+      "errors": {
+        "pleaseLogin": "請登入以獲得每天3次免費解讀",
+        "checkUsageError": "檢查解讀次數失敗",
+        "noRemainingReadings": "您已用完今天的所有解讀，請明天再來",
+        "recordUsageError": "記錄解讀使用失敗",
+        "pleaseInputBirthInfo": "請先輸入您的出生信息"
+      },
+      "customer": {
+        "input": {
+          "unlimited_usage": "會員",
+          "remaining_readings": "剩餘 {count} 次",
+          "add_birth_info": "添加出生信息"
+        }
+      },
+      "categories": {
+        "all": "全部",
+        "personality": "性格",
+        "career": "職業",
+        "love": "愛情",
+        "health": "健康",
+        "fortune": "運勢"
+      },
+      "questions": {
+        "personality1": "我的性格特點和潛力是什麼？我的優勢和劣勢是什麼？",
+        "personality2": "什麼樣的工作和職業最適合我？",
+        "personality3": "我在人際關係中的模式是什麼？",
+
+        "career1": "我的職業在未來5年如何發展？有哪些機會和挑戰？",
+        "career2": "我在2025年的職業運勢如何？適合做重大決定嗎？",
+        "career3": "我的職業瓶頸是什麼，如何突破？",
+
+        "love1": "我的愛情運勢如何？何時會遇到我的另一半？",
+        "love2": "我目前的關係適合發展嗎？",
+        "love3": "如何改善我的愛情運勢？",
+
+        "health1": "我應該注意哪些健康問題？",
+        "health2": "如何通過生活方式改變來改善我的健康？",
+        "health3": "我應該預防哪些潛在的健康風險？",
+
+        "fortune1": "我最近的整體運勢如何？",
+        "fortune2": "我的運勢高峰期是什麼時候？",
+        "fortune3": "如何避免不幸並把握機會？"
+      }
+    }
+  }
+}

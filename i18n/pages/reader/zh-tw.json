@@ -1,0 +1,72 @@
+{
+  "title": "輸入基本資訊",
+  "description": "我們重視您的隱私，所有資訊僅用於解讀和分析",
+  "loginPrompt": "登入以獲得每天3次免費解讀",
+  "errors": {
+    "pleaseLogin": "請登入以獲得每天3次免費解讀",
+    "checkUsageError": "檢查解讀次數失敗",
+    "noRemainingReadings": "您已用完今天的所有解讀，請明天再來",
+    "recordUsageError": "記錄解讀使用失敗",
+    "operationFailed": "操作失敗，請稍後再試"
+  },
+  "form": {
+    "optional": "(選填)",
+    "name": {
+      "label": "姓名",
+      "placeholder": "請輸入您的姓名",
+      "info": "您的姓名有助於我們提供更個人化的解讀"
+    },
+    "birthDate": {
+      "label": "出生日期",
+      "info": "您的出生日期決定了您的八字（中國四柱命理），這是理解人生道路的深奧系統"
+    },
+    "birthTime": {
+      "label": "出生時間",
+      "info": "出生時辰完成您的八字命盤，揭示命運的關鍵方面"
+    },
+    "gender": {
+      "label": "性別",
+      "male": "男",
+      "female": "女",
+      "info": "性別影響八字命盤的解讀，幫助我們提供更準確的指導"
+    },
+    "relationshipStatus": {
+      "label": "感情狀態",
+      "placeholder": "選擇感情狀態",
+      "options": {
+        "single": "單身",
+        "dating": "戀愛中",
+        "engaged": "已訂婚",
+        "married": "已婚",
+        "divorced": "離婚",
+        "widowed": "喪偶",
+        "complicated": "關係複雜"
+      },
+      "info": "您的感情狀態有助於我們提供更準確的感情生活解讀"
+    },
+    "jobStatus": {
+      "label": "工作狀態",
+      "placeholder": "選擇工作狀態",
+      "options": {
+        "student": "學生",
+        "employed": "受雇",
+        "selfEmployed": "自雇/創業者",
+        "unemployed": "待業",
+        "retired": "退休",
+        "homemaker": "家庭主婦/夫"
+      },
+      "info": "您的工作狀態有助於我們提供更準確的職業解讀"
+    },
+    "additionalInfo": {
+      "label": "額外資訊",
+      "placeholder": "輸入額外資訊",
+      "info": "您可以添加任何您認為對解讀有幫助的資訊"
+    }
+  },
+  "button": {
+    "submit": "儲存",
+    "submitting": "儲存中...",
+    "back": "返回",
+    "saveSuccess": "儲存成功！"
+  }
+}

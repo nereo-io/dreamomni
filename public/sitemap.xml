@@ -13,6 +13,24 @@
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://www.bazi-ai.com/ja</loc>
+    <lastmod>2025-02-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.bazi-ai.com/ko</loc>
+    <lastmod>2025-02-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.bazi-ai.com/zh-tw</loc>
+    <lastmod>2025-02-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
 
   <!-- 主要服务页面 -->
   <url>
@@ -23,6 +41,24 @@
   </url>
   <url>
     <loc>https://www.bazi-ai.com/zh/career</loc>
+    <lastmod>2025-02-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.bazi-ai.com/ja/career</loc>
+    <lastmod>2025-02-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.bazi-ai.com/ko/career</loc>
+    <lastmod>2025-02-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.bazi-ai.com/zh-tw/career</loc>
     <lastmod>2025-02-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -44,4 +80,4 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
-</urlset>
+  

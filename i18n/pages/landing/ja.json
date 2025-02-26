@@ -1,0 +1,349 @@
+{
+  "template": "luckbox-template",
+  "theme": "light",
+  "header": {
+    "brand": {
+      "title": "BaziAI",
+      "logo": {
+        "src": "/logo.svg",
+        "alt": "BaziAI"
+      },
+      "url": "/"
+    },
+    "nav": {
+      "items": [
+        {
+          "title": "キャリア",
+          "url": "/career",
+          "icon": "RiBriefcaseLine"
+        }
+      ]
+    },
+    "buttons": [],
+    "show_sign": true,
+    "show_theme": true,
+    "show_locale": true
+  },
+  "hero": {
+    "title": "無料八字AIツール",
+    "highlight_text": "八字AI",
+    "announcement": {
+      "title": "✨DeepSeek R1が利用可能になりました✨",
+      "description": "伝統的な八字分析とDeepSeek R1の先進的なAI読解能力の革命的な組み合わせを体験してください",
+      "label": "お知らせ"
+    },
+    "description": "古代の知恵、現代のAI - あなたの人生を解読！",
+    "show_happy_users": false,
+    "show_badge": false
+  },
+  "introduce": {
+    "name": "introduce",
+    "title": "BaziAI = 八字分析 + DeepSeek R1読解",
+    "label": "機能",
+    "description": "伝統的な八字分析とDeepSeek R1の先進的なAI読解能力の革命的な組み合わせを体験してください",
+    "image": {
+      "src": "/imgs/features/generating.gif"
+    },
+    "items": [
+      {
+        "title": "DeepSeek R1 AI読解",
+        "description": "最先端のDeepSeek R1 AIが深く洞察力のある八字分析と予測を提供します",
+        "icon": "RiRobot2Line"
+      },
+      {
+        "title": "東洋の八字の知恵",
+        "description": "AI技術によって強化された伝統的な八字占いの方法",
+        "icon": "RiCompass3Line"
+      },
+      {
+        "title": "24時間八字アクセス",
+        "description": "あなたのAI八字ガイドはいつでも即座に読解を提供する準備ができています",
+        "icon": "Ri24HoursLine"
+      }
+    ]
+  },
+  "feature": {
+    "disabled": true,
+    "name": "feature",
+    "title": "DeepSeek R1 AI八字分析のメリット",
+    "label": "メリット",
+    "description": "DeepSeek R1の先進的なAI技術がどのように正確でパーソナライズされた八字の洞察を提供するかを発見してください",
+    "items": [
+      {
+        "title": "DeepSeek R1分析エンジン",
+        "description": "DeepSeek R1の最先端AIを活用して、あなた独自の八字パターンを前例のない精度と深さで分析します。",
+        "icon": "RiRobot2Line"
+      },
+      {
+        "title": "伝統的な八字の知恵",
+        "description": "何世紀にもわたる八字占いの知識にアクセスし、AI技術によって強化されたあなたの運命のより深い理解を得ることができます。",
+        "icon": "RiCompass3Line"
+      },
+      {
+        "title": "即時八字アクセス",
+        "description": "いつでも即座に八字の読解を取得できます。あなたのAI八字アドバイザーはいつでも必要なときにガイダンスを提供する準備ができています。",
+        "icon": "Ri24HoursLine"
+      },
+      {
+        "title": "完全な八字分析",
+        "description": "キャリア八字、恋愛八字、富八字、人生の道の予測をカバーするAIパワードの洞察。",
+        "icon": "RiBookOpenLine"
+      },
+      {
+        "title": "AIインタラクティブ体験",
+        "description": "フォローアップの質問を通じて私たちのAI八字システムと対話し、より深い八字の洞察を得ることができます。",
+        "icon": "RiDiscussLine"
+      },
+      {
+        "title": "八字リーディングプラン",
+        "description": "無料の基本的な読解から無制限のプレミアムAI八字分析まで、さまざまな八字リーディングプランから選択できます。",
+        "icon": "RiVipCrownLine"
+      }
+    ]
+  },
+  "benefit": {
+    "name": "benefit",
+    "title": "BaziAI：古代の知恵と現代技術の出会い",
+    "label": "主な利点",
+    "description": "世界中の50万人以上のユーザーに信頼される精密設計された運命分析を体験してください",
+    "items": [
+      {
+        "title": "30+次元AI分析",
+        "description": "キャリア、人間関係、健康、運勢にわたって多次元的にあなたの八字プロファイルを解析し、隠れた機会を明らかにします",
+        "icon": "RiCompass3Line",
+        "image": {
+          "src": "/imgs/features/year-by-year-guide.png"
+        }
+      },
+      {
+        "title": "明確な説明",
+        "description": "複雑な占星術パターンを自然な会話を通じて実行可能なアドバイスに変換 - 専門用語なし、明確さだけ",
+        "icon": "RiLightbulbLine",
+        "image": {
+          "src": "/imgs/features/challenge-detailed-explanations.png"
+        }
+      },
+      {
+        "title": "積極的なソリューション",
+        "description": "キャリアの岐路から人間関係の問題まで、人生の課題を乗り越えるためのカスタマイズされた戦略を手に入れましょう",
+        "icon": "RiRoadMapLine",
+        "image": {
+          "src": "/imgs/features/pratical-solution.png"
+        }
+      }
+    ]
+  },
+  "pricing": {
+    "name": "pricing",
+    "label": "料金",
+    "title": "BaziAI リーディングプラン",
+    "description": "AIパワード八字リーディングプランを選択",
+    "groups": [],
+    "items": [
+      {
+        "title": "無料AI八字リーディング",
+        "description": "BaziAIリーディングの旅を始めましょう",
+        "features": [
+          "1日3回のAI八字リーディング",
+          "基本的なAI八字分析",
+          "基本的な人生ガイダンス",
+          "すべてのAIリーディングタイプへのアクセス"
+        ],
+        "interval": "month",
+        "amount": 0,
+        "currency": "USD",
+        "price": "無料",
+        "unit": "/月",
+        "is_featured": false,
+        "button": {
+          "title": "無料AIリーディングを開始",
+          "url": "/career",
+          "icon": "RiMagicLine",
+          "disabled": true
+        }
+      },
+      {
+        "title": "プロ",
+        "description": "完全なAI体験を解放",
+        "label": "人気",
+        "features_title": "無料版のすべてに加えて",
+        "features": [
+          "無制限のAI八字リーディング",
+          "高度なAIチャットシステム",
+          "AIパワードのフォローアップ分析"
+        ],
+        "interval": "month",
+        "amount": 499,
+        "currency": "USD",
+        "price": "$4.99",
+        "original_price": "$19.99",
+        "unit": "/月",
+        "is_featured": true,
+        "discount_label": "75% OFF",
+        "button": {
+          "title": "AIプロにアップグレード",
+          "url": "/pro",
+          "icon": "RiVipCrownLine"
+        },
+        "product_id": "pro",
+        "product_name": "BaziAI AIプロ",
+        "credits": 1,
+        "valid_months": 1
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "よくある質問",
+    "description": "BaziAIの仕組みについてもっと学ぶ",
+    "items": [
+      {
+        "title": "BaziAIとは何ですか？どのように機能しますか？",
+        "description": "BaziAIは、伝統的な東洋の知恵と最先端技術を組み合わせた革新的なAIパワード八字ガイダンスプラットフォームです。24時間365日利用可能な個人アドバイザーとして、キャリア決断、人間関係のガイダンス、人生の選択に関する洞察を提供します。私たちのプラットフォームは、古代東洋の方法論と先進的なAIの両方を使用してあなたの生年月日情報を分析し、パーソナライズされた実用的なアドバイスを提供します。"
+      },
+      {
+        "title": "BaziAIはどのように正確なリーディングを生成しますか？",
+        "description": "BaziAIは独自のデュアルアプローチシステムを通じて正確なリーディングを作成します。生年月日情報を入力すると、洗練されたAIが伝統的な東洋の八字原則と現代のデータ分析を組み合わせて分析します。この古代の知恵と技術の融合により、ユーザーフィードバックからの継続的な学習を通じて時間とともに洗練される包括的でパーソナライズされた洞察が保証されます。"
+      },
+      {
+        "title": "BaziAIはどのようなタイプのリーディングを提供していますか？",
+        "description": "BaziAIは、主要な人生の側面をすべてカバーする包括的な範囲のリーディングを提供しています：キャリアガイダンス、愛と人間関係、富の機会、性格分析、健康の洞察。各リーディングタイプは、あなたのユニークな状況に対する深い洞察と実用的なアドバイスを提供し、将来について情報に基づいた決断を下すのに役立つように特別に設計されています。"
+      },
+      {
+        "title": "BaziAIを無料で試すことはできますか？",
+        "description": "はい！BaziAIは、1日3回のリーディング、基本的な八字分析、基本的な人生ガイダンス、すべてのリーディングタイプへのアクセスを含む無料プランを提供しています。これにより、プレミアムプランを選択する前に、私たちのプラットフォームの機能を体験し、AIパワードの洞察があなたの人生の決断にどのように役立つかを理解することができます。"
+      },
+      {
+        "title": "BaziAIが伝統的な八字占いと異なる点は何ですか？",
+        "description": "伝統的な八字占いとは異なり、BaziAIはAI技術によって駆動されるデータ駆動の実用的な洞察を提供します。私たちは単に何が起こるかもしれないと予測するだけでなく、東洋の知恵と現代の分析手法の両方に基づいた明確で実用的なガイダンスを提供します。さらに、いつでもリーディングにアクセスし、予測を追跡し、状況が変化するにつれて定期的な更新を受け取ることができます。"
+      },
+      {
+        "title": "BaziAIリーディングを最大限に活用するにはどうすればよいですか？",
+        "description": "BaziAI体験を最大化するために、探索したい人生の分野について具体的な質問から始めることをお勧めします。プレミアムユーザーは、より深い洞察のためにフォローアップ質問をし、時間の経過とともにリーディングを追跡し、明確化のためにインタラクティブなAIチャット機能を使用できます。定期的なリーディングは、あなたの人生の最適な道に沿って進むのに役立ちます。"
+      },
+      {
+        "title": "私の個人情報はBaziAIで安全ですか？",
+        "description": "もちろんです。BaziAIはデータプライバシーを真剣に考え、業界標準の暗号化を採用して個人情報を保護しています。私たちはあなたの生年月日情報を正確なリーディングを生成するためだけに使用し、決してあなたのデータを第三者と共有することはありません。あなたの信頼とプライバシーは私たちの最優先事項です。"
+      },
+      {
+        "title": "どのくらいの頻度でBaziAIに相談すべきですか？",
+        "description": "BaziAIには24時間365日アクセスできますが、人生の道に沿って進むために、週に一度または月に一度など、定期的な相談をお勧めします。重要な決断や人生の変化は、追加のリーディングに理想的なタイミングです。プレミアムユーザーは無制限のアクセスを持ち、ガイダンスが必要なときはいつでも相談できます。"
+      },
+      {
+        "title": "BaziAIは特定の人生の決断に役立ちますか？",
+        "description": "はい！キャリアチェンジを検討している場合でも、人間関係の可能性を探索している場合でも、重要な人生の選択をしている場合でも、BaziAIはターゲットを絞った洞察と実用的なガイダンスを提供します。私たちのAIはあなたのユニークな状況を分析して、情報に基づいた決断を下すのに役立つパーソナライズされたアドバイスを提供します。"
+      },
+      {
+        "title": "プレミアムプランには何が含まれていますか？",
+        "description": "プレミアムプランでは、無制限のリーディング、インタラクティブなAIチャット機能、フォローアップ質問、すべてのリーディングタイプにわたるより深い洞察を提供しています。プレミアムユーザーは新機能への優先アクセス、包括的な分析、より情報に基づいた意思決定のために時間の経過とともに八字パターンを追跡する能力を楽しむことができます。"
+      }
+    ]
+  },
+  "footer": {
+    "name": "footer",
+    "brand": {
+      "title": "BaziAI",
+      "logo": {
+        "src": "/logo.svg",
+        "alt": "BaziAI"
+      },
+      "description": "古代の知恵と現代のAI技術を組み合わせた、あなたの人生の道を解読するための究極のツール。"
+    },
+    "copyright": "© 2024 BaziAI. All rights reserved.",
+    "links": {
+      "items": [
+        {
+          "title": "ホーム",
+          "url": "/"
+        },
+        {
+          "title": "キャリア",
+          "url": "/career"
+        },
+        {
+          "title": "プライバシーポリシー",
+          "url": "/privacy-policy"
+        },
+        {
+          "title": "利用規約",
+          "url": "/terms-of-service"
+        }
+      ]
+    },
+    "socials": {
+      "items": [
+        {
+          "title": "Twitter",
+          "icon": "RiTwitterXFill",
+          "url": "https://x.com/ruoxishuo?s=21",
+          "target": "_blank"
+        }
+      ]
+    },
+    "agreement": {
+      "items": [
+        {
+          "title": "プライバシーポリシー",
+          "url": "/privacy-policy"
+        },
+        {
+          "title": "利用規約",
+          "url": "/terms-of-service"
+        }
+      ]
+    }
+  },
+  "questionForm": {
+    "questionSelector": {
+      "title": "質問を選択",
+      "subtitle": "どの側面を探索したいですか？",
+      "placeholder": "ここに質問を入力するか、以下の提案から選択してください...",
+      "send": "送信",
+      "loginPrompt": "ログインして1日3回の無料リーディングを取得",
+      "errors": {
+        "pleaseLogin": "ログインして1日3回の無料リーディングを取得してください",
+        "checkUsageError": "リーディング回数の確認に失敗しました",
+        "noRemainingReadings": "今日のすべてのリーディングを使い切りました。明日また来てください",
+        "recordUsageError": "リーディング使用の記録に失敗しました",
+        "pleaseInputBirthInfo": "まず生年月日情報を入力してください"
+      },
+      "customer": {
+        "input": {
+          "unlimited_usage": "メンバー",
+          "remaining_readings": "残り {count} 回",
+          "add_birth_info": "生年月日情報を追加"
+        }
+      },
+      "categories": {
+        "all": "すべて",
+        "personality": "性格",
+        "career": "キャリア",
+        "love": "恋愛",
+        "health": "健康",
+        "fortune": "運勢"
+      },
+      "questions": {
+        "personality1": "私の性格の特徴と潜在能力は何ですか？私の強みと弱みは何ですか？",
+        "personality2": "どのような仕事や職業が私に最も適していますか？",
+        "personality3": "人間関係における私のパターンは何ですか？",
+
+        "career1": "今後5年間で私のキャリアはどのように発展しますか？どのような機会と課題がありますか？",
+        "career2": "2025年の私のキャリア運勢はどうですか？重要な決断をするのに適していますか？",
+        "career3": "私のキャリアの障壁は何で、どのように突破できますか？",
+
+        "love1": "私の恋愛運はどうですか？いつ運命のパートナーに出会いますか？",
+        "love2": "現在の関係は発展に適していますか？",
+        "love3": "恋愛運を改善するにはどうすればよいですか？",
+
+        "health1": "どのような健康問題に注意すべきですか？",
+        "health2": "ライフスタイルの変更でどのように健康を改善できますか？",
+        "health3": "どのような潜在的な健康リスクを予防すべきですか？",
+
+        "fortune1": "最近の全体的な運勢はどうですか？",
+        "fortune2": "私の運勢のピーク時はいつですか？",
+        "fortune3": "不運を避け、機会を捉えるにはどうすればよいですか？"
+      }
+    }
+  }
+}

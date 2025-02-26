@@ -1,0 +1,113 @@
+{
+  "metadata": {
+    "title": "BaziAI - DeepSeek R1 AI 八字分析ツール | 無料人生ガイダンス",
+    "description": "DeepSeek R1テクノロジーと古代中国の知恵を組み合わせた、AIパワードの八字リーディングを無料で取得。インテリジェントなAI解釈によるキャリア、人間関係、人生の道筋を分析します。",
+    "keywords": "AI 八字分析, 無料八字リーディング, DeepSeek R1, キャリア予測, 人生ガイダンス, 中国占星術 AI"
+  },
+
+  "career": {
+    "metadata": {
+      "title": "BaziAI - AIパワードのキャリア運勢リーディング",
+      "description": "AIパワードの運勢リーディングと東洋占星術であなたのキャリアの可能性を解き放ちましょう。転職、キャリアパス、昇進、職場での成功に関する即時の洞察を得られます。24時間365日無料のパーソナライズされたキャリア分析が利用可能です。"
+    }
+  },
+
+  "user": {
+    "sign_in": "サインイン",
+    "sign_out": "サインアウト",
+    "credits": "クレジット",
+    "api_keys": "APIキー",
+    "my_orders": "注文履歴",
+    "membership": "メンバーシップ"
+  },
+  "sign_modal": {
+    "sign_in_title": "サインイン",
+    "sign_in_description": "アカウントにサインイン",
+    "sign_up_title": "サインアップ",
+    "sign_up_description": "アカウントを作成",
+    "email_title": "メールアドレス",
+    "email_placeholder": "メールアドレスを入力してください",
+    "password_title": "パスワード",
+    "password_placeholder": "パスワードを入力してください",
+    "forgot_password": "パスワードをお忘れですか？",
+    "or": "または",
+    "continue": "続ける",
+    "no_account": "アカウントをお持ちでないですか？",
+    "email_sign_in": "メールでサインイン",
+    "google_sign_in": "Googleでサインイン",
+    "github_sign_in": "GitHubでサインイン",
+    "apple_sign_in": "Appleでサインイン",
+    "close_title": "閉じる",
+    "cancel_title": "キャンセル"
+  },
+  "my_orders": {
+    "title": "注文履歴",
+    "description": "LuckBoxで支払われた注文。",
+    "no_orders": "注文が見つかりません",
+    "tip": "",
+    "activate_order": "注文を有効化",
+    "actived": "有効化済み",
+    "join_discord": "Discordに参加",
+    "read_docs": "ドキュメントを読む",
+    "table": {
+      "order_no": "注文番号",
+      "email": "メールアドレス",
+      "product_name": "製品名",
+      "amount": "金額",
+      "paid_at": "支払日時",
+      "github_username": "GitHubユーザー名",
+      "status": "ステータス"
+    }
+  },
+  "membership": {
+    "title": "メンバーシップ",
+    "description": "メンバーシップ情報と有効期間を表示",
+    "status": "ステータス",
+    "status_active": "アクティブ",
+    "status_expired": "期限切れ",
+    "type": "タイプ",
+    "type_monthly": "月額プラン",
+    "type_yearly": "年額プラン",
+    "start_date": "開始日",
+    "end_date": "終了日",
+    "remaining_days": "残り日数",
+    "days": "日",
+    "no_membership": "アクティブなし",
+    "manage_subscription": "サブスクリプション管理",
+    "loading": "読み込み中..."
+  },
+  "my_credits": {
+    "title": "マイクレジット",
+    "left_tip": "残りクレジット: {left_credits}",
+    "no_credits": "クレジット記録なし",
+    "recharge": "チャージ",
+    "table": {
+      "trans_no": "取引番号",
+      "trans_type": "取引タイプ",
+      "credits": "クレジット",
+      "updated_at": "更新日時",
+      "status": "ステータス"
+    }
+  },
+  "api_keys": {
+    "title": "APIキー",
+    "tip": "APIキーの漏洩を避けるため、安全に保管してください",
+    "no_api_keys": "APIキーなし",
+    "create_api_key": "APIキーを作成",
+    "table": {
+      "name": "名前",
+      "key": "キー",
+      "created_at": "作成日時"
+    },
+    "form": {
+      "name": "名前",
+      "name_placeholder": "APIキー名",
+      "submit": "送信"
+    }
+  },
+  "blog": {
+    "title": "ブログ",
+    "description": "BaziAIに関するニュース、リソース、アップデート",
+    "read_more_text": "もっと読む"
+  }
+}

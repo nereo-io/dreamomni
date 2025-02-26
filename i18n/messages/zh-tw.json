@@ -1,0 +1,113 @@
+{
+  "metadata": {
+    "title": "BaziAI - DeepSeek R1 AI 八字分析工具 | 免費生命指導",
+    "description": "獲取免費的 AI 驅動八字解讀，結合古老中國智慧與 DeepSeek R1 技術。通過智能 AI 解讀分析職業、人際關係和生命道路。",
+    "keywords": "AI 八字分析, 免費八字解讀, DeepSeek R1, 職業預測, 生命指導, 中國星相 AI"
+  },
+
+  "career": {
+    "metadata": {
+      "title": "BaziAI - AI 驅動的職業運勢解讀",
+      "description": "通過 AI 驅動的運勢解讀和東方星相學釋放您的職業潛能。獲取關於工作變動、職業道路、晉升和職場成功的即時洞察。全天候提供免費個人化職業分析。"
+    }
+  },
+
+  "user": {
+    "sign_in": "登入",
+    "sign_out": "登出",
+    "credits": "點數",
+    "api_keys": "API 金鑰",
+    "my_orders": "我的訂單",
+    "membership": "會員資格"
+  },
+  "sign_modal": {
+    "sign_in_title": "登入",
+    "sign_in_description": "登入您的帳戶",
+    "sign_up_title": "註冊",
+    "sign_up_description": "創建一個帳戶",
+    "email_title": "電子郵件",
+    "email_placeholder": "在此輸入您的電子郵件",
+    "password_title": "密碼",
+    "password_placeholder": "在此輸入您的密碼",
+    "forgot_password": "忘記密碼？",
+    "or": "或",
+    "continue": "繼續",
+    "no_account": "沒有帳戶？",
+    "email_sign_in": "使用電子郵件登入",
+    "google_sign_in": "使用 Google 登入",
+    "github_sign_in": "使用 GitHub 登入",
+    "apple_sign_in": "使用 Apple 登入",
+    "close_title": "關閉",
+    "cancel_title": "取消"
+  },
+  "my_orders": {
+    "title": "我的訂單",
+    "description": "使用 LuckBox 支付的訂單。",
+    "no_orders": "未找到訂單",
+    "tip": "",
+    "activate_order": "啟用訂單",
+    "actived": "已啟用",
+    "join_discord": "加入 Discord",
+    "read_docs": "閱讀文檔",
+    "table": {
+      "order_no": "訂單號",
+      "email": "電子郵件",
+      "product_name": "產品名稱",
+      "amount": "金額",
+      "paid_at": "支付時間",
+      "github_username": "GitHub 用戶名",
+      "status": "狀態"
+    }
+  },
+  "membership": {
+    "title": "會員資格",
+    "description": "查看您的會員資訊和有效期",
+    "status": "狀態",
+    "status_active": "有效",
+    "status_expired": "已過期",
+    "type": "類型",
+    "type_monthly": "月度計劃",
+    "type_yearly": "年度計劃",
+    "start_date": "開始日期",
+    "end_date": "結束日期",
+    "remaining_days": "剩餘天數",
+    "days": "天",
+    "no_membership": "無有效會員",
+    "manage_subscription": "管理訂閱",
+    "loading": "載入中..."
+  },
+  "my_credits": {
+    "title": "我的點數",
+    "left_tip": "剩餘點數: {left_credits}",
+    "no_credits": "無點數記錄",
+    "recharge": "充值",
+    "table": {
+      "trans_no": "交易號",
+      "trans_type": "交易類型",
+      "credits": "點數",
+      "updated_at": "更新時間",
+      "status": "狀態"
+    }
+  },
+  "api_keys": {
+    "title": "API 金鑰",
+    "tip": "請妥善保管您的 API 金鑰以避免洩露",
+    "no_api_keys": "無 API 金鑰",
+    "create_api_key": "創建 API 金鑰",
+    "table": {
+      "name": "名稱",
+      "key": "金鑰",
+      "created_at": "創建時間"
+    },
+    "form": {
+      "name": "名稱",
+      "name_placeholder": "API 金鑰名稱",
+      "submit": "提交"
+    }
+  },
+  "blog": {
+    "title": "部落格",
+    "description": "關於 BaziAI 的新聞、資源和更新",
+    "read_more_text": "閱讀更多"
+  }
+}

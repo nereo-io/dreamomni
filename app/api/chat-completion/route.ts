@@ -85,6 +85,7 @@ export async function POST(req: Request) {
         systemPrompt,
         messages
       );
+      // console.log("systemPrompt: ", systemPrompt);
 
       return streamText({
         model: deepseekARK("ep-20250205155325-bsdb5"), //r1

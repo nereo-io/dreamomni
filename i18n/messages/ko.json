@@ -1,0 +1,113 @@
+{
+  "metadata": {
+    "title": "BaziAI - DeepSeek R1 AI 팔자 분석 도구 | 무료 인생 가이드",
+    "description": "DeepSeek R1 기술과 고대 중국 지혜를 결합한 AI 기반 팔자 해석을 무료로 받아보세요. 지능형 AI 해석을 통해 경력, 관계 및 인생 경로를 분석합니다.",
+    "keywords": "AI 팔자 분석, 무료 팔자 해석, DeepSeek R1, 경력 예측, 인생 가이드, 중국 점성술 AI"
+  },
+
+  "career": {
+    "metadata": {
+      "title": "BaziAI - AI 기반 경력 운세 해석",
+      "description": "AI 기반 운세 해석과 동양 점성술로 당신의 경력 잠재력을 발휘하세요. 직업 변경, 경력 경로, 승진 및 직장 성공에 대한 즉각적인 통찰력을 얻으세요. 24시간 무료 맞춤형 경력 분석이 가능합니다."
+    }
+  },
+
+  "user": {
+    "sign_in": "로그인",
+    "sign_out": "로그아웃",
+    "credits": "크레딧",
+    "api_keys": "API 키",
+    "my_orders": "내 주문",
+    "membership": "멤버십"
+  },
+  "sign_modal": {
+    "sign_in_title": "로그인",
+    "sign_in_description": "계정에 로그인",
+    "sign_up_title": "회원가입",
+    "sign_up_description": "계정 만들기",
+    "email_title": "이메일",
+    "email_placeholder": "이메일을 입력하세요",
+    "password_title": "비밀번호",
+    "password_placeholder": "비밀번호를 입력하세요",
+    "forgot_password": "비밀번호를 잊으셨나요?",
+    "or": "또는",
+    "continue": "계속",
+    "no_account": "계정이 없으신가요?",
+    "email_sign_in": "이메일로 로그인",
+    "google_sign_in": "Google로 로그인",
+    "github_sign_in": "GitHub로 로그인",
+    "apple_sign_in": "Apple로 로그인",
+    "close_title": "닫기",
+    "cancel_title": "취소"
+  },
+  "my_orders": {
+    "title": "내 주문",
+    "description": "LuckBox로 결제한 주문.",
+    "no_orders": "주문을 찾을 수 없습니다",
+    "tip": "",
+    "activate_order": "주문 활성화",
+    "actived": "활성화됨",
+    "join_discord": "Discord 참여",
+    "read_docs": "문서 읽기",
+    "table": {
+      "order_no": "주문 번호",
+      "email": "이메일",
+      "product_name": "제품명",
+      "amount": "금액",
+      "paid_at": "결제 시간",
+      "github_username": "GitHub 사용자명",
+      "status": "상태"
+    }
+  },
+  "membership": {
+    "title": "멤버십",
+    "description": "멤버십 정보 및 유효 기간 보기",
+    "status": "상태",
+    "status_active": "활성",
+    "status_expired": "만료됨",
+    "type": "유형",
+    "type_monthly": "월간 플랜",
+    "type_yearly": "연간 플랜",
+    "start_date": "시작일",
+    "end_date": "종료일",
+    "remaining_days": "남은 일수",
+    "days": "일",
+    "no_membership": "활성 없음",
+    "manage_subscription": "구독 관리",
+    "loading": "로딩 중..."
+  },
+  "my_credits": {
+    "title": "내 크레딧",
+    "left_tip": "남은 크레딧: {left_credits}",
+    "no_credits": "크레딧 기록 없음",
+    "recharge": "충전",
+    "table": {
+      "trans_no": "거래 번호",
+      "trans_type": "거래 유형",
+      "credits": "크레딧",
+      "updated_at": "업데이트 시간",
+      "status": "상태"
+    }
+  },
+  "api_keys": {
+    "title": "API 키",
+    "tip": "API 키 유출을 방지하기 위해 안전하게 보관하세요",
+    "no_api_keys": "API 키 없음",
+    "create_api_key": "API 키 생성",
+    "table": {
+      "name": "이름",
+      "key": "키",
+      "created_at": "생성 시간"
+    },
+    "form": {
+      "name": "이름",
+      "name_placeholder": "API 키 이름",
+      "submit": "제출"
+    }
+  },
+  "blog": {
+    "title": "블로그",
+    "description": "BaziAI에 관한 뉴스, 리소스 및 업데이트",
+    "read_more_text": "더 읽기"
+  }
+}

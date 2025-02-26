@@ -1,0 +1,120 @@
+{
+  "hero": {
+    "title": "解鎖您的職業道路",
+    "description": "AI + 東方智慧指導",
+    "cta": "獲取職業解讀"
+  },
+  "valueProps": {
+    "name": "value-props",
+    "title": "為何選擇我們",
+    "items": [
+      {
+        "title": "時機",
+        "description": "了解何時採取行動",
+        "icon": "clock"
+      },
+      {
+        "title": "方向",
+        "description": "找到您真正的道路",
+        "icon": "compass"
+      },
+      {
+        "title": "命運",
+        "description": "理解您的天賦",
+        "icon": "star"
+      }
+    ]
+  },
+  "howItWorks": {
+    "name": "how-it-works",
+    "title": "如何獲取您的職業運勢解讀",
+    "description": "簡單步驟解鎖您的職業洞察",
+    "items": [
+      {
+        "title": "提出問題",
+        "description": "首先提出您心中任何與職業相關的問題",
+        "icon": "message-circle"
+      },
+      {
+        "title": "輸入出生信息",
+        "description": "提供您的出生詳情，獲取個人化的東方智慧分析",
+        "icon": "calendar"
+      },
+      {
+        "title": "獲取運勢解讀",
+        "description": "接收您的初步職業運勢解讀和洞察",
+        "icon": "book-open"
+      },
+      {
+        "title": "深入探討",
+        "description": "繼續對話，探索您職業道路的特定方面",
+        "icon": "sparkles"
+      }
+    ]
+  },
+  "questionSelector": {
+    "title": "提出您的職業問題",
+    "subtitle": "您想探索職業的哪些方面？",
+    "placeholder": "在此輸入您的問題或從下方建議中選擇...",
+    "send": "發送",
+    "categories": {
+      "all": "全部",
+      "career": "職業運勢",
+      "job": "職業選擇",
+      "change": "工作變動",
+      "relation": "職場關係",
+      "startup": "創業與投資",
+      "balance": "工作平衡",
+      "specific": "特定問題"
+    },
+    "questions": {
+      "career1": "我的職業在未來5年如何發展？有哪些關鍵機會和挑戰？",
+      "career2": "我在2025年的職業運勢如何？適合做重大決定嗎？",
+      "career3": "我的職業瓶頸是什麼，如何突破？",
+      "career4": "我的八字中哪些因素顯著影響我的職業？如何利用這些優勢？",
+
+      "job1": "哪些行業最適合我？在哪裡能發揮我的潛能？",
+      "job2": "哪些職位與我的性格和能力相匹配？",
+      "job3": "我是否走在正確的職業道路上？",
+      "job4": "我應該為未來的職業發展哪些技能？",
+
+      "change1": "今年適合換工作嗎？最佳時機是什麼時候？",
+      "change2": "如果我換工作，應該選擇什麼類型的公司或職位？",
+      "change3": "換工作前我應該做哪些準備？",
+      "change4": "如果我想轉行，應該朝哪個方向發展？",
+
+      "relation1": "今年我會遇到困難的人嗎？如何應對他們？",
+      "relation2": "如何改善與領導和同事的關係？",
+      "relation3": "我可能會遇到什麼樣的導師？如何吸引有幫助的人？",
+      "relation4": "如何避免職場衝突和糾紛？",
+
+      "startup1": "我適合創業嗎？如果適合，最佳領域是什麼？",
+      "startup2": "現在是開始創業的好時機嗎？",
+      "startup3": "我的財運如何？適合投資嗎？",
+      "startup4": "在創業或投資中我應該注意哪些風險？如何避免？",
+
+      "balance1": "如何平衡職業和健康，避免工作相關的壓力？",
+      "balance2": "我的家庭如何影響我的職業，正面和負面的影響是什麼？",
+      "balance3": "我應該如何安排辦公空間以增強職業運勢？",
+
+      "specific1": "我有一個新項目，它會成功嗎？",
+      "specific2": "我與潛在商業夥伴相容嗎？",
+      "specific3": "我應該換現在的工作嗎？"
+    },
+    "loginPrompt": "登入以獲得每天3次免費解讀",
+    "errors": {
+      "pleaseLogin": "請登入以獲得每天3次免費解讀",
+      "checkUsageError": "檢查解讀次數失敗",
+      "noRemainingReadings": "您已用完今天的解讀次數",
+      "recordUsageError": "記錄解讀使用失敗",
+      "pleaseInputBirthInfo": "請先輸入您的出生信息"
+    },
+    "customer": {
+      "input": {
+        "unlimited_usage": "無限使用",
+        "remaining_readings": "剩餘解讀次數: {count}",
+        "add_birth_info": "添加出生信息"
+      }
+    }
+  }
+}
