@@ -83,7 +83,7 @@ export default function CustomerInputForm({
 
     try {
       if (!user) {
-        // toast.error("请先登录");
+        toast.error(messages.errors.pleaseLogin);
         setIsPending(false);
         return;
       }

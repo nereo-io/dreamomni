@@ -44,6 +44,14 @@ export async function createCustomerInput(formData: FormData): Promise<State> {
         values: rawFormData,
       };
     }
+    if (!rawFormData.userId) {
+      logError("数据验证失败:", "用户ID不能为空");
+      return {
+        errors: {},
+        message: "Please login first",
+        values: rawFormData,
+      };
+    }
     console.log("rawFormData.name", rawFormData.name);
 
     // 1. 先创建或更新 customer_info
