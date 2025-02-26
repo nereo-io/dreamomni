@@ -32,6 +32,11 @@ export default async function AdminLayout({
     nav: {
       items: [
         {
+          title: "Data",
+          url: "/admin/data",
+          icon: "RiDatabaseLine",
+        },
+        {
           title: "Users",
           url: "/admin/users",
           icon: "RiUserLine",
