@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { RiChatHistoryLine, RiDeleteBin6Line } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { ChatSession, ChatSessionDB } from "@/types/chat";
+import { ChatSessionDB } from "@/types/chat";
 import useSWR from "swr";
+import { useSidebar } from "@/components/ui/sidebar";
 
 // 定义 fetcher 函数
 const fetcher = async (url: string) => {
@@ -25,14 +26,16 @@ export default function ChatSessionLibrary({
   currentChatId?: string;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
+  // 获取侧边栏控制函数
+  const { setOpenMobile } = useSidebar();
 
   // 使用 SWR 获取聊天会话数据
   const { data, error, isLoading, mutate } = useSWR(
     "/api/chat-session",
     fetcher,
     {
-      // 移除自动刷新间隔，依赖手动触发和焦点重新验证
-      revalidateOnFocus: true, // 当页面获得焦点时重新验证
+      revalidateOnFocus: true,
     }
   );
 
@@ -41,7 +44,8 @@ export default function ChatSessionLibrary({
 
   const handleSessionClick = (sessionId: string) => {
     if (isLoading) return;
-
+    setOpenMobile(false);
+    // 导航到选定的聊天会话
     router.push(`/chat/${sessionId}`, { scroll: false });
   };
 
@@ -51,7 +55,6 @@ export default function ChatSessionLibrary({
   ) => {
     e.stopPropagation();
     try {
-      // 这里需要实现删除聊天会话的API
       const response = await fetch(`/api/chat-session`, {
         method: "DELETE",
         body: JSON.stringify({ uuid: sessionId }),
@@ -59,7 +62,6 @@ export default function ChatSessionLibrary({
 
       if (!response.ok) throw new Error("删除聊天记录失败");
 
-      // 删除成功后重新获取数据
       mutate();
       toast.success("聊天记录已删除");
     } catch (error) {
@@ -72,7 +74,10 @@ export default function ChatSessionLibrary({
     console.error("获取聊天会话失败:", error);
     return (
       <div className="p-4">
-        <h3 className="text-sm font-medium mb-3">聊天历史</h3>
+        <h3 className="text-sm font-medium mb-3 flex items-center gap-1">
+          <RiChatHistoryLine className="h-4 w-4" />
+          聊天历史
+        </h3>
         <div className="text-xs text-muted-foreground">加载失败</div>
       </div>
     );
@@ -81,7 +86,10 @@ export default function ChatSessionLibrary({
   if (isLoading) {
     return (
       <div className="p-4">
-        <h3 className="text-sm font-medium mb-3">聊天历史</h3>
+        <h3 className="text-sm font-medium mb-3 flex items-center gap-1">
+          <RiChatHistoryLine className="h-4 w-4" />
+          聊天历史
+        </h3>
         <div className="text-xs text-muted-foreground">加载中...</div>
       </div>
     );
@@ -89,7 +97,10 @@ export default function ChatSessionLibrary({
 
   return (
     <div className="p-4">
-      <h3 className="text-sm font-medium mb-3">聊天历史</h3>
+      <h3 className="text-sm font-medium mb-3 flex items-center gap-1">
+        <RiChatHistoryLine className="h-4 w-4" />
+        聊天历史
+      </h3>
       {sessions.length === 0 ? (
         <div className="text-xs text-muted-foreground">暂无聊天记录</div>
       ) : (
@@ -116,18 +127,8 @@ export default function ChatSessionLibrary({
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-6 w-6 opacity-0 hover:opacity-100 focus:opacity-100 transition-opacity"
+                className="h-6 w-6"
                 onClick={(e) => handleDeleteSession(e, session.uuid)}
-                onMouseEnter={(e) => {
-                  // 只显示当前悬停项的删除按钮
-                  e.currentTarget.classList.remove("opacity-0");
-                  e.currentTarget.classList.add("opacity-100");
-                }}
-                onMouseLeave={(e) => {
-                  // 鼠标离开时隐藏删除按钮
-                  e.currentTarget.classList.remove("opacity-100");
-                  e.currentTarget.classList.add("opacity-0");
-                }}
               >
                 <RiDeleteBin6Line className="h-4 w-4" />
               </Button>

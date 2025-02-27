@@ -12,7 +12,7 @@ export default async function AdminLayout({
   children: ReactNode;
 }) {
   const userInfo = await getUserInfo();
-  console.log("userInfo", userInfo);
+  // console.log("userInfo", userInfo);
 
   if (!userInfo?.id || !userInfo.email) {
     redirect("/auth/signin");
@@ -25,7 +25,7 @@ export default async function AdminLayout({
         src: "/logo.svg",
         alt: "BaziAI",
       },
-      url: "/admin",
+      url: "/",
     },
     nav: {
       items: [
@@ -47,9 +47,15 @@ export default async function AdminLayout({
         },
         {
           title: "X",
-          url: "https://x.com/shipanyai",
+          url: "https://x.com/bazi_ai",
           target: "_blank",
           icon: "RiTwitterLine",
+        },
+        {
+          title: "taaf",
+          url: "https://theresanaiforthat.com/ai/baziai",
+          target: "_blank",
+          icon: "RiBook2Line",
         },
       ],
     },

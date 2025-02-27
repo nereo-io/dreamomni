@@ -81,15 +81,6 @@ const ChatSkeleton = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-start max-w-[92%]">
-        <div className="bg-card/80 backdrop-blur-sm rounded-lg p-4 w-[80%] shadow-sm border border-border/30">
-          <div className="space-y-3">
-            <Skeleton className="h-3 w-[92%] rounded-full" />
-            <Skeleton className="h-3 w-full rounded-full" />
-            <Skeleton className="h-3 w-[85%] rounded-full" />
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

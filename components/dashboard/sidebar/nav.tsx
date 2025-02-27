@@ -15,6 +15,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 import { ChevronRight } from "lucide-react";
@@ -24,6 +25,14 @@ import { usePathname } from "next/navigation";
 
 export default function ({ nav }: { nav: NavType }) {
   const pathname = usePathname();
+  const { setOpenMobile } = useSidebar();
+
+  // 处理导航项点击
+  const handleNavItemClick = () => {
+    // 关闭移动端侧边栏
+    setOpenMobile(false);
+    console.log("Nav item clicked, closing sidebar");
+  };
 
   return (
     <SidebarGroup>
@@ -58,6 +67,7 @@ export default function ({ nav }: { nav: NavType }) {
                           <Link
                             href={subItem.url || ""}
                             className="flex items-center gap-1"
+                            onClick={handleNavItemClick}
                           >
                             {subItem.icon && (
                               <Icon name={subItem.icon} className="text-xl" />
@@ -78,7 +88,11 @@ export default function ({ nav }: { nav: NavType }) {
                 tooltip={item.title}
                 className={`${item.is_active ? "text-primary" : ""}`}
               >
-                <Link href={item.url || ""} className="flex items-center gap-1">
+                <Link
+                  href={item.url || ""}
+                  className="flex items-center gap-1"
+                  onClick={handleNavItemClick}
+                >
                   {item.icon && <Icon name={item.icon} className="text-xl" />}
                   <span>{item.title}</span>
                 </Link>

@@ -19,6 +19,7 @@ import { useSWRConfig } from "swr";
 import { v4 as uuidv4 } from "uuid";
 import ChatSkeleton from "./ChatSkeleton";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useSidebar } from "@/components/ui/sidebar";
 
 interface AiReader {
   name: string;
@@ -59,6 +60,7 @@ export default function ChatInterface({
   const [isLoadingCount, setIsLoadingCount] = useState(true);
   const [lastSavedMessageId, setLastSavedMessageId] = useState<string>("");
   const [isActive, setIsActive] = useState(true);
+  const { setOpenMobile } = useSidebar();
 
   const checkRemainingCredits = async () => {
     setIsLoadingCount(true);
@@ -78,6 +80,7 @@ export default function ChatInterface({
 
   // 初始化聊天会话和历史消息
   useEffect(() => {
+    setOpenMobile(false);
     setIsActive(true);
     setIsInitialLoading(true); // 开始加载时设置状态
 
