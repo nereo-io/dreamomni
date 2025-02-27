@@ -107,5 +107,9 @@
     "title": "博客",
     "description": "关于 BaziAI 的新闻、资源和更新",
     "read_more_text": "阅读更多"
+  },
+  "chat": {
+    "title": "新聊天 - DeepSeek R1 AI 八字分析工具",
+    "description": "开始新的聊天与 DeepSeek R1 AI 八字分析工具"
   }
 }

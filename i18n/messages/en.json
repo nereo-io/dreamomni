@@ -109,5 +109,9 @@
     "title": "Blog",
     "description": "News, resources, and updates about BaziAI",
     "read_more_text": "Read More"
+  },
+  "chat": {
+    "title": "New Chat - DeepSeek R1 AI Bazi Analysis Tool",
+    "description": "Start a new chat with DeepSeek R1 AI Bazi Analysis Tool"
   }
 }

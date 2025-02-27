@@ -7,9 +7,11 @@ import {
 import {
   createChatSession,
   getChatSessionByUuid,
+  getChatSessionsByUserId,
   createOrUpdateChatMessage,
   getChatMessagesByChatSessionId,
   updateChatSessionStatus,
+  deleteChatSessionByUuid,
 } from "@/models/chat";
 import { getCustomerInfoById } from "@/models/customer";
 
@@ -55,6 +57,24 @@ export const ChatService = {
     }
   },
 
+  async getChatSessionsByUserId(userId: string): Promise<ChatSessionDB[]> {
+    try {
+      const sessions = await getChatSessionsByUserId(userId);
+      return sessions;
+    } catch (error) {
+      console.error("Failed to get chat sessions by user id:", error);
+      throw error;
+    }
+  },
+
+  async deleteChatSession(uuid: string): Promise<void> {
+    try {
+      await deleteChatSessionByUuid(uuid);
+    } catch (error) {
+      console.error("Failed to delete chat session:", error);
+      throw error;
+    }
+  },
   async saveMessage(message: ChatMessage): Promise<ChatMessage> {
     try {
       return await createOrUpdateChatMessage(message);

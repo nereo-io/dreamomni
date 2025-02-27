@@ -1,10 +1,6 @@
-import {
-  ChatSession,
-  ChatMessage,
-  ChatSessionDB,
-  ChatStatus,
-} from "@/types/chat";
+import { ChatMessage, ChatSessionDB, ChatStatus } from "@/types/chat.d";
 import { getSupabaseClient } from "./db";
+import { respOk } from "@/lib/resp";
 
 // 创建客户Info信息
 export async function createChatSession(data: ChatSessionDB) {
@@ -55,16 +51,31 @@ export async function getChatSessionByUuid(uuid: string) {
 }
 
 // 根据用户ID获取聊天会话列表
-export async function getChatSessionsByUserUuid(userUuid: string) {
+export async function getChatSessionsByUserId(userUuid: string) {
   const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from("chat_sessions")
     .select("*")
-    .eq("user_uuid", userUuid);
+    .eq("user_uuid", userUuid)
+    .eq("status", ChatStatus.Created)
+    .order("created_at", { ascending: false });
   if (error) {
     throw error;
   }
   return data as ChatSessionDB[];
+}
+
+// 根据UUID删除聊天会话
+export async function deleteChatSessionByUuid(uuid: string) {
+  const supabase = getSupabaseClient();
+  const { error } = await supabase
+    .from("chat_sessions")
+    .delete()
+    .eq("uuid", uuid);
+  if (error) {
+    throw error;
+  }
+  return respOk();
 }
 
 // 创建/更新聊天消息
