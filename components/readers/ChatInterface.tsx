@@ -93,41 +93,43 @@ export default function ChatInterface({
           contextChat.status === ChatStatus.New &&
           chatId === contextChat.uuid
         ) {
+          console.log(contextChat);
           chatSession = await chatSessionApi.create(contextChat);
           append({ role: "user", content: contextChat.title });
+          setIsInitialLoading(false);
         } else {
           if (chatId) {
             chatSession = await chatSessionApi.get(chatId);
           }
         }
-
+        console.log("isActive", isActive);
         if (isActive && chatSession) {
           setContextChat(chatSession);
           // console.log("chatSession", chatSession);
 
           // 如果会话是新会话，发送标题
-          if (contextChat?.status === ChatStatus.New && contextChat.title) {
-            // append({ role: "user", content: contextChat.title });
-          }
+          // if (contextChat?.status === ChatStatus.New && contextChat.title) {
+          //   // append({ role: "user", content: contextChat.title });
+          // }
           // 如果会话已经创建，加载历史消息
-          else {
-            const messagesHistory = await chatSessionApi.getMessages(
-              chatSession.uuid
-            );
+          // else {
+          const messagesHistory = await chatSessionApi.getMessages(
+            chatSession.uuid
+          );
 
-            if (messagesHistory) {
-              // 直接设置初始消息
-              setInitialMessages(
-                messagesHistory.map((msg) => ({
-                  id: msg.id || "",
-                  role: msg.role as "user" | "assistant",
-                  content: msg.content,
-                  reasoning: msg.reasoning_content,
-                }))
-              );
-            }
-            setIsInitialLoading(false); // 加载完成后设置状态
+          if (messagesHistory) {
+            // 直接设置初始消息
+            setInitialMessages(
+              messagesHistory.map((msg) => ({
+                id: msg.id || "",
+                role: msg.role as "user" | "assistant",
+                content: msg.content,
+                reasoning: msg.reasoning_content,
+              }))
+            );
           }
+          setIsInitialLoading(false); // 加载完成后设置状态
+          // }
         }
       } catch (error) {
         console.error("初始化聊天会话失败:", error);

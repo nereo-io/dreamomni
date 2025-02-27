@@ -36,7 +36,9 @@ export default async function ChatPage({
 
   return (
     <>
-      <SidebarTrigger />
+      <div className="mt-4 ml-4">
+        <SidebarTrigger />
+      </div>
 
       {page.hero && <Hero hero={page.hero} />}
       {page.questionForm && (

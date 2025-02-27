@@ -56,13 +56,12 @@ export async function getChatSessionsByUserId(userUuid: string) {
   console.log("查询用户聊天会话，用户UUID:", userUuid);
 
   try {
-    // 移除状态过滤，返回所有状态的聊天会话
     const { data, error } = await supabase
       .from("chat_sessions")
       .select("*")
       .eq("user_uuid", userUuid)
-      // .eq("status", ChatStatus.Created) // 移除状态过滤
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .limit(20);
 
     if (error) {
       console.error("获取聊天会话列表失败:", error);
