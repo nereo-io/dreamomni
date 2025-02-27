@@ -5,6 +5,7 @@ export interface ChatRequest {
   messages: Message[];
   customer_info: CustomerInfo;
   locale: string;
+  session_id: string;
 }
 
 export type MessageRole = "system" | "user" | "assistant" | "tool";

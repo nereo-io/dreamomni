@@ -29,7 +29,6 @@ export async function GET(req: Request) {
   try {
     // 1. 验证用户身份
     const session = await auth();
-    console.log("当前用户:", session?.user);
 
     if (!session?.user) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
@@ -37,11 +36,9 @@ export async function GET(req: Request) {
 
     // 2. 获取请求数据 - 使用 uuid 而不是 id
     const userUuid = session.user.uuid;
-    console.log("查询用户UUID:", userUuid);
 
     // 3. 获取聊天会话
     const chatSessions = await ChatService.getChatSessionsByUserId(userUuid);
-    console.log("查询到的会话:", chatSessions);
 
     // 4. 返回结果
     return respData(chatSessions);
@@ -61,7 +58,6 @@ export async function DELETE(req: Request) {
 
     // 2. 获取请求数据
     const { uuid } = await req.json();
-    console.log("删除会话的UUID:", uuid);
 
     // 3. 删除聊天会话
     await ChatService.deleteChatSession(uuid);

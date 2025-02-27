@@ -40,6 +40,7 @@ export default async function CustomerChat({
         aiReader={aiReader}
         lomessages={messages}
         locale={locale}
+        chatId={chatId}
       />
     </div>
   );

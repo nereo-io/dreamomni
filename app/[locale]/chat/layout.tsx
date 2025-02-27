@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { Sidebar } from "@/types/blocks/sidebar";
 import { getUserInfo } from "@/services/user";
 import { redirect } from "next/navigation";
-import ChatSessionLibrary from "@/components/readers/ChatSessionLibrary";
+import ChatSessionLibraryWrapper from "@/components/readers/ChatSessionLibraryWrapper";
 
 export default async function AdminLayout({
   children,
@@ -36,7 +36,7 @@ export default async function AdminLayout({
         },
       ],
     },
-    library: <ChatSessionLibrary userId={userInfo.id.toString()} />,
+    library: <ChatSessionLibraryWrapper userId={userInfo.id.toString()} />,
     social: {
       items: [
         {

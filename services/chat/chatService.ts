@@ -36,12 +36,9 @@ export const ChatService = {
 
   async getChatSession(uuid: string): Promise<ChatSession | null> {
     try {
-      // 获取会话基本信息
-      console.log("uuid", uuid);
-
       const session = await getChatSessionByUuid(uuid);
       if (!session) return null;
-      console.log("session", session);
+      // console.log("session", session);
 
       // 获取客户信息
       const customerInfo = await getCustomerInfoById(session.customer_info_id);

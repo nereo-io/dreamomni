@@ -1,4 +1,8 @@
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 
 import { ReactNode } from "react";
 import Sidebar from "@/components/dashboard/sidebar";

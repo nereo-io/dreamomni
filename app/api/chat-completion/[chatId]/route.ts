@@ -7,6 +7,7 @@ import { checkMembershipStatus } from "@/services/membership";
 import { checkReadingPermission, recordReading } from "@/services/reading";
 import { auth } from "@/auth";
 import { respData, respErr } from "@/lib/resp";
+import { CookingPot } from "lucide-react";
 
 const deepseek = createDeepSeek({
   apiKey: process.env.DEEPSEEK_API_KEY ?? "",
@@ -22,10 +23,27 @@ const deepseekALI = createDeepSeek({
   baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1",
 });
 
-export async function POST(req: Request) {
+export async function POST(
+  req: Request,
+  { params }: { params: { chatId: string } }
+) {
   try {
-    const { messages, customer_info, locale } =
+    const { messages, customer_info, locale, session_id } =
       (await req.json()) as ChatRequest;
+    const chatId = params.chatId;
+    // console.log("chatId: ", chatId);
+    // 验证会话ID
+    if (!chatId) {
+      return new Response(
+        JSON.stringify({
+          error: {
+            message: "缺少会话ID",
+            code: "MISSING_SESSION_ID",
+          },
+        }),
+        { status: 400 }
+      );
+    }
 
     // 获取当前用户
     const session = await auth();

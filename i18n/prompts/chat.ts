@@ -107,8 +107,8 @@ export const getChatSystemPrompt = (
     4. 請始終使用繁體中文回覆用戶
   `,
   };
-  console.log("locale: ", locale);
-  console.log("prompts: ", prompts[locale as keyof typeof prompts]);
+  // console.log("locale: ", locale);
+  // console.log("prompts: ", prompts[locale as keyof typeof prompts]);
 
   return prompts[locale as keyof typeof prompts] || prompts.zh;
 };

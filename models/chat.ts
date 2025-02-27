@@ -53,16 +53,28 @@ export async function getChatSessionByUuid(uuid: string) {
 // 根据用户ID获取聊天会话列表
 export async function getChatSessionsByUserId(userUuid: string) {
   const supabase = getSupabaseClient();
-  const { data, error } = await supabase
-    .from("chat_sessions")
-    .select("*")
-    .eq("user_uuid", userUuid)
-    .eq("status", ChatStatus.Created)
-    .order("created_at", { ascending: false });
-  if (error) {
+  console.log("查询用户聊天会话，用户UUID:", userUuid);
+
+  try {
+    // 移除状态过滤，返回所有状态的聊天会话
+    const { data, error } = await supabase
+      .from("chat_sessions")
+      .select("*")
+      .eq("user_uuid", userUuid)
+      // .eq("status", ChatStatus.Created) // 移除状态过滤
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("获取聊天会话列表失败:", error);
+      throw error;
+    }
+
+    console.log(`找到 ${data?.length || 0} 条聊天会话记录`);
+    return data as ChatSessionDB[];
+  } catch (error) {
+    console.error("获取聊天会话列表异常:", error);
     throw error;
   }
-  return data as ChatSessionDB[];
 }
 
 // 根据UUID删除聊天会话

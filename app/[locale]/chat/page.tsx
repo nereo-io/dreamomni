@@ -2,6 +2,8 @@ import Hero from "@/components/blocks/hero";
 import QuestionSelector from "@/components/blocks/question-selector";
 import { getLandingPage, getReaderPage } from "@/services/page";
 import { getTranslations } from "next-intl/server";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+
 export async function generateMetadata({
   params: { locale },
 }: {
@@ -34,6 +36,8 @@ export default async function ChatPage({
 
   return (
     <>
+      <SidebarTrigger />
+
       {page.hero && <Hero hero={page.hero} />}
       {page.questionForm && (
         <QuestionSelector
