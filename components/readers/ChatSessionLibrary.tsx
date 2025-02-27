@@ -8,27 +8,29 @@ import { toast } from "sonner";
 import { ChatSessionDB } from "@/types/chat";
 import useSWR from "swr";
 import { useSidebar } from "@/components/ui/sidebar";
-
-// 定义 fetcher 函数
-const fetcher = async (url: string) => {
-  const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error("获取聊天记录失败");
-  }
-  return res.json();
-};
+import { ChatPage } from "@/types/pages/chat";
 
 export default function ChatSessionLibrary({
   userId,
   currentChatId,
+  messages,
 }: {
   userId: string;
   currentChatId?: string;
+  messages: ChatPage;
 }) {
   const router = useRouter();
   const pathname = usePathname();
   // 获取侧边栏控制函数
   const { setOpenMobile } = useSidebar();
+  // 定义 fetcher 函数
+  const fetcher = async (url: string) => {
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(messages.library.fetchFailed);
+    }
+    return res.json();
+  };
 
   // 使用 SWR 获取聊天会话数据
   const { data, error, isLoading, mutate } = useSWR(
@@ -60,13 +62,13 @@ export default function ChatSessionLibrary({
         body: JSON.stringify({ uuid: sessionId }),
       });
 
-      if (!response.ok) throw new Error("删除聊天记录失败");
+      if (!response.ok) throw new Error(messages.library.deleteFailed);
 
       mutate();
-      toast.success("聊天记录已删除");
+      toast.success(messages.library.deleteSuccess);
     } catch (error) {
       console.error("删除聊天会话失败:", error);
-      toast.error("删除聊天记录失败");
+      toast.error(messages.library.deleteFailed);
     }
   };
 
@@ -76,9 +78,11 @@ export default function ChatSessionLibrary({
       <div className="p-4">
         <h3 className="text-sm font-medium mb-3 flex items-center gap-1">
           <RiChatHistoryLine className="h-4 w-4" />
-          聊天历史
+          {messages.library.title}
         </h3>
-        <div className="text-xs text-muted-foreground">加载失败</div>
+        <div className="text-xs text-muted-foreground">
+          {messages.library.loadFailed}
+        </div>
       </div>
     );
   }
@@ -88,9 +92,11 @@ export default function ChatSessionLibrary({
       <div className="p-4">
         <h3 className="text-sm font-medium mb-3 flex items-center gap-1">
           <RiChatHistoryLine className="h-4 w-4" />
-          聊天历史
+          {messages.library.title}
         </h3>
-        <div className="text-xs text-muted-foreground">加载中...</div>
+        <div className="text-xs text-muted-foreground">
+          {messages.library.loading}
+        </div>
       </div>
     );
   }
@@ -99,10 +105,12 @@ export default function ChatSessionLibrary({
     <div className="p-4">
       <h3 className="text-sm font-medium mb-3 flex items-center gap-1">
         <RiChatHistoryLine className="h-4 w-4" />
-        聊天历史
+        {messages.library.title}
       </h3>
       {sessions.length === 0 ? (
-        <div className="text-xs text-muted-foreground">暂无聊天记录</div>
+        <div className="text-xs text-muted-foreground">
+          {messages.library.noHistory}
+        </div>
       ) : (
         <ul className="space-y-2">
           {sessions.map((session: ChatSessionDB) => (

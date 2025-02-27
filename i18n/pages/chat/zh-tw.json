@@ -58,5 +58,14 @@
   "membership": {
     "required": "需要會員資格才能使用此功能。",
     "upgrade": "立即升級"
+  },
+  "library": {
+    "title": "聊天歷史",
+    "loading": "載入中...",
+    "loadFailed": "載入失敗",
+    "noHistory": "暫無聊天記錄",
+    "deleteSuccess": "聊天記錄已刪除",
+    "deleteFailed": "刪除聊天記錄失敗",
+    "fetchFailed": "獲取聊天記錄失敗"
   }
 }

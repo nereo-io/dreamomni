@@ -58,5 +58,14 @@
   "membership": {
     "required": "この機能を使用するにはメンバーシップが必要です。",
     "upgrade": "今すぐアップグレード"
+  },
+  "library": {
+    "title": "チャット履歴",
+    "loading": "読み込み中...",
+    "loadFailed": "読み込みに失敗しました",
+    "noHistory": "チャット履歴がありません",
+    "deleteSuccess": "チャット履歴が削除されました",
+    "deleteFailed": "チャット履歴の削除に失敗しました",
+    "fetchFailed": "チャット履歴の取得に失敗しました"
   }
 }

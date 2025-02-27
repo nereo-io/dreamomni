@@ -48,4 +48,13 @@ export interface ChatPage {
     };
     phrases: string[];
   };
+  library: {
+    title: string;
+    loading: string;
+    loadFailed: string;
+    noHistory: string;
+    deleteSuccess: string;
+    deleteFailed: string;
+    fetchFailed: string;
+  };
 }

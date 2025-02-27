@@ -58,5 +58,14 @@
   "membership": {
     "required": "需要会员才可以使用。",
     "upgrade": "立即开通会员"
+  },
+  "library": {
+    "title": "聊天历史",
+    "loading": "加载中...",
+    "loadFailed": "加载失败",
+    "noHistory": "暂无聊天记录",
+    "deleteSuccess": "聊天记录已删除",
+    "deleteFailed": "删除聊天记录失败",
+    "fetchFailed": "获取聊天记录失败"
   }
 }

@@ -105,14 +105,6 @@ export default function ChatInterface({
         console.log("isActive", isActive);
         if (isActive && chatSession) {
           setContextChat(chatSession);
-          // console.log("chatSession", chatSession);
-
-          // 如果会话是新会话，发送标题
-          // if (contextChat?.status === ChatStatus.New && contextChat.title) {
-          //   // append({ role: "user", content: contextChat.title });
-          // }
-          // 如果会话已经创建，加载历史消息
-          // else {
           const messagesHistory = await chatSessionApi.getMessages(
             chatSession.uuid
           );
@@ -129,7 +121,6 @@ export default function ChatInterface({
             );
           }
           setIsInitialLoading(false); // 加载完成后设置状态
-          // }
         }
       } catch (error) {
         console.error("初始化聊天会话失败:", error);

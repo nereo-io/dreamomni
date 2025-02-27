@@ -58,5 +58,14 @@
   "membership": {
     "required": "Membership required to use this feature.",
     "upgrade": "Upgrade Now"
+  },
+  "library": {
+    "title": "Chat History",
+    "loading": "Loading...",
+    "loadFailed": "Failed to load",
+    "noHistory": "No chat history",
+    "deleteSuccess": "Chat history deleted",
+    "deleteFailed": "Failed to delete chat history",
+    "fetchFailed": "Failed to fetch chat history"
   }
 }

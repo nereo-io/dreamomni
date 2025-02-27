@@ -58,5 +58,14 @@
   "membership": {
     "required": "이 기능을 사용하려면 멤버십이 필요합니다.",
     "upgrade": "지금 업그레이드"
+  },
+  "library": {
+    "title": "채팅 기록",
+    "loading": "로딩 중...",
+    "loadFailed": "로드 실패",
+    "noHistory": "채팅 기록 없음",
+    "deleteSuccess": "채팅 기록이 삭제되었습니다",
+    "deleteFailed": "채팅 기록 삭제 실패",
+    "fetchFailed": "채팅 기록을 가져오지 못했습니다"
   }
 }

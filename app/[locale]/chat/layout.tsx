@@ -5,15 +5,17 @@ import { Sidebar } from "@/types/blocks/sidebar";
 import { getUserInfo } from "@/services/user";
 import { redirect } from "next/navigation";
 import ChatSessionLibraryWrapper from "@/components/readers/ChatSessionLibraryWrapper";
+import { getChatPage } from "@/services/page";
 
 export default async function AdminLayout({
   children,
+  params: { locale },
 }: {
   children: ReactNode;
+  params: { locale: string };
 }) {
   const userInfo = await getUserInfo();
-  // console.log("userInfo", userInfo);
-
+  const messages = await getChatPage(locale);
   if (!userInfo?.id || !userInfo.email) {
     redirect("/auth/signin");
   }
@@ -36,7 +38,12 @@ export default async function AdminLayout({
         },
       ],
     },
-    library: <ChatSessionLibraryWrapper userId={userInfo.id.toString()} />,
+    library: (
+      <ChatSessionLibraryWrapper
+        userId={userInfo.id.toString()}
+        messages={messages}
+      />
+    ),
     social: {
       items: [
         {
