@@ -35,7 +35,7 @@ export default async function CustomerChat({
   ]);
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-b from-[#f8f9fa] to-white">
+    <div className="bg-gradient-to-b from-[#f8f9fa] to-white">
       <ChatInterface
         aiReader={aiReader}
         lomessages={messages}

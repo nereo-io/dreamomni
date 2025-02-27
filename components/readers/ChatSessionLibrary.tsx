@@ -19,6 +19,7 @@ export default function ChatSessionLibrary({
   currentChatId?: string;
   messages: ChatPage;
 }) {
+  const { state } = useSidebar(); // 获取 sidebar 的状态
   const router = useRouter();
   const pathname = usePathname();
   // 获取侧边栏控制函数
@@ -102,48 +103,51 @@ export default function ChatSessionLibrary({
   }
 
   return (
-    <div className="p-4">
-      <h3 className="text-sm font-medium mb-3 flex items-center gap-1">
-        <RiChatHistoryLine className="h-4 w-4" />
-        {messages.library.title}
-      </h3>
-      {sessions.length === 0 ? (
-        <div className="text-xs text-muted-foreground">
-          {messages.library.noHistory}
-        </div>
-      ) : (
-        <ul className="space-y-2">
-          {sessions.map((session: ChatSessionDB) => (
-            <li
-              key={session.uuid}
-              onClick={() => handleSessionClick(session.uuid)}
-              className={`flex items-center justify-between text-xs p-2 rounded-md hover:bg-muted cursor-pointer ${
-                session.uuid === currentChatId
-                  ? "bg-muted/80 border border-border/50"
-                  : ""
-              }`}
-            >
-              <div className="flex items-center">
-                <span
-                  className={`truncate max-w-[150px] ${
-                    session.uuid === currentChatId ? "font-medium" : ""
-                  }`}
-                >
-                  {session.title}
-                </span>
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-6 w-6"
-                onClick={(e) => handleDeleteSession(e, session.uuid)}
+    <div className={`${state === "collapsed" ? "hidden" : "block"}`}>
+      <div className="p-4">
+        <h3 className="text-sm font-medium mb-3 flex items-center gap-1">
+          <RiChatHistoryLine className="h-4 w-4" />
+          {messages.library.title}
+        </h3>
+        {/* 只在展开状态显示内容 */}
+        {sessions.length === 0 ? (
+          <div className="text-xs text-muted-foreground">
+            {messages.library.noHistory}
+          </div>
+        ) : (
+          <ul className="space-y-2">
+            {sessions.map((session: ChatSessionDB) => (
+              <li
+                key={session.uuid}
+                onClick={() => handleSessionClick(session.uuid)}
+                className={`flex items-center justify-between text-xs p-2 rounded-md hover:bg-muted cursor-pointer ${
+                  session.uuid === currentChatId
+                    ? "bg-muted/80 border border-border/50"
+                    : ""
+                }`}
               >
-                <RiDeleteBin6Line className="h-4 w-4" />
-              </Button>
-            </li>
-          ))}
-        </ul>
-      )}
+                <div className="flex items-center">
+                  <span
+                    className={`truncate max-w-[150px] ${
+                      session.uuid === currentChatId ? "font-medium" : ""
+                    }`}
+                  >
+                    {session.title}
+                  </span>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6"
+                  onClick={(e) => handleDeleteSession(e, session.uuid)}
+                >
+                  <RiDeleteBin6Line className="h-4 w-4" />
+                </Button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

@@ -255,24 +255,13 @@ export default function ChatInterface({
   };
 
   return (
-    <div className="relative h-full flex flex-col bg-background text-foreground">
+    <div className="bg-background h-screen w-full flex flex-col gap-4">
       {/* 顶部 AI Reader 信息层 */}
-      <div className="flex-none">
+      <div className="sticky bottom-0 pb-0 px-2 z-10">
         <div className="container max-w-6xl mx-auto px-2 pt-2 sm:px-4 sm:pt-4">
           <div className="bg-card text-card-foreground backdrop-blur-sm rounded-lg shadow-sm border border-border p-2 sm:p-3 md:p-4">
             <div className="flex items-center gap-4">
               <SidebarTrigger />
-              {/* <div className="flex-shrink-0">
-                <Link href={`/${locale}`} className="block">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="flex items-center text-muted-foreground hover:text-foreground h-12 w-12 sm:h-14 sm:w-14 justify-center"
-                  >
-                    <IoArrowBack className="w-4 h-4 sm:w-5 sm:h-5" />
-                  </Button>
-                </Link>
-              </div> */}
               <div className="flex items-center gap-2 sm:gap-3 md:gap-4 flex-1 min-w-0">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-primary flex-shrink-0">
                   <img
@@ -296,8 +285,8 @@ export default function ChatInterface({
         </div>
       </div>
 
-      {/* 聊天内容区域 */}
-      <div className="flex-1 overflow-y-auto min-h-0 bg-background">
+      {/* 聊天内容区域 - 添加底部padding以确保内容不被固定的输入框遮挡 */}
+      <div className="flex-1 overflow-y-auto min-h-0 bg-background w-full">
         <div className="max-w-6xl mx-auto space-y-2 sm:space-y-4 px-2 py-2 sm:px-4 sm:py-4">
           {isInitialLoading ? (
             <ChatSkeleton />
@@ -464,9 +453,9 @@ export default function ChatInterface({
         </div>
       </div>
 
-      {/* 底部输入框和版权信息层 */}
-      <div className="flex-none">
-        <div className="container max-w-6xl mx-auto px-1 pb-1 space-y-1">
+      {/* 底部输入框和版权信息层 - 固定在屏幕底部，并考虑 Sidebar 的宽度 */}
+      <div className="sticky bottom-0 pb-0 px-2 z-10">
+        <div className="container max-w-6xl mx-auto px-2">
           {!isLoadingCount &&
             membership?.status !== "active" &&
             remainingCount !== null &&
