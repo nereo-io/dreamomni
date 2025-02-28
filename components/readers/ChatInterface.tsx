@@ -100,26 +100,23 @@ export default function ChatInterface({
           });
         } else {
           if (chatId) {
+            const messagesHistory = await chatSessionApi.getMessages(chatId);
+            if (messagesHistory) {
+              // 直接设置初始消息
+              setInitialMessages(
+                messagesHistory.map((msg) => ({
+                  id: msg.id || "",
+                  role: msg.role as "user" | "assistant",
+                  content: msg.content,
+                  reasoning: msg.reasoning_content,
+                }))
+              );
+            }
             chatSession = await chatSessionApi.get(chatId);
           }
         }
         if (isActive && chatSession) {
           setContextChat(chatSession);
-          const messagesHistory = await chatSessionApi.getMessages(
-            chatSession.uuid
-          );
-
-          if (messagesHistory) {
-            // 直接设置初始消息
-            setInitialMessages(
-              messagesHistory.map((msg) => ({
-                id: msg.id || "",
-                role: msg.role as "user" | "assistant",
-                content: msg.content,
-                reasoning: msg.reasoning_content,
-              }))
-            );
-          }
           setIsInitialLoading(false); // 加载完成后设置状态
         }
       } catch (error) {
