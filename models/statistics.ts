@@ -221,3 +221,46 @@ export async function getMembershipStatistics() {
     active: activeMembers || 0,
   };
 }
+
+// 获取目标追踪统计数据
+export async function getTargetStatistics() {
+  const supabase = getSupabaseClient();
+  const today = new Date().toISOString().split("T")[0];
+
+  // 计算本月第一天
+  const thisMonth = new Date();
+  thisMonth.setDate(1);
+  const thisMonthStr = thisMonth.toISOString().split("T")[0];
+
+  // 获取本月新增用户数
+  const { count: thisMonthUsers, error: thisMonthError } = await supabase
+    .from("users")
+    .select("*", { count: "exact", head: true })
+    .gte("created_at", thisMonthStr)
+    .lt("created_at", today);
+
+  // 获取本月新增付费用户数（通过memberships表统计）
+  const { count: thisMonthPaidUsers, error: paidError } = await supabase
+    .from("memberships")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "active")
+    .gte("created_at", thisMonthStr)
+    .lt("created_at", today);
+
+  if (thisMonthError || paidError) {
+    console.error("获取目标追踪统计数据失败:", thisMonthError || paidError);
+    return {
+      thisMonthUsers: 0,
+      thisMonthPaidUsers: 0,
+      userTarget: 3000,
+      paidUserTarget: 100,
+    };
+  }
+
+  return {
+    thisMonthUsers: thisMonthUsers || 0,
+    thisMonthPaidUsers: thisMonthPaidUsers || 0,
+    userTarget: 3000,
+    paidUserTarget: 100,
+  };
+}

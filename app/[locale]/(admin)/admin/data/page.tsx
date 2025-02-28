@@ -4,8 +4,10 @@ import {
   getChatSessionStatistics,
   getChatMessageStatistics,
   getMembershipStatistics,
+  getTargetStatistics,
 } from "@/models/statistics";
 import { StatsCard } from "@/components/dashboard/stats-card";
+import { TargetBoard } from "@/components/dashboard/target-board";
 import {
   Users,
   MessageSquare,
@@ -23,6 +25,7 @@ export default async function DataPage() {
   const sessionStats = await getChatSessionStatistics();
   const messageStats = await getChatMessageStatistics();
   const membershipStats = await getMembershipStatistics();
+  const targetStats = await getTargetStatistics();
 
   // 获取当前UTC时间
   const now = new Date();
@@ -35,14 +38,12 @@ export default async function DataPage() {
   const yesterdayUtcString = yesterday.toISOString().split("T")[0];
 
   return (
-    <div className="space-y-6">
+    <div className="container px-6 py-2 space-y-6">
       <div>
-        <h2 className="text-2xl font-bold tracking-tight">数据统计</h2>
-        <p className="text-muted-foreground">
-          平台数据概览，包括用户、客户信息、聊天会话、聊天消息和会员等数据。
-        </p>
+        <h2 className="text-2xl font-bold tracking-tight text-center">
+          数据统计
+        </h2>
       </div>
-
       {/* UTC时间展示 */}
       <Card>
         <CardContent className="pt-6">
@@ -64,7 +65,13 @@ export default async function DataPage() {
           </div>
         </CardContent>
       </Card>
-
+      {/* 目标追踪看板 */}
+      <TargetBoard
+        thisMonthUsers={targetStats.thisMonthUsers}
+        thisMonthPaidUsers={targetStats.thisMonthPaidUsers}
+        userTarget={targetStats.userTarget}
+        paidUserTarget={targetStats.paidUserTarget}
+      />
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <StatsCard
           title="用户总数"
