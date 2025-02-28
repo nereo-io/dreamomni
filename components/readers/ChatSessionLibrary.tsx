@@ -120,7 +120,7 @@ export default function ChatSessionLibrary({
               <li
                 key={session.uuid}
                 onClick={() => handleSessionClick(session.uuid)}
-                className={`flex items-center justify-between text-xs p-2 rounded-md hover:bg-muted cursor-pointer ${
+                className={`flex items-center justify-between text-sm p-2 rounded-md hover:bg-muted cursor-pointer ${
                   session.uuid === currentChatId
                     ? "bg-muted/80 border border-border/50"
                     : ""

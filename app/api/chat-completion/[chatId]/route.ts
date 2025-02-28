@@ -108,7 +108,7 @@ export async function POST(
       return streamText({
         model: deepseekARK("ep-20250205155325-bsdb5"), //r1
         // model: deepseekARK("ep-20250208110123-np259"), // deepseek-qwen-32B
-        // model: deepseekARK("ep-20250210120542-75dn2"), // deepseek-qwen-7B
+        // model: deepseekARK("ep-20250228181734-xc4qb"), // doubao-lite
         // model: deepseekALI('deepseek-r1'),
         // model: deepseekALI("qwen-max-latest"),
         // model: deepseekALI("qwen2.5-vl-7b-instruct"),

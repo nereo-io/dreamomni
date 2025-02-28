@@ -11,10 +11,8 @@ import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import Link from "next/link";
 import LoadingAnimation from "./LoadingAnimation";
-import { IoArrowBack } from "react-icons/io5";
 import { ChatSession, ChatStatus } from "@/types/chat.d";
 import { chatSessionApi } from "@/services/api/chatSession";
-import { useParams } from "next/navigation";
 import { useSWRConfig } from "swr";
 import { v4 as uuidv4 } from "uuid";
 import ChatSkeleton from "./ChatSkeleton";
@@ -38,6 +36,7 @@ interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
+  reasoning?: string;
   createdAt?: Date;
 }
 
@@ -47,7 +46,6 @@ export default function ChatInterface({
   locale,
   chatId,
 }: ChatInterfaceProps) {
-  const params = useParams();
   const { mutate } = useSWRConfig();
   const {
     membership,
@@ -58,7 +56,6 @@ export default function ChatInterface({
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [remainingCount, setRemainingCount] = useState<number | null>(null);
   const [isLoadingCount, setIsLoadingCount] = useState(true);
-  const [lastSavedMessageId, setLastSavedMessageId] = useState<string>("");
   const [isActive, setIsActive] = useState(true);
   const { setOpenMobile } = useSidebar();
 
@@ -93,16 +90,19 @@ export default function ChatInterface({
           contextChat.status === ChatStatus.New &&
           chatId === contextChat.uuid
         ) {
-          console.log(contextChat);
           chatSession = await chatSessionApi.create(contextChat);
           append({ role: "user", content: contextChat.title });
           setIsInitialLoading(false);
+          saveChatMessage({
+            role: "user",
+            content: contextChat.title,
+            id: "",
+          });
         } else {
           if (chatId) {
             chatSession = await chatSessionApi.get(chatId);
           }
         }
-        console.log("isActive", isActive);
         if (isActive && chatSession) {
           setContextChat(chatSession);
           const messagesHistory = await chatSessionApi.getMessages(
@@ -136,9 +136,44 @@ export default function ChatInterface({
     return () => {
       setIsActive(false);
       setInitialMessages([]);
-      setLastSavedMessageId("");
     };
   }, [chatId]);
+
+  const saveChatMessage = async (message: Message) => {
+    try {
+      // 保存最新消息
+      await chatSessionApi.saveMessage(chatId, {
+        session_id: chatId,
+        role: message.role as "user" | "assistant",
+        content: message.content,
+        reasoning_content: message.reasoning,
+        id: message.id,
+      });
+
+      // 更新会话状态
+      if (message.role === "user" && contextChat?.status === ChatStatus.New) {
+        await chatSessionApi.updateStatus(chatId, ChatStatus.Creating);
+        setContextChat({
+          ...contextChat,
+          status: ChatStatus.Creating,
+        });
+        console.log("更新会话状态为 Creating");
+      } else if (
+        message.role === "assistant" &&
+        contextChat?.status !== ChatStatus.Created
+      ) {
+        await chatSessionApi.updateStatus(chatId, ChatStatus.Created);
+        setContextChat({
+          ...contextChat,
+          status: ChatStatus.Created,
+        });
+        console.log("更新会话状态为 Created");
+      }
+    } catch (error) {
+      console.error("保存消息失败:", error);
+      toast.error(lomessages.errors.failedToSaveMessage);
+    }
+  };
 
   const {
     append,
@@ -157,61 +192,18 @@ export default function ChatInterface({
       session_id: chatId,
     },
     generateId: uuidv4,
-    onFinish: () => {
-      // setIsLoading(false);
-      // 确保使用正确的路径触发 SWR 缓存更新
-      console.log("聊天完成，更新聊天会话列表");
+    onResponse: () => {
       mutate("/api/chat-session");
     },
+    onFinish: async (message) => {
+      saveChatMessage({
+        id: message.id,
+        role: message.role as "user" | "assistant",
+        content: message.content,
+        reasoning: message.reasoning,
+      });
+    },
   });
-
-  // 监听消息变化并保存
-  useEffect(() => {
-    if (!isActive || !chatId || messages.length === 0) return;
-
-    const saveMessage = async () => {
-      const lastMessage = messages[messages.length - 1];
-
-      // 如果这条消息已经保存过，直接返回
-      if (lastMessage.id === lastSavedMessageId) return;
-
-      try {
-        // 保存最新消息
-        await chatSessionApi.saveMessage(chatId, {
-          session_id: chatId,
-          role: lastMessage.role as "user" | "assistant",
-          content: lastMessage.content,
-          reasoning_content: lastMessage.reasoning,
-          id: lastMessage.id,
-        });
-
-        // 更新最后保存的消息ID
-        setLastSavedMessageId(lastMessage.id);
-
-        // 更新会话状态
-        if (
-          lastMessage.role === "assistant" &&
-          contextChat?.status === ChatStatus.New
-        ) {
-          const updatedChat = await chatSessionApi.updateStatus(
-            chatId,
-            ChatStatus.Created
-          );
-          setContextChat({
-            ...contextChat,
-            status: ChatStatus.Created,
-          });
-        }
-        // console.log("contextChat", contextChat);
-      } catch (error) {
-        console.error("保存消息失败:", error);
-        // toast.error(lomessages.errors.failedToSaveMessage);
-      }
-    };
-
-    saveMessage();
-  }, [isLoading, isActive, chatId]);
-
   // 在AI 开始回复时更新剩余次数
   useEffect(() => {
     if (!isLoading) {
@@ -248,6 +240,11 @@ export default function ChatInterface({
     try {
       // 直接发送消息，让后端处理权限检查
       await originalHandleSubmit(e);
+      saveChatMessage({
+        role: "user",
+        content: input,
+        id: "",
+      });
     } catch (error) {
       console.error(error);
       toast.error(lomessages.errors.generalError);

@@ -21,6 +21,7 @@ export interface ChatPage {
     generalError: string;
     pleaseLogin: string;
     failedToLoadChat: string;
+    failedToSaveMessage: string;
   };
   membership: {
     required: string;
