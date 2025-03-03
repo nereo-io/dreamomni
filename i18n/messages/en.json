@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "BaziAI - DeepSeek R1 AI Bazi Analysis Tool | Free Life Guidance",
+    "title": "BaziAI - DeepSeek R1 AI Bazi Reading Tool | Free Life Guidance",
     "description": "Get free AI-powered Bazi readings combining ancient Chinese wisdom with DeepSeek R1 technology. Analyze career, relationships, and life path through intelligent AI interpretation.",
-    "keywords": "AI Bazi Analysis, Free Bazi Reading, DeepSeek R1, Career Prediction, Life Guidance, Chinese Astrology AI"
+    "keywords": "AI Bazi Reading, Free Bazi Reading, DeepSeek R1, Career Prediction, Life Guidance, Chinese Astrology AI"
   },
 
   "career": {
@@ -103,6 +103,13 @@
       "name": "Name",
       "name_placeholder": "API Key Name",
       "submit": "Submit"
+    }
+  },
+  "chinese_zodiac_element_calculator": {
+    "metadata": {
+      "title": "What is My Chinese Zodiac Sign and Element? Free Calculator & Guide",
+      "description": "Discover your Chinese zodiac animal and element in seconds! Use our interactive calculator based on your birthday. Learn about the 5 element chart and how it shapes your destiny.",
+      "keywords": "chinese zodiac sign, chinese element calculator, 5 element chart, find my chinese zodiac, birth animal element, chinese astrology elements"
     }
   },
   "blog": {

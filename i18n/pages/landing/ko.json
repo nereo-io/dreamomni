@@ -13,9 +13,14 @@
     "nav": {
       "items": [
         {
-          "title": "경력",
+          "title": "커리어",
           "url": "/career",
           "icon": "RiBriefcaseLine"
+        },
+        {
+          "title": "중국 띠",
+          "url": "/chinese-zodiac-element-reading",
+          "icon": "RiCompass3Line"
         }
       ]
     },
@@ -25,11 +30,11 @@
     "show_locale": true
   },
   "hero": {
-    "title": "무료 팔자 AI 분석 도구",
-    "highlight_text": "팔자 AI",
+    "title": "무료 사주 AI 해석 도구",
+    "highlight_text": "사주 AI",
     "announcement": {
-      "title": "✨DeepSeek R1 이제 사용 가능✨",
-      "description": "전통적인 팔자 분석과 DeepSeek R1의 고급 AI 해석 기능의 혁명적인 조합을 경험하세요",
+      "title": "✨DeepSeek R1 출시✨",
+      "description": "전통적인 사주 계산기와 DeepSeek R1의 고급 AI 해석 기능의 혁명적인 조합을 경험하세요",
       "label": "공지사항"
     },
     "description": "고대의 지혜, 현대 AI - 당신의 인생을 해독합니다!",
@@ -38,26 +43,26 @@
   },
   "introduce": {
     "name": "introduce",
-    "title": "BaziAI = 팔자 분석 + DeepSeek R1 해석",
+    "title": "BaziAI = 사주 계산기 + DeepSeek R1 해석",
     "label": "기능",
-    "description": "전통적인 팔자 분석과 DeepSeek R1의 고급 AI 해석 기능의 혁명적인 조합을 경험하세요",
+    "description": "전통적인 사주 계산기와 DeepSeek R1의 고급 AI 해석 기능의 혁명적인 조합을 경험하세요",
     "image": {
       "src": "/imgs/features/generating.gif"
     },
     "items": [
       {
         "title": "DeepSeek R1 AI 해석",
-        "description": "최첨단 DeepSeek R1 AI가 깊고 통찰력 있는 팔자 분석과 예측을 제공합니다",
+        "description": "최첨단 DeepSeek R1 AI가 심층적이고 통찰력 있는 사주 분석과 예측을 제공합니다",
         "icon": "RiRobot2Line"
       },
       {
-        "title": "동양 팔자 지혜",
-        "description": "AI 기술로 향상된 전통적인 팔자 점술 방법",
+        "title": "동양 사주 지혜",
+        "description": "AI 기술로 향상된 전통적인 사주 해석 방법",
         "icon": "RiCompass3Line"
       },
       {
-        "title": "24/7 팔자 접근",
-        "description": "당신의 AI 팔자 가이드는 언제든지 즉각적인 해석을 제공할 준비가 되어 있습니다",
+        "title": "24/7 사주 접근",
+        "description": "AI 사주 가이드가 항상 즉각적인 해석을 제공할 준비가 되어 있습니다",
         "icon": "Ri24HoursLine"
       }
     ]
@@ -291,22 +296,27 @@
     "name": "footer",
     "brand": {
       "title": "BaziAI",
-      "description": "DeepSeek R1을 활용한 팔자 분석 플랫폼으로, 정확한 인생 지침을 위해 고대 지혜와 최첨단 AI 기술을 결합합니다.",
+      "description": "DeepSeek R1을 기반으로 한 사주 분석 플랫폼으로, 고대의 지혜와 최첨단 AI 기술을 결합하여 정확한 인생 가이드를 제공합니다.",
       "logo": {
         "src": "/logo.svg",
         "alt": "BaziAI"
       },
       "url": "/"
     },
-    "copyright": "© 2024 BaziAI. 모든 권리 보유.",
+    "copyright": " 2024 • BaziAI 모든 권리 보유.",
     "nav": {
       "items": [
         {
           "title": "서비스",
           "children": [
             {
-              "title": "경력 해석",
+              "title": "커리어 해석",
               "url": "/career",
+              "target": "_self"
+            },
+            {
+              "title": "중국 띠 해석",
+              "url": "/chinese-zodiac-element-reading",
               "target": "_self"
             }
           ]
@@ -315,7 +325,7 @@
           "title": "지원",
           "children": [
             {
-              "title": "FAQ",
+              "title": "자주 묻는 질문",
               "url": "/#faq",
               "target": "_self"
             },
@@ -353,7 +363,7 @@
     "agreement": {
       "items": [
         {
-          "title": "개인정보 정책",
+          "title": "개인정보 보호정책",
           "url": "/privacy-policy"
         },
         {

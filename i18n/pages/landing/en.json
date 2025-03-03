@@ -16,6 +16,11 @@
           "title": "Career",
           "url": "/career",
           "icon": "RiBriefcaseLine"
+        },
+        {
+          "title": "Chinese Zodiac",
+          "url": "/chinese-zodiac-element-reading",
+          "icon": "RiCompass3Line"
         }
       ]
     },
@@ -25,11 +30,11 @@
     "show_locale": true
   },
   "hero": {
-    "title": "Free Bazi AI Analysis Tool",
+    "title": "Free Bazi AI Reading Tool",
     "highlight_text": "Bazi AI",
     "announcement": {
       "title": "✨DeepSeek R1 Now Available✨",
-      "description": "Experience the revolutionary combination of traditional Bazi analysis and DeepSeek R1's advanced AI reading capabilities",
+      "description": "Experience the revolutionary combination of traditional Bazi calculator and DeepSeek R1's advanced AI reading capabilities",
       "label": "Announcement"
     },
     "description": "Ancient Wisdom, Modern AI - Your Life Decoded!",
@@ -38,9 +43,9 @@
   },
   "introduce": {
     "name": "introduce",
-    "title": "BaziAI = Bazi Analysis + DeepSeek R1 Reading",
+    "title": "BaziAI = Bazi Calculator + DeepSeek R1 Reading",
     "label": "Features",
-    "description": "Experience the revolutionary combination of traditional Bazi analysis and DeepSeek R1's advanced AI reading capabilities",
+    "description": "Experience the revolutionary combination of traditional Bazi calculator and DeepSeek R1's advanced AI reading capabilities",
     "image": {
       "src": "/imgs/features/generating.gif"
     },
@@ -143,6 +148,7 @@
       {
         "title": "Free AI Bazi Reading",
         "description": "Start your BaziAI reading journey",
+        "features_title": "Including",
         "features": [
           "3 AI Bazi readings per day",
           "Basic AI Bazi analysis",
@@ -260,6 +266,11 @@
             {
               "title": "Career Reading",
               "url": "/career",
+              "target": "_self"
+            },
+            {
+              "title": "Chinese Zodiac Reading",
+              "url": "/chinese-zodiac-element-reading",
               "target": "_self"
             }
           ]

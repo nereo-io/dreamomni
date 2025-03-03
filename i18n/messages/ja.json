@@ -105,9 +105,20 @@
       "submit": "送信"
     }
   },
+  "chinese_zodiac_element_calculator": {
+    "metadata": {
+      "title": "私の干支と五行は何ですか？無料計算機とガイド",
+      "description": "数秒であなたの中国干支と五行元素を発見しましょう！誕生日に基づくインタラクティブな計算機をご利用ください。五行チャートとそれがあなたの運命をどのように形作るかについて学びましょう。",
+      "keywords": "中国干支, 五行計算機, 五行チャート, 私の干支を見つける, 生まれ年の動物元素, 中国占星術の元素"
+    }
+  },
   "blog": {
     "title": "ブログ",
     "description": "BaziAIに関するニュース、リソース、アップデート",
     "read_more_text": "もっと読む"
+  },
+  "chat": {
+    "title": "新しいチャット - DeepSeek R1 AI 八字分析ツール",
+    "description": "DeepSeek R1 AI 八字分析ツールとの新しいチャットを開始"
   }
 }

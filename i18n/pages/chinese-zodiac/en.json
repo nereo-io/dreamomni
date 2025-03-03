@@ -1,0 +1,193 @@
+{
+  "hero": {
+    "title": "Chinese Zodiac Sign and Element Reading Tool",
+    "highlight_text": "Chinese Zodiac",
+    "announcement": {
+      "title": "✨Free Calculator & Guide✨",
+      "description": "Discover your Chinese zodiac animal and element in seconds!",
+      "label": "New"
+    },
+    "description": "Use our interactive calculator based on your birthday. Learn about the 5 element chart and how it shapes your destiny.",
+    "show_happy_users": false,
+    "show_badge": false
+  },
+  "questionForm": {
+    "questionSelector": {
+      "title": "Choose Your Question",
+      "subtitle": "What aspects would you like to explore?",
+      "placeholder": "Type your question here or select from suggestions below...",
+      "send": "Send",
+      "loginPrompt": "Sign in to get 3 free readings per day",
+      "errors": {
+        "pleaseLogin": "Please sign in to get 3 free readings per day",
+        "checkUsageError": "Failed to check reading count",
+        "noRemainingReadings": "You've used all readings for today, please come back tomorrow",
+        "recordUsageError": "Failed to record reading usage",
+        "pleaseInputBirthInfo": "Please input your birth information first"
+      },
+      "customer": {
+        "input": {
+          "unlimited_usage": "Member",
+          "remaining_readings": "Remaining {count} times",
+          "add_birth_info": "add birth info"
+        }
+      },
+      "questions": {
+        "chinese-zodiac1": "What is my Chinese zodiac sign and element by birthday?",
+        "chinese-zodiac2": "How to calculate Chinese zodiac animal and element?",
+        "chinese-zodiac3": "What does my zodiac element mean for my life?",
+        "chinese-zodiac4": "What is my love compatibility guide by Chinese zodiac sign and element?"
+      }
+    }
+  },
+  "introduce": {
+    "name": "introduce",
+    "title": "Discover Your Chinese Zodiac Sign & Element",
+    "label": "Features",
+    "description": "Learn how your birth animal and element influence your personality, relationships, and life path",
+    "image": {
+      "src": "/imgs/features/generating.gif"
+    },
+    "items": [
+      {
+        "title": "Interactive Calculator",
+        "description": "Find your Chinese zodiac sign and element instantly with our easy-to-use birthday calculator",
+        "icon": "RiCalendarLine"
+      },
+      {
+        "title": "5 Element Chart",
+        "description": "Understand the five elements (Wood, Fire, Earth, Metal, Water) and how they shape your destiny",
+        "icon": "RiCompass3Line"
+      },
+      {
+        "title": "Personalized Insights",
+        "description": "Get detailed information about your birth animal and element combination",
+        "icon": "RiUserStarLine"
+      }
+    ]
+  },
+  "benefit": {
+    "name": "benefit",
+    "title": "Why Discover Your Chinese Zodiac Sign & Element?",
+    "label": "Benefits",
+    "description": "Unlock ancient wisdom that can guide your modern life decisions",
+    "items": [
+      {
+        "title": "Self-Understanding",
+        "description": "Gain deeper insights into your natural tendencies, strengths, and potential challenges based on your birth animal and element",
+        "icon": "RiUserHeartLine",
+        "image": {
+          "src": "/imgs/features/year-by-year-guide.png"
+        }
+      },
+      {
+        "title": "Better Relationships",
+        "description": "Understand compatibility patterns with friends, family, and romantic partners through zodiac and element interactions",
+        "icon": "RiHeartLine",
+        "image": {
+          "src": "/imgs/features/challenge-detailed-explanations.png"
+        }
+      },
+      {
+        "title": "Life Path Guidance",
+        "description": "Make more informed decisions about career, relationships, and personal growth based on your elemental strengths",
+        "icon": "RiRoadMapLine",
+        "image": {
+          "src": "/imgs/features/pratical-solution.png"
+        }
+      }
+    ]
+  },
+  "pricing": {
+    "name": "pricing",
+    "label": "Pricing",
+    "title": "BaziAI Reading Plans",
+    "description": "Select your AI-powered Bazi reading plan",
+    "groups": [],
+    "items": [
+      {
+        "title": "Free AI Bazi Reading",
+        "description": "Start your BaziAI reading journey",
+        "features_title": "Including",
+        "features": [
+          "3 AI Bazi readings per day",
+          "Basic AI Bazi analysis",
+          "Essential life guidance",
+          "Access to all AI reading types"
+        ],
+        "interval": "month",
+        "amount": 0,
+        "currency": "USD",
+        "price": "Free",
+        "unit": "/month",
+        "is_featured": false,
+        "button": {
+          "title": "Start Free AI Reading",
+          "url": "/career",
+          "icon": "RiMagicLine",
+          "disabled": true
+        }
+      },
+      {
+        "title": "Pro",
+        "description": "Unlock Full AI Experience",
+        "label": "Popular",
+        "features_title": "Everything in Free, plus",
+        "features": [
+          "Unlimited AI Bazi readings",
+          "Advanced AI chat system",
+          "AI-powered follow-up analysis"
+        ],
+        "interval": "month",
+        "amount": 499,
+        "currency": "USD",
+        "price": "$4.99",
+        "original_price": "$19.99",
+        "unit": "/month",
+        "is_featured": true,
+        "discount_label": "75% OFF",
+        "button": {
+          "title": "Upgrade to AI Pro",
+          "url": "/pro",
+          "icon": "RiVipCrownLine"
+        },
+        "product_id": "pro",
+        "product_name": "BaziAI AI Pro",
+        "credits": 1,
+        "valid_months": 1
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Frequently Asked Questions",
+    "description": "Learn more about Chinese zodiac signs and elements",
+    "items": [
+      {
+        "title": "What is my Chinese zodiac sign and element by birthday?",
+        "description": "Your Chinese zodiac sign is determined by your birth year according to the Chinese lunar calendar. There are 12 animal signs (Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, and Pig) that rotate in a 12-year cycle. Your element is determined by the last digit of your birth year, with each element appearing in a 10-year cycle (Wood, Fire, Earth, Metal, Water). Our calculator can instantly determine both your zodiac animal and element when you input your birth date."
+      },
+      {
+        "title": "How to calculate Chinese zodiac animal and element?",
+        "description": "To calculate your Chinese zodiac animal: Take your birth year and divide it by 12. The remainder determines your animal sign (0=Monkey, 1=Rooster, 2=Dog, 3=Pig, 4=Rat, 5=Ox, 6=Tiger, 7=Rabbit, 8=Dragon, 9=Snake, 10=Horse, 11=Goat). For your element, look at the last digit of your birth year: 0-1=Metal, 2-3=Water, 4-5=Wood, 6-7=Fire, 8-9=Earth. Our calculator automates this process for accuracy, especially considering lunar calendar adjustments."
+      },
+      {
+        "title": "What does my Chinese zodiac element mean for my life?",
+        "description": "Your zodiac element (Wood, Fire, Earth, Metal, or Water) influences your personality traits, strengths, and potential challenges in life. Wood people tend to be creative and compassionate; Fire individuals are dynamic and passionate; Earth types are practical and nurturing; Metal people are organized and precise; Water individuals are intuitive and flexible. Your element also suggests career affinities, relationship patterns, and ways to maintain balance in your life. Understanding your element can help you leverage your natural strengths and address potential weaknesses."
+      },
+      {
+        "title": "What is my love compatibility guide by Chinese zodiac sign and element?",
+        "description": "Chinese zodiac compatibility considers both animal signs and elements. Some animal combinations naturally harmonize (like Rat with Dragon or Monkey), while others may create tension (like Tiger with Monkey). Elements also influence compatibility: Wood feeds Fire, Fire creates Earth, Earth bears Metal, Metal collects Water, and Water nourishes Wood. The most harmonious relationships often involve complementary elements rather than identical ones. For example, a Wood person might find balance with a Water person who nourishes their nature, while two Fire individuals might create too much intensity."
+      },
+      {
+        "title": "What are the 5 elements in Chinese astrology?",
+        "description": "The five elements in Chinese philosophy are Wood (木), Fire (火), Earth (土), Metal (金), and Water (水). Each element has distinct characteristics: Wood represents growth, creativity, and compassion; Fire embodies enthusiasm, dynamism, and passion; Earth signifies stability, nurturing, and practicality; Metal symbolizes precision, organization, and righteousness; Water reflects adaptability, intuition, and wisdom. These elements interact in cycles of generation (where one element creates another) and control (where one element restrains another), creating a complex system of balance and interaction."
+      },
+      {
+        "title": "How does the 60-year cycle work in Chinese astrology?",
+        "description": "The Chinese zodiac operates on a 60-year cycle created by combining the 12 animal signs with the five elements in their Yin and Yang forms. Each element appears with each animal sign once in its Yang form and once in its Yin form before the cycle repeats. For example, 1984 was Yang Wood Rat, while 1985 was Yin Wood Ox. This 60-year cycle (known as the Sexagenary cycle or Ganzhi) provides a more detailed understanding of the energetic influences present in each year and how they might affect individuals born during that time."
+      }
+    ]
+  }
+}

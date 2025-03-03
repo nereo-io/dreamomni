@@ -105,9 +105,20 @@
       "submit": "제출"
     }
   },
+  "chinese_zodiac_element_calculator": {
+    "metadata": {
+      "title": "내 중국 띠와 오행은 무엇인가요? 무료 계산기 및 가이드",
+      "description": "몇 초 만에 당신의 중국 띠와 오행 원소를 발견하세요! 생일을 기반으로 한 대화형 계산기를 사용해보세요. 오행 차트와 그것이 당신의 운명을 어떻게 형성하는지 알아보세요.",
+      "keywords": "중국 띠, 오행 계산기, 오행 차트, 내 중국 띠 찾기, 출생 동물 원소, 중국 점성술 원소"
+    }
+  },
   "blog": {
     "title": "블로그",
     "description": "BaziAI에 관한 뉴스, 리소스 및 업데이트",
     "read_more_text": "더 읽기"
+  },
+  "chat": {
+    "title": "새 채팅 - DeepSeek R1 AI 팔자 분석 도구",
+    "description": "DeepSeek R1 AI 팔자 분석 도구와 새 채팅 시작하기"
   }
 }

@@ -243,12 +243,15 @@ export default function QuestionSelector({
           </div>
 
           {/* 分类标签 */}
-          <div className="flex gap-1.5 md:gap-2 flex-wrap mb-4 md:mb-6">
-            {Object.entries(questionSelector.categories).map(([key, label]) => (
-              <Badge
-                key={key}
-                variant={selectedCategory === key ? "default" : "outline"}
-                className={`
+          {questionSelector.categories &&
+            Object.keys(questionSelector.categories).length > 0 && (
+              <div className="flex gap-1.5 md:gap-2 flex-wrap mb-4 md:mb-6">
+                {Object.entries(questionSelector.categories).map(
+                  ([key, label]) => (
+                    <Badge
+                      key={key}
+                      variant={selectedCategory === key ? "default" : "outline"}
+                      className={`
                   cursor-pointer text-xs md:text-sm px-3 md:px-4 py-1 md:py-1.5
                   ${
                     selectedCategory === key
@@ -256,12 +259,14 @@ export default function QuestionSelector({
                       : "hover:bg-orange-500/10"
                   }
                 `}
-                onClick={() => setSelectedCategory(key)}
-              >
-                {label}
-              </Badge>
-            ))}
-          </div>
+                      onClick={() => setSelectedCategory(key)}
+                    >
+                      {label}
+                    </Badge>
+                  )
+                )}
+              </div>
+            )}
 
           {/* 问题列表 */}
           <ScrollArea className="h-[300px] md:h-[400px] rounded-md">

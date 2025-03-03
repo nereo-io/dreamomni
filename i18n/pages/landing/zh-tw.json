@@ -16,6 +16,11 @@
           "title": "職業",
           "url": "/career",
           "icon": "RiBriefcaseLine"
+        },
+        {
+          "title": "生肖",
+          "url": "/chinese-zodiac-element-reading",
+          "icon": "RiCompass3Line"
         }
       ]
     },
@@ -25,39 +30,39 @@
     "show_locale": true
   },
   "hero": {
-    "title": "免費八字 AI 分析工具",
-    "highlight_text": "八字 AI",
+    "title": "免費八字AI解讀工具",
+    "highlight_text": "八字AI",
     "announcement": {
       "title": "✨DeepSeek R1 現已推出✨",
-      "description": "體驗傳統八字分析與 DeepSeek R1 先進 AI 解讀能力的革命性結合",
+      "description": "體驗傳統八字計算器與DeepSeek R1先進AI解讀能力的革命性結合",
       "label": "公告"
     },
-    "description": "古老智慧，現代 AI - 解讀您的人生！",
+    "description": "古老智慧，現代AI - 解碼您的人生！",
     "show_happy_users": false,
     "show_badge": false
   },
   "introduce": {
     "name": "introduce",
-    "title": "BaziAI = 八字分析 + DeepSeek R1 解讀",
-    "label": "功能",
-    "description": "體驗傳統八字分析與 DeepSeek R1 先進 AI 解讀能力的革命性結合",
+    "title": "BaziAI = 八字計算器 + DeepSeek R1解讀",
+    "label": "功能特點",
+    "description": "體驗傳統八字計算器與DeepSeek R1先進AI解讀能力的革命性結合",
     "image": {
       "src": "/imgs/features/generating.gif"
     },
     "items": [
       {
-        "title": "DeepSeek R1 AI 解讀",
-        "description": "最先進的 DeepSeek R1 AI 提供深入、有洞察力的八字分析和預測",
+        "title": "DeepSeek R1 AI解讀",
+        "description": "最先進的DeepSeek R1 AI提供深入、有見地的八字分析和預測",
         "icon": "RiRobot2Line"
       },
       {
         "title": "東方八字智慧",
-        "description": "由 AI 技術增強的傳統八字算命方法",
+        "description": "傳統八字算命方法由AI技術增強",
         "icon": "RiCompass3Line"
       },
       {
-        "title": "全天候八字服務",
-        "description": "您的 AI 八字指南隨時準備提供即時解讀",
+        "title": "全天候八字訪問",
+        "description": "您的AI八字指南隨時準備提供即時解讀",
         "icon": "Ri24HoursLine"
       }
     ]
@@ -143,6 +148,7 @@
       {
         "title": "免費 AI 八字解讀",
         "description": "開始您的 BaziAI 解讀之旅",
+        "features_title": "包括",
         "features": [
           "每天 3 次 AI 八字解讀",
           "基本 AI 八字分析",
@@ -291,14 +297,14 @@
     "name": "footer",
     "brand": {
       "title": "BaziAI",
-      "description": "您的八字分析平台由 DeepSeek R1 驅動，結合古老智慧與尖端 AI 技術，提供精確的生活指導。",
+      "description": "您的八字分析平台由DeepSeek R1提供支持，將古老智慧與尖端AI技術相結合，提供精確的人生指導。",
       "logo": {
         "src": "/logo.svg",
         "alt": "BaziAI"
       },
       "url": "/"
     },
-    "copyright": "© 2024 • BaziAI 保留所有權利。",
+    "copyright": " 2024 • BaziAI 版權所有。",
     "nav": {
       "items": [
         {
@@ -308,6 +314,11 @@
               "title": "職業解讀",
               "url": "/career",
               "target": "_self"
+            },
+            {
+              "title": "生肖解讀",
+              "url": "/chinese-zodiac-element-reading",
+              "target": "_self"
             }
           ]
         },
@@ -315,7 +326,7 @@
           "title": "支持",
           "children": [
             {
-              "title": "FAQ",
+              "title": "常見問題",
               "url": "/#faq",
               "target": "_self"
             },

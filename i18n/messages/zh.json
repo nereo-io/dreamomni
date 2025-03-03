@@ -103,6 +103,13 @@
       "submit": "提交"
     }
   },
+  "chinese_zodiac_element_calculator": {
+    "metadata": {
+      "title": "我的生肖和五行是什么？免费计算器和指南",
+      "description": "几秒钟内发现您的生肖和五行元素！使用我们基于您生日的互动计算器。了解五行图表以及它如何塑造您的命运。",
+      "keywords": "生肖, 五行计算器, 五行图表, 查找我的生肖, 出生动物元素, 中国五行占星"
+    }
+  },
   "blog": {
     "title": "博客",
     "description": "关于 BaziAI 的新闻、资源和更新",

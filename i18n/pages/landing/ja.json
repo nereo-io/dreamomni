@@ -16,6 +16,11 @@
           "title": "キャリア",
           "url": "/career",
           "icon": "RiBriefcaseLine"
+        },
+        {
+          "title": "中国の干支",
+          "url": "/chinese-zodiac-element-reading",
+          "icon": "RiCompass3Line"
         }
       ]
     },
@@ -25,11 +30,11 @@
     "show_locale": true
   },
   "hero": {
-    "title": "無料八字AIツール",
+    "title": "無料八字AI解読ツール",
     "highlight_text": "八字AI",
     "announcement": {
-      "title": "✨DeepSeek R1が利用可能になりました✨",
-      "description": "伝統的な八字分析とDeepSeek R1の先進的なAI読解能力の革命的な組み合わせを体験してください",
+      "title": "✨DeepSeek R1 登場✨",
+      "description": "伝統的な八字計算機とDeepSeek R1の高度なAI解読機能の革命的な組み合わせを体験してください",
       "label": "お知らせ"
     },
     "description": "古代の知恵、現代のAI - あなたの人生を解読！",
@@ -38,26 +43,26 @@
   },
   "introduce": {
     "name": "introduce",
-    "title": "BaziAI = 八字分析 + DeepSeek R1読解",
+    "title": "BaziAI = 八字計算機 + DeepSeek R1解読",
     "label": "機能",
-    "description": "伝統的な八字分析とDeepSeek R1の先進的なAI読解能力の革命的な組み合わせを体験してください",
+    "description": "伝統的な八字計算機とDeepSeek R1の高度なAI解読機能の革命的な組み合わせを体験してください",
     "image": {
       "src": "/imgs/features/generating.gif"
     },
     "items": [
       {
-        "title": "DeepSeek R1 AI読解",
-        "description": "最先端のDeepSeek R1 AIが深く洞察力のある八字分析と予測を提供します",
+        "title": "DeepSeek R1 AI解読",
+        "description": "最先端のDeepSeek R1 AIが深い洞察力のある八字分析と予測を提供します",
         "icon": "RiRobot2Line"
       },
       {
-        "title": "東洋の八字の知恵",
-        "description": "AI技術によって強化された伝統的な八字占いの方法",
+        "title": "東洋の八字知恵",
+        "description": "AI技術によって強化された伝統的な八字占い方法",
         "icon": "RiCompass3Line"
       },
       {
         "title": "24時間八字アクセス",
-        "description": "あなたのAI八字ガイドはいつでも即座に読解を提供する準備ができています",
+        "description": "あなたのAI八字ガイドはいつでも即時解読の準備ができています",
         "icon": "Ri24HoursLine"
       }
     ]
@@ -244,37 +249,64 @@
     "name": "footer",
     "brand": {
       "title": "BaziAI",
+      "description": "DeepSeek R1を搭載した八字分析プラットフォームで、古代の知恵と最先端のAI技術を組み合わせて正確な人生ガイダンスを提供します。",
       "logo": {
         "src": "/logo.svg",
         "alt": "BaziAI"
       },
-      "description": "古代の知恵と現代のAI技術を組み合わせた、あなたの人生の道を解読するための究極のツール。"
+      "url": "/"
     },
-    "copyright": "© 2024 BaziAI. All rights reserved.",
-    "links": {
+    "copyright": " 2024 • BaziAI All rights reserved.",
+    "nav": {
       "items": [
         {
-          "title": "ホーム",
-          "url": "/"
+          "title": "サービス",
+          "children": [
+            {
+              "title": "キャリア解読",
+              "url": "/career",
+              "target": "_self"
+            },
+            {
+              "title": "中国の干支解読",
+              "url": "/chinese-zodiac-element-reading",
+              "target": "_self"
+            }
+          ]
         },
         {
-          "title": "キャリア",
-          "url": "/career"
-        },
-        {
-          "title": "プライバシーポリシー",
-          "url": "/privacy-policy"
-        },
-        {
-          "title": "利用規約",
-          "url": "/terms-of-service"
+          "title": "サポート",
+          "children": [
+            {
+              "title": "よくある質問",
+              "url": "/#faq",
+              "target": "_self"
+            },
+            {
+              "title": "ブログ",
+              "url": "/blog",
+              "target": "_self"
+            }
+          ]
         }
       ]
     },
-    "socials": {
+    "social": {
       "items": [
         {
-          "title": "Twitter",
+          "title": "TikTok",
+          "icon": "RiTiktokFill",
+          "url": "https://www.tiktok.com/@ruoxipaipan?_t=ZS-8stQCFaeosB&_r=1",
+          "target": "_blank"
+        },
+        {
+          "title": "Instagram",
+          "icon": "RiInstagramLine",
+          "url": "https://www.instagram.com/ruoxipaipan?igsh=Mjg5cG11Nm9hcG41&utm_source=qr",
+          "target": "_blank"
+        },
+        {
+          "title": "X",
           "icon": "RiTwitterXFill",
           "url": "https://x.com/ruoxishuo?s=21",
           "target": "_blank"
