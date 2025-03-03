@@ -32,6 +32,9 @@
           "add_birth_info": "생년월일 정보 추가"
         }
       },
+      "categories": {
+        "chinese-zodiac": "중국 띠"
+      },
       "questions": {
         "chinese-zodiac1": "생일에 따른 나의 중국 띠와 오행 요소는 무엇인가요?",
         "chinese-zodiac2": "중국 띠와 오행 요소는 어떻게 계산하나요?",

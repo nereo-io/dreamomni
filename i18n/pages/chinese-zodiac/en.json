@@ -32,6 +32,9 @@
           "add_birth_info": "add birth info"
         }
       },
+      "categories": {
+        "chinese-zodiac": "Chinese Zodiac"
+      },
       "questions": {
         "chinese-zodiac1": "What is my Chinese zodiac sign and element by birthday?",
         "chinese-zodiac2": "How to calculate Chinese zodiac animal and element?",

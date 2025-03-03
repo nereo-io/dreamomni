@@ -32,6 +32,9 @@
           "add_birth_info": "生年月日情報を追加"
         }
       },
+      "categories": {
+        "chinese-zodiac": "中国の干支"
+      },
       "questions": {
         "chinese-zodiac1": "誕生日に基づく私の中国の干支と五行要素は何ですか？",
         "chinese-zodiac2": "中国の干支動物と五行要素はどのように計算しますか？",

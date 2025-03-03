@@ -244,7 +244,7 @@ export default function QuestionSelector({
 
           {/* 分类标签 */}
           {questionSelector.categories &&
-            Object.keys(questionSelector.categories).length > 0 && (
+            Object.keys(questionSelector.categories).length > 1 && (
               <div className="flex gap-1.5 md:gap-2 flex-wrap mb-4 md:mb-6">
                 {Object.entries(questionSelector.categories).map(
                   ([key, label]) => (

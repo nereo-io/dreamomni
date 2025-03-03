@@ -3,31 +3,31 @@
   <!-- 首页 -->
   <url>
     <loc>https://www.bazi-ai.com/</loc>
-    <lastmod>2025-02-13</lastmod>
+    <lastmod>2025-03-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.bazi-ai.com/zh</loc>
-    <lastmod>2025-02-13</lastmod>
+    <lastmod>2025-03-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.bazi-ai.com/ja</loc>
-    <lastmod>2025-02-13</lastmod>
+    <lastmod>2025-03-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.bazi-ai.com/ko</loc>
-    <lastmod>2025-02-13</lastmod>
+    <lastmod>2025-03-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.bazi-ai.com/zh-tw</loc>
-    <lastmod>2025-02-13</lastmod>
+    <lastmod>2025-03-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -35,31 +35,63 @@
   <!-- 主要服务页面 -->
   <url>
     <loc>https://www.bazi-ai.com/career</loc>
-    <lastmod>2025-02-13</lastmod>
+    <lastmod>2025-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.bazi-ai.com/zh/career</loc>
-    <lastmod>2025-02-13</lastmod>
+    <lastmod>2025-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.bazi-ai.com/ja/career</loc>
-    <lastmod>2025-02-13</lastmod>
+    <lastmod>2025-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.bazi-ai.com/ko/career</loc>
-    <lastmod>2025-02-13</lastmod>
+    <lastmod>2025-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.bazi-ai.com/zh-tw/career</loc>
-    <lastmod>2025-02-13</lastmod>
+    <lastmod>2025-03-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- 中国生肖和五行计算器页面 -->
+  <url>
+    <loc>https://www.bazi-ai.com/chinese-zodiac-element-reading</loc>
+    <lastmod>2025-03-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.bazi-ai.com/zh/chinese-zodiac-element-reading</loc>
+    <lastmod>2025-03-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.bazi-ai.com/ja/chinese-zodiac-element-reading</loc>
+    <lastmod>2025-03-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.bazi-ai.com/ko/chinese-zodiac-element-reading</loc>
+    <lastmod>2025-03-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.bazi-ai.com/zh-tw/chinese-zodiac-element-reading</loc>
+    <lastmod>2025-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -70,14 +102,15 @@
   <!-- 法律条款页面 -->
   <url>
     <loc>https://www.bazi-ai.com/privacy-policy</loc>
-    <lastmod>2025-02-13</lastmod>
+    <lastmod>2025-03-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.bazi-ai.com/terms-of-service</loc>
-    <lastmod>2025-02-13</lastmod>
+    <lastmod>2025-03-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
+</urlset>
   

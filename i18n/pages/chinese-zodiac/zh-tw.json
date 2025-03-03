@@ -32,6 +32,9 @@
           "add_birth_info": "添加出生信息"
         }
       },
+      "categories": {
+        "chinese-zodiac": "生肖"
+      },
       "questions": {
         "chinese-zodiac1": "根據生日，我的生肖和五行元素是什麼？",
         "chinese-zodiac2": "如何計算生肖和五行元素？",
