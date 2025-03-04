@@ -7,7 +7,7 @@ export default function BlogBlock({ blog }: { blog: Blog }) {
       {blog.items?.map((item, idx) => (
         <a
           key={idx}
-          href={item.url || `/${item.locale}/posts/${item.slug}`}
+          href={item.url || `/${item.locale}/blog/${item.slug}`}
           target={item.target || "_self"}
           className="w-full md:w-1/3 p-4"
         >
