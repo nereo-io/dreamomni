@@ -1,0 +1,2305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BaziAI - 博客功能原型</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+      }
+
+      .prototype-section {
+        margin-bottom: 100px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+
+      .prototype-title {
+        background: #f1f5f9;
+        padding: 10px;
+        margin: -20px -20px 20px -20px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .bazi-primary {
+        background-color: #5271ff;
+      }
+
+      .bazi-secondary {
+        background-color: #f0f4ff;
+      }
+
+      .bazi-text {
+        color: #5271ff;
+      }
+
+      .blog-card {
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .blog-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .zodiac-tag {
+        background-color: rgba(82, 113, 255, 0.1);
+        color: #5271ff;
+        border-radius: 20px;
+        padding: 2px 10px;
+        font-size: 12px;
+        display: inline-block;
+      }
+
+      .element-tag {
+        background-color: rgba(255, 165, 0, 0.1);
+        color: #ff8c00;
+        border-radius: 20px;
+        padding: 2px 10px;
+        font-size: 12px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <header class="mb-10 p-5 text-center bg-blue-700 text-white">
+      <h1 class="text-2xl font-bold">BaziAI 博客功能原型设计</h1>
+      <p class="mt-2">优化SEO的博客内容展示界面</p>
+    </header>
+
+    <div class="container mx-auto px-4">
+      <!-- 原型1: 网站首页整合博客预览 -->
+      <div class="prototype-section">
+        <div class="prototype-title">
+          <h2 class="text-xl font-bold">原型1: 网站首页整合博客预览</h2>
+        </div>
+
+        <!-- 导航栏 -->
+        <nav class="bg-white shadow-md rounded-lg mb-6">
+          <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <span class="text-2xl font-bold text-blue-600">BaziAI</span>
+                </div>
+              </div>
+              <div class="hidden md:block">
+                <div class="flex items-center space-x-8">
+                  <a href="#" class="text-gray-600 hover:text-blue-600">首页</a>
+                  <a href="#" class="text-gray-600 hover:text-blue-600">职业</a>
+                  <a href="#" class="text-gray-600 hover:text-blue-600">生肖</a>
+                  <a href="#" class="text-blue-600 font-medium">博客</a>
+                  <a
+                    href="#"
+                    class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+                    >登录</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <!-- 主要内容区 -->
+        <div class="mb-10">
+          <div class="py-12 bg-gray-100 rounded-lg text-center mb-10">
+            <h1 class="text-3xl font-bold mb-4">中国生肖和五行元素解读工具</h1>
+            <p class="text-lg mb-6">
+              使用我们基于您生日的互动计算器。了解五行元素图表及其如何塑造您的命运。
+            </p>
+            <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+              <div class="flex">
+                <input
+                  type="text"
+                  placeholder="添加出生信息"
+                  class="flex-grow p-2 border rounded-l-lg"
+                />
+                <button class="bg-blue-600 text-white px-6 py-2 rounded-r-lg">
+                  发送
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 常见问题快捷入口 -->
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10"
+          >
+            <div
+              class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition"
+            >
+              <p class="text-gray-800">我的中国生肖和元素是什么？</p>
+            </div>
+            <div
+              class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition"
+            >
+              <p class="text-gray-800">如何计算中国生肖动物和元素？</p>
+            </div>
+            <div
+              class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition"
+            >
+              <p class="text-gray-800">我的生肖元素对我的生活意味着什么？</p>
+            </div>
+            <div
+              class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition"
+            >
+              <p class="text-gray-800">我的生肖和元素的爱情兼容指南是什么？</p>
+            </div>
+          </div>
+
+          <!-- 博客预览区域 - 新增部分 -->
+          <div class="mb-10">
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-2xl font-bold">推荐阅读</h2>
+              <a
+                href="#"
+                class="text-blue-600 hover:underline flex items-center"
+              >
+                查看全部 <i class="fas fa-chevron-right ml-1 text-sm"></i>
+              </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="blog-card bg-white shadow-sm">
+                <img
+                  src="https://images.unsplash.com/photo-1612113412061-5d502f0eb291"
+                  alt="龙年运势"
+                  class="w-full h-40 object-cover"
+                />
+                <div class="p-4">
+                  <div class="flex mb-2">
+                    <span class="zodiac-tag mr-2">龙</span>
+                    <span class="element-tag">木</span>
+                  </div>
+                  <h3 class="text-lg font-semibold mb-2">
+                    2024龙年运势完全指南
+                  </h3>
+                  <p class="text-gray-600 text-sm mb-3">
+                    探索2024年龙年将如何影响各个生肖，特别是对于龙年出生的人来说...
+                  </p>
+                  <div class="flex justify-between items-center">
+                    <span class="text-xs text-gray-500">阅读时间: 5分钟</span>
+                    <a href="#" class="text-blue-600 text-sm hover:underline"
+                      >阅读全文</a
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="blog-card bg-white shadow-sm">
+                <img
+                  src="https://images.unsplash.com/photo-1502082553048-f009c37129b9"
+                  alt="木元素"
+                  class="w-full h-40 object-cover"
+                />
+                <div class="p-4">
+                  <div class="flex mb-2">
+                    <span class="element-tag">木</span>
+                  </div>
+                  <h3 class="text-lg font-semibold mb-2">
+                    木元素人的性格特质与职业指南
+                  </h3>
+                  <p class="text-gray-600 text-sm mb-3">
+                    了解木元素如何塑造您的性格，以及哪些职业最适合具有木元素特质的人...
+                  </p>
+                  <div class="flex justify-between items-center">
+                    <span class="text-xs text-gray-500">阅读时间: 7分钟</span>
+                    <a href="#" class="text-blue-600 text-sm hover:underline"
+                      >阅读全文</a
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="blog-card bg-white shadow-sm">
+                <img
+                  src="https://images.unsplash.com/photo-1565341805-4e0c2782a354"
+                  alt="火元素"
+                  class="w-full h-40 object-cover"
+                />
+                <div class="p-4">
+                  <div class="flex mb-2">
+                    <span class="element-tag">火</span>
+                  </div>
+                  <h3 class="text-lg font-semibold mb-2">
+                    火元素人的性格特质与职业指南
+                  </h3>
+                  <p class="text-gray-600 text-sm mb-3">
+                    了解火元素如何塑造您的性格，以及哪些职业最适合具有火元素特质的人...
+                  </p>
+                  <div class="flex justify-between items-center">
+                    <span class="text-xs text-gray-500">阅读时间: 7分钟</span>
+                    <a href="#" class="text-blue-600 text-sm hover:underline"
+                      >阅读全文</a
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="blog-card bg-white shadow-sm">
+                <img
+                  src="https://images.unsplash.com/photo-1519659528534-7fd733a832a0"
+                  alt="水元素"
+                  class="w-full h-40 object-cover"
+                />
+                <div class="p-4">
+                  <div class="flex mb-2">
+                    <span class="element-tag">水</span>
+                  </div>
+                  <h3 class="text-lg font-semibold mb-2">
+                    水元素人的健康指南：保持平衡的关键
+                  </h3>
+                  <p class="text-gray-600 text-sm mb-3">
+                    水元素人往往直觉敏锐但情绪波动大。了解如何通过饮食、运动和生活习惯来维护健康...
+                  </p>
+                  <div class="flex justify-between items-center">
+                    <span class="text-xs text-gray-500">阅读时间: 7分钟</span>
+                    <a href="#" class="text-blue-600 text-sm hover:underline"
+                      >阅读全文</a
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="blog-card bg-white shadow-sm">
+                <img
+                  src="https://images.unsplash.com/photo-1528495612343-9ca9f4a4de28"
+                  alt="中国传统"
+                  class="w-full h-40 object-cover"
+                />
+                <div class="p-4">
+                  <div class="flex mb-2">
+                    <span class="zodiac-tag mr-2">兼容性</span>
+                  </div>
+                  <h3 class="text-lg font-semibold mb-2">
+                    十二生肖最佳爱情配对
+                  </h3>
+                  <p class="text-gray-600 text-sm mb-3">
+                    根据传统中国星座学，哪些生肖在一起最和谐？我们的详细配对指南...
+                  </p>
+                  <div class="flex justify-between items-center">
+                    <span class="text-xs text-gray-500">阅读时间: 8分钟</span>
+                    <a href="#" class="text-blue-600 text-sm hover:underline"
+                      >阅读全文</a
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="blog-card bg-white shadow-sm">
+                <img
+                  src="https://images.unsplash.com/photo-1508002366005-75a695ee2d17"
+                  alt="爱情"
+                  class="w-full h-40 object-cover"
+                />
+                <div class="p-4">
+                  <div class="flex mb-2">
+                    <span class="zodiac-tag mr-2">爱情</span>
+                    <span class="zodiac-tag">配对</span>
+                  </div>
+                  <h3 class="text-lg font-semibold mb-2">
+                    12生肖爱情配对完全指南：找到你的最佳伴侣
+                  </h3>
+                  <p class="text-gray-600 text-sm mb-3">
+                    根据中国传统命理学，哪些生肖最相配？这篇详细指南将帮助你了解生肖间的爱情兼容性...
+                  </p>
+                  <div class="flex justify-between items-center">
+                    <span class="text-xs text-gray-500">阅读时间: 8分钟</span>
+                    <a href="#" class="text-blue-600 text-sm hover:underline"
+                      >阅读全文</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 原型2: 博客首页 -->
+      <div class="prototype-section">
+        <div class="prototype-title">
+          <h2 class="text-xl font-bold">原型2: 博客首页</h2>
+        </div>
+
+        <!-- 导航栏 -->
+        <nav class="bg-white shadow-md rounded-lg mb-6">
+          <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <span class="text-2xl font-bold text-blue-600">BaziAI</span>
+                </div>
+              </div>
+              <div class="hidden md:block">
+                <div class="flex items-center space-x-8">
+                  <a href="#" class="text-gray-600 hover:text-blue-600">首页</a>
+                  <a href="#" class="text-gray-600 hover:text-blue-600">职业</a>
+                  <a href="#" class="text-gray-600 hover:text-blue-600">生肖</a>
+                  <a href="#" class="text-blue-600 font-medium">博客</a>
+                  <a
+                    href="#"
+                    class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+                    >登录</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <!-- 博客头部 -->
+        <div class="rounded-lg overflow-hidden mb-10 relative">
+          <img
+            src="https://source.unsplash.com/random/1200x400/?chinese,zodiac"
+            alt="博客封面"
+            class="w-full h-80 object-cover"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black to-transparent"
+          ></div>
+          <div class="absolute bottom-0 left-0 p-8 text-white">
+            <h1 class="text-3xl font-bold mb-2">BaziAI 命理博客</h1>
+            <p class="text-lg mb-4">探索中国传统生肖与五行元素的智慧</p>
+            <div class="relative max-w-md">
+              <input
+                type="text"
+                placeholder="搜索文章..."
+                class="w-full p-3 pl-10 rounded-lg"
+              />
+              <i
+                class="fas fa-search absolute left-3 top-3.5 text-gray-400"
+              ></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- 博客分类 -->
+        <div class="flex flex-wrap gap-3 mb-10">
+          <a href="#" class="px-4 py-2 bg-blue-600 text-white rounded-full"
+            >全部</a
+          >
+          <a
+            href="#"
+            class="px-4 py-2 bg-white text-gray-700 rounded-full border hover:bg-gray-50"
+            >生肖解析</a
+          >
+          <a
+            href="#"
+            class="px-4 py-2 bg-white text-gray-700 rounded-full border hover:bg-gray-50"
+            >五行元素</a
+          >
+          <a
+            href="#"
+            class="px-4 py-2 bg-white text-gray-700 rounded-full border hover:bg-gray-50"
+            >职业发展</a
+          >
+          <a
+            href="#"
+            class="px-4 py-2 bg-white text-gray-700 rounded-full border hover:bg-gray-50"
+            >爱情关系</a
+          >
+          <a
+            href="#"
+            class="px-4 py-2 bg-white text-gray-700 rounded-full border hover:bg-gray-50"
+            >健康运势</a
+          >
+          <a
+            href="#"
+            class="px-4 py-2 bg-white text-gray-700 rounded-full border hover:bg-gray-50"
+            >财富管理</a
+          >
+        </div>
+
+        <!-- 主要内容区 -->
+        <div class="flex flex-col md:flex-row gap-8">
+          <!-- 左侧文章列表 -->
+          <div class="md:w-2/3">
+            <!-- 精选文章 -->
+            <div class="mb-10">
+              <h2 class="text-2xl font-bold mb-6">精选文章</h2>
+              <div class="blog-card bg-white shadow-md mb-8">
+                <div class="md:flex">
+                  <div class="md:w-2/5">
+                    <img
+                      src="https://images.unsplash.com/photo-1576566588028-4147f3842259"
+                      alt="龙年运势"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div class="md:w-3/5 p-6">
+                    <div class="flex mb-3">
+                      <span class="zodiac-tag mr-2">龙</span>
+                      <span class="element-tag mr-2">木</span>
+                      <span class="text-xs text-gray-500 ml-auto"
+                        >发布于 2023-12-28</span
+                      >
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">
+                      2024年木龙命理全面解析：机遇、挑战与应对之策
+                    </h3>
+                    <p class="text-gray-600 mb-4">
+                      2024年是农历龙年，对于龙年出生的人以及所有十二生肖来说都有特殊的影响。本文深入分析龙年运势的各个方面，从事业到健康，帮助您准备迎接新的一年...
+                    </p>
+                    <div class="flex justify-between items-center">
+                      <div class="flex items-center">
+                        <img
+                          src="https://randomuser.me/api/portraits/women/22.jpg"
+                          alt="作者头像"
+                          class="w-8 h-8 rounded-full mr-2"
+                        />
+                        <span class="text-sm text-gray-700">李命理师</span>
+                      </div>
+                      <a
+                        href="#"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                        >阅读全文</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 最新文章 -->
+            <div>
+              <h2 class="text-2xl font-bold mb-6">最新文章</h2>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="blog-card bg-white shadow-sm">
+                  <img
+                    src="https://images.unsplash.com/photo-1502082553048-f009c37129b9"
+                    alt="木元素"
+                    class="w-full h-40 object-cover"
+                  />
+                  <div class="p-4">
+                    <div class="flex mb-2">
+                      <span class="element-tag">木</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">
+                      金元素与职业选择：如何发挥您的天赋优势
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-3">
+                      金元素人通常拥有组织能力强、精确和正直的特质。本文探讨最适合金元素人的职业道路...
+                    </p>
+                    <div class="flex justify-between items-center">
+                      <span class="text-xs text-gray-500">3天前</span>
+                      <a href="#" class="text-blue-600 text-sm hover:underline"
+                        >阅读全文</a
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="blog-card bg-white shadow-sm">
+                  <img
+                    src="https://images.unsplash.com/photo-1565341805-4e0c2782a354"
+                    alt="火元素"
+                    class="w-full h-40 object-cover"
+                  />
+                  <div class="p-4">
+                    <div class="flex mb-2">
+                      <span class="element-tag">火</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">
+                      火元素人的性格特质与职业指南
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-3">
+                      了解火元素如何塑造您的性格，以及哪些职业最适合具有火元素特质的人...
+                    </p>
+                    <div class="flex justify-between items-center">
+                      <span class="text-xs text-gray-500">3天前</span>
+                      <a href="#" class="text-blue-600 text-sm hover:underline"
+                        >阅读全文</a
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="blog-card bg-white shadow-sm">
+                  <img
+                    src="https://images.unsplash.com/photo-1519659528534-7fd733a832a0"
+                    alt="水元素"
+                    class="w-full h-40 object-cover"
+                  />
+                  <div class="p-4">
+                    <div class="flex mb-2">
+                      <span class="element-tag">水</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">
+                      水元素人的健康指南：保持平衡的关键
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-3">
+                      水元素人往往直觉敏锐但情绪波动大。了解如何通过饮食、运动和生活习惯来维护健康...
+                    </p>
+                    <div class="flex justify-between items-center">
+                      <span class="text-xs text-gray-500">2周前</span>
+                      <a href="#" class="text-blue-600 text-sm hover:underline"
+                        >阅读全文</a
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="blog-card bg-white shadow-sm">
+                  <img
+                    src="https://images.unsplash.com/photo-1611564494260-d9934c3a5b12"
+                    alt="中国传统"
+                    class="w-full h-40 object-cover"
+                  />
+                  <div class="p-4">
+                    <div class="flex mb-2">
+                      <span class="zodiac-tag mr-2">爱情</span>
+                      <span class="zodiac-tag">配对</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">
+                      12生肖爱情配对完全指南：找到你的最佳伴侣
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-3">
+                      根据中国传统命理学，哪些生肖最相配？这篇详细指南将帮助你了解生肖间的爱情兼容性...
+                    </p>
+                    <div class="flex justify-between items-center">
+                      <span class="text-xs text-gray-500">3周前</span>
+                      <a href="#" class="text-blue-600 text-sm hover:underline"
+                        >阅读全文</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-8 text-center">
+                <button
+                  class="px-6 py-3 bg-white border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50"
+                >
+                  加载更多文章
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 右侧边栏 -->
+          <div class="md:w-1/3">
+            <!-- 订阅卡片 -->
+            <div class="bg-blue-50 p-6 rounded-lg mb-8">
+              <h3 class="text-lg font-bold mb-3">订阅博客更新</h3>
+              <p class="text-sm text-gray-600 mb-4">
+                获取最新的生肖解读和命理分析，直接发送到您的邮箱
+              </p>
+              <div class="mb-3">
+                <input
+                  type="email"
+                  placeholder="您的邮箱地址"
+                  class="w-full p-3 rounded-lg border mb-2"
+                />
+                <button
+                  class="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700"
+                >
+                  订阅
+                </button>
+              </div>
+              <p class="text-xs text-gray-500">
+                我们尊重您的隐私，绝不会分享您的邮箱
+              </p>
+            </div>
+
+            <!-- 热门标签 -->
+            <div class="bg-white p-6 rounded-lg shadow-sm mb-8">
+              <h3 class="text-lg font-bold mb-4">热门标签</h3>
+              <div class="flex flex-wrap gap-2">
+                <a
+                  href="#"
+                  class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+                  >龙年运势</a
+                >
+                <a
+                  href="#"
+                  class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+                  >五行分析</a
+                >
+                <a
+                  href="#"
+                  class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+                  >爱情配对</a
+                >
+                <a
+                  href="#"
+                  class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+                  >事业发展</a
+                >
+                <a
+                  href="#"
+                  class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+                  >健康指南</a
+                >
+                <a
+                  href="#"
+                  class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+                  >财富管理</a
+                >
+                <a
+                  href="#"
+                  class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+                  >命理基础</a
+                >
+                <a
+                  href="#"
+                  class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+                  >生肖特性</a
+                >
+                <a
+                  href="#"
+                  class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+                  >木元素</a
+                >
+                <a
+                  href="#"
+                  class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+                  >火元素</a
+                >
+              </div>
+            </div>
+
+            <!-- 热门文章 -->
+            <div class="bg-white p-6 rounded-lg shadow-sm mb-8">
+              <h3 class="text-lg font-bold mb-4">热门文章</h3>
+              <div class="space-y-4">
+                <div class="flex items-start">
+                  <span class="text-lg font-bold text-gray-300 mr-3">01</span>
+                  <a href="#" class="text-gray-800 hover:text-blue-600"
+                    >2024龙年运势大预测：十二生肖全解析</a
+                  >
+                </div>
+                <div class="flex items-start">
+                  <span class="text-lg font-bold text-gray-300 mr-3">02</span>
+                  <a href="#" class="text-gray-800 hover:text-blue-600"
+                    >生肖与五行的关系：命理基础知识必读</a
+                  >
+                </div>
+                <div class="flex items-start">
+                  <span class="text-lg font-bold text-gray-300 mr-3">03</span>
+                  <a href="#" class="text-gray-800 hover:text-blue-600"
+                    >如何根据生肖和五行找到最适合的职业</a
+                  >
+                </div>
+                <div class="flex items-start">
+                  <span class="text-lg font-bold text-gray-300 mr-3">04</span>
+                  <a href="#" class="text-gray-800 hover:text-blue-600"
+                    >中国命理学对现代生活的启示与应用</a
+                  >
+                </div>
+                <div class="flex items-start">
+                  <span class="text-lg font-bold text-gray-300 mr-3">05</span>
+                  <a href="#" class="text-gray-800 hover:text-blue-600"
+                    >五行失衡如何调整：实用生活技巧</a
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- 推广卡片 -->
+            <div
+              class="bg-gradient-to-r from-blue-500 to-purple-600 p-6 rounded-lg text-white"
+            >
+              <h3 class="text-xl font-bold mb-3">获取专业命理分析</h3>
+              <p class="mb-4">升级到Pro会员，解锁完整的AI八字分析功能</p>
+              <button
+                class="w-full bg-white text-blue-600 font-medium py-2 px-4 rounded-lg hover:bg-gray-100"
+              >
+                升级到Pro版
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 原型3: 博客文章详情页 -->
+      <div class="prototype-section">
+        <div class="prototype-title">
+          <h2 class="text-xl font-bold">原型3: 博客文章详情页</h2>
+        </div>
+
+        <!-- 导航栏 -->
+        <nav class="bg-white shadow-md rounded-lg mb-6">
+          <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <span class="text-2xl font-bold text-blue-600">BaziAI</span>
+                </div>
+              </div>
+              <div class="hidden md:block">
+                <div class="flex items-center space-x-8">
+                  <a href="#" class="text-gray-600 hover:text-blue-600">首页</a>
+                  <a href="#" class="text-gray-600 hover:text-blue-600">职业</a>
+                  <a href="#" class="text-gray-600 hover:text-blue-600">生肖</a>
+                  <a href="#" class="text-blue-600 font-medium">博客</a>
+                  <a
+                    href="#"
+                    class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+                    >登录</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <!-- 文章导航路径 -->
+        <div class="text-sm text-gray-500 mb-6">
+          <a href="#" class="hover:text-blue-600">首页</a> &gt;
+          <a href="#" class="hover:text-blue-600">博客</a> &gt;
+          <a href="#" class="hover:text-blue-600">生肖解析</a> &gt;
+          <span class="text-gray-700">2024年木龙命理全面解析</span>
+        </div>
+
+        <!-- 文章主体 -->
+        <div class="flex flex-col md:flex-row gap-8">
+          <!-- 左侧文章内容 -->
+          <div class="md:w-2/3">
+            <!-- 文章头部 -->
+            <div class="mb-6">
+              <div class="flex mb-4">
+                <span class="zodiac-tag mr-2">龙</span>
+                <span class="element-tag">木</span>
+              </div>
+              <h1 class="text-3xl font-bold mb-4">
+                2024年木龙命理全面解析：机遇、挑战与应对之策
+              </h1>
+              <div
+                class="flex items-center justify-between text-sm text-gray-500 mb-6"
+              >
+                <div class="flex items-center">
+                  <img
+                    src="https://randomuser.me/api/portraits/women/22.jpg"
+                    alt="作者头像"
+                    class="w-10 h-10 rounded-full mr-3"
+                  />
+                  <div>
+                    <div class="text-gray-800 font-medium">李命理师</div>
+                    <div>命理专家</div>
+                  </div>
+                </div>
+                <div class="flex items-center">
+                  <span class="mr-4">发布于 2023-12-28</span>
+                  <span>阅读时间: 10分钟</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 文章特色图片 -->
+            <div class="mb-8">
+              <img
+                src="https://images.unsplash.com/photo-1576566588028-4147f3842259"
+                alt="龙年运势"
+                class="w-full rounded-lg"
+              />
+            </div>
+
+            <!-- 文章内容 -->
+            <div class="prose prose-lg max-w-none mb-8">
+              <h2>龙年生肖概览</h2>
+              <p>
+                龙是中国十二生肖中唯一的神话生物，代表着权威、尊贵和神秘力量。在2024年，木龙年的特殊能量将影响所有人，特别是龙年出生的人。
+              </p>
+
+              <h2>木龙的特质与影响</h2>
+              <p>
+                2024年是木龙年。木元素为龙的力量增添了灵活性、创造力和成长潜力。木龙被认为比其他元素的龙更加开明、更具创造性思维，且更加注重家庭和个人发展。
+              </p>
+
+              <p>木龙的能量特别有利于：</p>
+              <ul>
+                <li>创新项目和创业尝试</li>
+                <li>学习新技能和扩展知识领域</li>
+                <li>建立或加强家庭关系</li>
+                <li>健康生活方式的改变和调整</li>
+              </ul>
+
+              <h2>各生肖在龙年的运势预测</h2>
+
+              <h3>龙 (1964, 1976, 1988, 2000, 2012, 2024)</h3>
+              <p>
+                本命年对龙来说既是挑战也是机遇。在传统观念中，本命年可能会带来一些波折，但同时也是自我更新和成长的重要时期。2024年对龙来说是反省和重新定位的一年，尤其适合：
+              </p>
+              <ul>
+                <li>重新评估长期目标和人生方向</li>
+                <li>投资自我提升和教育</li>
+                <li>调整工作与生活的平衡</li>
+              </ul>
+
+              <div class="bg-blue-50 p-4 rounded-lg my-6">
+                <h4 class="font-bold text-blue-800">龙年出生者的调和建议</h4>
+                <p>
+                  在本命年，传统上建议佩戴红色物品（如红绳、红腰带等）来增强运势。此外，保持积极心态、适当放慢节奏和规律作息也非常重要。
+                </p>
+              </div>
+
+              <h3>其他生肖在龙年的概况</h3>
+              <p>每个生肖在龙年都会受到不同的影响。以下是简要概览：</p>
+
+              <p>
+                <strong>鼠：</strong
+                >与龙相合，整体运势良好，特别是在事业和财务方面有突破机会。
+              </p>
+              <p>
+                <strong>牛：</strong
+                >需要更多耐心，可能面临一些变化和调整，但坚持不懈会有回报。
+              </p>
+              <p>
+                <strong>虎：</strong
+                >与龙有一定冲突，需谨慎决策，尤其是在投资和重大人生决定上。
+              </p>
+
+              <p>
+                想了解更多生肖在2024年的详细运势，请查看我们的<a
+                  href="#"
+                  class="text-blue-600 hover:underline"
+                  >生肖年度运势专题</a
+                >。
+              </p>
+            </div>
+
+            <!-- 文章标签 -->
+            <div class="mb-8">
+              <div class="text-sm font-medium mb-2">相关标签：</div>
+              <div class="flex flex-wrap gap-2">
+                <a
+                  href="#"
+                  class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+                  >龙年运势</a
+                >
+                <a
+                  href="#"
+                  class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+                  >木龙</a
+                >
+                <a
+                  href="#"
+                  class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+                  >2024预测</a
+                >
+                <a
+                  href="#"
+                  class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+                  >本命年</a
+                >
+              </div>
+            </div>
+
+            <!-- 分享按钮 -->
+            <div class="border-t border-b py-4 mb-8">
+              <div class="flex items-center justify-between">
+                <div class="text-sm font-medium">分享这篇文章：</div>
+                <div class="flex space-x-4">
+                  <a href="#" class="text-gray-600 hover:text-blue-600"
+                    ><i class="fab fa-weixin text-lg"></i
+                  ></a>
+                  <a href="#" class="text-gray-600 hover:text-blue-600"
+                    ><i class="fab fa-weibo text-lg"></i
+                  ></a>
+                  <a href="#" class="text-gray-600 hover:text-blue-600"
+                    ><i class="fab fa-qq text-lg"></i
+                  ></a>
+                  <a href="#" class="text-gray-600 hover:text-blue-600"
+                    ><i class="fas fa-link text-lg"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- 作者信息 -->
+            <div class="bg-gray-50 p-6 rounded-lg mb-8">
+              <div class="flex items-center">
+                <img
+                  src="https://randomuser.me/api/portraits/women/22.jpg"
+                  alt="作者头像"
+                  class="w-16 h-16 rounded-full mr-4"
+                />
+                <div>
+                  <div class="text-lg font-bold mb-1">李命理师</div>
+                  <div class="text-sm text-gray-600 mb-2">
+                    中国命理学专家，从事命理研究20余年
+                  </div>
+                  <a href="#" class="text-blue-600 text-sm hover:underline"
+                    >查看所有文章
+                    <i class="fas fa-chevron-right text-xs ml-1"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- 相关文章 -->
+            <div class="mb-8">
+              <h3 class="text-xl font-bold mb-6">您可能也喜欢</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="blog-card bg-white shadow-sm">
+                  <img
+                    src="https://images.unsplash.com/photo-1502082553048-f009c37129b9"
+                    alt="木元素"
+                    class="w-full h-40 object-cover"
+                  />
+                  <div class="p-4">
+                    <div class="flex mb-2">
+                      <span class="element-tag">木</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">
+                      土元素人格特质全解析
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-3">
+                      了解土元素如何影响您的性格、人际关系和职业选择...
+                    </p>
+                    <a href="#" class="text-blue-600 text-sm hover:underline"
+                      >阅读全文</a
+                    >
+                  </div>
+                </div>
+
+                <div class="blog-card bg-white shadow-sm">
+                  <img
+                    src="https://images.unsplash.com/photo-1508002366005-75a695ee2d17"
+                    alt="爱情"
+                    class="w-full h-40 object-cover"
+                  />
+                  <div class="p-4">
+                    <div class="flex mb-2">
+                      <span class="zodiac-tag mr-2">财运</span>
+                      <span class="zodiac-tag">2024</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">
+                      2024龙年财运指南：如何把握机遇
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-3">
+                      龙年财运有何特点？各生肖应如何规划投资和理财？...
+                    </p>
+                    <a href="#" class="text-blue-600 text-sm hover:underline"
+                      >阅读全文</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 评论区 -->
+            <div>
+              <h3 class="text-xl font-bold mb-6">读者评论 (8)</h3>
+
+              <!-- 发表评论 -->
+              <div class="bg-white p-6 rounded-lg shadow-sm mb-6">
+                <h4 class="font-medium mb-4">发表您的看法</h4>
+                <textarea
+                  class="w-full p-3 border rounded-lg mb-3"
+                  rows="4"
+                  placeholder="写下您的评论..."
+                ></textarea>
+                <div class="flex justify-between items-center">
+                  <div class="text-sm text-gray-500">登录后评论</div>
+                  <button
+                    class="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  >
+                    提交评论
+                  </button>
+                </div>
+              </div>
+
+              <!-- 评论列表 -->
+              <div class="space-y-6">
+                <!-- 评论1 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                  <div class="flex justify-between mb-3">
+                    <div class="flex items-center">
+                      <img
+                        src="https://randomuser.me/api/portraits/men/43.jpg"
+                        alt="用户头像"
+                        class="w-10 h-10 rounded-full mr-3"
+                      />
+                      <div>
+                        <div class="font-medium">张先生</div>
+                        <div class="text-xs text-gray-500">龙年生</div>
+                      </div>
+                    </div>
+                    <div class="text-sm text-gray-500">2小时前</div>
+                  </div>
+                  <p class="text-gray-800 mb-3">
+                    非常感谢这篇详细的解析！作为88年龙，今年确实感觉到了本命年的挑战，但这篇文章给了我很多应对建议。
+                  </p>
+                  <div class="flex items-center text-sm text-gray-500">
+                    <button class="flex items-center mr-4 hover:text-blue-600">
+                      <i class="far fa-thumbs-up mr-1"></i> 点赞(12)
+                    </button>
+                    <button class="flex items-center hover:text-blue-600">
+                      <i class="far fa-comment mr-1"></i> 回复
+                    </button>
+                  </div>
+                </div>
+
+                <!-- 评论2 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                  <div class="flex justify-between mb-3">
+                    <div class="flex items-center">
+                      <img
+                        src="https://randomuser.me/api/portraits/women/65.jpg"
+                        alt="用户头像"
+                        class="w-10 h-10 rounded-full mr-3"
+                      />
+                      <div>
+                        <div class="font-medium">李女士</div>
+                        <div class="text-xs text-gray-500">鼠年生</div>
+                      </div>
+                    </div>
+                    <div class="text-sm text-gray-500">1天前</div>
+                  </div>
+                  <p class="text-gray-800 mb-3">
+                    作为鼠年人，看来今年运势不错！想问问编辑，木龙年对于我们鼠年人的感情方面有什么特别影响吗？
+                  </p>
+                  <div class="flex items-center text-sm text-gray-500">
+                    <button class="flex items-center mr-4 hover:text-blue-600">
+                      <i class="far fa-thumbs-up mr-1"></i> 点赞(5)
+                    </button>
+                    <button class="flex items-center hover:text-blue-600">
+                      <i class="far fa-comment mr-1"></i> 回复
+                    </button>
+                  </div>
+
+                  <!-- 回复 -->
+                  <div class="mt-4 ml-12 p-4 bg-gray-50 rounded-lg">
+                    <div class="flex justify-between mb-2">
+                      <div class="flex items-center">
+                        <img
+                          src="https://randomuser.me/api/portraits/women/22.jpg"
+                          alt="作者头像"
+                          class="w-8 h-8 rounded-full mr-2"
+                        />
+                        <div class="font-medium text-blue-600">李命理师</div>
+                      </div>
+                      <div class="text-xs text-gray-500">20小时前</div>
+                    </div>
+                    <p class="text-gray-800">
+                      李女士您好，鼠与龙在传统命理中是"三合"关系，非常和谐。2024年木龙年对鼠年人的感情运势很有利，特别适合巩固现有感情或开始新的恋情。详细内容即将在我的新文章中分享，敬请关注！
+                    </p>
+                  </div>
+                </div>
+
+                <!-- 查看更多评论按钮 -->
+                <div class="text-center">
+                  <button
+                    class="px-6 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50"
+                  >
+                    查看更多评论
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 右侧边栏 -->
+          <div class="md:w-1/3">
+            <!-- 目录 -->
+            <div class="bg-white p-6 rounded-lg shadow-sm mb-8 sticky top-4">
+              <h3 class="text-lg font-bold mb-4">文章目录</h3>
+              <ul class="space-y-2 text-gray-700">
+                <li>
+                  <a href="#" class="hover:text-blue-600">龙年生肖概览</a>
+                </li>
+                <li>
+                  <a href="#" class="hover:text-blue-600">木龙的特质与影响</a>
+                </li>
+                <li>
+                  <a href="#" class="hover:text-blue-600"
+                    >各生肖在龙年的运势预测</a
+                  >
+                  <ul class="pl-4 mt-2 space-y-2">
+                    <li>
+                      <a href="#" class="text-blue-600 font-medium"
+                        >龙 (本命年)</a
+                      >
+                    </li>
+                    <li>
+                      <a href="#" class="hover:text-blue-600">其他生肖</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+
+            <!-- 订阅卡片 -->
+            <div class="bg-blue-50 p-6 rounded-lg mb-8">
+              <h3 class="text-lg font-bold mb-3">获取更多命理分析</h3>
+              <p class="text-sm text-gray-600 mb-4">
+                订阅我们的电子报，获取最新的生肖解读和命理分析
+              </p>
+              <div class="mb-3">
+                <input
+                  type="email"
+                  placeholder="您的邮箱地址"
+                  class="w-full p-3 rounded-lg border mb-2"
+                />
+                <button
+                  class="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700"
+                >
+                  免费订阅
+                </button>
+              </div>
+              <p class="text-xs text-gray-500">已有10,000+读者订阅</p>
+            </div>
+
+            <!-- 个性化分析广告 -->
+            <div
+              class="bg-gradient-to-r from-blue-500 to-purple-600 p-6 rounded-lg text-white mb-8"
+            >
+              <h3 class="text-xl font-bold mb-3">想要个性化命理分析？</h3>
+              <p class="mb-4">根据您的具体出生信息，获取AI驱动的专业八字分析</p>
+              <button
+                class="w-full bg-white text-blue-600 font-medium py-2 px-4 rounded-lg hover:bg-gray-100"
+              >
+                开始免费测算
+              </button>
+            </div>
+
+            <!-- 推荐工具 -->
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+              <h3 class="text-lg font-bold mb-4">实用工具</h3>
+              <div class="space-y-3">
+                <a
+                  href="#"
+                  class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100"
+                >
+                  <i class="fas fa-calculator text-blue-600 mr-3"></i>
+                  <div>
+                    <div class="font-medium">生肖配对计算器</div>
+                    <div class="text-xs text-gray-500">
+                      测试您与伴侣的生肖兼容性
+                    </div>
+                  </div>
+                </a>
+                <a
+                  href="#"
+                  class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100"
+                >
+                  <i class="fas fa-search text-blue-600 mr-3"></i>
+                  <div>
+                    <div class="font-medium">元素查询工具</div>
+                    <div class="text-xs text-gray-500">了解您的五行属性</div>
+                  </div>
+                </a>
+                <a
+                  href="#"
+                  class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100"
+                >
+                  <i class="fas fa-calendar-alt text-blue-600 mr-3"></i>
+                  <div>
+                    <div class="font-medium">2024年运势日历</div>
+                    <div class="text-xs text-gray-500">
+                      查看每日、每月运势变化
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 原型4: 博客分类/标签页面 -->
+      <div class="prototype-section">
+        <div class="prototype-title">
+          <h2 class="text-xl font-bold">原型4: 博客分类/标签页面</h2>
+        </div>
+
+        <!-- 导航栏 -->
+        <nav class="bg-white shadow-md rounded-lg mb-6">
+          <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <span class="text-2xl font-bold text-blue-600">BaziAI</span>
+                </div>
+              </div>
+              <div class="hidden md:block">
+                <div class="flex items-center space-x-8">
+                  <a href="#" class="text-gray-600 hover:text-blue-600">首页</a>
+                  <a href="#" class="text-gray-600 hover:text-blue-600">职业</a>
+                  <a href="#" class="text-gray-600 hover:text-blue-600">生肖</a>
+                  <a href="#" class="text-blue-600 font-medium">博客</a>
+                  <a
+                    href="#"
+                    class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+                    >登录</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <!-- 分类页面头部 -->
+        <div class="bg-blue-50 rounded-lg p-8 mb-10 text-center">
+          <span class="inline-block element-tag text-lg mb-4">木元素</span>
+          <h1 class="text-3xl font-bold mb-4">木元素命理解析</h1>
+          <p class="text-gray-600 max-w-3xl mx-auto">
+            木元素代表生长、创造和韧性，其特质是东方、春季、温和、创新和生机勃勃。探索木元素如何影响您的性格特质、人际关系、职业选择和健康状态。
+          </p>
+        </div>
+
+        <!-- 博客分类筛选 -->
+        <div class="mb-10">
+          <div
+            class="bg-white p-4 rounded-lg shadow-sm flex flex-wrap gap-3 items-center"
+          >
+            <span class="text-gray-700 font-medium">筛选:</span>
+            <div class="flex-grow flex flex-wrap gap-3">
+              <a href="#" class="px-4 py-2 bg-blue-600 text-white rounded-full"
+                >全部</a
+              >
+              <a
+                href="#"
+                class="px-4 py-2 bg-white text-gray-700 rounded-full border hover:bg-gray-50"
+                >木虎</a
+              >
+              <a
+                href="#"
+                class="px-4 py-2 bg-white text-gray-700 rounded-full border hover:bg-gray-50"
+                >木兔</a
+              >
+              <a
+                href="#"
+                class="px-4 py-2 bg-white text-gray-700 rounded-full border hover:bg-gray-50"
+                >木龙</a
+              >
+              <a
+                href="#"
+                class="px-4 py-2 bg-white text-gray-700 rounded-full border hover:bg-gray-50"
+                >木蛇</a
+              >
+              <a
+                href="#"
+                class="px-4 py-2 bg-white text-gray-700 rounded-full border hover:bg-gray-50"
+                >木马</a
+              >
+            </div>
+            <div class="flex items-center">
+              <span class="text-gray-600 mr-2">排序:</span>
+              <select class="border rounded-lg py-1 px-3">
+                <option>最新发布</option>
+                <option>最多阅读</option>
+                <option>最多评论</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 博客文章列表 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <div class="blog-card bg-white shadow-sm">
+            <img
+              src="https://images.unsplash.com/photo-1502082553048-f009c37129b9"
+              alt="木元素"
+              class="w-full h-40 object-cover"
+            />
+            <div class="p-4">
+              <div class="flex mb-2">
+                <span class="element-tag">木</span>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">
+                木元素的强弱对性格的影响
+              </h3>
+              <p class="text-gray-600 text-sm mb-3">
+                木元素过强或过弱都会对一个人的性格产生不同影响。本文探讨如何识别和平衡这些状态...
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-500">2天前</span>
+                <a href="#" class="text-blue-600 text-sm hover:underline"
+                  >阅读全文</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="blog-card bg-white shadow-sm">
+            <img
+              src="https://images.unsplash.com/photo-1576566588028-4147f3842259"
+              alt="龙年运势"
+              class="w-full h-40 object-cover"
+            />
+            <div class="p-4">
+              <div class="flex mb-2">
+                <span class="element-tag mr-2">木</span>
+                <span class="zodiac-tag">龙</span>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">木龙人的七个显著特点</h3>
+              <p class="text-gray-600 text-sm mb-3">
+                木龙人通常具有独特的性格和能力，了解这些特点可以帮助您发挥优势，避免潜在问题...
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-500">1周前</span>
+                <a href="#" class="text-blue-600 text-sm hover:underline"
+                  >阅读全文</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="blog-card bg-white shadow-sm">
+            <img
+              src="https://images.unsplash.com/photo-1565341805-4e0c2782a354"
+              alt="火元素"
+              class="w-full h-40 object-cover"
+            />
+            <div class="p-4">
+              <div class="flex mb-2">
+                <span class="element-tag mr-2">木</span>
+                <span class="zodiac-tag">职业</span>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">
+                木元素人最适合的十种职业
+              </h3>
+              <p class="text-gray-600 text-sm mb-3">
+                木元素人天生具有创造力和适应能力，这些职业能让他们的天赋得到充分发挥...
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-500">2周前</span>
+                <a href="#" class="text-blue-600 text-sm hover:underline"
+                  >阅读全文</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="blog-card bg-white shadow-sm">
+            <img
+              src="https://images.unsplash.com/photo-1519659528534-7fd733a832a0"
+              alt="水元素"
+              class="w-full h-40 object-cover"
+            />
+            <div class="p-4">
+              <div class="flex mb-2">
+                <span class="element-tag mr-2">木</span>
+                <span class="zodiac-tag">健康</span>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">
+                木元素与健康：中医视角的解析
+              </h3>
+              <p class="text-gray-600 text-sm mb-3">
+                从中医角度解析木元素与肝胆系统的关系，以及如何通过饮食和生活习惯来调和木元素...
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-500">1个月前</span>
+                <a href="#" class="text-blue-600 text-sm hover:underline"
+                  >阅读全文</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="blog-card bg-white shadow-sm">
+            <img
+              src="https://images.unsplash.com/photo-1576566588028-4147f3842259"
+              alt="龙年运势"
+              class="w-full h-40 object-cover"
+            />
+            <div class="p-4">
+              <div class="flex mb-2">
+                <span class="element-tag mr-2">木</span>
+                <span class="zodiac-tag">虎</span>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">
+                木虎人的性格特点与人生挑战
+              </h3>
+              <p class="text-gray-600 text-sm mb-3">
+                木虎结合了虎的勇气与木的灵活性，创造出独特的性格特质。深入了解木虎人的优势与挑战...
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-500">2个月前</span>
+                <a href="#" class="text-blue-600 text-sm hover:underline"
+                  >阅读全文</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="blog-card bg-white shadow-sm">
+            <img
+              src="https://images.unsplash.com/photo-1518199266791-5375a83190b7"
+              alt="爱情"
+              class="w-full h-40 object-cover"
+            />
+            <div class="p-4">
+              <div class="flex mb-2">
+                <span class="element-tag mr-2">木</span>
+                <span class="zodiac-tag">爱情</span>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">
+                木元素人的爱情观与最佳配对
+              </h3>
+              <p class="text-gray-600 text-sm mb-3">
+                木元素人在爱情中表现如何？他们与哪些元素的人最为相配？详细的命理分析指南...
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-500">3个月前</span>
+                <a href="#" class="text-blue-600 text-sm hover:underline"
+                  >阅读全文</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 分页 -->
+        <div class="flex justify-center my-10">
+          <nav class="inline-flex rounded-md shadow-sm">
+            <a
+              href="#"
+              class="px-4 py-2 border border-gray-300 rounded-l-md bg-white text-gray-700 hover:bg-gray-50"
+              >上一页</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 border-t border-b border-gray-300 bg-blue-600 text-white"
+              >1</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 border-t border-b border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+              >2</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 border-t border-b border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+              >3</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 border border-gray-300 rounded-r-md bg-white text-gray-700 hover:bg-gray-50"
+              >下一页</a
+            >
+          </nav>
+        </div>
+
+        <!-- 订阅区域 -->
+        <div
+          class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-8 text-white text-center mb-8"
+        >
+          <h2 class="text-2xl font-bold mb-4">想要获取更多木元素命理知识？</h2>
+          <p class="mb-6 max-w-2xl mx-auto">
+            订阅我们的电子报，第一时间获取最新的命理分析和生活指导。
+          </p>
+          <div class="flex max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="您的邮箱地址"
+              class="flex-grow p-3 rounded-l-lg border-0"
+            />
+            <button
+              class="px-6 py-3 bg-purple-700 text-white rounded-r-lg hover:bg-purple-800"
+            >
+              订阅
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 原型5: 博客搜索结果页面 -->
+      <div class="prototype-section">
+        <div class="prototype-title">
+          <h2 class="text-xl font-bold">原型5: 博客搜索结果页面</h2>
+        </div>
+
+        <!-- 导航栏 -->
+        <nav class="bg-white shadow-md rounded-lg mb-6">
+          <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <span class="text-2xl font-bold text-blue-600">BaziAI</span>
+                </div>
+              </div>
+              <div class="hidden md:block">
+                <div class="flex items-center space-x-8">
+                  <a href="#" class="text-gray-600 hover:text-blue-600">首页</a>
+                  <a href="#" class="text-gray-600 hover:text-blue-600">职业</a>
+                  <a href="#" class="text-gray-600 hover:text-blue-600">生肖</a>
+                  <a href="#" class="text-blue-600 font-medium">博客</a>
+                  <a
+                    href="#"
+                    class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+                    >登录</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <!-- 搜索结果头部 -->
+        <div class="mb-10">
+          <div class="bg-white p-6 rounded-lg shadow-sm">
+            <div class="max-w-3xl mx-auto">
+              <div class="relative mb-6">
+                <input
+                  type="text"
+                  value="龙年运势"
+                  class="w-full p-4 pl-12 border rounded-lg"
+                  placeholder="搜索文章..."
+                />
+                <i
+                  class="fas fa-search absolute left-4 top-4 text-gray-400"
+                ></i>
+                <button
+                  class="absolute right-3 top-3 px-4 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                >
+                  搜索
+                </button>
+              </div>
+              <div>
+                <p class="text-gray-600">
+                  找到 <span class="font-medium text-gray-800">48</span> 篇关于
+                  <span class="font-medium text-blue-600">"龙年运势"</span>
+                  的文章
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 搜索筛选 -->
+        <div class="mb-8">
+          <div
+            class="bg-white p-4 rounded-lg shadow-sm flex flex-wrap gap-3 items-center"
+          >
+            <span class="text-gray-700 font-medium">筛选结果:</span>
+            <div class="flex-grow flex flex-wrap gap-3">
+              <a href="#" class="px-4 py-2 bg-blue-600 text-white rounded-full"
+                >全部内容</a
+              >
+              <a
+                href="#"
+                class="px-4 py-2 bg-white text-gray-700 rounded-full border hover:bg-gray-50"
+                >文章</a
+              >
+              <a
+                href="#"
+                class="px-4 py-2 bg-white text-gray-700 rounded-full border hover:bg-gray-50"
+                >问答</a
+              >
+              <a
+                href="#"
+                class="px-4 py-2 bg-white text-gray-700 rounded-full border hover:bg-gray-50"
+                >视频</a
+              >
+            </div>
+            <div class="flex items-center">
+              <span class="text-gray-600 mr-2">排序:</span>
+              <select class="border rounded-lg py-1 px-3">
+                <option>相关性</option>
+                <option>最新发布</option>
+                <option>最多阅读</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 搜索结果列表 -->
+        <div class="mb-10">
+          <!-- 结果项1 -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-sm mb-4 hover:shadow-md transition"
+          >
+            <div class="flex flex-col md:flex-row md:items-center">
+              <div class="md:w-1/4 mb-4 md:mb-0 md:mr-6">
+                <img
+                  src="https://images.unsplash.com/photo-1576566588028-4147f3842259"
+                  alt="龙年运势"
+                  class="w-full h-40 object-cover rounded-lg"
+                />
+              </div>
+              <div class="md:w-3/4">
+                <div class="flex mb-2">
+                  <span class="zodiac-tag mr-2">龙</span>
+                  <span class="element-tag">2024</span>
+                </div>
+                <h3 class="text-xl font-bold mb-2">
+                  <a href="#" class="hover:text-blue-600"
+                    >2024年<span class="bg-yellow-100">龙年运势</span
+                    >全面预测：机遇与挑战</a
+                  >
+                </h3>
+                <p class="text-gray-600 mb-3">
+                  2024年是木龙年，对于所有生肖都带来独特的影响。本文详细分析了<span
+                    class="bg-yellow-100"
+                    >龙年</span
+                  >对各生肖的事业、财富、健康和感情的<span class="bg-yellow-100"
+                    >运势</span
+                  >预测...
+                </p>
+                <div class="flex items-center justify-between text-sm">
+                  <div class="flex items-center">
+                    <img
+                      src="https://randomuser.me/api/portraits/women/22.jpg"
+                      alt="作者头像"
+                      class="w-6 h-6 rounded-full mr-2"
+                    />
+                    <span class="mr-4">李命理师</span>
+                  </div>
+                  <div class="flex items-center">
+                    <span class="text-gray-500">2023-12-28</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 结果项2 -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-sm mb-4 hover:shadow-md transition"
+          >
+            <div class="flex flex-col md:flex-row md:items-center">
+              <div class="md:w-1/4 mb-4 md:mb-0 md:mr-6">
+                <img
+                  src="https://images.unsplash.com/photo-1502082553048-f009c37129b9"
+                  alt="木元素"
+                  class="w-full h-40 object-cover rounded-lg"
+                />
+              </div>
+              <div class="md:w-3/4">
+                <div class="flex mb-2">
+                  <span class="zodiac-tag mr-2">十二生肖</span>
+                  <span class="element-tag">预测</span>
+                </div>
+                <h3 class="text-xl font-bold mb-2">
+                  <a href="#" class="hover:text-blue-600"
+                    >十二生肖在2024木<span class="bg-yellow-100">龙年</span
+                    >的<span class="bg-yellow-100">运势</span>分析</a
+                  >
+                </h3>
+                <p class="text-gray-600 mb-3">
+                  每个生肖在<span class="bg-yellow-100">龙年</span
+                  >都有不同的命运变化。本文从五行相生相克的角度，详细分析了十二生肖在2024年的<span
+                    class="bg-yellow-100"
+                    >运势</span
+                  >起伏和应对策略...
+                </p>
+                <div class="flex items-center justify-between text-sm">
+                  <div class="flex items-center">
+                    <img
+                      src="https://randomuser.me/api/portraits/men/32.jpg"
+                      alt="作者头像"
+                      class="w-6 h-6 rounded-full mr-2"
+                    />
+                    <span class="mr-4">王大师</span>
+                  </div>
+                  <div class="flex items-center">
+                    <span class="text-gray-500">2023-11-15</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 结果项3 -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-sm mb-4 hover:shadow-md transition"
+          >
+            <div class="flex flex-col md:flex-row md:items-center">
+              <div class="md:w-1/4 mb-4 md:mb-0 md:mr-6">
+                <img
+                  src="https://images.unsplash.com/photo-1565341805-4e0c2782a354"
+                  alt="火元素"
+                  class="w-full h-40 object-cover rounded-lg"
+                />
+              </div>
+              <div class="md:w-3/4">
+                <div class="flex mb-2">
+                  <span class="zodiac-tag mr-2">事业</span>
+                  <span class="element-tag">职场</span>
+                </div>
+                <h3 class="text-xl font-bold mb-2">
+                  <a href="#" class="hover:text-blue-600"
+                    >2024<span class="bg-yellow-100">龙年</span>职场<span
+                      class="bg-yellow-100"
+                      >运势</span
+                    >：把握时机，事业腾飞</a
+                  >
+                </h3>
+                <p class="text-gray-600 mb-3">
+                  <span class="bg-yellow-100">龙年</span
+                  >带来的变革对职场有何影响？不同行业的发展前景如何？如何利用<span
+                    class="bg-yellow-100"
+                    >龙年</span
+                  >能量提升职场<span class="bg-yellow-100">运势</span
+                  >？实用的职场策略指南...
+                </p>
+                <div class="flex items-center justify-between text-sm">
+                  <div class="flex items-center">
+                    <img
+                      src="https://randomuser.me/api/portraits/women/45.jpg"
+                      alt="作者头像"
+                      class="w-6 h-6 rounded-full mr-2"
+                    />
+                    <span class="mr-4">陈咨询师</span>
+                  </div>
+                  <div class="flex items-center">
+                    <span class="text-gray-500">2023-12-05</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 结果项4 - 视频类型 -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-sm mb-4 hover:shadow-md transition"
+          >
+            <div class="flex flex-col md:flex-row md:items-center">
+              <div class="md:w-1/4 mb-4 md:mb-0 md:mr-6 relative">
+                <img
+                  src="https://images.unsplash.com/photo-1576566588028-4147f3842259"
+                  alt="龙年运势"
+                  class="w-full h-40 object-cover rounded-lg"
+                />
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div
+                    class="h-12 w-12 rounded-full bg-black bg-opacity-60 flex items-center justify-center"
+                  >
+                    <i class="fas fa-play text-white"></i>
+                  </div>
+                </div>
+                <span
+                  class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded"
+                  >14:25</span
+                >
+              </div>
+              <div class="md:w-3/4">
+                <div class="flex mb-2">
+                  <span class="zodiac-tag mr-2">视频</span>
+                  <span class="element-tag">龙</span>
+                </div>
+                <h3 class="text-xl font-bold mb-2">
+                  <a href="#" class="hover:text-blue-600"
+                    >[视频] 2024<span class="bg-yellow-100">龙年</span>财富<span
+                      class="bg-yellow-100"
+                      >运势</span
+                    >解析与投资策略</a
+                  >
+                </h3>
+                <p class="text-gray-600 mb-3">
+                  命理专家李大师在线解析2024年<span class="bg-yellow-100"
+                    >龙年</span
+                  >的财富<span class="bg-yellow-100">运势</span
+                  >，包括各生肖的财运变化、最佳投资时机和领域，以及趋吉避凶的理财建议...
+                </p>
+                <div class="flex items-center justify-between text-sm">
+                  <div class="flex items-center">
+                    <img
+                      src="https://randomuser.me/api/portraits/men/65.jpg"
+                      alt="作者头像"
+                      class="w-6 h-6 rounded-full mr-2"
+                    />
+                    <span class="mr-4">BaziAI官方</span>
+                  </div>
+                  <div class="flex items-center">
+                    <span class="text-gray-500">2024-01-05</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 结果项5 - 问答类型 -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-sm mb-4 hover:shadow-md transition"
+          >
+            <div class="md:ml-5">
+              <div class="flex mb-2">
+                <span class="zodiac-tag mr-2">问答</span>
+                <span class="element-tag">专家解答</span>
+              </div>
+              <h3 class="text-xl font-bold mb-2">
+                <a href="#" class="hover:text-blue-600"
+                  >问：2024<span class="bg-yellow-100">龙年</span
+                  >对于本命年的人有什么特别的<span class="bg-yellow-100"
+                    >运势</span
+                  >影响？</a
+                >
+              </h3>
+              <div class="bg-gray-50 p-4 rounded-lg mb-3">
+                <p class="text-gray-700">
+                  答：对于1964、1976、1988、2000和2012年出生的龙年人来说，2024年是本命年，传统上认为会面临一些挑战。本命年需要特别注意：1.
+                  健康状况可能波动，应保持规律生活；2.
+                  情绪可能起伏较大，需要学会调节；3.
+                  事业上有变动机会，但决策需谨慎；4. 人际关系需要更多耐心维护...
+                </p>
+                <div class="flex items-center mt-2 text-sm">
+                  <img
+                    src="https://randomuser.me/api/portraits/women/22.jpg"
+                    alt="专家头像"
+                    class="w-6 h-6 rounded-full mr-2"
+                  />
+                  <span class="text-blue-600 font-medium">李命理师</span>
+                  <span class="text-gray-500 ml-auto">回答于 3天前</span>
+                </div>
+              </div>
+              <div class="flex justify-between items-center text-sm">
+                <div class="text-gray-500">
+                  <span>10人关注 · 6个回答</span>
+                </div>
+                <a href="#" class="text-blue-600 hover:underline"
+                  >查看完整问答</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 分页 -->
+        <div class="flex justify-center my-10">
+          <nav class="inline-flex rounded-md shadow-sm">
+            <a
+              href="#"
+              class="px-4 py-2 border border-gray-300 rounded-l-md bg-white text-gray-700 hover:bg-gray-50"
+              >上一页</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 border-t border-b border-gray-300 bg-blue-600 text-white"
+              >1</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 border-t border-b border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+              >2</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 border-t border-b border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+              >3</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 border-t border-b border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+              >4</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 border-t border-b border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+              >5</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 border border-gray-300 rounded-r-md bg-white text-gray-700 hover:bg-gray-50"
+              >下一页</a
+            >
+          </nav>
+        </div>
+
+        <!-- 相关搜索 -->
+        <div class="bg-white p-6 rounded-lg shadow-sm mb-10">
+          <h3 class="font-bold mb-4">相关搜索</h3>
+          <div class="flex flex-wrap gap-3">
+            <a
+              href="#"
+              class="px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+              >2024龙年财运预测</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+              >龙年本命年注意事项</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+              >龙年各生肖运势</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+              >2024年结婚黄道吉日</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+              >木龙命理分析</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200"
+              >龙年事业发展指南</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- 原型6: 移动端适配展示 -->
+      <div class="prototype-section">
+        <div class="prototype-title">
+          <h2 class="text-xl font-bold">原型6: 移动端适配展示</h2>
+        </div>
+
+        <div class="bg-gray-100 p-4 rounded-lg mb-6">
+          <p class="text-center text-gray-700">
+            以下展示博客首页在移动设备上的响应式设计
+          </p>
+        </div>
+
+        <div
+          class="max-w-sm mx-auto border border-gray-300 rounded-3xl overflow-hidden shadow-lg bg-white p-2"
+        >
+          <!-- 手机状态栏模拟 -->
+          <div
+            class="h-6 bg-white flex justify-between items-center px-4 text-xs text-gray-600"
+          >
+            <div>9:41</div>
+            <div class="flex items-center space-x-1">
+              <i class="fas fa-signal"></i>
+              <i class="fas fa-wifi"></i>
+              <i class="fas fa-battery-full"></i>
+            </div>
+          </div>
+
+          <!-- 移动导航栏 -->
+          <div
+            class="bg-white shadow p-4 flex justify-between items-center sticky top-0 z-20"
+          >
+            <div class="text-xl font-bold text-blue-600">BaziAI</div>
+            <div class="flex items-center space-x-4">
+              <button><i class="fas fa-search text-gray-600"></i></button>
+              <button class="rounded-md">
+                <i class="fas fa-bars text-gray-600"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- 移动版博客头部 -->
+          <div class="relative mb-4">
+            <img
+              src="https://images.unsplash.com/photo-1576566588028-4147f3842259"
+              alt="博客封面"
+              class="w-full h-48 object-cover"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black to-transparent"
+            ></div>
+            <div class="absolute bottom-0 left-0 p-4 text-white">
+              <h1 class="text-xl font-bold mb-1">BaziAI 博客</h1>
+              <p class="text-sm">探索中国传统生肖与五行元素的智慧</p>
+            </div>
+          </div>
+
+          <!-- 移动版搜索 -->
+          <div class="px-4 mb-4">
+            <div class="relative">
+              <input
+                type="text"
+                placeholder="搜索文章..."
+                class="w-full p-3 pl-10 rounded-lg border text-sm"
+              />
+              <i
+                class="fas fa-search absolute left-3 top-3.5 text-gray-400"
+              ></i>
+            </div>
+          </div>
+
+          <!-- 移动版博客分类 -->
+          <div class="px-4 mb-4 overflow-x-auto">
+            <div class="flex space-x-2 pb-1" style="width: max-content">
+              <a
+                href="#"
+                class="px-3 py-1.5 bg-blue-600 text-white rounded-full text-sm whitespace-nowrap"
+                >全部</a
+              >
+              <a
+                href="#"
+                class="px-3 py-1.5 bg-white text-gray-700 rounded-full border text-sm whitespace-nowrap"
+                >生肖解析</a
+              >
+              <a
+                href="#"
+                class="px-3 py-1.5 bg-white text-gray-700 rounded-full border text-sm whitespace-nowrap"
+                >五行元素</a
+              >
+              <a
+                href="#"
+                class="px-3 py-1.5 bg-white text-gray-700 rounded-full border text-sm whitespace-nowrap"
+                >爱情关系</a
+              >
+              <a
+                href="#"
+                class="px-3 py-1.5 bg-white text-gray-700 rounded-full border text-sm whitespace-nowrap"
+                >健康运势</a
+              >
+            </div>
+          </div>
+
+          <!-- 移动版精选文章 -->
+          <div class="px-4 mb-6">
+            <h2 class="text-lg font-bold mb-3">精选文章</h2>
+            <div class="bg-white shadow-sm rounded-lg overflow-hidden mb-4">
+              <img
+                src="https://images.unsplash.com/photo-1576566588028-4147f3842259"
+                alt="龙年运势"
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-4">
+                <div class="flex mb-2">
+                  <span class="zodiac-tag mr-2 text-xs">龙</span>
+                  <span class="element-tag text-xs">木</span>
+                </div>
+                <h3 class="text-base font-bold mb-2">
+                  2024年木龙命理全面解析：机遇与挑战
+                </h3>
+                <p class="text-gray-600 text-xs mb-3">
+                  2024年是农历龙年，对于龙年出生的人以及所有十二生肖来说都有特殊的影响...
+                </p>
+                <div class="flex justify-between items-center text-xs">
+                  <div class="flex items-center">
+                    <img
+                      src="https://randomuser.me/api/portraits/women/22.jpg"
+                      alt="作者头像"
+                      class="w-6 h-6 rounded-full mr-2"
+                    />
+                    <span class="text-gray-700">李命理师</span>
+                  </div>
+                  <span class="text-gray-500">2023-12-28</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 移动版最新文章 -->
+          <div class="px-4 mb-6">
+            <h2 class="text-lg font-bold mb-3">最新文章</h2>
+            <div class="space-y-4">
+              <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                <div class="flex">
+                  <div class="w-1/3">
+                    <img
+                      src="https://images.unsplash.com/photo-1502082553048-f009c37129b9"
+                      alt="木元素"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div class="w-2/3 p-3">
+                    <div class="flex mb-1">
+                      <span class="element-tag text-xs">金</span>
+                    </div>
+                    <h3 class="text-sm font-semibold mb-1 line-clamp-2">
+                      金元素与职业选择：发挥您的天赋
+                    </h3>
+                    <div
+                      class="flex justify-between items-center text-xs text-gray-500"
+                    >
+                      <span>3天前</span>
+                      <a href="#" class="text-blue-600">阅读</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                <div class="flex">
+                  <div class="w-1/3">
+                    <img
+                      src="https://images.unsplash.com/photo-1565341805-4e0c2782a354"
+                      alt="火元素"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div class="w-2/3 p-3">
+                    <div class="flex mb-1">
+                      <span class="element-tag text-xs">火</span>
+                    </div>
+                    <h3 class="text-sm font-semibold mb-1 line-clamp-2">
+                      火元素人的性格特质与职业指南
+                    </h3>
+                    <div
+                      class="flex justify-between items-center text-xs text-gray-500"
+                    >
+                      <span>3天前</span>
+                      <a href="#" class="text-blue-600">阅读</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                <div class="flex">
+                  <div class="w-1/3">
+                    <img
+                      src="https://images.unsplash.com/photo-1519659528534-7fd733a832a0"
+                      alt="水元素"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div class="w-2/3 p-3">
+                    <div class="flex mb-1">
+                      <span class="element-tag text-xs">水</span>
+                    </div>
+                    <h3 class="text-sm font-semibold mb-1 line-clamp-2">
+                      水元素人的健康指南：保持平衡的关键
+                    </h3>
+                    <div
+                      class="flex justify-between items-center text-xs text-gray-500"
+                    >
+                      <span>2周前</span>
+                      <a href="#" class="text-blue-600">阅读</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 text-center">
+              <button
+                class="px-4 py-2 text-sm border border-blue-600 text-blue-600 rounded-lg hover:bg-gray-50"
+              >
+                加载更多
+              </button>
+            </div>
+          </div>
+
+          <!-- 移动版订阅区 -->
+          <div class="px-4 mb-6">
+            <div class="bg-blue-50 p-4 rounded-lg">
+              <h3 class="text-base font-bold mb-2">订阅更新</h3>
+              <p class="text-sm text-gray-600 mb-3">
+                获取最新的生肖解读和命理分析
+              </p>
+              <input
+                type="email"
+                placeholder="您的邮箱地址"
+                class="w-full p-2 text-sm rounded-lg border mb-2"
+              />
+              <button
+                class="w-full bg-blue-600 text-white p-2 text-sm rounded-lg"
+              >
+                免费订阅
+              </button>
+            </div>
+          </div>
+
+          <!-- 移动版底部导航 -->
+          <div
+            class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-2"
+          >
+            <a href="#" class="flex flex-col items-center text-blue-600">
+              <i class="fas fa-home text-lg"></i>
+              <span class="text-xs mt-1">首页</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-600">
+              <i class="fas fa-search text-lg"></i>
+              <span class="text-xs mt-1">搜索</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-600">
+              <i class="fas fa-book text-lg"></i>
+              <span class="text-xs mt-1">博客</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-600">
+              <i class="fas fa-user text-lg"></i>
+              <span class="text-xs mt-1">我的</span>
+            </a>
+          </div>
+
+          <!-- 末尾填充，防止底部导航遮挡内容 -->
+          <div class="h-16"></div>
+        </div>
+      </div>
+
+      <!-- SEO优化策略总结 -->
+      <div class="prototype-section">
+        <div class="prototype-title">
+          <h2 class="text-xl font-bold">SEO优化策略总结</h2>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg">
+          <h3 class="text-lg font-bold mb-4">博客功能SEO优化要点</h3>
+
+          <div class="space-y-6">
+            <div>
+              <h4 class="font-bold text-blue-600 mb-2">1. 内容结构优化</h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li>
+                  创建明确的内容分类体系（生肖、五行元素、爱情、事业、健康等）
+                </li>
+                <li>使用H1-H6标题层级结构，清晰表达主题和内容组织</li>
+                <li>创建深度内容，每篇文章至少2000字，提供专业价值</li>
+                <li>建立内容集群，通过内部链接加强相关内容之间的关联</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="font-bold text-blue-600 mb-2">2. 关键词策略</h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li>重点发展长尾关键词（如"2024木龙年运势预测"）</li>
+                <li>在标题、URL、图片Alt文本中自然融入关键词</li>
+                <li>针对用户实际搜索意图创建内容，解答用户问题</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="font-bold text-blue-600 mb-2">3. 技术SEO优化</h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li>为每篇文章设置独特的Meta标题和描述</li>
+                <li>实现响应式设计，确保移动设备友好</li>
+                <li>添加结构化数据标记（Article、FAQ、BreadcrumbList等）</li>
+                <li>优化页面加载速度</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="font-bold text-blue-600 mb-2">
+                4. 用户体验与内容质量
+              </h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li>提供清晰的内容导航和分类筛选</li>
+                <li>增加相关内容推荐，降低跳出率</li>
+                <li>设计用户友好的阅读体验（字体、排版）</li>
+                <li>增加互动元素（评论、分享、订阅）</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="font-bold text-blue-600 mb-2">
+                5. 内容更新与多媒体策略
+              </h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li>建立内容日历，定期发布新文章（每周至少2-3篇）</li>
+                <li>重点内容（如年度运势）定期更新，保持时效性</li>
+                <li>利用季节性和时事热点创建及时内容</li>
+                <li>监控内容表现，优化低效内容</li>
+                <li>根据用户搜索行为和问题调整内容方向</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="font-bold text-blue-600 mb-2">6. 多媒体内容策略</h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li>创建信息图表，展示生肖特性、兼容性等</li>
+                <li>添加视频内容，如命理解读、生肖故事等</li>
+                <li>提供互动工具：生肖计算器、配对测试等</li>
+                <li>创建并链接到外部平台（如YouTube、微信公众号）内容</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="mt-10 p-5 text-center bg-blue-700 text-white">
+      <p>BaziAI 博客功能原型设计 © 2024</p>
+    </footer>
+  </body>
+</html>

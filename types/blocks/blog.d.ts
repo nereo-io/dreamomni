@@ -12,6 +12,8 @@ export interface BlogItem {
   content?: string;
   url?: string;
   target?: string;
+  category?: string;
+  tags?: string[];
 }
 
 export interface Blog {

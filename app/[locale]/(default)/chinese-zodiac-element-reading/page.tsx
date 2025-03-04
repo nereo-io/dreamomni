@@ -14,7 +14,9 @@ import Showcase from "@/components/blocks/showcase";
 import Stats from "@/components/blocks/stats";
 import Testimonial from "@/components/blocks/testimonial";
 import QuestionSelector from "@/components/blocks/question-selector";
-
+import { Blog as BlogType } from "@/types/blocks/blog";
+import { getPostsByLocale } from "@/models/post";
+import BlogBlock from "@/components/blocks/blog-block";
 export async function generateMetadata({
   params: { locale },
 }: {
@@ -47,6 +49,15 @@ export default async function ChineseZodiacPage({
   const page = await getChineseZodiacPage(locale);
   const readerPage = await getReaderPage(locale);
 
+  const t = await getTranslations();
+  const posts = await getPostsByLocale(locale);
+
+  const blog: BlogType = {
+    title: t("blog.title"),
+    description: t("blog.description"),
+    items: posts,
+    read_more_text: t("blog.read_more_text"),
+  };
   return (
     <>
       {page.hero && <Hero hero={page.hero} />}
@@ -56,6 +67,8 @@ export default async function ChineseZodiacPage({
           questionSelector={page.questionForm.questionSelector}
         />
       )}
+      <BlogBlock blog={blog} />
+
       {/* {page.branding && <Branding section={page.branding} />}
       {page.introduce && <Feature1 section={page.introduce} />}
       {page.feature && <Feature section={page.feature} />} */}

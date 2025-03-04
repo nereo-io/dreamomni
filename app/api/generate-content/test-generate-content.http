@@ -1,0 +1,8 @@
+### 测试生成内容接口
+POST http://localhost:3000/api/generate-content
+Content-Type: application/json
+
+{
+  "question": "What is love compatibility guide by Chinese zodiac sign and element?",
+  "locale": "zh"
+} 

@@ -11,4 +11,6 @@ export interface Post {
   author_name?: string;
   author_avatar_url?: string;
   locale?: string;
+  category?: string;
+  tags?: string[];
 }

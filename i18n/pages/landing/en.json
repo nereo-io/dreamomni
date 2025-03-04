@@ -21,6 +21,11 @@
           "title": "Chinese Zodiac",
           "url": "/chinese-zodiac-element-reading",
           "icon": "RiCompass3Line"
+        },
+        {
+          "title": "Blog",
+          "url": "/blog",
+          "icon": "RiBookOpenLine"
         }
       ]
     },
