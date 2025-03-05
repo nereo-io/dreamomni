@@ -36,12 +36,14 @@ export async function POST(req: Request) {
       relationshipStatus: "single",
       jobStatus: "employed",
       additionalInfo: "Tom is a software engineer",
+      type: "self" as "self" | "partner",
     };
 
     try {
-      const baziAnalysis = await BaziFastApiService.getAnalysisForCustomer(
-        customer_info
-      );
+      const baziAnalysis = await BaziFastApiService.getAnalysisForCustomer({
+        ...customer_info,
+        type: "self",
+      });
       const systemPrompt = getGenerateContentPrompt(
         locale,
         customer_info,
