@@ -90,8 +90,9 @@ export default function ChatInterface({
           contextChat.status === ChatStatus.New &&
           chatId === contextChat.uuid
         ) {
-          chatSession = await chatSessionApi.create(contextChat);
+          // console.log("contextChat", contextChat);
           append({ role: "user", content: contextChat.title });
+          chatSession = await chatSessionApi.create(contextChat);
           setIsInitialLoading(false);
           saveChatMessage({
             role: "user",
@@ -113,10 +114,10 @@ export default function ChatInterface({
               );
             }
             chatSession = await chatSessionApi.get(chatId);
+            setContextChat(chatSession);
           }
         }
         if (isActive && chatSession) {
-          setContextChat(chatSession);
           setIsInitialLoading(false); // 加载完成后设置状态
         }
       } catch (error) {
@@ -185,8 +186,10 @@ export default function ChatInterface({
     initialMessages,
     body: {
       locale,
-      customer_info: contextChat?.customer_info,
       session_id: chatId,
+      customer_info: contextChat?.customer_info,
+      partner_info: contextChat?.partner_info,
+      is_matching: contextChat?.is_matching,
     },
     generateId: uuidv4,
     onResponse: () => {

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, CalendarDays } from "lucide-react";
+import { Send, CalendarDays, SparklesIcon } from "lucide-react";
 import { QuestionSelectorSection } from "@/types/pages/career";
 import { Card } from "@/components/ui/card";
 import CustomerInputFormModal from "@/components/readers/CustomerInputFormModal";
@@ -16,6 +16,7 @@ import { CustomerInfo } from "@/types/customer";
 import { ChatSession, ChatStatus } from "@/types/chat.d";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 interface Props {
   formMessages: ReaderPage;
@@ -30,6 +31,8 @@ export default function QuestionSelector({
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [question, setQuestion] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [matchMode, setMatchMode] = useState("single"); // 匹配模式：单人分析/双人匹配
+  const [partnerModalOpen, setPartnerModalOpen] = useState(false);
 
   // 获取剩余次数
   const [isPending, setIsPending] = useState(false);
@@ -41,6 +44,7 @@ export default function QuestionSelector({
 
   // 处理customerInfo
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
+  const [partnerInfo, setPartnerInfo] = useState<CustomerInfo | null>(null); // 伴侣信息
   const [isLoading, setIsLoading] = useState(true);
 
   // 获取剩余次数
@@ -81,13 +85,29 @@ export default function QuestionSelector({
       const response = await fetch("/api/customer-info/list");
       const result = await response.json();
 
-      if (result.code === 0) {
-        setCustomerInfo(result.data); // data 可能是 CustomerInfo 或 null
+      if (result.code === 0 && result.data) {
+        // 处理返回的数组数据
+        if (Array.isArray(result.data)) {
+          const selfInfo = result.data.find(
+            (info: CustomerInfo) => info.type === "self" || !info.type
+          );
+          const partnerInfo = result.data.find(
+            (info: CustomerInfo) => info.type === "partner"
+          );
+
+          setCustomerInfo(selfInfo || null);
+          setPartnerInfo(partnerInfo || null);
+        } else {
+          // 兼容性处理：如果返回单个对象，按type进行区分
+          setCustomerInfo(result.data.type === "partner" ? null : result.data);
+          setPartnerInfo(result.data.type === "partner" ? result.data : null);
+        }
         setIsLoading(false);
       }
     } catch (error) {
       console.error("获取客户信息失败:", error);
       setCustomerInfo(null);
+      setPartnerInfo(null);
       setIsLoading(false);
     }
   };
@@ -140,16 +160,30 @@ export default function QuestionSelector({
       return;
     }
 
+    if (matchMode === "double" && membership?.status !== "active") {
+      console.log(membership);
+      router.push("#pricing");
+      return;
+    }
+
     // 3. 检查是否填写生辰信息
-    // console.log("customerInfo", customerInfo);
-    // console.log("customerInfo.length", !customerInfo);
     if (
       customerInfo === null ||
       (Array.isArray(customerInfo) && customerInfo.length === 0)
     ) {
       setIsPending(false);
-      // toast.message(questionSelector.errors.pleaseInputBirthInfo);
       setIsModalOpen(true);
+      return;
+    }
+
+    // 4. 双人匹配模式下，检查伴侣信息
+    if (
+      matchMode === "double" &&
+      (partnerInfo === null ||
+        (Array.isArray(partnerInfo) && partnerInfo.length === 0))
+    ) {
+      setIsPending(false);
+      setPartnerModalOpen(true);
       return;
     }
 
@@ -162,8 +196,12 @@ export default function QuestionSelector({
         status: ChatStatus.New,
         created_at: new Date(),
         customer_info: customerInfo,
+        partner_info_id: partnerInfo?.id || undefined,
+        partner_info: partnerInfo || undefined,
+        is_matching: matchMode === "double",
       };
       setChat(chat);
+      // console.log(chat);
 
       const jump_url = `/chat/${chat.uuid}`;
       router.push(jump_url);
@@ -184,6 +222,48 @@ export default function QuestionSelector({
     <section className="pb-8 pt-2 md:pb-16 md:pt-4">
       <div className="container px-4 md:px-6 max-w-4xl">
         <Card className="p-4 md:p-6">
+          {/* 匹配模式选择 */}
+          <div className="mb-6">
+            <Tabs
+              defaultValue="single"
+              value={matchMode}
+              onValueChange={(value) => setMatchMode(value)}
+              className="w-full"
+            >
+              <TabsList className="w-full mb-6">
+                <TabsTrigger value="single" className="flex-1">
+                  {questionSelector.matching?.single || "单人分析"}
+                </TabsTrigger>
+                <TabsTrigger value="double" className="flex-1 relative">
+                  {questionSelector.matching?.double || "双人匹配"}
+                  <span className="absolute -top-1 -right-1 bg-yellow-400 text-xs px-1 rounded text-black">
+                    Pro
+                  </span>
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="single" className="mt-0">
+                {/* 单人分析内容 */}
+              </TabsContent>
+
+              <TabsContent value="double" className="mt-0">
+                {/* 双人匹配说明 */}
+                <div className="mb-6 p-3 bg-orange-50 border border-orange-200 rounded-lg">
+                  <div className="flex items-center text-sm text-orange-700 mb-1">
+                    <span className="font-medium mr-1">
+                      {questionSelector.matching?.double_title ||
+                        "双人匹配 - 高级功能"}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {questionSelector.matching?.description ||
+                      "分析两个人的八字命盘匹配度，揭示缘分与关系走向。此功能需要会员权限，点击发送将跳转到支付界面。"}
+                  </p>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+
           {/* 输入区域 */}
           <div className="relative mb-6 md:mb-8">
             <Textarea
@@ -203,7 +283,7 @@ export default function QuestionSelector({
                     customerInfo === null ||
                     (Array.isArray(customerInfo) && customerInfo.length === 0)
                       ? "text-muted-foreground hover:bg-gray-100"
-                      : "text-orange-500  hover:bg-orange-500/5"
+                      : "text-orange-500 hover:bg-orange-500/5"
                   }
                 `}
               >
@@ -213,8 +293,31 @@ export default function QuestionSelector({
                   ? questionSelector.customer.input.add_birth_info
                   : formatBirthInfo(customerInfo)}
               </div>
-              {/* 使用次数提示 - 只在加载完成且有用户登录时显示
-              {user?.uuid &&
+
+              {/* 双人匹配模式下，显示伴侣信息输入按钮 */}
+              {matchMode === "double" && (
+                <div
+                  onClick={() => setPartnerModalOpen(true)}
+                  className={`
+                    inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-sm cursor-pointer
+                    ${
+                      partnerInfo === null ||
+                      (Array.isArray(partnerInfo) && partnerInfo.length === 0)
+                        ? "text-muted-foreground hover:bg-gray-100"
+                        : "text-orange-500 hover:bg-orange-500/5"
+                    }
+                  `}
+                >
+                  <CalendarDays className="w-4 h-4" />
+                  {partnerInfo === null ||
+                  (Array.isArray(partnerInfo) && partnerInfo.length === 0)
+                    ? questionSelector.customer.input.partner_birth_info
+                    : formatBirthInfo(partnerInfo)}
+                </div>
+              )}
+
+              {/* 使用次数提示 - 只在加载完成且有用户登录时显示 */}
+              {/* {user?.uuid &&
                 !isLoadingMembership &&
                 remainingCount !== null && (
                   <div className="text-center">
@@ -286,12 +389,29 @@ export default function QuestionSelector({
           </ScrollArea>
         </Card>
 
-        {/* 生辰信息模态框 */}
+        {/* 用户生辰信息模态框 */}
         <CustomerInputFormModal
           messages={formMessages}
           open={isModalOpen}
           onOpenChange={setIsModalOpen}
           customerInfo={customerInfo}
+          onSuccess={fetchCustomerInfo}
+          type="self"
+        />
+
+        {/* 伴侣生辰信息模态框 */}
+        <CustomerInputFormModal
+          messages={{
+            ...formMessages,
+            title: formMessages.partner_title || "输入对方信息",
+            description:
+              formMessages.partner_description ||
+              "请输入对方的生辰信息，以便进行关系分析",
+          }}
+          open={partnerModalOpen}
+          onOpenChange={setPartnerModalOpen}
+          customerInfo={partnerInfo}
+          type="partner"
           onSuccess={fetchCustomerInfo}
         />
       </div>

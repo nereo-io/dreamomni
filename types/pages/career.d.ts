@@ -24,6 +24,7 @@ export interface QuestionSelectorSection {
       unlimited_usage: string;
       remaining_readings: string;
       add_birth_info: string;
+      partner_birth_info?: string;
     };
   };
   categories: {
@@ -31,6 +32,13 @@ export interface QuestionSelectorSection {
   };
   questions: {
     [key: string]: string; // key 是问题ID (career1, future1 等)
+  };
+  matching?: {
+    single: string;
+    double: string;
+    double_title: string;
+    description: string;
+    placeholder?: string;
   };
 }
 

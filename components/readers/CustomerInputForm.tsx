@@ -39,12 +39,14 @@ interface Props {
   messages: ReaderPage;
   onSuccess?: () => void;
   customerInfo?: CustomerInfo | null;
+  type: "self" | "partner";
 }
 
 export default function CustomerInputForm({
   messages,
   onSuccess,
   customerInfo,
+  type,
 }: Props) {
   const { user } = useAppContext();
 
@@ -101,6 +103,7 @@ export default function CustomerInputForm({
       formData.set("relationshipStatus", relationshipStatus);
       formData.set("jobStatus", jobStatus);
       formData.set("additionalInfo", additionalInfo);
+      formData.set("type", type);
 
       const result = await createCustomerInput(formData);
 

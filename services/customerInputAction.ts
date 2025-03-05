@@ -32,6 +32,7 @@ export async function createCustomerInput(formData: FormData): Promise<State> {
     relationshipStatus: formData.get("relationshipStatus") || "",
     jobStatus: formData.get("jobStatus") || "",
     additionalInfo: formData.get("additionalInfo") || "",
+    type: formData.get("type") as "self" | "partner",
   };
 
   try {
@@ -66,6 +67,7 @@ export async function createCustomerInput(formData: FormData): Promise<State> {
       relationshipStatus: rawFormData.relationshipStatus as string,
       jobStatus: rawFormData.jobStatus as string,
       additionalInfo: rawFormData.additionalInfo as string,
+      type: rawFormData.type as "self" | "partner",
     });
 
     logInfo("客户信息创建成功:", {

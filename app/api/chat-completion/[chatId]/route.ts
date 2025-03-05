@@ -28,8 +28,14 @@ export async function POST(
   { params }: { params: { chatId: string } }
 ) {
   try {
-    const { messages, customer_info, locale, session_id } =
-      (await req.json()) as ChatRequest;
+    const {
+      messages,
+      customer_info,
+      locale,
+      session_id,
+      is_matching,
+      partner_info,
+    } = (await req.json()) as ChatRequest;
     const chatId = params.chatId;
     // console.log("chatId: ", chatId);
     // 验证会话ID
@@ -95,15 +101,24 @@ export async function POST(
     }
 
     try {
-      const systemPrompt = await ChatPromptService.buildSystemPrompt(
-        customer_info,
-        locale
-      );
+      let systemPrompt = "";
+      if (is_matching && partner_info) {
+        systemPrompt = await ChatPromptService.buildMatchingSystemPrompt(
+          customer_info,
+          partner_info,
+          locale
+        );
+      } else {
+        systemPrompt = await ChatPromptService.buildSystemPrompt(
+          customer_info,
+          locale
+        );
+      }
       const messageHistory = ChatPromptService.buildMessageHistory(
         systemPrompt,
         messages
       );
-      // console.log("systemPrompt: ", systemPrompt);
+      //console.log("systemPrompt: ", systemPrompt);
 
       return streamText({
         model: deepseekARK("ep-20250205155325-bsdb5"), //r1

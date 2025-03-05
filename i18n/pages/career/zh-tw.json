@@ -57,6 +57,28 @@
     "subtitle": "您想探索職業的哪些方面？",
     "placeholder": "在此輸入您的問題或從下方建議中選擇...",
     "send": "發送",
+    "loginPrompt": "登入以獲得每天3次免費解讀",
+    "errors": {
+      "pleaseLogin": "請登入以獲得每天3次免費解讀",
+      "checkUsageError": "檢查解讀次數失敗",
+      "noRemainingReadings": "您已用完今天的解讀次數",
+      "recordUsageError": "記錄解讀使用失敗",
+      "pleaseInputBirthInfo": "請先輸入您的出生信息"
+    },
+    "customer": {
+      "input": {
+        "unlimited_usage": "無限使用",
+        "remaining_readings": "剩餘解讀次數: {count}",
+        "add_birth_info": "出生信息",
+        "partner_birth_info": "對方信息"
+      }
+    },
+    "matching": {
+      "single": "個人分析",
+      "double": "雙人匹配",
+      "double_title": "雙人匹配",
+      "description": "分析兩個人的生肖和五行元素，揭示緣分與關係走向。此功能需要會員權限，點擊發送將跳轉到支付界面。"
+    },
     "categories": {
       "all": "全部",
       "career": "職業運勢",
@@ -100,21 +122,6 @@
       "specific1": "我有一個新項目，它會成功嗎？",
       "specific2": "我與潛在商業夥伴相容嗎？",
       "specific3": "我應該換現在的工作嗎？"
-    },
-    "loginPrompt": "登入以獲得每天3次免費解讀",
-    "errors": {
-      "pleaseLogin": "請登入以獲得每天3次免費解讀",
-      "checkUsageError": "檢查解讀次數失敗",
-      "noRemainingReadings": "您已用完今天的解讀次數",
-      "recordUsageError": "記錄解讀使用失敗",
-      "pleaseInputBirthInfo": "請先輸入您的出生信息"
-    },
-    "customer": {
-      "input": {
-        "unlimited_usage": "無限使用",
-        "remaining_readings": "剩餘解讀次數: {count}",
-        "add_birth_info": "添加出生信息"
-      }
     }
   }
 }

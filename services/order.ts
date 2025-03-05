@@ -38,9 +38,16 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
     const paid_at = getIsoTimestr();
     await updateOrderStatus(order_no, "paid", paid_at, paid_email, paid_detail);
 
-    // 更新会员状态 - 目前只支持月度会员
+    // 更新会员状态 - 判断月度会员还是年度会员
+    const credits = session.metadata.credits;
+    // console.log("session: ", session.metadata);
     console.log("Updating membership for user:", user_uuid);
-    await createOrUpdateMembership(user_uuid, "monthly");
+    if (credits === "1") {
+      await createOrUpdateMembership(user_uuid, "monthly");
+    } else if (credits === "12") {
+      await createOrUpdateMembership(user_uuid, "yearly");
+    }
+    // await createOrUpdateMembership(user_uuid, product_id);
     // if (order.user_uuid && order.credits > 0) {
     //   // increase credits for paied order
     //   await increaseCredits({

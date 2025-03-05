@@ -19,10 +19,12 @@ export async function createCustomerInfo(data: Omit<CustomerInfo, "id">) {
         relationship_status: data.relationshipStatus,
         job_status: data.jobStatus,
         additional_info: data.additionalInfo,
+        type: data.type || "self",
+        updated_at: new Date().toISOString(),
       },
       {
-        // 指定唯一约束，基于 user_uuid 进行更新
-        onConflict: "user_uuid",
+        // 指定唯一约束，基于 user_uuid 和 type 进行更新
+        onConflict: "user_uuid,type",
       }
     )
     .select()
@@ -62,22 +64,22 @@ export async function getCustomerInfoById(id: string) {
     relationshipStatus: data.relationship_status,
     jobStatus: data.job_status,
     additionalInfo: data.additional_info,
+    type: data.type || "self",
   };
 
   return customerInfo;
 }
 
-// 根据用户UUID获取客户Info信息
+// 根据用户UUID获取客户Info信息（返回所有匹配记录）
 export async function getCustomerInfoByUserUuid(userUuid: string): Promise<{
-  data: CustomerInfo | null;
+  data: CustomerInfo[] | null;
   error: string | null;
 }> {
   const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from("customer_info")
     .select("*")
-    .eq("user_uuid", userUuid)
-    .single();
+    .eq("user_uuid", userUuid); // 移除 .single()，返回所有匹配记录
 
   if (error) {
     // 如果是 "not found" 错误，返回 null 数据而不是错误
@@ -94,25 +96,26 @@ export async function getCustomerInfoByUserUuid(userUuid: string): Promise<{
     };
   }
 
-  // 转换数据格式
-  const customerInfo: CustomerInfo = {
-    id: data.id,
-    gender: data.gender,
-    birthYear: data.birth_year,
-    birthMonth: data.birth_month,
-    birthDay: data.birth_day,
-    birthHour: data.birth_hour,
-    userUuid: data.user_uuid,
-    createdAt: data.created_at,
-    updatedAt: data.updated_at,
-    name: data.name,
-    relationshipStatus: data.relationship_status,
-    jobStatus: data.job_status,
-    additionalInfo: data.additional_info,
-  };
+  // 转换数据格式 - 处理多条记录
+  const customerInfos: CustomerInfo[] = data.map((item) => ({
+    id: item.id,
+    gender: item.gender,
+    birthYear: item.birth_year,
+    birthMonth: item.birth_month,
+    birthDay: item.birth_day,
+    birthHour: item.birth_hour,
+    userUuid: item.user_uuid,
+    createdAt: item.created_at,
+    updatedAt: item.updated_at,
+    name: item.name,
+    relationshipStatus: item.relationship_status,
+    jobStatus: item.job_status,
+    additionalInfo: item.additional_info,
+    type: item.type || "self",
+  }));
 
   return {
-    data: customerInfo,
+    data: customerInfos,
     error: null,
   };
 }

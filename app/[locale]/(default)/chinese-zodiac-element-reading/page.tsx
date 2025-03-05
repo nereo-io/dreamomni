@@ -1,4 +1,8 @@
-import { getChineseZodiacPage, getReaderPage } from "@/services/page";
+import {
+  getChineseZodiacPage,
+  getReaderPage,
+  getPricingBlock,
+} from "@/services/page";
 import { getTranslations } from "next-intl/server";
 import { Metadata } from "next";
 import Branding from "@/components/blocks/branding";
@@ -48,6 +52,7 @@ export default async function ChineseZodiacPage({
 }) {
   const page = await getChineseZodiacPage(locale);
   const readerPage = await getReaderPage(locale);
+  const pricing = await getPricingBlock(locale);
 
   const t = await getTranslations();
   const posts = await getPostsByLocale(locale);
@@ -76,7 +81,7 @@ export default async function ChineseZodiacPage({
       {/* {page.benefit && <Feature2 section={page.benefit} />}
       {page.usage && <Feature3 section={page.usage} />}
       {page.stats && <Stats section={page.stats} />} */}
-      {page.pricing && <Pricing pricing={page.pricing} />}
+      {pricing && <Pricing pricing={pricing} />}
       {/* {page.testimonial && <Testimonial section={page.testimonial} />} */}
       {page.faq && <FAQ section={page.faq} />}
       {page.cta && <CTA section={page.cta} />}

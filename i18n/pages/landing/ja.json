@@ -138,65 +138,6 @@
       }
     ]
   },
-  "pricing": {
-    "name": "pricing",
-    "label": "料金",
-    "title": "BaziAI リーディングプラン",
-    "description": "AIパワード八字リーディングプランを選択",
-    "groups": [],
-    "items": [
-      {
-        "title": "無料AI八字リーディング",
-        "description": "BaziAIリーディングの旅を始めましょう",
-        "features": [
-          "1日3回のAI八字リーディング",
-          "基本的なAI八字分析",
-          "基本的な人生ガイダンス",
-          "すべてのAIリーディングタイプへのアクセス"
-        ],
-        "interval": "month",
-        "amount": 0,
-        "currency": "USD",
-        "price": "無料",
-        "unit": "/月",
-        "is_featured": false,
-        "button": {
-          "title": "無料AIリーディングを開始",
-          "url": "/career",
-          "icon": "RiMagicLine",
-          "disabled": true
-        }
-      },
-      {
-        "title": "プロ",
-        "description": "完全なAI体験を解放",
-        "label": "人気",
-        "features_title": "無料版のすべてに加えて",
-        "features": [
-          "無制限のAI八字リーディング",
-          "高度なAIチャットシステム",
-          "AIパワードのフォローアップ分析"
-        ],
-        "interval": "month",
-        "amount": 499,
-        "currency": "USD",
-        "price": "$4.99",
-        "original_price": "$19.99",
-        "unit": "/月",
-        "is_featured": true,
-        "discount_label": "75% OFF",
-        "button": {
-          "title": "AIプロにアップグレード",
-          "url": "/pro",
-          "icon": "RiVipCrownLine"
-        },
-        "product_id": "pro",
-        "product_name": "BaziAI AIプロ",
-        "credits": 1,
-        "valid_months": 1
-      }
-    ]
-  },
   "faq": {
     "name": "faq",
     "label": "FAQ",
@@ -344,8 +285,15 @@
         "input": {
           "unlimited_usage": "メンバー",
           "remaining_readings": "残り {count} 回",
-          "add_birth_info": "生年月日情報を追加"
+          "add_birth_info": "生年月日情報を追加",
+          "partner_birth_info": "相手の生年月日情報を追加"
         }
+      },
+      "matching": {
+        "single": "個人分析",
+        "double": "マッチング",
+        "double_title": "マッチング",
+        "description": "2人の生年月日情報を入力して、互いの相性を分析します。この機能はプレミアムユーザー専用です。"
       },
       "categories": {
         "all": "すべて",

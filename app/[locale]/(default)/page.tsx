@@ -12,7 +12,11 @@ import Stats from "@/components/blocks/stats";
 import Testimonial from "@/components/blocks/testimonial";
 import QuestionSelector from "@/components/blocks/question-selector";
 import ProductHunt from "@/components/blocks/producthunt";
-import { getLandingPage, getReaderPage } from "@/services/page";
+import {
+  getLandingPage,
+  getReaderPage,
+  getPricingBlock,
+} from "@/services/page";
 
 export async function generateMetadata({
   params: { locale },
@@ -39,6 +43,7 @@ export default async function LandingPage({
 }) {
   const page = await getLandingPage(locale);
   const readerPage = await getReaderPage(locale);
+  const pricing = await getPricingBlock(locale);
 
   return (
     <>
@@ -56,7 +61,7 @@ export default async function LandingPage({
       {page.benefit && <Feature2 section={page.benefit} />}
       {page.usage && <Feature3 section={page.usage} />}
       {page.stats && <Stats section={page.stats} />}
-      {page.pricing && <Pricing pricing={page.pricing} />}
+      {pricing && <Pricing pricing={pricing} />}
       {/* {page.testimonial && <Testimonial section={page.testimonial} />} */}
       {page.faq && <FAQ section={page.faq} />}
       {page.cta && <CTA section={page.cta} />}

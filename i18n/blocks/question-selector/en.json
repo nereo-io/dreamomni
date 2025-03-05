@@ -143,6 +143,66 @@
       }
     ]
   },
+  "pricing": {
+    "name": "pricing",
+    "label": "Pricing",
+    "title": "BaziAI Reading Plans",
+    "description": "Select your AI-powered Bazi reading plan",
+    "groups": [],
+    "items": [
+      {
+        "title": "Free AI Bazi Reading",
+        "description": "Start your BaziAI reading journey",
+        "features_title": "Including",
+        "features": [
+          "3 AI Bazi readings per day",
+          "Basic AI Bazi analysis",
+          "Essential life guidance",
+          "Access to all AI reading types"
+        ],
+        "interval": "month",
+        "amount": 0,
+        "currency": "USD",
+        "price": "Free",
+        "unit": "/month",
+        "is_featured": false,
+        "button": {
+          "title": "Start Free AI Reading",
+          "url": "/career",
+          "icon": "RiMagicLine",
+          "disabled": true
+        }
+      },
+      {
+        "title": "Pro",
+        "description": "Unlock Full AI Experience",
+        "label": "Popular",
+        "features_title": "Everything in Free, plus",
+        "features": [
+          "Unlimited AI Bazi readings",
+          "Advanced AI chat system",
+          "AI-powered follow-up analysis"
+        ],
+        "interval": "month",
+        "amount": 499,
+        "currency": "USD",
+        "price": "$4.99",
+        "original_price": "$19.99",
+        "unit": "/month",
+        "is_featured": true,
+        "discount_label": "75% OFF",
+        "button": {
+          "title": "Upgrade to AI Pro",
+          "url": "/pro",
+          "icon": "RiVipCrownLine"
+        },
+        "product_id": "pro",
+        "product_name": "BaziAI AI Pro",
+        "credits": 1,
+        "valid_months": 1
+      }
+    ]
+  },
   "faq": {
     "name": "faq",
     "label": "FAQ",

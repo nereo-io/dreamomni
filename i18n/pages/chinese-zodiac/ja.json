@@ -32,6 +32,12 @@
           "add_birth_info": "生年月日情報を追加"
         }
       },
+      "matching": {
+        "single": "個人分析",
+        "double": "マッチング",
+        "double_title": "マッチング",
+        "description": "2人の生年月日情報を入力して、互いの相性を分析します。この機能はプレミアムユーザー専用です。"
+      },
       "categories": {
         "chinese-zodiac": "中国の干支"
       },
@@ -98,65 +104,6 @@
         "image": {
           "src": "/imgs/features/pratical-solution.png"
         }
-      }
-    ]
-  },
-  "pricing": {
-    "name": "pricing",
-    "label": "価格",
-    "title": "BaziAI解読プラン",
-    "description": "AIを活用した八字解読プランを選択してください",
-    "groups": [],
-    "items": [
-      {
-        "title": "無料AI八字解読",
-        "description": "BaziAI解読の旅を始めましょう",
-        "features": [
-          "毎日3回のAI八字解読",
-          "基本的なAI八字分析",
-          "基本的な生活指導",
-          "すべてのAI解読タイプへのアクセス"
-        ],
-        "interval": "month",
-        "amount": 0,
-        "currency": "USD",
-        "price": "無料",
-        "unit": "/月",
-        "is_featured": false,
-        "button": {
-          "title": "無料AI解読を始める",
-          "url": "/career",
-          "icon": "RiMagicLine",
-          "disabled": true
-        }
-      },
-      {
-        "title": "プロバージョン",
-        "description": "完全なAI体験のロックを解除",
-        "label": "人気",
-        "features_title": "無料版のすべてに加えて",
-        "features": [
-          "無制限のAI八字解読",
-          "高度なAIチャットシステム",
-          "AIを活用したフォローアップ分析"
-        ],
-        "interval": "month",
-        "amount": 499,
-        "currency": "USD",
-        "price": "$4.99",
-        "original_price": "$19.99",
-        "unit": "/月",
-        "is_featured": true,
-        "discount_label": "75%割引",
-        "button": {
-          "title": "AIプロにアップグレード",
-          "url": "/pro",
-          "icon": "RiVipCrownLine"
-        },
-        "product_id": "pro",
-        "product_name": "BaziAI AIプロ",
-        "credits": 1,
-        "valid_months": 1
       }
     ]
   },

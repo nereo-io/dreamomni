@@ -2,7 +2,10 @@
 import { BaziFastApiService } from "./baziAPIService";
 import { Message, ChatRequest } from "@/types/chat";
 import { getCustomerInputById } from "@/models/customer";
-import { getChatSystemPrompt } from "@/i18n/prompts/chat";
+import {
+  getChatSystemPrompt,
+  getChatMatchingSystemPrompt,
+} from "@/i18n/prompts/chat";
 import { CoreMessage } from "ai";
 import { CustomerInfo } from "@/types/customer";
 export class ChatPromptService {
@@ -27,6 +30,37 @@ export class ChatPromptService {
         locale,
         customer_info,
         baziAnalysis
+      );
+      this.chatSystemPromptCache.set(customer_info.id, systemPrompt);
+      return systemPrompt;
+    } catch (error) {
+      console.error(error);
+      return "";
+    }
+  }
+  static async buildMatchingSystemPrompt(
+    customer_info: CustomerInfo,
+    partner_info: CustomerInfo,
+    locale: string
+  ): Promise<string> {
+    if (!customer_info.id) {
+      throw new Error("Customer ID is required");
+    }
+
+    if (this.chatSystemPromptCache.has(customer_info.id)) {
+      return this.chatSystemPromptCache.get(customer_info.id) as string;
+    }
+    try {
+      const customerBaziAnalysis =
+        await BaziFastApiService.getAnalysisForCustomer(customer_info);
+      const partnerBaziAnalysis =
+        await BaziFastApiService.getAnalysisForCustomer(partner_info);
+      const systemPrompt = getChatMatchingSystemPrompt(
+        locale,
+        customer_info,
+        partner_info,
+        customerBaziAnalysis,
+        partnerBaziAnalysis
       );
       this.chatSystemPromptCache.set(customer_info.id, systemPrompt);
       return systemPrompt;

@@ -3,6 +3,7 @@ import { ReaderPage } from "@/types/pages/reader";
 import { ChatPage } from "@/types/pages/chat";
 import { CareerPage } from "@/types/pages/career";
 import { ChineseZodiacPage } from "@/types/pages/chinese-zodiac";
+import { Pricing } from "@/types/blocks/pricing";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -87,6 +88,24 @@ export async function getChineseZodiacPage(
     );
     return await import("@/i18n/pages/chinese-zodiac/en.json").then(
       (module) => module.default as ChineseZodiacPage
+    );
+  }
+}
+
+export async function getPricingBlock(locale: string): Promise<Pricing> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/blocks/pricing/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load pricing/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/blocks/pricing/en.json").then(
+      (module) => module.default as Pricing
     );
   }
 }

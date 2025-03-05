@@ -57,6 +57,28 @@
     "subtitle": "What aspects of your career would you like to explore?",
     "placeholder": "Type your question here or select from suggestions below...",
     "send": "Send",
+    "loginPrompt": "Sign in to get 3 free readings per day",
+    "errors": {
+      "pleaseLogin": "Please sign in to get 3 free readings per day",
+      "checkUsageError": "Failed to check reading count",
+      "noRemainingReadings": "You've used all readings for today",
+      "recordUsageError": "Failed to record reading usage",
+      "pleaseInputBirthInfo": "Please input your birth information first"
+    },
+    "customer": {
+      "input": {
+        "unlimited_usage": "Unlimited Usage",
+        "remaining_readings": "Remaining Readings: {count}",
+        "add_birth_info": "Birth Info",
+        "partner_birth_info": "Partner Info"
+      }
+    },
+    "matching": {
+      "single": "Single",
+      "double": "Double",
+      "double_title": "Double Matching",
+      "description": "Analyzing the compatibility of two individuals' birth charts to unveil their destiny and the trajectory of their relationship. This feature requires membership; clicking send will redirect you to the payment interface."
+    },
     "categories": {
       "all": "All",
       "career": "Career Fortune",
@@ -100,21 +122,6 @@
       "specific1": "I have a new project, will it be successful?",
       "specific2": "Am I compatible with a potential business partner?",
       "specific3": "Should I change my current job?"
-    },
-    "loginPrompt": "Sign in to get 3 free readings per day",
-    "errors": {
-      "pleaseLogin": "Please sign in to get 3 free readings per day",
-      "checkUsageError": "Failed to check reading count",
-      "noRemainingReadings": "You've used all readings for today",
-      "recordUsageError": "Failed to record reading usage",
-      "pleaseInputBirthInfo": "Please input your birth information first"
-    },
-    "customer": {
-      "input": {
-        "unlimited_usage": "Unlimited Usage",
-        "remaining_readings": "Remaining Readings: {count}",
-        "add_birth_info": "Add Birth Info"
-      }
     }
   }
 }

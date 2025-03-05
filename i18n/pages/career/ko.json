@@ -57,6 +57,28 @@
     "subtitle": "경력의 어떤 측면을 탐색하고 싶으신가요?",
     "placeholder": "여기에 질문을 입력하거나 아래 제안에서 선택하세요...",
     "send": "보내기",
+    "loginPrompt": "로그인하여 하루 3회 무료 해석 받기",
+    "errors": {
+      "pleaseLogin": "하루 3회 무료 해석을 받으려면 로그인하세요",
+      "checkUsageError": "해석 횟수 확인 실패",
+      "noRemainingReadings": "오늘의 모든 해석을 사용했습니다",
+      "recordUsageError": "해석 사용 기록 실패",
+      "pleaseInputBirthInfo": "먼저 생년월일 정보를 입력하세요"
+    },
+    "customer": {
+      "input": {
+        "unlimited_usage": "무제한 사용",
+        "remaining_readings": "남은 해석: {count}",
+        "add_birth_info": "생년월일 정보 추가",
+        "partner_birth_info": "상대방 생년월일 정보 추가"
+      }
+    },
+    "matching": {
+      "single": "개인 분석",
+      "double": "매칭",
+      "double_title": "매칭",
+      "description": "2명의 생년월일 정보를 입력하여 경력 운세를 분석합니다. 이 기능은 프리미엄 사용자만 사용할 수 있습니다."
+    },
     "categories": {
       "all": "전체",
       "career": "경력 운세",
@@ -100,21 +122,6 @@
       "specific1": "새 프로젝트가 있는데 성공할까요?",
       "specific2": "잠재적 비즈니스 파트너와 호환되나요?",
       "specific3": "현재 직업을 바꿔야 할까요?"
-    },
-    "loginPrompt": "로그인하여 하루 3회 무료 해석 받기",
-    "errors": {
-      "pleaseLogin": "하루 3회 무료 해석을 받으려면 로그인하세요",
-      "checkUsageError": "해석 횟수 확인 실패",
-      "noRemainingReadings": "오늘의 모든 해석을 사용했습니다",
-      "recordUsageError": "해석 사용 기록 실패",
-      "pleaseInputBirthInfo": "먼저 생년월일 정보를 입력하세요"
-    },
-    "customer": {
-      "input": {
-        "unlimited_usage": "무제한 사용",
-        "remaining_readings": "남은 해석: {count}",
-        "add_birth_info": "생년월일 정보 추가"
-      }
     }
   }
 }

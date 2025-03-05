@@ -13,7 +13,6 @@ export async function GET(
     if (!session?.user) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
-    // console.log("params", params);
 
     // 2. 获取聊天会话
     const chat = await ChatService.getChatSession(params.chatId);

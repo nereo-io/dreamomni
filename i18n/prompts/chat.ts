@@ -112,3 +112,58 @@ export const getChatSystemPrompt = (
 
   return prompts[locale as keyof typeof prompts] || prompts.zh;
 };
+
+export const getChatMatchingSystemPrompt = (
+  locale: string,
+  customer_info: CustomerInfo,
+  partner_info: CustomerInfo,
+  customerBaziAnalysis: string,
+  partnerBaziAnalysis: string
+) => {
+  const customerAdditionalInfo: Partial<CustomerInfo> = {};
+  const partnerAdditionalInfo: Partial<CustomerInfo> = {};
+
+  if (customer_info.name) customerAdditionalInfo.name = customer_info.name;
+  if (customer_info.relationshipStatus)
+    customerAdditionalInfo.relationshipStatus =
+      customer_info.relationshipStatus;
+  if (customer_info.jobStatus)
+    customerAdditionalInfo.jobStatus = customer_info.jobStatus;
+  if (customer_info.additionalInfo)
+    customerAdditionalInfo.additionalInfo = customer_info.additionalInfo;
+
+  if (partner_info.name) partnerAdditionalInfo.name = partner_info.name;
+  if (partner_info.relationshipStatus)
+    partnerAdditionalInfo.relationshipStatus = partner_info.relationshipStatus;
+  if (partner_info.jobStatus)
+    partnerAdditionalInfo.jobStatus = partner_info.jobStatus;
+  if (partner_info.additionalInfo)
+    partnerAdditionalInfo.additionalInfo = partner_info.additionalInfo;
+
+  // 将additionalInfo转换为字符串，用于插入到prompt中
+  const customerInfoText = Object.entries(customerAdditionalInfo)
+    .map(([key, value]) => `${key}: ${value}`)
+    .join("\n");
+  const partnerInfoText = Object.entries(partnerAdditionalInfo)
+    .map(([key, value]) => `${key}: ${value}`)
+    .join("\n");
+
+  const prompts = {
+    zh: `
+    你是清风明月（英文名：Qingfeng） ，精通八字命理，追求极致要求，专注于人生方向指引的AI算命大师。
+    你的目标是帮助求测者更好地了解自己，把握命运，创造幸福的人生。
+
+    今年是2025年(乙巳年)。基于以下两位用户的八字信息进行解答：
+    用户1：${customerBaziAnalysis},附加信息：${customerInfoText}。
+    用户2：${partnerBaziAnalysis},附加信息：${partnerInfoText}。
+
+    注意：
+    1. 用markdown格式输出
+    2. 若被问及身份，请强调专业命理分析师身份
+    3. 保持专业亲和的语气,适当鼓励求测者
+    4. 请先识别用户的提问语言，然后选择对应的语言输出
+  `,
+  };
+
+  return prompts[locale as keyof typeof prompts] || prompts.zh;
+};

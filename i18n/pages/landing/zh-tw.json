@@ -138,66 +138,6 @@
       }
     ]
   },
-  "pricing": {
-    "name": "pricing",
-    "label": "價格",
-    "title": "BaziAI 解讀計劃",
-    "description": "選擇您的 AI 驅動八字解讀計劃",
-    "groups": [],
-    "items": [
-      {
-        "title": "免費 AI 八字解讀",
-        "description": "開始您的 BaziAI 解讀之旅",
-        "features_title": "包括",
-        "features": [
-          "每天 3 次 AI 八字解讀",
-          "基本 AI 八字分析",
-          "基本生活指導",
-          "訪問所有 AI 解讀類型"
-        ],
-        "interval": "month",
-        "amount": 0,
-        "currency": "USD",
-        "price": "免費",
-        "unit": "/月",
-        "is_featured": false,
-        "button": {
-          "title": "開始免費 AI 解讀",
-          "url": "/career",
-          "icon": "RiMagicLine",
-          "disabled": true
-        }
-      },
-      {
-        "title": "專業版",
-        "description": "解鎖完整 AI 體驗",
-        "label": "熱門",
-        "features_title": "免費版的所有功能，加上",
-        "features": [
-          "無限 AI 八字解讀",
-          "進階 AI 聊天系統",
-          "AI 驅動的後續分析"
-        ],
-        "interval": "month",
-        "amount": 499,
-        "currency": "USD",
-        "price": "$4.99",
-        "original_price": "$19.99",
-        "unit": "/月",
-        "is_featured": true,
-        "discount_label": "75% 折扣",
-        "button": {
-          "title": "升級至 AI 專業版",
-          "url": "/pro",
-          "icon": "RiVipCrownLine"
-        },
-        "product_id": "pro",
-        "product_name": "BaziAI AI 專業版",
-        "credits": 1,
-        "valid_months": 1
-      }
-    ]
-  },
   "testimonial": {
     "name": "testimonial",
     "title": "用戶如何評價 BaziAI",
@@ -392,8 +332,15 @@
         "input": {
           "unlimited_usage": "會員",
           "remaining_readings": "剩餘 {count} 次",
-          "add_birth_info": "添加出生信息"
+          "add_birth_info": "出生信息",
+          "partner_birth_info": "對方信息"
         }
+      },
+      "matching": {
+        "single": "單人分析",
+        "double": "雙人匹配",
+        "double_title": "雙人匹配",
+        "description": "分析兩個人的八字命盤匹配度，揭示緣分與關係走向。此功能需要會員權限，點擊發送將跳轉到支付界面。"
       },
       "categories": {
         "all": "全部",

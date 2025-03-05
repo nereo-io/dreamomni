@@ -23,10 +23,14 @@ export const ChatService = {
       const customerInfo = await getCustomerInfoById(
         savedSession.customer_info_id
       );
+      const partnerInfo = await getCustomerInfoById(
+        savedSession.partner_info_id || ""
+      );
       // 组装完整的会话信息
       return {
         ...savedSession,
         customer_info: customerInfo,
+        partner_info: partnerInfo,
       };
     } catch (error) {
       console.error("Failed to create chat session:", error);
@@ -36,17 +40,23 @@ export const ChatService = {
 
   async getChatSession(uuid: string): Promise<ChatSession | null> {
     try {
+      console.log("uuid", uuid);
       const session = await getChatSessionByUuid(uuid);
       if (!session) return null;
-      // console.log("session", session);
+      console.log("session", session);
 
       // 获取客户信息
       const customerInfo = await getCustomerInfoById(session.customer_info_id);
+      let partnerInfo = undefined;
+      if (session.is_matching === true && session.partner_info_id) {
+        partnerInfo = await getCustomerInfoById(session.partner_info_id);
+      }
 
       // 组装完整的会话信息
       return {
         ...session,
         customer_info: customerInfo,
+        partner_info: partnerInfo,
       };
     } catch (error) {
       console.error("Failed to get chat session:", error);
@@ -84,7 +94,7 @@ export const ChatService = {
   async updateChatStatus(
     uuid: string,
     status: ChatStatus
-  ): Promise<ChatSession | null> {
+  ): Promise<ChatSessionDB | null> {
     try {
       // 先获取现有会话
       const session = await getChatSessionByUuid(uuid);
@@ -94,16 +104,8 @@ export const ChatService = {
       const updatedSession = await updateChatSessionStatus(uuid, status);
       if (!updatedSession) return null;
 
-      // 获取客户信息
-      const customerInfo = await getCustomerInfoById(
-        updatedSession.customer_info_id
-      );
-
       // 返回完整的会话信息
-      return {
-        ...updatedSession,
-        customer_info: customerInfo,
-      };
+      return updatedSession;
     } catch (error) {
       console.error("Failed to update chat status:", error);
       throw error;

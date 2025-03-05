@@ -32,6 +32,12 @@
           "add_birth_info": "添加出生信息"
         }
       },
+      "matching": {
+        "single": "单人分析",
+        "double": "双人匹配",
+        "double_title": "双人匹配",
+        "description": "分析两个人的生肖和五行元素，揭示缘分与关系走向。此功能需要会员权限，点击发送将跳转到支付界面。"
+      },
       "categories": {
         "chinese-zodiac": "生肖"
       },
@@ -98,62 +104,6 @@
         "image": {
           "src": "/imgs/features/pratical-solution.png"
         }
-      }
-    ]
-  },
-  "pricing": {
-    "name": "pricing",
-    "label": "价格",
-    "title": "BaziAI解读计划",
-    "description": "选择您的AI驱动八字解读计划",
-    "groups": [],
-    "items": [
-      {
-        "title": "免费AI八字解读",
-        "description": "开始您的BaziAI解读之旅",
-        "features_title": "包括",
-        "features": [
-          "每天3次AI八字解读",
-          "基础AI八字分析",
-          "基本生活指导",
-          "访问所有AI解读类型"
-        ],
-        "interval": "month",
-        "amount": 0,
-        "currency": "USD",
-        "price": "免费",
-        "unit": "/月",
-        "is_featured": false,
-        "button": {
-          "title": "开始免费AI解读",
-          "url": "/career",
-          "icon": "RiMagicLine",
-          "disabled": true
-        }
-      },
-      {
-        "title": "专业版",
-        "description": "解锁完整AI体验",
-        "label": "热门",
-        "features_title": "包含免费版的一切，外加",
-        "features": ["无限AI八字解读", "高级AI聊天系统", "AI驱动的后续分析"],
-        "interval": "month",
-        "amount": 499,
-        "currency": "USD",
-        "price": "$4.99",
-        "original_price": "$19.99",
-        "unit": "/月",
-        "is_featured": true,
-        "discount_label": "75%折扣",
-        "button": {
-          "title": "升级至AI专业版",
-          "url": "/pro",
-          "icon": "RiVipCrownLine"
-        },
-        "product_id": "pro",
-        "product_name": "BaziAI AI专业版",
-        "credits": 1,
-        "valid_months": 1
       }
     ]
   },

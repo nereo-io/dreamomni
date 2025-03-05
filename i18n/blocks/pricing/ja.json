@@ -1,0 +1,90 @@
+{
+  "name": "pricing",
+  "label": "会員プラン",
+  "title": "BaziAI解読プラン",
+  "description": "AIによる八字解読会員プランを選択",
+  "groups": [],
+  "items": [
+    {
+      "title": "無料AI解読",
+      "description": "AI運勢解読の旅を始めましょう",
+      "features_title": "含まれるもの",
+      "features": [
+        "1日3回のAI運勢解読",
+        "基本的な個人AI運勢分析",
+        "基本的なAIガイダンス"
+      ],
+      "interval": "month",
+      "amount": 0,
+      "currency": "USD",
+      "price": "無料",
+      "unit": "/月",
+      "is_featured": false,
+      "button": {
+        "title": "無料AI解読を試す",
+        "url": "/career",
+        "icon": "RiMagicLine",
+        "disabled": true
+      }
+    },
+    {
+      "title": "AIプレミアム（月額）",
+      "description": "完全なAI命理体験を解放",
+      "label": "人気",
+      "features_title": "含まれるもの",
+      "features": [
+        "無制限のAI運勢解読",
+        "高度な個人AI運勢分析",
+        "高度なカップルAI運勢分析",
+        "高度なAIガイダンスと解決策",
+        "2025年度AI運勢追跡"
+      ],
+      "interval": "month",
+      "amount": 999,
+      "currency": "USD",
+      "price": "$9.99",
+      "original_price": "$19.99",
+      "unit": "/月",
+      "is_featured": true,
+      "discount_label": "50%オフ",
+      "button": {
+        "title": "AIプレミアムにアップグレード",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "monthly-pro",
+      "product_name": "BaziAI プレミアム",
+      "credits": 1,
+      "valid_months": 1
+    },
+    {
+      "title": "AIプレミアム（年額）",
+      "description": "完全なAI命理体験に無制限アクセス",
+      "features_title": "含まれるもの",
+      "features": [
+        "無制限のAI運勢解読",
+        "高度な個人AI運勢分析",
+        "高度なカップルAI運勢分析",
+        "高度なAIガイダンスと解決策",
+        "2025年度AI運勢追跡"
+      ],
+      "interval": "year",
+      "amount": 9900,
+      "currency": "USD",
+      "price": "$99",
+      "original_price": "$238.8",
+      "unit": "/年",
+      "is_featured": false,
+      "discount_label": "40%オフ",
+      "button": {
+        "title": "AIプレミアムにアップグレード",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "yearly-pro",
+      "product_name": "BaziAI プレミアム",
+      "credits": 12,
+      "valid_months": 12
+    }
+  ]
+}

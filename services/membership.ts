@@ -43,16 +43,21 @@ export async function createOrUpdateMembership(
   const now = new Date();
   const startDate = now.toISOString();
 
-  // 计算结束时间
-  const endDate = new Date(now);
-  if (planType === "monthly") {
-    endDate.setMonth(endDate.getMonth() + 1);
-  } else {
-    endDate.setFullYear(endDate.getFullYear() + 1);
-  }
-
   // 查询用户是否有会员记录(不限制状态)
   const membership = await findMembershipByUserUuid(userUuid);
+
+  // 计算结束时间
+  let endDate = new Date(now);
+  if (membership?.end_date) {
+    endDate = new Date(membership.end_date);
+  }
+
+  // const endDate = new Date(now);
+  if (planType === "monthly") {
+    endDate.setMonth(endDate.getMonth() + 1);
+  } else if (planType === "yearly") {
+    endDate.setFullYear(endDate.getFullYear() + 1);
+  }
 
   if (membership) {
     // 更新现有会员

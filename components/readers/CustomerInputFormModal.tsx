@@ -15,6 +15,7 @@ interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess?: () => void;
+  type: "self" | "partner";
 }
 
 export default function CustomerInputFormModal({
@@ -23,6 +24,7 @@ export default function CustomerInputFormModal({
   open,
   onOpenChange,
   onSuccess,
+  type,
 }: Props) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -45,6 +47,7 @@ export default function CustomerInputFormModal({
               onOpenChange(false);
             }}
             customerInfo={customerInfo}
+            type={type}
           />
         </div>
       </DialogContent>

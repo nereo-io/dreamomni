@@ -31,6 +31,7 @@ export interface CustomerInfo {
   userUuid: string; // 关联的用户UUID
   createdAt?: string; // 创建时间
   updatedAt?: string; // 更新时间
+  type: "self" | "partner"; // 类型
 
   // 个人信息
   gender: string; // 性别

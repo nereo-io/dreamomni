@@ -6,6 +6,8 @@ export interface ChatRequest {
   customer_info: CustomerInfo;
   locale: string;
   session_id: string;
+  is_matching: boolean; // 是否是双人匹配模式
+  partner_info?: CustomerInfo; // 伴侣信息ID
 }
 
 export type MessageRole = "system" | "user" | "assistant" | "tool";
@@ -40,6 +42,8 @@ export interface ChatSessionDB {
   customer_info_id: string;
   created_at: Date;
   updated_at?: Date;
+  is_matching: boolean; // 是否是双人匹配模式
+  partner_info_id?: string; // 伴侣信息ID
 }
 
 // 消息类型保持不变
@@ -55,4 +59,5 @@ export interface ChatMessage {
 // 前端使用的完整类型
 export interface ChatSession extends ChatSessionDB {
   customer_info: CustomerInfo; // 前端始终需要完整的客户信息
+  partner_info?: CustomerInfo; // 伴侣信息，用于双人匹配
 }

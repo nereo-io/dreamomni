@@ -14,6 +14,8 @@ export async function createChatSession(data: ChatSessionDB) {
       title: data.title,
       status: data.status,
       customer_info_id: data.customer_info_id,
+      is_matching: data.is_matching,
+      partner_info_id: data.partner_info_id,
     })
     .select()
     .single();

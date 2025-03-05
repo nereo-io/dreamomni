@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     const chatData: ChatSessionDB = await req.json();
 
     // 3. 创建聊天会话
-    const chat: ChatSession = await ChatService.createChatSession(chatData);
+    const chat: ChatSessionDB = await ChatService.createChatSession(chatData);
 
     // 4. 返回结果
     return respData(chat);

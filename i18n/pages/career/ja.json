@@ -57,6 +57,28 @@
     "subtitle": "キャリアのどの側面を探りたいですか？",
     "placeholder": "ここに質問を入力するか、以下の提案から選択してください...",
     "send": "送信",
+    "loginPrompt": "サインインして1日3回の無料リーディングを取得",
+    "errors": {
+      "pleaseLogin": "1日3回の無料リーディングを取得するにはサインインしてください",
+      "checkUsageError": "リーディング回数の確認に失敗しました",
+      "noRemainingReadings": "今日のリーディングをすべて使用しました",
+      "recordUsageError": "リーディング使用の記録に失敗しました",
+      "pleaseInputBirthInfo": "まず生年月日情報を入力してください"
+    },
+    "customer": {
+      "input": {
+        "unlimited_usage": "無制限使用",
+        "remaining_readings": "残りのリーディング: {count}",
+        "add_birth_info": "生年月日情報を追加",
+        "partner_birth_info": "相手の生年月日情報を追加"
+      }
+    },
+    "matching": {
+      "single": "個人分析",
+      "double": "マッチング",
+      "double_title": "マッチング",
+      "description": "2人の生年月日情報を入力して、互いの相性を分析します。この機能はプレミアムユーザー専用です。"
+    },
     "categories": {
       "all": "すべて",
       "career": "キャリア運勢",
@@ -100,21 +122,6 @@
       "specific1": "新しいプロジェクトがありますが、成功するでしょうか？",
       "specific2": "潜在的なビジネスパートナーとの相性はどうですか？",
       "specific3": "現在の仕事を変えるべきですか？"
-    },
-    "loginPrompt": "サインインして1日3回の無料リーディングを取得",
-    "errors": {
-      "pleaseLogin": "1日3回の無料リーディングを取得するにはサインインしてください",
-      "checkUsageError": "リーディング回数の確認に失敗しました",
-      "noRemainingReadings": "今日のリーディングをすべて使用しました",
-      "recordUsageError": "リーディング使用の記録に失敗しました",
-      "pleaseInputBirthInfo": "まず生年月日情報を入力してください"
-    },
-    "customer": {
-      "input": {
-        "unlimited_usage": "無制限使用",
-        "remaining_readings": "残りのリーディング: {count}",
-        "add_birth_info": "生年月日情報を追加"
-      }
     }
   }
 }

@@ -1,0 +1,86 @@
+{
+  "name": "pricing",
+  "label": "會員方案",
+  "title": "BaziAI解讀方案",
+  "description": "選擇你的AI八字解讀會員方案",
+  "groups": [],
+  "items": [
+    {
+      "title": "免費AI解讀",
+      "description": "開啟你的AI運勢解讀之旅",
+      "features_title": "包含",
+      "features": ["每日3次AI運勢解讀", "單人基礎AI運勢分析", "基礎AI指導"],
+      "interval": "month",
+      "amount": 0,
+      "currency": "USD",
+      "price": "免費",
+      "unit": "/月",
+      "is_featured": false,
+      "button": {
+        "title": "免費體驗AI解讀",
+        "url": "/career",
+        "icon": "RiMagicLine",
+        "disabled": true
+      }
+    },
+    {
+      "title": "AI高級版(月付)",
+      "description": "解鎖完整AI命理體驗",
+      "label": "熱門",
+      "features_title": "包含",
+      "features": [
+        "無限次AI運勢解讀",
+        "單人高級AI運勢分析",
+        "雙人高級AI運勢分析",
+        "高級AI指導與化解",
+        "2025年度AI運勢追蹤"
+      ],
+      "interval": "month",
+      "amount": 999,
+      "currency": "USD",
+      "price": "$9.99",
+      "original_price": "$19.99",
+      "unit": "/月",
+      "is_featured": true,
+      "discount_label": "5折優惠",
+      "button": {
+        "title": "升級AI高級版",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "monthly-pro",
+      "product_name": "BaziAI高級版",
+      "credits": 1,
+      "valid_months": 1
+    },
+    {
+      "title": "AI高級版(年付)",
+      "description": "無限解鎖完整AI命理體驗",
+      "features_title": "包含",
+      "features": [
+        "無限次AI運勢解讀",
+        "單人高級AI運勢分析",
+        "雙人高級AI運勢分析",
+        "高級AI指導與化解",
+        "2025年度AI運勢追蹤"
+      ],
+      "interval": "year",
+      "amount": 9900,
+      "currency": "USD",
+      "price": "$99",
+      "original_price": "$238.8",
+      "unit": "/年",
+      "is_featured": false,
+      "discount_label": "4折優惠",
+      "button": {
+        "title": "升級AI高級版",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "yearly-pro",
+      "product_name": "BaziAI高級版",
+      "credits": 12,
+      "valid_months": 12
+    }
+  ]
+}

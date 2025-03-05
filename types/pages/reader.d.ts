@@ -1,6 +1,8 @@
 export interface ReaderPage {
   title: string;
   description: string;
+  partner_title?: string;
+  partner_description?: string;
   loginPrompt: string;
   errors: {
     pleaseLogin: string;

@@ -69,8 +69,15 @@
       "input": {
         "unlimited_usage": "无限制使用",
         "remaining_readings": "剩余{count}次",
-        "add_birth_info": "填写生辰信息"
+        "add_birth_info": "出生信息",
+        "partner_birth_info": "对方信息"
       }
+    },
+    "matching": {
+      "single": "个人分析",
+      "double": "双人匹配",
+      "double_title": "双人匹配",
+      "description": "分析两个人的八字命盘匹配度，揭示缘分与关系走向。此功能需要会员权限，点击发送将跳转到支付界面。"
     },
     "categories": {
       "all": "全部",
