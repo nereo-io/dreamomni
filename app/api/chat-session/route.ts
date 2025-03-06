@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { ChatService } from "@/services/chat/chatService";
 import { respData, respErr } from "@/lib/resp";
 import { ChatSession, ChatSessionDB, ChatStatus } from "@/types/chat.d";
+import { createChatSession } from "@/models/chat";
 
 export async function POST(req: Request) {
   try {
@@ -15,7 +16,7 @@ export async function POST(req: Request) {
     const chatData: ChatSessionDB = await req.json();
 
     // 3. 创建聊天会话
-    const chat: ChatSessionDB = await ChatService.createChatSession(chatData);
+    const chat: ChatSessionDB = await createChatSession(chatData);
 
     // 4. 返回结果
     return respData(chat);

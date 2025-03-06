@@ -16,28 +16,6 @@ import {
 import { getCustomerInfoById } from "@/models/customer";
 
 export const ChatService = {
-  async createChatSession(chat: ChatSessionDB): Promise<ChatSession> {
-    try {
-      // 保存会话基本信息
-      const savedSession = await createChatSession(chat);
-      const customerInfo = await getCustomerInfoById(
-        savedSession.customer_info_id
-      );
-      const partnerInfo = await getCustomerInfoById(
-        savedSession.partner_info_id || ""
-      );
-      // 组装完整的会话信息
-      return {
-        ...savedSession,
-        customer_info: customerInfo,
-        partner_info: partnerInfo,
-      };
-    } catch (error) {
-      console.error("Failed to create chat session:", error);
-      throw error;
-    }
-  },
-
   async getChatSession(uuid: string): Promise<ChatSession | null> {
     try {
       console.log("uuid", uuid);
