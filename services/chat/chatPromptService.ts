@@ -12,6 +12,7 @@ export class ChatPromptService {
   private static chatSystemPromptCache = new Map<string, string>();
 
   static async buildSystemPrompt(
+    session_id: string,
     customer_info: CustomerInfo,
     locale: string
   ): Promise<string> {
@@ -19,8 +20,8 @@ export class ChatPromptService {
       throw new Error("Customer ID is required");
     }
 
-    if (this.chatSystemPromptCache.has(customer_info.id)) {
-      return this.chatSystemPromptCache.get(customer_info.id) as string;
+    if (ChatPromptService.chatSystemPromptCache.has(session_id)) {
+      return ChatPromptService.chatSystemPromptCache.get(session_id) as string;
     }
     try {
       const baziAnalysis = await BaziFastApiService.getAnalysisForCustomer(
@@ -31,7 +32,7 @@ export class ChatPromptService {
         customer_info,
         baziAnalysis
       );
-      this.chatSystemPromptCache.set(customer_info.id, systemPrompt);
+      ChatPromptService.chatSystemPromptCache.set(session_id, systemPrompt);
       return systemPrompt;
     } catch (error) {
       console.error(error);
@@ -39,6 +40,7 @@ export class ChatPromptService {
     }
   }
   static async buildMatchingSystemPrompt(
+    session_id: string,
     customer_info: CustomerInfo,
     partner_info: CustomerInfo,
     locale: string
@@ -47,8 +49,8 @@ export class ChatPromptService {
       throw new Error("Customer ID is required");
     }
 
-    if (this.chatSystemPromptCache.has(customer_info.id)) {
-      return this.chatSystemPromptCache.get(customer_info.id) as string;
+    if (ChatPromptService.chatSystemPromptCache.has(session_id)) {
+      return ChatPromptService.chatSystemPromptCache.get(session_id) as string;
     }
     try {
       const customerBaziAnalysis =
@@ -62,7 +64,7 @@ export class ChatPromptService {
         customerBaziAnalysis,
         partnerBaziAnalysis
       );
-      this.chatSystemPromptCache.set(customer_info.id, systemPrompt);
+      ChatPromptService.chatSystemPromptCache.set(session_id, systemPrompt);
       return systemPrompt;
     } catch (error) {
       console.error(error);

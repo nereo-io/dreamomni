@@ -104,12 +104,14 @@ export async function POST(
       let systemPrompt = "";
       if (is_matching && partner_info) {
         systemPrompt = await ChatPromptService.buildMatchingSystemPrompt(
+          session_id,
           customer_info,
           partner_info,
           locale
         );
       } else {
         systemPrompt = await ChatPromptService.buildSystemPrompt(
+          session_id,
           customer_info,
           locale
         );

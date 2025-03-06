@@ -154,8 +154,8 @@ export const getChatMatchingSystemPrompt = (
     你的目标是帮助求测者更好地了解自己，把握命运，创造幸福的人生。
 
     今年是2025年(乙巳年)。基于以下两位用户的八字信息进行解答：
-    用户1：${customerBaziAnalysis},附加信息：${customerInfoText}。
-    用户2：${partnerBaziAnalysis},附加信息：${partnerInfoText}。
+    用户：${customerBaziAnalysis},附加信息：${customerInfoText}。
+    匹配对象：${partnerBaziAnalysis},附加信息：${partnerInfoText}。
 
     注意：
     1. 用markdown格式输出

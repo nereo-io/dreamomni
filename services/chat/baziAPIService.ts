@@ -26,7 +26,12 @@ export class BaziFastApiService {
       const data = await response.json();
       return data as BaziResponse;
     } catch (error) {
-      console.error("Bazi analysis error:", error);
+      console.error(
+        "Bazi analysis error:",
+        error,
+        "Request:",
+        JSON.stringify(request, null, 2)
+      );
       throw error;
     }
   }
