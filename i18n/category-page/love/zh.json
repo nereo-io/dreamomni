@@ -22,7 +22,7 @@
     },
     "questions": {
       "general1": {
-        "text": "我的出生图表对我的爱情生活和浪漫倾向有什么启示？",
+        "text": "我的八字对我的爱情生活和浪漫倾向有什么启示？",
         "reading_type": "single",
         "category": "general"
       },
@@ -32,17 +32,17 @@
         "category": "general"
       },
       "general3": {
-        "text": "根据我的出生图表，我在关系中的优势和劣势是什么？",
+        "text": "根据我的八字，我在关系中的优势和劣势是什么？",
         "reading_type": "single",
         "category": "general"
       },
       "general4": {
-        "text": "根据我的出生图表，什么类型的伴侣最能互补我的性格？",
+        "text": "根据我的八字，什么类型的伴侣最能互补我的性格？",
         "reading_type": "single",
         "category": "general"
       },
       "compatibility1": {
-        "text": "根据我们的出生图表，我们有多么匹配？作为一对伴侣，我们的优势和挑战是什么？",
+        "text": "根据我们的八字，我们有多么匹配？作为一对伴侣，我们的优势和挑战是什么？",
         "reading_type": "double",
         "category": "compatibility"
       },
@@ -52,17 +52,17 @@
         "category": "compatibility"
       },
       "compatibility3": {
-        "text": "根据中国星座学，我们的性格如何互补或挑战彼此？",
+        "text": "我们的性格如何互补或挑战彼此？",
         "reading_type": "double",
         "category": "compatibility"
       },
       "compatibility4": {
-        "text": "根据我们的出生图表，我们能从彼此身上学到什么？",
+        "text": "根据我们的八字，我们能从彼此身上学到什么？",
         "reading_type": "double",
         "category": "compatibility"
       },
       "relationship1": {
-        "text": "中国星座学对我们当前关系状态有什么启示？",
+        "text": "中国命理学对我们当前关系状态有什么启示？",
         "reading_type": "double",
         "category": "relationship"
       },
@@ -87,7 +87,7 @@
         "category": "future"
       },
       "future2": {
-        "text": "根据我的出生图表，我的下一段关系会是怎样的？",
+        "text": "根据我的八字，我的下一段关系会是怎样的？",
         "reading_type": "single",
         "category": "future"
       },
@@ -102,12 +102,12 @@
         "category": "future"
       },
       "marriage1": {
-        "text": "根据我的出生图表，今年是否适合结婚或订婚？",
+        "text": "根据我的八字，今年是否适合结婚或订婚？",
         "reading_type": "single",
         "category": "marriage"
       },
       "marriage2": {
-        "text": "中国星座学对我们的婚姻相容性有何指示？",
+        "text": "命理学对我们的婚姻相容性有何指示？",
         "reading_type": "double",
         "category": "marriage"
       },
@@ -117,7 +117,7 @@
         "category": "marriage"
       },
       "marriage4": {
-        "text": "我的出生图表对于我处理婚姻和承诺的方式有什么见解？",
+        "text": "我的八字对于我处理婚姻和承诺的方式有什么见解？",
         "reading_type": "single",
         "category": "marriage"
       },
@@ -127,12 +127,12 @@
         "category": "specific"
       },
       "specific2": {
-        "text": "根据我的出生图表，我如何从过去的关系创伤中愈合？",
+        "text": "根据我的八字，我如何从过去的关系创伤中愈合？",
         "reading_type": "single",
         "category": "specific"
       },
       "specific3": {
-        "text": "根据中国星座学，我现在的伴侣是我的灵魂伴侣吗？",
+        "text": "我现在的伴侣是我的灵魂伴侣吗？",
         "reading_type": "double",
         "category": "specific"
       },
@@ -159,7 +159,7 @@
       },
       {
         "title": "不相配的生肖能有成功的关系吗？",
-        "description": "当然可以！虽然中国命理学提供了关于自然倾向和潜在挑战的见解，但它并不决定一切。'不相配'的符号只是强调了伴侣可能需要更多理解和耐心的领域。许多成功的关系存在于传统上不相配的符号之间，因为对潜在摩擦点的意识允许伴侣发展沟通和妥协的策略。其他因素如五行、特定出生图表方面，以及最重要的，有意识的努力和相互尊重可以克服任何星象学上的挑战。记住，相容性预测提供指导，而非绝对命运。"
+        "description": "当然可以！虽然中国命理学提供了关于自然倾向和潜在挑战的见解，但它并不决定一切。'不相配'的符号只是强调了伴侣可能需要更多理解和耐心的领域。许多成功的关系存在于传统上不相配的符号之间，因为对潜在摩擦点的意识允许伴侣发展沟通和妥协的策略。其他因素如五行、特定八字方面，以及最重要的，有意识的努力和相互尊重可以克服任何星象学上的挑战。记住，相容性预测提供指导，而非绝对命运。"
       },
       {
         "title": "如何利用中国命理学的见解改善我的关系？",
