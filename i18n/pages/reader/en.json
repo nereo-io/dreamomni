@@ -1,6 +1,8 @@
 {
-  "title": "Enter Basic Information",
+  "title": "Your Basic Information",
   "description": "We value your privacy, all information is only used for interpretation and analysis",
+  "partner_title": "Partner Information",
+  "partner_description": "We value your partner's privacy, all information is only used for interpretation and analysis",
   "loginPrompt": "Sign in to get 3 free readings per day",
   "errors": {
     "pleaseLogin": "Please sign in to get 3 free readings per day",

@@ -27,7 +27,7 @@ export async function createCustomerInput(formData: FormData): Promise<State> {
     birthMonth: Number(formData.get("birthMonth")),
     birthDay: Number(formData.get("birthDay")),
     birthHour: Number(formData.get("birthHour")),
-    userId: formData.get("userId") || "",
+    userId: formData.get("userId"),
     name: formData.get("name") || "",
     relationshipStatus: formData.get("relationshipStatus") || "",
     jobStatus: formData.get("jobStatus") || "",

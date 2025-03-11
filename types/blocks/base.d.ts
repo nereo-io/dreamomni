@@ -97,3 +97,9 @@ export interface AgreementItem {
 export interface Agreement {
   items?: AgreementItem[];
 }
+
+export interface QuestionListHeader {
+  title?: string;
+  description?: string;
+  action?: ReactNode;
+}

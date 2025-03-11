@@ -1,0 +1,162 @@
+{
+  "hero": {
+    "title": "Chinese Zodiac Sign & 5 Elements Calculator",
+    "highlight_text": "Zodiac",
+    "description": "Discover your Chinese zodiac animal and elemental alignment instantly",
+    "cta": "Calculate Your Sign"
+  },
+  "questionListHeader": {
+    "title": "Chinese Zodiac Sign & 5 Elements Analysis",
+    "description": "Personality traits, compatibility & destiny insights based on your sign",
+    "cta": "Explore Your Chinese Zodiac"
+  },
+  "questionSuggestions": {
+    "categories": {
+      "all": "All",
+      "general": "Basic Information",
+      "personality": "Personality",
+      "compatibility": "Compatibility",
+      "forecast": "Fortune Forecast",
+      "elements": "Five Elements"
+    },
+    "questions": {
+      "general1": {
+        "text": "What is my Chinese zodiac sign and what does it represent?",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general2": {
+        "text": "How does my Chinese zodiac sign influence my life path?",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general3": {
+        "text": "What are the key characteristics of my birth year animal?",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general4": {
+        "text": "How do our Chinese zodiac signs interact? What does this reveal about our relationship?",
+        "reading_type": "double",
+        "category": "general"
+      },
+      "personality1": {
+        "text": "How does my zodiac sign shape my personality and behavior?",
+        "reading_type": "single",
+        "category": "personality"
+      },
+      "personality2": {
+        "text": "What are my strengths and weaknesses according to my zodiac sign?",
+        "reading_type": "single",
+        "category": "personality"
+      },
+      "personality3": {
+        "text": "Which careers or life paths align best with my zodiac sign?",
+        "reading_type": "single",
+        "category": "personality"
+      },
+      "personality4": {
+        "text": "How do our personality traits complement or challenge each other based on our zodiac signs?",
+        "reading_type": "double",
+        "category": "personality"
+      },
+      "compatibility1": {
+        "text": "Which zodiac signs am I most compatible with for relationships?",
+        "reading_type": "single",
+        "category": "compatibility"
+      },
+      "compatibility2": {
+        "text": "How compatible are our Chinese zodiac signs? What strengths and challenges does this create?",
+        "reading_type": "double",
+        "category": "compatibility"
+      },
+      "compatibility3": {
+        "text": "How can we improve our relationship based on our zodiac compatibility?",
+        "reading_type": "double",
+        "category": "compatibility"
+      },
+      "compatibility4": {
+        "text": "Which zodiac signs should I be cautious about in relationships or business?",
+        "reading_type": "single",
+        "category": "compatibility"
+      },
+      "forecast1": {
+        "text": "How will the current year affect my zodiac sign?",
+        "reading_type": "single",
+        "category": "forecast"
+      },
+      "forecast2": {
+        "text": "What are my lucky elements, colors, and numbers based on my zodiac?",
+        "reading_type": "single",
+        "category": "forecast"
+      },
+      "forecast3": {
+        "text": "How will my fortune change in the next zodiac cycle?",
+        "reading_type": "single",
+        "category": "forecast"
+      },
+      "forecast4": {
+        "text": "How will this year's energies affect us as a couple with our specific zodiac combination?",
+        "reading_type": "double",
+        "category": "forecast"
+      },
+      "elements1": {
+        "text": "What is my birth element and how does it influence me?",
+        "reading_type": "single",
+        "category": "elements"
+      },
+      "elements2": {
+        "text": "How does the Five Element theory relate to my zodiac sign?",
+        "reading_type": "single",
+        "category": "elements"
+      },
+      "elements3": {
+        "text": "How can I balance my elements for better fortune and harmony?",
+        "reading_type": "single",
+        "category": "elements"
+      },
+      "elements4": {
+        "text": "How do our birth elements interact? Do they create harmony or conflict?",
+        "reading_type": "double",
+        "category": "elements"
+      },
+      "elements5": {
+        "text": "How can we use our elemental energies to strengthen our relationship?",
+        "reading_type": "double",
+        "category": "elements"
+      }
+    }
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Frequently Asked Questions",
+    "description": "Learn more about Chinese zodiac signs and elements",
+    "items": [
+      {
+        "title": "What is my Chinese zodiac sign and element by birthday?",
+        "description": "Your Chinese zodiac sign is determined by your birth year according to the Chinese lunar calendar. There are 12 animal signs (Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, and Pig) that rotate in a 12-year cycle. Your element is determined by the last digit of your birth year, with each element appearing in a 10-year cycle (Wood, Fire, Earth, Metal, Water). Our calculator can instantly determine both your zodiac animal and element when you input your birth date."
+      },
+      {
+        "title": "How to calculate Chinese zodiac animal and element?",
+        "description": "To calculate your Chinese zodiac animal: Take your birth year and divide it by 12. The remainder determines your animal sign (0=Monkey, 1=Rooster, 2=Dog, 3=Pig, 4=Rat, 5=Ox, 6=Tiger, 7=Rabbit, 8=Dragon, 9=Snake, 10=Horse, 11=Goat). For your element, look at the last digit of your birth year: 0-1=Metal, 2-3=Water, 4-5=Wood, 6-7=Fire, 8-9=Earth. Our calculator automates this process for accuracy, especially considering lunar calendar adjustments."
+      },
+      {
+        "title": "What does my Chinese zodiac element mean for my life?",
+        "description": "Your zodiac element (Wood, Fire, Earth, Metal, or Water) influences your personality traits, strengths, and potential challenges in life. Wood people tend to be creative and compassionate; Fire individuals are dynamic and passionate; Earth types are practical and nurturing; Metal people are organized and precise; Water individuals are intuitive and flexible. Your element also suggests career affinities, relationship patterns, and ways to maintain balance in your life. Understanding your element can help you leverage your natural strengths and address potential weaknesses."
+      },
+      {
+        "title": "What is my love compatibility guide by Chinese zodiac sign and element?",
+        "description": "Chinese zodiac compatibility considers both animal signs and elements. Some animal combinations naturally harmonize (like Rat with Dragon or Monkey), while others may create tension (like Tiger with Monkey). Elements also influence compatibility: Wood feeds Fire, Fire creates Earth, Earth bears Metal, Metal collects Water, and Water nourishes Wood. The most harmonious relationships often involve complementary elements rather than identical ones. For example, a Wood person might find balance with a Water person who nourishes their nature, while two Fire individuals might create too much intensity."
+      },
+      {
+        "title": "What are the 5 elements in Chinese astrology?",
+        "description": "The five elements in Chinese philosophy are Wood (木), Fire (火), Earth (土), Metal (金), and Water (水). Each element has distinct characteristics: Wood represents growth, creativity, and compassion; Fire embodies enthusiasm, dynamism, and passion; Earth signifies stability, nurturing, and practicality; Metal symbolizes precision, organization, and righteousness; Water reflects adaptability, intuition, and wisdom. These elements interact in cycles of generation (where one element creates another) and control (where one element restrains another), creating a complex system of balance and interaction."
+      },
+      {
+        "title": "How does the 60-year cycle work in Chinese astrology?",
+        "description": "The Chinese zodiac operates on a 60-year cycle created by combining the 12 animal signs with the five elements in their Yin and Yang forms. Each element appears with each animal sign once in its Yang form and once in its Yin form before the cycle repeats. For example, 1984 was Yang Wood Rat, while 1985 was Yin Wood Ox. This 60-year cycle (known as the Sexagenary cycle or Ganzhi) provides a more detailed understanding of the energetic influences present in each year and how they might affect individuals born during that time."
+      }
+    ]
+  }
+}

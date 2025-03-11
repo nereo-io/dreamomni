@@ -37,6 +37,12 @@
 │   ├── [locale]
 │   │   ├── (admin)
 │   │   │   ├── admin
+│   │   │   │   ├── chat
+│   │   │   │   │   ├── [uuid]
+│   │   │   │   │   │   └── page.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── data
+│   │   │   │   │   └── page.tsx
 │   │   │   │   ├── paid-orders
 │   │   │   │   │   └── page.tsx
 │   │   │   │   ├── posts
@@ -63,20 +69,28 @@
 │   │   │   │   ├── my-orders
 │   │   │   │   │   └── page.tsx
 │   │   │   │   └── layout.tsx
-│   │   │   ├── career
-│   │   │   │   └── page.tsx
-│   │   │   ├── posts
+│   │   │   ├── blog
 │   │   │   │   ├── [slug]
 │   │   │   │   │   └── page.tsx
 │   │   │   │   └── page.tsx
+│   │   │   ├── pricing
+│   │   │   │   └── page.tsx
+│   │   │   ├── resources
+│   │   │   │   └── [category]
+│   │   │   │       ├── questions
+│   │   │   │       │   └── [slug]
+│   │   │   │       │       └── page.tsx
+│   │   │   │       └── page.tsx
 │   │   │   ├── layout.tsx
 │   │   │   └── page.tsx
 │   │   ├── auth
 │   │   │   └── signin
 │   │   │       └── page.tsx
 │   │   ├── chat
-│   │   │   └── [chatId]
-│   │   │       └── page.tsx
+│   │   │   ├── [chatId]
+│   │   │   │   └── page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
 │   │   ├── pay-success
 │   │   │   └── [session_id]
 │   │   │       └── page.tsx
@@ -85,7 +99,14 @@
 │   │   ├── auth
 │   │   │   └── [...nextauth]
 │   │   │       └── route.ts
-│   │   ├── chat
+│   │   ├── chat-completion
+│   │   │   └── [chatId]
+│   │   │       └── route.ts
+│   │   ├── chat-session
+│   │   │   ├── [chatId]
+│   │   │   │   ├── messages
+│   │   │   │   │   └── route.ts
+│   │   │   │   └── route.ts
 │   │   │   └── route.ts
 │   │   ├── checkout
 │   │   │   └── route.ts
@@ -97,6 +118,11 @@
 │   │   ├── demo
 │   │   │   └── gen-image
 │   │   │       └── route.ts
+│   │   ├── generate-content
+│   │   │   ├── questions
+│   │   │   │   └── route.ts
+│   │   │   ├── route.ts
+│   │   │   └── test-generate-content.http
 │   │   ├── membership
 │   │   │   └── check
 │   │   │       └── route.ts
@@ -122,6 +148,8 @@
 │   │   └── open-panel.tsx
 │   ├── blocks
 │   │   ├── blog
+│   │   │   └── index.tsx
+│   │   ├── blog-block
 │   │   │   └── index.tsx
 │   │   ├── blog-detail
 │   │   │   ├── crumb.tsx
@@ -155,14 +183,27 @@
 │   │   │   ├── bg.tsx
 │   │   │   ├── happy-users.tsx
 │   │   │   └── index.tsx
+│   │   ├── nav-category
+│   │   │   └── index.tsx
+│   │   ├── pet-community
 │   │   ├── pricing
 │   │   │   └── index.tsx
 │   │   ├── producthunt
+│   │   │   └── index.tsx
+│   │   ├── question
+│   │   │   └── index.tsx
+│   │   ├── question-card
+│   │   │   └── index.tsx
+│   │   ├── question-list
+│   │   │   └── index.tsx
+│   │   ├── question-list-header
 │   │   │   └── index.tsx
 │   │   ├── question-selector
 │   │   │   ├── index.tsx
 │   │   │   └── skeleton.tsx
 │   │   ├── showcase
+│   │   │   └── index.tsx
+│   │   ├── solve-all-questions
 │   │   │   └── index.tsx
 │   │   ├── stats
 │   │   │   └── index.tsx
@@ -198,7 +239,9 @@
 │   │   │   │   └── index.tsx
 │   │   │   └── table
 │   │   │       └── index.tsx
-│   │   └── layout.tsx
+│   │   ├── layout.tsx
+│   │   ├── stats-card.tsx
+│   │   └── target-board.tsx
 │   ├── icon
 │   │   └── index.tsx
 │   ├── locale
@@ -208,6 +251,9 @@
 │   │   └── markdown.css
 │   ├── readers
 │   │   ├── ChatInterface.tsx
+│   │   ├── ChatSessionLibrary.tsx
+│   │   ├── ChatSessionLibraryWrapper.tsx
+│   │   ├── ChatSkeleton.tsx
 │   │   ├── CustomerInputForm.tsx
 │   │   ├── CustomerInputFormModal.tsx
 │   │   └── LoadingAnimation.tsx
@@ -241,6 +287,8 @@
 │       ├── input.tsx
 │       ├── label.tsx
 │       ├── navigation-menu.tsx
+│       ├── popover.tsx
+│       ├── progress.tsx
 │       ├── radio-group.tsx
 │       ├── scroll-area.tsx
 │       ├── select.tsx
@@ -271,32 +319,77 @@
 │   ├── useMembership.tsx
 │   └── useOneTapLogin.tsx
 ├── i18n
-│   ├── messages
-│   │   ├── en.json
-│   │   └── zh.json
-│   ├── pages
+│   ├── blocks
+│   │   ├── pricing
+│   │   │   ├── en.json
+│   │   │   ├── ja.json
+│   │   │   ├── ko.json
+│   │   │   ├── zh-tw.json
+│   │   │   └── zh.json
+│   │   └── question-selector
+│   │       ├── en.json
+│   │       ├── zh-tw.json
+│   │       └── zh.json
+│   ├── category-page
+│   │   ├── 2025-forecast
+│   │   │   ├── en.json
+│   │   │   ├── zh-tw.json
+│   │   │   └── zh.json
 │   │   ├── career
 │   │   │   ├── en.json
+│   │   │   ├── zh-tw.json
 │   │   │   └── zh.json
+│   │   ├── chinese-zodiac
+│   │   │   ├── en.json
+│   │   │   ├── zh-tw.json
+│   │   │   └── zh.json
+│   │   ├── health
+│   │   │   ├── en.json
+│   │   │   ├── zh-tw.json
+│   │   │   └── zh.json
+│   │   └── love
+│   │       ├── en.json
+│   │       ├── zh-tw.json
+│   │       └── zh.json
+│   ├── messages
+│   │   ├── en.json
+│   │   ├── ja.json
+│   │   ├── ko.json
+│   │   ├── zh-tw.json
+│   │   └── zh.json
+│   ├── pages
 │   │   ├── chat
 │   │   │   ├── en.json
+│   │   │   ├── ja.json
+│   │   │   ├── ko.json
+│   │   │   ├── zh-tw.json
 │   │   │   └── zh.json
 │   │   ├── landing
 │   │   │   ├── en.json
+│   │   │   ├── ja.json
+│   │   │   ├── ko.json
+│   │   │   ├── zh-tw.json
 │   │   │   └── zh.json
 │   │   └── reader
 │   │       ├── en.json
+│   │       ├── ja.json
+│   │       ├── ko.json
+│   │       ├── zh-tw.json
 │   │       └── zh.json
 │   ├── prompts
-│   │   └── chat.ts
+│   │   ├── chat.ts
+│   │   └── generate-content.ts
 │   ├── locale.ts
 │   ├── request.ts
 │   └── routing.ts
 ├── instruction
+│   ├── bazi-ai-tool.html
 │   ├── career-wireframe.md
 │   ├── homepage-wireframe.md
+│   ├── index.html
 │   ├── note.md
-│   └── project-instructions.md
+│   ├── project-instructions.md
+│   └── prototype.html
 ├── lib
 │   ├── exceptions
 │   │   └── AppError.ts
@@ -324,11 +417,15 @@
 │   ├── membership.ts
 │   ├── order.ts
 │   ├── post.ts
+│   ├── question.ts
 │   ├── reading.ts
+│   ├── statistics.ts
 │   └── user.ts
 ├── providers
 │   └── theme.tsx
 ├── public
+│   ├── blog
+│   │   └── chinese-zodiac-elements.png
 │   ├── imgs
 │   │   ├── badges
 │   │   │   └── phdaily.svg
@@ -386,6 +483,8 @@
 │   ├── robots.txt
 │   └── sitemap.xml
 ├── services
+│   ├── api
+│   │   └── chatSession.ts
 │   ├── chat
 │   │   ├── baziAPIService.ts
 │   │   ├── chatPromptService.ts
@@ -402,23 +501,29 @@
 │   ├── page.ts
 │   ├── reading.ts
 │   └── user.ts
-├── tests
-│   └── customer-info.http
+├── ts
+│   └── test.ts
 ├── types
 │   ├── blocks
 │   │   ├── base.d.ts
 │   │   ├── blog.d.ts
+│   │   ├── category.d.ts
 │   │   ├── footer.d.ts
 │   │   ├── form.d.ts
 │   │   ├── header.d.ts
 │   │   ├── hero.d.ts
 │   │   ├── pricing.d.ts
+│   │   ├── question-selector.d.ts
+│   │   ├── question-suggestions.d.ts
+│   │   ├── question.d.ts
 │   │   ├── section.d.ts
 │   │   ├── sidebar.d.ts
+│   │   ├── slove-all-questions.d.ts
 │   │   └── table.d.ts
 │   ├── pages
 │   │   ├── career.d.ts
 │   │   ├── chat.d.ts
+│   │   ├── chinese-zodiac.d.ts
 │   │   ├── landing.d.ts
 │   │   └── reader.d.ts
 │   ├── slots
@@ -426,6 +531,7 @@
 │   │   ├── form.d.ts
 │   │   └── table.d.ts
 │   ├── apikey.d.ts
+│   ├── category-enum.ts
 │   ├── chat.d.ts
 │   ├── context.d.ts
 │   ├── credit.d.ts
@@ -457,4 +563,4 @@
 ├── vercel.json
 └── wrangler.toml.example
 
-135 directories, 323 files
+166 directories, 398 files

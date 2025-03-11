@@ -1,22 +1,46 @@
 {
   "metadata": {
-    "title": "BaziAI - DeepSeek R1 AI 八字分析工具 | 免費生命指導",
-    "description": "獲取免費的 AI 驅動八字解讀，結合古老中國智慧與 DeepSeek R1 技術。通過智能 AI 解讀分析職業、人際關係和生命道路。",
-    "keywords": "AI 八字分析, 免費八字解讀, DeepSeek R1, 職業預測, 生命指導, 中國星相 AI"
+    "title": "BaziAI - DeepSeek R1 AI 八字分析工具 | 免費人生指導",
+    "description": "獲取免費的AI驅動八字分析，將古老的中國命理學與DeepSeek R1技術相結合。通過智能AI解讀分析職業、人際關係和人生道路。",
+    "keywords": "AI八字分析, 免費八字解讀, DeepSeek R1, 職業預測, 人生指導, 中國命理學AI"
   },
 
   "career": {
-    "metadata": {
-      "title": "BaziAI - AI 驅動的職業運勢解讀",
-      "description": "通過 AI 驅動的運勢解讀和東方星相學釋放您的職業潛能。獲取關於工作變動、職業道路、晉升和職場成功的即時洞察。全天候提供免費個人化職業分析。"
-    }
+    "title": "職業運勢解讀 | 八字财运 | BaziAI",
+    "description": "獲取基於中國命理學的個性化職業預測。通過我們AI驅動的八字分析，發現關於工作變動、晉升和職場成功的洞察。",
+    "keywords": "職業解讀, 中國命理學職業, 八字職業, 工作預測, 職業運勢, 職業道路, 職場成功"
+  },
+  "love": {
+    "title": "愛情配對解讀 | 八字算命 | BaziAI",
+    "description": "通過我們基於中國命理學的AI驅動愛情配對分析，找到您的完美匹配。獲取關於關係、約會和浪漫命運的個性化洞察。",
+    "keywords": "愛情配對, 關係解讀, 中國生肖匹配, 八字愛情, 關係占星, 浪漫預測"
+  },
+  "health": {
+    "title": "健康與養生解讀 | 八字算命 | BaziAI",
+    "description": "通過中國命理學發現您的健康優勢和劣勢。我們的AI八字分析提供個性化的養生洞察和潛在的健康預測。",
+    "keywords": "健康解讀, 中國命理學健康, 八字養生, 健康預測, 體質分析, 五行平衡"
+  },
+  "2025-forecast": {
+    "title": "2025年運勢預測 | 八字算命 | BaziAI",
+    "description": "通過我們的中國命理學預測，探索2025年為您準備了什麼。獲取關於職業、關係和來年繁榮的個性化洞察。",
+    "keywords": "2025預測, 中國命理學預報, 八字2025, 未來解讀, 年度運勢, 木龍年"
+  },
+  "chinese-zodiac": {
+    "title": "生肖與五行計算器 | 八字算命 | BaziAI",
+    "description": "立即探索您的中國生肖動物和五行屬性。我們的互動計算器揭示您的出生生肖以及五行如何影響您的性格和命運。",
+    "keywords": "中國生肖計算器, 生肖查找器, 五行圖表, 出生五行, 中國命理學生肖, 生肖性格"
+  },
+  "pricing": {
+    "title": "高級會員計劃 | 八字算命 | BaziAI",
+    "description": "通過我們的高級計劃解鎖無限的中國命理學解讀。通過我們AI驅動的八字分析，獲取關於職業、愛情、健康等的個性化洞察。",
+    "keywords": "中國命理學會員, 八字高級版, 無限解讀, 占星訂閱, ai算命, 關係配對, 職業預測"
   },
 
   "user": {
     "sign_in": "登入",
-    "sign_out": "登出",
-    "credits": "點數",
-    "api_keys": "API 金鑰",
+    "sign_out": "退出",
+    "credits": "積分",
+    "api_keys": "API密鑰",
     "my_orders": "我的訂單",
     "membership": "會員資格"
   },
@@ -25,43 +49,43 @@
     "sign_in_description": "登入您的帳戶",
     "sign_up_title": "註冊",
     "sign_up_description": "創建一個帳戶",
-    "email_title": "電子郵件",
-    "email_placeholder": "在此輸入您的電子郵件",
+    "email_title": "郵箱",
+    "email_placeholder": "在此輸入您的郵箱",
     "password_title": "密碼",
     "password_placeholder": "在此輸入您的密碼",
     "forgot_password": "忘記密碼？",
     "or": "或",
     "continue": "繼續",
     "no_account": "沒有帳戶？",
-    "email_sign_in": "使用電子郵件登入",
-    "google_sign_in": "使用 Google 登入",
-    "github_sign_in": "使用 GitHub 登入",
-    "apple_sign_in": "使用 Apple 登入",
+    "email_sign_in": "使用郵箱登入",
+    "google_sign_in": "使用Google登入",
+    "github_sign_in": "使用GitHub登入",
+    "apple_sign_in": "使用Apple登入",
     "close_title": "關閉",
     "cancel_title": "取消"
   },
   "my_orders": {
     "title": "我的訂單",
-    "description": "使用 LuckBox 支付的訂單。",
+    "description": "使用LuckBox支付的訂單。",
     "no_orders": "未找到訂單",
     "tip": "",
-    "activate_order": "啟用訂單",
-    "actived": "已啟用",
-    "join_discord": "加入 Discord",
+    "activate_order": "激活訂單",
+    "actived": "已激活",
+    "join_discord": "加入Discord",
     "read_docs": "閱讀文檔",
     "table": {
       "order_no": "訂單號",
-      "email": "電子郵件",
+      "email": "郵箱",
       "product_name": "產品名稱",
       "amount": "金額",
       "paid_at": "支付時間",
-      "github_username": "GitHub 用戶名",
+      "github_username": "GitHub用戶名",
       "status": "狀態"
     }
   },
   "membership": {
     "title": "會員資格",
-    "description": "查看您的會員資訊和有效期",
+    "description": "查看您的會員信息和有效期",
     "status": "狀態",
     "status_active": "有效",
     "status_expired": "已過期",
@@ -74,51 +98,44 @@
     "days": "天",
     "no_membership": "無有效會員",
     "manage_subscription": "管理訂閱",
-    "loading": "載入中..."
+    "loading": "加載中..."
   },
   "my_credits": {
-    "title": "我的點數",
-    "left_tip": "剩餘點數: {left_credits}",
-    "no_credits": "無點數記錄",
+    "title": "我的積分",
+    "left_tip": "剩餘積分: {left_credits}",
+    "no_credits": "無積分記錄",
     "recharge": "充值",
     "table": {
       "trans_no": "交易號",
       "trans_type": "交易類型",
-      "credits": "點數",
+      "credits": "積分",
       "updated_at": "更新時間",
       "status": "狀態"
     }
   },
   "api_keys": {
-    "title": "API 金鑰",
-    "tip": "請妥善保管您的 API 金鑰以避免洩露",
-    "no_api_keys": "無 API 金鑰",
-    "create_api_key": "創建 API 金鑰",
+    "title": "API密鑰",
+    "tip": "請妥善保管您的API密鑰以避免洩露",
+    "no_api_keys": "無API密鑰",
+    "create_api_key": "創建API密鑰",
     "table": {
       "name": "名稱",
-      "key": "金鑰",
+      "key": "密鑰",
       "created_at": "創建時間"
     },
     "form": {
       "name": "名稱",
-      "name_placeholder": "API 金鑰名稱",
+      "name_placeholder": "API密鑰名稱",
       "submit": "提交"
     }
   },
-  "chinese_zodiac_element_calculator": {
-    "metadata": {
-      "title": "我的生肖和五行是什麼？免費計算器和指南",
-      "description": "幾秒鐘內發現您的生肖和五行元素！使用我們基於您生日的互動計算器。了解五行圖表以及它如何塑造您的命運。",
-      "keywords": "生肖, 五行計算器, 五行圖表, 查找我的生肖, 出生動物元素, 中國五行占星"
-    }
-  },
   "blog": {
-    "title": "部落格",
-    "description": "關於 BaziAI 的新聞、資源和更新",
+    "title": "博客",
+    "description": "關於BaziAI的新聞、資源和更新",
     "read_more_text": "閱讀更多"
   },
   "chat": {
-    "title": "新聊天 - DeepSeek R1 AI 八字分析工具",
-    "description": "開始新的聊天與 DeepSeek R1 AI 八字分析工具"
+    "title": "新對話 - DeepSeek R1 AI八字分析工具",
+    "description": "開始與DeepSeek R1 AI八字分析工具的新對話"
   }
 }

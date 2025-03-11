@@ -13,14 +13,41 @@
     "nav": {
       "items": [
         {
-          "title": "キャリア",
-          "url": "/career",
-          "icon": "RiBriefcaseLine"
+          "title": "リソース",
+          "url": "/resources",
+          "icon": "RiBookLine",
+          "children": [
+            {
+              "title": "恋愛リーディング",
+              "url": "/resources/love",
+              "icon": "RiHeartLine"
+            },
+            {
+              "title": "キャリアリーディング",
+              "url": "/resources/career",
+              "icon": "RiBriefcaseLine"
+            },
+            {
+              "title": "健康リーディング",
+              "url": "/resources/health",
+              "icon": "RiHeartPulseLine"
+            },
+            {
+              "title": "中国干支",
+              "url": "/resources/chinese-zodiac",
+              "icon": "RiStarLine"
+            },
+            {
+              "title": "2025年予測",
+              "url": "/resources/2025-forecast",
+              "icon": "RiCalendarLine"
+            }
+          ]
         },
         {
-          "title": "中国の干支",
-          "url": "/chinese-zodiac-element-reading",
-          "icon": "RiCompass3Line"
+          "title": "料金",
+          "url": "/pricing",
+          "icon": "RiMoneyDollarCircleLine"
         }
       ]
     },
@@ -204,13 +231,28 @@
           "title": "サービス",
           "children": [
             {
+              "title": "愛情解読",
+              "url": "/resources/love",
+              "target": "_self"
+            },
+            {
               "title": "キャリア解読",
-              "url": "/career",
+              "url": "/resources/career",
+              "target": "_self"
+            },
+            {
+              "title": "健康解読",
+              "url": "/resources/health",
               "target": "_self"
             },
             {
               "title": "中国の干支解読",
-              "url": "/chinese-zodiac-element-reading",
+              "url": "/resources/chinese-zodiac",
+              "target": "_self"
+            },
+            {
+              "title": "2025年予測",
+              "url": "/resources/2025-forecast",
               "target": "_self"
             }
           ]

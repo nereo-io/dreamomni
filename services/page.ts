@@ -4,6 +4,7 @@ import { ChatPage } from "@/types/pages/chat";
 import { CareerPage } from "@/types/pages/career";
 import { ChineseZodiacPage } from "@/types/pages/chinese-zodiac";
 import { Pricing } from "@/types/blocks/pricing";
+import { QuestionSelector } from "@/types/blocks/question-selector";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -20,19 +21,22 @@ export async function getLandingPage(locale: string): Promise<LandingPage> {
     );
   }
 }
-export async function getCareerPage(locale: string): Promise<CareerPage> {
+export async function getCategoryPage(
+  locale: string,
+  category: string
+): Promise<CareerPage> {
   try {
     if (locale === "zh-CN") {
       locale = "zh";
     }
     return await import(
-      `@/i18n/pages/career/${locale.toLowerCase()}.json`
+      `@/i18n/category-page/${category}/${locale.toLowerCase()}.json`
     ).then((module) => module.default);
   } catch (error) {
     console.warn(
-      `Failed to load career/${locale}.json, falling back to en.json`
+      `Failed to load category-page/${category}/${locale}.json, falling back to en.json`
     );
-    return await import("@/i18n/pages/career/en.json").then(
+    return await import(`@/i18n/category-page/${category}/en.json`).then(
       (module) => module.default as CareerPage
     );
   }
@@ -72,26 +76,6 @@ export async function getChatPage(locale: string): Promise<ChatPage> {
   }
 }
 
-export async function getChineseZodiacPage(
-  locale: string
-): Promise<ChineseZodiacPage> {
-  try {
-    if (locale === "zh-CN") {
-      locale = "zh";
-    }
-    return await import(
-      `@/i18n/pages/chinese-zodiac/${locale.toLowerCase()}.json`
-    ).then((module) => module.default);
-  } catch (error) {
-    console.warn(
-      `Failed to load chinese-zodiac/${locale}.json, falling back to en.json`
-    );
-    return await import("@/i18n/pages/chinese-zodiac/en.json").then(
-      (module) => module.default as ChineseZodiacPage
-    );
-  }
-}
-
 export async function getPricingBlock(locale: string): Promise<Pricing> {
   try {
     if (locale === "zh-CN") {
@@ -106,6 +90,26 @@ export async function getPricingBlock(locale: string): Promise<Pricing> {
     );
     return await import("@/i18n/blocks/pricing/en.json").then(
       (module) => module.default as Pricing
+    );
+  }
+}
+
+export async function getQuestionSelectorBlock(
+  locale: string
+): Promise<QuestionSelector> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/blocks/question-selector/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load question-selector/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/blocks/question-selector/en.json").then(
+      (module) => module.default as QuestionSelector
     );
   }
 }

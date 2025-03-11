@@ -13,14 +13,41 @@
     "nav": {
       "items": [
         {
-          "title": "커리어",
-          "url": "/career",
-          "icon": "RiBriefcaseLine"
+          "title": "리소스",
+          "url": "/resources",
+          "icon": "RiBookLine",
+          "children": [
+            {
+              "title": "연애 해석",
+              "url": "/resources/love",
+              "icon": "RiHeartLine"
+            },
+            {
+              "title": "경력 해석",
+              "url": "/resources/career",
+              "icon": "RiBriefcaseLine"
+            },
+            {
+              "title": "건강 해석",
+              "url": "/resources/health",
+              "icon": "RiHeartPulseLine"
+            },
+            {
+              "title": "중국 띠",
+              "url": "/resources/chinese-zodiac",
+              "icon": "RiStarLine"
+            },
+            {
+              "title": "2025년 예측",
+              "url": "/resources/2025-forecast",
+              "icon": "RiCalendarLine"
+            }
+          ]
         },
         {
-          "title": "중국 띠",
-          "url": "/chinese-zodiac-element-reading",
-          "icon": "RiCompass3Line"
+          "title": "가격",
+          "url": "/pricing",
+          "icon": "RiMoneyDollarCircleLine"
         }
       ]
     },
@@ -251,13 +278,28 @@
           "title": "서비스",
           "children": [
             {
+              "title": "사랑 해석",
+              "url": "/resources/love",
+              "target": "_self"
+            },
+            {
               "title": "커리어 해석",
-              "url": "/career",
+              "url": "/resources/career",
+              "target": "_self"
+            },
+            {
+              "title": "건강 해석",
+              "url": "/resources/health",
               "target": "_self"
             },
             {
               "title": "중국 띠 해석",
-              "url": "/chinese-zodiac-element-reading",
+              "url": "/resources/chinese-zodiac",
+              "target": "_self"
+            },
+            {
+              "title": "2025년 예측",
+              "url": "/resources/2025-forecast",
               "target": "_self"
             }
           ]

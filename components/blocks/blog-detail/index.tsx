@@ -26,9 +26,7 @@ export default function BlogDetail({ post }: { post: Post }) {
           )}
           <div>
             {post.author_name && (
-              <a href="javascript:void(0)" className="font-medium">
-                {post.author_name}
-              </a>
+              <span className="font-medium">{post.author_name}</span>
             )}
 
             <span className="ml-2 text-muted-foreground">

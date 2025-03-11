@@ -1,15 +1,39 @@
 {
   "metadata": {
     "title": "BaziAI - DeepSeek R1 AI Bazi Reading Tool | Free Life Guidance",
-    "description": "Get free AI-powered Bazi readings combining ancient Chinese wisdom with DeepSeek R1 technology. Analyze career, relationships, and life path through intelligent AI interpretation.",
+    "description": "Get free AI-powered Bazi readings combining ancient Chinese astrology with DeepSeek R1 technology. Analyze career, relationships, and life path through intelligent AI interpretation.",
     "keywords": "AI Bazi Reading, Free Bazi Reading, DeepSeek R1, Career Prediction, Life Guidance, Chinese Astrology AI"
   },
 
   "career": {
-    "metadata": {
-      "title": "BaziAI - AI-Powered Career Fortune Reading",
-      "description": "Unlock your career potential with AI-powered fortune reading and Eastern astrology. Get instant insights on job changes, career path, promotions, and workplace success. Free personalized career analysis available 24/7."
-    }
+    "title": "Career Fortune AI Bazi Reading | Chinese Astrology | BaziAI",
+    "description": "Get personalized career predictions based on Chinese astrology. Discover insights about job changes, promotions, and workplace success with our AI-powered Bazi analysis.",
+    "keywords": "career reading, chinese astrology career, bazi career, job prediction, professional fortune, career path, workplace success"
+  },
+  "love": {
+    "title": "Love Compatibility AI Bazi Reading | Chinese Astrology | BaziAI",
+    "description": "Find your perfect match with our AI-powered love compatibility analysis based on Chinese astrology. Get personalized insights on relationships, dating, and romantic destiny.",
+    "keywords": "love compatibility, relationship reading, chinese zodiac match, bazi love, relationship astrology, romantic forecast"
+  },
+  "health": {
+    "title": "Health & Wellness AI Bazi Reading | Chinese Astrology  | BaziAI",
+    "description": "Discover your health strengths and weaknesses through Chinese astrology. Our AI Bazi analysis provides personalized wellness insights and potential health forecasts.",
+    "keywords": "health reading, chinese astrology health, bazi wellness, health forecast, body constitution, element balance"
+  },
+  "2025-forecast": {
+    "title": "2025 Fortune AI BaziForecast | Chinese Astrology | BaziAI",
+    "description": "Explore what 2025 has in store for you with our Chinese astrology predictions. Get personalized insights on career, relationships, and prosperity for the coming year.",
+    "keywords": "2025 prediction, chinese astrology forecast, bazi 2025, future reading, yearly horoscope, wood dragon year"
+  },
+  "chinese-zodiac": {
+    "title": "Chinese Zodiac Sign & Element AI Calculator | BaziAI",
+    "description": "Discover your Chinese zodiac animal and elemental alignment instantly. Our interactive calculator reveals your birth sign and how the 5 elements influence your personality and destiny.",
+    "keywords": "chinese zodiac calculator, animal sign finder, 5 element chart, birth element, chinese astrology sign, zodiac personality"
+  },
+  "pricing": {
+    "title": "Premium Membership Plans | Chinese Astrology Readings | BaziAI",
+    "description": "Unlock unlimited Chinese astrology readings with our premium plans. Get personalized insights on career, love, health and more with our AI-powered Bazi analysis.",
+    "keywords": "chinese astrology membership, bazi premium, unlimited readings, astrology subscription, ai fortune telling, relationship compatibility, career forecasts"
   },
 
   "user": {
@@ -103,13 +127,6 @@
       "name": "Name",
       "name_placeholder": "API Key Name",
       "submit": "Submit"
-    }
-  },
-  "chinese_zodiac_element_calculator": {
-    "metadata": {
-      "title": "Chinese Zodiac Sign and Element Reading Tool | Free Calculator & Guide",
-      "description": "Discover your Chinese zodiac animal and element in seconds! Use our interactive calculator based on your birthday. Learn about the 5 element chart and how it shapes your destiny.",
-      "keywords": "chinese zodiac sign, chinese element calculator, 5 element chart, find my chinese zodiac, birth animal element, chinese astrology elements"
     }
   },
   "blog": {

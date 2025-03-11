@@ -8,19 +8,46 @@
         "src": "/logo.svg",
         "alt": "BaziAI"
       },
-      "url": "/zh"
+      "url": "/"
     },
     "nav": {
       "items": [
         {
-          "title": "事业运",
-          "url": "/career",
-          "icon": "RiBriefcaseLine"
+          "title": "资源",
+          "url": "/resources",
+          "icon": "RiBookLine",
+          "children": [
+            {
+              "title": "爱情解读",
+              "url": "/resources/love",
+              "icon": "RiHeartLine"
+            },
+            {
+              "title": "事业解读",
+              "url": "/resources/career",
+              "icon": "RiBriefcaseLine"
+            },
+            {
+              "title": "健康解读",
+              "url": "/resources/health",
+              "icon": "RiHeartPulseLine"
+            },
+            {
+              "title": "生肖分析",
+              "url": "/resources/chinese-zodiac",
+              "icon": "RiStarLine"
+            },
+            {
+              "title": "2025年预测",
+              "url": "/resources/2025-forecast",
+              "icon": "RiCalendarLine"
+            }
+          ]
         },
         {
-          "title": "生肖",
-          "url": "/chinese-zodiac-element-reading",
-          "icon": "RiCompass3Line"
+          "title": "价格",
+          "url": "/pricing",
+          "icon": "RiMoneyDollarCircleLine"
         }
       ]
     },
@@ -327,13 +354,28 @@
           "title": "服务项目",
           "children": [
             {
-              "title": "事业运势",
-              "url": "/career",
+              "title": "爱情解读",
+              "url": "/resources/love",
               "target": "_self"
             },
             {
-              "title": "生肖解读",
-              "url": "/chinese-zodiac-element-reading",
+              "title": "事业解读",
+              "url": "/resources/career",
+              "target": "_self"
+            },
+            {
+              "title": "健康解读",
+              "url": "/resources/health",
+              "target": "_self"
+            },
+            {
+              "title": "生肖分析",
+              "url": "/resources/chinese-zodiac",
+              "target": "_self"
+            },
+            {
+              "title": "2025年预测",
+              "url": "/resources/2025-forecast",
               "target": "_self"
             }
           ]
@@ -388,64 +430,6 @@
           "url": "/terms-of-service"
         }
       ]
-    }
-  },
-  "questionForm": {
-    "questionSelector": {
-      "title": "选择你的问题",
-      "subtitle": "你想探索哪些方面？",
-      "placeholder": "在此输入你的问题或从以下建议中选择...",
-      "send": "发送",
-      "loginPrompt": "登录后每天可免费解读3次",
-      "errors": {
-        "pleaseLogin": "请先登录，登录后每天可免费解读3次",
-        "checkUsageError": "检查使用次数失败",
-        "noRemainingReadings": "今日解读次数已用完，请明天再来",
-        "recordUsageError": "记录使用次数失败"
-      },
-      "customer": {
-        "input": {
-          "unlimited_usage": "会员",
-          "remaining_readings": "剩余{count}次",
-          "add_birth_info": "出生信息",
-          "partner_birth_info": "对方信息"
-        }
-      },
-      "matching": {
-        "single": "单人分析",
-        "double": "双人匹配",
-        "double_title": "双人匹配",
-        "description": "分析两个人的八字命盘匹配度，揭示缘分与关系走向。此功能需要会员权限，点击发送将跳转到支付界面。"
-      },
-      "categories": {
-        "all": "全部",
-        "personality": "性格特点",
-        "career": "事业运势",
-        "love": "感情运势",
-        "health": "健康运势",
-        "fortune": "整体运势"
-      },
-      "questions": {
-        "personality1": "我的性格特点和潜质如何？有哪些优势和不足？",
-        "personality2": "我适合从事什么样的工作和事业？",
-        "personality3": "我的人际关系模式是怎样的？",
-
-        "career1": "我未来5年的事业发展如何？有哪些机遇和挑战？",
-        "career2": "2025年的事业运势如何？适合做重大决定吗？",
-        "career3": "我的事业瓶颈在哪里？如何突破？",
-
-        "love1": "我的感情运势如何？什么时候会遇到良缘？",
-        "love2": "我目前的感情状况适合发展吗？",
-        "love3": "我该如何提升自己的桃花运？",
-
-        "health1": "我需要注意哪些健康问题？",
-        "health2": "如何通过调整生活方式改善健康？",
-        "health3": "我有什么潜在的健康隐患需要预防？",
-
-        "fortune1": "我近期的整体运势如何？",
-        "fortune2": "哪些时期是我的运势高峰？",
-        "fortune3": "如何趋吉避凶，把握机遇？"
-      }
     }
   }
 }

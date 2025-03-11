@@ -2,14 +2,14 @@ import { Header } from "@/types/blocks/header";
 import { Hero } from "@/types/blocks/hero";
 import { Section } from "@/types/blocks/section";
 import { Footer } from "@/types/blocks/footer";
-import { QuestionSelectorSection } from "@/types/pages/career";
+import { SolveAllQuestionsSection } from "@/types/blocks/slove-all-questions";
+import { QuestionSuggestions } from "@/types/blocks/question-suggestions";
 
 export interface LandingPage {
   header?: Header;
   hero?: Hero;
-  questionForm?: {
-    questionSelector: QuestionSelectorSection;
-  };
+  questionSuggestions?: QuestionSuggestions;
+  solveAllQuestions?: SolveAllQuestionsSection;
   branding?: Section;
   introduce?: Section;
   benefit?: Section;

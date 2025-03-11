@@ -12,11 +12,14 @@ import Stats from "@/components/blocks/stats";
 import Testimonial from "@/components/blocks/testimonial";
 import QuestionSelector from "@/components/blocks/question-selector";
 import ProductHunt from "@/components/blocks/producthunt";
+import SolveAllQuestions from "@/components/blocks/solve-all-questions";
 import {
   getLandingPage,
   getReaderPage,
   getPricingBlock,
+  getQuestionSelectorBlock,
 } from "@/services/page";
+import { NavCategory } from "@/components/blocks/nav-category";
 
 export async function generateMetadata({
   params: { locale },
@@ -44,16 +47,20 @@ export default async function LandingPage({
   const page = await getLandingPage(locale);
   const readerPage = await getReaderPage(locale);
   const pricing = await getPricingBlock(locale);
+  const questionSelector = await getQuestionSelectorBlock(locale);
 
   return (
     <>
       {page.hero && <Hero hero={page.hero} />}
-      {page.questionForm && (
-        <QuestionSelector
-          formMessages={readerPage}
-          questionSelector={page.questionForm.questionSelector}
-        />
-      )}
+      <QuestionSelector
+        formMessages={readerPage}
+        questionSelector={questionSelector}
+        questionSuggestions={page.questionSuggestions}
+      />
+      <NavCategory />
+      {/* {page.solveAllQuestions && (
+        <SolveAllQuestions section={page.solveAllQuestions} />
+      )} */}
       {page.branding && <Branding section={page.branding} />}
       {page.introduce && <Feature1 section={page.introduce} />}
       {page.feature && <Feature section={page.feature} />}

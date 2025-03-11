@@ -2,7 +2,7 @@ import Blog from "@/components/blocks/blog";
 import { Blog as BlogType } from "@/types/blocks/blog";
 import { getPostsByLocale } from "@/models/post";
 import { getTranslations } from "next-intl/server";
-
+import Crumb from "@/components/blocks/crumb";
 export async function generateMetadata({
   params: { locale },
 }: {
@@ -37,5 +37,17 @@ export default async function ({ params }: { params: { locale: string } }) {
     read_more_text: t("blog.read_more_text"),
   };
 
-  return <Blog blog={blog} />;
+  return (
+    <>
+      <div className="container mx-auto px-4">
+        <Crumb
+          items={[
+            { title: "home", url: "/" },
+            { title: "blog", url: "/blog" },
+          ]}
+        />
+      </div>
+      <Blog blog={blog} />
+    </>
+  );
 }

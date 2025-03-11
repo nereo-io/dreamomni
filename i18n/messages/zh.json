@@ -1,14 +1,38 @@
 {
   "metadata": {
-    "title": "BaziAI - DeepSeek R1 AI八字分析工具 | 免费人生指导",
-    "description": "结合DeepSeek R1尖端技术与传统八字智慧，提供免费AI驱动的八字解读。智能分析您的事业、感情和人生方向。",
-    "keywords": "AI八字分析, DeepSeek R1, 免费八字解读, 事业预测, 人生指导, AI命理"
+    "title": "BaziAI - DeepSeek R1 AI 八字分析工具 | 免费人生指导",
+    "description": "获取免费的AI驱动八字分析，将古老的中国占星术与DeepSeek R1技术相结合。通过智能AI解读分析职业、人际关系和人生道路。",
+    "keywords": "AI八字分析, 免费八字解读, DeepSeek R1, 职业预测, 人生指导, 中国占星AI"
   },
   "career": {
-    "metadata": {
-      "title": "BaziAI - AI智能事业运势解读 | 职业规划 | 事业指导",
-      "description": "运用AI智能八字解读技术，解锁你的事业发展机遇。专业分析职场运势、升职加薪、跳槽时机、贵人相助。24小时在线，助你把握事业机会！"
-    }
+    "title": "职业运势解读 | 八字财运 | BaziAI",
+    "description": "获取基于中国命理学的个性化职业预测。通过我们AI驱动的八字分析，发现关于工作变动、晋升和职场成功的洞察。",
+    "keywords": "职业运势, 八字财运, 职业预测, 职场成功, 职业道路, 职场晋升"
+  },
+  "love": {
+    "title": "爱情合盘解读 | 八字算命 | BaziAI",
+    "description": "通过我们基于中国命理学的AI驱动爱情合盘分析，找到您的完美匹配。获取关于关系、约会和浪漫命运的个性化洞察。",
+    "keywords": "爱情合盘, 关系解读, 中国生肖匹配, 八字爱情, 关系占星, 浪漫预测"
+  },
+  "health": {
+    "title": "健康运势解读 | 八字算命 |BaziAI",
+    "description": "通过中国命理学发现您的健康优势和劣势。我们的AI八字分析提供个性化的养生洞察和潜在的健康预测。",
+    "keywords": "健康运势, 八字算命, 健康预测, 体质分析, 五行平衡"
+  },
+  "2025-forecast": {
+    "title": "2025年运势预测 | 八字算命 | BaziAI",
+    "description": "通过我们的中国命理学预测，探索2025年为您准备了什么。获取关于职业、关系和来年繁荣的个性化洞察。",
+    "keywords": "2025预测, 中国命理学预报, 八字2025, 未来解读, 年度运势, 木龙年"
+  },
+  "chinese-zodiac": {
+    "title": "生肖与五行计算器 | 八字算命 | BaziAI",
+    "description": "立即探索您的生肖动物和五行属性。我们的互动计算器揭示您的出生生肖以及五行如何影响您的性格和命运。",
+    "keywords": "生肖与五行计算器, 生肖查找器, 五行图表, 出生五行, 中国命理学生肖, 生肖性格"
+  },
+  "pricing": {
+    "title": "高级会员计划 | 八字算命 | BaziAI",
+    "description": "通过我们的高级计划解锁无限的中国命理学解读。通过我们AI驱动的八字分析，获取关于职业、爱情、健康等的个性化洞察。",
+    "keywords": " 八字高级版, 无限解读, 占星订阅, ai算命, 关系配对, 职业预测"
   },
   "user": {
     "sign_in": "登录",
@@ -22,30 +46,30 @@
     "sign_in_title": "登录",
     "sign_in_description": "登录您的账户",
     "sign_up_title": "注册",
-    "sign_up_description": "创建新账户",
+    "sign_up_description": "创建一个账户",
     "email_title": "邮箱",
     "email_placeholder": "请输入您的邮箱",
     "password_title": "密码",
-    "password_placeholder": "请输入您的密码",
+    "password_placeholder": "在此输入您的密码",
     "forgot_password": "忘记密码？",
     "or": "或",
     "continue": "继续",
-    "no_account": "还没有账户？",
+    "no_account": "没有账户？",
     "email_sign_in": "使用邮箱登录",
-    "google_sign_in": "使用 Google 登录",
-    "github_sign_in": "使用 GitHub 登录",
-    "apple_sign_in": "使用 Apple 登录",
+    "google_sign_in": "使用Google登录",
+    "github_sign_in": "使用GitHub登录",
+    "apple_sign_in": "使用Apple登录",
     "close_title": "关闭",
     "cancel_title": "取消"
   },
   "my_orders": {
     "title": "我的订单",
-    "description": "查看您的所有订单记录",
-    "no_orders": "暂无订单记录",
+    "description": "使用LuckBox支付的订单。",
+    "no_orders": "未找到订单",
     "tip": "",
     "activate_order": "激活订单",
     "actived": "已激活",
-    "join_discord": "加入 Discord",
+    "join_discord": "加入Discord",
     "read_docs": "阅读文档",
     "table": {
       "order_no": "订单号",
@@ -53,31 +77,31 @@
       "product_name": "产品名称",
       "amount": "金额",
       "paid_at": "支付时间",
-      "github_username": "GitHub 用户名",
+      "github_username": "GitHub用户名",
       "status": "状态"
     }
   },
   "membership": {
-    "title": "会员状态",
+    "title": "会员资格",
     "description": "查看您的会员信息和有效期",
-    "status": "会员状态",
-    "status_active": "已开通",
+    "status": "状态",
+    "status_active": "有效",
     "status_expired": "已过期",
-    "type": "会员类型",
-    "type_monthly": "月度会员",
-    "type_yearly": "年度会员",
-    "start_date": "开始时间",
-    "end_date": "到期时间",
+    "type": "类型",
+    "type_monthly": "月度计划",
+    "type_yearly": "年度计划",
+    "start_date": "开始日期",
+    "end_date": "结束日期",
     "remaining_days": "剩余天数",
     "days": "天",
-    "no_membership": "未开通",
+    "no_membership": "无有效会员",
     "manage_subscription": "管理订阅",
     "loading": "加载中..."
   },
   "my_credits": {
     "title": "我的积分",
     "left_tip": "剩余积分: {left_credits}",
-    "no_credits": "没有积分记录",
+    "no_credits": "无积分记录",
     "recharge": "充值",
     "table": {
       "trans_no": "交易号",
@@ -88,10 +112,10 @@
     }
   },
   "api_keys": {
-    "title": "API 密钥",
-    "tip": "请妥善保管您的 API 密钥，避免泄露",
-    "no_api_keys": "没有 API 密钥",
-    "create_api_key": "创建 API 密钥",
+    "title": "API密钥",
+    "tip": "请妥善保管您的API密钥以避免泄露",
+    "no_api_keys": "无API密钥",
+    "create_api_key": "创建API密钥",
     "table": {
       "name": "名称",
       "key": "密钥",
@@ -99,7 +123,7 @@
     },
     "form": {
       "name": "名称",
-      "name_placeholder": "API 密钥名称",
+      "name_placeholder": "API密钥名称",
       "submit": "提交"
     }
   },
@@ -112,11 +136,11 @@
   },
   "blog": {
     "title": "博客",
-    "description": "关于 BaziAI 的新闻、资源和更新",
+    "description": "关于BaziAI的新闻、资源和更新",
     "read_more_text": "阅读更多"
   },
   "chat": {
-    "title": "新聊天 - DeepSeek R1 AI 八字分析工具",
-    "description": "开始新的聊天与 DeepSeek R1 AI 八字分析工具"
+    "title": "新对话 - DeepSeek R1 AI八字分析工具",
+    "description": "开始与DeepSeek R1 AI八字分析工具的新对话"
   }
 }

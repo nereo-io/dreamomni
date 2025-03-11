@@ -1,6 +1,8 @@
 {
   "title": "輸入基本資訊",
   "description": "我們重視您的隱私，所有資訊僅用於解讀和分析",
+  "partner_title": "匹配對象資訊",
+  "partner_description": "我們重視您的匹配對象的隱私，所有資訊僅用於解讀和分析",
   "loginPrompt": "登入以獲得每天3次免費解讀",
   "errors": {
     "pleaseLogin": "請登入以獲得每天3次免費解讀",

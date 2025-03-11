@@ -13,14 +13,41 @@
     "nav": {
       "items": [
         {
-          "title": "Career",
-          "url": "/career",
-          "icon": "RiBriefcaseLine"
+          "title": "Resources",
+          "url": "/resources",
+          "icon": "RiBookLine",
+          "children": [
+            {
+              "title": "Love Reading",
+              "url": "/resources/love",
+              "icon": "RiHeartLine"
+            },
+            {
+              "title": "Career Reading",
+              "url": "/resources/career",
+              "icon": "RiBriefcaseLine"
+            },
+            {
+              "title": "Health Reading",
+              "url": "/resources/health",
+              "icon": "RiHeartPulseLine"
+            },
+            {
+              "title": "Chinese Zodiac",
+              "url": "/resources/chinese-zodiac",
+              "icon": "RiStarLine"
+            },
+            {
+              "title": "2025 Forecast",
+              "url": "/resources/2025-forecast",
+              "icon": "RiCalendarLine"
+            }
+          ]
         },
         {
-          "title": "Chinese Zodiac",
-          "url": "/chinese-zodiac-element-reading",
-          "icon": "RiCompass3Line"
+          "title": "Pricing",
+          "url": "/pricing",
+          "icon": "RiMoneyDollarCircleLine"
         },
         {
           "title": "Blog",
@@ -42,7 +69,7 @@
       "description": "Experience the revolutionary combination of traditional Bazi calculator and DeepSeek R1's advanced AI reading capabilities",
       "label": "Announcement"
     },
-    "description": "Ancient Wisdom, Modern AI - Your Life Decoded!",
+    "description": "Your Destiny, Deciphered by AI with Chinese Astrology",
     "show_happy_users": false,
     "show_badge": false
   },
@@ -206,16 +233,32 @@
     "nav": {
       "items": [
         {
-          "title": "Services",
+          "title": "Resources",
           "children": [
             {
-              "title": "Career Reading",
-              "url": "/career",
+              "title": "Love Reading",
+              "url": "/resources/love",
               "target": "_self"
             },
             {
-              "title": "Chinese Zodiac Reading",
-              "url": "/chinese-zodiac-element-reading",
+              "title": "Career Reading",
+              "url": "/resources/career",
+              "target": "_self"
+            },
+
+            {
+              "title": "Health Reading",
+              "url": "/resources/health",
+              "target": "_self"
+            },
+            {
+              "title": "Chinese Zodiac",
+              "url": "/resources/chinese-zodiac",
+              "target": "_self"
+            },
+            {
+              "title": "2025 Forecast",
+              "url": "/resources/2025-forecast",
               "target": "_self"
             }
           ]
@@ -272,63 +315,8 @@
       ]
     }
   },
-  "questionForm": {
-    "questionSelector": {
-      "title": "Choose Your Question",
-      "subtitle": "What aspects would you like to explore?",
-      "placeholder": "Type your question here or select from suggestions below...",
-      "send": "Send",
-      "loginPrompt": "Sign in to get 3 free readings per day",
-      "errors": {
-        "pleaseLogin": "Please sign in to get 3 free readings per day",
-        "checkUsageError": "Failed to check reading count",
-        "noRemainingReadings": "You've used all readings for today, please come back tomorrow",
-        "recordUsageError": "Failed to record reading usage",
-        "pleaseInputBirthInfo": "Please input your birth information first"
-      },
-      "customer": {
-        "input": {
-          "unlimited_usage": "Member",
-          "remaining_readings": "Remaining {count} times",
-          "add_birth_info": "birth info",
-          "partner_birth_info": "partner info"
-        }
-      },
-      "matching": {
-        "single": "Single",
-        "double": "Double",
-        "double_title": "Double Matching",
-        "description": "Analyzing the compatibility of two individuals' birth charts to unveil their destiny and the trajectory of their relationship. This feature requires membership; clicking send will redirect you to the payment interface."
-      },
-      "categories": {
-        "all": "All",
-        "personality": "Personality",
-        "career": "Career",
-        "love": "Love",
-        "health": "Health",
-        "fortune": "Fortune"
-      },
-      "questions": {
-        "personality1": "What are my personality traits and potential? What are my strengths and weaknesses?",
-        "personality2": "What kind of work and career suits me best?",
-        "personality3": "What are my patterns in interpersonal relationships?",
-
-        "career1": "How will my career develop in the next 5 years? What opportunities and challenges await?",
-        "career2": "How's my career fortune in 2025? Is it suitable for making major decisions?",
-        "career3": "What are my career bottlenecks and how can I breakthrough?",
-
-        "love1": "How's my love fortune? When will I meet my significant other?",
-        "love2": "Is my current relationship suitable for development?",
-        "love3": "How can I improve my love fortune?",
-
-        "health1": "What health issues should I be aware of?",
-        "health2": "How can I improve my health through lifestyle changes?",
-        "health3": "What potential health risks should I prevent?",
-
-        "fortune1": "How's my overall fortune recently?",
-        "fortune2": "When are my fortune peaks?",
-        "fortune3": "How can I avoid misfortune and seize opportunities?"
-      }
-    }
+  "solveAllQuestions": {
+    "title": "Solve All Questions",
+    "description": "Use the high-end fortune-telling AI to answer all your questions"
   }
 }

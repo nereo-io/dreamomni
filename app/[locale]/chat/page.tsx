@@ -3,7 +3,7 @@ import QuestionSelector from "@/components/blocks/question-selector";
 import { getLandingPage, getReaderPage } from "@/services/page";
 import { getTranslations } from "next-intl/server";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-
+import { getQuestionSelectorBlock } from "@/services/page";
 export async function generateMetadata({
   params: { locale },
 }: {
@@ -33,6 +33,7 @@ export default async function ChatPage({
 }) {
   const page = await getLandingPage(locale);
   const readerPage = await getReaderPage(locale);
+  const questionSelector = await getQuestionSelectorBlock(locale);
 
   return (
     <>
@@ -41,10 +42,10 @@ export default async function ChatPage({
       </div>
 
       {page.hero && <Hero hero={page.hero} />}
-      {page.questionForm && (
+      {questionSelector && (
         <QuestionSelector
           formMessages={readerPage}
-          questionSelector={page.questionForm.questionSelector}
+          questionSelector={questionSelector}
         />
       )}
     </>

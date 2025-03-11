@@ -98,7 +98,7 @@ export default function CustomerInputForm({
       formData.set("birthMonth", birthMonth.toString());
       formData.set("birthDay", birthDay.toString());
       formData.set("birthHour", birthHour.toString());
-      formData.set("userId", user?.uuid || "");
+      formData.set("userId", user?.uuid);
       formData.set("name", name);
       formData.set("relationshipStatus", relationshipStatus);
       formData.set("jobStatus", jobStatus);

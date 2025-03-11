@@ -1,0 +1,152 @@
+{
+  "hero": {
+    "title": "Health & Wellness Reading",
+    "highlight_text": "Health",
+    "description": "Discover your health strengths and weaknesses through Chinese astrology",
+    "cta": "Get Health Reading"
+  },
+  "questionListHeader": {
+    "title": "Health & Wellness Reading",
+    "description": "Body constitution analysis, wellness insights & preventive guidance",
+    "cta": "Analyze Your Health"
+  },
+  "questionSuggestions": {
+    "categories": {
+      "all": "All",
+      "general": "General Health",
+      "constitution": "Body Constitution",
+      "prevention": "Prevention",
+      "balance": "Balance & Harmony",
+      "specific": "Specific Concerns"
+    },
+    "questions": {
+      "general1": {
+        "text": "What does my birth chart indicate about my overall health?",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general2": {
+        "text": "Which aspects of my health should I pay special attention to this year?",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general3": {
+        "text": "How do our health constitutions interact? Can we help balance each other's health tendencies?",
+        "reading_type": "double",
+        "category": "general"
+      },
+      "constitution1": {
+        "text": "What is my body constitution according to Chinese medicine?",
+        "reading_type": "single",
+        "category": "constitution"
+      },
+      "constitution2": {
+        "text": "Which organs or systems need special care based on my birth chart?",
+        "reading_type": "single",
+        "category": "constitution"
+      },
+      "constitution3": {
+        "text": "How do our different body constitutions complement or challenge each other?",
+        "reading_type": "double",
+        "category": "constitution"
+      },
+      "prevention1": {
+        "text": "What preventive health measures should I take this year?",
+        "reading_type": "single",
+        "category": "prevention"
+      },
+      "prevention2": {
+        "text": "Which health risks am I most susceptible to?",
+        "reading_type": "single",
+        "category": "prevention"
+      },
+      "prevention3": {
+        "text": "What dietary adjustments would benefit my health?",
+        "reading_type": "single",
+        "category": "prevention"
+      },
+      "prevention4": {
+        "text": "How can we support each other's health goals and create a wellness-focused household?",
+        "reading_type": "double",
+        "category": "prevention"
+      },
+      "balance1": {
+        "text": "How can I balance my energy for better health?",
+        "reading_type": "single",
+        "category": "balance"
+      },
+      "balance2": {
+        "text": "What lifestyle changes would improve my wellbeing?",
+        "reading_type": "single",
+        "category": "balance"
+      },
+      "balance3": {
+        "text": "How can I reduce stress according to my birth chart?",
+        "reading_type": "single",
+        "category": "balance"
+      },
+      "balance4": {
+        "text": "How can we create a harmonious living environment that supports both our health needs?",
+        "reading_type": "double",
+        "category": "balance"
+      },
+      "specific1": {
+        "text": "How can I improve my sleep quality?",
+        "reading_type": "single",
+        "category": "specific"
+      },
+      "specific2": {
+        "text": "What exercises are most suitable for my constitution?",
+        "reading_type": "single",
+        "category": "specific"
+      },
+      "specific3": {
+        "text": "How can I boost my immunity this season?",
+        "reading_type": "single",
+        "category": "specific"
+      },
+      "specific4": {
+        "text": "What wellness activities or practices would be beneficial for us to do together?",
+        "reading_type": "double",
+        "category": "specific"
+      },
+      "specific5": {
+        "text": "How can we help each other maintain healthy habits and routines?",
+        "reading_type": "double",
+        "category": "specific"
+      }
+    }
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Frequently Asked Questions",
+    "description": "Learn more about health insights in Chinese astrology",
+    "items": [
+      {
+        "title": "How does Chinese astrology relate to physical health?",
+        "description": "Chinese astrology connects to physical health through several interrelated systems. Your zodiac animal sign indicates constitutional tendencies and potential vulnerabilities—for example, Tigers may have robust digestion but experience nervous tension. The Five Elements (Wood, Fire, Earth, Metal, Water) of your birth year correspond directly to organ systems in Traditional Chinese Medicine: Wood relates to liver and gallbladder; Fire to heart and small intestine; Earth to spleen, stomach and pancreas; Metal to lungs and large intestine; Water to kidneys and bladder. Additionally, the specific configurations in your birth chart reveal energy imbalances that may manifest as physical tendencies. This holistic approach views health as the harmonious balance of these elemental energies, guiding personalized prevention and wellness strategies."
+      },
+      {
+        "title": "What health strengths and weaknesses does each zodiac sign have?",
+        "description": "Each zodiac sign has distinctive health patterns: Rats typically have strong vitality but may experience nervous tension; Oxen possess robust constitution but risk cardiovascular issues from stubbornness; Tigers have powerful energy yet can suffer digestive sensitivity from intensity; Rabbits enjoy longevity but may develop anxiety-related conditions; Dragons have resilient immunity yet risk burnout from overexertion; Snakes possess natural healing abilities but might experience circulatory challenges; Horses have exceptional stamina but may develop cardiovascular concerns; Goats typically have good constitution yet can experience worry-related digestive issues; Monkeys are generally resilient but may develop nervous system sensitivity; Roosters have strong immunity yet risk digestive issues from perfectionism; Dogs typically have good recovery abilities but might develop anxiety-related conditions; Pigs generally enjoy good health yet risk metabolic imbalances. These tendencies interact with your element and specific chart aspects."
+      },
+      {
+        "title": "How can I use my birth chart to improve my health?",
+        "description": "Your birth chart offers personalized health guidance through several applications: First, identify your dominant elements and their balance—addressing deficiencies and excesses through appropriate foods, activities, and environments. Second, understand your constitutional strengths and vulnerabilities based on your animal sign, allowing preventive focus. Third, recognize how your natural tendencies may create health patterns—for example, competitive Tigers might need stress management practices. Fourth, identify favorable timing for health initiatives; certain months naturally support different wellness activities based on your chart. Fifth, discover your most supportive environment and lifestyle rhythm—some constitutions thrive with regular routines while others need variety. This personalized approach addresses your unique energetic makeup rather than applying generic health recommendations."
+      },
+      {
+        "title": "What foods are recommended for each element type?",
+        "description": "Dietary recommendations in Chinese astrology follow elemental balancing principles: Wood individuals benefit from sour foods (citrus, vinegar), leafy greens, and flexible-stemmed vegetables that support liver function while avoiding excessive greasy foods. Fire types thrive on bitter foods (dark leafy greens, coffee), red foods, and cooling fruits, while limiting stimulants and spicy foods that might overheat their system. Earth individuals should emphasize sweet foods (squash, dates), yellow foods, and grounding root vegetables, while moderating dairy and overly sweet items that could create dampness. Metal types benefit from pungent foods (onions, ginger), white foods, and clear broths, while limiting cold raw foods. Water individuals thrive on salty foods (seaweed, miso), black foods, and kidney-supporting beans, while moderating salt excess."
+      },
+      {
+        "title": "How do seasons affect health according to Chinese astrology?",
+        "description": "Seasonal influences significantly impact health in Chinese astrology's Five Element system: Spring (Wood element) affects liver and gallbladder function—everyone should support detoxification, but Wood individuals especially may experience heightened energy or irritability requiring balance. Summer (Fire element) influences heart and circulation—hydration becomes crucial, particularly for Fire types who might risk overheating. Late summer/harvest season (Earth element) affects digestive organs—mindful eating benefits everyone, especially Earth types who may experience digestive sensitivity. Autumn (Metal element) impacts lungs and large intestine—respiratory care becomes important, particularly for Metal individuals who might experience melancholy or respiratory vulnerability. Winter (Water element) relates to kidney and bladder energy—conservation and restoration are essential, especially for Water types whose deep reserves may become depleted without adequate rest."
+      },
+      {
+        "title": "Which exercise types best match each zodiac sign?",
+        "description": "Exercise recommendations vary by zodiac sign and element: Rats (Water) benefit from flowing activities like swimming and tai chi. Oxen (Earth) thrive with strength training and steady hiking. Tigers (Wood) excel in competitive sports and high-intensity interval training. Rabbits (Wood) flourish with yoga, dance, and moderate cardio. Dragons (Earth) enjoy varied regimens and leadership in team sports. Snakes (Fire) benefit from precision practices like Pilates and targeted strength work. Horses (Fire) thrive with running, cycling, and activities releasing excess energy. Goats (Earth) enjoy scenic hiking, dance, and group classes. Monkeys (Metal) excel in activities requiring agility like martial arts and climbing. Roosters (Metal) benefit from structured routines and precision sports. Dogs (Earth) enjoy running, team sports, and loyal workout partnerships. Pigs (Water) thrive with swimming, moderate cardio, and social fitness activities."
+      }
+    ]
+  }
+}

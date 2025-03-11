@@ -1,6 +1,8 @@
 {
-  "title": "填写基本信息",
+  "title": "基本信息",
   "description": "我们重视你的隐私，所有信息仅用于解读分析",
+  "partner_title": "匹配对象信息",
+  "partner_description": "我们重视你的匹配对象的隐私，所有信息仅用于解读分析",
   "loginPrompt": "登录即可获得每天3次免费解读机会",
   "errors": {
     "pleaseLogin": "请登录以获得每天3次免费解读机会",

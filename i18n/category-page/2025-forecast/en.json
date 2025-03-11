@@ -1,0 +1,162 @@
+{
+  "hero": {
+    "title": "2025 Fortune Forecast",
+    "highlight_text": "2025",
+    "description": "Explore what 2025 has in store for you with our Chinese astrology predictions",
+    "cta": "Get 2025 Reading"
+  },
+  "questionListHeader": {
+    "title": "2025 Forecast Analysis",
+    "description": "Yearly predictions, opportunities & challenges for the coming year",
+    "cta": "See Your 2025 Forecast"
+  },
+  "questionSuggestions": {
+    "categories": {
+      "all": "All",
+      "overview": "Year Overview",
+      "career": "Career & Wealth",
+      "relationships": "Relationships",
+      "health": "Health & Wellness",
+      "specific": "Specific Periods"
+    },
+    "questions": {
+      "overview1": {
+        "text": "What's my overall fortune for 2025? What major themes will dominate?",
+        "reading_type": "single",
+        "category": "overview"
+      },
+      "overview2": {
+        "text": "How will the Wood Dragon year influence me in 2025?",
+        "reading_type": "single",
+        "category": "overview"
+      },
+      "overview3": {
+        "text": "What are the biggest opportunities and challenges awaiting me in 2025?",
+        "reading_type": "single",
+        "category": "overview"
+      },
+      "overview4": {
+        "text": "How will 2025 affect us as a couple? What shared opportunities or challenges might we face?",
+        "reading_type": "double",
+        "category": "overview"
+      },
+      "career1": {
+        "text": "How will my career develop in 2025? Are promotions or new opportunities likely?",
+        "reading_type": "single",
+        "category": "career"
+      },
+      "career2": {
+        "text": "Is 2025 favorable for business expansion or investments?",
+        "reading_type": "single",
+        "category": "career"
+      },
+      "career3": {
+        "text": "How will my financial situation change in 2025?",
+        "reading_type": "single",
+        "category": "career"
+      },
+      "career4": {
+        "text": "How will our career paths align or diverge in 2025? How can we support each other's professional growth?",
+        "reading_type": "double",
+        "category": "career"
+      },
+      "relationships1": {
+        "text": "How will my love life develop in 2025?",
+        "reading_type": "single",
+        "category": "relationships"
+      },
+      "relationships2": {
+        "text": "If single, will 2025 bring new romantic possibilities?",
+        "reading_type": "single",
+        "category": "relationships"
+      },
+      "relationships3": {
+        "text": "How will family relationships evolve in 2025?",
+        "reading_type": "single",
+        "category": "relationships"
+      },
+      "relationships4": {
+        "text": "How will 2025 influence our relationship dynamics? What growth opportunities await us?",
+        "reading_type": "double",
+        "category": "relationships"
+      },
+      "relationships5": {
+        "text": "What challenges might test our relationship in 2025, and how can we prepare for them?",
+        "reading_type": "double",
+        "category": "relationships"
+      },
+      "health1": {
+        "text": "How will my health be in 2025? Any concerns I should be aware of?",
+        "reading_type": "single",
+        "category": "health"
+      },
+      "health2": {
+        "text": "What lifestyle adjustments should I make for better wellbeing in 2025?",
+        "reading_type": "single",
+        "category": "health"
+      },
+      "health3": {
+        "text": "How can I maintain balance and reduce stress in 2025?",
+        "reading_type": "single",
+        "category": "health"
+      },
+      "health4": {
+        "text": "How can we support each other's health and wellness goals in 2025?",
+        "reading_type": "double",
+        "category": "health"
+      },
+      "specific1": {
+        "text": "Which months in 2025 will be most fortunate for me?",
+        "reading_type": "single",
+        "category": "specific"
+      },
+      "specific2": {
+        "text": "Are there any particular dates or periods I should be cautious about in 2025?",
+        "reading_type": "single",
+        "category": "specific"
+      },
+      "specific3": {
+        "text": "When is the best time in 2025 for major decisions like moving, marriage, or career changes?",
+        "reading_type": "single",
+        "category": "specific"
+      },
+      "specific4": {
+        "text": "What are the most auspicious dates in 2025 for us to make important joint decisions or commitments?",
+        "reading_type": "double",
+        "category": "specific"
+      }
+    }
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Frequently Asked Questions",
+    "description": "Learn more about 2025 predictions in Chinese astrology",
+    "items": [
+      {
+        "title": "What makes 2025 special in Chinese astrology?",
+        "description": "2025 is the Year of the Wood Dragon in Chinese astrology, a powerful and auspicious combination that occurs once every 60 years. The Dragon, ninth in the zodiac cycle, represents prosperity, strength, and good fortune—considered the most powerful sign in Chinese astrology. The Wood element adds growth, flexibility, and creative expansion to Dragon's natural charisma and leadership. This specific Wood Dragon year (February 2025 to January 2026) creates a significant period of opportunity and transformation, especially for innovation, leadership initiatives, and long-term planning. The energetic combination encourages breaking through limitations while maintaining practical foundations, affecting everyone regardless of their personal zodiac sign, though in different ways depending on how this annual energy interacts with individual birth charts."
+      },
+      {
+        "title": "How will 2025 affect my zodiac sign?",
+        "description": "The 2025 Wood Dragon year affects each zodiac sign differently: Rats experience exceptional fortune, especially in career and investments. Oxen find stability but need flexibility to thrive. Tigers face competition requiring strategic planning. Rabbits enjoy creative flow but must balance idealism with practicality. Dragons experience their spotlight year—powerful but requiring mindful navigation. Snakes see excellent opportunity through partnerships and networking. Horses find moderate success requiring adaptability and careful timing. Goats encounter challenging energies needing attentive relationship management. Monkeys experience outstanding compatibility with Dragon energy, especially in business and innovation. Roosters face complex opportunities requiring meticulous preparation. Dogs encounter some challenging aspects requiring patience and compromise. Pigs find moderate harmony with opportunities for personal growth through social connections."
+      },
+      {
+        "title": "What major global trends might we see in 2025?",
+        "description": "The 2025 Wood Dragon year is likely to manifest significant global trends: Economically, expect notable innovation cycles, particularly in sustainable technologies, as Wood energy supports growth and Dragon brings ambitious transformation. In geopolitics, strong leadership figures may emerge, with Wood Dragon energy favoring bold, visionary governance balanced with practical planning. Culturally, creativity in arts and entertainment should flourish, with breakthrough works receiving recognition. Socially, community initiatives with bold visions may gain momentum. The Wood element suggests environmental concerns will remain prominent, with innovative solutions emerging. However, Dragon years can also bring dramatic natural events requiring resilience. These broad trends will affect regions differently based on their own cycles, with this powerful year likely accelerating developments already in motion rather than creating entirely new directions."
+      },
+      {
+        "title": "Which careers and industries will thrive in 2025?",
+        "description": "The 2025 Wood Dragon year particularly favors several industries and career areas: Technology innovation, especially green tech and AI, benefits from Wood's growth energy and Dragon's transformative power. Leadership positions across all sectors receive cosmic support, with bold decision-makers likely to advance. Creative industries, particularly those combining tradition with innovation, should experience significant growth. Environmental fields benefit from Wood energy's natural connection to sustainability and renewal. Education and knowledge transmission align with Dragon's wisdom aspect, potentially seeing reforms and expansion. Financial markets may experience dynamic activity with potential for significant gains despite volatility. Dragon years typically accelerate existing trends rather than creating entirely new ones, so industries already showing promise by late 2024 will likely experience acceleration rather than those struggling facing sudden reversals."
+      },
+      {
+        "title": "How should I prepare for 2025?",
+        "description": "Preparing for the 2025 Wood Dragon year involves several strategic approaches: First, complete unfinished projects during late 2024 (Snake year), as the transitional energy supports completion before Dragon's new beginnings. Second, clarify your boldest aspirations—Dragon years reward ambitious vision paired with practical planning. Third, strengthen your financial foundation, as Dragon years often bring opportunities requiring investment before rewards. Fourth, invest in appearance and credentials, as first impressions carry special weight in Dragon years. Fifth, cultivate powerful allies and mentors, as Dragon energy emphasizes the importance of meaningful connections. Sixth, maintain flexibility in your plans despite confidence in your direction—Wood Dragon energy brings unexpected developments requiring adaptation. Finally, balance ambition with ethical considerations; Dragon success is most sustainable when it benefits others alongside personal achievements."
+      },
+      {
+        "title": "What relationships patterns will emerge in 2025?",
+        "description": "The 2025 Wood Dragon year brings distinctive relationship patterns: Romantically, connections formed will tend toward intensity and significance—casual relationships either deepen or dissolve under this energy. Existing partnerships face growth opportunities through shared ambitions, though power dynamics may require conscious balancing. Professionally, mentorship and leadership dynamics gain prominence, with authority figures playing significant roles in personal development. Familial relationships benefit from ancestral connections and tradition-honoring activities. Friendships experience quality-over-quantity shifts, with meaningful connections strengthening while superficial ones naturally fade. Communication styles become more direct and passionate across all relationships, requiring thoughtful expression. For optimal harmony, all relationships benefit from balancing Dragon's strength and Wood's flexibility—sharing ambitious visions while remaining adaptable about methods and timelines."
+      }
+    ]
+  }
+}

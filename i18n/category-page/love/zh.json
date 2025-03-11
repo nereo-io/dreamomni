@@ -1,0 +1,178 @@
+{
+  "hero": {
+    "title": "爱情合盘解读",
+    "highlight_text": "爱情",
+    "description": "基于中国命理学的AI驱动爱情合盘分析，找到您的完美匹配",
+    "cta": "获取爱情解读"
+  },
+  "questionListHeader": {
+    "title": "爱情合盘解读",
+    "description": "浪漫命运、配对分析与关系洞察",
+    "cta": "探索您的爱情运势"
+  },
+  "questionSuggestions": {
+    "categories": {
+      "all": "全部",
+      "general": "爱情运势",
+      "compatibility": "配对分析",
+      "relationship": "当前关系",
+      "future": "未来爱情",
+      "marriage": "婚姻",
+      "specific": "具体问题"
+    },
+    "questions": {
+      "general1": {
+        "text": "我的出生图表对我的爱情生活和浪漫倾向有什么启示？",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general2": {
+        "text": "我的爱情生活在来年会如何发展？我可能会面临哪些机遇或挑战？",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general3": {
+        "text": "根据我的出生图表，我在关系中的优势和劣势是什么？",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general4": {
+        "text": "根据我的出生图表，什么类型的伴侣最能互补我的性格？",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "compatibility1": {
+        "text": "根据我们的出生图表，我们有多么匹配？作为一对伴侣，我们的优势和挑战是什么？",
+        "reading_type": "double",
+        "category": "compatibility"
+      },
+      "compatibility2": {
+        "text": "我们的五行相容性揭示了什么关系动态？",
+        "reading_type": "double",
+        "category": "compatibility"
+      },
+      "compatibility3": {
+        "text": "根据中国星座学，我们的性格如何互补或挑战彼此？",
+        "reading_type": "double",
+        "category": "compatibility"
+      },
+      "compatibility4": {
+        "text": "根据我们的出生图表，我们能从彼此身上学到什么？",
+        "reading_type": "double",
+        "category": "compatibility"
+      },
+      "relationship1": {
+        "text": "中国星座学对我们当前关系状态有什么启示？",
+        "reading_type": "double",
+        "category": "relationship"
+      },
+      "relationship2": {
+        "text": "我们如何改善关系中的沟通和理解？",
+        "reading_type": "double",
+        "category": "relationship"
+      },
+      "relationship3": {
+        "text": "今年我们在关系中可能面临哪些挑战，如何克服？",
+        "reading_type": "double",
+        "category": "relationship"
+      },
+      "relationship4": {
+        "text": "我们如何加强纽带并深化连接？",
+        "reading_type": "double",
+        "category": "relationship"
+      },
+      "future1": {
+        "text": "我最有可能何时遇到重要的浪漫伴侣？",
+        "reading_type": "single",
+        "category": "future"
+      },
+      "future2": {
+        "text": "根据我的出生图表，我的下一段关系会是怎样的？",
+        "reading_type": "single",
+        "category": "future"
+      },
+      "future3": {
+        "text": "我们的关系在未来几年将如何发展？",
+        "reading_type": "double",
+        "category": "future"
+      },
+      "future4": {
+        "text": "在我们的关系旅程中可能经历哪些重要里程碑？",
+        "reading_type": "double",
+        "category": "future"
+      },
+      "marriage1": {
+        "text": "根据我的出生图表，今年是否适合结婚或订婚？",
+        "reading_type": "single",
+        "category": "marriage"
+      },
+      "marriage2": {
+        "text": "中国星座学对我们的婚姻相容性有何指示？",
+        "reading_type": "double",
+        "category": "marriage"
+      },
+      "marriage3": {
+        "text": "我们如何为持久的婚姻建立坚实的基础？",
+        "reading_type": "double",
+        "category": "marriage"
+      },
+      "marriage4": {
+        "text": "我的出生图表对于我处理婚姻和承诺的方式有什么见解？",
+        "reading_type": "single",
+        "category": "marriage"
+      },
+      "specific1": {
+        "text": "为什么我总是吸引同一类型的伴侣？",
+        "reading_type": "single",
+        "category": "specific"
+      },
+      "specific2": {
+        "text": "根据我的出生图表，我如何从过去的关系创伤中愈合？",
+        "reading_type": "single",
+        "category": "specific"
+      },
+      "specific3": {
+        "text": "根据中国星座学，我现在的伴侣是我的灵魂伴侣吗？",
+        "reading_type": "double",
+        "category": "specific"
+      },
+      "specific4": {
+        "text": "我们应该将关系提升到下一阶段吗？",
+        "reading_type": "double",
+        "category": "specific"
+      }
+    }
+  },
+  "faq": {
+    "name": "faq",
+    "label": "常见问题",
+    "title": "常见问题解答",
+    "description": "了解更多关于中国命理学中的爱情合盘分析",
+    "items": [
+      {
+        "title": "中国命理学如何判断爱情匹配度？",
+        "description": "中国命理学通过几个相互关联的因素来判断爱情匹配度：首先是十二生肖符号，它们形成天然的亲和关系（如鼠与龙），中性关系，或潜在的挑战（如鸡与兔）。其次，您出生年的五行（木、火、土、金、水）增加了另一层匹配度—互补的元素通常创造和谐的关系。此外，对您完整八字的深入分析可以检查您们命盘中特定方面如何互动，提供关系动态、沟通模式和潜在成长领域的全面视图。"
+      },
+      {
+        "title": "哪些生肖最相配？",
+        "description": "在中国命理学中，相容性遵循自然规律：鼠与龙、猴、牛相和谐；牛与蛇、鸡、鼠连接良好；虎与马、狗、猪配对良好；兔与羊、猪、狗匹配；龙与鼠、猴、鸡建立纽带；蛇与牛和鸡保持一致；马与虎和狗相连；羊与兔、猪、马匹配；猴与鼠和龙和谐相处；鸡与牛、蛇、龙配对良好；狗与虎、兔、马相连；猪与虎、兔、羊匹配。然而，真正的相容性超越了生肖符号，还包括五行和个人命盘的特定方面。"
+      },
+      {
+        "title": "不相配的生肖能有成功的关系吗？",
+        "description": "当然可以！虽然中国命理学提供了关于自然倾向和潜在挑战的见解，但它并不决定一切。'不相配'的符号只是强调了伴侣可能需要更多理解和耐心的领域。许多成功的关系存在于传统上不相配的符号之间，因为对潜在摩擦点的意识允许伴侣发展沟通和妥协的策略。其他因素如五行、特定出生图表方面，以及最重要的，有意识的努力和相互尊重可以克服任何星象学上的挑战。记住，相容性预测提供指导，而非绝对命运。"
+      },
+      {
+        "title": "如何利用中国命理学的见解改善我的关系？",
+        "description": "了解双方的生肖符号和五行可以显著改善关系。首先，了解各自的优势和挑战—这种意识通过认识自然倾向来帮助防止误解。其次，识别你们互相平衡的互补品质。第三，为潜在冲突领域制定策略；例如，如果一方冲动（火）而另一方条理（金），建立尊重两种方法的决策过程。第四，根据您的年度预测为重要的关系里程碑使用有利时机。最后，通过根据个人星象需求支持彼此的个人发展，专注于相互成长。"
+      },
+      {
+        "title": "五行在关系匹配中扮演什么角色？",
+        "description": "五行（木、火、土、金、水）在中国命理学的关系动态中具有重要影响。每种元素带来不同的能量：木人创造性强且灵活；火人热情且表现力强；土人有爱心且稳定；金人精确且有原则；水人直觉敏锐且适应性强。互补元素对通常创造平衡的关系—水滋养木，木养火，火生土，土生金，金生水。冲突元素可能产生紧张—水灭火，火熔金，金克木，木泄土，土克水—需要更有意识地处理差异。"
+      },
+      {
+        "title": "根据中国命理学，何时是开始新恋情的最佳时机？",
+        "description": "开始恋情的最佳时机因个人八字而异，但普遍有利时期包括：您生肖最相容的年份（遵循12年周期），您的五行受季节能量增强的月份，以及基于您完整命盘的个人吉日。此外，农历新年（象征新开始），七夕节（中国情人节，庆祝牛郎织女相会）和中秋节（与团圆和完整相关）都是普遍的关系窗口期。对于根据您特定情况定制的精确时机，建议进行个性化解读，检查潜在伴侣的命盘。"
+      }
+    ]
+  }
+}

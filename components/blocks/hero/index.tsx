@@ -20,7 +20,7 @@ export default function Hero({ hero }: { hero: HeroType }) {
   return (
     <>
       <HeroBg />
-      <section className="pt-8 pb-2">
+      <section className="pt-4 pb-2">
         <div className="container">
           {hero.show_badge && (
             <div className="flex items-center justify-center mb-8">
@@ -45,7 +45,7 @@ export default function Hero({ hero }: { hero: HeroType }) {
             )}
 
             {texts && texts.length > 1 ? (
-              <h1 className="mx-auto mb-3 mt-4 max-w-5xl text-balance text-4xl font-bold lg:mb-7 lg:text-6xl">
+              <h1 className="mx-auto mb-3 mt-4 max-w-5xl text-balance text-2xl font-bold lg:mb-7 lg:text-6xl">
                 {texts[0]}
                 <span className="bg-gradient-to-r from-primary via-primary to-primary bg-clip-text text-transparent">
                   {highlightText}
@@ -53,7 +53,7 @@ export default function Hero({ hero }: { hero: HeroType }) {
                 {texts[1]}
               </h1>
             ) : (
-              <h1 className="mx-auto mb-3 mt-4 max-w-5xl text-balance text-4xl font-bold lg:mb-7 lg:text-6xl">
+              <h1 className="mx-auto mb-3 mt-4 max-w-5xl text-balance text-2xl font-bold lg:mb-7 lg:text-6xl">
                 {hero.title}
               </h1>
             )}

@@ -1,0 +1,162 @@
+{
+  "hero": {
+    "title": "生肖與五行計算器",
+    "highlight_text": "生肖",
+    "description": "立即探索您的中國生肖動物和五行屬性",
+    "cta": "計算您的生肖與五行"
+  },
+  "questionListHeader": {
+    "title": "生肖分析",
+    "description": "基於您的生肖的性格特點、相容性和命運洞察",
+    "cta": "探索您的中國生肖"
+  },
+  "questionSuggestions": {
+    "categories": {
+      "all": "全部",
+      "general": "基本信息",
+      "personality": "性格特點",
+      "compatibility": "相容性",
+      "forecast": "運勢預測",
+      "elements": "五行屬性"
+    },
+    "questions": {
+      "general1": {
+        "text": "我的生肖是什麼，它代表什麼？",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general2": {
+        "text": "我的生肖如何影響我的人生道路？",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general3": {
+        "text": "我出生年份的生肖有哪些關鍵特徵？",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general4": {
+        "text": "我們的生肖如何相互影響？這對我們的關係有什麼啟示？",
+        "reading_type": "double",
+        "category": "general"
+      },
+      "personality1": {
+        "text": "我的生肖如何塑造我的性格和行為？",
+        "reading_type": "single",
+        "category": "personality"
+      },
+      "personality2": {
+        "text": "根據我的生肖，我的優勢和劣勢是什麼？",
+        "reading_type": "single",
+        "category": "personality"
+      },
+      "personality3": {
+        "text": "哪些職業或人生道路最適合我的生肖？",
+        "reading_type": "single",
+        "category": "personality"
+      },
+      "personality4": {
+        "text": "基於我們的生肖，我們的性格特點如何互補或挑戰彼此？",
+        "reading_type": "double",
+        "category": "personality"
+      },
+      "compatibility1": {
+        "text": "我在關係中與哪些生肖最相容？",
+        "reading_type": "single",
+        "category": "compatibility"
+      },
+      "compatibility2": {
+        "text": "我們的生肖相容性如何？這會創造哪些優勢和挑戰？",
+        "reading_type": "double",
+        "category": "compatibility"
+      },
+      "compatibility3": {
+        "text": "基於我們的生肖相容性，我們如何改善關係？",
+        "reading_type": "double",
+        "category": "compatibility"
+      },
+      "compatibility4": {
+        "text": "在關係或商業中，我應該對哪些生肖保持謹慎？",
+        "reading_type": "single",
+        "category": "compatibility"
+      },
+      "forecast1": {
+        "text": "當前年份將如何影響我的生肖？",
+        "reading_type": "single",
+        "category": "forecast"
+      },
+      "forecast2": {
+        "text": "根據我的生肖，我的幸運元素、顏色和數字是什麼？",
+        "reading_type": "single",
+        "category": "forecast"
+      },
+      "forecast3": {
+        "text": "我的運勢在下一個生肖週期中將如何變化？",
+        "reading_type": "single",
+        "category": "forecast"
+      },
+      "forecast4": {
+        "text": "今年的能量將如何影響我們這對特定生肖組合的伴侶？",
+        "reading_type": "double",
+        "category": "forecast"
+      },
+      "elements1": {
+        "text": "我的出生五行是什麼，它如何影響我？",
+        "reading_type": "single",
+        "category": "elements"
+      },
+      "elements2": {
+        "text": "五行理論與我的生肖有什麼關係？",
+        "reading_type": "single",
+        "category": "elements"
+      },
+      "elements3": {
+        "text": "我如何平衡我的五行以獲得更好的運勢和和諧？",
+        "reading_type": "single",
+        "category": "elements"
+      },
+      "elements4": {
+        "text": "我們的出生五行如何相互作用？它們創造和諧還是衝突？",
+        "reading_type": "double",
+        "category": "elements"
+      },
+      "elements5": {
+        "text": "我們如何利用五行能量增強我們的關係？",
+        "reading_type": "double",
+        "category": "elements"
+      }
+    }
+  },
+  "faq": {
+    "name": "faq",
+    "label": "常見問題",
+    "title": "常見問題",
+    "description": "了解更多關於中國生肖和五行的信息",
+    "items": [
+      {
+        "title": "根據生日，我的中國生肖和五行是什麼？",
+        "description": "您的中國生肖是根據中國農曆年份確定的。有12個生肖動物（鼠、牛、虎、兔、龍、蛇、馬、羊、猴、雞、狗和豬），它們在12年週期內輪換。您的五行由出生年份的最後一位數字決定，每個五行在10年週期內出現（木、火、土、金、水）。當您輸入出生日期時，我們的計算器可以立即確定您的生肖動物和五行。"
+      },
+      {
+        "title": "如何計算中國生肖和五行？",
+        "description": "計算您的中國生肖：將您的出生年份除以12。餘數決定您的生肖（0=猴，1=雞，2=狗，3=豬，4=鼠，5=牛，6=虎，7=兔，8=龍，9=蛇，10=馬，11=羊）。對於五行，查看您出生年份的最後一位數字：0-1=金，2-3=水，4-5=木，6-7=火，8-9=土。我們的計算器自動化此過程以確保準確性，特別考慮農曆調整。"
+      },
+      {
+        "title": "我的中國生肖五行對我的生活意味著什麼？",
+        "description": "您的五行（木、火、土、金或水）影響您的性格特點、優勢和潛在挑戰。木性人往往富有創造力和同情心；火性人充滿活力和熱情；土性人務實和有愛心；金性人有條理和精確；水性人直覺敏銳和靈活。您的五行還暗示職業親和力、關係模式和保持生活平衡的方式。了解您的五行可以幫助您發揮自然優勢並解決潛在弱點。"
+      },
+      {
+        "title": "根據中國生肖和五行，我的愛情相容性指南是什麼？",
+        "description": "中國生肖相容性考慮生肖和五行。某些生肖組合自然和諧（如鼠與龍或猴），而其他組合可能產生緊張（如虎與猴）。五行也影響相容性：木生火，火生土，土生金，金生水，水生木。最和諧的關係通常涉及互補的五行，而非相同的五行。例如，木性人可能與滋養其本性的水性人找到平衡，而兩個火性人可能產生過多的強度。"
+      },
+      {
+        "title": "中國星座學中的五行是什麼？",
+        "description": "中國哲學中的五行是木（木）、火（火）、土（土）、金（金）和水（水）。每種元素都有獨特特徵：木代表成長、創造力和同情心；火體現熱情、活力和激情；土象徵穩定、培育和實用性；金象徵精確、組織和正義；水反映適應性、直覺和智慧。這些元素在生成週期（一個元素創造另一個元素）和控制週期（一個元素制約另一個元素）中相互作用，創造一個複雜的平衡和互動系統。"
+      },
+      {
+        "title": "中國星座學中的60年週期是如何運作的？",
+        "description": "中國生肖以60年週期運行，將12個生肖與五行的陰陽形式結合。每個五行在60年週期中與每個生肖出現一次陽形式和一次陰形式，然後週期重複。例如，1984年是甲子年（陽木鼠），而1985年是乙丑年（陰木牛）。這個60年週期（又稱六十甲子或干支）提供了對每年存在的能量影響及其如何影響在那段時間出生的個體的更詳細理解。"
+      }
+    ]
+  }
+}

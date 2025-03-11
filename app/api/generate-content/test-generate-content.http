@@ -6,3 +6,11 @@ Content-Type: application/json
   "question": "What is love compatibility guide by Chinese zodiac sign and element?",
   "locale": "zh"
 } 
+
+### 测试生成八字问题接口
+POST http://localhost:3000/api/generate-content/questions
+Content-Type: application/json
+
+{
+  "locale": "zh"
+}
