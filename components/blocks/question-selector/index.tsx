@@ -17,6 +17,7 @@ import {
   BarChartIcon,
   UserIcon,
   UsersIcon,
+  X,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import CustomerInputFormModal from "@/components/readers/CustomerInputFormModal";
@@ -36,19 +37,24 @@ interface Props {
   formMessages: ReaderPage;
   questionSelector: QuestionSelectorType;
   questionSuggestions?: QuestionSuggestions;
+  defaultQuestion?: string;
+  defaultReadingType?: "single" | "double";
 }
 
 export default function QuestionSelector({
   formMessages,
   questionSelector,
   questionSuggestions,
+  defaultQuestion = "",
+  defaultReadingType = "single",
 }: Props) {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [question, setQuestion] = useState("");
+  const [question, setQuestion] = useState(defaultQuestion);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [matchMode, setMatchMode] = useState("single"); // 匹配模式：单人分析/双人匹配
+  const [matchMode, setMatchMode] = useState(defaultReadingType); // 匹配模式：单人分析/双人匹配
   const [partnerModalOpen, setPartnerModalOpen] = useState(false);
+  const [showDoubleMatchingInfo, setShowDoubleMatchingInfo] = useState(true); // 控制双人匹配说明的显示与隐藏
 
   // 获取剩余次数
   const [isPending, setIsPending] = useState(false);
@@ -62,6 +68,26 @@ export default function QuestionSelector({
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
   const [partnerInfo, setPartnerInfo] = useState<CustomerInfo | null>(null); // 伴侣信息
   const [isLoading, setIsLoading] = useState(true);
+
+  // 从本地存储中读取用户偏好
+  useEffect(() => {
+    // 确保代码只在客户端执行
+    if (typeof window !== "undefined") {
+      const savedPreference = localStorage.getItem("hideDoubleMatchingInfo");
+      if (savedPreference === "true" && matchMode === "double") {
+        setShowDoubleMatchingInfo(false);
+      }
+    }
+  }, [matchMode]);
+
+  // 保存用户偏好到本地存储
+  const handleCloseInfo = () => {
+    setShowDoubleMatchingInfo(false);
+    // 确保代码只在客户端执行
+    if (typeof window !== "undefined") {
+      localStorage.setItem("hideDoubleMatchingInfo", "true");
+    }
+  };
 
   // 获取剩余次数
   useEffect(() => {
@@ -250,7 +276,18 @@ export default function QuestionSelector({
               <Tabs
                 defaultValue="single"
                 value={matchMode}
-                onValueChange={(value) => setMatchMode(value)}
+                onValueChange={(value) => {
+                  setMatchMode(value as "single" | "double");
+                  // 当切换到双人匹配模式时，如果用户没有明确选择隐藏提示，则显示提示信息
+                  if (value === "double") {
+                    const savedPreference = localStorage.getItem(
+                      "hideDoubleMatchingInfo"
+                    );
+                    if (savedPreference !== "true") {
+                      setShowDoubleMatchingInfo(true);
+                    }
+                  }
+                }}
                 className="w-full flex flex-col"
               >
                 <TabsList className="w-full mb-1 max-w-xs mx-auto rounded-2xl">
@@ -279,18 +316,28 @@ export default function QuestionSelector({
 
                 <TabsContent value="double" className="mt-0">
                   {/* 双人匹配说明 */}
-                  <div className="mb-0 p-3 bg-orange-50 border border-orange-200 rounded-lg">
-                    <div className="flex items-center text-sm text-orange-700 mb-1">
-                      <span className="font-medium mr-1">
-                        {questionSelector.matching?.double_title ||
-                          "双人匹配 - 高级功能"}
-                      </span>
+                  {showDoubleMatchingInfo && (
+                    <div className="mb-0 p-3 bg-orange-50 border border-orange-200 rounded-lg relative">
+                      <div className="flex items-center text-sm text-orange-700 mb-1">
+                        <span className="font-medium mr-1">
+                          {questionSelector.matching?.double_title ||
+                            "双人匹配 - 高级功能"}
+                        </span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        {questionSelector.matching?.description ||
+                          "分析两个人的八字命盘匹配度，揭示缘分与关系走向。此功能需要会员权限，点击发送将跳转到支付界面。"}
+                      </p>
+                      {/* 关闭按钮 */}
+                      <button
+                        onClick={handleCloseInfo}
+                        className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+                        aria-label="关闭提示"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      {questionSelector.matching?.description ||
-                        "分析两个人的八字命盘匹配度，揭示缘分与关系走向。此功能需要会员权限，点击发送将跳转到支付界面。"}
-                    </p>
-                  </div>
+                  )}
                 </TabsContent>
               </Tabs>
             </div>

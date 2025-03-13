@@ -1,10 +1,10 @@
-import { Gender, Stem, Branch, WuXing, TenGod } from './enums';
+import { Gender, Stem, Branch, WuXing, TenGod } from "./enums";
 
 // 用户输入
 export interface UserInput {
   gender: Gender;
   birthDate: Date;
-} 
+}
 
 export interface BaZi {
   year: { stem: Stem; branch: Branch };
@@ -32,7 +32,7 @@ export interface HiddenStem {
 
 // 新增数据库相关的接口定义
 export interface CustomerInput {
-  id?: string;           // 可选，因为创建时不需要
+  id?: string; // 可选，因为创建时不需要
   name: string;
   gender: Gender;
   birthDateTime: Date;
@@ -61,17 +61,17 @@ export interface FortuneInfo {
 
 // 大运相关接口
 export interface DaYun {
-  age: number;          // 起运年龄
-  year: number;         // 起运年份
-  stem: Stem;         // 天干
-  branch: Branch;       // 地支
+  age: number; // 起运年龄
+  year: number; // 起运年份
+  stem: Stem; // 天干
+  branch: Branch; // 地支
 }
 
 export interface DaYunResult {
-  startAge: number;     // 起运年龄
-  startYear: number;    // 起运年份
-  sequence: 'forward' | 'backward';     // 顺/逆
-  daYuns: DaYun[];     // 8个大运信息
+  startAge: number; // 起运年龄
+  startYear: number; // 起运年份
+  sequence: "forward" | "backward"; // 顺/逆
+  daYuns: DaYun[]; // 8个大运信息
 }
 
 // LLMService 返回的类型
@@ -91,10 +91,10 @@ export interface BaziRequest {
   month: number;
   day: number;
   hour: number;
-  gender?: 'male' | 'female';
+  gender?: "male" | "female";
 }
 // 响应接口
 export interface BaziResponse {
-  status: 'success' | 'error'; 
+  status: "success" | "error";
   data: string;
 }

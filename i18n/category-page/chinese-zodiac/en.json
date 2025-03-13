@@ -5,9 +5,40 @@
     "description": "Discover your Chinese zodiac animal and elemental alignment instantly",
     "cta": "Calculate Your Sign"
   },
+  "introduce": {
+    "name": "introduce",
+    "label": "Features",
+    "title": "What is Chinese Zodiac Signs",
+    "description": "An ancient astrological system with deep cultural roots in East Asia",
+    "image": {
+      "src": "/blog/chinese-zodiac.png"
+    },
+    "items": [
+      {
+        "title": "Origins and Animals",
+        "description": "The Chinese zodiac (Shengxiao) is a system of twelve animal signs representing years and a person's birth year in China and East Asian cultures. It includes Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, and Pig."
+      },
+      {
+        "title": "Zodiac Cycle",
+        "description": "The zodiac cycle repeats every 12 years, with each person having an animal sign based on their birth year. In ancient China, numerologists paired these animals with the twelve Earthly Branches."
+      },
+      {
+        "title": "Cultural Meaning",
+        "description": "The word 'Xiao' means resemblance, suggesting one's birth destiny resembles characteristics of that animal. The zodiac signs not only represent the twelve-year cycle but also indicate the twelve two-hour periods in a day."
+      },
+      {
+        "title": "Zodiac Order",
+        "description": "The order follows the sequence of the Earthly Branches: Rat (Zi), Ox (Chou), Tiger (Yin), Rabbit (Mao), Dragon (Chen), Snake (Si), Horse (Wu), Goat (Wei), Monkey (Shen), Rooster (You), Dog (Xu), and Pig (Hai)."
+      },
+      {
+        "title": "Destiny Analysis",
+        "description": "BaziAI calculates your zodiac fortune based on ancient destiny principles, including overall zodiac fortune, annual fortunes, personality traits, career prospects, relationships, wealth potential, and more."
+      }
+    ]
+  },
   "questionListHeader": {
-    "title": "Chinese Zodiac Sign & 5 Elements Analysis",
-    "description": "Personality traits, compatibility & destiny insights based on your sign",
+    "title": "Questions about Chinese Zodiac",
+    "description": "BaziAI calculates your zodiac fortune based on ancient destiny principles, including overall zodiac fortune, annual fortunes, destiny, personality, career, relationships, wealth, and more.",
     "cta": "Explore Your Chinese Zodiac"
   },
   "questionSuggestions": {

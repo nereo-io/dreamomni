@@ -3,6 +3,7 @@ import Crumb from "@/components/blocks/crumb";
 import QuestionListBlock from "@/components/blocks/question-list";
 import QuestionListHeader from "@/components/blocks/question-list-header";
 import QuestionSelector from "@/components/blocks/question-selector";
+import Feature1 from "@/components/blocks/feature1";
 import FAQ from "@/components/blocks/faq";
 import CTA from "@/components/blocks/cta";
 import {
@@ -59,10 +60,14 @@ export default async function CategoryPage({
         questionSelector={questionSelector}
         questionSuggestions={page.questionSuggestions}
       />
-      {/* {page.questionListHeader && (
-        <QuestionListHeader questionListHeader={page.questionListHeader} />
-      )} */}
-      <QuestionListBlock category={params.category} locale={params.locale} />
+      {page.introduce && <Feature1 section={page.introduce} />}
+      {page.questionListHeader && (
+        <QuestionListBlock
+          category={params.category}
+          locale={params.locale}
+          questionListHeader={page.questionListHeader}
+        />
+      )}
       {page.faq && <FAQ section={page.faq} />}
       {page.cta && <CTA section={page.cta} />}
     </div>

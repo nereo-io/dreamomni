@@ -14,22 +14,18 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Markdown from "@/components/markdown";
-import QuestionSelector from "@/components/blocks/question-selector";
-import { getReaderPage, getQuestionSelectorBlock } from "@/services/page";
-import { ArrowLeftIcon } from "lucide-react";
-import Crumb from "@/components/blocks/crumb";
+export const dynamic = "force-dynamic"; // 禁用页面缓存
 
 // 获取页面参数
 interface PageParams {
   params: {
     slug: string;
     locale: string;
-    category: string;
   };
 }
 
 export default async function QuestionDetailPage({ params }: PageParams) {
-  const { slug, locale, category } = params;
+  const { slug, locale } = params;
 
   // 获取问题详情
   const question = await getQuestionDetail(slug, locale);
@@ -39,38 +35,18 @@ export default async function QuestionDetailPage({ params }: PageParams) {
     notFound();
   }
 
-  // 获取问题选择器和阅读页面数据
-  const readerPage = await getReaderPage(locale);
-  const questionSelector = await getQuestionSelectorBlock(locale);
-
   return (
-    <div className="container px-3 sm:px-4 md:px-6 py-10 mx-auto">
-      <div className="mb-4">
-        <Crumb
-          items={[
-            { title: "home", url: "/" },
-            { title: params.category, url: `/resources/${params.category}` },
-            {
-              title: question.title,
-              url: `/resources/${params.category}/questions/${params.slug}`,
-            },
-          ]}
-        />
-      </div>
-
-      <div className="flex flex-row items-start sm:items-center gap-4 mb-6">
-        <Button variant="outline" asChild className="w-auto">
-          <Link href={`/${locale}/resources/${question.category}`}>
-            <ArrowLeftIcon className="w-4 h-4" />
-            Back
-          </Link>
+    <div className="container py-10">
+      <div className="flex items-center gap-4 mb-6">
+        <Button variant="outline" asChild>
+          <Link href={`/${locale}/test-questions`}>返回问题列表</Link>
         </Button>
-        <h1 className="text-2xl sm:text-3xl font-bold">Question Details</h1>
+        <h1 className="text-3xl font-bold">问题详情</h1>
       </div>
 
       <div className="grid grid-cols-1 gap-8">
         <Card className="w-full">
-          <CardHeader className="px-3 sm:px-6">
+          <CardHeader>
             <div className="flex items-center gap-2 mb-4">
               <Avatar className="h-10 w-10">
                 <AvatarImage
@@ -92,52 +68,32 @@ export default async function QuestionDetailPage({ params }: PageParams) {
             </div>
             <CardTitle className="text-2xl">{question.title}</CardTitle>
             <CardDescription className="mt-2">
-              <div className="flex flex-wrap gap-2 sm:gap-4">
+              <div className="flex flex-wrap gap-4">
                 <span>
-                  Category: <Badge>{question.category}</Badge>
+                  分类: <Badge>{question.category}</Badge>
                 </span>
                 <span>
-                  Reading Type:{" "}
+                  阅读类型:{" "}
                   <Badge variant="outline">{question.reading_type}</Badge>
                 </span>
                 <span>
-                  Language: <Badge variant="secondary">{question.locale}</Badge>
+                  语言: <Badge variant="secondary">{question.locale}</Badge>
                 </span>
                 <span>
-                  Rating: {question.rating || 0} ({question.votes || 0} votes)
+                  评分: {question.rating || 0} ({question.votes || 0} 票)
                 </span>
               </div>
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="px-3 sm:px-6">
+          <CardContent>
             {/* 使用Markdown组件来渲染内容 */}
             <Markdown content={question.content} />
-            {/* 替换CTA按钮为问题选择器 */}
-            <div className="mt-8">
-              <div className="text-center mb-4">
-                <h3 className="text-xl font-semibold text-primary">
-                  Ready to Get Your Personalized Answer?
-                </h3>
-                <p className="text-gray-600 mt-2">
-                  Ask this question now and receive insights tailored just for
-                  you
-                </p>
-              </div>
-              <QuestionSelector
-                formMessages={readerPage}
-                questionSelector={questionSelector}
-                defaultQuestion={question.title}
-                defaultReadingType={
-                  question.reading_type as "single" | "double"
-                }
-              />
-            </div>
           </CardContent>
 
-          <CardFooter className="flex flex-col items-start gap-4 px-3 sm:px-6">
+          <CardFooter className="flex flex-col items-start gap-4">
             <div>
-              <h3 className="text-lg font-semibold mb-2">Tags:</h3>
+              <h3 className="text-lg font-semibold mb-2">标签:</h3>
               <div className="flex flex-wrap gap-2">
                 {question.tags?.map((tag) => (
                   <Badge key={tag} variant="outline">
@@ -150,20 +106,18 @@ export default async function QuestionDetailPage({ params }: PageParams) {
             {question.relatedQuestions &&
               question.relatedQuestions.length > 0 && (
                 <div className="w-full">
-                  <h3 className="text-lg font-semibold mb-2">
-                    Related Questions:
-                  </h3>
-                  <ul className="list-disc pl-4 sm:pl-6">
+                  <h3 className="text-lg font-semibold mb-2">相关问题:</h3>
+                  <ul className="list-disc pl-6">
                     {question.relatedQuestions.map((related) => (
                       <li key={related.slug} className="mb-2">
                         <Link
-                          href={`/${locale}/resources/${question.category}/questions/${related.slug}`}
-                          className="text-blue-600 hover:underline text-sm sm:text-base"
+                          href={`/${locale}/test-questions/${related.slug}`}
+                          className="text-blue-600 hover:underline"
                         >
                           {related.title}
                         </Link>
-                        <span className="text-xs sm:text-sm text-gray-500 ml-2">
-                          (Rating: {related.rating} | {related.votes} votes)
+                        <span className="text-sm text-gray-500 ml-2">
+                          (评分: {related.rating} | {related.votes} 票)
                         </span>
                       </li>
                     ))}
@@ -174,12 +128,10 @@ export default async function QuestionDetailPage({ params }: PageParams) {
             <div className="text-sm text-gray-500 pt-4 border-t border-gray-200 w-full">
               <div>Slug: {question.slug}</div>
               <div>
-                Created at:{" "}
-                {new Date(question.created_at || "").toLocaleString()}
+                创建时间: {new Date(question.created_at || "").toLocaleString()}
               </div>
               <div>
-                Updated at:{" "}
-                {new Date(question.updated_at || "").toLocaleString()}
+                更新时间: {new Date(question.updated_at || "").toLocaleString()}
               </div>
             </div>
           </CardFooter>
