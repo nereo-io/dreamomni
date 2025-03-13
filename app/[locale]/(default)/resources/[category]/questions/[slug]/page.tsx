@@ -28,6 +28,28 @@ interface PageParams {
   };
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string; slug: string; category: string };
+}) {
+  const question = await getQuestionDetail(params.slug, params.locale);
+
+  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/resources/${params.category}/questions/${params.slug}`;
+
+  if (params.locale !== "en") {
+    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${params.locale}/resources/${params.category}/questions/${params.slug}`;
+  }
+
+  return {
+    title: `${question?.title} | BaziAI`,
+    // description: question?.content,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+  };
+}
+
 export default async function QuestionDetailPage({ params }: PageParams) {
   const { slug, locale, category } = params;
 
