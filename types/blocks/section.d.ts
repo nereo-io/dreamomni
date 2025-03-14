@@ -20,6 +20,7 @@ export interface Section {
   label?: string;
   icon?: string;
   image?: Image;
+  youtubeUrl?: string;
   buttons?: Button[];
   items?: SectionItem[];
 }

@@ -1,0 +1,68 @@
+{
+  "hero": {
+    "title": "Life Path & Destiny Reading",
+    "highlight_text": "Life",
+    "description": "Discover the hidden patterns in your life through the ancient wisdom of BaZi. Understand your life path, personal characteristics, and how to make the most of your destiny.",
+    "cta": "Explore My Life Path"
+  },
+  "questionSuggestions": {
+    "categories": {
+      "general": "Life Fortune"
+    },
+    "questions": {
+      "general1": {
+        "text": "Analysis what my MBTI type is?",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general2": {
+        "text": "What does my birth chart reveal about my life path?",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general3": {
+        "text": "Which of the Five Elements is most beneficial for me?",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general4": {
+        "text": "When will major life changes occur in my destiny?",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general5": {
+        "text": "What colors should I wear to enhance my personal energy?",
+        "reading_type": "single",
+        "category": "general"
+      }
+    }
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Frequently Asked Questions",
+    "description": "Learn more about love compatibility in Chinese astrology",
+    "items": [
+      {
+        "title": "How accurate are BaZi predictions about my life path?",
+        "description": "BaZi provides insights into potential patterns and tendencies rather than fixed predictions. The accuracy depends on the skill of the interpreter and the completeness of your birth information. Most clients find the insights remarkably resonant with their life experiences."
+      },
+      {
+        "title": "Can BaZi help me make important life decisions?",
+        "description": "Yes, BaZi can reveal favorable timing and directions for major decisions. While it doesn't make choices for you, it offers valuable context about your natural strengths and potential challenges to consider."
+      },
+      {
+        "title": "How often should I consult my BaZi chart for life guidance?",
+        "description": "Many practitioners recommend an annual review to understand the energetic influences of the coming year. Additional consultations may be beneficial before major life decisions or transitions."
+      },
+      {
+        "title": "Can BaZi analysis help improve my relationships?",
+        "description": "Absolutely. BaZi reveals compatibility patterns and communication styles, helping you understand relationship dynamics and potential challenges. This awareness can lead to more harmonious interactions."
+      },
+      {
+        "title": "Is my life completely predetermined according to BaZi?",
+        "description": "BaZi suggests tendencies and potentials rather than fixed outcomes. You maintain free will and the ability to make choices. Understanding your chart empowers you to work with your natural tendencies rather than against them."
+      }
+    ]
+  }
+}

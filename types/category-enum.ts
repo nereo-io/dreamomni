@@ -7,7 +7,8 @@ export enum CategoryEnum {
   CAREER = "career",
   HEALTH = "health",
   CHINESE_ZODIAC = "chinese-zodiac",
-  ZODIAC_FORECAST = "2025-forecast",
+  LIFE = "life",
+  // ZODIAC_FORECAST = "2025-forecast",
 }
 
 // 图标映射，提供图标组件引用
@@ -16,7 +17,8 @@ export const CategoryIcons = {
   [CategoryEnum.CAREER]: Ri.RiBriefcaseLine,
   [CategoryEnum.HEALTH]: Ri.RiHeartPulseLine,
   [CategoryEnum.CHINESE_ZODIAC]: Ri.RiStarLine,
-  [CategoryEnum.ZODIAC_FORECAST]: Ri.RiCalendarLine,
+  [CategoryEnum.LIFE]: Ri.RiUserHeartLine,
+  // [CategoryEnum.ZODIAC_FORECAST]: Ri.RiCalendarLine,
 };
 
 // 类别的元数据类型
@@ -45,11 +47,16 @@ export const getCategoryMetadata = (
         name: "Health",
         key: CategoryEnum.HEALTH,
       };
-    case CategoryEnum.ZODIAC_FORECAST:
+    case CategoryEnum.LIFE:
       return {
-        name: "2025",
-        key: CategoryEnum.ZODIAC_FORECAST,
+        name: "Life",
+        key: CategoryEnum.LIFE,
       };
+    // case CategoryEnum.ZODIAC_FORECAST:
+    //   return {
+    //     name: "2025",
+    //     key: CategoryEnum.ZODIAC_FORECAST,
+    //   };
     case CategoryEnum.CHINESE_ZODIAC:
       return {
         name: "Zodiac",

@@ -1,0 +1,68 @@
+{
+  "hero": {
+    "title": "人生运势解读",
+    "highlight_text": "人生",
+    "description": "通过古老的八字智慧发现您生命中的隐藏模式。了解您的人生道路、个人特质，以及如何充分利用您的命运。",
+    "cta": "探索我的人生道路"
+  },
+  "questionSuggestions": {
+    "categories": {
+      "general": "人生运势"
+    },
+    "questions": {
+      "general1": {
+        "text": "分析我的MBTI类型是什么？",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general2": {
+        "text": "我的八字命盘揭示了什么关于我的人生道路？",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general3": {
+        "text": "五行中哪个元素对我最有利？",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general4": {
+        "text": "我的命运中何时会发生重大生活变化？",
+        "reading_type": "single",
+        "category": "general"
+      },
+      "general5": {
+        "text": "我应该穿什么颜色的衣服来增强个人能量？",
+        "reading_type": "single",
+        "category": "general"
+      }
+    }
+  },
+  "faq": {
+    "name": "faq",
+    "label": "常见问题",
+    "title": "常见问题解答",
+    "description": "了解更多关于中国星相学中的人生解读",
+    "items": [
+      {
+        "title": "八字对我人生道路的预测有多准确？",
+        "description": "八字提供的是潜在模式和倾向的洞察，而非固定的预测。准确性取决于解读者的技巧和您出生信息的完整性。大多数客户发现这些洞察与他们的生活经历有着惊人的共鸣。"
+      },
+      {
+        "title": "八字能帮助我做出重要的人生决策吗？",
+        "description": "是的，八字可以揭示重大决策的有利时机和方向。虽然它不会替您做出选择，但它提供了关于您自然优势和潜在挑战的宝贵背景信息供您考虑。"
+      },
+      {
+        "title": "我应该多久咨询一次八字命盘以获取人生指导？",
+        "description": "许多从业者建议每年进行一次回顾，以了解来年的能量影响。在重大人生决策或转变之前进行额外的咨询可能会有所裨益。"
+      },
+      {
+        "title": "八字分析能帮助改善我的人际关系吗？",
+        "description": "当然可以。八字揭示了兼容性模式和沟通风格，帮助您理解关系动态和潜在挑战。这种意识可以带来更和谐的互动。"
+      },
+      {
+        "title": "根据八字，我的生活完全是预定好的吗？",
+        "description": "八字暗示的是倾向和潜能，而非固定的结果。您保持着自由意志和做出选择的能力。了解您的命盘能够让您更好地顺应而非违背您的自然倾向。"
+      }
+    ]
+  }
+}
