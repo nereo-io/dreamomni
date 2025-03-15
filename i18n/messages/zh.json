@@ -69,7 +69,7 @@
   },
   "my_orders": {
     "title": "我的订单",
-    "description": "使用LuckBox支付的订单。",
+    "description": "使用BaziAI支付的订单。",
     "no_orders": "未找到订单",
     "tip": "",
     "activate_order": "激活订单",

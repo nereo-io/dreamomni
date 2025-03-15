@@ -71,7 +71,7 @@
   },
   "my_orders": {
     "title": "注文履歴",
-    "description": "LuckBoxで支払われた注文。",
+    "description": "BaziAIで支払われた注文。",
     "no_orders": "注文が見つかりません",
     "tip": "",
     "activate_order": "注文を有効化",

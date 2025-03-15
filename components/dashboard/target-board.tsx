@@ -21,12 +21,40 @@ export function TargetBoard({
     100
   );
 
+  // 计算当月时间进度
+  const calculateMonthProgress = () => {
+    const now = new Date();
+    const currentDay = now.getDate();
+    const totalDays = new Date(
+      now.getFullYear(),
+      now.getMonth() + 1,
+      0
+    ).getDate();
+    return Math.min((currentDay / totalDays) * 100, 100);
+  };
+
+  const timeProgress = calculateMonthProgress();
+
   return (
     <Card className="col-span-full">
       <CardHeader>
         <CardTitle className="text-lg font-medium">3月目标追踪</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
+        {/* 月份时间进度 */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <p className="text-sm font-medium">月份时间进度</p>
+              <p className="text-2xl font-bold">{timeProgress.toFixed(1)}%</p>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              {timeProgress.toFixed(1)}%
+            </p>
+          </div>
+          <Progress value={timeProgress} className="h-2" />
+        </div>
+
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <div className="space-y-1">

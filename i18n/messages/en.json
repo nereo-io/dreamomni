@@ -71,7 +71,7 @@
   },
   "my_orders": {
     "title": "My Orders",
-    "description": "orders paid with LuckBox.",
+    "description": "orders paid with BaziAI.",
     "no_orders": "No orders found",
     "tip": "",
     "activate_order": "Activate Order",
