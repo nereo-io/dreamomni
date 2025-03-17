@@ -1,6 +1,6 @@
 {
   "hero": {
-    "title": "Career Fortune Reading",
+    "title": "Career Fortune AI Reading",
     "highlight_text": "Career",
     "description": "Get personalized career predictions based on Chinese astrology",
     "cta": "Get Career Reading"
@@ -185,6 +185,88 @@
       {
         "title": "How does Chinese astrology predict career success periods?",
         "description": "Chinese astrology identifies career success periods through several cyclical patterns: The 12-year animal cycle brings fortune when the current year's animal harmonizes with your birth sign. The 10-year element cycle creates opportunities when prevailing elements complement your birth element. Your personal Luck Pillar (calculated from birth data) indicates 10-year periods of general fortune. Annual Flying Stars activate specific career sectors in your chart. Additionally, astrological 'Nobleman' influences bring helpful mentors and supporters during certain years. These cycles often converge to create distinctive periods of opportunity—some years naturally support advancement, while others favor consolidation or preparation. Understanding these patterns allows strategic timing of major career initiatives, maximizing your natural cosmic advantages rather than struggling against prevailing energies."
+      }
+    ]
+  },
+  "introduce": {
+    "name": "introduce",
+    "title": "Career Astrology Insights",
+    "label": "Introduction",
+    "description": "Chinese astrology offers profound insights into your career path, helping you understand your professional strengths, ideal work environment, and timing for crucial career decisions.",
+    "image": {
+      "src": "/imgs/zodiac-feature/career-astrology-intro.png"
+    },
+    "items": [
+      {
+        "title": "Zodiac Career Traits",
+        "description": "Discover how your Chinese zodiac sign influences your natural career aptitudes, leadership style, and workplace dynamics.",
+        "icon": "RiBriefcaseLine"
+      },
+      {
+        "title": "Element Influences",
+        "description": "Learn how the Five Elements in your birth chart shape your ideal work environment and professional relationships.",
+        "icon": "RiWaterFlashLine"
+      },
+      {
+        "title": "Success Timing",
+        "description": "Understand astrological cycles that indicate optimal periods for job changes, promotions, and business ventures.",
+        "icon": "RiTimeLine"
+      }
+    ]
+  },
+  "feature": {
+    "name": "feature",
+    "title": "Career Reading Features",
+    "description": "Discover your professional path and potential through personalized Chinese astrology analysis.",
+    "items": [
+      {
+        "title": "Career Path Analysis",
+        "description": "In-depth examination of your most suitable industries and positions based on your birth chart.",
+        "icon": "RiRoadMapLine"
+      },
+      {
+        "title": "Workplace Dynamics",
+        "description": "Insights into how you interact with colleagues, superiors, and subordinates in professional settings.",
+        "icon": "RiTeamLine"
+      },
+      {
+        "title": "2025 Career Forecast",
+        "description": "Specific predictions for your professional developments, opportunities, and challenges in the coming year.",
+        "icon": "RiCalendarCheckLine"
+      },
+      {
+        "title": "Job Change Timing",
+        "description": "Astrological guidance on the most favorable periods for career transitions and advancement.",
+        "icon": "RiExchangeLine"
+      },
+      {
+        "title": "Business Compatibility",
+        "description": "Analysis of potential business partnerships and collaborations based on zodiac compatibility.",
+        "icon": "RiHandshakeLine"
+      },
+      {
+        "title": "Career Enhancement",
+        "description": "Personalized recommendations for colors, elements, and practices to boost your professional success.",
+        "icon": "RiArrowUpCircleLine"
+      }
+    ]
+  },
+  "cta": {
+    "name": "cta",
+    "title": "Discover Your Career Potential",
+    "description": "Get your personalized career astrology reading now.",
+    "buttons": [
+      {
+        "title": "Get Career Reading",
+        "url": "#calculator",
+        "target": "_self",
+        "icon": "GoArrowUpRight"
+      },
+      {
+        "title": "Explore Career Questions",
+        "url": "#questionListHeader",
+        "target": "_self",
+        "variant": "outline"
       }
     ]
   }

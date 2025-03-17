@@ -39,6 +39,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "weekly" as ChangeFrequency,
         priority: 0.7,
       },
+      {
+        url: `${baseUrl}/chinese-zodiac-caculator`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.8,
+      },
     ];
 
     console.log(`添加了 ${staticPages.length} 个基础页面`);
@@ -66,6 +72,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           changeFrequency: "weekly" as ChangeFrequency,
           priority: 0.7,
         },
+        {
+          url: `${baseUrl}/${locale}/chinese-zodiac-caculator`,
+          lastModified: currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.8,
+        },
       ];
     });
 
@@ -82,8 +94,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       return locales.map((locale) => ({
         url:
           locale === "en"
-            ? `${baseUrl}/resources/${category}`
-            : `${baseUrl}/${locale}/resources/${category}`,
+            ? `${baseUrl}/reading/${category}`
+            : `${baseUrl}/${locale}/reading/${category}`,
         lastModified: currentDate,
         changeFrequency: "weekly" as ChangeFrequency,
         priority: 0.7,
@@ -109,9 +121,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           // 为每个问题创建URL
           const questionUrls = questions.items.map((question) => ({
             url:
-              locale === "en"
-                ? `${baseUrl}/resources/${category}/questions/${question.slug}`
-                : `${baseUrl}/${locale}/resources/${category}/questions/${question.slug}`,
+              category === "chinese-zodiac"
+                ? locale === "en"
+                  ? `${baseUrl}/chinese-zodiac-caculator/${question.slug}`
+                  : `${baseUrl}/${locale}/chinese-zodiac-caculator/${question.slug}`
+                : locale === "en"
+                ? `${baseUrl}/reading/${category}/questions/${question.slug}`
+                : `${baseUrl}/${locale}/reading/${category}/questions/${question.slug}`,
             lastModified:
               question.updated_at || question.created_at || currentDate,
             changeFrequency: "monthly" as ChangeFrequency,

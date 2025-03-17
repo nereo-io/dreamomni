@@ -16,6 +16,30 @@ export enum QuestionStatus {
 }
 
 /**
+ * 获取问题总数
+ * @param params 查询参数
+ * @returns 问题总数
+ */
+export async function getQuestionCount(params?: {
+  category?: string;
+  tag?: string;
+  locale?: string;
+}): Promise<number> {
+  const supabase = getSupabaseClient();
+  let query = supabase
+    .from("posts")
+    .select("*", { count: "exact" })
+    .eq("type", "question")
+    .eq("status", QuestionStatus.Online);
+
+  if (params?.category) query = query.eq("category", params.category);
+  if (params?.locale) query = query.eq("locale", params.locale);
+  if (params?.tag) query = query.textSearch("tags", params.tag);
+
+  const { count } = await query;
+  return count || 0;
+}
+/**
  * 获取问题列表
  * @param params 查询参数
  * @returns 问题列表
@@ -58,6 +82,7 @@ export async function getQuestionList(params?: {
     slug: item.slug,
     title: item.title,
     content: item.content,
+    description: item.description,
     category: item.category,
     tags: item.tags ? item.tags.split(",") : [],
     reading_type: item.reading_type,
@@ -109,10 +134,10 @@ export async function getQuestionDetail(
   // 生成面包屑导航
   const breadcrumbItems: NavItem[] = [
     { title: "home", url: "/" },
-    { title: "resources", url: "/resources" },
+    { title: "reading", url: "/reading" },
     {
       title: data.category,
-      url: `/resources/${data.category.toLowerCase().replace(/\s+/g, "-")}`,
+      url: `/reading/${data.category.toLowerCase().replace(/\s+/g, "-")}`,
     },
     { title: data.title, is_active: true },
   ];
@@ -121,6 +146,8 @@ export async function getQuestionDetail(
   const questionDetail: QuestionDetail = {
     slug: data.slug,
     title: data.title,
+    description: data.description,
+    cover_url: data.cover_url,
     content: data.content,
     category: data.category,
     tags: data.tags ? data.tags.split(",") : [],
@@ -187,7 +214,9 @@ export async function createQuestion(
   const postData = {
     uuid: uuidv4(),
     title: questionData.title,
+    description: questionData.description || "",
     content: questionData.content,
+    cover_url: questionData.cover_url,
     category: questionData.category,
     tags: questionData.tags?.join(","),
     reading_type: questionData.reading_type,

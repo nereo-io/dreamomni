@@ -4,6 +4,8 @@ export interface QuestionItem {
   uuid?: string;
   slug: string;
   title: string;
+  description?: string;
+  cover_url?: string;
   content: string;
   category: string;
   tags?: string[];

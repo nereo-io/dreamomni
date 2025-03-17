@@ -14,32 +14,32 @@
       "items": [
         {
           "title": "リソース",
-          "url": "/resources",
+          "url": "/reading",
           "icon": "RiBookLine",
           "children": [
             {
               "title": "恋愛リーディング",
-              "url": "/resources/love",
+              "url": "/reading/love",
               "icon": "RiHeartLine"
             },
             {
               "title": "キャリアリーディング",
-              "url": "/resources/career",
+              "url": "/reading/career",
               "icon": "RiBriefcaseLine"
             },
             {
               "title": "健康リーディング",
-              "url": "/resources/health",
+              "url": "/reading/health",
               "icon": "RiHeartPulseLine"
             },
             {
               "title": "中国干支",
-              "url": "/resources/chinese-zodiac",
+              "url": "/reading/chinese-zodiac",
               "icon": "RiStarLine"
             },
             {
               "title": "2025年予測",
-              "url": "/resources/2025-forecast",
+              "url": "/reading/2025-forecast",
               "icon": "RiCalendarLine"
             }
           ]
@@ -233,27 +233,27 @@
           "children": [
             {
               "title": "愛情解読",
-              "url": "/resources/love",
+              "url": "/reading/love",
               "target": "_self"
             },
             {
               "title": "キャリア解読",
-              "url": "/resources/career",
+              "url": "/reading/career",
               "target": "_self"
             },
             {
               "title": "健康解読",
-              "url": "/resources/health",
+              "url": "/reading/health",
               "target": "_self"
             },
             {
               "title": "中国の干支解読",
-              "url": "/resources/chinese-zodiac",
+              "url": "/reading/chinese-zodiac",
               "target": "_self"
             },
             {
               "title": "2025年予測",
-              "url": "/resources/2025-forecast",
+              "url": "/reading/2025-forecast",
               "target": "_self"
             }
           ]

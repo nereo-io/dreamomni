@@ -13,36 +13,36 @@
     "nav": {
       "items": [
         {
-          "title": "Resources",
-          "url": "/resources",
+          "title": "Reading",
+          "url": "/reading",
           "icon": "RiBookLine",
           "children": [
             {
               "title": "Love Reading",
-              "url": "/resources/love",
+              "url": "/reading/love",
               "icon": "RiHeartLine"
             },
             {
               "title": "Career Reading",
-              "url": "/resources/career",
+              "url": "/reading/career",
               "icon": "RiBriefcaseLine"
             },
             {
               "title": "Health Reading",
-              "url": "/resources/health",
+              "url": "/reading/health",
               "icon": "RiHeartPulseLine"
             },
             {
               "title": "Chinese Zodiac",
-              "url": "/resources/chinese-zodiac",
+              "url": "/reading/chinese-zodiac",
               "icon": "RiStarLine"
-            },
-            {
-              "title": "2025 Forecast",
-              "url": "/resources/2025-forecast",
-              "icon": "RiCalendarLine"
             }
           ]
+        },
+        {
+          "title": "Calculator",
+          "url": "/chinese-zodiac-caculator",
+          "icon": "RiCalculatorLine"
         },
         {
           "title": "Pricing",
@@ -234,32 +234,37 @@
     "nav": {
       "items": [
         {
-          "title": "Resources",
+          "title": "Reading",
           "children": [
             {
               "title": "Love Reading",
-              "url": "/resources/love",
+              "url": "/reading/love",
               "target": "_self"
             },
             {
               "title": "Career Reading",
-              "url": "/resources/career",
+              "url": "/reading/career",
               "target": "_self"
             },
 
             {
               "title": "Health Reading",
-              "url": "/resources/health",
+              "url": "/reading/health",
               "target": "_self"
             },
             {
               "title": "Chinese Zodiac",
-              "url": "/resources/chinese-zodiac",
+              "url": "/reading/chinese-zodiac",
               "target": "_self"
-            },
+            }
+          ]
+        },
+        {
+          "title": "Calculator",
+          "children": [
             {
-              "title": "2025 Forecast",
-              "url": "/resources/2025-forecast",
+              "title": "Chinese Zodiac",
+              "url": "/chinese-zodiac-caculator",
               "target": "_self"
             }
           ]

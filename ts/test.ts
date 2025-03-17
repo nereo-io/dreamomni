@@ -4,7 +4,8 @@ dotenv.config({ path: ".env.development" });
 import { generateText } from "ai";
 import { createDeepSeek } from "@ai-sdk/deepseek";
 import { createQuestion } from "@/models/question";
-import { SiDeluge } from "react-icons/si";
+import * as fs from "fs";
+import { flushAllTraces } from "next/dist/trace";
 
 type QuestionCard = {
   subject: string;
@@ -16,550 +17,93 @@ const deepseek = createDeepSeek({
   apiKey: "sk-43072ca60a7b47c98a08ccbef42b170a",
 });
 const deepseekALI = createDeepSeek({
-  apiKey: "sk-8514df8de24d4eaa80b05790aa0db00b",
+  apiKey: "sk-ce6b687683f54e5aaf806cf66eab2f69",
   baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1",
 });
+const deepseekARK = createDeepSeek({
+  apiKey: process.env.ARK_API_KEY ?? "",
+  baseURL: "https://ark.cn-beijing.volces.com/api/v3",
+});
 
-// 问题卡片数据
-// 问题卡片数据
-const questionCards: QuestionCard[] = [
-  // Love Questions - 爱情问题
-  {
-    subject: "love",
-    question: "When will I meet my soulmate according to my birth chart?",
-    tags: ["soulmate", "love timing", "astrology", "relationship", "destiny"],
-  },
-  {
-    subject: "love",
-    question:
-      "Is my current relationship destined for marriage based on our birth charts?",
-    tags: [
-      "marriage potential",
-      "relationship destiny",
-      "compatibility",
-      "astrology",
-      "commitment",
-    ],
-  },
-  {
-    subject: "love",
-    question:
-      "How compatible are we based on our birth charts and zodiac signs?",
-    tags: [
-      "compatibility",
-      "zodiac compatibility",
-      "birth chart comparison",
-      "relationship harmony",
-      "astrological match",
-    ],
-  },
-  {
-    subject: "love",
-    question:
-      "What love challenges will I face this year according to my astrological chart?",
-    tags: [
-      "love challenges",
-      "relationship obstacles",
-      "emotional growth",
-      "astrology",
-      "forewarning",
-    ],
-  },
-  {
-    subject: "love",
-    question:
-      "How can I attract a more fulfilling relationship based on my birth chart?",
-    tags: [
-      "attraction",
-      "fulfilling relationship",
-      "love manifestation",
-      "astrology",
-      "emotional fulfillment",
-    ],
-  },
-  {
-    subject: "love",
-    question:
-      "Why do I keep attracting the wrong partners according to my astrological profile?",
-    tags: [
-      "relationship patterns",
-      "wrong partners",
-      "self-reflection",
-      "astrology",
-      "emotional growth",
-    ],
-  },
-  {
-    subject: "love",
-    question:
-      "When is the best time for me to get married according to my birth chart?",
-    tags: [
-      "marriage timing",
-      "wedding date",
-      "auspicious timing",
-      "astrology",
-      "commitment",
-    ],
-  },
-  {
-    subject: "love",
-    question:
-      "How will my love life change after this breakup according to astrology?",
-    tags: [
-      "post-breakup",
-      "love forecast",
-      "moving on",
-      "emotional healing",
-      "new beginnings",
-    ],
-  },
-  {
-    subject: "love",
-    question:
-      "What type of partner is most compatible with me based on my birth chart?",
-    tags: [
-      "compatible partner",
-      "ideal match",
-      "relationship harmony",
-      "astrology",
-      "partner traits",
-    ],
-  },
-  {
-    subject: "love",
-    question:
-      "How can I improve communication in my relationship based on our astrological profiles?",
-    tags: [
-      "relationship communication",
-      "couple harmony",
-      "astrology",
-      "emotional connection",
-      "understanding",
-    ],
-  },
-  {
-    subject: "love",
-    question:
-      "Is long-distance relationship viable for us according to our birth charts?",
-    tags: [
-      "long-distance relationship",
-      "relationship challenges",
-      "astrology",
-      "commitment",
-      "relationship endurance",
-    ],
-  },
-  {
-    subject: "love",
-    question:
-      "Will my ex and I reconcile according to our astrological compatibility?",
-    tags: [
-      "reconciliation",
-      "ex-partner",
-      "second chances",
-      "astrology",
-      "relationship destiny",
-    ],
-  },
-  {
-    subject: "love",
-    question:
-      "How do our moon signs affect our emotional compatibility in a relationship?",
-    tags: [
-      "moon signs",
-      "emotional compatibility",
-      "astrology",
-      "relationship depth",
-      "understanding",
-    ],
-  },
-  {
-    subject: "love",
-    question:
-      "What role does Venus play in my love life according to my birth chart?",
-    tags: [
-      "Venus influence",
-      "love planet",
-      "astrology",
-      "romantic nature",
-      "attraction patterns",
-    ],
-  },
-  {
-    subject: "love",
-    question:
-      "How can I heal from past relationship trauma according to my birth chart?",
-    tags: [
-      "relationship healing",
-      "emotional trauma",
-      "moving forward",
-      "astrology",
-      "personal growth",
-    ],
-  },
+// 生成从1944年到2023年的所有生肖问题
+function generateZodiacQuestions(): QuestionCard[] {
+  const zodiacSigns = [
+    "Monkey",
+    "Rooster",
+    "Dog",
+    "Pig",
+    "Rat",
+    "Ox",
+    "Tiger",
+    "Rabbit",
+    "Dragon",
+    "Snake",
+    "Horse",
+    "Goat",
+  ];
 
-  // Health Questions - 健康问题
-  {
-    subject: "health",
-    question:
-      "What health issues should I be aware of according to my birth chart?",
-    tags: [
-      "health awareness",
-      "prevention",
-      "astrology",
-      "wellbeing",
-      "medical astrology",
-    ],
-  },
-  {
-    subject: "health",
-    question:
-      "How can I improve my energy levels based on my astrological profile?",
-    tags: [
-      "energy improvement",
-      "vitality",
-      "astrology",
-      "wellbeing",
-      "lifestyle adjustment",
-    ],
-  },
-  {
-    subject: "health",
-    question:
-      "What exercise routine is best suited for my birth chart and body type?",
-    tags: [
-      "exercise routine",
-      "fitness",
-      "astrology",
-      "physical wellbeing",
-      "body harmony",
-    ],
-  },
-  {
-    subject: "health",
-    question:
-      "How will my mental health evolve this year according to my astrological chart?",
-    tags: [
-      "mental health",
-      "emotional wellbeing",
-      "astrology",
-      "psychological forecast",
-      "mind harmony",
-    ],
-  },
-  {
-    subject: "health",
-    question:
-      "Which healing modalities are most effective for me based on my birth chart?",
-    tags: [
-      "healing modalities",
-      "alternative medicine",
-      "astrology",
-      "treatment compatibility",
-      "wellness approach",
-    ],
-  },
-  {
-    subject: "health",
-    question:
-      "What dietary changes would benefit my health according to my astrological profile?",
-    tags: [
-      "dietary changes",
-      "nutrition",
-      "astrology",
-      "physical wellbeing",
-      "body harmony",
-    ],
-  },
-  {
-    subject: "health",
-    question: "How can I achieve better sleep quality based on my birth chart?",
-    tags: [
-      "sleep quality",
-      "rest patterns",
-      "astrology",
-      "wellbeing",
-      "circadian rhythm",
-    ],
-  },
-  {
-    subject: "health",
-    question:
-      "What stress management techniques work best for my astrological sign?",
-    tags: [
-      "stress management",
-      "emotional balance",
-      "astrology",
-      "wellbeing",
-      "mental health",
-    ],
-  },
-  {
-    subject: "health",
-    question:
-      "How does my birth chart affect my susceptibility to specific health conditions?",
-    tags: [
-      "health susceptibility",
-      "medical astrology",
-      "prevention",
-      "wellbeing",
-      "body awareness",
-    ],
-  },
-  {
-    subject: "health",
-    question:
-      "What is the best time for medical procedures according to my astrological chart?",
-    tags: [
-      "medical timing",
-      "surgery dates",
-      "astrology",
-      "health decisions",
-      "auspicious timing",
-    ],
-  },
-  {
-    subject: "health",
-    question:
-      "How can I balance my hormones naturally based on my birth chart?",
-    tags: [
-      "hormone balance",
-      "natural health",
-      "astrology",
-      "endocrine system",
-      "body harmony",
-    ],
-  },
-  {
-    subject: "health",
-    question:
-      "What impact will the planetary movements have on my immunity this year?",
-    tags: [
-      "immunity",
-      "planetary influence",
-      "astrology",
-      "health forecast",
-      "disease prevention",
-    ],
-  },
-  {
-    subject: "health",
-    question:
-      "How can I address chronic pain issues based on my astrological profile?",
-    tags: [
-      "chronic pain",
-      "pain management",
-      "astrology",
-      "wellbeing",
-      "healing approach",
-    ],
-  },
-  {
-    subject: "health",
-    question:
-      "What fertility insights can my birth chart provide if I'm trying to conceive?",
-    tags: [
-      "fertility",
-      "conception",
-      "astrology",
-      "family planning",
-      "reproductive health",
-    ],
-  },
-  {
-    subject: "health",
-    question:
-      "How can I achieve optimal weight for my body type according to astrology?",
-    tags: [
-      "weight management",
-      "body type",
-      "astrology",
-      "physical wellbeing",
-      "balanced approach",
-    ],
-  },
+  const zodiacChineseSigns = [
+    "猴",
+    "鸡",
+    "狗",
+    "猪",
+    "鼠",
+    "牛",
+    "虎",
+    "兔",
+    "龙",
+    "蛇",
+    "马",
+    "羊",
+  ];
 
-  // 2025 Forecast Questions - 2025年预测问题
-  {
-    subject: "2025-forecast",
-    question:
-      "What major life changes can I expect in 2025 according to my birth chart?",
-    tags: [
-      "2025 changes",
-      "life transitions",
-      "yearly forecast",
-      "astrology",
-      "future prediction",
-    ],
-  },
-  {
-    subject: "2025-forecast",
-    question:
-      "How will my financial situation evolve in 2025 based on astrological predictions?",
-    tags: [
-      "2025 finances",
-      "money forecast",
-      "wealth prediction",
-      "astrology",
-      "financial planning",
-    ],
-  },
-  {
-    subject: "2025-forecast",
-    question:
-      "What relationship developments can I expect in 2025 according to astrology?",
-    tags: [
-      "2025 relationships",
-      "love forecast",
-      "connection changes",
-      "astrology",
-      "future prediction",
-    ],
-  },
-  {
-    subject: "2025-forecast",
-    question:
-      "Which months of 2025 will be most fortunate for me based on my birth chart?",
-    tags: [
-      "fortunate months 2025",
-      "auspicious timing",
-      "yearly cycle",
-      "astrology",
-      "opportunity periods",
-    ],
-  },
-  {
-    subject: "2025-forecast",
-    question:
-      "What career opportunities should I look for in 2025 according to astrology?",
-    tags: [
-      "2025 career",
-      "professional opportunities",
-      "job forecast",
-      "astrology",
-      "future prediction",
-    ],
-  },
-  {
-    subject: "2025-forecast",
-    question:
-      "How will my health trends change in 2025 based on my astrological chart?",
-    tags: [
-      "2025 health",
-      "wellbeing forecast",
-      "medical astrology",
-      "physical changes",
-      "future prediction",
-    ],
-  },
-  {
-    subject: "2025-forecast",
-    question:
-      "What personal growth opportunities will 2025 bring according to my birth chart?",
-    tags: [
-      "personal growth 2025",
-      "self-development",
-      "spiritual evolution",
-      "astrology",
-      "inner journey",
-    ],
-  },
-  {
-    subject: "2025-forecast",
-    question: "How will planetary retrogrades in 2025 affect my life path?",
-    tags: [
-      "2025 retrogrades",
-      "planetary influence",
-      "life disruption",
-      "astrology",
-      "timing awareness",
-    ],
-  },
-  {
-    subject: "2025-forecast",
-    question:
-      "What travel opportunities will arise for me in 2025 according to astrology?",
-    tags: [
-      "2025 travel",
-      "journey forecast",
-      "exploration",
-      "astrology",
-      "geographical movement",
-    ],
-  },
-  {
-    subject: "2025-forecast",
-    question:
-      "How can I best prepare for the challenges of 2025 based on my birth chart?",
-    tags: [
-      "2025 preparation",
-      "challenge management",
-      "future planning",
-      "astrology",
-      "resilience building",
-    ],
-  },
-  {
-    subject: "2025-forecast",
-    question:
-      "What spiritual awakening might I experience in 2025 according to astrology?",
-    tags: [
-      "spiritual awakening 2025",
-      "consciousness expansion",
-      "inner growth",
-      "astrology",
-      "soul journey",
-    ],
-  },
-  {
-    subject: "2025-forecast",
-    question:
-      "How will my family dynamics change in 2025 based on astrological forecasts?",
-    tags: [
-      "family changes 2025",
-      "home life",
-      "relationship dynamics",
-      "astrology",
-      "domestic prediction",
-    ],
-  },
-  {
-    subject: "2025-forecast",
-    question:
-      "What new skills should I develop in 2025 according to my birth chart?",
-    tags: [
-      "2025 skill development",
-      "learning opportunities",
-      "self-improvement",
-      "astrology",
-      "capability expansion",
-    ],
-  },
-  {
-    subject: "2025-forecast",
-    question:
-      "How will the 2025 eclipse season impact my personal and professional life?",
-    tags: [
-      "2025 eclipses",
-      "astrological events",
-      "life impact",
-      "transformation periods",
-      "cosmic influence",
-    ],
-  },
-  {
-    subject: "2025-forecast",
-    question:
-      "What major decisions should I avoid making in 2025 according to astrology?",
-    tags: [
-      "2025 cautions",
-      "decision timing",
-      "auspicious periods",
-      "astrology",
-      "risk management",
-    ],
-  },
-];
+  const questions: QuestionCard[] = [];
+
+  for (let year = 1944; year <= 2023; year++) {
+    const zodiacIndex = year % 12;
+    const zodiacSign = zodiacSigns[zodiacIndex];
+    const chineseZodiacSign = zodiacChineseSigns[zodiacIndex];
+
+    questions.push({
+      subject: "chinese-zodiac",
+      question: `What is the 2025 fortune forecast for those born in the Year of the ${zodiacSign} in ${year}?`,
+      tags: [
+        year.toString(),
+        zodiacSign.toLowerCase(),
+        "chinese-zodiac",
+        "2025-forecast",
+      ],
+    });
+  }
+
+  return questions;
+}
+
+// 中国五行元素对应表
+function getElement(year: number): string {
+  const elements = ["Wood", "Fire", "Earth", "Metal", "Water"];
+  const elementIndex = Math.floor(((year - 4) % 10) / 2);
+  return elements[elementIndex];
+}
+
+// 从年份获取生肖
+function getZodiacSign(year: number): string {
+  const zodiacSigns = [
+    "Monkey",
+    "Rooster",
+    "Dog",
+    "Pig",
+    "Rat",
+    "Ox",
+    "Tiger",
+    "Rabbit",
+    "Dragon",
+    "Snake",
+    "Horse",
+    "Goat",
+  ];
+  return zodiacSigns[year % 12];
+}
 
 // 提取并解析 JSON 字符串
 function extractAndParseJSON(text: string) {
@@ -584,111 +128,233 @@ function extractAndParseJSON(text: string) {
         return JSON.parse(objectMatch[0]);
       }
     } catch (innerError) {
-      console.error("JSON 解析错误:", innerError);
+      console.error("JSON parsing error:", innerError);
     }
 
-    console.error("无法从文本中提取 JSON:", text);
+    console.error("Unable to extract JSON from text:", text);
     // 返回默认值
     return {
       slug: "default-slug",
       reading_type: "single",
-      tags: ["默认标签"],
-      locale: "zh",
+      tags: ["default-tag"],
+      locale: "en",
     };
   }
 }
 
 async function main() {
+  // 生成所有生肖问题
+  const allQuestionCards = generateZodiacQuestions();
+
+  // 是否只处理一部分问题(用于测试)
+  const isTestMode = false;
+  // 选择要处理的问题卡片
+  const questionCards = isTestMode
+    ? allQuestionCards.slice(0, 2)
+    : allQuestionCards;
+
+  console.log(`Total questions to process: ${questionCards.length}`);
+
+  // 创建日志文件
+  const logStream = fs.createWriteStream("zodiac-content-generation.log", {
+    flags: "a",
+  });
+  logStream.write(
+    `Content generation started at ${new Date().toISOString()}\n`
+  );
+
   // 逐个处理每个问题卡片
   for (const card of questionCards) {
-    console.log(
-      `处理问题: ${card.subject} - ${card.question.substring(0, 30)}...`
-    );
+    console.log(`Processing question: ${card.subject} - ${card.question}`);
+    logStream.write(`\nProcessing: ${card.question}\n`);
 
     try {
+      // 从问题中提取年份和生肖
+      const year = parseInt(card.tags[0]);
+      const zodiacSign = getZodiacSign(year);
+      const element = getElement(year);
+
+      // 创建针对SEO优化的提示
+      const seoOptimizedPrompt = `
+2025 Fortune Forecast: What awaits those born in the Year of the ${zodiacSign} (${year})
+
+## Introduction:
+Born in ${year}, people under the ${element} ${zodiacSign} sign have distinctive characteristics that influence their life path. Let me share how 2025 will unfold for them in terms of career, finances, health, and relationships.
+
+## Basic Characteristics of ${year} ${zodiacSign}:
+- Explore personality traits of ${element} ${zodiacSign}
+- Analyze how their ${element} element influences their character
+- Discuss how these traits affect their decision-making
+
+## Overall 2025 Fortune:
+- Overall energy patterns for ${zodiacSign} in 2025
+- Key opportunities to embrace
+- Potential challenges to navigate
+
+## Career Prospects:
+- Professional outlook for 2025
+- Favorable career paths and projects
+- Strategic advice for workplace success
+- Potential challenges and solutions
+
+## Financial Forecast:
+- Money matters in 2025
+- Investment opportunities
+- Financial risks to avoid
+- Best timing for major financial decisions
+
+## Health Outlook:
+- Physical wellbeing forecast
+- Mental and emotional health considerations
+- Preventative health recommendations
+- Balance maintenance strategies
+
+## Relationship Forecast:
+- Social and family relationship developments
+- Love and marriage prospects
+- Advice for improving relationships
+- Most compatible signs for ${zodiacSign} in 2025
+
+## Lucky Elements:
+- Favorable colors
+- Lucky numbers and directions
+- Recommended talismans or items
+- Best seasons or months
+
+## Strategies to Enhance Fortune:
+- Practical advice to maximize positive energy
+- Lifestyle adjustments
+- Mindset recommendations
+- Traditional practices to consider
+
+## Conclusion:
+- Summary of key opportunities and challenges
+- Positive encouragement for the year ahead
+- Prompt users to use Bazi AI Reading Toll for more personalized insights
+`;
+
       // 1. 请求大模型返回结果
       const { text, reasoning } = await generateText({
-        // model: deepseek("deepseek-reasoner"),
         model: deepseekALI("deepseek-r1"),
-        // model: deepseekALI("qwen-max-latest"),
-        system: `你是一个专业的八字命理师清风明月，擅长帮助用户答疑解惑。
-        1）采用通俗易懂的方式详细回答用户的的问题，不要问用户要命盘，讲清楚问题背后中国命理的原理和方法
-        2）如果需要的话，可以举例说明，先简单说一下举例的命盘，再给出分析
-        3）用英文回答
-        4）今年是2025年`,
+        // model: deepseekARK("ep-20250205155325-bsdb5"), //r1
+        // model: deepseekARK("ep-20250208110123-np259"), // deepseek-qwen-32B
+        // model: deepseekARK("ep-20250228181734-xc4qb"), // doubao-lite
+        // model: deepseekALI('deepseek-r1'),
+        system: `You are Master Qing Feng, a renowned expert in Chinese astrology and fortune telling.
+
+Your task is to write a comprehensive, SEO-optimized article about the 2025 fortune forecast for people born in a specific Chinese zodiac year. 
+
+Guidelines:
+1) Write in fluent, professional English suited for international readers interested in Chinese astrology
+2) Explain Chinese astrology concepts clearly for western audiences
+3) Create engaging, detailed content that's valuable and shareable
+4) Include relevant keywords naturally throughout the text
+5) Format the article with proper headings and structure
+6) Maintain a tone that is knowledgeable but accessible
+7) The current year is 2025
+8) Aim for approximately 1500-2000 words of comprehensive content
+
+Important note: 
+- Do not add any metadata at the end of the article, such as word count, SEO keyword lists, etc.
+- End the article with a natural conclusion paragraph that seamlessly incorporates a suggestion to use the Bazi analysis tool for personalized insights, without using section headings like "Call to Action" or explicitly labeling it as such.
+
+The article should be informative, authoritative, and optimized for search engines while providing genuine value to readers.`,
         messages: [
           {
             role: "user",
-            content: card.question,
+            content: seoOptimizedPrompt,
           },
         ],
       });
 
       // 2. 请求大模型返回附加信息
       const { text: text_addition } = await generateText({
-        // model: deepseek("deepseek-reasoner"),
         model: deepseekALI("qwen-max-latest"),
-        system: `你是一个专业的命理师清风明月，擅长根据八字分析人的运势和性格。
-          基于用户的问题，返回一个附加信息，附加信息返回的规则是
-          1. slug。基于用户的问题统一转换成英文，生成最少由5个英文单词，最多不超过8个组成的slug，通过-连接
-          2. reading_type。明确一下这是否是一个双人匹配的问题，需要有两个人生辰信息。如果是的，返回"double"，如果不是，返回"single
-          3. locale：判断一下用户的问题，如果是简体中文，返回"zh"；如果是繁体中文，返回"zh-tw"；如果是英文，返回"en"
+        system: `You are an SEO expert specializing in extracting and optimizing article metadata.
+        
+I will provide you with a complete article about Chinese zodiac forecasts. Your task is to:
 
-          
-          最后用json格式返回，不要用其他文字描述
-          {
-            "slug": "slug",
-            "reading_type": "single",
-            "locale": "en"
-          }
-          `,
+1. Analyze the article's structure and content carefully
+2. Extract the most relevant H1/H2 headings from the markdown format
+3. Based on these headings and content, create:
+   - A compelling title under 60 characters that includes birth year, zodiac sign and "2025 forecast"
+   - An engaging description under 160 characters that summarizes the key predictions
+
+FORMAT YOUR RESPONSE AS JSON ONLY:
+{
+  "title": "Your extracted and optimized title here",
+  "description": "Your extracted and optimized description here"
+}
+
+Focus on clarity, keywords, and search intent. Do not add any explanations or extra text.`,
         messages: [
           {
             role: "user",
-            content: card.question,
+            content: text,
           },
         ],
       });
-      console.log("text_addition", text_addition);
-      const text_addition_json = extractAndParseJSON(text_addition);
-      //   const text_addition_json = JSON.parse(text_addition);
-      console.log("text_addition_json", text_addition_json);
 
-      // 2. 转换成questionData
+      console.log("Metadata generated:", text_addition);
+      const metadata = extractAndParseJSON(text_addition);
+      console.log("Parsed metadata:", metadata);
+
+      // 3. 转换成questionData
       const questionData = {
-        title: card.question,
+        title:
+          metadata.title ||
+          `2025 ${zodiacSign} (${year}) Fortune Forecast: Career, Love & Wealth`,
+        description:
+          metadata.description ||
+          `Discover what 2025 holds for those born in the Year of the ${zodiacSign} (${year}). Comprehensive forecast covering career, love, health and wealth.`,
         content: text,
+        cover_url: `/imgs/zodiac/${zodiacSign.toLowerCase()}.png`,
         tags: card.tags,
-        author_name: "清风明月",
+        author_name: "Master Qing Feng",
         author_avatar_url: "/qingfeng.png",
         category: card.subject,
         locale: "en",
-        slug: text_addition_json.slug,
-        reading_type: text_addition_json.reading_type,
+        slug: `${year}-${card.tags[1]}-fortune-forecast-2025`,
+        reading_type: "single",
         rating: 100,
-        votes: Math.floor(Math.random() * 10),
+        votes: Math.floor(Math.random() * 20) + 5,
       };
 
-      // 3. 使用createQuestion将数据保存到数据库中
+      // 4. 保存日志
+      logStream.write(`Generated content for: ${card.question}\n`);
+      logStream.write(`Slug: ${questionData.slug}\n`);
+      logStream.write(`Meta title: ${questionData.title}\n`);
+      logStream.write(`Content length: ${text.length} characters\n`);
+
+      // 5. 使用createQuestion将数据保存到数据库中
       const savedQuestion = await createQuestion(questionData);
 
-      console.log(`问题已保存，ID: ${savedQuestion ? "成功" : "失败"}`);
       console.log(
-        `分析推理: ${reasoning?.substring(0, 100) || "无推理数据"}...`
+        `Question saved, ID: ${savedQuestion ? "Success" : "Failed"}`
       );
-      console.log(`回答内容: ${text.substring(0, 100)}...`);
+      console.log(
+        `Analysis reasoning: ${
+          reasoning?.substring(0, 100) || "No reasoning data"
+        }...`
+      );
+      console.log(`Answer content (preview): ${text.substring(0, 100)}...`);
       console.log("-----------------------------------");
 
       // 添加延迟，避免API请求过于频繁
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
     } catch (error) {
-      console.error(`处理问题时出错: ${card.subject}`, error);
+      console.error(`Error processing question: ${card.subject}`, error);
+      logStream.write(`ERROR: Failed to process ${card.question}: ${error}\n`);
     }
   }
 
-  console.log("所有问题处理完成！");
+  logStream.write(
+    `Content generation completed at ${new Date().toISOString()}\n`
+  );
+  logStream.end();
+  console.log("All questions processed!");
 }
 
 main().catch((error) => {
-  console.error("执行过程中发生错误:", error);
+  console.error("Error during execution:", error);
 });

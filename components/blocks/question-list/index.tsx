@@ -92,7 +92,7 @@ export default async function QuestionListBlock({
                   </div> */}
                 <Button asChild className="mt-4 w-full" size="sm">
                   <Link
-                    href={`/resources/${category}/questions/${question.slug}`}
+                    href={`/reading/${category}/questions/${question.slug}`}
                   >
                     View Details
                   </Link>

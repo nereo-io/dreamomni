@@ -20,13 +20,8 @@
     "description": "Discover your health strengths and weaknesses through Chinese astrology. Our AI Bazi analysis provides personalized wellness insights and potential health forecasts.",
     "keywords": "health reading, chinese astrology health, bazi wellness, health forecast, body constitution, element balance"
   },
-  "2025-forecast": {
-    "title": "2025 Fortune AI BaziForecast | Chinese Astrology | BaziAI",
-    "description": "Explore what 2025 has in store for you with our Chinese astrology predictions. Get personalized insights on career, relationships, and prosperity for the coming year.",
-    "keywords": "2025 prediction, chinese astrology forecast, bazi 2025, future reading, yearly horoscope, wood dragon year"
-  },
   "chinese-zodiac": {
-    "title": "Chinese Zodiac Sign & Element AI Calculator | BaziAI",
+    "title": "Chinese Zodiac Sign & Element AI Reading | BaziAI",
     "description": "Discover your Chinese zodiac animal and elemental alignment instantly. Our interactive calculator reveals your birth sign and how the 5 elements influence your personality and destiny.",
     "keywords": "chinese zodiac calculator, animal sign finder, 5 element chart, birth element, chinese astrology sign, zodiac personality"
   },
@@ -39,6 +34,11 @@
     "title": "Premium Membership Plans | Chinese Astrology Readings | BaziAI",
     "description": "Unlock unlimited Chinese astrology readings with our premium plans. Get personalized insights on career, love, health and more with our AI-powered Bazi analysis.",
     "keywords": "chinese astrology membership, bazi premium, unlimited readings, astrology subscription, ai fortune telling, relationship compatibility, career forecasts"
+  },
+  "chinese-zodiac-caculator": {
+    "title": "Chinese Zodiac AI Calculator 2025 | Free Fortune Predictions",
+    "description": "AI-powered Chinese zodiac calculator reveals your zodiac sign, element, and 2025 fortune predictions. Get personalized insights based on traditional astrology.",
+    "keywords": "Chinese zodiac calculator, 2025 predictions, zodiac sign, fortune forecast"
   },
 
   "user": {

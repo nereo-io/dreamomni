@@ -4,6 +4,8 @@ import { getLandingPage, getReaderPage } from "@/services/page";
 import { getTranslations } from "next-intl/server";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { getQuestionSelectorBlock } from "@/services/page";
+import { NavCategory } from "@/components/blocks/nav-category";
+
 export async function generateMetadata({
   params: { locale },
 }: {
@@ -48,6 +50,7 @@ export default async function ChatPage({
           questionSelector={questionSelector}
         />
       )}
+      <NavCategory />
     </>
   );
 }

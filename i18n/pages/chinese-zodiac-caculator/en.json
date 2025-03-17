@@ -1,0 +1,170 @@
+{
+  "hero": {
+    "name": "calculator",
+    "title": "Chinese Zodiac AI Calculator",
+    "highlight_text": "Chinese Zodiac",
+    "description": "Discover your Chinese zodiac sign, element, and 2025 destiny forecast",
+    "show_happy_users": false,
+    "show_badge": false
+  },
+  "enterBirthdate": "Enter your birthdate for AI analysis",
+  "birthdateDescription": "Our advanced AI algorithm will calculate your Chinese zodiac sign, elemental attributes, and generate personalized insights based on your birth date",
+  "calculate": "Generate AI Analysis",
+  "yearLabel": "Year",
+  "monthLabel": "Month",
+  "dayLabel": "Day",
+  "results": {
+    "yourZodiac": "Our AI has calculated your Chinese Zodiac as",
+    "yourElement": "AI analysis shows your Element is",
+    "prediction2025": "AI-Generated 2025 Destiny Forecast for",
+    "readMore": "View complete AI-powered 2025 Destiny Forecast",
+    "elementRelationship": "AI-Analyzed Element-Zodiac Relationship",
+    "personalityTitle": "AI-Generated Personality & Characteristics",
+    "compatibilityTitle": "AI Compatibility Analysis",
+    "luckyElementsTitle": "AI-Recommended Lucky Elements",
+    "careerProspects": "AI Career Forecast",
+    "healthOutlook": "AI Health Analysis",
+    "relationshipForecast": "AI Relationship Prediction"
+  },
+  "zodiacSigns": {
+    "rat": "Rat",
+    "ox": "Ox",
+    "tiger": "Tiger",
+    "rabbit": "Rabbit",
+    "dragon": "Dragon",
+    "snake": "Snake",
+    "horse": "Horse",
+    "goat": "Goat",
+    "monkey": "Monkey",
+    "rooster": "Rooster",
+    "dog": "Dog",
+    "pig": "Pig"
+  },
+  "elements": {
+    "wood": "Wood",
+    "fire": "Fire",
+    "earth": "Earth",
+    "metal": "Metal",
+    "water": "Water"
+  },
+  "questionListHeader": {
+    "name": "questionListHeader",
+    "title": "2025 Chinese Zodiac Predictions & Answers",
+    "description": "Explore your personalized Chinese zodiac forecast for 2025. Get answers about your career, wealth, relationships, and health outlook through our AI-powered Bazi analysis system.",
+    "keywords": "Chinese zodiac predictions, 2025 forecast, Bazi analysis, personalized horoscope, zodiac compatibility"
+  },
+  "introduce": {
+    "name": "introduce",
+    "title": "AI-Enhanced Chinese Zodiac Analysis",
+    "label": "Introduction",
+    "description": "The Chinese Zodiac tradition, now enhanced with cutting-edge AI technology, provides unprecedented accuracy in analyzing the 12-year cycle, elemental attributes, and personalized destiny forecasts.",
+    "image": {
+      "src": "/imgs/zodiac-feature/chinese-zodiac-intro.png"
+    },
+    "items": [
+      {
+        "title": "AI-Powered Zodiac Identification",
+        "description": "Our advanced algorithms precisely identify your zodiac sign among the 12 animals: Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, and Pig.",
+        "icon": "RiCalendarLine"
+      },
+      {
+        "title": "Machine Learning Element Analysis",
+        "description": "AI-driven analysis of the Chinese Five Elements (Wood, Fire, Earth, Metal, and Water) reveals their complex interactions with your zodiac sign for deeper personality insights.",
+        "icon": "RiFireLine"
+      },
+      {
+        "title": "Predictive AI Forecasting",
+        "description": "Our AI system analyzes the 60-year cycle created by animals and elements to generate highly accurate fortune predictions, compatibility matches, and life guidance.",
+        "icon": "RiLoopLeftLine"
+      }
+    ]
+  },
+  "feature": {
+    "name": "feature",
+    "title": "AI-Powered Chinese Zodiac Calculator Features",
+    "description": "Experience our advanced artificial intelligence system that provides comprehensive zodiac analysis and personalized predictions.",
+    "items": [
+      {
+        "title": "Neural Network Sign Calculation",
+        "description": "Our AI utilizes neural networks for precise determination of your Chinese zodiac sign based on your exact birth date.",
+        "icon": "RiCalculatorLine"
+      },
+      {
+        "title": "Deep Learning Element Analysis",
+        "description": "Advanced AI algorithms provide detailed breakdown of your element and its complex interactions with your zodiac sign.",
+        "icon": "RiWaterFlashLine"
+      },
+      {
+        "title": "Predictive AI 2025 Forecast",
+        "description": "Machine learning models generate highly personalized predictions for career, relationships, health, and wealth in the upcoming year.",
+        "icon": "RiCalendarCheckLine"
+      },
+      {
+        "title": "AI Personality Profiling",
+        "description": "Our artificial intelligence creates a comprehensive analysis of character traits, strengths, and challenges based on your zodiac sign.",
+        "icon": "RiUserStarLine"
+      },
+      {
+        "title": "Smart Compatibility Algorithm",
+        "description": "AI-powered system determines which zodiac signs are most compatible with yours for friendships and relationships.",
+        "icon": "RiHeartsFill"
+      },
+      {
+        "title": "AI-Recommended Lucky Elements",
+        "description": "Machine learning generated recommendations for lucky colors, numbers, and directions to enhance your fortune.",
+        "icon": "RiLeafLine"
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Common Questions About Our AI Chinese Zodiac System",
+    "description": "Have more questions about our AI technology? Contact us through our support channels.",
+    "items": [
+      {
+        "title": "How does your AI determine my Chinese zodiac sign?",
+        "description": "Our AI system precisely calculates your Chinese zodiac sign based on the lunar year of your birth according to the traditional Chinese calendar, using advanced algorithms to ensure accuracy even with calendar variations."
+      },
+      {
+        "title": "What AI technology analyzes the Five Elements interaction with my zodiac?",
+        "description": "We use proprietary machine learning models to analyze how the Five Elements (Wood, Fire, Earth, Metal, and Water) combine with the 12 animal signs, creating personalized insights about your character and destiny."
+      },
+      {
+        "title": "How accurate are your AI-generated zodiac predictions?",
+        "description": "Our AI predictions combine thousands of years of traditional Chinese zodiac wisdom with modern data science and machine learning. Our algorithms are trained on historical patterns and continuously improved for maximum accuracy."
+      },
+      {
+        "title": "Can the AI suggest ways to improve my fortune based on my zodiac?",
+        "description": "Yes! Our AI generates personalized recommendations for lucky colors, numbers, directions, and activities based on your specific zodiac-element combination to help balance your energies and potentially enhance different areas of your life."
+      },
+      {
+        "title": "How does the AI create my 2025 prediction?",
+        "description": "Our artificial intelligence analyzes how the Year of the Snake (2025) will interact with your personal zodiac sign and element, using complex algorithms to process traditional compatibility patterns and provide detailed life forecasts."
+      },
+      {
+        "title": "What data does your AI use to generate my zodiac reading?",
+        "description": "Our AI system utilizes your birthdate alongside a comprehensive database of traditional Chinese astrology, modern psychological insights, and pattern recognition to generate deeply personalized zodiac readings without storing any personal information."
+      }
+    ]
+  },
+  "cta": {
+    "name": "cta",
+    "title": "Get Your AI-Generated Chinese Zodiac Profile",
+    "description": "Experience our advanced artificial intelligence system's personalized 2025 destiny forecast now.",
+    "buttons": [
+      {
+        "title": "Generate My AI Zodiac Analysis",
+        "url": "#calculator",
+        "target": "_self",
+        "icon": "GoArrowUpRight"
+      },
+      {
+        "title": "Explore AI Zodiac Insights",
+        "url": "#questionListHeader",
+        "target": "_self",
+        "variant": "outline"
+      }
+    ]
+  }
+}

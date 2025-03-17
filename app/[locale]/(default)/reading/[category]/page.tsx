@@ -4,6 +4,7 @@ import QuestionListBlock from "@/components/blocks/question-list";
 import QuestionListHeader from "@/components/blocks/question-list-header";
 import QuestionSelector from "@/components/blocks/question-selector";
 import Feature1 from "@/components/blocks/feature1";
+import Feature from "@/components/blocks/feature";
 import FAQ from "@/components/blocks/faq";
 import CTA from "@/components/blocks/cta";
 import {
@@ -20,10 +21,10 @@ export async function generateMetadata({
 }) {
   const t = await getTranslations();
 
-  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/resources/${category}`;
+  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/reading/${category}`;
 
   if (locale !== "en") {
-    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/resources/${category}`;
+    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/reading/${category}`;
   }
 
   return {
@@ -50,7 +51,7 @@ export default async function CategoryPage({
         <Crumb
           items={[
             { title: "home", url: "/" },
-            { title: params.category, url: `/resources/${params.category}` },
+            { title: params.category, url: `/reading/${params.category}` },
           ]}
         />
       </div>
@@ -61,6 +62,7 @@ export default async function CategoryPage({
         questionSuggestions={page.questionSuggestions}
       />
       {page.introduce && <Feature1 section={page.introduce} />}
+      {page.feature && <Feature section={page.feature} />}
       {page.questionListHeader && (
         <QuestionListBlock
           category={params.category}

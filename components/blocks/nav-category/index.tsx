@@ -17,7 +17,7 @@ export const NavCategory = () => {
 
             return (
               <Link
-                href={`/resources/${category.key}`}
+                href={`/reading/${category.key}`}
                 key={category.name}
                 className="flex-shrink-0 snap-center"
               >

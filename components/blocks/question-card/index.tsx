@@ -39,7 +39,7 @@ export function QuestionCard({ question }: { question: QuestionItem }) {
   return (
     <div>
       <Link
-        href={`/resources/${category}/questions/${slug}`}
+        href={`/reading/${category}/questions/${slug}`}
         className="block bg-white rounded-lg shadow border border-gray-100 p-6 mb-5 hover:bg-gray-100 transition-shadow"
       >
         <div className="flex justify-between items-start mb-1">

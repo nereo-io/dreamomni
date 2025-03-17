@@ -8,6 +8,7 @@ export interface CareerPage {
   hero?: Hero;
   questionSuggestions?: QuestionSuggestions;
   introduce?: Section;
+  feature?: Section;
   questionListHeader?: QuestionListHeader;
   faq?: Section;
   cta?: Section;

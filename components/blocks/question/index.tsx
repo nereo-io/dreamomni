@@ -116,7 +116,7 @@ const RelatedQuestions = ({
           {questions?.map((question, index) => (
             <div key={index} className="pb-3 last:pb-0">
               <Link
-                href={`/resources/${category}/questions/${question.slug}`}
+                href={`/reading/${category}/questions/${question.slug}`}
                 className="text-sm hover:text-blue-600"
               >
                 {question.title}

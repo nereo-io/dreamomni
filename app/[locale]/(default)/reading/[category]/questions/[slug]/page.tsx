@@ -35,10 +35,10 @@ export async function generateMetadata({
 }) {
   const question = await getQuestionDetail(params.slug, params.locale);
 
-  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/resources/${params.category}/questions/${params.slug}`;
+  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/reading/${params.category}/questions/${params.slug}`;
 
   if (params.locale !== "en") {
-    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${params.locale}/resources/${params.category}/questions/${params.slug}`;
+    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${params.locale}/reading/${params.category}/questions/${params.slug}`;
   }
 
   return {
@@ -71,10 +71,10 @@ export default async function QuestionDetailPage({ params }: PageParams) {
         <Crumb
           items={[
             { title: "home", url: "/" },
-            { title: params.category, url: `/resources/${params.category}` },
+            { title: params.category, url: `/reading/${params.category}` },
             {
               title: question.title,
-              url: `/resources/${params.category}/questions/${params.slug}`,
+              url: `/reading/${params.category}/questions/${params.slug}`,
             },
           ]}
         />
@@ -82,7 +82,7 @@ export default async function QuestionDetailPage({ params }: PageParams) {
 
       <div className="flex flex-row items-start sm:items-center gap-4 mb-6">
         <Button variant="outline" asChild className="w-auto">
-          <Link href={`/${locale}/resources/${question.category}`}>
+          <Link href={`/${locale}/reading/${question.category}`}>
             <ArrowLeftIcon className="w-4 h-4" />
             Back
           </Link>
@@ -179,7 +179,7 @@ export default async function QuestionDetailPage({ params }: PageParams) {
                     {question.relatedQuestions.map((related) => (
                       <li key={related.slug} className="mb-2">
                         <Link
-                          href={`/${locale}/resources/${question.category}/questions/${related.slug}`}
+                          href={`/${locale}/reading/${question.category}/questions/${related.slug}`}
                           className="text-blue-600 hover:underline text-sm sm:text-base"
                         >
                           {related.title}

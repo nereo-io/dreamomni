@@ -41,7 +41,7 @@ export const SolveAllQuestions = async ({
 
           return (
             <Link
-              href={`/resources/${card.category}/questions/${card.slug}`}
+              href={`/reading/${card.category}/questions/${card.slug}`}
               key={index}
             >
               <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer dark:border-gray-700">
