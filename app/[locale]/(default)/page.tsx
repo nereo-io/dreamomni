@@ -58,9 +58,7 @@ export default async function LandingPage({
         questionSuggestions={page.questionSuggestions}
       />
       <NavCategory />
-      {/* {page.solveAllQuestions && (
-        <SolveAllQuestions section={page.solveAllQuestions} />
-      )} */}
+
       {page.branding && <Branding section={page.branding} />}
       {page.introduce && <Feature1 section={page.introduce} />}
       {page.feature && <Feature section={page.feature} />}
@@ -69,7 +67,10 @@ export default async function LandingPage({
       {page.usage && <Feature3 section={page.usage} />}
       {page.stats && <Stats section={page.stats} />}
       {pricing && <Pricing pricing={pricing} />}
-      {/* {page.testimonial && <Testimonial section={page.testimonial} />} */}
+      {page.testimonial && <Testimonial section={page.testimonial} />}
+      {/* {page.solveAllQuestions && (
+        <SolveAllQuestions section={page.solveAllQuestions} />
+      )} */}
       {page.faq && <FAQ section={page.faq} />}
       {page.cta && <CTA section={page.cta} />}
     </>

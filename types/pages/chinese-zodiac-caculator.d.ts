@@ -7,7 +7,7 @@ import { Feature } from "@/types/blocks/feature";
 import { Feature2 } from "@/types/blocks/feature2";
 import { FAQ } from "@/types/blocks/faq";
 import { CTA } from "@/types/blocks/cta";
-
+import { Testimonial } from "@/types/blocks/testimonial";
 export interface ChineseZodiacPage {
   hero: Hero;
   enterBirthdate: string;
@@ -54,6 +54,7 @@ export interface ChineseZodiacPage {
   questionListHeader: QuestionListHeader;
   introduce: Section;
   feature: Section;
+  testimonial: Testimonial;
   faq: FAQ;
   cta: CTA;
 }

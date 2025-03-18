@@ -34,11 +34,12 @@ export async function generateMetadata({
 }: {
   params: { locale: string; slug: string };
 }) {
-  const question = await getQuestionDetail(params.slug, params.locale);
+  const locale = "en";
+  const question = await getQuestionDetail(params.slug, locale);
 
   let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/chinese-zodiac-caculator/${params.slug}`;
 
-  if (params.locale !== "en") {
+  if (locale !== "en") {
     canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${params.locale}/chinese-zodiac-caculator/${params.slug}`;
   }
 
@@ -55,7 +56,7 @@ export default async function QuestionDetailPage({ params }: PageParams) {
   const { slug, locale } = params;
 
   // 获取问题详情
-  const question = await getQuestionDetail(slug, locale);
+  const question = await getQuestionDetail(slug, "en");
 
   // 如果问题不存在，显示404页面
   if (!question) {

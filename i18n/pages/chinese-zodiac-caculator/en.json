@@ -14,17 +14,12 @@
   "monthLabel": "Month",
   "dayLabel": "Day",
   "results": {
-    "yourZodiac": "Our AI has calculated your Chinese Zodiac as",
+    "yourZodiac": "Your Chinese Zodiac is",
     "yourElement": "AI analysis shows your Element is",
-    "prediction2025": "AI-Generated 2025 Destiny Forecast for",
-    "readMore": "View complete AI-powered 2025 Destiny Forecast",
-    "elementRelationship": "AI-Analyzed Element-Zodiac Relationship",
-    "personalityTitle": "AI-Generated Personality & Characteristics",
-    "compatibilityTitle": "AI Compatibility Analysis",
-    "luckyElementsTitle": "AI-Recommended Lucky Elements",
-    "careerProspects": "AI Career Forecast",
-    "healthOutlook": "AI Health Analysis",
-    "relationshipForecast": "AI Relationship Prediction"
+    "prediction2025": "2025 Destiny Forecast for",
+    "readMore": "View complete 2025 Forecast",
+    "elementRelationship": "Element-Zodiac Relationship",
+    "personalityTitle": "Personality & Characteristics"
   },
   "zodiacSigns": {
     "rat": "Rat",
@@ -113,6 +108,63 @@
         "title": "AI-Recommended Lucky Elements",
         "description": "Machine learning generated recommendations for lucky colors, numbers, and directions to enhance your fortune.",
         "icon": "RiLeafLine"
+      }
+    ]
+  },
+  "testimonial": {
+    "name": "testimonial",
+    "label": "Testimonial",
+    "title": "What Users Say About Our AI Zodiac Calculator",
+    "description": "Hear from users who have discovered their personal destiny through our advanced AI zodiac analysis.",
+    "icon": "GoThumbsup",
+    "items": [
+      {
+        "title": "Emily Chen",
+        "label": "Dragon, Wood Element",
+        "description": "The AI-generated personality profile was astonishingly accurate! The neural network analysis revealed aspects of my Dragon personality I never realized before. Truly eye-opening!",
+        "image": {
+          "src": "/imgs/users/1.png"
+        }
+      },
+      {
+        "title": "Michael Liu",
+        "label": "Monkey, Metal Element",
+        "description": "The deep learning element analysis explained why I've always been drawn to certain career paths. The AI compatibility suggestions have transformed my approach to relationships!",
+        "image": {
+          "src": "/imgs/users/2.png"
+        }
+      },
+      {
+        "title": "Sarah Johnson",
+        "label": "Rabbit, Fire Element",
+        "description": "As someone skeptical about astrology, I was blown away by the precision of the AI predictions. The 2025 forecast gave me practical insights I'm actually using to plan my year ahead.",
+        "image": {
+          "src": "/imgs/users/3.png"
+        }
+      },
+      {
+        "title": "Daniel Wong",
+        "label": "Snake, Water Element",
+        "description": "The machine learning algorithm's career forecast was eerily accurate! Following the AI-recommended lucky elements has already brought positive changes to my professional life.",
+        "image": {
+          "src": "/imgs/users/4.png"
+        }
+      },
+      {
+        "title": "Jessica Zhang",
+        "label": "Tiger, Earth Element",
+        "description": "The AI-analyzed element-zodiac relationship helped me understand my strengths and weaknesses. The personalized health outlook provided valuable guidance I hadn't considered before.",
+        "image": {
+          "src": "/imgs/users/5.png"
+        }
+      },
+      {
+        "title": "Robert Kim",
+        "label": "Ox, Wood Element",
+        "description": "The predictive AI forecasting was remarkably detailed! I've been following the AI-recommended lucky elements for three months now, and I've noticed significant improvements in my relationships.",
+        "image": {
+          "src": "/imgs/users/6.png"
+        }
       }
     ]
   },

@@ -57,36 +57,34 @@ export default function Testimonial({ section }: { section: SectionType }) {
             <CarouselContent>
               {section.items?.map((item, index) => (
                 <CarouselItem key={index} className="basis-auto">
-                  <Card className="h-[220px] max-w-96 select-none p-6">
-                    <div className="flex h-full flex-col">
-                      <div className="flex justify-between">
-                        <div className="mb-3 flex gap-4">
-                          <Avatar className="size-12 rounded-full ring-1 ring-input">
-                            <AvatarImage
-                              src={item.image?.src}
-                              alt={item.image?.alt || item.title}
-                            />
-                          </Avatar>
-                          <div>
-                            <p className="font-medium">{item.title}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {item.label}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex gap-1">
-                          {Array.from({ length: 5 }).map((_, i) => (
-                            <Star
-                              key={i}
-                              className="size-4 fill-amber-500 text-amber-500"
-                            />
-                          ))}
+                  <Card className="max-w-96 select-none p-6">
+                    <div className="flex justify-between">
+                      <div className="mb-4 flex gap-4">
+                        <Avatar className="size-14 rounded-full ring-1 ring-input">
+                          <AvatarImage
+                            src={item.image?.src}
+                            alt={item.image?.alt || item.title}
+                          />
+                        </Avatar>
+                        <div>
+                          <p className="font-medium">{item.title}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {item.label}
+                          </p>
                         </div>
                       </div>
-                      <q className="line-clamp-3 flex-1 leading-7 text-muted-foreground">
-                        {item.description}
-                      </q>
+                      <div className="flex gap-1">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star
+                            key={i}
+                            className="size-5 fill-amber-500 text-amber-500"
+                          />
+                        ))}
+                      </div>
                     </div>
+                    <q className="leading-7 text-muted-foreground">
+                      {item.description}
+                    </q>
                   </Card>
                 </CarouselItem>
               ))}

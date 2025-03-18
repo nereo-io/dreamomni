@@ -13,41 +13,46 @@
     "nav": {
       "items": [
         {
-          "title": "リソース",
+          "title": "鑑定",
           "url": "/reading",
           "icon": "RiBookLine",
           "children": [
             {
-              "title": "恋愛リーディング",
+              "title": "恋愛鑑定",
               "url": "/reading/love",
               "icon": "RiHeartLine"
             },
             {
-              "title": "キャリアリーディング",
+              "title": "キャリア鑑定",
               "url": "/reading/career",
               "icon": "RiBriefcaseLine"
             },
             {
-              "title": "健康リーディング",
+              "title": "健康鑑定",
               "url": "/reading/health",
               "icon": "RiHeartPulseLine"
             },
             {
-              "title": "中国干支",
+              "title": "干支鑑定",
               "url": "/reading/chinese-zodiac",
               "icon": "RiStarLine"
-            },
-            {
-              "title": "2025年予測",
-              "url": "/reading/2025-forecast",
-              "icon": "RiCalendarLine"
             }
           ]
+        },
+        {
+          "title": "計算機",
+          "url": "/chinese-zodiac-caculator",
+          "icon": "RiCalculatorLine"
         },
         {
           "title": "料金",
           "url": "/pricing",
           "icon": "RiMoneyDollarCircleLine"
+        },
+        {
+          "title": "ブログ",
+          "url": "/blog",
+          "icon": "RiBookOpenLine"
         }
       ]
     },
@@ -218,42 +223,47 @@
     "name": "footer",
     "brand": {
       "title": "BaziAI",
-      "description": "DeepSeek R1を搭載した八字分析プラットフォームで、古代の知恵と最先端のAI技術を組み合わせて正確な人生ガイダンスを提供します。",
+      "description": "DeepSeek R1を搭載した八字分析プラットフォームは、古代の知恵と最先端のAI技術を組み合わせて、正確な人生指導を提供します。",
       "logo": {
         "src": "/logo.svg",
         "alt": "BaziAI"
       },
       "url": "/"
     },
-    "copyright": " 2024 • BaziAI All rights reserved.",
+    "copyright": " 2025 • BaziAI All rights reserved.",
     "nav": {
       "items": [
         {
-          "title": "サービス",
+          "title": "鑑定",
           "children": [
             {
-              "title": "愛情解読",
+              "title": "恋愛鑑定",
               "url": "/reading/love",
               "target": "_self"
             },
             {
-              "title": "キャリア解読",
+              "title": "キャリア鑑定",
               "url": "/reading/career",
               "target": "_self"
             },
             {
-              "title": "健康解読",
+              "title": "健康鑑定",
               "url": "/reading/health",
               "target": "_self"
             },
             {
-              "title": "中国の干支解読",
+              "title": "干支鑑定",
               "url": "/reading/chinese-zodiac",
               "target": "_self"
-            },
+            }
+          ]
+        },
+        {
+          "title": "計算機",
+          "children": [
             {
-              "title": "2025年予測",
-              "url": "/reading/2025-forecast",
+              "title": "干支計算機",
+              "url": "/chinese-zodiac-caculator",
               "target": "_self"
             }
           ]
@@ -284,15 +294,15 @@
           "target": "_blank"
         },
         {
-          "title": "Instagram",
-          "icon": "RiInstagramLine",
-          "url": "https://www.instagram.com/ruoxipaipan?igsh=Mjg5cG11Nm9hcG41&utm_source=qr",
+          "title": "X",
+          "icon": "RiTwitterXFill",
+          "url": "https://x.com/bazi_ai",
           "target": "_blank"
         },
         {
-          "title": "X",
-          "icon": "RiTwitterXFill",
-          "url": "https://x.com/ruoxishuo?s=21",
+          "title": "Youtube",
+          "icon": "RiYoutubeFill",
+          "url": "https://www.youtube.com/@BaziAI",
           "target": "_blank"
         }
       ]
@@ -368,5 +378,81 @@
         "fortune3": "不運を避け、機会を捉えるにはどうすればよいですか？"
       }
     }
+  },
+  "testimonial": {
+    "name": "testimonial",
+    "label": "お客様の声",
+    "title": "BaziAI読解についてのユーザーの声",
+    "description": "DeepSeek R1を搭載した八字分析が、正確な洞察と指導によって生活をどのように変えたかをご覧ください。",
+    "icon": "GoThumbsup",
+    "items": [
+      {
+        "title": "田中さゆり",
+        "label": "32歳、既婚、マーケティング部長",
+        "description": "DeepSeek R1の八字分析は、会社の再編成と完璧に一致するキャリアアップの機会を正確に明らかにしました。そのガイダンスに従うことで、家庭生活と完璧にバランスの取れた昇進を手に入れることができました。",
+        "image": {
+          "src": "/imgs/users/1.png"
+        }
+      },
+      {
+        "title": "佐藤健太",
+        "label": "28歳、独身、テック起業家",
+        "description": "BaziAIの分析は、私のスタートアップの課題と機会を正確に予測しました。人間関係に関する洞察は的確で、真剣な交際の前にキャリアに集中することを勧めてくれました—この助言のおかげで潜在的な気晴らしを避けることができました。",
+        "image": {
+          "src": "/imgs/users/2.png"
+        }
+      },
+      {
+        "title": "鈴木美香",
+        "label": "35歳、離婚、二児の母",
+        "description": "離婚後、BaziAIは子育ての課題や個人の成長機会について貴重なガイダンスを提供してくれました。共同養育に関するアドバイスは元夫との関係を改善し、子供たちの生活に安定をもたらしました。",
+        "image": {
+          "src": "/imgs/users/3.png"
+        }
+      },
+      {
+        "title": "山田隆",
+        "label": "40歳、既婚、金融アドバイザー",
+        "description": "毎日市場を分析するプロとして、BaziAIが驚くべき正確さで私のキャリアの変化を予測するまでは懐疑的でした。仕事のストレスと家族との時間のバランスについての洞察は、私の結婚生活を大幅に強化しました。",
+        "image": {
+          "src": "/imgs/users/4.png"
+        }
+      },
+      {
+        "title": "中村さくら",
+        "label": "26歳、交際中、大学院生",
+        "description": "BaziAIは、健全な恋愛関係を維持しながら博士課程のストレスに対処するのに役立ちました。論文提出とキャリア応募のタイミングに関するアドバイスは、私の八字チャートの好ましい期間と完璧に一致していました。",
+        "image": {
+          "src": "/imgs/users/5.png"
+        }
+      },
+      {
+        "title": "伊藤誠",
+        "label": "45歳、死別、事業主",
+        "description": "妻を亡くした後、BaziAIの洞察は私が再び人生の意味を見つけるのに役立ちました。事業拡大のタイミングに関するアドバイスは非常に正確であり、感情的な癒しに関するガイダンスは私がより良い父親になるのに役立ちました。",
+        "image": {
+          "src": "/imgs/users/6.png"
+        }
+      }
+    ]
+  },
+  "cta": {
+    "name": "cta",
+    "title": "BaziAIで運命を発見しましょう",
+    "description": "DeepSeek R1 AIと古代八字の知恵の強力な組み合わせを体験してください。",
+    "buttons": [
+      {
+        "title": "無料で鑑定を受ける",
+        "url": "/reading",
+        "target": "_self",
+        "icon": "GoArrowUpRight"
+      },
+      {
+        "title": "プレミアムプランを見る",
+        "url": "/pricing",
+        "target": "_self",
+        "variant": "outline"
+      }
+    ]
   }
 }

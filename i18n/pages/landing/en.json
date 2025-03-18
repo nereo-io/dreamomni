@@ -171,6 +171,63 @@
       }
     ]
   },
+  "testimonial": {
+    "name": "testimonial",
+    "label": "Testimonial",
+    "title": "What Users Say About BaziAI Readings",
+    "description": "Discover how our DeepSeek R1 powered Bazi analysis has transformed lives with accurate insights and guidance.",
+    "icon": "GoThumbsup",
+    "items": [
+      {
+        "title": "Jennifer Wang",
+        "label": "32, Married, Marketing Executive",
+        "description": "The DeepSeek R1 Bazi analysis revealed career advancement opportunities perfectly timed with my company's restructuring. Following the guidance helped me secure a promotion that balanced perfectly with my family life.",
+        "image": {
+          "src": "/imgs/users/1.png"
+        }
+      },
+      {
+        "title": "David Zhang",
+        "label": "28, Single, Tech Entrepreneur",
+        "description": "BaziAI's analysis accurately predicted my startup's challenges and opportunities. The relationship insights were spot-on, suggesting I focus on career growth before serious dating - advice that saved me from potential distractions.",
+        "image": {
+          "src": "/imgs/users/2.png"
+        }
+      },
+      {
+        "title": "Emma Li",
+        "label": "35, Divorced, Mother of two",
+        "description": "After my divorce, BaziAI provided invaluable guidance on parenting challenges and personal growth opportunities. The co-parenting advice has improved my relationship with my ex-husband and brought stability to my children's lives.",
+        "image": {
+          "src": "/imgs/users/3.png"
+        }
+      },
+      {
+        "title": "James Chen",
+        "label": "40, Married, Financial Advisor",
+        "description": "As someone who analyzes markets daily, I was skeptical until BaziAI predicted my career transition with remarkable accuracy. The insights about balancing work stress with family time have strengthened my marriage significantly.",
+        "image": {
+          "src": "/imgs/users/4.png"
+        }
+      },
+      {
+        "title": "Sophia Yang",
+        "label": "26, In a relationship, Graduate Student",
+        "description": "BaziAI helped me navigate the stress of my PhD program while maintaining a healthy relationship. The timing advice for thesis submission and career applications aligned perfectly with favorable periods in my Bazi chart.",
+        "image": {
+          "src": "/imgs/users/5.png"
+        }
+      },
+      {
+        "title": "Thomas Liu",
+        "label": "45, Widowed, Business Owner",
+        "description": "After losing my wife, BaziAI's insights helped me find meaning again. The business expansion timing advice proved remarkably accurate, and the guidance on emotional healing has helped me become a better father to my children.",
+        "image": {
+          "src": "/imgs/users/6.png"
+        }
+      }
+    ]
+  },
   "faq": {
     "name": "faq",
     "label": "FAQ",
@@ -230,7 +287,7 @@
       },
       "url": "/"
     },
-    "copyright": " 2024 • BaziAI All rights reserved.",
+    "copyright": " 2025 • BaziAI All rights reserved.",
     "nav": {
       "items": [
         {
@@ -295,15 +352,15 @@
           "target": "_blank"
         },
         {
-          "title": "Instagram",
-          "icon": "RiInstagramLine",
-          "url": "https://www.instagram.com/ruoxipaipan?igsh=Mjg5cG11Nm9hcG41&utm_source=qr",
+          "title": "X",
+          "icon": "RiTwitterXFill",
+          "url": "https://x.com/bazi_ai",
           "target": "_blank"
         },
         {
-          "title": "X",
-          "icon": "RiTwitterXFill",
-          "url": "https://x.com/ruoxishuo?s=21",
+          "title": "Youtube",
+          "icon": "RiYoutubeFill",
+          "url": "https://www.youtube.com/@BaziAI",
           "target": "_blank"
         }
       ]
@@ -320,6 +377,25 @@
         }
       ]
     }
+  },
+  "cta": {
+    "name": "cta",
+    "title": "Discover Your Destiny with BaziAI",
+    "description": "Experience the power of DeepSeek R1 AI combined with ancient Bazi wisdom.",
+    "buttons": [
+      {
+        "title": "Get Free Reading",
+        "url": "/",
+        "target": "_self",
+        "icon": "GoArrowUpRight"
+      },
+      {
+        "title": "View Premium Plans",
+        "url": "#pricing",
+        "target": "_self",
+        "variant": "outline"
+      }
+    ]
   },
   "solveAllQuestions": {
     "title": "Solve All Questions",

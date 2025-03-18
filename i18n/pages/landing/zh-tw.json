@@ -13,7 +13,7 @@
     "nav": {
       "items": [
         {
-          "title": "資源",
+          "title": "解讀",
           "url": "/reading",
           "icon": "RiBookLine",
           "children": [
@@ -33,21 +33,26 @@
               "icon": "RiHeartPulseLine"
             },
             {
-              "title": "生肖",
+              "title": "生肖解讀",
               "url": "/reading/chinese-zodiac",
               "icon": "RiStarLine"
-            },
-            {
-              "title": "2025年預測",
-              "url": "/reading/2025-forecast",
-              "icon": "RiCalendarLine"
             }
           ]
+        },
+        {
+          "title": "計算器",
+          "url": "/chinese-zodiac-caculator",
+          "icon": "RiCalculatorLine"
         },
         {
           "title": "價格",
           "url": "/pricing",
           "icon": "RiMoneyDollarCircleLine"
+        },
+        {
+          "title": "博客",
+          "url": "/blog",
+          "icon": "RiBookOpenLine"
         }
       ]
     },
@@ -168,38 +173,57 @@
   },
   "testimonial": {
     "name": "testimonial",
-    "title": "用戶如何評價 BaziAI",
-    "label": "推薦",
-    "description": "來自世界各地用戶的真實體驗",
+    "label": "用戶評價",
+    "title": "使用者對BaziAI解讀的評價",
+    "description": "了解我們的DeepSeek R1人工智能八字分析如何通過準確的見解和指導改變生活。",
+    "icon": "GoThumbsup",
     "items": [
       {
-        "content": "BaziAI 的解讀驚人地準確。它幫助我理解了我的優勢和挑戰，並在我的職業道路上做出更明智的決定。",
-        "author": {
-          "name": "陳美玲",
-          "title": "市場經理",
-          "avatar": {
-            "src": "/imgs/avatars/avatar-1.png"
-          }
+        "title": "王麗娜",
+        "label": "32歲，已婚，市場營銷主管",
+        "description": "DeepSeek R1八字分析準確揭示了與公司重組完美契合的職業晉升機會。遵循指導幫助我獲得了一個能與家庭生活完美平衡的晉升。",
+        "image": {
+          "src": "/imgs/users/1.png"
         }
       },
       {
-        "content": "作為一個對東方命理感興趣的人，我發現 BaziAI 是傳統智慧和現代技術的完美結合。解讀非常深入且個人化。",
-        "author": {
-          "name": "王大偉",
-          "title": "創業家",
-          "avatar": {
-            "src": "/imgs/avatars/avatar-2.png"
-          }
+        "title": "張瑋",
+        "label": "28歲，單身，科技創業者",
+        "description": "BaziAI的分析準確預測了我創業過程中的挑戰和機遇。人際關係見解非常到位，建議我在認真約會前專注於職業發展——這建議讓我避免了潛在的分心。",
+        "image": {
+          "src": "/imgs/users/2.png"
         }
       },
       {
-        "content": "作為一個懷疑論者，我對 BaziAI 的準確性感到驚訝。它提供的洞察幫助我在職業和個人生活中做出更好的選擇。",
-        "author": {
-          "name": "林志明",
-          "title": "軟體工程師",
-          "avatar": {
-            "src": "/imgs/avatars/avatar-3.png"
-          }
+        "title": "李明雪",
+        "label": "35歲，離異，兩個孩子的母親",
+        "description": "離婚後，BaziAI為我提供了關於育兒挑戰和個人成長機會的寶貴指導。共同育兒的建議改善了我與前夫的關係，為孩子們的生活帶來了穩定。",
+        "image": {
+          "src": "/imgs/users/3.png"
+        }
+      },
+      {
+        "title": "陳俊傑",
+        "label": "40歲，已婚，金融顧問",
+        "description": "作為每天分析市場的專業人士，我曾經懷疑八字分析，直到BaziAI以驚人的準確度預測了我的職業轉變。關於平衡工作壓力和家庭時間的見解顯著增強了我的婚姻關係。",
+        "image": {
+          "src": "/imgs/users/4.png"
+        }
+      },
+      {
+        "title": "楊雨欣",
+        "label": "26歲，戀愛中，研究生",
+        "description": "BaziAI幫助我在保持健康戀愛關係的同時應對博士課程的壓力。論文提交和職業申請的時機建議與我八字圖中的有利時期完美契合。",
+        "image": {
+          "src": "/imgs/users/5.png"
+        }
+      },
+      {
+        "title": "劉天明",
+        "label": "45歲，喪偶，企業主",
+        "description": "在失去妻子後，BaziAI的見解幫助我重新找到了生活的意義。業務擴張時機的建議證明非常準確，情感療愈的指導幫助我成為孩子們更好的父親。",
+        "image": {
+          "src": "/imgs/users/6.png"
         }
       }
     ]
@@ -254,29 +278,39 @@
   },
   "cta": {
     "name": "cta",
-    "title": "準備好探索您的命運了嗎？",
-    "description": "立即開始您的 AI 八字之旅，獲取個人化的命運洞察和指導",
-    "cta": {
-      "text": "免費開始",
-      "url": "/chat"
-    }
+    "title": "用BaziAI探索你的命運",
+    "description": "體驗DeepSeek R1人工智能與古老八字智慧的強大結合。",
+    "buttons": [
+      {
+        "title": "獲取免費解讀",
+        "url": "/reading",
+        "target": "_self",
+        "icon": "GoArrowUpRight"
+      },
+      {
+        "title": "查看高級計劃",
+        "url": "/pricing",
+        "target": "_self",
+        "variant": "outline"
+      }
+    ]
   },
   "footer": {
     "name": "footer",
     "brand": {
       "title": "BaziAI",
-      "description": "您的八字分析平台由DeepSeek R1提供支持，將古老智慧與尖端AI技術相結合，提供精確的人生指導。",
+      "description": "您的八字分析平台由DeepSeek R1驅動，結合古老智慧和尖端AI技術提供精準的生活指導。",
       "logo": {
         "src": "/logo.svg",
         "alt": "BaziAI"
       },
       "url": "/"
     },
-    "copyright": " 2024 • BaziAI 版權所有。",
+    "copyright": " 2025 • BaziAI 版權所有。",
     "nav": {
       "items": [
         {
-          "title": "服務",
+          "title": "解讀",
           "children": [
             {
               "title": "愛情解讀",
@@ -297,10 +331,15 @@
               "title": "生肖解讀",
               "url": "/reading/chinese-zodiac",
               "target": "_self"
-            },
+            }
+          ]
+        },
+        {
+          "title": "計算器",
+          "children": [
             {
-              "title": "2025年預測",
-              "url": "/reading/2025-forecast",
+              "title": "生肖計算器",
+              "url": "/chinese-zodiac-caculator",
               "target": "_self"
             }
           ]
@@ -314,7 +353,7 @@
               "target": "_self"
             },
             {
-              "title": "部落格",
+              "title": "博客",
               "url": "/blog",
               "target": "_self"
             }
@@ -331,15 +370,15 @@
           "target": "_blank"
         },
         {
-          "title": "Instagram",
-          "icon": "RiInstagramLine",
-          "url": "https://www.instagram.com/ruoxipaipan?igsh=Mjg5cG11Nm9hcG41&utm_source=qr",
+          "title": "X",
+          "icon": "RiTwitterXFill",
+          "url": "https://x.com/bazi_ai",
           "target": "_blank"
         },
         {
-          "title": "X",
-          "icon": "RiTwitterXFill",
-          "url": "https://x.com/ruoxishuo?s=21",
+          "title": "Youtube",
+          "icon": "RiYoutubeFill",
+          "url": "https://www.youtube.com/@BaziAI",
           "target": "_blank"
         }
       ]

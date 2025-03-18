@@ -142,5 +142,10 @@
   "chat": {
     "title": "새 대화 - DeepSeek R1 AI 사주 분석 도구",
     "description": "DeepSeek R1 AI 사주 분석 도구와 새 대화 시작하기"
+  },
+  "chinese-zodiac-caculator": {
+    "title": "중국 띠 AI 계산기 2025 | 무료 운세 예측",
+    "description": "AI 기반 중국 띠 계산기가 당신의 띠, 오행 원소 및 2025년 운세 예측을 알려줍니다. 전통 점성술에 기반한 맞춤형 통찰력을 얻으세요.",
+    "keywords": "중국 띠 계산기, 2025년 예측, 띠 기호, 운세 예보"
   }
 }

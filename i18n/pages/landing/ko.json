@@ -13,7 +13,7 @@
     "nav": {
       "items": [
         {
-          "title": "리소스",
+          "title": "해석",
           "url": "/reading",
           "icon": "RiBookLine",
           "children": [
@@ -33,21 +33,26 @@
               "icon": "RiHeartPulseLine"
             },
             {
-              "title": "중국 띠",
+              "title": "띠별 해석",
               "url": "/reading/chinese-zodiac",
               "icon": "RiStarLine"
-            },
-            {
-              "title": "2025년 예측",
-              "url": "/reading/2025-forecast",
-              "icon": "RiCalendarLine"
             }
           ]
         },
         {
-          "title": "가격",
+          "title": "계산기",
+          "url": "/chinese-zodiac-caculator",
+          "icon": "RiCalculatorLine"
+        },
+        {
+          "title": "요금제",
           "url": "/pricing",
           "icon": "RiMoneyDollarCircleLine"
+        },
+        {
+          "title": "블로그",
+          "url": "/blog",
+          "icon": "RiBookOpenLine"
         }
       ]
     },
@@ -168,38 +173,57 @@
   },
   "testimonial": {
     "name": "testimonial",
-    "title": "사용자들이 BaziAI에 대해 말하는 것",
-    "label": "추천사",
-    "description": "전 세계 사용자들이 BaziAI의 정확성과 통찰력에 대해 어떻게 말하는지 확인하세요",
+    "label": "사용자 후기",
+    "title": "BaziAI 해석에 대한 사용자들의 평가",
+    "description": "DeepSeek R1 파워로 구동되는 팔자 분석이 정확한 통찰력과, 정확한 가이드로 사람들의 삶을 어떻게 변화시켰는지 알아보세요.",
+    "icon": "GoThumbsup",
     "items": [
       {
-        "content": "BaziAI는 제 인생을 바꿨습니다. 제공된 통찰력은 놀랍도록 정확했고, 경력 변화에 대한 조언은 제가 꿈의 직업을 찾는 데 도움이 되었습니다.",
-        "author": {
-          "name": "김지영",
-          "title": "마케팅 전문가",
-          "avatar": {
-            "src": "/imgs/avatars/avatar-1.png"
-          }
+        "title": "김지연",
+        "label": "32세, 기혼, 마케팅 이사",
+        "description": "DeepSeek R1 팔자 분석은 회사 구조 조정과 완벽하게 맞아떨어지는 경력 발전 기회를 정확하게 보여주었습니다. 가이드를 따라 가족 생활과 완벽한 균형을 이루는 승진을 얻을 수 있었습니다.",
+        "image": {
+          "src": "/imgs/users/1.png"
         }
       },
       {
-        "content": "BaziAI의 관계 통찰력은 제 파트너와의 소통 방식을 완전히 바꿨습니다. 이제 우리는 서로를 더 잘 이해하고 더 강한 유대감을 형성했습니다.",
-        "author": {
-          "name": "박민수",
-          "title": "기업가",
-          "avatar": {
-            "src": "/imgs/avatars/avatar-2.png"
-          }
+        "title": "이민준",
+        "label": "28세, 미혼, 테크 창업가",
+        "description": "BaziAI의 분석은 제 스타트업의 도전과 기회를 정확하게 예측했습니다. 인간관계에 대한 통찰력은 매우 정확했으며, 진지한 데이팅 전에 경력 성장에 집중하라는 조언이 잠재적인 방해 요소를 피하는 데 도움이 되었습니다.",
+        "image": {
+          "src": "/imgs/users/2.png"
         }
       },
       {
-        "content": "회의론자로서, BaziAI의 정확성에 놀랐습니다. 제공된 통찰력은 내가 경력과 개인 생활에서 더 나은 선택을 하는 데 도움이 되었습니다.",
-        "author": {
-          "name": "이준호",
-          "title": "소프트웨어 엔지니어",
-          "avatar": {
-            "src": "/imgs/avatars/avatar-3.png"
-          }
+        "title": "박서연",
+        "label": "35세, 이혼, 두 아이의 어머니",
+        "description": "이혼 후, BaziAI는 육아 문제와 개인 성장 기회에 대한 소중한 안내를 제공했습니다. 공동 육아에 관한 조언은 전 남편과의 관계를 개선하고 아이들의 삶에 안정을 가져다 주었습니다.",
+        "image": {
+          "src": "/imgs/users/3.png"
+        }
+      },
+      {
+        "title": "정현우",
+        "label": "40세, 기혼, 금융 어드바이저",
+        "description": "매일 시장을 분석하는 전문가로서, BaziAI가 놀라운 정확도로 제 경력 전환을 예측할 때까지 저는 회의적이었습니다. 업무 스트레스와 가족 시간의 균형에 관한 통찰력은 제 결혼 생활을 크게 강화시켰습니다.",
+        "image": {
+          "src": "/imgs/users/4.png"
+        }
+      },
+      {
+        "title": "한지민",
+        "label": "26세, 연애 중, 대학원생",
+        "description": "BaziAI는 건강한 연애 관계를 유지하면서 박사 과정의 스트레스에 대처하는 데 도움을 주었습니다. 논문 제출과 취업 지원 타이밍에 대한 조언은 제 팔자 차트의 유리한 기간과 완벽하게 일치했습니다.",
+        "image": {
+          "src": "/imgs/users/5.png"
+        }
+      },
+      {
+        "title": "최준호",
+        "label": "45세, 사별, 사업자",
+        "description": "아내를 잃은 후, BaziAI의 통찰력은 제가 다시 삶의 의미를 찾는 데 도움이 되었습니다. 사업 확장 타이밍에 대한 조언은 매우 정확했으며, 감정적 치유에 대한 가이드는 제가 아이들에게 더 나은 아버지가 되는 데 도움이 되었습니다.",
+        "image": {
+          "src": "/imgs/users/6.png"
         }
       }
     ]
@@ -254,37 +278,47 @@
   },
   "cta": {
     "name": "cta",
-    "title": "당신의 운명을 탐색할 준비가 되셨나요?",
-    "description": "지금 AI 팔자 여정을 시작하여 개인화된 운명 통찰력과 지침을 얻으세요",
-    "cta": {
-      "text": "무료로 시작하기",
-      "url": "/chat"
-    }
+    "title": "BaziAI로 당신의 운명을 발견하세요",
+    "description": "DeepSeek R1 AI와 고대 팔자 지혜의 강력한 조합을 경험해보세요.",
+    "buttons": [
+      {
+        "title": "무료 해석 받기",
+        "url": "/reading",
+        "target": "_self",
+        "icon": "GoArrowUpRight"
+      },
+      {
+        "title": "프리미엄 플랜 보기",
+        "url": "/pricing",
+        "target": "_self",
+        "variant": "outline"
+      }
+    ]
   },
   "footer": {
     "name": "footer",
     "brand": {
       "title": "BaziAI",
-      "description": "DeepSeek R1을 기반으로 한 사주 분석 플랫폼으로, 고대의 지혜와 최첨단 AI 기술을 결합하여 정확한 인생 가이드를 제공합니다.",
+      "description": "DeepSeek R1로 구동되는 팔자 분석 플랫폼은 고대의 지혜와 최첨단 AI 기술을 결합하여 정확한 인생 지침을 제공합니다.",
       "logo": {
         "src": "/logo.svg",
         "alt": "BaziAI"
       },
       "url": "/"
     },
-    "copyright": " 2024 • BaziAI 모든 권리 보유.",
+    "copyright": " 2025 • BaziAI All rights reserved.",
     "nav": {
       "items": [
         {
-          "title": "서비스",
+          "title": "해석",
           "children": [
             {
-              "title": "사랑 해석",
+              "title": "연애 해석",
               "url": "/reading/love",
               "target": "_self"
             },
             {
-              "title": "커리어 해석",
+              "title": "경력 해석",
               "url": "/reading/career",
               "target": "_self"
             },
@@ -294,13 +328,18 @@
               "target": "_self"
             },
             {
-              "title": "중국 띠 해석",
+              "title": "띠별 해석",
               "url": "/reading/chinese-zodiac",
               "target": "_self"
-            },
+            }
+          ]
+        },
+        {
+          "title": "계산기",
+          "children": [
             {
-              "title": "2025년 예측",
-              "url": "/reading/2025-forecast",
+              "title": "띠별 계산기",
+              "url": "/chinese-zodiac-caculator",
               "target": "_self"
             }
           ]
@@ -331,15 +370,15 @@
           "target": "_blank"
         },
         {
-          "title": "Instagram",
-          "icon": "RiInstagramLine",
-          "url": "https://www.instagram.com/ruoxipaipan?igsh=Mjg5cG11Nm9hcG41&utm_source=qr",
+          "title": "X",
+          "icon": "RiTwitterXFill",
+          "url": "https://x.com/bazi_ai",
           "target": "_blank"
         },
         {
-          "title": "X",
-          "icon": "RiTwitterXFill",
-          "url": "https://x.com/ruoxishuo?s=21",
+          "title": "Youtube",
+          "icon": "RiYoutubeFill",
+          "url": "https://www.youtube.com/@BaziAI",
           "target": "_blank"
         }
       ]

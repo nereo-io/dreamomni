@@ -5,6 +5,7 @@ import QuestionListBlock from "@/components/blocks/question-list2";
 import Hero from "@/components/blocks/hero";
 import Feature from "@/components/blocks/feature";
 import Feature1 from "@/components/blocks/feature1";
+import Testimonial from "@/components/blocks/testimonial";
 import FAQ from "@/components/blocks/faq";
 import CTA from "@/components/blocks/cta";
 
@@ -46,13 +47,16 @@ export default async function ChineseZodiacCalculatorPage({
       <ChineseZodiac page={page} />
       {page.introduce && <Feature1 section={page.introduce} />}
       {page.feature && <Feature section={page.feature} />}
-      <QuestionListBlock
-        category="chinese-zodiac"
-        locale={locale}
-        questionListHeader={page.questionListHeader}
-        page={currentPage}
-        zodiacFilter={zodiacFilter}
-      />
+      {locale === "en" && (
+        <QuestionListBlock
+          category="chinese-zodiac"
+          locale={locale}
+          questionListHeader={page.questionListHeader}
+          page={currentPage}
+          zodiacFilter={zodiacFilter}
+        />
+      )}
+      {page.testimonial && <Testimonial section={page.testimonial} />}
       {page.faq && <FAQ section={page.faq} />}
       {page.cta && <CTA section={page.cta} />}
     </>
