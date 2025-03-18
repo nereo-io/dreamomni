@@ -2,7 +2,7 @@ import { LandingPage } from "@/types/pages/landing";
 import { ReaderPage } from "@/types/pages/reader";
 import { ChatPage } from "@/types/pages/chat";
 import { CareerPage } from "@/types/pages/career";
-import { ChineseZodiacPage } from "@/types/pages/chinese-zodiac-caculator";
+import { ChineseZodiacPage } from "@/types/pages/chinese-zodiac-calculator";
 import { Pricing } from "@/types/blocks/pricing";
 import { QuestionSelector } from "@/types/blocks/question-selector";
 
@@ -122,13 +122,13 @@ export async function getChineseZodiacPage(
       locale = "zh";
     }
     return await import(
-      `@/i18n/pages/chinese-zodiac-caculator/${locale.toLowerCase()}.json`
+      `@/i18n/pages/chinese-zodiac-calculator/${locale.toLowerCase()}.json`
     ).then((module) => module.default);
   } catch (error) {
     console.warn(
-      `Failed to load chinese-zodiac-caculator/${locale}.json, falling back to en.json`
+      `Failed to load chinese-zodiac-calculator/${locale}.json, falling back to en.json`
     );
-    return await import("@/i18n/pages/chinese-zodiac-caculator/en.json").then(
+    return await import("@/i18n/pages/chinese-zodiac-calculator/en.json").then(
       (module) => module.default as ChineseZodiacPage
     );
   }

@@ -16,15 +16,15 @@ export async function generateMetadata({
 }) {
   const t = await getTranslations();
 
-  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/chinese-zodiac-caculator`;
+  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/chinese-zodiac-calculator`;
 
   if (locale !== "en") {
-    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/chinese-zodiac-caculator`;
+    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/chinese-zodiac-calculator`;
   }
 
   return {
-    title: t(`chinese-zodiac-caculator.title`),
-    description: t(`chinese-zodiac-caculator.description`),
+    title: t(`chinese-zodiac-calculator.title`),
+    description: t(`chinese-zodiac-calculator.description`),
     alternates: {
       canonical: canonicalUrl,
     },
@@ -49,7 +49,7 @@ export default async function ChineseZodiacCalculatorPage({
       {page.feature && <Feature section={page.feature} />}
       {locale === "en" && (
         <QuestionListBlock
-          category="chinese-zodiac"
+          category="chinese-zodiac-calculator"
           locale={locale}
           questionListHeader={page.questionListHeader}
           page={currentPage}

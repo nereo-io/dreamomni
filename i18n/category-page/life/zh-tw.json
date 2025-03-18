@@ -37,11 +37,75 @@
       }
     }
   },
+  "introduce": {
+    "name": "introduce",
+    "title": "AI驅動八字人生解讀",
+    "label": "介紹",
+    "description": "我們的先進AI技術分析傳統八字命盤，揭示您的人生道路、個人命運和隱藏潛力。",
+    "image": {
+      "src": "/imgs/features/generating.gif"
+    },
+    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?autoplay=1&mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0 ",
+    "items": [
+      {
+        "title": "AI增強的古老智慧",
+        "description": "我們的AI技術將複雜的八字原理轉化為清晰、可行的人生洞察。",
+        "icon": "RiUserSearchLine"
+      },
+      {
+        "title": "個性化AI分析",
+        "description": "先進算法分析您獨特的八字命盤，揭示您真正的人生目的和潛力。",
+        "icon": "RiLineChartLine"
+      },
+      {
+        "title": "AI生成的人生指導",
+        "description": "獲取AI驅動的建議，引導人生轉變並最大化機遇。",
+        "icon": "RiCompassDiscoverLine"
+      }
+    ]
+  },
+  "feature": {
+    "name": "feature",
+    "title": "人生解讀的AI驅動功能",
+    "description": "體驗我們的先進AI技術如何增強傳統八字分析，提供前所未有的人生道路洞察。",
+    "items": [
+      {
+        "title": "智能五行分析",
+        "description": "AI驅動分析您命盤中的五行如何塑造您的性格和命運。",
+        "icon": "RiFireLine"
+      },
+      {
+        "title": "智能人生週期預測",
+        "description": "AI解讀您的十年大運和年度影響，助力戰略規劃。",
+        "icon": "RiCalendarCheckLine"
+      },
+      {
+        "title": "AI職業兼容性",
+        "description": "算法確定的職業路徑，與您的自然才能和五行優勢相匹配。",
+        "icon": "RiBriefcaseLine"
+      },
+      {
+        "title": "深度學習性格洞察",
+        "description": "AI分析您天生的性格特質、優勢和成長機會。",
+        "icon": "RiUserSettingsLine"
+      },
+      {
+        "title": "神經網絡模式識別",
+        "description": "AI檢測您人生經歷中的模式和重複主題，增強自我認知。",
+        "icon": "RiMindMap"
+      },
+      {
+        "title": "預測性人生預測",
+        "description": "AI生成關於重要人生轉變和決策有利時機的預測。",
+        "icon": "RiRoadMapLine"
+      }
+    ]
+  },
   "faq": {
     "name": "faq",
     "label": "常見問題",
     "title": "常見問題解答",
-    "description": "了解更多關於中國星相學中的人生解讀",
+    "description": "了解更多關於八字命理中的人生道路分析",
     "items": [
       {
         "title": "八字對我人生道路的預測有多準確？",
@@ -62,6 +126,25 @@
       {
         "title": "根據八字，我的生活完全是預定好的嗎？",
         "description": "八字暗示的是傾向和潛能，而非固定的結果。您保持著自由意志和做出選擇的能力。了解您的命盤能夠讓您更好地順應而非違背您的自然傾向。"
+      }
+    ]
+  },
+  "cta": {
+    "name": "cta",
+    "title": "今天發現您的人生道路",
+    "description": "通過我們先進的八字分析系統獲取AI驅動的個人命運洞察。",
+    "buttons": [
+      {
+        "title": "獲取AI人生解讀",
+        "url": "/reading/life",
+        "target": "_self",
+        "icon": "GoArrowUpRight"
+      },
+      {
+        "title": "了解更多",
+        "url": "#introduce",
+        "target": "_self",
+        "variant": "outline"
       }
     ]
   }

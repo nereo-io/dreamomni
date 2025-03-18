@@ -160,22 +160,22 @@
     "name": "faq",
     "label": "FAQ",
     "title": "Frequently Asked Questions",
-    "description": "Learn more about career insights in Chinese astrology",
+    "description": "Learn more about career insights in Bazi astrology",
     "items": [
       {
-        "title": "How does Chinese astrology determine career aptitude?",
-        "description": "Chinese astrology determines career aptitude through multiple factors in your birth chart. Your zodiac animal sign reveals natural talents and work preferences—for instance, Dragons often excel in leadership roles, while Rabbits might thrive in artistic or diplomatic careers. The Five Elements of your birth year (Wood, Fire, Earth, Metal, Water) further refine these tendencies; Metal individuals typically excel in structured environments, while Wood types may prefer creative or growth-oriented fields. Additionally, the specific combinations of elements and other chart aspects provide insights into your communication style, leadership potential, relationship with authority, and optimal work environments—all contributing to a comprehensive career profile."
+        "title": "How does Bazi determine career aptitude?",
+        "description": "Bazi determines career aptitude through multiple factors in your birth chart. Your zodiac animal sign reveals natural talents and work preferences—for instance, Dragons often excel in leadership roles, while Rabbits might thrive in artistic or diplomatic careers. The Five Elements of your birth year (Wood, Fire, Earth, Metal, Water) further refine these tendencies; Metal individuals typically excel in structured environments, while Wood types may prefer creative or growth-oriented fields. Additionally, the specific combinations of elements and other chart aspects provide insights into your communication style, leadership potential, relationship with authority, and optimal work environments—all contributing to a comprehensive career profile."
       },
       {
-        "title": "What careers are recommended for each Chinese zodiac sign?",
+        "title": "What careers are recommended for each zodiac sign?",
         "description": "Each zodiac sign has career affinities: Rats excel in business, accounting, and research; Oxen thrive in agriculture, engineering, and management; Tigers suit leadership, performing arts, and entrepreneurship; Rabbits excel in diplomacy, design, and education; Dragons are natural leaders in politics, entertainment, and high-risk ventures; Snakes succeed in research, psychology, and analytical fields; Horses perform well in sales, sports, and communication; Goats flourish in artistic pursuits, counseling, and healthcare; Monkeys adapt well to technology, trading, and problem-solving roles; Roosters excel in military, athletics, and public speaking; Dogs thrive in service industries, law, and medicine; Pigs do well in entertainment, hospitality, and real estate. Remember that these are tendencies—individual elements and chart aspects add important nuances."
       },
       {
-        "title": "When is the best time for a career change according to Chinese astrology?",
+        "title": "When is the best time for a career change according to Bazi?",
         "description": "Strategic timing for career changes follows several astrological patterns: First, consider your personal 12-year zodiac cycle—years when your animal sign is in harmony with the current year's sign typically support positive transitions. Second, examine annual Flying Star forecasts affecting your career sector. Third, favorable months often occur when seasonal elements strengthen your birth element. Additionally, universal windows for career advancement include the Spring (representing growth) and early Autumn (representing harvest of efforts). Avoid major changes during Mercury retrograde periods and your zodiac animal's clash year. For precise timing tailored to your situation, a personalized reading examining your complete chart in relation to current and upcoming astrological influences is recommended."
       },
       {
-        "title": "How can I improve workplace relationships using Chinese astrology?",
+        "title": "How can I improve workplace relationships using Bazi?",
         "description": "Understanding zodiac dynamics can transform workplace relationships. First, learn your colleagues' signs to anticipate communication styles—direct Tigers may clash with diplomatic Rabbits without mutual understanding. Second, recognize element interactions—Water types (adaptable, intuitive) can complement yet challenge Metal individuals (structured, precise). Third, leverage natural affinities; compatible signs often make excellent project partners or mentors. Fourth, develop strategies for challenging relationships; if working with an 'incompatible' sign, focus on complementary strengths rather than differences. Finally, time important conversations or proposals considering both parties' favorable days. This astrological awareness fosters empathy, allowing you to adapt your approach for more harmonious and productive professional relationships."
       },
       {
@@ -183,88 +183,89 @@
         "description": "Your birth element significantly influences your ideal work environment: Wood individuals thrive in growth-oriented, flexible settings with advancement opportunities and creative freedom—startups or progressive companies often suit them well. Fire types excel in dynamic, passionate environments with recognition and social interaction—sales, entertainment, or leadership positions fulfill their energetic nature. Earth people prefer stable, supportive workplaces with clear structures and meaningful work—established institutions or nurturing organizations provide their needed security. Metal individuals excel in precise, organized environments with clear hierarchies and standards—corporate, legal, or technical fields match their methodical approach. Water types flourish in intuitive, adaptable settings allowing independent thinking and depth—research, counseling, or creative problem-solving roles harness their reflective strengths."
       },
       {
-        "title": "How does Chinese astrology predict career success periods?",
-        "description": "Chinese astrology identifies career success periods through several cyclical patterns: The 12-year animal cycle brings fortune when the current year's animal harmonizes with your birth sign. The 10-year element cycle creates opportunities when prevailing elements complement your birth element. Your personal Luck Pillar (calculated from birth data) indicates 10-year periods of general fortune. Annual Flying Stars activate specific career sectors in your chart. Additionally, astrological 'Nobleman' influences bring helpful mentors and supporters during certain years. These cycles often converge to create distinctive periods of opportunity—some years naturally support advancement, while others favor consolidation or preparation. Understanding these patterns allows strategic timing of major career initiatives, maximizing your natural cosmic advantages rather than struggling against prevailing energies."
+        "title": "How does Bazi predict career success periods?",
+        "description": "Bazi identifies career success periods through several cyclical patterns: The 12-year animal cycle brings fortune when the current year's animal harmonizes with your birth sign. The 10-year element cycle creates opportunities when prevailing elements complement your birth element. Your personal Luck Pillar (calculated from birth data) indicates 10-year periods of general fortune. Annual Flying Stars activate specific career sectors in your chart. Additionally, astrological 'Nobleman' influences bring helpful mentors and supporters during certain years. These cycles often converge to create distinctive periods of opportunity—some years naturally support advancement, while others favor consolidation or preparation. Understanding these patterns allows strategic timing of major career initiatives, maximizing your natural cosmic advantages rather than struggling against prevailing energies."
       }
     ]
   },
   "introduce": {
     "name": "introduce",
-    "title": "Career Astrology Insights",
-    "label": "Introduction",
-    "description": "Chinese astrology offers profound insights into your career path, helping you understand your professional strengths, ideal work environment, and timing for crucial career decisions.",
+    "title": "AI-Powered Bazi Career Analysis",
+    "label": "Introduce",
+    "description": "Our advanced AI technology analyzes your Bazi birth chart to reveal career insights, professional strengths, and optimal timing for crucial decisions.",
     "image": {
-      "src": "/imgs/zodiac-feature/career-astrology-intro.png"
+      "src": "/imgs/features/generating.gif"
     },
+    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?autoplay=1&mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0 ",
     "items": [
       {
-        "title": "Zodiac Career Traits",
-        "description": "Discover how your Chinese zodiac sign influences your natural career aptitudes, leadership style, and workplace dynamics.",
+        "title": "AI-Enhanced Career Insights",
+        "description": "Our AI technology interprets complex Bazi principles to provide actionable professional guidance tailored to your chart.",
         "icon": "RiBriefcaseLine"
       },
       {
-        "title": "Element Influences",
-        "description": "Learn how the Five Elements in your birth chart shape your ideal work environment and professional relationships.",
-        "icon": "RiWaterFlashLine"
+        "title": "Personalized AI Aptitude Analysis",
+        "description": "Advanced algorithms analyze your unique birth chart to identify ideal industries, positions, and work environments.",
+        "icon": "RiUserSearchLine"
       },
       {
-        "title": "Success Timing",
-        "description": "Understand astrological cycles that indicate optimal periods for job changes, promotions, and business ventures.",
-        "icon": "RiTimeLine"
+        "title": "AI-Generated Success Strategies",
+        "description": "Receive AI-powered recommendations for career advancement, timing major decisions, and navigating workplace dynamics.",
+        "icon": "RiBarChartGroupedLine"
       }
     ]
   },
   "feature": {
     "name": "feature",
-    "title": "Career Reading Features",
-    "description": "Discover your professional path and potential through personalized Chinese astrology analysis.",
+    "title": "AI-Powered Features of Our Career Readings",
+    "description": "Experience how our advanced AI technology enhances traditional Bazi analysis for unprecedented career planning insights.",
     "items": [
       {
-        "title": "Career Path Analysis",
-        "description": "In-depth examination of your most suitable industries and positions based on your birth chart.",
+        "title": "Intelligent Career Path Analysis",
+        "description": "AI-powered analysis of your most suitable industries and positions based on your elemental profile.",
         "icon": "RiRoadMapLine"
       },
       {
-        "title": "Workplace Dynamics",
-        "description": "Insights into how you interact with colleagues, superiors, and subordinates in professional settings.",
+        "title": "Smart Workplace Dynamics Assessment",
+        "description": "AI interpretation of how your birth chart influences your interactions with colleagues, management styles, and team dynamics.",
         "icon": "RiTeamLine"
       },
       {
-        "title": "2025 Career Forecast",
-        "description": "Specific predictions for your professional developments, opportunities, and challenges in the coming year.",
+        "title": "Predictive Career Forecast",
+        "description": "AI-generated predictions about your professional opportunities, challenges, and optimal timing for career moves.",
         "icon": "RiCalendarCheckLine"
       },
       {
-        "title": "Job Change Timing",
-        "description": "Astrological guidance on the most favorable periods for career transitions and advancement.",
+        "title": "Deep Learning Job Change Timing",
+        "description": "AI analysis of astrological patterns to identify the most favorable periods for career transitions and advancement.",
         "icon": "RiExchangeLine"
       },
       {
-        "title": "Business Compatibility",
-        "description": "Analysis of potential business partnerships and collaborations based on zodiac compatibility.",
-        "icon": "RiHandshakeLine"
+        "title": "Neural Business Compatibility Matching",
+        "description": "AI-detected compatibility patterns for potential business partnerships and professional collaborations.",
+        "icon": "RiShieldCrossLine"
       },
       {
-        "title": "Career Enhancement",
-        "description": "Personalized recommendations for colors, elements, and practices to boost your professional success.",
+        "title": "Adaptive Career Enhancement",
+        "description": "AI-personalized recommendations for leveraging your chart's strengths to achieve professional success.",
         "icon": "RiArrowUpCircleLine"
       }
     ]
   },
   "cta": {
     "name": "cta",
-    "title": "Discover Your Career Potential",
-    "description": "Get your personalized career astrology reading now.",
+    "title": "Discover Your Career Potential Today",
+    "description": "Get AI-powered insights into your professional path with our advanced Bazi analysis system.",
     "buttons": [
       {
-        "title": "Get Career Reading",
-        "url": "#calculator",
+        "title": "Get AI Career Reading",
+        "url": "/reading/career",
         "target": "_self",
         "icon": "GoArrowUpRight"
       },
       {
-        "title": "Explore Career Questions",
-        "url": "#questionListHeader",
+        "title": "Learn More",
+        "url": "#introduce",
         "target": "_self",
         "variant": "outline"
       }

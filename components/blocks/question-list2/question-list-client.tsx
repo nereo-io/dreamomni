@@ -116,7 +116,7 @@ export function QuestionListClient({
         {questions.map((question) => (
           <Link
             key={question.slug}
-            href={`/chinese-zodiac-caculator/${question.slug}`}
+            href={`/chinese-zodiac-calculator/${question.slug}`}
             className="block group"
           >
             <Card className="h-full flex flex-col hover:shadow-lg transition-shadow">

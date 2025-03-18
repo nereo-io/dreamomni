@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ZodiacCalculator } from "./calculator";
 import { ZodiacResultCard } from "./result-card";
-import { ChineseZodiacPage } from "@/types/pages/chinese-zodiac-caculator";
+import { ChineseZodiacPage } from "@/types/pages/chinese-zodiac-calculator";
 
 interface ChineseZodiacProps {
   page: ChineseZodiacPage;

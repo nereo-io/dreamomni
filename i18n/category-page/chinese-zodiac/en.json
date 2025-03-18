@@ -1,45 +1,78 @@
 {
   "hero": {
-    "title": "Chinese Zodiac Sign & 5 Elements AI Reading",
+    "title": "Bazi Zodiac Sign & 5 Elements AI Reading",
     "highlight_text": "Zodiac",
-    "description": "Discover your Chinese zodiac animal and elemental alignment instantly",
+    "description": "Discover your Bazi animal sign and elemental alignment instantly",
     "cta": "Calculate Your Sign"
   },
   "introduce": {
     "name": "introduce",
-    "label": "Features",
-    "title": "What is Chinese Zodiac Signs",
-    "description": "An ancient astrological system with deep cultural roots in East Asia",
+    "label": "Introduce",
+    "title": "AI-Powered Bazi Zodiac Analysis",
+    "description": "Our advanced AI technology interprets the ancient wisdom of Bazi to reveal your zodiac profile and elemental influences",
     "image": {
-      "src": "/blog/chinese-zodiac.png"
+      "src": "/imgs/features/generating.gif"
     },
+    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?autoplay=1&mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0 ",
     "items": [
       {
-        "title": "Origins and Animals",
-        "description": "The Chinese zodiac (Shengxiao) is a system of twelve animal signs representing years and a person's birth year in China and East Asian cultures. It includes Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, and Pig."
+        "title": "AI-Enhanced Animal Sign Insights",
+        "description": "Our AI technology interprets your zodiac animal sign, revealing personality traits, strengths, and potential challenges with unprecedented accuracy.",
+        "icon": "RiZoomInLine"
       },
       {
-        "title": "Zodiac Cycle",
-        "description": "The zodiac cycle repeats every 12 years, with each person having an animal sign based on their birth year. In ancient China, numerologists paired these animals with the twelve Earthly Branches."
+        "title": "Personalized AI Element Analysis",
+        "description": "Advanced algorithms analyze your Five Elements configuration to provide deep insights into your elemental balance and life energies.",
+        "icon": "RiWaterFlashLine"
       },
       {
-        "title": "Cultural Meaning",
-        "description": "The word 'Xiao' means resemblance, suggesting one's birth destiny resembles characteristics of that animal. The zodiac signs not only represent the twelve-year cycle but also indicate the twelve two-hour periods in a day."
-      },
-      {
-        "title": "Zodiac Order",
-        "description": "The order follows the sequence of the Earthly Branches: Rat (Zi), Ox (Chou), Tiger (Yin), Rabbit (Mao), Dragon (Chen), Snake (Si), Horse (Wu), Goat (Wei), Monkey (Shen), Rooster (You), Dog (Xu), and Pig (Hai)."
-      },
-      {
-        "title": "Destiny Analysis",
-        "description": "BaziAI calculates your zodiac fortune based on ancient destiny principles, including overall zodiac fortune, annual fortunes, personality traits, career prospects, relationships, wealth potential, and more."
+        "title": "AI-Generated Compatibility Guidance",
+        "description": "Receive AI-powered recommendations for enhancing relationships based on zodiac and elemental interactions.",
+        "icon": "RiUserHeartLine"
       }
     ]
   },
   "questionListHeader": {
-    "title": "Questions about Chinese Zodiac",
+    "title": "Questions about Bazi Zodiac",
     "description": "BaziAI calculates your zodiac fortune based on ancient destiny principles, including overall zodiac fortune, annual fortunes, destiny, personality, career, relationships, wealth, and more.",
-    "cta": "Explore Your Chinese Zodiac"
+    "cta": "Explore Your Bazi Zodiac"
+  },
+  "feature": {
+    "name": "feature",
+    "title": "AI-Powered Features of Our Zodiac Readings",
+    "description": "Experience how our advanced AI technology enhances traditional Bazi analysis for unprecedented zodiac and elemental insights.",
+    "items": [
+      {
+        "title": "Intelligent Zodiac Profiling",
+        "description": "AI-powered analysis of your animal sign's influence on your personality, behavior, and life path.",
+        "icon": "RiAncientGateLine"
+      },
+      {
+        "title": "Smart Element Balance Assessment",
+        "description": "AI interpretation of your unique elemental composition and how it shapes your strengths and challenges.",
+        "icon": "RiScales3Line"
+      },
+      {
+        "title": "AI Compatibility Matching",
+        "description": "Algorithmically determined compatibility analysis between zodiac signs and elements for relationships and partnerships.",
+        "icon": "RiHeartPulseLine"
+      },
+      {
+        "title": "Deep Learning Fortune Forecasting",
+        "description": "AI analysis of how current astrological cycles impact your specific zodiac sign and element combination.",
+        "icon": "RiCalendarCheckLine"
+      },
+      {
+        "title": "Neural Pattern Destiny Analysis",
+        "description": "AI-detected patterns in your birth chart revealing your life purpose and potential paths.",
+        "icon": "RiRoadMapLine"
+      },
+      {
+        "title": "Predictive Lucky Element Guide",
+        "description": "AI-generated recommendations for optimal colors, numbers, directions, and activities based on your zodiac profile.",
+        "icon": "RiMagicLine"
+      }
+    ]
   },
   "questionSuggestions": {
     "categories": {
@@ -162,31 +195,50 @@
     "name": "faq",
     "label": "FAQ",
     "title": "Frequently Asked Questions",
-    "description": "Learn more about Chinese zodiac signs and elements",
+    "description": "Learn more about Bazi zodiac signs and elements",
     "items": [
       {
-        "title": "What is my Chinese zodiac sign and element by birthday?",
-        "description": "Your Chinese zodiac sign is determined by your birth year according to the Chinese lunar calendar. There are 12 animal signs (Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, and Pig) that rotate in a 12-year cycle. Your element is determined by the last digit of your birth year, with each element appearing in a 10-year cycle (Wood, Fire, Earth, Metal, Water). Our calculator can instantly determine both your zodiac animal and element when you input your birth date."
+        "title": "What is my Bazi zodiac sign and element by birthday?",
+        "description": "Your Bazi zodiac sign is determined by your birth year according to the Chinese lunar calendar. There are 12 animal signs (Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, and Pig) that rotate in a 12-year cycle. Your element is determined by the last digit of your birth year, with each element appearing in a 10-year cycle (Wood, Fire, Earth, Metal, Water). Our calculator can instantly determine both your zodiac animal and element when you input your birth date."
       },
       {
-        "title": "How to calculate Chinese zodiac animal and element?",
-        "description": "To calculate your Chinese zodiac animal: Take your birth year and divide it by 12. The remainder determines your animal sign (0=Monkey, 1=Rooster, 2=Dog, 3=Pig, 4=Rat, 5=Ox, 6=Tiger, 7=Rabbit, 8=Dragon, 9=Snake, 10=Horse, 11=Goat). For your element, look at the last digit of your birth year: 0-1=Metal, 2-3=Water, 4-5=Wood, 6-7=Fire, 8-9=Earth. Our calculator automates this process for accuracy, especially considering lunar calendar adjustments."
+        "title": "How to calculate Bazi animal and element?",
+        "description": "To calculate your Bazi animal sign: Take your birth year and divide it by 12. The remainder determines your animal sign (0=Monkey, 1=Rooster, 2=Dog, 3=Pig, 4=Rat, 5=Ox, 6=Tiger, 7=Rabbit, 8=Dragon, 9=Snake, 10=Horse, 11=Goat). For your element, look at the last digit of your birth year: 0-1=Metal, 2-3=Water, 4-5=Wood, 6-7=Fire, 8-9=Earth. Our calculator automates this process for accuracy, especially considering lunar calendar adjustments."
       },
       {
-        "title": "What does my Chinese zodiac element mean for my life?",
+        "title": "What does my Bazi element mean for my life?",
         "description": "Your zodiac element (Wood, Fire, Earth, Metal, or Water) influences your personality traits, strengths, and potential challenges in life. Wood people tend to be creative and compassionate; Fire individuals are dynamic and passionate; Earth types are practical and nurturing; Metal people are organized and precise; Water individuals are intuitive and flexible. Your element also suggests career affinities, relationship patterns, and ways to maintain balance in your life. Understanding your element can help you leverage your natural strengths and address potential weaknesses."
       },
       {
-        "title": "What is my love compatibility guide by Chinese zodiac sign and element?",
-        "description": "Chinese zodiac compatibility considers both animal signs and elements. Some animal combinations naturally harmonize (like Rat with Dragon or Monkey), while others may create tension (like Tiger with Monkey). Elements also influence compatibility: Wood feeds Fire, Fire creates Earth, Earth bears Metal, Metal collects Water, and Water nourishes Wood. The most harmonious relationships often involve complementary elements rather than identical ones. For example, a Wood person might find balance with a Water person who nourishes their nature, while two Fire individuals might create too much intensity."
+        "title": "What is my love compatibility guide by Bazi sign and element?",
+        "description": "Bazi compatibility considers both animal signs and elements. Some animal combinations naturally harmonize (like Rat with Dragon or Monkey), while others may create tension (like Tiger with Monkey). Elements also influence compatibility: Wood feeds Fire, Fire creates Earth, Earth bears Metal, Metal collects Water, and Water nourishes Wood. The most harmonious relationships often involve complementary elements rather than identical ones. For example, a Wood person might find balance with a Water person who nourishes their nature, while two Fire individuals might create too much intensity."
       },
       {
-        "title": "What are the 5 elements in Chinese astrology?",
-        "description": "The five elements in Chinese philosophy are Wood (木), Fire (火), Earth (土), Metal (金), and Water (水). Each element has distinct characteristics: Wood represents growth, creativity, and compassion; Fire embodies enthusiasm, dynamism, and passion; Earth signifies stability, nurturing, and practicality; Metal symbolizes precision, organization, and righteousness; Water reflects adaptability, intuition, and wisdom. These elements interact in cycles of generation (where one element creates another) and control (where one element restrains another), creating a complex system of balance and interaction."
+        "title": "What are the 5 elements in Bazi astrology?",
+        "description": "The five elements in Bazi philosophy are Wood (木), Fire (火), Earth (土), Metal (金), and Water (水). Each element has distinct characteristics: Wood represents growth, creativity, and compassion; Fire embodies enthusiasm, dynamism, and passion; Earth signifies stability, nurturing, and practicality; Metal symbolizes precision, organization, and righteousness; Water reflects adaptability, intuition, and wisdom. These elements interact in cycles of generation (where one element creates another) and control (where one element restrains another), creating a complex system of balance and interaction."
       },
       {
-        "title": "How does the 60-year cycle work in Chinese astrology?",
-        "description": "The Chinese zodiac operates on a 60-year cycle created by combining the 12 animal signs with the five elements in their Yin and Yang forms. Each element appears with each animal sign once in its Yang form and once in its Yin form before the cycle repeats. For example, 1984 was Yang Wood Rat, while 1985 was Yin Wood Ox. This 60-year cycle (known as the Sexagenary cycle or Ganzhi) provides a more detailed understanding of the energetic influences present in each year and how they might affect individuals born during that time."
+        "title": "How does the 60-year cycle work in Bazi astrology?",
+        "description": "The Bazi zodiac operates on a 60-year cycle created by combining the 12 animal signs with the five elements in their Yin and Yang forms. Each element appears with each animal sign once in its Yang form and once in its Yin form before the cycle repeats. For example, 1984 was Yang Wood Rat, while 1985 was Yin Wood Ox. This 60-year cycle (known as the Sexagenary cycle or Ganzhi) provides a more detailed understanding of the energetic influences present in each year and how they might affect individuals born during that time."
+      }
+    ]
+  },
+  "cta": {
+    "name": "cta",
+    "title": "Discover Your Zodiac Profile Today",
+    "description": "Get AI-powered insights into your animal sign and elemental influences with our advanced Bazi analysis system.",
+    "buttons": [
+      {
+        "title": "Get AI Zodiac Reading",
+        "url": "/reading/chinese-zodiac",
+        "target": "_self",
+        "icon": "GoArrowUpRight"
+      },
+      {
+        "title": "Learn More",
+        "url": "#introduce",
+        "target": "_self",
+        "variant": "outline"
       }
     ]
   }

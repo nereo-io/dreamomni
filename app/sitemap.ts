@@ -40,7 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.7,
       },
       {
-        url: `${baseUrl}/chinese-zodiac-caculator`,
+        url: `${baseUrl}/chinese-zodiac-calculator`,
         lastModified: currentDate,
         changeFrequency: "weekly" as ChangeFrequency,
         priority: 0.8,
@@ -73,7 +73,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           priority: 0.7,
         },
         {
-          url: `${baseUrl}/${locale}/chinese-zodiac-caculator`,
+          url: `${baseUrl}/${locale}/chinese-zodiac-calculator`,
           lastModified: currentDate,
           changeFrequency: "weekly" as ChangeFrequency,
           priority: 0.8,
@@ -121,11 +121,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           // 为每个问题创建URL
           const questionUrls = questions.items.map((question) => ({
             url:
-              category === "chinese-zodiac"
-                ? locale === "en"
-                  ? `${baseUrl}/chinese-zodiac-caculator/${question.slug}`
-                  : `${baseUrl}/${locale}/chinese-zodiac-caculator/${question.slug}`
-                : locale === "en"
+              locale === "en"
                 ? `${baseUrl}/reading/${category}/questions/${question.slug}`
                 : `${baseUrl}/${locale}/reading/${category}/questions/${question.slug}`,
             lastModified:
@@ -147,7 +143,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }
     }
 
-    console.log(`总共添加了 ${questionPages.length} 个问题页面`);
+    const zodiacCalculatorPages = [];
+
+    for (const locale of locales) {
+      const calculatorQuestions = await getQuestionList({
+        category: "chinese-zodiac-calculator",
+        locale,
+        limit: 1000, // 设置一个较大的限制，确保获取所有问题
+      });
+      const zodiacCalculatorUrls = calculatorQuestions.items.map(
+        (question) => ({
+          url:
+            locale === "en"
+              ? `${baseUrl}/chinese-zodiac-calculator/${question.slug}`
+              : `${baseUrl}/${locale}/chinese-zodiac-calculator/${question.slug}`,
+          lastModified:
+            question.updated_at || question.created_at || currentDate,
+          changeFrequency: "monthly" as ChangeFrequency,
+          priority: 0.6,
+        })
+      );
+
+      console.log(
+        `为 ${locale} 语言的 生肖计算器 添加了 ${zodiacCalculatorUrls.length} 个问题页面`
+      );
+      zodiacCalculatorPages.push(...zodiacCalculatorUrls);
+    }
+
+    console.log(
+      `总共添加了 ${questionPages.length} 个问题页面，${zodiacCalculatorPages.length} 个生肖计算器页面`
+    );
 
     // 合并所有页面
     const allPages = [
@@ -155,6 +180,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...localizedStaticPages,
       ...categoryPages,
       ...questionPages,
+      ...zodiacCalculatorPages,
     ];
 
     console.log(`sitemap 生成完成，总共包含 ${allPages.length} 个页面`);

@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { toast } from "sonner";
-import { ChineseZodiacPage } from "@/types/pages/chinese-zodiac-caculator";
+import { ChineseZodiacPage } from "@/types/pages/chinese-zodiac-calculator";
 
 interface CalculatorProps {
   t: ChineseZodiacPage;

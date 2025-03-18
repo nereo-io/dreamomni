@@ -37,11 +37,75 @@
       }
     }
   },
+  "introduce": {
+    "name": "introduce",
+    "title": "AI-Powered Bazi Life Reading",
+    "label": "Introduce",
+    "description": "Our advanced AI technology analyzes traditional Bazi charts to reveal your life path, personal destiny, and hidden potential.",
+    "image": {
+      "src": "/imgs/features/generating.gif"
+    },
+    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?autoplay=1&mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0 ",
+    "items": [
+      {
+        "title": "AI-Enhanced Ancient Wisdom",
+        "description": "Our AI technology translates complex Bazi principles into clear, actionable life insights.",
+        "icon": "RiUserSearchLine"
+      },
+      {
+        "title": "Personalized AI Analysis",
+        "description": "Advanced algorithms analyze your unique birth chart to reveal your true life purpose and potential.",
+        "icon": "RiLineChartLine"
+      },
+      {
+        "title": "AI-Generated Life Guidance",
+        "description": "Receive AI-powered recommendations to navigate life transitions and maximize opportunities.",
+        "icon": "RiCompassDiscoverLine"
+      }
+    ]
+  },
+  "feature": {
+    "name": "feature",
+    "title": "AI-Powered Features of Our Life Readings",
+    "description": "Experience how our advanced AI technology enhances traditional Bazi analysis for unprecedented life path insights.",
+    "items": [
+      {
+        "title": "Intelligent Element Analysis",
+        "description": "AI-powered analysis of how the Five Elements in your chart shape your character and destiny.",
+        "icon": "RiFireLine"
+      },
+      {
+        "title": "Smart Life Cycle Prediction",
+        "description": "AI interpretation of your 10-year luck cycles and annual influences for strategic planning.",
+        "icon": "RiCalendarCheckLine"
+      },
+      {
+        "title": "AI Career Compatibility",
+        "description": "Algorithmically determined career paths that align with your natural talents and elemental strengths.",
+        "icon": "RiBriefcaseLine"
+      },
+      {
+        "title": "Deep Learning Personality Insights",
+        "description": "AI analysis of your innate character traits, strengths, and growth opportunities.",
+        "icon": "RiUserSettingsLine"
+      },
+      {
+        "title": "Neural Pattern Recognition",
+        "description": "AI-detected patterns in your life experiences and recurring themes for greater self-awareness.",
+        "icon": "RiMindMap"
+      },
+      {
+        "title": "Predictive Life Forecast",
+        "description": "AI-generated predictions about important life transitions and favorable timing for decisions.",
+        "icon": "RiRoadMapLine"
+      }
+    ]
+  },
   "faq": {
     "name": "faq",
     "label": "FAQ",
     "title": "Frequently Asked Questions",
-    "description": "Learn more about love compatibility in Chinese astrology",
+    "description": "Learn more about life path analysis in Bazi astrology",
     "items": [
       {
         "title": "How accurate are BaZi predictions about my life path?",
@@ -62,6 +126,25 @@
       {
         "title": "Is my life completely predetermined according to BaZi?",
         "description": "BaZi suggests tendencies and potentials rather than fixed outcomes. You maintain free will and the ability to make choices. Understanding your chart empowers you to work with your natural tendencies rather than against them."
+      }
+    ]
+  },
+  "cta": {
+    "name": "cta",
+    "title": "Discover Your Life Path Today",
+    "description": "Get AI-powered insights into your personal destiny with our advanced Bazi analysis system.",
+    "buttons": [
+      {
+        "title": "Get AI Life Reading",
+        "url": "/reading/life",
+        "target": "_self",
+        "icon": "GoArrowUpRight"
+      },
+      {
+        "title": "Learn More",
+        "url": "#introduce",
+        "target": "_self",
+        "variant": "outline"
       }
     ]
   }

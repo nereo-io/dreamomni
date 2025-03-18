@@ -37,10 +37,10 @@ export async function generateMetadata({
   const locale = "en";
   const question = await getQuestionDetail(params.slug, locale);
 
-  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/chinese-zodiac-caculator/${params.slug}`;
+  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/chinese-zodiac-calculator/${params.slug}`;
 
   if (locale !== "en") {
-    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${params.locale}/chinese-zodiac-caculator/${params.slug}`;
+    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${params.locale}/chinese-zodiac-calculator/${params.slug}`;
   }
 
   return {
@@ -75,11 +75,11 @@ export default async function QuestionDetailPage({ params }: PageParams) {
             { title: "home", url: "/" },
             {
               title: "chinese-zodiac",
-              url: `/chinese-zodiac-caculator`,
+              url: `/chinese-zodiac-calculator`,
             },
             {
               title: question.title,
-              url: `/chinese-zodiac-caculator/${params.slug}`,
+              url: `/chinese-zodiac-calculator/${params.slug}`,
             },
           ]}
         />
@@ -87,7 +87,7 @@ export default async function QuestionDetailPage({ params }: PageParams) {
 
       <div className="flex flex-row items-start sm:items-center gap-4 mb-6">
         <Button variant="outline" asChild className="w-auto">
-          <Link href={`/${locale}/chinese-zodiac-caculator`}>
+          <Link href={`/${locale}/chinese-zodiac-calculator`}>
             <ArrowLeftIcon className="w-4 h-4" />
             Back
           </Link>
@@ -200,7 +200,7 @@ export default async function QuestionDetailPage({ params }: PageParams) {
                     {question.relatedQuestions.map((related) => (
                       <li key={related.slug} className="mb-2">
                         <Link
-                          href={`/${locale}/chinese-zodiac-caculator/${related.slug}`}
+                          href={`/${locale}/chinese-zodiac-calculator/${related.slug}`}
                           className="text-blue-600 hover:underline text-sm sm:text-base"
                         >
                           {related.title}

@@ -36,12 +36,17 @@
               "title": "干支鑑定",
               "url": "/reading/chinese-zodiac",
               "icon": "RiStarLine"
+            },
+            {
+              "title": "人生鑑定",
+              "url": "/reading/life",
+              "icon": "RiUserHeartLine"
             }
           ]
         },
         {
           "title": "計算機",
-          "url": "/chinese-zodiac-caculator",
+          "url": "/chinese-zodiac-calculator",
           "icon": "RiCalculatorLine"
         },
         {
@@ -255,6 +260,11 @@
               "title": "干支鑑定",
               "url": "/reading/chinese-zodiac",
               "target": "_self"
+            },
+            {
+              "title": "人生鑑定",
+              "url": "/reading/life",
+              "target": "_self"
             }
           ]
         },
@@ -263,7 +273,7 @@
           "children": [
             {
               "title": "干支計算機",
-              "url": "/chinese-zodiac-caculator",
+              "url": "/chinese-zodiac-calculator",
               "target": "_self"
             }
           ]

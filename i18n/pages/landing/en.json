@@ -36,12 +36,17 @@
               "title": "Chinese Zodiac",
               "url": "/reading/chinese-zodiac",
               "icon": "RiStarLine"
+            },
+            {
+              "title": "Life Reading",
+              "url": "/reading/life",
+              "icon": "RiUserHeartLine"
             }
           ]
         },
         {
           "title": "Calculator",
-          "url": "/chinese-zodiac-caculator",
+          "url": "/chinese-zodiac-calculator",
           "icon": "RiCalculatorLine"
         },
         {
@@ -303,7 +308,6 @@
               "url": "/reading/career",
               "target": "_self"
             },
-
             {
               "title": "Health Reading",
               "url": "/reading/health",
@@ -313,6 +317,11 @@
               "title": "Chinese Zodiac",
               "url": "/reading/chinese-zodiac",
               "target": "_self"
+            },
+            {
+              "title": "Life Reading",
+              "url": "/reading/life",
+              "target": "_self"
             }
           ]
         },
@@ -321,7 +330,7 @@
           "children": [
             {
               "title": "Chinese Zodiac",
-              "url": "/chinese-zodiac-caculator",
+              "url": "/chinese-zodiac-calculator",
               "target": "_self"
             }
           ]

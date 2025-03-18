@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ChineseZodiacPage } from "@/types/pages/chinese-zodiac-caculator";
+import { ChineseZodiacPage } from "@/types/pages/chinese-zodiac-calculator";
 import { useLocale } from "next-intl";
 import { useState, useEffect } from "react";
 
@@ -230,7 +230,7 @@ export const ZodiacResultCard = ({
               asChild
               className={`w-full font-medium text-base py-6 shadow-md hover:shadow-lg transition-all`}
             >
-              <Link href={`/chinese-zodiac-caculator/${getArticleSlug()}`}>
+              <Link href={`/chinese-zodiac-calculator/${getArticleSlug()}`}>
                 {t.results.readMore}
               </Link>
             </Button>

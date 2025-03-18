@@ -1,6 +1,6 @@
 {
   "hero": {
-    "title": "Love Compatibility Reading",
+    "title": "Love Compatibility AI Reading",
     "highlight_text": "Love",
     "description": "Find your perfect match with our AI-powered love compatibility analysis based on Chinese astrology",
     "cta": "Get Love Reading"
@@ -143,35 +143,118 @@
       }
     }
   },
+  "introduce": {
+    "name": "introduce",
+    "title": "AI-Powered Bazi Love Reading",
+    "label": "Introduce",
+    "description": "Our advanced AI analyzes traditional Bazi charts to provide precise insights into your romantic compatibility and relationship potential.",
+    "image": {
+      "src": "/imgs/features/generating.gif"
+    },
+    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?autoplay=1&mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0 ",
+    "items": [
+      {
+        "title": "AI-Enhanced Ancient Wisdom",
+        "description": "Our AI technology translates complex Bazi principles into clear, actionable relationship insights.",
+        "icon": "RiHeartFill"
+      },
+      {
+        "title": "Personalized AI Analysis",
+        "description": "Advanced algorithms analyze zodiac signs, elements, and birth charts to reveal unique relationship dynamics.",
+        "icon": "RiUserHeartLine"
+      },
+      {
+        "title": "AI-Generated Relationship Advice",
+        "description": "Get AI-powered guidance to strengthen bonds and overcome challenges in your love life.",
+        "icon": "RiMindMap"
+      }
+    ]
+  },
+  "feature": {
+    "name": "feature",
+    "title": "AI-Powered Features of Our Love Readings",
+    "description": "Experience how our advanced AI technology enhances traditional Bazi analysis for unparalleled love compatibility insights.",
+    "items": [
+      {
+        "title": "Intelligent Zodiac Compatibility",
+        "description": "AI-powered analysis of how your animal signs interact to influence relationship dynamics.",
+        "icon": "RiZoomInLine"
+      },
+      {
+        "title": "Smart Five Elements Analysis",
+        "description": "AI interpretation of how Wood, Fire, Earth, Metal, and Water elements shape your romantic connection.",
+        "icon": "RiFireLine"
+      },
+      {
+        "title": "AI Relationship Timing",
+        "description": "Algorithmically determined favorable periods for relationship milestones and potential challenges.",
+        "icon": "RiCalendarCheckLine"
+      },
+      {
+        "title": "Deep Learning Personality Insights",
+        "description": "AI analysis of how your innate traits influence your approach to love and relationships.",
+        "icon": "RiUserHeartLine"
+      },
+      {
+        "title": "Neural Communication Analysis",
+        "description": "AI-detected patterns in how your signs influence communication styles and potential misunderstandings.",
+        "icon": "RiChatHeartLine"
+      },
+      {
+        "title": "Predictive Love Forecast",
+        "description": "AI-generated predictions about your love life development and relationship potential.",
+        "icon": "RiCalendarEventLine"
+      }
+    ]
+  },
   "faq": {
     "name": "faq",
     "label": "FAQ",
     "title": "Frequently Asked Questions",
-    "description": "Learn more about love compatibility in Chinese astrology",
+    "description": "Learn more about love compatibility in Bazi astrology",
     "items": [
       {
-        "title": "How does Chinese astrology determine love compatibility?",
-        "description": "Chinese astrology determines love compatibility through several factors: zodiac animal signs, the Five Elements theory, and specific chart aspects. The 12 animal signs form natural affinities (like Rat with Dragon), neutral relationships, or potential challenges (like Rooster with Rabbit). The Five Elements (Wood, Fire, Earth, Metal, Water) of your birth year add another layer of compatibility—complementary elements typically create harmonious relationships. Additionally, the deeper analysis of your complete birth chart examines how specific aspects of your charts interact, providing a comprehensive view of relationship dynamics, communication patterns, and potential growth areas."
+        "title": "How does Bazi determine love compatibility?",
+        "description": "Bazi determines love compatibility through several factors: zodiac animal signs, the Five Elements theory, and specific chart aspects. The 12 animal signs form natural affinities (like Rat with Dragon), neutral relationships, or potential challenges (like Rooster with Rabbit). The Five Elements (Wood, Fire, Earth, Metal, Water) of your birth year add another layer of compatibility—complementary elements typically create harmonious relationships. Additionally, the deeper analysis of your complete birth chart examines how specific aspects of your charts interact, providing a comprehensive view of relationship dynamics, communication patterns, and potential growth areas."
       },
       {
         "title": "Which zodiac signs are most compatible with each other?",
-        "description": "In Chinese astrology, compatibility follows natural patterns: Rat harmonizes with Dragon, Monkey, and Ox; Ox connects well with Snake, Rooster, and Rat; Tiger pairs well with Horse, Dog, and Pig; Rabbit matches with Sheep, Pig, and Dog; Dragon bonds with Rat, Monkey, and Rooster; Snake aligns with Ox and Rooster; Horse connects with Tiger and Dog; Sheep matches with Rabbit, Pig, and Horse; Monkey harmonizes with Rat and Dragon; Rooster pairs well with Ox, Snake, and Dragon; Dog connects with Tiger, Rabbit, and Horse; Pig matches with Tiger, Rabbit, and Sheep. However, true compatibility goes beyond animal signs to include elements and individual chart aspects."
+        "description": "In Bazi astrology, compatibility follows natural patterns: Rat harmonizes with Dragon, Monkey, and Ox; Ox connects well with Snake, Rooster, and Rat; Tiger pairs well with Horse, Dog, and Pig; Rabbit matches with Sheep, Pig, and Dog; Dragon bonds with Rat, Monkey, and Rooster; Snake aligns with Ox and Rooster; Horse connects with Tiger and Dog; Sheep matches with Rabbit, Pig, and Horse; Monkey harmonizes with Rat and Dragon; Rooster pairs well with Ox, Snake, and Dragon; Dog connects with Tiger, Rabbit, and Horse; Pig matches with Tiger, Rabbit, and Sheep. However, true compatibility goes beyond animal signs to include elements and individual chart aspects."
       },
       {
         "title": "Can incompatible zodiac signs have successful relationships?",
-        "description": "Absolutely! While Chinese astrology provides insights into natural tendencies and potential challenges, it's not deterministic. 'Incompatible' signs simply highlight areas where partners may need to exercise more understanding and patience. Many successful relationships exist between traditionally incompatible signs, as awareness of potential friction points allows couples to develop strategies for communication and compromise. Other factors like the Five Elements, specific birth chart aspects, and most importantly, conscious effort and mutual respect can overcome any astrological challenges. Remember that compatibility predictions offer guidance, not absolute destiny."
+        "description": "Absolutely! While Bazi provides insights into natural tendencies and potential challenges, it's not deterministic. 'Incompatible' signs simply highlight areas where partners may need to exercise more understanding and patience. Many successful relationships exist between traditionally incompatible signs, as awareness of potential friction points allows couples to develop strategies for communication and compromise. Other factors like the Five Elements, specific birth chart aspects, and most importantly, conscious effort and mutual respect can overcome any astrological challenges. Remember that compatibility predictions offer guidance, not absolute destiny."
       },
       {
-        "title": "How can I improve my relationship using Chinese astrology insights?",
+        "title": "How can I improve my relationship using Bazi insights?",
         "description": "Understanding both partners' zodiac signs and elements can significantly improve relationships. First, learn your respective strengths and challenges—this awareness helps prevent misunderstandings by recognizing natural tendencies. Second, identify complementary qualities where you balance each other. Third, develop strategies for potential conflict areas; for example, if one partner is impulsive (Fire) while the other is methodical (Metal), establish decision-making processes that honor both approaches. Fourth, use favorable timing based on your annual forecasts for important relationship milestones. Finally, focus on mutual growth by supporting each other's personal development according to your individual astrological needs."
       },
       {
         "title": "What role do the Five Elements play in relationship compatibility?",
-        "description": "The Five Elements (Wood, Fire, Earth, Metal, Water) significantly influence relationship dynamics in Chinese astrology. Each element brings distinct energies: Wood people are creative and flexible; Fire individuals are passionate and expressive; Earth types are nurturing and stable; Metal people are precise and principled; Water individuals are intuitive and adaptable. Complementary element pairs often create balanced relationships—Water nurtures Wood, Wood feeds Fire, Fire produces Earth, Earth generates Metal, and Metal collects Water. Conflicting elements may create tension—Water extinguishes Fire, Fire melts Metal, Metal cuts Wood, Wood depletes Earth, and Earth dams Water—requiring more conscious navigation of differences."
+        "description": "The Five Elements (Wood, Fire, Earth, Metal, Water) significantly influence relationship dynamics in Bazi astrology. Each element brings distinct energies: Wood people are creative and flexible; Fire individuals are passionate and expressive; Earth types are nurturing and stable; Metal people are precise and principled; Water individuals are intuitive and adaptable. Complementary element pairs often create balanced relationships—Water nurtures Wood, Wood feeds Fire, Fire produces Earth, Earth generates Metal, and Metal collects Water. Conflicting elements may create tension—Water extinguishes Fire, Fire melts Metal, Metal cuts Wood, Wood depletes Earth, and Earth dams Water—requiring more conscious navigation of differences."
       },
       {
-        "title": "When is the best time to start a new relationship according to Chinese astrology?",
+        "title": "When is the best time to start a new relationship according to Bazi?",
         "description": "The optimal timing for starting a relationship varies by individual birth charts, but generally favorable periods include: your zodiac sign's most compatible years (which follow 12-year cycles), months when your element is strengthened by seasonal energies, and personally auspicious days based on your complete chart. Additionally, universal relationship windows open during the Lunar New Year (symbolizing new beginnings), the Qixi Festival (Chinese Valentine's Day, celebrating the mythical lovers meeting), and the Mid-Autumn Festival (associated with reunion and completeness). For precise timing tailored to your specific situation, a personalized reading examining both potential partners' charts is recommended."
+      }
+    ]
+  },
+  "cta": {
+    "name": "cta",
+    "title": "Discover Your Love Compatibility Today",
+    "description": "Get AI-powered insights into your romantic potential with our advanced Bazi analysis system.",
+    "buttons": [
+      {
+        "title": "Get AI Love Reading",
+        "url": "/reading/love",
+        "target": "_self",
+        "icon": "GoArrowUpRight"
+      },
+      {
+        "title": "Learn More",
+        "url": "#introduce",
+        "target": "_self",
+        "variant": "outline"
       }
     ]
   }

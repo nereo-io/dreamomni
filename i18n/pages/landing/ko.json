@@ -36,12 +36,17 @@
               "title": "띠별 해석",
               "url": "/reading/chinese-zodiac",
               "icon": "RiStarLine"
+            },
+            {
+              "title": "인생 해석",
+              "url": "/reading/life",
+              "icon": "RiUserHeartLine"
             }
           ]
         },
         {
           "title": "계산기",
-          "url": "/chinese-zodiac-caculator",
+          "url": "/chinese-zodiac-calculator",
           "icon": "RiCalculatorLine"
         },
         {
@@ -331,6 +336,11 @@
               "title": "띠별 해석",
               "url": "/reading/chinese-zodiac",
               "target": "_self"
+            },
+            {
+              "title": "인생 해석",
+              "url": "/reading/life",
+              "target": "_self"
             }
           ]
         },
@@ -339,7 +349,7 @@
           "children": [
             {
               "title": "띠별 계산기",
-              "url": "/chinese-zodiac-caculator",
+              "url": "/chinese-zodiac-calculator",
               "target": "_self"
             }
           ]

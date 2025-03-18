@@ -36,12 +36,17 @@
               "title": "生肖解读",
               "url": "/reading/chinese-zodiac",
               "icon": "RiStarLine"
+            },
+            {
+              "title": "生命解读",
+              "url": "/reading/life",
+              "icon": "RiUserHeartLine"
             }
           ]
         },
         {
           "title": "计算器",
-          "url": "/chinese-zodiac-caculator",
+          "url": "/chinese-zodiac-calculator",
           "icon": "RiCalculatorLine"
         },
         {
@@ -376,6 +381,11 @@
               "title": "生肖解读",
               "url": "/reading/chinese-zodiac",
               "target": "_self"
+            },
+            {
+              "title": "生命解读",
+              "url": "/reading/life",
+              "target": "_self"
             }
           ]
         },
@@ -384,7 +394,7 @@
           "children": [
             {
               "title": "生肖计算器",
-              "url": "/chinese-zodiac-caculator",
+              "url": "/chinese-zodiac-calculator",
               "target": "_self"
             }
           ]
