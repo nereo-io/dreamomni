@@ -67,20 +67,20 @@ export default function Footer({ footer }: { footer: FooterType }) {
             </div>
           </div>
           <div className="mt-8 flex flex-col justify-between gap-4 border-t pt-8 text-center text-sm font-medium text-muted-foreground lg:flex-row lg:items-center lg:text-left">
-            {footer.copyright && (
-              <p>
-                {footer.copyright}
-                {!(process.env.NEXT_PUBLIC_SHOW_POWERED_BY === "false") ? null : (
-                  <a
-                    href="https://shipany.ai"
-                    target="_blank"
-                    className="px-2 text-primary"
-                  >
-                    build with ShipAny
-                  </a>
-                )}
-              </p>
-            )}
+            {footer.copyright && <p>{footer.copyright}</p>}
+
+            <div className="flex items-center justify-center gap-4">
+              <a
+                href="https://theresanaiforthat.com/ai/baziai/?ref=featured&v=4601560"
+                target="_blank"
+                rel="nofollow"
+              >
+                <img
+                  width="300"
+                  src="https://media.theresanaiforthat.com/featured-on-taaft.png?width=600"
+                />
+              </a>
+            </div>
 
             {footer.agreement && (
               <ul className="flex justify-center gap-4 lg:justify-start">
