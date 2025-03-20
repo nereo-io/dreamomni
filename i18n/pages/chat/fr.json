@@ -1,0 +1,71 @@
+{
+  "title": "Assistant IA",
+  "description": "Discutez avec l'Assistant IA",
+  "loadingAnimation": {
+    "waitTime": "Temps d'attente estimé : 1 minute",
+    "pillars": {
+      "year": {
+        "name": "Année",
+        "desc": "Destin & Fortune"
+      },
+      "month": {
+        "name": "Mois",
+        "desc": "Carrière & Richesse"
+      },
+      "day": {
+        "name": "Jour",
+        "desc": "Chemin de Vie"
+      },
+      "hour": {
+        "name": "Heure",
+        "desc": "Être Intérieur"
+      }
+    },
+    "phrases": [
+      "Lecture de 'L'Art du Destin'...",
+      "Calcul des tiges célestes et branches terrestres...",
+      "Analyse des cinq éléments...",
+      "Consultation de 'Les Trois Vies'...",
+      "Cartographie des quatre piliers...",
+      "Calcul des cycles de vie...",
+      "Étude des 'Vraies Significations du Destin'...",
+      "Analyse du palais de vie..."
+    ]
+  },
+  "loading": "Analyse de vos informations de naissance...\nCela prendra environ 30 secondes",
+  "placeholder": "Tapez votre message ici...",
+  "send": "Envoyer",
+  "systemMessages": {
+    "welcome": "Bonjour ! Je suis votre analyste personnel de destin. Je vais vous fournir une analyse détaillée basée sur vos informations de naissance.",
+    "initialAnalysis": "Basé sur vos informations de naissance, voici mon analyse :",
+    "error": "Désolé, une erreur s'est produite lors du traitement de votre demande. Veuillez réessayer."
+  },
+  "footer": "Chaque réponse est analysée par notre système professionnel de divination",
+  "credits": {
+    "remaining": "Il vous reste {count} questions gratuites aujourd'hui.",
+    "upgrade": "Passez à la version premium pour des questions illimitées",
+    "member": "Les membres ont des questions illimitées"
+  },
+  "errors": {
+    "checkUsageError": "Échec de la vérification du nombre d'utilisations, veuillez réessayer plus tard",
+    "noRemainingReadings": "Vous avez utilisé toutes vos questions gratuites pour aujourd'hui",
+    "recordUsageError": "Échec de l'enregistrement de l'utilisation, veuillez réessayer plus tard",
+    "generalError": "Une erreur s'est produite, veuillez réessayer plus tard",
+    "pleaseLogin": "Veuillez vous connecter d'abord",
+    "failedToLoadChat": "Le contenu du message est vide",
+    "failedToSaveMessage": "Échec de l'enregistrement du message"
+  },
+  "membership": {
+    "required": "Adhésion requise pour utiliser cette fonctionnalité.",
+    "upgrade": "Mettre à Niveau Maintenant"
+  },
+  "library": {
+    "title": "Historique des Discussions",
+    "loading": "Chargement...",
+    "loadFailed": "Échec du chargement",
+    "noHistory": "Aucun historique de discussion",
+    "deleteSuccess": "Historique de discussion supprimé",
+    "deleteFailed": "Échec de la suppression de l'historique de discussion",
+    "fetchFailed": "Échec de la récupération de l'historique de discussion"
+  }
+}

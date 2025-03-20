@@ -1,0 +1,225 @@
+{
+  "hero": {
+    "name": "calculator",
+    "title": "Calculateur IA du Zodiaque Chinois",
+    "highlight_text": "Zodiaque Chinois",
+    "description": "Découvrez votre signe du zodiaque chinois, votre élément, et votre prévision de destin pour 2025",
+    "show_happy_users": false,
+    "show_badge": false
+  },
+  "enterBirthdate": "Entrez votre date de naissance pour l'analyse IA",
+  "birthdateDescription": "Notre algorithme IA avancé calculera votre signe du zodiaque chinois, vos attributs élémentaires, et générera des informations personnalisées basées sur votre date de naissance",
+  "calculate": "Générer l'Analyse IA",
+  "yearLabel": "Année",
+  "monthLabel": "Mois",
+  "dayLabel": "Jour",
+  "results": {
+    "yourZodiac": "Votre Zodiaque Chinois est",
+    "yourElement": "L'analyse IA montre que votre Élément est",
+    "prediction2025": "Prévision de Destin 2025 pour",
+    "readMore": "Voir la prévision 2025 complète",
+    "elementRelationship": "Relation Élément-Zodiaque",
+    "personalityTitle": "Personnalité & Caractéristiques"
+  },
+  "zodiacSigns": {
+    "rat": "Rat",
+    "ox": "Buffle",
+    "tiger": "Tigre",
+    "rabbit": "Lapin",
+    "dragon": "Dragon",
+    "snake": "Serpent",
+    "horse": "Cheval",
+    "goat": "Chèvre",
+    "monkey": "Singe",
+    "rooster": "Coq",
+    "dog": "Chien",
+    "pig": "Cochon"
+  },
+  "elements": {
+    "wood": "Bois",
+    "fire": "Feu",
+    "earth": "Terre",
+    "metal": "Métal",
+    "water": "Eau"
+  },
+  "questionListHeader": {
+    "name": "questionListHeader",
+    "title": "Prédictions du Zodiaque Chinois 2025 & Réponses",
+    "description": "Explorez votre prévision personnalisée du zodiaque chinois pour 2025. Obtenez des réponses sur vos perspectives de carrière, richesse, relations et santé grâce à notre système d'analyse Bazi alimenté par l'IA.",
+    "keywords": "Prédictions du zodiaque chinois, prévision 2025, analyse Bazi, horoscope personnalisé, compatibilité zodiacale"
+  },
+  "introduce": {
+    "name": "introduce",
+    "title": "Analyse du Zodiaque Chinois Améliorée par l'IA",
+    "label": "Introduction",
+    "description": "La tradition du Zodiaque Chinois, maintenant améliorée avec une technologie IA de pointe, offre une précision sans précédent dans l'analyse du cycle de 12 ans, des attributs élémentaires, et des prévisions de destin personnalisées.",
+    "image": {
+      "src": "/imgs/zodiac-feature/chinese-zodiac-intro.png"
+    },
+    "items": [
+      {
+        "title": "Identification Zodiacale Alimentée par l'IA",
+        "description": "Nos algorithmes avancés identifient précisément votre signe zodiacal parmi les 12 animaux : Rat, Buffle, Tigre, Lapin, Dragon, Serpent, Cheval, Chèvre, Singe, Coq, Chien et Cochon.",
+        "icon": "RiCalendarLine"
+      },
+      {
+        "title": "Analyse des Éléments par Apprentissage Automatique",
+        "description": "L'analyse des Cinq Éléments chinois (Bois, Feu, Terre, Métal et Eau) pilotée par l'IA révèle leurs interactions complexes avec votre signe zodiacal pour des aperçus plus profonds de votre personnalité.",
+        "icon": "RiFireLine"
+      },
+      {
+        "title": "Prévisions IA Prédictives",
+        "description": "Notre système IA analyse le cycle de 60 ans créé par les animaux et les éléments pour générer des prédictions de fortune hautement précises, des correspondances de compatibilité et des conseils de vie.",
+        "icon": "RiLoopLeftLine"
+      }
+    ]
+  },
+  "feature": {
+    "name": "feature",
+    "title": "Fonctionnalités du Calculateur Zodiaque Chinois Alimenté par l'IA",
+    "description": "Découvrez notre système d'intelligence artificielle avancé qui fournit une analyse zodiacale complète et des prédictions personnalisées.",
+    "items": [
+      {
+        "title": "Calcul de Signe par Réseau Neuronal",
+        "description": "Notre IA utilise des réseaux neuronaux pour une détermination précise de votre signe du zodiaque chinois basée sur votre date de naissance exacte.",
+        "icon": "RiCalculatorLine"
+      },
+      {
+        "title": "Analyse des Éléments par Apprentissage Profond",
+        "description": "Des algorithmes IA avancés fournissent une analyse détaillée de votre élément et de ses interactions complexes avec votre signe zodiacal.",
+        "icon": "RiWaterFlashLine"
+      },
+      {
+        "title": "Prévision IA 2025 Prédictive",
+        "description": "Les modèles d'apprentissage automatique génèrent des prédictions hautement personnalisées pour la carrière, les relations, la santé et la richesse dans l'année à venir.",
+        "icon": "RiCalendarCheckLine"
+      },
+      {
+        "title": "Profilage de Personnalité par IA",
+        "description": "Notre intelligence artificielle crée une analyse complète des traits de caractère, forces et défis basée sur votre signe zodiacal.",
+        "icon": "RiUserStarLine"
+      },
+      {
+        "title": "Algorithme de Compatibilité Intelligent",
+        "description": "Système alimenté par l'IA qui détermine quels signes du zodiaque sont les plus compatibles avec le vôtre pour les amitiés et les relations.",
+        "icon": "RiHeartsFill"
+      },
+      {
+        "title": "Éléments Porte-Bonheur Recommandés par l'IA",
+        "description": "Recommandations générées par apprentissage automatique pour les couleurs, nombres et directions porte-bonheur afin d'améliorer votre fortune.",
+        "icon": "RiLeafLine"
+      }
+    ]
+  },
+  "testimonial": {
+    "name": "testimonial",
+    "label": "Témoignage",
+    "title": "Ce que Disent les Utilisateurs de Notre Calculateur IA du Zodiaque",
+    "description": "Écoutez les utilisateurs qui ont découvert leur destin personnel grâce à notre analyse IA avancée du zodiaque.",
+    "icon": "GoThumbsup",
+    "items": [
+      {
+        "title": "Emily Chen",
+        "label": "Dragon, Élément Bois",
+        "description": "Le profil de personnalité généré par l'IA était étonnamment précis ! L'analyse du réseau neuronal a révélé des aspects de ma personnalité Dragon que je n'avais jamais réalisés auparavant. Vraiment révélateur !",
+        "image": {
+          "src": "/imgs/users/1.png"
+        }
+      },
+      {
+        "title": "Michael Liu",
+        "label": "Singe, Élément Métal",
+        "description": "L'analyse approfondie des éléments a expliqué pourquoi j'ai toujours été attiré par certaines carrières. Les suggestions de compatibilité de l'IA ont transformé mon approche des relations !",
+        "image": {
+          "src": "/imgs/users/2.png"
+        }
+      },
+      {
+        "title": "Sarah Johnson",
+        "label": "Lapin, Élément Feu",
+        "description": "En tant que personne sceptique à propos de l'astrologie, j'ai été impressionnée par la précision des prédictions de l'IA. La prévision 2025 m'a donné des idées pratiques que j'utilise réellement pour planifier mon année à venir.",
+        "image": {
+          "src": "/imgs/users/3.png"
+        }
+      },
+      {
+        "title": "Daniel Wong",
+        "label": "Serpent, Élément Eau",
+        "description": "La prévision de carrière de l'algorithme d'apprentissage automatique était étrangement précise ! Suivre les éléments porte-bonheur recommandés par l'IA a déjà apporté des changements positifs à ma vie professionnelle.",
+        "image": {
+          "src": "/imgs/users/4.png"
+        }
+      },
+      {
+        "title": "Jessica Zhang",
+        "label": "Tigre, Élément Terre",
+        "description": "La relation élément-zodiaque analysée par l'IA m'a aidée à comprendre mes forces et faiblesses. Les perspectives de santé personnalisées ont fourni des conseils précieux auxquels je n'avais pas pensé auparavant.",
+        "image": {
+          "src": "/imgs/users/5.png"
+        }
+      },
+      {
+        "title": "Robert Kim",
+        "label": "Buffle, Élément Bois",
+        "description": "Les prévisions prédictives de l'IA étaient remarquablement détaillées ! Je suis les éléments porte-bonheur recommandés par l'IA depuis trois mois maintenant, et j'ai remarqué des améliorations significatives dans mes relations.",
+        "image": {
+          "src": "/imgs/users/6.png"
+        }
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Questions Courantes sur Notre Système IA du Zodiaque Chinois",
+    "description": "Vous avez d'autres questions sur notre technologie IA ? Contactez-nous via nos canaux d'assistance.",
+    "items": [
+      {
+        "title": "Comment votre IA détermine-t-elle mon signe du zodiaque chinois ?",
+        "description": "Notre système IA calcule précisément votre signe du zodiaque chinois basé sur l'année lunaire de votre naissance selon le calendrier chinois traditionnel, en utilisant des algorithmes avancés pour assurer la précision même avec les variations du calendrier."
+      },
+      {
+        "title": "Quelle technologie IA analyse l'interaction des Cinq Éléments avec mon zodiaque ?",
+        "description": "Nous utilisons des modèles d'apprentissage automatique propriétaires pour analyser comment les Cinq Éléments (Bois, Feu, Terre, Métal et Eau) se combinent avec les 12 signes animaux, créant des aperçus personnalisés sur votre caractère et votre destin."
+      },
+      {
+        "title": "Quelle est la précision de vos prédictions zodiacales générées par l'IA ?",
+        "description": "Nos prédictions IA combinent des milliers d'années de sagesse traditionnelle du zodiaque chinois avec la science des données moderne et l'apprentissage automatique. Nos algorithmes sont entraînés sur des modèles historiques et continuellement améliorés pour une précision maximale."
+      },
+      {
+        "title": "L'IA peut-elle suggérer des moyens d'améliorer ma fortune basée sur mon zodiaque ?",
+        "description": "Oui ! Notre IA génère des recommandations personnalisées pour les couleurs, nombres, directions et activités porte-bonheur basées sur votre combinaison spécifique zodiaque-élément pour aider à équilibrer vos énergies et potentiellement améliorer différents domaines de votre vie."
+      },
+      {
+        "title": "Comment l'IA crée-t-elle ma prédiction 2025 ?",
+        "description": "Notre intelligence artificielle analyse comment l'Année du Serpent (2025) interagira avec votre signe zodiacal et élément personnels, en utilisant des algorithmes complexes pour traiter les modèles de compatibilité traditionnels et fournir des prévisions de vie détaillées."
+      },
+      {
+        "title": "Quelles données votre IA utilise-t-elle pour générer ma lecture zodiacale ?",
+        "description": "Notre système IA utilise votre date de naissance avec une base de données complète d'astrologie chinoise traditionnelle, des aperçus psychologiques modernes, et la reconnaissance de modèles pour générer des lectures zodiacales profondément personnalisées sans stocker aucune information personnelle."
+      }
+    ]
+  },
+  "cta": {
+    "name": "cta",
+    "title": "Obtenez Votre Profil du Zodiaque Chinois Généré par l'IA",
+    "description": "Découvrez maintenant la prévision de destin personnalisée 2025 de notre système d'intelligence artificielle avancé.",
+    "buttons": [
+      {
+        "title": "Générer Mon Analyse Zodiacale IA",
+        "url": "#calculator",
+        "target": "_self",
+        "icon": "GoArrowUpRight"
+      },
+      {
+        "title": "Explorer les Aperçus Zodiacaux IA",
+        "url": "#questionListHeader",
+        "target": "_self",
+        "variant": "outline"
+      }
+    ]
+  },
+  "footer": {
+    "description": "Calculateur de zodiaque chinois alimenté par l'IA pour des prédictions 2025 précises et personnalisées"
+  }
+}

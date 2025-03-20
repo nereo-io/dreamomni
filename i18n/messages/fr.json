@@ -1,0 +1,146 @@
+{
+  "metadata": {
+    "title": "BaziAI - Outil d'Analyse Bazi IA DeepSeek R1 | Guidance de Vie Gratuite",
+    "description": "Obtenez des analyses Bazi gratuites alimentées par l'IA, combinant l'astrologie chinoise ancienne avec la technologie DeepSeek R1. Analysez votre carrière, vos relations et votre chemin de vie grâce à l'interprétation intelligente de l'IA.",
+    "keywords": "Analyse Bazi IA, Analyse Bazi Gratuite, DeepSeek R1, Prédiction de Carrière, Guidance de Vie, Astrologie Chinoise IA"
+  },
+
+  "career": {
+    "title": "Analyse Bazi IA de Fortune Professionnelle | Astrologie Chinoise | BaziAI",
+    "description": "Obtenez des prédictions de carrière personnalisées basées sur l'astrologie chinoise. Découvrez des informations sur les changements d'emploi, les promotions et la réussite professionnelle grâce à notre analyse Bazi alimentée par l'IA.",
+    "keywords": "analyse de carrière, astrologie chinoise carrière, bazi carrière, prédiction d'emploi, fortune professionnelle, parcours professionnel, réussite au travail"
+  },
+  "love": {
+    "title": "Analyse Bazi IA de Compatibilité Amoureuse | Astrologie Chinoise | BaziAI",
+    "description": "Trouvez votre partenaire idéal avec notre analyse de compatibilité amoureuse alimentée par l'IA basée sur l'astrologie chinoise. Obtenez des informations personnalisées sur les relations, les rencontres et votre destin romantique.",
+    "keywords": "compatibilité amoureuse, analyse de relation, correspondance zodiaque chinois, bazi amour, astrologie relationnelle, prévision romantique"
+  },
+  "health": {
+    "title": "Analyse Bazi IA de Santé & Bien-être | Astrologie Chinoise | BaziAI",
+    "description": "Découvrez vos forces et faiblesses en matière de santé grâce à l'astrologie chinoise. Notre analyse Bazi IA fournit des informations personnalisées sur le bien-être et des prévisions potentielles de santé.",
+    "keywords": "analyse de santé, santé astrologie chinoise, bien-être bazi, prévision de santé, constitution corporelle, équilibre des éléments"
+  },
+  "chinese-zodiac": {
+    "title": "Analyse IA du Signe Zodiacal Chinois & des Éléments | BaziAI",
+    "description": "Découvrez instantanément votre animal du zodiaque chinois et votre alignement élémentaire. Notre calculateur interactif révèle votre signe de naissance et comment les 5 éléments influencent votre personnalité et votre destin.",
+    "keywords": "calculateur zodiaque chinois, recherche de signe animal, tableau des 5 éléments, élément de naissance, signe astrologie chinoise, personnalité zodiacale"
+  },
+  "life": {
+    "title": "Analyse Bazi IA du Chemin de Vie & Destin | Astrologie Chinoise | BaziAI",
+    "description": "Découvrez votre chemin de vie et votre destin grâce à l'astrologie chinoise. Notre analyse Bazi IA fournit des informations personnalisées sur votre parcours de vie, vos caractéristiques personnelles et comment tirer le meilleur parti de votre destin.",
+    "keywords": "chemin de vie, analyse du destin, vie astrologie chinoise, vie bazi, chemin de vie astrologie, analyse du destin"
+  },
+  "pricing": {
+    "title": "Plans d'Adhésion Premium | Analyses d'Astrologie Chinoise | BaziAI",
+    "description": "Débloquez des analyses d'astrologie chinoise illimitées avec nos plans premium. Obtenez des informations personnalisées sur la carrière, l'amour, la santé et plus encore grâce à notre analyse Bazi alimentée par l'IA.",
+    "keywords": "adhésion astrologie chinoise, premium bazi, analyses illimitées, abonnement astrologie, divination ia, compatibilité relationnelle, prévisions de carrière"
+  },
+  "chinese-zodiac-calculator": {
+    "title": "Calculateur IA du Zodiaque Chinois 2025 | Prédictions de Fortune Gratuites",
+    "description": "Le calculateur du zodiaque chinois alimenté par l'IA révèle votre signe zodiacal, votre élément et les prédictions de fortune 2025. Obtenez des informations personnalisées basées sur l'astrologie traditionnelle.",
+    "keywords": "Calculateur zodiaque chinois, prédictions 2025, signe zodiacal, prévision de fortune"
+  },
+
+  "user": {
+    "sign_in": "Se Connecter",
+    "sign_out": "Se Déconnecter",
+    "credits": "Crédits",
+    "api_keys": "Clés API",
+    "my_orders": "Mes Commandes",
+    "membership": "Adhésion"
+  },
+  "sign_modal": {
+    "sign_in_title": "Connexion",
+    "sign_in_description": "Connectez-vous à votre compte",
+    "sign_up_title": "Inscription",
+    "sign_up_description": "Créer un compte",
+    "email_title": "Email",
+    "email_placeholder": "Saisissez votre email ici",
+    "password_title": "Mot de passe",
+    "password_placeholder": "Saisissez votre mot de passe ici",
+    "forgot_password": "Mot de passe oublié?",
+    "or": "Ou",
+    "continue": "Continuer",
+    "no_account": "Vous n'avez pas de compte?",
+    "email_sign_in": "Se connecter avec Email",
+    "google_sign_in": "Se connecter avec Google",
+    "github_sign_in": "Se connecter avec GitHub",
+    "apple_sign_in": "Se connecter avec Apple",
+    "close_title": "Fermer",
+    "cancel_title": "Annuler"
+  },
+  "my_orders": {
+    "title": "Mes Commandes",
+    "description": "commandes payées avec BaziAI.",
+    "no_orders": "Aucune commande trouvée",
+    "tip": "",
+    "activate_order": "Activer la Commande",
+    "actived": "Activée",
+    "join_discord": "Rejoindre Discord",
+    "read_docs": "Lire la Documentation",
+    "table": {
+      "order_no": "N° de Commande",
+      "email": "Email",
+      "product_name": "Nom du Produit",
+      "amount": "Montant",
+      "paid_at": "Payé le",
+      "github_username": "Nom d'Utilisateur GitHub",
+      "status": "Statut"
+    }
+  },
+  "membership": {
+    "title": "Adhésion",
+    "description": "Consultez les informations de votre adhésion et la période de validité",
+    "status": "Statut",
+    "status_active": "Active",
+    "status_expired": "Expirée",
+    "type": "Type",
+    "type_monthly": "Plan Mensuel",
+    "type_yearly": "Plan Annuel",
+    "start_date": "Date de Début",
+    "end_date": "Date de Fin",
+    "remaining_days": "Jours Restants",
+    "days": "jours",
+    "no_membership": "Aucune Active",
+    "manage_subscription": "Gérer l'Abonnement",
+    "loading": "Chargement..."
+  },
+  "my_credits": {
+    "title": "Mes Crédits",
+    "left_tip": "crédits restants: {left_credits}",
+    "no_credits": "Aucun historique de crédits",
+    "recharge": "Recharger",
+    "table": {
+      "trans_no": "N° de Transaction",
+      "trans_type": "Type de Transaction",
+      "credits": "Crédits",
+      "updated_at": "Mis à jour le",
+      "status": "Statut"
+    }
+  },
+  "api_keys": {
+    "title": "Clés API",
+    "tip": "Veuillez garder votre clé API en sécurité pour éviter les fuites",
+    "no_api_keys": "Aucune Clé API",
+    "create_api_key": "Créer une Clé API",
+    "table": {
+      "name": "Nom",
+      "key": "Clé",
+      "created_at": "Créée le"
+    },
+    "form": {
+      "name": "Nom",
+      "name_placeholder": "Nom de la Clé API",
+      "submit": "Soumettre"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Actualités, ressources et mises à jour concernant BaziAI",
+    "read_more_text": "Lire Plus"
+  },
+  "chat": {
+    "title": "Nouveau Chat - Outil d'Analyse Bazi IA DeepSeek R1",
+    "description": "Commencer un nouveau chat avec l'Outil d'Analyse Bazi IA DeepSeek R1"
+  }
+}

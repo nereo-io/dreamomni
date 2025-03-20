@@ -42,3 +42,9 @@ Makefile
 .wrangler
 wrangler.toml
 supabase
+
+# instructions
+/a_instructions/
+/a_marketing/
+/a_strategy/
+/.cursor/

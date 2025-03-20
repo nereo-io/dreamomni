@@ -1,0 +1,28 @@
+{
+  "title": "Choisissez Votre Question",
+  "subtitle": "Quels aspects souhaitez-vous explorer ?",
+  "placeholder": "Tapez votre question ici ou sélectionnez parmi les suggestions ci-dessous...",
+  "send": "Envoyer",
+  "loginPrompt": "Connectez-vous pour obtenir 3 lectures gratuites par jour",
+  "errors": {
+    "pleaseLogin": "Veuillez vous connecter pour obtenir 3 lectures gratuites par jour",
+    "checkUsageError": "Échec de la vérification du nombre de lectures",
+    "noRemainingReadings": "Vous avez utilisé toutes vos lectures pour aujourd'hui, veuillez revenir demain",
+    "recordUsageError": "Échec de l'enregistrement de l'utilisation de la lecture",
+    "pleaseInputBirthInfo": "Veuillez d'abord saisir vos informations de naissance"
+  },
+  "customer": {
+    "input": {
+      "unlimited_usage": "Membre",
+      "remaining_readings": "Reste {count} fois",
+      "add_birth_info": "infos de naissance",
+      "partner_birth_info": "infos partenaire"
+    }
+  },
+  "matching": {
+    "single": "Simple",
+    "double": "Double",
+    "double_title": "Double Correspondance",
+    "description": "Analyse de la compatibilité des thèmes astraux de deux personnes pour dévoiler leur destin et la trajectoire de leur relation. Cette fonctionnalité nécessite une adhésion ; cliquer sur envoyer vous redirigera vers l'interface de paiement."
+  }
+}

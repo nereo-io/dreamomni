@@ -1,0 +1,74 @@
+{
+  "title": "Vos Informations de Base",
+  "description": "Nous respectons votre vie privée, toutes les informations sont uniquement utilisées pour l'interprétation et l'analyse",
+  "partner_title": "Informations du Partenaire",
+  "partner_description": "Nous respectons la vie privée de votre partenaire, toutes les informations sont uniquement utilisées pour l'interprétation et l'analyse",
+  "loginPrompt": "Connectez-vous pour obtenir 3 lectures gratuites par jour",
+  "errors": {
+    "pleaseLogin": "Veuillez vous connecter pour obtenir 3 lectures gratuites par jour",
+    "checkUsageError": "Échec de la vérification du nombre de lectures",
+    "noRemainingReadings": "Vous avez utilisé toutes vos lectures pour aujourd'hui, veuillez revenir demain",
+    "recordUsageError": "Échec de l'enregistrement de l'utilisation de la lecture",
+    "operationFailed": "L'opération a échoué, veuillez réessayer plus tard"
+  },
+  "form": {
+    "optional": "(Facultatif)",
+    "name": {
+      "label": "Nom",
+      "placeholder": "Entrez votre nom",
+      "info": "Votre nom nous aide à fournir des lectures plus personnalisées"
+    },
+    "birthDate": {
+      "label": "Date de Naissance",
+      "info": "Votre date de naissance détermine votre BaZi (Les Quatre Piliers de la Destinée chinois), un système profond pour comprendre le chemin de la vie"
+    },
+    "birthTime": {
+      "label": "Heure de Naissance",
+      "info": "L'heure de naissance complète votre carte BaZi, révélant des aspects clés de votre destinée"
+    },
+    "gender": {
+      "label": "Genre",
+      "male": "Homme",
+      "female": "Femme",
+      "info": "Le genre influence l'interprétation de votre carte BaZi, nous aidant à fournir des conseils plus précis"
+    },
+    "relationshipStatus": {
+      "label": "Statut Relationnel",
+      "placeholder": "Sélectionnez le statut relationnel",
+      "options": {
+        "single": "Célibataire",
+        "dating": "En couple",
+        "engaged": "Fiancé(e)",
+        "married": "Marié(e)",
+        "divorced": "Divorcé(e)",
+        "widowed": "Veuf/Veuve",
+        "complicated": "C'est compliqué"
+      },
+      "info": "Votre statut relationnel nous aide à fournir des lectures plus précises sur votre vie amoureuse"
+    },
+    "jobStatus": {
+      "label": "Statut Professionnel",
+      "placeholder": "Sélectionnez le statut professionnel",
+      "options": {
+        "student": "Étudiant(e)",
+        "employed": "Employé(e)",
+        "selfEmployed": "Indépendant(e)/Entrepreneur",
+        "unemployed": "Sans emploi",
+        "retired": "Retraité(e)",
+        "homemaker": "Au foyer"
+      },
+      "info": "Votre statut professionnel nous aide à fournir des lectures plus précises sur votre carrière"
+    },
+    "additionalInfo": {
+      "label": "Informations Supplémentaires",
+      "placeholder": "Entrez des informations supplémentaires",
+      "info": "Vous pouvez ajouter toute information que vous pensez utile pour votre lecture"
+    }
+  },
+  "button": {
+    "submit": "Enregistrer",
+    "submitting": "Enregistrement...",
+    "back": "Retour",
+    "saveSuccess": "Enregistré avec succès !"
+  }
+}

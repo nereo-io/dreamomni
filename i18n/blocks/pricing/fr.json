@@ -1,0 +1,90 @@
+{
+  "name": "pricing",
+  "label": "Plans d'Abonnement",
+  "title": "Plans de Lecture BaziAI",
+  "description": "Choisissez votre plan d'abonnement pour l'analyse Bazi IA",
+  "groups": [],
+  "items": [
+    {
+      "title": "Lecture IA Gratuite",
+      "description": "Commencez votre voyage d'analyse de fortune par IA",
+      "features_title": "Inclus",
+      "features": [
+        "3 lectures de fortune IA par jour",
+        "Analyse de fortune IA basique individuelle",
+        "Conseils IA de base"
+      ],
+      "interval": "month",
+      "amount": 0,
+      "currency": "USD",
+      "price": "Gratuit",
+      "unit": "/mois",
+      "is_featured": false,
+      "button": {
+        "title": "Essayer la Lecture IA Gratuite",
+        "url": "/career",
+        "icon": "RiMagicLine",
+        "disabled": true
+      }
+    },
+    {
+      "title": "IA Pro (Mensuel)",
+      "description": "Débloquez l'expérience Bazi IA complète",
+      "label": "Populaire",
+      "features_title": "Inclus",
+      "features": [
+        "Lectures de fortune IA illimitées",
+        "Analyse de fortune IA avancée individuelle",
+        "Analyse de fortune IA avancée de compatibilité",
+        "Conseils & solutions IA avancés",
+        "Suivi de fortune IA annuel 2025"
+      ],
+      "interval": "month",
+      "amount": 999,
+      "currency": "USD",
+      "price": "$9.99",
+      "original_price": "$19.99",
+      "unit": "/mois",
+      "is_featured": true,
+      "discount_label": "50% OFF",
+      "button": {
+        "title": "Passer à IA Pro",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "monthly-pro",
+      "product_name": "BaziAI Pro",
+      "credits": 1,
+      "valid_months": 1
+    },
+    {
+      "title": "IA Pro (Annuel)",
+      "description": "Accès illimité à l'expérience Bazi IA complète",
+      "features_title": "Inclus",
+      "features": [
+        "Lectures de fortune IA illimitées",
+        "Analyse de fortune IA avancée individuelle",
+        "Analyse de fortune IA avancée de compatibilité",
+        "Conseils & solutions IA avancés",
+        "Suivi de fortune IA annuel 2025"
+      ],
+      "interval": "year",
+      "amount": 9900,
+      "currency": "USD",
+      "price": "$99",
+      "original_price": "$238.8",
+      "unit": "/an",
+      "is_featured": false,
+      "discount_label": "60% OFF",
+      "button": {
+        "title": "Passer à IA Pro",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "yearly-pro",
+      "product_name": "BaziAI Pro",
+      "credits": 12,
+      "valid_months": 12
+    }
+  ]
+}
