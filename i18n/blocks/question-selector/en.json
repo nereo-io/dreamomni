@@ -21,8 +21,8 @@
   },
   "matching": {
     "single": "Single",
-    "double": "Double",
-    "double_title": "Double Matching",
+    "double": "Dual",
+    "double_title": "Dual Profile Matching",
     "description": "Analyzing the compatibility of two individuals' birth charts to unveil their destiny and the trajectory of their relationship. This feature requires membership; clicking send will redirect you to the payment interface."
   }
 }
