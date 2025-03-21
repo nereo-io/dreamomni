@@ -34,6 +34,9 @@ export async function generateMetadata({
     keywords: t("metadata.keywords") || "",
     verification: {
       yandex: "33a975be466e2c12",
+      other: {
+        _foundr: "55861b48903af88d805e6bc5d1a54c41",
+      },
     },
   };
 }
@@ -49,6 +52,9 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        <meta name="_foundr" content="55861b48903af88d805e6bc5d1a54c41" />
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased overflow-x-hidden",
