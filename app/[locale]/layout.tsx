@@ -32,6 +32,9 @@ export async function generateMetadata({
     },
     description: t("metadata.description") || "",
     keywords: t("metadata.keywords") || "",
+    verification: {
+      yandex: "33a975be466e2c12",
+    },
   };
 }
 
