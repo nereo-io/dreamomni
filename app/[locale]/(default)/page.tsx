@@ -27,6 +27,7 @@ import {
   getQuestionSelectorBlock,
 } from "@/services/page";
 import { NavCategory } from "@/components/blocks/nav-category";
+import { getSuggestedQuestions } from "@/services/questionSug";
 
 export async function generateMetadata({
   params: { locale },
@@ -55,6 +56,8 @@ export default async function LandingPage({
   const readerPage = await getReaderPage(locale);
   const pricing = await getPricingBlock(locale);
   const questionSelector = await getQuestionSelectorBlock(locale);
+  const questionSuggestions = await getSuggestedQuestions(locale);
+  // console.log(questionSuggestions);
 
   // Get base URL for complete URLs in structured data
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://www.bazi-ai.com";
@@ -130,7 +133,7 @@ export default async function LandingPage({
       <QuestionSelector
         formMessages={readerPage}
         questionSelector={questionSelector}
-        questionSuggestions={page.questionSuggestions}
+        questionSuggestions={questionSuggestions}
       />
       <NavCategory />
 

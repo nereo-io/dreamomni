@@ -87,7 +87,7 @@ export default async function QuestionDetailPage({ params }: PageParams) {
 
       <div className="flex flex-row items-start sm:items-center gap-4 mb-6">
         <Button variant="outline" asChild className="w-auto">
-          <Link href={`/${locale}/chinese-zodiac-calculator`}>
+          <Link href="javascript:history.back()">
             <ArrowLeftIcon className="w-4 h-4" />
             Back
           </Link>

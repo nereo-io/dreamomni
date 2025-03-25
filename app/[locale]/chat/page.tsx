@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { getQuestionSelectorBlock } from "@/services/page";
 import { NavCategory } from "@/components/blocks/nav-category";
+import { getSuggestedQuestions } from "@/services/questionSug";
 
 export async function generateMetadata({
   params: { locale },
@@ -36,7 +37,7 @@ export default async function ChatPage({
   const page = await getLandingPage(locale);
   const readerPage = await getReaderPage(locale);
   const questionSelector = await getQuestionSelectorBlock(locale);
-
+  const questionSuggestions = await getSuggestedQuestions(locale);
   return (
     <>
       <div className="mt-4 ml-4">
@@ -48,6 +49,7 @@ export default async function ChatPage({
         <QuestionSelector
           formMessages={readerPage}
           questionSelector={questionSelector}
+          questionSuggestions={questionSuggestions}
         />
       )}
       <NavCategory />

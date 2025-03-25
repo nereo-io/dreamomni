@@ -151,7 +151,7 @@
     "image": {
       "src": "/imgs/features/generating.gif"
     },
-    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?autoplay=1&mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0 ",
+    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0",
     "items": [
       {
         "title": "AI增强的古老智慧",

@@ -75,10 +75,10 @@ export const ZodiacCalculator = ({ t, onCalculate }: CalculatorProps) => {
     <Card className="border shadow-sm">
       <CardHeader className="bg-card">
         <CardTitle className="text-xl text-card-foreground">
-          {t.enterBirthdate}
+          <h2>{t.enterBirthdate}</h2>
         </CardTitle>
         <CardDescription className="text-muted-foreground">
-          {t.birthdateDescription}
+          <p>{t.birthdateDescription}</p>
         </CardDescription>
       </CardHeader>
       <CardContent className="pt-6 bg-background">

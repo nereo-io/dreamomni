@@ -13,7 +13,7 @@
     "nav": {
       "items": [
         {
-          "title": "解读",
+          "title": "八字解读",
           "url": "/reading",
           "icon": "RiBookLine",
           "children": [
@@ -45,9 +45,21 @@
           ]
         },
         {
-          "title": "计算器",
-          "url": "/chinese-zodiac-calculator",
-          "icon": "RiCalculatorLine"
+          "title": "生肖",
+          "url": "/chinese-zodiac-element-reading",
+          "icon": "RiAncientGateLine",
+          "children": [
+            {
+              "title": "生肖与五行分析",
+              "url": "/chinese-zodiac-element-reading",
+              "icon": "RiAncientGateLine"
+            },
+            {
+              "title": "2025生肖运势",
+              "url": "/chinese-zodiac-calculator",
+              "icon": "RiCalendarEventLine"
+            }
+          ]
         },
         {
           "title": "价格",
@@ -349,7 +361,7 @@
     "name": "footer",
     "brand": {
       "title": "BaziAI",
-      "description": "您的八字分析平台由DeepSeek R1驱动，结合古老智慧和尖端AI技术提供精准的生活指导。",
+      "description": "由DeepSeek R1驱动的八字分析平台，结合了古老的智慧和尖端的AI技术，提供精准的人生指导。",
       "logo": {
         "src": "/logo.svg",
         "alt": "BaziAI"
@@ -360,7 +372,7 @@
     "nav": {
       "items": [
         {
-          "title": "解读",
+          "title": "八字解读",
           "children": [
             {
               "title": "爱情解读",
@@ -390,12 +402,19 @@
           ]
         },
         {
-          "title": "计算器",
+          "title": "生肖",
+          "url": "/chinese-zodiac-element-reading",
+          "icon": "RiAncientGateLine",
           "children": [
             {
-              "title": "生肖计算器",
+              "title": "生肖与五行分析",
+              "url": "/chinese-zodiac-element-reading",
+              "icon": "RiAncientGateLine"
+            },
+            {
+              "title": "2025生肖运势",
               "url": "/chinese-zodiac-calculator",
-              "target": "_self"
+              "icon": "RiCalendarEventLine"
             }
           ]
         },

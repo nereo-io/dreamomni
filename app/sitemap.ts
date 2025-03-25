@@ -45,6 +45,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "weekly" as ChangeFrequency,
         priority: 0.8,
       },
+      {
+        url: `${baseUrl}/chinese-zodiac-element-reading`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.8,
+      },
     ];
 
     console.log(`添加了 ${staticPages.length} 个基础页面`);
@@ -74,6 +80,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
         {
           url: `${baseUrl}/${locale}/chinese-zodiac-calculator`,
+          lastModified: currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.8,
+        },
+        {
+          url: `${baseUrl}/${locale}/chinese-zodiac-element-reading`,
           lastModified: currentDate,
           changeFrequency: "weekly" as ChangeFrequency,
           priority: 0.8,

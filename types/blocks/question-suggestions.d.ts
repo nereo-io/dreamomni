@@ -3,6 +3,7 @@ export interface SuggestedQuestion {
   text: string;
   category: string;
   reading_type: "single" | "double";
+  priority?: number;
 }
 
 export interface QuestionSuggestions {

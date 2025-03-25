@@ -8,8 +8,13 @@ import { Feature2 } from "@/types/blocks/feature2";
 import { FAQ } from "@/types/blocks/faq";
 import { CTA } from "@/types/blocks/cta";
 import { Testimonial } from "@/types/blocks/testimonial";
+import { OverviewSection } from "@/types/blocks/overview";
+import { ZodiacFinderSection } from "@/types/blocks/zodiac-finder";
+
 export interface ChineseZodiacPage {
   hero: Hero;
+  overviewSection: OverviewSection;
+  zodiacFinderSection: ZodiacFinderSection;
   enterBirthdate: string;
   birthdateDescription: string;
   calculate: string;

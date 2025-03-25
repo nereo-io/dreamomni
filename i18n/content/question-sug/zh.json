@@ -1,0 +1,488 @@
+{
+  "questionSuggestions": {
+    "questions": {
+      "career-1": {
+        "text": "未来五年我的事业发展会怎样？有什么好机会要注意？",
+        "reading_type": "single",
+        "category": "career",
+        "priority": 0.95
+      },
+      "career-2": {
+        "text": "2025年工作运如何？适合跳槽或创业吗？",
+        "reading_type": "single",
+        "category": "career",
+        "priority": 0.9
+      },
+      "career-3": {
+        "text": "我俩的职业发展能互相促进吗？怎么配合比较好？",
+        "reading_type": "double",
+        "category": "career",
+        "priority": 0.72
+      },
+      "career-4": {
+        "text": "从八字看，哪些方面能助我事业成功？",
+        "reading_type": "single",
+        "category": "career",
+        "priority": 0.38
+      },
+
+      "job-1": {
+        "text": "什么类型的工作最适合我？",
+        "reading_type": "single",
+        "category": "job",
+        "priority": 0.85
+      },
+
+      "job-2": {
+        "text": "我们俩在工作上是互补型吗？",
+        "reading_type": "double",
+        "category": "job",
+        "priority": 0.35
+      },
+      "change-1": {
+        "text": "今年换工作合适吗？几月份机会最好？",
+        "reading_type": "single",
+        "category": "change",
+        "priority": 0.88
+      },
+      "change-2": {
+        "text": "如果跳槽，去大公司还是创业公司好？",
+        "reading_type": "single",
+        "category": "change",
+        "priority": 0.42
+      },
+      "change-3": {
+        "text": "如果一方换工作，会影响我们的感情吗？",
+        "reading_type": "double",
+        "category": "change",
+        "priority": 0.32
+      },
+      "relation-1": {
+        "text": "今年职场会遇到小人吗？怎么应对？",
+        "reading_type": "single",
+        "category": "relation",
+        "priority": 0.33
+      },
+      "relation-2": {
+        "text": "怎么和领导同事处好关系？",
+        "reading_type": "single",
+        "category": "relation",
+        "priority": 0.79
+      },
+      "relation-3": {
+        "text": "如何避免办公室矛盾？",
+        "reading_type": "single",
+        "category": "relation",
+        "priority": 0.28
+      },
+      "startup-1": {
+        "text": "我适合自己当老板吗？做什么行业最合适？",
+        "reading_type": "single",
+        "category": "startup",
+        "priority": 0.87
+      },
+      "startup-2": {
+        "text": "现在创业时机好不好？",
+        "reading_type": "single",
+        "category": "startup",
+        "priority": 0.41
+      },
+      "startup-3": {
+        "text": "我们俩合伙做生意合适吗？会遇到什么问题？",
+        "reading_type": "double",
+        "category": "startup",
+        "priority": 0.78
+      },
+      "startup-4": {
+        "text": "做生意要注意哪些坑？怎么避开？",
+        "reading_type": "single",
+        "category": "startup",
+        "priority": 0.36
+      },
+      "balance-1": {
+        "text": "怎么平衡工作和家庭？",
+        "reading_type": "double",
+        "category": "balance",
+        "priority": 0.39
+      },
+      "specific-career-1": {
+        "text": "这个新项目能成吗？",
+        "reading_type": "single",
+        "category": "specific",
+        "priority": 0.77
+      },
+      "specific-career-2": {
+        "text": "和这个合作伙伴合财吗？",
+        "reading_type": "double",
+        "category": "specific",
+        "priority": 0.44
+      },
+      "specific-career-3": {
+        "text": "现在该不该辞职？",
+        "reading_type": "single",
+        "category": "specific",
+        "priority": 0.89
+      },
+      "specific-career-4": {
+        "text": "工作太忙会影响我们的感情吗？",
+        "reading_type": "double",
+        "category": "specific",
+        "priority": 0.31
+      },
+      "zodiac-1": {
+        "text": "我属什么生肖？有什么讲究？",
+        "reading_type": "single",
+        "category": "zodiac",
+        "priority": 0.35
+      },
+      "zodiac-2": {
+        "text": "我的生肖有什么性格特点？",
+        "reading_type": "single",
+        "category": "zodiac",
+        "priority": 0.27
+      },
+      "zodiac-3": {
+        "text": "我们的生肖配不配？",
+        "reading_type": "double",
+        "category": "zodiac",
+        "priority": 0.47
+      },
+      "personality-1": {
+        "text": "我的星座性格准不准？",
+        "reading_type": "single",
+        "category": "personality",
+        "priority": 0.73
+      },
+      "personality-2": {
+        "text": "我的星座优缺点是什么？",
+        "reading_type": "single",
+        "category": "personality",
+        "priority": 0.93
+      },
+      "personality-3": {
+        "text": "什么工作适合我的星座？",
+        "reading_type": "single",
+        "category": "personality",
+        "priority": 0.48
+      },
+      "personality-4": {
+        "text": "我俩星座合不合？怎么相处更好？",
+        "reading_type": "double",
+        "category": "personality",
+        "priority": 0.86
+      },
+      "compatibility-1": {
+        "text": "和什么星座最般配？",
+        "reading_type": "single",
+        "category": "compatibility",
+        "priority": 0.75
+      },
+      "compatibility-2": {
+        "text": "我们的生肖婚配合适吗？",
+        "reading_type": "double",
+        "category": "compatibility",
+        "priority": 0.83
+      },
+      "compatibility-3": {
+        "text": "怎么改善我们的星座配对？",
+        "reading_type": "double",
+        "category": "compatibility",
+        "priority": 0.36
+      },
+      "compatibility-4": {
+        "text": "要小心哪些生肖的人？",
+        "reading_type": "single",
+        "category": "compatibility",
+        "priority": 0.18
+      },
+      "forecast-1": {
+        "text": "今年我的星座运势怎么样？",
+        "reading_type": "single",
+        "category": "forecast",
+        "priority": 0.32
+      },
+      "forecast-2": {
+        "text": "我的幸运色和幸运数字是什么？",
+        "reading_type": "single",
+        "category": "forecast",
+        "priority": 0.38
+      },
+      "forecast-3": {
+        "text": "明年运势会有大变化吗？",
+        "reading_type": "single",
+        "category": "forecast",
+        "priority": 0.22
+      },
+      "forecast-4": {
+        "text": "今年对我们的星座组合有利吗？",
+        "reading_type": "double",
+        "category": "forecast",
+        "priority": 0.29
+      },
+      "elements-1": {
+        "text": "我的五行属什么？影响大吗？",
+        "reading_type": "single",
+        "category": "elements",
+        "priority": 0.71
+      },
+      "elements-2": {
+        "text": "生肖和五行有什么关系？",
+        "reading_type": "single",
+        "category": "elements",
+        "priority": 0.25
+      },
+      "elements-3": {
+        "text": "怎么补五行最有效？",
+        "reading_type": "single",
+        "category": "elements",
+        "priority": 0.75
+      },
+      "elements-4": {
+        "text": "我们的五行相生还是相克？",
+        "reading_type": "double",
+        "category": "elements",
+        "priority": 0.78
+      },
+      "elements-5": {
+        "text": "怎么用五行原理增进感情？",
+        "reading_type": "double",
+        "category": "elements",
+        "priority": 0.33
+      },
+      "health-1": {
+        "text": "从八字看我的健康状况如何？",
+        "reading_type": "single",
+        "category": "health",
+        "priority": 0.82
+      },
+      "health-2": {
+        "text": "今年要特别注意哪方面的健康？",
+        "reading_type": "single",
+        "category": "health",
+        "priority": 0.88
+      },
+      "health-3": {
+        "text": "我们的体质互补吗？",
+        "reading_type": "double",
+        "category": "health",
+        "priority": 0.23
+      },
+      "constitution-1": {
+        "text": "中医说我是什么体质？",
+        "reading_type": "single",
+        "category": "constitution",
+        "priority": 0.37
+      },
+      "constitution-2": {
+        "text": "我身体哪个部位比较弱？",
+        "reading_type": "single",
+        "category": "constitution",
+        "priority": 0.72
+      },
+      "constitution-3": {
+        "text": "我们的体质差异会影响感情吗？",
+        "reading_type": "double",
+        "category": "constitution",
+        "priority": 0.15
+      },
+      "prevention-1": {
+        "text": "今年要重点预防什么疾病？",
+        "reading_type": "single",
+        "category": "prevention",
+        "priority": 0.41
+      },
+      "prevention-2": {
+        "text": "我容易得什么病？",
+        "reading_type": "single",
+        "category": "prevention",
+        "priority": 0.25
+      },
+      "prevention-3": {
+        "text": "怎么吃更健康？",
+        "reading_type": "single",
+        "category": "prevention",
+        "priority": 0.48
+      },
+      "prevention-4": {
+        "text": "怎么和伴侣一起保持健康？",
+        "reading_type": "double",
+        "category": "prevention",
+        "priority": 0.12
+      },
+      "personal-1": {
+        "text": "我的MBTI性格类型是什么？",
+        "reading_type": "single",
+        "category": "personal",
+        "priority": 0.85
+      },
+      "personal-2": {
+        "text": "我的八字暗示了怎样的人生？",
+        "reading_type": "single",
+        "category": "personal",
+        "priority": 0.92
+      },
+      "personal-3": {
+        "text": "五行中哪个对我最有利？",
+        "reading_type": "single",
+        "category": "personal",
+        "priority": 0.78
+      },
+      "personal-4": {
+        "text": "我的人生转折点在什么时候？",
+        "reading_type": "single",
+        "category": "personal",
+        "priority": 0.89
+      },
+      "personal-5": {
+        "text": "穿什么颜色最旺我？",
+        "reading_type": "single",
+        "category": "personal",
+        "priority": 0.22
+      },
+      "love-1": {
+        "text": "我的桃花运怎么样？",
+        "reading_type": "single",
+        "category": "love",
+        "priority": 0.94
+      },
+      "love-2": {
+        "text": "明年感情会有新进展吗？",
+        "reading_type": "single",
+        "category": "love",
+        "priority": 0.91
+      },
+      "love-3": {
+        "text": "我在感情里最大的优点和缺点是什么？",
+        "reading_type": "single",
+        "category": "love",
+        "priority": 0.84
+      },
+      "love-4": {
+        "text": "什么类型的对象最适合我？",
+        "reading_type": "single",
+        "category": "love",
+        "priority": 0.87
+      },
+      "love-compatibility-1": {
+        "text": "我们八字合不合？",
+        "reading_type": "double",
+        "category": "compatibility",
+        "priority": 0.95
+      },
+      "love-compatibility-2": {
+        "text": "我们的五行相配吗？",
+        "reading_type": "double",
+        "category": "compatibility",
+        "priority": 0.45
+      },
+      "love-compatibility-3": {
+        "text": "我们的星座配对指数高吗？",
+        "reading_type": "double",
+        "category": "compatibility",
+        "priority": 0.9
+      },
+      "love-compatibility-4": {
+        "text": "我们能从对方身上学到什么？",
+        "reading_type": "double",
+        "category": "compatibility",
+        "priority": 0.35
+      },
+      "relationship-1": {
+        "text": "我们现在感情状况如何？",
+        "reading_type": "double",
+        "category": "relationship",
+        "priority": 0.51
+      },
+      "relationship-2": {
+        "text": "怎么改善我们的沟通？",
+        "reading_type": "double",
+        "category": "relationship",
+        "priority": 0.87
+      },
+      "relationship-3": {
+        "text": "今年感情会遇到什么坎？",
+        "reading_type": "double",
+        "category": "relationship",
+        "priority": 0.43
+      },
+      "relationship-4": {
+        "text": "怎么让感情更甜蜜？",
+        "reading_type": "double",
+        "category": "relationship",
+        "priority": 0.49
+      },
+      "future-1": {
+        "text": "正缘什么时候出现？",
+        "reading_type": "single",
+        "category": "future",
+        "priority": 0.96
+      },
+      "future-2": {
+        "text": "下一段恋爱会是什么样？",
+        "reading_type": "single",
+        "category": "future",
+        "priority": 0.46
+      },
+      "future-3": {
+        "text": "我们的感情未来会怎么发展？",
+        "reading_type": "double",
+        "category": "future",
+        "priority": 0.82
+      },
+      "future-4": {
+        "text": "我们会修成正果吗？",
+        "reading_type": "double",
+        "category": "future",
+        "priority": 0.34
+      },
+      "marriage-1": {
+        "text": "今年适合结婚吗？",
+        "reading_type": "single",
+        "category": "marriage",
+        "priority": 0.82
+      },
+      "marriage-2": {
+        "text": "我们的八字婚配合适吗？",
+        "reading_type": "double",
+        "category": "marriage",
+        "priority": 0.89
+      },
+      "marriage-3": {
+        "text": "怎么经营好婚姻？",
+        "reading_type": "double",
+        "category": "marriage",
+        "priority": 0.41
+      },
+      "marriage-4": {
+        "text": "我对婚姻的态度是怎样的？",
+        "reading_type": "single",
+        "category": "marriage",
+        "priority": 0.26
+      },
+      "specific-love-1": {
+        "text": "为什么总吸引同类型的人？",
+        "reading_type": "single",
+        "category": "specific",
+        "priority": 0.38
+      },
+      "specific-love-2": {
+        "text": "怎么走出情伤？",
+        "reading_type": "single",
+        "category": "specific",
+        "priority": 0.34
+      },
+      "specific-love-3": {
+        "text": "现任是我的正缘吗？",
+        "reading_type": "double",
+        "category": "specific",
+        "priority": 0.91
+      },
+      "specific-love-4": {
+        "text": "该不该推进关系？",
+        "reading_type": "double",
+        "category": "specific",
+        "priority": 0.93
+      }
+    }
+  }
+}

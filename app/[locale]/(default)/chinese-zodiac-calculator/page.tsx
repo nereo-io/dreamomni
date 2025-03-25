@@ -15,6 +15,8 @@ import {
   FAQPageSchema,
   BreadcrumbListSchema,
 } from "@/components/StructuredData";
+import { ZodiacOverview } from "@/components/blocks/zodiac-overview";
+import { ZodiacFinder } from "@/components/blocks/zodiac-finder";
 
 export async function generateMetadata({
   params: { locale },
@@ -25,9 +27,9 @@ export async function generateMetadata({
 
   let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/chinese-zodiac-calculator`;
 
-  if (locale !== "en") {
-    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/chinese-zodiac-calculator`;
-  }
+  // if (locale !== "en") {
+  //   canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/chinese-zodiac-calculator`;
+  // }
 
   return {
     title: t(`chinese-zodiac-calculator.title`),
@@ -45,15 +47,18 @@ export default async function ChineseZodiacCalculatorPage({
   searchParams: { page?: string; zodiac?: string };
 }) {
   const page = await getChineseZodiacPage(locale);
+  const translations = await getChineseZodiacPage(locale);
   const currentPage = parseInt(searchParams.page || "1");
   const zodiacFilter = searchParams.zodiac;
 
   // Get base URL for complete URLs in structured data
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://www.bazi-ai.com";
-  const calculatorUrl =
-    locale === "en"
-      ? `${baseUrl}/chinese-zodiac-calculator`
-      : `${baseUrl}/${locale}/chinese-zodiac-calculator`;
+  const calculatorUrl = `${baseUrl}/chinese-zodiac-calculator`;
+
+  // const calculatorUrl =
+  //   locale === "en"
+  //     ? `${baseUrl}/chinese-zodiac-calculator`
+  //     : `${baseUrl}/${locale}/chinese-zodiac-calculator`;
 
   return (
     <>
@@ -65,7 +70,7 @@ export default async function ChineseZodiacCalculatorPage({
             item: locale === "en" ? baseUrl : `${baseUrl}/${locale}`,
           },
           {
-            name: "Chinese Zodiac Calculator",
+            name: "2025 Chinese Horoscope:",
             item: calculatorUrl,
           },
         ]}
@@ -73,23 +78,24 @@ export default async function ChineseZodiacCalculatorPage({
 
       {/* Software Application Schema */}
       <SoftwareApplicationSchema
-        name="Chinese Zodiac AI Calculator with 2025 Predictions"
-        description="Calculate your Chinese zodiac sign and get personalized 2025 predictions based on your birth date"
+        name="2025 Chinese Horoscope: Year of the Wood Snake"
+        description="Discover your authentic 2025 Chinese Horoscope forecast powered by AI for the Year of the Wood Snake 2025"
         applicationCategory="UtilitiesApplication"
         price="0"
         featureList={[
-          "Chinese zodiac sign calculation",
-          "Personality traits analysis",
-          "2025 fortune predictions",
-          "Career outlook for 2025",
-          "Relationship compatibility",
+          "Precise 2025 Chinese Horoscope Calculation",
+          "Element Analysis for 2025",
+          "Personalized 2025 Chinese Horoscope Predictions",
+          "2025 Chinese Horoscope Personality Profile",
+          "2025 Compatibility Predictions",
+          "2025 Lucky Elements",
         ]}
       />
 
       {/* Service Schema */}
       <ServiceSchema
-        name="2025 Chinese Zodiac Predictions"
-        description="Get personalized 2025 predictions for your Chinese zodiac sign including fortune, career, relationships, and health outlook"
+        name="2025 Chinese Horoscope AI-Enhanced Analysis"
+        description="The Year of the Snake (2025) brings unique energies and influences to your Chinese Horoscope. Our AI-enhanced analysis provides unprecedented accuracy in forecasting how the 2025 celestial energies will affect your personal destiny in 2025."
         serviceType="Horoscope Service"
         provider={{
           name: "BaziAI",
@@ -99,28 +105,28 @@ export default async function ChineseZodiacCalculatorPage({
 
       {/* HowTo Schema - Google loves showing this in search results */}
       <HowToSchema
-        name="How to Use Chinese Zodiac AI Calculator for 2025 Predictions"
-        description="Get your personalized Chinese zodiac analysis and 2025 predictions in a few simple steps"
+        name="How to Use 2025 Chinese Horoscope AI Analysis"
+        description="Experience our advanced artificial intelligence system that delivers comprehensive 2025 Chinese Horoscope analysis with unmatched accuracy"
         steps={[
           {
-            name: "Select your birth date",
-            text: "Enter your complete date of birth in the date selector",
+            name: "Enter your birthdate",
+            text: "Enter your birthdate for 2025 Chinese Horoscope analysis",
           },
           {
-            name: "Click the calculate button",
-            text: "Click the 'Calculate Zodiac' button to get your results",
+            name: "Generate 2025 Horoscope Analysis",
+            text: "Our advanced AI algorithm will calculate your Chinese zodiac sign, analyze your 2025 Chinese Horoscope, and generate personalized 2025 predictions based on your elements",
           },
           {
-            name: "View your zodiac sign",
-            text: "See your Chinese zodiac animal and its characteristics",
+            name: "View your Chinese Zodiac for 2025",
+            text: "See your Chinese zodiac animal and its relationship with the 2025 Wood Snake year",
           },
           {
-            name: "Check 2025 predictions",
-            text: "Scroll down to view your personalized predictions for 2025 including career, relationships, and financial outlook",
+            name: "Check your Element-Zodiac Relationship in 2025",
+            text: "Discover how your personal elements interact with the 2025 Wood Snake energies",
           },
           {
-            name: "Get detailed insights",
-            text: "Explore compatibility with other zodiac signs and monthly predictions for 2025",
+            name: "Get your 2025 Destiny Forecast",
+            text: "Explore your personalized 2025 Chinese Horoscope forecast with our AI system including career, wealth, relationships, and health insights",
           },
         ]}
       />
@@ -129,30 +135,32 @@ export default async function ChineseZodiacCalculatorPage({
       <FAQPageSchema
         faqs={[
           {
-            question: "What is my Chinese zodiac sign?",
+            question: "What makes the 2025 Chinese Horoscope unique?",
             answer:
-              "Your Chinese zodiac sign is determined by your birth year in the Chinese lunar calendar. There are 12 zodiac animals: Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, and Pig. Each has unique characteristics and fortune predictions.",
+              "2025 is a Snake year in the Chinese Horoscope, with influence from the Wood element. Our AI system analyzes how this rare 60-year cycle creates specific 2025 energies that influence each zodiac sign differently during 2025.",
           },
           {
-            question: "How accurate are 2025 Chinese zodiac predictions?",
+            question: "How does your AI analyze my 2025 Chinese Horoscope?",
             answer:
-              "Our 2025 Chinese zodiac predictions are based on traditional Chinese astrology principles combined with modern AI analysis of historical patterns. While not guaranteed, many users find these insights helpful for personal reflection and planning.",
-          },
-          {
-            question: "Can I get Chinese zodiac compatibility information?",
-            answer:
-              "Yes! Our calculator provides compatibility analysis between different zodiac signs. This can help you understand relationship dynamics with friends, family, and romantic partners based on traditional Chinese astrology principles.",
-          },
-          {
-            question: "Is the Chinese Zodiac Calculator free to use?",
-            answer:
-              "Yes, our basic Chinese Zodiac Calculator is completely free to use. You can discover your zodiac sign and get general information at no cost. For more detailed 2025 predictions and personalized insights, we offer premium options.",
+              "Our AI combines traditional Chinese Horoscope wisdom with modern data science to analyze how the 2025 energies interact with your personal zodiac sign and element, creating a comprehensive 2025 forecast specific to you.",
           },
           {
             question:
-              "How is the Chinese zodiac different from Western astrology?",
+              "How accurate are your AI-generated 2025 Chinese Horoscope predictions?",
             answer:
-              "Chinese zodiac is based on a 12-year cycle, with each year represented by an animal. Unlike Western astrology which is based on month-long sun signs, Chinese zodiac associates a different animal with each birth year, creating a 12-year cycle. It also incorporates the five elements (wood, fire, earth, metal, water) for deeper analysis.",
+              "Our 2025 Chinese Horoscope predictions merge thousands of years of traditional wisdom with advanced AI algorithms. The system continuously learns from astrological patterns to provide the most accurate 2025 forecast possible.",
+          },
+          {
+            question:
+              "Can the AI suggest ways to improve my fortune during 2025?",
+            answer:
+              "Yes! Our AI generates personalized recommendations for navigating the 2025 Chinese Horoscope energies, including lucky colors, activities, and directions based on your specific zodiac-element combination for optimal 2025 outcomes.",
+          },
+          {
+            question:
+              "Will the 2025 Chinese Horoscope be positive for my zodiac sign?",
+            answer:
+              "Our AI analysis examines how the 2025 year specifically affects your zodiac sign, identifying both favorable 2025 opportunities and potential challenges to help you maximize your fortune during this unique 2025 Chinese Horoscope year.",
           },
         ]}
       />
@@ -160,16 +168,25 @@ export default async function ChineseZodiacCalculatorPage({
       {/* Actual page content */}
       {page.hero && <Hero hero={page.hero} />}
       <ChineseZodiac page={page} />
+      {/* 概述部分 */}
+      <ZodiacOverview translations={page.overviewSection} />
+
+      {/* 生肖选择器部分 */}
+      <div id="zodiac-finder">
+        <ZodiacFinder translations={page.zodiacFinderSection} />
+      </div>
       {page.introduce && <Feature1 section={page.introduce} />}
       {page.feature && <Feature section={page.feature} />}
       {locale === "en" && (
-        <QuestionListBlock
-          category="chinese-zodiac-calculator"
-          locale={locale}
-          questionListHeader={page.questionListHeader}
-          page={currentPage}
-          zodiacFilter={zodiacFilter}
-        />
+        <div>
+          <QuestionListBlock
+            category="chinese-zodiac-calculator"
+            locale={locale}
+            questionListHeader={page.questionListHeader}
+            page={currentPage}
+            zodiacFilter={zodiacFilter}
+          />
+        </div>
       )}
       {page.testimonial && <Testimonial section={page.testimonial} />}
       {page.faq && <FAQ section={page.faq} />}

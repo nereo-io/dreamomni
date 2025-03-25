@@ -13,7 +13,7 @@
     "nav": {
       "items": [
         {
-          "title": "解讀",
+          "title": "八字解讀",
           "url": "/reading",
           "icon": "RiBookLine",
           "children": [
@@ -45,9 +45,21 @@
           ]
         },
         {
-          "title": "計算器",
-          "url": "/chinese-zodiac-calculator",
-          "icon": "RiCalculatorLine"
+          "title": "生肖",
+          "url": "/chinese-zodiac-element-reading",
+          "icon": "RiAncientGateLine",
+          "children": [
+            {
+              "title": "生肖與五行分析",
+              "url": "/chinese-zodiac-element-reading",
+              "icon": "RiAncientGateLine"
+            },
+            {
+              "title": "2025生肖運勢",
+              "url": "/chinese-zodiac-calculator",
+              "icon": "RiCalendarEventLine"
+            }
+          ]
         },
         {
           "title": "價格",
@@ -86,7 +98,7 @@
     "image": {
       "src": "/imgs/features/generating.gif"
     },
-    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?autoplay=1&mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0 ",
+    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0",
     "items": [
       {
         "title": "DeepSeek R1 AI解讀",
@@ -283,18 +295,18 @@
   },
   "cta": {
     "name": "cta",
-    "title": "用BaziAI探索你的命運",
+    "title": "用BaziAI探索您的命運",
     "description": "體驗DeepSeek R1人工智能與古老八字智慧的強大結合。",
     "buttons": [
       {
         "title": "獲取免費解讀",
-        "url": "/reading",
+        "url": "/",
         "target": "_self",
         "icon": "GoArrowUpRight"
       },
       {
-        "title": "查看高級計劃",
-        "url": "/pricing",
+        "title": "查看高級方案",
+        "url": "#pricing",
         "target": "_self",
         "variant": "outline"
       }
@@ -304,7 +316,7 @@
     "name": "footer",
     "brand": {
       "title": "BaziAI",
-      "description": "您的八字分析平台由DeepSeek R1驅動，結合古老智慧和尖端AI技術提供精準的生活指導。",
+      "description": "由DeepSeek R1驅動的八字分析平台，結合古老智慧與尖端AI技術，提供精準的人生指導。",
       "logo": {
         "src": "/logo.svg",
         "alt": "BaziAI"
@@ -315,7 +327,7 @@
     "nav": {
       "items": [
         {
-          "title": "解讀",
+          "title": "八字解讀",
           "children": [
             {
               "title": "愛情解讀",
@@ -345,12 +357,19 @@
           ]
         },
         {
-          "title": "計算器",
+          "title": "生肖",
+          "url": "/chinese-zodiac-element-reading",
+          "icon": "RiAncientGateLine",
           "children": [
             {
-              "title": "生肖計算器",
+              "title": "生肖與五行分析",
+              "url": "/chinese-zodiac-element-reading",
+              "icon": "RiAncientGateLine"
+            },
+            {
+              "title": "2025生肖運勢",
               "url": "/chinese-zodiac-calculator",
-              "target": "_self"
+              "icon": "RiCalendarEventLine"
             }
           ]
         },

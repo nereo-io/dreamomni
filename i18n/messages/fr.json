@@ -25,6 +25,11 @@
     "description": "Découvrez instantanément votre animal du zodiaque chinois et votre alignement élémentaire. Notre calculateur interactif révèle votre signe de naissance et comment les 5 éléments influencent votre personnalité et votre destin.",
     "keywords": "calculateur zodiaque chinois, recherche de signe animal, tableau des 5 éléments, élément de naissance, signe astrologie chinoise, personnalité zodiacale"
   },
+  "chinese-zodiac-element-reading": {
+    "title": "Analyse des Signes du Zodiaque Chinois et des Cinq Éléments | BaziAI",
+    "description": "Explorez la relation entre les signes du zodiaque chinois et les cinq éléments (Bois, Feu, Terre, Métal, Eau).",
+    "keywords": "zodiaque chinois, cinq éléments, calculateur zodiaque, tableau des éléments, élément de naissance, astrologie chinoise"
+  },
   "life": {
     "title": "Analyse Bazi IA du Chemin de Vie & Destin | Astrologie Chinoise | BaziAI",
     "description": "Découvrez votre chemin de vie et votre destin grâce à l'astrologie chinoise. Notre analyse Bazi IA fournit des informations personnalisées sur votre parcours de vie, vos caractéristiques personnelles et comment tirer le meilleur parti de votre destin.",
@@ -36,9 +41,9 @@
     "keywords": "adhésion astrologie chinoise, premium bazi, analyses illimitées, abonnement astrologie, divination ia, compatibilité relationnelle, prévisions de carrière"
   },
   "chinese-zodiac-calculator": {
-    "title": "Calculateur IA du Zodiaque Chinois 2025 | Prédictions de Fortune Gratuites",
-    "description": "Le calculateur du zodiaque chinois alimenté par l'IA révèle votre signe zodiacal, votre élément et les prédictions de fortune 2025. Obtenez des informations personnalisées basées sur l'astrologie traditionnelle.",
-    "keywords": "Calculateur zodiaque chinois, prédictions 2025, signe zodiacal, prévision de fortune"
+    "title": "Horoscope Chinois 2025: Prédictions IA Complètes pour l'Année du Serpent de Bois",
+    "description": "Découvrez votre Horoscope Chinois 2025 pour l'Année du Serpent de Bois. Analyse propulsée par l'IA basée sur l'astrologie traditionnelle.",
+    "keywords": "Horoscope Chinois 2025, Année du Serpent de Bois, prédiction Horoscope Chinois, prévision de fortune IA, horoscope personnalisé, compatibilité zodiacale"
   },
 
   "user": {

@@ -45,9 +45,21 @@
           ]
         },
         {
-          "title": "計算機",
-          "url": "/chinese-zodiac-calculator",
-          "icon": "RiCalculatorLine"
+          "title": "干支と五行",
+          "url": "/chinese-zodiac-element-reading",
+          "icon": "RiAncientGateLine",
+          "children": [
+            {
+              "title": "干支と五行分析",
+              "url": "/chinese-zodiac-element-reading",
+              "icon": "RiAncientGateLine"
+            },
+            {
+              "title": "2025年干支運勢",
+              "url": "/chinese-zodiac-calculator",
+              "icon": "RiCalendarEventLine"
+            }
+          ]
         },
         {
           "title": "料金",
@@ -86,7 +98,7 @@
     "image": {
       "src": "/imgs/features/generating.gif"
     },
-    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?autoplay=1&mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0 ",
+    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0",
     "items": [
       {
         "title": "DeepSeek R1 AI解読",
@@ -269,12 +281,19 @@
           ]
         },
         {
-          "title": "計算機",
+          "title": "干支と五行",
+          "url": "/chinese-zodiac-element-reading",
+          "icon": "RiAncientGateLine",
           "children": [
             {
-              "title": "干支計算機",
+              "title": "干支と五行分析",
+              "url": "/chinese-zodiac-element-reading",
+              "icon": "RiAncientGateLine"
+            },
+            {
+              "title": "2025年干支運勢",
               "url": "/chinese-zodiac-calculator",
-              "target": "_self"
+              "icon": "RiCalendarEventLine"
             }
           ]
         },

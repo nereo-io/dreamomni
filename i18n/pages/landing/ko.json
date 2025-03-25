@@ -45,9 +45,21 @@
           ]
         },
         {
-          "title": "계산기",
-          "url": "/chinese-zodiac-calculator",
-          "icon": "RiCalculatorLine"
+          "title": "중국 띠",
+          "url": "/chinese-zodiac-element-reading",
+          "icon": "RiAncientGateLine",
+          "children": [
+            {
+              "title": "띠와 오행 분석",
+              "url": "/chinese-zodiac-element-reading",
+              "icon": "RiAncientGateLine"
+            },
+            {
+              "title": "2025 중국 운세",
+              "url": "/chinese-zodiac-calculator",
+              "icon": "RiCalendarEventLine"
+            }
+          ]
         },
         {
           "title": "요금제",
@@ -86,7 +98,7 @@
     "image": {
       "src": "/imgs/features/generating.gif"
     },
-    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?autoplay=1&mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0 ",
+    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0",
     "items": [
       {
         "title": "DeepSeek R1 AI 해석",
@@ -284,17 +296,17 @@
   "cta": {
     "name": "cta",
     "title": "BaziAI로 당신의 운명을 발견하세요",
-    "description": "DeepSeek R1 AI와 고대 팔자 지혜의 강력한 조합을 경험해보세요.",
+    "description": "DeepSeek R1 AI와 고대 팔자 지혜의 강력한 조합을 경험하세요.",
     "buttons": [
       {
         "title": "무료 해석 받기",
-        "url": "/reading",
+        "url": "/",
         "target": "_self",
         "icon": "GoArrowUpRight"
       },
       {
         "title": "프리미엄 플랜 보기",
-        "url": "/pricing",
+        "url": "#pricing",
         "target": "_self",
         "variant": "outline"
       }
@@ -304,18 +316,18 @@
     "name": "footer",
     "brand": {
       "title": "BaziAI",
-      "description": "DeepSeek R1로 구동되는 팔자 분석 플랫폼은 고대의 지혜와 최첨단 AI 기술을 결합하여 정확한 인생 지침을 제공합니다.",
+      "description": "DeepSeek R1 기반의 팔자 분석 플랫폼으로, 고대의 지혜와 최첨단 AI 기술을 결합하여 정확한 인생 지도를 제공합니다.",
       "logo": {
         "src": "/logo.svg",
         "alt": "BaziAI"
       },
       "url": "/"
     },
-    "copyright": " 2025 • BaziAI All rights reserved.",
+    "copyright": " 2025 • BaziAI 모든 권리 보유.",
     "nav": {
       "items": [
         {
-          "title": "해석",
+          "title": "팔자 해석",
           "children": [
             {
               "title": "연애 해석",
@@ -345,12 +357,19 @@
           ]
         },
         {
-          "title": "계산기",
+          "title": "중국 띠",
+          "url": "/chinese-zodiac-element-reading",
+          "icon": "RiAncientGateLine",
           "children": [
             {
-              "title": "띠별 계산기",
+              "title": "띠와 오행 분석",
+              "url": "/chinese-zodiac-element-reading",
+              "icon": "RiAncientGateLine"
+            },
+            {
+              "title": "2025 중국 운세",
               "url": "/chinese-zodiac-calculator",
-              "target": "_self"
+              "icon": "RiCalendarEventLine"
             }
           ]
         },
@@ -358,7 +377,7 @@
           "title": "지원",
           "children": [
             {
-              "title": "자주 묻는 질문",
+              "title": "FAQ",
               "url": "/#faq",
               "target": "_self"
             },
@@ -396,7 +415,7 @@
     "agreement": {
       "items": [
         {
-          "title": "개인정보 보호정책",
+          "title": "개인 정보 보호 정책",
           "url": "/privacy-policy"
         },
         {

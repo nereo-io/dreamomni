@@ -1,0 +1,488 @@
+{
+  "questionSuggestions": {
+    "questions": {
+      "career-1": {
+        "text": "Comment va évoluer ma carrière dans 5 ans ? Quelles opportunités clé dois-je surveiller ?",
+        "reading_type": "single",
+        "category": "career",
+        "priority": 0.95
+      },
+      "career-2": {
+        "text": "Comment sera ma fortune professionnelle en 2025 ? Est-ce propice pour prendre des décisions majeures ?",
+        "reading_type": "single",
+        "category": "career",
+        "priority": 0.9
+      },
+      "career-3": {
+        "text": "Nos carrières peuvent-elles se compléter ? Comment collaborer efficacement ?",
+        "reading_type": "double",
+        "category": "career",
+        "priority": 0.72
+      },
+      "career-4": {
+        "text": "Quels facteurs dans mon thème natal influencent significativement ma carrière ? Comment puis-je tirer parti de ces avantages ?",
+        "reading_type": "single",
+        "category": "career",
+        "priority": 0.38
+      },
+
+      "job-1": {
+        "text": "Quel métier me convient le mieux ?",
+        "reading_type": "single",
+        "category": "job",
+        "priority": 0.85
+      },
+
+      "job-2": {
+        "text": "Comment nos forces et faiblesses professionnelles se complètent-elles ? Pourrions-nous bien travailler ensemble ?",
+        "reading_type": "double",
+        "category": "job",
+        "priority": 0.35
+      },
+      "change-1": {
+        "text": "Est-ce le bon moment pour changer de travail cette année ? Quel mois est le plus propice ?",
+        "reading_type": "single",
+        "category": "change",
+        "priority": 0.88
+      },
+      "change-2": {
+        "text": "Si je change d'emploi, quel type d'entreprise ou de poste devrais-je choisir ?",
+        "reading_type": "single",
+        "category": "change",
+        "priority": 0.42
+      },
+      "change-3": {
+        "text": "Comment un changement de carrière pour l'un de nous impacterait-il notre relation ou la dynamique familiale ?",
+        "reading_type": "double",
+        "category": "change",
+        "priority": 0.32
+      },
+      "relation-1": {
+        "text": "Vais-je rencontrer des personnes difficiles cette année ? Comment puis-je les gérer ?",
+        "reading_type": "single",
+        "category": "relation",
+        "priority": 0.33
+      },
+      "relation-2": {
+        "text": "Comment puis-je améliorer mes relations avec les dirigeants et les collègues ?",
+        "reading_type": "single",
+        "category": "relation",
+        "priority": 0.79
+      },
+      "relation-3": {
+        "text": "Comment puis-je éviter les conflits et les disputes sur le lieu de travail ?",
+        "reading_type": "single",
+        "category": "relation",
+        "priority": 0.28
+      },
+      "startup-1": {
+        "text": "Suis-je fait pour l'entrepreneuriat ? Si oui, quel est le meilleur domaine ?",
+        "reading_type": "single",
+        "category": "startup",
+        "priority": 0.87
+      },
+      "startup-2": {
+        "text": "Est-ce maintenant un bon moment pour démarrer une entreprise ?",
+        "reading_type": "single",
+        "category": "startup",
+        "priority": 0.41
+      },
+      "startup-3": {
+        "text": "Sommes-nous compatibles comme associés d'affaires ?",
+        "reading_type": "double",
+        "category": "startup",
+        "priority": 0.78
+      },
+      "startup-4": {
+        "text": "Quels risques devrais-je connaître en affaires ou en investissement ? Comment les éviter ?",
+        "reading_type": "single",
+        "category": "startup",
+        "priority": 0.36
+      },
+      "balance-1": {
+        "text": "Comment pouvons-nous équilibrer nos ambitions professionnelles avec notre relation ou notre vie familiale ?",
+        "reading_type": "double",
+        "category": "balance",
+        "priority": 0.39
+      },
+      "specific-career-1": {
+        "text": "J'ai un nouveau projet, sera-t-il réussi ?",
+        "reading_type": "single",
+        "category": "specific",
+        "priority": 0.77
+      },
+      "specific-career-2": {
+        "text": "Suis-je compatible avec un partenaire commercial potentiel ?",
+        "reading_type": "double",
+        "category": "specific",
+        "priority": 0.44
+      },
+      "specific-career-3": {
+        "text": "Devrais-je changer mon emploi actuel ?",
+        "reading_type": "single",
+        "category": "specific",
+        "priority": 0.89
+      },
+      "specific-career-4": {
+        "text": "Comment nos différents horaires de travail ou exigences professionnelles affecteront-ils notre relation ?",
+        "reading_type": "double",
+        "category": "specific",
+        "priority": 0.31
+      },
+      "zodiac-1": {
+        "text": "Quel est mon signe du zodiaque chinois et sa signification ?",
+        "reading_type": "single",
+        "category": "zodiac",
+        "priority": 0.35
+      },
+      "zodiac-2": {
+        "text": "Quelles sont les caractéristiques clés de mon animal de naissance ?",
+        "reading_type": "single",
+        "category": "zodiac",
+        "priority": 0.27
+      },
+      "zodiac-3": {
+        "text": "Comment nos signes du zodiaque chinois interagissent-ils ? Qu'est-ce que cela révèle sur notre relation ?",
+        "reading_type": "double",
+        "category": "zodiac",
+        "priority": 0.47
+      },
+      "personality-1": {
+        "text": "Mon profil MBTI est-il fiable ?",
+        "reading_type": "single",
+        "category": "personality",
+        "priority": 0.73
+      },
+      "personality-2": {
+        "text": "Quelles sont mes forces et faiblesses selon mon signe du zodiaque ?",
+        "reading_type": "single",
+        "category": "personality",
+        "priority": 0.93
+      },
+      "personality-3": {
+        "text": "Quelles carrières ou chemins de vie s'alignent le mieux avec mon signe du zodiaque ?",
+        "reading_type": "single",
+        "category": "personality",
+        "priority": 0.48
+      },
+      "personality-4": {
+        "text": "Comment nos traits de personnalité se complètent-ils ou se défient-ils en fonction de nos signes du zodiaque ?",
+        "reading_type": "double",
+        "category": "personality",
+        "priority": 0.86
+      },
+      "compatibility-1": {
+        "text": "Avec quels signes du zodiaque suis-je le plus compatible pour les relations ?",
+        "reading_type": "single",
+        "category": "compatibility",
+        "priority": 0.75
+      },
+      "compatibility-2": {
+        "text": "Quelle est la compatibilité de nos signes du zodiaque chinois ? Quelles forces et défis cela crée-t-il ?",
+        "reading_type": "double",
+        "category": "compatibility",
+        "priority": 0.83
+      },
+      "compatibility-3": {
+        "text": "Comment pouvons-nous améliorer notre relation en fonction de notre compatibilité zodiacale ?",
+        "reading_type": "double",
+        "category": "compatibility",
+        "priority": 0.36
+      },
+      "compatibility-4": {
+        "text": "De quels signes du zodiaque devrais-je me méfier dans les relations ou les affaires ?",
+        "reading_type": "single",
+        "category": "compatibility",
+        "priority": 0.18
+      },
+      "forecast-1": {
+        "text": "Comment l'année en cours affectera-t-elle mon signe du zodiaque ?",
+        "reading_type": "single",
+        "category": "forecast",
+        "priority": 0.32
+      },
+      "forecast-2": {
+        "text": "Quels sont mes éléments, couleurs et chiffres porte-bonheur basés sur mon zodiaque ?",
+        "reading_type": "single",
+        "category": "forecast",
+        "priority": 0.38
+      },
+      "forecast-3": {
+        "text": "Comment ma fortune changera-t-elle dans le prochain cycle zodiacal ?",
+        "reading_type": "single",
+        "category": "forecast",
+        "priority": 0.22
+      },
+      "forecast-4": {
+        "text": "Comment les énergies de cette année affecteront-elles notre couple avec notre combinaison zodiacale spécifique ?",
+        "reading_type": "double",
+        "category": "forecast",
+        "priority": 0.29
+      },
+      "elements-1": {
+        "text": "Quel est mon élément de naissance et comment m'influence-t-il ?",
+        "reading_type": "single",
+        "category": "elements",
+        "priority": 0.71
+      },
+      "elements-2": {
+        "text": "Comment la théorie des Cinq Éléments est-elle liée à mon signe du zodiaque ?",
+        "reading_type": "single",
+        "category": "elements",
+        "priority": 0.25
+      },
+      "elements-3": {
+        "text": "Comment puis-je équilibrer mes éléments pour une meilleure fortune et harmonie ?",
+        "reading_type": "single",
+        "category": "elements",
+        "priority": 0.75
+      },
+      "elements-4": {
+        "text": "Comment nos éléments de naissance interagissent-ils ? Créent-ils de l'harmonie ou du conflit ?",
+        "reading_type": "double",
+        "category": "elements",
+        "priority": 0.78
+      },
+      "elements-5": {
+        "text": "Comment pouvons-nous utiliser nos énergies élémentaires pour renforcer notre relation ?",
+        "reading_type": "double",
+        "category": "elements",
+        "priority": 0.33
+      },
+      "health-1": {
+        "text": "Que révèle mon thème natal sur ma santé générale ?",
+        "reading_type": "single",
+        "category": "health",
+        "priority": 0.82
+      },
+      "health-2": {
+        "text": "À quels aspects de ma santé devrais-je prêter une attention particulière cette année ?",
+        "reading_type": "single",
+        "category": "health",
+        "priority": 0.88
+      },
+      "health-3": {
+        "text": "Comment nos constitutions de santé interagissent-elles ? Pouvons-nous nous aider à équilibrer nos tendances de santé mutuelles ?",
+        "reading_type": "double",
+        "category": "health",
+        "priority": 0.23
+      },
+      "constitution-1": {
+        "text": "Quelle est ma constitution corporelle selon la médecine chinoise ?",
+        "reading_type": "single",
+        "category": "constitution",
+        "priority": 0.37
+      },
+      "constitution-2": {
+        "text": "Quels organes ou systèmes nécessitent des soins particuliers selon mon thème natal ?",
+        "reading_type": "single",
+        "category": "constitution",
+        "priority": 0.72
+      },
+      "constitution-3": {
+        "text": "Comment nos différentes constitutions corporelles se complètent-elles ou se défient-elles ?",
+        "reading_type": "double",
+        "category": "constitution",
+        "priority": 0.15
+      },
+      "prevention-1": {
+        "text": "Quelles mesures préventives de santé devrais-je prendre cette année ?",
+        "reading_type": "single",
+        "category": "prevention",
+        "priority": 0.41
+      },
+      "prevention-2": {
+        "text": "À quels risques de santé suis-je le plus susceptible ?",
+        "reading_type": "single",
+        "category": "prevention",
+        "priority": 0.25
+      },
+      "prevention-3": {
+        "text": "Quels ajustements alimentaires bénéficieraient à ma santé ?",
+        "reading_type": "single",
+        "category": "prevention",
+        "priority": 0.48
+      },
+      "prevention-4": {
+        "text": "Comment pouvons-nous soutenir mutuellement nos objectifs de santé et créer un foyer axé sur le bien-être ?",
+        "reading_type": "double",
+        "category": "prevention",
+        "priority": 0.12
+      },
+      "personal-1": {
+        "text": "Analysez quel est mon type MBTI ?",
+        "reading_type": "single",
+        "category": "personal",
+        "priority": 0.85
+      },
+      "personal-2": {
+        "text": "Que révèle mon thème natal sur mon chemin de vie ?",
+        "reading_type": "single",
+        "category": "personal",
+        "priority": 0.92
+      },
+      "personal-3": {
+        "text": "Lequel des Cinq Éléments m'est le plus bénéfique ?",
+        "reading_type": "single",
+        "category": "personal",
+        "priority": 0.78
+      },
+      "personal-4": {
+        "text": "Quand des changements majeurs de vie se produiront-ils dans mon destin ?",
+        "reading_type": "single",
+        "category": "personal",
+        "priority": 0.89
+      },
+      "personal-5": {
+        "text": "Quelles couleurs devrais-je porter pour améliorer mon énergie personnelle ?",
+        "reading_type": "single",
+        "category": "personal",
+        "priority": 0.22
+      },
+      "love-1": {
+        "text": "Que révèle mon thème natal sur ma vie amoureuse et mes tendances romantiques ?",
+        "reading_type": "single",
+        "category": "love",
+        "priority": 0.94
+      },
+      "love-2": {
+        "text": "Comment ma vie amoureuse évoluera-t-elle l'année prochaine ? Quelles opportunités ou défis pourrais-je rencontrer ?",
+        "reading_type": "single",
+        "category": "love",
+        "priority": 0.91
+      },
+      "love-3": {
+        "text": "Quelles sont mes forces et faiblesses dans les relations selon mon thème natal ?",
+        "reading_type": "single",
+        "category": "love",
+        "priority": 0.84
+      },
+      "love-4": {
+        "text": "Quel type de partenaire compléterait ma personnalité selon mon thème natal ?",
+        "reading_type": "single",
+        "category": "love",
+        "priority": 0.87
+      },
+      "love-compatibility-1": {
+        "text": "Quelle est notre compatibilité basée sur nos thèmes natals ? Quelles sont nos forces et défis en tant que couple ?",
+        "reading_type": "double",
+        "category": "compatibility",
+        "priority": 0.95
+      },
+      "love-compatibility-2": {
+        "text": "Que révèle notre compatibilité élémentaire sur la dynamique de notre relation ?",
+        "reading_type": "double",
+        "category": "compatibility",
+        "priority": 0.45
+      },
+      "love-compatibility-3": {
+        "text": "Comment nos personnalités se complètent-elles ou se défient-elles selon l'astrologie chinoise ?",
+        "reading_type": "double",
+        "category": "compatibility",
+        "priority": 0.9
+      },
+      "love-compatibility-4": {
+        "text": "Que pouvons-nous apprendre l'un de l'autre selon nos thèmes natals ?",
+        "reading_type": "double",
+        "category": "compatibility",
+        "priority": 0.35
+      },
+      "relationship-1": {
+        "text": "Que révèle l'astrologie chinoise sur l'état actuel de notre relation ?",
+        "reading_type": "double",
+        "category": "relationship",
+        "priority": 0.51
+      },
+      "relationship-2": {
+        "text": "Comment pouvons-nous améliorer la communication et la compréhension dans notre relation ?",
+        "reading_type": "double",
+        "category": "relationship",
+        "priority": 0.87
+      },
+      "relationship-3": {
+        "text": "Quels défis pourrions-nous rencontrer dans notre relation cette année et comment les surmonter ?",
+        "reading_type": "double",
+        "category": "relationship",
+        "priority": 0.43
+      },
+      "relationship-4": {
+        "text": "Comment pouvons-nous renforcer notre lien et approfondir notre connexion ?",
+        "reading_type": "double",
+        "category": "relationship",
+        "priority": 0.49
+      },
+      "future-1": {
+        "text": "Quand suis-je le plus susceptible de rencontrer un partenaire romantique significatif ?",
+        "reading_type": "single",
+        "category": "future",
+        "priority": 0.96
+      },
+      "future-2": {
+        "text": "Comment sera ma prochaine relation selon mon thème natal ?",
+        "reading_type": "single",
+        "category": "future",
+        "priority": 0.46
+      },
+      "future-3": {
+        "text": "Comment notre relation évoluera-t-elle dans les années à venir ?",
+        "reading_type": "double",
+        "category": "future",
+        "priority": 0.82
+      },
+      "future-4": {
+        "text": "Quelles étapes importantes pourrions-nous vivre dans notre parcours relationnel ?",
+        "reading_type": "double",
+        "category": "future",
+        "priority": 0.34
+      },
+      "marriage-1": {
+        "text": "Cette année est-elle favorable au mariage ou aux fiançailles selon mon thème natal ?",
+        "reading_type": "single",
+        "category": "marriage",
+        "priority": 0.82
+      },
+      "marriage-2": {
+        "text": "Que révèle l'astrologie chinoise sur notre compatibilité matrimoniale ?",
+        "reading_type": "double",
+        "category": "marriage",
+        "priority": 0.89
+      },
+      "marriage-3": {
+        "text": "Comment pouvons-nous construire une base solide pour un mariage durable ?",
+        "reading_type": "double",
+        "category": "marriage",
+        "priority": 0.41
+      },
+      "marriage-4": {
+        "text": "Quelles perspectives mon thème natal offre-t-il sur mon approche du mariage et de l'engagement ?",
+        "reading_type": "single",
+        "category": "marriage",
+        "priority": 0.26
+      },
+      "specific-love-1": {
+        "text": "Pourquoi est-ce que j'attire toujours le même type de partenaires ?",
+        "reading_type": "single",
+        "category": "specific",
+        "priority": 0.38
+      },
+      "specific-love-2": {
+        "text": "Comment puis-je guérir des traumatismes relationnels passés selon mon thème natal ?",
+        "reading_type": "single",
+        "category": "specific",
+        "priority": 0.34
+      },
+      "specific-love-3": {
+        "text": "Mon partenaire actuel est-il mon âme sœur selon l'astrologie chinoise ?",
+        "reading_type": "double",
+        "category": "specific",
+        "priority": 0.91
+      },
+      "specific-love-4": {
+        "text": "Devrions-nous faire passer notre relation au niveau supérieur ?",
+        "reading_type": "double",
+        "category": "specific",
+        "priority": 0.93
+      }
+    }
+  }
+}

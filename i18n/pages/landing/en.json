@@ -13,7 +13,7 @@
     "nav": {
       "items": [
         {
-          "title": "Reading",
+          "title": "Bazi Reading",
           "url": "/reading",
           "icon": "RiBookLine",
           "children": [
@@ -45,9 +45,21 @@
           ]
         },
         {
-          "title": "Calculator",
-          "url": "/chinese-zodiac-calculator",
-          "icon": "RiCalculatorLine"
+          "title": "Chinese Zodiac",
+          "url": "/chinese-zodiac-element-reading",
+          "icon": "RiAncientGateLine",
+          "children": [
+            {
+              "title": "Zodiac & Elements Analysis",
+              "url": "/chinese-zodiac-element-reading",
+              "icon": "RiAncientGateLine"
+            },
+            {
+              "title": "2025 Chinese Horoscope",
+              "url": "/chinese-zodiac-calculator",
+              "icon": "RiCalendarEventLine"
+            }
+          ]
         },
         {
           "title": "Pricing",
@@ -86,7 +98,7 @@
     "image": {
       "src": "/imgs/features/generating.gif"
     },
-    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?autoplay=1&mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0 ",
+    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0",
     "items": [
       {
         "title": "DeepSeek R1 AI Reading",
@@ -296,7 +308,7 @@
     "nav": {
       "items": [
         {
-          "title": "Reading",
+          "title": "Bazi Reading",
           "children": [
             {
               "title": "Love Reading",
@@ -326,12 +338,19 @@
           ]
         },
         {
-          "title": "Calculator",
+          "title": "Chinese Zodiac",
+          "url": "/chinese-zodiac-element-reading",
+          "icon": "RiAncientGateLine",
           "children": [
             {
-              "title": "Chinese Zodiac",
+              "title": "Zodiac & Elements Analysis",
+              "url": "/chinese-zodiac-element-reading",
+              "icon": "RiAncientGateLine"
+            },
+            {
+              "title": "2025 Chinese Horoscope",
               "url": "/chinese-zodiac-calculator",
-              "target": "_self"
+              "icon": "RiCalendarEventLine"
             }
           ]
         },

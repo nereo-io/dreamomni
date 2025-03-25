@@ -1,25 +1,106 @@
 {
   "hero": {
     "name": "calculator",
-    "title": "Chinese Zodiac AI Calculator",
-    "highlight_text": "Chinese Zodiac",
-    "description": "Discover your Chinese zodiac sign, element, and 2025 destiny forecast",
+    "title": "2025 Chinese Horoscope: Year of the Wood Snake",
+    "highlight_text": "Chinese Horoscope 2025",
+    "description": "Discover your authentic 2025 Chinese Horoscope forecast powered by AI for the Year of the Wood Snake 2025",
     "show_happy_users": false,
     "show_badge": false
   },
-  "enterBirthdate": "Enter your birthdate for AI analysis",
-  "birthdateDescription": "Our advanced AI algorithm will calculate your Chinese zodiac sign, elemental attributes, and generate personalized insights based on your birth date",
-  "calculate": "Generate AI Analysis",
+  "overviewSection": {
+    "title": "2025 Wood Snake Year Overview",
+    "fiveElements": {
+      "title": "Five Elements Analysis",
+      "content": "2025 is the year of the Yin-Wood Snake. Yin-Wood symbolizes grass, flowers, and vines that spread rapidly. The Snake belongs to the Fire element group, creating a powerful Wood-Fire dynamic that influences all zodiac signs differently."
+    },
+    "keyPredictions": {
+      "title": "Key Predictions",
+      "content": "The Wood Snake year brings transformation, intuition, and strategic planning. This year rewards calculated risks and favors those who plan carefully. Personal growth and creativity will flourish, while hasty decisions may lead to setbacks."
+    },
+    "importantDates": {
+      "title": "Important Dates",
+      "content": "The Chinese New Year starts on January 29, 2025, marking the beginning of the Wood Snake year. The Start of Spring occurs on February 3, 2025, which is the first day of the Tiger month in Chinese astrology."
+    }
+  },
+  "zodiacFinderSection": {
+    "title": "Find Your 2025 Zodiac Prediction",
+    "instruction": "Select your zodiac sign to see your detailed 2025 forecast",
+    "signs": [
+      {
+        "name": "Rat",
+        "years": "1924, 1936, 1948, 1960, 1972, 1984, 1996, 2008, 2020",
+        "shortDescription": "A favorable year with financial opportunities and career advancement"
+      },
+      {
+        "name": "Ox",
+        "years": "1925, 1937, 1949, 1961, 1973, 1985, 1997, 2009, 2021",
+        "shortDescription": "Stability and consistent growth with strong support from colleagues"
+      },
+      {
+        "name": "Tiger",
+        "years": "1926, 1938, 1950, 1962, 1974, 1986, 1998, 2010, 2022",
+        "shortDescription": "A challenging year requiring patience and subtle approaches"
+      },
+      {
+        "name": "Rabbit",
+        "years": "1927, 1939, 1951, 1963, 1975, 1987, 1999, 2011, 2023",
+        "shortDescription": "Luck will be on your side with financial stability and personal growth"
+      },
+      {
+        "name": "Dragon",
+        "years": "1928, 1940, 1952, 1964, 1976, 1988, 2000, 2012, 2024",
+        "shortDescription": "A prosperous year with stronger family connections and financial security"
+      },
+      {
+        "name": "Snake",
+        "years": "1929, 1941, 1953, 1965, 1977, 1989, 2001, 2013, 2025",
+        "shortDescription": "Your year brings intense transformation and personal power"
+      },
+      {
+        "name": "Horse",
+        "years": "1930, 1942, 1954, 1966, 1978, 1990, 2002, 2014",
+        "shortDescription": "Good luck in work and relationships with enhanced confidence"
+      },
+      {
+        "name": "Goat",
+        "years": "1931, 1943, 1955, 1967, 1979, 1991, 2003, 2015",
+        "shortDescription": "Fame and fortune will come effortlessly with promising opportunities"
+      },
+      {
+        "name": "Monkey",
+        "years": "1932, 1944, 1956, 1968, 1980, 1992, 2004, 2016",
+        "shortDescription": "A relatively stable year with challenges that can be overcome with adaptability"
+      },
+      {
+        "name": "Rooster",
+        "years": "1933, 1945, 1957, 1969, 1981, 1993, 2005, 2017",
+        "shortDescription": "Harmonious relationships and good prospects for romantic unions"
+      },
+      {
+        "name": "Dog",
+        "years": "1934, 1946, 1958, 1970, 1982, 1994, 2006, 2018",
+        "shortDescription": "A profitable year with professional success and economic upturns"
+      },
+      {
+        "name": "Pig",
+        "years": "1935, 1947, 1959, 1971, 1983, 1995, 2007, 2019",
+        "shortDescription": "Potential interpersonal conflicts requiring tact and careful navigation"
+      }
+    ]
+  },
+  "enterBirthdate": "Enter your birthdate for 2025 Chinese Horoscope analysis",
+  "birthdateDescription": "Our advanced AI algorithm will calculate your Chinese zodiac sign, analyze your 2025 Chinese Horoscope, and generate personalized 2025 predictions based on your elements",
+  "calculate": "Generate 2025 Horoscope Analysis",
   "yearLabel": "Year",
   "monthLabel": "Month",
   "dayLabel": "Day",
   "results": {
-    "yourZodiac": "Your Chinese Zodiac is",
-    "yourElement": "AI analysis shows your Element is",
+    "yourZodiac": "Your Chinese Zodiac for 2025 is",
+    "yourElement": "2025 AI analysis shows your Element is",
     "prediction2025": "2025 Destiny Forecast for",
     "readMore": "View complete 2025 Forecast",
-    "elementRelationship": "Element-Zodiac Relationship",
-    "personalityTitle": "Personality & Characteristics"
+    "elementRelationship": "Element-Zodiac Relationship in 2025",
+    "personalityTitle": "2025 Personality & Characteristics"
   },
   "zodiacSigns": {
     "rat": "Rat",
@@ -44,84 +125,84 @@
   },
   "questionListHeader": {
     "name": "questionListHeader",
-    "title": "2025 Chinese Zodiac Predictions & Answers",
-    "description": "Explore your personalized Chinese zodiac forecast for 2025. Get answers about your career, wealth, relationships, and health outlook through our AI-powered Bazi analysis system.",
-    "keywords": "Chinese zodiac predictions, 2025 forecast, Bazi analysis, personalized horoscope, zodiac compatibility"
+    "title": "2025 Chinese Horoscope Predictions",
+    "description": "Explore your personalized 2025 Chinese Horoscope forecast with our AI system. Get expert AI-powered insights about career, wealth, relationships, and health through our comprehensive 2025 analysis system.",
+    "keywords": "2025 Chinese Horoscope, Snake year 2025, Chinese zodiac predictions 2025, AI horoscope, personalized forecast 2025, zodiac compatibility"
   },
   "introduce": {
     "name": "introduce",
-    "title": "AI-Enhanced Chinese Zodiac Analysis",
-    "label": "Introduction",
-    "description": "The Chinese Zodiac tradition, now enhanced with cutting-edge AI technology, provides unprecedented accuracy in analyzing the 12-year cycle, elemental attributes, and personalized destiny forecasts.",
+    "title": "2025 Chinese Horoscope: AI-Enhanced Analysis",
+    "label": "2025 Introduction",
+    "description": "The Year of the Snake (2025) brings unique energies and influences to your Chinese Horoscope. Our AI-enhanced analysis provides unprecedented accuracy in forecasting how the 2025 celestial energies will affect your personal destiny in 2025.",
     "image": {
       "src": "/imgs/zodiac-feature/chinese-zodiac-intro.png"
     },
     "items": [
       {
-        "title": "AI-Powered Zodiac Identification",
-        "description": "Our advanced algorithms precisely identify your zodiac sign among the 12 animals: Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, and Pig.",
+        "title": "Your 2025 Chinese Horoscope Sign",
+        "description": "Our AI precisely identifies your position within the 2025 Chinese Horoscope system and analyzes how the 2025 Snake energies specifically impact your zodiac sign's fortune and destiny.",
         "icon": "RiCalendarLine"
       },
       {
-        "title": "Machine Learning Element Analysis",
-        "description": "AI-driven analysis of the Chinese Five Elements (Wood, Fire, Earth, Metal, and Water) reveals their complex interactions with your zodiac sign for deeper personality insights.",
+        "title": "2025 Element Interactions Analysis",
+        "description": "AI-powered analysis reveals how the Chinese Horoscope energies of 2025 interact with your personal elements, providing deeper insights into your upcoming 2025 year.",
         "icon": "RiFireLine"
       },
       {
-        "title": "Predictive AI Forecasting",
-        "description": "Our AI system analyzes the 60-year cycle created by animals and elements to generate highly accurate fortune predictions, compatibility matches, and life guidance.",
+        "title": "Complete 2025 Chinese Horoscope Forecast",
+        "description": "Our AI system generates a comprehensive 2025 Chinese Horoscope reading, offering personalized predictions for the 2025 year across all life aspects.",
         "icon": "RiLoopLeftLine"
       }
     ]
   },
   "feature": {
     "name": "feature",
-    "title": "AI-Powered Chinese Zodiac Calculator Features",
-    "description": "Experience our advanced artificial intelligence system that provides comprehensive zodiac analysis and personalized predictions.",
+    "title": "AI-Powered 2025 Chinese Horoscope Features",
+    "description": "Experience our advanced artificial intelligence system that delivers comprehensive 2025 Chinese Horoscope analysis with unmatched accuracy.",
     "items": [
       {
-        "title": "Neural Network Sign Calculation",
-        "description": "Our AI utilizes neural networks for precise determination of your Chinese zodiac sign based on your exact birth date.",
+        "title": "Precise 2025 Chinese Horoscope Calculation",
+        "description": "Our AI utilizes neural networks to determine your exact position in the 2025 Chinese Horoscope and how the 2025 energies influence your personal destiny.",
         "icon": "RiCalculatorLine"
       },
       {
-        "title": "Deep Learning Element Analysis",
-        "description": "Advanced AI algorithms provide detailed breakdown of your element and its complex interactions with your zodiac sign.",
+        "title": "Element Analysis for 2025",
+        "description": "Advanced AI algorithms provide detailed insights on how the elemental energies of 2025 will interact with your personal Chinese Horoscope elements in the 2025 forecast.",
         "icon": "RiWaterFlashLine"
       },
       {
-        "title": "Predictive AI 2025 Forecast",
-        "description": "Machine learning models generate highly personalized predictions for career, relationships, health, and wealth in the upcoming year.",
+        "title": "Personalized 2025 Chinese Horoscope Predictions",
+        "description": "AI-generated 2025 Chinese Horoscope readings offer highly personalized forecasts for career, relationships, health, and wealth during the 2025 year.",
         "icon": "RiCalendarCheckLine"
       },
       {
-        "title": "AI Personality Profiling",
-        "description": "Our artificial intelligence creates a comprehensive analysis of character traits, strengths, and challenges based on your zodiac sign.",
+        "title": "2025 Chinese Horoscope Personality Profile",
+        "description": "Our AI creates a comprehensive analysis of how your character traits will be enhanced or challenged during the 2025 Chinese Horoscope with specific 2025 energy influences.",
         "icon": "RiUserStarLine"
       },
       {
-        "title": "Smart Compatibility Algorithm",
-        "description": "AI-powered system determines which zodiac signs are most compatible with yours for friendships and relationships.",
+        "title": "2025 Compatibility Predictions",
+        "description": "AI-powered system determines your most favorable relationships during the 2025 Chinese Horoscope cycle based on traditional astrology and modern AI analysis.",
         "icon": "RiHeartsFill"
       },
       {
-        "title": "AI-Recommended Lucky Elements",
-        "description": "Machine learning generated recommendations for lucky colors, numbers, and directions to enhance your fortune.",
+        "title": "2025 Lucky Elements",
+        "description": "AI-generated recommendations for lucky colors, numbers, and directions to enhance your fortune throughout the 2025 Chinese Horoscope year for optimum 2025 prosperity.",
         "icon": "RiLeafLine"
       }
     ]
   },
   "testimonial": {
     "name": "testimonial",
-    "label": "Testimonial",
-    "title": "What Users Say About Our AI Zodiac Calculator",
-    "description": "Hear from users who have discovered their personal destiny through our advanced AI zodiac analysis.",
+    "label": "2025 Testimonial",
+    "title": "What Users Say About Our 2025 Chinese Horoscope Analysis",
+    "description": "Hear from users who have discovered their 2025 Chinese Horoscope destiny through our advanced AI astrology analysis.",
     "icon": "GoThumbsup",
     "items": [
       {
         "title": "Emily Chen",
         "label": "Dragon, Wood Element",
-        "description": "The AI-generated personality profile was astonishingly accurate! The neural network analysis revealed aspects of my Dragon personality I never realized before. Truly eye-opening!",
+        "description": "The AI-generated 2025 Chinese Horoscope was remarkably accurate! The analysis revealed how the 2025 Snake energies will bring career opportunities that perfectly align with my Dragon personality traits in 2025.",
         "image": {
           "src": "/imgs/users/1.png"
         }
@@ -129,7 +210,7 @@
       {
         "title": "Michael Liu",
         "label": "Monkey, Metal Element",
-        "description": "The deep learning element analysis explained why I've always been drawn to certain career paths. The AI compatibility suggestions have transformed my approach to relationships!",
+        "description": "The 2025 Chinese Horoscope reading explained exactly how the celestial energy will enhance my creativity in 2025. The AI compatibility suggestions for 2025 have given me a clear relationship roadmap for the 2025 year!",
         "image": {
           "src": "/imgs/users/2.png"
         }
@@ -137,7 +218,7 @@
       {
         "title": "Sarah Johnson",
         "label": "Rabbit, Fire Element",
-        "description": "As someone skeptical about astrology, I was blown away by the precision of the AI predictions. The 2025 forecast gave me practical insights I'm actually using to plan my year ahead.",
+        "description": "As someone new to Chinese astrology, I was impressed by the AI's 2025 Chinese Horoscope predictions. The 2025 forecast gave me practical insights I'm using to plan my upcoming 2025 year.",
         "image": {
           "src": "/imgs/users/3.png"
         }
@@ -145,7 +226,7 @@
       {
         "title": "Daniel Wong",
         "label": "Snake, Water Element",
-        "description": "The machine learning algorithm's career forecast was eerily accurate! Following the AI-recommended lucky elements has already brought positive changes to my professional life.",
+        "description": "My 2025 Chinese Horoscope as a fellow Snake during the 2025 year was fascinating! The AI forecast showed how this special 2025 alignment will bring unique opportunities to my professional life.",
         "image": {
           "src": "/imgs/users/4.png"
         }
@@ -153,7 +234,7 @@
       {
         "title": "Jessica Zhang",
         "label": "Tiger, Earth Element",
-        "description": "The AI-analyzed element-zodiac relationship helped me understand my strengths and weaknesses. The personalized health outlook provided valuable guidance I hadn't considered before.",
+        "description": "The AI-analyzed 2025 Chinese Horoscope helped me understand the challenges Tiger signs face during the 2025 year, along with practical guidance to navigate them successfully in 2025.",
         "image": {
           "src": "/imgs/users/5.png"
         }
@@ -161,7 +242,7 @@
       {
         "title": "Robert Kim",
         "label": "Ox, Wood Element",
-        "description": "The predictive AI forecasting was remarkably detailed! I've been following the AI-recommended lucky elements for three months now, and I've noticed significant improvements in my relationships.",
+        "description": "The 2025 Chinese Horoscope AI predictions were incredibly detailed! Following the recommended lucky elements for Ox signs during 2025 has already improved my fortune for the upcoming Chinese Horoscope year.",
         "image": {
           "src": "/imgs/users/6.png"
         }
@@ -170,49 +251,49 @@
   },
   "faq": {
     "name": "faq",
-    "label": "FAQ",
-    "title": "Common Questions About Our AI Chinese Zodiac System",
-    "description": "Have more questions about our AI technology? Contact us through our support channels.",
+    "label": "FAQ 2025",
+    "title": "Common Questions About Our 2025 Chinese Horoscope System",
+    "description": "Have more questions about our AI-powered 2025 Chinese Horoscope analysis? Contact us through our support channels.",
     "items": [
       {
-        "title": "How does your AI determine my Chinese zodiac sign?",
-        "description": "Our AI system precisely calculates your Chinese zodiac sign based on the lunar year of your birth according to the traditional Chinese calendar, using advanced algorithms to ensure accuracy even with calendar variations."
+        "title": "What makes the 2025 Chinese Horoscope unique?",
+        "description": "2025 is a Snake year in the Chinese Horoscope, with influence from the Wood element. Our AI system analyzes how this rare 60-year cycle creates specific 2025 energies that influence each zodiac sign differently during 2025."
       },
       {
-        "title": "What AI technology analyzes the Five Elements interaction with my zodiac?",
-        "description": "We use proprietary machine learning models to analyze how the Five Elements (Wood, Fire, Earth, Metal, and Water) combine with the 12 animal signs, creating personalized insights about your character and destiny."
+        "title": "How does your AI analyze my 2025 Chinese Horoscope?",
+        "description": "Our AI combines traditional Chinese Horoscope wisdom with modern data science to analyze how the 2025 energies interact with your personal zodiac sign and element, creating a comprehensive 2025 forecast specific to you."
       },
       {
-        "title": "How accurate are your AI-generated zodiac predictions?",
-        "description": "Our AI predictions combine thousands of years of traditional Chinese zodiac wisdom with modern data science and machine learning. Our algorithms are trained on historical patterns and continuously improved for maximum accuracy."
+        "title": "How accurate are your AI-generated 2025 Chinese Horoscope predictions?",
+        "description": "Our 2025 Chinese Horoscope predictions merge thousands of years of traditional wisdom with advanced AI algorithms. The system continuously learns from astrological patterns to provide the most accurate 2025 forecast possible."
       },
       {
-        "title": "Can the AI suggest ways to improve my fortune based on my zodiac?",
-        "description": "Yes! Our AI generates personalized recommendations for lucky colors, numbers, directions, and activities based on your specific zodiac-element combination to help balance your energies and potentially enhance different areas of your life."
+        "title": "Can the AI suggest ways to improve my fortune during 2025?",
+        "description": "Yes! Our AI generates personalized recommendations for navigating the 2025 Chinese Horoscope energies, including lucky colors, activities, and directions based on your specific zodiac-element combination for optimal 2025 outcomes."
       },
       {
-        "title": "How does the AI create my 2025 prediction?",
-        "description": "Our artificial intelligence analyzes how the Year of the Snake (2025) will interact with your personal zodiac sign and element, using complex algorithms to process traditional compatibility patterns and provide detailed life forecasts."
+        "title": "Will the 2025 Chinese Horoscope be positive for my zodiac sign?",
+        "description": "Our AI analysis examines how the 2025 year specifically affects your zodiac sign, identifying both favorable 2025 opportunities and potential challenges to help you maximize your fortune during this unique 2025 Chinese Horoscope year."
       },
       {
-        "title": "What data does your AI use to generate my zodiac reading?",
-        "description": "Our AI system utilizes your birthdate alongside a comprehensive database of traditional Chinese astrology, modern psychological insights, and pattern recognition to generate deeply personalized zodiac readings without storing any personal information."
+        "title": "What information does your AI use to generate my 2025 Chinese Horoscope reading?",
+        "description": "Our AI system uses your birthdate to calculate your position within the Chinese Horoscope system, then applies advanced algorithms to analyze how the 2025 energies will influence your personal destiny across all life aspects in 2025."
       }
     ]
   },
   "cta": {
     "name": "cta",
-    "title": "Get Your AI-Generated Chinese Zodiac Profile",
-    "description": "Experience our advanced artificial intelligence system's personalized 2025 destiny forecast now.",
+    "title": "Get Your AI-Generated 2025 Chinese Horoscope",
+    "description": "Discover how the Year of the Snake 2025 will influence your destiny with our advanced AI 2025 Chinese Horoscope system.",
     "buttons": [
       {
-        "title": "Generate My AI Zodiac Analysis",
+        "title": "Generate My 2025 Chinese Horoscope",
         "url": "#calculator",
         "target": "_self",
         "icon": "GoArrowUpRight"
       },
       {
-        "title": "Explore AI Zodiac Insights",
+        "title": "Explore 2025 Chinese Horoscope Insights",
         "url": "#questionListHeader",
         "target": "_self",
         "variant": "outline"

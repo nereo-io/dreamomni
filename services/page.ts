@@ -3,6 +3,7 @@ import { ReaderPage } from "@/types/pages/reader";
 import { ChatPage } from "@/types/pages/chat";
 import { CareerPage } from "@/types/pages/career";
 import { ChineseZodiacPage } from "@/types/pages/chinese-zodiac-calculator";
+import { ChineseZodiacElements } from "@/types/pages/chinese-zodiac-elements";
 import { Pricing } from "@/types/blocks/pricing";
 import { QuestionSelector } from "@/types/blocks/question-selector";
 
@@ -130,6 +131,26 @@ export async function getChineseZodiacPage(
     );
     return await import("@/i18n/pages/chinese-zodiac-calculator/en.json").then(
       (module) => module.default as ChineseZodiacPage
+    );
+  }
+}
+
+export async function getChineseZodiacElementReadingPage(
+  locale: string
+): Promise<ChineseZodiacElements> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/chinese-zodiac-elements/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load chinese-zodiac-elements/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/pages/chinese-zodiac-elements/en.json").then(
+      (module) => module.default as ChineseZodiacElements
     );
   }
 }

@@ -13,7 +13,7 @@
     "nav": {
       "items": [
         {
-          "title": "Analyse",
+          "title": "Analyse Bazi",
           "url": "/reading",
           "icon": "RiBookLine",
           "children": [
@@ -45,9 +45,21 @@
           ]
         },
         {
-          "title": "Calculateur",
-          "url": "/chinese-zodiac-calculator",
-          "icon": "RiCalculatorLine"
+          "title": "Zodiaque Chinois",
+          "url": "/chinese-zodiac-element-reading",
+          "icon": "RiAncientGateLine",
+          "children": [
+            {
+              "title": "Analyse Zodiaque & Éléments",
+              "url": "/chinese-zodiac-element-reading",
+              "icon": "RiAncientGateLine"
+            },
+            {
+              "title": "Horoscope Chinois 2025",
+              "url": "/chinese-zodiac-calculator",
+              "icon": "RiCalendarEventLine"
+            }
+          ]
         },
         {
           "title": "Tarifs",
@@ -86,7 +98,7 @@
     "image": {
       "src": "/imgs/features/generating.gif"
     },
-    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?autoplay=1&mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0 ",
+    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0",
     "items": [
       {
         "title": "Analyse IA DeepSeek R1",
@@ -285,7 +297,7 @@
     "name": "footer",
     "brand": {
       "title": "BaziAI",
-      "description": "Votre plateforme d'analyse Bazi propulsée par DeepSeek R1, combinant sagesse ancestrale et technologie IA de pointe pour une orientation de vie précise.",
+      "description": "Votre plateforme d'analyse Bazi alimentée par DeepSeek R1, combinant la sagesse ancestrale et la technologie IA de pointe pour des conseils de vie précis.",
       "logo": {
         "src": "/logo.svg",
         "alt": "BaziAI"
@@ -296,7 +308,7 @@
     "nav": {
       "items": [
         {
-          "title": "Analyse",
+          "title": "Analyse Bazi",
           "children": [
             {
               "title": "Analyse Amoureuse",
@@ -326,12 +338,19 @@
           ]
         },
         {
-          "title": "Calculateur",
+          "title": "Zodiaque Chinois",
+          "url": "/chinese-zodiac-element-reading",
+          "icon": "RiAncientGateLine",
           "children": [
             {
-              "title": "Zodiaque Chinois",
+              "title": "Analyse Zodiaque & Éléments",
+              "url": "/chinese-zodiac-element-reading",
+              "icon": "RiAncientGateLine"
+            },
+            {
+              "title": "Horoscope Chinois 2025",
               "url": "/chinese-zodiac-calculator",
-              "target": "_self"
+              "icon": "RiCalendarEventLine"
             }
           ]
         },

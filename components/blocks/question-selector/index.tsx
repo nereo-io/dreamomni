@@ -343,7 +343,7 @@ export default function QuestionSelector({
             </div>
 
             {/* 输入区域 */}
-            <div className="relative mb-6 md:mb-8 overflow-hidden rounded-lg border bg-white dark:bg-background transition-colors duration-200 focus-within:border-orange-500">
+            <div className="relative mb-4 md:mb-4 overflow-hidden rounded-lg border bg-white dark:bg-background transition-colors duration-200 focus-within:border-orange-500">
               <TextareaAutosize
                 value={question}
                 onChange={handleInputChange}
