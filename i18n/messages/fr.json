@@ -147,5 +147,9 @@
   "chat": {
     "title": "Nouveau Chat - Outil d'Analyse Bazi IA DeepSeek R1",
     "description": "Commencer un nouveau chat avec l'Outil d'Analyse Bazi IA DeepSeek R1"
+  },
+  "survey_banner": {
+    "message": "👋 Commentaires rapides nécessaires - aidez à façonner BaziAI !",
+    "close": "Fermer"
   }
 }

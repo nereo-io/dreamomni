@@ -147,5 +147,9 @@
   "chat": {
     "title": "New Chat - DeepSeek R1 AI Bazi Analysis Tool",
     "description": "Start a new chat with DeepSeek R1 AI Bazi Analysis Tool"
+  },
+  "survey_banner": {
+    "message": "👋 Quick feedback needed - help shape BaziAI!",
+    "close": "Close"
   }
 }

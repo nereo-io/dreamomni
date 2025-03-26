@@ -37,6 +37,9 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   const [showSignModal, setShowSignModal] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
 
+  // 添加调研横幅状态
+  const [surveyBannerVisible, setSurveyBannerVisible] = useState<boolean>(true);
+
   const [chat, setChat] = useState<ChatSession | null>(null);
 
   useEffect(() => {
@@ -66,6 +69,8 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
         refreshMembership,
         chat,
         setChat,
+        surveyBannerVisible,
+        setSurveyBannerVisible,
       }}
     >
       {children}

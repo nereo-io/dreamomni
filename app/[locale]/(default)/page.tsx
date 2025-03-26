@@ -11,8 +11,7 @@ import Showcase from "@/components/blocks/showcase";
 import Stats from "@/components/blocks/stats";
 import Testimonial from "@/components/blocks/testimonial";
 import QuestionSelector from "@/components/blocks/question-selector";
-import ProductHunt from "@/components/blocks/producthunt";
-import SolveAllQuestions from "@/components/blocks/solve-all-questions";
+import SurveyBanner from "@/components/blocks/survey-banner";
 import {
   OrganizationSchema,
   WebsiteSchema,
@@ -128,7 +127,7 @@ export default async function LandingPage({
           },
         ]}
       />
-
+      <SurveyBanner />
       {page.hero && <Hero hero={page.hero} />}
       <QuestionSelector
         formMessages={readerPage}

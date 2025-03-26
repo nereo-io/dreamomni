@@ -1,7 +1,7 @@
 import ChatInterface from "@/components/readers/ChatInterface";
 import { getAiReaderInfo } from "@/services/readers/aiReaderInfo";
 import { getChatPage } from "@/services/page";
-
+import SurveyBanner from "@/components/blocks/survey-banner";
 export const runtime = "edge";
 
 export async function generateMetadata({
@@ -42,6 +42,7 @@ export default async function CustomerChat({
         locale={locale}
         chatId={chatId}
       />
+      <SurveyBanner />
     </div>
   );
 }

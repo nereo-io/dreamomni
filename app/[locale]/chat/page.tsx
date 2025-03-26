@@ -6,7 +6,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { getQuestionSelectorBlock } from "@/services/page";
 import { NavCategory } from "@/components/blocks/nav-category";
 import { getSuggestedQuestions } from "@/services/questionSug";
-
+import SurveyBanner from "@/components/blocks/survey-banner";
 export async function generateMetadata({
   params: { locale },
 }: {
@@ -43,6 +43,7 @@ export default async function ChatPage({
       <div className="mt-4 ml-4">
         <SidebarTrigger />
       </div>
+      <SurveyBanner />
 
       {page.hero && <Hero hero={page.hero} />}
       {questionSelector && (
