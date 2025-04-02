@@ -50,16 +50,29 @@ export const getSuggestedQuestions = (locale: string): QuestionSuggestions => {
       (today.getMonth() + 1) * 100 +
       today.getDate();
 
-    // 选择2个single问题和2个double问题
-    const selectedSingle = getWeightedRandomQuestions(singleQuestions, 3, seed);
+    // 选择6个single问题和6个double问题
+    const selectedSingle = getWeightedRandomQuestions(singleQuestions, 6, seed);
     const selectedDouble = getWeightedRandomQuestions(
       doubleQuestions,
-      3,
+      6,
       seed + 1
     ); // 使用不同的种子
 
-    // 合并结果并转换为所需的输出格式
-    const selectedQuestions = [...selectedSingle, ...selectedDouble];
+    // 将单选题和双选题交替组合，一个单选题后跟一个双选题
+    const selectedQuestions: SuggestedQuestion[] = [];
+    const maxLength = Math.max(selectedSingle.length, selectedDouble.length);
+
+    for (let i = 0; i < maxLength; i++) {
+      // 添加单选题（如果还有）
+      if (i < selectedSingle.length) {
+        selectedQuestions.push(selectedSingle[i]);
+      }
+
+      // 添加双选题（如果还有）
+      if (i < selectedDouble.length) {
+        selectedQuestions.push(selectedDouble[i]);
+      }
+    }
 
     // 创建符合QuestionSuggestions接口的返回对象
     const result: QuestionSuggestions = {
