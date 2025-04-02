@@ -70,6 +70,11 @@
           "title": "ブログ",
           "url": "/blog",
           "icon": "RiBookOpenLine"
+        },
+        {
+          "title": "フィードバック",
+          "url": "/feedback",
+          "icon": "RiFeedbackLine"
         }
       ]
     },
@@ -308,6 +313,11 @@
             {
               "title": "ブログ",
               "url": "/blog",
+              "target": "_self"
+            },
+            {
+              "title": "フィードバック",
+              "url": "/feedback",
               "target": "_self"
             }
           ]

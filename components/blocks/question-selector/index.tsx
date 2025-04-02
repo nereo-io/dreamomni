@@ -18,6 +18,11 @@ import {
   UserIcon,
   UsersIcon,
   X,
+  HeartIcon,
+  HeartHandshakeIcon,
+  UserPlusIcon,
+  UsersRoundIcon,
+  HeartPulseIcon,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import CustomerInputFormModal from "@/components/readers/CustomerInputFormModal";
@@ -302,7 +307,7 @@ export default function QuestionSelector({
                     value="double"
                     className="flex-1 flex items-center rounded-2xl relative"
                   >
-                    <UsersIcon className="w-4 h-4" />
+                    <HeartHandshakeIcon className="w-5 h-5 text-rose-500" />
                     {questionSelector.matching?.double || "双人匹配"}
                     <span className="absolute -top-1 -right-1 bg-yellow-400 text-xs px-1 rounded text-black">
                       Pro
@@ -451,9 +456,9 @@ export default function QuestionSelector({
                           {q.text}
                         </p>
                         {q.readingType === "double" ? (
-                          <UsersIcon className="w-3 h-3 text-muted-foreground flex-shrink-0 mt-1" />
+                          <HeartHandshakeIcon className="w-4 h-4 text-rose-500 flex-shrink-0 mt-1 transition-all duration-200 group-hover:scale-110" />
                         ) : (
-                          <UserIcon className="w-3 h-3 text-muted-foreground flex-shrink-0 mt-1" />
+                          <UserIcon className="w-4 h-4 text-foreground flex-shrink-0 mt-1 transition-all duration-200 group-hover:scale-110" />
                         )}
                       </div>
                     </Card>

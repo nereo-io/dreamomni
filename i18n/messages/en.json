@@ -45,6 +45,10 @@
     "description": "Discover your 2025 Chinese Horoscope for the Year of the Wood Snake. AI-powered analysis based on traditional astrology.",
     "keywords": "2025 Chinese Horoscope, Wood Snake Year, Chinese Horoscope prediction, AI fortune forecast, personalized horoscope, zodiac compatibility"
   },
+  "feedback": {
+    "title": "User Feedback | BaziAI",
+    "description": "Share your thoughts, suggestions, or report issues with BaziAI. Help us improve our AI-powered Bazi reading services to better serve your needs."
+  },
 
   "user": {
     "sign_in": "Sign In",

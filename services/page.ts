@@ -154,3 +154,21 @@ export async function getChineseZodiacElementReadingPage(
     );
   }
 }
+
+export async function getFeedbackFormBlock(locale: string) {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(`@/i18n/blocks/feedback-form/${locale}.json`).then(
+      (module) => module.default
+    );
+  } catch (error) {
+    console.warn(
+      `Failed to load feedback-form/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/blocks/feedback-form/en.json").then(
+      (module) => module.default
+    );
+  }
+}

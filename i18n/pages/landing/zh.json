@@ -70,6 +70,11 @@
           "title": "博客",
           "url": "/blog",
           "icon": "RiBookOpenLine"
+        },
+        {
+          "title": "反馈",
+          "url": "/feedback",
+          "icon": "RiFeedbackLine"
         }
       ]
     },
@@ -429,6 +434,11 @@
             {
               "title": "博客",
               "url": "/blog",
+              "target": "_self"
+            },
+            {
+              "title": "反馈",
+              "url": "/feedback",
               "target": "_self"
             }
           ]

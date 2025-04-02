@@ -70,6 +70,11 @@
           "title": "Blog",
           "url": "/blog",
           "icon": "RiBookOpenLine"
+        },
+        {
+          "title": "FeedBack",
+          "url": "/feedback",
+          "icon": "RiFeedbackLine"
         }
       ]
     },
@@ -366,6 +371,11 @@
               "title": "Blog",
               "url": "/blog",
               "target": "_self"
+            },
+            {
+              "title": "FeedBack",
+              "url": "/feedback",
+              "target": "_self"
             }
           ]
         }
@@ -390,6 +400,12 @@
           "icon": "RiYoutubeFill",
           "url": "https://www.youtube.com/@BaziAI",
           "target": "_blank"
+        },
+        {
+          "title": "Email",
+          "icon": "RiMailLine",
+          "url": "mailto:jasper@bazi-ai.com",
+          "target": "_self"
         }
       ]
     },
