@@ -6,6 +6,7 @@ import { ChineseZodiacPage } from "@/types/pages/chinese-zodiac-calculator";
 import { ChineseZodiacElements } from "@/types/pages/chinese-zodiac-elements";
 import { Pricing } from "@/types/blocks/pricing";
 import { QuestionSelector } from "@/types/blocks/question-selector";
+import { PersonalityTestPage } from "@/types/pages/personality-test";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -151,6 +152,26 @@ export async function getChineseZodiacElementReadingPage(
     );
     return await import("@/i18n/pages/chinese-zodiac-elements/en.json").then(
       (module) => module.default as ChineseZodiacElements
+    );
+  }
+}
+
+export async function getPersonalityTestPage(
+  locale: string
+): Promise<PersonalityTestPage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/personality-test/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load personality-test/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/pages/personality-test/en.json").then(
+      (module) => module.default as PersonalityTestPage
     );
   }
 }
