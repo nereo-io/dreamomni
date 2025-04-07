@@ -4,7 +4,7 @@ import { Check, Loader } from "lucide-react";
 import { PricingItem, Pricing as PricingType } from "@/types/blocks/pricing";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useEffect, useState } from "react";
-
+import { sendGAEvent } from "@next/third-parties/google";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/icon";
@@ -256,6 +256,9 @@ export default function Pricing({ pricing }: { pricing: PricingType }) {
                           className="w-full flex items-center justify-center gap-2 font-semibold"
                           disabled={isLoading || item.button.disabled}
                           onClick={() => {
+                            sendGAEvent("event", "subcription_button_clicked", {
+                              value: item.credits === 12 ? 100 : 10,
+                            });
                             if (isLoading) {
                               return;
                             }
