@@ -2,7 +2,7 @@ import { CreditsTransType, increaseCredits } from "./credit";
 import { findOrderByOrderNo, updateOrderStatus } from "@/models/order";
 import { createOrUpdateMembership } from "./membership";
 import { getIsoTimestr, getOneYearLaterTimestr } from "@/lib/time";
-
+import { sendGAEvent } from "@next/third-parties/google";
 import Stripe from "stripe";
 
 export async function handleOrderSession(session: Stripe.Checkout.Session) {
@@ -44,8 +44,10 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
     console.log("Updating membership for user:", user_uuid);
     if (credits === "1") {
       await createOrUpdateMembership(user_uuid, "monthly");
+      sendGAEvent("event", "subscription_purchase", { value: "10" });
     } else if (credits === "12") {
       await createOrUpdateMembership(user_uuid, "yearly");
+      sendGAEvent("event", "subscription_purchase", { value: "100" });
     }
     // await createOrUpdateMembership(user_uuid, product_id);
     // if (order.user_uuid && order.credits > 0) {
