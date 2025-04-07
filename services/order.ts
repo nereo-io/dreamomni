@@ -44,10 +44,10 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
     console.log("Updating membership for user:", user_uuid);
     if (credits === "1") {
       await createOrUpdateMembership(user_uuid, "monthly");
-      sendGAEvent("event", "subscription_purchase", { value: "10" });
+      // sendGAEvent("event", "subscription_purchase", { value: "10" });
     } else if (credits === "12") {
       await createOrUpdateMembership(user_uuid, "yearly");
-      sendGAEvent("event", "subscription_purchase", { value: "100" });
+      // sendGAEvent("event", "subscription_purchase", { value: "100" });
     }
     // await createOrUpdateMembership(user_uuid, product_id);
     // if (order.user_uuid && order.credits > 0) {

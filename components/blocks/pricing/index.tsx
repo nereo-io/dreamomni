@@ -246,7 +246,7 @@ export default function Pricing({ pricing }: { pricing: PricingType }) {
                             <img
                               src="/imgs/cnpay.png"
                               alt="cnpay"
-                              className="w-20 h-10 rounded-lg"
+                              className="w-15 h-10 rounded-lg"
                             />
                           </div>
                         </div>
@@ -256,9 +256,26 @@ export default function Pricing({ pricing }: { pricing: PricingType }) {
                           className="w-full flex items-center justify-center gap-2 font-semibold"
                           disabled={isLoading || item.button.disabled}
                           onClick={() => {
-                            sendGAEvent("event", "subcription_button_clicked", {
-                              value: item.credits === 12 ? 100 : 10,
-                            });
+                            // sendGAEvent("event", "subcription_button_clicked", {
+                            //   value: item.credits === 12 ? 100 : 10,
+                            // });
+                            sendGAEvent(
+                              "event",
+                              "conversion_event_begin_checkout",
+                              {
+                                value: item.credits === 12 ? 100 : 10,
+                                currency: item.currency,
+                                items: [
+                                  {
+                                    item_name: item.title,
+                                    item_id: item.product_id,
+                                    item_price: item.price,
+                                    item_quantity: item.credits,
+                                    item_amount: item.amount,
+                                  },
+                                ],
+                              }
+                            );
                             if (isLoading) {
                               return;
                             }

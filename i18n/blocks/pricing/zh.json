@@ -81,6 +81,36 @@
       "product_name": "BaziAI高级版",
       "credits": 12,
       "valid_months": 12
+    },
+    {
+      "title": "AI高级版(一次性)",
+      "description": "无限解锁完整AI命理体验",
+      "features_title": "包含",
+      "features": [
+        "无订阅，一年内有效",
+        "无限次AI运势解读",
+        "单人高级AI运势分析",
+        "双人高级AI运势分析",
+        "高级AI指导与化解",
+        "2025年度AI运势追踪"
+      ],
+      "interval": "one-time",
+      "amount": 9900,
+      "cn_amount": 72400,
+      "currency": "USD",
+      "price": "$99",
+      "original_price": "$238.8",
+      "is_featured": false,
+      "discount_label": "4折优惠",
+      "button": {
+        "title": "升级AI高级版",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "pro-one-time",
+      "product_name": "BaziAI高级版",
+      "credits": 12,
+      "valid_months": 12
     }
   ]
 }
