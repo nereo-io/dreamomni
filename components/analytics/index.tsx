@@ -1,4 +1,5 @@
 import GoogleAnalytics from "./google-analytics";
+import GoogleTagManager from "./google-tag-manager";
 import OpenPanelAnalytics from "./open-panel";
 
 export default function Analytics() {
@@ -11,6 +12,7 @@ export default function Analytics() {
       <OpenPanelAnalytics />
 
       <GoogleAnalytics />
+      <GoogleTagManager />
     </>
   );
 }
