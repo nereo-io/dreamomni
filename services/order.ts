@@ -1,9 +1,14 @@
-import { CreditsTransType, increaseCredits } from "./credit";
+import {
+  CreditsTransType,
+  increaseCredits,
+  updateCreditForOrder,
+} from "./credit";
 import { findOrderByOrderNo, updateOrderStatus } from "@/models/order";
 import { createOrUpdateMembership } from "./membership";
 import { getIsoTimestr, getOneYearLaterTimestr } from "@/lib/time";
 import { sendGAEvent } from "@next/third-parties/google";
 import Stripe from "stripe";
+import { updateAffiliateForOrder } from "./affiliate";
 
 export async function handleOrderSession(session: Stripe.Checkout.Session) {
   try {
@@ -48,6 +53,15 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
     } else if (credits === "12") {
       await createOrUpdateMembership(user_uuid, "yearly");
       // sendGAEvent("event", "subscription_purchase", { value: "100" });
+    }
+    if (order.user_uuid) {
+      // if (order.credits > 0) {
+      // increase credits for paied order
+      // await updateCreditForOrder(order);
+      // }
+
+      // update affiliate for paied order
+      await updateAffiliateForOrder(order);
     }
     // await createOrUpdateMembership(user_uuid, product_id);
     // if (order.user_uuid && order.credits > 0) {

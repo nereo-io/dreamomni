@@ -1,4 +1,6 @@
 @baseUrl = http://localhost:3000
+@authCookie = authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiMjdjQzA0V0toaXVJbUNVOEtSOUpFREFhS0RNemVILXgzU0Vqc3pqRnZBYkFEUjE4VzVkWVB2Y0dSZXUyQkZhRnY2MGMxSGlSUVJyUk95bDFNR09VNVEifQ..D0KLgX4tqzpODMn7AJYVew.8aoBv-AaT1CmsRXR2CK_vPJ79pAQdawkjhV6XjkTNIXHYMD_Zib7rmIqlBfYtTqUjrKAgwd87SBQXUUR0uNMMuq_Vs51nho2FHsWqefB7L2KfQRDi7uA-V2OA-eoajPf5XaLU6GQ9Tk2rhdJ_wLZodRVQ9k8Mv6cCZRJPZPxZq0PuGiepOwZP2DNnQ2Lv1e9-6TzKsls5-mDuOzXqYwdLGAhCBuYeATUK3OOIkBw2JZJB6eUo3gv2MC5WZmWq-L8IkhaK0uHdXFXe9tzn0Re5XiRDxWr_oGjTIcT8g_H3XzwnpgfVXYjvFNnJavoun5l1kSI6DdHxPCQQ1Ow91cN4EJ2HY-RBDQ26u1LF5r2D2UtK4P3S8Oh82IbNYw2nw97ujBuASG7769CMdWHiedvusulPzrKk5K9Fe_N_rShWSJdbhIRv2QKGjXDTj-hBIFZHq11CafIKsYr1j7_OE0B_wM8YhDWUtt_ANxt-hhF6IKn2WkHF96ARexsBK3dTzoB2bA5Sro_YhpBm4Oy7Fz4-8qRNmVzVuQP_RRcoC_JsW46AyoLkOpAN-MNDNYU-Ntx3--CZyzBeMaelgc2vN6tY0HqQPr6OFvNEolsEQaoJH-5cEQRnHWnhLQN4j21JTClWe_-27qv16T0GPZokL-lz59gXI24CNklNSGIADGBKp206bUbEP7PAi85gfyggLZTXKJ3qUEvYG-UXvAq0p6zeT6G6ec1WBWd3xRALrRyHkI.39-Ltv-vJJg5EPAEJKVirwZHw6zuvF9ziKlMni2kX7o
+
 @apiKey = sk-xxx
 
 ### ping api
@@ -60,7 +62,8 @@ Content-Type: application/json
 
 ### 测试检查会员状态
 GET http://localhost:3000/api/membership/check
-Authorization: Bearer YOUR_ACCESS_TOKEN
+Content-Type: application/json
+Cookie: {{authCookie}}
 
 ### 测试获取订单列表
 GET http://localhost:3000/api/orders
@@ -69,3 +72,40 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 ### 测试获取单个订单详情
 GET http://localhost:3000/api/orders/ORDER_ID
 Authorization: Bearer YOUR_ACCESS_TOKEN
+
+
+### gen text 
+POST {{baseUrl}}/api/demo/gen-text
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+
+{
+  "prompt": "9.11 vs 9.8, which one is greater?",
+  "provider": "openrouter",
+  "model": "deepseek/deepseek-r1"
+}
+
+
+### update-invite
+POST {{baseUrl}}/api/update-invite
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "invite_code": "index",
+  "user_uuid": "f6918568-fd27-4fb8-9273-3ba4d9ac4bd3"
+}
+
+### update-invite-code
+POST {{baseUrl}}/api/update-invite-code
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "invite_code": "index"
+}
+
+### get-user-info
+POST {{baseUrl}}/api/get-user-info
+Content-Type: application/json
+Cookie: {{authCookie}}

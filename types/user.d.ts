@@ -11,6 +11,9 @@ export interface User {
   signin_provider?: string;
   signin_openid?: string;
   credits?: UserCredits;
+  invite_code?: string;
+  invited_by?: string;
+  is_affiliate?: boolean;
 }
 
 export interface UserCredits {

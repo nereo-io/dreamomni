@@ -30,6 +30,24 @@ export async function findCreditByTransNo(
   return data;
 }
 
+export async function findCreditByOrderNo(
+  order_no: string
+): Promise<Credit | undefined> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("credits")
+    .select("*")
+    .eq("order_no", order_no)
+    .limit(1)
+    .single();
+
+  if (error) {
+    return undefined;
+  }
+
+  return data;
+}
+
 export async function getUserValidCredits(
   user_uuid: string
 ): Promise<Credit[] | undefined> {

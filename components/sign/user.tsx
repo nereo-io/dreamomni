@@ -18,7 +18,7 @@ import { useTranslations } from "next-intl";
 import { useAppContext } from "@/contexts/app";
 import { cn } from "@/lib/utils";
 
-export default function ({ user }: { user: User }) {
+export default function SignUser({ user }: { user: User }) {
   const t = useTranslations();
   const { membership, isLoadingMembership } = useAppContext();
 
@@ -37,7 +37,10 @@ export default function ({ user }: { user: User }) {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem className="cursor-pointer">
-          <Link href="/membership" className="flex justify-between items-center w-full">
+          <Link
+            href="/membership"
+            className="flex justify-between items-center w-full"
+          >
             <span>{t("user.membership")}</span>
             {isLoadingMembership ? (
               <Badge variant="secondary" className="ml-2 animate-pulse">
@@ -48,15 +51,20 @@ export default function ({ user }: { user: User }) {
                 {t("membership.no_membership")}
               </Badge>
             ) : (
-              <Badge 
-                variant={membership.status === 'active' ? 'default' : 'secondary'} 
+              <Badge
+                variant={
+                  membership.status === "active" ? "default" : "secondary"
+                }
                 className="ml-2"
               >
-                {membership.status === 'active' ? t("membership.status_active") : t("membership.status_expired")}
+                {membership.status === "active"
+                  ? t("membership.status_active")
+                  : t("membership.status_expired")}
               </Badge>
             )}
           </Link>
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
 
         <DropdownMenuItem className="cursor-pointer">
           <Link href="/my-orders" className="w-full text-center">
@@ -71,7 +79,7 @@ export default function ({ user }: { user: User }) {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem className="flex justify-center cursor-pointer">
-          <Link href="/api-keys">{t("api_keys.title")}</Link>
+          <Link href="/my-invites">{t("my_invites.title")}</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
 

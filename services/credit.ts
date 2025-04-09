@@ -1,7 +1,13 @@
-import { getUserValidCredits, insertCredit } from "@/models/credit";
+import {
+  findCreditByOrderNo,
+  getUserValidCredits,
+  insertCredit,
+} from "@/models/credit";
 
 import { Credit } from "@/types/credit";
+import { Order } from "@/types/order";
 import { UserCredits } from "@/types/user";
+import { findUserByUuid } from "@/models/user";
 import { getFirstPaidOrderByUserUuid } from "@/models/order";
 import { getIsoTimestr } from "@/lib/time";
 import { getSnowId } from "@/lib/hash";
@@ -124,6 +130,27 @@ export async function increaseCredits({
     await insertCredit(new_credit);
   } catch (e) {
     console.log("increase credits failed: ", e);
+    throw e;
+  }
+}
+
+export async function updateCreditForOrder(order: Order) {
+  try {
+    const credit = await findCreditByOrderNo(order.order_no);
+    if (credit) {
+      // order already increased credit
+      return;
+    }
+
+    await increaseCredits({
+      user_uuid: order.user_uuid,
+      trans_type: CreditsTransType.OrderPay,
+      credits: order.credits,
+      expired_at: order.expired_at,
+      order_no: order.order_no,
+    });
+  } catch (e) {
+    console.log("update credit for order failed: ", e);
     throw e;
   }
 }

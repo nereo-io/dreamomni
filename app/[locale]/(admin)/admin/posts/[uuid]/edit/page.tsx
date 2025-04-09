@@ -110,11 +110,8 @@ export default async function ({ params }: { params: { uuid: string } }) {
       {
         name: "content",
         title: "Content",
-        type: "textarea",
+        type: "markdown_editor",
         placeholder: "Post Content",
-        attributes: {
-          rows: 10,
-        },
       },
     ],
     data: post,

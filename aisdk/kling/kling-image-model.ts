@@ -54,32 +54,14 @@ export class KlingImageModel implements ImageModelV1 {
   > {
     const warnings: Array<ImageModelV1CallWarning> = [];
     let images: Array<Uint8Array> = [];
-
     const imgUrls: Array<string> = [];
-
-    if (!this.config.accessKey || !this.config.secretKey) {
-      warnings.push({
-        type: "other",
-        message: "Kling access key or secret key is not set",
-      });
-      return { 
-        images, 
-        warnings,
-        response: {
-          timestamp: new Date(),
-          modelId: this.modelId,
-          headers: headers ? 
-            Object.fromEntries(
-              Object.entries(headers)
-                .filter(([_, v]) => v !== undefined)
-                .map(([k, v]) => [k, v as string])
-            ) as Record<string, string> : 
-            undefined
-        }
-      };
-    }
+    const currentDate = new Date();
 
     try {
+      if (!this.config.accessKey || !this.config.secretKey) {
+        throw new Error("Kling access key or secret key is not set");
+      }
+
       const client = await newClient({
         accessKey: this.config.accessKey,
         secretKey: this.config.secretKey,
@@ -95,25 +77,7 @@ export class KlingImageModel implements ImageModelV1 {
       });
 
       if (!task.data || !task.data.task_id) {
-        warnings.push({
-          type: "other",
-          message: task.message,
-        });
-        return { 
-          images, 
-          warnings,
-          response: {
-            timestamp: new Date(),
-            modelId: this.modelId,
-            headers: headers ? 
-              Object.fromEntries(
-                Object.entries(headers)
-                  .filter(([_, v]) => v !== undefined)
-                  .map(([k, v]) => [k, v as string])
-              ) as Record<string, string> : 
-              undefined
-          }
-        };
+        throw new Error(task.message);
       }
 
       const taskId = task.data.task_id;
@@ -124,7 +88,6 @@ export class KlingImageModel implements ImageModelV1 {
 
       while (attempts < maxAttempts) {
         const result = await client.queryTask({ task_id: taskId });
-        console.log("kling gen images result:", JSON.stringify(result));
 
         if (!result.data || !result.data.task_status) {
           continue;
@@ -138,11 +101,7 @@ export class KlingImageModel implements ImageModelV1 {
           }
           break;
         } else if (result.data.task_status === "failed") {
-          warnings.push({
-            type: "other",
-            message: result.data.task_status_msg || "Task failed",
-          });
-          break;
+          throw new Error(result.data.task_status_msg || "Task failed");
         }
 
         if (abortSignal?.aborted) {
@@ -154,13 +113,9 @@ export class KlingImageModel implements ImageModelV1 {
       }
 
       if (attempts >= maxAttempts) {
-        warnings.push({
-          type: "other",
-          message: "Task timed out",
-        });
+        throw new Error("Task timed out");
       }
     } catch (error: any) {
-      console.error("Kling generate image failed:", error);
       warnings.push({
         type: "other",
         message: error.message,
@@ -172,44 +127,23 @@ export class KlingImageModel implements ImageModelV1 {
         type: "other",
         message: "No images generated",
       });
-      return { 
-        images, 
-        warnings,
-        response: {
-          timestamp: new Date(),
-          modelId: this.modelId,
-          headers: headers ? 
-            Object.fromEntries(
-              Object.entries(headers)
-                .filter(([_, v]) => v !== undefined)
-                .map(([k, v]) => [k, v as string])
-            ) as Record<string, string> : 
-            undefined
-        }
-      };
+    } else {
+      images = await Promise.all(
+        imgUrls.map(async (url) => {
+          const response = await fetch(url);
+          return new Uint8Array(await response.arrayBuffer());
+        })
+      );
     }
 
-    images = await Promise.all(
-      imgUrls.map(async (url) => {
-        const response = await fetch(url);
-        return new Uint8Array(await response.arrayBuffer());
-      })
-    );
-
-    return { 
-      images, 
+    return {
+      images,
       warnings,
       response: {
-        timestamp: new Date(),
+        timestamp: currentDate,
         modelId: this.modelId,
-        headers: headers ? 
-          Object.fromEntries(
-            Object.entries(headers)
-              .filter(([_, v]) => v !== undefined)
-              .map(([k, v]) => [k, v as string])
-          ) as Record<string, string> : 
-          undefined
-      }
+        headers: undefined,
+      },
     };
   }
 }
