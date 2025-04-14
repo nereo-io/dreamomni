@@ -3,11 +3,11 @@
   "subtitle": "Quels aspects souhaitez-vous explorer ?",
   "placeholder": "Tapez votre question ici ou sélectionnez parmi les suggestions ci-dessous...",
   "send": "Envoyer",
-  "loginPrompt": "Connectez-vous pour obtenir 3 lectures gratuites par jour",
+  "loginPrompt": "Connectez-vous pour obtenir 3 lectures gratuites",
   "errors": {
-    "pleaseLogin": "Veuillez vous connecter pour obtenir 3 lectures gratuites par jour",
+    "pleaseLogin": "Veuillez vous connecter pour obtenir 3 lectures gratuites",
     "checkUsageError": "Échec de la vérification du nombre de lectures",
-    "noRemainingReadings": "Vous avez utilisé toutes vos lectures pour aujourd'hui, veuillez revenir demain",
+    "noRemainingReadings": "Crédits insuffisants, veuillez mettre à niveau votre adhésion",
     "recordUsageError": "Échec de l'enregistrement de l'utilisation de la lecture",
     "pleaseInputBirthInfo": "Veuillez d'abord saisir vos informations de naissance"
   },

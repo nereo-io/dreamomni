@@ -4,10 +4,14 @@ import { ChatRequest } from "@/types/chat";
 import { createDeepSeek } from "@ai-sdk/deepseek";
 import { streamText } from "ai";
 import { checkMembershipStatus } from "@/services/membership";
-import { checkReadingPermission, recordReading } from "@/services/reading";
+import { getUserLeftCredits } from "@/models/credit";
+import {
+  decreaseCredits,
+  CreditsTransType,
+  CreditsAmount,
+} from "@/services/credit";
 import { auth } from "@/auth";
-import { respData, respErr } from "@/lib/resp";
-import { CookingPot } from "lucide-react";
+import { respErr } from "@/lib/resp";
 
 const deepseek = createDeepSeek({
   apiKey: process.env.DEEPSEEK_API_KEY ?? "",
@@ -69,35 +73,26 @@ export async function POST(
     const { isMember } = await checkMembershipStatus(session.user);
     // 如果不是会员，则检查使用次数
     if (!isMember) {
-      // 检查使用次数
-      const checkResult = await checkReadingPermission(session.user);
-
-      if (!checkResult.canRead) {
+      // 检查积分
+      const leftCredits = await getUserLeftCredits(session.user.uuid);
+      if (leftCredits === undefined || leftCredits <= 0) {
+        // return respErr("No remaining credits");
         return new Response(
           JSON.stringify({
             error: {
-              message: "没有剩余使用次数",
-              code: "NO_REMAINING_READINGS",
-            },
-          }),
-          { status: 403 }
-        );
-      }
-
-      // 记录使用次数
-      try {
-        await recordReading(session.user);
-      } catch (error) {
-        return new Response(
-          JSON.stringify({
-            error: {
-              message: "记录使用次数失败",
+              message: "Not enough credits, please upgrade membership",
               code: "RECORD_USAGE_ERROR",
             },
           }),
-          { status: 403 }
+          { status: 500 }
         );
       }
+      //扣除积分
+      decreaseCredits({
+        user_uuid: session.user.uuid,
+        trans_type: CreditsTransType.Chat,
+        credits: CreditsAmount.ChatCost,
+      });
     }
 
     try {

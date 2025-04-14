@@ -112,9 +112,12 @@
   },
   "my_credits": {
     "title": "Mes Crédits",
+    "rules_title": "Règles",
+    "rules": "1. Les nouveaux utilisateurs reçoivent 3 crédits gratuits lors de l'inscription. Vous gagnerez 3 crédits supplémentaires pour chaque ami que vous invitez qui s'inscrit. \n2. Chaque lecture coûte 1 crédit. Passez à un abonnement pour des lectures illimitées.",
     "left_tip": "crédits restants: {left_credits}",
     "no_credits": "Aucun historique de crédits",
-    "recharge": "Recharger",
+    "recharge": "Mettre à niveau l'adhésion",
+    "invite": "Inviter des amis",
     "table": {
       "trans_no": "N° de Transaction",
       "trans_type": "Type de Transaction",
@@ -151,5 +154,72 @@
   "survey_banner": {
     "message": "👋 Commentaires rapides nécessaires - aidez à façonner BaziAI !",
     "close": "Fermer"
+  },
+  "credit_exhausted_modal": {
+    "title": "Crédits de Lecture Épuisés",
+    "description": "Destinée de vie, amélioration de la richesse, graphiques de compatibilité - débloquez-les tous maintenant",
+    "lifetime_analysis": {
+      "title": "Analyse Bazi Personnelle",
+      "description1": "Face à des obstacles ou une fortune en déclin ? Le Bazi révèle où se trouvent les risques et quand les opportunités émergent.",
+      "description2": "Pour les décisions critiques (changement d'emploi/investissement/entreprise/examens), le timing est plus crucial que l'effort."
+    },
+    "dual_chart": {
+      "title": "Analyse de Compatibilité",
+      "description": "Comprendre les modèles d'interaction avec votre partenaire, vos enfants ou votre patron, et voir les harmonies ou conflits cachés."
+    },
+    "use_cases": {
+      "relationship": "Relations : Sommes-nous vraiment compatibles pour une vie ensemble ?",
+      "family": "Parentalité : Difficultés de communication avec votre enfant - conflit de personnalité ou conflit élémentaire ?",
+      "career": "Milieu professionnel : Désaccords constants avec les collègues - pourrait-ce être une incompatibilité de destinée ?"
+    },
+    "choice_section": {
+      "title": "👇 Choisissez votre prochaine voie d'exploration du destin :",
+      "premium": {
+        "title": "🔓 Débloquer la Carte Complète du Destin",
+        "description": "Mettre à niveau l'adhésion"
+      },
+      "share": {
+        "title": "🎁 Partager Avec des Amis",
+        "description": "Obtenir des lectures gratuites",
+        "tips": "Inviter 1 personne = Obtenir 3 lectures Bazi personnelles"
+      }
+    },
+    "footer_text": "Déjà membre ? Veuillez vous reconnecter pour restaurer vos privilèges.\nLes invitations ne sont valables que pour les utilisateurs non enregistrés. Les crédits ne peuvent pas être réclamés plusieurs fois."
+  },
+  "my_invites": {
+    "title": "Mes Invitations",
+    "description": "Consultez vos enregistrements d'invitation",
+    "no_invites": "Aucun enregistrement d'invitation trouvé",
+    "my_invite_link": "Mon Lien d'Invitation",
+    "edit_invite_link": "Modifier le Lien d'Invitation",
+    "copy_invite_link": "Copier le Lien d'Invitation",
+    "invite_code": "Code d'Invitation",
+    "invite_tip": "Obtenez 3 lectures Bazi personnelles pour chaque ami qui s'inscrit via votre lien.",
+    "invite_balance": "Solde de Récompense d'Invitation",
+    "total_invite_count": "Nombre Total d'Invitations",
+    "total_paid_count": "Nombre Total de Paiements",
+    "total_award_amount": "Montant Total des Récompenses",
+    "update_invite_code": "Définir le Code d'Invitation",
+    "update_invite_code_tip": "Saisissez votre code d'invitation personnalisé",
+    "update_invite_button": "Enregistrer",
+    "no_orders": "Vous ne pouvez pas inviter d'autres personnes avant d'avoir acheté BaziAI",
+    "no_affiliates": "Vous n'êtes pas autorisé à inviter d'autres personnes, veuillez nous contacter pour demander une autorisation.",
+    "invite_templates": "Modèles d'Invitation",
+    "copy": "Copier",
+    "template1_title": "🔮 Analyse du Destin",
+    "template2_title": "💸 Potentiel de Richesse",
+    "template3_title": "💞 Compatibilité Amoureuse",
+    "template1": "Hé les amis ! Je viens de découvrir BaziAI - un outil d'astrologie chinoise alimenté par l'IA qui vous donne une lecture complète de votre destinée basée sur votre thème natal.\nIl m'a montré des informations super précises sur mon chemin de vie, ma personnalité et les tournants majeurs. Tellement cool et étonnamment profond.\nVous obtenez 3 lectures gratuites lors de votre inscription !\n👉 Découvrez BaziAI ici",
+    "template2": "Je viens de trouver BaziAI, un outil de divination IA qui révèle votre potentiel de richesse basé sur l'astrologie chinoise.\nIl m'a montré exactement quand ma chance financière atteint son apogée - et quand rester discret. Super intelligent et basé sur vos informations de naissance.\nEssayez-le avec 3 lectures de richesse gratuites !\n💸 Essayez BaziAI ici",
+    "template3": "J'ai récemment essayé BaziAI - c'est une IA qui analyse la compatibilité amoureuse en utilisant les thèmes natals chinois.\nVous pouvez faire une lecture double avec quelqu'un et découvrir votre compatibilité émotionnelle, les forces de la relation et les défis potentiels.\nC'est amusant, authentique, et vous obtenez 3 lectures gratuites de compatibilité amoureuse.\n💞 Explorez BaziAI ici",
+    "table": {
+      "invite_time": "Heure d'Invitation",
+      "invite_user": "Utilisateur Invité",
+      "status": "Statut",
+      "reward_percent": "Pourcentage de Récompense",
+      "reward_amount": "Crédits de Récompense",
+      "pending": "En Attente",
+      "completed": "Terminé"
+    }
   }
 }

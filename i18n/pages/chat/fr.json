@@ -42,13 +42,13 @@
   },
   "footer": "Chaque réponse est analysée par notre système professionnel de divination",
   "credits": {
-    "remaining": "Il vous reste {count} questions gratuites aujourd'hui.",
-    "upgrade": "Passez à la version premium pour des questions illimitées",
+    "remaining": "{count} lectures restantes.",
+    "upgrade": "Mettre à niveau l'adhésion",
     "member": "Les membres ont des questions illimitées"
   },
   "errors": {
     "checkUsageError": "Échec de la vérification du nombre d'utilisations, veuillez réessayer plus tard",
-    "noRemainingReadings": "Vous avez utilisé toutes vos questions gratuites pour aujourd'hui",
+    "noRemainingReadings": "Crédits insuffisants, veuillez mettre à niveau votre adhésion",
     "recordUsageError": "Échec de l'enregistrement de l'utilisation, veuillez réessayer plus tard",
     "generalError": "Une erreur s'est produite, veuillez réessayer plus tard",
     "pleaseLogin": "Veuillez vous connecter d'abord",

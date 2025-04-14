@@ -1,4 +1,4 @@
-# Project: Next.js Boilerplate Application
+# Project: BaziAI （http://bazi-ai.com）
 
 ## General
 
@@ -44,3 +44,6 @@
 - Maintain consistent internationalization structure
 - Keep components modular and reusable
 - Use proper type definitions for components and data
+- Minimize 'use client', 'useEffect', and 'setState'; favor React Server Components (RSC).
+
+## referring [structure.txt](/structure.txt)

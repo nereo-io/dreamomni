@@ -22,6 +22,8 @@ export default async function () {
 
   const table: TableSlotType = {
     title: t("my_credits.title"),
+    rules_title: t("my_credits.rules_title"),
+    rules: t("my_credits.rules"),
     tip: {
       title: t("my_credits.left_tip", {
         left_credits: userCredits?.left_credits || 0,
@@ -32,6 +34,11 @@ export default async function () {
         {
           title: t("my_credits.recharge"),
           url: "/#pricing",
+          target: "_blank",
+        },
+        {
+          title: t("my_credits.invite"),
+          url: "/my-invites",
           target: "_blank",
         },
       ],

@@ -42,13 +42,13 @@
   },
   "footer": "Each answer is analyzed by our professional fortune-telling system",
   "credits": {
-    "remaining": "{count} free questions remaining today.",
-    "upgrade": "Upgrade for unlimited questions",
+    "remaining": "{count} left readings.",
+    "upgrade": "Upgrade Membership",
     "member": "Members have unlimited questions"
   },
   "errors": {
     "checkUsageError": "Failed to check usage count, please try again later",
-    "noRemainingReadings": "You have used all free questions for today",
+    "noRemainingReadings": "Not enough credits, please upgrade membership",
     "recordUsageError": "Failed to record usage, please try again later",
     "generalError": "An error occurred, please try again later",
     "pleaseLogin": "Please login first",

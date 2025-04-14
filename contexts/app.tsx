@@ -15,8 +15,10 @@ import { User } from "@/types/user";
 import moment from "moment";
 import useOneTapLogin from "@/hooks/useOneTapLogin";
 import useMembership from "@/hooks/useMembership";
+import useCredits from "@/hooks/useCredits";
 import { useSession } from "next-auth/react";
 import { ChatSession } from "@/types/chat";
+
 const AppContext = createContext({} as ContextValue);
 
 export const useAppContext = () => useContext(AppContext);
@@ -32,6 +34,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   const { data: session } = useSession();
   const { membership, isLoadingMembership, refreshMembership } =
     useMembership();
+  const { leftCredits, updateLeftCredits } = useCredits();
 
   const [theme, setTheme] = useState<string>(() => {
     return process.env.NEXT_PUBLIC_DEFAULT_THEME || "";
@@ -61,8 +64,8 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
       }
 
       setUser(data);
-
       updateInvite(data);
+      updateLeftCredits();
     } catch (e) {
       console.log("fetch user info failed");
     }
@@ -149,6 +152,8 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
         setChat,
         surveyBannerVisible,
         setSurveyBannerVisible,
+        leftCredits,
+        updateLeftCredits,
       }}
     >
       {children}

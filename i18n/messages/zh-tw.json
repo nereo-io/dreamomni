@@ -112,9 +112,12 @@
   },
   "my_credits": {
     "title": "我的積分",
+    "rules_title": "規則",
+    "rules": "1. 新用戶註冊即可獲得 3 個積分，每成功邀請 1 位好友註冊，額外獎勵 3 個積分 \n2. 每次解讀消耗 1 個積分，開通會員即可享受無限次解讀權限",
     "left_tip": "剩餘積分: {left_credits}",
     "no_credits": "無積分記錄",
-    "recharge": "充值",
+    "recharge": "升級會員",
+    "invite": "邀請好友",
     "table": {
       "trans_no": "交易號",
       "trans_type": "交易類型",
@@ -156,5 +159,72 @@
   "survey_banner": {
     "message": "👋 需要您的反饋 - 共同塑造BaziAI！",
     "close": "關閉"
+  },
+  "credit_exhausted_modal": {
+    "title": "解讀次數已用完",
+    "description": "人生運勢、財運提升、雙人合盤，現在可以全面解鎖",
+    "lifetime_analysis": {
+      "title": "個人八字解讀",
+      "description1": "遇到瓶頸、運勢下滑？八字揭示風險在哪、何時轉機出現。",
+      "description2": "重要決策（如跳槽/投資/創業/考試），時間點選對比努力更關鍵。"
+    },
+    "dual_chart": {
+      "title": "雙人合盤解讀",
+      "description": "了解你與伴侶、孩子或上司的相處模式，看到隱藏的合或沖。"
+    },
+    "use_cases": {
+      "relationship": "感情：我們真的適合走一輩子嗎？",
+      "family": "親子：和孩子溝通卡壳，是性格不合還是五行沖？",
+      "career": "職場：總和同事意見不合，是不是命格不對盤？"
+    },
+    "choice_section": {
+      "title": "👇 選擇下一步命運探索方式：",
+      "premium": {
+        "title": "🔓 立即解鎖命運全圖",
+        "description": "升級會員"
+      },
+      "share": {
+        "title": "🎁 分享好友",
+        "description": "獲得免費解讀",
+        "tips": "邀請 1 人 = 獲得 3 次個人八字解讀"
+      }
+    },
+    "footer_text": "已是會員？請重新登入以恢復權限。\n分享邀請僅對未註冊用戶有效，積分不可重複領取。"
+  },
+  "my_invites": {
+    "title": "我的邀請",
+    "description": "查看您的邀請記錄",
+    "no_invites": "未找到邀請記錄",
+    "my_invite_link": "我的邀請鏈接",
+    "edit_invite_link": "編輯邀請鏈接",
+    "copy_invite_link": "複製邀請鏈接",
+    "invite_code": "邀請碼",
+    "invite_tip": "邀請1位好友註冊BaziAI，獎勵3次個人八字解讀。",
+    "invite_balance": "邀請獎勵餘額",
+    "total_invite_count": "邀請總數",
+    "total_paid_count": "付費總數",
+    "total_award_amount": "獎勵總額",
+    "update_invite_code": "設置邀請碼",
+    "update_invite_code_tip": "輸入您的自定義邀請碼",
+    "update_invite_button": "保存",
+    "no_orders": "您需要先購買BaziAI才能邀請他人",
+    "no_affiliates": "您目前無權邀請他人，請聯繫我們申請權限。",
+    "invite_templates": "邀請模板",
+    "copy": "複製",
+    "template1_title": "🔮 命理分析",
+    "template2_title": "💰 財富潛力",
+    "template3_title": "💞 愛情配對",
+    "template1": "朋友們！我剛發現BaziAI——一個基於AI的中國命理工具，能根據你的生辰八字提供完整的人生解讀。\n它準確揭示了我的人生軌跡、性格特徵和重大轉折點。非常酷且分析深刻！\n註冊即可獲得3次免費解讀！\n👉 立即體驗 BaziAI",
+    "template2": "發現BaziAI，一個基於中國命理的AI財富預測工具。\n它能精準顯示你的財運高峰期和低谷期。根據出生信息生成的智能分析！\n立即體驗3次免費財富解讀！\n💰 立即使用 BaziAI",
+    "template3": "最近嘗試了BaziAI——使用中國生辰八字進行愛情配對的AI工具。\n你可以和TA進行雙人合盤，了解情感匹配度、關係優勢和潛在挑戰。\n有趣又真實，還能獲得3次免費愛情配對解讀！\n💞 立即體驗 BaziAI",
+    "table": {
+      "invite_time": "邀請時間",
+      "invite_user": "邀請用戶",
+      "status": "狀態",
+      "reward_percent": "獎勵比例",
+      "reward_amount": "獎勵金額",
+      "pending": "待處理",
+      "completed": "已完成"
+    }
   }
 }

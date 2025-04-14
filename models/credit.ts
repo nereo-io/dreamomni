@@ -67,6 +67,21 @@ export async function getUserValidCredits(
   return data;
 }
 
+export async function getUserLeftCredits(
+  user_uuid: string
+): Promise<number | undefined> {
+  const userValidCredits = await getUserValidCredits(user_uuid);
+  let left_credits = 0;
+  if (userValidCredits) {
+    for (let i = 0, l = userValidCredits.length; i < l; i++) {
+      const credit = userValidCredits[i];
+      left_credits += credit.credits;
+    }
+  }
+
+  return left_credits;
+}
+
 export async function getCreditsByUserUuid(
   user_uuid: string,
   page: number = 1,

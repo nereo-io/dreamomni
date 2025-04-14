@@ -6,38 +6,14 @@
   "groups": [],
   "items": [
     {
-      "title": "Free AI Reading",
-      "description": "Start your AI fortune reading journey",
-      "features_title": "Including",
-      "features": [
-        "3 AI fortune readings daily",
-        "Basic single-person AI fortune analysis",
-        "Basic AI guidance"
-      ],
-      "interval": "month",
-      "amount": 0,
-      "currency": "USD",
-      "price": "Free",
-      "unit": "/month",
-      "is_featured": false,
-      "button": {
-        "title": "Try Free AI Reading",
-        "url": "/career",
-        "icon": "RiMagicLine",
-        "disabled": true
-      }
-    },
-    {
       "title": "AI Pro (Monthly)",
-      "description": "Unlock complete AI Bazi experience",
-      "label": "Popular",
+      "description": "Perfect for explorers, access Bazi readings anytime",
       "features_title": "Including",
       "features": [
-        "Unlimited AI fortune readings",
-        "Advanced single-person AI fortune analysis",
-        "Advanced dual profile matching AI fortune analysis",
-        "Advanced AI guidance & solutions",
-        "2025 annual AI fortune tracking"
+        "Unlimited AI Bazi readings monthly",
+        "Advanced personal destiny chart analysis",
+        "Dual chart compatibility analysis",
+        "Destiny trends & challenges prediction assistance"
       ],
       "interval": "month",
       "amount": 999,
@@ -45,7 +21,7 @@
       "price": "$9.99",
       "original_price": "$19.99",
       "unit": "/month",
-      "is_featured": true,
+      "is_featured": false,
       "discount_label": "50% OFF",
       "button": {
         "title": "Upgrade to AI Pro",
@@ -59,14 +35,15 @@
     },
     {
       "title": "AI Pro (Yearly)",
-      "description": "Unlimited access to complete AI Bazi experience",
+      "description": "Only $8.25/month equivalent, best value",
+      "label": "Popular",
       "features_title": "Including",
       "features": [
-        "Unlimited AI fortune readings",
-        "Advanced single-person AI fortune analysis",
-        "Advanced dual profile matching AI fortune analysis",
-        "Advanced AI guidance & solutions",
-        "2025 annual AI fortune tracking"
+        "Unlimited AI Bazi readings yearly",
+        "Advanced personal destiny chart analysis",
+        "Dual chart compatibility analysis",
+        "Advanced destiny trends & challenges analysis",
+        "2025 annual fortune tracking"
       ],
       "interval": "year",
       "amount": 9900,
@@ -74,7 +51,7 @@
       "price": "$99",
       "original_price": "$238.8",
       "unit": "/year",
-      "is_featured": false,
+      "is_featured": true,
       "discount_label": "60% OFF",
       "button": {
         "title": "Upgrade to AI Pro",

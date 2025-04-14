@@ -38,6 +38,9 @@ import TextareaAutosize from "react-textarea-autosize";
 import { NavCategory } from "@/components/blocks/nav-category";
 import { QuestionSelector as QuestionSelectorType } from "@/types/blocks/question-selector";
 import { QuestionSuggestions } from "@/types/blocks/question-suggestions";
+import Link from "next/link";
+import { CreditExhaustedModal } from "@/components/ui/credit-exhausted-modal";
+
 interface Props {
   formMessages: ReaderPage;
   questionSelector: QuestionSelectorType;
@@ -60,14 +63,18 @@ export default function QuestionSelector({
   const [matchMode, setMatchMode] = useState(defaultReadingType); // 匹配模式：单人分析/双人匹配
   const [partnerModalOpen, setPartnerModalOpen] = useState(false);
   const [showDoubleMatchingInfo, setShowDoubleMatchingInfo] = useState(true); // 控制双人匹配说明的显示与隐藏
-
-  // 获取剩余次数
-  const [isPending, setIsPending] = useState(false);
-  const [remainingCount, setRemainingCount] = useState<number | null>(null);
+  const [showCreditModal, setShowCreditModal] = useState(false);
 
   // 获取用户信息
-  const { user, setShowSignModal, membership, isLoadingMembership, setChat } =
-    useAppContext();
+  const {
+    user,
+    setShowSignModal,
+    membership,
+    isLoadingMembership,
+    setChat,
+    leftCredits,
+    updateCredits,
+  } = useAppContext();
 
   // 处理customerInfo
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
@@ -93,28 +100,6 @@ export default function QuestionSelector({
       localStorage.setItem("hideDoubleMatchingInfo", "true");
     }
   };
-
-  // 获取剩余次数
-  useEffect(() => {
-    const fetchReadingCount = async () => {
-      if (!user?.uuid) {
-        return;
-      }
-
-      try {
-        const response = await fetch("/api/readings/check");
-        const data = await response.json();
-
-        if (data.code === 0) {
-          setRemainingCount(data.data.remainingCount);
-        }
-      } catch (error) {
-        console.error("Failed to fetch reading count:", error);
-      }
-    };
-
-    fetchReadingCount();
-  }, [user?.uuid]);
 
   // 格式化日期显示
   const formatBirthInfo = (info: CustomerInfo) => {
@@ -194,48 +179,41 @@ export default function QuestionSelector({
   const handleSubmit = () => {
     // 1. 检查登录状态
     if (!user?.uuid) {
-      setIsPending(false);
       toast.message(questionSelector.errors.pleaseLogin);
       setShowSignModal(true);
       return;
     }
 
-    // 2. 使用已缓存的状态，remainingCount为0时表示无法继续阅读
-    try {
-      if (remainingCount === 0) {
-        setIsPending(false);
-        toast.error(questionSelector.errors.noRemainingReadings);
-        return;
-      }
-    } catch (error) {
-      console.error(error);
-      setIsPending(false);
+    // 2. leftCredits为0，非会员时
+    if (leftCredits <= 0 && membership?.status !== "active") {
+      // toast.error(questionSelector.errors.noRemainingReadings);
+      setShowCreditModal(true);
+      // router.push("/pricing");
       return;
     }
 
+    // 3. 双人匹配模式下，非会员时
     if (matchMode === "double" && membership?.status !== "active") {
       console.log(membership);
       router.push("/pricing");
       return;
     }
 
-    // 3. 检查是否填写生辰信息
+    // 4. 检查是否填写生辰信息
     if (
       customerInfo === null ||
       (Array.isArray(customerInfo) && customerInfo.length === 0)
     ) {
-      setIsPending(false);
       setIsModalOpen(true);
       return;
     }
 
-    // 4. 双人匹配模式下，检查伴侣信息
+    // 5. 双人匹配模式下，检查伴侣信息
     if (
       matchMode === "double" &&
       (partnerInfo === null ||
         (Array.isArray(partnerInfo) && partnerInfo.length === 0))
     ) {
-      setIsPending(false);
       setPartnerModalOpen(true);
       return;
     }
@@ -265,7 +243,6 @@ export default function QuestionSelector({
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      setIsPending(true);
 
       handleSubmit();
     }
@@ -404,6 +381,20 @@ export default function QuestionSelector({
                   </div>
                 )}
 
+                {membership?.status !== "active" && (
+                  <Link
+                    href="/my-credits"
+                    className="cursor-pointer hover:opacity-80"
+                  >
+                    <div className="text-sm text-muted-foreground flex items-center mr-2">
+                      <SparklesIcon className="h-4 w-4 mr-1 text-primary" />
+                      <span className="font-medium text-primary">
+                        {leftCredits}
+                      </span>
+                    </div>
+                  </Link>
+                )}
+
                 <Button
                   onClick={handleSubmit}
                   className="bg-orange-500 hover:bg-orange-600 h-9 px-4"
@@ -491,6 +482,12 @@ export default function QuestionSelector({
               customerInfo={partnerInfo}
               type="partner"
               onSuccess={fetchCustomerInfo}
+            />
+
+            {/* Credit模态框 */}
+            <CreditExhaustedModal
+              open={showCreditModal}
+              onOpenChange={setShowCreditModal}
             />
           </div>
         </div>

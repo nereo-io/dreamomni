@@ -1,9 +1,9 @@
 {
-  "name": "shipany-template-one",
+  "name": "BaziAI",
   "version": "1.0.0",
   "private": true,
-  "author": "idoubi",
-  "homepage": "https://shipany.ai",
+  "author": "jasper",
+  "homepage": "https://bazi-ai.com",
   "type": "module",
   "scripts": {
     "dev": "NODE_NO_WARNINGS=1 next dev",

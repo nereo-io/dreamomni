@@ -6,34 +6,14 @@
   "groups": [],
   "items": [
     {
-      "title": "免費AI解讀",
-      "description": "開啟你的AI運勢解讀之旅",
-      "features_title": "包含",
-      "features": ["每日3次AI運勢解讀", "單人基礎AI運勢分析", "基礎AI指導"],
-      "interval": "month",
-      "amount": 0,
-      "currency": "USD",
-      "price": "免費",
-      "unit": "/月",
-      "is_featured": false,
-      "button": {
-        "title": "免費體驗AI解讀",
-        "url": "/career",
-        "icon": "RiMagicLine",
-        "disabled": true
-      }
-    },
-    {
       "title": "AI高級版(月付)",
-      "description": "解鎖完整AI命理體驗",
-      "label": "熱門",
+      "description": "適合正在探索的你，隨時開啟八字解讀",
       "features_title": "包含",
       "features": [
-        "無限次AI運勢解讀",
-        "單人高級AI運勢分析",
-        "雙人高級AI運勢分析",
-        "高級AI指導與化解",
-        "2025年度AI運勢追蹤"
+        "月度無限次AI八字解讀",
+        "單人高級命盤分析",
+        "雙人合盤關係分析",
+        "命運趨勢&挑戰預測輔助"
       ],
       "interval": "month",
       "amount": 999,
@@ -41,7 +21,7 @@
       "price": "$9.99",
       "original_price": "$19.99",
       "unit": "/月",
-      "is_featured": true,
+      "is_featured": false,
       "discount_label": "5折優惠",
       "button": {
         "title": "升級AI高級版",
@@ -55,13 +35,14 @@
     },
     {
       "title": "AI高級版(年付)",
-      "description": "無限解鎖完整AI命理體驗",
+      "description": "相當於每月僅 $8.25，性價比更高",
+      "label": "熱門",
       "features_title": "包含",
       "features": [
-        "無限次AI運勢解讀",
-        "單人高級AI運勢分析",
-        "雙人高級AI運勢分析",
-        "高級AI指導與化解",
+        "年度無限次AI八字解讀",
+        "單人高級命盤分析",
+        "雙人合盤關係分析",
+        "高級命運趨勢&挑戰分析",
         "2025年度AI運勢追蹤"
       ],
       "interval": "year",
@@ -70,7 +51,7 @@
       "price": "$99",
       "original_price": "$238.8",
       "unit": "/年",
-      "is_featured": false,
+      "is_featured": true,
       "discount_label": "4折優惠",
       "button": {
         "title": "升級AI高級版",

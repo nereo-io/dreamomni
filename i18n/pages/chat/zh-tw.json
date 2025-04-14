@@ -42,13 +42,13 @@
   },
   "footer": "每個回答都由我們的專業算命系統分析",
   "credits": {
-    "remaining": "今天還剩 {count} 個免費問題。",
-    "upgrade": "升級以獲得無限問題",
+    "remaining": "剩餘 {count} 次解讀。",
+    "upgrade": "升級會員",
     "member": "會員可以提問無限問題"
   },
   "errors": {
     "checkUsageError": "檢查使用次數失敗，請稍後再試",
-    "noRemainingReadings": "您已用完今天的所有免費問題",
+    "noRemainingReadings": "積分不足，請升級會員",
     "recordUsageError": "記錄使用失敗，請稍後再試",
     "generalError": "發生錯誤，請稍後再試",
     "pleaseLogin": "請先登入",

@@ -22,11 +22,6 @@ export default async function () {
   // 获取订单信息
   let orders = await getOrdersByUserUuid(user_uuid);
 
-  // 可能不需要，不会存在用户没有登录的情况
-  // if (!orders || orders.length === 0) {
-  //   orders = await getOrdersByPaidEmail(user_email);
-  // }
-
   const columns: TableColumn[] = [
     { name: "order_no", title: t("my_orders.table.order_no") },
     { name: "paid_email", title: t("my_orders.table.email") },

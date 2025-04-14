@@ -42,7 +42,7 @@ export default async function CustomerChat({
         locale={locale}
         chatId={chatId}
       />
-      <SurveyBanner />
+      {/* <SurveyBanner /> */}
     </div>
   );
 }

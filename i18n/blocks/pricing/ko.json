@@ -1,43 +1,19 @@
 {
   "name": "pricing",
   "label": "멤버십 플랜",
-  "title": "BaziAI 해석 플랜",
-  "description": "AI 팔자 해석 멤버십 플랜을 선택하세요",
+  "title": "BaziAI 사주 플랜",
+  "description": "AI 사주 멤버십 플랜을 선택하세요",
   "groups": [],
   "items": [
     {
-      "title": "무료 AI 해석",
-      "description": "AI 운세 해석 여정을 시작하세요",
+      "title": "AI Pro (월간)",
+      "description": "탐험가에게 완벽한, 언제든지 사주 해석 이용 가능",
       "features_title": "포함 사항",
       "features": [
-        "하루 3회 AI 운세 해석",
-        "기본 개인 AI 운세 분석",
-        "기본 AI 가이드"
-      ],
-      "interval": "month",
-      "amount": 0,
-      "currency": "USD",
-      "price": "무료",
-      "unit": "/월",
-      "is_featured": false,
-      "button": {
-        "title": "무료 AI 해석 체험하기",
-        "url": "/career",
-        "icon": "RiMagicLine",
-        "disabled": true
-      }
-    },
-    {
-      "title": "AI 프리미엄(월간)",
-      "description": "완전한 AI 명리학 체험 해제",
-      "label": "인기",
-      "features_title": "포함 사항",
-      "features": [
-        "무제한 AI 운세 해석",
-        "고급 개인 AI 운세 분석",
-        "고급 커플 AI 운세 분석",
-        "고급 AI 가이드 및 해결책",
-        "2025년 연간 AI 운세 추적"
+        "월간 무제한 AI 사주 해석",
+        "고급 개인 운명 차트 분석",
+        "듀얼 차트 호환성 분석",
+        "운명 트렌드 및 도전 예측 지원"
       ],
       "interval": "month",
       "amount": 999,
@@ -45,28 +21,29 @@
       "price": "$9.99",
       "original_price": "$19.99",
       "unit": "/월",
-      "is_featured": true,
+      "is_featured": false,
       "discount_label": "50% 할인",
       "button": {
-        "title": "AI 프리미엄으로 업그레이드",
+        "title": "AI Pro로 업그레이드",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },
       "product_id": "monthly-pro",
-      "product_name": "BaziAI 프리미엄",
+      "product_name": "BaziAI Pro",
       "credits": 1,
       "valid_months": 1
     },
     {
-      "title": "AI 프리미엄(연간)",
-      "description": "완전한 AI 명리학 체험에 무제한 접근",
+      "title": "AI Pro (연간)",
+      "description": "월 $8.25 상당, 최고의 가치",
+      "label": "인기",
       "features_title": "포함 사항",
       "features": [
-        "무제한 AI 운세 해석",
-        "고급 개인 AI 운세 분석",
-        "고급 커플 AI 운세 분석",
-        "고급 AI 가이드 및 해결책",
-        "2025년 연간 AI 운세 추적"
+        "연간 무제한 AI 사주 해석",
+        "고급 개인 운명 차트 분석",
+        "듀얼 차트 호환성 분석",
+        "고급 운명 트렌드 및 도전 분석",
+        "2025년 연간 운세 추적"
       ],
       "interval": "year",
       "amount": 9900,
@@ -74,15 +51,15 @@
       "price": "$99",
       "original_price": "$238.8",
       "unit": "/년",
-      "is_featured": false,
-      "discount_label": "40% 할인",
+      "is_featured": true,
+      "discount_label": "60% 할인",
       "button": {
-        "title": "AI 프리미엄으로 업그레이드",
+        "title": "AI Pro로 업그레이드",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },
       "product_id": "yearly-pro",
-      "product_name": "BaziAI 프리미엄",
+      "product_name": "BaziAI Pro",
       "credits": 12,
       "valid_months": 12
     }

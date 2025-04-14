@@ -18,6 +18,9 @@ export default function Invite({ summary }: { summary: any }) {
   const [open, setOpen] = useState(false);
   const { user, setUser } = useAppContext();
   const [loading, setLoading] = useState(false);
+  const [template1Value, setTemplate1Value] = useState("");
+  const [template2Value, setTemplate2Value] = useState("");
+  const [template3Value, setTemplate3Value] = useState("");
 
   const updateInviteCode = async function (invite_code: string) {
     try {
@@ -64,8 +67,15 @@ export default function Invite({ summary }: { summary: any }) {
     setLoading(false);
   }, []);
 
+  useEffect(() => {
+    // 从国际化文件中加载初始模板内容
+    setTemplate1Value(t("my_invites.template1"));
+    setTemplate2Value(t("my_invites.template2"));
+    setTemplate3Value(t("my_invites.template3"));
+  }, [t]);
+
   return (
-    <div className="flex flex-wrap gap-6">
+    <div className="flex flex-col gap-6">
       <Card className="flex-1 p-6">
         <h2 className="text-sm text-gray-500 mb-4">
           {t("my_invites.invite_code")}
@@ -100,41 +110,87 @@ export default function Invite({ summary }: { summary: any }) {
             )}
           </div>
         )}
-        <p className="text-sm text-gray-500">{t("my_invites.invite_tip")}</p>
+        <p className="text-base text-primary font-semibold">
+          {t("my_invites.invite_tip")}
+        </p>
       </Card>
 
       {/* 右侧奖励卡片 */}
       <Card className="flex-1 p-6">
-        <div className="flex justify-between items-end mb-8">
-          <div>
-            <h2 className="text-sm text-gray-500 mb-4">
-              {t("my_invites.invite_balance")}
-            </h2>
-            <p className="text-4xl font-bold">${summary.total_reward / 100}</p>
+        <h2 className="text-sm text-gray-500 mb-4">
+          {t("my_invites.invite_templates")}
+        </h2>
+        <div className="space-y-4">
+          {/* 模板1 */}
+          <div className="bg-gray-50 dark:bg-background rounded-lg overflow-hidden">
+            <div className="flex justify-between items-center p-3 border-b border-gray-200 dark:bg-background">
+              <h3 className="text-sm font-medium">
+                {t("my_invites.template1_title")}
+              </h3>
+              <CopyToClipboard
+                text={`${template1Value}\n${process.env.NEXT_PUBLIC_WEB_URL}/i/${user?.invite_code}`}
+                onCopy={() => toast.success(t("my_invites.copied"))}
+              >
+                <div className="flex items-center gap-1 text-primary cursor-pointer">
+                  <Icon name="RiFileCopy2Line" className="text-lg" />
+                  <span className="text-xs">{t("my_invites.copy")}</span>
+                </div>
+              </CopyToClipboard>
+            </div>
+            <textarea
+              className="w-full p-3 bg-gray-50 dark:bg-background text-sm resize-none focus:outline-none focus:ring-1 focus:ring-primary"
+              rows={6}
+              value={`${template1Value}\n${process.env.NEXT_PUBLIC_WEB_URL}/i/${user?.invite_code}`}
+              onChange={(e) => setTemplate1Value(e.target.value)}
+            />
           </div>
-          {/* <Button className="" size="sm">
-            奖励提现
-          </Button> */}
-        </div>
 
-        <div className="grid grid-cols-4 gap-4">
-          <div>
-            <p className="text-2xl font-bold">{summary.total_invited}</p>
-            <p className="text-sm text-gray-500">
-              {t("my_invites.total_invite_count")}
-            </p>
+          {/* 模板2 */}
+          <div className="bg-gray-50 dark:bg-background rounded-lg overflow-hidden">
+            <div className="flex justify-between items-center p-3 border-b border-gray-200 dark:bg-background">
+              <h3 className="text-sm font-medium">
+                {t("my_invites.template2_title")}
+              </h3>
+              <CopyToClipboard
+                text={`${template2Value}\n${process.env.NEXT_PUBLIC_WEB_URL}/i/${user?.invite_code}`}
+                onCopy={() => toast.success(t("my_invites.copied"))}
+              >
+                <div className="flex items-center gap-1 text-primary cursor-pointer">
+                  <Icon name="RiFileCopy2Line" className="text-lg" />
+                  <span className="text-xs">{t("my_invites.copy")}</span>
+                </div>
+              </CopyToClipboard>
+            </div>
+            <textarea
+              className="w-full p-3 bg-gray-50 dark:bg-background text-sm resize-none focus:outline-none focus:ring-1 focus:ring-primary"
+              rows={6}
+              value={`${template3Value}\n${process.env.NEXT_PUBLIC_WEB_URL}/i/${user?.invite_code}`}
+              onChange={(e) => setTemplate2Value(e.target.value)}
+            />
           </div>
-          <div>
-            <p className="text-2xl font-bold">{summary.total_paid}</p>
-            <p className="text-sm text-gray-500">
-              {t("my_invites.total_paid_count")}
-            </p>
-          </div>
-          <div>
-            <p className="text-2xl font-bold">${summary.total_reward / 100}</p>
-            <p className="text-sm text-gray-500">
-              {t("my_invites.total_award_amount")}
-            </p>
+
+          {/* 模板3 */}
+          <div className="bg-gray-50 dark:bg-background rounded-lg overflow-hidden">
+            <div className="flex justify-between items-center p-3 border-b border-gray-200 dark:bg-background">
+              <h3 className="text-sm font-medium">
+                {t("my_invites.template3_title")}
+              </h3>
+              <CopyToClipboard
+                text={`${template3Value}\n${process.env.NEXT_PUBLIC_WEB_URL}/i/${user?.invite_code}`}
+                onCopy={() => toast.success(t("my_invites.copied"))}
+              >
+                <div className="flex items-center gap-1 text-primary cursor-pointer">
+                  <Icon name="RiFileCopy2Line" className="text-lg" />
+                  <span className="text-xs">{t("my_invites.copy")}</span>
+                </div>
+              </CopyToClipboard>
+            </div>
+            <textarea
+              className="w-full p-3 bg-gray-50 dark:bg-background text-sm resize-none focus:outline-none focus:ring-1 focus:ring-primary"
+              rows={6}
+              value={`${template3Value}\n${process.env.NEXT_PUBLIC_WEB_URL}/i/${user?.invite_code}`}
+              onChange={(e) => setTemplate3Value(e.target.value)}
+            />
           </div>
         </div>
       </Card>

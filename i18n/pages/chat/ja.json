@@ -42,13 +42,13 @@
   },
   "footer": "各回答は当社のプロフェッショナルな占いシステムによって分析されています",
   "credits": {
-    "remaining": "今日はあと{count}回の無料質問が残っています。",
-    "upgrade": "無制限の質問にアップグレード",
+    "remaining": "残りの読み取り回数：{count}回",
+    "upgrade": "メンバーシップにアップグレード",
     "member": "メンバーは無制限の質問ができます"
   },
   "errors": {
     "checkUsageError": "使用回数の確認に失敗しました。後でもう一度お試しください",
-    "noRemainingReadings": "今日の無料質問をすべて使用しました",
+    "noRemainingReadings": "クレジットが足りません、メンバーシップにアップグレードしてください",
     "recordUsageError": "使用記録に失敗しました。後でもう一度お試しください",
     "generalError": "エラーが発生しました。後でもう一度お試しください",
     "pleaseLogin": "先にログインしてください",

@@ -18,6 +18,8 @@ import { v4 as uuidv4 } from "uuid";
 import ChatSkeleton from "./ChatSkeleton";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useSidebar } from "@/components/ui/sidebar";
+import { useRouter } from "next/navigation";
+import { CreditExhaustedModal } from "@/components/ui/credit-exhausted-modal";
 
 interface AiReader {
   name: string;
@@ -51,29 +53,15 @@ export default function ChatInterface({
     membership,
     chat: contextChat,
     setChat: setContextChat,
+    leftCredits,
+    updateLeftCredits,
   } = useAppContext();
   const [initialMessages, setInitialMessages] = useState<Message[]>([]);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
-  const [remainingCount, setRemainingCount] = useState<number | null>(null);
-  const [isLoadingCount, setIsLoadingCount] = useState(true);
   const [isActive, setIsActive] = useState(true);
   const { setOpenMobile } = useSidebar();
-
-  const checkRemainingCredits = async () => {
-    setIsLoadingCount(true);
-    try {
-      const response = await fetch("/api/readings/check");
-      const data = await response.json();
-
-      if (data.code === 0) {
-        setRemainingCount(data.data.remainingCount);
-      }
-    } catch (error) {
-      console.error("Failed to fetch reading count:", error);
-    } finally {
-      setIsLoadingCount(false);
-    }
-  };
+  const router = useRouter();
+  const [showCreditModal, setShowCreditModal] = useState(false);
 
   // 初始化聊天会话和历史消息
   useEffect(() => {
@@ -192,6 +180,10 @@ export default function ChatInterface({
       is_matching: contextChat?.is_matching,
     },
     generateId: uuidv4,
+    onError: (error) => {
+      console.error(error);
+      toast.error(lomessages.errors.generalError);
+    },
     onResponse: () => {
       mutate("/api/chat-session");
     },
@@ -204,11 +196,9 @@ export default function ChatInterface({
       });
     },
   });
-  // 在AI 开始回复时更新剩余次数
+  //  更新剩余次数
   useEffect(() => {
-    if (!isLoading) {
-      checkRemainingCredits();
-    }
+    updateLeftCredits();
   }, [isLoading]);
 
   // 创建一个ref来存储消息容器
@@ -234,6 +224,13 @@ export default function ChatInterface({
     e.preventDefault();
 
     if (!input.trim() || isLoading) {
+      return;
+    }
+
+    if (leftCredits <= 0 && membership?.status !== "active") {
+      // toast.error(lomessages.errors.noRemainingReadings);
+      setShowCreditModal(true);
+      // router.push("/pricing");
       return;
     }
 
@@ -453,25 +450,22 @@ export default function ChatInterface({
       {/* 底部输入框和版权信息层 - 固定在屏幕底部，并考虑 Sidebar 的宽度 */}
       <div className="sticky bottom-0 pb-0 px-2 z-10">
         <div className="container max-w-6xl mx-auto px-2">
-          {!isLoadingCount &&
-            membership?.status !== "active" &&
-            remainingCount !== null &&
-            remainingCount >= 0 && (
-              <div className="text-sm text-center flex items-center justify-center gap-2">
-                <p className="text-muted-foreground">
-                  {lomessages.credits.remaining.replace(
-                    "{count}",
-                    remainingCount.toString()
-                  )}
-                  <Link
-                    href="/#pricing"
-                    className="text-primary hover:underline ml-2"
-                  >
-                    {lomessages.credits.upgrade}
-                  </Link>
-                </p>
-              </div>
-            )}
+          {membership?.status !== "active" && leftCredits !== null && (
+            <div className="text-sm text-center flex items-center justify-center gap-2">
+              <p className="text-muted-foreground">
+                {lomessages.credits.remaining.replace(
+                  "{count}",
+                  leftCredits.toString()
+                )}
+                <Link
+                  href="/#pricing"
+                  className="text-primary hover:underline ml-2"
+                >
+                  {lomessages.credits.upgrade}
+                </Link>
+              </p>
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="px-2">
             <div className="relative">
               <textarea
@@ -505,6 +499,10 @@ export default function ChatInterface({
           </div>
         </div>
       </div>
+      <CreditExhaustedModal
+        open={showCreditModal}
+        onOpenChange={setShowCreditModal}
+      />
     </div>
   );
 }

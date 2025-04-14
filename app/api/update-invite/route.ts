@@ -1,17 +1,22 @@
 import {
-  AffiliateRewardAmount,
-  AffiliateRewardPercent,
-  AffiliateStatus,
-} from "@/services/constant";
+  CreditsTransType,
+  CreditsAmount,
+  increaseCredits,
+} from "@/services/credit";
 import {
   findUserByInviteCode,
   findUserByUuid,
   updateUserInvitedBy,
 } from "@/models/user";
 import { respData, respErr } from "@/lib/resp";
-
-import { getIsoTimestr } from "@/lib/time";
+import { getOneMonthLaterTimestr } from "@/lib/time";
 import { insertAffiliate } from "@/models/affiliate";
+import {
+  AffiliateStatus,
+  AffiliateRewardPercent,
+  AffiliateRewardAmount,
+} from "@/services/constant";
+import { getIsoTimestr } from "@/lib/time";
 
 export async function POST(req: Request) {
   try {
@@ -44,6 +49,14 @@ export async function POST(req: Request) {
 
     // update invite user uuid
     await updateUserInvitedBy(user_uuid, inviteUser.uuid);
+
+    // increase credits for new user, expire in one year
+    await increaseCredits({
+      user_uuid: inviteUser.uuid || "",
+      trans_type: CreditsTransType.Invite,
+      credits: CreditsAmount.InviteGet,
+      expired_at: getOneMonthLaterTimestr(),
+    });
 
     await insertAffiliate({
       user_uuid: user_uuid,

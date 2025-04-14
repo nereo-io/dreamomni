@@ -21,3 +21,11 @@ export const getOneYearLaterTimestr = () => {
 
   return oneYearLater.toISOString();
 };
+
+export const getOneMonthLaterTimestr = () => {
+  const currentDate = new Date();
+  const oneMonthLater = new Date(currentDate);
+  oneMonthLater.setMonth(currentDate.getMonth() + 1);
+
+  return oneMonthLater.toISOString();
+};

@@ -3,11 +3,11 @@
   "subtitle": "What aspects would you like to explore?",
   "placeholder": "Type your question here or select from suggestions below...",
   "send": "Send",
-  "loginPrompt": "Sign in to get 3 free readings per day",
+  "loginPrompt": "Sign in to get 3 free readings",
   "errors": {
-    "pleaseLogin": "Please sign in to get 3 free readings per day",
+    "pleaseLogin": "Please sign in to get 3 free readings",
     "checkUsageError": "Failed to check reading count",
-    "noRemainingReadings": "You've used all readings for today, please come back tomorrow",
+    "noRemainingReadings": "Insufficient credits, please upgrade membership",
     "recordUsageError": "Failed to record reading usage",
     "pleaseInputBirthInfo": "Please input your birth information first"
   },

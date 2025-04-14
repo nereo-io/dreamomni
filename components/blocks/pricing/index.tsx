@@ -256,9 +256,6 @@ export default function Pricing({ pricing }: { pricing: PricingType }) {
                           className="w-full flex items-center justify-center gap-2 font-semibold"
                           disabled={isLoading || item.button.disabled}
                           onClick={() => {
-                            // sendGAEvent("event", "subcription_button_clicked", {
-                            //   value: item.credits === 12 ? 100 : 10,
-                            // });
                             sendGAEvent(
                               "event",
                               "conversion_event_begin_checkout",

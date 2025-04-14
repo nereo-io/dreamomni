@@ -116,9 +116,12 @@
   },
   "my_credits": {
     "title": "My Credits",
+    "rules_title": "Rules",
+    "rules": "1. New users receive 3 free credits upon registration. You’ll earn an additional 3 credits for every friend you invite who signs up. \n2. Each reading costs 1 credit. Upgrade to a membership for unlimited readings.",
     "left_tip": "left credits: {left_credits}",
     "no_credits": "No credits records",
-    "recharge": "Recharge",
+    "recharge": "Upgrade Membership",
+    "invite": "Invite friends",
     "table": {
       "trans_no": "Trans No",
       "trans_type": "Trans Type",
@@ -156,6 +159,37 @@
     "message": "👋 Quick feedback needed - help shape BaziAI!",
     "close": "Close"
   },
+  "credit_exhausted_modal": {
+    "title": "Out of Reading Credits",
+    "description": "Life destiny, wealth enhancement, compatibility charts - unlock them all now",
+    "lifetime_analysis": {
+      "title": "Personal Bazi Reading",
+      "description1": "Facing obstacles or declining fortune? Bazi reveals where risks lie and when opportunities emerge.",
+      "description2": "For critical decisions (job change/investment/business/exams), timing is more crucial than effort."
+    },
+    "dual_chart": {
+      "title": "Compatibility Reading",
+      "description": "Understand interaction patterns with your partner, children, or boss, and see hidden harmonies or conflicts."
+    },
+    "use_cases": {
+      "relationship": "Relationships: Are we truly compatible for a lifetime together?",
+      "family": "Parenting: Communication difficulties with your child - personality clash or elemental conflict?",
+      "career": "Workplace: Constant disagreements with colleagues - could it be destiny incompatibility?"
+    },
+    "choice_section": {
+      "title": "👇 Choose your next destiny exploration path:",
+      "premium": {
+        "title": "🔓 Unlock Full Destiny Map",
+        "description": "Upgrade membership"
+      },
+      "share": {
+        "title": "🎁 Share With Friends",
+        "description": "Get free readings",
+        "tips": "Invite 1 person = Get 3 personal Bazi readings"
+      }
+    },
+    "footer_text": "Already a member? Please log in again to restore your privileges.\nInvites are only valid for unregistered users. Credits cannot be claimed multiple times."
+  },
   "my_invites": {
     "title": "My Invites",
     "description": "View your invite records",
@@ -164,7 +198,7 @@
     "edit_invite_link": "Edit Invite Link",
     "copy_invite_link": "Copy Invite Link",
     "invite_code": "Invite Code",
-    "invite_tip": "Invite 1 friend to buy BaziAI, reward 30%.",
+    "invite_tip": "Get 3 personal Bazi readings for every friend who signs up through your link.",
     "invite_balance": "Invite Reward Balance",
     "total_invite_count": "Total Invite Count",
     "total_paid_count": "Total Paid Count",
@@ -174,12 +208,20 @@
     "update_invite_button": "Save",
     "no_orders": "You can't invite others before you bought ShipAny",
     "no_affiliates": "You're not allowed to invite others, please contact us to apply for permission.",
+    "invite_templates": "Invite Templates",
+    "copy": "Copy",
+    "template1_title": "🔮 Destiny Analysis",
+    "template2_title": "💸 Wealth Potential",
+    "template3_title": "💞 Love Compatibility",
+    "template1": "Hey friends! I just discovered BaziAI — an AI-powered Chinese astrology tool that gives you a full destiny reading based on your birth chart.\nIt showed me super accurate insights about my life path, personality, and major turning points. So cool and surprisingly deep.\nYou get 3 free readings when you sign up!\n👉 Check out BaziAI here",
+    "template2": "Just found BaziAI, an AI fortune-telling tool that reveals your wealth potential based on Chinese astrology.\nIt showed me exactly when my financial luck peaks — and when to lay low. Super smart and based on your birth info.\nTry it out with 3 free wealth readings!\n💸 Try BaziAI here",
+    "template3": "Tried BaziAI recently — it’s an AI that analyzes love compatibility using Chinese birth charts.\nYou can do a dual reading with someone and find out your emotional match, relationship strengths, and potential challenges.\nIt’s fun, real, and you get 3 free love match readings.\n💞 Explore BaziAI here",
     "table": {
       "invite_time": "Invite Time",
       "invite_user": "Invite User",
       "status": "Status",
       "reward_percent": "Reward Percent",
-      "reward_amount": "Reward Amount",
+      "reward_amount": "Reward Credits",
       "pending": "Pending",
       "completed": "Completed"
     }

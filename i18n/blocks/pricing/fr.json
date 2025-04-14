@@ -2,42 +2,18 @@
   "name": "pricing",
   "label": "Plans d'Abonnement",
   "title": "Plans de Lecture BaziAI",
-  "description": "Choisissez votre plan d'abonnement pour l'analyse Bazi IA",
+  "description": "Choisissez votre plan d'abonnement pour les lectures Bazi par IA",
   "groups": [],
   "items": [
     {
-      "title": "Lecture IA Gratuite",
-      "description": "Commencez votre voyage d'analyse de fortune par IA",
-      "features_title": "Inclus",
+      "title": "AI Pro (Mensuel)",
+      "description": "Parfait pour les explorateurs, accès aux lectures Bazi à tout moment",
+      "features_title": "Comprend",
       "features": [
-        "3 lectures de fortune IA par jour",
-        "Analyse de fortune IA basique individuelle",
-        "Conseils IA de base"
-      ],
-      "interval": "month",
-      "amount": 0,
-      "currency": "USD",
-      "price": "Gratuit",
-      "unit": "/mois",
-      "is_featured": false,
-      "button": {
-        "title": "Essayer la Lecture IA Gratuite",
-        "url": "/career",
-        "icon": "RiMagicLine",
-        "disabled": true
-      }
-    },
-    {
-      "title": "IA Pro (Mensuel)",
-      "description": "Débloquez l'expérience Bazi IA complète",
-      "label": "Populaire",
-      "features_title": "Inclus",
-      "features": [
-        "Lectures de fortune IA illimitées",
-        "Analyse de fortune IA avancée individuelle",
-        "Analyse de fortune IA avancée de compatibilité",
-        "Conseils & solutions IA avancés",
-        "Suivi de fortune IA annuel 2025"
+        "Lectures Bazi IA illimitées mensuellement",
+        "Analyse avancée du thème astral personnel",
+        "Analyse de compatibilité de deux thèmes",
+        "Assistance à la prédiction des tendances et défis du destin"
       ],
       "interval": "month",
       "amount": 999,
@@ -45,10 +21,10 @@
       "price": "$9.99",
       "original_price": "$19.99",
       "unit": "/mois",
-      "is_featured": true,
-      "discount_label": "50% OFF",
+      "is_featured": false,
+      "discount_label": "50% DE RÉDUCTION",
       "button": {
-        "title": "Passer à IA Pro",
+        "title": "Passer à AI Pro",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },
@@ -58,15 +34,16 @@
       "valid_months": 1
     },
     {
-      "title": "IA Pro (Annuel)",
-      "description": "Accès illimité à l'expérience Bazi IA complète",
-      "features_title": "Inclus",
+      "title": "AI Pro (Annuel)",
+      "description": "Équivalent à seulement $8.25/mois, meilleur rapport qualité-prix",
+      "label": "Populaire",
+      "features_title": "Comprend",
       "features": [
-        "Lectures de fortune IA illimitées",
-        "Analyse de fortune IA avancée individuelle",
-        "Analyse de fortune IA avancée de compatibilité",
-        "Conseils & solutions IA avancés",
-        "Suivi de fortune IA annuel 2025"
+        "Lectures Bazi IA illimitées annuellement",
+        "Analyse avancée du thème astral personnel",
+        "Analyse de compatibilité de deux thèmes",
+        "Analyse avancée des tendances et défis du destin",
+        "Suivi de fortune annuel 2025"
       ],
       "interval": "year",
       "amount": 9900,
@@ -74,10 +51,10 @@
       "price": "$99",
       "original_price": "$238.8",
       "unit": "/an",
-      "is_featured": false,
-      "discount_label": "60% OFF",
+      "is_featured": true,
+      "discount_label": "60% DE RÉDUCTION",
       "button": {
-        "title": "Passer à IA Pro",
+        "title": "Passer à AI Pro",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },
