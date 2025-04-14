@@ -23,7 +23,7 @@ export function CreditExhaustedModal({
   const [dualChecked, setDualChecked] = useState(false);
 
   const handlePricingClick = () => {
-    router.push("#pricing");
+    router.push("/#pricing");
     onOpenChange(false);
   };
 
