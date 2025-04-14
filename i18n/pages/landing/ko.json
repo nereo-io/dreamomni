@@ -435,62 +435,50 @@
       ]
     }
   },
-  "questionForm": {
-    "questionSelector": {
-      "title": "질문 선택",
-      "subtitle": "어떤 측면을 탐색하고 싶으신가요?",
-      "placeholder": "여기에 질문을 입력하거나 아래 제안에서 선택하세요...",
-      "send": "보내기",
-      "loginPrompt": "하루 3회 무료 해석을 받으려면 로그인하세요",
-      "errors": {
-        "pleaseLogin": "하루 3회 무료 해석을 받으려면 로그인하세요",
-        "checkUsageError": "해석 횟수 확인 실패",
-        "noRemainingReadings": "오늘의 모든 해석을 사용했습니다. 내일 다시 오세요",
-        "recordUsageError": "해석 사용 기록 실패",
-        "pleaseInputBirthInfo": "먼저 출생 정보를 입력하세요"
+  "questionSuggestions": {
+    "categories": {
+      "all": "전체"
+    },
+    "questions": {
+      "career1": {
+        "text": "향후 5년 동안 내 경력은 어떻게 발전할까요? 어떤 주요 기회와 도전이 기다리고 있나요?",
+        "reading_type": "single",
+        "category": "career"
       },
-      "customer": {
-        "input": {
-          "unlimited_usage": "회원",
-          "remaining_readings": "남은 횟수 {count}회",
-          "add_birth_info": "출생 정보 추가",
-          "partner_birth_info": "상대방 출생 정보 추가"
-        }
+      "love1": {
+        "text": "우리의 생년월일시에 따른 호환성은 어떤가요? 커플로서 우리의 숨겨진 강점과 잠재적 충돌은 무엇인가요?",
+        "reading_type": "double",
+        "category": "love"
       },
-      "matching": {
-        "single": "개인 분석",
-        "double": "매칭",
-        "double_title": "매칭",
-        "description": "2명의 출생 정보를 입력하여 상호 작용을 분석합니다. 이 기능은 프리미엄 사용자만 사용할 수 있습니다."
+      "wealth1": {
+        "text": "내 생년월일시는 내 부의 잠재력에 대해 무엇을 나타내나요? 나는 부를 끌어들이는 타고난 운명을 가졌나요, 아니면 그것을 위해 열심히 일해야 하나요?",
+        "reading_type": "single",
+        "category": "life"
       },
-      "categories": {
-        "all": "전체",
-        "personality": "성격",
-        "career": "경력",
-        "love": "사랑",
-        "health": "건강",
-        "fortune": "운세"
+      "destiny1": {
+        "text": "내 운명에서 주요한 인생의 전환점은 언제인가요? 다가오는 변화에 어떻게 준비해야 하나요?",
+        "reading_type": "single",
+        "category": "life"
       },
-      "questions": {
-        "personality1": "내 성격 특성과 잠재력은 무엇인가요? 내 강점과 약점은 무엇인가요?",
-        "personality2": "어떤 종류의 일과 경력이 나에게 가장 적합한가요?",
-        "personality3": "대인 관계에서 내 패턴은 무엇인가요?",
-
-        "career1": "향후 5년 동안 내 경력은 어떻게 발전할까요? 어떤 기회와 도전이 기다리고 있나요?",
-        "career2": "2025년 내 경력 운세는 어떤가요? 중요한 결정을 내리기에 적합한가요?",
-        "career3": "내 경력의 병목 현상은 무엇이며 어떻게 돌파할 수 있나요?",
-
-        "love1": "내 사랑 운세는 어떤가요? 언제 내 반쪽을 만날까요?",
-        "love2": "현재 관계가 발전하기에 적합한가요?",
-        "love3": "어떻게 내 사랑 운세를 향상시킬 수 있나요?",
-
-        "health1": "어떤 건강 문제에 주의해야 하나요?",
-        "health2": "생활 방식 변화를 통해 어떻게 건강을 개선할 수 있나요?",
-        "health3": "어떤 잠재적 건강 위험을 예방해야 하나요?",
-
-        "fortune1": "최근 내 전반적인 운세는 어떤가요?",
-        "fortune2": "내 운세 정점은 언제인가요?",
-        "fortune3": "어떻게 불운을 피하고 기회를 잡을 수 있나요?"
+      "love2": {
+        "text": "우리 관계를 더 발전시켜야 할까요? 우리의 생년월일시가 타이밍과 장기적 조화에 대해 무엇을 보여주나요?",
+        "reading_type": "double",
+        "category": "love"
+      },
+      "wealth2": {
+        "text": "다가오는 수년 동안 어떤 기간이 재정 개선이나 투자에 가장 좋은 시기인가요?",
+        "reading_type": "single",
+        "category": "life"
+      },
+      "love3": {
+        "text": "의미 있는 로맨틱한 파트너를 만날 가능성이 가장 높은 시기는 언제인가요? 어떤 신호와 타이밍을 찾아야 하나요?",
+        "reading_type": "single",
+        "category": "love"
+      },
+      "career2": {
+        "text": "2025년은 직장 변경이나 전문적 도약에 유리한 해인가요? 어떤 달이 가장 좋은 타이밍을 제공하나요?",
+        "reading_type": "single",
+        "category": "career"
       }
     }
   }

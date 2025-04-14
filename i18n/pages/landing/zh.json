@@ -498,5 +498,52 @@
         "variant": "outline"
       }
     ]
+  },
+  "questionSuggestions": {
+    "categories": {
+      "all": "全部"
+    },
+    "questions": {
+      "career1": {
+        "text": "未来5年我的职业将如何发展？有哪些关键机遇和挑战？",
+        "reading_type": "single",
+        "category": "career"
+      },
+      "love1": {
+        "text": "根据我们的八字，我们的兼容性如何？作为一对，我们有哪些隐藏的优势和潜在的冲突？",
+        "reading_type": "double",
+        "category": "love"
+      },
+      "wealth1": {
+        "text": "我的八字命盘揭示了什么关于我的财富潜力？我是天生就能吸引财富，还是需要努力工作才能获得？",
+        "reading_type": "single",
+        "category": "life"
+      },
+      "destiny1": {
+        "text": "我命运中的主要人生转折点是什么时候？我应该如何为即将到来的变化做准备？",
+        "reading_type": "single",
+        "category": "life"
+      },
+      "love2": {
+        "text": "我们应该将关系更进一步吗？我们的八字命盘关于时机和长期和谐方面揭示了什么？",
+        "reading_type": "double",
+        "category": "love"
+      },
+      "wealth2": {
+        "text": "未来几年中，哪些时期最有利于改善我的财务状况或进行投资？",
+        "reading_type": "single",
+        "category": "life"
+      },
+      "love3": {
+        "text": "我最有可能在什么时候遇到有意义的浪漫伴侣？我应该寻找哪些迹象和时机？",
+        "reading_type": "single",
+        "category": "love"
+      },
+      "career2": {
+        "text": "2025年是否适合换工作或职业突破？哪几个月提供最佳时机？",
+        "reading_type": "single",
+        "category": "career"
+      }
+    }
   }
 }

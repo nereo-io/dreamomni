@@ -11,7 +11,7 @@ export async function GET() {
 
     // Get user left credits
     const credits = await getUserLeftCredits(user_uuid);
-    console.log("credits", credits);
+    // console.log("credits", credits);
 
     // 直接返回积分值
     return respData({ credits });

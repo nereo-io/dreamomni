@@ -12,10 +12,16 @@ import {
  */
 export const getSuggestedQuestions = (locale: string): QuestionSuggestions => {
   try {
+    // 验证 locale 是否为有效的语言代码
+    const validLocales = ["en", "zh", "zh-TW", "ja", "ko", "fr"];
+
+    // 如果 locale 不是有效的语言代码，使用默认语言（英语）
+    const safeLocale = validLocales.includes(locale) ? locale : "en";
+
     // 读取对应语言的问题配置文件
     const filePath = path.join(
       process.cwd(),
-      `i18n/content/question-sug/${locale}.json`
+      `i18n/content/question-sug/${safeLocale}.json`
     );
     const fileContent = fs.readFileSync(filePath, "utf8");
     const data = JSON.parse(fileContent);

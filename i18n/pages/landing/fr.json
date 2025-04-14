@@ -435,8 +435,51 @@
       }
     ]
   },
-  "solveAllQuestions": {
-    "title": "Résoudre Toutes les Questions",
-    "description": "Utilisez l'IA de divination haut de gamme pour répondre à toutes vos questions"
+  "questionSuggestions": {
+    "categories": {
+      "all": "Tous"
+    },
+    "questions": {
+      "career1": {
+        "text": "Comment ma carrière va-t-elle évoluer au cours des 5 prochaines années? Quelles opportunités et quels défis m'attendent?",
+        "reading_type": "single",
+        "category": "career"
+      },
+      "love1": {
+        "text": "Quelle est notre compatibilité selon nos thèmes astraux? Quelles sont nos forces cachées et nos conflits potentiels en tant que couple?",
+        "reading_type": "double",
+        "category": "love"
+      },
+      "wealth1": {
+        "text": "Que révèle mon thème natal sur mon potentiel de richesse? Ai-je le destin d'attirer la richesse ou dois-je travailler dur pour l'obtenir?",
+        "reading_type": "single",
+        "category": "life"
+      },
+      "destiny1": {
+        "text": "Quand sont les principaux tournants de ma destinée? Comment dois-je me préparer aux changements à venir?",
+        "reading_type": "single",
+        "category": "life"
+      },
+      "love2": {
+        "text": "Devrions-nous faire passer notre relation au niveau supérieur? Que révèlent nos thèmes astraux sur le timing et l'harmonie à long terme?",
+        "reading_type": "double",
+        "category": "love"
+      },
+      "wealth2": {
+        "text": "Quelles périodes dans les années à venir sont les plus favorables pour améliorer mes finances ou faire des investissements?",
+        "reading_type": "single",
+        "category": "life"
+      },
+      "love3": {
+        "text": "Quand ai-je le plus de chances de rencontrer un partenaire romantique significatif? Quels signes et quel timing dois-je rechercher?",
+        "reading_type": "single",
+        "category": "love"
+      },
+      "career2": {
+        "text": "2025 est-elle une année favorable pour un changement d'emploi ou des percées professionnelles? Quels mois offrent le meilleur timing?",
+        "reading_type": "single",
+        "category": "career"
+      }
+    }
   }
 }

@@ -55,7 +55,7 @@ export default async function LandingPage({
   const readerPage = await getReaderPage(locale);
   const pricing = await getPricingBlock(locale);
   const questionSelector = await getQuestionSelectorBlock(locale);
-  const questionSuggestions = await getSuggestedQuestions(locale);
+  // const questionSuggestions = await getSuggestedQuestions(locale);
   // console.log(questionSuggestions);
 
   // Get base URL for complete URLs in structured data
@@ -68,7 +68,7 @@ export default async function LandingPage({
       <OrganizationSchema
         name="BaziAI"
         url="https://www.bazi-ai.com"
-        logo="https://www.bazi-ai.com/logo.png"
+        logo="https://www.bazi-ai.com/logo.svg"
         description="Free BaZi AI Reading Tool"
       />
       <WebsiteSchema
@@ -127,12 +127,12 @@ export default async function LandingPage({
           },
         ]}
       />
-      <SurveyBanner />
+      {/* <SurveyBanner /> */}
       {page.hero && <Hero hero={page.hero} />}
       <QuestionSelector
         formMessages={readerPage}
         questionSelector={questionSelector}
-        questionSuggestions={questionSuggestions}
+        questionSuggestions={page.questionSuggestions}
       />
       <NavCategory />
 

@@ -43,7 +43,7 @@ export default async function ChatPage({
       <div className="mt-4 ml-4">
         <SidebarTrigger />
       </div>
-      <SurveyBanner />
+      {/* <SurveyBanner /> */}
 
       {page.hero && <Hero hero={page.hero} />}
       {questionSelector && (

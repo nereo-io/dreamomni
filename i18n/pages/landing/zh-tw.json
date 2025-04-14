@@ -435,62 +435,50 @@
       ]
     }
   },
-  "questionForm": {
-    "questionSelector": {
-      "title": "選擇您的問題",
-      "subtitle": "您想探索哪些方面？",
-      "placeholder": "在此輸入您的問題或從下方建議中選擇...",
-      "send": "發送",
-      "loginPrompt": "登入以獲得每天3次免費解讀",
-      "errors": {
-        "pleaseLogin": "請登入以獲得每天3次免費解讀",
-        "checkUsageError": "檢查解讀次數失敗",
-        "noRemainingReadings": "您已用完今天的所有解讀，請明天再來",
-        "recordUsageError": "記錄解讀使用失敗",
-        "pleaseInputBirthInfo": "請先輸入您的出生信息"
+  "questionSuggestions": {
+    "categories": {
+      "all": "全部"
+    },
+    "questions": {
+      "career1": {
+        "text": "未來5年我的職業將如何發展？有哪些關鍵機遇和挑戰？",
+        "reading_type": "single",
+        "category": "career"
       },
-      "customer": {
-        "input": {
-          "unlimited_usage": "會員",
-          "remaining_readings": "剩餘 {count} 次",
-          "add_birth_info": "出生信息",
-          "partner_birth_info": "對方信息"
-        }
+      "love1": {
+        "text": "根據我們的八字，我們的兼容性如何？作為一對，我們有哪些隱藏的優勢和潛在的衝突？",
+        "reading_type": "double",
+        "category": "love"
       },
-      "matching": {
-        "single": "單人分析",
-        "double": "雙人匹配",
-        "double_title": "雙人匹配",
-        "description": "分析兩個人的八字命盤匹配度，揭示緣分與關係走向。此功能需要會員權限，點擊發送將跳轉到支付界面。"
+      "wealth1": {
+        "text": "我的八字命盤揭示了什麼關於我的財富潛力？我是天生就能吸引財富，還是需要努力工作才能獲得？",
+        "reading_type": "single",
+        "category": "life"
       },
-      "categories": {
-        "all": "全部",
-        "personality": "性格",
-        "career": "職業",
-        "love": "愛情",
-        "health": "健康",
-        "fortune": "運勢"
+      "destiny1": {
+        "text": "我命運中的主要人生轉折點是什麼時候？我應該如何為即將到來的變化做準備？",
+        "reading_type": "single",
+        "category": "life"
       },
-      "questions": {
-        "personality1": "我的性格特點和潛力是什麼？我的優勢和劣勢是什麼？",
-        "personality2": "什麼樣的工作和職業最適合我？",
-        "personality3": "我在人際關係中的模式是什麼？",
-
-        "career1": "我的職業在未來5年如何發展？有哪些機會和挑戰？",
-        "career2": "我在2025年的職業運勢如何？適合做重大決定嗎？",
-        "career3": "我的職業瓶頸是什麼，如何突破？",
-
-        "love1": "我的愛情運勢如何？何時會遇到我的另一半？",
-        "love2": "我目前的關係適合發展嗎？",
-        "love3": "如何改善我的愛情運勢？",
-
-        "health1": "我應該注意哪些健康問題？",
-        "health2": "如何通過生活方式改變來改善我的健康？",
-        "health3": "我應該預防哪些潛在的健康風險？",
-
-        "fortune1": "我最近的整體運勢如何？",
-        "fortune2": "我的運勢高峰期是什麼時候？",
-        "fortune3": "如何避免不幸並把握機會？"
+      "love2": {
+        "text": "我們應該將關係更進一步嗎？我們的八字命盤關於時機和長期和諧方面揭示了什麼？",
+        "reading_type": "double",
+        "category": "love"
+      },
+      "wealth2": {
+        "text": "未來幾年中，哪些時期最有利於改善我的財務狀況或進行投資？",
+        "reading_type": "single",
+        "category": "life"
+      },
+      "love3": {
+        "text": "我最有可能在什麼時候遇到有意義的浪漫伴侶？我應該尋找哪些跡象和時機？",
+        "reading_type": "single",
+        "category": "love"
+      },
+      "career2": {
+        "text": "2025年是否適合換工作或職業突破？哪幾個月提供最佳時機？",
+        "reading_type": "single",
+        "category": "career"
       }
     }
   }

@@ -359,65 +359,6 @@
       ]
     }
   },
-  "questionForm": {
-    "questionSelector": {
-      "title": "質問を選択",
-      "subtitle": "どの側面を探索したいですか？",
-      "placeholder": "ここに質問を入力するか、以下の提案から選択してください...",
-      "send": "送信",
-      "loginPrompt": "ログインして1日3回の無料リーディングを取得",
-      "errors": {
-        "pleaseLogin": "ログインして1日3回の無料リーディングを取得してください",
-        "checkUsageError": "リーディング回数の確認に失敗しました",
-        "noRemainingReadings": "今日のすべてのリーディングを使い切りました。明日また来てください",
-        "recordUsageError": "リーディング使用の記録に失敗しました",
-        "pleaseInputBirthInfo": "まず生年月日情報を入力してください"
-      },
-      "customer": {
-        "input": {
-          "unlimited_usage": "メンバー",
-          "remaining_readings": "残り {count} 回",
-          "add_birth_info": "生年月日情報を追加",
-          "partner_birth_info": "相手の生年月日情報を追加"
-        }
-      },
-      "matching": {
-        "single": "個人分析",
-        "double": "マッチング",
-        "double_title": "マッチング",
-        "description": "2人の生年月日情報を入力して、互いの相性を分析します。この機能はプレミアムユーザー専用です。"
-      },
-      "categories": {
-        "all": "すべて",
-        "personality": "性格",
-        "career": "キャリア",
-        "love": "恋愛",
-        "health": "健康",
-        "fortune": "運勢"
-      },
-      "questions": {
-        "personality1": "私の性格の特徴と潜在能力は何ですか？私の強みと弱みは何ですか？",
-        "personality2": "どのような仕事や職業が私に最も適していますか？",
-        "personality3": "人間関係における私のパターンは何ですか？",
-
-        "career1": "今後5年間で私のキャリアはどのように発展しますか？どのような機会と課題がありますか？",
-        "career2": "2025年の私のキャリア運勢はどうですか？重要な決断をするのに適していますか？",
-        "career3": "私のキャリアの障壁は何で、どのように突破できますか？",
-
-        "love1": "私の恋愛運はどうですか？いつ運命のパートナーに出会いますか？",
-        "love2": "現在の関係は発展に適していますか？",
-        "love3": "恋愛運を改善するにはどうすればよいですか？",
-
-        "health1": "どのような健康問題に注意すべきですか？",
-        "health2": "ライフスタイルの変更でどのように健康を改善できますか？",
-        "health3": "どのような潜在的な健康リスクを予防すべきですか？",
-
-        "fortune1": "最近の全体的な運勢はどうですか？",
-        "fortune2": "私の運勢のピーク時はいつですか？",
-        "fortune3": "不運を避け、機会を捉えるにはどうすればよいですか？"
-      }
-    }
-  },
   "testimonial": {
     "name": "testimonial",
     "label": "お客様の声",
@@ -493,5 +434,52 @@
         "variant": "outline"
       }
     ]
+  },
+  "questionSuggestions": {
+    "categories": {
+      "all": "すべて"
+    },
+    "questions": {
+      "career1": {
+        "text": "今後5年間で私のキャリアはどのように発展しますか？どのような重要な機会と課題が待ち受けていますか？",
+        "reading_type": "single",
+        "category": "career"
+      },
+      "love1": {
+        "text": "私たちの生年月日時から見る相性はどうですか？カップルとしての私たちの隠れた強みと潜在的な衡突は何ですか？",
+        "reading_type": "double",
+        "category": "love"
+      },
+      "wealth1": {
+        "text": "私の生年月日時は私の財産の可能性について何を示していますか？私は財を引き寄せる運命を持っていますか、それともそのために努力する必要がありますか？",
+        "reading_type": "single",
+        "category": "life"
+      },
+      "destiny1": {
+        "text": "私の運命における主要な人生の転機点はいつですか？これからの変化にどのように備えるべきですか？",
+        "reading_type": "single",
+        "category": "life"
+      },
+      "love2": {
+        "text": "私たちの関係を次のレベルに進めるべきですか？私たちの生年月日時はタイミングと長期的な調和について何を示していますか？",
+        "reading_type": "double",
+        "category": "love"
+      },
+      "wealth2": {
+        "text": "今後数年間で、どの期間が財務改善や投資に最も適していますか？",
+        "reading_type": "single",
+        "category": "life"
+      },
+      "love3": {
+        "text": "意味のあるロマンティックなパートナーに出会う可能性が最も高いのはいつですか？どのような兆しとタイミングを探すべきですか？",
+        "reading_type": "single",
+        "category": "love"
+      },
+      "career2": {
+        "text": "2025年は転職やキャリアのブレイクスルーに適していますか？どの月が最適なタイミングを提供しますか？",
+        "reading_type": "single",
+        "category": "career"
+      }
+    }
   }
 }

@@ -441,8 +441,51 @@
       }
     ]
   },
-  "solveAllQuestions": {
-    "title": "Solve All Questions",
-    "description": "Use the high-end fortune-telling AI to answer all your questions"
+  "questionSuggestions": {
+    "categories": {
+      "all": "All"
+    },
+    "questions": {
+      "career1": {
+        "text": "How will my career develop in the next 5 years? What key opportunities and challenges await?",
+        "reading_type": "single",
+        "category": "career"
+      },
+      "love1": {
+        "text": "How compatible are we according to our birth charts? What are our hidden strengths and potential conflicts as a couple?",
+        "reading_type": "double",
+        "category": "love"
+      },
+      "wealth1": {
+        "text": "What does my birth chart reveal about my wealth potential? Do I have the destiny to attract wealth or need to work hard for it?",
+        "reading_type": "single",
+        "category": "life"
+      },
+      "destiny1": {
+        "text": "When are the major life turning points in my destiny? How should I prepare for the changes ahead?",
+        "reading_type": "single",
+        "category": "life"
+      },
+      "love2": {
+        "text": "Should we take our relationship to the next level? What do our charts reveal about timing and long-term harmony?",
+        "reading_type": "double",
+        "category": "love"
+      },
+      "wealth2": {
+        "text": "Which periods in the coming years are most favorable for improving my finances or making investments?",
+        "reading_type": "single",
+        "category": "life"
+      },
+      "love3": {
+        "text": "When am I most likely to meet a meaningful romantic partner? What signs and timing should I look for?",
+        "reading_type": "single",
+        "category": "love"
+      },
+      "career2": {
+        "text": "Is 2025 a favorable year for job change or professional breakthroughs? Which months offer the best timing?",
+        "reading_type": "single",
+        "category": "career"
+      }
+    }
   }
 }
