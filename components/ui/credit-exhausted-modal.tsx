@@ -6,6 +6,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { UserIcon, HeartHandshakeIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { sendGAEvent } from "@next/third-parties/google";
 import { cn } from "@/lib/utils";
 
 interface CreditExhaustedModalProps {
@@ -23,11 +24,14 @@ export function CreditExhaustedModal({
   const [dualChecked, setDualChecked] = useState(false);
 
   const handlePricingClick = () => {
+    sendGAEvent("event", "modal_pricing_btn", { value: "1" });
+
     router.push("/#pricing");
     onOpenChange(false);
   };
 
   const handleShareClick = () => {
+    sendGAEvent("event", "modal_share_btn", { value: "1" });
     router.push("/my-invites");
     onOpenChange(false);
   };
