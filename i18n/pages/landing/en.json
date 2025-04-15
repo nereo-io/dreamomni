@@ -45,23 +45,6 @@
           ]
         },
         {
-          "title": "Chinese Zodiac",
-          "url": "/chinese-zodiac-element-reading",
-          "icon": "RiAncientGateLine",
-          "children": [
-            {
-              "title": "Zodiac & Elements Analysis",
-              "url": "/chinese-zodiac-element-reading",
-              "icon": "RiAncientGateLine"
-            },
-            {
-              "title": "2025 Chinese Horoscope",
-              "url": "/chinese-zodiac-calculator",
-              "icon": "RiCalendarEventLine"
-            }
-          ]
-        },
-        {
           "title": "Pricing",
           "url": "/pricing",
           "icon": "RiMoneyDollarCircleLine"
@@ -70,15 +53,18 @@
           "title": "Blog",
           "url": "/blog",
           "icon": "RiBookOpenLine"
-        },
-        {
-          "title": "FeedBack",
-          "url": "/feedback",
-          "icon": "RiFeedbackLine"
         }
       ]
     },
-    "buttons": [],
+    "buttons": [
+      {
+        "title": "🎁 Share",
+        "url": "/my-invites",
+        "target": "_blank",
+        "variant": "link",
+        "icon": "RiArrowRightUpLine"
+      }
+    ],
     "show_sign": true,
     "show_theme": true,
     "show_locale": true

@@ -8,6 +8,7 @@ import {
 
 import Footer from "./footer";
 import Header from "./header";
+import Buttons from "./button";
 import Nav from "./nav";
 import { Sidebar as SidebarType } from "@/types/blocks/sidebar";
 import User from "./user";
@@ -29,7 +30,9 @@ export default function ({ sidebar }: { sidebar: SidebarType }) {
         {sidebar?.nav && <Nav nav={sidebar.nav} />}
         {sidebar?.library && sidebar.library}
       </SidebarContent>
+
       <SidebarFooter>
+        {sidebar?.buttons && <Buttons buttons={sidebar.buttons} />}
         <User />
         {sidebar?.social && <Footer social={sidebar.social} />}
       </SidebarFooter>

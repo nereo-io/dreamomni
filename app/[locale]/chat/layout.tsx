@@ -44,6 +44,15 @@ export default async function AdminLayout({
         messages={messages}
       />
     ),
+    buttons: [
+      {
+        title: "🎁 Share",
+        url: "/my-invites",
+        target: "_blank",
+        icon: "RiArrowRightUpLine",
+        variant: "link",
+      },
+    ],
     social: {
       items: [
         {

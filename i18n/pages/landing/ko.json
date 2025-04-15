@@ -45,23 +45,6 @@
           ]
         },
         {
-          "title": "중국 띠",
-          "url": "/chinese-zodiac-element-reading",
-          "icon": "RiAncientGateLine",
-          "children": [
-            {
-              "title": "띠와 오행 분석",
-              "url": "/chinese-zodiac-element-reading",
-              "icon": "RiAncientGateLine"
-            },
-            {
-              "title": "2025 중국 운세",
-              "url": "/chinese-zodiac-calculator",
-              "icon": "RiCalendarEventLine"
-            }
-          ]
-        },
-        {
           "title": "요금제",
           "url": "/pricing",
           "icon": "RiMoneyDollarCircleLine"
@@ -70,15 +53,18 @@
           "title": "블로그",
           "url": "/blog",
           "icon": "RiBookOpenLine"
-        },
-        {
-          "title": "피드백",
-          "url": "/feedback",
-          "icon": "RiFeedbackLine"
         }
       ]
     },
-    "buttons": [],
+    "buttons": [
+      {
+        "title": "🎁 공유",
+        "url": "/my-invites",
+        "target": "_blank",
+        "variant": "link",
+        "icon": "RiArrowRightUpLine"
+      }
+    ],
     "show_sign": true,
     "show_theme": true,
     "show_locale": true

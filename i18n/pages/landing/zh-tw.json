@@ -45,23 +45,6 @@
           ]
         },
         {
-          "title": "生肖",
-          "url": "/chinese-zodiac-element-reading",
-          "icon": "RiAncientGateLine",
-          "children": [
-            {
-              "title": "生肖與五行分析",
-              "url": "/chinese-zodiac-element-reading",
-              "icon": "RiAncientGateLine"
-            },
-            {
-              "title": "2025生肖運勢",
-              "url": "/chinese-zodiac-calculator",
-              "icon": "RiCalendarEventLine"
-            }
-          ]
-        },
-        {
           "title": "價格",
           "url": "/pricing",
           "icon": "RiMoneyDollarCircleLine"
@@ -70,15 +53,18 @@
           "title": "博客",
           "url": "/blog",
           "icon": "RiBookOpenLine"
-        },
-        {
-          "title": "反饋",
-          "url": "/feedback",
-          "icon": "RiFeedbackLine"
         }
       ]
     },
-    "buttons": [],
+    "buttons": [
+      {
+        "title": "🎁 分享",
+        "url": "/my-invites",
+        "target": "_blank",
+        "variant": "link",
+        "icon": "RiArrowRightUpLine"
+      }
+    ],
     "show_sign": true,
     "show_theme": true,
     "show_locale": true

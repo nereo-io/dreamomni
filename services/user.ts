@@ -1,5 +1,11 @@
 import { CreditsAmount, CreditsTransType } from "./credit";
-import { findUserByEmail, findUserByUuid, insertUser } from "@/models/user";
+import {
+  findUserByEmail,
+  findUserByUuid,
+  insertUser,
+  updateUserInviteCode,
+} from "@/models/user";
+import { generateInviteCode } from "@/lib/random";
 
 import { User } from "@/types/user";
 import { auth } from "@/auth";
@@ -14,7 +20,14 @@ export async function saveUser(user: User) {
     if (!existUser) {
       await insertUser(user);
 
-      // increase credits for new user, expire in one month
+      // 生成并保存邀请码
+      const inviteCode = generateInviteCode();
+      if (user.uuid) {
+        await updateUserInviteCode(user.uuid, inviteCode);
+        user.invite_code = inviteCode;
+      }
+
+      // 新用户赠送积分，1个月后过期
       await increaseCredits({
         user_uuid: user.uuid || "",
         trans_type: CreditsTransType.NewUser,
@@ -84,7 +97,15 @@ export async function getUserInfo() {
     return;
   }
 
-  const user = await findUserByUuid(user_uuid);
+  let user = await findUserByUuid(user_uuid);
+
+  // 如果没有邀请码，自动生成并保存
+  if (user && !user.invite_code) {
+    const inviteCode = generateInviteCode();
+    await updateUserInviteCode(user_uuid, inviteCode);
+    // 更新user对象
+    user = { ...user, invite_code: inviteCode };
+  }
 
   return user;
 }

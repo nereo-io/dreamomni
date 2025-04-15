@@ -45,23 +45,6 @@
           ]
         },
         {
-          "title": "干支と五行",
-          "url": "/chinese-zodiac-element-reading",
-          "icon": "RiAncientGateLine",
-          "children": [
-            {
-              "title": "干支と五行分析",
-              "url": "/chinese-zodiac-element-reading",
-              "icon": "RiAncientGateLine"
-            },
-            {
-              "title": "2025年干支運勢",
-              "url": "/chinese-zodiac-calculator",
-              "icon": "RiCalendarEventLine"
-            }
-          ]
-        },
-        {
           "title": "料金",
           "url": "/pricing",
           "icon": "RiMoneyDollarCircleLine"
@@ -70,15 +53,18 @@
           "title": "ブログ",
           "url": "/blog",
           "icon": "RiBookOpenLine"
-        },
-        {
-          "title": "フィードバック",
-          "url": "/feedback",
-          "icon": "RiFeedbackLine"
         }
       ]
     },
-    "buttons": [],
+    "buttons": [
+      {
+        "title": "🎁 共有",
+        "url": "/my-invites",
+        "target": "_blank",
+        "variant": "link",
+        "icon": "RiArrowRightUpLine"
+      }
+    ],
     "show_sign": true,
     "show_theme": true,
     "show_locale": true

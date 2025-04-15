@@ -164,7 +164,7 @@ export default function Invite({ summary }: { summary: any }) {
             <textarea
               className="w-full p-3 bg-gray-50 dark:bg-background text-sm resize-none focus:outline-none focus:ring-1 focus:ring-primary"
               rows={6}
-              value={`${template3Value}\n${process.env.NEXT_PUBLIC_WEB_URL}/i/${user?.invite_code}`}
+              value={`${template2Value}\n${process.env.NEXT_PUBLIC_WEB_URL}/i/${user?.invite_code}`}
               onChange={(e) => setTemplate2Value(e.target.value)}
             />
           </div>
