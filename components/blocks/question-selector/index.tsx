@@ -156,6 +156,7 @@ export default function QuestionSelector({
         readingType: question.reading_type,
         // category: question.category,
         category: id.replace(/\d+$/, ""),
+        tag: question.tag, // 添加tag字段
       }))
     : [];
 
@@ -443,9 +444,18 @@ export default function QuestionSelector({
                       onClick={() => handleQuestionClick(q.text, q.readingType)}
                     >
                       <div className="flex items-start gap-2">
-                        <p className="flex-1 text-sm md:text-base group-hover:text-orange-600">
-                          {q.text}
-                        </p>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-1.5">
+                            <p className="text-sm md:text-base group-hover:text-orange-600">
+                              {q.tag === "new" && (
+                                <Badge className="bg-orange-500 hover:bg-orange-600 mx-1 flex-shrink-0">
+                                  New
+                                </Badge>
+                              )}
+                              {q.text}
+                            </p>
+                          </div>
+                        </div>
                         {q.readingType === "double" ? (
                           <HeartHandshakeIcon className="w-4 h-4 text-rose-500 flex-shrink-0 mt-1 transition-all duration-200 group-hover:scale-110" />
                         ) : (

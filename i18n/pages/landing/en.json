@@ -432,6 +432,18 @@
       "all": "All"
     },
     "questions": {
+      "home1": {
+        "text": "Help me analyze my life in detail, including: 1) The trajectory of my life, turning points, and life strategies 2) My personality strengths and weaknesses 3) My Bazi structure and favorable elements 4) Methods to enhance my fortune. I am a beginner, so please use simple and easy-to-understand language, but also include profound insights.",
+        "reading_type": "single",
+        "category": "home",
+        "tag": "new"
+      },
+      "home2": {
+        "text": "Can you summarize the keyword of my destiny in one sentence?",
+        "reading_type": "single",
+        "category": "home",
+        "tag": "new"
+      },
       "career1": {
         "text": "How will my career develop in the next 5 years? What key opportunities and challenges await?",
         "reading_type": "single",

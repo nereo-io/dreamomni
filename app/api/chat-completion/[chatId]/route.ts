@@ -118,7 +118,8 @@ export async function POST(
       //console.log("systemPrompt: ", systemPrompt);
 
       return streamText({
-        model: deepseekARK("ep-20250205155325-bsdb5"), //r1
+        model: deepseek("deepseek-reasoner"),
+        // model: deepseekARK("ep-20250205155325-bsdb5"), //r1
         // model: deepseekARK("ep-20250208110123-np259"), // deepseek-qwen-32B
         // model: deepseekARK("ep-20250228181734-xc4qb"), // doubao-lite
         // model: deepseekALI('deepseek-r1'),

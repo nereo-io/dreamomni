@@ -490,6 +490,18 @@
       "all": "全部"
     },
     "questions": {
+      "home1": {
+        "text": "帮助我详细分析一下我这一生，需要包含1）我的一生命运走势，转折点以及人生策略 2）我的性格优缺点 3）我的八字格局以及喜用神 4）增强运势的方法。我是小白，请使用轻松易懂的语言告诉我，但同时这其中需要包含深刻道理",
+        "reading_type": "single",
+        "category": "home",
+        "tag": "new"
+      },
+      "home2": {
+        "text": "能一句话总结我的命运关键词吗？",
+        "reading_type": "single",
+        "category": "home",
+        "tag": "new"
+      },
       "career1": {
         "text": "未来5年我的职业将如何发展？有哪些关键机遇和挑战？",
         "reading_type": "single",
