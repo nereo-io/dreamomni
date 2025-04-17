@@ -8,7 +8,7 @@ import {
 
 export const NavCategory = () => {
   return (
-    <div className="relative mt-6 mb-12 max-w-3xl mx-auto overflow-hidden">
+    <div className="relative mt-6 mb-6 max-w-3xl mx-auto overflow-hidden">
       <div className="flex overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
         <div className="flex justify-between px-4 min-w-full">
           {getAllCategoriesMetadata().map((category: CategoryMetadata) => {

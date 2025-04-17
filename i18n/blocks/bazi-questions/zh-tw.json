@@ -1,0 +1,17 @@
+{
+  "title": "八字常見問題",
+  "description": "我們收集了用戶最常問的八字相關問題，點擊問題即可複製並開始諮詢",
+  "copyHint": "點擊複製",
+  "copiedToast": "問題已複製到剪貼板",
+  "categories": {
+    "all": "全部",
+    "rednote": "小紅書熱門",
+    "career": "事業財運",
+    "relationship": "婚姻感情",
+    "health": "健康平安",
+    "education": "學業考試",
+    "family": "家庭關係",
+    "personality": "性格特點",
+    "yearly": "流年運勢"
+  }
+}

@@ -11,6 +11,7 @@ import Showcase from "@/components/blocks/showcase";
 import Stats from "@/components/blocks/stats";
 import Testimonial from "@/components/blocks/testimonial";
 import QuestionSelector from "@/components/blocks/question-selector";
+import BaziQuestions from "@/components/blocks/bazi-questions";
 import SurveyBanner from "@/components/blocks/survey-banner";
 import {
   OrganizationSchema,
@@ -24,7 +25,9 @@ import {
   getReaderPage,
   getPricingBlock,
   getQuestionSelectorBlock,
+  getBaziQuestionsMessages,
 } from "@/services/page";
+import { getBaziQuestions } from "@/models/baziQuestions";
 import { NavCategory } from "@/components/blocks/nav-category";
 import { getSuggestedQuestions } from "@/services/questionSug";
 
@@ -55,6 +58,8 @@ export default async function LandingPage({
   const readerPage = await getReaderPage(locale);
   const pricing = await getPricingBlock(locale);
   const questionSelector = await getQuestionSelectorBlock(locale);
+  const baziQuestions = await getBaziQuestions(locale);
+  const baziQuestionsMessages = await getBaziQuestionsMessages(locale);
   // const questionSuggestions = await getSuggestedQuestions(locale);
   // console.log(questionSuggestions);
 
@@ -135,9 +140,12 @@ export default async function LandingPage({
         questionSuggestions={page.questionSuggestions}
       />
       <NavCategory />
-
+      <BaziQuestions
+        baziQuestions={baziQuestions}
+        messages={baziQuestionsMessages}
+      />
       {page.branding && <Branding section={page.branding} />}
-      {page.introduce && <Feature1 section={page.introduce} />}
+      {/* {page.introduce && <Feature1 section={page.introduce} />} */}
       {page.feature && <Feature section={page.feature} />}
       {/* {page.showcase && <Showcase section={page.showcase} />} */}
       {page.benefit && <Feature2 section={page.benefit} />}

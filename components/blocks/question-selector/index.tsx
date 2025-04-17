@@ -446,14 +446,14 @@ export default function QuestionSelector({
                       <div className="flex items-start gap-2">
                         <div className="flex-1">
                           <div className="flex items-center gap-1.5">
-                            <p className="text-sm md:text-base group-hover:text-orange-600">
+                            <span className="text-sm md:text-base group-hover:text-orange-600">
                               {q.tag === "new" && (
                                 <Badge className="bg-orange-500 hover:bg-orange-600 mx-1 flex-shrink-0">
                                   New
                                 </Badge>
                               )}
                               {q.text}
-                            </p>
+                            </span>
                           </div>
                         </div>
                         {q.readingType === "double" ? (

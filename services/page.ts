@@ -7,6 +7,7 @@ import { ChineseZodiacElements } from "@/types/pages/chinese-zodiac-elements";
 import { Pricing } from "@/types/blocks/pricing";
 import { QuestionSelector } from "@/types/blocks/question-selector";
 import { PersonalityTestPage } from "@/types/pages/personality-test";
+import { BaziQuestionsMessages } from "@/types/blocks/bazi-questions";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -189,6 +190,24 @@ export async function getFeedbackFormBlock(locale: string) {
       `Failed to load feedback-form/${locale}.json, falling back to en.json`
     );
     return await import("@/i18n/blocks/feedback-form/en.json").then(
+      (module) => module.default
+    );
+  }
+}
+
+export async function getBaziQuestionsMessages(locale: string): Promise<BaziQuestionsMessages> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/blocks/bazi-questions/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load bazi-questions/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/blocks/bazi-questions/en.json").then(
       (module) => module.default
     );
   }

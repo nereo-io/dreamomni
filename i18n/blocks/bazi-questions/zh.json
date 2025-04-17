@@ -1,0 +1,17 @@
+{
+  "title": "八字常见问题",
+  "description": "我们收集了用户最常问的八字相关问题，点击问题即可复制并开始咨询",
+  "copyHint": "点击复制",
+  "copiedToast": "问题已复制到剪贴板",
+  "categories": {
+    "all": "全部",
+    "rednote": "小红书热门",
+    "career": "事业财运",
+    "relationship": "婚姻感情",
+    "health": "健康平安",
+    "education": "学业考试",
+    "family": "家庭关系",
+    "personality": "性格特点",
+    "yearly": "流年运势"
+  }
+}
