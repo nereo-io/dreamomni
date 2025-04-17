@@ -46,19 +46,19 @@ export default function BaziQuestions({ baziQuestions, messages }: Props) {
       .then(() => {
         // 显示成功提示
         toast.success(messages.copiedToast);
-        
+
         // 记录复制行为到数据库（通过API）
-        fetch('/api/bazi-questions/copy', {
-          method: 'POST',
+        fetch("/api/bazi-questions/copy", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             questionId: question.id,
-            deviceInfo: navigator.userAgent
+            deviceInfo: navigator.userAgent,
           }),
-        }).catch(error => {
-          console.error('记录复制行为失败:', error);
+        }).catch((error) => {
+          console.error("记录复制行为失败:", error);
           // 不影响用户体验，失败时只记录日志
         });
       })
@@ -69,7 +69,7 @@ export default function BaziQuestions({ baziQuestions, messages }: Props) {
   };
 
   return (
-    <div className="container mx-auto py-6 px-4">
+    <div id="bazi-questions" className="container mx-auto py-6 px-4">
       {/* 标题部分 */}
       <div className="text-center mb-8">
         <h2 className="text-xl lg:text-3xl font-bold mb-2 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">

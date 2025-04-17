@@ -74,9 +74,9 @@
     "highlight_text": "八字AI",
     "description": "传统智慧与现代AI的完美结合，解码人生密码",
     "announcement": {
-      "title": "✨DeepSeek R1 全新上线✨",
-      "description": "体验传统八字分析与DeepSeek R1尖端AI技术的革命性结合",
-      "label": "公告"
+      "title": "🌟 热门问题功能上线 🌟",
+      "label": "公告",
+      "url": "/#bazi-questions"
     },
     "show_happy_users": false,
     "show_badge": false

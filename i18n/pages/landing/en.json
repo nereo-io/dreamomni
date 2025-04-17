@@ -73,9 +73,9 @@
     "title": "Free Bazi AI Reading Tool",
     "highlight_text": "Bazi AI",
     "announcement": {
-      "title": "✨DeepSeek R1 Now Available✨",
-      "description": "Experience the revolutionary combination of traditional Bazi calculator and DeepSeek R1's advanced AI reading capabilities",
-      "label": "Announcement"
+      "title": "🌟 Popular Questions Now Live🌟",
+      "label": "Announcement",
+      "url": "/#bazi-questions"
     },
     "description": "Your Destiny, Deciphered by AI with Chinese Astrology",
     "show_happy_users": false,

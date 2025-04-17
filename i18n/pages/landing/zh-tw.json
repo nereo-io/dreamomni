@@ -73,9 +73,9 @@
     "title": "免費八字AI解讀工具",
     "highlight_text": "八字AI",
     "announcement": {
-      "title": "✨DeepSeek R1 現已推出✨",
-      "description": "體驗傳統八字計算器與DeepSeek R1先進AI解讀能力的革命性結合",
-      "label": "公告"
+      "title": "🌟 熱門問題功能上線 🌟",
+      "label": "公告",
+      "url": "/#bazi-questions"
     },
     "description": "古老智慧，現代AI - 解碼您的人生！",
     "show_happy_users": false,
