@@ -178,6 +178,7 @@ export default function ChatInterface({
       customer_info: contextChat?.customer_info,
       partner_info: contextChat?.partner_info,
       is_matching: contextChat?.is_matching,
+      is_iching: contextChat?.is_iching,
     },
     generateId: uuidv4,
     onError: (error) => {

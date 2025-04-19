@@ -39,6 +39,7 @@ export async function POST(
       session_id,
       is_matching,
       partner_info,
+      is_iching,
     } = (await req.json()) as ChatRequest;
     const chatId = params.chatId;
     // console.log("chatId: ", chatId);

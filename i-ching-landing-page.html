@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Ching AI | Ancient Wisdom Meets Modern AI</title>
+    <style>
+        :root {
+            --primary: #8A2BE2;
+            --secondary: #FFD700;
+            --dark: #333;
+            --light: #f8f8f8;
+            --accent: #FF6B6B;
+            --text: #333;
+            --bg: #fff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--text);
+            background-color: var(--bg);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: var(--bg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            margin-left: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .cta-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        .cta-button:hover {
+            background-color: #7B24CC;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+            padding: 80px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="33" height="10" fill="%23FFD70022"/><rect x="0" y="20" width="33" height="10" fill="%23FFD70022"/><rect x="0" y="40" width="33" height="10" fill="%23FFD70022"/><rect x="0" y="60" width="33" height="10" fill="%23FFD70022"/><rect x="0" y="80" width="33" height="10" fill="%23FFD70022"/><rect x="67" y="0" width="33" height="10" fill="%238A2BE222"/><rect x="67" y="20" width="33" height="10" fill="%238A2BE222"/><rect x="67" y="40" width="33" height="10" fill="%238A2BE222"/><rect x="67" y="60" width="33" height="10" fill="%238A2BE222"/><rect x="67" y="80" width="33" height="10" fill="%238A2BE222"/></svg>');
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--dark);
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #555;
+        }
+        
+        /* Hero Reading Card Styles */
+        .hero-reading-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 650px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        /* Process Steps Indicators */
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background-color: #eee;
+            z-index: 1;
+        }
+        
+        .process-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            width: 33.333%;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #eee;
+            color: #777;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+        }
+        
+        .process-step.active .step-number,
+        .process-step.completed .step-number {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .process-step.completed .step-number::after {
+            content: '✓';
+        }
+        
+        .step-text {
+            font-size: 14px;
+            color: #777;
+            transition: color 0.3s;
+        }
+        
+        .process-step.active .step-text {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .hero-form-control {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            margin-bottom: 15px;
+        }
+        
+        .hero-form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.1);
+        }
+        
+        textarea.hero-form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .select-wrapper {
+            position: relative;
+        }
+        
+        .select-wrapper::after {
+            content: '▼';
+            font-size: 12px;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+            pointer-events: none;
+        }
+        
+        .hero-action-button {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            border: none;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .hero-action-button:hover {
+            background-color: #7B24CC;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3);
+        }
+        
+        .quick-examples {
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+        }
+        
+        .quick-examples a {
+            color: var(--primary);
+            text-decoration: none;
+            margin: 0 5px;
+            transition: color 0.2s;
+        }
+        
+        .quick-examples a:hover {
+            color: #7B24CC;
+            text-decoration: underline;
+        }
+        
+        /* How It Works Section */
+        .how-it-works {
+            padding: 100px 0;
+            background-color: var(--light);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 36px;
+            color: var(--dark);
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 250px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .step:hover {
+            transform: translateY(-10px);
+        }
+        
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
+        .step h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        /* Hexagram Demo Section */
+        .hexagram-demo {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .demo-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--light);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        
+        .hexagram-symbol {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+        
+        .hexagram-title {
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .hexagram-subtitle {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .hexagram-reading {
+            font-size: 20px;
+            line-height: 1.7;
+            color: var(--dark);
+            font-style: italic;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: rgba(255,255,255,0.7);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .action-button {
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .chat-button {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .share-button {
+            background-color: var(--light);
+            color: var(--dark);
+            border: 1px solid #ddd;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* FAQ Section */
+        .faq {
+            padding: 100px 0;
+            background-color: var(--light);
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--dark);
+            font-size: 36px;
+        }
+        
+        .faq h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        
+        .faq p {
+            margin-bottom: 30px;
+            color: #555;
+            font-size: 18px;
+        }
+        
+        .faq ul {
+            margin-bottom: 30px;
+            padding-left: 20px;
+        }
+        
+        .faq li {
+            margin-bottom: 10px;
+            color: #555;
+            font-size: 18px;
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, #6A11CB 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .cta p {
+            font-size: 20px;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+        }
+        
+        .cta .cta-button {
+            background-color: var(--secondary);
+            color: var(--dark);
+            font-size: 18px;
+            padding: 15px 30px;
+        }
+        
+        .cta .cta-button:hover {
+            background-color: #FFE066;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+        }
+        
+        .social-proof {
+            margin-top: 50px;
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .testimonials {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .testimonial {
+            background-color: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 300px;
+            text-align: left;
+        }
+        
+        .testimonial p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .testimonial-author {
+            font-style: italic;
+            font-size: 14px;
+        }
+        
+        /* Reading Form Styles */
+        .reading-form {
+            padding: 100px 0;
+            background-color: var(--light);
+        }
+        
+        .reading-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        
+        .reading-step {
+            display: none;
+        }
+        
+        .reading-step.active {
+            display: block;
+        }
+        
+        .step-title {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        /* Question Form Styles */
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.1);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .character-count {
+            text-align: right;
+            font-size: 14px;
+            color: #777;
+            margin-top: 5px;
+        }
+        
+        .example-questions {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: rgba(138, 43, 226, 0.05);
+            border-radius: 8px;
+        }
+        
+        .example-questions p {
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .example-questions ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .example-questions li {
+            margin-bottom: 8px;
+        }
+        
+        .example-link {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .example-link:hover {
+            color: #7B24CC;
+            text-decoration: underline;
+        }
+        
+        /* Casting Intro */
+        .casting-intro {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: rgba(138, 43, 226, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .casting-intro p {
+            font-size: 18px;
+            color: var(--dark);
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .casting-area {
+            margin-top: 30px;
+        }
+        
+        .casting-area.hidden {
+            display: none;
+        }
+        
+        /* Coin Toss Animation */
+        .coin-toss-animation {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .coins-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .coin {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFD700 0%, #FFC107 100%);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            position: relative;
+        }
+        
+        .coin::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #FFE066;
+            z-index: 1;
+        }
+        
+        .coin::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #FFC107;
+            z-index: 2;
+        }
+        
+        .line-building {
+            margin-top: 20px;
+        }
+        
+        .line-progress {
+            margin-bottom: 15px;
+        }
+        
+        .line-label {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-bar .progress {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .current-line {
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin: 0 auto;
+            max-width: 200px;
+        }
+        
+        /* Hexagram Building */
+        .hexagram-building {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .hexagram-lines {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 10px;
+            width: 100px;
+        }
+        
+        .hexagram-line {
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .line-placeholder {
+            height: 4px;
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 2px;
+        }
+        
+
+        
+        /* Hexagram Result */
+        .hexagram-result {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .hexagram-result.hidden {
+            display: none;
+        }
+        
+        .result-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .result-hexagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .result-hexagram-image {
+            width: 80px;
+        }
+        
+        .result-hexagram-info {
+            text-align: left;
+        }
+        
+        .result-hexagram-name {
+            font-size: 22px;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .result-hexagram-trigrams {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .result-description {
+            margin-bottom: 30px;
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--dark);
+            padding: 20px;
+            background-color: rgba(255,255,255,0.7);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+            text-align: left;
+        }
+        
+        /* Navigation Buttons */
+        .next-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        .next-button:hover {
+            background-color: #7B24CC;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3);
+        }
+        
+        .back-button {
+            background-color: transparent;
+            color: var(--dark);
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .back-button:hover {
+            background-color: #f5f5f5;
+            border-color: #ccc;
+        }
+        
+        .step-navigation {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .copyright {
+            opacity: 0.7;
+            font-size: 14px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .steps {
+                flex-direction: column;
+            }
+            
+            .step {
+                margin-bottom: 20px;
+            }
+            
+            .demo-card {
+                padding: 20px;
+            }
+            
+            .hexagram-title {
+                font-size: 24px;
+            }
+            
+            .hexagram-reading {
+                font-size: 18px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .section-title {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="10" y="10" width="80" height="10" fill="#8A2BE2"/>
+                        <rect x="10" y="30" width="80" height="10" fill="#8A2BE2"/>
+                        <rect x="10" y="50" width="80" height="10" fill="#8A2BE2"/>
+                        <rect x="10" y="70" width="30" height="10" fill="#8A2BE2"/>
+                        <rect x="60" y="70" width="30" height="10" fill="#8A2BE2"/>
+                    </svg>
+                    <span>I Ching AI</span>
+                </a>
+                <div class="nav-links">
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="#hexagram">Hexagrams</a>
+                    <a href="#faq">FAQ</a>
+                </div>
+                <a href="#start" class="cta-button">Try Free Reading</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="start">
+        <div class="container hero-content">
+            <h1>I Ching AI: Ancient Wisdom Meets Modern AI</h1>
+            <p>Ask a question, cast your hexagram, and receive personalized, AI-powered interpretations based on the timeless I Ching system.</p>
+            
+            <!-- Embedded Question Input Form -->
+            <div class="hero-reading-card">
+                <!-- Step Indicators -->
+                <div class="process-steps">
+                    <div class="process-step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-text">Ask</div>
+                    </div>
+                    <div class="process-step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-text">Cast</div>
+                    </div>
+                    <div class="process-step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-text">Interpret</div>
+                    </div>
+                </div>
+                
+                <!-- Step 1: Question Form -->
+                <div class="reading-step active" id="hero-question-step">
+                    <div class="question-form">
+                        <div class="form-group select-wrapper">
+                            <select id="hero-question-type" class="hero-form-control">
+                                <option value="love">Love & Relationships</option>
+                                <option value="career">Career & Work</option>
+                                <option value="health">Health & Wellbeing</option>
+                                <option value="wealth">Wealth & Finance</option>
+                                <option value="decision">Decision Making</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="hero-question-input" class="hero-form-control" placeholder="What would you like to ask the I Ching today?" maxlength="150"></textarea>
+                            <div class="character-count"><span id="hero-char-count">0</span>/150</div>
+                        </div>
+                        <button class="hero-action-button" id="to-hero-casting-btn">🔮 Continue to Cast Hexagram</button>
+                        
+                        <div class="quick-examples">
+                            <span>Examples:</span>
+                            <a href="#" class="hero-example-link" data-question="Should I pursue a new relationship?">Relationship</a> • 
+                            <a href="#" class="hero-example-link" data-question="What about my career path?">Career</a> • 
+                            <a href="#" class="hero-example-link" data-question="How to approach my decision?">Decision</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Hexagram Casting -->
+                <div class="reading-step" id="hero-hexagram-step">
+                    <div class="casting-intro">
+                        <p>We'll use the traditional coin toss method to cast your hexagram, simulating the ancient I Ching divination process.</p>
+                    </div>
+                    
+                    <!-- AI Automatic Casting -->
+                    <div class="casting-area" id="hero-auto-casting">
+                        <div class="coin-toss-animation">
+                            <div class="coins-container">
+                                <div class="coin" id="hero-coin1"></div>
+                                <div class="coin" id="hero-coin2"></div>
+                                <div class="coin" id="hero-coin3"></div>
+                            </div>
+                            <div class="toss-result">
+                                <div class="line-building">
+                                    <div class="line-progress">
+                                        <div class="line-label">Building line 1 of 6</div>
+                                        <div class="progress-bar">
+                                            <div class="progress"></div>
+                                        </div>
+                                    </div>
+                                    <div class="current-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hexagram-building">
+                            <div class="hexagram-lines">
+                                <div class="hexagram-line" data-line="6"><div class="line-placeholder"></div></div>
+                                <div class="hexagram-line" data-line="5"><div class="line-placeholder"></div></div>
+                                <div class="hexagram-line" data-line="4"><div class="line-placeholder"></div></div>
+                                <div class="hexagram-line" data-line="3"><div class="line-placeholder"></div></div>
+                                <div class="hexagram-line" data-line="2"><div class="line-placeholder"></div></div>
+                                <div class="hexagram-line" data-line="1"><div class="line-placeholder"></div></div>
+                            </div>
+                        </div>
+                        <div class="casting-buttons">
+                            <button class="hero-action-button" id="hero-start-casting">Start Casting</button>
+                            <button class="hero-action-button hidden" id="hero-skip-animation">Skip Animation</button>
+                        </div>
+                    </div>
+                    
+                    <div class="step-navigation">
+                        <button class="back-button" id="back-to-hero-question">Back to Question</button>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Hexagram Result -->
+                <div class="reading-step" id="hero-result-step">
+                    <div class="result-container">
+                        <div class="result-hexagram">
+                            <div class="result-hexagram-image" id="hero-result-image">
+                                <!-- Hexagram SVG will be inserted here -->
+                            </div>
+                            <div class="result-hexagram-info">
+                                <h3 class="result-hexagram-name">Hexagram 13: Fellowship (同人)</h3>
+                                <p class="result-hexagram-trigrams">☰ Heaven above, ☲ Fire below</p>
+                            </div>
+                        </div>
+                        <div class="result-description">
+                            <p>Your hexagram represents fellowship and gathering together. It suggests a time of connection with others who share your vision.</p>
+                        </div>
+                        <button class="hero-action-button" id="hero-view-interpretation">View Full Interpretation</button>
+                    </div>
+                    
+                    <div class="step-navigation">
+                        <button class="back-button" id="back-to-hero-casting">Back to Casting</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Ask Your Question</h3>
+                    <p>Type your question about love, career, health, or any important decision you're facing.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Cast Your Hexagram</h3>
+                    <p>Let AI cast your hexagram through virtual coin toss or input your own custom hexagram.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Get Your Interpretation</h3>
+                    <p>Receive a detailed, conversational interpretation from I Ching AI based on ancient wisdom.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Reflect & Follow Up</h3>
+                    <p>Save your reading, reflect on the guidance, and ask follow-up questions for deeper insights.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- This section is now integrated into the hero section -->
+    <!-- Keeping as a spacer for page rhythm -->
+    <div class="spacer" style="height: 40px;"></div>
+    
+    <section class="hexagram-demo" id="hexagram">
+        <div class="container">
+            <h2 class="section-title">Today's Hexagram Reading</h2>
+            <div class="demo-card">
+                <div class="hexagram-symbol">
+                    <svg width="60" height="90" viewBox="0 0 60 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect y="0" width="60" height="8" fill="#333"/>
+                        <rect y="16" width="60" height="8" fill="#333"/>
+                        <rect y="32" width="60" height="8" fill="#333"/>
+                        <rect y="48" width="60" height="8" fill="#333"/>
+                        <rect y="64" width="60" height="8" fill="#333"/>
+                        <rect y="80" width="60" height="8" fill="#333"/>
+                    </svg>
+                    <div>
+                        <h3 class="hexagram-title">Hexagram 13: Fellowship (同人)</h3>
+                        <p class="hexagram-subtitle">☰ Heaven above, ☲ Fire below</p>
+                    </div>
+                </div>
+                <div class="hexagram-reading">
+                    "You're stepping into a time of connection and shared purpose. Trust and mutual support will guide your way. Be mindful of ego; true leadership is rooted in humility."
+                </div>
+                <div class="action-buttons">
+                    <a href="#" class="action-button chat-button">💬 Chat about this reading</a>
+                    <a href="#" class="action-button share-button">🔗 Share your fortune</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq" id="faq">
+        <div class="container faq-container">
+            <h2>I Ching AI - Frequently Asked Questions</h2>
+
+            <h3>What is I Ching?</h3>
+            <p>The I Ching, or Book of Changes, is an ancient Chinese divination system using 64 hexagrams to provide insight and wisdom for life decisions.</p>
+
+            <h3>What is a hexagram?</h3>
+            <p>A hexagram is a symbol of six stacked lines, each either broken (yin) or solid (yang), representing a dynamic state of change and energy.</p>
+
+            <h3>Can AI really interpret I Ching?</h3>
+            <p>Yes. I Ching AI uses natural language models trained on classic I Ching texts, hexagram symbology, and modern decision analysis.</p>
+
+            <h3>What are the most common hexagrams?</h3>
+            <ul>
+                <li>Hexagram 1: The Creative – Initiative and drive</li>
+                <li>Hexagram 2: The Receptive – Flexibility and support</li>
+                <li>Hexagram 23: Splitting Apart – Letting go of the old</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Try I Ching AI Today</h2>
+            <p>Get 3 free readings. No login required.</p>
+            <a href="#start" class="cta-button">🔮 Start Your Reading</a>
+            
+            <div class="social-proof">
+                <p>2,000+ readings done this week</p>
+                <div class="testimonials">
+                    <div class="testimonial">
+                        <p>"The reading was surprisingly accurate and gave me clarity on a difficult career decision."</p>
+                        <p class="testimonial-author">- Sarah K.</p>
+                    </div>
+                    <div class="testimonial">
+                        <p>"I've been studying I Ching for years, and this AI interpretation captures the essence beautifully."</p>
+                        <p class="testimonial-author">- Michael T.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">Home</a>
+                <a href="#">About</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact</a>
+            </div>
+            <p class="copyright">© 2025 I Ching AI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Character counter for hero question input
+        const heroQuestionInput = document.getElementById('hero-question-input');
+        const heroCharCount = document.getElementById('hero-char-count');
+        
+        if (heroQuestionInput && heroCharCount) {
+            heroQuestionInput.addEventListener('input', function() {
+                heroCharCount.textContent = this.value.length;
+            });
+        }
+        
+        // Example questions for hero section
+        const heroExampleLinks = document.querySelectorAll('.hero-example-link');
+        
+        heroExampleLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const question = this.getAttribute('data-question');
+                if (heroQuestionInput) {
+                    heroQuestionInput.value = question;
+                    heroCharCount.textContent = question.length;
+                }
+            });
+        });
+        
+        // Navigation between steps
+        const toHexagramBtn = document.getElementById('to-hexagram-btn');
+        const heroStartReadingBtn = document.getElementById('hero-start-reading');
+        const backToQuestionBtn = document.getElementById('back-to-question');
+        const toInterpretationBtn = document.getElementById('to-interpretation-btn');
+        const questionStep = document.getElementById('question-step');
+        const hexagramStep = document.getElementById('hexagram-step');
+        const hexagramResult = document.getElementById('hexagram-result');
+        const readingFormSection = document.querySelector('.reading-form');
+        
+        // Navigation for hero section steps
+        const toHeroCastingBtn = document.getElementById('to-hero-casting-btn');
+        const backToHeroQuestionBtn = document.getElementById('back-to-hero-question');
+        const backToHeroCastingBtn = document.getElementById('back-to-hero-casting');
+        const heroViewInterpretationBtn = document.getElementById('hero-view-interpretation');
+        
+        const heroQuestionStep = document.getElementById('hero-question-step');
+        const heroHexagramStep = document.getElementById('hero-hexagram-step');
+        const heroResultStep = document.getElementById('hero-result-step');
+        
+        const processSteps = document.querySelectorAll('.process-step');
+        
+        // Update process steps indicator
+        function updateProcessSteps(currentStep) {
+            processSteps.forEach(step => {
+                const stepNum = parseInt(step.getAttribute('data-step'));
+                step.classList.remove('active', 'completed');
+                
+                if (stepNum === currentStep) {
+                    step.classList.add('active');
+                } else if (stepNum < currentStep) {
+                    step.classList.add('completed');
+                }
+            });
+        }
+        
+        // Navigate from question to casting
+        if (toHeroCastingBtn) {
+            toHeroCastingBtn.addEventListener('click', function() {
+                const heroQuestion = document.getElementById('hero-question-input').value;
+                
+                if (heroQuestion.trim().length > 0) {
+                    heroQuestionStep.classList.remove('active');
+                    heroHexagramStep.classList.add('active');
+                    updateProcessSteps(2);
+                } else {
+                    alert('Please enter your question before casting a hexagram.');
+                }
+            });
+        }
+        
+        // Navigate back to question
+        if (backToHeroQuestionBtn) {
+            backToHeroQuestionBtn.addEventListener('click', function() {
+                heroHexagramStep.classList.remove('active');
+                heroQuestionStep.classList.add('active');
+                updateProcessSteps(1);
+            });
+        }
+        
+        // Navigate back to casting from result
+        if (backToHeroCastingBtn) {
+            backToHeroCastingBtn.addEventListener('click', function() {
+                heroResultStep.classList.remove('active');
+                heroHexagramStep.classList.add('active');
+                updateProcessSteps(2);
+            });
+        }
+        
+        // Navigate to full interpretation
+        if (heroViewInterpretationBtn) {
+            heroViewInterpretationBtn.addEventListener('click', function() {
+                // Scroll to the interpretation section
+                document.getElementById('hexagram').scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+        
+        if (toHexagramBtn) {
+            toHexagramBtn.addEventListener('click', function() {
+                questionStep.classList.remove('active');
+                hexagramStep.classList.add('active');
+            });
+        }
+        
+        if (backToQuestionBtn) {
+            backToQuestionBtn.addEventListener('click', function() {
+                hexagramStep.classList.remove('active');
+                questionStep.classList.add('active');
+            });
+        }
+        
+
+        
+        // Coin toss animation for hero section
+        const heroStartCastingBtn = document.getElementById('hero-start-casting');
+        const heroSkipAnimationBtn = document.getElementById('hero-skip-animation');
+        
+        if (heroStartCastingBtn) {
+            heroStartCastingBtn.addEventListener('click', function() {
+                this.classList.add('hidden');
+                heroSkipAnimationBtn.classList.remove('hidden');
+                
+                // Simulate coin toss animation
+                simulateHeroCoinToss();
+            });
+        }
+        
+        if (heroSkipAnimationBtn) {
+            heroSkipAnimationBtn.addEventListener('click', function() {
+                // Skip to result
+                showHeroHexagramResult();
+            });
+        }
+        
+        // Simulate coin toss animation for hero section
+        function simulateHeroCoinToss() {
+            const coins = document.querySelectorAll('#hero-coin1, #hero-coin2, #hero-coin3');
+            const progressBar = document.querySelector('#hero-hexagram-step .progress');
+            const lineLabel = document.querySelector('#hero-hexagram-step .line-label');
+            let currentLineNum = 1;
+            let tosses = 0;
+            
+            // Animation interval
+            const tossInterval = setInterval(() => {
+                // Animate coins
+                coins.forEach(coin => {
+                    coin.style.transform = `rotateY(${Math.random() * 1800}deg)`;
+                    coin.style.transition = 'transform 1s';
+                });
+                
+                tosses++;
+                
+                // Update progress
+                if (tosses % 3 === 0) { // Every 3 tosses forms a line
+                    // Update line
+                    const lineElement = document.querySelector(`#hero-hexagram-step .hexagram-line[data-line="${currentLineNum}"] .line-placeholder`);
+                    if (lineElement) {
+                        // Randomly choose line type (simplified for demo)
+                        const lineTypes = ['yang', 'yin'];
+                        const lineType = lineTypes[Math.floor(Math.random() * lineTypes.length)];
+                        
+                        if (lineType === 'yang') {
+                            lineElement.style.height = '8px';
+                            lineElement.style.backgroundColor = '#333';
+                        } else {
+                            lineElement.style.height = '8px';
+                            lineElement.style.backgroundColor = '#333';
+                            lineElement.style.position = 'relative';
+                            
+                            // Create break in middle
+                            const breakElement = document.createElement('div');
+                            breakElement.style.position = 'absolute';
+                            breakElement.style.top = '0';
+                            breakElement.style.left = '50%';
+                            breakElement.style.transform = 'translateX(-50%)';
+                            breakElement.style.width = '10px';
+                            breakElement.style.height = '8px';
+                            breakElement.style.backgroundColor = 'white';
+                            lineElement.appendChild(breakElement);
+                        }
+                    }
+                    
+                    currentLineNum++;
+                    
+                    if (currentLineNum <= 6) {
+                        lineLabel.textContent = `Building line ${currentLineNum} of 6`;
+                        progressBar.style.width = `${(currentLineNum - 1) * 16.66}%`;
+                    }
+                }
+                
+                // Complete after forming 6 lines (18 tosses)
+                if (tosses >= 18) {
+                    clearInterval(tossInterval);
+                    progressBar.style.width = '100%';
+                    
+                    // Show result after a short delay
+                    setTimeout(showHeroHexagramResult, 1000);
+                }
+            }, 500); // Toss every 500ms
+        }
+        
+        // Show hexagram result for hero section
+        function showHeroHexagramResult() {
+            // Hide casting area
+            document.getElementById('hero-auto-casting').classList.add('hidden');
+            
+            // Show result step
+            heroHexagramStep.classList.remove('active');
+            heroResultStep.classList.add('active');
+            updateProcessSteps(3);
+            
+            // Create SVG hexagram for result
+            const hexagramSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            hexagramSvg.setAttribute('width', '60');
+            hexagramSvg.setAttribute('height', '90');
+            hexagramSvg.setAttribute('viewBox', '0 0 60 90');
+            hexagramSvg.setAttribute('fill', 'none');
+            
+            // Add lines (simplified - always shows hexagram 13 for demo)
+            const linePositions = [0, 16, 32, 48, 64, 80];
+            linePositions.forEach((y, index) => {
+                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                rect.setAttribute('y', y);
+                rect.setAttribute('width', '60');
+                rect.setAttribute('height', '8');
+                rect.setAttribute('fill', '#333');
+                
+                // For yin lines (broken), add a gap in the middle
+                if (index === 1 || index === 2) { // Make lines 2 and 3 broken (yin)
+                    const gap = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                    gap.setAttribute('y', y);
+                    gap.setAttribute('x', '25');
+                    gap.setAttribute('width', '10');
+                    gap.setAttribute('height', '8');
+                    gap.setAttribute('fill', 'white');
+                    hexagramSvg.appendChild(gap);
+                }
+                
+                hexagramSvg.appendChild(rect);
+            });
+            
+            // Add to result
+            const resultImage = document.getElementById('hero-result-image');
+            if (resultImage) {
+                resultImage.innerHTML = '';
+                resultImage.appendChild(hexagramSvg);
+            }
+        }
+        
+        // For demo purposes, the view interpretation buttons redirect to the demo section
+        if (toInterpretationBtn) {
+            toInterpretationBtn.addEventListener('click', function() {
+                window.location.href = '#hexagram';
+            });
+        }
+    </script>
+</body>
+</html>

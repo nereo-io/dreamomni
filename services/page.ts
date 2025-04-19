@@ -8,6 +8,7 @@ import { Pricing } from "@/types/blocks/pricing";
 import { QuestionSelector } from "@/types/blocks/question-selector";
 import { PersonalityTestPage } from "@/types/pages/personality-test";
 import { BaziQuestionsMessages } from "@/types/blocks/bazi-questions";
+import { IChingLandingPage } from "@/types/pages/i-ching";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -191,6 +192,24 @@ export async function getFeedbackFormBlock(locale: string) {
     );
     return await import("@/i18n/blocks/feedback-form/en.json").then(
       (module) => module.default
+    );
+  }
+}
+
+export async function getIChingPage(locale: string): Promise<IChingLandingPage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/i-ching/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load i-ching/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/pages/i-ching/en.json").then(
+      (module) => module.default as IChingLandingPage
     );
   }
 }
