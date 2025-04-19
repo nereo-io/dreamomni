@@ -692,7 +692,7 @@ export default function HeroIChing({
 
     // 使用传入的爻线数据或当前状态
     const currentLines = lines || hexagramLines;
-    // console.log("hexagramLines", currentLines);
+    console.log("hexagramLines", currentLines);
 
     // 计算卦象结果
     const hexagramResult = getHexagramFromLines(currentLines);
