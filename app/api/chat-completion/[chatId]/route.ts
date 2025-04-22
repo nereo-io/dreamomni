@@ -27,6 +27,11 @@ const deepseekALI = createDeepSeek({
   baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1",
 });
 
+const deepseekOpenRouter = createDeepSeek({
+  apiKey: process.env.OPENROUTER_API_KEY ?? "",
+  baseURL: "https://openrouter.ai/api/v1",
+});
+
 export async function POST(
   req: Request,
   { params }: { params: { chatId: string } }
@@ -118,14 +123,16 @@ export async function POST(
       //console.log("systemPrompt: ", systemPrompt);
 
       return streamText({
-        model: deepseek("deepseek-reasoner"),
+        // model: deepseek("deepseek-reasoner"),
         // model: deepseek("deepseek-chat"),
-        // model: deepseekARK("ep-20250205155325-bsdb5"), //r1
+        model: deepseekARK("ep-20250205155325-bsdb5"), //r1
         // model: deepseekARK("ep-20250208110123-np259"), // deepseek-qwen-32B
         // model: deepseekARK("ep-20250228181734-xc4qb"), // doubao-lite
         // model: deepseekALI("deepseek-r1"),
         // model: deepseekALI("qwen-max-latest"),
         // model: deepseekALI("qwen2.5-vl-7b-instruct"),
+        // model: deepseekOpenRouter("deepseek/deepseek-r1"),
+
         messages: messageHistory,
         maxTokens: 8000,
       }).toDataStreamResponse({
