@@ -121,11 +121,11 @@ export default function BaziQuestions({ baziQuestions, messages }: Props) {
         {filteredQuestions.map((question) => (
           <Card
             key={question.id}
-            className="h-full hover:shadow-md transition-all cursor-pointer relative group"
+            className="max-h-56 hover:shadow-md transition-all cursor-pointer relative group overflow-hidden"
             onClick={() => handleQuestionClick(question)}
           >
-            <CardContent className="p-4 h-full flex flex-col">
-              <p className="text-base mb-3 flex-grow">{question.text}</p>
+            <CardContent className="p-4 flex flex-col">
+              <p className="text-base mb-3 flex-grow line-clamp-3 overflow-hidden">{question.text}</p>
               <div className="flex justify-between items-center text-xs">
                 <div className="flex flex-wrap gap-1 items-center">
                   {question.tags.map((tag, index) => (

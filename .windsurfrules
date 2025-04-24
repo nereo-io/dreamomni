@@ -45,5 +45,6 @@
 - Keep components modular and reusable
 - Use proper type definitions for components and data
 - Minimize 'use client', 'useEffect', and 'setState'; favor React Server Components (RSC).
+- Use `pnmp` instead of `npm`.
 
 ## referring [structure.txt](/structure.txt)
