@@ -19,6 +19,7 @@ export enum CreditsTransType {
   Ping = "ping", // cost for ping api
   Chat = "chat", // cost for chat api
   Invite = "invite", // cost for invite
+  NonResponse = "non_response", // compensation for unanswered messages
 }
 
 export enum CreditsAmount {
