@@ -9,6 +9,7 @@ import { QuestionSelector } from "@/types/blocks/question-selector";
 import { PersonalityTestPage } from "@/types/pages/personality-test";
 import { BaziQuestionsMessages } from "@/types/blocks/bazi-questions";
 import { IChingLandingPage } from "@/types/pages/i-ching";
+import { IChingContent } from "@/types/hexagram";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -196,7 +197,9 @@ export async function getFeedbackFormBlock(locale: string) {
   }
 }
 
-export async function getIChingPage(locale: string): Promise<IChingLandingPage> {
+export async function getIChingPage(
+  locale: string
+): Promise<IChingLandingPage> {
   try {
     if (locale === "zh-CN") {
       locale = "zh";
@@ -214,7 +217,27 @@ export async function getIChingPage(locale: string): Promise<IChingLandingPage> 
   }
 }
 
-export async function getBaziQuestionsMessages(locale: string): Promise<BaziQuestionsMessages> {
+export async function getIChingContent(locale: string): Promise<IChingContent> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(`@/i18n/content/i-ching/${locale}.json`).then(
+      (module) => module.default
+    );
+  } catch (error) {
+    console.warn(
+      `Failed to load i-ching/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/content/i-ching/en.json").then(
+      (module) => module.default as IChingContent
+    );
+  }
+}
+
+export async function getBaziQuestionsMessages(
+  locale: string
+): Promise<BaziQuestionsMessages> {
   try {
     if (locale === "zh-CN") {
       locale = "zh";

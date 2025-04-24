@@ -30,9 +30,14 @@ export default async function ({ params }: { params: { uuid: string } }) {
   }
 
   // 基于chatsession的customer_info_id获取customer_info
-  const customerInfo = await getCustomerInfoById(chatSession.customer_info_id);
-  if (!customerInfo) {
-    return <Empty message="customer info not found" />;
+  let customerInfo;
+  if (chatSession.customer_info_id) {
+    customerInfo = await getCustomerInfoById(chatSession.customer_info_id);
+    if (!customerInfo) {
+      return <Empty message="customer info not found" />;
+    }
+  } else {
+    return <Empty message="no customer info id" />;
   }
 
   //基于chatsession的user_uuid获取user

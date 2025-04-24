@@ -1,10 +1,10 @@
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import Hexagrams from "@/components/blocks/hexagram-examples";
 import FAQ from "@/components/blocks/faq";
 import CTA from "@/components/blocks/cta";
 import { getIChingPage } from "@/services/page";
 import HeroIChing from "@/components/blocks/hero-iching";
+import NoticeSection from "@/components/blocks/notice-section";
 
 export async function generateMetadata({
   params: { locale },
@@ -36,10 +36,11 @@ export default async function IChingPage({
 
   return (
     <div className="flex flex-col w-full">
-      <HeroIChing />
-      {page.hexagrams && <Hexagrams section={page.hexagrams} />}
+      {page.IChingHero && <HeroIChing t={page.IChingHero} />}
+      {/* {page.hexagrams && <Hexagrams section={page.hexagrams} />}
       {page.faq && <FAQ section={page.faq} />}
-      {page.cta && <CTA section={page.cta} />}
+      {page.cta && <CTA section={page.cta} />} */}
+      {page.notice && <NoticeSection t={page.notice} />}
     </div>
   );
 }

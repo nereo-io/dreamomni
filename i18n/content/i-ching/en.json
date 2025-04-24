@@ -1,0 +1,391 @@
+{
+  "hexagrams": {
+    "111111": {
+      "number": 1,
+      "name": "The Creative",
+      "chineseName": "乾",
+      "description": "Powerful creative energy. This is a time of strength, inspiration, and leadership. Act with confidence and purpose.",
+      "judgement": "The Creative hexagram is a time of great strength and inspiration. It is a time of great leadership and purpose. Act with confidence and purpose.",
+      "imageTxt": "https://www.i-ching.org/images/hexagrams/111111.png",
+      "lineTxt": "The Creative hexagram is a time of great strength and inspiration. It is a time of great leadership and purpose. Act with confidence and purpose."
+    },
+    "000000": {
+      "number": 2,
+      "name": "The Receptive",
+      "chineseName": "坤",
+      "description": "Nurturing receptive energy. This is a time to be open, accepting, and supportive. Practice patience and gentle persistence."
+    },
+    "010001": {
+      "number": 3,
+      "name": "Difficulty at the Beginning",
+      "chineseName": "屯",
+      "description": "Initial obstacles and chaos. This is a time of new beginnings with challenges. Seek help and proceed carefully."
+    },
+    "100010": {
+      "number": 4,
+      "name": "Youthful Folly",
+      "chineseName": "蒙",
+      "description": "Inexperience seeking guidance. This is a time for learning and finding a teacher. Be receptive to instruction."
+    },
+    "010111": {
+      "number": 5,
+      "name": "Waiting",
+      "chineseName": "需",
+      "description": "Patience in timing. This is a time of anticipation and preparedness. Nourish yourself while waiting for the right moment."
+    },
+    "111010": {
+      "number": 6,
+      "name": "Conflict",
+      "chineseName": "訟",
+      "description": "Facing opposition. This is a time of dispute or competing interests. Seek compromise or mediation."
+    },
+    "010000": {
+      "number": 7,
+      "name": "The Army",
+      "chineseName": "師",
+      "description": "Organized collective action. This is a time for discipline and coordinated effort. Find strength in community."
+    },
+    "000010": {
+      "number": 8,
+      "name": "Holding Together",
+      "chineseName": "比",
+      "description": "Unity and belonging. This is a time for building alliances and community. Seek connection with others."
+    },
+    "111011": {
+      "number": 9,
+      "name": "Small Taming",
+      "chineseName": "小畜",
+      "description": "Gentle restraint of small forces. This is a time for gradual development and small adjustments."
+    },
+    "110111": {
+      "number": 10,
+      "name": "Treading",
+      "chineseName": "履",
+      "description": "Careful progress. This is a time for mindful conduct and proceeding with caution. Watch your step."
+    },
+    "111000": {
+      "number": 11,
+      "name": "Peace",
+      "chineseName": "泰",
+      "description": "Harmony and prosperity. This is a time of smooth interaction between heaven and earth. Enjoy tranquility."
+    },
+    "000111": {
+      "number": 12,
+      "name": "Standstill",
+      "chineseName": "否",
+      "description": "Stagnation and blockage. This is a time when communication between high and low is obstructed. Wait for change."
+    },
+    "101111": {
+      "number": 13,
+      "name": "Fellowship",
+      "chineseName": "同人",
+      "description": "Community and partnership. This is a time of connection with others who share your vision."
+    },
+    "111101": {
+      "number": 14,
+      "name": "Great Possession",
+      "chineseName": "大有",
+      "description": "Abundance and prosperity. This is a time of great strength and resources. Use your power benevolently."
+    },
+    "001000": {
+      "number": 15,
+      "name": "Modesty",
+      "chineseName": "謙",
+      "description": "Humility and simplicity. This is a time for moderation and staying grounded. Avoid arrogance."
+    },
+    "000100": {
+      "number": 16,
+      "name": "Enthusiasm",
+      "chineseName": "豫",
+      "description": "Inspiration and motivation. This is a time for joy and mobilizing support. Share your enthusiasm."
+    },
+    "011001": {
+      "number": 17,
+      "name": "Following",
+      "chineseName": "隨",
+      "description": "Adaptation and following. This is a time to respond appropriately to leadership. Be flexible."
+    },
+    "100110": {
+      "number": 18,
+      "name": "Work on the Decayed",
+      "chineseName": "蠱",
+      "description": "Repairing what has been spoiled. This is a time to address corruption and decay. Restore integrity."
+    },
+    "110000": {
+      "number": 19,
+      "name": "Approach",
+      "chineseName": "臨",
+      "description": "Advancement and opportunity. This is a time of approaching something valuable. Welcome what comes."
+    },
+    "000011": {
+      "number": 20,
+      "name": "Contemplation",
+      "chineseName": "觀",
+      "description": "Observation and perspective. This is a time for seeing clearly and being seen. Gain insight."
+    },
+    "100101": {
+      "number": 21,
+      "name": "Biting Through",
+      "chineseName": "噬嗑",
+      "description": "Decisiveness and clarity. This is a time for firm action and breaking through obstacles."
+    },
+    "101001": {
+      "number": 22,
+      "name": "Grace",
+      "chineseName": "賁",
+      "description": "Elegance and refinement. This is a time for beautification and enhancing appearances."
+    },
+    "000001": {
+      "number": 23,
+      "name": "Splitting Apart",
+      "chineseName": "剝",
+      "description": "Disintegration and decline. This is a time when things fall apart. Accept the process of ending."
+    },
+    "100000": {
+      "number": 24,
+      "name": "Return",
+      "chineseName": "復",
+      "description": "Renewal and regeneration. This is a time of a new cycle beginning after reaching bottom."
+    },
+    "100111": {
+      "number": 25,
+      "name": "Innocence",
+      "chineseName": "無妄",
+      "description": "Spontaneity and naturalness. This is a time for acting without ulterior motives. Be genuine."
+    },
+    "111001": {
+      "number": 26,
+      "name": "Great Taming",
+      "chineseName": "大畜",
+      "description": "Accumulation of energy. This is a time for containing power and storing reserves. Build strength."
+    },
+    "100001": {
+      "number": 27,
+      "name": "Nourishment",
+      "chineseName": "頤",
+      "description": "Sustenance and care. This is a time for proper nourishment and attention to what sustains you."
+    },
+    "011110": {
+      "number": 28,
+      "name": "Great Preponderance",
+      "chineseName": "大過",
+      "description": "Critical mass and pressure. This is a time when something reaches its limit. Seek balance."
+    },
+    "010010": {
+      "number": 29,
+      "name": "The Abysmal",
+      "chineseName": "坎",
+      "description": "Repeated danger and depth. This is a time of facing challenges repeatedly. Develop inner strength."
+    },
+    "101101": {
+      "number": 30,
+      "name": "The Clinging",
+      "chineseName": "離",
+      "description": "Illumination and clarity. This is a time for brightness and awareness. Gain clarity and insight."
+    },
+    "001110": {
+      "number": 31,
+      "name": "Influence",
+      "chineseName": "咸",
+      "description": "Mutual attraction and stimulus. This is a time for exchange and reciprocity. Be open to influence."
+    },
+    "011100": {
+      "number": 32,
+      "name": "Duration",
+      "chineseName": "恆",
+      "description": "Endurance and constancy. This is a time for persistence and steadiness. Maintain your course."
+    },
+    "001111": {
+      "number": 33,
+      "name": "Retreat",
+      "chineseName": "遯",
+      "description": "Strategic withdrawal. This is a time to step back from danger. Know when to yield."
+    },
+    "111100": {
+      "number": 34,
+      "name": "Great Power",
+      "chineseName": "大壯",
+      "description": "Great vigor and strength. This is a time of great energy and power. Use it wisely."
+    },
+    "000101": {
+      "number": 35,
+      "name": "Progress",
+      "chineseName": "晉",
+      "description": "Advancement and recognition. This is a time of rising and receiving favor. Move forward."
+    },
+    "101000": {
+      "number": 36,
+      "name": "Darkening of the Light",
+      "chineseName": "明夷",
+      "description": "Injury to clarity. This is a time when brightness is obscured. Preserve inner light."
+    },
+    "101011": {
+      "number": 37,
+      "name": "The Family",
+      "chineseName": "家人",
+      "description": "Clan and structure. This is a time for domestic harmony and clear roles. Support your home base."
+    },
+    "110101": {
+      "number": 38,
+      "name": "Opposition",
+      "chineseName": "睽",
+      "description": "Contradiction and polarity. This is a time of divergent views. Find complementarity in differences."
+    },
+    "001010": {
+      "number": 39,
+      "name": "Obstruction",
+      "chineseName": "蹇",
+      "description": "Difficulty and impediment. This is a time of obstacles and hardship. Seek alternate paths."
+    },
+    "010100": {
+      "number": 40,
+      "name": "Deliverance",
+      "chineseName": "解",
+      "description": "Release from tension. This is a time of resolution and easing of problems. Welcome relief."
+    },
+    "110001": {
+      "number": 41,
+      "name": "Decrease",
+      "chineseName": "損",
+      "description": "Reduction and simplification. This is a time to eliminate excess. Focus on what's essential."
+    },
+    "100011": {
+      "number": 42,
+      "name": "Increase",
+      "chineseName": "益",
+      "description": "Gain and abundance. This is a time of growing prosperity and beneficial influence."
+    },
+    "111110": {
+      "number": 43,
+      "name": "Breakthrough",
+      "chineseName": "夬",
+      "description": "Resolution and decisiveness. This is a time for determined action to clear opposition."
+    },
+    "011111": {
+      "number": 44,
+      "name": "Coming to Meet",
+      "chineseName": "姤",
+      "description": "Unexpected encounter. This is a time when something powerful appears unexpectedly."
+    },
+    "000110": {
+      "number": 45,
+      "name": "Gathering Together",
+      "chineseName": "萃",
+      "description": "Assembly and cohesion. This is a time for community gathering and joining forces."
+    },
+    "011000": {
+      "number": 46,
+      "name": "Pushing Upward",
+      "chineseName": "升",
+      "description": "Gradual progress and rising. This is a time for steady advancement and promotion."
+    },
+    "010110": {
+      "number": 47,
+      "name": "Oppression",
+      "chineseName": "困",
+      "description": "Exhaustion and confinement. This is a time of being restricted or limited. Conserve energy."
+    },
+    "011010": {
+      "number": 48,
+      "name": "The Well",
+      "chineseName": "井",
+      "description": "Source of nourishment. This is a time to focus on what sustains community. Ensure resources are shared."
+    },
+    "101110": {
+      "number": 49,
+      "name": "Revolution",
+      "chineseName": "革",
+      "description": "Radical change and renewal. This is a time of fundamental transformation. Embrace the new."
+    },
+    "011101": {
+      "number": 50,
+      "name": "The Cauldron",
+      "chineseName": "鼎",
+      "description": "Transformation and receptivity. This is a time for alchemical change and spiritual nourishment."
+    },
+    "100100": {
+      "number": 51,
+      "name": "The Arousing",
+      "chineseName": "震",
+      "description": "Shock and awakening. This is a time of sudden change that stimulates new growth."
+    },
+    "001001": {
+      "number": 52,
+      "name": "Keeping Still",
+      "chineseName": "艮",
+      "description": "Stillness and restraint. This is a time for meditation and stopping. Find peace in stillness."
+    },
+    "001011": {
+      "number": 53,
+      "name": "Development",
+      "chineseName": "漸",
+      "description": "Gradual progress. This is a time for steady, step-by-step advancement. Be patient."
+    },
+    "110100": {
+      "number": 54,
+      "name": "The Marrying Maiden",
+      "chineseName": "歸妹",
+      "description": "Subordinate role and impermanence. This is a time for recognizing limitations of secondary positions."
+    },
+    "101100": {
+      "number": 55,
+      "name": "Abundance",
+      "chineseName": "豐",
+      "description": "Fullness and zenith. This is a time of peak prosperity and brightness. Embrace the height of your power."
+    },
+    "001101": {
+      "number": 56,
+      "name": "The Wanderer",
+      "chineseName": "旅",
+      "description": "Transience and impermanence. This is a time of being in unfamiliar territory. Travel lightly."
+    },
+    "011011": {
+      "number": 57,
+      "name": "The Gentle",
+      "chineseName": "巽",
+      "description": "Penetration and influence. This is a time for subtle action and persuasion. Move gently but persistently."
+    },
+    "110110": {
+      "number": 58,
+      "name": "The Joyous",
+      "chineseName": "兌",
+      "description": "Pleasure and satisfaction. This is a time for joyful exchange and communication. Share happiness."
+    },
+    "010011": {
+      "number": 59,
+      "name": "Dispersion",
+      "chineseName": "渙",
+      "description": "Dissolution and scattering. This is a time to disperse confusion and gather consensus."
+    },
+    "110010": {
+      "number": 60,
+      "name": "Limitation",
+      "chineseName": "節",
+      "description": "Boundaries and restriction. This is a time for establishing healthy limits. Define your boundaries."
+    },
+    "110011": {
+      "number": 61,
+      "name": "Inner Truth",
+      "chineseName": "中孚",
+      "description": "Sincerity and trust. This is a time for inner truth and integrity. Act from your center."
+    },
+    "001100": {
+      "number": 62,
+      "name": "Small Preponderance",
+      "chineseName": "小過",
+      "description": "Predominance of the small. This is a time for attention to small details. Focus on precision."
+    },
+    "101010": {
+      "number": 63,
+      "name": "After Completion",
+      "chineseName": "既濟",
+      "description": "Completion and balance. This is a time when a cycle reaches its end. Maintain vigilance."
+    },
+    "010101": {
+      "number": 64,
+      "name": "Before Completion",
+      "chineseName": "未濟",
+      "description": "Incompletion and transition. This is a time of being on the verge of success. Make final efforts."
+    }
+  }
+}

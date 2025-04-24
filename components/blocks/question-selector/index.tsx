@@ -231,6 +231,7 @@ export default function QuestionSelector({
         partner_info_id: partnerInfo?.id || undefined,
         partner_info: partnerInfo || undefined,
         is_matching: matchMode === "double",
+        is_iching: false,
       };
       setChat(chat);
       // console.log(chat);

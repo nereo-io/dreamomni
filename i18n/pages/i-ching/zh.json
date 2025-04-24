@@ -1,0 +1,90 @@
+{
+  "notice": {
+    "title": "注意事项",
+    "items": [
+      {
+        "title": "静心",
+        "description": "起卦前保持平静的心态，不要情绪激动或心神不宁时进行占卜。"
+      },
+      {
+        "title": "一事一测",
+        "description": "同一个问题短期内不要反复占卜，一次占卜应只针对一个明确的问题。"
+      },
+      {
+        "title": "不代替他人测试",
+        "description": "每个人应该为自己的问题进行占卜，不要替他人决定或干预他人的命运。"
+      },
+      {
+        "title": "提问方式",
+        "description": "提问时建议包含【问题+背景】，这样可以获得更准确的解读。"
+      }
+    ],
+    "examples": {
+      "title": "提问示例：",
+      "items": [
+        {
+          "title": "示例一：事业决策",
+          "content": "我应该接受这份新工作offer吗？目前我在一家稳定的公司工作了5年，新公司薪资更高但风险也大。"
+        },
+        {
+          "title": "示例二：感情问题",
+          "content": "我和恋人最近经常争吵，这段关系还会长久吗？我们交往两年，最近因为工作压力导致沟通不畅。"
+        },
+        {
+          "title": "示例三：学业抉择",
+          "content": "我应该选择哪个专业更适合我？我对艺术和科技都有兴趣，但不确定哪个方向更符合我的长期发展。"
+        }
+      ]
+    },
+    "contact": {
+      "prefix": "如果有任何问题，请联系",
+      "email": "jasper@bazi-ai.com"
+    }
+  },
+  "IChingHero": {
+    "title": "易经占卜AI解读工具",
+    "description": "基于在线易经系统的AI智能解读",
+    "steps": {
+      "ask": "提出问题",
+      "cast": "卜卦",
+      "interpret": "查看解读"
+    },
+    "buttons": {
+      "continue": "继续",
+      "back": "返回",
+      "skip": "跳过动画"
+    },
+    "questionPlaceholder": "今天您想向易经问什么问题？提问时建议包含【问题+背景】，这样可以获得更准确的解读。",
+    "characters": "字符",
+    "startCasting": "开始卜卦",
+    "castingComplete": "卜卦完成",
+    "castingLines": "正在卜第",
+    "of": "/",
+    "viewInterpretation": "查看解读",
+    "yourQuestion": "您的问题",
+    "over": "上",
+    "viewFullInterpretation": "查看完整解读",
+    "castingDescription": "我们将使用传统的掷币方法为您卜卦，模拟古代易经占卜过程。",
+    "examples": {
+      "title": "提问示例:",
+      "relationship": "感情问题",
+      "career": "事业决策",
+      "decision": "学业抉择",
+      "relationshipQuestion": "我和恋人最近经常争吵，这段关系还会长久吗？我们交往两年，最近因为工作压力导致沟通不畅。",
+      "careerQuestion": "我应该接受这份新工作offer吗？目前我在一家稳定的公司工作了5年，新公司薪资更高但风险也大。",
+      "decisionQuestion": "我应该选择哪个专业更适合我？我对艺术和科技都有兴趣，但不确定哪个方向更符合我的长期发展。"
+    },
+    "hexagram": "第",
+    "below": "下",
+    "trigrams": {
+      "Heaven": "乾",
+      "Earth": "坤",
+      "Thunder": "震",
+      "Water": "坎",
+      "Mountain": "艮",
+      "Wind": "巽",
+      "Fire": "离",
+      "Lake": "兑"
+    }
+  }
+}

@@ -1,13 +1,14 @@
 // services/chat/ChatService.ts
 import { BaziFastApiService } from "./baziAPIService";
 import { Message, ChatRequest } from "@/types/chat";
-import { getCustomerInputById } from "@/models/customer";
 import {
   getChatSystemPrompt,
   getChatMatchingSystemPrompt,
 } from "@/i18n/prompts/chat";
+import { getChatIchingSystemPrompt } from "@/i18n/prompts/chatIChing";
 import { CoreMessage } from "ai";
 import { CustomerInfo } from "@/types/customer";
+import { HexagramData, HexagramLine } from "@/types/hexagram";
 export class ChatPromptService {
   private static chatSystemPromptCache = new Map<string, string>();
 
@@ -63,6 +64,35 @@ export class ChatPromptService {
         partner_info,
         customerBaziAnalysis,
         partnerBaziAnalysis
+      );
+      ChatPromptService.chatSystemPromptCache.set(session_id, systemPrompt);
+      return systemPrompt;
+    } catch (error) {
+      console.error(error);
+      return "";
+    }
+  }
+
+  static async buildIchingSystemPrompt(
+    session_id: string,
+    hexagramLines: HexagramLine[],
+    hexagramData: HexagramData,
+    locale: string
+  ): Promise<string> {
+    if (!hexagramLines || !hexagramData) {
+      throw new Error("Hexagram lines or result is required");
+    }
+
+    if (ChatPromptService.chatSystemPromptCache.has(session_id)) {
+      return ChatPromptService.chatSystemPromptCache.get(session_id) as string;
+    }
+    try {
+      const hexagramString = JSON.stringify(hexagramData);
+
+      const systemPrompt = getChatIchingSystemPrompt(
+        locale,
+        hexagramLines,
+        hexagramString
       );
       ChatPromptService.chatSystemPromptCache.set(session_id, systemPrompt);
       return systemPrompt;

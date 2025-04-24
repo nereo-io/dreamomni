@@ -24,7 +24,10 @@ export const ChatService = {
       console.log("session", session);
 
       // 获取客户信息
-      const customerInfo = await getCustomerInfoById(session.customer_info_id);
+      let customerInfo;
+      if (session.customer_info_id) {
+        customerInfo = await getCustomerInfoById(session.customer_info_id);
+      }
       let partnerInfo = undefined;
       if (session.is_matching === true && session.partner_info_id) {
         partnerInfo = await getCustomerInfoById(session.partner_info_id);

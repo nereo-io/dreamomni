@@ -404,18 +404,18 @@
   },
   "cta": {
     "name": "cta",
-    "title": "BaziAIで運命を発見しましょう",
-    "description": "DeepSeek R1 AIと古代八字の知恵の強力な組み合わせを体験してください。",
+    "title": "易経占いAI無料リーディング（ベータテスト中）",
+    "description": "ベータテスト期間中は無制限で無料体験",
     "buttons": [
       {
-        "title": "無料で鑑定を受ける",
-        "url": "/reading",
+        "title": "今すぐ無料体験⚡️",
+        "url": "/i-ching",
         "target": "_self",
         "icon": "GoArrowUpRight"
       },
       {
-        "title": "プレミアムプランを見る",
-        "url": "/pricing",
+        "title": "🎁 友達にシェア",
+        "url": "/my-invites",
         "target": "_self",
         "variant": "outline"
       }

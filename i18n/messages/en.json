@@ -49,6 +49,11 @@
     "title": "User Feedback | BaziAI",
     "description": "Share your thoughts, suggestions, or report issues with BaziAI. Help us improve our AI-powered Bazi reading services to better serve your needs."
   },
+  "i-ching": {
+    "title": "Free I Ching AI Divination Reading Tool| BaziAI",
+    "description": "Get free AI-powered I Ching divination readings. Discover insights about your life path, personality, and key turning points with our AI-powered I Ching analysis.",
+    "keywords": "i ching reading, i ching analysis, i ching interpretation, i ching fortune, i ching prediction"
+  },
 
   "user": {
     "sign_in": "Sign In",

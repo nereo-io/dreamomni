@@ -140,6 +140,7 @@ export default async function LandingPage({
         questionSuggestions={page.questionSuggestions}
       />
       <NavCategory />
+      {page.cta && <CTA section={page.cta} />}
       <BaziQuestions
         baziQuestions={baziQuestions}
         messages={baziQuestionsMessages}
@@ -157,7 +158,6 @@ export default async function LandingPage({
         <SolveAllQuestions section={page.solveAllQuestions} />
       )} */}
       {page.faq && <FAQ section={page.faq} />}
-      {page.cta && <CTA section={page.cta} />}
     </>
   );
 }

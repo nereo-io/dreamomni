@@ -410,18 +410,18 @@
   },
   "cta": {
     "name": "cta",
-    "title": "Discover Your Destiny with BaziAI",
-    "description": "Experience the power of DeepSeek R1 AI combined with ancient Bazi wisdom.",
+    "title": "Free I Ching AI Divination Reading (Beta Testing)",
+    "description": "Unlimited Free Readings During Beta Testing",
     "buttons": [
       {
-        "title": "Get Free Reading",
-        "url": "/",
+        "title": "Try for Free Now⚡️",
+        "url": "/i-ching",
         "target": "_self",
         "icon": "GoArrowUpRight"
       },
       {
-        "title": "View Premium Plans",
-        "url": "#pricing",
+        "title": "🎁 Share with Friends",
+        "url": "/my-invites",
         "target": "_self",
         "variant": "outline"
       }

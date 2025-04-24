@@ -286,18 +286,18 @@
   },
   "cta": {
     "name": "cta",
-    "title": "用BaziAI探索您的命運",
-    "description": "體驗DeepSeek R1人工智能與古老八字智慧的強大結合。",
+    "title": "易經占卜免費 AI 解讀（內測）",
+    "description": "內測期間不限次數免費體驗",
     "buttons": [
       {
-        "title": "獲取免費解讀",
-        "url": "/",
+        "title": "立即免費體驗⚡️",
+        "url": "/i-ching",
         "target": "_self",
         "icon": "GoArrowUpRight"
       },
       {
-        "title": "查看高級方案",
-        "url": "#pricing",
+        "title": "🎁 分享給朋友",
+        "url": "/my-invites",
         "target": "_self",
         "variant": "outline"
       }

@@ -51,6 +51,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "weekly" as ChangeFrequency,
         priority: 0.8,
       },
+      {
+        url: `${baseUrl}/i-ching`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.9,
+      },
     ];
 
     console.log(`添加了 ${staticPages.length} 个基础页面`);
@@ -89,6 +95,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           lastModified: currentDate,
           changeFrequency: "weekly" as ChangeFrequency,
           priority: 0.8,
+        },
+        {
+          url: `${baseUrl}/${locale}/i-ching`,
+          lastModified: currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.9,
         },
       ];
     });

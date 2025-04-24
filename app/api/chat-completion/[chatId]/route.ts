@@ -11,7 +11,7 @@ import {
   CreditsAmount,
 } from "@/services/credit";
 import { auth } from "@/auth";
-import { respErr } from "@/lib/resp";
+import { respErr, respJson } from "@/lib/resp";
 
 const deepseek = createDeepSeek({
   apiKey: process.env.DEEPSEEK_API_KEY ?? "",
@@ -40,63 +40,41 @@ export async function POST(
       is_matching,
       partner_info,
       is_iching,
+      hexagramLines,
+      hexagramData,
     } = (await req.json()) as ChatRequest;
+
     const chatId = params.chatId;
-    // console.log("chatId: ", chatId);
+    let messageHistory;
     // 验证会话ID
     if (!chatId) {
-      return new Response(
-        JSON.stringify({
-          error: {
-            message: "缺少会话ID",
-            code: "MISSING_SESSION_ID",
-          },
-        }),
-        { status: 400 }
-      );
+      return respErr("missing chat id");
     }
-
     // 获取当前用户
     const session = await auth();
     if (!session?.user) {
-      return new Response(
-        JSON.stringify({
-          error: {
-            message: "未登录",
-            code: "UNAUTHORIZED",
-          },
-        }),
-        { status: 401 }
-      );
+      return respErr("no auth");
     }
 
-    // 检查会员状态
-    const { isMember } = await checkMembershipStatus(session.user);
-    // 如果不是会员，则检查使用次数
-    if (!isMember) {
-      // 检查积分
-      const leftCredits = await getUserLeftCredits(session.user.uuid);
-      if (leftCredits === undefined || leftCredits <= 0) {
-        // return respErr("No remaining credits");
-        return new Response(
-          JSON.stringify({
-            error: {
-              message: "Not enough credits, please upgrade membership",
-              code: "RECORD_USAGE_ERROR",
-            },
-          }),
-          { status: 500 }
-        );
+    // 如果是八字解读，按照原来的逻辑处理
+    if (is_iching === false) {
+      // 检查会员状态
+      const { isMember } = await checkMembershipStatus(session.user);
+      // 如果不是会员，则检查使用次数
+      if (!isMember) {
+        // 检查积分
+        const leftCredits = await getUserLeftCredits(session.user.uuid);
+        if (leftCredits === undefined || leftCredits <= 0) {
+          return respErr("Not enough credits, please upgrade membership");
+        }
+        //扣除积分
+        decreaseCredits({
+          user_uuid: session.user.uuid,
+          trans_type: CreditsTransType.Chat,
+          credits: CreditsAmount.ChatCost,
+        });
       }
-      //扣除积分
-      decreaseCredits({
-        user_uuid: session.user.uuid,
-        trans_type: CreditsTransType.Chat,
-        credits: CreditsAmount.ChatCost,
-      });
-    }
 
-    try {
       let systemPrompt = "";
       if (is_matching && partner_info) {
         systemPrompt = await ChatPromptService.buildMatchingSystemPrompt(
@@ -112,39 +90,43 @@ export async function POST(
           locale
         );
       }
-      const messageHistory = ChatPromptService.buildMessageHistory(
+      messageHistory = ChatPromptService.buildMessageHistory(
         systemPrompt,
         messages
       );
       //console.log("systemPrompt: ", systemPrompt);
-
-      return streamText({
-        // model: deepseek("deepseek-reasoner"),
-        // model: deepseek("deepseek-chat"),
-        // model: deepseekARK("ep-20250205155325-bsdb5"), //r1
-        // model: deepseekARK("ep-20250208110123-np259"), // deepseek-qwen-32B
-        // model: deepseekARK("ep-20250228181734-xc4qb"), // doubao-lite
-        model: deepseekALI("deepseek-r1"),
-        // model: deepseekALI("qwen-max-latest"),
-        // model: deepseekALI("qwen2.5-vl-7b-instruct"),
-        messages: messageHistory,
-        maxTokens: 8000,
-      }).toDataStreamResponse({
-        sendReasoning: true,
-      });
-    } catch (error: any) {
-      console.error("DeepSeek API error:", error);
-      return new Response(
-        JSON.stringify({
-          error: {
-            message: "AI服务暂时不可用",
-            code: "AI_SERVICE_UNAVAILABLE",
-            details: error?.message || "未知错误",
-          },
-        }),
-        { status: 500 }
+    } else {
+      if (!hexagramLines || !hexagramData) {
+        return respErr("missing hexagram lines or result");
+      }
+      let systemPrompt = await ChatPromptService.buildIchingSystemPrompt(
+        session_id,
+        hexagramLines,
+        hexagramData,
+        locale
       );
+      messageHistory = ChatPromptService.buildMessageHistory(
+        systemPrompt,
+        messages
+      );
+      // console.log("messageHistory: ", messageHistory);
     }
+
+    return streamText({
+      // model: deepseek("deepseek-reasoner"),
+      // model: deepseek("deepseek-chat"),
+      // model: deepseekARK("ep-20250205155325-bsdb5"), //r1
+      // model: deepseekARK("ep-20250208110123-np259"), // deepseek-qwen-32B
+      model: deepseekARK("doubao-1-5-thinking-pro-250415"), //doubao-1-5-thinking-pro-250415
+      // model: deepseekARK("ep-20250228181734-xc4qb"), // doubao-lite
+      // model: deepseekALI("deepseek-r1"),
+      // model: deepseekALI("qwen-max-latest"),
+      // model: deepseekALI("qwen2.5-vl-7b-instruct"),
+      messages: messageHistory,
+      maxTokens: 8000,
+    }).toDataStreamResponse({
+      sendReasoning: true,
+    });
   } catch (e: any) {
     console.log("chat failed: ", e);
     return respErr("chat failed: " + e.message);
