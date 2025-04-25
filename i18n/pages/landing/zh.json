@@ -74,9 +74,9 @@
     "highlight_text": "八字AI",
     "description": "传统智慧与现代AI的完美结合，解码人生密码",
     "announcement": {
-      "title": "🌟 常见问题功能上线 🌟",
-      "label": "公告",
-      "url": "/#bazi-questions"
+      "title": "🔮 免费易经占卜！",
+      "label": "新",
+      "url": "/i-ching"
     },
     "show_happy_users": false,
     "show_badge": false
@@ -468,24 +468,43 @@
   },
   "cta": {
     "name": "cta",
-    "title": "易经占卜免费 AI 解读（内测）",
-    "description": "内测期间不限次数免费体验",
+    "title": "易经占卜AI解读",
     "buttons": [
       {
-        "title": "立即免费体验⚡️",
+        "title": "免费体验⚡️",
         "url": "/i-ching",
         "target": "_self",
         "icon": "GoArrowUpRight"
+      }
+    ]
+  },
+  "questionExamples": {
+    "title": "举例: ",
+    "examples": [
+      {
+        "text": "请用浅显语言，结合我的八字盘，分析人生轨迹和关键转折，指出性格优劣与吉凶用神，并给出切实可行的提升运势方法。",
+        "label": "人生",
+        "type": "single"
       },
       {
-        "title": "🎁 分享给朋友",
-        "url": "/my-invites",
-        "target": "_self",
-        "variant": "outline"
+        "text": "结合你我两人的八字盘，解析我们在性格、情感与事业上的相互契合与潜在冲突。",
+        "label": "关系",
+        "type": "double"
+      },
+      {
+        "text": "从我的八字看财运如何？是生来好财还是须后天努力？有哪些开财门的时机与要诀？",
+        "label": "财运",
+        "type": "single"
+      },
+      {
+        "text": "基于我的八字，未来五年职业走势如何？何时是最佳晋升或转行时机，又要警惕哪些挑战？",
+        "label": "事业",
+        "type": "single"
       }
     ]
   },
   "questionSuggestions": {
+    "disabled": true,
     "categories": {
       "all": "全部"
     },

@@ -72,7 +72,7 @@ export default function BaziQuestions({ baziQuestions, messages }: Props) {
     <div id="bazi-questions" className="container mx-auto py-6 px-4">
       {/* 标题部分 */}
       <div className="text-center mb-8">
-        <h2 className="text-xl lg:text-3xl font-bold mb-2 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+        <h2 className="text-xl lg:text-3xl font-bold mb-2 text-foreground">
           {messages.title}
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -125,7 +125,9 @@ export default function BaziQuestions({ baziQuestions, messages }: Props) {
             onClick={() => handleQuestionClick(question)}
           >
             <CardContent className="p-4 flex flex-col">
-              <p className="text-base mb-3 flex-grow line-clamp-3 overflow-hidden">{question.text}</p>
+              <p className="text-base mb-3 flex-grow line-clamp-3 overflow-hidden">
+                {question.text}
+              </p>
               <div className="flex justify-between items-center text-xs">
                 <div className="flex flex-wrap gap-1 items-center">
                   {question.tags.map((tag, index) => (

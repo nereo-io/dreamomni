@@ -86,6 +86,27 @@ export default function HeroIChing({ t }: HeroIChingProps) {
   // Animation refs
   const animationTimerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // 添加textarea引用
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // 自动调整textarea高度的函数
+  const adjustTextareaHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  };
+
+  // 当问题变化时调整高度
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [question]);
+
+  // 组件挂载后调整高度
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, []);
+
   // Handle question input change
   const handleQuestionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newQuestion = e.target.value;
@@ -566,7 +587,7 @@ export default function HeroIChing({ t }: HeroIChingProps) {
               <div
                 className={`text-base font-bold ${
                   currentStep === 1 ? "text-[#8A2BE2]" : "text-gray-500"
-                }`}
+                } h-10 flex items-center justify-center text-center`}
               >
                 {t.steps.ask}
               </div>
@@ -593,7 +614,7 @@ export default function HeroIChing({ t }: HeroIChingProps) {
                     : currentStep > 2
                     ? "text-gray-500"
                     : "text-gray-500"
-                }`}
+                } h-10 flex items-center justify-center text-center`}
               >
                 {t.steps.cast}
               </div>
@@ -609,7 +630,7 @@ export default function HeroIChing({ t }: HeroIChingProps) {
               <div
                 className={`text-base font-bold ${
                   currentStep === 3 ? "text-[#8A2BE2]" : "text-gray-500"
-                }`}
+                } h-10 flex items-center justify-center text-center`}
               >
                 {t.steps.interpret}
               </div>
@@ -630,15 +651,16 @@ export default function HeroIChing({ t }: HeroIChingProps) {
                 {/* Question Textarea */}
                 <div className="space-y-1">
                   <textarea
+                    ref={textareaRef}
                     value={question}
                     onChange={handleQuestionChange}
                     placeholder={t.questionPlaceholder}
-                    className="w-full min-h-[120px] p-3 bg-white border border-gray-300 rounded-md text-gray-700 placeholder-gray-400 shadow-sm focus:border-[#8A2BE2] focus:outline-none focus:ring-2 focus:ring-[#8A2BE2] focus:ring-opacity-20 transition-colors resize-none"
-                    maxLength={300}
+                    className="w-full min-h-[120px] p-3 bg-white border border-gray-300 rounded-md text-gray-700 placeholder-gray-400 shadow-sm focus:border-[#8A2BE2] focus:outline-none focus:ring-2 focus:ring-[#8A2BE2] focus:ring-opacity-20 transition-colors resize-none overflow-hidden"
+                    maxLength={1000}
                   ></textarea>
-                  <div className="text-right text-sm text-gray-500">
+                  {/* <div className="text-right text-sm text-gray-500">
                     {charCount}/300 {t.characters}
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Continue Button */}

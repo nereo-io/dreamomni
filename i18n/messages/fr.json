@@ -45,6 +45,15 @@
     "description": "Découvrez votre Horoscope Chinois 2025 pour l'Année du Serpent de Bois. Analyse propulsée par l'IA basée sur l'astrologie traditionnelle.",
     "keywords": "Horoscope Chinois 2025, Année du Serpent de Bois, prédiction Horoscope Chinois, prévision de fortune IA, horoscope personnalisé, compatibilité zodiacale"
   },
+  "feedback": {
+    "title": "Commentaires des Utilisateurs | BaziAI",
+    "description": "Partagez vos pensées, suggestions ou signalez des problèmes avec BaziAI. Aidez-nous à améliorer nos services de lecture Bazi alimentés par l'IA pour mieux répondre à vos besoins."
+  },
+  "i-ching": {
+    "title": "Outil Gratuit de Lecture Divinatoire I Ching IA | BaziAI",
+    "description": "Obtenez des lectures divinatoires I Ching gratuites alimentées par l'IA. Découvrez des insights sur votre chemin de vie, votre personnalité et les moments clés avec notre analyse I Ching alimentée par l'IA.",
+    "keywords": "lecture i ching, analyse i ching, interprétation i ching, divination i ching, prédiction i ching"
+  },
 
   "user": {
     "sign_in": "Se Connecter",
@@ -209,9 +218,9 @@
     "template1_title": "🔮 Analyse du Destin",
     "template2_title": "💸 Potentiel de Richesse",
     "template3_title": "💞 Compatibilité Amoureuse",
-    "template1": "Salut à tous ! Je viens d’essayer BaziAI — il vous offre une lecture Bazi complète (thème de naissance) avec une précision bluffante. J’ai été impressionné par la clarté sur mon chemin de vie, ma personnalité et mes grands tournants. 3 analyses gratuites dès l’inscription — ne ratez pas ça !\n👉 Essayez BaziAI maintenant",
-    "template2": "Envie de savoir quand votre chance financière atteint son sommet ? Le bilan richesse de BaziAI révèle vos hauts et bas financiers, tout selon votre thème Bazi unique. C’est ultra pertinent et vraiment personnalisé ! Inscrivez-vous pour 3 analyses gratuites et découvrez votre potentiel.\n💸 Découvrez BaziAI ici",
-    "template3": "Curieux(se) de votre compatibilité amoureuse ? BaziAI propose des lectures croisées pour révéler vos points forts, défis et affinités — tout à partir de vos infos Bazi. C’est fun, authentique, et vous bénéficiez de 3 analyses gratuites à tester en duo !\n💞 Explorez BaziAI maintenant",
+    "template1": "Salut à tous ! Je viens d'essayer BaziAI — il vous offre une lecture Bazi complète (thème de naissance) avec une précision bluffante. J'ai été impressionné par la clarté sur mon chemin de vie, ma personnalité et mes grands tournants. 3 analyses gratuites dès l'inscription — ne ratez pas ça !\n👉 Essayez BaziAI maintenant",
+    "template2": "Envie de savoir quand votre chance financière atteint son sommet ? Le bilan richesse de BaziAI révèle vos hauts et bas financiers, tout selon votre thème Bazi unique. C'est ultra pertinent et vraiment personnalisé ! Inscrivez-vous pour 3 analyses gratuites et découvrez votre potentiel.\n💸 Découvrez BaziAI ici",
+    "template3": "Curieux(se) de votre compatibilité amoureuse ? BaziAI propose des lectures croisées pour révéler vos points forts, défis et affinités — tout à partir de vos infos Bazi. C'est fun, authentique, et vous bénéficiez de 3 analyses gratuites à tester en duo !\n💞 Explorez BaziAI maintenant",
     "table": {
       "invite_time": "Heure d'Invitation",
       "invite_user": "Utilisateur Invité",

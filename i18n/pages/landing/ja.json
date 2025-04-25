@@ -73,9 +73,9 @@
     "title": "無料八字AI解読ツール",
     "highlight_text": "八字AI",
     "announcement": {
-      "title": "🌟 人気の質問が現在ライブ中 🌟",
-      "label": "お知らせ",
-      "url": "/#bazi-questions"
+      "title": "🔮 無料易経占い！",
+      "label": "新",
+      "url": "/i-ching"
     },
     "description": "古代の知恵、現代のAI - あなたの人生を解読！",
     "show_happy_users": false,
@@ -404,24 +404,44 @@
   },
   "cta": {
     "name": "cta",
-    "title": "易経占いAI無料リーディング（ベータテスト中）",
+    "title": "易経占いAI解読",
     "description": "ベータテスト期間中は無制限で無料体験",
     "buttons": [
       {
-        "title": "今すぐ無料体験⚡️",
+        "title": "今すぐ無料体験",
         "url": "/i-ching",
         "target": "_self",
         "icon": "GoArrowUpRight"
+      }
+    ]
+  },
+  "questionExamples": {
+    "title": "例: ",
+    "examples": [
+      {
+        "text": "分かりやすい言葉で、私の八字盤に基づいて人生の軌跡と重要な転機を分析し、性格の長所と短所を吉凶の要素とともに特定し、運勢を高める実用的な方法を提案してください。",
+        "label": "人生",
+        "type": "single"
       },
       {
-        "title": "🎁 友達にシェア",
-        "url": "/my-invites",
-        "target": "_self",
-        "variant": "outline"
+        "text": "私たち両方の八字盤に基づいて、性格、感情、キャリアにおいて私たちがどこで調和し、どこで衝突する可能性があるかを明らかにしてください。",
+        "label": "関係",
+        "type": "double"
+      },
+      {
+        "text": "私の八字盤は私の財産の見通しについて何を示していますか？私は簡単に利益を得る運命ですか、それとも一生懸命働く必要がありますか？そしていつがお金を引き寄せるのに最適な時期ですか？",
+        "label": "財運",
+        "type": "single"
+      },
+      {
+        "text": "私の八字によると、今後5年間で私のキャリアはどのように発展しますか？昇進や進路変更に最適な時期はいつですか？また、どのような課題に注意すべきですか？",
+        "label": "キャリア",
+        "type": "single"
       }
     ]
   },
   "questionSuggestions": {
+    "disabled": true,
     "categories": {
       "all": "すべて"
     },

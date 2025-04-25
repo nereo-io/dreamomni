@@ -73,9 +73,9 @@
     "title": "무료 사주 AI 해석 도구",
     "highlight_text": "사주 AI",
     "announcement": {
-      "title": "🌟 인기 질문 지금 라이브 🌟",
-      "label": "공지사항",
-      "url": "/#bazi-questions"
+      "title": "🔮 무료 역경 점술!",
+      "label": "신규",
+      "url": "/i-ching"
     },
     "description": "고대의 지혜, 현대 AI - 당신의 인생을 해독합니다!",
     "show_happy_users": false,
@@ -286,20 +286,13 @@
   },
   "cta": {
     "name": "cta",
-    "title": "역경 점술 무료 AI 해석 (베타 테스트 중)",
-    "description": "베타 테스트 기간 동안 무제한 무료 체험",
+    "title": "역경 점술 AI 해석",
     "buttons": [
       {
-        "title": "지금 무료로 체험하기⚡️",
+        "title": "지금 무료로 체험하기",
         "url": "/i-ching",
         "target": "_self",
         "icon": "GoArrowUpRight"
-      },
-      {
-        "title": "🎁 친구와 공유하기",
-        "url": "/my-invites",
-        "target": "_self",
-        "variant": "outline"
       }
     ]
   },
@@ -421,7 +414,33 @@
       ]
     }
   },
+  "questionExamples": {
+    "title": "예시: ",
+    "examples": [
+      {
+        "text": "이해하기 쉬운 언어로, 제 사주를 기반으로 인생의 궤적과 주요 전환점을 분석하고, 길흉 요소와 함께 제 성격의 강점과 약점을 파악하며, 운세를 높이는 실용적인 방법을 제안해 주세요.",
+        "label": "인생",
+        "type": "single"
+      },
+      {
+        "text": "우리 두 사람의 사주를 기반으로, 성격, 감정, 경력 측면에서 우리가 어디서 조화를 이루고 어디서 충돌할 수 있는지 알려주세요.",
+        "label": "관계",
+        "type": "double"
+      },
+      {
+        "text": "제 사주는 재물 전망에 대해 무엇을 나타내나요? 제가 쉽게 돈을 벌 운명인가요, 아니면 열심히 일해야 하나요? 그리고 돈을 끌어들이기에 가장 좋은 시기는 언제인가요?",
+        "label": "재물",
+        "type": "single"
+      },
+      {
+        "text": "제 사주에 따르면, 향후 5년간 제 경력은 어떻게 발전할까요? 승진이나 진로 변경에 최적의 시기는 언제이며, 어떤 도전에 주의해야 할까요?",
+        "label": "경력",
+        "type": "single"
+      }
+    ]
+  },
   "questionSuggestions": {
+    "disabled": true,
     "categories": {
       "all": "전체"
     },

@@ -12,7 +12,7 @@
 确保安装所需的依赖项：
 
 ```bash
-pnpm install resend csv-parse dotenv
+pnpm install -d resend csv-parse dotenv
 ```
 
 ## 配置
@@ -25,6 +25,17 @@ RESEND_API_KEY=re_your_api_key_here
 
 2. 在 `data/recipients.csv` 文件中设置收件人列表
 3. 在 `data/email-content.json` 文件中设置邮件内容
+
+4. 也可以在 `send-emails.js` 文件中配置文件路径
+
+```js
+// 配置文件路径 - 直接硬编码在这里
+const RECIPIENTS_FILE_PATH = path.resolve(__dirname, "./data/recipients-2.csv");
+const EMAIL_CONTENT_FILE_PATH = path.resolve(
+  __dirname,
+  "./data/email-content.json"
+);
+```
 
 ## 使用方法
 
@@ -39,6 +50,7 @@ node scripts/mail/send-emails.js
 CSV 文件应包含表头，并至少有一个 `email` 列。您可以包含其他列用于个性化邮件内容。
 
 示例 (`data/recipients.csv`):
+
 ```csv
 email,name,company,tracking_number
 user1@example.com,张三,ABC物流,SHP12345678
@@ -50,6 +62,7 @@ user2@example.com,李四,XYZ快递,SHP87654321
 JSON 文件应包含邮件内容，可以使用模板变量。
 
 示例 (`data/email-content.json`):
+
 ```json
 {
   "from": "notifications@shipany.com",

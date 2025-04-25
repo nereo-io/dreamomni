@@ -8,6 +8,7 @@ export interface SuggestedQuestion {
 }
 
 export interface QuestionSuggestions {
+  disabled?: boolean;
   categories: {
     [key: string]: string; // key 是分类ID (all, career, future 等)
   };

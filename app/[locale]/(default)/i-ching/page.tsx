@@ -5,7 +5,7 @@ import CTA from "@/components/blocks/cta";
 import { getIChingPage } from "@/services/page";
 import HeroIChing from "@/components/blocks/hero-iching";
 import NoticeSection from "@/components/blocks/notice-section";
-
+import FeedbackButton from "@/components/blocks/feedback-button";
 export async function generateMetadata({
   params: { locale },
 }: {
@@ -41,6 +41,10 @@ export default async function IChingPage({
       {page.faq && <FAQ section={page.faq} />}
       {page.cta && <CTA section={page.cta} />} */}
       {page.notice && <NoticeSection t={page.notice} />}
+      {/* 添加用户反馈按钮 */}
+      <div className="fixed bottom-4 right-4 z-40">
+        <FeedbackButton />
+      </div>
     </div>
   );
 }

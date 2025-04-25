@@ -1,5 +1,5 @@
 import Branding from "@/components/blocks/branding";
-import CTA from "@/components/blocks/cta";
+import CTAIching from "@/components/blocks/cta-iching";
 import FAQ from "@/components/blocks/faq";
 import Feature from "@/components/blocks/feature";
 import Feature1 from "@/components/blocks/feature1";
@@ -13,6 +13,7 @@ import Testimonial from "@/components/blocks/testimonial";
 import QuestionSelector from "@/components/blocks/question-selector";
 import BaziQuestions from "@/components/blocks/bazi-questions";
 import SurveyBanner from "@/components/blocks/survey-banner";
+import FeedbackButton from "@/components/blocks/feedback-button";
 import {
   OrganizationSchema,
   WebsiteSchema,
@@ -138,9 +139,14 @@ export default async function LandingPage({
         formMessages={readerPage}
         questionSelector={questionSelector}
         questionSuggestions={page.questionSuggestions}
+        questionExamples={page.questionExamples}
       />
-      <NavCategory />
-      {page.cta && <CTA section={page.cta} />}
+      {/* 添加用户反馈按钮 */}
+      <div className="fixed bottom-4 right-4 z-40">
+        <FeedbackButton />
+      </div>
+      {/* <NavCategory /> */}
+      {page.cta && <CTAIching section={page.cta} />}
       <BaziQuestions
         baziQuestions={baziQuestions}
         messages={baziQuestionsMessages}

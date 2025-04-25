@@ -40,11 +40,14 @@ import { QuestionSelector as QuestionSelectorType } from "@/types/blocks/questio
 import { QuestionSuggestions } from "@/types/blocks/question-suggestions";
 import Link from "next/link";
 import { CreditExhaustedModal } from "@/components/ui/credit-exhausted-modal";
+import { QuestionExamples } from "@/types/blocks/question-examples";
+import React from "react";
 
 interface Props {
   formMessages: ReaderPage;
   questionSelector: QuestionSelectorType;
   questionSuggestions?: QuestionSuggestions;
+  questionExamples?: QuestionExamples;
   defaultQuestion?: string;
   defaultReadingType?: "single" | "double";
 }
@@ -53,6 +56,7 @@ export default function QuestionSelector({
   formMessages,
   questionSelector,
   questionSuggestions,
+  questionExamples,
   defaultQuestion = "",
   defaultReadingType = "single",
 }: Props) {
@@ -433,41 +437,66 @@ export default function QuestionSelector({
                   )}
                 </div>
               )}
+            {/* 添加示例问题类别 */}
+            {questionExamples && (
+              <div className="mb-4 rounded-md text-center">
+                <span className="text-sm">
+                  {questionExamples?.title}
+                  {questionExamples?.examples.map((example, index) => (
+                    <React.Fragment key={example.text}>
+                      {index > 0 && <span className="text-gray-500">·</span>}
+                      <button
+                        onClick={() =>
+                          handleQuestionClick(example.text, example.type)
+                        }
+                        className="text-primary hover:text-primary/80 hover:underline mx-1 font-medium"
+                      >
+                        {example.label}
+                      </button>
+                    </React.Fragment>
+                  ))}
+                </span>
+              </div>
+            )}
 
             {/* 问题列表 */}
-            {questionSuggestions && questionSuggestions.questions && (
-              <ScrollArea className="h-[300px] md:h-[400px] rounded-md">
-                <div className="grid gap-2 pr-3 md:pr-4">
-                  {filteredQuestions.map((q) => (
-                    <Card
-                      key={q.id}
-                      className="p-3 md:p-4 cursor-pointer transition-colors hover:bg-orange-500/5 group"
-                      onClick={() => handleQuestionClick(q.text, q.readingType)}
-                    >
-                      <div className="flex items-start gap-2">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-sm md:text-base group-hover:text-orange-600">
-                              {q.tag === "new" && (
-                                <Badge className="bg-orange-500 hover:bg-orange-600 mx-1 flex-shrink-0">
-                                  New
-                                </Badge>
-                              )}
-                              {q.text}
-                            </span>
+            {questionSuggestions &&
+              questionSuggestions.questions &&
+              !questionSuggestions.disabled && (
+                <ScrollArea className="h-[300px] md:h-[400px] rounded-md">
+                  <div className="grid gap-2 pr-3 md:pr-4">
+                    {filteredQuestions.map((q) => (
+                      <Card
+                        key={q.id}
+                        className="p-3 md:p-4 cursor-pointer transition-colors hover:bg-orange-500/5 group"
+                        onClick={() =>
+                          handleQuestionClick(q.text, q.readingType)
+                        }
+                      >
+                        <div className="flex items-start gap-2">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-sm md:text-base group-hover:text-orange-600">
+                                {q.tag === "new" && (
+                                  <Badge className="bg-orange-500 hover:bg-orange-600 mx-1 flex-shrink-0">
+                                    New
+                                  </Badge>
+                                )}
+                                {q.text}
+                              </span>
+                            </div>
                           </div>
+                          {q.readingType === "double" ? (
+                            <HeartHandshakeIcon className="w-4 h-4 text-rose-500 flex-shrink-0 mt-1 transition-all duration-200 group-hover:scale-110" />
+                          ) : (
+                            <UserIcon className="w-4 h-4 text-foreground flex-shrink-0 mt-1 transition-all duration-200 group-hover:scale-110" />
+                          )}
                         </div>
-                        {q.readingType === "double" ? (
-                          <HeartHandshakeIcon className="w-4 h-4 text-rose-500 flex-shrink-0 mt-1 transition-all duration-200 group-hover:scale-110" />
-                        ) : (
-                          <UserIcon className="w-4 h-4 text-foreground flex-shrink-0 mt-1 transition-all duration-200 group-hover:scale-110" />
-                        )}
-                      </div>
-                    </Card>
-                  ))}
-                </div>
-              </ScrollArea>
-            )}
+                      </Card>
+                    ))}
+                  </div>
+                </ScrollArea>
+              )}
 
             {/* 用户生辰信息模态框 */}
             <CustomerInputFormModal

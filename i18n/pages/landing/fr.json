@@ -73,9 +73,9 @@
     "title": "Outil d'Analyse Bazi IA Gratuit",
     "highlight_text": "Bazi IA",
     "announcement": {
-      "title": "🌟 Questions populaires en direct maintenant 🌟",
-      "label": "Annonce",
-      "url": "/#bazi-questions"
+      "title": "🔮 Divination I Ching Gratuite!",
+      "label": "Nouveau",
+      "url": "/i-ching"
     },
     "description": "Votre Destin, Déchiffré par l'IA avec l'Astrologie Chinoise",
     "show_happy_users": false,
@@ -404,24 +404,44 @@
   },
   "cta": {
     "name": "cta",
-    "title": "Lecture de Divination I Ching AI Gratuite (Version Bêta)",
+    "title": "Lecture de Divination I Ching IA",
     "description": "Lectures Illimitées Gratuites Pendant la Phase Bêta",
     "buttons": [
       {
-        "title": "Essayer Gratuitement⚡️",
+        "title": "Essayer",
         "url": "/i-ching",
         "target": "_self",
         "icon": "GoArrowUpRight"
+      }
+    ]
+  },
+  "questionExamples": {
+    "title": "Exemples: ",
+    "examples": [
+      {
+        "text": "En utilisant un langage clair et accessible, analysez la trajectoire de ma vie et ses tournants majeurs selon mon thème Bazi; identifiez mes forces et faiblesses de personnalité avec les éléments favorables et défavorables, et offrez des méthodes pratiques pour améliorer ma fortune.",
+        "label": "Vie",
+        "type": "single"
       },
       {
-        "title": "🎁 Partager avec des Amis",
-        "url": "/my-invites",
-        "target": "_self",
-        "variant": "outline"
+        "text": "En vous basant sur nos deux thèmes Bazi, révélez où nous sommes en harmonie et où nous pourrions avoir des frictions en termes de personnalité, d'émotions et de carrière.",
+        "label": "Relation",
+        "type": "double"
+      },
+      {
+        "text": "Qu'indique mon thème Bazi concernant mes perspectives de richesse? Suis-je destiné à des gains faciles ou dois-je travailler dur, et quelles sont les meilleures périodes pour attirer l'argent?",
+        "label": "Richesse",
+        "type": "single"
+      },
+      {
+        "text": "Selon mon Bazi, comment ma carrière évoluera-t-elle au cours des cinq prochaines années? Quels sont les moments optimaux pour une promotion ou un changement de voie, et quels défis devrais-je surveiller?",
+        "label": "Carrière",
+        "type": "single"
       }
     ]
   },
   "questionSuggestions": {
+    "disabled": true,
     "categories": {
       "all": "Tous"
     },
