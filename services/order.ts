@@ -53,6 +53,8 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
     } else if (credits === "12") {
       await createOrUpdateMembership(user_uuid, "yearly");
       // sendGAEvent("event", "subscription_purchase", { value: "100" });
+    } else if (credits === "3") {
+      await createOrUpdateMembership(user_uuid, "quarterly");
     }
     // if (order.user_uuid) {
     // if (order.credits > 0) {

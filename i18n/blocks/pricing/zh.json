@@ -34,7 +34,35 @@
       "valid_months": 1
     },
     {
-      "title": "AI高级版(一次性)",
+      "title": "AI高级版(一次性季卡)",
+      "description": "相当于每月仅 $10，季度付费更划算",
+      "features_title": "包含",
+      "features": [
+        "无订阅，一个季度内无限次AI八字解读",
+        "单人高级命盘分析",
+        "双人合盘关系分析",
+        "高级命运趋势&挑战分析",
+        "2025年度AI运势追踪"
+      ],
+      "interval": "one-time",
+      "amount": 3000,
+      "cn_amount": 21700,
+      "currency": "USD",
+      "price": "$30",
+      "original_price": "$59.97",
+      "discount_label": "4折优惠",
+      "button": {
+        "title": "升级AI高级版",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "pro-quarter-one-time",
+      "product_name": "BaziAI高级版",
+      "credits": 3,
+      "valid_months": 3
+    },
+    {
+      "title": "AI高级版(一次性年卡)",
       "description": "相当于每月仅 $8.25，性价比更高",
       "label": "热门",
       "features_title": "包含",
@@ -58,7 +86,7 @@
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },
-      "product_id": "pro-one-time",
+      "product_id": "pro-year-one-time",
       "product_name": "BaziAI高级版",
       "credits": 12,
       "valid_months": 12

@@ -38,7 +38,7 @@ export async function checkMembershipStatus(user: User): Promise<{
 // 创建或更新会员
 export async function createOrUpdateMembership(
   userUuid: string,
-  planType: "monthly" | "yearly"
+  planType: "monthly" | "yearly" | "quarterly"
 ): Promise<void> {
   const now = new Date();
   const startDate = now.toISOString();
@@ -59,6 +59,8 @@ export async function createOrUpdateMembership(
     endDate.setMonth(endDate.getMonth() + 1);
   } else if (planType === "yearly") {
     endDate.setFullYear(endDate.getFullYear() + 1);
+  } else if (planType === "quarterly") {
+    endDate.setMonth(endDate.getMonth() + 3);
   }
 
   if (membership) {
