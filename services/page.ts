@@ -254,3 +254,19 @@ export async function getBaziQuestionsMessages(
     );
   }
 }
+
+export async function getQwen3Page(locale: string): Promise<LandingPage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(`@/i18n/pages/qwen3/${locale.toLowerCase()}.json`).then(
+      (module) => module.default
+    );
+  } catch (error) {
+    console.warn(`Failed to load ${locale}.json, falling back to en.json`);
+    return await import("@/i18n/pages/qwen3/en.json").then(
+      (module) => module.default as LandingPage
+    );
+  }
+}

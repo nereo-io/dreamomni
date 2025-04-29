@@ -231,5 +231,10 @@
       "pending": "대기 중",
       "completed": "완료"
     }
+  },
+  "qwen3": {
+    "title": "BaziAI - Qwen3 AI 바지 분석 도구 | 무료 인생 가이드",
+    "description": "Qwen3 기술과 고대 중국 점성술을 결합한 무료 AI 바지 분석을 받아보세요. 지능형 AI 해석을 통해 경력, 인간관계, 인생 경로를 분석합니다.",
+    "keywords": "AI 바지 분석, 무료 바지 해독, Qwen3, 경력 예측, 인생 가이드, 중국 점성술 AI"
   }
 }

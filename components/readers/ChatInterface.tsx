@@ -181,6 +181,7 @@ export default function ChatInterface({
       is_iching: contextChat?.is_iching,
       hexagramLines: contextChat?.hexagramLines,
       hexagramData: contextChat?.hexagramData,
+      model: contextChat?.model,
     },
     generateId: uuidv4,
     onError: (error) => {

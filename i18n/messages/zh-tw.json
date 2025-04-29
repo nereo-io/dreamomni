@@ -231,5 +231,10 @@
       "pending": "待處理",
       "completed": "已完成"
     }
+  },
+  "qwen3": {
+    "title": "BaziAI - Qwen3 AI 八字分析工具 | 免費人生指導",
+    "description": "獲取免費的AI驅動八字分析，將古老的中國占星術與Qwen3技術相結合。通過智能AI解讀分析職業、人際關係和人生道路。",
+    "keywords": "AI八字分析, 免費八字解讀, Qwen3, 職業預測, 人生指導, 中國占星AI"
   }
 }

@@ -230,5 +230,10 @@
       "pending": "En Attente",
       "completed": "Terminé"
     }
+  },
+  "qwen3": {
+    "title": "BaziAI - Outil d'analyse Bazi AI Qwen3 | Guide de vie gratuit",
+    "description": "Obtenez des analyses Bazi gratuites alimentées par l'IA, combinant l'astrologie chinoise ancienne avec la technologie Qwen3. Analysez votre carrière, vos relations et votre chemin de vie grâce à l'interprétation intelligente de l'IA.",
+    "keywords": "Analyse Bazi IA, Lecture Bazi gratuite, Qwen3, Prédiction de carrière, Guide de vie, IA d'astrologie chinoise"
   }
 }

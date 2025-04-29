@@ -425,22 +425,22 @@
     "examples": [
       {
         "text": "Using clear, beginner-friendly language, analyze my life's trajectory and key turning points based on my Bazi chart; identify my personality strengths and weaknesses with auspicious and inauspicious elements, and offer practical methods to boost my fortune.",
-        "label": "Life",
+        "label": "Life Trajectory Analysis",
         "type": "single"
       },
       {
         "text": "Based on both our Bazi charts, reveal where we align and where we may clash in personality, emotions, and career.",
-        "label": "Relationship",
+        "label": "Dual Relationship Reading",
         "type": "double"
       },
       {
         "text": "What does my Bazi chart indicate about my wealth prospects? Am I destined for easy gains or must I work hard, and when are the best windows to attract money?",
-        "label": "Wealth",
+        "label": "Wealth Development Analysis",
         "type": "single"
       },
       {
         "text": "According to my Bazi, how will my career evolve over the next five years? When are the optimal times for promotion or switching paths, and which challenges should I watch out for?",
-        "label": "Career",
+        "label": "Career Development Forecast",
         "type": "single"
       }
     ]

@@ -54,6 +54,11 @@
     "description": "Get free AI-powered I Ching divination readings. Discover insights about your life path, personality, and key turning points with our AI-powered I Ching analysis.",
     "keywords": "i ching reading, i ching analysis, i ching interpretation, i ching fortune, i ching prediction"
   },
+  "qwen3": {
+    "title": "BaziAI - Qwen3 AI Bazi Reading Tool | Free Life Guidance",
+    "description": "Get free AI-powered Bazi readings combining ancient Chinese astrology with Qwen3 technology. Analyze career, relationships, and life path through intelligent AI interpretation.",
+    "keywords": "AI Bazi Reading, Free Bazi Reading, Qwen3, Career Prediction, Life Guidance, Chinese Astrology AI"
+  },
 
   "user": {
     "sign_in": "Sign In",

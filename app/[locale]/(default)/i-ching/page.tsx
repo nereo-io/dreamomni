@@ -12,10 +12,10 @@ export async function generateMetadata({
   params: { locale: string };
 }): Promise<Metadata> {
   const t = await getTranslations();
-  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}`;
+  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/i-ching`;
 
   if (locale !== "en") {
-    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}`;
+    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/i-ching`;
   }
 
   return {

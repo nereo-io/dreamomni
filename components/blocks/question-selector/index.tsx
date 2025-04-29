@@ -50,6 +50,7 @@ interface Props {
   questionExamples?: QuestionExamples;
   defaultQuestion?: string;
   defaultReadingType?: "single" | "double";
+  model?: "r1" | "qwen3";
 }
 
 export default function QuestionSelector({
@@ -59,6 +60,7 @@ export default function QuestionSelector({
   questionExamples,
   defaultQuestion = "",
   defaultReadingType = "single",
+  model = "r1",
 }: Props) {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -236,6 +238,7 @@ export default function QuestionSelector({
         partner_info: partnerInfo || undefined,
         is_matching: matchMode === "double",
         is_iching: false,
+        model: model,
       };
       setChat(chat);
       // console.log(chat);

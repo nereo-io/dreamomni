@@ -42,7 +42,10 @@ export async function POST(
       is_iching,
       hexagramLines,
       hexagramData,
+      model,
     } = (await req.json()) as ChatRequest;
+
+    // console.log("model: ", model);
 
     const chatId = params.chatId;
     let messageHistory;
@@ -117,7 +120,10 @@ export async function POST(
       // model: deepseek("deepseek-chat"),
       // model: deepseekARK("ep-20250205155325-bsdb5"), //r1
       // model: deepseekARK("ep-20250208110123-np259"), // deepseek-qwen-32B
-      model: deepseekARK("doubao-1-5-thinking-pro-250415"), //doubao-1-5-thinking-pro-250415
+      model:
+        model === "qwen3"
+          ? deepseekALI("qwen3-235b-a22b")
+          : deepseekARK("doubao-1-5-thinking-pro-250415"), // 根据model参数选择模型
       // model: deepseekARK("ep-20250228181734-xc4qb"), // doubao-lite
       // model: deepseekALI("deepseek-r1"),
       // model: deepseekALI("qwen-max-latest"),
