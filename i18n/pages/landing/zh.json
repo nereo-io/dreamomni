@@ -363,6 +363,21 @@
     "nav": {
       "items": [
         {
+          "title": "模型",
+          "children": [
+            {
+              "title": "DeepSeek R1",
+              "url": "/",
+              "target": "_self"
+            },
+            {
+              "title": "Qwen3",
+              "url": "/qwen3",
+              "target": "_self"
+            }
+          ]
+        },
+        {
           "title": "八字解读",
           "children": [
             {
