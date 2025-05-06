@@ -41,7 +41,7 @@ export default function FeedbackButton({ className }: FeedbackButtonProps) {
           <div className="flex flex-col items-center justify-center py-4">
             <div className="bg-white p-4 rounded-md mb-3">
               <Image
-                src="/imgs/wechat/wechat-group-qr.jpg"
+                src="/imgs/wechat/wechat-group-qr.png"
                 alt="WeChat Group QR Code"
                 width={280}
                 height={280}

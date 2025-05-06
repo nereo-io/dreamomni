@@ -110,7 +110,7 @@ export default function HeroIChing({ t }: HeroIChingProps) {
   // Handle question input change
   const handleQuestionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newQuestion = e.target.value;
-    if (newQuestion.length <= 150) {
+    if (newQuestion.length <= 2000) {
       setQuestion(newQuestion);
       setCharCount(newQuestion.length);
     }
