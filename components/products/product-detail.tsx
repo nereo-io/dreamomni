@@ -220,7 +220,7 @@ export default function ProductDetail({
           )}
 
           <div className="mt-6">
-            <p className="text-gray-600">
+            <p className="text-black dark:text-white">
               {product.description || translations.noDescription}
             </p>
           </div>
