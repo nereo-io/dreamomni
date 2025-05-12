@@ -9,6 +9,49 @@ import { getIsoTimestr, getOneYearLaterTimestr } from "@/lib/time";
 import { sendGAEvent } from "@next/third-parties/google";
 import Stripe from "stripe";
 import { updateAffiliateForOrder } from "./affiliate";
+import { createProductPurchaseRecord } from "@/models/purchase";
+import { PurchasedImageProduct } from "@/types/img-product";
+
+// 处理图片商品购买，记录到user_purchased_images表
+export async function handleImageProductPurchase(order: any) {
+  if (!order || !order.user_uuid || !order.product_id) {
+    console.log("无效的订单数据，无法处理图片商品购买");
+    return;
+  }
+
+  try {
+    console.log("处理图片商品购买:", order.product_id, order.user_uuid);
+
+    // 计算访问过期时间（默认购买后有效期一年）
+    const now = new Date();
+    // 默认有效期是valid_months个月，如果没有则默认12个月
+    const validMonths = order.valid_months || 12;
+    const accessExpiresAt = new Date(now);
+    accessExpiresAt.setMonth(now.getMonth() + validMonths);
+
+    // 准备要插入的购买记录数据
+    const purchaseRecord: Partial<PurchasedImageProduct> = {
+      product_id: order.product_id,
+      order_id: order.order_no.toString(),
+      user_uuid: order.user_uuid,
+      purchase_time: now.toISOString(),
+      access_expires_at: accessExpiresAt.toISOString(),
+      download_count: 0,
+    };
+
+    // 使用模型层方法创建购买记录
+    const result = await createProductPurchaseRecord(purchaseRecord);
+
+    if (result) {
+      console.log("图片购买记录创建成功:", result.id);
+    } else {
+      console.warn("图片购买记录创建可能失败");
+    }
+  } catch (error) {
+    console.error("处理图片商品购买时出错:", error);
+    throw error;
+  }
+}
 
 export async function handleOrderSession(session: Stripe.Checkout.Session) {
   try {
@@ -43,39 +86,40 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
     const paid_at = getIsoTimestr();
     await updateOrderStatus(order_no, "paid", paid_at, paid_email, paid_detail);
 
-    // 更新会员状态 - 判断月度会员还是年度会员
+    // 处理订单类型
+    const interval = order.interval;
+    const product_id = order.product_id;
+    const product_type = order.product_type; // 获取产品类型
     const credits = session.metadata.credits;
-    // console.log("session: ", session.metadata);
-    console.log("Updating membership for user:", user_uuid);
-    if (credits === "1") {
-      await createOrUpdateMembership(user_uuid, "monthly");
-      // sendGAEvent("event", "subscription_purchase", { value: "10" });
-    } else if (credits === "12") {
-      await createOrUpdateMembership(user_uuid, "yearly");
-      // sendGAEvent("event", "subscription_purchase", { value: "100" });
-    } else if (credits === "3") {
-      await createOrUpdateMembership(user_uuid, "quarterly");
-    }
-    // if (order.user_uuid) {
-    // if (order.credits > 0) {
-    // increase credits for paied order
-    // await updateCreditForOrder(order);
-    // }
 
-    // update affiliate for paied order
-    // await updateAffiliateForOrder(order);
-    // }
-    // await createOrUpdateMembership(user_uuid, product_id);
-    // if (order.user_uuid && order.credits > 0) {
-    //   // increase credits for paied order
-    //   await increaseCredits({
-    //     user_uuid: order.user_uuid,
-    //     trans_type: CreditsTransType.OrderPay,
-    //     credits: order.credits,
-    //     expired_at: order.expired_at,
-    //     order_no: order_no,
-    //   });
-    // }
+    console.log("Order details:", {
+      interval,
+      product_type,
+      product_id,
+      credits,
+    });
+
+    // 判断是会员订阅还是图片商品购买
+    // 数据库表尚未更新前，使用interval和metadata判断产品类型
+    if (
+      interval === "one-time" &&
+      (order.product_type === "image" || // 新订单可能已有product_type
+        session.metadata.product_type === "image")
+    ) {
+      // 或者从metadata获取
+      // 处理图片商品购买
+      await handleImageProductPurchase(order);
+    } else {
+      // 处理会员订阅
+      console.log("Updating membership for user:", user_uuid);
+      if (credits === "1") {
+        await createOrUpdateMembership(user_uuid, "monthly");
+      } else if (credits === "12") {
+        await createOrUpdateMembership(user_uuid, "yearly");
+      } else if (credits === "3") {
+        await createOrUpdateMembership(user_uuid, "quarterly");
+      }
+    }
 
     console.log(
       "handle order session successed: ",

@@ -63,6 +63,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "weekly" as ChangeFrequency,
         priority: 0.9,
       },
+      {
+        url: `${baseUrl}/products`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.9,
+      },
     ];
 
     console.log(`添加了 ${staticPages.length} 个基础页面`);
@@ -110,6 +116,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
         {
           url: `${baseUrl}/${locale}/qwen3`,
+          lastModified: currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.9,
+        },
+        {
+          url: `${baseUrl}/${locale}/products`,
           lastModified: currentDate,
           changeFrequency: "weekly" as ChangeFrequency,
           priority: 0.9,

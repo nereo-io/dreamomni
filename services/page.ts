@@ -10,6 +10,7 @@ import { PersonalityTestPage } from "@/types/pages/personality-test";
 import { BaziQuestionsMessages } from "@/types/blocks/bazi-questions";
 import { IChingLandingPage } from "@/types/pages/i-ching";
 import { IChingContent } from "@/types/hexagram";
+import { ProductsPageTranslation } from "@/types/pages/products-page";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -267,6 +268,26 @@ export async function getQwen3Page(locale: string): Promise<LandingPage> {
     console.warn(`Failed to load ${locale}.json, falling back to en.json`);
     return await import("@/i18n/pages/qwen3/en.json").then(
       (module) => module.default as LandingPage
+    );
+  }
+}
+
+export async function getProductsPage(
+  locale: string
+): Promise<ProductsPageTranslation> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/products/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load products/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/pages/products/en.json").then(
+      (module) => module.default as ProductsPageTranslation
     );
   }
 }

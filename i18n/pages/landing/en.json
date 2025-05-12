@@ -423,18 +423,32 @@
       ]
     }
   },
-  "cta": {
-    "name": "cta",
-    "title": "I Ching Divination AI Reading",
-    "buttons": [
-      {
-        "title": "Free Now",
-        "url": "/i-ching",
-        "target": "_self",
-        "icon": "GoArrowUpRight"
-      }
-    ]
-  },
+  "cta": [
+    {
+      "name": "cta-iching",
+      "title": "I Ching Divination AI Reading",
+      "buttons": [
+        {
+          "title": "Free Now",
+          "url": "/i-ching",
+          "target": "_self",
+          "icon": "GoArrowUpRight"
+        }
+      ]
+    },
+    {
+      "name": "cta-fu",
+      "title": "Fortune Talisman Wallpapers",
+      "description": "Your Exclusive Lucky Charm",
+      "buttons": [
+        {
+          "title": "Get Now",
+          "url": "/products",
+          "target": "_self"
+        }
+      ]
+    }
+  ],
   "questionExamples": {
     "title": "Examples: ",
     "examples": [

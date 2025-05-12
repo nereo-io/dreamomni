@@ -32,7 +32,7 @@ export default function Hero({ hero }: { hero: HeroType }) {
             </div>
           )}
           <div className="text-center">
-            {hero.announcement && (
+            {/* {hero.announcement && (
               <a
                 href={hero.announcement.url}
                 className="mx-auto mb-3 inline-flex items-center gap-3 rounded-full border px-2 py-1 text-sm"
@@ -42,7 +42,7 @@ export default function Hero({ hero }: { hero: HeroType }) {
                 )}
                 {hero.announcement.title}
               </a>
-            )}
+            )} */}
 
             {texts && texts.length > 1 ? (
               <h1 className="mx-auto mb-3 mt-4 max-w-5xl text-balance text-2xl font-bold lg:mb-7 lg:text-6xl">

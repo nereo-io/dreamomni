@@ -18,6 +18,7 @@ export interface Order {
   sub_times?: number;
   product_id?: string;
   product_name?: string;
+  product_type?: string;
   valid_months?: number;
   order_detail?: string;
   paid_at?: string;

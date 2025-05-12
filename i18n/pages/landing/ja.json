@@ -402,19 +402,32 @@
       }
     ]
   },
-  "cta": {
-    "name": "cta",
-    "title": "易経占いAI解読",
-    "description": "ベータテスト期間中は無制限で無料体験",
-    "buttons": [
-      {
-        "title": "今すぐ無料体験",
-        "url": "/i-ching",
-        "target": "_self",
-        "icon": "GoArrowUpRight"
-      }
-    ]
-  },
+  "cta": [
+    {
+      "name": "cta-iching",
+      "title": "易経占いAI読解",
+      "buttons": [
+        {
+          "title": "無料体験⚡️",
+          "url": "/i-ching",
+          "target": "_self",
+          "icon": "GoArrowUpRight"
+        }
+      ]
+    },
+    {
+      "name": "cta-fu",
+      "title": "縁に従って護符壁紙を選ぶ",
+      "description": "あなただけの開運アイテム",
+      "buttons": [
+        {
+          "title": "今すぐ請求",
+          "url": "/products",
+          "target": "_self"
+        }
+      ]
+    }
+  ],
   "questionExamples": {
     "title": "例: ",
     "examples": [

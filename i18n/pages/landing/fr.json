@@ -402,19 +402,32 @@
       ]
     }
   },
-  "cta": {
-    "name": "cta",
-    "title": "Lecture de Divination I Ching IA",
-    "description": "Lectures Illimitées Gratuites Pendant la Phase Bêta",
-    "buttons": [
-      {
-        "title": "Essayer",
-        "url": "/i-ching",
-        "target": "_self",
-        "icon": "GoArrowUpRight"
-      }
-    ]
-  },
+  "cta": [
+    {
+      "name": "cta-iching",
+      "title": "Divination I Ching par IA",
+      "buttons": [
+        {
+          "title": "Essai Gratuit⚡️",
+          "url": "/i-ching",
+          "target": "_self",
+          "icon": "GoArrowUpRight"
+        }
+      ]
+    },
+    {
+      "name": "cta-fu",
+      "title": "Fonds d'écran Talisman selon Votre Destin",
+      "description": "Votre Porte-bonheur Exclusif",
+      "buttons": [
+        {
+          "title": "Obtenir Maintenant",
+          "url": "/products",
+          "target": "_self"
+        }
+      ]
+    }
+  ],
   "questionExamples": {
     "title": "Exemples: ",
     "examples": [

@@ -6,6 +6,7 @@ import { Order } from "@/types/order";
 import Stripe from "stripe";
 import { findUserByUuid } from "@/models/user";
 import { getSnowId } from "@/lib/hash";
+const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY || "");
 
 export async function POST(req: Request) {
   try {
@@ -16,6 +17,8 @@ export async function POST(req: Request) {
       interval,
       product_id,
       product_name,
+      product_type,
+      product_slug,
       valid_months,
       cancel_url,
     } = await req.json();
@@ -97,11 +100,11 @@ export async function POST(req: Request) {
       currency: currency,
       product_id: product_id,
       product_name: product_name,
+      // 临时注释掉，等待数据库结构更新
+      // product_type: product_type,
       valid_months: valid_months,
     };
     await insertOrder(order);
-
-    const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY || "");
 
     let options: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: ["card"],
@@ -126,6 +129,9 @@ export async function POST(req: Request) {
       metadata: {
         project: process.env.NEXT_PUBLIC_PROJECT_NAME || "",
         product_name: product_name,
+        product_type: product_type,
+        product_id: product_id,
+        product_slug: product_slug,
         order_no: order_no.toString(),
         user_email: user_email,
         credits: credits,

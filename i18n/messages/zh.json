@@ -58,6 +58,10 @@
     "description": "获取免费的AI驱动八字分析，将古老的中国占星术与Qwen3技术相结合。通过智能AI解读分析职业、人际关系和人生道路。",
     "keywords": "AI八字分析, 免费八字解读, Qwen3, 职业预测, 人生指导, 中国占星AI"
   },
+  "products": {
+    "title": "请符壁纸 | BaziAI",
+    "description": "您的专属转运神物，随缘自选"
+  },
   "user": {
     "sign_in": "登录",
     "sign_out": "退出登录",

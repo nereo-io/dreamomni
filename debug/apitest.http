@@ -113,3 +113,26 @@ Cookie: {{authCookie}}
 POST {{baseUrl}}/api/get-user-info
 Content-Type: application/json
 Cookie: {{authCookie}}
+
+### get-products-list
+GET {{baseUrl}}/api/products
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+
+### get-product-details
+GET {{baseUrl}}/api/products/e8c9f6d2-3b5a-4f8e-9d7c-1a2b3c4d5e6f
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+
+### get-user-purchased-images
+GET {{baseUrl}}/api/user/purchased-images
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+
+### get-product-download-link
+GET {{baseUrl}}/api/products/e8c9f6d2-3b5a-4f8e-9d7c-1a2b3c4d5e6f/download
+Content-Type: application/json
+Cookie: {{authCookie}}

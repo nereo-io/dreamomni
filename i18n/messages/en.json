@@ -59,7 +59,10 @@
     "description": "Get free AI-powered Bazi readings combining ancient Chinese astrology with Qwen3 technology. Analyze career, relationships, and life path through intelligent AI interpretation.",
     "keywords": "AI Bazi Reading, Free Bazi Reading, Qwen3, Career Prediction, Life Guidance, Chinese Astrology AI"
   },
-
+  "products": {
+    "title": "Talisman Wallpapers | BaziAI",
+    "description": "Your exclusive fortune-turning spiritual items, choose as destiny guides"
+  },
   "user": {
     "sign_in": "Sign In",
     "sign_out": "Sign Out",

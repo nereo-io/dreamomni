@@ -284,19 +284,32 @@
       }
     ]
   },
-  "cta": {
-    "name": "cta",
-    "title": "易經占卜AI解讀",
-    "description": "內測期間不限次數免費體驗",
-    "buttons": [
-      {
-        "title": "免費體驗⚡️",
-        "url": "/i-ching",
-        "target": "_self",
-        "icon": "GoArrowUpRight"
-      }
-    ]
-  },
+  "cta": [
+    {
+      "name": "cta-iching",
+      "title": "易經占卜AI解讀",
+      "buttons": [
+        {
+          "title": "免費體驗⚡️",
+          "url": "/i-ching",
+          "target": "_self",
+          "icon": "GoArrowUpRight"
+        }
+      ]
+    },
+    {
+      "name": "cta-fu",
+      "title": "隨緣自選請符壁紙",
+      "description": "您的專屬轉運神物",
+      "buttons": [
+        {
+          "title": "立即求取",
+          "url": "/products",
+          "target": "_self"
+        }
+      ]
+    }
+  ],
   "footer": {
     "name": "footer",
     "brand": {

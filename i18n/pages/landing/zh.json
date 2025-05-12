@@ -481,18 +481,32 @@
       ]
     }
   },
-  "cta": {
-    "name": "cta",
-    "title": "易经占卜AI解读",
-    "buttons": [
-      {
-        "title": "免费体验⚡️",
-        "url": "/i-ching",
-        "target": "_self",
-        "icon": "GoArrowUpRight"
-      }
-    ]
-  },
+  "cta": [
+    {
+      "name": "cta-iching",
+      "title": "易经占卜AI解读",
+      "buttons": [
+        {
+          "title": "免费体验⚡️",
+          "url": "/i-ching",
+          "target": "_self",
+          "icon": "GoArrowUpRight"
+        }
+      ]
+    },
+    {
+      "name": "cta-fu",
+      "title": "随缘自选请符壁纸",
+      "description": "您的专属转运神物",
+      "buttons": [
+        {
+          "title": "立即求取",
+          "url": "/products",
+          "target": "_self"
+        }
+      ]
+    }
+  ],
   "questionExamples": {
     "title": "举例: ",
     "examples": [
