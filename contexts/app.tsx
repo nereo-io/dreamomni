@@ -37,7 +37,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   const { leftCredits, updateLeftCredits } = useCredits();
 
   const [theme, setTheme] = useState<string>(() => {
-    return process.env.NEXT_PUBLIC_DEFAULT_THEME || "dark";
+    return process.env.NEXT_PUBLIC_DEFAULT_THEME || "";
   });
 
   const [showSignModal, setShowSignModal] = useState<boolean>(false);
