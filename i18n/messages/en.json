@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "BaziAI - DeepSeek R1 AI Bazi Reading Tool | Free Life Guidance",
-    "description": "Get free AI-powered Bazi readings combining ancient Chinese astrology with DeepSeek R1 technology. Analyze career, relationships, and life path through intelligent AI interpretation.",
-    "keywords": "AI Bazi Reading, Free Bazi Reading, DeepSeek R1, Career Prediction, Life Guidance, Chinese Astrology AI"
+    "title": "Claude4Chat - Free Chat with Claude 4 | Advanced AI Conversation Platform",
+    "description": "Claude 4 Sonnet is an advanced hybrid reasoning model that excels in coding and enhances content generation, data analysis, and planning. Start free conversations with AI today.",
+    "keywords": "Claude 4, AI Chat, Free AI Conversation, Claude Sonnet, AI Assistant, Coding AI, Data Analysis, Content Generation"
   },
 
   "career": {
@@ -46,8 +46,8 @@
     "keywords": "2025 Chinese Horoscope, Wood Snake Year, Chinese Horoscope prediction, AI fortune forecast, personalized horoscope, zodiac compatibility"
   },
   "feedback": {
-    "title": "User Feedback | BaziAI",
-    "description": "Share your thoughts, suggestions, or report issues with BaziAI. Help us improve our AI-powered Bazi reading services to better serve your needs."
+    "title": "User Feedback | Claude4Chat",
+    "description": "Share your thoughts, suggestions, or report issues with Claude4Chat. Help us improve our AI-powered conversation platform to better serve your needs."
   },
   "i-ching": {
     "title": "Free I Ching AI Divination Reading Tool| BaziAI",
@@ -93,7 +93,7 @@
   },
   "my_orders": {
     "title": "My Orders",
-    "description": "orders paid with BaziAI.",
+    "description": "orders paid with Claude4Chat.",
     "no_orders": "No orders found",
     "tip": "",
     "activate_order": "Activate Order",
@@ -130,7 +130,7 @@
   "my_credits": {
     "title": "My Credits",
     "rules_title": "Rules",
-    "rules": "1. New users receive 3 free credits upon registration. You’ll earn an additional 3 credits for every friend you invite who signs up. \n2. Each reading costs 1 credit. Upgrade to a membership for unlimited readings.",
+    "rules": "1. New users receive 3 free credits upon registration. You'll earn an additional 3 credits for every friend you invite who signs up. \n2. Each conversation costs 1 credit. Upgrade to a membership for unlimited conversations.",
     "left_tip": "left credits: {left_credits}",
     "no_credits": "No credits records",
     "recharge": "Upgrade Membership",
@@ -161,44 +161,44 @@
   },
   "blog": {
     "title": "Blog",
-    "description": "News, resources, and updates about BaziAI",
+    "description": "News, resources, and updates about Claude4Chat",
     "read_more_text": "Read More"
   },
   "chat": {
-    "title": "New Chat - DeepSeek R1 AI Bazi Analysis Tool",
-    "description": "Start a new chat with DeepSeek R1 AI Bazi Analysis Tool"
+    "title": "New Chat - Claude4Chat AI Conversation Platform",
+    "description": "Start a new chat with Claude 4 Sonnet AI for enhanced content generation, data analysis, and planning"
   },
   "survey_banner": {
-    "message": "👋 Quick feedback needed - help shape BaziAI!",
+    "message": "👋 Quick feedback needed - help shape Claude4Chat!",
     "close": "Close"
   },
   "credit_exhausted_modal": {
-    "title": "Out of Reading Credits",
-    "description": "Life destiny, wealth enhancement, compatibility charts - unlock them all now",
+    "title": "Out of Conversation Credits",
+    "description": "Advanced AI conversations, coding assistance, data analysis - unlock them all now",
     "lifetime_analysis": {
-      "title": "Personal Bazi Reading",
-      "description1": "Facing obstacles or declining fortune? Bazi reveals where risks lie and when opportunities emerge.",
-      "description2": "For critical decisions (job change/investment/business/exams), timing is more crucial than effort."
+      "title": "Personal AI Assistant",
+      "description1": "Need help with complex problems or creative projects? Claude 4 provides intelligent insights and solutions for your specific needs.",
+      "description2": "For important tasks (coding, writing, analysis, planning), having an advanced AI assistant can significantly boost your productivity."
     },
     "dual_chart": {
-      "title": "Compatibility Reading",
-      "description": "Understand interaction patterns with your partner, children, or boss, and see hidden harmonies or conflicts."
+      "title": "Team Collaboration",
+      "description": "Share conversations with your team members and collaborate on projects with AI assistance."
     },
     "use_cases": {
-      "relationship": "Relationships: Are we truly compatible for a lifetime together?",
-      "family": "Parenting: Communication difficulties with your child - personality clash or elemental conflict?",
-      "career": "Workplace: Constant disagreements with colleagues - could it be destiny incompatibility?"
+      "relationship": "Personal: Get intelligent advice for personal decisions and life planning?",
+      "family": "Education: Help with learning, research, and academic projects - perfect for students and professionals?",
+      "career": "Professional: Need assistance with coding, writing, data analysis, or business planning?"
     },
     "choice_section": {
-      "title": "👇 Choose your next destiny exploration path:",
+      "title": "👇 Choose your next AI conversation path:",
       "premium": {
-        "title": "🔓 Unlock Full Destiny Map",
+        "title": "🔓 Unlock Unlimited Conversations",
         "description": "Upgrade membership"
       },
       "share": {
         "title": "🎁 Share With Friends",
-        "description": "Get free readings",
-        "tips": "Invite 1 person = Get 3 personal Bazi readings"
+        "description": "Get free conversations",
+        "tips": "Invite 1 person = Get 3 free AI conversations"
       }
     },
     "footer_text": "Already a member? Please log in again to restore your privileges.\nInvites are only valid for unregistered users. Credits cannot be claimed multiple times."
@@ -211,7 +211,7 @@
     "edit_invite_link": "Edit Invite Link",
     "copy_invite_link": "Copy Invite Link",
     "invite_code": "Invite Code",
-    "invite_tip": "Get 3 personal Bazi readings for every friend who signs up through your link.",
+    "invite_tip": "Get 3 free AI conversations for every friend who signs up through your link.",
     "invite_balance": "Invite Reward Balance",
     "total_invite_count": "Total Invite Count",
     "total_paid_count": "Total Paid Count",
@@ -219,16 +219,16 @@
     "update_invite_code": "Set Invite Code",
     "update_invite_code_tip": "Input your custom invite code",
     "update_invite_button": "Save",
-    "no_orders": "You can't invite others before you bought ShipAny",
+    "no_orders": "You can't invite others before you purchased Claude4Chat premium",
     "no_affiliates": "You're not allowed to invite others, please contact us to apply for permission.",
     "invite_templates": "Invite Templates",
     "copy": "Copy",
-    "template1_title": "🔮 Destiny Analysis",
-    "template2_title": "💸 Wealth Potential",
-    "template3_title": "💞 Love Compatibility",
-    "template1": "Hey friends! I just tried BaziAI — it gives you a full Bazi (birth chart) reading with amazing accuracy. I was blown away by the insights into my life path, personality, and key turning points. You get 3 free readings when you sign up — don’t miss out!\n👉 Try BaziAI now",
-    "template2": "Want to know when your money luck peaks? BaziAI’s wealth reading shows your financial highs and lows, all based on your unique Bazi chart. Super insightful and spot-on! Sign up for 3 free wealth readings and unlock your fortune.\n💸 Discover BaziAI here",
-    "template3": "Curious about love compatibility? BaziAI does dual readings to reveal your relationship strengths, challenges, and emotional match — all from your Bazi birth info. It’s fun, real, and you get 3 free love readings. Try it with someone special!\n💞 Explore BaziAI now",
+    "template1_title": "🤖 AI Conversations",
+    "template2_title": "💻 Coding Assistant",
+    "template3_title": "📊 Data Analysis",
+    "template1": "Hey friends! I just tried Claude4Chat — it gives you access to Claude 4 Sonnet with amazing conversation capabilities. I was blown away by the insights for coding, writing, and problem-solving. You get 3 free conversations when you sign up — don't miss out!\n👉 Try Claude4Chat now",
+    "template2": "Need a coding assistant that actually understands your code? Claude4Chat with Claude 4 Sonnet helps with debugging, code review, and complex programming tasks. Super helpful and accurate! Sign up for 3 free coding sessions.\n💻 Discover Claude4Chat here",
+    "template3": "Want intelligent data analysis and insights? Claude4Chat helps you understand complex data, create visualizations, and make data-driven decisions — all through natural conversation. Try it out with 3 free analysis sessions!\n📊 Explore Claude4Chat now",
     "table": {
       "invite_time": "Invite Time",
       "invite_user": "Invite User",

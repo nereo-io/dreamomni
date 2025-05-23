@@ -14,14 +14,6 @@ export interface QuestionSelector {
     input: {
       unlimited_usage: string;
       remaining_readings: string;
-      add_birth_info: string;
-      partner_birth_info: string;
     };
-  };
-  matching: {
-    single: string;
-    double: string;
-    double_title: string;
-    description: string;
   };
 }

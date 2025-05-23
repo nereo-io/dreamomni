@@ -38,18 +38,14 @@ export enum ChatStatus {
 }
 
 // 数据库表对应的类型
-export interface ChatSessionDB {
+export interface ChatSession {
   uuid: string;
   user_uuid: string;
   title: string;
   status: ChatStatus;
-  customer_info_id?: string;
   created_at: Date;
   updated_at?: Date;
-  is_matching: boolean; // 是否是双人匹配模式
-  partner_info_id?: string; // 伴侣信息ID
-  is_iching?: boolean; // 是否是八卦占卜
-  model?: string; // 模型
+  model: string; // 模型
 }
 
 // 消息类型保持不变
@@ -60,12 +56,4 @@ export interface ChatMessage {
   content: string;
   reasoning_content?: string;
   created_at?: Date;
-}
-
-// 前端使用的完整类型
-export interface ChatSession extends ChatSessionDB {
-  customer_info?: CustomerInfo; // 前端始终需要完整的客户信息
-  partner_info?: CustomerInfo; // 伴侣信息，用于双人匹配
-  hexagramLines?: HexagramLine[]; // 八卦占卜的爻线
-  hexagramData?: HexagramData; // 八卦占卜的结果
 }

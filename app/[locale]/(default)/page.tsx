@@ -2,10 +2,13 @@ import FAQ from "@/components/blocks/faq";
 import Hero from "@/components/blocks/hero";
 import Testimonial from "@/components/blocks/testimonial";
 import QuestionSelector from "@/components/blocks/question-selector";
+import ClaudeSonnetFeaturesBlock from "@/components/blocks/claude-sonnet-features";
+
 import {
   getLandingPage,
   getReaderPage,
   getQuestionSelectorBlock,
+  getClaudeSonnetFeaturesBlock,
 } from "@/services/page";
 
 export async function generateMetadata({
@@ -34,16 +37,16 @@ export default async function LandingPage({
   const page = await getLandingPage(locale);
   const readerPage = await getReaderPage(locale);
   const questionSelector = await getQuestionSelectorBlock(locale);
+  const claudeSonnetFeatures = await getClaudeSonnetFeaturesBlock(locale);
 
   return (
     <>
       {page.hero && <Hero hero={page.hero} />}
       <QuestionSelector
-        formMessages={readerPage}
         questionSelector={questionSelector}
-        questionSuggestions={page.questionSuggestions}
         questionExamples={page.questionExamples}
       />
+      <ClaudeSonnetFeaturesBlock translations={claudeSonnetFeatures} />
 
       {page.testimonial && <Testimonial section={page.testimonial} />}
       {page.faq && <FAQ section={page.faq} />}

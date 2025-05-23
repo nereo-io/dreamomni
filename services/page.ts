@@ -11,6 +11,7 @@ import { BaziQuestionsMessages } from "@/types/blocks/bazi-questions";
 import { IChingLandingPage } from "@/types/pages/i-ching";
 import { IChingContent } from "@/types/hexagram";
 import { ProductsPageTranslation } from "@/types/pages/products-page";
+import { ClaudeSonnetFeaturesBlockTranslations } from "@/types/blocks/claude-sonnet-features";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -288,6 +289,26 @@ export async function getProductsPage(
     );
     return await import("@/i18n/pages/products/en.json").then(
       (module) => module.default as ProductsPageTranslation
+    );
+  }
+}
+
+export async function getClaudeSonnetFeaturesBlock(
+  locale: string
+): Promise<ClaudeSonnetFeaturesBlockTranslations> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/blocks/claude-sonnet-features/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load claude-sonnet-features/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/blocks/claude-sonnet-features/en.json").then(
+      (module) => module.default as ClaudeSonnetFeaturesBlockTranslations
     );
   }
 }

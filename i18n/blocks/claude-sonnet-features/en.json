@@ -1,0 +1,52 @@
+{
+  "mainTitle": "Claude 3.7 Sonnet: Cutting-Edge AI",
+  "features": [
+    {
+      "id": "code-generation",
+      "title": "Code generation",
+      "description": "Claude 3.7 Sonnet leads in agentic coding, handling tasks across the entire software development lifecycle, from planning to bug fixes and refactoring. It excels in complex coding tasks, making it an ideal end-to-end development solution.",
+      "imageUrl": "/imgs/intro/claude3.7-1.png",
+      "imageAlt": "Illustration of code generation capabilities",
+      "subPoints": [
+        {
+          "title": "64K Extended Thinking",
+          "text": "Claude 3.7 Sonnet excels in instruction-following, reasoning, and multimodal capabilities. Its extended thinking mode enhances performance in math and science, providing users with in-depth solutions."
+        },
+        {
+          "title": "Content generation and analysis",
+          "text": "Claude 3.7 Sonnet excels in content generation and analysis, understanding nuances to create engaging content. It identifies and corrects errors, providing deep insights from complex data, with a larger context window and lower latency for knowledge-intensive tasks."
+        }
+      ],
+      "buttonText": "Add to Chrome",
+      "buttonUrl": "#"
+    },
+    {
+      "id": "build-artifacts",
+      "title": "Build Artifacts Seamlessly with Claude 3.7 Sonnet",
+      "description": "Unlock the potential of Claude 3.7 Sonnet to create and manage code artifacts effortlessly. With Claude AI, streamline your development process by generating reusable components, refining complex workflows, and automating artifact creation. Whether you're developing software, managing APIs, or collaborating on technical projects, Claude 3.7 Sonnet ensures precision, efficiency, and scalability for all your artifact needs.",
+      "imageUrl": "/imgs/intro/claude3.7-2.png",
+      "imageAlt": "Illustration of building artifacts with Claude AI"
+    },
+    {
+      "id": "create-reports",
+      "title": "Claude 3.7 Sonnet: Create Reports with Ease",
+      "description": "With Claude 3.7 Sonnet, generating detailed reports has never been easier. Harness the power of Claude AI's advanced capabilities to compile data, perform in-depth analyses, and produce professional-quality documents in a fraction of the time. Whether you're crafting business reports, academic papers, or technical documentation, Claude 3.7 Sonnet enhances your productivity and ensures accuracy with the intelligence of Claude AI.",
+      "imageUrl": "/imgs/intro/claude3.7-3.png",
+      "imageAlt": "Illustration of creating reports with Claude AI"
+    },
+    {
+      "id": "analyze-code",
+      "title": "Analyze Code with Claude AI",
+      "description": "Developers can now streamline their coding process with Claude AI's Analyze Code feature. This powerful tool enables you to use Claude 3.7 Sonnet to scrutinize your code for bugs, optimize algorithms, and ensure best practices are followed. Claude AI's advanced understanding of various programming languages makes it an indispensable tool for both novice and experienced programmers looking to enhance code quality and efficiency using Claude 3.7 Sonnet.",
+      "imageUrl": "/imgs/intro/claude3.7-4.png",
+      "imageAlt": "Illustration of analyzing code with Claude AI"
+    },
+    {
+      "id": "create-graphs",
+      "title": "Create Graphs Easily with Claude 3.7 Sonnet",
+      "description": "Transform your raw data into insightful visuals using Claude AI's Make Graphs feature. Leveraging the capabilities of Claude 3.7 Sonnet, this tool simplifies the process of data visualization, allowing you to create comprehensive charts and graphs that effectively communicate your data's story. Ideal for presentations, reports, and educational materials, Claude AI helps you make data-driven decisions with clarity and precision provided by Claude 3.7 Sonnet.",
+      "imageUrl": "/imgs/intro/claude3.7-5.png",
+      "imageAlt": "Illustration of creating graphs with Claude AI"
+    }
+  ]
+}
