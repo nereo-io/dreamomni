@@ -20,6 +20,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useRouter } from "next/navigation";
 import { CreditExhaustedModal } from "@/components/ui/credit-exhausted-modal";
+import { MessageCircle, Send } from "lucide-react";
 
 interface AiReader {
   name: string;
@@ -59,9 +60,24 @@ export default function ChatInterface({
   const [initialMessages, setInitialMessages] = useState<Message[]>([]);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [isActive, setIsActive] = useState(true);
+  const [chatTitle, setChatTitle] = useState<string>("");
   const { setOpenMobile } = useSidebar();
   const router = useRouter();
   const [showCreditModal, setShowCreditModal] = useState(false);
+
+  // 生成智能标题（仅内部使用，不暴露给用户）
+  const generateSmartTitle = async () => {
+    try {
+      const result = await chatSessionApi.generateTitle(chatId);
+      setChatTitle(result.title);
+
+      // 更新侧边栏
+      mutate("/api/chat-session");
+    } catch (error) {
+      console.error("生成标题失败:", error);
+      // 不显示错误提示给用户，静默处理
+    }
+  };
 
   // 初始化聊天会话和历史消息
   useEffect(() => {
@@ -81,6 +97,7 @@ export default function ChatInterface({
           // console.log("contextChat", contextChat);
           append({ role: "user", content: contextChat.title });
           chatSession = await chatSessionApi.create(contextChat);
+          setChatTitle(contextChat.title);
           setIsInitialLoading(false);
           saveChatMessage({
             role: "user",
@@ -103,6 +120,9 @@ export default function ChatInterface({
             }
             chatSession = await chatSessionApi.get(chatId);
             setContextChat(chatSession);
+            if (chatSession) {
+              setChatTitle(chatSession.title);
+            }
           }
         }
         if (isActive && chatSession) {
@@ -154,6 +174,13 @@ export default function ChatInterface({
           status: ChatStatus.Created,
         });
         console.log("更新会话状态为 Created");
+
+        // 在AI回复后自动生成智能标题（如果当前标题看起来是简单的用户输入）
+        if (chatTitle && (chatTitle.length < 20 || chatTitle === "New Chat")) {
+          setTimeout(() => {
+            generateSmartTitle();
+          }, 1000);
+        }
       }
     } catch (error) {
       console.error("保存消息失败:", error);
@@ -175,12 +202,6 @@ export default function ChatInterface({
     body: {
       locale,
       session_id: chatId,
-      customer_info: contextChat?.customer_info,
-      partner_info: contextChat?.partner_info,
-      is_matching: contextChat?.is_matching,
-      is_iching: contextChat?.is_iching,
-      hexagramLines: contextChat?.hexagramLines,
-      hexagramData: contextChat?.hexagramData,
       model: contextChat?.model,
     },
     generateId: uuidv4,
@@ -231,13 +252,6 @@ export default function ChatInterface({
       return;
     }
 
-    if (leftCredits <= 0 && membership?.status !== "active") {
-      // toast.error(lomessages.errors.noRemainingReadings);
-      setShowCreditModal(true);
-      // router.push("/pricing");
-      return;
-    }
-
     try {
       // 直接发送消息，让后端处理权限检查
       await originalHandleSubmit(e);
@@ -253,44 +267,42 @@ export default function ChatInterface({
   };
 
   return (
-    <div className="bg-background h-screen w-full flex flex-col gap-4">
-      {/* 顶部 AI Reader 信息层 */}
-      <div className="sticky bottom-0 pb-0 px-2 z-10">
-        <div className="container max-w-6xl mx-auto px-2 pt-2 sm:px-4 sm:pt-4">
-          <div className="bg-card text-card-foreground backdrop-blur-sm rounded-lg shadow-sm border border-border p-2 sm:p-3 md:p-4">
-            <div className="flex items-center gap-4">
-              <SidebarTrigger />
-              <div className="flex items-center gap-2 sm:gap-3 md:gap-4 flex-1 min-w-0">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-primary flex-shrink-0">
-                  <img
-                    src={aiReader.avatar}
-                    alt={aiReader.name}
-                    className="w-full h-full object-cover"
-                    style={{ aspectRatio: "1/1" }}
-                  />
+    <div className="bg-gradient-to-br from-background via-card to-primary/5 h-screen w-full flex flex-col">
+      {/* 优雅的头部区域 */}
+      <div className="sticky top-0 z-20 bg-background/80 backdrop-blur-md border-b border-border/50 shadow-sm">
+        <div className="flex items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-4">
+            <SidebarTrigger className="lg:hidden text-muted-foreground hover:text-primary transition-colors" />
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg">
+                  <MessageCircle className="w-5 h-5 text-primary-foreground" />
                 </div>
-                <div className="min-w-0 flex-1">
-                  <h1 className="text-base sm:text-lg md:text-xl font-medium text-card-foreground truncate">
-                    {aiReader.name}
+                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-background"></div>
+              </div>
+              <div className="flex flex-col">
+                <div className="flex items-center gap-2">
+                  <h1 className="font-semibold text-lg text-foreground truncate max-w-md">
+                    {chatTitle || "New Chat"}
                   </h1>
-                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">
-                    {aiReader.description}
-                  </p>
                 </div>
+                <p className="text-sm text-muted-foreground">
+                  AI assistant powered by Claude
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 聊天内容区域 - 添加底部padding以确保内容不被固定的输入框遮挡 */}
-      <div className="flex-1 overflow-y-auto min-h-0 bg-background w-full">
-        <div className="max-w-6xl mx-auto space-y-2 sm:space-y-4 px-2 py-2 sm:px-4 sm:py-4">
+      {/* 聊天内容区域 */}
+      <div className="flex-1 overflow-y-auto min-h-0 bg-transparent">
+        <div className="max-w-4xl mx-auto space-y-6 px-4 py-6">
           {isInitialLoading ? (
             <ChatSkeleton />
           ) : (
             <>
-              {messages.map((message) => (
+              {messages.map((message, index) => (
                 <div
                   key={message.id}
                   className={`flex ${
@@ -299,120 +311,80 @@ export default function ChatInterface({
                 >
                   <div
                     className={cn(
-                      "max-w-[92%] rounded-lg p-4",
+                      "max-w-[85%] rounded-2xl px-4 py-3 shadow-sm",
                       message.role === "user"
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-card text-card-foreground backdrop-blur-sm"
+                        ? "bg-primary text-primary-foreground ml-4"
+                        : "bg-card text-card-foreground mr-4 border border-border"
                     )}
                   >
-                    {true && message.reasoning && (
-                      <blockquote className="mb-4 border-l-4 border-gray-300 dark:border-gray-700 pl-4 text-sm text-gray-500 dark:text-gray-400">
+                    {message.reasoning && (
+                      <blockquote className="mb-3 border-l-4 border-primary/30 pl-3 text-sm text-muted-foreground italic bg-muted/30 rounded py-2">
+                        <span className="text-primary font-medium">
+                          Thinking process:
+                        </span>
+                        <br />
                         {message.reasoning.trim()}
                       </blockquote>
                     )}
                     <Markdown
                       remarkPlugins={[remarkGfm]}
                       components={{
-                        // 自定义列表项渲染，解决换行展示的问题
-                        li: ({
-                          children,
-                          ...props
-                        }: React.HTMLProps<HTMLLIElement> & {
-                          ordered?: boolean;
-                          index?: number;
-                        }) => {
-                          const content = React.Children.map(
-                            children,
-                            (child) => {
-                              if (typeof child === "string") {
-                                return <span>{child}</span>;
-                              }
-                              return child;
-                            }
-                          );
-
-                          return (
-                            <li className="flex items-start my-2">
-                              <span className="flex-shrink-0 min-w-[1.2em]">
-                                {props.ordered
-                                  ? `${(props.index ?? 0) + 1}.`
-                                  : "•"}
-                              </span>
-                              <span className="flex-1 -ml-1">{content}</span>
-                            </li>
-                          );
-                        },
-                        a: ({ node, ...props }) => (
-                          <a
-                            className="text-blue-500 hover:underline"
-                            {...props}
-                          />
-                        ),
                         p: ({ children }) => (
                           <p className="m-0 leading-relaxed">{children}</p>
                         ),
                         h1: ({ children }) => (
-                          <h1 className="text-xl font-bold my-2">{children}</h1>
+                          <h1 className="text-xl font-bold my-3 text-foreground">
+                            {children}
+                          </h1>
                         ),
                         h2: ({ children }) => (
-                          <h2 className="text-lg font-semibold my-2">
+                          <h2 className="text-lg font-semibold my-2 text-foreground">
                             {children}
                           </h2>
                         ),
                         h3: ({ children }) => (
-                          <h3 className="text-lg font-semibold my-2">
+                          <h3 className="text-base font-semibold my-2 text-foreground">
                             {children}
                           </h3>
                         ),
-                        h4: ({ children }) => (
-                          <h4 className="text-base font-semibold my-2">
-                            {children}
-                          </h4>
-                        ),
                         ul: ({ children }) => (
-                          <ul className="list-disc list-inside my-2">
+                          <ul className="list-disc list-inside my-2 space-y-1">
                             {children}
                           </ul>
                         ),
                         ol: ({ children }) => (
-                          <ol className="list-decimal list-inside my-2">
+                          <ol className="list-decimal list-inside my-2 space-y-1">
                             {children}
                           </ol>
                         ),
+                        li: ({ children }) => (
+                          <li className="leading-relaxed">{children}</li>
+                        ),
                         blockquote: ({ children }) => (
-                          <blockquote className="border-l-4 border-gray-300 pl-4 my-2 italic">
+                          <blockquote className="border-l-4 border-primary/30 pl-4 my-3 italic bg-muted/30 rounded py-2">
                             {children}
                           </blockquote>
                         ),
-                        hr: () => <hr className="hidden" />,
-                        table: ({ children }) => (
-                          <table className="min-w-full my-4 border-collapse border border-gray-200">
+                        code: ({ children }) => (
+                          <code className="bg-muted text-foreground px-1 py-0.5 rounded text-sm">
                             {children}
-                          </table>
+                          </code>
                         ),
-                        thead: ({ children }) => (
-                          <thead className="bg-gray-50">{children}</thead>
-                        ),
-                        tbody: ({ children }) => (
-                          <tbody className="bg-white divide-y divide-gray-200">
+                        pre: ({ children }) => (
+                          <pre className="bg-muted text-foreground p-4 rounded-lg overflow-x-auto my-3">
                             {children}
-                          </tbody>
+                          </pre>
                         ),
-                        tr: ({ children }) => (
-                          <tr className="hover:bg-gray-50">{children}</tr>
-                        ),
-                        th: ({ children }) => (
-                          <th className="px-4 py-2 text-left text-sm font-semibold text-gray-600 border border-gray-200">
+                        a: ({ href, children }) => (
+                          <a
+                            href={href}
+                            className="text-primary hover:text-primary/80 underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
                             {children}
-                          </th>
+                          </a>
                         ),
-                        td: ({ children }) => (
-                          <td className="px-4 py-2 text-sm text-gray-500 border border-gray-200">
-                            {children}
-                          </td>
-                        ),
-                        // 不显示图片
-                        img: () => null,
                       }}
                     >
                       {message.content.trim()}
@@ -426,19 +398,22 @@ export default function ChatInterface({
 
               {/* 消息加载动画 */}
               {(() => {
-                // 确保有消息且正在加载
                 if (!isLoading || messages.length === 0) {
                   return null;
                 }
 
                 const lastMessage = messages[messages.length - 1];
 
-                // 如果最后一条消息是用户的，并且正在加载，显示动画
                 if (lastMessage && lastMessage.role === "user" && isLoading) {
                   return (
-                    <div className="flex justify-center">
-                      <div className="p-4">
-                        <LoadingAnimation messages={lomessages} />
+                    <div className="flex justify-start">
+                      <div className="max-w-[85%] bg-card rounded-2xl px-4 py-3 shadow-sm border border-border mr-4">
+                        <div className="flex items-center gap-2">
+                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent"></div>
+                          <span className="text-muted-foreground text-sm">
+                            AI is thinking...
+                          </span>
+                        </div>
                       </div>
                     </div>
                   );
@@ -451,26 +426,10 @@ export default function ChatInterface({
         </div>
       </div>
 
-      {/* 底部输入框和版权信息层 - 固定在屏幕底部，并考虑 Sidebar 的宽度 */}
-      <div className="sticky bottom-0 pb-0 px-2 z-10">
-        <div className="container max-w-6xl mx-auto px-2">
-          {membership?.status !== "active" && leftCredits !== null && (
-            <div className="text-sm text-center flex items-center justify-center gap-2">
-              <p className="text-muted-foreground">
-                {lomessages.credits.remaining.replace(
-                  "{count}",
-                  leftCredits.toString()
-                )}
-                <Link
-                  href="/#pricing"
-                  className="text-primary hover:underline ml-2"
-                >
-                  {lomessages.credits.upgrade}
-                </Link>
-              </p>
-            </div>
-          )}
-          <form onSubmit={handleSubmit} className="px-2">
+      {/* 底部输入区域 */}
+      <div className="sticky bottom-0 bg-background/90 backdrop-blur-md border-t border-border/50 px-4 py-4">
+        <div className="max-w-4xl mx-auto">
+          <form onSubmit={handleSubmit}>
             <div className="relative">
               <textarea
                 value={input}
@@ -483,26 +442,27 @@ export default function ChatInterface({
                     }
                   }
                 }}
-                placeholder={lomessages.placeholder}
+                placeholder="Type your question..."
                 disabled={isLoading}
-                className="flex min-h-[60px] w-full rounded-lg border border-input bg-card pr-12 pl-3 py-2 text-base placeholder:text-muted-foreground focus-visible:outline-none focus:border-primary disabled:cursor-not-allowed disabled:opacity-50 resize-none"
-                rows={2}
+                className="w-full min-h-[52px] max-h-32 rounded-xl border border-input bg-background px-4 py-3 pr-12 text-base placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-ring/20 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 resize-none shadow-sm"
+                rows={1}
               />
               <Button
                 type="submit"
-                disabled={isLoading}
-                className="absolute right-2 bottom-1/2 transform translate-y-1/2 h-11 px-4 text-sm"
+                disabled={isLoading || !input.trim()}
+                className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg bg-primary hover:bg-primary/90 disabled:bg-muted shadow-sm transition-all duration-200"
+                size="sm"
               >
-                {lomessages.send}
+                <Send className="w-4 h-4 text-primary-foreground" />
               </Button>
             </div>
           </form>
-
-          <div className="text-center text-xs md:text-sm text-muted-foreground">
-            {lomessages.footer}
+          <div className="text-center text-xs text-muted-foreground mt-2">
+            Press Enter to send, Shift + Enter for new line
           </div>
         </div>
       </div>
+
       <CreditExhaustedModal
         open={showCreditModal}
         onOpenChange={setShowCreditModal}

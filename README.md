@@ -1,4 +1,4 @@
-# Claude4Chat - Free Chat with Claude 4
+# TalkwithAI - Free Chat with Claude 4
 
 Claude 4 Sonnet is an advanced hybrid reasoning model that excels in coding and enhances content generation, data analysis, and planning.
 
@@ -6,7 +6,7 @@ Claude 4 Sonnet is an advanced hybrid reasoning model that excels in coding and 
 
 ## 项目概览
 
-Claude4Chat 是一个基于 Claude 4 Sonnet 的智能对话平台，集成了先进的 AI 推理能力，为用户提供免费的智能对话服务。项目采用现代化的全栈架构，支持多语言国际化，提供丰富的 AI 分析功能。
+TalkwithAI 是一个基于 Claude 4 Sonnet 的智能对话平台，集成了先进的 AI 推理能力，为用户提供免费的智能对话服务。项目采用现代化的全栈架构，支持多语言国际化，提供丰富的 AI 分析功能。
 
 ## 核心特性
 
@@ -60,7 +60,7 @@ Claude4Chat 是一个基于 Claude 4 Sonnet 的智能对话平台，集成了先
 
 ```bash
 git clone <repository-url>
-cd claude4chat
+cd talkwithai
 ```
 
 2. 安装依赖
@@ -110,7 +110,7 @@ pnpm dev
 ## 项目结构
 
 ```
-claude4chat/
+talkwithai/
 ├── app/                       # Next.js App Router
 │   ├── [locale]/              # 多语言页面
 │   │   ├── (default)/         # 默认页面组
@@ -245,7 +245,7 @@ claude4chat/
 
 ### Vercel 部署
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyour-repo%2Fclaude4chat&project-name=claude4chat&repository-name=claude4chat)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyour-repo%2Ftalkwithai&project-name=talkwithai&repository-name=talkwithai)
 
 ### Cloudflare 部署
 
@@ -298,9 +298,9 @@ pnpm analyze
 
 ## 联系方式
 
-- 项目主页: [Claude4Chat](https://claude4chat.com)
-- 文档: [使用文档](https://docs.claude4chat.com)
-- 问题反馈: [GitHub Issues](https://github.com/your-repo/claude4chat/issues)
+- 项目主页: [TalkwithAI](https://talkwithai.io)
+- 文档: [使用文档](https://docs.talkwithai.io)
+- 问题反馈: [GitHub Issues](https://github.com/your-repo/talkwithai/issues)
 
 ## 更新日志
 

@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "Claude4Chat - 与Claude 4免费对话 | 先进AI对话平台",
+    "title": "TalkwithAI - 与Claude 4免费对话 | 先进AI对话平台",
     "description": "Claude 4 Sonnet是一个在编程方面表现出色的先进混合推理模型，可增强内容生成、数据分析和规划能力。立即开始与AI的免费对话。",
-    "keywords": "Claude 4, AI对话, 免费AI聊天, Claude Sonnet, AI助手, 编程AI, 数据分析, 内容生成"
+    "keywords": "Claude 4, AI对话, 免费AI聊天, Claude Sonnet, AI助手, 编程AI, 数据分析, 内容生成, TalkwithAI"
   },
   "career": {
     "title": "职业运势解读 | 八字财运 | BaziAI",
@@ -40,12 +40,12 @@
     "keywords": "人生运势, 中国命理学人生, 八字人生, 人生占星术, 人生分析"
   },
   "pricing": {
-    "title": "高级会员计划 | 八字算命 | BaziAI",
-    "description": "通过我们的高级计划解锁无限的中国命理学解读。通过我们AI驱动的八字分析，获取关于职业、爱情、健康等的个性化洞察。",
-    "keywords": " 八字高级版, 无限解读, 占星订阅, ai算命, 关系配对, 职业预测"
+    "title": "订阅套餐 | TalkwithAI",
+    "description": "选择您的AI对话套餐，开始与Claude 4的无限聊天。获得高级功能、优先支持和增强的对话体验。",
+    "keywords": "TalkwithAI订阅, Claude 4无限对话, AI对话套餐, 高级聊天功能, AI助手订阅"
   },
   "feedback": {
-    "title": "用户反馈 | Claude4Chat",
+    "title": "用户反馈 | TalkwithAI",
     "description": "分享您的想法、建议或报告问题。帮助我们改进AI驱动的对话平台，更好地满足您的需求。"
   },
   "i-ching": {
@@ -92,7 +92,7 @@
   },
   "my_orders": {
     "title": "我的订单",
-    "description": "使用Claude4Chat支付的订单。",
+    "description": "使用TalkwithAI支付的订单。",
     "no_orders": "未找到订单",
     "tip": "",
     "activate_order": "激活订单",
@@ -129,7 +129,7 @@
   "my_credits": {
     "title": "我的积分",
     "rules_title": "规则提示",
-    "rules": "1. 新用户注册即可获得 3 个积分，每成功邀请 1 位好友注册，额外奖励 3 个积分 \n2. 每次对话消耗 1 个积分，开通会员即可享受无限次对话权限",
+    "rules": "1. 免费用户每日可获得3次对话机会，每24小时重置。每成功邀请1位好友注册，额外奖励3次对话机会 \n2. 升级专业版即可享受无限次对话和高级功能",
     "left_tip": "剩余积分: {left_credits}",
     "no_credits": "无积分记录",
     "recharge": "升级会员",
@@ -167,11 +167,11 @@
   },
   "blog": {
     "title": "博客",
-    "description": "关于Claude4Chat的新闻、资源和更新",
+    "description": "关于TalkwithAI的新闻、资源和更新",
     "read_more_text": "阅读更多"
   },
   "chat": {
-    "title": "新对话 - Claude4Chat AI对话平台",
+    "title": "新对话 - TalkwithAI对话平台",
     "description": "开始与Claude 4 Sonnet AI的新对话，获得增强的内容生成、数据分析和规划能力"
   },
   "chinese-zodiac-calculator": {
@@ -185,7 +185,7 @@
     "keywords": "2025中国生肖运势, 2025蛇年, 木蛇年预测, 2025生肖预报, 中国生肖兼容性"
   },
   "survey_banner": {
-    "message": "👋 需要您的反馈 - 共同塑造Claude4Chat!",
+    "message": "👋 需要您的反馈 - 共同塑造TalkwithAI!",
     "close": "关闭"
   },
   "credit_exhausted_modal": {
@@ -214,7 +214,7 @@
       "share": {
         "title": "🎁 与朋友分享",
         "description": "获得免费对话",
-        "tips": "邀请1人 = 获得3次免费AI对话"
+        "tips": "邀请1人 = 获得3次奖励对话机会"
       }
     },
     "footer_text": "已经是会员？请重新登录以恢复您的权限。\n邀请仅对未注册用户有效。积分不能重复获取。"
@@ -227,7 +227,7 @@
     "edit_invite_link": "编辑邀请链接",
     "copy_invite_link": "复制邀请链接",
     "invite_code": "邀请码",
-    "invite_tip": "每成功邀请一位朋友通过您的链接注册，即可获得3次免费AI对话。",
+    "invite_tip": "每成功邀请一位朋友通过您的链接注册，即可获得3次奖励对话机会。",
     "invite_balance": "邀请奖励余额",
     "total_invite_count": "总邀请数",
     "total_paid_count": "总付费数",
@@ -235,16 +235,16 @@
     "update_invite_code": "设置邀请码",
     "update_invite_code_tip": "输入您的自定义邀请码",
     "update_invite_button": "保存",
-    "no_orders": "您需要先购买Claude4Chat高级版才能邀请他人",
+    "no_orders": "您需要先购买TalkwithAI高级版才能邀请他人",
     "no_affiliates": "您暂时无法邀请他人，请联系我们申请权限。",
     "invite_templates": "邀请模板",
     "copy": "复制",
     "template1_title": "🤖 AI对话",
     "template2_title": "💻 编程助手",
     "template3_title": "📊 数据分析",
-    "template1": "朋友们！我刚试了Claude4Chat — 它提供Claude 4 Sonnet访问，对话功能非常强大。在编程、写作和问题解决方面的洞察让我惊叹。注册即可获得3次免费对话 — 千万别错过！\n👉 立即试用Claude4Chat",
-    "template2": "需要一个真正理解您代码的编程助手吗？Claude4Chat搭载Claude 4 Sonnet，可帮助调试、代码审查和复杂编程任务。超级有用且准确！注册获得3次免费编程会话。\n💻 在这里发现Claude4Chat",
-    "template3": "想要智能数据分析和洞察？Claude4Chat帮助您理解复杂数据、创建可视化并做出数据驱动的决策 — 全部通过自然对话完成。试试3次免费分析会话！\n�� 立即探索Claude4Chat",
+    "template1": "朋友们！我刚试了TalkwithAI — 它提供Claude 4 Sonnet访问，对话功能非常强大。在编程、写作和问题解决方面的洞察让我惊叹。注册即可获得3次免费对话 — 千万别错过！\n👉 立即试用TalkwithAI",
+    "template2": "需要一个真正理解您代码的编程助手吗？TalkwithAI搭载Claude 4 Sonnet，可帮助调试、代码审查和复杂编程任务。超级有用且准确！注册获得3次免费编程会话。\n💻 在这里发现TalkwithAI",
+    "template3": "想要智能数据分析和洞察？TalkwithAI帮助您理解复杂数据、创建可视化并做出数据驱动的决策 — 全部通过自然对话完成。试试3次免费分析会话！\n�� 立即探索TalkwithAI",
     "table": {
       "invite_time": "邀请时间",
       "invite_user": "邀请用户",

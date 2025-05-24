@@ -98,7 +98,6 @@ export async function getPostsByLocale(
     .select("*")
     .eq("locale", locale)
     .eq("status", PostStatus.Online)
-    .eq("type", "blog")
     .order("created_at", { ascending: false })
     .range((page - 1) * limit, page * limit - 1);
 

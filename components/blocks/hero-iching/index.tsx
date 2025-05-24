@@ -381,10 +381,9 @@ export default function HeroIChing({ t }: HeroIChingProps) {
         title: question,
         status: ChatStatus.New,
         created_at: new Date(),
-        is_matching: false,
-        is_iching: true,
-        hexagramLines: hexagramLines,
-        hexagramData: completeData, // 将对象转为字符串
+        // 注意：移除了 is_matching, is_iching, hexagramLines, hexagramData 字段
+        // 因为简化的 ChatSession 表结构中不包含这些字段
+        model: "gpt-4",
       };
       setChat(chat);
       // console.log(chat);

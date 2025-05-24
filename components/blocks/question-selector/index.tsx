@@ -59,13 +59,13 @@ export default function QuestionSelector({
       return;
     }
 
-    // 2. leftCredits为0，非会员时
-    if (leftCredits <= 0 && membership?.status !== "active") {
-      // toast.error(questionSelector.errors.noRemainingReadings);
-      setShowCreditModal(true);
-      // router.push("/pricing");
-      return;
-    }
+    // // 2. leftCredits为0，非会员时
+    // if (leftCredits <= 0 && membership?.status !== "active") {
+    //   // toast.error(questionSelector.errors.noRemainingReadings);
+    //   setShowCreditModal(true);
+    //   // router.push("/pricing");
+    //   return;
+    // }
 
     if (question.trim()) {
       const chat: ChatSession = {
@@ -127,10 +127,7 @@ export default function QuestionSelector({
                   </Link>
                 )}
 
-                <Button
-                  onClick={handleSubmit}
-                  className="bg-orange-500 hover:bg-orange-600 h-9 px-4"
-                >
+                <Button onClick={handleSubmit} className="h-9 px-4">
                   <Send className="h-4 w-4 mr-2" />
                   {questionSelector.send || "发送"}
                 </Button>

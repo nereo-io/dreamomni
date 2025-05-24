@@ -3,10 +3,10 @@
   "theme": "light",
   "header": {
     "brand": {
-      "title": "Claude4Chat",
+      "title": "TalkwithAI",
       "logo": {
         "src": "/logo.svg",
-        "alt": "Claude4Chat"
+        "alt": "TalkwithAI"
       },
       "url": "/"
     },
@@ -153,15 +153,15 @@
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "Claude4Chat",
+      "title": "TalkwithAI",
       "description": "Free chat with Claude 4 - Experience next-generation AI with extended thinking, advanced reasoning, and cutting-edge capabilities. Your gateway to the world's most powerful AI model.",
       "logo": {
         "src": "/logo.svg",
-        "alt": "Claude4Chat"
+        "alt": "TalkwithAI"
       },
       "url": "/"
     },
-    "copyright": " 2025 • Claude4Chat All rights reserved.",
+    "copyright": " 2025 • TalkwithAI All rights reserved.",
     "nav": {
       "items": []
     },
@@ -170,25 +170,25 @@
         {
           "title": "TikTok",
           "icon": "RiTiktokFill",
-          "url": "https://www.tiktok.com/@claude4chat",
+          "url": "https://www.tiktok.com/@talkwithai",
           "target": "_blank"
         },
         {
           "title": "X",
           "icon": "RiTwitterXFill",
-          "url": "https://x.com/claude4chat",
+          "url": "https://x.com/talkwithai",
           "target": "_blank"
         },
         {
           "title": "Youtube",
           "icon": "RiYoutubeFill",
-          "url": "https://www.youtube.com/@Claude4Chat",
+          "url": "https://www.youtube.com/@TalkwithAI",
           "target": "_blank"
         },
         {
           "title": "Email",
           "icon": "RiMailLine",
-          "url": "mailto:support@claude4chat.com",
+          "url": "mailto:support@talkwithai.io",
           "target": "_self"
         }
       ]

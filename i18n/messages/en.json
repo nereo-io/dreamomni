@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "Claude4Chat - Free Chat with Claude 4 | Advanced AI Conversation Platform",
+    "title": "TalkwithAI - Free Chat with Claude 4 | Advanced AI Conversation Platform",
     "description": "Claude 4 Sonnet is an advanced hybrid reasoning model that excels in coding and enhances content generation, data analysis, and planning. Start free conversations with AI today.",
-    "keywords": "Claude 4, AI Chat, Free AI Conversation, Claude Sonnet, AI Assistant, Coding AI, Data Analysis, Content Generation"
+    "keywords": "Claude 4, AI Chat, Free AI Conversation, Claude Sonnet, AI Assistant, Coding AI, Data Analysis, Content Generation, TalkwithAI"
   },
 
   "career": {
@@ -36,9 +36,9 @@
     "keywords": "life path, destiny reading, chinese astrology life, bazi life, life path astrology, destiny analysis"
   },
   "pricing": {
-    "title": "Premium Membership Plans | Chinese Astrology Readings | BaziAI",
-    "description": "Unlock unlimited Chinese astrology readings with our premium plans. Get personalized insights on career, love, health and more with our AI-powered Bazi analysis.",
-    "keywords": "chinese astrology membership, bazi premium, unlimited readings, astrology subscription, ai fortune telling, relationship compatibility, career forecasts"
+    "title": "Subscription Plans | TalkwithAI",
+    "description": "Choose your AI conversation plan and start unlimited chats with Claude 4. Get advanced features, priority support, and enhanced conversation experience.",
+    "keywords": "TalkwithAI subscription, Claude 4 unlimited, AI conversation plans, premium chat features, AI assistant subscription"
   },
   "chinese-zodiac-calculator": {
     "title": "Chinese Horoscope 2025: Complete Wood Snake Year AI Predictions",
@@ -46,8 +46,8 @@
     "keywords": "2025 Chinese Horoscope, Wood Snake Year, Chinese Horoscope prediction, AI fortune forecast, personalized horoscope, zodiac compatibility"
   },
   "feedback": {
-    "title": "User Feedback | Claude4Chat",
-    "description": "Share your thoughts, suggestions, or report issues with Claude4Chat. Help us improve our AI-powered conversation platform to better serve your needs."
+    "title": "User Feedback | TalkwithAI",
+    "description": "Share your thoughts, suggestions, or report issues with TalkwithAI. Help us improve our AI-powered conversation platform to better serve your needs."
   },
   "i-ching": {
     "title": "Free I Ching AI Divination Reading Tool| BaziAI",
@@ -93,7 +93,7 @@
   },
   "my_orders": {
     "title": "My Orders",
-    "description": "orders paid with Claude4Chat.",
+    "description": "orders paid with TalkwithAI.",
     "no_orders": "No orders found",
     "tip": "",
     "activate_order": "Activate Order",
@@ -130,7 +130,7 @@
   "my_credits": {
     "title": "My Credits",
     "rules_title": "Rules",
-    "rules": "1. New users receive 3 free credits upon registration. You'll earn an additional 3 credits for every friend you invite who signs up. \n2. Each conversation costs 1 credit. Upgrade to a membership for unlimited conversations.",
+    "rules": "1. Free users get 3 conversations daily, which reset every 24 hours. You'll earn additional 3 conversations for every friend you invite who signs up. \n2. Upgrade to Pro for unlimited conversations and advanced features.",
     "left_tip": "left credits: {left_credits}",
     "no_credits": "No credits records",
     "recharge": "Upgrade Membership",
@@ -161,15 +161,15 @@
   },
   "blog": {
     "title": "Blog",
-    "description": "News, resources, and updates about Claude4Chat",
+    "description": "News, resources, and updates about TalkwithAI",
     "read_more_text": "Read More"
   },
   "chat": {
-    "title": "New Chat - Claude4Chat AI Conversation Platform",
+    "title": "New Chat - TalkwithAI Conversation Platform",
     "description": "Start a new chat with Claude 4 Sonnet AI for enhanced content generation, data analysis, and planning"
   },
   "survey_banner": {
-    "message": "👋 Quick feedback needed - help shape Claude4Chat!",
+    "message": "👋 Quick feedback needed - help shape TalkwithAI!",
     "close": "Close"
   },
   "credit_exhausted_modal": {
@@ -198,7 +198,7 @@
       "share": {
         "title": "🎁 Share With Friends",
         "description": "Get free conversations",
-        "tips": "Invite 1 person = Get 3 free AI conversations"
+        "tips": "Invite 1 person = Get 3 bonus conversations"
       }
     },
     "footer_text": "Already a member? Please log in again to restore your privileges.\nInvites are only valid for unregistered users. Credits cannot be claimed multiple times."
@@ -211,7 +211,7 @@
     "edit_invite_link": "Edit Invite Link",
     "copy_invite_link": "Copy Invite Link",
     "invite_code": "Invite Code",
-    "invite_tip": "Get 3 free AI conversations for every friend who signs up through your link.",
+    "invite_tip": "Get 3 bonus conversations for every friend who signs up through your link.",
     "invite_balance": "Invite Reward Balance",
     "total_invite_count": "Total Invite Count",
     "total_paid_count": "Total Paid Count",
@@ -219,16 +219,16 @@
     "update_invite_code": "Set Invite Code",
     "update_invite_code_tip": "Input your custom invite code",
     "update_invite_button": "Save",
-    "no_orders": "You can't invite others before you purchased Claude4Chat premium",
+    "no_orders": "You can't invite others before you purchased TalkwithAI premium",
     "no_affiliates": "You're not allowed to invite others, please contact us to apply for permission.",
     "invite_templates": "Invite Templates",
     "copy": "Copy",
     "template1_title": "🤖 AI Conversations",
     "template2_title": "💻 Coding Assistant",
     "template3_title": "📊 Data Analysis",
-    "template1": "Hey friends! I just tried Claude4Chat — it gives you access to Claude 4 Sonnet with amazing conversation capabilities. I was blown away by the insights for coding, writing, and problem-solving. You get 3 free conversations when you sign up — don't miss out!\n👉 Try Claude4Chat now",
-    "template2": "Need a coding assistant that actually understands your code? Claude4Chat with Claude 4 Sonnet helps with debugging, code review, and complex programming tasks. Super helpful and accurate! Sign up for 3 free coding sessions.\n💻 Discover Claude4Chat here",
-    "template3": "Want intelligent data analysis and insights? Claude4Chat helps you understand complex data, create visualizations, and make data-driven decisions — all through natural conversation. Try it out with 3 free analysis sessions!\n📊 Explore Claude4Chat now",
+    "template1": "Hey friends! I just tried TalkwithAI — it gives you access to Claude 4 Sonnet with amazing conversation capabilities. I was blown away by the insights for coding, writing, and problem-solving. You get 3 free conversations when you sign up — don't miss out!\n👉 Try TalkwithAI now",
+    "template2": "Need a coding assistant that actually understands your code? TalkwithAI with Claude 4 Sonnet helps with debugging, code review, and complex programming tasks. Super helpful and accurate! Sign up for 3 free coding sessions.\n💻 Discover TalkwithAI here",
+    "template3": "Want intelligent data analysis and insights? TalkwithAI helps you understand complex data, create visualizations, and make data-driven decisions — all through natural conversation. Try it out with 3 free analysis sessions!\n📊 Explore TalkwithAI now",
     "table": {
       "invite_time": "Invite Time",
       "invite_user": "Invite User",

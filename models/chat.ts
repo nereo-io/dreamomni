@@ -1,9 +1,9 @@
-import { ChatMessage, ChatSessionDB, ChatStatus } from "@/types/chat.d";
+import { ChatMessage, ChatSession, ChatStatus } from "@/types/chat.d";
 import { getSupabaseClient } from "./db";
 import { respOk } from "@/lib/resp";
 
-// 创建客户Info信息
-export async function createChatSession(data: ChatSessionDB) {
+// 创建聊天会话
+export async function createChatSession(data: ChatSession) {
   const supabase = getSupabaseClient();
 
   const { data: result, error } = await supabase
@@ -13,10 +13,6 @@ export async function createChatSession(data: ChatSessionDB) {
       user_uuid: data.user_uuid,
       title: data.title,
       status: data.status,
-      customer_info_id: data.customer_info_id,
-      is_matching: data.is_matching,
-      partner_info_id: data.partner_info_id,
-      is_iching: data.is_iching,
       model: data.model,
     })
     .select()
@@ -24,7 +20,7 @@ export async function createChatSession(data: ChatSessionDB) {
   if (error) {
     throw error;
   }
-  return result as ChatSessionDB;
+  return result as ChatSession;
 }
 
 export async function getChatSessionList(page: number, pageSize: number) {
@@ -37,7 +33,7 @@ export async function getChatSessionList(page: number, pageSize: number) {
   if (error) {
     throw error;
   }
-  return data as ChatSessionDB[];
+  return data as ChatSession[];
 }
 
 // 根据ID获取聊天会话信息
@@ -51,7 +47,7 @@ export async function getChatSessionByUuid(uuid: string) {
   if (error) {
     throw error;
   }
-  return data as ChatSessionDB;
+  return data as ChatSession;
 }
 
 // 根据用户ID获取聊天会话列表
@@ -73,7 +69,7 @@ export async function getChatSessionsByUserId(userUuid: string) {
     }
 
     console.log(`找到 ${data?.length || 0} 条聊天会话记录`);
-    return data as ChatSessionDB[];
+    return data as ChatSession[];
   } catch (error) {
     console.error("获取聊天会话列表异常:", error);
     throw error;
@@ -145,7 +141,7 @@ export async function getChatMessagesByChatSessionId(
 export async function updateChatSessionStatus(
   uuid: string,
   status: ChatStatus
-): Promise<ChatSessionDB | null> {
+): Promise<ChatSession | null> {
   const supabase = getSupabaseClient();
   try {
     const { data, error } = await supabase
@@ -163,6 +159,32 @@ export async function updateChatSessionStatus(
     return data;
   } catch (error) {
     console.error("Failed to update chat session status:", error);
+    throw error;
+  }
+}
+
+// 更新聊天会话标题
+export async function updateChatSessionTitle(
+  uuid: string,
+  title: string
+): Promise<ChatSession | null> {
+  const supabase = getSupabaseClient();
+  try {
+    const { data, error } = await supabase
+      .from("chat_sessions")
+      .update({ title, updated_at: new Date().toISOString() })
+      .eq("uuid", uuid)
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Error updating chat session title:", error);
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Failed to update chat session title:", error);
     throw error;
   }
 }

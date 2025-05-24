@@ -1,19 +1,47 @@
 {
   "name": "pricing",
-  "label": "Membership Plans",
-  "title": "BaziAI Reading Plans",
-  "description": "Choose your AI Bazi reading membership plan",
+  "label": "Subscription Plans",
+  "title": "TalkwithAI Conversation Plans",
+  "description": "Choose your AI conversation plan and start chatting with Claude 4",
   "groups": [],
   "items": [
     {
-      "title": "AI Pro (Monthly)",
-      "description": "Perfect for explorers, access Bazi readings anytime",
+      "title": "Free Plan",
+      "description": "Perfect for getting started with Claude 4",
       "features_title": "Including",
       "features": [
-        "Unlimited AI Bazi readings monthly",
-        "Advanced personal destiny chart analysis",
-        "Dual chart compatibility analysis",
-        "Destiny trends & challenges prediction assistance"
+        "3 Claude 4 conversations daily",
+        "Basic conversation features",
+        "Standard response speed",
+        "7-day conversation history"
+      ],
+      "interval": "month",
+      "amount": 0,
+      "currency": "USD",
+      "price": "Free",
+      "original_price": "",
+      "unit": "/forever",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "Get Started Free",
+        "url": "/chat",
+        "icon": "RiPlayLine"
+      },
+      "product_id": "free-plan",
+      "product_name": "TalkwithAI Free",
+      "credits": 0,
+      "valid_months": 0
+    },
+    {
+      "title": "Pro Monthly",
+      "description": "Perfect for regular users, unlimited conversations",
+      "features_title": "Including",
+      "features": [
+        "Unlimited Claude 4 conversations monthly",
+        "Advanced conversation history tracking",
+        "Priority response speed",
+        "Extended conversation context memory"
       ],
       "interval": "month",
       "amount": 999,
@@ -24,26 +52,26 @@
       "is_featured": false,
       "discount_label": "50% OFF",
       "button": {
-        "title": "Upgrade to AI Pro",
+        "title": "Upgrade to Pro",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },
       "product_id": "monthly-pro",
-      "product_name": "BaziAI Pro",
+      "product_name": "TalkwithAI Pro",
       "credits": 1,
       "valid_months": 1
     },
     {
-      "title": "AI Pro (Yearly)",
+      "title": "Pro Yearly",
       "description": "Only $8.25/month equivalent, best value",
       "label": "Popular",
       "features_title": "Including",
       "features": [
-        "Unlimited AI Bazi readings yearly",
-        "Advanced personal destiny chart analysis",
-        "Dual chart compatibility analysis",
-        "Advanced destiny trends & challenges analysis",
-        "2025 annual fortune tracking"
+        "Unlimited Claude 4 conversations yearly",
+        "Advanced conversation history tracking",
+        "Priority response speed",
+        "Extended conversation context memory",
+        "Early access to new Claude features"
       ],
       "interval": "year",
       "amount": 9900,
@@ -54,12 +82,12 @@
       "is_featured": true,
       "discount_label": "60% OFF",
       "button": {
-        "title": "Upgrade to AI Pro",
+        "title": "Upgrade to Pro",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },
       "product_id": "yearly-pro",
-      "product_name": "BaziAI Pro",
+      "product_name": "TalkwithAI Pro",
       "credits": 12,
       "valid_months": 12
     }

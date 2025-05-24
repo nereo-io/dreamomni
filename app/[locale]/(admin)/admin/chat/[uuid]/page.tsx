@@ -2,7 +2,6 @@ import {
   getChatMessagesByChatSessionId,
   getChatSessionByUuid,
 } from "@/models/chat";
-import { getCustomerInfoById } from "@/models/customer";
 import { findUserByUuid } from "@/models/user";
 import { findMembershipByUserUuid } from "@/models/membership";
 import Empty from "@/components/blocks/empty";
@@ -29,17 +28,6 @@ export default async function ({ params }: { params: { uuid: string } }) {
     return <Empty message="chat session not found" />;
   }
 
-  // 基于chatsession的customer_info_id获取customer_info
-  let customerInfo;
-  if (chatSession.customer_info_id) {
-    customerInfo = await getCustomerInfoById(chatSession.customer_info_id);
-    if (!customerInfo) {
-      return <Empty message="customer info not found" />;
-    }
-  } else {
-    return <Empty message="no customer info id" />;
-  }
-
   //基于chatsession的user_uuid获取user
   const customerUser = await findUserByUuid(chatSession.user_uuid);
   if (!customerUser) {
@@ -60,9 +48,10 @@ export default async function ({ params }: { params: { uuid: string } }) {
           "未知时间"}
       </p>
       <p>
-        <strong>客户信息:</strong> {customerInfo.gender}{" "}
-        {customerInfo.birthYear}年{customerInfo.birthMonth}月
-        {customerInfo.birthDay}日{customerInfo.birthHour}时
+        <strong>模型:</strong> {chatSession.model}
+      </p>
+      <p>
+        <strong>标题:</strong> {chatSession.title}
       </p>
       <p>
         <strong>用户:</strong> {customerUser.nickname},{customerUser.email}

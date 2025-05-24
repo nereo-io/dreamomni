@@ -6,7 +6,15 @@ import { Order } from "@/types/order";
 import Stripe from "stripe";
 import { findUserByUuid } from "@/models/user";
 import { getSnowId } from "@/lib/hash";
-const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY || "");
+
+// 延迟初始化 Stripe 客户端，避免构建时错误
+function getStripeClient() {
+  const privateKey = process.env.STRIPE_PRIVATE_KEY;
+  if (!privateKey) {
+    throw new Error("STRIPE_PRIVATE_KEY environment variable is not set");
+  }
+  return new Stripe(privateKey);
+}
 
 export async function POST(req: Request) {
   try {
@@ -163,6 +171,7 @@ export async function POST(req: Request) {
 
     const order_detail = JSON.stringify(options);
 
+    const stripe = getStripeClient();
     const session = await stripe.checkout.sessions.create(options);
 
     const stripe_session_id = session.id;

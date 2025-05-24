@@ -5,10 +5,11 @@ import { useRouter, usePathname } from "next/navigation";
 import { RiChatHistoryLine, RiDeleteBin6Line } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { ChatSessionDB } from "@/types/chat";
+import { ChatSession } from "@/types/chat";
 import useSWR from "swr";
 import { useSidebar } from "@/components/ui/sidebar";
 import { ChatPage } from "@/types/pages/chat";
+import { MessageCircle, Trash2 } from "lucide-react";
 
 export default function ChatSessionLibrary({
   userId,
@@ -19,12 +20,11 @@ export default function ChatSessionLibrary({
   currentChatId?: string;
   messages: ChatPage;
 }) {
-  const { state } = useSidebar(); // 获取 sidebar 的状态
+  const { state } = useSidebar();
   const router = useRouter();
   const pathname = usePathname();
-  // 获取侧边栏控制函数
   const { setOpenMobile } = useSidebar();
-  // 定义 fetcher 函数
+
   const fetcher = async (url: string) => {
     const res = await fetch(url);
     if (!res.ok) {
@@ -33,7 +33,6 @@ export default function ChatSessionLibrary({
     return res.json();
   };
 
-  // 使用 SWR 获取聊天会话数据
   const { data, error, isLoading, mutate } = useSWR(
     "/api/chat-session",
     fetcher,
@@ -42,13 +41,11 @@ export default function ChatSessionLibrary({
     }
   );
 
-  // 从 SWR 响应中提取会话数据
-  const sessions: ChatSessionDB[] = data?.data || [];
+  const sessions: ChatSession[] = data?.data || [];
 
   const handleSessionClick = (sessionId: string) => {
     if (isLoading) return;
     setOpenMobile(false);
-    // 导航到选定的聊天会话
     router.push(`/chat/${sessionId}`, { scroll: false });
   };
 
@@ -77,11 +74,10 @@ export default function ChatSessionLibrary({
     console.error("获取聊天会话失败:", error);
     return (
       <div className="p-4">
-        <h3 className="text-sm font-medium mb-3 flex items-center gap-1">
-          <RiChatHistoryLine className="h-4 w-4" />
+        <h3 className="text-sm font-semibold mb-4 text-muted-foreground">
           {messages.library.title}
         </h3>
-        <div className="text-xs text-muted-foreground">
+        <div className="text-sm text-muted-foreground">
           {messages.library.loadFailed}
         </div>
       </div>
@@ -91,12 +87,15 @@ export default function ChatSessionLibrary({
   if (isLoading) {
     return (
       <div className="p-4">
-        <h3 className="text-sm font-medium mb-3 flex items-center gap-1">
-          <RiChatHistoryLine className="h-4 w-4" />
+        <h3 className="text-sm font-semibold mb-4 text-muted-foreground">
           {messages.library.title}
         </h3>
-        <div className="text-xs text-muted-foreground">
-          {messages.library.loading}
+        <div className="space-y-2">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="animate-pulse">
+              <div className="h-8 bg-muted/50 rounded"></div>
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -105,47 +104,43 @@ export default function ChatSessionLibrary({
   return (
     <div className={`${state === "collapsed" ? "hidden" : "block"}`}>
       <div className="p-4">
-        <h3 className="text-sm font-medium mb-3 flex items-center gap-1">
-          <RiChatHistoryLine className="h-4 w-4" />
+        <h3 className="text-sm font-semibold mb-4 text-muted-foreground">
           {messages.library.title}
         </h3>
-        {/* 只在展开状态显示内容 */}
+
         {sessions.length === 0 ? (
-          <div className="text-xs text-muted-foreground">
-            {messages.library.noHistory}
+          <div className="text-center py-8">
+            <p className="text-sm text-muted-foreground">
+              {messages.library.noHistory}
+            </p>
           </div>
         ) : (
-          <ul className="space-y-2">
-            {sessions.map((session: ChatSessionDB) => (
-              <li
+          <div className="space-y-1">
+            {sessions.map((session: ChatSession) => (
+              <div
                 key={session.uuid}
                 onClick={() => handleSessionClick(session.uuid)}
-                className={`flex items-center justify-between text-sm p-2 rounded-md hover:bg-muted cursor-pointer ${
+                className={`group flex items-center justify-between p-2 rounded cursor-pointer transition-colors ${
                   session.uuid === currentChatId
-                    ? "bg-muted/80 border border-border/50"
-                    : ""
+                    ? "bg-primary/10 text-foreground"
+                    : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                 }`}
               >
-                <div className="flex items-center">
-                  <span
-                    className={`truncate max-w-[150px] ${
-                      session.uuid === currentChatId ? "font-medium" : ""
-                    }`}
-                  >
-                    {session.title}
-                  </span>
-                </div>
+                <span className="truncate text-sm flex-1 mr-2">
+                  {session.title || "New Chat"}
+                </span>
+
                 <Button
                   variant="ghost"
-                  size="icon"
-                  className="h-6 w-6"
+                  size="sm"
+                  className="opacity-0 group-hover:opacity-100 h-6 w-6 p-0 hover:text-destructive"
                   onClick={(e) => handleDeleteSession(e, session.uuid)}
                 >
-                  <RiDeleteBin6Line className="h-4 w-4" />
+                  <Trash2 className="h-3 w-3" />
                 </Button>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
       </div>
     </div>

@@ -56,7 +56,7 @@ export default async function () {
     { name: "membership_status", title: "Membership Status" },
     { name: "title", title: "Title" },
     { name: "status", title: "Status" },
-    { name: "customer_info_id", title: "Customer Info ID" },
+    { name: "model", title: "Model" },
     {
       name: "created_at",
       title: "Created At",

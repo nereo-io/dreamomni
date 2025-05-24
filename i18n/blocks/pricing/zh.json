@@ -1,19 +1,47 @@
 {
   "name": "pricing",
-  "label": "会员方案",
-  "title": "BaziAI解读方案",
-  "description": "选择你的AI八字解读会员方案",
+  "label": "订阅方案",
+  "title": "TalkwithAI 对话套餐",
+  "description": "选择您的AI对话套餐，开始与Claude 4聊天",
   "groups": [],
   "items": [
     {
-      "title": "AI高级版(月付)",
-      "description": "适合正在探索的你，随时开启八字解读",
+      "title": "免费版",
+      "description": "开始体验Claude 4的完美选择",
       "features_title": "包含",
       "features": [
-        "月度无限次AI八字解读",
-        "单人高级命盘分析",
-        "双人合盘关系分析",
-        "命运趋势&挑战预测辅助"
+        "每日3次Claude 4对话",
+        "基础对话功能",
+        "标准响应速度",
+        "7天对话历史记录"
+      ],
+      "interval": "month",
+      "amount": 0,
+      "currency": "USD",
+      "price": "免费",
+      "original_price": "",
+      "unit": "/永久",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "免费开始",
+        "url": "/chat",
+        "icon": "RiPlayLine"
+      },
+      "product_id": "free-plan",
+      "product_name": "TalkwithAI免费版",
+      "credits": 0,
+      "valid_months": 0
+    },
+    {
+      "title": "专业版(月付)",
+      "description": "适合日常使用者，无限对话",
+      "features_title": "包含",
+      "features": [
+        "每月无限次Claude 4对话",
+        "高级对话历史记录追踪",
+        "优先响应速度",
+        "扩展对话上下文记忆"
       ],
       "interval": "month",
       "amount": 999,
@@ -24,28 +52,28 @@
       "is_featured": false,
       "discount_label": "5折优惠",
       "button": {
-        "title": "升级AI高级版",
+        "title": "升级专业版",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },
       "product_id": "monthly-pro",
-      "product_name": "BaziAI高级版",
+      "product_name": "TalkwithAI专业版",
       "credits": 1,
       "valid_months": 1
     },
     {
-      "title": "AI高级版(一次性年卡)",
+      "title": "专业版(年付)",
       "description": "相当于每月仅 $8.25，性价比更高",
       "label": "热门",
       "features_title": "包含",
       "features": [
-        "无订阅，一年内无限次AI八字解读",
-        "单人高级命盘分析",
-        "双人合盘关系分析",
-        "高级命运趋势&挑战分析",
-        "2025年度AI运势追踪"
+        "全年无限次Claude 4对话",
+        "高级对话历史记录追踪",
+        "优先响应速度",
+        "扩展对话上下文记忆",
+        "优先体验Claude新功能"
       ],
-      "interval": "one-time",
+      "interval": "year",
       "amount": 9900,
       "cn_amount": 72400,
       "currency": "USD",
@@ -54,12 +82,12 @@
       "is_featured": true,
       "discount_label": "4折优惠",
       "button": {
-        "title": "升级AI高级版",
+        "title": "升级专业版",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },
-      "product_id": "pro-year-one-time",
-      "product_name": "BaziAI高级版",
+      "product_id": "yearly-pro",
+      "product_name": "TalkwithAI专业版",
       "credits": 12,
       "valid_months": 12
     }

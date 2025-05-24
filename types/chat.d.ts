@@ -3,14 +3,8 @@ import { HexagramData, HexagramLine, HexagramResult } from "./hexagram";
 export interface ChatRequest {
   isInitializing: boolean;
   messages: Message[];
-  customer_info: CustomerInfo;
   locale: string;
   session_id: string;
-  is_matching: boolean; // 是否是双人匹配模式
-  partner_info?: CustomerInfo; // 伴侣信息ID
-  is_iching?: boolean; // 是否是八卦占卜
-  hexagramLines?: HexagramLine[]; // 八卦占卜的爻线
-  hexagramData?: HexagramData; // 八卦占卜的结果
   model?: string; // 模型
 }
 

@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { ChatService } from "@/services/chat/chatService";
 import { respData, respErr } from "@/lib/resp";
 import { NextResponse } from "next/server";
+import { getChatSessionByUuid } from "@/models/chat";
 
 export async function GET(
   req: Request,
@@ -15,7 +16,7 @@ export async function GET(
     }
 
     // 2. 获取聊天会话
-    const chat = await ChatService.getChatSession(params.chatId);
+    const chat = await getChatSessionByUuid(params.chatId);
     if (!chat) {
       return Response.json({ error: "Not Found" }, { status: 404 });
     }
@@ -41,9 +42,12 @@ export async function PUT(
     const { chatId } = params;
     const { status } = await request.json();
 
-    // 这里添加更新状态的具体逻辑
-    const updatedChat = await ChatService.updateChatStatus(chatId, status);
-    // console.log("updatedChat", updatedChat);
+    // 实例化ChatService并调用正确的方法名
+    const chatService = new ChatService();
+    const updatedChat = await chatService.updateChatSessionStatus(
+      chatId,
+      status
+    );
 
     return respData(updatedChat);
   } catch (error) {

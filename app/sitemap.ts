@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { getQuestionList } from "@/models/question";
+import { getAllPosts, getPostsByLocale } from "@/models/post";
 import { getAllCategoriesMetadata } from "@/types/category-enum";
 import { locales } from "@/i18n/locale";
 
@@ -19,7 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   console.log("开始生成 sitemap...");
 
   try {
-    // 基础页面
+    // 基础静态页面
     const staticPages = [
       {
         url: `${baseUrl}`,
@@ -39,41 +40,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "weekly" as ChangeFrequency,
         priority: 0.7,
       },
-      {
-        url: `${baseUrl}/chinese-zodiac-calculator`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
-        priority: 0.8,
-      },
-      {
-        url: `${baseUrl}/chinese-zodiac-element-reading`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
-        priority: 0.8,
-      },
-      {
-        url: `${baseUrl}/i-ching`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
-        priority: 0.9,
-      },
-      {
-        url: `${baseUrl}/qwen3`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
-        priority: 0.9,
-      },
-      {
-        url: `${baseUrl}/products`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
-        priority: 0.9,
-      },
     ];
 
     console.log(`添加了 ${staticPages.length} 个基础页面`);
 
-    // 为每个语言添加基础页面
+    // 为每个语言添加本地化页面
     const localizedStaticPages = locales.flatMap((locale) => {
       if (locale === "en") return []; // 英文已经包含在基础页面中
 
@@ -96,139 +67,79 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           changeFrequency: "weekly" as ChangeFrequency,
           priority: 0.7,
         },
-        {
-          url: `${baseUrl}/${locale}/chinese-zodiac-calculator`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.8,
-        },
-        {
-          url: `${baseUrl}/${locale}/chinese-zodiac-element-reading`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.8,
-        },
-        {
-          url: `${baseUrl}/${locale}/i-ching`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.9,
-        },
-        {
-          url: `${baseUrl}/${locale}/qwen3`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.9,
-        },
-        {
-          url: `${baseUrl}/${locale}/products`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.9,
-        },
       ];
     });
 
     console.log(`添加了 ${localizedStaticPages.length} 个本地化基础页面`);
 
-    // 获取所有分类
-    const categories = getAllCategoriesMetadata().map(
-      (category) => category.key
-    );
-    console.log(`找到 ${categories.length} 个分类`);
-
-    // 为每个分类和语言创建资源页面
-    const categoryPages = categories.flatMap((category) => {
-      return locales.map((locale) => ({
-        url:
-          locale === "en"
-            ? `${baseUrl}/reading/${category}`
-            : `${baseUrl}/${locale}/reading/${category}`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
-        priority: 0.7,
-      }));
+    // 用户相关页面
+    const userPages = locales.flatMap((locale) => {
+      return [
+        {
+          url:
+            locale === "en"
+              ? `${baseUrl}/pay-success`
+              : `${baseUrl}/${locale}/pay-success`,
+          lastModified: currentDate,
+          changeFrequency: "monthly" as ChangeFrequency,
+          priority: 0.5,
+        },
+      ];
     });
 
-    console.log(`添加了 ${categoryPages.length} 个分类页面`);
+    console.log(`添加了 ${userPages.length} 个用户页面`);
 
-    // 获取所有问题页面
-    const questionPages = [];
+    // Legal 页面 (无语言前缀)
+    const legalPages = [
+      {
+        url: `${baseUrl}/privacy-policy`,
+        lastModified: currentDate,
+        changeFrequency: "yearly" as ChangeFrequency,
+        priority: 0.3,
+      },
+      {
+        url: `${baseUrl}/terms-of-service`,
+        lastModified: currentDate,
+        changeFrequency: "yearly" as ChangeFrequency,
+        priority: 0.3,
+      },
+    ];
 
-    // 为每个语言获取问题
+    console.log(`添加了 ${legalPages.length} 个法律页面`);
+
+    // 获取所有博客文章页面
+    const blogPages = [];
+
     for (const locale of locales) {
-      // 为每个分类获取问题
-      for (const category of categories) {
-        try {
-          const questions = await getQuestionList({
-            category,
-            locale,
-            limit: 1000, // 设置一个较大的限制，确保获取所有问题
-          });
+      try {
+        const posts = await getPostsByLocale(locale, 1, 1000); // 获取所有博客文章
 
-          // 为每个问题创建URL
-          const questionUrls = questions.items.map((question) => ({
-            url:
-              locale === "en"
-                ? `${baseUrl}/reading/${category}/questions/${question.slug}`
-                : `${baseUrl}/${locale}/reading/${category}/questions/${question.slug}`,
-            lastModified:
-              question.updated_at || question.created_at || currentDate,
-            changeFrequency: "monthly" as ChangeFrequency,
-            priority: 0.6,
-          }));
+        const blogUrls = posts.map((post) => ({
+          url:
+            locale === "en"
+              ? `${baseUrl}/blog/${post.slug}`
+              : `${baseUrl}/${locale}/blog/${post.slug}`,
+          lastModified: post.updated_at || post.created_at || currentDate,
+          changeFrequency: "monthly" as ChangeFrequency,
+          priority: 0.6,
+        }));
 
-          console.log(
-            `为 ${locale} 语言的 ${category} 分类添加了 ${questionUrls.length} 个问题页面`
-          );
-          questionPages.push(...questionUrls);
-        } catch (error) {
-          console.error(
-            `获取 ${locale} 语言的 ${category} 分类问题时出错:`,
-            error
-          );
-        }
+        console.log(`为 ${locale} 语言添加了 ${blogUrls.length} 个博客页面`);
+        blogPages.push(...blogUrls);
+      } catch (error) {
+        console.error(`获取 ${locale} 语言的博客文章时出错:`, error);
       }
     }
 
-    const zodiacCalculatorPages = [];
-
-    for (const locale of locales) {
-      const calculatorQuestions = await getQuestionList({
-        category: "chinese-zodiac-calculator",
-        locale,
-        limit: 1000, // 设置一个较大的限制，确保获取所有问题
-      });
-      const zodiacCalculatorUrls = calculatorQuestions.items.map(
-        (question) => ({
-          url:
-            locale === "en"
-              ? `${baseUrl}/chinese-zodiac-calculator/${question.slug}`
-              : `${baseUrl}/${locale}/chinese-zodiac-calculator/${question.slug}`,
-          lastModified:
-            question.updated_at || question.created_at || currentDate,
-          changeFrequency: "monthly" as ChangeFrequency,
-          priority: 0.6,
-        })
-      );
-
-      console.log(
-        `为 ${locale} 语言的 生肖计算器 添加了 ${zodiacCalculatorUrls.length} 个问题页面`
-      );
-      zodiacCalculatorPages.push(...zodiacCalculatorUrls);
-    }
-
-    console.log(
-      `总共添加了 ${questionPages.length} 个问题页面，${zodiacCalculatorPages.length} 个生肖计算器页面`
-    );
+    console.log(`总共添加了 ${blogPages.length} 个博客页面`);
 
     // 合并所有页面
     const allPages = [
       ...staticPages,
       ...localizedStaticPages,
-      ...categoryPages,
-      ...questionPages,
-      ...zodiacCalculatorPages,
+      ...userPages,
+      ...legalPages,
+      ...blogPages,
     ];
 
     console.log(`sitemap 生成完成，总共包含 ${allPages.length} 个页面`);

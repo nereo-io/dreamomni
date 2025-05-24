@@ -22,10 +22,10 @@ export default async function AdminLayout({
 
   const sidebar: Sidebar = {
     brand: {
-      title: "BaziAI",
+      title: "TalkwithAI",
       logo: {
         src: "/logo.svg",
-        alt: "BaziAI",
+        alt: "TalkWithAI",
       },
       url: "/",
     },
@@ -44,15 +44,15 @@ export default async function AdminLayout({
         messages={messages}
       />
     ),
-    buttons: [
-      {
-        title: "🎁 Share",
-        url: "/my-invites",
-        target: "_blank",
-        icon: "RiArrowRightUpLine",
-        variant: "link",
-      },
-    ],
+    // buttons: [
+    //   {
+    //     title: "🎁 Share",
+    //     url: "/my-invites",
+    //     target: "_blank",
+    //     icon: "RiArrowRightUpLine",
+    //     variant: "link",
+    //   },
+    // ],
     social: {
       items: [
         {

@@ -83,4 +83,25 @@ export const chatSessionApi = {
     }
     return response.json();
   },
+
+  // 生成智能标题
+  async generateTitle(chatId: string): Promise<{ title: string }> {
+    const response = await fetch(`/api/chat-session/${chatId}/generate-title`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to generate title");
+    }
+
+    const data = await response.json();
+    if (data.code === 0) {
+      return data.data;
+    } else {
+      throw new Error(data.message || "生成标题失败");
+    }
+  },
 };

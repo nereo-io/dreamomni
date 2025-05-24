@@ -1,8 +1,10 @@
 import { auth } from "@/auth";
 import { ChatService } from "@/services/chat/chatService";
 import { respData, respErr } from "@/lib/resp";
-import { ChatSession, ChatSessionDB, ChatStatus } from "@/types/chat.d";
+import { ChatSession, ChatStatus } from "@/types/chat.d";
 import { createChatSession } from "@/models/chat";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
   try {
@@ -13,10 +15,11 @@ export async function POST(req: Request) {
     }
 
     // 2. 获取请求数据
-    const chatData: ChatSessionDB = await req.json();
+    const chatData: ChatSession = await req.json();
 
+    console.log("chatData", chatData);
     // 3. 创建聊天会话
-    const chat: ChatSessionDB = await createChatSession(chatData);
+    const chat: ChatSession = await createChatSession(chatData);
 
     // 4. 返回结果
     return respData(chat);
@@ -39,7 +42,8 @@ export async function GET(req: Request) {
     const userUuid = session.user.uuid;
 
     // 3. 获取聊天会话
-    const chatSessions = await ChatService.getChatSessionsByUserId(userUuid);
+    const chatService = new ChatService();
+    const chatSessions = await chatService.getChatSessionsByUserId(userUuid);
 
     // 4. 返回结果
     return respData(chatSessions);
@@ -61,7 +65,8 @@ export async function DELETE(req: Request) {
     const { uuid } = await req.json();
 
     // 3. 删除聊天会话
-    await ChatService.deleteChatSession(uuid);
+    const chatService = new ChatService();
+    await chatService.deleteChatSession(uuid);
 
     // 4. 返回结果
     return respData({ message: "会话已删除" });
