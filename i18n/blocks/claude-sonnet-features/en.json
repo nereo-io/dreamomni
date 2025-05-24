@@ -1,52 +1,52 @@
 {
-  "mainTitle": "Claude 3.7 Sonnet: Cutting-Edge AI",
+  "mainTitle": "Claude 4: Next-Generation AI with Extended Thinking",
   "features": [
     {
-      "id": "code-generation",
-      "title": "Code generation",
-      "description": "Claude 3.7 Sonnet leads in agentic coding, handling tasks across the entire software development lifecycle, from planning to bug fixes and refactoring. It excels in complex coding tasks, making it an ideal end-to-end development solution.",
+      "id": "advanced-coding",
+      "title": "World's Best Coding Model",
+      "description": "Claude Opus 4 leads as the world's best coding model, achieving 72.5% on SWE-bench and 43.2% on Terminal-bench. It excels at complex, long-running coding tasks and agent workflows, maintaining sustained performance for hours on end-to-end development solutions.",
       "imageUrl": "/imgs/intro/claude3.7-1.png",
-      "imageAlt": "Illustration of code generation capabilities",
+      "imageAlt": "Illustration of advanced coding capabilities with Claude 4",
       "subPoints": [
         {
-          "title": "64K Extended Thinking",
-          "text": "Claude 3.7 Sonnet excels in instruction-following, reasoning, and multimodal capabilities. Its extended thinking mode enhances performance in math and science, providing users with in-depth solutions."
+          "title": "Extended Thinking with Tool Use",
+          "text": "Claude 4 models can alternate between reasoning and tool use during extended thinking, using web search and other tools to improve responses. This hybrid approach delivers both near-instant responses and deeper reasoning capabilities."
         },
         {
-          "title": "Content generation and analysis",
-          "text": "Claude 3.7 Sonnet excels in content generation and analysis, understanding nuances to create engaging content. It identifies and corrects errors, providing deep insights from complex data, with a larger context window and lower latency for knowledge-intensive tasks."
+          "title": "Enhanced Memory Capabilities",
+          "text": "When given access to local files, Claude 4 creates and maintains 'memory files' to store key information, unlocking better long-term task awareness, coherence, and performance on complex agent tasks."
         }
       ],
-      "buttonText": "Add to Chrome",
+      "buttonText": "Try Claude 4",
       "buttonUrl": "#"
     },
     {
-      "id": "build-artifacts",
-      "title": "Build Artifacts Seamlessly with Claude 3.7 Sonnet",
-      "description": "Unlock the potential of Claude 3.7 Sonnet to create and manage code artifacts effortlessly. With Claude AI, streamline your development process by generating reusable components, refining complex workflows, and automating artifact creation. Whether you're developing software, managing APIs, or collaborating on technical projects, Claude 3.7 Sonnet ensures precision, efficiency, and scalability for all your artifact needs.",
+      "id": "parallel-tools",
+      "title": "Parallel Tool Execution & Precision",
+      "description": "Claude 4 models can use multiple tools simultaneously, delivering enhanced efficiency and precision. With 65% fewer shortcuts and loopholes compared to previous models, Claude 4 follows instructions more accurately and provides more reliable results for complex workflows and agent tasks.",
       "imageUrl": "/imgs/intro/claude3.7-2.png",
-      "imageAlt": "Illustration of building artifacts with Claude AI"
+      "imageAlt": "Illustration of parallel tool execution with Claude 4"
     },
     {
-      "id": "create-reports",
-      "title": "Claude 3.7 Sonnet: Create Reports with Ease",
-      "description": "With Claude 3.7 Sonnet, generating detailed reports has never been easier. Harness the power of Claude AI's advanced capabilities to compile data, perform in-depth analyses, and produce professional-quality documents in a fraction of the time. Whether you're crafting business reports, academic papers, or technical documentation, Claude 3.7 Sonnet enhances your productivity and ensures accuracy with the intelligence of Claude AI.",
+      "id": "claude-code-integration",
+      "title": "Claude Code: Seamless Development Integration",
+      "description": "Claude Code is now generally available with native VS Code and JetBrains integrations. Experience seamless pair programming with inline edits, background GitHub Actions, and the extensible Claude Code SDK for building custom agents and applications.",
       "imageUrl": "/imgs/intro/claude3.7-3.png",
-      "imageAlt": "Illustration of creating reports with Claude AI"
+      "imageAlt": "Illustration of Claude Code integration in development environments"
     },
     {
-      "id": "analyze-code",
-      "title": "Analyze Code with Claude AI",
-      "description": "Developers can now streamline their coding process with Claude AI's Analyze Code feature. This powerful tool enables you to use Claude 3.7 Sonnet to scrutinize your code for bugs, optimize algorithms, and ensure best practices are followed. Claude AI's advanced understanding of various programming languages makes it an indispensable tool for both novice and experienced programmers looking to enhance code quality and efficiency using Claude 3.7 Sonnet.",
+      "id": "sustained-performance",
+      "title": "Sustained Performance on Complex Tasks",
+      "description": "Claude Opus 4 delivers sustained performance on long-running tasks requiring thousands of steps and several hours of focused effort. This capability dramatically expands what AI agents can accomplish, making it ideal for complex research, analysis, and multi-step problem solving.",
       "imageUrl": "/imgs/intro/claude3.7-4.png",
-      "imageAlt": "Illustration of analyzing code with Claude AI"
+      "imageAlt": "Illustration of sustained performance on complex tasks"
     },
     {
-      "id": "create-graphs",
-      "title": "Create Graphs Easily with Claude 3.7 Sonnet",
-      "description": "Transform your raw data into insightful visuals using Claude AI's Make Graphs feature. Leveraging the capabilities of Claude 3.7 Sonnet, this tool simplifies the process of data visualization, allowing you to create comprehensive charts and graphs that effectively communicate your data's story. Ideal for presentations, reports, and educational materials, Claude AI helps you make data-driven decisions with clarity and precision provided by Claude 3.7 Sonnet.",
+      "id": "hybrid-reasoning",
+      "title": "Hybrid Reasoning: Speed Meets Depth",
+      "description": "Claude 4 models offer dual modes - near-instant responses for quick queries and extended thinking (up to 64K tokens) for complex reasoning. This flexibility ensures optimal performance whether you need rapid assistance or deep analytical thinking for challenging problems.",
       "imageUrl": "/imgs/intro/claude3.7-5.png",
-      "imageAlt": "Illustration of creating graphs with Claude AI"
+      "imageAlt": "Illustration of hybrid reasoning capabilities"
     }
   ]
 }

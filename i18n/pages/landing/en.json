@@ -3,46 +3,19 @@
   "theme": "light",
   "header": {
     "brand": {
-      "title": "BaziAI",
+      "title": "Claude4Chat",
       "logo": {
         "src": "/logo.svg",
-        "alt": "BaziAI"
+        "alt": "Claude4Chat"
       },
       "url": "/"
     },
     "nav": {
       "items": [
         {
-          "title": "Bazi Reading",
-          "url": "/reading",
-          "icon": "RiBookLine",
-          "children": [
-            {
-              "title": "Love Reading",
-              "url": "/reading/love",
-              "icon": "RiHeartLine"
-            },
-            {
-              "title": "Career Reading",
-              "url": "/reading/career",
-              "icon": "RiBriefcaseLine"
-            },
-            {
-              "title": "Health Reading",
-              "url": "/reading/health",
-              "icon": "RiHeartPulseLine"
-            },
-            {
-              "title": "Chinese Zodiac",
-              "url": "/reading/chinese-zodiac",
-              "icon": "RiStarLine"
-            },
-            {
-              "title": "Life Reading",
-              "url": "/reading/life",
-              "icon": "RiUserHeartLine"
-            }
-          ]
+          "title": "Chat",
+          "url": "/chat",
+          "icon": "RiChat1Line"
         },
         {
           "title": "Pricing",
@@ -56,180 +29,73 @@
         }
       ]
     },
-    "buttons": [
-      {
-        "title": "🎁 Share",
-        "url": "/my-invites",
-        "target": "_blank",
-        "variant": "link",
-        "icon": "RiArrowRightUpLine"
-      }
-    ],
     "show_sign": true,
     "show_theme": true,
     "show_locale": true
   },
   "hero": {
-    "title": "Free Bazi AI Reading Tool",
-    "highlight_text": "Bazi AI",
+    "title": "Free Chat with Claude 4",
+    "highlight_text": "Claude 4",
     "announcement": {
-      "title": "🔮 Free I Ching Divination!",
+      "title": "🚀 Claude 4 Now Available!",
       "label": "New!",
-      "url": "/i-ching"
+      "url": "/chat"
     },
-    "description": "Your Destiny, Deciphered by AI with Chinese Astrology",
+    "description": "Experience Next-Generation AI with Extended Thinking & Advanced Reasoning",
     "show_happy_users": false,
     "show_badge": false
-  },
-  "introduce": {
-    "name": "introduce",
-    "title": "BaziAI = Bazi Calculator + DeepSeek R1 Reading",
-    "label": "Features",
-    "description": "Experience the revolutionary combination of traditional Bazi calculator and DeepSeek R1's advanced AI reading capabilities",
-    "image": {
-      "src": "/imgs/features/generating.gif"
-    },
-    "youtubeUrl": "https://www.youtube.com/embed/wyE2NQ3cKlQ?mute=1&loop=1&playlist=wyE2NQ3cKlQ&rel=0&cc_load_policy=0",
-    "items": [
-      {
-        "title": "DeepSeek R1 AI Reading",
-        "description": "State-of-the-art DeepSeek R1 AI provides deep, insightful Bazi analysis and predictions",
-        "icon": "RiRobot2Line"
-      },
-      {
-        "title": "Eastern Bazi Wisdom",
-        "description": "Traditional Bazi-telling methods enhanced by AI technology",
-        "icon": "RiCompass3Line"
-      },
-      {
-        "title": "24/7 Bazi Access",
-        "description": "Your AI Bazi guide is always ready with instant readings",
-        "icon": "Ri24HoursLine"
-      }
-    ]
-  },
-  "feature": {
-    "disabled": true,
-    "name": "feature",
-    "title": "DeepSeek R1 AI Bazi Analysis Benefits",
-    "label": "Benefits",
-    "description": "Discover how DeepSeek R1's advanced AI technology delivers precise and personalized Bazi insights",
-    "items": [
-      {
-        "title": "DeepSeek R1 Analysis Engine",
-        "description": "Leveraging DeepSeek R1's state-of-the-art AI to analyze your unique Bazi patterns with unprecedented accuracy and depth.",
-        "icon": "RiRobot2Line"
-      },
-      {
-        "title": "Traditional Bazi Wisdom",
-        "description": "Access centuries of Bazi-telling knowledge, enhanced by AI technology for deeper understanding of your destiny.",
-        "icon": "RiCompass3Line"
-      },
-      {
-        "title": "Instant Bazi Access",
-        "description": "Get immediate Bazi readings anytime. Your AI Bazi advisor is always ready to provide guidance when you need it.",
-        "icon": "Ri24HoursLine"
-      },
-      {
-        "title": "Complete Bazi Analysis",
-        "description": "AI-powered insights covering career Bazi, love Bazi, wealth Bazi, and life path predictions.",
-        "icon": "RiBookOpenLine"
-      },
-      {
-        "title": "AI Interactive Experience",
-        "description": "Engage with our AI Bazi system through follow-up questions for deeper Bazi insights.",
-        "icon": "RiDiscussLine"
-      },
-      {
-        "title": "Bazi Reading Plans",
-        "description": "Choose from various Bazi reading plans, from free basic readings to unlimited premium AI Bazi analysis.",
-        "icon": "RiVipCrownLine"
-      }
-    ]
-  },
-  "benefit": {
-    "name": "benefit",
-    "title": "BaziAI: Where Ancient Wisdom Meets Modern Technology",
-    "label": "Core Advantages",
-    "description": "Experience precision-engineered destiny analysis trusted by over 500,000 users worldwide",
-    "items": [
-      {
-        "title": "30+ Dimension AI Analysis",
-        "description": "Dissect your Bazi profile multi-dimensionally across career, relationships, health and fortune - revealing hidden opportunities",
-        "icon": "RiCompass3Line",
-        "image": {
-          "src": "/imgs/features/year-by-year-guide.png"
-        }
-      },
-      {
-        "title": "Crystal-Clear Explanations",
-        "description": "Complex astrological patterns translated into actionable advice through natural conversation - no jargon, just clarity",
-        "icon": "RiLightbulbLine",
-        "image": {
-          "src": "/imgs/features/challenge-detailed-explanations.png"
-        }
-      },
-      {
-        "title": "Proactive Solutions",
-        "description": "Get tailored strategies to navigate life's challenges - from career crossroads to relationship dilemmas",
-        "icon": "RiRoadMapLine",
-        "image": {
-          "src": "/imgs/features/pratical-solution.png"
-        }
-      }
-    ]
   },
   "testimonial": {
     "name": "testimonial",
     "label": "Testimonial",
-    "title": "What Users Say About BaziAI Readings",
-    "description": "Discover how our DeepSeek R1 powered Bazi analysis has transformed lives with accurate insights and guidance.",
+    "title": "What Users Say About Free Chat with Claude 4",
+    "description": "Discover how Claude 4's advanced capabilities have transformed workflows with powerful AI assistance and extended thinking.",
     "icon": "GoThumbsup",
     "items": [
       {
-        "title": "Jennifer Wang",
-        "label": "32, Married, Marketing Executive",
-        "description": "The DeepSeek R1 Bazi analysis revealed career advancement opportunities perfectly timed with my company's restructuring. Following the guidance helped me secure a promotion that balanced perfectly with my family life.",
+        "title": "Sarah Johnson",
+        "label": "Software Developer",
+        "description": "Free chat with Claude 4 revolutionized my coding workflow. The extended thinking feature helps me solve complex algorithms, and the parallel tool execution saves hours of debugging. It's like having a senior developer available 24/7.",
         "image": {
           "src": "/imgs/users/1.png"
         }
       },
       {
-        "title": "David Zhang",
-        "label": "28, Single, Tech Entrepreneur",
-        "description": "BaziAI's analysis accurately predicted my startup's challenges and opportunities. The relationship insights were spot-on, suggesting I focus on career growth before serious dating - advice that saved me from potential distractions.",
+        "title": "Michael Chen",
+        "label": "Marketing Manager",
+        "description": "Claude 4's free chat capabilities are incredible for content creation. The hybrid reasoning modes let me get quick ideas instantly or dive deep into strategy planning. It's transformed how I approach campaign development.",
         "image": {
           "src": "/imgs/users/2.png"
         }
       },
       {
-        "title": "Emma Li",
-        "label": "35, Divorced, Mother of two",
-        "description": "After my divorce, BaziAI provided invaluable guidance on parenting challenges and personal growth opportunities. The co-parenting advice has improved my relationship with my ex-husband and brought stability to my children's lives.",
+        "title": "Emily Rodriguez",
+        "label": "Research Analyst",
+        "description": "The sustained performance on complex tasks is amazing. I can have extended conversations with Claude 4 about research methodologies, and it maintains context throughout lengthy analysis sessions. The memory capabilities are game-changing.",
         "image": {
           "src": "/imgs/users/3.png"
         }
       },
       {
-        "title": "James Chen",
-        "label": "40, Married, Financial Advisor",
-        "description": "As someone who analyzes markets daily, I was skeptical until BaziAI predicted my career transition with remarkable accuracy. The insights about balancing work stress with family time have strengthened my marriage significantly.",
+        "title": "David Kumar",
+        "label": "Student & Startup Founder",
+        "description": "Free chat with Claude 4 helps me balance studies and entrepreneurship. From thesis research to business planning, the AI's extended thinking provides insights I never considered. The tool use integration is perfect for my workflow.",
         "image": {
           "src": "/imgs/users/4.png"
         }
       },
       {
-        "title": "Sophia Yang",
-        "label": "26, In a relationship, Graduate Student",
-        "description": "BaziAI helped me navigate the stress of my PhD program while maintaining a healthy relationship. The timing advice for thesis submission and career applications aligned perfectly with favorable periods in my Bazi chart.",
+        "title": "Lisa Wang",
+        "label": "Creative Writer",
+        "description": "Claude 4's free chat unlocked my creativity. The dual reasoning modes help me brainstorm quickly or develop complex narratives with deep character analysis. It's like having a writing partner who never runs out of ideas.",
         "image": {
           "src": "/imgs/users/5.png"
         }
       },
       {
-        "title": "Thomas Liu",
-        "label": "45, Widowed, Business Owner",
-        "description": "After losing my wife, BaziAI's insights helped me find meaning again. The business expansion timing advice proved remarkably accurate, and the guidance on emotional healing has helped me become a better father to my children.",
+        "title": "Alex Thompson",
+        "label": "Data Scientist",
+        "description": "The precision and reliability of Claude 4 in free chat sessions is remarkable. With 65% fewer errors than previous models, I trust it for critical data analysis and model development. The parallel processing capabilities are outstanding.",
         "image": {
           "src": "/imgs/users/6.png"
         }
@@ -240,172 +106,89 @@
     "name": "faq",
     "label": "FAQ",
     "title": "Frequently Asked Questions",
-    "description": "Learn more about how BaziAI works",
+    "description": "Learn more about free chat with Claude 4",
     "items": [
       {
-        "title": "What is BaziAI and how does it work?",
-        "description": "BaziAI is an innovative AI-powered Bazi guidance platform that combines traditional Eastern wisdom with cutting-edge technology. Think of it as your personal advisor available 24/7, offering insights for career decisions, relationship guidance, and life choices. Our platform analyzes your birth information using both ancient Eastern methodologies and advanced AI to provide personalized, actionable advice."
+        "title": "What is free chat with Claude 4 and how does it work?",
+        "description": "Free chat with Claude 4 gives you access to the world's most advanced AI model at no cost. Claude 4 features extended thinking capabilities, parallel tool execution, and hybrid reasoning modes. Simply start a conversation and experience next-generation AI that can handle everything from quick questions to complex, multi-step problem solving."
       },
       {
-        "title": "How does BaziAI generate accurate readings?",
-        "description": "BaziAI creates accurate readings through a unique dual-approach system. When you input your birth information, our sophisticated AI analyzes it using traditional Eastern Bazi principles combined with modern data analysis. This blend of ancient wisdom and technology ensures comprehensive, personalized insights that become more refined over time through continuous learning from user feedback."
+        "title": "What makes Claude 4's free chat different from other AI models?",
+        "description": "Claude 4 offers unique features in free chat: extended thinking up to 64K tokens, parallel tool execution, enhanced memory capabilities, and 65% fewer errors than previous models. It combines near-instant responses with deep reasoning, making it the most capable AI for both quick tasks and complex analysis."
       },
       {
-        "title": "What types of readings does BaziAI offer?",
-        "description": "BaziAI provides a comprehensive range of readings covering all major life aspects: career guidance, love and relationships, wealth opportunities, personality analysis, and health insights. Each reading type is specifically designed to offer deep insights and practical advice for your unique situation, helping you make informed decisions about your future."
+        "title": "What can I do with free chat with Claude 4?",
+        "description": "Free chat with Claude 4 supports a wide range of tasks: advanced coding and debugging, content creation and analysis, research and writing assistance, complex problem solving, creative projects, and sustained multi-hour conversations. The AI maintains context and can use tools to enhance responses."
       },
       {
-        "title": "Can I try BaziAI for free?",
-        "description": "Yes! BaziAI offers a free plan that includes 3 readings per day, basic Bazi analysis, essential life guidance, and access to all reading types. This allows you to experience our platform's capabilities and understand how our AI-powered insights can benefit your life decisions before choosing a premium plan."
+        "title": "Are there any limitations to the free chat with Claude 4?",
+        "description": "While free chat with Claude 4 provides access to advanced capabilities, premium users enjoy unlimited conversations, priority access during peak times, and additional features like extended memory files and enhanced tool integrations. Free users can experience the full power of Claude 4 with reasonable usage limits."
       },
       {
-        "title": "What makes BaziAI different from traditional Bazi telling?",
-        "description": "Unlike traditional Bazi telling, BaziAI provides data-driven, actionable insights powered by AI technology. We don't just predict what might happen - we offer clear, practical guidance based on both Eastern wisdom and modern analytical methods. Plus, you can access your readings anytime, track predictions, and receive regular updates as circumstances change."
+        "title": "How does Claude 4's extended thinking work in free chat?",
+        "description": "Extended thinking allows Claude 4 to process complex problems more thoroughly during free chat sessions. The AI can alternate between reasoning and tool use, creating detailed analysis that spans thousands of tokens. This results in more accurate, comprehensive responses for challenging questions."
       },
       {
-        "title": "How can I get the most out of my BaziAI readings?",
-        "description": "To maximize your BaziAI experience, we recommend starting with specific questions about areas of your life you want to explore. Premium users can ask follow-up questions for deeper insights, track their readings over time, and use our interactive AI chat feature for clarification. Regular readings help you stay aligned with your life's optimal path."
+        "title": "Can Claude 4 remember our conversation history in free chat?",
+        "description": "Yes! Claude 4's enhanced memory capabilities in free chat allow it to maintain context throughout extended conversations and even create memory files when given access to local files. This enables coherent, long-term interactions and better understanding of your specific needs and preferences."
       },
       {
-        "title": "Is my personal information secure with BaziAI?",
-        "description": "Absolutely. BaziAI takes data privacy seriously and employs industry-standard encryption to protect your personal information. We only use your birth information to generate accurate readings and never share your data with third parties. Your trust and privacy are our top priorities."
+        "title": "Is my data secure when using free chat with Claude 4?",
+        "description": "Absolutely. Free chat with Claude 4 employs industry-leading security measures and encryption to protect your conversations. We follow strict privacy protocols and never use your personal conversations to train models or share data with third parties. Your privacy is our top priority."
       },
       {
-        "title": "How often should I consult BaziAI?",
-        "description": "While you can access BaziAI 24/7, we recommend regular consultations - perhaps weekly or monthly - to stay aligned with your life's path. Important decisions or life changes are ideal times for additional readings. Premium users have unlimited access and can consult whenever they need guidance."
+        "title": "How do I get started with free chat with Claude 4?",
+        "description": "Getting started with free chat with Claude 4 is simple! Just click the 'Start Chat' button, and you'll be connected immediately. No complex setup required - you can begin exploring Claude 4's advanced capabilities right away, from coding assistance to creative projects."
       },
       {
-        "title": "Can BaziAI help with specific life decisions?",
-        "description": "Yes! Whether you're considering a career change, exploring relationship possibilities, or making important life choices, BaziAI provides targeted insights and practical guidance. Our AI analyzes your unique circumstances to offer personalized advice that helps you make informed decisions."
+        "title": "What's the difference between quick responses and extended thinking in Claude 4?",
+        "description": "Claude 4's free chat offers dual modes: quick responses for immediate needs and extended thinking for complex problems. Quick mode provides near-instant answers, while extended thinking mode allows the AI to process problems more thoroughly, using up to 64K tokens for comprehensive analysis."
       },
       {
-        "title": "What's included in the Premium plan?",
-        "description": "The Premium plan offers unlimited readings, interactive AI chat capabilities, follow-up questions, and deeper insights across all reading types. Premium users enjoy priority access to new features, comprehensive analysis, and the ability to track their Bazi patterns over time for more informed decision-making."
+        "title": "How does Claude 4's parallel tool execution benefit free chat users?",
+        "description": "Parallel tool execution in free chat with Claude 4 means the AI can use multiple tools simultaneously, dramatically improving efficiency. Whether it's searching information, analyzing code, or processing data, Claude 4 can handle multiple tasks at once, providing faster and more comprehensive responses."
       }
     ]
   },
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "BaziAI",
-      "description": "Your Bazi analysis platform powered by DeepSeek R1, combining ancient wisdom with cutting-edge AI technology for precise life guidance.",
+      "title": "Claude4Chat",
+      "description": "Free chat with Claude 4 - Experience next-generation AI with extended thinking, advanced reasoning, and cutting-edge capabilities. Your gateway to the world's most powerful AI model.",
       "logo": {
         "src": "/logo.svg",
-        "alt": "BaziAI"
+        "alt": "Claude4Chat"
       },
       "url": "/"
     },
-    "copyright": " 2025 • BaziAI All rights reserved.",
+    "copyright": " 2025 • Claude4Chat All rights reserved.",
     "nav": {
-      "items": [
-        {
-          "title": "Model",
-          "children": [
-            {
-              "title": "DeepSeek R1",
-              "url": "/",
-              "target": "_self"
-            },
-            {
-              "title": "Qwen3",
-              "url": "/qwen3",
-              "target": "_self"
-            }
-          ]
-        },
-        {
-          "title": "Bazi Reading",
-          "children": [
-            {
-              "title": "Love Reading",
-              "url": "/reading/love",
-              "target": "_self"
-            },
-            {
-              "title": "Career Reading",
-              "url": "/reading/career",
-              "target": "_self"
-            },
-            {
-              "title": "Health Reading",
-              "url": "/reading/health",
-              "target": "_self"
-            },
-            {
-              "title": "Chinese Zodiac",
-              "url": "/reading/chinese-zodiac",
-              "target": "_self"
-            },
-            {
-              "title": "Life Reading",
-              "url": "/reading/life",
-              "target": "_self"
-            }
-          ]
-        },
-        {
-          "title": "Chinese Zodiac",
-          "url": "/chinese-zodiac-element-reading",
-          "icon": "RiAncientGateLine",
-          "children": [
-            {
-              "title": "Zodiac & Elements Analysis",
-              "url": "/chinese-zodiac-element-reading",
-              "icon": "RiAncientGateLine"
-            },
-            {
-              "title": "2025 Chinese Horoscope",
-              "url": "/chinese-zodiac-calculator",
-              "icon": "RiCalendarEventLine"
-            }
-          ]
-        },
-        {
-          "title": "Support",
-          "children": [
-            {
-              "title": "FAQ",
-              "url": "/#faq",
-              "target": "_self"
-            },
-            {
-              "title": "Blog",
-              "url": "/blog",
-              "target": "_self"
-            },
-            {
-              "title": "FeedBack",
-              "url": "/feedback",
-              "target": "_self"
-            }
-          ]
-        }
-      ]
+      "items": []
     },
     "social": {
       "items": [
         {
           "title": "TikTok",
           "icon": "RiTiktokFill",
-          "url": "https://www.tiktok.com/@ruoxipaipan?_t=ZS-8stQCFaeosB&_r=1",
+          "url": "https://www.tiktok.com/@claude4chat",
           "target": "_blank"
         },
         {
           "title": "X",
           "icon": "RiTwitterXFill",
-          "url": "https://x.com/bazi_ai",
+          "url": "https://x.com/claude4chat",
           "target": "_blank"
         },
         {
           "title": "Youtube",
           "icon": "RiYoutubeFill",
-          "url": "https://www.youtube.com/@BaziAI",
+          "url": "https://www.youtube.com/@Claude4Chat",
           "target": "_blank"
         },
         {
           "title": "Email",
           "icon": "RiMailLine",
-          "url": "mailto:jasper@bazi-ai.com",
+          "url": "mailto:support@claude4chat.com",
           "target": "_self"
         }
       ]
@@ -425,25 +208,25 @@
   },
   "cta": [
     {
-      "name": "cta-iching",
-      "title": "I Ching Divination AI Reading",
+      "name": "cta-chat",
+      "title": "Start Free Chat with Claude 4",
       "buttons": [
         {
-          "title": "Free Now",
-          "url": "/i-ching",
+          "title": "Chat Now",
+          "url": "/chat",
           "target": "_self",
           "icon": "GoArrowUpRight"
         }
       ]
     },
     {
-      "name": "cta-fu",
-      "title": "Fortune Talisman Wallpapers",
-      "description": "Your Exclusive Lucky Charm",
+      "name": "cta-features",
+      "title": "Explore Claude 4 Features",
+      "description": "Extended Thinking & Advanced AI",
       "buttons": [
         {
-          "title": "Get Now",
-          "url": "/products",
+          "title": "Learn More",
+          "url": "#features",
           "target": "_self"
         }
       ]
@@ -453,23 +236,23 @@
     "title": "Examples: ",
     "examples": [
       {
-        "text": "Using clear, beginner-friendly language, analyze my life's trajectory and key turning points based on my Bazi chart; identify my personality strengths and weaknesses with auspicious and inauspicious elements, and offer practical methods to boost my fortune.",
-        "label": "Life Trajectory Analysis",
+        "text": "Help me debug this complex algorithm and explain the logic step by step. Use extended thinking to analyze potential edge cases and optimization opportunities.",
+        "label": "Advanced Code Debugging",
         "type": "single"
       },
       {
-        "text": "Based on both our Bazi charts, reveal where we align and where we may clash in personality, emotions, and career.",
-        "label": "Dual Relationship Reading",
-        "type": "double"
-      },
-      {
-        "text": "What does my Bazi chart indicate about my wealth prospects? Am I destined for easy gains or must I work hard, and when are the best windows to attract money?",
-        "label": "Wealth Development Analysis",
+        "text": "Create a comprehensive business plan for my startup idea, including market analysis, financial projections, and growth strategies.",
+        "label": "Business Strategy Planning",
         "type": "single"
       },
       {
-        "text": "According to my Bazi, how will my career evolve over the next five years? When are the optimal times for promotion or switching paths, and which challenges should I watch out for?",
-        "label": "Career Development Forecast",
+        "text": "Write a detailed research paper outline on AI ethics, then help me develop each section with thorough analysis and citations.",
+        "label": "Academic Research Assistant",
+        "type": "single"
+      },
+      {
+        "text": "Guide me through building a full-stack web application from concept to deployment, explaining best practices and potential challenges along the way.",
+        "label": "Full Development Guidance",
         "type": "single"
       }
     ]
@@ -480,57 +263,57 @@
       "all": "All"
     },
     "questions": {
-      "home1": {
-        "text": "Help me analyze my life in detail, including: 1) The trajectory of my life, turning points, and life strategies 2) My personality strengths and weaknesses 3) My Bazi structure and favorable elements 4) Methods to enhance my fortune. I am a beginner, so please use simple and easy-to-understand language, but also include profound insights.",
+      "coding1": {
+        "text": "Help me write and optimize a Python function for data analysis. Use extended thinking to consider edge cases and performance improvements.",
         "reading_type": "single",
-        "category": "home",
+        "category": "coding",
         "tag": "new"
       },
-      "home2": {
-        "text": "Can you summarize the keyword of my destiny in one sentence?",
+      "creative1": {
+        "text": "Write a creative story with complex characters and plot development. Use Claude 4's advanced reasoning for rich narrative structure.",
         "reading_type": "single",
-        "category": "home",
+        "category": "creative",
         "tag": "new"
       },
-      "career1": {
-        "text": "How will my career develop in the next 5 years? What key opportunities and challenges await?",
+      "analysis1": {
+        "text": "Analyze this business problem and provide a comprehensive solution strategy with multiple approaches.",
         "reading_type": "single",
-        "category": "career"
+        "category": "business"
       },
-      "love1": {
-        "text": "How compatible are we according to our birth charts? What are our hidden strengths and potential conflicts as a couple?",
-        "reading_type": "double",
-        "category": "love"
-      },
-      "wealth1": {
-        "text": "What does my birth chart reveal about my wealth potential? Do I have the destiny to attract wealth or need to work hard for it?",
+      "research1": {
+        "text": "Help me conduct thorough research on a complex topic and synthesize findings into actionable insights.",
         "reading_type": "single",
-        "category": "life"
+        "category": "research"
       },
-      "destiny1": {
-        "text": "When are the major life turning points in my destiny? How should I prepare for the changes ahead?",
+      "learning1": {
+        "text": "Explain quantum computing concepts in detail, building from basics to advanced applications with clear examples.",
         "reading_type": "single",
-        "category": "life"
+        "category": "education"
       },
-      "love2": {
-        "text": "Should we take our relationship to the next level? What do our charts reveal about timing and long-term harmony?",
-        "reading_type": "double",
-        "category": "love"
-      },
-      "wealth2": {
-        "text": "Which periods in the coming years are most favorable for improving my finances or making investments?",
+      "planning1": {
+        "text": "Create a detailed project plan with timelines, resources, and risk management strategies for my initiative.",
         "reading_type": "single",
-        "category": "life"
+        "category": "planning"
       },
-      "love3": {
-        "text": "When am I most likely to meet a meaningful romantic partner? What signs and timing should I look for?",
+      "writing1": {
+        "text": "Help me write and edit a professional document with perfect structure, tone, and clarity.",
         "reading_type": "single",
-        "category": "love"
+        "category": "writing"
       },
-      "career2": {
-        "text": "Is 2025 a favorable year for job change or professional breakthroughs? Which months offer the best timing?",
+      "debugging1": {
+        "text": "Debug this complex code issue and explain the root cause with prevention strategies for the future.",
         "reading_type": "single",
-        "category": "career"
+        "category": "coding"
+      },
+      "strategy1": {
+        "text": "Develop a comprehensive marketing strategy with multiple channels and measurable outcomes.",
+        "reading_type": "single",
+        "category": "business"
+      },
+      "innovation1": {
+        "text": "Brainstorm innovative solutions to this challenge using Claude 4's creative and analytical capabilities.",
+        "reading_type": "single",
+        "category": "innovation"
       }
     }
   }

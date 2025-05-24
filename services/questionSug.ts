@@ -13,7 +13,7 @@ import {
 export const getSuggestedQuestions = (locale: string): QuestionSuggestions => {
   try {
     // 验证 locale 是否为有效的语言代码
-    const validLocales = ["en", "zh", "zh-TW", "ja", "ko", "fr"];
+    const validLocales = ["en", "zh", "zh-TW"];
 
     // 如果 locale 不是有效的语言代码，使用默认语言（英语）
     const safeLocale = validLocales.includes(locale) ? locale : "en";

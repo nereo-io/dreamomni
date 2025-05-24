@@ -1,52 +1,52 @@
 {
-  "mainTitle": "Claude 3.7 Sonnet：尖端人工智能",
+  "mainTitle": "Claude 4：具有扩展思考的下一代AI",
   "features": [
     {
-      "id": "code-generation",
-      "title": "代码生成",
-      "description": "Claude 3.7 Sonnet 在智能编码方面处于领先地位，可处理从规划到错误修复和重构的整个软件开发生命周期中的任务。它擅长处理复杂的编码任务，是理想的端到端开发解决方案。",
+      "id": "advanced-coding",
+      "title": "世界最佳编程模型",
+      "description": "Claude Opus 4作为世界最佳编程模型领先，在SWE-bench上达到72.5%，在Terminal-bench上达到43.2%。它擅长复杂的长期编程任务和代理工作流程，在端到端开发解决方案上保持数小时的持续性能。",
       "imageUrl": "/imgs/intro/claude3.7-1.png",
-      "imageAlt": "代码生成功能图示",
+      "imageAlt": "Claude 4高级编程能力的插图",
       "subPoints": [
         {
-          "title": "64K 扩展思考",
-          "text": "Claude 3.7 Sonnet 在指令遵循、推理和多模态能力方面表现出色。其扩展思考模式增强了在数学和科学方面的表现，为用户提供深入的解决方案。"
+          "title": "扩展思考与工具使用",
+          "text": "Claude 4模型可以在扩展思考过程中在推理和工具使用之间交替，使用网络搜索和其他工具来改善响应。这种混合方法提供近即时响应和更深层推理能力。"
         },
         {
-          "title": "内容生成与分析",
-          "text": "Claude 3.7 Sonnet 擅长内容生成和分析，理解细微差别以创建引人入胜的内容。它可以识别和纠正错误，从复杂数据中提供深刻见解，具有更大的上下文窗口和更低的知识密集型任务延迟。"
+          "title": "增强的记忆能力",
+          "text": "当给予本地文件访问权限时，Claude 4创建并维护记忆文件来存储关键信息，解锁更好的长期任务感知、连贯性和复杂代理任务的性能。"
         }
       ],
-      "buttonText": "添加到 Chrome",
+      "buttonText": "试用Claude 4",
       "buttonUrl": "#"
     },
     {
-      "id": "build-artifacts",
-      "title": "使用 Claude 3.7 Sonnet 轻松构建工件",
-      "description": "释放 Claude 3.7 Sonnet 的潜力，轻松创建和管理代码工件。借助 Claude AI，通过生成可重用组件、优化复杂工作流程和自动化工件创建来简化您的开发过程。无论您是开发软件、管理 API 还是协作处理技术项目，Claude 3.7 Sonnet 都能确保满足您所有工件需求的精确性、高效性和可扩展性。",
+      "id": "parallel-tools",
+      "title": "并行工具执行与精确性",
+      "description": "Claude 4模型可以同时使用多个工具，提供增强的效率和精确性。与之前的模型相比，减少了65%的捷径和漏洞，Claude 4更准确地遵循指令，为复杂工作流程和代理任务提供更可靠的结果。",
       "imageUrl": "/imgs/intro/claude3.7-2.png",
-      "imageAlt": "使用 Claude AI 构建工件图示"
+      "imageAlt": "Claude 4并行工具执行的插图"
     },
     {
-      "id": "create-reports",
-      "title": "Claude 3.7 Sonnet：轻松创建报告",
-      "description": "使用 Claude 3.7 Sonnet，生成详细报告从未如此简单。利用 Claude AI 的高级功能，在短时间内编译数据、执行深入分析并生成专业品质的文档。无论您是撰写商业报告、学术论文还是技术文档，Claude 3.7 Sonnet 都能凭借 Claude AI 的智能提高您的工作效率并确保准确性。",
+      "id": "claude-code-integration",
+      "title": "Claude Code：无缝开发集成",
+      "description": "Claude Code现已正式发布，具有原生VS Code和JetBrains集成。体验无缝的结对编程，包括内联编辑、后台GitHub Actions和可扩展的Claude Code SDK，用于构建自定义代理和应用程序。",
       "imageUrl": "/imgs/intro/claude3.7-3.png",
-      "imageAlt": "使用 Claude AI 创建报告图示"
+      "imageAlt": "Claude Code在开发环境中集成的插图"
     },
     {
-      "id": "analyze-code",
-      "title": "使用 Claude AI 分析代码",
-      "description": "开发人员现在可以使用 Claude AI 的分析代码功能来简化其编码过程。这个强大的工具使您能够使用 Claude 3.7 Sonnet 来检查代码中的错误、优化算法并确保遵循最佳实践。Claude AI 对各种编程语言的深入理解使其成为新手和经验丰富的程序员使用 Claude 3.7 Sonnet 提高代码质量和效率不可或缺的工具。",
+      "id": "sustained-performance",
+      "title": "复杂任务的持续性能",
+      "description": "Claude Opus 4在需要数千步骤和数小时专注努力的长期任务上提供持续性能。这种能力极大地扩展了AI代理能够完成的工作，使其成为复杂研究、分析和多步骤问题解决的理想选择。",
       "imageUrl": "/imgs/intro/claude3.7-4.png",
-      "imageAlt": "使用 Claude AI 分析代码图示"
+      "imageAlt": "复杂任务持续性能的插图"
     },
     {
-      "id": "create-graphs",
-      "title": "使用 Claude 3.7 Sonnet 轻松创建图表",
-      "description": "使用 Claude AI 的制作图表功能将您的原始数据转换为富有洞察力的视觉效果。利用 Claude 3.7 Sonnet 的功能，该工具简化了数据可视化过程，使您能够创建全面有效的图表来传达数据的故事。Claude AI 非常适合演示、报告和教育材料，可帮助您借助 Claude 3.7 Sonnet 提供的清晰度和精确度做出数据驱动的决策。",
+      "id": "hybrid-reasoning",
+      "title": "混合推理：速度与深度并重",
+      "description": "Claude 4模型提供双重模式 - 快速查询的近即时响应和复杂推理的扩展思考（高达64K tokens）。这种灵活性确保无论您需要快速协助还是对具有挑战性的问题进行深度分析思考，都能获得最佳性能。",
       "imageUrl": "/imgs/intro/claude3.7-5.png",
-      "imageAlt": "使用 Claude AI 创建图表图示"
+      "imageAlt": "混合推理能力的插图"
     }
   ]
 }
