@@ -3,19 +3,19 @@
   "theme": "light",
   "header": {
     "brand": {
-      "title": "TalkwithAI",
+      "title": "Veo3 AI",
       "logo": {
-        "src": "/logo.svg",
-        "alt": "TalkwithAI"
+        "src": "/logo.png",
+        "alt": "Veo3 AI"
       },
       "url": "/"
     },
     "nav": {
       "items": [
         {
-          "title": "Chat",
-          "url": "/chat",
-          "icon": "RiChat1Line"
+          "title": "Generate",
+          "url": "/#video-generator",
+          "icon": "RiVideoLine"
         },
         {
           "title": "Pricing",
@@ -23,79 +23,79 @@
           "icon": "RiMoneyDollarCircleLine"
         },
         {
-          "title": "Blog",
-          "url": "/blog",
-          "icon": "RiBookOpenLine"
+          "title": "FAQ",
+          "url": "/#faq",
+          "icon": "RiQuestionLine"
         }
       ]
     },
     "show_sign": true,
-    "show_theme": true,
+    "show_theme": false,
     "show_locale": true
   },
   "hero": {
-    "title": "Free Chat with Claude 4",
-    "highlight_text": "Claude 4",
+    "title": "Free Veo 3 AI Video Generator",
+    "highlight_text": "Veo 3 AI",
     "announcement": {
-      "title": "🚀 Claude 4 Now Available!",
+      "title": "🎬 Veo 3 AI Now Available!",
       "label": "New!",
-      "url": "/chat"
+      "url": "#video-generator"
     },
-    "description": "Experience Next-Generation AI with Extended Thinking & Advanced Reasoning",
+    "description": "Create Stunning Videos with Advanced AI Technology - Transform Your Ideas into Professional Videos in Minutes",
     "show_happy_users": false,
     "show_badge": false
   },
   "testimonial": {
     "name": "testimonial",
     "label": "Testimonial",
-    "title": "What Users Say About Free Chat with Claude 4",
-    "description": "Discover how Claude 4's advanced capabilities have transformed workflows with powerful AI assistance and extended thinking.",
+    "title": "What Creators Say About Free Veo 3 AI Video Generator",
+    "description": "Discover how Veo 3 AI has revolutionized video creation with powerful AI-driven video generation and professional-quality results.",
     "icon": "GoThumbsup",
     "items": [
       {
         "title": "Sarah Johnson",
-        "label": "Software Developer",
-        "description": "Free chat with Claude 4 revolutionized my coding workflow. The extended thinking feature helps me solve complex algorithms, and the parallel tool execution saves hours of debugging. It's like having a senior developer available 24/7.",
+        "label": "Content Creator",
+        "description": "Free Veo 3 AI video generator transformed my content creation workflow. The AI understands my prompts perfectly and generates cinematic-quality videos that would take hours to produce manually. It's like having a professional video studio at my fingertips.",
         "image": {
           "src": "/imgs/users/1.png"
         }
       },
       {
         "title": "Michael Chen",
-        "label": "Marketing Manager",
-        "description": "Claude 4's free chat capabilities are incredible for content creation. The hybrid reasoning modes let me get quick ideas instantly or dive deep into strategy planning. It's transformed how I approach campaign development.",
+        "label": "Marketing Director",
+        "description": "Veo 3 AI's free video generator is incredible for marketing campaigns. The quality is outstanding, and the speed is unmatched. I can create multiple video variations for A/B testing in minutes instead of weeks.",
         "image": {
           "src": "/imgs/users/2.png"
         }
       },
       {
         "title": "Emily Rodriguez",
-        "label": "Research Analyst",
-        "description": "The sustained performance on complex tasks is amazing. I can have extended conversations with Claude 4 about research methodologies, and it maintains context throughout lengthy analysis sessions. The memory capabilities are game-changing.",
+        "label": "Social Media Manager",
+        "description": "The consistency and quality of videos from Veo 3 AI is amazing. I can maintain our brand's visual style across all platforms while creating fresh, engaging content daily. The free tier gives incredible value.",
         "image": {
           "src": "/imgs/users/3.png"
         }
       },
       {
         "title": "David Kumar",
-        "label": "Student & Startup Founder",
-        "description": "Free chat with Claude 4 helps me balance studies and entrepreneurship. From thesis research to business planning, the AI's extended thinking provides insights I never considered. The tool use integration is perfect for my workflow.",
+        "label": "YouTuber & Educator",
+        "description": "Free Veo 3 AI video generator helps me create educational content that captivates my audience. From complex animations to simple explainer videos, the AI handles everything with professional polish.",
         "image": {
           "src": "/imgs/users/4.png"
         }
       },
       {
         "title": "Lisa Wang",
-        "label": "Creative Writer",
-        "description": "Claude 4's free chat unlocked my creativity. The dual reasoning modes help me brainstorm quickly or develop complex narratives with deep character analysis. It's like having a writing partner who never runs out of ideas.",
+        "label": "Independent Filmmaker",
+        "description": "Veo 3 AI's free video generation unlocked my creative potential. I can prototype scenes, create concept videos, and experiment with visual storytelling without budget constraints. It's revolutionizing independent filmmaking.",
         "image": {
           "src": "/imgs/users/5.png"
         }
       },
       {
         "title": "Alex Thompson",
-        "label": "Data Scientist",
-        "description": "The precision and reliability of Claude 4 in free chat sessions is remarkable. With 65% fewer errors than previous models, I trust it for critical data analysis and model development. The parallel processing capabilities are outstanding.",
+        "label": "Digital Artist",
+        "description": "The precision and artistic quality of Veo 3 AI video generation is remarkable. It understands artistic direction and creates videos that match my creative vision perfectly. The free access democratizes professional video creation.",
         "image": {
           "src": "/imgs/users/6.png"
         }
@@ -106,62 +106,62 @@
     "name": "faq",
     "label": "FAQ",
     "title": "Frequently Asked Questions",
-    "description": "Learn more about free chat with Claude 4",
+    "description": "Learn more about free Veo 3 AI video generator",
     "items": [
       {
-        "title": "What is free chat with Claude 4 and how does it work?",
-        "description": "Free chat with Claude 4 gives you access to the world's most advanced AI model at no cost. Claude 4 features extended thinking capabilities, parallel tool execution, and hybrid reasoning modes. Simply start a conversation and experience next-generation AI that can handle everything from quick questions to complex, multi-step problem solving."
+        "title": "What is free Veo 3 AI video generator and how does it work?",
+        "description": "Free Veo 3 AI video generator gives you access to the world's most advanced AI video creation technology at no cost. Simply describe your video idea in text, and Veo 3 AI will generate high-quality, professional videos up to 2 minutes long with stunning visual effects and smooth motion."
       },
       {
-        "title": "What makes Claude 4's free chat different from other AI models?",
-        "description": "Claude 4 offers unique features in free chat: extended thinking up to 64K tokens, parallel tool execution, enhanced memory capabilities, and 65% fewer errors than previous models. It combines near-instant responses with deep reasoning, making it the most capable AI for both quick tasks and complex analysis."
+        "title": "What makes Veo 3 AI video generator different from other AI video tools?",
+        "description": "Veo 3 AI offers unique features: ultra-realistic video generation, advanced motion understanding, cinematic quality output, precise prompt following, and support for various video styles from photorealistic to animated. It's the most capable AI for creating professional-grade videos."
       },
       {
-        "title": "What can I do with free chat with Claude 4?",
-        "description": "Free chat with Claude 4 supports a wide range of tasks: advanced coding and debugging, content creation and analysis, research and writing assistance, complex problem solving, creative projects, and sustained multi-hour conversations. The AI maintains context and can use tools to enhance responses."
+        "title": "What types of videos can I create with free Veo 3 AI generator?",
+        "description": "Free Veo 3 AI video generator supports a wide range of video types: marketing videos, social media content, educational materials, product demonstrations, animated stories, music videos, concept art, and cinematic scenes. The AI adapts to any creative vision."
       },
       {
-        "title": "Are there any limitations to the free chat with Claude 4?",
-        "description": "While free chat with Claude 4 provides access to advanced capabilities, premium users enjoy unlimited conversations, priority access during peak times, and additional features like extended memory files and enhanced tool integrations. Free users can experience the full power of Claude 4 with reasonable usage limits."
+        "title": "Are there any limitations to the free Veo 3 AI video generator?",
+        "description": "While free Veo 3 AI video generator provides access to advanced capabilities, premium users enjoy unlimited generations, longer video durations, priority processing, and additional features like custom styles and batch processing. Free users can create amazing videos with reasonable usage limits."
       },
       {
-        "title": "How does Claude 4's extended thinking work in free chat?",
-        "description": "Extended thinking allows Claude 4 to process complex problems more thoroughly during free chat sessions. The AI can alternate between reasoning and tool use, creating detailed analysis that spans thousands of tokens. This results in more accurate, comprehensive responses for challenging questions."
+        "title": "How long does it take to generate videos with Veo 3 AI?",
+        "description": "Veo 3 AI video generation typically takes 2-5 minutes for standard videos, depending on complexity and length. The AI processes your prompt, creates the video sequence, and applies advanced rendering for professional quality results. Premium users get priority processing for faster generation."
       },
       {
-        "title": "Can Claude 4 remember our conversation history in free chat?",
-        "description": "Yes! Claude 4's enhanced memory capabilities in free chat allow it to maintain context throughout extended conversations and even create memory files when given access to local files. This enables coherent, long-term interactions and better understanding of your specific needs and preferences."
+        "title": "Can I customize the style and quality of generated videos?",
+        "description": "Yes! Veo 3 AI video generator offers extensive customization options. You can specify video style, camera angles, lighting, mood, color palette, and motion characteristics in your prompts. The AI understands detailed creative direction and produces videos matching your exact vision."
       },
       {
-        "title": "Is my data secure when using free chat with Claude 4?",
-        "description": "Absolutely. Free chat with Claude 4 employs industry-leading security measures and encryption to protect your conversations. We follow strict privacy protocols and never use your personal conversations to train models or share data with third parties. Your privacy is our top priority."
+        "title": "Is my content secure when using free Veo 3 AI video generator?",
+        "description": "Absolutely. Free Veo 3 AI video generator employs industry-leading security measures to protect your content and prompts. We follow strict privacy protocols and never use your personal projects to train models or share content with third parties. Your creative work remains private."
       },
       {
-        "title": "How do I get started with free chat with Claude 4?",
-        "description": "Getting started with free chat with Claude 4 is simple! Just click the 'Start Chat' button, and you'll be connected immediately. No complex setup required - you can begin exploring Claude 4's advanced capabilities right away, from coding assistance to creative projects."
+        "title": "How do I get started with free Veo 3 AI video generator?",
+        "description": "Getting started with free Veo 3 AI video generator is simple! Just click the 'Generate Video' button, describe your video idea in the prompt box, and watch as AI creates your professional video. No complex setup required - start creating amazing videos immediately."
       },
       {
-        "title": "What's the difference between quick responses and extended thinking in Claude 4?",
-        "description": "Claude 4's free chat offers dual modes: quick responses for immediate needs and extended thinking for complex problems. Quick mode provides near-instant answers, while extended thinking mode allows the AI to process problems more thoroughly, using up to 64K tokens for comprehensive analysis."
+        "title": "What video formats and resolutions does Veo 3 AI support?",
+        "description": "Veo 3 AI video generator supports multiple formats including MP4, MOV, and WebM. Videos are generated in high definition (1080p) by default, with options for 4K resolution for premium users. All videos are optimized for web sharing and professional use."
       },
       {
-        "title": "How does Claude 4's parallel tool execution benefit free chat users?",
-        "description": "Parallel tool execution in free chat with Claude 4 means the AI can use multiple tools simultaneously, dramatically improving efficiency. Whether it's searching information, analyzing code, or processing data, Claude 4 can handle multiple tasks at once, providing faster and more comprehensive responses."
+        "title": "Can I use Veo 3 AI generated videos for commercial purposes?",
+        "description": "Yes! Videos created with free Veo 3 AI video generator can be used for commercial purposes, including marketing, advertising, social media, and business presentations. Premium plans offer extended commercial licensing and additional usage rights for enterprise applications."
       }
     ]
   },
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "TalkwithAI",
-      "description": "Free chat with Claude 4 - Experience next-generation AI with extended thinking, advanced reasoning, and cutting-edge capabilities. Your gateway to the world's most powerful AI model.",
+      "title": "Veo3 AI",
+      "description": "Free Veo 3 AI Video Generator - Create stunning professional videos with advanced AI technology. Transform your ideas into cinematic masterpieces in minutes.",
       "logo": {
-        "src": "/logo.svg",
-        "alt": "TalkwithAI"
+        "src": "/logo.png",
+        "alt": "Veo3 AI"
       },
       "url": "/"
     },
-    "copyright": " 2025 • TalkwithAI All rights reserved.",
+    "copyright": " 2025 • Veo3 AI All rights reserved.",
     "nav": {
       "items": []
     },
@@ -170,25 +170,25 @@
         {
           "title": "TikTok",
           "icon": "RiTiktokFill",
-          "url": "https://www.tiktok.com/@talkwithai",
+          "url": "https://www.tiktok.com/@veo3ai",
           "target": "_blank"
         },
         {
           "title": "X",
           "icon": "RiTwitterXFill",
-          "url": "https://x.com/talkwithai",
+          "url": "https://x.com/veo3ai",
           "target": "_blank"
         },
         {
           "title": "Youtube",
           "icon": "RiYoutubeFill",
-          "url": "https://www.youtube.com/@TalkwithAI",
+          "url": "https://www.youtube.com/@Veo3AI",
           "target": "_blank"
         },
         {
           "title": "Email",
           "icon": "RiMailLine",
-          "url": "mailto:support@talkwithai.io",
+          "url": "mailto:support@veo3ai.io",
           "target": "_self"
         }
       ]
@@ -208,12 +208,12 @@
   },
   "cta": [
     {
-      "name": "cta-chat",
-      "title": "Start Free Chat with Claude 4",
+      "name": "cta-generate",
+      "title": "Start Creating Videos with Free Veo 3 AI",
       "buttons": [
         {
-          "title": "Chat Now",
-          "url": "/chat",
+          "title": "Generate Video",
+          "url": "#video-generator",
           "target": "_self",
           "icon": "GoArrowUpRight"
         }
@@ -221,8 +221,8 @@
     },
     {
       "name": "cta-features",
-      "title": "Explore Claude 4 Features",
-      "description": "Extended Thinking & Advanced AI",
+      "title": "Explore Veo 3 AI Features",
+      "description": "Advanced Video Generation & AI Technology",
       "buttons": [
         {
           "title": "Learn More",
@@ -233,26 +233,26 @@
     }
   ],
   "questionExamples": {
-    "title": "Examples: ",
+    "title": "Video Ideas: ",
     "examples": [
       {
-        "text": "Help me debug this complex algorithm and explain the logic step by step. Use extended thinking to analyze potential edge cases and optimization opportunities.",
-        "label": "Advanced Code Debugging",
+        "text": "Create a cinematic drone shot flying over a futuristic city at sunset with neon lights reflecting on glass buildings",
+        "label": "Cinematic Cityscape",
         "type": "single"
       },
       {
-        "text": "Create a comprehensive business plan for my startup idea, including market analysis, financial projections, and growth strategies.",
-        "label": "Business Strategy Planning",
+        "text": "Generate a product demonstration video showing a smartphone with smooth camera movements and professional lighting",
+        "label": "Product Demo",
         "type": "single"
       },
       {
-        "text": "Write a detailed research paper outline on AI ethics, then help me develop each section with thorough analysis and citations.",
-        "label": "Academic Research Assistant",
+        "text": "Make an animated explainer video about renewable energy with colorful graphics and smooth transitions",
+        "label": "Educational Animation",
         "type": "single"
       },
       {
-        "text": "Guide me through building a full-stack web application from concept to deployment, explaining best practices and potential challenges along the way.",
-        "label": "Full Development Guidance",
+        "text": "Create a nature documentary style video of a forest with wildlife, morning mist, and golden hour lighting",
+        "label": "Nature Documentary",
         "type": "single"
       }
     ]
@@ -263,57 +263,57 @@
       "all": "All"
     },
     "questions": {
-      "coding1": {
-        "text": "Help me write and optimize a Python function for data analysis. Use extended thinking to consider edge cases and performance improvements.",
+      "marketing1": {
+        "text": "Create a dynamic marketing video showcasing our product with professional camera movements and engaging visuals",
         "reading_type": "single",
-        "category": "coding",
+        "category": "marketing",
         "tag": "new"
       },
-      "creative1": {
-        "text": "Write a creative story with complex characters and plot development. Use Claude 4's advanced reasoning for rich narrative structure.",
+      "social1": {
+        "text": "Generate a trendy social media video with vibrant colors and smooth transitions perfect for Instagram and TikTok",
         "reading_type": "single",
-        "category": "creative",
+        "category": "social",
         "tag": "new"
       },
-      "analysis1": {
-        "text": "Analyze this business problem and provide a comprehensive solution strategy with multiple approaches.",
-        "reading_type": "single",
-        "category": "business"
-      },
-      "research1": {
-        "text": "Help me conduct thorough research on a complex topic and synthesize findings into actionable insights.",
-        "reading_type": "single",
-        "category": "research"
-      },
-      "learning1": {
-        "text": "Explain quantum computing concepts in detail, building from basics to advanced applications with clear examples.",
+      "education1": {
+        "text": "Make an educational video explaining complex concepts with clear animations and engaging visual storytelling",
         "reading_type": "single",
         "category": "education"
       },
-      "planning1": {
-        "text": "Create a detailed project plan with timelines, resources, and risk management strategies for my initiative.",
+      "creative1": {
+        "text": "Create an artistic video with abstract visuals, creative camera angles, and experimental visual effects",
         "reading_type": "single",
-        "category": "planning"
+        "category": "creative"
       },
-      "writing1": {
-        "text": "Help me write and edit a professional document with perfect structure, tone, and clarity.",
-        "reading_type": "single",
-        "category": "writing"
-      },
-      "debugging1": {
-        "text": "Debug this complex code issue and explain the root cause with prevention strategies for the future.",
-        "reading_type": "single",
-        "category": "coding"
-      },
-      "strategy1": {
-        "text": "Develop a comprehensive marketing strategy with multiple channels and measurable outcomes.",
+      "business1": {
+        "text": "Generate a professional business presentation video with clean graphics and corporate styling",
         "reading_type": "single",
         "category": "business"
       },
-      "innovation1": {
-        "text": "Brainstorm innovative solutions to this challenge using Claude 4's creative and analytical capabilities.",
+      "entertainment1": {
+        "text": "Create an entertaining video with dynamic action sequences and cinematic storytelling elements",
         "reading_type": "single",
-        "category": "innovation"
+        "category": "entertainment"
+      },
+      "tutorial1": {
+        "text": "Make a step-by-step tutorial video with clear demonstrations and helpful visual guides",
+        "reading_type": "single",
+        "category": "tutorial"
+      },
+      "lifestyle1": {
+        "text": "Generate a lifestyle video with beautiful aesthetics, natural lighting, and aspirational visuals",
+        "reading_type": "single",
+        "category": "lifestyle"
+      },
+      "tech1": {
+        "text": "Create a technology showcase video with futuristic elements and sleek visual design",
+        "reading_type": "single",
+        "category": "technology"
+      },
+      "travel1": {
+        "text": "Generate a travel video capturing stunning landscapes with cinematic camera movements and vibrant colors",
+        "reading_type": "single",
+        "category": "travel"
       }
     }
   }

@@ -1,52 +1,109 @@
 {
-  "mainTitle": "Claude 4: Next-Generation AI with Extended Thinking",
+  "mainTitle": "Veo 3: State-of-the-Art Video Generation Model",
   "features": [
     {
-      "id": "advanced-coding",
-      "title": "World's Best Coding Model",
-      "description": "Claude Opus 4 leads as the world's best coding model, achieving 72.5% on SWE-bench and 43.2% on Terminal-bench. It excels at complex, long-running coding tasks and agent workflows, maintaining sustained performance for hours on end-to-end development solutions.",
-      "imageUrl": "/imgs/intro/claude3.7-1.png",
-      "imageAlt": "Illustration of advanced coding capabilities with Claude 4",
+      "id": "greater-realism",
+      "title": "Re-designed for Greater Realism",
+      "description": "Veo 3 delivers greater realism and fidelity than ever before, including stunning 4K output and Veo 3's advanced real-world physics simulation with native audio generation. Experience unprecedented visual quality that brings your creative vision to life.",
+      "imageUrl": "/imgs/intro/veo3-realism.png",
+      "imageAlt": "Veo 3's enhanced realism with 4K output and real-world physics",
       "subPoints": [
         {
-          "title": "Extended Thinking with Tool Use",
-          "text": "Claude 4 models can alternate between reasoning and tool use during extended thinking, using web search and other tools to improve responses. This hybrid approach delivers both near-instant responses and deeper reasoning capabilities."
+          "title": "4K Ultra-High Definition",
+          "text": "Generate breathtaking 4K resolution videos with exceptional detail and clarity, perfect for professional filmmaking and high-end content creation."
         },
         {
-          "title": "Enhanced Memory Capabilities",
-          "text": "When given access to local files, Claude 4 creates and maintains 'memory files' to store key information, unlocking better long-term task awareness, coherence, and performance on complex agent tasks."
+          "title": "Real-World Physics & Audio",
+          "text": "Advanced physics simulation with synchronized audio generation creates authentic movement, lighting, and soundscapes that mirror reality."
         }
       ],
-      "buttonText": "Try Claude 4",
-      "buttonUrl": "#"
+      "buttonText": "Generate 4K Video",
+      "buttonUrl": "#video-generator"
     },
     {
-      "id": "parallel-tools",
-      "title": "Parallel Tool Execution & Precision",
-      "description": "Claude 4 models can use multiple tools simultaneously, delivering enhanced efficiency and precision. With 65% fewer shortcuts and loopholes compared to previous models, Claude 4 follows instructions more accurately and provides more reliable results for complex workflows and agent tasks.",
-      "imageUrl": "/imgs/intro/claude3.7-2.png",
-      "imageAlt": "Illustration of parallel tool execution with Claude 4"
+      "id": "prompt-following",
+      "title": "Follows Prompts Like Never Before",
+      "description": "Improved prompt adherence means more accurate responses to your creative instructions. Veo 3 understands complex creative direction and delivers precisely what you envision, reducing iterations and maximizing creative efficiency.",
+      "imageUrl": "/imgs/intro/veo3-prompts.png",
+      "imageAlt": "Veo 3's superior prompt following and instruction accuracy",
+      "subPoints": [
+        {
+          "title": "Enhanced Understanding",
+          "text": "Advanced natural language processing interprets complex creative briefs with nuanced understanding of artistic intent and technical requirements."
+        },
+        {
+          "title": "Precision Execution",
+          "text": "Deliver exactly what you describe with minimal back-and-forth, translating detailed prompts into accurate visual representations."
+        }
+      ]
     },
     {
-      "id": "claude-code-integration",
-      "title": "Claude Code: Seamless Development Integration",
-      "description": "Claude Code is now generally available with native VS Code and JetBrains integrations. Experience seamless pair programming with inline edits, background GitHub Actions, and the extensible Claude Code SDK for building custom agents and applications.",
-      "imageUrl": "/imgs/intro/claude3.7-3.png",
-      "imageAlt": "Illustration of Claude Code integration in development environments"
+      "id": "creative-control",
+      "title": "Improved Creative Control",
+      "description": "New capabilities to achieve unprecedented levels of control, consistency, and creativity. Veo 3 empowers creators with professional-grade tools for precise artistic direction and seamless creative workflows.",
+      "imageUrl": "/imgs/intro/veo3-creative.png",
+      "imageAlt": "Veo 3's advanced creative control and consistency features",
+      "subPoints": [
+        {
+          "title": "Enhanced Consistency",
+          "text": "Maintain visual coherence across scenes with improved character and object recognition, ensuring seamless storytelling continuity."
+        },
+        {
+          "title": "Professional Control",
+          "text": "Access filmmaker-grade controls for camera movements, lighting, composition, and pacing to achieve your exact creative vision."
+        }
+      ]
     },
     {
-      "id": "sustained-performance",
-      "title": "Sustained Performance on Complex Tasks",
-      "description": "Claude Opus 4 delivers sustained performance on long-running tasks requiring thousands of steps and several hours of focused effort. This capability dramatically expands what AI agents can accomplish, making it ideal for complex research, analysis, and multi-step problem solving.",
-      "imageUrl": "/imgs/intro/claude3.7-4.png",
-      "imageAlt": "Illustration of sustained performance on complex tasks"
+      "id": "motion-master",
+      "title": "Motion Master: Define Exact Movement",
+      "description": "Revolutionary Motion Master feature lets you define the exact movement of objects in your video. Select any object and define their path, and Veo 3 will bring them to life with precise, controlled motion that matches your creative intent.",
+      "imageUrl": "/imgs/intro/veo3-motion.png",
+      "imageAlt": "Motion Master's precise object movement control in Veo 3",
+      "subPoints": [
+        {
+          "title": "Path-Driven Animation",
+          "text": "Draw custom movement trajectories for any object or character, creating smooth, deliberate animations with frame-perfect precision."
+        },
+        {
+          "title": "Cinematic Camera Work",
+          "text": "Orchestrate complex camera movements including tracking shots, reveals, and dynamic perspectives with professional cinematography standards."
+        }
+      ]
     },
     {
-      "id": "hybrid-reasoning",
-      "title": "Hybrid Reasoning: Speed Meets Depth",
-      "description": "Claude 4 models offer dual modes - near-instant responses for quick queries and extended thinking (up to 64K tokens) for complex reasoning. This flexibility ensures optimal performance whether you need rapid assistance or deep analytical thinking for challenging problems.",
-      "imageUrl": "/imgs/intro/claude3.7-5.png",
-      "imageAlt": "Illustration of hybrid reasoning capabilities"
+      "id": "native-audio",
+      "title": "Video Meets Audio: Native Sound Generation",
+      "description": "Veo 3 is designed to empower filmmakers and storytellers with native audio generation. Add sound effects, ambient noise, and even dialogue to your creations – generating all audio natively for truly immersive multimedia experiences.",
+      "imageUrl": "/imgs/intro/veo3-audio.png",
+      "imageAlt": "Veo 3's revolutionary native audio generation capabilities",
+      "subPoints": [
+        {
+          "title": "Synchronized Sound Design",
+          "text": "Automatically generate contextually appropriate sound effects, ambient audio, and environmental sounds that perfectly match your visual content."
+        },
+        {
+          "title": "Natural Dialogue Creation",
+          "text": "Create realistic spoken dialogue with proper synchronization, bringing characters to life with authentic vocal performances and natural speech patterns."
+        }
+      ]
+    },
+    {
+      "id": "best-in-class",
+      "title": "Best-in-Class Quality & Performance",
+      "description": "Veo 3 delivers exceptional quality, excelling in physics simulation, photorealistic rendering, and precise prompt adherence. Achieve state-of-the-art results in head-to-head comparisons with leading video generation models.",
+      "imageUrl": "/imgs/intro/veo3-quality.png",
+      "imageAlt": "Veo 3's superior quality and benchmark performance",
+      "subPoints": [
+        {
+          "title": "Benchmark Leadership",
+          "text": "Achieves state-of-the-art results in human evaluations, consistently outperforming other video generation models in quality and accuracy."
+        },
+        {
+          "title": "Physics Excellence",
+          "text": "Superior physics understanding creates natural object interactions, realistic lighting effects, and believable environmental dynamics."
+        }
+      ]
     }
   ]
 }

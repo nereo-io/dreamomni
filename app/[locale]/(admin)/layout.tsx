@@ -24,7 +24,7 @@ export default async function AdminLayout({
     brand: {
       title: "BaziAI",
       logo: {
-        src: "/logo.svg",
+        src: "/logo.png",
         alt: "BaziAI",
       },
       url: "/admin",

@@ -1,19 +1,22 @@
 {
   "name": "pricing",
-  "label": "Subscription Plans",
-  "title": "TalkwithAI Conversation Plans",
-  "description": "Choose your AI conversation plan and start chatting with Claude 4",
+  "label": "Video Generation Plans",
+  "title": "Veo3 AI Video Generation Plans",
+  "description": "Choose your AI video generation plan and start creating professional videos",
   "groups": [],
   "items": [
     {
       "title": "Free Plan",
-      "description": "Perfect for getting started with Claude 4",
+      "description": "Perfect for getting started with AI video generation",
       "features_title": "Including",
       "features": [
-        "3 Claude 4 conversations daily",
-        "Basic conversation features",
-        "Standard response speed",
-        "7-day conversation history"
+        "5 video generations monthly",
+        "Up to 5 seconds per video",
+        "720p resolution output",
+        "Text-to-video generation",
+        "Basic video styles",
+        "Watermarked output",
+        "Community support"
       ],
       "interval": "month",
       "amount": 0,
@@ -25,29 +28,71 @@
       "discount_label": "",
       "button": {
         "title": "Get Started Free",
-        "url": "/chat",
+        "url": "/#video-generator",
         "icon": "RiPlayLine"
       },
       "product_id": "free-plan",
-      "product_name": "TalkwithAI Free",
+      "product_name": "Veo3 AI Free",
       "credits": 0,
       "valid_months": 0
     },
+
     {
-      "title": "Pro Monthly",
-      "description": "Perfect for regular users, unlimited conversations",
+      "title": "Starter Plan",
+      "description": "Best value for professionals and teams",
+      "label": "Popular",
       "features_title": "Including",
       "features": [
-        "Unlimited Claude 4 conversations monthly",
-        "Advanced conversation history tracking",
-        "Priority response speed",
-        "Extended conversation context memory"
+        "100 video generations monthly",
+        "Up to 8 seconds per video",
+        "1080p resolution output",
+        "All generation modes",
+        "Custom video styles",
+        "Camera movement controls",
+        "Fast generation queue",
+        "Commercial usage rights",
+        "Advanced editing tools",
+        "Priority customer support"
       ],
       "interval": "month",
-      "amount": 999,
+      "amount": 2999,
       "currency": "USD",
-      "price": "$9.99",
-      "original_price": "$19.99",
+      "price": "$29.99",
+      "original_price": "$49.99",
+      "unit": "/month",
+      "is_featured": true,
+      "discount_label": "40% OFF",
+      "button": {
+        "title": "Upgrade to Starter",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "starter-monthly",
+      "product_name": "Veo3 AI Starter",
+      "credits": 100,
+      "valid_months": 1
+    },
+    {
+      "title": "Pro Plan",
+      "description": "For agencies and large-scale production",
+      "features_title": "Including",
+      "features": [
+        "500 video generations monthly",
+        "Up to 8 seconds per video",
+        "4K resolution output",
+        "Custom model training",
+        "White-label solutions",
+        "API access & integrations",
+        "Dedicated account manager",
+        "Advanced analytics",
+        "Custom storage solutions",
+        "24/7 priority support"
+      ],
+      "interval": "month",
+      "amount": 9999,
+      "currency": "USD",
+      "price": "$99.99",
+      "original_price": "$199.99",
       "unit": "/month",
       "is_featured": false,
       "discount_label": "50% OFF",
@@ -56,40 +101,10 @@
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },
-      "product_id": "monthly-pro",
-      "product_name": "TalkwithAI Pro",
-      "credits": 1,
+      "product_id": "pro-monthly",
+      "product_name": "Veo3 AI Pro",
+      "credits": 500,
       "valid_months": 1
-    },
-    {
-      "title": "Pro Yearly",
-      "description": "Only $8.25/month equivalent, best value",
-      "label": "Popular",
-      "features_title": "Including",
-      "features": [
-        "Unlimited Claude 4 conversations yearly",
-        "Advanced conversation history tracking",
-        "Priority response speed",
-        "Extended conversation context memory",
-        "Early access to new Claude features"
-      ],
-      "interval": "year",
-      "amount": 9900,
-      "currency": "USD",
-      "price": "$99",
-      "original_price": "$238.8",
-      "unit": "/year",
-      "is_featured": true,
-      "discount_label": "60% OFF",
-      "button": {
-        "title": "Upgrade to Pro",
-        "url": "/#pricing",
-        "icon": "RiVipCrownLine"
-      },
-      "product_id": "yearly-pro",
-      "product_name": "TalkwithAI Pro",
-      "credits": 12,
-      "valid_months": 12
     }
   ]
 }

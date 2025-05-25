@@ -12,6 +12,7 @@ import { IChingLandingPage } from "@/types/pages/i-ching";
 import { IChingContent } from "@/types/hexagram";
 import { ProductsPageTranslation } from "@/types/pages/products-page";
 import { ClaudeSonnetFeaturesBlockTranslations } from "@/types/blocks/claude-sonnet-features";
+import { VideoFeatureShowcase } from "@/types/blocks/video-feature-showcase";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -309,6 +310,26 @@ export async function getClaudeSonnetFeaturesBlock(
     );
     return await import("@/i18n/blocks/claude-sonnet-features/en.json").then(
       (module) => module.default as ClaudeSonnetFeaturesBlockTranslations
+    );
+  }
+}
+
+export async function getVideoFeatureShowcaseBlock(
+  locale: string
+): Promise<VideoFeatureShowcase> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/blocks/video-feature-showcase/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load video-feature-showcase/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/blocks/video-feature-showcase/en.json").then(
+      (module) => module.default as VideoFeatureShowcase
     );
   }
 }

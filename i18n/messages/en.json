@@ -1,67 +1,13 @@
 {
   "metadata": {
-    "title": "TalkwithAI - Free Chat with Claude 4 | Advanced AI Conversation Platform",
-    "description": "Claude 4 Sonnet is an advanced hybrid reasoning model that excels in coding and enhances content generation, data analysis, and planning. Start free conversations with AI today.",
-    "keywords": "Claude 4, AI Chat, Free AI Conversation, Claude Sonnet, AI Assistant, Coding AI, Data Analysis, Content Generation, TalkwithAI"
-  },
-
-  "career": {
-    "title": "Career Fortune AI Bazi Reading | Chinese Astrology | BaziAI",
-    "description": "Get personalized career predictions based on Chinese astrology. Discover insights about job changes, promotions, and workplace success with our AI-powered Bazi analysis.",
-    "keywords": "career reading, chinese astrology career, bazi career, job prediction, professional fortune, career path, workplace success"
-  },
-  "love": {
-    "title": "Love Compatibility AI Bazi Reading | Chinese Astrology | BaziAI",
-    "description": "Find your perfect match with our AI-powered love compatibility analysis based on Chinese astrology. Get personalized insights on relationships, dating, and romantic destiny.",
-    "keywords": "love compatibility, relationship reading, chinese zodiac match, bazi love, relationship astrology, romantic forecast"
-  },
-  "health": {
-    "title": "Health & Wellness AI Bazi Reading | Chinese Astrology  | BaziAI",
-    "description": "Discover your health strengths and weaknesses through Chinese astrology. Our AI Bazi analysis provides personalized wellness insights and potential health forecasts.",
-    "keywords": "health reading, chinese astrology health, bazi wellness, health forecast, body constitution, element balance"
-  },
-  "chinese-zodiac": {
-    "title": "Chinese Zodiac AI Reading | BaziAI",
-    "description": "Experience advanced Chinese Zodiac AI Reading that reveals your zodiac animal sign and elemental influences. Our intelligent analysis provides personalized insights into your character traits, compatibility, and life path based on traditional Chinese astrology.",
-    "keywords": "chinese zodiac calculator, animal sign finder, 5 element chart, birth element, chinese astrology sign, zodiac personality"
-  },
-  "chinese-zodiac-element-reading": {
-    "title": "Chinese Zodiac and Five Elements Analysis | BaziAI",
-    "description": "Explore the relationship between Chinese zodiac signs and the five elements (Wood, Fire, Earth, Metal, Water). ",
-    "keywords": "chinese zodiac, five elements, zodiac calculator, element chart, birth element, chinese astrology"
-  },
-  "life": {
-    "title": "Life Path & Destiny AI Bazi Reading | Chinese Astrology | BaziAI",
-    "description": "Discover your life path and destiny through Chinese astrology. Our AI Bazi analysis provides personalized insights on your life path, personal characteristics, and how to make the most of your destiny.",
-    "keywords": "life path, destiny reading, chinese astrology life, bazi life, life path astrology, destiny analysis"
+    "title": "Veo3 AI - Free AI Video Generator | Create 4K Videos",
+    "description": "Generate stunning 4K videos with AI. Create professional videos from text prompts with realistic physics and native audio. Start free today.",
+    "keywords": "Veo3 AI, AI Video Generator, Free Video Creation, Text to Video, 4K Videos, AI Filmmaking"
   },
   "pricing": {
-    "title": "Subscription Plans | TalkwithAI",
-    "description": "Choose your AI conversation plan and start unlimited chats with Claude 4. Get advanced features, priority support, and enhanced conversation experience.",
-    "keywords": "TalkwithAI subscription, Claude 4 unlimited, AI conversation plans, premium chat features, AI assistant subscription"
-  },
-  "chinese-zodiac-calculator": {
-    "title": "Chinese Horoscope 2025: Complete Wood Snake Year AI Predictions",
-    "description": "Discover your 2025 Chinese Horoscope for the Year of the Wood Snake. AI-powered analysis based on traditional astrology.",
-    "keywords": "2025 Chinese Horoscope, Wood Snake Year, Chinese Horoscope prediction, AI fortune forecast, personalized horoscope, zodiac compatibility"
-  },
-  "feedback": {
-    "title": "User Feedback | TalkwithAI",
-    "description": "Share your thoughts, suggestions, or report issues with TalkwithAI. Help us improve our AI-powered conversation platform to better serve your needs."
-  },
-  "i-ching": {
-    "title": "Free I Ching AI Divination Reading Tool| BaziAI",
-    "description": "Get free AI-powered I Ching divination readings. Discover insights about your life path, personality, and key turning points with our AI-powered I Ching analysis.",
-    "keywords": "i ching reading, i ching analysis, i ching interpretation, i ching fortune, i ching prediction"
-  },
-  "qwen3": {
-    "title": "BaziAI - Qwen3 AI Bazi Reading Tool | Free Life Guidance",
-    "description": "Get free AI-powered Bazi readings combining ancient Chinese astrology with Qwen3 technology. Analyze career, relationships, and life path through intelligent AI interpretation.",
-    "keywords": "AI Bazi Reading, Free Bazi Reading, Qwen3, Career Prediction, Life Guidance, Chinese Astrology AI"
-  },
-  "products": {
-    "title": "Talisman Wallpapers | BaziAI",
-    "description": "Your exclusive fortune-turning spiritual items, choose as destiny guides"
+    "title": "Video Plans | Veo3 AI Pricing",
+    "description": "Choose your AI video plan. Get 4K output, unlimited generations, advanced controls, and priority support with Veo3 AI.",
+    "keywords": "Veo3 AI pricing, video generation plans, 4K videos, AI video subscription"
   },
   "user": {
     "sign_in": "Sign In",
@@ -161,15 +107,15 @@
   },
   "blog": {
     "title": "Blog",
-    "description": "News, resources, and updates about TalkwithAI",
+    "description": "News, resources, and updates about Veo3 AI video generation",
     "read_more_text": "Read More"
   },
   "chat": {
-    "title": "New Chat - TalkwithAI Conversation Platform",
-    "description": "Start a new chat with Claude 4 Sonnet AI for enhanced content generation, data analysis, and planning"
+    "title": "New Generation - Veo3 AI Video Platform",
+    "description": "Start creating professional videos with Veo3 AI for enhanced visual content, 4K generation, and creative storytelling"
   },
   "survey_banner": {
-    "message": "👋 Quick feedback needed - help shape TalkwithAI!",
+    "message": "👋 Quick feedback needed - help shape Veo3 AI!",
     "close": "Close"
   },
   "credit_exhausted_modal": {

@@ -24,7 +24,7 @@ export default async function AdminLayout({
     brand: {
       title: "TalkwithAI",
       logo: {
-        src: "/logo.svg",
+        src: "/logo.png",
         alt: "TalkWithAI",
       },
       url: "/",
