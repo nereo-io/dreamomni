@@ -14,6 +14,11 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   const { theme, setTheme } = useAppContext();
 
   useEffect(() => {
+    // 强制设置为dark模式 - 临时修改，方便后续恢复
+    setTheme("dark");
+
+    // 注释掉原有的主题检测逻辑，保留代码以便后续恢复
+    /*
     const themeInCache = cacheGet(CacheKey.Theme);
     if (themeInCache) {
       // theme setted
@@ -41,10 +46,11 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
     return () => {
       mediaQuery.removeListener(handleChange);
     };
+    */
   }, []);
 
   return (
-    <NextThemesProvider forcedTheme={theme} {...props}>
+    <NextThemesProvider forcedTheme="dark" {...props}>
       {children}
 
       <Toaster position="top-center" richColors />

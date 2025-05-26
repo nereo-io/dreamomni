@@ -9,6 +9,10 @@
     "description": "Choose your AI video plan. Get 4K output, unlimited generations, advanced controls, and priority support with Veo3 AI.",
     "keywords": "Veo3 AI pricing, video generation plans, 4K videos, AI video subscription"
   },
+  "history": {
+    "title": "Video Generation History",
+    "description": "View your video generation history"
+  },
   "user": {
     "sign_in": "Sign In",
     "sign_out": "Sign Out",

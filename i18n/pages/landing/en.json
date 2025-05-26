@@ -18,14 +18,14 @@
           "icon": "RiVideoLine"
         },
         {
+          "title": "Histroy",
+          "url": "/history",
+          "icon": "RiHistoryLine"
+        },
+        {
           "title": "Pricing",
           "url": "/pricing",
           "icon": "RiMoneyDollarCircleLine"
-        },
-        {
-          "title": "FAQ",
-          "url": "/#faq",
-          "icon": "RiQuestionLine"
         }
       ]
     },

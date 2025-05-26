@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000
-@authCookie = authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiMjdjQzA0V0toaXVJbUNVOEtSOUpFREFhS0RNemVILXgzU0Vqc3pqRnZBYkFEUjE4VzVkWVB2Y0dSZXUyQkZhRnY2MGMxSGlSUVJyUk95bDFNR09VNVEifQ..84XdK62qrxUVySabGAK4Wg.XCnULvNecgG61lhumfZ8ctGMboUP-2EBy6n2t9lOIZ0aTiaC5QNfJAbSMXkYPwgw7HeXoJc5YJd5FeuEB1YdtLJdyvS3gA2C6SQIs9nwM2sxfHFJkZQK907dHI2mTnyHqnpWrl9Szl_5a49yP-w82GcTnToNr8qdtY609uusHn4RElelYU9C-zSEiXA9BY8ROfFe9uAp668PDikqiWnhR5JEH42LznpVTMUruZOx2nF1U0VilkxfmFC14i-W_OJZq24YbR5GOOq__53bWTSs7sAJPBEBVrNfYw1J2Q14Qs_lKt81t-jeeq5FoRcZKN4HQ-lw55sHGTFvu0YufOq3rDcI1_XzfSkPKm5yzubJfms89k7rVSWV12phCSjtC8GF3uwV3Sir--_1-daprx8APwxhnC05f_0LAJHAjuqx7TsgWjncLxKXNQkkr56upVJUeTm5hL700005511jcadcw62tGfd0gyhzgq_apnZVvq7Vru0WcbtHDygH73vyZm6dBn6EjZINulUKsIPus-_Kj0FqTAFc-qI1VOkHTgJ9upqpBm-sPkBHv_fl07VUe25KR1cuEepf4W0LLZAusc65Pw1_ohqbsGgLvNzvc33HkZCOb3w_Nxjwpp1KSLiYSQSc95Zvlk6b4-YAsay_8znSVBKuYflxtnyPoSv4vmZHiKJ-TxpygeZ4gadm8O0LARrkV-oCHUx2E6eBjZ8OZfjS5XzaFDtDYc6PF9MZDrKbVX8.bWmBe0QzcP4Zs_kjDUe9zzFCm_DwYrnItztRtjIg0DA
+@authCookie = authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiMjdjQzA0V0toaXVJbUNVOEtSOUpFREFhS0RNemVILXgzU0Vqc3pqRnZBYkFEUjE4VzVkWVB2Y0dSZXUyQkZhRnY2MGMxSGlSUVJyUk95bDFNR09VNVEifQ..CtfO_IQ9Yo3SOI9YhZFy-A.WzZUoxe_cEzidsK1FAQMDgmK9C3oEQvxb2cH3dBh0ip4w7HOWfC5Q4SHdn-c-FKJ053bisMddHbSb3orH3n2EIjv077o96vtAILbPc_Y7A4fda-tsN0V5wGd4rDFH8pvb7_r1FtIjD9Z0xPkrs7adM6TE2-5Os2X9LzLTj_osJvZTgm5-PbcOAszTlEhmomU_-lPdZ5TPr8ZXjOT8hF39n15d1zQJ49Qfy21HvQ_RitSt5VoywlbYCuGWwos3mmn5SX2yjM5ZXgkHHS0hWYXylM7-ZEaU-Gipy6ddihMqBa0iY_Zbg0XgbUUc3EHQHUGAuZeR9jflWe2TQTCDfmqvc2sqmz3a_Z-qkFbbH462Bm5HhegssHoR5iVcNCJpwI-HspcLma-S4S_irthsWoBWSqbvLdr0MuxLywU-ni-sXjWjNYf2byCDpSTFPostpfJC69bUN98-lLg2oaS3tqFtmeJR2_cJXqJIkkydiZZllaVLMgE10gnjXVcyeqHzVDgyBKco10pUL0yyYmSuQWD5IgcU3Caqw69IdYSrOcu9UiWsj0_G1kEJRs7-PLQReCjnG3Ub9Z-ucQ_ldzw3ED44Jgk1FX1QLtI8lmFUQiskOfyPCWc_vcZfGZ6LqIQU0KwPR9U2CFXY2EewXbpZ2__5FGaoWNn1zryp_mWquFsC3Y3QIOkfBVpluT3-F6b7NHnuBqoFNvdEQi3T-KjaboEKNc6DUYdHQfMsNhzJfL2LX4.DOGGceeK_EYn_2XbF8U4Fpbh_AXTOGPxQkcQ62tF0Uw
 @apiKey = sk-xxx
 
 ### ping api (使用Cookie认证)
@@ -136,3 +136,352 @@ Cookie: {{authCookie}}
 GET {{baseUrl}}/api/products/e8c9f6d2-3b5a-4f8e-9d7c-1a2b3c4d5e6f/download
 Content-Type: application/json
 Cookie: {{authCookie}}
+
+### Kling 1.6 - 基础图片转视频测试
+POST {{baseUrl}}/api/video-generation
+Content-Type: application/json
+
+{
+  "model": "kling-1-6",
+  "prompt": "Snowflakes fall as a car moves forward along the road.",
+  "image_url": "https://storage.googleapis.com/falserverless/kling/kling_input.jpeg",
+  "duration": "5",
+  "aspect_ratio": "16:9",
+  "negative_prompt": "blur, distort, and low quality",
+  "cfg_scale": 0.5
+}
+
+### Kling 1.6 - 10秒竖屏视频测试
+POST {{baseUrl}}/api/video-generation
+Content-Type: application/json
+
+{
+  "model": "kling-1-6",
+  "prompt": "A beautiful butterfly gently fluttering around flowers in a garden, creating graceful movements with its colorful wings",
+  "image_url": "https://fal.media/files/elephant/8kkhB12hEZI2kkbU8pZPA_test.jpeg",
+  "duration": "10",
+  "aspect_ratio": "9:16",
+  "negative_prompt": "static, motionless, blurry",
+  "cfg_scale": 0.7
+}
+
+### Kling 1.6 - 1:1方形视频测试
+POST {{baseUrl}}/api/video-generation
+Content-Type: application/json
+
+{
+  "model": "kling-1-6",
+  "prompt": "A cute cat playing with a ball of yarn, pouncing and rolling around playfully",
+  "image_url": "https://storage.googleapis.com/falserverless/gallery/car_720p.png",
+  "duration": "5",
+  "aspect_ratio": "1:1",
+  "negative_prompt": "aggressive, scary, dark",
+  "cfg_scale": 0.3
+}
+
+### Kling 2.0 Master - 基础图片转视频测试
+POST {{baseUrl}}/api/video-generation
+Content-Type: application/json
+
+{
+  "model": "kling-2-0-master",
+  "prompt": "slow-motion sequence captures the catastrophic implosion of a skyscraper, dust and debris billowing outwards in a chaotic ballet of destruction",
+  "image_url": "https://v3.fal.media/files/elephant/rkH-9qoXtXu3rAYTsx9V5_image.webp",
+  "duration": "5",
+  "aspect_ratio": "16:9",
+  "negative_prompt": "blur, distort, and low quality",
+  "cfg_scale": 0.5
+}
+
+### Kling 2.0 Master - 复杂动作序列测试
+POST {{baseUrl}}/api/video-generation
+Content-Type: application/json
+
+{
+  "model": "kling-2-0-master",
+  "prompt": "A stylish woman walks down a Tokyo street filled with warm glowing neon and animated city signage. She moves gracefully through the bustling crowd, her dress flowing in the breeze.",
+  "image_url": "https://storage.googleapis.com/falserverless/kling/kling_input.jpeg",
+  "duration": "10",
+  "aspect_ratio": "16:9",
+  "negative_prompt": "static pose, frozen movement, low quality",
+  "cfg_scale": 0.6
+}
+
+### Kling 2.0 Master - 高CFG值创意测试
+POST {{baseUrl}}/api/video-generation
+Content-Type: application/json
+
+{
+  "model": "kling-2-0-master",
+  "prompt": "A majestic eagle soaring through mountain peaks at sunset, with dramatic lighting and cinematic camera movement tracking its flight",
+  "image_url": "https://storage.googleapis.com/falserverless/gallery/car_720p.png",
+  "duration": "5",
+  "aspect_ratio": "16:9",
+  "negative_prompt": "static, poor lighting, amateur footage",
+  "cfg_scale": 0.8
+}
+
+### Kling 1.6 - 低CFG值自然运动测试
+POST {{baseUrl}}/api/video-generation
+Content-Type: application/json
+
+{
+  "model": "kling-1-6",
+  "prompt": "Ocean waves gently lapping against a sandy beach at golden hour, creating peaceful and natural movement",
+  "image_url": "https://storage.googleapis.com/falserverless/gallery/car_720p.png",
+  "duration": "10",
+  "aspect_ratio": "16:9",
+  "negative_prompt": "violent waves, stormy weather, dark sky",
+  "cfg_scale": 0.2
+}
+
+### Kling 2.0 Master - 竖屏短视频测试
+POST {{baseUrl}}/api/video-generation
+Content-Type: application/json
+
+{
+  "model": "kling-2-0-master",
+  "prompt": "A portrait shot of a person looking up at falling cherry blossoms, with petals gently drifting down around them in slow motion",
+  "image_url": "https://v3.fal.media/files/elephant/rkH-9qoXtXu3rAYTsx9V5_image.webp",
+  "duration": "5",
+  "aspect_ratio": "9:16",
+  "negative_prompt": "harsh lighting, unnatural movement, distorted face",
+  "cfg_scale": 0.4
+}
+
+### 检查视频生成状态 (POST)
+POST {{baseUrl}}/api/video-generation/status
+Content-Type: application/json
+
+{
+  "model": "fal-ai/minimax/video-01",
+  "requestId": "687eb40a-a90c-4592-8c89-1d6aa5df793c"
+}
+
+### 检查视频生成状态 (GET)
+GET {{baseUrl}}/api/video-generation/status?model=fal-ai/minimax/video-01&requestId=687eb40a-a90c-4592-8c89-1d6aa5df793c
+Content-Type: application/json
+
+### 获取视频生成结果 (POST)
+POST {{baseUrl}}/api/video-generation/result
+Content-Type: application/json
+
+{
+  "model": "fal-ai/minimax/video-01",
+  "requestId": "687eb40a-a90c-4592-8c89-1d6aa5df793c"
+}
+
+### 获取视频生成结果 (GET)
+GET {{baseUrl}}/api/video-generation/result?model=fal-ai/minimax/video-01&requestId=687eb40a-a90c-4592-8c89-1d6aa5df793c
+
+### 异步提交视频生成任务 - Kling 1.6
+POST {{baseUrl}}/api/video-generation/submit
+Content-Type: application/json
+
+{
+  "model": "kling-1-6",
+  "prompt": "A stylish woman walks down a Tokyo street filled with warm glowing neon and animated city signage. She moves gracefully through the bustling crowd, her dress flowing in the breeze.",
+  "image_url": "https://storage.googleapis.com/falserverless/kling/kling_input.jpeg",
+  "duration": "10",
+  "aspect_ratio": "16:9",
+  "negative_prompt": "static pose, frozen movement, low quality",
+  "cfg_scale": 0.5,
+  "webhook_url": "https://your-domain.com/webhook/video-complete"
+}
+
+### 异步提交视频生成任务 - Kling 2.0 Master
+POST {{baseUrl}}/api/video-generation/submit
+Content-Type: application/json
+
+{
+  "model": "kling-2-0-master",
+  "prompt": "A cinematic sequence of a lone warrior standing on a cliff overlooking a vast battlefield at sunset, with epic camera movements and dramatic lighting",
+  "image_url": "https://v3.fal.media/files/elephant/rkH-9qoXtXu3rAYTsx9V5_image.webp",
+  "duration": "10",
+  "aspect_ratio": "16:9",
+  "negative_prompt": "poor cinematography, amateur lighting, low resolution",
+  "cfg_scale": 0.7,
+  "webhook_url": "https://your-domain.com/webhook/video-complete"
+}
+
+### 获取支持的视频模型列表
+GET {{baseUrl}}/api/video-generation/models
+Content-Type: application/json
+
+### 视频生成API健康检查
+GET {{baseUrl}}/api/video-generation/health
+Content-Type: application/json
+
+### WebSocket 连接信息获取 - Kling 1.6
+POST {{baseUrl}}/api/video-generation/websocket
+Content-Type: application/json
+
+{
+  "model": "kling-1-6",
+  "prompt": "A cinematic shot of raindrops creating ripples on a calm lake surface, with subtle camera movement and natural lighting",
+  "image_url": "https://storage.googleapis.com/falserverless/kling/kling_input.jpeg",
+  "duration": "5",
+  "aspect_ratio": "16:9",
+  "negative_prompt": "choppy water, harsh lighting, amateur shot",
+  "cfg_scale": 0.4
+}
+
+### WebSocket 连接信息获取 - Kling 2.0 Master
+POST {{baseUrl}}/api/video-generation/websocket
+Content-Type: application/json
+
+{
+  "model": "kling-2-0-master",
+  "prompt": "A powerful sequence of a lighthouse beam cutting through thick fog at night, with dramatic cinematic lighting and smooth camera rotation",
+  "image_url": "https://v3.fal.media/files/elephant/rkH-9qoXtXu3rAYTsx9V5_image.webp",
+  "duration": "10",
+  "aspect_ratio": "16:9", 
+  "negative_prompt": "weak lighting, static shot, poor visibility",
+  "cfg_scale": 0.6
+}
+
+### Webhook 端点验证
+GET {{baseUrl}}/api/video-generation/webhook
+Content-Type: application/json
+
+### 模拟 Webhook 回调 - 完成状态
+POST {{baseUrl}}/api/video-generation/webhook
+Content-Type: application/json
+
+{
+  "status": "COMPLETED",
+  "request_id": "test-request-12345",
+  "response_url": "https://queue.fal.run/fal-ai/kling-video/v2/master/image-to-video/requests/test-request-12345",
+  "response": {
+    "video": {
+      "url": "https://v3.fal.media/files/koala/test_output.mp4",
+      "content_type": "video/mp4",
+      "file_size": 5242880
+    }
+  },
+  "logs": [
+    {
+      "timestamp": "2024-01-20T10:30:00Z",
+      "message": "开始处理视频生成请求"
+    },
+    {
+      "timestamp": "2024-01-20T10:35:00Z", 
+      "message": "视频生成完成"
+    }
+  ],
+  "metrics": {
+    "inference_time": 240.5
+  }
+}
+
+### 模拟 Webhook 回调 - 进行中状态
+POST {{baseUrl}}/api/video-generation/webhook
+Content-Type: application/json
+
+{
+  "status": "IN_PROGRESS",
+  "request_id": "test-request-67890",
+  "response_url": "https://queue.fal.run/fal-ai/kling-video/v1/standard/image-to-video/requests/test-request-67890",
+  "progress": 45,
+  "logs": [
+    {
+      "timestamp": "2024-01-20T10:30:00Z",
+      "message": "正在生成视频帧..."
+    }
+  ]
+}
+
+### 模拟 Webhook 回调 - 失败状态
+POST {{baseUrl}}/api/video-generation/webhook
+Content-Type: application/json
+
+{
+  "status": "FAILED",
+  "request_id": "test-request-error",
+  "response_url": "https://queue.fal.run/fal-ai/kling-video/v2/master/image-to-video/requests/test-request-error",
+  "error": "图片格式不支持或图片损坏",
+  "logs": [
+    {
+      "timestamp": "2024-01-20T10:30:00Z",
+      "message": "开始处理视频生成请求"
+    },
+    {
+      "timestamp": "2024-01-20T10:31:00Z",
+      "message": "错误：无法解析输入图片"
+    }
+  ]
+}
+
+### R2 Storage Test - GET Status
+GET {{baseUrl}}/api/demo/test-r2-storage
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+### R2 Storage Test - POST Get Storage Info
+POST {{baseUrl}}/api/demo/test-r2-storage
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "action": "get-storage-info"
+}
+
+### R2 Storage Test - POST Test Connection
+POST {{baseUrl}}/api/demo/test-r2-storage
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "action": "test-connection"
+}
+
+### R2 Storage Test - POST Create Test Video
+POST {{baseUrl}}/api/demo/test-r2-storage
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "action": "create-test-video",
+  "testFileName": "veo3/audio.mp4"
+}
+
+### R2 Storage Test - POST Upload Video from URL
+POST {{baseUrl}}/api/demo/test-r2-storage
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "action": "upload-video-from-url",
+  "testUrl": "https://v3.fal.media/files/penguin/vCNG1ca2IUpdvaPsPiv9N_output.mp4"
+}
+
+### 测试视频生成异步提交 (Submit API)
+POST {{baseUrl}}/api/video-generation/submit
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "model": "kling-1-6-text-to-video",
+  "prompt": "A stylish woman walks down a Tokyo street filled with warm glowing neon and animated city signage. She wears a black leather jacket, a long red dress, and black boots, and carries a black purse.",
+  "image_url": null,
+  "duration": 5,
+  "aspect_ratio": "16:9",
+  "negative_prompt": "blurry, low quality, watermark",
+  "cfg_scale": 0.6,
+  "seed": 12345
+}
+
+### 获取视频生成结果 (GET - /api/video-generation/result)
+GET {{baseUrl}}/api/video-generation/result?model=fal-ai/kling-video/v1.6/standard/text-to-video&requestId=58d2d05f-92d5-417b-bd58-c00e860c3d01
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+### 获取视频生成状态 (GET - /api/video-generation/status)
+GET {{baseUrl}}/api/video-generation/status?model=fal-ai/kling-video/v1.6/standard/text-to-video&requestId=58d2d05f-92d5-417b-bd58-c00e860c3d01
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+### Test History API
+GET {{baseUrl}}/api/video-generations/history
+Cookie: {{authCookie}}
+Content-Type: application/json

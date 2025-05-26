@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -11,12 +11,15 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import TextareaAutosize from "react-textarea-autosize";
 import { cn } from "@/lib/utils";
+import useVideoGeneration from "@/hooks/useVideoGeneration";
+import VideoResult from "@/components/blocks/video-result";
 
 interface VideoGeneratorProps {
   placeholder?: string;
 }
 
-type VideoAspectRatio = "16:9" | "9:16";
+type VideoAspectRatio = "16:9" | "9:16" | "1:1";
+type VideoDuration = "5" | "10";
 
 export default function VideoGenerator({
   placeholder = "Describe the video you want to create, e.g., A cat playing in a sunny garden with natural lighting and fresh atmosphere...",
@@ -24,14 +27,22 @@ export default function VideoGenerator({
   const router = useRouter();
   const [description, setDescription] = useState("");
   const [aspectRatio, setAspectRatio] = useState<VideoAspectRatio>("16:9");
+  const [duration, setDuration] = useState<VideoDuration>("5");
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
 
   const { user, setShowSignModal } = useAppContext();
+  const {
+    isLoading,
+    currentGeneration,
+    submitGeneration,
+    pollStatus,
+    clearCurrentGeneration,
+  } = useVideoGeneration();
 
   // Handle image upload
-  const handleImageUpload = useCallback((file: File) => {
+  const handleImageUpload = useCallback(async (file: File) => {
     if (!file.type.startsWith("image/")) {
       toast.error("Please upload an image file");
       return;
@@ -92,7 +103,7 @@ export default function VideoGenerator({
   };
 
   // Handle video generation
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     if (!user?.uuid) {
       toast.message("Please sign in first");
       setShowSignModal(true);
@@ -104,11 +115,73 @@ export default function VideoGenerator({
       return;
     }
 
-    // Add actual video generation logic here
-    toast.success("Starting video generation...");
+    // Determine model based on whether image is uploaded
+    const hasImage = !!uploadedImage;
+    const model = hasImage ? "kling-1-6" : "kling-1-6-text-to-video";
 
-    // Can redirect to generation page
-    // router.push('/generate');
+    let imageUrl = null;
+
+    // Upload image first if exists
+    if (hasImage && uploadedImage) {
+      try {
+        const formData = new FormData();
+        formData.append("file", uploadedImage);
+
+        const uploadResponse = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error("Image upload failed");
+        }
+
+        const uploadResult = await uploadResponse.json();
+        if (uploadResult.code === 0) {
+          imageUrl = uploadResult.data.url;
+        } else {
+          throw new Error(uploadResult.message || "Image upload failed");
+        }
+      } catch (error) {
+        console.error("Image upload error:", error);
+        toast.error(
+          "Image upload failed. Proceeding with text-to-video instead."
+        );
+        // Continue with text-to-video generation
+      }
+    }
+
+    // Prepare generation parameters
+    const generationParams = {
+      model,
+      prompt: description.trim(),
+      duration,
+      aspect_ratio: aspectRatio,
+      ...(imageUrl && { image_url: imageUrl }),
+    };
+
+    console.log("Generation parameters:", generationParams);
+
+    // Submit generation
+    const result = await submitGeneration(generationParams);
+
+    if (result) {
+      // Start polling for status
+      pollStatus(result.id);
+    }
+  };
+
+  // Handle retry
+  const handleRetry = () => {
+    handleGenerate();
+  };
+
+  // Handle new generation
+  const handleNewGeneration = () => {
+    clearCurrentGeneration();
+    setDescription("");
+    setUploadedImage(null);
+    setImagePreview(null);
   };
 
   return (
@@ -120,7 +193,7 @@ export default function VideoGenerator({
             {/* Left: Image upload area */}
             <div className="space-y-4">
               <Label className="text-lg font-semibold text-gray-100">
-                Upload Reference Image
+                Reference Image (Optional)
               </Label>
 
               <div
@@ -165,6 +238,10 @@ export default function VideoGenerator({
                     </p>
                     <p className="text-sm text-gray-400">
                       Supports JPG, PNG, GIF formats, max 10MB
+                    </p>
+                    <p className="text-xs text-gray-500 mt-2">
+                      Upload an image to enable image-to-video generation, or
+                      leave empty for text-to-video
                     </p>
                   </div>
                 )}
@@ -232,22 +309,83 @@ export default function VideoGenerator({
                   9:16 Portrait
                 </Label>
               </div>
+
+              <div className="flex items-center space-x-3">
+                <RadioGroupItem value="1:1" id="square" />
+                <Label
+                  htmlFor="square"
+                  className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
+                >
+                  <span className="w-6 h-6 bg-gray-600 rounded-sm"></span>
+                  1:1 Square
+                </Label>
+              </div>
             </RadioGroup>
           </div>
+
+          {/* Video duration selection */}
+          <div className="mt-6 pt-6 border-t border-gray-700">
+            <Label className="text-lg font-semibold text-gray-100 mb-4 block">
+              Video Duration
+            </Label>
+            <RadioGroup
+              value={duration}
+              onValueChange={(value) => setDuration(value as VideoDuration)}
+              className="flex gap-8"
+            >
+              <div className="flex items-center space-x-3">
+                <RadioGroupItem value="5" id="duration-5s" />
+                <Label
+                  htmlFor="duration-5s"
+                  className="text-gray-200 font-medium cursor-pointer"
+                >
+                  5 Seconds
+                </Label>
+              </div>
+              <div className="flex items-center space-x-3">
+                <RadioGroupItem value="10" id="duration-10s" />
+                <Label
+                  htmlFor="duration-10s"
+                  className="text-gray-200 font-medium cursor-pointer"
+                >
+                  10 Seconds
+                </Label>
+              </div>
+            </RadioGroup>
+          </div>
+
+          {/* TODO: Add CFG Scale slider/input here if needed in the future */}
+          {/* <div className="mt-6 pt-6 border-t border-gray-700">
+            <Label className="text-lg font-semibold text-gray-100 mb-4 block">
+              Creative Freedom (CFG Scale)
+            </Label>
+             Input for CFG Scale 
+          </div> */}
 
           {/* Generate button */}
           <div className="mt-8 flex justify-center">
             <Button
               onClick={handleGenerate}
-              disabled={!description.trim()}
+              disabled={!description.trim() || isLoading}
               size="lg"
               className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Play className="h-5 w-5 mr-2" />
-              Generate Video
+              {isLoading ? "Submitting..." : "Generate Video"}
             </Button>
           </div>
         </Card>
+
+        {/* Video Result Display */}
+        {currentGeneration && (
+          <div className="mt-8">
+            <VideoResult
+              generation={currentGeneration}
+              onRetry={handleRetry}
+              onNewGeneration={handleNewGeneration}
+            />
+          </div>
+        )}
       </div>
     </section>
   );
