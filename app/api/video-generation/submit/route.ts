@@ -3,6 +3,12 @@ import { respData, respErr } from "@/lib/resp";
 import { auth } from "@/auth";
 import { getUserInfo } from "@/services/user";
 import { createVideoGeneration } from "@/models/videoGeneration";
+import {
+  decreaseCredits,
+  CreditsTransType,
+  CreditsAmount,
+  getUserCredits,
+} from "@/services/credit";
 
 // 配置fal client
 fal.config({
@@ -43,6 +49,12 @@ export async function POST(req: Request) {
       return respErr("用户信息获取失败");
     }
 
+    // 3. 检查用户积分
+    const userCredits = await getUserCredits(userInfo.uuid);
+    if (!userCredits) {
+      return respErr("获取用户积分失败");
+    }
+
     const {
       model,
       prompt,
@@ -62,6 +74,27 @@ export async function POST(req: Request) {
     // 验证必需参数
     if (!model || !prompt) {
       return respErr("model 和 prompt 参数是必需的");
+    }
+
+    // 4. 计算所需积分并检查余额
+    const durationInt = parseInt(duration);
+    let requiredCredits = 0;
+    let transType: CreditsTransType;
+
+    if (durationInt === 5) {
+      requiredCredits = CreditsAmount.VideoGeneration5sCost;
+      transType = CreditsTransType.VideoGeneration5s;
+    } else if (durationInt === 10) {
+      requiredCredits = CreditsAmount.VideoGeneration10sCost;
+      transType = CreditsTransType.VideoGeneration10s;
+    } else {
+      return respErr("不支持的视频时长，仅支持5秒或10秒");
+    }
+
+    if (userCredits.left_credits < requiredCredits) {
+      return respErr(
+        `积分不足，需要 ${requiredCredits} 积分，当前剩余 ${userCredits.left_credits} 积分`
+      );
     }
 
     // 验证模型是否支持
@@ -142,7 +175,19 @@ export async function POST(req: Request) {
       input.seed = seed;
     }
 
-    // 3. 在数据库中创建记录
+    // 5. 扣除积分（在创建任务前扣除）
+    try {
+      await decreaseCredits({
+        user_uuid: userInfo.uuid,
+        trans_type: transType,
+        credits: requiredCredits,
+      });
+    } catch (error) {
+      console.error("扣除积分失败:", error);
+      return respErr("扣除积分失败，请稍后重试");
+    }
+
+    // 6. 在数据库中创建记录
     const videoGeneration = await createVideoGeneration({
       user_id: userInfo.uuid,
       model_id: model,
@@ -156,7 +201,7 @@ export async function POST(req: Request) {
       status: "IN_QUEUE",
     });
 
-    // 4. 提交任务到队列，包含webhook URL
+    // 7. 提交任务到队列，包含webhook URL
     const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
 
     // const webhookUrl =
@@ -169,7 +214,7 @@ export async function POST(req: Request) {
 
     const { request_id } = await fal.queue.submit(modelEndpoint, submitOptions);
 
-    // 5. 更新数据库记录的fal_request_id
+    // 8. 更新数据库记录的fal_request_id
     await import("@/models/videoGeneration").then(
       ({ updateVideoGenerationById }) =>
         updateVideoGenerationById(videoGeneration.id, {

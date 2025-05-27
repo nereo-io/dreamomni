@@ -5,13 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Upload, Image as ImageIcon, X, Play } from "lucide-react";
+import { Upload, Image as ImageIcon, X, Play, Coins } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import TextareaAutosize from "react-textarea-autosize";
 import { cn } from "@/lib/utils";
 import useVideoGeneration from "@/hooks/useVideoGeneration";
+import useCredits from "@/hooks/useCredits";
 import VideoResult from "@/components/blocks/video-result";
 
 interface VideoGeneratorProps {
@@ -44,6 +45,20 @@ export default function VideoGenerator({
     clearAllGenerations,
     updateCurrentGeneration,
   } = useVideoGeneration();
+
+  const { leftCredits, updateLeftCredits } = useCredits();
+
+  // 用户登录时获取积分
+  useEffect(() => {
+    if (user?.uuid) {
+      updateLeftCredits().catch(console.error);
+    }
+  }, [user?.uuid, updateLeftCredits]);
+
+  // 获取积分消耗信息
+  const getCreditsRequired = (duration: VideoDuration) => {
+    return duration === "5" ? 10 : 20;
+  };
 
   // Handle image upload
   const handleImageUpload = useCallback(async (file: File) => {
@@ -176,6 +191,8 @@ export default function VideoGenerator({
       if (result) {
         // Start polling for status
         pollStatus(result.id);
+        // 刷新积分余额
+        updateLeftCredits().catch(console.error);
       }
     } finally {
       setIsSubmitting(false);
@@ -348,7 +365,7 @@ export default function VideoGenerator({
                 <RadioGroupItem value="5" id="duration-5s" />
                 <Label
                   htmlFor="duration-5s"
-                  className="text-gray-200 font-medium cursor-pointer"
+                  className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
                 >
                   5 Seconds
                 </Label>
@@ -357,7 +374,7 @@ export default function VideoGenerator({
                 <RadioGroupItem value="10" id="duration-10s" />
                 <Label
                   htmlFor="duration-10s"
-                  className="text-gray-200 font-medium cursor-pointer"
+                  className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
                 >
                   10 Seconds
                 </Label>
@@ -374,10 +391,39 @@ export default function VideoGenerator({
           </div> */}
 
           {/* Generate button */}
-          <div className="mt-8 flex justify-center">
+          <div className="mt-8 flex items-center justify-center space-x-4">
+            {user && (
+              <div className="text-right flex flex-col items-end">
+                <div className="flex items-center space-x-2">
+                  <p className="text-sm text-gray-300">
+                    Credits: {leftCredits !== null ? leftCredits : "-"}{" "}
+                    remaining
+                  </p>
+                  <a
+                    href="/pricing"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-blue-400 hover:text-blue-300 hover:underline cursor-pointer"
+                  >
+                    Recharge
+                  </a>
+                </div>
+                <p className="text-sm text-primary-400">
+                  This generation will cost: {getCreditsRequired(duration)}{" "}
+                  Credits
+                </p>
+              </div>
+            )}
             <Button
               onClick={handleGenerate}
-              disabled={!description.trim() || isLoading || isSubmitting}
+              disabled={
+                !description.trim() ||
+                isLoading ||
+                isSubmitting ||
+                (user &&
+                  leftCredits !== null &&
+                  leftCredits < getCreditsRequired(duration))
+              }
               size="lg"
               className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >

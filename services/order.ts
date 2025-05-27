@@ -90,7 +90,7 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
     const interval = order.interval;
     const product_id = order.product_id;
     const product_type = order.product_type; // 获取产品类型
-    const credits = session.metadata.credits;
+    const credits = session.metadata.credits; // 保留原始用法，用于会员类型判断
 
     console.log("Order details:", {
       interval,
@@ -99,26 +99,39 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
       credits,
     });
 
-    // 判断是会员订阅还是图片商品购买
-    // 数据库表尚未更新前，使用interval和metadata判断产品类型
-    if (
-      interval === "one-time" &&
-      (order.product_type === "image" || // 新订单可能已有product_type
-        session.metadata.product_type === "image")
-    ) {
-      // 或者从metadata获取
-      // 处理图片商品购买
-      await handleImageProductPurchase(order);
-    } else {
-      // 处理会员订阅
-      console.log("Updating membership for user:", user_uuid);
-      if (credits === "1") {
+    // 处理会员订阅或积分包购买
+    console.log("Processing membership/credits purchase for user:", user_uuid);
+
+    let actualCreditsToIncrease = 0;
+    if (product_id === "starter-monthly") {
+      actualCreditsToIncrease = 400; // Starter Plan 积分
+      try {
         await createOrUpdateMembership(user_uuid, "monthly");
-      } else if (credits === "12") {
-        await createOrUpdateMembership(user_uuid, "yearly");
-      } else if (credits === "3") {
-        await createOrUpdateMembership(user_uuid, "quarterly");
+      } catch (e) {
+        console.log("update membership failed: ", e);
+        throw e;
       }
+    } else if (product_id === "pro-monthly") {
+      actualCreditsToIncrease = 1800; // Pro Plan 积分
+      await createOrUpdateMembership(user_uuid, "monthly");
+    }
+
+    // 1. 增加积分 (如果根据product_id确定了数量)
+    if (actualCreditsToIncrease > 0) {
+      await increaseCredits({
+        user_uuid: user_uuid,
+        trans_type: CreditsTransType.OrderPay,
+        credits: actualCreditsToIncrease,
+        order_no: order.order_no,
+        expired_at: order.expired_at || getOneYearLaterTimestr(),
+      });
+      console.log(
+        `Increased ${actualCreditsToIncrease} credits for user ${user_uuid} for order ${order.order_no} (Product ID: ${product_id})`
+      );
+    } else {
+      console.log(
+        `No specific credit increase rule based on product_id ${product_id} for order ${order.order_no}. Only membership might be updated.`
+      );
     }
 
     console.log(
@@ -144,7 +157,9 @@ export async function handleInvoicePayment(
 
     // 获取元数据 - 优先从subscription_details获取
     let metadata = invoice.subscription_details?.metadata || {};
-    let user_uuid, order_no, credits;
+    let user_uuid, order_no;
+    let creditsIdentifierFromInvoice: string | undefined = undefined; // 用于会员类型判断
+    let productIdFromInvoice: string | undefined = undefined;
 
     // 如果subscription_details中没有元数据，尝试其他位置
     if (!metadata || Object.keys(metadata).length === 0) {
@@ -164,7 +179,8 @@ export async function handleInvoicePayment(
     if (metadata) {
       user_uuid = metadata.user_uuid;
       order_no = metadata.order_no;
-      credits = metadata.credits;
+      creditsIdentifierFromInvoice = metadata.credits; // 保留原始用法
+      productIdFromInvoice = metadata.product_id;
     }
 
     if (!user_uuid) {
@@ -175,7 +191,8 @@ export async function handleInvoicePayment(
       invoice_id: invoice.id,
       user_uuid,
       order_no,
-      credits,
+      creditsIdentifier: creditsIdentifierFromInvoice,
+      productId: productIdFromInvoice,
       billing_reason: invoice.billing_reason,
     });
 
@@ -203,25 +220,32 @@ export async function handleInvoicePayment(
       }
     }
 
-    // 更新会员状态
-    console.log("Updating membership for user:", user_uuid);
-    if (credits === "1") {
+    let actualCreditsToIncreaseForRenewal = 0;
+    if (productIdFromInvoice === "starter-monthly") {
+      actualCreditsToIncreaseForRenewal = 400;
       await createOrUpdateMembership(user_uuid, "monthly");
-    } else if (credits === "12") {
-      await createOrUpdateMembership(user_uuid, "yearly");
-    } else {
-      // 如果没有credits信息，尝试从订阅计划中判断
-      const lineItem = invoice.lines.data[0];
-      if (lineItem && lineItem.plan) {
-        const interval = lineItem.plan.interval;
-        if (interval === "month") {
-          await createOrUpdateMembership(user_uuid, "monthly");
-        } else if (interval === "year") {
-          await createOrUpdateMembership(user_uuid, "yearly");
-        }
-      }
+    } else if (productIdFromInvoice === "pro-monthly") {
+      actualCreditsToIncreaseForRenewal = 1800;
+      await createOrUpdateMembership(user_uuid, "monthly");
     }
 
+    // 优先处理增加积分的逻辑
+    if (actualCreditsToIncreaseForRenewal > 0) {
+      await increaseCredits({
+        user_uuid: user_uuid,
+        trans_type: CreditsTransType.OrderPay, // 或者 "subscription_renewal"
+        credits: actualCreditsToIncreaseForRenewal,
+        order_no: order_no || invoice.id,
+        expired_at: getOneYearLaterTimestr(),
+      });
+      console.log(
+        `Increased ${actualCreditsToIncreaseForRenewal} credits for user ${user_uuid} due to invoice ${invoice.id} (Product ID: ${productIdFromInvoice})`
+      );
+    } else {
+      console.log(
+        `No specific credit increase rule for renewal (invoice ${invoice.id}) based on product_id ${productIdFromInvoice}. Only membership might be updated.`
+      );
+    }
     console.log("Invoice payment processed successfully:", invoice.id);
   } catch (e) {
     console.log("handle invoice payment failed:", e);

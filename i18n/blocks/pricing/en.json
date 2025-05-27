@@ -7,10 +7,10 @@
   "items": [
     {
       "title": "Free Plan",
-      "description": "Perfect for getting started with AI video generation",
+      "description": "Perfect for getting started and trying out AI video generation with a one-time credit grant.",
       "features_title": "Including",
       "features": [
-        "5 video generations monthly",
+        "10 one-time credits upon registration",
         "Up to 5 seconds per video",
         "720p resolution output",
         "Text-to-video generation",
@@ -33,18 +33,18 @@
       },
       "product_id": "free-plan",
       "product_name": "Veo3 AI Free",
-      "credits": 0,
+      "credits": 10,
       "valid_months": 0
     },
 
     {
       "title": "Starter Plan",
-      "description": "Best value for professionals and teams",
+      "description": "Ideal for content creators and small businesses needing more capacity.",
       "label": "Popular",
       "features_title": "Including",
       "features": [
-        "100 video generations monthly",
-        "Up to 8 seconds per video",
+        "400 monthly credits",
+        "Up to 10 seconds per video",
         "1080p resolution output",
         "All generation modes",
         "Custom video styles",
@@ -69,16 +69,16 @@
       },
       "product_id": "starter-monthly",
       "product_name": "Veo3 AI Starter",
-      "credits": 100,
+      "credits": 400,
       "valid_months": 1
     },
     {
       "title": "Pro Plan",
-      "description": "For agencies and large-scale production",
+      "description": "For professionals and agencies requiring high volume and advanced features.",
       "features_title": "Including",
       "features": [
-        "500 video generations monthly",
-        "Up to 8 seconds per video",
+        "1800 monthly credits",
+        "Up to 10 seconds per video",
         "4K resolution output",
         "Custom model training",
         "White-label solutions",
@@ -103,7 +103,7 @@
       },
       "product_id": "pro-monthly",
       "product_name": "Veo3 AI Pro",
-      "credits": 500,
+      "credits": 1800,
       "valid_months": 1
     }
   ]
