@@ -25,7 +25,6 @@ import {
   PlayCircle,
   Download,
   RotateCcw,
-  Trash2,
   AlertTriangle,
   Loader2,
 } from "lucide-react";
@@ -79,18 +78,20 @@ export default function VideoHistoryClient() {
   };
 
   const handlePlayVideo = (video: VideoGeneration) => {
-    // Implement video player modal or navigate to a play page
-    if (video.video_url_r2 || video.video_url_fal) {
-      window.open(video.video_url_r2 ?? video.video_url_fal ?? "", "_blank");
+    // Check for video URL availability
+    const videoUrl = video.video_url_r2 || video.video_url_fal;
+    if (videoUrl) {
+      window.open(videoUrl, "_blank");
     } else {
       toast.info("Video is not available yet.");
     }
   };
 
   const handleDownloadVideo = (video: VideoGeneration) => {
-    if (video.video_url_r2 || video.video_url_fal) {
+    const videoUrl = video.video_url_r2 || video.video_url_fal;
+    if (videoUrl) {
       const link = document.createElement("a");
-      link.href = video.video_url_r2 || video.video_url_fal!;
+      link.href = videoUrl;
       link.download = `${video.prompt.substring(0, 20).replace(/\s+/g, "_")}_${
         video.id
       }.mp4`;
@@ -108,28 +109,6 @@ export default function VideoHistoryClient() {
     console.log("Regenerate video:", video);
     toast.info("Regeneration functionality to be implemented.");
     // router.push(`/generate?prompt=${encodeURIComponent(video.prompt)}&aspect_ratio=${video.aspect_ratio}...`);
-  };
-
-  const handleDeleteVideo = async (video: VideoGeneration) => {
-    if (!confirm("Are you sure you want to delete this video?")) {
-      return;
-    }
-    try {
-      const response = await fetch(
-        `/api/video-generations/delete/${video.id}`,
-        {
-          method: "DELETE",
-        }
-      );
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to delete video");
-      }
-      toast.success("Video deleted successfully");
-      fetchHistory(currentPage); // Refresh the list
-    } catch (error: any) {
-      toast.error(error.message);
-    }
   };
 
   const getStatusBadge = (status: VideoGeneration["status"]) => {
@@ -249,8 +228,13 @@ export default function VideoHistoryClient() {
                 variant="outline"
                 size="sm"
                 onClick={() => handlePlayVideo(video)}
-                disabled={!video.video_url_r2 && !video.video_url_fal}
-                className="w-full sm:w-auto border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"
+                disabled={
+                  video.status !== "COMPLETED" &&
+                  video.status !== "SAVED_TO_R2" &&
+                  !video.video_url_r2 &&
+                  !video.video_url_fal
+                }
+                className="w-full sm:w-auto border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <PlayCircle className="mr-2 h-4 w-4" /> Play
               </Button>
@@ -259,8 +243,14 @@ export default function VideoHistoryClient() {
                   variant="ghost"
                   size="icon"
                   onClick={() => handleDownloadVideo(video)}
-                  disabled={!video.video_url_r2 && !video.video_url_fal}
+                  disabled={
+                    video.status !== "COMPLETED" &&
+                    video.status !== "SAVED_TO_R2" &&
+                    !video.video_url_r2 &&
+                    !video.video_url_fal
+                  }
                   title="Download"
+                  className="disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Download className="h-5 w-5 text-gray-400 hover:text-gray-200" />
                 </Button>
@@ -271,14 +261,6 @@ export default function VideoHistoryClient() {
                   title="Regenerate"
                 >
                   <RotateCcw className="h-5 w-5 text-gray-400 hover:text-gray-200" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleDeleteVideo(video)}
-                  title="Delete"
-                >
-                  <Trash2 className="h-5 w-5 text-red-500 hover:text-red-400" />
                 </Button>
               </div>
             </CardFooter>

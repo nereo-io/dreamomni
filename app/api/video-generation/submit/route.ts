@@ -157,12 +157,10 @@ export async function POST(req: Request) {
     });
 
     // 4. 提交任务到队列，包含webhook URL
-    // const webhookUrl = `${
-    //   process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
-    // }/api/video-generation/webhook`;
+    const webhookUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/video-generation/webhook`;
 
-    const webhookUrl =
-      "https://64bf-103-134-34-19.ngrok-free.app/api/video-generation/webhook";
+    // const webhookUrl =
+    //   "https://cbff-2400-9ce0-516e-a043-6fe5-72bf-12ad-67c1.ngrok-free.app/api/video-generation/webhook";
 
     const submitOptions: any = {
       input,

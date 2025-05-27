@@ -31,14 +31,18 @@ export default function VideoGenerator({
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { user, setShowSignModal } = useAppContext();
   const {
     isLoading,
     currentGeneration,
+    recentGenerations,
     submitGeneration,
     pollStatus,
     clearCurrentGeneration,
+    clearAllGenerations,
+    updateCurrentGeneration,
   } = useVideoGeneration();
 
   // Handle image upload
@@ -115,70 +119,83 @@ export default function VideoGenerator({
       return;
     }
 
-    // Determine model based on whether image is uploaded
-    const hasImage = !!uploadedImage;
-    const model = hasImage ? "kling-1-6" : "kling-1-6-text-to-video";
+    // 立即设置提交状态，防止重复点击
+    setIsSubmitting(true);
 
-    let imageUrl = null;
+    try {
+      // Determine model based on whether image is uploaded
+      const hasImage = !!uploadedImage;
+      const model = hasImage ? "kling-1-6" : "kling-1-6-text-to-video";
 
-    // Upload image first if exists
-    if (hasImage && uploadedImage) {
-      try {
-        const formData = new FormData();
-        formData.append("file", uploadedImage);
+      let imageUrl = null;
 
-        const uploadResponse = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
+      // Upload image first if exists
+      if (hasImage && uploadedImage) {
+        try {
+          const formData = new FormData();
+          formData.append("file", uploadedImage);
 
-        if (!uploadResponse.ok) {
-          throw new Error("Image upload failed");
+          const uploadResponse = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (!uploadResponse.ok) {
+            throw new Error("Image upload failed");
+          }
+
+          const uploadResult = await uploadResponse.json();
+          if (uploadResult.code === 0) {
+            imageUrl = uploadResult.data.url;
+          } else {
+            throw new Error(uploadResult.message || "Image upload failed");
+          }
+        } catch (error) {
+          console.error("Image upload error:", error);
+          toast.error(
+            "Image upload failed. Proceeding with text-to-video instead."
+          );
+          // Continue with text-to-video generation
         }
-
-        const uploadResult = await uploadResponse.json();
-        if (uploadResult.code === 0) {
-          imageUrl = uploadResult.data.url;
-        } else {
-          throw new Error(uploadResult.message || "Image upload failed");
-        }
-      } catch (error) {
-        console.error("Image upload error:", error);
-        toast.error(
-          "Image upload failed. Proceeding with text-to-video instead."
-        );
-        // Continue with text-to-video generation
       }
-    }
 
-    // Prepare generation parameters
-    const generationParams = {
-      model,
-      prompt: description.trim(),
-      duration,
-      aspect_ratio: aspectRatio,
-      ...(imageUrl && { image_url: imageUrl }),
-    };
+      // Prepare generation parameters
+      const generationParams = {
+        model,
+        prompt: description.trim(),
+        duration,
+        aspect_ratio: aspectRatio,
+        ...(imageUrl && { image_url: imageUrl }),
+      };
 
-    console.log("Generation parameters:", generationParams);
+      console.log("Generation parameters:", generationParams);
 
-    // Submit generation
-    const result = await submitGeneration(generationParams);
+      // Submit generation
+      const result = await submitGeneration(generationParams);
 
-    if (result) {
-      // Start polling for status
-      pollStatus(result.id);
+      if (result) {
+        // Start polling for status
+        pollStatus(result.id);
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   // Handle retry
   const handleRetry = () => {
-    handleGenerate();
+    // 如果当前有生成记录，直接重新开始轮询
+    if (currentGeneration?.id) {
+      pollStatus(currentGeneration.id);
+    } else {
+      // 否则重新生成
+      handleGenerate();
+    }
   };
 
   // Handle new generation
   const handleNewGeneration = () => {
-    clearCurrentGeneration();
+    clearAllGenerations();
     setDescription("");
     setUploadedImage(null);
     setImagePreview(null);
@@ -189,94 +206,88 @@ export default function VideoGenerator({
       <div className="container px-4 md:px-6 max-w-6xl">
         {/* Main content card with dark theme */}
         <Card className="bg-gray-900/95 backdrop-blur-md border border-gray-700 shadow-2xl p-6 md:p-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
-            {/* Left: Image upload area */}
-            <div className="space-y-4">
-              <Label className="text-lg font-semibold text-gray-100">
-                Reference Image (Optional)
-              </Label>
+          {/* First: Video Description */}
+          <div className="space-y-4 mb-8">
+            <Label className="text-lg font-semibold text-gray-100">
+              Video Description
+            </Label>
 
-              <div
-                className={cn(
-                  "relative border-2 border-dashed rounded-lg p-6 transition-all duration-200 cursor-pointer group",
-                  isDragOver
-                    ? "border-blue-400 bg-blue-950/30"
-                    : "border-gray-600 hover:border-gray-500",
-                  uploadedImage ? "border-solid border-gray-600" : ""
-                )}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                onClick={() => {
-                  if (!uploadedImage) {
-                    document.getElementById("image-upload")?.click();
-                  }
-                }}
-              >
-                {imagePreview ? (
-                  <div className="relative">
-                    <img
-                      src={imagePreview}
-                      alt="Preview"
-                      className="w-full h-48 object-cover rounded-lg"
-                    />
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        removeImage();
-                      }}
-                      className="absolute top-2 right-2 p-1 bg-gray-800/80 rounded-full hover:bg-gray-800 transition-colors"
-                    >
-                      <X className="h-4 w-4 text-gray-200" />
-                    </button>
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <ImageIcon className="h-12 w-12 text-gray-400 mx-auto mb-4 group-hover:text-gray-300 transition-colors" />
-                    <p className="text-gray-200 font-medium mb-2">
-                      Click to upload or drag image here
-                    </p>
-                    <p className="text-sm text-gray-400">
-                      Supports JPG, PNG, GIF formats, max 10MB
-                    </p>
-                    <p className="text-xs text-gray-500 mt-2">
-                      Upload an image to enable image-to-video generation, or
-                      leave empty for text-to-video
-                    </p>
-                  </div>
-                )}
-
-                <input
-                  id="image-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileInputChange}
-                  className="hidden"
-                />
-              </div>
+            <div className="relative">
+              <TextareaAutosize
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                minRows={6}
+                maxRows={12}
+                placeholder={placeholder}
+                className="w-full p-4 border border-gray-600 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-100 bg-gray-800 placeholder-gray-400"
+              />
             </div>
+          </div>
 
-            {/* Right: Text description area */}
-            <div className="space-y-4">
-              <Label className="text-lg font-semibold text-gray-100">
-                Video Description
-              </Label>
+          {/* Second: Reference Image (Optional) - Smaller area */}
+          <div className="space-y-4 mb-8">
+            <Label className="text-lg font-semibold text-gray-100">
+              Reference Image (Optional)
+            </Label>
 
-              <div className="relative">
-                <TextareaAutosize
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  minRows={6}
-                  maxRows={12}
-                  placeholder={placeholder}
-                  className="w-full p-4 border border-gray-600 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-100 bg-gray-800 placeholder-gray-400"
-                />
-              </div>
+            <div
+              className={cn(
+                "relative border-2 border-dashed rounded-lg p-3 transition-all duration-200 cursor-pointer group max-w-md",
+                isDragOver
+                  ? "border-blue-400 bg-blue-950/30"
+                  : "border-gray-600 hover:border-gray-500",
+                uploadedImage ? "border-solid border-gray-600" : ""
+              )}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onClick={() => {
+                if (!uploadedImage) {
+                  document.getElementById("image-upload")?.click();
+                }
+              }}
+            >
+              {imagePreview ? (
+                <div className="relative flex justify-start">
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="max-h-20 max-w-full object-contain rounded-lg"
+                  />
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeImage();
+                    }}
+                    className="absolute top-1 right-1 p-1 bg-gray-800/80 rounded-full hover:bg-gray-800 transition-colors"
+                  >
+                    <X className="h-4 w-4 text-gray-200" />
+                  </button>
+                </div>
+              ) : (
+                <div className="text-center py-2">
+                  <ImageIcon className="h-6 w-6 text-gray-400 mx-auto mb-1 group-hover:text-gray-300 transition-colors" />
+                  <p className="text-gray-200 font-medium text-sm mb-1">
+                    Click to upload or drag image here
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    Supports JPG, PNG, GIF formats, max 10MB
+                  </p>
+                </div>
+              )}
+
+              <input
+                id="image-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleFileInputChange}
+                className="hidden"
+              />
             </div>
           </div>
 
           {/* Video aspect ratio selection */}
-          <div className="mt-8 pt-6 border-t border-gray-700">
+          <div className="pt-6 border-t border-gray-700">
             <Label className="text-lg font-semibold text-gray-100 mb-4 block">
               Video Aspect Ratio
             </Label>
@@ -366,12 +377,12 @@ export default function VideoGenerator({
           <div className="mt-8 flex justify-center">
             <Button
               onClick={handleGenerate}
-              disabled={!description.trim() || isLoading}
+              disabled={!description.trim() || isLoading || isSubmitting}
               size="lg"
               className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Play className="h-5 w-5 mr-2" />
-              {isLoading ? "Submitting..." : "Generate Video"}
+              {isSubmitting || isLoading ? "Submitting..." : "Generate Video"}
             </Button>
           </div>
         </Card>
@@ -382,8 +393,40 @@ export default function VideoGenerator({
             <VideoResult
               generation={currentGeneration}
               onRetry={handleRetry}
-              onNewGeneration={handleNewGeneration}
+              onVideoUrlUpdate={(videoUrl: string) => {
+                updateCurrentGeneration({ video_url: videoUrl });
+              }}
             />
+          </div>
+        )}
+
+        {/* Recent Generations */}
+        {recentGenerations.length > 0 && (
+          <div className="mt-8 space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-gray-100">
+                Recent Generations
+              </h3>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleNewGeneration}
+                className="text-gray-400 hover:text-gray-200"
+              >
+                Clear All
+              </Button>
+            </div>
+            {recentGenerations.map((generation) => (
+              <VideoResult
+                key={generation.id}
+                generation={generation}
+                onRetry={() => {
+                  if (generation.id) {
+                    pollStatus(generation.id);
+                  }
+                }}
+              />
+            ))}
           </div>
         )}
       </div>
