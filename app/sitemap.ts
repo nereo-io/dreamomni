@@ -66,34 +66,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // console.log(`添加了 ${localizedStaticPages.length} 个本地化基础页面`);
 
-    // // 获取所有博客文章页面
-    // const blogPages = [];
+    // 获取所有博客文章页面
+    const blogPages = [];
 
-    // for (const locale of locales) {
-    //   try {
-    //     const posts = await getPostsByLocale(locale, 1, 1000); // 获取所有博客文章
+    for (const locale of locales) {
+      try {
+        const posts = await getPostsByLocale(locale, 1, 1000); // 获取所有博客文章
 
-    //     const blogUrls = posts.map((post) => ({
-    //       url:
-    //         locale === "en"
-    //           ? `${baseUrl}/blog/${post.slug}`
-    //           : `${baseUrl}/${locale}/blog/${post.slug}`,
-    //       lastModified: post.updated_at || post.created_at || currentDate,
-    //       changeFrequency: "monthly" as ChangeFrequency,
-    //       priority: 0.6,
-    //     }));
+        const blogUrls = posts.map((post) => ({
+          url:
+            locale === "en"
+              ? `${baseUrl}/blog/${post.slug}`
+              : `${baseUrl}/${locale}/blog/${post.slug}`,
+          lastModified: post.updated_at || post.created_at || currentDate,
+          changeFrequency: "monthly" as ChangeFrequency,
+          priority: 0.6,
+        }));
 
-    //     console.log(`为 ${locale} 语言添加了 ${blogUrls.length} 个博客页面`);
-    //     blogPages.push(...blogUrls);
-    //   } catch (error) {
-    //     console.error(`获取 ${locale} 语言的博客文章时出错:`, error);
-    //   }
-    // }
+        console.log(`为 ${locale} 语言添加了 ${blogUrls.length} 个博客页面`);
+        blogPages.push(...blogUrls);
+      } catch (error) {
+        console.error(`获取 ${locale} 语言的博客文章时出错:`, error);
+      }
+    }
 
-    // console.log(`总共添加了 ${blogPages.length} 个博客页面`);
+    console.log(`总共添加了 ${blogPages.length} 个博客页面`);
 
     // 合并所有页面
-    const allPages = [...staticPages];
+    const allPages = [...staticPages, ...blogPages];
 
     console.log(`sitemap 生成完成，总共包含 ${allPages.length} 个页面`);
     return allPages;

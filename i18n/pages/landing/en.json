@@ -26,6 +26,11 @@
           "title": "Pricing",
           "url": "/pricing",
           "icon": "RiMoneyDollarCircleLine"
+        },
+        {
+          "title": "Blog",
+          "url": "/blog",
+          "icon": "RiMoneyDollarCircleLine"
         }
       ]
     },
