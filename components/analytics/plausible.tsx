@@ -13,15 +13,16 @@ export default function Plausible() {
 
   return (
     <>
+      <script defer data-domain={plausibleDomain} src={plausibleScriptUrl} />
       <script
-        defer
-        data-domain={plausibleDomain}
-        src={plausibleScriptUrl}
-      ></script>
-      <script>
-        window.plausible = window.plausible || function (){" "}
-        {(window.plausible.q = window.plausible.q || []).push(arguments)};
-      </script>
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.plausible = window.plausible || function() {
+              (window.plausible.q = window.plausible.q || []).push(arguments);
+            };
+          `,
+        }}
+      />
     </>
   );
 }
