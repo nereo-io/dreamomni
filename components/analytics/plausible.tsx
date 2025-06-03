@@ -4,17 +4,24 @@ export default function Plausible() {
   }
 
   const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
-  const plausibleScriptUrl = "https://app.pageview.app/js/script.js";
+  const plausibleScriptUrl =
+    "https://plausible.io/js/script.outbound-links.pageview-props.tagged-events.js";
 
   if (!plausibleDomain || !plausibleScriptUrl) {
     return null;
   }
 
   return (
-    <script
-      defer
-      data-domain={plausibleDomain}
-      src={plausibleScriptUrl}
-    ></script>
+    <>
+      <script
+        defer
+        data-domain={plausibleDomain}
+        src={plausibleScriptUrl}
+      ></script>
+      <script>
+        window.plausible = window.plausible || function (){" "}
+        {(window.plausible.q = window.plausible.q || []).push(arguments)};
+      </script>
+    </>
   );
 }
