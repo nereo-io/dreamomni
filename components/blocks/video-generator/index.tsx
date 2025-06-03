@@ -425,7 +425,7 @@ export default function VideoGenerator({
                   leftCredits < getCreditsRequired(duration))
               }
               size="lg"
-              className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="plausible-event-name=Video+Generation px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Play className="h-5 w-5 mr-2" />
               {isSubmitting || isLoading ? "Submitting..." : "Generate Video"}
