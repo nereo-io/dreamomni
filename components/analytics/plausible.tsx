@@ -14,7 +14,7 @@ export default function Plausible() {
     <script
       defer
       data-domain={plausibleDomain}
-      src="{plausibleScriptUrl}"
+      src={plausibleScriptUrl}
     ></script>
   );
 }
