@@ -1,0 +1,20 @@
+export default function Plausible() {
+  if (process.env.NODE_ENV !== "production") {
+    return null;
+  }
+
+  const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
+  const plausibleScriptUrl = "https://app.pageview.app/js/script.js";
+
+  if (!plausibleDomain || !plausibleScriptUrl) {
+    return null;
+  }
+
+  return (
+    <script
+      defer
+      data-domain={plausibleDomain}
+      src="{plausibleScriptUrl}"
+    ></script>
+  );
+}
