@@ -9,31 +9,19 @@ import {
   CreditsAmount,
   getUserCredits,
 } from "@/services/credit";
+import {
+  VIDEO_MODELS,
+  getVideoModel,
+  getSupportedModelIds,
+  isImageToVideoModel,
+  isKlingModel,
+  calculateCredits,
+} from "@/config/video-models";
 
 // 配置fal client
 fal.config({
   credentials: process.env.FAL_KEY,
 });
-
-// 支持的视频模型配置
-const VIDEO_MODELS = {
-  // 文本转视频模型
-  "minimax-text-to-video": "fal-ai/minimax/video-01",
-  "haiper-text-to-video": "fal-ai/haiper-video-2/text-to-video",
-  "hunyuan-text-to-video": "fal-ai/hunyuan-video",
-  "mochi-text-to-video": "fal-ai/mochi-v1",
-  "kling-1-6-text-to-video": "fal-ai/kling-video/v1.6/standard/text-to-video",
-
-  // 图片转视频模型
-  "minimax-image-to-video": "fal-ai/minimax/video-01/image-to-video",
-  "luma-dream-machine": "fal-ai/luma-dream-machine/image-to-video",
-  "kling-2-0-master": "fal-ai/kling-video/v2/master/image-to-video",
-  "kling-1-6": "fal-ai/kling-video/v1.6/standard/image-to-video",
-  pixverse: "fal-ai/pixverse/image-to-video",
-  "veo-2": "fal-ai/veo2/image-to-video",
-  "wan-image-to-video": "fal-ai/wan-i2v",
-  framepack: "fal-ai/framepack",
-};
 
 export async function POST(req: Request) {
   try {
@@ -76,19 +64,22 @@ export async function POST(req: Request) {
       return respErr("model 和 prompt 参数是必需的");
     }
 
+    // 验证模型是否支持
+    const modelConfig = getVideoModel(model);
+    if (!modelConfig) {
+      return respErr(
+        `不支持的模型: ${model}。支持的模型: ${getSupportedModelIds().join(
+          ", "
+        )}`
+      );
+    }
+
     // 4. 计算所需积分并检查余额
     const durationInt = parseInt(duration);
-    let requiredCredits = 0;
-    let transType: CreditsTransType;
+    const requiredCredits = calculateCredits(model, durationInt);
 
-    if (durationInt === 5) {
-      requiredCredits = CreditsAmount.VideoGeneration5sCost;
-      transType = CreditsTransType.VideoGeneration5s;
-    } else if (durationInt === 10) {
-      requiredCredits = CreditsAmount.VideoGeneration10sCost;
-      transType = CreditsTransType.VideoGeneration10s;
-    } else {
-      return respErr("不支持的视频时长，仅支持5秒或10秒");
+    if (requiredCredits === 0) {
+      return respErr("无法计算所需积分，请检查模型配置");
     }
 
     if (userCredits.left_credits < requiredCredits) {
@@ -97,14 +88,14 @@ export async function POST(req: Request) {
       );
     }
 
-    // 验证模型是否支持
-    const modelEndpoint = VIDEO_MODELS[model as keyof typeof VIDEO_MODELS];
-    if (!modelEndpoint) {
-      return respErr(
-        `不支持的模型: ${model}。支持的模型: ${Object.keys(VIDEO_MODELS).join(
-          ", "
-        )}`
-      );
+    // 确定积分交易类型
+    let transType: CreditsTransType;
+    if (durationInt === 5) {
+      transType = CreditsTransType.VideoGeneration5s;
+    } else if (durationInt === 10) {
+      transType = CreditsTransType.VideoGeneration10s;
+    } else {
+      return respErr("不支持的视频时长，仅支持5秒或10秒");
     }
 
     // 检查API密钥
@@ -119,23 +110,10 @@ export async function POST(req: Request) {
     };
 
     // 根据模型类型添加相应参数
-    const isImageToVideo =
-      model.includes("image-to-video") ||
-      [
-        "luma-dream-machine",
-        "kling-2-0-master",
-        "kling-1-6",
-        "pixverse",
-        "veo-2",
-        "wan-image-to-video",
-        "framepack",
-      ].includes(model);
-
-    if (isImageToVideo && !image_url) {
-      return respErr("图片转视频模型需要提供 image_url 参数");
-    }
-
-    if (image_url) {
+    if (isImageToVideoModel(model)) {
+      if (!image_url) {
+        return respErr("图片转视频模型需要提供 image_url 参数");
+      }
       input.image_url = image_url;
     }
 
@@ -148,7 +126,7 @@ export async function POST(req: Request) {
     }
 
     // Kling 模型特有参数
-    if (model === "kling-1-6" || model === "kling-2-0-master") {
+    if (isKlingModel(model)) {
       if (duration) {
         input.duration = duration;
       }
@@ -202,15 +180,18 @@ export async function POST(req: Request) {
     });
 
     // 7. 提交任务到队列，包含webhook URL
-    const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
-    // const webhookUrl = `https://2b21-210-17-224-244.ngrok-free.app/api/video-generation/webhook`;
+    // const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
+    const webhookUrl = `https://e8d8-124-64-23-19.ngrok-free.app/api/video-generation/webhook`;
 
     const submitOptions: any = {
       input,
       webhookUrl,
     };
 
-    const { request_id } = await fal.queue.submit(modelEndpoint, submitOptions);
+    const { request_id } = await fal.queue.submit(
+      modelConfig.falEndpoint,
+      submitOptions
+    );
 
     // 8. 更新数据库记录的fal_request_id
     await import("@/models/videoGeneration").then(
@@ -224,9 +205,15 @@ export async function POST(req: Request) {
       id: videoGeneration.id,
       requestId: request_id,
       model: model,
-      modelEndpoint: modelEndpoint,
+      modelConfig: {
+        id: modelConfig.id,
+        displayName: modelConfig.displayName,
+        type: modelConfig.type,
+      },
+      modelEndpoint: modelConfig.falEndpoint,
       status: "submitted",
       message: "视频生成任务已提交到队列",
+      requiredCredits,
       metadata: {
         prompt,
         image_url: image_url || null,

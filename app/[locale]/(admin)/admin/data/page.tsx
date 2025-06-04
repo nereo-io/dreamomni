@@ -20,7 +20,7 @@ import {
 import { EnhancedStatsCard } from "@/components/dashboard/enhanced-stats-card";
 import { VideoGenerationStatsCard } from "@/components/dashboard/video-generation-stats-card";
 import { EnhancedTargetBoard } from "@/components/dashboard/enhanced-target-board";
-import { ModelUsageChart } from "@/components/dashboard/model-usage-chart";
+import ModelUsageChart from "@/components/dashboard/model-usage-chart";
 import { redirect } from "next/navigation";
 
 export async function generateMetadata() {
@@ -331,7 +331,13 @@ export default async function DataPage() {
       {/* Model Usage Analysis */}
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">AI Model Usage Analysis</h2>
-        <ModelUsageChart modelStats={modelUsage} />
+        <ModelUsageChart
+          data={modelUsage.map((stat) => ({
+            model_id: stat.modelName,
+            count: stat.totalUsage,
+            percentage: stat.usagePercentage,
+          }))}
+        />
       </section>
     </div>
   );

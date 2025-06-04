@@ -5,6 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Upload, Image as ImageIcon, X, Play, Coins } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
@@ -14,6 +21,13 @@ import { cn } from "@/lib/utils";
 import useVideoGeneration from "@/hooks/useVideoGeneration";
 import useCredits from "@/hooks/useCredits";
 import VideoResult from "@/components/blocks/video-result";
+import {
+  VideoModelType,
+  getTextToVideoModels,
+  getImageToVideoModels,
+  calculateCredits,
+  getVideoModel,
+} from "@/config/video-models";
 
 interface VideoGeneratorProps {
   placeholder?: string;
@@ -29,6 +43,9 @@ export default function VideoGenerator({
   const [description, setDescription] = useState("");
   const [aspectRatio, setAspectRatio] = useState<VideoAspectRatio>("16:9");
   const [duration, setDuration] = useState<VideoDuration>("5");
+  const [selectedModel, setSelectedModel] = useState<string>(
+    "kling-1-6-text-to-video-std"
+  );
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -53,10 +70,31 @@ export default function VideoGenerator({
     }
   }, [user?.uuid, updateLeftCredits]);
 
-  // 获取积分消耗信息
-  const getCreditsRequired = (duration: VideoDuration) => {
-    return duration === "5" ? 10 : 20;
+  // 根据是否有图片自动切换模型
+  useEffect(() => {
+    const hasImage = !!uploadedImage;
+    if (hasImage) {
+      // 切换到图片转视频模型
+      setSelectedModel("kling-1-6-image-to-video-std");
+    } else {
+      // 切换到文本转视频模型
+      setSelectedModel("kling-1-6-text-to-video-std");
+    }
+  }, [uploadedImage]);
+
+  // 获取当前可用的模型列表
+  const getAvailableModels = () => {
+    const hasImage = !!uploadedImage;
+    return hasImage ? getImageToVideoModels() : getTextToVideoModels();
   };
+
+  // 获取积分消耗信息
+  const getCreditsRequired = (modelId: string, duration: VideoDuration) => {
+    return calculateCredits(modelId, parseInt(duration));
+  };
+
+  // 获取当前选择的积分消耗
+  const currentCreditsRequired = getCreditsRequired(selectedModel, duration);
 
   // Handle image upload
   const handleImageUpload = useCallback(async (file: File) => {
@@ -138,6 +176,14 @@ export default function VideoGenerator({
       return;
     }
 
+    // 检查积分是否足够
+    if (leftCredits !== null && leftCredits < currentCreditsRequired) {
+      toast.error(
+        `Insufficient credits. Need ${currentCreditsRequired} credits, but you have ${leftCredits} left.`
+      );
+      return;
+    }
+
     // 立即设置提交状态，防止重复点击
     setIsSubmitting(true);
 
@@ -145,14 +191,10 @@ export default function VideoGenerator({
     clearCurrentGeneration();
 
     try {
-      // Determine model based on whether image is uploaded
-      const hasImage = !!uploadedImage;
-      const model = hasImage ? "kling-1-6" : "kling-1-6-text-to-video";
-
       let imageUrl = null;
 
       // Upload image first if exists
-      if (hasImage && uploadedImage) {
+      if (uploadedImage) {
         try {
           const formData = new FormData();
           formData.append("file", uploadedImage);
@@ -174,16 +216,14 @@ export default function VideoGenerator({
           }
         } catch (error) {
           console.error("Image upload error:", error);
-          toast.error(
-            "Image upload failed. Proceeding with text-to-video instead."
-          );
-          // Continue with text-to-video generation
+          toast.error("Image upload failed");
+          return;
         }
       }
 
       // Prepare generation parameters
       const generationParams = {
-        model,
+        model: selectedModel,
         prompt: description.trim(),
         duration,
         aspect_ratio: aspectRatio,
@@ -216,6 +256,9 @@ export default function VideoGenerator({
       handleGenerate();
     }
   };
+
+  // 获取选中模型的详细信息
+  const selectedModelConfig = getVideoModel(selectedModel);
 
   return (
     <section id="video-generator" className="py-8 md:py-12">
@@ -405,6 +448,58 @@ export default function VideoGenerator({
 
               {/* Credits & Generate Button */}
               <div className="bg-gradient-to-br from-blue-950/30 to-purple-950/20 backdrop-blur-sm rounded-xl p-5 border border-blue-700/30">
+                {/* Video Model Selection */}
+                <div className="mb-4">
+                  <Label className="text-sm font-medium text-gray-300 mb-2 block">
+                    Video Model
+                  </Label>
+                  <Select
+                    value={selectedModel}
+                    onValueChange={(value) => setSelectedModel(value)}
+                  >
+                    <SelectTrigger className="w-full text-left">
+                      <SelectValue placeholder="Select a model" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {getAvailableModels().map((model) => (
+                        <SelectItem key={model.id} value={model.id}>
+                          <div className="flex items-center gap-3 w-full group">
+                            <img
+                              src="/imgs/intro/kling.svg"
+                              alt="Kling"
+                              className="w-5 h-5 flex-shrink-0"
+                            />
+                            <div className="flex flex-col flex-1">
+                              <span className="font-medium">
+                                {model.displayName}
+                              </span>
+
+                              {/* Hover时显示的描述 */}
+                              <span className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200 max-h-0 group-hover:max-h-6 overflow-hidden">
+                                {model.description}
+                              </span>
+
+                              {/* Hover时显示的特性标签 */}
+                              {model.features && (
+                                <div className="flex flex-wrap gap-1 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 max-h-0 group-hover:max-h-12 overflow-hidden">
+                                  {model.features.map((feature, index) => (
+                                    <span
+                                      key={index}
+                                      className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full"
+                                    >
+                                      {feature}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 {user && (
                   <div className="mb-4 space-y-1">
                     <div className="flex items-center gap-2">
@@ -426,7 +521,7 @@ export default function VideoGenerator({
                     <div className="flex items-center gap-2">
                       <span className="text-sm text-gray-300">Cost:</span>
                       <span className="text-xs font-medium text-blue-300">
-                        {getCreditsRequired(duration)} Credits
+                        {currentCreditsRequired} Credits
                       </span>
                     </div>
                   </div>
@@ -441,7 +536,7 @@ export default function VideoGenerator({
                     isSubmitting ||
                     (user &&
                       leftCredits !== null &&
-                      leftCredits < getCreditsRequired(duration))
+                      leftCredits < currentCreditsRequired)
                   }
                   size="lg"
                   className="plausible-event-name=Video+Generation w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -453,6 +548,14 @@ export default function VideoGenerator({
                 </Button>
               </div>
             </div>
+          </div>
+
+          {/* Model availability notice */}
+          <div className="mt-6 text-center">
+            <p className="text-xs text-gray-400">
+              Veo3 models are being integrated. Please prioritize using Kling
+              models for now.
+            </p>
           </div>
         </Card>
 
