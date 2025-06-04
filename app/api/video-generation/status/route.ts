@@ -217,9 +217,35 @@ export async function POST(req: Request) {
                     if (resultData.seed) {
                       updateParams.seed = resultData.seed;
                     }
+                  } else {
+                    // 如果结果为空或没有数据，标记为失败
+                    console.error("获取结果成功但数据为空:", result);
+                    updateParams.status = "FAILED";
+                    updateParams.error_message =
+                      "Video generation completed but no result data available";
                   }
                 } catch (resultError) {
                   console.error("获取结果失败:", resultError);
+                  // 获取结果失败时，将状态更新为FAILED
+                  updateParams.status = "FAILED";
+
+                  // 检查是否是 Unprocessable Entity 错误
+                  const errorMessage =
+                    resultError instanceof Error
+                      ? resultError.message
+                      : String(resultError);
+
+                  if (
+                    errorMessage.includes("Unprocessable Entity") ||
+                    errorMessage.includes("422") ||
+                    errorMessage.toLowerCase().includes("unprocessable")
+                  ) {
+                    updateParams.error_message =
+                      "There's an issue with your input or settings. Please check and try again.";
+                  } else {
+                    updateParams.error_message =
+                      "Failed to retrieve video result. Please try again.";
+                  }
                 }
               }
 

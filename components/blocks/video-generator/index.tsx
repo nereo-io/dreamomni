@@ -38,11 +38,9 @@ export default function VideoGenerator({
   const {
     isLoading,
     currentGeneration,
-    recentGenerations,
     submitGeneration,
     pollStatus,
     clearCurrentGeneration,
-    clearAllGenerations,
     updateCurrentGeneration,
   } = useVideoGeneration();
 
@@ -134,8 +132,17 @@ export default function VideoGenerator({
       return;
     }
 
+    // 检查prompt最少字符数限制
+    if (description.trim().length < 30) {
+      toast.error("Video description must be at least 30 characters long");
+      return;
+    }
+
     // 立即设置提交状态，防止重复点击
     setIsSubmitting(true);
+
+    // 清空之前的生成状态，避免显示旧的结果
+    clearCurrentGeneration();
 
     try {
       // Determine model based on whether image is uploaded
@@ -210,226 +217,242 @@ export default function VideoGenerator({
     }
   };
 
-  // Handle new generation
-  const handleNewGeneration = () => {
-    clearAllGenerations();
-    setDescription("");
-    setUploadedImage(null);
-    setImagePreview(null);
-  };
-
   return (
     <section id="video-generator" className="py-8 md:py-12">
-      <div className="container px-4 md:px-6 max-w-6xl">
-        {/* Main content card with dark theme */}
-        <Card className="bg-gray-900/95 backdrop-blur-md border border-gray-700 shadow-2xl p-6 md:p-8">
-          {/* First: Video Description */}
-          <div className="space-y-4 mb-8">
-            <Label className="text-lg font-semibold text-gray-100">
-              Video Description
-            </Label>
-
-            <div className="relative">
-              <TextareaAutosize
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                minRows={6}
-                maxRows={12}
-                placeholder={placeholder}
-                className="w-full p-4 border border-gray-600 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-100 bg-gray-800 placeholder-gray-400"
-              />
-            </div>
-          </div>
-
-          {/* Second: Reference Image (Optional) - Smaller area */}
-          <div className="space-y-4 mb-8">
-            <Label className="text-lg font-semibold text-gray-100">
-              Reference Image (Optional)
-            </Label>
-
-            <div
-              className={cn(
-                "relative border-2 border-dashed rounded-lg p-3 transition-all duration-200 cursor-pointer group max-w-md",
-                isDragOver
-                  ? "border-blue-400 bg-blue-950/30"
-                  : "border-gray-600 hover:border-gray-500",
-                uploadedImage ? "border-solid border-gray-600" : ""
-              )}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-              onClick={() => {
-                if (!uploadedImage) {
-                  document.getElementById("image-upload")?.click();
-                }
-              }}
-            >
-              {imagePreview ? (
-                <div className="relative flex justify-start">
-                  <img
-                    src={imagePreview}
-                    alt="Preview"
-                    className="max-h-20 max-w-full object-contain rounded-lg"
+      <div className="container px-4 md:px-6 max-w-5xl">
+        {/* Main content card with modern gradient theme */}
+        <Card className="bg-gradient-to-br from-gray-900 via-blue-950/30 to-gray-900 backdrop-blur-xl border border-gray-700/50 shadow-2xl shadow-blue-950/20 rounded-xl p-6 md:p-8">
+          {/* Two-column layout for desktop, single column for mobile */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column - Main Content (2/3 width) */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Video Description */}
+              <div className="space-y-3">
+                <Label className="text-xl font-semibold text-gray-50">
+                  Video Description
+                </Label>
+                <div className="relative">
+                  <TextareaAutosize
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    minRows={4}
+                    maxRows={8}
+                    placeholder={placeholder}
+                    className="w-full p-4 border border-gray-600/50 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-gray-100 bg-gray-800/50 backdrop-blur-sm placeholder-gray-400"
                   />
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      removeImage();
-                    }}
-                    className="absolute top-1 right-1 p-1 bg-gray-800/80 rounded-full hover:bg-gray-800 transition-colors"
-                  >
-                    <X className="h-4 w-4 text-gray-200" />
-                  </button>
                 </div>
-              ) : (
-                <div className="text-center py-2">
-                  <ImageIcon className="h-6 w-6 text-gray-400 mx-auto mb-1 group-hover:text-gray-300 transition-colors" />
-                  <p className="text-gray-200 font-medium text-sm mb-1">
-                    Click to upload or drag image here
-                  </p>
-                  <p className="text-xs text-gray-400">
-                    Supports JPG, PNG, GIF formats, max 10MB
-                  </p>
-                </div>
-              )}
+                {/* Character counter */}
+                {description.trim().length < 30 && (
+                  <div className="flex justify-end items-center text-sm">
+                    <span
+                      className={cn(
+                        "transition-colors text-sm",
+                        description.trim().length < 30
+                          ? "text-orange-400"
+                          : "text-gray-400"
+                      )}
+                    >
+                      {description.trim().length}/30 characters minimum
+                    </span>
+                  </div>
+                )}
+              </div>
 
-              <input
-                id="image-upload"
-                type="file"
-                accept="image/*"
-                onChange={handleFileInputChange}
-                className="hidden"
-              />
+              {/* Reference Image (Optional) */}
+              <div className="space-y-3">
+                <Label className="text-xl font-semibold text-gray-50">
+                  Reference Image (Optional)
+                </Label>
+
+                <div
+                  className={cn(
+                    "relative border-2 border-dashed rounded-xl p-6 transition-all duration-200 cursor-pointer group",
+                    isDragOver
+                      ? "border-blue-400/60 bg-blue-950/20"
+                      : "border-gray-600/50 hover:border-gray-500/70 hover:bg-gray-800/20",
+                    uploadedImage
+                      ? "border-solid border-gray-600/50 bg-gray-800/20"
+                      : ""
+                  )}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  onClick={() => {
+                    if (!uploadedImage) {
+                      document.getElementById("image-upload")?.click();
+                    }
+                  }}
+                >
+                  {imagePreview ? (
+                    <div className="relative flex justify-center">
+                      <img
+                        src={imagePreview}
+                        alt="Preview"
+                        className="max-h-32 max-w-full object-contain rounded-lg"
+                      />
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeImage();
+                        }}
+                        className="absolute top-2 right-2 p-1.5 bg-gray-800/90 rounded-full hover:bg-gray-700 transition-colors"
+                      >
+                        <X className="h-4 w-4 text-gray-200" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="text-center py-4">
+                      <ImageIcon className="h-8 w-8 text-gray-400 mx-auto mb-2 group-hover:text-gray-300 transition-colors" />
+                      <p className="text-gray-200 font-medium mb-1">
+                        Click to upload or drag image here
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        Supports JPG, PNG, GIF formats, max 10MB
+                      </p>
+                    </div>
+                  )}
+
+                  <input
+                    id="image-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileInputChange}
+                    className="hidden"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
 
-          {/* Video aspect ratio selection */}
-          <div className="pt-6 border-t border-gray-700">
-            <Label className="text-lg font-semibold text-gray-100 mb-4 block">
-              Video Aspect Ratio
-            </Label>
-
-            <RadioGroup
-              value={aspectRatio}
-              onValueChange={(value) =>
-                setAspectRatio(value as VideoAspectRatio)
-              }
-              className="flex gap-8"
-            >
-              <div className="flex items-center space-x-3">
-                <RadioGroupItem value="16:9" id="landscape" />
-                <Label
-                  htmlFor="landscape"
-                  className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
-                >
-                  <span className="w-8 h-5 bg-gray-600 rounded-sm"></span>
-                  16:9 Landscape
+            {/* Right Column - Parameters Panel (1/3 width) */}
+            <div className="space-y-6">
+              {/* Video Aspect Ratio */}
+              <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-5 border border-gray-700/30">
+                <Label className="text-lg font-semibold text-gray-50 mb-4 block">
+                  Video Aspect Ratio
                 </Label>
-              </div>
-
-              <div className="flex items-center space-x-3">
-                <RadioGroupItem value="9:16" id="portrait" />
-                <Label
-                  htmlFor="portrait"
-                  className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
+                <RadioGroup
+                  value={aspectRatio}
+                  onValueChange={(value) =>
+                    setAspectRatio(value as VideoAspectRatio)
+                  }
+                  className="space-y-3"
                 >
-                  <span className="w-5 h-8 bg-gray-600 rounded-sm"></span>
-                  9:16 Portrait
-                </Label>
+                  <div className="flex items-center space-x-3">
+                    <RadioGroupItem value="16:9" id="landscape" />
+                    <Label
+                      htmlFor="landscape"
+                      className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
+                    >
+                      <span className="w-6 h-4 bg-gray-600 rounded-sm"></span>
+                      16:9 Landscape
+                    </Label>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <RadioGroupItem value="9:16" id="portrait" />
+                    <Label
+                      htmlFor="portrait"
+                      className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
+                    >
+                      <span className="w-4 h-6 bg-gray-600 rounded-sm"></span>
+                      9:16 Portrait
+                    </Label>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <RadioGroupItem value="1:1" id="square" />
+                    <Label
+                      htmlFor="square"
+                      className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
+                    >
+                      <span className="w-5 h-5 bg-gray-600 rounded-sm"></span>
+                      1:1 Square
+                    </Label>
+                  </div>
+                </RadioGroup>
               </div>
 
-              <div className="flex items-center space-x-3">
-                <RadioGroupItem value="1:1" id="square" />
-                <Label
-                  htmlFor="square"
-                  className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
+              {/* Video Duration */}
+              <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-5 border border-gray-700/30">
+                <Label className="text-lg font-semibold text-gray-50 mb-4 block">
+                  Video Duration
+                </Label>
+                <RadioGroup
+                  value={duration}
+                  onValueChange={(value) => setDuration(value as VideoDuration)}
+                  className="space-y-3"
                 >
-                  <span className="w-6 h-6 bg-gray-600 rounded-sm"></span>
-                  1:1 Square
-                </Label>
+                  <div className="flex items-center space-x-3">
+                    <RadioGroupItem value="5" id="duration-5s" />
+                    <Label
+                      htmlFor="duration-5s"
+                      className="text-gray-200 font-medium cursor-pointer"
+                    >
+                      5 Seconds
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <RadioGroupItem value="10" id="duration-10s" />
+                    <Label
+                      htmlFor="duration-10s"
+                      className="text-gray-200 font-medium cursor-pointer"
+                    >
+                      10 Seconds
+                    </Label>
+                  </div>
+                </RadioGroup>
               </div>
-            </RadioGroup>
-          </div>
 
-          {/* Video duration selection */}
-          <div className="mt-6 pt-6 border-t border-gray-700">
-            <Label className="text-lg font-semibold text-gray-100 mb-4 block">
-              Video Duration
-            </Label>
-            <RadioGroup
-              value={duration}
-              onValueChange={(value) => setDuration(value as VideoDuration)}
-              className="flex gap-8"
-            >
-              <div className="flex items-center space-x-3">
-                <RadioGroupItem value="5" id="duration-5s" />
-                <Label
-                  htmlFor="duration-5s"
-                  className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
+              {/* Credits & Generate Button */}
+              <div className="bg-gradient-to-br from-blue-950/30 to-purple-950/20 backdrop-blur-sm rounded-xl p-5 border border-blue-700/30">
+                {user && (
+                  <div className="mb-4 space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-300">Credits:</span>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-xs font-medium text-gray-100">
+                          {leftCredits !== null ? leftCredits : "-"}
+                        </span>
+                        <a
+                          href="/pricing"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-blue-400 hover:text-blue-300 hover:underline cursor-pointer"
+                        >
+                          Recharge
+                        </a>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-300">Cost:</span>
+                      <span className="text-xs font-medium text-blue-300">
+                        {getCreditsRequired(duration)} Credits
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                <Button
+                  onClick={handleGenerate}
+                  disabled={
+                    !description.trim() ||
+                    description.trim().length < 30 ||
+                    isLoading ||
+                    isSubmitting ||
+                    (user &&
+                      leftCredits !== null &&
+                      leftCredits < getCreditsRequired(duration))
+                  }
+                  size="lg"
+                  className="plausible-event-name=Video+Generation w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  5 Seconds
-                </Label>
+                  <Play className="h-5 w-5 mr-2" />
+                  {isSubmitting || isLoading
+                    ? "Submitting..."
+                    : "Generate Video"}
+                </Button>
               </div>
-              <div className="flex items-center space-x-3">
-                <RadioGroupItem value="10" id="duration-10s" />
-                <Label
-                  htmlFor="duration-10s"
-                  className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
-                >
-                  10 Seconds
-                </Label>
-              </div>
-            </RadioGroup>
-          </div>
-
-          {/* TODO: Add CFG Scale slider/input here if needed in the future */}
-          {/* <div className="mt-6 pt-6 border-t border-gray-700">
-            <Label className="text-lg font-semibold text-gray-100 mb-4 block">
-              Creative Freedom (CFG Scale)
-            </Label>
-             Input for CFG Scale 
-          </div> */}
-
-          {/* Generate button */}
-          <div className="mt-8 flex items-center justify-center space-x-4">
-            {user && (
-              <div className="text-right flex flex-col items-end">
-                <div className="flex items-center space-x-2">
-                  <p className="text-sm text-gray-300">
-                    Credits: {leftCredits !== null ? leftCredits : "-"}{" "}
-                    remaining
-                  </p>
-                  <a
-                    href="/pricing"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-blue-400 hover:text-blue-300 hover:underline cursor-pointer"
-                  >
-                    Recharge
-                  </a>
-                </div>
-                <p className="text-sm text-primary-400">
-                  This generation will cost: {getCreditsRequired(duration)}{" "}
-                  Credits
-                </p>
-              </div>
-            )}
-            <Button
-              onClick={handleGenerate}
-              disabled={
-                !description.trim() ||
-                isLoading ||
-                isSubmitting ||
-                (user &&
-                  leftCredits !== null &&
-                  leftCredits < getCreditsRequired(duration))
-              }
-              size="lg"
-              className="plausible-event-name=Video+Generation px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <Play className="h-5 w-5 mr-2" />
-              {isSubmitting || isLoading ? "Submitting..." : "Generate Video"}
-            </Button>
+            </div>
           </div>
         </Card>
 
@@ -443,36 +466,6 @@ export default function VideoGenerator({
                 updateCurrentGeneration({ video_url: videoUrl });
               }}
             />
-          </div>
-        )}
-
-        {/* Recent Generations */}
-        {recentGenerations.length > 0 && (
-          <div className="mt-8 space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-100">
-                Recent Generations
-              </h3>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleNewGeneration}
-                className="text-gray-400 hover:text-gray-200"
-              >
-                Clear All
-              </Button>
-            </div>
-            {recentGenerations.map((generation) => (
-              <VideoResult
-                key={generation.id}
-                generation={generation}
-                onRetry={() => {
-                  if (generation.id) {
-                    pollStatus(generation.id);
-                  }
-                }}
-              />
-            ))}
           </div>
         )}
       </div>

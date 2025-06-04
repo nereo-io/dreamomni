@@ -53,17 +53,17 @@ export async function GET(request: NextRequest) {
         const [
           allUserStats,
           allVideoStats,
+          allModelStats,
           allOrderStats,
           allMembershipStats,
           allTargetMetrics,
-          allModelStats,
         ] = await Promise.all([
           getUserStatistics(),
           getVideoGenerationStatistics(),
+          getVideoGenerationByModel(),
           getOrderStatistics(),
           getMembershipDetailedStatistics(),
           getTargetMetrics(),
-          getVideoGenerationByModel(),
         ]);
 
         return NextResponse.json({
