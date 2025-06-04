@@ -6,52 +6,19 @@ import {
 import { findOrderByOrderNo, updateOrderStatus } from "@/models/order";
 import { createOrUpdateMembership } from "./membership";
 import { getIsoTimestr, getOneYearLaterTimestr } from "@/lib/time";
-import { sendGAEvent } from "@next/third-parties/google";
 import Stripe from "stripe";
 import { updateAffiliateForOrder } from "./affiliate";
-import { createProductPurchaseRecord } from "@/models/purchase";
-import { PurchasedImageProduct } from "@/types/img-product";
 
-// 处理图片商品购买，记录到user_purchased_images表
-export async function handleImageProductPurchase(order: any) {
-  if (!order || !order.user_uuid || !order.product_id) {
-    console.log("无效的订单数据，无法处理图片商品购买");
-    return;
-  }
-
-  try {
-    console.log("处理图片商品购买:", order.product_id, order.user_uuid);
-
-    // 计算访问过期时间（默认购买后有效期一年）
-    const now = new Date();
-    // 默认有效期是valid_months个月，如果没有则默认12个月
-    const validMonths = order.valid_months || 12;
-    const accessExpiresAt = new Date(now);
-    accessExpiresAt.setMonth(now.getMonth() + validMonths);
-
-    // 准备要插入的购买记录数据
-    const purchaseRecord: Partial<PurchasedImageProduct> = {
-      product_id: order.product_id,
-      order_id: order.order_no.toString(),
-      user_uuid: order.user_uuid,
-      purchase_time: now.toISOString(),
-      access_expires_at: accessExpiresAt.toISOString(),
-      download_count: 0,
-    };
-
-    // 使用模型层方法创建购买记录
-    const result = await createProductPurchaseRecord(purchaseRecord);
-
-    if (result) {
-      console.log("图片购买记录创建成功:", result.id);
-    } else {
-      console.warn("图片购买记录创建可能失败");
-    }
-  } catch (error) {
-    console.error("处理图片商品购买时出错:", error);
-    throw error;
-  }
-}
+// 产品配置映射
+const PRODUCT_CONFIG: Record<
+  string,
+  { credits: number; membershipType: "monthly" | "yearly" }
+> = {
+  "starter-monthly": { credits: 400, membershipType: "monthly" },
+  "pro-monthly": { credits: 1800, membershipType: "monthly" },
+  "starter-yearly": { credits: 4800, membershipType: "yearly" },
+  "pro-yearly": { credits: 21600, membershipType: "yearly" },
+};
 
 export async function handleOrderSession(session: Stripe.Checkout.Session) {
   try {
@@ -102,18 +69,17 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
     // 处理会员订阅或积分包购买
     console.log("Processing membership/credits purchase for user:", user_uuid);
 
+    const config = product_id ? PRODUCT_CONFIG[product_id] : undefined;
     let actualCreditsToIncrease = 0;
-    if (product_id === "starter-monthly") {
-      actualCreditsToIncrease = 400; // Starter Plan 积分
+
+    if (config) {
+      actualCreditsToIncrease = config.credits;
       try {
-        await createOrUpdateMembership(user_uuid, "monthly");
+        await createOrUpdateMembership(user_uuid, config.membershipType);
       } catch (e) {
         console.log("update membership failed: ", e);
         throw e;
       }
-    } else if (product_id === "pro-monthly") {
-      actualCreditsToIncrease = 1800; // Pro Plan 积分
-      await createOrUpdateMembership(user_uuid, "monthly");
     }
 
     // 1. 增加积分 (如果根据product_id确定了数量)
@@ -220,13 +186,20 @@ export async function handleInvoicePayment(
       }
     }
 
+    // 产品配置映射
+    const renewalConfig = productIdFromInvoice
+      ? PRODUCT_CONFIG[productIdFromInvoice]
+      : undefined;
     let actualCreditsToIncreaseForRenewal = 0;
-    if (productIdFromInvoice === "starter-monthly") {
-      actualCreditsToIncreaseForRenewal = 400;
-      await createOrUpdateMembership(user_uuid, "monthly");
-    } else if (productIdFromInvoice === "pro-monthly") {
-      actualCreditsToIncreaseForRenewal = 1800;
-      await createOrUpdateMembership(user_uuid, "monthly");
+
+    if (renewalConfig) {
+      actualCreditsToIncreaseForRenewal = renewalConfig.credits;
+      try {
+        await createOrUpdateMembership(user_uuid, renewalConfig.membershipType);
+      } catch (e) {
+        console.log("update membership failed for renewal: ", e);
+        throw e;
+      }
     }
 
     // 优先处理增加积分的逻辑

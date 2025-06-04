@@ -3,11 +3,21 @@
   "label": "Video Generation Plans",
   "title": "Veo3 AI Video Generation Plans",
   "description": "Choose your AI video generation plan and start creating professional videos",
-  "groups": [],
+  "groups": [
+    {
+      "name": "monthly",
+      "title": "Monthly",
+      "description": "Billed monthly"
+    },
+    {
+      "name": "yearly",
+      "title": "Yearly",
+      "description": "Billed yearly"
+    }
+  ],
   "items": [
     {
       "title": "Free Plan",
-      "description": "Perfect for getting started and trying out AI video generation with a one-time credit grant.",
       "features_title": "Including",
       "features": [
         "10 one-time credits upon registration",
@@ -15,15 +25,13 @@
         "720p resolution output",
         "Text-to-video generation",
         "Basic video styles",
-        "Watermarked output",
-        "Community support"
+        "Watermarked output"
       ],
-      "interval": "month",
+      "interval": "one-time",
       "amount": 0,
       "currency": "USD",
       "price": "Free",
       "original_price": "",
-      "unit": "/forever",
       "is_featured": false,
       "discount_label": "",
       "button": {
@@ -34,12 +42,41 @@
       "product_id": "free-plan",
       "product_name": "Veo3 AI Free",
       "credits": 10,
-      "valid_months": 0
+      "valid_months": 0,
+      "group": "monthly"
+    },
+    {
+      "title": "Free Plan",
+      "features_title": "Including",
+      "features": [
+        "10 one-time credits upon registration",
+        "Up to 5 seconds per video",
+        "720p resolution output",
+        "Text-to-video generation",
+        "Basic video styles",
+        "Watermarked output"
+      ],
+      "interval": "one-time",
+      "amount": 0,
+      "currency": "USD",
+      "price": "Free",
+      "original_price": "",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "Get Started Free",
+        "url": "/#video-generator",
+        "icon": "RiPlayLine"
+      },
+      "product_id": "free-plan",
+      "product_name": "Veo3 AI Free",
+      "credits": 10,
+      "valid_months": 0,
+      "group": "yearly"
     },
 
     {
       "title": "Starter Plan",
-      "description": "Ideal for content creators and small businesses needing more capacity.",
       "label": "Popular",
       "features_title": "Including",
       "features": [
@@ -48,20 +85,17 @@
         "1080p resolution output",
         "All generation modes",
         "Custom video styles",
-        "Camera movement controls",
         "Fast generation queue",
-        "Commercial usage rights",
-        "Advanced editing tools",
-        "Priority customer support"
+        "Commercial usage rights"
       ],
       "interval": "month",
       "amount": 2999,
       "currency": "USD",
       "price": "$29.99",
-      "original_price": "$49.99",
+      "original_price": "",
       "unit": "/month",
       "is_featured": true,
-      "discount_label": "40% OFF",
+      "discount_label": "",
       "button": {
         "title": "Upgrade to Starter",
         "url": "/#pricing",
@@ -70,32 +104,62 @@
       "product_id": "starter-monthly",
       "product_name": "Veo3 AI Starter",
       "credits": 400,
-      "valid_months": 1
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Starter Plan",
+      "label": "40% OFF",
+      "features_title": "Including",
+      "features": [
+        "4800 yearly credits (400/month)",
+        "Up to 10 seconds per video",
+        "1080p resolution output",
+        "All generation modes",
+        "Custom video styles",
+        "Fast generation queue",
+        "Commercial usage rights"
+      ],
+      "interval": "year",
+      "amount": 21594,
+      "currency": "USD",
+      "price": "$17.99",
+      "original_price": "$29.99",
+      "unit": "/month",
+      "is_featured": true,
+      "discount_label": "40% OFF",
+      "tip": "Billed $215.94 yearly",
+      "button": {
+        "title": "Upgrade to Starter",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "starter-yearly",
+      "product_name": "Veo3 AI Starter Yearly",
+      "credits": 4800,
+      "valid_months": 12,
+      "group": "yearly"
     },
     {
       "title": "Pro Plan",
-      "description": "For professionals and agencies requiring high volume and advanced features.",
       "features_title": "Including",
       "features": [
         "1800 monthly credits",
         "Up to 10 seconds per video",
-        "4K resolution output",
-        "Custom model training",
-        "White-label solutions",
-        "API access & integrations",
-        "Dedicated account manager",
-        "Advanced analytics",
-        "Custom storage solutions",
-        "24/7 priority support"
+        "1080p resolution output",
+        "All generation modes",
+        "Custom video styles",
+        "Fast generation queue",
+        "Commercial usage rights"
       ],
       "interval": "month",
       "amount": 9999,
       "currency": "USD",
       "price": "$99.99",
-      "original_price": "$199.99",
+      "original_price": "",
       "unit": "/month",
       "is_featured": false,
-      "discount_label": "50% OFF",
+      "discount_label": "",
       "button": {
         "title": "Upgrade to Pro",
         "url": "/#pricing",
@@ -104,7 +168,41 @@
       "product_id": "pro-monthly",
       "product_name": "Veo3 AI Pro",
       "credits": 1800,
-      "valid_months": 1
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Pro Plan",
+      "label": "40% OFF",
+      "features_title": "Including",
+      "features": [
+        "21600 yearly credits (1800/month)",
+        "Up to 10 seconds per video",
+        "1080p resolution output",
+        "All generation modes",
+        "Custom video styles",
+        "Fast generation queue",
+        "Commercial usage rights"
+      ],
+      "interval": "year",
+      "amount": 71993,
+      "currency": "USD",
+      "price": "$59.99",
+      "original_price": "$99.99",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "40% OFF",
+      "tip": "Billed $719.93 yearly",
+      "button": {
+        "title": "Upgrade to Pro",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "pro-yearly",
+      "product_name": "Veo3 AI Pro Yearly",
+      "credits": 21600,
+      "valid_months": 12,
+      "group": "yearly"
     }
   ]
 }

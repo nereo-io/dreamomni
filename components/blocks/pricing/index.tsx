@@ -93,7 +93,12 @@ export default function Pricing({ pricing }: { pricing: PricingType }) {
 
   useEffect(() => {
     if (pricing.items) {
-      setGroup(pricing.items[0].group);
+      // 优先显示年费计划，如果没有年费计划则显示第一个group
+      const yearlyGroup = pricing.groups?.find((g) => g.name === "yearly");
+      const defaultGroup = yearlyGroup
+        ? "yearly"
+        : pricing.items[0].group || pricing.groups?.[0]?.name;
+      setGroup(defaultGroup);
       setProductId(pricing.items[0].product_id);
       setIsLoading(false);
     }
