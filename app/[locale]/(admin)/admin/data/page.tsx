@@ -6,6 +6,8 @@ import {
   getOrderStatistics,
   getMembershipDetailedStatistics,
   getTargetMetrics,
+  getTodayVideoStatistics,
+  getLatestVideoStatusStatistics,
 } from "@/models/statistics";
 import {
   UserStatistics,
@@ -38,6 +40,8 @@ export default async function DataPage() {
     orderStats,
     membershipStats,
     targetMetrics,
+    todayVideoStats,
+    latestVideoStatusStats,
   ] = await Promise.all([
     getUserStatistics(),
     getVideoGenerationStatistics(),
@@ -45,6 +49,8 @@ export default async function DataPage() {
     getOrderStatistics(),
     getMembershipDetailedStatistics(),
     getTargetMetrics(),
+    getTodayVideoStatistics(),
+    getLatestVideoStatusStatistics(),
   ]);
 
   return (
@@ -60,7 +66,7 @@ export default async function DataPage() {
         <h2 className="text-2xl font-semibold mb-4">
           Key Performance Indicators
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Overall Performance Metrics */}
           <div className="bg-card p-6 rounded-lg shadow border">
             <h3 className="text-xl font-semibold mb-4 text-center">
@@ -161,6 +167,62 @@ export default async function DataPage() {
                 <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
                   {modelUsage.length}
                 </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Today's Video Performance */}
+          <div className="bg-card p-6 rounded-lg shadow border">
+            <h3 className="text-xl font-semibold mb-4 text-center">
+              Today's Video Performance
+            </h3>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">
+                  Today Videos Generated
+                </span>
+                <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                  {todayVideoStats.todayTotal.toLocaleString()}
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">
+                  Today Success Rate
+                </span>
+                <span className="text-lg font-bold text-green-600 dark:text-green-400">
+                  {todayVideoStats.todaySuccessRate.toFixed(1)}%
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">
+                  Latest 10 Videos Status
+                </span>
+              </div>
+              <div className="text-xs space-y-1">
+                <div className="flex justify-between">
+                  <span className="text-green-600 dark:text-green-400">
+                    Success:
+                  </span>
+                  <span className="font-medium">
+                    {latestVideoStatusStats.successCount}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-red-600 dark:text-red-400">
+                    Failed:
+                  </span>
+                  <span className="font-medium">
+                    {latestVideoStatusStats.failedCount}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-yellow-600 dark:text-yellow-400">
+                    Processing:
+                  </span>
+                  <span className="font-medium">
+                    {latestVideoStatusStats.processingCount}
+                  </span>
+                </div>
               </div>
             </div>
           </div>

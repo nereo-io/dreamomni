@@ -7,6 +7,8 @@ import {
   TargetMetrics,
   ModelUsageStatistics,
   VideoGenerationStatus,
+  TodayVideoStatistics,
+  LatestVideoStatusStatistics,
 } from "@/types/statistics";
 
 // 获取用户统计数据
@@ -733,4 +735,110 @@ export async function getTargetStatistics() {
     userTarget: targetMetrics.monthlyUserTarget,
     paidUserTarget: targetMetrics.monthlyPaidUserTarget,
   };
+}
+
+// 获取今日视频统计详情
+export async function getTodayVideoStatistics(): Promise<TodayVideoStatistics> {
+  const supabase = getSupabaseClient();
+  const today = new Date().toISOString().split("T")[0];
+
+  try {
+    // 获取今日生成总数
+    const { count: todayTotal, error: totalError } = await supabase
+      .from("video_generations")
+      .select("*", { count: "exact", head: true })
+      .gte("created_at", today);
+
+    // 获取今日成功数
+    const { count: todaySuccess, error: successError } = await supabase
+      .from("video_generations")
+      .select("*", { count: "exact", head: true })
+      .gte("created_at", today)
+      .in("status", ["COMPLETED", "SAVED_TO_R2"]);
+
+    if (totalError || successError) {
+      console.error("获取今日视频统计失败:", totalError || successError);
+      return {
+        todayTotal: 0,
+        todaySuccessRate: 0,
+      };
+    }
+
+    const successRate =
+      todayTotal && todayTotal > 0
+        ? Math.round(((todaySuccess || 0) / todayTotal) * 1000) / 10
+        : 0;
+
+    return {
+      todayTotal: todayTotal || 0,
+      todaySuccessRate: successRate,
+    };
+  } catch (error) {
+    console.error("获取今日视频统计异常:", error);
+    return {
+      todayTotal: 0,
+      todaySuccessRate: 0,
+    };
+  }
+}
+
+// 获取最新10条视频状态统计
+export async function getLatestVideoStatusStatistics(): Promise<LatestVideoStatusStatistics> {
+  const supabase = getSupabaseClient();
+
+  try {
+    // 获取最新10条视频记录
+    const { data: latestVideos, error } = await supabase
+      .from("video_generations")
+      .select("status")
+      .order("created_at", { ascending: false })
+      .limit(10);
+
+    if (error) {
+      console.error("获取最新视频状态失败:", error);
+      return {
+        successCount: 0,
+        failedCount: 0,
+        processingCount: 0,
+        total: 0,
+      };
+    }
+
+    if (!latestVideos || latestVideos.length === 0) {
+      return {
+        successCount: 0,
+        failedCount: 0,
+        processingCount: 0,
+        total: 0,
+      };
+    }
+
+    // 统计各状态数量
+    const successCount = latestVideos.filter((v) =>
+      ["COMPLETED", "SAVED_TO_R2"].includes(v.status)
+    ).length;
+
+    const failedCount = latestVideos.filter(
+      (v) => v.status === "FAILED"
+    ).length;
+
+    const processingCount = latestVideos.filter((v) =>
+      ["PENDING", "IN_QUEUE", "IN_PROGRESS"].includes(v.status)
+    ).length;
+
+    return {
+      successCount,
+      failedCount,
+      processingCount,
+      total: latestVideos.length,
+    };
+  } catch (error) {
+    console.error("获取最新视频状态统计异常:", error);
+    return {
+      successCount: 0,
+      failedCount: 0,
+      processingCount: 0,
+      total: 0,
+    };
+  }
 }

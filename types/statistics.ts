@@ -107,3 +107,17 @@ export enum VideoGenerationStatus {
   FAILED = "FAILED",
   SAVED_TO_R2 = "SAVED_TO_R2",
 }
+
+// 今日视频统计数据
+export interface TodayVideoStatistics {
+  todayTotal: number; // 今日生成总数
+  todaySuccessRate: number; // 今日成功率
+}
+
+// 最新视频状态统计
+export interface LatestVideoStatusStatistics {
+  successCount: number; // 成功数量
+  failedCount: number; // 失败数量
+  processingCount: number; // 处理中数量
+  total: number; // 总数量
+}
