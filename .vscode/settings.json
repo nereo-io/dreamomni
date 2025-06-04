@@ -4,6 +4,11 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "i18n-ally.localesPaths": ["i18n/messages"],
+  "i18n-ally.localesPaths": [
+    "i18n/messages",
+    "i18n/pages/landing"
+    // "i18n/blocks/claude-sonnet-features",
+    // "i18n/blocks/pricing"
+  ],
   "i18n-ally.keystyle": "nested"
 }

@@ -7,6 +7,7 @@
 // import * as Md from "react-icons/md"; // Material Design icons
 // import * as Pi from "react-icons/pi"; // Phosphor Icons
 import * as Ri from "react-icons/ri"; // Remix icons
+import * as Go from "react-icons/go"; // Github Octicons icons
 
 import { ReactNode } from "react";
 
@@ -18,7 +19,6 @@ import { ReactNode } from "react";
 // import * as Fc from "react-icons/fc"; // Flat Color icons
 // import * as Fi from "react-icons/fi"; // Feather icons
 // import * as Gi from "react-icons/gi"; // Game Icons
-// import * as Go from "react-icons/go"; // Github Octicons icons
 // import * as Gr from "react-icons/gr"; // Grommet-Icons
 // import * as Hi from "react-icons/hi"; // Heroicons
 // import * as Hi2 from "react-icons/hi2"; // Heroicons 2
@@ -49,7 +49,7 @@ const iconPackages: { [key: string]: any } = {
   // Fc,
   // Fa,
   // Fa6,
-  // Go,
+  Go,
   // Gi,
   // Gr,
   // Hi,

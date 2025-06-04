@@ -168,33 +168,26 @@
     },
     "copyright": " 2025 • Veo3 AI All rights reserved.",
     "nav": {
-      "items": []
-    },
-    "social": {
       "items": [
         {
-          "title": "TikTok",
-          "icon": "RiTiktokFill",
-          "url": "https://www.tiktok.com/@veo3ai",
-          "target": "_blank"
-        },
-        {
-          "title": "X",
-          "icon": "RiTwitterXFill",
-          "url": "https://x.com/veo3ai",
-          "target": "_blank"
-        },
-        {
-          "title": "Youtube",
-          "icon": "RiYoutubeFill",
-          "url": "https://www.youtube.com/@Veo3AI",
-          "target": "_blank"
-        },
-        {
-          "title": "Email",
-          "icon": "RiMailLine",
-          "url": "mailto:support@veo3ai.io",
-          "target": "_self"
+          "title": "Products",
+          "children": [
+            {
+              "title": "Generate",
+              "url": "/#video-generator",
+              "target": "_self"
+            },
+            {
+              "title": "History",
+              "url": "/history",
+              "target": "_self"
+            },
+            {
+              "title": "Pricing",
+              "url": "/pricing",
+              "target": "_self"
+            }
+          ]
         }
       ]
     },
@@ -207,6 +200,18 @@
         {
           "title": "Terms of Service",
           "url": "/terms-of-service"
+        }
+      ]
+    },
+    "contact": {
+      "title": "CONTACT",
+      "items": [
+        {
+          "title": "Email Support",
+          "value": "support@veo3ai.io",
+          "icon": "RiMailFill",
+          "url": "mailto:support@veo3ai.io",
+          "target": "_self"
         }
       ]
     }

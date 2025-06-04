@@ -49,7 +49,11 @@ export default function Footer({ footer }: { footer: FooterType }) {
                 </ul>
               )}
             </div>
-            <div className="grid grid-cols-3 gap-6 lg:gap-20">
+            <div
+              className={`grid gap-6 lg:gap-20 ${
+                footer.contact ? "grid-cols-3 lg:grid-cols-4" : "grid-cols-3"
+              }`}
+            >
               {footer.nav?.items?.map((item, i) => (
                 <div key={i}>
                   <p className="mb-6 font-bold">{item.title}</p>
@@ -64,6 +68,44 @@ export default function Footer({ footer }: { footer: FooterType }) {
                   </ul>
                 </div>
               ))}
+              {footer.contact && (
+                <div>
+                  <p className="mb-6 font-bold">
+                    {footer.contact.title || "CONTACT"}
+                  </p>
+                  <ul className="space-y-4 text-sm text-muted-foreground">
+                    {footer.contact.items?.map((item, i) => (
+                      <li key={i} className="font-medium hover:text-primary">
+                        {item.url ? (
+                          <a
+                            href={item.url}
+                            target={item.target}
+                            className="flex items-center gap-2"
+                          >
+                            {item.icon && (
+                              <Icon
+                                name={item.icon}
+                                className="size-4 flex-shrink-0"
+                              />
+                            )}
+                            <span>{item.value || item.title}</span>
+                          </a>
+                        ) : (
+                          <div className="flex items-center gap-2">
+                            {item.icon && (
+                              <Icon
+                                name={item.icon}
+                                className="size-4 flex-shrink-0"
+                              />
+                            )}
+                            <span>{item.value || item.title}</span>
+                          </div>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
           <div className="mt-8 flex flex-col justify-between gap-4 border-t pt-8 text-center text-sm font-medium text-muted-foreground lg:flex-row lg:items-center lg:text-left">
