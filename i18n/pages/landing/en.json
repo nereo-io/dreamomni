@@ -212,6 +212,16 @@
           "icon": "RiMailFill",
           "url": "mailto:support@veo3ai.io",
           "target": "_self"
+        },
+        {
+          "title": "Company",
+          "value": "ASTROINSPIRE LTD",
+          "icon": "RiBuildingFill"
+        },
+        {
+          "title": "Address",
+          "value": "71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM",
+          "icon": "RiMapPinFill"
         }
       ]
     }

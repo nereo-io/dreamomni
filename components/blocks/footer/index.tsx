@@ -50,8 +50,8 @@ export default function Footer({ footer }: { footer: FooterType }) {
               )}
             </div>
             <div
-              className={`grid gap-6 lg:gap-20 ${
-                footer.contact ? "grid-cols-3 lg:grid-cols-4" : "grid-cols-3"
+              className={`grid gap-6 lg:gap-12 ${
+                footer.contact ? "grid-cols-2 lg:grid-cols-2" : "grid-cols-3"
               }`}
             >
               {footer.nav?.items?.map((item, i) => (
@@ -69,7 +69,7 @@ export default function Footer({ footer }: { footer: FooterType }) {
                 </div>
               ))}
               {footer.contact && (
-                <div>
+                <div className="lg:col-span-1">
                   <p className="mb-6 font-bold">
                     {footer.contact.title || "CONTACT"}
                   </p>
@@ -80,25 +80,29 @@ export default function Footer({ footer }: { footer: FooterType }) {
                           <a
                             href={item.url}
                             target={item.target}
-                            className="flex items-center gap-2"
+                            className="flex items-start gap-2"
                           >
                             {item.icon && (
                               <Icon
                                 name={item.icon}
-                                className="size-4 flex-shrink-0"
+                                className="size-4 flex-shrink-0 mt-0.5"
                               />
                             )}
-                            <span>{item.value || item.title}</span>
+                            <span className="break-words">
+                              {item.value || item.title}
+                            </span>
                           </a>
                         ) : (
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-start gap-2">
                             {item.icon && (
                               <Icon
                                 name={item.icon}
-                                className="size-4 flex-shrink-0"
+                                className="size-4 flex-shrink-0 mt-0.5"
                               />
                             )}
-                            <span>{item.value || item.title}</span>
+                            <span className="break-words">
+                              {item.value || item.title}
+                            </span>
                           </div>
                         )}
                       </li>
