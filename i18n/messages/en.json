@@ -188,5 +188,106 @@
       "pending": "Pending",
       "completed": "Completed"
     }
+  },
+  "video-generator": {
+    "videoDescription": "Video Description",
+    "referenceImage": "Reference Image (Optional)",
+    "videoAspectRatio": "Video Aspect Ratio",
+    "videoDuration": "Video Duration",
+    "videoModel": "Video Model",
+    "credits": "Credits",
+    "cost": "Cost",
+    "recharge": "Recharge",
+    "generateVideo": "Generate Video",
+    "submitting": "Submitting...",
+    "aspectRatios": {
+      "landscape": "16:9 Landscape",
+      "portrait": "9:16 Portrait", 
+      "square": "1:1 Square"
+    },
+    "durations": {
+      "5seconds": "5 Seconds",
+      "10seconds": "10 Seconds"
+    },
+    "characterCount": "characters minimum",
+    "uploadInstructions": {
+      "clickToUpload": "Click to upload or drag image here",
+      "supportedFormats": "Supports JPG, PNG, GIF formats, max 10MB"
+    },
+    "modelNotice": "Veo3 models are being integrated. Please prioritize using Kling models for now.",
+    "selectModel": "Select a model",
+    "toast": {
+      "signInFirst": "Please sign in first",
+      "enterDescription": "Please enter a video description",
+      "descriptionTooShort": "Video description must be at least 30 characters long",
+      "insufficientCredits": "Insufficient credits. Need {required} credits, but you have {available} left.",
+      "uploadImageFile": "Please upload an image file",
+      "imageTooLarge": "Image size cannot exceed 10MB",
+      "imageUploadFailed": "Image upload failed"
+    }
+  },
+  "video-history": {
+    "title": "Video Generation History",
+    "noVideosTitle": "No Videos Yet",
+    "noVideosDescription": "You haven't generated any videos. Start creating your first masterpiece!",
+    "generateVideoButton": "Generate Video",
+    "playButton": "Play",
+    "downloadButton": "Download",
+    "regenerateButton": "Regenerate",
+    "status": {
+      "completed": "Completed",
+      "processing": "Processing", 
+      "pending": "Pending",
+      "failed": "Failed"
+    },
+    "labels": {
+      "model": "Model",
+      "duration": "Duration",
+      "aspectRatio": "Aspect Ratio"
+    },
+    "toast": {
+      "videoNotAvailable": "Video is not available yet.",
+      "downloadNotAvailable": "Video not available for download.",
+      "regenerationNotImplemented": "Regeneration functionality to be implemented.",
+      "fetchError": "Failed to fetch video history",
+      "noDataReturned": "No data returned"
+    }
+  },
+  "video-result": {
+    "status": {
+      "submitted": "Submitted",
+      "inQueue": "In Queue",
+      "generating": "Generating",
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "videoCompleted": "Video generation completed!",
+    "videoFailed": "Video generation failed",
+    "processing": "Processing...",
+    "taskSubmitted": "Task submitted, estimated time remaining: {time}",
+    "taskInQueue": "Task in queue, estimated time remaining: {time}",
+    "generatingVideo": "Generating video, estimated time remaining: {time}",
+    "processingGeneral": "Processing, estimated time remaining: {time}",
+    "viewHistory": "View History",
+    "retry": "Retry",
+    "successMessage": "🎉 Your video is ready! You can download it or view all your creations in the history.",
+    "prompt": "Prompt",
+    "browserNotSupported": "Your browser does not support video playback.",
+    "download": "Download",
+    "openInNewTab": "Open in New Tab",
+    "loadingVideo": "Loading Video",
+    "videoLoadingMessage": "Video generation is completed. Fetching video URL...",
+    "videoProcessing": "Video Processing",
+    "videoNotAvailableMessage": "Video generation is completed but the video is not available yet. Please wait a moment.",
+    "generationProgress": "Generation Progress",
+    "generationFailed": "Generation Failed",
+    "errorMessages": {
+      "unexpected": "An unexpected error occurred. Please try again.",
+      "externalService": "A problem occurred with an external service. Please try again later.",
+      "inputIssue": "There's an issue with your input or settings. Please check and try again.",
+      "serverError": "An unexpected error occurred on our end. Please try again later.",
+      "timeout": "The request took too long and timed out. Please try again.",
+      "statusCode": "An error occurred (Status {code}). Please try again."
+    }
   }
 }

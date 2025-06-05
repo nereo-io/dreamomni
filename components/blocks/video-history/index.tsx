@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { VideoGeneration, VideoGenerationHistoryResponse } from "@/types/video";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,7 @@ const ITEMS_PER_PAGE = 12;
 export default function VideoHistoryClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations("video-history");
   const [videos, setVideos] = useState<VideoGeneration[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,7 +50,7 @@ export default function VideoHistoryClient() {
       const response = await fetch(`/api/video-generations/history`);
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to fetch video history");
+        throw new Error(errorData.message || t("toast.fetchError"));
       }
       const result = await response.json();
       console.log(result);
@@ -59,7 +61,7 @@ export default function VideoHistoryClient() {
         setTotalPages(result.data.pagination?.totalPages || 1);
         setTotalItems(result.data.pagination?.total || 0);
       } else {
-        throw new Error(result.message || "无数据返回");
+        throw new Error(result.message || t("toast.noDataReturned"));
       }
     } catch (error: any) {
       toast.error(error.message);
@@ -83,7 +85,7 @@ export default function VideoHistoryClient() {
     if (videoUrl) {
       window.open(videoUrl, "_blank");
     } else {
-      toast.info("Video is not available yet.");
+      toast.info(t("toast.videoNotAvailable"));
     }
   };
 
@@ -99,7 +101,7 @@ export default function VideoHistoryClient() {
       link.click();
       document.body.removeChild(link);
     } else {
-      toast.error("Video not available for download.");
+      toast.error(t("toast.downloadNotAvailable"));
     }
   };
 
@@ -107,7 +109,7 @@ export default function VideoHistoryClient() {
     // This might involve navigating back to the generator with pre-filled params
     // For simplicity, just logging now. Can be expanded later.
     console.log("Regenerate video:", video);
-    toast.info("Regeneration functionality to be implemented.");
+    toast.info(t("toast.regenerationNotImplemented"));
     // router.push(`/generate?prompt=${encodeURIComponent(video.prompt)}&aspect_ratio=${video.aspect_ratio}...`);
   };
 
@@ -120,7 +122,7 @@ export default function VideoHistoryClient() {
             variant="default"
             className="bg-green-600 hover:bg-green-700 text-white border-transparent"
           >
-            Completed
+            {t("status.completed")}
           </Badge>
         );
       case "IN_PROGRESS":
@@ -128,13 +130,13 @@ export default function VideoHistoryClient() {
         return (
           <Badge variant="secondary">
             <Loader2 className="mr-2 h-3 w-3 animate-spin" />
-            Processing
+            {t("status.processing")}
           </Badge>
         );
       case "PENDING":
-        return <Badge variant="outline">Pending</Badge>;
+        return <Badge variant="outline">{t("status.pending")}</Badge>;
       case "FAILED":
-        return <Badge variant="destructive">Failed</Badge>;
+        return <Badge variant="destructive">{t("status.failed")}</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -153,18 +155,17 @@ export default function VideoHistoryClient() {
       <div className="text-center py-12">
         <AlertTriangle className="mx-auto h-16 w-16 text-gray-400 mb-4" />
         <h3 className="text-2xl font-semibold text-gray-200 mb-2">
-          No Videos Yet
+          {t("noVideosTitle")}
         </h3>
         <p className="text-gray-400 mb-6">
-          You haven't generated any videos. Start creating your first
-          masterpiece!
+          {t("noVideosDescription")}
         </p>
         <Button
           asChild
           size="lg"
           className="bg-blue-600 hover:bg-blue-700 text-white"
         >
-          <Link href="/">Generate Video</Link>
+          <Link href="/">{t("generateVideoButton")}</Link>
         </Button>
       </div>
     );
@@ -173,7 +174,7 @@ export default function VideoHistoryClient() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-gray-100 mb-8">
-        Video Generation History
+        {t("title")}
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -215,12 +216,12 @@ export default function VideoHistoryClient() {
                   })}
                 </p>
               </div>
-              <p className="text-sm text-gray-400">Model: {video.model_id}</p>
+              <p className="text-sm text-gray-400">{t("labels.model")}: {video.model_id}</p>
               <p className="text-sm text-gray-400">
-                Duration: {video.duration_seconds}s
+                {t("labels.duration")}: {video.duration_seconds}s
               </p>
               <p className="text-sm text-gray-400">
-                Aspect Ratio: {video.aspect_ratio}
+                {t("labels.aspectRatio")}: {video.aspect_ratio}
               </p>
             </CardContent>
             <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 pt-4 border-t border-gray-700">
@@ -236,7 +237,7 @@ export default function VideoHistoryClient() {
                 }
                 className="w-full sm:w-auto border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <PlayCircle className="mr-2 h-4 w-4" /> Play
+                <PlayCircle className="mr-2 h-4 w-4" /> {t("playButton")}
               </Button>
               <div className="flex gap-2 w-full sm:w-auto">
                 <Button
@@ -249,7 +250,7 @@ export default function VideoHistoryClient() {
                     !video.video_url_r2 &&
                     !video.video_url_fal
                   }
-                  title="Download"
+                  title={t("downloadButton")}
                   className="disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Download className="h-5 w-5 text-gray-400 hover:text-gray-200" />
@@ -258,7 +259,7 @@ export default function VideoHistoryClient() {
                   variant="ghost"
                   size="icon"
                   onClick={() => handleRegenerateVideo(video)}
-                  title="Regenerate"
+                  title={t("regenerateButton")}
                 >
                   <RotateCcw className="h-5 w-5 text-gray-400 hover:text-gray-200" />
                 </Button>

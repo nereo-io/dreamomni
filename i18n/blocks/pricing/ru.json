@@ -1,0 +1,208 @@
+{
+  "name": "pricing",
+  "label": "Планы генерации видео",
+  "title": "Планы генерации видео Veo3 AI",
+  "description": "Выберите ваш план генерации видео AI и начните создавать профессиональные видео",
+  "groups": [
+    {
+      "name": "monthly",
+      "title": "Месячно",
+      "description": "Ежемесячная оплата"
+    },
+    {
+      "name": "yearly",
+      "title": "Годовой",
+      "description": "Годовая оплата"
+    }
+  ],
+  "items": [
+    {
+      "title": "Бесплатный план",
+      "features_title": "Включает",
+      "features": [
+        "10 одноразовых кредитов при регистрации",
+        "До 5 секунд на видео",
+        "Разрешение 720p",
+        "Генерация текста в видео",
+        "Базовые стили видео",
+        "Вывод с водяным знаком"
+      ],
+      "interval": "one-time",
+      "amount": 0,
+      "currency": "USD",
+      "price": "Бесплатно",
+      "original_price": "",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "Начать бесплатно",
+        "url": "/#video-generator",
+        "icon": "RiPlayLine"
+      },
+      "product_id": "free-plan",
+      "product_name": "Veo3 AI Бесплатно",
+      "credits": 10,
+      "valid_months": 0,
+      "group": "monthly"
+    },
+    {
+      "title": "Бесплатный план",
+      "features_title": "Включает",
+      "features": [
+        "10 одноразовых кредитов при регистрации",
+        "До 5 секунд на видео",
+        "Разрешение 720p",
+        "Генерация текста в видео",
+        "Базовые стили видео",
+        "Вывод с водяным знаком"
+      ],
+      "interval": "one-time",
+      "amount": 0,
+      "currency": "USD",
+      "price": "Бесплатно",
+      "original_price": "",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "Начать бесплатно",
+        "url": "/#video-generator",
+        "icon": "RiPlayLine"
+      },
+      "product_id": "free-plan",
+      "product_name": "Veo3 AI Бесплатно",
+      "credits": 10,
+      "valid_months": 0,
+      "group": "yearly"
+    },
+
+    {
+      "title": "Стартовый план",
+      "label": "Популярный",
+      "features_title": "Включает",
+      "features": [
+        "400 месячных кредитов",
+        "До 10 секунд на видео",
+        "Разрешение 1080p",
+        "Все режимы генерации",
+        "Пользовательские стили видео",
+        "Быстрая очередь генерации",
+        "Права коммерческого использования"
+      ],
+      "interval": "month",
+      "amount": 2999,
+      "currency": "USD",
+      "price": "$29.99",
+      "original_price": "",
+      "unit": "/месяц",
+      "is_featured": true,
+      "discount_label": "",
+      "button": {
+        "title": "Улучшить до Стартового",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "starter-monthly",
+      "product_name": "Veo3 AI Стартовый",
+      "credits": 400,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Стартовый план",
+      "label": "40% СКИДКА",
+      "features_title": "Включает",
+      "features": [
+        "4800 годовых кредитов (400/месяц)",
+        "До 10 секунд на видео",
+        "Разрешение 1080p",
+        "Все режимы генерации",
+        "Пользовательские стили видео",
+        "Быстрая очередь генерации",
+        "Права коммерческого использования"
+      ],
+      "interval": "year",
+      "amount": 21594,
+      "currency": "USD",
+      "price": "$17.99",
+      "original_price": "$29.99",
+      "unit": "/месяц",
+      "is_featured": true,
+      "discount_label": "40% СКИДКА",
+      "tip": "Оплачивается $215.94 в год",
+      "button": {
+        "title": "Улучшить до Стартового",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "starter-yearly",
+      "product_name": "Veo3 AI Стартовый Годовой",
+      "credits": 4800,
+      "valid_months": 12,
+      "group": "yearly"
+    },
+    {
+      "title": "Pro план",
+      "features_title": "Включает",
+      "features": [
+        "1800 месячных кредитов",
+        "До 10 секунд на видео",
+        "Разрешение 1080p",
+        "Все режимы генерации",
+        "Пользовательские стили видео",
+        "Быстрая очередь генерации",
+        "Права коммерческого использования"
+      ],
+      "interval": "month",
+      "amount": 9999,
+      "currency": "USD",
+      "price": "$99.99",
+      "original_price": "",
+      "unit": "/месяц",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "Улучшить до Pro",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "pro-monthly",
+      "product_name": "Veo3 AI Pro",
+      "credits": 1800,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Pro план",
+      "label": "40% СКИДКА",
+      "features_title": "Включает",
+      "features": [
+        "21600 годовых кредитов (1800/месяц)",
+        "До 10 секунд на видео",
+        "Разрешение 1080p",
+        "Все режимы генерации",
+        "Пользовательские стили видео",
+        "Быстрая очередь генерации",
+        "Права коммерческого использования"
+      ],
+      "interval": "year",
+      "amount": 71993,
+      "currency": "USD",
+      "price": "$59.99",
+      "original_price": "$99.99",
+      "unit": "/месяц",
+      "is_featured": false,
+      "discount_label": "40% СКИДКА",
+      "tip": "Оплачивается $719.93 в год",
+      "button": {
+        "title": "Улучшить до Pro",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "pro-yearly",
+      "product_name": "Veo3 AI Pro Годовой",
+      "credits": 21600,
+      "valid_months": 12,
+      "group": "yearly"
+    }
+  ]
+}

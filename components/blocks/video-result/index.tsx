@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -38,22 +39,22 @@ interface VideoResultProps {
   className?: string;
 }
 
-const STATUS_MAP = {
-  submitted: { label: "Submitted", color: "bg-blue-500", icon: Clock },
-  IN_QUEUE: { label: "In Queue", color: "bg-yellow-500", icon: Clock },
-  IN_PROGRESS: { label: "Generating", color: "bg-orange-500", icon: Loader2 },
-  COMPLETED: { label: "Completed", color: "bg-green-500", icon: CheckCircle },
-  SAVED_TO_R2: { label: "Completed", color: "bg-green-500", icon: CheckCircle },
-  FAILED: { label: "Failed", color: "bg-red-500", icon: XCircle },
-};
+const getStatusMap = (t: any) => ({
+  submitted: { label: t("status.submitted"), color: "bg-blue-500", icon: Clock },
+  IN_QUEUE: { label: t("status.inQueue"), color: "bg-yellow-500", icon: Clock },
+  IN_PROGRESS: { label: t("status.generating"), color: "bg-orange-500", icon: Loader2 },
+  COMPLETED: { label: t("status.completed"), color: "bg-green-500", icon: CheckCircle },
+  SAVED_TO_R2: { label: t("status.completed"), color: "bg-green-500", icon: CheckCircle },
+  FAILED: { label: t("status.failed"), color: "bg-red-500", icon: XCircle },
+});
 
 // 总等待时间：3分半 = 210秒
 const TOTAL_WAIT_TIME_SECONDS = 210;
 
 // 新增辅助函数，用于获取用户友好的错误提示
-const getFriendlyErrorMessage = (apiErrorMessage?: string): string => {
+const getFriendlyErrorMessage = (apiErrorMessage?: string, t?: any): string => {
   if (!apiErrorMessage) {
-    return "An unexpected error occurred. Please try again.";
+    return t ? t("errorMessages.unexpected") : "An unexpected error occurred. Please try again.";
   }
   console.log("apiErrorMessage", apiErrorMessage);
 
@@ -65,15 +66,15 @@ const getFriendlyErrorMessage = (apiErrorMessage?: string): string => {
     const statusCode = parseInt(statusCodeMatch[1], 10);
     switch (statusCode) {
       case 400:
-        return "A problem occurred with an external service. Please try again later.";
+        return t ? t("errorMessages.externalService") : "A problem occurred with an external service. Please try again later.";
       case 422:
-        return "There's an issue with your input or settings. Please check and try again.";
+        return t ? t("errorMessages.inputIssue") : "There's an issue with your input or settings. Please check and try again.";
       case 500:
-        return "An unexpected error occurred on our end. Please try again later.";
+        return t ? t("errorMessages.serverError") : "An unexpected error occurred on our end. Please try again later.";
       case 504:
-        return "The request took too long and timed out. Please try again.";
+        return t ? t("errorMessages.timeout") : "The request took too long and timed out. Please try again.";
       default:
-        return `An error occurred (Status ${statusCode}). Please try again.`;
+        return t ? t("errorMessages.statusCode", { code: statusCode }) : `An error occurred (Status ${statusCode}). Please try again.`;
     }
   }
 
@@ -86,19 +87,19 @@ const getFriendlyErrorMessage = (apiErrorMessage?: string): string => {
         const statusCode = parseInt(match[1], 10);
         switch (statusCode) {
           case 400:
-            return "A problem occurred with an external service. Please try again later.";
+            return t ? t("errorMessages.externalService") : "A problem occurred with an external service. Please try again later.";
           case 422:
-            return "There's an issue with your input or settings. Please check and try again.";
+            return t ? t("errorMessages.inputIssue") : "There's an issue with your input or settings. Please check and try again.";
           case 500:
-            return "An unexpected error occurred on our end. Please try again later.";
+            return t ? t("errorMessages.serverError") : "An unexpected error occurred on our end. Please try again later.";
           case 504:
-            return "The request took too long and timed out. Please try again.";
+            return t ? t("errorMessages.timeout") : "The request took too long and timed out. Please try again.";
           default:
             // 如果有更具体的 msg，可以考虑使用，但优先使用我们定义的映射
             if (errorObj.payload?.detail?.[0]?.msg) {
               return errorObj.payload.detail[0].msg;
             }
-            return `An error occurred (Status ${statusCode}). Please try again.`;
+            return t ? t("errorMessages.statusCode", { code: statusCode }) : `An error occurred (Status ${statusCode}). Please try again.`;
         }
       }
     }
@@ -115,7 +116,7 @@ const getFriendlyErrorMessage = (apiErrorMessage?: string): string => {
   if (typeof apiErrorMessage === "string" && apiErrorMessage.length < 200) {
     return apiErrorMessage;
   }
-  return "An unexpected error occurred. Please try again.";
+  return t ? t("errorMessages.unexpected") : "An unexpected error occurred. Please try again.";
 };
 
 export default function VideoResult({
@@ -129,7 +130,9 @@ export default function VideoResult({
   const [videoUrl, setVideoUrl] = useState(generation.video_url);
   const [currentTime, setCurrentTime] = useState(Date.now());
   const router = useRouter();
+  const t = useTranslations("video-result");
 
+  const STATUS_MAP = getStatusMap(t);
   const status =
     STATUS_MAP[generation.status as keyof typeof STATUS_MAP] ||
     STATUS_MAP.submitted;
@@ -297,11 +300,11 @@ export default function VideoResult({
       switch (generation.status) {
         case "COMPLETED":
         case "SAVED_TO_R2":
-          return "Video generation completed!";
+          return t("videoCompleted");
         case "FAILED":
-          return "Video generation failed";
+          return t("videoFailed");
         default:
-          return "Processing...";
+          return t("processing");
       }
     }
 
@@ -309,13 +312,13 @@ export default function VideoResult({
 
     switch (generation.status) {
       case "submitted":
-        return `Task submitted, estimated time remaining: ${formattedRemainingTime}`;
+        return t("taskSubmitted", { time: formattedRemainingTime });
       case "IN_QUEUE":
-        return `Task in queue, estimated time remaining: ${formattedRemainingTime}`;
+        return t("taskInQueue", { time: formattedRemainingTime });
       case "IN_PROGRESS":
-        return `Generating video, estimated time remaining: ${formattedRemainingTime}`;
+        return t("generatingVideo", { time: formattedRemainingTime });
       default:
-        return `Processing, estimated time remaining: ${formattedRemainingTime}`;
+        return t("processingGeneral", { time: formattedRemainingTime });
     }
   };
 
@@ -368,12 +371,12 @@ export default function VideoResult({
             className="flex items-center gap-2"
           >
             <History className="h-4 w-4" />
-            View History
+{t("viewHistory")}
           </Button>
           {onRetry && isFailed && (
             <Button variant="outline" size="sm" onClick={onRetry}>
               <RefreshCw className="h-4 w-4 mr-2" />
-              Retry
+{t("retry")}
             </Button>
           )}
         </div>
@@ -384,15 +387,14 @@ export default function VideoResult({
         <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/30 rounded-lg p-4">
           <CheckCircle className="h-5 w-5 text-green-500" />
           <span className="text-sm font-medium text-foreground">
-            🎉 Your video is ready! You can download it or view all your
-            creations in the history.
+            {t("successMessage")}
           </span>
         </div>
       )}
 
       {/* Prompt - 放在视频上面 */}
       <div className="bg-muted/50 border border-border rounded-lg p-4">
-        <h3 className="font-medium mb-2 text-foreground">Prompt</h3>
+        <h3 className="font-medium mb-2 text-foreground">{t("prompt")}</h3>
         <p className="text-sm text-muted-foreground leading-relaxed max-h-24 overflow-y-auto">
           {generation.prompt}
         </p>
@@ -412,7 +414,7 @@ export default function VideoResult({
                 style={{ aspectRatio: generation.aspect_ratio || "16/9" }}
               >
                 <source src={videoUrl} type="video/mp4" />
-                Your browser does not support video playback.
+{t("browserNotSupported")}
               </video>
 
               {/* 播放状态指示器 */}
@@ -427,7 +429,7 @@ export default function VideoResult({
             <div className="flex items-center justify-center gap-2">
               <Button variant="outline" size="sm" onClick={handleDownload}>
                 <Download className="h-4 w-4 mr-2" />
-                Download
+{t("download")}
               </Button>
               <Button
                 variant="outline"
@@ -435,7 +437,7 @@ export default function VideoResult({
                 onClick={() => window.open(videoUrl, "_blank")}
               >
                 <ExternalLink className="h-4 w-4 mr-2" />
-                Open in New Tab
+{t("openInNewTab")}
               </Button>
             </div>
           </>
@@ -447,10 +449,10 @@ export default function VideoResult({
         <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
           <div className="flex items-center gap-2 mb-2">
             <Loader2 className="h-5 w-5 text-blue-500 animate-spin" />
-            <span className="font-medium text-foreground">Loading Video</span>
+            <span className="font-medium text-foreground">{t("loadingVideo")}</span>
           </div>
           <p className="text-sm text-muted-foreground">
-            Video generation is completed. Fetching video URL...
+{t("videoLoadingMessage")}
           </p>
         </div>
       )}
@@ -461,12 +463,11 @@ export default function VideoResult({
           <div className="flex items-center gap-2 mb-2">
             <Clock className="h-5 w-5 text-yellow-500" />
             <span className="font-medium text-foreground">
-              Video Processing
+              {t("videoProcessing")}
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
-            Video generation is completed but the video is not available yet.
-            Please wait a moment.
+{t("videoNotAvailableMessage")}
           </p>
         </div>
       )}
@@ -476,7 +477,7 @@ export default function VideoResult({
         <div>
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm font-medium text-foreground">
-              Generation Progress
+              {t("generationProgress")}
             </span>
             <span className="text-sm text-muted-foreground">
               {Math.round(progressValue)}%
@@ -495,11 +496,11 @@ export default function VideoResult({
           <div className="flex items-center gap-2 mb-2">
             <XCircle className="h-5 w-5 text-red-500" />
             <span className="font-medium text-foreground">
-              Generation Failed
+              {t("generationFailed")}
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
-            {getFriendlyErrorMessage(generation.error_message)}
+{getFriendlyErrorMessage(generation.error_message, t)}
           </p>
         </div>
       )}

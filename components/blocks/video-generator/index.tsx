@@ -16,6 +16,7 @@ import { Upload, Image as ImageIcon, X, Play, Coins } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import TextareaAutosize from "react-textarea-autosize";
 import { cn } from "@/lib/utils";
 import useVideoGeneration from "@/hooks/useVideoGeneration";
@@ -40,6 +41,7 @@ export default function VideoGenerator({
   placeholder = "Describe the video you want to create, e.g., A cat playing in a sunny garden with natural lighting and fresh atmosphere...",
 }: VideoGeneratorProps) {
   const router = useRouter();
+  const t = useTranslations("video-generator");
   const [description, setDescription] = useState("");
   const [aspectRatio, setAspectRatio] = useState<VideoAspectRatio>("16:9");
   const [duration, setDuration] = useState<VideoDuration>("5");
@@ -99,13 +101,13 @@ export default function VideoGenerator({
   // Handle image upload
   const handleImageUpload = useCallback(async (file: File) => {
     if (!file.type.startsWith("image/")) {
-      toast.error("Please upload an image file");
+      toast.error(t("toast.uploadImageFile"));
       return;
     }
 
     const maxSize = 10 * 1024 * 1024; // 10MB
     if (file.size > maxSize) {
-      toast.error("Image size cannot exceed 10MB");
+      toast.error(t("toast.imageTooLarge"));
       return;
     }
 
@@ -160,26 +162,26 @@ export default function VideoGenerator({
   // Handle video generation
   const handleGenerate = async () => {
     if (!user?.uuid) {
-      toast.message("Please sign in first");
+      toast.message(t("toast.signInFirst"));
       setShowSignModal(true);
       return;
     }
 
     if (!description.trim()) {
-      toast.error("Please enter a video description");
+      toast.error(t("toast.enterDescription"));
       return;
     }
 
     // 检查prompt最少字符数限制
     if (description.trim().length < 30) {
-      toast.error("Video description must be at least 30 characters long");
+      toast.error(t("toast.descriptionTooShort"));
       return;
     }
 
     // 检查积分是否足够
     if (leftCredits !== null && leftCredits < currentCreditsRequired) {
       toast.error(
-        `Insufficient credits. Need ${currentCreditsRequired} credits, but you have ${leftCredits} left.`
+        t("toast.insufficientCredits", { required: currentCreditsRequired, available: leftCredits })
       );
       return;
     }
@@ -216,7 +218,7 @@ export default function VideoGenerator({
           }
         } catch (error) {
           console.error("Image upload error:", error);
-          toast.error("Image upload failed");
+          toast.error(t("toast.imageUploadFailed"));
           return;
         }
       }
@@ -272,7 +274,7 @@ export default function VideoGenerator({
               {/* Video Description */}
               <div className="space-y-3">
                 <Label className="text-xl font-semibold text-gray-50">
-                  Video Description
+                  {t("videoDescription")}
                 </Label>
                 <div className="relative">
                   <TextareaAutosize
@@ -295,7 +297,7 @@ export default function VideoGenerator({
                           : "text-gray-400"
                       )}
                     >
-                      {description.trim().length}/30 characters minimum
+                      {description.trim().length}/30 {t("characterCount")}
                     </span>
                   </div>
                 )}
@@ -304,7 +306,7 @@ export default function VideoGenerator({
               {/* Reference Image (Optional) */}
               <div className="space-y-3">
                 <Label className="text-xl font-semibold text-gray-50">
-                  Reference Image (Optional)
+                  {t("referenceImage")}
                 </Label>
 
                 <div
@@ -347,10 +349,10 @@ export default function VideoGenerator({
                     <div className="text-center py-4">
                       <ImageIcon className="h-8 w-8 text-gray-400 mx-auto mb-2 group-hover:text-gray-300 transition-colors" />
                       <p className="text-gray-200 font-medium mb-1">
-                        Click to upload or drag image here
+                        {t("uploadInstructions.clickToUpload")}
                       </p>
                       <p className="text-sm text-gray-400">
-                        Supports JPG, PNG, GIF formats, max 10MB
+                        {t("uploadInstructions.supportedFormats")}
                       </p>
                     </div>
                   )}
@@ -371,7 +373,7 @@ export default function VideoGenerator({
               {/* Video Aspect Ratio */}
               <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-5 border border-gray-700/30">
                 <Label className="text-lg font-semibold text-gray-50 mb-4 block">
-                  Video Aspect Ratio
+                  {t("videoAspectRatio")}
                 </Label>
                 <RadioGroup
                   value={aspectRatio}
@@ -387,7 +389,7 @@ export default function VideoGenerator({
                       className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
                     >
                       <span className="w-6 h-4 bg-gray-600 rounded-sm"></span>
-                      16:9 Landscape
+                      {t("aspectRatios.landscape")}
                     </Label>
                   </div>
 
@@ -398,7 +400,7 @@ export default function VideoGenerator({
                       className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
                     >
                       <span className="w-4 h-6 bg-gray-600 rounded-sm"></span>
-                      9:16 Portrait
+                      {t("aspectRatios.portrait")}
                     </Label>
                   </div>
 
@@ -409,7 +411,7 @@ export default function VideoGenerator({
                       className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
                     >
                       <span className="w-5 h-5 bg-gray-600 rounded-sm"></span>
-                      1:1 Square
+                      {t("aspectRatios.square")}
                     </Label>
                   </div>
                 </RadioGroup>
@@ -418,7 +420,7 @@ export default function VideoGenerator({
               {/* Video Duration */}
               <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-5 border border-gray-700/30">
                 <Label className="text-lg font-semibold text-gray-50 mb-4 block">
-                  Video Duration
+                  {t("videoDuration")}
                 </Label>
                 <RadioGroup
                   value={duration}
@@ -431,7 +433,7 @@ export default function VideoGenerator({
                       htmlFor="duration-5s"
                       className="text-gray-200 font-medium cursor-pointer"
                     >
-                      5 Seconds
+                      {t("durations.5seconds")}
                     </Label>
                   </div>
                   <div className="flex items-center space-x-3">
@@ -440,7 +442,7 @@ export default function VideoGenerator({
                       htmlFor="duration-10s"
                       className="text-gray-200 font-medium cursor-pointer"
                     >
-                      10 Seconds
+                      {t("durations.10seconds")}
                     </Label>
                   </div>
                 </RadioGroup>
@@ -451,14 +453,14 @@ export default function VideoGenerator({
                 {/* Video Model Selection */}
                 <div className="mb-4">
                   <Label className="text-sm font-medium text-gray-300 mb-2 block">
-                    Video Model
+                    {t("videoModel")}
                   </Label>
                   <Select
                     value={selectedModel}
                     onValueChange={(value) => setSelectedModel(value)}
                   >
                     <SelectTrigger className="w-full text-left">
-                      <SelectValue placeholder="Select a model" />
+                      <SelectValue placeholder={t("selectModel")} />
                     </SelectTrigger>
                     <SelectContent>
                       {getAvailableModels().map((model) => (
@@ -503,7 +505,7 @@ export default function VideoGenerator({
                 {user && (
                   <div className="mb-4 space-y-1">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm text-gray-300">Credits:</span>
+                      <span className="text-sm text-gray-300">{t("credits")}:</span>
                       <div className="flex items-center space-x-2">
                         <span className="text-xs font-medium text-gray-100">
                           {leftCredits !== null ? leftCredits : "-"}
@@ -514,14 +516,14 @@ export default function VideoGenerator({
                           rel="noopener noreferrer"
                           className="text-sm text-blue-400 hover:text-blue-300 hover:underline cursor-pointer"
                         >
-                          Recharge
+                          {t("recharge")}
                         </a>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-sm text-gray-300">Cost:</span>
+                      <span className="text-sm text-gray-300">{t("cost")}:</span>
                       <span className="text-xs font-medium text-blue-300">
-                        {currentCreditsRequired} Credits
+                        {currentCreditsRequired} {t("credits")}
                       </span>
                     </div>
                   </div>
@@ -543,8 +545,8 @@ export default function VideoGenerator({
                 >
                   <Play className="h-5 w-5 mr-2" />
                   {isSubmitting || isLoading
-                    ? "Submitting..."
-                    : "Generate Video"}
+                    ? t("submitting")
+                    : t("generateVideo")}
                 </Button>
               </div>
             </div>
@@ -553,8 +555,7 @@ export default function VideoGenerator({
           {/* Model availability notice */}
           <div className="mt-6 text-center">
             <p className="text-xs text-gray-400">
-              Veo3 models are being integrated. Please prioritize using Kling
-              models for now.
+              {t("modelNotice")}
             </p>
           </div>
         </Card>
