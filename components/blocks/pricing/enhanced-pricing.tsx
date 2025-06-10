@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { useAppContext } from "@/contexts/app";
 import { PaymentMethodConfig } from "@/components/ui/payment-method-selector";
 import { useGeolocation } from "@/hooks/useGeolocation";
+import { getAvailablePaymentMethods } from "@/lib/payment-methods";
 
 interface EnhancedPricingProps {
   pricing: PricingType;
@@ -38,52 +39,39 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [selectedProvider, setSelectedProvider] = useState("");
 
-  // 获取可用支付方式
+  // 获取可用支付方式 - 直接使用客户端工具函数，无需 API 调用
   useEffect(() => {
-    const fetchPaymentMethods = async () => {
+    if (!locationLoading) {
       try {
-        const response = await fetch("/api/payment-methods", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            countryCode: isRussia ? "RU" : "US",
-          }),
-        });
+        const methods = getAvailablePaymentMethods(isRussia);
+        setAvailableMethods(methods);
 
-        if (response.ok) {
-          const data = await response.json();
-          const methods: PaymentMethodConfig[] = data.data.methods || [];
-          setAvailableMethods(methods);
-
-          // 根据用户位置自动选择支付方式
-          if (methods.length > 0 && data.data.recommendation) {
-            const recommended = data.data.recommendation;
-
-            if (isRussia) {
-              // 俄罗斯用户: 默认选择第一个 'payssion' 支付方式
-              const firstPayssionMethod = methods.find(
-                (m: PaymentMethodConfig) => m.provider === "payssion"
-              );
-              if (firstPayssionMethod) {
-                setSelectedPaymentMethod(firstPayssionMethod.id);
-                setSelectedProvider("payssion");
-              }
-            } else {
-              // 非俄罗斯用户: 自动选择推荐的支付方式
-              setSelectedProvider(recommended.provider);
-              const firstMethod = methods.find(
-                (m: PaymentMethodConfig) => m.provider === recommended.provider
-              );
-              if (firstMethod) {
-                setSelectedPaymentMethod(firstMethod.id);
-              }
+        // 根据用户位置自动选择支付方式
+        if (methods.length > 0) {
+          if (isRussia) {
+            // 俄罗斯用户: 默认选择第一个 Payssion 支付方式（按顺序 sberpay -> yoomoney -> mir）
+            const firstPayssionMethod = methods.find(
+              (m) => m.provider === "payssion"
+            );
+            if (firstPayssionMethod) {
+              setSelectedPaymentMethod(firstPayssionMethod.id);
+              setSelectedProvider("payssion");
+            }
+          } else {
+            // 非俄罗斯用户: 默认选择 Stripe
+            const stripeMethod = methods.find((m) => m.provider === "stripe");
+            if (stripeMethod) {
+              setSelectedPaymentMethod(stripeMethod.id);
+              setSelectedProvider("stripe");
+            } else if (methods.length > 0) {
+              // Fallback: 如果没有Stripe，选择列表中的第一个
+              setSelectedPaymentMethod(methods[0].id);
+              setSelectedProvider(methods[0].provider);
             }
           }
         }
       } catch (error) {
-        console.error("Failed to fetch payment methods:", error);
+        console.error("Failed to get payment methods:", error);
         // 设置默认的支付方式
         setAvailableMethods([
           {
@@ -100,12 +88,8 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         setSelectedPaymentMethod("stripe");
         setSelectedProvider("stripe");
       }
-    };
-
-    if (!locationLoading && location.detected) {
-      fetchPaymentMethods();
     }
-  }, [location, locationLoading, isRussia]);
+  }, [locationLoading, isRussia]);
 
   const handleCheckout = async (item: PricingItem, cn_pay: boolean = false) => {
     try {
