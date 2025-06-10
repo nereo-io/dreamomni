@@ -14,17 +14,8 @@ import { Label } from "@/components/ui/label";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "sonner";
 import { useAppContext } from "@/contexts/app";
-import {
-  PaymentMethodSelector,
-  PaymentMethodConfig,
-} from "@/components/ui/payment-method-selector";
+import { PaymentMethodConfig } from "@/components/ui/payment-method-selector";
 import { useGeolocation } from "@/hooks/useGeolocation";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 
 interface EnhancedPricingProps {
   pricing: PricingType;
@@ -41,8 +32,6 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   const [group, setGroup] = useState(pricing.groups?.[0]?.name);
   const [isLoading, setIsLoading] = useState(false);
   const [productId, setProductId] = useState<string | null>(null);
-  const [showPaymentMethods, setShowPaymentMethods] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<PricingItem | null>(null);
   const [availableMethods, setAvailableMethods] = useState<
     PaymentMethodConfig[]
   >([]);
@@ -64,24 +53,37 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          countryCode: location.countryCode,
+          countryCode: isRussia ? "RU" : "US",
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        setAvailableMethods(data.data.methods || []);
+        const methods: PaymentMethodConfig[] = data.data.methods || [];
+        setAvailableMethods(methods);
 
-        // 自动选择推荐的支付方式
-        if (data.data.methods && data.data.methods.length > 0) {
+        // 根据用户位置自动选择支付方式
+        if (methods.length > 0) {
           const recommended = data.data.recommendation;
           setSelectedProvider(recommended.provider);
 
-          const firstMethod = data.data.methods.find(
-            (m: PaymentMethodConfig) => m.provider === recommended.provider
-          );
-          if (firstMethod) {
-            setSelectedPaymentMethod(firstMethod.id);
+          if (isRussia) {
+            // 俄罗斯用户: 默认选择第一个 'payssion' 支付方式
+            const firstPayssionMethod = methods.find(
+              (m: PaymentMethodConfig) => m.provider === "payssion"
+            );
+            if (firstPayssionMethod) {
+              setSelectedPaymentMethod(firstPayssionMethod.id);
+              setSelectedProvider("payssion");
+            }
+          } else {
+            // 非俄罗斯用户: 自动选择推荐的支付方式
+            const firstMethod = methods.find(
+              (m: PaymentMethodConfig) => m.provider === recommended.provider
+            );
+            if (firstMethod) {
+              setSelectedPaymentMethod(firstMethod.id);
+            }
           }
         }
       }
@@ -112,12 +114,12 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         return;
       }
 
-      // 如果是俄罗斯且有多种支付方式，显示支付方式选择器
-      if (isRussia && availableMethods.length > 1 && !selectedPaymentMethod) {
-        setSelectedItem(item);
-        setShowPaymentMethods(true);
+      // 如果是俄罗斯用户但没有选择支付方式，提示用户选择
+      if (isRussia && availableMethods.length > 0 && !selectedPaymentMethod) {
+        toast.error("Пожалуйста, выберите способ оплаты");
         return;
       }
+
       await processPayment(item, cn_pay);
     } catch (e) {
       console.log("checkout failed: ", e);
@@ -142,11 +144,21 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     setProductId(item.product_id);
 
     try {
+      // 调试信息
+      console.log("Payment Debug Info:", {
+        isRussia,
+        selectedPaymentMethod,
+        selectedProvider,
+        availableMethods,
+      });
+
       // 根据选择的支付方式决定使用哪个API端点
       const endpoint =
-        selectedPaymentMethod === "stripe"
+        selectedProvider === "stripe" || selectedPaymentMethod === "stripe"
           ? "/api/checkout"
           : "/api/checkout/payssion";
+
+      console.log("Using endpoint:", endpoint);
 
       const response = await fetch(endpoint, {
         method: "POST",
@@ -169,7 +181,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         return;
       }
 
-      if (selectedPaymentMethod === "stripe") {
+      if (selectedProvider === "stripe" || selectedPaymentMethod === "stripe") {
         // Stripe 支付流程
         const { public_key, session_id } = data;
         const stripe = await loadStripe(public_key);
@@ -200,13 +212,6 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     } finally {
       setIsLoading(false);
       setProductId(null);
-      setShowPaymentMethods(false);
-    }
-  };
-
-  const handlePaymentMethodConfirm = () => {
-    if (selectedItem) {
-      processPayment(selectedItem);
     }
   };
 
@@ -386,44 +391,64 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                         {/* 主要支付按钮 */}
                         {item.button && (
                           <div className="space-y-3">
-                            {/* 优雅的支付方式展示 */}
-                            {isRussia && availableMethods.length > 1 && (
-                              <div className="space-y-2">
-                                <div className="text-center">
-                                  <span className="text-xs text-muted-foreground/80 font-medium tracking-wide">
-                                    Поддерживаемые способы оплаты
-                                  </span>
-                                </div>
-                                <div className="flex items-center justify-center gap-1.5">
-                                  {availableMethods
-                                    .filter((m) => m.provider === "payssion")
-                                    .slice(0, 3)
-                                    .map((method, index) => (
-                                      <div
-                                        key={method.id}
-                                        className="relative group"
-                                      >
-                                        <div className="flex items-center justify-center w-12 h-8 bg-white dark:bg-white/95 rounded-md shadow-sm border border-gray-200/50 dark:border-gray-300/20 hover:shadow-md hover:scale-105 transition-all duration-200">
-                                          <img
-                                            src={method.logo}
-                                            alt={method.name}
-                                            className="h-5 w-auto object-contain"
-                                            onError={(e) => {
-                                              (
-                                                e.target as HTMLImageElement
-                                              ).style.display = "none";
-                                            }}
-                                          />
+                            {/* 支付方式选择器 */}
+                            {isRussia &&
+                              availableMethods.length > 0 &&
+                              item.amount > 0 && (
+                                <div className="space-y-3">
+                                  <div>
+                                    <span className="text-sm text-muted-foreground">
+                                      Выберите способ оплаты
+                                      {!selectedPaymentMethod && (
+                                        <span className="text-red-500"> *</span>
+                                      )}
+                                    </span>
+                                  </div>
+                                  <div className="grid grid-cols-2 gap-3">
+                                    {availableMethods
+                                      .filter((m) => m.provider === "payssion")
+                                      .map((method) => (
+                                        <div
+                                          key={method.id}
+                                          className={`flex cursor-pointer items-center gap-x-3 rounded-lg border-2 p-2 transition-all duration-200 h-14 ${
+                                            selectedPaymentMethod === method.id
+                                              ? "border-primary bg-primary/10"
+                                              : "border-gray-200/80 bg-card dark:border-gray-600/50 hover:border-primary/50"
+                                          }`}
+                                          onClick={() =>
+                                            setSelectedPaymentMethod(method.id)
+                                          }
+                                        >
+                                          <div
+                                            className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 transition-colors duration-200 ${
+                                              selectedPaymentMethod ===
+                                              method.id
+                                                ? "border-primary"
+                                                : "border-gray-400"
+                                            }`}
+                                          >
+                                            {selectedPaymentMethod ===
+                                              method.id && (
+                                              <div className="h-2.5 w-2.5 rounded-full bg-primary" />
+                                            )}
+                                          </div>
+                                          <div className="flex flex-1 items-center justify-center rounded-md bg-white p-1">
+                                            <img
+                                              src={method.logo}
+                                              alt={method.name}
+                                              className="h-8 w-auto object-contain"
+                                              onError={(e) => {
+                                                (
+                                                  e.target as HTMLImageElement
+                                                ).style.display = "none";
+                                              }}
+                                            />
+                                          </div>
                                         </div>
-                                        {/* Tooltip on hover */}
-                                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
-                                          {method.name}
-                                        </div>
-                                      </div>
-                                    ))}
+                                      ))}
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
 
                             <Button
                               className="w-full flex items-center justify-center gap-2 font-semibold relative overflow-hidden group hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200 ease-out"
@@ -495,41 +520,6 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
           </div>
         </div>
       </section>
-
-      {/* 支付方式选择对话框 */}
-      <Dialog open={showPaymentMethods} onOpenChange={setShowPaymentMethods}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>选择支付方式</DialogTitle>
-          </DialogHeader>
-
-          <PaymentMethodSelector
-            methods={availableMethods}
-            selectedMethod={selectedPaymentMethod}
-            onMethodChange={setSelectedPaymentMethod}
-            userLocation={location}
-            allowProviderSwitch={true}
-            onProviderSwitch={setSelectedProvider}
-          />
-
-          <div className="flex gap-3 mt-6">
-            <Button
-              variant="outline"
-              onClick={() => setShowPaymentMethods(false)}
-              className="flex-1"
-            >
-              取消
-            </Button>
-            <Button
-              onClick={handlePaymentMethodConfirm}
-              disabled={!selectedPaymentMethod}
-              className="flex-1"
-            >
-              确认支付
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </>
   );
 }
