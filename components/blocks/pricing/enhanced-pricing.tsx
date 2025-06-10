@@ -40,72 +40,72 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
   // 获取可用支付方式
   useEffect(() => {
-    if (!locationLoading && location.detected) {
-      fetchPaymentMethods();
-    }
-  }, [location, locationLoading]);
+    const fetchPaymentMethods = async () => {
+      try {
+        const response = await fetch("/api/payment-methods", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            countryCode: isRussia ? "RU" : "US",
+          }),
+        });
 
-  const fetchPaymentMethods = async () => {
-    try {
-      const response = await fetch("/api/payment-methods", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          countryCode: isRussia ? "RU" : "US",
-        }),
-      });
+        if (response.ok) {
+          const data = await response.json();
+          const methods: PaymentMethodConfig[] = data.data.methods || [];
+          setAvailableMethods(methods);
 
-      if (response.ok) {
-        const data = await response.json();
-        const methods: PaymentMethodConfig[] = data.data.methods || [];
-        setAvailableMethods(methods);
+          // 根据用户位置自动选择支付方式
+          if (methods.length > 0 && data.data.recommendation) {
+            const recommended = data.data.recommendation;
 
-        // 根据用户位置自动选择支付方式
-        if (methods.length > 0) {
-          const recommended = data.data.recommendation;
-          setSelectedProvider(recommended.provider);
-
-          if (isRussia) {
-            // 俄罗斯用户: 默认选择第一个 'payssion' 支付方式
-            const firstPayssionMethod = methods.find(
-              (m: PaymentMethodConfig) => m.provider === "payssion"
-            );
-            if (firstPayssionMethod) {
-              setSelectedPaymentMethod(firstPayssionMethod.id);
-              setSelectedProvider("payssion");
-            }
-          } else {
-            // 非俄罗斯用户: 自动选择推荐的支付方式
-            const firstMethod = methods.find(
-              (m: PaymentMethodConfig) => m.provider === recommended.provider
-            );
-            if (firstMethod) {
-              setSelectedPaymentMethod(firstMethod.id);
+            if (isRussia) {
+              // 俄罗斯用户: 默认选择第一个 'payssion' 支付方式
+              const firstPayssionMethod = methods.find(
+                (m: PaymentMethodConfig) => m.provider === "payssion"
+              );
+              if (firstPayssionMethod) {
+                setSelectedPaymentMethod(firstPayssionMethod.id);
+                setSelectedProvider("payssion");
+              }
+            } else {
+              // 非俄罗斯用户: 自动选择推荐的支付方式
+              setSelectedProvider(recommended.provider);
+              const firstMethod = methods.find(
+                (m: PaymentMethodConfig) => m.provider === recommended.provider
+              );
+              if (firstMethod) {
+                setSelectedPaymentMethod(firstMethod.id);
+              }
             }
           }
         }
+      } catch (error) {
+        console.error("Failed to fetch payment methods:", error);
+        // 设置默认的支付方式
+        setAvailableMethods([
+          {
+            id: "stripe",
+            name: "Credit Card",
+            description: "国际信用卡和借记卡",
+            logo: "/payment-logos/stripe.png",
+            provider: "stripe",
+            supportedCountries: ["*"],
+            feeInfo: "2.9% + $0.30",
+            processingTime: "即时到账",
+          },
+        ]);
+        setSelectedPaymentMethod("stripe");
+        setSelectedProvider("stripe");
       }
-    } catch (error) {
-      console.error("Failed to fetch payment methods:", error);
-      // 设置默认的支付方式
-      setAvailableMethods([
-        {
-          id: "stripe",
-          name: "Credit Card",
-          description: "国际信用卡和借记卡",
-          logo: "/payment-logos/stripe.png",
-          provider: "stripe",
-          supportedCountries: ["*"],
-          feeInfo: "2.9% + $0.30",
-          processingTime: "即时到账",
-        },
-      ]);
-      setSelectedPaymentMethod("stripe");
-      setSelectedProvider("stripe");
+    };
+
+    if (!locationLoading && location.detected) {
+      fetchPaymentMethods();
     }
-  };
+  }, [location, locationLoading, isRussia]);
 
   const handleCheckout = async (item: PricingItem, cn_pay: boolean = false) => {
     try {
