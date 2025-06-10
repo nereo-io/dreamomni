@@ -12,8 +12,15 @@ import { Label } from "@/components/ui/label";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "sonner";
 import { useAppContext } from "@/contexts/app";
+import EnhancedPricing from "./enhanced-pricing";
 
 export default function Pricing({ pricing }: { pricing: PricingType }) {
+  // 使用新的增强版定价组件，支持多支付方式
+  return <EnhancedPricing pricing={pricing} />;
+}
+
+// 旧版本的 Pricing 组件（备用）
+function LegacyPricing({ pricing }: { pricing: PricingType }) {
   if (pricing.disabled) {
     return null;
   }

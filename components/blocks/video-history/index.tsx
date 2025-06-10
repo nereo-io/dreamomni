@@ -28,6 +28,7 @@ import {
   RotateCcw,
   AlertTriangle,
   Loader2,
+  Volume2,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
@@ -184,7 +185,7 @@ export default function VideoHistoryClient() {
             className="bg-gray-800 border-gray-700 text-gray-200 flex flex-col"
           >
             <CardHeader>
-              <div className="aspect-video bg-gray-700 rounded-md mb-3 flex items-center justify-center overflow-hidden">
+              <div className="aspect-video bg-gray-700 rounded-md mb-3 flex items-center justify-center overflow-hidden relative">
                 {video.video_url_r2 || video.video_url_fal ? (
                   <video
                     src={video.video_url_r2 ?? video.video_url_fal ?? ""}
@@ -201,6 +202,16 @@ export default function VideoHistoryClient() {
                   />
                 ) : (
                   <PlayCircle className="h-16 w-16 text-gray-500" />
+                )}
+                
+                {/* Audio indicator */}
+                {video.has_audio && (
+                  <div className="absolute top-2 right-2">
+                    <Badge variant="secondary" className="text-xs flex items-center gap-1 bg-blue-100 text-blue-700 border-blue-200">
+                      <Volume2 className="h-3 w-3" />
+                      音频
+                    </Badge>
+                  </div>
                 )}
               </div>
               <CardTitle className="text-lg truncate" title={video.prompt}>

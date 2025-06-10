@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Select,
@@ -12,10 +13,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Upload, Image as ImageIcon, X, Play, Coins } from "lucide-react";
+import { Image as ImageIcon, X, Play, Coins } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import TextareaAutosize from "react-textarea-autosize";
 import { cn } from "@/lib/utils";
@@ -24,6 +24,7 @@ import useCredits from "@/hooks/useCredits";
 import VideoResult from "@/components/blocks/video-result";
 import {
   VideoModelType,
+  VideoModelConfig,
   getTextToVideoModels,
   getImageToVideoModels,
   calculateCredits,
@@ -35,12 +36,11 @@ interface VideoGeneratorProps {
 }
 
 type VideoAspectRatio = "16:9" | "9:16" | "1:1";
-type VideoDuration = "5" | "10";
+type VideoDuration = "5" | "8" | "10";
 
 export default function VideoGenerator({
   placeholder = "Describe the video you want to create, e.g., A cat playing in a sunny garden with natural lighting and fresh atmosphere...",
 }: VideoGeneratorProps) {
-  const router = useRouter();
   const t = useTranslations("video-generator");
   const [description, setDescription] = useState("");
   const [aspectRatio, setAspectRatio] = useState<VideoAspectRatio>("16:9");
@@ -52,6 +52,7 @@ export default function VideoGenerator({
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [generateAudio, setGenerateAudio] = useState(false);
 
   const { user, setShowSignModal } = useAppContext();
   const {
@@ -72,31 +73,94 @@ export default function VideoGenerator({
     }
   }, [user?.uuid, updateLeftCredits]);
 
-  // 根据是否有图片自动切换模型
-  useEffect(() => {
-    const hasImage = !!uploadedImage;
-    if (hasImage) {
-      // 切换到图片转视频模型
-      setSelectedModel("kling-1-6-image-to-video-std");
-    } else {
-      // 切换到文本转视频模型
-      setSelectedModel("kling-1-6-text-to-video-std");
-    }
-  }, [uploadedImage]);
+  // 获取所有可用模型（不再进行复杂过滤）
+  const availableModels = uploadedImage
+    ? getImageToVideoModels()
+    : getTextToVideoModels();
 
-  // 获取当前可用的模型列表
-  const getAvailableModels = () => {
-    const hasImage = !!uploadedImage;
-    return hasImage ? getImageToVideoModels() : getTextToVideoModels();
-  };
+  // 获取选中模型的详细信息
+  const selectedModelConfig = getVideoModel(selectedModel);
+
+  // 增强的智能设置联动 - 模型切换时自动调整设置
+  useEffect(() => {
+    if (selectedModelConfig) {
+      // 1. 检查比例兼容性
+      if (!selectedModelConfig.supportedAspectRatios?.includes(aspectRatio)) {
+        const firstSupportedRatio = selectedModelConfig
+          .supportedAspectRatios?.[0] as VideoAspectRatio;
+        if (firstSupportedRatio) {
+          setAspectRatio(firstSupportedRatio);
+        }
+      }
+
+      // 2. 检查时长兼容性
+      if (
+        !selectedModelConfig.supportedDurations?.includes(parseInt(duration))
+      ) {
+        const firstSupportedDuration =
+          selectedModelConfig.supportedDurations?.[0];
+        if (firstSupportedDuration) {
+          setDuration(firstSupportedDuration.toString() as VideoDuration);
+        }
+      }
+
+      // 3. 检查音频兼容性
+      if (generateAudio && !selectedModelConfig.supportsAudio) {
+        setGenerateAudio(false);
+      }
+
+      // 4. 图片兼容性检查已移到独立的 useEffect 中处理
+    }
+  }, [selectedModel, selectedModelConfig]);
+
+  // 智能模型切换 - 图片上传时自动切换到图片转视频模型
+  useEffect(() => {
+    if (uploadedImage) {
+      // 如果当前模型不支持图片输入，自动切换到图片转视频模型
+      if (selectedModelConfig?.type === VideoModelType.TEXT_TO_VIDEO) {
+        const imageToVideoModels = getImageToVideoModels();
+        if (imageToVideoModels.length > 0) {
+          // 尝试找到相同provider的图片转视频模型
+          const sameProviderModel = imageToVideoModels.find(
+            (model) => model.provider === selectedModelConfig.provider
+          );
+          const targetModel = sameProviderModel || imageToVideoModels[0];
+
+          setSelectedModel(targetModel.id);
+        }
+      }
+    } else {
+      // 如果移除了图片，且当前是图片转视频模型，可以切换回文本转视频模型
+      if (selectedModelConfig?.type === VideoModelType.IMAGE_TO_VIDEO) {
+        const textToVideoModels = getTextToVideoModels();
+        if (textToVideoModels.length > 0) {
+          // 尝试找到相同provider的文本转视频模型
+          const sameProviderModel = textToVideoModels.find(
+            (model) => model.provider === selectedModelConfig.provider
+          );
+          const targetModel = sameProviderModel || textToVideoModels[0];
+
+          setSelectedModel(targetModel.id);
+        }
+      }
+    }
+  }, [uploadedImage, selectedModelConfig]);
 
   // 获取积分消耗信息
-  const getCreditsRequired = (modelId: string, duration: VideoDuration) => {
-    return calculateCredits(modelId, parseInt(duration));
+  const getCreditsRequired = (
+    modelId: string,
+    duration: VideoDuration,
+    hasAudio: boolean = false
+  ) => {
+    return calculateCredits(modelId, parseInt(duration), hasAudio);
   };
 
   // 获取当前选择的积分消耗
-  const currentCreditsRequired = getCreditsRequired(selectedModel, duration);
+  const currentCreditsRequired = getCreditsRequired(
+    selectedModel,
+    duration,
+    generateAudio
+  );
 
   // Handle image upload
   const handleImageUpload = useCallback(async (file: File) => {
@@ -181,7 +245,10 @@ export default function VideoGenerator({
     // 检查积分是否足够
     if (leftCredits !== null && leftCredits < currentCreditsRequired) {
       toast.error(
-        t("toast.insufficientCredits", { required: currentCreditsRequired, available: leftCredits })
+        t("toast.insufficientCredits", {
+          required: currentCreditsRequired,
+          available: leftCredits,
+        })
       );
       return;
     }
@@ -229,6 +296,7 @@ export default function VideoGenerator({
         prompt: description.trim(),
         duration,
         aspect_ratio: aspectRatio,
+        generate_audio: generateAudio,
         ...(imageUrl && { image_url: imageUrl }),
       };
 
@@ -258,9 +326,6 @@ export default function VideoGenerator({
       handleGenerate();
     }
   };
-
-  // 获取选中模型的详细信息
-  const selectedModelConfig = getVideoModel(selectedModel);
 
   return (
     <section id="video-generator" className="py-8 md:py-12">
@@ -370,120 +435,75 @@ export default function VideoGenerator({
 
             {/* Right Column - Parameters Panel (1/3 width) */}
             <div className="space-y-6">
-              {/* Video Aspect Ratio */}
-              <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-5 border border-gray-700/30">
+              {/* 统一的视频配置面板 - 互联网产品风格 */}
+              <div className="bg-gray-800/40 rounded-lg p-4 border border-gray-700/50">
                 <Label className="text-lg font-semibold text-gray-50 mb-4 block">
-                  {t("videoAspectRatio")}
+                  Video Settings
                 </Label>
-                <RadioGroup
-                  value={aspectRatio}
-                  onValueChange={(value) =>
-                    setAspectRatio(value as VideoAspectRatio)
-                  }
-                  className="space-y-3"
-                >
-                  <div className="flex items-center space-x-3">
-                    <RadioGroupItem value="16:9" id="landscape" />
-                    <Label
-                      htmlFor="landscape"
-                      className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
-                    >
-                      <span className="w-6 h-4 bg-gray-600 rounded-sm"></span>
-                      {t("aspectRatios.landscape")}
-                    </Label>
-                  </div>
 
-                  <div className="flex items-center space-x-3">
-                    <RadioGroupItem value="9:16" id="portrait" />
-                    <Label
-                      htmlFor="portrait"
-                      className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
-                    >
-                      <span className="w-4 h-6 bg-gray-600 rounded-sm"></span>
-                      {t("aspectRatios.portrait")}
-                    </Label>
-                  </div>
-
-                  <div className="flex items-center space-x-3">
-                    <RadioGroupItem value="1:1" id="square" />
-                    <Label
-                      htmlFor="square"
-                      className="text-gray-200 font-medium cursor-pointer flex items-center gap-2"
-                    >
-                      <span className="w-5 h-5 bg-gray-600 rounded-sm"></span>
-                      {t("aspectRatios.square")}
-                    </Label>
-                  </div>
-                </RadioGroup>
-              </div>
-
-              {/* Video Duration */}
-              <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-5 border border-gray-700/30">
-                <Label className="text-lg font-semibold text-gray-50 mb-4 block">
-                  {t("videoDuration")}
-                </Label>
-                <RadioGroup
-                  value={duration}
-                  onValueChange={(value) => setDuration(value as VideoDuration)}
-                  className="space-y-3"
-                >
-                  <div className="flex items-center space-x-3">
-                    <RadioGroupItem value="5" id="duration-5s" />
-                    <Label
-                      htmlFor="duration-5s"
-                      className="text-gray-200 font-medium cursor-pointer"
-                    >
-                      {t("durations.5seconds")}
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <RadioGroupItem value="10" id="duration-10s" />
-                    <Label
-                      htmlFor="duration-10s"
-                      className="text-gray-200 font-medium cursor-pointer"
-                    >
-                      {t("durations.10seconds")}
-                    </Label>
-                  </div>
-                </RadioGroup>
-              </div>
-
-              {/* Credits & Generate Button */}
-              <div className="bg-gradient-to-br from-blue-950/30 to-purple-950/20 backdrop-blur-sm rounded-xl p-5 border border-blue-700/30">
-                {/* Video Model Selection */}
+                {/* Video Model Selection - 移动到这里作为第一个设置项 */}
                 <div className="mb-4">
-                  <Label className="text-sm font-medium text-gray-300 mb-2 block">
-                    {t("videoModel")}
-                  </Label>
+                  <div className="text-sm text-gray-300 mb-3">Video Model</div>
                   <Select
                     value={selectedModel}
                     onValueChange={(value) => setSelectedModel(value)}
                   >
                     <SelectTrigger className="w-full text-left">
-                      <SelectValue placeholder={t("selectModel")} />
+                      <SelectValue placeholder={t("selectModel")}>
+                        {selectedModelConfig && (
+                          <div className="flex items-center gap-2">
+                            <img
+                              src={
+                                selectedModelConfig.provider === "kling"
+                                  ? "/imgs/intro/kling.svg"
+                                  : "/imgs/intro/veo.svg"
+                              }
+                              alt={selectedModelConfig.provider}
+                              className="w-4 h-4 flex-shrink-0"
+                            />
+                            <span className="font-medium">
+                              {selectedModelConfig.displayName}
+                            </span>
+                            <div className="flex items-center gap-1 text-xs text-blue-300">
+                              <Coins className="h-3 w-3" />
+                              {selectedModelConfig.perSecondCredits}/s
+                            </div>
+                          </div>
+                        )}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
-                      {getAvailableModels().map((model) => (
+                      {availableModels.map((model) => (
                         <SelectItem key={model.id} value={model.id}>
-                          <div className="flex items-center gap-3 w-full group">
+                          <div className="flex items-start gap-3 w-full py-1">
                             <img
-                              src="/imgs/intro/kling.svg"
-                              alt="Kling"
-                              className="w-5 h-5 flex-shrink-0"
+                              src={
+                                model.provider === "kling"
+                                  ? "/imgs/intro/kling.svg"
+                                  : "/imgs/intro/veo.svg"
+                              }
+                              alt={model.provider}
+                              className="w-5 h-5 flex-shrink-0 mt-0.5"
                             />
-                            <div className="flex flex-col flex-1">
-                              <span className="font-medium">
-                                {model.displayName}
-                              </span>
+                            <div className="flex flex-col flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="font-medium text-gray-100">
+                                  {model.displayName}
+                                </span>
+                                <div className="flex items-center gap-1 text-xs text-blue-300">
+                                  <Coins className="h-3 w-3" />
+                                  {model.perSecondCredits}/s
+                                </div>
+                              </div>
 
-                              {/* Hover时显示的描述 */}
-                              <span className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200 max-h-0 group-hover:max-h-6 overflow-hidden">
+                              {/* 默认显示的描述 */}
+                              <span className="text-xs text-gray-400 mb-1 line-clamp-2">
                                 {model.description}
                               </span>
 
-                              {/* Hover时显示的特性标签 */}
+                              {/* 默认显示的特性标签 */}
                               {model.features && (
-                                <div className="flex flex-wrap gap-1 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 max-h-0 group-hover:max-h-12 overflow-hidden">
+                                <div className="flex flex-wrap gap-1">
                                   {model.features.map((feature, index) => (
                                     <span
                                       key={index}
@@ -502,29 +522,216 @@ export default function VideoGenerator({
                   </Select>
                 </div>
 
-                {user && (
-                  <div className="mb-4 space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-gray-300">{t("credits")}:</span>
+                {/* 比例选择 - 扩大点击区域 */}
+                <div className="mb-4">
+                  <div className="text-sm text-gray-300 mb-3">Ratio</div>
+                  <RadioGroup
+                    value={aspectRatio}
+                    onValueChange={(value) =>
+                      setAspectRatio(value as VideoAspectRatio)
+                    }
+                    className="flex flex-wrap gap-6"
+                  >
+                    {selectedModelConfig?.supportedAspectRatios?.includes(
+                      "16:9"
+                    ) && (
                       <div className="flex items-center space-x-2">
-                        <span className="text-xs font-medium text-gray-100">
-                          {leftCredits !== null ? leftCredits : "-"}
-                        </span>
-                        <a
-                          href="/pricing"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm text-blue-400 hover:text-blue-300 hover:underline cursor-pointer"
+                        <RadioGroupItem
+                          value="16:9"
+                          id="landscape"
+                          className="w-4 h-4"
+                        />
+                        <Label
+                          htmlFor="landscape"
+                          className="text-sm text-gray-200 cursor-pointer flex items-center gap-1 hover:text-white transition-colors"
                         >
-                          {t("recharge")}
-                        </a>
+                          <span className="w-4 h-2 bg-gray-600 rounded-sm"></span>
+                          16:9
+                        </Label>
+                      </div>
+                    )}
+                    {selectedModelConfig?.supportedAspectRatios?.includes(
+                      "9:16"
+                    ) && (
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem
+                          value="9:16"
+                          id="portrait"
+                          className="w-4 h-4"
+                        />
+                        <Label
+                          htmlFor="portrait"
+                          className="text-sm text-gray-200 cursor-pointer flex items-center gap-1 hover:text-white transition-colors"
+                        >
+                          <span className="w-2 h-4 bg-gray-600 rounded-sm"></span>
+                          9:16
+                        </Label>
+                      </div>
+                    )}
+                    {selectedModelConfig?.supportedAspectRatios?.includes(
+                      "1:1"
+                    ) && (
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem
+                          value="1:1"
+                          id="square"
+                          className="w-4 h-4"
+                        />
+                        <Label
+                          htmlFor="square"
+                          className="text-sm text-gray-200 cursor-pointer flex items-center gap-1 hover:text-white transition-colors"
+                        >
+                          <span className="w-4 h-4 bg-gray-600 rounded-sm"></span>
+                          1:1
+                        </Label>
+                      </div>
+                    )}
+                  </RadioGroup>
+                </div>
+
+                {/* 时长选择 - 扩大点击区域 */}
+                <div className="mb-4">
+                  <div className="text-sm text-gray-300 mb-3">Duration</div>
+                  <RadioGroup
+                    value={duration}
+                    onValueChange={(value) =>
+                      setDuration(value as VideoDuration)
+                    }
+                    className="flex gap-8"
+                  >
+                    {selectedModelConfig?.supportedDurations?.includes(5) && (
+                      <div className="flex items-center space-x-3">
+                        <RadioGroupItem
+                          value="5"
+                          id="duration-5s"
+                          className="w-4 h-4"
+                        />
+                        <Label
+                          htmlFor="duration-5s"
+                          className="text-sm text-gray-200 cursor-pointer hover:text-white transition-colors"
+                        >
+                          5s
+                        </Label>
+                      </div>
+                    )}
+                    {selectedModelConfig?.supportedDurations?.includes(8) && (
+                      <div className="flex items-center space-x-3">
+                        <RadioGroupItem
+                          value="8"
+                          id="duration-8s"
+                          className="w-4 h-4"
+                        />
+                        <Label
+                          htmlFor="duration-8s"
+                          className="text-sm text-gray-200 cursor-pointer hover:text-white transition-colors"
+                        >
+                          8s
+                        </Label>
+                      </div>
+                    )}
+                    {selectedModelConfig?.supportedDurations?.includes(10) && (
+                      <div className="flex items-center space-x-3">
+                        <RadioGroupItem
+                          value="10"
+                          id="duration-10s"
+                          className="w-4 h-4"
+                        />
+                        <Label
+                          htmlFor="duration-10s"
+                          className="text-sm text-gray-200 cursor-pointer hover:text-white transition-colors"
+                        >
+                          10s
+                        </Label>
+                      </div>
+                    )}
+                  </RadioGroup>
+                </div>
+
+                {/* 音频选择 - 只在支持时显示 */}
+                {selectedModelConfig?.supportsAudio && (
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <div className="text-sm text-gray-300">Audio</div>
+                      <div className="flex items-center gap-2">
+                        <Switch
+                          checked={generateAudio}
+                          className="data-[state=unchecked]:bg-gray-600/50 data-[state=unchecked]:border-gray-500/30 border"
+                          onCheckedChange={(checked) => {
+                            setGenerateAudio(checked);
+                            // 如果开启音频，需要确保满足 VEO3 的所有要求
+                            if (checked) {
+                              // VEO3 只支持文本到视频，移除图片
+                              if (uploadedImage) {
+                                setUploadedImage(null);
+                                setImagePreview(null);
+                              }
+
+                              // VEO3 只支持 16:9 宽高比
+                              if (aspectRatio !== "16:9") {
+                                setAspectRatio("16:9");
+                              }
+
+                              // VEO3 只支持 8 秒时长
+                              if (duration !== "8") {
+                                setDuration("8");
+                              }
+
+                              // 切换到 VEO3 模型
+                              const veo3Models = getTextToVideoModels().filter(
+                                (model) => model.supportsAudio
+                              );
+                              if (veo3Models.length > 0) {
+                                setSelectedModel(veo3Models[0].id);
+                              }
+                            }
+                          }}
+                        />
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-gray-300">{t("cost")}:</span>
-                      <span className="text-xs font-medium text-blue-300">
-                        {currentCreditsRequired} {t("credits")}
+                  </div>
+                )}
+              </div>
+
+              {/* Credits & Generate Button */}
+              <div className="bg-gradient-to-br from-blue-950/30 to-purple-950/20 backdrop-blur-sm rounded-xl p-5 border border-blue-700/30">
+                {user && (
+                  <div className="mb-4 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1">
+                        <span className="text-sm text-gray-300">
+                          {t("credits")}:
+                        </span>
+                        <span
+                          className={cn(
+                            "text-sm font-medium tabular-nums",
+                            leftCredits !== null &&
+                              leftCredits < currentCreditsRequired
+                              ? "text-red-400"
+                              : "text-gray-100"
+                          )}
+                        >
+                          {leftCredits !== null ? leftCredits : "-"}
+                        </span>
+                        <Coins className="h-4 w-4 text-gray-400" />
+                      </div>
+                      <a
+                        href="/pricing"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-blue-400 hover:text-blue-300 hover:underline cursor-pointer"
+                      >
+                        {t("recharge")}
+                      </a>
+                    </div>
+
+                    <div className="flex items-center gap-1">
+                      <span className="text-sm text-gray-300">
+                        {t("cost")}:
                       </span>
+                      <span className="text-sm font-medium text-blue-300 tabular-nums">
+                        {currentCreditsRequired}
+                      </span>
+                      <Coins className="h-4 w-4 text-blue-300" />
                     </div>
                   </div>
                 )}
@@ -550,13 +757,6 @@ export default function VideoGenerator({
                 </Button>
               </div>
             </div>
-          </div>
-
-          {/* Model availability notice */}
-          <div className="mt-6 text-center">
-            <p className="text-xs text-gray-400">
-              {t("modelNotice")}
-            </p>
           </div>
         </Card>
 

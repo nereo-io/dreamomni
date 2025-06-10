@@ -24,4 +24,9 @@ export interface Order {
   paid_at?: string;
   paid_email?: string;
   paid_detail?: string;
+  // 新增支付提供商相关字段
+  payment_provider?: string;
+  payment_method?: string;
+  payssion_transaction_id?: string;
+  payment_provider_fee?: number;
 }

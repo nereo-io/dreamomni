@@ -113,6 +113,79 @@ export async function updateOrderSession(
   return data;
 }
 
+// 新增：更新支付提供商相关信息
+export async function updateOrderPaymentProvider(
+  order_no: string,
+  payment_provider: string,
+  payment_method?: string,
+  transaction_id?: string,
+  fee?: number
+) {
+  const supabase = getSupabaseClient();
+  
+  const updateData: any = { payment_provider };
+  
+  if (payment_method) updateData.payment_method = payment_method;
+  if (transaction_id) {
+    if (payment_provider === 'payssion') {
+      updateData.payssion_transaction_id = transaction_id;
+    } else if (payment_provider === 'stripe') {
+      updateData.stripe_session_id = transaction_id;
+    }
+  }
+  if (fee !== undefined) updateData.payment_provider_fee = fee;
+
+  const { data, error } = await supabase
+    .from("orders")
+    .update(updateData)
+    .eq("order_no", order_no);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+// 新增：根据支付提供商查询订单
+export async function getOrdersByPaymentProvider(
+  payment_provider: string,
+  page: number = 1,
+  limit: number = 50
+): Promise<Order[] | undefined> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("orders")
+    .select("*")
+    .eq("payment_provider", payment_provider)
+    .order("created_at", { ascending: false })
+    .range((page - 1) * limit, page * limit - 1);
+
+  if (error) {
+    return undefined;
+  }
+
+  return data;
+}
+
+// 新增：根据Payssion交易ID查询订单
+export async function findOrderByPayssionTransactionId(
+  transaction_id: string
+): Promise<Order | undefined> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("orders")
+    .select("*")
+    .eq("payssion_transaction_id", transaction_id)
+    .single();
+
+  if (error) {
+    return undefined;
+  }
+
+  return data;
+}
+
 export async function updateOrderSubscription(
   order_no: string,
   sub_id: string,

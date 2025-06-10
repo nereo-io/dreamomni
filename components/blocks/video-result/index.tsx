@@ -127,6 +127,7 @@ export default function VideoResult({
 }: VideoResultProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoadingVideo, setIsLoadingVideo] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const [videoUrl, setVideoUrl] = useState(generation.video_url);
   const [currentTime, setCurrentTime] = useState(Date.now());
   const router = useRouter();
@@ -323,10 +324,15 @@ export default function VideoResult({
   };
 
   const handleDownload = async () => {
-    if (!videoUrl) return;
+    if (!videoUrl || isDownloading) return;
 
+    setIsDownloading(true);
     try {
       const response = await fetch(videoUrl);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch video: ${response.status}`);
+      }
+      
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -338,6 +344,9 @@ export default function VideoResult({
       document.body.removeChild(a);
     } catch (error) {
       console.error("Download failed:", error);
+      // 可以添加错误提示 toast 等
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -427,9 +436,18 @@ export default function VideoResult({
 
             {/* 操作选项 - 放在视频下面，简化版 */}
             <div className="flex items-center justify-center gap-2">
-              <Button variant="outline" size="sm" onClick={handleDownload}>
-                <Download className="h-4 w-4 mr-2" />
-{t("download")}
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleDownload}
+                disabled={isDownloading}
+              >
+                {isDownloading ? (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <Download className="h-4 w-4 mr-2" />
+                )}
+                {isDownloading ? t("downloading") : t("download")}
               </Button>
               <Button
                 variant="outline"

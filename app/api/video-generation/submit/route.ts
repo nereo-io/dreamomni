@@ -15,7 +15,11 @@ import {
   getSupportedModelIds,
   isImageToVideoModel,
   isKlingModel,
+  isVeo2Model,
+  isVeo3Model,
+  isVeoModel,
   calculateCredits,
+  VideoModelProvider,
 } from "@/config/video-models";
 
 // 配置fal client
@@ -56,6 +60,7 @@ export async function POST(req: Request) {
       frames_per_second = 16,
       seed,
       enable_safety_checker = true,
+      generate_audio = false, // 新增：音频生成选项
       ...otherParams
     } = await req.json();
 
@@ -76,7 +81,11 @@ export async function POST(req: Request) {
 
     // 4. 计算所需积分并检查余额
     const durationInt = parseInt(duration);
-    const requiredCredits = calculateCredits(model, durationInt);
+    const requiredCredits = calculateCredits(
+      model,
+      durationInt,
+      generate_audio
+    );
 
     if (requiredCredits === 0) {
       return respErr("无法计算所需积分，请检查模型配置");
@@ -88,14 +97,28 @@ export async function POST(req: Request) {
       );
     }
 
-    // 确定积分交易类型
+    // 确定积分交易类型并验证时长
     let transType: CreditsTransType;
+
+    // 验证模型支持的时长
+    if (!modelConfig?.supportedDurations?.includes(durationInt)) {
+      return respErr(
+        `${model} 模型不支持 ${durationInt} 秒时长，支持的时长: ${modelConfig?.supportedDurations?.join(
+          ", "
+        )} 秒`
+      );
+    }
+
+    // 根据时长确定交易类型（所有模型通用）
     if (durationInt === 5) {
       transType = CreditsTransType.VideoGeneration5s;
+    } else if (durationInt === 8) {
+      // VEO模型的8秒使用5秒类型（积分计算已经按实际秒数计算）
+      transType = CreditsTransType.VideoGeneration8s;
     } else if (durationInt === 10) {
       transType = CreditsTransType.VideoGeneration10s;
     } else {
-      return respErr("不支持的视频时长，仅支持5秒或10秒");
+      return respErr(`不支持的时长: ${durationInt}秒`);
     }
 
     // 检查API密钥
@@ -106,8 +129,20 @@ export async function POST(req: Request) {
     // 构建请求输入
     const input: any = {
       prompt,
-      ...otherParams,
     };
+
+    // 通用参数
+    if (aspect_ratio) {
+      input.aspect_ratio = aspect_ratio;
+    }
+
+    if (seed) {
+      input.seed = seed;
+    }
+
+    if (duration) {
+      input.duration = duration;
+    }
 
     // 根据模型类型添加相应参数
     if (isImageToVideoModel(model)) {
@@ -117,42 +152,30 @@ export async function POST(req: Request) {
       input.image_url = image_url;
     }
 
-    if (negative_prompt) {
-      input.negative_prompt = negative_prompt;
-    }
-
-    if (aspect_ratio) {
-      input.aspect_ratio = aspect_ratio;
-    }
-
-    // Kling 模型特有参数
+    // 按模型提供商分类处理参数
     if (isKlingModel(model)) {
+      // Kling 模型特有参数
       if (duration) {
         input.duration = duration;
+      }
+      if (negative_prompt) {
+        input.negative_prompt = negative_prompt;
       }
       if (cfg_scale !== undefined) {
         input.cfg_scale = cfg_scale;
       }
-    } else {
-      // 其他模型的参数
-      if (resolution) {
-        input.resolution = resolution;
+    } else if (isVeo2Model(model)) {
+      if (duration) {
+        input.duration = `${duration}s`;
       }
-      if (num_frames) {
-        input.num_frames = num_frames;
+    } else if (isVeo3Model(model)) {
+      if (duration) {
+        input.duration = `${duration}s`;
       }
-      if (frames_per_second) {
-        input.frames_per_second = frames_per_second;
-      }
-      if (enable_safety_checker !== undefined) {
-        input.enable_safety_checker = enable_safety_checker;
+      if (generate_audio !== undefined) {
+        input.generate_audio = generate_audio;
       }
     }
-
-    if (seed) {
-      input.seed = seed;
-    }
-
     // 5. 扣除积分（在创建任务前扣除）
     try {
       await decreaseCredits({
@@ -176,12 +199,13 @@ export async function POST(req: Request) {
       duration_seconds: parseInt(duration),
       cfg_scale,
       seed,
+      has_audio: generate_audio, // 新增：记录是否包含音频
       status: "IN_QUEUE",
     });
 
     // 7. 提交任务到队列，包含webhook URL
-    const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
-    // const webhookUrl = `https://e8d8-124-64-23-19.ngrok-free.app/api/video-generation/webhook`;
+    // const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
+    const webhookUrl = `https://1e7d-2604-a880-4-1d0-00-b1f6-d000.ngrok-free.app/api/video-generation/webhook`;
 
     const submitOptions: any = {
       input,
@@ -218,9 +242,8 @@ export async function POST(req: Request) {
         prompt,
         image_url: image_url || null,
         aspect_ratio,
-        resolution,
-        num_frames,
-        frames_per_second,
+        duration,
+        generate_audio,
         webhook_url: webhookUrl,
       },
     });

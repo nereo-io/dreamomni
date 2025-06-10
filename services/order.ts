@@ -46,6 +46,8 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
     const paid_detail = JSON.stringify(session);
 
     const order = await findOrderByOrderNo(order_no);
+
+    // console.log("order", order);
     if (!order || order.status !== "created") {
       throw new Error("invalid order");
     }

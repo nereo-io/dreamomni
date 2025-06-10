@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 interface VideoGenerationParams {
   model: string;
@@ -31,6 +32,7 @@ interface PollOptions {
 }
 
 export default function useVideoGeneration() {
+  const t = useTranslations("video-generator");
   const [isLoading, setIsLoading] = useState(false);
   const [currentGeneration, setCurrentGeneration] =
     useState<VideoGenerationResult | null>(null);
@@ -120,13 +122,13 @@ export default function useVideoGeneration() {
           setIsPolling(false);
           setPollingId(null);
           pollAttemptsRef.current = 0;
-          toast.success("视频生成完成!");
+          toast.success(t("toast.videoCompleted"));
           return;
         } else if (status.status === "FAILED") {
           setIsPolling(false);
           setPollingId(null);
           pollAttemptsRef.current = 0;
-          toast.error(status.error_message || "视频生成失败");
+          toast.error(status.error_message || t("toast.videoFailed"));
           return;
         } else {
           // 继续轮询
@@ -195,7 +197,7 @@ export default function useVideoGeneration() {
         }
 
         setCurrentGeneration(generation);
-        toast.success("视频生成任务已提交，正在处理中...");
+        toast.success(t("toast.videoSubmitted"));
 
         return generation;
       } catch (error) {

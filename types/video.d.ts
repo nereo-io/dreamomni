@@ -20,6 +20,7 @@ export interface VideoGeneration {
   duration_seconds: number;
   cfg_scale?: number | null;
   seed?: number | null;
+  has_audio?: boolean | null; // 新增：是否包含音频
   status: VideoGenerationStatus;
   video_url_r2?: string | null;
   video_url_fal?: string | null;
@@ -41,6 +42,7 @@ export interface CreateVideoGenerationParams {
   duration_seconds?: number;
   cfg_scale?: number;
   seed?: number;
+  has_audio?: boolean; // 新增：是否包含音频
   status?: VideoGenerationStatus; // 允许在创建时指定初始状态
 }
 

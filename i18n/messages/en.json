@@ -214,17 +214,23 @@
       "clickToUpload": "Click to upload or drag image here",
       "supportedFormats": "Supports JPG, PNG, GIF formats, max 10MB"
     },
-    "modelNotice": "Veo3 models are being integrated. Please prioritize using Kling models for now.",
     "selectModel": "Select a model",
     "toast": {
       "signInFirst": "Please sign in first",
-      "enterDescription": "Please enter a video description",
+      "enterDescription": "Please enter a video description", 
       "descriptionTooShort": "Video description must be at least 30 characters long",
-      "insufficientCredits": "Insufficient credits. Need {required} credits, but you have {available} left.",
       "uploadImageFile": "Please upload an image file",
-      "imageTooLarge": "Image size cannot exceed 10MB",
-      "imageUploadFailed": "Image upload failed"
+      "imageTooLarge": "Image file is too large (max 10MB)",
+      "imageUploadFailed": "Image upload failed",
+      "insufficientCredits": "Insufficient credits. Required: {required}, Available: {available}",
+      "videoSubmitted": "Video generation task submitted, processing...",
+      "videoCompleted": "Video generation completed!",
+      "videoFailed": "Video generation failed"
     }
+  },
+  "audio-selector": {
+    "sound": "Sound",
+    "veo3Only": "veo3Only"
   },
   "video-history": {
     "title": "Video Generation History",
@@ -274,6 +280,7 @@
     "prompt": "Prompt",
     "browserNotSupported": "Your browser does not support video playback.",
     "download": "Download",
+    "downloading": "Downloading...",
     "openInNewTab": "Open in New Tab",
     "loadingVideo": "Loading Video",
     "videoLoadingMessage": "Video generation is completed. Fetching video URL...",

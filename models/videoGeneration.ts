@@ -43,6 +43,7 @@ export async function createVideoGeneration(
       duration_seconds: params.duration_seconds || 5,
       cfg_scale: params.cfg_scale,
       seed: params.seed,
+      has_audio: params.has_audio || false,
       status: params.status || "PENDING",
     })
     .select()

@@ -57,8 +57,8 @@ export default async function DataPage() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Data Analytics Dashboard</h1>
       <p className="text-muted-foreground mb-8">
-        Comprehensive business intelligence and performance metrics for veo3 AI
-        platform
+        UTC timezone. Comprehensive business intelligence and performance
+        metrics for veo3 AI platform
       </p>
 
       {/* Key Performance Indicators - 移到 Core Metrics 后面 */}
@@ -114,17 +114,17 @@ export default async function DataPage() {
             </h3>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">New Users</span>
+                <span className="text-lg font-bold text-teal-600 dark:text-teal-400">
+                  {userStats.yesterdayNewUsers.toLocaleString()}
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">
                   Videos Generated
                 </span>
                 <span className="text-lg font-bold text-indigo-600 dark:text-indigo-400">
                   {videoStats.yesterdayGenerations.toLocaleString()}
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">New Users</span>
-                <span className="text-lg font-bold text-teal-600 dark:text-teal-400">
-                  {userStats.yesterdayNewUsers.toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between items-center">
