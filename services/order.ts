@@ -14,10 +14,10 @@ const PRODUCT_CONFIG: Record<
   string,
   { credits: number; membershipType: "monthly" | "yearly" }
 > = {
-  "starter-monthly": { credits: 400, membershipType: "monthly" },
-  "pro-monthly": { credits: 1800, membershipType: "monthly" },
-  "starter-yearly": { credits: 4800, membershipType: "yearly" },
-  "pro-yearly": { credits: 21600, membershipType: "yearly" },
+  "mini-monthly": { credits: 200, membershipType: "monthly" },
+  "standard-monthly": { credits: 1000, membershipType: "monthly" },
+  "mini-yearly": { credits: 2400, membershipType: "yearly" },
+  "standard-yearly": { credits: 12000, membershipType: "yearly" },
 };
 
 export async function handleOrderSession(session: Stripe.Checkout.Session) {

@@ -485,3 +485,83 @@ Cookie: {{authCookie}}
 GET {{baseUrl}}/api/video-generations/history
 Cookie: {{authCookie}}
 Content-Type: application/json
+
+#################################
+### APICore直接接口测试
+#################################
+@apicoreUrl = https://api.apicore.ai
+@apicoreKey = sk-IIhn7BSdhGVrxkcvbQftRqcfwxZ3OpgUCnR63aF5chVPR96T
+
+### 1. 测试APICore连接 - 获取模型列表
+GET {{apicoreUrl}}/v1/models
+Authorization: Bearer {{apicoreKey}}
+Content-Type: application/json
+
+### 2. 测试APICore Chat Completions接口 - Veo3模型
+POST {{apicoreUrl}}/v1/chat/completions
+Authorization: Bearer {{apicoreKey}}
+Content-Type: application/json
+
+{
+  "model": "veo3-fast",
+  "messages": [
+    {
+      "role": "user",
+      "content": "一只可爱的小猫在花园里玩耍，阳光明媚，画面温馨"
+    }
+  ],
+  "stream": true
+}
+
+### 3. 测试APICore Chat Completions接口 - Veo3标准版
+POST {{apicoreUrl}}/v1/chat/completions
+Authorization: Bearer {{apicoreKey}}
+Content-Type: application/json
+
+{
+  "model": "veo3",
+  "messages": [
+    {
+      "role": "user",
+      "content": "A beautiful sunset over mountains with birds flying in the sky"
+    }
+  ],
+  "stream": true
+}
+
+#################################
+### 通过本地API测试Veo3集成
+#################################
+
+### 5. 测试本地API - Veo3 Fast模型
+POST {{baseUrl}}/api/video-generation/submit
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "model": "veo3-fast",
+  "prompt": "一只可爱的小猫在花园里玩耍，阳光明媚，画面温馨",
+  "duration": "5",
+  "aspect_ratio": "16:9"
+}
+
+### 6. 测试本地API - Veo3标准版
+POST {{baseUrl}}/api/video-generation/submit
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "model": "veo3",
+  "prompt": "A beautiful sunset over mountains with birds flying in the sky",
+  "duration": "8", 
+  "aspect_ratio": "16:9"
+}
+
+### 7. 测试状态查询 - 使用生成ID
+POST {{baseUrl}}/api/video-generation/status
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "id": "YOUR_GENERATION_ID_HERE"
+}
