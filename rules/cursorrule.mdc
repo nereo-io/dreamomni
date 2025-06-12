@@ -1,0 +1,216 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# veo3 AI 项目开发指南 (供LLM参考)
+
+本文档为LLM在veo3 AI项目中生成或修改代码提供指导。veo3 AI是一个专注于为用户提供卓越视频生成体验的AI平台(域名: veo3ai.io)。遵循这些模式有助于确保代码一致性并利用现有架构。
+
+注意：该项目所有的前端展示语言为英文。不需要支持中文语言。Supabase的数据库项目名称为 Veo3
+
+
+## 1. 项目结构与命名约定
+
+*   **页面**: 创建于 `app/[locale]/(group)/{pageName}/page.tsx`。
+*   **布局**: 在页面或组目录中使用 `layout.tsx`。
+*   **API路由**: 创建于 `app/api/{routeName}/route.ts`。
+*   **组件**:
+    *   可复用UI元素: `components/ui/{ComponentName}.tsx` (通常基于Shadcn/ui)。
+    *   页面特定区块: `components/blocks/{BlockName}/{index.tsx, subcomponents.tsx}`。
+*   **服务 (Services)**: 业务逻辑和数据获取辅助函数位于 `services/{serviceName}.ts`。例如: `services/page.ts` 用于获取页面特定的i18n内容。
+*   **模型 (Models)**: 数据库交互逻辑位于 `models/{modelName}.ts`。例如: `models/user.ts`, `models/video.ts`。
+*   **类型 (Types)**: TypeScript定义位于 `types/{category}/{typeName}.d.ts` 或 `types/{typeName}.ts`。
+*   **国际化 (i18n)**:
+    *   全局消息: `i18n/messages/{locale}.json`。
+    *   页面内容: `i18n/pages/{pageDir}/{locale}.json`。
+    *   区块内容: `i18n/blocks/{blockDir}/{locale}.json`。
+*   **钩子 (Hooks)**: 自定义React Hooks位于 `hooks/useHookName.ts`。
+*   **上下文 (Contexts)**: 全局状态提供者位于 `contexts/ContextName.tsx`。
+*   **命名规范**:
+    *   文件/文件夹: kebab-case (例如: `user-profile`, `page.tsx`)。
+    *   组件/类型/接口: PascalCase (例如: `UserProfile`, `HeroBlockProps`)。
+    *   函数/变量: camelCase (例如: `getUserData`, `isLoading`)。
+
+## 2. 组件开发
+
+*   **Props**: 在 `types/` 目录或组件旁边为组件Props定义清晰的TypeScript接口。
+*   **样式**: 使用Tailwind CSS工具类。利用 `tailwind-merge` (`@/lib/utils` 中的 `cn` 工具) 处理条件类名。
+*   **UI基础**: 使用 `components/ui/` 中的 `shadcn/ui` 组件作为基础。
+*   **国际化**: 使用 `getTranslations` (服务端) 或 `useTranslations` (客户端) 从i18n JSON文件获取文本。将翻译内容作为props传递或使用hooks。
+    *   区块组件示例: 数据通常在父页面组件(服务端)通过 `services/page.ts` (读取i18n JSON)获取，然后作为props传递给区块。
+*   **客户端组件**: 对需要交互性或 `useState`, `useEffect`, `useContext` 等hooks的组件使用 `"use client";` 指令。
+
+## 3. 页面开发
+
+*   **文件**: `page.tsx` 存放主要内容。
+*   **布局**: `layout.tsx` 用于共享结构。
+*   **元数据 (Metadata)**: 实现 `generateMetadata` 以进行SEO。从 `i18n/messages/{locale}.json` 获取元数据的翻译。
+    ```typescript
+    // app/[locale]/(default)/some-page/page.tsx 示例
+    import { getTranslations } from "next-intl/server";
+    // ...
+    export async function generateMetadata({ params: { locale } }: { params: { locale: string }}) {
+      const t = await getTranslations({ locale, namespace: "metadata" }); // 或特定页面命名空间
+      return {
+        title: t("somePage.title"), // 假设messages JSON中有 "somePage.title"键
+        description: t("somePage.description"),
+      };
+    }
+    ```
+*   **数据获取 (服务端组件)**:
+    *   在服务端组件中直接使用 `async/await`。
+    *   使用 `services/page.ts` 中的辅助函数获取国际化内容，这些函数动态导入 `i18n/pages/` 或 `i18n/blocks/` 中的JSON文件。
+    *   示例: `const pageContent = await getLandingPage(locale);`
+*   **客户端数据获取**: 如果数据需要在客户端获取，则使用SWR或React Query配合API路由。
+
+## 4. API路由开发
+
+*   **位置**: `app/api/{path}/route.ts`。
+*   **请求/响应**: 使用 `NextRequest` 和 `NextResponse`。使用 `lib/resp.ts` 中的辅助函数 (例如 `respJson`, `respErr`) 以确保响应一致性。
+*   **认证**: 使用 `@/auth` 中的 `const session = await auth();` 保护路由。检查 `session.user`。
+*   **数据库交互**: 调用 `models/*` 中的函数与Supabase交互。
+*   **错误处理**: 使用try-catch块并通过 `respErr` 返回适当的错误响应。
+*   **输入验证**: 使用Zod验证请求体/参数。
+
+## 5. 国际化 (i18n) 与 `next-intl`
+
+*   **文本来源**: 所有面向用户的文本必须来自 `i18n/` 目录中的JSON文件。
+*   **服务端组件**: 使用 `next-intl/server` 中的 `getTranslations`。
+    ```typescript
+    // 服务端组件示例
+    import { getTranslations } from "next-intl/server";
+    export default async function MyServerComponent({ params: { locale }}) {
+      const t = await getTranslations({ locale, namespace: "MyComponentNamespace" });
+      return <h1>{t("title")}</h1>;
+    }
+    ```
+*   **客户端组件**: 使用 `next-intl` 中的 `useTranslations`。
+    ```typescript
+    // 客户端组件示例
+    "use client";
+    import { useTranslations } from "next-intl";
+    export default function MyClientComponent() {
+      const t = useTranslations("MyComponentNamespace");
+      return <button>{t("submitButton")}</button>;
+    }
+    ```
+*   **配置**:
+    *   支持的区域设置位于 `i18n/locale.ts`。
+    *   路由 (路径名、前缀) 位于 `i18n/routing.ts`。
+    *   `middleware.ts` 中的中间件处理区域设置检测和路由。
+*   **页面内容**: 通过 `services/page.ts` 获取结构化的页面内容(通常是区块的整个JSON对象)，该服务从 `i18n/pages/{pageName}/{locale}.json` 或 `i18n/blocks/{blockName}/{locale}.json` 读取。
+
+## 6. 数据库操作 (Supabase)
+
+*   **模型**: 所有数据库查询应封装在 `models/` 目录中的函数内 (例如 `models/user.ts`, `models/video.ts`, `models/generation.ts`)。
+*   **客户端**: 使用在 `models/db.ts` 中初始化的Supabase客户端。
+*   **类型安全**: 在 `types/` 中为表结构定义TypeScript接口，并在模型函数中使用它们。
+*   **RLS**: 假设已启用行级安全(Row Level Security)。查询应尊重用户权限。应谨慎、安全地使用服务角色密钥执行的服务端操作。
+*   **错误处理**: 模型函数应处理Supabase错误并适当地抛出或返回它们。
+
+## 7. 状态管理
+
+*   **全局状态**: 使用 `AppContext` (`contexts/app.tsx`) 管理全局状态，如用户信息、主题、模态框。通过 `useAppContext()` 访问。
+*   **局部状态**: 使用 `useState` 和 `useReducer` 管理组件局部状态。
+*   **自定义Hooks**: 将复杂的状态逻辑或副作用封装在 `hooks/` 目录中的自定义Hooks内 (例如 `useMembership`, `useCredits`, `useVideoGeneration`)。
+
+## 8. 样式与主题
+
+*   **主要工具**: Tailwind CSS。
+*   **组件库**: Shadcn/ui。改编或扩展 `components/ui/` 中的组件。
+*   **类名合并**: 使用 `@/lib/utils` 中的 `cn()` 工具处理动态类名。
+*   **主题变量**: 在 `app/theme.css` 中定义的CSS变量。
+*   **暗黑模式**: 通过 `next-themes` 和 `.dark` 类支持。主题提供者位于 `providers/theme.tsx`。
+
+## 9. TypeScript与类型定义
+
+*   **严格类型**: 力求完整的类型覆盖。
+*   **位置**:
+    *   全局类型: `types/global.d.ts`, `types/enums.ts`, `types/interfaces.ts`。
+    *   模型特定类型: `types/{modelName}.d.ts` (例如 `types/user.d.ts`, `types/video.d.ts`)。
+    *   组件prop类型: 通常与组件并置或位于 `types/blocks/` 或 `types/pages/`。
+*   **清晰性**: 为类型和接口使用描述性名称。
+
+## 10. 环境变量
+
+*   **访问**: 使用 `process.env.VARIABLE_NAME`。
+*   **客户端**: 以 `NEXT_PUBLIC_` 为前缀以暴露给浏览器。
+*   **示例文件**: 参考 `.env.example` 获取所需变量列表。
+*   **安全**: 不要提交 `.env.local` 或硬编码敏感密钥。
+
+## 11. 视频生成特定实践
+
+*   **视频处理**: 视频生成、处理和转换相关逻辑应封装在 `services/video.ts` 中。
+*   **进度跟踪**: 使用WebSocket或Server-Sent Events来实时更新视频生成进度。
+*   **文件管理**: 使用Supabase Storage或云存储服务管理生成的视频文件。
+*   **队列系统**: 对于大量视频生成请求，实现队列系统以避免资源过载。
+*   **预览功能**: 提供视频缩略图和预览功能以改善用户体验。
+*   **格式支持**: 支持多种视频格式和分辨率选项。
+*   **错误处理**: 为视频生成失败提供清晰的错误消息和重试机制。
+
+## 12. 通用最佳实践
+
+*   **模块化**: 将复杂逻辑分解为更小、可管理的功能和组件。
+*   **可读性**: 编写清晰、易懂的代码。为不明显的逻辑添加注释。
+*   **性能**:
+    *   默认使用服务端组件。仅在必要时选择客户端组件。
+    *   适当时使用懒加载组件和图片。
+    *   优化数据库查询。
+*   **安全**:
+    *   验证所有用户输入(客户端和服务器端)。
+    *   清理输出以防止XSS。
+    *   遵循NextAuth.js安全最佳实践。
+    *   注意Supabase RLS策略。
+
+## 13. 分析追踪 (Plausible Analytics)
+
+*   **事件追踪配置**: 使用 Plausible Analytics 进行用户行为分析和事件追踪。
+*   **脚本配置**: 在 `components/analytics/plausible.tsx` 中配置 Plausible 追踪脚本:
+    ```tsx
+    // 支持自定义事件的脚本URL
+    const plausibleScriptUrl = "https://plausible.io/js/script.outbound-links.pageview-props.tagged-events.js";
+    ```
+*   **事件追踪方法**:
+    *   **CSS类名方式** (推荐简单场景): 在要追踪的元素上添加 `plausible-event-name=EventName` 类
+        ```tsx
+        // 按钮点击追踪
+        <Button className="plausible-event-name=Video+Generation ...">
+          Generate Video
+        </Button>
+        
+        // 表单提交追踪 (类应添加到form元素而非button)
+        <form className="plausible-event-name=Form+Submit">
+          <button type="submit">Submit</button>
+        </form>
+        ```
+    *   **JavaScript方式** (推荐复杂场景): 手动触发自定义事件
+        ```tsx
+        // 在组件中手动触发事件
+        if (typeof window !== "undefined" && window.plausible) {
+          window.plausible("Video Generation", {
+            props: {
+              model: "kling-1-6",
+              duration: "5",
+              aspect_ratio: "16:9",
+              user_id: user.uuid,
+            },
+          });
+        }
+        ```
+*   **事件命名规范**:
+    *   使用描述性的事件名称，如 `Video Generation`, `User Signup`, `Plan Purchase`
+    *   在CSS类名中使用 `+` 代替空格: `Video+Generation`
+    *   在JavaScript中使用空格: `Video Generation`
+*   **后台配置**: 
+    1. 在 Plausible 后台的 Goals 部分添加自定义事件目标
+    2. 事件名称必须与代码中的名称完全匹配
+    3. 配置完成后可在仪表板中查看转化数据
+*   **场景应用**:
+    *   视频生成按钮点击
+    *   用户注册/登录
+    *   付费转化
+    *   视频下载
+    *   页面关键交互
+
+通过遵循这些指南，LLM可以有效地为veo3 AI代码库做出贡献，保持一致性和高质量。

@@ -1,19 +1,21 @@
 # CLAUDE.md
 
+## 问题回答原则
+
 要每次都用审视的目光，仔细看我的输入的潜在的问题，你要犀利的提出我的问题，并给出明显在我思考框架之外的建议。你要觉得我说的太离谱了，你就骂回来，帮助我瞬间清醒
 
-产品的设计原则：
+## 产品的设计原则：
 
 1.  极致简洁 - 每个元素都必须有明确价值；减少认知负担 - 让用户专注核心目标
 2.  视觉层次 - 重要信息突出，次要信息弱化
 3.  直觉操作 - 用户无需思考就能理解
 
-UI 的设计原则：
+## UI 的设计原则：
 
 1. 简洁
 2. 优雅
 
-代码原则：
+## 代码原则：
 
 1. 简单，写函数前先了解清楚已经实现的逻辑，不要写重复的代码逻辑。避免重复造轮子，写重复冗余代码。
 
@@ -25,21 +27,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Important Note**: Despite the "veo3" name referencing Google's Veo model, the current video generation system only supports Kling series models due to API limitations. Google's Veo3 model is not currently available through the fal.ai integration.
 
-计费逻辑：0.25 美金等于 10 个积分
+**计费逻辑**: 0.25 美金等于 10 个积分
+
+**Language Note**: 该项目所有的前端展示语言为英文。不需要支持中文语言。Supabase 的数据库项目名称为 Veo3
 
 ## Key Development Commands
 
 ```bash
 # Development
-pnpm dev                    # Start development server
+pnpm dev                    # Start development server with NODE_NO_WARNINGS=1
 pnpm dev:clean             # Clean cache and start development
 
 # Building & Testing
 pnpm build                 # Build production version
-pnpm start                 # Start production server
+pnpm start                 # Start production server with NODE_NO_WARNINGS=1
 pnpm lint                  # Run ESLint
-pnpm test                  # Run Jest tests
-pnpm ts                    # Run test TypeScript file
+pnpm test                  # Run Jest tests (tests in **/__tests__/**/*.test.ts)
+pnpm ts                    # Run test TypeScript file (ts/test.ts)
 
 # Analysis & Deployment
 pnpm analyze               # Bundle analysis with ANALYZE=true
@@ -50,6 +54,9 @@ pnpm cf:deploy            # Deploy to Cloudflare
 # Utilities
 pnpm clean                # Remove node_modules, .next, pnpm-lock.yaml
 pnpm clean:cache          # Remove .next and node_modules/.cache
+
+# Running individual tests
+jest path/to/test.test.ts  # Run specific test file
 ```
 
 ## Architecture Overview
@@ -59,9 +66,9 @@ pnpm clean:cache          # Remove .next and node_modules/.cache
 - **Framework**: Next.js 14 with App Router
 - **Database**: Supabase (PostgreSQL)
 - **Authentication**: NextAuth.js 5.0 with Google, GitHub, Apple providers
-- **AI Integration**: AI SDK with Anthropic, OpenAI, DeepSeek, Replicate
+- **AI Integration**: AI SDK with Anthropic, OpenAI, DeepSeek, Replicate, Azure OpenAI, OpenRouter
 - **Video Generation**: fal.ai client (@fal-ai/client)
-- **Payments**: Stripe
+- **Payments**: Stripe + Payssion (multiple payment methods)
 - **File Storage**: AWS S3/Cloudflare R2
 - **UI**: Tailwind CSS + Shadcn/ui components
 
@@ -96,9 +103,10 @@ The data models provide a clean abstraction over Supabase operations:
 
 #### Internationalization
 
-- Only English (`en`) is currently active (see `i18n/locale.ts`)
+- Multiple languages supported: English (`en`), Russian (`ru`), Chinese (`zh`), Traditional Chinese (`zh-tw`), French (`fr`), Japanese (`ja`), Korean (`ko`)
 - Translations organized by feature in `i18n/blocks/` and `i18n/pages/`
 - Route-level translations in `i18n/routing.ts`
+- Content obtained via `services/page.ts` helper functions
 
 ### Authentication Flow
 
@@ -156,11 +164,14 @@ NextAuth.js handles multiple providers with custom callbacks:
 Required environment variables:
 
 - `NEXT_PUBLIC_SUPABASE_URL` & `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Database
-- `ANTHROPIC_API_KEY`, `DEEPSEEK_API_KEY` - AI providers
+- `ANTHROPIC_API_KEY`, `DEEPSEEK_API_KEY`, `OPENAI_API_KEY` - AI providers
 - `FAL_KEY` - Video generation API
 - `NEXTAUTH_URL` & `NEXTAUTH_SECRET` - Authentication
 - `STRIPE_SECRET_KEY` & `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` - Payments
-- Various provider OAuth credentials for auth
+- `PAYSSION_APP_ID`, `PAYSSION_SECRET_KEY`, `PAYSSION_API_KEY` - Payssion payments
+- Various provider OAuth credentials (Google, GitHub, Apple)
+- `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION` - S3 storage
+- `CLOUDFLARE_R2_*` variables for R2 storage
 
 ## Testing Strategy
 
@@ -178,3 +189,79 @@ Required environment variables:
 5. Frontend polls status and displays results
 
 This architecture separates concerns cleanly while maintaining type safety and providing a scalable foundation for AI-powered features.
+
+## Development Guidelines from Cursor Rules
+
+### Project Structure & Naming Conventions
+
+- **Pages**: Created in `app/[locale]/(group)/{pageName}/page.tsx`
+- **Layouts**: Use `layout.tsx` in page or group directories
+- **API routes**: Created in `app/api/{routeName}/route.ts`
+- **Components**:
+  - Reusable UI elements: `components/ui/{ComponentName}.tsx` (usually based on Shadcn/ui)
+  - Page-specific blocks: `components/blocks/{BlockName}/{index.tsx, subcomponents.tsx}`
+- **Services**: Business logic and data fetching helpers in `services/{serviceName}.ts`
+- **Models**: Database interaction logic in `models/{modelName}.ts`
+- **Types**: TypeScript definitions in `types/{category}/{typeName}.d.ts` or `types/{typeName}.ts`
+- **i18n**:
+  - Global messages: `i18n/messages/{locale}.json`
+  - Page content: `i18n/pages/{pageDir}/{locale}.json`
+  - Block content: `i18n/blocks/{blockDir}/{locale}.json`
+- **Hooks**: Custom React Hooks in `hooks/useHookName.ts`
+- **Contexts**: Global state providers in `contexts/ContextName.tsx`
+
+### Naming Conventions
+
+- Files/folders: kebab-case (e.g., `user-profile`, `page.tsx`)
+- Components/types/interfaces: PascalCase (e.g., `UserProfile`, `HeroBlockProps`)
+- Functions/variables: camelCase (e.g., `getUserData`, `isLoading`)
+
+### Component Development
+
+- Define clear TypeScript interfaces for component Props in `types/` directory or alongside components
+- Use Tailwind CSS utility classes with `tailwind-merge` (`cn` utility from `@/lib/utils`)
+- Use `shadcn/ui` components from `components/ui/` as foundation
+- Use `getTranslations` (server-side) or `useTranslations` (client-side) for i18n
+- Use `"use client";` directive for components requiring interactivity or hooks
+
+### API Route Development
+
+- Use `lib/resp.ts` helper functions (`respJson`, `respErr`) for consistent responses
+- Protect routes with `auth()` from NextAuth, check `session.user`
+- Call functions from `models/*` for database interactions
+- Use try-catch blocks with appropriate error responses via `respErr`
+- Validate input with Zod schemas
+
+### Database Operations
+
+- Always use data models in `models/` rather than direct Supabase calls
+- Follow UUID-based primary key patterns
+- Implement proper error handling and TypeScript types
+- Respect Row Level Security (RLS) policies
+
+### Video Generation Specific Patterns
+
+- Video processing logic encapsulated in `services/video.ts`
+- Use WebSocket or Server-Sent Events for real-time progress updates
+- Manage generated video files with Supabase Storage or cloud storage
+- Implement queue systems for handling multiple video generation requests
+- Provide video thumbnails and preview functionality
+- Support multiple video formats and resolution options
+- Clear error messages and retry mechanisms for failed generations
+
+### Analytics Integration (Plausible)
+
+- Event tracking configured in `components/analytics/plausible.tsx`
+- **CSS class method** (simple scenarios): Add `plausible-event-name=EventName` class
+- **JavaScript method** (complex scenarios): Manually trigger with `window.plausible()`
+- Event naming: Use descriptive names like `Video Generation`, `User Signup`
+- Configure Goals in Plausible backend to match event names exactly
+
+### Security & Performance Best Practices
+
+- Validate all user input (client and server-side)
+- Sanitize output to prevent XSS
+- Follow NextAuth.js security best practices
+- Use server components by default, client components only when necessary
+- Lazy load components and images appropriately
+- Optimize database queries
