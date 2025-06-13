@@ -215,6 +215,10 @@
       "supportedFormats": "Supports JPG, PNG, GIF formats, max 10MB"
     },
     "selectModel": "Select a model",
+    "telegramBanner": {
+      "text": "Get 24h early access to trending AI templates",
+      "linkText": "Join Channel"
+    },
     "toast": {
       "signInFirst": "Please sign in first",
       "enterDescription": "Please enter a video description", 
