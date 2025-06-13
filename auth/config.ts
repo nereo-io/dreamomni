@@ -10,8 +10,43 @@ import { getIsoTimestr } from "@/lib/time";
 import { getUuid } from "@/lib/hash";
 import { saveUser } from "@/services/user";
 import { getDefaultAvatar } from "@/lib/avatar";
+import { signInWithEmail } from "@/services/supabase-auth";
 
 let providers: Provider[] = [];
+
+// Email/Password Auth with Supabase
+if (process.env.NEXT_PUBLIC_AUTH_EMAIL_ENABLED === "true") {
+  providers.push(
+    CredentialsProvider({
+      id: "email",
+      name: "Email",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials, req) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+
+        try {
+          const user = await signInWithEmail(
+            credentials.email as string,
+            credentials.password as string
+          );
+
+          return user;
+        } catch (error: any) {
+          console.error("Email auth error:", error);
+
+          // NextAuth 5.0 要求在错误时返回null，而不是抛出错误
+          // 错误消息需要通过其他方式传递
+          return null;
+        }
+      },
+    })
+  );
+}
 
 // Google One Tap Auth
 if (
@@ -124,7 +159,7 @@ if (
       },
       profile(profile) {
         // console.log("[Apple Auth] Raw profile:", profile);
-        
+
         let name = "Apple User";
         // 处理名字
         if (profile.name) {
@@ -145,7 +180,7 @@ if (
           name: name,
           email: profile.email,
           image: null,
-        }
+        };
       },
     })
   );
@@ -160,10 +195,13 @@ export const providerMap = providers
       return { id: provider.id, name: provider.name };
     }
   })
-  .filter((provider) => provider.id !== "google-one-tap");
+  .filter(
+    (provider) => provider.id !== "google-one-tap" && provider.id !== "email"
+  );
 
 export const authOptions: NextAuthConfig = {
   providers,
+  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/auth/signin",
     error: "/auth/error",
@@ -195,11 +233,14 @@ export const authOptions: NextAuthConfig = {
           const dbUser: User = {
             uuid: getUuid(),
             email: user.email,
-            nickname: user.name || "",
-            avatar_url: user.image || "",
+            nickname: user.name || user.email.split("@")[0] || "",
+            avatar_url: user.image || getDefaultAvatar(user.email),
             signin_type: account.type,
             signin_provider: account.provider,
-            signin_openid: account.providerAccountId,
+            signin_openid:
+              account.provider === "email"
+                ? user.id
+                : account.providerAccountId,
             created_at: getIsoTimestr(),
             signin_ip: await getClientIp(),
           };

@@ -65,7 +65,7 @@ jest path/to/test.test.ts  # Run specific test file
 
 - **Framework**: Next.js 14 with App Router
 - **Database**: Supabase (PostgreSQL)
-- **Authentication**: NextAuth.js 5.0 with Google, GitHub, Apple providers
+- **Authentication**: NextAuth.js 5.0 with Google, GitHub, Apple providers + Supabase Email Authentication
 - **AI Integration**: AI SDK with Anthropic, OpenAI, DeepSeek, Replicate, Azure OpenAI, OpenRouter
 - **Video Generation**: fal.ai client (@fal-ai/client)
 - **Payments**: Stripe + Payssion (multiple payment methods)
@@ -112,10 +112,15 @@ The data models provide a clean abstraction over Supabase operations:
 
 NextAuth.js handles multiple providers with custom callbacks:
 
-- Google One Tap integration with credential verification
-- OAuth providers (Google, GitHub, Apple) with profile normalization
-- User creation/lookup via `saveUser()` service function
-- JWT tokens store user UUID, email, nickname, avatar
+- **OAuth Providers**: Google, GitHub, Apple with profile normalization
+- **Google One Tap**: Integration with credential verification
+- **Email Authentication**: Supabase-powered email/password authentication
+  - Registration: `POST /api/auth/signup` - User signup with email verification
+  - Password Reset: `POST /api/auth/forgot-password` - Send reset email
+  - Reset Password: `/auth/reset-password` - Handle password reset flow
+  - Sign In: Via NextAuth credentials provider with Supabase validation
+- **User Management**: All authentication methods create/lookup users via `saveUser()` service
+- **JWT Tokens**: Store user UUID, email, nickname, avatar for all auth types
 
 ### State Management
 
@@ -142,10 +147,15 @@ NextAuth.js handles multiple providers with custom callbacks:
 
 ### API Route Development
 
-- Use `lib/resp.ts` for standardized API responses
+- Use `lib/resp.ts` for standardized API responses (`respJson`, `respErr`, `respData`)
 - Implement authentication with `auth()` from NextAuth
 - Follow the pattern in existing routes for error handling
 - Use appropriate data models from `models/` directory
+- **Email Authentication**: 
+  - Use Zod schemas for request validation
+  - Leverage `services/supabase-auth.ts` for Supabase auth operations
+  - Handle errors gracefully with appropriate user-friendly messages
+  - Follow security best practices (don't leak user existence info)
 
 ### Internationalization
 
@@ -167,6 +177,7 @@ Required environment variables:
 - `ANTHROPIC_API_KEY`, `DEEPSEEK_API_KEY`, `OPENAI_API_KEY` - AI providers
 - `FAL_KEY` - Video generation API
 - `NEXTAUTH_URL` & `NEXTAUTH_SECRET` - Authentication
+- `NEXT_PUBLIC_AUTH_EMAIL_ENABLED` - Enable email authentication (set to "true")
 - `STRIPE_SECRET_KEY` & `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` - Payments
 - `PAYSSION_APP_ID`, `PAYSSION_SECRET_KEY`, `PAYSSION_API_KEY` - Payssion payments
 - Various provider OAuth credentials (Google, GitHub, Apple)
