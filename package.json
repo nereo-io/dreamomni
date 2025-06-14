@@ -1,10 +1,10 @@
 {
-  "name": "veo3-ai",
+  "name": "seedance",
   "version": "1.0.0",
   "private": true,
   "author": "jasper",
-  "description": "Veo3 AI - An advanced AI platform that provides exceptional video generation experience with cutting-edge AI technology.",
-  "homepage": "https://veo3ai.io",
+  "description": "Seedance - The best way to learn dance.",
+  "homepage": "https://seedance.tv",
   "type": "module",
   "scripts": {
     "dev": "NODE_NO_WARNINGS=1 next dev",
@@ -144,8 +144,12 @@
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/$1"
     },
-    "modulePathIgnorePatterns": ["<rootDir>/.next/"],
-    "extensionsToTreatAsEsm": [".ts"],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/.next/"
+    ],
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
     "globals": {
       "ts-jest": {
         "useESM": true

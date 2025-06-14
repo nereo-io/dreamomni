@@ -1,25 +1,22 @@
 # CLAUDE.md
 
-## 问题回答原则
-
-要每次都用审视的目光，仔细看我的输入的潜在的问题，你要犀利的提出我的问题，并给出明显在我思考框架之外的建议。你要觉得我说的太离谱了，你就骂回来，帮助我瞬间清醒
-
-## 产品的设计原则：
-
-1.  极致简洁 - 每个元素都必须有明确价值；减少认知负担 - 让用户专注核心目标
-2.  视觉层次 - 重要信息突出，次要信息弱化
-3.  直觉操作 - 用户无需思考就能理解
-
-## UI 的设计原则：
-
-1. 简洁
-2. 优雅
-
-## 代码原则：
-
-1. 简单，写函数前先了解清楚已经实现的逻辑，不要写重复的代码逻辑。避免重复造轮子，写重复冗余代码。
-
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Core Development Principles
+
+### Code Quality Principles
+1. **Simplicity First** - Before writing new functions, understand existing logic to avoid duplication and redundant code
+2. **No Redundant Wheels** - Leverage existing implementations rather than recreating functionality
+3. **Clarity Over Complexity** - Write code that expresses intent clearly
+
+### Product Design Principles
+1. **Extreme Simplicity** - Every element must have clear value; reduce cognitive load to help users focus on core goals
+2. **Visual Hierarchy** - Emphasize important information, de-emphasize secondary information  
+3. **Intuitive Operations** - Users should understand functionality without thinking
+
+### UI Design Principles
+1. **Simplicity** - Clean, uncluttered interfaces
+2. **Elegance** - Refined and polished visual presentation
 
 ## Project Overview
 
@@ -33,30 +30,35 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Key Development Commands
 
+**Essential Commands for Daily Development:**
 ```bash
 # Development
 pnpm dev                    # Start development server with NODE_NO_WARNINGS=1
 pnpm dev:clean             # Clean cache and start development
+pnpm build                 # Build production version  
+pnpm lint                  # Run ESLint (run this before committing)
+```
 
-# Building & Testing
-pnpm build                 # Build production version
-pnpm start                 # Start production server with NODE_NO_WARNINGS=1
-pnpm lint                  # Run ESLint
-pnpm test                  # Run Jest tests (tests in **/__tests__/**/*.test.ts)
+**Testing:**
+```bash
+pnpm test                  # Run all Jest tests (tests in **/__tests__/**/*.test.ts)
 pnpm ts                    # Run test TypeScript file (ts/test.ts)
+jest path/to/test.test.ts  # Run specific test file
+```
 
-# Analysis & Deployment
+**Analysis & Deployment:**
+```bash
+pnpm start                 # Start production server with NODE_NO_WARNINGS=1
 pnpm analyze               # Bundle analysis with ANALYZE=true
 pnpm cf:build             # Build for Cloudflare Pages
 pnpm cf:preview           # Preview Cloudflare build
 pnpm cf:deploy            # Deploy to Cloudflare
+```
 
-# Utilities
+**Utilities:**
+```bash
 pnpm clean                # Remove node_modules, .next, pnpm-lock.yaml
 pnpm clean:cache          # Remove .next and node_modules/.cache
-
-# Running individual tests
-jest path/to/test.test.ts  # Run specific test file
 ```
 
 ## Architecture Overview
@@ -201,7 +203,9 @@ Required environment variables:
 
 This architecture separates concerns cleanly while maintaining type safety and providing a scalable foundation for AI-powered features.
 
-## Development Guidelines from Cursor Rules
+## Development Guidelines
+
+> **Important Note:** These guidelines are derived from the project's cursor rules and ensure consistency across the codebase.
 
 ### Project Structure & Naming Conventions
 
@@ -262,11 +266,25 @@ This architecture separates concerns cleanly while maintaining type safety and p
 
 ### Analytics Integration (Plausible)
 
-- Event tracking configured in `components/analytics/plausible.tsx`
-- **CSS class method** (simple scenarios): Add `plausible-event-name=EventName` class
-- **JavaScript method** (complex scenarios): Manually trigger with `window.plausible()`
-- Event naming: Use descriptive names like `Video Generation`, `User Signup`
-- Configure Goals in Plausible backend to match event names exactly
+Event tracking configured in `components/analytics/plausible.tsx`:
+
+**CSS Class Method (Simple):**
+```tsx
+<Button className="plausible-event-name=Video+Generation">
+  Generate Video
+</Button>
+```
+
+**JavaScript Method (Complex):**
+```tsx
+if (typeof window !== "undefined" && window.plausible) {
+  window.plausible("Video Generation", {
+    props: { model: "kling-1-6", user_id: user.uuid }
+  });
+}
+```
+
+**Event Naming:** Use descriptive names like `Video Generation`, `User Signup`. In CSS use `+` for spaces (`Video+Generation`), in JS use spaces (`Video Generation`). Configure Goals in Plausible backend to match event names exactly.
 
 ### Security & Performance Best Practices
 
