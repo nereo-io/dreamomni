@@ -1,13 +1,13 @@
 {
   "metadata": {
-    "title": "Seedance - AI Video Generator",
-    "description": "Generate stunning 1080p videos with AI. Create professional videos with multi-shot storytelling, cinematic aesthetics, and smooth motion. Start today.",
-    "keywords": "Seedance, AI Video Generator, Video Creation, Text to Video, 1080p Videos, Multi-Shot Storytelling, Cinematic AI"
+    "title": "Seedance 1.0 - Advanced AI Video Generator with Multi-Shot Storytelling | Create 1080p Videos",
+    "description": "Seedance 1.0 revolutionizes video creation with native multi-shot storytelling, 1080p cinematic quality, and diverse style expression. Experience Seedance's breakthrough in semantic understanding and prompt following. Generate professional videos from photorealism to cyberpunk with Seedance AI technology. Smooth motion, rich details, precise camera control - all powered by Seedance 1.0's advanced capabilities.",
+    "keywords": "Seedance, Seedance 1.0, AI Video Generator, Multi-Shot Storytelling, 1080p Video Creation, Cinematic AI, Video Generation, Seedance AI, Text to Video, Seedance Video Creator, Professional Video AI, Seedance Technology"
   },
   "pricing": {
-    "title": "Video Plans | Seedance Pricing",
-    "description": "Choose your AI video plan. Get 1080p output, unlimited generations, multi-shot storytelling, and priority support with Seedance.",
-    "keywords": "Seedance pricing, video generation plans, 1080p videos, AI video subscription, multi-shot storytelling"
+    "title": "Seedance 1.0 Pricing Plans - Professional AI Video Generation | Seedance Subscription",
+    "description": "Choose your Seedance 1.0 plan for professional video creation. Get unlimited 1080p generations, multi-shot storytelling, cinematic quality, and priority processing with Seedance AI. Experience Seedance's advanced features: smooth motion, diverse styles, precise prompt following. Start with Seedance today.",
+    "keywords": "Seedance pricing, Seedance 1.0 plans, Seedance subscription, AI video generation pricing, Seedance professional, Seedance AI pricing, multi-shot video plans, Seedance 1080p pricing"
   },
   "history": {
     "title": "Video Generation History",
@@ -202,7 +202,7 @@
     "submitting": "Submitting...",
     "aspectRatios": {
       "landscape": "16:9 Landscape",
-      "portrait": "9:16 Portrait", 
+      "portrait": "9:16 Portrait",
       "square": "1:1 Square"
     },
     "durations": {
@@ -221,8 +221,8 @@
     },
     "toast": {
       "signInFirst": "Please sign in first",
-      "enterDescription": "Please enter a video description", 
-      "descriptionTooShort": "Video description must be at least 30 characters long",
+      "enterDescription": "Please enter a video description",
+      "descriptionTooShort": "Video description must be at least 10 characters long",
       "uploadImageFile": "Please upload an image file",
       "imageTooLarge": "Image file is too large (max 10MB)",
       "imageUploadFailed": "Image upload failed",
@@ -246,7 +246,7 @@
     "regenerateButton": "Regenerate",
     "status": {
       "completed": "Completed",
-      "processing": "Processing", 
+      "processing": "Processing",
       "pending": "Pending",
       "failed": "Failed"
     },

@@ -45,9 +45,7 @@ export default function VideoGenerator({
   const [description, setDescription] = useState("");
   const [aspectRatio, setAspectRatio] = useState<VideoAspectRatio>("16:9");
   const [duration, setDuration] = useState<VideoDuration>("5");
-  const [selectedModel, setSelectedModel] = useState<string>(
-    "kling-1-6-text-to-video-std"
-  );
+  const [selectedModel, setSelectedModel] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -80,6 +78,13 @@ export default function VideoGenerator({
 
   // 获取选中模型的详细信息
   const selectedModelConfig = getVideoModel(selectedModel);
+
+  // 初始化默认模型选择 - 选择第一个可用模型
+  useEffect(() => {
+    if (!selectedModel && availableModels.length > 0) {
+      setSelectedModel(availableModels[0].id);
+    }
+  }, [selectedModel, availableModels]);
 
   // 增强的智能设置联动 - 模型切换时自动调整设置
   useEffect(() => {
@@ -237,7 +242,7 @@ export default function VideoGenerator({
     }
 
     // 检查prompt最少字符数限制
-    if (description.trim().length < 30) {
+    if (description.trim().length < 10) {
       toast.error(t("toast.descriptionTooShort"));
       return;
     }
@@ -352,17 +357,17 @@ export default function VideoGenerator({
                   />
                 </div>
                 {/* Character counter */}
-                {description.trim().length < 30 && (
+                {description.trim().length < 10 && (
                   <div className="flex justify-end items-center text-sm">
                     <span
                       className={cn(
                         "transition-colors text-sm",
-                        description.trim().length < 30
+                        description.trim().length < 10
                           ? "text-orange-400"
                           : "text-gray-400"
                       )}
                     >
-                      {description.trim().length}/30 {t("characterCount")}
+                      {description.trim().length}/10 {t("characterCount")}
                     </span>
                   </div>
                 )}
@@ -454,9 +459,11 @@ export default function VideoGenerator({
                           <div className="flex items-center gap-2">
                             <img
                               src={
-                                selectedModelConfig.provider === "kling"
+                                selectedModelConfig.id.includes("kling")
                                   ? "/imgs/intro/kling.svg"
-                                  : "/imgs/intro/veo.svg"
+                                  : selectedModelConfig.id.includes("veo")
+                                  ? "/imgs/intro/veo.svg"
+                                  : "/imgs/intro/seedance.png"
                               }
                               alt={selectedModelConfig.provider}
                               className="w-4 h-4 flex-shrink-0"
@@ -478,9 +485,11 @@ export default function VideoGenerator({
                           <div className="flex items-start gap-3 w-full py-1">
                             <img
                               src={
-                                model.provider === "kling"
+                                model.id.includes("kling")
                                   ? "/imgs/intro/kling.svg"
-                                  : "/imgs/intro/veo.svg"
+                                  : model.id.includes("veo")
+                                  ? "/imgs/intro/veo.svg"
+                                  : "/imgs/intro/seedance.png"
                               }
                               alt={model.provider}
                               className="w-5 h-5 flex-shrink-0 mt-0.5"
@@ -740,7 +749,7 @@ export default function VideoGenerator({
                   onClick={handleGenerate}
                   disabled={
                     !description.trim() ||
-                    description.trim().length < 30 ||
+                    description.trim().length < 10 ||
                     isLoading ||
                     isSubmitting ||
                     (user &&
@@ -773,7 +782,7 @@ export default function VideoGenerator({
               className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-600/80 hover:bg-gray-500/90 text-white text-sm font-medium rounded-md transition-all duration-200 hover:scale-105 plausible-event-name=Telegram+Channel+Click"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.65.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24-.01.37z"/>
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.65.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24-.01.37z" />
               </svg>
               {t("telegramBanner.linkText")}
             </a>

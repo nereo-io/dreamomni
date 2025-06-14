@@ -39,28 +39,28 @@
     "show_locale": true
   },
   "hero": {
-    "title": "Seedance AI Video Generator",
-    "highlight_text": "Seedance AI",
+    "title": "Seedance 1.0 - Revolutionary AI Video Generator",
+    "highlight_text": "Seedance 1.0",
     "announcement": {
-      "title": "🎬 Seedance 1.0 Now Available!",
+      "title": "🚀 Seedance 1.0 Launch - Advanced Multi-Shot AI Video Creation!",
       "label": "New!",
       "url": "#video-generator"
     },
-    "description": "Create Stunning 1080p Videos with Multi-Shot Storytelling - Transform Your Ideas into Cinematic Masterpieces with Seedance 1.0",
+    "description": "Create professional 1080p videos with breakthrough multi-shot storytelling and cinematic quality. From photorealism to cyberpunk - transform your ideas into stunning videos instantly.",
     "show_happy_users": false,
     "show_badge": false
   },
   "testimonial": {
     "name": "testimonial",
     "label": "Testimonial",
-    "title": "What Creators Say About Seedance AI Video Generator",
-    "description": "Discover how Seedance has revolutionized video creation with cinematic quality, multi-shot storytelling, and professional-grade results.",
+    "title": "What Creators Say About Seedance 1.0 Video Generator",
+    "description": "Discover how Seedance 1.0 has revolutionized video creation with breakthrough AI technology. From multi-shot storytelling to diverse style expression, creators worldwide trust Seedance for professional video generation with cinematic quality and seamless workflow integration.",
     "icon": "GoThumbsup",
     "items": [
       {
         "title": "Sarah Johnson",
         "label": "Content Creator",
-        "description": "Seedance transformed my content creation workflow. The AI understands my prompts perfectly and generates cinematic-quality 1080p videos with smooth motion and rich details. The multi-shot storytelling feature is revolutionary.",
+        "description": "Seedance 1.0 completely transformed my content creation workflow. Seedance's advanced AI understands my prompts perfectly and generates cinematic-quality 1080p videos with smooth motion and rich details. The multi-shot storytelling feature in Seedance is revolutionary for creators.",
         "image": {
           "src": "/imgs/users/1.png"
         }
@@ -68,7 +68,7 @@
       {
         "title": "Michael Chen",
         "label": "Marketing Director",
-        "description": "Seedance is incredible for marketing campaigns. The cinematic quality is outstanding, and the multi-agent interaction features allow for complex storytelling. I can create multiple video variations with different styles effortlessly.",
+        "description": "Seedance 1.0 is incredible for marketing campaigns. Seedance's cinematic quality is outstanding, and the multi-agent interaction features allow for complex storytelling. With Seedance, I can create multiple video variations with different styles effortlessly - from photorealism to cyberpunk aesthetics.",
         "image": {
           "src": "/imgs/users/2.png"
         }
@@ -76,7 +76,7 @@
       {
         "title": "Emily Rodriguez",
         "label": "Social Media Manager",
-        "description": "The consistency and quality of videos from Seedance is amazing. I can maintain visual consistency across multi-shot sequences while creating fresh, engaging content daily. The style versatility is unmatched.",
+        "description": "The consistency and quality of videos from Seedance 1.0 is amazing. With Seedance's native multi-shot storytelling, I can maintain visual consistency across complex sequences while creating fresh content daily. Seedance's style versatility and prompt following accuracy is unmatched in the industry.",
         "image": {
           "src": "/imgs/users/3.png"
         }
@@ -84,7 +84,7 @@
       {
         "title": "David Kumar",
         "label": "YouTuber & Educator",
-        "description": "Seedance helps me create educational content that captivates my audience. From photorealistic demonstrations to animated explanations, the AI handles everything with cinematic aesthetics.",
+        "description": "Seedance 1.0 helps me create educational content that captivates my audience. From photorealistic demonstrations to animated explanations, Seedance's advanced AI handles everything with cinematic aesthetics. The smooth motion and rich details in Seedance videos keep viewers engaged throughout.",
         "image": {
           "src": "/imgs/users/4.png"
         }
@@ -92,7 +92,7 @@
       {
         "title": "Lisa Wang",
         "label": "Independent Filmmaker",
-        "description": "Seedance unlocked my creative potential. I can prototype scenes, create concept videos with multi-shot narratives, and experiment with visual storytelling. The camera movement control is perfect for filmmaking.",
+        "description": "Seedance 1.0 unlocked my creative potential as a filmmaker. With Seedance's breakthrough technology, I can prototype scenes, create concept videos with multi-shot narratives, and experiment with visual storytelling. Seedance's precise camera movement control and wide dynamic range is perfect for professional filmmaking.",
         "image": {
           "src": "/imgs/users/5.png"
         }
@@ -100,7 +100,7 @@
       {
         "title": "Alex Thompson",
         "label": "Digital Artist",
-        "description": "The precision and artistic quality of Seedance is remarkable. It understands complex artistic direction and creates videos that match my creative vision perfectly, from cyberpunk to illustration styles.",
+        "description": "The precision and artistic quality of Seedance 1.0 is remarkable. Seedance understands complex artistic direction and creates videos that match my creative vision perfectly. From cyberpunk to illustration styles, Seedance's diverse style expression capabilities allow unlimited creative exploration with professional results.",
         "image": {
           "src": "/imgs/users/6.png"
         }
@@ -110,24 +110,24 @@
   "faq": {
     "name": "faq",
     "label": "FAQ",
-    "title": "Frequently Asked Questions",
-    "description": "Learn more about Seedance AI video generator",
+    "title": "Frequently Asked Questions About Seedance 1.0",
+    "description": "Learn more about Seedance 1.0's advanced AI video generation capabilities, multi-shot storytelling, and professional video creation features.",
     "items": [
       {
-        "title": "What is Seedance AI video generator and how does it work?",
-        "description": "Seedance gives you access to ByteDance's advanced AI video creation technology. Simply describe your video idea in text, and Seedance 1.0 will generate high-quality 1080p videos with cinematic aesthetics, multi-shot storytelling capabilities, and precise motion control."
+        "title": "What is Seedance 1.0 AI video generator and how does it work?",
+        "description": "Seedance 1.0 gives you access to breakthrough AI video creation technology with native multi-shot storytelling. Simply describe your video idea in text, and Seedance will generate high-quality 1080p videos with cinematic aesthetics, smooth motion, and diverse style expression. Seedance's advanced semantic understanding ensures precise prompt following for professional results."
       },
       {
-        "title": "What makes Seedance different from other AI video tools?",
-        "description": "Seedance offers unique features: native multi-shot narrative generation, visual consistency across shot transitions, wide dynamic range for capturing subtle expressions, diverse style support from photorealism to cyberpunk, and precise control over multi-agent interactions and camera movements."
+        "title": "What makes Seedance 1.0 different from other AI video tools?",
+        "description": "Seedance 1.0 offers breakthrough features that set it apart: native multi-shot narrative generation, visual consistency across shot transitions, wide dynamic range for capturing subtle expressions, diverse style support from photorealism to cyberpunk, and precise control over multi-agent interactions. Seedance's advanced semantic understanding and camera movement control deliver professional-grade results unmatched by other platforms."
       },
       {
-        "title": "What types of videos can I create with Seedance?",
-        "description": "Seedance supports a wide range of video types: marketing videos, social media content, educational materials, product demonstrations, animated stories, music videos, concept art, and cinematic scenes. With multi-shot storytelling and 1080p quality, the AI adapts to any creative vision with professional-grade results."
+        "title": "What types of videos can I create with Seedance 1.0?",
+        "description": "Seedance 1.0 supports a wide range of video types: marketing videos, social media content, educational materials, product demonstrations, animated stories, music videos, concept art, and cinematic scenes. With Seedance's multi-shot storytelling and 1080p quality, the AI adapts to any creative vision. From photorealism to cyberpunk aesthetics, Seedance delivers professional-grade results for every project."
       },
       {
-        "title": "Are there any limitations to the free Seedance video generator?",
-        "description": "While free Seedance provides access to advanced 1080p video generation and multi-shot storytelling capabilities, premium users enjoy unlimited generations, longer video durations, priority processing, and additional features like custom styles and batch processing. Free users can create cinematic videos with reasonable usage limits."
+        "title": "Are there any limitations to the free Seedance 1.0 video generator?",
+        "description": "While free Seedance 1.0 provides access to advanced 1080p video generation and multi-shot storytelling capabilities, premium Seedance users enjoy unlimited generations, longer video durations, priority processing, and additional features like custom styles and batch processing. Free Seedance users can create cinematic videos with reasonable usage limits while experiencing the full power of Seedance AI technology."
       },
       {
         "title": "How long does it take to generate videos with Seedance?",
@@ -158,8 +158,8 @@
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "Seedance",
-      "description": "Seedance AI Video Generator - Create stunning 1080p videos with multi-shot storytelling and cinematic aesthetics. Transform your ideas into professional-grade video masterpieces in minutes.",
+      "title": "Seedance 1.0",
+      "description": "Seedance 1.0 - Revolutionary AI Video Generator with breakthrough multi-shot storytelling technology. Create stunning 1080p videos with cinematic aesthetics, smooth motion, and diverse style expression. Transform your ideas into professional-grade video masterpieces with Seedance's advanced AI capabilities.",
       "logo": {
         "src": "/logo.png",
         "alt": "Seedance"
@@ -229,7 +229,7 @@
   "cta": [
     {
       "name": "cta-generate",
-      "title": "Start Creating Videos with Seedance",
+      "title": "Start Creating Videos with Seedance 1.0",
       "buttons": [
         {
           "title": "Generate Video",
@@ -241,8 +241,8 @@
     },
     {
       "name": "cta-features",
-      "title": "Explore Seedance Features",
-      "description": "1080p Video Generation with Multi-Shot Storytelling & Cinematic AI Technology",
+      "title": "Explore Seedance 1.0 Features",
+      "description": "Professional 1080p Video Generation with Native Multi-Shot Storytelling, Diverse Style Expression & Advanced Seedance AI Technology",
       "buttons": [
         {
           "title": "Learn More",

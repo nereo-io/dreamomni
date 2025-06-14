@@ -4,7 +4,7 @@
     {
       "id": "1080p-quality",
       "title": "Professional 1080p Video Generation",
-      "description": "Seedance 1.0 delivers stunning 1080p video quality with smooth motion, rich details, and cinematic aesthetics. Experience professional-grade video creation that transforms your ideas into high-resolution visual masterpieces with unprecedented clarity and detail.",
+      "description": "Seedance 1.0 delivers stunning 1080p video quality with smooth motion, rich details, and cinematic aesthetics. Create professional-grade videos with Seedance's advanced rendering technology.",
       "imageUrl": "/intro/quality.mp4",
       "imageAlt": "Seedance 1.0's professional 1080p video quality",
       "subPoints": [
@@ -23,7 +23,7 @@
     {
       "id": "multi-shot-storytelling",
       "title": "Native Multi-Shot Storytelling",
-      "description": "Revolutionary multi-shot narrative generation with visual consistency across shot transitions. Seedance 1.0 excels at creating cohesive video stories with seamless scene changes, maintaining character and environmental continuity throughout complex narratives.",
+      "description": "Seedance 1.0's breakthrough multi-shot storytelling creates cohesive narratives with seamless transitions. Generate complex video stories with Seedance's advanced character and scene consistency technology.",
       "imageUrl": "/intro/cretive.mp4",
       "imageAlt": "Seedance 1.0's multi-shot storytelling capabilities",
       "subPoints": [
@@ -39,8 +39,8 @@
     },
     {
       "id": "style-versatility",
-      "title": "Diverse Style Versatility",
-      "description": "From photorealism to cyberpunk, illustration to animation - Seedance 1.0 supports an incredible range of visual styles. Create content that matches any aesthetic vision, from ultra-realistic footage to stylized artistic expressions with precise style control.",
+      "title": "Diverse Style Expression",
+      "description": "From photorealism to cyberpunk, illustration to animation - Seedance 1.0 supports incredible visual diversity. Experience Seedance's precise style control for any creative vision.",
       "imageUrl": "/intro/prompt.mp4",
       "imageAlt": "Seedance 1.0's diverse style capabilities",
       "subPoints": [
@@ -56,8 +56,8 @@
     },
     {
       "id": "complex-prompts",
-      "title": "Precise Complex Prompt Understanding",
-      "description": "Seedance 1.0 excels at interpreting complex natural language instructions with remarkable accuracy. Describe intricate scenes, character interactions, and creative concepts in detail - the AI understands and executes your vision with exceptional precision.",
+      "title": "Precise Prompt Following",
+      "description": "Seedance 1.0 excels at interpreting complex natural language with remarkable accuracy. Describe intricate scenes and creative concepts - Seedance understands and executes your vision with precision.",
       "imageUrl": "/intro/motion.mp4",
       "imageAlt": "Seedance 1.0's superior prompt interpretation",
       "subPoints": [
@@ -74,7 +74,7 @@
     {
       "id": "multi-agent-control",
       "title": "Multi-Agent Interactions & Camera Control",
-      "description": "Control character interactions and sophisticated camera movements with precision. Seedance 1.0 enables complex multi-character scenes with natural interactions, while offering professional-grade camera control for dynamic cinematography.",
+      "description": "Seedance 1.0 enables complex multi-character scenes with natural interactions and professional camera control. Create dynamic cinematography with Seedance's advanced character and camera movement technology.",
       "imageUrl": "/intro/sound.mp4",
       "imageAlt": "Seedance 1.0's multi-agent and camera control features",
       "subPoints": [
@@ -90,8 +90,8 @@
     },
     {
       "id": "wide-dynamic-range",
-      "title": "Wide Dynamic Range & Subtle Expression",
-      "description": "Capture both subtle expressions and active scenes with Seedance 1.0's wide dynamic range capabilities. From intimate character moments to high-energy action sequences, the model excels at rendering the full spectrum of human emotion and movement.",
+      "title": "Wide Dynamic Range & Smooth Motion",
+      "description": "Seedance 1.0's wide dynamic range captures subtle expressions and dynamic action with exceptional quality. From intimate moments to high-energy sequences, Seedance excels at rendering smooth motion and authentic emotion.",
       "imageUrl": "/intro/audio.mp4",
       "imageAlt": "Seedance 1.0's wide dynamic range capabilities",
       "subPoints": [

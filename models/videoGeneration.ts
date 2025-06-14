@@ -37,6 +37,7 @@ export async function createVideoGeneration(
       model_id: params.model_id,
       prompt: params.prompt,
       fal_request_id: params.fal_request_id,
+      volcano_request_id: params.volcano_request_id,
       input_image_url: params.input_image_url,
       negative_prompt: params.negative_prompt,
       aspect_ratio: params.aspect_ratio || "16:9",
@@ -98,6 +99,28 @@ export async function getVideoGenerationByFalRequestId(
 }
 
 /**
+ * 根据 Volcano Engine 请求 ID 获取视频生成记录。
+ */
+export async function getVideoGenerationByVolcanoRequestId(
+  volcanoRequestId: string
+): Promise<VideoGeneration | null> {
+  const { data, error } = await supabase
+    .from("video_generations")
+    .select("*")
+    .eq("volcano_request_id", volcanoRequestId)
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    handleSupabaseError(
+      error,
+      `get video generation by volcano_request_id ${volcanoRequestId}`
+    );
+  }
+  return data || null;
+}
+
+
+/**
  * 根据视频生成记录的 ID 更新记录。
  */
 export async function updateVideoGenerationById(
@@ -143,6 +166,33 @@ export async function updateVideoGenerationByFalRequestId(
   }
   return data || null;
 }
+
+/**
+ * 根据 Volcano Engine 请求 ID 更新视频生成记录。
+ */
+export async function updateVideoGenerationByVolcanoRequestId(
+  volcanoRequestId: string,
+  params: UpdateVideoGenerationParams
+): Promise<VideoGeneration | null> {
+  const { data, error } = await supabase
+    .from("video_generations")
+    .update({
+      ...params,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("volcano_request_id", volcanoRequestId)
+    .select()
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    handleSupabaseError(
+      error,
+      `update video generation by volcano_request_id ${volcanoRequestId}`
+    );
+  }
+  return data || null;
+}
+
 
 /**
  * 获取指定用户的视频生成历史记录 (分页)。

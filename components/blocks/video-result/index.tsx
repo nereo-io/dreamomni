@@ -20,6 +20,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import CreativeProgress from "./CreativeProgress";
 
 interface VideoResultProps {
   generation: {
@@ -48,8 +49,8 @@ const getStatusMap = (t: any) => ({
   FAILED: { label: t("status.failed"), color: "bg-red-500", icon: XCircle },
 });
 
-// 总等待时间：3分半 = 210秒
-const TOTAL_WAIT_TIME_SECONDS = 210;
+// 总等待时间：45秒
+const TOTAL_WAIT_TIME_SECONDS = 45;
 
 // 新增辅助函数，用于获取用户友好的错误提示
 const getFriendlyErrorMessage = (apiErrorMessage?: string, t?: any): string => {
@@ -490,22 +491,14 @@ export default function VideoResult({
         </div>
       )}
 
-      {/* Progress Bar (for processing states) */}
+      {/* Creative Progress Bar (for processing states) */}
       {isProcessing && (
-        <div>
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-medium text-foreground">
-              {t("generationProgress")}
-            </span>
-            <span className="text-sm text-muted-foreground">
-              {Math.round(progressValue)}%
-            </span>
-          </div>
-          <Progress value={progressValue} className="h-2" />
-          <p className="text-xs text-muted-foreground mt-2">
-            {getStatusDescription()}
-          </p>
-        </div>
+        <CreativeProgress
+          progress={progressValue}
+          status={generation.status}
+          remainingTime={formatTime(remainingSeconds)}
+          t={t}
+        />
       )}
 
       {/* Error Message - 只在失败时显示 */}

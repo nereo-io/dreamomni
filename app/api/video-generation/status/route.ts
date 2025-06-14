@@ -1,16 +1,12 @@
-import { fal } from "@fal-ai/client";
 import { respData, respErr } from "@/lib/resp";
 import { auth } from "@/auth";
 import {
   getVideoGenerationById,
   getVideoGenerationByFalRequestId,
+  getVideoGenerationByVolcanoRequestId,
 } from "@/models/videoGeneration";
-import { getVideoModel } from "@/config/video-models";
-
-// 配置fal client
-fal.config({
-  credentials: process.env.FAL_KEY,
-});
+import { getVideoModel, VideoModelProvider } from "@/config/video-models";
+import { ProviderFactory } from "@/services/providers";
 
 export async function GET(req: Request) {
   try {
@@ -36,38 +32,13 @@ export async function GET(req: Request) {
       if (!videoGeneration) {
         return respErr("未找到视频生成记录");
       }
-    }
-
-    // 如果有 requestId，查询 fal 状态
-    let falStatus: any = null;
-    const finalRequestId = requestId || videoGeneration?.fal_request_id;
-
-    if (finalRequestId) {
-      try {
-        falStatus = await fal.queue.status(
-          "fal-ai/kling-video/v1.6/standard/text-to-video",
-          {
-            requestId: finalRequestId,
-          }
-        );
-      } catch (error) {
-        // 如果默认endpoint失败，尝试使用数据库中的模型信息
-        if (videoGeneration?.model_id) {
-          const modelConfig = getVideoModel(videoGeneration.model_id);
-          if (modelConfig) {
-            try {
-              falStatus = await fal.queue.status(modelConfig.falEndpoint, {
-                requestId: finalRequestId,
-              });
-            } catch (retryError) {
-              console.error("重试查询fal状态失败:", retryError);
-            }
-          }
-        }
-
-        if (!falStatus) {
-          console.error("查询fal状态失败:", error);
-        }
+    } else if (requestId) {
+      // 尝试通过各种requestId查找记录
+      videoGeneration = await getVideoGenerationByFalRequestId(requestId) ||
+                       await getVideoGenerationByVolcanoRequestId(requestId);
+      
+      if (!videoGeneration) {
+        return respErr("未找到对应的视频生成记录");
       }
     }
 
@@ -77,12 +48,17 @@ export async function GET(req: Request) {
       modelConfig = getVideoModel(videoGeneration.model_id);
     }
 
+    // 确定使用的requestId
+    const finalRequestId = requestId || 
+                           videoGeneration?.fal_request_id || 
+                           videoGeneration?.volcano_request_id;
+
     return respData({
       id: videoGeneration?.id,
       requestId: finalRequestId,
-      status: falStatus?.status || videoGeneration?.status || "unknown",
-      logs: falStatus?.logs || [],
-      metrics: falStatus?.metrics || {},
+      status: videoGeneration?.status || "unknown",
+      logs: videoGeneration?.logs || [],
+      metrics: videoGeneration?.metrics || {},
       videoGeneration: videoGeneration
         ? {
             ...videoGeneration,
@@ -91,11 +67,11 @@ export async function GET(req: Request) {
                   id: modelConfig.id,
                   displayName: modelConfig.displayName,
                   type: modelConfig.type,
+                  provider: modelConfig.provider,
                 }
               : null,
           }
         : null,
-      falStatus,
     });
   } catch (error) {
     console.error("查询视频生成状态失败:", error);
@@ -122,10 +98,7 @@ export async function POST(req: Request) {
       return respErr("id 参数是必需的");
     }
 
-    // 检查API密钥
-    if (!process.env.FAL_KEY) {
-      return respErr("FAL_KEY 环境变量未配置");
-    }
+    // API密钥检查会在provider中处理
 
     console.log(`检查视频生成状态，生成ID: ${id}`);
 
@@ -135,70 +108,77 @@ export async function POST(req: Request) {
     if (videoGeneration) {
       console.log("从数据库获取的状态:", videoGeneration.status);
 
-      // 如果状态不是最终状态，且有fal_request_id，则查询fal.ai获取最新状态
+      // 如果状态不是最终状态，且有请求ID，则查询provider获取最新状态
       if (
         videoGeneration.status !== "COMPLETED" &&
         videoGeneration.status !== "SAVED_TO_R2" &&
         videoGeneration.status !== "FAILED" &&
-        videoGeneration.fal_request_id &&
+        (videoGeneration.fal_request_id || videoGeneration.volcano_request_id) &&
         videoGeneration.model_id
       ) {
         try {
-          // 获取正确的模型端点 - 使用新的配置系统
+          // 获取正确的模型配置和provider
           const modelConfig = getVideoModel(videoGeneration.model_id);
           if (!modelConfig) {
             console.error(`未找到模型配置: ${videoGeneration.model_id}`);
             throw new Error(`不支持的模型: ${videoGeneration.model_id}`);
           }
 
-          console.log(`使用模型端点查询状态: ${modelConfig.falEndpoint}`);
+          // 确定使用哪个请求ID
+          const requestId = videoGeneration.fal_request_id || 
+                           videoGeneration.volcano_request_id;
 
-          const falStatus = await fal.queue.status(modelConfig.falEndpoint, {
-            requestId: videoGeneration.fal_request_id,
-            logs: true,
-          });
+          if (!requestId) {
+            throw new Error("No valid request ID found");
+          }
 
-          console.log("从fal.ai获取的最新状态:", falStatus.status);
+          console.log(`使用provider查询状态: ${modelConfig.provider}, requestId: ${requestId}`);
 
-          // 如果fal.ai状态有更新，更新数据库状态
-          if (falStatus.status !== videoGeneration.status) {
+          const provider = ProviderFactory.getProvider(videoGeneration.model_id);
+          const providerStatus = await provider.status(videoGeneration.model_id, requestId);
+
+          console.log("从provider获取的最新状态:", providerStatus.status);
+
+          // 如果provider状态有更新，更新数据库状态
+          if (providerStatus.status !== videoGeneration.status) {
             console.log(
-              `状态更新: ${videoGeneration.status} -> ${falStatus.status}`
+              `状态更新: ${videoGeneration.status} -> ${providerStatus.status}`
             );
 
             try {
               // 准备更新参数
               const updateParams: any = {
-                status: falStatus.status,
+                status: providerStatus.status,
               };
 
               // 如果有 logs，更新 logs
-              if (
-                (falStatus as any).logs &&
-                Array.isArray((falStatus as any).logs)
-              ) {
-                updateParams.logs = (falStatus as any).logs;
+              if (providerStatus.logs && Array.isArray(providerStatus.logs)) {
+                updateParams.logs = providerStatus.logs;
+              }
+
+              // 如果有 metrics，更新 metrics
+              if (providerStatus.metrics) {
+                updateParams.metrics = providerStatus.metrics;
               }
 
               // 如果任务完成，尝试获取结果
-              if (falStatus.status === "COMPLETED") {
+              if (providerStatus.status === "COMPLETED") {
                 try {
-                  const result = await fal.queue.result(
-                    modelConfig.falEndpoint,
-                    {
-                      requestId: videoGeneration.fal_request_id,
-                    }
-                  );
+                  const result = await provider.result(videoGeneration.model_id, requestId);
 
                   console.log("获取到生成结果:", result);
 
-                  if (result && (result as any).data) {
-                    const resultData = (result as any).data;
-                    if (resultData.video_url) {
-                      updateParams.video_url_fal = resultData.video_url;
+                  if (result && result.video_url) {
+                    // 根据provider类型设置对应的video URL字段
+                    if (modelConfig.provider === VideoModelProvider.VOLCANO) {
+                      updateParams.video_url_volcano = result.video_url;
+                    } else if (modelConfig.provider === VideoModelProvider.FAL) {
+                      updateParams.video_url_fal = result.video_url;
                     }
-                    if (resultData.seed) {
-                      updateParams.seed = resultData.seed;
+                    
+                    // 如果result包含seed信息，也更新
+                    if ((result as any).data?.seed) {
+                      updateParams.seed = (result as any).data.seed;
                     }
                   } else {
                     // 如果结果为空或没有数据，标记为失败
@@ -247,24 +227,24 @@ export async function POST(req: Request) {
               videoGeneration = updatedRecord;
             } catch (updateError) {
               console.error("更新数据库状态失败:", updateError);
-              // 如果更新失败，使用fal最新状态但保持数据库记录不变，只更新内存中的状态
+              // 如果更新失败，使用provider最新状态但保持数据库记录不变，只更新内存中的状态
               videoGeneration = {
                 ...videoGeneration,
-                status: falStatus.status,
+                status: providerStatus.status as any,
               };
             }
           } else {
             // 如果状态没有变化，但可能有新的logs，也合并一下
-            if ((falStatus as any).logs) {
+            if (providerStatus.logs) {
               videoGeneration = {
                 ...videoGeneration,
-                logs: (falStatus as any).logs,
+                logs: providerStatus.logs,
               };
             }
           }
-        } catch (falError) {
-          console.error("查询fal.ai状态失败:", falError);
-          // 如果fal.ai查询失败，仍然返回数据库中的状态
+        } catch (providerError) {
+          console.error("查询provider状态失败:", providerError);
+          // 如果provider查询失败，仍然返回数据库中的状态
         }
       }
 
@@ -272,13 +252,17 @@ export async function POST(req: Request) {
       return respData({
         id: videoGeneration.id,
         status: videoGeneration.status,
-        requestId: videoGeneration.fal_request_id,
+        requestId: videoGeneration.fal_request_id || 
+                   videoGeneration.volcano_request_id,
         model: videoGeneration.model_id,
         prompt: videoGeneration.prompt,
         video_url:
-          videoGeneration.video_url_r2 || videoGeneration.video_url_fal,
+          videoGeneration.video_url_r2 || 
+          videoGeneration.video_url_volcano || 
+          videoGeneration.video_url_fal,
         video_url_r2: videoGeneration.video_url_r2,
         video_url_fal: videoGeneration.video_url_fal,
+        video_url_volcano: videoGeneration.video_url_volcano,
         error_message: videoGeneration.error_message,
         logs: videoGeneration.logs || [],
         metrics: videoGeneration.metrics,

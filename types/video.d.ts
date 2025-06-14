@@ -12,6 +12,7 @@ export interface VideoGeneration {
   id: string; // uuid
   user_id: string; // integer, references public.users.id
   fal_request_id?: string | null;
+  volcano_request_id?: string | null; // Volcano Engine request ID
   model_id: string;
   prompt: string;
   input_image_url?: string | null;
@@ -24,6 +25,7 @@ export interface VideoGeneration {
   status: VideoGenerationStatus;
   video_url_r2?: string | null;
   video_url_fal?: string | null;
+  video_url_volcano?: string | null; // Volcano Engine video URL
   error_message?: string | null;
   logs?: any | null; // jsonb
   metrics?: any | null; // jsonb
@@ -36,6 +38,7 @@ export interface CreateVideoGenerationParams {
   model_id: string;
   prompt: string;
   fal_request_id?: string;
+  volcano_request_id?: string; // Volcano Engine request ID
   input_image_url?: string;
   negative_prompt?: string;
   aspect_ratio?: string;
@@ -50,10 +53,12 @@ export interface UpdateVideoGenerationParams {
   status?: VideoGenerationStatus;
   video_url_r2?: string;
   video_url_fal?: string;
+  video_url_volcano?: string; // Volcano Engine video URL
   error_message?: string;
   logs?: any;
   metrics?: any;
   fal_request_id?: string; // 有时可能在创建后才知道 fal_request_id
+  volcano_request_id?: string; // Volcano Engine request ID
 }
 
 // Adding types from previous video.d.ts content if they are still relevant

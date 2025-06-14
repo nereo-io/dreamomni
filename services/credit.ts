@@ -78,7 +78,7 @@ export async function decreaseCredits({
 }) {
   try {
     let order_no = "";
-    let expired_at = "";
+    let expired_at: string | undefined = undefined;
     let left_credits = 0;
 
     const userCredits = await getUserValidCredits(user_uuid);
@@ -90,7 +90,7 @@ export async function decreaseCredits({
         // credit enough for cost
         if (left_credits >= credits) {
           order_no = credit.order_no;
-          expired_at = credit.expired_at || "";
+          expired_at = credit.expired_at || undefined;
           break;
         }
       }
