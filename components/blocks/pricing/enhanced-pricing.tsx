@@ -438,6 +438,13 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                               className="w-full flex items-center justify-center gap-2 font-semibold relative overflow-hidden group hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200 ease-out"
                               disabled={isLoading || item.button.disabled}
                               onClick={() => {
+                                // Handle Free Plan navigation
+                                if (item.amount === 0 && item.button.url) {
+                                  // Navigate to homepage for free plan
+                                  window.location.href = "/";
+                                  return;
+                                }
+                                
                                 sendGAEvent(
                                   "event",
                                   "conversion_event_begin_checkout",
