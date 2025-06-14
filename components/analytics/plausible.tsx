@@ -4,8 +4,7 @@ export default function Plausible() {
   }
 
   const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
-  const plausibleScriptUrl =
-    "https://plausible.io/js/script.outbound-links.pageview-props.tagged-events.js";
+  const plausibleScriptUrl = "https://app.pageview.app/js/script.js";
 
   if (!plausibleDomain || !plausibleScriptUrl) {
     return null;

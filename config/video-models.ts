@@ -6,6 +6,7 @@ export enum VideoModelType {
 
 // 视频模型提供商
 export enum VideoModelProvider {
+  SEEDANCE = "seedance",
   KLING = "kling",
   VEO2 = "veo2",
   VEO3 = "veo3",
@@ -31,6 +32,40 @@ export interface VideoModelConfig {
 
 // 视频模型配置
 export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
+  // Seedance 1.0 文本转视频模型
+  "seedance-1-0-text-to-video": {
+    id: "seedance-1-0-text-to-video",
+    name: "Seedance 1.0 Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.SEEDANCE,
+    falEndpoint: "fal-ai/seedance-1.0/text-to-video",
+    displayName: "Seedance 1.0",
+    perSecondCredits: 8, // Premium pricing for professional quality
+    description: "Advanced 1080p video generation with multi-shot storytelling and cinematic aesthetics",
+    features: ["1080p quality", "Multi-shot storytelling", "Cinematic aesthetics", "Rich details", "Smooth motion"],
+    maxDuration: 8,
+    supportedAspectRatios: ["16:9", "9:16", "1:1"],
+    supportsAudio: false,
+    supportedDurations: [5, 8],
+  },
+
+  // Seedance 1.0 图片转视频模型
+  "seedance-1-0-image-to-video": {
+    id: "seedance-1-0-image-to-video",
+    name: "Seedance 1.0 Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.SEEDANCE,
+    falEndpoint: "fal-ai/seedance-1.0/image-to-video",
+    displayName: "Seedance 1.0",
+    perSecondCredits: 8, // Premium pricing for professional quality
+    description: "Transform images into 1080p videos with multi-shot storytelling and style versatility",
+    features: ["1080p quality", "Multi-shot storytelling", "Style versatility", "Visual consistency", "Natural motion"],
+    maxDuration: 8,
+    supportedAspectRatios: ["16:9", "9:16", "1:1"],
+    supportsAudio: false,
+    supportedDurations: [5, 8],
+  },
+
   // Kling 1.6 文本转视频模型
   "kling-1-6-text-to-video-std": {
     id: "kling-1-6-text-to-video-std",
@@ -197,6 +232,12 @@ export function getImageToVideoModels(): VideoModelConfig[] {
   );
 }
 
+export function getSeedanceModels(): VideoModelConfig[] {
+  return Object.values(VIDEO_MODELS).filter(
+    (model) => model.provider === VideoModelProvider.SEEDANCE
+  );
+}
+
 export function calculateCredits(
   modelId: string,
   duration: number,
@@ -244,6 +285,11 @@ export function isVeo2Model(modelId: string): boolean {
 // 检查模型是否为Veo3模型
 export function isVeo3Model(modelId: string): boolean {
   return modelId.includes("veo3-");
+}
+
+// 检查模型是否为Seedance模型
+export function isSeedanceModel(modelId: string): boolean {
+  return modelId.includes("seedance-");
 }
 
 // 检查模型是否为Veo系列模型

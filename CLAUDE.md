@@ -20,13 +20,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Veo3 AI** (veo3ai.io) is an AI platform focused on providing users with an exceptional video generation experience. Built on Next.js 14, the platform combines chat capabilities with Claude 4 Sonnet and advanced video generation features via fal.ai integration, along with multi-language support and a complete user management system with credits and subscriptions.
+**Seedance** is an advanced AI video generation platform that transforms text and image inputs into high-quality, cinematic videos. Built on Next.js 14, the platform leverages ByteDance's Seedance 1.0 model to deliver professional-grade video generation with smooth motion, rich details, and cinematic aesthetics. The platform includes chat capabilities with Claude 4 Sonnet, multi-shot video storytelling, and a complete user management system with credits and subscriptions.
 
-**Important Note**: Despite the "veo3" name referencing Google's Veo model, the current video generation system only supports Kling series models due to API limitations. Google's Veo3 model is not currently available through the fal.ai integration.
+**Key Features**: 
+- **1080p Video Generation**: Creates high-quality videos with cinematic aesthetics
+- **Multi-shot Storytelling**: Native support for narrative video creation with visual consistency
+- **Style Versatility**: Supports diverse styles from photorealism to cyberpunk and illustration
+- **Complex Prompt Understanding**: Precisely interprets natural language instructions for creative control
+- **Multi-agent Interactions**: Controls character interactions and camera movements
 
 **计费逻辑**: 0.25 美金等于 10 个积分
 
-**Language Note**: 该项目所有的前端展示语言为英文。不需要支持中文语言。Supabase 的数据库项目名称为 Veo3
+**Language Note**: 该项目所有的前端展示语言为英文。不需要支持中文语言。Supabase 的数据库项目名称为 Seedance
 
 ## Key Development Commands
 
@@ -97,11 +102,12 @@ The data models provide a clean abstraction over Supabase operations:
 
 #### Video Generation System
 
-- `config/video-models.ts` - Centralized video model configurations (currently Kling models only)
+- `config/video-models.ts` - Centralized video model configurations (Seedance 1.0 and legacy Kling models)
 - `aisdk/` - Video generation SDK with fal.ai integration
 - `hooks/useVideoGeneration.ts` - React hook for video generation state
 - API endpoints: `/api/video-generation/{submit,status,result,webhook}`
-- **Current Models**: Kling 1.6 and 2.1 (Standard, Pro, Master variants) for both text-to-video and image-to-video
+- **Primary Model**: Seedance 1.0 for professional-grade 1080p video generation with multi-shot storytelling
+- **Legacy Support**: Kling 1.6 and 2.1 (Standard, Pro, Master variants) for both text-to-video and image-to-video
 
 #### Internationalization
 
@@ -145,7 +151,7 @@ NextAuth.js handles multiple providers with custom callbacks:
 2. Update UI selectors in video generator components
 3. Ensure fal.ai endpoint compatibility
 4. Test with appropriate credit calculations
-   **Note**: Currently limited to Kling series models due to fal.ai API availability. Google Veo3 integration pending API support.
+   **Note**: Primary focus on Seedance 1.0 model with its advanced multi-shot storytelling capabilities. Legacy Kling models maintained for backward compatibility.
 
 ### API Route Development
 

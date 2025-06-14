@@ -1,6 +1,6 @@
-# FAL.AI 视频生成 API
+# Seedance AI 视频生成 API
 
-本项目集成了 [fal.ai](https://fal.ai) 的视频生成 API，支持多种 AI 视频模型，包括文本转视频和图片转视频功能。
+本项目集成了 [fal.ai](https://fal.ai) 的视频生成 API，支持 Seedance 1.0 和其他 AI 视频模型，专注于高质量 1080p 视频生成和多镜头叙事功能。
 
 ## 环境配置
 
@@ -77,50 +77,49 @@ export FAL_KEY="your-fal-api-key"
 
 ## 支持的模型
 
-### 文本转视频模型
+### 主要模型 - Seedance 1.0
 
-- `minimax-text-to-video`: MiniMax 文本转视频
-- `haiper-text-to-video`: Haiper 2.0 文本转视频
-- `hunyuan-text-to-video`: Hunyuan 文本转视频
-- `mochi-text-to-video`: Mochi 文本转视频
+- `seedance-1-0-text-to-video`: Seedance 1.0 文本转视频 - 专业级 1080p 视频生成，支持多镜头叙事和电影美学
+- `seedance-1-0-image-to-video`: Seedance 1.0 图片转视频 - 将图片转换为高质量 1080p 视频，支持风格多样性
 
-### 图片转视频模型
+### 文本转视频模型 (Legacy)
 
-- `minimax-image-to-video`: MiniMax 图片转视频
-- `luma-dream-machine`: Luma Dream Machine
-- `kling-2-0-master`: Kling 2.0 Master
-- `kling-1-6`: Kling 1.6
-- `pixverse`: Pixverse
-- `veo-2`: Google Veo 2
-- `wan-image-to-video`: Wan 2.1
-- `framepack`: Framepack
+- `kling-2-1-text-to-video-master`: Kling 2.1 Master 文本转视频
+- `kling-1-6-text-to-video-pro`: Kling 1.6 Pro 文本转视频
+- `kling-1-6-text-to-video-std`: Kling 1.6 Standard 文本转视频
+
+### 图片转视频模型 (Legacy)
+
+- `kling-2-1-image-to-video-master`: Kling 2.1 Master 图片转视频
+- `kling-2-1-image-to-video-pro`: Kling 2.1 Pro 图片转视频
+- `kling-1-6-image-to-video-std`: Kling 1.6 Standard 图片转视频
 
 ## 使用示例
 
-### 文本转视频
+### Seedance 1.0 文本转视频
 
 ```bash
 curl -X POST http://localhost:3000/api/video-generation \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "minimax-text-to-video",
-    "prompt": "A beautiful sunset over the ocean with waves gently crashing",
+    "model": "seedance-1-0-text-to-video",
+    "prompt": "A cinematic shot of a futuristic city at sunset with smooth camera movements and rich details",
     "aspect_ratio": "16:9",
-    "resolution": "720p"
+    "duration": 8
   }'
 ```
 
-### 图片转视频
+### Seedance 1.0 图片转视频
 
 ```bash
 curl -X POST http://localhost:3000/api/video-generation \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "luma-dream-machine",
-    "prompt": "The car starts moving and drives down the road",
-    "image_url": "https://example.com/car.jpg",
+    "model": "seedance-1-0-image-to-video",
+    "prompt": "The person starts walking with natural motion and cinematic aesthetics",
+    "image_url": "https://example.com/person.jpg",
     "aspect_ratio": "16:9",
-    "resolution": "720p"
+    "duration": 8
   }'
 ```
 
@@ -130,8 +129,8 @@ curl -X POST http://localhost:3000/api/video-generation \
 curl -X POST http://localhost:3000/api/video-generation/submit \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "minimax-text-to-video",
-    "prompt": "A complex 3D animation with multiple characters",
+    "model": "seedance-1-0-text-to-video",
+    "prompt": "A multi-shot narrative with complex character interactions and camera movements",
     "webhook_url": "https://your-domain.com/webhook/video-complete"
   }'
 ```
@@ -159,7 +158,7 @@ curl -X GET http://localhost:3000/api/video-generation/health
   "data": {
     "video_url": "https://storage.googleapis.com/...",
     "seed": 12345,
-    "model": "minimax-text-to-video",
+    "model": "seedance-1-0-text-to-video",
     "requestId": "abc123...",
     "duration": 5.0,
     "metadata": {

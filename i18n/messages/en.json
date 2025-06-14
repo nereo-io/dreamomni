@@ -1,13 +1,13 @@
 {
   "metadata": {
-    "title": "Veo3 AI - Free AI Video Generato",
-    "description": "Generate stunning 4K videos with AI. Create professional videos from text prompts with realistic physics and native audio. Start free today.",
-    "keywords": "Veo3 AI, AI Video Generator, Free Video Creation, Text to Video, 4K Videos, AI Filmmaking"
+    "title": "Seedance - AI Video Generator",
+    "description": "Generate stunning 1080p videos with AI. Create professional videos with multi-shot storytelling, cinematic aesthetics, and smooth motion. Start today.",
+    "keywords": "Seedance, AI Video Generator, Video Creation, Text to Video, 1080p Videos, Multi-Shot Storytelling, Cinematic AI"
   },
   "pricing": {
-    "title": "Video Plans | Veo3 AI Pricing",
-    "description": "Choose your AI video plan. Get 4K output, unlimited generations, advanced controls, and priority support with Veo3 AI.",
-    "keywords": "Veo3 AI pricing, video generation plans, 4K videos, AI video subscription"
+    "title": "Video Plans | Seedance Pricing",
+    "description": "Choose your AI video plan. Get 1080p output, unlimited generations, multi-shot storytelling, and priority support with Seedance.",
+    "keywords": "Seedance pricing, video generation plans, 1080p videos, AI video subscription, multi-shot storytelling"
   },
   "history": {
     "title": "Video Generation History",
@@ -43,7 +43,7 @@
   },
   "my_orders": {
     "title": "My Orders",
-    "description": "orders paid with Veo3AI.",
+    "description": "orders paid with Seedance.",
     "no_orders": "No orders found",
     "tip": "",
     "activate_order": "Activate Order",
@@ -111,15 +111,15 @@
   },
   "blog": {
     "title": "Blog",
-    "description": "News, resources, and updates about Veo3 AI video generation",
+    "description": "News, resources, and updates about Seedance AI video generation",
     "read_more_text": "Read More"
   },
   "chat": {
-    "title": "New Generation - Veo3 AI Video Platform",
-    "description": "Start creating professional videos with Veo3 AI for enhanced visual content, 4K generation, and creative storytelling"
+    "title": "New Generation - Seedance AI Video Platform",
+    "description": "Start creating professional videos with Seedance for enhanced visual content, 1080p generation, multi-shot storytelling, and cinematic aesthetics"
   },
   "survey_banner": {
-    "message": "👋 Quick feedback needed - help shape Veo3 AI!",
+    "message": "👋 Quick feedback needed - help shape Seedance!",
     "close": "Close"
   },
   "credit_exhausted_modal": {
@@ -169,16 +169,16 @@
     "update_invite_code": "Set Invite Code",
     "update_invite_code_tip": "Input your custom invite code",
     "update_invite_button": "Save",
-    "no_orders": "You can't invite others before you purchased Veo3 AI premium",
+    "no_orders": "You can't invite others before you purchased Seedance premium",
     "no_affiliates": "You're not allowed to invite others, please contact us to apply for permission.",
     "invite_templates": "Invite Templates",
     "copy": "Copy",
     "template1_title": "🎬 AI Video Creation",
     "template2_title": "🚀 Content Creation",
     "template3_title": "💼 Professional Videos",
-    "template1": "Hey friends! I just discovered Veo3 AI — the most advanced AI video generator that creates stunning videos from text prompts. The quality is absolutely mind-blowing! Perfect for social media, marketing, or creative projects. You get free credits when you sign up!\n👉 Try Veo3 AI now",
-    "template2": "Want to create amazing videos without filming? Veo3 AI generates professional-quality videos from simple text descriptions. I've been using it for my content creation and the results are incredible — saves so much time and money! Get started with free credits.\n🚀 Discover Veo3 AI here",
-    "template3": "Need professional videos for your business? Veo3 AI creates high-quality promotional videos, product demos, and marketing content using advanced AI. No cameras, no editing skills needed — just describe what you want! Try it with free credits.\n💼 Explore Veo3 AI now",
+    "template1": "Hey friends! I just discovered Seedance — the most advanced AI video generator that creates stunning 1080p videos with multi-shot storytelling. The quality is absolutely mind-blowing! Perfect for social media, marketing, or creative projects. You get free credits when you sign up!\n👉 Try Seedance now",
+    "template2": "Want to create amazing videos without filming? Seedance generates professional-quality 1080p videos with cinematic aesthetics from simple text descriptions. I've been using it for my content creation and the results are incredible — saves so much time and money! Get started with free credits.\n🚀 Discover Seedance here",
+    "template3": "Need professional videos for your business? Seedance creates high-quality promotional videos, product demos, and marketing content using advanced AI with 1080p output and multi-shot storytelling. No cameras, no editing skills needed — just describe what you want! Try it with free credits.\n💼 Explore Seedance now",
     "table": {
       "invite_time": "Invite Time",
       "invite_user": "Invite User",
@@ -234,7 +234,7 @@
   },
   "audio-selector": {
     "sound": "Sound",
-    "veo3Only": "veo3Only"
+    "seedanceOnly": "Seedance Only"
   },
   "video-history": {
     "title": "Video Generation History",
