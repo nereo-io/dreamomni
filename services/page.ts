@@ -11,7 +11,7 @@ import { BaziQuestionsMessages } from "@/types/blocks/bazi-questions";
 import { IChingLandingPage } from "@/types/pages/i-ching";
 import { IChingContent } from "@/types/hexagram";
 import { ProductsPageTranslation } from "@/types/pages/products-page";
-import { ClaudeSonnetFeaturesBlockTranslations } from "@/types/blocks/claude-sonnet-features";
+import { SeedanceFeaturesBlockTranslations } from "@/types/blocks/seedance-features";
 import { VideoFeatureShowcase } from "@/types/blocks/video-feature-showcase";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
@@ -294,22 +294,22 @@ export async function getProductsPage(
   }
 }
 
-export async function getClaudeSonnetFeaturesBlock(
+export async function getSeedanceFeaturesBlock(
   locale: string
-): Promise<ClaudeSonnetFeaturesBlockTranslations> {
+): Promise<SeedanceFeaturesBlockTranslations> {
   try {
     if (locale === "zh-CN") {
       locale = "zh";
     }
     return await import(
-      `@/i18n/blocks/claude-sonnet-features/${locale.toLowerCase()}.json`
+      `@/i18n/blocks/seedance-features/${locale.toLowerCase()}.json`
     ).then((module) => module.default);
   } catch (error) {
     console.warn(
-      `Failed to load claude-sonnet-features/${locale}.json, falling back to en.json`
+      `Failed to load seedance-features/${locale}.json, falling back to en.json`
     );
-    return await import("@/i18n/blocks/claude-sonnet-features/en.json").then(
-      (module) => module.default as ClaudeSonnetFeaturesBlockTranslations
+    return await import("@/i18n/blocks/seedance-features/en.json").then(
+      (module) => module.default as SeedanceFeaturesBlockTranslations
     );
   }
 }

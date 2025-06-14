@@ -2,12 +2,12 @@ import FAQ from "@/components/blocks/faq";
 import Hero from "@/components/blocks/hero";
 import Testimonial from "@/components/blocks/testimonial";
 import VideoGenerator from "@/components/blocks/video-generator";
-import ClaudeSonnetFeaturesBlock from "@/components/blocks/claude-sonnet-features";
+import SeedanceFeaturesBlock from "@/components/blocks/seedance-features";
 import VideoFeatureShowcase from "@/components/blocks/video-feature-showcase";
 
 import {
   getLandingPage,
-  getClaudeSonnetFeaturesBlock,
+  getSeedanceFeaturesBlock,
   getVideoFeatureShowcaseBlock,
 } from "@/services/page";
 
@@ -35,7 +35,7 @@ export default async function LandingPage({
   params: { locale: string };
 }) {
   const page = await getLandingPage(locale);
-  const claudeSonnetFeatures = await getClaudeSonnetFeaturesBlock(locale);
+  const seedanceFeatures = await getSeedanceFeaturesBlock(locale);
   const videoFeatureShowcase = await getVideoFeatureShowcaseBlock(locale);
 
   return (
@@ -43,7 +43,7 @@ export default async function LandingPage({
       {page.hero && <Hero hero={page.hero} />}
       <VideoGenerator placeholder="Describe the video you want to create, e.g., A cat playing in a sunny garden with natural lighting and fresh atmosphere..." />
       {/* <VideoFeatureShowcase data={videoFeatureShowcase} /> */}
-      <ClaudeSonnetFeaturesBlock translations={claudeSonnetFeatures} />
+      <SeedanceFeaturesBlock translations={seedanceFeatures} />
 
       {page.faq && <FAQ section={page.faq} />}
     </>
