@@ -86,10 +86,13 @@ export function getPaymentMethodLogo(paymentMethod: string): string {
 
 /**
  * 根据国家代码判断是否支持Payssion
+ * TODO: 临时注释掉俄罗斯支付，等开通后取消注释
  */
 export function shouldUsePayssion(countryCode: string): boolean {
-  const payssionCountries = ['RU', 'BY', 'KZ', 'UA', 'AM', 'AZ', 'GE', 'KG', 'MD', 'TJ', 'TM', 'UZ'];
-  return payssionCountries.includes(countryCode.toUpperCase());
+  // 临时注释掉俄罗斯支付逻辑，改用 Stripe
+  // const payssionCountries = ['RU', 'BY', 'KZ', 'UA', 'AM', 'AZ', 'GE', 'KG', 'MD', 'TJ', 'TM', 'UZ'];
+  // return payssionCountries.includes(countryCode.toUpperCase());
+  return false; // 临时返回 false，强制使用 Stripe
 }
 
 /**

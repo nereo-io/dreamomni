@@ -42,7 +42,11 @@ CREATE TABLE orders (
     order_detail TEXT,
     paid_at timestamptz,
     paid_email VARCHAR(255),
-    paid_detail TEXT
+    paid_detail TEXT,
+    payment_provider VARCHAR(255),
+    payment_method VARCHAR(255),
+    payssion_transaction_id VARCHAR(255),
+    payment_provider_fee DECIMAL(10,2)
 );
 
 

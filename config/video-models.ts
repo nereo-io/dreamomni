@@ -26,6 +26,7 @@ export interface VideoModelConfig {
   supportedAspectRatios?: string[];
   supportsAudio?: boolean;
   supportedDurations?: number[];
+  supportedResolutions?: string[]; // 支持的分辨率
   audioPremiumCredits?: number; // 音频额外费用
 }
 
@@ -78,6 +79,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     features: ["Professional cinematography", "Complex prompt understanding"],
     maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16", "1:1"],
+    supportedResolutions: ["480p", "1080p"],
     supportsAudio: false,
     supportedDurations: [5, 10],
   },
@@ -96,6 +98,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     features: ["1080p quality", "Style versatility", "Natural motion"],
     maxDuration: 10,
     supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
+    supportedResolutions: ["480p", "1080p"],
     supportsAudio: false,
     supportedDurations: [5, 10],
   },
@@ -144,13 +147,23 @@ export function getSeedanceModels(): VideoModelConfig[] {
 export function calculateCredits(
   modelId: string,
   duration: number,
-  hasAudio: boolean = false
+  hasAudio: boolean = false,
+  resolution: string = "1080p"
 ): number {
   const model = getVideoModel(modelId);
   if (!model) return 0;
 
-  // 统一按秒计费
+  // 统一按秒计费，基础积分以 480p 为基准
   let totalCredits = duration * model.perSecondCredits;
+
+  // 根据分辨率调整积分（仅对 Seedance 模型生效）
+  if (isSeedanceModel(modelId)) {
+    if (resolution === "1080p") {
+      // 1080p 价格是 480p 的 5 倍
+      totalCredits *= 5;
+    }
+    // 480p 保持原价格不变
+  }
 
   // Veo3 模型支持音频，需要额外费用
   if (model.id.includes("veo3") && hasAudio && model.audioPremiumCredits) {

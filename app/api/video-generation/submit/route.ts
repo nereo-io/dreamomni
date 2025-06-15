@@ -51,7 +51,7 @@ export async function POST(req: Request) {
       aspect_ratio = "16:9",
       duration = "5",
       cfg_scale,
-      resolution = "720p",
+      resolution = "1080p",
       num_frames,
       frames_per_second = 16,
       seed,
@@ -80,7 +80,8 @@ export async function POST(req: Request) {
     const requiredCredits = calculateCredits(
       model,
       durationInt,
-      generate_audio
+      generate_audio,
+      resolution
     );
 
     if (requiredCredits === 0) {
@@ -145,6 +146,10 @@ export async function POST(req: Request) {
 
     if (duration) {
       input.duration = duration;
+    }
+
+    if (resolution) {
+      input.resolution = resolution;
     }
 
     // 根据模型类型添加相应参数

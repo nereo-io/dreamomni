@@ -50,7 +50,10 @@ export class FalProvider implements VideoProvider {
     };
   }
 
-  async status(model: string, requestId: string): Promise<VideoGenerationStatus> {
+  async status(
+    model: string,
+    requestId: string
+  ): Promise<VideoGenerationStatus> {
     const modelConfig = getVideoModel(model);
     if (!modelConfig?.falEndpoint) {
       throw new Error(`FAL endpoint not found for model: ${model}`);
@@ -70,7 +73,10 @@ export class FalProvider implements VideoProvider {
     };
   }
 
-  async result(model: string, requestId: string): Promise<VideoGenerationResult> {
+  async result(
+    model: string,
+    requestId: string
+  ): Promise<VideoGenerationResult> {
     const modelConfig = getVideoModel(model);
     if (!modelConfig?.falEndpoint) {
       throw new Error(`FAL endpoint not found for model: ${model}`);

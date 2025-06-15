@@ -80,7 +80,10 @@ export class VolcanoProvider implements VideoProvider {
       promptText += ` --duration ${input.duration}s`;
     }
 
-    promptText += ` --resolution 480P`;
+    // Add resolution to prompt if specified
+    if (input.resolution) {
+      promptText += ` --resolution ${input.resolution.toUpperCase()}`;
+    }
 
     const requestBody: any = {
       model: input.model, // Use input.model if available (for Volcano models), fallback to original model

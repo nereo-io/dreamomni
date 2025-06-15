@@ -61,34 +61,43 @@ export function getStripeMethods(): PaymentMethodConfig[] {
 
 /**
  * 根据地理位置获取可用支付方式
+ * TODO: 临时注释掉俄罗斯支付，等开通后取消注释
  */
 export function getAvailablePaymentMethods(isRussia: boolean): PaymentMethodConfig[] {
   const methods: PaymentMethodConfig[] = [];
 
-  if (isRussia) {
-    // 俄罗斯地区优先显示 Payssion 支付方式
-    methods.push(...getPayssionMethods());
-    // 添加 Stripe 作为备选
-    methods.push(...getStripeMethods());
-  } else {
-    // 其他地区优先显示 Stripe
-    methods.push(...getStripeMethods());
-    // 如果需要也可以添加 Payssion
-    methods.push(...getPayssionMethods());
-  }
+  // 临时注释掉俄罗斯支付逻辑，所有用户都使用 Stripe
+  // if (isRussia) {
+  //   // 俄罗斯地区优先显示 Payssion 支付方式
+  //   methods.push(...getPayssionMethods());
+  //   // 添加 Stripe 作为备选
+  //   methods.push(...getStripeMethods());
+  // } else {
+  //   // 其他地区优先显示 Stripe
+  //   methods.push(...getStripeMethods());
+  //   // 如果需要也可以添加 Payssion
+  //   methods.push(...getPayssionMethods());
+  // }
+  
+  // 临时所有用户都使用 Stripe
+  methods.push(...getStripeMethods());
 
   return methods;
 }
 
 /**
  * 获取推荐的支付提供商
+ * TODO: 临时注释掉俄罗斯支付，等开通后取消注释
  */
 export function getRecommendedProvider(isRussia: boolean): {
   provider: string;
   reason: string;
 } {
   return {
-    provider: isRussia ? "payssion" : "stripe",
-    reason: isRussia ? "local_payment_methods" : "global_coverage",
+    // 临时所有用户都推荐 Stripe
+    // provider: isRussia ? "payssion" : "stripe",
+    // reason: isRussia ? "local_payment_methods" : "global_coverage",
+    provider: "stripe",
+    reason: "global_coverage",
   };
 }
