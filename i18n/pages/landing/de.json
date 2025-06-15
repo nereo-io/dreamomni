@@ -1,0 +1,340 @@
+{
+  "template": "luckbox-template", 
+  "theme": "light",
+  "header": {
+    "brand": {
+      "title": "Seedance",
+      "logo": {
+        "src": "/logo.png",
+        "alt": "Seedance"
+      },
+      "url": "/"
+    },
+    "nav": {
+      "items": [
+        {
+          "title": "Generieren",
+          "url": "/#video-generator",
+          "icon": "RiVideoLine"
+        },
+        {
+          "title": "Verlauf",
+          "url": "/history",
+          "icon": "RiHistoryLine"
+        },
+        {
+          "title": "Preise",
+          "url": "/pricing",
+          "icon": "RiMoneyDollarCircleLine"
+        },
+        {
+          "title": "Blog",
+          "url": "/blog",
+          "icon": "RiMoneyDollarCircleLine"
+        }
+      ]
+    },
+    "show_sign": true,
+    "show_theme": false,
+    "show_locale": true
+  },
+  "hero": {
+    "title": "Seedance 1.0 - Revolutionärer KI-Video-Generator",
+    "highlight_text": "Seedance 1.0",
+    "announcement": {
+      "title": "🚀 Seedance 1.0 Launch - Erweiterte Multi-Shot KI-Video-Erstellung!",
+      "label": "Neu!",
+      "url": "#video-generator"
+    },
+    "description": "Erstellen Sie professionelle 1080p-Videos mit bahnbrechendem Multi-Shot-Storytelling und Kinoqualität. Vom Fotorealismus bis Cyberpunk - verwandeln Sie Ihre Ideen sofort in atemberaubende Videos.",
+    "show_happy_users": false,
+    "show_badge": false
+  },
+  "testimonial": {
+    "name": "testimonial",
+    "label": "Kundenstimmen",
+    "title": "Was Kreative über den Seedance 1.0 Video-Generator sagen",
+    "description": "Entdecken Sie, wie Seedance 1.0 die Videoerstellung mit bahnbrechender KI-Technologie revolutioniert hat. Von Multi-Shot-Storytelling bis zu vielfältigem Stilausdruck vertrauen Kreative weltweit auf Seedance für professionelle Videogenerierung mit Kinoqualität und nahtloser Workflow-Integration.",
+    "icon": "GoThumbsup",
+    "items": [
+      {
+        "title": "Sarah Johnson",
+        "label": "Content Creator",
+        "description": "Seedance 1.0 hat meinen Content-Erstellungs-Workflow komplett transformiert. Seedances fortschrittliche KI versteht meine Prompts perfekt und generiert kinoreife 1080p-Videos mit flüssigen Bewegungen und reichen Details. Die Multi-Shot-Storytelling-Funktion von Seedance ist revolutionär für Kreative.",
+        "image": {
+          "src": "/imgs/users/1.png"
+        }
+      },
+      {
+        "title": "Michael Chen",
+        "label": "Marketing-Direktor", 
+        "description": "Seedance 1.0 ist unglaublich für Marketing-Kampagnen. Seedances Kinoqualität ist herausragend, und die Multi-Agent-Interaktions-Features ermöglichen komplexes Storytelling. Mit Seedance kann ich mühelos mehrere Video-Variationen mit verschiedenen Stilen erstellen - vom Fotorealismus bis zur Cyberpunk-Ästhetik.",
+        "image": {
+          "src": "/imgs/users/2.png"
+        }
+      },
+      {
+        "title": "Emily Rodriguez", 
+        "label": "Social Media Managerin",
+        "description": "Die Konsistenz und Qualität der Videos von Seedance 1.0 ist erstaunlich. Mit Seedances nativem Multi-Shot-Storytelling kann ich visuelle Konsistenz über komplexe Sequenzen hinweg beibehalten und täglich frischen Content erstellen. Seedances Stilvielfalt und Prompt-Following-Genauigkeit ist in der Branche unübertroffen.",
+        "image": {
+          "src": "/imgs/users/3.png"
+        }
+      },
+      {
+        "title": "David Kumar",
+        "label": "YouTuber & Pädagoge",
+        "description": "Seedance 1.0 hilft mir dabei, Bildungsinhalte zu erstellen, die mein Publikum fesseln. Von fotorealistischen Demonstrationen bis zu animierten Erklärungen behandelt Seedances fortschrittliche KI alles mit kinematischer Ästhetik. Die flüssigen Bewegungen und reichen Details in Seedance-Videos halten die Zuschauer durchgehend engagiert.",
+        "image": {
+          "src": "/imgs/users/4.png"
+        }
+      },
+      {
+        "title": "Lisa Wang",
+        "label": "Unabhängige Filmemacherin",
+        "description": "Seedance 1.0 hat mein kreatives Potenzial als Filmemacherin freigesetzt. Mit Seedances bahnbrechender Technologie kann ich Szenen prototypisieren, Konzeptvideos mit Multi-Shot-Narrativen erstellen und mit visuellem Storytelling experimentieren. Seedances präzise Kamerabewegungssteuerung und breite Dynamikrange ist perfekt für professionelles Filmemachen.",
+        "image": {
+          "src": "/imgs/users/5.png"
+        }
+      },
+      {
+        "title": "Alex Thompson",
+        "label": "Digital Artist",
+        "description": "Die Präzision und künstlerische Qualität von Seedance 1.0 ist bemerkenswert. Seedance versteht komplexe künstlerische Anweisungen und erstellt Videos, die perfekt zu meiner kreativen Vision passen. Von Cyberpunk bis zu Illustrationsstilen ermöglichen Seedances vielfältige Stilausdrucks-Fähigkeiten unbegrenzte kreative Erkundung mit professionellen Ergebnissen.",
+        "image": {
+          "src": "/imgs/users/6.png"
+        }
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "label": "Häufige Fragen",
+    "title": "Häufig gestellte Fragen zu Seedance 1.0",
+    "description": "Erfahren Sie mehr über Seedance 1.0s erweiterte KI-Video-Generierungs-Fähigkeiten, Multi-Shot-Storytelling und professionelle Video-Erstellungs-Features.",
+    "items": [
+      {
+        "title": "Was ist der Seedance 1.0 KI-Video-Generator und wie funktioniert er?",
+        "description": "Seedance 1.0 gibt Ihnen Zugang zu bahnbrechender KI-Video-Erstellungs-Technologie mit nativem Multi-Shot-Storytelling. Beschreiben Sie einfach Ihre Video-Idee in Text, und Seedance wird hochqualitative 1080p-Videos mit kinematischer Ästhetik, flüssigen Bewegungen und vielfältigem Stilausdruck generieren. Seedances erweiterte semantische Verstehen gewährleistet präzises Prompt-Following für professionelle Ergebnisse."
+      },
+      {
+        "title": "Was macht Seedance 1.0 anders als andere KI-Video-Tools?",
+        "description": "Seedance 1.0 bietet bahnbrechende Features, die es abhebt: native Multi-Shot-Narrativ-Generierung, visuelle Konsistenz über Shot-Übergänge hinweg, breite Dynamikrange für das Erfassen subtiler Ausdrücke, vielfältige Stilunterstützung vom Fotorealismus bis Cyberpunk, und präzise Kontrolle über Multi-Agent-Interaktionen. Seedances erweiterte semantische Verstehen und Kamerabewegungssteuerung liefern professionelle Ergebnisse, die von anderen Plattformen unübertroffen sind."
+      },
+      {
+        "title": "Welche Arten von Videos kann ich mit Seedance 1.0 erstellen?",
+        "description": "Seedance 1.0 unterstützt eine breite Palette von Video-Typen: Marketing-Videos, Social-Media-Content, Bildungsmaterialien, Produktdemonstrationen, animierte Geschichten, Musikvideos, Konzeptkunst und kinematische Szenen. Mit Seedances Multi-Shot-Storytelling und 1080p-Qualität passt sich die KI jeder kreativen Vision an. Vom Fotorealismus bis zur Cyberpunk-Ästhetik liefert Seedance professionelle Ergebnisse für jedes Projekt."
+      },
+      {
+        "title": "Gibt es Beschränkungen für den kostenlosen Seedance 1.0 Video-Generator?",
+        "description": "Während kostenlose Seedance 1.0 Zugang zu erweiterten 1080p-Video-Generierung und Multi-Shot-Storytelling-Fähigkeiten bietet, genießen Premium-Seedance-Nutzer unbegrenzte Generierungen, längere Video-Dauern, prioritäre Verarbeitung und zusätzliche Features wie benutzerdefinierte Stile und Batch-Verarbeitung. Kostenlose Seedance-Nutzer können kinematische Videos mit angemessenen Nutzungslimits erstellen, während sie die volle Kraft der Seedance KI-Technologie erleben."
+      },
+      {
+        "title": "Wie lange dauert es, Videos mit Seedance zu generieren?",
+        "description": "Seedance Video-Generierung dauert typischerweise 2-5 Minuten für Standard-1080p-Videos, abhängig von Komplexität und Multi-Shot-Anforderungen. Die KI verarbeitet Ihren Prompt, erstellt die Video-Sequenz mit kinematischer Ästhetik und wendet erweiterte Renderung für professionelle Ergebnisse an. Premium-Nutzer erhalten prioritäre Verarbeitung für schnellere Generierung."
+      },
+      {
+        "title": "Kann ich Stil und Qualität der generierten Videos anpassen?",
+        "description": "Ja! Seedance bietet umfangreiche Anpassungsoptionen mit Stilvielfalt vom Fotorealismus bis zur Cyberpunk-Ästhetik. Sie können Video-Stil, Kamerawinkel, Beleuchtung, Stimmung, Farbpalette und Bewegungscharakteristiken in Ihren Prompts spezifizieren. Die KI versteht detaillierte kreative Anweisungen und produziert 1080p-Videos mit Kinoqualität, die Ihrer exakten Vision entsprechen."
+      },
+      {
+        "title": "Ist mein Content sicher bei der Nutzung von Seedance?",
+        "description": "Absolut. Seedance setzt branchenführende Sicherheitsmaßnahmen ein, um Ihren Content und Ihre Prompts zu schützen. Wir folgen strengen Datenschutzprotokollen und verwenden nie Ihre persönlichen Projekte zum Trainieren von Modellen oder teilen Content mit Dritten. Ihre kreative Arbeit und Multi-Shot-Video-Projekte bleiben vollständig privat."
+      },
+      {
+        "title": "Wie fange ich mit Seedance an?",
+        "description": "Der Einstieg in Seedance ist einfach! Klicken Sie einfach den 'Video Generieren' Button, beschreiben Sie Ihre Video-Idee in der Prompt-Box und schauen Sie zu, wie KI Ihr professionelles 1080p-Video mit kinematischer Ästhetik erstellt. Keine komplexe Einrichtung erforderlich - beginnen Sie sofort mit der Erstellung erstaunlicher Multi-Shot-Videos."
+      },
+      {
+        "title": "Welche Video-Formate und Auflösungen unterstützt Seedance?",
+        "description": "Seedance unterstützt mehrere Formate einschließlich MP4, MOV und WebM. Videos werden standardmäßig in professioneller 1080p-Auflösung generiert und liefern Kinoqualität mit Multi-Shot-Storytelling-Fähigkeiten. Alle Videos sind optimiert für Web-Sharing, Social Media und professionelle Nutzung mit breiter Dynamikrange und Stilvielfalt."
+      },
+      {
+        "title": "Kann ich mit Seedance generierte Videos für kommerzielle Zwecke verwenden?",
+        "description": "Ja! Videos, die mit Seedance erstellt wurden, können für kommerzielle Zwecke verwendet werden, einschließlich Marketing, Werbung, Social Media und Geschäftspräsentationen. Mit professioneller 1080p-Qualität und kinematischer Ästhetik sind Ihre Videos für jede kommerzielle Anwendung bereit. Premium-Pläne bieten erweiterte kommerzielle Lizenzierung und zusätzliche Nutzungsrechte für Unternehmensanwendungen."
+      }
+    ]
+  },
+  "footer": {
+    "name": "footer",
+    "brand": {
+      "title": "Seedance 1.0",
+      "description": "Seedance 1.0 - Revolutionärer KI-Video-Generator mit bahnbrechender Multi-Shot-Storytelling-Technologie. Erstellen Sie atemberaubende 1080p-Videos mit kinematischer Ästhetik, flüssigen Bewegungen und vielfältigem Stilausdruck. Verwandeln Sie Ihre Ideen in professionelle Video-Meisterwerke mit Seedances erweiterten KI-Fähigkeiten.",
+      "logo": {
+        "src": "/logo.png",
+        "alt": "Seedance"
+      },
+      "url": "/"
+    },
+    "copyright": " 2025 • Seedance Alle Rechte vorbehalten.",
+    "nav": {
+      "items": [
+        {
+          "title": "Produkte",
+          "children": [
+            {
+              "title": "Generieren",
+              "url": "/#video-generator",
+              "target": "_self"
+            },
+            {
+              "title": "Verlauf",
+              "url": "/history",
+              "target": "_self"
+            },
+            {
+              "title": "Preise",
+              "url": "/pricing",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    "agreement": {
+      "items": [
+        {
+          "title": "Datenschutzerklärung",
+          "url": "/privacy-policy"
+        },
+        {
+          "title": "Nutzungsbedingungen",
+          "url": "/terms-of-service"
+        }
+      ]
+    },
+    "contact": {
+      "title": "KONTAKT",
+      "items": [
+        {
+          "title": "E-Mail Support",
+          "value": "support@seedance.tv",
+          "icon": "RiMailFill",
+          "url": "mailto:support@seedance.tv",
+          "target": "_self"
+        },
+        {
+          "title": "Unternehmen",
+          "value": "ASTROINSPIRE LTD",
+          "icon": "RiBuildingFill"
+        },
+        {
+          "title": "Adresse",
+          "value": "71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM",
+          "icon": "RiMapPinFill"
+        }
+      ]
+    }
+  },
+  "cta": [
+    {
+      "name": "cta-generate",
+      "title": "Beginnen Sie mit der Video-Erstellung mit Seedance 1.0",
+      "buttons": [
+        {
+          "title": "Video Generieren",
+          "url": "#video-generator",
+          "target": "_self",
+          "icon": "GoArrowUpRight"
+        }
+      ]
+    },
+    {
+      "name": "cta-features",
+      "title": "Erkunden Sie Seedance 1.0 Features",
+      "description": "Professionelle 1080p-Video-Generierung mit nativem Multi-Shot-Storytelling, vielfältigem Stilausdruck & erweiterte Seedance KI-Technologie",
+      "buttons": [
+        {
+          "title": "Mehr Erfahren",
+          "url": "#features",
+          "target": "_self"
+        }
+      ]
+    }
+  ],
+  "questionExamples": {
+    "title": "Video-Ideen: ",
+    "examples": [
+      {
+        "text": "Erstelle eine kinematische Drohnenaufnahme, die bei Sonnenuntergang über eine futuristische Stadt fliegt, mit Neonlichtern, die sich in Glasgebäuden spiegeln",
+        "label": "Kinematische Stadtlandschaft",
+        "type": "single"
+      },
+      {
+        "text": "Generiere ein Produktdemonstrations-Video, das ein Smartphone mit flüssigen Kamerabewegungen und professioneller Beleuchtung zeigt",
+        "label": "Produkt-Demo",
+        "type": "single"
+      },
+      {
+        "text": "Erstelle ein animiertes Erklärvideo über erneuerbare Energien mit bunten Grafiken und flüssigen Übergängen",
+        "label": "Bildungsanimation",
+        "type": "single"
+      },
+      {
+        "text": "Erstelle ein Naturdokumentations-Video eines Waldes mit Wildtieren, Morgennebel und Golden-Hour-Beleuchtung",
+        "label": "Naturdokumentation",
+        "type": "single"
+      }
+    ]
+  },
+  "questionSuggestions": {
+    "disabled": true,
+    "categories": {
+      "all": "Alle"
+    },
+    "questions": {
+      "marketing1": {
+        "text": "Erstelle ein dynamisches Marketing-Video, das unser Produkt mit professionellen Kamerabewegungen und ansprechenden Visuals präsentiert",
+        "reading_type": "single",
+        "category": "marketing",
+        "tag": "new"
+      },
+      "social1": {
+        "text": "Generiere ein trendiges Social-Media-Video mit lebendigen Farben und flüssigen Übergängen, perfekt für Instagram und TikTok",
+        "reading_type": "single",
+        "category": "social",
+        "tag": "new"
+      },
+      "education1": {
+        "text": "Erstelle ein Bildungsvideo, das komplexe Konzepte mit klaren Animationen und ansprechendem visuellen Storytelling erklärt",
+        "reading_type": "single",
+        "category": "education"
+      },
+      "creative1": {
+        "text": "Erstelle ein künstlerisches Video mit abstrakten Visuals, kreativen Kamerawinkeln und experimentellen visuellen Effekten",
+        "reading_type": "single",
+        "category": "creative"
+      },
+      "business1": {
+        "text": "Generiere ein professionelles Business-Präsentations-Video mit sauberen Grafiken und Corporate-Styling",
+        "reading_type": "single",
+        "category": "business"
+      },
+      "entertainment1": {
+        "text": "Erstelle ein unterhaltsames Video mit dynamischen Action-Sequenzen und kinematischen Storytelling-Elementen",
+        "reading_type": "single",
+        "category": "entertainment"
+      },
+      "tutorial1": {
+        "text": "Erstelle ein Schritt-für-Schritt-Tutorial-Video mit klaren Demonstrationen und hilfreichen visuellen Anleitungen",
+        "reading_type": "single",
+        "category": "tutorial"
+      },
+      "lifestyle1": {
+        "text": "Generiere ein Lifestyle-Video mit schöner Ästhetik, natürlicher Beleuchtung und inspirierenden Visuals",
+        "reading_type": "single",
+        "category": "lifestyle"
+      },
+      "tech1": {
+        "text": "Erstelle ein Technologie-Showcase-Video mit futuristischen Elementen und schlankem Visual Design",
+        "reading_type": "single",
+        "category": "technology"
+      },
+      "travel1": {
+        "text": "Generiere ein Reise-Video, das atemberaubende Landschaften mit kinematischen Kamerabewegungen und lebendigen Farben einfängt",
+        "reading_type": "single",
+        "category": "travel"
+      }
+    }
+  }
+}

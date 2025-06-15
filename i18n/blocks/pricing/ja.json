@@ -1,0 +1,208 @@
+{
+  "name": "pricing",
+  "label": "動画生成プラン",
+  "title": "Seedance AI動画生成プラン",
+  "description": "AI動画生成プランを選択してプロフェッショナル動画の作成を始めましょう",
+  "groups": [
+    {
+      "name": "monthly",
+      "title": "月額",
+      "description": "月額請求"
+    },
+    {
+      "name": "yearly",
+      "title": "年額",
+      "description": "年額請求"
+    }
+  ],
+  "items": [
+    {
+      "title": "無料プラン",
+      "features_title": "含まれる機能",
+      "features": [
+        "登録時に10クレジット付与",
+        "最大5秒の動画",
+        "720p解像度出力",
+        "テキストから動画生成",
+        "基本動画スタイル",
+        "ウォーターマーク付き出力"
+      ],
+      "interval": "one-time",
+      "amount": 0,
+      "currency": "USD",
+      "price": "無料",
+      "original_price": "",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "無料で始める",
+        "url": "/#video-generator",
+        "icon": "RiPlayLine"
+      },
+      "product_id": "free-plan",
+      "product_name": "Seedance AI 無料",
+      "credits": 10,
+      "valid_months": 0,
+      "group": "monthly"
+    },
+    {
+      "title": "無料プラン",
+      "features_title": "含まれる機能",
+      "features": [
+        "登録時に10クレジット付与",
+        "最大5秒の動画",
+        "720p解像度出力",
+        "テキストから動画生成",
+        "基本動画スタイル",
+        "ウォーターマーク付き出力"
+      ],
+      "interval": "one-time",
+      "amount": 0,
+      "currency": "USD",
+      "price": "無料",
+      "original_price": "",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "無料で始める",
+        "url": "/#video-generator",
+        "icon": "RiPlayLine"
+      },
+      "product_id": "free-plan",
+      "product_name": "Seedance AI 無料",
+      "credits": 10,
+      "valid_months": 0,
+      "group": "yearly"
+    },
+    {
+      "title": "ミニプラン",
+      "label": "",
+      "features_title": "含まれる機能",
+      "features": [
+        "月間200クレジット",
+        "最大10秒の動画",
+        "1080p解像度出力",
+        "全生成モード",
+        "カスタム動画スタイル",
+        "高速生成キュー",
+        "商用利用権"
+      ],
+      "interval": "month",
+      "amount": 1500,
+      "currency": "USD",
+      "price": "$15.00",
+      "original_price": "",
+      "unit": "/月",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "ミニにアップグレード",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "mini-monthly",
+      "product_name": "Seedance AI ミニ",
+      "credits": 200,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "ミニプラン",
+      "label": "40% オフ",
+      "features_title": "含まれる機能",
+      "features": [
+        "年間2400クレジット（月200）",
+        "最大10秒の動画",
+        "1080p解像度出力",
+        "全生成モード",
+        "カスタム動画スタイル",
+        "高速生成キュー",
+        "商用利用権"
+      ],
+      "interval": "year",
+      "amount": 10800,
+      "currency": "USD",
+      "price": "$9.00",
+      "original_price": "$15.00",
+      "unit": "/月",
+      "is_featured": false,
+      "discount_label": "40% オフ",
+      "tip": "年額$108.00で請求",
+      "button": {
+        "title": "ミニにアップグレード",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "mini-yearly",
+      "product_name": "Seedance AI ミニ 年額",
+      "credits": 2400,
+      "valid_months": 12,
+      "group": "yearly"
+    },
+    {
+      "title": "スタンダードプラン",
+      "label": "人気",
+      "features_title": "含まれる機能",
+      "features": [
+        "月間1000クレジット",
+        "最大10秒の動画",
+        "1080p解像度出力",
+        "全生成モード",
+        "カスタム動画スタイル",
+        "高速生成キュー",
+        "商用利用権"
+      ],
+      "interval": "month",
+      "amount": 5000,
+      "currency": "USD",
+      "price": "$50.00",
+      "original_price": "",
+      "unit": "/月",
+      "is_featured": true,
+      "discount_label": "",
+      "button": {
+        "title": "スタンダードにアップグレード",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "standard-monthly",
+      "product_name": "Seedance AI スタンダード",
+      "credits": 1000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "スタンダードプラン",
+      "label": "40% オフ",
+      "features_title": "含まれる機能",
+      "features": [
+        "年間12000クレジット（月1000）",
+        "最大10秒の動画",
+        "1080p解像度出力",
+        "全生成モード",
+        "カスタム動画スタイル",
+        "高速生成キュー",
+        "商用利用権"
+      ],
+      "interval": "year",
+      "amount": 36000,
+      "currency": "USD",
+      "price": "$30.00",
+      "original_price": "$50.00",
+      "unit": "/月",
+      "is_featured": true,
+      "discount_label": "40% オフ",
+      "tip": "年額$360.00で請求",
+      "button": {
+        "title": "スタンダードにアップグレード",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "standard-yearly",
+      "product_name": "Seedance AI スタンダード 年額",
+      "credits": 12000,
+      "valid_months": 12,
+      "group": "yearly"
+    }
+  ]
+}

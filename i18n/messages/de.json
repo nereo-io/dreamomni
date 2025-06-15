@@ -1,0 +1,129 @@
+{
+  "metadata": {
+    "title": "Seedance 1.0 - Erweiterte KI-Video-Generator mit Multi-Shot-Storytelling | 1080p Video-Erstellung",
+    "description": "Seedance 1.0 revolutioniert die Videoerstellung mit nativem Multi-Shot-Storytelling, 1080p-Kinoqualität und vielfältigem Stilausdruck. Erleben Sie Seedances Durchbruch in semantischem Verständnis und Prompt-Befolgung. Generieren Sie professionelle Videos von Fotorealismus bis Cyberpunk mit Seedance KI-Technologie. Flüssige Bewegungen, reiche Details, präzise Kamerakontrolle - alles unterstützt von Seedance 1.0s erweiterten Fähigkeiten.",
+    "keywords": "Seedance, Seedance 1.0, KI Video Generator, Multi-Shot-Storytelling, 1080p Video-Erstellung, Cinematic KI, Videogenerierung, Seedance KI, Text zu Video, Seedance Video Creator, Professionelle Video KI, Seedance Technologie"
+  },
+  "pricing": {
+    "title": "Seedance 1.0 Preispläne - Professionelle KI-Videogenerierung | Seedance Abonnement",
+    "description": "Wählen Sie Ihren Seedance 1.0 Plan für professionelle Videoerstellung. Erhalten Sie unbegrenzte 1080p-Generierung, Multi-Shot-Storytelling, Kinoqualität und prioritäre Verarbeitung mit Seedance KI. Erleben Sie Seedances erweiterte Funktionen: flüssige Bewegungen, vielfältige Stile, präzise Prompt-Befolgung. Starten Sie heute mit Seedance.",
+    "keywords": "Seedance Preise, Seedance 1.0 Pläne, Seedance Abonnement, KI Videogenerierung Preise, Seedance Professionell, Seedance KI Preise, Multi-Shot Video Pläne, Seedance 1080p Preise"
+  },
+  "history": {
+    "title": "Video-Generierungs-Verlauf",
+    "description": "Zeigen Sie Ihren Video-Generierungs-Verlauf an"
+  },
+  "user": {
+    "sign_in": "Anmelden",
+    "sign_out": "Abmelden",
+    "credits": "Credits",
+    "api_keys": "API-Schlüssel",
+    "my_orders": "Meine Bestellungen",
+    "membership": "Mitgliedschaft"
+  },
+  "sign_modal": {
+    "sign_in_title": "Anmelden",
+    "sign_in_description": "In Ihr Konto einloggen",
+    "sign_up_title": "Registrieren",
+    "sign_up_description": "Konto erstellen",
+    "email_title": "E-Mail",
+    "email_placeholder": "Geben Sie Ihre E-Mail ein",
+    "password_title": "Passwort",
+    "password_placeholder": "Geben Sie Ihr Passwort ein",
+    "forgot_password": "Passwort vergessen?",
+    "or": "Oder",
+    "continue": "Fortfahren",
+    "no_account": "Haben Sie kein Konto?",
+    "email_sign_in": "Mit E-Mail anmelden",
+    "google_sign_in": "Mit Google anmelden",
+    "github_sign_in": "Mit GitHub anmelden",
+    "apple_sign_in": "Mit Apple anmelden",
+    "close_title": "Schließen",
+    "cancel_title": "Abbrechen"
+  },
+  "video-generator": {
+    "videoDescription": "Video-Beschreibung",
+    "referenceImage": "Referenzbild (Optional)",
+    "videoAspectRatio": "Video-Seitenverhältnis",
+    "videoDuration": "Video-Dauer",
+    "videoModel": "Video-Modell",
+    "credits": "Credits",
+    "cost": "Kosten",
+    "recharge": "Aufladen",
+    "generateVideo": "Video generieren",
+    "submitting": "Wird übermittelt...",
+    "aspectRatios": {
+      "landscape": "16:9 Querformat",
+      "portrait": "9:16 Hochformat",
+      "square": "1:1 Quadrat"
+    },
+    "durations": {
+      "5seconds": "5 Sekunden",
+      "10seconds": "10 Sekunden"
+    },
+    "characterCount": "Zeichen mindestens",
+    "uploadInstructions": {
+      "clickToUpload": "Klicken zum Hochladen oder Bild hierher ziehen",
+      "supportedFormats": "Unterstützt JPG, PNG, GIF Formate, max. 10MB"
+    },
+    "selectModel": "Modell auswählen",
+    "discordBanner": {
+      "text": "24h früher Zugang zu trendigen AI-Vorlagen",
+      "linkText": "Discord beitreten"
+    },
+    "toast": {
+      "signInFirst": "Bitte melden Sie sich zuerst an",
+      "enterDescription": "Bitte geben Sie eine Video-Beschreibung ein",
+      "descriptionTooShort": "Video-Beschreibung muss mindestens 10 Zeichen lang sein",
+      "uploadImageFile": "Bitte laden Sie eine Bilddatei hoch",
+      "imageTooLarge": "Bilddatei ist zu groß (max. 10MB)",
+      "imageUploadFailed": "Bild-Upload fehlgeschlagen",
+      "insufficientCredits": "Unzureichende Credits. Benötigt: {required}, Verfügbar: {available}",
+      "videoSubmitted": "Video-Generierungs-Aufgabe übermittelt, wird verarbeitet...",
+      "videoCompleted": "Video-Generierung abgeschlossen!",
+      "videoFailed": "Video-Generierung fehlgeschlagen"
+    }
+  },
+  "audio-selector": {
+    "sound": "Ton",
+    "seedanceOnly": "Nur Seedance"
+  },
+  "video-history": {
+    "title": "Video-Generierungs-Verlauf",
+    "noVideosTitle": "Noch keine Videos",
+    "noVideosDescription": "Sie haben noch keine Videos generiert. Beginnen Sie mit der Erstellung Ihres ersten Meisterwerks!",
+    "generateVideoButton": "Video generieren",
+    "playButton": "Abspielen",
+    "downloadButton": "Herunterladen",
+    "regenerateButton": "Neu generieren",
+    "status": {
+      "completed": "Abgeschlossen",
+      "processing": "Wird verarbeitet",
+      "pending": "Wartend",
+      "failed": "Fehlgeschlagen"
+    },
+    "labels": {
+      "model": "Modell",
+      "duration": "Dauer",
+      "aspectRatio": "Seitenverhältnis"
+    }
+  },
+  "video-result": {
+    "status": {
+      "submitted": "Übermittelt",
+      "inQueue": "In Warteschlange",
+      "generating": "Wird generiert",
+      "completed": "Abgeschlossen",
+      "failed": "Fehlgeschlagen"
+    },
+    "videoCompleted": "Video-Generierung abgeschlossen!",
+    "videoFailed": "Video-Generierung fehlgeschlagen",
+    "processing": "Wird verarbeitet...",
+    "viewHistory": "Verlauf anzeigen",
+    "retry": "Wiederholen",
+    "prompt": "Prompt",
+    "download": "Herunterladen",
+    "downloading": "Wird heruntergeladen...",
+    "openInNewTab": "In neuem Tab öffnen"
+  }
+}

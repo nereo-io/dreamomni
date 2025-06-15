@@ -1,0 +1,129 @@
+{
+  "metadata": {
+    "title": "Seedance 1.0 - 멀티샷 스토리텔링 지원 고급 AI 비디오 생성기 | 1080p 영상 제작",
+    "description": "Seedance 1.0은 네이티브 멀티샷 스토리텔링, 1080p 영화 품질, 다양한 스타일 표현으로 비디오 제작을 혁신합니다. Seedance의 의미 이해 및 프롬프트 추종 기술의 혁신을 경험하세요. 포토리얼리즘부터 사이버펑크까지 Seedance AI 기술로 전문 비디오를 생성하세요. 부드러운 움직임, 풍부한 디테일, 정밀한 카메라 제어 - 모든 것이 Seedance 1.0의 고급 기능으로 구현됩니다.",
+    "keywords": "Seedance, Seedance 1.0, AI 비디오 생성기, 멀티샷 스토리텔링, 1080p 비디오 제작, 영화적 AI, 비디오 생성, Seedance AI, 텍스트에서 비디오, Seedance 비디오 크리에이터, 전문 비디오 AI, Seedance 기술"
+  },
+  "pricing": {
+    "title": "Seedance 1.0 요금제 - 전문 AI 비디오 생성 | Seedance 구독",
+    "description": "전문 비디오 제작을 위한 Seedance 1.0 요금제를 선택하세요. 무제한 1080p 생성, 멀티샷 스토리텔링, 영화 품질, 우선 처리를 Seedance AI로 경험하세요. Seedance의 고급 기능: 부드러운 움직임, 다양한 스타일, 정밀한 프롬프트 추종. 지금 Seedance를 시작하세요.",
+    "keywords": "Seedance 요금제, Seedance 1.0 플랜, Seedance 구독, AI 비디오 생성 요금제, Seedance 전문가, Seedance AI 요금제, 멀티샷 비디오 플랜, Seedance 1080p 요금제"
+  },
+  "history": {
+    "title": "비디오 생성 이력",
+    "description": "비디오 생성 이력 보기"
+  },
+  "user": {
+    "sign_in": "로그인",
+    "sign_out": "로그아웃",
+    "credits": "크레딧",
+    "api_keys": "API 키",
+    "my_orders": "주문 내역",
+    "membership": "멤버십"
+  },
+  "sign_modal": {
+    "sign_in_title": "로그인",
+    "sign_in_description": "계정에 로그인",
+    "sign_up_title": "회원가입",
+    "sign_up_description": "계정 생성",
+    "email_title": "이메일",
+    "email_placeholder": "이메일을 입력하세요",
+    "password_title": "비밀번호",
+    "password_placeholder": "비밀번호를 입력하세요",
+    "forgot_password": "비밀번호를 잊으셨나요?",
+    "or": "또는",
+    "continue": "계속",
+    "no_account": "계정이 없으신가요?",
+    "email_sign_in": "이메일로 로그인",
+    "google_sign_in": "Google로 로그인",
+    "github_sign_in": "GitHub로 로그인",
+    "apple_sign_in": "Apple로 로그인",
+    "close_title": "닫기",
+    "cancel_title": "취소"
+  },
+  "video-generator": {
+    "videoDescription": "비디오 설명",
+    "referenceImage": "참조 이미지 (선택사항)",
+    "videoAspectRatio": "비디오 종횡비",
+    "videoDuration": "비디오 길이",
+    "videoModel": "비디오 모델",
+    "credits": "크레딧",
+    "cost": "비용",
+    "recharge": "충전",
+    "generateVideo": "비디오 생성",
+    "submitting": "제출 중...",
+    "aspectRatios": {
+      "landscape": "16:9 가로형",
+      "portrait": "9:16 세로형",
+      "square": "1:1 정사각형"
+    },
+    "durations": {
+      "5seconds": "5초",
+      "10seconds": "10초"
+    },
+    "characterCount": "글자 이상",
+    "uploadInstructions": {
+      "clickToUpload": "클릭하여 업로드하거나 이미지를 드래그하세요",
+      "supportedFormats": "JPG, PNG, GIF 형식 지원, 최대 10MB"
+    },
+    "selectModel": "모델 선택",
+    "discordBanner": {
+      "text": "트렌딩 AI 템플릿에 24시간 조기 액세스",
+      "linkText": "Discord 참여"
+    },
+    "toast": {
+      "signInFirst": "먼저 로그인하세요",
+      "enterDescription": "비디오 설명을 입력하세요",
+      "descriptionTooShort": "비디오 설명은 최소 10자 이상이어야 합니다",
+      "uploadImageFile": "이미지 파일을 업로드하세요",
+      "imageTooLarge": "이미지 파일이 너무 큽니다 (최대 10MB)",
+      "imageUploadFailed": "이미지 업로드 실패",
+      "insufficientCredits": "크레딧이 부족합니다. 필요: {required}, 사용 가능: {available}",
+      "videoSubmitted": "비디오 생성 작업이 제출되었습니다, 처리 중...",
+      "videoCompleted": "비디오 생성이 완료되었습니다!",
+      "videoFailed": "비디오 생성 실패"
+    }
+  },
+  "audio-selector": {
+    "sound": "사운드",
+    "seedanceOnly": "Seedance만"
+  },
+  "video-history": {
+    "title": "비디오 생성 이력",
+    "noVideosTitle": "비디오 없음",
+    "noVideosDescription": "아직 비디오를 생성하지 않았습니다. 첫 번째 작품을 만들어보세요!",
+    "generateVideoButton": "비디오 생성",
+    "playButton": "재생",
+    "downloadButton": "다운로드",
+    "regenerateButton": "재생성",
+    "status": {
+      "completed": "완료",
+      "processing": "처리 중",
+      "pending": "대기 중",
+      "failed": "실패"
+    },
+    "labels": {
+      "model": "모델",
+      "duration": "길이",
+      "aspectRatio": "종횡비"
+    }
+  },
+  "video-result": {
+    "status": {
+      "submitted": "제출됨",
+      "inQueue": "대기열",
+      "generating": "생성 중",
+      "completed": "완료",
+      "failed": "실패"
+    },
+    "videoCompleted": "비디오 생성이 완료되었습니다!",
+    "videoFailed": "비디오 생성 실패",
+    "processing": "처리 중...",
+    "viewHistory": "이력 보기",
+    "retry": "다시 시도",
+    "prompt": "프롬프트",
+    "download": "다운로드",
+    "downloading": "다운로드 중...",
+    "openInNewTab": "새 탭에서 열기"
+  }
+}

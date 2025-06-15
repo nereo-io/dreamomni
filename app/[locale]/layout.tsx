@@ -4,7 +4,8 @@ import "@/app/globals.css";
 import { getMessages, getTranslations } from "next-intl/server";
 
 import { AppContextProvider } from "@/contexts/app";
-import { Inter as FontSans } from "next/font/google";
+import { Source_Code_Pro as FontSans } from "next/font/google";
+import { Source_Serif_4 as FontSerif } from "next/font/google";
 import { Metadata } from "next";
 import { NextAuthSessionProvider } from "@/auth/session";
 import { NextIntlClientProvider } from "next-intl";
@@ -16,6 +17,11 @@ import { cn } from "@/lib/utils";
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
+});
+
+const fontSerif = FontSerif({
+  subsets: ["latin"],
+  variable: "--font-serif",
 });
 
 export async function generateMetadata({
@@ -49,7 +55,8 @@ export default async function RootLayout({
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased overflow-x-hidden",
-          fontSans.variable
+          fontSans.variable,
+          fontSerif.variable
         )}
       >
         <NextIntlClientProvider messages={messages}>

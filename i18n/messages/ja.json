@@ -1,0 +1,129 @@
+{
+  "metadata": {
+    "title": "Seedance 1.0 - マルチショット動画生成対応の高度AIビデオジェネレーター | 1080p動画作成",
+    "description": "Seedance 1.0は、ネイティブなマルチショット動画生成、1080p映画品質、多様なスタイル表現でビデオ作成を革新します。Seedanceの意味理解とプロンプト追従における画期的な技術を体験してください。フォトリアリズムからサイバーパンクまで、Seedance AI技術でプロフェッショナルな動画を生成。滑らかな動き、豊富な詳細、精密なカメラ制御 - すべてSeedance 1.0の高度な機能によって実現。",
+    "keywords": "Seedance, Seedance 1.0, AIビデオジェネレーター, マルチショット動画生成, 1080p動画作成, 映画的AI, 動画生成, Seedance AI, テキストから動画, Seedance動画クリエイター, プロフェッショナル動画AI, Seedance技術"
+  },
+  "pricing": {
+    "title": "Seedance 1.0 料金プラン - プロフェッショナルAI動画生成 | Seedanceサブスクリプション",
+    "description": "プロフェッショナルな動画作成のためのSeedance 1.0プランをお選びください。無制限の1080p生成、マルチショット動画生成、映画品質、優先処理をSeedance AIで体験。Seedanceの高度な機能：滑らかな動き、多様なスタイル、精密なプロンプト追従。今すぐSeedanceを始めましょう。",
+    "keywords": "Seedance料金, Seedance 1.0プラン, Seedanceサブスクリプション, AI動画生成料金, Seedanceプロフェッショナル, Seedance AI料金, マルチショット動画プラン, Seedance 1080p料金"
+  },
+  "history": {
+    "title": "動画生成履歴",
+    "description": "動画生成履歴を表示"
+  },
+  "user": {
+    "sign_in": "ログイン",
+    "sign_out": "ログアウト",
+    "credits": "クレジット",
+    "api_keys": "APIキー",
+    "my_orders": "注文履歴",
+    "membership": "メンバーシップ"
+  },
+  "sign_modal": {
+    "sign_in_title": "ログイン",
+    "sign_in_description": "アカウントにログイン",
+    "sign_up_title": "新規登録",
+    "sign_up_description": "アカウントを作成",
+    "email_title": "メールアドレス",
+    "email_placeholder": "メールアドレスを入力してください",
+    "password_title": "パスワード",
+    "password_placeholder": "パスワードを入力してください",
+    "forgot_password": "パスワードを忘れましたか？",
+    "or": "または",
+    "continue": "続行",
+    "no_account": "アカウントをお持ちでない方",
+    "email_sign_in": "メールでログイン",
+    "google_sign_in": "Googleでログイン",
+    "github_sign_in": "GitHubでログイン",
+    "apple_sign_in": "Appleでログイン",
+    "close_title": "閉じる",
+    "cancel_title": "キャンセル"
+  },
+  "video-generator": {
+    "videoDescription": "動画の説明",
+    "referenceImage": "参考画像（オプション）",
+    "videoAspectRatio": "動画のアスペクト比",
+    "videoDuration": "動画の長さ",
+    "videoModel": "動画モデル",
+    "credits": "クレジット",
+    "cost": "コスト",
+    "recharge": "チャージ",
+    "generateVideo": "動画を生成",
+    "submitting": "送信中...",
+    "aspectRatios": {
+      "landscape": "16:9 横向き",
+      "portrait": "9:16 縦向き",
+      "square": "1:1 正方形"
+    },
+    "durations": {
+      "5seconds": "5秒",
+      "10seconds": "10秒"
+    },
+    "characterCount": "文字以上",
+    "uploadInstructions": {
+      "clickToUpload": "クリックしてアップロードまたは画像をドラッグ",
+      "supportedFormats": "JPG、PNG、GIF形式対応、最大10MB"
+    },
+    "selectModel": "モデルを選択",
+    "discordBanner": {
+      "text": "トレンドAIテンプレートに24時間早期アクセス",
+      "linkText": "Discordに参加"
+    },
+    "toast": {
+      "signInFirst": "まずログインしてください",
+      "enterDescription": "動画の説明を入力してください",
+      "descriptionTooShort": "動画の説明は10文字以上である必要があります",
+      "uploadImageFile": "画像ファイルをアップロードしてください",
+      "imageTooLarge": "画像ファイルが大きすぎます（最大10MB）",
+      "imageUploadFailed": "画像のアップロードに失敗しました",
+      "insufficientCredits": "クレジットが不足しています。必要: {required}、利用可能: {available}",
+      "videoSubmitted": "動画生成タスクが送信されました、処理中...",
+      "videoCompleted": "動画生成が完了しました！",
+      "videoFailed": "動画生成に失敗しました"
+    }
+  },
+  "audio-selector": {
+    "sound": "音響",
+    "seedanceOnly": "Seedanceのみ"
+  },
+  "video-history": {
+    "title": "動画生成履歴",
+    "noVideosTitle": "動画がありません",
+    "noVideosDescription": "まだ動画を生成していません。最初の作品を作成しましょう！",
+    "generateVideoButton": "動画を生成",
+    "playButton": "再生",
+    "downloadButton": "ダウンロード",
+    "regenerateButton": "再生成",
+    "status": {
+      "completed": "完了",
+      "processing": "処理中",
+      "pending": "待機中",
+      "failed": "失敗"
+    },
+    "labels": {
+      "model": "モデル",
+      "duration": "長さ",
+      "aspectRatio": "アスペクト比"
+    }
+  },
+  "video-result": {
+    "status": {
+      "submitted": "送信済み",
+      "inQueue": "キュー待ち",
+      "generating": "生成中",
+      "completed": "完了",
+      "failed": "失敗"
+    },
+    "videoCompleted": "動画生成が完了しました！",
+    "videoFailed": "動画生成に失敗しました",
+    "processing": "処理中...",
+    "viewHistory": "履歴を表示",
+    "retry": "再試行",
+    "prompt": "プロンプト",
+    "download": "ダウンロード",
+    "downloading": "ダウンロード中...",
+    "openInNewTab": "新しいタブで開く"
+  }
+}

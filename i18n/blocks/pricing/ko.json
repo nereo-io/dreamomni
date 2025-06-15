@@ -1,0 +1,208 @@
+{
+  "name": "pricing",
+  "label": "비디오 생성 요금제",
+  "title": "Seedance AI 비디오 생성 요금제",
+  "description": "AI 비디오 생성 요금제를 선택하고 전문 비디오 제작을 시작하세요",
+  "groups": [
+    {
+      "name": "monthly",
+      "title": "월간",
+      "description": "월별 청구"
+    },
+    {
+      "name": "yearly",
+      "title": "연간",
+      "description": "연별 청구"
+    }
+  ],
+  "items": [
+    {
+      "title": "무료 플랜",
+      "features_title": "포함 기능",
+      "features": [
+        "가입 시 10크레딧 제공",
+        "최대 5초 비디오",
+        "720p 해상도 출력",
+        "텍스트-비디오 생성",
+        "기본 비디오 스타일",
+        "워터마크 포함 출력"
+      ],
+      "interval": "one-time",
+      "amount": 0,
+      "currency": "USD",
+      "price": "무료",
+      "original_price": "",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "무료로 시작",
+        "url": "/#video-generator",
+        "icon": "RiPlayLine"
+      },
+      "product_id": "free-plan",
+      "product_name": "Seedance AI 무료",
+      "credits": 10,
+      "valid_months": 0,
+      "group": "monthly"
+    },
+    {
+      "title": "무료 플랜",
+      "features_title": "포함 기능",
+      "features": [
+        "가입 시 10크레딧 제공",
+        "최대 5초 비디오",
+        "720p 해상도 출력",
+        "텍스트-비디오 생성",
+        "기본 비디오 스타일",
+        "워터마크 포함 출력"
+      ],
+      "interval": "one-time",
+      "amount": 0,
+      "currency": "USD",
+      "price": "무료",
+      "original_price": "",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "무료로 시작",
+        "url": "/#video-generator",
+        "icon": "RiPlayLine"
+      },
+      "product_id": "free-plan",
+      "product_name": "Seedance AI 무료",
+      "credits": 10,
+      "valid_months": 0,
+      "group": "yearly"
+    },
+    {
+      "title": "미니 플랜",
+      "label": "",
+      "features_title": "포함 기능",
+      "features": [
+        "월 200크레딧",
+        "최대 10초 비디오",
+        "1080p 해상도 출력",
+        "모든 생성 모드",
+        "커스텀 비디오 스타일",
+        "빠른 생성 대기열",
+        "상업적 사용 권한"
+      ],
+      "interval": "month",
+      "amount": 1500,
+      "currency": "USD",
+      "price": "$15.00",
+      "original_price": "",
+      "unit": "/월",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "미니로 업그레이드",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "mini-monthly",
+      "product_name": "Seedance AI 미니",
+      "credits": 200,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "미니 플랜",
+      "label": "40% 할인",
+      "features_title": "포함 기능",
+      "features": [
+        "연간 2400크레딧 (월 200개)",
+        "최대 10초 비디오",
+        "1080p 해상도 출력",
+        "모든 생성 모드",
+        "커스텀 비디오 스타일",
+        "빠른 생성 대기열",
+        "상업적 사용 권한"
+      ],
+      "interval": "year",
+      "amount": 10800,
+      "currency": "USD",
+      "price": "$9.00",
+      "original_price": "$15.00",
+      "unit": "/월",
+      "is_featured": false,
+      "discount_label": "40% 할인",
+      "tip": "연간 $108.00 청구",
+      "button": {
+        "title": "미니로 업그레이드",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "mini-yearly",
+      "product_name": "Seedance AI 미니 연간",
+      "credits": 2400,
+      "valid_months": 12,
+      "group": "yearly"
+    },
+    {
+      "title": "스탠다드 플랜",
+      "label": "인기",
+      "features_title": "포함 기능",
+      "features": [
+        "월 1000크레딧",
+        "최대 10초 비디오",
+        "1080p 해상도 출력",
+        "모든 생성 모드",
+        "커스텀 비디오 스타일",
+        "빠른 생성 대기열",
+        "상업적 사용 권한"
+      ],
+      "interval": "month",
+      "amount": 5000,
+      "currency": "USD",
+      "price": "$50.00",
+      "original_price": "",
+      "unit": "/월",
+      "is_featured": true,
+      "discount_label": "",
+      "button": {
+        "title": "스탠다드로 업그레이드",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "standard-monthly",
+      "product_name": "Seedance AI 스탠다드",
+      "credits": 1000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "스탠다드 플랜",
+      "label": "40% 할인",
+      "features_title": "포함 기능",
+      "features": [
+        "연간 12000크레딧 (월 1000개)",
+        "최대 10초 비디오",
+        "1080p 해상도 출력",
+        "모든 생성 모드",
+        "커스텀 비디오 스타일",
+        "빠른 생성 대기열",
+        "상업적 사용 권한"
+      ],
+      "interval": "year",
+      "amount": 36000,
+      "currency": "USD",
+      "price": "$30.00",
+      "original_price": "$50.00",
+      "unit": "/월",
+      "is_featured": true,
+      "discount_label": "40% 할인",
+      "tip": "연간 $360.00 청구",
+      "button": {
+        "title": "스탠다드로 업그레이드",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "standard-yearly",
+      "product_name": "Seedance AI 스탠다드 연간",
+      "credits": 12000,
+      "valid_months": 12,
+      "group": "yearly"
+    }
+  ]
+}

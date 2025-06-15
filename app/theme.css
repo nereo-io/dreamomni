@@ -1,4 +1,9 @@
 :root {
+  /* 字体设置 */
+  --font-sans: "Source Code Pro", monospace;
+  --font-serif: "Source Serif 4", serif;
+
+  /* 颜色变量 */
   --background: 216 42% 95%;
   --foreground: 216 5% 10%;
   --card: 216 42% 90%;
@@ -21,6 +26,11 @@
   --radius: 0.5rem;
 }
 .dark {
+  /* 字体设置保持一致 */
+  --font-sans: "Source Code Pro", monospace;
+  --font-serif: "Source Serif 4", serif;
+
+  /* 暗黑模式颜色变量 */
   --background: 216 42% 10%;
   --foreground: 216 5% 90%;
   --card: 216 42% 10%;

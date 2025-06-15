@@ -1,0 +1,340 @@
+{
+  "template": "luckbox-template",
+  "theme": "light",
+  "header": {
+    "brand": {
+      "title": "Seedance",
+      "logo": {
+        "src": "/logo.png",
+        "alt": "Seedance"
+      },
+      "url": "/"
+    },
+    "nav": {
+      "items": [
+        {
+          "title": "생성",
+          "url": "/#video-generator",
+          "icon": "RiVideoLine"
+        },
+        {
+          "title": "기록",
+          "url": "/history",
+          "icon": "RiHistoryLine"
+        },
+        {
+          "title": "요금제",
+          "url": "/pricing",
+          "icon": "RiMoneyDollarCircleLine"
+        },
+        {
+          "title": "블로그",
+          "url": "/blog",
+          "icon": "RiMoneyDollarCircleLine"
+        }
+      ]
+    },
+    "show_sign": true,
+    "show_theme": false,
+    "show_locale": true
+  },
+  "hero": {
+    "title": "Seedance 1.0 - 혁신적인 AI 비디오 생성기",
+    "highlight_text": "Seedance 1.0",
+    "announcement": {
+      "title": "🚀 Seedance 1.0 출시 - 고급 멀티샷 AI 비디오 제작!",
+      "label": "신기능!",
+      "url": "#video-generator"
+    },
+    "description": "혁신적인 멀티샷 스토리텔링과 영화 품질로 전문 1080p 비디오를 제작하세요. 포토리얼리즘부터 사이버펑크까지 - 아이디어를 즉시 놀라운 비디오로 변환합니다.",
+    "show_happy_users": false,
+    "show_badge": false
+  },
+  "testimonial": {
+    "name": "testimonial",
+    "label": "고객 후기",
+    "title": "크리에이터가 말하는 Seedance 1.0 비디오 생성기",
+    "description": "Seedance 1.0이 혁신적인 AI 기술로 비디오 제작을 어떻게 혁신했는지 알아보세요. 멀티샷 스토리텔링부터 다양한 스타일 표현까지, 전 세계 크리에이터들이 영화 품질과 원활한 워크플로우 통합을 위해 Seedance를 신뢰합니다.",
+    "icon": "GoThumbsup",
+    "items": [
+      {
+        "title": "사라 존슨",
+        "label": "콘텐츠 크리에이터",
+        "description": "Seedance 1.0은 제 콘텐츠 제작 워크플로우를 완전히 변화시켰습니다. Seedance의 고급 AI는 제 프롬프트를 완벽하게 이해하고 부드러운 움직임과 풍부한 디테일을 가진 영화 품질의 1080p 비디오를 생성합니다. Seedance의 멀티샷 스토리텔링 기능은 크리에이터들에게 혁명적입니다.",
+        "image": {
+          "src": "/imgs/users/1.png"
+        }
+      },
+      {
+        "title": "마이클 첸",
+        "label": "마케팅 디렉터",
+        "description": "Seedance 1.0은 마케팅 캠페인에 놀라운 효과를 보입니다. Seedance의 영화 품질은 뛰어나며, 멀티 에이전트 상호작용 기능으로 복잡한 스토리텔링이 가능합니다. Seedance로 포토리얼리즘부터 사이버펑크 미학까지 다양한 스타일의 여러 비디오 변형을 손쉽게 만들 수 있습니다.",
+        "image": {
+          "src": "/imgs/users/2.png"
+        }
+      },
+      {
+        "title": "에밀리 로드리게스",
+        "label": "소셜 미디어 매니저",
+        "description": "Seedance 1.0에서 생성되는 비디오의 일관성과 품질은 놀랍습니다. Seedance의 네이티브 멀티샷 스토리텔링으로 복잡한 시퀀스 전반에 걸쳐 시각적 일관성을 유지하면서 매일 신선한 콘텐츠를 만들 수 있습니다. Seedance의 스타일 다양성과 프롬프트 추종 정확성은 업계에서 비교할 수 없습니다.",
+        "image": {
+          "src": "/imgs/users/3.png"
+        }
+      },
+      {
+        "title": "데이비드 쿠마르",
+        "label": "유튜버 & 교육자",
+        "description": "Seedance 1.0은 시청자를 사로잡는 교육 콘텐츠를 만드는 데 도움을 줍니다. 포토리얼리스틱 데모부터 애니메이션 설명까지, Seedance의 고급 AI가 영화적 미학으로 모든 것을 처리합니다. Seedance 비디오의 부드러운 움직임과 풍부한 디테일로 시청자들이 끝까지 몰입하게 됩니다.",
+        "image": {
+          "src": "/imgs/users/4.png"
+        }
+      },
+      {
+        "title": "리사 왕",
+        "label": "독립 영화제작자",
+        "description": "Seedance 1.0은 영화제작자로서의 제 창작 잠재력을 해방시켰습니다. Seedance의 혁신적 기술로 시나리오 프로토타입을 만들고, 멀티샷 내러티브가 있는 컨셉 비디오를 제작하며, 시각적 스토리텔링을 실험할 수 있습니다. Seedance의 정밀한 카메라 움직임 제어와 넓은 다이나믹 레인지는 전문 영화제작에 완벽합니다.",
+        "image": {
+          "src": "/imgs/users/5.png"
+        }
+      },
+      {
+        "title": "알렉스 톰슨",
+        "label": "디지털 아티스트",
+        "description": "Seedance 1.0의 정밀함과 예술적 품질은 놀랍습니다. Seedance는 복잡한 예술적 지시를 이해하고 제 창작 비전에 완벽하게 맞는 비디오를 만듭니다. 사이버펑크부터 일러스트레이션 스타일까지, Seedance의 다양한 스타일 표현 기능으로 전문적 결과와 함께 무한한 창작 탐구가 가능합니다.",
+        "image": {
+          "src": "/imgs/users/6.png"
+        }
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "label": "자주 묻는 질문",
+    "title": "Seedance 1.0에 대한 자주 묻는 질문",
+    "description": "Seedance 1.0의 고급 AI 비디오 생성 기능, 멀티샷 스토리텔링, 전문 비디오 제작 기능에 대해 자세히 알아보세요.",
+    "items": [
+      {
+        "title": "Seedance 1.0 AI 비디오 생성기란 무엇이며 어떻게 작동하나요?",
+        "description": "Seedance 1.0은 네이티브 멀티샷 스토리텔링을 갖춘 혁신적인 AI 비디오 제작 기술에 대한 액세스를 제공합니다. 비디오 아이디어를 텍스트로 설명하기만 하면, Seedance가 영화적 미학, 부드러운 움직임, 다양한 스타일 표현을 가진 고품질 1080p 비디오를 생성합니다. Seedance의 고급 의미 이해로 전문적 결과를 위한 정밀한 프롬프트 추종이 보장됩니다."
+      },
+      {
+        "title": "Seedance 1.0이 다른 AI 비디오 도구와 다른 점은 무엇인가요?",
+        "description": "Seedance 1.0은 차별화된 혁신적 기능을 제공합니다: 네이티브 멀티샷 내러티브 생성, 샷 전환 간 시각적 일관성, 미묘한 표현을 포착하는 넓은 다이나믹 레인지, 포토리얼리즘부터 사이버펑크까지의 다양한 스타일 지원, 멀티 에이전트 상호작용의 정밀한 제어. Seedance의 고급 의미 이해와 카메라 움직임 제어로 다른 플랫폼에서는 비교할 수 없는 전문가급 결과를 제공합니다."
+      },
+      {
+        "title": "Seedance 1.0으로 어떤 종류의 비디오를 만들 수 있나요?",
+        "description": "Seedance 1.0은 광범위한 비디오 유형을 지원합니다: 마케팅 비디오, 소셜 미디어 콘텐츠, 교육 자료, 제품 시연, 애니메이션 스토리, 뮤직 비디오, 컨셉 아트, 영화적 장면. Seedance의 멀티샷 스토리텔링과 1080p 품질로 AI가 모든 창작 비전에 적응합니다. 포토리얼리즘부터 사이버펑크 미학까지, Seedance는 모든 프로젝트에서 전문가급 결과를 제공합니다."
+      },
+      {
+        "title": "무료 Seedance 1.0 비디오 생성기에 제한이 있나요?",
+        "description": "무료 Seedance 1.0은 고급 1080p 비디오 생성과 멀티샷 스토리텔링 기능에 대한 액세스를 제공하지만, 프리미엄 Seedance 사용자는 무제한 생성, 더 긴 비디오 지속 시간, 우선 처리, 커스텀 스타일 및 배치 처리와 같은 추가 기능을 즐길 수 있습니다. 무료 Seedance 사용자는 Seedance AI 기술의 모든 기능을 경험하면서 합리적인 사용 제한 내에서 영화 품질의 비디오를 만들 수 있습니다."
+      },
+      {
+        "title": "Seedance로 비디오를 생성하는 데 얼마나 걸리나요?",
+        "description": "Seedance 비디오 생성은 복잡성과 멀티샷 요구사항에 따라 표준 1080p 비디오의 경우 일반적으로 2-5분이 소요됩니다. AI가 프롬프트를 처리하고, 영화적 미학으로 비디오 시퀀스를 생성하며, 전문가급 결과를 위한 고급 렌더링을 적용합니다. 프리미엄 사용자는 더 빠른 생성을 위한 우선 처리를 받습니다."
+      },
+      {
+        "title": "생성된 비디오의 스타일과 품질을 사용자 정의할 수 있나요?",
+        "description": "네! Seedance는 포토리얼리즘부터 사이버펑크 미학까지 스타일 다양성을 가진 광범위한 사용자 정의 옵션을 제공합니다. 프롬프트에서 비디오 스타일, 카메라 각도, 조명, 분위기, 색상 팔레트, 움직임 특성을 지정할 수 있습니다. AI는 상세한 창작 지시를 이해하고 정확한 비전에 맞는 영화 품질의 1080p 비디오를 제작합니다."
+      },
+      {
+        "title": "Seedance를 사용할 때 내 콘텐츠가 안전한가요?",
+        "description": "절대적으로 안전합니다. Seedance는 콘텐츠와 프롬프트를 보호하기 위해 업계 최고의 보안 조치를 사용합니다. 우리는 엄격한 개인정보 보호 프로토콜을 따르며, 개인 프로젝트를 모델 훈련에 사용하거나 제3자와 콘텐츠를 공유하지 않습니다. 창작 작업과 멀티샷 비디오 프로젝트는 완전히 비공개로 유지됩니다."
+      },
+      {
+        "title": "Seedance를 어떻게 시작하나요?",
+        "description": "Seedance 시작은 간단합니다! '비디오 생성' 버튼을 클릭하고, 프롬프트 상자에 비디오 아이디어를 설명하고, AI가 영화적 미학을 가진 전문 1080p 비디오를 만드는 것을 지켜보세요. 복잡한 설정이 필요하지 않습니다 - 놀라운 멀티샷 비디오 만들기를 즉시 시작하세요."
+      },
+      {
+        "title": "Seedance는 어떤 비디오 형식과 해상도를 지원하나요?",
+        "description": "Seedance는 MP4, MOV, WebM을 포함한 여러 형식을 지원합니다. 비디오는 기본적으로 전문 1080p 해상도로 생성되어 멀티샷 스토리텔링 기능을 가진 영화 품질을 제공합니다. 모든 비디오는 넓은 다이나믹 레인지와 스타일 다양성을 가진 웹 공유, 소셜 미디어, 전문 용도에 최적화되어 있습니다."
+      },
+      {
+        "title": "Seedance로 생성한 비디오를 상업적 목적으로 사용할 수 있나요?",
+        "description": "네! Seedance로 만든 비디오는 마케팅, 광고, 소셜 미디어, 비즈니스 프레젠테이션을 포함한 상업적 목적으로 사용할 수 있습니다. 전문가급 1080p 품질과 영화적 미학으로 비디오가 모든 상업적 응용 프로그램에 준비되어 있습니다. 프리미엄 플랜은 기업 응용 프로그램을 위한 확장된 상업적 라이선스와 추가 사용 권한을 제공합니다."
+      }
+    ]
+  },
+  "footer": {
+    "name": "footer",
+    "brand": {
+      "title": "Seedance 1.0",
+      "description": "Seedance 1.0 - 혁신적인 멀티샷 스토리텔링 기술을 갖춘 혁명적 AI 비디오 생성기. 영화적 미학, 부드러운 움직임, 다양한 스타일 표현으로 놀라운 1080p 비디오를 제작하세요. Seedance의 고급 AI 기능으로 아이디어를 전문가급 비디오 걸작으로 변환하세요.",
+      "logo": {
+        "src": "/logo.png",
+        "alt": "Seedance"
+      },
+      "url": "/"
+    },
+    "copyright": " 2025 • Seedance 모든 권리 보유.",
+    "nav": {
+      "items": [
+        {
+          "title": "제품",
+          "children": [
+            {
+              "title": "생성",
+              "url": "/#video-generator",
+              "target": "_self"
+            },
+            {
+              "title": "기록",
+              "url": "/history",
+              "target": "_self"
+            },
+            {
+              "title": "요금제",
+              "url": "/pricing",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    "agreement": {
+      "items": [
+        {
+          "title": "개인정보처리방침",
+          "url": "/privacy-policy"
+        },
+        {
+          "title": "이용약관",
+          "url": "/terms-of-service"
+        }
+      ]
+    },
+    "contact": {
+      "title": "연락처",
+      "items": [
+        {
+          "title": "이메일 지원",
+          "value": "support@seedance.tv",
+          "icon": "RiMailFill",
+          "url": "mailto:support@seedance.tv",
+          "target": "_self"
+        },
+        {
+          "title": "회사",
+          "value": "ASTROINSPIRE LTD",
+          "icon": "RiBuildingFill"
+        },
+        {
+          "title": "주소",
+          "value": "71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM",
+          "icon": "RiMapPinFill"
+        }
+      ]
+    }
+  },
+  "cta": [
+    {
+      "name": "cta-generate",
+      "title": "Seedance 1.0으로 비디오 제작 시작",
+      "buttons": [
+        {
+          "title": "비디오 생성",
+          "url": "#video-generator",
+          "target": "_self",
+          "icon": "GoArrowUpRight"
+        }
+      ]
+    },
+    {
+      "name": "cta-features",
+      "title": "Seedance 1.0 기능 탐색",
+      "description": "네이티브 멀티샷 스토리텔링, 다양한 스타일 표현 및 고급 Seedance AI 기술을 갖춘 전문 1080p 비디오 생성",
+      "buttons": [
+        {
+          "title": "자세히 보기",
+          "url": "#features",
+          "target": "_self"
+        }
+      ]
+    }
+  ],
+  "questionExamples": {
+    "title": "비디오 아이디어: ",
+    "examples": [
+      {
+        "text": "네온사인이 유리 건물에 반사되는 미래 도시 위를 일몰 시 비행하는 영화적 드론 샷 만들기",
+        "label": "영화적 도시 풍경",
+        "type": "single"
+      },
+      {
+        "text": "부드러운 카메라 움직임과 전문 조명으로 스마트폰을 보여주는 제품 시연 비디오 생성",
+        "label": "제품 데모",
+        "type": "single"
+      },
+      {
+        "text": "다채로운 그래픽과 부드러운 전환으로 재생 에너지에 대한 애니메이션 설명 비디오 만들기",
+        "label": "교육 애니메이션",
+        "type": "single"
+      },
+      {
+        "text": "야생동물, 아침 안개, 골든 아워 조명이 있는 숲의 자연 다큐멘터리 스타일 비디오 만들기",
+        "label": "자연 다큐멘터리",
+        "type": "single"
+      }
+    ]
+  },
+  "questionSuggestions": {
+    "disabled": true,
+    "categories": {
+      "all": "전체"
+    },
+    "questions": {
+      "marketing1": {
+        "text": "전문적인 카메라 움직임과 매력적인 비주얼로 제품을 보여주는 역동적인 마케팅 비디오 만들기",
+        "reading_type": "single",
+        "category": "marketing",
+        "tag": "new"
+      },
+      "social1": {
+        "text": "인스타그램과 틱톡에 완벽한 생생한 색상과 부드러운 전환을 가진 트렌디한 소셜 미디어 비디오 생성",
+        "reading_type": "single",
+        "category": "social",
+        "tag": "new"
+      },
+      "education1": {
+        "text": "명확한 애니메이션과 매력적인 시각적 스토리텔링으로 복잡한 개념을 설명하는 교육 비디오 만들기",
+        "reading_type": "single",
+        "category": "education"
+      },
+      "creative1": {
+        "text": "추상적 비주얼, 창의적 카메라 각도, 실험적 시각 효과를 가진 예술적 비디오 만들기",
+        "reading_type": "single",
+        "category": "creative"
+      },
+      "business1": {
+        "text": "깔끔한 그래픽과 기업 스타일링을 가진 전문 비즈니스 프레젠테이션 비디오 생성",
+        "reading_type": "single",
+        "category": "business"
+      },
+      "entertainment1": {
+        "text": "역동적인 액션 시퀀스와 영화적 스토리텔링 요소를 가진 엔터테인먼트 비디오 만들기",
+        "reading_type": "single",
+        "category": "entertainment"
+      },
+      "tutorial1": {
+        "text": "명확한 데모와 유용한 시각 가이드를 가진 단계별 튜토리얼 비디오 만들기",
+        "reading_type": "single",
+        "category": "tutorial"
+      },
+      "lifestyle1": {
+        "text": "아름다운 미학, 자연스러운 조명, 동경을 불러일으키는 비주얼을 가진 라이프스타일 비디오 생성",
+        "reading_type": "single",
+        "category": "lifestyle"
+      },
+      "tech1": {
+        "text": "미래적 요소와 세련된 비주얼 디자인을 가진 기술 쇼케이스 비디오 만들기",
+        "reading_type": "single",
+        "category": "technology"
+      },
+      "travel1": {
+        "text": "영화적 카메라 움직임과 생생한 색상으로 놀라운 풍경을 포착하는 여행 비디오 생성",
+        "reading_type": "single",
+        "category": "travel"
+      }
+    }
+  }
+}

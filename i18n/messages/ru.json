@@ -215,9 +215,9 @@
       "supportedFormats": "Поддерживаются форматы JPG, PNG, GIF, максимум 10МБ"
     },
     "selectModel": "Выберите модель",
-    "telegramBanner": {
+    "discordBanner": {
       "text": "Получите доступ к трендовым AI шаблонам на 24ч раньше",
-      "linkText": "Присоединиться"
+      "linkText": "Присоединиться к Discord"
     },
     "toast": {
       "signInFirst": "Сначала войдите в систему",

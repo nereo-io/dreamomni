@@ -1,0 +1,109 @@
+{
+  "mainTitle": "Seedance 1.0: Erweiterte KI-Video-Generierungs-Modell",
+  "features": [
+    {
+      "id": "1080p-quality",
+      "title": "Professionelle 1080p Video-Generierung",
+      "description": "Seedance 1.0 liefert beeindruckende 1080p-Video-Qualität mit flüssigen Bewegungen, reichen Details und kinematischer Ästhetik. Erstellen Sie professionelle Videos mit Seedances erweiterte Rendering-Technologie.",
+      "imageUrl": "/intro/quality.mp4",
+      "imageAlt": "Seedance 1.0s professionelle 1080p Video-Qualität",
+      "subPoints": [
+        {
+          "title": "Hochauflösende Exzellenz",
+          "text": "Generieren Sie gestochen scharfe 1080p-Auflösungs-Videos mit außergewöhnlichen Details und Klarheit, perfekt für professionelle Content-Erstellung und kommerzielle Anwendungen."
+        },
+        {
+          "title": "Kinematische Ästhetik",
+          "text": "Erweiterte Rendering-Technologie erstellt flüssige Bewegungen und reiche visuelle Details, die kinematische Qualitätsergebnisse mit professioneller Ästhetik liefern."
+        }
+      ],
+      "buttonText": "1080p Video Generieren",
+      "buttonUrl": "#video-generator"
+    },
+    {
+      "id": "multi-shot-storytelling",
+      "title": "Natives Multi-Shot-Storytelling",
+      "description": "Seedance 1.0s bahnbrechendes Multi-Shot-Storytelling erstellt kohärente Narrative mit nahtlosen Übergängen. Generieren Sie komplexe Video-Geschichten mit Seedances erweiterte Charakter- und Szenen-Konsistenz-Technologie.",
+      "imageUrl": "/intro/cretive.mp4",
+      "imageAlt": "Seedance 1.0s Multi-Shot-Storytelling-Fähigkeiten",
+      "subPoints": [
+        {
+          "title": "Visuelle Konsistenz",
+          "text": "Behalten Sie perfekte visuelle Kohärenz über mehrere Shots hinweg mit erweiterten Charakter-Erkennungs- und Umgebungs-Konsistenz-Algorithmen bei."
+        },
+        {
+          "title": "Narrativer Fluss",
+          "text": "Erstellen Sie komplexe Multi-Szenen-Geschichten mit flüssigen Übergängen und logischer Progression, die raffinierte Storytelling-Fähigkeiten ermöglichen."
+        }
+      ]
+    },
+    {
+      "id": "style-versatility",
+      "title": "Vielfältiger Stilausdruck",
+      "description": "Vom Fotorealismus bis Cyberpunk, Illustration bis Animation - Seedance 1.0 unterstützt unglaubliche visuelle Vielfalt. Erleben Sie Seedances präzise Stilkontrolle für jede kreative Vision.",
+      "imageUrl": "/intro/prompt.mp4",
+      "imageAlt": "Seedance 1.0s vielfältige Stil-Fähigkeiten",
+      "subPoints": [
+        {
+          "title": "Fotorealistisches Rendering",
+          "text": "Generieren Sie ultra-realistische Videos, die praktisch nicht von echten Aufnahmen zu unterscheiden sind, mit natürlicher Beleuchtung und authentischen Texturen."
+        },
+        {
+          "title": "Künstlerische Stile",
+          "text": "Drücken Sie Kreativität durch Cyberpunk-Ästhetik, Illustrations-Stile, Animations-Looks und andere künstlerische Interpretationen mit präziser Kontrolle aus."
+        }
+      ]
+    },
+    {
+      "id": "complex-prompts",
+      "title": "Präzise Prompt-Befolgung",
+      "description": "Seedance 1.0 zeichnet sich durch die Interpretation komplexer natürlicher Sprache mit bemerkenswerter Genauigkeit aus. Beschreiben Sie komplizierte Szenen und kreative Konzepte - Seedance versteht und führt Ihre Vision mit Präzision aus.",
+      "imageUrl": "/intro/motion.mp4",
+      "imageAlt": "Seedance 1.0s überlegene Prompt-Interpretation",
+      "subPoints": [
+        {
+          "title": "Natürliche Sprach-Meisterschaft",
+          "text": "Erweiterte Sprachverständnis interpretiert komplexe kreative Briefs mit nuanciertem Verständnis für künstlerische Absicht und technische Spezifikationen."
+        },
+        {
+          "title": "Kreative Anweisung",
+          "text": "Übersetzen Sie detaillierte Beschreibungen in genaue visuelle Darstellungen und verstehen Sie Kontext, Emotion und künstlerische Richtung mit minimaler Iteration."
+        }
+      ]
+    },
+    {
+      "id": "multi-agent-control",
+      "title": "Multi-Agent-Interaktionen & Kamera-Kontrolle",
+      "description": "Seedance 1.0 ermöglicht komplexe Multi-Charakter-Szenen mit natürlichen Interaktionen und professioneller Kamera-Kontrolle. Erstellen Sie dynamische Kinematografie mit Seedances erweiterte Charakter- und Kamera-Bewegungs-Technologie.",
+      "imageUrl": "/intro/sound.mp4",
+      "imageAlt": "Seedance 1.0s Multi-Agent- und Kamera-Kontroll-Features",
+      "subPoints": [
+        {
+          "title": "Charakter-Interaktionen",
+          "text": "Orchestrieren Sie natürliche Multi-Charakter-Szenen mit realistischer Körpersprache, Gesichtsausdrücken und sozialer Dynamik, die authentisch und ansprechend wirken."
+        },
+        {
+          "title": "Dynamische Kamera-Arbeit",
+          "text": "Erzielen Sie professionelle Kinematografie mit flüssigen Kamera-Bewegungen, Tracking-Aufnahmen und dynamischen Perspektiven, die den Storytelling-Impact verstärken."
+        }
+      ]
+    },
+    {
+      "id": "wide-dynamic-range",
+      "title": "Breite Dynamikrange & Flüssige Bewegung",
+      "description": "Seedance 1.0s breite Dynamikrange erfasst subtile Ausdrücke und dynamische Action mit außergewöhnlicher Qualität. Von intimen Momenten bis zu hochenergetischen Sequenzen zeichnet sich Seedance durch das Rendern flüssiger Bewegungen und authentischer Emotionen aus.",
+      "imageUrl": "/intro/audio.mp4",
+      "imageAlt": "Seedance 1.0s breite Dynamikrange-Fähigkeiten",
+      "subPoints": [
+        {
+          "title": "Subtile Ausdrucks-Erfassung",
+          "text": "Rendern Sie delikate Gesichtsausdrücke, Mikro-Bewegungen und nuancierte emotionale Zustände mit bemerkenswerter Sensibilität und Authentizität."
+        },
+        {
+          "title": "Action-Szenen-Exzellenz",
+          "text": "Generieren Sie dynamische Action-Sequenzen mit flüssiger Bewegung, realistischer Physik und überzeugender visueller Energie, die Klarheit und Impact beibehält."
+        }
+      ]
+    }
+  ]
+}
