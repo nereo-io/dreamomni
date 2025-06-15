@@ -266,6 +266,7 @@
   "video-result": {
     "status": {
       "submitted": "Submitted",
+      "optimizing": "Optimizing Prompt",
       "inQueue": "In Queue",
       "generating": "Generating",
       "completed": "Completed",

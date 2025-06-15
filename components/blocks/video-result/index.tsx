@@ -41,11 +41,27 @@ interface VideoResultProps {
 }
 
 const getStatusMap = (t: any) => ({
-  submitted: { label: t("status.submitted"), color: "bg-blue-500", icon: Clock },
+  submitted: {
+    label: t("status.submitted"),
+    color: "bg-blue-500",
+    icon: Clock,
+  },
   IN_QUEUE: { label: t("status.inQueue"), color: "bg-yellow-500", icon: Clock },
-  IN_PROGRESS: { label: t("status.generating"), color: "bg-orange-500", icon: Loader2 },
-  COMPLETED: { label: t("status.completed"), color: "bg-green-500", icon: CheckCircle },
-  SAVED_TO_R2: { label: t("status.completed"), color: "bg-green-500", icon: CheckCircle },
+  IN_PROGRESS: {
+    label: t("status.generating"),
+    color: "bg-orange-500",
+    icon: Loader2,
+  },
+  COMPLETED: {
+    label: t("status.completed"),
+    color: "bg-green-500",
+    icon: CheckCircle,
+  },
+  SAVED_TO_R2: {
+    label: t("status.completed"),
+    color: "bg-green-500",
+    icon: CheckCircle,
+  },
   FAILED: { label: t("status.failed"), color: "bg-red-500", icon: XCircle },
 });
 
@@ -55,7 +71,9 @@ const TOTAL_WAIT_TIME_SECONDS = 45;
 // 新增辅助函数，用于获取用户友好的错误提示
 const getFriendlyErrorMessage = (apiErrorMessage?: string, t?: any): string => {
   if (!apiErrorMessage) {
-    return t ? t("errorMessages.unexpected") : "An unexpected error occurred. Please try again.";
+    return t
+      ? t("errorMessages.unexpected")
+      : "An unexpected error occurred. Please try again.";
   }
   console.log("apiErrorMessage", apiErrorMessage);
 
@@ -67,15 +85,25 @@ const getFriendlyErrorMessage = (apiErrorMessage?: string, t?: any): string => {
     const statusCode = parseInt(statusCodeMatch[1], 10);
     switch (statusCode) {
       case 400:
-        return t ? t("errorMessages.externalService") : "A problem occurred with an external service. Please try again later.";
+        return t
+          ? t("errorMessages.externalService")
+          : "A problem occurred with an external service. Please try again later.";
       case 422:
-        return t ? t("errorMessages.inputIssue") : "There's an issue with your input or settings. Please check and try again.";
+        return t
+          ? t("errorMessages.inputIssue")
+          : "There's an issue with your input or settings. Please check and try again.";
       case 500:
-        return t ? t("errorMessages.serverError") : "An unexpected error occurred on our end. Please try again later.";
+        return t
+          ? t("errorMessages.serverError")
+          : "An unexpected error occurred on our end. Please try again later.";
       case 504:
-        return t ? t("errorMessages.timeout") : "The request took too long and timed out. Please try again.";
+        return t
+          ? t("errorMessages.timeout")
+          : "The request took too long and timed out. Please try again.";
       default:
-        return t ? t("errorMessages.statusCode", { code: statusCode }) : `An error occurred (Status ${statusCode}). Please try again.`;
+        return t
+          ? t("errorMessages.statusCode", { code: statusCode })
+          : `An error occurred (Status ${statusCode}). Please try again.`;
     }
   }
 
@@ -88,19 +116,29 @@ const getFriendlyErrorMessage = (apiErrorMessage?: string, t?: any): string => {
         const statusCode = parseInt(match[1], 10);
         switch (statusCode) {
           case 400:
-            return t ? t("errorMessages.externalService") : "A problem occurred with an external service. Please try again later.";
+            return t
+              ? t("errorMessages.externalService")
+              : "A problem occurred with an external service. Please try again later.";
           case 422:
-            return t ? t("errorMessages.inputIssue") : "There's an issue with your input or settings. Please check and try again.";
+            return t
+              ? t("errorMessages.inputIssue")
+              : "There's an issue with your input or settings. Please check and try again.";
           case 500:
-            return t ? t("errorMessages.serverError") : "An unexpected error occurred on our end. Please try again later.";
+            return t
+              ? t("errorMessages.serverError")
+              : "An unexpected error occurred on our end. Please try again later.";
           case 504:
-            return t ? t("errorMessages.timeout") : "The request took too long and timed out. Please try again.";
+            return t
+              ? t("errorMessages.timeout")
+              : "The request took too long and timed out. Please try again.";
           default:
             // 如果有更具体的 msg，可以考虑使用，但优先使用我们定义的映射
             if (errorObj.payload?.detail?.[0]?.msg) {
               return errorObj.payload.detail[0].msg;
             }
-            return t ? t("errorMessages.statusCode", { code: statusCode }) : `An error occurred (Status ${statusCode}). Please try again.`;
+            return t
+              ? t("errorMessages.statusCode", { code: statusCode })
+              : `An error occurred (Status ${statusCode}). Please try again.`;
         }
       }
     }
@@ -117,7 +155,9 @@ const getFriendlyErrorMessage = (apiErrorMessage?: string, t?: any): string => {
   if (typeof apiErrorMessage === "string" && apiErrorMessage.length < 200) {
     return apiErrorMessage;
   }
-  return t ? t("errorMessages.unexpected") : "An unexpected error occurred. Please try again.";
+  return t
+    ? t("errorMessages.unexpected")
+    : "An unexpected error occurred. Please try again.";
 };
 
 export default function VideoResult({
@@ -333,7 +373,7 @@ export default function VideoResult({
       if (!response.ok) {
         throw new Error(`Failed to fetch video: ${response.status}`);
       }
-      
+
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -381,12 +421,12 @@ export default function VideoResult({
             className="flex items-center gap-2"
           >
             <History className="h-4 w-4" />
-{t("viewHistory")}
+            {t("viewHistory")}
           </Button>
           {onRetry && isFailed && (
             <Button variant="outline" size="sm" onClick={onRetry}>
               <RefreshCw className="h-4 w-4 mr-2" />
-{t("retry")}
+              {t("retry")}
             </Button>
           )}
         </div>
@@ -424,7 +464,7 @@ export default function VideoResult({
                 style={{ aspectRatio: generation.aspect_ratio || "16/9" }}
               >
                 <source src={videoUrl} type="video/mp4" />
-{t("browserNotSupported")}
+                {t("browserNotSupported")}
               </video>
 
               {/* 播放状态指示器 */}
@@ -437,9 +477,9 @@ export default function VideoResult({
 
             {/* 操作选项 - 放在视频下面，简化版 */}
             <div className="flex items-center justify-center gap-2">
-              <Button 
-                variant="outline" 
-                size="sm" 
+              {/* <Button
+                variant="outline"
+                size="sm"
                 onClick={handleDownload}
                 disabled={isDownloading}
               >
@@ -449,14 +489,14 @@ export default function VideoResult({
                   <Download className="h-4 w-4 mr-2" />
                 )}
                 {isDownloading ? t("downloading") : t("download")}
-              </Button>
+              </Button> */}
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => window.open(videoUrl, "_blank")}
               >
                 <ExternalLink className="h-4 w-4 mr-2" />
-{t("openInNewTab")}
+                {t("download")}
               </Button>
             </div>
           </>
@@ -468,10 +508,12 @@ export default function VideoResult({
         <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
           <div className="flex items-center gap-2 mb-2">
             <Loader2 className="h-5 w-5 text-blue-500 animate-spin" />
-            <span className="font-medium text-foreground">{t("loadingVideo")}</span>
+            <span className="font-medium text-foreground">
+              {t("loadingVideo")}
+            </span>
           </div>
           <p className="text-sm text-muted-foreground">
-{t("videoLoadingMessage")}
+            {t("videoLoadingMessage")}
           </p>
         </div>
       )}
@@ -486,7 +528,7 @@ export default function VideoResult({
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
-{t("videoNotAvailableMessage")}
+            {t("videoNotAvailableMessage")}
           </p>
         </div>
       )}
@@ -511,7 +553,7 @@ export default function VideoResult({
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
-{getFriendlyErrorMessage(generation.error_message, t)}
+            {getFriendlyErrorMessage(generation.error_message, t)}
           </p>
         </div>
       )}

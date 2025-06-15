@@ -36,6 +36,7 @@ export async function createVideoGeneration(
       user_id: params.user_id,
       model_id: params.model_id,
       prompt: params.prompt,
+      optimized_prompt: params.optimized_prompt,
       fal_request_id: params.fal_request_id,
       volcano_request_id: params.volcano_request_id,
       input_image_url: params.input_image_url,
@@ -283,6 +284,7 @@ export async function getUserVideoGenerationStats(userId: number): Promise<{
         case "PENDING":
           stats.pending++;
           break;
+        case "PROMPT_OPTIMIZING":
         case "IN_QUEUE":
         case "IN_PROGRESS":
           stats.processing++;

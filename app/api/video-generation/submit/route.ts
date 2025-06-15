@@ -22,6 +22,7 @@ import {
   VideoModelProvider,
 } from "@/config/video-models";
 import { ProviderFactory } from "@/services/providers";
+import { optimizePromptWithTimeout } from "@/services/promptOptimization";
 
 export async function POST(req: Request) {
   try {
@@ -128,11 +129,55 @@ export async function POST(req: Request) {
         return respErr("FAL_KEY 环境变量未配置");
       }
     }
+    // 5. 扣除积分（在创建任务前扣除）
+    try {
+      await decreaseCredits({
+        user_uuid: userInfo.uuid,
+        trans_type: transType,
+        credits: requiredCredits,
+      });
+    } catch (error) {
+      console.error("扣除积分失败:", error);
+      return respErr("扣除积分失败，请稍后重试");
+    }
 
-    // 构建请求输入
+    // 6. 在数据库中创建记录（初始状态为 PROMPT_OPTIMIZING）
+    const videoGeneration = await createVideoGeneration({
+      user_id: userInfo.uuid,
+      model_id: model,
+      prompt,
+      input_image_url: image_url,
+      negative_prompt,
+      aspect_ratio,
+      duration_seconds: parseInt(duration),
+      cfg_scale,
+      seed,
+      has_audio: generate_audio, // 新增：记录是否包含音频
+      status: "PROMPT_OPTIMIZING",
+    });
+
+    // 6.5. 优化提示词
+    let finalPrompt = prompt;
+    try {
+      const optimizedPrompt = await optimizePromptWithTimeout(prompt, model, 30000);
+      finalPrompt = optimizedPrompt;
+      
+      // 更新记录保存优化后的提示词
+      await import("@/models/videoGeneration").then(
+        ({ updateVideoGenerationById }) =>
+          updateVideoGenerationById(videoGeneration.id, {
+            optimized_prompt: optimizedPrompt,
+          })
+      );
+    } catch (error) {
+      console.error("提示词优化失败，使用原始提示词:", error);
+      // 如果优化失败，继续使用原始提示词
+    }
+
+    // 构建请求输入（使用优化后的提示词）
     const input: any = {
       model,
-      prompt,
+      prompt: finalPrompt,
     };
 
     // 通用参数
@@ -189,32 +234,6 @@ export async function POST(req: Request) {
         input.model = modelConfig.volcanoModel;
       }
     }
-    // 5. 扣除积分（在创建任务前扣除）
-    try {
-      await decreaseCredits({
-        user_uuid: userInfo.uuid,
-        trans_type: transType,
-        credits: requiredCredits,
-      });
-    } catch (error) {
-      console.error("扣除积分失败:", error);
-      return respErr("扣除积分失败，请稍后重试");
-    }
-
-    // 6. 在数据库中创建记录
-    const videoGeneration = await createVideoGeneration({
-      user_id: userInfo.uuid,
-      model_id: model,
-      prompt,
-      input_image_url: image_url,
-      negative_prompt,
-      aspect_ratio,
-      duration_seconds: parseInt(duration),
-      cfg_scale,
-      seed,
-      has_audio: generate_audio, // 新增：记录是否包含音频
-      status: "IN_QUEUE",
-    });
 
     // 7. 提交任务到队列，包含webhook URL
     const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
@@ -236,6 +255,9 @@ export async function POST(req: Request) {
         updateParams.fal_request_id = submitResponse.request_id;
       }
 
+      // 更新请求ID和状态为 IN_QUEUE
+      updateParams.status = "IN_QUEUE";
+      
       await import("@/models/videoGeneration").then(
         ({ updateVideoGenerationById }) =>
           updateVideoGenerationById(videoGeneration.id, updateParams)
@@ -256,6 +278,7 @@ export async function POST(req: Request) {
         requiredCredits,
         metadata: {
           prompt,
+          optimized_prompt: finalPrompt,
           image_url: image_url || null,
           aspect_ratio,
           duration,

@@ -2,6 +2,7 @@
 
 export type VideoGenerationStatus =
   | "PENDING"
+  | "PROMPT_OPTIMIZING"
   | "IN_QUEUE"
   | "IN_PROGRESS"
   | "COMPLETED"
@@ -15,6 +16,7 @@ export interface VideoGeneration {
   volcano_request_id?: string | null; // Volcano Engine request ID
   model_id: string;
   prompt: string;
+  optimized_prompt?: string | null; // 优化后的提示词
   input_image_url?: string | null;
   negative_prompt?: string | null;
   aspect_ratio: string;
@@ -37,6 +39,7 @@ export interface CreateVideoGenerationParams {
   user_id: string;
   model_id: string;
   prompt: string;
+  optimized_prompt?: string; // 优化后的提示词
   fal_request_id?: string;
   volcano_request_id?: string; // Volcano Engine request ID
   input_image_url?: string;
@@ -51,6 +54,7 @@ export interface CreateVideoGenerationParams {
 
 export interface UpdateVideoGenerationParams {
   status?: VideoGenerationStatus;
+  optimized_prompt?: string; // 优化后的提示词
   video_url_r2?: string;
   video_url_fal?: string;
   video_url_volcano?: string; // Volcano Engine video URL

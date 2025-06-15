@@ -111,6 +111,7 @@
   "video-result": {
     "status": {
       "submitted": "Übermittelt",
+      "optimizing": "Prompt-Optimierung",
       "inQueue": "In Warteschlange",
       "generating": "Wird generiert",
       "completed": "Abgeschlossen",

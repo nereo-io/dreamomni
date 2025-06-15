@@ -262,6 +262,7 @@
   "video-result": {
     "status": {
       "submitted": "Отправлено",
+      "optimizing": "Оптимизация промпта",
       "inQueue": "В очереди",
       "generating": "Генерация",
       "completed": "Завершено",

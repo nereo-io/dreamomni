@@ -111,6 +111,7 @@
   "video-result": {
     "status": {
       "submitted": "送信済み",
+      "optimizing": "プロンプト最適化中",
       "inQueue": "キュー待ち",
       "generating": "生成中",
       "completed": "完了",
