@@ -532,6 +532,9 @@ export default function VideoGenerator({
                 </div>
 
                 {/* 比例选择 - 扩大点击区域 */}
+                {/* 当只支持 adaptive 时隐藏比例选择 */}
+                {!(selectedModelConfig?.supportedAspectRatios?.length === 1 && 
+                   selectedModelConfig?.supportedAspectRatios?.includes("adaptive")) && (
                 <div className="mb-4">
                   <div className="text-sm text-gray-300 mb-3">Ratio</div>
                   <RadioGroup
@@ -597,6 +600,7 @@ export default function VideoGenerator({
                     )}
                   </RadioGroup>
                 </div>
+                )}
 
                 {/* 时长选择 - 扩大点击区域 */}
                 <div className="mb-4">

@@ -263,11 +263,17 @@ export async function POST(req: Request) {
 
       // 如果提交失败，我们需要退还积分
       try {
+        // 为退还的积分设置一个合理的过期时间（1个月后）
+        const oneMonthFromNow = new Date();
+        oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
+        const expiredAt = oneMonthFromNow.toISOString();
+
         await import("@/services/credit").then(({ increaseCredits }) =>
           increaseCredits({
             user_uuid: userInfo.uuid!,
             trans_type: transType,
             credits: requiredCredits,
+            expired_at: expiredAt,
           })
         );
       } catch (refundError) {

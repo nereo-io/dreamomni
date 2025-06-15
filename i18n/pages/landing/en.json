@@ -208,9 +208,9 @@
       "items": [
         {
           "title": "Email Support",
-          "value": "support@seedance.ai",
+          "value": "support@seedance.tv",
           "icon": "RiMailFill",
-          "url": "mailto:support@seedance.ai",
+          "url": "mailto:support@seedance.tv",
           "target": "_self"
         },
         {

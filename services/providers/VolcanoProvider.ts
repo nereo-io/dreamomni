@@ -66,7 +66,13 @@ export class VolcanoProvider implements VideoProvider {
 
     // Add aspect ratio to prompt if specified
     if (input.aspect_ratio) {
-      promptText += ` --ratio ${input.aspect_ratio}`;
+      // For Seedance image-to-video models, always use 'adaptive' to follow image dimensions
+      if (model.includes("seedance") && model.includes("image-to-video")) {
+        promptText += ` --ratio adaptive`;
+      } else {
+        // For text-to-video and other models, use the specified aspect ratio
+        promptText += ` --ratio ${input.aspect_ratio}`;
+      }
     }
 
     // Add duration to prompt if specified

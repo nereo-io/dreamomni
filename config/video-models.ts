@@ -72,12 +72,12 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.VOLCANO,
     volcanoModel: "doubao-seedance-1-0-pro-250528",
-    displayName: "Doubao-Seedance 1.0 Pro",
+    displayName: "Seedance 1.0 Pro",
     perSecondCredits: 2, // 7.5 tokens for 5s = 1.5 tokens/second
     description: "Advanced 1080p video generation with cinematic quality",
     features: ["Professional cinematography", "Complex prompt understanding"],
     maxDuration: 10,
-    supportedAspectRatios: ["16:9"],
+    supportedAspectRatios: ["16:9", "9:16", "1:1"],
     supportsAudio: false,
     supportedDurations: [5, 10],
   },
@@ -89,13 +89,13 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.VOLCANO,
     volcanoModel: "doubao-seedance-1-0-pro-250528",
-    displayName: "Doubao-Seedance 1.0 Pro",
+    displayName: "Seedance 1.0 Pro",
     perSecondCredits: 2, // 7.5 tokens for 5s = 1.5 tokens/second
     description:
       "Transform images into professional 1080p videos with cinematic motion",
     features: ["1080p quality", "Style versatility", "Natural motion"],
     maxDuration: 10,
-    supportedAspectRatios: ["16:9"],
+    supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
     supportsAudio: false,
     supportedDurations: [5, 10],
   },
