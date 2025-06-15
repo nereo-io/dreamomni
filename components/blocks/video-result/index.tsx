@@ -495,7 +495,7 @@ export default function VideoResult({
                 size="sm"
                 onClick={() => window.open(videoUrl, "_blank")}
               >
-                <ExternalLink className="h-4 w-4 mr-2" />
+                <Download className="h-4 w-4 mr-2" />
                 {t("download")}
               </Button>
             </div>
