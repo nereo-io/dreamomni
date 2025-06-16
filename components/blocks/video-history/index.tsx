@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
+import { getVideoModel } from "@/config/video-models";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -158,9 +159,7 @@ export default function VideoHistoryClient() {
         <h3 className="text-2xl font-semibold text-gray-200 mb-2">
           {t("noVideosTitle")}
         </h3>
-        <p className="text-gray-400 mb-6">
-          {t("noVideosDescription")}
-        </p>
+        <p className="text-gray-400 mb-6">{t("noVideosDescription")}</p>
         <Button
           asChild
           size="lg"
@@ -174,9 +173,7 @@ export default function VideoHistoryClient() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-100 mb-8">
-        {t("title")}
-      </h1>
+      <h1 className="text-3xl font-bold text-gray-100 mb-8">{t("title")}</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {videos.map((video) => (
@@ -203,13 +200,16 @@ export default function VideoHistoryClient() {
                 ) : (
                   <PlayCircle className="h-16 w-16 text-gray-500" />
                 )}
-                
+
                 {/* Audio indicator */}
                 {video.has_audio && (
                   <div className="absolute top-2 right-2">
-                    <Badge variant="secondary" className="text-xs flex items-center gap-1 bg-blue-100 text-blue-700 border-blue-200">
+                    <Badge
+                      variant="secondary"
+                      className="text-xs flex items-center gap-1 bg-blue-100 text-blue-700 border-blue-200"
+                    >
                       <Volume2 className="h-3 w-3" />
-                      音频
+                      Audio
                     </Badge>
                   </div>
                 )}
@@ -227,7 +227,10 @@ export default function VideoHistoryClient() {
                   })}
                 </p>
               </div>
-              <p className="text-sm text-gray-400">{t("labels.model")}: {video.model_id}</p>
+              <p className="text-sm text-gray-400">
+                {t("labels.model")}:{" "}
+                {getVideoModel(video.model_id)?.displayName || video.model_id}
+              </p>
               <p className="text-sm text-gray-400">
                 {t("labels.duration")}: {video.duration_seconds}s
               </p>

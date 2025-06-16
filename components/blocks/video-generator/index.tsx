@@ -37,6 +37,7 @@ interface VideoGeneratorProps {
 
 type VideoAspectRatio = "16:9" | "9:16" | "1:1";
 type VideoDuration = "5" | "8" | "10";
+type VideoResolution = "480p" | "720p" | "1080p";
 
 export default function VideoGenerator({
   placeholder = "Describe the video you want to create, e.g., A cat playing in a sunny garden with natural lighting and fresh atmosphere...",
@@ -45,9 +46,8 @@ export default function VideoGenerator({
   const [description, setDescription] = useState("");
   const [aspectRatio, setAspectRatio] = useState<VideoAspectRatio>("16:9");
   const [duration, setDuration] = useState<VideoDuration>("5");
-  const [selectedModel, setSelectedModel] = useState<string>(
-    "kling-1-6-text-to-video-std"
-  );
+  const [resolution, setResolution] = useState<VideoResolution>("480p");
+  const [selectedModel, setSelectedModel] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -81,6 +81,13 @@ export default function VideoGenerator({
   // 获取选中模型的详细信息
   const selectedModelConfig = getVideoModel(selectedModel);
 
+  // 初始化默认模型选择 - 选择第一个可用模型
+  useEffect(() => {
+    if (!selectedModel && availableModels.length > 0) {
+      setSelectedModel(availableModels[0].id);
+    }
+  }, [selectedModel, availableModels]);
+
   // 增强的智能设置联动 - 模型切换时自动调整设置
   useEffect(() => {
     if (selectedModelConfig) {
@@ -104,12 +111,21 @@ export default function VideoGenerator({
         }
       }
 
-      // 3. 检查音频兼容性
+      // 3. 检查分辨率兼容性
+      if (!selectedModelConfig.supportedResolutions?.includes(resolution)) {
+        const firstSupportedResolution = selectedModelConfig
+          .supportedResolutions?.[0] as VideoResolution;
+        if (firstSupportedResolution) {
+          setResolution(firstSupportedResolution);
+        }
+      }
+
+      // 4. 检查音频兼容性
       if (generateAudio && !selectedModelConfig.supportsAudio) {
         setGenerateAudio(false);
       }
 
-      // 4. 图片兼容性检查已移到独立的 useEffect 中处理
+      // 5. 图片兼容性检查已移到独立的 useEffect 中处理
     }
   }, [selectedModel, selectedModelConfig]);
 
@@ -150,16 +166,18 @@ export default function VideoGenerator({
   const getCreditsRequired = (
     modelId: string,
     duration: VideoDuration,
-    hasAudio: boolean = false
+    hasAudio: boolean = false,
+    resolution: VideoResolution = "1080p"
   ) => {
-    return calculateCredits(modelId, parseInt(duration), hasAudio);
+    return calculateCredits(modelId, parseInt(duration), hasAudio, resolution);
   };
 
   // 获取当前选择的积分消耗
   const currentCreditsRequired = getCreditsRequired(
     selectedModel,
     duration,
-    generateAudio
+    generateAudio,
+    resolution
   );
 
   // Handle image upload
@@ -237,7 +255,7 @@ export default function VideoGenerator({
     }
 
     // 检查prompt最少字符数限制
-    if (description.trim().length < 30) {
+    if (description.trim().length < 10) {
       toast.error(t("toast.descriptionTooShort"));
       return;
     }
@@ -296,6 +314,7 @@ export default function VideoGenerator({
         prompt: description.trim(),
         duration,
         aspect_ratio: aspectRatio,
+        resolution,
         generate_audio: generateAudio,
         ...(imageUrl && { image_url: imageUrl }),
       };
@@ -352,17 +371,17 @@ export default function VideoGenerator({
                   />
                 </div>
                 {/* Character counter */}
-                {description.trim().length < 30 && (
+                {description.trim().length < 10 && (
                   <div className="flex justify-end items-center text-sm">
                     <span
                       className={cn(
                         "transition-colors text-sm",
-                        description.trim().length < 30
+                        description.trim().length < 10
                           ? "text-orange-400"
                           : "text-gray-400"
                       )}
                     >
-                      {description.trim().length}/30 {t("characterCount")}
+                      {description.trim().length}/10 {t("characterCount")}
                     </span>
                   </div>
                 )}
@@ -454,9 +473,11 @@ export default function VideoGenerator({
                           <div className="flex items-center gap-2">
                             <img
                               src={
-                                selectedModelConfig.provider === "kling"
+                                selectedModelConfig.id.includes("kling")
                                   ? "/imgs/intro/kling.svg"
-                                  : "/imgs/intro/veo.svg"
+                                  : selectedModelConfig.id.includes("veo")
+                                  ? "/imgs/intro/veo.svg"
+                                  : "/imgs/intro/seedance.png"
                               }
                               alt={selectedModelConfig.provider}
                               className="w-4 h-4 flex-shrink-0"
@@ -464,10 +485,10 @@ export default function VideoGenerator({
                             <span className="font-medium">
                               {selectedModelConfig.displayName}
                             </span>
-                            <div className="flex items-center gap-1 text-xs text-blue-300">
+                            {/* <div className="flex items-center gap-1 text-xs text-blue-300">
                               <Coins className="h-3 w-3" />
                               {selectedModelConfig.perSecondCredits}/s
-                            </div>
+                            </div> */}
                           </div>
                         )}
                       </SelectValue>
@@ -478,9 +499,11 @@ export default function VideoGenerator({
                           <div className="flex items-start gap-3 w-full py-1">
                             <img
                               src={
-                                model.provider === "kling"
+                                model.id.includes("kling")
                                   ? "/imgs/intro/kling.svg"
-                                  : "/imgs/intro/veo.svg"
+                                  : model.id.includes("veo")
+                                  ? "/imgs/intro/veo.svg"
+                                  : "/imgs/intro/seedance.png"
                               }
                               alt={model.provider}
                               className="w-5 h-5 flex-shrink-0 mt-0.5"
@@ -523,71 +546,79 @@ export default function VideoGenerator({
                 </div>
 
                 {/* 比例选择 - 扩大点击区域 */}
-                <div className="mb-4">
-                  <div className="text-sm text-gray-300 mb-3">Ratio</div>
-                  <RadioGroup
-                    value={aspectRatio}
-                    onValueChange={(value) =>
-                      setAspectRatio(value as VideoAspectRatio)
-                    }
-                    className="flex flex-wrap gap-6"
-                  >
-                    {selectedModelConfig?.supportedAspectRatios?.includes(
-                      "16:9"
-                    ) && (
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value="16:9"
-                          id="landscape"
-                          className="w-4 h-4"
-                        />
-                        <Label
-                          htmlFor="landscape"
-                          className="text-sm text-gray-200 cursor-pointer flex items-center gap-1 hover:text-white transition-colors"
-                        >
-                          <span className="w-4 h-2 bg-gray-600 rounded-sm"></span>
-                          16:9
-                        </Label>
-                      </div>
-                    )}
-                    {selectedModelConfig?.supportedAspectRatios?.includes(
-                      "9:16"
-                    ) && (
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value="9:16"
-                          id="portrait"
-                          className="w-4 h-4"
-                        />
-                        <Label
-                          htmlFor="portrait"
-                          className="text-sm text-gray-200 cursor-pointer flex items-center gap-1 hover:text-white transition-colors"
-                        >
-                          <span className="w-2 h-4 bg-gray-600 rounded-sm"></span>
-                          9:16
-                        </Label>
-                      </div>
-                    )}
-                    {selectedModelConfig?.supportedAspectRatios?.includes(
-                      "1:1"
-                    ) && (
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value="1:1"
-                          id="square"
-                          className="w-4 h-4"
-                        />
-                        <Label
-                          htmlFor="square"
-                          className="text-sm text-gray-200 cursor-pointer flex items-center gap-1 hover:text-white transition-colors"
-                        >
-                          <span className="w-4 h-4 bg-gray-600 rounded-sm"></span>
-                          1:1
-                        </Label>
-                      </div>
-                    )}
-                  </RadioGroup>
-                </div>
+                {/* 当只支持 adaptive 时隐藏比例选择 */}
+                {!(
+                  selectedModelConfig?.supportedAspectRatios?.length === 1 &&
+                  selectedModelConfig?.supportedAspectRatios?.includes(
+                    "adaptive"
+                  )
+                ) && (
+                  <div className="mb-4">
+                    <div className="text-sm text-gray-300 mb-3">Ratio</div>
+                    <RadioGroup
+                      value={aspectRatio}
+                      onValueChange={(value) =>
+                        setAspectRatio(value as VideoAspectRatio)
+                      }
+                      className="flex flex-wrap gap-6"
+                    >
+                      {selectedModelConfig?.supportedAspectRatios?.includes(
+                        "16:9"
+                      ) && (
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem
+                            value="16:9"
+                            id="landscape"
+                            className="w-4 h-4"
+                          />
+                          <Label
+                            htmlFor="landscape"
+                            className="text-sm text-gray-200 cursor-pointer flex items-center gap-1 hover:text-white transition-colors"
+                          >
+                            <span className="w-4 h-2 bg-gray-600 rounded-sm"></span>
+                            16:9
+                          </Label>
+                        </div>
+                      )}
+                      {selectedModelConfig?.supportedAspectRatios?.includes(
+                        "9:16"
+                      ) && (
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem
+                            value="9:16"
+                            id="portrait"
+                            className="w-4 h-4"
+                          />
+                          <Label
+                            htmlFor="portrait"
+                            className="text-sm text-gray-200 cursor-pointer flex items-center gap-1 hover:text-white transition-colors"
+                          >
+                            <span className="w-2 h-4 bg-gray-600 rounded-sm"></span>
+                            9:16
+                          </Label>
+                        </div>
+                      )}
+                      {selectedModelConfig?.supportedAspectRatios?.includes(
+                        "1:1"
+                      ) && (
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem
+                            value="1:1"
+                            id="square"
+                            className="w-4 h-4"
+                          />
+                          <Label
+                            htmlFor="square"
+                            className="text-sm text-gray-200 cursor-pointer flex items-center gap-1 hover:text-white transition-colors"
+                          >
+                            <span className="w-4 h-4 bg-gray-600 rounded-sm"></span>
+                            1:1
+                          </Label>
+                        </div>
+                      )}
+                    </RadioGroup>
+                  </div>
+                )}
 
                 {/* 时长选择 - 扩大点击区域 */}
                 <div className="mb-4">
@@ -646,6 +677,75 @@ export default function VideoGenerator({
                     )}
                   </RadioGroup>
                 </div>
+
+                {/* 分辨率选择 - 只在支持时显示 */}
+                {selectedModelConfig?.supportedResolutions &&
+                  selectedModelConfig.supportedResolutions.length > 1 && (
+                    <div className="mb-4">
+                      <div className="text-sm text-gray-300 mb-3">
+                        Resolution
+                      </div>
+                      <RadioGroup
+                        value={resolution}
+                        onValueChange={(value) =>
+                          setResolution(value as VideoResolution)
+                        }
+                        className="flex gap-8"
+                      >
+                        {selectedModelConfig.supportedResolutions.includes(
+                          "480p"
+                        ) && (
+                          <div className="flex items-center space-x-3">
+                            <RadioGroupItem
+                              value="480p"
+                              id="resolution-480p"
+                              className="w-4 h-4"
+                            />
+                            <Label
+                              htmlFor="resolution-480p"
+                              className="text-sm text-gray-200 cursor-pointer hover:text-white transition-colors"
+                            >
+                              480p
+                            </Label>
+                          </div>
+                        )}
+                        {selectedModelConfig.supportedResolutions.includes(
+                          "720p"
+                        ) && (
+                          <div className="flex items-center space-x-3">
+                            <RadioGroupItem
+                              value="720p"
+                              id="resolution-720p"
+                              className="w-4 h-4"
+                            />
+                            <Label
+                              htmlFor="resolution-720p"
+                              className="text-sm text-gray-200 cursor-pointer hover:text-white transition-colors"
+                            >
+                              720p
+                            </Label>
+                          </div>
+                        )}
+                        {selectedModelConfig.supportedResolutions.includes(
+                          "1080p"
+                        ) && (
+                          <div className="flex items-center space-x-3">
+                            <RadioGroupItem
+                              value="1080p"
+                              id="resolution-1080p"
+                              className="w-4 h-4"
+                            />
+                            <Label
+                              htmlFor="resolution-1080p"
+                              className="text-sm text-gray-200 cursor-pointer hover:text-white transition-colors"
+                            >
+                              1080p
+                            </Label>
+                          </div>
+                        )}
+                      </RadioGroup>
+                    </div>
+                  )}
 
                 {/* 音频选择 - 只在支持时显示 */}
                 {selectedModelConfig?.supportsAudio && (
@@ -740,7 +840,7 @@ export default function VideoGenerator({
                   onClick={handleGenerate}
                   disabled={
                     !description.trim() ||
-                    description.trim().length < 30 ||
+                    description.trim().length < 10 ||
                     isLoading ||
                     isSubmitting ||
                     (user &&
@@ -773,7 +873,7 @@ export default function VideoGenerator({
               className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-600/80 hover:bg-gray-500/90 text-white text-sm font-medium rounded-md transition-all duration-200 hover:scale-105 plausible-event-name=Telegram+Channel+Click"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.65.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24-.01.37z"/>
+                <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
               </svg>
               {t("telegramBanner.linkText")}
             </a>

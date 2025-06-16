@@ -36,7 +36,9 @@ export async function createVideoGeneration(
       user_id: params.user_id,
       model_id: params.model_id,
       prompt: params.prompt,
+      optimized_prompt: params.optimized_prompt,
       fal_request_id: params.fal_request_id,
+      volcano_request_id: params.volcano_request_id,
       input_image_url: params.input_image_url,
       negative_prompt: params.negative_prompt,
       aspect_ratio: params.aspect_ratio || "16:9",
@@ -98,6 +100,27 @@ export async function getVideoGenerationByFalRequestId(
 }
 
 /**
+ * 根据 Volcano Engine 请求 ID 获取视频生成记录。
+ */
+export async function getVideoGenerationByVolcanoRequestId(
+  volcanoRequestId: string
+): Promise<VideoGeneration | null> {
+  const { data, error } = await supabase
+    .from("video_generations")
+    .select("*")
+    .eq("volcano_request_id", volcanoRequestId)
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    handleSupabaseError(
+      error,
+      `get video generation by volcano_request_id ${volcanoRequestId}`
+    );
+  }
+  return data || null;
+}
+
+/**
  * 根据视频生成记录的 ID 更新记录。
  */
 export async function updateVideoGenerationById(
@@ -139,6 +162,32 @@ export async function updateVideoGenerationByFalRequestId(
     handleSupabaseError(
       error,
       `update video generation by fal_request_id ${falRequestId}`
+    );
+  }
+  return data || null;
+}
+
+/**
+ * 根据 Volcano Engine 请求 ID 更新视频生成记录。
+ */
+export async function updateVideoGenerationByVolcanoRequestId(
+  volcanoRequestId: string,
+  params: UpdateVideoGenerationParams
+): Promise<VideoGeneration | null> {
+  const { data, error } = await supabase
+    .from("video_generations")
+    .update({
+      ...params,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("volcano_request_id", volcanoRequestId)
+    .select()
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    handleSupabaseError(
+      error,
+      `update video generation by volcano_request_id ${volcanoRequestId}`
     );
   }
   return data || null;
@@ -233,6 +282,7 @@ export async function getUserVideoGenerationStats(userId: number): Promise<{
         case "PENDING":
           stats.pending++;
           break;
+        case "PROMPT_OPTIMIZING":
         case "IN_QUEUE":
         case "IN_PROGRESS":
           stats.processing++;

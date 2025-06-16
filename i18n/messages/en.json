@@ -216,8 +216,8 @@
     },
     "selectModel": "Select a model",
     "telegramBanner": {
-      "text": "Get 24h early access to trending AI templates",
-      "linkText": "Join Channel"
+      "text": "Join Telegram channel for AI video generation tips",
+      "linkText": "Join"
     },
     "toast": {
       "signInFirst": "Please sign in first",

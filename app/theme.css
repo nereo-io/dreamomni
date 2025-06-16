@@ -1,4 +1,6 @@
 :root {
+
+  /* 颜色变量 */
   --background: 262 76% 95%;
   --foreground: 262 5% 10%;
   --card: 262 50% 90%;
@@ -21,6 +23,8 @@
   --radius: 0.5rem;
 }
 .dark {
+
+  /* 暗黑模式颜色变量 */
   --background: 262 50% 10%;
   --foreground: 262 5% 90%;
   --card: 262 50% 10%;

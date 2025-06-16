@@ -1,12 +1,7 @@
-import { fal } from "@fal-ai/client";
 import { respData, respErr } from "@/lib/resp";
 import { auth } from "@/auth";
 import { getVideoModel } from "@/config/video-models";
-
-// 配置fal client
-fal.config({
-  credentials: process.env.FAL_KEY,
-});
+import { ProviderFactory } from "@/services/providers";
 
 export async function GET(req: Request) {
   try {
@@ -19,39 +14,35 @@ export async function GET(req: Request) {
       return respErr("requestId 参数是必需的");
     }
 
-    // 检查API密钥
-    if (!process.env.FAL_KEY) {
-      return respErr("FAL_KEY 环境变量未配置");
-    }
+    // API密钥检查会在provider中处理
 
     console.log(`获取视频生成结果，模型: ${model}，请求ID: ${requestId}`);
 
-    // 确定要使用的模型端点
-    let endpoint = "fal-ai/kling-video/v1.6/standard/text-to-video"; // 默认端点
+    if (!model) {
+      return respErr("model 参数是必需的");
+    }
 
-    if (model) {
-      const modelConfig = getVideoModel(model);
-      if (modelConfig) {
-        endpoint = modelConfig.falEndpoint;
-      } else {
-        return respErr(`不支持的模型: ${model}`);
-      }
+    const modelConfig = getVideoModel(model);
+    if (!modelConfig) {
+      return respErr(`不支持的模型: ${model}`);
     }
 
     try {
-      const result = await fal.queue.result(endpoint, {
-        requestId: requestId,
-      });
+      // 使用Provider Factory获取合适的provider
+      const provider = ProviderFactory.getProvider(model);
+      
+      const result = await provider.result(model, requestId);
 
-      console.log("从fal.ai获取的结果:", result);
+      console.log("从provider获取的结果:", result);
 
       return respData({
         requestId: requestId,
         model: model,
         result: result,
         data: result.data || result,
-        video_url: result.data?.video_url || result.data?.video?.url || null,
+        video_url: result.video_url || null,
         success: true,
+        provider: modelConfig.provider,
       });
     } catch (error: any) {
       console.error("获取结果失败:", error);
