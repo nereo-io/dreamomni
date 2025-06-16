@@ -6,7 +6,7 @@
       "title": "Seedance",
       "logo": {
         "src": "/logo.png",
-        "alt": "Seedance"
+        "alt": "Seedance AI 비디오 생성"
       },
       "url": "/"
     },
@@ -49,6 +49,69 @@
     "description": "혁신적인 멀티샷 스토리텔링과 영화 품질로 전문 1080p 비디오를 제작하세요. 포토리얼리즘부터 사이버펑크까지 - 아이디어를 즉시 놀라운 비디오로 변환합니다.",
     "show_happy_users": false,
     "show_badge": false
+  },
+  "introduce": {
+    "name": "introduce",
+    "title": "Seedance 1.0 AI 비디오 생성기란 무엇인가",
+    "label": "소개",
+    "description": "Seedance 1.0은 ByteDance의 혁신적인 AI 비디오 생성기로, 텍스트 설명을 전문가급 1080p 비디오로 변환합니다. 이 고급 AI 비디오 생성기는 혁신적인 멀티샷 스토리텔링 기능과 영화 품질을 갖추고 있어 Seedance ByteDance를 크리에이터들의 최고 선택으로 만듭니다.",
+    "image": {
+      "src": "/intro/generator-intro.mp4"
+    },
+    "items": [
+      {
+        "title": "멀티샷 스토리텔링 AI 비디오 생성기",
+        "description": "여러 프레임에 걸쳐 유동적인 샷 전환과 캐릭터 일관성으로 복잡한 내러티브를 만드세요. Seedance ByteDance는 우리의 고급 AI 비디오 생성기 기술로 정교한 비디오 스토리텔링을 가능하게 합니다.",
+        "icon": "RiFilmLine"
+      },
+      {
+        "title": "전문가급 1080p AI 비디오 생성기 품질",
+        "description": "영화적 미학, 부드러운 움직임, 풍부한 시각적 디테일로 선명한 고화질 비디오를 생성하세요. 전문적 사용에 완벽합니다. AI 비디오 생성기 Seedance 1.0은 비교할 수 없는 품질을 제공합니다.",
+        "icon": "RiHdLine"
+      },
+      {
+        "title": "다양한 스타일 표현",
+        "description": "포토리얼리즘부터 사이버펑크 미학까지, AI 비디오 생성기 Seedance ByteDance는 정밀한 예술적 제어와 스타일적 다양성으로 모든 창작 비전에 적응하며, 고급 비디오 생성기 기술로 구동됩니다.",
+        "icon": "RiPaletteLine"
+      }
+    ]
+  },
+  "feature": {
+    "name": "feature",
+    "title": "혁신적인 Seedance ByteDance AI 비디오 생성기",
+    "description": "비디오 제작을 변화시키는 혁신적인 기술을 경험하세요. Seedance ByteDance는 고급 AI 비디오 생성기 기능을 통해 전통적인 비디오 제작 방법과 경쟁할 수 있는 전문가급 결과를 제공하는 차세대 AI 비디오 생성기 기술을 선보입니다.",
+    "items": [
+      {
+        "title": "혁신적인 Seedance AI 비디오 생성기 기술",
+        "description": "비디오 생성을 위해 특별히 설계된 최첨단 인공지능 모델로 구동됩니다. AI 비디오 생성기 Seedance ByteDance는 고급 비디오 생성기 시스템으로 전문 콘텐츠 제작을 위한 전례 없는 품질과 창작 제어를 제공합니다.",
+        "icon": "RiRobot2Line"
+      },
+      {
+        "title": "텍스트-투-비디오 AI 비디오 생성기 혁신",
+        "description": "Seedance 1.0으로 간단한 텍스트 설명을 놀라운 시각적 콘텐츠로 변환하세요. 우리의 고급 AI 비디오 생성기는 Seedance ByteDance 기술로 구동되어 놀라운 정밀도로 복잡한 내러티브, 시각적 스타일, 창작 방향을 이해합니다.",
+        "icon": "RiQuillPenLine"
+      },
+      {
+        "title": "전문가급 비디오 생성기 출력 품질",
+        "description": "전문적 표준에 부합하는 부드러운 움직임, 풍부한 디테일, 영화적 미학을 가진 영화 품질 1080p 비디오를 생성하세요. AI 비디오 생성기 Seedance는 매번 상업적 품질의 콘텐츠를 제작합니다.",
+        "icon": "RiVideoLine"
+      },
+      {
+        "title": "즉시 AI 비디오 생성기 제작",
+        "description": "Seedance ByteDance로 몇 시간이 아닌 몇 분 만에 전문가급 비디오를 제작하세요. 우리의 혁신적인 AI 비디오 생성기는 고급 비디오 생성기 자동화를 통해 비싼 장비, 촬영 크루, 복잡한 편집 소프트웨어의 필요성을 제거합니다.",
+        "icon": "RiTimerLine"
+      },
+      {
+        "title": "AI 비디오 생성기로 무한한 창작 가능성",
+        "description": "기업 프레젠테이션부터 예술적 걸작까지 - Seedance 1.0으로 상상할 수 있는 모든 비디오 스타일을 생성하세요. 우리의 고급 AI 비디오 생성기 플랫폼으로 창작 경계도, 기술적 제한도 없습니다.",
+        "icon": "RiInfinityLine"
+      },
+      {
+        "title": "차세대 AI 비디오 생성기 기능",
+        "description": "멀티샷 스토리텔링, 캐릭터 일관성, 고급 카메라 제어는 AI 비디오 생성기 기술의 미래를 나타냅니다. Seedance ByteDance는 고급 비디오 생성기 혁신을 통해 이러한 기능들을 오늘 제공합니다.",
+        "icon": "RiStarLine"
+      }
+    ]
   },
   "testimonial": {
     "name": "testimonial",
@@ -162,7 +225,7 @@
       "description": "Seedance 1.0 - 혁신적인 멀티샷 스토리텔링 기술을 갖춘 혁명적 AI 비디오 생성기. 영화적 미학, 부드러운 움직임, 다양한 스타일 표현으로 놀라운 1080p 비디오를 제작하세요. Seedance의 고급 AI 기능으로 아이디어를 전문가급 비디오 걸작으로 변환하세요.",
       "logo": {
         "src": "/logo.png",
-        "alt": "Seedance"
+        "alt": "Seedance AI 비디오 생성"
       },
       "url": "/"
     },
@@ -252,6 +315,40 @@
       ]
     }
   ],
+  "gettingStarted": {
+    "title": "Seedance AI 비디오 생성기로 비디오를 만드는 방법",
+    "description": "Seedance ByteDance로 몇 분 만에 전문 1080p 비디오 생성을 시작하세요. 간단하고, 빠르고, 강력합니다.",
+    "steps": [
+      {
+        "step": 1,
+        "title": "비전 설명하기",
+        "description": "비디오 개념을 설명하는 상세한 텍스트 프롬프트를 작성하세요. Seedance AI 비디오 생성기는 복잡한 지시사항과 예술적 스타일을 이해합니다.",
+        "icon": "RiEditLine"
+      },
+      {
+        "step": 2,
+        "title": "설정 선택하기",
+        "description": "비디오 길이, 종횡비, 스타일 설정을 선택하세요. 다양한 예술적 표현을 가진 1080p 품질에서 선택하세요.",
+        "icon": "RiSettings3Line"
+      },
+      {
+        "step": 3,
+        "title": "비디오 생성하기",
+        "description": "Seedance AI 비디오 생성기가 아이디어를 영화적 미학을 가진 전문적 품질의 비디오로 변환하는 것을 지켜보세요.",
+        "icon": "RiPlayLine"
+      },
+      {
+        "step": 4,
+        "title": "다운로드 & 공유",
+        "description": "고화질 품질로 완성된 비디오에 액세스하세요. 마케팅, 소셜 미디어 또는 모든 상업적 목적으로 사용하세요.",
+        "icon": "RiDownloadLine"
+      }
+    ],
+    "cta": {
+      "title": "Seedance AI 비디오 생성기로 제작 시작하기",
+      "url": "#video-generator"
+    }
+  },
   "questionExamples": {
     "title": "비디오 아이디어: ",
     "examples": [

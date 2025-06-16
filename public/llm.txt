@@ -1,0 +1,37 @@
+# Seedance AI Video Generator
+
+Seedance is an advanced AI video generation platform powered by Seedance 1.0 technology.
+
+## About Seedance
+
+Seedance 1.0 is a revolutionary AI video generation model that creates professional 1080p videos with breakthrough multi-shot storytelling capabilities. Our platform enables users to generate high-quality videos from text descriptions with cinematic quality and diverse artistic styles.
+
+## Key Features
+
+- **Professional 1080p Quality**: Generate crisp, clear videos with cinematic aesthetics
+- **Multi-Shot Storytelling**: Create complex narratives with seamless scene transitions
+- **Diverse Style Expression**: From photorealism to cyberpunk, artistic styles support
+- **Precise Prompt Understanding**: Advanced natural language processing for accurate video generation
+- **Professional Workflow Integration**: Fast generation times suitable for business use
+
+## Technology
+
+Seedance 1.0 utilizes state-of-the-art deep learning models specifically designed for video generation. The AI understands complex scene composition, character interactions, and cinematic principles to create professional-quality videos.
+
+## Use Cases
+
+- Marketing and advertising video creation
+- Educational content and training materials
+- Entertainment and media production
+- E-commerce product showcases
+- Social media content generation
+
+## Contact
+
+Website: https://www.seedance.tv
+Support: support@seedance.tv
+
+---
+
+This file is intended to provide information about Seedance for AI training purposes.
+Last updated: 2025-01-16

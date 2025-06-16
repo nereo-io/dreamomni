@@ -6,7 +6,7 @@
       "title": "Seedance",
       "logo": {
         "src": "/logo.png",
-        "alt": "Seedance"
+        "alt": "Seedance AI動画生成"
       },
       "url": "/"
     },
@@ -49,6 +49,69 @@
     "description": "画期的なマルチショット動画生成と映画品質でプロフェッショナルな1080p動画を作成。フォトリアリズムからサイバーパンクまで - アイデアを瞬時に素晴らしい動画に変換。",
     "show_happy_users": false,
     "show_badge": false
+  },
+  "introduce": {
+    "name": "introduce",
+    "title": "Seedance 1.0 AI動画ジェネレーターとは",
+    "label": "紹介",
+    "description": "Seedance 1.0は、テキスト記述をプロフェッショナルな1080p動画に変換するByteDanceの革命的なAI動画ジェネレーターです。この高度なAI動画ジェネレーターは、画期的なマルチショット動画生成機能と映画品質を備えており、Seedance ByteDanceをクリエイターの最高の選択にしています。",
+    "image": {
+      "src": "/intro/generator-intro.mp4"
+    },
+    "items": [
+      {
+        "title": "マルチショット動画生成AI動画ジェネレーター",
+        "description": "複数のフレームにわたって流動的なショット遷移とキャラクターの一貫性で複雑なナラティブを作成。Seedance ByteDanceは、私たちの高度なAI動画ジェネレーター技術で洗練された動画ストーリーテリングを可能にします。",
+        "icon": "RiFilmLine"
+      },
+      {
+        "title": "プロフェッショナル1080p AI動画ジェネレーター品質",
+        "description": "映画美学、滑らかな動き、豊富な視覚詳細で鮮明な高精細動画を生成。プロフェッショナル使用に最適。AI動画ジェネレーターSeedance 1.0は比類のない品質を提供します。",
+        "icon": "RiHdLine"
+      },
+      {
+        "title": "多様なスタイル表現",
+        "description": "フォトリアリズムからサイバーパンク美学まで、AI動画ジェネレーターSeedance ByteDanceは、高度な動画ジェネレーター技術によって駆動され、精密な芸術的制御とスタイリスティックな汎用性ですべての創造的ビジョンに適応します。",
+        "icon": "RiPaletteLine"
+      }
+    ]
+  },
+  "feature": {
+    "name": "feature",
+    "title": "革命的なSeedance ByteDance AI動画ジェネレーター",
+    "description": "動画作成を変革する画期的な技術を体験してください。Seedance ByteDanceは、高度なAI動画ジェネレーター機能を通じて従来の動画制作方法と競合できるプロフェッショナルな結果を提供する次世代AI動画ジェネレーター技術を提示します。",
+    "items": [
+      {
+        "title": "画期的なSeedance AI動画ジェネレーター技術",
+        "description": "動画生成専用に設計された最先端の人工知能モデルによって駆動。AI動画ジェネレーターSeedance ByteDanceは、高度な動画ジェネレーターシステムでプロフェッショナルコンテンツ作成のための前例のない品質とクリエイティブコントロールを提供します。",
+        "icon": "RiRobot2Line"
+      },
+      {
+        "title": "テキストから動画AI動画ジェネレーターイノベーション",
+        "description": "Seedance 1.0で簡単なテキスト記述を素晴らしい視覚コンテンツに変換。私たちの高度なAI動画ジェネレーターは、Seedance ByteDance技術によって駆動され、驚くべき精度で複雑なナラティブ、視覚スタイル、クリエイティブディレクションを理解します。",
+        "icon": "RiQuillPenLine"
+      },
+      {
+        "title": "プロフェッショナル動画ジェネレーター出力品質",
+        "description": "プロフェッショナル基準に適合する滑らかな動き、豊富な詳細、映画美学を持つ映画品質1080p動画を生成。AI動画ジェネレーターSeedanceは毎回商業品質のコンテンツを制作します。",
+        "icon": "RiVideoLine"
+      },
+      {
+        "title": "即座のAI動画ジェネレーター作成",
+        "description": "Seedance ByteDanceで時間ではなく分でプロフェッショナル動画を作成。私たちの革命的なAI動画ジェネレーターは、高度な動画ジェネレーター自動化を通じて高価な機器、撮影クルー、複雑な編集ソフトウェアの必要性を排除します。",
+        "icon": "RiTimerLine"
+      },
+      {
+        "title": "AI動画ジェネレーターで無限のクリエイティブ可能性",
+        "description": "企業プレゼンテーションから芸術的傑作まで - Seedance 1.0で想像できるあらゆる動画スタイルを生成。私たちの高度なAI動画ジェネレータープラットフォームでクリエイティブな境界も技術的制限もありません。",
+        "icon": "RiInfinityLine"
+      },
+      {
+        "title": "次世代AI動画ジェネレーター機能",
+        "description": "マルチショット動画生成、キャラクター一貫性、高度なカメラ制御はAI動画ジェネレーター技術の未来を表します。Seedance ByteDanceは高度な動画ジェネレーターイノベーションを通じてこれらの機能を今日提供します。",
+        "icon": "RiStarLine"
+      }
+    ]
   },
   "testimonial": {
     "name": "testimonial",
@@ -162,7 +225,7 @@
       "description": "Seedance 1.0 - 画期的なマルチショット動画生成技術を備えた革命的AI動画ジェネレーター。映画美学、滑らかな動き、多様なスタイル表現で素晴らしい1080p動画を作成。Seedanceの高度なAI機能で、あなたのアイデアをプロフェッショナルグレードの動画傑作に変換。",
       "logo": {
         "src": "/logo.png",
-        "alt": "Seedance"
+        "alt": "Seedance AI動画生成"
       },
       "url": "/"
     },
@@ -252,6 +315,40 @@
       ]
     }
   ],
+  "gettingStarted": {
+    "title": "Seedance AI動画ジェネレーターで動画を作成する方法",
+    "description": "Seedance ByteDanceで数分でプロフェッショナルな1080p動画の生成を開始。シンプル、高速、そして強力。",
+    "steps": [
+      {
+        "step": 1,
+        "title": "ビジョンを説明",
+        "description": "動画コンセプトを説明する詳細なテキストプロンプトを書きます。Seedance AI動画ジェネレーターは複雑な指示と芸術的スタイルを理解します。",
+        "icon": "RiEditLine"
+      },
+      {
+        "step": 2,
+        "title": "設定を選択",
+        "description": "動画の長さ、アスペクト比、スタイル設定を選択します。多様な芸術的表現を持つ1080p品質から選択。",
+        "icon": "RiSettings3Line"
+      },
+      {
+        "step": 3,
+        "title": "動画を生成",
+        "description": "Seedance AI動画ジェネレーターがアイデアを映画的美学を持つプロフェッショナル品質の動画に変換するのを見守ります。",
+        "icon": "RiPlayLine"
+      },
+      {
+        "step": 4,
+        "title": "ダウンロード&シェア",
+        "description": "高精細品質で完成した動画にアクセス。マーケティング、ソーシャルメディア、または任意の商業目的で使用。",
+        "icon": "RiDownloadLine"
+      }
+    ],
+    "cta": {
+      "title": "Seedance AI動画ジェネレーターで作成を開始",
+      "url": "#video-generator"
+    }
+  },
   "questionExamples": {
     "title": "動画アイデア: ",
     "examples": [

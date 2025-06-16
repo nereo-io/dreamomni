@@ -4,6 +4,10 @@ import Testimonial from "@/components/blocks/testimonial";
 import VideoGenerator from "@/components/blocks/video-generator";
 import SeedanceFeaturesBlock from "@/components/blocks/seedance-features";
 import VideoFeatureShowcase from "@/components/blocks/video-feature-showcase";
+import GettingStarted from "@/components/blocks/getting-started";
+import StructuredData from "@/components/seo/structured-data";
+import Feature1 from "@/components/blocks/feature1";
+import Feature from "@/components/blocks/feature";
 
 import {
   getLandingPage,
@@ -41,11 +45,29 @@ export default async function LandingPage({
   return (
     <>
       {page.hero && <Hero hero={page.hero} />}
-      <VideoGenerator placeholder="Describe the video you want to create, e.g., A cat playing in a sunny garden with natural lighting and fresh atmosphere..." />
-      {/* <VideoFeatureShowcase data={videoFeatureShowcase} /> */}
+      <VideoGenerator />
       <SeedanceFeaturesBlock translations={seedanceFeatures} />
+      {page.introduce && <Feature1 section={page.introduce} />}
+      {page.feature && <Feature section={page.feature} />}
+      {page.gettingStarted && <GettingStarted data={page.gettingStarted} />}
 
-      {page.faq && <FAQ section={page.faq} />}
+      {page.testimonial && <Testimonial section={page.testimonial} />}
+
+      {page.faq && (
+        <>
+          <FAQ section={page.faq} />
+          <StructuredData
+            type="faq"
+            data={{
+              questions:
+                page.faq.items?.map((item: any) => ({
+                  question: item.title,
+                  answer: item.description,
+                })) || [],
+            }}
+          />
+        </>
+      )}
     </>
   );
 }

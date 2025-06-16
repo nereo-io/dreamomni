@@ -6,6 +6,21 @@ import { SolveAllQuestionsSection } from "@/types/blocks/slove-all-questions";
 import { QuestionSuggestions } from "@/types/blocks/question-suggestions";
 import { QuestionExamples } from "@/types/blocks/question-examples";
 
+export interface GettingStarted {
+  title: string;
+  description: string;
+  steps: Array<{
+    step: number;
+    title: string;
+    description: string;
+    icon: string;
+  }>;
+  cta: {
+    title: string;
+    url: string;
+  };
+}
+
 export interface LandingPage {
   header?: Header;
   hero?: Hero;
@@ -20,6 +35,7 @@ export interface LandingPage {
   showcase?: Section;
   stats?: Section;
   pricing?: Pricing;
+  gettingStarted?: GettingStarted;
   testimonial?: Section;
   faq?: Section;
   cta?: Section[];

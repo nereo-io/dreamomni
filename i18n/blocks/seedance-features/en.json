@@ -1,20 +1,20 @@
 {
-  "mainTitle": "Seedance 1.0: Advanced AI Video Generation Model",
+  "mainTitle": "Seedance 1.0: Advanced AI Video Generator Model from ByteDance",
   "features": [
     {
       "id": "1080p-quality",
-      "title": "Professional 1080p Video Generation",
-      "description": "Seedance 1.0 delivers stunning 1080p video quality with smooth motion, rich details, and cinematic aesthetics. Create professional-grade videos with Seedance's advanced rendering technology.",
+      "title": "Professional 1080p AI Video Generator",
+      "description": "Seedance 1.0 AI video generator delivers stunning 1080p video quality with smooth motion, rich details, and cinematic aesthetics. Create professional-grade videos with Seedance ByteDance's advanced rendering technology and cutting-edge video generator capabilities.",
       "imageUrl": "/intro/quality.mp4",
-      "imageAlt": "Seedance 1.0's professional 1080p video quality",
+      "imageAlt": "Seedance 1.0 AI video generator's professional 1080p video quality",
       "subPoints": [
         {
-          "title": "High Definition Excellence",
-          "text": "Generate crisp 1080p resolution videos with exceptional detail and clarity, perfect for professional content creation and commercial applications."
+          "title": "High Definition AI Video Generator Excellence",
+          "text": "Generate crisp 1080p resolution videos with exceptional detail and clarity using Seedance ByteDance AI video generator, perfect for professional content creation and commercial applications with our advanced video generator technology."
         },
         {
-          "title": "Cinematic Aesthetics",
-          "text": "Advanced rendering creates smooth motion and rich visual details that deliver cinematic quality results with professional-grade aesthetics."
+          "title": "Cinematic Aesthetics with AI Video Generator",
+          "text": "Advanced rendering creates smooth motion and rich visual details that deliver cinematic quality results with professional-grade aesthetics using Seedance 1.0 AI video generator platform."
         }
       ],
       "buttonText": "Generate 1080p Video",
@@ -22,86 +22,86 @@
     },
     {
       "id": "multi-shot-storytelling",
-      "title": "Native Multi-Shot Storytelling",
-      "description": "Seedance 1.0's breakthrough multi-shot storytelling creates cohesive narratives with seamless transitions. Generate complex video stories with Seedance's advanced character and scene consistency technology.",
+      "title": "Native Multi-Shot Storytelling AI Video Generator",
+      "description": "Seedance 1.0 AI video generator's breakthrough multi-shot storytelling creates cohesive narratives with seamless transitions. Generate complex video stories with Seedance ByteDance's advanced character and scene consistency technology using our revolutionary video generator system.",
       "imageUrl": "/intro/cretive.mp4",
-      "imageAlt": "Seedance 1.0's multi-shot storytelling capabilities",
+      "imageAlt": "Seedance 1.0 AI video generator's multi-shot storytelling capabilities",
       "subPoints": [
         {
-          "title": "Visual Consistency",
-          "text": "Maintain perfect visual coherence across multiple shots with advanced character recognition and environmental consistency algorithms."
+          "title": "Visual Consistency with AI Video Generator",
+          "text": "Maintain perfect visual coherence across multiple shots with advanced character recognition and environmental consistency algorithms using Seedance ByteDance AI video generator technology."
         },
         {
-          "title": "Narrative Flow",
-          "text": "Create complex multi-scene stories with smooth transitions and logical progression, enabling sophisticated storytelling capabilities."
+          "title": "Narrative Flow in AI Video Generator",
+          "text": "Create complex multi-scene stories with smooth transitions and logical progression, enabling sophisticated storytelling capabilities with Seedance 1.0 video generator platform."
         }
       ]
     },
     {
       "id": "style-versatility",
-      "title": "Diverse Style Expression",
-      "description": "From photorealism to cyberpunk, illustration to animation - Seedance 1.0 supports incredible visual diversity. Experience Seedance's precise style control for any creative vision.",
+      "title": "Diverse Style Expression AI Video Generator",
+      "description": "From photorealism to cyberpunk, illustration to animation - Seedance 1.0 AI video generator supports incredible visual diversity. Experience Seedance ByteDance's precise style control for any creative vision using our advanced video generator technology.",
       "imageUrl": "/intro/prompt.mp4",
-      "imageAlt": "Seedance 1.0's diverse style capabilities",
+      "imageAlt": "Seedance 1.0 AI video generator's diverse style capabilities",
       "subPoints": [
         {
-          "title": "Photorealistic Rendering",
-          "text": "Generate ultra-realistic videos that are virtually indistinguishable from real footage, with natural lighting and authentic textures."
+          "title": "Photorealistic Rendering with AI Video Generator",
+          "text": "Generate ultra-realistic videos that are virtually indistinguishable from real footage using Seedance ByteDance AI video generator, with natural lighting and authentic textures delivered by our advanced video generator system."
         },
         {
-          "title": "Artistic Styles",
-          "text": "Express creativity through cyberpunk aesthetics, illustration styles, animation looks, and other artistic interpretations with precise control."
+          "title": "Artistic Styles in AI Video Generator",
+          "text": "Express creativity through cyberpunk aesthetics, illustration styles, animation looks, and other artistic interpretations with precise control using Seedance 1.0 AI video generator platform."
         }
       ]
     },
     {
       "id": "complex-prompts",
-      "title": "Precise Prompt Following",
-      "description": "Seedance 1.0 excels at interpreting complex natural language with remarkable accuracy. Describe intricate scenes and creative concepts - Seedance understands and executes your vision with precision.",
+      "title": "Precise Prompt Following AI Video Generator",
+      "description": "Seedance 1.0 AI video generator excels at interpreting complex natural language with remarkable accuracy. Describe intricate scenes and creative concepts - Seedance ByteDance understands and executes your vision with precision using our intelligent video generator technology.",
       "imageUrl": "/intro/motion.mp4",
-      "imageAlt": "Seedance 1.0's superior prompt interpretation",
+      "imageAlt": "Seedance 1.0 AI video generator's superior prompt interpretation",
       "subPoints": [
         {
-          "title": "Natural Language Mastery",
-          "text": "Advanced language understanding interprets complex creative briefs with nuanced comprehension of artistic intent and technical specifications."
+          "title": "Natural Language Mastery in AI Video Generator",
+          "text": "Advanced language understanding interprets complex creative briefs with nuanced comprehension of artistic intent and technical specifications using Seedance ByteDance AI video generator capabilities."
         },
         {
-          "title": "Creative Direction",
-          "text": "Translate detailed descriptions into accurate visual representations, understanding context, emotion, and artistic direction with minimal iteration."
+          "title": "Creative Direction with AI Video Generator",
+          "text": "Translate detailed descriptions into accurate visual representations, understanding context, emotion, and artistic direction with minimal iteration using Seedance 1.0 video generator technology."
         }
       ]
     },
     {
       "id": "multi-agent-control",
-      "title": "Multi-Agent Interactions & Camera Control",
-      "description": "Seedance 1.0 enables complex multi-character scenes with natural interactions and professional camera control. Create dynamic cinematography with Seedance's advanced character and camera movement technology.",
+      "title": "Multi-Agent Interactions & Camera Control AI Video Generator",
+      "description": "Seedance 1.0 AI video generator enables complex multi-character scenes with natural interactions and professional camera control. Create dynamic cinematography with Seedance ByteDance's advanced character and camera movement technology using our sophisticated video generator platform.",
       "imageUrl": "/intro/sound.mp4",
-      "imageAlt": "Seedance 1.0's multi-agent and camera control features",
+      "imageAlt": "Seedance 1.0 AI video generator's multi-agent and camera control features",
       "subPoints": [
         {
-          "title": "Character Interactions",
-          "text": "Orchestrate natural multi-character scenes with realistic body language, facial expressions, and social dynamics that feel authentic and engaging."
+          "title": "Character Interactions in AI Video Generator",
+          "text": "Orchestrate natural multi-character scenes with realistic body language, facial expressions, and social dynamics that feel authentic and engaging using Seedance ByteDance AI video generator technology."
         },
         {
-          "title": "Dynamic Camera Work",
-          "text": "Achieve professional cinematography with smooth camera movements, tracking shots, and dynamic perspectives that enhance storytelling impact."
+          "title": "Dynamic Camera Work with AI Video Generator",
+          "text": "Achieve professional cinematography with smooth camera movements, tracking shots, and dynamic perspectives that enhance storytelling impact using Seedance 1.0 video generator capabilities."
         }
       ]
     },
     {
       "id": "wide-dynamic-range",
-      "title": "Wide Dynamic Range & Smooth Motion",
-      "description": "Seedance 1.0's wide dynamic range captures subtle expressions and dynamic action with exceptional quality. From intimate moments to high-energy sequences, Seedance excels at rendering smooth motion and authentic emotion.",
+      "title": "Wide Dynamic Range & Smooth Motion AI Video Generator",
+      "description": "Seedance 1.0 AI video generator's wide dynamic range captures subtle expressions and dynamic action with exceptional quality. From intimate moments to high-energy sequences, Seedance ByteDance excels at rendering smooth motion and authentic emotion using advanced video generator algorithms.",
       "imageUrl": "/intro/audio.mp4",
-      "imageAlt": "Seedance 1.0's wide dynamic range capabilities",
+      "imageAlt": "Seedance 1.0 AI video generator's wide dynamic range capabilities",
       "subPoints": [
         {
-          "title": "Subtle Expression Capture",
-          "text": "Render delicate facial expressions, micro-movements, and nuanced emotional states with remarkable sensitivity and authenticity."
+          "title": "Subtle Expression Capture with AI Video Generator",
+          "text": "Render delicate facial expressions, micro-movements, and nuanced emotional states with remarkable sensitivity and authenticity using Seedance ByteDance AI video generator technology."
         },
         {
-          "title": "Action Scene Excellence",
-          "text": "Generate dynamic action sequences with fluid motion, realistic physics, and compelling visual energy that maintains clarity and impact."
+          "title": "Action Scene Excellence in AI Video Generator",
+          "text": "Generate dynamic action sequences with fluid motion, realistic physics, and compelling visual energy that maintains clarity and impact using Seedance 1.0 video generator platform."
         }
       ]
     }

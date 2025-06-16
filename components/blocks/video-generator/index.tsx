@@ -40,7 +40,7 @@ type VideoDuration = "5" | "8" | "10";
 type VideoResolution = "480p" | "720p" | "1080p";
 
 export default function VideoGenerator({
-  placeholder = "Describe the video you want to create, e.g., A cat playing in a sunny garden with natural lighting and fresh atmosphere...",
+  placeholder = "Unleash Your Imagination.",
 }: VideoGeneratorProps) {
   const t = useTranslations("video-generator");
   const [description, setDescription] = useState("");

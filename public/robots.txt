@@ -1,4 +1,15 @@
 User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /*/*/admin/
+Disallow: /*/auth/
 Disallow: /*?*q=
-Disallow: /privacy-policy
-Disallow: /terms-of-service
+Disallow: /pay-success/
+
+# Allow important pages for SEO
+Allow: /privacy-policy
+Allow: /terms-of-service
+Allow: /blog/
+Allow: /pricing
+
+Sitemap: https://www.seedance.tv/sitemap.xml
