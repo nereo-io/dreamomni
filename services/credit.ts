@@ -19,7 +19,7 @@ export enum CreditsTransType {
   Ping = "ping", // cost for ping api
   Chat = "chat", // cost for chat api
   Invite = "invite", // cost for invite
-  NonResponse = "non_response", // compensation for unanswered messages
+  RefundNonResponse = "refund_non_response", // compensation for unanswered messages
   VideoGeneration5s = "video_generation_5s", // cost for 5 seconds video generation
   VideoGeneration8s = "video_generation_8s", // cost for 8 seconds video generation
   VideoGeneration10s = "video_generation_10s", // cost for 10 seconds video generation
@@ -29,7 +29,7 @@ export enum CreditsAmount {
   NewUserGet = 10,
   PingCost = 1,
   ChatCost = 1,
-  InviteGet = 3,
+  InviteGet = 5,
   VideoGeneration5sCost = 10,
   VideoGeneration10sCost = 20,
 }
