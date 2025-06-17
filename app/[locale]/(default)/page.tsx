@@ -70,7 +70,7 @@ export default async function LandingPage({
       )}
       
       {/* There's An AI For That verification embed */}
-      <div style={{ display: 'none' }}>
+      <div className="flex justify-center py-8">
         <a href="https://theresanaiforthat.com/ai/seedance/?ref=featured&v=4601560" target="_blank" rel="nofollow">
           <img width="300" src="https://media.theresanaiforthat.com/featured-on-taaft.png?width=600" alt="Featured on There's An AI For That" />
         </a>
