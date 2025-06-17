@@ -64,7 +64,7 @@
     "characterCount": "글자 이상",
     "uploadInstructions": {
       "clickToUpload": "클릭하여 업로드하거나 이미지를 드래그하세요",
-      "supportedFormats": "JPG, PNG, GIF 형식 지원, 최대 10MB"
+      "supportedFormats": "300-6000px, JPG/PNG/WEBP/BMP/TIFF/GIF, 최대 10MB"
     },
     "selectModel": "모델 선택",
     "discordBanner": {
@@ -77,6 +77,11 @@
       "descriptionTooShort": "비디오 설명은 최소 10자 이상이어야 합니다",
       "uploadImageFile": "이미지 파일을 업로드하세요",
       "imageTooLarge": "이미지 파일이 너무 큽니다 (최대 10MB)",
+      "imageTooSmall": "이미지가 너무 작습니다. 최소 크기: 300x300px",
+      "unsupportedImageFormat": "지원되지 않는 이미지 형식입니다. JPEG, PNG, WEBP, BMP, TIFF, GIF를 사용하세요",
+      "invalidAspectRatio": "잘못된 종횡비입니다. 0.4에서 2.5 사이의 종횡비를 가진 이미지를 사용하세요",
+      "invalidImageFile": "잘못된 이미지 파일입니다. 유효한 이미지를 업로드하세요",
+      "sensitiveContentDetected": "이미지에 민감한 콘텐츠가 포함되어 처리할 수 없습니다. 다른 이미지를 시도해보세요",
       "imageUploadFailed": "이미지 업로드 실패",
       "insufficientCredits": "크레딧이 부족합니다. 필요: {required}, 사용 가능: {available}",
       "videoSubmitted": "비디오 생성 작업이 제출되었습니다, 처리 중...",

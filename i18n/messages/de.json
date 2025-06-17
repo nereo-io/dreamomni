@@ -64,7 +64,7 @@
     "characterCount": "Zeichen mindestens",
     "uploadInstructions": {
       "clickToUpload": "Klicken zum Hochladen oder Bild hierher ziehen",
-      "supportedFormats": "Unterstützt JPG, PNG, GIF Formate, max. 10MB"
+      "supportedFormats": "300-6000px, JPG/PNG/WEBP/BMP/TIFF/GIF, max. 10MB"
     },
     "selectModel": "Modell auswählen",
     "discordBanner": {
@@ -77,6 +77,11 @@
       "descriptionTooShort": "Video-Beschreibung muss mindestens 10 Zeichen lang sein",
       "uploadImageFile": "Bitte laden Sie eine Bilddatei hoch",
       "imageTooLarge": "Bilddatei ist zu groß (max. 10MB)",
+      "imageTooSmall": "Bild ist zu klein. Mindestgröße: 300x300px",
+      "unsupportedImageFormat": "Nicht unterstütztes Bildformat. Bitte verwenden Sie JPEG, PNG, WEBP, BMP, TIFF oder GIF",
+      "invalidAspectRatio": "Ungültiges Seitenverhältnis. Bitte verwenden Sie Bilder mit einem Seitenverhältnis zwischen 0,4 und 2,5",
+      "invalidImageFile": "Ungültige Bilddatei. Bitte laden Sie ein gültiges Bild hoch",
+      "sensitiveContentDetected": "Das Bild enthält sensible Inhalte und kann nicht verarbeitet werden. Bitte versuchen Sie ein anderes Bild",
       "imageUploadFailed": "Bild-Upload fehlgeschlagen",
       "insufficientCredits": "Unzureichende Credits. Benötigt: {required}, Verfügbar: {available}",
       "videoSubmitted": "Video-Generierungs-Aufgabe übermittelt, wird verarbeitet...",

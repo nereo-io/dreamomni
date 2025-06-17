@@ -46,6 +46,25 @@ export class VolcanoProvider implements VideoProvider {
 
     if (!response.ok) {
       const errorData = await response.text();
+      
+      // 尝试解析错误信息以提供更友好的提示
+      try {
+        const errorJson = JSON.parse(errorData);
+        const errorCode = errorJson.error?.code;
+        const errorMessage = errorJson.error?.message;
+        
+        // 为特定错误提供友好的错误信息
+        if (errorCode === "InputImageSensitiveContentDetected") {
+          throw new Error("Image contains sensitive content and cannot be processed. Please try a different image.");
+        } else if (errorCode === "InvalidParameter.UnsupportedImageFormat") {
+          throw new Error("Image format or size is not supported. Please ensure image is at least 300px and in supported format.");
+        } else if (errorMessage) {
+          throw new Error(errorMessage);
+        }
+      } catch (parseError) {
+        // 如果无法解析，继续使用原始错误
+      }
+      
       throw new Error(
         `Volcano API request failed: ${response.status} ${response.statusText} - ${errorData}`
       );

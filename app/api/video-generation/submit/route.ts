@@ -159,9 +159,13 @@ export async function POST(req: Request) {
     // 6.5. 优化提示词
     let finalPrompt = prompt;
     try {
-      const optimizedPrompt = await optimizePromptWithTimeout(prompt, model, 30000);
+      const optimizedPrompt = await optimizePromptWithTimeout(
+        prompt,
+        model,
+        30000
+      );
       finalPrompt = optimizedPrompt;
-      
+
       // 更新记录保存优化后的提示词
       await import("@/models/videoGeneration").then(
         ({ updateVideoGenerationById }) =>
@@ -257,7 +261,7 @@ export async function POST(req: Request) {
 
       // 更新请求ID和状态为 IN_QUEUE
       updateParams.status = "IN_QUEUE";
-      
+
       await import("@/models/videoGeneration").then(
         ({ updateVideoGenerationById }) =>
           updateVideoGenerationById(videoGeneration.id, updateParams)
@@ -289,24 +293,41 @@ export async function POST(req: Request) {
     } catch (providerError) {
       console.error("提交到provider失败:", providerError);
 
-      // 如果提交失败，我们需要退还积分
+      // 更新数据库状态为失败
       try {
-        // 为退还的积分设置一个合理的过期时间（1个月后）
-        const oneMonthFromNow = new Date();
-        oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
-        const expiredAt = oneMonthFromNow.toISOString();
-
-        await import("@/services/credit").then(({ increaseCredits }) =>
-          increaseCredits({
-            user_uuid: userInfo.uuid!,
-            trans_type: transType,
-            credits: requiredCredits,
-            expired_at: expiredAt,
-          })
+        await import("@/models/videoGeneration").then(
+          ({ updateVideoGenerationById }) =>
+            updateVideoGenerationById(videoGeneration.id, {
+              status: "FAILED",
+              error_message:
+                providerError instanceof Error
+                  ? providerError.message
+                  : "提交到provider失败",
+            })
         );
-      } catch (refundError) {
-        console.error("退还积分失败:", refundError);
+      } catch (updateError) {
+        console.error("更新状态失败:", updateError);
       }
+
+      // 暂时注释掉积分退还逻辑，防止刷API攻击
+      // 如果提交失败，我们需要退还积分
+      // try {
+      //   // 为退还的积分设置一个合理的过期时间（1个月后）
+      //   const oneMonthFromNow = new Date();
+      //   oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
+      //   const expiredAt = oneMonthFromNow.toISOString();
+
+      //   await import("@/services/credit").then(({ increaseCredits }) =>
+      //     increaseCredits({
+      //       user_uuid: userInfo.uuid!,
+      //       trans_type: transType,
+      //       credits: requiredCredits,
+      //       expired_at: expiredAt,
+      //     })
+      //   );
+      // } catch (refundError) {
+      //   console.error("退还积分失败:", refundError);
+      // }
 
       throw providerError;
     }

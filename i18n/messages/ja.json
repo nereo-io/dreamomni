@@ -64,7 +64,7 @@
     "characterCount": "文字以上",
     "uploadInstructions": {
       "clickToUpload": "クリックしてアップロードまたは画像をドラッグ",
-      "supportedFormats": "JPG、PNG、GIF形式対応、最大10MB"
+      "supportedFormats": "300-6000px、JPG/PNG/WEBP/BMP/TIFF/GIF、最大10MB"
     },
     "selectModel": "モデルを選択",
     "discordBanner": {
@@ -77,6 +77,11 @@
       "descriptionTooShort": "動画の説明は10文字以上である必要があります",
       "uploadImageFile": "画像ファイルをアップロードしてください",
       "imageTooLarge": "画像ファイルが大きすぎます（最大10MB）",
+      "imageTooSmall": "画像が小さすぎます。最小サイズ: 300x300px",
+      "unsupportedImageFormat": "サポートされていない画像形式です。JPEG、PNG、WEBP、BMP、TIFF、またはGIFを使用してください",
+      "invalidAspectRatio": "無効なアスペクト比です。0.4から2.5の範囲のアスペクト比の画像を使用してください",
+      "invalidImageFile": "無効な画像ファイルです。有効な画像をアップロードしてください",
+      "sensitiveContentDetected": "画像に機密コンテンツが含まれており、処理できません。別の画像をお試しください",
       "imageUploadFailed": "画像のアップロードに失敗しました",
       "insufficientCredits": "クレジットが不足しています。必要: {required}、利用可能: {available}",
       "videoSubmitted": "動画生成タスクが送信されました、処理中...",

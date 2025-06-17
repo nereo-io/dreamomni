@@ -16,10 +16,6 @@
     "Sentry": {
       "command": "npx",
       "args": ["mcp-remote@latest", "https://mcp.sentry.dev/sse"]
-    },
-    "APICore": {
-      "command": "npx",
-      "args": ["-y", "apifox-mcp-server@latest", "--site-id=5450413"]
     }
   }
 }

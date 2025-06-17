@@ -193,15 +193,57 @@ export default function VideoGenerator({
       return;
     }
 
-    setUploadedImage(file);
+    // 验证图片尺寸
+    const img = new Image();
+    const imageUrl = URL.createObjectURL(file);
+    
+    img.onload = () => {
+      URL.revokeObjectURL(imageUrl); // 清理内存
+      
+      // 检查图片格式 (支持 JPEG, PNG, WEBP, BMP, TIFF, GIF)
+      const supportedFormats = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/bmp', 'image/tiff', 'image/gif'];
+      if (!supportedFormats.includes(file.type.toLowerCase())) {
+        toast.error(t("toast.unsupportedImageFormat"));
+        return;
+      }
 
-    // Create preview
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setImagePreview(e.target?.result as string);
+      // 检查宽高比 (0.4-2.5)
+      const aspectRatio = img.width / img.height;
+      if (aspectRatio < 0.4 || aspectRatio > 2.5) {
+        toast.error(t("toast.invalidAspectRatio"));
+        return;
+      }
+
+      // 检查最小尺寸 (300px)
+      if (img.width < 300 || img.height < 300) {
+        toast.error(t("toast.imageTooSmall"));
+        return;
+      }
+
+      // 检查最大尺寸 (6000px)
+      if (img.width > 6000 || img.height > 6000) {
+        toast.error(t("toast.imageTooLarge"));
+        return;
+      }
+
+      // 所有验证通过，设置图片
+      setUploadedImage(file);
+
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
     };
-    reader.readAsDataURL(file);
-  }, []);
+
+    img.onerror = () => {
+      URL.revokeObjectURL(imageUrl);
+      toast.error(t("toast.invalidImageFile"));
+    };
+
+    img.src = imageUrl;
+  }, [t]);
 
   // Handle drag over
   const handleDragOver = useCallback((e: React.DragEvent) => {

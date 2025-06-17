@@ -212,7 +212,7 @@
     "characterCount": "characters minimum",
     "uploadInstructions": {
       "clickToUpload": "Click to upload or drag image here",
-      "supportedFormats": "Supports JPG, PNG, GIF formats, max 10MB"
+      "supportedFormats": "300-6000px, JPG/PNG/WEBP/BMP/TIFF/GIF, max 10MB"
     },
     "selectModel": "Select a model",
     "discordBanner": {
@@ -225,6 +225,11 @@
       "descriptionTooShort": "Video description must be at least 10 characters long",
       "uploadImageFile": "Please upload an image file",
       "imageTooLarge": "Image file is too large (max 10MB)",
+      "imageTooSmall": "Image is too small. Minimum size: 300x300px",
+      "unsupportedImageFormat": "Unsupported image format. Please use JPEG, PNG, WEBP, BMP, TIFF, or GIF",
+      "invalidAspectRatio": "Invalid aspect ratio. Please use images with aspect ratio between 0.4 and 2.5",
+      "invalidImageFile": "Invalid image file. Please upload a valid image",
+      "sensitiveContentDetected": "Image contains sensitive content and cannot be processed. Please try a different image",
       "imageUploadFailed": "Image upload failed",
       "insufficientCredits": "Insufficient credits. Required: {required}, Available: {available}",
       "videoSubmitted": "Video generation task submitted, processing...",
