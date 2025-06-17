@@ -14,7 +14,7 @@ type ChangeFrequency =
   | "never";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://www.bazi-ai.com";
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "";
   const currentDate = new Date().toISOString();
 
   console.log("开始生成 sitemap...");

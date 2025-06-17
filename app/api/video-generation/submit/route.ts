@@ -312,6 +312,22 @@ export async function POST(req: Request) {
         console.error("退还积分失败:", refundError);
       }
 
+      // 更新数据库状态为FAILED
+      try {
+        await import("@/models/videoGeneration").then(
+          ({ updateVideoGenerationById }) =>
+            updateVideoGenerationById(videoGeneration.id, {
+              status: "FAILED",
+              error_message:
+                providerError instanceof Error
+                  ? providerError.message
+                  : "Provider submission failed",
+            })
+        );
+      } catch (updateError) {
+        console.error("更新视频生成状态失败:", updateError);
+      }
+
       throw providerError;
     }
   } catch (error) {

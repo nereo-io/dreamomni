@@ -180,19 +180,81 @@ export default function VideoGenerator({
     resolution
   );
 
-  // Handle image upload
+  // Handle image upload with enhanced validation
   const handleImageUpload = useCallback(async (file: File) => {
+    // 1. 基础文件类型验证
     if (!file.type.startsWith("image/")) {
       toast.error(t("toast.uploadImageFile"));
       return;
     }
 
+    // 2. 支持的格式验证：JPEG, PNG, WEBP, BMP, TIFF, GIF
+    const supportedFormats = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/bmp', 'image/tiff', 'image/gif'];
+    if (!supportedFormats.includes(file.type.toLowerCase())) {
+      toast.error("Unsupported image format. Please use JPEG, PNG, WEBP, BMP, TIFF, or GIF.");
+      return;
+    }
+
+    // 3. 文件大小验证
     const maxSize = 10 * 1024 * 1024; // 10MB
     if (file.size > maxSize) {
       toast.error(t("toast.imageTooLarge"));
       return;
     }
 
+    // 4. 图片尺寸和宽高比验证
+    const img = new Image();
+    const imageValidationPromise = new Promise<boolean>((resolve) => {
+      img.onload = () => {
+        const width = img.width;
+        const height = img.height;
+        const aspectRatio = width / height;
+
+        // 最小尺寸：300x300px
+        if (width < 300 || height < 300) {
+          toast.error("Image too small. Minimum size is 300x300 pixels.");
+          resolve(false);
+          return;
+        }
+
+        // 最大尺寸：6000x6000px
+        if (width > 6000 || height > 6000) {
+          toast.error("Image too large. Maximum size is 6000x6000 pixels.");
+          resolve(false);
+          return;
+        }
+
+        // 宽高比验证：0.4-2.5
+        if (aspectRatio < 0.4 || aspectRatio > 2.5) {
+          toast.error("Invalid aspect ratio. Please use an image with aspect ratio between 0.4 and 2.5.");
+          resolve(false);
+          return;
+        }
+
+        resolve(true);
+      };
+
+      img.onerror = () => {
+        toast.error("Invalid image file. Please select a valid image.");
+        resolve(false);
+      };
+    });
+
+    // 创建临时URL用于Image对象加载
+    const objectUrl = URL.createObjectURL(file);
+    img.src = objectUrl;
+
+    // 等待验证完成
+    const isValid = await imageValidationPromise;
+    
+    // 清理临时URL
+    URL.revokeObjectURL(objectUrl);
+
+    if (!isValid) {
+      return;
+    }
+
+    // 5. 验证通过，设置上传的图片
     setUploadedImage(file);
 
     // Create preview
@@ -201,7 +263,7 @@ export default function VideoGenerator({
       setImagePreview(e.target?.result as string);
     };
     reader.readAsDataURL(file);
-  }, []);
+  }, [t]);
 
   // Handle drag over
   const handleDragOver = useCallback((e: React.DragEvent) => {
