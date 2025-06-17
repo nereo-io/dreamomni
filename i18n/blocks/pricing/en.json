@@ -1,7 +1,7 @@
 {
   "name": "pricing",
   "label": "Video Generation Plans",
-  "title": "Veo3 AI Video Generation Plans",
+  "title": "Seedance AI Video Generation Plans",
   "description": "Choose your AI video generation plan and start creating professional videos",
   "groups": [
     {
@@ -40,7 +40,7 @@
         "icon": "RiPlayLine"
       },
       "product_id": "free-plan",
-      "product_name": "Veo3 AI Free",
+      "product_name": "Seedance AI Free",
       "credits": 10,
       "valid_months": 0,
       "group": "monthly"
@@ -69,7 +69,7 @@
         "icon": "RiPlayLine"
       },
       "product_id": "free-plan",
-      "product_name": "Veo3 AI Free",
+      "product_name": "Seedance AI Free",
       "credits": 10,
       "valid_months": 0,
       "group": "yearly"
@@ -102,7 +102,7 @@
         "icon": "RiVipCrownLine"
       },
       "product_id": "mini-monthly",
-      "product_name": "Veo3 AI Mini",
+      "product_name": "Seedance AI Mini",
       "credits": 200,
       "valid_months": 1,
       "group": "monthly"
@@ -135,7 +135,7 @@
         "icon": "RiVipCrownLine"
       },
       "product_id": "mini-yearly",
-      "product_name": "Veo3 AI Mini Yearly",
+      "product_name": "Seedance AI Mini Yearly",
       "credits": 2400,
       "valid_months": 12,
       "group": "yearly"
@@ -167,7 +167,7 @@
         "icon": "RiVipCrownLine"
       },
       "product_id": "standard-monthly",
-      "product_name": "Veo3 AI Standard",
+      "product_name": "Seedance AI Standard",
       "credits": 1000,
       "valid_months": 1,
       "group": "monthly"
@@ -200,7 +200,7 @@
         "icon": "RiVipCrownLine"
       },
       "product_id": "standard-yearly",
-      "product_name": "Veo3 AI Standard Yearly",
+      "product_name": "Seedance AI Standard Yearly",
       "credits": 12000,
       "valid_months": 12,
       "group": "yearly"
