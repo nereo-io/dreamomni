@@ -58,6 +58,7 @@ export default function VideoGenerator({
   const {
     isLoading,
     currentGeneration,
+    recentGenerations,
     submitGeneration,
     pollStatus,
     clearCurrentGeneration,
@@ -336,8 +337,27 @@ export default function VideoGenerator({
     // 立即设置提交状态，防止重复点击
     setIsSubmitting(true);
 
-    // 清空之前的生成状态，避免显示旧的结果
-    clearCurrentGeneration();
+    // 立即设置一个初始生成状态，给用户即时反馈
+    const initialGeneration = {
+      id: `temp-${Date.now()}`, // 临时ID
+      requestId: `temp-request-${Date.now()}`, // 临时requestId
+      model: selectedModel,
+      status: "submitted",
+      prompt: description.trim(),
+      optimized_prompt: undefined, // 初始没有优化prompt
+      video_url: undefined,
+      error_message: undefined,
+      created_at: new Date().toISOString(),
+      aspect_ratio: aspectRatio,
+      duration_seconds: parseInt(duration),
+    };
+    
+    // 历史记录管理将在 submitGeneration 内部处理
+    
+    // 直接设置完整的初始状态，而不是部分更新
+    updateCurrentGeneration({
+      ...initialGeneration
+    });
 
     try {
       let imageUrl = null;
@@ -387,6 +407,7 @@ export default function VideoGenerator({
       const result = await submitGeneration(generationParams);
 
       if (result) {
+        // submitGeneration内部已经设置了currentGeneration，所以直接开始轮询
         // Start polling for status
         pollStatus(result.id);
         // 刷新积分余额

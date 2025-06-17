@@ -266,7 +266,8 @@
   "video-result": {
     "status": {
       "submitted": "Submitted",
-      "inQueue": "In Queue",
+      "optimizingPrompt": "Optimizing Prompt",
+      "inQueue": "In Queue", 
       "generating": "Generating",
       "completed": "Completed",
       "failed": "Failed"
@@ -275,6 +276,7 @@
     "videoFailed": "Video generation failed",
     "processing": "Processing...",
     "taskSubmitted": "Task submitted, estimated time remaining: {time}",
+    "optimizingPrompt": "Optimizing your prompt for better results, estimated time remaining: {time}",
     "taskInQueue": "Task in queue, estimated time remaining: {time}",
     "generatingVideo": "Generating video, estimated time remaining: {time}",
     "processingGeneral": "Processing, estimated time remaining: {time}",
@@ -282,6 +284,10 @@
     "retry": "Retry",
     "successMessage": "🎉 Your video is ready! You can download it or view all your creations in the history.",
     "prompt": "Prompt",
+    "originalPrompt": "Original Prompt",
+    "optimizedPrompt": "Enhanced Prompt",
+    "enhanced": "Enhanced",
+    "optimizing": "Optimizing...",
     "browserNotSupported": "Your browser does not support video playback.",
     "download": "Download",
     "downloading": "Downloading...",

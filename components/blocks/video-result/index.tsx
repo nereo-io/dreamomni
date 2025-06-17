@@ -18,6 +18,9 @@ import {
   Loader2,
   History,
   ExternalLink,
+  ChevronDown,
+  ChevronUp,
+  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import CreativeProgress from "./CreativeProgress";
@@ -29,6 +32,7 @@ interface VideoResultProps {
     model: string;
     status: string;
     prompt: string;
+    optimized_prompt?: string;
     video_url?: string;
     error_message?: string;
     created_at?: string;
@@ -45,6 +49,11 @@ const getStatusMap = (t: any) => ({
     label: t("status.submitted"),
     color: "bg-blue-500",
     icon: Clock,
+  },
+  PROMPT_OPTIMIZING: {
+    label: t("status.optimizingPrompt"),
+    color: "bg-purple-500",
+    icon: Loader2,
   },
   IN_QUEUE: { label: t("status.inQueue"), color: "bg-yellow-500", icon: Clock },
   IN_PROGRESS: {
@@ -171,6 +180,7 @@ export default function VideoResult({
   const [isDownloading, setIsDownloading] = useState(false);
   const [videoUrl, setVideoUrl] = useState(generation.video_url);
   const [currentTime, setCurrentTime] = useState(Date.now());
+  const [showOptimizedPrompt, setShowOptimizedPrompt] = useState(false);
   const router = useRouter();
   const t = useTranslations("video-result");
 
@@ -184,7 +194,8 @@ export default function VideoResult({
   const isProcessing =
     generation.status === "IN_PROGRESS" ||
     generation.status === "IN_QUEUE" ||
-    generation.status === "submitted";
+    generation.status === "submitted" ||
+    generation.status === "PROMPT_OPTIMIZING";
 
   // 定时器更新当前时间（用于计算等待时长）
   useEffect(() => {
@@ -355,6 +366,8 @@ export default function VideoResult({
     switch (generation.status) {
       case "submitted":
         return t("taskSubmitted", { time: formattedRemainingTime });
+      case "PROMPT_OPTIMIZING":
+        return t("optimizingPrompt", { time: formattedRemainingTime });
       case "IN_QUEUE":
         return t("taskInQueue", { time: formattedRemainingTime });
       case "IN_PROGRESS":
@@ -442,12 +455,54 @@ export default function VideoResult({
         </div>
       )}
 
-      {/* Prompt - 放在视频上面 */}
-      <div className="bg-muted/50 border border-border rounded-lg p-4">
-        <h3 className="font-medium mb-2 text-foreground">{t("prompt")}</h3>
-        <p className="text-sm text-muted-foreground leading-relaxed max-h-24 overflow-y-auto">
-          {generation.prompt}
-        </p>
+      {/* Prompt展示区域 - 支持优化前后对比 */}
+      <div className="space-y-3">
+        {/* 原始Prompt */}
+        <div className="bg-muted/50 border border-border rounded-lg p-4">
+          <h3 className="font-medium mb-2 text-foreground flex items-center gap-2">
+            {t("originalPrompt")}
+            {generation.status === "PROMPT_OPTIMIZING" && (
+              <div className="flex items-center gap-1 text-purple-500">
+                <Loader2 className="h-3 w-3 animate-spin" />
+                <span className="text-xs">{t("optimizing")}</span>
+              </div>
+            )}
+          </h3>
+          <p className="text-sm text-muted-foreground leading-relaxed max-h-24 overflow-y-auto">
+            {generation.prompt}
+          </p>
+        </div>
+
+        {/* 优化后Prompt - 只在有优化结果时显示 */}
+        {generation.optimized_prompt && generation.optimized_prompt !== generation.prompt && (
+          <div className="bg-gradient-to-r from-purple-50/50 to-blue-50/50 dark:from-purple-900/20 dark:to-blue-900/20 border border-purple-200/50 dark:border-purple-700/50 rounded-lg p-4">
+            <div 
+              className="flex items-center justify-between cursor-pointer"
+              onClick={() => setShowOptimizedPrompt(!showOptimizedPrompt)}
+            >
+              <h3 className="font-medium text-foreground flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-purple-500" />
+                {t("optimizedPrompt")}
+                <Badge variant="outline" className="text-xs bg-purple-100 dark:bg-purple-900/50 border-purple-200 dark:border-purple-700">
+                  {t("enhanced")}
+                </Badge>
+              </h3>
+              {showOptimizedPrompt ? (
+                <ChevronUp className="h-4 w-4 text-muted-foreground" />
+              ) : (
+                <ChevronDown className="h-4 w-4 text-muted-foreground" />
+              )}
+            </div>
+            
+            {showOptimizedPrompt && (
+              <div className="mt-3 pt-3 border-t border-purple-200/50 dark:border-purple-700/50">
+                <p className="text-sm text-muted-foreground leading-relaxed max-h-32 overflow-y-auto">
+                  {generation.optimized_prompt}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Video Player - 只在成功且有视频URL时显示 */}

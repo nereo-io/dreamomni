@@ -19,6 +19,7 @@ interface VideoGenerationResult {
   model: string;
   status: string;
   prompt: string;
+  optimized_prompt?: string;
   video_url?: string;
   error_message?: string;
   created_at?: string;
@@ -177,7 +178,37 @@ export default function useVideoGeneration() {
           throw new Error(result.message || "提交失败");
         }
 
-        const generation: VideoGenerationResult = {
+        // 构建更新数据，保持现有的 created_at 不变
+        const updates: Partial<VideoGenerationResult> = {
+          id: result.data.id,
+          requestId: result.data.requestId,
+          model: result.data.model,
+          status: result.data.metadata?.optimized_prompt ? "PROMPT_OPTIMIZING" : "IN_QUEUE",
+          optimized_prompt: result.data.metadata?.optimized_prompt,
+        };
+
+        // 如果当前没有生成记录，创建完整记录
+        if (!currentGeneration) {
+          const newGeneration: VideoGenerationResult = {
+            id: result.data.id,
+            requestId: result.data.requestId,
+            model: result.data.model,
+            status: "submitted",
+            prompt: params.prompt,
+            aspect_ratio: params.aspect_ratio,
+            duration_seconds: parseInt(params.duration || "5"),
+            created_at: new Date().toISOString(),
+            optimized_prompt: result.data.metadata?.optimized_prompt,
+          };
+          setCurrentGeneration(newGeneration);
+        } else {
+          // 如果已有记录，只更新必要字段，保持 created_at 不变
+          setCurrentGeneration(prev => prev ? { ...prev, ...updates } : null);
+        }
+        toast.success(t("toast.videoSubmitted"));
+
+        // 返回当前的生成记录
+        return currentGeneration ? { ...currentGeneration, ...updates } : {
           id: result.data.id,
           requestId: result.data.requestId,
           model: result.data.model,
@@ -186,20 +217,8 @@ export default function useVideoGeneration() {
           aspect_ratio: params.aspect_ratio,
           duration_seconds: parseInt(params.duration || "5"),
           created_at: new Date().toISOString(),
+          optimized_prompt: result.data.metadata?.optimized_prompt,
         };
-
-        // 如果有当前生成，将其移到最近生成历史中
-        if (currentGeneration) {
-          setRecentGenerations((prev) => [
-            currentGeneration,
-            ...prev.slice(0, 4),
-          ]); // 保留最近5条
-        }
-
-        setCurrentGeneration(generation);
-        toast.success(t("toast.videoSubmitted"));
-
-        return generation;
       } catch (error) {
         console.error("提交视频生成失败:", error);
         toast.error(error instanceof Error ? error.message : "提交失败");
@@ -269,7 +288,7 @@ export default function useVideoGeneration() {
   // 更新当前生成记录
   const updateCurrentGeneration = useCallback(
     (updates: Partial<VideoGenerationResult>) => {
-      setCurrentGeneration((prev) => (prev ? { ...prev, ...updates } : null));
+      setCurrentGeneration((prev) => (prev ? { ...prev, ...updates } : updates as VideoGenerationResult));
     },
     []
   );

@@ -57,6 +57,8 @@ export async function GET(req: Request) {
       id: videoGeneration?.id,
       requestId: finalRequestId,
       status: videoGeneration?.status || "unknown",
+      prompt: videoGeneration?.prompt,
+      optimized_prompt: videoGeneration?.optimized_prompt,
       logs: videoGeneration?.logs || [],
       metrics: videoGeneration?.metrics || {},
       videoGeneration: videoGeneration
@@ -256,6 +258,7 @@ export async function POST(req: Request) {
                    videoGeneration.volcano_request_id,
         model: videoGeneration.model_id,
         prompt: videoGeneration.prompt,
+        optimized_prompt: videoGeneration.optimized_prompt,
         video_url:
           videoGeneration.video_url_r2 || 
           videoGeneration.video_url_volcano || 
