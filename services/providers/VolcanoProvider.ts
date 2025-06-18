@@ -46,25 +46,29 @@ export class VolcanoProvider implements VideoProvider {
 
     if (!response.ok) {
       const errorData = await response.text();
-      
+
       // 尝试解析错误信息以提供更友好的提示
       try {
         const errorJson = JSON.parse(errorData);
         const errorCode = errorJson.error?.code;
         const errorMessage = errorJson.error?.message;
-        
+
         // 为特定错误提供友好的错误信息
         if (errorCode === "InputImageSensitiveContentDetected") {
-          throw new Error("Image contains sensitive content and cannot be processed. Please try a different image.");
+          throw new Error(
+            "Image contains sensitive content and cannot be processed. Please try a different image."
+          );
         } else if (errorCode === "InvalidParameter.UnsupportedImageFormat") {
-          throw new Error("Image format or size is not supported. Please ensure image is at least 300px and in supported format.");
+          throw new Error(
+            "Image format or size is not supported. Please ensure image is at least 300px and in supported format."
+          );
         } else if (errorMessage) {
           throw new Error(errorMessage);
         }
       } catch (parseError) {
         // 如果无法解析，继续使用原始错误
       }
-      
+
       throw new Error(
         `Volcano API request failed: ${response.status} ${response.statusText} - ${errorData}`
       );
@@ -83,25 +87,25 @@ export class VolcanoProvider implements VideoProvider {
     // Build request body according to Volcano Engine API format
     let promptText = input.prompt;
 
-    // Add aspect ratio to prompt if specified
+    // Add aspect ratio to prompt if specified (使用简写 --rt)
     if (input.aspect_ratio) {
       // For Seedance image-to-video models, always use 'adaptive' to follow image dimensions
       if (model.includes("seedance") && model.includes("image-to-video")) {
-        promptText += ` --ratio adaptive`;
+        promptText += ` --rt adaptive`;
       } else {
         // For text-to-video and other models, use the specified aspect ratio
-        promptText += ` --ratio ${input.aspect_ratio}`;
+        promptText += ` --rt ${input.aspect_ratio}`;
       }
     }
 
-    // Add duration to prompt if specified
+    // Add duration to prompt if specified (使用简写 --dur)
     if (input.duration) {
-      promptText += ` --duration ${input.duration}s`;
+      promptText += ` --dur ${input.duration}`;
     }
 
-    // Add resolution to prompt if specified
+    // Add resolution to prompt if specified (使用简写 --rs)
     if (input.resolution) {
-      promptText += ` --resolution ${input.resolution.toUpperCase()}`;
+      promptText += ` --rs ${input.resolution.toLowerCase()}`;
     }
 
     const requestBody: any = {
