@@ -68,21 +68,21 @@ export class VolcanoProvider implements VideoProvider {
     if (input.aspect_ratio) {
       // For Seedance image-to-video models, always use 'adaptive' to follow image dimensions
       if (model.includes("seedance") && model.includes("image-to-video")) {
-        promptText += ` --ratio adaptive`;
+        promptText += ` --rt adaptive`;
       } else {
         // For text-to-video and other models, use the specified aspect ratio
-        promptText += ` --ratio ${input.aspect_ratio}`;
+        promptText += ` --rt ${input.aspect_ratio}`;
       }
     }
 
     // Add duration to prompt if specified
     if (input.duration) {
-      promptText += ` --duration ${input.duration}s`;
+      promptText += ` --dur ${input.duration}`;
     }
 
     // Add resolution to prompt if specified
     if (input.resolution) {
-      promptText += ` --resolution ${input.resolution.toUpperCase()}`;
+      promptText += ` --rs ${input.resolution.toLowerCase()}`;
     }
 
     const requestBody: any = {
