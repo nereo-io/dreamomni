@@ -36,7 +36,7 @@ export async function POST(req: Request) {
       // Volcano Engine format (基于API文档)
       isVolcanoWebhook = true;
       request_id = webhookData.id || webhookData.task_id;
-      
+
       // 映射Volcano状态到标准状态
       switch (webhookData.status) {
         case "queued":
@@ -57,16 +57,16 @@ export async function POST(req: Request) {
         default:
           status = webhookData.status;
       }
-      
+
       // Volcano的payload结构不同
       if (webhookData.content?.video_url) {
         payload = {
           video: {
-            url: webhookData.content.video_url
-          }
+            url: webhookData.content.video_url,
+          },
         };
       }
-      
+
       if (webhookData.error) {
         error = webhookData.error.message || webhookData.error;
       }
@@ -76,12 +76,12 @@ export async function POST(req: Request) {
 
     // 查找对应的数据库记录 - 简化查找逻辑
     let videoGeneration = await getVideoGenerationByFalRequestId(request_id);
-    
+
     if (!videoGeneration) {
       // 尝试按volcano_request_id查找
       videoGeneration = await getVideoGenerationByVolcanoRequestId(request_id);
     }
-    
+
     if (!videoGeneration) {
       console.warn(`未找到对应的视频生成记录: ${request_id}`);
       return respData({
@@ -102,23 +102,40 @@ export async function POST(req: Request) {
             throw new Error("响应中没有视频URL");
           }
 
-          // 2. 上传到R2
+          // 2. 上传到R2（带重试机制）
           let r2VideoUrl = null;
-          try {
-            const storage = newStorage();
-            const fileName = `videos/${videoGeneration.id}-${Date.now()}.mp4`;
+          const maxRetries = 3;
+          const retryDelay = 2000; // 2秒
 
-            const uploadResult = await storage.downloadAndUpload({
-              url: videoUrl,
-              key: fileName,
-              contentType: "video/mp4",
-            });
+          for (let attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+              const storage = newStorage();
+              const fileName = `videos/${videoGeneration.id}-${Date.now()}.mp4`;
 
-            r2VideoUrl = uploadResult.url;
-            console.log(`视频已上传到R2: ${r2VideoUrl}`);
-          } catch (uploadError) {
-            console.error("R2上传失败:", uploadError);
-            // 即使R2上传失败，也要更新状态，但使用原始URL
+              const uploadResult = await storage.downloadAndUpload({
+                url: videoUrl,
+                key: fileName,
+                contentType: "video/mp4",
+              });
+
+              r2VideoUrl = uploadResult.url;
+              console.log(`视频已上传到R2: ${r2VideoUrl} (第${attempt}次尝试)`);
+              break; // 成功后跳出重试循环
+            } catch (uploadError) {
+              console.error(
+                `R2上传失败 (第${attempt}/${maxRetries}次尝试):`,
+                uploadError
+              );
+
+              if (attempt === maxRetries) {
+                console.error("R2上传达到最大重试次数，使用原始URL");
+                // 即使R2上传失败，也要更新状态，但使用原始URL
+              } else {
+                // 等待后重试
+                console.log(`${retryDelay}ms后进行第${attempt + 1}次重试...`);
+                await new Promise((resolve) => setTimeout(resolve, retryDelay));
+              }
+            }
           }
 
           // 3. 更新数据库
@@ -139,7 +156,10 @@ export async function POST(req: Request) {
 
           // 使用合适的更新函数
           if (videoGeneration.volcano_request_id) {
-            await updateVideoGenerationByVolcanoRequestId(request_id, updateParams);
+            await updateVideoGenerationByVolcanoRequestId(
+              request_id,
+              updateParams
+            );
           } else if (videoGeneration.fal_request_id) {
             await updateVideoGenerationByFalRequestId(request_id, updateParams);
           } else {
@@ -170,9 +190,15 @@ export async function POST(req: Request) {
 
           // 使用合适的更新函数
           if (videoGeneration.volcano_request_id) {
-            await updateVideoGenerationByVolcanoRequestId(request_id, failureParams);
+            await updateVideoGenerationByVolcanoRequestId(
+              request_id,
+              failureParams
+            );
           } else if (videoGeneration.fal_request_id) {
-            await updateVideoGenerationByFalRequestId(request_id, failureParams);
+            await updateVideoGenerationByFalRequestId(
+              request_id,
+              failureParams
+            );
           }
 
           return respErr(
@@ -195,7 +221,10 @@ export async function POST(req: Request) {
 
         // 使用合适的更新函数
         if (videoGeneration.volcano_request_id) {
-          await updateVideoGenerationByVolcanoRequestId(request_id, errorParams);
+          await updateVideoGenerationByVolcanoRequestId(
+            request_id,
+            errorParams
+          );
         } else if (videoGeneration.fal_request_id) {
           await updateVideoGenerationByFalRequestId(request_id, errorParams);
         }
@@ -216,7 +245,10 @@ export async function POST(req: Request) {
 
         // 使用合适的更新函数
         if (videoGeneration.volcano_request_id) {
-          await updateVideoGenerationByVolcanoRequestId(request_id, queueParams);
+          await updateVideoGenerationByVolcanoRequestId(
+            request_id,
+            queueParams
+          );
         } else if (videoGeneration.fal_request_id) {
           await updateVideoGenerationByFalRequestId(request_id, queueParams);
         }
@@ -237,7 +269,10 @@ export async function POST(req: Request) {
 
         // 使用合适的更新函数
         if (videoGeneration.volcano_request_id) {
-          await updateVideoGenerationByVolcanoRequestId(request_id, progressParams);
+          await updateVideoGenerationByVolcanoRequestId(
+            request_id,
+            progressParams
+          );
         } else if (videoGeneration.fal_request_id) {
           await updateVideoGenerationByFalRequestId(request_id, progressParams);
         }
@@ -256,7 +291,10 @@ export async function POST(req: Request) {
 
         // 使用合适的更新函数
         if (videoGeneration.volcano_request_id) {
-          await updateVideoGenerationByVolcanoRequestId(request_id, unknownParams);
+          await updateVideoGenerationByVolcanoRequestId(
+            request_id,
+            unknownParams
+          );
         } else if (videoGeneration.fal_request_id) {
           await updateVideoGenerationByFalRequestId(request_id, unknownParams);
         }
