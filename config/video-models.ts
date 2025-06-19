@@ -74,7 +74,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     provider: VideoModelProvider.VOLCANO,
     volcanoModel: "doubao-seedance-1-0-pro-250528",
     displayName: "Seedance 1.0 Pro",
-    perSecondCredits: 2, // 7.5 tokens for 5s = 1.5 tokens/second
+    perSecondCredits: 1, // Reduced by 50% from 2 to 1 credit per second
     description: "Advanced 1080p video generation with cinematic quality",
     features: ["Professional cinematography", "Complex prompt understanding"],
     maxDuration: 10,
@@ -92,7 +92,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     provider: VideoModelProvider.VOLCANO,
     volcanoModel: "doubao-seedance-1-0-pro-250528",
     displayName: "Seedance 1.0 Pro",
-    perSecondCredits: 2, // 7.5 tokens for 5s = 1.5 tokens/second
+    perSecondCredits: 1, // Reduced by 50% from 2 to 1 credit per second
     description:
       "Transform images into professional 1080p videos with cinematic motion",
     features: ["1080p quality", "Style versatility", "Natural motion"],
