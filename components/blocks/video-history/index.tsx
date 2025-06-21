@@ -58,7 +58,61 @@ export default function VideoHistoryClient() {
       console.log(result);
 
       if (result.code === 0 && result.data) {
-        setVideos(result.data.data || []);
+        let videos = result.data.data || [];
+
+        // 检查是否有进行中的Veo3任务需要更新状态
+        const activeVeo3Tasks = videos.filter(
+          (video: VideoGeneration) =>
+            video.model_id === "veo3-apicore-text-to-video" &&
+            [
+              "PENDING",
+              "PROMPT_OPTIMIZING",
+              "IN_QUEUE",
+              "IN_PROGRESS",
+              "submitted",
+            ].includes(video.status)
+        );
+        console.log("activeVeo3Tasks", activeVeo3Tasks);
+
+        if (activeVeo3Tasks.length > 0) {
+          console.log(
+            `发现 ${activeVeo3Tasks.length} 个进行中的Veo3任务，正在更新状态...`
+          );
+
+          // 并行触发所有进行中的Veo3任务状态更新（会更新数据库）
+          const statusPromises = activeVeo3Tasks.map(
+            async (video: VideoGeneration) => {
+              try {
+                await fetch("/api/video-generation/status", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ id: video.id }),
+                });
+              } catch (error) {
+                console.error(`更新任务 ${video.id} 状态失败:`, error);
+              }
+            }
+          );
+
+          await Promise.all(statusPromises);
+
+          console.log(
+            `已触发 ${activeVeo3Tasks.length} 个任务状态更新（数据库已更新）`
+          );
+
+          // 重新获取历史记录以显示最新状态
+          const refreshResponse = await fetch(`/api/video-generations/history`);
+          if (refreshResponse.ok) {
+            const refreshResult = await refreshResponse.json();
+            if (refreshResult.code === 0 && refreshResult.data) {
+              videos = refreshResult.data.data || [];
+            }
+          }
+        }
+
+        setVideos(videos);
         setCurrentPage(result.data.pagination?.page || 1);
         setTotalPages(result.data.pagination?.totalPages || 1);
         setTotalItems(result.data.pagination?.total || 0);
@@ -82,8 +136,12 @@ export default function VideoHistoryClient() {
   };
 
   const handlePlayVideo = (video: VideoGeneration) => {
-    // Check for video URL availability
-    const videoUrl = video.video_url_r2 || video.video_url_fal;
+    // Check for video URL availability (prioritize R2, then upsample veo3, then regular veo3, then fal)
+    const videoUrl =
+      video.video_url_r2 ||
+      video.upsample_video_url_veo3 ||
+      video.video_url_veo3 ||
+      video.video_url_fal;
     if (videoUrl) {
       window.open(videoUrl, "_blank");
     } else {
@@ -92,7 +150,11 @@ export default function VideoHistoryClient() {
   };
 
   const handleDownloadVideo = (video: VideoGeneration) => {
-    const videoUrl = video.video_url_r2 || video.video_url_fal;
+    const videoUrl =
+      video.video_url_r2 ||
+      video.upsample_video_url_veo3 ||
+      video.video_url_veo3 ||
+      video.video_url_fal;
     if (videoUrl) {
       const link = document.createElement("a");
       link.href = videoUrl;
@@ -183,9 +245,18 @@ export default function VideoHistoryClient() {
           >
             <CardHeader>
               <div className="aspect-video bg-gray-700 rounded-md mb-3 flex items-center justify-center overflow-hidden relative">
-                {video.video_url_r2 || video.video_url_fal ? (
+                {video.video_url_r2 ||
+                video.upsample_video_url_veo3 ||
+                video.video_url_veo3 ||
+                video.video_url_fal ? (
                   <video
-                    src={video.video_url_r2 ?? video.video_url_fal ?? ""}
+                    src={
+                      video.video_url_r2 ??
+                      video.upsample_video_url_veo3 ??
+                      video.video_url_veo3 ??
+                      video.video_url_fal ??
+                      ""
+                    }
                     poster={video.input_image_url ?? ""}
                     className="w-full h-full object-cover"
                     preload="metadata"
@@ -247,6 +318,8 @@ export default function VideoHistoryClient() {
                   video.status !== "COMPLETED" &&
                   video.status !== "SAVED_TO_R2" &&
                   !video.video_url_r2 &&
+                  !video.upsample_video_url_veo3 &&
+                  !video.video_url_veo3 &&
                   !video.video_url_fal
                 }
                 className="w-full sm:w-auto border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
@@ -262,6 +335,8 @@ export default function VideoHistoryClient() {
                     video.status !== "COMPLETED" &&
                     video.status !== "SAVED_TO_R2" &&
                     !video.video_url_r2 &&
+                    !video.upsample_video_url_veo3 &&
+                    !video.video_url_veo3 &&
                     !video.video_url_fal
                   }
                   title={t("downloadButton")}

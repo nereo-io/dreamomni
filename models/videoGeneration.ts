@@ -341,3 +341,4 @@ export async function getUserVideoGenerationStats(userId: number): Promise<{
 
   return stats;
 }
+
