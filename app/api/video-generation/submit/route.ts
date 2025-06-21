@@ -16,6 +16,7 @@ import {
   isKlingModel,
   isVeo2Model,
   isVeo3Model,
+  isVeo3ApicoreModel,
   isVeoModel,
   isVolcanoModel,
   calculateCredits,
@@ -119,16 +120,6 @@ export async function POST(req: Request) {
       return respErr(`不支持的时长: ${durationInt}秒`);
     }
 
-    // 检查对应provider的API密钥
-    if (modelConfig.provider === VideoModelProvider.VOLCANO) {
-      if (!process.env.ARK_API_KEY) {
-        return respErr("ARK_API_KEY 环境变量未配置");
-      }
-    } else if (modelConfig.provider === VideoModelProvider.FAL) {
-      if (!process.env.FAL_KEY) {
-        return respErr("FAL_KEY 环境变量未配置");
-      }
-    }
     // 5. 扣除积分（在创建任务前扣除）
     try {
       await decreaseCredits({
@@ -158,6 +149,8 @@ export async function POST(req: Request) {
 
     // 6.5. 优化提示词
     let finalPrompt = prompt;
+    // 如果是 veo3 模型，不需要优化提示词
+    // if (!isVeo3ApicoreModel(model)) {
     try {
       const optimizedPrompt = await optimizePromptWithTimeout(
         prompt,
@@ -176,6 +169,7 @@ export async function POST(req: Request) {
     } catch (error) {
       console.error("提示词优化失败，使用原始提示词:", error);
       // 如果优化失败，继续使用原始提示词
+      // }
     }
 
     // 构建请求输入（使用优化后的提示词）
@@ -221,16 +215,14 @@ export async function POST(req: Request) {
       if (cfg_scale !== undefined) {
         input.cfg_scale = cfg_scale;
       }
-    } else if (isVeo2Model(model)) {
-      if (duration) {
-        input.duration = `${duration}s`;
-      }
-    } else if (isVeo3Model(model)) {
-      if (duration) {
-        input.duration = `${duration}s`;
-      }
+    } else if (isVeo3ApicoreModel(model)) {
+      // Veo3 APICore 模型特有参数
       if (generate_audio !== undefined) {
         input.generate_audio = generate_audio;
+      }
+      // Veo3 APICore 支持图片输入，如果有图片则添加到输入中
+      if (image_url) {
+        input.image_url = image_url;
       }
     } else if (isVolcanoModel(model)) {
       // Volcano 模型特有参数 (使用volcanoModel配置)
@@ -247,6 +239,8 @@ export async function POST(req: Request) {
       // 使用Provider Factory获取合适的provider
       const provider = ProviderFactory.getProvider(model);
 
+      console.log("submit input", input);
+
       const submitResponse = await provider.submit(model, input, webhookUrl);
 
       // 8. 更新数据库记录的请求ID
@@ -257,6 +251,8 @@ export async function POST(req: Request) {
         updateParams.volcano_request_id = submitResponse.request_id;
       } else if (modelConfig.provider === VideoModelProvider.FAL) {
         updateParams.fal_request_id = submitResponse.request_id;
+      } else if (modelConfig.provider === VideoModelProvider.APICORE) {
+        updateParams.veo3_request_id = submitResponse.request_id;
       }
 
       // 更新请求ID和状态为 IN_QUEUE

@@ -8,6 +8,7 @@ export enum VideoModelType {
 export enum VideoModelProvider {
   FAL = "fal", // fal.ai 提供的各种模型 (Seedance, Kling, VEO等)
   VOLCANO = "volcano", // 火山引擎提供的模型 (Doubao-Seedance等)
+  APICORE = "apicore", // APICore 提供的模型 (Veo3等)
 }
 
 // 视频模型配置接口
@@ -28,6 +29,7 @@ export interface VideoModelConfig {
   supportedDurations?: number[];
   supportedResolutions?: string[]; // 支持的分辨率
   audioPremiumCredits?: number; // 音频额外费用
+  estimatedGenerationTime?: number; // 预估生成时间（秒），用于前端倒计时
 }
 
 // 视频模型配置
@@ -47,6 +49,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedAspectRatios: ["16:9", "9:16", "1:1"],
     supportedResolutions: ["480p", "1080p"],
     supportsAudio: false,
+    estimatedGenerationTime: 45, // Seedance 预估45秒
     supportedDurations: [5, 10],
   },
 
@@ -66,6 +69,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
     supportedResolutions: ["480p", "1080p"],
     supportsAudio: false,
+    estimatedGenerationTime: 45, // Seedance 图片转视频预估45秒
     supportedDurations: [5, 10],
   },
 
@@ -85,21 +89,22 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   //   supportsAudio: false,
   //   supportedDurations: [5, 10],
   // },
-  "kling-1-6-text-to-video-pro": {
-    id: "kling-1-6-text-to-video-pro",
-    name: "Kling 1.6 Text-to-Video Pro",
-    type: VideoModelType.TEXT_TO_VIDEO,
-    provider: VideoModelProvider.FAL,
-    falEndpoint: "fal-ai/kling-video/v1.6/pro/text-to-video",
-    displayName: "Kling 1.6 (Pro)",
-    perSecondCredits: 4, // 20积分/5秒 = 4积分/秒
-    description: "Professional text-to-video model with higher quality",
-    features: ["Professional quality", "Fine control", "Rich details"],
-    maxDuration: 10,
-    supportedAspectRatios: ["16:9", "9:16", "1:1"],
-    supportsAudio: false,
-    supportedDurations: [5, 10],
-  },
+  // "kling-1-6-text-to-video-pro": {
+  //   id: "kling-1-6-text-to-video-pro",
+  //   name: "Kling 1.6 Text-to-Video Pro",
+  //   type: VideoModelType.TEXT_TO_VIDEO,
+  //   provider: VideoModelProvider.FAL,
+  //   falEndpoint: "fal-ai/kling-video/v1.6/pro/text-to-video",
+  //   displayName: "Kling 1.6 (Pro)",
+  //   perSecondCredits: 4, // 20积分/5秒 = 4积分/秒
+  //   description: "Professional text-to-video model with higher quality",
+  //   features: ["Professional quality", "Fine control", "Rich details"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["16:9", "9:16", "1:1"],
+  //   supportsAudio: false,
+  //   estimatedGenerationTime: 120, // Kling Pro 预估2分钟
+  //   supportedDurations: [5, 10],
+  // },
   // "kling-2-1-text-to-video-master": {
   //   id: "kling-2-1-text-to-video-master",
   //   name: "Kling 2.1 Text-to-Video Master",
@@ -147,21 +152,22 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   //   supportsAudio: false,
   //   supportedDurations: [5, 10],
   // },
-  "kling-2-1-image-to-video-pro": {
-    id: "kling-2-1-image-to-video-pro",
-    name: "Kling 2.1 Image-to-Video Pro",
-    type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.FAL,
-    falEndpoint: "fal-ai/kling-video/v2.1/pro/image-to-video",
-    displayName: "Kling 2.1 (Pro)",
-    perSecondCredits: 4, // 20积分/5秒 = 4积分/秒
-    description: "Professional image-to-video model",
-    features: ["Professional quality", "Fine control", "Rich details"],
-    maxDuration: 10,
-    supportedAspectRatios: ["16:9", "9:16", "1:1"],
-    supportsAudio: false,
-    supportedDurations: [5, 10],
-  },
+  // "kling-2-1-image-to-video-pro": {
+  //   id: "kling-2-1-image-to-video-pro",
+  //   name: "Kling 2.1 Image-to-Video Pro",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.FAL,
+  //   falEndpoint: "fal-ai/kling-video/v2.1/pro/image-to-video",
+  //   displayName: "Kling 2.1 (Pro)",
+  //   perSecondCredits: 4, // 20积分/5秒 = 4积分/秒
+  //   description: "Professional image-to-video model",
+  //   features: ["Professional quality", "Fine control", "Rich details"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["16:9", "9:16", "1:1"],
+  //   supportsAudio: false,
+  //   estimatedGenerationTime: 150, // Kling 2.1 Pro 预估2.5分钟
+  //   supportedDurations: [5, 10],
+  // },
   // "kling-2-1-image-to-video-master": {
   //   id: "kling-2-1-image-to-video-master",
   //   name: "Kling 2.1 Image-to-Video Master",
@@ -176,6 +182,42 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   //   supportedAspectRatios: ["16:9", "9:16", "1:1"],
   //   supportsAudio: false,
   //   supportedDurations: [5, 10],
+  // },
+
+  // Veo3 APICore 文本转视频模型（新ID）
+  "veo3-apicore-text-to-video": {
+    id: "veo3-apicore-text-to-video",
+    name: "Veo3 APICore Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.APICORE,
+    displayName: "Veo 3",
+    perSecondCredits: 5,
+    description: "Google's Veo3 model for text-to-video generation",
+    features: ["High quality", "Upsample support", "Audio generation"],
+    maxDuration: 8, // 根据用户要求设置为8秒
+    supportedAspectRatios: ["adaptive"], // 根据用户要求设置为adaptive
+    supportsAudio: true, // 根据用户要求支持音频
+    estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
+    supportedDurations: [8],
+    supportedResolutions: ["1080p"], // Veo3支持高分辨率
+  },
+
+  // Veo3 APICore 图片转视频模型
+  // "veo3-apicore-image-to-video": {
+  //   id: "veo3-apicore-image-to-video",
+  //   name: "Veo3 APICore Image-to-Video",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.APICORE,
+  //   displayName: "Veo 3",
+  //   perSecondCredits: 5, // 与文本转视频同样的积分消耗
+  //   description: "Google's Veo3 model for image-to-video generation",
+  //   features: ["High quality", "Upsample support", "Audio generation"],
+  //   maxDuration: 8,
+  //   supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
+  //   supportsAudio: true,
+  //   estimatedGenerationTime: 240, // 与文本转视频相同的预估时间
+  //   supportedDurations: [8],
+  //   supportedResolutions: ["1080p"],
   // },
 };
 
@@ -209,6 +251,12 @@ export function getFalModels(): VideoModelConfig[] {
 export function getVolcanoModels(): VideoModelConfig[] {
   return Object.values(VIDEO_MODELS).filter(
     (model) => model.provider === VideoModelProvider.VOLCANO
+  );
+}
+
+export function getVeo3Models(): VideoModelConfig[] {
+  return Object.values(VIDEO_MODELS).filter(
+    (model) => model.provider === VideoModelProvider.APICORE
   );
 }
 
@@ -294,6 +342,12 @@ export function isVolcanoModel(modelId: string): boolean {
 export function isFalModel(modelId: string): boolean {
   const model = getVideoModel(modelId);
   return model?.provider === VideoModelProvider.FAL;
+}
+
+// 检查模型是否为Veo3 APICore模型
+export function isVeo3ApicoreModel(modelId: string): boolean {
+  const model = getVideoModel(modelId);
+  return model?.provider === VideoModelProvider.APICORE;
 }
 
 // 检查模型是否为Veo系列模型

@@ -1,6 +1,7 @@
 import { VideoProvider } from "./types";
 import { FalProvider } from "./FalProvider";
 import { VolcanoProvider } from "./VolcanoProvider";
+import { Veo3Provider } from "./Veo3Provider";
 import { getVideoModel, VideoModelProvider } from "@/config/video-models";
 
 export class ProviderFactory {
@@ -13,7 +14,7 @@ export class ProviderFactory {
     }
 
     const providerKey = modelConfig.provider;
-    
+
     // Return cached instance if available
     if (this.instances.has(providerKey)) {
       return this.instances.get(providerKey)!;
@@ -29,9 +30,21 @@ export class ProviderFactory {
       case VideoModelProvider.VOLCANO:
         const volcanoApiKey = process.env.ARK_API_KEY;
         if (!volcanoApiKey) {
-          throw new Error("ARK_API_KEY environment variable is required for Volcano Engine models");
+          throw new Error(
+            "ARK_API_KEY environment variable is required for Volcano Engine models"
+          );
         }
         provider = new VolcanoProvider(volcanoApiKey);
+        break;
+
+      case VideoModelProvider.APICORE:
+        const apicoreApiKey = process.env.APICORE_API_KEY;
+        if (!apicoreApiKey) {
+          throw new Error(
+            "APICORE_API_KEY environment variable is required for APICore models"
+          );
+        }
+        provider = new Veo3Provider(apicoreApiKey);
         break;
 
       default:
@@ -40,7 +53,7 @@ export class ProviderFactory {
 
     // Cache the instance
     this.instances.set(providerKey, provider);
-    
+
     return provider;
   }
 

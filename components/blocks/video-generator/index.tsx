@@ -52,7 +52,7 @@ export default function VideoGenerator({
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [generateAudio, setGenerateAudio] = useState(false);
+  const [generateAudio, setGenerateAudio] = useState(true);
 
   const { user, setShowSignModal } = useAppContext();
   const {
@@ -112,17 +112,22 @@ export default function VideoGenerator({
         }
       }
 
-      // 3. 检查分辨率兼容性
-      if (!selectedModelConfig.supportedResolutions?.includes(resolution)) {
+      // 3. 检查分辨率兼容性 - 总是设置为模型的第一个支持分辨率
+      if (
+        selectedModelConfig.supportedResolutions &&
+        selectedModelConfig.supportedResolutions.length > 0
+      ) {
         const firstSupportedResolution = selectedModelConfig
-          .supportedResolutions?.[0] as VideoResolution;
-        if (firstSupportedResolution) {
-          setResolution(firstSupportedResolution);
-        }
+          .supportedResolutions[0] as VideoResolution;
+        setResolution(firstSupportedResolution);
       }
 
       // 4. 检查音频兼容性
-      if (generateAudio && !selectedModelConfig.supportsAudio) {
+      if (selectedModelConfig.supportsAudio) {
+        // 如果模型支持音频，默认开启
+        setGenerateAudio(true);
+      } else if (generateAudio && !selectedModelConfig.supportsAudio) {
+        // 如果模型不支持音频且当前开启了音频，则关闭
         setGenerateAudio(false);
       }
 
@@ -182,89 +187,104 @@ export default function VideoGenerator({
   );
 
   // Handle image upload with enhanced validation
-  const handleImageUpload = useCallback(async (file: File) => {
-    // 1. 基础文件类型验证
-    if (!file.type.startsWith("image/")) {
-      toast.error(t("toast.uploadImageFile"));
-      return;
-    }
+  const handleImageUpload = useCallback(
+    async (file: File) => {
+      // 1. 基础文件类型验证
+      if (!file.type.startsWith("image/")) {
+        toast.error(t("toast.uploadImageFile"));
+        return;
+      }
 
-    // 2. 支持的格式验证：JPEG, PNG, WEBP, BMP, TIFF, GIF
-    const supportedFormats = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/bmp', 'image/tiff', 'image/gif'];
-    if (!supportedFormats.includes(file.type.toLowerCase())) {
-      toast.error("Unsupported image format. Please use JPEG, PNG, WEBP, BMP, TIFF, or GIF.");
-      return;
-    }
+      // 2. 支持的格式验证：JPEG, PNG, WEBP, BMP, TIFF, GIF
+      const supportedFormats = [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/webp",
+        "image/bmp",
+        "image/tiff",
+        "image/gif",
+      ];
+      if (!supportedFormats.includes(file.type.toLowerCase())) {
+        toast.error(
+          "Unsupported image format. Please use JPEG, PNG, WEBP, BMP, TIFF, or GIF."
+        );
+        return;
+      }
 
-    // 3. 文件大小验证
-    const maxSize = 10 * 1024 * 1024; // 10MB
-    if (file.size > maxSize) {
-      toast.error(t("toast.imageTooLarge"));
-      return;
-    }
+      // 3. 文件大小验证
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      if (file.size > maxSize) {
+        toast.error(t("toast.imageTooLarge"));
+        return;
+      }
 
-    // 4. 图片尺寸和宽高比验证
-    const img = new Image();
-    const imageValidationPromise = new Promise<boolean>((resolve) => {
-      img.onload = () => {
-        const width = img.width;
-        const height = img.height;
-        const aspectRatio = width / height;
+      // 4. 图片尺寸和宽高比验证
+      const img = new Image();
+      const imageValidationPromise = new Promise<boolean>((resolve) => {
+        img.onload = () => {
+          const width = img.width;
+          const height = img.height;
+          const aspectRatio = width / height;
 
-        // 最小尺寸：300x300px
-        if (width < 300 || height < 300) {
-          toast.error("Image too small. Minimum size is 300x300 pixels.");
+          // 最小尺寸：300x300px
+          if (width < 300 || height < 300) {
+            toast.error("Image too small. Minimum size is 300x300 pixels.");
+            resolve(false);
+            return;
+          }
+
+          // 最大尺寸：6000x6000px
+          if (width > 6000 || height > 6000) {
+            toast.error("Image too large. Maximum size is 6000x6000 pixels.");
+            resolve(false);
+            return;
+          }
+
+          // 宽高比验证：0.4-2.5
+          if (aspectRatio < 0.4 || aspectRatio > 2.5) {
+            toast.error(
+              "Invalid aspect ratio. Please use an image with aspect ratio between 0.4 and 2.5."
+            );
+            resolve(false);
+            return;
+          }
+
+          resolve(true);
+        };
+
+        img.onerror = () => {
+          toast.error("Invalid image file. Please select a valid image.");
           resolve(false);
-          return;
-        }
+        };
+      });
 
-        // 最大尺寸：6000x6000px
-        if (width > 6000 || height > 6000) {
-          toast.error("Image too large. Maximum size is 6000x6000 pixels.");
-          resolve(false);
-          return;
-        }
+      // 创建临时URL用于Image对象加载
+      const objectUrl = URL.createObjectURL(file);
+      img.src = objectUrl;
 
-        // 宽高比验证：0.4-2.5
-        if (aspectRatio < 0.4 || aspectRatio > 2.5) {
-          toast.error("Invalid aspect ratio. Please use an image with aspect ratio between 0.4 and 2.5.");
-          resolve(false);
-          return;
-        }
+      // 等待验证完成
+      const isValid = await imageValidationPromise;
 
-        resolve(true);
+      // 清理临时URL
+      URL.revokeObjectURL(objectUrl);
+
+      if (!isValid) {
+        return;
+      }
+
+      // 5. 验证通过，设置上传的图片
+      setUploadedImage(file);
+
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result as string);
       };
-
-      img.onerror = () => {
-        toast.error("Invalid image file. Please select a valid image.");
-        resolve(false);
-      };
-    });
-
-    // 创建临时URL用于Image对象加载
-    const objectUrl = URL.createObjectURL(file);
-    img.src = objectUrl;
-
-    // 等待验证完成
-    const isValid = await imageValidationPromise;
-    
-    // 清理临时URL
-    URL.revokeObjectURL(objectUrl);
-
-    if (!isValid) {
-      return;
-    }
-
-    // 5. 验证通过，设置上传的图片
-    setUploadedImage(file);
-
-    // Create preview
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setImagePreview(e.target?.result as string);
-    };
-    reader.readAsDataURL(file);
-  }, [t]);
+      reader.readAsDataURL(file);
+    },
+    [t]
+  );
 
   // Handle drag over
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -351,12 +371,12 @@ export default function VideoGenerator({
       aspect_ratio: aspectRatio,
       duration_seconds: parseInt(duration),
     };
-    
+
     // 历史记录管理将在 submitGeneration 内部处理
-    
+
     // 直接设置完整的初始状态，而不是部分更新
     updateCurrentGeneration({
-      ...initialGeneration
+      ...initialGeneration,
     });
 
     try {
@@ -420,7 +440,6 @@ export default function VideoGenerator({
 
   // Handle retry
   const handleRetry = () => {
-    // 如果当前有生成记录，直接重新开始轮询
     if (currentGeneration?.id) {
       pollStatus(currentGeneration.id);
     } else {
@@ -763,7 +782,7 @@ export default function VideoGenerator({
 
                 {/* 分辨率选择 - 只在支持时显示 */}
                 {selectedModelConfig?.supportedResolutions &&
-                  selectedModelConfig.supportedResolutions.length > 1 && (
+                  selectedModelConfig.supportedResolutions.length > 0 && (
                     <div className="mb-4">
                       <div className="text-sm text-gray-300 mb-3">
                         Resolution
@@ -956,7 +975,7 @@ export default function VideoGenerator({
               className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-600/80 hover:bg-gray-500/90 text-white text-sm font-medium rounded-md transition-all duration-200 hover:scale-105 plausible-event-name=Telegram+Channel+Click"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
+                <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z" />
               </svg>
               {t("telegramBanner.linkText")}
             </a>

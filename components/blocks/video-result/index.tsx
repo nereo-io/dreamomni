@@ -23,6 +23,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getVideoModel } from "@/config/video-models";
 import CreativeProgress from "./CreativeProgress";
 
 interface VideoResultProps {
@@ -74,8 +75,8 @@ const getStatusMap = (t: any) => ({
   FAILED: { label: t("status.failed"), color: "bg-red-500", icon: XCircle },
 });
 
-// 总等待时间：45秒
-const TOTAL_WAIT_TIME_SECONDS = 45;
+// 默认等待时间：45秒（当模型配置中没有指定时使用）
+const DEFAULT_WAIT_TIME_SECONDS = 45;
 
 // 新增辅助函数，用于获取用户友好的错误提示
 const getFriendlyErrorMessage = (apiErrorMessage?: string, t?: any): string => {
@@ -179,10 +180,21 @@ export default function VideoResult({
   const [isLoadingVideo, setIsLoadingVideo] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [videoUrl, setVideoUrl] = useState(generation.video_url);
+
+  // 当generation对象发生变化时，重置videoUrl状态
+  useEffect(() => {
+    // 当generation.id变化时（新的生成任务），重置videoUrl
+    console.log("Generation changed, resetting videoUrl to:", generation.video_url);
+    setVideoUrl(generation.video_url);
+  }, [generation.id, generation.video_url]);
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [showOptimizedPrompt, setShowOptimizedPrompt] = useState(false);
   const router = useRouter();
   const t = useTranslations("video-result");
+
+  // 获取模型配置以确定等待时间
+  const modelConfig = getVideoModel(generation.model);
+  const TOTAL_WAIT_TIME_SECONDS = modelConfig?.estimatedGenerationTime || DEFAULT_WAIT_TIME_SECONDS;
 
   const STATUS_MAP = getStatusMap(t);
   const status =
@@ -362,18 +374,19 @@ export default function VideoResult({
     }
 
     const formattedRemainingTime = formatTime(remainingSeconds);
+    const modelDisplayName = modelConfig?.displayName || generation.model;
 
     switch (generation.status) {
       case "submitted":
-        return t("taskSubmitted", { time: formattedRemainingTime });
+        return t("taskSubmitted", { time: formattedRemainingTime, model: modelDisplayName });
       case "PROMPT_OPTIMIZING":
-        return t("optimizingPrompt", { time: formattedRemainingTime });
+        return t("optimizingPrompt", { time: formattedRemainingTime, model: modelDisplayName });
       case "IN_QUEUE":
-        return t("taskInQueue", { time: formattedRemainingTime });
+        return t("taskInQueue", { time: formattedRemainingTime, model: modelDisplayName });
       case "IN_PROGRESS":
-        return t("generatingVideo", { time: formattedRemainingTime });
+        return t("generatingVideo", { time: formattedRemainingTime, model: modelDisplayName });
       default:
-        return t("processingGeneral", { time: formattedRemainingTime });
+        return t("processingGeneral", { time: formattedRemainingTime, model: modelDisplayName });
     }
   };
 
