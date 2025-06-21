@@ -12,12 +12,12 @@ interface ClaudeSonnetFeaturesBlockProps {
 
 // Video mapping for each feature
 const videoMapping: Record<string, string> = {
-  "greater-realism": "/intro/quality.mp4",
-  "prompt-following": "/intro/prompt.mp4",
-  "creative-control": "/intro/cretive.mp4",
-  "motion-master": "/intro/motion.mp4",
-  "native-audio": "/intro/audio.mp4",
-  "best-in-class": "/intro/sound.mp4",
+  "greater-realism": `https://r2.veo3ai.io/intro/quality.mp4`,
+  "prompt-following": `https://r2.veo3ai.io/intro/prompt.mp4`,
+  "creative-control": `https://r2.veo3ai.io/intro/cretive.mp4`,
+  "motion-master": `https://r2.veo3ai.io/intro/motion.mp4`,
+  "native-audio": `https://r2.veo3ai.io/intro/audio.mp4`,
+  "best-in-class": `https://r2.veo3ai.io/intro/sound.mp4`,
 };
 
 interface VideoPlayerProps {
