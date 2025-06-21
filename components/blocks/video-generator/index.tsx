@@ -72,7 +72,7 @@ export default function VideoGenerator({
     if (user?.uuid) {
       updateLeftCredits().catch(console.error);
     }
-  }, [user?.uuid, updateLeftCredits]);
+  }, [user?.uuid]);
 
   // 获取所有可用模型（不再进行复杂过滤）
   const availableModels = uploadedImage

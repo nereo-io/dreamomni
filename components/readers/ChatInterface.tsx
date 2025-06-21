@@ -221,10 +221,11 @@ export default function ChatInterface({
       });
     },
   });
-  //  更新剩余次数
-  useEffect(() => {
-    updateLeftCredits();
-  }, [isLoading]);
+  // 注释掉：在isLoading变化时更新积分会导致过多API调用
+  // AppContext已经负责管理积分状态
+  // useEffect(() => {
+  //   updateLeftCredits();
+  // }, [isLoading]);
 
   // 创建一个ref来存储消息容器
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
