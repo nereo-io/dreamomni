@@ -12,12 +12,12 @@ interface SeedanceFeaturesBlockProps {
 
 // Video mapping for each feature
 const videoMapping: Record<string, string> = {
-  "1080p-quality": "/intro/professional-1080.mp4",
-  "multi-shot-storytelling": "/intro/storytelling.mp4",
-  "style-versatility": "/intro/versatility.mp4",
-  "complex-prompts": "/intro/prompt-understanding.mp4",
-  "multi-agent-control": "/intro/camera.mp4",
-  "wide-dynamic-range": "/intro/dynamic-range.mp4",
+  "1080p-quality": "https://r2.seedance.tv/intro/professional-1080.mp4",
+  "multi-shot-storytelling": "https://r2.seedance.tv/intro/storytelling.mp4",
+  "style-versatility": "https://r2.seedance.tv/intro/versatility.mp4",
+  "complex-prompts": "https://r2.seedance.tv/intro/prompt-understanding.mp4",
+  "multi-agent-control": "https://r2.seedance.tv/intro/camera.mp4",
+  "wide-dynamic-range": "https://r2.seedance.tv/intro/dynamic-range.mp4",
 };
 
 interface VideoPlayerProps {

@@ -14,7 +14,7 @@ const VideoBackground = () => {
         className="absolute inset-0 w-full h-full object-cover"
         style={{ minWidth: "100%", minHeight: "100%" }}
       >
-        <source src="/intro/video-intro.mp4" type="video/mp4" />
+        <source src="https://r2.seedance.tv/intro/video-intro.mp4" type="video/mp4" />
         您的浏览器不支持视频播放。
       </video>
 

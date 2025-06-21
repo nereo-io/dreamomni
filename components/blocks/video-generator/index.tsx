@@ -71,7 +71,7 @@ export default function VideoGenerator({
     if (user?.uuid) {
       updateLeftCredits().catch(console.error);
     }
-  }, [user?.uuid, updateLeftCredits]);
+  }, [user?.uuid]);
 
   // 获取所有可用模型（不再进行复杂过滤）
   const availableModels = uploadedImage
@@ -181,69 +181,80 @@ export default function VideoGenerator({
   );
 
   // Handle image upload
-  const handleImageUpload = useCallback(async (file: File) => {
-    if (!file.type.startsWith("image/")) {
-      toast.error(t("toast.uploadImageFile"));
-      return;
-    }
-
-    const maxSize = 10 * 1024 * 1024; // 10MB
-    if (file.size > maxSize) {
-      toast.error(t("toast.imageTooLarge"));
-      return;
-    }
-
-    // 验证图片尺寸
-    const img = new Image();
-    const imageUrl = URL.createObjectURL(file);
-    
-    img.onload = () => {
-      URL.revokeObjectURL(imageUrl); // 清理内存
-      
-      // 检查图片格式 (支持 JPEG, PNG, WEBP, BMP, TIFF, GIF)
-      const supportedFormats = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/bmp', 'image/tiff', 'image/gif'];
-      if (!supportedFormats.includes(file.type.toLowerCase())) {
-        toast.error(t("toast.unsupportedImageFormat"));
+  const handleImageUpload = useCallback(
+    async (file: File) => {
+      if (!file.type.startsWith("image/")) {
+        toast.error(t("toast.uploadImageFile"));
         return;
       }
 
-      // 检查宽高比 (0.4-2.5)
-      const aspectRatio = img.width / img.height;
-      if (aspectRatio < 0.4 || aspectRatio > 2.5) {
-        toast.error(t("toast.invalidAspectRatio"));
-        return;
-      }
-
-      // 检查最小尺寸 (300px)
-      if (img.width < 300 || img.height < 300) {
-        toast.error(t("toast.imageTooSmall"));
-        return;
-      }
-
-      // 检查最大尺寸 (6000px)
-      if (img.width > 6000 || img.height > 6000) {
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      if (file.size > maxSize) {
         toast.error(t("toast.imageTooLarge"));
         return;
       }
 
-      // 所有验证通过，设置图片
-      setUploadedImage(file);
+      // 验证图片尺寸
+      const img = new Image();
+      const imageUrl = URL.createObjectURL(file);
 
-      // Create preview
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImagePreview(e.target?.result as string);
+      img.onload = () => {
+        URL.revokeObjectURL(imageUrl); // 清理内存
+
+        // 检查图片格式 (支持 JPEG, PNG, WEBP, BMP, TIFF, GIF)
+        const supportedFormats = [
+          "image/jpeg",
+          "image/jpg",
+          "image/png",
+          "image/webp",
+          "image/bmp",
+          "image/tiff",
+          "image/gif",
+        ];
+        if (!supportedFormats.includes(file.type.toLowerCase())) {
+          toast.error(t("toast.unsupportedImageFormat"));
+          return;
+        }
+
+        // 检查宽高比 (0.4-2.5)
+        const aspectRatio = img.width / img.height;
+        if (aspectRatio < 0.4 || aspectRatio > 2.5) {
+          toast.error(t("toast.invalidAspectRatio"));
+          return;
+        }
+
+        // 检查最小尺寸 (300px)
+        if (img.width < 300 || img.height < 300) {
+          toast.error(t("toast.imageTooSmall"));
+          return;
+        }
+
+        // 检查最大尺寸 (6000px)
+        if (img.width > 6000 || img.height > 6000) {
+          toast.error(t("toast.imageTooLarge"));
+          return;
+        }
+
+        // 所有验证通过，设置图片
+        setUploadedImage(file);
+
+        // Create preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setImagePreview(e.target?.result as string);
+        };
+        reader.readAsDataURL(file);
       };
-      reader.readAsDataURL(file);
-    };
 
-    img.onerror = () => {
-      URL.revokeObjectURL(imageUrl);
-      toast.error(t("toast.invalidImageFile"));
-    };
+      img.onerror = () => {
+        URL.revokeObjectURL(imageUrl);
+        toast.error(t("toast.invalidImageFile"));
+      };
 
-    img.src = imageUrl;
-  }, [t]);
+      img.src = imageUrl;
+    },
+    [t]
+  );
 
   // Handle drag over
   const handleDragOver = useCallback((e: React.DragEvent) => {
