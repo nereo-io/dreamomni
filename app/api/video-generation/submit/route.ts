@@ -148,6 +148,7 @@ export async function POST(req: Request) {
     });
 
     // 6.5. 优化提示词
+    //test
     let finalPrompt = prompt;
     // 如果是 veo3 模型，不需要优化提示词
     // if (!isVeo3ApicoreModel(model)) {
