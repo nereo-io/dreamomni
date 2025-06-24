@@ -1,5 +1,5 @@
 {
-  "template": "luckbox-template", 
+  "template": "luckbox-template",
   "theme": "light",
   "header": {
     "brand": {
@@ -56,7 +56,7 @@
     "label": "Einführung",
     "description": "Seedance 1.0 ist ein revolutionärer KI-Video-Generator von ByteDance, der Textbeschreibungen in professionelle 1080p-Videos verwandelt. Dieser erweiterte KI-Video-Generator verfügt über bahnbrechende Multi-Shot-Storytelling-Fähigkeiten und kinematische Qualität, was Seedance ByteDance zur besten Wahl für Ersteller macht.",
     "image": {
-      "src": "/intro/generator-intro.mp4"
+      "src": "https://r2.seedance.tv/intro/generator-intro.mp4"
     },
     "items": [
       {
@@ -130,14 +130,14 @@
       },
       {
         "title": "Michael Chen",
-        "label": "Marketing-Direktor", 
+        "label": "Marketing-Direktor",
         "description": "Seedance 1.0 ist unglaublich für Marketing-Kampagnen. Seedances Kinoqualität ist herausragend, und die Multi-Agent-Interaktions-Features ermöglichen komplexes Storytelling. Mit Seedance kann ich mühelos mehrere Video-Variationen mit verschiedenen Stilen erstellen - vom Fotorealismus bis zur Cyberpunk-Ästhetik.",
         "image": {
           "src": "/imgs/users/2.png"
         }
       },
       {
-        "title": "Emily Rodriguez", 
+        "title": "Emily Rodriguez",
         "label": "Social Media Managerin",
         "description": "Die Konsistenz und Qualität der Videos von Seedance 1.0 ist erstaunlich. Mit Seedances nativem Multi-Shot-Storytelling kann ich visuelle Konsistenz über komplexe Sequenzen hinweg beibehalten und täglich frischen Content erstellen. Seedances Stilvielfalt und Prompt-Following-Genauigkeit ist in der Branche unübertroffen.",
         "image": {

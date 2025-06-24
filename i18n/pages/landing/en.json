@@ -51,7 +51,7 @@
     "label": "Introduce",
     "description": "Seedance 1.0 is a revolutionary AI video generator from ByteDance that transforms text descriptions into professional 1080p videos. This advanced AI video generator features breakthrough multi-shot storytelling capabilities and cinematic quality, making Seedance ByteDance the leading choice for creators.",
     "image": {
-      "src": "/intro/generator-intro.mp4"
+      "src": "https://r2.seedance.tv/intro/generator-intro.mp4"
     },
     "items": [
       {

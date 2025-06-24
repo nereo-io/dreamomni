@@ -56,7 +56,7 @@
     "label": "紹介",
     "description": "Seedance 1.0は、テキスト記述をプロフェッショナルな1080p動画に変換するByteDanceの革命的なAI動画ジェネレーターです。この高度なAI動画ジェネレーターは、画期的なマルチショット動画生成機能と映画品質を備えており、Seedance ByteDanceをクリエイターの最高の選択にしています。",
     "image": {
-      "src": "/intro/generator-intro.mp4"
+      "src": "https://r2.seedance.tv/intro/generator-intro.mp4"
     },
     "items": [
       {
