@@ -202,8 +202,10 @@ export function useGeolocation() {
   return {
     location,
     loading,
-    isRussia: isRussia(),
-    shouldUsePayssion: shouldUsePayssion(),
+    // isRussia: isRussia(),
+    // shouldUsePayssion: shouldUsePayssion(),
+    isRussia: false,
+    shouldUsePayssion: false,
     refresh: detectLocation,
   };
 }
