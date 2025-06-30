@@ -136,7 +136,7 @@ export async function increaseCredits({
       trans_type: trans_type,
       credits: credits,
       order_no: order_no || "",
-      expired_at: expired_at || "",
+      expired_at: expired_at || undefined,
     };
     await insertCredit(new_credit);
   } catch (e) {

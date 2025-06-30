@@ -20,10 +20,6 @@
     "context7": {
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp"]
-    },
-    "APICore": {
-      "command": "npx",
-      "args": ["-y", "apifox-mcp-server@latest", "--site-id=5450413"]
     }
   }
 }

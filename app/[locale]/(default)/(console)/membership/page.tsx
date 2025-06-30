@@ -1,6 +1,7 @@
 import { getUserUuid } from "@/services/user";
 import { findActiveMembershipByUserUuid } from "@/models/membership";
 import { getStripeCustomerId } from "@/models/user";
+import { findSubscriptionsByUserUuid } from "@/models/subscription";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 import {
@@ -11,7 +12,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ManageSubscriptionButton } from "@/components/subscription/manage-subscription-button";
+import { SubscriptionCard } from "@/components/subscription/subscription-card";
 import moment from "moment";
 
 export default async function () {
@@ -27,6 +30,8 @@ export default async function () {
   const membership = await findActiveMembershipByUserUuid(user_uuid);
   // 获取 Stripe Customer ID
   const stripeCustomerId = await getStripeCustomerId(user_uuid);
+  // 获取 Payssion 订阅信息
+  const payssionSubscriptions = await findSubscriptionsByUserUuid(user_uuid);
 
   return (
     <div className="container px-4 md:px-6 max-w-5xl py-6">
@@ -102,6 +107,26 @@ export default async function () {
           )}
         </CardContent>
       </Card>
+
+      {/* Payssion 订阅信息 */}
+      {payssionSubscriptions.length > 0 && (
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle>{t("subscription.allSubscriptions")}</CardTitle>
+            <CardDescription>{t("subscription.subscriptionHistory")}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {payssionSubscriptions.map((subscription) => (
+                <SubscriptionCard
+                  key={subscription.id}
+                  subscription={subscription}
+                />
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

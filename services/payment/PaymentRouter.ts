@@ -5,11 +5,13 @@ import { StripeProvider } from "./StripeProvider";
 import { shouldUsePayssion } from "./PaymentProvider";
 import {
   PaymentProvider,
-  PaymentRequest,
-  PaymentResponse,
   PaymentMethodConfig,
   LocationInfo,
   PaymentError,
+  SubscriptionRequest,
+  SubscriptionResponse,
+  MandateRequest,
+  MandateResponse,
 } from "./types";
 
 export class PaymentRouter {
@@ -32,47 +34,20 @@ export class PaymentRouter {
   /**
    * 获取可用的支付方式列表
    */
-  getAvailablePaymentMethods(
-    location?: LocationInfo,
-    userPreference?: string
-  ): PaymentMethodConfig[] {
-    const methods: PaymentMethodConfig[] = [];
-
+  getAvailablePaymentMethods(location?: LocationInfo): PaymentMethodConfig[] {
     const countryCode = location?.countryCode || "US";
     const isRussianRegion = shouldUsePayssion(countryCode);
 
-    // 如果用户手动选择了支付提供商，优先返回该提供商的支付方式
-    if (userPreference) {
-      if (userPreference === "payssion" && this.providers.has("payssion")) {
-        return this.getPayssionMethods();
-      }
-      if (userPreference === "stripe" && this.providers.has("stripe")) {
-        return this.getStripeMethods();
-      }
-    }
-
-    // 根据地理位置智能推荐
+    // 简单逻辑：俄罗斯地区用Payssion，其他用Stripe
     if (isRussianRegion && this.providers.has("payssion")) {
-      // 俄罗斯地区优先显示Payssion支付方式
-      methods.push(...this.getPayssionMethods());
-
-      // 添加Stripe作为备选
-      if (this.providers.has("stripe")) {
-        methods.push(...this.getStripeMethods());
-      }
-    } else {
-      // 其他地区优先显示Stripe
-      if (this.providers.has("stripe")) {
-        methods.push(...this.getStripeMethods());
-      }
-
-      // 如果Payssion可用，也添加进去
-      if (this.providers.has("payssion")) {
-        methods.push(...this.getPayssionMethods());
-      }
+      return this.getPayssionMethods();
     }
-
-    return methods;
+    
+    if (this.providers.has("stripe")) {
+      return this.getStripeMethods();
+    }
+    
+    return [];
   }
 
   /**
@@ -162,74 +137,11 @@ export class PaymentRouter {
     return provider;
   }
 
-  /**
-   * 智能选择支付提供商
-   */
-  getProvider(
-    location?: LocationInfo,
-    paymentMethod?: string,
-    userPreference?: string
-  ): PaymentProvider {
-    // 如果指定了支付方式，根据支付方式选择提供商
-    if (paymentMethod) {
-      return this.getProviderForPaymentMethod(paymentMethod);
-    }
-
-    // 如果用户手动选择了提供商
-    if (userPreference && this.providers.has(userPreference)) {
-      return this.providers.get(userPreference)!;
-    }
-
-    // 根据地理位置自动选择
-    const countryCode = location?.countryCode || "US";
-    const isRussianRegion = shouldUsePayssion(countryCode);
-
-    if (isRussianRegion && this.providers.has("payssion")) {
-      return this.providers.get("payssion")!;
-    }
-
-    // 默认使用Stripe
-    if (this.providers.has("stripe")) {
-      return this.providers.get("stripe")!;
-    }
-
-    throw new PaymentError(
-      "NO_PROVIDER",
-      "No payment provider is available",
-      "router"
-    );
-  }
 
   /**
-   * 创建支付订单
+   * 处理订阅 Webhook
    */
-  async createPayment(
-    request: PaymentRequest,
-    location?: LocationInfo,
-    userPreference?: string
-  ): Promise<PaymentResponse> {
-    try {
-      const provider = this.getProvider(
-        location,
-        request.paymentMethod,
-        userPreference
-      );
-
-      console.log(
-        `Creating payment with provider: ${provider.name}, method: ${request.paymentMethod}`
-      );
-
-      return await provider.createPayment(request);
-    } catch (error: any) {
-      console.error("PaymentRouter createPayment error:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * 处理Webhook
-   */
-  async handleWebhook(providerName: string, data: any) {
+  async handleSubscriptionWebhook(providerName: string, data: any) {
     const provider = this.providers.get(providerName);
     if (!provider) {
       throw new PaymentError(
@@ -239,23 +151,15 @@ export class PaymentRouter {
       );
     }
 
-    return await provider.handleWebhook(data);
-  }
-
-  /**
-   * 查询支付状态
-   */
-  async queryPayment(providerName: string, transactionId: string) {
-    const provider = this.providers.get(providerName);
-    if (!provider) {
+    if (!provider.handleSubscriptionWebhook) {
       throw new PaymentError(
-        "PROVIDER_NOT_FOUND",
-        `Payment provider ${providerName} not found`,
-        "router"
+        "WEBHOOK_NOT_SUPPORTED",
+        `Provider ${providerName} does not support subscription webhooks`,
+        providerName
       );
     }
 
-    return await provider.queryPayment(transactionId);
+    return await provider.handleSubscriptionWebhook(data);
   }
 
   /**
@@ -267,4 +171,112 @@ export class PaymentRouter {
       return provider?.validateConfig();
     });
   }
+
+  /**
+   * 根据名称获取特定的支付提供商
+   */
+  getProvider(providerName: string): PaymentProvider | undefined {
+    return this.providers.get(providerName);
+  }
+
+  /**
+   * 创建授权（用于订阅）
+   */
+  async createMandate(request: MandateRequest): Promise<MandateResponse> {
+    try {
+      const provider = this.getProviderForPaymentMethod(request.paymentMethod);
+
+      if (!provider.createMandate) {
+        throw new PaymentError(
+          "MANDATE_NOT_SUPPORTED",
+          `Provider ${provider.name} does not support mandate creation`,
+          provider.name
+        );
+      }
+
+      console.log(
+        `Creating mandate with provider: ${provider.name}, method: ${request.paymentMethod}`
+      );
+
+      return await provider.createMandate(request);
+    } catch (error: any) {
+      console.error("PaymentRouter createMandate error:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * 创建订阅
+   */
+  async createSubscription(request: SubscriptionRequest): Promise<SubscriptionResponse> {
+    try {
+      const provider = this.getProviderForPaymentMethod(request.paymentMethod);
+
+      if (!provider.createSubscription) {
+        throw new PaymentError(
+          "SUBSCRIPTION_NOT_SUPPORTED",
+          `Provider ${provider.name} does not support subscription creation`,
+          provider.name
+        );
+      }
+
+      console.log(
+        `Creating subscription with provider: ${provider.name}, method: ${request.paymentMethod}`
+      );
+
+      return await provider.createSubscription(request);
+    } catch (error: any) {
+      console.error("PaymentRouter createSubscription error:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * 取消订阅
+   */
+  async cancelSubscription(providerName: string, subscriptionId: string): Promise<boolean> {
+    const provider = this.providers.get(providerName);
+    if (!provider) {
+      throw new PaymentError(
+        "PROVIDER_NOT_FOUND",
+        `Payment provider ${providerName} not found`,
+        "router"
+      );
+    }
+
+    if (!provider.cancelSubscription) {
+      throw new PaymentError(
+        "CANCEL_NOT_SUPPORTED",
+        `Provider ${providerName} does not support subscription cancellation`,
+        providerName
+      );
+    }
+
+    return await provider.cancelSubscription(subscriptionId);
+  }
+
+  /**
+   * 查询订阅状态
+   */
+  async querySubscription(providerName: string, subscriptionId: string) {
+    const provider = this.providers.get(providerName);
+    if (!provider) {
+      throw new PaymentError(
+        "PROVIDER_NOT_FOUND",
+        `Payment provider ${providerName} not found`,
+        "router"
+      );
+    }
+
+    if (!provider.querySubscription) {
+      throw new PaymentError(
+        "QUERY_NOT_SUPPORTED",
+        `Provider ${providerName} does not support subscription query`,
+        providerName
+      );
+    }
+
+    return await provider.querySubscription(subscriptionId);
+  }
+
 }

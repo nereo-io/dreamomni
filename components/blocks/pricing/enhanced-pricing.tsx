@@ -6,6 +6,12 @@ import { Check, Loader, CreditCard, Globe } from "lucide-react";
 import { PricingItem, Pricing as PricingType } from "@/types/blocks/pricing";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { sendGAEvent } from "@next/third-parties/google";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -38,12 +44,18 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   >([]);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [selectedProvider, setSelectedProvider] = useState("");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successInfo, setSuccessInfo] = useState<{
+    planName?: string;
+    credits?: number;
+    nextBilling?: string;
+  }>({});
 
-  // 获取可用支付方式 - 直接使用客户端工具函数，无需 API 调用
+  // 获取支持订阅的支付方式
   useEffect(() => {
     if (!locationLoading) {
       try {
-        const methods = getAvailablePaymentMethods(isRussia);
+        const methods = getAvailablePaymentMethods(isRussia, true); // 第二个参数表示只获取支持订阅的支付方式
         setAvailableMethods(methods);
 
         // 根据用户位置自动选择支付方式
@@ -91,6 +103,69 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     }
   }, [locationLoading, isRussia]);
 
+  // 检测支付成功状态
+  useEffect(() => {
+    const checkRecentPayment = async () => {
+      // 检查是否有支付等待标记
+      const paymentPending = localStorage.getItem("veo3_payment_pending");
+      if (!paymentPending) return;
+
+      try {
+        const response = await fetch("/api/check-recent-payment");
+        const result = await response.json();
+
+        if (result.code === 0 && result.data.hasRecentPayment) {
+          const paymentInfo = result.data.paymentInfo;
+
+          // 设置弹窗信息
+          setSuccessInfo({
+            planName: paymentInfo.planName,
+            credits: paymentInfo.credits,
+            nextBilling: calculateNextBilling(
+              paymentInfo.interval,
+              paymentInfo.paidAt
+            ),
+          });
+
+          // 显示成功弹窗
+          setShowSuccessModal(true);
+
+          // 清除等待标记
+          localStorage.removeItem("veo3_payment_pending");
+          localStorage.removeItem("veo3_payment_info");
+        }
+      } catch (error) {
+        console.error("检查支付状态失败:", error);
+      }
+    };
+
+    // 页面加载时检查
+    checkRecentPayment();
+
+    // 监听页面重新获得焦点（用户从支付页面返回）
+    const handleFocus = () => {
+      setTimeout(checkRecentPayment, 1000); // 延迟 1 秒检查
+    };
+
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
+  }, []);
+
+  // 计算下次扣费时间的辅助函数
+  const calculateNextBilling = (interval: string, paidAt: string) => {
+    const paidDate = new Date(paidAt);
+    if (interval === "year") {
+      return new Date(
+        paidDate.getTime() + 365 * 24 * 60 * 60 * 1000
+      ).toLocaleDateString();
+    } else if (interval === "month") {
+      return new Date(
+        paidDate.getTime() + 30 * 24 * 60 * 60 * 1000
+      ).toLocaleDateString();
+    }
+    return "";
+  };
+
   const handleCheckout = async (item: PricingItem, cn_pay: boolean = false) => {
     try {
       if (!user) {
@@ -124,6 +199,17 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       user_preference: selectedProvider,
     };
 
+    // 设置支付等待标记
+    localStorage.setItem("veo3_payment_pending", "true");
+    localStorage.setItem(
+      "veo3_payment_info",
+      JSON.stringify({
+        planName: item.title || item.product_name,
+        credits: item.credits,
+        timestamp: Date.now(),
+      })
+    );
+
     setIsLoading(true);
     setProductId(item.product_id);
 
@@ -136,11 +222,26 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         availableMethods,
       });
 
-      // 根据选择的支付方式决定使用哪个API端点
-      const endpoint =
-        selectedProvider === "stripe" || selectedPaymentMethod === "stripe"
-          ? "/api/checkout"
-          : "/api/checkout/payssion";
+      // 根据支付方式和订阅类型决定使用哪个API端点
+      const isSubscription =
+        item.interval === "month" || item.interval === "year";
+      let endpoint;
+
+      if (selectedProvider === "stripe" || selectedPaymentMethod === "stripe") {
+        endpoint = "/api/checkout";
+      } else if (
+        isSubscription &&
+        (selectedProvider === "payssion" ||
+          ["mir", "yoomoney", "sberpay", "tbank"].includes(
+            selectedPaymentMethod
+          ))
+      ) {
+        // Payssion V2 订阅
+        endpoint = "/api/subscription/create";
+      } else {
+        // 其他支付方式
+        throw new Error("Unsupported payment method");
+      }
 
       console.log("Using endpoint:", endpoint);
 
@@ -183,16 +284,38 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         }
       } else {
         // Payssion 支付流程
-        const { redirect_url } = data;
+        const { redirect_url, success, subscriptionId } = data;
         if (redirect_url) {
+          // 需要用户授权，跳转到授权页面
           window.location.href = redirect_url;
+        } else if (success && subscriptionId) {
+          // 订阅已直接创建成功（使用现有授权），立即显示成功弹窗
+          const paymentInfo = localStorage.getItem("veo3_payment_info");
+          if (paymentInfo) {
+            const info = JSON.parse(paymentInfo);
+            setSuccessInfo({
+              planName: info.planName,
+              credits: info.credits,
+              nextBilling:
+                item.interval === "year"
+                  ? new Date(
+                      Date.now() + 365 * 24 * 60 * 60 * 1000
+                    ).toLocaleDateString()
+                  : new Date(
+                      Date.now() + 30 * 24 * 60 * 60 * 1000
+                    ).toLocaleDateString(),
+            });
+            localStorage.removeItem("veo3_payment_pending");
+            localStorage.removeItem("veo3_payment_info");
+          }
+          setShowSuccessModal(true);
         } else {
-          toast.error("支付链接生成失败");
+          toast.error("Payment link generation failed");
         }
       }
     } catch (error) {
       console.error("Payment processing failed:", error);
-      toast.error("支付处理失败");
+      toast.error("Payment processing failed");
     } finally {
       setIsLoading(false);
       setProductId(null);
@@ -444,7 +567,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                   window.location.href = "/";
                                   return;
                                 }
-                                
+
                                 sendGAEvent(
                                   "event",
                                   "conversion_event_begin_checkout",
@@ -511,6 +634,56 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
           </div>
         </div>
       </section>
+
+      {/* 支付成功弹窗 */}
+      <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-center">
+              <span className="text-2xl">🎉</span>
+              Payment Successful!
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="text-center space-y-2">
+              <p className="text-lg font-semibold text-green-600">
+                {successInfo.planName} Activated
+              </p>
+              {successInfo.credits && successInfo.credits > 0 && (
+                <p className="text-sm text-muted-foreground">
+                  {successInfo.credits} credits added to your account
+                </p>
+              )}
+              {/* {successInfo.nextBilling && (
+                <p className="text-sm text-muted-foreground">
+                  📅 Next billing: {successInfo.nextBilling}
+                </p>
+              )} */}
+            </div>
+            <div className="flex gap-2">
+              <Button
+                className="flex-1"
+                onClick={() => {
+                  setShowSuccessModal(false);
+                  window.location.reload(); // 刷新页面显示最新状态
+                }}
+              >
+                Continue
+              </Button>
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => {
+                  setShowSuccessModal(false);
+                  window.location.href = "/"; // 跳转到首页开始使用
+                }}
+              >
+                Start Creating
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

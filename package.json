@@ -45,6 +45,7 @@
     "@openpanel/nextjs": "^1.0.7",
     "@openrouter/ai-sdk-provider": "^0.0.6",
     "@radix-ui/react-accordion": "^1.2.0",
+    "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-avatar": "^1.1.2",
     "@radix-ui/react-collapsible": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.4",
@@ -144,8 +145,12 @@
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/$1"
     },
-    "modulePathIgnorePatterns": ["<rootDir>/.next/"],
-    "extensionsToTreatAsEsm": [".ts"],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/.next/"
+    ],
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
     "globals": {
       "ts-jest": {
         "useESM": true

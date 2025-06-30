@@ -77,6 +77,22 @@
     "manage_subscription": "Manage Subscription",
     "loading": "Loading..."
   },
+  "subscription": {
+    "allSubscriptions": "All Subscriptions",
+    "subscriptionHistory": "Your Payssion subscription history",
+    "cancelTitle": "Cancel Subscription",
+    "cancelDescription": "Are you sure you want to cancel? You'll keep access until your billing period ends.",
+    "keepSubscription": "Keep Subscription",
+    "confirmCancel": "Yes, Cancel",
+    "canceling": "Canceling...",
+    "cancel": "Cancel",
+    "cancelSuccess": "Subscription canceled",
+    "cancelSuccessDescription": "You won't be billed again.",
+    "cancelFailed": "Cancel failed",
+    "cancelFailedDescription": "Please try again.",
+    "networkError": "Network error",
+    "networkErrorDescription": "Check your connection and try again."
+  },
   "my_credits": {
     "title": "My Credits",
     "rules_title": "Rules",

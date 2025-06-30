@@ -16,7 +16,7 @@ export async function GET(req: Request) {
       country: countryCode.toUpperCase(),
     };
     
-    const availableMethods = paymentRouter.getAvailablePaymentMethods(location, userPreference);
+    const availableMethods = paymentRouter.getAvailablePaymentMethods(location);
     const availableProviders = paymentRouter.getAvailableProviders();
     
     return respData({
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
       country: (countryCode || 'US').toUpperCase(),
     };
     
-    const availableMethods = paymentRouter.getAvailablePaymentMethods(location, userPreference);
+    const availableMethods = paymentRouter.getAvailablePaymentMethods(location);
     const availableProviders = paymentRouter.getAvailableProviders();
     
     return respData({

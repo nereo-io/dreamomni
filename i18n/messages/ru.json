@@ -77,6 +77,22 @@
     "manage_subscription": "Управление подпиской",
     "loading": "Загрузка..."
   },
+  "subscription": {
+    "allSubscriptions": "Все подписки",
+    "subscriptionHistory": "История ваших подписок Payssion",
+    "cancelTitle": "Отменить подписку",
+    "cancelDescription": "Вы уверены, что хотите отменить? Доступ сохранится до конца периода оплаты.",
+    "keepSubscription": "Оставить подписку",
+    "confirmCancel": "Да, отменить",
+    "canceling": "Отмена...",
+    "cancel": "Отменить",
+    "cancelSuccess": "Подписка отменена",
+    "cancelSuccessDescription": "Больше не будет списаний.",
+    "cancelFailed": "Ошибка отмены",
+    "cancelFailedDescription": "Попробуйте снова.",
+    "networkError": "Ошибка сети",
+    "networkErrorDescription": "Проверьте соединение и попробуйте снова."
+  },
   "my_credits": {
     "title": "Мои кредиты",
     "rules_title": "Правила",
