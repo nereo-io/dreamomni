@@ -108,7 +108,7 @@ export class PayssionProvider extends BasePaymentProvider {
             userUuid: metadata.user_uuid,
             userEmail: metadata.user_email,
             mandateId: existingMandate.mandate_id,
-            amount: parseFloat(metadata.amount),
+            amount: parseFloat(metadata.amount) / 100, // 美分转美元
             currency: metadata.currency,
             interval: metadata.interval,
             planType: planType,
@@ -218,7 +218,7 @@ export class PayssionProvider extends BasePaymentProvider {
         mandate_id: request.mandateId,
         email: request.userEmail,
         currency: request.currency,
-        amount: request.amount.toString(), // 作为字符串发送
+        amount: request.amount, // 美分转美元
         description:
           request.description || `Subscription for ${request.userEmail}`,
         interval_unit: request.interval,
@@ -294,8 +294,8 @@ export class PayssionProvider extends BasePaymentProvider {
         case "payment.failed":
           console.log("V2 subscription webhook received:", data);
           console.error(
-            `❌ Payment failed: ${webhookData.subscription_id} - ${
-              webhookData.failure_reason || "Unknown reason"
+            `❌ Payment failed: ${webhookData.object?.source_id} - ${
+              webhookData.object?.failure_code || "Unknown reason"
             }`
           );
           break;
@@ -362,7 +362,7 @@ export class PayssionProvider extends BasePaymentProvider {
         userUuid: metadata.user_uuid,
         userEmail: metadata.user_email,
         mandateId: mandateId,
-        amount: parseFloat(metadata.amount),
+        amount: parseFloat(metadata.amount) / 100, // 美分转美元
         currency: metadata.currency,
         interval: metadata.interval,
         planType: planType,
@@ -398,7 +398,7 @@ export class PayssionProvider extends BasePaymentProvider {
 
     console.log("Subscription created:", subscriptionId, "mandate:", mandateId);
 
-    // 创建订阅记录
+    // 创建订阅记录 - 初始状态为 pending，等待首次支付成功后激活
     const { createSubscription } = await import("@/models/subscription");
     await createSubscription({
       user_uuid: metadata.user_uuid,
@@ -407,7 +407,7 @@ export class PayssionProvider extends BasePaymentProvider {
       plan_type: metadata.interval === "year" ? "yearly" : "monthly",
       amount: parseFloat(metadata.amount),
       currency: metadata.currency,
-      status: "active",
+      status: "pending",
       product_name: metadata.product_name,
       product_id: metadata.product_id,
     });
@@ -424,7 +424,7 @@ export class PayssionProvider extends BasePaymentProvider {
   }
 
   /**
-   * 处理支付成功事件 - 发放积分并更新状态
+   * 处理支付成功事件 - 激活订阅并发放积分
    */
   private async handlePaymentSucceeded(data: any) {
     const subscriptionId = data.object?.source_id;
@@ -442,6 +442,19 @@ export class PayssionProvider extends BasePaymentProvider {
       return;
     }
 
+    // 1. 激活订阅（如果是首次支付成功）
+    const { updateSubscriptionStatus, findSubscriptionByPayssionId } =
+      await import("@/models/subscription");
+    const subscription = await findSubscriptionByPayssionId(subscriptionId);
+
+    if (subscription && subscription.status === "pending") {
+      await updateSubscriptionStatus(subscriptionId, "active");
+      console.log(
+        `✅ Subscription ${subscriptionId} activated (pending → active)`
+      );
+    }
+
+    // 2. 处理支付并发放积分
     const processingResult = await PaymentProcessingService.processPayment({
       paymentId: metadata.order_no,
       userUuid: metadata.user_uuid,

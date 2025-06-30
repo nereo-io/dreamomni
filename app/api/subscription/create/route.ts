@@ -10,12 +10,15 @@ import { getSnowId } from "@/lib/hash";
 import { getPayssionConfig } from "@/config/payssion";
 
 // 日志函数 - 只输出到控制台，不写入文件
+function logInfo(message: string, data?: any) {
+  console.log(`[INFO] ${message}`, data ? JSON.stringify(data, null, 2) : "");
+}
+
 function logError(message: string, data?: any) {
-  const timestamp = new Date().toISOString();
-  const logEntry = `[${timestamp}] ${message}${
-    data ? "\n" + JSON.stringify(data, null, 2) : ""
-  }\n`;
-  console.error(logEntry);
+  console.error(
+    `[ERROR] ${message}`,
+    data ? JSON.stringify(data, null, 2) : ""
+  );
 }
 
 export async function POST(req: NextRequest) {
@@ -28,7 +31,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    logError("🚀 创建订阅", {
+    logInfo("🚀 创建订阅", {
       product_id: body.product_id,
       payment_method: body.payment_method,
     });
@@ -140,7 +143,7 @@ export async function POST(req: NextRequest) {
       userEmail: user_email,
       paymentMethod: payment_method,
       returnUrl: `${process.env.NEXT_PUBLIC_WEB_URL}/pricing`,
-      // returnUrl: `https://www.veo3.com/pricing`,
+      // returnUrl: `https://www.veo3ai.io/pricing`,
       reference: `mdt${order_no}`,
       metadata: {
         project: process.env.NEXT_PUBLIC_PROJECT_NAME || "",
