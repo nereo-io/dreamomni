@@ -203,6 +203,11 @@ export class VideoStatusService {
         if (modelConfig.provider === VideoModelProvider.APICORE) {
           await this.uploadToR2ForApiCore(updateParams, result, videoGeneration);
         }
+        
+        // 对于 KieAI Veo3，也可以尝试上传到 R2（可选）
+        if (modelConfig.provider === VideoModelProvider.KIEAI) {
+          await this.uploadToR2ForKieAi(updateParams, result, videoGeneration);
+        }
       } else {
         console.error("获取结果成功但数据为空:", result);
         updateParams.status = "FAILED";
@@ -227,10 +232,15 @@ export class VideoStatusService {
         updateParams.video_url_fal = result.video_url;
         break;
       case VideoModelProvider.APICORE:
+      case VideoModelProvider.KIEAI:
         if (result.video_url) {
           updateParams.video_url_veo3 = result.video_url;
         }
-        if ((result as any).upsample_video_url) {
+        // For KieAI: map hd_video_url to upsample_video_url_veo3
+        // For APICore: map upsample_video_url to upsample_video_url_veo3
+        if (result.hd_video_url) {
+          updateParams.upsample_video_url_veo3 = result.hd_video_url;
+        } else if ((result as any).upsample_video_url) {
           updateParams.upsample_video_url_veo3 = (result as any).upsample_video_url;
         }
         break;
@@ -269,6 +279,43 @@ export class VideoStatusService {
       }
     } catch (r2Error) {
       console.error("APICore Veo3 R2上传失败:", r2Error);
+      // R2上传失败不影响主流程，状态仍为COMPLETED
+    }
+  }
+
+  /**
+   * 为 KieAI 上传视频到 R2
+   */
+  private static async uploadToR2ForKieAi(
+    updateParams: any,
+    result: any,
+    videoGeneration: any
+  ): Promise<void> {
+    try {
+      console.log("开始为 KieAI Veo3 上传视频到 R2");
+      const { newStorage } = await import("@/lib/storage");
+      const storage = newStorage();
+      
+      // For KieAI: prioritize hd_video_url (1080P) over video_url (standard)
+      const videoToUpload = result.hd_video_url || result.video_url;
+      const isHD = !!result.hd_video_url;
+      const fileName = `videos/${videoGeneration.id}-${Date.now()}${isHD ? '-hd' : ''}.mp4`;
+
+      console.log(`上传${isHD ? '高清1080P' : '标准'}视频到 R2: ${videoToUpload}`);
+
+      const uploadResult = await storage.downloadAndUpload({
+        url: videoToUpload,
+        key: fileName,
+        contentType: "video/mp4",
+      });
+
+      if (uploadResult?.url) {
+        updateParams.video_url_r2 = uploadResult.url;
+        updateParams.status = "SAVED_TO_R2";
+        console.log(`KieAI Veo3 ${isHD ? '高清1080P' : '标准'}视频已上传到R2: ${uploadResult.url}`);
+      }
+    } catch (r2Error) {
+      console.error("KieAI Veo3 R2上传失败:", r2Error);
       // R2上传失败不影响主流程，状态仍为COMPLETED
     }
   }

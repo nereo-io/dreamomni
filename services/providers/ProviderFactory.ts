@@ -2,6 +2,7 @@ import { VideoProvider } from "./types";
 import { FalProvider } from "./FalProvider";
 import { VolcanoProvider } from "./VolcanoProvider";
 import { Veo3Provider } from "./Veo3Provider";
+import { KieAiVeo3Provider } from "./KieAiVeo3Provider";
 import { getVideoModel, VideoModelProvider } from "@/config/video-models";
 
 export class ProviderFactory {
@@ -45,6 +46,16 @@ export class ProviderFactory {
           );
         }
         provider = new Veo3Provider(apicoreApiKey);
+        break;
+
+      case VideoModelProvider.KIEAI:
+        const kieaiApiKey = process.env.KIE_AI_API_KEY;
+        if (!kieaiApiKey) {
+          throw new Error(
+            "KIE_AI_API_KEY environment variable is required for Kie.ai models"
+          );
+        }
+        provider = new KieAiVeo3Provider(kieaiApiKey);
         break;
 
       default:

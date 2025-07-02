@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000
-@authCookie = authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiMjdjQzA0V0toaXVJbUNVOEtSOUpFREFhS0RNemVILXgzU0Vqc3pqRnZBYkFEUjE4VzVkWVB2Y0dSZXUyQkZhRnY2MGMxSGlSUVJyUk95bDFNR09VNVEifQ..5IgEZ4EZ1VoYEsRcykNkdA.qw74Go9HwwiMMvYIfhXWswXArdMUgyJe8HY5LsZaFch-thSxiR2KTssHv8_TF0FqAd66Ly_Mql7TDygQBsXvLv7MDU525OX5xrkV3qLaN70Fyx_eZTlnwYW4JM9Z2DYXuIVFu-gvvqByilz7jnyk5eFSt7ZAZR9K8XzGid9D1QyU4nIC6CrGPcWwJ4U-3zCwq1S3BEr0idifC2L_ULfL-P6NaXZaXq6PwQ_iLEh9kwjY_I8koRjEuXy0nPu7WHyzGFVBzUo_sXQMFs76mFDpw6Umryu7VEfgAF0nmj0CfxDI8S1pgQeaynpkmD365RfP4k4fIjdIQg4fW2Ix8IcAXvLkxiRvsSNEfS1of3_OW99ok9lekacnWSxsaZwkxzeU3ThYeWEPr34A9Lely9y3DePPMio57cn-AgxXG6BnFzXpEyYtEvlhHS2ij2cd1ZAE-Ysf8hRl2j_lrtnKOGqW1NpJKEnGsXF6isXjFfGAnkjUvn7n98o6swNC-SqlDIFx0UwnV-lZSVm9Usf8srud48biBj52JAqNrExT8cnx9uVZzbPemKMc5hg0PpC8zOKlIDOPgoIYRHD4yE5oVJhB_PvjD2FAuwA9d38wf36WoDg7gKLAZ4VwRuBOQahKQNTJWOg2LIZWGGz1dP0rKjbnIXw497BtNrAG974H0Nz1y5BYCbe2W0_MxX-4Gx1pMlnUSuyFCT371vEo41hYcXQX3hF_eXqkthYdGTdthbZwc0c.mypRWssQ5WOsYqN8M3iFef4yeyrbOzEZIs1V89kCMfk
+@authCookie = authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiMjdjQzA0V0toaXVJbUNVOEtSOUpFREFhS0RNemVILXgzU0Vqc3pqRnZBYkFEUjE4VzVkWVB2Y0dSZXUyQkZhRnY2MGMxSGlSUVJyUk85bDFNR09VNVEifQ..f4N91IwOMNdN_805sbb6vw.Fqy5afbkccP9POIGiXWqMzA6tqwbv7sgy2wWl2jvhLBNyFL1c6vnBSii0uVummFNp_I2J8frFWdnCyCsI18vKsZUR94ERTBoNuFG5_GI9kN7wK58NOnLjUsJoDurkbIlUa1x5UfANEFvMxyrUA3QjaIr5BN3_dmy95tKAJfqUzmjY-uT-s3bqas0f6dkXwnT0N8ruIPtEC6j3nCjOOx-yC_Qp8TlhVKthkLRo8VUzJuaAyx5RL8Seua9YRgj6yRpNK980PFJN06B6H49CPyioeLGWMoXpfLva8ENAbwVb745ZWShDeFqQIYSPCTGqsSKzAu-XrmQrR3WZ70hkGYsKXJS74jPyRUQJc9p71mNpDQe7FgycaAtSQZ7lidV7TH9DqVgTg3jJ1CdABpcm5kdyMlFQK5LmB13h3RoytTsEYdxXjKdoKR5SOOalQMzz480-tAw0IfvgCTz2O2SoovUxJm5HwgTP00DWum5TiuTIBcFPE1Og2_bLNmMySRlEltcibvU-yNl3IAm9-Lzuo26xkkzjSnyHKg_DqzRsdiNxUEYt3anHD-onBNGFKTbsBLfmxjdf-9U-9jfl9iV09yKnkU86Dzrm0r4TuOLUOBLlsaiWb3v-OThRAkYveTDbNOSO-ejHH0kZzmlynIP_ZJ4hBI5ZTTO4CGksOvav29gW9ZwGKSz4K7wuQIKi3tSJBpHmaMPNanRRUcQ8vCPj9A6XZk10ZR_e443yTtg_IYTqwI.przkLGGvw_dRAFWpY8aWaEyYLim97Wgmc1Ux3OBUBzE
 @apiKey = sk-xxx
 
 ### ping api (使用Cookie认证)
@@ -36,6 +36,75 @@ Content-Type: application/json
   "provider": "kling",
   "model": "kling-v1-6"
 }
+
+### prompt优化 - 测试1: 纯文字优化（向后兼容）
+POST {{baseUrl}}/api/video-generation/optimize-prompt
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "videoGenerationId": "057a488c-c5fc-4f53-97b7-6e98b7e41410",
+  "originalPrompt": "一只可爱的小猫在花园里玩耍"
+}
+
+### prompt优化 - 测试2: 文字+图片多模态优化（阿里云 Qwen-VL）
+POST {{baseUrl}}/api/video-generation/optimize-prompt
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "videoGenerationId": "057a488c-c5fc-4f53-97b7-6e98b7e41410",
+  "originalPrompt": "美丽的日落风景，天空中有云朵",
+  "imageUrl": "https://picsum.photos/id/1018/800/600"
+}
+
+### prompt优化 - 测试3: 城市夜景+图片
+POST {{baseUrl}}/api/video-generation/optimize-prompt
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "videoGenerationId": "057a488c-c5fc-4f53-97b7-6e98b7e41410",
+  "originalPrompt": "идет начальник по стройке матерится: Сказать, что у нас всё идёт по плану — это как сказать, что трактор умеет летать: вроде бы хочется верить, но чё-то, блядь, не выходит.",
+  "imageUrl": "https://picsum.photos/800/600"
+}
+
+### prompt优化 - 测试4: 自然风光+图片
+POST {{baseUrl}}/api/video-generation/optimize-prompt
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "videoGenerationId": "057a488c-c5fc-4f53-97b7-6e98b7e41410",
+  "originalPrompt": "森林中的小溪流水，鸟儿歌唱",
+  "imageUrl": "https://picsum.photos/id/1015/800/600"
+}
+
+### prompt优化 - 测试5: 人物场景+图片
+POST {{baseUrl}}/api/video-generation/optimize-prompt
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "videoGenerationId": "057a488c-c5fc-4f53-97b7-6e98b7e41410",
+  "originalPrompt": "一个女孩在海边漫步，微风吹拂",
+  "imageUrl": "https://picsum.photos/id/1025/800/600"
+}
+
+### prompt优化 - 测试6: 测试备用模型（使用无效图片URL触发备用机制）
+POST {{baseUrl}}/api/video-generation/optimize-prompt
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "videoGenerationId": "057a488c-c5fc-4f53-97b7-6e98b7e41410",
+  "originalPrompt": "未来科技城市，机器人在工作",
+  "imageUrl": "https://invalid-image-url-for-testing-fallback.jpg"
+}
+
+
+
+
 
 #################################
 ### APICore直接接口测试
