@@ -17,6 +17,7 @@ import {
   isVeo2Model,
   isVeo3Model,
   isVeo3ApicoreModel,
+  isKieAiModel,
   isVeoModel,
   isVolcanoModel,
   calculateCredits,
@@ -230,11 +231,20 @@ export async function POST(req: Request) {
       if (modelConfig.volcanoModel) {
         input.model = modelConfig.volcanoModel;
       }
+    } else if (isKieAiModel(model)) {
+      // Kie.ai 模型特有参数
+      if (image_url) {
+        input.image_url = image_url;
+      }
+      // Kie.ai 支持水印
+      if (otherParams.watermark) {
+        input.watermark = otherParams.watermark;
+      }
     }
 
     // 7. 提交任务到队列，包含webhook URL
     const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
-    // const webhookUrl = `https://e286-103-134-34-19.ngrok-free.app/api/video-generation/webhook`;
+    // const webhookUrl = `https://eee7-2a12-f8c3-4872-3198-861e-2cf1-b8c5-30a2.ngrok-free.app/api/video-generation/webhook`;
 
     try {
       // 使用Provider Factory获取合适的provider
@@ -252,7 +262,11 @@ export async function POST(req: Request) {
         updateParams.volcano_request_id = submitResponse.request_id;
       } else if (modelConfig.provider === VideoModelProvider.FAL) {
         updateParams.fal_request_id = submitResponse.request_id;
-      } else if (modelConfig.provider === VideoModelProvider.APICORE) {
+      } else if (
+        modelConfig.provider === VideoModelProvider.APICORE ||
+        modelConfig.provider === VideoModelProvider.KIEAI
+      ) {
+        // Both APICore and KieAI use the same veo3_request_id field
         updateParams.veo3_request_id = submitResponse.request_id;
       }
 

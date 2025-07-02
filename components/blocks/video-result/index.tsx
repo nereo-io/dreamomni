@@ -87,6 +87,20 @@ const getFriendlyErrorMessage = (apiErrorMessage?: string, t?: any): string => {
   }
   console.log("apiErrorMessage", apiErrorMessage);
 
+  // Handle specific sensitive content errors first
+  if (
+    apiErrorMessage.includes("OutputVideoSensitiveContentDetected") ||
+    apiErrorMessage.includes("output video may contain sensitive information")
+  ) {
+    return "Video generation failed because the result may contain sensitive content. Please modify your prompt and try again.";
+  }
+  if (
+    apiErrorMessage.includes("InputImageSensitiveContentDetected") ||
+    apiErrorMessage.includes("input image may contain sensitive information")
+  ) {
+    return "Video generation failed because the uploaded image may contain sensitive content. Please use a different image.";
+  }
+
   // 首先尝试从字符串中直接提取状态码（处理 "Invalid status code: 422" 这样的格式）
   const statusCodeMatch = apiErrorMessage.match(
     /(?:status code|code):\s*(\d+)/i
@@ -184,7 +198,10 @@ export default function VideoResult({
   // 当generation对象发生变化时，重置videoUrl状态
   useEffect(() => {
     // 当generation.id变化时（新的生成任务），重置videoUrl
-    console.log("Generation changed, resetting videoUrl to:", generation.video_url);
+    console.log(
+      "Generation changed, resetting videoUrl to:",
+      generation.video_url
+    );
     setVideoUrl(generation.video_url);
   }, [generation.id, generation.video_url]);
   const [currentTime, setCurrentTime] = useState(Date.now());
@@ -194,7 +211,8 @@ export default function VideoResult({
 
   // 获取模型配置以确定等待时间
   const modelConfig = getVideoModel(generation.model);
-  const TOTAL_WAIT_TIME_SECONDS = modelConfig?.estimatedGenerationTime || DEFAULT_WAIT_TIME_SECONDS;
+  const TOTAL_WAIT_TIME_SECONDS =
+    modelConfig?.estimatedGenerationTime || DEFAULT_WAIT_TIME_SECONDS;
 
   const STATUS_MAP = getStatusMap(t);
   const status =
@@ -378,15 +396,30 @@ export default function VideoResult({
 
     switch (generation.status) {
       case "submitted":
-        return t("taskSubmitted", { time: formattedRemainingTime, model: modelDisplayName });
+        return t("taskSubmitted", {
+          time: formattedRemainingTime,
+          model: modelDisplayName,
+        });
       case "PROMPT_OPTIMIZING":
-        return t("optimizingPrompt", { time: formattedRemainingTime, model: modelDisplayName });
+        return t("optimizingPrompt", {
+          time: formattedRemainingTime,
+          model: modelDisplayName,
+        });
       case "IN_QUEUE":
-        return t("taskInQueue", { time: formattedRemainingTime, model: modelDisplayName });
+        return t("taskInQueue", {
+          time: formattedRemainingTime,
+          model: modelDisplayName,
+        });
       case "IN_PROGRESS":
-        return t("generatingVideo", { time: formattedRemainingTime, model: modelDisplayName });
+        return t("generatingVideo", {
+          time: formattedRemainingTime,
+          model: modelDisplayName,
+        });
       default:
-        return t("processingGeneral", { time: formattedRemainingTime, model: modelDisplayName });
+        return t("processingGeneral", {
+          time: formattedRemainingTime,
+          model: modelDisplayName,
+        });
     }
   };
 
@@ -487,35 +520,39 @@ export default function VideoResult({
         </div>
 
         {/* 优化后Prompt - 只在有优化结果时显示 */}
-        {generation.optimized_prompt && generation.optimized_prompt !== generation.prompt && (
-          <div className="bg-gradient-to-r from-purple-50/50 to-blue-50/50 dark:from-purple-900/20 dark:to-blue-900/20 border border-purple-200/50 dark:border-purple-700/50 rounded-lg p-4">
-            <div 
-              className="flex items-center justify-between cursor-pointer"
-              onClick={() => setShowOptimizedPrompt(!showOptimizedPrompt)}
-            >
-              <h3 className="font-medium text-foreground flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-purple-500" />
-                {t("optimizedPrompt")}
-                <Badge variant="outline" className="text-xs bg-purple-100 dark:bg-purple-900/50 border-purple-200 dark:border-purple-700">
-                  {t("enhanced")}
-                </Badge>
-              </h3>
-              {showOptimizedPrompt ? (
-                <ChevronUp className="h-4 w-4 text-muted-foreground" />
-              ) : (
-                <ChevronDown className="h-4 w-4 text-muted-foreground" />
+        {generation.optimized_prompt &&
+          generation.optimized_prompt !== generation.prompt && (
+            <div className="bg-gradient-to-r from-purple-50/50 to-blue-50/50 dark:from-purple-900/20 dark:to-blue-900/20 border border-purple-200/50 dark:border-purple-700/50 rounded-lg p-4">
+              <div
+                className="flex items-center justify-between cursor-pointer"
+                onClick={() => setShowOptimizedPrompt(!showOptimizedPrompt)}
+              >
+                <h3 className="font-medium text-foreground flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-purple-500" />
+                  {t("optimizedPrompt")}
+                  <Badge
+                    variant="outline"
+                    className="text-xs bg-purple-100 dark:bg-purple-900/50 border-purple-200 dark:border-purple-700"
+                  >
+                    {t("enhanced")}
+                  </Badge>
+                </h3>
+                {showOptimizedPrompt ? (
+                  <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                ) : (
+                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                )}
+              </div>
+
+              {showOptimizedPrompt && (
+                <div className="mt-3 pt-3 border-t border-purple-200/50 dark:border-purple-700/50">
+                  <p className="text-sm text-muted-foreground leading-relaxed max-h-32 overflow-y-auto">
+                    {generation.optimized_prompt}
+                  </p>
+                </div>
               )}
             </div>
-            
-            {showOptimizedPrompt && (
-              <div className="mt-3 pt-3 border-t border-purple-200/50 dark:border-purple-700/50">
-                <p className="text-sm text-muted-foreground leading-relaxed max-h-32 overflow-y-auto">
-                  {generation.optimized_prompt}
-                </p>
-              </div>
-            )}
-          </div>
-        )}
+          )}
       </div>
 
       {/* Video Player - 只在成功且有视频URL时显示 */}

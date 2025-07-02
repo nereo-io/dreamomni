@@ -9,21 +9,13 @@
         "sbp_d8cb238cec648806fbc240f3cbc11412e40707f4"
       ]
     },
-    "puppeteer": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
-    },
-    "Sentry": {
-      "command": "npx",
-      "args": ["mcp-remote@latest", "https://mcp.sentry.dev/sse"]
-    },
     "context7": {
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp"]
     },
-    "APICore": {
+    "playwright": {
       "command": "npx",
-      "args": ["-y", "apifox-mcp-server@latest", "--site-id=5450413"]
+      "args": ["@playwright/mcp@latest"]
     }
   }
 }
