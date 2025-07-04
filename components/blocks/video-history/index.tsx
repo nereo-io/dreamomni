@@ -60,27 +60,30 @@ export default function VideoHistoryClient() {
       if (result.code === 0 && result.data) {
         let videos = result.data.data || [];
 
-        // 检查是否有进行中的Veo3任务需要更新状态
-        const activeVeo3Tasks = videos.filter(
-          (video: VideoGeneration) =>
-            video.model_id === "veo3-apicore-text-to-video" &&
-            [
-              "PENDING",
-              "PROMPT_OPTIMIZING",
-              "IN_QUEUE",
-              "IN_PROGRESS",
-              "submitted",
-            ].includes(video.status)
-        );
-        console.log("activeVeo3Tasks", activeVeo3Tasks);
+        // 检查是否有进行中的任务需要更新状态 (APICore Veo3, Seedance, Kie Veo3)
+        const activeStatuses = ["PENDING", "PROMPT_OPTIMIZING", "IN_QUEUE", "IN_PROGRESS", "submitted"];
+        const supportedModels = [
+          "veo3-apicore-text-to-video",
+          "doubao-seedance-1-0-pro-text-to-video",
+          "doubao-seedance-1-0-pro-image-to-video",
+          "kie-veo3-text-to-video"
+        ];
 
-        if (activeVeo3Tasks.length > 0) {
+        const allActiveTasks = videos.filter(
+          (video: VideoGeneration) =>
+            supportedModels.includes(video.model_id) &&
+            activeStatuses.includes(video.status)
+        );
+
+        console.log("allActiveTasks", allActiveTasks);
+
+        if (allActiveTasks.length > 0) {
           console.log(
-            `发现 ${activeVeo3Tasks.length} 个进行中的Veo3任务，正在更新状态...`
+            `发现 ${allActiveTasks.length} 个进行中的任务，正在更新状态...`
           );
 
-          // 并行触发所有进行中的Veo3任务状态更新（会更新数据库）
-          const statusPromises = activeVeo3Tasks.map(
+          // 并行触发所有进行中的任务状态更新（会更新数据库）
+          const statusPromises = allActiveTasks.map(
             async (video: VideoGeneration) => {
               try {
                 await fetch("/api/video-generation/status", {
@@ -99,7 +102,7 @@ export default function VideoHistoryClient() {
           await Promise.all(statusPromises);
 
           console.log(
-            `已触发 ${activeVeo3Tasks.length} 个任务状态更新（数据库已更新）`
+            `已触发 ${allActiveTasks.length} 个任务状态更新（数据库已更新）`
           );
 
           // 重新获取历史记录以显示最新状态
@@ -136,11 +139,12 @@ export default function VideoHistoryClient() {
   };
 
   const handlePlayVideo = (video: VideoGeneration) => {
-    // Check for video URL availability (prioritize R2, then upsample veo3, then regular veo3, then fal)
+    // Check for video URL availability (prioritize R2, then upsample veo3, then regular veo3, then volcano/seedance, then fal)
     const videoUrl =
       video.video_url_r2 ||
       video.upsample_video_url_veo3 ||
       video.video_url_veo3 ||
+      video.video_url_volcano ||
       video.video_url_fal;
     if (videoUrl) {
       window.open(videoUrl, "_blank");
@@ -154,6 +158,7 @@ export default function VideoHistoryClient() {
       video.video_url_r2 ||
       video.upsample_video_url_veo3 ||
       video.video_url_veo3 ||
+      video.video_url_volcano ||
       video.video_url_fal;
     if (videoUrl) {
       const link = document.createElement("a");
@@ -248,12 +253,14 @@ export default function VideoHistoryClient() {
                 {video.video_url_r2 ||
                 video.upsample_video_url_veo3 ||
                 video.video_url_veo3 ||
+                video.video_url_volcano ||
                 video.video_url_fal ? (
                   <video
                     src={
                       video.video_url_r2 ??
                       video.upsample_video_url_veo3 ??
                       video.video_url_veo3 ??
+                      video.video_url_volcano ??
                       video.video_url_fal ??
                       ""
                     }
@@ -320,6 +327,7 @@ export default function VideoHistoryClient() {
                   !video.video_url_r2 &&
                   !video.upsample_video_url_veo3 &&
                   !video.video_url_veo3 &&
+                  !video.video_url_volcano &&
                   !video.video_url_fal
                 }
                 className="w-full sm:w-auto border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
@@ -337,6 +345,7 @@ export default function VideoHistoryClient() {
                     !video.video_url_r2 &&
                     !video.upsample_video_url_veo3 &&
                     !video.video_url_veo3 &&
+                    !video.video_url_volcano &&
                     !video.video_url_fal
                   }
                   title={t("downloadButton")}

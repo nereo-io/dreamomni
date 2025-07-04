@@ -12,7 +12,8 @@ export async function POST(req: Request) {
   try {
     const webhookData = await req.json();
 
-    console.log("收到 webhook 回调:", webhookData);
+    // console.log("收到 webhook 回调:", webhookData);
+    console.log("收到 webhook 回调:", JSON.stringify(webhookData, null, 2));
 
     // 确定webhook类型和数据结构
     let request_id: string;
