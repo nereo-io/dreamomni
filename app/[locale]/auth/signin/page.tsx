@@ -9,7 +9,7 @@ export default async function SignInPage({
 }) {
   const session = await auth();
   if (session) {
-    return redirect(searchParams.callbackUrl || "/");
+    return redirect(searchParams.callbackUrl || "/home");
   }
 
   return (

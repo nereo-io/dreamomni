@@ -322,5 +322,154 @@
       "timeout": "The request took too long and timed out. Please try again.",
       "statusCode": "An error occurred (Status {code}). Please try again."
     }
+  },
+  "components": {
+    "sectionHeader": {
+      "defaultTitle": "Section Title",
+      "defaultDescription": "Section description"
+    },
+    "heroSection": {
+      "defaultTitle": "Hero Title",
+      "defaultDescription": "Hero description",
+      "defaultButtonText": "Get Started"
+    },
+    "categoryTabs": {
+      "all": "All",
+      "interaction": "Interaction",
+      "appearance": "Appearance", 
+      "emotions": "Emotions",
+      "entertainment": "Entertainment",
+      "heroVillain": "Hero/Villain",
+      "horrorFantasy": "Horror/Fantasy",
+      "xmas": "Xmas",
+      "others": "Others",
+      "newLabel": "NEW"
+    },
+    "howToUseSection": {
+      "defaultTitle": "How to Use This Effect",
+      "uploadImage": {
+        "title": "Upload Image",
+        "description": "Upload a clear photo of the person you want to transform"
+      },
+      "aiProcessing": {
+        "title": "AI Processing", 
+        "description": "Our AI analyzes the image and applies the selected effect"
+      },
+      "getVideo": {
+        "title": "Get Video",
+        "description": "Download your transformed video in high quality"
+      }
+    },
+    "categoryEffectSection": {
+      "defaultDescription": "Discover amazing {categoryName} to transform your videos with AI-powered creativity."
+    },
+    "videoExampleGrid": {
+      "playButton": "Play"
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Welcome to Veo3 AI",
+      "description": "Transform your ideas into stunning videos with our advanced AI technology. Choose from text-to-video, image-to-video, or explore our creative video effects."
+    },
+    "textToVideo": {
+      "title": "All-in-One AI Video Generator",
+      "description": "Create professional videos from simple text descriptions. Our advanced AI understands your vision and transforms words into stunning visual stories.",
+      "placeholderText": "Enter a text prompt and click generate to create your video",
+      "visualizeSection": {
+        "title": "Visualize Any Text with Our AI Video Generator",
+        "description": "From simple descriptions to complex scenes, our AI brings your words to life with cinematic quality and stunning visual effects."
+      },
+      "examples": {
+        "natureScenes": {
+          "title": "Nature Scenes",
+          "description": "Majestic mountain landscape at sunrise"
+        },
+        "urbanLife": {
+          "title": "Urban Life", 
+          "description": "Busy city street with neon lights at night"
+        },
+        "fantasyWorlds": {
+          "title": "Fantasy Worlds",
+          "description": "Magical forest with glowing creatures"
+        }
+      },
+      "ctaTitle": "Create Stunning Videos with Only Text Now!",
+      "ctaButtonText": "Try Text to Video Generator"
+    },
+    "imageToVideo": {
+      "title": "All-in-One AI Image to Video Generator",
+      "description": "Transform your static images into dynamic videos with our advanced AI technology. Create professional-quality animations from any image in seconds.",
+      "placeholderText": "Upload an image and click generate to create your video",
+      "ctaTitle": "Breathe Life into Your Static Images!",
+      "ctaButtonText": "Try Image to Video Generator"
+    },
+    "videoAffects": {
+      "heroSection": {
+        "title": "Make Anyone Muscular",
+        "description": "Try Veo3 AI's powerful AI muscle generator! Upload an image of anyone and generate a stunning video that showcases a bulked-up, muscular version of the subject.",
+        "buttonText": "Try for Free"
+      },
+      "effectsTitle": "AI Video Effects & Templates",
+      "categoryEffects": {
+        "funAndCreative": "Fun and Creative Effects",
+        "horrorAndFantasy": "Horror and Fantasy Effects", 
+        "appearanceChanging": "Appearance Changing Effects",
+        "seasonalSpecial": "Seasonal Special Effects",
+        "emotionalExpression": "Emotional Expression Effects"
+      }
+    },
+    "effectDetail": {
+      "defaultTitle": "AI Video Effect",
+      "defaultDescription": "Transform your photos with AI-powered video effects",
+      "tryButtonText": "Try This Effect",
+      "placeholderText": "Upload an image to apply this effect",
+      "effectDescriptionLabel": "Effect Description (Optional)",
+      "effectDescriptionPlaceholder": "Describe any additional details for the effect...",
+      "imageAlt": "Muscular transformation",
+      "effectsMap": {
+        "ai-kissing": {
+          "title": "AI Kissing Video Generator",
+          "description": "Create romantic kissing videos with AI technology"
+        },
+        "ai-muscle": {
+          "title": "AI Muscle Generator",
+          "description": "Transform anyone into a muscular version with AI"
+        }
+      },
+      "howToUse": {
+        "title": "How to Use This Effect"
+      }
+    }
+  },
+  "layout": {
+    "copyright": "© 2024 Veo3 AI. All rights reserved."
+  },
+  "effects": {
+    "ai-kissing": "AI Kissing Video Generator",
+    "kiss-me-ai": "Kiss Me AI",
+    "ai-twerk": "AI Twerk Video Generator",
+    "ai-hug": "AI Hug",
+    "ai-muscle": "AI Muscle Generator",
+    "ai-french-kissing": "AI French Kissing",
+    "ai-360-rotation": "AI 360° Rotation Video Generator",
+    "ai-cloud-ride": "AI Cloud Ride Video Generator",
+    "dance-party": "Dance Party Generator",
+    "magic-tricks": "Magic Tricks Effect",
+    "time-travel": "Time Travel Effect",
+    "vampire-transformation": "Vampire Transformation",
+    "ghost-effect": "Ghost Appearance Effect",
+    "gender-swap": "Gender Swap Effect",
+    "hair-color-change": "Hair Color Changer",
+    "makeup-artist": "AI Makeup Artist",
+    "body-transformation": "Body Transformation",
+    "halloween-spooky": "Halloween Spooky Effect",
+    "valentine-romance": "Valentine Romance Effect",
+    "new-year-celebration": "New Year Celebration",
+    "summer-beach": "Summer Beach Vibes",
+    "happiness-boost": "Happiness Boost Effect",
+    "surprise-reaction": "Surprise Reaction Effect",
+    "anger-expression": "Anger Expression Effect",
+    "love-struck": "Love Struck Effect"
   }
 }
