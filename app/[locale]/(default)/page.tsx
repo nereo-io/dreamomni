@@ -3,13 +3,8 @@ import Hero from "@/components/blocks/hero";
 import Testimonial from "@/components/blocks/testimonial";
 import VideoGenerator from "@/components/blocks/video-generator";
 import ClaudeSonnetFeaturesBlock from "@/components/blocks/claude-sonnet-features";
-import VideoFeatureShowcase from "@/components/blocks/video-feature-showcase";
 
-import {
-  getLandingPage,
-  getClaudeSonnetFeaturesBlock,
-  getVideoFeatureShowcaseBlock,
-} from "@/services/page";
+import { getLandingPage, getClaudeSonnetFeaturesBlock } from "@/services/page";
 
 export async function generateMetadata({
   params: { locale },
@@ -36,7 +31,6 @@ export default async function LandingPage({
 }) {
   const page = await getLandingPage(locale);
   const claudeSonnetFeatures = await getClaudeSonnetFeaturesBlock(locale);
-  const videoFeatureShowcase = await getVideoFeatureShowcaseBlock(locale);
 
   return (
     <>

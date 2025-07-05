@@ -1,7 +1,5 @@
 import { MetadataRoute } from "next";
-import { getQuestionList } from "@/models/question";
-import { getAllPosts, getPostsByLocale } from "@/models/post";
-import { getAllCategoriesMetadata } from "@/types/category-enum";
+import { getPostsByLocale } from "@/models/post";
 import { locales } from "@/i18n/locale";
 
 type ChangeFrequency =

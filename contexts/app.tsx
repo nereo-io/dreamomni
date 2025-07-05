@@ -17,7 +17,6 @@ import useOneTapLogin from "@/hooks/useOneTapLogin";
 import useMembership from "@/hooks/useMembership";
 import useCredits from "@/hooks/useCredits";
 import { useSession } from "next-auth/react";
-import { ChatSession } from "@/types/chat";
 
 const AppContext = createContext({} as ContextValue);
 
@@ -45,8 +44,6 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
 
   // 添加调研横幅状态
   const [surveyBannerVisible, setSurveyBannerVisible] = useState<boolean>(true);
-
-  const [chat, setChat] = useState<ChatSession | null>(null);
 
   const fetchUserInfo = async function () {
     try {
@@ -148,8 +145,6 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
         membership,
         isLoadingMembership,
         refreshMembership,
-        chat,
-        setChat,
         surveyBannerVisible,
         setSurveyBannerVisible,
         leftCredits,
