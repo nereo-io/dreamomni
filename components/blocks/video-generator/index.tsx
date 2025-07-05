@@ -969,7 +969,7 @@ export default function VideoGenerator({
               {t("telegramBanner.text")}
             </span>
             <a
-              href="https://t.me/veo3ai_io"
+              href="https://t.me/+DTuDWzTfCfc3OWJl"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-600/80 hover:bg-gray-500/90 text-white text-sm font-medium rounded-md transition-all duration-200 hover:scale-105 plausible-event-name=Telegram+Channel+Click"

@@ -46,6 +46,65 @@ export default function VideoHistoryClient() {
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
 
+  // 后台异步更新进行中的任务状态
+  const updateActiveTasksInBackground = useCallback(async (videos: VideoGeneration[]) => {
+    const activeStatuses = ["PENDING", "PROMPT_OPTIMIZING", "IN_QUEUE", "IN_PROGRESS", "submitted"];
+    const supportedModels = [
+      "veo3-apicore-text-to-video",
+      "doubao-seedance-1-0-pro-text-to-video",
+      "doubao-seedance-1-0-pro-image-to-video",
+      "kie-veo3-text-to-video"
+    ];
+
+    const allActiveTasks = videos.filter(
+      (video: VideoGeneration) =>
+        supportedModels.includes(video.model_id) &&
+        activeStatuses.includes(video.status)
+    );
+
+    if (allActiveTasks.length === 0) {
+      return;
+    }
+
+    console.log(`后台更新 ${allActiveTasks.length} 个进行中任务的状态...`);
+
+    try {
+      // 并行触发状态更新（不阻塞UI）
+      const statusPromises = allActiveTasks.map(
+        async (video: VideoGeneration) => {
+          try {
+            await fetch("/api/video-generation/status", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ id: video.id }),
+            });
+          } catch (error) {
+            console.error(`更新任务 ${video.id} 状态失败:`, error);
+          }
+        }
+      );
+
+      await Promise.all(statusPromises);
+      console.log(`后台状态更新完成`);
+
+      // 静默刷新历史记录以显示最新状态
+      const refreshResponse = await fetch(`/api/video-generations/history`);
+      if (refreshResponse.ok) {
+        const refreshResult = await refreshResponse.json();
+        if (refreshResult.code === 0 && refreshResult.data) {
+          const updatedVideos = refreshResult.data.data || [];
+          setVideos(updatedVideos);
+          console.log(`历史记录已静默更新`);
+        }
+      }
+    } catch (error) {
+      console.error('后台状态更新失败:', error);
+    }
+  }, []);
+
+  // 快速加载历史记录（不检查状态）
   const fetchHistory = useCallback(async (page: number) => {
     setIsLoading(true);
     try {
@@ -58,67 +117,15 @@ export default function VideoHistoryClient() {
       console.log(result);
 
       if (result.code === 0 && result.data) {
-        let videos = result.data.data || [];
-
-        // 检查是否有进行中的任务需要更新状态 (APICore Veo3, Seedance, Kie Veo3)
-        const activeStatuses = ["PENDING", "PROMPT_OPTIMIZING", "IN_QUEUE", "IN_PROGRESS", "submitted"];
-        const supportedModels = [
-          "veo3-apicore-text-to-video",
-          "doubao-seedance-1-0-pro-text-to-video",
-          "doubao-seedance-1-0-pro-image-to-video",
-          "kie-veo3-text-to-video"
-        ];
-
-        const allActiveTasks = videos.filter(
-          (video: VideoGeneration) =>
-            supportedModels.includes(video.model_id) &&
-            activeStatuses.includes(video.status)
-        );
-
-        console.log("allActiveTasks", allActiveTasks);
-
-        if (allActiveTasks.length > 0) {
-          console.log(
-            `发现 ${allActiveTasks.length} 个进行中的任务，正在更新状态...`
-          );
-
-          // 并行触发所有进行中的任务状态更新（会更新数据库）
-          const statusPromises = allActiveTasks.map(
-            async (video: VideoGeneration) => {
-              try {
-                await fetch("/api/video-generation/status", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ id: video.id }),
-                });
-              } catch (error) {
-                console.error(`更新任务 ${video.id} 状态失败:`, error);
-              }
-            }
-          );
-
-          await Promise.all(statusPromises);
-
-          console.log(
-            `已触发 ${allActiveTasks.length} 个任务状态更新（数据库已更新）`
-          );
-
-          // 重新获取历史记录以显示最新状态
-          const refreshResponse = await fetch(`/api/video-generations/history`);
-          if (refreshResponse.ok) {
-            const refreshResult = await refreshResponse.json();
-            if (refreshResult.code === 0 && refreshResult.data) {
-              videos = refreshResult.data.data || [];
-            }
-          }
-        }
+        const videos = result.data.data || [];
 
         setVideos(videos);
         setCurrentPage(result.data.pagination?.page || 1);
         setTotalPages(result.data.pagination?.totalPages || 1);
         setTotalItems(result.data.pagination?.total || 0);
+
+        // 异步检查并更新进行中的任务状态（不阻塞页面渲染）
+        updateActiveTasksInBackground(videos);
       } else {
         throw new Error(result.message || t("toast.noDataReturned"));
       }
@@ -127,7 +134,7 @@ export default function VideoHistoryClient() {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [updateActiveTasksInBackground, t]);
 
   useEffect(() => {
     const pageFromUrl = parseInt(searchParams.get("page") || "1");

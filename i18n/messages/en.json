@@ -218,7 +218,7 @@
     "submitting": "Submitting...",
     "aspectRatios": {
       "landscape": "16:9 Landscape",
-      "portrait": "9:16 Portrait", 
+      "portrait": "9:16 Portrait",
       "square": "1:1 Square"
     },
     "durations": {
@@ -232,12 +232,12 @@
     },
     "selectModel": "Select a model",
     "telegramBanner": {
-      "text": "Join Telegram channel for AI video generation tips",
+      "text": "Join Telegram group to discuss Veo3",
       "linkText": "Join"
     },
     "toast": {
       "signInFirst": "Please sign in first",
-      "enterDescription": "Please enter a video description", 
+      "enterDescription": "Please enter a video description",
       "descriptionTooShort": "Video description must be at least 30 characters long",
       "uploadImageFile": "Please upload an image file",
       "imageTooLarge": "Image file is too large (max 10MB)",
@@ -262,7 +262,7 @@
     "regenerateButton": "Regenerate",
     "status": {
       "completed": "Completed",
-      "processing": "Processing", 
+      "processing": "Processing",
       "pending": "Pending",
       "failed": "Failed"
     },
@@ -283,7 +283,7 @@
     "status": {
       "submitted": "Submitted",
       "optimizingPrompt": "Optimizing Prompt",
-      "inQueue": "In Queue", 
+      "inQueue": "In Queue",
       "generating": "Generating",
       "completed": "Completed",
       "failed": "Failed"
