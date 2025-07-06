@@ -43,8 +43,8 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     provider: VideoModelProvider.VOLCANO,
     volcanoModel: "doubao-seedance-1-0-pro-250528",
     displayName: "Seedance 1.0 Pro",
-    perSecondCredits: 2, // 7.5 tokens for 5s = 1.5 tokens/second
-    description: "Advanced 1080p video generation with cinematic quality",
+    perSecondCredits: 2,
+    description: "ByteDance's video model, starting at $0.3/video",
     features: ["Professional cinematography", "Complex prompt understanding"],
     maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16", "1:1"],
@@ -63,9 +63,8 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     volcanoModel: "doubao-seedance-1-0-pro-250528",
     displayName: "Seedance 1.0 Pro",
     perSecondCredits: 2, // 7.5 tokens for 5s = 1.5 tokens/second
-    description:
-      "Transform images into professional 1080p videos with cinematic motion",
-    features: ["1080p quality", "Style versatility", "Natural motion"],
+    description: "The most cost-effective video model, produced by ByteDance.",
+    features: ["Style versatility", "Natural motion"],
     maxDuration: 10,
     supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
     supportedResolutions: ["480p", "1080p"],
@@ -227,15 +226,15 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
     displayName: "Veo 3",
-    perSecondCredits: 5,
-    description: "Google's Veo3 model for text-to-video generation",
-    features: ["1080P", "Audio"],
+    perSecondCredits: 3,
+    description: "Google's Veo3 model, starting at $0.72/video",
+    features: ["Audio support", "Artistic style"],
     maxDuration: 8, // Kie.ai Veo3 默认5秒
     supportedAspectRatios: ["adaptive"], // 根据用户要求设置为adaptive
     supportsAudio: true, // 根据用户要求支持音频
     estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
     supportedDurations: [8],
-    supportedResolutions: ["1080p"], // Veo3支持高分辨率
+    supportedResolutions: ["720p"], // Veo3支持高分辨率
   },
 
   // // Kie.ai Veo3 图片转视频模型
