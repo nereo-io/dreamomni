@@ -1,15 +1,18 @@
 import { ReactNode } from "react";
-import { useTranslations } from "next-intl";
 import { Sidebar } from "@/components/blocks/home-layout/sidebar";
 import { AIVideoHeader } from "@/components/blocks/home-layout/header";
 import Footer from "@/components/blocks/footer";
+import { getLandingPage } from "@/services/page";
 
 interface HomeLayoutProps {
   children: ReactNode;
+  params: {
+    locale: string;
+  };
 }
 
-export default function HomeLayout({ children }: HomeLayoutProps) {
-  const t = useTranslations('layout')
+export default async function HomeLayout({ children, params: { locale } }: HomeLayoutProps) {
+  const page = await getLandingPage(locale);
   
   return (
     <div className="min-h-screen bg-gray-950">
@@ -19,11 +22,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
         <AIVideoHeader />
 
         <main className="p-6 pt-20">{children}</main>
-        <Footer
-          footer={{
-            copyright: t('copyright'),
-          }}
-        />
+        {page.footer && <Footer footer={page.footer} />}
       </div>
     </div>
   );

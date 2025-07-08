@@ -24,12 +24,17 @@ import { getVideoModel } from "@/config/video-models";
 interface VideoResultProps {
   generation?: {
     id: string;
-    requestId: string;
+    requestId?: string;
     model: string;
     status: string;
     prompt: string;
     optimized_prompt?: string;
     video_url?: string;
+    video_url_r2?: string;
+    video_url_fal?: string;
+    video_url_volcano?: string;
+    video_url_veo3?: string;
+    upsample_video_url_veo3?: string;
     error_message?: string;
     created_at?: string;
     aspect_ratio?: string;
@@ -135,15 +140,41 @@ export default function VideoResult({
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoadingVideo, setIsLoadingVideo] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
-  const [videoUrl, setVideoUrl] = useState(generation?.video_url || generatedVideo);
+  // 获取优先级最高的视频URL
+  const getVideoUrl = (gen?: VideoResultProps['generation']) => {
+    if (!gen) return generatedVideo;
+    // 优先使用API已经处理好的video_url字段，它已经应用了正确的优先级逻辑
+    // 如果没有，则手动应用优先级逻辑作为备用
+    return (
+      gen.video_url ||
+      gen.video_url_r2 ||
+      gen.upsample_video_url_veo3 ||
+      gen.video_url_veo3 ||
+      gen.video_url_volcano ||
+      gen.video_url_fal ||
+      generatedVideo
+    );
+  };
+
+  const [videoUrl, setVideoUrl] = useState(getVideoUrl(generation));
   const [currentTime, setCurrentTime] = useState(Date.now());
   const router = useRouter();
   const t = useTranslations("video-result");
 
   // 当generation对象发生变化时，重置videoUrl状态
   useEffect(() => {
-    setVideoUrl(generation?.video_url || generatedVideo);
-  }, [generation?.id, generation?.video_url, generatedVideo]);
+    const newVideoUrl = getVideoUrl(generation);
+    setVideoUrl(newVideoUrl);
+  }, [
+    generation?.id, 
+    generation?.video_url,
+    generation?.video_url_r2, 
+    generation?.upsample_video_url_veo3,
+    generation?.video_url_veo3,
+    generation?.video_url_volcano,
+    generation?.video_url_fal,
+    generatedVideo
+  ]);
 
   // 获取模型配置以确定等待时间
   const modelConfig = generation ? getVideoModel(generation.model) : null;

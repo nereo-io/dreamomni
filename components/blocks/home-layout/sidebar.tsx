@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -16,6 +16,9 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import PricingModal from "@/components/blocks/pricing/pricing-modal";
+import { Pricing } from "@/types/blocks/pricing";
+import { getPricingBlock } from "@/services/page";
 
 const sidebarItems = [{ icon: Home, label: "Home", href: "/home" }];
 
@@ -32,7 +35,22 @@ const otherItems = [
 export function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [showPricingModal, setShowPricingModal] = useState(false);
+  const [pricingData, setPricingData] = useState<Pricing | null>(null);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const fetchPricingData = async () => {
+      try {
+        const data = await getPricingBlock("en");
+        setPricingData(data);
+      } catch (error) {
+        console.error("Failed to fetch pricing data:", error);
+      }
+    };
+
+    fetchPricingData();
+  }, []);
 
   const SidebarContent = () => (
     <div className="flex h-full flex-col bg-gray-900 text-white">
@@ -125,7 +143,10 @@ export function Sidebar() {
 
       {/* Footer actions - only Upgrade Now button */}
       <div className="border-t border-gray-800 p-4">
-        <Button className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700">
+        <Button 
+          className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700"
+          onClick={() => setShowPricingModal(true)}
+        >
           <Crown className="mr-2 h-4 w-4" />
           {!isCollapsed && <span>Upgrade Now</span>}
         </Button>
@@ -167,6 +188,15 @@ export function Sidebar() {
             <SidebarContent />
           </div>
         </div>
+      )}
+
+      {/* Pricing Modal */}
+      {pricingData && (
+        <PricingModal
+          isOpen={showPricingModal}
+          onClose={() => setShowPricingModal(false)}
+          pricing={pricingData}
+        />
       )}
     </>
   );

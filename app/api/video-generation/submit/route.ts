@@ -243,8 +243,8 @@ export async function POST(req: Request) {
     }
 
     // 7. 提交任务到队列，包含webhook URL
-    const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
-    // const webhookUrl = `https://eee7-2a12-f8c3-4872-3198-861e-2cf1-b8c5-30a2.ngrok-free.app/api/video-generation/webhook`;
+    // const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
+    const webhookUrl = `https://a92d-45-62-100-62.ngrok-free.app/api/video-generation/webhook`;
 
     try {
       // 使用Provider Factory获取合适的provider
@@ -259,27 +259,29 @@ export async function POST(req: Request) {
           submitResponse = await provider.submit(model, input, webhookUrl);
           break;
         } catch (error) {
-          const errorMsg = error instanceof Error ? error.message : String(error);
+          const errorMsg =
+            error instanceof Error ? error.message : String(error);
           console.error(`视频生成提交失败 (${attempt}/3):`, errorMsg);
-          
+
           // 检查是否是连接超时错误
-          const isTimeoutError = errorMsg.includes('fetch failed') || 
-                                errorMsg.includes('Connect Timeout Error') ||
-                                errorMsg.includes('timeout') ||
-                                errorMsg.includes('ETIMEDOUT');
-          
+          const isTimeoutError =
+            errorMsg.includes("fetch failed") ||
+            errorMsg.includes("Connect Timeout Error") ||
+            errorMsg.includes("timeout") ||
+            errorMsg.includes("ETIMEDOUT");
+
           // 如果不是超时错误，或者是最后一次重试，直接抛出错误
           if (!isTimeoutError || attempt === 3) {
             throw error;
           }
-          
+
           // 等待后重试：第1次等1秒，第2次等2秒
           const delay = attempt * 1000;
           console.log(`连接超时，等待 ${delay}ms 后重试...`);
-          await new Promise(resolve => setTimeout(resolve, delay));
+          await new Promise((resolve) => setTimeout(resolve, delay));
         }
       }
-      
+
       if (!submitResponse) {
         throw new Error("视频生成提交失败");
       }

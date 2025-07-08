@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { User } from "@/types/user";
 import { getUserLeftCredits } from "@/models/credit";
 
 export const useCredits = () => {
   const [leftCredits, setLeftCredits] = useState<number | null>(null);
 
-  const updateLeftCredits = async () => {
+  const updateLeftCredits = useCallback(async () => {
     const resp = await fetch("/api/credits", {
       method: "GET",
       headers: {
@@ -22,7 +22,7 @@ export const useCredits = () => {
     }
 
     setLeftCredits(data.credits || 0);
-  };
+  }, []);
 
   return {
     leftCredits,

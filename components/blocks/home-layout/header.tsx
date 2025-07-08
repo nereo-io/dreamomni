@@ -12,10 +12,12 @@ export function AIVideoHeader() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900 border-b border-gray-800 px-6 py-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">V</span>
-          </div>
-          <span className="text-white font-semibold text-lg">Veo3.ai</span>
+          <img
+            src="/logo.png"
+            alt="Veo3"
+            className="w-8 h-8"
+          />
+          <span className="text-white font-semibold text-lg">Veo3</span>
         </div>
         <div className="flex items-center space-x-4">
           <LocaleToggle />

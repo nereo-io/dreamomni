@@ -9,6 +9,8 @@ interface VideoGenerationParams {
   negative_prompt?: string;
   aspect_ratio?: string;
   duration?: string;
+  resolution?: string;
+  generate_audio?: boolean;
   cfg_scale?: number;
   seed?: number;
 }
@@ -21,6 +23,11 @@ interface VideoGenerationResult {
   prompt: string;
   optimized_prompt?: string;
   video_url?: string;
+  video_url_r2?: string;
+  video_url_fal?: string;
+  video_url_volcano?: string;
+  video_url_veo3?: string;
+  upsample_video_url_veo3?: string;
   error_message?: string;
   created_at?: string;
   aspect_ratio?: string;
@@ -109,12 +116,35 @@ export default function useVideoGeneration() {
           return;
         }
 
-        setCurrentGeneration(status);
+        // Debug log to see what we're getting from the status API
+        console.log("Status update received:", {
+          status: status.status,
+          video_url: status.video_url,
+          video_url_r2: status.video_url_r2,
+          video_url_volcano: status.video_url_volcano,
+          video_url_veo3: status.video_url_veo3,
+          video_url_fal: status.video_url_fal,
+        });
+
+        // 确保更新所有字段，包括所有视频URL
+        const updatedGeneration = {
+          ...currentGeneration,
+          ...status,
+          // 显式确保所有URL字段都被更新
+          video_url: status.video_url || currentGeneration?.video_url,
+          video_url_r2: status.video_url_r2 || currentGeneration?.video_url_r2,
+          video_url_fal: status.video_url_fal || currentGeneration?.video_url_fal,
+          video_url_volcano: status.video_url_volcano || currentGeneration?.video_url_volcano,
+          video_url_veo3: status.video_url_veo3 || currentGeneration?.video_url_veo3,
+          upsample_video_url_veo3: status.upsample_video_url_veo3 || currentGeneration?.upsample_video_url_veo3,
+        };
+        
+        setCurrentGeneration(updatedGeneration);
 
         // 同时更新最近生成记录中对应的项
         setRecentGenerations((prev) =>
           prev.map((gen) =>
-            gen.id === pollingId ? { ...gen, ...status } : gen
+            gen.id === pollingId ? updatedGeneration : gen
           )
         );
 

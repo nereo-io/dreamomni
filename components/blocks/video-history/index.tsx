@@ -49,7 +49,7 @@ export default function VideoHistoryClient() {
   const fetchHistory = useCallback(async (page: number) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/video-generations/history`);
+      const response = await fetch(`/api/video-generations/history?page=${page}&limit=${ITEMS_PER_PAGE}`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || t("toast.fetchError"));
@@ -106,7 +106,7 @@ export default function VideoHistoryClient() {
           );
 
           // 重新获取历史记录以显示最新状态
-          const refreshResponse = await fetch(`/api/video-generations/history`);
+          const refreshResponse = await fetch(`/api/video-generations/history?page=${page}&limit=${ITEMS_PER_PAGE}`);
           if (refreshResponse.ok) {
             const refreshResult = await refreshResponse.json();
             if (refreshResult.code === 0 && refreshResult.data) {

@@ -87,7 +87,7 @@ export default function VideoGenerator({
     if (user?.uuid) {
       updateLeftCredits().catch(console.error);
     }
-  }, [user?.uuid]);
+  }, [user?.uuid, updateLeftCredits]);
 
   // 获取所有可用模型
   const availableModels =
@@ -381,7 +381,7 @@ export default function VideoGenerator({
       const generationParams = {
         model: selectedModel,
         prompt: description?.trim() || "",
-        duration: parseInt(selectedDuration.replace('s', '')), // 转换为数字
+        duration: selectedDuration.replace('s', ''), // 保持字符串格式
         aspect_ratio: selectedRatio,
         resolution: selectedResolution,
         generate_audio: generateAudio,

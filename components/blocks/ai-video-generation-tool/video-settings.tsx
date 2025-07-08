@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Coins } from "lucide-react"
 import useCredits from "@/hooks/useCredits"
+import { useEffect } from "react"
+import { useAppContext } from "@/contexts/app"
 import { 
   getTextToVideoModels, 
   getImageToVideoModels, 
@@ -36,16 +38,48 @@ export function VideoSettings({
   hasImage = false,
   generateAudio = false,
 }: VideoSettingsProps) {
-  const { leftCredits } = useCredits()
+  const { leftCredits, updateLeftCredits } = useCredits()
+  const { user } = useAppContext()
+
+  // 用户登录时获取积分
+  useEffect(() => {
+    if (user?.uuid) {
+      updateLeftCredits().catch(console.error);
+    }
+  }, [user?.uuid, updateLeftCredits]);
 
   // 获取可用模型
   const availableModels = hasImage ? getImageToVideoModels() : getTextToVideoModels()
   const selectedModelConfig = getVideoModel(selectedModel)
 
+  // 确保默认选项被选中
+  useEffect(() => {
+    if (selectedModelConfig) {
+      // 设置默认比例（如果当前选择不在支持列表中）
+      const supportedRatios = selectedModelConfig.supportedAspectRatios || ["16:9", "9:16", "1:1"];
+      if (!supportedRatios.includes(selectedRatio)) {
+        setSelectedRatio(supportedRatios[0]);
+      }
+
+      // 设置默认时长（如果当前选择不在支持列表中）
+      const supportedDurations = selectedModelConfig.supportedDurations || [5, 10];
+      const currentDuration = parseInt(selectedDuration.replace('s', ''));
+      if (!supportedDurations.includes(currentDuration)) {
+        setSelectedDuration(`${supportedDurations[0]}s`);
+      }
+
+      // 设置默认分辨率（总是设置为第一个选项）
+      const supportedResolutions = selectedModelConfig.supportedResolutions || ["480p", "1080p"];
+      if (selectedResolution !== supportedResolutions[0]) {
+        setSelectedResolution(supportedResolutions[0]); // 总是选择第一个分辨率
+      }
+    }
+  }, [selectedModelConfig, selectedRatio, selectedDuration, selectedResolution, setSelectedRatio, setSelectedDuration, setSelectedResolution]);
+
   // 计算积分消耗
   const currentCreditsRequired = selectedModel ? calculateCredits(
     selectedModel,
-    parseInt(selectedDuration.replace('s', '')),
+    parseInt(selectedDuration?.replace('s', '') || '5'),
     generateAudio,
     selectedResolution as any
   ) : 10

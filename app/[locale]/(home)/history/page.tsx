@@ -10,10 +10,10 @@ export async function generateMetadata({
 }) {
   const t = await getTranslations();
 
-  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/blog`;
+  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/history`;
 
   if (locale !== "en") {
-    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/blog`;
+    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/history`;
   }
 
   return {

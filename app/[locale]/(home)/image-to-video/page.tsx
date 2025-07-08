@@ -16,7 +16,7 @@ export default function ImageToVideoPage() {
   const [generatedVideo, setGeneratedVideo] = useState<string | null>(null);
   const [selectedRatio, setSelectedRatio] = useState("16:9");
   const [selectedDuration, setSelectedDuration] = useState("5s");
-  const [selectedResolution, setSelectedResolution] = useState("480p");
+  const [selectedResolution, setSelectedResolution] = useState("1080p");
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -27,17 +27,6 @@ export default function ImageToVideoPage() {
       };
       reader.readAsDataURL(file);
     }
-  };
-
-  const handleGenerate = () => {
-    if (!selectedImage) return;
-    setIsGenerating(true);
-    setTimeout(() => {
-      setGeneratedVideo(
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=450&fit=crop"
-      );
-      setIsGenerating(false);
-    }, 3000);
   };
 
   return (
@@ -55,7 +44,7 @@ export default function ImageToVideoPage() {
         setSelectedDuration={setSelectedDuration}
         selectedResolution={selectedResolution}
         setSelectedResolution={setSelectedResolution}
-        onGenerate={handleGenerate}
+        onGenerate={() => {}} // 移除覆盖的生成函数，让VideoGenerationTool使用自己的生成逻辑
         selectedImage={selectedImage}
         setSelectedImage={setSelectedImage}
         onImageUpload={handleImageUpload}

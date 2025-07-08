@@ -1,7 +1,6 @@
 import FAQ from "@/components/blocks/faq";
 import Hero from "@/components/blocks/hero";
 import Testimonial from "@/components/blocks/testimonial";
-import VideoGenerator from "@/components/blocks/video-generator";
 import ClaudeSonnetFeaturesBlock from "@/components/blocks/claude-sonnet-features";
 import AuthRedirect from "@/components/auth/auth-redirect";
 
@@ -37,7 +36,6 @@ export default async function LandingPage({
     <>
       <AuthRedirect />
       {page.hero && <Hero hero={page.hero} />}
-      <VideoGenerator placeholder="Describe the video you want to create, e.g., A cat playing in a sunny garden with natural lighting and fresh atmosphere..." />
       {/* <VideoFeatureShowcase data={videoFeatureShowcase} /> */}
       <ClaudeSonnetFeaturesBlock translations={claudeSonnetFeatures} />
 
