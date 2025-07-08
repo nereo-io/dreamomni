@@ -74,7 +74,7 @@ export class VolcanoProvider implements VideoProvider {
     input: VideoGenerationRequest,
     webhookUrl?: string
   ): Promise<VideoGenerationResponse> {
-    const endpoint = "/contents/generations/tasks";
+    const endpoint = "/api/v3/contents/generations/tasks";
 
     // Build request body according to Volcano Engine API format
     let promptText = input.prompt;
@@ -144,7 +144,7 @@ export class VolcanoProvider implements VideoProvider {
     model: string,
     requestId: string
   ): Promise<VideoGenerationStatus> {
-    const endpoint = `/contents/generations/tasks/${requestId}`;
+    const endpoint = `/api/v3/contents/generations/tasks/${requestId}`;
 
     const response = await this.makeRequest(endpoint, "GET");
 

@@ -55,8 +55,10 @@ export class VolcengineClient {
           errorData = { error: await response.text() };
         }
         
+        const errorMessage = errorData.error || errorData.proxyError || errorData.message || response.statusText;
+        const errorString = typeof errorMessage === 'object' ? JSON.stringify(errorMessage) : errorMessage;
         throw new Error(
-          `Proxy API call failed: ${errorData.error || errorData.proxyError || response.statusText}`
+          `Proxy API call failed: ${errorString}`
         );
       }
 
