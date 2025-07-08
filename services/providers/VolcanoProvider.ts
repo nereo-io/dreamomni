@@ -5,16 +5,20 @@ import {
   VideoGenerationStatus,
   VideoGenerationResult,
 } from "./types";
+import { volcengineClient } from "@/utils/volcengine-client";
 
 export class VolcanoProvider implements VideoProvider {
   private baseUrl = "https://ark.cn-beijing.volces.com/api/v3";
   private apiKey: string;
+  private useProxy: boolean;
 
   constructor(apiKey: string) {
     if (!apiKey) {
       throw new Error("Volcano Engine API key is required");
     }
     this.apiKey = apiKey;
+    // Check if proxy is configured
+    this.useProxy = !!(process.env.PROXY_URL && process.env.PROXY_SECRET);
   }
 
   getName(): string {
@@ -26,6 +30,17 @@ export class VolcanoProvider implements VideoProvider {
     method: "GET" | "POST" = "GET",
     body?: any
   ): Promise<any> {
+    // Use proxy if configured
+    if (this.useProxy) {
+      try {
+        return await volcengineClient.call(endpoint, body, method);
+      } catch (error) {
+        console.error("Proxy request failed, error:", error);
+        throw error;
+      }
+    }
+
+    // Fallback to direct connection if proxy is not configured
     const url = `${this.baseUrl}${endpoint}`;
 
     const headers = {
@@ -59,7 +74,7 @@ export class VolcanoProvider implements VideoProvider {
     input: VideoGenerationRequest,
     webhookUrl?: string
   ): Promise<VideoGenerationResponse> {
-    const endpoint = "/contents/generations/tasks";
+    const endpoint = "/api/v3/contents/generations/tasks";
 
     // Build request body according to Volcano Engine API format
     let promptText = input.prompt;
@@ -129,7 +144,7 @@ export class VolcanoProvider implements VideoProvider {
     model: string,
     requestId: string
   ): Promise<VideoGenerationStatus> {
-    const endpoint = `/contents/generations/tasks/${requestId}`;
+    const endpoint = `/api/v3/contents/generations/tasks/${requestId}`;
 
     const response = await this.makeRequest(endpoint, "GET");
 
