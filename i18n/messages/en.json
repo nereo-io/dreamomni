@@ -259,10 +259,6 @@
       "videoFailed": "Video generation failed"
     }
   },
-  "audio-selector": {
-    "sound": "Sound",
-    "veo3Only": "veo3Only"
-  },
   "video-history": {
     "title": "Video Generation History",
     "noVideosTitle": "No Videos Yet",

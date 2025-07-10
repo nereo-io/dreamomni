@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     // 用户认证检查
     const session = await auth();
     if (!session?.user?.uuid) {
-      return respErr("用户未登录");
+      return respErr("User not authenticated");
     }
 
     const body = await req.json();
@@ -26,11 +26,13 @@ export async function POST(req: Request) {
     // 从数据库获取视频生成记录
     const videoGeneration = await getVideoGenerationById(id);
     if (!videoGeneration) {
-      return respErr("未找到对应的视频生成记录");
+      return respErr("Video generation record not found");
     }
 
     // 使用 VideoStatusService 获取最新状态
-    const statusResult = await VideoStatusService.getVideoStatus(videoGeneration);
+    const statusResult = await VideoStatusService.getVideoStatus(
+      videoGeneration
+    );
 
     return respData(statusResult);
   } catch (error) {

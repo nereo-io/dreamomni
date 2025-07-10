@@ -8,7 +8,7 @@ export async function GET(req: Request) {
     // 1. 用户认证检查
     const session = await auth();
     if (!session?.user?.uuid) {
-      return respErr("用户未登录");
+      return respErr("User not authenticated");
     }
 
     // 3. 获取查询参数
@@ -19,10 +19,10 @@ export async function GET(req: Request) {
 
     // 验证分页参数
     if (page < 1) {
-      return respErr("页码必须大于0");
+      return respErr("Page number must be greater than 0");
     }
     if (limit < 1 || limit > 100) {
-      return respErr("每页数量必须在1-100之间");
+      return respErr("Limit must be between 1 and 100");
     }
 
     const offset = (page - 1) * limit;
@@ -74,9 +74,9 @@ export async function GET(req: Request) {
       },
     });
   } catch (error) {
-    console.error("获取视频生成历史失败:", error);
+    console.error("Failed to get video generation history:", error);
 
-    let errorMessage = "获取视频生成历史失败";
+    let errorMessage = "Failed to get video generation history";
     if (error instanceof Error) {
       errorMessage = error.message;
     }

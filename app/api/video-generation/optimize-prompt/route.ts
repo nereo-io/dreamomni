@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     // 1. 用户认证检查
     const session = await auth();
     if (!session?.user?.uuid) {
-      return respErr("用户未登录");
+      return respErr("User not authenticated");
     }
 
     const { videoGenerationId, originalPrompt, modelType } = await req.json();
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error("提示词优化失败:", error);
-    
+
     let errorMessage = "提示词优化失败";
     if (error instanceof Error) {
       errorMessage = error.message;

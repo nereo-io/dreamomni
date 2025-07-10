@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { getVideoModel } from "@/config/video-models";
 import useVideoGeneration from "@/hooks/useVideoGeneration";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
+import { useAppContext } from "@/contexts/app";
 
 interface VideoHistoryProps {
   refreshTrigger?: number;
@@ -59,6 +60,7 @@ export default function VideoHistory({
 }: VideoHistoryProps) {
   const t = useTranslations("video-result");
   const { fetchHistory, history, isLoadingHistory } = useVideoGeneration();
+  const { user, setShowSignModal } = useAppContext();
   const [scrollToBottom, setScrollToBottom] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -77,10 +79,14 @@ export default function VideoHistory({
 
   // 加载历史记录
   const loadHistory = useCallback(async () => {
+    if (!user?.uuid) {
+      // 用户未登录，不发送请求
+      return;
+    }
     await fetchHistory(1, 5);
     // 加载完成后滚动到底部显示最新内容
     setScrollToBottom(true);
-  }, [fetchHistory]);
+  }, [fetchHistory, user?.uuid]);
 
   // 初始加载
   useEffect(() => {
@@ -236,7 +242,7 @@ export default function VideoHistory({
         </Button>
       </div>
 
-      {isLoadingHistory && history.length === 0 ? (
+      {isLoadingHistory && history.length === 0 && user?.uuid ? (
         <div className="flex items-center justify-center py-8">
           <Loader2 className="h-6 w-6 text-gray-500 animate-spin" />
         </div>

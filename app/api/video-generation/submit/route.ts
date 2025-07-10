@@ -31,19 +31,19 @@ export async function POST(req: Request) {
     // 1. 用户认证检查
     const session = await auth();
     if (!session?.user?.uuid) {
-      return respErr("用户未登录");
+      return respErr("User not authenticated");
     }
 
     // 2. 获取用户信息
     const userInfo = await getUserInfo();
     if (!userInfo?.uuid) {
-      return respErr("用户信息获取失败");
+      return respErr("Failed to get user information");
     }
 
     // 3. 检查用户积分
     const userCredits = await getUserCredits(userInfo.uuid);
     if (!userCredits) {
-      return respErr("获取用户积分失败");
+      return respErr("Failed to get user credits");
     }
 
     const {
@@ -88,7 +88,9 @@ export async function POST(req: Request) {
     );
 
     if (requiredCredits === 0) {
-      return respErr("无法计算所需积分，请检查模型配置");
+      return respErr(
+        "Unable to calculate required credits, please check model configuration"
+      );
     }
 
     if (userCredits.left_credits < requiredCredits) {
@@ -130,7 +132,7 @@ export async function POST(req: Request) {
       });
     } catch (error) {
       console.error("扣除积分失败:", error);
-      return respErr("扣除积分失败，请稍后重试");
+      return respErr("Failed to deduct credits, please try again later");
     }
 
     // 6. 在数据库中创建记录（初始状态为 PROMPT_OPTIMIZING）
@@ -200,7 +202,7 @@ export async function POST(req: Request) {
     // 根据模型类型添加相应参数
     if (isImageToVideoModel(model)) {
       if (!image_url) {
-        return respErr("图片转视频模型需要提供 image_url 参数");
+        return respErr("Image-to-video models require an image_url parameter");
       }
       input.image_url = image_url;
     }

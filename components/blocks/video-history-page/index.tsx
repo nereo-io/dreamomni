@@ -33,6 +33,7 @@ import {
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { getVideoModel } from "@/config/video-models";
+import { useAppContext } from "@/contexts/app";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -41,6 +42,7 @@ export default function VideoHistoryPageClient() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const t = useTranslations("video-history");
+  const { user, setShowSignModal } = useAppContext();
   const [videos, setVideos] = useState<VideoGeneration[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,94 +50,119 @@ export default function VideoHistoryPageClient() {
   const [totalItems, setTotalItems] = useState(0);
 
   // 后台异步更新进行中的任务状态
-  const updateActiveTasksInBackground = useCallback(async (videos: VideoGeneration[]) => {
-    const activeStatuses = ["PENDING", "PROMPT_OPTIMIZING", "IN_QUEUE", "IN_PROGRESS", "submitted"];
-    const supportedModels = [
-      "veo3-apicore-text-to-video",
-      "doubao-seedance-1-0-pro-text-to-video",
-      "doubao-seedance-1-0-pro-image-to-video",
-      "kie-veo3-text-to-video"
-    ];
+  const updateActiveTasksInBackground = useCallback(
+    async (videos: VideoGeneration[]) => {
+      const activeStatuses = [
+        "PENDING",
+        "PROMPT_OPTIMIZING",
+        "IN_QUEUE",
+        "IN_PROGRESS",
+        "submitted",
+      ];
+      const supportedModels = [
+        "veo3-apicore-text-to-video",
+        "doubao-seedance-1-0-pro-text-to-video",
+        "doubao-seedance-1-0-pro-image-to-video",
+        "kie-veo3-text-to-video",
+      ];
 
-    const allActiveTasks = videos.filter(
-      (video: VideoGeneration) =>
-        supportedModels.includes(video.model_id) &&
-        activeStatuses.includes(video.status)
-    );
-
-    if (allActiveTasks.length === 0) {
-      return;
-    }
-
-    console.log(`后台更新 ${allActiveTasks.length} 个进行中任务的状态...`);
-
-    try {
-      // 并行触发状态更新（不阻塞UI）
-      const statusPromises = allActiveTasks.map(
-        async (video: VideoGeneration) => {
-          try {
-            await fetch("/api/video-generation/status", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ id: video.id }),
-            });
-          } catch (error) {
-            console.error(`更新任务 ${video.id} 状态失败:`, error);
-          }
-        }
+      const allActiveTasks = videos.filter(
+        (video: VideoGeneration) =>
+          supportedModels.includes(video.model_id) &&
+          activeStatuses.includes(video.status)
       );
 
-      await Promise.all(statusPromises);
-      console.log(`后台状态更新完成`);
-
-      // 静默刷新历史记录以显示最新状态
-      const refreshResponse = await fetch(`/api/video-generations/history`);
-      if (refreshResponse.ok) {
-        const refreshResult = await refreshResponse.json();
-        if (refreshResult.code === 0 && refreshResult.data) {
-          const updatedVideos = refreshResult.data.data || [];
-          setVideos(updatedVideos);
-          console.log(`历史记录已静默更新`);
-        }
+      if (allActiveTasks.length === 0) {
+        return;
       }
-    } catch (error) {
-      console.error('后台状态更新失败:', error);
-    }
-  }, []);
+
+      console.log(`后台更新 ${allActiveTasks.length} 个进行中任务的状态...`);
+
+      try {
+        // 并行触发状态更新（不阻塞UI）
+        const statusPromises = allActiveTasks.map(
+          async (video: VideoGeneration) => {
+            try {
+              await fetch("/api/video-generation/status", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ id: video.id }),
+              });
+            } catch (error) {
+              console.error(`更新任务 ${video.id} 状态失败:`, error);
+            }
+          }
+        );
+
+        await Promise.all(statusPromises);
+        console.log(`后台状态更新完成`);
+
+        // 静默刷新历史记录以显示最新状态
+        const refreshResponse = await fetch(`/api/video-generations/history`);
+        if (refreshResponse.ok) {
+          const refreshResult = await refreshResponse.json();
+          if (refreshResult.code === 0 && refreshResult.data) {
+            const updatedVideos = refreshResult.data.data || [];
+            setVideos(updatedVideos);
+            console.log(`历史记录已静默更新`);
+          }
+        }
+      } catch (error) {
+        console.error("后台状态更新失败:", error);
+      }
+    },
+    []
+  );
 
   // 快速加载历史记录（不检查状态）
-  const fetchHistory = useCallback(async (page: number) => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(`/api/video-generations/history?page=${page}&limit=${ITEMS_PER_PAGE}`);
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || t("toast.fetchError"));
+  const fetchHistory = useCallback(
+    async (page: number) => {
+      setIsLoading(true);
+
+      // 如果用户未登录，直接设置为空状态，不发送请求
+      if (!user?.uuid) {
+        setVideos([]);
+        setCurrentPage(1);
+        setTotalPages(1);
+        setTotalItems(0);
+        setIsLoading(false);
+        return;
       }
-      const result = await response.json();
-      console.log(result);
 
-      if (result.code === 0 && result.data) {
-        const videos = result.data.data || [];
+      try {
+        const response = await fetch(
+          `/api/video-generations/history?page=${page}&limit=${ITEMS_PER_PAGE}`
+        );
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || t("toast.fetchError"));
+        }
+        const result = await response.json();
+        console.log(result);
 
-        setVideos(videos);
-        setCurrentPage(result.data.pagination?.page || 1);
-        setTotalPages(result.data.pagination?.totalPages || 1);
-        setTotalItems(result.data.pagination?.total || 0);
+        if (result.code === 0 && result.data) {
+          const videos = result.data.data || [];
 
-        // 异步检查并更新进行中的任务状态（不阻塞页面渲染）
-        updateActiveTasksInBackground(videos);
-      } else {
-        throw new Error(result.message || t("toast.noDataReturned"));
+          setVideos(videos);
+          setCurrentPage(result.data.pagination?.page || 1);
+          setTotalPages(result.data.pagination?.totalPages || 1);
+          setTotalItems(result.data.pagination?.total || 0);
+
+          // 异步检查并更新进行中的任务状态（不阻塞页面渲染）
+          updateActiveTasksInBackground(videos);
+        } else {
+          throw new Error(result.message || t("toast.noDataReturned"));
+        }
+      } catch (error: any) {
+        toast.error(error.message);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error: any) {
-      toast.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [updateActiveTasksInBackground, t]);
+    },
+    [updateActiveTasksInBackground, t, user?.uuid]
+  );
 
   useEffect(() => {
     const pageFromUrl = parseInt(searchParams.get("page") || "1");
@@ -397,7 +424,7 @@ export default function VideoHistoryPageClient() {
             {(() => {
               const pageNumbers = [];
               const maxVisiblePages = 5;
-              
+
               if (totalPages <= maxVisiblePages) {
                 // 如果总页数少于或等于最大可见页数，显示所有页码
                 for (let i = 1; i <= totalPages; i++) {
@@ -407,12 +434,12 @@ export default function VideoHistoryPageClient() {
                 // 如果总页数大于最大可见页数，智能显示页码
                 const startPage = Math.max(1, currentPage - 2);
                 const endPage = Math.min(totalPages, currentPage + 2);
-                
+
                 for (let i = startPage; i <= endPage; i++) {
                   pageNumbers.push(i);
                 }
               }
-              
+
               return pageNumbers.map((pageNum) => (
                 <PaginationItem key={pageNum}>
                   <PaginationLink
