@@ -1,4 +1,4 @@
-import VideoHistoryClient from "@/components/blocks/video-history";
+import VideoHistoryPageClient from "@/components/blocks/video-history-page";
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { Loader2 } from "lucide-react";
@@ -34,7 +34,7 @@ export default function VideoHistoryPage() {
         </div>
       }
     >
-      <VideoHistoryClient />
+      <VideoHistoryPageClient />
     </Suspense>
   );
 }

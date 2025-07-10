@@ -151,6 +151,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 开发技巧
 
 - 如果启动本地服务器的时候,遇到了缓存问题,可以使用 rm -rf .next 清理一下缓存
+- 在使用 pnpm dev 之前,先检查一下本地服务是否有启动.如果已经启动了,直接使用本地服务器就好.如果希望打印 log 测试,可以先 kill 本地服务,再重新启动.尽量使用 3000 端口,以为一般他和 ngrok 是绑定的. 测试完成后杀死 3000 端口的使用。
 
 ## Login Information
 

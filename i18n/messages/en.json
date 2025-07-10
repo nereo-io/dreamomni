@@ -206,19 +206,27 @@
     }
   },
   "video-generator": {
-    "videoDescription": "Video Description",
+    "videoDescription": "Prompt",
     "referenceImage": "Reference Image (Optional)",
     "videoAspectRatio": "Video Aspect Ratio",
     "videoDuration": "Video Duration",
-    "videoModel": "Video Model",
+    "videoModel": "Model",
     "credits": "Credits",
+    "creditsRequired": "Credits Required",
+    "remainingCredits": "Remaining Credits",
     "cost": "Cost",
     "recharge": "Recharge",
     "generateVideo": "Generate Video",
     "submitting": "Submitting...",
+    "uploading": "Uploading...",
+    "generating": "Generating...",
+    "uploadImage": "Image",
+    "dragAndDropImage": "Click to upload or drag image here",
+    "supportedFormats": "Supports JPG, PNG, GIF formats, max 10MB",
+    "chooseFile": "Choose File",
     "aspectRatios": {
       "landscape": "16:9 Landscape",
-      "portrait": "9:16 Portrait", 
+      "portrait": "9:16 Portrait",
       "square": "1:1 Square"
     },
     "durations": {
@@ -231,15 +239,18 @@
       "supportedFormats": "Supports JPG, PNG, GIF formats, max 10MB"
     },
     "selectModel": "Select a model",
+    "videoSettings": "Settings",
     "telegramBanner": {
       "text": "Join Telegram channel for AI video generation tips",
       "linkText": "Join"
     },
     "toast": {
       "signInFirst": "Please sign in first",
-      "enterDescription": "Please enter a video description", 
+      "enterDescription": "Please enter a video description",
       "descriptionTooShort": "Video description must be at least 30 characters long",
       "uploadImageFile": "Please upload an image file",
+      "uploadImageRequired": "Please upload an image for image-to-video generation",
+      "imageUploaded": "Image uploaded successfully",
       "imageTooLarge": "Image file is too large (max 10MB)",
       "imageUploadFailed": "Image upload failed",
       "insufficientCredits": "Insufficient credits. Required: {required}, Available: {available}",
@@ -262,7 +273,7 @@
     "regenerateButton": "Regenerate",
     "status": {
       "completed": "Completed",
-      "processing": "Processing", 
+      "processing": "Processing",
       "pending": "Pending",
       "failed": "Failed"
     },
@@ -283,7 +294,7 @@
     "status": {
       "submitted": "Submitted",
       "optimizingPrompt": "Optimizing Prompt",
-      "inQueue": "In Queue", 
+      "inQueue": "In Queue",
       "generating": "Generating",
       "completed": "Completed",
       "failed": "Failed"
@@ -336,7 +347,7 @@
     "categoryTabs": {
       "all": "All",
       "interaction": "Interaction",
-      "appearance": "Appearance", 
+      "appearance": "Appearance",
       "emotions": "Emotions",
       "entertainment": "Entertainment",
       "heroVillain": "Hero/Villain",
@@ -352,7 +363,7 @@
         "description": "Upload a clear photo of the person you want to transform"
       },
       "aiProcessing": {
-        "title": "AI Processing", 
+        "title": "AI Processing",
         "description": "Our AI analyzes the image and applies the selected effect"
       },
       "getVideo": {
@@ -386,7 +397,7 @@
           "description": "Majestic mountain landscape at sunrise"
         },
         "urbanLife": {
-          "title": "Urban Life", 
+          "title": "Urban Life",
           "description": "Busy city street with neon lights at night"
         },
         "fantasyWorlds": {
@@ -413,7 +424,7 @@
       "effectsTitle": "AI Video Effects & Templates",
       "categoryEffects": {
         "funAndCreative": "Fun and Creative Effects",
-        "horrorAndFantasy": "Horror and Fantasy Effects", 
+        "horrorAndFantasy": "Horror and Fantasy Effects",
         "appearanceChanging": "Appearance Changing Effects",
         "seasonalSpecial": "Seasonal Special Effects",
         "emotionalExpression": "Emotional Expression Effects"

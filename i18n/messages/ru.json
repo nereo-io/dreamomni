@@ -206,16 +206,24 @@
     }
   },
   "video-generator": {
-    "videoDescription": "Описание видео",
+    "videoDescription": "Промпт",
     "referenceImage": "Референсное изображение (необязательно)",
     "videoAspectRatio": "Соотношение сторон видео",
     "videoDuration": "Длительность видео",
-    "videoModel": "Модель видео",
+    "videoModel": "Модель",
     "credits": "Кредиты",
+    "creditsRequired": "Необходимо кредитов",
+    "remainingCredits": "Осталось кредитов",
     "cost": "Стоимость",
     "recharge": "Пополнить",
     "generateVideo": "Генерировать видео",
     "submitting": "Отправка...",
+    "uploading": "Загрузка...",
+    "generating": "Генерация...",
+    "uploadImage": "Изображение",
+    "dragAndDropImage": "Нажмите для загрузки или перетащите изображение сюда",
+    "supportedFormats": "Поддерживаются форматы JPG, PNG, GIF, максимум 10МБ",
+    "chooseFile": "Выбрать файл",
     "aspectRatios": {
       "landscape": "16:9 Альбомная",
       "portrait": "9:16 Портретная",
@@ -231,6 +239,7 @@
       "supportedFormats": "Поддерживаются форматы JPG, PNG, GIF, максимум 10МБ"
     },
     "selectModel": "Выберите модель",
+    "videoSettings": "Настройки",
     "telegramBanner": {
       "text": "Присоединяйтесь к Telegram каналу за советами по AI генерации видео",
       "linkText": "Присоединиться"
@@ -241,6 +250,8 @@
       "descriptionTooShort": "Описание видео должно содержать не менее 30 символов",
       "insufficientCredits": "Недостаточно кредитов. Нужно {required} кредитов, но у вас осталось {available}.",
       "uploadImageFile": "Пожалуйста, загрузите файл изображения",
+      "uploadImageRequired": "Пожалуйста, загрузите изображение для генерации видео из изображения",
+      "imageUploaded": "Изображение успешно загружено",
       "imageTooLarge": "Размер изображения не может превышать 10МБ",
       "imageUploadFailed": "Не удалось загрузить изображение",
       "videoSubmitted": "Задача генерации видео отправлена, обработка...",

@@ -36,22 +36,22 @@ export interface VideoModelConfig {
 // 视频模型配置
 export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   // Kie.ai Veo3 文本转视频模型（基于 Kie.ai API）
-  "kie-veo3-text-to-video": {
-    id: "kie-veo3-text-to-video",
-    name: "Kie.ai Veo3 Text-to-Video",
-    type: VideoModelType.TEXT_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    displayName: "Veo 3",
-    perSecondCredits: 5,
-    description: "Google's Veo3 model for text-to-video generation",
-    features: ["1080P", "Audio"],
-    maxDuration: 8, // Kie.ai Veo3 默认5秒
-    supportedAspectRatios: ["adaptive"], // 根据用户要求设置为adaptive
-    supportsAudio: true, // 根据用户要求支持音频
-    estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
-    supportedDurations: [8],
-    supportedResolutions: ["1080p"], // Veo3支持高分辨率
-  },
+  // "kie-veo3-text-to-video": {
+  //   id: "kie-veo3-text-to-video",
+  //   name: "Kie.ai Veo3 Text-to-Video",
+  //   type: VideoModelType.TEXT_TO_VIDEO,
+  //   provider: VideoModelProvider.KIEAI,
+  //   displayName: "Veo 3",
+  //   perSecondCredits: 5,
+  //   description: "Google's Veo3 model for text-to-video generation",
+  //   features: ["1080P", "Audio"],
+  //   maxDuration: 8, // Kie.ai Veo3 默认5秒
+  //   supportedAspectRatios: ["adaptive"], // 根据用户要求设置为adaptive
+  //   supportsAudio: true, // 根据用户要求支持音频
+  //   estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
+  //   supportedDurations: [8],
+  //   supportedResolutions: ["1080p"], // Veo3支持高分辨率
+  // },
 
   // // Kie.ai Veo3 图片转视频模型
   // "kie-veo3-image-to-video": {

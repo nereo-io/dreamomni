@@ -1,8 +1,9 @@
+"use client";
+
 import { ReactNode } from "react";
 import { Sidebar } from "@/components/blocks/home-layout/sidebar";
 import { AIVideoHeader } from "@/components/blocks/home-layout/header";
-import Footer from "@/components/blocks/footer";
-import { getLandingPage } from "@/services/page";
+import { SidebarProvider, useSidebar } from "@/contexts/sidebar";
 
 interface HomeLayoutProps {
   children: ReactNode;
@@ -11,19 +12,33 @@ interface HomeLayoutProps {
   };
 }
 
-export default async function HomeLayout({ children, params: { locale } }: HomeLayoutProps) {
-  const page = await getLandingPage(locale);
-  
+function HomeLayoutContent({ children }: { children: ReactNode }) {
+  const { isCollapsed } = useSidebar();
+
   return (
     <div className="min-h-screen bg-gray-950">
       <Sidebar />
 
-      <div className="md:ml-64">
+      <div
+        className={`transition-all duration-300 ${
+          isCollapsed ? "md:ml-16" : "md:ml-64"
+        }`}
+      >
         <AIVideoHeader />
 
         <main className="p-6 pt-20">{children}</main>
-        {page.footer && <Footer footer={page.footer} />}
       </div>
     </div>
+  );
+}
+
+export default function HomeLayout({
+  children,
+  params: { locale },
+}: HomeLayoutProps) {
+  return (
+    <SidebarProvider>
+      <HomeLayoutContent>{children}</HomeLayoutContent>
+    </SidebarProvider>
   );
 }

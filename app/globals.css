@@ -18,6 +18,30 @@ html {
   .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
   }
+
+  /* 自定义滚动条样式 */
+  .custom-scrollbar {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: rgba(107, 114, 128, 0.5) transparent; /* Firefox */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px; /* Chrome, Safari and Opera */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent; /* 轨道背景透明 */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(107, 114, 128, 0.5); /* 滚动条颜色 */
+    border-radius: 4px;
+    transition: background 0.2s ease;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(107, 114, 128, 0.8); /* 悬停时更明显 */
+  }
 }
 
 @layer base {

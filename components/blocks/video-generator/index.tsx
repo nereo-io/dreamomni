@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Play, ImageIcon, X } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-import useVideoGeneration from "@/hooks/useVideoGeneration";
 import useCredits from "@/hooks/useCredits";
+import { VideoSettings } from "../ai-video-generation-tool/video-settings";
 import {
   VideoModelType,
   getTextToVideoModels,
@@ -16,30 +16,25 @@ import {
   calculateCredits,
   getVideoModel,
 } from "@/config/video-models";
-import { VideoSettings } from "../ai-video-generation-tool/video-settings";
+
+// 生成参数接口
+export interface VideoGenerationParams {
+  model: string;
+  prompt: string;
+  duration: string;
+  aspect_ratio: string;
+  resolution: string;
+  generate_audio: boolean;
+  image_url?: string;
+}
 
 interface VideoGeneratorProps {
-  // 通用属性
-  description: string;
-  setDescription: (value: string) => void;
-  isGenerating: boolean;
-  selectedRatio: string;
-  setSelectedRatio: (ratio: string) => void;
-  selectedDuration: string;
-  setSelectedDuration: (duration: string) => void;
-  selectedResolution: string;
-  setSelectedResolution: (resolution: string) => void;
-  onGenerate: () => void;
-
-  // 条件属性
+  // 核心配置
   mode: "text-to-video" | "image-to-video";
+  onGenerate: (params: VideoGenerationParams) => Promise<void>;
+  isGenerating: boolean;
 
-  // 图片相关属性（仅在 image-to-video 模式下使用）
-  selectedImage?: string | null;
-  setSelectedImage?: (image: string | null) => void;
-  onImageUpload?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-
-  // 描述字段标签
+  // 可选配置
   descriptionLabel?: string;
   descriptionPlaceholder?: string;
 }
@@ -49,37 +44,36 @@ type VideoDuration = "5" | "8" | "10";
 type VideoResolution = "480p" | "720p" | "1080p";
 
 export default function VideoGenerator({
-  description,
-  setDescription,
-  isGenerating,
-  selectedRatio,
-  setSelectedRatio,
-  selectedDuration,
-  setSelectedDuration,
-  selectedResolution,
-  setSelectedResolution,
-  onGenerate,
   mode,
-  selectedImage,
-  setSelectedImage,
-  onImageUpload,
-  descriptionLabel = "Video Description",
+  onGenerate,
+  isGenerating,
+  descriptionLabel,
   descriptionPlaceholder = "Describe the video you want to create, e.g., A cat playing in a sunny garden with natural lighting and fresh atmosphere...",
 }: VideoGeneratorProps) {
   const t = useTranslations("video-generator");
+
+  // 使用翻译作为默认值
+  const finalDescriptionLabel = descriptionLabel || t("videoDescription");
+
+  // 组件内部状态管理
+  const [description, setDescription] = useState("");
+  const [selectedRatio, setSelectedRatio] = useState("16:9");
+  const [selectedDuration, setSelectedDuration] = useState("5s");
+  const [selectedResolution, setSelectedResolution] = useState("480p");
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  // 其他内部状态
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(
-    selectedImage || null
-  );
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [generateAudio, setGenerateAudio] = useState(true);
 
-  const { user, setShowSignModal } = useAppContext();
-  const { submitGeneration, pollStatus, updateCurrentGeneration } =
-    useVideoGeneration();
+  // Textarea 引用
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  const { user, setShowSignModal } = useAppContext();
   const { leftCredits, updateLeftCredits } = useCredits();
 
   // 用户登录时获取积分
@@ -110,17 +104,28 @@ export default function VideoGenerator({
     if (uploadedImage || selectedImage) {
       // 如果当前模型不支持图片输入，自动切换到图片转视频模型
       const imageToVideoModels = getImageToVideoModels();
-      if (imageToVideoModels.length > 0 && !selectedModelConfig?.type?.includes('IMAGE_TO_VIDEO')) {
+      if (
+        imageToVideoModels.length > 0 &&
+        !selectedModelConfig?.type?.includes("IMAGE_TO_VIDEO")
+      ) {
         setSelectedModel(imageToVideoModels[0].id);
       }
     } else {
       // 如果移除了图片，且当前是图片转视频模型，可以切换回文本转视频模型
       const textToVideoModels = getTextToVideoModels();
-      if (textToVideoModels.length > 0 && selectedModelConfig?.type?.includes('IMAGE_TO_VIDEO')) {
+      if (
+        textToVideoModels.length > 0 &&
+        selectedModelConfig?.type?.includes("IMAGE_TO_VIDEO")
+      ) {
         setSelectedModel(textToVideoModels[0].id);
       }
     }
   }, [uploadedImage, selectedImage, selectedModelConfig]);
+
+  // 同步 selectedImage 和 imagePreview
+  useEffect(() => {
+    setImagePreview(selectedImage);
+  }, [selectedImage]);
 
   // 获取积分消耗信息
   const getCreditsRequired = (
@@ -139,6 +144,34 @@ export default function VideoGenerator({
     generateAudio,
     selectedResolution as VideoResolution
   );
+
+  // 自动调整 textarea 高度
+  const adjustTextareaHeight = useCallback(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto";
+      const scrollHeight = textarea.scrollHeight;
+      const minHeight = 150;
+      const maxHeight = 300;
+      const newHeight = Math.min(Math.max(scrollHeight, minHeight), maxHeight);
+      textarea.style.height = `${newHeight}px`;
+    }
+  }, []);
+
+  // 处理文本变化
+  const handleDescriptionChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setDescription(e.target.value);
+      // 延迟调整高度，确保内容已更新
+      setTimeout(adjustTextareaHeight, 0);
+    },
+    [adjustTextareaHeight]
+  );
+
+  // 初始化 textarea 高度
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [adjustTextareaHeight]);
 
   // Handle image upload with enhanced validation
   const handleImageUpload = useCallback(
@@ -213,262 +246,195 @@ export default function VideoGenerator({
         };
       });
 
-      // 创建临时URL用于Image对象加载
-      const objectUrl = URL.createObjectURL(file);
-      img.src = objectUrl;
+      const url = URL.createObjectURL(file);
+      img.src = url;
 
-      // 等待验证完成
       const isValid = await imageValidationPromise;
-
-      // 清理临时URL
-      URL.revokeObjectURL(objectUrl);
+      URL.revokeObjectURL(url);
 
       if (!isValid) {
         return;
       }
 
-      // 验证通过，设置上传的图片
       setUploadedImage(file);
 
-      // Create preview
+      // Convert to base64 for preview
       const reader = new FileReader();
-      reader.onload = (e) => {
-        const preview = e.target?.result as string;
-        setImagePreview(preview);
-        if (setSelectedImage) {
-          setSelectedImage(preview);
-        }
+      reader.onload = () => {
+        const result = reader.result as string;
+        setSelectedImage(result);
+        setImagePreview(result);
       };
       reader.readAsDataURL(file);
+
+      toast.success(t("toast.imageUploaded"));
     },
-    [t, setSelectedImage]
+    [t]
   );
 
-  // Handle drag over
-  const handleDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(true);
-  }, []);
-
-  const handleDragLeave = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-  }, []);
-
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      setIsDragOver(false);
-
-      const files = Array.from(e.dataTransfer.files);
-      if (files.length > 0) {
-        handleImageUpload(files[0]);
-      }
-    },
-    [handleImageUpload]
-  );
-
-  // Handle click upload
+  // Handle file input change
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       handleImageUpload(file);
-    }
-    if (onImageUpload) {
-      onImageUpload(e);
     }
   };
 
   // Remove uploaded image
   const removeImage = () => {
     setUploadedImage(null);
+    setSelectedImage(null);
     setImagePreview(null);
-    if (setSelectedImage) {
-      setSelectedImage(null);
-    }
   };
 
-  // Handle video generation
+  // 处理生成按钮点击
   const handleGenerate = async () => {
+    // 验证用户登录
     if (!user?.uuid) {
-      toast.message(t("toast.signInFirst"));
       setShowSignModal(true);
       return;
     }
 
-    if (!description?.trim()) {
-      toast.error(t("toast.enterDescription"));
+    // 验证描述内容
+    if (!description.trim()) {
+      toast.error(t("toast.emptyPrompt"));
       return;
     }
 
-    // 检查prompt最少字符数限制
-    if ((description?.trim().length || 0) < 10) {
-      toast.error(t("toast.descriptionTooShort"));
+    // 验证图片转视频模式下必须上传图片
+    if (mode === "image-to-video" && !uploadedImage) {
+      toast.error(t("toast.uploadImageRequired"));
       return;
     }
 
-    // 检查是否选择了模型
-    if (!selectedModel) {
-      toast.error("Please select a video model");
-      return;
-    }
-
-    // 检查积分是否足够
+    // 验证积分余额
     if (leftCredits !== null && leftCredits < currentCreditsRequired) {
-      toast.error(
-        t("toast.insufficientCredits", {
-          required: currentCreditsRequired,
-          available: leftCredits,
-        })
-      );
+      toast.error(t("toast.insufficientCredits"));
       return;
     }
 
-    // 立即设置提交状态，防止重复点击
-    setIsSubmitting(true);
+    // 准备图片URL
+    let imageUrl: string | undefined;
 
-    // 立即设置一个初始生成状态，给用户即时反馈
-    const initialGeneration = {
-      id: `temp-${Date.now()}`,
-      requestId: `temp-request-${Date.now()}`,
+    if (uploadedImage && (mode === "image-to-video" || selectedImage)) {
+      // 上传图片到服务器
+      const formData = new FormData();
+      formData.append("file", uploadedImage);
+
+      try {
+        setIsSubmitting(true);
+        const uploadResponse = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const uploadResult = await uploadResponse.json();
+        if (uploadResult.code !== 0) {
+          throw new Error(uploadResult.message || "Image upload failed");
+        }
+
+        imageUrl = uploadResult.data.url;
+      } catch (error) {
+        console.error("Image upload error:", error);
+        toast.error(
+          error instanceof Error
+            ? error.message
+            : "Failed to upload image. Please try again."
+        );
+        setIsSubmitting(false);
+        return;
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
+
+    // 准备生成参数
+    const params: VideoGenerationParams = {
       model: selectedModel,
-      status: "submitted",
-      prompt: description?.trim() || "",
-      optimized_prompt: undefined,
-      video_url: undefined,
-      error_message: undefined,
-      created_at: new Date().toISOString(),
+      prompt: description.trim(),
+      duration: selectedDuration.replace("s", ""),
       aspect_ratio: selectedRatio,
-      duration_seconds: parseInt(selectedDuration.replace('s', '')),
+      resolution: selectedResolution,
+      generate_audio: generateAudio,
+      image_url: imageUrl,
     };
 
-    updateCurrentGeneration({
-      ...initialGeneration,
-    });
-
-    try {
-      let imageUrl = null;
-
-      // Upload image first if exists
-      if (uploadedImage) {
-        try {
-          const formData = new FormData();
-          formData.append("file", uploadedImage);
-
-          const uploadResponse = await fetch("/api/upload", {
-            method: "POST",
-            body: formData,
-          });
-
-          if (!uploadResponse.ok) {
-            throw new Error("Image upload failed");
-          }
-
-          const uploadResult = await uploadResponse.json();
-          if (uploadResult.code === 0) {
-            imageUrl = uploadResult.data.url;
-          } else {
-            throw new Error(uploadResult.message || "Image upload failed");
-          }
-        } catch (error) {
-          console.error("Image upload error:", error);
-          toast.error(t("toast.imageUploadFailed"));
-          return;
-        }
-      }
-
-      // Prepare generation parameters
-      const generationParams = {
-        model: selectedModel,
-        prompt: description?.trim() || "",
-        duration: selectedDuration.replace('s', ''), // 保持字符串格式
-        aspect_ratio: selectedRatio,
-        resolution: selectedResolution,
-        generate_audio: generateAudio,
-        ...(imageUrl && { image_url: imageUrl }),
-      };
-
-      console.log("Generation parameters:", generationParams);
-
-      // Submit generation
-      const result = await submitGeneration(generationParams);
-
-      if (result) {
-        // Start polling for status
-        pollStatus(result.id);
-        // 刷新积分余额
-        updateLeftCredits().catch(console.error);
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
-
-    // 调用父组件的 onGenerate
-    onGenerate();
+    // 调用生成回调
+    await onGenerate(params);
   };
 
-  const canGenerate =
-    mode === "text-to-video"
-      ? description?.trim()
-      : selectedImage || imagePreview;
+  // 拖拽处理
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+
+    const files = e.dataTransfer.files;
+    if (files && files[0]) {
+      handleImageUpload(files[0]);
+    }
+  };
 
   return (
-    <div className="bg-gray-900 rounded-lg p-6 space-y-6">
-      {/* Video Description */}
-      <div>
-        <h2 className="text-white text-lg font-semibold mb-3">
-          {descriptionLabel}
-        </h2>
-        <Textarea
-          value={description || ""}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder={descriptionPlaceholder}
-          className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 min-h-[100px] resize-none"
-        />
-        <div className="text-orange-400 text-sm mt-2">
-          {description?.length || 0}/10 characters minimum
-        </div>
-      </div>
-
-      {/* Reference Image - 仅在 image-to-video 模式下显示 */}
-      {mode === "image-to-video" && (
-        <div>
-          <h2 className="text-white text-lg font-semibold mb-3">
-            Reference Image
+    <div className="bg-gray-900 rounded-2xl shadow-lg p-6 video-generator-container">
+      <div className="space-y-6">
+        {/* Header Title */}
+        <div className="border-b border-gray-700 pb-4">
+          <h2 className="text-white text-xl font-semibold">
+            AI Video Generator
           </h2>
-          <div
-            className={`border-2 border-dashed border-gray-600 rounded-lg p-6 text-center ${
-              isDragOver ? "border-blue-400 bg-blue-950/20" : ""
-            }`}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-          >
-            {imagePreview ? (
-              <div className="space-y-3">
-                <img
-                  src={imagePreview}
-                  alt="Uploaded reference"
-                  className="w-full h-32 object-cover rounded-lg mx-auto"
-                />
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-gray-400 hover:text-white"
-                  onClick={removeImage}
-                >
-                  Remove Image
-                </Button>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                <ImageIcon className="h-10 w-10 text-gray-500 mx-auto" />
-                <div>
-                  <p className="text-gray-300 mb-1">
-                    Click to upload or drag image here
+        </div>
+
+        {/* Description Input */}
+        <div>
+          <h2 className="text-white text-lg font-semibold mb-4">
+            {finalDescriptionLabel}
+          </h2>
+          <Textarea
+            ref={textareaRef}
+            value={description}
+            onChange={handleDescriptionChange}
+            placeholder={descriptionPlaceholder}
+            className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
+            style={{ minHeight: "150px", maxHeight: "300px" }}
+            disabled={isGenerating}
+          />
+        </div>
+
+        {/* Image Upload Section (for image-to-video mode) */}
+        {mode === "image-to-video" && (
+          <div>
+            <h2 className="text-white text-lg font-semibold mb-4">
+              {t("uploadImage")}
+            </h2>
+            {!imagePreview ? (
+              <div
+                className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer ${
+                  isDragOver
+                    ? "border-blue-400 bg-blue-900/50"
+                    : "border-gray-600 hover:border-gray-500"
+                }`}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                onClick={() => document.getElementById("image-upload")?.click()}
+              >
+                <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-300">
+                    {t("dragAndDropImage")}
                   </p>
-                  <p className="text-gray-500 text-sm">
-                    Supports JPG, PNG, GIF formats, max 10MB
+                  <p className="text-xs text-gray-400">
+                    {t("supportedFormats")}
                   </p>
                 </div>
                 <input
@@ -478,49 +444,65 @@ export default function VideoGenerator({
                   className="hidden"
                   id="image-upload"
                 />
-                <label
-                  htmlFor="image-upload"
-                  className="cursor-pointer bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm transition-colors inline-block"
+              </div>
+            ) : (
+              <div className="relative">
+                <img
+                  src={imagePreview}
+                  alt="Uploaded"
+                  className="w-full h-32 object-contain rounded-lg bg-gray-800"
+                />
+                <button
+                  onClick={removeImage}
+                  className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
                 >
-                  Choose File
-                </label>
+                  <X className="h-4 w-4" />
+                </button>
               </div>
             )}
           </div>
-        </div>
-      )}
-
-      <VideoSettings
-        selectedRatio={selectedRatio}
-        setSelectedRatio={setSelectedRatio}
-        selectedDuration={selectedDuration}
-        setSelectedDuration={setSelectedDuration}
-        selectedResolution={selectedResolution}
-        setSelectedResolution={setSelectedResolution}
-        selectedModel={selectedModel}
-        setSelectedModel={setSelectedModel}
-        hasImage={!!(uploadedImage || selectedImage)}
-        generateAudio={generateAudio}
-      />
-
-      {/* Generate Button */}
-      <Button
-        onClick={handleGenerate}
-        disabled={!canGenerate || isGenerating || isSubmitting}
-        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3"
-      >
-        {isGenerating || isSubmitting ? (
-          <div className="flex items-center space-x-2">
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-            <span>Generating...</span>
-          </div>
-        ) : (
-          <div className="flex items-center space-x-2">
-            <Play className="h-4 w-4" />
-            <span>Generate Video</span>
-          </div>
         )}
-      </Button>
+
+        {/* Model Selection */}
+        <VideoSettings
+          selectedModel={selectedModel}
+          setSelectedModel={setSelectedModel}
+          selectedRatio={selectedRatio}
+          setSelectedRatio={setSelectedRatio}
+          selectedDuration={selectedDuration}
+          setSelectedDuration={setSelectedDuration}
+          selectedResolution={selectedResolution}
+          setSelectedResolution={setSelectedResolution}
+          generateAudio={generateAudio}
+          hasImage={!!(uploadedImage || selectedImage)}
+        />
+
+        {/* Generate Button */}
+        <Button
+          onClick={handleGenerate}
+          disabled={
+            isGenerating ||
+            isSubmitting ||
+            !description.trim() ||
+            !selectedModel ||
+            (mode === "image-to-video" && !uploadedImage) ||
+            (leftCredits !== null && leftCredits < currentCreditsRequired)
+          }
+          className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+        >
+          {isGenerating || isSubmitting ? (
+            <>
+              <Play className="mr-2 h-4 w-4 animate-spin" />
+              {isSubmitting ? t("uploading") : t("generating")}
+            </>
+          ) : (
+            <>
+              <Play className="mr-2 h-4 w-4" />
+              {t("generateVideo")}
+            </>
+          )}
+        </Button>
+      </div>
     </div>
   );
 }

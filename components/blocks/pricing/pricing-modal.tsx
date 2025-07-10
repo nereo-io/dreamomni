@@ -308,7 +308,7 @@ export default function PricingModal({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-6xl max-h-[85vh] overflow-y-auto p-0">
+        <DialogContent className="sm:max-w-4xl max-h-[85vh] overflow-y-auto p-0">
           <DialogHeader className="p-6 pb-4">
             <DialogTitle className="flex items-center gap-2">
               <Crown className="h-6 w-6 text-primary" />
@@ -478,23 +478,31 @@ export default function PricingModal({
                                       <span className="text-sm text-muted-foreground">
                                         Выберите способ оплаты
                                         {!selectedPaymentMethod && (
-                                          <span className="text-red-500"> *</span>
+                                          <span className="text-red-500">
+                                            {" "}
+                                            *
+                                          </span>
                                         )}
                                       </span>
                                     </div>
                                     <div className="grid grid-cols-2 gap-3">
                                       {availableMethods
-                                        .filter((m) => m.provider === "payssion")
+                                        .filter(
+                                          (m) => m.provider === "payssion"
+                                        )
                                         .map((method) => (
                                           <div
                                             key={method.id}
                                             className={`flex cursor-pointer items-center gap-x-3 rounded-lg border-2 p-2 transition-all duration-200 h-14 ${
-                                              selectedPaymentMethod === method.id
+                                              selectedPaymentMethod ===
+                                              method.id
                                                 ? "border-primary bg-primary/10"
                                                 : "border-gray-200/80 bg-card dark:border-gray-600/50 hover:border-primary/50"
                                             }`}
                                             onClick={() =>
-                                              setSelectedPaymentMethod(method.id)
+                                              setSelectedPaymentMethod(
+                                                method.id
+                                              )
                                             }
                                           >
                                             <div

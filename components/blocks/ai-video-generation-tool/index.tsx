@@ -1,115 +1,75 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { ImageIcon } from "lucide-react"
-import VideoGenerator from "../video-generator"
-import VideoResult from "../video-result"
-import useVideoGeneration from "@/hooks/useVideoGeneration"
+import { useState } from "react";
+import type React from "react";
+import VideoGenerator from "../video-generator";
+import VideoHistory from "../video-history";
+import useVideoGeneration from "@/hooks/useVideoGeneration";
+import type { VideoGenerationParams } from "../video-generator";
+import useCredits from "@/hooks/useCredits";
 
 interface VideoGenerationToolProps {
-  // 通用属性
-  description: string
-  setDescription: (value: string) => void
-  isGenerating: boolean
-  generatedVideo: string | null
-  selectedRatio: string
-  setSelectedRatio: (ratio: string) => void
-  selectedDuration: string
-  setSelectedDuration: (duration: string) => void
-  selectedResolution: string
-  setSelectedResolution: (resolution: string) => void
-  onGenerate: () => void
-
-  // 条件属性
-  mode: "text-to-video" | "image-to-video"
-
-  // 图片相关属性（仅在 image-to-video 模式下使用）
-  selectedImage?: string | null
-  setSelectedImage?: (image: string | null) => void
-  onImageUpload?: (event: React.ChangeEvent<HTMLInputElement>) => void
-
-  // 占位符配置
-  placeholderIcon: React.ReactNode
-  placeholderText: string
-
-  // 描述字段标签
-  descriptionLabel?: string
-  descriptionPlaceholder?: string
+  mode: "text-to-video" | "image-to-video";
+  descriptionLabel?: string;
+  descriptionPlaceholder?: string;
 }
 
 export function VideoGenerationTool({
-  description,
-  setDescription,
-  isGenerating,
-  generatedVideo,
-  selectedRatio,
-  setSelectedRatio,
-  selectedDuration,
-  setSelectedDuration,
-  selectedResolution,
-  setSelectedResolution,
-  onGenerate,
   mode,
-  selectedImage,
-  setSelectedImage,
-  onImageUpload,
-  placeholderIcon,
-  placeholderText,
-  descriptionLabel = "Video Description",
-  descriptionPlaceholder = "Describe the video you want to create, e.g., A cat playing in a sunny garden with natural lighting and fresh atmosphere...",
+  descriptionLabel,
+  descriptionPlaceholder,
 }: VideoGenerationToolProps) {
-  const {
-    currentGeneration,
-    updateCurrentGeneration,
-  } = useVideoGeneration()
+  const { submitGeneration, pollStatus } = useVideoGeneration();
+  const { updateLeftCredits } = useCredits();
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generationTrigger, setGenerationTrigger] = useState(0);
 
-  // Handle retry
-  const handleRetry = () => {
-    if (currentGeneration?.id) {
-      // 重新轮询状态
-      onGenerate()
+  // 处理视频生成
+  const handleGenerate = async (params: VideoGenerationParams) => {
+    setIsGenerating(true);
+
+    const result = await submitGeneration({
+      model: params.model,
+      prompt: params.prompt,
+      duration: params.duration,
+      aspect_ratio: params.aspect_ratio,
+      resolution: params.resolution,
+      generate_audio: params.generate_audio,
+      image_url: params.image_url,
+    });
+
+    if (result) {
+      // 延迟500ms后更新积分，确保数据库事务完成
+      setTimeout(() => {
+        updateLeftCredits();
+      }, 1000);
+
+      // 开始轮询状态
+      pollStatus(result.id);
+
+      // 触发历史列表刷新
+      setTimeout(() => {
+        setGenerationTrigger((prev) => prev + 1);
+        setIsGenerating(false);
+      }, 2000);
     } else {
-      // 重新生成
-      onGenerate()
+      setIsGenerating(false);
     }
-  }
+  };
 
   return (
     <div className="max-w-7xl mx-auto mb-16">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Left Column - Controls */}
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-8">
         <VideoGenerator
-          description={description}
-          setDescription={setDescription}
-          isGenerating={isGenerating}
-          selectedRatio={selectedRatio}
-          setSelectedRatio={setSelectedRatio}
-          selectedDuration={selectedDuration}
-          setSelectedDuration={setSelectedDuration}
-          selectedResolution={selectedResolution}
-          setSelectedResolution={setSelectedResolution}
-          onGenerate={onGenerate}
           mode={mode}
-          selectedImage={selectedImage}
-          setSelectedImage={setSelectedImage}
-          onImageUpload={onImageUpload}
+          onGenerate={handleGenerate}
+          isGenerating={isGenerating}
           descriptionLabel={descriptionLabel}
           descriptionPlaceholder={descriptionPlaceholder}
         />
 
-        {/* Right Column - Generation Result */}
-        <VideoResult
-          generation={currentGeneration}
-          generatedVideo={generatedVideo}
-          isGenerating={isGenerating}
-          placeholderIcon={placeholderIcon}
-          placeholderText={placeholderText}
-          onRetry={handleRetry}
-          onVideoUrlUpdate={(videoUrl: string) => {
-            updateCurrentGeneration({ video_url: videoUrl })
-          }}
-        />
+        <VideoHistory refreshTrigger={generationTrigger} />
       </div>
     </div>
-  )
+  );
 }
