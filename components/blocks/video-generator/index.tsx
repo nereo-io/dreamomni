@@ -106,7 +106,7 @@ export default function VideoGenerator({
       const imageToVideoModels = getImageToVideoModels();
       if (
         imageToVideoModels.length > 0 &&
-        !selectedModelConfig?.type?.includes("IMAGE_TO_VIDEO")
+        selectedModelConfig?.type !== VideoModelType.IMAGE_TO_VIDEO
       ) {
         setSelectedModel(imageToVideoModels[0].id);
       }
@@ -115,7 +115,7 @@ export default function VideoGenerator({
       const textToVideoModels = getTextToVideoModels();
       if (
         textToVideoModels.length > 0 &&
-        selectedModelConfig?.type?.includes("IMAGE_TO_VIDEO")
+        selectedModelConfig?.type === VideoModelType.IMAGE_TO_VIDEO
       ) {
         setSelectedModel(textToVideoModels[0].id);
       }
@@ -132,7 +132,7 @@ export default function VideoGenerator({
     modelId: string,
     duration: VideoDuration,
     hasAudio: boolean = false,
-    resolution: VideoResolution = "1080p"
+    resolution: VideoResolution
   ) => {
     return calculateCredits(modelId, parseInt(duration), hasAudio, resolution);
   };

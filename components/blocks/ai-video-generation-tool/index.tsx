@@ -20,7 +20,7 @@ export function VideoGenerationTool({
   descriptionPlaceholder,
 }: VideoGenerationToolProps) {
   const { submitGeneration, pollStatus } = useVideoGeneration();
-  const { updateLeftCredits } = useCredits();
+  const { updateLeftCredits, setCredits } = useCredits();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationTrigger, setGenerationTrigger] = useState(0);
 
@@ -39,10 +39,11 @@ export function VideoGenerationTool({
     });
 
     if (result) {
-      // 延迟500ms后更新积分，确保数据库事务完成
-      setTimeout(() => {
-        updateLeftCredits();
-      }, 1000);
+      // 立即更新积分显示（从API响应获取）
+      if (result.userCredits) {
+        // 直接使用API返回的积分值，无需额外API调用
+        setCredits(result.userCredits.remainingCredits);
+      }
 
       // 开始轮询状态
       pollStatus(result.id);

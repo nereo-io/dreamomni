@@ -24,9 +24,15 @@ export const useCredits = () => {
     setLeftCredits(data.credits || 0);
   }, []);
 
+  // 直接设置积分值的方法
+  const setCredits = useCallback((credits: number) => {
+    setLeftCredits(credits);
+  }, []);
+
   return {
     leftCredits,
     updateLeftCredits,
+    setCredits,
   };
 };
 

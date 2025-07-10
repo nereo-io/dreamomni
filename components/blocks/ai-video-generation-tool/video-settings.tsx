@@ -103,6 +103,29 @@ export function VideoSettings({
     setSelectedResolution,
   ]);
 
+  // 模型切换时重置所有设置为默认值
+  useEffect(() => {
+    if (selectedModelConfig) {
+      const supportedRatios = selectedModelConfig.supportedAspectRatios || [
+        "16:9",
+        "9:16",
+        "1:1",
+      ];
+      const supportedDurations = selectedModelConfig.supportedDurations || [
+        5, 10,
+      ];
+      const supportedResolutions = selectedModelConfig.supportedResolutions || [
+        "480p",
+        "1080p",
+      ];
+
+      // 始终重置为默认值
+      setSelectedRatio(supportedRatios[0]);
+      setSelectedDuration(`${supportedDurations[0]}s`);
+      setSelectedResolution("480p"); // 默认为480p
+    }
+  }, [selectedModel, setSelectedRatio, setSelectedDuration, setSelectedResolution]);
+
   // 计算积分消耗
   const currentCreditsRequired = selectedModel
     ? calculateCredits(

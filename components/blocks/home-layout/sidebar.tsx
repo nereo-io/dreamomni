@@ -67,10 +67,12 @@ export function Sidebar() {
               isCollapsed ? "justify-center" : "space-x-2"
             }`}
           >
-            <div className="flex items-center justify-center rounded-lg bg-gradient-to-r from-pink-500 to-purple-600 h-8 w-8">
-              <span className="font-bold text-white text-sm">V</span>
-            </div>
-            {!isCollapsed && <span className="text-xl font-bold">Veo3.ai</span>}
+            <img
+              src="/logo.png"
+              alt="Veo3"
+              className="w-8 h-8"
+            />
+            {!isCollapsed && <span className="text-xl font-bold">Veo3</span>}
           </div>
           {!isCollapsed && (
             <div className="flex items-center space-x-2">
@@ -164,7 +166,7 @@ export function Sidebar() {
       <Button
         variant="ghost"
         size="sm"
-        className="fixed left-4 top-4 z-50 bg-gray-900 text-white md:hidden"
+        className="fixed left-4 top-4 z-[70] bg-gray-900 text-white md:hidden"
         onClick={() => setIsOpen(true)}
         aria-label="Open sidebar"
       >
@@ -173,7 +175,7 @@ export function Sidebar() {
 
       {/* Desktop sidebar */}
       <div
-        className={`fixed left-0 top-0 z-40 hidden h-screen transition-all duration-300 md:block ${
+        className={`fixed left-0 top-0 z-[60] hidden h-screen transition-all duration-300 md:block ${
           isCollapsed ? "w-16" : "w-64"
         }`}
       >
@@ -197,7 +199,7 @@ export function Sidebar() {
 
       {/* Mobile sidebar */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
+        <div className="fixed inset-0 z-[70] md:hidden">
           <div
             className="absolute inset-0 bg-black/50"
             onClick={() => setIsOpen(false)}

@@ -15,6 +15,11 @@ interface VideoGenerationParams {
   seed?: number;
 }
 
+interface UserCreditsInfo {
+  remainingCredits: number;
+  deductedCredits: number;
+}
+
 interface VideoGenerationResult {
   id: string;
   requestId: string;
@@ -32,6 +37,7 @@ interface VideoGenerationResult {
   created_at?: string;
   aspect_ratio?: string;
   duration_seconds?: number;
+  userCredits?: UserCreditsInfo;
 }
 
 interface PollOptions {
@@ -202,7 +208,7 @@ export default function useVideoGeneration() {
           throw new Error(result.message || "提交失败");
         }
 
-        // 构建更新数据
+        // 构建更新数据，包含积分信息
         const updates: Partial<VideoGenerationResult> = {
           id: result.data.id,
           requestId: result.data.requestId,
@@ -214,6 +220,7 @@ export default function useVideoGeneration() {
           error_message: undefined,
           aspect_ratio: params.aspect_ratio,
           duration_seconds: parseInt(params.duration || "5"),
+          userCredits: result.data.userCredits,
         };
 
         // 如果是新的生成任务，创建完整记录
@@ -230,6 +237,7 @@ export default function useVideoGeneration() {
             created_at: new Date().toISOString(),
             aspect_ratio: params.aspect_ratio,
             duration_seconds: parseInt(params.duration || "5"),
+            userCredits: result.data.userCredits,
           };
           setCurrentGeneration(newGeneration);
         } else {
@@ -238,7 +246,7 @@ export default function useVideoGeneration() {
         }
 
         toast.success(t("toast.videoSubmitted"));
-        return result.data;
+        return updates as VideoGenerationResult;
       } catch (error) {
         console.error("提交生成任务失败:", error);
         toast.error(error instanceof Error ? error.message : "提交失败");

@@ -93,7 +93,42 @@ export default function VideoHistory({
     loadHistory();
   }, [loadHistory]);
 
-  // 移除定期刷新 - 依赖状态轮询和事件驱动更新
+  // 检查是否有未完成的视频需要轮询
+  const hasIncompleteVideos = useCallback(() => {
+    if (!history || history.length === 0) return false;
+
+    // 检查最新的视频是否未完成
+    const latestVideo = history[0];
+    if (!latestVideo) return false;
+
+    // 未完成的状态包括：提交中、优化中、排队中、生成中
+    const incompleteStatuses = [
+      "submitted",
+      "PROMPT_OPTIMIZING",
+      "IN_QUEUE",
+      "IN_PROGRESS",
+    ];
+    return incompleteStatuses.includes(latestVideo.status);
+  }, [history]);
+
+  // 轮询机制：当有未完成的视频时，每3秒检查一次状态
+  useEffect(() => {
+    if (!user?.uuid || !hasIncompleteVideos()) {
+      return;
+    }
+
+    console.log("Starting polling for incomplete videos...");
+
+    const pollInterval = setInterval(() => {
+      console.log("Polling video status...");
+      loadHistory();
+    }, 3000); // 每3秒轮询一次
+
+    return () => {
+      console.log("Stopping polling...");
+      clearInterval(pollInterval);
+    };
+  }, [user?.uuid, hasIncompleteVideos, loadHistory]);
 
   // 监听刷新触发器
   useEffect(() => {

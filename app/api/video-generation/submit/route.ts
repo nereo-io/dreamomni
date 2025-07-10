@@ -312,6 +312,9 @@ export async function POST(req: Request) {
           updateVideoGenerationById(videoGeneration.id, updateParams)
       );
 
+      // 获取扣除积分后的用户剩余积分
+      const updatedUserCredits = await getUserCredits(userInfo.uuid);
+
       return respData({
         id: videoGeneration.id,
         requestId: submitResponse.request_id,
@@ -325,6 +328,10 @@ export async function POST(req: Request) {
         status: "submitted",
         message: "视频生成任务已提交到队列",
         requiredCredits,
+        userCredits: {
+          remainingCredits: updatedUserCredits?.left_credits || 0,
+          deductedCredits: requiredCredits,
+        },
         metadata: {
           prompt,
           optimized_prompt: finalPrompt,
