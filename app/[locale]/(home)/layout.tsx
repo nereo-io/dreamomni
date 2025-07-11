@@ -21,7 +21,7 @@ function HomeLayoutContent({ children }: { children: ReactNode }) {
 
       <div
         className={`transition-all duration-300 ${
-          isCollapsed ? "md:ml-16" : "md:ml-64"
+          isCollapsed ? "md:ml-16" : "md:ml-56"
         }`}
       >
         <AIVideoHeader />

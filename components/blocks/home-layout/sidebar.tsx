@@ -176,7 +176,7 @@ export function Sidebar() {
       {/* Desktop sidebar */}
       <div
         className={`fixed left-0 top-0 z-[60] hidden h-screen transition-all duration-300 md:block ${
-          isCollapsed ? "w-16" : "w-64"
+          isCollapsed ? "w-16" : "w-56"
         }`}
       >
         <SidebarContent />
@@ -205,7 +205,7 @@ export function Sidebar() {
             onClick={() => setIsOpen(false)}
             aria-hidden="true"
           />
-          <div className="absolute left-0 top-0 h-full w-64">
+          <div className="absolute left-0 top-0 h-full w-56">
             <SidebarContent />
           </div>
         </div>

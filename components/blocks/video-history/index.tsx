@@ -274,27 +274,29 @@ export default function VideoHistory({
     <div
       ref={containerRef}
       className={cn(
-        "bg-gray-900 rounded-2xl shadow-lg p-6 flex flex-col",
+        "bg-gray-800 rounded-xl shadow-lg overflow-hidden",
         className
       )}
       style={{ height: "auto", minHeight: "600px" }}
     >
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-white text-lg font-semibold flex items-center gap-2">
-          <History className="h-5 w-5" />
+      {/* Header */}
+      <header className="py-3 px-5 flex justify-between items-center border-b border-gray-700">
+        <h1 className="text-xl font-semibold flex items-center text-white">
+          <History className="h-5 w-5 mr-3" />
           Recent Generations
-        </h2>
+        </h1>
         <Button
           variant="ghost"
           size="sm"
           onClick={handleRefresh}
           disabled={isLoadingHistory}
+          className="text-gray-400 hover:text-white"
         >
           <RefreshCw
             className={cn("h-4 w-4", isLoadingHistory && "animate-spin")}
           />
         </Button>
-      </div>
+      </header>
 
       {isLoadingHistory && history.length === 0 && user?.uuid ? (
         <div className="flex items-center justify-center py-8">
@@ -310,206 +312,207 @@ export default function VideoHistory({
         </div>
       ) : (
         <div
-          className="flex-1 overflow-y-auto video-history-scroll custom-scrollbar"
-          style={{ maxHeight: "calc(100% - 60px)" }}
+          className="flex-1 overflow-y-auto video-history-scroll custom-scrollbar divide-y divide-gray-700"
+          style={{ maxHeight: "calc(100% - 50px)" }}
         >
-          <div className="space-y-4 pr-2">
-            {[...history].reverse().map((generation) => {
-              console.log("Video generation data:", {
-                id: generation.id,
-                prompt: generation.prompt,
-                optimized_prompt: generation.optimized_prompt,
-                has_optimized: !!generation.optimized_prompt,
-                is_different: generation.optimized_prompt !== generation.prompt,
-              });
+          {[...history].reverse().map((generation) => {
+            console.log("Video generation data:", {
+              id: generation.id,
+              prompt: generation.prompt,
+              optimized_prompt: generation.optimized_prompt,
+              has_optimized: !!generation.optimized_prompt,
+              is_different: generation.optimized_prompt !== generation.prompt,
+            });
 
-              const videoUrl = getVideoUrl(generation);
-              const status =
-                STATUS_MAP[generation.status as keyof typeof STATUS_MAP] ||
-                STATUS_MAP.submitted;
-              const isCompleted =
-                generation.status === "COMPLETED" ||
-                generation.status === "SAVED_TO_R2";
-              const isFailed = generation.status === "FAILED";
-              const modelConfig = getVideoModel(generation.model_id);
-              const statusColor = getStatusColor(generation.status);
+            const videoUrl = getVideoUrl(generation);
+            const status =
+              STATUS_MAP[generation.status as keyof typeof STATUS_MAP] ||
+              STATUS_MAP.submitted;
+            const isCompleted =
+              generation.status === "COMPLETED" ||
+              generation.status === "SAVED_TO_R2";
+            const isFailed = generation.status === "FAILED";
+            const modelConfig = getVideoModel(generation.model_id);
+            const statusColor = getStatusColor(generation.status);
 
-              return (
-                <div
-                  key={generation.id}
-                  className="bg-gray-800 rounded-lg shadow-lg p-6 text-gray-300 transition-all duration-200 hover:shadow-xl hover:bg-gray-800/90"
-                >
-                  {/* 头部信息：状态 + 模型名称 + 时间戳 */}
-                  <div className="flex justify-between items-center mb-4">
-                    <div className="flex items-center space-x-3">
-                      <Badge
-                        className={cn(
-                          "text-white text-xs font-semibold px-3 py-1 rounded-md border-0",
-                          isCompleted
-                            ? "bg-green-500"
-                            : isFailed
-                            ? "bg-red-500"
-                            : "bg-blue-500"
-                        )}
-                      >
-                        {status.label}
-                      </Badge>
-                      <h2 className="text-lg font-bold text-white">
-                        {modelConfig?.displayName || generation.model_id}
-                      </h2>
-                    </div>
-                    {generation.created_at && (
-                      <span className="text-sm text-gray-400">
-                        {(() => {
-                          const date = new Date(generation.created_at);
-                          const now = new Date();
-                          const diffInHours =
-                            (now.getTime() - date.getTime()) / (1000 * 60 * 60);
-
-                          if (diffInHours < 24) {
-                            return date.toLocaleTimeString([], {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            });
-                          } else {
-                            return date.toLocaleDateString([], {
-                              month: "short",
-                              day: "numeric",
-                            });
-                          }
-                        })()}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* 参数标签和 Prompt 描述 */}
-                  <div className="flex items-center space-x-2 mb-4">
+            return (
+              <div key={generation.id} className="p-5 space-y-4">
+                {/* 头部信息：状态 + Prompt + 时间戳 */}
+                <div className="flex justify-between items-start gap-3">
+                  <div className="flex items-start gap-3 flex-1">
                     <Badge
-                      variant="secondary"
-                      className="bg-gray-700/50 text-gray-400 text-xs px-3 py-1 rounded-md border-0"
+                      className={cn(
+                        "text-white text-xs font-semibold px-2.5 py-1 rounded-full border-0 flex-shrink-0 mt-0.5",
+                        isCompleted
+                          ? "bg-green-500"
+                          : isFailed
+                          ? "bg-red-500"
+                          : "bg-blue-500"
+                      )}
                     >
-                      {generation.aspect_ratio || "adaptive"}
+                      {status.label}
                     </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="bg-gray-700/50 text-gray-400 text-xs px-3 py-1 rounded-md border-0"
+                    <p
+                      className="text-lg font-bold text-white leading-relaxed flex-1"
+                      style={{
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                      }}
                     >
-                      {generation.duration_seconds || 5}s
-                    </Badge>
-                    {generation.upsample_video_url_veo3 && (
-                      <Badge
-                        variant="secondary"
-                        className="bg-blue-600 text-white text-xs px-3 py-1 rounded-md border-0"
-                      >
-                        ↑ HD
-                      </Badge>
-                    )}
-                    <p className="text-gray-300 flex-1 text-sm text-white leading-relaxed">
-                      {generation.prompt.length > 50
-                        ? `${generation.prompt.substring(0, 50)}...`
-                        : generation.prompt}
+                      {generation.prompt}
                     </p>
                   </div>
+                  {generation.created_at && (
+                    <span className="text-sm text-gray-400 flex-shrink-0 mt-0.5">
+                      {(() => {
+                        const date = new Date(generation.created_at);
+                        const now = new Date();
+                        const diffInHours =
+                          (now.getTime() - date.getTime()) / (1000 * 60 * 60);
 
-                  {/* Enhanced Prompt 区域 */}
-                  {generation.optimized_prompt &&
-                    generation.optimized_prompt !== generation.prompt && (
-                      <div className="bg-gray-700/50 rounded-lg p-4 mb-4">
-                        <div
-                          className="flex justify-between items-center cursor-pointer"
-                          onClick={() => togglePromptExpansion(generation.id)}
-                        >
-                          <div className="flex items-center space-x-2">
-                            <Sparkles className="text-purple-400 text-xl h-3 w-3" />
-                            <span className="text-sm">Enhanced Prompt:</span>
-                          </div>
-                          {expandedPrompts.has(generation.id) ? (
-                            <ChevronUp className="text-gray-400 h-5 w-5" />
-                          ) : (
-                            <ChevronDown className="text-gray-400 h-5 w-5" />
-                          )}
-                        </div>
-                        <p
-                          className="mt-3 text-gray-400 leading-relaxed text-sm text-white"
-                          style={
-                            expandedPrompts.has(generation.id)
-                              ? {}
-                              : {
-                                  display: "-webkit-box",
-                                  WebkitLineClamp: 2,
-                                  WebkitBoxOrient: "vertical",
-                                  overflow: "hidden",
-                                }
-                          }
-                        >
-                          {generation.optimized_prompt}
-                        </p>
+                        if (diffInHours < 24) {
+                          return date.toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          });
+                        } else {
+                          return date.toLocaleDateString([], {
+                            month: "short",
+                            day: "numeric",
+                          });
+                        }
+                      })()}
+                    </span>
+                  )}
+                </div>
+
+                {/* 参数标签和模型名称 */}
+                <div className="flex items-center gap-2">
+                  <Badge
+                    variant="secondary"
+                    className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded border-0"
+                  >
+                    {generation.aspect_ratio || "adaptive"}
+                  </Badge>
+                  <Badge
+                    variant="secondary"
+                    className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded border-0"
+                  >
+                    {generation.duration_seconds || 5}s
+                  </Badge>
+                  {generation.upsample_video_url_veo3 && (
+                    <Badge
+                      variant="secondary"
+                      className="bg-blue-600 text-white text-xs px-2 py-1 rounded border-0"
+                    >
+                      ↑ HD
+                    </Badge>
+                  )}
+                  <h2 className="text-gray-300 flex-1 text-sm leading-relaxed">
+                    {modelConfig?.displayName || generation.model_id}
+                  </h2>
+                </div>
+
+                {/* Enhanced Prompt 区域 */}
+                {generation.optimized_prompt &&
+                  generation.optimized_prompt !== generation.prompt && (
+                    <div className="bg-gray-900/50 rounded-lg p-4">
+                      <div
+                        className="flex justify-between items-center cursor-pointer"
+                        onClick={() => togglePromptExpansion(generation.id)}
+                      >
+                        <h3 className="text-sm font-semibold text-purple-400 flex items-center">
+                          <Sparkles className="text-base mr-2 h-4 w-4" />
+                          Enhanced Prompt:
+                        </h3>
+                        {expandedPrompts.has(generation.id) ? (
+                          <ChevronUp className="text-gray-400 h-5 w-5" />
+                        ) : (
+                          <ChevronDown className="text-gray-400 h-5 w-5" />
+                        )}
                       </div>
-                    )}
+                      <p
+                        className="mt-2 text-sm text-gray-300"
+                        style={
+                          expandedPrompts.has(generation.id)
+                            ? {}
+                            : {
+                                display: "-webkit-box",
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: "vertical",
+                                overflow: "hidden",
+                              }
+                        }
+                      >
+                        {generation.optimized_prompt}
+                      </p>
+                    </div>
+                  )}
 
-                  {/* 视频播放区域 */}
-                  <div className="rounded-lg overflow-hidden">
-                    <div className="aspect-video bg-gray-700 rounded-lg overflow-hidden relative group">
-                      {isCompleted && videoUrl ? (
-                        <>
-                          <video
-                            className="w-full h-full object-cover"
-                            controls
-                            preload="metadata"
-                            muted
-                            playsInline
-                            onLoadedData={(e) => {
-                              const video = e.target as HTMLVideoElement;
-                              video.currentTime = 0.1;
+                {/* 视频播放区域 */}
+                <div className="w-full mt-4">
+                  <div className="h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 bg-gray-700 rounded-lg overflow-hidden relative group flex items-center justify-center">
+                    {isCompleted && videoUrl ? (
+                      <>
+                        <video
+                          className="max-w-full max-h-full object-contain rounded-lg"
+                          controls
+                          preload="metadata"
+                          muted
+                          playsInline
+                          onLoadedData={(e) => {
+                            const video = e.target as HTMLVideoElement;
+                            video.currentTime = 0.1;
+                          }}
+                        >
+                          <source src={videoUrl} type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
+
+                        {/* 下载按钮 */}
+                        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            className="bg-black/60 hover:bg-black/80 text-white border-none h-8 w-8 p-0 rounded-md"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDownload(videoUrl);
                             }}
                           >
-                            <source src={videoUrl} type="video/mp4" />
-                            Your browser does not support the video tag.
-                          </video>
-
-                          {/* 下载按钮 */}
-                          <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                            <Button
-                              variant="secondary"
-                              size="sm"
-                              className="bg-black/60 hover:bg-black/80 text-white border-none h-8 w-8 p-0 rounded-md"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDownload(videoUrl);
-                              }}
-                            >
-                              <Download className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </>
-                      ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center bg-gray-700">
-                          <status.icon
-                            className={cn(
-                              "h-8 w-8 text-gray-400 mb-2",
-                              status.icon === Loader2 && "animate-spin"
-                            )}
-                          />
-                          <span className="text-xs text-gray-500 text-center px-2">
-                            {status.label}
-                          </span>
+                            <Download className="h-4 w-4" />
+                          </Button>
                         </div>
-                      )}
-                    </div>
-
-                    {/* 错误信息 */}
-                    {isFailed && generation.error_message && (
-                      <div className="mt-3 p-3 bg-red-900/20 rounded-lg border border-red-500/30">
-                        <p className="text-xs text-red-300 leading-relaxed">
-                          ❌ {generation.error_message}
-                        </p>
+                      </>
+                    ) : (
+                      <div className="w-full h-full flex flex-col items-center justify-center bg-gray-700 rounded-lg">
+                        <status.icon
+                          className={cn(
+                            "h-8 w-8 text-gray-400 mb-2",
+                            status.icon === Loader2 && "animate-spin"
+                          )}
+                        />
+                        <span className="text-xs text-gray-500 text-center px-2">
+                          {status.label}
+                        </span>
                       </div>
                     )}
                   </div>
+
+                  {/* 错误信息 */}
+                  {isFailed && generation.error_message && (
+                    <div className="mt-3 p-3 bg-red-900/20 rounded-lg border border-red-500/30">
+                      <p className="text-xs text-red-300 leading-relaxed">
+                        ❌ {generation.error_message}
+                      </p>
+                    </div>
+                  )}
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

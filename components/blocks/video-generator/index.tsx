@@ -385,10 +385,10 @@ export default function VideoGenerator({
   };
 
   return (
-    <div className="bg-gray-900 rounded-2xl shadow-lg p-6 video-generator-container">
-      <div className="space-y-6">
+    <div className="bg-gray-900 rounded-2xl shadow-lg px-6 py-5 video-generator-container">
+      <div className="space-y-5">
         {/* Header Title */}
-        <div className="border-b border-gray-700 pb-4">
+        <div className="border-b border-gray-700 pb-3">
           <h2 className="text-white text-xl font-semibold">
             AI Video Generator
           </h2>

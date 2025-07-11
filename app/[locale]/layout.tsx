@@ -4,7 +4,7 @@ import "@/app/globals.css";
 import { getMessages, getTranslations } from "next-intl/server";
 
 import { AppContextProvider } from "@/contexts/app";
-import { Source_Code_Pro as FontSans } from "next/font/google";
+import { Outfit } from "next/font/google";
 import { Metadata } from "next";
 import { NextAuthSessionProvider } from "@/auth/session";
 import { NextIntlClientProvider } from "next-intl";
@@ -13,10 +13,10 @@ import { cn } from "@/lib/utils";
 // import { SpeedInsights } from '@vercel/speed-insights/next';
 // import { Analytics } from "@vercel/analytics/react";
 
-const fontSans = FontSans({
+const fontSans = Outfit({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 export async function generateMetadata({
