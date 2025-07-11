@@ -21,12 +21,14 @@ import { Pricing } from "@/types/blocks/pricing";
 import { getPricingBlock } from "@/services/page";
 import { useSidebar } from "@/contexts/sidebar";
 
-const sidebarItems = [{ icon: Home, label: "Home", href: "/home" }];
+const sidebarItems = [
+  // { icon: Home, label: "Home", href: "/home" }, // 暂时隐藏
+];
 
 const videoAIItems = [
   { icon: ImageIcon, label: "Image to Video", href: "/image-to-video" },
   { icon: Type, label: "Text to Video", href: "/text-to-video" },
-  { icon: Sparkles, label: "AI Video Effects", href: "/video-affects" },
+  // { icon: Sparkles, label: "AI Video Effects", href: "/video-affects" }, // 暂时隐藏
 ];
 
 const otherItems = [

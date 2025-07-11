@@ -46,7 +46,7 @@ export function VideoSettings({
   generateAudio = false,
 }: VideoSettingsProps) {
   const { leftCredits, updateLeftCredits } = useCredits();
-  const { user } = useAppContext();
+  const { user, setShowPricingModal } = useAppContext();
   const t = useTranslations("video-generator");
 
   // 用户登录时获取积分
@@ -356,7 +356,7 @@ export function VideoSettings({
             variant="outline"
             size="sm"
             className="bg-transparent border-gray-600 text-gray-300 hover:bg-gray-700"
-            onClick={() => window.open("/pricing", "_blank")}
+            onClick={() => setShowPricingModal(true)}
           >
             Recharge
           </Button>

@@ -69,6 +69,19 @@ export default function VideoHistory({
     new Set()
   );
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 检测是否为移动端
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
 
   // Toggle enhanced prompt visibility
   const togglePromptExpansion = (generationId: string) => {
@@ -170,49 +183,52 @@ export default function VideoHistory({
     }
   }, [scrollToBottom, history]);
 
-  // 动态匹配左侧组件高度
+  // 动态匹配左侧组件高度 - 仅在移动端使用
   useEffect(() => {
-    const matchHeight = () => {
+    if (isMobile) {
+      const matchHeight = () => {
+        const generatorElement = document.querySelector(
+          ".video-generator-container"
+        );
+        if (generatorElement && containerRef.current) {
+          const generatorHeight =
+            generatorElement.getBoundingClientRect().height;
+          containerRef.current.style.height = `${generatorHeight}px`;
+        }
+      };
+
+      // 初始设置
+      setTimeout(matchHeight, 100);
+
+      // 监听窗口大小变化
+      window.addEventListener("resize", matchHeight);
+
+      // 使用 MutationObserver 监听左侧组件变化
       const generatorElement = document.querySelector(
         ".video-generator-container"
       );
-      if (generatorElement && containerRef.current) {
-        const generatorHeight = generatorElement.getBoundingClientRect().height;
-        containerRef.current.style.height = `${generatorHeight}px`;
+      let observer: MutationObserver | null = null;
+
+      if (generatorElement) {
+        observer = new MutationObserver(matchHeight);
+        observer.observe(generatorElement, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ["class", "style"],
+        });
       }
-    };
 
-    // 初始设置
-    setTimeout(matchHeight, 100); // 给DOM一些时间渲染
+      // 定时检查（作为备用）
+      const interval = setInterval(matchHeight, 2000);
 
-    // 监听窗口大小变化
-    window.addEventListener("resize", matchHeight);
-
-    // 使用 MutationObserver 监听左侧组件变化
-    const generatorElement = document.querySelector(
-      ".video-generator-container"
-    );
-    let observer: MutationObserver | null = null;
-
-    if (generatorElement) {
-      observer = new MutationObserver(matchHeight);
-      observer.observe(generatorElement, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ["class", "style"],
-      });
+      return () => {
+        window.removeEventListener("resize", matchHeight);
+        if (observer) observer.disconnect();
+        clearInterval(interval);
+      };
     }
-
-    // 定时检查（作为备用）
-    const interval = setInterval(matchHeight, 2000);
-
-    return () => {
-      window.removeEventListener("resize", matchHeight);
-      if (observer) observer.disconnect();
-      clearInterval(interval);
-    };
-  }, []);
+  }, [isMobile]);
 
   // 手动刷新
   const handleRefresh = () => {
@@ -275,9 +291,14 @@ export default function VideoHistory({
       ref={containerRef}
       className={cn(
         "bg-gray-800 rounded-xl shadow-lg overflow-hidden",
+        // PC端使用屏幕高度，移动端保持auto
+        isMobile ? "" : "h-screen",
         className
       )}
-      style={{ height: "auto", minHeight: "600px" }}
+      style={{
+        height: isMobile ? "auto" : "calc(100vh - 81px)",
+        minHeight: "600px",
+      }}
     >
       {/* Header */}
       <header className="py-3 px-5 flex justify-between items-center border-b border-gray-700">
@@ -313,7 +334,9 @@ export default function VideoHistory({
       ) : (
         <div
           className="flex-1 overflow-y-auto video-history-scroll custom-scrollbar divide-y divide-gray-700"
-          style={{ maxHeight: "calc(100% - 50px)" }}
+          style={{
+            maxHeight: isMobile ? "calc(100% - 50px)" : "calc(100vh - 141px)",
+          }}
         >
           {[...history].reverse().map((generation) => {
             console.log("Video generation data:", {
@@ -344,10 +367,10 @@ export default function VideoHistory({
                       className={cn(
                         "text-white text-xs font-semibold px-2.5 py-1 rounded-full border-0 flex-shrink-0 mt-0.5",
                         isCompleted
-                          ? "bg-green-500"
+                          ? "bg-green-500 text-green-900"
                           : isFailed
-                          ? "bg-red-500"
-                          : "bg-blue-500"
+                          ? "bg-red-500 text-red-900"
+                          : "bg-blue-500 text-blue-900"
                       )}
                     >
                       {status.label}
@@ -453,7 +476,12 @@ export default function VideoHistory({
 
                 {/* 视频播放区域 */}
                 <div className="w-full mt-4">
-                  <div className="h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 bg-gray-700 rounded-lg overflow-hidden relative group flex items-center justify-center">
+                  <div
+                    className={cn(
+                      "h-56 sm:h-64 md:h-72 lg:h-80 xl:h-96 rounded-lg overflow-hidden relative group flex items-center justify-center",
+                      isCompleted && videoUrl ? "bg-transparent" : "bg-gray-700"
+                    )}
+                  >
                     {isCompleted && videoUrl ? (
                       <>
                         <video
