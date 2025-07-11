@@ -23,6 +23,7 @@ export function VideoGenerationTool({
   const { updateLeftCredits, setCredits } = useCredits();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationTrigger, setGenerationTrigger] = useState(0);
+  const [currentSelectedModel, setCurrentSelectedModel] = useState<string>("");
 
   // 处理视频生成
   const handleGenerate = async (params: VideoGenerationParams) => {
@@ -68,9 +69,14 @@ export function VideoGenerationTool({
           isGenerating={isGenerating}
           descriptionLabel={descriptionLabel}
           descriptionPlaceholder={descriptionPlaceholder}
+          onModelChange={setCurrentSelectedModel}
         />
 
-        <VideoHistory refreshTrigger={generationTrigger} />
+        <VideoHistory
+          refreshTrigger={generationTrigger}
+          selectedModel={currentSelectedModel}
+          mode={mode}
+        />
       </div>
     </div>
   );

@@ -31,6 +31,7 @@ interface VideoSettingsProps {
   setSelectedModel?: (model: string) => void;
   hasImage?: boolean;
   generateAudio?: boolean;
+  onModelChange?: (model: string) => void;
 }
 
 export function VideoSettings({
@@ -44,6 +45,7 @@ export function VideoSettings({
   setSelectedModel,
   hasImage = false,
   generateAudio = false,
+  onModelChange,
 }: VideoSettingsProps) {
   const { leftCredits, updateLeftCredits } = useCredits();
   const { user, setShowPricingModal } = useAppContext();
@@ -61,6 +63,13 @@ export function VideoSettings({
     ? getImageToVideoModels()
     : getTextToVideoModels();
   const selectedModelConfig = getVideoModel(selectedModel);
+
+  // 当选择的模型变化时，通知父组件
+  useEffect(() => {
+    if (selectedModel && onModelChange) {
+      onModelChange(selectedModel);
+    }
+  }, [selectedModel, onModelChange]);
 
   // 确保默认选项被选中
   useEffect(() => {

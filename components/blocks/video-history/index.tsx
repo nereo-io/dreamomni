@@ -21,10 +21,13 @@ import { getVideoModel } from "@/config/video-models";
 import useVideoGeneration from "@/hooks/useVideoGeneration";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 import { useAppContext } from "@/contexts/app";
+import { EXAMPLE_VIDEOS } from "@/data/example-videos";
 
 interface VideoHistoryProps {
   refreshTrigger?: number;
   className?: string;
+  selectedModel?: string;
+  mode?: "text-to-video" | "image-to-video";
 }
 
 const getStatusMap = (t: any) => ({
@@ -60,6 +63,8 @@ const getStatusMap = (t: any) => ({
 export default function VideoHistory({
   refreshTrigger,
   className,
+  selectedModel,
+  mode,
 }: VideoHistoryProps) {
   const t = useTranslations("video-result");
   const { fetchHistory, history, isLoadingHistory } = useVideoGeneration();
@@ -82,6 +87,22 @@ export default function VideoHistory({
 
     return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
+
+  // 获取要显示的示例视频
+  const getExampleVideos = () => {
+    if (!selectedModel) return EXAMPLE_VIDEOS.seedance; // 默认显示seedance
+
+    // 根据模型ID判断类型
+    if (selectedModel.includes("veo") || selectedModel.includes("Veo")) {
+      return EXAMPLE_VIDEOS.veo;
+    } else {
+      return EXAMPLE_VIDEOS.seedance;
+    }
+  };
+
+  // 决定要显示的视频列表
+  const videosToShow =
+    !user?.uuid || history.length === 0 ? getExampleVideos() : history;
 
   // Toggle enhanced prompt visibility
   const togglePromptExpansion = (generationId: string) => {
@@ -323,7 +344,7 @@ export default function VideoHistory({
         <div className="flex items-center justify-center py-8">
           <Loader2 className="h-6 w-6 text-gray-500 animate-spin" />
         </div>
-      ) : history.length === 0 ? (
+      ) : videosToShow.length === 0 ? (
         <div className="text-center py-8">
           <History className="h-12 w-12 text-gray-600 mx-auto mb-3" />
           <p className="text-gray-400">No video generations yet</p>
@@ -338,7 +359,21 @@ export default function VideoHistory({
             maxHeight: isMobile ? "calc(100% - 50px)" : "calc(100vh - 141px)",
           }}
         >
-          {[...history].reverse().map((generation) => {
+          {/* 如果显示的是示例视频，添加提示 */}
+          {(!user?.uuid || history.length === 0) && (
+            <div className="p-4 bg-blue-900/20 border-b border-blue-500/30">
+              <div className="flex items-center gap-2 text-blue-300 text-sm">
+                <Sparkles className="h-4 w-4" />
+                <span>
+                  {!user?.uuid
+                    ? "Sign in to see your video generations. Here are some examples:"
+                    : "Here are some example videos to get you started:"}
+                </span>
+              </div>
+            </div>
+          )}
+
+          {[...videosToShow].reverse().map((generation) => {
             console.log("Video generation data:", {
               id: generation.id,
               prompt: generation.prompt,
@@ -376,7 +411,7 @@ export default function VideoHistory({
                       {status.label}
                     </Badge>
                     <p
-                      className="text-lg font-bold text-white leading-relaxed flex-1"
+                      className="text-base font-bold text-white leading-relaxed flex-1"
                       style={{
                         display: "-webkit-box",
                         WebkitLineClamp: 2,
@@ -501,17 +536,25 @@ export default function VideoHistory({
 
                         {/* 下载按钮 */}
                         <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            className="bg-black/60 hover:bg-black/80 text-white border-none h-8 w-8 p-0 rounded-md"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDownload(videoUrl);
-                            }}
-                          >
-                            <Download className="h-4 w-4" />
-                          </Button>
+                          {!user?.uuid || history.length === 0 ? (
+                            // 示例视频不允许下载
+                            <div className="bg-black/60 text-white border-none h-8 w-8 p-0 rounded-md flex items-center justify-center">
+                              <Download className="h-4 w-4 opacity-50" />
+                            </div>
+                          ) : (
+                            // 真实视频允许下载
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              className="bg-black/60 hover:bg-black/80 text-white border-none h-8 w-8 p-0 rounded-md"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDownload(videoUrl);
+                              }}
+                            >
+                              <Download className="h-4 w-4" />
+                            </Button>
+                          )}
                         </div>
                       </>
                     ) : (

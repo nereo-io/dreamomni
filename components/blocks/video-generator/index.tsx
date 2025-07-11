@@ -39,6 +39,7 @@ interface VideoGeneratorProps {
   // 可选配置
   descriptionLabel?: string;
   descriptionPlaceholder?: string;
+  onModelChange?: (model: string) => void;
 }
 
 type VideoAspectRatio = "16:9" | "9:16" | "1:1";
@@ -51,6 +52,7 @@ export default function VideoGenerator({
   isGenerating,
   descriptionLabel,
   descriptionPlaceholder = "Describe the video you want to create, e.g., A cat playing in a sunny garden with natural lighting and fresh atmosphere...",
+  onModelChange,
 }: VideoGeneratorProps) {
   const t = useTranslations("video-generator");
 
@@ -486,6 +488,7 @@ export default function VideoGenerator({
           setSelectedResolution={setSelectedResolution}
           generateAudio={generateAudio}
           hasImage={!!(uploadedImage || selectedImage)}
+          onModelChange={onModelChange}
         />
 
         {/* Generate Button */}
