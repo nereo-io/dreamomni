@@ -35,6 +35,7 @@ export function VideoGenerationTool({
       aspect_ratio: params.aspect_ratio,
       resolution: params.resolution,
       generate_audio: params.generate_audio,
+      enable_prompt_enhancement: params.enable_prompt_enhancement,
       image_url: params.image_url,
     });
 

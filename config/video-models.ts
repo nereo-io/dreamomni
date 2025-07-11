@@ -59,7 +59,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     name: "Kie.ai Veo3 Image-to-Video",
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
-    displayName: "Kie.ai Veo 3",
+    displayName: "Veo 3",
     perSecondCredits: 5, // 与文本转视频同样的积分消耗
     description: "Google's Veo3 model for images-to-video generation",
     features: ["1080P", "Audio"],

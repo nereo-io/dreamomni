@@ -45,6 +45,7 @@ export async function GET(req: Request) {
         id: video.id,
         model_id: video.model_id,
         prompt: video.prompt,
+        optimized_prompt: video.optimized_prompt, // ✅ 添加增强prompt字段
         input_image_url: video.input_image_url,
         negative_prompt: video.negative_prompt,
         aspect_ratio: video.aspect_ratio,

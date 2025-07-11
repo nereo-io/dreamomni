@@ -60,6 +60,7 @@ export async function POST(req: Request) {
       seed,
       enable_safety_checker = true,
       generate_audio = false, // 新增：音频生成选项
+      enable_prompt_enhancement = true, // 新增：prompt增强开关
       ...otherParams
     } = await req.json();
 
@@ -135,7 +136,7 @@ export async function POST(req: Request) {
       return respErr("Failed to deduct credits, please try again later");
     }
 
-    // 6. 在数据库中创建记录（初始状态为 PROMPT_OPTIMIZING）
+    // 6. 在数据库中创建记录（根据是否启用prompt增强设置初始状态）
     const videoGeneration = await createVideoGeneration({
       user_id: userInfo.uuid,
       model_id: model,
@@ -147,33 +148,31 @@ export async function POST(req: Request) {
       cfg_scale,
       seed,
       has_audio: generate_audio, // 新增：记录是否包含音频
-      status: "PROMPT_OPTIMIZING",
+      status: enable_prompt_enhancement ? "PROMPT_OPTIMIZING" : "IN_QUEUE",
     });
 
     // 6.5. 优化提示词
-    //test
     let finalPrompt = prompt;
-    // 如果是 veo3 模型，不需要优化提示词
-    // if (!isVeo3ApicoreModel(model)) {
-    try {
-      const optimizedPrompt = await optimizePromptWithTimeout(
-        prompt,
-        model,
-        30000
-      );
-      finalPrompt = optimizedPrompt;
+    if (enable_prompt_enhancement) {
+      try {
+        const optimizedPrompt = await optimizePromptWithTimeout(
+          prompt,
+          model,
+          30000
+        );
+        finalPrompt = optimizedPrompt;
 
-      // 更新记录保存优化后的提示词
-      await import("@/models/videoGeneration").then(
-        ({ updateVideoGenerationById }) =>
-          updateVideoGenerationById(videoGeneration.id, {
-            optimized_prompt: optimizedPrompt,
-          })
-      );
-    } catch (error) {
-      console.error("提示词优化失败，使用原始提示词:", error);
-      // 如果优化失败，继续使用原始提示词
-      // }
+        // 更新记录保存优化后的提示词
+        await import("@/models/videoGeneration").then(
+          ({ updateVideoGenerationById }) =>
+            updateVideoGenerationById(videoGeneration.id, {
+              optimized_prompt: optimizedPrompt,
+            })
+        );
+      } catch (error) {
+        console.error("提示词优化失败，使用原始提示词:", error);
+        // 如果优化失败，继续使用原始提示词
+      }
     }
 
     // 构建请求输入（使用优化后的提示词）

@@ -10,6 +10,7 @@ export interface VideoGenerationRequest {
   cfg_scale?: number;
   seed?: number;
   generate_audio?: boolean;
+  enable_prompt_enhancement?: boolean;
   [key: string]: any;
 }
 

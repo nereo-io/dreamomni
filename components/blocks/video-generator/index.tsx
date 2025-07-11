@@ -3,7 +3,8 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Play, ImageIcon, X } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Play, ImageIcon, X, Sparkles } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
@@ -25,6 +26,7 @@ export interface VideoGenerationParams {
   aspect_ratio: string;
   resolution: string;
   generate_audio: boolean;
+  enable_prompt_enhancement: boolean;
   image_url?: string;
 }
 
@@ -69,6 +71,8 @@ export default function VideoGenerator({
   const [isDragOver, setIsDragOver] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [generateAudio, setGenerateAudio] = useState(true);
+  const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(true);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
 
   // Textarea 引用
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -176,6 +180,12 @@ export default function VideoGenerator({
   // Handle image upload with enhanced validation
   const handleImageUpload = useCallback(
     async (file: File) => {
+      // 验证用户登录
+      if (!user?.uuid) {
+        setShowSignModal(true);
+        return;
+      }
+
       // 基础文件类型验证
       if (!file.type.startsWith("image/")) {
         toast.error(t("toast.uploadImageFile"));
@@ -267,9 +277,29 @@ export default function VideoGenerator({
       };
       reader.readAsDataURL(file);
 
-      toast.success(t("toast.imageUploaded"));
+      // 立即上传到 R2
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const uploadResponse = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const uploadResult = await uploadResponse.json();
+        if (uploadResult.code !== 0) {
+          throw new Error(uploadResult.message || "Image upload failed");
+        }
+
+        setUploadedImageUrl(uploadResult.data.url);
+        toast.success("Image uploaded successfully!");
+      } catch (error) {
+        console.error("Image upload error:", error);
+        toast.error("Failed to upload image. Please try again.");
+      }
     },
-    [t]
+    [t, user?.uuid, setShowSignModal]
   );
 
   // Handle file input change
@@ -285,6 +315,7 @@ export default function VideoGenerator({
     setUploadedImage(null);
     setSelectedImage(null);
     setImagePreview(null);
+    setUploadedImageUrl(null);
   };
 
   // 处理生成按钮点击
@@ -302,7 +333,7 @@ export default function VideoGenerator({
     }
 
     // 验证图片转视频模式下必须上传图片
-    if (mode === "image-to-video" && !uploadedImage) {
+    if (mode === "image-to-video" && !uploadedImageUrl) {
       toast.error(t("toast.uploadImageRequired"));
       return;
     }
@@ -313,40 +344,8 @@ export default function VideoGenerator({
       return;
     }
 
-    // 准备图片URL
-    let imageUrl: string | undefined;
-
-    if (uploadedImage && (mode === "image-to-video" || selectedImage)) {
-      // 上传图片到服务器
-      const formData = new FormData();
-      formData.append("file", uploadedImage);
-
-      try {
-        setIsSubmitting(true);
-        const uploadResponse = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
-
-        const uploadResult = await uploadResponse.json();
-        if (uploadResult.code !== 0) {
-          throw new Error(uploadResult.message || "Image upload failed");
-        }
-
-        imageUrl = uploadResult.data.url;
-      } catch (error) {
-        console.error("Image upload error:", error);
-        toast.error(
-          error instanceof Error
-            ? error.message
-            : "Failed to upload image. Please try again."
-        );
-        setIsSubmitting(false);
-        return;
-      } finally {
-        setIsSubmitting(false);
-      }
-    }
+    // 准备图片URL - 直接使用已上传的URL
+    const imageUrl = uploadedImageUrl || undefined;
 
     // 准备生成参数
     const params: VideoGenerationParams = {
@@ -356,6 +355,7 @@ export default function VideoGenerator({
       aspect_ratio: selectedRatio,
       resolution: selectedResolution,
       generate_audio: generateAudio,
+      enable_prompt_enhancement: enablePromptEnhancement,
       image_url: imageUrl,
     };
 
@@ -396,9 +396,20 @@ export default function VideoGenerator({
 
         {/* Description Input */}
         <div>
-          <h2 className="text-white text-lg font-semibold mb-4">
-            {finalDescriptionLabel}
-          </h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-white text-lg font-semibold">
+              {finalDescriptionLabel}
+            </h2>
+            {/* Prompt Enhancement Toggle */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-400">Prompt Enhancement</span>
+              <Switch
+                checked={enablePromptEnhancement}
+                onCheckedChange={setEnablePromptEnhancement}
+                className="data-[state=checked]:bg-purple-600 scale-75"
+              />
+            </div>
+          </div>
           <Textarea
             ref={textareaRef}
             value={description}
@@ -485,7 +496,7 @@ export default function VideoGenerator({
             isSubmitting ||
             !description.trim() ||
             !selectedModel ||
-            (mode === "image-to-video" && !uploadedImage) ||
+            (mode === "image-to-video" && !uploadedImageUrl) ||
             (leftCredits !== null && leftCredits < currentCreditsRequired)
           }
           className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"

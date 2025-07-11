@@ -124,7 +124,12 @@ export function VideoSettings({
       setSelectedDuration(`${supportedDurations[0]}s`);
       setSelectedResolution("480p"); // 默认为480p
     }
-  }, [selectedModel, setSelectedRatio, setSelectedDuration, setSelectedResolution]);
+  }, [
+    selectedModel,
+    setSelectedRatio,
+    setSelectedDuration,
+    setSelectedResolution,
+  ]);
 
   // 计算积分消耗
   const currentCreditsRequired = selectedModel

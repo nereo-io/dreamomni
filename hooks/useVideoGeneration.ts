@@ -11,6 +11,7 @@ interface VideoGenerationParams {
   duration?: string;
   resolution?: string;
   generate_audio?: boolean;
+  enable_prompt_enhancement?: boolean;
   cfg_scale?: number;
   seed?: number;
 }
