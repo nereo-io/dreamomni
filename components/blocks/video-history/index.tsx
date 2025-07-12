@@ -90,7 +90,7 @@ export default function VideoHistory({
 
   // 获取要显示的示例视频
   const getExampleVideos = () => {
-    if (!selectedModel) return EXAMPLE_VIDEOS.seedance; // 默认显示seedance
+    if (!selectedModel) return EXAMPLE_VIDEOS.veo; // 默认显示veo3小黄鸡
 
     // 根据模型ID判断类型
     if (selectedModel.includes("veo") || selectedModel.includes("Veo")) {
@@ -323,10 +323,10 @@ export default function VideoHistory({
     >
       {/* Header */}
       <header className="py-3 px-5 flex justify-between items-center border-b border-gray-700">
-        <h1 className="text-xl font-semibold flex items-center text-white">
+        <div className="text-xl font-semibold flex items-center text-white">
           <History className="h-5 w-5 mr-3" />
           Recent Generations
-        </h1>
+        </div>
         <Button
           variant="ghost"
           size="sm"
@@ -468,9 +468,9 @@ export default function VideoHistory({
                       ↑ HD
                     </Badge>
                   )}
-                  <h2 className="text-gray-300 flex-1 text-sm leading-relaxed">
+                  <div className="text-gray-300 flex-1 text-sm leading-relaxed">
                     {modelConfig?.displayName || generation.model_id}
-                  </h2>
+                  </div>
                 </div>
 
                 {/* Enhanced Prompt 区域 */}
@@ -481,10 +481,10 @@ export default function VideoHistory({
                         className="flex justify-between items-center cursor-pointer"
                         onClick={() => togglePromptExpansion(generation.id)}
                       >
-                        <h3 className="text-sm font-semibold text-purple-400 flex items-center">
+                        <div className="text-sm font-semibold text-purple-400 flex items-center">
                           <Sparkles className="text-base mr-2 h-4 w-4" />
                           Enhanced Prompt:
-                        </h3>
+                        </div>
                         {expandedPrompts.has(generation.id) ? (
                           <ChevronUp className="text-gray-400 h-5 w-5" />
                         ) : (
@@ -522,7 +522,7 @@ export default function VideoHistory({
                         <video
                           className="max-w-full max-h-full object-contain rounded-lg"
                           controls
-                          preload="metadata"
+                          preload="auto"
                           muted
                           playsInline
                           onLoadedData={(e) => {

@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "title": "Veo3 AI - Free AI Video Generato",
+    "title": "Veo3 AI - Free AI Video Generator",
     "description": "Generate stunning 4K videos with AI. Create professional videos from text prompts with realistic physics and native audio. Start free today.",
     "keywords": "Veo3 AI, AI Video Generator, Free Video Creation, Text to Video, 4K Videos, AI Filmmaking"
   },
@@ -45,7 +45,6 @@
     "title": "My Orders",
     "description": "orders paid with Veo3AI.",
     "no_orders": "No orders found",
-    "tip": "",
     "activate_order": "Activate Order",
     "actived": "Activated",
     "join_discord": "Join Discord",
@@ -330,50 +329,6 @@
       "statusCode": "An error occurred (Status {code}). Please try again."
     }
   },
-  "components": {
-    "sectionHeader": {
-      "defaultTitle": "Section Title",
-      "defaultDescription": "Section description"
-    },
-    "heroSection": {
-      "defaultTitle": "Hero Title",
-      "defaultDescription": "Hero description",
-      "defaultButtonText": "Get Started"
-    },
-    "categoryTabs": {
-      "all": "All",
-      "interaction": "Interaction",
-      "appearance": "Appearance",
-      "emotions": "Emotions",
-      "entertainment": "Entertainment",
-      "heroVillain": "Hero/Villain",
-      "horrorFantasy": "Horror/Fantasy",
-      "xmas": "Xmas",
-      "others": "Others",
-      "newLabel": "NEW"
-    },
-    "howToUseSection": {
-      "defaultTitle": "How to Use This Effect",
-      "uploadImage": {
-        "title": "Upload Image",
-        "description": "Upload a clear photo of the person you want to transform"
-      },
-      "aiProcessing": {
-        "title": "AI Processing",
-        "description": "Our AI analyzes the image and applies the selected effect"
-      },
-      "getVideo": {
-        "title": "Get Video",
-        "description": "Download your transformed video in high quality"
-      }
-    },
-    "categoryEffectSection": {
-      "defaultDescription": "Discover amazing {categoryName} to transform your videos with AI-powered creativity."
-    },
-    "videoExampleGrid": {
-      "playButton": "Play"
-    }
-  },
   "pages": {
     "home": {
       "title": "Welcome to Veo3 AI",
@@ -383,9 +338,20 @@
       "title": "All-in-One AI Video Generator",
       "description": "Create professional videos from simple text descriptions. Our advanced AI understands your vision and transforms words into stunning visual stories.",
       "placeholderText": "Enter a text prompt and click generate to create your video",
+      "seo": {
+        "title": "Free AI Video Generator: Text to Video AI Online | Veo3 AI",
+        "description": "Discover the Veo3 AI video generator, a cutting-edge, free solution that effortlessly turns a text prompt into an engaging video. Try our text to video AI today!",
+        "keywords": "AI video generator, text to video, free video generator, Veo3 AI, AI video creation, text to video online"
+      },
       "visualizeSection": {
         "title": "Visualize Any Text with Our AI Video Generator",
         "description": "From simple descriptions to complex scenes, our AI brings your words to life with cinematic quality and stunning visual effects."
+      },
+      "videoPrompts": {
+        "glassStrawberry": "A glass strawberry shatters when sliced with a knife on a wooden board.",
+        "animeRose": "An anime-style rose blooms before a rope bridge, with petals dancing in the air.",
+        "monkeySeagull": "A monkey and a seagull dance on a moonlit beach under a starry sky.",
+        "monarchButterfly": "A monarch butterfly flutters its wings on colorful flowers in a sunlit garden."
       },
       "examples": {
         "natureScenes": {
@@ -402,13 +368,20 @@
         }
       },
       "ctaTitle": "Create Stunning Videos with Only Text Now!",
+      "ctaDescription": "Transform your ideas into stunning AI-generated videos with just a simple text prompt. Start creating professional videos in seconds.",
       "ctaButtonText": "Try Text to Video Generator"
     },
     "imageToVideo": {
       "title": "All-in-One AI Image to Video Generator",
       "description": "Transform your static images into dynamic videos with our advanced AI technology. Create professional-quality animations from any image in seconds.",
       "placeholderText": "Upload an image and click generate to create your video",
+      "seo": {
+        "title": "Free Image to Video AI Generator: Turn Photos to Videos | Veo3 AI",
+        "description": "Use the image to video AI generator of Veo3 AI for free. Convert photos to videos with high-quality and captivating results. Try our image to video AI now!",
+        "keywords": "image to video AI, photo to video converter, free image to video, Veo3 AI, AI video from image, image animation"
+      },
       "ctaTitle": "Breathe Life into Your Static Images!",
+      "ctaDescription": "Turn any photo into a stunning video with our AI image to video generator. Upload your image and watch it come to life in seconds.",
       "ctaButtonText": "Try Image to Video Generator"
     },
     "videoAffects": {
@@ -448,9 +421,6 @@
         "title": "How to Use This Effect"
       }
     }
-  },
-  "layout": {
-    "copyright": "© 2024 Veo3 AI. All rights reserved."
   },
   "effects": {
     "ai-kissing": "AI Kissing Video Generator",

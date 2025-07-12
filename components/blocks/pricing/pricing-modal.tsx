@@ -568,7 +568,7 @@ export default function PricingModal({
                                   handleCheckout(item);
                                 }}
                               >
-                                <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                                 {(!isLoading ||
                                   (isLoading &&

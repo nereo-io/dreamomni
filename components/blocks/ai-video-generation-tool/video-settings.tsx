@@ -152,9 +152,9 @@ export function VideoSettings({
 
   return (
     <div>
-      <h2 className="text-white text-lg font-semibold mb-4">
+      <div className="text-white text-lg font-semibold mb-4">
         {t("videoSettings")}
-      </h2>
+      </div>
 
       {/* Video Model Selection */}
       <div className="mb-4">

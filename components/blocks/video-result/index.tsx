@@ -378,7 +378,7 @@ export default function VideoResult({
               <video
                 className="w-full h-full object-cover"
                 controls
-                preload="metadata"
+                preload="auto"
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
               >
@@ -414,7 +414,7 @@ export default function VideoResult({
           <video
             className="w-full h-full object-cover"
             controls
-            preload="metadata"
+            preload="auto"
             onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
             style={{ aspectRatio: generation.aspect_ratio || "16/9" }}

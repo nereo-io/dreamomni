@@ -3,10 +3,10 @@
   "theme": "light",
   "header": {
     "brand": {
-      "title": "Veo3 AI",
+      "title": "Veo3",
       "logo": {
         "src": "/logo.png",
-        "alt": "Veo3 AI"
+        "alt": "Veo3"
       },
       "url": "/"
     },

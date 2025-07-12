@@ -392,23 +392,23 @@ export default function VideoGenerator({
         {/* Header Title */}
         <div className="border-b border-gray-700 pb-3">
           <h2 className="text-white text-xl font-semibold">
-            AI Video Generator
+            {mode === "image-to-video" ? "Image to Video" : "Text to Video"}
           </h2>
         </div>
 
         {/* Description Input */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-white text-lg font-semibold">
+            <div className="text-white text-lg font-semibold">
               {finalDescriptionLabel}
-            </h2>
+            </div>
             {/* Prompt Enhancement Toggle */}
             <div className="flex items-center gap-2">
               <span className="text-xs text-gray-400">Prompt Enhancement</span>
               <Switch
                 checked={enablePromptEnhancement}
                 onCheckedChange={setEnablePromptEnhancement}
-                className="data-[state=checked]:bg-purple-600 scale-75"
+                className="data-[state=checked]:bg-primary scale-75"
               />
             </div>
           </div>
@@ -426,9 +426,9 @@ export default function VideoGenerator({
         {/* Image Upload Section (for image-to-video mode) */}
         {mode === "image-to-video" && (
           <div>
-            <h2 className="text-white text-lg font-semibold mb-4">
+            <div className="text-white text-lg font-semibold mb-4">
               {t("uploadImage")}
-            </h2>
+            </div>
             {!imagePreview ? (
               <div
                 className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer ${
@@ -502,7 +502,7 @@ export default function VideoGenerator({
             (mode === "image-to-video" && !uploadedImageUrl) ||
             (leftCredits !== null && leftCredits < currentCreditsRequired)
           }
-          className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
         >
           {isGenerating || isSubmitting ? (
             <>

@@ -25,7 +25,7 @@ export function AIVideoHeader() {
                 Login
               </Button>
               <Button 
-                className="bg-white text-gray-900 hover:bg-gray-100"
+                className="bg-primary text-primary-foreground hover:bg-primary/90"
                 onClick={() => setShowSignModal(true)}
               >
                 Start for Free

@@ -21,17 +21,23 @@ import { Pricing } from "@/types/blocks/pricing";
 import { getPricingBlock } from "@/services/page";
 import { useSidebar } from "@/contexts/sidebar";
 
-const sidebarItems = [
+interface SidebarItem {
+  icon: any;
+  label: string;
+  href: string;
+}
+
+const sidebarItems: SidebarItem[] = [
   // { icon: Home, label: "Home", href: "/home" }, // 暂时隐藏
 ];
 
-const videoAIItems = [
+const videoAIItems: SidebarItem[] = [
   { icon: ImageIcon, label: "Image to Video", href: "/image-to-video" },
   { icon: Type, label: "Text to Video", href: "/text-to-video" },
   // { icon: Sparkles, label: "AI Video Effects", href: "/video-affects" }, // 暂时隐藏
 ];
 
-const otherItems = [
+const otherItems: SidebarItem[] = [
   { icon: FolderOpen, label: "My Creations", href: "/history" },
 ];
 
@@ -150,7 +156,7 @@ export function Sidebar() {
       {/* Footer actions - only Upgrade Now button */}
       <div className="border-t border-gray-800 p-4">
         <Button
-          className={`w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 ${
+          className={`w-full bg-primary hover:bg-primary/90 text-primary-foreground ${
             isCollapsed ? "flex items-center justify-center p-2" : ""
           }`}
           onClick={() => setShowPricingModal(true)}

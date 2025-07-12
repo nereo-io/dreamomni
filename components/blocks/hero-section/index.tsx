@@ -23,7 +23,7 @@ export function HeroSection({
 }: HeroSectionProps) {
   const t = useTranslations('components.heroSection')
   return (
-    <div className="relative mb-8 rounded-2xl overflow-hidden bg-gradient-to-r from-purple-900 to-pink-900">
+    <div className="relative mb-8 rounded-2xl overflow-hidden bg-gradient-to-r from-primary/80 to-primary/60">
       <div className="flex items-center">
         {showNavigation && (
           <Button variant="ghost" size="sm" className="absolute left-4 z-10 text-white hover:bg-white/20">
@@ -36,7 +36,7 @@ export function HeroSection({
             <h1 className="text-4xl font-bold text-white mb-4">{title}</h1>
             <p className="text-gray-200 mb-6 max-w-md">{description}</p>
             <Button 
-              className="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-full"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-full"
               onClick={onButtonClick}
             >
               {buttonText}

@@ -33,13 +33,13 @@ export function CategoryTabs({
           onClick={() => onCategoryChange(category)}
           className={`px-4 py-2 text-sm font-medium transition-colors relative ${
             activeCategory === category
-              ? "text-white border-b-2 border-pink-600"
+              ? "text-white border-b-2 border-primary"
               : "text-gray-400 hover:text-white"
           }`}
         >
           {getTranslatedCategory(category)}
           {category === "Others" && (
-            <span className="ml-2 bg-red-600 text-xs px-2 py-1 rounded-full">{t('newLabel')}</span>
+            <span className="ml-2 bg-destructive text-xs px-2 py-1 rounded-full">{t('newLabel')}</span>
           )}
         </button>
       ))}

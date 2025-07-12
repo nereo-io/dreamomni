@@ -303,7 +303,7 @@ export default function VideoHistoryPageClient() {
                     }
                     poster={video.input_image_url ?? ""}
                     className="w-full h-full object-cover"
-                    preload="metadata"
+                    preload="auto"
                     controls={false} // Disable default controls, using custom play button
                   />
                 ) : video.input_image_url ? (

@@ -31,6 +31,19 @@ const nextConfig = {
   async redirects() {
     return [];
   },
+  async headers() {
+    return [
+      {
+        source: '/:path*.mp4',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, s-maxage=86400'
+          }
+        ]
+      }
+    ];
+  },
 };
 
 // Make sure experimental mdx flag is enabled

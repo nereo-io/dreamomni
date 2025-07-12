@@ -43,7 +43,7 @@ export default function Hero({ hero }: { hero: HeroType }) {
             </p>
 
             <div className="mt-12">
-              <Link href="/text-to-video" className="inline-block">
+              <Link href="/image-to-video" className="inline-block">
                 <Button
                   size="lg"
                   className="px-8 py-4 text-lg font-semibold bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white transition-all duration-300 rounded-md shadow-xl border-0 transform hover:scale-105"
