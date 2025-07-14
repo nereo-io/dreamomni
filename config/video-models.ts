@@ -42,7 +42,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
     displayName: "Veo 3",
-    perSecondCredits: 5,
+    perSecondCredits: 3,
     description: "Google's Veo3 model for text-to-video generation",
     features: ["1080P", "Audio"],
     maxDuration: 8, // Kie.ai Veo3 默认5秒
@@ -60,7 +60,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
     displayName: "Veo 3",
-    perSecondCredits: 5, // 与文本转视频同样的积分消耗
+    perSecondCredits: 3, // 与文本转视频同样的积分消耗
     description: "Google's Veo3 model for images-to-video generation",
     features: ["1080P", "Audio"],
     maxDuration: 8, // Kie.ai Veo3 默认5秒

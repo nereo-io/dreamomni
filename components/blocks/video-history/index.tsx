@@ -75,6 +75,12 @@ export default function VideoHistory({
   );
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  // 客户端检测
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // 检测是否为移动端
   useEffect(() => {
@@ -455,7 +461,7 @@ export default function VideoHistory({
                       {generation.prompt}
                     </p>
                   </div>
-                  {generation.created_at && (
+                  {generation.created_at && isClient && (
                     <span className="text-sm text-gray-400 flex-shrink-0 mt-0.5">
                       {(() => {
                         const date = new Date(generation.created_at);
