@@ -318,6 +318,7 @@ export default function useVideoGeneration() {
     stopPolling,
     fetchHistory,
     updateCurrentGeneration,
+    setHistory,
   };
 }
 

@@ -67,7 +67,7 @@ export default function VideoHistory({
   mode,
 }: VideoHistoryProps) {
   const t = useTranslations("video-result");
-  const { fetchHistory, history, isLoadingHistory } = useVideoGeneration();
+  const { fetchHistory, history, isLoadingHistory, setHistory } = useVideoGeneration();
   const { user, setShowSignModal } = useAppContext();
   const [scrollToBottom, setScrollToBottom] = useState(false);
   const [expandedPrompts, setExpandedPrompts] = useState<Set<string>>(
@@ -164,6 +164,39 @@ export default function VideoHistory({
     return incompleteStatuses.includes(latestVideo.status);
   }, [history]);
 
+  // 更新最新视频的状态
+  const updateLatestVideoStatus = useCallback(async () => {
+    if (!history || history.length === 0) return;
+
+    const latestVideo = history[0];
+    if (!latestVideo) return;
+
+    try {
+      const response = await fetch("/api/video-generation/status", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: latestVideo.id }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.code === 0 && result.data) {
+          // 更新本地状态
+          setHistory(prevHistory => 
+            prevHistory.map((video, index) => 
+              index === 0 ? { ...video, ...result.data } : video
+            )
+          );
+        }
+      }
+    } catch (error) {
+      console.error("更新视频状态失败:", error);
+    }
+  }, [history, setHistory]);
+
+
   // 轮询机制：当有未完成的视频时，每3秒检查一次状态
   useEffect(() => {
     if (!user?.uuid || !hasIncompleteVideos()) {
@@ -174,14 +207,14 @@ export default function VideoHistory({
 
     const pollInterval = setInterval(() => {
       console.log("Polling video status...");
-      loadHistory();
+      updateLatestVideoStatus();
     }, 3000); // 每3秒轮询一次
 
     return () => {
       console.log("Stopping polling...");
       clearInterval(pollInterval);
     };
-  }, [user?.uuid, hasIncompleteVideos, loadHistory]);
+  }, [user?.uuid, hasIncompleteVideos, updateLatestVideoStatus]);
 
   // 监听刷新触发器
   useEffect(() => {
