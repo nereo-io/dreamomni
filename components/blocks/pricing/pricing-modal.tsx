@@ -21,6 +21,7 @@ import { useAppContext } from "@/contexts/app";
 import { PaymentMethodConfig } from "@/components/ui/payment-method-selector";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { getAvailablePaymentMethods } from "@/lib/payment-methods";
+import { useTranslations } from "next-intl";
 
 interface PricingModalProps {
   isOpen: boolean;
@@ -35,6 +36,7 @@ export default function PricingModal({
 }: PricingModalProps) {
   const { user, setShowSignModal } = useAppContext();
   const { location, loading: locationLoading, isRussia } = useGeolocation();
+  const t = useTranslations("pricing_modal");
 
   const [group, setGroup] = useState(pricing.groups?.[0]?.name);
   const [isLoading, setIsLoading] = useState(false);
@@ -162,7 +164,7 @@ export default function PricingModal({
       }
 
       if (isRussia && availableMethods.length > 0 && !selectedPaymentMethod) {
-        toast.error("Пожалуйста, выберите способ оплаты");
+        toast.error(t("please_select_payment"));
         return;
       }
 
@@ -476,7 +478,7 @@ export default function PricingModal({
                                   <div className="space-y-3">
                                     <div>
                                       <span className="text-sm text-muted-foreground">
-                                        Выберите способ оплаты
+                                        {t("select_payment_method")}
                                         {!selectedPaymentMethod && (
                                           <span className="text-red-500">
                                             {" "}
@@ -618,17 +620,17 @@ export default function PricingModal({
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-center">
               <span className="text-2xl">🎉</span>
-              Payment Successful!
+              {t("payment_successful")}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="text-center space-y-2">
               <p className="text-lg font-semibold text-green-600">
-                {successInfo.planName} Activated
+                {successInfo.planName} {t("plan_activated")}
               </p>
               {successInfo.credits && successInfo.credits > 0 && (
                 <p className="text-sm text-muted-foreground">
-                  {successInfo.credits} credits added to your account
+                  {successInfo.credits} {t("credits_added")}
                 </p>
               )}
             </div>
@@ -641,7 +643,7 @@ export default function PricingModal({
                   window.location.reload();
                 }}
               >
-                Continue
+                {t("continue")}
               </Button>
               <Button
                 variant="outline"
@@ -652,7 +654,7 @@ export default function PricingModal({
                   window.location.href = "/";
                 }}
               >
-                Start Creating
+                {t("start_creating")}
               </Button>
             </div>
           </div>

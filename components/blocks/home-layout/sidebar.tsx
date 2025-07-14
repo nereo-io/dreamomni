@@ -20,26 +20,13 @@ import PricingModal from "@/components/blocks/pricing/pricing-modal";
 import { Pricing } from "@/types/blocks/pricing";
 import { getPricingBlock } from "@/services/page";
 import { useSidebar } from "@/contexts/sidebar";
+import { useTranslations, useLocale } from "next-intl";
 
 interface SidebarItem {
   icon: any;
-  label: string;
+  labelKey: string;
   href: string;
 }
-
-const sidebarItems: SidebarItem[] = [
-  // { icon: Home, label: "Home", href: "/home" }, // 暂时隐藏
-];
-
-const videoAIItems: SidebarItem[] = [
-  { icon: ImageIcon, label: "Image to Video", href: "/image-to-video" },
-  { icon: Type, label: "Text to Video", href: "/text-to-video" },
-  // { icon: Sparkles, label: "AI Video Effects", href: "/video-affects" }, // 暂时隐藏
-];
-
-const otherItems: SidebarItem[] = [
-  { icon: FolderOpen, label: "My Creations", href: "/history" },
-];
 
 export function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,11 +34,27 @@ export function Sidebar() {
   const [showPricingModal, setShowPricingModal] = useState(false);
   const [pricingData, setPricingData] = useState<Pricing | null>(null);
   const pathname = usePathname();
+  const locale = useLocale();
+  const t = useTranslations("sidebar");
+
+  const sidebarItems: SidebarItem[] = [
+    // { icon: Home, labelKey: "home", href: "/home" }, // 暂时隐藏
+  ];
+
+  const videoAIItems: SidebarItem[] = [
+    { icon: ImageIcon, labelKey: "image_to_video", href: "/image-to-video" },
+    { icon: Type, labelKey: "text_to_video", href: "/text-to-video" },
+    // { icon: Sparkles, labelKey: "ai_video_effects", href: "/video-affects" }, // 暂时隐藏
+  ];
+
+  const otherItems: SidebarItem[] = [
+    { icon: FolderOpen, labelKey: "my_creations", href: "/history" },
+  ];
 
   useEffect(() => {
     const fetchPricingData = async () => {
       try {
-        const data = await getPricingBlock("en");
+        const data = await getPricingBlock(locale);
         setPricingData(data);
       } catch (error) {
         console.error("Failed to fetch pricing data:", error);
@@ -59,7 +62,7 @@ export function Sidebar() {
     };
 
     fetchPricingData();
-  }, []);
+  }, [locale]);
 
   const SidebarContent = () => (
     <div className="flex h-full flex-col bg-gray-900 text-white">
@@ -115,7 +118,7 @@ export function Sidebar() {
               } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
             >
               <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
-              {!isCollapsed && <span>{item.label}</span>}
+              {!isCollapsed && <span>{t(item.labelKey)}</span>}
             </Link>
           ))}
         </nav>
@@ -131,7 +134,7 @@ export function Sidebar() {
               } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
             >
               <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
-              {!isCollapsed && <span>{item.label}</span>}
+              {!isCollapsed && <span>{t(item.labelKey)}</span>}
             </Link>
           ))}
         </div>
@@ -147,7 +150,7 @@ export function Sidebar() {
               } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
             >
               <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
-              {!isCollapsed && <span>{item.label}</span>}
+              {!isCollapsed && <span>{t(item.labelKey)}</span>}
             </Link>
           ))}
         </div>
@@ -162,7 +165,7 @@ export function Sidebar() {
           onClick={() => setShowPricingModal(true)}
         >
           <Crown className={`${isCollapsed ? "h-6 w-6" : "mr-2 h-4 w-4"}`} />
-          {!isCollapsed && <span>Upgrade Now</span>}
+          {!isCollapsed && <span>{t("upgrade_now")}</span>}
         </Button>
       </div>
     </div>

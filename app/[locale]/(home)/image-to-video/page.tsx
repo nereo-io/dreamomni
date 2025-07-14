@@ -5,12 +5,15 @@ import { CreatorShowcase } from "@/components/blocks/creator-showcase";
 import { FAQSection } from "@/components/blocks/faq-section";
 import { CTASectionClient } from "@/components/blocks/cta-section-client";
 import { getImageToVideoPage } from "@/services/page";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({
   params: { locale },
 }: {
   params: { locale: string };
 }) {
+  const t = await getTranslations();
+
   let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/image-to-video`;
 
   if (locale !== "en") {
@@ -18,9 +21,8 @@ export async function generateMetadata({
   }
 
   return {
-    title: "AI Image to Video Generator - Transform Images into Stunning Videos",
-    description: "Convert your images into professional 4K videos with AI. Upload any image and watch it come to life with realistic motion and effects. Free image to video conversion.",
-    keywords: "image to video, AI video generator, convert image to video, animated videos, AI video creation, image animation, video generator",
+    title: t("imageToVideo.pages.title"),
+    description: t("imageToVideo.pages.description"),
     alternates: {
       canonical: canonicalUrl,
     },
@@ -49,7 +51,7 @@ export default async function ImageToVideoPage({
       <CreatorShowcase data={pageData.creatorShowcase} />
 
       {/* FAQ Section */}
-      <FAQSection 
+      <FAQSection
         title={pageData.faq.title}
         description={pageData.faq.description}
         faqItems={pageData.faq.items}

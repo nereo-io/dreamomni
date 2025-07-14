@@ -164,7 +164,7 @@ export function VideoSettings({
         {setSelectedModel ? (
           <Select value={selectedModel} onValueChange={setSelectedModel}>
             <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
-              <SelectValue placeholder="Select a model">
+              <SelectValue placeholder={t("selectModel")}>
                 {selectedModelConfig && (
                   <div className="flex items-center gap-2">
                     <img
@@ -243,7 +243,7 @@ export function VideoSettings({
 
       {/* Ratio */}
       <div className="mb-4">
-        <label className="text-gray-300 text-sm mb-2 block">Ratio</label>
+        <label className="text-gray-300 text-sm mb-2 block">{t("ratio")}</label>
         <div className="flex space-x-6">
           {(
             selectedModelConfig?.supportedAspectRatios || [
@@ -280,7 +280,7 @@ export function VideoSettings({
 
       {/* Duration */}
       <div className="mb-4">
-        <label className="text-gray-300 text-sm mb-2 block">Duration</label>
+        <label className="text-gray-300 text-sm mb-2 block">{t("duration")}</label>
         <div className="flex space-x-6">
           {(selectedModelConfig?.supportedDurations || [5, 10]).map(
             (duration) => (
@@ -316,7 +316,7 @@ export function VideoSettings({
 
       {/* Resolution */}
       <div className="mb-4">
-        <label className="text-gray-300 text-sm mb-2 block">Resolution</label>
+        <label className="text-gray-300 text-sm mb-2 block">{t("resolution")}</label>
         <div className="flex space-x-6">
           {(selectedModelConfig?.supportedResolutions || ["480p", "1080p"]).map(
             (resolution) => (
@@ -355,10 +355,10 @@ export function VideoSettings({
         <div className="flex justify-between items-center">
           <div>
             <div className="text-gray-300 mb-1">
-              Credits: {leftCredits !== null ? leftCredits : "-"}
+              {t("credits")}: {leftCredits !== null ? leftCredits : "-"}
             </div>
             <div className="text-gray-300">
-              Cost: {currentCreditsRequired} ⚡
+              {t("cost")}: {currentCreditsRequired} ⚡
             </div>
           </div>
           <Button
@@ -367,7 +367,7 @@ export function VideoSettings({
             className="bg-transparent border-gray-600 text-gray-300 hover:bg-gray-700"
             onClick={() => setShowPricingModal(true)}
           >
-            Recharge
+            {t("recharge")}
           </Button>
         </div>
       </div>

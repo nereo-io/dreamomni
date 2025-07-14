@@ -46,7 +46,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     description: "Google's Veo3 model for text-to-video generation",
     features: ["1080P", "Audio"],
     maxDuration: 8, // Kie.ai Veo3 默认5秒
-    supportedAspectRatios: ["adaptive"], // 根据用户要求设置为adaptive
+    supportedAspectRatios: ["16:9", "9:16"],
     supportsAudio: true, // 根据用户要求支持音频
     estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
     supportedDurations: [8],
@@ -64,7 +64,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     description: "Google's Veo3 model for images-to-video generation",
     features: ["1080P", "Audio"],
     maxDuration: 8, // Kie.ai Veo3 默认5秒
-    supportedAspectRatios: ["adaptive"], // 根据用户要求设置为adaptive
+    supportedAspectRatios: ["16:9", "9:16"],
     supportsAudio: true, // 根据用户要求支持音频
     estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
     supportedDurations: [8],
