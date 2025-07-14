@@ -130,7 +130,7 @@
       "discount_label": "40% СКИДКА",
       "tip": "Подписка на $108.00 в год",
       "button": {
-        "title": "Подписаться на Мини (Годовой)",
+        "title": "Подписаться на Мини",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },

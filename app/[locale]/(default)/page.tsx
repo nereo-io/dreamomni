@@ -1,8 +1,9 @@
 import FAQ from "@/components/blocks/faq";
 import Hero from "@/components/blocks/hero";
 import Testimonial from "@/components/blocks/testimonial";
-import VideoGenerator from "@/components/blocks/video-generator";
 import ClaudeSonnetFeaturesBlock from "@/components/blocks/claude-sonnet-features";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 import { getLandingPage, getClaudeSonnetFeaturesBlock } from "@/services/page";
 
@@ -29,6 +30,14 @@ export default async function LandingPage({
 }: {
   params: { locale: string };
 }) {
+  // 在服务器端检查认证状态
+  const session = await auth();
+  
+  // 如果已登录，直接重定向到/image-to-video
+  if (session) {
+    redirect("/image-to-video");
+  }
+
   const page = await getLandingPage(locale);
   const claudeSonnetFeatures = await getClaudeSonnetFeaturesBlock(locale);
 
@@ -36,7 +45,6 @@ export default async function LandingPage({
     <>
       {page.hero && <Hero hero={page.hero} />}
 
-      <VideoGenerator placeholder="Describe the video you want to create, e.g., A cat playing in a sunny garden with natural lighting and fresh atmosphere..." />
       {/* <VideoFeatureShowcase data={videoFeatureShowcase} /> */}
       <div className="border-t bg-muted/20">
         <div className="max-w-7xl mx-auto px-8 py-6">

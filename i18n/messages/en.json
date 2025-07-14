@@ -21,6 +21,23 @@
     "my_orders": "My Orders",
     "membership": "Membership"
   },
+  "sidebar": {
+    "home": "Home",
+    "image_to_video": "Image to Video",
+    "text_to_video": "Text to Video",
+    "ai_video_effects": "AI Video Effects",
+    "my_creations": "My Creations",
+    "upgrade_now": "Upgrade Now"
+  },
+  "pricing_modal": {
+    "select_payment_method": "Choose payment method",
+    "payment_successful": "Payment Successful!",
+    "plan_activated": "Activated",
+    "credits_added": "credits added to your account",
+    "continue": "Continue",
+    "start_creating": "Start Creating",
+    "please_select_payment": "Please select a payment method"
+  },
   "sign_modal": {
     "sign_in_title": "Sign In",
     "sign_in_description": "Sign in to your account",
@@ -45,7 +62,6 @@
     "title": "My Orders",
     "description": "orders paid with Veo3AI.",
     "no_orders": "No orders found",
-    "tip": "",
     "activate_order": "Activate Order",
     "actived": "Activated",
     "join_discord": "Join Discord",
@@ -206,16 +222,24 @@
     }
   },
   "video-generator": {
-    "videoDescription": "Video Description",
+    "videoDescription": "Prompt",
     "referenceImage": "Reference Image (Optional)",
     "videoAspectRatio": "Video Aspect Ratio",
     "videoDuration": "Video Duration",
-    "videoModel": "Video Model",
+    "videoModel": "Model",
     "credits": "Credits",
+    "creditsRequired": "Credits Required",
+    "remainingCredits": "Remaining Credits",
     "cost": "Cost",
     "recharge": "Recharge",
     "generateVideo": "Generate Video",
     "submitting": "Submitting...",
+    "uploading": "Uploading...",
+    "generating": "Generating...",
+    "uploadImage": "Image",
+    "dragAndDropImage": "Click to upload or drag image here",
+    "supportedFormats": "Supports JPG, PNG, GIF formats, max 10MB",
+    "chooseFile": "Choose File",
     "aspectRatios": {
       "landscape": "16:9 Landscape",
       "portrait": "9:16 Portrait",
@@ -231,6 +255,10 @@
       "supportedFormats": "Supports JPG, PNG, GIF formats, max 10MB"
     },
     "selectModel": "Select a model",
+    "videoSettings": "Settings",
+    "ratio": "Ratio",
+    "duration": "Duration",
+    "resolution": "Resolution",
     "telegramBanner": {
       "text": "Join Telegram group to discuss Veo3",
       "linkText": "Join"
@@ -240,6 +268,8 @@
       "enterDescription": "Please enter a video description",
       "descriptionTooShort": "Video description must be at least 30 characters long",
       "uploadImageFile": "Please upload an image file",
+      "uploadImageRequired": "Please upload an image for image-to-video generation",
+      "imageUploaded": "Image uploaded successfully",
       "imageTooLarge": "Image file is too large (max 10MB)",
       "imageUploadFailed": "Image upload failed",
       "insufficientCredits": "Insufficient credits. Required: {required}, Available: {available}",
@@ -247,10 +277,6 @@
       "videoCompleted": "Video generation completed!",
       "videoFailed": "Video generation failed"
     }
-  },
-  "audio-selector": {
-    "sound": "Sound",
-    "veo3Only": "veo3Only"
   },
   "video-history": {
     "title": "Video Generation History",
@@ -322,5 +348,85 @@
       "timeout": "The request took too long and timed out. Please try again.",
       "statusCode": "An error occurred (Status {code}). Please try again."
     }
+  },
+  "pages": {
+    "home": {
+      "title": "Welcome to Veo3 AI",
+      "description": "Transform your ideas into stunning videos with our advanced AI technology. Choose from text-to-video, image-to-video, or explore our creative video effects."
+    },
+    "textToVideo": {
+      "title": "Free AI Video Generator: Text to Video AI Online | Veo3 AI",
+      "description": "Discover the Veo3 AI video generator, a cutting-edge, free solution that effortlessly turns a text prompt into an engaging video. Try our text to video AI today!",
+      "keywords": "AI video generator, text to video, free video generator, Veo3 AI, AI video creation, text to video online"
+    },
+    "imageToVideo": {
+      "title": "Free Image to Video AI Generator: Turn Photos to Videos | Veo3 AI",
+      "description": "Use the image to video AI generator of Veo3 AI for free. Convert photos to videos with high-quality and captivating results. Try our image to video AI now!",
+      "keywords": "image to video AI, photo to video converter, free image to video, Veo3 AI, AI video from image, image animation"
+    },
+    "videoAffects": {
+      "heroSection": {
+        "title": "Make Anyone Muscular",
+        "description": "Try Veo3 AI's powerful AI muscle generator! Upload an image of anyone and generate a stunning video that showcases a bulked-up, muscular version of the subject.",
+        "buttonText": "Try for Free"
+      },
+      "effectsTitle": "AI Video Effects & Templates",
+      "categoryEffects": {
+        "funAndCreative": "Fun and Creative Effects",
+        "horrorAndFantasy": "Horror and Fantasy Effects",
+        "appearanceChanging": "Appearance Changing Effects",
+        "seasonalSpecial": "Seasonal Special Effects",
+        "emotionalExpression": "Emotional Expression Effects"
+      }
+    },
+    "effectDetail": {
+      "defaultTitle": "AI Video Effect",
+      "defaultDescription": "Transform your photos with AI-powered video effects",
+      "tryButtonText": "Try This Effect",
+      "placeholderText": "Upload an image to apply this effect",
+      "effectDescriptionLabel": "Effect Description (Optional)",
+      "effectDescriptionPlaceholder": "Describe any additional details for the effect...",
+      "imageAlt": "Muscular transformation",
+      "effectsMap": {
+        "ai-kissing": {
+          "title": "AI Kissing Video Generator",
+          "description": "Create romantic kissing videos with AI technology"
+        },
+        "ai-muscle": {
+          "title": "AI Muscle Generator",
+          "description": "Transform anyone into a muscular version with AI"
+        }
+      },
+      "howToUse": {
+        "title": "How to Use This Effect"
+      }
+    }
+  },
+  "effects": {
+    "ai-kissing": "AI Kissing Video Generator",
+    "kiss-me-ai": "Kiss Me AI",
+    "ai-twerk": "AI Twerk Video Generator",
+    "ai-hug": "AI Hug",
+    "ai-muscle": "AI Muscle Generator",
+    "ai-french-kissing": "AI French Kissing",
+    "ai-360-rotation": "AI 360° Rotation Video Generator",
+    "ai-cloud-ride": "AI Cloud Ride Video Generator",
+    "dance-party": "Dance Party Generator",
+    "magic-tricks": "Magic Tricks Effect",
+    "time-travel": "Time Travel Effect",
+    "vampire-transformation": "Vampire Transformation",
+    "ghost-effect": "Ghost Appearance Effect",
+    "gender-swap": "Gender Swap Effect",
+    "hair-color-change": "Hair Color Changer",
+    "makeup-artist": "AI Makeup Artist",
+    "body-transformation": "Body Transformation",
+    "halloween-spooky": "Halloween Spooky Effect",
+    "valentine-romance": "Valentine Romance Effect",
+    "new-year-celebration": "New Year Celebration",
+    "summer-beach": "Summer Beach Vibes",
+    "happiness-boost": "Happiness Boost Effect",
+    "surprise-reaction": "Surprise Reaction Effect",
+    "anger-expression": "Anger Expression Effect",
+    "love-struck": "Love Struck Effect"
   }
 }

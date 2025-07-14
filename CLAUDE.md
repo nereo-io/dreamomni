@@ -1,47 +1,5 @@
 # CLAUDE.md
 
-## 问题回答原则
-
-要每次都用审视的目光，仔细看我的输入的潜在的问题，你要犀利的提出我的问题，并给出明显在我思考框架之外的建议。你要觉得我说的太离谱了，你就骂回来，帮助我瞬间清醒
-
-## 交互原则
-
-- 不需要夸我，结合事实客观分析问题。你是用来快速解决处理问题的，拍马屁不是你的价值
-
-## 产品的设计原则：
-
-1.  极致简洁 - 每个元素都必须有明确价值；减少认知负担 - 让用户专注核心目标
-2.  视觉层次 - 重要信息突出，次要信息弱化
-3.  直觉操作 - 用户无需思考就能理解
-
-## 产品目标
-
-- 要审视我的需求，最终的目标是创造一个简单同时能够解决用户需求的产品
-
-## UI 的设计原则：
-
-1. 简洁
-2. 优雅
-
-## 代码原则：
-
-1. 简单，写函数前先了解清楚已经实现的逻辑，不要写重复的代码逻辑。避免重复造轮子，写重复冗余代码。
-2. 编程原则：Occam's razor，Entities should not be multiplied without necessity.
-
-3. 代码开发的原则：
-   - 简洁易懂，能够用一行代码开发完成的，不选择两行代码
-   - 不重复造轮子，先了解原有的代码规范
-   - 基于行业最佳实践开发
-   - 需求沟通原则：有疑问直接提出，而不是让代码写的冗余覆盖多种不存在的情况
-   - 代码开发的原则：简洁易懂，能够用一行代码开发完成的，不选择两行代码
-   - 不重复造轮子，先了解原有的代码规范
-   - 基于行业最佳实践开发
-   - 需求沟通原则：有疑问直接提出，而不是让代码写的冗余覆盖多种不存在的情况
-
-## 架构原则
-
-- 应该遵循架构分离的原则，把数据库的操作放在model层
-
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
@@ -56,95 +14,145 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目开发记录
 
-- 当前我们是在做payssion v2版本的接入和测试
-- 当前的git仓库是veo3
+- 当前的 git 仓库是 veo3
+- ✅ 已完成界面改版第一阶段：重构主页界面架构，实现新的用户体验 (commit: 7ec59ea)
 
-## 交互思考
+## 界面改版需求
 
-- 如果你有问题，随时问题，我们的目标是快速定义问题以及解决问题，快速自我迭代，提升认知提升能力
+### 路由结构重构
 
-## Key Development Commands
+- **新增 `(home)` 路由群组**：分离主页和默认页面逻辑
+- **首页访问逻辑**：
+  - 未登录用户访问 `/` → 显示 landing page
+  - 已登录用户访问 `/` → 自动重定向到 `/home`
+- **应用页面访问逻辑**：
+  - `/home` 及其子路由对所有用户开放
+  - 未登录用户功能受限，引导登录
+  - 已登录用户功能完整
 
-```bash
-# Development
-pnpm dev                    # Start development server with NODE_NO_WARNINGS=1
-pnpm dev:clean             # Clean cache and start development
+### 新页面架构
 
-# Building & Testing
-pnpm build                 # Build production version
-pnpm start                 # Start production server with NODE_NO_WARNINGS=1
-pnpm lint                  # Run ESLint
-pnpm test                  # Run Jest tests (tests in **/__tests__/**/*.test.ts)
-pnpm ts                    # Run test TypeScript file (ts/test.ts)
+1. **`/home`**: 原 landing page，现为主应用界面
+2. **`/image-to-video`**: 图片转视频页面
+3. **`/text-to-video`**: 文本转视频页面
+4. **`/video-affects`**: 视频特效页面
+5. **`/my-creations`**: 我的创作页面（原 `/history`）
+6. **Console 页面**: membership、credits、orders、invites 保持不变
 
-# Analysis & Deployment
-pnpm analyze               # Bundle analysis with ANALYZE=true
-pnpm cf:build             # Build for Cloudflare Pages
-pnpm cf:preview           # Preview Cloudflare build
-pnpm cf:deploy            # Deploy to Cloudflare
+### 组件库扩展
 
-# Utilities
-pnpm clean                # Remove node_modules, .next, pnpm-lock.yaml
-pnpm clean:cache          # Remove .next and node_modules/.cache
+- **Hero Section**: 主页英雄区域
+- **CTA Section**: 行动召唤区域
+- **Effect Grid**: 特效网格展示
+- **Video Example Grid**: 视频示例网格
+- **Category Tabs**: 分类标签页
+- **Home Layout**: 主页布局组件（Header + Sidebar）
 
-# Running individual tests
-jest path/to/test.test.ts  # Run specific test file
-```
+### 特效系统
 
-## 日志系统优化
+- **特效数据结构**: `data/effects.ts` 定义特效分类和数据
+- **特效分类**: 支持多种视频特效类型
+- **特效卡片**: 统一的特效展示组件
 
-### 日志文件存储
-- **Webhook 日志**: `/log/webhook-YYYY-MM-DD.log` - 新增，存储所有 webhook 事件
-- **订阅服务日志**: `/log/subscription-service.log` - 订阅相关业务逻辑
-- **API 日志**: `/log/subscription-api-YYYY-MM-DD.log` - API 层面的日志
+### 待优化项目
 
-### 敏感信息过滤
-WebhookLogger 自动过滤敏感字段：`password`, `secret`, `key`, `token`, `api_key`, `signature`, `authorization`
+- 原 pricing 页面支持弹窗模式
+- 登录注册页面优化
 
-### Webhook 安全配置
-- **签名验证**: 强制启用 Payssion V2 webhook 签名验证 (HMAC-SHA256)
-- **环境变量**: 必须配置 `PAYSSION_V2_API_KEY` 用于签名验证
-- **安全策略**: 无签名或签名验证失败的请求将被拒绝 (401)
+### 界面改版开发指导
 
-## 积分系统重构文档
+#### 路由和布局规范
 
-### 重构背景
-- 原有积分发放机制存在业务风险
-- 需要建立更加合理和可持续的积分发放模式
+- **路由群组**: 使用 `(home)` 和 `(default)` 区分不同的界面结构
+- **布局组件**: 主页使用 `components/blocks/home-layout/` 下的 Header 和 Sidebar
+- **页面结构**: 所有主页相关页面放在 `app/[locale]/(home)/` 下
 
-### 重构原则
-- 对现有用户友好
-- 降低业务风险
-- 提高用户留存率
-- 优化成本控制
+#### 组件开发规范
 
-### 迁移策略 
-- 推荐采用祖父条款
-- 对现有年度用户保持原有积分发放方式
-- 新年度用户从下个计费周期开始按月发放
+- **Block 组件**: 新增的页面级组件放在 `components/blocks/` 下
+- **命名约定**: 使用 kebab-case 命名文件夹，如 `hero-section/`, `cta-section/`
+- **组件结构**: 每个 block 至少包含 `index.tsx`，复杂组件可拆分子组件
 
-### 预期收益
-- 减少积分滥用 15-20%
-- 提高用户粘性
-- 降低退款风险
-- 更好地控制服务成本
+#### 特效系统开发
 
-### 实施成本
-- 预计 2-3 人周的开发工作
-- 涉及定时任务和监控系统建设
-- 需要进行用户沟通和客服支持
+- **数据源**: 特效数据定义在 `data/effects.ts`
+- **特效页面**: `/video-affects` 主页面，`/video-affects/[id]` 详情页
+- **特效组件**: 使用 `effect-card` 和 `effect-grid` 组件展示特效
 
-### 风险评估
-1. **技术风险**
-   - 定时任务失败
-   - 数据一致性问题
+#### 国际化支持
 
-2. **业务风险**
-   - 用户体验变化
-   - 现有年度用户处理
+- **消息文件**: 新增页面文案添加到 `i18n/messages/en.json`
+- **页面内容**: 复杂页面内容可创建 `i18n/pages/` 对应文件
+- **组件文案**: 使用 `useTranslations` 或 `getTranslations` 获取文案
 
-### 监控指标
-- 月度积分发放成功率
-- 用户积分使用模式变化
-- 订阅取消率变化
-- 客户满意度变化
+#### 认证和重定向
+
+- **Auth Redirect**: 使用 `components/auth/auth-redirect.tsx` 处理登录重定向
+- **访问控制**: 主页路由对所有用户开放，但功能受限引导登录
+- **登录流程**: 登录成功后自动跳转到 `/home`
+
+#### 样式和交互
+
+- **布局样式**: 继承现有的 Tailwind 设计系统
+- **响应式**: 所有新页面需支持移动端适配
+- **交互反馈**: 使用 Sonner toast 提供用户反馈
+
+## Architecture Overview
+
+### Tech Stack
+
+- **Frontend**: Next.js 14 with App Router, TypeScript, Tailwind CSS
+- **UI Components**: Shadcn/ui, Radix UI primitives
+- **Database**: Supabase (PostgreSQL) with Row Level Security
+- **Authentication**: NextAuth.js 5.0 with multiple providers (Google, GitHub, Apple, Email)
+- **Payments**: Stripe & Payssion V2 with unified payment router
+- **Video Generation**: Multi-provider system (Volcano Engine, APICore Veo3, fal.ai, KieAi)
+- **Internationalization**: next-intl with locale-based routing
+- **Analytics**: Plausible with custom event tracking
+- **Deployment**: Cloudflare Pages with standalone build
+
+### Key Architectural Patterns
+
+- **Model-Service-Component**: Database operations in `models/`, business logic in `services/`, UI in `components/`
+- **Provider Pattern**: Unified interfaces for payments (`PaymentRouter`) and video generation (`ProviderFactory`)
+- **Layered Architecture**: Clear separation between API routes, services, and data models
+- **Service-Oriented**: Modular services for credits, memberships, video generation, etc.
+
+### Database Schema Highlights
+
+- **Users**: Authentication with multiple providers, credits system
+- **Subscriptions**: Stripe/Payssion integration with automatic credit distribution
+- **Video Generations**: Multi-provider generation tracking with status management
+- **Orders**: Payment tracking across multiple providers
+- **Credits**: Comprehensive credit system with transaction history
+
+### Video Generation Flow
+
+1. **Provider Selection**: `ProviderFactory` routes to appropriate provider (Volcano, APICore, fal.ai, KieAi)
+2. **Request Processing**: Unified interface through `services/providers/`
+3. **Status Tracking**: `videoStatusService` monitors generation progress
+4. **Webhook Handling**: Provider-specific webhooks update generation status
+5. **Result Storage**: Generated videos stored via Supabase Storage/cloud providers
+
+### Payment Processing
+
+- **Unified Router**: `PaymentRouter` handles provider selection based on user location/preference
+- **Stripe Integration**: Primary payment processor with subscription management
+- **Payssion V2**: Alternative payment processor with webhook signature verification
+- **Credit System**: Automatic credit distribution based on subscription tier
+
+### Security Features
+
+- **Webhook Validation**: HMAC-SHA256 signature verification for Payssion V2
+- **RLS Policies**: Row-level security on all database operations
+- **Input Validation**: Zod schemas for API request validation
+- **Sensitive Data Filtering**: Automatic filtering of sensitive fields in logs
+
+## 开发技巧
+
+- 如果启动本地服务器的时候,遇到了缓存问题,可以使用 rm -rf .next 清理一下缓存
+- 在使用 pnpm dev 之前,先检查一下本地服务是否有启动.如果已经启动了,直接使用本地服务器就好.如果希望打印 log 测试,可以先 kill 本地服务,再重新启动.尽量使用 3000 端口,以为一般他和 ngrok 是绑定的. 测试完成后杀死 3000 端口的使用。
+
+## Login Information
+
+- 备用登录账号：hugeroger@gmail.com 密码：123123

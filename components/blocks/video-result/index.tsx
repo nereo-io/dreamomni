@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -17,29 +16,33 @@ import {
   Clock,
   Loader2,
   History,
-  ExternalLink,
-  ChevronDown,
-  ChevronUp,
   Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getVideoModel } from "@/config/video-models";
-import CreativeProgress from "./CreativeProgress";
 
 interface VideoResultProps {
-  generation: {
+  generation?: {
     id: string;
-    requestId: string;
+    requestId?: string;
     model: string;
     status: string;
     prompt: string;
     optimized_prompt?: string;
     video_url?: string;
+    video_url_r2?: string;
+    video_url_fal?: string;
+    video_url_volcano?: string;
+    video_url_veo3?: string;
+    upsample_video_url_veo3?: string;
     error_message?: string;
     created_at?: string;
     aspect_ratio?: string;
     duration_seconds?: number;
-  };
+  } | null;
+  isGenerating?: boolean;
+  placeholderIcon?: React.ReactNode;
+  placeholderText?: string;
   onRetry?: () => void;
   onVideoUrlUpdate?: (videoUrl: string) => void;
   className?: string;
@@ -75,17 +78,16 @@ const getStatusMap = (t: any) => ({
   FAILED: { label: t("status.failed"), color: "bg-red-500", icon: XCircle },
 });
 
-// 默认等待时间：45秒（当模型配置中没有指定时使用）
+// 默认等待时间：45秒
 const DEFAULT_WAIT_TIME_SECONDS = 45;
 
-// 新增辅助函数，用于获取用户友好的错误提示
+// 错误处理函数
 const getFriendlyErrorMessage = (apiErrorMessage?: string, t?: any): string => {
   if (!apiErrorMessage) {
     return t
       ? t("errorMessages.unexpected")
       : "An unexpected error occurred. Please try again.";
   }
-  console.log("apiErrorMessage", apiErrorMessage);
 
   // Handle specific sensitive content errors first
   if (
@@ -101,7 +103,7 @@ const getFriendlyErrorMessage = (apiErrorMessage?: string, t?: any): string => {
     return "Video generation failed because the uploaded image may contain sensitive content. Please use a different image.";
   }
 
-  // 首先尝试从字符串中直接提取状态码（处理 "Invalid status code: 422" 这样的格式）
+  // 首先尝试从字符串中直接提取状态码
   const statusCodeMatch = apiErrorMessage.match(
     /(?:status code|code):\s*(\d+)/i
   );
@@ -109,125 +111,93 @@ const getFriendlyErrorMessage = (apiErrorMessage?: string, t?: any): string => {
     const statusCode = parseInt(statusCodeMatch[1], 10);
     switch (statusCode) {
       case 400:
-        return t
-          ? t("errorMessages.externalService")
-          : "A problem occurred with an external service. Please try again later.";
+        return "A problem occurred with an external service. Please try again later.";
       case 422:
-        return t
-          ? t("errorMessages.inputIssue")
-          : "There's an issue with your input or settings. Please check and try again.";
+        return "There's an issue with your input or settings. Please check and try again.";
       case 500:
-        return t
-          ? t("errorMessages.serverError")
-          : "An unexpected error occurred on our end. Please try again later.";
+        return "An unexpected error occurred on our end. Please try again later.";
       case 504:
-        return t
-          ? t("errorMessages.timeout")
-          : "The request took too long and timed out. Please try again.";
+        return "The request took too long and timed out. Please try again.";
       default:
-        return t
-          ? t("errorMessages.statusCode", { code: statusCode })
-          : `An error occurred (Status ${statusCode}). Please try again.`;
+        return `An error occurred (Status ${statusCode}). Please try again.`;
     }
   }
 
-  // 然后尝试解析为JSON（处理复杂的错误对象）
-  try {
-    const errorObj = JSON.parse(apiErrorMessage);
-    if (errorObj && errorObj.error && typeof errorObj.error === "string") {
-      const match = errorObj.error.match(/(\d+)/); // 提取状态码
-      if (match && match[1]) {
-        const statusCode = parseInt(match[1], 10);
-        switch (statusCode) {
-          case 400:
-            return t
-              ? t("errorMessages.externalService")
-              : "A problem occurred with an external service. Please try again later.";
-          case 422:
-            return t
-              ? t("errorMessages.inputIssue")
-              : "There's an issue with your input or settings. Please check and try again.";
-          case 500:
-            return t
-              ? t("errorMessages.serverError")
-              : "An unexpected error occurred on our end. Please try again later.";
-          case 504:
-            return t
-              ? t("errorMessages.timeout")
-              : "The request took too long and timed out. Please try again.";
-          default:
-            // 如果有更具体的 msg，可以考虑使用，但优先使用我们定义的映射
-            if (errorObj.payload?.detail?.[0]?.msg) {
-              return errorObj.payload.detail[0].msg;
-            }
-            return t
-              ? t("errorMessages.statusCode", { code: statusCode })
-              : `An error occurred (Status ${statusCode}). Please try again.`;
-        }
-      }
-    }
-    // 如果无法从errorObj.error提取状态码，或者不是预期的JSON结构，检查payload
-    if (errorObj && errorObj.payload?.detail?.[0]?.msg) {
-      return errorObj.payload.detail[0].msg; // 直接使用fal.ai提供的msg
-    }
-  } catch (e) {
-    // JSON解析失败，继续处理普通字符串
-  }
-
-  // 如果无法解析或提取状态码，直接显示原始错误信息（如果它不是对象）
-  // 但要避免显示过长的原始错误
-  if (typeof apiErrorMessage === "string" && apiErrorMessage.length < 200) {
-    return apiErrorMessage;
-  }
-  return t
-    ? t("errorMessages.unexpected")
-    : "An unexpected error occurred. Please try again.";
+  return apiErrorMessage;
 };
 
 export default function VideoResult({
   generation,
+  isGenerating = false,
+  placeholderIcon,
+  placeholderText = "Upload an image and click generate to create your video",
   onRetry,
   onVideoUrlUpdate,
   className,
 }: VideoResultProps) {
+  // 所有hooks调用都放在顶部，避免条件性返回
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoadingVideo, setIsLoadingVideo] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
-  const [videoUrl, setVideoUrl] = useState(generation.video_url);
-
-  // 当generation对象发生变化时，重置videoUrl状态
-  useEffect(() => {
-    // 当generation.id变化时（新的生成任务），重置videoUrl
-    console.log(
-      "Generation changed, resetting videoUrl to:",
-      generation.video_url
-    );
-    setVideoUrl(generation.video_url);
-  }, [generation.id, generation.video_url]);
   const [currentTime, setCurrentTime] = useState(Date.now());
-  const [showOptimizedPrompt, setShowOptimizedPrompt] = useState(false);
   const router = useRouter();
   const t = useTranslations("video-result");
 
+  // 获取优先级最高的视频URL
+  const getVideoUrl = (gen?: VideoResultProps["generation"]) => {
+    if (!gen) return null;
+    // 优先使用API已经处理好的video_url字段，它已经应用了正确的优先级逻辑
+    // 如果没有，则手动应用优先级逻辑作为备用
+    return (
+      gen.video_url ||
+      gen.video_url_r2 ||
+      gen.upsample_video_url_veo3 ||
+      gen.video_url_veo3 ||
+      gen.video_url_volcano ||
+      gen.video_url_fal ||
+      null
+    );
+  };
+
+  const [videoUrl, setVideoUrl] = useState(getVideoUrl(generation));
+
   // 获取模型配置以确定等待时间
-  const modelConfig = getVideoModel(generation.model);
+  const modelConfig = generation ? getVideoModel(generation.model) : null;
   const TOTAL_WAIT_TIME_SECONDS =
     modelConfig?.estimatedGenerationTime || DEFAULT_WAIT_TIME_SECONDS;
 
+  // 计算状态值（如果没有generation则使用默认值）
   const STATUS_MAP = getStatusMap(t);
-  const status =
-    STATUS_MAP[generation.status as keyof typeof STATUS_MAP] ||
-    STATUS_MAP.submitted;
-  const isCompleted =
-    generation.status === "COMPLETED" || generation.status === "SAVED_TO_R2";
-  const isFailed = generation.status === "FAILED";
-  const isProcessing =
-    generation.status === "IN_PROGRESS" ||
-    generation.status === "IN_QUEUE" ||
-    generation.status === "submitted" ||
-    generation.status === "PROMPT_OPTIMIZING";
+  const status = generation
+    ? STATUS_MAP[generation.status as keyof typeof STATUS_MAP] ||
+      STATUS_MAP.submitted
+    : STATUS_MAP.submitted;
+  const isCompleted = generation
+    ? generation.status === "COMPLETED" || generation.status === "SAVED_TO_R2"
+    : false;
+  const isFailed = generation ? generation.status === "FAILED" : false;
+  const isProcessing = generation
+    ? generation.status === "IN_PROGRESS" ||
+      generation.status === "IN_QUEUE" ||
+      generation.status === "submitted" ||
+      generation.status === "PROMPT_OPTIMIZING"
+    : false;
 
-  // 定时器更新当前时间（用于计算等待时长）
+  // 当generation对象发生变化时，重置videoUrl状态
+  useEffect(() => {
+    const newVideoUrl = getVideoUrl(generation);
+    setVideoUrl(newVideoUrl);
+  }, [
+    generation?.id,
+    generation?.video_url,
+    generation?.video_url_r2,
+    generation?.upsample_video_url_veo3,
+    generation?.video_url_veo3,
+    generation?.video_url_volcano,
+    generation?.video_url_fal,
+  ]);
+
+  // 定时器更新当前时间
   useEffect(() => {
     if (!isProcessing) return;
 
@@ -242,6 +212,7 @@ export default function VideoResult({
   useEffect(() => {
     const fetchVideoResult = async () => {
       if (
+        generation &&
         isCompleted &&
         !videoUrl &&
         generation.requestId &&
@@ -319,8 +290,8 @@ export default function VideoResult({
   }, [
     isCompleted,
     videoUrl,
-    generation.requestId,
-    generation.model,
+    generation?.requestId,
+    generation?.model,
     isLoadingVideo,
     onVideoUrlUpdate,
     onRetry,
@@ -328,7 +299,7 @@ export default function VideoResult({
 
   // 计算已等待时间和剩余时间
   const getWaitTimeInfo = () => {
-    if (!generation.created_at) {
+    if (!generation?.created_at) {
       return {
         elapsedSeconds: 0,
         remainingSeconds: TOTAL_WAIT_TIME_SECONDS,
@@ -350,7 +321,7 @@ export default function VideoResult({
     return { elapsedSeconds, remainingSeconds, progressValue };
   };
 
-  // 格式化时间显示（分:秒）
+  // 格式化时间显示
   const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -360,15 +331,18 @@ export default function VideoResult({
   // 根据时间计算进度百分比
   const getProgressValue = () => {
     if (!isProcessing) {
-      switch (generation.status) {
-        case "COMPLETED":
-        case "SAVED_TO_R2":
-          return 100;
-        case "FAILED":
-          return 0;
-        default:
-          return 5;
+      if (generation) {
+        switch (generation.status) {
+          case "COMPLETED":
+          case "SAVED_TO_R2":
+            return 100;
+          case "FAILED":
+            return 0;
+          default:
+            return 5;
+        }
       }
+      return 0;
     }
 
     return getWaitTimeInfo().progressValue;
@@ -377,291 +351,176 @@ export default function VideoResult({
   const progressValue = getProgressValue();
   const { remainingSeconds } = getWaitTimeInfo();
 
-  // 获取状态描述文本（基于剩余时间）
-  const getStatusDescription = () => {
-    if (!isProcessing) {
-      switch (generation.status) {
-        case "COMPLETED":
-        case "SAVED_TO_R2":
-          return t("videoCompleted");
-        case "FAILED":
-          return t("videoFailed");
-        default:
-          return t("processing");
-      }
-    }
-
-    const formattedRemainingTime = formatTime(remainingSeconds);
-    const modelDisplayName = modelConfig?.displayName || generation.model;
-
-    switch (generation.status) {
-      case "submitted":
-        return t("taskSubmitted", {
-          time: formattedRemainingTime,
-          model: modelDisplayName,
-        });
-      case "PROMPT_OPTIMIZING":
-        return t("optimizingPrompt", {
-          time: formattedRemainingTime,
-          model: modelDisplayName,
-        });
-      case "IN_QUEUE":
-        return t("taskInQueue", {
-          time: formattedRemainingTime,
-          model: modelDisplayName,
-        });
-      case "IN_PROGRESS":
-        return t("generatingVideo", {
-          time: formattedRemainingTime,
-          model: modelDisplayName,
-        });
-      default:
-        return t("processingGeneral", {
-          time: formattedRemainingTime,
-          model: modelDisplayName,
-        });
-    }
-  };
-
   const handleDownload = async () => {
     if (!videoUrl || isDownloading) return;
 
     setIsDownloading(true);
     try {
-      const response = await fetch(videoUrl);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch video: ${response.status}`);
-      }
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `video-${generation.id}.mp4`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+      window.open(videoUrl, "_blank");
     } catch (error) {
       console.error("Download failed:", error);
-      // 可以添加错误提示 toast 等
     } finally {
       setIsDownloading(false);
     }
   };
 
-  const handleViewHistory = () => {
-    router.push("/history");
-  };
+  // 如果没有generation数据，使用简化模式
+  if (!generation) {
+    return (
+      <div className={cn("bg-gray-900 rounded-lg p-6", className)}>
+        <h2 className="text-white text-lg font-semibold mb-3">
+          Generated Video
+        </h2>
+
+        <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden relative">
+          {videoUrl ? (
+            <>
+              <video
+                className="w-full h-full object-cover"
+                controls
+                preload="auto"
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+              >
+                <source src={videoUrl} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </>
+          ) : isGenerating ? (
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500 mb-4"></div>
+              <p className="text-gray-400">Generating your video...</p>
+              <p className="text-gray-500 text-sm mt-2">
+                This may take a few minutes
+              </p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              {placeholderIcon}
+              <p className="text-gray-400">{placeholderText}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <Card className={cn("p-6 space-y-6 bg-card border-border", className)}>
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <status.icon
-              className={cn(
-                "h-5 w-5 text-white",
-                status.icon === Loader2 && "animate-spin"
-              )}
-            />
-            <Badge className={cn(status.color, "text-white")}>
-              {status.label}
-            </Badge>
-          </div>
-        </div>
+    <div className={cn("bg-gray-900 rounded-lg p-6", className)}>
+      <h2 className="text-white text-lg font-semibold mb-3">Generated Video</h2>
 
-        <div className="flex items-center gap-2">
+      <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden relative mb-4">
+        {isCompleted && videoUrl && !isFailed ? (
+          <video
+            className="w-full h-full object-cover"
+            controls
+            preload="auto"
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            style={{ aspectRatio: generation.aspect_ratio || "16/9" }}
+          >
+            <source src={videoUrl} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        ) : isCompleted && !videoUrl && isLoadingVideo && !isFailed ? (
+          <div className="flex flex-col items-center justify-center h-full text-center">
+            <div className="flex items-center gap-2 mb-4">
+              <Loader2 className="h-6 w-6 text-blue-500 animate-spin" />
+              <span className="text-blue-400">Loading video...</span>
+            </div>
+            <p className="text-gray-500 text-sm">
+              Processing the generated video file
+            </p>
+          </div>
+        ) : isCompleted && !videoUrl && !isLoadingVideo && !isFailed ? (
+          <div className="flex flex-col items-center justify-center h-full text-center">
+            <div className="flex items-center gap-2 mb-4">
+              <Clock className="h-6 w-6 text-yellow-500" />
+              <span className="text-yellow-400">Video processing...</span>
+            </div>
+            <p className="text-gray-500 text-sm">
+              Video is still being processed, please wait
+            </p>
+          </div>
+        ) : isProcessing || isGenerating ? (
+          <div className="flex flex-col items-center justify-center h-full text-center">
+            <div className="flex items-center gap-2 mb-4">
+              <status.icon
+                className={cn(
+                  "h-6 w-6 text-white",
+                  status.icon === Loader2 && "animate-spin"
+                )}
+              />
+              <Badge className={cn(status.color, "text-white")}>
+                {status.label || "Generating"}
+              </Badge>
+            </div>
+            <p className="text-gray-400 mb-2">
+              {formatTime(remainingSeconds)} remaining
+            </p>
+            <Progress value={progressValue} className="w-full max-w-xs mb-2" />
+            <p className="text-gray-500 text-sm">
+              {modelConfig?.displayName || generation.model}
+            </p>
+          </div>
+        ) : isFailed ? (
+          <div className="flex flex-col items-center justify-center h-full text-center">
+            <XCircle className="h-8 w-8 text-red-500 mb-4" />
+            <p className="text-red-400 mb-2">Generation Failed</p>
+            <p className="text-gray-500 text-sm mb-4">
+              {getFriendlyErrorMessage(generation.error_message, t)}
+            </p>
+            {onRetry && (
+              <Button variant="outline" size="sm" onClick={onRetry}>
+                <RefreshCw className="h-4 w-4 mr-2" />
+                Retry
+              </Button>
+            )}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full text-center">
+            {placeholderIcon}
+            <p className="text-gray-400">{placeholderText}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Actions */}
+      {isCompleted && videoUrl && !isFailed && (
+        <div className="flex justify-center gap-2">
           <Button
             variant="outline"
             size="sm"
-            onClick={handleViewHistory}
-            className="flex items-center gap-2"
+            onClick={handleDownload}
+            disabled={isDownloading}
           >
-            <History className="h-4 w-4" />
-            {t("viewHistory")}
+            <Download className="h-4 w-4 mr-2" />
+            Download
           </Button>
-          {onRetry && isFailed && (
-            <Button variant="outline" size="sm" onClick={onRetry}>
-              <RefreshCw className="h-4 w-4 mr-2" />
-              {t("retry")}
-            </Button>
-          )}
-        </div>
-      </div>
-
-      {/* 成功消息 - 放在Prompt上面，只在成功且有视频时显示 */}
-      {isCompleted && videoUrl && !isFailed && (
-        <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/30 rounded-lg p-4">
-          <CheckCircle className="h-5 w-5 text-green-500" />
-          <span className="text-sm font-medium text-foreground">
-            {t("successMessage")}
-          </span>
         </div>
       )}
 
-      {/* Prompt展示区域 - 支持优化前后对比 */}
-      <div className="space-y-3">
-        {/* 原始Prompt */}
-        <div className="bg-muted/50 border border-border rounded-lg p-4">
-          <h3 className="font-medium mb-2 text-foreground flex items-center gap-2">
-            {t("originalPrompt")}
-            {generation.status === "PROMPT_OPTIMIZING" && (
-              <div className="flex items-center gap-1 text-purple-500">
-                <Loader2 className="h-3 w-3 animate-spin" />
-                <span className="text-xs">{t("optimizing")}</span>
-              </div>
-            )}
-          </h3>
-          <p className="text-sm text-muted-foreground leading-relaxed max-h-24 overflow-y-auto">
+      {/* Prompt Display for completed videos */}
+      {isCompleted && videoUrl && !isFailed && generation.prompt && (
+        <div className="mt-4 p-3 bg-gray-800 rounded-lg">
+          <p className="text-xs text-gray-400 mb-1">Original Prompt:</p>
+          <p className="text-sm text-gray-300 leading-relaxed">
             {generation.prompt}
           </p>
-        </div>
-
-        {/* 优化后Prompt - 只在有优化结果时显示 */}
-        {generation.optimized_prompt &&
-          generation.optimized_prompt !== generation.prompt && (
-            <div className="bg-gradient-to-r from-purple-50/50 to-blue-50/50 dark:from-purple-900/20 dark:to-blue-900/20 border border-purple-200/50 dark:border-purple-700/50 rounded-lg p-4">
-              <div
-                className="flex items-center justify-between cursor-pointer"
-                onClick={() => setShowOptimizedPrompt(!showOptimizedPrompt)}
-              >
-                <h3 className="font-medium text-foreground flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-purple-500" />
-                  {t("optimizedPrompt")}
-                  <Badge
-                    variant="outline"
-                    className="text-xs bg-purple-100 dark:bg-purple-900/50 border-purple-200 dark:border-purple-700"
-                  >
-                    {t("enhanced")}
-                  </Badge>
-                </h3>
-                {showOptimizedPrompt ? (
-                  <ChevronUp className="h-4 w-4 text-muted-foreground" />
-                ) : (
-                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                )}
+          {generation.optimized_prompt &&
+            generation.optimized_prompt !== generation.prompt && (
+              <div className="mt-2 pt-2 border-t border-gray-700">
+                <p className="text-xs text-purple-400 mb-1 flex items-center gap-1">
+                  <Sparkles className="h-3 w-3" />
+                  Enhanced Prompt:
+                </p>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  {generation.optimized_prompt}
+                </p>
               </div>
-
-              {showOptimizedPrompt && (
-                <div className="mt-3 pt-3 border-t border-purple-200/50 dark:border-purple-700/50">
-                  <p className="text-sm text-muted-foreground leading-relaxed max-h-32 overflow-y-auto">
-                    {generation.optimized_prompt}
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-      </div>
-
-      {/* Video Player - 只在成功且有视频URL时显示 */}
-      {isCompleted && videoUrl && !isFailed && (
-        <div className="space-y-4">
-          <>
-            <div className="relative bg-black rounded-xl overflow-hidden shadow-2xl border-2 border-green-500/30">
-              <video
-                className="w-full h-auto max-h-[600px]"
-                controls
-                preload="metadata"
-                onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
-                style={{ aspectRatio: generation.aspect_ratio || "16/9" }}
-              >
-                <source src={videoUrl} type="video/mp4" />
-                {t("browserNotSupported")}
-              </video>
-
-              {/* 播放状态指示器 */}
-              {!isPlaying && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 opacity-0 hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                  <Play className="h-16 w-16 text-white opacity-80" />
-                </div>
-              )}
-            </div>
-
-            {/* 操作选项 - 放在视频下面，简化版 */}
-            <div className="flex items-center justify-center gap-2">
-              {/* <Button
-                variant="outline"
-                size="sm"
-                onClick={handleDownload}
-                disabled={isDownloading}
-              >
-                {isDownloading ? (
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                ) : (
-                  <Download className="h-4 w-4 mr-2" />
-                )}
-                {isDownloading ? t("downloading") : t("download")}
-              </Button> */}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => window.open(videoUrl, "_blank")}
-              >
-                <Download className="h-4 w-4 mr-2" />
-                {t("download")}
-              </Button>
-            </div>
-          </>
+            )}
         </div>
       )}
-
-      {/* Loading Video State - 只在成功但还在加载视频时显示 */}
-      {isCompleted && !videoUrl && isLoadingVideo && !isFailed && (
-        <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Loader2 className="h-5 w-5 text-blue-500 animate-spin" />
-            <span className="font-medium text-foreground">
-              {t("loadingVideo")}
-            </span>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            {t("videoLoadingMessage")}
-          </p>
-        </div>
-      )}
-
-      {/* Video Not Available State - 只在成功但视频不可用时显示 */}
-      {isCompleted && !videoUrl && !isLoadingVideo && !isFailed && (
-        <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Clock className="h-5 w-5 text-yellow-500" />
-            <span className="font-medium text-foreground">
-              {t("videoProcessing")}
-            </span>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            {t("videoNotAvailableMessage")}
-          </p>
-        </div>
-      )}
-
-      {/* Creative Progress Bar (for processing states) */}
-      {isProcessing && (
-        <CreativeProgress
-          progress={progressValue}
-          status={generation.status}
-          remainingTime={formatTime(remainingSeconds)}
-          t={t}
-        />
-      )}
-
-      {/* Error Message - 只在失败时显示 */}
-      {isFailed && (
-        <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <XCircle className="h-5 w-5 text-red-500" />
-            <span className="font-medium text-foreground">
-              {t("generationFailed")}
-            </span>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            {getFriendlyErrorMessage(generation.error_message, t)}
-          </p>
-        </div>
-      )}
-    </Card>
+    </div>
   );
 }

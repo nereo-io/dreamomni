@@ -7,7 +7,7 @@ export async function POST(req: Request) {
     // 用户认证检查
     const session = await auth();
     if (!session?.user?.uuid) {
-      return respErr("用户未登录");
+      return respErr("User not authenticated");
     }
 
     // 获取上传的文件
@@ -15,18 +15,18 @@ export async function POST(req: Request) {
     const file = formData.get("file") as File;
 
     if (!file) {
-      return respErr("没有找到文件");
+      return respErr("No file found");
     }
 
     // 验证文件类型
     if (!file.type.startsWith("image/")) {
-      return respErr("只支持图片文件");
+      return respErr("Only image files are supported");
     }
 
     // 验证文件大小 (10MB)
     const maxSize = 10 * 1024 * 1024;
     if (file.size > maxSize) {
-      return respErr("文件大小不能超过 10MB");
+      return respErr("File size cannot exceed 10MB");
     }
 
     // 生成文件名

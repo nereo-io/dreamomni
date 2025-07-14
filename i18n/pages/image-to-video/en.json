@@ -1,0 +1,139 @@
+{
+  "faq": {
+    "title": "FAQs",
+    "description": "Find answers to common questions about our AI image to video generation service.",
+    "items": [
+      {
+        "id": "what-is-image-to-video",
+        "question": "What is an AI image to video generator?",
+        "answer": "An AI image to video generator is a tool that uses artificial intelligence to animate static images and create short video clips. It analyzes your uploaded image and transforms it into dynamic motion based on your text prompts or automatic scene understanding."
+      },
+      {
+        "id": "best-image-to-video-generator",
+        "question": "What is the best image to video AI generator?",
+        "answer": "Veo3 AI offers one of the most advanced image to video generators with high-quality output, realistic motion, and support for various image formats. Our AI models are trained on millions of videos to ensure natural-looking animations and smooth transitions."
+      },
+      {
+        "id": "what-makes-us-stand-out",
+        "question": "What makes Veo3 AI's image to video generator stand out?",
+        "answer": "Our generator stands out with its advanced AI models, high-resolution output up to 1080p, natural motion physics, and ability to understand complex prompts. We also offer fast processing times, commercial usage rights, and support for diverse image styles."
+      },
+      {
+        "id": "what-images-can-work-with",
+        "question": "What types of images work best with Veo3 AI?",
+        "answer": "Veo3 AI works with most image formats including JPG, PNG, and WEBP. We support photos of people, animals, landscapes, objects, and artwork. For best results, use high-quality images with clear subjects and good lighting."
+      },
+      {
+        "id": "is-image-to-video-free",
+        "question": "Is Veo3 AI's image to video generator free?",
+        "answer": "Veo3 AI offers both free and premium options. New users get free credits to try the service. For regular use, we offer affordable subscription plans with more credits and advanced features like higher resolutions and longer videos."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Breathe Life into Your Static Images!",
+    "description": "Turn any photo into a stunning video with our AI image to video generator. Upload your image and watch it come to life in seconds.",
+    "buttonText": "Try Image to Video Generator"
+  },
+  "aiModelsHero": {
+    "title": "All-in-One AI Image to Video Generator",
+    "description": "Veo3 AI is the ultimate, all-in-one AI image to video generator. We offer access to industry-leading video models including Veo3 and Seedance, all in one single place. Try them seamlessly and create stunning visuals without juggling multiple platforms!",
+    "models": [
+      {
+        "id": "veo3",
+        "name": "Veo 3",
+        "logo": "/imgs/intro/veo.svg"
+      },
+      {
+        "id": "seedance",
+        "name": "Seedance",
+        "logo": "/imgs/intro/seedance.png"
+      }
+    ],
+    "moreModels": "More Models"
+  },
+  "imageToVideoShowcase": {
+    "title": "Animate Your Images with Our Image to Video AI Generator",
+    "description": "Turn any static image into a vivid story with Veo3 AI! Generate creative videos from your uploaded photos with our smart AI image to video generator. Whether it's a realistic scene or animation you want to create, Veo3 AI can produce it quickly, and the way you want.",
+    "labels": {
+      "originalImage": "Original image",
+      "prompt": "Prompt",
+      "video": "Video"
+    },
+    "examples": [
+      {
+        "id": "anime-girl",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Anime-Girl-with-Braids.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Girl-Pokes-Camera.mp4",
+        "originalAlt": "Anime girl with braids",
+        "videoAlt": "Anime girl smiling and poking camera",
+        "prompt": "The little girl keeps smiling at the camera and pokes the lens with her finger."
+      },
+      {
+        "id": "t-rex",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Tyrannosaurus-Rex-in-Wilderness.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/TRex-Peeks-at-Camera.mp4",
+        "originalAlt": "Tyrannosaurus Rex in wilderness",
+        "videoAlt": "T-Rex head peeking out of camera",
+        "prompt": "The T-Rex's head pokes out of the camera."
+      },
+      {
+        "id": "mother-son",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Mother-Son-Walking-in-Park.mp4",
+        "originalAlt": "Mother and son walking in park",
+        "videoAlt": "Mother walking happily with child",
+        "prompt": "A mother walks happily holding her child's hand."
+      },
+      {
+        "id": "motorcycle",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Astronaut-Looking-at-Earth.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
+        "originalAlt": "Motorcycle ready to speed",
+        "videoAlt": "Motorcycle speeding with light trail",
+        "prompt": "The motorcycle is speeding, and the tail light turns into a line."
+      }
+    ]
+  },
+  "creatorShowcase": {
+    "title": "Perfect for Every Image-to-Video Creator",
+    "creatorTypes": [
+      {
+        "id": "photographers",
+        "name": "Photographers",
+        "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Professional photographer with camera capturing creative moments",
+        "title": "Transform photos into cinematic stories",
+        "description": "Bring your photography portfolio to life by animating static images. Create stunning visual narratives and showcase your work in dynamic new ways that captivate audiences.",
+        "badge": "Photographers"
+      },
+      {
+        "id": "social-media-managers",
+        "name": "Social Media Managers",
+        "image": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Social media professional managing content across multiple platforms",
+        "title": "Create engaging social content from images",
+        "description": "Transform static posts into eye-catching videos that boost engagement rates. Convert existing image assets into dynamic content that stands out in crowded social feeds.",
+        "badge": "Social Media Managers"
+      },
+      {
+        "id": "e-commerce",
+        "name": "E-commerce Brands",
+        "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "E-commerce professional showcasing products in modern retail environment",
+        "title": "Showcase products with dynamic videos",
+        "description": "Convert product photos into compelling video demonstrations. Increase conversion rates by showing products in action and creating immersive shopping experiences.",
+        "badge": "E-commerce Brands"
+      },
+      {
+        "id": "artists",
+        "name": "Digital Artists",
+        "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Digital artist working on creative projects with advanced design tools",
+        "title": "Animate artwork and illustrations",
+        "description": "Bring digital art and illustrations to life with motion. Create animated portfolios, showcase creative processes, and add movement to static artistic creations.",
+        "badge": "Digital Artists"
+      }
+    ]
+  }
+}

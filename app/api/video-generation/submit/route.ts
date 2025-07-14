@@ -31,19 +31,19 @@ export async function POST(req: Request) {
     // 1. 用户认证检查
     const session = await auth();
     if (!session?.user?.uuid) {
-      return respErr("用户未登录");
+      return respErr("User not authenticated");
     }
 
     // 2. 获取用户信息
     const userInfo = await getUserInfo();
     if (!userInfo?.uuid) {
-      return respErr("用户信息获取失败");
+      return respErr("Failed to get user information");
     }
 
     // 3. 检查用户积分
     const userCredits = await getUserCredits(userInfo.uuid);
     if (!userCredits) {
-      return respErr("获取用户积分失败");
+      return respErr("Failed to get user credits");
     }
 
     const {
@@ -60,6 +60,7 @@ export async function POST(req: Request) {
       seed,
       enable_safety_checker = true,
       generate_audio = false, // 新增：音频生成选项
+      enable_prompt_enhancement = true, // 新增：prompt增强开关
       ...otherParams
     } = await req.json();
 
@@ -88,7 +89,9 @@ export async function POST(req: Request) {
     );
 
     if (requiredCredits === 0) {
-      return respErr("无法计算所需积分，请检查模型配置");
+      return respErr(
+        "Unable to calculate required credits, please check model configuration"
+      );
     }
 
     if (userCredits.left_credits < requiredCredits) {
@@ -130,10 +133,10 @@ export async function POST(req: Request) {
       });
     } catch (error) {
       console.error("扣除积分失败:", error);
-      return respErr("扣除积分失败，请稍后重试");
+      return respErr("Failed to deduct credits, please try again later");
     }
 
-    // 6. 在数据库中创建记录（初始状态为 PROMPT_OPTIMIZING）
+    // 6. 在数据库中创建记录（根据是否启用prompt增强设置初始状态）
     const videoGeneration = await createVideoGeneration({
       user_id: userInfo.uuid,
       model_id: model,
@@ -145,33 +148,31 @@ export async function POST(req: Request) {
       cfg_scale,
       seed,
       has_audio: generate_audio, // 新增：记录是否包含音频
-      status: "PROMPT_OPTIMIZING",
+      status: enable_prompt_enhancement ? "PROMPT_OPTIMIZING" : "IN_QUEUE",
     });
 
     // 6.5. 优化提示词
-    //test
     let finalPrompt = prompt;
-    // 如果是 veo3 模型，不需要优化提示词
-    // if (!isVeo3ApicoreModel(model)) {
-    try {
-      const optimizedPrompt = await optimizePromptWithTimeout(
-        prompt,
-        model,
-        30000
-      );
-      finalPrompt = optimizedPrompt;
+    if (enable_prompt_enhancement) {
+      try {
+        const optimizedPrompt = await optimizePromptWithTimeout(
+          prompt,
+          model,
+          30000
+        );
+        finalPrompt = optimizedPrompt;
 
-      // 更新记录保存优化后的提示词
-      await import("@/models/videoGeneration").then(
-        ({ updateVideoGenerationById }) =>
-          updateVideoGenerationById(videoGeneration.id, {
-            optimized_prompt: optimizedPrompt,
-          })
-      );
-    } catch (error) {
-      console.error("提示词优化失败，使用原始提示词:", error);
-      // 如果优化失败，继续使用原始提示词
-      // }
+        // 更新记录保存优化后的提示词
+        await import("@/models/videoGeneration").then(
+          ({ updateVideoGenerationById }) =>
+            updateVideoGenerationById(videoGeneration.id, {
+              optimized_prompt: optimizedPrompt,
+            })
+        );
+      } catch (error) {
+        console.error("提示词优化失败，使用原始提示词:", error);
+        // 如果优化失败，继续使用原始提示词
+      }
     }
 
     // 构建请求输入（使用优化后的提示词）
@@ -200,7 +201,7 @@ export async function POST(req: Request) {
     // 根据模型类型添加相应参数
     if (isImageToVideoModel(model)) {
       if (!image_url) {
-        return respErr("图片转视频模型需要提供 image_url 参数");
+        return respErr("Image-to-video models require an image_url parameter");
       }
       input.image_url = image_url;
     }
@@ -243,8 +244,8 @@ export async function POST(req: Request) {
     }
 
     // 7. 提交任务到队列，包含webhook URL
-    const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
-    // const webhookUrl = `https://eee7-2a12-f8c3-4872-3198-861e-2cf1-b8c5-30a2.ngrok-free.app/api/video-generation/webhook`;
+    // const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
+    const webhookUrl = `https://cb7d7fd27e71.ngrok-free.app/api/video-generation/webhook`;
 
     try {
       // 使用Provider Factory获取合适的provider
@@ -259,27 +260,29 @@ export async function POST(req: Request) {
           submitResponse = await provider.submit(model, input, webhookUrl);
           break;
         } catch (error) {
-          const errorMsg = error instanceof Error ? error.message : String(error);
+          const errorMsg =
+            error instanceof Error ? error.message : String(error);
           console.error(`视频生成提交失败 (${attempt}/3):`, errorMsg);
-          
+
           // 检查是否是连接超时错误
-          const isTimeoutError = errorMsg.includes('fetch failed') || 
-                                errorMsg.includes('Connect Timeout Error') ||
-                                errorMsg.includes('timeout') ||
-                                errorMsg.includes('ETIMEDOUT');
-          
+          const isTimeoutError =
+            errorMsg.includes("fetch failed") ||
+            errorMsg.includes("Connect Timeout Error") ||
+            errorMsg.includes("timeout") ||
+            errorMsg.includes("ETIMEDOUT");
+
           // 如果不是超时错误，或者是最后一次重试，直接抛出错误
           if (!isTimeoutError || attempt === 3) {
             throw error;
           }
-          
+
           // 等待后重试：第1次等1秒，第2次等2秒
           const delay = attempt * 1000;
           console.log(`连接超时，等待 ${delay}ms 后重试...`);
-          await new Promise(resolve => setTimeout(resolve, delay));
+          await new Promise((resolve) => setTimeout(resolve, delay));
         }
       }
-      
+
       if (!submitResponse) {
         throw new Error("视频生成提交失败");
       }
@@ -308,6 +311,9 @@ export async function POST(req: Request) {
           updateVideoGenerationById(videoGeneration.id, updateParams)
       );
 
+      // 获取扣除积分后的用户剩余积分
+      const updatedUserCredits = await getUserCredits(userInfo.uuid);
+
       return respData({
         id: videoGeneration.id,
         requestId: submitResponse.request_id,
@@ -321,6 +327,10 @@ export async function POST(req: Request) {
         status: "submitted",
         message: "视频生成任务已提交到队列",
         requiredCredits,
+        userCredits: {
+          remainingCredits: updatedUserCredits?.left_credits || 0,
+          deductedCredits: requiredCredits,
+        },
         metadata: {
           prompt,
           optimized_prompt: finalPrompt,

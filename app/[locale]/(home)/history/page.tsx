@@ -1,4 +1,4 @@
-import VideoHistoryClient from "@/components/blocks/video-history";
+import VideoHistoryPageClient from "@/components/blocks/video-history-page";
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { Loader2 } from "lucide-react";
@@ -10,10 +10,10 @@ export async function generateMetadata({
 }) {
   const t = await getTranslations();
 
-  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/blog`;
+  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/history`;
 
   if (locale !== "en") {
-    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/blog`;
+    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/history`;
   }
 
   return {
@@ -34,7 +34,7 @@ export default function VideoHistoryPage() {
         </div>
       }
     >
-      <VideoHistoryClient />
+      <VideoHistoryPageClient />
     </Suspense>
   );
 }

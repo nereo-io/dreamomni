@@ -3,22 +3,22 @@
   "theme": "light",
   "header": {
     "brand": {
-      "title": "Veo3 AI",
+      "title": "Veo3",
       "logo": {
         "src": "/logo.png",
-        "alt": "Veo3 AI"
+        "alt": "Veo3"
       },
       "url": "/"
     },
     "nav": {
       "items": [
         {
-          "title": "Generate",
-          "url": "/#video-generator",
+          "title": "Generator",
+          "url": "/image-to-video",
           "icon": "RiVideoLine"
         },
         {
-          "title": "Histroy",
+          "title": "History",
           "url": "/history",
           "icon": "RiHistoryLine"
         },
@@ -48,7 +48,16 @@
     },
     "description": "Create Stunning Videos with Advanced AI Technology - Transform Your Ideas into Professional Videos in Minutes",
     "show_happy_users": false,
-    "show_badge": false
+    "show_badge": false,
+    "buttons": [
+      {
+        "title": "Start Creating Videos",
+        "url": "/image-to-video",
+        "target": "_self",
+        "variant": "default",
+        "icon": "GoArrowUpRight"
+      }
+    ]
   },
   "testimonial": {
     "name": "testimonial",
@@ -158,15 +167,15 @@
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "Veo3 AI",
+      "title": "Veo3",
       "description": "Free Veo 3 AI Video Generator - Create stunning professional videos with advanced AI technology. Transform your ideas into cinematic masterpieces in minutes.",
       "logo": {
         "src": "/logo.png",
-        "alt": "Veo3 AI"
+        "alt": "Veo3"
       },
       "url": "/"
     },
-    "copyright": " 2025 • Veo3 AI All rights reserved.",
+    "copyright": " 2025 • Veo3 All rights reserved.",
     "nav": {
       "items": [
         {

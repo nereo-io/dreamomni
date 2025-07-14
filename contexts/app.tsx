@@ -17,6 +17,9 @@ import useOneTapLogin from "@/hooks/useOneTapLogin";
 import useMembership from "@/hooks/useMembership";
 import useCredits from "@/hooks/useCredits";
 import { useSession } from "next-auth/react";
+import PricingModal from "@/components/blocks/pricing/pricing-modal";
+import { getPricingBlock } from "@/services/page";
+import { Pricing } from "@/types/blocks/pricing";
 
 const AppContext = createContext({} as ContextValue);
 
@@ -40,7 +43,9 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   });
 
   const [showSignModal, setShowSignModal] = useState<boolean>(false);
+  const [showPricingModal, setShowPricingModal] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
+  const [pricingData, setPricingData] = useState<Pricing | null>(null);
 
   // 添加调研横幅状态
   const [surveyBannerVisible, setSurveyBannerVisible] = useState<boolean>(true);
@@ -133,6 +138,20 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [user?.uuid]);
 
+  // 获取 pricing 数据
+  useEffect(() => {
+    const fetchPricingData = async () => {
+      try {
+        const data = await getPricingBlock("en");
+        setPricingData(data);
+      } catch (error) {
+        console.error("Failed to fetch pricing data:", error);
+      }
+    };
+
+    fetchPricingData();
+  }, []);
+
   return (
     <AppContext.Provider
       value={{
@@ -140,6 +159,8 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
         setTheme,
         showSignModal,
         setShowSignModal,
+        showPricingModal,
+        setShowPricingModal,
         user,
         setUser,
         membership,
@@ -152,6 +173,14 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
+      {/* Global Pricing Modal */}
+      {pricingData && (
+        <PricingModal
+          isOpen={showPricingModal}
+          onClose={() => setShowPricingModal(false)}
+          pricing={pricingData}
+        />
+      )}
     </AppContext.Provider>
   );
 };

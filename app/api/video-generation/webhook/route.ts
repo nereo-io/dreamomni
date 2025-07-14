@@ -4,6 +4,8 @@ import {
   updateVideoGenerationByFalRequestId,
   getVideoGenerationByVolcanoRequestId,
   updateVideoGenerationByVolcanoRequestId,
+  getVideoGenerationByVeo3RequestId,
+  updateVideoGenerationByVeo3RequestId,
 } from "@/models/videoGeneration";
 import { newStorage } from "@/lib/storage";
 import { getVideoModel, VideoModelProvider } from "@/config/video-models";
@@ -23,8 +25,9 @@ export async function POST(req: Request) {
     let error: string | null = null;
     let payload: any = null;
     let isVolcanoWebhook = false;
+    let isKieAiWebhook = false;
 
-    // 尝试识别是fal.ai还是Volcano Engine的webhook
+    // 尝试识别webhook类型
     if (webhookData.request_id) {
       // fal.ai format
       request_id = webhookData.request_id;
@@ -71,16 +74,44 @@ export async function POST(req: Request) {
       if (webhookData.error) {
         error = webhookData.error.message || webhookData.error;
       }
+    } else if (webhookData.code !== undefined && webhookData.data?.taskId) {
+      // KieAI format
+      isKieAiWebhook = true;
+      request_id = webhookData.data.taskId;
+
+      // 根据KieAI的响应码判断状态
+      if (
+        webhookData.code === 200 &&
+        webhookData.data.info?.resultUrls?.length > 0
+      ) {
+        status = "OK";
+        // 构造payload以匹配现有逻辑
+        payload = {
+          video: {
+            url: webhookData.data.info.resultUrls[0],
+          },
+        };
+      } else if (webhookData.code !== 200) {
+        status = "ERROR";
+        error = webhookData.msg || "KieAI generation failed";
+      } else {
+        status = "IN_PROGRESS";
+      }
     } else {
       return respErr("无效的 webhook 数据格式");
     }
 
-    // 查找对应的数据库记录 - 简化查找逻辑
+    // 查找对应的数据库记录 - 添加对veo3_request_id的查找
     let videoGeneration = await getVideoGenerationByFalRequestId(request_id);
 
     if (!videoGeneration) {
       // 尝试按volcano_request_id查找
       videoGeneration = await getVideoGenerationByVolcanoRequestId(request_id);
+    }
+
+    if (!videoGeneration) {
+      // 尝试按veo3_request_id查找（KieAI和APICore都使用这个字段）
+      videoGeneration = await getVideoGenerationByVeo3RequestId(request_id);
     }
 
     if (!videoGeneration) {
@@ -153,6 +184,10 @@ export async function POST(req: Request) {
             updateParams.video_url_volcano = videoUrl;
           } else if (modelConfig?.provider === VideoModelProvider.FAL) {
             updateParams.video_url_fal = videoUrl;
+          } else if (modelConfig?.provider === VideoModelProvider.KIEAI) {
+            updateParams.video_url_veo3 = videoUrl;
+          } else if (modelConfig?.provider === VideoModelProvider.APICORE) {
+            updateParams.video_url_veo3 = videoUrl;
           }
 
           // 使用合适的更新函数
@@ -163,6 +198,11 @@ export async function POST(req: Request) {
             );
           } else if (videoGeneration.fal_request_id) {
             await updateVideoGenerationByFalRequestId(request_id, updateParams);
+          } else if (videoGeneration.veo3_request_id) {
+            await updateVideoGenerationByVeo3RequestId(
+              request_id,
+              updateParams
+            );
           } else {
             console.error("No valid request ID field found for update");
             throw new Error("No valid request ID field found for update");
@@ -174,6 +214,7 @@ export async function POST(req: Request) {
             video_url: r2VideoUrl || videoUrl,
             r2_uploaded: !!r2VideoUrl,
             processing_time: metrics?.inference_time || null,
+            provider: modelConfig?.provider,
           });
         } catch (processError) {
           console.error("处理完成状态失败:", processError);
@@ -197,6 +238,11 @@ export async function POST(req: Request) {
             );
           } else if (videoGeneration.fal_request_id) {
             await updateVideoGenerationByFalRequestId(
+              request_id,
+              failureParams
+            );
+          } else if (videoGeneration.veo3_request_id) {
+            await updateVideoGenerationByVeo3RequestId(
               request_id,
               failureParams
             );
@@ -228,6 +274,8 @@ export async function POST(req: Request) {
           );
         } else if (videoGeneration.fal_request_id) {
           await updateVideoGenerationByFalRequestId(request_id, errorParams);
+        } else if (videoGeneration.veo3_request_id) {
+          await updateVideoGenerationByVeo3RequestId(request_id, errorParams);
         }
 
         return respData({
@@ -252,6 +300,8 @@ export async function POST(req: Request) {
           );
         } else if (videoGeneration.fal_request_id) {
           await updateVideoGenerationByFalRequestId(request_id, queueParams);
+        } else if (videoGeneration.veo3_request_id) {
+          await updateVideoGenerationByVeo3RequestId(request_id, queueParams);
         }
 
         return respData({
@@ -276,6 +326,11 @@ export async function POST(req: Request) {
           );
         } else if (videoGeneration.fal_request_id) {
           await updateVideoGenerationByFalRequestId(request_id, progressParams);
+        } else if (videoGeneration.veo3_request_id) {
+          await updateVideoGenerationByVeo3RequestId(
+            request_id,
+            progressParams
+          );
         }
 
         return respData({
@@ -298,6 +353,8 @@ export async function POST(req: Request) {
           );
         } else if (videoGeneration.fal_request_id) {
           await updateVideoGenerationByFalRequestId(request_id, unknownParams);
+        } else if (videoGeneration.veo3_request_id) {
+          await updateVideoGenerationByVeo3RequestId(request_id, unknownParams);
         }
 
         return respData({
@@ -324,7 +381,8 @@ export async function GET() {
     message: "Webhook 端点正常运行",
     endpoint: "/api/video-generation/webhook",
     supported_methods: ["POST"],
-    description: "处理来自 fal.ai 的视频生成状态回调",
+    description: "处理来自 fal.ai、Volcano Engine 和 KieAI 的视频生成状态回调",
     expected_statuses: ["IN_QUEUE", "IN_PROGRESS", "COMPLETED", "FAILED"],
+    supported_providers: ["fal.ai", "volcano", "kieai", "apicore"],
   });
 }

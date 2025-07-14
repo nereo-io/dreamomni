@@ -9,22 +9,36 @@ interface VideoGenerationParams {
   negative_prompt?: string;
   aspect_ratio?: string;
   duration?: string;
+  resolution?: string;
+  generate_audio?: boolean;
+  enable_prompt_enhancement?: boolean;
   cfg_scale?: number;
   seed?: number;
+}
+
+interface UserCreditsInfo {
+  remainingCredits: number;
+  deductedCredits: number;
 }
 
 interface VideoGenerationResult {
   id: string;
   requestId: string;
-  model: string;
+  model_id: string;
   status: string;
   prompt: string;
   optimized_prompt?: string;
   video_url?: string;
+  video_url_r2?: string;
+  video_url_fal?: string;
+  video_url_volcano?: string;
+  video_url_veo3?: string;
+  upsample_video_url_veo3?: string;
   error_message?: string;
   created_at?: string;
   aspect_ratio?: string;
   duration_seconds?: number;
+  userCredits?: UserCreditsInfo;
 }
 
 interface PollOptions {
@@ -83,6 +97,19 @@ export default function useVideoGeneration() {
     []
   );
 
+  // 更新当前生成状态
+  const updateCurrentGeneration = useCallback(
+    (updates: Partial<VideoGenerationResult>) => {
+      setCurrentGeneration((prev) => {
+        const updated = prev
+          ? { ...prev, ...updates }
+          : (updates as VideoGenerationResult);
+        return updated;
+      });
+    },
+    []
+  );
+
   // 轮询状态实现
   useEffect(() => {
     if (!isPolling || !pollingId) {
@@ -109,46 +136,50 @@ export default function useVideoGeneration() {
           return;
         }
 
-        setCurrentGeneration(status);
+        // 更新当前生成状态
+        updateCurrentGeneration({
+          ...status,
+          id: status.id || pollingId,
+        });
 
-        // 同时更新最近生成记录中对应的项
-        setRecentGenerations((prev) =>
-          prev.map((gen) =>
-            gen.id === pollingId ? { ...gen, ...status } : gen
-          )
-        );
-
-        // 检查是否完成
+        // 检查是否完成或失败
         if (status.status === "COMPLETED" || status.status === "SAVED_TO_R2") {
           setIsPolling(false);
           setPollingId(null);
-          pollAttemptsRef.current = 0;
           toast.success(t("toast.videoCompleted"));
           return;
-        } else if (status.status === "FAILED") {
+        }
+
+        if (status.status === "FAILED") {
           setIsPolling(false);
           setPollingId(null);
-          pollAttemptsRef.current = 0;
           toast.error(status.error_message || t("toast.videoFailed"));
           return;
-        } else {
-          // 继续轮询
-          pollTimeoutRef.current = setTimeout(pollFunction, 3000);
         }
+
+        // 继续轮询
       } catch (error) {
         console.error("轮询状态时出错:", error);
-        // 如果出错，继续尝试轮询
-        pollTimeoutRef.current = setTimeout(pollFunction, 5000); // 出错时延长间隔
+        if (pollAttemptsRef.current >= 5) {
+          setIsPolling(false);
+          setPollingId(null);
+          toast.error("状态查询失败，请重试");
+        }
       }
     };
 
-    // 开始轮询
-    pollTimeoutRef.current = setTimeout(pollFunction, 1000); // 首次轮询延迟1秒
+    // 立即执行一次
+    pollFunction();
 
-    return () => {
-      clearPollTimeout();
-    };
-  }, [isPolling, pollingId, checkStatus, clearPollTimeout]);
+    // 设置定时器
+    const timeoutId = setTimeout(() => {
+      pollFunction();
+    }, 3000);
+
+    pollTimeoutRef.current = timeoutId;
+
+    return () => clearTimeout(timeoutId);
+  }, [isPolling, pollingId, checkStatus, updateCurrentGeneration, t]);
 
   // 组件卸载时清理
   useEffect(() => {
@@ -178,59 +209,57 @@ export default function useVideoGeneration() {
           throw new Error(result.message || "提交失败");
         }
 
-        // 构建更新数据，保持现有的 created_at 不变
+        // 构建更新数据，包含积分信息
         const updates: Partial<VideoGenerationResult> = {
           id: result.data.id,
           requestId: result.data.requestId,
-          model: result.data.model,
-          status: result.data.metadata?.optimized_prompt ? "PROMPT_OPTIMIZING" : "IN_QUEUE",
-          optimized_prompt: result.data.metadata?.optimized_prompt,
+          model_id: params.model,
+          status: result.data.status || "submitted",
+          prompt: params.prompt,
+          optimized_prompt: result.data.optimized_prompt,
+          video_url: result.data.video_url,
+          error_message: undefined,
+          aspect_ratio: params.aspect_ratio,
+          duration_seconds: parseInt(params.duration || "5"),
+          userCredits: result.data.userCredits,
         };
 
-        // 如果当前没有生成记录，创建完整记录
-        if (!currentGeneration) {
+        // 如果是新的生成任务，创建完整记录
+        if (!currentGeneration || currentGeneration.id.startsWith("temp-")) {
           const newGeneration: VideoGenerationResult = {
             id: result.data.id,
             requestId: result.data.requestId,
-            model: result.data.model,
-            status: "submitted",
+            model_id: params.model,
+            status: result.data.status || "submitted",
             prompt: params.prompt,
+            optimized_prompt: result.data.optimized_prompt,
+            video_url: result.data.video_url,
+            error_message: undefined,
+            created_at: new Date().toISOString(),
             aspect_ratio: params.aspect_ratio,
             duration_seconds: parseInt(params.duration || "5"),
-            created_at: new Date().toISOString(),
-            optimized_prompt: result.data.metadata?.optimized_prompt,
+            userCredits: result.data.userCredits,
           };
           setCurrentGeneration(newGeneration);
         } else {
-          // 如果已有记录，只更新必要字段，保持 created_at 不变
-          setCurrentGeneration(prev => prev ? { ...prev, ...updates } : null);
+          // 更新现有记录
+          updateCurrentGeneration(updates);
         }
-        toast.success(t("toast.videoSubmitted"));
 
-        // 返回当前的生成记录
-        return currentGeneration ? { ...currentGeneration, ...updates } : {
-          id: result.data.id,
-          requestId: result.data.requestId,
-          model: result.data.model,
-          status: "submitted",
-          prompt: params.prompt,
-          aspect_ratio: params.aspect_ratio,
-          duration_seconds: parseInt(params.duration || "5"),
-          created_at: new Date().toISOString(),
-          optimized_prompt: result.data.metadata?.optimized_prompt,
-        };
+        toast.success(t("toast.videoSubmitted"));
+        return updates as VideoGenerationResult;
       } catch (error) {
-        console.error("提交视频生成失败:", error);
+        console.error("提交生成任务失败:", error);
         toast.error(error instanceof Error ? error.message : "提交失败");
         return null;
       } finally {
         setIsLoading(false);
       }
     },
-    [currentGeneration]
+    [currentGeneration, updateCurrentGeneration, t]
   );
 
-  // 轮询状态 - 简化版本，现在由useEffect管理
+  // 启动轮询
   const pollStatus = useCallback((id: string) => {
     setPollingId(id);
     setIsPolling(true);
@@ -274,39 +303,23 @@ export default function useVideoGeneration() {
     []
   );
 
-  // 清除当前生成
-  const clearCurrentGeneration = useCallback(() => {
-    setCurrentGeneration(null);
-  }, []);
-
-  // 清除所有生成记录
-  const clearAllGenerations = useCallback(() => {
-    setCurrentGeneration(null);
-    setRecentGenerations([]);
-  }, []);
-
-  // 更新当前生成记录
-  const updateCurrentGeneration = useCallback(
-    (updates: Partial<VideoGenerationResult>) => {
-      setCurrentGeneration((prev) => (prev ? { ...prev, ...updates } : updates as VideoGenerationResult));
-    },
-    []
-  );
-
   return {
+    // 状态
     isLoading,
     currentGeneration,
     recentGenerations,
     history,
     isLoadingHistory,
     isPolling,
+
+    // 操作
     submitGeneration,
-    checkStatus,
     pollStatus,
     stopPolling,
     fetchHistory,
-    clearCurrentGeneration,
-    clearAllGenerations,
     updateCurrentGeneration,
+    setHistory,
   };
 }
+
+export type { VideoGenerationParams, VideoGenerationResult };

@@ -127,6 +127,16 @@ export class KieAiVeo3Provider implements VideoProvider {
         requestBody.imageUrls = [input.image_url];
       }
 
+      // Add aspect ratio if provided
+      if (input.aspect_ratio) {
+        requestBody.aspectRatio = input.aspect_ratio;
+      }
+
+      // Add seed if provided
+      if (input.seed) {
+        requestBody.seeds = input.seed;
+      }
+
       // Add callback URL if provided
       if (webhookUrl) {
         requestBody.callBackUrl = webhookUrl;

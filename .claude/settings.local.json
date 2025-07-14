@@ -104,7 +104,16 @@
       "mcp__playwright__browser_snapshot",
       "mcp__playwright__browser_tab_list",
       "mcp__playwright__browser_type",
-      "WebFetch(domain:veo3.ai)"
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_close",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_close",
+      "Bash(alias claude-d)",
+      "Bash(python3:*)",
+      "mcp__playwright__browser_file_upload",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__browser_network_requests",
+      "mcp__playwright__browser_take_screenshot"
     ],
     "deny": []
   },
