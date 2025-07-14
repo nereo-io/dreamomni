@@ -28,7 +28,6 @@
       "Bash(pnpm ts:*)",
       "Bash(rg:*)",
       "Bash(pnpm dev:*)",
-      "Bash(grep:*)",
       "Bash(lsof:*)",
       "Bash(curl:*)",
       "Bash(node:*)",
@@ -105,10 +104,7 @@
       "mcp__playwright__browser_snapshot",
       "mcp__playwright__browser_tab_list",
       "mcp__playwright__browser_type",
-      "mcp__playwright__browser_snapshot",
-      "mcp__playwright__browser_close",
-      "mcp__playwright__browser_navigate",
-      "mcp__playwright__browser_close"
+      "WebFetch(domain:veo3.ai)"
     ],
     "deny": []
   },

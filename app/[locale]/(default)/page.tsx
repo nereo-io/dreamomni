@@ -35,8 +35,22 @@ export default async function LandingPage({
   return (
     <>
       {page.hero && <Hero hero={page.hero} />}
+
       <VideoGenerator placeholder="Describe the video you want to create, e.g., A cat playing in a sunny garden with natural lighting and fresh atmosphere..." />
       {/* <VideoFeatureShowcase data={videoFeatureShowcase} /> */}
+      <div className="border-t bg-muted/20">
+        <div className="max-w-7xl mx-auto px-8 py-6">
+          <div className="flex items-center justify-center gap-2">
+            <div className="h-1 w-1 rounded-full bg-muted-foreground/50"></div>
+            <p className="text-sm text-muted-foreground text-center font-medium">
+              This platform is an independent product and is not affiliated with
+              Google. We provide access to the VEO3 model through our custom
+              interface.
+            </p>
+            <div className="h-1 w-1 rounded-full bg-muted-foreground/50"></div>
+          </div>
+        </div>
+      </div>
       <ClaudeSonnetFeaturesBlock translations={claudeSonnetFeatures} />
 
       {page.faq && <FAQ section={page.faq} />}
