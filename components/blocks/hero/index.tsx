@@ -27,7 +27,7 @@ export default function Hero({ hero }: { hero: HeroType }) {
             {texts && texts.length > 1 ? (
               <h1 className="mx-auto mb-8 max-w-4xl text-balance text-4xl font-bold lg:text-7xl leading-tight">
                 {texts[0]}
-                <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
                   {highlightText}
                 </span>
                 {texts[1]}
@@ -46,7 +46,7 @@ export default function Hero({ hero }: { hero: HeroType }) {
               <Link href="/image-to-video" className="inline-block">
                 <Button
                   size="lg"
-                  className="px-8 py-4 text-lg font-semibold bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white transition-all duration-300 rounded-md shadow-xl border-0 transform hover:scale-105"
+                  className="px-8 py-4 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 rounded-md shadow-xl border-0 transform hover:scale-105"
                 >
                   <Icon name="RiPlayFill" className="mr-2 w-5 h-5" />
                   Start Creating Video

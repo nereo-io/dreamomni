@@ -269,7 +269,7 @@ export default function VideoHistoryPageClient() {
           size="lg"
           className="bg-blue-600 hover:bg-blue-700 text-white"
         >
-          <Link href="/home">{t("generateVideoButton")}</Link>
+          <Link href="/image-to-video">{t("generateVideoButton")}</Link>
         </Button>
       </div>
     );

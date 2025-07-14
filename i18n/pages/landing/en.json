@@ -13,12 +13,12 @@
     "nav": {
       "items": [
         {
-          "title": "Generate",
-          "url": "/#video-generator",
+          "title": "Generator",
+          "url": "/image-to-video",
           "icon": "RiVideoLine"
         },
         {
-          "title": "Histroy",
+          "title": "History",
           "url": "/history",
           "icon": "RiHistoryLine"
         },

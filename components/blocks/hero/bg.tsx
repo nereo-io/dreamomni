@@ -22,10 +22,10 @@ const VideoBackground = () => {
       </video>
 
       {/* 深色遮罩层，确保文字可读性 */}
-      <div className="absolute inset-0 bg-black/20 dark:bg-black/30"></div>
+      <div className="absolute inset-0 bg-black/50 dark:bg-black/60"></div>
 
       {/* 渐变遮罩，增强视觉效果和文字对比度 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/10 to-black/30"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/60"></div>
     </div>
   );
 };

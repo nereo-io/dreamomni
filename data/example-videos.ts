@@ -44,7 +44,7 @@ export const EXAMPLE_VIDEOS = {
       model_id: "veo3",
       status: "COMPLETED" as const,
       aspect_ratio: "16:9",
-      duration_seconds: 5,
+      duration_seconds: 7,
       resolution: "1080p",
       generate_audio: false,
       enable_prompt_enhancement: false,

@@ -256,6 +256,9 @@
     },
     "selectModel": "Select a model",
     "videoSettings": "Settings",
+    "ratio": "Ratio",
+    "duration": "Duration",
+    "resolution": "Resolution",
     "telegramBanner": {
       "text": "Join Telegram channel for AI video generation tips",
       "linkText": "Join"

@@ -57,5 +57,6 @@ export interface TextToVideoPage {
   faq: FAQ;
   cta: CTA;
   aiModelsHero: AIModelsHero;
+  aiVideoShowcase: AIVideoShowcase;
   creatorShowcase: CreatorShowcase;
 }

@@ -21,9 +21,9 @@ export async function generateMetadata({
   }
 
   return {
-    title: t("textToVideo.pages.title"),
-    description: t("textToVideo.pages.description"),
-    keywords: t("textToVideo.pages.keywords"),
+    title: t("pages.textToVideo.title"),
+    description: t("pages.textToVideo.description"),
+    keywords: t("pages.textToVideo.keywords"),
     alternates: {
       canonical: canonicalUrl,
     },
