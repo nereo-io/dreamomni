@@ -261,6 +261,10 @@
           "url": "/privacy-policy"
         },
         {
+          "title": "환불정책",
+          "url": "/refund-policy"
+        },
+        {
           "title": "이용약관",
           "url": "/terms-of-service"
         }

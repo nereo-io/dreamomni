@@ -9,13 +9,13 @@
         "sbp_d8cb238cec648806fbc240f3cbc11412e40707f4"
       ]
     },
-    "puppeteer": {
+    "context7": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
+      "args": ["-y", "@upstash/context7-mcp"]
     },
-    "Sentry": {
+    "playwright": {
       "command": "npx",
-      "args": ["mcp-remote@latest", "https://mcp.sentry.dev/sse"]
+      "args": ["@playwright/mcp@latest"]
     }
   }
 }

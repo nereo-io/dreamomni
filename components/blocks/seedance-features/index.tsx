@@ -113,7 +113,7 @@ export default function SeedanceFeaturesBlock({
   const { mainTitle, features } = translations;
 
   return (
-    <section className="py-12 md:py-16 lg:py-20 bg-gradient-to-b from-muted/30 via-background to-muted/20">
+    <section className="py-12 md:py-16 lg:py-20 bg-gradient-to-b from-black/20 via-background to-muted/20">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-foreground mb-10 md:mb-12 lg:mb-16">
           {mainTitle}

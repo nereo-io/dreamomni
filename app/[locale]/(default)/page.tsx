@@ -46,12 +46,22 @@ export default async function LandingPage({
     <>
       {page.hero && <Hero hero={page.hero} />}
       <VideoGenerator />
+      {/* <VideoFeatureShowcase data={videoFeatureShowcase} /> */}
+      <div className="max-w-7xl mx-auto px-8 py-6">
+        <div className="flex items-center justify-center gap-2">
+          <p className="text-sm text-muted-foreground text-center font-medium">
+            This platform is an independent product and is not affiliated with
+            Bytedance. We provide access to the Seedance model through our
+            custom interface.
+          </p>
+        </div>
+      </div>
       <SeedanceFeaturesBlock translations={seedanceFeatures} />
       {page.introduce && <Feature1 section={page.introduce} />}
       {page.feature && <Feature section={page.feature} />}
       {page.gettingStarted && <GettingStarted data={page.gettingStarted} />}
 
-      {page.testimonial && <Testimonial section={page.testimonial} />}
+      {/* {page.testimonial && <Testimonial section={page.testimonial} />} */}
 
       {page.faq && (
         <>
@@ -68,11 +78,19 @@ export default async function LandingPage({
           />
         </>
       )}
-      
+
       {/* There's An AI For That verification embed */}
       <div className="flex justify-center py-8">
-        <a href="https://theresanaiforthat.com/ai/seedance/?ref=featured&v=4601560" target="_blank" rel="nofollow">
-          <img width="300" src="https://media.theresanaiforthat.com/featured-on-taaft.png?width=600" alt="Featured on There's An AI For That" />
+        <a
+          href="https://theresanaiforthat.com/ai/seedance/?ref=featured&v=4601560"
+          target="_blank"
+          rel="nofollow"
+        >
+          <img
+            width="300"
+            src="https://media.theresanaiforthat.com/featured-on-taaft.png?width=600"
+            alt="Featured on There's An AI For That"
+          />
         </a>
       </div>
     </>
