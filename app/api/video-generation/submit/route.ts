@@ -244,8 +244,8 @@ export async function POST(req: Request) {
     }
 
     // 7. 提交任务到队列，包含webhook URL
-    // const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
-    const webhookUrl = `https://cb7d7fd27e71.ngrok-free.app/api/video-generation/webhook`;
+    const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
+    // const webhookUrl = `https://cb7d7fd27e71.ngrok-free.app/api/video-generation/webhook`;
 
     try {
       // 使用Provider Factory获取合适的provider
