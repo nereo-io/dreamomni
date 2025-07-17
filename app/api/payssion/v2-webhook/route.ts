@@ -81,7 +81,8 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // 移除详细数据日志，只在需要时输出
+    // 添加详细的调试日志
+    console.log(`🔍 Webhook payload preview: ${payload.substring(0, 200)}...`);
 
     // 使用支付路由器处理 V2 订阅 webhook
     const paymentRouter = getPaymentRouter();
@@ -99,33 +100,52 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // 立即返回 200 给 Payssion，避免超时重发
-    const response = new Response("OK", {
-      status: 200,
-      headers: {
-        "Content-Type": "text/plain",
-      },
-    });
-
-    // 异步处理 webhook 业务逻辑
-    setImmediate(async () => {
-      try {
-        const result = await payssionProvider.handleSubscriptionWebhook!(data);
-        if (result.success) {
-          console.log(`✅ ${eventType} processed`);
-        } else {
-          console.error(`❌ ${eventType} failed:`, result.error);
-        }
-      } catch (error: any) {
-        console.error(
-          "❌ Async webhook processing failed:",
-          error,
-          `eventType: ${eventType}`
-        );
+    // 同步处理 webhook 业务逻辑，确保错误能被正确捕获和响应
+    console.log(`🚀 Starting webhook processing for ${eventType}`);
+    
+    try {
+      const result = await payssionProvider.handleSubscriptionWebhook!(data);
+      
+      if (result.success) {
+        console.log(`✅ ${eventType} processed successfully`);
+        console.log(`🎉 Processing result:`, {
+          subscriptionId: result.subscriptionId,
+          mandateId: result.mandateId,
+          eventType: result.eventType
+        });
+        
+        return new Response("Webhook processed successfully", {
+          status: 200,
+          headers: {
+            "Content-Type": "text/plain",
+          },
+        });
+      } else {
+        console.error(`❌ ${eventType} processing failed:`, result.error);
+        
+        // 返回 500 让 Payssion 重试
+        return new Response(`Webhook processing failed: ${result.error}`, {
+          status: 500,
+          headers: {
+            "Content-Type": "text/plain",
+          },
+        });
       }
-    });
-
-    return response;
+    } catch (processingError: any) {
+      console.error(
+        `❌ Webhook processing error for ${eventType}:`,
+        processingError
+      );
+      console.error("Error stack:", processingError.stack);
+      
+      // 返回 500 让 Payssion 重试
+      return new Response(`Webhook processing error: ${processingError.message}`, {
+        status: 500,
+        headers: {
+          "Content-Type": "text/plain",
+        },
+      });
+    }
   } catch (error: any) {
     console.error("❌ Webhook processing error:", error);
 

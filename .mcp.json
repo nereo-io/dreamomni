@@ -16,6 +16,10 @@
     "playwright": {
       "command": "npx",
       "args": ["@playwright/mcp@latest"]
+    },
+    "github-chat": {
+      "command": "uvx",
+      "args": ["github-chat-mcp"]
     }
   }
 }

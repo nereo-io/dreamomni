@@ -431,6 +431,8 @@ export class PayssionProvider extends BasePaymentProvider {
     const amount = parseFloat(data.object?.amount);
     const metadata = data.object?.metadata;
 
+    console.log(`💰 Payment succeeded: ${metadata?.order_no} ($${amount})`);
+
     const alreadyProcessed =
       await PaymentProcessingService.checkPaymentAlreadyProcessed(
         metadata.order_no,
@@ -438,7 +440,7 @@ export class PayssionProvider extends BasePaymentProvider {
       );
 
     if (alreadyProcessed) {
-      console.log("Payment already processed:", subscriptionId);
+      console.log("⚠️ Payment already processed:", subscriptionId);
       return;
     }
 
@@ -449,9 +451,7 @@ export class PayssionProvider extends BasePaymentProvider {
 
     if (subscription && subscription.status === "pending") {
       await updateSubscriptionStatus(subscriptionId, "active");
-      console.log(
-        `✅ Subscription ${subscriptionId} activated (pending → active)`
-      );
+      console.log(`✅ Subscription ${subscriptionId} activated`);
     }
 
     // 2. 处理支付并发放积分
@@ -465,6 +465,7 @@ export class PayssionProvider extends BasePaymentProvider {
     });
 
     if (!processingResult.success) {
+      console.error(`❌ Payment processing failed: ${processingResult.error}`);
       throw new PaymentError(
         "BUSINESS_LOGIC_ERROR",
         `Failed to process payment: ${processingResult.error}`,
@@ -472,12 +473,7 @@ export class PayssionProvider extends BasePaymentProvider {
       );
     }
 
-    console.log(
-      "Payment processed successfully:",
-      subscriptionId,
-      "credits:",
-      processingResult.creditsAwarded
-    );
+    console.log(`✅ Payment completed: ${processingResult.creditsAwarded} credits awarded`);
   }
 
   /**

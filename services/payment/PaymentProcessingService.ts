@@ -22,6 +22,8 @@ export class PaymentProcessingService {
    * 处理支付成功 - 复用 order.ts 逻辑
    */
   static async processPayment(data: PaymentData): Promise<PaymentProcessingResult> {
+    console.log(`🔄 Processing payment: ${data.paymentId} (${data.userEmail})`);
+    
     try {
       // 1. 幂等性检查
       const isProcessed = await this.checkPaymentAlreadyProcessed(data.paymentId, data.userUuid);
@@ -44,6 +46,7 @@ export class PaymentProcessingService {
         membershipUpdated: !!config?.membershipType 
       };
     } catch (error: any) {
+      console.error(`❌ Payment processing failed for ${data.paymentId}:`, error.message);
       return { success: false, error: error.message };
     }
   }
