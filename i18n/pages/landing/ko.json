@@ -14,7 +14,7 @@
       "items": [
         {
           "title": "생성",
-          "url": "/#video-generator",
+          "url": "/image-to-video",
           "icon": "RiVideoLine"
         },
         {

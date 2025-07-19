@@ -264,7 +264,7 @@ export function VideoSettings({
               <div
                 className={`w-4 h-4 rounded-full border-2 mr-2 ${
                   selectedRatio === ratio
-                    ? "border-purple-500 bg-purple-500"
+                    ? "border-primary bg-primary"
                     : "border-gray-500"
                 }`}
               >
@@ -299,7 +299,7 @@ export function VideoSettings({
                 <div
                   className={`w-4 h-4 rounded-full border-2 mr-2 ${
                     selectedDuration === `${duration}s`
-                      ? "border-purple-500 bg-purple-500"
+                      ? "border-primary bg-primary"
                       : "border-gray-500"
                   }`}
                 >
@@ -335,7 +335,7 @@ export function VideoSettings({
                 <div
                   className={`w-4 h-4 rounded-full border-2 mr-2 ${
                     selectedResolution === resolution
-                      ? "border-purple-500 bg-purple-500"
+                      ? "border-primary bg-primary"
                       : "border-gray-500"
                   }`}
                 >

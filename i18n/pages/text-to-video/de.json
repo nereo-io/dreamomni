@@ -38,7 +38,7 @@
       {
         "id": "best-text-to-video-generator",
         "question": "Was ist der beste Text-zu-Video-KI-Generator?",
-        "answer": "Veo3 AI bietet einen der fortschrittlichsten Text-zu-Video-Generatoren mit außergewöhnlicher Ausgabequalität, realistischen Bewegungen und anspruchsvollem Szenenverständnis. Unsere KI-Modelle werden mit vielfältigen Datensätzen trainiert, um filmreife, professionelle Videos zu erstellen."
+        "answer": "Seedance bietet einen der fortschrittlichsten Text-zu-Video-Generatoren mit außergewöhnlicher Ausgabequalität, realistischen Bewegungen und anspruchsvollem Szenenverständnis. Unsere KI-Modelle werden mit vielfältigen Datensätzen trainiert, um filmreife, professionelle Videos zu erstellen."
       },
       {
         "id": "how-does-text-to-video-work",
@@ -52,8 +52,8 @@
       },
       {
         "id": "is-text-to-video-free",
-        "question": "Ist Veo3 AIs Text-zu-Video-Generator kostenlos?",
-        "answer": "Veo3 AI bietet sowohl kostenlose als auch Premium-Optionen. Neue Benutzer erhalten kostenlose Credits, um den Service zu erkunden. Für regelmäßige Nutzung bieten wir erschwingliche Abonnementpläne mit mehr Credits und erweiterten Funktionen wie höheren Auflösungen und längeren Videodauern."
+        "question": "Ist Seedances Text-zu-Video-Generator kostenlos?",
+        "answer": "Seedance bietet sowohl kostenlose als auch Premium-Optionen. Neue Benutzer erhalten kostenlose Credits, um den Service zu erkunden. Für regelmäßige Nutzung bieten wir erschwingliche Abonnementpläne mit mehr Credits und erweiterten Funktionen wie höheren Auflösungen und längeren Videodauern."
       }
     ]
   },
@@ -64,7 +64,7 @@
   },
   "aiModelsHero": {
     "title": "All-in-One KI-Text-zu-Video-Generator",
-    "description": "Veo3 AI ist der ultimative, All-in-One KI-Text-zu-Video-Generator. Wir bieten Zugang zu branchenführenden Videomodellen einschließlich Veo3 und Seedance, alles an einem einzigen Ort. Probieren Sie sie nahtlos aus und erstellen Sie atemberaubende Visuals, ohne zwischen mehreren Plattformen zu wechseln!",
+    "description": "Seedance ist der ultimative, All-in-One KI-Text-zu-Video-Generator. Wir bieten Zugang zu branchenführenden Videomodellen einschließlich Veo3 und Seedance, alles an einem einzigen Ort. Probieren Sie sie nahtlos aus und erstellen Sie atemberaubende Visuals, ohne zwischen mehreren Plattformen zu wechseln!",
     "models": [
       {
         "id": "veo3",

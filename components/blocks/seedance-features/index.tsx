@@ -2,23 +2,24 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ClaudeSonnetFeaturesBlockTranslations } from "@/types/blocks/claude-sonnet-features";
+import { SeedanceFeaturesBlockTranslations } from "@/types/blocks/seedance-features";
 import { cn } from "@/lib/utils";
 import { Play, Pause, Volume2, VolumeX } from "lucide-react";
 
-interface ClaudeSonnetFeaturesBlockProps {
-  translations: ClaudeSonnetFeaturesBlockTranslations;
+interface SeedanceFeaturesBlockProps {
+  translations: SeedanceFeaturesBlockTranslations;
 }
 
 // Video mapping for each feature
 const videoMapping: Record<string, string> = {
-  "greater-realism": `https://r2.veo3ai.io/intro/quality.mp4`,
-  "prompt-following": `https://r2.veo3ai.io/intro/prompt.mp4`,
-  "creative-control": `https://r2.veo3ai.io/intro/cretive.mp4`,
-  "motion-master": `https://r2.veo3ai.io/intro/motion.mp4`,
-  "native-audio": `https://r2.veo3ai.io/intro/audio.mp4`,
-  "best-in-class": `https://r2.veo3ai.io/intro/sound.mp4`,
+  "1080p-quality": "https://r2.seedance.tv/intro/professional-1080.mp4",
+  "multi-shot-storytelling": "https://r2.seedance.tv/intro/storytelling.mp4",
+  "style-versatility": "https://r2.seedance.tv/intro/versatility.mp4",
+  "complex-prompts": "https://r2.seedance.tv/intro/prompt-understanding.mp4",
+  "multi-agent-control": "https://r2.seedance.tv/intro/camera.mp4",
+  "wide-dynamic-range": "https://r2.seedance.tv/intro/dynamic-range.mp4",
 };
+
 
 interface VideoPlayerProps {
   videoSrc: string;
@@ -107,13 +108,13 @@ function VideoPlayer({ videoSrc }: VideoPlayerProps) {
   );
 }
 
-export default function ClaudeSonnetFeaturesBlock({
+export default function SeedanceFeaturesBlock({
   translations,
-}: ClaudeSonnetFeaturesBlockProps) {
+}: SeedanceFeaturesBlockProps) {
   const { mainTitle, features } = translations;
 
   return (
-    <section className="py-12 md:py-16 lg:py-20 bg-gradient-to-b from-muted/30 via-background to-muted/20">
+    <section className="py-12 md:py-16 lg:py-20 bg-gradient-to-b from-black/20 via-background to-muted/20">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-foreground mb-10 md:mb-12 lg:mb-16">
           {mainTitle}

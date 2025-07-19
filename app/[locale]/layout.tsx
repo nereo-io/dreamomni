@@ -4,7 +4,8 @@ import "@/app/globals.css";
 import { getMessages, getTranslations } from "next-intl/server";
 
 import { AppContextProvider } from "@/contexts/app";
-import { Outfit, Source_Serif_4 as FontSerif } from "next/font/google";
+import { Source_Code_Pro as FontSans } from "next/font/google";
+import { Source_Serif_4 as FontSerif } from "next/font/google";
 import { Metadata } from "next";
 import { NextAuthSessionProvider } from "@/auth/session";
 import { NextIntlClientProvider } from "next-intl";
@@ -14,10 +15,9 @@ import StructuredData from "@/components/seo/structured-data";
 // import { SpeedInsights } from '@vercel/speed-insights/next';
 // import { Analytics } from "@vercel/analytics/react";
 
-const fontSans = Outfit({
+const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 const fontSerif = FontSerif({

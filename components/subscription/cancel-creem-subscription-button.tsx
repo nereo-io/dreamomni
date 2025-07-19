@@ -60,14 +60,14 @@ export function CancelCreemSubscriptionButton({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="sm" disabled={isLoading}>
+        <Button variant="ghost" size="sm" disabled={isLoading} className="text-gray-400 hover:text-gray-300 hover:bg-gray-800/50">
           {isLoading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Canceling...
             </>
           ) : (
-            "Cancel Subscription"
+            "Cancel"
           )}
         </Button>
       </AlertDialogTrigger>

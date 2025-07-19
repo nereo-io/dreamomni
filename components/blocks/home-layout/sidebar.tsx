@@ -80,10 +80,10 @@ export function Sidebar() {
           >
             <img
               src="/logo.png"
-              alt="Veo3"
+              alt="Seedance"
               className="w-8 h-8"
             />
-            {!isCollapsed && <span className="text-xl font-bold">Veo3</span>}
+            {!isCollapsed && <span className="text-xl font-bold">Seedance</span>}
           </div>
           {!isCollapsed && (
             <div className="flex items-center space-x-2">

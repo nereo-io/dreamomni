@@ -38,7 +38,7 @@
       {
         "id": "best-text-to-video-generator",
         "question": "What is the best text to video AI generator?",
-        "answer": "Veo3 AI offers one of the most advanced text to video generators with exceptional output quality, realistic motion, and sophisticated scene understanding. Our AI models are trained on diverse datasets to create cinematic, professional-grade videos."
+        "answer": "Seedance offers one of the most advanced text to video generators with exceptional output quality, realistic motion, and sophisticated scene understanding. Our AI models are trained on diverse datasets to create cinematic, professional-grade videos."
       },
       {
         "id": "how-does-text-to-video-work",
@@ -52,8 +52,8 @@
       },
       {
         "id": "is-text-to-video-free",
-        "question": "Is Veo3 AI's text to video generator free?",
-        "answer": "Veo3 AI offers both free and premium options. New users receive free credits to explore the service. For regular use, we provide affordable subscription plans with more credits and advanced features like higher resolutions and longer video durations."
+        "question": "Is Seedance's text to video generator free?",
+        "answer": "Seedance offers both free and premium options. New users receive free credits to explore the service. For regular use, we provide affordable subscription plans with more credits and advanced features like higher resolutions and longer video durations."
       }
     ]
   },
@@ -64,7 +64,7 @@
   },
   "aiModelsHero": {
     "title": "All-in-One AI Text to Video Generator",
-    "description": "Veo3 AI is the ultimate, all-in-one AI text to video generator. We offer access to industry-leading video models including Veo3 and Seedance, all in one single place. Try them seamlessly and create stunning visuals without juggling multiple platforms!",
+    "description": "Seedance is the ultimate, all-in-one AI text to video generator. We offer access to industry-leading video models including Veo3 and Seedance, all in one single place. Try them seamlessly and create stunning visuals without juggling multiple platforms!",
     "models": [
       {
         "id": "veo3",

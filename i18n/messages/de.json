@@ -1,13 +1,13 @@
 {
   "metadata": {
-    "title": "Veo3 AI - Kostenloser AI Video Generator",
+    "title": "Seedance - Kostenloser AI Video Generator",
     "description": "Erstellen Sie atemberaubende 4K-Videos mit AI. Erstellen Sie professionelle Videos aus Textanweisungen mit realistischer Physik und nativem Audio. Heute kostenlos starten.",
-    "keywords": "Veo3 AI, AI Video Generator, Kostenlose Videoerstellung, Text zu Video, 4K Videos, AI Filmemachen"
+    "keywords": "Seedance, AI Video Generator, Kostenlose Videoerstellung, Text zu Video, 4K Videos, AI Filmemachen"
   },
   "pricing": {
-    "title": "Video Pläne | Veo3 AI Preise",
-    "description": "Wählen Sie Ihren AI Video Plan. Erhalten Sie 4K-Ausgabe, unbegrenzte Generierungen, erweiterte Kontrollen und prioritären Support mit Veo3 AI.",
-    "keywords": "Veo3 AI Preise, Video-Generierungspläne, 4K Videos, AI Video Abonnement"
+    "title": "Video Pläne | Seedance Preise",
+    "description": "Wählen Sie Ihren AI Video Plan. Erhalten Sie 4K-Ausgabe, unbegrenzte Generierungen, erweiterte Kontrollen und prioritären Support mit Seedance.",
+    "keywords": "Seedance Preise, Video-Generierungspläne, 4K Videos, AI Video Abonnement"
   },
   "history": {
     "title": "Video-Generierungs-Verlauf",
@@ -143,15 +143,15 @@
   },
   "blog": {
     "title": "Blog",
-    "description": "Neuigkeiten, Ressourcen und Updates über Veo3 AI Video-Generierung",
+    "description": "Neuigkeiten, Ressourcen und Updates über Seedance Video-Generierung",
     "read_more_text": "Mehr lesen"
   },
   "chat": {
-    "title": "Neue Generation - Veo3 AI Video Plattform",
-    "description": "Beginnen Sie mit der Erstellung professioneller Videos mit Veo3 AI für verbesserte visuelle Inhalte, 4K-Generierung und kreatives Storytelling"
+    "title": "Neue Generation - Seedance Video Plattform",
+    "description": "Beginnen Sie mit der Erstellung professioneller Videos mit Seedance für verbesserte visuelle Inhalte, 4K-Generierung und kreatives Storytelling"
   },
   "survey_banner": {
-    "message": "👋 Schnelles Feedback benötigt - helfen Sie, Veo3 AI zu gestalten!",
+    "message": "👋 Schnelles Feedback benötigt - helfen Sie, Seedance zu gestalten!",
     "close": "Schließen"
   },
   "credit_exhausted_modal": {
@@ -201,16 +201,16 @@
     "update_invite_code": "Einladungscode festlegen",
     "update_invite_code_tip": "Geben Sie Ihren benutzerdefinierten Einladungscode ein",
     "update_invite_button": "Speichern",
-    "no_orders": "Sie können andere nicht einladen, bevor Sie Veo3 AI Premium gekauft haben",
+    "no_orders": "Sie können andere nicht einladen, bevor Sie Seedance Premium gekauft haben",
     "no_affiliates": "Sie dürfen andere nicht einladen, bitte kontaktieren Sie uns für eine Berechtigung.",
     "invite_templates": "Einladungsvorlagen",
     "copy": "Kopieren",
     "template1_title": "🎬 AI Video-Erstellung",
     "template2_title": "🚀 Content-Erstellung",
     "template3_title": "💼 Professionelle Videos",
-    "template1": "Hallo Freunde! Ich habe gerade Veo3 AI entdeckt — den fortschrittlichsten AI Video Generator, der atemberaubende Videos aus Textanweisungen erstellt. Die Qualität ist absolut umwerfend! Perfekt für soziale Medien, Marketing oder kreative Projekte. Sie erhalten kostenlose Credits bei der Anmeldung!\n👉 Probieren Sie Veo3 AI jetzt aus",
-    "template2": "Möchten Sie erstaunliche Videos ohne Filmen erstellen? Veo3 AI generiert professionelle Videos aus einfachen Textbeschreibungen. Ich verwende es für meine Content-Erstellung und die Ergebnisse sind unglaublich — spart so viel Zeit und Geld! Starten Sie mit kostenlosen Credits.\n🚀 Entdecken Sie Veo3 AI hier",
-    "template3": "Benötigen Sie professionelle Videos für Ihr Unternehmen? Veo3 AI erstellt hochwertige Werbevideos, Produktdemos und Marketing-Inhalte mit fortschrittlicher AI. Keine Kameras, keine Bearbeitungsfähigkeiten erforderlich — beschreiben Sie einfach, was Sie möchten! Probieren Sie es mit kostenlosen Credits.\n💼 Erkunden Sie Veo3 AI jetzt",
+    "template1": "Hallo Freunde! Ich habe gerade Seedance entdeckt — den fortschrittlichsten AI Video Generator, der atemberaubende Videos aus Textanweisungen erstellt. Die Qualität ist absolut umwerfend! Perfekt für soziale Medien, Marketing oder kreative Projekte. Sie erhalten kostenlose Credits bei der Anmeldung!\n👉 Probieren Sie Seedance jetzt aus",
+    "template2": "Möchten Sie erstaunliche Videos ohne Filmen erstellen? Seedance generiert professionelle Videos aus einfachen Textbeschreibungen. Ich verwende es für meine Content-Erstellung und die Ergebnisse sind unglaublich — spart so viel Zeit und Geld! Starten Sie mit kostenlosen Credits.\n🚀 Entdecken Sie Seedance hier",
+    "template3": "Benötigen Sie professionelle Videos für Ihr Unternehmen? Seedance erstellt hochwertige Werbevideos, Produktdemos und Marketing-Inhalte mit fortschrittlicher AI. Keine Kameras, keine Bearbeitungsfähigkeiten erforderlich — beschreiben Sie einfach, was Sie möchten! Probieren Sie es mit kostenlosen Credits.\n💼 Erkunden Sie Seedance jetzt",
     "table": {
       "invite_time": "Einladungszeit",
       "invite_user": "Eingeladener Benutzer",
@@ -351,23 +351,23 @@
   },
   "pages": {
     "home": {
-      "title": "Willkommen bei Veo3 AI",
+      "title": "Willkommen bei Seedance",
       "description": "Verwandeln Sie Ihre Ideen mit unserer fortschrittlichen AI-Technologie in atemberaubende Videos. Wählen Sie zwischen Text-zu-Video, Bild-zu-Video oder erkunden Sie unsere kreativen Video-Effekte."
     },
     "textToVideo": {
-      "title": "Kostenloser AI Video Generator: Text zu Video AI Online | Veo3 AI",
-      "description": "Entdecken Sie den Veo3 AI Video Generator, eine hochmoderne, kostenlose Lösung, die mühelos eine Textanweisung in ein ansprechendes Video verwandelt. Probieren Sie noch heute unsere Text-zu-Video AI!",
-      "keywords": "AI Video Generator, Text zu Video, kostenloser Video Generator, Veo3 AI, AI Video-Erstellung, Text zu Video online"
+      "title": "Kostenloser AI Video Generator: Text zu Video AI Online",
+      "description": "Entdecken Sie den Seedance Video Generator, eine hochmoderne, kostenlose Lösung, die mühelos eine Textanweisung in ein ansprechendes Video verwandelt. Probieren Sie noch heute unsere Text-zu-Video AI!",
+      "keywords": "AI Video Generator, Text zu Video, kostenloser Video Generator, Seedance, AI Video-Erstellung, Text zu Video online"
     },
     "imageToVideo": {
-      "title": "Kostenloser Bild zu Video AI Generator: Fotos zu Videos verwandeln | Veo3 AI",
-      "description": "Verwenden Sie den Bild-zu-Video AI Generator von Veo3 AI kostenlos. Konvertieren Sie Fotos zu Videos mit hochwertigen und fesselnden Ergebnissen. Probieren Sie jetzt unsere Bild-zu-Video AI!",
-      "keywords": "Bild zu Video AI, Foto zu Video Konverter, kostenloses Bild zu Video, Veo3 AI, AI Video aus Bild, Bild-Animation"
+      "title": "Kostenloser Bild zu Video AI Generator: Fotos zu Videos verwandeln",
+      "description": "Verwenden Sie den Bild-zu-Video AI Generator von Seedance kostenlos. Konvertieren Sie Fotos zu Videos mit hochwertigen und fesselnden Ergebnissen. Probieren Sie jetzt unsere Bild-zu-Video AI!",
+      "keywords": "Bild zu Video AI, Foto zu Video Konverter, kostenloses Bild zu Video, Seedance, AI Video aus Bild, Bild-Animation"
     },
     "videoAffects": {
       "heroSection": {
         "title": "Jeden muskulös machen",
-        "description": "Probieren Sie Veo3 AIs leistungsstarken AI Muskel-Generator! Laden Sie ein Bild von jedem hoch und generieren Sie ein atemberaubendes Video, das eine aufgepumpte, muskulöse Version des Subjekts zeigt.",
+        "description": "Probieren Sie Seedances leistungsstarken AI Muskel-Generator! Laden Sie ein Bild von jedem hoch und generieren Sie ein atemberaubendes Video, das eine aufgepumpte, muskulöse Version des Subjekts zeigt.",
         "buttonText": "Kostenlos ausprobieren"
       },
       "effectsTitle": "AI Video-Effekte & Vorlagen",

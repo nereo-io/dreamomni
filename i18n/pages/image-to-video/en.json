@@ -11,22 +11,22 @@
       {
         "id": "best-image-to-video-generator",
         "question": "What is the best image to video AI generator?",
-        "answer": "Veo3 AI offers one of the most advanced image to video generators with high-quality output, realistic motion, and support for various image formats. Our AI models are trained on millions of videos to ensure natural-looking animations and smooth transitions."
+        "answer": "Seedance offers one of the most advanced image to video generators with high-quality output, realistic motion, and support for various image formats. Our AI models are trained on millions of videos to ensure natural-looking animations and smooth transitions."
       },
       {
         "id": "what-makes-us-stand-out",
-        "question": "What makes Veo3 AI's image to video generator stand out?",
+        "question": "What makes Seedance's image to video generator stand out?",
         "answer": "Our generator stands out with its advanced AI models, high-resolution output up to 1080p, natural motion physics, and ability to understand complex prompts. We also offer fast processing times, commercial usage rights, and support for diverse image styles."
       },
       {
         "id": "what-images-can-work-with",
-        "question": "What types of images work best with Veo3 AI?",
-        "answer": "Veo3 AI works with most image formats including JPG, PNG, and WEBP. We support photos of people, animals, landscapes, objects, and artwork. For best results, use high-quality images with clear subjects and good lighting."
+        "question": "What types of images work best with Seedance?",
+        "answer": "Seedance works with most image formats including JPG, PNG, and WEBP. We support photos of people, animals, landscapes, objects, and artwork. For best results, use high-quality images with clear subjects and good lighting."
       },
       {
         "id": "is-image-to-video-free",
-        "question": "Is Veo3 AI's image to video generator free?",
-        "answer": "Veo3 AI offers both free and premium options. New users get free credits to try the service. For regular use, we offer affordable subscription plans with more credits and advanced features like higher resolutions and longer videos."
+        "question": "Is Seedance's image to video generator free?",
+        "answer": "Seedance offers both free and premium options. New users get free credits to try the service. For regular use, we offer affordable subscription plans with more credits and advanced features like higher resolutions and longer videos."
       }
     ]
   },
@@ -37,7 +37,7 @@
   },
   "aiModelsHero": {
     "title": "All-in-One AI Image to Video Generator",
-    "description": "Veo3 AI is the ultimate, all-in-one AI image to video generator. We offer access to industry-leading video models including Veo3 and Seedance, all in one single place. Try them seamlessly and create stunning visuals without juggling multiple platforms!",
+    "description": "Seedance is the ultimate, all-in-one AI image to video generator. We offer access to industry-leading video models including Veo3 and Seedance, all in one single place. Try them seamlessly and create stunning visuals without juggling multiple platforms!",
     "models": [
       {
         "id": "veo3",
@@ -54,7 +54,7 @@
   },
   "imageToVideoShowcase": {
     "title": "Animate Your Images with Our Image to Video AI Generator",
-    "description": "Turn any static image into a vivid story with Veo3 AI! Generate creative videos from your uploaded photos with our smart AI image to video generator. Whether it's a realistic scene or animation you want to create, Veo3 AI can produce it quickly, and the way you want.",
+    "description": "Turn any static image into a vivid story with Seedance! Generate creative videos from your uploaded photos with our smart AI image to video generator. Whether it's a realistic scene or animation you want to create, Seedance can produce it quickly, and the way you want.",
     "labels": {
       "originalImage": "Original image",
       "prompt": "Prompt",

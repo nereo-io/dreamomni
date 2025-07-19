@@ -27,6 +27,7 @@ export interface VideoGenerationStatus {
   logs?: any[];
   metrics?: any;
   error?: string;
+  error_message?: string; // 错误信息
   progress?: number;
   queue_position?: number;
   [key: string]: any;

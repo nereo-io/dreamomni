@@ -166,12 +166,60 @@ export class VideoStatusService {
       updateParams.metrics = providerStatus.metrics;
     }
 
+    // 如果有错误信息，更新 error_message
+    if (providerStatus.error_message) {
+      updateParams.error_message = providerStatus.error_message;
+    }
+
     // 如果任务完成，尝试获取结果
     if (providerStatus.status.toLowerCase() === "completed") {
       await this.handleCompletedStatus(updateParams, modelConfig, videoGeneration, requestId);
     }
 
+    // 如果任务失败，记录详细错误信息
+    if (providerStatus.status.toLowerCase() === "failed") {
+      await this.handleFailedStatus(updateParams, providerStatus);
+    }
+
     return updateParams;
+  }
+
+  /**
+   * 处理失败状态
+   */
+  private static async handleFailedStatus(
+    updateParams: any,
+    providerStatus: any
+  ): Promise<void> {
+    console.log("处理失败状态，提取错误信息");
+    
+    // 从 raw_data 中提取更详细的错误信息
+    if (providerStatus.raw_data) {
+      const rawData = providerStatus.raw_data;
+      
+      // 优先使用 errorMessage，然后是 errorCode
+      if (rawData.errorMessage) {
+        updateParams.error_message = rawData.errorMessage;
+      } else if (rawData.errorCode) {
+        updateParams.error_message = `错误代码: ${rawData.errorCode}`;
+      }
+      
+      // 如果有额外的错误详情，添加到 logs 中
+      if (rawData.errorCode || rawData.errorMessage) {
+        const errorLog = {
+          timestamp: new Date().toISOString(),
+          level: "ERROR",
+          message: rawData.errorMessage || `Error code: ${rawData.errorCode}`,
+          errorCode: rawData.errorCode,
+          provider: "KieAI"
+        };
+        
+        updateParams.logs = updateParams.logs || [];
+        updateParams.logs.push(errorLog);
+      }
+    }
+    
+    console.log("失败状态处理完成，错误信息:", updateParams.error_message);
   }
 
   /**

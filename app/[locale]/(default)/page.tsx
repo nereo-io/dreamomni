@@ -1,15 +1,19 @@
 import FAQ from "@/components/blocks/faq";
 import Hero from "@/components/blocks/hero";
+import Testimonial from "@/components/blocks/testimonial";
 import VideoGenerator from "@/components/blocks/video-generator";
 import SeedanceFeaturesBlock from "@/components/blocks/seedance-features";
+import VideoFeatureShowcase from "@/components/blocks/video-feature-showcase";
 import GettingStarted from "@/components/blocks/getting-started";
 import StructuredData from "@/components/seo/structured-data";
 import Feature1 from "@/components/blocks/feature1";
 import Feature from "@/components/blocks/feature";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 
-import { getLandingPage, getClaudeSonnetFeaturesBlock } from "@/services/page";
+import {
+  getLandingPage,
+  getSeedanceFeaturesBlock,
+  getVideoFeatureShowcaseBlock,
+} from "@/services/page";
 
 export async function generateMetadata({
   params: { locale },
@@ -34,16 +38,8 @@ export default async function LandingPage({
 }: {
   params: { locale: string };
 }) {
-  // 在服务器端检查认证状态
-  const session = await auth();
-
-  // 如果已登录，直接重定向到/image-to-video
-  if (session) {
-    redirect("/image-to-video");
-  }
-
   const page = await getLandingPage(locale);
-  const claudeSonnetFeatures = await getClaudeSonnetFeaturesBlock(locale);
+  const seedanceFeatures = await getSeedanceFeaturesBlock(locale);
 
   return (
     <>
@@ -58,7 +54,7 @@ export default async function LandingPage({
           </p>
         </div>
       </div>
-      <SeedanceFeaturesBlock translations={claudeSonnetFeatures} />
+      <SeedanceFeaturesBlock translations={seedanceFeatures} />
       {page.introduce && <Feature1 section={page.introduce} />}
       {page.feature && <Feature section={page.feature} />}
       {page.gettingStarted && <GettingStarted data={page.gettingStarted} />}

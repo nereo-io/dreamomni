@@ -13,11 +13,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Complex Prompt Understanding**: Precisely interprets natural language instructions for creative control
 - **Multi-agent Interactions**: Controls character interactions and camera movements
 
-**Important Note**: Despite the "veo3" name referencing Google's Veo model, the current video generation system supports multiple providers including Volcano Engine (Seedance), APICore (Veo3), and fal.ai integration.
+**Important Note**: The platform has been rebranded from "Veo3 AI" to "Seedance". The video generation system supports multiple providers including Volcano Engine (Seedance), APICore (Veo3), fal.ai, and KieAi integration.
 
 **计费逻辑**: 0.25 美金等于 10 个积分
 
-**Language Note**: 该项目所有的前端展示语言为英文。不需要支持中文语言。Supabase 的数据库项目名称为 Seedance
+**Language Support**: The project supports 5 languages: English (en), German (de), Japanese (ja), Korean (ko), and Russian (ru). All i18n files use "Seedance" as the product name. Supabase database project name is Seedance.
 
 ## Key Development Commands
 
@@ -121,9 +121,11 @@ pnpm clean:cache          # Remove .next and node_modules/.cache
 
 #### 国际化支持
 
-- **消息文件**: 新增页面文案添加到 `i18n/messages/en.json`
+- **支持语言**: 英语(en)、德语(de)、日语(ja)、韩语(ko)、俄语(ru)
+- **消息文件**: 新增页面文案添加到 `i18n/messages/en.json`，其他语言文件会同步更新
 - **页面内容**: 复杂页面内容可创建 `i18n/pages/` 对应文件
 - **组件文案**: 使用 `useTranslations` 或 `getTranslations` 获取文案
+- **产品名称**: 所有翻译文件已统一使用 "Seedance" 作为产品名
 
 #### 认证和重定向
 
@@ -146,7 +148,7 @@ pnpm clean:cache          # Remove .next and node_modules/.cache
 - **Database**: Supabase (PostgreSQL) with Row Level Security
 - **Authentication**: NextAuth.js 5.0 with multiple providers (Google, GitHub, Apple, Email)
 - **Payments**: Stripe & Payssion V2 with unified payment router
-- **Video Generation**: Multi-provider system (Volcano Engine, APICore Veo3, fal.ai, KieAi)
+- **Video Generation**: Multi-provider system (Volcano Engine/Seedance, APICore Veo3, fal.ai, KieAi)
 - **Internationalization**: next-intl with locale-based routing
 - **Analytics**: Plausible with custom event tracking
 - **Deployment**: Cloudflare Pages with standalone build
@@ -168,7 +170,7 @@ pnpm clean:cache          # Remove .next and node_modules/.cache
 
 ### Video Generation Flow
 
-1. **Provider Selection**: `ProviderFactory` routes to appropriate provider (Volcano, APICore, fal.ai, KieAi)
+1. **Provider Selection**: `ProviderFactory` routes to appropriate provider (Volcano/Seedance, APICore, fal.ai, KieAi)
 2. **Request Processing**: Unified interface through `services/providers/`
 3. **Status Tracking**: `videoStatusService` monitors generation progress
 4. **Webhook Handling**: Provider-specific webhooks update generation status
@@ -179,6 +181,7 @@ pnpm clean:cache          # Remove .next and node_modules/.cache
 - **Unified Router**: `PaymentRouter` handles provider selection based on user location/preference
 - **Stripe Integration**: Primary payment processor with subscription management
 - **Payssion V2**: Alternative payment processor with webhook signature verification
+- **Creem Integration**: Payment processor for certain regions with subscription support
 - **Credit System**: Automatic credit distribution based on subscription tier
 
 ### Security Features
@@ -188,10 +191,46 @@ pnpm clean:cache          # Remove .next and node_modules/.cache
 - **Input Validation**: Zod schemas for API request validation
 - **Sensitive Data Filtering**: Automatic filtering of sensitive fields in logs
 
+## 重要文件和目录结构
+
+### 核心服务文件
+- **`services/providers/`**: 视频生成提供商实现（VolcanoProvider, Veo3Provider, FalProvider, KieAiVeo3Provider）
+- **`services/payment/`**: 支付处理服务（StripeProvider, PayssionProvider, CreemProvider, PaymentRouter）
+- **`services/videoStatusService.ts`**: 视频生成状态监控服务
+- **`models/`**: 数据库模型定义（user, videoGeneration, subscription, order, credit等）
+
+### API 路由架构
+- **`app/api/video-generation/`**: 视频生成相关API（submit, result, status, webhook）
+- **`app/api/auth/`**: 身份验证API（NextAuth.js配置）
+- **`app/api/payment/`**: 支付相关API（checkout, webhook处理）
+- **`app/api/subscription/`**: 订阅管理API
+
+### 组件架构
+- **`components/blocks/`**: 页面级组件（hero-section, video-generator, pricing等）
+- **`components/ui/`**: 基础UI组件（基于shadcn/ui）
+- **`components/console/`**: 控制台页面组件
+- **`components/auth/`**: 认证相关组件
+
+### 国际化结构
+- **`i18n/messages/`**: 主要消息文件（5种语言）
+- **`i18n/pages/`**: 页面特定翻译（image-to-video, text-to-video等）
+- **`i18n/blocks/`**: 组件级翻译文件
+
 ## 开发技巧
 
-- 如果启动本地服务器的时候,遇到了缓存问题,可以使用 rm -rf .next 清理一下缓存
-- 在使用 pnpm dev 之前,先检查一下本地服务是否有启动.如果已经启动了,直接使用本地服务器就好.如果希望打印 log 测试,可以先 kill 本地服务,再重新启动.尽量使用 3000 端口,以为一般他和 ngrok 是绑定的. 测试完成后杀死 3000 端口的使用。
+- 如果启动本地服务器的时候,遇到了缓存问题,可以使用 `rm -rf .next` 清理一下缓存
+- 在使用 pnpm dev 之前,先检查一下本地服务是否有启动.如果已经启动了,直接使用本地服务器就好.如果希望打印 log 测试,可以先 kill 本地服务,再重新启动.尽量使用 3000 端口,以为一般他和 ngrok 是绑定的. 测试完成后杀死 3000 端口的使用
+- 使用 `pnpm dev:clean` 可以清理缓存后启动开发服务器
+- 运行单个测试文件：`jest path/to/test.test.ts`
+- 调试TypeScript文件：`pnpm ts` (运行 ts/test.ts)
+
+## 环境配置要求
+
+### 必需的环境变量
+- **Supabase**: `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`
+- **NextAuth**: `NEXTAUTH_URL`, `NEXTAUTH_SECRET`
+- **支付服务**: Stripe, Payssion V2, Creem相关配置
+- **视频生成**: Volcano Engine, APICore, fal.ai, KieAi API密钥
 
 ## Login Information
 

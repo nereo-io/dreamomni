@@ -11,22 +11,22 @@
       {
         "id": "best-image-to-video-generator",
         "question": "Was ist der beste KI-Bild-zu-Video-Generator?",
-        "answer": "Veo3 AI bietet einen der fortschrittlichsten Bild-zu-Video-Generatoren mit hochwertiger Ausgabe, realistischen Bewegungen und Unterstützung für verschiedene Bildformate. Unsere KI-Modelle werden mit Millionen von Videos trainiert, um natürlich aussehende Animationen und flüssige Übergänge zu gewährleisten."
+        "answer": "Seedance bietet einen der fortschrittlichsten Bild-zu-Video-Generatoren mit hochwertiger Ausgabe, realistischen Bewegungen und Unterstützung für verschiedene Bildformate. Unsere KI-Modelle werden mit Millionen von Videos trainiert, um natürlich aussehende Animationen und flüssige Übergänge zu gewährleisten."
       },
       {
         "id": "what-makes-us-stand-out",
-        "question": "Was zeichnet Veo3 AIs Bild-zu-Video-Generator aus?",
+        "question": "Was zeichnet Seedances Bild-zu-Video-Generator aus?",
         "answer": "Unser Generator sticht hervor durch seine fortschrittlichen KI-Modelle, hochauflösende Ausgabe bis zu 1080p, natürliche Bewegungsphysik und die Fähigkeit, komplexe Anweisungen zu verstehen. Wir bieten auch schnelle Verarbeitungszeiten, kommerzielle Nutzungsrechte und Unterstützung für vielfältige Bildstile."
       },
       {
         "id": "what-images-can-work-with",
-        "question": "Welche Arten von Bildern funktionieren am besten mit Veo3 AI?",
-        "answer": "Veo3 AI funktioniert mit den meisten Bildformaten einschließlich JPG, PNG und WEBP. Wir unterstützen Fotos von Menschen, Tieren, Landschaften, Objekten und Kunstwerken. Für beste Ergebnisse verwenden Sie hochwertige Bilder mit klaren Motiven und guter Beleuchtung."
+        "question": "Welche Arten von Bildern funktionieren am besten mit Seedance?",
+        "answer": "Seedance funktioniert mit den meisten Bildformaten einschließlich JPG, PNG und WEBP. Wir unterstützen Fotos von Menschen, Tieren, Landschaften, Objekten und Kunstwerken. Für beste Ergebnisse verwenden Sie hochwertige Bilder mit klaren Motiven und guter Beleuchtung."
       },
       {
         "id": "is-image-to-video-free",
-        "question": "Ist Veo3 AIs Bild-zu-Video-Generator kostenlos?",
-        "answer": "Veo3 AI bietet sowohl kostenlose als auch Premium-Optionen. Neue Benutzer erhalten kostenlose Credits, um den Service auszuprobieren. Für regelmäßige Nutzung bieten wir erschwingliche Abonnementpläne mit mehr Credits und erweiterten Funktionen wie höheren Auflösungen und längeren Videos."
+        "question": "Ist Seedances Bild-zu-Video-Generator kostenlos?",
+        "answer": "Seedance bietet sowohl kostenlose als auch Premium-Optionen. Neue Benutzer erhalten kostenlose Credits, um den Service auszuprobieren. Für regelmäßige Nutzung bieten wir erschwingliche Abonnementpläne mit mehr Credits und erweiterten Funktionen wie höheren Auflösungen und längeren Videos."
       }
     ]
   },
@@ -37,7 +37,7 @@
   },
   "aiModelsHero": {
     "title": "All-in-One KI-Bild-zu-Video-Generator",
-    "description": "Veo3 AI ist der ultimative, All-in-One KI-Bild-zu-Video-Generator. Wir bieten Zugang zu branchenführenden Videomodellen einschließlich Veo3 und Seedance, alles an einem einzigen Ort. Probieren Sie sie nahtlos aus und erstellen Sie atemberaubende Visuals, ohne zwischen mehreren Plattformen zu wechseln!",
+    "description": "Seedance ist der ultimative, All-in-One KI-Bild-zu-Video-Generator. Wir bieten Zugang zu branchenführenden Videomodellen einschließlich Veo3 und Seedance, alles an einem einzigen Ort. Probieren Sie sie nahtlos aus und erstellen Sie atemberaubende Visuals, ohne zwischen mehreren Plattformen zu wechseln!",
     "models": [
       {
         "id": "veo3",
@@ -54,7 +54,7 @@
   },
   "imageToVideoShowcase": {
     "title": "Animieren Sie Ihre Bilder mit unserem KI-Video-Generator",
-    "description": "Verwandeln Sie jedes statische Bild mit Veo3 AI in eine lebendige Geschichte! Erstellen Sie kreative Videos aus Ihren hochgeladenen Fotos mit unserem intelligenten KI-Bild-zu-Video-Generator. Ob Sie eine realistische Szene oder Animation erstellen möchten, Veo3 AI kann es schnell und nach Ihren Wünschen produzieren.",
+    "description": "Verwandeln Sie jedes statische Bild mit Seedance in eine lebendige Geschichte! Erstellen Sie kreative Videos aus Ihren hochgeladenen Fotos mit unserem intelligenten KI-Bild-zu-Video-Generator. Ob Sie eine realistische Szene oder Animation erstellen möchten, Seedance kann es schnell und nach Ihren Wünschen produzieren.",
     "labels": {
       "originalImage": "Originalbild",
       "prompt": "Anweisung",

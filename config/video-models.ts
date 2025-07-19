@@ -35,42 +35,6 @@ export interface VideoModelConfig {
 
 // 视频模型配置
 export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
-  // Kie.ai Veo3 文本转视频模型（基于 Kie.ai API）
-  "kie-veo3-text-to-video": {
-    id: "kie-veo3-text-to-video",
-    name: "Kie.ai Veo3 Text-to-Video",
-    type: VideoModelType.TEXT_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    displayName: "Veo 3",
-    perSecondCredits: 3,
-    description: "Google's Veo3 model for text-to-video generation",
-    features: ["1080P", "Audio"],
-    maxDuration: 8, // Kie.ai Veo3 默认5秒
-    supportedAspectRatios: ["16:9", "9:16"],
-    supportsAudio: true, // 根据用户要求支持音频
-    estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
-    supportedDurations: [8],
-    supportedResolutions: ["1080p"], // Veo3支持高分辨率
-  },
-
-  // Kie.ai Veo3 图片转视频模型
-  "kie-veo3-image-to-video": {
-    id: "kie-veo3-image-to-video",
-    name: "Kie.ai Veo3 Image-to-Video",
-    type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    displayName: "Veo 3",
-    perSecondCredits: 3, // 与文本转视频同样的积分消耗
-    description: "Google's Veo3 model for images-to-video generation",
-    features: ["1080P", "Audio"],
-    maxDuration: 8, // Kie.ai Veo3 默认5秒
-    supportedAspectRatios: ["16:9", "9:16"],
-    supportsAudio: true, // 根据用户要求支持音频
-    estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
-    supportedDurations: [8],
-    supportedResolutions: ["1080p"], // Veo3支持高分辨率
-  },
-
   // Doubao-Seedance 1.0 Pro 文本转视频模型 (Volcano Engine)
   "doubao-seedance-1-0-pro-text-to-video": {
     id: "doubao-seedance-1-0-pro-text-to-video",
@@ -79,9 +43,9 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     provider: VideoModelProvider.VOLCANO,
     volcanoModel: "doubao-seedance-1-0-pro-250528",
     displayName: "Seedance 1.0 Pro",
-    perSecondCredits: 2,
+    perSecondCredits: 1,
     description: "ByteDance's video model, starting at $0.3/video",
-    features: ["Professional cinematography", "Complex prompt understanding"],
+    features: ["Wait 30s"],
     maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16", "1:1"],
     supportedResolutions: ["480p", "1080p"],
@@ -98,15 +62,50 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     provider: VideoModelProvider.VOLCANO,
     volcanoModel: "doubao-seedance-1-0-pro-250528",
     displayName: "Seedance 1.0 Pro",
-    perSecondCredits: 2, // 7.5 tokens for 5s = 1.5 tokens/second
-    description: "The most cost-effective video model, produced by ByteDance.",
-    features: ["Style versatility", "Natural motion"],
+    perSecondCredits: 1, // 7.5 tokens for 5s = 1.5 tokens/second
+    description: "ByteDance's video model, starting at $0.3/video.",
+    features: ["Wait 30s"],
     maxDuration: 10,
     supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
     supportedResolutions: ["480p", "1080p"],
     supportsAudio: false,
     estimatedGenerationTime: 45, // Seedance 图片转视频预估45秒
     supportedDurations: [5, 10],
+  },
+  // Kie.ai Veo3 文本转视频模型（基于 Kie.ai API）
+  "kie-veo3-text-to-video": {
+    id: "kie-veo3-text-to-video",
+    name: "Kie.ai Veo3 Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    displayName: "Veo 3",
+    perSecondCredits: 3,
+    description: "Google's Veo3 model, starting at $0.72/video.",
+    features: ["Wait 200s", "Audio"],
+    maxDuration: 8, // Kie.ai Veo3 默认5秒
+    supportedAspectRatios: ["16:9", "9:16"],
+    supportsAudio: true, // 根据用户要求支持音频
+    estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
+    supportedDurations: [8],
+    supportedResolutions: ["1080p"], // Veo3支持高分辨率
+  },
+
+  // Kie.ai Veo3 图片转视频模型
+  "kie-veo3-image-to-video": {
+    id: "kie-veo3-image-to-video",
+    name: "Kie.ai Veo3 Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    displayName: "Veo 3",
+    perSecondCredits: 3, // 与文本转视频同样的积分消耗
+    description: "Google's Veo3 model, starting at $0.72/video.",
+    features: ["Wait 200s", "Audio"],
+    maxDuration: 8, // Kie.ai Veo3 默认5秒
+    supportedAspectRatios: ["16:9", "9:16"],
+    supportsAudio: true, // 根据用户要求支持音频
+    estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
+    supportedDurations: [8],
+    supportedResolutions: ["1080p"], // Veo3支持高分辨率
   },
 
   // // Kling 1.6 文本转视频模型 (via fal.ai)
