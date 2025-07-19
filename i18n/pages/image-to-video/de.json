@@ -1,0 +1,139 @@
+{
+  "faq": {
+    "title": "Häufig gestellte Fragen",
+    "description": "Finden Sie Antworten auf häufige Fragen zu unserem KI-Bild-zu-Video-Generierungsservice.",
+    "items": [
+      {
+        "id": "what-is-image-to-video",
+        "question": "Was ist ein KI-Bild-zu-Video-Generator?",
+        "answer": "Ein KI-Bild-zu-Video-Generator ist ein Tool, das künstliche Intelligenz verwendet, um statische Bilder zu animieren und kurze Videoclips zu erstellen. Es analysiert Ihr hochgeladenes Bild und verwandelt es basierend auf Ihren Textanweisungen oder automatischem Szenenverständnis in dynamische Bewegungen."
+      },
+      {
+        "id": "best-image-to-video-generator",
+        "question": "Was ist der beste KI-Bild-zu-Video-Generator?",
+        "answer": "Veo3 AI bietet einen der fortschrittlichsten Bild-zu-Video-Generatoren mit hochwertiger Ausgabe, realistischen Bewegungen und Unterstützung für verschiedene Bildformate. Unsere KI-Modelle werden mit Millionen von Videos trainiert, um natürlich aussehende Animationen und flüssige Übergänge zu gewährleisten."
+      },
+      {
+        "id": "what-makes-us-stand-out",
+        "question": "Was zeichnet Veo3 AIs Bild-zu-Video-Generator aus?",
+        "answer": "Unser Generator sticht hervor durch seine fortschrittlichen KI-Modelle, hochauflösende Ausgabe bis zu 1080p, natürliche Bewegungsphysik und die Fähigkeit, komplexe Anweisungen zu verstehen. Wir bieten auch schnelle Verarbeitungszeiten, kommerzielle Nutzungsrechte und Unterstützung für vielfältige Bildstile."
+      },
+      {
+        "id": "what-images-can-work-with",
+        "question": "Welche Arten von Bildern funktionieren am besten mit Veo3 AI?",
+        "answer": "Veo3 AI funktioniert mit den meisten Bildformaten einschließlich JPG, PNG und WEBP. Wir unterstützen Fotos von Menschen, Tieren, Landschaften, Objekten und Kunstwerken. Für beste Ergebnisse verwenden Sie hochwertige Bilder mit klaren Motiven und guter Beleuchtung."
+      },
+      {
+        "id": "is-image-to-video-free",
+        "question": "Ist Veo3 AIs Bild-zu-Video-Generator kostenlos?",
+        "answer": "Veo3 AI bietet sowohl kostenlose als auch Premium-Optionen. Neue Benutzer erhalten kostenlose Credits, um den Service auszuprobieren. Für regelmäßige Nutzung bieten wir erschwingliche Abonnementpläne mit mehr Credits und erweiterten Funktionen wie höheren Auflösungen und längeren Videos."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Erwecken Sie Ihre statischen Bilder zum Leben!",
+    "description": "Verwandeln Sie jedes Foto mit unserem KI-Bild-zu-Video-Generator in ein atemberaubendes Video. Laden Sie Ihr Bild hoch und sehen Sie, wie es in Sekunden zum Leben erweckt wird.",
+    "buttonText": "Bild-zu-Video-Generator ausprobieren"
+  },
+  "aiModelsHero": {
+    "title": "All-in-One KI-Bild-zu-Video-Generator",
+    "description": "Veo3 AI ist der ultimative, All-in-One KI-Bild-zu-Video-Generator. Wir bieten Zugang zu branchenführenden Videomodellen einschließlich Veo3 und Seedance, alles an einem einzigen Ort. Probieren Sie sie nahtlos aus und erstellen Sie atemberaubende Visuals, ohne zwischen mehreren Plattformen zu wechseln!",
+    "models": [
+      {
+        "id": "veo3",
+        "name": "Veo 3",
+        "logo": "/imgs/intro/veo.svg"
+      },
+      {
+        "id": "seedance",
+        "name": "Seedance",
+        "logo": "/imgs/intro/seedance.png"
+      }
+    ],
+    "moreModels": "Weitere Modelle"
+  },
+  "imageToVideoShowcase": {
+    "title": "Animieren Sie Ihre Bilder mit unserem KI-Video-Generator",
+    "description": "Verwandeln Sie jedes statische Bild mit Veo3 AI in eine lebendige Geschichte! Erstellen Sie kreative Videos aus Ihren hochgeladenen Fotos mit unserem intelligenten KI-Bild-zu-Video-Generator. Ob Sie eine realistische Szene oder Animation erstellen möchten, Veo3 AI kann es schnell und nach Ihren Wünschen produzieren.",
+    "labels": {
+      "originalImage": "Originalbild",
+      "prompt": "Anweisung",
+      "video": "Video"
+    },
+    "examples": [
+      {
+        "id": "anime-girl",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Anime-Girl-with-Braids.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Girl-Pokes-Camera.mp4",
+        "originalAlt": "Anime-Mädchen mit Zöpfen",
+        "videoAlt": "Anime-Mädchen lächelt und stupst Kamera an",
+        "prompt": "Das kleine Mädchen lächelt weiterhin in die Kamera und stupst die Linse mit ihrem Finger an."
+      },
+      {
+        "id": "t-rex",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Tyrannosaurus-Rex-in-Wilderness.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/TRex-Peeks-at-Camera.mp4",
+        "originalAlt": "Tyrannosaurus Rex in der Wildnis",
+        "videoAlt": "T-Rex-Kopf schaut aus der Kamera hervor",
+        "prompt": "Der Kopf des T-Rex schaut aus der Kamera hervor."
+      },
+      {
+        "id": "mother-son",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Mother-Son-Walking-in-Park.mp4",
+        "originalAlt": "Mutter und Sohn gehen im Park spazieren",
+        "videoAlt": "Mutter geht glücklich mit Kind spazieren",
+        "prompt": "Eine Mutter geht glücklich und hält die Hand ihres Kindes."
+      },
+      {
+        "id": "motorcycle",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Astronaut-Looking-at-Earth.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
+        "originalAlt": "Motorrad bereit zu fahren",
+        "videoAlt": "Motorrad fährt schnell mit Lichtspur",
+        "prompt": "Das Motorrad fährt schnell und das Rücklicht wird zu einer Linie."
+      }
+    ]
+  },
+  "creatorShowcase": {
+    "title": "Perfekt für jeden Bild-zu-Video-Ersteller",
+    "creatorTypes": [
+      {
+        "id": "photographers",
+        "name": "Fotografen",
+        "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Professioneller Fotograf mit Kamera, der kreative Momente einfängt",
+        "title": "Verwandeln Sie Fotos in filmische Geschichten",
+        "description": "Erwecken Sie Ihr Fotografieportfolio zum Leben, indem Sie statische Bilder animieren. Erstellen Sie atemberaubende visuelle Erzählungen und präsentieren Sie Ihre Arbeit auf dynamische neue Weise, die das Publikum fesselt.",
+        "badge": "Fotografen"
+      },
+      {
+        "id": "social-media-managers",
+        "name": "Social Media Manager",
+        "image": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Social Media-Profi verwaltet Inhalte auf mehreren Plattformen",
+        "title": "Erstellen Sie ansprechende Social-Media-Inhalte aus Bildern",
+        "description": "Verwandeln Sie statische Posts in aufmerksamkeitsstarke Videos, die die Engagement-Raten steigern. Konvertieren Sie vorhandene Bild-Assets in dynamische Inhalte, die in überfüllten Social Feeds hervorstechen.",
+        "badge": "Social Media Manager"
+      },
+      {
+        "id": "e-commerce",
+        "name": "E-Commerce-Marken",
+        "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "E-Commerce-Profi präsentiert Produkte in moderner Einzelhandelsumgebung",
+        "title": "Präsentieren Sie Produkte mit dynamischen Videos",
+        "description": "Konvertieren Sie Produktfotos in überzeugende Videodemonstrationen. Steigern Sie Konversionsraten, indem Sie Produkte in Aktion zeigen und immersive Einkaufserlebnisse schaffen.",
+        "badge": "E-Commerce-Marken"
+      },
+      {
+        "id": "artists",
+        "name": "Digitale Künstler",
+        "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Digitaler Künstler arbeitet an kreativen Projekten mit fortschrittlichen Design-Tools",
+        "title": "Animieren Sie Kunstwerke und Illustrationen",
+        "description": "Erwecken Sie digitale Kunst und Illustrationen mit Bewegung zum Leben. Erstellen Sie animierte Portfolios, zeigen Sie kreative Prozesse und fügen Sie statischen künstlerischen Kreationen Bewegung hinzu.",
+        "badge": "Digitale Künstler"
+      }
+    ]
+  }
+}

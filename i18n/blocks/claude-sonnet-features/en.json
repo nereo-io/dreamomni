@@ -1,0 +1,109 @@
+{
+  "mainTitle": "Advanced AI Video Generation Platform",
+  "features": [
+    {
+      "id": "1080p-quality",
+      "title": "Professional 1080p Video Generation",
+      "description": "Create stunning 1080p videos with cinematic quality, smooth motion, and rich details using advanced AI technology.",
+      "imageUrl": "/intro/professional-1080.mp4",
+      "imageAlt": "Professional 1080p video quality",
+      "subPoints": [
+        {
+          "title": "High Definition Excellence",
+          "text": "Generate crisp 1080p resolution videos with exceptional detail and clarity, perfect for professional content creation."
+        },
+        {
+          "title": "Cinematic Aesthetics",
+          "text": "Advanced rendering creates smooth motion and rich visual details that deliver cinematic quality results."
+        }
+      ],
+      "buttonText": "Generate Video",
+      "buttonUrl": "#video-generator"
+    },
+    {
+      "id": "multi-shot-storytelling",
+      "title": "Multi-Shot Storytelling",
+      "description": "Create cohesive narratives with seamless transitions and visual consistency across multiple shots.",
+      "imageUrl": "/intro/storytelling.mp4",
+      "imageAlt": "Multi-shot storytelling capabilities",
+      "subPoints": [
+        {
+          "title": "Visual Consistency",
+          "text": "Maintain perfect visual coherence across multiple shots with advanced character and scene recognition."
+        },
+        {
+          "title": "Narrative Flow",
+          "text": "Create complex multi-scene stories with smooth transitions and logical progression."
+        }
+      ]
+    },
+    {
+      "id": "style-versatility",
+      "title": "Diverse Style Expression",
+      "description": "From photorealism to cyberpunk, illustration to animation - support incredible visual diversity with precise style control.",
+      "imageUrl": "/intro/versatility.mp4",
+      "imageAlt": "Diverse style capabilities",
+      "subPoints": [
+        {
+          "title": "Photorealistic Rendering",
+          "text": "Generate ultra-realistic videos with natural lighting and authentic textures."
+        },
+        {
+          "title": "Artistic Styles",
+          "text": "Express creativity through various aesthetic styles with precise artistic control."
+        }
+      ]
+    },
+    {
+      "id": "prompt-understanding",
+      "title": "Advanced Prompt Understanding",
+      "description": "Excel at interpreting complex natural language with remarkable accuracy for creative vision execution.",
+      "imageUrl": "/intro/prompt-understanding.mp4",
+      "imageAlt": "Superior prompt interpretation",
+      "subPoints": [
+        {
+          "title": "Natural Language Mastery",
+          "text": "Advanced language understanding interprets complex creative briefs with nuanced comprehension."
+        },
+        {
+          "title": "Creative Direction",
+          "text": "Translate detailed descriptions into accurate visual representations with minimal iteration."
+        }
+      ]
+    },
+    {
+      "id": "camera-control",
+      "title": "Professional Camera Control",
+      "description": "Enable dynamic cinematography with smooth camera movements and professional perspective control.",
+      "imageUrl": "/intro/camera.mp4",
+      "imageAlt": "Professional camera control features",
+      "subPoints": [
+        {
+          "title": "Dynamic Camera Work",
+          "text": "Achieve professional cinematography with smooth camera movements and tracking shots."
+        },
+        {
+          "title": "Perspective Control",
+          "text": "Create compelling visual narratives with dynamic perspectives and cinematic framing."
+        }
+      ]
+    },
+    {
+      "id": "dynamic-range",
+      "title": "Wide Dynamic Range",
+      "description": "Capture subtle expressions and dynamic action with exceptional quality and smooth motion rendering.",
+      "imageUrl": "/intro/dynamic-range.mp4",
+      "imageAlt": "Wide dynamic range capabilities",
+      "subPoints": [
+        {
+          "title": "Expression Capture",
+          "text": "Render delicate facial expressions and nuanced emotional states with remarkable sensitivity."
+        },
+        {
+          "title": "Action Excellence",
+          "text": "Generate dynamic sequences with fluid motion and realistic physics."
+        }
+      ]
+    }
+  ]
+}

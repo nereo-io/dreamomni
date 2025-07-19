@@ -21,6 +21,23 @@
     "my_orders": "주문 내역",
     "membership": "멤버십"
   },
+  "sidebar": {
+    "home": "홈",
+    "image_to_video": "이미지에서 비디오",
+    "text_to_video": "텍스트에서 비디오",
+    "ai_video_effects": "AI 비디오 효과",
+    "my_creations": "내 작품",
+    "upgrade_now": "지금 업그레이드"
+  },
+  "pricing_modal": {
+    "select_payment_method": "결제 방법 선택",
+    "payment_successful": "결제 성공!",
+    "plan_activated": "활성화됨",
+    "credits_added": "크레딧이 계정에 추가되었습니다",
+    "continue": "계속",
+    "start_creating": "생성 시작",
+    "please_select_payment": "결제 방법을 선택해주세요"
+  },
   "sign_modal": {
     "sign_in_title": "로그인",
     "sign_in_description": "계정에 로그인",
@@ -41,17 +58,188 @@
     "close_title": "닫기",
     "cancel_title": "취소"
   },
+  "my_orders": {
+    "title": "주문 내역",
+    "description": "Veo3AI로 결제된 주문.",
+    "no_orders": "주문을 찾을 수 없습니다",
+    "activate_order": "주문 활성화",
+    "actived": "활성화됨",
+    "join_discord": "Discord 참여",
+    "read_docs": "문서 읽기",
+    "table": {
+      "order_no": "주문 번호",
+      "email": "이메일",
+      "product_name": "제품명",
+      "amount": "금액",
+      "paid_at": "결제일",
+      "github_username": "GitHub 사용자명",
+      "status": "상태"
+    }
+  },
+  "membership": {
+    "title": "멤버십",
+    "description": "멤버십 정보 및 유효 기간 보기",
+    "status": "상태",
+    "status_active": "활성",
+    "status_expired": "만료됨",
+    "type": "유형",
+    "type_monthly": "월간 플랜",
+    "type_yearly": "연간 플랜",
+    "start_date": "시작일",
+    "end_date": "종료일",
+    "remaining_days": "남은 일수",
+    "days": "일",
+    "no_membership": "활성 멤버십 없음",
+    "manage_subscription": "구독 관리",
+    "loading": "로딩 중..."
+  },
+  "subscription": {
+    "allSubscriptions": "모든 구독",
+    "subscriptionHistory": "Payssion 구독 이력",
+    "cancelTitle": "구독 취소",
+    "cancelDescription": "정말 취소하시겠습니까? 청구 기간이 끝날 때까지 액세스 권한을 유지합니다.",
+    "keepSubscription": "구독 유지",
+    "confirmCancel": "네, 취소합니다",
+    "canceling": "취소 중...",
+    "cancel": "취소",
+    "cancelSuccess": "구독이 취소되었습니다",
+    "cancelSuccessDescription": "더 이상 청구되지 않습니다.",
+    "cancelFailed": "취소 실패",
+    "cancelFailedDescription": "다시 시도해주세요.",
+    "networkError": "네트워크 오류",
+    "networkErrorDescription": "연결을 확인하고 다시 시도해주세요."
+  },
+  "my_credits": {
+    "title": "내 크레딧",
+    "rules_title": "규칙",
+    "rules": "1. 무료 사용자는 매일 3번의 대화를 할 수 있으며, 24시간마다 초기화됩니다. 친구를 초대하여 가입하면 추가로 3번의 대화를 얻을 수 있습니다. \n2. 무제한 대화와 고급 기능을 위해 Pro로 업그레이드하세요.",
+    "left_tip": "남은 크레딧: {left_credits}",
+    "no_credits": "크레딧 기록 없음",
+    "recharge": "멤버십 업그레이드",
+    "invite": "친구 초대",
+    "table": {
+      "trans_no": "거래 번호",
+      "trans_type": "거래 유형",
+      "credits": "크레딧",
+      "updated_at": "업데이트일",
+      "status": "상태"
+    }
+  },
+  "api_keys": {
+    "title": "API 키",
+    "tip": "API 키를 안전하게 보관하여 유출을 방지하세요",
+    "no_api_keys": "API 키 없음",
+    "create_api_key": "API 키 생성",
+    "table": {
+      "name": "이름",
+      "key": "키",
+      "created_at": "생성일"
+    },
+    "form": {
+      "name": "이름",
+      "name_placeholder": "API 키 이름",
+      "submit": "제출"
+    }
+  },
+  "blog": {
+    "title": "블로그",
+    "description": "Veo3 AI 비디오 생성에 대한 뉴스, 리소스 및 업데이트",
+    "read_more_text": "더 읽기"
+  },
+  "chat": {
+    "title": "차세대 - Veo3 AI 비디오 플랫폼",
+    "description": "향상된 시각적 콘텐츠, 4K 생성 및 창의적 스토리텔링을 위해 Veo3 AI로 전문적인 비디오 제작을 시작하세요"
+  },
+  "survey_banner": {
+    "message": "👋 빠른 피드백이 필요합니다 - Veo3 AI를 개선하는 데 도움을 주세요!",
+    "close": "닫기"
+  },
+  "credit_exhausted_modal": {
+    "title": "대화 크레딧이 부족합니다",
+    "description": "고급 AI 대화, 코딩 지원, 데이터 분석 - 지금 모두 잠금 해제하세요",
+    "lifetime_analysis": {
+      "title": "개인 AI 어시스턴트",
+      "description1": "복잡한 문제나 창의적 프로젝트에 도움이 필요하신가요? Claude 4는 귀하의 특정 요구에 맞는 지능적인 인사이트와 솔루션을 제공합니다.",
+      "description2": "중요한 작업(코딩, 작성, 분석, 계획)에 대해 고급 AI 어시스턴트를 두면 생산성을 크게 향상시킬 수 있습니다."
+    },
+    "dual_chart": {
+      "title": "팀 협업",
+      "description": "팀 구성원들과 대화를 공유하고 AI 지원으로 프로젝트에서 협업하세요."
+    },
+    "use_cases": {
+      "relationship": "개인: 개인적 결정과 인생 계획을 위한 지능적인 조언을 받으시겠습니까?",
+      "family": "교육: 학습, 연구, 학술 프로젝트에 도움 - 학생과 전문가에게 완벽합니다?",
+      "career": "전문: 코딩, 작성, 데이터 분석 또는 비즈니스 계획에 지원이 필요하신가요?"
+    },
+    "choice_section": {
+      "title": "👇 다음 AI 대화 경로를 선택하세요:",
+      "premium": {
+        "title": "🔓 무제한 대화 잠금 해제",
+        "description": "멤버십 업그레이드"
+      },
+      "share": {
+        "title": "🎁 친구와 공유",
+        "description": "무료 대화 얻기",
+        "tips": "1명 초대 = 3번의 보너스 대화 획득"
+      }
+    },
+    "footer_text": "이미 회원이신가요? 권한을 복원하려면 다시 로그인해주세요.\n초대는 등록되지 않은 사용자에게만 유효합니다. 크레딧은 여러 번 청구할 수 없습니다."
+  },
+  "my_invites": {
+    "title": "내 초대",
+    "description": "초대 기록 보기",
+    "no_invites": "초대 기록을 찾을 수 없습니다",
+    "my_invite_link": "내 초대 링크",
+    "edit_invite_link": "초대 링크 편집",
+    "copy_invite_link": "초대 링크 복사",
+    "invite_code": "초대 코드",
+    "invite_tip": "링크를 통해 가입하는 모든 친구에 대해 보너스 크레딧을 받으세요.",
+    "invite_balance": "초대 보상 잔액",
+    "total_invite_count": "총 초대 수",
+    "total_paid_count": "총 결제 수",
+    "total_award_amount": "총 보상 금액",
+    "update_invite_code": "초대 코드 설정",
+    "update_invite_code_tip": "사용자 정의 초대 코드 입력",
+    "update_invite_button": "저장",
+    "no_orders": "Veo3 AI 프리미엄을 구매하기 전에는 다른 사람을 초대할 수 없습니다",
+    "no_affiliates": "다른 사람을 초대할 권한이 없습니다. 권한 신청을 위해 문의해주세요.",
+    "invite_templates": "초대 템플릿",
+    "copy": "복사",
+    "template1_title": "🎬 AI 비디오 제작",
+    "template2_title": "🚀 콘텐츠 제작",
+    "template3_title": "💼 전문 비디오",
+    "template1": "안녕하세요 친구들! 방금 Veo3 AI를 발견했습니다 — 텍스트 프롬프트에서 멋진 비디오를 만드는 가장 진보된 AI 비디오 생성기입니다. 품질이 정말 놀랍습니다! 소셜 미디어, 마케팅 또는 창작 프로젝트에 완벽합니다. 가입하면 무료 크레딧을 받을 수 있습니다!\n👉 지금 Veo3 AI 체험해보세요",
+    "template2": "촬영 없이 놀라운 비디오를 만들고 싶으신가요? Veo3 AI는 간단한 텍스트 설명에서 전문가 수준의 비디오를 생성합니다. 콘텐츠 제작에 사용해봤는데 결과가 정말 놀랍습니다 — 시간과 비용을 많이 절약해줍니다! 무료 크레딧으로 시작해보세요.\n🚀 여기서 Veo3 AI 발견하기",
+    "template3": "비즈니스를 위한 전문 비디오가 필요하신가요? Veo3 AI는 고급 AI를 사용하여 고품질 홍보 비디오, 제품 데모 및 마케팅 콘텐츠를 제작합니다. 카메라도 편집 기술도 필요 없습니다 — 원하는 것을 설명하기만 하면 됩니다! 무료 크레딧으로 체험해보세요.\n💼 지금 Veo3 AI 탐색하기",
+    "table": {
+      "invite_time": "초대 시간",
+      "invite_user": "초대된 사용자",
+      "status": "상태",
+      "reward_percent": "보상 비율",
+      "reward_amount": "보상 크레딧",
+      "pending": "대기 중",
+      "completed": "완료됨"
+    }
+  },
   "video-generator": {
-    "videoDescription": "비디오 설명",
+    "videoDescription": "프롬프트",
     "referenceImage": "참조 이미지 (선택사항)",
     "videoAspectRatio": "비디오 종횡비",
     "videoDuration": "비디오 길이",
-    "videoModel": "비디오 모델",
+    "videoModel": "모델",
     "credits": "크레딧",
+    "creditsRequired": "필요 크레딧",
+    "remainingCredits": "남은 크레딧",
     "cost": "비용",
     "recharge": "충전",
     "generateVideo": "비디오 생성",
     "submitting": "제출 중...",
+    "uploading": "업로드 중...",
+    "generating": "생성 중...",
+    "uploadImage": "이미지",
+    "dragAndDropImage": "클릭하여 업로드하거나 이미지를 드래그하세요",
+    "supportedFormats": "JPG, PNG, GIF 형식 지원, 최대 10MB",
+    "chooseFile": "파일 선택",
     "aspectRatios": {
       "landscape": "16:9 가로형",
       "portrait": "9:16 세로형",
@@ -64,34 +252,31 @@
     "characterCount": "글자 이상",
     "uploadInstructions": {
       "clickToUpload": "클릭하여 업로드하거나 이미지를 드래그하세요",
-      "supportedFormats": "300-6000px, JPG/PNG/WEBP/BMP/TIFF/GIF, 최대 10MB"
+      "supportedFormats": "JPG, PNG, GIF 형식 지원, 최대 10MB"
     },
     "selectModel": "모델 선택",
-    "discordBanner": {
-      "text": "트렌딩 AI 템플릿에 24시간 조기 액세스",
-      "linkText": "Discord 참여"
+    "videoSettings": "설정",
+    "ratio": "비율",
+    "duration": "길이",
+    "resolution": "해상도",
+    "telegramBanner": {
+      "text": "Telegram 그룹에 참여하여 Veo3에 대해 토론하세요",
+      "linkText": "참여"
     },
     "toast": {
       "signInFirst": "먼저 로그인하세요",
       "enterDescription": "비디오 설명을 입력하세요",
-      "descriptionTooShort": "비디오 설명은 최소 10자 이상이어야 합니다",
+      "descriptionTooShort": "비디오 설명은 최소 30자 이상이어야 합니다",
       "uploadImageFile": "이미지 파일을 업로드하세요",
+      "uploadImageRequired": "이미지에서 비디오 생성을 위해 이미지를 업로드해주세요",
+      "imageUploaded": "이미지가 성공적으로 업로드되었습니다",
       "imageTooLarge": "이미지 파일이 너무 큽니다 (최대 10MB)",
-      "imageTooSmall": "이미지가 너무 작습니다. 최소 크기: 300x300px",
-      "unsupportedImageFormat": "지원되지 않는 이미지 형식입니다. JPEG, PNG, WEBP, BMP, TIFF, GIF를 사용하세요",
-      "invalidAspectRatio": "잘못된 종횡비입니다. 0.4에서 2.5 사이의 종횡비를 가진 이미지를 사용하세요",
-      "invalidImageFile": "잘못된 이미지 파일입니다. 유효한 이미지를 업로드하세요",
-      "sensitiveContentDetected": "이미지에 민감한 콘텐츠가 포함되어 처리할 수 없습니다. 다른 이미지를 시도해보세요",
       "imageUploadFailed": "이미지 업로드 실패",
       "insufficientCredits": "크레딧이 부족합니다. 필요: {required}, 사용 가능: {available}",
       "videoSubmitted": "비디오 생성 작업이 제출되었습니다, 처리 중...",
       "videoCompleted": "비디오 생성이 완료되었습니다!",
       "videoFailed": "비디오 생성 실패"
     }
-  },
-  "audio-selector": {
-    "sound": "사운드",
-    "seedanceOnly": "Seedance만"
   },
   "video-history": {
     "title": "비디오 생성 이력",
@@ -111,12 +296,19 @@
       "model": "모델",
       "duration": "길이",
       "aspectRatio": "종횡비"
+    },
+    "toast": {
+      "videoNotAvailable": "비디오가 아직 사용할 수 없습니다.",
+      "downloadNotAvailable": "비디오를 다운로드할 수 없습니다.",
+      "regenerationNotImplemented": "재생성 기능이 구현될 예정입니다.",
+      "fetchError": "비디오 이력을 가져오는 데 실패했습니다",
+      "noDataReturned": "반환된 데이터가 없습니다"
     }
   },
   "video-result": {
     "status": {
       "submitted": "제출됨",
-      "optimizing": "프롬프트 최적화 중",
+      "optimizingPrompt": "프롬프트 최적화 중",
       "inQueue": "대기열",
       "generating": "생성 중",
       "completed": "완료",
@@ -125,11 +317,116 @@
     "videoCompleted": "비디오 생성이 완료되었습니다!",
     "videoFailed": "비디오 생성 실패",
     "processing": "처리 중...",
+    "taskSubmitted": "작업이 제출되었습니다, 예상 남은 시간: {time}",
+    "optimizingPrompt": "더 나은 결과를 위해 프롬프트를 최적화하고 있습니다, 예상 남은 시간: {time}",
+    "taskInQueue": "작업이 대기열에 있습니다, 예상 남은 시간: {time}",
+    "generatingVideo": "비디오를 생성하고 있습니다, 예상 남은 시간: {time}",
+    "processingGeneral": "처리 중, 예상 남은 시간: {time}",
     "viewHistory": "이력 보기",
     "retry": "다시 시도",
+    "successMessage": "🎉 비디오가 준비되었습니다! 다운로드하거나 이력에서 모든 작품을 볼 수 있습니다.",
     "prompt": "프롬프트",
+    "originalPrompt": "원본 프롬프트",
+    "optimizedPrompt": "향상된 프롬프트",
+    "enhanced": "향상됨",
+    "optimizing": "최적화 중...",
+    "browserNotSupported": "브라우저가 비디오 재생을 지원하지 않습니다.",
     "download": "다운로드",
     "downloading": "다운로드 중...",
-    "openInNewTab": "새 탭에서 열기"
+    "openInNewTab": "새 탭에서 열기",
+    "loadingVideo": "비디오 로딩 중",
+    "videoLoadingMessage": "비디오 생성이 완료되었습니다. 비디오 URL을 가져오는 중...",
+    "videoProcessing": "비디오 처리 중",
+    "videoNotAvailableMessage": "비디오 생성이 완료되었지만 비디오가 아직 사용할 수 없습니다. 잠시 기다려주세요.",
+    "generationProgress": "생성 진행률",
+    "generationFailed": "생성 실패",
+    "errorMessages": {
+      "unexpected": "예상치 못한 오류가 발생했습니다. 다시 시도해주세요.",
+      "externalService": "외부 서비스에 문제가 발생했습니다. 나중에 다시 시도해주세요.",
+      "inputIssue": "입력 또는 설정에 문제가 있습니다. 확인 후 다시 시도해주세요.",
+      "serverError": "서버에서 예상치 못한 오류가 발생했습니다. 나중에 다시 시도해주세요.",
+      "timeout": "요청 시간이 너무 오래 걸려 시간 초과되었습니다. 다시 시도해주세요.",
+      "statusCode": "오류가 발생했습니다 (상태 {code}). 다시 시도해주세요."
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Veo3 AI에 오신 것을 환영합니다",
+      "description": "고급 AI 기술로 아이디어를 멋진 비디오로 변환하세요. 텍스트에서 비디오, 이미지에서 비디오 중에서 선택하거나 창의적인 비디오 효과를 탐색하세요."
+    },
+    "textToVideo": {
+      "title": "무료 AI 비디오 생성기: 텍스트에서 비디오 AI 온라인 | Veo3 AI",
+      "description": "Veo3 AI 비디오 생성기를 발견하세요. 텍스트 프롬프트를 매력적인 비디오로 쉽게 변환하는 최첨단 무료 솔루션입니다. 오늘 우리의 텍스트에서 비디오 AI를 체험해보세요!",
+      "keywords": "AI 비디오 생성기, 텍스트에서 비디오, 무료 비디오 생성기, Veo3 AI, AI 비디오 제작, 텍스트에서 비디오 온라인"
+    },
+    "imageToVideo": {
+      "title": "무료 이미지에서 비디오 AI 생성기: 사진을 비디오로 변환 | Veo3 AI",
+      "description": "Veo3 AI의 이미지에서 비디오 AI 생성기를 무료로 사용하세요. 고품질의 매력적인 결과로 사진을 비디오로 변환하세요. 지금 우리의 이미지에서 비디오 AI를 체험해보세요!",
+      "keywords": "이미지에서 비디오 AI, 사진에서 비디오 변환기, 무료 이미지에서 비디오, Veo3 AI, 이미지에서 AI 비디오, 이미지 애니메이션"
+    },
+    "videoAffects": {
+      "heroSection": {
+        "title": "누구든지 근육질로 만들기",
+        "description": "Veo3 AI의 강력한 AI 근육 생성기를 체험하세요! 누구의 이미지든 업로드하고 벌크업된 근육질 버전을 보여주는 멋진 비디오를 생성하세요.",
+        "buttonText": "무료 체험"
+      },
+      "effectsTitle": "AI 비디오 효과 & 템플릿",
+      "categoryEffects": {
+        "funAndCreative": "재미있고 창의적인 효과",
+        "horrorAndFantasy": "공포 및 판타지 효과",
+        "appearanceChanging": "외모 변화 효과",
+        "seasonalSpecial": "계절별 특별 효과",
+        "emotionalExpression": "감정 표현 효과"
+      }
+    },
+    "effectDetail": {
+      "defaultTitle": "AI 비디오 효과",
+      "defaultDescription": "AI 기반 비디오 효과로 사진을 변환하세요",
+      "tryButtonText": "이 효과 체험하기",
+      "placeholderText": "이 효과를 적용할 이미지를 업로드하세요",
+      "effectDescriptionLabel": "효과 설명 (선택사항)",
+      "effectDescriptionPlaceholder": "효과에 대한 추가 세부사항을 설명하세요...",
+      "imageAlt": "근육질 변환",
+      "effectsMap": {
+        "ai-kissing": {
+          "title": "AI 키스 비디오 생성기",
+          "description": "AI 기술로 로맨틱한 키스 비디오를 생성하세요"
+        },
+        "ai-muscle": {
+          "title": "AI 근육 생성기",
+          "description": "AI로 누구든지 근육질 버전으로 변환하세요"
+        }
+      },
+      "howToUse": {
+        "title": "이 효과 사용 방법"
+      }
+    }
+  },
+  "effects": {
+    "ai-kissing": "AI 키스 비디오 생성기",
+    "kiss-me-ai": "Kiss Me AI",
+    "ai-twerk": "AI 트워크 비디오 생성기",
+    "ai-hug": "AI 포옹",
+    "ai-muscle": "AI 근육 생성기",
+    "ai-french-kissing": "AI 프렌치 키스",
+    "ai-360-rotation": "AI 360° 회전 비디오 생성기",
+    "ai-cloud-ride": "AI 구름 타기 비디오 생성기",
+    "dance-party": "댄스 파티 생성기",
+    "magic-tricks": "마술 효과",
+    "time-travel": "시간 여행 효과",
+    "vampire-transformation": "뱀파이어 변신",
+    "ghost-effect": "유령 출현 효과",
+    "gender-swap": "성별 바꾸기 효과",
+    "hair-color-change": "머리 색깔 바꾸기",
+    "makeup-artist": "AI 메이크업 아티스트",
+    "body-transformation": "몸매 변화",
+    "halloween-spooky": "할로윈 으스스한 효과",
+    "valentine-romance": "발렌타인 로맨스 효과",
+    "new-year-celebration": "새해 축하",
+    "summer-beach": "여름 해변 분위기",
+    "happiness-boost": "행복 부스트 효과",
+    "surprise-reaction": "놀라는 반응 효과",
+    "anger-expression": "분노 표현 효과",
+    "love-struck": "사랑에 빠진 효과"
   }
 }

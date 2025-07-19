@@ -3,10 +3,10 @@
   "theme": "light",
   "header": {
     "brand": {
-      "title": "Veo3",
+      "title": "Seedance",
       "logo": {
         "src": "/logo.png",
-        "alt": "Veo3"
+        "alt": "Seedance"
       },
       "url": "/"
     },
@@ -39,14 +39,14 @@
     "show_locale": true
   },
   "hero": {
-    "title": "Free Veo 3 AI Video Generator",
-    "highlight_text": "Veo 3 AI",
+    "title": "Advanced AI Video Generation with Seedance",
+    "highlight_text": "Seedance",
     "announcement": {
-      "title": "🎬 Veo 3 AI Now Available!",
+      "title": "🎬 Seedance 1.0 Now Available!",
       "label": "New!",
       "url": "#video-generator"
     },
-    "description": "Create Stunning Videos with Advanced AI Technology - Transform Your Ideas into Professional Videos in Minutes",
+    "description": "Create Stunning Videos with ByteDance's Seedance Technology - Transform Your Ideas into Cinematic Videos in Minutes",
     "show_happy_users": false,
     "show_badge": false,
     "buttons": [
@@ -62,14 +62,14 @@
   "testimonial": {
     "name": "testimonial",
     "label": "Testimonial",
-    "title": "What Creators Say About Free Veo 3 AI Video Generator",
-    "description": "Discover how Veo 3 AI has revolutionized video creation with powerful AI-driven video generation and professional-quality results.",
+    "title": "What Creators Say About Seedance AI Video Generator",
+    "description": "Discover how Seedance has revolutionized video creation with ByteDance's advanced AI technology and cinematic-quality results.",
     "icon": "GoThumbsup",
     "items": [
       {
         "title": "Sarah Johnson",
         "label": "Content Creator",
-        "description": "Free Veo 3 AI video generator transformed my content creation workflow. The AI understands my prompts perfectly and generates cinematic-quality videos that would take hours to produce manually. It's like having a professional video studio at my fingertips.",
+        "description": "Seedance AI video generator transformed my content creation workflow. The AI understands my prompts perfectly and generates cinematic-quality videos that would take hours to produce manually. It's like having a professional video studio at my fingertips.",
         "image": {
           "src": "/imgs/users/1.png"
         }
@@ -77,7 +77,7 @@
       {
         "title": "Michael Chen",
         "label": "Marketing Director",
-        "description": "Veo 3 AI's free video generator is incredible for marketing campaigns. The quality is outstanding, and the speed is unmatched. I can create multiple video variations for A/B testing in minutes instead of weeks.",
+        "description": "Seedance AI video generator is incredible for marketing campaigns. The quality is outstanding, and the speed is unmatched. I can create multiple video variations for A/B testing in minutes instead of weeks.",
         "image": {
           "src": "/imgs/users/2.png"
         }
@@ -85,7 +85,7 @@
       {
         "title": "Emily Rodriguez",
         "label": "Social Media Manager",
-        "description": "The consistency and quality of videos from Veo 3 AI is amazing. I can maintain our brand's visual style across all platforms while creating fresh, engaging content daily. The free tier gives incredible value.",
+        "description": "The consistency and quality of videos from Seedance AI is amazing. I can maintain our brand's visual style across all platforms while creating fresh, engaging content daily. The platform provides incredible value.",
         "image": {
           "src": "/imgs/users/3.png"
         }
@@ -93,7 +93,7 @@
       {
         "title": "David Kumar",
         "label": "YouTuber & Educator",
-        "description": "Free Veo 3 AI video generator helps me create educational content that captivates my audience. From complex animations to simple explainer videos, the AI handles everything with professional polish.",
+        "description": "Seedance AI video generator helps me create educational content that captivates my audience. From complex animations to simple explainer videos, the AI handles everything with professional polish.",
         "image": {
           "src": "/imgs/users/4.png"
         }
@@ -101,7 +101,7 @@
       {
         "title": "Lisa Wang",
         "label": "Independent Filmmaker",
-        "description": "Veo 3 AI's free video generation unlocked my creative potential. I can prototype scenes, create concept videos, and experiment with visual storytelling without budget constraints. It's revolutionizing independent filmmaking.",
+        "description": "Seedance AI video generation unlocked my creative potential. I can prototype scenes, create concept videos, and experiment with visual storytelling. It's revolutionizing independent filmmaking.",
         "image": {
           "src": "/imgs/users/5.png"
         }
@@ -109,7 +109,7 @@
       {
         "title": "Alex Thompson",
         "label": "Digital Artist",
-        "description": "The precision and artistic quality of Veo 3 AI video generation is remarkable. It understands artistic direction and creates videos that match my creative vision perfectly. The free access democratizes professional video creation.",
+        "description": "The precision and artistic quality of Seedance AI video generation is remarkable. It understands artistic direction and creates videos that match my creative vision perfectly. The platform democratizes professional video creation.",
         "image": {
           "src": "/imgs/users/6.png"
         }
@@ -120,62 +120,62 @@
     "name": "faq",
     "label": "FAQ",
     "title": "Frequently Asked Questions",
-    "description": "Learn more about free Veo 3 AI video generator",
+    "description": "Learn more about Seedance AI video generator",
     "items": [
       {
-        "title": "What is free Veo 3 AI video generator and how does it work?",
-        "description": "Free Veo 3 AI video generator gives you access to the world's most advanced AI video creation technology at no cost. Simply describe your video idea in text, and Veo 3 AI will generate high-quality, professional videos up to 2 minutes long with stunning visual effects and smooth motion."
+        "title": "What is Seedance AI video generator and how does it work?",
+        "description": "Seedance AI video generator gives you access to ByteDance's advanced AI video creation technology. Simply describe your video idea in text, and Seedance will generate high-quality, professional videos with stunning visual effects and smooth motion."
       },
       {
-        "title": "What makes Veo 3 AI video generator different from other AI video tools?",
-        "description": "Veo 3 AI offers unique features: ultra-realistic video generation, advanced motion understanding, cinematic quality output, precise prompt following, and support for various video styles from photorealistic to animated. It's the most capable AI for creating professional-grade videos."
+        "title": "What makes Seedance AI video generator different from other AI video tools?",
+        "description": "Seedance AI offers unique features: ultra-realistic video generation, advanced motion understanding, cinematic quality output, precise prompt following, and support for various video styles from photorealistic to animated. It's the most capable AI for creating professional-grade videos."
       },
       {
-        "title": "What types of videos can I create with free Veo 3 AI generator?",
-        "description": "Free Veo 3 AI video generator supports a wide range of video types: marketing videos, social media content, educational materials, product demonstrations, animated stories, music videos, concept art, and cinematic scenes. The AI adapts to any creative vision."
+        "title": "What types of videos can I create with Seedance AI generator?",
+        "description": "Free Seedance AI video generator supports a wide range of video types: marketing videos, social media content, educational materials, product demonstrations, animated stories, music videos, concept art, and cinematic scenes. The AI adapts to any creative vision."
       },
       {
-        "title": "Are there any limitations to the free Veo 3 AI video generator?",
-        "description": "While free Veo 3 AI video generator provides access to advanced capabilities, premium users enjoy unlimited generations, longer video durations, priority processing, and additional features like custom styles and batch processing. Free users can create amazing videos with reasonable usage limits."
+        "title": "Are there any limitations to the Seedance AI video generator?",
+        "description": "While Seedance AI video generator provides access to advanced capabilities, premium users enjoy unlimited generations, longer video durations, priority processing, and additional features like custom styles and batch processing. Free users can create amazing videos with reasonable usage limits."
       },
       {
-        "title": "How long does it take to generate videos with Veo 3 AI?",
-        "description": "Veo 3 AI video generation typically takes 2-5 minutes for standard videos, depending on complexity and length. The AI processes your prompt, creates the video sequence, and applies advanced rendering for professional quality results. Premium users get priority processing for faster generation."
+        "title": "How long does it take to generate videos with Seedance AI?",
+        "description": "Seedance AI video generation typically takes 2-5 minutes for standard videos, depending on complexity and length. The AI processes your prompt, creates the video sequence, and applies advanced rendering for professional quality results. Premium users get priority processing for faster generation."
       },
       {
         "title": "Can I customize the style and quality of generated videos?",
-        "description": "Yes! Veo 3 AI video generator offers extensive customization options. You can specify video style, camera angles, lighting, mood, color palette, and motion characteristics in your prompts. The AI understands detailed creative direction and produces videos matching your exact vision."
+        "description": "Yes! Seedance AI video generator offers extensive customization options. You can specify video style, camera angles, lighting, mood, color palette, and motion characteristics in your prompts. The AI understands detailed creative direction and produces videos matching your exact vision."
       },
       {
-        "title": "Is my content secure when using free Veo 3 AI video generator?",
-        "description": "Absolutely. Free Veo 3 AI video generator employs industry-leading security measures to protect your content and prompts. We follow strict privacy protocols and never use your personal projects to train models or share content with third parties. Your creative work remains private."
+        "title": "Is my content secure when using Seedance AI video generator?",
+        "description": "Absolutely. Free Seedance AI video generator employs industry-leading security measures to protect your content and prompts. We follow strict privacy protocols and never use your personal projects to train models or share content with third parties. Your creative work remains private."
       },
       {
-        "title": "How do I get started with free Veo 3 AI video generator?",
-        "description": "Getting started with free Veo 3 AI video generator is simple! Just click the 'Generate Video' button, describe your video idea in the prompt box, and watch as AI creates your professional video. No complex setup required - start creating amazing videos immediately."
+        "title": "How do I get started with Seedance AI video generator?",
+        "description": "Getting started with Seedance AI video generator is simple! Just click the 'Generate Video' button, describe your video idea in the prompt box, and watch as AI creates your professional video. No complex setup required - start creating amazing videos immediately."
       },
       {
-        "title": "What video formats and resolutions does Veo 3 AI support?",
-        "description": "Veo 3 AI video generator supports multiple formats including MP4, MOV, and WebM. Videos are generated in high definition (1080p) by default, with options for 4K resolution for premium users. All videos are optimized for web sharing and professional use."
+        "title": "What video formats and resolutions does Seedance AI support?",
+        "description": "Seedance AI video generator supports multiple formats including MP4, MOV, and WebM. Videos are generated in high definition (1080p) by default, with options for 4K resolution for premium users. All videos are optimized for web sharing and professional use."
       },
       {
-        "title": "Can I use Veo 3 AI generated videos for commercial purposes?",
-        "description": "Yes! Videos created with free Veo 3 AI video generator can be used for commercial purposes, including marketing, advertising, social media, and business presentations. Premium plans offer extended commercial licensing and additional usage rights for enterprise applications."
+        "title": "Can I use Seedance AI generated videos for commercial purposes?",
+        "description": "Yes! Videos created with Seedance AI video generator can be used for commercial purposes, including marketing, advertising, social media, and business presentations. Premium plans offer extended commercial licensing and additional usage rights for enterprise applications."
       }
     ]
   },
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "Veo3",
-      "description": "Free Veo 3 AI Video Generator - Create stunning professional videos with advanced AI technology. Transform your ideas into cinematic masterpieces in minutes.",
+      "title": "Seedance",
+      "description": "Seedance AI Video Generator - Create stunning professional videos with ByteDance's advanced Seedance technology. Transform your ideas into cinematic masterpieces in minutes.",
       "logo": {
         "src": "/logo.png",
-        "alt": "Veo3"
+        "alt": "Seedance"
       },
       "url": "/"
     },
-    "copyright": " 2025 • Veo3 All rights reserved.",
+    "copyright": " 2025 • Seedance All rights reserved.",
     "nav": {
       "items": [
         {
@@ -221,9 +221,9 @@
       "items": [
         {
           "title": "Email Support",
-          "value": "support@veo3ai.io",
+          "value": "support@seedance.ai",
           "icon": "RiMailFill",
-          "url": "mailto:support@veo3ai.io",
+          "url": "mailto:support@seedance.ai",
           "target": "_self"
         },
         {
@@ -242,7 +242,7 @@
   "cta": [
     {
       "name": "cta-generate",
-      "title": "Start Creating Videos with Free Veo 3 AI",
+      "title": "Start Creating Videos with Seedance AI",
       "buttons": [
         {
           "title": "Generate Video",
@@ -254,7 +254,7 @@
     },
     {
       "name": "cta-features",
-      "title": "Explore Veo 3 AI Features",
+      "title": "Explore Seedance Features",
       "description": "Advanced Video Generation & AI Technology",
       "buttons": [
         {

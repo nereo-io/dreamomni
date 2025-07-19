@@ -1,0 +1,139 @@
+{
+  "faq": {
+    "title": "よくある質問",
+    "description": "AI画像から動画生成サービスに関するよくある質問の回答をご覧ください。",
+    "items": [
+      {
+        "id": "what-is-image-to-video",
+        "question": "AI画像から動画ジェネレーターとは何ですか？",
+        "answer": "AI画像から動画ジェネレーターは、人工知能を使用して静止画をアニメーション化し、短い動画クリップを作成するツールです。アップロードされた画像を分析し、テキストプロンプトや自動シーン理解に基づいて動的な動きに変換します。"
+      },
+      {
+        "id": "best-image-to-video-generator",
+        "question": "最高の画像から動画AIジェネレーターは何ですか？",
+        "answer": "Veo3 AIは、高品質の出力、リアルな動き、様々な画像フォーマットのサポートを備えた最も先進的な画像から動画ジェネレーターの一つを提供しています。私たちのAIモデルは数百万の動画で訓練され、自然に見えるアニメーションと滑らかな遷移を保証しています。"
+      },
+      {
+        "id": "what-makes-us-stand-out",
+        "question": "Veo3 AIの画像から動画ジェネレーターの特徴は何ですか？",
+        "answer": "私たちのジェネレーターは、先進的なAIモデル、1080pまでの高解像度出力、自然な動きの物理学、複雑なプロンプトを理解する能力で際立っています。また、高速処理時間、商用利用権、多様な画像スタイルのサポートも提供しています。"
+      },
+      {
+        "id": "what-images-can-work-with",
+        "question": "Veo3 AIで最適に動作する画像の種類は何ですか？",
+        "answer": "Veo3 AIは、JPG、PNG、WEBPを含むほとんどの画像フォーマットで動作します。人、動物、風景、物体、アートワークの写真をサポートしています。最高の結果を得るには、明確な被写体と良好な照明を持つ高品質の画像を使用してください。"
+      },
+      {
+        "id": "is-image-to-video-free",
+        "question": "Veo3 AIの画像から動画ジェネレーターは無料ですか？",
+        "answer": "Veo3 AIは無料とプレミアムオプションの両方を提供しています。新規ユーザーはサービスを試すための無料クレジットを受け取ります。定期的な使用には、より多くのクレジットと高解像度や長い動画などの高度な機能を備えた手頃な価格のサブスクリプションプランを提供しています。"
+      }
+    ]
+  },
+  "cta": {
+    "title": "静止画に命を吹き込もう！",
+    "description": "AI画像から動画ジェネレーターで、どんな写真も見事な動画に変換します。画像をアップロードして、数秒で命を吹き込まれる様子をご覧ください。",
+    "buttonText": "画像から動画ジェネレーターを試す"
+  },
+  "aiModelsHero": {
+    "title": "オールインワンAI画像から動画ジェネレーター",
+    "description": "Veo3 AIは究極のオールインワンAI画像から動画ジェネレーターです。Veo3とSeedanceを含む業界をリードする動画モデルへのアクセスを、すべて一つの場所で提供しています。複数のプラットフォームを使い分けることなく、シームレスに試して見事なビジュアルを作成しましょう！",
+    "models": [
+      {
+        "id": "veo3",
+        "name": "Veo 3",
+        "logo": "/imgs/intro/veo.svg"
+      },
+      {
+        "id": "seedance",
+        "name": "Seedance",
+        "logo": "/imgs/intro/seedance.png"
+      }
+    ],
+    "moreModels": "その他のモデル"
+  },
+  "imageToVideoShowcase": {
+    "title": "AI動画ジェネレーターで画像をアニメーション化",
+    "description": "Veo3 AIで静止画を鮮やかなストーリーに変換しましょう！スマートなAI画像から動画ジェネレーターで、アップロードした写真からクリエイティブな動画を生成します。リアルなシーンやアニメーションを作成したい場合でも、Veo3 AIは迅速に、あなたの望む方法で制作できます。",
+    "labels": {
+      "originalImage": "元の画像",
+      "prompt": "プロンプト",
+      "video": "動画"
+    },
+    "examples": [
+      {
+        "id": "anime-girl",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Anime-Girl-with-Braids.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Girl-Pokes-Camera.mp4",
+        "originalAlt": "三つ編みのアニメ少女",
+        "videoAlt": "笑顔でカメラを指さすアニメ少女",
+        "prompt": "少女はカメラに向かって笑い続け、指でレンズを突きます。"
+      },
+      {
+        "id": "t-rex",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Tyrannosaurus-Rex-in-Wilderness.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/TRex-Peeks-at-Camera.mp4",
+        "originalAlt": "荒野のティラノサウルス・レックス",
+        "videoAlt": "カメラから覗くT-レックスの頭",
+        "prompt": "T-レックスの頭がカメラから飛び出します。"
+      },
+      {
+        "id": "mother-son",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Mother-Son-Walking-in-Park.mp4",
+        "originalAlt": "公園を歩く母と息子",
+        "videoAlt": "子供と幸せそうに歩く母親",
+        "prompt": "母親が子供の手を握って幸せそうに歩きます。"
+      },
+      {
+        "id": "motorcycle",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Astronaut-Looking-at-Earth.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
+        "originalAlt": "速度を出す準備ができたオートバイ",
+        "videoAlt": "光の軌跡と共に疾走するオートバイ",
+        "prompt": "オートバイが疾走し、テールライトが一本の線になります。"
+      }
+    ]
+  },
+  "creatorShowcase": {
+    "title": "あらゆる画像から動画クリエイターに最適",
+    "creatorTypes": [
+      {
+        "id": "photographers",
+        "name": "写真家",
+        "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "クリエイティブな瞬間を捉えるカメラを持つプロの写真家",
+        "title": "写真を映画的なストーリーに変換",
+        "description": "静止画をアニメーション化することで、写真ポートフォリオに命を吹き込みます。観客を魅了する動的な新しい方法で、素晴らしい視覚的物語を作成し、あなたの作品を紹介しましょう。",
+        "badge": "写真家"
+      },
+      {
+        "id": "social-media-managers",
+        "name": "ソーシャルメディアマネージャー",
+        "image": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "複数のプラットフォームでコンテンツを管理するソーシャルメディア専門家",
+        "title": "画像から魅力的なソーシャルコンテンツを作成",
+        "description": "静的な投稿をエンゲージメント率を向上させる目を引く動画に変換します。既存の画像アセットを、混雑したソーシャルフィードで際立つ動的なコンテンツに変換しましょう。",
+        "badge": "ソーシャルメディアマネージャー"
+      },
+      {
+        "id": "e-commerce",
+        "name": "Eコマースブランド",
+        "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "現代的な小売環境で製品を紹介するEコマース専門家",
+        "title": "動的な動画で製品を紹介",
+        "description": "製品写真を説得力のある動画デモンストレーションに変換します。製品の動作を表示し、没入的なショッピング体験を作成することで、コンバージョン率を向上させましょう。",
+        "badge": "Eコマースブランド"
+      },
+      {
+        "id": "artists",
+        "name": "デジタルアーティスト",
+        "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "高度なデザインツールでクリエイティブプロジェクトに取り組むデジタルアーティスト",
+        "title": "アートワークやイラストをアニメーション化",
+        "description": "デジタルアートやイラストに動きで命を吹き込みます。アニメーション化されたポートフォリオを作成し、創作プロセスを紹介し、静的な芸術作品に動きを加えましょう。",
+        "badge": "デジタルアーティスト"
+      }
+    ]
+  }
+}

@@ -121,7 +121,14 @@
       "mcp__github-chat__index_repository",
       "mcp__context7__get-library-docs",
       "WebFetch(domain:docs.creem.io)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "mcp__playwright__browser_navigate",
+      "Bash(timeout:*)",
+      "Bash(gtimeout:*)",
+      "Bash(export:*)",
+      "Bash(no_proxy=\"localhost,127.0.0.1\" curl http://localhost:3000/test-simple)",
+      "Bash(open http://localhost:3000)",
+      "Bash(git diff:*)"
     ],
     "deny": []
   },

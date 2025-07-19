@@ -1,7 +1,6 @@
 import { respData, respErr } from "@/lib/resp";
 import { auth } from "@/auth";
 import { getVideoModel } from "@/config/video-models";
-import { ProviderFactory } from "@/services/providers";
 
 export async function GET(req: Request) {
   try {
@@ -28,7 +27,8 @@ export async function GET(req: Request) {
     }
 
     try {
-      // 使用Provider Factory获取合适的provider
+      // 动态导入Provider Factory以避免build时环境变量检查
+      const { ProviderFactory } = await import("@/services/providers");
       const provider = ProviderFactory.getProvider(model);
       
       const result = await provider.result(model, requestId);

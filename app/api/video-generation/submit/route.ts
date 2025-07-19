@@ -23,7 +23,6 @@ import {
   calculateCredits,
   VideoModelProvider,
 } from "@/config/video-models";
-import { ProviderFactory } from "@/services/providers";
 import { optimizePromptWithTimeout } from "@/services/promptOptimization";
 
 export async function POST(req: Request) {
@@ -248,7 +247,8 @@ export async function POST(req: Request) {
     // const webhookUrl = `https://cb7d7fd27e71.ngrok-free.app/api/video-generation/webhook`;
 
     try {
-      // 使用Provider Factory获取合适的provider
+      // 动态导入Provider Factory以避免build时环境变量检查
+      const { ProviderFactory } = await import("@/services/providers");
       const provider = ProviderFactory.getProvider(model);
 
       console.log("submit input", input);

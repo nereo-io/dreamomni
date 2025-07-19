@@ -1,13 +1,13 @@
 {
   "metadata": {
-    "title": "Seedance - Erweiterte KI-Video-Generierung | Seedance von ByteDance",
-    "description": "Seedance 1.0: Revolutionäres KI-Video-Generierungsmodell von ByteDance. Erstellen Sie professionelle 1080p-Videos mit Seedances Multi-Shot-Storytelling und kinematischer Qualität.",
-    "keywords": "Seedance, Seedance AI, Seedance Video Generator, Seedance 1.0, Seedance Modell, AI Video Generator, Text zu Video, Multi-Shot-Storytelling"
+    "title": "Veo3 AI - Kostenloser AI Video Generator",
+    "description": "Erstellen Sie atemberaubende 4K-Videos mit AI. Erstellen Sie professionelle Videos aus Textanweisungen mit realistischer Physik und nativem Audio. Heute kostenlos starten.",
+    "keywords": "Veo3 AI, AI Video Generator, Kostenlose Videoerstellung, Text zu Video, 4K Videos, AI Filmemachen"
   },
   "pricing": {
-    "title": "Seedance Preise - Seedance 1.0 Pläne & Funktionen",
-    "description": "Seedance Preispläne: Wählen Sie Ihr Seedance 1.0 Abonnement. Unbegrenzte Seedance Videogenerierungen, Multi-Shot-Storytelling, prioritärer Zugang zu Seedance AI.",
-    "keywords": "Seedance Preise, Seedance Pläne, Seedance Abonnement, Seedance 1.0 Preise, Seedance AI Preise, Seedance Video Generator Kosten"
+    "title": "Video Pläne | Veo3 AI Preise",
+    "description": "Wählen Sie Ihren AI Video Plan. Erhalten Sie 4K-Ausgabe, unbegrenzte Generierungen, erweiterte Kontrollen und prioritären Support mit Veo3 AI.",
+    "keywords": "Veo3 AI Preise, Video-Generierungspläne, 4K Videos, AI Video Abonnement"
   },
   "history": {
     "title": "Video-Generierungs-Verlauf",
@@ -21,15 +21,32 @@
     "my_orders": "Meine Bestellungen",
     "membership": "Mitgliedschaft"
   },
+  "sidebar": {
+    "home": "Startseite",
+    "image_to_video": "Bild zu Video",
+    "text_to_video": "Text zu Video",
+    "ai_video_effects": "AI Video-Effekte",
+    "my_creations": "Meine Kreationen",
+    "upgrade_now": "Jetzt Upgraden"
+  },
+  "pricing_modal": {
+    "select_payment_method": "Zahlungsmethode wählen",
+    "payment_successful": "Zahlung erfolgreich!",
+    "plan_activated": "Aktiviert",
+    "credits_added": "Credits zu Ihrem Konto hinzugefügt",
+    "continue": "Fortfahren",
+    "start_creating": "Mit Erstellen beginnen",
+    "please_select_payment": "Bitte wählen Sie eine Zahlungsmethode"
+  },
   "sign_modal": {
     "sign_in_title": "Anmelden",
     "sign_in_description": "In Ihr Konto einloggen",
     "sign_up_title": "Registrieren",
     "sign_up_description": "Konto erstellen",
     "email_title": "E-Mail",
-    "email_placeholder": "Geben Sie Ihre E-Mail ein",
+    "email_placeholder": "Geben Sie Ihre E-Mail hier ein",
     "password_title": "Passwort",
-    "password_placeholder": "Geben Sie Ihr Passwort ein",
+    "password_placeholder": "Geben Sie Ihr Passwort hier ein",
     "forgot_password": "Passwort vergessen?",
     "or": "Oder",
     "continue": "Fortfahren",
@@ -41,17 +58,188 @@
     "close_title": "Schließen",
     "cancel_title": "Abbrechen"
   },
+  "my_orders": {
+    "title": "Meine Bestellungen",
+    "description": "Mit Veo3AI bezahlte Bestellungen.",
+    "no_orders": "Keine Bestellungen gefunden",
+    "activate_order": "Bestellung aktivieren",
+    "actived": "Aktiviert",
+    "join_discord": "Discord beitreten",
+    "read_docs": "Dokumentation lesen",
+    "table": {
+      "order_no": "Bestellnummer",
+      "email": "E-Mail",
+      "product_name": "Produktname",
+      "amount": "Betrag",
+      "paid_at": "Bezahlt am",
+      "github_username": "GitHub Benutzername",
+      "status": "Status"
+    }
+  },
+  "membership": {
+    "title": "Mitgliedschaft",
+    "description": "Zeigen Sie Ihre Mitgliedschaftsinformationen und Gültigkeitsdauer an",
+    "status": "Status",
+    "status_active": "Aktiv",
+    "status_expired": "Abgelaufen",
+    "type": "Typ",
+    "type_monthly": "Monatsplan",
+    "type_yearly": "Jahresplan",
+    "start_date": "Startdatum",
+    "end_date": "Enddatum",
+    "remaining_days": "Verbleibende Tage",
+    "days": "Tage",
+    "no_membership": "Keine aktive Mitgliedschaft",
+    "manage_subscription": "Abonnement verwalten",
+    "loading": "Lädt..."
+  },
+  "subscription": {
+    "allSubscriptions": "Alle Abonnements",
+    "subscriptionHistory": "Ihr Payssion Abonnement-Verlauf",
+    "cancelTitle": "Abonnement kündigen",
+    "cancelDescription": "Sind Sie sicher, dass Sie kündigen möchten? Sie behalten den Zugang bis zum Ende Ihres Abrechnungszeitraums.",
+    "keepSubscription": "Abonnement behalten",
+    "confirmCancel": "Ja, kündigen",
+    "canceling": "Wird gekündigt...",
+    "cancel": "Kündigen",
+    "cancelSuccess": "Abonnement gekündigt",
+    "cancelSuccessDescription": "Sie werden nicht mehr belastet.",
+    "cancelFailed": "Kündigung fehlgeschlagen",
+    "cancelFailedDescription": "Bitte versuchen Sie es erneut.",
+    "networkError": "Netzwerkfehler",
+    "networkErrorDescription": "Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut."
+  },
+  "my_credits": {
+    "title": "Meine Credits",
+    "rules_title": "Regeln",
+    "rules": "1. Kostenlose Benutzer erhalten täglich 3 Gespräche, die alle 24 Stunden zurückgesetzt werden. Sie erhalten zusätzliche 3 Gespräche für jeden Freund, den Sie einladen und der sich anmeldet. \n2. Upgraden Sie auf Pro für unbegrenzte Gespräche und erweiterte Funktionen.",
+    "left_tip": "Verbleibende Credits: {left_credits}",
+    "no_credits": "Keine Credit-Aufzeichnungen",
+    "recharge": "Mitgliedschaft upgraden",
+    "invite": "Freunde einladen",
+    "table": {
+      "trans_no": "Transaktionsnummer",
+      "trans_type": "Transaktionstyp",
+      "credits": "Credits",
+      "updated_at": "Aktualisiert am",
+      "status": "Status"
+    }
+  },
+  "api_keys": {
+    "title": "API-Schlüssel",
+    "tip": "Bitte bewahren Sie Ihren API-Schlüssel sicher auf, um Lecks zu vermeiden",
+    "no_api_keys": "Keine API-Schlüssel",
+    "create_api_key": "API-Schlüssel erstellen",
+    "table": {
+      "name": "Name",
+      "key": "Schlüssel",
+      "created_at": "Erstellt am"
+    },
+    "form": {
+      "name": "Name",
+      "name_placeholder": "API-Schlüssel Name",
+      "submit": "Senden"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Neuigkeiten, Ressourcen und Updates über Veo3 AI Video-Generierung",
+    "read_more_text": "Mehr lesen"
+  },
+  "chat": {
+    "title": "Neue Generation - Veo3 AI Video Plattform",
+    "description": "Beginnen Sie mit der Erstellung professioneller Videos mit Veo3 AI für verbesserte visuelle Inhalte, 4K-Generierung und kreatives Storytelling"
+  },
+  "survey_banner": {
+    "message": "👋 Schnelles Feedback benötigt - helfen Sie, Veo3 AI zu gestalten!",
+    "close": "Schließen"
+  },
+  "credit_exhausted_modal": {
+    "title": "Gesprächs-Credits aufgebraucht",
+    "description": "Erweiterte AI-Gespräche, Coding-Unterstützung, Datenanalyse - schalten Sie jetzt alles frei",
+    "lifetime_analysis": {
+      "title": "Persönlicher AI-Assistent",
+      "description1": "Benötigen Sie Hilfe bei komplexen Problemen oder kreativen Projekten? Claude 4 bietet intelligente Einblicke und Lösungen für Ihre spezifischen Bedürfnisse.",
+      "description2": "Für wichtige Aufgaben (Coding, Schreiben, Analyse, Planung) kann ein fortgeschrittener AI-Assistent Ihre Produktivität erheblich steigern."
+    },
+    "dual_chart": {
+      "title": "Team-Zusammenarbeit",
+      "description": "Teilen Sie Gespräche mit Ihren Teammitgliedern und arbeiten Sie bei Projekten mit AI-Unterstützung zusammen."
+    },
+    "use_cases": {
+      "relationship": "Persönlich: Intelligente Beratung für persönliche Entscheidungen und Lebensplanung erhalten?",
+      "family": "Bildung: Hilfe beim Lernen, Forschen und akademischen Projekten - perfekt für Studenten und Fachkräfte?",
+      "career": "Beruflich: Benötigen Sie Unterstützung beim Coding, Schreiben, Datenanalyse oder Geschäftsplanung?"
+    },
+    "choice_section": {
+      "title": "👇 Wählen Sie Ihren nächsten AI-Gesprächsweg:",
+      "premium": {
+        "title": "🔓 Unbegrenzte Gespräche freischalten",
+        "description": "Mitgliedschaft upgraden"
+      },
+      "share": {
+        "title": "🎁 Mit Freunden teilen",
+        "description": "Kostenlose Gespräche erhalten",
+        "tips": "1 Person einladen = 3 Bonus-Gespräche erhalten"
+      }
+    },
+    "footer_text": "Bereits Mitglied? Bitte melden Sie sich erneut an, um Ihre Privilegien wiederherzustellen.\nEinladungen gelten nur für nicht registrierte Benutzer. Credits können nicht mehrfach beansprucht werden."
+  },
+  "my_invites": {
+    "title": "Meine Einladungen",
+    "description": "Zeigen Sie Ihre Einladungsaufzeichnungen an",
+    "no_invites": "Keine Einladungsaufzeichnungen gefunden",
+    "my_invite_link": "Mein Einladungslink",
+    "edit_invite_link": "Einladungslink bearbeiten",
+    "copy_invite_link": "Einladungslink kopieren",
+    "invite_code": "Einladungscode",
+    "invite_tip": "Erhalten Sie Bonus-Credits für jeden Freund, der sich über Ihren Link anmeldet.",
+    "invite_balance": "Einladungsbelohnungsaldo",
+    "total_invite_count": "Gesamtanzahl Einladungen",
+    "total_paid_count": "Gesamtanzahl bezahlt",
+    "total_award_amount": "Gesamtbelohnungsbetrag",
+    "update_invite_code": "Einladungscode festlegen",
+    "update_invite_code_tip": "Geben Sie Ihren benutzerdefinierten Einladungscode ein",
+    "update_invite_button": "Speichern",
+    "no_orders": "Sie können andere nicht einladen, bevor Sie Veo3 AI Premium gekauft haben",
+    "no_affiliates": "Sie dürfen andere nicht einladen, bitte kontaktieren Sie uns für eine Berechtigung.",
+    "invite_templates": "Einladungsvorlagen",
+    "copy": "Kopieren",
+    "template1_title": "🎬 AI Video-Erstellung",
+    "template2_title": "🚀 Content-Erstellung",
+    "template3_title": "💼 Professionelle Videos",
+    "template1": "Hallo Freunde! Ich habe gerade Veo3 AI entdeckt — den fortschrittlichsten AI Video Generator, der atemberaubende Videos aus Textanweisungen erstellt. Die Qualität ist absolut umwerfend! Perfekt für soziale Medien, Marketing oder kreative Projekte. Sie erhalten kostenlose Credits bei der Anmeldung!\n👉 Probieren Sie Veo3 AI jetzt aus",
+    "template2": "Möchten Sie erstaunliche Videos ohne Filmen erstellen? Veo3 AI generiert professionelle Videos aus einfachen Textbeschreibungen. Ich verwende es für meine Content-Erstellung und die Ergebnisse sind unglaublich — spart so viel Zeit und Geld! Starten Sie mit kostenlosen Credits.\n🚀 Entdecken Sie Veo3 AI hier",
+    "template3": "Benötigen Sie professionelle Videos für Ihr Unternehmen? Veo3 AI erstellt hochwertige Werbevideos, Produktdemos und Marketing-Inhalte mit fortschrittlicher AI. Keine Kameras, keine Bearbeitungsfähigkeiten erforderlich — beschreiben Sie einfach, was Sie möchten! Probieren Sie es mit kostenlosen Credits.\n💼 Erkunden Sie Veo3 AI jetzt",
+    "table": {
+      "invite_time": "Einladungszeit",
+      "invite_user": "Eingeladener Benutzer",
+      "status": "Status",
+      "reward_percent": "Belohnungsprozent",
+      "reward_amount": "Belohnungs-Credits",
+      "pending": "Ausstehend",
+      "completed": "Abgeschlossen"
+    }
+  },
   "video-generator": {
-    "videoDescription": "Video-Beschreibung",
+    "videoDescription": "Eingabeaufforderung",
     "referenceImage": "Referenzbild (Optional)",
     "videoAspectRatio": "Video-Seitenverhältnis",
     "videoDuration": "Video-Dauer",
-    "videoModel": "Video-Modell",
+    "videoModel": "Modell",
     "credits": "Credits",
+    "creditsRequired": "Benötigte Credits",
+    "remainingCredits": "Verbleibende Credits",
     "cost": "Kosten",
     "recharge": "Aufladen",
     "generateVideo": "Video generieren",
     "submitting": "Wird übermittelt...",
+    "uploading": "Wird hochgeladen...",
+    "generating": "Wird generiert...",
+    "uploadImage": "Bild",
+    "dragAndDropImage": "Klicken zum Hochladen oder Bild hierher ziehen",
+    "supportedFormats": "Unterstützt JPG, PNG, GIF Formate, max. 10MB",
+    "chooseFile": "Datei wählen",
     "aspectRatios": {
       "landscape": "16:9 Querformat",
       "portrait": "9:16 Hochformat",
@@ -64,34 +252,31 @@
     "characterCount": "Zeichen mindestens",
     "uploadInstructions": {
       "clickToUpload": "Klicken zum Hochladen oder Bild hierher ziehen",
-      "supportedFormats": "300-6000px, JPG/PNG/WEBP/BMP/TIFF/GIF, max. 10MB"
+      "supportedFormats": "Unterstützt JPG, PNG, GIF Formate, max. 10MB"
     },
     "selectModel": "Modell auswählen",
-    "discordBanner": {
-      "text": "24h früher Zugang zu trendigen AI-Vorlagen",
-      "linkText": "Discord beitreten"
+    "videoSettings": "Einstellungen",
+    "ratio": "Verhältnis",
+    "duration": "Dauer",
+    "resolution": "Auflösung",
+    "telegramBanner": {
+      "text": "Telegram-Gruppe beitreten, um über Veo3 zu diskutieren",
+      "linkText": "Beitreten"
     },
     "toast": {
       "signInFirst": "Bitte melden Sie sich zuerst an",
       "enterDescription": "Bitte geben Sie eine Video-Beschreibung ein",
-      "descriptionTooShort": "Video-Beschreibung muss mindestens 10 Zeichen lang sein",
+      "descriptionTooShort": "Video-Beschreibung muss mindestens 30 Zeichen lang sein",
       "uploadImageFile": "Bitte laden Sie eine Bilddatei hoch",
+      "uploadImageRequired": "Bitte laden Sie ein Bild für die Bild-zu-Video-Generierung hoch",
+      "imageUploaded": "Bild erfolgreich hochgeladen",
       "imageTooLarge": "Bilddatei ist zu groß (max. 10MB)",
-      "imageTooSmall": "Bild ist zu klein. Mindestgröße: 300x300px",
-      "unsupportedImageFormat": "Nicht unterstütztes Bildformat. Bitte verwenden Sie JPEG, PNG, WEBP, BMP, TIFF oder GIF",
-      "invalidAspectRatio": "Ungültiges Seitenverhältnis. Bitte verwenden Sie Bilder mit einem Seitenverhältnis zwischen 0,4 und 2,5",
-      "invalidImageFile": "Ungültige Bilddatei. Bitte laden Sie ein gültiges Bild hoch",
-      "sensitiveContentDetected": "Das Bild enthält sensible Inhalte und kann nicht verarbeitet werden. Bitte versuchen Sie ein anderes Bild",
       "imageUploadFailed": "Bild-Upload fehlgeschlagen",
       "insufficientCredits": "Unzureichende Credits. Benötigt: {required}, Verfügbar: {available}",
       "videoSubmitted": "Video-Generierungs-Aufgabe übermittelt, wird verarbeitet...",
       "videoCompleted": "Video-Generierung abgeschlossen!",
       "videoFailed": "Video-Generierung fehlgeschlagen"
     }
-  },
-  "audio-selector": {
-    "sound": "Ton",
-    "seedanceOnly": "Nur Seedance"
   },
   "video-history": {
     "title": "Video-Generierungs-Verlauf",
@@ -111,12 +296,19 @@
       "model": "Modell",
       "duration": "Dauer",
       "aspectRatio": "Seitenverhältnis"
+    },
+    "toast": {
+      "videoNotAvailable": "Video ist noch nicht verfügbar.",
+      "downloadNotAvailable": "Video nicht zum Download verfügbar.",
+      "regenerationNotImplemented": "Neugenerierungs-Funktionalität wird implementiert.",
+      "fetchError": "Fehler beim Abrufen des Video-Verlaufs",
+      "noDataReturned": "Keine Daten zurückgegeben"
     }
   },
   "video-result": {
     "status": {
       "submitted": "Übermittelt",
-      "optimizing": "Prompt-Optimierung",
+      "optimizingPrompt": "Eingabeaufforderung wird optimiert",
       "inQueue": "In Warteschlange",
       "generating": "Wird generiert",
       "completed": "Abgeschlossen",
@@ -125,11 +317,116 @@
     "videoCompleted": "Video-Generierung abgeschlossen!",
     "videoFailed": "Video-Generierung fehlgeschlagen",
     "processing": "Wird verarbeitet...",
+    "taskSubmitted": "Aufgabe übermittelt, geschätzte verbleibende Zeit: {time}",
+    "optimizingPrompt": "Optimierung Ihrer Eingabeaufforderung für bessere Ergebnisse, geschätzte verbleibende Zeit: {time}",
+    "taskInQueue": "Aufgabe in Warteschlange, geschätzte verbleibende Zeit: {time}",
+    "generatingVideo": "Video wird generiert, geschätzte verbleibende Zeit: {time}",
+    "processingGeneral": "Wird verarbeitet, geschätzte verbleibende Zeit: {time}",
     "viewHistory": "Verlauf anzeigen",
     "retry": "Wiederholen",
-    "prompt": "Prompt",
+    "successMessage": "🎉 Ihr Video ist fertig! Sie können es herunterladen oder alle Ihre Kreationen im Verlauf anzeigen.",
+    "prompt": "Eingabeaufforderung",
+    "originalPrompt": "Original-Eingabeaufforderung",
+    "optimizedPrompt": "Verbesserte Eingabeaufforderung",
+    "enhanced": "Verbessert",
+    "optimizing": "Wird optimiert...",
+    "browserNotSupported": "Ihr Browser unterstützt keine Video-Wiedergabe.",
     "download": "Herunterladen",
     "downloading": "Wird heruntergeladen...",
-    "openInNewTab": "In neuem Tab öffnen"
+    "openInNewTab": "In neuem Tab öffnen",
+    "loadingVideo": "Video wird geladen",
+    "videoLoadingMessage": "Video-Generierung ist abgeschlossen. Video-URL wird abgerufen...",
+    "videoProcessing": "Video-Verarbeitung",
+    "videoNotAvailableMessage": "Video-Generierung ist abgeschlossen, aber das Video ist noch nicht verfügbar. Bitte warten Sie einen Moment.",
+    "generationProgress": "Generierungs-Fortschritt",
+    "generationFailed": "Generierung fehlgeschlagen",
+    "errorMessages": {
+      "unexpected": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+      "externalService": "Ein Problem ist mit einem externen Service aufgetreten. Bitte versuchen Sie es später erneut.",
+      "inputIssue": "Es gibt ein Problem mit Ihrer Eingabe oder Einstellungen. Bitte überprüfen Sie und versuchen Sie es erneut.",
+      "serverError": "Ein unerwarteter Fehler ist auf unserer Seite aufgetreten. Bitte versuchen Sie es später erneut.",
+      "timeout": "Die Anfrage hat zu lange gedauert und ist abgelaufen. Bitte versuchen Sie es erneut.",
+      "statusCode": "Ein Fehler ist aufgetreten (Status {code}). Bitte versuchen Sie es erneut."
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Willkommen bei Veo3 AI",
+      "description": "Verwandeln Sie Ihre Ideen mit unserer fortschrittlichen AI-Technologie in atemberaubende Videos. Wählen Sie zwischen Text-zu-Video, Bild-zu-Video oder erkunden Sie unsere kreativen Video-Effekte."
+    },
+    "textToVideo": {
+      "title": "Kostenloser AI Video Generator: Text zu Video AI Online | Veo3 AI",
+      "description": "Entdecken Sie den Veo3 AI Video Generator, eine hochmoderne, kostenlose Lösung, die mühelos eine Textanweisung in ein ansprechendes Video verwandelt. Probieren Sie noch heute unsere Text-zu-Video AI!",
+      "keywords": "AI Video Generator, Text zu Video, kostenloser Video Generator, Veo3 AI, AI Video-Erstellung, Text zu Video online"
+    },
+    "imageToVideo": {
+      "title": "Kostenloser Bild zu Video AI Generator: Fotos zu Videos verwandeln | Veo3 AI",
+      "description": "Verwenden Sie den Bild-zu-Video AI Generator von Veo3 AI kostenlos. Konvertieren Sie Fotos zu Videos mit hochwertigen und fesselnden Ergebnissen. Probieren Sie jetzt unsere Bild-zu-Video AI!",
+      "keywords": "Bild zu Video AI, Foto zu Video Konverter, kostenloses Bild zu Video, Veo3 AI, AI Video aus Bild, Bild-Animation"
+    },
+    "videoAffects": {
+      "heroSection": {
+        "title": "Jeden muskulös machen",
+        "description": "Probieren Sie Veo3 AIs leistungsstarken AI Muskel-Generator! Laden Sie ein Bild von jedem hoch und generieren Sie ein atemberaubendes Video, das eine aufgepumpte, muskulöse Version des Subjekts zeigt.",
+        "buttonText": "Kostenlos ausprobieren"
+      },
+      "effectsTitle": "AI Video-Effekte & Vorlagen",
+      "categoryEffects": {
+        "funAndCreative": "Spaß und kreative Effekte",
+        "horrorAndFantasy": "Horror- und Fantasy-Effekte",
+        "appearanceChanging": "Aussehen verändernde Effekte",
+        "seasonalSpecial": "Saisonale spezielle Effekte",
+        "emotionalExpression": "Emotionale Ausdrucks-Effekte"
+      }
+    },
+    "effectDetail": {
+      "defaultTitle": "AI Video-Effekt",
+      "defaultDescription": "Verwandeln Sie Ihre Fotos mit AI-gestützten Video-Effekten",
+      "tryButtonText": "Diesen Effekt ausprobieren",
+      "placeholderText": "Laden Sie ein Bild hoch, um diesen Effekt anzuwenden",
+      "effectDescriptionLabel": "Effekt-Beschreibung (Optional)",
+      "effectDescriptionPlaceholder": "Beschreiben Sie zusätzliche Details für den Effekt...",
+      "imageAlt": "Muskulöse Transformation",
+      "effectsMap": {
+        "ai-kissing": {
+          "title": "AI Kuss Video Generator",
+          "description": "Erstellen Sie romantische Kuss-Videos mit AI-Technologie"
+        },
+        "ai-muscle": {
+          "title": "AI Muskel-Generator",
+          "description": "Verwandeln Sie jeden in eine muskulöse Version mit AI"
+        }
+      },
+      "howToUse": {
+        "title": "Wie man diesen Effekt verwendet"
+      }
+    }
+  },
+  "effects": {
+    "ai-kissing": "AI Kuss Video Generator",
+    "kiss-me-ai": "Küss mich AI",
+    "ai-twerk": "AI Twerk Video Generator",
+    "ai-hug": "AI Umarmung",
+    "ai-muscle": "AI Muskel-Generator",
+    "ai-french-kissing": "AI französisches Küssen",
+    "ai-360-rotation": "AI 360° Rotations Video Generator",
+    "ai-cloud-ride": "AI Wolkenfahrt Video Generator",
+    "dance-party": "Tanzparty Generator",
+    "magic-tricks": "Zauberkunst-Effekt",
+    "time-travel": "Zeitreise-Effekt",
+    "vampire-transformation": "Vampir-Transformation",
+    "ghost-effect": "Geist-Erscheinungs-Effekt",
+    "gender-swap": "Geschlechtertausch-Effekt",
+    "hair-color-change": "Haarfarben-Wechsler",
+    "makeup-artist": "AI Makeup-Künstler",
+    "body-transformation": "Körper-Transformation",
+    "halloween-spooky": "Halloween gruseliger Effekt",
+    "valentine-romance": "Valentinstag Romantik-Effekt",
+    "new-year-celebration": "Neujahrs-Feier",
+    "summer-beach": "Sommer-Strand-Vibes",
+    "happiness-boost": "Glücks-Boost-Effekt",
+    "surprise-reaction": "Überraschungs-Reaktions-Effekt",
+    "anger-expression": "Wut-Ausdrucks-Effekt",
+    "love-struck": "Verliebt-Effekt"
   }
 }

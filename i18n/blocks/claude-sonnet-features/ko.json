@@ -1,0 +1,109 @@
+{
+  "mainTitle": "고급 AI 비디오 생성 플랫폼",
+  "features": [
+    {
+      "id": "1080p-quality",
+      "title": "전문가급 1080p 비디오 생성",
+      "description": "고급 AI 기술을 사용하여 영화 같은 품질, 부드러운 움직임, 풍부한 디테일을 가진 놀라운 1080p 비디오를 제작합니다.",
+      "imageUrl": "/intro/professional-1080.mp4",
+      "imageAlt": "전문가급 1080p 비디오 품질",
+      "subPoints": [
+        {
+          "title": "고화질의 우수성",
+          "text": "전문적인 콘텐츠 제작에 완벽한 뛰어난 디테일과 선명도를 가진 선명한 1080p 해상도 비디오를 생성합니다."
+        },
+        {
+          "title": "영화적 미학",
+          "text": "고급 렌더링이 부드러운 움직임과 풍부한 시각적 디테일을 만들어 영화적 품질의 결과를 제공합니다."
+        }
+      ],
+      "buttonText": "비디오 생성",
+      "buttonUrl": "#video-generator"
+    },
+    {
+      "id": "multi-shot-storytelling",
+      "title": "멀티샷 스토리텔링",
+      "description": "여러 샷에 걸쳐 원활한 전환과 시각적 일관성을 가진 응집력 있는 내러티브를 만듭니다.",
+      "imageUrl": "/intro/storytelling.mp4",
+      "imageAlt": "멀티샷 스토리텔링 기능",
+      "subPoints": [
+        {
+          "title": "시각적 일관성",
+          "text": "고급 캐릭터 및 장면 인식으로 여러 샷에 걸쳐 완벽한 시각적 일관성을 유지합니다."
+        },
+        {
+          "title": "내러티브 플로우",
+          "text": "부드러운 전환과 논리적 진행으로 복잡한 멀티씬 스토리를 만듭니다."
+        }
+      ]
+    },
+    {
+      "id": "style-versatility",
+      "title": "다양한 스타일 표현",
+      "description": "사실주의부터 사이버펑크, 일러스트부터 애니메이션까지 - 정밀한 스타일 제어로 놀라운 시각적 다양성을 지원합니다.",
+      "imageUrl": "/intro/versatility.mp4",
+      "imageAlt": "다양한 스타일 기능",
+      "subPoints": [
+        {
+          "title": "사실적 렌더링",
+          "text": "자연스러운 조명과 진짜 같은 텍스처로 초현실적인 비디오를 생성합니다."
+        },
+        {
+          "title": "예술적 스타일",
+          "text": "정밀한 예술적 제어로 다양한 미적 스타일을 통해 창의성을 표현합니다."
+        }
+      ]
+    },
+    {
+      "id": "prompt-understanding",
+      "title": "고급 프롬프트 이해",
+      "description": "창의적 비전 실행을 위해 복잡한 자연어를 놀라운 정확도로 해석하는 데 뛰어납니다.",
+      "imageUrl": "/intro/prompt-understanding.mp4",
+      "imageAlt": "우수한 프롬프트 해석",
+      "subPoints": [
+        {
+          "title": "자연어 숙달",
+          "text": "고급 언어 이해가 미묘한 이해력으로 복잡한 창의적 브리프를 해석합니다."
+        },
+        {
+          "title": "창의적 지시",
+          "text": "상세한 설명을 최소한의 반복으로 정확한 시각적 표현으로 번역합니다."
+        }
+      ]
+    },
+    {
+      "id": "camera-control",
+      "title": "전문가급 카메라 제어",
+      "description": "부드러운 카메라 움직임과 전문적인 시점 제어로 역동적인 영화 촬영을 가능하게 합니다.",
+      "imageUrl": "/intro/camera.mp4",
+      "imageAlt": "전문가급 카메라 제어 기능",
+      "subPoints": [
+        {
+          "title": "역동적인 카메라 워크",
+          "text": "부드러운 카메라 움직임과 트래킹 샷으로 전문적인 영화 촬영을 달성합니다."
+        },
+        {
+          "title": "시점 제어",
+          "text": "역동적인 시점과 영화적 프레이밍으로 설득력 있는 시각적 내러티브를 만듭니다."
+        }
+      ]
+    },
+    {
+      "id": "dynamic-range",
+      "title": "넓은 다이나믹 레인지",
+      "description": "뛰어난 품질과 부드러운 움직임 렌더링으로 미묘한 표정과 역동적인 액션을 포착합니다.",
+      "imageUrl": "/intro/dynamic-range.mp4",
+      "imageAlt": "넓은 다이나믹 레인지 기능",
+      "subPoints": [
+        {
+          "title": "표정 포착",
+          "text": "놀라운 민감도로 섬세한 얼굴 표정과 미묘한 감정 상태를 렌더링합니다."
+        },
+        {
+          "title": "액션의 우수성",
+          "text": "유동적인 움직임과 현실적인 물리학으로 역동적인 시퀀스를 생성합니다."
+        }
+      ]
+    }
+  ]
+}

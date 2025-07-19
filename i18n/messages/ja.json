@@ -1,13 +1,13 @@
 {
   "metadata": {
-    "title": "Seedance - 高度なAI動画生成 | ByteDanceのSeedance",
-    "description": "Seedance 1.0: ByteDanceの革新的なAI動画生成モデル。Seedanceのマルチショットストーリーテリングと映画品質でプロフェッショナル1080p動画を作成。",
-    "keywords": "Seedance, Seedance AI, Seedance動画生成, Seedance 1.0, Seedanceモデル, AI動画生成, テキストから動画, マルチショットストーリーテリング"
+    "title": "Veo3 AI - 無料AI動画ジェネレーター",
+    "description": "AIで素晴らしい4K動画を生成。現実的な物理演算とネイティブオーディオでテキストプロンプトからプロフェッショナル動画を作成。今すぐ無料でスタート。",
+    "keywords": "Veo3 AI, AI動画ジェネレーター, 無料動画作成, テキストから動画, 4K動画, AI映画制作"
   },
   "pricing": {
-    "title": "Seedance料金 - Seedance 1.0プランと機能",
-    "description": "Seedance料金プラン: Seedance 1.0サブスクリプションをお選びください。無制限Seedance動画生成、マルチショットストーリーテリング、Seedance AIへの優先アクセス。",
-    "keywords": "Seedance料金, Seedanceプラン, Seedanceサブスクリプション, Seedance 1.0料金, Seedance AI料金, Seedance動画生成コスト"
+    "title": "動画プラン | Veo3 AI料金",
+    "description": "AI動画プランをお選びください。4K出力、無制限生成、高度なコントロール、Veo3 AIでの優先サポートを取得。",
+    "keywords": "Veo3 AI料金, 動画生成プラン, 4K動画, AI動画サブスクリプション"
   },
   "history": {
     "title": "動画生成履歴",
@@ -20,6 +20,23 @@
     "api_keys": "APIキー",
     "my_orders": "注文履歴",
     "membership": "メンバーシップ"
+  },
+  "sidebar": {
+    "home": "ホーム",
+    "image_to_video": "画像から動画",
+    "text_to_video": "テキストから動画",
+    "ai_video_effects": "AI動画エフェクト",
+    "my_creations": "私の作品",
+    "upgrade_now": "今すぐアップグレード"
+  },
+  "pricing_modal": {
+    "select_payment_method": "支払い方法を選択",
+    "payment_successful": "支払い成功！",
+    "plan_activated": "アクティベート済み",
+    "credits_added": "クレジットがアカウントに追加されました",
+    "continue": "続行",
+    "start_creating": "作成開始",
+    "please_select_payment": "支払い方法を選択してください"
   },
   "sign_modal": {
     "sign_in_title": "ログイン",
@@ -41,17 +58,188 @@
     "close_title": "閉じる",
     "cancel_title": "キャンセル"
   },
+  "my_orders": {
+    "title": "注文履歴",
+    "description": "Veo3AIで支払われた注文。",
+    "no_orders": "注文が見つかりません",
+    "activate_order": "注文をアクティベート",
+    "actived": "アクティベート済み",
+    "join_discord": "Discordに参加",
+    "read_docs": "ドキュメントを読む",
+    "table": {
+      "order_no": "注文番号",
+      "email": "メール",
+      "product_name": "商品名",
+      "amount": "金額",
+      "paid_at": "支払日",
+      "github_username": "GitHubユーザー名",
+      "status": "ステータス"
+    }
+  },
+  "membership": {
+    "title": "メンバーシップ",
+    "description": "メンバーシップ情報と有効期限を表示",
+    "status": "ステータス",
+    "status_active": "アクティブ",
+    "status_expired": "期限切れ",
+    "type": "タイプ",
+    "type_monthly": "月間プラン",
+    "type_yearly": "年間プラン",
+    "start_date": "開始日",
+    "end_date": "終了日",
+    "remaining_days": "残り日数",
+    "days": "日",
+    "no_membership": "アクティブでない",
+    "manage_subscription": "サブスクリプション管理",
+    "loading": "読み込み中..."
+  },
+  "subscription": {
+    "allSubscriptions": "すべてのサブスクリプション",
+    "subscriptionHistory": "Payssionサブスクリプション履歴",
+    "cancelTitle": "サブスクリプションをキャンセル",
+    "cancelDescription": "本当にキャンセルしますか？請求期間が終了するまでアクセスを維持します。",
+    "keepSubscription": "サブスクリプションを維持",
+    "confirmCancel": "はい、キャンセル",
+    "canceling": "キャンセル中...",
+    "cancel": "キャンセル",
+    "cancelSuccess": "サブスクリプションがキャンセルされました",
+    "cancelSuccessDescription": "再度請求されることはありません。",
+    "cancelFailed": "キャンセルに失敗",
+    "cancelFailedDescription": "もう一度お試しください。",
+    "networkError": "ネットワークエラー",
+    "networkErrorDescription": "接続を確認してもう一度お試しください。"
+  },
+  "my_credits": {
+    "title": "マイクレジット",
+    "rules_title": "ルール",
+    "rules": "1. 無料ユーザーは1日3回の会話ができ、24時間ごとにリセットされます。登録する友達を招待するごとに追加で3回の会話を獲得できます。\n2. 無制限の会話と高度な機能のためにProにアップグレードしてください。",
+    "left_tip": "残りクレジット: {left_credits}",
+    "no_credits": "クレジット記録なし",
+    "recharge": "メンバーシップをアップグレード",
+    "invite": "友達を招待",
+    "table": {
+      "trans_no": "取引番号",
+      "trans_type": "取引タイプ",
+      "credits": "クレジット",
+      "updated_at": "更新日時",
+      "status": "ステータス"
+    }
+  },
+  "api_keys": {
+    "title": "APIキー",
+    "tip": "漏洩を避けるためAPIキーを安全に保管してください",
+    "no_api_keys": "APIキーなし",
+    "create_api_key": "APIキーを作成",
+    "table": {
+      "name": "名前",
+      "key": "キー",
+      "created_at": "作成日時"
+    },
+    "form": {
+      "name": "名前",
+      "name_placeholder": "APIキー名",
+      "submit": "送信"
+    }
+  },
+  "blog": {
+    "title": "ブログ",
+    "description": "Veo3 AI動画生成に関するニュース、リソース、アップデート",
+    "read_more_text": "続きを読む"
+  },
+  "chat": {
+    "title": "新世代 - Veo3 AI動画プラットフォーム",
+    "description": "強化されたビジュアルコンテンツ、4K生成、創造的なストーリーテリングのためにVeo3 AIでプロフェッショナル動画の作成を開始"
+  },
+  "survey_banner": {
+    "message": "👋 迅速なフィードバックが必要です - Veo3 AIの形成を支援してください！",
+    "close": "閉じる"
+  },
+  "credit_exhausted_modal": {
+    "title": "会話クレジットが不足",
+    "description": "高度なAI会話、コーディング支援、データ分析 - 今すぐすべてのロックを解除",
+    "lifetime_analysis": {
+      "title": "パーソナルAIアシスタント",
+      "description1": "複雑な問題や創造的なプロジェクトでお困りですか？Claude 4はあなたの特定のニーズに対してインテリジェントな洞察とソリューションを提供します。",
+      "description2": "重要なタスク（コーディング、ライティング、分析、計画）において、高度なAIアシスタントを持つことで生産性を大幅に向上させることができます。"
+    },
+    "dual_chart": {
+      "title": "チームコラボレーション",
+      "description": "チームメンバーと会話を共有し、AI支援でプロジェクトでコラボレーション。"
+    },
+    "use_cases": {
+      "relationship": "個人: 個人的な決定と人生計画のためのインテリジェントなアドバイスを受けますか？",
+      "family": "教育: 学習、研究、学術プロジェクトの支援 - 学生と専門家に最適ですか？",
+      "career": "プロフェッショナル: コーディング、ライティング、データ分析、またはビジネス計画の支援が必要ですか？"
+    },
+    "choice_section": {
+      "title": "👇 次のAI会話パスを選択:",
+      "premium": {
+        "title": "🔓 無制限会話のロックを解除",
+        "description": "メンバーシップをアップグレード"
+      },
+      "share": {
+        "title": "🎁 友達と共有",
+        "description": "無料会話を獲得",
+        "tips": "1人招待 = 3回のボーナス会話を獲得"
+      }
+    },
+    "footer_text": "既にメンバーですか？特権を復元するために再度ログインしてください。\n招待は未登録ユーザーにのみ有効です。クレジットは複数回請求できません。"
+  },
+  "my_invites": {
+    "title": "マイ招待",
+    "description": "招待記録を表示",
+    "no_invites": "招待記録が見つかりません",
+    "my_invite_link": "マイ招待リンク",
+    "edit_invite_link": "招待リンクを編集",
+    "copy_invite_link": "招待リンクをコピー",
+    "invite_code": "招待コード",
+    "invite_tip": "あなたのリンクを通じてサインアップするすべての友達に対してボーナスクレジットを獲得。",
+    "invite_balance": "招待報酬残高",
+    "total_invite_count": "総招待数",
+    "total_paid_count": "総支払い数",
+    "total_award_amount": "総報酬額",
+    "update_invite_code": "招待コードを設定",
+    "update_invite_code_tip": "カスタム招待コードを入力",
+    "update_invite_button": "保存",
+    "no_orders": "Veo3 AI premiumを購入する前に他の人を招待することはできません",
+    "no_affiliates": "他の人を招待することは許可されていません。許可を申請するために当社に連絡してください。",
+    "invite_templates": "招待テンプレート",
+    "copy": "コピー",
+    "template1_title": "🎬 AI動画作成",
+    "template2_title": "🚀 コンテンツ作成",
+    "template3_title": "💼 プロフェッショナル動画",
+    "template1": "こんにちは友達！Veo3 AIを発見しました — テキストプロンプトから素晴らしい動画を作成する最も先進的なAI動画ジェネレーターです。品質は絶対に驚異的です！ソーシャルメディア、マーケティング、または創造的なプロジェクトに最適です。サインアップすると無料クレジットがもらえます！\n👉 今すぐVeo3 AIを試す",
+    "template2": "撮影なしで素晴らしい動画を作成したいですか？Veo3 AIは簡単なテキスト記述からプロフェッショナル品質の動画を生成します。コンテンツ作成に使用していますが、結果は信じられないほどです — 多くの時間とお金を節約できます！無料クレジットで始めましょう。\n🚀 ここでVeo3 AIを発見",
+    "template3": "ビジネス用のプロフェッショナル動画が必要ですか？Veo3 AIは高度なAIを使用して高品質のプロモーション動画、製品デモ、マーケティングコンテンツを作成します。カメラも編集スキルも必要ありません — 欲しいものを説明するだけです！無料クレジットでお試しください。\n💼 今すぐVeo3 AIを探索",
+    "table": {
+      "invite_time": "招待時間",
+      "invite_user": "招待ユーザー",
+      "status": "ステータス",
+      "reward_percent": "報酬率",
+      "reward_amount": "報酬クレジット",
+      "pending": "保留中",
+      "completed": "完了"
+    }
+  },
   "video-generator": {
-    "videoDescription": "動画の説明",
-    "referenceImage": "参考画像（オプション）",
-    "videoAspectRatio": "動画のアスペクト比",
+    "videoDescription": "プロンプト",
+    "referenceImage": "参照画像（オプション）",
+    "videoAspectRatio": "動画アスペクト比",
     "videoDuration": "動画の長さ",
-    "videoModel": "動画モデル",
+    "videoModel": "モデル",
     "credits": "クレジット",
+    "creditsRequired": "必要クレジット",
+    "remainingCredits": "残りクレジット",
     "cost": "コスト",
     "recharge": "チャージ",
     "generateVideo": "動画を生成",
     "submitting": "送信中...",
+    "uploading": "アップロード中...",
+    "generating": "生成中...",
+    "uploadImage": "画像",
+    "dragAndDropImage": "クリックしてアップロードまたは画像をドラッグ",
+    "supportedFormats": "JPG、PNG、GIF形式をサポート、最大10MB",
+    "chooseFile": "ファイルを選択",
     "aspectRatios": {
       "landscape": "16:9 横向き",
       "portrait": "9:16 縦向き",
@@ -64,39 +252,36 @@
     "characterCount": "文字以上",
     "uploadInstructions": {
       "clickToUpload": "クリックしてアップロードまたは画像をドラッグ",
-      "supportedFormats": "300-6000px、JPG/PNG/WEBP/BMP/TIFF/GIF、最大10MB"
+      "supportedFormats": "JPG、PNG、GIF形式をサポート、最大10MB"
     },
     "selectModel": "モデルを選択",
-    "discordBanner": {
-      "text": "トレンドAIテンプレートに24時間早期アクセス",
-      "linkText": "Discordに参加"
+    "videoSettings": "設定",
+    "ratio": "比率",
+    "duration": "長さ",
+    "resolution": "解像度",
+    "telegramBanner": {
+      "text": "TelegramグループでVeo3について議論",
+      "linkText": "参加"
     },
     "toast": {
       "signInFirst": "まずログインしてください",
-      "enterDescription": "動画の説明を入力してください",
-      "descriptionTooShort": "動画の説明は10文字以上である必要があります",
+      "enterDescription": "動画説明を入力してください",
+      "descriptionTooShort": "動画説明は少なくとも30文字である必要があります",
       "uploadImageFile": "画像ファイルをアップロードしてください",
+      "uploadImageRequired": "画像から動画生成のために画像をアップロードしてください",
+      "imageUploaded": "画像が正常にアップロードされました",
       "imageTooLarge": "画像ファイルが大きすぎます（最大10MB）",
-      "imageTooSmall": "画像が小さすぎます。最小サイズ: 300x300px",
-      "unsupportedImageFormat": "サポートされていない画像形式です。JPEG、PNG、WEBP、BMP、TIFF、またはGIFを使用してください",
-      "invalidAspectRatio": "無効なアスペクト比です。0.4から2.5の範囲のアスペクト比の画像を使用してください",
-      "invalidImageFile": "無効な画像ファイルです。有効な画像をアップロードしてください",
-      "sensitiveContentDetected": "画像に機密コンテンツが含まれており、処理できません。別の画像をお試しください",
-      "imageUploadFailed": "画像のアップロードに失敗しました",
+      "imageUploadFailed": "画像アップロードに失敗",
       "insufficientCredits": "クレジットが不足しています。必要: {required}、利用可能: {available}",
       "videoSubmitted": "動画生成タスクが送信されました、処理中...",
       "videoCompleted": "動画生成が完了しました！",
       "videoFailed": "動画生成に失敗しました"
     }
   },
-  "audio-selector": {
-    "sound": "音響",
-    "seedanceOnly": "Seedanceのみ"
-  },
   "video-history": {
     "title": "動画生成履歴",
-    "noVideosTitle": "動画がありません",
-    "noVideosDescription": "まだ動画を生成していません。最初の作品を作成しましょう！",
+    "noVideosTitle": "動画なし",
+    "noVideosDescription": "まだ動画を生成していません。最初の傑作を作成しましょう！",
     "generateVideoButton": "動画を生成",
     "playButton": "再生",
     "downloadButton": "ダウンロード",
@@ -104,19 +289,26 @@
     "status": {
       "completed": "完了",
       "processing": "処理中",
-      "pending": "待機中",
+      "pending": "保留中",
       "failed": "失敗"
     },
     "labels": {
       "model": "モデル",
       "duration": "長さ",
       "aspectRatio": "アスペクト比"
+    },
+    "toast": {
+      "videoNotAvailable": "動画はまだ利用できません。",
+      "downloadNotAvailable": "動画はダウンロードできません。",
+      "regenerationNotImplemented": "再生成機能は実装される予定です。",
+      "fetchError": "動画履歴の取得に失敗しました",
+      "noDataReturned": "データが返されませんでした"
     }
   },
   "video-result": {
     "status": {
       "submitted": "送信済み",
-      "optimizing": "プロンプト最適化中",
+      "optimizingPrompt": "プロンプト最適化中",
       "inQueue": "キュー待ち",
       "generating": "生成中",
       "completed": "完了",
@@ -125,11 +317,116 @@
     "videoCompleted": "動画生成が完了しました！",
     "videoFailed": "動画生成に失敗しました",
     "processing": "処理中...",
+    "taskSubmitted": "タスクが送信されました、推定残り時間: {time}",
+    "optimizingPrompt": "より良い結果のためにプロンプトを最適化中、推定残り時間: {time}",
+    "taskInQueue": "タスクがキューにあります、推定残り時間: {time}",
+    "generatingVideo": "動画を生成中、推定残り時間: {time}",
+    "processingGeneral": "処理中、推定残り時間: {time}",
     "viewHistory": "履歴を表示",
     "retry": "再試行",
+    "successMessage": "🎉 動画の準備ができました！ダウンロードするか、履歴ですべての作品を表示できます。",
     "prompt": "プロンプト",
+    "originalPrompt": "元のプロンプト",
+    "optimizedPrompt": "最適化されたプロンプト",
+    "enhanced": "拡張済み",
+    "optimizing": "最適化中...",
+    "browserNotSupported": "お使いのブラウザは動画再生をサポートしていません。",
     "download": "ダウンロード",
     "downloading": "ダウンロード中...",
-    "openInNewTab": "新しいタブで開く"
+    "openInNewTab": "新しいタブで開く",
+    "loadingVideo": "動画読み込み中",
+    "videoLoadingMessage": "動画生成が完了しました。動画URLを取得中...",
+    "videoProcessing": "動画処理中",
+    "videoNotAvailableMessage": "動画生成は完了しましたが、動画はまだ利用できません。しばらくお待ちください。",
+    "generationProgress": "生成進行状況",
+    "generationFailed": "生成に失敗",
+    "errorMessages": {
+      "unexpected": "予期しないエラーが発生しました。もう一度お試しください。",
+      "externalService": "外部サービスで問題が発生しました。後でもう一度お試しください。",
+      "inputIssue": "入力または設定に問題があります。確認してもう一度お試しください。",
+      "serverError": "当社側で予期しないエラーが発生しました。後でもう一度お試しください。",
+      "timeout": "リクエストに時間がかかりすぎてタイムアウトしました。もう一度お試しください。",
+      "statusCode": "エラーが発生しました（ステータス {code}）。もう一度お試しください。"
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Veo3 AIへようこそ",
+      "description": "高度なAI技術でアイデアを素晴らしい動画に変換。テキストから動画、画像から動画を選択するか、創造的な動画エフェクトを探索してください。"
+    },
+    "textToVideo": {
+      "title": "無料AI動画ジェネレーター: テキストから動画AI オンライン | Veo3 AI",
+      "description": "Veo3 AI動画ジェネレーターを発見してください。テキストプロンプトを魅力的な動画に簡単に変換する最先端の無料ソリューション。今日私たちのテキストから動画AIをお試しください！",
+      "keywords": "AI動画ジェネレーター, テキストから動画, 無料動画ジェネレーター, Veo3 AI, AI動画作成, テキストから動画オンライン"
+    },
+    "imageToVideo": {
+      "title": "無料画像から動画AIジェネレーター: 写真を動画に変換 | Veo3 AI",
+      "description": "Veo3 AIの画像から動画AIジェネレーターを無料で使用。高品質で魅力的な結果で写真を動画に変換。今すぐ私たちの画像から動画AIをお試しください！",
+      "keywords": "画像から動画AI, 写真から動画コンバーター, 無料画像から動画, Veo3 AI, 画像からAI動画, 画像アニメーション"
+    },
+    "videoAffects": {
+      "heroSection": {
+        "title": "誰でも筋肉質にする",
+        "description": "Veo3 AIの強力なAI筋肉ジェネレーターをお試しください！誰でもの画像をアップロードして、被写体の筋肉質でバルクアップしたバージョンを表示する素晴らしい動画を生成。",
+        "buttonText": "無料で試す"
+      },
+      "effectsTitle": "AI動画エフェクト & テンプレート",
+      "categoryEffects": {
+        "funAndCreative": "楽しくて創造的なエフェクト",
+        "horrorAndFantasy": "ホラーとファンタジーエフェクト",
+        "appearanceChanging": "外見変更エフェクト",
+        "seasonalSpecial": "季節の特別エフェクト",
+        "emotionalExpression": "感情表現エフェクト"
+      }
+    },
+    "effectDetail": {
+      "defaultTitle": "AI動画エフェクト",
+      "defaultDescription": "AI駆動の動画エフェクトで写真を変換",
+      "tryButtonText": "このエフェクトを試す",
+      "placeholderText": "このエフェクトを適用する画像をアップロード",
+      "effectDescriptionLabel": "エフェクト説明（オプション）",
+      "effectDescriptionPlaceholder": "エフェクトの追加詳細を説明...",
+      "imageAlt": "筋肉変換",
+      "effectsMap": {
+        "ai-kissing": {
+          "title": "AIキス動画ジェネレーター",
+          "description": "AI技術でロマンチックなキス動画を作成"
+        },
+        "ai-muscle": {
+          "title": "AI筋肉ジェネレーター",
+          "description": "AIで誰でも筋肉質バージョンに変換"
+        }
+      },
+      "howToUse": {
+        "title": "このエフェクトの使用方法"
+      }
+    }
+  },
+  "effects": {
+    "ai-kissing": "AIキス動画ジェネレーター",
+    "kiss-me-ai": "Kiss Me AI",
+    "ai-twerk": "AIトワーク動画ジェネレーター",
+    "ai-hug": "AIハグ",
+    "ai-muscle": "AI筋肉ジェネレーター",
+    "ai-french-kissing": "AIフレンチキス",
+    "ai-360-rotation": "AI 360°回転動画ジェネレーター",
+    "ai-cloud-ride": "AIクラウドライド動画ジェネレーター",
+    "dance-party": "ダンスパーティージェネレーター",
+    "magic-tricks": "マジックトリックエフェクト",
+    "time-travel": "タイムトラベルエフェクト",
+    "vampire-transformation": "バンパイア変身",
+    "ghost-effect": "ゴースト出現エフェクト",
+    "gender-swap": "性別スワップエフェクト",
+    "hair-color-change": "髪色チェンジャー",
+    "makeup-artist": "AIメイクアップアーティスト",
+    "body-transformation": "体型変換",
+    "halloween-spooky": "ハロウィン不気味エフェクト",
+    "valentine-romance": "バレンタインロマンスエフェクト",
+    "new-year-celebration": "新年祝賀",
+    "summer-beach": "夏のビーチバイブ",
+    "happiness-boost": "幸福ブーストエフェクト",
+    "surprise-reaction": "サプライズリアクションエフェクト",
+    "anger-expression": "怒り表現エフェクト",
+    "love-struck": "恋に落ちたエフェクト"
   }
 }

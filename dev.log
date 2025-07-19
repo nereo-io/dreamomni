@@ -1,12 +1,20 @@
 
-> veo3-ai@1.0.0 dev /Users/jasper/Desktop/LLM/macmini/veo3-fresh
+> seedance@1.0.0 dev /Users/jasper/Desktop/LLM/macmini/seedance
 > NODE_NO_WARNINGS=1 next dev
 
- ⚠ Port 3000 is in use, trying 3001 instead.
   ▲ Next.js 14.2.15
-  - Local:        http://localhost:3001
+  - Local:        http://localhost:3000
   - Environments: .env.local
 
  ✓ Starting...
    automatically enabled Fast Refresh for 1 custom loader
- ✓ Ready in 2.3s
+ ✓ Ready in 2.1s
+ ✓ Compiled /middleware in 169ms (217 modules)
+ ○ Compiling /[locale] ...
+ ✓ Compiled /[locale] in 7.2s (1812 modules)
+ ✓ Compiled in 468ms (558 modules)
+ GET / 200 in 8249ms
+ HEAD / 200 in 35ms
+ GET / 200 in 40ms
+ GET / 200 in 51ms
+[?25h

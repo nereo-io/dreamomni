@@ -1,6 +1,7 @@
 import { LandingPage } from "@/types/pages/landing";
 import { Pricing } from "@/types/blocks/pricing";
 import { ClaudeSonnetFeaturesBlockTranslations } from "@/types/blocks/claude-sonnet-features";
+import { SeedanceFeaturesBlockTranslations } from "@/types/blocks/seedance-features";
 import { TextToVideoPage } from "@/types/pages/text-to-video";
 import { ImageToVideoPage } from "@/types/pages/image-to-video";
 
@@ -57,6 +58,26 @@ export async function getClaudeSonnetFeaturesBlock(
   }
 }
 
+export async function getSeedanceFeaturesBlock(
+  locale: string
+): Promise<SeedanceFeaturesBlockTranslations> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/blocks/seedance-features/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load seedance-features/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/blocks/seedance-features/en.json").then(
+      (module) => module.default as SeedanceFeaturesBlockTranslations
+    );
+  }
+}
+
 export async function getTextToVideoPage(locale: string): Promise<TextToVideoPage> {
   try {
     if (locale === "zh-CN") {
@@ -87,5 +108,14 @@ export async function getImageToVideoPage(locale: string): Promise<ImageToVideoP
       (module) => module.default as ImageToVideoPage
     );
   }
+}
+
+export async function getVideoFeatureShowcaseBlock(locale: string): Promise<any> {
+  // Return empty data for now since we don't have video-feature-showcase data files
+  return {
+    title: "",
+    description: "",
+    features: []
+  };
 }
 

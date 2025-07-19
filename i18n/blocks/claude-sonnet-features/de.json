@@ -1,0 +1,109 @@
+{
+  "mainTitle": "Fortgeschrittene KI-Videogenerierungsplattform",
+  "features": [
+    {
+      "id": "1080p-quality",
+      "title": "Professionelle 1080p-Videogenerierung",
+      "description": "Erstellen Sie atemberaubende 1080p-Videos in kinoreifer Qualität mit flüssigen Bewegungen und reichen Details mithilfe fortschrittlicher KI-Technologie.",
+      "imageUrl": "/intro/professional-1080.mp4",
+      "imageAlt": "Professionelle 1080p-Videoqualität",
+      "subPoints": [
+        {
+          "title": "High-Definition-Exzellenz",
+          "text": "Generieren Sie gestochen scharfe 1080p-Auflösungsvideos mit außergewöhnlichen Details und Klarheit, perfekt für professionelle Inhaltserstellung."
+        },
+        {
+          "title": "Kinoreife Ästhetik",
+          "text": "Fortschrittliches Rendering erzeugt flüssige Bewegungen und reiche visuelle Details, die kinoreife Qualitätsergebnisse liefern."
+        }
+      ],
+      "buttonText": "Video generieren",
+      "buttonUrl": "#video-generator"
+    },
+    {
+      "id": "multi-shot-storytelling",
+      "title": "Multi-Shot-Storytelling",
+      "description": "Erstellen Sie kohärente Erzählungen mit nahtlosen Übergängen und visueller Konsistenz über mehrere Einstellungen hinweg.",
+      "imageUrl": "/intro/storytelling.mp4",
+      "imageAlt": "Multi-Shot-Storytelling-Fähigkeiten",
+      "subPoints": [
+        {
+          "title": "Visuelle Konsistenz",
+          "text": "Bewahren Sie perfekte visuelle Kohärenz über mehrere Einstellungen hinweg mit fortschrittlicher Charakter- und Szenenerkennung."
+        },
+        {
+          "title": "Narrativer Fluss",
+          "text": "Erstellen Sie komplexe mehrszenige Geschichten mit flüssigen Übergängen und logischer Progression."
+        }
+      ]
+    },
+    {
+      "id": "style-versatility",
+      "title": "Vielfältige Stilausdrücke",
+      "description": "Von Fotorealismus bis Cyberpunk, Illustration bis Animation - unterstützt unglaubliche visuelle Vielfalt mit präziser Stilkontrolle.",
+      "imageUrl": "/intro/versatility.mp4",
+      "imageAlt": "Vielfältige Stilfähigkeiten",
+      "subPoints": [
+        {
+          "title": "Fotorealistische Darstellung",
+          "text": "Generieren Sie ultra-realistische Videos mit natürlicher Beleuchtung und authentischen Texturen."
+        },
+        {
+          "title": "Künstlerische Stile",
+          "text": "Drücken Sie Kreativität durch verschiedene ästhetische Stile mit präziser künstlerischer Kontrolle aus."
+        }
+      ]
+    },
+    {
+      "id": "prompt-understanding",
+      "title": "Fortschrittliches Prompt-Verständnis",
+      "description": "Exzelliert bei der Interpretation komplexer natürlicher Sprache mit bemerkenswerter Genauigkeit für die Umsetzung kreativer Visionen.",
+      "imageUrl": "/intro/prompt-understanding.mp4",
+      "imageAlt": "Überlegene Prompt-Interpretation",
+      "subPoints": [
+        {
+          "title": "Beherrschung natürlicher Sprache",
+          "text": "Fortschrittliches Sprachverständnis interpretiert komplexe kreative Briefings mit nuanciertem Verständnis."
+        },
+        {
+          "title": "Kreative Leitung",
+          "text": "Übersetzen Sie detaillierte Beschreibungen in genaue visuelle Darstellungen mit minimaler Iteration."
+        }
+      ]
+    },
+    {
+      "id": "camera-control",
+      "title": "Professionelle Kamerakontrolle",
+      "description": "Ermöglichen Sie dynamische Kinematografie mit flüssigen Kamerabewegungen und professioneller Perspektivenkontrolle.",
+      "imageUrl": "/intro/camera.mp4",
+      "imageAlt": "Professionelle Kamerakontrollfunktionen",
+      "subPoints": [
+        {
+          "title": "Dynamische Kameraarbeit",
+          "text": "Erreichen Sie professionelle Kinematografie mit flüssigen Kamerabewegungen und Verfolgungsaufnahmen."
+        },
+        {
+          "title": "Perspektivenkontrolle",
+          "text": "Erstellen Sie überzeugende visuelle Erzählungen mit dynamischen Perspektiven und kinoreifer Bildkomposition."
+        }
+      ]
+    },
+    {
+      "id": "dynamic-range",
+      "title": "Breiter Dynamikbereich",
+      "description": "Erfassen Sie subtile Ausdrücke und dynamische Aktionen mit außergewöhnlicher Qualität und flüssiger Bewegungsdarstellung.",
+      "imageUrl": "/intro/dynamic-range.mp4",
+      "imageAlt": "Breite Dynamikbereich-Fähigkeiten",
+      "subPoints": [
+        {
+          "title": "Ausdruckserfassung",
+          "text": "Rendern Sie zarte Gesichtsausdrücke und nuancierte emotionale Zustände mit bemerkenswerter Sensibilität."
+        },
+        {
+          "title": "Action-Exzellenz",
+          "text": "Generieren Sie dynamische Sequenzen mit fließender Bewegung und realistischer Physik."
+        }
+      ]
+    }
+  ]
+}

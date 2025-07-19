@@ -1,5 +1,4 @@
 import { getVideoModel, VideoModelProvider } from "@/config/video-models";
-import { ProviderFactory } from "@/services/providers";
 import { updateVideoGenerationById } from "@/models/videoGeneration";
 
 export interface VideoStatusResult {
@@ -80,6 +79,7 @@ export class VideoStatusService {
 
     console.log(`使用provider查询状态: ${modelConfig.provider}, requestId: ${requestId}`);
 
+    const { ProviderFactory } = await import("@/services/providers");
     const provider = ProviderFactory.getProvider(videoGeneration.model_id);
     const providerStatus = await provider.status(videoGeneration.model_id, requestId);
 
@@ -184,7 +184,8 @@ export class VideoStatusService {
     requestId: string
   ): Promise<void> {
     try {
-      const provider = ProviderFactory.getProvider(videoGeneration.model_id);
+      const { ProviderFactory } = await import("@/services/providers");
+    const provider = ProviderFactory.getProvider(videoGeneration.model_id);
       const result = await provider.result(videoGeneration.model_id, requestId);
 
       console.log("获取到生成结果:", result);
