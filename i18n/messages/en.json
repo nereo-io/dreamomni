@@ -1,13 +1,13 @@
 {
   "metadata": {
-    "title": "Seedance - Advanced AI Video Generator | Seedance from ByteDance",
-    "description": "Seedance 1.0: Revolutionary AI video generation model from ByteDance. Create professional 1080p videos with Seedance's multi-shot storytelling and cinematic quality.",
-    "keywords": "Seedance, Seedance AI, Seedance video generator, Seedance 1.0,  Seedance model, AI video generator, text to video, multi-shot storytelling"
+    "title": "Veo3 AI - Free AI Video Generator",
+    "description": "Generate stunning 4K videos with AI. Create professional videos from text prompts with realistic physics and native audio. Start free today.",
+    "keywords": "Veo3 AI, AI Video Generator, Free Video Creation, Text to Video, 4K Videos, AI Filmmaking"
   },
   "pricing": {
-    "title": "Seedance Pricing - Seedance 1.0 Plans & Features",
-    "description": "Seedance pricing plans: Choose your Seedance 1.0 subscription. Unlimited Seedance video generations, multi-shot storytelling, priority access to Seedance AI.",
-    "keywords": "Seedance pricing, Seedance plans, Seedance subscription, Seedance 1.0 pricing, Seedance AI pricing, Seedance video generator cost"
+    "title": "Video Plans | Veo3 AI Pricing",
+    "description": "Choose your AI video plan. Get 4K output, unlimited generations, advanced controls, and priority support with Veo3 AI.",
+    "keywords": "Veo3 AI pricing, video generation plans, 4K videos, AI video subscription"
   },
   "history": {
     "title": "Video Generation History",
@@ -20,6 +20,23 @@
     "api_keys": "API Keys",
     "my_orders": "My Orders",
     "membership": "Membership"
+  },
+  "sidebar": {
+    "home": "Home",
+    "image_to_video": "Image to Video",
+    "text_to_video": "Text to Video",
+    "ai_video_effects": "AI Video Effects",
+    "my_creations": "My Creations",
+    "upgrade_now": "Upgrade Now"
+  },
+  "pricing_modal": {
+    "select_payment_method": "Choose payment method",
+    "payment_successful": "Payment Successful!",
+    "plan_activated": "Activated",
+    "credits_added": "credits added to your account",
+    "continue": "Continue",
+    "start_creating": "Start Creating",
+    "please_select_payment": "Please select a payment method"
   },
   "sign_modal": {
     "sign_in_title": "Sign In",
@@ -43,9 +60,8 @@
   },
   "my_orders": {
     "title": "My Orders",
-    "description": "orders paid with Seedance.",
+    "description": "orders paid with Veo3AI.",
     "no_orders": "No orders found",
-    "tip": "",
     "activate_order": "Activate Order",
     "actived": "Activated",
     "join_discord": "Join Discord",
@@ -76,6 +92,22 @@
     "no_membership": "No Active",
     "manage_subscription": "Manage Subscription",
     "loading": "Loading..."
+  },
+  "subscription": {
+    "allSubscriptions": "All Subscriptions",
+    "subscriptionHistory": "Your Payssion subscription history",
+    "cancelTitle": "Cancel Subscription",
+    "cancelDescription": "Are you sure you want to cancel? You'll keep access until your billing period ends.",
+    "keepSubscription": "Keep Subscription",
+    "confirmCancel": "Yes, Cancel",
+    "canceling": "Canceling...",
+    "cancel": "Cancel",
+    "cancelSuccess": "Subscription canceled",
+    "cancelSuccessDescription": "You won't be billed again.",
+    "cancelFailed": "Cancel failed",
+    "cancelFailedDescription": "Please try again.",
+    "networkError": "Network error",
+    "networkErrorDescription": "Check your connection and try again."
   },
   "my_credits": {
     "title": "My Credits",
@@ -111,15 +143,15 @@
   },
   "blog": {
     "title": "Blog",
-    "description": "News, resources, and updates about Seedance AI video generation",
+    "description": "News, resources, and updates about Veo3 AI video generation",
     "read_more_text": "Read More"
   },
   "chat": {
-    "title": "New Generation - Seedance AI Video Platform",
-    "description": "Start creating professional videos with Seedance for enhanced visual content, 1080p generation, multi-shot storytelling, and cinematic aesthetics"
+    "title": "New Generation - Veo3 AI Video Platform",
+    "description": "Start creating professional videos with Veo3 AI for enhanced visual content, 4K generation, and creative storytelling"
   },
   "survey_banner": {
-    "message": "👋 Quick feedback needed - help shape Seedance!",
+    "message": "👋 Quick feedback needed - help shape Veo3 AI!",
     "close": "Close"
   },
   "credit_exhausted_modal": {
@@ -169,16 +201,16 @@
     "update_invite_code": "Set Invite Code",
     "update_invite_code_tip": "Input your custom invite code",
     "update_invite_button": "Save",
-    "no_orders": "You can't invite others before you purchased Seedance premium",
+    "no_orders": "You can't invite others before you purchased Veo3 AI premium",
     "no_affiliates": "You're not allowed to invite others, please contact us to apply for permission.",
     "invite_templates": "Invite Templates",
     "copy": "Copy",
     "template1_title": "🎬 AI Video Creation",
     "template2_title": "🚀 Content Creation",
     "template3_title": "💼 Professional Videos",
-    "template1": "Hey friends! I just discovered Seedance — the most advanced AI video generator that creates stunning 1080p videos with multi-shot storytelling. The quality is absolutely mind-blowing! Perfect for social media, marketing, or creative projects. You get free credits when you sign up!\n👉 Try Seedance now",
-    "template2": "Want to create amazing videos without filming? Seedance generates professional-quality 1080p videos with cinematic aesthetics from simple text descriptions. I've been using it for my content creation and the results are incredible — saves so much time and money! Get started with free credits.\n🚀 Discover Seedance here",
-    "template3": "Need professional videos for your business? Seedance creates high-quality promotional videos, product demos, and marketing content using advanced AI with 1080p output and multi-shot storytelling. No cameras, no editing skills needed — just describe what you want! Try it with free credits.\n💼 Explore Seedance now",
+    "template1": "Hey friends! I just discovered Veo3 AI — the most advanced AI video generator that creates stunning videos from text prompts. The quality is absolutely mind-blowing! Perfect for social media, marketing, or creative projects. You get free credits when you sign up!\n👉 Try Veo3 AI now",
+    "template2": "Want to create amazing videos without filming? Veo3 AI generates professional-quality videos from simple text descriptions. I've been using it for my content creation and the results are incredible — saves so much time and money! Get started with free credits.\n🚀 Discover Veo3 AI here",
+    "template3": "Need professional videos for your business? Veo3 AI creates high-quality promotional videos, product demos, and marketing content using advanced AI. No cameras, no editing skills needed — just describe what you want! Try it with free credits.\n💼 Explore Veo3 AI now",
     "table": {
       "invite_time": "Invite Time",
       "invite_user": "Invite User",
@@ -190,16 +222,24 @@
     }
   },
   "video-generator": {
-    "videoDescription": "Video Description",
+    "videoDescription": "Prompt",
     "referenceImage": "Reference Image (Optional)",
     "videoAspectRatio": "Video Aspect Ratio",
     "videoDuration": "Video Duration",
-    "videoModel": "Video Model",
+    "videoModel": "Model",
     "credits": "Credits",
+    "creditsRequired": "Credits Required",
+    "remainingCredits": "Remaining Credits",
     "cost": "Cost",
     "recharge": "Recharge",
     "generateVideo": "Generate Video",
     "submitting": "Submitting...",
+    "uploading": "Uploading...",
+    "generating": "Generating...",
+    "uploadImage": "Image",
+    "dragAndDropImage": "Click to upload or drag image here",
+    "supportedFormats": "Supports JPG, PNG, GIF formats, max 10MB",
+    "chooseFile": "Choose File",
     "aspectRatios": {
       "landscape": "16:9 Landscape",
       "portrait": "9:16 Portrait",
@@ -212,34 +252,31 @@
     "characterCount": "characters minimum",
     "uploadInstructions": {
       "clickToUpload": "Click to upload or drag image here",
-      "supportedFormats": "300-6000px, JPG/PNG/WEBP/BMP/TIFF/GIF, max 10MB"
+      "supportedFormats": "Supports JPG, PNG, GIF formats, max 10MB"
     },
     "selectModel": "Select a model",
-    "discordBanner": {
-      "text": "Get 24h early access to trending AI templates",
-      "linkText": "Join Discord"
+    "videoSettings": "Settings",
+    "ratio": "Ratio",
+    "duration": "Duration",
+    "resolution": "Resolution",
+    "telegramBanner": {
+      "text": "Join Telegram group to discuss Veo3",
+      "linkText": "Join"
     },
     "toast": {
       "signInFirst": "Please sign in first",
       "enterDescription": "Please enter a video description",
-      "descriptionTooShort": "Video description must be at least 10 characters long",
+      "descriptionTooShort": "Video description must be at least 30 characters long",
       "uploadImageFile": "Please upload an image file",
+      "uploadImageRequired": "Please upload an image for image-to-video generation",
+      "imageUploaded": "Image uploaded successfully",
       "imageTooLarge": "Image file is too large (max 10MB)",
-      "imageTooSmall": "Image is too small. Minimum size: 300x300px",
-      "unsupportedImageFormat": "Unsupported image format. Please use JPEG, PNG, WEBP, BMP, TIFF, or GIF",
-      "invalidAspectRatio": "Invalid aspect ratio. Please use images with aspect ratio between 0.4 and 2.5",
-      "invalidImageFile": "Invalid image file. Please upload a valid image",
-      "sensitiveContentDetected": "Image contains sensitive content and cannot be processed. Please try a different image",
       "imageUploadFailed": "Image upload failed",
       "insufficientCredits": "Insufficient credits. Required: {required}, Available: {available}",
       "videoSubmitted": "Video generation task submitted, processing...",
       "videoCompleted": "Video generation completed!",
       "videoFailed": "Video generation failed"
     }
-  },
-  "audio-selector": {
-    "sound": "Sound",
-    "seedanceOnly": "Seedance Only"
   },
   "video-history": {
     "title": "Video Generation History",
@@ -271,7 +308,7 @@
   "video-result": {
     "status": {
       "submitted": "Submitted",
-      "optimizing": "Optimizing Prompt",
+      "optimizingPrompt": "Optimizing Prompt",
       "inQueue": "In Queue",
       "generating": "Generating",
       "completed": "Completed",
@@ -281,6 +318,7 @@
     "videoFailed": "Video generation failed",
     "processing": "Processing...",
     "taskSubmitted": "Task submitted, estimated time remaining: {time}",
+    "optimizingPrompt": "Optimizing your prompt for better results, estimated time remaining: {time}",
     "taskInQueue": "Task in queue, estimated time remaining: {time}",
     "generatingVideo": "Generating video, estimated time remaining: {time}",
     "processingGeneral": "Processing, estimated time remaining: {time}",
@@ -288,6 +326,10 @@
     "retry": "Retry",
     "successMessage": "🎉 Your video is ready! You can download it or view all your creations in the history.",
     "prompt": "Prompt",
+    "originalPrompt": "Original Prompt",
+    "optimizedPrompt": "Enhanced Prompt",
+    "enhanced": "Enhanced",
+    "optimizing": "Optimizing...",
     "browserNotSupported": "Your browser does not support video playback.",
     "download": "Download",
     "downloading": "Downloading...",
@@ -306,5 +348,85 @@
       "timeout": "The request took too long and timed out. Please try again.",
       "statusCode": "An error occurred (Status {code}). Please try again."
     }
+  },
+  "pages": {
+    "home": {
+      "title": "Welcome to Veo3 AI",
+      "description": "Transform your ideas into stunning videos with our advanced AI technology. Choose from text-to-video, image-to-video, or explore our creative video effects."
+    },
+    "textToVideo": {
+      "title": "Free AI Video Generator: Text to Video AI Online | Veo3 AI",
+      "description": "Discover the Veo3 AI video generator, a cutting-edge, free solution that effortlessly turns a text prompt into an engaging video. Try our text to video AI today!",
+      "keywords": "AI video generator, text to video, free video generator, Veo3 AI, AI video creation, text to video online"
+    },
+    "imageToVideo": {
+      "title": "Free Image to Video AI Generator: Turn Photos to Videos | Veo3 AI",
+      "description": "Use the image to video AI generator of Veo3 AI for free. Convert photos to videos with high-quality and captivating results. Try our image to video AI now!",
+      "keywords": "image to video AI, photo to video converter, free image to video, Veo3 AI, AI video from image, image animation"
+    },
+    "videoAffects": {
+      "heroSection": {
+        "title": "Make Anyone Muscular",
+        "description": "Try Veo3 AI's powerful AI muscle generator! Upload an image of anyone and generate a stunning video that showcases a bulked-up, muscular version of the subject.",
+        "buttonText": "Try for Free"
+      },
+      "effectsTitle": "AI Video Effects & Templates",
+      "categoryEffects": {
+        "funAndCreative": "Fun and Creative Effects",
+        "horrorAndFantasy": "Horror and Fantasy Effects",
+        "appearanceChanging": "Appearance Changing Effects",
+        "seasonalSpecial": "Seasonal Special Effects",
+        "emotionalExpression": "Emotional Expression Effects"
+      }
+    },
+    "effectDetail": {
+      "defaultTitle": "AI Video Effect",
+      "defaultDescription": "Transform your photos with AI-powered video effects",
+      "tryButtonText": "Try This Effect",
+      "placeholderText": "Upload an image to apply this effect",
+      "effectDescriptionLabel": "Effect Description (Optional)",
+      "effectDescriptionPlaceholder": "Describe any additional details for the effect...",
+      "imageAlt": "Muscular transformation",
+      "effectsMap": {
+        "ai-kissing": {
+          "title": "AI Kissing Video Generator",
+          "description": "Create romantic kissing videos with AI technology"
+        },
+        "ai-muscle": {
+          "title": "AI Muscle Generator",
+          "description": "Transform anyone into a muscular version with AI"
+        }
+      },
+      "howToUse": {
+        "title": "How to Use This Effect"
+      }
+    }
+  },
+  "effects": {
+    "ai-kissing": "AI Kissing Video Generator",
+    "kiss-me-ai": "Kiss Me AI",
+    "ai-twerk": "AI Twerk Video Generator",
+    "ai-hug": "AI Hug",
+    "ai-muscle": "AI Muscle Generator",
+    "ai-french-kissing": "AI French Kissing",
+    "ai-360-rotation": "AI 360° Rotation Video Generator",
+    "ai-cloud-ride": "AI Cloud Ride Video Generator",
+    "dance-party": "Dance Party Generator",
+    "magic-tricks": "Magic Tricks Effect",
+    "time-travel": "Time Travel Effect",
+    "vampire-transformation": "Vampire Transformation",
+    "ghost-effect": "Ghost Appearance Effect",
+    "gender-swap": "Gender Swap Effect",
+    "hair-color-change": "Hair Color Changer",
+    "makeup-artist": "AI Makeup Artist",
+    "body-transformation": "Body Transformation",
+    "halloween-spooky": "Halloween Spooky Effect",
+    "valentine-romance": "Valentine Romance Effect",
+    "new-year-celebration": "New Year Celebration",
+    "summer-beach": "Summer Beach Vibes",
+    "happiness-boost": "Happiness Boost Effect",
+    "surprise-reaction": "Surprise Reaction Effect",
+    "anger-expression": "Anger Expression Effect",
+    "love-struck": "Love Struck Effect"
   }
 }

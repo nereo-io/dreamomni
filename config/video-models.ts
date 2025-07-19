@@ -8,6 +8,8 @@ export enum VideoModelType {
 export enum VideoModelProvider {
   FAL = "fal", // fal.ai 提供的各种模型 (Seedance, Kling, VEO等)
   VOLCANO = "volcano", // 火山引擎提供的模型 (Doubao-Seedance等)
+  APICORE = "apicore", // APICore 提供的模型 (Veo3等)
+  KIEAI = "kieai", // Kie.ai 提供的模型 (Veo3等)
 }
 
 // 视频模型配置接口
@@ -28,10 +30,85 @@ export interface VideoModelConfig {
   supportedDurations?: number[];
   supportedResolutions?: string[]; // 支持的分辨率
   audioPremiumCredits?: number; // 音频额外费用
+  estimatedGenerationTime?: number; // 预估生成时间（秒），用于前端倒计时
 }
 
 // 视频模型配置
 export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
+  // Kie.ai Veo3 文本转视频模型（基于 Kie.ai API）
+  "kie-veo3-text-to-video": {
+    id: "kie-veo3-text-to-video",
+    name: "Kie.ai Veo3 Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    displayName: "Veo 3",
+    perSecondCredits: 3,
+    description: "Google's Veo3 model for text-to-video generation",
+    features: ["1080P", "Audio"],
+    maxDuration: 8, // Kie.ai Veo3 默认5秒
+    supportedAspectRatios: ["16:9", "9:16"],
+    supportsAudio: true, // 根据用户要求支持音频
+    estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
+    supportedDurations: [8],
+    supportedResolutions: ["1080p"], // Veo3支持高分辨率
+  },
+
+  // Kie.ai Veo3 图片转视频模型
+  "kie-veo3-image-to-video": {
+    id: "kie-veo3-image-to-video",
+    name: "Kie.ai Veo3 Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    displayName: "Veo 3",
+    perSecondCredits: 3, // 与文本转视频同样的积分消耗
+    description: "Google's Veo3 model for images-to-video generation",
+    features: ["1080P", "Audio"],
+    maxDuration: 8, // Kie.ai Veo3 默认5秒
+    supportedAspectRatios: ["16:9", "9:16"],
+    supportsAudio: true, // 根据用户要求支持音频
+    estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
+    supportedDurations: [8],
+    supportedResolutions: ["1080p"], // Veo3支持高分辨率
+  },
+
+  // Doubao-Seedance 1.0 Pro 文本转视频模型 (Volcano Engine)
+  "doubao-seedance-1-0-pro-text-to-video": {
+    id: "doubao-seedance-1-0-pro-text-to-video",
+    name: "Doubao-Seedance 1.0 Pro Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.VOLCANO,
+    volcanoModel: "doubao-seedance-1-0-pro-250528",
+    displayName: "Seedance 1.0 Pro",
+    perSecondCredits: 2,
+    description: "ByteDance's video model, starting at $0.3/video",
+    features: ["Professional cinematography", "Complex prompt understanding"],
+    maxDuration: 10,
+    supportedAspectRatios: ["16:9", "9:16", "1:1"],
+    supportedResolutions: ["480p", "1080p"],
+    supportsAudio: false,
+    estimatedGenerationTime: 45, // Seedance 预估45秒
+    supportedDurations: [5, 10],
+  },
+
+  // Doubao-Seedance 1.0 Pro 图片转视频模型 (Volcano Engine)
+  "doubao-seedance-1-0-pro-image-to-video": {
+    id: "doubao-seedance-1-0-pro-image-to-video",
+    name: "Doubao-Seedance 1.0 Pro Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.VOLCANO,
+    volcanoModel: "doubao-seedance-1-0-pro-250528",
+    displayName: "Seedance 1.0 Pro",
+    perSecondCredits: 2, // 7.5 tokens for 5s = 1.5 tokens/second
+    description: "The most cost-effective video model, produced by ByteDance.",
+    features: ["Style versatility", "Natural motion"],
+    maxDuration: 10,
+    supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
+    supportedResolutions: ["480p", "1080p"],
+    supportsAudio: false,
+    estimatedGenerationTime: 45, // Seedance 图片转视频预估45秒
+    supportedDurations: [5, 10],
+  },
+
   // // Kling 1.6 文本转视频模型 (via fal.ai)
   // "kling-1-6-text-to-video-std": {
   //   id: "kling-1-6-text-to-video-std",
@@ -43,6 +120,37 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   //   perSecondCredits: 2, // 10积分/5秒 = 2积分/秒
   //   description: "Cost-effective text-to-video model",
   //   features: ["High value", "Stable quality"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["16:9", "9:16", "1:1"],
+  //   supportsAudio: false,
+  //   supportedDurations: [5, 10],
+  // },
+  // "kling-1-6-text-to-video-pro": {
+  //   id: "kling-1-6-text-to-video-pro",
+  //   name: "Kling 1.6 Text-to-Video Pro",
+  //   type: VideoModelType.TEXT_TO_VIDEO,
+  //   provider: VideoModelProvider.FAL,
+  //   falEndpoint: "fal-ai/kling-video/v1.6/pro/text-to-video",
+  //   displayName: "Kling 1.6 (Pro)",
+  //   perSecondCredits: 4, // 20积分/5秒 = 4积分/秒
+  //   description: "Professional text-to-video model with higher quality",
+  //   features: ["Professional quality", "Fine control", "Rich details"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["16:9", "9:16", "1:1"],
+  //   supportsAudio: false,
+  //   estimatedGenerationTime: 120, // Kling Pro 预估2分钟
+  //   supportedDurations: [5, 10],
+  // },
+  // "kling-2-1-text-to-video-master": {
+  //   id: "kling-2-1-text-to-video-master",
+  //   name: "Kling 2.1 Text-to-Video Master",
+  //   type: VideoModelType.TEXT_TO_VIDEO,
+  //   provider: VideoModelProvider.FAL,
+  //   falEndpoint: "fal-ai/kling-video/v2.1/master/text-to-video",
+  //   displayName: "Kling 2.1 (Master)",
+  //   perSecondCredits: 12, // 60积分/5秒 = 12积分/秒
+  //   description: "Latest generation text-to-video model with top-tier quality",
+  //   features: ["Latest technology", "Cinematic quality", "Smooth motion"],
   //   maxDuration: 10,
   //   supportedAspectRatios: ["16:9", "9:16", "1:1"],
   //   supportsAudio: false,
@@ -65,43 +173,106 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   //   supportsAudio: false,
   //   supportedDurations: [5, 10],
   // },
+  // "kling-2-1-image-to-video-std": {
+  //   id: "kling-2-1-image-to-video-std",
+  //   name: "Kling 2.1 Image-to-Video Standard",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.FAL,
+  //   falEndpoint: "fal-ai/kling-video/v2.1/standard/image-to-video",
+  //   displayName: "Kling 2.1 (Standard)",
+  //   perSecondCredits: 2, // 10积分/5秒 = 2积分/秒
+  //   description: "Next-generation image-to-video standard model",
+  //   features: ["New technology", "Enhanced quality", "Natural motion"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["16:9", "9:16", "1:1"],
+  //   supportsAudio: false,
+  //   supportedDurations: [5, 10],
+  // },
+  // "kling-2-1-image-to-video-pro": {
+  //   id: "kling-2-1-image-to-video-pro",
+  //   name: "Kling 2.1 Image-to-Video Pro",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.FAL,
+  //   falEndpoint: "fal-ai/kling-video/v2.1/pro/image-to-video",
+  //   displayName: "Kling 2.1 (Pro)",
+  //   perSecondCredits: 4, // 20积分/5秒 = 4积分/秒
+  //   description: "Professional image-to-video model",
+  //   features: ["Professional quality", "Fine control", "Rich details"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["16:9", "9:16", "1:1"],
+  //   supportsAudio: false,
+  //   estimatedGenerationTime: 150, // Kling 2.1 Pro 预估2.5分钟
+  //   supportedDurations: [5, 10],
+  // },
+  // "kling-2-1-image-to-video-master": {
+  //   id: "kling-2-1-image-to-video-master",
+  //   name: "Kling 2.1 Image-to-Video Master",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.FAL,
+  //   falEndpoint: "fal-ai/kling-video/v2.1/master/image-to-video",
+  //   displayName: "Kling 2.1 (Master)",
+  //   perSecondCredits: 12, // 60积分/5秒 = 12积分/秒
+  //   description: "Top-tier image-to-video model with highest quality",
+  //   features: ["Latest technology", "Cinematic quality", "Smooth motion"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["16:9", "9:16", "1:1"],
+  //   supportsAudio: false,
+  //   supportedDurations: [5, 10],
+  // },
 
-  // Doubao-Seedance 1.0 Pro 文本转视频模型 (Volcano Engine)
-  "doubao-seedance-1-0-pro-text-to-video": {
-    id: "doubao-seedance-1-0-pro-text-to-video",
-    name: "Doubao-Seedance 1.0 Pro Text-to-Video",
-    type: VideoModelType.TEXT_TO_VIDEO,
-    provider: VideoModelProvider.VOLCANO,
-    volcanoModel: "doubao-seedance-1-0-pro-250528",
-    displayName: "Seedance 1.0 Pro",
-    perSecondCredits: 1, // Reduced by 50% from 2 to 1 credit per second
-    description: "Advanced 1080p video generation with cinematic quality",
-    features: ["Professional cinematography", "Complex prompt understanding"],
-    maxDuration: 10,
-    supportedAspectRatios: ["16:9", "9:16", "1:1"],
-    supportedResolutions: ["480p", "1080p"],
-    supportsAudio: false,
-    supportedDurations: [5, 10],
-  },
+  // Veo3 APICore 文本转视频模型（新ID）
+  // "veo3-apicore-text-to-video": {
+  //   id: "veo3-apicore-text-to-video",
+  //   name: "Veo3 APICore Text-to-Video",
+  //   type: VideoModelType.TEXT_TO_VIDEO,
+  //   provider: VideoModelProvider.APICORE,
+  //   displayName: "Veo 3",
+  //   perSecondCredits: 5,
+  //   description: "Google's Veo3 model for text-to-video generation",
+  //   features: ["High quality", "Upsample support", "Audio generation"],
+  //   maxDuration: 8, // 根据用户要求设置为8秒
+  //   supportedAspectRatios: ["adaptive"], // 根据用户要求设置为adaptive
+  //   supportsAudio: true, // 根据用户要求支持音频
+  //   estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
+  //   supportedDurations: [8],
+  //   supportedResolutions: ["1080p"], // Veo3支持高分辨率
+  // },
 
-  // Doubao-Seedance 1.0 Pro 图片转视频模型 (Volcano Engine)
-  "doubao-seedance-1-0-pro-image-to-video": {
-    id: "doubao-seedance-1-0-pro-image-to-video",
-    name: "Doubao-Seedance 1.0 Pro Image-to-Video",
-    type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.VOLCANO,
-    volcanoModel: "doubao-seedance-1-0-pro-250528",
-    displayName: "Seedance 1.0 Pro",
-    perSecondCredits: 1, // Reduced by 50% from 2 to 1 credit per second
-    description:
-      "Transform images into professional 1080p videos with cinematic motion",
-    features: ["1080p quality", "Style versatility", "Natural motion"],
-    maxDuration: 10,
-    supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
-    supportedResolutions: ["480p", "1080p"],
-    supportsAudio: false,
-    supportedDurations: [5, 10],
-  },
+  // Veo3 APICore 图片转视频模型
+  // "veo3-apicore-image-to-video": {
+  //   id: "veo3-apicore-image-to-video",
+  //   name: "Veo3 APICore Image-to-Video",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.APICORE,
+  //   displayName: "Veo 3",
+  //   perSecondCredits: 5, // 与文本转视频同样的积分消耗
+  //   description: "Google's Veo3 model for image-to-video generation",
+  //   features: ["High quality", "Upsample support", "Audio generation"],
+  //   maxDuration: 8,
+  //   supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
+  //   supportsAudio: true,
+  //   estimatedGenerationTime: 240, // 与文本转视频相同的预估时间
+  //   supportedDurations: [8],
+  //   supportedResolutions: ["1080p"],
+  // },
+
+  // // Kie.ai Veo3 图片转视频模型
+  // "kie-veo3-image-to-video": {
+  //   id: "kie-veo3-image-to-video",
+  //   name: "Kie.ai Veo3 Image-to-Video",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.KIEAI,
+  //   displayName: "Kie.ai Veo 3",
+  //   perSecondCredits: 5, // 与文本转视频同样的积分消耗
+  //   description: "Google's Veo3 model for images-to-video generation",
+  //   features: ["1080P", "Audio"],
+  //   maxDuration: 8, // Kie.ai Veo3 默认5秒
+  //   supportedAspectRatios: ["adaptive"], // 根据用户要求设置为adaptive
+  //   supportsAudio: true, // 根据用户要求支持音频
+  //   estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
+  //   supportedDurations: [8],
+  //   supportedResolutions: ["1080p"], // Veo3支持高分辨率
+  // },
 };
 
 // 辅助函数
@@ -134,6 +305,24 @@ export function getFalModels(): VideoModelConfig[] {
 export function getVolcanoModels(): VideoModelConfig[] {
   return Object.values(VIDEO_MODELS).filter(
     (model) => model.provider === VideoModelProvider.VOLCANO
+  );
+}
+
+export function getVeo3Models(): VideoModelConfig[] {
+  return Object.values(VIDEO_MODELS).filter(
+    (model) => model.provider === VideoModelProvider.APICORE
+  );
+}
+
+export function getKieAiModels(): VideoModelConfig[] {
+  return Object.values(VIDEO_MODELS).filter(
+    (model) => model.provider === VideoModelProvider.KIEAI
+  );
+}
+
+export function getKlingModels(): VideoModelConfig[] {
+  return Object.values(VIDEO_MODELS).filter((model) =>
+    model.id.includes("kling-")
   );
 }
 
@@ -213,6 +402,23 @@ export function isVolcanoModel(modelId: string): boolean {
 export function isFalModel(modelId: string): boolean {
   const model = getVideoModel(modelId);
   return model?.provider === VideoModelProvider.FAL;
+}
+
+// 检查模型是否为Veo3 APICore模型
+export function isVeo3ApicoreModel(modelId: string): boolean {
+  const model = getVideoModel(modelId);
+  return model?.provider === VideoModelProvider.APICORE;
+}
+
+// 检查模型是否为Kie.ai模型
+export function isKieAiModel(modelId: string): boolean {
+  const model = getVideoModel(modelId);
+  return model?.provider === VideoModelProvider.KIEAI;
+}
+
+// 检查模型是否为Kie.ai Veo3模型
+export function isKieAiVeo3Model(modelId: string): boolean {
+  return modelId.includes("kie-veo3-");
 }
 
 // 检查模型是否为Veo系列模型

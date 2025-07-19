@@ -1,19 +1,11 @@
 import FAQ from "@/components/blocks/faq";
 import Hero from "@/components/blocks/hero";
 import Testimonial from "@/components/blocks/testimonial";
-import VideoGenerator from "@/components/blocks/video-generator";
-import SeedanceFeaturesBlock from "@/components/blocks/seedance-features";
-import VideoFeatureShowcase from "@/components/blocks/video-feature-showcase";
-import GettingStarted from "@/components/blocks/getting-started";
-import StructuredData from "@/components/seo/structured-data";
-import Feature1 from "@/components/blocks/feature1";
-import Feature from "@/components/blocks/feature";
+import ClaudeSonnetFeaturesBlock from "@/components/blocks/claude-sonnet-features";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-import {
-  getLandingPage,
-  getSeedanceFeaturesBlock,
-  getVideoFeatureShowcaseBlock,
-} from "@/services/page";
+import { getLandingPage, getClaudeSonnetFeaturesBlock } from "@/services/page";
 
 export async function generateMetadata({
   params: { locale },
@@ -38,28 +30,34 @@ export default async function LandingPage({
 }: {
   params: { locale: string };
 }) {
+  // 在服务器端检查认证状态
+  const session = await auth();
+  
+  // 如果已登录，直接重定向到/image-to-video
+  if (session) {
+    redirect("/image-to-video");
+  }
+
   const page = await getLandingPage(locale);
-  const seedanceFeatures = await getSeedanceFeaturesBlock(locale);
-  const videoFeatureShowcase = await getVideoFeatureShowcaseBlock(locale);
+  const claudeSonnetFeatures = await getClaudeSonnetFeaturesBlock(locale);
 
   return (
     <>
       {page.hero && <Hero hero={page.hero} />}
-      <VideoGenerator />
+
       {/* <VideoFeatureShowcase data={videoFeatureShowcase} /> */}
-      <div className="max-w-7xl mx-auto px-8 py-6">
-        <div className="flex items-center justify-center gap-2">
-          <p className="text-sm text-muted-foreground text-center font-medium">
-            This platform is an independent product and is not affiliated with
-            Bytedance. We provide access to the Seedance model through our
-            custom interface.
-          </p>
+      <div className="border-t bg-muted/20">
+        <div className="max-w-7xl mx-auto px-8 py-6">
+          <div className="flex items-center justify-center gap-2">
+            <div className="h-1 w-1 rounded-full bg-muted-foreground/50"></div>
+            <p className="text-sm text-muted-foreground text-center font-medium">
+              This platform is an independent product and provides access to multiple AI video generation models including Seedance, VEO3, and other providers through our custom interface.
+            </p>
+            <div className="h-1 w-1 rounded-full bg-muted-foreground/50"></div>
+          </div>
         </div>
       </div>
-      <SeedanceFeaturesBlock translations={seedanceFeatures} />
-      {page.introduce && <Feature1 section={page.introduce} />}
-      {page.feature && <Feature section={page.feature} />}
-      {page.gettingStarted && <GettingStarted data={page.gettingStarted} />}
+      <ClaudeSonnetFeaturesBlock translations={claudeSonnetFeatures} />
 
       {/* {page.testimonial && <Testimonial section={page.testimonial} />} */}
 

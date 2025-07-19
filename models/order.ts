@@ -122,14 +122,14 @@ export async function updateOrderPaymentProvider(
   fee?: number
 ) {
   const supabase = getSupabaseClient();
-  
+
   const updateData: any = { payment_provider };
-  
+
   if (payment_method) updateData.payment_method = payment_method;
   if (transaction_id) {
-    if (payment_provider === 'payssion') {
+    if (payment_provider === "payssion") {
       updateData.payssion_transaction_id = transaction_id;
-    } else if (payment_provider === 'stripe') {
+    } else if (payment_provider === "stripe") {
       updateData.stripe_session_id = transaction_id;
     }
   }
@@ -297,6 +297,54 @@ export async function getPaiedOrders(
 
   if (error) {
     return undefined;
+  }
+
+  return data;
+}
+
+// 新增：更新订单的订阅ID
+export async function updateOrderSubId(
+  order_no: string,
+  sub_id: string
+) {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("orders")
+    .update({ sub_id })
+    .eq("order_no", order_no);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+// 查询用户最近成功支付的订单
+export async function findRecentPaidOrder(
+  user_uuid: string,
+  minutesAgo: number = 5
+): Promise<Order | null> {
+  const supabase = getSupabaseClient();
+  const timeThreshold = new Date(Date.now() - minutesAgo * 60 * 1000).toISOString();
+  
+  const { data, error } = await supabase
+    .from('orders')
+    .select('*')
+    .eq('user_uuid', user_uuid)
+    .eq('status', 'paid')
+    .gte('paid_at', timeThreshold)
+    .order('paid_at', { ascending: false })
+    .limit(1)
+    .single();
+
+  if (error) {
+    // 如果没有找到记录，返回 null 而不是抛出错误
+    if (error.code === 'PGRST116') {
+      return null;
+    }
+    console.error('查询最近支付订单失败:', error);
+    throw error;
   }
 
   return data;

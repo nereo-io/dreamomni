@@ -1,321 +1,332 @@
-// Payssion 支付提供商实现
+// Payssion V2 支付提供商实现
 
 import * as crypto from "crypto";
-import { getSupabaseClient } from "@/models/db";
 import { BasePaymentProvider } from "./PaymentProvider";
 import {
-  PaymentRequest,
-  PaymentResponse,
-  PaymentStatus,
-  WebhookResult,
-  RefundRequest,
-  RefundResult,
+  MandateRequest,
+  MandateResponse,
+  SubscriptionRequest,
+  SubscriptionResponse,
+  SubscriptionWebhookResult,
   PaymentError,
-  PaymentStatusType,
 } from "./types";
+import { getPayssionConfig, PayssionConfig } from "@/config/payssion";
+import {
+  insertPayssionMandate,
+  updatePayssionMandateStatus,
+} from "@/models/payssionMandate";
+import { PaymentProcessingService } from "./PaymentProcessingService";
 
 export class PayssionProvider extends BasePaymentProvider {
   name = "payssion";
 
-  private baseUrl: string;
-  private apiKey: string;
-  private secretKey: string;
+  private config: PayssionConfig;
 
   constructor() {
     super();
-    this.baseUrl = process.env.PAYSSION_BASE_URL || "https://www.payssion.com";
-    this.apiKey = process.env.PAYSSION_API_KEY || "";
-    this.secretKey = process.env.PAYSSION_SECRET_KEY || "";
+    this.config = getPayssionConfig();
 
     if (!this.validateConfig()) {
       throw new PaymentError(
         "CONFIG_ERROR",
-        "Payssion configuration is missing or invalid",
+        "Payssion V2 configuration is missing or invalid",
         this.name
       );
     }
   }
 
   validateConfig(): boolean {
-    return !!(this.apiKey && this.secretKey && this.baseUrl);
+    return !!(
+      this.config.v2.apiKey &&
+      this.config.v2.secretKey &&
+      this.config.v2.baseUrl
+    );
   }
 
   /**
-   * 生成API请求签名
+   * 创建客户 (V2 API)
    */
-  private generateSignature(params: {
-    api_key: string;
-    pm_id: string;
-    amount: string;
-    currency: string;
-    order_id: string;
-  }): string {
-    const { api_key, pm_id, amount, currency, order_id } = params;
-    const message = `${api_key}|${pm_id}|${amount}|${currency}|${order_id}|${this.secretKey}`;
-    return crypto.createHash("md5").update(message).digest("hex");
-  }
+  private async createCustomer(
+    userEmail: string,
+    userUuid: string
+  ): Promise<string> {
+    const requestBody = {
+      reference: userUuid.replace(/-/g, "").substring(0, 32), // 移除横线并截断到32字符
+      email: userEmail,
+    };
 
-  /**
-   * 生成退款请求签名
-   */
-  private generateRefundSignature(params: {
-    api_key: string;
-    transaction_id: string;
-    amount: string;
-    currency: string;
-  }): string {
-    const { api_key, transaction_id, amount, currency } = params;
-    const message = `${api_key}|${transaction_id}|${amount}|${currency}|${this.secretKey}`;
-    return crypto.createHash("md5").update(message).digest("hex");
-  }
-
-  /**
-   * 验证通知签名
-   */
-  private validateNotifySignature(data: any): boolean {
-    const { pm_id, amount, currency, order_id, state, notify_sig } = data;
-
-    // 根据 Payssion webhook 文档，通知签名格式为：
-    // MD5(api_key|pm_id|amount|currency|order_id|state|secret_key)
-    // 注意：使用我们配置的 api_key，而不是 webhook 数据中的
-    const message = `${this.apiKey}|${pm_id}|${amount}|${currency}|${order_id}|${state}|${this.secretKey}`;
-    const expectedSig = crypto.createHash("md5").update(message).digest("hex");
-
-    console.log("Signature validation:", {
-      message,
-      expected: expectedSig,
-      received: notify_sig,
-      match: expectedSig === notify_sig,
+    const response = await fetch(`${this.config.v2.baseUrl}/v2/customers`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.config.v2.apiKey}`,
+      },
+      body: JSON.stringify(requestBody),
     });
 
-    return expectedSig === notify_sig;
+    const result = await response.json();
+    console.log("Customer creation result:", result);
+
+    if (result.error) {
+      throw new PaymentError(
+        "CUSTOMER_CREATION_FAILED",
+        result.error.message || "Failed to create customer",
+        this.name
+      );
+    }
+
+    return result.id;
   }
 
   /**
-   * 映射支付方式到Payssion pm_id
+   * 创建授权 (V2 API)
    */
-  private mapPaymentMethod(method: string): string {
-    // 从环境变量读取pm_id映射，如果没有则使用默认值
-    const mapping: Record<string, string> = {
-      mir: process.env.PAYSSION_PM_ID_MIR || "card_ru",
-      yoomoney: process.env.PAYSSION_PM_ID_YOOMONEY || "yoomoney_ru",
-      sberpay: process.env.PAYSSION_PM_ID_SBERPAY || "sberpay_ru",
-    };
-
-    return mapping[method] || method;
-  }
-
-  /**
-   * 映射Payssion状态到系统状态
-   */
-  private mapPayssionStateToOrderStatus(state: string): string {
-    const mapping: Record<string, string> = {
-      completed: "paid",
-      failed: "failed",
-      cancelled: "cancelled",
-      expired: "expired",
-      pending: "created",
-      awaiting_confirm: "created",
-      rejected: "failed",
-      refunded: "refunded",
-      refund_pending: "created",
-      chargeback: "failed",
-      disputed: "failed",
-      blocked: "failed",
-    };
-    return mapping[state] || "created";
-  }
-
-  /**
-   * 获取错误消息
-   */
-  private getErrorMessage(resultCode: number): string {
-    const errorMessages: Record<number, string> = {
-      200: "Success",
-      400: "Invalid parameters",
-      401: "Invalid merchant ID",
-      402: "Invalid API signature",
-      403: "Invalid app name",
-      405: "Invalid payment method",
-      406: "Invalid currency",
-      407: "Invalid amount",
-      408: "Invalid language",
-      409: "Invalid URL",
-      411: "Invalid secret key",
-      412: "Invalid transaction ID",
-      413: "Repeated order",
-      414: "Invalid country",
-      415: "Invalid payment type",
-      417: "Amount is less than minimum",
-      418: "Amount is more than maximum",
-      420: "Invalid request method",
-      441: "App is inactive",
-      491: "Payment method is not enabled",
-      500: "Server error",
-      501: "Server busy",
-      502: "Third party error",
-      503: "Service not found",
-    };
-
-    return errorMessages[resultCode] || `Unknown error (${resultCode})`;
-  }
-
-  /**
-   * 创建支付订单
-   */
-  async createPayment(request: PaymentRequest): Promise<PaymentResponse> {
+  async createMandate(request: MandateRequest): Promise<MandateResponse> {
     try {
-      // 验证输入参数
-      this.validateAmount(request.amount);
-      this.validateCurrency(request.currency);
-      this.validateEmail(request.userEmail);
-      this.validateOrderId(request.orderId);
+      // 首先检查是否已有有效的授权记录
+      const { findActivePayssionMandateByUserUuid } = await import(
+        "@/models/payssionMandate"
+      );
+      const existingMandate = await findActivePayssionMandateByUserUuid(
+        request.userUuid,
+        request.paymentMethod
+      );
 
-      const pmId = this.mapPaymentMethod(request.paymentMethod);
+      if (existingMandate) {
+        console.log(
+          "Found existing active mandate:",
+          existingMandate.mandate_id
+        );
 
-      const params = {
-        api_key: this.apiKey,
-        pm_id: pmId,
-        amount: request.amount.toFixed(2),
-        currency: request.currency,
-        order_id: request.orderId,
-        description: request.description,
+        // 直接使用现有授权创建订阅
+        const metadata = request.metadata;
+        if (metadata) {
+          const planType: "monthly" | "yearly" =
+            metadata.interval === "year" ? "yearly" : "monthly";
+
+          const subscriptionRequest: SubscriptionRequest = {
+            userUuid: metadata.user_uuid,
+            userEmail: metadata.user_email,
+            mandateId: existingMandate.mandate_id,
+            amount: parseFloat(metadata.amount) / 100, // 美分转美元
+            currency: metadata.currency,
+            interval: metadata.interval,
+            planType: planType,
+            paymentMethod: request.paymentMethod,
+            description: `Subscription for ${
+              metadata.product_name || metadata.product_id
+            }`,
+            returnUrl: this.config.subscription.defaultReturnUrl,
+            notifyUrl: this.config.subscription.webhookUrl,
+            metadata: metadata,
+          };
+
+          const subscriptionResult = await this.createSubscription(
+            subscriptionRequest
+          );
+
+          if (subscriptionResult.success) {
+            return {
+              success: true,
+              mandateId: existingMandate.mandate_id,
+              subscriptionId: subscriptionResult.subscriptionId,
+              redirectUrl: "", // 不需要跳转
+              status: "subscription_created",
+            };
+          } else {
+            console.error(
+              "Failed to create subscription with existing mandate:",
+              subscriptionResult.errorMessage
+            );
+            // 如果订阅创建失败，fallback 到创建新授权
+          }
+        }
+      }
+
+      // 首先创建 customer
+      const customerId = await this.createCustomer(
+        request.userEmail,
+        request.userUuid
+      );
+
+      const requestBody = {
+        payment_method:
+          this.config.paymentMethods[request.paymentMethod] ||
+          request.paymentMethod,
+        terminal_type: "web",
         return_url: request.returnUrl,
-        payer_email: request.userEmail,
-        payer_name: request.userName || "",
+        metadata: request.metadata || {},
       };
 
-      // 生成签名
-      const signature = this.generateSignature(params);
+      const response = await fetch(
+        `${this.config.v2.baseUrl}/v2/customers/${customerId}/mandates`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${this.config.v2.apiKey}`,
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
 
-      // 发送请求到Payssion
-      const response = await fetch(`${this.baseUrl}/api/v1/payments`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          ...params,
-          api_sig: signature,
-        }),
+      const result = await response.json();
+      console.log("Mandate creation result:", JSON.stringify(result, null, 2));
+
+      // 获取重定向URL
+      const redirectUrl = result.action?.redirect_to_url?.url;
+
+      await insertPayssionMandate({
+        user_uuid: request.userUuid,
+        user_email: request.userEmail,
+        mandate_id: result.id,
+        status: result.status || "pending",
+        payment_method: request.paymentMethod,
+        authorization_url: redirectUrl,
       });
+
+      return {
+        success: true,
+        mandateId: result.id,
+        redirectUrl: redirectUrl,
+        status: result.status || "pending",
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        errorMessage: error.message || "Mandate creation failed",
+      };
+    }
+  }
+
+  /**
+   * 创建订阅 (V2 API)
+   */
+  async createSubscription(
+    request: SubscriptionRequest
+  ): Promise<SubscriptionResponse> {
+    try {
+      if (!request.mandateId) {
+        throw new PaymentError(
+          "MISSING_MANDATE",
+          "Mandate ID is required for subscription creation",
+          this.name
+        );
+      }
+
+      const requestBody = {
+        mandate_id: request.mandateId,
+        email: request.userEmail,
+        currency: request.currency,
+        amount: request.amount, // 美分转美元
+        description:
+          request.description || `Subscription for ${request.userEmail}`,
+        interval_unit: request.interval,
+        times: 24, // 测试环境Payssion V2 要求必须为 1
+        metadata: request.metadata || {},
+      };
+
+      const response = await fetch(
+        `${this.config.v2.baseUrl}/v2/subscriptions`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${this.config.v2.apiKey}`,
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
 
       const result = await response.json();
 
-      if (result.result_code === 200) {
-        // 保存交易记录到数据库
-        await this.saveTransaction(request.orderId, result.transaction, pmId);
-
-        return {
-          success: true,
-          transactionId: result.transaction.transaction_id,
-          redirectUrl: result.redirect_url,
-          paymentProvider: this.name,
-        };
-      } else {
-        return {
-          success: false,
-          errorMessage: this.getErrorMessage(result.result_code),
-          errorCode: result.result_code.toString(),
-          paymentProvider: this.name,
-        };
-      }
+      console.log(
+        `✅ Subscription created: ${result.id} for mandate ${request.mandateId}`
+      );
+      return {
+        success: true,
+        subscriptionId: result.id,
+        mandateId: request.mandateId,
+        paymentProvider: this.name,
+      };
     } catch (error: any) {
-      console.error("Payssion createPayment error:", error);
+      console.error("V2 subscription creation error:", error);
+
       return {
         success: false,
-        errorMessage: error.message || "Payment creation failed",
+        errorMessage: error.message || "Subscription creation failed",
         paymentProvider: this.name,
       };
     }
   }
 
   /**
-   * 查询支付状态
+   * 处理订阅 Webhook (V2 API)
+   * 处理事件：mandate.succeeded、subscription.created、payment.succeeded、subscription.canceled
    */
-  async queryPayment(transactionId: string): Promise<PaymentStatus> {
+  async handleSubscriptionWebhook(
+    data: any
+  ): Promise<SubscriptionWebhookResult> {
     try {
-      const params = {
-        api_key: this.apiKey,
-        transaction_id: transactionId,
-      };
+      // 处理不同的事件类型
+      const eventType = data.type;
+      const webhookData = data.data;
 
-      // 生成查询签名
-      const message = `${this.apiKey}|${transactionId}||${this.secretKey}`;
-      const signature = crypto.createHash("md5").update(message).digest("hex");
+      console.log("V2 subscription webhook received:", eventType);
 
-      const response = await fetch(`${this.baseUrl}/api/v1/payment/details`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          ...params,
-          api_sig: signature,
-        }),
-      });
+      switch (eventType) {
+        case "mandate.succeeded":
+          console.log("V2 subscription webhook received:", data);
+          await this.handleMandateSucceeded(webhookData);
 
-      const result = await response.json();
+          break;
 
-      if (result.result_code === 200) {
-        const transaction = result.transaction;
-        return {
-          transactionId: transaction.transaction_id,
-          status: transaction.state,
-          amount: parseFloat(transaction.amount),
-          currency: transaction.currency,
-          paidAmount: parseFloat(transaction.paid || "0"),
-          paymentProvider: this.name,
-        };
-      } else {
-        throw new PaymentError(
-          "QUERY_FAILED",
-          this.getErrorMessage(result.result_code),
-          this.name
-        );
+        case "subscription.created":
+          console.log("V2 subscription webhook received:", data);
+          await this.handleSubscriptionCreated(webhookData);
+          break;
+
+        case "payment.succeeded":
+          console.log("V2 subscription webhook received:", data);
+          await this.handlePaymentSucceeded(webhookData);
+          break;
+
+        case "payment.failed":
+          console.log("V2 subscription webhook received:", data);
+          console.error(
+            `❌ Payment failed: ${webhookData.object?.source_id} - ${
+              webhookData.object?.failure_code || "Unknown reason"
+            }`
+          );
+          break;
+
+        case "subscription.canceled":
+          console.log("V2 subscription webhook received:", data);
+          console.log(
+            `⚠️ Subscription canceled: ${webhookData.subscription_id}`
+          );
+          break;
+
+        case "mandate.canceled":
+          console.log("V2 subscription webhook received:", data);
+          const canceledMandateId = webhookData.object?.id;
+          console.log(`⚠️ Mandate canceled: ${canceledMandateId}`);
+          // 可以选择更新数据库状态为 'canceled'
+          await updatePayssionMandateStatus(canceledMandateId, "canceled");
+          break;
+
+        default:
+          console.warn("Ignored webhook event:", eventType);
       }
-    } catch (error: any) {
-      console.error("Payssion queryPayment error:", error);
-      throw new PaymentError(
-        "QUERY_ERROR",
-        error.message || "Query payment failed",
-        this.name,
-        error
-      );
-    }
-  }
-
-  /**
-   * 处理Webhook通知
-   */
-  async handleWebhook(data: any): Promise<WebhookResult> {
-    try {
-      console.log("Payssion webhook received:", data);
-
-      // 验证签名
-      if (!this.validateNotifySignature(data)) {
-        throw new PaymentError(
-          "INVALID_SIGNATURE",
-          "Invalid webhook signature",
-          this.name
-        );
-      }
-
-      // 如果支付成功，处理业务逻辑（积分发放 + 会员创建 + 订单状态更新）
-      if (data.state === "completed") {
-        await this.handlePaymentSuccess(data);
-      }
-
-      // 更新 payssion_transactions 表
-      await this.updatePayssionTransaction(data);
 
       return {
         success: true,
-        orderId: data.order_id,
-        status: data.state,
+        subscriptionId: data.subscription_id || data.object?.id,
+        mandateId: data.object?.id,
+        eventType,
       };
     } catch (error: any) {
-      console.error("Payssion webhook error:", error);
+      console.error("V2 subscription webhook error:", error);
       return {
         success: false,
         error: error.message,
@@ -324,199 +335,225 @@ export class PayssionProvider extends BasePaymentProvider {
   }
 
   /**
-   * 处理支付成功后的业务逻辑（积分发放 + 会员创建 + 订单状态更新）
+   * 处理授权成功事件 - 更新状态并自动创建订阅
    */
-  private async handlePaymentSuccess(data: any) {
+  private async handleMandateSucceeded(data: any) {
+    // V2 API webhook数据结构: data.object.id 才是mandate ID
+    const mandateId = data.object?.id;
+    const paymentMethod = data.object?.payment_method;
+    const metadata = data.object?.metadata;
+    console.log("Mandate succeeded:", mandateId, paymentMethod);
+
     try {
-      const { findOrderByOrderNo } = await import("@/models/order");
-      const order = await findOrderByOrderNo(data.order_id);
+      // 1. 更新授权状态和过期时间
+      const timeExpired = data.object?.time_expired;
+      await updatePayssionMandateStatus(mandateId, "authorized", timeExpired);
+      console.log(
+        `✅ Mandate ${mandateId}: pending → authorized${
+          timeExpired ? ` (expires: ${timeExpired})` : ""
+        }`
+      );
 
-      if (!order) {
-        console.error("Order not found for Payssion payment:", data.order_id);
-        return;
-      }
+      // 2. 根据 metadata 中的 interval 确定计划类型
+      const planType: "monthly" | "yearly" =
+        metadata.interval === "year" ? "yearly" : "monthly";
 
-      // 检查是否已经处理过（避免重复处理）
-      if (order.status === "paid") {
-        console.log("Order already processed, skipping business logic:", order.order_no);
-        return;
-      }
-
-      console.log("Processing Payssion payment success for order:", order.order_no);
-
-      // 创建类似 Stripe session 的对象来复用现有的业务逻辑
-      const mockSession = {
-        metadata: {
-          order_no: order.order_no,
-          user_uuid: order.user_uuid,
-          credits: order.credits?.toString() || "0",
-          product_id: order.product_id,
-        },
-        payment_status: "paid",
-        customer_details: {
-          email: order.user_email,
-        },
-        customer_email: order.user_email,
+      const subscriptionRequest: SubscriptionRequest = {
+        userUuid: metadata.user_uuid,
+        userEmail: metadata.user_email,
+        mandateId: mandateId,
+        amount: parseFloat(metadata.amount) / 100, // 美分转美元
+        currency: metadata.currency,
+        interval: metadata.interval,
+        planType: planType,
+        paymentMethod: paymentMethod,
+        description: `Subscription for ${
+          metadata.product_name || metadata.product_id
+        }`,
+        returnUrl: this.config.subscription.defaultReturnUrl,
+        notifyUrl: this.config.subscription.webhookUrl,
+        metadata: metadata, // 传递完整的 metadata
       };
 
-      // 调用与 Stripe 相同的业务逻辑（处理积分发放 + 会员创建 + 订单状态更新）
-      const { handleOrderSession } = await import("@/services/order");
-      await handleOrderSession(mockSession as any);
+      const subscriptionResult = await this.createSubscription(
+        subscriptionRequest
+      );
 
-      // 更新 Payssion 特定的订单信息
-      await this.updatePayssionOrderInfo(order.order_no, data);
-
-      console.log("Payssion payment success processed successfully for order:", order.order_no);
+      console.log(
+        "Subscription creation result:",
+        JSON.stringify(subscriptionResult, null, 2)
+      );
     } catch (error: any) {
-      console.error("Failed to handle Payssion payment success:", error);
+      console.error("Error handling mandate succeeded:", error);
+    }
+  }
+
+  /**
+   * 处理订阅创建事件 - 创建或更新订阅状态
+   */
+  private async handleSubscriptionCreated(data: any) {
+    const subscriptionId = data.object?.id;
+    const mandateId = data.object?.mandate_id;
+    const metadata = data.object?.metadata;
+
+    console.log("Subscription created:", subscriptionId, "mandate:", mandateId);
+
+    // 创建订阅记录 - 初始状态为 pending，等待首次支付成功后激活
+    const { createSubscription } = await import("@/models/subscription");
+    await createSubscription({
+      user_uuid: metadata.user_uuid,
+      mandate_id: mandateId,
+      payssion_subscription_id: subscriptionId,
+      plan_type: metadata.interval === "year" ? "yearly" : "monthly",
+      amount: parseFloat(metadata.amount),
+      currency: metadata.currency,
+      status: "pending",
+      product_name: metadata.product_name,
+      product_id: metadata.product_id,
+    });
+
+    // 更新订单的订阅ID
+    if (metadata.order_no) {
+      const { updateOrderSubId } = await import("@/models/order");
+      try {
+        await updateOrderSubId(metadata.order_no, subscriptionId);
+      } catch (error) {
+        console.error("Failed to update order sub_id:", error);
+      }
+    }
+  }
+
+  /**
+   * 处理支付成功事件 - 激活订阅并发放积分
+   */
+  private async handlePaymentSucceeded(data: any) {
+    const subscriptionId = data.object?.source_id;
+    const amount = parseFloat(data.object?.amount);
+    const metadata = data.object?.metadata;
+
+    console.log(`💰 Payment succeeded: ${metadata?.order_no} ($${amount})`);
+
+    const alreadyProcessed =
+      await PaymentProcessingService.checkPaymentAlreadyProcessed(
+        metadata.order_no,
+        metadata.user_uuid
+      );
+
+    if (alreadyProcessed) {
+      console.log("⚠️ Payment already processed:", subscriptionId);
+      return;
+    }
+
+    // 1. 激活订阅（如果是首次支付成功）
+    const { updateSubscriptionStatus, findSubscriptionByPayssionId } =
+      await import("@/models/subscription");
+    const subscription = await findSubscriptionByPayssionId(subscriptionId);
+
+    if (subscription && subscription.status === "pending") {
+      await updateSubscriptionStatus(subscriptionId, "active");
+      console.log(`✅ Subscription ${subscriptionId} activated`);
+    }
+
+    // 2. 处理支付并发放积分
+    const processingResult = await PaymentProcessingService.processPayment({
+      paymentId: metadata.order_no,
+      userUuid: metadata.user_uuid,
+      amount: amount.toString(),
+      subscriptionId,
+      userEmail: metadata.user_email,
+      paymentMethod: metadata.payment_method,
+    });
+
+    if (!processingResult.success) {
+      console.error(`❌ Payment processing failed: ${processingResult.error}`);
       throw new PaymentError(
         "BUSINESS_LOGIC_ERROR",
-        "Failed to process payment success",
-        this.name,
-        error
+        `Failed to process payment: ${processingResult.error}`,
+        this.name
       );
     }
+
+    console.log(`✅ Payment completed: ${processingResult.creditsAwarded} credits awarded`);
   }
 
   /**
-   * 更新 Payssion 特定的订单信息
+   * 查询订阅详情 (V2 API)
    */
-  private async updatePayssionOrderInfo(orderNo: string, webhookData: any) {
+  async querySubscription(subscriptionId: string) {
     try {
-      const supabase = getSupabaseClient();
-      const { error: orderError } = await supabase
-        .from("orders")
-        .update({
-          payment_provider: "payssion",
-          payment_method: webhookData.pm_id,
-          payssion_transaction_id: webhookData.transaction_id,
-          payment_provider_fee: parseFloat(webhookData.fee || "0"),
-          paid_detail: JSON.stringify(webhookData),
-        })
-        .eq("order_no", orderNo);
-
-      if (orderError) {
-        console.error("Failed to update Payssion order info:", orderError);
-        throw orderError;
-      }
-
-      console.log(`Payssion order info updated for order: ${orderNo}`);
-    } catch (error: any) {
-      console.error("Failed to update Payssion order info:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * 更新 payssion_transactions 表
-   */
-  private async updatePayssionTransaction(data: any) {
-    try {
-      const supabase = getSupabaseClient();
-      const { error: transactionError } = await supabase
-        .from("payssion_transactions")
-        .update({
-          state: data.state,
-          paid_amount: parseFloat(data.paid || "0"),
-          fee: parseFloat(data.fee || "0"),
-          updated_at: new Date().toISOString(),
-          notify_data: data,
-        })
-        .eq("transaction_id", data.transaction_id);
-
-      if (transactionError) {
-        console.error("Failed to update Payssion transaction:", transactionError);
-        throw transactionError;
-      }
-
-      console.log(`Payssion transaction updated: ${data.transaction_id}`);
-    } catch (error: any) {
-      console.error("Failed to update Payssion transaction:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * 退款
-   */
-  async refundPayment(request: RefundRequest): Promise<RefundResult> {
-    try {
-      const params = {
-        api_key: this.apiKey,
-        transaction_id: request.transactionId,
-        amount: (request.amount || 0).toFixed(2),
-        currency: request.currency,
-      };
-
-      const signature = this.generateRefundSignature(params);
-
-      const response = await fetch(`${this.baseUrl}/api/v1/refunds`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          ...params,
-          api_sig: signature,
-        }),
-      });
+      const response = await fetch(
+        `${this.config.v2.baseUrl}/v2/subscriptions/${subscriptionId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${this.config.v2.apiKey}`,
+          },
+        }
+      );
 
       const result = await response.json();
 
-      if (result.result_code === 200) {
-        return {
-          success: true,
-          refundId: result.refund.transaction_id,
-        };
+      if (response.ok && result.id) {
+        return result;
       } else {
-        return {
-          success: false,
-          errorMessage: this.getErrorMessage(result.result_code),
-        };
+        console.error("Failed to query subscription:", result);
+        return null;
       }
     } catch (error: any) {
-      console.error("Payssion refund error:", error);
-      return {
-        success: false,
-        errorMessage: error.message || "Refund failed",
-      };
+      console.error("Subscription query error:", error);
+      return null;
     }
   }
 
   /**
-   * 保存交易记录到数据库
+   * 取消订阅 (V2 API)
+   * 注意：Payssion 测试环境不支持取消订阅功能
    */
-  private async saveTransaction(
-    orderId: string,
-    transaction: any,
-    pmId: string
-  ) {
-    const supabase = getSupabaseClient();
-
-    const transactionData = {
-      order_no: orderId,
-      transaction_id: transaction.transaction_id,
-      pm_id: pmId,
-      state: transaction.state,
-      amount: parseFloat(transaction.amount),
-      currency: transaction.currency,
-      paid_amount: parseFloat(transaction.paid || "0"),
-      fee: 0, // Will be updated when we receive the notification
-    };
-
-    const { error } = await supabase
-      .from("payssion_transactions")
-      .insert(transactionData);
-
-    if (error) {
-      console.error("Failed to save Payssion transaction:", error);
-      throw new PaymentError(
-        "DATABASE_ERROR",
-        "Failed to save transaction record",
-        this.name,
-        error
+  async cancelSubscription(subscriptionId: string): Promise<boolean> {
+    try {
+      const response = await fetch(
+        `${this.config.v2.baseUrl}/v2/subscriptions/${subscriptionId}/cancel`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${this.config.v2.apiKey}`,
+          },
+        }
       );
+
+      const result = await response.json();
+      console.log("Subscription cancellation result:", result);
+
+      // 根据文档，成功时应该返回订阅对象
+      if (response.ok && result.id) {
+        // 更新本地订阅状态
+        const { updateSubscriptionStatus } = await import(
+          "@/models/subscription"
+        );
+        await updateSubscriptionStatus(subscriptionId, "canceled");
+        console.log(`✅ Subscription ${subscriptionId} canceled successfully`);
+        return true;
+      } else {
+        // 检查是否是测试环境下的预期错误
+        // if (result.error?.code === 'resource_status_invalid') {
+        //   console.log("⚠️ Payssion test environment doesn't support subscription cancellation");
+        //   console.log("Simulating cancellation for development purposes");
+
+        //   // 在测试环境下，仅更新本地状态
+        //   const { updateSubscriptionStatus } = await import("@/models/subscription");
+        //   await updateSubscriptionStatus(subscriptionId, "canceled");
+
+        //   return true; // 测试环境下返回成功
+        // }
+
+        console.error("Failed to cancel subscription:", result);
+        return false;
+      }
+    } catch (error: any) {
+      console.error("Subscription cancellation error:", error);
+      return false;
     }
   }
-
 }

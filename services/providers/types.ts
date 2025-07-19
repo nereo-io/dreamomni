@@ -7,10 +7,10 @@ export interface VideoGenerationRequest {
   negative_prompt?: string;
   aspect_ratio?: string;
   duration?: string;
-  resolution?: string;
   cfg_scale?: number;
   seed?: number;
   generate_audio?: boolean;
+  enable_prompt_enhancement?: boolean;
   [key: string]: any;
 }
 
@@ -36,6 +36,9 @@ export interface VideoGenerationResult {
   request_id: string;
   status: string;
   video_url?: string;
+  hd_video_url?: string; // 1080P high-definition video URL
+  hd_processing?: boolean; // Whether 1080P version is still processing
+  hd_available?: boolean; // Whether 1080P version is available
   data?: any;
   [key: string]: any;
 }

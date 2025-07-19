@@ -55,7 +55,7 @@ export function useEmailAuth() {
       });
 
       if (authResult?.ok) {
-        router.push(callbackUrl || "/");
+        router.push(callbackUrl || "/image-to-video");
         return true;
       }
 

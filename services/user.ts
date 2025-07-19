@@ -10,7 +10,6 @@ import { generateInviteCode } from "@/lib/random";
 import { User } from "@/types/user";
 import { auth } from "@/auth";
 import { getOneMonthLaterTimestr } from "@/lib/time";
-import { getUserUuidByApiKey } from "@/models/apikey";
 import { headers } from "next/headers";
 import { increaseCredits } from "./credit";
 
@@ -51,15 +50,6 @@ export async function getUserUuid() {
   let user_uuid = "";
 
   const token = getBearerToken();
-
-  if (token) {
-    // api key
-    if (token.startsWith("sk-")) {
-      const user_uuid = await getUserUuidByApiKey(token);
-
-      return user_uuid || "";
-    }
-  }
 
   const session = await auth();
   if (session && session.user && session.user.uuid) {

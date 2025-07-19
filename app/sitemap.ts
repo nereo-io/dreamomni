@@ -1,7 +1,5 @@
 import { MetadataRoute } from "next";
-import { getQuestionList } from "@/models/question";
-import { getAllPosts, getPostsByLocale } from "@/models/post";
-import { getAllCategoriesMetadata } from "@/types/category-enum";
+import { getPostsByLocale } from "@/models/post";
 import { locales } from "@/i18n/locale";
 
 type ChangeFrequency =
@@ -14,7 +12,7 @@ type ChangeFrequency =
   | "never";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://www.seedance.tv";
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "";
   const currentDate = new Date().toISOString();
 
   console.log("开始生成 sitemap...");

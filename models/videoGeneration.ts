@@ -39,6 +39,7 @@ export async function createVideoGeneration(
       optimized_prompt: params.optimized_prompt,
       fal_request_id: params.fal_request_id,
       volcano_request_id: params.volcano_request_id,
+      veo3_request_id: params.veo3_request_id,
       input_image_url: params.input_image_url,
       negative_prompt: params.negative_prompt,
       aspect_ratio: params.aspect_ratio || "16:9",
@@ -120,6 +121,26 @@ export async function getVideoGenerationByVolcanoRequestId(
   return data || null;
 }
 
+/**
+ * 根据 Veo3 APICore 请求 ID 获取视频生成记录。
+ */
+export async function getVideoGenerationByVeo3RequestId(
+  veo3RequestId: string
+): Promise<VideoGeneration | null> {
+  const { data, error } = await supabase
+    .from("video_generations")
+    .select("*")
+    .eq("veo3_request_id", veo3RequestId)
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    handleSupabaseError(
+      error,
+      `get video generation by veo3_request_id ${veo3RequestId}`
+    );
+  }
+  return data || null;
+}
 
 /**
  * 根据视频生成记录的 ID 更新记录。
@@ -194,6 +215,31 @@ export async function updateVideoGenerationByVolcanoRequestId(
   return data || null;
 }
 
+/**
+ * 根据 Veo3 APICore 请求 ID 更新视频生成记录。
+ */
+export async function updateVideoGenerationByVeo3RequestId(
+  veo3RequestId: string,
+  params: UpdateVideoGenerationParams
+): Promise<VideoGeneration | null> {
+  const { data, error } = await supabase
+    .from("video_generations")
+    .update({
+      ...params,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("veo3_request_id", veo3RequestId)
+    .select()
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    handleSupabaseError(
+      error,
+      `update video generation by veo3_request_id ${veo3RequestId}`
+    );
+  }
+  return data || null;
+}
 
 /**
  * 获取指定用户的视频生成历史记录 (分页)。
@@ -295,3 +341,4 @@ export async function getUserVideoGenerationStats(userId: number): Promise<{
 
   return stats;
 }
+

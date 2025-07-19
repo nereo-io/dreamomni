@@ -8,21 +8,21 @@ export async function GET(req: Request) {
     // 1. 用户认证检查
     const session = await auth();
     if (!session?.user?.uuid) {
-      return respErr("用户未登录");
+      return respErr("User not authenticated");
     }
 
     // 3. 获取查询参数
     const url = new URL(req.url);
     const page = parseInt(url.searchParams.get("page") || "1");
-    const limit = parseInt(url.searchParams.get("limit") || "10");
+    const limit = parseInt(url.searchParams.get("limit") || "12");
     const status = url.searchParams.get("status");
 
     // 验证分页参数
     if (page < 1) {
-      return respErr("页码必须大于0");
+      return respErr("Page number must be greater than 0");
     }
     if (limit < 1 || limit > 100) {
-      return respErr("每页数量必须在1-100之间");
+      return respErr("Limit must be between 1 and 100");
     }
 
     const offset = (page - 1) * limit;
@@ -45,6 +45,7 @@ export async function GET(req: Request) {
         id: video.id,
         model_id: video.model_id,
         prompt: video.prompt,
+        optimized_prompt: video.optimized_prompt, // ✅ 添加增强prompt字段
         input_image_url: video.input_image_url,
         negative_prompt: video.negative_prompt,
         aspect_ratio: video.aspect_ratio,
@@ -53,6 +54,10 @@ export async function GET(req: Request) {
         video_url: video.video_url_r2 || video.video_url_fal,
         video_url_r2: video.video_url_r2,
         video_url_fal: video.video_url_fal,
+        upsample_video_url_veo3: video.upsample_video_url_veo3,
+        video_url_veo3: video.video_url_veo3,
+        video_url_volcano: video.video_url_volcano,
+        has_audio: video.has_audio,
         error_message: video.error_message,
         created_at: video.created_at,
         updated_at: video.updated_at,
@@ -70,9 +75,9 @@ export async function GET(req: Request) {
       },
     });
   } catch (error) {
-    console.error("获取视频生成历史失败:", error);
+    console.error("Failed to get video generation history:", error);
 
-    let errorMessage = "获取视频生成历史失败";
+    let errorMessage = "Failed to get video generation history";
     if (error instanceof Error) {
       errorMessage = error.message;
     }

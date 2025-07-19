@@ -1,336 +1,629 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
-import { VideoGeneration, VideoGenerationHistoryResponse } from "@/types/video";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import {
-  PlayCircle,
   Download,
-  RotateCcw,
-  AlertTriangle,
+  RefreshCw,
+  CheckCircle,
+  XCircle,
+  Clock,
   Loader2,
-  Volume2,
+  History,
+  ChevronDown,
+  ChevronUp,
+  Sparkles,
 } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { getVideoModel } from "@/config/video-models";
+import useVideoGeneration from "@/hooks/useVideoGeneration";
+import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
+import { useAppContext } from "@/contexts/app";
+import { EXAMPLE_VIDEOS } from "@/data/example-videos";
 
-const ITEMS_PER_PAGE = 12;
+interface VideoHistoryProps {
+  refreshTrigger?: number;
+  className?: string;
+  selectedModel?: string;
+  mode?: "text-to-video" | "image-to-video";
+}
 
-export default function VideoHistoryClient() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const t = useTranslations("video-history");
-  const [videos, setVideos] = useState<VideoGeneration[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
+const getStatusMap = (t: any) => ({
+  submitted: {
+    label: t("status.submitted"),
+    color: "bg-blue-500",
+    icon: Clock,
+  },
+  PROMPT_OPTIMIZING: {
+    label: t("status.optimizingPrompt"),
+    color: "bg-purple-500",
+    icon: Loader2,
+  },
+  IN_QUEUE: { label: t("status.inQueue"), color: "bg-yellow-500", icon: Clock },
+  IN_PROGRESS: {
+    label: t("status.generating"),
+    color: "bg-orange-500",
+    icon: Loader2,
+  },
+  COMPLETED: {
+    label: t("status.completed"),
+    color: "bg-green-500",
+    icon: CheckCircle,
+  },
+  SAVED_TO_R2: {
+    label: t("status.completed"),
+    color: "bg-green-500",
+    icon: CheckCircle,
+  },
+  FAILED: { label: t("status.failed"), color: "bg-red-500", icon: XCircle },
+});
 
-  const fetchHistory = useCallback(async (page: number) => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(`/api/video-generations/history`);
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || t("toast.fetchError"));
-      }
-      const result = await response.json();
-      console.log(result);
+export default function VideoHistory({
+  refreshTrigger,
+  className,
+  selectedModel,
+  mode,
+}: VideoHistoryProps) {
+  const t = useTranslations("video-result");
+  const { fetchHistory, history, isLoadingHistory, setHistory } = useVideoGeneration();
+  const { user, setShowSignModal } = useAppContext();
+  const [scrollToBottom, setScrollToBottom] = useState(false);
+  const [expandedPrompts, setExpandedPrompts] = useState<Set<string>>(
+    new Set()
+  );
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
-      if (result.code === 0 && result.data) {
-        setVideos(result.data.data || []);
-        setCurrentPage(result.data.pagination?.page || 1);
-        setTotalPages(result.data.pagination?.totalPages || 1);
-        setTotalItems(result.data.pagination?.total || 0);
-      } else {
-        throw new Error(result.message || t("toast.noDataReturned"));
-      }
-    } catch (error: any) {
-      toast.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
+  // 客户端检测
+  useEffect(() => {
+    setIsClient(true);
   }, []);
 
+  // 检测是否为移动端
   useEffect(() => {
-    const pageFromUrl = parseInt(searchParams.get("page") || "1");
-    fetchHistory(pageFromUrl);
-  }, [searchParams, fetchHistory]);
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
 
-  const handlePageChange = (newPage: number) => {
-    router.push(`/history?page=${newPage}`);
-  };
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
 
-  const handlePlayVideo = (video: VideoGeneration) => {
-    // Check for video URL availability
-    const videoUrl = video.video_url_r2 || video.video_url_fal;
-    if (videoUrl) {
-      window.open(videoUrl, "_blank");
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
+
+  // 获取要显示的示例视频
+  const getExampleVideos = () => {
+    if (!selectedModel) return EXAMPLE_VIDEOS.veo; // 默认显示veo3小黄鸡
+
+    // 根据模型ID判断类型
+    if (selectedModel.includes("veo") || selectedModel.includes("Veo")) {
+      return EXAMPLE_VIDEOS.veo;
     } else {
-      toast.info(t("toast.videoNotAvailable"));
+      return EXAMPLE_VIDEOS.seedance;
     }
   };
 
-  const handleDownloadVideo = (video: VideoGeneration) => {
-    const videoUrl = video.video_url_r2 || video.video_url_fal;
-    if (videoUrl) {
+  // 决定要显示的视频列表
+  const videosToShow =
+    !user?.uuid || history.length === 0 ? getExampleVideos() : history;
+
+  // Toggle enhanced prompt visibility
+  const togglePromptExpansion = (generationId: string) => {
+    setExpandedPrompts((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(generationId)) {
+        newSet.delete(generationId);
+      } else {
+        newSet.add(generationId);
+      }
+      return newSet;
+    });
+  };
+
+  // 获取视频URL
+  const getVideoUrl = (gen: VideoGenerationResult) => {
+    return (
+      gen.video_url ||
+      gen.video_url_r2 ||
+      gen.upsample_video_url_veo3 ||
+      gen.video_url_veo3 ||
+      gen.video_url_volcano ||
+      gen.video_url_fal ||
+      null
+    );
+  };
+
+  // 加载历史记录
+  const loadHistory = useCallback(async () => {
+    if (!user?.uuid) {
+      // 用户未登录，不发送请求
+      return;
+    }
+    await fetchHistory(1, 5);
+    // 加载完成后滚动到底部显示最新内容
+    setScrollToBottom(true);
+  }, [fetchHistory, user?.uuid]);
+
+  // 初始加载
+  useEffect(() => {
+    loadHistory();
+  }, [loadHistory]);
+
+  // 检查是否有未完成的视频需要轮询
+  const hasIncompleteVideos = useCallback(() => {
+    if (!history || history.length === 0) return false;
+
+    // 检查最新的视频是否未完成
+    const latestVideo = history[0];
+    if (!latestVideo) return false;
+
+    // 未完成的状态包括：提交中、优化中、排队中、生成中
+    const incompleteStatuses = [
+      "submitted",
+      "PROMPT_OPTIMIZING",
+      "IN_QUEUE",
+      "IN_PROGRESS",
+    ];
+    return incompleteStatuses.includes(latestVideo.status);
+  }, [history]);
+
+  // 更新最新视频的状态
+  const updateLatestVideoStatus = useCallback(async () => {
+    if (!history || history.length === 0) return;
+
+    const latestVideo = history[0];
+    if (!latestVideo) return;
+
+    try {
+      const response = await fetch("/api/video-generation/status", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: latestVideo.id }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.code === 0 && result.data) {
+          // 更新本地状态
+          setHistory(prevHistory => 
+            prevHistory.map((video, index) => 
+              index === 0 ? { ...video, ...result.data } : video
+            )
+          );
+        }
+      }
+    } catch (error) {
+      console.error("更新视频状态失败:", error);
+    }
+  }, [history, setHistory]);
+
+
+  // 轮询机制：当有未完成的视频时，每3秒检查一次状态
+  useEffect(() => {
+    if (!user?.uuid || !hasIncompleteVideos()) {
+      return;
+    }
+
+    console.log("Starting polling for incomplete videos...");
+
+    const pollInterval = setInterval(() => {
+      console.log("Polling video status...");
+      updateLatestVideoStatus();
+    }, 3000); // 每3秒轮询一次
+
+    return () => {
+      console.log("Stopping polling...");
+      clearInterval(pollInterval);
+    };
+  }, [user?.uuid, hasIncompleteVideos, updateLatestVideoStatus]);
+
+  // 监听刷新触发器
+  useEffect(() => {
+    if (refreshTrigger && refreshTrigger > 0) {
+      // 当 refreshTrigger 变化时，刷新历史记录
+      loadHistory().then(() => {
+        setScrollToBottom(true);
+      });
+    }
+  }, [refreshTrigger, loadHistory]);
+
+  // 自动滚动到底部显示最新内容
+  useEffect(() => {
+    if (scrollToBottom && history.length > 0) {
+      const scrollContainer = document.querySelector(".video-history-scroll");
+      if (scrollContainer) {
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        setScrollToBottom(false);
+      }
+    }
+  }, [scrollToBottom, history]);
+
+  // 动态匹配左侧组件高度 - 仅在移动端使用
+  useEffect(() => {
+    if (isMobile) {
+      const matchHeight = () => {
+        const generatorElement = document.querySelector(
+          ".video-generator-container"
+        );
+        if (generatorElement && containerRef.current) {
+          const generatorHeight =
+            generatorElement.getBoundingClientRect().height;
+          containerRef.current.style.height = `${generatorHeight}px`;
+        }
+      };
+
+      // 初始设置
+      setTimeout(matchHeight, 100);
+
+      // 监听窗口大小变化
+      window.addEventListener("resize", matchHeight);
+
+      // 使用 MutationObserver 监听左侧组件变化
+      const generatorElement = document.querySelector(
+        ".video-generator-container"
+      );
+      let observer: MutationObserver | null = null;
+
+      if (generatorElement) {
+        observer = new MutationObserver(matchHeight);
+        observer.observe(generatorElement, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ["class", "style"],
+        });
+      }
+
+      // 定时检查（作为备用）
+      const interval = setInterval(matchHeight, 2000);
+
+      return () => {
+        window.removeEventListener("resize", matchHeight);
+        if (observer) observer.disconnect();
+        clearInterval(interval);
+      };
+    }
+  }, [isMobile]);
+
+  // 手动刷新
+  const handleRefresh = () => {
+    loadHistory();
+  };
+
+  // 下载视频
+  const handleDownload = async (videoUrl: string) => {
+    try {
+      // 显示下载进度（可选）
+      const response = await fetch(videoUrl);
+      if (!response.ok) throw new Error("下载失败");
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
       const link = document.createElement("a");
-      link.href = videoUrl;
-      link.download = `${video.prompt.substring(0, 20).replace(/\s+/g, "_")}_${
-        video.id
-      }.mp4`;
+      link.href = url;
+      link.download = `video_${Date.now()}.mp4`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    } else {
-      toast.error(t("toast.downloadNotAvailable"));
+
+      // 清理blob URL
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("下载失败:", error);
+      // 如果fetch失败，尝试传统方式
+      const link = document.createElement("a");
+      link.href = videoUrl;
+      link.download = `video_${Date.now()}.mp4`;
+      link.target = "_blank";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   };
 
-  const handleRegenerateVideo = (video: VideoGeneration) => {
-    // This might involve navigating back to the generator with pre-filled params
-    // For simplicity, just logging now. Can be expanded later.
-    console.log("Regenerate video:", video);
-    toast.info(t("toast.regenerationNotImplemented"));
-    // router.push(`/generate?prompt=${encodeURIComponent(video.prompt)}&aspect_ratio=${video.aspect_ratio}...`);
-  };
+  const STATUS_MAP = getStatusMap(t);
 
-  const getStatusBadge = (status: VideoGeneration["status"]) => {
+  // 获取状态颜色
+  const getStatusColor = (status: string) => {
     switch (status) {
       case "COMPLETED":
       case "SAVED_TO_R2":
-        return (
-          <Badge
-            variant="default"
-            className="bg-green-600 hover:bg-green-700 text-white border-transparent"
-          >
-            {t("status.completed")}
-          </Badge>
-        );
+        return "bg-green-500";
       case "IN_PROGRESS":
       case "IN_QUEUE":
-        return (
-          <Badge variant="secondary">
-            <Loader2 className="mr-2 h-3 w-3 animate-spin" />
-            {t("status.processing")}
-          </Badge>
-        );
-      case "PENDING":
-        return <Badge variant="outline">{t("status.pending")}</Badge>;
+      case "PROMPT_OPTIMIZING":
+        return "bg-blue-500";
       case "FAILED":
-        return <Badge variant="destructive">{t("status.failed")}</Badge>;
+        return "bg-red-500";
       default:
-        return <Badge>{status}</Badge>;
+        return "bg-yellow-500";
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-[calc(100vh-200px)]">
-        <Loader2 className="h-12 w-12 animate-spin text-blue-500" />
-      </div>
-    );
-  }
-
-  if (!videos?.length && !isLoading) {
-    return (
-      <div className="text-center py-12">
-        <AlertTriangle className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-        <h3 className="text-2xl font-semibold text-gray-200 mb-2">
-          {t("noVideosTitle")}
-        </h3>
-        <p className="text-gray-400 mb-6">{t("noVideosDescription")}</p>
-        <Button
-          asChild
-          size="lg"
-          className="bg-blue-600 hover:bg-blue-700 text-white"
-        >
-          <Link href="/">{t("generateVideoButton")}</Link>
-        </Button>
-      </div>
-    );
-  }
-
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-100 mb-8">{t("title")}</h1>
+    <div
+      ref={containerRef}
+      className={cn(
+        "bg-gray-800 rounded-xl shadow-lg overflow-hidden",
+        // PC端使用屏幕高度，移动端保持auto
+        isMobile ? "" : "h-screen",
+        className
+      )}
+      style={{
+        height: isMobile ? "auto" : "calc(100vh - 81px)",
+        minHeight: "600px",
+      }}
+    >
+      {/* Header */}
+      <header className="py-3 px-5 flex justify-between items-center border-b border-gray-700">
+        <div className="text-xl font-semibold flex items-center text-white">
+          <History className="h-5 w-5 mr-3" />
+          Recent Generations
+        </div>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleRefresh}
+          disabled={isLoadingHistory}
+          className="text-gray-400 hover:text-white"
+        >
+          <RefreshCw
+            className={cn("h-4 w-4", isLoadingHistory && "animate-spin")}
+          />
+        </Button>
+      </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {videos.map((video) => (
-          <Card
-            key={video.id}
-            className="bg-gray-800 border-gray-700 text-gray-200 flex flex-col"
-          >
-            <CardHeader>
-              <div className="aspect-video bg-gray-700 rounded-md mb-3 flex items-center justify-center overflow-hidden relative">
-                {video.video_url_r2 || video.video_url_fal ? (
-                  <video
-                    src={video.video_url_r2 ?? video.video_url_fal ?? ""}
-                    poster={video.input_image_url ?? ""}
-                    className="w-full h-full object-cover"
-                    preload="metadata"
-                    controls={false} // Disable default controls, using custom play button
-                  />
-                ) : video.input_image_url ? (
-                  <img
-                    src={video.input_image_url}
-                    alt="Input image"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <PlayCircle className="h-16 w-16 text-gray-500" />
-                )}
+      {isLoadingHistory && history.length === 0 && user?.uuid ? (
+        <div className="flex items-center justify-center py-8">
+          <Loader2 className="h-6 w-6 text-gray-500 animate-spin" />
+        </div>
+      ) : videosToShow.length === 0 ? (
+        <div className="text-center py-8">
+          <History className="h-12 w-12 text-gray-600 mx-auto mb-3" />
+          <p className="text-gray-400">No video generations yet</p>
+          <p className="text-gray-500 text-sm mt-1">
+            Your generated videos will appear here
+          </p>
+        </div>
+      ) : (
+        <div
+          className="flex-1 overflow-y-auto video-history-scroll custom-scrollbar divide-y divide-gray-700"
+          style={{
+            maxHeight: isMobile ? "calc(100% - 50px)" : "calc(100vh - 141px)",
+          }}
+        >
+          {/* 如果显示的是示例视频，添加提示 */}
+          {(!user?.uuid || history.length === 0) && (
+            <div className="p-4 bg-blue-900/20 border-b border-blue-500/30">
+              <div className="flex items-center gap-2 text-blue-300 text-sm">
+                <Sparkles className="h-4 w-4" />
+                <span>
+                  {!user?.uuid
+                    ? "Sign in to see your video generations. Here are some examples:"
+                    : "Here are some example videos to get you started:"}
+                </span>
+              </div>
+            </div>
+          )}
 
-                {/* Audio indicator */}
-                {video.has_audio && (
-                  <div className="absolute top-2 right-2">
+          {[...videosToShow].reverse().map((generation) => {
+            console.log("Video generation data:", {
+              id: generation.id,
+              prompt: generation.prompt,
+              optimized_prompt: generation.optimized_prompt,
+              has_optimized: !!generation.optimized_prompt,
+              is_different: generation.optimized_prompt !== generation.prompt,
+            });
+
+            const videoUrl = getVideoUrl(generation);
+            const status =
+              STATUS_MAP[generation.status as keyof typeof STATUS_MAP] ||
+              STATUS_MAP.submitted;
+            const isCompleted =
+              generation.status === "COMPLETED" ||
+              generation.status === "SAVED_TO_R2";
+            const isFailed = generation.status === "FAILED";
+            const modelConfig = getVideoModel(generation.model_id);
+            const statusColor = getStatusColor(generation.status);
+
+            return (
+              <div key={generation.id} className="p-5 space-y-4">
+                {/* 头部信息：状态 + Prompt + 时间戳 */}
+                <div className="flex justify-between items-start gap-3">
+                  <div className="flex items-start gap-3 flex-1">
+                    <Badge
+                      className={cn(
+                        "text-white text-xs font-semibold px-2.5 py-1 rounded-full border-0 flex-shrink-0 mt-0.5",
+                        isCompleted
+                          ? "bg-green-500 text-green-900"
+                          : isFailed
+                          ? "bg-red-500 text-red-900"
+                          : "bg-blue-500 text-blue-900"
+                      )}
+                    >
+                      {status.label}
+                    </Badge>
+                    <p
+                      className="text-base font-bold text-white leading-relaxed flex-1"
+                      style={{
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {generation.prompt}
+                    </p>
+                  </div>
+                  {generation.created_at && isClient && (
+                    <span className="text-sm text-gray-400 flex-shrink-0 mt-0.5">
+                      {(() => {
+                        const date = new Date(generation.created_at);
+                        const now = new Date();
+                        const diffInHours =
+                          (now.getTime() - date.getTime()) / (1000 * 60 * 60);
+
+                        if (diffInHours < 24) {
+                          return date.toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          });
+                        } else {
+                          return date.toLocaleDateString([], {
+                            month: "short",
+                            day: "numeric",
+                          });
+                        }
+                      })()}
+                    </span>
+                  )}
+                </div>
+
+                {/* 参数标签和模型名称 */}
+                <div className="flex items-center gap-2">
+                  <Badge
+                    variant="secondary"
+                    className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded border-0"
+                  >
+                    {generation.aspect_ratio || "adaptive"}
+                  </Badge>
+                  <Badge
+                    variant="secondary"
+                    className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded border-0"
+                  >
+                    {generation.duration_seconds || 5}s
+                  </Badge>
+                  {generation.upsample_video_url_veo3 && (
                     <Badge
                       variant="secondary"
-                      className="text-xs flex items-center gap-1 bg-blue-100 text-blue-700 border-blue-200"
+                      className="bg-blue-600 text-white text-xs px-2 py-1 rounded border-0"
                     >
-                      <Volume2 className="h-3 w-3" />
-                      音频
+                      ↑ HD
                     </Badge>
+                  )}
+                  <div className="text-gray-300 flex-1 text-sm leading-relaxed">
+                    {modelConfig?.displayName || generation.model_id}
                   </div>
-                )}
-              </div>
-              <CardTitle className="text-lg truncate" title={video.prompt}>
-                {video.prompt}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="flex-grow">
-              <div className="flex justify-between items-center mb-2">
-                {getStatusBadge(video.status)}
-                <p className="text-xs text-gray-400">
-                  {formatDistanceToNow(new Date(video.created_at), {
-                    addSuffix: true,
-                  })}
-                </p>
-              </div>
-              <p className="text-sm text-gray-400">
-                {t("labels.model")}:{" "}
-                {getVideoModel(video.model_id)?.displayName || video.model_id}
-              </p>
-              <p className="text-sm text-gray-400">
-                {t("labels.duration")}: {video.duration_seconds}s
-              </p>
-              <p className="text-sm text-gray-400">
-                {t("labels.aspectRatio")}: {video.aspect_ratio}
-              </p>
-            </CardContent>
-            <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 pt-4 border-t border-gray-700">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handlePlayVideo(video)}
-                disabled={
-                  video.status !== "COMPLETED" &&
-                  video.status !== "SAVED_TO_R2" &&
-                  !video.video_url_r2 &&
-                  !video.video_url_fal
-                }
-                className="w-full sm:w-auto border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <PlayCircle className="mr-2 h-4 w-4" /> {t("playButton")}
-              </Button>
-              <div className="flex gap-2 w-full sm:w-auto">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleDownloadVideo(video)}
-                  disabled={
-                    video.status !== "COMPLETED" &&
-                    video.status !== "SAVED_TO_R2" &&
-                    !video.video_url_r2 &&
-                    !video.video_url_fal
-                  }
-                  title={t("downloadButton")}
-                  className="disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Download className="h-5 w-5 text-gray-400 hover:text-gray-200" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleRegenerateVideo(video)}
-                  title={t("regenerateButton")}
-                >
-                  <RotateCcw className="h-5 w-5 text-gray-400 hover:text-gray-200" />
-                </Button>
-              </div>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
+                </div>
 
-      {totalPages > 1 && (
-        <Pagination className="mt-12">
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (currentPage > 1) handlePageChange(currentPage - 1);
-                }}
-                className={
-                  currentPage === 1
-                    ? "pointer-events-none opacity-50"
-                    : undefined
-                }
-              />
-            </PaginationItem>
-            {[...Array(totalPages)].map((_, i) => (
-              <PaginationItem key={i}>
-                <PaginationLink
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handlePageChange(i + 1);
-                  }}
-                  isActive={currentPage === i + 1}
-                >
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-            <PaginationItem>
-              <PaginationNext
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (currentPage < totalPages)
-                    handlePageChange(currentPage + 1);
-                }}
-                className={
-                  currentPage === totalPages
-                    ? "pointer-events-none opacity-50"
-                    : undefined
-                }
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+                {/* Enhanced Prompt 区域 */}
+                {generation.optimized_prompt &&
+                  generation.optimized_prompt !== generation.prompt && (
+                    <div className="bg-gray-900/50 rounded-lg p-4">
+                      <div
+                        className="flex justify-between items-center cursor-pointer"
+                        onClick={() => togglePromptExpansion(generation.id)}
+                      >
+                        <div className="text-sm font-semibold text-purple-400 flex items-center">
+                          <Sparkles className="text-base mr-2 h-4 w-4" />
+                          Enhanced Prompt:
+                        </div>
+                        {expandedPrompts.has(generation.id) ? (
+                          <ChevronUp className="text-gray-400 h-5 w-5" />
+                        ) : (
+                          <ChevronDown className="text-gray-400 h-5 w-5" />
+                        )}
+                      </div>
+                      <p
+                        className="mt-2 text-sm text-gray-300"
+                        style={
+                          expandedPrompts.has(generation.id)
+                            ? {}
+                            : {
+                                display: "-webkit-box",
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: "vertical",
+                                overflow: "hidden",
+                              }
+                        }
+                      >
+                        {generation.optimized_prompt}
+                      </p>
+                    </div>
+                  )}
+
+                {/* 视频播放区域 */}
+                <div className="w-full mt-4">
+                  <div
+                    className={cn(
+                      "h-56 sm:h-64 md:h-72 lg:h-80 xl:h-96 rounded-lg overflow-hidden relative group flex items-center justify-center",
+                      isCompleted && videoUrl ? "bg-transparent" : "bg-gray-700"
+                    )}
+                  >
+                    {isCompleted && videoUrl ? (
+                      <>
+                        <video
+                          className="max-w-full max-h-full object-contain rounded-lg"
+                          controls
+                          preload="auto"
+                          muted
+                          playsInline
+                          onLoadedData={(e) => {
+                            const video = e.target as HTMLVideoElement;
+                            video.currentTime = 0.1;
+                          }}
+                        >
+                          <source src={videoUrl} type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
+
+                        {/* 下载按钮 */}
+                        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          {!user?.uuid || history.length === 0 ? (
+                            // 示例视频不允许下载
+                            <div className="bg-black/60 text-white border-none h-8 w-8 p-0 rounded-md flex items-center justify-center">
+                              <Download className="h-4 w-4 opacity-50" />
+                            </div>
+                          ) : (
+                            // 真实视频允许下载
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              className="bg-black/60 hover:bg-black/80 text-white border-none h-8 w-8 p-0 rounded-md"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDownload(videoUrl);
+                              }}
+                            >
+                              <Download className="h-4 w-4" />
+                            </Button>
+                          )}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="w-full h-full flex flex-col items-center justify-center bg-gray-700 rounded-lg">
+                        <status.icon
+                          className={cn(
+                            "h-8 w-8 text-gray-400 mb-2",
+                            status.icon === Loader2 && "animate-spin"
+                          )}
+                        />
+                        <span className="text-xs text-gray-500 text-center px-2">
+                          {status.label}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 错误信息 */}
+                  {isFailed && generation.error_message && (
+                    <div className="mt-3 p-3 bg-red-900/20 rounded-lg border border-red-500/30">
+                      <p className="text-xs text-red-300 leading-relaxed">
+                        ❌ {generation.error_message}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       )}
     </div>
   );

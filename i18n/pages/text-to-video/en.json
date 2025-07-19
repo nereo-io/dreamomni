@@ -1,0 +1,127 @@
+{
+  "videoExamples": [
+    {
+      "id": "glass-strawberry",
+      "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
+      "alt": "Glass strawberry shattering when sliced",
+      "prompt": "A glass strawberry shatters when sliced with a knife on a wooden board."
+    },
+    {
+      "id": "anime-rose",
+      "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Anime-Rose-Blooming-Bridge.mp4",
+      "alt": "Anime rose blooming with dancing petals",
+      "prompt": "An anime-style rose blooms before a rope bridge, with petals dancing in the air."
+    },
+    {
+      "id": "monkey-seagull",
+      "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
+      "alt": "Monkey and seagull dancing on moonlit beach",
+      "prompt": "A monkey and a seagull dance on a moonlit beach under a starry sky."
+    },
+    {
+      "id": "monarch-butterfly",
+      "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
+      "alt": "Monarch butterfly fluttering wings on flowers",
+      "prompt": "A monarch butterfly flutters its wings on colorful flowers in a sunlit garden.",
+      "isNew": true
+    }
+  ],
+  "faq": {
+    "title": "FAQs",
+    "description": "Find answers to common questions about our AI text to video generation service.",
+    "items": [
+      {
+        "id": "what-is-text-to-video",
+        "question": "What is an AI text to video generator?",
+        "answer": "An AI text to video generator is a powerful tool that uses artificial intelligence to create video content from simple text descriptions. It analyzes your text prompt and generates dynamic, high-quality videos that bring your words to life."
+      },
+      {
+        "id": "best-text-to-video-generator",
+        "question": "What is the best text to video AI generator?",
+        "answer": "Veo3 AI offers one of the most advanced text to video generators with exceptional output quality, realistic motion, and sophisticated scene understanding. Our AI models are trained on diverse datasets to create cinematic, professional-grade videos."
+      },
+      {
+        "id": "how-does-text-to-video-work",
+        "question": "How does text to video AI generation work?",
+        "answer": "Our text to video AI analyzes your written description, understands the context, objects, actions, and styles mentioned, then generates corresponding visual sequences with appropriate motion, lighting, and effects to match your prompt."
+      },
+      {
+        "id": "what-can-i-create-with-text-to-video",
+        "question": "What types of videos can I create with text to video?",
+        "answer": "You can create a wide variety of content including promotional videos, social media content, educational materials, concept visualizations, storytelling videos, and artistic creations. The possibilities are limited only by your imagination."
+      },
+      {
+        "id": "is-text-to-video-free",
+        "question": "Is Veo3 AI's text to video generator free?",
+        "answer": "Veo3 AI offers both free and premium options. New users receive free credits to explore the service. For regular use, we provide affordable subscription plans with more credits and advanced features like higher resolutions and longer video durations."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Create Stunning Videos with Only Text Now!",
+    "description": "Transform your ideas into stunning AI-generated videos with just a simple text prompt. Start creating professional videos in seconds.",
+    "buttonText": "Try Text to Video Generator"
+  },
+  "aiModelsHero": {
+    "title": "All-in-One AI Text to Video Generator",
+    "description": "Veo3 AI is the ultimate, all-in-one AI text to video generator. We offer access to industry-leading video models including Veo3 and Seedance, all in one single place. Try them seamlessly and create stunning visuals without juggling multiple platforms!",
+    "models": [
+      {
+        "id": "veo3",
+        "name": "Veo 3",
+        "logo": "/imgs/intro/veo.svg"
+      },
+      {
+        "id": "seedance",
+        "name": "Seedance",
+        "logo": "/imgs/intro/seedance.png"
+      }
+    ],
+    "moreModels": "More Models"
+  },
+  "aiVideoShowcase": {
+    "title": "Visualize Any Text with Our AI Video Generator",
+    "description": "Bring any text to life with our AI video generator! Create engaging videos of any style with just a simple text prompt. Describe your ideas with a few words, and our video AI can visualize it creatively."
+  },
+  "creatorShowcase": {
+    "title": "Empowering Every Text-to-Video Creator",
+    "creatorTypes": [
+      {
+        "id": "content-creators",
+        "name": "Content Creators",
+        "image": "https://images.unsplash.com/photo-1493612276216-ee3925520721?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Content creator setting up video equipment with professional lighting",
+        "title": "Transform ideas into viral content instantly",
+        "description": "Turn your creative concepts into engaging videos without filming. Simply describe your vision and watch it come to life with professional quality and unlimited creative possibilities.",
+        "badge": "Content Creators"
+      },
+      {
+        "id": "marketers",
+        "name": "Marketers & Agencies",
+        "image": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Marketing team brainstorming creative campaign strategies",
+        "title": "Scale video marketing campaigns effortlessly",
+        "description": "Create multiple video variations from text prompts for A/B testing, different audiences, and campaigns. Generate personalized marketing content at scale without traditional production constraints.",
+        "badge": "Marketers & Agencies"
+      },
+      {
+        "id": "educators",
+        "name": "Educators & Trainers",
+        "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Professional educator presenting engaging content in modern classroom setting",
+        "title": "Create engaging educational videos from text",
+        "description": "Transform lesson plans and educational concepts into compelling video content. Make complex topics accessible and engaging with AI-generated visuals that enhance learning experiences.",
+        "badge": "Educators & Trainers"
+      },
+      {
+        "id": "storytellers",
+        "name": "Storytellers & Writers",
+        "image": "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Creative writer working on storytelling with notebooks and laptop",
+        "title": "Bring written stories to visual life",
+        "description": "Convert your narratives, scripts, and written content into dynamic video stories. Visualize characters, scenes, and plot points without the need for actors or filming equipment.",
+        "badge": "Storytellers & Writers"
+      }
+    ]
+  }
+}

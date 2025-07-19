@@ -97,7 +97,7 @@
       "is_featured": false,
       "discount_label": "",
       "button": {
-        "title": "Улучшить до Мини",
+        "title": "Подписаться на Мини",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },
@@ -128,9 +128,9 @@
       "unit": "/месяц",
       "is_featured": false,
       "discount_label": "40% СКИДКА",
-      "tip": "Оплачивается $108.00 в год",
+      "tip": "Подписка на $108.00 в год",
       "button": {
-        "title": "Улучшить до Мини",
+        "title": "Подписаться на Мини",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },
@@ -162,7 +162,7 @@
       "is_featured": true,
       "discount_label": "",
       "button": {
-        "title": "Улучшить до Стандартного",
+        "title": "Подписаться на Стандартный",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },
@@ -193,9 +193,9 @@
       "unit": "/месяц",
       "is_featured": true,
       "discount_label": "40% СКИДКА",
-      "tip": "Оплачивается $360.00 в год",
+      "tip": "Подписка на $360.00 в год",
       "button": {
-        "title": "Улучшить до Стандартного",
+        "title": "Подписаться на Стандартный",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },

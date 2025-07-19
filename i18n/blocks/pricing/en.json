@@ -97,7 +97,7 @@
       "is_featured": false,
       "discount_label": "",
       "button": {
-        "title": "Upgrade to Mini",
+        "title": "Subscribe to Mini",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },
@@ -128,9 +128,9 @@
       "unit": "/month",
       "is_featured": false,
       "discount_label": "40% OFF",
-      "tip": "Billed $108.00 yearly",
+      "tip": "Subscription at $108.00 yearly",
       "button": {
-        "title": "Upgrade to Mini",
+        "title": "Subscribe to Mini",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },
@@ -162,7 +162,7 @@
       "is_featured": true,
       "discount_label": "",
       "button": {
-        "title": "Upgrade to Standard",
+        "title": "Subscribe to Standard",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },
@@ -193,9 +193,9 @@
       "unit": "/month",
       "is_featured": true,
       "discount_label": "40% OFF",
-      "tip": "Billed $360.00 yearly",
+      "tip": "Subscription at $360.00 yearly",
       "button": {
-        "title": "Upgrade to Standard",
+        "title": "Subscribe to Standard",
         "url": "/#pricing",
         "icon": "RiVipCrownLine"
       },

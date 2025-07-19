@@ -50,9 +50,9 @@ export abstract class BasePaymentProvider implements PaymentProvider {
     }
   }
   
-  abstract createPayment(request: import('./types').PaymentRequest): Promise<import('./types').PaymentResponse>;
-  abstract handleWebhook(data: any): Promise<import('./types').WebhookResult>;
-  abstract queryPayment(transactionId: string): Promise<import('./types').PaymentStatus>;
+  abstract createMandate(request: import('./types').MandateRequest): Promise<import('./types').MandateResponse>;
+  abstract createSubscription(request: import('./types').SubscriptionRequest): Promise<import('./types').SubscriptionResponse>;
+  abstract handleSubscriptionWebhook(data: any): Promise<import('./types').SubscriptionWebhookResult>;
   abstract validateConfig(): boolean;
 }
 

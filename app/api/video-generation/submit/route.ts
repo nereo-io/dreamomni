@@ -16,6 +16,8 @@ import {
   isKlingModel,
   isVeo2Model,
   isVeo3Model,
+  isVeo3ApicoreModel,
+  isKieAiModel,
   isVeoModel,
   isVolcanoModel,
   calculateCredits,
@@ -29,19 +31,19 @@ export async function POST(req: Request) {
     // 1. 用户认证检查
     const session = await auth();
     if (!session?.user?.uuid) {
-      return respErr("用户未登录");
+      return respErr("User not authenticated");
     }
 
     // 2. 获取用户信息
     const userInfo = await getUserInfo();
     if (!userInfo?.uuid) {
-      return respErr("用户信息获取失败");
+      return respErr("Failed to get user information");
     }
 
     // 3. 检查用户积分
     const userCredits = await getUserCredits(userInfo.uuid);
     if (!userCredits) {
-      return respErr("获取用户积分失败");
+      return respErr("Failed to get user credits");
     }
 
     const {
@@ -58,6 +60,7 @@ export async function POST(req: Request) {
       seed,
       enable_safety_checker = true,
       generate_audio = false, // 新增：音频生成选项
+      enable_prompt_enhancement = true, // 新增：prompt增强开关
       ...otherParams
     } = await req.json();
 
@@ -86,7 +89,9 @@ export async function POST(req: Request) {
     );
 
     if (requiredCredits === 0) {
-      return respErr("无法计算所需积分，请检查模型配置");
+      return respErr(
+        "Unable to calculate required credits, please check model configuration"
+      );
     }
 
     if (userCredits.left_credits < requiredCredits) {
@@ -119,16 +124,6 @@ export async function POST(req: Request) {
       return respErr(`不支持的时长: ${durationInt}秒`);
     }
 
-    // 检查对应provider的API密钥
-    if (modelConfig.provider === VideoModelProvider.VOLCANO) {
-      if (!process.env.ARK_API_KEY) {
-        return respErr("ARK_API_KEY 环境变量未配置");
-      }
-    } else if (modelConfig.provider === VideoModelProvider.FAL) {
-      if (!process.env.FAL_KEY) {
-        return respErr("FAL_KEY 环境变量未配置");
-      }
-    }
     // 5. 扣除积分（在创建任务前扣除）
     try {
       await decreaseCredits({
@@ -138,10 +133,10 @@ export async function POST(req: Request) {
       });
     } catch (error) {
       console.error("扣除积分失败:", error);
-      return respErr("扣除积分失败，请稍后重试");
+      return respErr("Failed to deduct credits, please try again later");
     }
 
-    // 6. 在数据库中创建记录（初始状态为 PROMPT_OPTIMIZING）
+    // 6. 在数据库中创建记录（根据是否启用prompt增强设置初始状态）
     const videoGeneration = await createVideoGeneration({
       user_id: userInfo.uuid,
       model_id: model,
@@ -153,29 +148,31 @@ export async function POST(req: Request) {
       cfg_scale,
       seed,
       has_audio: generate_audio, // 新增：记录是否包含音频
-      status: "PROMPT_OPTIMIZING",
+      status: enable_prompt_enhancement ? "PROMPT_OPTIMIZING" : "IN_QUEUE",
     });
 
     // 6.5. 优化提示词
     let finalPrompt = prompt;
-    try {
-      const optimizedPrompt = await optimizePromptWithTimeout(
-        prompt,
-        model,
-        30000
-      );
-      finalPrompt = optimizedPrompt;
+    if (enable_prompt_enhancement) {
+      try {
+        const optimizedPrompt = await optimizePromptWithTimeout(
+          prompt,
+          model,
+          30000
+        );
+        finalPrompt = optimizedPrompt;
 
-      // 更新记录保存优化后的提示词
-      await import("@/models/videoGeneration").then(
-        ({ updateVideoGenerationById }) =>
-          updateVideoGenerationById(videoGeneration.id, {
-            optimized_prompt: optimizedPrompt,
-          })
-      );
-    } catch (error) {
-      console.error("提示词优化失败，使用原始提示词:", error);
-      // 如果优化失败，继续使用原始提示词
+        // 更新记录保存优化后的提示词
+        await import("@/models/videoGeneration").then(
+          ({ updateVideoGenerationById }) =>
+            updateVideoGenerationById(videoGeneration.id, {
+              optimized_prompt: optimizedPrompt,
+            })
+        );
+      } catch (error) {
+        console.error("提示词优化失败，使用原始提示词:", error);
+        // 如果优化失败，继续使用原始提示词
+      }
     }
 
     // 构建请求输入（使用优化后的提示词）
@@ -204,7 +201,7 @@ export async function POST(req: Request) {
     // 根据模型类型添加相应参数
     if (isImageToVideoModel(model)) {
       if (!image_url) {
-        return respErr("图片转视频模型需要提供 image_url 参数");
+        return respErr("Image-to-video models require an image_url parameter");
       }
       input.image_url = image_url;
     }
@@ -221,33 +218,74 @@ export async function POST(req: Request) {
       if (cfg_scale !== undefined) {
         input.cfg_scale = cfg_scale;
       }
-    } else if (isVeo2Model(model)) {
-      if (duration) {
-        input.duration = `${duration}s`;
-      }
-    } else if (isVeo3Model(model)) {
-      if (duration) {
-        input.duration = `${duration}s`;
-      }
+    } else if (isVeo3ApicoreModel(model)) {
+      // Veo3 APICore 模型特有参数
       if (generate_audio !== undefined) {
         input.generate_audio = generate_audio;
+      }
+      // Veo3 APICore 支持图片输入，如果有图片则添加到输入中
+      if (image_url) {
+        input.image_url = image_url;
       }
     } else if (isVolcanoModel(model)) {
       // Volcano 模型特有参数 (使用volcanoModel配置)
       if (modelConfig.volcanoModel) {
         input.model = modelConfig.volcanoModel;
       }
+    } else if (isKieAiModel(model)) {
+      // Kie.ai 模型特有参数
+      if (image_url) {
+        input.image_url = image_url;
+      }
+      // Kie.ai 支持水印
+      if (otherParams.watermark) {
+        input.watermark = otherParams.watermark;
+      }
     }
 
     // 7. 提交任务到队列，包含webhook URL
     const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
-    // const webhookUrl = `https://6ae2-103-134-34-19.ngrok-free.app/api/video-generation/webhook`;
+    // const webhookUrl = `https://cb7d7fd27e71.ngrok-free.app/api/video-generation/webhook`;
 
     try {
       // 使用Provider Factory获取合适的provider
       const provider = ProviderFactory.getProvider(model);
 
-      const submitResponse = await provider.submit(model, input, webhookUrl);
+      console.log("submit input", input);
+
+      // 重试机制：针对连接超时错误重试3次
+      let submitResponse;
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+          submitResponse = await provider.submit(model, input, webhookUrl);
+          break;
+        } catch (error) {
+          const errorMsg =
+            error instanceof Error ? error.message : String(error);
+          console.error(`视频生成提交失败 (${attempt}/3):`, errorMsg);
+
+          // 检查是否是连接超时错误
+          const isTimeoutError =
+            errorMsg.includes("fetch failed") ||
+            errorMsg.includes("Connect Timeout Error") ||
+            errorMsg.includes("timeout") ||
+            errorMsg.includes("ETIMEDOUT");
+
+          // 如果不是超时错误，或者是最后一次重试，直接抛出错误
+          if (!isTimeoutError || attempt === 3) {
+            throw error;
+          }
+
+          // 等待后重试：第1次等1秒，第2次等2秒
+          const delay = attempt * 1000;
+          console.log(`连接超时，等待 ${delay}ms 后重试...`);
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+      }
+
+      if (!submitResponse) {
+        throw new Error("视频生成提交失败");
+      }
 
       // 8. 更新数据库记录的请求ID
       const updateParams: any = {};
@@ -257,6 +295,12 @@ export async function POST(req: Request) {
         updateParams.volcano_request_id = submitResponse.request_id;
       } else if (modelConfig.provider === VideoModelProvider.FAL) {
         updateParams.fal_request_id = submitResponse.request_id;
+      } else if (
+        modelConfig.provider === VideoModelProvider.APICORE ||
+        modelConfig.provider === VideoModelProvider.KIEAI
+      ) {
+        // Both APICore and KieAI use the same veo3_request_id field
+        updateParams.veo3_request_id = submitResponse.request_id;
       }
 
       // 更新请求ID和状态为 IN_QUEUE
@@ -266,6 +310,9 @@ export async function POST(req: Request) {
         ({ updateVideoGenerationById }) =>
           updateVideoGenerationById(videoGeneration.id, updateParams)
       );
+
+      // 获取扣除积分后的用户剩余积分
+      const updatedUserCredits = await getUserCredits(userInfo.uuid);
 
       return respData({
         id: videoGeneration.id,
@@ -280,6 +327,10 @@ export async function POST(req: Request) {
         status: "submitted",
         message: "视频生成任务已提交到队列",
         requiredCredits,
+        userCredits: {
+          remainingCredits: updatedUserCredits?.left_credits || 0,
+          deductedCredits: requiredCredits,
+        },
         metadata: {
           prompt,
           optimized_prompt: finalPrompt,
@@ -292,22 +343,6 @@ export async function POST(req: Request) {
       });
     } catch (providerError) {
       console.error("提交到provider失败:", providerError);
-
-      // 更新数据库状态为失败
-      try {
-        await import("@/models/videoGeneration").then(
-          ({ updateVideoGenerationById }) =>
-            updateVideoGenerationById(videoGeneration.id, {
-              status: "FAILED",
-              error_message:
-                providerError instanceof Error
-                  ? providerError.message
-                  : "提交到provider失败",
-            })
-        );
-      } catch (updateError) {
-        console.error("更新状态失败:", updateError);
-      }
 
       // 如果提交失败，我们需要退还积分
       try {
@@ -326,6 +361,22 @@ export async function POST(req: Request) {
         );
       } catch (refundError) {
         console.error("退还积分失败:", refundError);
+      }
+
+      // 更新数据库状态为FAILED
+      try {
+        await import("@/models/videoGeneration").then(
+          ({ updateVideoGenerationById }) =>
+            updateVideoGenerationById(videoGeneration.id, {
+              status: "FAILED",
+              error_message:
+                providerError instanceof Error
+                  ? providerError.message
+                  : "Provider submission failed",
+            })
+        );
+      } catch (updateError) {
+        console.error("更新视频生成状态失败:", updateError);
       }
 
       throw providerError;

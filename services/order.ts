@@ -8,17 +8,7 @@ import { createOrUpdateMembership } from "./membership";
 import { getIsoTimestr, getOneYearLaterTimestr } from "@/lib/time";
 import Stripe from "stripe";
 import { updateAffiliateForOrder } from "./affiliate";
-
-// 产品配置映射
-const PRODUCT_CONFIG: Record<
-  string,
-  { credits: number; membershipType: "monthly" | "yearly" }
-> = {
-  "mini-monthly": { credits: 200, membershipType: "monthly" },
-  "standard-monthly": { credits: 1000, membershipType: "monthly" },
-  "mini-yearly": { credits: 2400, membershipType: "yearly" },
-  "standard-yearly": { credits: 12000, membershipType: "yearly" },
-};
+import { getProductConfigByProductId } from "@/config/payssion";
 
 export async function handleOrderSession(session: Stripe.Checkout.Session) {
   try {
@@ -58,12 +48,10 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
     // 处理订单类型
     const interval = order.interval;
     const product_id = order.product_id;
-    const product_type = order.product_type; // 获取产品类型
     const credits = session.metadata.credits; // 保留原始用法，用于会员类型判断
 
     console.log("Order details:", {
       interval,
-      product_type,
       product_id,
       credits,
     });
@@ -71,7 +59,9 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
     // 处理会员订阅或积分包购买
     console.log("Processing membership/credits purchase for user:", user_uuid);
 
-    const config = product_id ? PRODUCT_CONFIG[product_id] : undefined;
+    const config = product_id
+      ? getProductConfigByProductId(product_id)
+      : undefined;
     let actualCreditsToIncrease = 0;
 
     if (config) {
@@ -190,7 +180,7 @@ export async function handleInvoicePayment(
 
     // 产品配置映射
     const renewalConfig = productIdFromInvoice
-      ? PRODUCT_CONFIG[productIdFromInvoice]
+      ? getProductConfigByProductId(productIdFromInvoice)
       : undefined;
     let actualCreditsToIncreaseForRenewal = 0;
 

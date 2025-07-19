@@ -31,13 +31,12 @@ export default async function () {
       items: [
         {
           title: t("my_credits.recharge"),
-          url: "/#pricing",
+          url: "/pricing",
           target: "_blank",
         },
         {
           title: t("my_credits.invite"),
           url: "/my-invites",
-          target: "_blank",
         },
       ],
     },

@@ -75,12 +75,13 @@ export async function getStripeCustomerId(
 ): Promise<string | null> {
   const supabase = getSupabaseClient();
 
-  // 获取用户最近的已支付订单
+  // 只查询Stripe支付的已支付订单
   const { data: order, error } = await supabase
     .from("orders")
     .select("stripe_session_id")
     .eq("user_uuid", userUuid)
     .eq("status", "paid")
+    .eq("payment_provider", "stripe") // 只查询Stripe支付的订单
     .order("created_at", { ascending: false })
     .limit(1)
     .single();

@@ -5,16 +5,20 @@ import {
   VideoGenerationStatus,
   VideoGenerationResult,
 } from "./types";
+import { volcengineClient } from "@/utils/volcengine-client";
 
 export class VolcanoProvider implements VideoProvider {
   private baseUrl = "https://ark.cn-beijing.volces.com/api/v3";
   private apiKey: string;
+  private useProxy: boolean;
 
   constructor(apiKey: string) {
     if (!apiKey) {
       throw new Error("Volcano Engine API key is required");
     }
     this.apiKey = apiKey;
+    // Check if proxy is configured
+    this.useProxy = !!(process.env.PROXY_URL && process.env.PROXY_SECRET);
   }
 
   getName(): string {
@@ -26,6 +30,17 @@ export class VolcanoProvider implements VideoProvider {
     method: "GET" | "POST" = "GET",
     body?: any
   ): Promise<any> {
+    // Use proxy if configured
+    if (this.useProxy) {
+      try {
+        return await volcengineClient.call(endpoint, body, method);
+      } catch (error) {
+        console.error("Proxy request failed, error:", error);
+        throw error;
+      }
+    }
+
+    // Fallback to direct connection if proxy is not configured
     const url = `${this.baseUrl}${endpoint}`;
 
     const headers = {
@@ -46,29 +61,6 @@ export class VolcanoProvider implements VideoProvider {
 
     if (!response.ok) {
       const errorData = await response.text();
-
-      // 尝试解析错误信息以提供更友好的提示
-      try {
-        const errorJson = JSON.parse(errorData);
-        const errorCode = errorJson.error?.code;
-        const errorMessage = errorJson.error?.message;
-
-        // 为特定错误提供友好的错误信息
-        if (errorCode === "InputImageSensitiveContentDetected") {
-          throw new Error(
-            "Image contains sensitive content and cannot be processed. Please try a different image."
-          );
-        } else if (errorCode === "InvalidParameter.UnsupportedImageFormat") {
-          throw new Error(
-            "Image format or size is not supported. Please ensure image is at least 300px and in supported format."
-          );
-        } else if (errorMessage) {
-          throw new Error(errorMessage);
-        }
-      } catch (parseError) {
-        // 如果无法解析，继续使用原始错误
-      }
-
       throw new Error(
         `Volcano API request failed: ${response.status} ${response.statusText} - ${errorData}`
       );
@@ -82,12 +74,12 @@ export class VolcanoProvider implements VideoProvider {
     input: VideoGenerationRequest,
     webhookUrl?: string
   ): Promise<VideoGenerationResponse> {
-    const endpoint = "/contents/generations/tasks";
+    const endpoint = "/api/v3/contents/generations/tasks";
 
     // Build request body according to Volcano Engine API format
     let promptText = input.prompt;
 
-    // Add aspect ratio to prompt if specified (使用简写 --rt)
+    // Add aspect ratio to prompt if specified
     if (input.aspect_ratio) {
       // For Seedance image-to-video models, always use 'adaptive' to follow image dimensions
       if (model.includes("seedance") && model.includes("image-to-video")) {
@@ -98,12 +90,12 @@ export class VolcanoProvider implements VideoProvider {
       }
     }
 
-    // Add duration to prompt if specified (使用简写 --dur)
+    // Add duration to prompt if specified
     if (input.duration) {
       promptText += ` --dur ${input.duration}`;
     }
 
-    // Add resolution to prompt if specified (使用简写 --rs)
+    // Add resolution to prompt if specified
     if (input.resolution) {
       promptText += ` --rs ${input.resolution.toLowerCase()}`;
     }
@@ -152,7 +144,7 @@ export class VolcanoProvider implements VideoProvider {
     model: string,
     requestId: string
   ): Promise<VideoGenerationStatus> {
-    const endpoint = `/contents/generations/tasks/${requestId}`;
+    const endpoint = `/api/v3/contents/generations/tasks/${requestId}`;
 
     const response = await this.makeRequest(endpoint, "GET");
 

@@ -1,38 +1,45 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Image as ImageIcon, X, Play, Coins } from "lucide-react";
+import { Play, ImageIcon, X, Sparkles } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-import TextareaAutosize from "react-textarea-autosize";
-import { cn } from "@/lib/utils";
-import useVideoGeneration from "@/hooks/useVideoGeneration";
 import useCredits from "@/hooks/useCredits";
-import VideoResult from "@/components/blocks/video-result";
+import { VideoSettings } from "../ai-video-generation-tool/video-settings";
 import {
   VideoModelType,
-  VideoModelConfig,
   getTextToVideoModels,
   getImageToVideoModels,
   calculateCredits,
   getVideoModel,
 } from "@/config/video-models";
 
+// 生成参数接口
+export interface VideoGenerationParams {
+  model: string;
+  prompt: string;
+  duration: string;
+  aspect_ratio: string;
+  resolution: string;
+  generate_audio: boolean;
+  enable_prompt_enhancement: boolean;
+  image_url?: string;
+}
+
 interface VideoGeneratorProps {
-  placeholder?: string;
+  // 核心配置
+  mode: "text-to-video" | "image-to-video";
+  onGenerate: (params: VideoGenerationParams) => Promise<void>;
+  isGenerating: boolean;
+
+  // 可选配置
+  descriptionLabel?: string;
+  descriptionPlaceholder?: string;
+  onModelChange?: (model: string) => void;
 }
 
 type VideoAspectRatio = "16:9" | "9:16" | "1:1";
@@ -40,30 +47,39 @@ type VideoDuration = "5" | "8" | "10";
 type VideoResolution = "480p" | "720p" | "1080p";
 
 export default function VideoGenerator({
-  placeholder = "Unleash Your Imagination.",
+  mode,
+  onGenerate,
+  isGenerating,
+  descriptionLabel,
+  descriptionPlaceholder = "Describe the video you want to create, e.g., A cat playing in a sunny garden with natural lighting and fresh atmosphere...",
+  onModelChange,
 }: VideoGeneratorProps) {
   const t = useTranslations("video-generator");
+
+  // 使用翻译作为默认值
+  const finalDescriptionLabel = descriptionLabel || t("videoDescription");
+
+  // 组件内部状态管理
   const [description, setDescription] = useState("");
-  const [aspectRatio, setAspectRatio] = useState<VideoAspectRatio>("16:9");
-  const [duration, setDuration] = useState<VideoDuration>("5");
-  const [resolution, setResolution] = useState<VideoResolution>("480p");
+  const [selectedRatio, setSelectedRatio] = useState("16:9");
+  const [selectedDuration, setSelectedDuration] = useState("5s");
+  const [selectedResolution, setSelectedResolution] = useState("480p");
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  // 其他内部状态
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [generateAudio, setGenerateAudio] = useState(false);
+  const [generateAudio, setGenerateAudio] = useState(true);
+  const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(true);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+
+  // Textarea 引用
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const { user, setShowSignModal } = useAppContext();
-  const {
-    isLoading,
-    currentGeneration,
-    submitGeneration,
-    pollStatus,
-    clearCurrentGeneration,
-    updateCurrentGeneration,
-  } = useVideoGeneration();
-
   const { leftCredits, updateLeftCredits } = useCredits();
 
   // 用户登录时获取积分
@@ -71,103 +87,58 @@ export default function VideoGenerator({
     if (user?.uuid) {
       updateLeftCredits().catch(console.error);
     }
-  }, [user?.uuid]);
+  }, [user?.uuid, updateLeftCredits]);
 
-  // 获取所有可用模型（不再进行复杂过滤）
-  const availableModels = uploadedImage
-    ? getImageToVideoModels()
-    : getTextToVideoModels();
+  // 获取所有可用模型
+  const availableModels =
+    uploadedImage || selectedImage
+      ? getImageToVideoModels()
+      : getTextToVideoModels();
 
   // 获取选中模型的详细信息
   const selectedModelConfig = getVideoModel(selectedModel);
 
-  // 初始化默认模型选择 - 选择第一个可用模型
+  // 初始化默认模型选择和模型智能切换
   useEffect(() => {
     if (!selectedModel && availableModels.length > 0) {
       setSelectedModel(availableModels[0].id);
     }
   }, [selectedModel, availableModels]);
 
-  // 增强的智能设置联动 - 模型切换时自动调整设置
-  useEffect(() => {
-    if (selectedModelConfig) {
-      // 1. 检查比例兼容性
-      if (!selectedModelConfig.supportedAspectRatios?.includes(aspectRatio)) {
-        const firstSupportedRatio = selectedModelConfig
-          .supportedAspectRatios?.[0] as VideoAspectRatio;
-        if (firstSupportedRatio) {
-          setAspectRatio(firstSupportedRatio);
-        }
-      }
-
-      // 2. 检查时长兼容性
-      if (
-        !selectedModelConfig.supportedDurations?.includes(parseInt(duration))
-      ) {
-        const firstSupportedDuration =
-          selectedModelConfig.supportedDurations?.[0];
-        if (firstSupportedDuration) {
-          setDuration(firstSupportedDuration.toString() as VideoDuration);
-        }
-      }
-
-      // 3. 检查分辨率兼容性
-      if (!selectedModelConfig.supportedResolutions?.includes(resolution)) {
-        const firstSupportedResolution = selectedModelConfig
-          .supportedResolutions?.[0] as VideoResolution;
-        if (firstSupportedResolution) {
-          setResolution(firstSupportedResolution);
-        }
-      }
-
-      // 4. 检查音频兼容性
-      if (generateAudio && !selectedModelConfig.supportsAudio) {
-        setGenerateAudio(false);
-      }
-
-      // 5. 图片兼容性检查已移到独立的 useEffect 中处理
-    }
-  }, [selectedModel, selectedModelConfig]);
-
   // 智能模型切换 - 图片上传时自动切换到图片转视频模型
   useEffect(() => {
-    if (uploadedImage) {
+    if (uploadedImage || selectedImage) {
       // 如果当前模型不支持图片输入，自动切换到图片转视频模型
-      if (selectedModelConfig?.type === VideoModelType.TEXT_TO_VIDEO) {
-        const imageToVideoModels = getImageToVideoModels();
-        if (imageToVideoModels.length > 0) {
-          // 尝试找到相同provider的图片转视频模型
-          const sameProviderModel = imageToVideoModels.find(
-            (model) => model.provider === selectedModelConfig.provider
-          );
-          const targetModel = sameProviderModel || imageToVideoModels[0];
-
-          setSelectedModel(targetModel.id);
-        }
+      const imageToVideoModels = getImageToVideoModels();
+      if (
+        imageToVideoModels.length > 0 &&
+        selectedModelConfig?.type !== VideoModelType.IMAGE_TO_VIDEO
+      ) {
+        setSelectedModel(imageToVideoModels[0].id);
       }
     } else {
       // 如果移除了图片，且当前是图片转视频模型，可以切换回文本转视频模型
-      if (selectedModelConfig?.type === VideoModelType.IMAGE_TO_VIDEO) {
-        const textToVideoModels = getTextToVideoModels();
-        if (textToVideoModels.length > 0) {
-          // 尝试找到相同provider的文本转视频模型
-          const sameProviderModel = textToVideoModels.find(
-            (model) => model.provider === selectedModelConfig.provider
-          );
-          const targetModel = sameProviderModel || textToVideoModels[0];
-
-          setSelectedModel(targetModel.id);
-        }
+      const textToVideoModels = getTextToVideoModels();
+      if (
+        textToVideoModels.length > 0 &&
+        selectedModelConfig?.type === VideoModelType.IMAGE_TO_VIDEO
+      ) {
+        setSelectedModel(textToVideoModels[0].id);
       }
     }
-  }, [uploadedImage, selectedModelConfig]);
+  }, [uploadedImage, selectedImage, selectedModelConfig]);
+
+  // 同步 selectedImage 和 imagePreview
+  useEffect(() => {
+    setImagePreview(selectedImage);
+  }, [selectedImage]);
 
   // 获取积分消耗信息
   const getCreditsRequired = (
     modelId: string,
     duration: VideoDuration,
     hasAudio: boolean = false,
-    resolution: VideoResolution = "1080p"
+    resolution: VideoResolution
   ) => {
     return calculateCredits(modelId, parseInt(duration), hasAudio, resolution);
   };
@@ -175,112 +146,165 @@ export default function VideoGenerator({
   // 获取当前选择的积分消耗
   const currentCreditsRequired = getCreditsRequired(
     selectedModel,
-    duration,
+    selectedDuration as VideoDuration,
     generateAudio,
-    resolution
+    selectedResolution as VideoResolution
   );
 
-  // Handle image upload
+  // 自动调整 textarea 高度
+  const adjustTextareaHeight = useCallback(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto";
+      const scrollHeight = textarea.scrollHeight;
+      const minHeight = 150;
+      const maxHeight = 300;
+      const newHeight = Math.min(Math.max(scrollHeight, minHeight), maxHeight);
+      textarea.style.height = `${newHeight}px`;
+    }
+  }, []);
+
+  // 处理文本变化
+  const handleDescriptionChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setDescription(e.target.value);
+      // 延迟调整高度，确保内容已更新
+      setTimeout(adjustTextareaHeight, 0);
+    },
+    [adjustTextareaHeight]
+  );
+
+  // 初始化 textarea 高度
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [adjustTextareaHeight]);
+
+  // Handle image upload with enhanced validation
   const handleImageUpload = useCallback(
     async (file: File) => {
+      // 验证用户登录
+      if (!user?.uuid) {
+        setShowSignModal(true);
+        return;
+      }
+
+      // 基础文件类型验证
       if (!file.type.startsWith("image/")) {
         toast.error(t("toast.uploadImageFile"));
         return;
       }
 
+      // 支持的格式验证
+      const supportedFormats = [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/webp",
+        "image/bmp",
+        "image/tiff",
+        "image/gif",
+      ];
+      if (!supportedFormats.includes(file.type.toLowerCase())) {
+        toast.error(
+          "Unsupported image format. Please use JPEG, PNG, WEBP, BMP, TIFF, or GIF."
+        );
+        return;
+      }
+
+      // 文件大小验证
       const maxSize = 10 * 1024 * 1024; // 10MB
       if (file.size > maxSize) {
         toast.error(t("toast.imageTooLarge"));
         return;
       }
 
-      // 验证图片尺寸
+      // 图片尺寸和宽高比验证
       const img = new Image();
-      const imageUrl = URL.createObjectURL(file);
+      const imageValidationPromise = new Promise<boolean>((resolve) => {
+        img.onload = () => {
+          const width = img.width;
+          const height = img.height;
+          const aspectRatio = width / height;
 
-      img.onload = () => {
-        URL.revokeObjectURL(imageUrl); // 清理内存
+          // 最小尺寸：300x300px
+          if (width < 300 || height < 300) {
+            toast.error("Image too small. Minimum size is 300x300 pixels.");
+            resolve(false);
+            return;
+          }
 
-        // 检查图片格式 (支持 JPEG, PNG, WEBP, BMP, TIFF, GIF)
-        const supportedFormats = [
-          "image/jpeg",
-          "image/jpg",
-          "image/png",
-          "image/webp",
-          "image/bmp",
-          "image/tiff",
-          "image/gif",
-        ];
-        if (!supportedFormats.includes(file.type.toLowerCase())) {
-          toast.error(t("toast.unsupportedImageFormat"));
-          return;
-        }
+          // 最大尺寸：6000x6000px
+          if (width > 6000 || height > 6000) {
+            toast.error("Image too large. Maximum size is 6000x6000 pixels.");
+            resolve(false);
+            return;
+          }
 
-        // 检查宽高比 (0.4-2.5)
-        const aspectRatio = img.width / img.height;
-        if (aspectRatio < 0.4 || aspectRatio > 2.5) {
-          toast.error(t("toast.invalidAspectRatio"));
-          return;
-        }
+          // 宽高比验证：0.4-2.5
+          if (aspectRatio < 0.4 || aspectRatio > 2.5) {
+            toast.error(
+              "Invalid aspect ratio. Please use an image with aspect ratio between 0.4 and 2.5."
+            );
+            resolve(false);
+            return;
+          }
 
-        // 检查最小尺寸 (300px)
-        if (img.width < 300 || img.height < 300) {
-          toast.error(t("toast.imageTooSmall"));
-          return;
-        }
-
-        // 检查最大尺寸 (6000px)
-        if (img.width > 6000 || img.height > 6000) {
-          toast.error(t("toast.imageTooLarge"));
-          return;
-        }
-
-        // 所有验证通过，设置图片
-        setUploadedImage(file);
-
-        // Create preview
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setImagePreview(e.target?.result as string);
+          resolve(true);
         };
-        reader.readAsDataURL(file);
+
+        img.onerror = () => {
+          toast.error("Invalid image file. Please select a valid image.");
+          resolve(false);
+        };
+      });
+
+      const url = URL.createObjectURL(file);
+      img.src = url;
+
+      const isValid = await imageValidationPromise;
+      URL.revokeObjectURL(url);
+
+      if (!isValid) {
+        return;
+      }
+
+      setUploadedImage(file);
+
+      // Convert to base64 for preview
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result as string;
+        setSelectedImage(result);
+        setImagePreview(result);
       };
+      reader.readAsDataURL(file);
 
-      img.onerror = () => {
-        URL.revokeObjectURL(imageUrl);
-        toast.error(t("toast.invalidImageFile"));
-      };
+      // 立即上传到 R2
+      const formData = new FormData();
+      formData.append("file", file);
 
-      img.src = imageUrl;
-    },
-    [t]
-  );
+      try {
+        const uploadResponse = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
 
-  // Handle drag over
-  const handleDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(true);
-  }, []);
+        const uploadResult = await uploadResponse.json();
+        if (uploadResult.code !== 0) {
+          throw new Error(uploadResult.message || "Image upload failed");
+        }
 
-  const handleDragLeave = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-  }, []);
-
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      setIsDragOver(false);
-
-      const files = Array.from(e.dataTransfer.files);
-      if (files.length > 0) {
-        handleImageUpload(files[0]);
+        setUploadedImageUrl(uploadResult.data.url);
+        toast.success("Image uploaded successfully!");
+      } catch (error) {
+        console.error("Image upload error:", error);
+        toast.error("Failed to upload image. Please try again.");
       }
     },
-    [handleImageUpload]
+    [t, user?.uuid, setShowSignModal]
   );
 
-  // Handle click upload
+  // Handle file input change
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -291,661 +315,208 @@ export default function VideoGenerator({
   // Remove uploaded image
   const removeImage = () => {
     setUploadedImage(null);
+    setSelectedImage(null);
     setImagePreview(null);
+    setUploadedImageUrl(null);
   };
 
-  // Handle video generation
+  // 处理生成按钮点击
   const handleGenerate = async () => {
+    // 验证用户登录
     if (!user?.uuid) {
-      toast.message(t("toast.signInFirst"));
       setShowSignModal(true);
       return;
     }
 
+    // 验证描述内容
     if (!description.trim()) {
-      toast.error(t("toast.enterDescription"));
+      toast.error(t("toast.emptyPrompt"));
       return;
     }
 
-    // 检查prompt最少字符数限制
-    if (description.trim().length < 10) {
-      toast.error(t("toast.descriptionTooShort"));
+    // 验证图片转视频模式下必须上传图片
+    if (mode === "image-to-video" && !uploadedImageUrl) {
+      toast.error(t("toast.uploadImageRequired"));
       return;
     }
 
-    // 检查积分是否足够
+    // 验证积分余额
     if (leftCredits !== null && leftCredits < currentCreditsRequired) {
-      toast.error(
-        t("toast.insufficientCredits", {
-          required: currentCreditsRequired,
-          available: leftCredits,
-        })
-      );
+      toast.error(t("toast.insufficientCredits"));
       return;
     }
 
-    // 立即设置提交状态，防止重复点击
-    setIsSubmitting(true);
+    // 准备图片URL - 直接使用已上传的URL
+    const imageUrl = uploadedImageUrl || undefined;
 
-    // 清空之前的生成状态，避免显示旧的结果
-    clearCurrentGeneration();
+    // 准备生成参数
+    const params: VideoGenerationParams = {
+      model: selectedModel,
+      prompt: description.trim(),
+      duration: selectedDuration.replace("s", ""),
+      aspect_ratio: selectedRatio,
+      resolution: selectedResolution,
+      generate_audio: generateAudio,
+      enable_prompt_enhancement: enablePromptEnhancement,
+      image_url: imageUrl,
+    };
 
-    try {
-      let imageUrl = null;
-
-      // Upload image first if exists
-      if (uploadedImage) {
-        try {
-          const formData = new FormData();
-          formData.append("file", uploadedImage);
-
-          const uploadResponse = await fetch("/api/upload", {
-            method: "POST",
-            body: formData,
-          });
-
-          if (!uploadResponse.ok) {
-            throw new Error("Image upload failed");
-          }
-
-          const uploadResult = await uploadResponse.json();
-          if (uploadResult.code === 0) {
-            imageUrl = uploadResult.data.url;
-          } else {
-            throw new Error(uploadResult.message || "Image upload failed");
-          }
-        } catch (error) {
-          console.error("Image upload error:", error);
-          toast.error(t("toast.imageUploadFailed"));
-          return;
-        }
-      }
-
-      // Prepare generation parameters
-      const generationParams = {
-        model: selectedModel,
-        prompt: description.trim(),
-        duration,
-        aspect_ratio: aspectRatio,
-        resolution,
-        generate_audio: generateAudio,
-        ...(imageUrl && { image_url: imageUrl }),
-      };
-
-      console.log("Generation parameters:", generationParams);
-
-      // Submit generation
-      const result = await submitGeneration(generationParams);
-
-      if (result) {
-        // Start polling for status
-        pollStatus(result.id);
-        // 刷新积分余额
-        updateLeftCredits().catch(console.error);
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
+    // 调用生成回调
+    await onGenerate(params);
   };
 
-  // Handle retry
-  const handleRetry = () => {
-    // 如果当前有生成记录，直接重新开始轮询
-    if (currentGeneration?.id) {
-      pollStatus(currentGeneration.id);
-    } else {
-      // 否则重新生成
-      handleGenerate();
+  // 拖拽处理
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+
+    const files = e.dataTransfer.files;
+    if (files && files[0]) {
+      handleImageUpload(files[0]);
     }
   };
 
   return (
-    <section id="video-generator" className="py-8 md:py-12">
-      <div className="container px-4 md:px-6 max-w-5xl">
-        {/* Main content card with modern gradient theme */}
-        <Card className="bg-gradient-to-br from-gray-900 via-blue-950/30 to-gray-900 backdrop-blur-xl border border-gray-700/50 shadow-2xl shadow-blue-950/20 rounded-xl p-6 md:p-8">
-          {/* Two-column layout for desktop, single column for mobile */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Column - Main Content (2/3 width) */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Video Description */}
-              <div className="space-y-3">
-                <Label className="text-xl font-semibold text-gray-50">
-                  {t("videoDescription")}
-                </Label>
-                <div className="relative">
-                  <TextareaAutosize
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    minRows={4}
-                    maxRows={8}
-                    placeholder={placeholder}
-                    className="w-full p-4 border border-gray-600/50 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-gray-100 bg-gray-800/50 backdrop-blur-sm placeholder-gray-400"
-                  />
-                </div>
-                {/* Character counter */}
-                {description.trim().length < 10 && (
-                  <div className="flex justify-end items-center text-sm">
-                    <span
-                      className={cn(
-                        "transition-colors text-sm",
-                        description.trim().length < 10
-                          ? "text-orange-400"
-                          : "text-gray-400"
-                      )}
-                    >
-                      {description.trim().length}/10 {t("characterCount")}
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              {/* Reference Image (Optional) */}
-              <div className="space-y-3">
-                <Label className="text-xl font-semibold text-gray-50">
-                  {t("referenceImage")}
-                </Label>
-
-                <div
-                  className={cn(
-                    "relative border-2 border-dashed rounded-xl p-6 transition-all duration-200 cursor-pointer group",
-                    isDragOver
-                      ? "border-blue-400/60 bg-blue-950/20"
-                      : "border-gray-600/50 hover:border-gray-500/70 hover:bg-gray-800/20",
-                    uploadedImage
-                      ? "border-solid border-gray-600/50 bg-gray-800/20"
-                      : ""
-                  )}
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  onDrop={handleDrop}
-                  onClick={() => {
-                    if (!uploadedImage) {
-                      document.getElementById("image-upload")?.click();
-                    }
-                  }}
-                >
-                  {imagePreview ? (
-                    <div className="relative flex justify-center">
-                      <img
-                        src={imagePreview}
-                        alt="Preview"
-                        className="max-h-32 max-w-full object-contain rounded-lg"
-                      />
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          removeImage();
-                        }}
-                        className="absolute top-2 right-2 p-1.5 bg-gray-800/90 rounded-full hover:bg-gray-700 transition-colors"
-                      >
-                        <X className="h-4 w-4 text-gray-200" />
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="text-center py-4">
-                      <ImageIcon className="h-8 w-8 text-gray-400 mx-auto mb-2 group-hover:text-gray-300 transition-colors" />
-                      <p className="text-gray-200 font-medium mb-1">
-                        {t("uploadInstructions.clickToUpload")}
-                      </p>
-                      <p className="text-sm text-gray-400">
-                        {t("uploadInstructions.supportedFormats")}
-                      </p>
-                    </div>
-                  )}
-
-                  <input
-                    id="image-upload"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileInputChange}
-                    className="hidden"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column - Parameters Panel (1/3 width) */}
-            <div className="space-y-6">
-              {/* 统一的视频配置面板 - 互联网产品风格 */}
-              <div className="bg-gray-800/40 rounded-lg p-4 border border-gray-700/50">
-                <Label className="text-lg font-semibold text-gray-50 mb-4 block">
-                  Video Settings
-                </Label>
-
-                {/* Video Model Selection - 移动到这里作为第一个设置项 */}
-                <div className="mb-4">
-                  <div className="text-sm text-gray-300 mb-3">Video Model</div>
-                  <Select
-                    value={selectedModel}
-                    onValueChange={(value) => setSelectedModel(value)}
-                  >
-                    <SelectTrigger className="w-full text-left">
-                      <SelectValue placeholder={t("selectModel")}>
-                        {selectedModelConfig && (
-                          <div className="flex items-center gap-2">
-                            <img
-                              src={
-                                selectedModelConfig.id.includes("kling")
-                                  ? "/imgs/intro/kling.svg"
-                                  : selectedModelConfig.id.includes("veo")
-                                  ? "/imgs/intro/veo.svg"
-                                  : "/imgs/intro/seedance.png"
-                              }
-                              alt={selectedModelConfig.provider}
-                              className="w-4 h-4 flex-shrink-0"
-                            />
-                            <span className="font-medium">
-                              {selectedModelConfig.displayName}
-                            </span>
-                            {/* <div className="flex items-center gap-1 text-xs text-blue-300">
-                              <Coins className="h-3 w-3" />
-                              {selectedModelConfig.perSecondCredits}/s
-                            </div> */}
-                          </div>
-                        )}
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent>
-                      {availableModels.map((model) => (
-                        <SelectItem key={model.id} value={model.id}>
-                          <div className="flex items-start gap-3 w-full py-1">
-                            <img
-                              src={
-                                model.id.includes("kling")
-                                  ? "/imgs/intro/kling.svg"
-                                  : model.id.includes("veo")
-                                  ? "/imgs/intro/veo.svg"
-                                  : "/imgs/intro/seedance.png"
-                              }
-                              alt={model.provider}
-                              className="w-5 h-5 flex-shrink-0 mt-0.5"
-                            />
-                            <div className="flex flex-col flex-1 min-w-0">
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="font-medium text-gray-100">
-                                  {model.displayName}
-                                </span>
-                                <div className="flex items-center gap-1 text-xs text-blue-300">
-                                  <Coins className="h-3 w-3" />
-                                  {model.perSecondCredits}/s
-                                </div>
-                              </div>
-
-                              {/* 默认显示的描述 */}
-                              <span className="text-xs text-gray-400 mb-1 line-clamp-2">
-                                {model.description}
-                              </span>
-
-                              {/* 默认显示的特性标签 */}
-                              {model.features && (
-                                <div className="flex flex-wrap gap-1">
-                                  {model.features.map((feature, index) => (
-                                    <span
-                                      key={index}
-                                      className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full"
-                                    >
-                                      {feature}
-                                    </span>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* 比例选择 - 扩大点击区域 */}
-                {/* 当只支持 adaptive 时隐藏比例选择 */}
-                {!(
-                  selectedModelConfig?.supportedAspectRatios?.length === 1 &&
-                  selectedModelConfig?.supportedAspectRatios?.includes(
-                    "adaptive"
-                  )
-                ) && (
-                  <div className="mb-4">
-                    <div className="text-sm text-gray-300 mb-3">Ratio</div>
-                    <RadioGroup
-                      value={aspectRatio}
-                      onValueChange={(value) =>
-                        setAspectRatio(value as VideoAspectRatio)
-                      }
-                      className="flex flex-wrap gap-6"
-                    >
-                      {selectedModelConfig?.supportedAspectRatios?.includes(
-                        "16:9"
-                      ) && (
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem
-                            value="16:9"
-                            id="landscape"
-                            className="w-4 h-4"
-                          />
-                          <Label
-                            htmlFor="landscape"
-                            className="text-sm text-gray-200 cursor-pointer flex items-center gap-1 hover:text-white transition-colors"
-                          >
-                            <span className="w-4 h-2 bg-gray-600 rounded-sm"></span>
-                            16:9
-                          </Label>
-                        </div>
-                      )}
-                      {selectedModelConfig?.supportedAspectRatios?.includes(
-                        "9:16"
-                      ) && (
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem
-                            value="9:16"
-                            id="portrait"
-                            className="w-4 h-4"
-                          />
-                          <Label
-                            htmlFor="portrait"
-                            className="text-sm text-gray-200 cursor-pointer flex items-center gap-1 hover:text-white transition-colors"
-                          >
-                            <span className="w-2 h-4 bg-gray-600 rounded-sm"></span>
-                            9:16
-                          </Label>
-                        </div>
-                      )}
-                      {selectedModelConfig?.supportedAspectRatios?.includes(
-                        "1:1"
-                      ) && (
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem
-                            value="1:1"
-                            id="square"
-                            className="w-4 h-4"
-                          />
-                          <Label
-                            htmlFor="square"
-                            className="text-sm text-gray-200 cursor-pointer flex items-center gap-1 hover:text-white transition-colors"
-                          >
-                            <span className="w-4 h-4 bg-gray-600 rounded-sm"></span>
-                            1:1
-                          </Label>
-                        </div>
-                      )}
-                    </RadioGroup>
-                  </div>
-                )}
-
-                {/* 时长选择 - 扩大点击区域 */}
-                <div className="mb-4">
-                  <div className="text-sm text-gray-300 mb-3">Duration</div>
-                  <RadioGroup
-                    value={duration}
-                    onValueChange={(value) =>
-                      setDuration(value as VideoDuration)
-                    }
-                    className="flex gap-8"
-                  >
-                    {selectedModelConfig?.supportedDurations?.includes(5) && (
-                      <div className="flex items-center space-x-3">
-                        <RadioGroupItem
-                          value="5"
-                          id="duration-5s"
-                          className="w-4 h-4"
-                        />
-                        <Label
-                          htmlFor="duration-5s"
-                          className="text-sm text-gray-200 cursor-pointer hover:text-white transition-colors"
-                        >
-                          5s
-                        </Label>
-                      </div>
-                    )}
-                    {selectedModelConfig?.supportedDurations?.includes(8) && (
-                      <div className="flex items-center space-x-3">
-                        <RadioGroupItem
-                          value="8"
-                          id="duration-8s"
-                          className="w-4 h-4"
-                        />
-                        <Label
-                          htmlFor="duration-8s"
-                          className="text-sm text-gray-200 cursor-pointer hover:text-white transition-colors"
-                        >
-                          8s
-                        </Label>
-                      </div>
-                    )}
-                    {selectedModelConfig?.supportedDurations?.includes(10) && (
-                      <div className="flex items-center space-x-3">
-                        <RadioGroupItem
-                          value="10"
-                          id="duration-10s"
-                          className="w-4 h-4"
-                        />
-                        <Label
-                          htmlFor="duration-10s"
-                          className="text-sm text-gray-200 cursor-pointer hover:text-white transition-colors"
-                        >
-                          10s
-                        </Label>
-                      </div>
-                    )}
-                  </RadioGroup>
-                </div>
-
-                {/* 分辨率选择 - 只在支持时显示 */}
-                {selectedModelConfig?.supportedResolutions &&
-                  selectedModelConfig.supportedResolutions.length > 1 && (
-                    <div className="mb-4">
-                      <div className="text-sm text-gray-300 mb-3">
-                        Resolution
-                      </div>
-                      <RadioGroup
-                        value={resolution}
-                        onValueChange={(value) =>
-                          setResolution(value as VideoResolution)
-                        }
-                        className="flex gap-8"
-                      >
-                        {selectedModelConfig.supportedResolutions.includes(
-                          "480p"
-                        ) && (
-                          <div className="flex items-center space-x-3">
-                            <RadioGroupItem
-                              value="480p"
-                              id="resolution-480p"
-                              className="w-4 h-4"
-                            />
-                            <Label
-                              htmlFor="resolution-480p"
-                              className="text-sm text-gray-200 cursor-pointer hover:text-white transition-colors"
-                            >
-                              480p
-                            </Label>
-                          </div>
-                        )}
-                        {selectedModelConfig.supportedResolutions.includes(
-                          "720p"
-                        ) && (
-                          <div className="flex items-center space-x-3">
-                            <RadioGroupItem
-                              value="720p"
-                              id="resolution-720p"
-                              className="w-4 h-4"
-                            />
-                            <Label
-                              htmlFor="resolution-720p"
-                              className="text-sm text-gray-200 cursor-pointer hover:text-white transition-colors"
-                            >
-                              720p
-                            </Label>
-                          </div>
-                        )}
-                        {selectedModelConfig.supportedResolutions.includes(
-                          "1080p"
-                        ) && (
-                          <div className="flex items-center space-x-3">
-                            <RadioGroupItem
-                              value="1080p"
-                              id="resolution-1080p"
-                              className="w-4 h-4"
-                            />
-                            <Label
-                              htmlFor="resolution-1080p"
-                              className="text-sm text-gray-200 cursor-pointer hover:text-white transition-colors"
-                            >
-                              1080p
-                            </Label>
-                          </div>
-                        )}
-                      </RadioGroup>
-                    </div>
-                  )}
-
-                {/* 音频选择 - 只在支持时显示 */}
-                {selectedModelConfig?.supportsAudio && (
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <div className="text-sm text-gray-300">Audio</div>
-                      <div className="flex items-center gap-2">
-                        <Switch
-                          checked={generateAudio}
-                          className="data-[state=unchecked]:bg-gray-600/50 data-[state=unchecked]:border-gray-500/30 border"
-                          onCheckedChange={(checked) => {
-                            setGenerateAudio(checked);
-                            // 如果开启音频，需要确保满足 VEO3 的所有要求
-                            if (checked) {
-                              // VEO3 只支持文本到视频，移除图片
-                              if (uploadedImage) {
-                                setUploadedImage(null);
-                                setImagePreview(null);
-                              }
-
-                              // VEO3 只支持 16:9 宽高比
-                              if (aspectRatio !== "16:9") {
-                                setAspectRatio("16:9");
-                              }
-
-                              // VEO3 只支持 8 秒时长
-                              if (duration !== "8") {
-                                setDuration("8");
-                              }
-
-                              // 切换到 VEO3 模型
-                              const veo3Models = getTextToVideoModels().filter(
-                                (model) => model.supportsAudio
-                              );
-                              if (veo3Models.length > 0) {
-                                setSelectedModel(veo3Models[0].id);
-                              }
-                            }
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Credits & Generate Button */}
-              <div className="bg-gradient-to-br from-blue-950/30 to-purple-950/20 backdrop-blur-sm rounded-xl p-5 border border-blue-700/30">
-                {user && (
-                  <div className="mb-4 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1">
-                        <span className="text-sm text-gray-300">
-                          {t("credits")}:
-                        </span>
-                        <span
-                          className={cn(
-                            "text-sm font-medium tabular-nums",
-                            leftCredits !== null &&
-                              leftCredits < currentCreditsRequired
-                              ? "text-red-400"
-                              : "text-gray-100"
-                          )}
-                        >
-                          {leftCredits !== null ? leftCredits : "-"}
-                        </span>
-                        <Coins className="h-4 w-4 text-gray-400" />
-                      </div>
-                      <a
-                        href="/pricing"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs text-blue-400 hover:text-blue-300 hover:underline cursor-pointer"
-                      >
-                        {t("recharge")}
-                      </a>
-                    </div>
-
-                    <div className="flex items-center gap-1">
-                      <span className="text-sm text-gray-300">
-                        {t("cost")}:
-                      </span>
-                      <span className="text-sm font-medium text-blue-300 tabular-nums">
-                        {currentCreditsRequired}
-                      </span>
-                      <Coins className="h-4 w-4 text-blue-300" />
-                    </div>
-                  </div>
-                )}
-
-                <Button
-                  onClick={handleGenerate}
-                  disabled={
-                    !description.trim() ||
-                    description.trim().length < 10 ||
-                    isLoading ||
-                    isSubmitting ||
-                    (user &&
-                      leftCredits !== null &&
-                      leftCredits < currentCreditsRequired)
-                  }
-                  size="lg"
-                  className="plausible-event-name=Video+Generation w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Play className="h-5 w-5 mr-2" />
-                  {isSubmitting || isLoading
-                    ? t("submitting")
-                    : t("generateVideo")}
-                </Button>
-              </div>
-            </div>
-          </div>
-        </Card>
-
-        {/* Discord Banner */}
-        <div className="mt-6 text-center">
-          <div className="inline-flex items-center gap-2">
-            <span className="text-sm font-medium text-white">
-              {t("discordBanner.text")}
-            </span>
-            <a
-              href="https://discord.gg/JZTrwuvN"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-600/80 hover:bg-gray-500/90 text-white text-sm font-medium rounded-md transition-all duration-200 hover:scale-105 plausible-event-name=Discord+Channel+Click"
-            >
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.445.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
-              </svg>
-              {t("discordBanner.linkText")}
-            </a>
-          </div>
+    <div className="bg-gray-900 rounded-2xl shadow-lg px-6 py-5 video-generator-container">
+      <div className="space-y-5">
+        {/* Header Title */}
+        <div className="border-b border-gray-700 pb-3">
+          <h2 className="text-white text-xl font-semibold">
+            {mode === "image-to-video" ? "Image to Video" : "Text to Video"}
+          </h2>
         </div>
 
-        {/* Video Result Display */}
-        {currentGeneration && (
-          <div className="mt-8">
-            <VideoResult
-              generation={currentGeneration}
-              onRetry={handleRetry}
-              onVideoUrlUpdate={(videoUrl: string) => {
-                updateCurrentGeneration({ video_url: videoUrl });
-              }}
-            />
+        {/* Description Input */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-white text-lg font-semibold">
+              {finalDescriptionLabel}
+            </div>
+            {/* Prompt Enhancement Toggle */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-400">Prompt Enhancement</span>
+              <Switch
+                checked={enablePromptEnhancement}
+                onCheckedChange={setEnablePromptEnhancement}
+                className="data-[state=checked]:bg-primary scale-75"
+              />
+            </div>
+          </div>
+          <Textarea
+            ref={textareaRef}
+            value={description}
+            onChange={handleDescriptionChange}
+            placeholder={descriptionPlaceholder}
+            className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
+            style={{ minHeight: "150px", maxHeight: "300px" }}
+            disabled={isGenerating}
+          />
+        </div>
+
+        {/* Image Upload Section (for image-to-video mode) */}
+        {mode === "image-to-video" && (
+          <div>
+            <div className="text-white text-lg font-semibold mb-4">
+              {t("uploadImage")}
+            </div>
+            {!imagePreview ? (
+              <div
+                className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer ${
+                  isDragOver
+                    ? "border-blue-400 bg-blue-900/50"
+                    : "border-gray-600 hover:border-gray-500"
+                }`}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                onClick={() => document.getElementById("image-upload")?.click()}
+              >
+                <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-300">
+                    {t("dragAndDropImage")}
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    {t("supportedFormats")}
+                  </p>
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileInputChange}
+                  className="hidden"
+                  id="image-upload"
+                />
+              </div>
+            ) : (
+              <div className="relative">
+                <img
+                  src={imagePreview}
+                  alt="Uploaded"
+                  className="w-full h-32 object-contain rounded-lg bg-gray-800"
+                />
+                <button
+                  onClick={removeImage}
+                  className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            )}
           </div>
         )}
+
+        {/* Model Selection */}
+        <VideoSettings
+          selectedModel={selectedModel}
+          setSelectedModel={setSelectedModel}
+          selectedRatio={selectedRatio}
+          setSelectedRatio={setSelectedRatio}
+          selectedDuration={selectedDuration}
+          setSelectedDuration={setSelectedDuration}
+          selectedResolution={selectedResolution}
+          setSelectedResolution={setSelectedResolution}
+          generateAudio={generateAudio}
+          hasImage={!!(uploadedImage || selectedImage)}
+          onModelChange={onModelChange}
+        />
+
+        {/* Generate Button */}
+        <Button
+          onClick={handleGenerate}
+          disabled={
+            isGenerating ||
+            isSubmitting ||
+            !description.trim() ||
+            !selectedModel ||
+            (mode === "image-to-video" && !uploadedImageUrl) ||
+            (leftCredits !== null && leftCredits < currentCreditsRequired)
+          }
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+        >
+          {isGenerating || isSubmitting ? (
+            <>
+              <Play className="mr-2 h-4 w-4 animate-spin" />
+              {isSubmitting ? t("uploading") : t("generating")}
+            </>
+          ) : (
+            <>
+              <Play className="mr-2 h-4 w-4" />
+              {t("generateVideo")}
+            </>
+          )}
+        </Button>
       </div>
-    </section>
+    </div>
   );
 }
