@@ -15,12 +15,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/icon";
 import { Label } from "@/components/ui/label";
-import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "sonner";
 import { useAppContext } from "@/contexts/app";
-import { PaymentMethodConfig } from "@/components/ui/payment-method-selector";
 import { useGeolocation } from "@/hooks/useGeolocation";
-import { getAvailablePaymentMethods } from "@/lib/payment-methods";
+import { getAvailablePaymentMethods, PaymentMethodConfig } from "@/lib/payment-methods";
 import { useTranslations } from "next-intl";
 
 interface PricingModalProps {
@@ -71,10 +69,10 @@ export default function PricingModal({
               setSelectedProvider("payssion");
             }
           } else {
-            const stripeMethod = methods.find((m) => m.provider === "stripe");
-            if (stripeMethod) {
-              setSelectedPaymentMethod(stripeMethod.id);
-              setSelectedProvider("stripe");
+            const creemMethod = methods.find((m) => m.provider === "creem");
+            if (creemMethod) {
+              setSelectedPaymentMethod(creemMethod.id);
+              setSelectedProvider("creem");
             } else if (methods.length > 0) {
               setSelectedPaymentMethod(methods[0].id);
               setSelectedProvider(methods[0].provider);
@@ -85,18 +83,14 @@ export default function PricingModal({
         console.error("Failed to get payment methods:", error);
         setAvailableMethods([
           {
-            id: "stripe",
+            id: "creem",
             name: "Credit Card",
-            description: "国际信用卡和借记卡",
-            logo: "/payment-logos/stripe.png",
-            provider: "stripe",
-            supportedCountries: ["*"],
-            feeInfo: "2.9% + $0.30",
-            processingTime: "即时到账",
+            logo: "/payment-logos/creem.svg",
+            provider: "creem",
           },
         ]);
-        setSelectedPaymentMethod("stripe");
-        setSelectedProvider("stripe");
+        setSelectedPaymentMethod("creem");
+        setSelectedProvider("creem");
       }
     }
   }, [locationLoading, isRussia]);
@@ -105,10 +99,11 @@ export default function PricingModal({
   useEffect(() => {
     const checkRecentPayment = async () => {
       const paymentPending = localStorage.getItem("veo3_payment_pending");
-      if (!paymentPending) return;
+      const paymentTimestamp = localStorage.getItem("veo3_payment_timestamp");
+      if (!paymentPending || !paymentTimestamp) return;
 
       try {
-        const response = await fetch("/api/check-recent-payment");
+        const response = await fetch(`/api/check-recent-payment?timestamp=${paymentTimestamp}`);
         const result = await response.json();
 
         if (result.code === 0 && result.data.hasRecentPayment) {
@@ -125,6 +120,7 @@ export default function PricingModal({
 
           setShowSuccessModal(true);
           localStorage.removeItem("veo3_payment_pending");
+          localStorage.removeItem("veo3_payment_timestamp");
           localStorage.removeItem("veo3_payment_info");
         }
       } catch (error) {
@@ -188,13 +184,15 @@ export default function PricingModal({
       user_preference: selectedProvider,
     };
 
+    const paymentTimestamp = Date.now();
     localStorage.setItem("veo3_payment_pending", "true");
+    localStorage.setItem("veo3_payment_timestamp", paymentTimestamp.toString());
     localStorage.setItem(
       "veo3_payment_info",
       JSON.stringify({
         planName: item.title || item.product_name,
         credits: item.credits,
-        timestamp: Date.now(),
+        timestamp: paymentTimestamp,
       })
     );
 
@@ -206,8 +204,8 @@ export default function PricingModal({
         item.interval === "month" || item.interval === "year";
       let endpoint;
 
-      if (selectedProvider === "stripe" || selectedPaymentMethod === "stripe") {
-        endpoint = "/api/checkout";
+      if (selectedProvider === "creem" || selectedPaymentMethod === "creem") {
+        endpoint = "/api/subscription/create";
       } else if (
         isSubscription &&
         (selectedProvider === "payssion" ||
@@ -241,20 +239,33 @@ export default function PricingModal({
         return;
       }
 
-      if (selectedProvider === "stripe" || selectedPaymentMethod === "stripe") {
-        const { public_key, session_id } = data;
-        const stripe = await loadStripe(public_key);
-        if (!stripe) {
-          toast.error("checkout failed");
-          return;
-        }
-
-        const result = await stripe.redirectToCheckout({
-          sessionId: session_id,
-        });
-
-        if (result.error) {
-          toast.error(result.error.message);
+      if (selectedProvider === "creem" || selectedPaymentMethod === "creem") {
+        const { redirect_url, success, subscriptionId } = data;
+        if (redirect_url) {
+          window.location.href = redirect_url;
+        } else if (success && subscriptionId) {
+          const paymentInfo = localStorage.getItem("veo3_payment_info");
+          if (paymentInfo) {
+            const info = JSON.parse(paymentInfo);
+            setSuccessInfo({
+              planName: info.planName,
+              credits: info.credits,
+              nextBilling:
+                item.interval === "year"
+                  ? new Date(
+                      Date.now() + 365 * 24 * 60 * 60 * 1000
+                    ).toLocaleDateString()
+                  : new Date(
+                      Date.now() + 30 * 24 * 60 * 60 * 1000
+                    ).toLocaleDateString(),
+            });
+            localStorage.removeItem("veo3_payment_pending");
+            localStorage.removeItem("veo3_payment_timestamp");
+            localStorage.removeItem("veo3_payment_info");
+          }
+          setShowSuccessModal(true);
+        } else {
+          toast.error("Payment link generation failed");
         }
       } else {
         const { redirect_url, success, subscriptionId } = data;
@@ -277,6 +288,7 @@ export default function PricingModal({
                     ).toLocaleDateString(),
             });
             localStorage.removeItem("veo3_payment_pending");
+            localStorage.removeItem("veo3_payment_timestamp");
             localStorage.removeItem("veo3_payment_info");
           }
           setShowSuccessModal(true);

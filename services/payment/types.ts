@@ -166,12 +166,8 @@ export interface PaymentProvider {
 export interface PaymentMethodConfig {
   id: string;
   name: string;
-  description: string;
   logo: string;
   provider: string;
-  supportedCountries: string[];
-  feeInfo?: string;
-  processingTime?: string;
 }
 
 // 地理位置信息

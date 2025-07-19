@@ -8,6 +8,7 @@ import { insertOrder } from "@/models/order";
 import { Order } from "@/types/order";
 import { getSnowId } from "@/lib/hash";
 import { getPayssionConfig } from "@/config/payssion";
+import { getPaymentProvider } from "@/lib/payment-methods";
 
 // 日志函数 - 只输出到控制台，不写入文件
 function logInfo(message: string, data?: any) {
@@ -129,7 +130,7 @@ export async function POST(req: NextRequest) {
       product_id: product_id,
       product_name: product_name,
       valid_months: valid_months,
-      payment_provider: "payssion",
+      payment_provider: getPaymentProvider(payment_method),
       payment_method: payment_method,
     };
     await insertOrder(order);

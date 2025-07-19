@@ -3,6 +3,7 @@
 import { Subscription } from "@/models/subscription";
 import { CancelSubscriptionButton } from "./cancel-subscription-button";
 import { useSubscriptionDetails } from "@/hooks/useSubscriptionDetails";
+import { Badge } from "@/components/ui/badge";
 import moment from "moment";
 
 interface SubscriptionCardProps {
@@ -13,6 +14,38 @@ export function SubscriptionCard({ subscription }: SubscriptionCardProps) {
   const { details, loading } = useSubscriptionDetails(
     subscription.status === "active" ? subscription.payssion_subscription_id : null
   );
+
+  // 获取状态对应的 Badge 样式
+  const getStatusVariant = (status: Subscription['status']) => {
+    switch (status) {
+      case "active":
+        return "default";
+      case "canceled":
+        return "destructive";
+      case "expired":
+        return "secondary";
+      case "pending":
+        return "outline";
+      default:
+        return "secondary";
+    }
+  };
+
+  // 获取状态显示文本
+  const getStatusText = (status: Subscription['status']) => {
+    switch (status) {
+      case "active":
+        return "Active";
+      case "canceled":
+        return "Canceled";
+      case "expired":
+        return "Expired";
+      case "pending":
+        return "Pending";
+      default:
+        return status;
+    }
+  };
 
   // 确定显示的下次收费时间
   const getNextBillingDate = () => {
@@ -43,9 +76,14 @@ export function SubscriptionCard({ subscription }: SubscriptionCardProps) {
   return (
     <div className="flex items-center justify-between p-6 bg-slate-800 rounded-lg border border-slate-700">
       <div className="space-y-2">
-        <h3 className="text-lg font-semibold text-white">
-          {subscription.product_name || `${subscription.plan_type === "monthly" ? "Monthly" : "Yearly"} Plan`}
-        </h3>
+        <div className="flex items-center gap-3">
+          <h3 className="text-lg font-semibold text-white">
+            {subscription.product_name || `${subscription.plan_type === "monthly" ? "Monthly" : "Yearly"} Plan`}
+          </h3>
+          <Badge variant={getStatusVariant(subscription.status)}>
+            {getStatusText(subscription.status)}
+          </Badge>
+        </div>
         <div className="text-sm text-slate-400">
           Current cycle: {subscription.plan_type === "monthly" ? "Monthly" : "Yearly"}
           {nextBillingDate && (

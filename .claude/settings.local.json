@@ -114,7 +114,9 @@
       "mcp__playwright__browser_console_messages",
       "mcp__playwright__browser_network_requests",
       "mcp__playwright__browser_take_screenshot",
-      "mcp__github-chat__index_repository"
+      "mcp__github-chat__index_repository",
+      "mcp__context7__get-library-docs",
+      "WebFetch(domain:docs.creem.io)"
     ],
     "deny": []
   },

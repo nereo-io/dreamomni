@@ -2,6 +2,7 @@
 
 import { PayssionProvider } from "./PayssionProvider";
 import { StripeProvider } from "./StripeProvider";
+import { CreemProvider } from "./CreemProvider";
 import { shouldUsePayssion } from "./PaymentProvider";
 import {
   PaymentProvider,
@@ -18,6 +19,13 @@ export class PaymentRouter {
   private providers: Map<string, PaymentProvider> = new Map();
 
   constructor() {
+    // 优先初始化 Creem 提供商
+    try {
+      this.providers.set("creem", new CreemProvider());
+    } catch (error) {
+      console.warn("Creem provider initialization failed:", error);
+    }
+
     try {
       this.providers.set("stripe", new StripeProvider());
     } catch (error) {
@@ -38,11 +46,17 @@ export class PaymentRouter {
     const countryCode = location?.countryCode || "US";
     const isRussianRegion = shouldUsePayssion(countryCode);
 
-    // 简单逻辑：俄罗斯地区用Payssion，其他用Stripe
+    // 优先级：俄罗斯地区用Payssion，其他地区优先用Creem，回退到Stripe
     if (isRussianRegion && this.providers.has("payssion")) {
       return this.getPayssionMethods();
     }
     
+    // 非俄罗斯地区优先使用 Creem
+    if (this.providers.has("creem")) {
+      return this.getCreemMethods();
+    }
+    
+    // 回退到 Stripe
     if (this.providers.has("stripe")) {
       return this.getStripeMethods();
     }
@@ -58,32 +72,20 @@ export class PaymentRouter {
       {
         id: "sberpay",
         name: "SberPay",
-        description: "俄罗斯储蓄银行支付",
         logo: "/payment-logos/sberpay_ru.png",
         provider: "payssion",
-        supportedCountries: ["RU"],
-        feeInfo: "无额外手续费",
-        processingTime: "即时到账",
       },
       {
         id: "yoomoney",
         name: "YooMoney",
-        description: "俄罗斯领先的电子钱包",
         logo: "/payment-logos/yoomoney_ru.png",
         provider: "payssion",
-        supportedCountries: ["RU", "BY", "KZ"],
-        feeInfo: "可能产生少量手续费",
-        processingTime: "即时到账",
       },
       {
         id: "mir",
         name: "Mir Card",
-        description: "俄罗斯银联卡",
         logo: "/payment-logos/card_ru.png",
         provider: "payssion",
-        supportedCountries: ["RU"],
-        feeInfo: "无额外手续费",
-        processingTime: "即时到账",
       },
     ];
   }
@@ -96,12 +98,22 @@ export class PaymentRouter {
       {
         id: "stripe",
         name: "Credit Card",
-        description: "国际信用卡和借记卡",
         logo: "/payment-logos/stripe.png",
         provider: "stripe",
-        supportedCountries: ["*"], // 全球支持
-        feeInfo: "2.9% + $0.30",
-        processingTime: "即时到账",
+      },
+    ];
+  }
+
+  /**
+   * 获取Creem支付方式
+   */
+  private getCreemMethods(): PaymentMethodConfig[] {
+    return [
+      {
+        id: "creem",
+        name: "Credit Card",
+        logo: "/payment-logos/creem.svg",
+        provider: "creem",
       },
     ];
   }
@@ -114,6 +126,7 @@ export class PaymentRouter {
     const allMethods = [
       ...this.getPayssionMethods(),
       ...this.getStripeMethods(),
+      ...this.getCreemMethods(),
     ];
     const methodConfig = allMethods.find((m) => m.id === paymentMethod);
 

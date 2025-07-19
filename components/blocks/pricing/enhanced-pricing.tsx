@@ -17,12 +17,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/icon";
 import { Label } from "@/components/ui/label";
-import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "sonner";
 import { useAppContext } from "@/contexts/app";
-import { PaymentMethodConfig } from "@/components/ui/payment-method-selector";
 import { useGeolocation } from "@/hooks/useGeolocation";
-import { getAvailablePaymentMethods } from "@/lib/payment-methods";
+import { getAvailablePaymentMethods, PaymentMethodConfig } from "@/lib/payment-methods";
 
 interface EnhancedPricingProps {
   pricing: PricingType;
@@ -70,13 +68,13 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
               setSelectedProvider("payssion");
             }
           } else {
-            // 非俄罗斯用户: 默认选择 Stripe
-            const stripeMethod = methods.find((m) => m.provider === "stripe");
-            if (stripeMethod) {
-              setSelectedPaymentMethod(stripeMethod.id);
-              setSelectedProvider("stripe");
+            // 非俄罗斯用户: 默认选择 Creem
+            const creemMethod = methods.find((m) => m.provider === "creem");
+            if (creemMethod) {
+              setSelectedPaymentMethod(creemMethod.id);
+              setSelectedProvider("creem");
             } else if (methods.length > 0) {
-              // Fallback: 如果没有Stripe，选择列表中的第一个
+              // Fallback: 如果没有Creem，选择列表中的第一个
               setSelectedPaymentMethod(methods[0].id);
               setSelectedProvider(methods[0].provider);
             }
@@ -87,18 +85,14 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         // 设置默认的支付方式
         setAvailableMethods([
           {
-            id: "stripe",
+            id: "creem",
             name: "Credit Card",
-            description: "国际信用卡和借记卡",
-            logo: "/payment-logos/stripe.png",
-            provider: "stripe",
-            supportedCountries: ["*"],
-            feeInfo: "2.9% + $0.30",
-            processingTime: "即时到账",
+            logo: "/payment-logos/creem.svg",
+            provider: "creem",
           },
         ]);
-        setSelectedPaymentMethod("stripe");
-        setSelectedProvider("stripe");
+        setSelectedPaymentMethod("creem");
+        setSelectedProvider("creem");
       }
     }
   }, [locationLoading, isRussia]);
@@ -227,8 +221,8 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         item.interval === "month" || item.interval === "year";
       let endpoint;
 
-      if (selectedProvider === "stripe" || selectedPaymentMethod === "stripe") {
-        endpoint = "/api/checkout";
+      if (selectedProvider === "creem" || selectedPaymentMethod === "creem") {
+        endpoint = "/api/subscription/create";
       } else if (
         isSubscription &&
         (selectedProvider === "payssion" ||
@@ -266,21 +260,33 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         return;
       }
 
-      if (selectedProvider === "stripe" || selectedPaymentMethod === "stripe") {
-        // Stripe 支付流程
-        const { public_key, session_id } = data;
-        const stripe = await loadStripe(public_key);
-        if (!stripe) {
-          toast.error("checkout failed");
-          return;
-        }
-
-        const result = await stripe.redirectToCheckout({
-          sessionId: session_id,
-        });
-
-        if (result.error) {
-          toast.error(result.error.message);
+      if (selectedProvider === "creem" || selectedPaymentMethod === "creem") {
+        // Creem 支付流程
+        const { redirect_url, success, subscriptionId } = data;
+        if (redirect_url) {
+          window.location.href = redirect_url;
+        } else if (success && subscriptionId) {
+          const paymentInfo = localStorage.getItem("veo3_payment_info");
+          if (paymentInfo) {
+            const info = JSON.parse(paymentInfo);
+            setSuccessInfo({
+              planName: info.planName,
+              credits: info.credits,
+              nextBilling:
+                item.interval === "year"
+                  ? new Date(
+                      Date.now() + 365 * 24 * 60 * 60 * 1000
+                    ).toLocaleDateString()
+                  : new Date(
+                      Date.now() + 30 * 24 * 60 * 60 * 1000
+                    ).toLocaleDateString(),
+            });
+            localStorage.removeItem("veo3_payment_pending");
+            localStorage.removeItem("veo3_payment_info");
+          }
+          setShowSuccessModal(true);
+        } else {
+          toast.error("Payment link generation failed");
         }
       } else {
         // Payssion 支付流程
