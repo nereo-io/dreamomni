@@ -27,6 +27,7 @@ export interface VideoGenerationStatus {
   logs?: any[];
   metrics?: any;
   error?: string;
+  error_message?: string;
   progress?: number;
   queue_position?: number;
   [key: string]: any;

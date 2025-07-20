@@ -21,15 +21,15 @@ interface CancelCreemSubscriptionButtonProps {
   subscriptionId: string;
 }
 
-export function CancelCreemSubscriptionButton({ 
-  subscriptionId 
+export function CancelCreemSubscriptionButton({
+  subscriptionId,
 }: CancelCreemSubscriptionButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleCancel = async () => {
     setIsLoading(true);
-    
+
     try {
       const response = await fetch("/api/creem/subscription/cancel", {
         method: "POST",
@@ -60,14 +60,19 @@ export function CancelCreemSubscriptionButton({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="sm" disabled={isLoading}>
+        <Button
+          variant="ghost"
+          size="sm"
+          disabled={isLoading}
+          className="text-gray-400 hover:text-gray-300 hover:bg-gray-800/50"
+        >
           {isLoading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Canceling...
             </>
           ) : (
-            "Cancel Subscription"
+            "Cancel"
           )}
         </Button>
       </AlertDialogTrigger>
@@ -75,8 +80,9 @@ export function CancelCreemSubscriptionButton({
         <AlertDialogHeader>
           <AlertDialogTitle>Cancel Subscription</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to cancel this subscription? This action cannot be undone.
-            Your subscription will remain active until the end of the current billing period.
+            Are you sure you want to cancel this subscription? This action
+            cannot be undone. Your subscription will remain active until the end
+            of the current billing period.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

@@ -204,10 +204,14 @@ export class KieAiVeo3Provider implements VideoProvider {
       // Map response to standard status based on fal.ai documentation structure
       let status: string;
       let progress = 0;
+      let error_message: string | undefined;
 
       if (data.errorCode) {
         status = "FAILED";
         progress = 0;
+        // Extract error message from errorMessage field or fallback to code description
+        error_message =
+          data.errorMessage || response.msg || `Error code: ${data.errorCode}`;
       } else if (
         data.successFlag === 1 &&
         data.completeTime &&
@@ -224,6 +228,7 @@ export class KieAiVeo3Provider implements VideoProvider {
         request_id: requestId,
         status,
         progress,
+        error_message,
         raw_data: data,
       };
     } catch (error) {
