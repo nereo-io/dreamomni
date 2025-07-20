@@ -4,12 +4,18 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { Play, ImageIcon, X, Sparkles } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Play, ImageIcon, X, Sparkles, Coins } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import useCredits from "@/hooks/useCredits";
-import { VideoSettings } from "../ai-video-generation-tool/video-settings";
 import {
   VideoModelType,
   getTextToVideoModels,
@@ -79,7 +85,7 @@ export default function VideoGenerator({
   // Textarea 引用
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const { user, setShowSignModal } = useAppContext();
+  const { user, setShowSignModal, setShowPricingModal } = useAppContext();
   const { leftCredits, updateLeftCredits } = useCredits();
 
   // 用户登录时获取积分
@@ -88,6 +94,17 @@ export default function VideoGenerator({
       updateLeftCredits().catch(console.error);
     }
   }, [user?.uuid, updateLeftCredits]);
+
+  // 监听 isGenerating 变化，当生成完成时更新积分
+  useEffect(() => {
+    if (!isGenerating && user?.uuid) {
+      // 延迟一点时间确保服务器已经处理完成
+      const timer = setTimeout(() => {
+        updateLeftCredits().catch(console.error);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isGenerating, user?.uuid, updateLeftCredits]);
 
   // 获取所有可用模型
   const availableModels =
@@ -132,6 +149,44 @@ export default function VideoGenerator({
   useEffect(() => {
     setImagePreview(selectedImage);
   }, [selectedImage]);
+
+  // 确保默认选项被选中
+  useEffect(() => {
+    if (selectedModelConfig) {
+      // 设置默认比例（如果当前选择不在支持列表中）
+      const supportedRatios = selectedModelConfig.supportedAspectRatios || [
+        "16:9",
+        "9:16",
+        "1:1",
+      ];
+      if (!supportedRatios.includes(selectedRatio)) {
+        setSelectedRatio(supportedRatios[0]);
+      }
+
+      // 设置默认时长（如果当前选择不在支持列表中）
+      const supportedDurations = selectedModelConfig.supportedDurations || [
+        5, 10,
+      ];
+      const currentDuration = parseInt(selectedDuration.replace("s", ""));
+      if (!supportedDurations.includes(currentDuration)) {
+        setSelectedDuration(`${supportedDurations[0]}s`);
+      }
+
+      // 设置默认分辨率（仅在当前选择不被支持时才设置）
+      const supportedResolutions = selectedModelConfig.supportedResolutions || [
+        "480p",
+        "1080p",
+      ];
+      if (!supportedResolutions.includes(selectedResolution)) {
+        setSelectedResolution(supportedResolutions[0]);
+      }
+    }
+  }, [
+    selectedModelConfig,
+    selectedRatio,
+    selectedDuration,
+    selectedResolution,
+  ]);
 
   // 获取积分消耗信息
   const getCreditsRequired = (
@@ -476,20 +531,222 @@ export default function VideoGenerator({
           </div>
         )}
 
-        {/* Model Selection */}
-        <VideoSettings
-          selectedModel={selectedModel}
-          setSelectedModel={setSelectedModel}
-          selectedRatio={selectedRatio}
-          setSelectedRatio={setSelectedRatio}
-          selectedDuration={selectedDuration}
-          setSelectedDuration={setSelectedDuration}
-          selectedResolution={selectedResolution}
-          setSelectedResolution={setSelectedResolution}
-          generateAudio={generateAudio}
-          hasImage={!!(uploadedImage || selectedImage)}
-          onModelChange={onModelChange}
-        />
+        {/* Video Settings */}
+        <div>
+          <div className="text-white text-lg font-semibold mb-4">
+            {t("videoSettings")}
+          </div>
+
+          {/* Video Model Selection */}
+          <div className="mb-4">
+            <label className="text-gray-300 text-sm mb-2 block">
+              {t("videoModel")}
+            </label>
+            <Select value={selectedModel} onValueChange={(value) => {
+              setSelectedModel(value);
+              onModelChange?.(value);
+            }}>
+              <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                <SelectValue placeholder={t("selectModel")}>
+                  {selectedModelConfig && (
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={
+                          selectedModelConfig.id.includes("kling")
+                            ? "/imgs/intro/kling.svg"
+                            : selectedModelConfig.id.includes("veo")
+                            ? "/imgs/intro/veo.svg"
+                            : "/imgs/intro/seedance.png"
+                        }
+                        alt={selectedModelConfig.provider}
+                        className="w-4 h-4 flex-shrink-0"
+                      />
+                      <span className="font-medium">
+                        {selectedModelConfig.displayName}
+                      </span>
+                    </div>
+                  )}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                {availableModels.map((model) => (
+                  <SelectItem key={model.id} value={model.id}>
+                    <div className="flex items-start gap-3 w-full py-1">
+                      <img
+                        src={
+                          model.id.includes("kling")
+                            ? "/imgs/intro/kling.svg"
+                            : model.id.includes("veo")
+                            ? "/imgs/intro/veo.svg"
+                            : "/imgs/intro/seedance.png"
+                        }
+                        alt={model.provider}
+                        className="w-5 h-5 flex-shrink-0 mt-0.5"
+                      />
+                      <div className="flex flex-col flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-medium text-gray-100">
+                            {model.displayName}
+                          </span>
+                          <div className="flex items-center gap-1 text-xs text-blue-300">
+                            <Coins className="h-3 w-3" />
+                            {model.perSecondCredits}/s
+                          </div>
+                        </div>
+                        <span className="text-xs text-gray-400 mb-1 line-clamp-2">
+                          {model.description}
+                        </span>
+                        {model.features && (
+                          <div className="flex flex-wrap gap-1">
+                            {model.features.map((feature, index) => (
+                              <span
+                                key={index}
+                                className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full"
+                              >
+                                {feature}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Ratio */}
+          <div className="mb-4">
+            <label className="text-gray-300 text-sm mb-2 block">{t("ratio")}</label>
+            <div className="flex space-x-6">
+              {(
+                selectedModelConfig?.supportedAspectRatios || [
+                  "16:9",
+                  "9:16",
+                  "1:1",
+                ]
+              ).map((ratio) => (
+                <label key={ratio} className="flex items-center cursor-pointer">
+                  <input
+                    type="radio"
+                    name="ratio"
+                    value={ratio}
+                    checked={selectedRatio === ratio}
+                    onChange={(e) => setSelectedRatio(e.target.value)}
+                    className="sr-only"
+                  />
+                  <div
+                    className={`w-4 h-4 rounded-full border-2 mr-2 ${
+                      selectedRatio === ratio
+                        ? "border-primary bg-primary"
+                        : "border-gray-500"
+                    }`}
+                  >
+                    {selectedRatio === ratio && (
+                      <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                    )}
+                  </div>
+                  <span className="text-gray-300">{ratio}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Duration */}
+          <div className="mb-4">
+            <label className="text-gray-300 text-sm mb-2 block">{t("duration")}</label>
+            <div className="flex space-x-6">
+              {(selectedModelConfig?.supportedDurations || [5, 10]).map(
+                (duration) => (
+                  <label
+                    key={duration}
+                    className="flex items-center cursor-pointer"
+                  >
+                    <input
+                      type="radio"
+                      name="duration"
+                      value={`${duration}s`}
+                      checked={selectedDuration === `${duration}s`}
+                      onChange={(e) => setSelectedDuration(e.target.value)}
+                      className="sr-only"
+                    />
+                    <div
+                      className={`w-4 h-4 rounded-full border-2 mr-2 ${
+                        selectedDuration === `${duration}s`
+                          ? "border-primary bg-primary"
+                          : "border-gray-500"
+                      }`}
+                    >
+                      {selectedDuration === `${duration}s` && (
+                        <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                      )}
+                    </div>
+                    <span className="text-gray-300">{duration}s</span>
+                  </label>
+                )
+              )}
+            </div>
+          </div>
+
+          {/* Resolution */}
+          <div className="mb-4">
+            <label className="text-gray-300 text-sm mb-2 block">{t("resolution")}</label>
+            <div className="flex space-x-6">
+              {(selectedModelConfig?.supportedResolutions || ["480p", "1080p"]).map(
+                (resolution) => (
+                  <label
+                    key={resolution}
+                    className="flex items-center cursor-pointer"
+                  >
+                    <input
+                      type="radio"
+                      name="resolution"
+                      value={resolution}
+                      checked={selectedResolution === resolution}
+                      onChange={(e) => setSelectedResolution(e.target.value)}
+                      className="sr-only"
+                    />
+                    <div
+                      className={`w-4 h-4 rounded-full border-2 mr-2 ${
+                        selectedResolution === resolution
+                          ? "border-primary bg-primary"
+                          : "border-gray-500"
+                      }`}
+                    >
+                      {selectedResolution === resolution && (
+                        <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                      )}
+                    </div>
+                    <span className="text-gray-300">{resolution}</span>
+                  </label>
+                )
+              )}
+            </div>
+          </div>
+
+          {/* Credits and Cost */}
+          <div className="bg-gray-800 rounded-lg p-4 mb-4">
+            <div className="flex justify-between items-center">
+              <div>
+                <div className="text-gray-300 mb-1">
+                  {t("credits")}: {leftCredits !== null ? leftCredits : "-"}
+                </div>
+                <div className="text-gray-300">
+                  {t("cost")}: {currentCreditsRequired} ⚡
+                </div>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                className="bg-transparent border-gray-600 text-gray-300 hover:bg-gray-700"
+                onClick={() => setShowPricingModal(true)}
+              >
+                {t("recharge")}
+              </Button>
+            </div>
+          </div>
+        </div>
 
         {/* Generate Button */}
         <Button

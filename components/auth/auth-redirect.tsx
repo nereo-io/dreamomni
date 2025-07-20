@@ -12,7 +12,7 @@ export default function AuthRedirect() {
     if (status === "loading") return; // 等待认证状态加载
     
     if (session) {
-      router.push("/home"); // 已登录用户重定向到/home
+      router.push("/image-to-video"); // 已登录用户重定向到/image-to-video
     }
   }, [session, status, router]);
 

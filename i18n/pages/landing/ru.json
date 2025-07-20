@@ -13,7 +13,7 @@
     "nav": {
       "items": [
         {
-          "title": "Генерация",
+          "title": "Генератор",
           "url": "/image-to-video",
           "icon": "RiVideoLine"
         },
@@ -25,11 +25,6 @@
         {
           "title": "Цены",
           "url": "/pricing",
-          "icon": "RiMoneyDollarCircleLine"
-        },
-        {
-          "title": "Блог",
-          "url": "/blog",
           "icon": "RiMoneyDollarCircleLine"
         }
       ]

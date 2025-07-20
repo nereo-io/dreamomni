@@ -6,7 +6,6 @@ import VideoGenerator from "../video-generator";
 import VideoHistory from "../video-history";
 import useVideoGeneration from "@/hooks/useVideoGeneration";
 import type { VideoGenerationParams } from "../video-generator";
-import useCredits from "@/hooks/useCredits";
 
 interface VideoGenerationToolProps {
   mode: "text-to-video" | "image-to-video";
@@ -20,7 +19,6 @@ export function VideoGenerationTool({
   descriptionPlaceholder,
 }: VideoGenerationToolProps) {
   const { submitGeneration, pollStatus } = useVideoGeneration();
-  const { updateLeftCredits, setCredits } = useCredits();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationTrigger, setGenerationTrigger] = useState(0);
   const [currentSelectedModel, setCurrentSelectedModel] = useState<string>("");
@@ -41,12 +39,6 @@ export function VideoGenerationTool({
     });
 
     if (result) {
-      // 立即更新积分显示（从API响应获取）
-      if (result.userCredits) {
-        // 直接使用API返回的积分值，无需额外API调用
-        setCredits(result.userCredits.remainingCredits);
-      }
-
       // 开始轮询状态
       pollStatus(result.id);
 

@@ -13,7 +13,7 @@
     "nav": {
       "items": [
         {
-          "title": "생성",
+          "title": "생성기",
           "url": "/image-to-video",
           "icon": "RiVideoLine"
         },
@@ -25,11 +25,6 @@
         {
           "title": "요금제",
           "url": "/pricing",
-          "icon": "RiMoneyDollarCircleLine"
-        },
-        {
-          "title": "블로그",
-          "url": "/blog",
           "icon": "RiMoneyDollarCircleLine"
         }
       ]

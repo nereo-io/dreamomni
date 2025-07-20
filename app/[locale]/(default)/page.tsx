@@ -8,6 +8,7 @@ import GettingStarted from "@/components/blocks/getting-started";
 import StructuredData from "@/components/seo/structured-data";
 import Feature1 from "@/components/blocks/feature1";
 import Feature from "@/components/blocks/feature";
+import AuthRedirect from "@/components/auth/auth-redirect";
 
 import {
   getLandingPage,
@@ -43,17 +44,9 @@ export default async function LandingPage({
 
   return (
     <>
+      <AuthRedirect />
       {page.hero && <Hero hero={page.hero} />}
       {/* <VideoFeatureShowcase data={videoFeatureShowcase} /> */}
-      <div className="max-w-7xl mx-auto px-8 py-6">
-        <div className="flex items-center justify-center gap-2">
-          <p className="text-sm text-muted-foreground text-center font-medium">
-            This platform is an independent product and is not affiliated with
-            Bytedance. We provide access to the Seedance model through our
-            custom interface.
-          </p>
-        </div>
-      </div>
       <SeedanceFeaturesBlock translations={seedanceFeatures} />
       {page.introduce && <Feature1 section={page.introduce} />}
       {page.feature && <Feature section={page.feature} />}
@@ -90,6 +83,12 @@ export default async function LandingPage({
             alt="Featured on There's An AI For That"
           />
         </a>
+      </div>
+      <div className="flex items-center justify-center gap-2">
+        <p className="text-sm text-muted-foreground text-center font-medium">
+          This platform is an independent product and is not affiliated with
+          Bytedance.
+        </p>
       </div>
     </>
   );

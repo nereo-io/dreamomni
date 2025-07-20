@@ -13,7 +13,7 @@
     "nav": {
       "items": [
         {
-          "title": "生成",
+          "title": "ジェネレーター",
           "url": "/image-to-video",
           "icon": "RiVideoLine"
         },
@@ -25,11 +25,6 @@
         {
           "title": "料金",
           "url": "/pricing",
-          "icon": "RiMoneyDollarCircleLine"
-        },
-        {
-          "title": "ブログ",
-          "url": "/blog",
           "icon": "RiMoneyDollarCircleLine"
         }
       ]

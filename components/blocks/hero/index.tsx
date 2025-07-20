@@ -20,7 +20,7 @@ export default function Hero({ hero }: { hero: HeroType }) {
       <HeroBg />
       <section
         id={hero.name}
-        className="relative min-h-screen flex items-end pb-40"
+        className="relative min-h-[calc(100vh-60px)] flex items-end pb-40"
       >
         <div className="container">
           <div className="text-center text-white">
