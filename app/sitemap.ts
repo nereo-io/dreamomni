@@ -27,10 +27,64 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 1.0,
       },
       {
+        url: `${baseUrl}/home`,
+        lastModified: currentDate,
+        changeFrequency: "daily" as ChangeFrequency,
+        priority: 0.9,
+      },
+      {
+        url: `${baseUrl}/image-to-video`,
+        lastModified: currentDate,
+        changeFrequency: "daily" as ChangeFrequency,
+        priority: 0.9,
+      },
+      {
+        url: `${baseUrl}/text-to-video`,
+        lastModified: currentDate,
+        changeFrequency: "daily" as ChangeFrequency,
+        priority: 0.9,
+      },
+      {
+        url: `${baseUrl}/video-affects`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.8,
+      },
+      {
         url: `${baseUrl}/pricing`,
         lastModified: currentDate,
         changeFrequency: "weekly" as ChangeFrequency,
         priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/history`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.7,
+      },
+      {
+        url: `${baseUrl}/blog`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.7,
+      },
+      {
+        url: `${baseUrl}/privacy-policy`,
+        lastModified: currentDate,
+        changeFrequency: "monthly" as ChangeFrequency,
+        priority: 0.4,
+      },
+      {
+        url: `${baseUrl}/terms-of-service`,
+        lastModified: currentDate,
+        changeFrequency: "monthly" as ChangeFrequency,
+        priority: 0.4,
+      },
+      {
+        url: `${baseUrl}/refund-policy`,
+        lastModified: currentDate,
+        changeFrequency: "monthly" as ChangeFrequency,
+        priority: 0.4,
       },
     ];
 
@@ -46,6 +100,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           lastModified: currentDate,
           changeFrequency: "daily" as ChangeFrequency,
           priority: 1.0,
+        },
+        {
+          url: `${baseUrl}/${locale}/home`,
+          lastModified: currentDate,
+          changeFrequency: "daily" as ChangeFrequency,
+          priority: 0.9,
+        },
+        {
+          url: `${baseUrl}/${locale}/image-to-video`,
+          lastModified: currentDate,
+          changeFrequency: "daily" as ChangeFrequency,
+          priority: 0.9,
+        },
+        {
+          url: `${baseUrl}/${locale}/text-to-video`,
+          lastModified: currentDate,
+          changeFrequency: "daily" as ChangeFrequency,
+          priority: 0.9,
+        },
+        {
+          url: `${baseUrl}/${locale}/video-affects`,
+          lastModified: currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.8,
         },
         {
           url: `${baseUrl}/${locale}/pricing`,
@@ -64,6 +142,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           lastModified: currentDate,
           changeFrequency: "weekly" as ChangeFrequency,
           priority: 0.7,
+        },
+        {
+          url: `${baseUrl}/${locale}/membership`,
+          lastModified: currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.6,
+        },
+        {
+          url: `${baseUrl}/${locale}/my-credits`,
+          lastModified: currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.6,
+        },
+        {
+          url: `${baseUrl}/${locale}/my-invites`,
+          lastModified: currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.6,
+        },
+        {
+          url: `${baseUrl}/${locale}/my-orders`,
+          lastModified: currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.6,
+        },
+        {
+          url: `${baseUrl}/${locale}/auth/signin`,
+          lastModified: currentDate,
+          changeFrequency: "monthly" as ChangeFrequency,
+          priority: 0.5,
         },
       ];
     });
