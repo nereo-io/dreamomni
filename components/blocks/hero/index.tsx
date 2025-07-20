@@ -1,8 +1,9 @@
-import { Button } from "@/components/ui/button";
+import { RainbowButton } from "@/components/ui/rainbow-button";
 import HeroBg from "./bg";
 import { Hero as HeroType } from "@/types/blocks/hero";
 import Icon from "@/components/icon";
 import Link from "next/link";
+import { Type } from "lucide-react";
 
 export default function Hero({ hero }: { hero: HeroType }) {
   if (hero.disabled) {
@@ -42,15 +43,18 @@ export default function Hero({ hero }: { hero: HeroType }) {
               {hero.description}
             </p>
 
-            <div className="mt-12">
+            <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Link href="/image-to-video" className="inline-block">
-                <Button
-                  size="lg"
-                  className="px-8 py-4 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 rounded-md shadow-xl border-0 transform hover:scale-105"
-                >
-                  <Icon name="RiPlayFill" className="mr-2 w-5 h-5" />
-                  Start Creating Video
-                </Button>
+                <RainbowButton>
+                  <Icon name="RiImage2Line" className="mr-2 w-5 h-5" />
+                  Image to Video
+                </RainbowButton>
+              </Link>
+              <Link href="/text-to-video" className="inline-block">
+                <RainbowButton>
+                  <Type className="mr-2 w-5 h-5" />
+                  Text to Video
+                </RainbowButton>
               </Link>
             </div>
           </div>
