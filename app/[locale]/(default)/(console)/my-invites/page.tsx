@@ -12,6 +12,7 @@ import { findUserByUuid } from "@/models/user";
 import { getTranslations } from "next-intl/server";
 import moment from "moment";
 import { redirect } from "next/navigation";
+import { CreditsAmount } from "@/services/credit";
 
 export default async function () {
   const t = await getTranslations();
@@ -69,7 +70,7 @@ export default async function () {
     {
       name: "reward_amount",
       title: t("my_invites.table.reward_amount"),
-      callback: (item) => "3",
+      callback: (item) => CreditsAmount.InviteGet.toString(),
     },
   ];
 
