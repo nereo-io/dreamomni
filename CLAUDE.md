@@ -12,10 +12,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Language Note**: 该项目所有的前端展示语言为英文。不需要支持中文语言。Supabase 的数据库项目名称为 Veo3
 
+**Active Providers**: Currently focused on Kie.ai (Veo3 models) and Volcano Engine (Seedance models). Many other providers (fal.ai, APICore) are temporarily commented out.
+
 ## 项目开发记录
 
 - 当前的 git 仓库是 veo3
+- 当前分支: `feature/creem-integration`
 - ✅ 已完成界面改版第一阶段：重构主页界面架构，实现新的用户体验 (commit: 7ec59ea)
+- ✅ 已完成 Creem 支付集成 (commit: b9d02fc)
+- 当前修改: `app/[locale]/(default)/page.tsx` (已修改未提交)
 
 ## 界面改版需求
 
@@ -105,7 +110,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **UI Components**: Shadcn/ui, Radix UI primitives
 - **Database**: Supabase (PostgreSQL) with Row Level Security
 - **Authentication**: NextAuth.js 5.0 with multiple providers (Google, GitHub, Apple, Email)
-- **Payments**: Stripe & Payssion V2 with unified payment router
+- **Payments**: Creem (primary), Stripe & Payssion V2 with unified payment router
 - **Video Generation**: Multi-provider system (Volcano Engine, APICore Veo3, fal.ai, KieAi)
 - **Internationalization**: next-intl with locale-based routing
 - **Analytics**: Plausible with custom event tracking
@@ -137,8 +142,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Payment Processing
 
 - **Unified Router**: `PaymentRouter` handles provider selection based on user location/preference
-- **Stripe Integration**: Primary payment processor with subscription management
-- **Payssion V2**: Alternative payment processor with webhook signature verification
+- **Creem Integration**: Primary payment processor (recently integrated)
+- **Stripe Integration**: International payment processor with subscription management
+- **Payssion V2**: Russian market payment processor (SberPay, YooMoney, Mir Card) with webhook signature verification
 - **Credit System**: Automatic credit distribution based on subscription tier
 
 ### Security Features
@@ -148,10 +154,68 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Input Validation**: Zod schemas for API request validation
 - **Sensitive Data Filtering**: Automatic filtering of sensitive fields in logs
 
+## Key File Locations
+
+### Core Configuration
+- `next.config.js` - Next.js configuration with Cloudflare Pages adapter
+- `tailwind.config.js` - Tailwind CSS configuration with custom animations
+- `jest.config.js` - Jest testing configuration (embedded in package.json)
+- `i18n/request.ts` - next-intl configuration and locale handling
+
+### Service Layer Architecture
+- `services/payment/PaymentRouter.ts` - Unified payment provider routing
+- `services/providers/` - Video generation provider implementations
+- `services/videoStatusService.ts` - Video generation status tracking
+- `services/creditsService.ts` - Credit management and transactions
+
+### Data Models
+- `models/` - Database operation layer with Supabase integration
+- `types/` - TypeScript type definitions for the entire application
+
+### API Routes Structure
+- `app/[locale]/api/` - Next.js API routes with internationalization
+- `app/[locale]/api/webhooks/` - Webhook handlers for payments and video providers
+- `app/[locale]/api/auth/` - NextAuth.js authentication endpoints
+
+### Component Organization
+- `components/blocks/` - Page-level components and sections
+- `components/ui/` - Shadcn/ui components and shared UI elements
+- `components/dashboard/` - Admin dashboard specific components
+
+## Development Commands
+
+### Core Development
+- `pnpm dev` - Start development server (Node warnings disabled)
+- `pnpm build` - Production build
+- `pnpm start` - Start production server
+- `pnpm lint` - Run ESLint
+
+### Testing
+- `pnpm test` - Run Jest tests (Jest configured but no active tests)
+- Test files should be placed in `__tests__/` directories with `.test.ts` extension
+
+### Cache Management
+- `pnpm clean:cache` - Clear Next.js cache only
+- `pnpm clean` - Full clean (node_modules, .next, pnpm-lock.yaml)
+- `pnpm dev:clean` - Clean cache and start dev server
+- `rm -rf .next` - Quick cache clear for development issues
+
+### Cloudflare Deployment
+- `pnpm cf:build` - Build for Cloudflare Pages
+- `pnpm cf:preview` - Preview Cloudflare deployment locally
+- `pnpm cf:deploy` - Deploy to Cloudflare Pages
+
+### Bundle Analysis
+- `pnpm analyze` - Analyze bundle size with webpack-bundle-analyzer
+
+### Development Utilities
+- `pnpm ts` - Run TypeScript test script (`ts/test.ts`)
+
 ## 开发技巧
 
-- 如果启动本地服务器的时候,遇到了缓存问题,可以使用 rm -rf .next 清理一下缓存
-- 在使用 pnpm dev 之前,先检查一下本地服务是否有启动.如果已经启动了,直接使用本地服务器就好.如果希望打印 log 测试,可以先 kill 本地服务,再重新启动.尽量使用 3000 端口,以为一般他和 ngrok 是绑定的. 测试完成后杀死 3000 端口的使用。
+- 如果启动本地服务器的时候,遇到了缓存问题,可以使用 `rm -rf .next` 清理一下缓存
+- 在使用 `pnpm dev` 之前,先检查一下本地服务是否有启动.如果已经启动了,直接使用本地服务器就好.如果希望打印 log 测试,可以先 kill 本地服务,再重新启动.尽量使用 3000 端口,以为一般他和 ngrok 是绑定的. 测试完成后杀死 3000 端口的使用。
+- 使用 `pnpm dev 2>&1 | tee dev.log` 进行调试日志记录
 
 ## Login Information
 

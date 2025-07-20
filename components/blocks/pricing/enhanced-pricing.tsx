@@ -20,7 +20,10 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useAppContext } from "@/contexts/app";
 import { useGeolocation } from "@/hooks/useGeolocation";
-import { getAvailablePaymentMethods, PaymentMethodConfig } from "@/lib/payment-methods";
+import {
+  getAvailablePaymentMethods,
+  PaymentMethodConfig,
+} from "@/lib/payment-methods";
 
 interface EnhancedPricingProps {
   pricing: PricingType;
@@ -102,10 +105,13 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     const checkRecentPayment = async () => {
       // 检查是否有支付等待标记
       const paymentPending = localStorage.getItem("veo3_payment_pending");
-      if (!paymentPending) return;
+      const paymentTimestamp = localStorage.getItem("veo3_payment_timestamp");
+      if (!paymentPending || !paymentTimestamp) return;
 
       try {
-        const response = await fetch("/api/check-recent-payment");
+        const response = await fetch(
+          `/api/check-recent-payment?timestamp=${paymentTimestamp}`
+        );
         const result = await response.json();
 
         if (result.code === 0 && result.data.hasRecentPayment) {
@@ -126,6 +132,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
           // 清除等待标记
           localStorage.removeItem("veo3_payment_pending");
+          localStorage.removeItem("veo3_payment_timestamp");
           localStorage.removeItem("veo3_payment_info");
         }
       } catch (error) {
@@ -194,13 +201,15 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     };
 
     // 设置支付等待标记
+    const paymentTimestamp = Date.now();
     localStorage.setItem("veo3_payment_pending", "true");
+    localStorage.setItem("veo3_payment_timestamp", paymentTimestamp.toString());
     localStorage.setItem(
       "veo3_payment_info",
       JSON.stringify({
         planName: item.title || item.product_name,
         credits: item.credits,
-        timestamp: Date.now(),
+        timestamp: paymentTimestamp,
       })
     );
 
@@ -282,6 +291,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                     ).toLocaleDateString(),
             });
             localStorage.removeItem("veo3_payment_pending");
+            localStorage.removeItem("veo3_payment_timestamp");
             localStorage.removeItem("veo3_payment_info");
           }
           setShowSuccessModal(true);
@@ -312,6 +322,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                     ).toLocaleDateString(),
             });
             localStorage.removeItem("veo3_payment_pending");
+            localStorage.removeItem("veo3_payment_timestamp");
             localStorage.removeItem("veo3_payment_info");
           }
           setShowSuccessModal(true);
