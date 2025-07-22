@@ -81,6 +81,7 @@ export default function VideoGenerator({
   const [generateAudio, setGenerateAudio] = useState(true);
   const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(true);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   // Textarea 引用
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -339,6 +340,7 @@ export default function VideoGenerator({
       formData.append("file", file);
 
       try {
+        setIsUploadingImage(true);
         const uploadResponse = await fetch("/api/upload", {
           method: "POST",
           body: formData,
@@ -354,6 +356,10 @@ export default function VideoGenerator({
       } catch (error) {
         console.error("Image upload error:", error);
         toast.error("Failed to upload image. Please try again.");
+        // 上传失败时清除图片
+        removeImage();
+      } finally {
+        setIsUploadingImage(false);
       }
     },
     [t, user?.uuid, setShowSignModal]
@@ -373,6 +379,7 @@ export default function VideoGenerator({
     setSelectedImage(null);
     setImagePreview(null);
     setUploadedImageUrl(null);
+    setIsUploadingImage(false);
   };
 
   // 处理生成按钮点击
@@ -486,15 +493,19 @@ export default function VideoGenerator({
             </div>
             {!imagePreview ? (
               <div
-                className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer ${
+                className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+                  isUploadingImage
+                    ? "cursor-not-allowed opacity-50"
+                    : "cursor-pointer"
+                } ${
                   isDragOver
                     ? "border-blue-400 bg-blue-900/50"
                     : "border-gray-600 hover:border-gray-500"
                 }`}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                onClick={() => document.getElementById("image-upload")?.click()}
+                onDragOver={!isUploadingImage ? handleDragOver : undefined}
+                onDragLeave={!isUploadingImage ? handleDragLeave : undefined}
+                onDrop={!isUploadingImage ? handleDrop : undefined}
+                onClick={() => !isUploadingImage && document.getElementById("image-upload")?.click()}
               >
                 <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                 <div className="space-y-2">
@@ -520,12 +531,22 @@ export default function VideoGenerator({
                   alt="Uploaded"
                   className="w-full h-32 object-contain rounded-lg bg-gray-800"
                 />
-                <button
-                  onClick={removeImage}
-                  className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
-                >
-                  <X className="h-4 w-4" />
-                </button>
+                {!isUploadingImage && (
+                  <button
+                    onClick={removeImage}
+                    className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+                {isUploadingImage && (
+                  <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                      <span className="text-white text-sm">Uploading...</span>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -763,6 +784,7 @@ export default function VideoGenerator({
           disabled={
             isGenerating ||
             isSubmitting ||
+            isUploadingImage ||
             !description.trim() ||
             !selectedModel ||
             (mode === "image-to-video" && !uploadedImageUrl) ||
