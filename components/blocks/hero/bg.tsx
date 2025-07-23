@@ -11,6 +11,7 @@ const VideoBackground = () => {
         muted
         loop
         playsInline
+        poster="/video-intro-poster.jpg"
         className="absolute inset-0 w-full h-full object-cover"
         style={{ minWidth: "100%", minHeight: "100%" }}
       >
