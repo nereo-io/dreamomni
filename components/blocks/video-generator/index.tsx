@@ -580,6 +580,8 @@ export default function VideoGenerator({
                             ? "/imgs/intro/kling.svg"
                             : selectedModelConfig.id.includes("veo")
                             ? "/imgs/intro/veo.svg"
+                            : selectedModelConfig.id.includes("wan") || selectedModelConfig.id.includes("ali")
+                            ? "/imgs/intro/wan.png"
                             : "/imgs/intro/seedance.png"
                         }
                         alt={selectedModelConfig.provider}
@@ -602,6 +604,8 @@ export default function VideoGenerator({
                             ? "/imgs/intro/kling.svg"
                             : model.id.includes("veo")
                             ? "/imgs/intro/veo.svg"
+                            : model.id.includes("wan") || model.id.includes("ali")
+                            ? "/imgs/intro/wan.png"
                             : "/imgs/intro/seedance.png"
                         }
                         alt={model.provider}
