@@ -15,6 +15,7 @@ export interface VideoGeneration {
   fal_request_id?: string | null;
   volcano_request_id?: string | null; // Volcano Engine request ID
   veo3_request_id?: string | null; // Veo3 APICore request ID
+  ali_request_id?: string | null; // Ali Video Generation request ID
   model_id: string;
   prompt: string;
   optimized_prompt?: string | null; // 优化后的提示词
@@ -30,6 +31,7 @@ export interface VideoGeneration {
   video_url_fal?: string | null;
   video_url_volcano?: string | null; // Volcano Engine video URL
   video_url_veo3?: string | null; // Veo3 APICore video URL
+  video_url_ali?: string | null; // Ali Video Generation video URL
   upsample_video_url_veo3?: string | null; // Veo3 high-quality video URL
   error_message?: string | null;
   logs?: any | null; // jsonb
@@ -46,6 +48,7 @@ export interface CreateVideoGenerationParams {
   fal_request_id?: string;
   volcano_request_id?: string; // Volcano Engine request ID
   veo3_request_id?: string; // Veo3 APICore request ID
+  ali_request_id?: string; // Ali Video Generation request ID
   input_image_url?: string;
   negative_prompt?: string;
   aspect_ratio?: string;
@@ -63,6 +66,7 @@ export interface UpdateVideoGenerationParams {
   video_url_fal?: string;
   video_url_volcano?: string; // Volcano Engine video URL
   video_url_veo3?: string; // Veo3 APICore video URL
+  video_url_ali?: string; // Ali Video Generation video URL
   upsample_video_url_veo3?: string; // Veo3 high-quality video URL
   error_message?: string;
   logs?: any;
@@ -70,6 +74,7 @@ export interface UpdateVideoGenerationParams {
   fal_request_id?: string; // 有时可能在创建后才知道 fal_request_id
   volcano_request_id?: string; // Volcano Engine request ID
   veo3_request_id?: string; // Veo3 APICore request ID
+  ali_request_id?: string; // Ali Video Generation request ID
 }
 
 // Adding types from previous video.d.ts content if they are still relevant

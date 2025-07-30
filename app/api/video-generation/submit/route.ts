@@ -20,6 +20,7 @@ import {
   isKieAiModel,
   isVeoModel,
   isVolcanoModel,
+  isAliModel,
   calculateCredits,
   VideoModelProvider,
 } from "@/config/video-models";
@@ -241,6 +242,13 @@ export async function POST(req: Request) {
       if (otherParams.watermark) {
         input.watermark = otherParams.watermark;
       }
+    } else if (isAliModel(model)) {
+      // 阿里百炼模型特有参数
+      if (image_url) {
+        input.image_url = image_url;
+      }
+      // 阿里百炼使用 resolution 参数
+      input.resolution = resolution;
     }
 
     // 7. 提交任务到队列，包含webhook URL
@@ -301,6 +309,8 @@ export async function POST(req: Request) {
       ) {
         // Both APICore and KieAI use the same veo3_request_id field
         updateParams.veo3_request_id = submitResponse.request_id;
+      } else if (modelConfig.provider === VideoModelProvider.ALI) {
+        updateParams.ali_request_id = submitResponse.request_id;
       }
 
       // 更新请求ID和状态为 IN_QUEUE

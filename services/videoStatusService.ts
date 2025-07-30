@@ -13,6 +13,7 @@ export interface VideoStatusResult {
   video_url_fal?: string;
   video_url_volcano?: string;
   video_url_veo3?: string;
+  video_url_ali?: string;
   upsample_video_url_veo3?: string;
   error_message?: string;
   logs?: any[];
@@ -59,7 +60,8 @@ export class VideoStatusService {
     const hasRequestId = !!(
       videoGeneration.fal_request_id ||
       videoGeneration.volcano_request_id ||
-      videoGeneration.veo3_request_id
+      videoGeneration.veo3_request_id ||
+      videoGeneration.ali_request_id
     );
 
     return isNotFinalStatus && hasRequestId && videoGeneration.model_id;
@@ -132,7 +134,8 @@ export class VideoStatusService {
     return (
       videoGeneration.fal_request_id ||
       videoGeneration.volcano_request_id ||
-      videoGeneration.veo3_request_id
+      videoGeneration.veo3_request_id ||
+      videoGeneration.ali_request_id
     );
   }
 
@@ -280,6 +283,11 @@ export class VideoStatusService {
         if (modelConfig.provider === VideoModelProvider.KIEAI) {
           await this.uploadToR2ForKieAi(updateParams, result, videoGeneration);
         }
+
+        // 对于 ALI，上传到 R2
+        if (modelConfig.provider === VideoModelProvider.ALI) {
+          await this.uploadToR2ForAli(updateParams, result, videoGeneration);
+        }
       } else {
         console.error("获取结果成功但数据为空:", result);
         updateParams.status = "FAILED";
@@ -322,6 +330,9 @@ export class VideoStatusService {
             result as any
           ).upsample_video_url;
         }
+        break;
+      case VideoModelProvider.ALI:
+        updateParams.video_url_ali = result.video_url;
         break;
     }
   }
@@ -419,6 +430,41 @@ export class VideoStatusService {
   }
 
   /**
+   * 为 ALI 上传视频到 R2
+   */
+  private static async uploadToR2ForAli(
+    updateParams: any,
+    result: any,
+    videoGeneration: any
+  ): Promise<void> {
+    try {
+      console.log("开始为阿里百炼上传视频到 R2");
+      const { newStorage } = await import("@/lib/storage");
+      const storage = newStorage();
+
+      const videoToUpload = result.video_url;
+      const fileName = `videos/${videoGeneration.id}-${Date.now()}.mp4`;
+
+      console.log(`上传阿里百炼视频到 R2: ${videoToUpload}`);
+
+      const uploadResult = await storage.downloadAndUpload({
+        url: videoToUpload,
+        key: fileName,
+        contentType: "video/mp4",
+      });
+
+      if (uploadResult?.url) {
+        updateParams.video_url_r2 = uploadResult.url;
+        updateParams.status = "SAVED_TO_R2";
+        console.log(`阿里百炼视频已上传到R2: ${uploadResult.url}`);
+      }
+    } catch (r2Error) {
+      console.error("阿里百炼 R2上传失败:", r2Error);
+      // R2上传失败不影响主流程，状态仍为COMPLETED
+    }
+  }
+
+  /**
    * 获取错误信息
    */
   private static getErrorMessage(error: any): string {
@@ -447,7 +493,8 @@ export class VideoStatusService {
       requestId:
         videoGeneration.fal_request_id ||
         videoGeneration.volcano_request_id ||
-        videoGeneration.veo3_request_id,
+        videoGeneration.veo3_request_id ||
+        videoGeneration.ali_request_id,
       model: videoGeneration.model_id,
       prompt: videoGeneration.prompt,
       optimized_prompt: videoGeneration.optimized_prompt,
@@ -456,11 +503,13 @@ export class VideoStatusService {
         videoGeneration.upsample_video_url_veo3 ||
         videoGeneration.video_url_veo3 ||
         videoGeneration.video_url_volcano ||
+        videoGeneration.video_url_ali ||
         videoGeneration.video_url_fal,
       video_url_r2: videoGeneration.video_url_r2,
       video_url_fal: videoGeneration.video_url_fal,
       video_url_volcano: videoGeneration.video_url_volcano,
       video_url_veo3: videoGeneration.video_url_veo3,
+      video_url_ali: videoGeneration.video_url_ali,
       upsample_video_url_veo3: videoGeneration.upsample_video_url_veo3,
       error_message: videoGeneration.error_message,
       logs: videoGeneration.logs || [],

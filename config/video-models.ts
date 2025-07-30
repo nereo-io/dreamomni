@@ -10,6 +10,7 @@ export enum VideoModelProvider {
   VOLCANO = "volcano", // 火山引擎提供的模型 (Doubao-Seedance等)
   APICORE = "apicore", // APICore 提供的模型 (Veo3等)
   KIEAI = "kieai", // Kie.ai 提供的模型 (Veo3等)
+  ALI = "ali", // 阿里百炼提供的模型
 }
 
 // 视频模型配置接口
@@ -20,6 +21,7 @@ export interface VideoModelConfig {
   provider: VideoModelProvider;
   falEndpoint?: string; // Optional for non-fal providers
   volcanoModel?: string; // Volcano Engine model ID
+  aliModel?: string; // Ali Cloud model ID
   displayName: string;
   perSecondCredits: number; // 每秒积分消耗
   description?: string;
@@ -109,6 +111,43 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedDurations: [5, 10],
   },
 
+  // 阿里百炼 文本转视频模型
+  "ali-video-generation-text-to-video": {
+    id: "ali-video-generation-text-to-video",
+    name: "Ali Video Generation Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.ALI,
+    aliModel: "wan2.2-t2v-plus", // 阿里云实际使用的模型ID
+    displayName: "Wan2.2",
+    perSecondCredits: 3,
+    description: "Ali Video Generation model, starting at $0.5/video",
+    features: ["wait 120s"],
+    maxDuration: 10,
+    supportedAspectRatios: ["16:9", "9:16", "1:1"],
+    supportedResolutions: ["480p", "1080p"],
+    supportsAudio: false,
+    supportedDurations: [5],
+    estimatedGenerationTime: 90,
+  },
+
+  // 阿里百炼 图片转视频模型
+  "ali-video-generation-image-to-video": {
+    id: "ali-video-generation-image-to-video",
+    name: "Ali Video Generation Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.ALI,
+    aliModel: "wan2.2-i2v-plus", // 阿里云实际使用的模型ID
+    displayName: "Wan2.2",
+    perSecondCredits: 3,
+    description: "Ali Video Generation model, starting at $0.5/video",
+    features: ["wait 120s"],
+    maxDuration: 10,
+    supportedAspectRatios: ["adaptive"],
+    supportedResolutions: ["480p", "1080p"],
+    supportsAudio: false,
+    supportedDurations: [5],
+    estimatedGenerationTime: 60,
+  },
   // // Kling 1.6 文本转视频模型 (via fal.ai)
   // "kling-1-6-text-to-video-std": {
   //   id: "kling-1-6-text-to-video-std",
@@ -345,8 +384,8 @@ export function calculateCredits(
   // 统一按秒计费，基础积分以 480p 为基准
   let totalCredits = duration * model.perSecondCredits;
 
-  // 根据分辨率调整积分（仅对 Seedance 模型生效）
-  if (isSeedanceModel(modelId)) {
+  // 根据分辨率调整积分（对支持多分辨率的模型生效）
+  if (isSeedanceModel(modelId) || isAliModel(modelId)) {
     if (resolution === "1080p") {
       // 1080p 价格是 480p 的 5 倍
       totalCredits *= 5;
@@ -365,6 +404,13 @@ export function calculateCredits(
 // 获取所有支持的模型ID（用于API验证）
 export function getSupportedModelIds(): string[] {
   return Object.keys(VIDEO_MODELS);
+}
+
+// 获取阿里百炼模型
+export function getAliModels(): VideoModelConfig[] {
+  return Object.values(VIDEO_MODELS).filter(
+    (model) => model.provider === VideoModelProvider.ALI
+  );
 }
 
 // 检查模型是否为图片转视频类型
@@ -419,6 +465,12 @@ export function isKieAiModel(modelId: string): boolean {
 // 检查模型是否为Kie.ai Veo3模型
 export function isKieAiVeo3Model(modelId: string): boolean {
   return modelId.includes("kie-veo3-");
+}
+
+// 检查模型是否为阿里百炼模型
+export function isAliModel(modelId: string): boolean {
+  const model = getVideoModel(modelId);
+  return model?.provider === VideoModelProvider.ALI;
 }
 
 // 检查模型是否为Veo系列模型
