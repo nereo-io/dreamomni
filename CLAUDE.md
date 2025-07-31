@@ -157,27 +157,32 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Key File Locations
 
 ### Core Configuration
+
 - `next.config.js` - Next.js configuration with Cloudflare Pages adapter
 - `tailwind.config.js` - Tailwind CSS configuration with custom animations
 - `jest.config.js` - Jest testing configuration (embedded in package.json)
 - `i18n/request.ts` - next-intl configuration and locale handling
 
 ### Service Layer Architecture
+
 - `services/payment/PaymentRouter.ts` - Unified payment provider routing
 - `services/providers/` - Video generation provider implementations
 - `services/videoStatusService.ts` - Video generation status tracking
 - `services/creditsService.ts` - Credit management and transactions
 
 ### Data Models
+
 - `models/` - Database operation layer with Supabase integration
 - `types/` - TypeScript type definitions for the entire application
 
 ### API Routes Structure
+
 - `app/[locale]/api/` - Next.js API routes with internationalization
 - `app/[locale]/api/webhooks/` - Webhook handlers for payments and video providers
 - `app/[locale]/api/auth/` - NextAuth.js authentication endpoints
 
 ### Component Organization
+
 - `components/blocks/` - Page-level components and sections
 - `components/ui/` - Shadcn/ui components and shared UI elements
 - `components/dashboard/` - Admin dashboard specific components
@@ -185,30 +190,36 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development Commands
 
 ### Core Development
+
 - `pnpm dev` - Start development server (Node warnings disabled)
 - `pnpm build` - Production build
 - `pnpm start` - Start production server
 - `pnpm lint` - Run ESLint
 
 ### Testing
+
 - `pnpm test` - Run Jest tests (Jest configured but no active tests)
 - Test files should be placed in `__tests__/` directories with `.test.ts` extension
 
 ### Cache Management
+
 - `pnpm clean:cache` - Clear Next.js cache only
 - `pnpm clean` - Full clean (node_modules, .next, pnpm-lock.yaml)
 - `pnpm dev:clean` - Clean cache and start dev server
 - `rm -rf .next` - Quick cache clear for development issues
 
 ### Cloudflare Deployment
+
 - `pnpm cf:build` - Build for Cloudflare Pages
 - `pnpm cf:preview` - Preview Cloudflare deployment locally
 - `pnpm cf:deploy` - Deploy to Cloudflare Pages
 
 ### Bundle Analysis
+
 - `pnpm analyze` - Analyze bundle size with webpack-bundle-analyzer
 
 ### Development Utilities
+
 - `pnpm ts` - Run TypeScript test script (`ts/test.ts`)
 
 ## 开发技巧
@@ -216,7 +227,3 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 如果启动本地服务器的时候,遇到了缓存问题,可以使用 `rm -rf .next` 清理一下缓存
 - 在使用 `pnpm dev` 之前,先检查一下本地服务是否有启动.如果已经启动了,直接使用本地服务器就好.如果希望打印 log 测试,可以先 kill 本地服务,再重新启动.尽量使用 3000 端口,以为一般他和 ngrok 是绑定的. 测试完成后杀死 3000 端口的使用。
 - 使用 `pnpm dev 2>&1 | tee dev.log` 进行调试日志记录
-
-## Login Information
-
-- 备用登录账号：hugeroger@gmail.com 密码：123123
