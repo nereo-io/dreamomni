@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -14,7 +14,6 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import {
   Sheet,
@@ -33,15 +32,30 @@ import { Menu } from "lucide-react";
 import SignToggle from "@/components/sign/toggle";
 import ThemeToggle from "@/components/theme/toggle";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 export default function Header({ header }: { header: HeaderType }) {
+  const [addBorder, setAddBorder] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setAddBorder(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   if (header.disabled) {
     return null;
   }
 
   return (
-    <section className="py-3">
-      <div className="md:max-w-7xl mx-auto px-4">
+    <section className={cn(
+      "sticky top-0 z-50 transition-all duration-200 text-white",
+      addBorder ? "bg-background/60 backdrop-blur border-b border-border/40" : "bg-transparent"
+    )}>
+      <div className="md:max-w-7xl mx-auto px-4 py-3">
         <nav className="hidden justify-between lg:flex">
           <div className="flex items-center gap-6">
             <a
@@ -56,12 +70,14 @@ export default function Header({ header }: { header: HeaderType }) {
                 />
               )}
               {header.brand?.title && (
-                <span className="text-xl text-primary font-bold">
+                <span className="text-xl text-white font-bold">
                   {header.brand?.title || ""}
                 </span>
               )}
             </a>
-            <div className="flex items-center">
+          </div>
+          <div className="flex items-center">
+            <div className="flex items-center mr-8">
               <NavigationMenu>
                 <NavigationMenuList>
                   {header.nav?.items?.map((item, i) => {
@@ -69,9 +85,9 @@ export default function Header({ header }: { header: HeaderType }) {
                       return (
                         <NavigationMenuItem
                           key={i}
-                          className="text-muted-foreground"
+                          className="text-white/90"
                         >
-                          <NavigationMenuTrigger>
+                          <NavigationMenuTrigger className="text-lg font-medium !text-lg" style={{ fontSize: '18px' }}>
                             {item.icon && (
                               <Icon
                                 name={item.icon}
@@ -120,19 +136,17 @@ export default function Header({ header }: { header: HeaderType }) {
                       <NavigationMenuItem key={i}>
                         <a
                           className={cn(
-                            "text-muted-foreground",
-                            navigationMenuTriggerStyle,
-                            buttonVariants({
-                              variant: "ghost",
-                            })
+                            "text-white/90 hover:text-white font-medium px-4 py-2 rounded-md transition-colors",
+                            "text-lg !text-lg"
                           )}
+                          style={{ fontSize: '18px' }}
                           href={item.url}
                           target={item.target}
                         >
                           {item.icon && (
                             <Icon
                               name={item.icon}
-                              className="size-4 shrink-0 mr-0"
+                              className="size-4 shrink-0 mr-2"
                             />
                           )}
                           {item.title}
@@ -143,19 +157,26 @@ export default function Header({ header }: { header: HeaderType }) {
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
-          </div>
-          <div className="shrink-0 flex gap-2 items-center">
+            <div className="shrink-0 flex gap-3 items-center">
             {header.show_locale && <LocaleToggle />}
             {header.show_theme && <ThemeToggle />}
             <InviteButton />
 
             {header.buttons?.map((item, i) => {
+              const isLastButton = i === (header.buttons?.length || 0) - 1;
               return (
-                <Button key={i} variant={item.variant}>
+                <Button 
+                  key={i} 
+                  variant={isLastButton ? "default" : "outline"}
+                  className={cn(
+                    "transition-all duration-200",
+                    isLastButton && "bg-primary hover:bg-primary/90"
+                  )}
+                >
                   <Link
                     href={item.url || ""}
                     target={item.target || ""}
-                    className="flex items-center gap-1"
+                    className="flex items-center gap-2"
                   >
                     {item.title}
                     {item.icon && (
@@ -166,6 +187,7 @@ export default function Header({ header }: { header: HeaderType }) {
               );
             })}
             {header.show_sign && <SignToggle />}
+            </div>
           </div>
         </nav>
 
@@ -183,15 +205,15 @@ export default function Header({ header }: { header: HeaderType }) {
                 />
               )}
               {header.brand?.title && (
-                <span className="text-xl font-bold">
+                <span className="text-xl text-white font-bold">
                   {header.brand?.title || ""}
                 </span>
               )}
             </a>
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="default" size="icon">
-                  <Menu className="size-2" />
+                <Button variant="outline" size="icon">
+                  <Menu className="size-4" />
                 </Button>
               </SheetTrigger>
               <SheetContent className="overflow-y-auto">
@@ -206,7 +228,7 @@ export default function Header({ header }: { header: HeaderType }) {
                         />
                       )}
                       {header.brand?.title && (
-                        <span className="text-xl font-bold">
+                        <span className="text-xl font-bold text-foreground">
                           {header.brand?.title || ""}
                         </span>
                       )}
@@ -281,12 +303,17 @@ export default function Header({ header }: { header: HeaderType }) {
                     <InviteButton />
                     
                     {header.buttons?.map((item, i) => {
+                      const isLastButton = i === (header.buttons?.length || 0) - 1;
                       return (
-                        <Button key={i} variant={item.variant}>
+                        <Button 
+                          key={i} 
+                          variant={isLastButton ? "default" : "outline"}
+                          className="w-full justify-center"
+                        >
                           <Link
                             href={item.url || ""}
                             target={item.target || ""}
-                            className="flex items-center gap-1"
+                            className="flex items-center gap-2 w-full justify-center"
                           >
                             {item.title}
                             {item.icon && (

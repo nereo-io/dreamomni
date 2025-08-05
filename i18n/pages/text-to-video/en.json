@@ -1,31 +1,4 @@
 {
-  "videoExamples": [
-    {
-      "id": "glass-strawberry",
-      "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
-      "alt": "Glass strawberry shattering when sliced",
-      "prompt": "A glass strawberry shatters when sliced with a knife on a wooden board."
-    },
-    {
-      "id": "anime-rose",
-      "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Anime-Rose-Blooming-Bridge.mp4",
-      "alt": "Anime rose blooming with dancing petals",
-      "prompt": "An anime-style rose blooms before a rope bridge, with petals dancing in the air."
-    },
-    {
-      "id": "monkey-seagull",
-      "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
-      "alt": "Monkey and seagull dancing on moonlit beach",
-      "prompt": "A monkey and a seagull dance on a moonlit beach under a starry sky."
-    },
-    {
-      "id": "monarch-butterfly",
-      "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
-      "alt": "Monarch butterfly fluttering wings on flowers",
-      "prompt": "A monarch butterfly flutters its wings on colorful flowers in a sunlit garden.",
-      "isNew": true
-    }
-  ],
   "faq": {
     "title": "FAQs",
     "description": "Find answers to common questions about our AI text to video generation service.",
@@ -86,7 +59,34 @@
   },
   "aiVideoShowcase": {
     "title": "Visualize Any Text with Our AI Video Generator",
-    "description": "Bring any text to life with our AI video generator! Create engaging videos of any style with just a simple text prompt. Describe your ideas with a few words, and our video AI can visualize it creatively."
+    "description": "Bring any text to life with our AI video generator! Create engaging videos of any style with just a simple text prompt. Describe your ideas with a few words, and our video AI can visualize it creatively.",
+    "examples": [
+      {
+        "id": "glass-strawberry",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
+        "alt": "Glass strawberry shattering when sliced",
+        "prompt": "A glass strawberry shatters when sliced with a knife on a wooden board."
+      },
+      {
+        "id": "anime-rose",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Anime-Rose-Blooming-Bridge.mp4",
+        "alt": "Anime rose blooming with dancing petals",
+        "prompt": "An anime-style rose blooms before a rope bridge, with petals dancing in the air."
+      },
+      {
+        "id": "monkey-seagull",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
+        "alt": "Monkey and seagull dancing on moonlit beach",
+        "prompt": "A monkey and a seagull dance on a moonlit beach under a starry sky."
+      },
+      {
+        "id": "monarch-butterfly",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
+        "alt": "Monarch butterfly fluttering wings on flowers",
+        "prompt": "A monarch butterfly flutters its wings on colorful flowers in a sunlit garden.",
+        "isNew": true
+      }
+    ]
   },
   "creatorShowcase": {
     "title": "Empowering Every Text-to-Video Creator",

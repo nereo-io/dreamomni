@@ -3,20 +3,9 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AIVideoShowcase as AIVideoShowcaseType, VideoExample } from "@/types/blocks/ai-video-showcase";
 
-interface VideoExample {
-  id: string;
-  image: string; // This can be a video URL
-  alt: string;
-  prompt: string;
-  isNew?: boolean;
-}
-
-interface AIVideoShowcaseProps {
-  title?: string;
-  description?: string;
-  examples: VideoExample[];
-}
+interface AIVideoShowcaseProps extends AIVideoShowcaseType {}
 
 export function AIVideoShowcase({
   title,

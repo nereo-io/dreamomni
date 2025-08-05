@@ -1,9 +1,11 @@
 import FAQ from "@/components/blocks/faq";
 import Hero from "@/components/blocks/hero";
-import Testimonial from "@/components/blocks/testimonial";
 import ClaudeSonnetFeaturesBlock from "@/components/blocks/claude-sonnet-features";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { ImageToVideoShowcase } from "@/components/blocks/image-to-video-showcase";
+import { AIModelsHero } from "@/components/blocks/ai-models-hero";
+import { AIVideoShowcase } from "@/components/blocks/ai-video-showcase";
 
 import { getLandingPage, getClaudeSonnetFeaturesBlock } from "@/services/page";
 
@@ -46,6 +48,21 @@ export default async function LandingPage({
       {page.hero && <Hero hero={page.hero} />}
 
       {/* <VideoFeatureShowcase data={videoFeatureShowcase} /> */}
+      {/* Hero Section with H1 title */}
+
+      {page.aiModelsHero && <AIModelsHero data={page.aiModelsHero} />}
+      {page.imageToVideoShowcase && (
+        <ImageToVideoShowcase data={page.imageToVideoShowcase} />
+      )}
+
+      {/* AI Video Showcase */}
+      {page.aiVideoShowcase && (
+        <AIVideoShowcase
+          title={page.aiVideoShowcase.title}
+          description={page.aiVideoShowcase.description}
+          examples={page.aiVideoShowcase.examples}
+        />
+      )}
 
       <ClaudeSonnetFeaturesBlock translations={claudeSonnetFeatures} />
 

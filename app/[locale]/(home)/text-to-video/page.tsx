@@ -49,7 +49,7 @@ export default async function TextToVideoPage({
       <AIVideoShowcase
         title={pageData.aiVideoShowcase.title}
         description={pageData.aiVideoShowcase.description}
-        examples={pageData.videoExamples}
+        examples={pageData.aiVideoShowcase.examples}
       />
 
       {/* Creator Showcase */}

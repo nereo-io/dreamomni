@@ -13,24 +13,20 @@
     "nav": {
       "items": [
         {
-          "title": "Generator",
-          "url": "/image-to-video",
-          "icon": "RiVideoLine"
+          "title": "Image to Video",
+          "url": "/image-to-video"
         },
         {
-          "title": "History",
-          "url": "/history",
-          "icon": "RiHistoryLine"
+          "title": "Text to Video",
+          "url": "/text-to-video"
+        },
+        {
+          "title": "My Creations",
+          "url": "/history"
         },
         {
           "title": "Pricing",
-          "url": "/pricing",
-          "icon": "RiMoneyDollarCircleLine"
-        },
-        {
-          "title": "Blog",
-          "url": "/blog",
-          "icon": "RiMoneyDollarCircleLine"
+          "url": "/pricing"
         }
       ]
     },
@@ -56,6 +52,102 @@
         "target": "_self",
         "variant": "default",
         "icon": "GoArrowUpRight"
+      }
+    ]
+  },
+  "aiModelsHero": {
+    "title": "All-in-One AI Image to Video Generator",
+    "description": "Veo3 AI is the ultimate, all-in-one AI image to video generator. We offer access to industry-leading video models including Veo3, Seedance, and Wan2.2, all in one single place. Try them seamlessly and create stunning visuals without juggling multiple platforms!",
+    "models": [
+      {
+        "id": "veo3",
+        "name": "Veo 3",
+        "logo": "/imgs/intro/veo.svg"
+      },
+      {
+        "id": "seedance",
+        "name": "Seedance",
+        "logo": "/imgs/intro/seedance.png"
+      },
+      {
+        "id": "wan",
+        "name": "Wan2.2",
+        "logo": "/imgs/intro/wan.png"
+      }
+    ],
+    "moreModels": "More Models"
+  },
+  "imageToVideoShowcase": {
+    "title": "Animate Your Images with Our Image to Video AI Generator",
+    "description": "Turn any static image into a vivid story with Veo3 AI! Generate creative videos from your uploaded photos with our smart AI image to video generator. Whether it's a realistic scene or animation you want to create, Veo3 AI can produce it quickly, and the way you want.",
+    "labels": {
+      "originalImage": "Original image",
+      "prompt": "Prompt",
+      "video": "Video"
+    },
+    "examples": [
+      {
+        "id": "anime-girl",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Anime-Girl-with-Braids.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Girl-Pokes-Camera.mp4",
+        "originalAlt": "Anime girl with braids",
+        "videoAlt": "Anime girl smiling and poking camera",
+        "prompt": "The little girl keeps smiling at the camera and pokes the lens with her finger."
+      },
+      {
+        "id": "t-rex",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Tyrannosaurus-Rex-in-Wilderness.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/TRex-Peeks-at-Camera.mp4",
+        "originalAlt": "Tyrannosaurus Rex in wilderness",
+        "videoAlt": "T-Rex head peeking out of camera",
+        "prompt": "The T-Rex's head pokes out of the camera."
+      },
+      {
+        "id": "mother-son",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Mother-Son-Walking-in-Park.mp4",
+        "originalAlt": "Mother and son walking in park",
+        "videoAlt": "Mother walking happily with child",
+        "prompt": "A mother walks happily holding her child's hand."
+      },
+      {
+        "id": "motorcycle",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Astronaut-Looking-at-Earth.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
+        "originalAlt": "Motorcycle ready to speed",
+        "videoAlt": "Motorcycle speeding with light trail",
+        "prompt": "The motorcycle is speeding, and the tail light turns into a line."
+      }
+    ]
+  },
+  "aiVideoShowcase": {
+    "title": "Visualize Any Text with Our AI Video Generator",
+    "description": "Bring any text to life with our AI video generator! Create engaging videos of any style with just a simple text prompt. Describe your ideas with a few words, and our video AI can visualize it creatively.",
+    "examples": [
+      {
+        "id": "glass-strawberry",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
+        "alt": "Glass strawberry shattering when sliced",
+        "prompt": "A glass strawberry shatters when sliced with a knife on a wooden board."
+      },
+      {
+        "id": "anime-rose",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Anime-Rose-Blooming-Bridge.mp4",
+        "alt": "Anime rose blooming with dancing petals",
+        "prompt": "An anime-style rose blooms before a rope bridge, with petals dancing in the air."
+      },
+      {
+        "id": "monkey-seagull",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
+        "alt": "Monkey and seagull dancing on moonlit beach",
+        "prompt": "A monkey and a seagull dance on a moonlit beach under a starry sky."
+      },
+      {
+        "id": "monarch-butterfly",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
+        "alt": "Monarch butterfly fluttering wings on flowers",
+        "prompt": "A monarch butterfly flutters its wings on colorful flowers in a sunlit garden.",
+        "isNew": true
       }
     ]
   },
@@ -264,90 +356,5 @@
         }
       ]
     }
-  ],
-  "questionExamples": {
-    "title": "Video Ideas: ",
-    "examples": [
-      {
-        "text": "Create a cinematic drone shot flying over a futuristic city at sunset with neon lights reflecting on glass buildings",
-        "label": "Cinematic Cityscape",
-        "type": "single"
-      },
-      {
-        "text": "Generate a product demonstration video showing a smartphone with smooth camera movements and professional lighting",
-        "label": "Product Demo",
-        "type": "single"
-      },
-      {
-        "text": "Make an animated explainer video about renewable energy with colorful graphics and smooth transitions",
-        "label": "Educational Animation",
-        "type": "single"
-      },
-      {
-        "text": "Create a nature documentary style video of a forest with wildlife, morning mist, and golden hour lighting",
-        "label": "Nature Documentary",
-        "type": "single"
-      }
-    ]
-  },
-  "questionSuggestions": {
-    "disabled": true,
-    "categories": {
-      "all": "All"
-    },
-    "questions": {
-      "marketing1": {
-        "text": "Create a dynamic marketing video showcasing our product with professional camera movements and engaging visuals",
-        "reading_type": "single",
-        "category": "marketing",
-        "tag": "new"
-      },
-      "social1": {
-        "text": "Generate a trendy social media video with vibrant colors and smooth transitions perfect for Instagram and TikTok",
-        "reading_type": "single",
-        "category": "social",
-        "tag": "new"
-      },
-      "education1": {
-        "text": "Make an educational video explaining complex concepts with clear animations and engaging visual storytelling",
-        "reading_type": "single",
-        "category": "education"
-      },
-      "creative1": {
-        "text": "Create an artistic video with abstract visuals, creative camera angles, and experimental visual effects",
-        "reading_type": "single",
-        "category": "creative"
-      },
-      "business1": {
-        "text": "Generate a professional business presentation video with clean graphics and corporate styling",
-        "reading_type": "single",
-        "category": "business"
-      },
-      "entertainment1": {
-        "text": "Create an entertaining video with dynamic action sequences and cinematic storytelling elements",
-        "reading_type": "single",
-        "category": "entertainment"
-      },
-      "tutorial1": {
-        "text": "Make a step-by-step tutorial video with clear demonstrations and helpful visual guides",
-        "reading_type": "single",
-        "category": "tutorial"
-      },
-      "lifestyle1": {
-        "text": "Generate a lifestyle video with beautiful aesthetics, natural lighting, and aspirational visuals",
-        "reading_type": "single",
-        "category": "lifestyle"
-      },
-      "tech1": {
-        "text": "Create a technology showcase video with futuristic elements and sleek visual design",
-        "reading_type": "single",
-        "category": "technology"
-      },
-      "travel1": {
-        "text": "Generate a travel video capturing stunning landscapes with cinematic camera movements and vibrant colors",
-        "reading_type": "single",
-        "category": "travel"
-      }
-    }
-  }
+  ]
 }
