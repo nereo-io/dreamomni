@@ -1,6 +1,6 @@
 "use client";
 
-import { AIModelsHero as AIModelsHeroData } from "@/types/pages/text-to-video";
+import { AIModelsHero as AIModelsHeroData } from "@/types/blocks/ai-model-hero";
 
 interface AIModelsHeroProps {
   data: AIModelsHeroData;
