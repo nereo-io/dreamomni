@@ -78,8 +78,9 @@
     "moreModels": "More Models"
   },
   "imageToVideoShowcase": {
-    "title": "Animate Your Images with Our Image to Video AI Generator",
-    "description": "Turn any static image into a vivid story with Veo3 AI! Generate creative videos from your uploaded photos with our smart AI image to video generator. Whether it's a realistic scene or animation you want to create, Veo3 AI can produce it quickly, and the way you want.",
+    "title": "Image to Video AI",
+    "description": "Animate Your Images with Our Image to Video AI Generator",
+    "cta": "Try Veo3 AI",
     "labels": {
       "originalImage": "Original image",
       "prompt": "Prompt",
@@ -121,8 +122,9 @@
     ]
   },
   "aiVideoShowcase": {
-    "title": "Visualize Any Text with Our AI Video Generator",
-    "description": "Bring any text to life with our AI video generator! Create engaging videos of any style with just a simple text prompt. Describe your ideas with a few words, and our video AI can visualize it creatively.",
+    "title": "Text to Video AI",
+    "description": "Visualize Any Text with Our AI Video Generator",
+    "cta": "Try Veo3 AI",
     "examples": [
       {
         "id": "glass-strawberry",
@@ -148,63 +150,6 @@
         "alt": "Monarch butterfly fluttering wings on flowers",
         "prompt": "A monarch butterfly flutters its wings on colorful flowers in a sunlit garden.",
         "isNew": true
-      }
-    ]
-  },
-  "testimonial": {
-    "name": "testimonial",
-    "label": "Testimonial",
-    "title": "What Creators Say About Free Veo 3 AI Video Generator",
-    "description": "Discover how Veo 3 AI has revolutionized video creation with powerful AI-driven video generation and professional-quality results.",
-    "icon": "GoThumbsup",
-    "items": [
-      {
-        "title": "Sarah Johnson",
-        "label": "Content Creator",
-        "description": "Free Veo 3 AI video generator transformed my content creation workflow. The AI understands my prompts perfectly and generates cinematic-quality videos that would take hours to produce manually. It's like having a professional video studio at my fingertips.",
-        "image": {
-          "src": "/imgs/users/1.png"
-        }
-      },
-      {
-        "title": "Michael Chen",
-        "label": "Marketing Director",
-        "description": "Veo 3 AI's free video generator is incredible for marketing campaigns. The quality is outstanding, and the speed is unmatched. I can create multiple video variations for A/B testing in minutes instead of weeks.",
-        "image": {
-          "src": "/imgs/users/2.png"
-        }
-      },
-      {
-        "title": "Emily Rodriguez",
-        "label": "Social Media Manager",
-        "description": "The consistency and quality of videos from Veo 3 AI is amazing. I can maintain our brand's visual style across all platforms while creating fresh, engaging content daily. The free tier gives incredible value.",
-        "image": {
-          "src": "/imgs/users/3.png"
-        }
-      },
-      {
-        "title": "David Kumar",
-        "label": "YouTuber & Educator",
-        "description": "Free Veo 3 AI video generator helps me create educational content that captivates my audience. From complex animations to simple explainer videos, the AI handles everything with professional polish.",
-        "image": {
-          "src": "/imgs/users/4.png"
-        }
-      },
-      {
-        "title": "Lisa Wang",
-        "label": "Independent Filmmaker",
-        "description": "Veo 3 AI's free video generation unlocked my creative potential. I can prototype scenes, create concept videos, and experiment with visual storytelling without budget constraints. It's revolutionizing independent filmmaking.",
-        "image": {
-          "src": "/imgs/users/5.png"
-        }
-      },
-      {
-        "title": "Alex Thompson",
-        "label": "Digital Artist",
-        "description": "The precision and artistic quality of Veo 3 AI video generation is remarkable. It understands artistic direction and creates videos that match my creative vision perfectly. The free access democratizes professional video creation.",
-        "image": {
-          "src": "/imgs/users/6.png"
-        }
       }
     ]
   },
@@ -256,11 +201,23 @@
       }
     ]
   },
+  "cta": {
+    "name": "cta-generate",
+    "title": "Start Creating Videos with Free Veo 3 AI",
+    "buttons": [
+      {
+        "title": "Try Veo3 AI",
+        "url": "#video-generator",
+        "target": "_self",
+        "icon": "GoArrowUpRight"
+      }
+    ]
+  },
   "footer": {
     "name": "footer",
     "brand": {
       "title": "Veo3",
-      "description": "Free Veo 3 AI Video Generator - Create stunning professional videos with advanced AI technology. Transform your ideas into cinematic masterpieces in minutes.",
+      "description": "Transform your ideas into cinematic masterpieces in minutes.",
       "logo": {
         "src": "/logo.png",
         "alt": "Veo3"
@@ -271,18 +228,28 @@
     "nav": {
       "items": [
         {
-          "title": "Products",
+          "title": "Video Tools",
           "children": [
             {
-              "title": "Generate",
-              "url": "/#video-generator",
+              "title": "Image to Video",
+              "url": "/image-to-video",
               "target": "_self"
             },
             {
-              "title": "History",
-              "url": "/history",
+              "title": "Text to Video",
+              "url": "/text-to-video",
               "target": "_self"
             },
+            {
+              "title": "My Creations",
+              "url": "/history",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "Pricing",
+          "children": [
             {
               "title": "Pricing",
               "url": "/pricing",
@@ -330,31 +297,5 @@
         }
       ]
     }
-  },
-  "cta": [
-    {
-      "name": "cta-generate",
-      "title": "Start Creating Videos with Free Veo 3 AI",
-      "buttons": [
-        {
-          "title": "Generate Video",
-          "url": "#video-generator",
-          "target": "_self",
-          "icon": "GoArrowUpRight"
-        }
-      ]
-    },
-    {
-      "name": "cta-features",
-      "title": "Explore Veo 3 AI Features",
-      "description": "Advanced Video Generation & AI Technology",
-      "buttons": [
-        {
-          "title": "Learn More",
-          "url": "#features",
-          "target": "_self"
-        }
-      ]
-    }
-  ]
+  }
 }

@@ -10,6 +10,7 @@ export interface ImageToVideoExample {
 export interface ImageToVideoShowcase {
   title: string;
   description: string;
+  cta?: string;
   labels: {
     originalImage: string;
     prompt: string;

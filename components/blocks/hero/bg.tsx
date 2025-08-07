@@ -11,7 +11,7 @@ const VideoBackground = () => {
         muted
         loop
         playsInline
-        poster="https://r2.veo3ai.io/intro/Veo-Cover-202508-poster.jpg"
+        poster="/imgs/intro/veo-cover-202508-poster.jpg"
         className="absolute inset-0 w-full h-full object-cover"
         style={{ minWidth: "100%", minHeight: "100%" }}
       >

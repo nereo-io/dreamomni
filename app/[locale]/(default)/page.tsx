@@ -1,13 +1,12 @@
 import FAQ from "@/components/blocks/faq";
 import Hero from "@/components/blocks/hero";
-import ClaudeSonnetFeaturesBlock from "@/components/blocks/claude-sonnet-features";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { ImageToVideoShowcase } from "@/components/blocks/image-to-video-showcase";
 import { AIModelsHero } from "@/components/blocks/ai-models-hero";
 import { AIVideoShowcase } from "@/components/blocks/ai-video-showcase";
-
-import { getLandingPage, getClaudeSonnetFeaturesBlock } from "@/services/page";
+import CTA from "@/components/blocks/cta";
+import { getLandingPage } from "@/services/page";
 
 export async function generateMetadata({
   params: { locale },
@@ -41,32 +40,19 @@ export default async function LandingPage({
   }
 
   const page = await getLandingPage(locale);
-  const claudeSonnetFeatures = await getClaudeSonnetFeaturesBlock(locale);
 
   return (
     <>
       {page.hero && <Hero hero={page.hero} />}
-
       {/* <VideoFeatureShowcase data={videoFeatureShowcase} /> */}
-      {/* Hero Section with H1 title */}
 
       {page.aiModelsHero && <AIModelsHero data={page.aiModelsHero} />}
       {page.imageToVideoShowcase && (
         <ImageToVideoShowcase data={page.imageToVideoShowcase} />
       )}
-
-      {/* AI Video Showcase */}
-      {page.aiVideoShowcase && (
-        <AIVideoShowcase
-          title={page.aiVideoShowcase.title}
-          description={page.aiVideoShowcase.description}
-          examples={page.aiVideoShowcase.examples}
-        />
-      )}
-
-      <ClaudeSonnetFeaturesBlock translations={claudeSonnetFeatures} />
-
+      {page.aiVideoShowcase && <AIVideoShowcase data={page.aiVideoShowcase} />}
       {page.faq && <FAQ section={page.faq} />}
+      {page.cta && <CTA section={page.cta} />}
       <div className="max-w-7xl mx-auto px-8 py-3">
         <p className="text-sm text-muted-foreground text-center font-medium">
           This platform is an independent product and is not affiliated with

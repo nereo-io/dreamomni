@@ -25,6 +25,6 @@ export interface LandingPage {
   pricing?: Pricing;
   testimonial?: Section;
   faq?: Section;
-  cta?: Section[];
+  cta?: Section;
   footer?: Footer;
 }

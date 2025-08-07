@@ -9,5 +9,6 @@ export interface VideoExample {
 export interface AIVideoShowcase {
   title?: string;
   description?: string;
+  cta?: string;
   examples: VideoExample[];
 }

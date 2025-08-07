@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { RainbowButton } from "@/components/ui/rainbow-button";
 import Icon from "@/components/icon";
 import Link from "next/link";
 import { Section as SectionType } from "@/types/blocks/section";
@@ -9,35 +9,30 @@ export default function CTA({ section }: { section: SectionType }) {
   }
 
   return (
-    <section id={section.name} className="py-16">
-      <div className="px-8">
-        <div className='flex items-center justify-center rounded-2xl  bg-[url("/imgs/masks/circle.svg")] bg-cover bg-center px-8 py-12 text-center md:p-16'>
-          <div className="mx-auto max-w-screen-md">
-            <h2 className="mb-4 text-balance text-3xl font-semibold md:text-5xl">
-              {section.title}
-            </h2>
-            <p className="text-muted-foreground md:text-lg">
-              {section.description}
-            </p>
-            {section.buttons && (
-              <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
-                {section.buttons.map((item, idx) => (
-                  <Button key={idx} variant={item.variant || "default"}>
-                    <Link
-                      href={item.url || ""}
-                      target={item.target}
-                      className="flex items-center justify-center gap-1"
-                    >
-                      {item.title}
-                      {item.icon && (
-                        <Icon name={item.icon as string} className="size-6" />
-                      )}
-                    </Link>
-                  </Button>
-                ))}
-              </div>
-            )}
-          </div>
+    <section id={section.name} className="relative w-full overflow-hidden">
+      <div className='relative flex min-h-[500px] items-center justify-center bg-[url("/imgs/cta-bg.png")] bg-cover bg-center bg-no-repeat py-32 text-center'>
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+        <div className="relative z-10 mx-auto max-w-4xl px-8">
+          <h2 className="mb-6 text-balance text-4xl font-bold text-white md:text-6xl lg:text-7xl">
+            {section.title}
+          </h2>
+          <p className="mx-auto max-w-2xl text-lg text-white/80 md:text-xl">
+            {section.description}
+          </p>
+          {section.buttons && (
+            <div className="mt-10 flex flex-col justify-center gap-6 sm:flex-row">
+              {section.buttons.map((item, idx) => (
+                <Link key={idx} href={item.url || ""} target={item.target} className="inline-block">
+                  <RainbowButton>
+                    {item.icon && (
+                      <Icon name={item.icon as string} className="mr-2 size-5" />
+                    )}
+                    {item.title}
+                  </RainbowButton>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

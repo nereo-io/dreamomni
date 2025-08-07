@@ -46,11 +46,7 @@ export default async function TextToVideoPage({
       <AIModelsHero data={pageData.aiModelsHero} />
 
       {/* AI Video Showcase */}
-      <AIVideoShowcase
-        title={pageData.aiVideoShowcase.title}
-        description={pageData.aiVideoShowcase.description}
-        examples={pageData.aiVideoShowcase.examples}
-      />
+      <AIVideoShowcase data={pageData.aiVideoShowcase} />
 
       {/* Creator Showcase */}
       <CreatorShowcase data={pageData.creatorShowcase} />

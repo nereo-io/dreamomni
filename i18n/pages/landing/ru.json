@@ -13,24 +13,20 @@
     "nav": {
       "items": [
         {
-          "title": "Генерация",
-          "url": "/#video-generator",
-          "icon": "RiVideoLine"
+          "title": "Изображение в видео",
+          "url": "/image-to-video"
         },
         {
-          "title": "История",
-          "url": "/history",
-          "icon": "RiHistoryLine"
+          "title": "Текст в видео",
+          "url": "/text-to-video"
+        },
+        {
+          "title": "Мои творения",
+          "url": "/history"
         },
         {
           "title": "Цены",
-          "url": "/pricing",
-          "icon": "RiMoneyDollarCircleLine"
-        },
-        {
-          "title": "Блог",
-          "url": "/blog",
-          "icon": "RiMoneyDollarCircleLine"
+          "url": "/pricing"
         }
       ]
     },
@@ -48,62 +44,112 @@
     },
     "description": "Превратите ваши идеи в профессиональные видео за минуты",
     "show_happy_users": false,
-    "show_badge": false
+    "show_badge": false,
+    "buttons": [
+      {
+        "title": "Начать создавать видео",
+        "url": "/image-to-video",
+        "target": "_self",
+        "variant": "default",
+        "icon": "GoArrowUpRight"
+      }
+    ]
   },
-  "testimonial": {
-    "name": "testimonial",
-    "label": "Отзывы",
-    "title": "Что говорят создатели о бесплатном генераторе видео Veo 3 AI",
-    "description": "Узнайте, как Veo 3 AI революционизировал создание видео с мощной генерацией видео на основе ИИ и результатами профессионального качества.",
-    "icon": "GoThumbsup",
-    "items": [
+  "aiModelsHero": {
+    "title": "Универсальный генератор видео из изображений с ИИ",
+    "description": "Veo3 AI — это универсальный генератор видео из изображений с ИИ. Мы предлагаем доступ к ведущим в отрасли видеомоделям, включая Veo3, Seedance и Wan2.2, все в одном месте. Попробуйте их легко и создавайте потрясающие визуальные эффекты, не жонглируя несколькими платформами!",
+    "models": [
       {
-        "title": "Сара Джонсон",
-        "label": "Создатель контента",
-        "description": "Бесплатный генератор видео Veo 3 AI преобразил мой рабочий процесс создания контента. ИИ идеально понимает мои запросы и генерирует видео кинематографического качества, на создание которых потребовались бы часы ручной работы. Это как иметь профессиональную видеостудию под рукой.",
-        "image": {
-          "src": "/imgs/users/1.png"
-        }
+        "id": "veo3",
+        "name": "Veo 3",
+        "logo": "/imgs/intro/veo.svg"
       },
       {
-        "title": "Михаил Чен",
-        "label": "Директор по маркетингу",
-        "description": "Бесплатный генератор видео Veo 3 AI невероятен для маркетинговых кампаний. Качество выдающееся, а скорость непревзойдённая. Я могу создать несколько вариаций видео для A/B тестирования за минуты вместо недель.",
-        "image": {
-          "src": "/imgs/users/2.png"
-        }
+        "id": "seedance",
+        "name": "Seedance",
+        "logo": "/imgs/intro/seedance.png"
       },
       {
-        "title": "Эмили Родригес",
-        "label": "Менеджер социальных сетей",
-        "description": "Последовательность и качество видео от Veo 3 AI потрясающие. Я могу поддерживать визуальный стиль нашего бренда на всех платформах, создавая свежий, увлекательный контент ежедневно. Бесплатный тариф даёт невероятную ценность.",
-        "image": {
-          "src": "/imgs/users/3.png"
-        }
+        "id": "wan",
+        "name": "Wan2.2",
+        "logo": "/imgs/intro/wan.png"
+      }
+    ],
+    "moreModels": "Больше моделей"
+  },
+  "imageToVideoShowcase": {
+    "title": "ИИ преобразование изображения в видео",
+    "description": "Оживите ваши изображения с помощью нашего ИИ генератора видео из изображений",
+    "cta": "Попробовать Veo3 AI",
+    "labels": {
+      "originalImage": "Исходное изображение",
+      "prompt": "Запрос",
+      "video": "Видео"
+    },
+    "examples": [
+      {
+        "id": "anime-girl",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Anime-Girl-with-Braids.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Girl-Pokes-Camera.mp4",
+        "originalAlt": "Девушка аниме с косичками",
+        "videoAlt": "Девушка аниме улыбается и тычет в камеру",
+        "prompt": "Маленькая девочка продолжает улыбаться в камеру и тычет пальцем в объектив."
       },
       {
-        "title": "Дэвид Кумар",
-        "label": "YouTuber и преподаватель",
-        "description": "Бесплатный генератор видео Veo 3 AI помогает мне создавать образовательный контент, который захватывает аудиторию. От сложных анимаций до простых объясняющих видео, ИИ справляется с всем с профессиональной полировкой.",
-        "image": {
-          "src": "/imgs/users/4.png"
-        }
+        "id": "t-rex",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Tyrannosaurus-Rex-in-Wilderness.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/TRex-Peeks-at-Camera.mp4",
+        "originalAlt": "Тираннозавр Рекс в дикой природе",
+        "videoAlt": "Голова Ти-Рекса выглядывает из камеры",
+        "prompt": "Голова Ти-Рекса выглядывает из камеры."
       },
       {
-        "title": "Лиза Ван",
-        "label": "Независимый кинорежиссёр",
-        "description": "Бесплатная генерация видео Veo 3 AI разблокировала мой творческий потенциал. Я могу создавать прототипы сцен, концептуальные видео и экспериментировать с визуальным повествованием без бюджетных ограничений. Это революционизирует независимое кинопроизводство.",
-        "image": {
-          "src": "/imgs/users/5.png"
-        }
+        "id": "mother-son",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Mother-Son-Walking-in-Park.mp4",
+        "originalAlt": "Мать и сын гуляют в парке",
+        "videoAlt": "Мать счастливо идет с ребенком",
+        "prompt": "Мать счастливо идет, держа ребенка за руку."
       },
       {
-        "title": "Алекс Томпсон",
-        "label": "Цифровой художник",
-        "description": "Точность и художественное качество генерации видео Veo 3 AI замечательны. Он понимает художественное направление и создаёт видео, которые идеально соответствуют моему творческому видению. Бесплатный доступ демократизирует профессиональное создание видео.",
-        "image": {
-          "src": "/imgs/users/6.png"
-        }
+        "id": "motorcycle",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Astronaut-Looking-at-Earth.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
+        "originalAlt": "Мотоцикл готов к скорости",
+        "videoAlt": "Мотоцикл мчится со световым следом",
+        "prompt": "Мотоцикл мчится, а задний фонарь превращается в линию."
+      }
+    ]
+  },
+  "aiVideoShowcase": {
+    "title": "ИИ генерация текста в видео",
+    "description": "Визуализируйте любой текст с помощью нашего ИИ генератора видео",
+    "cta": "Попробовать Veo3 AI",
+    "examples": [
+      {
+        "id": "glass-strawberry",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
+        "alt": "Стеклянная клубника разбивается при нарезке",
+        "prompt": "Стеклянная клубника разбивается при нарезке ножом на деревянной доске."
+      },
+      {
+        "id": "anime-rose",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Anime-Rose-Blooming-Bridge.mp4",
+        "alt": "Роза в стиле аниме цветет с танцующими лепестками",
+        "prompt": "Роза в стиле аниме расцветает перед веревочным мостом, лепестки танцуют в воздухе."
+      },
+      {
+        "id": "monkey-seagull",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
+        "alt": "Обезьяна и чайка танцуют на пляже в лунном свете",
+        "prompt": "Обезьяна и чайка танцуют на пляже в лунном свете под звездным небом."
+      },
+      {
+        "id": "monarch-butterfly",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
+        "alt": "Бабочка-монарх машет крыльями на цветах",
+        "prompt": "Бабочка-монарх машет крыльями на разноцветных цветах в солнечном саду.",
+        "isNew": true
       }
     ]
   },
@@ -155,33 +201,55 @@
       }
     ]
   },
+  "cta": {
+    "name": "cta-generate",
+    "title": "Начните создавать видео с бесплатным Veo 3 AI",
+    "buttons": [
+      {
+        "title": "Попробовать Veo3 AI",
+        "url": "#video-generator",
+        "target": "_self",
+        "icon": "GoArrowUpRight"
+      }
+    ]
+  },
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "Veo3 AI",
-      "description": "Бесплатный генератор видео Veo 3 AI - Создавайте потрясающие профессиональные видео с передовой технологией ИИ. Превратите ваши идеи в кинематографические шедевры за минуты.",
+      "title": "Veo3",
+      "description": "Превратите ваши идеи в кинематографические шедевры за минуты.",
       "logo": {
         "src": "/logo.png",
-        "alt": "Veo3 AI"
+        "alt": "Veo3"
       },
       "url": "/"
     },
-    "copyright": " 2025 • Veo3 AI Все права защищены.",
+    "copyright": " 2025 • Veo3 Все права защищены.",
     "nav": {
       "items": [
         {
-          "title": "Продукты",
+          "title": "Инструменты для видео",
           "children": [
             {
-              "title": "Генерация",
-              "url": "/#video-generator",
+              "title": "Изображение в видео",
+              "url": "/image-to-video",
               "target": "_self"
             },
             {
-              "title": "История",
-              "url": "/history",
+              "title": "Текст в видео",
+              "url": "/text-to-video",
               "target": "_self"
             },
+            {
+              "title": "Мои творения",
+              "url": "/history",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "Цены",
+          "children": [
             {
               "title": "Цены",
               "url": "/pricing",
@@ -228,117 +296,6 @@
           "icon": "RiMapPinFill"
         }
       ]
-    }
-  },
-  "cta": [
-    {
-      "name": "cta-generate",
-      "title": "Начните создавать видео с бесплатным Veo 3 AI",
-      "buttons": [
-        {
-          "title": "Генерировать видео",
-          "url": "#video-generator",
-          "target": "_self",
-          "icon": "GoArrowUpRight"
-        }
-      ]
-    },
-    {
-      "name": "cta-features",
-      "title": "Изучите функции Veo 3 AI",
-      "description": "Продвинутая генерация видео и технология ИИ",
-      "buttons": [
-        {
-          "title": "Узнать больше",
-          "url": "#features",
-          "target": "_self"
-        }
-      ]
-    }
-  ],
-  "questionExamples": {
-    "title": "Идеи видео: ",
-    "examples": [
-      {
-        "text": "Создайте кинематографический дрон-кадр, пролетающий над футуристическим городом на закате с неоновыми огнями, отражающимися на стеклянных зданиях",
-        "label": "Кинематографический городской пейзаж",
-        "type": "single"
-      },
-      {
-        "text": "Сгенерируйте демонстрационное видео продукта, показывающее смартфон с плавными движениями камеры и профессиональным освещением",
-        "label": "Демо продукта",
-        "type": "single"
-      },
-      {
-        "text": "Сделайте анимированное объясняющее видео о возобновляемой энергии с яркой графикой и плавными переходами",
-        "label": "Образовательная анимация",
-        "type": "single"
-      },
-      {
-        "text": "Создайте видео в стиле документального фильма о природе леса с дикой природой, утренним туманом и освещением золотого часа",
-        "label": "Документальный фильм о природе",
-        "type": "single"
-      }
-    ]
-  },
-  "questionSuggestions": {
-    "disabled": true,
-    "categories": {
-      "all": "Все"
-    },
-    "questions": {
-      "marketing1": {
-        "text": "Создайте динамичное маркетинговое видео, демонстрирующее наш продукт с профессиональными движениями камеры и привлекательными визуальными эффектами",
-        "reading_type": "single",
-        "category": "marketing",
-        "tag": "new"
-      },
-      "social1": {
-        "text": "Сгенерируйте трендовое видео для социальных сетей с яркими цветами и плавными переходами, идеальное для Instagram и TikTok",
-        "reading_type": "single",
-        "category": "social",
-        "tag": "new"
-      },
-      "education1": {
-        "text": "Создайте образовательное видео, объясняющее сложные концепции с понятными анимациями и увлекательным визуальным повествованием",
-        "reading_type": "single",
-        "category": "education"
-      },
-      "creative1": {
-        "text": "Создайте художественное видео с абстрактными визуальными эффектами, креативными углами камеры и экспериментальными визуальными эффектами",
-        "reading_type": "single",
-        "category": "creative"
-      },
-      "business1": {
-        "text": "Сгенерируйте профессиональное видео бизнес-презентации с чистой графикой и корпоративным стилем",
-        "reading_type": "single",
-        "category": "business"
-      },
-      "entertainment1": {
-        "text": "Создайте развлекательное видео с динамичными экшн-сценами и кинематографическими элементами повествования",
-        "reading_type": "single",
-        "category": "entertainment"
-      },
-      "tutorial1": {
-        "text": "Создайте пошаговое обучающее видео с четкими демонстрациями и полезными визуальными руководствами",
-        "reading_type": "single",
-        "category": "tutorial"
-      },
-      "lifestyle1": {
-        "text": "Сгенерируйте видео о стиле жизни с красивой эстетикой, естественным освещением и вдохновляющими визуальными эффектами",
-        "reading_type": "single",
-        "category": "lifestyle"
-      },
-      "tech1": {
-        "text": "Создайте видео-витрину технологий с футуристическими элементами и элегантным визуальным дизайном",
-        "reading_type": "single",
-        "category": "technology"
-      },
-      "travel1": {
-        "text": "Сгенерируйте туристическое видео, захватывающее потрясающие пейзажи с кинематографическими движениями камеры и яркими цветами",
-        "reading_type": "single",
-        "category": "travel"
-      }
     }
   }
 }
