@@ -17,75 +17,15 @@
   ],
   "items": [
     {
-      "title": "Free Plan",
-      "features_title": "Including",
-      "features": [
-        "10 one-time credits upon registration",
-        "Up to 5 seconds per video",
-        "720p resolution output",
-        "Text-to-video generation",
-        "Basic video styles",
-        "Watermarked output"
-      ],
-      "interval": "one-time",
-      "amount": 0,
-      "currency": "USD",
-      "price": "Free",
-      "original_price": "",
-      "is_featured": false,
-      "discount_label": "",
-      "button": {
-        "title": "Get Started Free",
-        "url": "/#video-generator",
-        "icon": "RiPlayLine"
-      },
-      "product_id": "free-plan",
-      "product_name": "Veo3 AI Free",
-      "credits": 10,
-      "valid_months": 0,
-      "group": "monthly"
-    },
-    {
-      "title": "Free Plan",
-      "features_title": "Including",
-      "features": [
-        "10 one-time credits upon registration",
-        "Up to 5 seconds per video",
-        "720p resolution output",
-        "Text-to-video generation",
-        "Basic video styles",
-        "Watermarked output"
-      ],
-      "interval": "one-time",
-      "amount": 0,
-      "currency": "USD",
-      "price": "Free",
-      "original_price": "",
-      "is_featured": false,
-      "discount_label": "",
-      "button": {
-        "title": "Get Started Free",
-        "url": "/#video-generator",
-        "icon": "RiPlayLine"
-      },
-      "product_id": "free-plan",
-      "product_name": "Veo3 AI Free",
-      "credits": 10,
-      "valid_months": 0,
-      "group": "yearly"
-    },
-
-    {
       "title": "Mini Plan",
       "label": "",
       "features_title": "Including",
       "features": [
-        "200 monthly credits",
-        "Up to 10 seconds per video",
+        "<highlight>200</highlight> monthly credits",
+        "Up to <highlight>20</highlight> videos per month",
         "1080p resolution output",
-        "All generation modes",
-        "Custom video styles",
-        "Fast generation queue",
+        "Top-Quality Video Models",
+        "Image & Text-to-Video",
         "Commercial usage rights"
       ],
       "interval": "month",
@@ -109,15 +49,14 @@
     },
     {
       "title": "Mini Plan",
-      "label": "40% OFF",
+      "label": "",
       "features_title": "Including",
       "features": [
-        "2400 yearly credits (200/month)",
-        "Up to 10 seconds per video",
+        "<highlight>2400</highlight> yearly credits (<highlight>200</highlight>/month)",
+        "Up to <highlight>20</highlight> videos per month",
         "1080p resolution output",
-        "All generation modes",
-        "Custom video styles",
-        "Fast generation queue",
+        "Top-Quality Video Models",
+        "Image & Text-to-Video",
         "Commercial usage rights"
       ],
       "interval": "year",
@@ -142,14 +81,14 @@
     },
     {
       "title": "Standard Plan",
-      "label": "Popular",
+      "label": "POPULAR",
       "features_title": "Including",
       "features": [
-        "1000 monthly credits",
-        "Up to 10 seconds per video",
+        "<highlight>1000</highlight> monthly credits",
+        "Up to <highlight>100</highlight> videos per month",
         "1080p resolution output",
-        "All generation modes",
-        "Custom video styles",
+        "Top-Quality Video Models",
+        "Image & Text-to-Video",
         "Fast generation queue",
         "Commercial usage rights"
       ],
@@ -174,14 +113,14 @@
     },
     {
       "title": "Standard Plan",
-      "label": "40% OFF",
+      "label": "POPULAR",
       "features_title": "Including",
       "features": [
-        "12000 yearly credits (1000/month)",
-        "Up to 10 seconds per video",
+        "<highlight>12000</highlight> yearly credits (<highlight>1000</highlight>/month)",
+        "Up to <highlight>100</highlight> videos per month",
         "1080p resolution output",
-        "All generation modes",
-        "Custom video styles",
+        "Top-Quality Video Models",
+        "Image & Text-to-Video",
         "Fast generation queue",
         "Commercial usage rights"
       ],
@@ -204,6 +143,120 @@
       "credits": 12000,
       "valid_months": 12,
       "group": "yearly"
+    },
+    {
+      "title": "Plus Plan",
+      "label": "",
+      "features_title": "Including",
+      "features": [
+        "<highlight>3000</highlight> monthly credits",
+        "Up to <highlight>300</highlight> videos per month",
+        "1080p resolution output",
+        "Top-Quality Video Models",
+        "Image & Text-to-Video",
+        "Fast generation queue",
+        "Commercial usage rights",
+        "Priority Support"
+      ],
+      "interval": "month",
+      "amount": 9900,
+      "currency": "USD",
+      "price": "$99.00",
+      "original_price": "",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "Subscribe to Plus",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-monthly",
+      "product_name": "Veo3 AI Plus",
+      "credits": 3000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Plus Plan",
+      "label": "",
+      "features_title": "Including",
+      "features": [
+        "<highlight>36000</highlight> yearly credits (<highlight>3000</highlight>/month)",
+        "Up to <highlight>300</highlight> videos per month",
+        "1080p resolution output",
+        "Top-Quality Video Models",
+        "Image & Text-to-Video",
+        "Fast generation queue",
+        "Commercial usage rights",
+        "Priority Support"
+      ],
+      "interval": "year",
+      "amount": 72000,
+      "currency": "USD",
+      "price": "$60.00",
+      "original_price": "$99.00",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "40% OFF",
+      "tip": "Subscription at $720.00 yearly",
+      "button": {
+        "title": "Subscribe to Plus",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-yearly",
+      "product_name": "Veo3 AI Plus Yearly",
+      "credits": 36000,
+      "valid_months": 12,
+      "group": "yearly"
     }
-  ]
+  ],
+  "faq": {
+    "name": "faq",
+    "title": "Frequently Asked Questions",
+    "description": "Everything you need to know about our pricing and plans",
+    "items": [
+      {
+        "title": "What are credits and how do they work?",
+        "description": "Credits are the currency used for video generation. Each video generation consumes 10 credits. For example, with 200 credits, you can create up to 20 videos. Credits are automatically added to your account each month or year based on your subscription plan."
+      },
+      {
+        "title": "What happens to unused credits at the end of the month?",
+        "description": "Monthly credits do not roll over to the next month. We recommend using your credits within your billing cycle. For yearly plans, all credits are provided upfront and can be used throughout the year."
+      },
+      {
+        "title": "Can I upgrade or downgrade my plan anytime?",
+        "description": "Yes! You can upgrade your plan at any time and the changes will take effect immediately. When downgrading, the change will take effect at the start of your next billing cycle. Any unused credits from your current plan will be available until the end of your current billing period."
+      },
+      {
+        "title": "What payment methods do you accept?",
+        "description": "We accept all major credit and debit cards through our secure payment processor. For users in specific regions, we also support local payment methods including SberPay, YooMoney, and Mir Card for Russian users."
+      },
+      {
+        "title": "Is there a free trial available?",
+        "description": "New users receive 10 free credits upon registration to test our video generation capabilities. This allows you to create 1 video and experience the quality of our AI models before subscribing."
+      },
+      {
+        "title": "What's the difference between monthly and yearly billing?",
+        "description": "Yearly billing offers a 40% discount compared to monthly billing. With yearly plans, you pay upfront for the entire year and receive all your credits immediately. Monthly plans are billed every month with credits refreshing at each billing cycle."
+      },
+      {
+        "title": "Can I use the generated videos commercially?",
+        "description": "Yes! All our plans include full commercial usage rights for the videos you generate. You own the content you create and can use it for any purpose, including commercial projects, social media, marketing, and more."
+      },
+      {
+        "title": "What video quality and resolution do I get?",
+        "description": "All plans include 1080p HD resolution output, ensuring professional-quality videos suitable for any platform. We use top-tier AI models to generate high-quality, realistic videos that meet professional standards."
+      },
+      {
+        "title": "How long does video generation take?",
+        "description": "Video generation typically takes 2-5 minutes depending on the complexity and current queue. Standard and Plus plans include fast generation queue priority, which can reduce wait times during peak usage."
+      },
+      {
+        "title": "Can I cancel my subscription anytime?",
+        "description": "Yes, you can cancel your subscription at any time from your account settings. Your subscription will remain active until the end of your current billing period, and you'll retain access to your credits until then."
+      }
+    ]
+  }
 }

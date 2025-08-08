@@ -24,6 +24,7 @@ import {
   getAvailablePaymentMethods,
   PaymentMethodConfig,
 } from "@/lib/payment-methods";
+import HighlightFeature from "./highlight-feature";
 
 interface EnhancedPricingProps {
   pricing: PricingType;
@@ -37,7 +38,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   const { user, setShowSignModal } = useAppContext();
   const { location, loading: locationLoading, isRussia } = useGeolocation();
 
-  const [group, setGroup] = useState(pricing.groups?.[0]?.name);
+  const [group, setGroup] = useState("yearly");
   const [isLoading, setIsLoading] = useState(false);
   const [productId, setProductId] = useState<string | null>(null);
   const [availableMethods, setAvailableMethods] = useState<
@@ -339,18 +340,6 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     }
   };
 
-  useEffect(() => {
-    if (pricing.items) {
-      const yearlyGroup = pricing.groups?.find((g) => g.name === "yearly");
-      const defaultGroup = yearlyGroup
-        ? "yearly"
-        : pricing.items[0].group || pricing.groups?.[0]?.name;
-      setGroup(defaultGroup);
-      setProductId(pricing.items[0].product_id);
-      setIsLoading(false);
-    }
-  }, [pricing.items]);
-
   return (
     <>
       <section id={pricing.name} className="py-16">
@@ -378,7 +367,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                     return (
                       <div
                         key={i}
-                        className='h-full rounded-md transition-all has-[button[data-state="checked"]]:bg-white'
+                        className='h-full rounded-md transition-all has-[button[data-state="checked"]]:bg-white/80 dark:has-[button[data-state="checked"]]:bg-white'
                       >
                         <RadioGroupItem
                           value={item.name || ""}
@@ -390,10 +379,19 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                           className="flex h-full cursor-pointer items-center justify-center px-7 font-semibold text-muted-foreground peer-data-[state=checked]:text-primary"
                         >
                           {item.title}
-                          {item.label && (
+                          {/* 为yearly添加40%折扣标签 */}
+                          {item.name === "yearly" && (
                             <Badge
                               variant="outline"
-                              className="border-primary bg-primary px-1.5 ml-1 text-primary-foreground"
+                              className="border-primary bg-primary px-1.5 ml-2 text-primary-foreground"
+                            >
+                              40% OFF
+                            </Badge>
+                          )}
+                          {item.label && item.name !== "yearly" && (
+                            <Badge
+                              variant="outline"
+                              className="border-primary bg-primary px-1.5 ml-2 text-primary-foreground"
                             >
                               {item.label}
                             </Badge>
@@ -481,7 +479,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                   key={`feature-${fi}`}
                                 >
                                   <Check className="mt-1 size-4 shrink-0" />
-                                  {feature}
+                                  <HighlightFeature feature={feature} />
                                 </li>
                               );
                             })}

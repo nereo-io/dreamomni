@@ -68,6 +68,28 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     membershipType: "yearly",
     creem_product_id: "prod_2vcqiBEAa9Uxd9TuXTequq", // Creem 年付费产品ID（复用）
   },
+  {
+    product_id: "plus-monthly",
+    product_name: "Veo3 AI Plus",
+    amount: 9900,
+    currency: "USD",
+    credits: 3000,
+    interval: "month",
+    valid_months: 1,
+    membershipType: "monthly",
+    creem_product_id: "prod_1ZVFmSS2oXjvSRR2YX6azq", // Creem 月付费产品ID（待填写）
+  },
+  {
+    product_id: "plus-yearly",
+    product_name: "Veo3 AI Plus Yearly",
+    amount: 72000,
+    currency: "USD",
+    credits: 36000,
+    interval: "year",
+    valid_months: 12,
+    membershipType: "yearly",
+    creem_product_id: "prod_pZyGxqSgMeWwX51BkK9F9", // Creem 年付费产品ID（待填写）
+  },
 ];
 
 /**

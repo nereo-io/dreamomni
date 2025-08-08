@@ -2,6 +2,7 @@ import Pricing from "@/components/blocks/pricing";
 import { getPricingBlock } from "@/services/page";
 import { getTranslations } from "next-intl/server";
 import Crumb from "@/components/blocks/crumb";
+import FAQ from "@/components/blocks/faq";
 
 export async function generateMetadata({
   params: { locale },
@@ -42,7 +43,12 @@ export default async function PricingPage({
           ]}
         />
       </div>
-      {pricing && <Pricing pricing={pricing} />}
+      {pricing && (
+        <>
+          <Pricing pricing={pricing} />
+          {pricing.faq && <FAQ section={pricing.faq} />}
+        </>
+      )}
     </>
   );
 }

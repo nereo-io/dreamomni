@@ -1,4 +1,5 @@
 import { Button } from "@/types/blocks/base/button";
+import { Section } from "@/types/blocks/section";
 
 export interface PricingGroup {
   name?: string;
@@ -38,4 +39,5 @@ export interface Pricing {
   description?: string;
   items?: PricingItem[];
   groups?: PricingGroup[];
+  faq?: Section;
 }
