@@ -1,4 +1,3 @@
-import { useTranslations } from "next-intl";
 import { RainbowButton } from "@/components/ui/rainbow-button";
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
@@ -22,17 +21,17 @@ export function SectionHeader({
   centerAlign = true,
   className = "",
 }: SectionHeaderProps) {
-  const t = useTranslations("components.sectionHeader");
-
   return (
     <div className={`${centerAlign ? "text-center" : ""} ${className}`}>
-      <h2 className="text-3xl md:text-5xl font-bold mb-4 text-foreground">
-        {title || t("defaultTitle")}
-      </h2>
+      {title && (
+        <h2 className="text-3xl md:text-5xl font-bold mb-4 text-foreground">
+          {title}
+        </h2>
+      )}
 
       {description && (
         <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-          {description || t("defaultDescription")}
+          {description}
         </p>
       )}
 
