@@ -96,10 +96,6 @@ const config = {
             height: "0",
           },
         },
-        shimmer: {
-          "0%": { transform: "translateX(-100%)" },
-          "100%": { transform: "translateX(100%)" },
-        },
         "border-beam": {
           "100%": {
             "offset-distance": "100%",
@@ -149,14 +145,6 @@ const config = {
           "100%": {
             transform: "rotate(215deg) translateX(-500px)",
             opacity: "0",
-          },
-        },
-        shimmer: {
-          "0%, 90%, 100%": {
-            "background-position": "calc(-100% - var(--shimmer-width)) 0",
-          },
-          "30%, 60%": {
-            "background-position": "calc(100% + var(--shimmer-width)) 0",
           },
         },
         marquee: {
