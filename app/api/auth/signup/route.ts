@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { respJson, respErr } from "@/lib/resp";
 import { signUpWithEmail } from "@/services/supabase-auth";
+import { yandexTracking } from "@/services/analytics/yandex-tracking";
 import { z } from "zod";
 
 const signupSchema = z.object({

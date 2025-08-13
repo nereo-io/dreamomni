@@ -27,6 +27,7 @@ import {
 } from "@/lib/payment-methods";
 import { useTranslations } from "next-intl";
 import HighlightFeature from "./highlight-feature";
+import { useYandexTracking } from "@/hooks/useYandexTracking";
 
 interface PricingModalProps {
   isOpen: boolean;
@@ -42,6 +43,7 @@ export default function PricingModal({
   const { user, setShowSignModal } = useAppContext();
   const { location, loading: locationLoading, isRussia } = useGeolocation();
   const t = useTranslations("pricing_modal");
+  const { trackPricingView, trackCheckoutStart } = useYandexTracking();
 
   const [group, setGroup] = useState(pricing.groups?.[0]?.name);
   const [isLoading, setIsLoading] = useState(false);
@@ -101,6 +103,13 @@ export default function PricingModal({
       }
     }
   }, [locationLoading, isRussia]);
+
+  // Track pricing view when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      trackPricingView();
+    }
+  }, [isOpen, trackPricingView]);
 
   // 检测支付成功状态
   useEffect(() => {
@@ -172,6 +181,10 @@ export default function PricingModal({
         toast.error(t("please_select_payment"));
         return;
       }
+
+      // Track checkout start
+      const amount = cn_pay ? item.cn_amount : item.amount;
+      trackCheckoutStart(item.product_name || item.product_id, amount || 0);
 
       await processPayment(item, cn_pay);
     } catch (e) {

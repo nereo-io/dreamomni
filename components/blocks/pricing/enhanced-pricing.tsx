@@ -25,6 +25,7 @@ import {
   PaymentMethodConfig,
 } from "@/lib/payment-methods";
 import HighlightFeature from "./highlight-feature";
+import { useYandexTracking } from "@/hooks/useYandexTracking";
 
 interface EnhancedPricingProps {
   pricing: PricingType;
@@ -37,6 +38,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
   const { user, setShowSignModal } = useAppContext();
   const { location, loading: locationLoading, isRussia } = useGeolocation();
+  const { trackPricingView, trackCheckoutStart } = useYandexTracking();
 
   const [group, setGroup] = useState("yearly");
   const [isLoading, setIsLoading] = useState(false);
@@ -100,6 +102,11 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       }
     }
   }, [locationLoading, isRussia]);
+
+  // Track pricing view when component mounts
+  useEffect(() => {
+    trackPricingView();
+  }, []);
 
   // 检测支付成功状态
   useEffect(() => {
@@ -180,6 +187,10 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         toast.error("Пожалуйста, выберите способ оплаты");
         return;
       }
+
+      // Track checkout start
+      const amount = cn_pay ? item.cn_amount : item.amount;
+      trackCheckoutStart(item.product_name || item.product_id, amount || 0);
 
       await processPayment(item, cn_pay);
     } catch (e) {

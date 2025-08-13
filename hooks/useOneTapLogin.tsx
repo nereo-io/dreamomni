@@ -4,9 +4,11 @@ import googleOneTap from "google-one-tap";
 import { signIn } from "next-auth/react";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { useYandexTracking } from "@/hooks/useYandexTracking";
 
 export default function () {
   const { data: session, status } = useSession();
+  const { trackSignup } = useYandexTracking();
 
   const oneTapLogin = async function () {
     const options = {
@@ -30,6 +32,11 @@ export default function () {
       redirect: false,
     });
     console.log("signIn ok", res);
+    
+    // Track Google One-Tap signup
+    if (res?.ok) {
+      trackSignup("google-one-tap");
+    }
   };
 
   useEffect(() => {

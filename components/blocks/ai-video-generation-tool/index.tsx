@@ -6,6 +6,7 @@ import VideoGenerator from "../video-generator";
 import VideoHistory from "../video-history";
 import useVideoGeneration from "@/hooks/useVideoGeneration";
 import type { VideoGenerationParams } from "../video-generator";
+import { useYandexTracking } from "@/hooks/useYandexTracking";
 
 interface VideoGenerationToolProps {
   mode: "text-to-video" | "image-to-video";
@@ -19,6 +20,7 @@ export function VideoGenerationTool({
   descriptionPlaceholder,
 }: VideoGenerationToolProps) {
   const { submitGeneration, pollStatus } = useVideoGeneration();
+  const { trackVideoGeneration } = useYandexTracking();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationTrigger, setGenerationTrigger] = useState(0);
   const [currentSelectedModel, setCurrentSelectedModel] = useState<string>("");
@@ -39,6 +41,10 @@ export function VideoGenerationTool({
     });
 
     if (result) {
+      // Track video generation success
+      const duration = parseInt(params.duration) || 5;
+      trackVideoGeneration(params.model, duration, params.model);
+      
       // 开始轮询状态
       pollStatus(result.id);
 

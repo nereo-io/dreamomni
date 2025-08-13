@@ -20,6 +20,7 @@ import { useForm } from "react-hook-form";
 import { useEmailAuth } from "@/hooks/useEmailAuth";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useSearchParams } from "next/navigation";
+import { useYandexTracking } from "@/hooks/useYandexTracking";
 
 interface EmailFormData {
   email: string;
@@ -34,6 +35,7 @@ export default function SignForm({
   const t = useTranslations();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || undefined;
+  const { trackSignup } = useYandexTracking();
 
   const [mode, setMode] = useState<"signin" | "signup" | "forgot">("signin");
   const [showEmailAuth, setShowEmailAuth] = useState(false);
@@ -76,6 +78,9 @@ export default function SignForm({
     } else if (mode === "signup") {
       const result = await signup(data);
       if (result) {
+        // Track successful signup
+        trackSignup("email", result.user?.id);
+        
         if (result.requiresVerification) {
           // 注册成功需要验证时，显示验证提示
           setPendingVerificationEmail(data.email);
@@ -205,7 +210,13 @@ export default function SignForm({
                     <Button
                       variant="outline"
                       className="w-full"
-                      onClick={() => signIn("google")}
+                      onClick={() => {
+                        signIn("google");
+                        // Track Google signup/signin attempt
+                        if (mode === "signup") {
+                          trackSignup("google");
+                        }
+                      }}
                     >
                       <SiGoogle className="w-4 h-4" />
                       {t("sign_modal.google_sign_in")}
@@ -215,7 +226,13 @@ export default function SignForm({
                     <Button
                       variant="outline"
                       className="w-full"
-                      onClick={() => signIn("github")}
+                      onClick={() => {
+                        signIn("github");
+                        // Track GitHub signup/signin attempt
+                        if (mode === "signup") {
+                          trackSignup("github");
+                        }
+                      }}
                     >
                       <SiGithub className="w-4 h-4" />
                       {t("sign_modal.github_sign_in")}
@@ -225,7 +242,13 @@ export default function SignForm({
                     <Button
                       variant="outline"
                       className="w-full"
-                      onClick={() => signIn("apple")}
+                      onClick={() => {
+                        signIn("apple");
+                        // Track Apple signup/signin attempt
+                        if (mode === "signup") {
+                          trackSignup("apple");
+                        }
+                      }}
                     >
                       <SiApple className="w-4 h-4" />
                       {t("sign_modal.apple_sign_in")}
