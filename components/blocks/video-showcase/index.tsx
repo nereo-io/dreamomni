@@ -60,10 +60,10 @@ export default function VideoShowcase({ onSelectVideo }: VideoShowcaseProps) {
     if (scrollContainerRef.current) {
       const scrollAmount = 192; // Card width (180px) + gap (12px)
       const currentScroll = scrollContainerRef.current.scrollLeft;
-      const targetScroll = direction === "left" 
-        ? currentScroll - scrollAmount 
+      const targetScroll = direction === "left"
+        ? currentScroll - scrollAmount
         : currentScroll + scrollAmount;
-      
+
       scrollContainerRef.current.scrollTo({
         left: targetScroll,
         behavior: "smooth"
@@ -88,12 +88,12 @@ export default function VideoShowcase({ onSelectVideo }: VideoShowcaseProps) {
         </div>
 
         {/* Video Container - Flexible with aspect ratio maintained */}
-        <div className="flex-1 min-h-0 relative bg-black flex items-center justify-center">
-          <div className="relative w-full h-full flex items-center justify-center">
+        <div className="flex-1 min-h-0 relative flex items-center justify-center p-4">
+          <div className="relative w-full max-w-full bg-black" style={{ aspectRatio: '16/9' }}>
             <video
               ref={videoRef}
               src={selectedVideo.videoUrl}
-              className="max-w-full max-h-full w-auto h-auto object-contain"
+              className="w-full h-full object-cover rounded-lg"
               autoPlay
               loop
               muted
@@ -105,7 +105,7 @@ export default function VideoShowcase({ onSelectVideo }: VideoShowcaseProps) {
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
               {/* Progress Bar */}
               <div className="w-full h-1 bg-gray-700 rounded-full mb-3">
-                <div 
+                <div
                   className="h-full bg-white rounded-full transition-all duration-300"
                   style={{ width: `${(currentTime / selectedVideo.duration) * 100}%` }}
                 />
@@ -162,7 +162,7 @@ export default function VideoShowcase({ onSelectVideo }: VideoShowcaseProps) {
           </button>
 
           {/* Cards Container */}
-          <div 
+          <div
             ref={scrollContainerRef}
             className="flex gap-3 overflow-x-auto scrollbar-hide px-6"
             style={{ scrollSnapType: "x mandatory" }}

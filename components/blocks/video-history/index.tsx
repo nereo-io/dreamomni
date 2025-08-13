@@ -25,6 +25,9 @@ interface VideoHistoryProps {
   selectedModel?: string;
   mode?: "text-to-video" | "image-to-video";
   onSelectShowcaseVideo?: (prompt: string, aspectRatio: string, duration: number) => void;
+  // New props for edit/regenerate functionality
+  onEditVideo?: (generation: VideoGenerationResult) => void;
+  onRegenerateVideo?: (generation: VideoGenerationResult) => void;
 }
 
 
@@ -34,6 +37,8 @@ export default function VideoHistory({
   selectedModel,
   mode,
   onSelectShowcaseVideo,
+  onEditVideo,
+  onRegenerateVideo,
 }: VideoHistoryProps) {
   const t = useTranslations("video-result");
   const { fetchHistory, history, isLoadingHistory, setHistory } = useVideoGeneration();
@@ -235,7 +240,7 @@ export default function VideoHistory({
     return (
       <div
         className={cn(
-          "bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
+          "bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto xl:overflow-hidden xl:h-[calc(100vh-90px)] xl:max-h-[calc(100vh-90px)]",
           className
         )}
       >
@@ -248,7 +253,7 @@ export default function VideoHistory({
         </header>
 
         {/* Showcase Content - No overflow, full height */}
-        <div className="lg:flex-1 lg:min-h-0 p-4 md:p-6">
+        <div className="xl:flex-1 xl:min-h-0 p-4 md:p-6">
           <VideoShowcase onSelectVideo={handleShowcaseVideoSelect} />
         </div>
       </div>
@@ -259,7 +264,7 @@ export default function VideoHistory({
     <div
       ref={containerRef}
       className={cn(
-        "bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
+        "bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto xl:overflow-hidden xl:h-[calc(100vh-90px)] xl:max-h-[calc(100vh-90px)]",
         className
       )}
     >
@@ -296,7 +301,7 @@ export default function VideoHistory({
         </div>
       ) : (
         <div
-          className="lg:flex-1 lg:overflow-y-auto video-history-scroll lg:dark-scrollbar"
+          className="xl:flex-1 xl:overflow-y-auto video-history-scroll xl:dark-scrollbar"
         >
           <div className="divide-y divide-gray-700">
             {/* 如果显示的是示例视频，添加提示 */}
@@ -323,6 +328,9 @@ export default function VideoHistory({
                 onDownload={handleDownload}
                 isExample={!user?.uuid || history.length === 0}
                 isClient={isClient}
+                onEdit={onEditVideo}
+                onRegenerate={onRegenerateVideo}
+                canEdit={!!user?.uuid && history.length > 0} // Only for logged-in users with real videos
               />
             ))}
           </div>

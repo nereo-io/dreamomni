@@ -3,6 +3,8 @@ import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import VideoPlayer from "./VideoPlayer";
 import VideoGenerationStatus from "./VideoGenerationStatus";
+import VideoActionButtons from "./VideoActionButtons";
+import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 
 interface VideoStatusDisplayProps {
   status: string;
@@ -19,6 +21,11 @@ interface VideoStatusDisplayProps {
   estimatedTime?: number;
   modelName?: string;
   imageUrl?: string;
+  // New props for edit/regenerate functionality
+  generation?: VideoGenerationResult;
+  onEdit?: (generation: VideoGenerationResult) => void;
+  onRegenerate?: (generation: VideoGenerationResult) => void;
+  canEdit?: boolean;
 }
 
 const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
@@ -31,7 +38,11 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
   createdAt,
   estimatedTime,
   modelName,
-  imageUrl
+  imageUrl,
+  generation,
+  onEdit,
+  onRegenerate,
+  canEdit = false
 }) => {
   const isCompleted = status === "COMPLETED" || status === "SAVED_TO_R2";
   const isFailed = status === "FAILED";
@@ -42,13 +53,24 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
       {/* Video display area */}
       <div className="w-full mt-4">
         {isCompleted && videoUrl ? (
-          <div className="h-56 sm:h-64 md:h-72 lg:h-80 xl:h-96 rounded-lg overflow-hidden relative group">
-            <VideoPlayer 
-              videoUrl={videoUrl} 
-              onDownload={onDownload} 
-              canDownload={canDownload} 
-            />
-          </div>
+          <>
+            <div className="h-56 sm:h-64 md:h-72 lg:h-80 xl:h-96 rounded-lg overflow-hidden relative group">
+              <VideoPlayer 
+                videoUrl={videoUrl} 
+                onDownload={onDownload} 
+                canDownload={canDownload} 
+              />
+            </div>
+            {/* Action buttons for completed videos */}
+            {canEdit && generation && onEdit && onRegenerate && (
+              <VideoActionButtons
+                generation={generation}
+                onEdit={onEdit}
+                onRegenerate={onRegenerate}
+                canEdit={canDownload} // Use canDownload as indicator for non-example videos
+              />
+            )}
+          </>
         ) : isProcessing && createdAt ? (
           <VideoGenerationStatus
             status={status}

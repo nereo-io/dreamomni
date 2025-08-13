@@ -23,6 +23,7 @@ import {
   calculateCredits,
   getVideoModel,
 } from "@/config/video-models";
+import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 
 // 生成参数接口
 export interface VideoGenerationParams {
@@ -52,6 +53,8 @@ interface VideoGeneratorProps {
     duration: number;
   } | null;
   onShowcaseVideoParamsUsed?: () => void;
+  editVideoData?: VideoGenerationResult | null;
+  onEditVideoDataUsed?: () => void;
 }
 
 type VideoAspectRatio = "16:9" | "9:16" | "1:1";
@@ -67,6 +70,8 @@ export default function VideoGenerator({
   onModelChange,
   showcaseVideoParams,
   onShowcaseVideoParamsUsed,
+  editVideoData,
+  onEditVideoDataUsed,
 }: VideoGeneratorProps) {
   const t = useTranslations("video-generator");
 
@@ -123,6 +128,34 @@ export default function VideoGenerator({
       }
     }
   }, [showcaseVideoParams, onShowcaseVideoParamsUsed]);
+
+  // Populate form fields when edit video data is provided
+  useEffect(() => {
+    if (editVideoData) {
+      setDescription(editVideoData.prompt);
+      setSelectedModel(editVideoData.model_id);
+      setSelectedRatio(editVideoData.aspect_ratio || "16:9");
+      setSelectedDuration(`${editVideoData.duration_seconds || 5}s`);
+      
+      // If it's image-to-video mode and has image_url, set the image
+      if (mode === "image-to-video" && editVideoData.image_url) {
+        setSelectedImage(editVideoData.image_url);
+        setImagePreview(editVideoData.image_url);
+        setUploadedImageUrl(editVideoData.image_url);
+      }
+      
+      // Focus on the description textarea
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+        textareaRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      
+      // Notify parent that edit data has been used
+      if (onEditVideoDataUsed) {
+        onEditVideoDataUsed();
+      }
+    }
+  }, [editVideoData, onEditVideoDataUsed, mode]);
 
   // 监听 isGenerating 变化，当生成完成时更新积分
   useEffect(() => {

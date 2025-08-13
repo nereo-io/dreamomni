@@ -18,6 +18,10 @@ interface VideoHistoryItemProps {
   onDownload: (url: string) => void;
   isExample?: boolean;
   isClient: boolean;
+  // New props for edit/regenerate functionality
+  onEdit?: (generation: VideoGenerationResult) => void;
+  onRegenerate?: (generation: VideoGenerationResult) => void;
+  canEdit?: boolean;
 }
 
 const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(({
@@ -27,7 +31,10 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(({
   onToggleExpanded,
   onDownload,
   isExample = false,
-  isClient
+  isClient,
+  onEdit,
+  onRegenerate,
+  canEdit = false
 }) => {
   // Get video URL from various sources
   const getVideoUrl = (gen: VideoGenerationResult) => {
@@ -128,6 +135,10 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(({
         estimatedTime={modelConfig?.estimatedGenerationTime}
         modelName={modelConfig?.displayName}
         imageUrl={generation.image_url}
+        generation={generation}
+        onEdit={onEdit}
+        onRegenerate={onRegenerate}
+        canEdit={canEdit && !isExample}
       />
     </div>
   );

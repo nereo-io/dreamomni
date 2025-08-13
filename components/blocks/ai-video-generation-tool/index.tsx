@@ -6,6 +6,8 @@ import VideoGenerator from "../video-generator";
 import VideoHistory from "../video-history";
 import useVideoGeneration from "@/hooks/useVideoGeneration";
 import type { VideoGenerationParams } from "../video-generator";
+import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
+import { toast } from "sonner";
 
 interface VideoGenerationToolProps {
   mode: "text-to-video" | "image-to-video";
@@ -27,10 +29,57 @@ export function VideoGenerationTool({
     aspectRatio: string;
     duration: number;
   } | null>(null);
+  const [editVideoData, setEditVideoData] = useState<VideoGenerationResult | null>(null);
 
   // Handle showcase video selection
   const handleShowcaseVideoSelect = (prompt: string, aspectRatio: string, duration: number) => {
     setShowcaseVideoParams({ prompt, aspectRatio, duration });
+  };
+
+  // Handle edit video - populate form with existing video data
+  const handleEditVideo = (generation: VideoGenerationResult) => {
+    setEditVideoData(generation);
+    toast.success("Video data loaded for editing");
+  };
+
+  // Handle regenerate video - submit with existing parameters
+  const handleRegenerateVideo = async (generation: VideoGenerationResult) => {
+    setIsGenerating(true);
+    
+    try {
+      const params: VideoGenerationParams = {
+        model: generation.model_id,
+        prompt: generation.prompt,
+        duration: generation.duration_seconds?.toString() || "5",
+        aspect_ratio: generation.aspect_ratio || "16:9",
+        resolution: "480p", // Default resolution, could be extracted if stored
+        generate_audio: true, // Default value, could be extracted if stored
+        enable_prompt_enhancement: !!generation.optimized_prompt,
+        image_url: generation.image_url,
+      };
+
+      const result = await submitGeneration(params);
+
+      if (result) {
+        // Start polling for the new video
+        pollStatus(result.id);
+        
+        // Trigger history refresh
+        setTimeout(() => {
+          setGenerationTrigger((prev) => prev + 1);
+          setIsGenerating(false);
+        }, 2000);
+
+        toast.success("Video regeneration started");
+      } else {
+        setIsGenerating(false);
+        toast.error("Failed to regenerate video");
+      }
+    } catch (error) {
+      console.error("Regeneration error:", error);
+      setIsGenerating(false);
+      toast.error("Failed to regenerate video");
+    }
   };
 
   // 处理视频生成
@@ -63,7 +112,7 @@ export function VideoGenerationTool({
   };
 
   return (
-    <div className="w-full mb-6 sm:mb-8 lg:mb-10" style={{ height: "calc(100vh - 120px)" }}>
+    <div className="w-full mb-6 sm:mb-8 lg:mb-10 lg:h-[calc(100vh-120px)]">
       <div className="flex flex-col lg:flex-row gap-4 h-full">
         <VideoGenerator
           mode={mode}
@@ -74,6 +123,8 @@ export function VideoGenerationTool({
           onModelChange={setCurrentSelectedModel}
           showcaseVideoParams={showcaseVideoParams}
           onShowcaseVideoParamsUsed={() => setShowcaseVideoParams(null)}
+          editVideoData={editVideoData}
+          onEditVideoDataUsed={() => setEditVideoData(null)}
         />
 
         <VideoHistory
@@ -81,6 +132,8 @@ export function VideoGenerationTool({
           selectedModel={currentSelectedModel}
           mode={mode}
           onSelectShowcaseVideo={handleShowcaseVideoSelect}
+          onEditVideo={handleEditVideo}
+          onRegenerateVideo={handleRegenerateVideo}
         />
       </div>
     </div>
