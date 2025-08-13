@@ -235,24 +235,20 @@ export default function VideoHistory({
     return (
       <div
         className={cn(
-          "bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col flex-1",
+          "bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
           className
         )}
-        style={{
-          height: "calc(100vh - 120px)",
-          maxHeight: "calc(100vh - 120px)",
-        }}
       >
         {/* Header */}
-        <header className="py-3 px-5 flex justify-between items-center border-b border-gray-700">
-          <div className="text-xl font-semibold flex items-center text-white">
-            <Sparkles className="h-5 w-5 mr-3" />
-            Explore Examples
+        <header className="py-3 px-4 md:px-5 flex justify-between items-center border-b border-gray-700">
+          <div className="text-lg md:text-xl font-semibold flex items-center text-white">
+            <Sparkles className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3" />
+            <span className="truncate">Explore Examples</span>
           </div>
         </header>
 
         {/* Showcase Content - No overflow, full height */}
-        <div className="flex-1 min-h-0 p-6">
+        <div className="lg:flex-1 lg:min-h-0 p-4 md:p-6">
           <VideoShowcase onSelectVideo={handleShowcaseVideoSelect} />
         </div>
       </div>
@@ -263,19 +259,15 @@ export default function VideoHistory({
     <div
       ref={containerRef}
       className={cn(
-        "bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col flex-1",
+        "bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
         className
       )}
-      style={{
-        height: "calc(100vh - 120px)",
-        maxHeight: "calc(100vh - 120px)",
-      }}
     >
       {/* Header */}
-      <header className="py-3 px-5 flex justify-between items-center border-b border-gray-700">
-        <div className="text-xl font-semibold flex items-center text-white">
-          <History className="h-5 w-5 mr-3" />
-          Recent Generations
+      <header className="py-3 px-4 md:px-5 flex justify-between items-center border-b border-gray-700">
+        <div className="text-lg md:text-xl font-semibold flex items-center text-white min-w-0">
+          <History className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3 flex-shrink-0" />
+          <span className="truncate">Recent Generations</span>
         </div>
         <Button
           variant="ghost"
@@ -304,7 +296,7 @@ export default function VideoHistory({
         </div>
       ) : (
         <div
-          className="flex-1 overflow-y-auto video-history-scroll dark-scrollbar"
+          className="lg:flex-1 lg:overflow-y-auto video-history-scroll lg:dark-scrollbar"
         >
           <div className="divide-y divide-gray-700">
             {/* 如果显示的是示例视频，添加提示 */}

@@ -110,13 +110,13 @@ export default function VideoGenerator({
       setDescription(showcaseVideoParams.prompt);
       setSelectedRatio(showcaseVideoParams.aspectRatio);
       setSelectedDuration(`${showcaseVideoParams.duration}s`);
-      
+
       // Focus on the description textarea
       if (textareaRef.current) {
         textareaRef.current.focus();
         textareaRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-      
+
       // Notify parent that params have been used
       if (onShowcaseVideoParamsUsed) {
         onShowcaseVideoParamsUsed();
@@ -477,351 +477,341 @@ export default function VideoGenerator({
   };
 
   return (
-    <div className="bg-gray-900 rounded-2xl shadow-lg video-generator-container flex flex-col flex-shrink-0" 
-         style={{ 
-           width: "480px",
-           height: "calc(100vh - 120px)", 
-           maxHeight: "calc(100vh - 120px)" 
-         }}>
+    <div className="bg-gray-900 rounded-2xl shadow-lg video-generator-container flex flex-col flex-shrink-0 w-full lg:w-[480px] lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]">
       {/* Scrollable content area */}
-      <div className="flex-1 overflow-y-auto dark-scrollbar">
-        <div className="space-y-5 px-6 py-5">
-        {/* Header Title */}
-        <div className="border-b border-gray-700 pb-3">
-          <h2 className="text-white text-xl font-semibold">
-            {mode === "image-to-video" ? "Image to Video" : "Text to Video"}
-          </h2>
-        </div>
-
-        {/* Description Input */}
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <div className="text-white text-lg font-semibold">
-              {finalDescriptionLabel}
-            </div>
-            {/* Prompt Enhancement Toggle */}
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-400">Prompt Enhancement</span>
-              <Switch
-                checked={enablePromptEnhancement}
-                onCheckedChange={setEnablePromptEnhancement}
-                className="data-[state=checked]:bg-primary scale-75"
-              />
-            </div>
+      <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
+        <div className="space-y-4 md:space-y-5 px-4 md:px-6 py-4 md:py-5">
+          {/* Header Title */}
+          <div className="border-b border-gray-700 pb-3">
+            <h2 className="text-white text-xl font-semibold">
+              {mode === "image-to-video" ? "Image to Video" : "Text to Video"}
+            </h2>
           </div>
-          <Textarea
-            ref={textareaRef}
-            value={description}
-            onChange={handleDescriptionChange}
-            placeholder={descriptionPlaceholder}
-            className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
-            style={{ minHeight: "150px", maxHeight: "300px" }}
-            disabled={isGenerating}
-          />
-        </div>
 
-        {/* Image Upload Section (for image-to-video mode) */}
-        {mode === "image-to-video" && (
+          {/* Description Input */}
           <div>
-            <div className="text-white text-lg font-semibold mb-4">
-              {t("uploadImage")}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-2 mb-4">
+              <div className="text-white text-lg font-semibold">
+                {finalDescriptionLabel}
+              </div>
+              {/* Prompt Enhancement Toggle */}
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <span className="text-xs text-gray-400 whitespace-nowrap">Prompt Enhancement</span>
+                <Switch
+                  checked={enablePromptEnhancement}
+                  onCheckedChange={setEnablePromptEnhancement}
+                  className="data-[state=checked]:bg-primary scale-75"
+                />
+              </div>
             </div>
-            {!imagePreview ? (
-              <div
-                className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
-                  isUploadingImage
+            <Textarea
+              ref={textareaRef}
+              value={description}
+              onChange={handleDescriptionChange}
+              placeholder={descriptionPlaceholder}
+              className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
+              style={{ minHeight: "150px", maxHeight: "300px" }}
+              disabled={isGenerating}
+            />
+          </div>
+
+          {/* Image Upload Section (for image-to-video mode) */}
+          {mode === "image-to-video" && (
+            <div>
+              <div className="text-white text-lg font-semibold mb-4">
+                {t("uploadImage")}
+              </div>
+              {!imagePreview ? (
+                <div
+                  className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${isUploadingImage
                     ? "cursor-not-allowed opacity-50"
                     : "cursor-pointer"
-                } ${
-                  isDragOver
-                    ? "border-blue-400 bg-blue-900/50"
-                    : "border-gray-600 hover:border-gray-500"
-                }`}
-                onDragOver={!isUploadingImage ? handleDragOver : undefined}
-                onDragLeave={!isUploadingImage ? handleDragLeave : undefined}
-                onDrop={!isUploadingImage ? handleDrop : undefined}
-                onClick={() => !isUploadingImage && document.getElementById("image-upload")?.click()}
-              >
-                <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                <div className="space-y-2">
-                  <p className="text-sm text-gray-300">
-                    {t("dragAndDropImage")}
-                  </p>
-                  <p className="text-xs text-gray-400">
-                    {t("supportedFormats")}
-                  </p>
-                </div>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileInputChange}
-                  className="hidden"
-                  id="image-upload"
-                />
-              </div>
-            ) : (
-              <div className="relative">
-                <img
-                  src={imagePreview}
-                  alt="Uploaded"
-                  className="w-full h-32 object-contain rounded-lg bg-gray-800"
-                />
-                {!isUploadingImage && (
-                  <button
-                    onClick={removeImage}
-                    className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                )}
-                {isUploadingImage && (
-                  <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
-                    <div className="flex flex-col items-center gap-2">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                      <span className="text-white text-sm">Uploading...</span>
-                    </div>
+                    } ${isDragOver
+                      ? "border-blue-400 bg-blue-900/50"
+                      : "border-gray-600 hover:border-gray-500"
+                    }`}
+                  onDragOver={!isUploadingImage ? handleDragOver : undefined}
+                  onDragLeave={!isUploadingImage ? handleDragLeave : undefined}
+                  onDrop={!isUploadingImage ? handleDrop : undefined}
+                  onClick={() => !isUploadingImage && document.getElementById("image-upload")?.click()}
+                >
+                  <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                  <div className="space-y-2">
+                    <p className="text-sm text-gray-300 px-2 text-center">
+                      {t("dragAndDropImage")}
+                    </p>
+                    <p className="text-xs text-gray-400 px-2 text-center">
+                      {t("supportedFormats")}
+                    </p>
                   </div>
-                )}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Video Settings */}
-        <div>
-          <div className="text-white text-lg font-semibold mb-4">
-            {t("videoSettings")}
-          </div>
-
-          {/* Video Model Selection */}
-          <div className="mb-4">
-            <label className="text-gray-300 text-sm mb-2 block">
-              {t("videoModel")}
-            </label>
-            <Select
-              value={selectedModel}
-              onValueChange={(value) => {
-                setSelectedModel(value);
-                onModelChange?.(value);
-              }}
-            >
-              <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
-                <SelectValue placeholder={t("selectModel")}>
-                  {selectedModelConfig && (
-                    <div className="flex items-center gap-2">
-                      <img
-                        src={
-                          selectedModelConfig.id.includes("kling")
-                            ? "/imgs/intro/kling.svg"
-                            : selectedModelConfig.id.includes("veo")
-                            ? "/imgs/intro/veo.svg"
-                            : selectedModelConfig.id.includes("wan") || selectedModelConfig.id.includes("ali")
-                            ? "/imgs/intro/wan.png"
-                            : "/imgs/intro/seedance.png"
-                        }
-                        alt={selectedModelConfig.provider}
-                        className="w-4 h-4 flex-shrink-0"
-                      />
-                      <span className="font-medium">
-                        {selectedModelConfig.displayName}
-                      </span>
-                    </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileInputChange}
+                    className="hidden"
+                    id="image-upload"
+                  />
+                </div>
+              ) : (
+                <div className="relative">
+                  <img
+                    src={imagePreview}
+                    alt="Uploaded"
+                    className="w-full h-32 object-contain rounded-lg bg-gray-800"
+                  />
+                  {!isUploadingImage && (
+                    <button
+                      onClick={removeImage}
+                      className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
                   )}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent>
-                {availableModels.map((model) => (
-                  <SelectItem key={model.id} value={model.id}>
-                    <div className="flex items-start gap-3 w-full py-1">
-                      <img
-                        src={
-                          model.id.includes("kling")
-                            ? "/imgs/intro/kling.svg"
-                            : model.id.includes("veo")
-                            ? "/imgs/intro/veo.svg"
-                            : model.id.includes("wan") || model.id.includes("ali")
-                            ? "/imgs/intro/wan.png"
-                            : "/imgs/intro/seedance.png"
-                        }
-                        alt={model.provider}
-                        className="w-5 h-5 flex-shrink-0 mt-0.5"
-                      />
-                      <div className="flex flex-col flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-medium text-gray-100">
-                            {model.displayName}
-                          </span>
-                          <div className="flex items-center gap-1 text-xs text-blue-300">
-                            <Coins className="h-3 w-3" />
-                            {model.perSecondCredits}/s
-                          </div>
-                        </div>
-                        <span className="text-xs text-gray-400 mb-1 line-clamp-2">
-                          {model.description}
-                        </span>
-                        {model.features && (
-                          <div className="flex flex-wrap gap-1">
-                            {model.features.map((feature, index) => (
-                              <span
-                                key={index}
-                                className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full"
-                              >
-                                {feature}
-                              </span>
-                            ))}
-                          </div>
-                        )}
+                  {isUploadingImage && (
+                    <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                        <span className="text-white text-sm">Uploading...</span>
                       </div>
                     </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Ratio */}
-          <div className="mb-4">
-            <label className="text-gray-300 text-sm mb-2 block">
-              {t("ratio")}
-            </label>
-            <div className="flex space-x-6">
-              {(
-                selectedModelConfig?.supportedAspectRatios || [
-                  "16:9",
-                  "9:16",
-                  "1:1",
-                ]
-              ).map((ratio) => (
-                <label key={ratio} className="flex items-center cursor-pointer">
-                  <input
-                    type="radio"
-                    name="ratio"
-                    value={ratio}
-                    checked={selectedRatio === ratio}
-                    onChange={(e) => setSelectedRatio(e.target.value)}
-                    className="sr-only"
-                  />
-                  <div
-                    className={`w-4 h-4 rounded-full border-2 mr-2 ${
-                      selectedRatio === ratio
-                        ? "border-primary bg-primary"
-                        : "border-gray-500"
-                    }`}
-                  >
-                    {selectedRatio === ratio && (
-                      <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
-                    )}
-                  </div>
-                  <span className="text-gray-300">{ratio}</span>
-                </label>
-              ))}
+                  )}
+                </div>
+              )}
             </div>
-          </div>
+          )}
 
-          {/* Duration */}
-          <div className="mb-4">
-            <label className="text-gray-300 text-sm mb-2 block">
-              {t("duration")}
-            </label>
-            <div className="flex space-x-6">
-              {(selectedModelConfig?.supportedDurations || [5, 10]).map(
-                (duration) => (
-                  <label
-                    key={duration}
-                    className="flex items-center cursor-pointer"
-                  >
+          {/* Video Settings */}
+          <div>
+            <div className="text-white text-lg font-semibold mb-4">
+              {t("videoSettings")}
+            </div>
+
+            {/* Video Model Selection */}
+            <div className="mb-4">
+              <label className="text-gray-300 text-sm mb-2 block">
+                {t("videoModel")}
+              </label>
+              <Select
+                value={selectedModel}
+                onValueChange={(value) => {
+                  setSelectedModel(value);
+                  onModelChange?.(value);
+                }}
+              >
+                <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                  <SelectValue placeholder={t("selectModel")}>
+                    {selectedModelConfig && (
+                      <div className="flex items-center gap-2">
+                        <img
+                          src={
+                            selectedModelConfig.id.includes("kling")
+                              ? "/imgs/intro/kling.svg"
+                              : selectedModelConfig.id.includes("veo")
+                                ? "/imgs/intro/veo.svg"
+                                : selectedModelConfig.id.includes("wan") || selectedModelConfig.id.includes("ali")
+                                  ? "/imgs/intro/wan.png"
+                                  : "/imgs/intro/seedance.png"
+                          }
+                          alt={selectedModelConfig.provider}
+                          className="w-4 h-4 flex-shrink-0"
+                        />
+                        <span className="font-medium">
+                          {selectedModelConfig.displayName}
+                        </span>
+                      </div>
+                    )}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {availableModels.map((model) => (
+                    <SelectItem key={model.id} value={model.id}>
+                      <div className="flex items-start gap-3 w-full py-1">
+                        <img
+                          src={
+                            model.id.includes("kling")
+                              ? "/imgs/intro/kling.svg"
+                              : model.id.includes("veo")
+                                ? "/imgs/intro/veo.svg"
+                                : model.id.includes("wan") || model.id.includes("ali")
+                                  ? "/imgs/intro/wan.png"
+                                  : "/imgs/intro/seedance.png"
+                          }
+                          alt={model.provider}
+                          className="w-5 h-5 flex-shrink-0 mt-0.5"
+                        />
+                        <div className="flex flex-col flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="font-medium text-gray-100">
+                              {model.displayName}
+                            </span>
+                            <div className="flex items-center gap-1 text-xs text-blue-300">
+                              <Coins className="h-3 w-3" />
+                              {model.perSecondCredits}/s
+                            </div>
+                          </div>
+                          <span className="text-xs text-gray-400 mb-1 line-clamp-2">
+                            {model.description}
+                          </span>
+                          {model.features && (
+                            <div className="flex flex-wrap gap-1">
+                              {model.features.map((feature, index) => (
+                                <span
+                                  key={index}
+                                  className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full"
+                                >
+                                  {feature}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Ratio */}
+            <div className="mb-4">
+              <label className="text-gray-300 text-sm mb-2 block">
+                {t("ratio")}
+              </label>
+              <div className="flex flex-wrap gap-3 sm:gap-6">
+                {(
+                  selectedModelConfig?.supportedAspectRatios || [
+                    "16:9",
+                    "9:16",
+                    "1:1",
+                  ]
+                ).map((ratio) => (
+                  <label key={ratio} className="flex items-center cursor-pointer min-w-0">
                     <input
                       type="radio"
-                      name="duration"
-                      value={`${duration}s`}
-                      checked={selectedDuration === `${duration}s`}
-                      onChange={(e) => setSelectedDuration(e.target.value)}
+                      name="ratio"
+                      value={ratio}
+                      checked={selectedRatio === ratio}
+                      onChange={(e) => setSelectedRatio(e.target.value)}
                       className="sr-only"
                     />
                     <div
-                      className={`w-4 h-4 rounded-full border-2 mr-2 ${
-                        selectedDuration === `${duration}s`
-                          ? "border-primary bg-primary"
-                          : "border-gray-500"
-                      }`}
+                      className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${selectedRatio === ratio
+                        ? "border-primary bg-primary"
+                        : "border-gray-500"
+                        }`}
                     >
-                      {selectedDuration === `${duration}s` && (
+                      {selectedRatio === ratio && (
                         <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
                       )}
                     </div>
-                    <span className="text-gray-300">{duration}s</span>
+                    <span className="text-gray-300 text-sm">{ratio}</span>
                   </label>
-                )
-              )}
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Resolution */}
-          <div className="mb-4">
-            <label className="text-gray-300 text-sm mb-2 block">
-              {t("resolution")}
-            </label>
-            <div className="flex space-x-6">
-              {(
-                selectedModelConfig?.supportedResolutions || ["480p", "1080p"]
-              ).map((resolution) => (
-                <label
-                  key={resolution}
-                  className="flex items-center cursor-pointer"
-                >
-                  <input
-                    type="radio"
-                    name="resolution"
-                    value={resolution}
-                    checked={selectedResolution === resolution}
-                    onChange={(e) => setSelectedResolution(e.target.value)}
-                    className="sr-only"
-                  />
-                  <div
-                    className={`w-4 h-4 rounded-full border-2 mr-2 ${
-                      selectedResolution === resolution
+            {/* Duration */}
+            <div className="mb-4">
+              <label className="text-gray-300 text-sm mb-2 block">
+                {t("duration")}
+              </label>
+              <div className="flex flex-wrap gap-3 sm:gap-6">
+                {(selectedModelConfig?.supportedDurations || [5, 10]).map(
+                  (duration) => (
+                    <label
+                      key={duration}
+                      className="flex items-center cursor-pointer min-w-0"
+                    >
+                      <input
+                        type="radio"
+                        name="duration"
+                        value={`${duration}s`}
+                        checked={selectedDuration === `${duration}s`}
+                        onChange={(e) => setSelectedDuration(e.target.value)}
+                        className="sr-only"
+                      />
+                      <div
+                        className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${selectedDuration === `${duration}s`
+                          ? "border-primary bg-primary"
+                          : "border-gray-500"
+                          }`}
+                      >
+                        {selectedDuration === `${duration}s` && (
+                          <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                        )}
+                      </div>
+                      <span className="text-gray-300 text-sm">{duration}s</span>
+                    </label>
+                  )
+                )}
+              </div>
+            </div>
+
+            {/* Resolution */}
+            <div className="mb-4">
+              <label className="text-gray-300 text-sm mb-2 block">
+                {t("resolution")}
+              </label>
+              <div className="flex flex-wrap gap-3 sm:gap-6">
+                {(
+                  selectedModelConfig?.supportedResolutions || ["480p", "1080p"]
+                ).map((resolution) => (
+                  <label
+                    key={resolution}
+                    className="flex items-center cursor-pointer min-w-0"
+                  >
+                    <input
+                      type="radio"
+                      name="resolution"
+                      value={resolution}
+                      checked={selectedResolution === resolution}
+                      onChange={(e) => setSelectedResolution(e.target.value)}
+                      className="sr-only"
+                    />
+                    <div
+                      className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${selectedResolution === resolution
                         ? "border-primary bg-primary"
                         : "border-gray-500"
-                    }`}
-                  >
-                    {selectedResolution === resolution && (
-                      <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
-                    )}
-                  </div>
-                  <span className="text-gray-300">{resolution}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          {/* Credits and Cost */}
-          <div className="bg-gray-800 rounded-lg p-4 mb-4">
-            <div className="flex justify-between items-center">
-              <div>
-                <div className="text-gray-300 mb-1">
-                  {t("credits")}: {leftCredits !== null ? leftCredits : "-"}
-                </div>
-                <div className="text-gray-300">
-                  {t("cost")}: {currentCreditsRequired} ⚡
-                </div>
+                        }`}
+                    >
+                      {selectedResolution === resolution && (
+                        <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                      )}
+                    </div>
+                    <span className="text-gray-300 text-sm">{resolution}</span>
+                  </label>
+                ))}
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-transparent border-gray-600 text-gray-300 hover:bg-gray-700"
-                onClick={() => setShowPricingModal(true)}
-              >
-                {t("recharge")}
-              </Button>
+            </div>
+
+            {/* Credits and Cost */}
+            <div className="bg-gray-800 rounded-lg p-4 mb-4">
+              <div className="flex justify-between items-center">
+                <div>
+                  <div className="text-gray-300 mb-1">
+                    {t("credits")}: {leftCredits !== null ? leftCredits : "-"}
+                  </div>
+                  <div className="text-gray-300">
+                    {t("cost")}: {currentCreditsRequired} ⚡
+                  </div>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="bg-transparent border-gray-600 text-gray-300 hover:bg-gray-700"
+                  onClick={() => setShowPricingModal(true)}
+                >
+                  {t("recharge")}
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
 
         </div>
       </div>
-      
+
       {/* Fixed bottom button area */}
-      <div className="border-t border-gray-700 p-6">
+      <div className="border-t border-gray-600 bg-gray-900/95 backdrop-blur-sm p-4 md:p-6 mt-auto">
         <Button
           onClick={handleGenerate}
           disabled={
@@ -833,17 +823,17 @@ export default function VideoGenerator({
             (mode === "image-to-video" && !uploadedImageUrl) ||
             (leftCredits !== null && leftCredits < currentCreditsRequired)
           }
-          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-h-[44px]"
         >
           {isGenerating || isSubmitting ? (
             <>
               <Play className="mr-2 h-4 w-4 animate-spin" />
-              {isSubmitting ? t("uploading") : t("generating")}
+              <span className="truncate">{isSubmitting ? t("uploading") : t("generating")}</span>
             </>
           ) : (
             <>
               <Play className="mr-2 h-4 w-4" />
-              {t("generateVideo")}
+              <span className="truncate">{t("generateVideo")}</span>
             </>
           )}
         </Button>

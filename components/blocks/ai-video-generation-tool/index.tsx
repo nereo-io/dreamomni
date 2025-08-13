@@ -63,8 +63,8 @@ export function VideoGenerationTool({
   };
 
   return (
-    <div className="w-full" style={{ height: "calc(100vh - 80px)", padding: "20px" }}>
-      <div className="flex gap-4 h-full">
+    <div className="w-full mb-6 sm:mb-8 lg:mb-10" style={{ height: "calc(100vh - 120px)" }}>
+      <div className="flex flex-col lg:flex-row gap-4 h-full">
         <VideoGenerator
           mode={mode}
           onGenerate={handleGenerate}
