@@ -13,75 +13,63 @@ export interface ShowcaseVideo {
 
 export const SHOWCASE_VIDEOS: ShowcaseVideo[] = [
   {
-    id: "showcase_1",
-    title: "Orange Cat Cooking",
-    prompt: "An orange cat wearing a chef's hat cooking in a modern kitchen with natural lighting",
-    videoUrl: "https://example.com/videos/cat-cooking.mp4",
-    thumbnailUrl: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&h=225&fit=crop",
+    id: "anime-girl",
+    title: "Anime Girl with Braids",
+    prompt: "The little girl keeps smiling at the camera and pokes the lens with her finger.",
+    videoUrl: "https://r2.veo3ai.io/intro/image-to-video/Anime-Girl-Pokes-Camera.mp4",
+    thumbnailUrl: "https://r2.veo3ai.io/intro/image-to-video/img/Anime-Girl-with-Braids.png",
     duration: 5,
     aspectRatio: "16:9",
-    model: "Seedance 1.0 Pro",
+    model: "Veo3",
     category: "featured",
-    tags: ["animals", "cooking", "cute"]
+    tags: ["anime", "character", "portrait"]
   },
   {
-    id: "showcase_2",
-    title: "Donut Creation",
-    prompt: "A robotic arm decorating a donut with colorful frosting in slow motion",
-    videoUrl: "https://example.com/videos/donut.mp4",
-    thumbnailUrl: "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&h=225&fit=crop",
-    duration: 7,
+    id: "t-rex",
+    title: "Tyrannosaurus Rex",
+    prompt: "The T-Rex's head pokes out of the camera.",
+    videoUrl: "https://r2.veo3ai.io/intro/image-to-video/TRex-Peeks-at-Camera.mp4",
+    thumbnailUrl: "https://r2.veo3ai.io/intro/image-to-video/img/Tyrannosaurus-Rex-in-Wilderness.png",
+    duration: 5,
     aspectRatio: "16:9",
     model: "Veo3",
     category: "trending",
-    tags: ["food", "technology", "slow-motion"]
+    tags: ["dinosaur", "prehistoric", "wildlife"]
   },
   {
-    id: "showcase_3",
-    title: "Product Showcase",
-    prompt: "The product in the 360-degree display picture is slowly moved forward to show the good quality of the product",
-    videoUrl: "https://example.com/videos/product.mp4",
-    thumbnailUrl: "https://images.unsplash.com/photo-1609205807490-b95f8a82e1bb?w=400&h=225&fit=crop",
-    duration: 8,
+    id: "mother-son",
+    title: "Mother and Son Walking",
+    prompt: "A mother walks happily holding her child's hand.",
+    videoUrl: "https://r2.veo3ai.io/intro/image-to-video/Mother-Son-Walking-in-Park.mp4",
+    thumbnailUrl: "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
+    duration: 5,
     aspectRatio: "16:9",
     model: "Veo3",
     category: "featured",
-    tags: ["product", "commercial", "360-degree"]
+    tags: ["family", "walking", "happiness"]
   },
   {
-    id: "showcase_4",
-    title: "Portrait Photography",
-    prompt: "Professional portrait of a young woman with dramatic lighting and red clothing",
-    videoUrl: "https://example.com/videos/portrait.mp4",
-    thumbnailUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=225&fit=crop",
+    id: "motorcycle",
+    title: "Motorcycle Speed Trail",
+    prompt: "The motorcycle is speeding, and the tail light turns into a line.",
+    videoUrl: "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
+    thumbnailUrl: "https://r2.veo3ai.io/intro/image-to-video/img/Astronaut-Looking-at-Earth.png",
     duration: 5,
-    aspectRatio: "9:16",
-    model: "Seedance 1.0 Pro",
+    aspectRatio: "16:9",
+    model: "Veo3",
     category: "new",
-    tags: ["portrait", "fashion", "photography"]
+    tags: ["motorcycle", "speed", "light-trail"]
   },
   {
-    id: "showcase_5",
-    title: "Anime Character",
-    prompt: "Beautiful anime character with flowing hair and cherry blossoms in the background",
-    videoUrl: "https://example.com/videos/anime.mp4",
-    thumbnailUrl: "https://images.unsplash.com/photo-1612178537253-bccd437b730e?w=400&h=225&fit=crop",
-    duration: 6,
-    aspectRatio: "1:1",
+    id: "t-rex-1",
+    title: "Tyrannosaurus Rex",
+    prompt: "The T-Rex's head pokes out of the camera.",
+    videoUrl: "https://r2.veo3ai.io/intro/image-to-video/TRex-Peeks-at-Camera.mp4",
+    thumbnailUrl: "https://r2.veo3ai.io/intro/image-to-video/img/Tyrannosaurus-Rex-in-Wilderness.png",
+    duration: 5,
+    aspectRatio: "16:9",
     model: "Veo3",
     category: "trending",
-    tags: ["anime", "art", "character"]
+    tags: ["dinosaur", "prehistoric", "wildlife"]
   },
-  {
-    id: "showcase_6",
-    title: "Nature Landscape",
-    prompt: "Timelapse of a beautiful sunset over mountains with clouds moving across the sky",
-    videoUrl: "https://example.com/videos/sunset.mp4",
-    thumbnailUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=225&fit=crop",
-    duration: 10,
-    aspectRatio: "16:9",
-    model: "Seedance 1.0 Pro",
-    category: "featured",
-    tags: ["nature", "landscape", "timelapse"]
-  }
 ];
