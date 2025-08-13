@@ -426,11 +426,10 @@ export default function PricingModal({
                       return null;
                     }
 
-                    // 只显示Mini和Standard方案
-                    if (
-                      !item.title?.includes("Mini") &&
-                      !item.title?.includes("Standard")
-                    ) {
+                    // 基于 product_id 只显示 Mini 和 Standard 方案（语言无关）
+                    const allowedPlans = ["mini", "standard"];
+                    const planType = item.product_id?.split("-")[0];
+                    if (!planType || !allowedPlans.includes(planType)) {
                       return null;
                     }
 
