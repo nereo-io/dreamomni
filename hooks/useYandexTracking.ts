@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { yandexTracking } from "@/services/analytics/yandex-tracking";
 
 export function useYandexTracking() {
+  // 使用 useRef 来追踪已触发的事件，避免重复上报
+  const trackedEvents = useRef<{ [key: string]: number }>({});
+
   const trackSignup = (method: string, userId?: string) => {
     if (typeof window !== "undefined") {
       yandexTracking.trackUserRegistration(method, userId);
@@ -45,17 +48,32 @@ export function useYandexTracking() {
     }
   };
 
-  const trackPricingView = () => {
+  const trackPricingView = useCallback(() => {
     if (typeof window !== "undefined") {
-      yandexTracking.trackPricingViewed();
+      const now = Date.now();
+      const lastTracked = trackedEvents.current['PRICING_VIEWED'];
+      
+      // 10分钟内只上报一次（600000毫秒 = 10分钟）
+      if (!lastTracked || now - lastTracked > 600000) {
+        yandexTracking.trackPricingViewed();
+        trackedEvents.current['PRICING_VIEWED'] = now;
+      }
     }
-  };
+  }, []);
 
-  const trackCheckoutStart = (plan: string, price: number) => {
+  const trackCheckoutStart = useCallback((plan: string, price: number) => {
     if (typeof window !== "undefined") {
-      yandexTracking.trackCheckoutStarted(plan, price);
+      const now = Date.now();
+      const key = `CHECKOUT_${plan}`;
+      const lastTracked = trackedEvents.current[key];
+      
+      // 5分钟内同一个plan只上报一次（300000毫秒 = 5分钟）
+      if (!lastTracked || now - lastTracked > 300000) {
+        yandexTracking.trackCheckoutStarted(plan, price);
+        trackedEvents.current[key] = now;
+      }
     }
-  };
+  }, []);
 
   const trackSubscriptionUpgrade = (plan: string, price: number) => {
     if (typeof window !== "undefined") {

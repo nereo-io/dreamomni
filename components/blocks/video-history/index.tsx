@@ -67,7 +67,8 @@ export default function VideoHistory({
   mode,
 }: VideoHistoryProps) {
   const t = useTranslations("video-result");
-  const { fetchHistory, history, isLoadingHistory, setHistory } = useVideoGeneration();
+  const { fetchHistory, history, isLoadingHistory, setHistory } =
+    useVideoGeneration();
   const { user, setShowSignModal } = useAppContext();
   const [scrollToBottom, setScrollToBottom] = useState(false);
   const [expandedPrompts, setExpandedPrompts] = useState<Set<string>>(
@@ -190,8 +191,8 @@ export default function VideoHistory({
         const result = await response.json();
         if (result.code === 0 && result.data) {
           // 更新本地状态
-          setHistory(prevHistory => 
-            prevHistory.map((video, index) => 
+          setHistory((prevHistory) =>
+            prevHistory.map((video, index) =>
               index === 0 ? { ...video, ...result.data } : video
             )
           );
@@ -201,7 +202,6 @@ export default function VideoHistory({
       console.error("更新视频状态失败:", error);
     }
   }, [history, setHistory]);
-
 
   // 轮询机制：当有未完成的视频时，每3秒检查一次状态
   useEffect(() => {
@@ -413,13 +413,13 @@ export default function VideoHistory({
           )}
 
           {[...videosToShow].reverse().map((generation) => {
-            console.log("Video generation data:", {
-              id: generation.id,
-              prompt: generation.prompt,
-              optimized_prompt: generation.optimized_prompt,
-              has_optimized: !!generation.optimized_prompt,
-              is_different: generation.optimized_prompt !== generation.prompt,
-            });
+            // console.log("Video generation data:", {
+            //   id: generation.id,
+            //   prompt: generation.prompt,
+            //   optimized_prompt: generation.optimized_prompt,
+            //   has_optimized: !!generation.optimized_prompt,
+            //   is_different: generation.optimized_prompt !== generation.prompt,
+            // });
 
             const videoUrl = getVideoUrl(generation);
             const status =
