@@ -22,6 +22,16 @@ export function VideoGenerationTool({
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationTrigger, setGenerationTrigger] = useState(0);
   const [currentSelectedModel, setCurrentSelectedModel] = useState<string>("");
+  const [showcaseVideoParams, setShowcaseVideoParams] = useState<{
+    prompt: string;
+    aspectRatio: string;
+    duration: number;
+  } | null>(null);
+
+  // Handle showcase video selection
+  const handleShowcaseVideoSelect = (prompt: string, aspectRatio: string, duration: number) => {
+    setShowcaseVideoParams({ prompt, aspectRatio, duration });
+  };
 
   // 处理视频生成
   const handleGenerate = async (params: VideoGenerationParams) => {
@@ -53,8 +63,8 @@ export function VideoGenerationTool({
   };
 
   return (
-    <div className="max-w-7xl mx-auto mb-16">
-      <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-8">
+    <div className="w-full" style={{ height: "calc(100vh - 80px)", padding: "20px" }}>
+      <div className="flex gap-4 h-full">
         <VideoGenerator
           mode={mode}
           onGenerate={handleGenerate}
@@ -62,12 +72,15 @@ export function VideoGenerationTool({
           descriptionLabel={descriptionLabel}
           descriptionPlaceholder={descriptionPlaceholder}
           onModelChange={setCurrentSelectedModel}
+          showcaseVideoParams={showcaseVideoParams}
+          onShowcaseVideoParamsUsed={() => setShowcaseVideoParams(null)}
         />
 
         <VideoHistory
           refreshTrigger={generationTrigger}
           selectedModel={currentSelectedModel}
           mode={mode}
+          onSelectShowcaseVideo={handleShowcaseVideoSelect}
         />
       </div>
     </div>

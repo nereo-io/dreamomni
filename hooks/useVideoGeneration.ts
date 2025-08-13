@@ -39,6 +39,7 @@ interface VideoGenerationResult {
   aspect_ratio?: string;
   duration_seconds?: number;
   userCredits?: UserCreditsInfo;
+  image_url?: string;
 }
 
 interface PollOptions {
@@ -222,6 +223,7 @@ export default function useVideoGeneration() {
           aspect_ratio: params.aspect_ratio,
           duration_seconds: parseInt(params.duration || "5"),
           userCredits: result.data.userCredits,
+          image_url: params.image_url,
         };
 
         // 如果是新的生成任务，创建完整记录
@@ -239,6 +241,7 @@ export default function useVideoGeneration() {
             aspect_ratio: params.aspect_ratio,
             duration_seconds: parseInt(params.duration || "5"),
             userCredits: result.data.userCredits,
+            image_url: params.image_url,
           };
           setCurrentGeneration(newGeneration);
         } else {
@@ -288,8 +291,14 @@ export default function useVideoGeneration() {
           throw new Error(result.message || "获取历史记录失败");
         }
 
-        setHistory(result.data.data);
-        return result.data;
+        // Map input_image_url to image_url for consistency
+        const mappedData = result.data.data.map((item: any) => ({
+          ...item,
+          image_url: item.input_image_url || item.image_url,
+        }));
+
+        setHistory(mappedData);
+        return { ...result.data, data: mappedData };
       } catch (error) {
         console.error("获取历史记录失败:", error);
         toast.error(

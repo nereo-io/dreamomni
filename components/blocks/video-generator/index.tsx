@@ -46,6 +46,12 @@ interface VideoGeneratorProps {
   descriptionLabel?: string;
   descriptionPlaceholder?: string;
   onModelChange?: (model: string) => void;
+  showcaseVideoParams?: {
+    prompt: string;
+    aspectRatio: string;
+    duration: number;
+  } | null;
+  onShowcaseVideoParamsUsed?: () => void;
 }
 
 type VideoAspectRatio = "16:9" | "9:16" | "1:1";
@@ -59,6 +65,8 @@ export default function VideoGenerator({
   descriptionLabel,
   descriptionPlaceholder = "Describe the video you want to create, e.g., A cat playing in a sunny garden with natural lighting and fresh atmosphere...",
   onModelChange,
+  showcaseVideoParams,
+  onShowcaseVideoParamsUsed,
 }: VideoGeneratorProps) {
   const t = useTranslations("video-generator");
 
@@ -95,6 +103,26 @@ export default function VideoGenerator({
       updateLeftCredits().catch(console.error);
     }
   }, [user?.uuid, updateLeftCredits]);
+
+  // Populate form fields when showcase video params are provided
+  useEffect(() => {
+    if (showcaseVideoParams) {
+      setDescription(showcaseVideoParams.prompt);
+      setSelectedRatio(showcaseVideoParams.aspectRatio);
+      setSelectedDuration(`${showcaseVideoParams.duration}s`);
+      
+      // Focus on the description textarea
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+        textareaRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      
+      // Notify parent that params have been used
+      if (onShowcaseVideoParamsUsed) {
+        onShowcaseVideoParamsUsed();
+      }
+    }
+  }, [showcaseVideoParams, onShowcaseVideoParamsUsed]);
 
   // 监听 isGenerating 变化，当生成完成时更新积分
   useEffect(() => {
@@ -449,8 +477,15 @@ export default function VideoGenerator({
   };
 
   return (
-    <div className="bg-gray-900 rounded-2xl shadow-lg px-6 py-5 video-generator-container">
-      <div className="space-y-5">
+    <div className="bg-gray-900 rounded-2xl shadow-lg video-generator-container flex flex-col flex-shrink-0" 
+         style={{ 
+           width: "480px",
+           height: "calc(100vh - 120px)", 
+           maxHeight: "calc(100vh - 120px)" 
+         }}>
+      {/* Scrollable content area */}
+      <div className="flex-1 overflow-y-auto dark-scrollbar">
+        <div className="space-y-5 px-6 py-5">
         {/* Header Title */}
         <div className="border-b border-gray-700 pb-3">
           <h2 className="text-white text-xl font-semibold">
@@ -782,7 +817,11 @@ export default function VideoGenerator({
           </div>
         </div>
 
-        {/* Generate Button */}
+        </div>
+      </div>
+      
+      {/* Fixed bottom button area */}
+      <div className="border-t border-gray-700 p-6">
         <Button
           onClick={handleGenerate}
           disabled={

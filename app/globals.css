@@ -42,6 +42,37 @@ html {
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgba(107, 114, 128, 0.8); /* 悬停时更明显 */
   }
+
+  /* 深色面板优化滚动条 */
+  .dark-scrollbar {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: rgba(148, 163, 184, 0.3) rgba(30, 41, 59, 0.3); /* Firefox */
+  }
+
+  .dark-scrollbar::-webkit-scrollbar {
+    width: 6px; /* 更细的滚动条 */
+    height: 6px;
+  }
+
+  .dark-scrollbar::-webkit-scrollbar-track {
+    background: rgba(30, 41, 59, 0.3); /* 深色轨道 */
+    border-radius: 3px;
+  }
+
+  .dark-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.3); /* 浅灰色滚动条 */
+    border-radius: 3px;
+    transition: background 0.2s ease;
+  }
+
+  .dark-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.5); /* 悬停时更明显 */
+  }
+
+  .dark-scrollbar::-webkit-scrollbar-thumb:active {
+    background: rgba(148, 163, 184, 0.7); /* 点击时最明显 */
+  }
+
 }
 
 @layer base {

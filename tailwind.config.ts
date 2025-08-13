@@ -96,6 +96,10 @@ const config = {
             height: "0",
           },
         },
+        shimmer: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
         "border-beam": {
           "100%": {
             "offset-distance": "100%",
