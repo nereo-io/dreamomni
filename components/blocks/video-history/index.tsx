@@ -135,11 +135,7 @@ export default function VideoHistory({
         const result = await response.json();
         if (result.code === 0 && result.data) {
           // 更新本地状态
-<<<<<<< HEAD
-          setHistory(prevHistory =>
-=======
           setHistory((prevHistory) =>
->>>>>>> main
             prevHistory.map((video, index) =>
               index === 0 ? { ...video, ...result.data } : video
             )

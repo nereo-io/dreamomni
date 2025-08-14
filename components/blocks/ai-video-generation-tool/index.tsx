@@ -30,7 +30,6 @@ export function VideoGenerationTool({
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationTrigger, setGenerationTrigger] = useState(0);
   const [currentSelectedModel, setCurrentSelectedModel] = useState<string>("");
-<<<<<<< HEAD
   const [showcaseVideoParams, setShowcaseVideoParams] = useState<{
     prompt: string;
     aspectRatio: string;
@@ -88,7 +87,6 @@ export function VideoGenerationTool({
       toast.error("Failed to regenerate video");
     }
   };
-=======
   const [userVideoCount, setUserVideoCount] = useState<number | null>(null);
 
   // 获取用户视频历史记录数量
@@ -107,7 +105,6 @@ export function VideoGenerationTool({
     };
     getUserVideoCount();
   }, [user?.uuid, fetchHistory]);
->>>>>>> main
 
   // 处理视频生成
   const handleGenerate = async (params: VideoGenerationParams) => {
