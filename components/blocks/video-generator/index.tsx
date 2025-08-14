@@ -136,20 +136,20 @@ export default function VideoGenerator({
       setSelectedModel(editVideoData.model_id);
       setSelectedRatio(editVideoData.aspect_ratio || "16:9");
       setSelectedDuration(`${editVideoData.duration_seconds || 5}s`);
-      
+
       // If it's image-to-video mode and has image_url, set the image
       if (mode === "image-to-video" && editVideoData.image_url) {
         setSelectedImage(editVideoData.image_url);
         setImagePreview(editVideoData.image_url);
         setUploadedImageUrl(editVideoData.image_url);
       }
-      
+
       // Focus on the description textarea
       if (textareaRef.current) {
         textareaRef.current.focus();
         textareaRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-      
+
       // Notify parent that edit data has been used
       if (onEditVideoDataUsed) {
         onEditVideoDataUsed();
@@ -510,7 +510,7 @@ export default function VideoGenerator({
   };
 
   return (
-    <div className="bg-gray-900 rounded-2xl shadow-lg video-generator-container flex flex-col flex-shrink-0 w-full lg:w-[480px] lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]">
+    <div className="bg-gray-900 rounded-2xl shadow-lg video-generator-container flex flex-col flex-shrink-0 w-full lg:w-[440px] lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]">
       {/* Scrollable content area */}
       <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
         <div className="space-y-4 md:space-y-5 px-4 md:px-6 py-4 md:py-5">
