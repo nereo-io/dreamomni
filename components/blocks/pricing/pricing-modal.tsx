@@ -27,6 +27,7 @@ import {
 } from "@/lib/payment-methods";
 import { useTranslations } from "next-intl";
 import HighlightFeature from "./highlight-feature";
+import { useYandexTracking } from "@/hooks/useYandexTracking";
 
 interface PricingModalProps {
   isOpen: boolean;
@@ -42,6 +43,7 @@ export default function PricingModal({
   const { user, setShowSignModal } = useAppContext();
   const { location, loading: locationLoading, isRussia } = useGeolocation();
   const t = useTranslations("pricing_modal");
+  const { trackPricingView, trackCheckoutStart } = useYandexTracking();
 
   const [group, setGroup] = useState(pricing.groups?.[0]?.name);
   const [isLoading, setIsLoading] = useState(false);
@@ -101,6 +103,13 @@ export default function PricingModal({
       }
     }
   }, [locationLoading, isRussia]);
+
+  // Track pricing view when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      trackPricingView();
+    }
+  }, [isOpen, trackPricingView]);
 
   // 检测支付成功状态
   useEffect(() => {
@@ -172,6 +181,10 @@ export default function PricingModal({
         toast.error(t("please_select_payment"));
         return;
       }
+
+      // Track checkout start
+      const amount = cn_pay ? item.cn_amount : item.amount;
+      trackCheckoutStart(item.product_name || item.product_id, amount || 0);
 
       await processPayment(item, cn_pay);
     } catch (e) {
@@ -413,11 +426,10 @@ export default function PricingModal({
                       return null;
                     }
 
-                    // 只显示Mini和Standard方案
-                    if (
-                      !item.title?.includes("Mini") &&
-                      !item.title?.includes("Standard")
-                    ) {
+                    // 基于 product_id 只显示 Mini 和 Standard 方案（语言无关）
+                    const allowedPlans = ["mini", "standard"];
+                    const planType = item.product_id?.split("-")[0];
+                    if (!planType || !allowedPlans.includes(planType)) {
                       return null;
                     }
 

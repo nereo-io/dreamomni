@@ -1,13 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type React from "react";
 import VideoGenerator from "../video-generator";
 import VideoHistory from "../video-history";
 import useVideoGeneration from "@/hooks/useVideoGeneration";
+import { toast } from "sonner";
+import { useYandexTracking } from "@/hooks/useYandexTracking";
+import { useAppContext } from "@/contexts/app";
+
+
 import type { VideoGenerationParams } from "../video-generator";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
-import { toast } from "sonner";
 
 interface VideoGenerationToolProps {
   mode: "text-to-video" | "image-to-video";
@@ -20,10 +24,13 @@ export function VideoGenerationTool({
   descriptionLabel,
   descriptionPlaceholder,
 }: VideoGenerationToolProps) {
-  const { submitGeneration, pollStatus } = useVideoGeneration();
+  const { submitGeneration, pollStatus, fetchHistory } = useVideoGeneration();
+  const { trackVideoGeneration, trackFirstVideo } = useYandexTracking();
+  const { user } = useAppContext();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationTrigger, setGenerationTrigger] = useState(0);
   const [currentSelectedModel, setCurrentSelectedModel] = useState<string>("");
+<<<<<<< HEAD
   const [showcaseVideoParams, setShowcaseVideoParams] = useState<{
     prompt: string;
     aspectRatio: string;
@@ -45,7 +52,7 @@ export function VideoGenerationTool({
   // Handle regenerate video - submit with existing parameters
   const handleRegenerateVideo = async (generation: VideoGenerationResult) => {
     setIsGenerating(true);
-    
+
     try {
       const params: VideoGenerationParams = {
         model: generation.model_id,
@@ -63,7 +70,7 @@ export function VideoGenerationTool({
       if (result) {
         // Start polling for the new video
         pollStatus(result.id);
-        
+
         // Trigger history refresh
         setTimeout(() => {
           setGenerationTrigger((prev) => prev + 1);
@@ -81,6 +88,26 @@ export function VideoGenerationTool({
       toast.error("Failed to regenerate video");
     }
   };
+=======
+  const [userVideoCount, setUserVideoCount] = useState<number | null>(null);
+
+  // 获取用户视频历史记录数量
+  useEffect(() => {
+    const getUserVideoCount = async () => {
+      if (user?.uuid) {
+        try {
+          const historyData = await fetchHistory(1, 1); // 只需要获取总数
+          if (historyData && historyData.pagination && typeof historyData.pagination.total === 'number') {
+            setUserVideoCount(historyData.pagination.total);
+          }
+        } catch (error) {
+          console.error("Error fetching video history:", error);
+        }
+      }
+    };
+    getUserVideoCount();
+  }, [user?.uuid, fetchHistory]);
+>>>>>>> main
 
   // 处理视频生成
   const handleGenerate = async (params: VideoGenerationParams) => {
@@ -98,6 +125,20 @@ export function VideoGenerationTool({
     });
 
     if (result) {
+      // Track video generation success
+      const duration = parseInt(params.duration) || 5;
+      trackVideoGeneration(params.model, duration, params.model);
+
+      // 检查是否是用户的第一个视频
+      if (user?.uuid && userVideoCount === 0) {
+        trackFirstVideo(user.uuid);
+      }
+
+      // 更新视频计数
+      if (userVideoCount !== null) {
+        setUserVideoCount(userVideoCount + 1);
+      }
+
       // 开始轮询状态
       pollStatus(result.id);
 

@@ -42,7 +42,8 @@ export default function VideoHistory({
   onRegenerateVideo,
 }: VideoHistoryProps) {
   const t = useTranslations("video-result");
-  const { fetchHistory, history, isLoadingHistory, setHistory } = useVideoGeneration();
+  const { fetchHistory, history, isLoadingHistory, setHistory } =
+    useVideoGeneration();
   const { user, setShowSignModal } = useAppContext();
   const isMobile = useIsMobile();
   const [scrollToBottom, setScrollToBottom] = useState(false);
@@ -134,7 +135,11 @@ export default function VideoHistory({
         const result = await response.json();
         if (result.code === 0 && result.data) {
           // 更新本地状态
+<<<<<<< HEAD
           setHistory(prevHistory =>
+=======
+          setHistory((prevHistory) =>
+>>>>>>> main
             prevHistory.map((video, index) =>
               index === 0 ? { ...video, ...result.data } : video
             )
@@ -145,7 +150,6 @@ export default function VideoHistory({
       console.error("更新视频状态失败:", error);
     }
   }, [history, setHistory]);
-
 
   // 轮询机制：当有未完成的视频时，每3秒检查一次状态
   useEffect(() => {

@@ -68,9 +68,13 @@ export default function SignForm({
       setPendingVerificationEmail(null);
 
       const result = await login(data, callbackUrl);
-      
+
       // 检查是否是邮箱验证错误
-      if (result && typeof result === "object" && result.error === "EMAIL_NOT_CONFIRMED") {
+      if (
+        result &&
+        typeof result === "object" &&
+        result.error === "EMAIL_NOT_CONFIRMED"
+      ) {
         setPendingVerificationEmail(result.email || data.email);
       }
     } else if (mode === "signup") {
@@ -205,7 +209,9 @@ export default function SignForm({
                     <Button
                       variant="outline"
                       className="w-full"
-                      onClick={() => signIn("google")}
+                      onClick={() => {
+                        signIn("google");
+                      }}
                     >
                       <SiGoogle className="w-4 h-4" />
                       {t("sign_modal.google_sign_in")}
@@ -215,7 +221,9 @@ export default function SignForm({
                     <Button
                       variant="outline"
                       className="w-full"
-                      onClick={() => signIn("github")}
+                      onClick={() => {
+                        signIn("github");
+                      }}
                     >
                       <SiGithub className="w-4 h-4" />
                       {t("sign_modal.github_sign_in")}
@@ -225,7 +233,9 @@ export default function SignForm({
                     <Button
                       variant="outline"
                       className="w-full"
-                      onClick={() => signIn("apple")}
+                      onClick={() => {
+                        signIn("apple");
+                      }}
                     >
                       <SiApple className="w-4 h-4" />
                       {t("sign_modal.apple_sign_in")}
