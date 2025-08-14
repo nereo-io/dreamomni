@@ -78,10 +78,16 @@ export default function VideoShowcase({ onSelectVideo }: VideoShowcaseProps) {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  // Convert aspect ratio string to numeric value
+  const getAspectRatioValue = (ratio: string) => {
+    const [width, height] = ratio.split(':').map(Number);
+    return `${width}/${height}`;
+  };
+
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="w-full h-full flex flex-col bg-gray-900 rounded-2xl overflow-hidden">
       {/* Upper Section - Video Player (Flexible Height) */}
-      <div className="flex-1 min-h-0 flex flex-col bg-gray-900 rounded-t-2xl overflow-hidden">
+      <div className="flex-1 min-h-0 flex flex-col">
         {/* Video Title Bar */}
         <div className="flex-shrink-0 px-6 py-3 border-b border-gray-800">
           <h3 className="text-lg font-medium text-gray-300">Sample Video</h3>
@@ -89,20 +95,30 @@ export default function VideoShowcase({ onSelectVideo }: VideoShowcaseProps) {
 
         {/* Video Container - Flexible with aspect ratio maintained */}
         <div className="flex-1 min-h-0 relative flex items-center justify-center p-4">
-          <div className="relative w-full max-w-full bg-black" style={{ aspectRatio: '16/9' }}>
-            <video
-              ref={videoRef}
-              src={selectedVideo.videoUrl}
-              className="w-full h-full object-cover rounded-lg"
-              autoPlay
-              loop
-              muted
-              playsInline
-              onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
-            />
+          <div className="relative w-full h-full max-w-full max-h-full flex items-center justify-center">
+            <div 
+              className="relative bg-black rounded-lg overflow-hidden"
+              style={{ 
+                aspectRatio: getAspectRatioValue(selectedVideo.aspectRatio),
+                maxWidth: '100%',
+                maxHeight: '100%',
+                width: 'auto',
+                height: 'auto'
+              }}
+            >
+              <video
+                ref={videoRef}
+                src={selectedVideo.videoUrl}
+                className="w-full h-full object-contain rounded-lg"
+                autoPlay
+                loop
+                muted
+                playsInline
+                onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
+              />
 
-            {/* Video Controls Overlay */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+              {/* Video Controls Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
               {/* Progress Bar */}
               <div className="w-full h-1 bg-gray-700 rounded-full mb-3">
                 <div
@@ -134,6 +150,7 @@ export default function VideoShowcase({ onSelectVideo }: VideoShowcaseProps) {
                 </div>
               </div>
             </div>
+            </div>
           </div>
         </div>
 
@@ -145,7 +162,7 @@ export default function VideoShowcase({ onSelectVideo }: VideoShowcaseProps) {
       </div>
 
       {/* Lower Section - Video Carousel (Fixed at Bottom) */}
-      <div className="flex-shrink-0 bg-gray-950 rounded-b-2xl py-3 px-3">
+      <div className="flex-shrink-0 bg-gray-950 py-3 px-3 border-t border-gray-800">
         <div className="relative">
           {/* Scroll Buttons */}
           <button

@@ -241,7 +241,7 @@ export default function VideoHistory({
     return (
       <div
         className={cn(
-          "bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto xl:overflow-hidden xl:h-[calc(100vh-90px)] xl:max-h-[calc(100vh-90px)]",
+          "bg-gray-800 rounded-2xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
           className
         )}
       >
@@ -254,7 +254,7 @@ export default function VideoHistory({
         </header>
 
         {/* Showcase Content - No overflow, full height */}
-        <div className="xl:flex-1 xl:min-h-0 p-4 md:p-6">
+        <div className="flex-1 min-h-0 flex flex-col p-4 md:p-6">
           <VideoShowcase onSelectVideo={handleShowcaseVideoSelect} />
         </div>
       </div>
@@ -265,7 +265,7 @@ export default function VideoHistory({
     <div
       ref={containerRef}
       className={cn(
-        "bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto xl:overflow-hidden xl:h-[calc(100vh-90px)] xl:max-h-[calc(100vh-90px)]",
+        "bg-gray-800 rounded-2xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
         className
       )}
     >
