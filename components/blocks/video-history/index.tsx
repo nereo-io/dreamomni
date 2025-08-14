@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import useVideoGeneration from "@/hooks/useVideoGeneration";
+import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 import { useAppContext } from "@/contexts/app";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { EXAMPLE_VIDEOS } from "@/data/example-videos";
