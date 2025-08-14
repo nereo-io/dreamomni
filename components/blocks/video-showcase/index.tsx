@@ -95,30 +95,25 @@ export default function VideoShowcase({ onSelectVideo }: VideoShowcaseProps) {
 
         {/* Video Container - Flexible with aspect ratio maintained */}
         <div className="flex-1 min-h-0 relative flex items-center justify-center p-4">
-          <div className="relative w-full h-full max-w-full max-h-full flex items-center justify-center">
-            <div 
-              className="relative bg-black rounded-lg overflow-hidden"
-              style={{ 
+          <div 
+            className="relative bg-black rounded-lg overflow-hidden w-full h-full flex items-center justify-center"
+          >
+            <video
+              ref={videoRef}
+              src={selectedVideo.videoUrl}
+              className="w-full h-full object-contain"
+              style={{
                 aspectRatio: getAspectRatioValue(selectedVideo.aspectRatio),
-                maxWidth: '100%',
-                maxHeight: '100%',
-                width: 'auto',
-                height: 'auto'
               }}
-            >
-              <video
-                ref={videoRef}
-                src={selectedVideo.videoUrl}
-                className="w-full h-full object-contain rounded-lg"
-                autoPlay
-                loop
-                muted
-                playsInline
-                onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
-              />
+              autoPlay
+              loop
+              muted
+              playsInline
+              onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
+            />
 
-              {/* Video Controls Overlay */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+            {/* Video Controls Overlay */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
               {/* Progress Bar */}
               <div className="w-full h-1 bg-gray-700 rounded-full mb-3">
                 <div
@@ -149,7 +144,6 @@ export default function VideoShowcase({ onSelectVideo }: VideoShowcaseProps) {
                   </button>
                 </div>
               </div>
-            </div>
             </div>
           </div>
         </div>
