@@ -24,7 +24,7 @@ if (process.env.NEXT_PUBLIC_AUTH_EMAIL_ENABLED === "true") {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
@@ -62,7 +62,7 @@ if (
         credential: { type: "text" },
       },
 
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         const googleClientId = process.env.NEXT_PUBLIC_AUTH_GOOGLE_ID;
         if (!googleClientId) {
           console.log("invalid google auth config");
@@ -207,7 +207,7 @@ export const authOptions: NextAuthConfig = {
     error: "/auth/error",
   },
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn() {
       const isAllowedToSignIn = true;
       if (isAllowedToSignIn) {
         return true;
@@ -220,9 +220,13 @@ export const authOptions: NextAuthConfig = {
       else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       if (token && token.user && token.user) {
         session.user = token.user;
+      }
+      // 传递新用户标志到 session
+      if (typeof token.isNewUser === 'boolean') {
+        session.isNewUser = token.isNewUser;
       }
       return session;
     },
@@ -254,7 +258,11 @@ export const authOptions: NextAuthConfig = {
               nickname: savedUser.nickname,
               avatar_url: savedUser.avatar_url,
               created_at: savedUser.created_at,
+              provider: account.provider,
             };
+            
+            // 保存新用户标志到 token
+            token.isNewUser = savedUser.isNewUser;
           } catch (e) {
             console.error("save user failed:", e);
           }

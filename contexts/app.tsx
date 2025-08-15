@@ -17,7 +17,6 @@ import useOneTapLogin from "@/hooks/useOneTapLogin";
 import useMembership from "@/hooks/useMembership";
 import useCredits from "@/hooks/useCredits";
 import { useSession } from "next-auth/react";
-import { useYandexTracking } from "@/hooks/useYandexTracking";
 import PricingModal from "@/components/blocks/pricing/pricing-modal";
 import { getPricingBlock } from "@/services/page";
 import { Pricing } from "@/types/blocks/pricing";
@@ -38,7 +37,6 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   const { membership, isLoadingMembership, refreshMembership } =
     useMembership();
   const { leftCredits, updateLeftCredits } = useCredits();
-  const { trackSignup } = useYandexTracking();
 
   const [theme, setTheme] = useState<string>(() => {
     return process.env.NEXT_PUBLIC_DEFAULT_THEME || "";
@@ -68,40 +66,6 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
       }
 
       setUser(data);
-      
-      // 检测并追踪新用户注册
-      if (data && data.created_at && session) {
-        const userCreatedTime = moment(data.created_at);
-        const now = moment();
-        const minutesSinceCreation = now.diff(userCreatedTime, 'minutes');
-        
-        // 如果用户是在最近5分钟内创建的，视为新用户
-        if (minutesSinceCreation <= 5) {
-          const trackedUsersKey = 'yandex_tracked_users';
-          const trackedUsers = localStorage.getItem(trackedUsersKey);
-          const trackedUsersList = trackedUsers ? JSON.parse(trackedUsers) : [];
-          
-          // 检查是否已经追踪过该用户
-          if (!trackedUsersList.includes(data.uuid)) {
-            // 判断登录方式
-            let loginMethod = 'unknown';
-            if (data.signin_provider) {
-              loginMethod = data.signin_provider;
-            } else if (session.user?.email === data.email) {
-              // 如果没有 provider 信息但邮箱匹配，可能是邮箱注册
-              loginMethod = 'email';
-            }
-            
-            // 追踪新用户注册
-            trackSignup(loginMethod, data.uuid);
-            
-            // 记录已追踪的用户
-            trackedUsersList.push(data.uuid);
-            localStorage.setItem(trackedUsersKey, JSON.stringify(trackedUsersList));
-          }
-        }
-      }
-      
       updateInvite(data);
       updateLeftCredits();
     } catch (e) {

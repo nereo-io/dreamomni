@@ -10,6 +10,7 @@ import { NextAuthSessionProvider } from "@/auth/session";
 import { NextIntlClientProvider } from "next-intl";
 import { ThemeProvider } from "@/providers/theme";
 import { cn } from "@/lib/utils";
+import { SignupTracker } from "@/components/analytics/signup-tracker";
 // import { SpeedInsights } from '@vercel/speed-insights/next';
 // import { Analytics } from "@vercel/analytics/react";
 
@@ -57,6 +58,7 @@ export default async function RootLayout({
           <NextAuthSessionProvider>
             <AppContextProvider>
               <ThemeProvider attribute="class" disableTransitionOnChange>
+                <SignupTracker />
                 {children}
               </ThemeProvider>
             </AppContextProvider>

@@ -119,7 +119,8 @@
       "WebFetch(domain:docs.creem.io)",
       "Bash(open http://localhost:3000/image-to-video)"
     ],
-    "deny": []
+    "deny": [],
+    "defaultMode": "acceptEdits"
   },
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [

@@ -16,8 +16,11 @@ import { increaseCredits } from "./credit";
 export async function saveUser(user: User) {
   try {
     const existUser = await findUserByEmail(user.email);
+    let isNewUser = false;
+    
     if (!existUser) {
       await insertUser(user);
+      isNewUser = true;
 
       // 生成并保存邀请码
       const inviteCode = generateInviteCode();
@@ -39,7 +42,8 @@ export async function saveUser(user: User) {
       user.created_at = existUser.created_at;
     }
 
-    return user;
+    // 返回用户信息和是否新用户标志
+    return { ...user, isNewUser };
   } catch (e) {
     console.log("save user failed: ", e);
     throw e;
@@ -48,8 +52,6 @@ export async function saveUser(user: User) {
 
 export async function getUserUuid() {
   let user_uuid = "";
-
-  const token = getBearerToken();
 
   const session = await auth();
   if (session && session.user && session.user.uuid) {
