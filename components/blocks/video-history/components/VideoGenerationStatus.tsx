@@ -94,12 +94,12 @@ const VideoGenerationStatus: React.FC<VideoGenerationStatusProps> = React.memo((
             <div className="absolute inset-0 bg-gray-800/50" />
             
             {/* Content */}
-            <div className="relative z-10 h-full flex flex-col items-center justify-center px-8">
-              <div className="w-full max-w-2xl space-y-6">
+            <div className="relative z-10 h-full flex flex-col items-center justify-center px-6">
+              <div className="w-full space-y-4">
                 {/* Header */}
-                <div className="flex items-center gap-3 justify-center">
-                  <Loader2 className="h-5 w-5 text-blue-400 animate-spin" />
-                  <span className="text-lg font-medium text-white">
+                <div className="flex items-center gap-2 justify-center">
+                  <Loader2 className="h-4 w-4 text-blue-400 animate-spin" />
+                  <span className="text-base font-medium text-white">
                     Generating your video...
                   </span>
                 </div>
@@ -108,17 +108,17 @@ const VideoGenerationStatus: React.FC<VideoGenerationStatusProps> = React.memo((
                 <ProgressBar progress={progress} showPercentage={false} />
                 
                 {/* Progress percentage */}
-                <div className="text-center text-3xl font-bold text-white">
+                <div className="text-center text-2xl font-bold text-white">
                   {Math.round(progress)}%
                 </div>
 
                 {/* Time information */}
-                <div className="flex justify-between items-center text-sm">
+                <div className="flex justify-between items-center text-xs">
                   <span className="text-gray-300">
-                    Elapsed: <span className="font-medium">{Math.floor(elapsedTime)} seconds</span>
+                    Elapsed: <span className="font-medium">{Math.floor(elapsedTime)}s</span>
                   </span>
                   <span className="text-gray-300">
-                    Remaining: <span className="font-medium">{Math.floor(remainingTime)} seconds</span>
+                    Remaining: <span className="font-medium">{Math.floor(remainingTime)}s</span>
                   </span>
                 </div>
               </div>
@@ -154,9 +154,9 @@ const VideoGenerationStatus: React.FC<VideoGenerationStatusProps> = React.memo((
 
   return (
     <div className={cn(
-      "w-full h-56 sm:h-64 md:h-72 lg:h-80 xl:h-96 rounded-lg overflow-hidden",
+      "rounded-lg overflow-hidden",
       className
-    )}>
+    )} style={{ width: '438px', height: '288px' }}>
       {renderStatusContent()}
     </div>
   );
