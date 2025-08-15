@@ -22,6 +22,7 @@ export interface VideoStatusResult {
   updated_at: string;
   aspect_ratio?: string;
   duration_seconds?: number;
+  image_url?: string;
 }
 
 export class VideoStatusService {
@@ -518,6 +519,7 @@ export class VideoStatusService {
       updated_at: videoGeneration.updated_at,
       aspect_ratio: videoGeneration.aspect_ratio,
       duration_seconds: videoGeneration.duration_seconds,
+      image_url: videoGeneration.input_image_url,
     };
   }
 }
