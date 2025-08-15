@@ -54,7 +54,7 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
       <div className="w-full mt-4">
         {isCompleted && videoUrl ? (
           <>
-            <div className="h-56 sm:h-64 md:h-72 lg:h-80 xl:h-96 rounded-lg overflow-hidden relative group">
+            <div className="inline-block group">
               <VideoPlayer 
                 videoUrl={videoUrl} 
                 onDownload={onDownload} 
@@ -71,13 +71,14 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
               />
             )}
           </>
-        ) : isProcessing && createdAt ? (
+        ) : (isProcessing || isFailed) && createdAt ? (
           <VideoGenerationStatus
             status={status}
             createdAt={createdAt}
             estimatedTime={estimatedTime}
             modelName={modelName}
             backgroundImage={imageUrl}
+            errorMessage={errorMessage}
           />
         ) : (
           <div className="h-56 sm:h-64 md:h-72 lg:h-80 xl:h-96 rounded-lg overflow-hidden relative group flex items-center justify-center bg-gray-700">
@@ -92,15 +93,6 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
                 {statusInfo.label}
               </span>
             </div>
-          </div>
-        )}
-
-        {/* Error message */}
-        {isFailed && errorMessage && (
-          <div className="mt-3 p-3 bg-red-900/20 rounded-lg border border-red-500/30">
-            <p className="text-xs text-red-300 leading-relaxed">
-              ❌ {errorMessage}
-            </p>
           </div>
         )}
       </div>

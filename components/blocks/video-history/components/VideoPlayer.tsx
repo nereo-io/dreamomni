@@ -14,9 +14,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
   canDownload 
 }) => {
   return (
-    <>
+    <div className="relative inline-block">
       <video
-        className="max-w-full max-h-full object-contain rounded-lg"
+        className="rounded-lg"
+        style={{ width: '438px', height: '288px', objectFit: 'contain' }}
         controls
         preload="auto"
         muted
@@ -52,7 +53,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
           </Button>
         )}
       </div>
-    </>
+    </div>
   );
 });
 
