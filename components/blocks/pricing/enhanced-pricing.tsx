@@ -2,7 +2,7 @@
 
 "use client";
 
-import { Check, Loader, CreditCard, Globe } from "lucide-react";
+import { Check, Loader } from "lucide-react";
 import { PricingItem, Pricing as PricingType } from "@/types/blocks/pricing";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useEffect, useState } from "react";
@@ -37,7 +37,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   }
 
   const { user, setShowSignModal } = useAppContext();
-  const { location, loading: locationLoading, isRussia } = useGeolocation();
+  const { loading: locationLoading, isRussia } = useGeolocation();
   const { trackPricingView, trackCheckoutStart, trackPayment } =
     useYandexTracking();
 
