@@ -38,7 +38,8 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
   const { user, setShowSignModal } = useAppContext();
   const { location, loading: locationLoading, isRussia } = useGeolocation();
-  const { trackPricingView, trackCheckoutStart } = useYandexTracking();
+  const { trackPricingView, trackCheckoutStart, trackPayment } =
+    useYandexTracking();
 
   const [group, setGroup] = useState("yearly");
   const [isLoading, setIsLoading] = useState(false);
@@ -137,6 +138,14 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
           // 显示成功弹窗
           setShowSuccessModal(true);
+
+          // 上报支付成功事件到 Yandex Metrica
+          const orderId = `order_${paymentTimestamp}`;
+          trackPayment(
+            orderId,
+            paymentInfo.amount || 0,
+            paymentInfo.planName || paymentInfo.interval || "subscription"
+          );
 
           // 清除等待标记
           localStorage.removeItem("veo3_payment_pending");
