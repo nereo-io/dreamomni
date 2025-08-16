@@ -108,18 +108,13 @@ const VideoGenerationStatus: React.FC<VideoGenerationStatusProps> = React.memo((
                 <ProgressBar progress={progress} showPercentage={false} />
                 
                 {/* Progress percentage */}
-                <div className="text-center text-2xl font-bold text-white">
+                <div className="text-center text-3xl font-bold text-white">
                   {Math.round(progress)}%
                 </div>
 
-                {/* Time information */}
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-gray-300">
-                    Elapsed: <span className="font-medium">{Math.floor(elapsedTime)}s</span>
-                  </span>
-                  <span className="text-gray-300">
-                    Remaining: <span className="font-medium">{Math.floor(remainingTime)}s</span>
-                  </span>
+                {/* Remaining time - centered */}
+                <div className="text-center text-sm text-gray-300">
+                  Remaining: <span className="font-medium text-white">{Math.floor(remainingTime)}s</span>
                 </div>
               </div>
             </div>

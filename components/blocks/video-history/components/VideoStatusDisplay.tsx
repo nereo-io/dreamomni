@@ -54,7 +54,7 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
       <div className="w-full mt-4">
         {isCompleted && videoUrl ? (
           <>
-            <div className="inline-block group">
+            <div className="inline-block">
               <VideoPlayer 
                 videoUrl={videoUrl} 
                 onDownload={onDownload} 

@@ -14,10 +14,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
   canDownload 
 }) => {
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block group bg-black rounded-lg" style={{ width: '518px', height: '288px' }}>
       <video
-        className="rounded-lg"
-        style={{ width: '438px', height: '288px', objectFit: 'contain' }}
+        className="rounded-lg w-full h-full"
+        style={{ objectFit: 'contain' }}
         controls
         preload="auto"
         muted
@@ -35,7 +35,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
       <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
         {!canDownload ? (
           // Example videos - download disabled
-          <div className="bg-black/60 text-white border-none h-8 w-8 p-0 rounded-md flex items-center justify-center">
+          <div className="bg-black/60 text-white border-none h-8 w-8 p-0 rounded-md flex items-center justify-center pointer-events-none">
             <Download className="h-4 w-4 opacity-50" />
           </div>
         ) : (
@@ -43,7 +43,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
           <Button
             variant="secondary"
             size="sm"
-            className="bg-black/60 hover:bg-black/80 text-white border-none h-8 w-8 p-0 rounded-md"
+            className="bg-black/60 hover:bg-black/80 text-white border-none h-8 w-8 p-0 rounded-md pointer-events-auto"
             onClick={(e) => {
               e.stopPropagation();
               onDownload(videoUrl);

@@ -3,34 +3,33 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import {
-  RefreshCw,
-  History,
-  Loader2,
-  Sparkles,
-} from "lucide-react";
+import { RefreshCw, History, Loader2, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import useVideoGeneration from "@/hooks/useVideoGeneration";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 import { useAppContext } from "@/contexts/app";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { EXAMPLE_VIDEOS } from "@/data/example-videos";
 import { getStatusMap, INCOMPLETE_STATUSES } from "./components/constants";
 import VideoHistoryItem from "./components/VideoHistoryItem";
 import VideoShowcase from "../video-showcase";
-import type { ShowcaseVideo } from "@/data/showcase-videos";
+import type { ShowcaseVideo } from "@/data/showcase-text-videos";
 
 interface VideoHistoryProps {
   refreshTrigger?: number;
   className?: string;
   selectedModel?: string;
   mode?: "text-to-video" | "image-to-video";
-  onSelectShowcaseVideo?: (prompt: string, aspectRatio: string, duration: number) => void;
+  onSelectShowcaseVideo?: (
+    prompt: string,
+    aspectRatio: string,
+    duration: number,
+    model?: string,
+    imageUrl?: string
+  ) => void;
   // New props for edit/regenerate functionality
   onEditVideo?: (generation: VideoGenerationResult) => void;
   onRegenerateVideo?: (generation: VideoGenerationResult) => void;
 }
-
 
 export default function VideoHistory({
   refreshTrigger,
@@ -58,21 +57,8 @@ export default function VideoHistory({
     setIsClient(true);
   }, []);
 
-  // 获取要显示的示例视频
-  const getExampleVideos = () => {
-    if (!selectedModel) return EXAMPLE_VIDEOS.veo; // 默认显示veo3小黄鸡
-
-    // 根据模型ID判断类型
-    if (selectedModel.includes("veo") || selectedModel.includes("Veo")) {
-      return EXAMPLE_VIDEOS.veo;
-    } else {
-      return EXAMPLE_VIDEOS.seedance;
-    }
-  };
-
-  // 决定要显示的视频列表
-  const videosToShow =
-    !user?.uuid || history.length === 0 ? getExampleVideos() : history;
+  // 决定是否显示 VideoShowcase
+  const shouldShowShowcase = !user?.uuid || history.length === 0;
 
   // Toggle enhanced prompt visibility
   const togglePromptExpansion = (generationId: string) => {
@@ -187,7 +173,6 @@ export default function VideoHistory({
     }
   }, [scrollToBottom, history]);
 
-
   // 手动刷新
   const handleRefresh = () => {
     loadHistory();
@@ -232,16 +217,16 @@ export default function VideoHistory({
     if (onSelectShowcaseVideo) {
       // Parse aspect ratio to match form format
       const aspectRatio = video.aspectRatio.replace(":", ":");
-      onSelectShowcaseVideo(video.prompt, aspectRatio, video.duration);
+      onSelectShowcaseVideo(video.prompt, aspectRatio, video.duration, video.model, video.imageUrl);
     }
   };
 
-  // Show VideoShowcase for non-logged in users
-  if (!user?.uuid) {
+  // Show VideoShowcase for users without video history
+  if (shouldShowShowcase) {
     return (
       <div
         className={cn(
-          "bg-gray-800 rounded-2xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
+          "bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
           className
         )}
       >
@@ -255,7 +240,7 @@ export default function VideoHistory({
 
         {/* Showcase Content - No overflow, full height */}
         <div className="flex-1 min-h-0 flex flex-col p-4 md:p-6">
-          <VideoShowcase onSelectVideo={handleShowcaseVideoSelect} />
+          <VideoShowcase mode={mode} onSelectVideo={handleShowcaseVideoSelect} />
         </div>
       </div>
     );
@@ -265,7 +250,7 @@ export default function VideoHistory({
     <div
       ref={containerRef}
       className={cn(
-        "bg-gray-800 rounded-2xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
+        "bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
         className
       )}
     >
@@ -292,7 +277,7 @@ export default function VideoHistory({
         <div className="flex items-center justify-center py-8">
           <Loader2 className="h-6 w-6 text-gray-500 animate-spin" />
         </div>
-      ) : videosToShow.length === 0 ? (
+      ) : history.length === 0 ? (
         <div className="text-center py-8">
           <History className="h-12 w-12 text-gray-600 mx-auto mb-3" />
           <p className="text-gray-400">No video generations yet</p>
@@ -301,39 +286,25 @@ export default function VideoHistory({
           </p>
         </div>
       ) : (
-        <div
-          className="xl:flex-1 xl:overflow-y-auto video-history-scroll xl:dark-scrollbar"
-        >
+        <div className="lg:flex-1 lg:overflow-y-auto video-history-scroll lg:dark-scrollbar">
           <div className="divide-y divide-gray-700">
-            {/* 如果显示的是示例视频，添加提示 */}
-            {(!user?.uuid || history.length === 0) && (
-              <div className="p-4 bg-blue-900/20 border-b border-blue-500/30">
-                <div className="flex items-center gap-2 text-blue-300 text-sm">
-                  <Sparkles className="h-4 w-4" />
-                  <span>
-                    {!user?.uuid
-                      ? "Sign in to see your video generations. Here are some examples:"
-                      : "Here are some example videos to get you started:"}
-                  </span>
-                </div>
-              </div>
+            {(isMobile ? [...history] : [...history].reverse()).map(
+              (generation) => (
+                <VideoHistoryItem
+                  key={generation.id}
+                  generation={generation}
+                  statusMap={STATUS_MAP}
+                  isExpanded={expandedPrompts.has(generation.id)}
+                  onToggleExpanded={() => togglePromptExpansion(generation.id)}
+                  onDownload={handleDownload}
+                  isExample={false}
+                  isClient={isClient}
+                  onEdit={onEditVideo}
+                  onRegenerate={onRegenerateVideo}
+                  canEdit={true} // Always true for real videos
+                />
+              )
             )}
-
-            {(isMobile ? [...videosToShow] : [...videosToShow].reverse()).map((generation) => (
-              <VideoHistoryItem
-                key={generation.id}
-                generation={generation}
-                statusMap={STATUS_MAP}
-                isExpanded={expandedPrompts.has(generation.id)}
-                onToggleExpanded={() => togglePromptExpansion(generation.id)}
-                onDownload={handleDownload}
-                isExample={!user?.uuid || history.length === 0}
-                isClient={isClient}
-                onEdit={onEditVideo}
-                onRegenerate={onRegenerateVideo}
-                canEdit={!!user?.uuid && history.length > 0} // Only for logged-in users with real videos
-              />
-            ))}
           </div>
         </div>
       )}

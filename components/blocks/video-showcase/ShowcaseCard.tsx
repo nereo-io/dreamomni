@@ -4,7 +4,7 @@ import React from "react";
 import { Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import type { ShowcaseVideo } from "@/data/showcase-videos";
+import type { ShowcaseVideo } from "@/data/showcase-text-videos";
 
 interface ShowcaseCardProps {
   video: ShowcaseVideo;
@@ -17,22 +17,23 @@ export default function ShowcaseCard({
   video,
   isSelected,
   onSelect,
-  onCreate
+  onCreate,
 }: ShowcaseCardProps) {
   return (
     <div
-      className="relative flex-shrink-0 w-[180px] cursor-pointer"
+      className="relative flex-shrink-0 w-[180px] cursor-pointer group"
       onClick={() => onSelect(video)}
       style={{ scrollSnapAlign: "start" }}
     >
       {/* Card with border */}
       <div
         className={cn(
-          "relative aspect-video bg-gray-800 rounded-lg overflow-hidden transition-all duration-300",
+          "relative bg-gray-800 rounded-lg overflow-hidden transition-all duration-300",
           isSelected
-            ? "border-2 border-blue-500"
-            : "border-2 border-transparent hover:border-gray-600"
+            ? "border-2 border-primary"
+            : "border-2 border-transparent hover:border-primary/50"
         )}
+        style={{ aspectRatio: "16/12" }}
       >
         <img
           src={video.thumbnailUrl}
@@ -43,38 +44,18 @@ export default function ShowcaseCard({
         {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-        {/* Play icon */}
-        {!isSelected && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center">
-              <Play className="h-4 w-4 text-white ml-0.5" />
-            </div>
-          </div>
-        )}
-
-        {/* Create button - shown when selected */}
-        {isSelected && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                onCreate(video);
-              }}
-              className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-3 py-1.5 rounded-md flex items-center gap-1 text-sm"
-            >
-              <Play className="h-3 w-3" />
-              Create
-            </Button>
-          </div>
-        )}
-
-        {/* Video info */}
-        <div className="absolute bottom-0 left-0 right-0 p-2">
-          <div className="flex items-center gap-1 mt-0.5">
-            <span className="text-[10px] text-gray-300">{video.duration}s</span>
-            <span className="text-[10px] text-gray-400">•</span>
-            <span className="text-[10px] text-gray-300">{video.aspectRatio}</span>
-          </div>
+        {/* Create button - shown on hover, positioned in lower middle */}
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              onCreate(video);
+            }}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-2.5 py-1 rounded-md flex items-center gap-1 text-xs"
+          >
+            <Play className="h-3 w-3" />
+            Create
+          </Button>
         </div>
       </div>
     </div>

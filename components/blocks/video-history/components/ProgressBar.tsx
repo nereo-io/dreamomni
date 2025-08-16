@@ -21,7 +21,7 @@ const ProgressBar: React.FC<ProgressBarProps> = React.memo(({
       <div className="relative w-full h-2 bg-gray-700/50 rounded-full overflow-hidden">
         {/* Progress bar fill with gradient */}
         <div 
-          className="absolute top-0 left-0 h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full transition-all duration-500 ease-out"
+          className="absolute top-0 left-0 h-full bg-primary rounded-full transition-all duration-500 ease-out"
           style={{ width: `${clampedProgress}%` }}
         >
           {/* Animated shimmer effect */}
