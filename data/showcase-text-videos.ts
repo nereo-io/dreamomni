@@ -1,15 +1,4 @@
-export interface ShowcaseVideo {
-  id: string;
-  title: string;
-  prompt: string;
-  videoUrl: string;
-  thumbnailUrl: string;
-  duration: number; // in seconds
-  aspectRatio: "16:9" | "9:16" | "1:1";
-  model: string;
-  category: "featured" | "trending" | "new";
-  tags?: string[];
-}
+import { ShowcaseVideo } from "@/types/showcase";
 
 export const SHOWCASE_TEXT_VIDEOS: ShowcaseVideo[] = [
   {

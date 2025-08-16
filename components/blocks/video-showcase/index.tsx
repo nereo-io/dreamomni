@@ -9,11 +9,9 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
-import {
-  SHOWCASE_TEXT_VIDEOS,
-  type ShowcaseVideo,
-} from "@/data/showcase-text-videos";
+import { SHOWCASE_TEXT_VIDEOS } from "@/data/showcase-text-videos";
 import { SHOWCASE_IMAGE_VIDEOS } from "@/data/showcase-image-videos";
+import { ShowcaseVideo } from "@/types/showcase";
 import ShowcaseCard from "./ShowcaseCard";
 
 interface VideoShowcaseProps {

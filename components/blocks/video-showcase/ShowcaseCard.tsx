@@ -4,7 +4,7 @@ import React from "react";
 import { Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import type { ShowcaseVideo } from "@/data/showcase-text-videos";
+import type { ShowcaseVideo } from "@/types/showcase";
 
 interface ShowcaseCardProps {
   video: ShowcaseVideo;

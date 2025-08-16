@@ -12,7 +12,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { getStatusMap, INCOMPLETE_STATUSES } from "./components/constants";
 import VideoHistoryItem from "./components/VideoHistoryItem";
 import VideoShowcase from "../video-showcase";
-import type { ShowcaseVideo } from "@/data/showcase-text-videos";
+import type { ShowcaseVideo } from "@/types/showcase";
 
 interface VideoHistoryProps {
   refreshTrigger?: number;
