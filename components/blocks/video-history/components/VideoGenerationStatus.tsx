@@ -12,6 +12,7 @@ interface VideoGenerationStatusProps {
   modelName?: string;
   className?: string;
   backgroundImage?: string;
+  errorMessage?: string;
 }
 
 const VideoGenerationStatus: React.FC<VideoGenerationStatusProps> = React.memo(({
@@ -20,7 +21,8 @@ const VideoGenerationStatus: React.FC<VideoGenerationStatusProps> = React.memo((
   estimatedTime = 60,
   modelName,
   className,
-  backgroundImage
+  backgroundImage,
+  errorMessage
 }) => {
   const { elapsedTime, progress, remainingTime } = useGenerationProgress({
     createdAt,
@@ -92,12 +94,12 @@ const VideoGenerationStatus: React.FC<VideoGenerationStatusProps> = React.memo((
             <div className="absolute inset-0 bg-gray-800/50" />
             
             {/* Content */}
-            <div className="relative z-10 h-full flex flex-col items-center justify-center px-8">
-              <div className="w-full max-w-2xl space-y-6">
+            <div className="relative z-10 h-full flex flex-col items-center justify-center px-6">
+              <div className="w-full space-y-4">
                 {/* Header */}
-                <div className="flex items-center gap-3 justify-center">
-                  <Loader2 className="h-5 w-5 text-blue-400 animate-spin" />
-                  <span className="text-lg font-medium text-white">
+                <div className="flex items-center gap-2 justify-center">
+                  <Loader2 className="h-4 w-4 text-blue-400 animate-spin" />
+                  <span className="text-base font-medium text-white">
                     Generating your video...
                   </span>
                 </div>
@@ -110,17 +112,33 @@ const VideoGenerationStatus: React.FC<VideoGenerationStatusProps> = React.memo((
                   {Math.round(progress)}%
                 </div>
 
-                {/* Time information */}
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-300">
-                    Elapsed: <span className="font-medium">{Math.floor(elapsedTime)} seconds</span>
-                  </span>
-                  <span className="text-gray-300">
-                    Remaining: <span className="font-medium">{Math.floor(remainingTime)} seconds</span>
-                  </span>
+                {/* Remaining time - centered */}
+                <div className="text-center text-sm text-gray-300">
+                  Remaining: <span className="font-medium text-white">{Math.floor(remainingTime)}s</span>
                 </div>
               </div>
             </div>
+          </div>
+        );
+
+      case "FAILED":
+        return (
+          <div className="flex flex-col items-center justify-center py-8">
+            <div className="relative mb-4">
+              <div className="absolute inset-0 bg-red-500/20 blur-xl rounded-full" />
+              <Info className="h-12 w-12 text-red-400 relative" />
+            </div>
+            <h3 className="text-lg font-medium text-white mb-2">
+              Generation Failed
+            </h3>
+            {/* Error message */}
+            {errorMessage && (
+              <div className="mt-3 p-3 bg-red-900/20 rounded-lg border border-red-500/30 max-w-md">
+                <p className="text-xs text-red-300 leading-relaxed">
+                  ❌ {errorMessage}
+                </p>
+              </div>
+            )}
           </div>
         );
 
@@ -131,9 +149,9 @@ const VideoGenerationStatus: React.FC<VideoGenerationStatusProps> = React.memo((
 
   return (
     <div className={cn(
-      "w-full h-56 sm:h-64 md:h-72 lg:h-80 xl:h-96 rounded-lg overflow-hidden",
+      "rounded-lg overflow-hidden",
       className
-    )}>
+    )} style={{ width: '438px', height: '288px' }}>
       {renderStatusContent()}
     </div>
   );

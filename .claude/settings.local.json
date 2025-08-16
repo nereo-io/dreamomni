@@ -117,7 +117,8 @@
       "mcp__github-chat__index_repository",
       "mcp__context7__get-library-docs",
       "WebFetch(domain:docs.creem.io)",
-      "Bash(open http://localhost:3000/image-to-video)"
+      "Bash(open http://localhost:3000/image-to-video)",
+      "Bash(open http://localhost:3000/text-to-video)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

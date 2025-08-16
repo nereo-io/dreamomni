@@ -9,7 +9,6 @@ import { toast } from "sonner";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
 import { useAppContext } from "@/contexts/app";
 
-
 import type { VideoGenerationParams } from "../video-generator";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 
@@ -34,12 +33,21 @@ export function VideoGenerationTool({
     prompt: string;
     aspectRatio: string;
     duration: number;
+    model?: string;
+    imageUrl?: string;
   } | null>(null);
-  const [editVideoData, setEditVideoData] = useState<VideoGenerationResult | null>(null);
+  const [editVideoData, setEditVideoData] =
+    useState<VideoGenerationResult | null>(null);
 
   // Handle showcase video selection
-  const handleShowcaseVideoSelect = (prompt: string, aspectRatio: string, duration: number) => {
-    setShowcaseVideoParams({ prompt, aspectRatio, duration });
+  const handleShowcaseVideoSelect = (
+    prompt: string,
+    aspectRatio: string,
+    duration: number,
+    model?: string,
+    imageUrl?: string
+  ) => {
+    setShowcaseVideoParams({ prompt, aspectRatio, duration, model, imageUrl });
   };
 
   // Handle edit video - populate form with existing video data
@@ -95,7 +103,11 @@ export function VideoGenerationTool({
       if (user?.uuid) {
         try {
           const historyData = await fetchHistory(1, 1); // 只需要获取总数
-          if (historyData && historyData.pagination && typeof historyData.pagination.total === 'number') {
+          if (
+            historyData &&
+            historyData.pagination &&
+            typeof historyData.pagination.total === "number"
+          ) {
             setUserVideoCount(historyData.pagination.total);
           }
         } catch (error) {
@@ -151,7 +163,7 @@ export function VideoGenerationTool({
 
   return (
     <div className="w-full mb-6 sm:mb-8 lg:mb-10 lg:h-[calc(100vh-120px)]">
-      <div className="flex flex-col lg:flex-row gap-4 h-full">
+      <div className="flex flex-col lg:flex-row gap-2 h-full">
         <VideoGenerator
           mode={mode}
           onGenerate={handleGenerate}

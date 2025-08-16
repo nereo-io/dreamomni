@@ -20,12 +20,13 @@ function HomeLayoutContent({ children }: { children: ReactNode }) {
       <Sidebar />
 
       <div
-        className={`transition-all duration-300 ${isCollapsed ? "md:ml-16" : "md:ml-56"
-          }`}
+        className={`transition-all duration-300 ${
+          isCollapsed ? "md:ml-16" : "md:ml-56"
+        }`}
       >
         <AIVideoHeader />
 
-        <main className="px-2 py-6 pt-[81px]">{children}</main>
+        <main className="px-2 py-6 pt-[78px]">{children}</main>
       </div>
     </div>
   );

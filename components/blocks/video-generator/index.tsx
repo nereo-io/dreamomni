@@ -51,6 +51,8 @@ interface VideoGeneratorProps {
     prompt: string;
     aspectRatio: string;
     duration: number;
+    model?: string;
+    imageUrl?: string;
   } | null;
   onShowcaseVideoParamsUsed?: () => void;
   editVideoData?: VideoGenerationResult | null;
@@ -115,11 +117,26 @@ export default function VideoGenerator({
       setDescription(showcaseVideoParams.prompt);
       setSelectedRatio(showcaseVideoParams.aspectRatio);
       setSelectedDuration(`${showcaseVideoParams.duration}s`);
+      
+      // Set model if provided
+      if (showcaseVideoParams.model) {
+        setSelectedModel(showcaseVideoParams.model);
+      }
+
+      // Set image if provided (for image-to-video mode)
+      if (showcaseVideoParams.imageUrl && mode === "image-to-video") {
+        setSelectedImage(showcaseVideoParams.imageUrl);
+        setImagePreview(showcaseVideoParams.imageUrl);
+        setUploadedImageUrl(showcaseVideoParams.imageUrl);
+      }
 
       // Focus on the description textarea
       if (textareaRef.current) {
         textareaRef.current.focus();
-        textareaRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        textareaRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
       }
 
       // Notify parent that params have been used
@@ -127,7 +144,7 @@ export default function VideoGenerator({
         onShowcaseVideoParamsUsed();
       }
     }
-  }, [showcaseVideoParams, onShowcaseVideoParamsUsed]);
+  }, [showcaseVideoParams, onShowcaseVideoParamsUsed, mode]);
 
   // Populate form fields when edit video data is provided
   useEffect(() => {
@@ -136,20 +153,23 @@ export default function VideoGenerator({
       setSelectedModel(editVideoData.model_id);
       setSelectedRatio(editVideoData.aspect_ratio || "16:9");
       setSelectedDuration(`${editVideoData.duration_seconds || 5}s`);
-      
+
       // If it's image-to-video mode and has image_url, set the image
       if (mode === "image-to-video" && editVideoData.image_url) {
         setSelectedImage(editVideoData.image_url);
         setImagePreview(editVideoData.image_url);
         setUploadedImageUrl(editVideoData.image_url);
       }
-      
+
       // Focus on the description textarea
       if (textareaRef.current) {
         textareaRef.current.focus();
-        textareaRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        textareaRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
       }
-      
+
       // Notify parent that edit data has been used
       if (onEditVideoDataUsed) {
         onEditVideoDataUsed();
@@ -510,7 +530,7 @@ export default function VideoGenerator({
   };
 
   return (
-    <div className="bg-gray-900 rounded-2xl shadow-lg video-generator-container flex flex-col flex-shrink-0 w-full lg:w-[480px] lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]">
+    <div className="bg-gray-900 rounded-xl shadow-lg video-generator-container flex flex-col flex-shrink-0 w-full lg:w-[420px] lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]">
       {/* Scrollable content area */}
       <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
         <div className="space-y-4 md:space-y-5 px-4 md:px-6 py-4 md:py-5">
@@ -529,7 +549,9 @@ export default function VideoGenerator({
               </div>
               {/* Prompt Enhancement Toggle */}
               <div className="flex items-center gap-2 flex-shrink-0">
-                <span className="text-xs text-gray-400 whitespace-nowrap">Prompt Enhancement</span>
+                <span className="text-xs text-gray-400 whitespace-nowrap">
+                  Prompt Enhancement
+                </span>
                 <Switch
                   checked={enablePromptEnhancement}
                   onCheckedChange={setEnablePromptEnhancement}
@@ -556,17 +578,22 @@ export default function VideoGenerator({
               </div>
               {!imagePreview ? (
                 <div
-                  className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${isUploadingImage
-                    ? "cursor-not-allowed opacity-50"
-                    : "cursor-pointer"
-                    } ${isDragOver
+                  className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+                    isUploadingImage
+                      ? "cursor-not-allowed opacity-50"
+                      : "cursor-pointer"
+                  } ${
+                    isDragOver
                       ? "border-blue-400 bg-blue-900/50"
                       : "border-gray-600 hover:border-gray-500"
-                    }`}
+                  }`}
                   onDragOver={!isUploadingImage ? handleDragOver : undefined}
                   onDragLeave={!isUploadingImage ? handleDragLeave : undefined}
                   onDrop={!isUploadingImage ? handleDrop : undefined}
-                  onClick={() => !isUploadingImage && document.getElementById("image-upload")?.click()}
+                  onClick={() =>
+                    !isUploadingImage &&
+                    document.getElementById("image-upload")?.click()
+                  }
                 >
                   <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                   <div className="space-y-2">
@@ -640,10 +667,11 @@ export default function VideoGenerator({
                             selectedModelConfig.id.includes("kling")
                               ? "/imgs/intro/kling.svg"
                               : selectedModelConfig.id.includes("veo")
-                                ? "/imgs/intro/veo.svg"
-                                : selectedModelConfig.id.includes("wan") || selectedModelConfig.id.includes("ali")
-                                  ? "/imgs/intro/wan.png"
-                                  : "/imgs/intro/seedance.png"
+                              ? "/imgs/intro/veo.svg"
+                              : selectedModelConfig.id.includes("wan") ||
+                                selectedModelConfig.id.includes("ali")
+                              ? "/imgs/intro/wan.png"
+                              : "/imgs/intro/seedance.png"
                           }
                           alt={selectedModelConfig.provider}
                           className="w-4 h-4 flex-shrink-0"
@@ -664,10 +692,11 @@ export default function VideoGenerator({
                             model.id.includes("kling")
                               ? "/imgs/intro/kling.svg"
                               : model.id.includes("veo")
-                                ? "/imgs/intro/veo.svg"
-                                : model.id.includes("wan") || model.id.includes("ali")
-                                  ? "/imgs/intro/wan.png"
-                                  : "/imgs/intro/seedance.png"
+                              ? "/imgs/intro/veo.svg"
+                              : model.id.includes("wan") ||
+                                model.id.includes("ali")
+                              ? "/imgs/intro/wan.png"
+                              : "/imgs/intro/seedance.png"
                           }
                           alt={model.provider}
                           className="w-5 h-5 flex-shrink-0 mt-0.5"
@@ -718,7 +747,10 @@ export default function VideoGenerator({
                     "1:1",
                   ]
                 ).map((ratio) => (
-                  <label key={ratio} className="flex items-center cursor-pointer min-w-0">
+                  <label
+                    key={ratio}
+                    className="flex items-center cursor-pointer min-w-0"
+                  >
                     <input
                       type="radio"
                       name="ratio"
@@ -728,10 +760,11 @@ export default function VideoGenerator({
                       className="sr-only"
                     />
                     <div
-                      className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${selectedRatio === ratio
-                        ? "border-primary bg-primary"
-                        : "border-gray-500"
-                        }`}
+                      className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
+                        selectedRatio === ratio
+                          ? "border-primary bg-primary"
+                          : "border-gray-500"
+                      }`}
                     >
                       {selectedRatio === ratio && (
                         <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
@@ -764,10 +797,11 @@ export default function VideoGenerator({
                         className="sr-only"
                       />
                       <div
-                        className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${selectedDuration === `${duration}s`
-                          ? "border-primary bg-primary"
-                          : "border-gray-500"
-                          }`}
+                        className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
+                          selectedDuration === `${duration}s`
+                            ? "border-primary bg-primary"
+                            : "border-gray-500"
+                        }`}
                       >
                         {selectedDuration === `${duration}s` && (
                           <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
@@ -802,10 +836,11 @@ export default function VideoGenerator({
                       className="sr-only"
                     />
                     <div
-                      className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${selectedResolution === resolution
-                        ? "border-primary bg-primary"
-                        : "border-gray-500"
-                        }`}
+                      className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
+                        selectedResolution === resolution
+                          ? "border-primary bg-primary"
+                          : "border-gray-500"
+                      }`}
                     >
                       {selectedResolution === resolution && (
                         <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
@@ -839,7 +874,6 @@ export default function VideoGenerator({
               </div>
             </div>
           </div>
-
         </div>
       </div>
 
@@ -861,7 +895,9 @@ export default function VideoGenerator({
           {isGenerating || isSubmitting ? (
             <>
               <Play className="mr-2 h-4 w-4 animate-spin" />
-              <span className="truncate">{isSubmitting ? t("uploading") : t("generating")}</span>
+              <span className="truncate">
+                {isSubmitting ? t("uploading") : t("generating")}
+              </span>
             </>
           ) : (
             <>
