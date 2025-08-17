@@ -194,7 +194,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `pnpm dev` - Start development server (Node warnings disabled)
 - `pnpm build` - Production build
 - `pnpm start` - Start production server
-- `pnpm lint` - Run ESLint
+- `pnpm lint` - Run ESLint (code linting and formatting)
+
+### Code Quality
+
+- Run `pnpm lint` before committing changes to ensure code quality
+- TypeScript checking is handled by Next.js build process
+- Use `pnpm build` to verify TypeScript compilation and catch type errors
 
 ### Testing
 
@@ -227,3 +233,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 如果启动本地服务器的时候,遇到了缓存问题,可以使用 `rm -rf .next` 清理一下缓存
 - 在使用 `pnpm dev` 之前,先检查一下本地服务是否有启动.如果已经启动了,直接使用本地服务器就好.如果希望打印 log 测试,可以先 kill 本地服务,再重新启动.尽量使用 3000 端口,以为一般他和 ngrok 是绑定的. 测试完成后杀死 3000 端口的使用。
 - 使用 `pnpm dev 2>&1 | tee dev.log` 进行调试日志记录
+
+## important-instruction-reminders
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
