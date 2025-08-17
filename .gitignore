@@ -45,6 +45,7 @@ Makefile
 wrangler.toml
 supabase
 magicuidesign-saas-template-12514ccfe8614a3204f886565bc3ab7b75bfded3
+.claude
 
 # instructions
 /a_instructions/
