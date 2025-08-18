@@ -80,3 +80,10 @@ Cookie: {{authCookie}}
   "imageUrl": "https://picsum.photos/id/1015/800/600"
 }
 
+### ========== Payssion V2 Webhook Tests ==========
+
+### Payssion V2 Webhook Test - Payment Succeeded (首次支付)
+POST https://b3b0385f848b.ngrok-free.app/api/payssion/v2-webhook
+Content-Type: application/json; charset=UTF-8
+
+{"object":"event","livemode":false,"type":"payment.succeeded","data":{"object":{"id":"pm_vHGSCGe1y9aPiHGq5C9C4AWD","object":"payment","livemode":false,"payment_method":"sberpay_ru","flow":"direct","terminal_type":"web","reference":null,"source":"subscription","source_id":"sub_LOC4CGzHSeHKGmrr","mandate_id":"mdt_D40ej9Tu9q5GiXHC","customer_id":"cst_TCKiT4vDiHOCTWLG","currency":"USD","amount":"15.00","currency_local":"RUB","amount_local":"1315.38","amount_paid":"15.00","amount_refunded":"0.00","amount_local_paid":"1315.38","amount_local_refunded":"0.00","fx_to_local_converted":87.6917,"failure_message":null,"failure_code":null,"status":"paid","paid":true,"description":"Subscription for Veo3 AI Мини","action":[],"return_url":null,"metadata":{"project":"Veo3","product_name":"Veo3 AI Мини","product_id":"mini-monthly","order_no":"727756243296325","user_email":"hugeroger@gmail.com","credits":200,"user_uuid":"f54371bb-72c1-4c41-91ef-3c9c0b924704","interval":"month","amount":1500,"currency":"USD"},"extra":[],"time_created":"2025-08-18T18:07:49+08:00","time_paid":"2025-08-18T18:07:49+08:00","time_expired":null,"amount_disputed":null,"is_disputed":false}},"request":"iar_LWHmTKazvbn1mjP4aHaXH4u9","account":"acct_zb5mH8","time_created":"2025-08-18T18:07:49+08:00"}
