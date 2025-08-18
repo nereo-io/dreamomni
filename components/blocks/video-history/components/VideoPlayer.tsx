@@ -14,22 +14,23 @@ const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
   canDownload 
 }) => {
   return (
-    <div className="relative inline-block group bg-black rounded-lg" style={{ width: '518px', height: '288px' }}>
-      <video
-        className="rounded-lg w-full h-full"
-        style={{ objectFit: 'contain' }}
-        controls
-        preload="auto"
-        muted
-        playsInline
-        onLoadedData={(e) => {
-          const video = e.target as HTMLVideoElement;
-          video.currentTime = 0.1;
-        }}
-      >
-        <source src={videoUrl} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+    <div className="relative w-full max-w-[518px] group bg-black rounded-lg overflow-hidden">
+      <div className="aspect-video w-full">
+        <video
+          className="rounded-lg w-full h-full object-contain"
+          controls
+          preload="auto"
+          muted
+          playsInline
+          onLoadedData={(e) => {
+            const video = e.target as HTMLVideoElement;
+            video.currentTime = 0.1;
+          }}
+        >
+          <source src={videoUrl} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
 
       {/* Download button */}
       <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
