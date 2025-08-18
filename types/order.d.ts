@@ -29,4 +29,6 @@ export interface Order {
   payment_method?: string;
   payssion_transaction_id?: string;
   payment_provider_fee?: number;
+  // Yandex Direct tracking
+  yclid?: string | null;
 }

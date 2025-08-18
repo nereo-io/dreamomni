@@ -474,6 +474,25 @@ export class PayssionProvider extends BasePaymentProvider {
     }
 
     console.log(`✅ Payment completed: ${processingResult.creditsAwarded} credits awarded`);
+    
+    // 3. Track offline conversion for Yandex Direct
+    try {
+      const { offlineConversionService } = await import("@/services/analytics/yandex-offline-conversion");
+      const { findOrderByOrderNo } = await import("@/models/order");
+      
+      const order = await findOrderByOrderNo(metadata.order_no);
+      if (order?.yclid) {
+        await offlineConversionService.trackPaymentSuccess(
+          order.yclid,
+          metadata.order_no,
+          amount
+        );
+        console.log(`✅ Offline conversion tracked for Yandex Direct: ${order.yclid}`);
+      }
+    } catch (conversionError: any) {
+      console.error("⚠️ Failed to track offline conversion:", conversionError.message);
+      // Don't fail the payment processing if conversion tracking fails
+    }
   }
 
   /**

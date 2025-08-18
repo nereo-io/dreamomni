@@ -86,6 +86,11 @@ export async function POST(req: NextRequest) {
       return respErr("invalid user");
     }
 
+    // Extract yclid from cookies for Yandex Direct offline conversion tracking
+    const cookieHeader = req.headers.get('cookie') || '';
+    const yclidMatch = cookieHeader.match(/yclid=([^;]+)/);
+    const yclid = yclidMatch ? yclidMatch[1] : null;
+
     // 创建订单号
     const order_no = getSnowId();
 
@@ -132,6 +137,7 @@ export async function POST(req: NextRequest) {
       valid_months: valid_months,
       payment_provider: getPaymentProvider(payment_method),
       payment_method: payment_method,
+      yclid: yclid, // Add yclid for offline conversion tracking
     };
     await insertOrder(order);
 

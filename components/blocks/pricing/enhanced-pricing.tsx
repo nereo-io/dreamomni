@@ -109,7 +109,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     trackPricingView();
   }, []);
 
-  // 检测支付成功状态
+  // 检测支付成功状态（仅用于显示成功弹窗，不再上报 Metrica）
   useEffect(() => {
     const checkRecentPayment = async () => {
       // 检查是否有支付等待标记
@@ -138,14 +138,6 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
           // 显示成功弹窗
           setShowSuccessModal(true);
-
-          // 上报支付成功事件到 Yandex Metrica
-          const orderId = `order_${paymentTimestamp}`;
-          trackPayment(
-            orderId,
-            paymentInfo.amount || 0,
-            paymentInfo.planName || paymentInfo.interval || "subscription"
-          );
 
           // 清除等待标记
           localStorage.removeItem("veo3_payment_pending");
@@ -221,7 +213,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       user_preference: selectedProvider,
     };
 
-    // 设置支付等待标记
+    // 设置支付等待标记（仅用于显示成功弹窗）
     const paymentTimestamp = Date.now();
     localStorage.setItem("veo3_payment_pending", "true");
     localStorage.setItem("veo3_payment_timestamp", paymentTimestamp.toString());
@@ -311,9 +303,6 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                       Date.now() + 30 * 24 * 60 * 60 * 1000
                     ).toLocaleDateString(),
             });
-            localStorage.removeItem("veo3_payment_pending");
-            localStorage.removeItem("veo3_payment_timestamp");
-            localStorage.removeItem("veo3_payment_info");
           }
           setShowSuccessModal(true);
         } else {
@@ -342,9 +331,6 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                       Date.now() + 30 * 24 * 60 * 60 * 1000
                     ).toLocaleDateString(),
             });
-            localStorage.removeItem("veo3_payment_pending");
-            localStorage.removeItem("veo3_payment_timestamp");
-            localStorage.removeItem("veo3_payment_info");
           }
           setShowSuccessModal(true);
         } else {

@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { respData, respErr } from "@/lib/resp";
-import { updateOrderStatus } from "@/models/order";
+import { updateOrderStatus, findOrderByOrderNo } from "@/models/order";
 import { insertCredit } from "@/models/credit";
 import { updateMembership } from "@/models/membership";
 import { findUserByUuid } from "@/models/user";
@@ -14,6 +14,7 @@ import {
   findCreemSubscriptionByCreemId,
   updateCreemSubscriptionStatus
 } from "@/models/creem-subscription";
+import { offlineConversionService } from "@/services/analytics/yandex-offline-conversion";
 
 // 日志函数
 function logInfo(message: string, data?: any) {
@@ -386,6 +387,26 @@ async function processPaymentSuccess(params: {
     } catch (subscriptionError: any) {
       logError("⚠️ Failed to create/update subscription record", subscriptionError.message);
       // 即使订阅记录创建失败，也不影响支付成功的处理
+    }
+
+    // Track offline conversion for Yandex Direct
+    try {
+      const order = await findOrderByOrderNo(orderNo);
+      if (order?.yclid) {
+        await offlineConversionService.trackPaymentSuccess(
+          order.yclid,
+          orderNo,
+          productConfig.amount
+        );
+        logInfo("✅ Offline conversion tracked for Yandex Direct", {
+          yclid: order.yclid,
+          orderNo,
+          amount: productConfig.amount
+        });
+      }
+    } catch (conversionError: any) {
+      logError("⚠️ Failed to track offline conversion", conversionError.message);
+      // Don't fail the payment processing if conversion tracking fails
     }
 
     logInfo("🎉 Payment success processing completed", {

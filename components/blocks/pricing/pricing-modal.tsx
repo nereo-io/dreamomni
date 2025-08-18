@@ -111,7 +111,7 @@ export default function PricingModal({
     }
   }, [isOpen, trackPricingView]);
 
-  // 检测支付成功状态
+  // 检测支付成功状态（仅用于显示成功弹窗，不再上报 Metrica）
   useEffect(() => {
     const checkRecentPayment = async () => {
       const paymentPending = localStorage.getItem("veo3_payment_pending");
@@ -206,6 +206,7 @@ export default function PricingModal({
       user_preference: selectedProvider,
     };
 
+    // 设置支付等待标记（仅用于显示成功弹窗）
     const paymentTimestamp = Date.now();
     localStorage.setItem("veo3_payment_pending", "true");
     localStorage.setItem("veo3_payment_timestamp", paymentTimestamp.toString());
@@ -281,9 +282,6 @@ export default function PricingModal({
                       Date.now() + 30 * 24 * 60 * 60 * 1000
                     ).toLocaleDateString(),
             });
-            localStorage.removeItem("veo3_payment_pending");
-            localStorage.removeItem("veo3_payment_timestamp");
-            localStorage.removeItem("veo3_payment_info");
           }
           setShowSuccessModal(true);
         } else {
@@ -309,9 +307,6 @@ export default function PricingModal({
                       Date.now() + 30 * 24 * 60 * 60 * 1000
                     ).toLocaleDateString(),
             });
-            localStorage.removeItem("veo3_payment_pending");
-            localStorage.removeItem("veo3_payment_timestamp");
-            localStorage.removeItem("veo3_payment_info");
           }
           setShowSuccessModal(true);
         } else {
