@@ -33,8 +33,8 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     interval: "month",
     valid_months: 1,
     membershipType: "monthly",
-    // creem_product_id: "prod_48xHjWLvgMo6JQej1x9DMe", // Creem 月付费产品ID
-    creem_product_id: "prod_3anPiH9opJYivargJPlZTV", //测试用
+    creem_product_id: "prod_48xHjWLvgMo6JQej1x9DMe", // Creem 月付费产品ID
+    // creem_product_id: "prod_3anPiH9opJYivargJPlZTV", //测试用
   },
   {
     product_id: "mini-yearly",
