@@ -122,12 +122,14 @@ export async function increaseCredits({
   credits,
   expired_at,
   order_no,
+  payment_id,
 }: {
   user_uuid: string;
   trans_type: string;
   credits: number;
   expired_at?: string;
   order_no?: string;
+  payment_id?: string;
 }) {
   try {
     const new_credit: Credit = {
@@ -138,6 +140,7 @@ export async function increaseCredits({
       credits: credits,
       order_no: order_no || "",
       expired_at: expired_at || undefined,
+      payment_id: payment_id || undefined,
     };
     await insertCredit(new_credit);
   } catch (e) {

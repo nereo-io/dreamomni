@@ -427,20 +427,22 @@ export class PayssionProvider extends BasePaymentProvider {
    * 处理支付成功事件 - 激活订阅并发放积分
    */
   private async handlePaymentSucceeded(data: any) {
+    const paymentId = data.object?.id;  // 实际的支付ID (如 pm_HOm50K4GybH0eXP0uPzn9W9S)
     const subscriptionId = data.object?.source_id;
     const amount = parseFloat(data.object?.amount);
     const metadata = data.object?.metadata;
 
-    console.log(`💰 Payment succeeded: ${metadata?.order_no} ($${amount})`);
+    console.log(`💰 Payment succeeded: order ${metadata?.order_no}, payment ${paymentId} ($${amount})`);
 
+    // 使用 order_no + payment_id 进行幂等性检查
     const alreadyProcessed =
       await PaymentProcessingService.checkPaymentAlreadyProcessed(
-        metadata.order_no,
-        metadata.user_uuid
+        metadata.order_no,  // order_no
+        paymentId          // payment_id (每次支付都不同)
       );
 
     if (alreadyProcessed) {
-      console.log("⚠️ Payment already processed:", subscriptionId);
+      console.log("⚠️ Payment already processed:", paymentId);
       return;
     }
 
@@ -456,7 +458,8 @@ export class PayssionProvider extends BasePaymentProvider {
 
     // 2. 处理支付并发放积分
     const processingResult = await PaymentProcessingService.processPayment({
-      paymentId: metadata.order_no,
+      paymentId,  // 实际的支付ID，不是 order_no
+      orderId: metadata.order_no,  // 订单号
       userUuid: metadata.user_uuid,
       amount: amount.toString(),
       subscriptionId,

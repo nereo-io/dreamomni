@@ -82,6 +82,7 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
         credits: actualCreditsToIncrease,
         order_no: order.order_no,
         expired_at: order.expired_at || getOneYearLaterTimestr(),
+        payment_id: session.metadata.payment_id, // 从 metadata 获取 payment_id
       });
       console.log(
         `Increased ${actualCreditsToIncrease} credits for user ${user_uuid} for order ${order.order_no} (Product ID: ${product_id})`
