@@ -485,12 +485,19 @@ export class PayssionProvider extends BasePaymentProvider {
       
       const order = await findOrderByOrderNo(metadata.order_no);
       if (order?.yclid) {
-        await offlineConversionService.trackPaymentSuccess(
+        const success = await offlineConversionService.trackPaymentSuccess(
           order.yclid,
           metadata.order_no,
           amount
         );
-        console.log(`✅ Offline conversion tracked for Yandex Direct: ${order.yclid}`);
+        
+        if (success) {
+          console.log(`✅ Offline conversion tracked for Yandex Direct`, {
+            yclid: order.yclid,
+            orderNo: metadata.order_no,
+            amount
+          });
+        }
       }
     } catch (conversionError: any) {
       console.error("⚠️ Failed to track offline conversion:", conversionError.message);

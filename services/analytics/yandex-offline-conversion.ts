@@ -1,108 +1,176 @@
 /**
- * Yandex Offline Conversion Service
+ * Yandex Metrica Offline Conversion Service
  * 
- * Tracks offline conversions (purchases) back to Yandex Direct clicks
- * using the yclid (Yandex Click ID) parameter.
+ * Based on official documentation:
+ * https://yandex.com/dev/metrika/en/management/offline-conv
+ * https://yandex.com/dev/metrika/en/management/openapi/offline_conversions/upload_1
  * 
- * This enables accurate ROI measurement for Yandex Direct campaigns
- * by attributing actual purchases to specific ad clicks.
+ * Tracks offline conversions using the official Management API with OAuth authentication.
+ * Requires YANDEX_METRICA_OAUTH_TOKEN to be configured.
  */
 
+interface OfflineConversionRow {
+  yclid: string;       // Yandex Direct click ID (required)
+  target: string;      // Goal ID (numeric)
+  dateTime: number;    // Unix timestamp
+  price?: number;      // Goal value
+  currency?: string;   // ISO 4217 currency code
+}
+
+
 class YandexOfflineConversionService {
-  private counterId: string;
+  private counterId: string = '';
+  private oauthToken: string = '';
+  private apiBaseUrl = 'https://api-metrica.yandex.net/management/v1';
   private isDevelopment: boolean;
   
   constructor() {
-    this.counterId = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID || '';
+    // Load environment variables (they might be loaded after construction in Next.js)
+    this.reloadConfig();
     this.isDevelopment = process.env.NODE_ENV !== 'production';
+  }
+  
+  private reloadConfig() {
+    this.counterId = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID || '';
+    this.oauthToken = process.env.YANDEX_METRICA_OAUTH_TOKEN || '';
   }
 
   /**
-   * Track a purchase conversion with Yandex Metrica
-   * 
-   * @param yclid - Yandex Click ID from the original ad click
-   * @param orderId - Unique order identifier
-   * @param amount - Purchase amount
+   * Upload offline conversions using official API
+   * This is the recommended way by Yandex documentation
    */
-  async trackPurchase(yclid: string, orderId: string, amount: number): Promise<boolean> {
-    // Skip if no yclid or counter ID
-    if (!yclid || !this.counterId) {
-      if (this.isDevelopment) {
-        console.log('[YandexOfflineConversion] Skipped: missing yclid or counterId', { yclid, counterId: this.counterId });
-      }
-      return false;
-    }
+  async uploadConversions(
+    conversions: OfflineConversionRow[],
+    comment?: string
+  ): Promise<{ success: boolean; uploadId?: number; error?: string }> {
+    // Reload config in case env vars were loaded after construction
+    this.reloadConfig();
     
-    try {
-      // Construct the Metrica tracking URL
-      const trackingUrl = `https://mc.yandex.ru/watch/${this.counterId}`;
-      
-      // Prepare the tracking data
-      const params = new URLSearchParams({
-        'page-url': `${process.env.NEXT_PUBLIC_WEB_URL || 'https://veo3ai.io'}/payment/success`,
-        'page-ref': process.env.NEXT_PUBLIC_WEB_URL || 'https://veo3ai.io',
-        'ecommerce': JSON.stringify({
-          purchase: {
-            actionField: {
-              id: orderId,
-              revenue: amount,
-              currency: 'USD'
-            },
-            products: [{
-              id: 'subscription',
-              name: 'Veo3 AI Subscription',
-              price: amount,
-              quantity: 1,
-              category: 'subscription'
-            }]
-          }
-        }),
-        'yclid': yclid,
-        'ut': 'noindex' // Don't count as a pageview
-      });
+    // Check prerequisites - these are required
+    if (!this.oauthToken || !this.counterId) {
+      if (this.isDevelopment) {
+        console.log('[YandexOfflineConversion] Not configured:', {
+          hasToken: !!this.oauthToken,
+          hasCounterId: !!this.counterId
+        });
+      }
+      return { success: false, error: 'Not configured' };
+    }
 
-      // Send the tracking request
-      const response = await fetch(trackingUrl, {
+    if (conversions.length === 0) {
+      return { success: false, error: 'No conversions to upload' };
+    }
+
+    try {
+      // Create CSV content for YCLID conversions
+      const csvContent = this.createCSV(conversions);
+      
+      if (this.isDevelopment) {
+        console.log('[YandexOfflineConversion] CSV Preview:', csvContent.split('\n').slice(0, 3).join('\n'));
+      }
+
+      // Create form data
+      const formData = new FormData();
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
+      formData.append('file', blob, 'conversions.csv');
+
+      // Build URL with query parameters
+      let url = `${this.apiBaseUrl}/counter/${this.counterId}/offline_conversions/upload`;
+      const params = new URLSearchParams();
+      
+      // Always use YCLID type
+      params.append('client_id_type', 'YCLID');
+      
+      if (comment) {
+        params.append('comment', comment.substring(0, 255)); // Max 255 chars
+      }
+      
+      url += `?${params.toString()}`;
+
+      // Upload to API
+      if (this.isDevelopment) {
+        console.log('[YandexOfflineConversion] Uploading to:', url);
+      }
+      
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': `OAuth ${this.oauthToken}`,
         },
-        body: params.toString()
+        body: formData
       });
 
       if (response.ok) {
-        console.log(`✅ [YandexOfflineConversion] Purchase tracked successfully`, {
-          yclid,
-          orderId,
-          amount
+        const result = await response.json();
+        
+        console.log('✅ [YandexOfflineConversion] Upload successful', {
+          uploadId: result.uploading?.id,
+          status: result.uploading?.status
         });
-        return true;
+        
+        return { 
+          success: true, 
+          uploadId: result.uploading?.id 
+        };
       } else {
-        console.error(`❌ [YandexOfflineConversion] Failed to track purchase`, {
-          status: response.status,
-          statusText: response.statusText,
-          yclid,
-          orderId
-        });
-        return false;
+        const errorText = await response.text();
+        const error = `Upload failed: ${response.status} ${response.statusText}`;
+        console.error(`❌ [YandexOfflineConversion] ${error}`);
+        console.error(`   Response: ${errorText}`);
+        return { success: false, error };
       }
     } catch (error) {
-      console.error('❌ [YandexOfflineConversion] Error tracking purchase:', error, {
-        yclid,
-        orderId,
-        amount
-      });
-      return false;
+      const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+      console.error('❌ [YandexOfflineConversion] Exception:', errorMsg);
+      return { success: false, error: errorMsg };
     }
   }
 
   /**
-   * Track payment success event (wrapper for trackPurchase)
-   * Provides a more semantic method name for payment contexts
+   * Create CSV content for YCLID conversions
    */
-  async trackPaymentSuccess(yclid: string, orderId: string, amount: number): Promise<boolean> {
-    return this.trackPurchase(yclid, orderId, amount);
+  private createCSV(conversions: OfflineConversionRow[]): string {
+    const headers = ['Yclid', 'Target', 'DateTime', 'Price', 'Currency'];
+    
+    const rows = conversions.map(conv => {
+      return [
+        conv.yclid,
+        conv.target,
+        conv.dateTime.toString(),
+        conv.price?.toString() || '',
+        conv.currency || ''
+      ].join(',');
+    });
+    
+    return [headers.join(','), ...rows].join('\n');
   }
+
+  /**
+   * Upload a single payment conversion (convenience method)
+   */
+  async trackPaymentSuccess(
+    yclid: string, 
+    orderId: string, 
+    amount: number
+  ): Promise<boolean> {
+    // Note: In production, use numeric goal ID (460791468) instead of string
+    // The goal must be created first in Yandex Metrica
+    const conversion: OfflineConversionRow = {
+      yclid,
+      target: '460791468', // Numeric ID for PAYMENT_SUCCESS goal
+      dateTime: Math.floor(Date.now() / 1000), // Current Unix timestamp
+      price: amount,
+      currency: 'USD'
+    };
+
+    const result = await this.uploadConversions(
+      [conversion],
+      `Payment for order ${orderId}`
+    );
+    
+    return result.success;
+  }
+
 }
 
 // Export singleton instance

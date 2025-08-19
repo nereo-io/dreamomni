@@ -264,16 +264,19 @@ async function handleCheckoutCompleted(webhookData: any) {
     try {
       const orderData = await findOrderByOrderNo(orderNo);
       if (orderData?.yclid) {
-        await offlineConversionService.trackPaymentSuccess(
+        const success = await offlineConversionService.trackPaymentSuccess(
           orderData.yclid,
           orderNo,
           productConfig.amount
         );
-        logInfo("✅ Offline conversion tracked for Yandex Direct", {
-          yclid: orderData.yclid,
-          orderNo,
-          amount: productConfig.amount,
-        });
+        
+        if (success) {
+          logInfo("✅ Offline conversion tracked for Yandex Direct", {
+            yclid: orderData.yclid,
+            orderNo,
+            amount: productConfig.amount,
+          });
+        }
       }
     } catch (conversionError: any) {
       logError(
