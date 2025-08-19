@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { logger, Logger, LogCategory } from "@/lib/logger";
 
 // 创建Supabase客户端，用于认证
 function getSupabaseAuthClient() {
@@ -29,7 +30,19 @@ export async function signInWithEmail(email: string, password: string) {
     });
 
     if (error) {
-      console.error("Supabase auth error:", error);
+      // 根据错误类型决定日志级别
+      if (Logger.isSystemError(error)) {
+        logger.error(LogCategory.AUTH, "Supabase authentication system error", 
+          { email, action: "signin" }, error);
+      } else if (error.message?.includes("rate limit") || 
+                 error.message?.includes("too many")) {
+        logger.warn(LogCategory.AUTH, "Rate limit exceeded", 
+          { email, action: "signin" });
+      } else {
+        // 用户错误（密码错误等）只记录INFO级别
+        logger.info(LogCategory.AUTH, "Authentication attempt failed", 
+          { email, action: "signin", metadata: { reason: error.code || "invalid_credentials" } });
+      }
       
       // 处理邮箱未验证错误
       if (
@@ -57,14 +70,16 @@ export async function signInWithEmail(email: string, password: string) {
     }
 
     if (!data.user) {
-      console.error("No user returned from Supabase");
+      logger.error(LogCategory.AUTH, "No user returned from Supabase", 
+        { email, action: "signin" });
       throw new Error("No user returned");
     }
 
-    console.log("Login successful:", {
+    logger.info(LogCategory.AUTH, "Login successful", {
       userId: data.user.id,
       email: data.user.email,
-      emailVerified: !!data.user.email_confirmed_at,
+      action: "signin",
+      metadata: { emailVerified: !!data.user.email_confirmed_at }
     });
 
     // 返回符合NextAuth用户格式的数据
@@ -79,7 +94,8 @@ export async function signInWithEmail(email: string, password: string) {
         : null,
     };
   } catch (error) {
-    console.error("Sign in error:", error);
+    // 错误已经在上面记录过了，这里不再重复记录
+    // 只是简单地向上传递错误
     throw error;
   }
 }
@@ -109,18 +125,21 @@ export async function signUpWithEmail(
         'function "check_user_exists_by_email" does not exist'
       )
     ) {
-      console.log("Using fallback user existence check");
+      logger.debug(LogCategory.AUTH, "Using fallback user existence check", 
+        { email, action: "signup" });
       return await signUpWithEmailFallback(email, password, name);
     }
 
     if (checkError) {
-      console.error("Error checking user existence:", checkError);
+      logger.error(LogCategory.AUTH, "Error checking user existence", 
+        { email, action: "signup" }, checkError);
       throw checkError;
     }
 
     // 如果用户已存在，抛出错误
     if (existingUsers && existingUsers > 0) {
-      console.log("User already exists, throwing error");
+      logger.info(LogCategory.AUTH, "Signup attempt for existing user", 
+        { email, action: "signup_blocked", metadata: { reason: "user_exists" } });
       throw new Error("User already registered");
     }
 
@@ -139,19 +158,27 @@ export async function signUpWithEmail(
     });
 
     if (error) {
-      console.error("Supabase signup error:", error);
+      // 根据错误类型决定日志级别
+      if (Logger.isSystemError(error)) {
+        logger.error(LogCategory.AUTH, "Supabase signup system error", 
+          { email, action: "signup" }, error);
+      } else {
+        logger.info(LogCategory.AUTH, "Signup failed", 
+          { email, action: "signup", metadata: { reason: error.code || error.message } });
+      }
       throw error;
     }
 
-    console.log("New user registration successful:", {
+    logger.info(LogCategory.AUTH, "New user registration successful", {
       userId: data.user?.id,
       email: data.user?.email,
-      emailConfirmed: !!data.user?.email_confirmed_at,
+      action: "signup",
+      metadata: { emailConfirmed: !!data.user?.email_confirmed_at }
     });
 
     return data;
   } catch (error) {
-    console.error("Sign up error:", error);
+    // 错误已经在上面记录，不再重复
     throw error;
   }
 }

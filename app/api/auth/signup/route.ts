@@ -53,13 +53,9 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error: any) {
-    console.error("Signup error:", error);
-    console.log("Signup error details:", {
-      message: error.message,
-      status: error.status,
-      code: error.code,
-    });
-
+    // 错误已在Service层记录，API层只处理响应
+    // 仅对未预期的错误记录日志
+    
     // 根据官方错误代码进行处理
     if (error.code) {
       switch (error.code) {
