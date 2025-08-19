@@ -57,7 +57,7 @@
   },
   "aiModelsHero": {
     "title": "All-in-One AI Image to Video Generator",
-    "description": "Veo3 AI is the ultimate, all-in-one AI image to video generator. We offer access to industry-leading video models including Veo3, Seedance, and Wan2.2, all in one single place. Try them seamlessly and create stunning visuals without juggling multiple platforms!",
+    "description": "Veo3 AI is the ultimate, all-in-one AI image to video generator. We offer access to industry-leading video models including Veo3, Seedance, Wan2.2, and Hailuo, all in one single place. Try them seamlessly and create stunning visuals without juggling multiple platforms!",
     "models": [
       {
         "id": "veo3",
@@ -73,6 +73,11 @@
         "id": "wan",
         "name": "Wan2.2",
         "logo": "/imgs/intro/wan.png"
+      },
+      {
+        "id": "hailuo",
+        "name": "Hailuo",
+        "logo": "/imgs/intro/hailuo.webp"
       }
     ],
     "moreModels": "More Models"

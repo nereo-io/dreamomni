@@ -109,7 +109,43 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedDurations: [8],
     supportedResolutions: ["1080p"], // Veo3支持高分辨率
   },
+  // MiniMax Hailuo02 文本转视频模型 (via fal.ai)
+  "minimax-hailuo02-text-to-video": {
+    id: "minimax-hailuo02-text-to-video",
+    name: "MiniMax Hailuo 02 Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.FAL,
+    falEndpoint: "fal-ai/minimax/hailuo-02/standard/text-to-video",
+    displayName: "Hailuo 02",
+    perSecondCredits: 2, // $0.045/秒 = 1.8积分/秒，取整为2
+    description: "MiniMax's video model",
+    features: ["wait 200s", "Instruction Following"],
+    maxDuration: 10,
+    supportedAspectRatios: ["adaptive"],
+    supportedResolutions: ["768p"], // 固定768p分辨率
+    supportsAudio: false,
+    estimatedGenerationTime: 200, // 预估4分钟
+    supportedDurations: [6, 10], // 支持6秒和10秒
+  },
 
+  // MiniMax Hailuo02 图片转视频模型 (via fal.ai)
+  "minimax-hailuo02-image-to-video": {
+    id: "minimax-hailuo02-image-to-video",
+    name: "MiniMax Hailuo 02 Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.FAL,
+    falEndpoint: "fal-ai/minimax/hailuo-02/standard/image-to-video",
+    displayName: "Hailuo 02",
+    perSecondCredits: 2, // 默认768p价格，512p会在计算时特殊处理
+    description: "MiniMax's video model",
+    features: ["wait 200s", "Instruction Following"],
+    maxDuration: 10,
+    supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
+    supportedResolutions: ["512p", "768p"], // 支持两种分辨率
+    supportsAudio: false,
+    estimatedGenerationTime: 200, // 预估4分钟
+    supportedDurations: [6, 10], // 支持6秒和10秒
+  },
   // 阿里百炼 文本转视频模型
   "ali-video-generation-text-to-video": {
     id: "ali-video-generation-text-to-video",
@@ -147,6 +183,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedDurations: [5],
     estimatedGenerationTime: 60,
   },
+
   // // Kling 1.6 文本转视频模型 (via fal.ai)
   // "kling-1-6-text-to-video-std": {
   //   id: "kling-1-6-text-to-video-std",
@@ -392,6 +429,13 @@ export function calculateCredits(
     // 480p 保持原价格不变
   }
 
+  // MiniMax Hailuo02 图片转视频模型的分辨率定价
+  if (modelId === "minimax-hailuo02-image-to-video") {
+    if (resolution === "768p") {
+      totalCredits *= 2;
+    }
+  }
+
   // Veo3 模型支持音频，需要额外费用
   if (model.id.includes("veo3") && hasAudio && model.audioPremiumCredits) {
     totalCredits += duration * model.audioPremiumCredits;
@@ -470,6 +514,11 @@ export function isKieAiVeo3Model(modelId: string): boolean {
 export function isAliModel(modelId: string): boolean {
   const model = getVideoModel(modelId);
   return model?.provider === VideoModelProvider.ALI;
+}
+
+// 检查模型是否为MiniMax模型
+export function isMinimaxModel(modelId: string): boolean {
+  return modelId.includes("minimax-");
 }
 
 // 检查模型是否为Veo系列模型

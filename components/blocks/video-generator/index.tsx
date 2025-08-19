@@ -11,13 +11,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Play, ImageIcon, X, Sparkles, Coins } from "lucide-react";
+import { Play, ImageIcon, X, Coins } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import useCredits from "@/hooks/useCredits";
 import {
-  VideoModelType,
   getTextToVideoModels,
   getImageToVideoModels,
   calculateCredits,
@@ -59,9 +58,8 @@ interface VideoGeneratorProps {
   onEditVideoDataUsed?: () => void;
 }
 
-type VideoAspectRatio = "16:9" | "9:16" | "1:1";
-type VideoDuration = "5" | "8" | "10";
-type VideoResolution = "480p" | "720p" | "1080p";
+type VideoDuration = "5" | "6" | "8" | "10";
+type VideoResolution = "480p" | "512p" | "720p" | "768p" | "1080p";
 
 export default function VideoGenerator({
   mode,
@@ -83,20 +81,20 @@ export default function VideoGenerator({
   // 组件内部状态管理
   const [description, setDescription] = useState("");
   const [selectedRatio, setSelectedRatio] = useState("16:9");
-  const [selectedDuration, setSelectedDuration] = useState("5s");
-  const [selectedResolution, setSelectedResolution] = useState("480p");
+  const [selectedDuration, setSelectedDuration] = useState("");
+  const [selectedResolution, setSelectedResolution] = useState("");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   // 其他内部状态
   const [selectedModel, setSelectedModel] = useState<string>("");
-  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [generateAudio, setGenerateAudio] = useState(true);
+  const [generateAudio] = useState(true);
   const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(true);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const [isSubmitting] = useState(false);
 
   // Textarea 引用
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -117,7 +115,7 @@ export default function VideoGenerator({
       setDescription(showcaseVideoParams.prompt);
       setSelectedRatio(showcaseVideoParams.aspectRatio);
       setSelectedDuration(`${showcaseVideoParams.duration}s`);
-      
+
       // Set model if provided
       if (showcaseVideoParams.model) {
         setSelectedModel(showcaseVideoParams.model);
@@ -188,9 +186,9 @@ export default function VideoGenerator({
     }
   }, [isGenerating, user?.uuid, updateLeftCredits]);
 
-  // 获取所有可用模型
+  // 获取所有可用模型 - 基于mode参数，而不是图片状态
   const availableModels =
-    uploadedImage || selectedImage
+    mode === "image-to-video"
       ? getImageToVideoModels()
       : getTextToVideoModels();
 
@@ -200,32 +198,22 @@ export default function VideoGenerator({
   // 初始化默认模型选择和模型智能切换
   useEffect(() => {
     if (!selectedModel && availableModels.length > 0) {
-      setSelectedModel(availableModels[0].id);
+      const firstModel = availableModels[0];
+      setSelectedModel(firstModel.id);
+      // 设置该模型支持的默认时长
+      const supportedDurations = firstModel.supportedDurations || [5, 10];
+      if (!selectedDuration) {
+        setSelectedDuration(`${supportedDurations[0]}s`);
+      }
+      // 设置该模型支持的默认分辨率
+      const supportedResolutions = firstModel.supportedResolutions || ["480p", "1080p"];
+      if (!selectedResolution) {
+        setSelectedResolution(supportedResolutions[0]);
+      }
     }
-  }, [selectedModel, availableModels]);
+  }, [selectedModel, availableModels, selectedDuration, selectedResolution]);
 
-  // 智能模型切换 - 图片上传时自动切换到图片转视频模型
-  useEffect(() => {
-    if (uploadedImage || selectedImage) {
-      // 如果当前模型不支持图片输入，自动切换到图片转视频模型
-      const imageToVideoModels = getImageToVideoModels();
-      if (
-        imageToVideoModels.length > 0 &&
-        selectedModelConfig?.type !== VideoModelType.IMAGE_TO_VIDEO
-      ) {
-        setSelectedModel(imageToVideoModels[0].id);
-      }
-    } else {
-      // 如果移除了图片，且当前是图片转视频模型，可以切换回文本转视频模型
-      const textToVideoModels = getTextToVideoModels();
-      if (
-        textToVideoModels.length > 0 &&
-        selectedModelConfig?.type === VideoModelType.IMAGE_TO_VIDEO
-      ) {
-        setSelectedModel(textToVideoModels[0].id);
-      }
-    }
-  }, [uploadedImage, selectedImage, selectedModelConfig]);
+  // 不需要智能模型切换 - 模型列表已经根据 mode 固定了
 
   // 同步 selectedImage 和 imagePreview
   useEffect(() => {
@@ -245,13 +233,19 @@ export default function VideoGenerator({
         setSelectedRatio(supportedRatios[0]);
       }
 
-      // 设置默认时长（如果当前选择不在支持列表中）
+      // 设置默认时长（如果当前选择不在支持列表中或未设置）
       const supportedDurations = selectedModelConfig.supportedDurations || [
         5, 10,
       ];
-      const currentDuration = parseInt(selectedDuration.replace("s", ""));
-      if (!supportedDurations.includes(currentDuration)) {
+      if (!selectedDuration) {
+        // 如果没有设置时长，使用模型支持的第一个时长
         setSelectedDuration(`${supportedDurations[0]}s`);
+      } else {
+        // 检查当前选择是否在支持列表中
+        const currentDuration = parseInt(selectedDuration.replace("s", ""));
+        if (!supportedDurations.includes(currentDuration)) {
+          setSelectedDuration(`${supportedDurations[0]}s`);
+        }
       }
 
       // 设置默认分辨率（仅在当前选择不被支持时才设置）
@@ -259,7 +253,11 @@ export default function VideoGenerator({
         "480p",
         "1080p",
       ];
-      if (!supportedResolutions.includes(selectedResolution)) {
+      if (!selectedResolution) {
+        // 如果没有设置分辨率，使用模型支持的第一个分辨率
+        setSelectedResolution(supportedResolutions[0]);
+      } else if (!supportedResolutions.includes(selectedResolution)) {
+        // 如果当前分辨率不被支持，切换到支持的第一个分辨率
         setSelectedResolution(supportedResolutions[0]);
       }
     }
@@ -656,6 +654,21 @@ export default function VideoGenerator({
                 onValueChange={(value) => {
                   setSelectedModel(value);
                   onModelChange?.(value);
+                  // 切换模型时，重置时长和分辨率为新模型支持的默认值
+                  const newModel = getVideoModel(value);
+                  if (newModel) {
+                    // 检查并更新时长
+                    const supportedDurations = newModel.supportedDurations || [5, 10];
+                    const currentDuration = parseInt(selectedDuration.replace("s", ""));
+                    if (!supportedDurations.includes(currentDuration)) {
+                      setSelectedDuration(`${supportedDurations[0]}s`);
+                    }
+                    // 检查并更新分辨率
+                    const supportedResolutions = newModel.supportedResolutions || ["480p", "1080p"];
+                    if (!supportedResolutions.includes(selectedResolution)) {
+                      setSelectedResolution(supportedResolutions[0]);
+                    }
+                  }
                 }}
               >
                 <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
@@ -666,6 +679,9 @@ export default function VideoGenerator({
                           src={
                             selectedModelConfig.id.includes("kling")
                               ? "/imgs/intro/kling.svg"
+                              : selectedModelConfig.id.includes("minimax") ||
+                                selectedModelConfig.id.includes("hailuo")
+                              ? "/imgs/intro/hailuo.webp"
                               : selectedModelConfig.id.includes("veo")
                               ? "/imgs/intro/veo.svg"
                               : selectedModelConfig.id.includes("wan") ||
@@ -691,6 +707,9 @@ export default function VideoGenerator({
                           src={
                             model.id.includes("kling")
                               ? "/imgs/intro/kling.svg"
+                              : model.id.includes("minimax") ||
+                                model.id.includes("hailuo")
+                              ? "/imgs/intro/hailuo.webp"
                               : model.id.includes("veo")
                               ? "/imgs/intro/veo.svg"
                               : model.id.includes("wan") ||

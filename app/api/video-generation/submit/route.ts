@@ -21,6 +21,7 @@ import {
   isVeoModel,
   isVolcanoModel,
   isAliModel,
+  isMinimaxModel,
   calculateCredits,
   VideoModelProvider,
 } from "@/config/video-models";
@@ -116,8 +117,11 @@ export async function POST(req: Request) {
     // 根据时长确定交易类型（所有模型通用）
     if (durationInt === 5) {
       transType = CreditsTransType.VideoGeneration5s;
+    } else if (durationInt === 6) {
+      // MiniMax 模型的6秒使用5秒类型（积分计算已经按实际秒数计算）
+      transType = CreditsTransType.VideoGeneration6s;
     } else if (durationInt === 8) {
-      // VEO模型的8秒使用5秒类型（积分计算已经按实际秒数计算）
+      // VEO模型的8秒使用8秒类型
       transType = CreditsTransType.VideoGeneration8s;
     } else if (durationInt === 10) {
       transType = CreditsTransType.VideoGeneration10s;
@@ -219,6 +223,22 @@ export async function POST(req: Request) {
       if (cfg_scale !== undefined) {
         input.cfg_scale = cfg_scale;
       }
+    } else if (isMinimaxModel(model)) {
+      // MiniMax 支持 prompt_optimizer（根据用户选择）
+      input.prompt_optimizer = enable_prompt_enhancement;
+
+      // 图片转视频模型支持分辨率选择
+      if (model === "minimax-hailuo02-image-to-video") {
+        // MiniMax 仅支持 512P 和 768P（大写）
+        if (resolution === "512p") {
+          input.resolution = "512P";
+        } else if (resolution === "768p") {
+          input.resolution = "768P";
+        } else {
+          input.resolution = "768P"; // 默认使用 768P
+        }
+      }
+      // Text-to-video 不需要设置 resolution，使用默认768p
     } else if (isVeo3ApicoreModel(model)) {
       // Veo3 APICore 模型特有参数
       if (generate_audio !== undefined) {
@@ -253,14 +273,11 @@ export async function POST(req: Request) {
 
     // 7. 提交任务到队列，包含webhook URL
     const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
-    // const webhookUrl = `https://cb7d7fd27e71.ngrok-free.app/api/video-generation/webhook`;
+    // const webhookUrl = `https://b3b0385f848b.ngrok-free.app/api/video-generation/webhook`;
 
     try {
       // 使用Provider Factory获取合适的provider
       const provider = ProviderFactory.getProvider(model);
-
-      console.log("submit input", input);
-
       // 重试机制：针对连接超时错误重试3次
       let submitResponse;
       for (let attempt = 1; attempt <= 3; attempt++) {
