@@ -157,7 +157,7 @@ class YandexOfflineConversionService {
     // The goal must be created first in Yandex Metrica
     const conversion: OfflineConversionRow = {
       yclid,
-      target: '460791468', // Numeric ID for PAYMENT_SUCCESS goal
+      target: 'PAYMENT_SUCCESS', // Numeric ID for PAYMENT_SUCCESS goal
       dateTime: Math.floor(Date.now() / 1000), // Current Unix timestamp
       price: amount,
       currency: 'USD'
