@@ -107,3 +107,33 @@ export async function getPostsByLocale(
 
   return data;
 }
+
+export async function findPostByOutrankId(
+  outrankId: string
+): Promise<Post | undefined> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*")
+    .eq("outrank_id", outrankId)
+    .single();
+
+  if (error) {
+    return undefined;
+  }
+
+  return data;
+}
+
+export async function upsertPostFromOutrank(post: Post) {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("posts")
+    .upsert(post, { onConflict: "outrank_id" });
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}

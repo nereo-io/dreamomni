@@ -13,4 +13,10 @@ export interface Post {
   locale?: string;
   category?: string;
   tags?: string[];
+  // Outrank fields
+  outrank_id?: string;
+  content_html?: string;
+  content_markdown?: string;
+  meta_description?: string;
+  image_url?: string;
 }
