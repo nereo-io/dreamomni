@@ -5,6 +5,8 @@ interface Effect {
   title: string
   titleKey?: string
   image: string
+  video?: string
+  poster?: string
   isHot?: boolean
 }
 
@@ -23,6 +25,8 @@ export function EffectGrid({ effects, className = "" }: EffectGridProps) {
           title={effect.title}
           titleKey={effect.titleKey}
           image={effect.image}
+          video={effect.video}
+          poster={effect.poster}
           isHot={effect.isHot}
         />
       ))}
