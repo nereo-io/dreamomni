@@ -72,23 +72,22 @@ export async function POST(req: NextRequest) {
     const signature =
       req.headers.get("creem-signature") ||
       req.headers.get("x-creem-signature");
-    if (signature) {
-      try {
-        const config = getCreemConfig();
-        if (!verifyWebhookSignature(rawBody, signature, config.webhookSecret)) {
-          logError("❌ Invalid webhook signature");
-          return respErr("Invalid signature");
-        }
-        logInfo("✅ Webhook signature verified");
-      } catch (error) {
-        logError("❌ Signature verification failed", error);
-        // 在生产环境中应该拒绝未验证的请求，这里先记录警告
-        logInfo(
-          "⚠️ Proceeding without signature verification (development mode)"
-        );
+    
+    if (!signature) {
+      logError("❌ No signature header found");
+      return respErr("Missing webhook signature");
+    }
+    
+    try {
+      const config = getCreemConfig();
+      if (!verifyWebhookSignature(rawBody, signature, config.webhookSecret)) {
+        logError("❌ Invalid webhook signature");
+        return respErr("Invalid webhook signature");
       }
-    } else {
-      logInfo("⚠️ No signature header found, proceeding without verification");
+      logInfo("✅ Webhook signature verified");
+    } catch (error) {
+      logError("❌ Signature verification failed", error);
+      return respErr("Signature verification failed");
     }
 
     // 根据不同的事件类型处理业务逻辑
