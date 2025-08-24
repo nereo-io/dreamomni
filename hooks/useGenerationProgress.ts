@@ -26,7 +26,14 @@ export function useGenerationProgress({
   });
 
   const calculateProgress = useCallback(() => {
-    if (!createdAt) return progress;
+    if (!createdAt) {
+      return {
+        elapsedTime: 0,
+        progress: 0,
+        remainingTime: estimatedTime,
+        isComplete: false
+      };
+    }
     
     const startTime = new Date(createdAt).getTime();
     const now = Date.now();
@@ -82,8 +89,14 @@ export function useGenerationProgress({
       };
     }
     
-    return progress;
-  }, [createdAt, estimatedTime, status, progress]);
+    // Default return value
+    return {
+      elapsedTime: 0,
+      progress: 0,
+      remainingTime: estimatedTime,
+      isComplete: false
+    };
+  }, [createdAt, estimatedTime, status]);
 
   useEffect(() => {
     // Initial calculation

@@ -1,4 +1,13 @@
+'use client';
+
+import { useEffect } from 'react';
+import { initClientId } from '@/lib/yandex-metrica';
+
 export default function YandexMetrica() {
+  useEffect(() => {
+    initClientId();
+  }, []);
+
   if (process.env.NODE_ENV !== "production") {
     return null;
   }

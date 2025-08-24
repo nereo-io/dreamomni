@@ -83,7 +83,171 @@ Cookie: {{authCookie}}
 ### ========== Payssion V2 Webhook Tests ==========
 
 ### Payssion V2 Webhook Test - Payment Succeeded (首次支付)
-POST https://b3b0385f848b.ngrok-free.app/api/payssion/v2-webhook
+POST http://localhost:3000/api/payssion/v2-webhook
 Content-Type: application/json; charset=UTF-8
 
-{"object":"event","livemode":false,"type":"payment.succeeded","data":{"object":{"id":"pm_vHGSCGe1y9aPiHGq5C9C2AWD","object":"payment","livemode":false,"payment_method":"sberpay_ru","flow":"direct","terminal_type":"web","reference":null,"source":"subscription","source_id":"sub_LOC4CGzHSeHKGmrr","mandate_id":"mdt_D40ej9Tu9q5GiXHC","customer_id":"cst_TCKiT4vDiHOCTWLG","currency":"USD","amount":"15.00","currency_local":"RUB","amount_local":"1315.38","amount_paid":"15.00","amount_refunded":"0.00","amount_local_paid":"1315.38","amount_local_refunded":"0.00","fx_to_local_converted":87.6917,"failure_message":null,"failure_code":null,"status":"paid","paid":true,"description":"Subscription for Veo3 AI Мини","action":[],"return_url":null,"metadata":{"project":"Veo3","product_name":"Veo3 AI Мини","product_id":"mini-monthly","order_no":"727756243296325","user_email":"hugeroger@gmail.com","credits":200,"user_uuid":"f54371bb-72c1-4c41-91ef-3c9c0b924704","interval":"month","amount":1500,"currency":"USD"},"extra":[],"time_created":"2025-08-18T18:07:49+08:00","time_paid":"2025-08-18T18:07:49+08:00","time_expired":null,"amount_disputed":null,"is_disputed":false}},"request":"iar_LWHmTKazvbn1mjP4aHaXH4u9","account":"acct_zb5mH8","time_created":"2025-08-18T18:07:49+08:00"}
+{
+    "object": "event",
+    "livemode": false,
+    "type": "payment.succeeded",
+    "data": {
+        "object": {
+            "id": "pm_vHGSCGe1y9aPiHGq5C9C2AWA",
+            "object": "payment",
+            "livemode": false,
+            "payment_method": "sberpay_ru",
+            "flow": "direct",
+            "terminal_type": "web",
+            "reference": null,
+            "source": "subscription",
+            "source_id": "sub_LOC4CGzHSeHKGmrr",
+            "mandate_id": "mdt_D40ej9Tu9q5GiXHC",
+            "customer_id": "cst_TCKiT4vDiHOCTWLG",
+            "currency": "USD",
+            "amount": "15.00",
+            "currency_local": "RUB",
+            "amount_local": "1315.38",
+            "amount_paid": "15.00",
+            "amount_refunded": "0.00",
+            "amount_local_paid": "1315.38",
+            "amount_local_refunded": "0.00",
+            "fx_to_local_converted": 87.6917,
+            "failure_message": null,
+            "failure_code": null,
+            "status": "paid",
+            "paid": true,
+            "description": "Subscription for Veo3 AI Мини",
+            "action": [
+
+            ],
+            "return_url": null,
+            "metadata": {
+                "project": "Veo3",
+                "product_name": "Veo3 AI Мини",
+                "product_id": "mini-monthly",
+                "order_no": "727756243296325",
+                "user_email": "hugeroger@gmail.com",
+                "credits": 200,
+                "user_uuid": "f54371bb-72c1-4c41-91ef-3c9c0b924704",
+                "interval": "month",
+                "amount": 1500,
+                "currency": "USD"
+            },
+            "extra": [
+
+            ],
+            "time_created": "2025-08-18T18:07:49+08:00",
+            "time_paid": "2025-08-18T18:07:49+08:00",
+            "time_expired": null,
+            "amount_disputed": null,
+            "is_disputed": false
+        }
+    },
+    "request": "iar_LWHmTKazvbn1mjP4aHaXH4u9",
+    "account": "acct_zb5mH8",
+    "time_created": "2025-08-18T18:07:49+08:00"
+}
+
+
+### Payssion V2 Webhook Test - Payment Succeeded (首次支付)
+POST http://localhost:3000/api/creem/webhook
+Content-Type: application/json; charset=UTF-8
+
+{
+  "id": "evt_1CwkuZPR6IcEaLcV1WMbz7",
+  "eventType": "checkout.completed",
+  "created_at": 1756044823082,
+  "object": {
+    "id": "ch_3AN6QmrsN8cf4iBz4qSK01",
+    "object": "checkout",
+    "request_id": "mdt729938967142469",
+    "order": {
+      "object": "order",
+      "id": "ord_1RiptvvuBXo3af9MIr2Opa",
+      "customer": "cust_4dgzeCuJsYgCj9fCqHJBym",
+      "product": "prod_3anPiH9opJYivargJPlZTV",
+      "amount": 999,
+      "currency": "USD",
+      "sub_total": 999,
+      "tax_amount": 210,
+      "amount_due": 1209,
+      "amount_paid": 1209,
+      "status": "paid",
+      "type": "recurring",
+      "transaction": "tran_5tkAgfNeaaBRJQ7MkmfBMe",
+      "created_at": "2025-08-24T14:09:24.228Z",
+      "updated_at": "2025-08-24T14:09:24.228Z",
+      "mode": "test"
+    },
+    "product": {
+      "id": "prod_3anPiH9opJYivargJPlZTV",
+      "object": "product",
+      "name": "subscription",
+      "description": "sub pay 123",
+      "image_url": "https://nucn5fajkcc6sgrd.public.blob.vercel-storage.com/Anime-Girl-with-Braids-TXHzsYUngYHYClm9RhQ6Ird2vMzA1C.png",
+      "price": 999,
+      "currency": "USD",
+      "billing_type": "recurring",
+      "billing_period": "every-month",
+      "status": "active",
+      "tax_mode": "exclusive",
+      "tax_category": "saas",
+      "default_success_url": "",
+      "created_at": "2025-07-18T05:46:11.844Z",
+      "updated_at": "2025-07-18T05:46:11.844Z",
+      "mode": "test"
+    },
+    "units": 1,
+    "success_url": "http://localhost:3000/pricing",
+    "customer": {
+      "id": "cust_4dgzeCuJsYgCj9fCqHJBym",
+      "object": "customer",
+      "email": "hugeroger@gmail.com",
+      "name": "joe",
+      "country": "NL",
+      "created_at": "2025-07-18T05:53:27.247Z",
+      "updated_at": "2025-07-18T05:53:27.247Z",
+      "mode": "test"
+    },
+    "subscription": {
+      "id": "sub_1s4XtHQximdItXsXHGQIUX",
+      "object": "subscription",
+      "product": "prod_3anPiH9opJYivargJPlZTV",
+      "customer": "cust_4dgzeCuJsYgCj9fCqHJBym",
+      "collection_method": "charge_automatically",
+      "status": "active",
+      "current_period_start_date": "2025-08-24T14:13:31.000Z",
+      "current_period_end_date": "2025-09-24T14:13:31.000Z",
+      "canceled_at": null,
+      "created_at": "2025-08-24T14:13:34.031Z",
+      "updated_at": "2025-08-24T14:13:36.847Z",
+      "metadata": {
+        "amount": 1500,
+        "credits": 200,
+        "project": "Veo3",
+        "currency": "USD",
+        "interval": "month",
+        "order_no": "729938967142469",
+        "user_uuid": "f54371bb-72c1-4c41-91ef-3c9c0b924704",
+        "product_id": "mini-monthly",
+        "user_email": "hugeroger@gmail.com",
+        "product_name": "Veo3 AI Mini"
+      },
+      "mode": "test"
+    },
+    "status": "completed",
+    "metadata": {
+      "amount": 1500,
+      "credits": 200,
+      "project": "Veo3",
+      "currency": "USD",
+      "interval": "month",
+      "order_no": "729938967142469",
+      "user_uuid": "f54371bb-72c1-4c41-91ef-3c9c0b924704",
+      "product_id": "mini-monthly",
+      "user_email": "hugeroger@gmail.com",
+      "product_name": "Veo3 AI Mini"
+    },
+    "mode": "test"
+  }
+}

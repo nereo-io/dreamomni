@@ -122,7 +122,8 @@
       "WebFetch(domain:www.outrank.so)",
       "Bash(NODE_NO_WARNINGS=1 npx tsx scripts/test-outrank-integration.ts)",
       "Bash(open http://localhost:3000/en/blog)",
-      "WebSearch"
+      "WebSearch",
+      "Read(//Users/jasper/**)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

@@ -260,19 +260,19 @@ async function handleCheckoutCompleted(webhookData: any) {
       // 即使订阅记录创建失败，也不影响支付成功的处理
     }
 
-    // Track offline conversion for Yandex Direct
+    // Track offline conversion for Yandex Metrica
     try {
       const orderData = await findOrderByOrderNo(orderNo);
-      if (orderData?.yclid) {
+      if (orderData?.client_id) {
         const success = await offlineConversionService.trackPaymentSuccess(
-          orderData.yclid,
+          orderData.client_id,
           orderNo,
           productConfig.amount
         );
         
         if (success) {
-          logInfo("✅ Offline conversion tracked for Yandex Direct", {
-            yclid: orderData.yclid,
+          logInfo("✅ Offline conversion tracked for Yandex Metrica", {
+            clientId: orderData.client_id,
             orderNo,
             amount: productConfig.amount,
           });

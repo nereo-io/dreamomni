@@ -2,7 +2,7 @@ declare global {
   interface Window {
     ym: (
       counterId: number,
-      method: 'init' | 'reachGoal' | 'userParams' | 'params' | 'hit' | 'extLink' | 'file' | 'notBounce',
+      method: 'init' | 'reachGoal' | 'userParams' | 'params' | 'hit' | 'extLink' | 'file' | 'notBounce' | 'getClientID',
       ...args: any[]
     ) => void;
   }
