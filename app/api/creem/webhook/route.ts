@@ -72,12 +72,12 @@ export async function POST(req: NextRequest) {
     const signature =
       req.headers.get("creem-signature") ||
       req.headers.get("x-creem-signature");
-    
+
     if (!signature) {
       logError("❌ No signature header found");
       return respErr("Missing webhook signature");
     }
-    
+
     try {
       const config = getCreemConfig();
       if (!verifyWebhookSignature(rawBody, signature, config.webhookSecret)) {
@@ -154,17 +154,18 @@ async function handleCheckoutCompleted(webhookData: any) {
     }
 
     // 幂等性检查 - 使用 checkoutId 作为 payment_id
-    const isProcessed = await PaymentProcessingService.checkPaymentAlreadyProcessed(
-      orderNo,
-      checkoutId
-    );
+    const isProcessed =
+      await PaymentProcessingService.checkPaymentAlreadyProcessed(
+        orderNo,
+        checkoutId
+      );
 
     if (isProcessed) {
-      logInfo("⚠️ Webhook already processed, skipping", { 
-        checkoutId, 
+      logInfo("⚠️ Webhook already processed, skipping", {
+        checkoutId,
         orderNo,
         eventType: webhookData.eventType,
-        eventId: webhookData.id
+        eventId: webhookData.id,
       });
       return;
     }
@@ -266,14 +267,14 @@ async function handleCheckoutCompleted(webhookData: any) {
         const success = await offlineConversionService.trackPaymentSuccess(
           orderData.client_id,
           orderNo,
-          productConfig.amount
+          orderData.amount / 100
         );
-        
+
         if (success) {
           logInfo("✅ Offline conversion tracked for Yandex Metrica", {
             clientId: orderData.client_id,
             orderNo,
-            amount: productConfig.amount,
+            amount: orderData.amount / 100,
           });
         }
       }
@@ -288,4 +289,3 @@ async function handleCheckoutCompleted(webhookData: any) {
     logError("❌ Error processing checkout completed", error.message);
   }
 }
-
