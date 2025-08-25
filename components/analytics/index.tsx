@@ -12,13 +12,12 @@ export default function Analytics() {
 
   return (
     <>
-      <OpenPanelAnalytics />
-
+      {/* <OpenPanelAnalytics /> */}
+      {/* <YandexMetrica /> */}
       <GoogleAnalytics />
-      <GoogleTagManager />
+      {/* <GoogleTagManager /> */}
       <Plausible />
       <Clarity />
-      <YandexMetrica />
     </>
   );
 }
