@@ -123,7 +123,9 @@
       "Bash(NODE_NO_WARNINGS=1 npx tsx scripts/test-outrank-integration.ts)",
       "Bash(open http://localhost:3000/en/blog)",
       "WebSearch",
-      "Read(//Users/jasper/**)"
+      "Read(//Users/jasper/**)",
+      "WebFetch(domain:pollo.ai)",
+      "Bash(open http://localhost:3001/video-effects)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

@@ -6,6 +6,8 @@ interface Effect {
   id: string
   title: string
   image: string
+  video?: string
+  poster?: string
   isHot?: boolean
 }
 

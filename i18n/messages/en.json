@@ -370,7 +370,8 @@
         "description": "Try Veo3 AI's powerful AI muscle generator! Upload an image of anyone and generate a stunning video that showcases a bulked-up, muscular version of the subject.",
         "buttonText": "Try for Free"
       },
-      "effectsTitle": "AI Video Effects & Templates",
+      "effectsTitle": "Free 100+ AI Video Templates and Effects",
+      "useThisEffect": "Use This Effect",
       "categoryEffects": {
         "funAndCreative": "Fun and Creative Effects",
         "horrorAndFantasy": "Horror and Fantasy Effects",
@@ -428,5 +429,32 @@
     "surprise-reaction": "Surprise Reaction Effect",
     "anger-expression": "Anger Expression Effect",
     "love-struck": "Love Struck Effect"
+  },
+  "common": {
+    "useThisEffect": "Use This Effect",
+    "loading": "Loading...",
+    "error": "Error"
+  },
+  "components": {
+    "heroSection": {
+      "defaultTitle": "AI Video Effects",
+      "defaultDescription": "Transform your videos with AI-powered effects",
+      "defaultButtonText": "Get Started"
+    },
+    "categoryTabs": {
+      "all": "All",
+      "interaction": "Interaction",
+      "appearance": "Appearance", 
+      "emotions": "Emotions",
+      "entertainment": "Entertainment",
+      "herovillain": "Hero/Villain",
+      "horrorFantasy": "Horror/Fantasy",
+      "xmas": "Xmas",
+      "others": "Others",
+      "newLabel": "New"
+    },
+    "categoryEffectSection": {
+      "defaultDescription": "Discover amazing {categoryName} effects for your videos"
+    }
   }
 }
