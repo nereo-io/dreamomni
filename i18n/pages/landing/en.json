@@ -253,11 +253,16 @@
           ]
         },
         {
-          "title": "Pricing",
+          "title": "Resources",
           "children": [
             {
               "title": "Pricing",
               "url": "/pricing",
+              "target": "_self"
+            },
+            {
+              "title": "Blog",
+              "url": "/blog",
               "target": "_self"
             }
           ]

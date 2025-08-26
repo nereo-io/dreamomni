@@ -253,11 +253,16 @@
           ]
         },
         {
-          "title": "Цены",
+          "title": "Ресурсы",
           "children": [
             {
               "title": "Цены",
               "url": "/pricing",
+              "target": "_self"
+            },
+            {
+              "title": "Блог",
+              "url": "/blog",
               "target": "_self"
             }
           ]
