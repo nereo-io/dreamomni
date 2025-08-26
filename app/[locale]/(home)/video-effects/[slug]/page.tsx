@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
-import { getSupabaseClient } from "@/models/db";
 import { getEffectConfigBySlug } from "@/models/effectConfig";
 import EffectDetailClient from "./client";
 
@@ -9,8 +8,8 @@ export async function generateMetadata({
 }: {
   params: { slug: string; locale: string };
 }) {
-  const supabase = getSupabaseClient();
-  const effect = await getEffectConfigBySlug(supabase, params.slug);
+  const locale = await getLocale();
+  const effect = await getEffectConfigBySlug(params.slug, locale);
   
   if (!effect) {
     return {
@@ -19,15 +18,12 @@ export async function generateMetadata({
     };
   }
 
-  const locale = await getLocale();
-  const title = effect.seo_title?.[locale] || effect.title[locale] || effect.title.en;
-  const description = effect.seo_description?.[locale] || effect.description[locale] || effect.description.en;
-  const keywords = effect.seo_keywords?.[locale] || "";
+  const title = effect.title || "Video Effect";
+  const description = effect.description || "Create amazing video effects with AI";
 
   return {
     title,
     description,
-    keywords,
     openGraph: {
       title,
       description,
@@ -41,14 +37,12 @@ export default async function EffectDetailPage({
 }: {
   params: { slug: string };
 }) {
-  const supabase = getSupabaseClient();
-  const effect = await getEffectConfigBySlug(supabase, params.slug);
+  const locale = await getLocale();
+  const effect = await getEffectConfigBySlug(params.slug, locale);
 
   if (!effect) {
     notFound();
   }
-
-  const locale = await getLocale();
 
   return <EffectDetailClient effect={effect} locale={locale} />;
 }

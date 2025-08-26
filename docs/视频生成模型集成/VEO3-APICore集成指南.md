@@ -53,10 +53,10 @@ Database (Supabase)
 
 ### 积分计费
 
-- **基础费率**: 5积分/秒
+- **基础费率**: 5 积分/秒
 - **示例计算**:
-  - 5秒视频 = 25积分
-  - 8秒视频 = 40积分
+  - 5 秒视频 = 25 积分
+  - 8 秒视频 = 40 积分
 - **音频**: 包含在基础费率中，无额外费用
 
 ## API 接口详细说明
@@ -66,18 +66,20 @@ Database (Supabase)
 **端点**: `POST /api/video-generation/submit`
 
 **请求参数**:
+
 ```json
 {
   "model": "veo3-apicore",
   "prompt": "视频描述文本",
-  "duration": "5",                    // 可选: "5" 或 "8"
-  "aspect_ratio": "adaptive",         // 固定值
-  "image_url": "https://...",         // 可选: 参考图片URL
-  "generate_audio": true              // 可选: 是否生成音频
+  "duration": "5", // 可选: "5" 或 "8"
+  "aspect_ratio": "adaptive", // 固定值
+  "image_url": "https://...", // 可选: 参考图片URL
+  "generate_audio": true // 可选: 是否生成音频
 }
 ```
 
 **响应格式**:
+
 ```json
 {
   "code": 0,
@@ -98,12 +100,14 @@ Database (Supabase)
 **端点**: `POST https://api.apicore.ai/v1/chat/completions`
 
 **请求头**:
+
 ```http
 Authorization: Bearer sk-your-apicore-key
 Content-Type: application/json
 ```
 
 **请求体** (纯文本提示):
+
 ```json
 {
   "model": "veo3",
@@ -118,6 +122,7 @@ Content-Type: application/json
 ```
 
 **请求体** (包含图片):
+
 ```json
 {
   "model": "veo3",
@@ -151,8 +156,9 @@ data: {"id":"chatcmpl-xxx","object":"chat.completion.chunk","created":1750397898
 data: [DONE]
 ```
 
-**任务ID提取**:
-从流式响应中提取任务ID的正则表达式：
+**任务 ID 提取**:
+从流式响应中提取任务 ID 的正则表达式：
+
 ```javascript
 const taskIdPattern = /Task ID: `([^`]+)`/;
 const match = responseContent.match(taskIdPattern);
@@ -166,6 +172,7 @@ const taskId = match ? match[1] : null;
 **示例**: `GET https://asyncdata.net/source/veo3-fast:79733203-82aa-45d3-bf98-1b559689bb8d`
 
 **完整响应格式**:
+
 ```json
 {
   "completed_at": 1750398084687,
@@ -207,6 +214,7 @@ const taskId = match ? match[1] : null;
 **端点**: `POST /api/video-generation/status`
 
 **请求参数**:
+
 ```json
 {
   "id": "generation-uuid"
@@ -214,6 +222,7 @@ const taskId = match ? match[1] : null;
 ```
 
 **响应格式**:
+
 ```json
 {
   "code": 0,
@@ -237,6 +246,7 @@ const taskId = match ? match[1] : null;
 **端点**: `GET /api/video-generation/apicore/status?taskId={taskId}`
 
 **响应格式**:
+
 ```json
 {
   "success": true,
@@ -257,7 +267,7 @@ const taskId = match ? match[1] : null;
 在 `video_generations` 表中添加了以下字段：
 
 ```sql
-ALTER TABLE video_generations 
+ALTER TABLE video_generations
 ADD COLUMN IF NOT EXISTS veo3_request_id TEXT,
 ADD COLUMN IF NOT EXISTS video_url_veo3 TEXT,
 ADD COLUMN IF NOT EXISTS upsample_video_url_veo3 TEXT;
@@ -265,9 +275,9 @@ ADD COLUMN IF NOT EXISTS upsample_video_url_veo3 TEXT;
 
 ### 字段说明
 
-- `veo3_request_id`: APICore 任务ID，格式为 "veo3-fast:uuid"
-- `video_url_veo3`: Veo3 生成的原始视频URL
-- `upsample_video_url_veo3`: 高质量升级版本的视频URL
+- `veo3_request_id`: APICore 任务 ID，格式为 "veo3-fast:uuid"
+- `video_url_veo3`: Veo3 生成的原始视频 URL
+- `upsample_video_url_veo3`: 高质量升级版本的视频 URL
 
 ## 前端集成
 
@@ -285,7 +295,7 @@ Google's Veo3 model via APICore with text and image input support
 
 当选择 veo3-apicore 模型时，界面会自动调整可用选项：
 
-- **时长**: 5秒（默认）、8秒
+- **时长**: 5 秒（默认）、8 秒
 - **分辨率**: 1080p（默认）、4K
 - **音频**: 开关控制
 - **宽高比**: 自动隐藏（因为使用 adaptive）
@@ -306,18 +316,27 @@ VEO3_API_KEY=sk-your-apicore-key  # APICore API密钥
 export class Veo3Provider implements VideoProvider {
   private baseUrl = "https://api.apicore.ai/v1/chat/completions";
   private statusBaseUrl = "https://asyncdata.net/source";
-  
-  async submit(model: string, input: VideoGenerationRequest): Promise<VideoGenerationResponse> {
+
+  async submit(
+    model: string,
+    input: VideoGenerationRequest
+  ): Promise<VideoGenerationResponse> {
     // 1. 发送流式请求到 APICore
     // 2. 解析响应获取 taskId
     // 3. 返回标准化响应
   }
-  
-  async status(model: string, requestId: string): Promise<VideoGenerationStatus> {
+
+  async status(
+    model: string,
+    requestId: string
+  ): Promise<VideoGenerationStatus> {
     // 查询 asyncdata.net 获取任务状态
   }
-  
-  async result(model: string, requestId: string): Promise<VideoGenerationResult> {
+
+  async result(
+    model: string,
+    requestId: string
+  ): Promise<VideoGenerationResult> {
     // 获取最终生成结果
   }
 }
@@ -332,8 +351,8 @@ export function isVeo3ApicoreModel(modelId: string): boolean {
 }
 
 export function getVeo3Models(): VideoModelConfig[] {
-  return Object.values(VIDEO_MODELS).filter(model => 
-    model.provider === VideoModelProvider.VEO3
+  return Object.values(VIDEO_MODELS).filter(
+    (model) => model.provider === VideoModelProvider.VEO3
   );
 }
 ```
@@ -343,6 +362,7 @@ export function getVeo3Models(): VideoModelConfig[] {
 ### 1. 单元测试
 
 测试 veo3-apicore 模型识别：
+
 ```bash
 # 运行特定测试
 jest --testNamePattern="veo3"
@@ -353,6 +373,7 @@ jest --testNamePattern="veo3"
 #### 完整的端到端测试流程
 
 **Step 1: 提交视频生成任务**
+
 ```bash
 # 提交任务
 RESPONSE=$(curl -s -X POST http://localhost:3000/api/video-generation/submit \
@@ -375,6 +396,7 @@ echo "Generation ID: $GENERATION_ID"
 ```
 
 **Step 2: 状态轮询测试**
+
 ```bash
 # 检查系统状态
 curl -s -X POST http://localhost:3000/api/video-generation/status \
@@ -389,6 +411,7 @@ curl -s "https://asyncdata.net/source/$TASK_ID" | jq .
 ```
 
 **Step 3: 轮询直到完成**
+
 ```bash
 #!/bin/bash
 TASK_ID="veo3-fast:your-task-id"
@@ -399,12 +422,12 @@ echo "开始轮询任务状态: $TASK_ID"
 
 while [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
   echo "尝试 $((ATTEMPT + 1))/$MAX_ATTEMPTS"
-  
+
   STATUS=$(curl -s "https://asyncdata.net/source/$TASK_ID" | jq -r '.status')
   RUNNING=$(curl -s "https://asyncdata.net/source/$TASK_ID" | jq -r '.running')
-  
+
   echo "状态: $STATUS, 运行中: $RUNNING"
-  
+
   if [ "$RUNNING" = "false" ] && [ "$STATUS" = "completed" ]; then
     echo "任务完成！"
     curl -s "https://asyncdata.net/source/$TASK_ID" | jq '.video_url, .upsample_video_url'
@@ -413,7 +436,7 @@ while [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
     echo "任务失败"
     break
   fi
-  
+
   sleep 5
   ATTEMPT=$((ATTEMPT + 1))
 done
@@ -422,6 +445,7 @@ done
 #### APICore 直接测试
 
 **测试流式提交接口**
+
 ```bash
 # 纯文本prompt测试
 curl -X POST https://api.apicore.ai/v1/chat/completions \
@@ -467,7 +491,8 @@ curl -X POST https://api.apicore.ai/v1/chat/completions \
 
 #### 响应解析测试
 
-**从流式响应提取任务ID**
+**从流式响应提取任务 ID**
+
 ```bash
 # 使用grep提取Task ID
 curl -X POST https://api.apicore.ai/v1/chat/completions \
@@ -490,7 +515,7 @@ curl -X POST https://api.apicore.ai/v1/chat/completions \
 check_status() {
   local task_id=$1
   local response=$(curl -s "https://asyncdata.net/source/$task_id")
-  
+
   echo "=== 状态检查结果 ==="
   echo "任务ID: $task_id"
   echo "运行状态: $(echo $response | jq -r '.running')"
@@ -518,11 +543,13 @@ check_status "veo3-fast:79733203-82aa-45d3-bf98-1b559689bb8d"
 ### 4. 日志监控
 
 监控 veo3 相关日志：
+
 ```bash
 tail -f log/veo3-apicore.log
 ```
 
 日志格式示例：
+
 ```
 [2025-06-20T07:00:00.000Z] [INFO] Submitting veo3 task | Data: {"model":"veo3-apicore","prompt":"..."}
 [2025-06-20T07:00:05.000Z] [SUCCESS] Task submitted | TaskId: veo3-fast:uuid
@@ -536,6 +563,7 @@ tail -f log/veo3-apicore.log
 APICore 响应包含多个状态相关字段，需要综合判断任务的实际状态：
 
 #### 主要状态字段
+
 - `running`: 布尔值，表示任务是否正在运行
 - `status`: 字符串，表示任务的当前状态
 - `video_generation_status`: 视频生成的详细状态
@@ -545,13 +573,14 @@ APICore 响应包含多个状态相关字段，需要综合判断任务的实际
 
 ```typescript
 function mapVeo3StatusToSystemStatus(apiResponse: any): string {
-  const { running, status, video_generation_status, upsample_status } = apiResponse;
-  
+  const { running, status, video_generation_status, upsample_status } =
+    apiResponse;
+
   // 任务完成：不在运行且状态为completed
   if (running === false && status === "completed") {
     return "COMPLETED";
   }
-  
+
   // 任务正在运行
   if (running === true) {
     switch (status) {
@@ -565,12 +594,12 @@ function mapVeo3StatusToSystemStatus(apiResponse: any): string {
         return "IN_QUEUE";
     }
   }
-  
+
   // 任务失败
   if (status === "failed") {
     return "FAILED";
   }
-  
+
   // 其他情况
   return "UNKNOWN";
 }
@@ -579,6 +608,7 @@ function mapVeo3StatusToSystemStatus(apiResponse: any): string {
 ### 详细状态说明
 
 #### 1. 队列等待状态
+
 ```json
 {
   "running": true,
@@ -587,11 +617,13 @@ function mapVeo3StatusToSystemStatus(apiResponse: any): string {
   "upsample_status": null
 }
 ```
+
 - **含义**: 任务已提交，等待处理
 - **系统状态**: `IN_QUEUE`
 - **用户提示**: "您的视频正在队列中等待处理..."
 
 #### 2. 视频生成中
+
 ```json
 {
   "running": true,
@@ -600,11 +632,13 @@ function mapVeo3StatusToSystemStatus(apiResponse: any): string {
   "upsample_status": null
 }
 ```
+
 - **含义**: 正在生成标准质量视频
 - **系统状态**: `IN_PROGRESS`
 - **用户提示**: "正在生成您的视频..."
 
 #### 3. 视频升级处理中
+
 ```json
 {
   "running": true,
@@ -613,11 +647,13 @@ function mapVeo3StatusToSystemStatus(apiResponse: any): string {
   "upsample_status": "MEDIA_GENERATION_STATUS_RUNNING"
 }
 ```
+
 - **含义**: 标准视频已完成，正在生成高质量版本
 - **系统状态**: `IN_PROGRESS`
 - **用户提示**: "正在生成高质量版本..."
 
 #### 4. 完全完成状态
+
 ```json
 {
   "running": false,
@@ -628,11 +664,13 @@ function mapVeo3StatusToSystemStatus(apiResponse: any): string {
   "upsample_video_url": "https://..."
 }
 ```
+
 - **含义**: 所有处理完成，视频可用
 - **系统状态**: `COMPLETED`
 - **用户提示**: "视频生成完成！"
 
 #### 5. 失败状态
+
 ```json
 {
   "running": false,
@@ -641,6 +679,7 @@ function mapVeo3StatusToSystemStatus(apiResponse: any): string {
   "error_message": "Generation failed due to content policy violation"
 }
 ```
+
 - **含义**: 任务处理失败
 - **系统状态**: `FAILED`
 - **用户提示**: "视频生成失败，请重试"
@@ -648,56 +687,63 @@ function mapVeo3StatusToSystemStatus(apiResponse: any): string {
 ### 状态轮询策略
 
 #### 轮询频率控制
+
 ```typescript
 class StatusPoller {
   private baseInterval = 2000; // 2秒
-  private maxInterval = 10000;  // 10秒
-  private maxAttempts = 150;    // 最多5分钟
-  
+  private maxInterval = 10000; // 10秒
+  private maxAttempts = 150; // 最多5分钟
+
   async pollStatus(taskId: string): Promise<any> {
     let attempts = 0;
     let interval = this.baseInterval;
-    
+
     while (attempts < this.maxAttempts) {
       const status = await this.checkStatus(taskId);
-      
+
       // 完成或失败时停止轮询
       if (status.running === false) {
         return status;
       }
-      
+
       // 动态调整轮询间隔
       await this.sleep(interval);
       interval = Math.min(interval * 1.1, this.maxInterval);
       attempts++;
     }
-    
-    throw new Error('Status polling timeout');
+
+    throw new Error("Status polling timeout");
   }
 }
 ```
 
 #### 错误重试机制
+
 ```typescript
-async function checkStatusWithRetry(taskId: string, maxRetries = 3): Promise<any> {
+async function checkStatusWithRetry(
+  taskId: string,
+  maxRetries = 3
+): Promise<any> {
   for (let i = 0; i < maxRetries; i++) {
     try {
       const response = await fetch(`https://asyncdata.net/source/${taskId}`);
-      
+
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
-      
+
       return await response.json();
     } catch (error) {
       console.warn(`Status check attempt ${i + 1} failed:`, error);
-      
+
       if (i === maxRetries - 1) {
         throw error;
       }
-      
+
       // 指数退避延迟
-      await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
+      await new Promise((resolve) =>
+        setTimeout(resolve, Math.pow(2, i) * 1000)
+      );
     }
   }
 }
@@ -709,32 +755,35 @@ async function checkStatusWithRetry(taskId: string, maxRetries = 3): Promise<any
 
 ```typescript
 function calculateProgress(apiResponse: any): number {
-  const { running, status, video_generation_status, upsample_status } = apiResponse;
-  
+  const { running, status, video_generation_status, upsample_status } =
+    apiResponse;
+
   // 完成状态
   if (!running && status === "completed") {
     return 100;
   }
-  
+
   // 失败状态
   if (status === "failed") {
     return 0;
   }
-  
+
   // 正在处理的状态
   if (running) {
     switch (status) {
       case "pending":
         return 10;
       case "video_generating":
-        return video_generation_status === "MEDIA_GENERATION_STATUS_RUNNING" ? 60 : 30;
+        return video_generation_status === "MEDIA_GENERATION_STATUS_RUNNING"
+          ? 60
+          : 30;
       case "video_upsampling":
         return 80;
       default:
         return 20;
     }
   }
-  
+
   return 0;
 }
 ```
@@ -742,28 +791,33 @@ function calculateProgress(apiResponse: any): number {
 ### 错误检测和处理
 
 #### 内容策略违规检测
+
 ```typescript
-function checkContentPolicy(apiResponse: any): { violated: boolean, reason?: string } {
+function checkContentPolicy(apiResponse: any): {
+  violated: boolean;
+  reason?: string;
+} {
   const errorMessage = apiResponse.error_message || "";
-  
+
   const policyViolations = [
     "content policy violation",
     "inappropriate content",
     "prohibited content",
-    "violates guidelines"
+    "violates guidelines",
   ];
-  
+
   for (const violation of policyViolations) {
     if (errorMessage.toLowerCase().includes(violation)) {
       return { violated: true, reason: violation };
     }
   }
-  
+
   return { violated: false };
 }
 ```
 
 #### 超时检测
+
 ```typescript
 function checkTimeout(createdAt: number, maxDurationMs = 600000): boolean {
   const now = Date.now();
@@ -777,12 +831,14 @@ function checkTimeout(createdAt: number, maxDurationMs = 600000): boolean {
 ### 常见错误及解决方案
 
 1. **API Key 无效**
+
    ```
    错误: Invalid API key
    解决: 检查 VEO3_API_KEY 环境变量
    ```
 
 2. **任务提交失败**
+
    ```
    错误: Failed to parse task ID from response
    解决: 检查 APICore 接口响应格式
@@ -796,32 +852,32 @@ function checkTimeout(createdAt: number, maxDurationMs = 600000): boolean {
 
 ### 错误码映射
 
-| APICore 状态 | 系统状态 | 说明 |
-|-------------|----------|------|
-| `completed` | `COMPLETED` | 生成完成 |
-| `running` | `IN_PROGRESS` | 生成中 |
-| `failed` | `FAILED` | 生成失败 |
-| `pending` | `IN_QUEUE` | 队列等待 |
+| APICore 状态 | 系统状态      | 说明     |
+| ------------ | ------------- | -------- |
+| `completed`  | `COMPLETED`   | 生成完成 |
+| `running`    | `IN_PROGRESS` | 生成中   |
+| `failed`     | `FAILED`      | 生成失败 |
+| `pending`    | `IN_QUEUE`    | 队列等待 |
 
 ## 性能优化
 
 ### 1. 状态轮询优化
 
-- 初始间隔: 2秒
-- 最大间隔: 10秒
+- 初始间隔: 2 秒
+- 最大间隔: 10 秒
 - 指数退避策略
-- 最大轮询时间: 5分钟
+- 最大轮询时间: 5 分钟
 
 ### 2. 缓存策略
 
-- 完成的任务结果缓存 24小时
-- 失败任务信息缓存 1小时
+- 完成的任务结果缓存 24 小时
+- 失败任务信息缓存 1 小时
 - 使用 Redis 或内存缓存
 
 ### 3. 并发控制
 
-- 单用户最大并发: 3个任务
-- 系统最大并发: 50个任务
+- 单用户最大并发: 3 个任务
+- 系统最大并发: 50 个任务
 - 队列管理和优先级排序
 
 ## 监控和分析
@@ -844,7 +900,7 @@ function checkTimeout(createdAt: number, maxDurationMs = 600000): boolean {
 
 ### 生产环境配置
 
-1. **API限流**: 配置合理的请求频率限制
+1. **API 限流**: 配置合理的请求频率限制
 2. **错误重试**: 实现指数退避重试机制
 3. **监控告警**: 设置关键指标阈值告警
 4. **数据备份**: 定期备份生成记录和用户数据
@@ -861,12 +917,14 @@ function checkTimeout(createdAt: number, maxDurationMs = 600000): boolean {
 ### 常见问题诊断
 
 1. **检查模型可用性**
+
    ```bash
    # 验证模型配置
    curl http://localhost:3000/api/video-generation/models
    ```
 
 2. **验证数据库连接**
+
    ```bash
    # 检查数据库架构
    psql -d your_db -c "\d video_generations"
@@ -883,6 +941,7 @@ function checkTimeout(createdAt: number, maxDurationMs = 600000): boolean {
 ## 更新日志
 
 ### v1.0.0 (2025-06-20)
+
 - ✅ 初始 veo3-apicore 集成
 - ✅ 完整的前端界面支持
 - ✅ 数据库架构扩展
@@ -900,4 +959,4 @@ function checkTimeout(createdAt: number, maxDurationMs = 600000): boolean {
 
 ---
 
-*本文档随系统更新持续维护，最后更新时间: 2025-06-20*
+_本文档随系统更新持续维护，最后更新时间: 2025-06-20_

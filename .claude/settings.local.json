@@ -125,7 +125,10 @@
       "WebSearch",
       "Read(//Users/jasper/**)",
       "WebFetch(domain:pollo.ai)",
-      "Bash(open http://localhost:3001/video-effects)"
+      "Bash(open http://localhost:3001/video-effects)",
+      "Bash(npx eslint:*)",
+      "Bash(NODE_NO_WARNINGS=1 npx tsx -e \"\nimport { getAllAffectConfigs } from ''./models/affectConfig.js'';\n\nasync function test() {\n  try {\n    const affects = await getAllAffectConfigs(''en'');\n    console.log(''Found affects:'', affects.length);\n    if (affects.length > 0) {\n      console.log(''First affect:'', affects[0]);\n    }\n  } catch (error) {\n    console.error(''Error:'', error);\n  }\n}\n\ntest();\n\")",
+      "Bash(open http://localhost:3000/video-affects)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

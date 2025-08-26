@@ -51,7 +51,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.8,
       },
       {
-        url: `${baseUrl}/video-affects`,
+        url: `${baseUrl}/video-effects`,
         lastModified: currentDate,
         changeFrequency: "weekly" as ChangeFrequency,
         priority: 0.7,
@@ -165,7 +165,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           priority: 0.8,
         },
         {
-          url: `${baseUrl}/${locale}/video-affects`,
+          url: `${baseUrl}/${locale}/video-effects`,
           lastModified: currentDate,
           changeFrequency: "weekly" as ChangeFrequency,
           priority: 0.7,

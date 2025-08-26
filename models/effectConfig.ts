@@ -1,37 +1,17 @@
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "@/types/database";
-
-export interface EffectConfig {
-  id: string;
-  slug: string;
-  title: Record<string, string>;
-  description: Record<string, string>;
-  seo_title?: Record<string, string>;
-  seo_description?: Record<string, string>;
-  seo_keywords?: Record<string, string>;
-  preview_image?: string;
-  preview_video?: string;
-  poster_image?: string;
-  parameters: Record<string, any>;
-  prompt_template: string;
-  status: 'active' | 'inactive' | 'draft';
-  is_hot: boolean;
-  is_free: boolean;
-  category?: string;
-  display_order: number;
-  created_at: string;
-  updated_at: string;
-}
+import { getSupabaseClient } from "./db";
+import { VideoEffect, VideoEffectStatus } from "@/types/video-effect";
 
 export async function getEffectConfigBySlug(
-  supabase: SupabaseClient<Database>,
-  slug: string
-): Promise<EffectConfig | null> {
+  slug: string,
+  locale: string
+): Promise<VideoEffect | null> {
+  const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from("effect_configs")
     .select("*")
     .eq("slug", slug)
-    .eq("status", "active")
+    .eq("locale", locale)
+    .eq("status", "online")
     .single();
 
   if (error || !data) {
@@ -39,36 +19,46 @@ export async function getEffectConfigBySlug(
     return null;
   }
 
-  return data as EffectConfig;
+  return data as VideoEffect;
 }
 
 export async function getAllEffectConfigs(
-  supabase: SupabaseClient<Database>
-): Promise<EffectConfig[]> {
+  locale: string
+): Promise<VideoEffect[]> {
+  const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from("effect_configs")
     .select("*")
-    .eq("status", "active")
+    .eq("locale", locale)
+    .eq("status", VideoEffectStatus.Online)
     .order("display_order", { ascending: true })
     .order("created_at", { ascending: false });
 
-  if (error || !data) {
+  if (error) {
     console.error("Error fetching effect configs:", error);
     return [];
   }
 
-  return data as EffectConfig[];
+  if (!data) {
+    console.log("No effect configs found for locale:", locale);
+    return [];
+  }
+
+  console.log(`Found ${data.length} effect configs for locale ${locale}`);
+  return data as VideoEffect[];
 }
 
 export async function getEffectConfigsByCategory(
-  supabase: SupabaseClient<Database>,
-  category: string
-): Promise<EffectConfig[]> {
+  category: string,
+  locale: string
+): Promise<VideoEffect[]> {
+  const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from("effect_configs")
     .select("*")
-    .eq("status", "active")
     .eq("category", category)
+    .eq("locale", locale)
+    .eq("status", "online")
     .order("display_order", { ascending: true })
     .order("created_at", { ascending: false });
 
@@ -77,5 +67,56 @@ export async function getEffectConfigsByCategory(
     return [];
   }
 
-  return data as EffectConfig[];
+  return data as VideoEffect[];
+}
+
+export async function getHotEffectConfigs(
+  locale: string,
+  limit: number = 6
+): Promise<VideoEffect[]> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("effect_configs")
+    .select("*")
+    .eq("locale", locale)
+    .eq("status", VideoEffectStatus.Online)
+    .eq("is_hot", true)
+    .order("display_order", { ascending: true })
+    .limit(limit);
+
+  if (error) {
+    console.error("Error fetching hot effect configs:", error);
+    return [];
+  }
+
+  if (!data) {
+    console.log("No hot effect configs found for locale:", locale);
+    return [];
+  }
+
+  console.log(`Found ${data.length} hot effect configs for locale ${locale}`);
+  return data as VideoEffect[];
+}
+
+export async function getEffectUsageStats(
+  effectId: string
+): Promise<{ total_uses: number; unique_users: number }> {
+  const supabase = getSupabaseClient();
+  const { data, error, count } = await supabase
+    .from("video_generations")
+    .select("user_id", { count: "exact", head: false })
+    .eq("effect_id", effectId);
+
+  if (error) {
+    console.error("Error fetching effect usage stats:", error);
+    return { total_uses: 0, unique_users: 0 };
+  }
+
+  const totalUses = count || 0;
+  const uniqueUsers = data ? new Set(data.map(row => row.user_id)).size : 0;
+
+  return {
+    total_uses: totalUses,
+    unique_users: uniqueUsers
+  };
 }

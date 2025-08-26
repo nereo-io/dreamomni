@@ -5,16 +5,16 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import VideoGenerator from "@/components/blocks/video-generator";
-import HistorySection from "@/components/blocks/history-section";
+// import HistorySection from "@/components/blocks/history-section";
 import { useAppContext } from "@/contexts/app";
 import useVideoGeneration from "@/hooks/useVideoGeneration";
 import useCredits from "@/hooks/useCredits";
-import type { EffectConfig } from "@/models/effectConfig";
+import type { VideoEffect } from "@/types/video-effect";
 import type { VideoGenerationParams } from "@/components/blocks/video-generator";
-import { Sparkles, Lock } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 interface EffectDetailClientProps {
-  effect: EffectConfig;
+  effect: VideoEffect;
   locale: string;
 }
 
@@ -26,18 +26,18 @@ export default function EffectDetailClient({ effect, locale }: EffectDetailClien
   const [enhancedPrompt, setEnhancedPrompt] = useState("");
 
   const {
-    isGenerating,
-    generateVideo,
-    currentGenerationId,
-    generationHistory,
-    loadHistory,
+    isLoading,
+    currentGeneration,
+    history,
     isLoadingHistory,
+    submitGeneration,
+    fetchHistory,
   } = useVideoGeneration();
 
   // 加载历史记录
   useEffect(() => {
     if (user?.uuid) {
-      loadHistory();
+      fetchHistory();
       updateLeftCredits();
     }
   }, [user?.uuid]);
@@ -45,6 +45,9 @@ export default function EffectDetailClient({ effect, locale }: EffectDetailClien
   // 生成带有GPT模板的prompt
   const generateEffectPrompt = useCallback((userPrompt: string) => {
     // 将用户输入替换到模板中
+    if (!effect.prompt_template) {
+      return userPrompt;
+    }
     return effect.prompt_template.replace("{{USER_PROMPT}}", userPrompt);
   }, [effect.prompt_template]);
 
@@ -56,14 +59,12 @@ export default function EffectDetailClient({ effect, locale }: EffectDetailClien
       return;
     }
 
-    // 检查是否是付费特效
-    if (!effect.is_free) {
-      // 检查积分
-      if (!leftCredits || leftCredits < 10) {
-        toast.error(t("toast.insufficientCredits"));
-        setShowPricingModal(true);
-        return;
-      }
+    // 检查积分（特效都需要积分）
+    const requiredCredits = effect.credits_required || 10;
+    if (!leftCredits || leftCredits < requiredCredits) {
+      toast.error(t("toast.insufficientCredits"));
+      setShowPricingModal(true);
+      return;
     }
 
     try {
@@ -72,7 +73,7 @@ export default function EffectDetailClient({ effect, locale }: EffectDetailClien
       setEnhancedPrompt(effectPrompt);
 
       // 调用视频生成API，使用增强后的prompt
-      await generateVideo({
+      await submitGeneration({
         ...params,
         prompt: effectPrompt,
         model: params.model || "volcano-seedance-video", // 默认使用seedance模型
@@ -84,7 +85,7 @@ export default function EffectDetailClient({ effect, locale }: EffectDetailClien
       // 刷新积分和历史记录
       setTimeout(() => {
         updateLeftCredits();
-        loadHistory();
+        fetchHistory();
       }, 1000);
     } catch (error) {
       console.error("Video generation failed:", error);
@@ -92,20 +93,20 @@ export default function EffectDetailClient({ effect, locale }: EffectDetailClien
     }
   }, [
     user?.uuid,
-    effect.is_free,
+    effect.credits_required,
     leftCredits,
     generateEffectPrompt,
-    generateVideo,
+    submitGeneration,
     setShowSignModal,
     setShowPricingModal,
     t,
     updateLeftCredits,
-    loadHistory
+    fetchHistory
   ]);
 
   // 获取标题和描述
-  const title = effect.title[locale] || effect.title.en;
-  const description = effect.description[locale] || effect.description.en;
+  const title = effect.title || "Video Effect";
+  const description = effect.description || "Create amazing video effects with AI";
 
   return (
     <div className="min-h-screen bg-gray-900">
@@ -119,10 +120,10 @@ export default function EffectDetailClient({ effect, locale }: EffectDetailClien
                 HOT
               </span>
             )}
-            {!effect.is_free && (
+            {effect.credits_required && effect.credits_required > 10 && (
               <span className="px-2 py-1 bg-yellow-500 text-white text-xs rounded-full flex items-center gap-1">
-                <Lock className="w-3 h-3" />
-                Premium
+                <Sparkles className="w-3 h-3" />
+                {effect.credits_required} Credits
               </span>
             )}
           </div>
@@ -133,7 +134,7 @@ export default function EffectDetailClient({ effect, locale }: EffectDetailClien
             <div className="mt-6 rounded-lg overflow-hidden max-w-md">
               <video
                 src={effect.preview_video}
-                poster={effect.poster_image || effect.preview_image}
+                poster={effect.preview_image || undefined}
                 controls
                 autoPlay
                 loop
@@ -159,7 +160,7 @@ export default function EffectDetailClient({ effect, locale }: EffectDetailClien
               <VideoGenerator
                 mode="image-to-video"
                 onGenerate={handleGenerate}
-                isGenerating={isGenerating}
+                isGenerating={isLoading}
                 descriptionLabel="Describe your vision"
                 descriptionPlaceholder={`Add details to customize your ${title.toLowerCase()}...`}
               />
@@ -171,13 +172,10 @@ export default function EffectDetailClient({ effect, locale }: EffectDetailClien
             <div className="bg-gray-800 rounded-xl p-6">
               <h2 className="text-xl font-semibold text-white mb-6">Recent Creations</h2>
               
-              <HistorySection
-                generations={generationHistory}
-                isLoading={isLoadingHistory}
-                currentGenerationId={currentGenerationId}
-                onRefresh={loadHistory}
-                compact={true}
-              />
+              {/* TODO: Add HistorySection component */}
+              <div className="text-gray-400 text-center py-8">
+                History will be shown here
+              </div>
             </div>
           </div>
         </div>
