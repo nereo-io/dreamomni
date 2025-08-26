@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { getAllEffectConfigs } from "@/models/effectConfig";
-import { VideoEffectsShowcase } from "@/components/blocks/video-effects-showcase";
+import { VideoEffectsGrid } from "@/components/blocks/video-effects-grid";
+import { CTASectionClient } from "@/components/blocks/cta-section-client";
 
 export async function generateMetadata({
   params: { locale },
@@ -31,6 +32,12 @@ export default async function Page({
   params: { locale: string };
 }) {
   const effects = await getAllEffectConfigs(locale);
-  
-  return <VideoEffectsShowcase effects={effects} />;
+
+  return (
+    <div className="min-h-screen bg-black py-8">
+      <div className="max-w-[1920px] mx-auto px-4">
+        <VideoEffectsGrid effects={effects} />
+      </div>
+    </div>
+  );
 }

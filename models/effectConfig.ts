@@ -48,6 +48,25 @@ export async function getAllEffectConfigs(
   return data as VideoEffect[];
 }
 
+export async function getEffectConfigById(
+  id: string
+): Promise<VideoEffect | null> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("effect_configs")
+    .select("*")
+    .eq("id", id)
+    .eq("status", "online")
+    .single();
+
+  if (error || !data) {
+    console.error("Error fetching effect config by id:", error);
+    return null;
+  }
+
+  return data as VideoEffect;
+}
+
 export async function getEffectConfigsByCategory(
   category: string,
   locale: string

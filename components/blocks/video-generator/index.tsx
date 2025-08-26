@@ -23,6 +23,8 @@ import {
   getVideoModel,
 } from "@/config/video-models";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
+import type { VideoEffect } from "@/types/video-effect";
+import { EffectSelector } from "@/components/blocks/effect-selector";
 
 // 生成参数接口
 export interface VideoGenerationParams {
@@ -56,6 +58,11 @@ interface VideoGeneratorProps {
   onShowcaseVideoParamsUsed?: () => void;
   editVideoData?: VideoGenerationResult | null;
   onEditVideoDataUsed?: () => void;
+
+  // Effect mode configuration
+  effect?: VideoEffect;
+  forceModel?: string;
+  creditsOverride?: number;
 }
 
 type VideoDuration = "5" | "6" | "8" | "10";
@@ -72,6 +79,9 @@ export default function VideoGenerator({
   onShowcaseVideoParamsUsed,
   editVideoData,
   onEditVideoDataUsed,
+  effect,
+  forceModel,
+  creditsOverride,
 }: VideoGeneratorProps) {
   const t = useTranslations("video-generator");
 
@@ -95,6 +105,9 @@ export default function VideoGenerator({
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [isSubmitting] = useState(false);
+  const [currentEffect, setCurrentEffect] = useState<VideoEffect | undefined>(
+    effect
+  );
 
   // Textarea 引用
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -197,7 +210,13 @@ export default function VideoGenerator({
 
   // 初始化默认模型选择和模型智能切换
   useEffect(() => {
-    if (!selectedModel && availableModels.length > 0) {
+    // If forceModel is provided, use it
+    if (forceModel) {
+      setSelectedModel(forceModel);
+      if (onModelChange) {
+        onModelChange(forceModel);
+      }
+    } else if (!selectedModel && availableModels.length > 0) {
       const firstModel = availableModels[0];
       setSelectedModel(firstModel.id);
       // 设置该模型支持的默认时长
@@ -206,7 +225,10 @@ export default function VideoGenerator({
         setSelectedDuration(`${supportedDurations[0]}s`);
       }
       // 设置该模型支持的默认分辨率
-      const supportedResolutions = firstModel.supportedResolutions || ["480p", "1080p"];
+      const supportedResolutions = firstModel.supportedResolutions || [
+        "480p",
+        "1080p",
+      ];
       if (!selectedResolution) {
         setSelectedResolution(supportedResolutions[0]);
       }
@@ -219,6 +241,11 @@ export default function VideoGenerator({
   useEffect(() => {
     setImagePreview(selectedImage);
   }, [selectedImage]);
+
+  // 同步 effect prop 到 currentEffect
+  useEffect(() => {
+    setCurrentEffect(effect);
+  }, [effect]);
 
   // 确保默认选项被选中
   useEffect(() => {
@@ -279,12 +306,14 @@ export default function VideoGenerator({
   };
 
   // 获取当前选择的积分消耗
-  const currentCreditsRequired = getCreditsRequired(
-    selectedModel,
-    selectedDuration as VideoDuration,
-    generateAudio,
-    selectedResolution as VideoResolution
-  );
+  const currentCreditsRequired =
+    creditsOverride ||
+    getCreditsRequired(
+      selectedModel,
+      selectedDuration as VideoDuration,
+      generateAudio,
+      selectedResolution as VideoResolution
+    );
 
   // 自动调整 textarea 高度
   const adjustTextareaHeight = useCallback(() => {
@@ -535,38 +564,71 @@ export default function VideoGenerator({
           {/* Header Title */}
           <div className="border-b border-gray-700 pb-3">
             <h2 className="text-white text-xl font-semibold">
-              {mode === "image-to-video" ? "Image to Video" : "Text to Video"}
+              {effect
+                ? effect.title
+                : mode === "image-to-video"
+                ? "Image to Video"
+                : "Text to Video"}
             </h2>
           </div>
 
-          {/* Description Input */}
-          <div>
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-2 mb-4">
-              <div className="text-white text-lg font-semibold">
+          {/* Effect Selector - only show when in effect mode and have multiple effects */}
+          {effect && currentEffect && (
+            <EffectSelector
+              current={currentEffect}
+              effects={[effect]} // For now just the single effect, can be expanded later
+              onChange={(newEffect) => setCurrentEffect(newEffect)}
+            />
+          )}
+
+          {/* Simple prompt input for effect mode */}
+          {effect && (
+            <div>
+              <div className="text-white text-lg font-semibold mb-4">
                 {finalDescriptionLabel}
               </div>
-              {/* Prompt Enhancement Toggle */}
-              <div className="flex items-center gap-2 flex-shrink-0">
-                <span className="text-xs text-gray-400 whitespace-nowrap">
-                  Prompt Enhancement
-                </span>
-                <Switch
-                  checked={enablePromptEnhancement}
-                  onCheckedChange={setEnablePromptEnhancement}
-                  className="data-[state=checked]:bg-primary scale-75"
-                />
-              </div>
+              <Textarea
+                ref={textareaRef}
+                value={description}
+                onChange={handleDescriptionChange}
+                placeholder={descriptionPlaceholder}
+                className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
+                style={{ minHeight: "100px", maxHeight: "150px" }}
+                disabled={isGenerating}
+              />
             </div>
-            <Textarea
-              ref={textareaRef}
-              value={description}
-              onChange={handleDescriptionChange}
-              placeholder={descriptionPlaceholder}
-              className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
-              style={{ minHeight: "150px", maxHeight: "300px" }}
-              disabled={isGenerating}
-            />
-          </div>
+          )}
+
+          {/* Description Input - hide in effect mode */}
+          {!effect && (
+            <div>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-2 mb-4">
+                <div className="text-white text-lg font-semibold">
+                  {finalDescriptionLabel}
+                </div>
+                {/* Prompt Enhancement Toggle */}
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <span className="text-xs text-gray-400 whitespace-nowrap">
+                    Prompt Enhancement
+                  </span>
+                  <Switch
+                    checked={enablePromptEnhancement}
+                    onCheckedChange={setEnablePromptEnhancement}
+                    className="data-[state=checked]:bg-primary scale-75"
+                  />
+                </div>
+              </div>
+              <Textarea
+                ref={textareaRef}
+                value={description}
+                onChange={handleDescriptionChange}
+                placeholder={descriptionPlaceholder}
+                className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
+                style={{ minHeight: "150px", maxHeight: "300px" }}
+                disabled={isGenerating}
+              />
+            </div>
+          )}
 
           {/* Image Upload Section (for image-to-video mode) */}
           {mode === "image-to-video" && (
@@ -638,259 +700,278 @@ export default function VideoGenerator({
             </div>
           )}
 
-          {/* Video Settings */}
-          <div>
-            <div className="text-white text-lg font-semibold mb-4">
-              {t("videoSettings")}
-            </div>
+          {/* Video Settings - hide in effect mode */}
+          {!effect && (
+            <div>
+              <div className="text-white text-lg font-semibold mb-4">
+                {t("videoSettings")}
+              </div>
 
-            {/* Video Model Selection */}
-            <div className="mb-4">
-              <label className="text-gray-300 text-sm mb-2 block">
-                {t("videoModel")}
-              </label>
-              <Select
-                value={selectedModel}
-                onValueChange={(value) => {
-                  setSelectedModel(value);
-                  onModelChange?.(value);
-                  // 切换模型时，重置时长和分辨率为新模型支持的默认值
-                  const newModel = getVideoModel(value);
-                  if (newModel) {
-                    // 检查并更新时长
-                    const supportedDurations = newModel.supportedDurations || [5, 10];
-                    const currentDuration = parseInt(selectedDuration.replace("s", ""));
-                    if (!supportedDurations.includes(currentDuration)) {
-                      setSelectedDuration(`${supportedDurations[0]}s`);
-                    }
-                    // 检查并更新分辨率
-                    const supportedResolutions = newModel.supportedResolutions || ["480p", "1080p"];
-                    if (!supportedResolutions.includes(selectedResolution)) {
-                      setSelectedResolution(supportedResolutions[0]);
-                    }
-                  }
-                }}
-              >
-                <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
-                  <SelectValue placeholder={t("selectModel")}>
-                    {selectedModelConfig && (
-                      <div className="flex items-center gap-2">
-                        <img
-                          src={
-                            selectedModelConfig.id.includes("kling")
-                              ? "/imgs/intro/kling.svg"
-                              : selectedModelConfig.id.includes("minimax") ||
-                                selectedModelConfig.id.includes("hailuo")
-                              ? "/imgs/intro/hailuo.webp"
-                              : selectedModelConfig.id.includes("veo")
-                              ? "/imgs/intro/veo.svg"
-                              : selectedModelConfig.id.includes("wan") ||
-                                selectedModelConfig.id.includes("ali")
-                              ? "/imgs/intro/wan.png"
-                              : "/imgs/intro/seedance.png"
-                          }
-                          alt={selectedModelConfig.provider}
-                          className="w-4 h-4 flex-shrink-0"
-                        />
-                        <span className="font-medium">
-                          {selectedModelConfig.displayName}
-                        </span>
-                      </div>
-                    )}
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  {availableModels.map((model) => (
-                    <SelectItem key={model.id} value={model.id}>
-                      <div className="flex items-start gap-3 w-full py-1">
-                        <img
-                          src={
-                            model.id.includes("kling")
-                              ? "/imgs/intro/kling.svg"
-                              : model.id.includes("minimax") ||
-                                model.id.includes("hailuo")
-                              ? "/imgs/intro/hailuo.webp"
-                              : model.id.includes("veo")
-                              ? "/imgs/intro/veo.svg"
-                              : model.id.includes("wan") ||
-                                model.id.includes("ali")
-                              ? "/imgs/intro/wan.png"
-                              : "/imgs/intro/seedance.png"
-                          }
-                          alt={model.provider}
-                          className="w-5 h-5 flex-shrink-0 mt-0.5"
-                        />
-                        <div className="flex flex-col flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="font-medium text-gray-100">
-                              {model.displayName}
+              {/* Video Model Selection - always hidden in effect mode */}
+              {!effect && (
+                <div className="mb-4">
+                  <label className="text-gray-300 text-sm mb-2 block">
+                    {t("videoModel")}
+                  </label>
+                  <Select
+                    value={selectedModel}
+                    onValueChange={(value) => {
+                      setSelectedModel(value);
+                      onModelChange?.(value);
+                      // 切换模型时，重置时长和分辨率为新模型支持的默认值
+                      const newModel = getVideoModel(value);
+                      if (newModel) {
+                        // 检查并更新时长
+                        const supportedDurations =
+                          newModel.supportedDurations || [5, 10];
+                        const currentDuration = parseInt(
+                          selectedDuration.replace("s", "")
+                        );
+                        if (!supportedDurations.includes(currentDuration)) {
+                          setSelectedDuration(`${supportedDurations[0]}s`);
+                        }
+                        // 检查并更新分辨率
+                        const supportedResolutions =
+                          newModel.supportedResolutions || ["480p", "1080p"];
+                        if (
+                          !supportedResolutions.includes(selectedResolution)
+                        ) {
+                          setSelectedResolution(supportedResolutions[0]);
+                        }
+                      }
+                    }}
+                  >
+                    <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                      <SelectValue placeholder={t("selectModel")}>
+                        {selectedModelConfig && (
+                          <div className="flex items-center gap-2">
+                            <img
+                              src={
+                                selectedModelConfig.id.includes("kling")
+                                  ? "/imgs/intro/kling.svg"
+                                  : selectedModelConfig.id.includes(
+                                      "minimax"
+                                    ) ||
+                                    selectedModelConfig.id.includes("hailuo")
+                                  ? "/imgs/intro/hailuo.webp"
+                                  : selectedModelConfig.id.includes("veo")
+                                  ? "/imgs/intro/veo.svg"
+                                  : selectedModelConfig.id.includes("wan") ||
+                                    selectedModelConfig.id.includes("ali")
+                                  ? "/imgs/intro/wan.png"
+                                  : "/imgs/intro/seedance.png"
+                              }
+                              alt={selectedModelConfig.provider}
+                              className="w-4 h-4 flex-shrink-0"
+                            />
+                            <span className="font-medium">
+                              {selectedModelConfig.displayName}
                             </span>
-                            <div className="flex items-center gap-1 text-xs text-blue-300">
-                              <Coins className="h-3 w-3" />
-                              {model.perSecondCredits}/s
+                          </div>
+                        )}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableModels.map((model) => (
+                        <SelectItem key={model.id} value={model.id}>
+                          <div className="flex items-start gap-3 w-full py-1">
+                            <img
+                              src={
+                                model.id.includes("kling")
+                                  ? "/imgs/intro/kling.svg"
+                                  : model.id.includes("minimax") ||
+                                    model.id.includes("hailuo")
+                                  ? "/imgs/intro/hailuo.webp"
+                                  : model.id.includes("veo")
+                                  ? "/imgs/intro/veo.svg"
+                                  : model.id.includes("wan") ||
+                                    model.id.includes("ali")
+                                  ? "/imgs/intro/wan.png"
+                                  : "/imgs/intro/seedance.png"
+                              }
+                              alt={model.provider}
+                              className="w-5 h-5 flex-shrink-0 mt-0.5"
+                            />
+                            <div className="flex flex-col flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="font-medium text-gray-100">
+                                  {model.displayName}
+                                </span>
+                                <div className="flex items-center gap-1 text-xs text-blue-300">
+                                  <Coins className="h-3 w-3" />
+                                  {model.perSecondCredits}/s
+                                </div>
+                              </div>
+                              <span className="text-xs text-gray-400 mb-1 line-clamp-2">
+                                {model.description}
+                              </span>
+                              {model.features && (
+                                <div className="flex flex-wrap gap-1">
+                                  {model.features.map((feature, index) => (
+                                    <span
+                                      key={index}
+                                      className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full"
+                                    >
+                                      {feature}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
                             </div>
                           </div>
-                          <span className="text-xs text-gray-400 mb-1 line-clamp-2">
-                            {model.description}
-                          </span>
-                          {model.features && (
-                            <div className="flex flex-wrap gap-1">
-                              {model.features.map((feature, index) => (
-                                <span
-                                  key={index}
-                                  className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full"
-                                >
-                                  {feature}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
 
-            {/* Ratio */}
-            <div className="mb-4">
-              <label className="text-gray-300 text-sm mb-2 block">
-                {t("ratio")}
-              </label>
-              <div className="flex flex-wrap gap-3 sm:gap-6">
-                {(
-                  selectedModelConfig?.supportedAspectRatios || [
-                    "16:9",
-                    "9:16",
-                    "1:1",
-                  ]
-                ).map((ratio) => (
-                  <label
-                    key={ratio}
-                    className="flex items-center cursor-pointer min-w-0"
-                  >
-                    <input
-                      type="radio"
-                      name="ratio"
-                      value={ratio}
-                      checked={selectedRatio === ratio}
-                      onChange={(e) => setSelectedRatio(e.target.value)}
-                      className="sr-only"
-                    />
-                    <div
-                      className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
-                        selectedRatio === ratio
-                          ? "border-primary bg-primary"
-                          : "border-gray-500"
-                      }`}
-                    >
-                      {selectedRatio === ratio && (
-                        <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
-                      )}
-                    </div>
-                    <span className="text-gray-300 text-sm">{ratio}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Duration */}
-            <div className="mb-4">
-              <label className="text-gray-300 text-sm mb-2 block">
-                {t("duration")}
-              </label>
-              <div className="flex flex-wrap gap-3 sm:gap-6">
-                {(selectedModelConfig?.supportedDurations || [5, 10]).map(
-                  (duration) => (
+              {/* Ratio */}
+              <div className="mb-4">
+                <label className="text-gray-300 text-sm mb-2 block">
+                  {t("ratio")}
+                </label>
+                <div className="flex flex-wrap gap-3 sm:gap-6">
+                  {(
+                    selectedModelConfig?.supportedAspectRatios || [
+                      "16:9",
+                      "9:16",
+                      "1:1",
+                    ]
+                  ).map((ratio) => (
                     <label
-                      key={duration}
+                      key={ratio}
                       className="flex items-center cursor-pointer min-w-0"
                     >
                       <input
                         type="radio"
-                        name="duration"
-                        value={`${duration}s`}
-                        checked={selectedDuration === `${duration}s`}
-                        onChange={(e) => setSelectedDuration(e.target.value)}
+                        name="ratio"
+                        value={ratio}
+                        checked={selectedRatio === ratio}
+                        onChange={(e) => setSelectedRatio(e.target.value)}
                         className="sr-only"
                       />
                       <div
                         className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
-                          selectedDuration === `${duration}s`
+                          selectedRatio === ratio
                             ? "border-primary bg-primary"
                             : "border-gray-500"
                         }`}
                       >
-                        {selectedDuration === `${duration}s` && (
+                        {selectedRatio === ratio && (
                           <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
                         )}
                       </div>
-                      <span className="text-gray-300 text-sm">{duration}s</span>
+                      <span className="text-gray-300 text-sm">{ratio}</span>
                     </label>
-                  )
-                )}
-              </div>
-            </div>
-
-            {/* Resolution */}
-            <div className="mb-4">
-              <label className="text-gray-300 text-sm mb-2 block">
-                {t("resolution")}
-              </label>
-              <div className="flex flex-wrap gap-3 sm:gap-6">
-                {(
-                  selectedModelConfig?.supportedResolutions || ["480p", "1080p"]
-                ).map((resolution) => (
-                  <label
-                    key={resolution}
-                    className="flex items-center cursor-pointer min-w-0"
-                  >
-                    <input
-                      type="radio"
-                      name="resolution"
-                      value={resolution}
-                      checked={selectedResolution === resolution}
-                      onChange={(e) => setSelectedResolution(e.target.value)}
-                      className="sr-only"
-                    />
-                    <div
-                      className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
-                        selectedResolution === resolution
-                          ? "border-primary bg-primary"
-                          : "border-gray-500"
-                      }`}
-                    >
-                      {selectedResolution === resolution && (
-                        <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
-                      )}
-                    </div>
-                    <span className="text-gray-300 text-sm">{resolution}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Credits and Cost */}
-            <div className="bg-gray-800 rounded-lg p-4 mb-4">
-              <div className="flex justify-between items-center">
-                <div>
-                  <div className="text-gray-300 mb-1">
-                    {t("credits")}: {leftCredits !== null ? leftCredits : "-"}
-                  </div>
-                  <div className="text-gray-300">
-                    {t("cost")}: {currentCreditsRequired} ⚡
-                  </div>
+                  ))}
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="bg-transparent border-gray-600 text-gray-300 hover:bg-gray-700"
-                  onClick={() => setShowPricingModal(true)}
-                >
-                  {t("recharge")}
-                </Button>
               </div>
+
+              {/* Duration */}
+              <div className="mb-4">
+                <label className="text-gray-300 text-sm mb-2 block">
+                  {t("duration")}
+                </label>
+                <div className="flex flex-wrap gap-3 sm:gap-6">
+                  {(selectedModelConfig?.supportedDurations || [5, 10]).map(
+                    (duration) => (
+                      <label
+                        key={duration}
+                        className="flex items-center cursor-pointer min-w-0"
+                      >
+                        <input
+                          type="radio"
+                          name="duration"
+                          value={`${duration}s`}
+                          checked={selectedDuration === `${duration}s`}
+                          onChange={(e) => setSelectedDuration(e.target.value)}
+                          className="sr-only"
+                        />
+                        <div
+                          className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
+                            selectedDuration === `${duration}s`
+                              ? "border-primary bg-primary"
+                              : "border-gray-500"
+                          }`}
+                        >
+                          {selectedDuration === `${duration}s` && (
+                            <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                          )}
+                        </div>
+                        <span className="text-gray-300 text-sm">
+                          {duration}s
+                        </span>
+                      </label>
+                    )
+                  )}
+                </div>
+              </div>
+
+              {/* Resolution */}
+              <div className="mb-4">
+                <label className="text-gray-300 text-sm mb-2 block">
+                  {t("resolution")}
+                </label>
+                <div className="flex flex-wrap gap-3 sm:gap-6">
+                  {(
+                    selectedModelConfig?.supportedResolutions || [
+                      "480p",
+                      "1080p",
+                    ]
+                  ).map((resolution) => (
+                    <label
+                      key={resolution}
+                      className="flex items-center cursor-pointer min-w-0"
+                    >
+                      <input
+                        type="radio"
+                        name="resolution"
+                        value={resolution}
+                        checked={selectedResolution === resolution}
+                        onChange={(e) => setSelectedResolution(e.target.value)}
+                        className="sr-only"
+                      />
+                      <div
+                        className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
+                          selectedResolution === resolution
+                            ? "border-primary bg-primary"
+                            : "border-gray-500"
+                        }`}
+                      >
+                        {selectedResolution === resolution && (
+                          <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                        )}
+                      </div>
+                      <span className="text-gray-300 text-sm">
+                        {resolution}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Credits and Cost - always visible */}
+          <div className="bg-gray-800 rounded-lg p-4 mb-4">
+            <div className="flex justify-between items-center">
+              <div>
+                <div className="text-gray-300 mb-1">
+                  {t("credits")}: {leftCredits !== null ? leftCredits : "-"}
+                </div>
+                <div className="text-gray-300">
+                  {t("cost")}: {currentCreditsRequired} ⚡
+                </div>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                className="bg-transparent border-gray-600 text-gray-300 hover:bg-gray-700"
+                onClick={() => setShowPricingModal(true)}
+              >
+                {t("recharge")}
+              </Button>
             </div>
           </div>
         </div>

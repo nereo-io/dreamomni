@@ -29,6 +29,8 @@ interface VideoHistoryProps {
   // New props for edit/regenerate functionality
   onEditVideo?: (generation: VideoGenerationResult) => void;
   onRegenerateVideo?: (generation: VideoGenerationResult) => void;
+  // Custom showcase data for effect preview
+  showcaseData?: any;
 }
 
 export default function VideoHistory({
@@ -39,6 +41,7 @@ export default function VideoHistory({
   onSelectShowcaseVideo,
   onEditVideo,
   onRegenerateVideo,
+  showcaseData,
 }: VideoHistoryProps) {
   const t = useTranslations("video-result");
   const { fetchHistory, history, isLoadingHistory, setHistory } =
@@ -58,7 +61,8 @@ export default function VideoHistory({
   }, []);
 
   // 决定是否显示 VideoShowcase
-  const shouldShowShowcase = !user?.uuid || history.length === 0;
+  // 如果有showcaseData（特效预览）或用户未登录/无历史记录，显示showcase
+  const shouldShowShowcase = showcaseData || !user?.uuid || history.length === 0;
 
   // Toggle enhanced prompt visibility
   const togglePromptExpansion = (generationId: string) => {
@@ -240,7 +244,11 @@ export default function VideoHistory({
 
         {/* Showcase Content - No overflow, full height */}
         <div className="flex-1 min-h-0 flex flex-col p-4 md:p-6">
-          <VideoShowcase mode={mode} onSelectVideo={handleShowcaseVideoSelect} />
+          <VideoShowcase 
+          mode={mode} 
+          onSelectVideo={handleShowcaseVideoSelect}
+          showcaseData={showcaseData}
+        />
         </div>
       </div>
     );

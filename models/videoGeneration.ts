@@ -49,6 +49,8 @@ export async function createVideoGeneration(
       seed: params.seed,
       has_audio: params.has_audio || false,
       status: params.status || "PENDING",
+      effect_id: params.effect_id,
+      effect_params: params.effect_params,
     })
     .select()
     .single();

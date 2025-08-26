@@ -14,6 +14,7 @@ interface VideoGenerationParams {
   enable_prompt_enhancement?: boolean;
   cfg_scale?: number;
   seed?: number;
+  effect_id?: string; // For video effects feature
 }
 
 interface UserCreditsInfo {

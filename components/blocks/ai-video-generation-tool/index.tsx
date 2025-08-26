@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import type React from "react";
 import VideoGenerator from "../video-generator";
 import VideoHistory from "../video-history";
@@ -8,6 +8,7 @@ import useVideoGeneration from "@/hooks/useVideoGeneration";
 import { toast } from "sonner";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
 import { useAppContext } from "@/contexts/app";
+import type { VideoEffect } from "@/types/video-effect";
 
 import type { VideoGenerationParams } from "../video-generator";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
@@ -16,12 +17,15 @@ interface VideoGenerationToolProps {
   mode: "text-to-video" | "image-to-video";
   descriptionLabel?: string;
   descriptionPlaceholder?: string;
+  // Simplified: Just pass the complete effect object
+  effect?: VideoEffect;
 }
 
 export function VideoGenerationTool({
   mode,
   descriptionLabel,
   descriptionPlaceholder,
+  effect,
 }: VideoGenerationToolProps) {
   const { submitGeneration, pollStatus, fetchHistory } = useVideoGeneration();
   const { trackVideoGeneration, trackFirstVideo } = useYandexTracking();
@@ -38,6 +42,26 @@ export function VideoGenerationTool({
   } | null>(null);
   const [editVideoData, setEditVideoData] =
     useState<VideoGenerationResult | null>(null);
+  
+  // Extract configuration from effect object
+  const effectConfig = useMemo(() => {
+    if (!effect) return null;
+    
+    return {
+      creditsRequired: effect.credits_required,
+      forceModel: effect.model_config?.model_id,
+      // Create showcase data from preview video
+      showcaseData: effect.preview_video ? {
+        videos: [{
+          id: `showcase-${effect.id}`,
+          video_url: effect.preview_video,
+          thumbnail_url: effect.preview_image || undefined,
+          title: effect.title,
+          description: effect.description || undefined,
+        }]
+      } : undefined
+    };
+  }, [effect]);
 
   // Handle showcase video selection
   const handleShowcaseVideoSelect = (
@@ -122,15 +146,31 @@ export function VideoGenerationTool({
   const handleGenerate = async (params: VideoGenerationParams) => {
     setIsGenerating(true);
 
+    // Apply effect modifications if present
+    let finalParams = { ...params };
+    if (effectConfig) {
+      // Override model if specified
+      if (effectConfig.forceModel) {
+        finalParams.model = effectConfig.forceModel;
+      }
+      
+      // Apply prompt template if provided
+      if (effectConfig.promptTemplate) {
+        finalParams.prompt = effectConfig.promptTemplate.replace('{{USER_PROMPT}}', params.prompt);
+      }
+    }
+
     const result = await submitGeneration({
-      model: params.model,
-      prompt: params.prompt,
-      duration: params.duration,
-      aspect_ratio: params.aspect_ratio,
-      resolution: params.resolution,
-      generate_audio: params.generate_audio,
-      enable_prompt_enhancement: params.enable_prompt_enhancement,
-      image_url: params.image_url,
+      model: finalParams.model,
+      prompt: finalParams.prompt,
+      duration: finalParams.duration,
+      aspect_ratio: finalParams.aspect_ratio,
+      resolution: finalParams.resolution,
+      generate_audio: finalParams.generate_audio,
+      enable_prompt_enhancement: finalParams.enable_prompt_enhancement,
+      image_url: finalParams.image_url,
+      // Pass effect_id if in effect mode
+      ...(effect && { effect_id: effect.id }),
     });
 
     if (result) {
@@ -175,6 +215,10 @@ export function VideoGenerationTool({
           onShowcaseVideoParamsUsed={() => setShowcaseVideoParams(null)}
           editVideoData={editVideoData}
           onEditVideoDataUsed={() => setEditVideoData(null)}
+          // Pass effect configuration (extracted from effect object)
+          effect={effect}
+          forceModel={effectConfig?.forceModel}
+          creditsOverride={effectConfig?.creditsRequired}
         />
 
         <VideoHistory
@@ -184,6 +228,7 @@ export function VideoGenerationTool({
           onSelectShowcaseVideo={handleShowcaseVideoSelect}
           onEditVideo={handleEditVideo}
           onRegenerateVideo={handleRegenerateVideo}
+          showcaseData={effectConfig?.showcaseData}
         />
       </div>
     </div>
