@@ -29,7 +29,7 @@ export default function VideoShowcase({ mode = "text-to-video", onSelectVideo, s
         prompt: v.description || "Effect preview video",
         videoUrl: v.video_url,
         thumbnailUrl: v.thumbnail_url || v.video_url,
-        duration: 10,
+        duration: v.duration || 5, // Use actual duration or default to 5s
         aspectRatio: "16:9" as const,
         model: "effect-preview",
         category: "featured" as const,

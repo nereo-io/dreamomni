@@ -64,6 +64,7 @@ export function VideoGenerationTool({
           thumbnail_url: effect.preview_image || undefined,
           title: effect.title,
           description: effect.description || undefined,
+          duration: 5, // Most effect preview videos are 5 seconds
         }]
       } : undefined
     };

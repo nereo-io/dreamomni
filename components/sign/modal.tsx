@@ -8,8 +8,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogPortal,
-  DialogOverlay,
 } from "@/components/ui/dialog";
 import {
   Drawer,
@@ -19,8 +17,6 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerPortal,
-  DrawerOverlay,
 } from "@/components/ui/drawer";
 import { SiGithub, SiGmail, SiGoogle, SiApple } from "react-icons/si";
 
@@ -71,9 +67,7 @@ export default function SignModal() {
   if (isDesktop) {
     return (
       <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
-        <DialogPortal>
-          <DialogOverlay className="z-[100]" />
-          <DialogContent className="sm:max-w-[425px] z-[100]">
+        <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>{getTitle()}</DialogTitle>
             <DialogDescription>
@@ -87,16 +81,13 @@ export default function SignModal() {
             setShowEmailAuth={setShowEmailAuth}
           />
         </DialogContent>
-        </DialogPortal>
       </Dialog>
     );
   }
 
   return (
     <Drawer open={showSignModal} onOpenChange={setShowSignModal}>
-      <DrawerPortal>
-        <DrawerOverlay className="z-[100]" />
-        <DrawerContent className="z-[100]">
+      <DrawerContent>
         <DrawerHeader className="text-left">
           <DrawerTitle>{getTitle()}</DrawerTitle>
           <DrawerDescription>
@@ -116,7 +107,6 @@ export default function SignModal() {
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
-      </DrawerPortal>
     </Drawer>
   );
 }
