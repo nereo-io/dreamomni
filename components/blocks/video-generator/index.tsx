@@ -22,6 +22,7 @@ import {
   calculateCredits,
   getVideoModel,
 } from "@/config/video-models";
+import { validateImage } from "@/config/image-validation-rules";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 
 // 生成参数接口
@@ -323,83 +324,11 @@ export default function VideoGenerator({
         return;
       }
 
-      // 基础文件类型验证
-      if (!file.type.startsWith("image/")) {
-        toast.error(t("toast.uploadImageFile"));
-        return;
-      }
-
-      // 支持的格式验证
-      const supportedFormats = [
-        "image/jpeg",
-        "image/jpg",
-        "image/png",
-        "image/webp",
-        "image/bmp",
-        "image/tiff",
-        "image/gif",
-      ];
-      if (!supportedFormats.includes(file.type.toLowerCase())) {
-        toast.error(
-          "Unsupported image format. Please use JPEG, PNG, WEBP, BMP, TIFF, or GIF."
-        );
-        return;
-      }
-
-      // 文件大小验证
-      const maxSize = 10 * 1024 * 1024; // 10MB
-      if (file.size > maxSize) {
-        toast.error(t("toast.imageTooLarge"));
-        return;
-      }
-
-      // 图片尺寸和宽高比验证
-      const img = new Image();
-      const imageValidationPromise = new Promise<boolean>((resolve) => {
-        img.onload = () => {
-          const width = img.width;
-          const height = img.height;
-          const aspectRatio = width / height;
-
-          // 最小尺寸：300x300px
-          if (width < 300 || height < 300) {
-            toast.error("Image too small. Minimum size is 300x300 pixels.");
-            resolve(false);
-            return;
-          }
-
-          // 最大尺寸：6000x6000px
-          if (width > 6000 || height > 6000) {
-            toast.error("Image too large. Maximum size is 6000x6000 pixels.");
-            resolve(false);
-            return;
-          }
-
-          // 宽高比验证：0.4-2.5
-          if (aspectRatio < 0.4 || aspectRatio > 2.5) {
-            toast.error(
-              "Invalid aspect ratio. Please use an image with aspect ratio between 0.4 and 2.5."
-            );
-            resolve(false);
-            return;
-          }
-
-          resolve(true);
-        };
-
-        img.onerror = () => {
-          toast.error("Invalid image file. Please select a valid image.");
-          resolve(false);
-        };
-      });
-
-      const url = URL.createObjectURL(file);
-      img.src = url;
-
-      const isValid = await imageValidationPromise;
-      URL.revokeObjectURL(url);
-
-      if (!isValid) {
+      // 使用基于模型的图片验证规则
+      const validationResult = await validateImage(file, selectedModel);
+      
+      if (!validationResult.valid) {
+        toast.error(validationResult.error || "Invalid image file.");
         return;
       }
 
@@ -441,7 +370,7 @@ export default function VideoGenerator({
         setIsUploadingImage(false);
       }
     },
-    [t, user?.uuid, setShowSignModal]
+    [t, user?.uuid, setShowSignModal, selectedModel]
   );
 
   // Handle file input change
