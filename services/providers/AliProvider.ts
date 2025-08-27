@@ -219,15 +219,15 @@ export class AliProvider implements VideoProvider {
   private getErrorMessage(code: string, message: string): string {
     switch (code) {
       case "InvalidParameter":
-        return "请求参数不合法，请检查输入内容";
+        return "Invalid request parameters, please check your input";
       case "IPInfringementSuspect":
-        return "输入内容可能涉及知识产权侵权风险，请修改后重试";
+        return "Input content may involve intellectual property infringement risk, please modify and try again";
       case "DataInspectionFailed":
-        return "输入内容可能包含敏感信息，请修改后重试";
+        return "Input content may contain sensitive information, please modify and try again";
       case "InternalError":
-        return "服务暂时不可用，请稍后重试";
+        return "Service temporarily unavailable, please try again later";
       default:
-        return message || "视频生成失败，请重试";
+        return message || "Video generation failed, please try again";
     }
   }
 

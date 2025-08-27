@@ -129,11 +129,11 @@ export async function POST(req: Request) {
         }
         
       case "FAILED":
-        console.error(`视频生成失败，请求ID: ${request_id}`);
+        console.error(`Video generation failed, request ID: ${request_id}`);
         
         const errorParams = {
           status: "FAILED" as const,
-          error_message: "视频生成失败",
+          error_message: "Video generation failed",
           logs: [],
         };
         
@@ -171,9 +171,9 @@ export async function POST(req: Request) {
         // }
         
         return respData({
-          message: "视频生成失败",
+          message: "Video generation failed",
           request_id,
-          error: "视频生成失败",
+          error: "Video generation failed",
         });
               
       default:
