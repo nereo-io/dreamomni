@@ -61,8 +61,9 @@ export default function VideoHistory({
   }, []);
 
   // 决定是否显示 VideoShowcase
-  // 如果有showcaseData（特效预览）或用户未登录/无历史记录，显示showcase
-  const shouldShowShowcase = showcaseData || !user?.uuid || history.length === 0;
+  // 优先显示历史记录：如果用户已登录且有历史记录，显示历史
+  // 只有在用户未登录或无历史记录时，才显示showcase
+  const shouldShowShowcase = !user?.uuid || history.length === 0;
 
   // Toggle enhanced prompt visibility
   const togglePromptExpansion = (generationId: string) => {

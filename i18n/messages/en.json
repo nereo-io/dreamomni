@@ -232,6 +232,7 @@
     "remainingCredits": "Remaining Credits",
     "cost": "Cost",
     "recharge": "Recharge",
+    "additionalOptions": "Additional Options",
     "generateVideo": "Generate Video",
     "submitting": "Submitting...",
     "uploading": "Uploading...",
@@ -358,8 +359,7 @@
       "title": "AI Video Effects - Transform Your Videos",
       "description": "Create stunning video effects with AI. Choose from dozens of templates and transform your videos instantly.",
       "keywords": "AI video effects, video transformation, AI templates, video editing, visual effects, AI filters",
-      "heroTitle": "AI Video Effects",
-      "heroDescription": "Transform your videos with stunning AI-powered effects",
+      "gridTitle": "Free 100+ AI Video Templates and Effects",
       "useThisEffect": "Use This Effect"
     },
     "textToVideo": {

@@ -58,7 +58,6 @@ export interface CreateVideoGenerationParams {
   has_audio?: boolean; // 新增：是否包含音频
   status?: VideoGenerationStatus; // 允许在创建时指定初始状态
   effect_id?: string; // 新增：特效ID
-  effect_params?: any; // 新增：特效参数
 }
 
 export interface UpdateVideoGenerationParams {

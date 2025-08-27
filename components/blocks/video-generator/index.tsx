@@ -235,8 +235,6 @@ export default function VideoGenerator({
     }
   }, [selectedModel, availableModels, selectedDuration, selectedResolution]);
 
-  // 不需要智能模型切换 - 模型列表已经根据 mode 固定了
-
   // 同步 selectedImage 和 imagePreview
   useEffect(() => {
     setImagePreview(selectedImage);
@@ -498,8 +496,8 @@ export default function VideoGenerator({
       return;
     }
 
-    // 验证描述内容
-    if (!description.trim()) {
+    // 验证描述内容 - for effects, prompt is optional if effect has prompt_template
+    if (!description.trim() && (!effect || !effect.prompt_template)) {
       toast.error(t("toast.emptyPrompt"));
       return;
     }
@@ -579,24 +577,6 @@ export default function VideoGenerator({
               effects={[effect]} // For now just the single effect, can be expanded later
               onChange={(newEffect) => setCurrentEffect(newEffect)}
             />
-          )}
-
-          {/* Simple prompt input for effect mode */}
-          {effect && (
-            <div>
-              <div className="text-white text-lg font-semibold mb-4">
-                {finalDescriptionLabel}
-              </div>
-              <Textarea
-                ref={textareaRef}
-                value={description}
-                onChange={handleDescriptionChange}
-                placeholder={descriptionPlaceholder}
-                className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
-                style={{ minHeight: "100px", maxHeight: "150px" }}
-                disabled={isGenerating}
-              />
-            </div>
           )}
 
           {/* Description Input - hide in effect mode */}
@@ -985,7 +965,7 @@ export default function VideoGenerator({
             isGenerating ||
             isSubmitting ||
             isUploadingImage ||
-            !description.trim() ||
+            (!description.trim() && (!effect || !effect.prompt_template)) ||
             !selectedModel ||
             (mode === "image-to-video" && !uploadedImageUrl) ||
             (leftCredits !== null && leftCredits < currentCreditsRequired)

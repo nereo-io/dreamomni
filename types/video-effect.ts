@@ -9,12 +9,7 @@ export interface VideoEffect {
   preview_video: string | null;
   parameters: any | null;
   prompt_template: string | null;
-  default_prompt: string | null;
   credits_required: number;
-  model_config: {
-    model_id?: string;
-    hide_selector?: boolean;
-  } | null;
   status: 'created' | 'online' | 'offline' | 'deleted';
   is_hot: boolean;
   category: string | null;

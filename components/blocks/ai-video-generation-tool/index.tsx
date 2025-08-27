@@ -42,16 +42,22 @@ export function VideoGenerationTool({
   } | null>(null);
   const [editVideoData, setEditVideoData] =
     useState<VideoGenerationResult | null>(null);
+  const [userVideoCount, setUserVideoCount] = useState<number | null>(null);
   
   // Extract configuration from effect object
   const effectConfig = useMemo(() => {
     if (!effect) return null;
     
+    // 只在用户没有历史记录时才显示特效的showcase
+    const shouldShowEffectShowcase = !user?.uuid || userVideoCount === 0;
+    
     return {
       creditsRequired: effect.credits_required,
-      forceModel: effect.model_config?.model_id,
-      // Create showcase data from preview video
-      showcaseData: effect.preview_video ? {
+      // Use minimax-hailuo02-image-to-video as default model for effects
+      forceModel: 'minimax-hailuo02-image-to-video',
+      promptTemplate: effect.prompt_template,
+      // Only create showcase data if user has no history
+      showcaseData: (shouldShowEffectShowcase && effect.preview_video) ? {
         videos: [{
           id: `showcase-${effect.id}`,
           video_url: effect.preview_video,
@@ -61,7 +67,7 @@ export function VideoGenerationTool({
         }]
       } : undefined
     };
-  }, [effect]);
+  }, [effect, user?.uuid, userVideoCount]);
 
   // Handle showcase video selection
   const handleShowcaseVideoSelect = (
@@ -119,7 +125,6 @@ export function VideoGenerationTool({
       toast.error("Failed to regenerate video");
     }
   };
-  const [userVideoCount, setUserVideoCount] = useState<number | null>(null);
 
   // 获取用户视频历史记录数量
   useEffect(() => {
