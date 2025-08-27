@@ -14,7 +14,7 @@ import {
 import { Play, ImageIcon, X, Coins } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import useCredits from "@/hooks/useCredits";
 import {
   getTextToVideoModels,
@@ -36,6 +36,7 @@ export interface VideoGenerationParams {
   generate_audio: boolean;
   enable_prompt_enhancement: boolean;
   image_url?: string;
+  effect_id?: string;
 }
 
 interface VideoGeneratorProps {
@@ -84,6 +85,7 @@ export default function VideoGenerator({
   creditsOverride,
 }: VideoGeneratorProps) {
   const t = useTranslations("video-generator");
+  const locale = useLocale();
 
   // 使用翻译作为默认值
   const finalDescriptionLabel = descriptionLabel || t("videoDescription");
@@ -105,8 +107,8 @@ export default function VideoGenerator({
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [isSubmitting] = useState(false);
-  const [currentEffect, setCurrentEffect] = useState<VideoEffect | undefined>(
-    effect
+  const [currentEffect, setCurrentEffect] = useState<VideoEffect | null>(
+    effect || null
   );
 
   // Textarea 引用
@@ -242,7 +244,7 @@ export default function VideoGenerator({
 
   // 同步 effect prop 到 currentEffect
   useEffect(() => {
-    setCurrentEffect(effect);
+    setCurrentEffect(effect || null);
   }, [effect]);
 
   // 确保默认选项被选中
@@ -526,6 +528,7 @@ export default function VideoGenerator({
       resolution: selectedResolution,
       generate_audio: generateAudio,
       enable_prompt_enhancement: enablePromptEnhancement,
+      effect_id: currentEffect?.id,
       image_url: imageUrl,
     };
 
@@ -570,12 +573,12 @@ export default function VideoGenerator({
             </h2>
           </div>
 
-          {/* Effect Selector - only show when in effect mode and have multiple effects */}
-          {effect && currentEffect && (
+          {/* Effect Selector - only show in effect detail page */}
+          {effect && (
             <EffectSelector
               current={currentEffect}
-              effects={[effect]} // For now just the single effect, can be expanded later
-              onChange={(newEffect) => setCurrentEffect(newEffect)}
+              onChange={setCurrentEffect}
+              locale={locale}
             />
           )}
 

@@ -54,7 +54,15 @@ export default async function EffectDetailPage({
       {/* Video Generation Tool with simplified interface */}
       <VideoGenerationTool
         mode="image-to-video"
-        effect={effect} // Just pass the complete effect object!
+        effect={{
+          id: effect.id,
+          title: effect.title,
+          description: effect.description,
+          preview_image: effect.preview_image,
+          preview_video: effect.preview_video,
+          credits_required: effect.credits_required,
+          prompt_template: effect.prompt_template,
+        }}
         descriptionLabel="Customize Effect (optional)"
         descriptionPlaceholder={`Add details to customize your ${effect.title.toLowerCase()} effect...`}
       />
