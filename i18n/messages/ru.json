@@ -27,7 +27,10 @@
     "text_to_video": "Текст в видео",
     "ai_video_effects": "ИИ видео эффекты",
     "my_creations": "Мои творения",
-    "upgrade_now": "Обновить сейчас"
+    "upgrade_now": "Обновить сейчас",
+    "feedback_title": "Обратная связь",
+    "feedback_telegram": "Telegram",
+    "feedback_discord": "Discord"
   },
   "pricing_modal": {
     "select_payment_method": "Выберите способ оплаты",

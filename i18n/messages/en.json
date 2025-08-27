@@ -27,7 +27,10 @@
     "text_to_video": "Text to Video",
     "ai_video_effects": "AI Video Effects",
     "my_creations": "My Creations",
-    "upgrade_now": "Upgrade Now"
+    "upgrade_now": "Upgrade Now",
+    "feedback_title": "Feedback? DM us!",
+    "feedback_telegram": "Join Telegram",
+    "feedback_discord": "Join Discord"
   },
   "pricing_modal": {
     "select_payment_method": "Choose payment method",

@@ -21,6 +21,7 @@ import { Pricing } from "@/types/blocks/pricing";
 import { getPricingBlock } from "@/services/page";
 import { useSidebar } from "@/contexts/sidebar";
 import { useTranslations, useLocale } from "next-intl";
+import { FeedbackSection } from "./feedback-section";
 
 interface SidebarItem {
   icon: any;
@@ -156,8 +157,9 @@ export function Sidebar() {
         </div>
       </div>
 
-      {/* Footer actions - only Upgrade Now button */}
-      <div className="border-t border-gray-800 p-4">
+      {/* Footer actions - Feedback and Upgrade Now button */}
+      <div className="p-4">
+        <FeedbackSection isCollapsed={isCollapsed} />
         <Button
           className={`w-full bg-primary hover:bg-primary/90 text-primary-foreground ${
             isCollapsed ? "flex items-center justify-center p-2" : ""
