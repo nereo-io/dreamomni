@@ -149,9 +149,9 @@ const VideoGenerationStatus: React.FC<VideoGenerationStatusProps> = React.memo((
 
   return (
     <div className={cn(
-      "rounded-lg overflow-hidden",
+      "w-full max-w-[518px] aspect-video rounded-lg overflow-hidden",
       className
-    )} style={{ width: '438px', height: '288px' }}>
+    )}>
       {renderStatusContent()}
     </div>
   );

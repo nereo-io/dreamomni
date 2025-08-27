@@ -54,7 +54,7 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
       <div className="w-full mt-4">
         {isCompleted && videoUrl ? (
           <>
-            <div className="w-full flex justify-center">
+            <div className="w-full">
               <VideoPlayer 
                 videoUrl={videoUrl} 
                 onDownload={onDownload} 
@@ -72,14 +72,16 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
             )}
           </>
         ) : (isProcessing || isFailed) && createdAt ? (
-          <VideoGenerationStatus
-            status={status}
-            createdAt={createdAt}
-            estimatedTime={estimatedTime}
-            modelName={modelName}
-            backgroundImage={imageUrl}
-            errorMessage={errorMessage}
-          />
+          <div className="w-full">
+            <VideoGenerationStatus
+              status={status}
+              createdAt={createdAt}
+              estimatedTime={estimatedTime}
+              modelName={modelName}
+              backgroundImage={imageUrl}
+              errorMessage={errorMessage}
+            />
+          </div>
         ) : (
           <div className="h-56 sm:h-64 md:h-72 lg:h-80 xl:h-96 rounded-lg overflow-hidden relative group flex items-center justify-center bg-gray-700">
             <div className="w-full h-full flex flex-col items-center justify-center">
