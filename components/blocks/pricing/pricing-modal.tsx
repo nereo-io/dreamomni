@@ -9,8 +9,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogPortal,
-  DialogOverlay,
   DialogClose,
 } from "@/components/ui/dialog";
 import { sendGAEvent } from "@next/third-parties/google";
@@ -339,9 +337,7 @@ export default function PricingModal({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogPortal>
-          <DialogOverlay className="z-[99]" />
-          <DialogContent className="sm:max-w-4xl max-h-[85vh] overflow-y-auto p-0 z-[100]">
+        <DialogContent className="sm:max-w-4xl max-h-[85vh] overflow-y-auto p-0">
             <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground z-10">
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
@@ -664,14 +660,11 @@ export default function PricingModal({
               </div>
             </div>
           </DialogContent>
-        </DialogPortal>
       </Dialog>
 
       {/* 支付成功弹窗 */}
       <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
-        <DialogPortal>
-          <DialogOverlay className="z-[99]" />
-          <DialogContent className="sm:max-w-md z-[100]">
+          <DialogContent className="sm:max-w-md">
             <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground z-10">
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
@@ -718,7 +711,6 @@ export default function PricingModal({
               </div>
             </div>
           </DialogContent>
-        </DialogPortal>
       </Dialog>
     </>
   );
