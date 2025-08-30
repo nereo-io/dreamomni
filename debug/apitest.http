@@ -1,6 +1,11 @@
 @baseUrl = http://localhost:3000
-@authCookie = authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiMjdjQzA0V0toaXVJbUNVOEtSOUpFREFhS0RNemVILXgzU0Vqc3pqRnZBYkFEUjE4VzVkWVB2Y0dSZXUyQkZhRnY2MGMxSGlSUVJyUk85bDFNR09VNVEifQ..f4N91IwOMNdN_805sbb6vw.Fqy5afbkccP9POIGiXWqMzA6tqwbv7sgy2wWl2jvhLBNyFL1c6vnBSii0uVummFNp_I2J8frFWdnCyCsI18vKsZUR94ERTBoNuFG5_GI9kN7wK58NOnLjUsJoDurkbIlUa1x5UfANEFvMxyrUA3QjaIr5BN3_dmy95tKAJfqUzmjY-uT-s3bqas0f6dkXwnT0N8ruIPtEC6j3nCjOOx-yC_Qp8TlhVKthkLRo8VUzJuaAyx5RL8Seua9YRgj6yRpNK980PFJN06B6H49CPyioeLGWMoXpfLva8ENAbwVb745ZWShDeFqQIYSPCTGqsSKzAu-XrmQrR3WZ70hkGYsKXJS74jPyRUQJc9p71mNpDQe7FgycaAtSQZ7lidV7TH9DqVgTg3jJ1CdABpcm5kdyMlFQK5LmB13h3RoytTsEYdxXjKdoKR5SOOalQMzz480-tAw0IfvgCTz2O2SoovUxJm5HwgTP00DWum5TiuTIBcFPE1Og2_bLNmMySRlEltcibvU-yNl3IAm9-Lzuo26xkkzjSnyHKg_DqzRsdiNxUEYt3anHD-onBNGFKTbsBLfmxjdf-9U-9jfl9iV09yKnkU86Dzrm0r4TuOLUOBLlsaiWb3v-OThRAkYveTDbNOSO-ejHH0kZzmlynIP_ZJ4hBI5ZTTO4CGksOvav29gW9ZwGKSz4K7wuQIKi3tSJBpHmaMPNanRRUcQ8vCPj9A6XZk10ZR_e443yTtg_IYTqwI.przkLGGvw_dRAFWpY8aWaEyYLim97Wgmc1Ux3OBUBzE
+# 从浏览器开发者工具复制完整的cookie字符串
+# 需要包含 authjs.session-token 和 authjs.csrf-token 两个cookie
+@authCookie = authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiMjdjQzA0V0toaXVJbUNVOEtSOUpFREFhS0RNemVILXgzU0Vqc3pqRnZBYkFEUjE4VzVkWVB2Y0dSZXUyQkZhRnY2MGMxSGlSUVJyUk85bDFNR09VNVEifQ..lwLZ9wJfGMp_gkAcvVacOw.Iom9RRI5CvUPZE_zTzWgsO_-2RZ2_gaR8disBZnsQCpAFweRznYQwIotv0hzvA_KyOOIOo-Sz7cDBrAyFBZA_yOLThCgAPRgDr2fL65cLn1qa8hHEs_0QtVTuJVYqpYwPmU9udUe30xwk0bH9oFzqwyjac1Cv9E4BUVJkq45gwanV1A3yli2pJcnGUb5XaDSoUGBKMtCAmOmZpYjTXPHN5dQ-nUMni9SSwIaYWjJ8wgrgZho5_XRenyRvTsurPbFm97TttL1RxT4x2UwBMajgsZJO4lPqTelbs-17VmZUgU75PfuZBC5jyoZonanOmG5EIPZsKs-VitcjE-NuvvR2pGmMZ-_EY9WsQm5Lics1FkULM3ruG6d2_VNq-3vKhF1eEqazw6RQKy9lZJ1WADb-snha5QgUMWjJMdnE4Rjhf1t8392ouR9uZd9tsQJTy98Q3hniOqkBl1zVczxEomAoZ0-5wk0e6js7QKXU2CTVZNDhCsCPr_fEh1IKxwc8NBOnP3ny_tJwaNTNcce3tio_e9laMAfZWrvzr4nJ2aOV3NEqkpM1LF5XuOqbL6_o-ppesSHPx7216gHWIYocPFOLmCnWR9m67m0NQhdEEOC9PzAEou50aQbCxW-r6FE4k00-0VM9Ml0D969Cm56eff696fcf0a6_94IewyI48iJwNXC5HCSnlo2FCzxr1CirOcDEAXUTmNR2UUddBaAUEOdydJGgwc1ik4h0ya65a5ZMyKAP7vPs43LFnHxVCkGAF2BNH30mBeckpjtzdPWHFc_Ag.VRzvddYzte68K7RpWV-jv8hx8cHIUZdpNZp9R8AGL3c; authjs.csrf-token=199d51337d2d4cee080d15522e538efc566edd69251cb2effbb640403de5eaa1|91c06c6098caa208bbe83a2029762fb5272b9710c74b999fb28f934fcf8f1053
+
 @apiKey = sk-xxx
+@pixverseApiUrl = https://app-api.pixverse.ai/openapi/v2
+@pixverseApiKey = sk-469913e251d7ec05d51bd758474b0ba3
 
 ### ping api (使用Cookie认证)
 POST {{baseUrl}}/api/ping
@@ -251,3 +256,58 @@ Content-Type: application/json; charset=UTF-8
     "mode": "test"
   }
 }
+
+###############################################
+# PixVerse 特效主流程测试 - 使用本地文件
+###############################################
+
+### 1. 检查用户积分
+GET {{baseUrl}}/api/credits
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+### 2. PixVerse 特效生成 - 上传本地图片测试
+POST {{baseUrl}}/api/video-effects/pixverse
+Cookie: {{authCookie}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="effect_id"
+
+muscle-surge-effect
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="prompt"
+
+Earth planet transforming with amazing cosmic effects
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="duration"
+
+5
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="quality"
+
+540p
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="model"
+
+v4.5
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image1"; filename="earth.png"
+Content-Type: image/png
+
+< /Users/jasper/Projects/veo3/public/imgs/elements/earth.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 3. 查询视频生成状态（使用步骤2返回的ID）
+POST {{baseUrl}}/api/video-generation/status
+Content-Type: application/json
+Cookie: {{authCookie}}
+
+{
+  "id": "替换为步骤2返回的ID"
+}
+
+### 4. 查看生成历史
+GET {{baseUrl}}/api/video-generations/history?page=1&limit=5
+Content-Type: application/json
+Cookie: {{authCookie}}

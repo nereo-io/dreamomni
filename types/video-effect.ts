@@ -14,6 +14,9 @@ export interface VideoEffect {
   is_hot: boolean;
   category: string | null;
   display_order: number;
+  effect_type: 'hailuo_prompt' | 'pixverse_template';
+  pixverse_template_id: number | null;
+  max_images: number;
   created_at: string;
   updated_at: string;
 }
