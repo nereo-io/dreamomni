@@ -48,14 +48,21 @@ export function VideoGenerationTool({
   const effectConfig = useMemo(() => {
     if (!effect) return null;
     
+    // Debug: 打印 effect 对象
+    console.log('Effect object:', effect);
+    
     // 只在用户没有历史记录时才显示特效的showcase
     const shouldShowEffectShowcase = !user?.uuid || userVideoCount === 0;
     
     return {
       creditsRequired: effect.credits_required,
-      // Use minimax-hailuo02-image-to-video as default model for effects
-      forceModel: 'minimax-hailuo02-image-to-video',
+      // Use different model based on effect_type
+      forceModel: effect.effect_type === 'pixverse_template' 
+        ? 'pixverse-template' 
+        : 'minimax-hailuo02-image-to-video',
       promptTemplate: effect.prompt_template,
+      effectType: effect.effect_type,
+      pixverseTemplateId: effect.pixverse_template_id,
       // Only create showcase data if user has no history
       showcaseData: (shouldShowEffectShowcase && effect.preview_video) ? {
         videos: [{
@@ -154,15 +161,24 @@ export function VideoGenerationTool({
 
     // Apply effect modifications if present
     let finalParams = { ...params };
+    let pixverseImgIds: number[] | undefined;
+    
     if (effectConfig) {
       // Override model if specified
       if (effectConfig.forceModel) {
         finalParams.model = effectConfig.forceModel;
       }
       
-      // Apply prompt template if provided
+      // Apply prompt template if provided  
       if (effectConfig.promptTemplate) {
         finalParams.prompt = effectConfig.promptTemplate.replace('{{USER_PROMPT}}', params.prompt);
+      }
+      
+      // Handle PixVerse template effects
+      if (effectConfig.effectType === 'pixverse_template' && params.pixverse_img_id) {
+        // Use pixverse_img_id from video-generator component
+        // video-generator handles the upload during image selection
+        pixverseImgIds = [params.pixverse_img_id];
       }
     }
 
@@ -175,8 +191,12 @@ export function VideoGenerationTool({
       generate_audio: finalParams.generate_audio,
       enable_prompt_enhancement: finalParams.enable_prompt_enhancement,
       image_url: finalParams.image_url,
-      // Pass effect_id if in effect mode
-      ...(effect && { effect_id: effect.id }),
+      // Pass effect-related params
+      ...(effect && { 
+        effect_id: effect.id,
+        effect_type: effectConfig?.effectType,
+        pixverse_img_ids: pixverseImgIds
+      }),
     });
 
     if (result) {

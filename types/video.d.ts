@@ -38,6 +38,7 @@ export interface VideoGeneration {
   error_message?: string | null;
   logs?: any | null; // jsonb
   metrics?: any | null; // jsonb
+  effect_id?: string | null; // 特效ID
   created_at: string; // timestamptz
   updated_at: string; // timestamptz
 }

@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "@supabase/mcp-server-supabase@latest",
+        "@supabase/mcp-server-supabase@0.1.2",
         "--access-token",
         "sbp_eed55d466e8fa9e8670c4f9ef0e3735b049cfaf2"
       ]

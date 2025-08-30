@@ -1,9 +1,13 @@
 import { respData, respErr } from "@/lib/resp";
 import { auth } from "@/auth";
 import { getUserInfo } from "@/services/user";
-import { createVideoGeneration, updateVideoGenerationById } from "@/models/videoGeneration";
+import {
+  createVideoGeneration,
+  updateVideoGenerationById,
+} from "@/models/videoGeneration";
 import {
   decreaseCredits,
+  increaseCredits,
   CreditsTransType,
   getUserCredits,
 } from "@/services/credit";
@@ -13,15 +17,6 @@ import { getEffectConfigById } from "@/models/effectConfig";
 const PIXVERSE_API_BASE = "https://app-api.pixverse.ai/openapi/v2";
 const PIXVERSE_API_KEY = process.env.PIXVERSE_API_KEY;
 
-interface PixVerseUploadResponse {
-  ErrCode: number;
-  ErrMsg: string;
-  Resp?: {
-    img_id: number;
-    img_url: string;
-  };
-}
-
 interface PixVerseGenerateResponse {
   ErrCode: number;
   ErrMsg: string;
@@ -30,6 +25,10 @@ interface PixVerseGenerateResponse {
   };
 }
 
+/**
+ * 视频生成端点 - 使用已上传的图片生成视频
+ * 需要提供之前上传获得的 imgId
+ */
 export async function POST(req: Request) {
   try {
     // 1. 用户认证检查
@@ -50,29 +49,35 @@ export async function POST(req: Request) {
       return respErr("Failed to get user credits");
     }
 
-    // 4. 解析表单数据（支持多图上传）
-    const formData = await req.formData();
-    const effect_id = formData.get("effect_id") as string;
-    const prompt = formData.get("prompt") as string;
-    const duration = formData.get("duration") as string || "5";
-    const quality = formData.get("quality") as string || "540p";
-    const model = formData.get("model") as string || "v4.5";
+    // 4. 解析 JSON 请求
+    const body = await req.json();
+    const {
+      effectId,
+      imgIds, // 支持单个或多个图片 ID
+      prompt,
+      duration = 5,
+      quality = "540p",
+      model = "v4.5",
+      imageUrl // 添加原始图片URL参数
+    } = body;
 
-    // 获取上传的图片
-    const images: File[] = [];
-    const image1 = formData.get("image1") as File;
-    const image2 = formData.get("image2") as File;
-    
-    if (image1) images.push(image1);
-    if (image2) images.push(image2);
-
-    // 验证必需参数
-    if (!effect_id || !prompt || images.length === 0) {
-      return respErr("effect_id, prompt 和至少一张图片是必需的");
+    // 处理 imgIds - 支持单个数字或数组
+    let imageIds: number[] = [];
+    if (Array.isArray(imgIds)) {
+      imageIds = imgIds;
+    } else if (typeof imgIds === 'number') {
+      imageIds = [imgIds];
+    } else if (typeof imgIds === 'string') {
+      imageIds = [parseInt(imgIds)];
     }
 
-    // 5. 获取特效配置并验证类型
-    const effectConfig = await getEffectConfigById(effect_id);
+    // 验证必需参数
+    if (!effectId || !prompt || imageIds.length === 0) {
+      return respErr("effectId, prompt 和至少一个 imgIds 是必需的");
+    }
+
+    // 5. 获取特效配置
+    const effectConfig = await getEffectConfigById(effectId);
     if (!effectConfig) {
       return respErr("Special effect configuration not found");
     }
@@ -86,17 +91,18 @@ export async function POST(req: Request) {
     }
 
     // 验证图片数量
-    if (images.length > (effectConfig.max_images || 1)) {
-      return respErr(`This effect supports at most ${effectConfig.max_images || 1} images`);
+    const maxImages = effectConfig.max_images || 1;
+    if (imageIds.length > maxImages) {
+      return respErr(`This effect supports at most ${maxImages} image(s)`);
     }
 
     // 6. 计算所需积分并检查余额
-    const durationInt = parseInt(duration);
-    const requiredCredits = effectConfig.credits_required || 10; // 默认10积分
+    const durationInt = parseInt(duration.toString());
+    const requiredCredits = effectConfig.credits_required || 10;
 
     if (userCredits.left_credits < requiredCredits) {
       return respErr(
-        `积分不足，需要 ${requiredCredits} 积分，当前剩余 ${userCredits.left_credits} 积分`
+        `Insufficient credits. Required: ${requiredCredits}, Available: ${userCredits.left_credits}`
       );
     }
 
@@ -107,7 +113,7 @@ export async function POST(req: Request) {
     } else if (durationInt === 8) {
       transType = CreditsTransType.VideoGeneration8s;
     } else {
-      return respErr(`不支持的时长: ${durationInt}秒`);
+      return respErr(`Unsupported duration: ${durationInt} seconds`);
     }
 
     try {
@@ -117,7 +123,7 @@ export async function POST(req: Request) {
         credits: requiredCredits,
       });
     } catch (error) {
-      console.error("扣除积分失败:", error);
+      console.error("Failed to deduct credits:", error);
       return respErr("Failed to deduct credits, please try again later");
     }
 
@@ -126,75 +132,68 @@ export async function POST(req: Request) {
       user_id: userInfo.uuid,
       model_id: "pixverse-" + effectConfig.pixverse_template_id,
       prompt: prompt,
-      aspect_ratio: "16:9", // PixVerse 默认比例
+      aspect_ratio: "16:9",
       duration_seconds: durationInt,
       has_audio: false,
       status: "IN_QUEUE",
-      effect_id: effect_id,
+      effect_id: effectId,
+      input_image_url: imageUrl || null, // 保存原始图片URL
     });
 
-    // 9. 上传图片到 PixVerse
-    const imgIds: number[] = [];
-    
     try {
-      for (const image of images) {
-        const uploadFormData = new FormData();
-        uploadFormData.append("image", image);
-
-        const uploadResponse = await fetch(`${PIXVERSE_API_BASE}/image/upload`, {
-          method: "POST",
-          headers: {
-            "API-KEY": PIXVERSE_API_KEY!,
-            "Ai-trace-id": `veo3-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          },
-          body: uploadFormData,
-        });
-
-        if (!uploadResponse.ok) {
-          throw new Error(`Image upload failed: ${uploadResponse.status} ${uploadResponse.statusText}`);
-        }
-
-        const uploadResult: PixVerseUploadResponse = await uploadResponse.json();
-        
-        if (uploadResult.ErrCode !== 0 || !uploadResult.Resp?.img_id) {
-          throw new Error(`Image upload failed: ${uploadResult.ErrMsg || "Unknown error"}`);
-        }
-
-        imgIds.push(uploadResult.Resp.img_id);
-      }
-
-      // 10. 调用 PixVerse 生成 API
-      const generatePayload = {
+      // 9. 构建 PixVerse API 请求
+      const generatePayload: any = {
         duration: durationInt,
-        img_ids: imgIds,
         model: model,
         motion_mode: "normal",
-        template_id: effectConfig.pixverse_template_id,
+        template_id: Number(effectConfig.pixverse_template_id),
         prompt: prompt,
         quality: quality,
       };
+      
+      // 根据图片数量选择正确的参数名
+      if (imageIds.length === 1) {
+        generatePayload.img_id = imageIds[0];
+      } else {
+        generatePayload.img_ids = imageIds;
+      }
 
-      const generateResponse = await fetch(`${PIXVERSE_API_BASE}/video/img/generate`, {
-        method: "POST",
-        headers: {
-          "API-KEY": PIXVERSE_API_KEY!,
-          "Ai-trace-id": `veo3-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(generatePayload),
-      });
+      console.log("PixVerse generate payload:", generatePayload);
+
+      // 10. 调用 PixVerse 生成 API
+      const generateResponse = await fetch(
+        `${PIXVERSE_API_BASE}/video/img/generate`,
+        {
+          method: "POST",
+          headers: {
+            "API-KEY": PIXVERSE_API_KEY!,
+            "Ai-trace-id": `veo3-gen-${Date.now()}-${Math.random()
+              .toString(36)
+              .substr(2, 9)}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(generatePayload),
+        }
+      );
+
+      const responseText = await generateResponse.text();
+      console.log("PixVerse generate response:", responseText);
 
       if (!generateResponse.ok) {
-        throw new Error(`Video generation failed: ${generateResponse.status} ${generateResponse.statusText}`);
+        throw new Error(
+          `Video generation failed: ${generateResponse.status} ${generateResponse.statusText}. Response: ${responseText}`
+        );
       }
 
-      const generateResult: PixVerseGenerateResponse = await generateResponse.json();
-      
+      const generateResult: PixVerseGenerateResponse = JSON.parse(responseText);
+
       if (generateResult.ErrCode !== 0 || !generateResult.Resp?.video_id) {
-        throw new Error(`Video generation failed: ${generateResult.ErrMsg || "Unknown error"}`);
+        throw new Error(
+          `Video generation failed: ${generateResult.ErrMsg || "Unknown error"}`
+        );
       }
 
-      // 11. 更新数据库记录的 pixverse_request_id
+      // 11. 更新数据库记录
       await updateVideoGenerationById(videoGeneration.id, {
         pixverse_request_id: generateResult.Resp.video_id.toString(),
         status: "IN_PROGRESS",
@@ -206,9 +205,9 @@ export async function POST(req: Request) {
       return respData({
         id: videoGeneration.id,
         requestId: generateResult.Resp.video_id.toString(),
-        effectId: effect_id,
+        effectId: effectId,
         status: "submitted",
-        message: "PixVerse 特效视频生成任务已提交",
+        message: "Video generation task submitted successfully",
         requiredCredits,
         userCredits: {
           remainingCredits: updatedUserCredits?.left_credits || 0,
@@ -221,32 +220,32 @@ export async function POST(req: Request) {
           duration: durationInt,
           quality,
           model,
-          images_count: imgIds.length,
-          img_ids: imgIds,
+          img_ids: imageIds,
+          image_url: imageUrl || null, // 添加原始图片URL到metadata
         },
       });
 
     } catch (pixverseError) {
-      console.error("PixVerse API 调用失败:", pixverseError);
+      console.error("PixVerse API call failed:", pixverseError);
 
-      // 如果 PixVerse 调用失败，退还积分
+      // 退还积分
       try {
         const oneMonthFromNow = new Date();
         oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
         const expiredAt = oneMonthFromNow.toISOString();
 
-        const { increaseCredits } = await import("@/services/credit");
         await increaseCredits({
           user_uuid: userInfo.uuid!,
           trans_type: transType,
           credits: requiredCredits,
           expired_at: expiredAt,
         });
+        console.log("Credits refunded successfully");
       } catch (refundError) {
-        console.error("退还积分失败:", refundError);
+        console.error("Failed to refund credits:", refundError);
       }
 
-      // 更新数据库状态为FAILED
+      // 更新数据库状态
       try {
         await updateVideoGenerationById(videoGeneration.id, {
           status: "FAILED",
@@ -256,19 +255,18 @@ export async function POST(req: Request) {
               : "PixVerse API call failed",
         });
       } catch (updateError) {
-        console.error("更新视频生成状态失败:", updateError);
+        console.error("Failed to update video generation status:", updateError);
       }
 
       throw pixverseError;
     }
 
   } catch (error) {
-    console.error("PixVerse 特效生成失败:", error);
-    let errorMessage = "PixVerse 特效生成失败";
+    console.error("Video generation failed:", error);
+    let errorMessage = "Video generation failed";
     if (error instanceof Error) {
       errorMessage = error.message;
     }
-
     return respErr(errorMessage);
   }
 }

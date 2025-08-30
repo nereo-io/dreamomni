@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
@@ -37,6 +38,7 @@ export interface VideoGenerationParams {
   enable_prompt_enhancement: boolean;
   image_url?: string;
   effect_id?: string;
+  pixverse_img_id?: number;
 }
 
 interface VideoGeneratorProps {
@@ -86,6 +88,7 @@ export default function VideoGenerator({
 }: VideoGeneratorProps) {
   const t = useTranslations("video-generator");
   const locale = useLocale();
+  const router = useRouter();
 
   // 使用翻译作为默认值
   const finalDescriptionLabel = descriptionLabel || t("videoDescription");
@@ -110,6 +113,7 @@ export default function VideoGenerator({
   const [currentEffect, setCurrentEffect] = useState<VideoEffect | null>(
     effect || null
   );
+  const [pixverseImgId, setPixverseImgId] = useState<number | null>(null);
 
   // Textarea 引用
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -141,6 +145,24 @@ export default function VideoGenerator({
         setSelectedImage(showcaseVideoParams.imageUrl);
         setImagePreview(showcaseVideoParams.imageUrl);
         setUploadedImageUrl(showcaseVideoParams.imageUrl);
+        
+        // If using pixverse_template effect, upload to Pixverse
+        if (effect?.effect_type === 'pixverse_template') {
+          fetch('/api/video-effects/pixverse/upload', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ imageUrl: showcaseVideoParams.imageUrl }),
+          })
+          .then(res => res.json())
+          .then(result => {
+            if (result.code === 0 && result.data?.imgId) {
+              setPixverseImgId(result.data.imgId);
+            }
+          })
+          .catch(err => console.error('Failed to upload showcase image to Pixverse:', err));
+        }
       }
 
       // Focus on the description textarea
@@ -157,7 +179,7 @@ export default function VideoGenerator({
         onShowcaseVideoParamsUsed();
       }
     }
-  }, [showcaseVideoParams, onShowcaseVideoParamsUsed, mode]);
+  }, [showcaseVideoParams, onShowcaseVideoParamsUsed, mode, effect]);
 
   // Populate form fields when edit video data is provided
   useEffect(() => {
@@ -172,6 +194,24 @@ export default function VideoGenerator({
         setSelectedImage(editVideoData.image_url);
         setImagePreview(editVideoData.image_url);
         setUploadedImageUrl(editVideoData.image_url);
+        
+        // If using pixverse_template effect, upload to Pixverse
+        if (effect?.effect_type === 'pixverse_template') {
+          fetch('/api/video-effects/pixverse/upload', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ imageUrl: editVideoData.image_url }),
+          })
+          .then(res => res.json())
+          .then(result => {
+            if (result.code === 0 && result.data?.imgId) {
+              setPixverseImgId(result.data.imgId);
+            }
+          })
+          .catch(err => console.error('Failed to upload edit image to Pixverse:', err));
+        }
       }
 
       // Focus on the description textarea
@@ -188,7 +228,7 @@ export default function VideoGenerator({
         onEditVideoDataUsed();
       }
     }
-  }, [editVideoData, onEditVideoDataUsed, mode]);
+  }, [editVideoData, onEditVideoDataUsed, mode, effect]);
 
   // 监听 isGenerating 变化，当生成完成时更新积分
   useEffect(() => {
@@ -460,7 +500,35 @@ export default function VideoGenerator({
         }
 
         setUploadedImageUrl(uploadResult.data.url);
-        toast.success("Image uploaded successfully!");
+        
+        // If using pixverse_template effect, also upload to Pixverse
+        if (effect?.effect_type === 'pixverse_template') {
+          try {
+            const pixverseUploadResponse = await fetch('/api/video-effects/pixverse/upload', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ imageUrl: uploadResult.data.url }),
+            });
+            
+            const pixverseResult = await pixverseUploadResponse.json();
+            
+            if (pixverseResult.code === 0 && pixverseResult.data?.imgId) {
+              setPixverseImgId(pixverseResult.data.imgId);
+              toast.success("Image uploaded successfully!");
+            } else {
+              throw new Error('Failed to upload image to Pixverse');
+            }
+          } catch (pixverseError) {
+            console.error('Pixverse upload error:', pixverseError);
+            toast.error('Failed to upload image for effect. Please try again.');
+            removeImage();
+            return;
+          }
+        } else {
+          toast.success("Image uploaded successfully!");
+        }
       } catch (error) {
         console.error("Image upload error:", error);
         toast.error("Failed to upload image. Please try again.");
@@ -488,6 +556,7 @@ export default function VideoGenerator({
     setImagePreview(null);
     setUploadedImageUrl(null);
     setIsUploadingImage(false);
+    setPixverseImgId(null);
   };
 
   // 处理生成按钮点击
@@ -530,6 +599,7 @@ export default function VideoGenerator({
       enable_prompt_enhancement: enablePromptEnhancement,
       effect_id: currentEffect?.id,
       image_url: imageUrl,
+      pixverse_img_id: pixverseImgId || undefined,
     };
 
     // 调用生成回调
@@ -577,7 +647,12 @@ export default function VideoGenerator({
           {effect && (
             <EffectSelector
               current={currentEffect}
-              onChange={setCurrentEffect}
+              onChange={(newEffect) => {
+                if (newEffect && newEffect.slug !== currentEffect?.slug) {
+                  // 导航到新特效页面
+                  router.push(`/${locale}/video-effects/${newEffect.slug}`);
+                }
+              }}
               locale={locale}
             />
           )}

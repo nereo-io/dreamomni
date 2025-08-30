@@ -67,7 +67,7 @@ export default function VideoShowcase({ mode = "text-to-video", onSelectVideo, s
     const handleVideoEnd = () => {
       // Find current video index
       const currentIndex = SHOWCASE_VIDEOS.findIndex(
-        (v) => v.id === selectedVideo.id
+        (v: any) => v.id === selectedVideo.id
       );
       // Get next video (loop back to first if at the end)
       const nextIndex = (currentIndex + 1) % SHOWCASE_VIDEOS.length;
@@ -268,7 +268,7 @@ export default function VideoShowcase({ mode = "text-to-video", onSelectVideo, s
               className="flex gap-3 overflow-x-auto scrollbar-hide px-6"
               style={{ scrollSnapType: "x mandatory" }}
             >
-              {SHOWCASE_VIDEOS.map((video) => (
+              {SHOWCASE_VIDEOS.map((video: any) => (
                 <ShowcaseCard
                   key={video.id}
                   video={video}

@@ -72,24 +72,33 @@
 
 由于 PixVerse 需要多图上传和模板 ID，需要专门的处理逻辑。
 
-### 4. PixVerse 特效专用 API
+### 4. PixVerse 特效 API 架构
 
-#### 新增文件：`app/api/video-effects/pixverse/route.ts`
+#### 分离式 API 设计（✅ 已实现）
 
-**核心流程**：
+为了提供更好的灵活性和用户体验，PixVerse API 采用分离式设计：
 
-1. 用户认证和积分检查（复用现有逻辑）
-2. 解析表单数据（支持多图上传）
-3. 获取特效配置并验证类型
-4. 扣除积分（复用现有逻辑）
-5. 创建数据库记录（与现有流程一致）
-6. 调用 PixVerse API（两步：上传图片 → 生成视频）
-7. 更新 pixverse_request_id
+##### 4.1 图片上传端点：`/api/video-effects/pixverse/upload`
 
-**PixVerse API 调用逻辑**：
+**功能**：独立处理图片上传到 PixVerse
+**支持格式**：
 
-- 上传图片到 PixVerse 获取 img_id
-- 调用模板生成 API，传入 template_id、img_ids、prompt
+- JSON: 传入 `imageUrl` 自动下载
+- FormData: 直接上传本地文件
+  **返回值**：`imgId` 和 `imgUrl`
+
+##### 4.2 视频生成端点：`/api/video-effects/pixverse/generate`
+
+**功能**：使用已上传的图片生成视频
+**核心参数**：
+
+- `effectId`: 特效配置 ID
+- `imgIds`: 支持单个或多个图片 ID
+- `prompt`: 生成提示词
+  **特性**：
+- 自动处理单图/多图模板差异（img_id vs img_ids）
+- 失败时自动退还积分
+- template_id 自动转换为数字类型
 
 ## API 层改动
 
@@ -177,43 +186,3 @@ response 数据结构
 - 开发环境下的调试模式配置
 
 ## 错误处理和监控
-
-### 10. 错误处理策略
-
-#### PixVerse 特有错误处理
-
-- 图片上传失败重试机制
-- API 限流和配额管理
-- 内容审核失败的用户友好提示
-- 网络超时和连接错误恢复
-
-#### 统一错误格式
-
-- 两种特效模式返回相同的错误结构
-- 用户无法感知底层技术差异
-- 开发调试时保留详细错误信息
-
-### 11. 日志和监控
-
-#### 新增监控指标
-
-- PixVerse API 调用成功率
-- 图片上传成功率和耗时
-- 特效生成时长统计
-- 不同特效类型的使用量分析
-
-## 测试策略
-
-### 12. 单元测试
-
-#### 新增测试文件
-
-- `tests/api/video-effects-pixverse.test.ts`
-- `tests/components/ai-video-generation-tool.test.ts`
-
-#### 测试覆盖范围
-
-- PixVerse API 交互测试（Mock）
-- 特效类型路由逻辑
-- 错误处理和边界情况
-- 图片上传和格式转换
