@@ -19,7 +19,13 @@
     "clean:cache": "rm -rf .next && rm -rf node_modules/.cache",
     "dev:clean": "pnpm clean:cache && pnpm dev",
     "test": "jest",
-    "ts": "NODE_NO_WARNINGS=1 tsx ts/test.ts"
+    "ts": "NODE_NO_WARNINGS=1 tsx ts/test.ts",
+    "seo:generate": "node scripts/seo-content-generator.js generate",
+    "seo:fix-i18n": "node scripts/seo-content-generator.js fix-i18n",
+    "seo:shorten-buttons": "node scripts/seo-content-generator.js shorten-buttons",
+    "seo:validate": "node scripts/seo-content-generator.js validate",
+    "seo:all": "node scripts/seo-content-generator.js all",
+    "seo:help": "node scripts/seo-content-generator.js help"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^1.0.9",
