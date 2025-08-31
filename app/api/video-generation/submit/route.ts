@@ -1,6 +1,7 @@
 import { respData, respErr } from "@/lib/resp";
 import { auth } from "@/auth";
 import { getUserInfo } from "@/services/user";
+import { getClientIp, isIPBlocked } from "@/lib/ip";
 import { createVideoGeneration } from "@/models/videoGeneration";
 import {
   decreaseCredits,
@@ -46,6 +47,14 @@ export async function POST(req: Request) {
     // 检查用户是否被禁用
     if (userInfo.is_banned) {
       return respErr("Account has been suspended due to suspicious activity");
+    }
+
+    // 检查IP是否在黑名单中
+    const clientIP = await getClientIp();
+    const isBlocked = await isIPBlocked(clientIP);
+    if (isBlocked) {
+      console.warn(`Video generation blocked for IP: ${clientIP}`);
+      return respErr("Video generation not available from this network");
     }
 
     // 3. 检查用户积分

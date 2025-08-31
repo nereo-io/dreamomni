@@ -2,13 +2,32 @@ import { NextRequest } from "next/server";
 import { respJson, respErr } from "@/lib/resp";
 import { signUpWithEmail } from "@/services/supabase-auth";
 import { yandexTracking } from "@/services/analytics/yandex-tracking";
+import { getClientIp, checkIPRegistrationLimit, updateIPRegistrationCount } from "@/lib/ip";
 import { z } from "zod";
 
-// 简单的攻击邮箱域名黑名单（只屏蔽已知攻击域名）
+// 攻击邮箱域名黑名单（屏蔽已知临时邮箱服务）
 const BLOCKED_EMAIL_DOMAINS = [
-  'drmail.in',      // 主要攻击域名 (10,761个账号)
-  'mriscan.live',   // 攻击域名 (60个账号)
-  'powerscrews.com' // 攻击域名 (2个账号)
+  // 主要攻击域名
+  'drmail.in',      // 主要攻击域名 (4407个账号)
+  'mriscan.live',   // 攻击域名 (9个账号) 
+  'powerscrews.com', // 攻击域名 (2个账号)
+  // 新发现的攻击域名
+  'moakt.ws',       // 临时邮箱服务 (5个账号)
+  'moakt.cc',       // 临时邮箱服务 (5个账号)
+  'moakt.co',       // 临时邮箱服务 (3个账号)
+  'bareed.ws',      // 临时邮箱服务 (7个账号)
+  'tmails.net',     // 临时邮箱服务 (3个账号)
+  'teml.net',       // 临时邮箱服务 (2个账号)
+  'disbox.org',     // 临时邮箱服务 (3个账号)
+  'tmpbox.net',     // 临时邮箱服务
+  'tmpmail.net',    // 临时邮箱服务
+  'tmpmail.org',    // 临时邮箱服务
+  'mailshan.com',   // 临时邮箱服务 (11个账号)
+  'aminating.com',  // 临时邮箱服务 (13个账号)
+  'noidem.com',     // 临时邮箱服务 (15个账号)
+  'skateru.com',    // 临时邮箱服务 (12个账号)
+  'tmail.ws',       // 临时邮箱服务
+  'tmpeml.com'      // 临时邮箱服务
 ];
 
 const signupSchema = z.object({
@@ -29,11 +48,19 @@ export async function POST(request: NextRequest) {
 
     const { email, password, name } = validation.data;
 
-    // 简单检查：只屏蔽已知攻击邮箱域名
+    // 检查1：屏蔽已知攻击邮箱域名
     const emailDomain = email.split('@')[1]?.toLowerCase();
     if (BLOCKED_EMAIL_DOMAINS.includes(emailDomain)) {
       console.warn(`Registration blocked for attack domain: ${emailDomain}`);
       return respErr("This email provider is not supported");
+    }
+
+    // 检查2：IP注册限制
+    const clientIP = await getClientIp();
+    const ipCheck = await checkIPRegistrationLimit(clientIP);
+    if (!ipCheck.allowed) {
+      console.warn(`Registration blocked for IP: ${clientIP}, reason: ${ipCheck.reason}`);
+      return respErr("Too many registrations from this network. Please try again later.");
     }
 
     // 调用Supabase注册
@@ -41,6 +68,14 @@ export async function POST(request: NextRequest) {
 
     if (!result.user) {
       return respErr("Registration failed");
+    }
+
+    // 注册成功后更新IP计数
+    try {
+      await updateIPRegistrationCount(clientIP);
+    } catch (error) {
+      console.error("Failed to update IP registration count:", error);
+      // IP计数失败不影响注册流程
     }
 
     // 检查是否需要邮箱验证
@@ -98,8 +133,15 @@ export async function POST(request: NextRequest) {
         case "over_request_rate_limit":
         case "too_many_requests":
         case "over_email_send_rate_limit":
-          return respErr(
-            "Too many attempts. Please wait a moment and try again."
+          return new Response(
+            JSON.stringify({
+              error: 1,
+              msg: "Too many attempts. Please wait a moment and try again."
+            }),
+            { 
+              status: 429,
+              headers: { 'Content-Type': 'application/json' }
+            }
           );
         case "email_address_not_authorized":
           return respErr(
@@ -160,7 +202,16 @@ export async function POST(request: NextRequest) {
       error.message?.includes("rate limit") ||
       error.message?.includes("too many")
     ) {
-      return respErr("Too many attempts. Please wait a moment and try again.");
+      return new Response(
+        JSON.stringify({
+          error: 1,
+          msg: "Too many attempts. Please wait a moment and try again."
+        }),
+        { 
+          status: 429,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
     }
 
     // 提供通用的友好错误消息
