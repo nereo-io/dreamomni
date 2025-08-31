@@ -5,6 +5,34 @@ import { yandexTracking } from "@/services/analytics/yandex-tracking";
 import { getClientIp, checkIPRegistrationLimit, updateIPRegistrationCount } from "@/lib/ip";
 import { z } from "zod";
 
+// 验证Cloudflare Turnstile CAPTCHA
+async function verifyCaptcha(token: string, clientIP: string): Promise<boolean> {
+  if (!process.env.TURNSTILE_SECRET_KEY) {
+    console.warn("TURNSTILE_SECRET_KEY not configured, skipping CAPTCHA verification");
+    return true; // 如果没配置密钥，跳过验证
+  }
+
+  try {
+    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        secret: process.env.TURNSTILE_SECRET_KEY,
+        response: token,
+        remoteip: clientIP,
+      }),
+    });
+
+    const result = await response.json();
+    return result.success === true;
+  } catch (error) {
+    console.error('CAPTCHA verification error:', error);
+    return false;
+  }
+}
+
 // 攻击邮箱域名黑名单（屏蔽已知临时邮箱服务）
 const BLOCKED_EMAIL_DOMAINS = [
   // 主要攻击域名
@@ -34,6 +62,7 @@ const signupSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
   name: z.string().optional(),
+  captchaToken: z.string().optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -46,7 +75,7 @@ export async function POST(request: NextRequest) {
       return respErr(validation.error.errors[0].message);
     }
 
-    const { email, password, name } = validation.data;
+    const { email, password, name, captchaToken } = validation.data;
 
     // 检查1：屏蔽已知攻击邮箱域名
     const emailDomain = email.split('@')[1]?.toLowerCase();
@@ -61,6 +90,17 @@ export async function POST(request: NextRequest) {
     if (!ipCheck.allowed) {
       console.warn(`Registration blocked for IP: ${clientIP}, reason: ${ipCheck.reason}`);
       return respErr("Too many registrations from this network. Please try again later.");
+    }
+
+    // 检查3：CAPTCHA验证（仅在配置了Turnstile时）
+    if (process.env.TURNSTILE_SECRET_KEY && captchaToken) {
+      const captchaValid = await verifyCaptcha(captchaToken, clientIP);
+      if (!captchaValid) {
+        console.warn(`CAPTCHA verification failed for IP: ${clientIP}`);
+        return respErr("CAPTCHA verification failed. Please try again.");
+      }
+    } else if (process.env.TURNSTILE_SECRET_KEY && !captchaToken) {
+      return respErr("CAPTCHA verification is required.");
     }
 
     // 调用Supabase注册
