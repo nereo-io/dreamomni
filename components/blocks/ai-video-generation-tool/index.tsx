@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import type React from "react";
 import VideoGenerator from "../video-generator";
 import VideoHistory from "../video-history";
@@ -8,6 +8,7 @@ import useVideoGeneration from "@/hooks/useVideoGeneration";
 import { toast } from "sonner";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
 import { useAppContext } from "@/contexts/app";
+import type { VideoEffect } from "@/types/video-effect";
 
 import type { VideoGenerationParams } from "../video-generator";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
@@ -16,12 +17,15 @@ interface VideoGenerationToolProps {
   mode: "text-to-video" | "image-to-video";
   descriptionLabel?: string;
   descriptionPlaceholder?: string;
+  // Simplified: Just pass the complete effect object
+  effect?: VideoEffect;
 }
 
 export function VideoGenerationTool({
   mode,
   descriptionLabel,
   descriptionPlaceholder,
+  effect,
 }: VideoGenerationToolProps) {
   const { submitGeneration, pollStatus, fetchHistory } = useVideoGeneration();
   const { trackVideoGeneration, trackFirstVideo } = useYandexTracking();
@@ -38,6 +42,36 @@ export function VideoGenerationTool({
   } | null>(null);
   const [editVideoData, setEditVideoData] =
     useState<VideoGenerationResult | null>(null);
+  
+  // Extract configuration from effect object
+  const effectConfig = useMemo(() => {
+    if (!effect) return null;
+    
+    // Debug: 打印 effect 对象
+    console.log('Effect object:', effect);
+    
+    return {
+      creditsRequired: effect.credits_required,
+      // Use different model based on effect_type
+      forceModel: effect.effect_type === 'pixverse_template' 
+        ? 'pixverse-template' 
+        : 'minimax-hailuo02-image-to-video',
+      promptTemplate: effect.prompt_template,
+      effectType: effect.effect_type,
+      pixverseTemplateId: effect.pixverse_template_id,
+      // Always pass showcase data, let video-history component decide when to show it
+      showcaseData: effect.preview_video ? {
+        videos: [{
+          id: `showcase-${effect.id}`,
+          video_url: effect.preview_video,
+          thumbnail_url: effect.preview_image || undefined,
+          title: effect.title,
+          description: effect.description || undefined,
+          duration: 5, // Most effect preview videos are 5 seconds
+        }]
+      } : undefined
+    };
+  }, [effect]);
 
   // Handle showcase video selection
   const handleShowcaseVideoSelect = (
@@ -95,7 +129,6 @@ export function VideoGenerationTool({
       toast.error("Failed to regenerate video");
     }
   };
-  const [userVideoCount, setUserVideoCount] = useState<number | null>(null);
 
   // 获取用户视频历史记录数量
   useEffect(() => {
@@ -122,15 +155,44 @@ export function VideoGenerationTool({
   const handleGenerate = async (params: VideoGenerationParams) => {
     setIsGenerating(true);
 
+    // Apply effect modifications if present
+    let finalParams = { ...params };
+    let pixverseImgIds: number[] | undefined;
+    
+    if (effectConfig) {
+      // Override model if specified
+      if (effectConfig.forceModel) {
+        finalParams.model = effectConfig.forceModel;
+      }
+      
+      // Apply prompt template if provided  
+      if (effectConfig.promptTemplate) {
+        finalParams.prompt = effectConfig.promptTemplate.replace('{{USER_PROMPT}}', params.prompt);
+      }
+      
+      // Handle PixVerse template effects
+      if (effectConfig.effectType === 'pixverse_template' && params.pixverse_img_id) {
+        // Use pixverse_img_id from video-generator component
+        // video-generator handles the upload during image selection
+        pixverseImgIds = [params.pixverse_img_id];
+      }
+    }
+
     const result = await submitGeneration({
-      model: params.model,
-      prompt: params.prompt,
-      duration: params.duration,
-      aspect_ratio: params.aspect_ratio,
-      resolution: params.resolution,
-      generate_audio: params.generate_audio,
-      enable_prompt_enhancement: params.enable_prompt_enhancement,
-      image_url: params.image_url,
+      model: finalParams.model,
+      prompt: finalParams.prompt,
+      duration: finalParams.duration,
+      aspect_ratio: finalParams.aspect_ratio,
+      resolution: finalParams.resolution,
+      generate_audio: finalParams.generate_audio,
+      enable_prompt_enhancement: finalParams.enable_prompt_enhancement,
+      image_url: finalParams.image_url,
+      // Pass effect-related params
+      ...(effect && { 
+        effect_id: effect.id,
+        effect_type: effectConfig?.effectType,
+        pixverse_img_ids: pixverseImgIds
+      }),
     });
 
     if (result) {
@@ -138,15 +200,7 @@ export function VideoGenerationTool({
       const duration = parseInt(params.duration) || 5;
       trackVideoGeneration(params.model, duration, params.model);
 
-      // 检查是否是用户的第一个视频
-      if (user?.uuid && userVideoCount === 0) {
-        trackFirstVideo(user.uuid);
-      }
-
-      // 更新视频计数
-      if (userVideoCount !== null) {
-        setUserVideoCount(userVideoCount + 1);
-      }
+      // Note: First video tracking is handled by video-history component now
 
       // 开始轮询状态
       pollStatus(result.id);
@@ -175,6 +229,10 @@ export function VideoGenerationTool({
           onShowcaseVideoParamsUsed={() => setShowcaseVideoParams(null)}
           editVideoData={editVideoData}
           onEditVideoDataUsed={() => setEditVideoData(null)}
+          // Pass effect configuration (extracted from effect object)
+          effect={effect}
+          forceModel={effectConfig?.forceModel}
+          creditsOverride={effectConfig?.creditsRequired}
         />
 
         <VideoHistory
@@ -184,6 +242,7 @@ export function VideoGenerationTool({
           onSelectShowcaseVideo={handleShowcaseVideoSelect}
           onEditVideo={handleEditVideo}
           onRegenerateVideo={handleRegenerateVideo}
+          showcaseData={effectConfig?.showcaseData}
         />
       </div>
     </div>

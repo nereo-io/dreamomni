@@ -3,7 +3,7 @@ import { ImageToVideoShowcase } from "@/components/blocks/image-to-video-showcas
 import { AIModelsHero } from "@/components/blocks/ai-models-hero";
 import { CreatorShowcase } from "@/components/blocks/creator-showcase";
 import { FAQSection } from "@/components/blocks/faq-section";
-import { CTASectionClient } from "@/components/blocks/cta-section-client";
+import CTA from "@/components/blocks/cta";
 import { getImageToVideoPage } from "@/services/page";
 import { getTranslations } from "next-intl/server";
 
@@ -58,10 +58,16 @@ export default async function ImageToVideoPage({
       />
 
       {/* CTA Section */}
-      <CTASectionClient
-        title={pageData.cta.title}
-        description={pageData.cta.description}
-        buttonText={pageData.cta.buttonText}
+      <CTA
+        section={{
+          title: pageData.cta.title,
+          buttons: [
+            {
+              title: pageData.cta.buttonText,
+              url: "/image-to-video",
+            },
+          ],
+        }}
       />
     </>
   );

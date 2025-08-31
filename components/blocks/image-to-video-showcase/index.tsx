@@ -52,88 +52,103 @@ export function ImageToVideoShowcase({
   };
 
   // 处理滑动逻辑
-  const handleSwipe = useCallback((direction: 'left' | 'right') => {
-    if (direction === 'left') {
-      handleNext();
-    } else {
-      handlePrevious();
-    }
-  }, [handleNext, handlePrevious]);
+  const handleSwipe = useCallback(
+    (direction: "left" | "right") => {
+      if (direction === "left") {
+        handleNext();
+      } else {
+        handlePrevious();
+      }
+    },
+    [handleNext, handlePrevious]
+  );
 
   // 触摸事件处理
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (isTransitioning) return;
-    const touch = e.touches[0];
-    startPosRef.current = { x: touch.clientX, y: touch.clientY };
-    startTimeRef.current = Date.now();
-    isDraggingRef.current = true;
-  }, [isTransitioning]);
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      if (isTransitioning) return;
+      const touch = e.touches[0];
+      startPosRef.current = { x: touch.clientX, y: touch.clientY };
+      startTimeRef.current = Date.now();
+      isDraggingRef.current = true;
+    },
+    [isTransitioning]
+  );
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (!isDraggingRef.current) return;
     e.preventDefault();
   }, []);
 
-  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    if (!isDraggingRef.current) return;
-    isDraggingRef.current = false;
-    
-    const touch = e.changedTouches[0];
-    const endPos = { x: touch.clientX, y: touch.clientY };
-    const deltaX = endPos.x - startPosRef.current.x;
-    const deltaY = endPos.y - startPosRef.current.y;
-    const deltaTime = Date.now() - startTimeRef.current;
-    
-    // 检查是否是有效的滑动手势
-    const minSwipeDistance = 50;
-    const maxSwipeTime = 500;
-    const maxVerticalDistance = 100;
-    
-    if (
-      Math.abs(deltaX) > minSwipeDistance &&
-      Math.abs(deltaY) < maxVerticalDistance &&
-      deltaTime < maxSwipeTime
-    ) {
-      handleSwipe(deltaX > 0 ? 'right' : 'left');
-    }
-  }, [handleSwipe]);
+  const handleTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      if (!isDraggingRef.current) return;
+      isDraggingRef.current = false;
+
+      const touch = e.changedTouches[0];
+      const endPos = { x: touch.clientX, y: touch.clientY };
+      const deltaX = endPos.x - startPosRef.current.x;
+      const deltaY = endPos.y - startPosRef.current.y;
+      const deltaTime = Date.now() - startTimeRef.current;
+
+      // 检查是否是有效的滑动手势
+      const minSwipeDistance = 50;
+      const maxSwipeTime = 500;
+      const maxVerticalDistance = 100;
+
+      if (
+        Math.abs(deltaX) > minSwipeDistance &&
+        Math.abs(deltaY) < maxVerticalDistance &&
+        deltaTime < maxSwipeTime
+      ) {
+        handleSwipe(deltaX > 0 ? "right" : "left");
+      }
+    },
+    [handleSwipe]
+  );
 
   // 鼠标事件处理
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    if (isTransitioning) return;
-    startPosRef.current = { x: e.clientX, y: e.clientY };
-    startTimeRef.current = Date.now();
-    isDraggingRef.current = true;
-    e.preventDefault();
-  }, [isTransitioning]);
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      if (isTransitioning) return;
+      startPosRef.current = { x: e.clientX, y: e.clientY };
+      startTimeRef.current = Date.now();
+      isDraggingRef.current = true;
+      e.preventDefault();
+    },
+    [isTransitioning]
+  );
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!isDraggingRef.current) return;
     e.preventDefault();
   }, []);
 
-  const handleMouseUp = useCallback((e: React.MouseEvent) => {
-    if (!isDraggingRef.current) return;
-    isDraggingRef.current = false;
-    
-    const endPos = { x: e.clientX, y: e.clientY };
-    const deltaX = endPos.x - startPosRef.current.x;
-    const deltaY = endPos.y - startPosRef.current.y;
-    const deltaTime = Date.now() - startTimeRef.current;
-    
-    // 检查是否是有效的拖拽手势
-    const minDragDistance = 50;
-    const maxDragTime = 500;
-    const maxVerticalDistance = 100;
-    
-    if (
-      Math.abs(deltaX) > minDragDistance &&
-      Math.abs(deltaY) < maxVerticalDistance &&
-      deltaTime < maxDragTime
-    ) {
-      handleSwipe(deltaX > 0 ? 'right' : 'left');
-    }
-  }, [handleSwipe]);
+  const handleMouseUp = useCallback(
+    (e: React.MouseEvent) => {
+      if (!isDraggingRef.current) return;
+      isDraggingRef.current = false;
+
+      const endPos = { x: e.clientX, y: e.clientY };
+      const deltaX = endPos.x - startPosRef.current.x;
+      const deltaY = endPos.y - startPosRef.current.y;
+      const deltaTime = Date.now() - startTimeRef.current;
+
+      // 检查是否是有效的拖拽手势
+      const minDragDistance = 50;
+      const maxDragTime = 500;
+      const maxVerticalDistance = 100;
+
+      if (
+        Math.abs(deltaX) > minDragDistance &&
+        Math.abs(deltaY) < maxVerticalDistance &&
+        deltaTime < maxDragTime
+      ) {
+        handleSwipe(deltaX > 0 ? "right" : "left");
+      }
+    },
+    [handleSwipe]
+  );
 
   if (!examples || examples.length === 0) {
     return null;
@@ -164,7 +179,7 @@ export function ImageToVideoShowcase({
         </div>
 
         {/* Mobile Layout */}
-        <div 
+        <div
           className="md:hidden px-4"
           ref={containerRef}
           onTouchStart={handleTouchStart}
@@ -173,7 +188,7 @@ export function ImageToVideoShowcase({
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          style={{ touchAction: 'pan-y' }}
+          style={{ touchAction: "pan-y" }}
         >
           <div className="max-w-2xl mx-auto space-y-4">
             {/* Input Section: Image + Prompt */}
@@ -265,7 +280,7 @@ export function ImageToVideoShowcase({
         </div>
 
         {/* Desktop Layout */}
-        <div 
+        <div
           className="hidden md:block relative"
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
@@ -273,7 +288,7 @@ export function ImageToVideoShowcase({
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
-          style={{ touchAction: 'pan-y', userSelect: 'none' }}
+          style={{ touchAction: "pan-y", userSelect: "none" }}
         >
           <div className="flex items-center justify-center gap-6 px-6">
             {/* Left Navigation Button */}

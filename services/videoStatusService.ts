@@ -14,6 +14,7 @@ export interface VideoStatusResult {
   video_url_volcano?: string;
   video_url_veo3?: string;
   video_url_ali?: string;
+  video_url_pixverse?: string;
   upsample_video_url_veo3?: string;
   error_message?: string;
   logs?: any[];
@@ -62,7 +63,8 @@ export class VideoStatusService {
       videoGeneration.fal_request_id ||
       videoGeneration.volcano_request_id ||
       videoGeneration.veo3_request_id ||
-      videoGeneration.ali_request_id
+      videoGeneration.ali_request_id ||
+      videoGeneration.pixverse_request_id
     );
 
     return isNotFinalStatus && hasRequestId && videoGeneration.model_id;
@@ -74,14 +76,20 @@ export class VideoStatusService {
   private static async syncStatusFromProvider(
     videoGeneration: any
   ): Promise<any> {
-    const modelConfig = getVideoModel(videoGeneration.model_id);
-    if (!modelConfig) {
-      throw new Error(`不支持的模型: ${videoGeneration.model_id}`);
-    }
-
     const requestId = this.getRequestId(videoGeneration);
     if (!requestId) {
       throw new Error("No valid request ID found");
+    }
+
+    // Handle PixVerse requests separately (they don't use ProviderFactory)
+    if (videoGeneration.pixverse_request_id) {
+      const { PixVerseStatusService } = await import("./pixverseStatusService");
+      return await PixVerseStatusService.syncPixVerseStatus(videoGeneration);
+    }
+
+    const modelConfig = getVideoModel(videoGeneration.model_id);
+    if (!modelConfig) {
+      throw new Error(`不支持的模型: ${videoGeneration.model_id}`);
     }
 
     console.log(
@@ -136,7 +144,8 @@ export class VideoStatusService {
       videoGeneration.fal_request_id ||
       videoGeneration.volcano_request_id ||
       videoGeneration.veo3_request_id ||
-      videoGeneration.ali_request_id
+      videoGeneration.ali_request_id ||
+      videoGeneration.pixverse_request_id
     );
   }
 
@@ -495,7 +504,8 @@ export class VideoStatusService {
         videoGeneration.fal_request_id ||
         videoGeneration.volcano_request_id ||
         videoGeneration.veo3_request_id ||
-        videoGeneration.ali_request_id,
+        videoGeneration.ali_request_id ||
+        videoGeneration.pixverse_request_id,
       model: videoGeneration.model_id,
       prompt: videoGeneration.prompt,
       optimized_prompt: videoGeneration.optimized_prompt,
@@ -503,6 +513,7 @@ export class VideoStatusService {
         videoGeneration.video_url_r2 ||
         videoGeneration.upsample_video_url_veo3 ||
         videoGeneration.video_url_veo3 ||
+        videoGeneration.video_url_pixverse ||
         videoGeneration.video_url_volcano ||
         videoGeneration.video_url_ali ||
         videoGeneration.video_url_fal,
@@ -511,6 +522,7 @@ export class VideoStatusService {
       video_url_volcano: videoGeneration.video_url_volcano,
       video_url_veo3: videoGeneration.video_url_veo3,
       video_url_ali: videoGeneration.video_url_ali,
+      video_url_pixverse: videoGeneration.video_url_pixverse,
       upsample_video_url_veo3: videoGeneration.upsample_video_url_veo3,
       error_message: videoGeneration.error_message,
       logs: videoGeneration.logs || [],

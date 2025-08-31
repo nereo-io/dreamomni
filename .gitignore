@@ -39,6 +39,7 @@ yarn-error.log*
 next-env.d.ts
 scripts/node_modules
 scripts
+processed-media
 
 Makefile
 .wrangler
@@ -46,6 +47,7 @@ wrangler.toml
 supabase
 magicuidesign-saas-template-12514ccfe8614a3204f886565bc3ab7b75bfded3
 .claude
+.kiro
 
 # instructions
 /a_instructions/

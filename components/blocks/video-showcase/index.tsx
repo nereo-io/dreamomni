@@ -17,11 +17,27 @@ import ShowcaseCard from "./ShowcaseCard";
 interface VideoShowcaseProps {
   mode?: "text-to-video" | "image-to-video";
   onSelectVideo?: (video: ShowcaseVideo) => void;
+  showcaseData?: any;
 }
 
-export default function VideoShowcase({ mode = "text-to-video", onSelectVideo }: VideoShowcaseProps) {
-  // Select showcase videos based on mode
-  const SHOWCASE_VIDEOS = mode === "image-to-video" ? SHOWCASE_IMAGE_VIDEOS : SHOWCASE_TEXT_VIDEOS;
+export default function VideoShowcase({ mode = "text-to-video", onSelectVideo, showcaseData }: VideoShowcaseProps) {
+  // Use dynamic showcase data if provided, otherwise use static data
+  const SHOWCASE_VIDEOS = showcaseData?.videos?.length > 0 
+    ? showcaseData.videos.map((v: any) => ({
+        id: v.id || v.video_url,
+        title: v.title || "Preview",
+        prompt: v.description || "Effect preview video",
+        videoUrl: v.video_url,
+        thumbnailUrl: v.thumbnail_url || v.video_url,
+        duration: v.duration || 5, // Use actual duration or default to 5s
+        aspectRatio: "16:9" as const,
+        model: "effect-preview",
+        category: "featured" as const,
+      }))
+    : (mode === "image-to-video" ? SHOWCASE_IMAGE_VIDEOS : SHOWCASE_TEXT_VIDEOS);
+  
+  // Check if we should show carousel (more than 1 video)
+  const showCarousel = SHOWCASE_VIDEOS.length > 1;
   
   const [selectedVideo, setSelectedVideo] = useState<ShowcaseVideo>(
     SHOWCASE_VIDEOS[0]
@@ -51,7 +67,7 @@ export default function VideoShowcase({ mode = "text-to-video", onSelectVideo }:
     const handleVideoEnd = () => {
       // Find current video index
       const currentIndex = SHOWCASE_VIDEOS.findIndex(
-        (v) => v.id === selectedVideo.id
+        (v: any) => v.id === selectedVideo.id
       );
       // Get next video (loop back to first if at the end)
       const nextIndex = (currentIndex + 1) % SHOWCASE_VIDEOS.length;
@@ -214,53 +230,57 @@ export default function VideoShowcase({ mode = "text-to-video", onSelectVideo }:
           </div>
         </div>
 
-        {/* Video Info */}
-        <div className="flex-shrink-0 px-6 py-2 border-t border-gray-800">
-          <p className="text-xs text-gray-400">Prompt:</p>
-          <p className="text-white text-xs line-clamp-2 mt-0.5">
-            {selectedVideo.prompt}
-          </p>
-        </div>
+        {/* Video Info - Only show prompt for non-effect videos */}
+        {!showcaseData && (
+          <div className="flex-shrink-0 px-6 py-2 border-t border-gray-800">
+            <p className="text-xs text-gray-400">Prompt:</p>
+            <p className="text-white text-xs line-clamp-2 mt-0.5">
+              {selectedVideo.prompt}
+            </p>
+          </div>
+        )}
       </div>
 
-      {/* Lower Section - Video Carousel (Fixed at Bottom) */}
-      <div
-        className="flex-shrink-0 bg-gray-950 py-6 px-4 border-t border-gray-800"
-        style={{ minHeight: "180px" }}
-      >
-        <div className="relative">
-          {/* Scroll Buttons */}
-          <button
-            onClick={() => scrollCarousel("left")}
-            className="absolute -left-2 top-1/2 -translate-y-1/2 z-10 bg-gray-900/90 backdrop-blur-sm rounded-full p-1.5 text-white hover:bg-gray-800 transition-colors"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </button>
-          <button
-            onClick={() => scrollCarousel("right")}
-            className="absolute -right-2 top-1/2 -translate-y-1/2 z-10 bg-gray-900/90 backdrop-blur-sm rounded-full p-1.5 text-white hover:bg-gray-800 transition-colors"
-          >
-            <ChevronRight className="h-4 w-4" />
-          </button>
+      {/* Lower Section - Video Carousel (Fixed at Bottom) - Only show if multiple videos */}
+      {showCarousel && (
+        <div
+          className="flex-shrink-0 bg-gray-950 py-6 px-4 border-t border-gray-800"
+          style={{ minHeight: "180px" }}
+        >
+          <div className="relative">
+            {/* Scroll Buttons */}
+            <button
+              onClick={() => scrollCarousel("left")}
+              className="absolute -left-2 top-1/2 -translate-y-1/2 z-10 bg-gray-900/90 backdrop-blur-sm rounded-full p-1.5 text-white hover:bg-gray-800 transition-colors"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => scrollCarousel("right")}
+              className="absolute -right-2 top-1/2 -translate-y-1/2 z-10 bg-gray-900/90 backdrop-blur-sm rounded-full p-1.5 text-white hover:bg-gray-800 transition-colors"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
 
-          {/* Cards Container */}
-          <div
-            ref={scrollContainerRef}
-            className="flex gap-3 overflow-x-auto scrollbar-hide px-6"
-            style={{ scrollSnapType: "x mandatory" }}
-          >
-            {SHOWCASE_VIDEOS.map((video) => (
-              <ShowcaseCard
-                key={video.id}
-                video={video}
-                isSelected={selectedVideo.id === video.id}
-                onSelect={handleVideoSelect}
-                onCreate={handleCreate}
-              />
-            ))}
+            {/* Cards Container */}
+            <div
+              ref={scrollContainerRef}
+              className="flex gap-3 overflow-x-auto scrollbar-hide px-6"
+              style={{ scrollSnapType: "x mandatory" }}
+            >
+              {SHOWCASE_VIDEOS.map((video: any) => (
+                <ShowcaseCard
+                  key={video.id}
+                  video={video}
+                  isSelected={selectedVideo.id === video.id}
+                  onSelect={handleVideoSelect}
+                  onCreate={handleCreate}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

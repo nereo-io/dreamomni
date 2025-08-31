@@ -117,3 +117,8 @@ html {
     --sidebar-ring: var(--ring);
   }
 }
+
+/* 弹窗内特效网格布局调整 - 更大的卡片 */
+.video-effects-modal-grid > div > div {
+  @apply grid-cols-2 md:grid-cols-3 lg:grid-cols-4 !important;
+}

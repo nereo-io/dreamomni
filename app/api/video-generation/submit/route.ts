@@ -27,6 +27,7 @@ import {
 } from "@/config/video-models";
 import { ProviderFactory } from "@/services/providers";
 import { optimizePromptWithTimeout } from "@/services/promptOptimization";
+import { getEffectConfigById } from "@/models/effectConfig";
 
 export async function POST(req: Request) {
   try {
@@ -63,6 +64,7 @@ export async function POST(req: Request) {
       enable_safety_checker = true,
       generate_audio = false, // 新增：音频生成选项
       enable_prompt_enhancement = true, // 新增：prompt增强开关
+      effect_id, // 新增：特效ID
       ...otherParams
     } = await req.json();
 
@@ -71,11 +73,37 @@ export async function POST(req: Request) {
       return respErr("model 和 prompt 参数是必需的");
     }
 
+    // 处理特效配置
+    let finalPrompt = prompt;
+    let finalModel = model;
+    let effectCreditsOverride: number | null = null;
+    
+    if (effect_id) {
+      const effectConfig = await getEffectConfigById(effect_id);
+      
+      if (effectConfig) {
+        // 应用prompt模板
+        if (effectConfig.prompt_template) {
+          finalPrompt = effectConfig.prompt_template.replace('{{USER_PROMPT}}', prompt);
+        }
+        
+        // 使用默认模型 minimax-hailuo02-image-to-video 用于特效
+        if (effectConfig) {
+          finalModel = 'minimax-hailuo02-image-to-video';
+        }
+        
+        // 使用特效积分
+        if (effectConfig.credits_required) {
+          effectCreditsOverride = effectConfig.credits_required;
+        }
+      }
+    }
+
     // 验证模型是否支持
-    const modelConfig = getVideoModel(model);
+    const modelConfig = getVideoModel(finalModel);
     if (!modelConfig) {
       return respErr(
-        `不支持的模型: ${model}。支持的模型: ${getSupportedModelIds().join(
+        `不支持的模型: ${finalModel}。支持的模型: ${getSupportedModelIds().join(
           ", "
         )}`
       );
@@ -83,8 +111,8 @@ export async function POST(req: Request) {
 
     // 4. 计算所需积分并检查余额
     const durationInt = parseInt(duration);
-    const requiredCredits = calculateCredits(
-      model,
+    const requiredCredits = effectCreditsOverride || calculateCredits(
+      finalModel,
       durationInt,
       generate_audio,
       resolution
@@ -144,8 +172,8 @@ export async function POST(req: Request) {
     // 6. 在数据库中创建记录（根据是否启用prompt增强设置初始状态）
     const videoGeneration = await createVideoGeneration({
       user_id: userInfo.uuid,
-      model_id: model,
-      prompt,
+      model_id: finalModel,
+      prompt: effect_id ? prompt : finalPrompt, // 如果有特效，保存原始prompt
       input_image_url: image_url,
       negative_prompt,
       aspect_ratio,
@@ -154,18 +182,19 @@ export async function POST(req: Request) {
       seed,
       has_audio: generate_audio, // 新增：记录是否包含音频
       status: enable_prompt_enhancement ? "PROMPT_OPTIMIZING" : "IN_QUEUE",
+      effect_id: effect_id,
     });
 
     // 6.5. 优化提示词
-    let finalPrompt = prompt;
+    let enhancedPrompt = finalPrompt;
     if (enable_prompt_enhancement) {
       try {
         const optimizedPrompt = await optimizePromptWithTimeout(
-          prompt,
-          model,
+          finalPrompt,
+          finalModel,
           30000
         );
-        finalPrompt = optimizedPrompt;
+        enhancedPrompt = optimizedPrompt;
 
         // 更新记录保存优化后的提示词
         await import("@/models/videoGeneration").then(
@@ -182,8 +211,8 @@ export async function POST(req: Request) {
 
     // 构建请求输入（使用优化后的提示词）
     const input: any = {
-      model,
-      prompt: finalPrompt,
+      model: finalModel,
+      prompt: enhancedPrompt,
     };
 
     // 通用参数
@@ -204,7 +233,7 @@ export async function POST(req: Request) {
     }
 
     // 根据模型类型添加相应参数
-    if (isImageToVideoModel(model)) {
+    if (isImageToVideoModel(finalModel)) {
       if (!image_url) {
         return respErr("Image-to-video models require an image_url parameter");
       }
@@ -212,7 +241,7 @@ export async function POST(req: Request) {
     }
 
     // 按模型提供商分类处理参数
-    if (isKlingModel(model)) {
+    if (isKlingModel(finalModel)) {
       // Kling 模型特有参数
       if (duration) {
         input.duration = duration;
@@ -223,12 +252,12 @@ export async function POST(req: Request) {
       if (cfg_scale !== undefined) {
         input.cfg_scale = cfg_scale;
       }
-    } else if (isMinimaxModel(model)) {
+    } else if (isMinimaxModel(finalModel)) {
       // MiniMax 支持 prompt_optimizer（根据用户选择）
       input.prompt_optimizer = enable_prompt_enhancement;
 
       // 图片转视频模型支持分辨率选择
-      if (model === "minimax-hailuo02-image-to-video") {
+      if (finalModel === "minimax-hailuo02-image-to-video") {
         // MiniMax 仅支持 512P 和 768P（大写）
         if (resolution === "512p") {
           input.resolution = "512P";
@@ -239,7 +268,7 @@ export async function POST(req: Request) {
         }
       }
       // Text-to-video 不需要设置 resolution，使用默认768p
-    } else if (isVeo3ApicoreModel(model)) {
+    } else if (isVeo3ApicoreModel(finalModel)) {
       // Veo3 APICore 模型特有参数
       if (generate_audio !== undefined) {
         input.generate_audio = generate_audio;
@@ -248,12 +277,12 @@ export async function POST(req: Request) {
       if (image_url) {
         input.image_url = image_url;
       }
-    } else if (isVolcanoModel(model)) {
+    } else if (isVolcanoModel(finalModel)) {
       // Volcano 模型特有参数 (使用volcanoModel配置)
       if (modelConfig.volcanoModel) {
         input.model = modelConfig.volcanoModel;
       }
-    } else if (isKieAiModel(model)) {
+    } else if (isKieAiModel(finalModel)) {
       // Kie.ai 模型特有参数
       if (image_url) {
         input.image_url = image_url;
@@ -262,7 +291,7 @@ export async function POST(req: Request) {
       if (otherParams.watermark) {
         input.watermark = otherParams.watermark;
       }
-    } else if (isAliModel(model)) {
+    } else if (isAliModel(finalModel)) {
       // 阿里百炼模型特有参数
       if (image_url) {
         input.image_url = image_url;
@@ -277,12 +306,12 @@ export async function POST(req: Request) {
 
     try {
       // 使用Provider Factory获取合适的provider
-      const provider = ProviderFactory.getProvider(model);
+      const provider = ProviderFactory.getProvider(finalModel);
       // 重试机制：针对连接超时错误重试3次
       let submitResponse;
       for (let attempt = 1; attempt <= 3; attempt++) {
         try {
-          submitResponse = await provider.submit(model, input, webhookUrl);
+          submitResponse = await provider.submit(finalModel, input, webhookUrl);
           break;
         } catch (error) {
           const errorMsg =

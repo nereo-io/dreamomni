@@ -42,7 +42,7 @@ export async function optimizePrompt(
       model: qwenClient("qwen-turbo-latest"),
       messages: [
         { role: "system", content: systemPrompt },
-        { role: "user", content: originalPrompt }
+        { role: "user", content: originalPrompt },
       ],
       maxTokens: 500,
       temperature: 0.7,

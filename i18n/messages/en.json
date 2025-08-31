@@ -25,7 +25,7 @@
     "home": "Home",
     "image_to_video": "Image to Video",
     "text_to_video": "Text to Video",
-    "ai_video_effects": "AI Video Effects",
+    "ai_effects": "AI Effects",
     "my_creations": "My Creations",
     "upgrade_now": "Upgrade Now",
     "feedback_title": "Feedback? DM us!",
@@ -235,6 +235,7 @@
     "remainingCredits": "Remaining Credits",
     "cost": "Cost",
     "recharge": "Recharge",
+    "additionalOptions": "Additional Options",
     "generateVideo": "Generate Video",
     "submitting": "Submitting...",
     "uploading": "Uploading...",
@@ -357,6 +358,13 @@
       "title": "Welcome to Veo3 AI",
       "description": "Transform your ideas into stunning videos with our advanced AI technology. Choose from text-to-video, image-to-video, or explore our creative video effects."
     },
+    "videoEffects": {
+      "title": "AI Video Effects - Transform Your Videos",
+      "description": "Create stunning video effects with AI. Choose from dozens of templates and transform your videos instantly.",
+      "keywords": "AI video effects, video transformation, AI templates, video editing, visual effects, AI filters",
+      "gridTitle": "Free 100+ AI Video Templates and Effects",
+      "useThisEffect": "Use This Effect"
+    },
     "textToVideo": {
       "title": "Free AI Video Generator: Text to Video AI Online | Veo3 AI",
       "description": "Discover the Veo3 AI video generator, a cutting-edge, free solution that effortlessly turns a text prompt into an engaging video. Try our text to video AI today!",
@@ -366,21 +374,6 @@
       "title": "Free Image to Video AI Generator: Turn Photos to Videos | Veo3 AI",
       "description": "Use the image to video AI generator of Veo3 AI for free. Convert photos to videos with high-quality and captivating results. Try our image to video AI now!",
       "keywords": "image to video AI, photo to video converter, free image to video, Veo3 AI, AI video from image, image animation"
-    },
-    "videoAffects": {
-      "heroSection": {
-        "title": "Make Anyone Muscular",
-        "description": "Try Veo3 AI's powerful AI muscle generator! Upload an image of anyone and generate a stunning video that showcases a bulked-up, muscular version of the subject.",
-        "buttonText": "Try for Free"
-      },
-      "effectsTitle": "AI Video Effects & Templates",
-      "categoryEffects": {
-        "funAndCreative": "Fun and Creative Effects",
-        "horrorAndFantasy": "Horror and Fantasy Effects",
-        "appearanceChanging": "Appearance Changing Effects",
-        "seasonalSpecial": "Seasonal Special Effects",
-        "emotionalExpression": "Emotional Expression Effects"
-      }
     },
     "effectDetail": {
       "defaultTitle": "AI Video Effect",
@@ -431,5 +424,32 @@
     "surprise-reaction": "Surprise Reaction Effect",
     "anger-expression": "Anger Expression Effect",
     "love-struck": "Love Struck Effect"
+  },
+  "common": {
+    "useThisEffect": "Use This Effect",
+    "loading": "Loading...",
+    "error": "Error"
+  },
+  "components": {
+    "heroSection": {
+      "defaultTitle": "AI Video Effects",
+      "defaultDescription": "Transform your videos with AI-powered effects",
+      "defaultButtonText": "Get Started"
+    },
+    "categoryTabs": {
+      "all": "All",
+      "interaction": "Interaction",
+      "appearance": "Appearance",
+      "emotions": "Emotions",
+      "entertainment": "Entertainment",
+      "herovillain": "Hero/Villain",
+      "horrorFantasy": "Horror/Fantasy",
+      "xmas": "Xmas",
+      "others": "Others",
+      "newLabel": "New"
+    },
+    "categoryEffectSection": {
+      "defaultDescription": "Discover amazing {categoryName} effects for your videos"
+    }
   }
 }
