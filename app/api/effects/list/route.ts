@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
       id: effect.id,
       slug: effect.slug,
       title: effect.title,
-      description: effect.description,
+      description: effect.page_description || '', // 使用 page_description 作为描述
       preview_image: effect.preview_image,
       preview_video: effect.preview_video,
       preview_thumbnail: effect.preview_thumbnail,

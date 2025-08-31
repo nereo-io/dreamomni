@@ -28,7 +28,7 @@ export async function generateMetadata({
   const canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}${
     params.locale !== "en" ? `/${params.locale}` : ""
   }/video-effects/${params.slug}`;
-  const title = `${effect.page_title} | Veo3 AI - AI Video Effects`;
+  const title = `${effect.page_title}`;
   const description = effect.page_description;
 
   return {

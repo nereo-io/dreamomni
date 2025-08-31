@@ -42,6 +42,7 @@ export function VideoGenerationTool({
   } | null>(null);
   const [editVideoData, setEditVideoData] =
     useState<VideoGenerationResult | null>(null);
+  const [userVideoCount, setUserVideoCount] = useState<number>(0);
   
   // Extract configuration from effect object
   const effectConfig = useMemo(() => {
@@ -66,7 +67,7 @@ export function VideoGenerationTool({
           video_url: effect.preview_video,
           thumbnail_url: effect.preview_image || undefined,
           title: effect.title,
-          description: effect.description || undefined,
+          description: effect.page_description || undefined,
           duration: 5, // Most effect preview videos are 5 seconds
         }]
       } : undefined

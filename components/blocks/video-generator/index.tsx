@@ -563,13 +563,13 @@ export default function VideoGenerator({
         <div className="space-y-4 md:space-y-5 px-4 md:px-6 py-4 md:py-5">
           {/* Header Title */}
           <div className="border-b border-gray-700 pb-3">
-            <h2 className="text-white text-xl font-semibold">
+            <h1 className="text-white text-xl font-semibold">
               {effect
                 ? effect.title
                 : mode === "image-to-video"
                 ? "Image to Video"
                 : "Text to Video"}
-            </h2>
+            </h1>
           </div>
 
           {/* Effect Selector - only show in effect detail page */}

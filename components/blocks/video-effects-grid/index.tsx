@@ -11,10 +11,10 @@ interface VideoEffectsGridProps {
   showTitle?: boolean; // 是否显示标题
 }
 
-export function VideoEffectsGrid({ 
-  effects = [], 
+export function VideoEffectsGrid({
+  effects = [],
   onSelect,
-  showTitle = true 
+  showTitle = true,
 }: VideoEffectsGridProps) {
   const tEffects = useTranslations("effects");
   const t = useTranslations("pages.videoEffects");
@@ -28,9 +28,9 @@ export function VideoEffectsGrid({
       )}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
         {effects.map((effect) => (
-          <VideoEffectCard 
-            key={effect.id} 
-            effect={effect} 
+          <VideoEffectCard
+            key={effect.id}
+            effect={effect}
             onSelect={onSelect}
           />
         ))}
@@ -59,12 +59,16 @@ function VideoEffectCard({ effect, onSelect }: VideoEffectCardProps) {
   };
 
   const effectUrl = `/video-effects/${effect.slug}`;
-  
+
   // 智能选择显示内容 - Linus式的好品味设计
   const getThumbnailSrc = () => {
-    return effect.preview_thumbnail || effect.preview_image || '/placeholder-effect.svg';
+    return (
+      effect.preview_thumbnail ||
+      effect.preview_image ||
+      "/placeholder-effect.svg"
+    );
   };
-  
+
   const getAnimatedSrc = () => {
     return effect.preview_gif; // 只返回GIF，如果没有则为null
   };
@@ -79,7 +83,7 @@ function VideoEffectCard({ effect, onSelect }: VideoEffectCardProps) {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <EffectCardContent 
+          <EffectCardContent
             effect={effect}
             thumbnailSrc={getThumbnailSrc()}
             animatedSrc={getAnimatedSrc()}
@@ -96,7 +100,7 @@ function VideoEffectCard({ effect, onSelect }: VideoEffectCardProps) {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <EffectCardContent 
+          <EffectCardContent
             effect={effect}
             thumbnailSrc={getThumbnailSrc()}
             animatedSrc={getAnimatedSrc()}
@@ -111,13 +115,13 @@ function VideoEffectCard({ effect, onSelect }: VideoEffectCardProps) {
 }
 
 // 卡片内容组件 - 消除重复代码
-function EffectCardContent({ 
-  effect, 
-  thumbnailSrc, 
-  animatedSrc, 
-  isHovered, 
-  effectTitle, 
-  buttonText 
+function EffectCardContent({
+  effect,
+  thumbnailSrc,
+  animatedSrc,
+  isHovered,
+  effectTitle,
+  buttonText,
 }: {
   effect: VideoEffect;
   thumbnailSrc: string;
@@ -182,9 +186,9 @@ function EffectCardContent({
 
       {/* 标题区域 */}
       <div className="p-3 bg-gray-900 border-t border-gray-800">
-        <h3 className="text-white text-sm font-medium line-clamp-1">
+        <h2 className="text-white text-sm font-medium line-clamp-1">
           {effectTitle}
-        </h3>
+        </h2>
       </div>
     </div>
   );
