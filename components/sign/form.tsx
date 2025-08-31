@@ -356,7 +356,6 @@ export default function SignForm({
                           setCaptchaToken(null);
                           setMessage("CAPTCHA verification failed. Please try again.");
                         }}
-                        theme="auto"
                       />
                     </div>
                   )}
