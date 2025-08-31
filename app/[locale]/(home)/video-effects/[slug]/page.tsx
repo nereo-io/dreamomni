@@ -20,8 +20,8 @@ export async function generateMetadata({
     };
   }
 
-  const title = effect.title;
-  const description = effect.description;
+  const title = `${effect.page_title} | Veo3 AI`;
+  const description = effect.page_description;
 
   return {
     title,
@@ -66,7 +66,7 @@ export default async function EffectDetailPage({
               {effect.title}
             </h1>
             <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
-              {effect.description}
+              {effect.page_description}
             </p>
 
             {/* Preview Video */}

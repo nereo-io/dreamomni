@@ -16,6 +16,8 @@ export async function GET(request: NextRequest) {
       description: effect.description,
       preview_image: effect.preview_image,
       preview_video: effect.preview_video,
+      preview_thumbnail: effect.preview_thumbnail,
+      preview_gif: effect.preview_gif,
       credits_required: effect.credits_required,
       is_hot: effect.is_hot,
       category: effect.category,

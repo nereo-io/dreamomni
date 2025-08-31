@@ -3,10 +3,13 @@ export interface VideoEffect {
   slug: string;
   locale: string;
   title: string;
-  description: string | null;
+  page_title: string;
+  page_description: string | null;
   content: any | null;
   preview_image: string | null;
   preview_video: string | null;
+  preview_thumbnail: string | null; // 优化缩略图 (<100KB, 240x180px WebP)
+  preview_gif: string | null; // 轻量动图 (<500KB, 320x240px, 2-3s loop)
   parameters: any | null;
   prompt_template: string | null;
   credits_required: number;

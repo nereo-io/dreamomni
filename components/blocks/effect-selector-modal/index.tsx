@@ -76,11 +76,11 @@ export function EffectSelectorModal({
         
         <div className="overflow-y-auto flex-1 px-6 py-6">
           {loading ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
               {/* 骨架屏占位符 - 匹配实际布局 */}
               {[...Array(8)].map((_, index) => (
                 <div key={index} className="animate-pulse">
-                  <div className="aspect-video bg-gray-700 rounded-lg mb-2"></div>
+                  <div className="aspect-[4/3] bg-gray-700 rounded-lg mb-2"></div>
                   <div className="h-4 bg-gray-700 rounded w-3/4"></div>
                 </div>
               ))}

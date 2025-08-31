@@ -1,11 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(pnpm tsx:*)"
+      "Bash(pnpm tsx:*)",
+      "mcp__supabase__list_projects",
+      "mcp__supabase__execute_sql"
     ],
     "deny": [],
-    "defaultMode": "acceptEdits",
-    "ask": []
+    "ask": [],
+    "defaultMode": "acceptEdits"
   },
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
