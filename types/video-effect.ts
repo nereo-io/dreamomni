@@ -1,3 +1,33 @@
+export interface EffectContent {
+  seo?: {
+    title?: string;
+    description?: string;
+  };
+  howToUse?: {
+    steps: Array<{
+      number: number;
+      title: string;
+      description: string;
+    }>;
+  };
+  technicalSpecs?: {
+    effectDetails?: Record<string, string>;
+    outputSpecs?: Record<string, string>;
+  };
+  tips?: Array<{
+    title: string;
+    description: string;
+  }>;
+  faq?: Array<{
+    question: string;
+    answer: string;
+  }>;
+  cta?: {
+    title?: string;
+    buttonText?: string;
+  };
+}
+
 export interface VideoEffect {
   id: string;
   slug: string;
@@ -5,7 +35,7 @@ export interface VideoEffect {
   title: string;
   page_title: string;
   page_description: string | null;
-  content: any | null;
+  content: EffectContent | null;
   preview_image: string | null;
   preview_video: string | null;
   preview_thumbnail: string | null; // 优化缩略图 (<100KB, 240x180px WebP)

@@ -5,7 +5,16 @@
       "mcp__supabase__list_projects",
       "mcp__supabase__execute_sql",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(echo $SUPABASE_URL)",
+      "Bash(node:*)",
+      "WebSearch",
+      "Read(/Users/jasper/.claude/**)",
+      "Bash(claude mcp:*)",
+      "Read(/Users/jasper/.claude/**)",
+      "Read(/Users/jasper/.claude/**)",
+      "Bash(npx @supabase/mcp-server-supabase:*)",
+      "Bash(export:*)"
     ],
     "deny": [],
     "ask": [],

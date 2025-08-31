@@ -1,7 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { getAllEffectConfigs } from "@/models/effectConfig";
 import { VideoEffectsGrid } from "@/components/blocks/video-effects-grid";
-import { CTASectionClient } from "@/components/blocks/cta-section-client";
 
 export async function generateMetadata({
   params: { locale },

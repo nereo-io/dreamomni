@@ -140,6 +140,8 @@ function EffectCardContent({
               isHovered ? "scale-105" : "scale-100"
             }`}
             loading="lazy"
+            decoding="async"
+            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
           />
         ) : (
           // 没有GIF时，显示缩略图，hover时放大
@@ -150,6 +152,8 @@ function EffectCardContent({
               isHovered ? "scale-105" : "scale-100"
             }`}
             loading="lazy"
+            decoding="async"
+            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
           />
         )}
 
