@@ -1,3 +1,14 @@
+// 邀请页面已禁用以防止薅羊毛行为
+import { redirect } from "next/navigation";
+
+export default async function () {
+  // 重定向到我的积分页面
+  redirect('/my-credits');
+}
+
+/* 
+已注释的原始邀请页面代码：
+
 import { RiDiscordFill, RiEmotionSadFill, RiGithubFill } from "react-icons/ri";
 import { getAffiliateSummary, getUserAffiliates } from "@/models/affiliate";
 import { getOrdersByPaidEmail, getOrdersByUserUuid } from "@/models/order";
@@ -108,3 +119,4 @@ export default async function () {
     </div>
   );
 }
+*/

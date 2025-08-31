@@ -73,6 +73,21 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // 邀请功能已禁用以防止薅羊毛行为
+  const updateInvite = async (user: User) => {
+    try {
+      console.log("Invite feature disabled, skipping invite update");
+      // 清理可能存在的邀请码缓存
+      cacheRemove(CacheKey.InviteCode);
+      return;
+    } catch (e) {
+      console.log("update invite cleanup failed: ", e);
+    }
+  };
+
+  /* 
+  已注释的原始邀请处理逻辑：
+  
   const updateInvite = async (user: User) => {
     try {
       if (user.invited_by) {
@@ -124,6 +139,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
       console.log("update invite failed: ", e);
     }
   };
+  */
 
   useEffect(() => {
     if (session && session.user) {

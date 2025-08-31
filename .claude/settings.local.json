@@ -14,7 +14,8 @@
       "Read(/Users/jasper/.claude/**)",
       "Read(/Users/jasper/.claude/**)",
       "Bash(npx @supabase/mcp-server-supabase:*)",
-      "Bash(export:*)"
+      "Bash(export:*)",
+      "mcp__supabase__list_tables"
     ],
     "deny": [],
     "ask": [],

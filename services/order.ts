@@ -7,7 +7,7 @@ import { findOrderByOrderNo, updateOrderStatus } from "@/models/order";
 import { createOrUpdateMembership } from "./membership";
 import { getIsoTimestr, getOneYearLaterTimestr } from "@/lib/time";
 import Stripe from "stripe";
-import { updateAffiliateForOrder } from "./affiliate";
+// import { updateAffiliateForOrder } from "./affiliate"; // 已移除邀请奖励功能
 import { getProductConfigByProductId } from "@/config/payssion";
 
 export async function handleOrderSession(session: Stripe.Checkout.Session) {

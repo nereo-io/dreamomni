@@ -1,3 +1,13 @@
+// 邀请码设置API已禁用以防止薅羊毛行为
+import { respErr } from "@/lib/resp";
+
+export async function POST(req: Request) {
+  return respErr("Invite feature has been disabled to prevent abuse");
+}
+
+/* 
+已注释的原始邀请码设置逻辑：
+
 import {
   findUserByInviteCode,
   findUserByUuid,
@@ -51,3 +61,4 @@ export async function POST(req: Request) {
     return respErr("update invite code failed");
   }
 }
+*/
