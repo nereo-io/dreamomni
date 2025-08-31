@@ -4,6 +4,13 @@ import { signUpWithEmail } from "@/services/supabase-auth";
 import { yandexTracking } from "@/services/analytics/yandex-tracking";
 import { z } from "zod";
 
+// 简单的攻击邮箱域名黑名单（只屏蔽已知攻击域名）
+const BLOCKED_EMAIL_DOMAINS = [
+  'drmail.in',      // 主要攻击域名 (10,761个账号)
+  'mriscan.live',   // 攻击域名 (60个账号)
+  'powerscrews.com' // 攻击域名 (2个账号)
+];
+
 const signupSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
@@ -21,6 +28,13 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, password, name } = validation.data;
+
+    // 简单检查：只屏蔽已知攻击邮箱域名
+    const emailDomain = email.split('@')[1]?.toLowerCase();
+    if (BLOCKED_EMAIL_DOMAINS.includes(emailDomain)) {
+      console.warn(`Registration blocked for attack domain: ${emailDomain}`);
+      return respErr("This email provider is not supported");
+    }
 
     // 调用Supabase注册
     const result = await signUpWithEmail(email, password, name);

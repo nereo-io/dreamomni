@@ -43,6 +43,11 @@ export async function POST(req: Request) {
       return respErr("Failed to get user information");
     }
 
+    // 检查用户是否被禁用
+    if (userInfo.is_banned) {
+      return respErr("Account has been suspended due to suspicious activity");
+    }
+
     // 3. 检查用户积分
     const userCredits = await getUserCredits(userInfo.uuid);
     if (!userCredits) {
