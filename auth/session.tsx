@@ -10,7 +10,7 @@ export function NextAuthSessionProvider({
   return (
     <SessionProvider
       refetchOnWindowFocus={false}
-      refetchInterval={30 * 60}
+      refetchInterval={0}
     >
       {children}
     </SessionProvider>
