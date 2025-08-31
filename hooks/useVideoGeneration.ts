@@ -17,6 +17,7 @@ interface VideoGenerationParams {
   effect_id?: string; // For video effects feature
   effect_type?: 'hailuo_prompt' | 'pixverse_template'; // Route selection
   pixverse_img_ids?: number[]; // For pixverse template effects
+  captchaToken?: string; // For CAPTCHA verification
 }
 
 interface UserCreditsInfo {

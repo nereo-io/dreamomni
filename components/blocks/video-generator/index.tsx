@@ -27,6 +27,8 @@ import { validateImage } from "@/config/image-validation-rules";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 import type { VideoEffect } from "@/types/video-effect";
 import { EffectSelector } from "@/components/blocks/effect-selector";
+import useMembership from "@/hooks/useMembership";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 // 生成参数接口
 export interface VideoGenerationParams {
@@ -40,6 +42,7 @@ export interface VideoGenerationParams {
   image_url?: string;
   effect_id?: string;
   pixverse_img_id?: number;
+  captchaToken?: string;
 }
 
 interface VideoGeneratorProps {
@@ -115,12 +118,17 @@ export default function VideoGenerator({
     effect || null
   );
   const [pixverseImgId, setPixverseImgId] = useState<number | null>(null);
+  
+  // CAPTCHA related states
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [showCaptcha, setShowCaptcha] = useState(false);
 
   // Textarea 引用
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const { user, setShowSignModal, setShowPricingModal } = useAppContext();
   const { leftCredits, updateLeftCredits } = useCredits();
+  const { membership, refreshMembership } = useMembership();
 
   // 用户登录时获取积分
   useEffect(() => {
@@ -128,6 +136,28 @@ export default function VideoGenerator({
       updateLeftCredits().catch(console.error);
     }
   }, [user?.uuid, updateLeftCredits]);
+
+  // 检查是否需要显示CAPTCHA
+  useEffect(() => {
+    if (user?.uuid) {
+      // 刷新会员状态
+      refreshMembership();
+    }
+  }, [user?.uuid, refreshMembership]);
+
+  // 检查会员状态并设置CAPTCHA显示
+  useEffect(() => {
+    if (user?.uuid) {
+      // 如果没有有效会员身份，显示CAPTCHA
+      const isNonMember = !membership || membership.status !== 'active';
+      setShowCaptcha(isNonMember);
+      
+      // 如果用户成为了会员，清除CAPTCHA token
+      if (membership && membership.status === 'active' && captchaToken) {
+        setCaptchaToken(null);
+      }
+    }
+  }, [user?.uuid, membership, captchaToken]);
 
   // Populate form fields when showcase video params are provided
   useEffect(() => {
@@ -514,6 +544,12 @@ export default function VideoGenerator({
       return;
     }
 
+    // 验证CAPTCHA（非会员用户）
+    if (showCaptcha && !captchaToken) {
+      toast.error("Please complete the CAPTCHA verification");
+      return;
+    }
+
     // 准备图片URL - 直接使用已上传的URL
     const imageUrl = uploadedImageUrl || undefined;
 
@@ -529,6 +565,7 @@ export default function VideoGenerator({
       effect_id: currentEffect?.id,
       image_url: imageUrl,
       pixverse_img_id: pixverseImgId || undefined,
+      captchaToken: captchaToken || undefined,
     };
 
     // 调用生成回调
@@ -964,8 +1001,27 @@ export default function VideoGenerator({
         </div>
       </div>
 
-      {/* Fixed bottom button area */}
+      {/* Unified bottom section */}
       <div className="border-t border-gray-600 bg-gray-900/95 backdrop-blur-sm p-4 md:p-6 mt-auto">
+        {/* CAPTCHA appears inline when needed */}
+        {showCaptcha && process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+          <div className="flex justify-center mb-4">
+            <Turnstile
+              siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+              onSuccess={(token) => {
+                setCaptchaToken(token);
+              }}
+              onExpire={() => {
+                setCaptchaToken(null);
+              }}
+              onError={() => {
+                setCaptchaToken(null);
+                toast.error("CAPTCHA verification failed. Please try again.");
+              }}
+            />
+          </div>
+        )}
+        
         <Button
           onClick={handleGenerate}
           disabled={
@@ -975,7 +1031,8 @@ export default function VideoGenerator({
             (!description.trim() && (!effect || !effect.prompt_template)) ||
             !selectedModel ||
             (mode === "image-to-video" && !uploadedImageUrl) ||
-            (leftCredits !== null && leftCredits < currentCreditsRequired)
+            (leftCredits !== null && leftCredits < currentCreditsRequired) ||
+            (showCaptcha && !captchaToken)
           }
           className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-h-[44px]"
         >

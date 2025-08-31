@@ -188,6 +188,7 @@ export function VideoGenerationTool({
       generate_audio: finalParams.generate_audio,
       enable_prompt_enhancement: finalParams.enable_prompt_enhancement,
       image_url: finalParams.image_url,
+      captchaToken: finalParams.captchaToken, // Pass CAPTCHA token
       // Pass effect-related params
       ...(effect && { 
         effect_id: effect.id,

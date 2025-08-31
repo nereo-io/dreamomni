@@ -29,6 +29,35 @@ import {
 import { ProviderFactory } from "@/services/providers";
 import { optimizePromptWithTimeout } from "@/services/promptOptimization";
 import { getEffectConfigById } from "@/models/effectConfig";
+import { checkMembershipStatus } from "@/services/membership";
+
+// 验证Cloudflare Turnstile CAPTCHA
+async function verifyCaptcha(token: string, clientIP: string): Promise<boolean> {
+  if (!process.env.TURNSTILE_SECRET_KEY) {
+    console.warn("TURNSTILE_SECRET_KEY not configured, skipping CAPTCHA verification");
+    return true; // 如果没配置密钥，跳过验证
+  }
+
+  try {
+    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        secret: process.env.TURNSTILE_SECRET_KEY,
+        response: token,
+        remoteip: clientIP,
+      }),
+    });
+
+    const result = await response.json();
+    return result.success === true;
+  } catch (error) {
+    console.error('CAPTCHA verification error:', error);
+    return false;
+  }
+}
 
 export async function POST(req: Request) {
   try {
@@ -79,12 +108,30 @@ export async function POST(req: Request) {
       generate_audio = false, // 新增：音频生成选项
       enable_prompt_enhancement = true, // 新增：prompt增强开关
       effect_id, // 新增：特效ID
+      captchaToken, // 新增：CAPTCHA token
       ...otherParams
     } = await req.json();
 
     // 验证必需参数
     if (!model || !prompt) {
       return respErr("model 和 prompt 参数是必需的");
+    }
+
+    // 4. 会员状态检查与CAPTCHA验证
+    const membershipStatus = await checkMembershipStatus(userInfo);
+    if (!membershipStatus.isMember) {
+      // 非会员用户需要CAPTCHA验证
+      if (!captchaToken) {
+        return respErr("CAPTCHA verification is required for non-member users");
+      }
+      
+      const captchaValid = await verifyCaptcha(captchaToken, clientIP);
+      if (!captchaValid) {
+        console.warn(`CAPTCHA verification failed for non-member user: ${userInfo.uuid}, IP: ${clientIP}`);
+        return respErr("CAPTCHA verification failed. Please try again.");
+      }
+      
+      console.log(`CAPTCHA verification passed for non-member user: ${userInfo.uuid}`);
     }
 
     // 处理特效配置
@@ -123,7 +170,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // 4. 计算所需积分并检查余额
+    // 5. 计算所需积分并检查余额
     const durationInt = parseInt(duration);
     const requiredCredits = effectCreditsOverride || calculateCredits(
       finalModel,
@@ -171,7 +218,7 @@ export async function POST(req: Request) {
       return respErr(`不支持的时长: ${durationInt}秒`);
     }
 
-    // 5. 扣除积分（在创建任务前扣除）
+    // 6. 扣除积分（在创建任务前扣除）
     try {
       await decreaseCredits({
         user_uuid: userInfo.uuid,
@@ -183,7 +230,7 @@ export async function POST(req: Request) {
       return respErr("Failed to deduct credits, please try again later");
     }
 
-    // 6. 在数据库中创建记录（根据是否启用prompt增强设置初始状态）
+    // 7. 在数据库中创建记录（根据是否启用prompt增强设置初始状态）
     const videoGeneration = await createVideoGeneration({
       user_id: userInfo.uuid,
       model_id: finalModel,
@@ -199,7 +246,7 @@ export async function POST(req: Request) {
       effect_id: effect_id,
     });
 
-    // 6.5. 优化提示词
+    // 7.5. 优化提示词
     let enhancedPrompt = finalPrompt;
     if (enable_prompt_enhancement) {
       try {
@@ -314,7 +361,7 @@ export async function POST(req: Request) {
       input.resolution = resolution;
     }
 
-    // 7. 提交任务到队列，包含webhook URL
+    // 8. 提交任务到队列，包含webhook URL
     const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
     // const webhookUrl = `https://b3b0385f848b.ngrok-free.app/api/video-generation/webhook`;
 
@@ -355,7 +402,7 @@ export async function POST(req: Request) {
         throw new Error("视频生成提交失败");
       }
 
-      // 8. 更新数据库记录的请求ID
+      // 9. 更新数据库记录的请求ID
       const updateParams: any = {};
 
       // 根据提供商类型设置相应的专用字段
