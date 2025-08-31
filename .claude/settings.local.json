@@ -3,7 +3,9 @@
     "allow": [
       "Bash(pnpm tsx:*)",
       "mcp__supabase__list_projects",
-      "mcp__supabase__execute_sql"
+      "mcp__supabase__execute_sql",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": [],

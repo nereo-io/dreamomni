@@ -11,6 +11,7 @@ import { useAppContext } from "@/contexts/app";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { getStatusMap, INCOMPLETE_STATUSES } from "./components/constants";
 import VideoHistoryItem from "./components/VideoHistoryItem";
+import VideoHistorySkeleton from "./components/VideoHistorySkeleton";
 import VideoShowcase from "../video-showcase";
 import type { ShowcaseVideo } from "@/types/showcase";
 
@@ -60,10 +61,9 @@ export default function VideoHistory({
     setIsClient(true);
   }, []);
 
-  // 决定是否显示 VideoShowcase
-  // 优先显示历史记录：如果用户已登录且有历史记录，显示历史
-  // 只有在用户未登录或无历史记录时，才显示showcase
-  const shouldShowShowcase = !user?.uuid || history.length === 0;
+  // 渲染逻辑：
+  // 1. 未登录用户：直接显示 showcase (特效 sample 或系统 showcase)
+  // 2. 已登录用户：先显示骨架屏，数据加载完成后根据结果显示内容
 
   // Toggle enhanced prompt visibility
   const togglePromptExpansion = (generationId: string) => {
@@ -226,8 +226,8 @@ export default function VideoHistory({
     }
   };
 
-  // Show VideoShowcase for users without video history
-  if (shouldShowShowcase) {
+  // 未登录用户：直接显示 showcase
+  if (!user?.uuid) {
     return (
       <div
         className={cn(
@@ -255,6 +255,41 @@ export default function VideoHistory({
     );
   }
 
+  // 已登录用户：数据加载中显示骨架屏
+  if (isLoadingHistory) {
+    return <VideoHistorySkeleton className={className} />;
+  }
+
+  // 已登录用户：无数据时显示 showcase
+  if (history.length === 0) {
+    return (
+      <div
+        className={cn(
+          "bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
+          className
+        )}
+      >
+        {/* Header */}
+        <header className="py-3 px-4 md:px-5 flex justify-between items-center border-b border-gray-700">
+          <div className="text-lg md:text-xl font-semibold flex items-center text-white">
+            <Sparkles className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3" />
+            <span className="truncate">Explore Examples</span>
+          </div>
+        </header>
+
+        {/* Showcase Content - No overflow, full height */}
+        <div className="flex-1 min-h-0 flex flex-col p-4 md:p-6">
+          <VideoShowcase 
+          mode={mode} 
+          onSelectVideo={handleShowcaseVideoSelect}
+          showcaseData={showcaseData}
+        />
+        </div>
+      </div>
+    );
+  }
+
+  // 已登录用户：有数据时显示历史记录
   return (
     <div
       ref={containerRef}
@@ -282,41 +317,27 @@ export default function VideoHistory({
         </Button>
       </header>
 
-      {isLoadingHistory && history.length === 0 && user?.uuid ? (
-        <div className="flex items-center justify-center py-8">
-          <Loader2 className="h-6 w-6 text-gray-500 animate-spin" />
+      <div className="lg:flex-1 lg:overflow-y-auto video-history-scroll lg:dark-scrollbar">
+        <div className="divide-y divide-gray-700">
+          {(isMobile ? [...history] : [...history].reverse()).map(
+            (generation) => (
+              <VideoHistoryItem
+                key={generation.id}
+                generation={generation}
+                statusMap={STATUS_MAP}
+                isExpanded={expandedPrompts.has(generation.id)}
+                onToggleExpanded={() => togglePromptExpansion(generation.id)}
+                onDownload={handleDownload}
+                isExample={false}
+                isClient={isClient}
+                onEdit={onEditVideo}
+                onRegenerate={onRegenerateVideo}
+                canEdit={true} // Always true for real videos
+              />
+            )
+          )}
         </div>
-      ) : history.length === 0 ? (
-        <div className="text-center py-8">
-          <History className="h-12 w-12 text-gray-600 mx-auto mb-3" />
-          <p className="text-gray-400">No video generations yet</p>
-          <p className="text-gray-500 text-sm mt-1">
-            Your generated videos will appear here
-          </p>
-        </div>
-      ) : (
-        <div className="lg:flex-1 lg:overflow-y-auto video-history-scroll lg:dark-scrollbar">
-          <div className="divide-y divide-gray-700">
-            {(isMobile ? [...history] : [...history].reverse()).map(
-              (generation) => (
-                <VideoHistoryItem
-                  key={generation.id}
-                  generation={generation}
-                  statusMap={STATUS_MAP}
-                  isExpanded={expandedPrompts.has(generation.id)}
-                  onToggleExpanded={() => togglePromptExpansion(generation.id)}
-                  onDownload={handleDownload}
-                  isExample={false}
-                  isClient={isClient}
-                  onEdit={onEditVideo}
-                  onRegenerate={onRegenerateVideo}
-                  canEdit={true} // Always true for real videos
-                />
-              )
-            )}
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

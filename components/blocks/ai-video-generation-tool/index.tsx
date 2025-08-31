@@ -42,7 +42,6 @@ export function VideoGenerationTool({
   } | null>(null);
   const [editVideoData, setEditVideoData] =
     useState<VideoGenerationResult | null>(null);
-  const [userVideoCount, setUserVideoCount] = useState<number | null>(null);
   
   // Extract configuration from effect object
   const effectConfig = useMemo(() => {
@@ -50,9 +49,6 @@ export function VideoGenerationTool({
     
     // Debug: 打印 effect 对象
     console.log('Effect object:', effect);
-    
-    // 只在用户没有历史记录时才显示特效的showcase
-    const shouldShowEffectShowcase = !user?.uuid || userVideoCount === 0;
     
     return {
       creditsRequired: effect.credits_required,
@@ -63,8 +59,8 @@ export function VideoGenerationTool({
       promptTemplate: effect.prompt_template,
       effectType: effect.effect_type,
       pixverseTemplateId: effect.pixverse_template_id,
-      // Only create showcase data if user has no history
-      showcaseData: (shouldShowEffectShowcase && effect.preview_video) ? {
+      // Always pass showcase data, let video-history component decide when to show it
+      showcaseData: effect.preview_video ? {
         videos: [{
           id: `showcase-${effect.id}`,
           video_url: effect.preview_video,
@@ -75,7 +71,7 @@ export function VideoGenerationTool({
         }]
       } : undefined
     };
-  }, [effect, user?.uuid, userVideoCount]);
+  }, [effect]);
 
   // Handle showcase video selection
   const handleShowcaseVideoSelect = (
@@ -204,15 +200,7 @@ export function VideoGenerationTool({
       const duration = parseInt(params.duration) || 5;
       trackVideoGeneration(params.model, duration, params.model);
 
-      // 检查是否是用户的第一个视频
-      if (user?.uuid && userVideoCount === 0) {
-        trackFirstVideo(user.uuid);
-      }
-
-      // 更新视频计数
-      if (userVideoCount !== null) {
-        setUserVideoCount(userVideoCount + 1);
-      }
+      // Note: First video tracking is handled by video-history component now
 
       // 开始轮询状态
       pollStatus(result.id);
