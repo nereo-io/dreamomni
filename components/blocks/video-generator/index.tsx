@@ -27,8 +27,7 @@ import { validateImage } from "@/config/image-validation-rules";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 import type { VideoEffect } from "@/types/video-effect";
 import { EffectSelector } from "@/components/blocks/effect-selector";
-import useMembership from "@/hooks/useMembership";
-import { Turnstile } from "@marsidev/react-turnstile";
+import { CaptchaModal } from "@/components/ui/captcha-modal";
 
 // 生成参数接口
 export interface VideoGenerationParams {
@@ -120,15 +119,14 @@ export default function VideoGenerator({
   const [pixverseImgId, setPixverseImgId] = useState<number | null>(null);
   
   // CAPTCHA related states
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const [showCaptcha, setShowCaptcha] = useState(false);
+  const [showCaptchaModal, setShowCaptchaModal] = useState(false);
+  const [pendingCaptchaParams, setPendingCaptchaParams] = useState<VideoGenerationParams | null>(null);
 
   // Textarea 引用
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const { user, setShowSignModal, setShowPricingModal } = useAppContext();
   const { leftCredits, updateLeftCredits } = useCredits();
-  const { membership, refreshMembership } = useMembership();
 
   // 用户登录时获取积分
   useEffect(() => {
@@ -137,27 +135,11 @@ export default function VideoGenerator({
     }
   }, [user?.uuid, updateLeftCredits]);
 
-  // 检查是否需要显示CAPTCHA
-  useEffect(() => {
-    if (user?.uuid) {
-      // 刷新会员状态
-      refreshMembership();
-    }
-  }, [user?.uuid, refreshMembership]);
-
-  // 检查会员状态并设置CAPTCHA显示
-  useEffect(() => {
-    if (user?.uuid) {
-      // 如果没有有效会员身份，显示CAPTCHA
-      const isNonMember = !membership || membership.status !== 'active';
-      setShowCaptcha(isNonMember);
-      
-      // 如果用户成为了会员，清除CAPTCHA token
-      if (membership && membership.status === 'active' && captchaToken) {
-        setCaptchaToken(null);
-      }
-    }
-  }, [user?.uuid, membership, captchaToken]);
+  // 检查是否需要CAPTCHA验证（基于积分）
+  const needsCaptcha = useCallback(() => {
+    // 新用户（积分=10）需要CAPTCHA验证，防止薅羊毛
+    return user?.uuid && leftCredits === 10;
+  }, [user?.uuid, leftCredits]);
 
   // Populate form fields when showcase video params are provided
   useEffect(() => {
@@ -518,6 +500,47 @@ export default function VideoGenerator({
     setPixverseImgId(null);
   };
 
+  // 构建生成参数的辅助函数
+  const buildGenerationParams = (): VideoGenerationParams => {
+    const imageUrl = uploadedImageUrl || undefined;
+    
+    return {
+      model: selectedModel,
+      prompt: description.trim(),
+      duration: selectedDuration.replace("s", ""),
+      aspect_ratio: selectedRatio,
+      resolution: selectedResolution,
+      generate_audio: generateAudio,
+      enable_prompt_enhancement: enablePromptEnhancement,
+      effect_id: currentEffect?.id,
+      image_url: imageUrl,
+      pixverse_img_id: pixverseImgId || undefined,
+    };
+  };
+
+  // 处理CAPTCHA验证完成
+  const handleCaptchaComplete = async (captchaToken: string) => {
+    if (pendingCaptchaParams) {
+      const finalParams = {
+        ...pendingCaptchaParams,
+        captchaToken
+      };
+      
+      // 关闭模态框并清理状态
+      setShowCaptchaModal(false);
+      setPendingCaptchaParams(null);
+      
+      // 提交生成请求
+      await onGenerate(finalParams);
+    }
+  };
+
+  // 处理CAPTCHA模态框关闭
+  const handleCaptchaModalClose = () => {
+    setShowCaptchaModal(false);
+    setPendingCaptchaParams(null);
+  };
+
   // 处理生成按钮点击
   const handleGenerate = async () => {
     // 验证用户登录
@@ -544,31 +567,18 @@ export default function VideoGenerator({
       return;
     }
 
-    // 验证CAPTCHA（非会员用户）
-    if (showCaptcha && !captchaToken) {
-      toast.error("Please complete the CAPTCHA verification");
+    // 准备生成参数
+    const params = buildGenerationParams();
+    
+    // 基于积分的CAPTCHA判断
+    if (needsCaptcha()) {
+      // 新用户需要CAPTCHA验证
+      setPendingCaptchaParams(params);
+      setShowCaptchaModal(true);
       return;
     }
 
-    // 准备图片URL - 直接使用已上传的URL
-    const imageUrl = uploadedImageUrl || undefined;
-
-    // 准备生成参数
-    const params: VideoGenerationParams = {
-      model: selectedModel,
-      prompt: description.trim(),
-      duration: selectedDuration.replace("s", ""),
-      aspect_ratio: selectedRatio,
-      resolution: selectedResolution,
-      generate_audio: generateAudio,
-      enable_prompt_enhancement: enablePromptEnhancement,
-      effect_id: currentEffect?.id,
-      image_url: imageUrl,
-      pixverse_img_id: pixverseImgId || undefined,
-      captchaToken: captchaToken || undefined,
-    };
-
-    // 调用生成回调
+    // 老用户或充值用户直接生成
     await onGenerate(params);
   };
 
@@ -1003,25 +1013,6 @@ export default function VideoGenerator({
 
       {/* Unified bottom section */}
       <div className="border-t border-gray-600 bg-gray-900/95 backdrop-blur-sm p-4 md:p-6 mt-auto">
-        {/* CAPTCHA appears inline when needed */}
-        {showCaptcha && process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
-          <div className="flex justify-center mb-4">
-            <Turnstile
-              siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-              onSuccess={(token) => {
-                setCaptchaToken(token);
-              }}
-              onExpire={() => {
-                setCaptchaToken(null);
-              }}
-              onError={() => {
-                setCaptchaToken(null);
-                toast.error("CAPTCHA verification failed. Please try again.");
-              }}
-            />
-          </div>
-        )}
-        
         <Button
           onClick={handleGenerate}
           disabled={
@@ -1031,8 +1022,7 @@ export default function VideoGenerator({
             (!description.trim() && (!effect || !effect.prompt_template)) ||
             !selectedModel ||
             (mode === "image-to-video" && !uploadedImageUrl) ||
-            (leftCredits !== null && leftCredits < currentCreditsRequired) ||
-            (showCaptcha && !captchaToken)
+            (leftCredits !== null && leftCredits < currentCreditsRequired)
           }
           className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-h-[44px]"
         >
@@ -1051,6 +1041,14 @@ export default function VideoGenerator({
           )}
         </Button>
       </div>
+
+      {/* CAPTCHA模态框 */}
+      <CaptchaModal
+        isOpen={showCaptchaModal}
+        onClose={handleCaptchaModalClose}
+        onCaptchaComplete={handleCaptchaComplete}
+        isSubmitting={isGenerating}
+      />
     </div>
   );
 }

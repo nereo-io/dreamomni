@@ -15,7 +15,11 @@
       "Read(/Users/jasper/.claude/**)",
       "Bash(npx @supabase/mcp-server-supabase:*)",
       "Bash(export:*)",
-      "mcp__supabase__list_tables"
+      "mcp__supabase__list_tables",
+      "Read(/Users/jasper/Projects/vms/**)",
+      "Read(/Users/jasper/Projects/vms/**)",
+      "Read(/Users/jasper/Projects/vms/app/api/video-generations/**)",
+      "Read(/Users/jasper/Projects/vms/app/api/seedance/video-generations/**)"
     ],
     "deny": [],
     "ask": [],
