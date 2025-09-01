@@ -158,9 +158,12 @@ export async function POST(req: NextRequest) {
       console.log(`${selectedProvider} API response:`, result);
 
       // 4. 根据API返回结果更新数据库
+      console.log(`📋 Processing API result: taskId=${result.taskId}, status=${result.status}`);
 
-      // if (result.taskId && result.status === "pending") {
+      if (result.taskId && result.status === "pending") {
         // 异步回调模式 - 更新任务ID，等待回调
+        console.log(`📝 Storing taskId ${result.taskId} for async callback processing`);
+        
         await updateImageGenerationById(imageGeneration.id, {
           status: "IN_QUEUE",
           provider_task_id: result.taskId,
@@ -172,6 +175,8 @@ export async function POST(req: NextRequest) {
           },
         });
 
+        console.log(`✅ TaskId ${result.taskId} stored successfully for image generation ${imageGeneration.id}`);
+
         return respData({
           id: imageGeneration.id,
           task_id: result.taskId,
@@ -179,45 +184,50 @@ export async function POST(req: NextRequest) {
           provider: selectedProvider,
           message: "Image generation task submitted successfully",
         });
-      // } else if (result.status === "completed" && result.images && result.images.length > 0) {
-      //   // 同步返回模式 - 直接更新结果
-      //   const imageUrls = result.images.map(img => img.url);
+      } else if (result.status === "completed" && result.images && result.images.length > 0) {
+        // 同步返回模式 - 直接更新结果
+        console.log(`🖼️ Synchronous completion with ${result.images.length} images`);
+        const imageUrls = result.images.map(img => img.url);
         
-      //   await updateImageGenerationById(imageGeneration.id, {
-      //     status: "COMPLETED",
-      //     image_urls: imageUrls,
-      //     provider_task_id: result.taskId,
-      //     metadata: {
-      //       ...createParams.metadata,
-      //       provider_response: result.metadata,
-      //       provider_images: result.images,
-      //     },
-      //   });
+        await updateImageGenerationById(imageGeneration.id, {
+          status: "COMPLETED",
+          image_urls: imageUrls,
+          image_count: imageUrls.length,
+          provider_task_id: result.taskId,
+          completed_at: new Date().toISOString(),
+          metadata: {
+            ...createParams.metadata,
+            provider_response: result.metadata,
+            provider_images: result.images,
+          },
+        });
 
-      //   return respData({
-      //     id: imageGeneration.id,
-      //     status: "completed",
-      //     image_url: imageUrls[0],
-      //     image_urls: imageUrls,
-      //     provider: selectedProvider,
-      //     message: "Image generated successfully",
-      //   });
-      // } else {
-      //   // 错误处理
-      //   const errorMessage = result.error || "Unknown error occurred during generation";
+        return respData({
+          id: imageGeneration.id,
+          status: "completed",
+          image_url: imageUrls[0],
+          image_urls: imageUrls,
+          provider: selectedProvider,
+          message: "Image generated successfully",
+        });
+      } else {
+        // 错误处理
+        const errorMessage = result.error || "Unknown error occurred during generation";
         
-      //   await updateImageGenerationById(imageGeneration.id, {
-      //     status: "FAILED",
-      //     error_message: errorMessage,
-      //     metadata: {
-      //       ...createParams.metadata,
-      //       provider_response: result,
-      //     },
-      //   });
+        console.error(`❌ Generation failed for ${imageGeneration.id}:`, errorMessage);
+        
+        await updateImageGenerationById(imageGeneration.id, {
+          status: "FAILED",
+          error_message: errorMessage,
+          provider_task_id: result.taskId,
+          metadata: {
+            ...createParams.metadata,
+            provider_response: result,
+          },
+        });
 
-      //   console.error(`❌ Generation failed:`, errorMessage);
-      //   return respErr(errorMessage);
-      // }
+        return respErr(errorMessage);
+      }
 
     } catch (error) {
       console.error("❌ Image generation error:", error);

@@ -42,20 +42,39 @@ export async function POST(
     console.log(`✅ Processed result from ${provider}:`, processedResult);
 
     // 查找对应的图片生成记录
+    console.log(`🔍 Searching for image generation record with provider_task_id: ${processedResult.taskId}`);
+    
     const imageGeneration = await getImageGenerationByProviderTaskId(
       processedResult.taskId
     );
 
     if (!imageGeneration) {
-      console.error(`❌ Image generation not found for task: ${processedResult.taskId}`);
+      console.error(`❌ Image generation not found for provider_task_id: ${processedResult.taskId}`);
+      console.log(`💡 This might indicate that the taskId was not properly stored during creation, or the taskId format doesn't match`);
       return respErr(`Image generation not found for task: ${processedResult.taskId}`);
     }
 
-    console.log(`📝 Found image generation record: ${imageGeneration.id}`);
+    console.log(`📝 Found image generation record: ${imageGeneration.id} for task: ${processedResult.taskId}`);
+
+    // 映射 ProviderResponse 状态到数据库状态
+    const mapStatusToDb = (providerStatus: string): string => {
+      switch (providerStatus.toLowerCase()) {
+        case "completed":
+          return "COMPLETED";
+        case "failed":
+          return "FAILED";
+        case "processing":
+          return "IN_PROGRESS";
+        case "pending":
+          return "PENDING";
+        default:
+          return "PENDING";
+      }
+    };
 
     // 根据处理结果更新数据库
     const updateData: any = {
-      status: processedResult.status.toUpperCase(),
+      status: mapStatusToDb(processedResult.status),
       provider_task_id: processedResult.taskId,
       updated_at: new Date().toISOString(),
     };
@@ -65,6 +84,11 @@ export async function POST(
         updateData.image_urls = processedResult.images.map(img => img.url);
         updateData.image_count = processedResult.images.length;
         updateData.completed_at = new Date().toISOString();
+        
+        console.log(`🖼️ Updating with ${processedResult.images.length} images:`, 
+          processedResult.images.map(img => img.url));
+      } else {
+        console.log(`⚠️ Completed callback but no images found in processedResult:`, processedResult);
       }
       
       // 存储提供商的响应数据
@@ -94,8 +118,11 @@ export async function POST(
     }
 
     // 更新数据库记录
-    await updateImageGenerationById(imageGeneration.id, updateData);
+    console.log(`💾 Updating database with data:`, updateData);
+    
+    const updatedRecord = await updateImageGenerationById(imageGeneration.id, updateData);
     console.log(`✅ Updated image generation ${imageGeneration.id} with status: ${updateData.status}`);
+    console.log(`📝 Updated record result:`, updatedRecord);
 
     // 返回成功响应
     return respData({

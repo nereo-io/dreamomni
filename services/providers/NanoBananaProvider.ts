@@ -19,8 +19,8 @@ export interface NanoBananaApiResponse {
   code: number;
   message?: string;
   data?: {
-    task_id: string;
-    status: string;
+    taskId: string;
+    recordId: string;
   };
 }
 
@@ -51,7 +51,7 @@ export interface NanoBananaCallbackRequest {
     costTime?: number;             // 耗时(秒)
     
     // 成功时的数据
-    result?: NanoBananaResponse;   // 成功时的结果
+    resultJson?: string;           // 结果JSON字符串，包含 resultUrls 数组
     
     // 失败时的数据
     failCode?: string;             // 失败代码
@@ -60,6 +60,11 @@ export interface NanoBananaCallbackRequest {
     // 其他参数
     param?: string;                // 原始请求参数(JSON字符串)
   };
+}
+
+// 解析 resultJson 的接口
+export interface NanoBananaResultData {
+  resultUrls: string[];           // 生成的图片URL数组
 }
 
 export interface NanoBananaCallbackResponse {
@@ -129,7 +134,7 @@ export class NanoBananaProvider extends BaseAIProvider {
           ultra: 2
         }
       }
-    }, process.env.NANO_BANANa_API_KEY);
+    }, process.env.KIE_AI_API_KEY);
     
     if (!this.apiKey) {
       throw new Error("KIE_AI_API_KEY environment variable is required for Nano Banana");
@@ -140,31 +145,48 @@ export class NanoBananaProvider extends BaseAIProvider {
    * Generate image from text prompt using Nano Banana model
    * Returns task ID for tracking the async generation
    */
-  async generateFromText(request: NanoBananaTextToImageRequest): Promise<{ task_id: string; status: string }> {
+  async generateFromText(request: NanoBananaTextToImageRequest): Promise<{ taskId: string; recordId: string }> {
+    const headers = {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${this.apiKey}`,
+    };
+    
+    const body = {
+      callBackUrl: this.getNanoBananaCallbackUrl(),
+      input: {
+        prompt: request.prompt,
+      },
+      model: "google/nano-banana",
+    };
+
+    // 打印请求头和请求体
+    console.log("🌟 NanoBanana generateFromText Request:");
+    console.log("📋 Headers:", JSON.stringify(headers, null, 2));
+    console.log("📦 Body:", JSON.stringify(body, null, 2));
+    console.log("🔗 URL:", `${this.baseUrl}/api/v1/playground/createTask`);
+
     const response = await fetch(`${this.baseUrl}/api/v1/playground/createTask`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.apiKey}`,
-      },
-      body: JSON.stringify({
-        callBackUrl: this.getNanoBananaCallbackUrl(),
-        input: {
-          prompt: request.prompt,
-        },
-        model: "google/nano-banana",
-      }),
+      headers: headers,
+      body: JSON.stringify(body),
     });
+
+    // 打印响应信息
+    console.log("📨 NanoBanana API Response:");
+    console.log("🔢 Status:", response.status);
+    console.log("✅ OK:", response.ok);
+    console.log("📋 Response Headers:", Object.fromEntries(response.headers.entries()));
 
     if (!response.ok) {
       const errorText = await response.text();
+      console.log("❌ Error Response Body:", errorText);
       throw new Error(`Nano Banana API error: ${response.status} - ${errorText}`);
     }
 
     const apiResponse: NanoBananaApiResponse = await response.json();
     
     // Log the response for debugging
-    console.log('Nano Banana API Response:', JSON.stringify(apiResponse, null, 2));
+    console.log('📦 Nano Banana API Response Body:', JSON.stringify(apiResponse, null, 2));
     
     // Check if the API returned success code
     if (apiResponse.code !== 200) {
@@ -183,7 +205,7 @@ export class NanoBananaProvider extends BaseAIProvider {
    * Edit images using Nano Banana Edit model
    * Returns task ID for tracking the async generation
    */
-  async editImages(request: NanoBananaImageEditRequest): Promise<{ task_id: string; status: string }> {
+  async editImages(request: NanoBananaImageEditRequest): Promise<{ taskId: string; recordId: string }> {
     const response = await fetch(`${this.baseUrl}/api/v1/playground/createTask`, {
       method: "POST", 
       headers: {
@@ -288,12 +310,13 @@ export class NanoBananaProvider extends BaseAIProvider {
       });
 
       return {
-        taskId: result.task_id,
+        taskId: result.taskId,  // 修正字段名：taskId 而不是 task_id
         status: "pending", // Nano Banana 是异步的
         metadata: {
           provider: this.getProvider(),
           model: request.model || "google/nano-banana",
-          apiStatus: result.status,
+          recordId: result.recordId,  // 添加 recordId 到元数据
+          raw_response: result,  // 保存原始响应用于调试
         },
       };
     } catch (error) {
@@ -321,12 +344,13 @@ export class NanoBananaProvider extends BaseAIProvider {
       });
 
       return {
-        taskId: result.task_id,
+        taskId: result.taskId,  // 修正字段名：taskId 而不是 task_id
         status: "pending", // Nano Banana 是异步的
         metadata: {
           provider: this.getProvider(),
           model: request.model || "nano-banana-edit",
-          apiStatus: result.status,
+          recordId: result.recordId,  // 添加 recordId 到元数据
+          raw_response: result,  // 保存原始响应用于调试
         },
       };
     } catch (error) {
@@ -360,11 +384,11 @@ export class NanoBananaProvider extends BaseAIProvider {
    * Handle callback from Nano Banana API
    */
   async handleCallback(callbackData: NanoBananaCallbackRequest): Promise<ProviderResponse> {
-    console.log('🍌 Processing Nano Banana callback:', callbackData);
+    console.log('🍌 Processing Nano Banana callback:', JSON.stringify(callbackData, null, 2));
 
     // 解析回调数据
     const { code, msg, data } = callbackData;
-    const { taskId, state, model, createTime, updateTime, completeTime, costTime, failCode, failMsg, result } = data;
+    const { taskId, state, model, createTime, updateTime, completeTime, costTime, failCode, failMsg, resultJson, param } = data;
 
     // 映射状态到 ProviderResponse 支持的状态
     const mapStatus = (state: string, code: number): "pending" | "processing" | "completed" | "failed" => {
@@ -405,29 +429,60 @@ export class NanoBananaProvider extends BaseAIProvider {
         update_time: new Date(updateTime).toISOString(),
         complete_time: completeTime ? new Date(completeTime).toISOString() : undefined,
         cost_time_seconds: costTime,
+        original_param: param,
       },
     };
 
-    if (mappedStatus === "completed" && result) {
-      // 处理成功的回调
-      const images: ProviderImageResult[] = result.images.map(img => ({
-        url: img.url,
-        width: img.width,
-        height: img.height,
-        format: img.url.split('.').pop() || 'jpg',
-      }));
+    if (mappedStatus === "completed" && resultJson) {
+      try {
+        // 解析 resultJson 字符串
+        console.log('📦 Parsing resultJson:', resultJson);
+        const resultData: NanoBananaResultData = JSON.parse(resultJson);
+        
+        if (!resultData.resultUrls || !Array.isArray(resultData.resultUrls)) {
+          throw new Error('Invalid resultJson format: resultUrls not found or not an array');
+        }
 
-      return {
-        ...baseResult,
-        status: "completed" as const,
-        images: images,
-        metadata: {
-          ...baseResult.metadata,
-          timings: result.timings,
-          seed: result.seed,
-          has_nsfw_concepts: result.has_nsfw_concepts,
-        },
-      };
+        // 转换为 ProviderImageResult 格式
+        const images: ProviderImageResult[] = resultData.resultUrls.map((url, index) => {
+          // 从URL推断图片格式
+          const urlParts = url.split('.');
+          const format = urlParts[urlParts.length - 1]?.toLowerCase() || 'jpg';
+          
+          return {
+            url: url,
+            width: 1024,  // Nano Banana 默认尺寸，实际可能需要调整
+            height: 1024, // Nano Banana 默认尺寸，实际可能需要调整
+            format: format,
+          };
+        });
+
+        console.log(`✅ Successfully parsed ${images.length} images from callback`);
+        
+        return {
+          ...baseResult,
+          status: "completed" as const,
+          images: images,
+          metadata: {
+            ...baseResult.metadata,
+            result_urls: resultData.resultUrls,
+            image_count: images.length,
+          },
+        };
+      } catch (parseError) {
+        console.error('❌ Failed to parse resultJson:', parseError, 'Raw resultJson:', resultJson);
+        
+        return {
+          ...baseResult,
+          status: "failed" as const,
+          error: `Failed to parse result data: ${parseError instanceof Error ? parseError.message : 'Unknown parse error'}`,
+          metadata: {
+            ...baseResult.metadata,
+            parse_error: parseError instanceof Error ? parseError.message : 'Unknown parse error',
+            raw_result_json: resultJson,
+          },
+        };
+      }
     } else if (mappedStatus === "failed") {
       // 处理失败的回调
       let errorMessage = "Generation failed";
