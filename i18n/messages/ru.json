@@ -25,6 +25,7 @@
     "home": "Главная",
     "image_to_video": "Изображение в видео",
     "text_to_video": "Текст в видео",
+    "image_generation": "Генерация изображений",
     "ai_video_effects": "ИИ видео эффекты",
     "my_creations": "Мои творения",
     "upgrade_now": "Обновить сейчас",
@@ -417,6 +418,30 @@
         "title": "Как использовать этот эффект"
       }
     }
+  },
+  "imageHistory": {
+    "title": "История изображений",
+    "noImagesTitle": "Изображений пока нет",
+    "noImagesDescription": "Ваши сгенерированные изображения появятся здесь после создания.",
+    "completed": "Завершено",
+    "processing": "Обработка",
+    "pending": "В ожидании",
+    "failed": "Ошибка",
+    "generationFailed": "Генерация не удалась",
+    "generatingImage": "Генерация изображения...",
+    "waitingInQueue": "Ожидание в очереди...",
+    "addedToFavorites": "Добавлено в избранное",
+    "removedFromFavorites": "Удалено из избранного",
+    "imageDownloaded": "Изображение скачано",
+    "downloadFailed": "Не удалось скачать изображение",
+    "promptCopied": "Промпт скопирован в буфер обмена",
+    "urlCopied": "URL изображения скопирован в буфер обмена",
+    "copyFailed": "Не удалось скопировать URL изображения",
+    "openInNewTab": "Открыть изображение в новой вкладке",
+    "copyImageUrl": "Скопировать URL изображения",
+    "downloadImage": "Скачать изображение",
+    "copyPrompt": "Скопировать промпт",
+    "credits": "кредитов"
   },
   "effects": {
     "ai-kissing": "AI генератор видео поцелуев",

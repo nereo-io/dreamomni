@@ -25,6 +25,7 @@
     "home": "Home",
     "image_to_video": "Image to Video",
     "text_to_video": "Text to Video",
+    "image_generation": "Image Generation",
     "ai_video_effects": "AI Video Effects",
     "my_creations": "My Creations",
     "upgrade_now": "Upgrade Now",
@@ -367,6 +368,11 @@
       "description": "Use the image to video AI generator of Veo3 AI for free. Convert photos to videos with high-quality and captivating results. Try our image to video AI now!",
       "keywords": "image to video AI, photo to video converter, free image to video, Veo3 AI, AI video from image, image animation"
     },
+    "imageGeneration": {
+      "title": "Free AI Image Generator: Create Stunning Images from Text | Veo3 AI",
+      "description": "Generate high-quality images from text prompts with Veo3 AI's free image generator. Create stunning artwork, photos, and illustrations with cutting-edge AI technology.",
+      "keywords": "AI image generator, text to image, free image generator, Veo3 AI, AI art, image creation, AI artwork"
+    },
     "videoAffects": {
       "heroSection": {
         "title": "Make Anyone Muscular",
@@ -404,6 +410,30 @@
         "title": "How to Use This Effect"
       }
     }
+  },
+  "imageHistory": {
+    "title": "Image History",
+    "noImagesTitle": "No images yet",
+    "noImagesDescription": "Your generated images will appear here once you start creating.",
+    "completed": "Completed",
+    "processing": "Processing",
+    "pending": "Pending",
+    "failed": "Failed",
+    "generationFailed": "Generation failed",
+    "generatingImage": "Generating image...",
+    "waitingInQueue": "Waiting in queue...",
+    "addedToFavorites": "Added to favorites",
+    "removedFromFavorites": "Removed from favorites",
+    "imageDownloaded": "Image downloaded",
+    "downloadFailed": "Failed to download image",
+    "promptCopied": "Prompt copied to clipboard",
+    "urlCopied": "Image URL copied to clipboard",
+    "copyFailed": "Failed to copy image URL",
+    "openInNewTab": "Open image in new tab",
+    "copyImageUrl": "Copy image URL",
+    "downloadImage": "Download image",
+    "copyPrompt": "Copy prompt",
+    "credits": "credits"
   },
   "effects": {
     "ai-kissing": "AI Kissing Video Generator",
