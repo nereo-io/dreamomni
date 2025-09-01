@@ -41,7 +41,7 @@ scripts/node_modules
 scripts
 processed-media
 
-Makefile
+# Makefile
 .wrangler
 wrangler.toml
 supabase
