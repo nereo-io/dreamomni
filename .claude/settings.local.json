@@ -24,7 +24,12 @@
       "Read(/Users/jasper/.claude/**)",
       "Read(/Users/jasper/.claude/**)",
       "Read(/Users/jasper/.claude/**)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Read(/Users/jasper/.claude/**)",
+      "Bash(npx:*)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(npm view:*)",
+      "Bash(npm cache clean:*)"
     ],
     "deny": [],
     "ask": [],
