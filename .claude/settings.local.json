@@ -29,7 +29,9 @@
       "Bash(npx:*)",
       "WebFetch(domain:www.npmjs.com)",
       "Bash(npm view:*)",
-      "Bash(npm cache clean:*)"
+      "Bash(npm cache clean:*)",
+      "Bash(git log:*)",
+      "Bash(echo:*)"
     ],
     "deny": [],
     "ask": [],
@@ -37,9 +39,7 @@
   },
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
-    "supabase",
     "context7",
-    "playwright",
-    "github-chat"
+    "playwright"
   ]
 }

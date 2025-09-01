@@ -398,8 +398,16 @@ export class PayssionProvider extends BasePaymentProvider {
 
     console.log("Subscription created:", subscriptionId, "mandate:", mandateId);
 
+    // 幂等性检查：检查订阅是否已存在
+    const { findSubscriptionByPayssionId, createSubscription } = await import("@/models/subscription");
+    const existingSubscription = await findSubscriptionByPayssionId(subscriptionId);
+    
+    if (existingSubscription) {
+      console.log("✅ Subscription already exists, skipping creation:", subscriptionId);
+      return; // 订阅已存在，直接返回成功（幂等处理）
+    }
+
     // 创建订阅记录 - 初始状态为 pending，等待首次支付成功后激活
-    const { createSubscription } = await import("@/models/subscription");
     await createSubscription({
       user_uuid: metadata.user_uuid,
       mandate_id: mandateId,

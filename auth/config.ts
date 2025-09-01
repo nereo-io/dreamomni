@@ -209,6 +209,17 @@ export const authOptions: NextAuthConfig = {
     signIn: "/auth/signin",
     error: "/auth/error",
   },
+  cookies: {
+    pkceCodeVerifier: {
+      name: "next-auth.pkce.code_verifier",
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  },
   callbacks: {
     async signIn() {
       const isAllowedToSignIn = true;
