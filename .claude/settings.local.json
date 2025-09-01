@@ -19,7 +19,12 @@
       "Read(/Users/jasper/Projects/vms/**)",
       "Read(/Users/jasper/Projects/vms/**)",
       "Read(/Users/jasper/Projects/vms/app/api/video-generations/**)",
-      "Read(/Users/jasper/Projects/vms/app/api/seedance/video-generations/**)"
+      "Read(/Users/jasper/Projects/vms/app/api/seedance/video-generations/**)",
+      "WebFetch(domain:supabase.com)",
+      "Read(/Users/jasper/.claude/**)",
+      "Read(/Users/jasper/.claude/**)",
+      "Read(/Users/jasper/.claude/**)",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [],
     "ask": [],

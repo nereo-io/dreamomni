@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Turnstile } from "@marsidev/react-turnstile";
 import {
   Dialog,
@@ -9,8 +9,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Shield, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface CaptchaModalProps {
   isOpen: boolean;
@@ -25,30 +25,47 @@ export function CaptchaModal({
   onCaptchaComplete,
   isSubmitting = false,
 }: CaptchaModalProps) {
+  const t = useTranslations("captcha");
   const [captchaToken, setCaptchaToken] = useState<string>("");
   const [captchaError, setCaptchaError] = useState<string>("");
+  const [isVerifying, setIsVerifying] = useState<boolean>(false);
 
   const handleCaptchaSuccess = (token: string) => {
     setCaptchaToken(token);
     setCaptchaError("");
+    setIsVerifying(true);
+    
+    // 自动提交，无需用户再点击按钮
+    onCaptchaComplete(token);
   };
 
-  const handleCaptchaError = (error: string) => {
-    setCaptchaError("验证失败，请重试");
+  const handleCaptchaError = () => {
+    setCaptchaError(t("verificationFailed"));
     setCaptchaToken("");
+    setIsVerifying(false);
   };
 
-  const handleSubmit = () => {
-    if (captchaToken) {
-      onCaptchaComplete(captchaToken);
-    }
+  const handleCaptchaExpire = () => {
+    setCaptchaToken("");
+    setCaptchaError(t("verificationExpired"));
+    setIsVerifying(false);
   };
 
   const handleClose = () => {
     setCaptchaToken("");
     setCaptchaError("");
+    setIsVerifying(false);
     onClose();
   };
+
+  // 重置状态当模态框打开时
+  useEffect(() => {
+    if (isOpen) {
+      setCaptchaToken("");
+      setCaptchaError("");
+      setIsVerifying(false);
+    }
+  }, [isOpen]);
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
@@ -56,10 +73,10 @@ export function CaptchaModal({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Shield className="h-5 w-5 text-blue-600" />
-            安全验证
+            {t("title")}
           </DialogTitle>
           <DialogDescription>
-            为了防止滥用，请完成安全验证后继续生成视频
+            {t("description")}
           </DialogDescription>
         </DialogHeader>
 
@@ -70,10 +87,7 @@ export function CaptchaModal({
               siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
               onSuccess={handleCaptchaSuccess}
               onError={handleCaptchaError}
-              onExpire={() => {
-                setCaptchaToken("");
-                setCaptchaError("验证已过期，请重新验证");
-              }}
+              onExpire={handleCaptchaExpire}
               options={{
                 size: "normal",
                 action: "video-generation",
@@ -82,37 +96,27 @@ export function CaptchaModal({
             />
           </div>
 
+          {/* 状态显示 */}
+          {isVerifying && !isSubmitting && (
+            <div className="text-sm text-blue-600 text-center flex items-center justify-center gap-2">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              {t("verifying")}
+            </div>
+          )}
+
+          {isSubmitting && (
+            <div className="text-sm text-green-600 text-center flex items-center justify-center gap-2">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              正在生成视频...
+            </div>
+          )}
+
           {/* 错误提示 */}
           {captchaError && (
             <div className="text-sm text-red-600 text-center">
               {captchaError}
             </div>
           )}
-
-          {/* 按钮组 */}
-          <div className="flex justify-end space-x-2 pt-4">
-            <Button
-              variant="outline"
-              onClick={handleClose}
-              disabled={isSubmitting}
-            >
-              取消
-            </Button>
-            <Button
-              onClick={handleSubmit}
-              disabled={!captchaToken || isSubmitting}
-              className="min-w-24"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  生成中...
-                </>
-              ) : (
-                "开始生成"
-              )}
-            </Button>
-          </div>
         </div>
       </DialogContent>
     </Dialog>

@@ -451,5 +451,12 @@
     "categoryEffectSection": {
       "defaultDescription": "Discover amazing {categoryName} effects for your videos"
     }
+  },
+  "captcha": {
+    "title": "Security Verification",
+    "description": "To prevent abuse, please complete the security verification to continue generating your video",
+    "verifying": "Verifying...",
+    "verificationFailed": "Verification failed, please try again",
+    "verificationExpired": "Verification expired, please verify again"
   }
 }
