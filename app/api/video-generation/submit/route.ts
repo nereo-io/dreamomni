@@ -29,7 +29,6 @@ import {
 import { ProviderFactory } from "@/services/providers";
 import { optimizePromptWithTimeout } from "@/services/promptOptimization";
 import { getEffectConfigById } from "@/models/effectConfig";
-import { checkMembershipStatus } from "@/services/membership";
 
 // 验证Cloudflare Turnstile CAPTCHA
 async function verifyCaptcha(token: string, clientIP: string): Promise<boolean> {
@@ -117,21 +116,20 @@ export async function POST(req: Request) {
       return respErr("model 和 prompt 参数是必需的");
     }
 
-    // 4. 会员状态检查与CAPTCHA验证
-    const membershipStatus = await checkMembershipStatus(userInfo);
-    if (!membershipStatus.isMember) {
-      // 非会员用户需要CAPTCHA验证
+    // 4. 基于积分的CAPTCHA验证（与前端逻辑一致）
+    if (userCredits.left_credits === 10) {
+      // 新用户（积分=10）需要CAPTCHA验证，防止薅羊毛
       if (!captchaToken) {
-        return respErr("CAPTCHA verification is required for non-member users");
+        return respErr("CAPTCHA verification is required for new users");
       }
       
       const captchaValid = await verifyCaptcha(captchaToken, clientIP);
       if (!captchaValid) {
-        console.warn(`CAPTCHA verification failed for non-member user: ${userInfo.uuid}, IP: ${clientIP}`);
+        console.warn(`CAPTCHA verification failed for new user: ${userInfo.uuid}, IP: ${clientIP}, credits: ${userCredits.left_credits}`);
         return respErr("CAPTCHA verification failed. Please try again.");
       }
       
-      console.log(`CAPTCHA verification passed for non-member user: ${userInfo.uuid}`);
+      console.log(`CAPTCHA verification passed for new user: ${userInfo.uuid}, credits: ${userCredits.left_credits}`);
     }
 
     // 处理特效配置
