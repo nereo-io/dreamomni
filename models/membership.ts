@@ -11,13 +11,14 @@ export async function findActiveMembershipByUserUuid(
     .select("*")
     .eq("user_uuid", userUuid)
     .eq("status", "active")
-    .single();
+    .maybeSingle(); // 使用 maybeSingle 避免无数据时的406错误
 
   if (error) {
+    console.error("查询active membership失败:", error);
     return undefined;
   }
 
-  return data;
+  return data || undefined;
 }
 
 // 根据用户UUID查找会员记录(不限制状态)
@@ -29,13 +30,14 @@ export async function findMembershipByUserUuid(
     .from("memberships")
     .select("*")
     .eq("user_uuid", userUuid)
-    .single();
+    .maybeSingle(); // 使用 maybeSingle 避免无数据时的406错误
 
   if (error) {
+    console.error("查询membership失败:", error);
     return undefined;
   }
 
-  return data;
+  return data || undefined;
 }
 
 // 创建新会员记录

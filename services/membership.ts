@@ -9,8 +9,9 @@ import {
   findMembershipByUserUuid,
 } from "@/models/membership";
 import { User } from "@/types/user";
+import membershipCache from "./membershipCache";
 
-// 检查用户的会员状态
+// 检查用户的会员状态（带缓存优化）
 export async function checkMembershipStatus(user: User): Promise<{
   isMember: boolean;
   membership?: Membership;
@@ -20,19 +21,24 @@ export async function checkMembershipStatus(user: User): Promise<{
     return { isMember: false };
   }
 
-  // 先检查并更新过期会员状态
-  await checkAndUpdateMembershipStatus(userUuid);
-
-  // 获取当前有效会员
-  const membership = await findActiveMembershipByUserUuid(userUuid);
-  if (!membership) {
-    return { isMember: false };
+  // 使用缓存获取membership状态
+  const result = await membershipCache.getMembershipStatus(userUuid);
+  
+  // 如果是会员但缓存的数据可能过期，需要检查过期状态
+  if (result.isMember && result.membership) {
+    const now = new Date();
+    const endDate = new Date(result.membership.end_date);
+    
+    // 如果会员已过期，更新状态并清除缓存
+    if (endDate < now) {
+      await checkAndUpdateMembershipStatus(userUuid);
+      membershipCache.clearUserCache(userUuid);
+      // 重新获取更新后的状态
+      return await membershipCache.getMembershipStatus(userUuid);
+    }
   }
 
-  return {
-    isMember: true,
-    membership,
-  };
+  return result;
 }
 
 // 创建或更新会员
@@ -85,6 +91,9 @@ export async function createOrUpdateMembership(
       updated_at: now.toISOString(),
     } as Membership);
   }
+
+  // 会员状态变更后清除缓存
+  membershipCache.clearUserCache(userUuid);
 }
 
 // 获取用户会员历史记录
