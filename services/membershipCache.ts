@@ -13,7 +13,7 @@ interface CacheEntry {
  */
 class MembershipCache {
   private cache = new Map<string, CacheEntry>();
-  private readonly TTL = 5 * 60 * 1000; // 5分钟缓存
+  private readonly TTL = 1 * 60 * 1000; // 1分钟缓存 - 平衡性能和实时性
 
   /**
    * 获取用户membership状态（带缓存）
@@ -55,7 +55,9 @@ class MembershipCache {
    */
   clearUserCache(userUuid: string): void {
     this.cache.delete(userUuid);
+    console.log(`🗑️ Cleared membership cache for user: ${userUuid}`);
   }
+
 
   /**
    * 清理过期缓存条目

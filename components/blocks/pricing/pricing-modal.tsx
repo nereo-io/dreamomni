@@ -26,6 +26,7 @@ import {
 import { useTranslations } from "next-intl";
 import HighlightFeature from "./highlight-feature";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
+import MembershipExistsModal from "@/components/ui/membership-exists-modal";
 
 interface PricingModalProps {
   isOpen: boolean;
@@ -38,7 +39,7 @@ export default function PricingModal({
   onClose,
   pricing,
 }: PricingModalProps) {
-  const { user, setShowSignModal } = useAppContext();
+  const { user, setShowSignModal, membership } = useAppContext();
   const { location, loading: locationLoading, isRussia } = useGeolocation();
   const t = useTranslations("pricing_modal");
   const { trackPricingView, trackCheckoutStart } = useYandexTracking();
@@ -177,7 +178,7 @@ export default function PricingModal({
       }
 
       // Check if user is already a member
-      if (user.is_member) {
+      if (membership && membership.status === 'active') {
         setShowMembershipModal(true);
         return;
       }
@@ -390,7 +391,7 @@ export default function PricingModal({
                               {item.name === "yearly" && (
                                 <Badge
                                   variant="outline"
-                                  className="border-primary bg-primary px-1.5 ml-2 text-primary-foreground"
+                                  className="border-primary bg-primary px-2 py-0.5 ml-2 text-primary-foreground text-xs font-medium"
                                 >
                                   40% OFF
                                 </Badge>
@@ -720,46 +721,19 @@ export default function PricingModal({
           </DialogContent>
       </Dialog>
 
-      {/* Member already exists modal */}
-      <Dialog open={showMembershipModal} onOpenChange={setShowMembershipModal}>
-        <DialogContent className="sm:max-w-md">
-          <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground z-10">
-            <X className="h-4 w-4" />
-            <span className="sr-only">Close</span>
-          </DialogClose>
-          <DialogHeader>
-            <DialogTitle className="text-center">
-              You are already a member
-            </DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="text-center space-y-2">
-              <p className="text-muted-foreground">
-                You already have an active subscription. Would you like to manage your current subscription?
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <Button
-                className="flex-1"
-                onClick={() => {
-                  setShowMembershipModal(false);
-                  onClose();
-                  window.location.href = '/memberships';
-                }}
-              >
-                View Subscription
-              </Button>
-              <Button
-                variant="outline"
-                className="flex-1"
-                onClick={() => setShowMembershipModal(false)}
-              >
-                Cancel
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* 确保会员弹窗不受 pricing-modal 影响 */}
+      {showMembershipModal && (
+        <div className="fixed inset-0 z-[100]">
+          <MembershipExistsModal
+            isOpen={showMembershipModal}
+            onClose={() => setShowMembershipModal(false)}
+            onViewSubscription={() => {
+              onClose();
+              window.location.href = '/memberships';
+            }}
+          />
+        </div>
+      )}
     </>
   );
 }

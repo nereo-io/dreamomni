@@ -11,15 +11,8 @@ export async function GET() {
 
     const result = await checkMembershipStatus(session.user);
     
-    // 添加缓存控制头，减少重复查询
-    const response = respData(result);
-    return new Response(JSON.stringify(response), {
-      headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'private, max-age=300, stale-while-revalidate=600',
-        // 缓存5分钟，过期后10分钟内仍可使用旧数据
-      },
-    });
+    // 会员状态实时性优先 - 移除HTTP缓存避免支付后状态延迟
+    return respData(result);
   } catch (error) {
     console.error("Check membership status failed:", error);
     return respErr("检查会员状态失败");

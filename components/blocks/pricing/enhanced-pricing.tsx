@@ -26,6 +26,7 @@ import {
 } from "@/lib/payment-methods";
 import HighlightFeature from "./highlight-feature";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
+import MembershipExistsModal from "@/components/ui/membership-exists-modal";
 
 interface EnhancedPricingProps {
   pricing: PricingType;
@@ -36,7 +37,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     return null;
   }
 
-  const { user, setShowSignModal } = useAppContext();
+  const { user, setShowSignModal, membership } = useAppContext();
   const { loading: locationLoading, isRussia } = useGeolocation();
   const { trackPricingView, trackCheckoutStart, trackPayment } =
     useYandexTracking();
@@ -185,7 +186,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       }
 
       // Check if user is already a member
-      if (user.is_member) {
+      if (membership && membership.status === 'active') {
         setShowMembershipModal(true);
         return;
       }
@@ -396,7 +397,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                           {item.name === "yearly" && (
                             <Badge
                               variant="outline"
-                              className="border-primary bg-primary px-1.5 ml-2 text-primary-foreground"
+                              className="border-primary bg-primary px-2 py-0.5 ml-2 text-primary-foreground text-xs font-medium"
                             >
                               40% OFF
                             </Badge>
@@ -713,41 +714,15 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         </DialogContent>
       </Dialog>
 
-      {/* Member already exists modal */}
-      <Dialog open={showMembershipModal} onOpenChange={setShowMembershipModal}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-center">
-              You are already a member
-            </DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="text-center space-y-2">
-              <p className="text-muted-foreground">
-                You already have an active subscription. Would you like to manage your current subscription?
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <Button
-                className="flex-1"
-                onClick={() => {
-                  setShowMembershipModal(false);
-                  window.location.href = '/memberships';
-                }}
-              >
-                View Subscription
-              </Button>
-              <Button
-                variant="outline"
-                className="flex-1"
-                onClick={() => setShowMembershipModal(false)}
-              >
-                Cancel
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* 确保会员弹窗不受父容器影响 */}
+      {showMembershipModal && (
+        <div className="fixed inset-0 z-[100]">
+          <MembershipExistsModal
+            isOpen={showMembershipModal}
+            onClose={() => setShowMembershipModal(false)}
+          />
+        </div>
+      )}
     </>
   );
 }
