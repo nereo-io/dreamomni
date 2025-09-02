@@ -1,7 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
-import { findIPLimitByAddress, upsertIPRegistrationCount, countUserRegistrationsByIPAndTime } from "@/models/ipLimit";
+import { findIPLimitByAddress, upsertIPRegistrationCount, countIPRegistrationsSince } from "@/models/ipLimit";
 
 export async function getClientIp() {
   const h = headers();
@@ -21,7 +21,7 @@ const IP_LIMITS = {
 };
 
 /**
- * 检查IP注册限制
+ * 检查IP注册限制（已修复：统一使用ip_registration_limits表统计）
  * @param ip IP地址
  * @returns 检查结果 {allowed: boolean, reason?: string}
  */
@@ -40,17 +40,17 @@ export async function checkIPRegistrationLimit(ip: string): Promise<{allowed: bo
       return { allowed: false, reason: 'IP address is blocked' };
     }
 
-    // 检查24小时内的注册数量
+    // 检查24小时内的注册数量（使用新的统一统计逻辑）
     const last24h = new Date(Date.now() - 24 * 60 * 60 * 1000);
-    const dailyCount = await countUserRegistrationsByIPAndTime(ip, last24h);
+    const dailyCount = await countIPRegistrationsSince(ip, last24h);
 
     if (dailyCount >= IP_LIMITS.DAILY_LIMIT) {
       return { allowed: false, reason: `Too many registrations from this IP today (${dailyCount}/${IP_LIMITS.DAILY_LIMIT})` };
     }
 
-    // 检查1小时内的注册数量
+    // 检查1小时内的注册数量（使用新的统一统计逻辑）
     const lastHour = new Date(Date.now() - 60 * 60 * 1000);
-    const hourlyCount = await countUserRegistrationsByIPAndTime(ip, lastHour);
+    const hourlyCount = await countIPRegistrationsSince(ip, lastHour);
 
     if (hourlyCount >= IP_LIMITS.HOURLY_LIMIT) {
       return { allowed: false, reason: `Too many registrations from this IP in the past hour (${hourlyCount}/${IP_LIMITS.HOURLY_LIMIT})` };

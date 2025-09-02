@@ -50,6 +50,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [selectedProvider, setSelectedProvider] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showMembershipModal, setShowMembershipModal] = useState(false);
   const [successInfo, setSuccessInfo] = useState<{
     planName?: string;
     credits?: number;
@@ -180,6 +181,12 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     try {
       if (!user) {
         setShowSignModal(true);
+        return;
+      }
+
+      // Check if user is already a member
+      if (user.is_member) {
+        setShowMembershipModal(true);
         return;
       }
 
@@ -700,6 +707,42 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                 }}
               >
                 Start Creating
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Member already exists modal */}
+      <Dialog open={showMembershipModal} onOpenChange={setShowMembershipModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center">
+              You are already a member
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="text-center space-y-2">
+              <p className="text-muted-foreground">
+                You already have an active subscription. Would you like to manage your current subscription?
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Button
+                className="flex-1"
+                onClick={() => {
+                  setShowMembershipModal(false);
+                  window.location.href = '/memberships';
+                }}
+              >
+                View Subscription
+              </Button>
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => setShowMembershipModal(false)}
+              >
+                Cancel
               </Button>
             </div>
           </div>
