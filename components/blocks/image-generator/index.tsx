@@ -3,13 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+// Select components removed - using fixed model display
 import { Image, Coins, Wand2, Upload, X, Plus, Zap } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
@@ -55,7 +49,7 @@ export default function ImageGenerator({
   descriptionPlaceholder = "Describe the image you want to create, e.g., A majestic eagle soaring through mountain peaks at golden hour...",
   onModelChange,
 }: ImageGeneratorProps) {
-  const { user, setShowSignModal } = useAppContext();
+  const { user, setShowSignModal, setShowPricingModal } = useAppContext();
   const { leftCredits, updateLeftCredits, setCredits, isLoading: creditsLoading, hasInitialized } = useCredits();
   
   // 页面加载时主动查询积分
@@ -70,15 +64,19 @@ export default function ImageGenerator({
   // State - 支持功能分类和模型选择
   const [prompt, setPrompt] = useState("");
   const [selectedType, setSelectedType] = useState<"text-to-image" | "image-to-image">("text-to-image");
-  const [selectedModel, setSelectedModel] = useState("google/nano-banana");
+    // 固定使用Nano Banana模型
+  const selectedModel = "google/nano-banana";
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [isUploadingImages, setIsUploadingImages] = useState(false);
-  
-  // 获取当前类型的可用模型
-  const currentType = IMAGE_GENERATION_TYPES.find(type => type.id === selectedType);
-  const availableModels = currentType?.models.filter(model => model.available) || [];
-  const currentModel = availableModels.find(model => model.id === selectedModel) || availableModels[0];
+
+  // 固定的Nano Banana模型信息
+  const currentModel = {
+    id: "google/nano-banana",
+    displayName: "Nano Banana",
+    providerDisplayName: "Kie.ai Nano Banana",
+    credits: 2
+  };
   
   // 计算所需积分
   // 图片生成固定消耗2个积分
@@ -108,24 +106,14 @@ export default function ImageGenerator({
       setUploadedImages([]);
       setImageUrls([]);
     }
-    // 自动选择该类型下第一个可用模型
-    const typeConfig = IMAGE_GENERATION_TYPES.find(t => t.id === type);
-    const firstAvailableModel = typeConfig?.models.find(model => model.available);
-    if (firstAvailableModel) {
-      setSelectedModel(firstAvailableModel.id);
-      onModelChange?.(firstAvailableModel.id);
-    }
   };
 
-  // Handle model change
-  const handleModelChange = (model: string) => {
-    // 只允许选择可用的模型
-    const modelInfo = currentType?.models.find(m => m.id === model);
-    if (modelInfo?.available) {
-      setSelectedModel(model);
-      onModelChange?.(model);
+  // 通知父组件当前使用的固定模型
+  useEffect(() => {
+    if (onModelChange) {
+      onModelChange(selectedModel);
     }
-  };
+  }, [onModelChange, selectedModel]);
 
   // Handle image upload
   const handleImageUpload = async (files: FileList) => {
@@ -399,67 +387,40 @@ export default function ImageGenerator({
             </div>
           </div>
 
-          {/* AI Model Selection */}
+          {/* AI Model Display - Fixed to Nano Banana */}
           <div className="mb-4">
             <label className="text-gray-300 text-sm mb-2 block">
               AI Model
             </label>
-            <Select value={selectedModel} onValueChange={handleModelChange}>
-              <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
-                <SelectValue placeholder="Select Model">
-                  {currentModel && (
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 flex-shrink-0 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                        <span className="text-xs font-bold text-white">🍌</span>
-                      </div>
-                      <span className="font-medium">
-                        {currentModel.displayName}
-                      </span>
+            <div className="bg-gray-800 border border-gray-700 rounded-md px-3 py-2">
+              <div className="flex items-center gap-3">
+                <div className="w-5 h-5 flex-shrink-0 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                  <span className="text-sm font-bold text-white">🍌</span>
+                </div>
+                <div className="flex flex-col flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-medium text-gray-100">
+                      Nano Banana
+                    </span>
+                    <div className="flex items-center gap-1 text-xs text-blue-300">
+                      <Coins className="h-3 w-3" />
+                      2 credits
                     </div>
-                  )}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent>
-                {currentType?.models.map((model) => (
-                  <SelectItem key={model.id} value={model.id} disabled={!model.available}>
-                    <div className="flex items-start gap-3 w-full py-1">
-                      <div className="w-5 h-5 flex-shrink-0 mt-0.5 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                        <span className="text-sm font-bold text-white">🍌</span>
-                      </div>
-                      <div className="flex flex-col flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-medium text-gray-100">
-                            {model.displayName}
-                          </span>
-                          <div className="flex items-center gap-1 text-xs text-blue-300">
-                            <Coins className="h-3 w-3" />
-                            2 credits
-                          </div>
-                          {!model.available && (
-                            <span className="text-xs bg-gray-600 text-gray-300 px-1.5 py-0.5 rounded-full">
-                              Coming Soon
-                            </span>
-                          )}
-                        </div>
-                        <span className="text-xs text-gray-400 mb-1 line-clamp-2">
-                          {model.description}
-                        </span>
-                        {model.available && (
-                          <div className="flex flex-wrap gap-1">
-                            <span className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full">
-                              High Quality
-                            </span>
-                            <span className="text-xs px-2 py-0.5 bg-green-500/20 text-green-300 rounded-full">
-                              Fast Generation
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+                  </div>
+                  <span className="text-xs text-gray-400 mb-1">
+                    Advanced AI model for natural language-driven image generation
+                  </span>
+                  <div className="flex flex-wrap gap-1">
+                    <span className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full">
+                      High Quality
+                    </span>
+                    <span className="text-xs px-2 py-0.5 bg-green-500/20 text-green-300 rounded-full">
+                      Fast Generation
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* 注意：Nano Banana API 仅支持 prompt 和 image_urls 参数 */}
@@ -469,38 +430,21 @@ export default function ImageGenerator({
           <div className="bg-gray-800 rounded-lg p-4 mb-4">
             <div className="flex justify-between items-center">
               <div>
-                <div className="text-gray-300 mb-1 flex items-center gap-2">
-                  <span>Credits:</span>
-                  {creditsLoading ? (
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-400"></div>
-                  ) : (
-                    <span className={`font-medium ${
-                      leftCredits !== null && leftCredits >= requiredCredits 
-                        ? 'text-green-400' 
-                        : leftCredits !== null && leftCredits < requiredCredits
-                        ? 'text-red-400'
-                        : 'text-gray-400'
-                    }`}>
-                      {hasInitialized && leftCredits !== null ? leftCredits : "Loading..."}
-                    </span>
-                  )}
+                <div className="text-gray-300 mb-1">
+                  Credits: {leftCredits !== null ? leftCredits : "-"}
                 </div>
-                <div className="text-gray-300 flex items-center gap-1">
-                  <span>Cost:</span>
-                  <span className="text-amber-400 font-medium">2</span>
-                  <Coins className="h-4 w-4 text-amber-400" />
+                <div className="text-gray-300">
+                  Cost: {requiredCredits} ⚡
                 </div>
               </div>
-              {/* 积分状态指示器 */}
-              {hasInitialized && leftCredits !== null && (
-                <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-                  leftCredits >= requiredCredits 
-                    ? 'bg-green-900/20 text-green-400 border border-green-400/20' 
-                    : 'bg-red-900/20 text-red-400 border border-red-400/20'
-                }`}>
-                  {leftCredits >= requiredCredits ? '✓ Sufficient' : '⚠ Insufficient'}
-                </div>
-              )}
+              <Button
+                variant="outline"
+                size="sm"
+                className="bg-transparent border-gray-600 text-gray-300 hover:bg-gray-700"
+                onClick={() => setShowPricingModal(true)}
+              >
+                Recharge
+              </Button>
             </div>
           </div>
         </div>
@@ -510,7 +454,12 @@ export default function ImageGenerator({
       <div className="border-t border-gray-600 bg-gray-900/95 backdrop-blur-sm p-4 md:p-6 mt-auto">
         <Button
           onClick={handleGenerate}
-          disabled={isGenerating || !prompt.trim()}
+          disabled={
+            isGenerating || 
+            !prompt.trim() ||
+            (selectedType === "image-to-image" && imageUrls.length === 0) ||
+            (leftCredits !== null && leftCredits < requiredCredits)
+          }
           className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-h-[44px]"
         >
           {isGenerating ? (

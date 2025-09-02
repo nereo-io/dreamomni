@@ -114,7 +114,7 @@ export class NanoBananaProvider extends BaseAIProvider {
         {
           id: "nano-banana-edit",
           name: "nano-banana-edit",
-          displayName: "Nano Banana Edit",
+          displayName: "Nano Banana",
           provider: "nano_banana",
           type: "image-edit",
           status: "active",

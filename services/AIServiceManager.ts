@@ -45,9 +45,9 @@ const PROVIDER_CONFIGS: Record<AIServiceProvider, AIProviderConfig> = {
         credits: 1
       },
       {
-        id: 'nano-banana-edit',
-        name: 'nano-banana-edit',
-        displayName: 'Nano Banana Edit',
+        id: 'nano-banana',
+        name: 'nano-banana',
+        displayName: 'Nano Banana',
         provider: 'nano_banana',
         type: 'image-edit',
         status: 'active',

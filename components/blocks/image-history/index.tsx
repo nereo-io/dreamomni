@@ -14,7 +14,6 @@ import {
   Loader2,
   Image,
   ExternalLink,
-  Link,
   Trash2
 } from "lucide-react";
 import { toast } from "sonner";
@@ -47,8 +46,67 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
   const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [pollingImages, setPollingImages] = useState<Set<string>>(new Set());
+  const [loadingImages, setLoadingImages] = useState<Set<string>>(new Set());
   const pollingIntervalsRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
   const t = useTranslations("imageHistory");
+
+  // 图片开始加载
+  const handleImageStartLoading = useCallback((imageId: string) => {
+    setLoadingImages(prev => new Set(prev).add(imageId));
+  }, []);
+
+  // 图片加载完成
+  const handleImageLoaded = useCallback((imageId: string) => {
+    setLoadingImages(prev => {
+      const newSet = new Set(prev);
+      newSet.delete(imageId);
+      return newSet;
+    });
+  }, []);
+
+  // 检查是否所有关键内容都已加载完成
+  const checkAllContentLoaded = useCallback(() => {
+    const hasProcessingImages = images.some(img => 
+      img.status === "pending" || 
+      img.status === "processing" || 
+      img.status === "in_progress" || 
+      img.status === "in_queue"
+    );
+
+    // 如果没有处理中的图片，并且没有正在加载的图片，则结束loading
+    if (!hasProcessingImages && loadingImages.size === 0) {
+      setLoading(false);
+    }
+  }, [images, loadingImages]);
+
+  // 监听图片加载状态变化
+  useEffect(() => {
+    checkAllContentLoaded();
+  }, [checkAllContentLoaded]);
+
+  // 等待图片加载完成
+  const waitForImageLoad = (imageUrl: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const img = document.createElement('img');
+      const timeout = setTimeout(() => {
+        reject(new Error('Image load timeout'));
+      }, 5000); // 5秒超时
+
+      img.onload = () => {
+        clearTimeout(timeout);
+        console.log('✅ First image loaded successfully');
+        resolve();
+      };
+
+      img.onerror = () => {
+        clearTimeout(timeout);
+        console.warn('⚠️ First image failed to load, but continuing...');
+        resolve(); // 即使加载失败也继续，不阻塞界面
+      };
+
+      img.src = imageUrl;
+    });
+  };
 
   // Fetch image history
   const fetchHistory = async () => {
@@ -70,6 +128,20 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
         const data = await response.json();
         if (data.code === 0 && Array.isArray(data.data)) {
           setImages(data.data);
+          
+          // 重置加载中的图片集合
+          setLoadingImages(new Set());
+          
+          // 标记所有完成的图片为需要加载
+          const completedImages = data.data.filter((img: ImageGenerationResult) => 
+            (img.status === "completed" || img.status === "saved_to_r2") && img.image_url
+          );
+          
+          if (completedImages.length > 0) {
+            const imageIds = completedImages.map((img: ImageGenerationResult) => img.id);
+            setLoadingImages(new Set(imageIds));
+          }
+          
           // 开始轮询生成中的图片
           startPollingForProcessingImages(data.data);
         } else {
@@ -83,8 +155,8 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
     } catch (error) {
       console.error("Error fetching image history:", error);
       setImages([]);
-    } finally {
-      setLoading(false);
+      setLoadingImages(new Set()); // 清空加载中的图片
+      setLoading(false); // 出错时立即停止loading
     }
   };
 
@@ -254,11 +326,12 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
       console.log("📄 Generated filename:", filename);
 
       // 尝试多种下载方法，确保能下载到本地
+      // 优化顺序：代理方法优先，因为可以绕过CORS限制
       const downloadMethods = [
-        () => downloadWithFetch(imageUrl, filename),
-        () => downloadWithProxy(imageUrl, filename),
-        () => downloadWithDirectLink(imageUrl, filename),
-        () => downloadWithCanvas(imageUrl, filename)
+        () => downloadWithProxy(imageUrl, filename),    // 最可靠：使用代理绕过CORS
+        () => downloadWithCanvas(imageUrl, filename),   // 次选：Canvas方法处理CORS
+        () => downloadWithFetch(imageUrl, filename),    // 第三：直接fetch（可能被CORS阻止）
+        () => downloadWithDirectLink(imageUrl, filename) // 最后：直接链接（CORS限制时无效）
       ];
 
       for (let i = 0; i < downloadMethods.length; i++) {
@@ -278,18 +351,13 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
     } catch (error) {
       console.error("❌ All download methods failed:", error);
       
-      // 最后的备用方案：提供手动下载提示
+      // 显示下载失败的错误信息
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-      toast.error(`自动下载失败，正在打开图片供手动保存`, { duration: 4000 });
-      
-      // 延迟一点再打开，让用户看到错误提示
-      setTimeout(() => {
-        window.open(imageUrl, '_blank', 'noopener,noreferrer');
-      }, 1000);
+      toast.error(`下载失败: ${errorMessage}`, { duration: 4000 });
     }
   };
 
-  // 方法1: 使用 fetch 下载（最可靠的方法）
+  // 方法3: 使用 fetch 下载（可能被CORS阻止）
   const downloadWithFetch = async (imageUrl: string, filename: string) => {
     const response = await fetch(imageUrl, {
       method: 'GET',
@@ -320,35 +388,151 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
     toast.success(`图片已下载: ${filename}`);
   };
 
-  // 方法2: 通过代理下载（避免CORS问题）
+  // 方法1: 通过代理下载（避免CORS问题）
   const downloadWithProxy = async (imageUrl: string, filename: string) => {
-    // 使用 CORS 代理服务
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(imageUrl)}`;
+    console.log("🌐 Attempting proxy download:", imageUrl);
     
-    const response = await fetch(proxyUrl, {
-      method: 'GET',
-      headers: {
-        'Accept': 'image/*',
-      },
-    });
+    // 尝试多个代理服务，提高成功率
+    const proxyServices = [
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(imageUrl)}`,
+      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(imageUrl)}`,
+      `https://cors-anywhere.herokuapp.com/${imageUrl}`,
+      // 添加更多备用代理
+      `https://thingproxy.freeboard.io/fetch/${imageUrl}`,
+      `https://api.proxify.io/?url=${encodeURIComponent(imageUrl)}`
+    ];
 
-    if (!response.ok) {
-      throw new Error(`Proxy fetch failed: ${response.status}`);
+    for (let i = 0; i < proxyServices.length; i++) {
+      try {
+        console.log(`🔄 Trying proxy service ${i + 1}:`, proxyServices[i]);
+        
+        // 添加超时控制
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => {
+          console.warn(`⏰ Proxy service ${i + 1} timeout after 10 seconds`);
+          controller.abort();
+        }, 10000); // 10秒超时
+
+        const response = await fetch(proxyServices[i], {
+          method: 'GET',
+          headers: {
+            'Accept': 'image/*',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+          },
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId); // 清除超时定时器
+        console.log(`📡 Proxy service ${i + 1} response:`, {
+          status: response.status,
+          statusText: response.statusText,
+          ok: response.ok,
+          headers: Object.fromEntries(response.headers.entries())
+        });
+
+        if (!response.ok) {
+          throw new Error(`Proxy ${i + 1} failed: ${response.status}`);
+        }
+
+        const blob = await response.blob();
+        console.log(`📦 Proxy ${i + 1} blob received:`, {
+          size: blob.size,
+          type: blob.type,
+          constructor: blob.constructor.name
+        });
+        
+        if (blob.size === 0) {
+          throw new Error(`Proxy ${i + 1} returned empty image`);
+        }
+
+        console.log(`🎯 About to call forceDownload for proxy ${i + 1}`);
+        
+        // 使用通用强制下载函数
+        try {
+          forceDownload(blob, filename);
+          console.log(`✅ Proxy download successful with service ${i + 1}`);
+          toast.success(`图片已下载: ${filename}`);
+          return;
+        } catch (downloadError) {
+          console.error(`❌ forceDownload failed for proxy ${i + 1}:`, downloadError);
+          console.warn(`⚠️ forceDownload failed for proxy ${i + 1}, trying alternative method:`, downloadError);
+          
+          // 备用下载方法：直接创建临时链接
+          try {
+            const tempUrl = window.URL.createObjectURL(blob);
+            const tempLink = document.createElement('a');
+            tempLink.href = tempUrl;
+            tempLink.download = filename;
+            tempLink.style.display = 'none';
+            
+            document.body.appendChild(tempLink);
+            
+            // 用户交互触发下载（更可靠）
+            setTimeout(() => {
+              tempLink.click();
+              console.log(`✅ Alternative download triggered for proxy ${i + 1}`);
+              toast.success(`图片已下载: ${filename}`);
+              
+              // 清理
+              setTimeout(() => {
+                document.body.removeChild(tempLink);
+                window.URL.revokeObjectURL(tempUrl);
+              }, 1000);
+            }, 100);
+            
+            return;
+          } catch (altError) {
+            console.error(`❌ Alternative download also failed for proxy ${i + 1}:`, altError);
+            
+            // 最终备用：直接创建下载链接并立即点击
+            try {
+              console.log(`🚨 Trying final fallback method for proxy ${i + 1}`);
+              const finalUrl = URL.createObjectURL(blob);
+              const finalLink = document.createElement('a');
+              finalLink.download = filename;
+              finalLink.href = finalUrl;
+              
+              // 直接点击，不添加到DOM
+              finalLink.click();
+              
+              console.log(`✅ Final fallback download triggered for proxy ${i + 1}`);
+              toast.success(`图片已下载: ${filename}`);
+              
+              // 清理
+              setTimeout(() => URL.revokeObjectURL(finalUrl), 1000);
+              return;
+              
+            } catch (finalError) {
+              console.error(`❌ Final fallback also failed for proxy ${i + 1}:`, finalError);
+              throw downloadError; // 抛出原始错误
+            }
+          }
+        }
+        
+      } catch (error) {
+        console.warn(`⚠️ Proxy service ${i + 1} failed:`, error);
+        
+        // 特别处理不同类型的错误
+        if (error instanceof Error) {
+          if (error.name === 'AbortError') {
+            console.warn(`⏰ Proxy service ${i + 1} was aborted due to timeout`);
+          } else if (error.message.includes('Failed to fetch')) {
+            console.warn(`🌐 Network error with proxy service ${i + 1}`);
+          } else {
+            console.warn(`❌ Other error with proxy service ${i + 1}:`, error.message);
+          }
+        }
+        
+        if (i === proxyServices.length - 1) {
+          throw new Error(`All ${proxyServices.length} proxy services failed. Last error: ${error}`);
+        } else {
+          console.log(`🔄 Trying next proxy service (${i + 2}/${proxyServices.length})...`);
+        }
+      }
     }
-
-    const blob = await response.blob();
-    if (blob.size === 0) {
-      throw new Error("Proxy returned empty image");
-    }
-
-    // 使用通用强制下载函数
-    forceDownload(blob, filename);
-
-    console.log("✅ Proxy download successful");
-    toast.success(`图片已下载: ${filename}`);
   };
 
-  // 方法3: 直接链接下载
+  // 方法4: 直接链接下载（CORS限制时无效）
   const downloadWithDirectLink = async (imageUrl: string, filename: string) => {
     return new Promise<void>((resolve, reject) => {
       const a = document.createElement("a");
@@ -399,7 +583,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
     });
   };
 
-  // 方法4: 使用 Canvas 下载（最后备用）
+  // 方法2: 使用 Canvas 下载（处理CORS问题）
   const downloadWithCanvas = async (imageUrl: string, filename: string) => {
     return new Promise<void>((resolve, reject) => {
       const img = document.createElement('img') as HTMLImageElement;
@@ -454,26 +638,52 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
 
   // 强制触发浏览器下载的通用函数
   const forceDownload = (blob: Blob, filename: string) => {
-    const url = window.URL.createObjectURL(blob);
+    console.log("🔽 Starting forceDownload:", {
+      blobSize: blob.size,
+      blobType: blob.type,
+      filename: filename
+    });
     
-    // 创建隐藏的下载链接
+    if (blob.size === 0) {
+      console.error("❌ Blob is empty, cannot download");
+      throw new Error("Empty blob provided for download");
+    }
+    
+    const url = window.URL.createObjectURL(blob);
+    console.log("📦 Created blob URL:", url);
+    
+    // 创建下载链接
     const downloadLink = document.createElement("a");
     downloadLink.href = url;
     downloadLink.download = filename;
     downloadLink.style.cssText = "display: none; position: absolute; top: -9999px; left: -9999px;";
     downloadLink.setAttribute('rel', 'noopener noreferrer');
+    downloadLink.setAttribute('target', '_self');
+    
+    console.log("🔗 Created download link:", {
+      href: downloadLink.href,
+      download: downloadLink.download,
+      target: downloadLink.target
+    });
     
     // 添加到DOM
     document.body.appendChild(downloadLink);
+    console.log("📌 Added link to DOM");
     
-    // 使用多种方式触发下载，确保跨浏览器兼容性
+    // 增强的下载触发函数
     const triggerDownload = () => {
+      let downloadTriggered = false;
+      
       try {
-        // 方法1: 标准点击
+        console.log("🖱️ Attempting standard click...");
         downloadLink.click();
+        downloadTriggered = true;
+        console.log("✅ Standard click successful");
       } catch (clickError) {
+        console.warn("⚠️ Standard click failed:", clickError);
+        
         try {
-          // 方法2: 手动创建点击事件
+          console.log("🖱️ Attempting MouseEvent...");
           const clickEvent = new MouseEvent('click', {
             view: window,
             bubbles: true,
@@ -481,45 +691,91 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
             buttons: 1
           });
           downloadLink.dispatchEvent(clickEvent);
+          downloadTriggered = true;
+          console.log("✅ MouseEvent successful");
         } catch (eventError) {
-          // 方法3: 使用旧式事件创建（IE兼容）
+          console.warn("⚠️ MouseEvent failed:", eventError);
+          
           try {
+            console.log("🖱️ Attempting legacy event...");
             const event = document.createEvent('MouseEvents');
             event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
             downloadLink.dispatchEvent(event);
+            downloadTriggered = true;
+            console.log("✅ Legacy event successful");
           } catch (ieError) {
-            console.error("All download trigger methods failed", ieError);
-            throw new Error("Cannot trigger download");
+            console.error("❌ All click methods failed:", ieError);
+            throw new Error("Cannot trigger download - all click methods failed");
           }
         }
       }
+      
+      if (!downloadTriggered) {
+        throw new Error("Download was not triggered");
+      }
+      
+      return downloadTriggered;
     };
     
-    // 立即触发下载
-    triggerDownload();
+    // 尝试触发下载
+    try {
+      const success = triggerDownload();
+      console.log("🎯 Download trigger result:", success);
+      
+      // 验证下载是否真正开始（检查浏览器下载状态）
+      setTimeout(() => {
+        console.log("🔍 Checking download status after 1 second...");
+        console.log("💡 如果没有看到下载，请检查浏览器是否阻止了自动下载");
+        console.log("💡 Look for download blocked icon in browser address bar");
+      }, 1000);
+      
+    } catch (triggerError) {
+      console.error("❌ Failed to trigger download:", triggerError);
+      throw triggerError;
+    }
     
-    // 延迟再次触发，确保下载开始
+    // 延迟清理资源，确保下载有时间开始
     setTimeout(() => {
       try {
-        triggerDownload();
-      } catch (e) {
-        console.warn("Second download trigger failed:", e);
-      }
-    }, 200);
-    
-    // 清理资源
-    setTimeout(() => {
-      try {
+        console.log("🧹 Cleaning up resources...");
         window.URL.revokeObjectURL(url);
         if (document.body.contains(downloadLink)) {
           document.body.removeChild(downloadLink);
+          console.log("✅ Resources cleaned up");
         }
       } catch (cleanupError) {
-        console.warn("Resource cleanup warning:", cleanupError);
+        console.warn("⚠️ Resource cleanup warning:", cleanupError);
       }
-    }, 3000);
+    }, 5000); // 增加清理延迟到5秒
     
-    console.log("✅ Force download triggered for:", filename);
+    console.log("✅ Force download process completed for:", filename);
+  };
+
+  // 测试下载功能的简化版本
+  const testSimpleDownload = (imageUrl: string, filename: string) => {
+    console.log("🧪 Testing simple download method...");
+    
+    // 创建一个简单的测试用 blob
+    const testText = "This is a test file";
+    const testBlob = new Blob([testText], { type: 'text/plain' });
+    
+    console.log("🧪 Test blob created:", {
+      size: testBlob.size,
+      type: testBlob.type
+    });
+    
+    const url = URL.createObjectURL(testBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'test-download.txt';
+    
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    
+    console.log("🧪 Simple download test completed");
   };
 
   // Copy prompt
@@ -528,20 +784,23 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
     toast.success("Prompt copied to clipboard");
   };
 
-  // Copy image URL
-  const copyImageUrl = async (imageUrl: string) => {
-    try {
-      await navigator.clipboard.writeText(imageUrl);
-      toast.success("Image URL copied to clipboard");
-    } catch (error) {
-      console.error("Copy error:", error);
-      toast.error("Failed to copy image URL");
-    }
-  };
+
 
   // Open image in new tab
   const openImage = (imageUrl: string) => {
     window.open(imageUrl, '_blank', 'noopener,noreferrer');
+  };
+
+  // Format model display name
+  const formatModelDisplayName = (modelName: string): string => {
+    switch (modelName) {
+      case 'google/nano-banana':
+        return 'Text to Image/nano-banana';
+      case 'nano-banana-edit':
+        return 'Image to Image/nano-banana';
+      default:
+        return modelName;
+    }
   };
 
   // Delete image
@@ -759,9 +1018,11 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
                     onToggleFavorite={toggleFavorite}
                     onDownload={downloadImage}
                     onOpen={openImage}
-                    onCopyUrl={copyImageUrl}
                     onCopyPrompt={copyPrompt}
                     getStatusBadge={getStatusBadge}
+                    formatModelDisplayName={formatModelDisplayName}
+                    onImageStartLoading={handleImageStartLoading}
+                    onImageLoaded={handleImageLoaded}
                   />
                 );
               })}
@@ -782,9 +1043,11 @@ interface MasonryImageCardProps {
   onToggleFavorite: (id: string) => void;
   onDownload: (imageUrl: string, prompt: string) => void;
   onOpen: (imageUrl: string) => void;
-  onCopyUrl: (imageUrl: string) => void;
   onCopyPrompt: (prompt: string) => void;
   getStatusBadge: (status: string) => JSX.Element;
+  formatModelDisplayName: (modelName: string) => string;
+  onImageStartLoading?: (imageId: string) => void;
+  onImageLoaded?: (imageId: string) => void;
 }
 
 const MasonryImageCard = ({ 
@@ -795,9 +1058,11 @@ const MasonryImageCard = ({
   onToggleFavorite, 
   onDownload, 
   onOpen, 
-  onCopyUrl, 
   onCopyPrompt,
-  getStatusBadge 
+  getStatusBadge,
+  formatModelDisplayName,
+  onImageStartLoading,
+  onImageLoaded
 }: MasonryImageCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [naturalDimensions, setNaturalDimensions] = useState<{ width: number; height: number } | null>(null);
@@ -816,7 +1081,17 @@ const MasonryImageCard = ({
       height: img.naturalHeight
     });
     setImageLoaded(true);
+    
+    // 通知父组件图片加载完成
+    onImageLoaded?.(image.id);
   };
+
+  // 在组件挂载时，如果有图片URL，通知开始加载
+  useEffect(() => {
+    if ((image.status === "completed" || image.status === "saved_to_r2") && image.image_url && !imageLoaded) {
+      onImageStartLoading?.(image.id);
+    }
+  }, [image.id, image.status, image.image_url, imageLoaded, onImageStartLoading]);
 
   return (
     <div className="break-inside-avoid mb-4">
@@ -871,17 +1146,7 @@ const MasonryImageCard = ({
                 >
                   <ExternalLink className="h-4 w-4" />
                 </Button>
-                <Button
-                  size="sm"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onCopyUrl(image.image_url!);
-                  }}
-                  className="bg-white/90 text-black hover:bg-white shadow-lg backdrop-blur-sm"
-                  title="Copy image URL"
-                >
-                  <Link className="h-4 w-4" />
-                </Button>
+
                 <Button
                   size="sm"
                   onClick={(e) => {
@@ -978,7 +1243,7 @@ const MasonryImageCard = ({
               <span>{image.credits_used} credits</span>
             </div>
             <div className="flex items-center gap-2 text-gray-500">
-              <span>{image.model}</span>
+              <span>{formatModelDisplayName(image.model)}</span>
               {image.aspect_ratio && <span>•</span>}
               {image.aspect_ratio && <span>{image.aspect_ratio}</span>}
               {image.quality && <span>•</span>}
@@ -990,3 +1255,4 @@ const MasonryImageCard = ({
     </div>
   );
 };
+

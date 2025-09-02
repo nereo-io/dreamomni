@@ -125,9 +125,9 @@ export const IMAGE_GENERATION_TYPES: AIProviderType[] = [
     description: "Edit and transform existing images",
     models: [
       {
-        id: "nano-banana-edit",
-        name: "nano-banana-edit",
-        displayName: "Nano Banana Edit",
+        id: "nano-banana",
+        name: "nano-banana",
+        displayName: "Nano Banana",
         provider: "nano_banana",
         providerDisplayName: "Kie.ai Nano Banana",
         credits: 2,
