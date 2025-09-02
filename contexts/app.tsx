@@ -7,12 +7,10 @@ import {
   useEffect,
   useState,
 } from "react";
-import { cacheGet, cacheRemove } from "@/lib/cache";
-
-import { CacheKey } from "@/services/constant";
+// import { cacheRemove } from "@/lib/cache";
+// import { CacheKey } from "@/services/constant";
 import { ContextValue } from "@/types/context";
 import { User } from "@/types/user";
-import moment from "moment";
 import useOneTapLogin from "@/hooks/useOneTapLogin";
 import useMembership from "@/hooks/useMembership";
 import useCredits from "@/hooks/useCredits";
@@ -66,24 +64,29 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
       }
 
       setUser(data);
-      updateInvite(data);
+      // updateInvite(data);
       updateLeftCredits();
+
+      // 获取会员状态（只在用户信息获取成功后获取一次）
+      if (data?.uuid) {
+        refreshMembership();
+      }
     } catch (e) {
       console.log("fetch user info failed");
     }
   };
 
   // 邀请功能已禁用以防止薅羊毛行为
-  const updateInvite = async (user: User) => {
-    try {
-      console.log("Invite feature disabled, skipping invite update");
-      // 清理可能存在的邀请码缓存
-      cacheRemove(CacheKey.InviteCode);
-      return;
-    } catch (e) {
-      console.log("update invite cleanup failed: ", e);
-    }
-  };
+  // const updateInvite = async (_user: User) => {
+  //   try {
+  //     console.log("Invite feature disabled, skipping invite update");
+  //     // 清理可能存在的邀请码缓存
+  //     cacheRemove(CacheKey.InviteCode);
+  //     return;
+  //   } catch (e) {
+  //     console.log("update invite cleanup failed: ", e);
+  //   }
+  // };
 
   /* 
   已注释的原始邀请处理逻辑：
@@ -146,13 +149,6 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
       fetchUserInfo();
     }
   }, [session]);
-
-  // 当用户登录状态改变时，刷新会员状态
-  useEffect(() => {
-    if (user?.uuid) {
-      refreshMembership();
-    }
-  }, [user?.uuid]);
 
   // 获取 pricing 数据
   useEffect(() => {
