@@ -764,14 +764,10 @@ export default function VideoGenerator({
                         if (!supportedDurations.includes(currentDuration)) {
                           setSelectedDuration(`${supportedDurations[0]}s`);
                         }
-                        // 检查并更新分辨率
+                        // 检查并更新分辨率 - 始终重置为默认值
                         const supportedResolutions =
                           newModel.supportedResolutions || ["480p", "1080p"];
-                        if (
-                          !supportedResolutions.includes(selectedResolution)
-                        ) {
-                          setSelectedResolution(supportedResolutions[0]);
-                        }
+                        setSelectedResolution(supportedResolutions[0]);
                       }
                     }}
                   >
