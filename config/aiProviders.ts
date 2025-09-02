@@ -71,7 +71,7 @@ export const IMAGE_GENERATION_TYPES: AIProviderType[] = [
         displayName: "Nano Banana",
         provider: "nano_banana",
         providerDisplayName: "Kie.ai Nano Banana",
-        credits: 1,
+        credits: 2,
         description: "Advanced AI model for natural language-driven image generation",
         available: true,
         features: ["high-quality", "fast-generation"],

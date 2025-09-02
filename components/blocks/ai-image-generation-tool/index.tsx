@@ -124,23 +124,10 @@ export function ImageGenerationTool({
     // Immediately show the new image in the history
     setNewImage(newImageObj);
     
-    // Auto copy image URL to clipboard
-    try {
-      await navigator.clipboard.writeText(imageUrl || "");
-      toast.success(`Image generated! URL: ${imageUrl}`, {
-        duration: 5000,
-      });
-    } catch (error) {
-      console.error("Failed to copy URL:", error);
-      toast.success(`Image generated! URL: ${imageUrl}`, {
-        duration: 5000,
-      });
-    }
-    
-    // Auto open image in new tab
-    setTimeout(() => {
-      window.open(imageUrl, '_blank', 'noopener,noreferrer');
-    }, 500);
+    // Show completion notification
+    toast.success("图片生成完成！", {
+      duration: 3000,
+    });
   };
 
   // Handle asynchronous generation with polling
@@ -216,23 +203,11 @@ export function ImageGenerationTool({
         setNewImage(completedImageObj);
         
         if (result.image_url) {
-          // Auto copy and open as before
-          try {
-            await navigator.clipboard.writeText(result.image_url);
-            toast.success(`Image generated! URL: ${result.image_url}`, {
-              duration: 5000,
-            });
-          } catch (error) {
-            toast.success(`Image generated! URL: ${result.image_url}`, {
-              duration: 5000,
-            });
-          }
-          
-          setTimeout(() => {
-            window.open(result.image_url!, '_blank', 'noopener,noreferrer');
-          }, 500);
+          toast.success("图片生成完成！", {
+            duration: 3000,
+          });
         } else {
-          toast.success("Image generation completed!");
+          toast.success("图片生成完成，但未找到图片URL");
         }
         
         // Refresh history after completion

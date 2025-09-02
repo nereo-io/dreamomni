@@ -175,7 +175,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
           
           // 如果图片成功生成，显示通知
           if (updatedImage.status === "completed" && updatedImage.image_url) {
-            toast.success(`图片生成完成: ${updatedImage.image_url}`, { duration: 5000 });
+            toast.success("图片生成完成！", { duration: 3000 });
           } else if (updatedImage.status === "failed") {
             toast.error(`图片生成失败: ${updatedImage.error_message || "未知错误"}`);
           }
@@ -228,24 +228,298 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
     saveFavorites(newFavorites);
   };
 
-  // Download image
+  // Download image to local file system
   const downloadImage = async (imageUrl: string, prompt: string) => {
     try {
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `image-${prompt.slice(0, 30).replace(/[^a-z0-9]/gi, "-")}.jpg`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-      toast.success("Image downloaded");
+      console.log("🔽 Starting image download:", imageUrl);
+      
+      // 验证URL
+      if (!imageUrl || typeof imageUrl !== 'string') {
+        throw new Error("Invalid image URL provided");
+      }
+
+      // 获取图片文件扩展名
+      const urlParts = imageUrl.split('.');
+      const extension = urlParts[urlParts.length - 1]?.split('?')[0]?.toLowerCase() || 'jpg';
+      const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+      const fileExtension = validExtensions.includes(extension) ? extension : 'jpg';
+
+      // 生成安全的文件名
+      const safePrompt = prompt.slice(0, 30).replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, "-");
+      const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, "");
+      const filename = `image-${safePrompt}-${timestamp}.${fileExtension}`;
+      
+      console.log("📝 Image URL:", imageUrl);
+      console.log("📁 File extension:", fileExtension);
+      console.log("📄 Generated filename:", filename);
+
+      // 尝试多种下载方法，确保能下载到本地
+      const downloadMethods = [
+        () => downloadWithFetch(imageUrl, filename),
+        () => downloadWithProxy(imageUrl, filename),
+        () => downloadWithDirectLink(imageUrl, filename),
+        () => downloadWithCanvas(imageUrl, filename)
+      ];
+
+      for (let i = 0; i < downloadMethods.length; i++) {
+        try {
+          await downloadMethods[i]();
+          console.log(`✅ Download successful with method ${i + 1}`);
+          return;
+        } catch (error) {
+          console.warn(`⚠️ Download method ${i + 1} failed:`, error);
+          if (i === downloadMethods.length - 1) {
+            // 所有方法都失败了，提供手动下载选项
+            throw error;
+          }
+        }
+      }
+      
     } catch (error) {
-      console.error("Download error:", error);
-      toast.error("Failed to download image");
+      console.error("❌ All download methods failed:", error);
+      
+      // 最后的备用方案：提供手动下载提示
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      toast.error(`自动下载失败，正在打开图片供手动保存`, { duration: 4000 });
+      
+      // 延迟一点再打开，让用户看到错误提示
+      setTimeout(() => {
+        window.open(imageUrl, '_blank', 'noopener,noreferrer');
+      }, 1000);
     }
+  };
+
+  // 方法1: 使用 fetch 下载（最可靠的方法）
+  const downloadWithFetch = async (imageUrl: string, filename: string) => {
+    const response = await fetch(imageUrl, {
+      method: 'GET',
+      headers: {
+        'Accept': 'image/*',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+      },
+      mode: 'cors',
+    });
+
+    console.log("📡 Fetch response status:", response.status);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch image: ${response.status} ${response.statusText}`);
+    }
+
+    const blob = await response.blob();
+    console.log("📦 Blob size:", blob.size, "bytes");
+
+    if (blob.size === 0) {
+      throw new Error("Downloaded image is empty");
+    }
+
+    // 使用通用强制下载函数
+    forceDownload(blob, filename);
+
+    console.log("✅ Fetch download successful");
+    toast.success(`图片已下载: ${filename}`);
+  };
+
+  // 方法2: 通过代理下载（避免CORS问题）
+  const downloadWithProxy = async (imageUrl: string, filename: string) => {
+    // 使用 CORS 代理服务
+    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(imageUrl)}`;
+    
+    const response = await fetch(proxyUrl, {
+      method: 'GET',
+      headers: {
+        'Accept': 'image/*',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Proxy fetch failed: ${response.status}`);
+    }
+
+    const blob = await response.blob();
+    if (blob.size === 0) {
+      throw new Error("Proxy returned empty image");
+    }
+
+    // 使用通用强制下载函数
+    forceDownload(blob, filename);
+
+    console.log("✅ Proxy download successful");
+    toast.success(`图片已下载: ${filename}`);
+  };
+
+  // 方法3: 直接链接下载
+  const downloadWithDirectLink = async (imageUrl: string, filename: string) => {
+    return new Promise<void>((resolve, reject) => {
+      const a = document.createElement("a");
+      a.href = imageUrl;
+      a.download = filename;
+      a.style.cssText = "display: none; position: absolute; top: -9999px;";
+      a.setAttribute('rel', 'noopener noreferrer');
+      
+      document.body.appendChild(a);
+      
+      // 尝试多种点击方式确保下载触发
+      try {
+        // 方法1: 程序化点击
+        a.click();
+      } catch (e) {
+        // 方法2: 事件分发
+        const clickEvent = new MouseEvent('click', {
+          view: window,
+          bubbles: true,
+          cancelable: true,
+          buttons: 1
+        });
+        a.dispatchEvent(clickEvent);
+      }
+      
+      // 再次尝试确保下载
+      setTimeout(() => {
+        try {
+          const secondClickEvent = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true
+          });
+          a.dispatchEvent(secondClickEvent);
+        } catch (e) {
+          console.warn("Second click attempt failed:", e);
+        }
+      }, 100);
+      
+      setTimeout(() => {
+        if (document.body.contains(a)) {
+          document.body.removeChild(a);
+        }
+        console.log("✅ Direct link download triggered");
+        toast.success(`图片下载已开始: ${filename}`);
+        resolve();
+      }, 1000);
+    });
+  };
+
+  // 方法4: 使用 Canvas 下载（最后备用）
+  const downloadWithCanvas = async (imageUrl: string, filename: string) => {
+    return new Promise<void>((resolve, reject) => {
+      const img = document.createElement('img') as HTMLImageElement;
+      img.crossOrigin = 'anonymous';
+      
+      img.onload = () => {
+        try {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          
+          if (!ctx) {
+            reject(new Error('Canvas context not available'));
+            return;
+          }
+          
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+          
+          // 转换为 blob 并下载
+          canvas.toBlob((blob) => {
+            if (!blob) {
+              reject(new Error('Canvas to blob conversion failed'));
+              return;
+            }
+            
+            // 使用通用强制下载函数
+            forceDownload(blob, filename);
+            
+            console.log("✅ Canvas download successful");
+            toast.success(`图片已下载: ${filename}`);
+            resolve();
+          }, 'image/jpeg', 0.9);
+          
+        } catch (error) {
+          reject(error);
+        }
+      };
+      
+      img.onerror = () => {
+        reject(new Error('Failed to load image for canvas download'));
+      };
+      
+      img.src = imageUrl;
+      
+      // 超时处理
+      setTimeout(() => {
+        reject(new Error('Canvas download timeout'));
+      }, 10000);
+    });
+  };
+
+  // 强制触发浏览器下载的通用函数
+  const forceDownload = (blob: Blob, filename: string) => {
+    const url = window.URL.createObjectURL(blob);
+    
+    // 创建隐藏的下载链接
+    const downloadLink = document.createElement("a");
+    downloadLink.href = url;
+    downloadLink.download = filename;
+    downloadLink.style.cssText = "display: none; position: absolute; top: -9999px; left: -9999px;";
+    downloadLink.setAttribute('rel', 'noopener noreferrer');
+    
+    // 添加到DOM
+    document.body.appendChild(downloadLink);
+    
+    // 使用多种方式触发下载，确保跨浏览器兼容性
+    const triggerDownload = () => {
+      try {
+        // 方法1: 标准点击
+        downloadLink.click();
+      } catch (clickError) {
+        try {
+          // 方法2: 手动创建点击事件
+          const clickEvent = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true,
+            buttons: 1
+          });
+          downloadLink.dispatchEvent(clickEvent);
+        } catch (eventError) {
+          // 方法3: 使用旧式事件创建（IE兼容）
+          try {
+            const event = document.createEvent('MouseEvents');
+            event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+            downloadLink.dispatchEvent(event);
+          } catch (ieError) {
+            console.error("All download trigger methods failed", ieError);
+            throw new Error("Cannot trigger download");
+          }
+        }
+      }
+    };
+    
+    // 立即触发下载
+    triggerDownload();
+    
+    // 延迟再次触发，确保下载开始
+    setTimeout(() => {
+      try {
+        triggerDownload();
+      } catch (e) {
+        console.warn("Second download trigger failed:", e);
+      }
+    }, 200);
+    
+    // 清理资源
+    setTimeout(() => {
+      try {
+        window.URL.revokeObjectURL(url);
+        if (document.body.contains(downloadLink)) {
+          document.body.removeChild(downloadLink);
+        }
+      } catch (cleanupError) {
+        console.warn("Resource cleanup warning:", cleanupError);
+      }
+    }, 3000);
+    
+    console.log("✅ Force download triggered for:", filename);
   };
 
   // Copy prompt
@@ -464,171 +738,255 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
         </div>
       ) : (
         <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
-          <div className="divide-y divide-gray-700">
-            {images.map((image) => {
-              // Debug: log image data
-              console.log('Rendering image:', {
-                id: image.id,
-                status: image.status,
-                prompt: image.prompt?.slice(0, 50) + '...',
-                hasImage: !!image.image_url
-              });
-              
-              return (
-                <div key={image.id} className="p-5 space-y-4">
-                {/* Header: Status + Prompt + Timestamp */}
-                <div className="flex justify-between items-start gap-3">
-                  <div className="flex items-start gap-3 flex-1">
-                    {getStatusBadge(image.status)}
-                    <p className="text-base font-bold text-white leading-relaxed flex-1 line-clamp-2">
-                      {image.prompt}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {/* Delete button - always show */}
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => deleteImage(image.id, image.prompt)}
-                      className="text-red-400 hover:text-red-600 bg-red-50/10 hover:bg-red-50/20"
-                      title="Delete image"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => toggleFavorite(image.id)}
-                      className="text-gray-400 hover:text-red-400"
-                      title="Add to favorites"
-                    >
-                      <Heart
-                        className={`h-4 w-4 ${
-                          favorites.has(image.id) ? "fill-red-400 text-red-400" : ""
-                        }`}
-                      />
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Image Preview */}
-                {(image.status === "completed" || image.status === "saved_to_r2") && image.image_url && (
-                  <div className="relative group">
-                    <img
-                      src={image.image_url}
-                      alt={image.prompt}
-                      className="w-full h-48 object-cover rounded-lg cursor-pointer"
-                      onClick={() => openImage(image.image_url!)}
-                    />
-                    
-                    {/* Download button - always visible on image */}
-                    <div className="absolute top-2 right-2">
-                      <Button
-                        size="sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          downloadImage(image.image_url!, image.prompt);
-                        }}
-                        className="bg-black/80 text-white hover:bg-black backdrop-blur-sm border-0 h-8 w-8 p-0 shadow-lg"
-                        title="Download image"
-                      >
-                        <Download className="h-4 w-4" />
-                      </Button>
-                    </div>
-
-                    {/* Hover overlay with additional actions */}
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-200 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100">
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            openImage(image.image_url!);
-                          }}
-                          className="bg-white/90 text-black hover:bg-white"
-                          title="Open image in new tab"
-                        >
-                          <ExternalLink className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            copyImageUrl(image.image_url!);
-                          }}
-                          className="bg-white/90 text-black hover:bg-white"
-                          title="Copy image URL"
-                        >
-                          <Link className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            copyPrompt(image.prompt);
-                          }}
-                          className="bg-white/90 text-black hover:bg-white"
-                          title="Copy prompt"
-                        >
-                          <Copy className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Processing State */}
-                {(image.status === "processing" || image.status === "pending" || image.status === "in_progress" || image.status === "in_queue") && (
-                  <div className="h-48 bg-gray-700 rounded-lg flex items-center justify-center relative">
-                    <div className="text-center">
-                      <Loader2 className="h-8 w-8 animate-spin text-gray-400 mx-auto mb-2" />
-                      <p className="text-sm text-gray-400">
-                        {(image.status === "processing" || image.status === "in_progress") ? "Generating image..." : "Waiting in queue..."}
-                      </p>
-                      {pollingImages.has(image.id) && (
-                        <div className="flex items-center justify-center mt-2">
-                          <div className="h-1 w-1 bg-blue-400 rounded-full animate-pulse mx-1"></div>
-                          <div className="h-1 w-1 bg-blue-400 rounded-full animate-pulse mx-1 animation-delay-200"></div>
-                          <div className="h-1 w-1 bg-blue-400 rounded-full animate-pulse mx-1 animation-delay-400"></div>
-                          <span className="text-xs text-blue-400 ml-2">Auto-refreshing</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Error State */}
-                {image.status === "failed" && (
-                  <div className="h-48 bg-red-900/20 border border-red-700 rounded-lg flex items-center justify-center">
-                    <div className="text-center p-4">
-                      <XCircle className="h-8 w-8 text-red-400 mx-auto mb-2" />
-                      <p className="text-sm text-red-400 mb-1">Generation failed</p>
-                      {image.error_message && (
-                        <p className="text-xs text-red-300">{image.error_message}</p>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Metadata */}
-                <div className="flex items-center justify-between text-xs text-gray-400">
-                  <div className="flex items-center gap-4">
-                    <span>{formatDistanceToNow(new Date(image.created_at), { addSuffix: true })}</span>
-                    <span>{image.model}</span>
-                    <span>{image.aspect_ratio}</span>
-                    <span>{image.quality}</span>
-                    {image.style && image.style !== "auto" && <span>{image.style}</span>}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span>{image.credits_used} credits</span>
-                  </div>
-                </div>
-              </div>
-              );
-            })}
+          {/* Responsive Masonry Grid */}
+          <div className="p-4">
+            <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4">
+              {images.map((image) => {
+                console.log('Rendering image:', {
+                  id: image.id,
+                  status: image.status,
+                  prompt: image.prompt?.slice(0, 50) + '...',
+                  hasImage: !!image.image_url
+                });
+                
+                return (
+                  <MasonryImageCard 
+                    key={image.id}
+                    image={image}
+                    pollingImages={pollingImages}
+                    favorites={favorites}
+                    onDelete={deleteImage}
+                    onToggleFavorite={toggleFavorite}
+                    onDownload={downloadImage}
+                    onOpen={openImage}
+                    onCopyUrl={copyImageUrl}
+                    onCopyPrompt={copyPrompt}
+                    getStatusBadge={getStatusBadge}
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
       )}
     </div>
   );
 }
+
+// Masonry Image Card Component
+interface MasonryImageCardProps {
+  image: ImageGenerationResult;
+  pollingImages: Set<string>;
+  favorites: Set<string>;
+  onDelete: (id: string, prompt: string) => void;
+  onToggleFavorite: (id: string) => void;
+  onDownload: (imageUrl: string, prompt: string) => void;
+  onOpen: (imageUrl: string) => void;
+  onCopyUrl: (imageUrl: string) => void;
+  onCopyPrompt: (prompt: string) => void;
+  getStatusBadge: (status: string) => JSX.Element;
+}
+
+const MasonryImageCard = ({ 
+  image, 
+  pollingImages, 
+  favorites, 
+  onDelete, 
+  onToggleFavorite, 
+  onDownload, 
+  onOpen, 
+  onCopyUrl, 
+  onCopyPrompt,
+  getStatusBadge 
+}: MasonryImageCardProps) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [naturalDimensions, setNaturalDimensions] = useState<{ width: number; height: number } | null>(null);
+
+  // Calculate aspect ratio for responsive sizing
+  const getImageHeight = () => {
+    if (!naturalDimensions) return 'auto';
+    const aspectRatio = naturalDimensions.height / naturalDimensions.width;
+    return aspectRatio;
+  };
+
+  const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = event.target as HTMLImageElement;
+    setNaturalDimensions({
+      width: img.naturalWidth,
+      height: img.naturalHeight
+    });
+    setImageLoaded(true);
+  };
+
+  return (
+    <div className="break-inside-avoid mb-4">
+      <div className="bg-gray-700/50 rounded-xl overflow-hidden hover:bg-gray-700/70 transition-all duration-200 hover:shadow-lg hover:shadow-black/20">
+        
+        {/* Image Preview */}
+        {(image.status === "completed" || image.status === "saved_to_r2") && image.image_url && (
+          <div className="relative group">
+            <img
+              src={image.image_url}
+              alt={image.prompt}
+              className={`w-full object-cover cursor-pointer transition-opacity duration-300 ${
+                imageLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
+              style={{
+                aspectRatio: naturalDimensions ? `${naturalDimensions.width}/${naturalDimensions.height}` : '1/1'
+              }}
+              onClick={() => onOpen(image.image_url!)}
+              onLoad={handleImageLoad}
+              loading="lazy"
+            />
+            
+            {/* Loading placeholder */}
+            {!imageLoaded && (
+              <div className="absolute inset-0 bg-gray-600 animate-pulse flex items-center justify-center">
+                <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
+              </div>
+            )}
+            
+            {/* Hover overlay with actions */}
+            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDownload(image.image_url!, image.prompt);
+                  }}
+                  className="bg-white/90 text-black hover:bg-white shadow-lg backdrop-blur-sm"
+                  title="Download image"
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onOpen(image.image_url!);
+                  }}
+                  className="bg-white/90 text-black hover:bg-white shadow-lg backdrop-blur-sm"
+                  title="Open image in new tab"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onCopyUrl(image.image_url!);
+                  }}
+                  className="bg-white/90 text-black hover:bg-white shadow-lg backdrop-blur-sm"
+                  title="Copy image URL"
+                >
+                  <Link className="h-4 w-4" />
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onCopyPrompt(image.prompt);
+                  }}
+                  className="bg-white/90 text-black hover:bg-white shadow-lg backdrop-blur-sm"
+                  title="Copy prompt"
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Processing State */}
+        {(image.status === "processing" || image.status === "pending" || image.status === "in_progress" || image.status === "in_queue") && (
+          <div className="aspect-square bg-gray-600 flex items-center justify-center relative">
+            <div className="text-center">
+              <Loader2 className="h-8 w-8 animate-spin text-gray-300 mx-auto mb-2" />
+              <p className="text-sm text-gray-300">
+                {(image.status === "processing" || image.status === "in_progress") ? "Generating..." : "In queue..."}
+              </p>
+              {pollingImages.has(image.id) && (
+                <div className="flex items-center justify-center mt-2">
+                  <div className="flex space-x-1">
+                    <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse"></div>
+                    <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                    <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+                  </div>
+                  <span className="text-xs text-blue-400 ml-2">Auto-refreshing</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Failed State */}
+        {image.status === "failed" && (
+          <div className="aspect-square bg-red-900/20 border border-red-700/50 flex items-center justify-center">
+            <div className="text-center p-4">
+              <XCircle className="h-8 w-8 text-red-400 mx-auto mb-2" />
+              <p className="text-sm text-red-400 mb-1">Generation failed</p>
+              {image.error_message && (
+                <p className="text-xs text-red-300 line-clamp-2">{image.error_message}</p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Content Section */}
+        <div className="p-4 space-y-3">
+          {/* Status Badge and Actions */}
+          <div className="flex justify-between items-start gap-2">
+            {getStatusBadge(image.status)}
+            <div className="flex items-center gap-1">
+              {/* Delete button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onDelete(image.id, image.prompt)}
+                className="text-red-400 hover:text-red-600 bg-red-50/10 hover:bg-red-50/20 h-7 w-7 p-0"
+                title="Delete image"
+              >
+                <Trash2 className="h-3 w-3" />
+              </Button>
+              {/* Favorite button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onToggleFavorite(image.id)}
+                className="text-gray-400 hover:text-red-400 h-7 w-7 p-0"
+                title="Add to favorites"
+              >
+                <Heart
+                  className={`h-3 w-3 ${
+                    favorites.has(image.id) ? "fill-red-400 text-red-400" : ""
+                  }`}
+                />
+              </Button>
+            </div>
+          </div>
+
+          {/* Prompt */}
+          <p className="text-sm font-medium text-white leading-relaxed line-clamp-3">
+            {image.prompt}
+          </p>
+
+          {/* Metadata */}
+          <div className="text-xs text-gray-400 space-y-1">
+            <div className="flex items-center justify-between">
+              <span>{formatDistanceToNow(new Date(image.created_at), { addSuffix: true })}</span>
+              <span>{image.credits_used} credits</span>
+            </div>
+            <div className="flex items-center gap-2 text-gray-500">
+              <span>{image.model}</span>
+              {image.aspect_ratio && <span>•</span>}
+              {image.aspect_ratio && <span>{image.aspect_ratio}</span>}
+              {image.quality && <span>•</span>}
+              {image.quality && <span>{image.quality}</span>}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

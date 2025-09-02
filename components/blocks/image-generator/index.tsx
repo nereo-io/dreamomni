@@ -18,7 +18,6 @@ import {
   IMAGE_GENERATION_TYPES, 
   getModelById, 
   getProviderByModelId,
-  calculateRequiredCredits,
   type AIModel 
 } from "@/config/aiProviders";
 
@@ -82,7 +81,8 @@ export default function ImageGenerator({
   const currentModel = availableModels.find(model => model.id === selectedModel) || availableModels[0];
   
   // 计算所需积分
-  const requiredCredits = currentModel ? calculateRequiredCredits(currentModel.id, { count: 1 }) : 1;
+  // 图片生成固定消耗2个积分
+  const requiredCredits = 2;
   
   // Refs
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -227,21 +227,20 @@ export default function ImageGenerator({
 
     try {
       await onGenerate(params);
+      console.log("✅ Image generation successful");
       
-      // 直接减少本地积分显示，避免API调用
-      // 生成成功后立即更新本地积分状态
-      if (leftCredits !== null && leftCredits >= requiredCredits) {
-        setCredits(leftCredits - requiredCredits);
-        console.log(`💰 Credits updated locally: ${leftCredits} - ${requiredCredits} = ${leftCredits - requiredCredits}`);
-      } else {
-        // 如果本地积分状态不准确，才调用API刷新
-        setTimeout(() => {
-          updateLeftCredits();
-        }, 1000);
-      }
+      // 生成成功后刷新积分
+      setTimeout(() => {
+        updateLeftCredits();
+      }, 1000);
       
     } catch (error) {
       console.error("Generation error:", error);
+      
+      // 生成失败，刷新积分（后端已处理积分返还）
+      setTimeout(() => {
+        updateLeftCredits();
+      }, 1000);
       
       // 检查是否是用户同步问题
       const errorMessage = error instanceof Error ? error.message : "";
@@ -267,10 +266,12 @@ export default function ImageGenerator({
         } catch (syncError) {
           console.error("❌ Auto sync failed:", syncError);
         }
+        
+        toast.error("Please sign out and sign in again to synchronize your account.");
+      } else {
+        // 显示失败信息
+        toast.error(`Generation failed: ${errorMessage || "Unknown error"}`);
       }
-      
-      // 显示原始错误
-      toast.error(errorMessage || "Generation failed");
     }
   };
 
@@ -302,62 +303,7 @@ export default function ImageGenerator({
             </div>
           </div>
 
-          {/* AI Model Selection - Simplified Dropdown */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-white">AI Model</label>
-            <Select value={selectedModel} onValueChange={handleModelChange}>
-              <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
-                <SelectValue>
-                  {currentModel ? (
-                    <div className="flex items-center justify-between w-full">
-                      <div className="flex flex-col">
-                        <span className="font-medium">{currentModel.displayName}</span>
-                        <span className="text-xs text-gray-400">{currentModel.providerDisplayName}</span>
-                      </div>
-                      <div className="flex items-center gap-1 text-amber-400">
-                        <Coins className="h-3 w-3" />
-                        <span className="text-xs font-medium">{currentModel.credits}</span>
-                      </div>
-                    </div>
-                  ) : (
-                    "Select a model"
-                  )}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent className="bg-gray-800 border-gray-700">
-                {currentType?.models.map((model) => (
-                  <SelectItem 
-                    key={model.id} 
-                    value={model.id} 
-                    disabled={!model.available}
-                    className="text-white hover:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
-                  >
-                    <div className="flex items-center justify-between w-full">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium">{model.displayName}</span>
-                          {!model.available && (
-                            <span className="text-xs bg-gray-600 text-gray-300 px-1.5 py-0.5 rounded-full">
-                              Coming Soon
-                            </span>
-                          )}
-                        </div>
-                        <div className="text-xs text-gray-400 flex items-center gap-1">
-                          <Zap className="h-3 w-3" />
-                          {model.providerDisplayName}
-                        </div>
-                        <div className="text-xs text-gray-500 mt-1">{model.description}</div>
-                      </div>
-                      <div className="flex items-center gap-1 text-amber-400 ml-3">
-                        <Coins className="h-3 w-3" />
-                        <span className="text-xs font-medium">{model.credits}</span>
-                      </div>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+
 
           {/* Image Upload (for image-to-image mode) */}
           {selectedType === "image-to-image" && (
@@ -453,6 +399,69 @@ export default function ImageGenerator({
             </div>
           </div>
 
+          {/* AI Model Selection */}
+          <div className="mb-4">
+            <label className="text-gray-300 text-sm mb-2 block">
+              AI Model
+            </label>
+            <Select value={selectedModel} onValueChange={handleModelChange}>
+              <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                <SelectValue placeholder="Select Model">
+                  {currentModel && (
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 flex-shrink-0 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                        <span className="text-xs font-bold text-white">🍌</span>
+                      </div>
+                      <span className="font-medium">
+                        {currentModel.displayName}
+                      </span>
+                    </div>
+                  )}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                {currentType?.models.map((model) => (
+                  <SelectItem key={model.id} value={model.id} disabled={!model.available}>
+                    <div className="flex items-start gap-3 w-full py-1">
+                      <div className="w-5 h-5 flex-shrink-0 mt-0.5 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                        <span className="text-sm font-bold text-white">🍌</span>
+                      </div>
+                      <div className="flex flex-col flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-medium text-gray-100">
+                            {model.displayName}
+                          </span>
+                          <div className="flex items-center gap-1 text-xs text-blue-300">
+                            <Coins className="h-3 w-3" />
+                            2 credits
+                          </div>
+                          {!model.available && (
+                            <span className="text-xs bg-gray-600 text-gray-300 px-1.5 py-0.5 rounded-full">
+                              Coming Soon
+                            </span>
+                          )}
+                        </div>
+                        <span className="text-xs text-gray-400 mb-1 line-clamp-2">
+                          {model.description}
+                        </span>
+                        {model.available && (
+                          <div className="flex flex-wrap gap-1">
+                            <span className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full">
+                              High Quality
+                            </span>
+                            <span className="text-xs px-2 py-0.5 bg-green-500/20 text-green-300 rounded-full">
+                              Fast Generation
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
           {/* 注意：Nano Banana API 仅支持 prompt 和 image_urls 参数 */}
           {/* 所有高级设置（宽高比、质量、风格、负面提示等）都已移除，因为API不支持 */}
 
@@ -478,7 +487,7 @@ export default function ImageGenerator({
                 </div>
                 <div className="text-gray-300 flex items-center gap-1">
                   <span>Cost:</span>
-                  <span className="text-amber-400 font-medium">{requiredCredits}</span>
+                  <span className="text-amber-400 font-medium">2</span>
                   <Coins className="h-4 w-4 text-amber-400" />
                 </div>
               </div>

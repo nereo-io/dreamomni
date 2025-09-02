@@ -25,6 +25,8 @@ export enum CreditsTransType {
   VideoGeneration8s = "video_generation_8s", // cost for 8 seconds video generation
   VideoGeneration10s = "video_generation_10s", // cost for 10 seconds video generation
   RefundVideoGenerationFailed = "refund_video_generation_failed", // refund credits for failed video generation
+  ImageGeneration = "image_generation", // cost for image generation
+  RefundImageGenerationFailed = "refund_image_generation_failed", // refund credits for failed image generation
 }
 
 export enum CreditsAmount {

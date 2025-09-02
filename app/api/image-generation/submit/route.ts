@@ -6,6 +6,12 @@ import {
   createImageGeneration, 
   updateImageGenerationById 
 } from "@/models/imageGeneration";
+import {
+  decreaseCredits,
+  increaseCredits,
+  CreditsTransType,
+  getUserCredits,
+} from "@/services/credit";
 import type { CreateImageGenerationParams } from "@/types/image.d";
 import type { AIServiceProvider } from "@/types/provider.d";
 import { NextRequest } from "next/server";
@@ -50,6 +56,12 @@ export async function POST(req: NextRequest) {
     }
 
     console.log("✅ User validated:", userInfo.uuid);
+
+    // 3. 检查用户积分
+    const userCredits = await getUserCredits(userInfo.uuid!);
+    if (!userCredits) {
+      return respErr("Failed to get user credits");
+    }
 
     const {
       model,
@@ -98,12 +110,26 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 计算积分消耗
-    const creditsRequired = aiServiceManager.calculateCredits(selectedProvider, {
-      prompt,
-      model,
-      count: 1,
-    });
+    // 计算积分消耗 - 图片生成固定2个积分
+    const creditsRequired = 2;
+
+    // 4. 检查积分是否充足
+    if (userCredits.left_credits < creditsRequired) {
+      return respErr(`Insufficient credits. Need ${creditsRequired} credits to generate image.`);
+    }
+
+    // 5. 扣除积分（在创建任务前扣除）
+    try {
+      await decreaseCredits({
+        user_uuid: userInfo.uuid!,
+        trans_type: CreditsTransType.ImageGeneration,
+        credits: creditsRequired,
+      });
+      console.log(`💰 Credits deducted: ${creditsRequired} from user ${userInfo.uuid}`);
+    } catch (error) {
+      console.error("扣除积分失败:", error);
+      return respErr("Failed to deduct credits, please try again later");
+    }
 
     try {
       // 1. 创建数据库记录
@@ -231,6 +257,26 @@ export async function POST(req: NextRequest) {
 
     } catch (error) {
       console.error("❌ Image generation error:", error);
+      
+      // 生成失败，返还积分
+      try {
+        const oneMonthFromNow = new Date();
+        oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
+        const expiredAt = oneMonthFromNow.toISOString();
+
+        await increaseCredits({
+          user_uuid: userInfo.uuid!,
+          trans_type: CreditsTransType.RefundImageGenerationFailed,
+          credits: creditsRequired,
+          expired_at: expiredAt,
+        });
+        
+        console.log(`💰 Credits refunded: ${creditsRequired} to user ${userInfo.uuid} due to generation failure`);
+      } catch (refundError) {
+        console.error("❌ Failed to refund credits:", refundError);
+        // 不阻止错误返回，但记录退款失败
+      }
+      
       const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
       return respErr(errorMessage);
     }

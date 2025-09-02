@@ -9,6 +9,10 @@ import {
   updateImageGenerationById,
   getImageGenerationByProviderTaskId 
 } from "@/models/imageGeneration";
+import {
+  increaseCredits,
+  CreditsTransType,
+} from "@/services/credit";
 
 import type { AIServiceProvider } from "@/types/provider.d";
 import { NextRequest } from "next/server";
@@ -107,6 +111,26 @@ export async function POST(
         provider_metadata: processedResult.metadata,
         callback_received_at: new Date().toISOString(),
       };
+
+      // 图片生成失败，返还积分
+      try {
+        const creditsToRefund = imageGeneration.credits_used || 2; // 默认2个积分
+        const oneMonthFromNow = new Date();
+        oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
+        const expiredAt = oneMonthFromNow.toISOString();
+
+        await increaseCredits({
+          user_uuid: imageGeneration.user_id,
+          trans_type: CreditsTransType.RefundImageGenerationFailed,
+          credits: creditsToRefund,
+          expired_at: expiredAt,
+        });
+
+        console.log(`💰 Credits refunded: ${creditsToRefund} to user ${imageGeneration.user_id} for failed image generation ${imageGeneration.id}`);
+      } catch (refundError) {
+        console.error("❌ Failed to refund credits for failed image generation:", refundError);
+        // 不阻止回调处理，继续执行
+      }
     } else {
       // 处理中状态
       updateData.metadata = {
