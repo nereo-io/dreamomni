@@ -52,6 +52,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   const [selectedProvider, setSelectedProvider] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showMembershipModal, setShowMembershipModal] = useState(false);
+  const [pendingCheckoutItem, setPendingCheckoutItem] = useState<PricingItem | null>(null);
   const [successInfo, setSuccessInfo] = useState<{
     planName?: string;
     credits?: number;
@@ -178,15 +179,17 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     return "";
   };
 
-  const handleCheckout = async (item: PricingItem, cn_pay: boolean = false) => {
+  const handleCheckout = async (item: PricingItem, cn_pay: boolean = false, skipMembershipCheck: boolean = false) => {
     try {
       if (!user) {
         setShowSignModal(true);
         return;
       }
 
-      // Check if user is already a member
-      if (membership && membership.status === 'active') {
+      // Check if user is already a member (unless explicitly skipping this check)
+      if (!skipMembershipCheck && membership && membership.status === 'active') {
+        // Store the item for potential retry after membership modal
+        setPendingCheckoutItem(item);
         setShowMembershipModal(true);
         return;
       }
@@ -719,7 +722,18 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         <div className="fixed inset-0 z-[100]">
           <MembershipExistsModal
             isOpen={showMembershipModal}
-            onClose={() => setShowMembershipModal(false)}
+            onClose={() => {
+              setShowMembershipModal(false);
+              setPendingCheckoutItem(null);
+            }}
+            onContinuePurchase={() => {
+              setShowMembershipModal(false);
+              // Continue with the checkout that was interrupted
+              if (pendingCheckoutItem) {
+                handleCheckout(pendingCheckoutItem, false, true);
+                setPendingCheckoutItem(null);
+              }
+            }}
           />
         </div>
       )}

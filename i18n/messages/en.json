@@ -463,6 +463,7 @@
     "description": "You are already a member.",
     "explanation": "You can view and manage your current subscription details.",
     "viewSubscription": "View Subscription",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "continuePurchase": "Continue Purchase"
   }
 }
