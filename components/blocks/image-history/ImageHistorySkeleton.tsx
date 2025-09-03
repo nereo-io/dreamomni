@@ -7,64 +7,55 @@ interface ImageHistorySkeletonProps {
 
 export default function ImageHistorySkeleton({ className }: ImageHistorySkeletonProps) {
   return (
-    <div className="lg:flex-1 lg:overflow-y-auto">
-        {/* Responsive Masonry Grid Skeleton */}
-        <div className="p-3 md:p-4">
-          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 gap-4">
-            {/* Skeleton Items */}
-            {Array.from({ length: 8 }).map((_, index) => (
-              <div 
-                key={index} 
-                className="break-inside-avoid mb-4"
-                style={{
-                  // Ensure proper spacing in columns layout
-                  display: 'inline-block',
-                  width: '100%',
-                  marginBottom: '16px'
-                }}
-              >
-                <div className="relative bg-gray-700/50 rounded-xl overflow-hidden animate-pulse">
-                  {/* Image Skeleton */}
-                  <div 
-                    className="w-full bg-gray-600 animate-pulse"
-                    style={{
-                      height: `${180 + (index % 4) * 60}px` // More varied heights
-                    }}
-                  />
-                  
-                  {/* Content Skeleton */}
-                  <div className="p-4 space-y-3">
-                    {/* Prompt Skeleton */}
-                    <div className="space-y-2">
-                      <div className="h-3 bg-gray-600 rounded animate-pulse w-full" />
-                      <div className="h-3 bg-gray-600 rounded animate-pulse w-4/5" />
-                    </div>
-                    
-                    {/* Meta Info Skeleton */}
-                    <div className="flex justify-between items-center text-xs">
-                      <div className="h-2 bg-gray-600 rounded animate-pulse w-20" />
-                      <div className="h-2 bg-gray-600 rounded animate-pulse w-16" />
-                    </div>
-                  </div>
-                  
-                  {/* Status Badge Skeleton (for processing items) */}
-                  {index % 4 === 0 && (
-                    <div className="absolute top-3 right-3 w-18 h-6 bg-gray-600 rounded-full animate-pulse" />
-                  )}
-                  
-                  {/* Action Buttons Skeleton (hover overlay) */}
-                  <div className="absolute inset-0 bg-black/0 opacity-0">
-                    <div className="absolute top-3 left-3 flex gap-2">
-                      <div className="w-8 h-8 bg-gray-600 rounded animate-pulse" />
-                      <div className="w-8 h-8 bg-gray-600 rounded animate-pulse" />
-                      <div className="w-8 h-8 bg-gray-600 rounded animate-pulse" />
-                    </div>
-                  </div>
+    <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
+      {/* Grid Layout consistent with actual ImageHistory */}
+      <div className="p-4 md:p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {/* Skeleton Items */}
+          {Array.from({ length: 8 }).map((_, index) => (
+            <div 
+              key={index} 
+              className="bg-gray-700/50 border-gray-700 rounded-lg flex flex-col animate-pulse"
+            >
+              {/* CardHeader Skeleton */}
+              <div className="p-6">
+                {/* Image Preview Skeleton */}
+                <div className="aspect-square bg-gray-700 rounded-md mb-3" />
+                
+                {/* Title with Copy Button Skeleton */}
+                <div className="flex items-start gap-2">
+                  <div className="h-5 bg-gray-600 rounded flex-1" />
+                  <div className="h-8 w-8 bg-gray-600 rounded flex-shrink-0" />
                 </div>
               </div>
-            ))}
-          </div>
+              
+              {/* CardContent Skeleton */}
+              <div className="px-6 flex-grow space-y-3">
+                {/* Status and Date */}
+                <div className="flex justify-between items-center mb-2">
+                  <div className="h-5 bg-gray-600 rounded-full w-20" />
+                  <div className="h-3 bg-gray-600 rounded w-16" />
+                </div>
+                
+                {/* Model Info */}
+                <div className="h-3 bg-gray-600 rounded w-32" />
+                
+                {/* Aspect Ratio */}
+                <div className="h-1" />
+              </div>
+              
+              {/* CardFooter Skeleton */}
+              <div className="flex flex-col sm:flex-row justify-between gap-2 p-6 pt-4 border-t border-gray-700">
+                <div className="h-8 bg-gray-600 rounded w-20" />
+                <div className="flex gap-2 w-full sm:w-auto">
+                  <div className="h-8 w-8 bg-gray-600 rounded" />
+                  <div className="h-8 w-8 bg-gray-600 rounded" />
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
+      </div>
     </div>
   );
 }
