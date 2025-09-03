@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 // Select components removed - using fixed model display
-import { Image, Coins, Wand2, Upload, X, Plus, Zap } from "lucide-react";
+import { Image as ImageIcon, Coins, Wand2, Upload, X, Plus, Zap } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import useCredits from "@/hooks/useCredits";
@@ -69,6 +69,7 @@ export default function ImageGenerator({
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [isUploadingImages, setIsUploadingImages] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
 
   // 固定的Nano Banana模型信息
   const currentModel = {
@@ -122,52 +123,41 @@ export default function ImageGenerator({
       return;
     }
 
-    if (files.length + uploadedImages.length > 5) {
-      toast.error("Maximum 5 images allowed");
+    const file = files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast.error(`${file.name} is not a valid image file`);
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error(`${file.name} exceeds 10MB size limit`);
       return;
     }
 
-    const validFiles = Array.from(files).filter(file => {
-      if (!file.type.startsWith("image/")) {
-        toast.error(`${file.name} is not a valid image file`);
-        return false;
-      }
-      if (file.size > 10 * 1024 * 1024) {
-        toast.error(`${file.name} exceeds 10MB size limit`);
-        return false;
-      }
-      return true;
-    });
-
-    if (validFiles.length === 0) return;
-
     setIsUploadingImages(true);
-    const newUrls: string[] = [];
 
     try {
-      for (const file of validFiles) {
-        const formData = new FormData();
-        formData.append("file", file);
+      const formData = new FormData();
+      formData.append("file", file);
 
-        const uploadResponse = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
+      const uploadResponse = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
 
-        const uploadResult = await uploadResponse.json();
-        if (uploadResult.code === 0) {
-          newUrls.push(uploadResult.data.url);
-        } else {
-          throw new Error(uploadResult.message || "Upload failed");
-        }
+      const uploadResult = await uploadResponse.json();
+      if (uploadResult.code === 0) {
+        // Replace the existing image (single image mode)
+        setUploadedImages([file]);
+        setImageUrls([uploadResult.data.url]);
+        toast.success("Image uploaded successfully");
+      } else {
+        throw new Error(uploadResult.message || "Upload failed");
       }
-
-      setUploadedImages(prev => [...prev, ...validFiles]);
-      setImageUrls(prev => [...prev, ...newUrls]);
-      toast.success(`${validFiles.length} image(s) uploaded successfully`);
     } catch (error) {
       console.error("Upload error:", error);
-      toast.error("Failed to upload images. Please try again.");
+      toast.error("Failed to upload image");
     } finally {
       setIsUploadingImages(false);
     }
@@ -293,84 +283,78 @@ export default function ImageGenerator({
 
 
 
-          {/* Image Upload (for image-to-image mode) */}
+          {/* Image Upload Section (for image-to-image mode) */}
           {selectedType === "image-to-image" && (
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-white">
-                Input Images (up to 5 images)
-              </label>
-              
-              {/* Upload Area */}
-              <div 
-                className="border-2 border-dashed border-gray-600 rounded-lg p-4 text-center cursor-pointer hover:border-gray-500 transition-colors"
-                onClick={() => document.getElementById('image-upload')?.click()}
-              >
-                <input
-                  id="image-upload"
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp"
-                  multiple
-                  max={5}
-                  className="hidden"
-                  onChange={(e) => e.target.files && handleImageUpload(e.target.files)}
-                />
-                <Upload className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                <p className="text-gray-400 text-sm">
-                  Click to upload or drag and drop
-                </p>
-                <p className="text-gray-500 text-xs mt-1">
-                  Supported formats: JPEG, PNG, WEBP • Maximum file size: 10MB
-                </p>
+            <div>
+              <div className="text-white text-lg font-semibold mb-4">
+                Image
               </div>
-
-              {/* Uploaded Images Preview */}
-              {uploadedImages.length > 0 && (
-                <div className="grid grid-cols-2 gap-2 mt-3">
-                  {uploadedImages.map((file, index) => (
-                    <div key={index} className="relative group">
-                      <img
-                        src={URL.createObjectURL(file)}
-                        alt={`Upload ${index + 1}`}
-                        className="w-full h-20 object-cover rounded-lg"
-                      />
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        className="absolute top-1 right-1 w-6 h-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                        onClick={() => removeImage(index)}
-                      >
-                        <X className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  ))}
-                  {uploadedImages.length < 5 && (
-                    <div 
-                      className="w-full h-20 border-2 border-dashed border-gray-600 rounded-lg flex items-center justify-center cursor-pointer hover:border-gray-500 transition-colors"
-                      onClick={() => document.getElementById('image-upload')?.click()}
+              {uploadedImages.length === 0 ? (
+                <div
+                  className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+                    isUploadingImages
+                      ? "cursor-not-allowed opacity-50"
+                      : "cursor-pointer"
+                  } ${
+                    false // isDragOver placeholder for future drag support
+                      ? "border-blue-400 bg-blue-900/50"
+                      : "border-gray-600 hover:border-gray-500"
+                  }`}
+                  onClick={() =>
+                    !isUploadingImages &&
+                    document.getElementById("image-upload")?.click()
+                  }
+                >
+                  <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                  <div className="space-y-2">
+                    <p className="text-sm text-gray-300 px-2 text-center">
+                      Click to upload or drag and drop
+                    </p>
+                    <p className="text-xs text-gray-400 px-2 text-center">
+                      Supported formats: JPEG, PNG, WEBP
+                    </p>
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files)}
+                    className="hidden"
+                    id="image-upload"
+                  />
+                </div>
+              ) : (
+                <div className="relative">
+                  <img
+                    src={URL.createObjectURL(uploadedImages[0])}
+                    alt="Uploaded"
+                    className="w-full h-32 object-contain rounded-lg bg-gray-800"
+                  />
+                  {!isUploadingImages && (
+                    <button
+                      onClick={() => removeImage(0)}
+                      className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
                     >
-                      <Plus className="h-6 w-6 text-gray-400" />
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                  {isUploadingImages && (
+                    <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                        <span className="text-white text-sm">Uploading...</span>
+                      </div>
                     </div>
                   )}
-                </div>
-              )}
-
-              {isUploadingImages && (
-                <div className="text-center">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary mx-auto"></div>
-                  <p className="text-gray-400 text-xs mt-1">Uploading images...</p>
                 </div>
               )}
             </div>
           )}
 
           {/* Prompt Input */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-white">
-              {selectedType === "image-to-image" 
-                ? "Editing Instructions" 
-                : (descriptionLabel || "Image Description")
-              }
-            </label>
+          <div>
+            <div className="text-white text-lg font-semibold mb-4">
+              Prompt
+            </div>
             <Textarea
               ref={textareaRef}
               value={prompt}
@@ -379,72 +363,74 @@ export default function ImageGenerator({
                 ? "Describe how you want to edit the image, e.g., Change the background to a sunset scene, add more contrast..."
                 : (descriptionPlaceholder || "Describe the image you want to create, e.g., A majestic eagle soaring through mountain peaks at golden hour...")
               }
-              className="min-h-[120px] bg-gray-800 border-gray-700 text-white placeholder-gray-400 resize-none overflow-hidden"
-              maxLength={1000}
+              className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
+              style={{ minHeight: "150px", maxHeight: "300px" }}
+              disabled={isGenerating}
             />
-            <div className="text-xs text-gray-400 text-right">
-              {prompt.length}/1000
-            </div>
           </div>
 
-          {/* AI Model Display - Fixed to Nano Banana */}
-          <div className="mb-4">
-            <label className="text-gray-300 text-sm mb-2 block">
-              AI Model
-            </label>
-            <div className="bg-gray-800 border border-gray-700 rounded-md px-3 py-2">
-              <div className="flex items-center gap-3">
-                <div className="w-5 h-5 flex-shrink-0 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-bold text-white">🍌</span>
-                </div>
-                <div className="flex flex-col flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-medium text-gray-100">
-                      Nano Banana
+          {/* Settings */}
+          <div>
+            <div className="text-white text-lg font-semibold mb-4">
+              Settings
+            </div>
+
+            {/* AI Model Display - Fixed to Nano Banana */}
+            <div className="mb-4">
+              <label className="text-gray-300 text-sm mb-2 block">
+                Model
+              </label>
+              <div className="bg-gray-800 border border-gray-700 rounded-md px-3 py-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 flex-shrink-0 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-bold text-white">🍌</span>
+                  </div>
+                  <div className="flex flex-col flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-medium text-gray-100">
+                        Nano Banana
+                      </span>
+                      <div className="flex items-center gap-1 text-xs text-blue-300">
+                        <Coins className="h-3 w-3" />
+                        2 credits
+                      </div>
+                    </div>
+                    <span className="text-xs text-gray-400 mb-1">
+                      Advanced AI model for natural language-driven image generation
                     </span>
-                    <div className="flex items-center gap-1 text-xs text-blue-300">
-                      <Coins className="h-3 w-3" />
-                      2 credits
+                    <div className="flex flex-wrap gap-1">
+                      <span className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full">
+                        High Quality
+                      </span>
+                      <span className="text-xs px-2 py-0.5 bg-green-500/20 text-green-300 rounded-full">
+                        Fast Generation
+                      </span>
                     </div>
                   </div>
-                  <span className="text-xs text-gray-400 mb-1">
-                    Advanced AI model for natural language-driven image generation
-                  </span>
-                  <div className="flex flex-wrap gap-1">
-                    <span className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full">
-                      High Quality
-                    </span>
-                    <span className="text-xs px-2 py-0.5 bg-green-500/20 text-green-300 rounded-full">
-                      Fast Generation
-                    </span>
-                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* 注意：Nano Banana API 仅支持 prompt 和 image_urls 参数 */}
-          {/* 所有高级设置（宽高比、质量、风格、负面提示等）都已移除，因为API不支持 */}
-
-          {/* Credits and Cost */}
-          <div className="bg-gray-800 rounded-lg p-4 mb-4">
-            <div className="flex justify-between items-center">
-              <div>
-                <div className="text-gray-300 mb-1">
-                  Credits: {leftCredits !== null ? leftCredits : "-"}
+            {/* Credits and Cost */}
+            <div className="bg-gray-800 rounded-lg p-4 mb-4">
+              <div className="flex justify-between items-center">
+                <div>
+                  <div className="text-gray-300 mb-1">
+                    Credits: {leftCredits !== null ? leftCredits : "-"}
+                  </div>
+                  <div className="text-gray-300">
+                    Cost: {requiredCredits} ⚡
+                  </div>
                 </div>
-                <div className="text-gray-300">
-                  Cost: {requiredCredits} ⚡
-                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="bg-transparent border-gray-600 text-gray-300 hover:bg-gray-700"
+                  onClick={() => setShowPricingModal(true)}
+                >
+                  Recharge
+                </Button>
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-transparent border-gray-600 text-gray-300 hover:bg-gray-700"
-                onClick={() => setShowPricingModal(true)}
-              >
-                Recharge
-              </Button>
             </div>
           </div>
         </div>

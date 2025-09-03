@@ -111,10 +111,13 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
   // Fetch image history
   const fetchHistory = async () => {
     if (!userId) {
+      console.log("📝 No userId provided, skipping fetchHistory");
       setImages([]);
       setLoading(false);
       return;
     }
+
+    console.log("🔄 Fetching image history for userId:", userId);
 
     try {
       const response = await fetch("/api/image-generations/history", {
@@ -124,8 +127,21 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
         },
       });
 
+      console.log("📡 History API response:", {
+        status: response.status,
+        statusText: response.statusText,
+        ok: response.ok
+      });
+
       if (response.ok) {
         const data = await response.json();
+        console.log("📦 History API data:", {
+          code: data.code,
+          dataType: Array.isArray(data.data) ? 'array' : typeof data.data,
+          dataLength: Array.isArray(data.data) ? data.data.length : 'N/A',
+          message: data.message
+        });
+
         if (data.code === 0 && Array.isArray(data.data)) {
           setImages(data.data);
           
@@ -140,20 +156,23 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
           if (completedImages.length > 0) {
             const imageIds = completedImages.map((img: ImageGenerationResult) => img.id);
             setLoadingImages(new Set(imageIds));
+            console.log("🖼️ Found completed images to load:", imageIds.length);
           }
           
           // 开始轮询生成中的图片
           startPollingForProcessingImages(data.data);
         } else {
-          console.error("Invalid response format:", data);
+          console.error("❌ Invalid response format:", data);
           setImages([]);
         }
       } else {
-        console.error("Failed to fetch image history:", response.status);
+        console.error("❌ Failed to fetch image history:", response.status, response.statusText);
+        const errorText = await response.text();
+        console.error("❌ Error response body:", errorText);
         setImages([]);
       }
     } catch (error) {
-      console.error("Error fetching image history:", error);
+      console.error("❌ Error fetching image history:", error);
       setImages([]);
       setLoadingImages(new Set()); // 清空加载中的图片
       setLoading(false); // 出错时立即停止loading
@@ -989,9 +1008,14 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-white mb-2">No images yet</h3>
+            <h3 className="text-lg font-medium text-white mb-2">
+              {!userId ? "Please sign in" : "No images yet"}
+            </h3>
             <p className="text-gray-400">
-              Your generated images will appear here once you start creating.
+              {!userId 
+                ? "Sign in to view your generated images and create new ones."
+                : "Your generated images will appear here once you start creating."
+              }
             </p>
           </div>
         </div>
