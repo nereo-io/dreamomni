@@ -1,7 +1,5 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp, Copy } from "lucide-react";
-import { toast } from "sonner";
+import { Sparkles, ChevronDown, ChevronUp } from "lucide-react";
 
 interface EnhancedPromptProps {
   originalPrompt: string;
@@ -10,59 +8,48 @@ interface EnhancedPromptProps {
   onToggle: () => void;
 }
 
-const EnhancedPrompt: React.FC<EnhancedPromptProps> = React.memo(({
+const EnhancedPrompt: React.FC<EnhancedPromptProps> = React.memo(({ 
   originalPrompt,
-  optimizedPrompt,
-  isExpanded,
-  onToggle,
+  optimizedPrompt, 
+  isExpanded, 
+  onToggle 
 }) => {
-  const hasOptimizedPrompt = optimizedPrompt && optimizedPrompt !== originalPrompt;
-
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      toast.success("Prompt copied to clipboard");
-    }).catch(() => {
-      toast.error("Failed to copy prompt");
-    });
-  };
-
-  if (!hasOptimizedPrompt) {
+  // Only show if optimized prompt exists and is different from original
+  if (!optimizedPrompt || optimizedPrompt === originalPrompt) {
     return null;
   }
 
   return (
-    <div className="space-y-2">
-      <Button
-        variant="ghost"
-        size="sm"
+    <div className="bg-gray-900/50 rounded-lg p-4">
+      <div
+        className="flex justify-between items-center cursor-pointer"
         onClick={onToggle}
-        className="text-gray-400 hover:text-white p-0 h-auto font-normal"
       >
-        <span className="text-xs">Enhanced Prompt</span>
-        {isExpanded ? (
-          <ChevronUp className="ml-1 h-3 w-3" />
-        ) : (
-          <ChevronDown className="ml-1 h-3 w-3" />
-        )}
-      </Button>
-
-      {isExpanded && (
-        <div className="bg-gray-800 rounded-lg p-3 space-y-2">
-          <div className="flex items-start justify-between gap-2">
-            <p className="text-sm text-gray-300 leading-relaxed flex-1">
-              {optimizedPrompt}
-            </p>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => copyToClipboard(optimizedPrompt)}
-              className="text-gray-400 hover:text-white p-1 h-auto"
-            >
-              <Copy className="h-3 w-3" />
-            </Button>
-          </div>
+        <div className="text-sm font-semibold text-purple-400 flex items-center">
+          <Sparkles className="text-base mr-2 h-4 w-4" />
+          Enhanced Prompt:
         </div>
-      )}
+        {isExpanded ? (
+          <ChevronUp className="text-gray-400 h-5 w-5" />
+        ) : (
+          <ChevronDown className="text-gray-400 h-5 w-5" />
+        )}
+      </div>
+      <p
+        className="mt-2 text-sm text-gray-300"
+        style={
+          isExpanded
+            ? {}
+            : {
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }
+        }
+      >
+        {optimizedPrompt}
+      </p>
     </div>
   );
 });

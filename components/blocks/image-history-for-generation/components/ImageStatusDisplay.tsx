@@ -79,20 +79,256 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
     setShowDeleteDialog(false);
   };
 
-  const handleDownload = () => {
+  // Download image to local file system - 与图片历史记录保持一致
+  const handleDownload = async () => {
     if (!imageUrl) {
       toast.error("Image not available for download");
       return;
     }
 
-    // Create download link
-    const link = document.createElement("a");
-    link.href = imageUrl;
-    link.download = `${image.prompt.substring(0, 20).replace(/\s+/g, "_")}_${image.id}.jpg`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      console.log("🔽 Starting image download:", imageUrl);
+      
+      // 验证URL
+      if (!imageUrl || typeof imageUrl !== 'string') {
+        throw new Error("Invalid image URL provided");
+      }
+
+      // 获取图片文件扩展名
+      const urlParts = imageUrl.split('.');
+      const extension = urlParts[urlParts.length - 1]?.split('?')[0]?.toLowerCase() || 'jpg';
+      const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+      
+      if (!validExtensions.includes(extension)) {
+        console.warn("⚠️ Unknown extension, using jpg as fallback");
+      }
+
+      // 生成文件名
+      const safePrompt = image.prompt.substring(0, 20).replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
+      const filename = `${safePrompt}_${image.id}.${extension}`;
+      console.log("📄 Generated filename:", filename);
+
+      // 尝试多种下载方法，确保能下载到本地
+      // 优化顺序：代理方法优先，因为可以绕过CORS限制
+      const downloadMethods = [
+        () => downloadWithProxy(imageUrl, filename),    // 最可靠：使用代理绕过CORS
+        () => downloadWithCanvas(imageUrl, filename),   // 次选：Canvas方法处理CORS
+        () => downloadWithFetch(imageUrl, filename),    // 第三：直接fetch（可能被CORS阻止）
+        () => downloadWithDirectLink(imageUrl, filename) // 最后：直接链接（CORS限制时无效）
+      ];
+
+      for (let i = 0; i < downloadMethods.length; i++) {
+        try {
+          await downloadMethods[i]();
+          console.log(`✅ Download successful with method ${i + 1}`);
+          return;
+        } catch (error) {
+          console.warn(`⚠️ Download method ${i + 1} failed:`, error);
+          if (i === downloadMethods.length - 1) {
+            throw error; // 如果所有方法都失败，抛出最后一个错误
+          }
+        }
+      }
+    } catch (error) {
+      console.error("💥 All download methods failed:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+      toast.error(`下载失败: ${errorMessage}`, { duration: 4000 });
+    }
+  };
+
+  // 方法1: 通过代理下载（避免CORS问题）
+  const downloadWithProxy = async (imageUrl: string, filename: string) => {
+    console.log("🌐 Attempting proxy download:", imageUrl);
+    
+    // 尝试多个代理服务，提高成功率
+    const proxyServices = [
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(imageUrl)}`,
+      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(imageUrl)}`,
+      `https://cors-anywhere.herokuapp.com/${imageUrl}`,
+      // 添加更多备用代理
+      `https://thingproxy.freeboard.io/fetch/${imageUrl}`,
+      `https://api.proxify.io/?url=${encodeURIComponent(imageUrl)}`
+    ];
+
+    let lastError: Error | null = null;
+    
+    for (let i = 0; i < proxyServices.length; i++) {
+      try {
+        console.log(`🔄 Trying proxy service ${i + 1}:`, proxyServices[i]);
+        
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10秒超时
+        
+        const response = await fetch(proxyServices[i], {
+          method: 'GET',
+          signal: controller.signal,
+          headers: {
+            'Accept': 'image/*',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+          }
+        });
+        
+        clearTimeout(timeoutId);
+        console.log(`📡 Proxy ${i + 1} response status:`, response.status);
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const blob = await response.blob();
+        console.log("📦 Blob created, size:", blob.size);
+
+        if (blob.size === 0) {
+          throw new Error("Empty response from proxy");
+        }
+
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        a.style.cssText = "display: none; position: absolute; top: -9999px;";
+        
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        
+        setTimeout(() => window.URL.revokeObjectURL(url), 1000);
+        
+        console.log(`✅ Proxy download ${i + 1} successful`);
+        toast.success("Image downloaded");
+        return;
+        
+      } catch (error) {
+        lastError = error instanceof Error ? error : new Error(String(error));
+        console.warn(`⚠️ Proxy service ${i + 1} failed:`, lastError.message);
+        
+        if (i === proxyServices.length - 1) {
+          throw new Error(`All proxy services failed. Last error: ${lastError.message}`);
+        }
+      }
+    }
+  };
+
+  // 方法2: 使用 Canvas 下载（处理CORS问题）
+  const downloadWithCanvas = async (imageUrl: string, filename: string) => {
+    return new Promise<void>((resolve, reject) => {
+      const img = document.createElement('img') as HTMLImageElement;
+      img.crossOrigin = 'anonymous';
+      
+      img.onload = () => {
+        try {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          
+          if (!ctx) {
+            reject(new Error("Canvas context not available"));
+            return;
+          }
+
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+          ctx.drawImage(img, 0, 0);
+
+          canvas.toBlob((blob) => {
+            if (!blob) {
+              reject(new Error("Canvas toBlob failed"));
+              return;
+            }
+
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename;
+            a.style.cssText = "display: none; position: absolute; top: -9999px;";
+            
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            setTimeout(() => window.URL.revokeObjectURL(url), 1000);
+            
+            console.log("✅ Canvas download successful");
+            toast.success("Image downloaded");
+            resolve();
+          }, 'image/jpeg', 0.95);
+          
+        } catch (error) {
+          reject(error);
+        }
+      };
+
+      img.onerror = () => {
+        reject(new Error("Image failed to load for canvas"));
+      };
+
+      img.src = imageUrl;
+    });
+  };
+
+  // 方法3: 使用 fetch 下载（可能被CORS阻止）
+  const downloadWithFetch = async (imageUrl: string, filename: string) => {
+    const response = await fetch(imageUrl, {
+      method: 'GET',
+      headers: {
+        'Accept': 'image/*',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+      },
+      mode: 'cors',
+    });
+
+    console.log("📡 Fetch response status:", response.status);
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.style.cssText = "display: none; position: absolute; top: -9999px;";
+    
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    setTimeout(() => window.URL.revokeObjectURL(url), 1000);
+    
+    console.log("✅ Fetch download successful");
     toast.success("Image downloaded");
+  };
+
+  // 方法4: 直接链接下载（CORS限制时无效）
+  const downloadWithDirectLink = async (imageUrl: string, filename: string) => {
+    return new Promise<void>((resolve, reject) => {
+      const a = document.createElement("a");
+      a.href = imageUrl;
+      a.download = filename;
+      a.style.cssText = "display: none; position: absolute; top: -9999px;";
+      a.setAttribute('rel', 'noopener noreferrer');
+      
+      document.body.appendChild(a);
+      
+      // 尝试多种点击方式确保下载触发
+      try {
+        a.click();
+      } catch (e) {
+        // 如果click失败，尝试其他方式
+        const event = document.createEvent('MouseEvents');
+        event.initEvent('click', true, false);
+        a.dispatchEvent(event);
+      }
+      
+      document.body.removeChild(a);
+      
+      // 给下载一些时间开始
+      setTimeout(() => {
+        console.log("✅ Direct link download attempted");
+        toast.success("Image download started");
+        resolve();
+      }, 1000);
+    });
   };
 
   const handleOpen = () => {

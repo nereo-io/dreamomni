@@ -50,6 +50,7 @@ export default function ImageHistoryForGeneration({
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [pollingImages, setPollingImages] = useState<Set<string>>(new Set());
   const [loadingImages, setLoadingImages] = useState<Set<string>>(new Set());
+  const [scrollToBottomFlag, setScrollToBottomFlag] = useState(false);
   const pollingIntervalsRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
   
   const { user, setShowSignModal } = useAppContext();
@@ -58,10 +59,11 @@ export default function ImageHistoryForGeneration({
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const t = useTranslations("imageHistory");
 
-  // 自动滚动到底部
+  // 自动滚动到底部，与视频历史保持一致的实现方式
   const scrollToBottom = useCallback(() => {
-    if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+    const scrollContainer = document.querySelector(".image-history-scroll");
+    if (scrollContainer) {
+      scrollContainer.scrollTop = scrollContainer.scrollHeight;
     }
   }, []);
 
@@ -138,7 +140,9 @@ export default function ImageHistoryForGeneration({
           const refreshResult = await refreshResponse.json();
           if (refreshResult.code === 0 && refreshResult.data) {
             const updatedImages = refreshResult.data || [];
-            setImages(updatedImages);
+            // 与主数据获取逻辑保持一致，反转数组顺序
+            const reversedUpdatedImages = [...updatedImages].reverse();
+            setImages(reversedUpdatedImages);
             console.log(`图片历史记录已静默更新`);
           }
         }
@@ -180,7 +184,9 @@ export default function ImageHistoryForGeneration({
           // 显示所有类型的图片，不进行过滤
           const allData = data.data;
           
-          // 反转数组顺序，最新的在底部
+          // 数据库返回的是按创建时间倒序排列（最新的在前）
+          // 为了在UI中实现"最新的在底部"的效果，我们需要反转数组
+          // 这样最新的内容就会在数组的最后，显示在底部
           const reversedData = [...allData].reverse();
           
           setImages(reversedData);
@@ -203,7 +209,7 @@ export default function ImageHistoryForGeneration({
           updateActiveTasksInBackground(reversedData);
           
           // 滚动到底部显示最新内容
-          setTimeout(() => scrollToBottom(), 100);
+          setScrollToBottomFlag(true);
         } else {
           console.error("❌ Invalid response format:", data);
           setImages([]);
@@ -239,7 +245,9 @@ export default function ImageHistoryForGeneration({
   // Handle refresh trigger
   useEffect(() => {
     if (refreshTrigger && refreshTrigger > 0) {
-      fetchHistory();
+      fetchHistory().then(() => {
+        setScrollToBottomFlag(true);
+      });
     }
   }, [refreshTrigger]);
 
@@ -248,9 +256,20 @@ export default function ImageHistoryForGeneration({
     if (newImage && newImage.id) {
       setImages(prev => [...prev.filter(img => img.id !== newImage.id), newImage]);
       // 新图片添加后自动滚动到底部
-      setTimeout(() => scrollToBottom(), 100);
+      setScrollToBottomFlag(true);
     }
-  }, [newImage, scrollToBottom]);
+  }, [newImage]);
+
+  // 自动滚动到底部显示最新内容，与视频历史保持一致
+  useEffect(() => {
+    if (scrollToBottomFlag && images.length > 0) {
+      const scrollContainer = document.querySelector(".image-history-scroll");
+      if (scrollContainer) {
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        setScrollToBottomFlag(false);
+      }
+    }
+  }, [scrollToBottomFlag, images]);
 
   // 未登录用户：显示登录提示
   if (!user?.uuid) {
@@ -333,7 +352,7 @@ export default function ImageHistoryForGeneration({
             </div>
           </div>
         ) : (
-          <div ref={scrollAreaRef} className="flex-1 overflow-y-auto p-4 md:p-6">
+          <div ref={scrollAreaRef} className="flex-1 overflow-y-auto p-4 md:p-6 image-history-scroll lg:dark-scrollbar">
             <div className="space-y-4">
               {images.map((image, index) => (
                 <ImageHistoryItem
