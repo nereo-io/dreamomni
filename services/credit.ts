@@ -75,7 +75,7 @@ export async function decreaseCredits({
   user_uuid: string;
   trans_type: CreditsTransType;
   credits: number;
-}) {
+}): Promise<{ order_no: string; expired_at?: string }> {
   try {
     let order_no = "";
     let expired_at: string | undefined = undefined;
@@ -109,6 +109,9 @@ export async function decreaseCredits({
       expired_at: expired_at,
     };
     await insertCredit(new_credit);
+    
+    // 返回使用的order_no和expired_at，供退款时使用
+    return { order_no, expired_at };
   } catch (e) {
     console.log("decrease credits failed: ", e);
     throw e;

@@ -217,8 +217,9 @@ export async function POST(req: Request) {
     }
 
     // 6. 扣除积分（在创建任务前扣除）
+    let creditInfo: { order_no: string; expired_at?: string };
     try {
-      await decreaseCredits({
+      creditInfo = await decreaseCredits({
         user_uuid: userInfo.uuid,
         trans_type: transType,
         credits: requiredCredits,
@@ -461,17 +462,14 @@ export async function POST(req: Request) {
 
       // 如果提交失败，我们需要退还积分
       try {
-        // 为退还的积分设置一个合理的过期时间（1个月后）
-        const oneMonthFromNow = new Date();
-        oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
-        const expiredAt = oneMonthFromNow.toISOString();
-
+        // 使用扣积分时的order_no和expired_at
         await import("@/services/credit").then(({ increaseCredits }) =>
           increaseCredits({
             user_uuid: userInfo.uuid!,
             trans_type: transType,
             credits: requiredCredits,
-            expired_at: expiredAt,
+            order_no: creditInfo.order_no,
+            expired_at: creditInfo.expired_at,
           })
         );
       } catch (refundError) {
