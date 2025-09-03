@@ -1,4 +1,4 @@
-import VideoHistoryPageClient from "@/components/blocks/video-history-page";
+import MyCreationsPage from "@/components/blocks/my-creations-page";
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { Loader2 } from "lucide-react";
@@ -17,15 +17,15 @@ export async function generateMetadata({
   }
 
   return {
-    title: t("history.title"),
-    description: t("history.description"),
+    title: t("myCreations.title"),
+    description: t("myCreations.description"),
     alternates: {
       canonical: canonicalUrl,
     },
   };
 }
 
-export default function VideoHistoryPage() {
+export default function MyCreationsHistoryPage() {
   return (
     <Suspense
       fallback={
@@ -34,7 +34,7 @@ export default function VideoHistoryPage() {
         </div>
       }
     >
-      <VideoHistoryPageClient />
+      <MyCreationsPage />
     </Suspense>
   );
 }

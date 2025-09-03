@@ -310,7 +310,10 @@
       "regenerationNotImplemented": "Regeneration functionality to be implemented.",
       "fetchError": "Failed to fetch video history",
       "noDataReturned": "No data returned"
-    }
+    },
+    "pleaseSignIn": "Please sign in",
+    "signInToViewVideos": "Sign in to view your generated videos",
+    "signInButton": "Sign In"
   },
   "video-result": {
     "status": {
@@ -471,6 +474,12 @@
     "generationInProgress": "Generating...",
     "generationStatusChecking": "Image generation started. Checking status..."
   },
+  "myCreations": {
+    "title": "My Creations",
+    "description": "View all your AI-generated videos and images",
+    "videoTab": "Videos",
+    "imageTab": "Images"
+  },
   "imageHistory": {
     "title": "Image History",
     "noImagesTitle": "No images yet",
@@ -491,10 +500,12 @@
     "copyFailed": "Failed to copy image URL",
     "openInNewTab": "Open image in new tab",
     "copyImageUrl": "Copy image URL",
+    "pleaseSignIn": "Please sign in",
+    "signInToViewImages": "Sign in to view your generated images",
+    "signInButton": "Sign In",
     "downloadImage": "Download image",
     "copyPrompt": "Copy prompt",
     "credits": "credits",
-    "pleaseSignIn": "Please sign in",
     "signInToView": "Sign in to view your generated images and create new ones.",
     "generatingComplete": "Image generation complete!",
     "generatingFailed": "Image generation failed: {error}",

@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Image as ImageIcon, Coins, Wand2, X } from "lucide-react";
 import useCredits from "@/hooks/useCredits";
+import { validateImage } from "@/config/image-validation-rules";
 
 import type { ImageGenerationParams } from "../image-generator";
 import type { ImageGenerationResult } from "@/hooks/useImageGeneration";
@@ -38,9 +39,11 @@ export default function ImageToImageTab({
   const [newImage, setNewImage] = useState<HistoryImageResult | undefined>();
   const [pollingGenerations, setPollingGenerations] = useState<Set<string>>(new Set());
   const [prompt, setPrompt] = useState("");
-  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
-  const [isUploadingImages, setIsUploadingImages] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
   
   // CAPTCHA related states
   const [showCaptchaModal, setShowCaptchaModal] = useState(false);
@@ -99,16 +102,31 @@ export default function ImageToImageTab({
     const file = files[0];
     if (!file) return;
 
-    if (!file.type.startsWith("image/")) {
-      toast.error(t("invalidImageFile", { filename: file.name }));
-      return;
-    }
-    if (file.size > 10 * 1024 * 1024) {
-      toast.error(t("fileSizeExceeded", { filename: file.name }));
+    // 使用基于模型的图片验证规则
+    const validationResult = await validateImage(file, selectedModel);
+    
+    if (!validationResult.valid) {
+      toast.error(validationResult.error || "Invalid image file.");
       return;
     }
 
-    setIsUploadingImages(true);
+    setUploadedImage(file);
+
+    // Convert to base64 for preview immediately
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      setImagePreview(result);
+    };
+    reader.readAsDataURL(file);
+
+    // Start upload process
+    console.log("🔄 Starting image upload...");
+    setIsUploadingImage(true);
+
+    // Ensure minimum upload display time for better UX
+    const minDisplayTime = 500; // 500ms minimum
+    const uploadStartTime = Date.now();
 
     try {
       const formData = new FormData();
@@ -121,25 +139,70 @@ export default function ImageToImageTab({
 
       const uploadResult = await uploadResponse.json();
       if (uploadResult.code === 0) {
-        // Replace the existing image (single image mode)
-        setUploadedImages([file]);
-        setImageUrls([uploadResult.data.url]);
+        console.log("✅ Image upload successful");
+        setUploadedImageUrl(uploadResult.data.url);
         toast.success(t("imageUploadedSuccessfully"));
       } else {
+        console.error("❌ Upload failed:", uploadResult.message);
         throw new Error(uploadResult.message || "Upload failed");
       }
     } catch (error) {
       console.error("Upload error:", error);
       toast.error(t("uploadFailed"));
+      // 上传失败时清除图片
+      removeImage();
     } finally {
-      setIsUploadingImages(false);
+      // Ensure minimum display time for upload state
+      const uploadDuration = Date.now() - uploadStartTime;
+      const remainingTime = Math.max(0, minDisplayTime - uploadDuration);
+      
+      if (remainingTime > 0) {
+        console.log(`⏱️ Waiting ${remainingTime}ms to meet minimum display time`);
+        setTimeout(() => {
+          console.log("🏁 Upload process completed, clearing upload state");
+          setIsUploadingImage(false);
+        }, remainingTime);
+      } else {
+        console.log("🏁 Upload process completed, clearing upload state");
+        setIsUploadingImage(false);
+      }
     }
   };
 
   // Remove uploaded image
-  const removeImage = (index: number) => {
-    setUploadedImages(prev => prev.filter((_, i) => i !== index));
-    setImageUrls(prev => prev.filter((_, i) => i !== index));
+  const removeImage = () => {
+    setUploadedImage(null);
+    setUploadedImageUrl(null);
+    setImagePreview(null);
+    setIsUploadingImage(false);
+  };
+
+  // Handle file input change
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleImageUpload([file] as any as FileList);
+    }
+  };
+
+  // Drag and drop handlers
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    const files = e.dataTransfer.files;
+    if (files && files[0]) {
+      handleImageUpload([files[0]] as any as FileList);
+    }
   };
 
   // 处理CAPTCHA验证完成
@@ -233,7 +296,7 @@ export default function ImageToImageTab({
       return;
     }
 
-    if (imageUrls.length === 0) {
+    if (!uploadedImageUrl) {
       toast.error(t("pleaseUploadImage"));
       return;
     }
@@ -247,7 +310,7 @@ export default function ImageToImageTab({
       prompt,
       model: selectedModel,
       mode: "image-edit",
-      image_urls: imageUrls,
+      image_urls: uploadedImageUrl ? [uploadedImageUrl] : undefined,
     };
 
     // 基于积分的CAPTCHA判断
@@ -439,19 +502,22 @@ export default function ImageToImageTab({
               <div className="text-white text-lg font-semibold mb-4">
                 {t("image")}
               </div>
-              {uploadedImages.length === 0 ? (
+              {!uploadedImage ? (
                 <div
                   className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
-                    isUploadingImages
+                    isUploadingImage
                       ? "cursor-not-allowed opacity-50"
                       : "cursor-pointer"
                   } ${
-                    false // isDragOver placeholder for future drag support
+                    isDragOver
                       ? "border-blue-400 bg-blue-900/50"
                       : "border-gray-600 hover:border-gray-500"
                   }`}
+                  onDragOver={!isUploadingImage ? handleDragOver : undefined}
+                  onDragLeave={!isUploadingImage ? handleDragLeave : undefined}
+                  onDrop={!isUploadingImage ? handleDrop : undefined}
                   onClick={() =>
-                    !isUploadingImages &&
+                    !isUploadingImage &&
                     document.getElementById("image-upload")?.click()
                   }
                 >
@@ -459,7 +525,7 @@ export default function ImageToImageTab({
                     id="image-upload"
                     type="file"
                     accept="image/*"
-                    onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files)}
+                    onChange={handleFileInputChange}
                     className="hidden"
                   />
                   <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
@@ -475,19 +541,19 @@ export default function ImageToImageTab({
               ) : (
                 <div className="relative">
                   <img
-                    src={URL.createObjectURL(uploadedImages[0])}
+                    src={imagePreview || ""}
                     alt="Uploaded"
                     className="w-full h-32 object-contain rounded-lg bg-gray-800"
                   />
-                  {!isUploadingImages && (
+                  {!isUploadingImage && (
                     <button
-                      onClick={() => removeImage(0)}
+                      onClick={removeImage}
                       className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
                     >
                       <X className="h-4 w-4" />
                     </button>
                   )}
-                  {isUploadingImages && (
+                  {isUploadingImage && (
                     <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
                       <div className="flex flex-col items-center gap-2">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
@@ -589,7 +655,7 @@ export default function ImageToImageTab({
             disabled={
               isGenerating ||
               !prompt.trim() ||
-              imageUrls.length === 0 ||
+              !uploadedImageUrl ||
               (leftCredits !== null && leftCredits < requiredCredits)
             }
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-h-[44px]"

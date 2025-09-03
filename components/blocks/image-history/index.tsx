@@ -41,9 +41,11 @@ interface ImageHistoryProps {
   userId?: string;
   newImage?: ImageGenerationResult; // 新生成的图片，立即显示
   filterMode?: "text-to-image" | "image-to-image" | "all"; // 过滤模式
+  className?: string; // 允许传递自定义样式
+  showEmptyState?: boolean; // 是否显示空状态
 }
 
-export default function ImageHistory({ refreshTrigger, userId, newImage, filterMode = "all" }: ImageHistoryProps) {
+export default function ImageHistory({ refreshTrigger, userId, newImage, filterMode = "all", className, showEmptyState = false }: ImageHistoryProps) {
   const [images, setImages] = useState<ImageGenerationResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
@@ -1008,18 +1010,12 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
   }, [newImage, startPollingImage]);
 
   return (
-    <div className="bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]">
-      {/* Header */}
-      <header className="border-b border-gray-700 px-3 md:px-4 py-3">
-        <div className="flex items-center space-x-2">
-          <Image className="h-5 w-5 text-white" />
-          <h3 className="text-lg font-semibold text-white">Image History</h3>
-        </div>
-      </header>
-
-      {loading ? (
-        <ImageHistorySkeleton />
-      ) : images.length === 0 ? (
+    <div className={className || "bg-gray-900 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]"}>
+      {/* Scrollable content area */}
+      <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
+        {loading ? (
+          <ImageHistorySkeleton />
+        ) : images.length === 0 ? (
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="text-center">
             <div className="w-16 h-16 mx-auto mb-4 text-gray-400">
@@ -1084,6 +1080,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }
