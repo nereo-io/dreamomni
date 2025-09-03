@@ -2,7 +2,7 @@ import { ImageGenerationTool } from "@/components/blocks/ai-image-generation-too
 import { AIModelsHero } from "@/components/blocks/ai-models-hero";
 import { CreatorShowcase } from "@/components/blocks/creator-showcase";
 import { FAQSection } from "@/components/blocks/faq-section";
-import { CTASectionClient } from "@/components/blocks/cta-section-client";
+import CTA from "@/components/blocks/cta";
 import { getTextToVideoPage } from "@/services/page"; // 暂时使用现有的页面服务
 import { getTranslations } from "next-intl/server";
 
@@ -70,9 +70,15 @@ export default async function ImageGenerationPage({
       ]
     },
     cta: {
+      name: "cta",
       title: "Start Creating Images Today",
-      description: "Join thousands of creators using AI to bring their ideas to life",
-      buttonText: "Get Started"
+      buttons: [
+        {
+          title: "Get Started",
+          url: "/image-generation",
+          target: "_self"
+        }
+      ]
     }
   };
 
@@ -95,11 +101,7 @@ export default async function ImageGenerationPage({
       />
 
       {/* CTA Section */}
-      <CTASectionClient
-        title={imagePageData.cta.title}
-        description={imagePageData.cta.description}
-        buttonText={imagePageData.cta.buttonText}
-      />
+      <CTA section={imagePageData.cta} />
     </>
   );
 }

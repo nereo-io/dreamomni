@@ -25,7 +25,8 @@
     "home": "Home",
     "image_to_video": "Image to Video",
     "text_to_video": "Text to Video",
-    "image_generation": "Image Generation",
+    "text_to_image": "Text to Image",
+    "image_to_image": "Image to Image",
     "ai_video_effects": "AI Video Effects",
     "ai_effects": "AI Effects",
     "my_creations": "My Creations",
@@ -372,6 +373,16 @@
       "description": "Discover the Veo3 AI video generator, a cutting-edge, free solution that effortlessly turns a text prompt into an engaging video. Try our text to video AI today!",
       "keywords": "AI video generator, text to video, free video generator, Veo3 AI, AI video creation, text to video online"
     },
+    "textToImage": {
+      "title": "Free AI Text to Image Generator: Create Images from Text | Veo3 AI",
+      "description": "Transform your words into stunning visuals with Veo3 AI's free text-to-image generator. Create high-quality images from detailed text descriptions with cutting-edge AI technology.",
+      "keywords": "AI text to image, text to image generator, free AI image creator, Veo3 AI, AI art from text, image generation from text"
+    },
+    "imageToImage": {
+      "title": "Free AI Image to Image Editor: Transform Images with AI | Veo3 AI",
+      "description": "Edit and transform your images with Veo3 AI's powerful image-to-image editor. Upload your photos and use AI to create stunning variations and modifications.",
+      "keywords": "AI image editor, image to image AI, photo transformation, AI image editing, Veo3 AI, image modification AI"
+    },
     "imageToVideo": {
       "title": "Free Image to Video AI Generator: Turn Photos to Videos | Veo3 AI",
       "description": "Use the image to video AI generator of Veo3 AI for free. Convert photos to videos with high-quality and captivating results. Try our image to video AI now!",
@@ -420,6 +431,46 @@
       }
     }
   },
+  "imageGenerator": {
+    "textToImage": "Text to Image",
+    "imageToImage": "Image to Image",
+    "prompt": "Prompt",
+    "settings": "Settings",
+    "model": "Model",
+    "image": "Image",
+    "credits": "Credits",
+    "cost": "Cost",
+    "recharge": "Recharge",
+    "generateImage": "Generate Image",
+    "transformImage": "Transform Image",
+    "generating": "Generating...",
+    "uploading": "Uploading...",
+    "clickToUpload": "Click to upload or drag and drop",
+    "supportedFormats": "Supported formats: JPEG, PNG, WEBP",
+    "textToImagePlaceholder": "Describe the image you want to create, e.g., A majestic eagle soaring through mountain peaks at golden hour...",
+    "imageToImagePlaceholder": "Describe how you want to edit the image, e.g., Change the background to a sunset scene, add more contrast...",
+    "pleaseEnterDescription": "Please enter a description for your image",
+    "pleaseUploadImage": "Please upload at least one image for editing",
+    "insufficientCredits": "Insufficient credits. Need {credits} credits to generate with this model.",
+    "imageUploadedSuccessfully": "Image uploaded successfully",
+    "uploadFailed": "Failed to upload image",
+    "invalidImageFile": "{filename} is not a valid image file",
+    "fileSizeExceeded": "{filename} exceeds 10MB size limit",
+    "generationSuccessful": "Image generation successful",
+    "accountSyncSuccessful": "Account synchronized successfully. Please try again.",
+    "pleaseSignInAgain": "Please sign out and sign in again to synchronize your account.",
+    "generationFailed": "Generation failed: {error}",
+    "unknownError": "Unknown error",
+    "nanoBananaDisplayName": "Nano Banana",
+    "nanoBananaProvider": "Kie.ai Nano Banana",
+    "highQuality": "High Quality",
+    "fastGeneration": "Fast",
+    "pleaseSignInToGenerate": "Please sign in to generate images",
+    "generationStarted": "Image generation started. Please check history for updates.",
+    "generationCompleted": "Image generation complete!",
+    "generationInProgress": "Generating...",
+    "generationStatusChecking": "Image generation started. Checking status..."
+  },
   "imageHistory": {
     "title": "Image History",
     "noImagesTitle": "No images yet",
@@ -442,7 +493,18 @@
     "copyImageUrl": "Copy image URL",
     "downloadImage": "Download image",
     "copyPrompt": "Copy prompt",
-    "credits": "credits"
+    "credits": "credits",
+    "pleaseSignIn": "Please sign in",
+    "signInToView": "Sign in to view your generated images and create new ones.",
+    "generatingComplete": "Image generation complete!",
+    "generatingFailed": "Image generation failed: {error}",
+    "imageDeleted": "Image deleted successfully",
+    "deleteFailed": "Failed to delete image",
+    "deleteImage": "Delete image",
+    "addToFavorites": "Add to favorites",
+    "inQueue": "In queue...",
+    "textToImageModel": "Text to Image/nano-banana",
+    "imageToImageModel": "Image to Image/nano-banana"
   },
   "effects": {
     "ai-kissing": "AI Kissing Video Generator",

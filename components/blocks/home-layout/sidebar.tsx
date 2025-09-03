@@ -50,7 +50,8 @@ export function Sidebar() {
   ];
 
   const imageAIItems: SidebarItem[] = [
-    { icon: Image, labelKey: "image_generation", href: "/image-generation" },
+    { icon: Type, labelKey: "text_to_image", href: "/text-to-image" },
+    { icon: Image, labelKey: "image_to_image", href: "/image-to-image" },
   ];
 
   const otherItems: SidebarItem[] = [

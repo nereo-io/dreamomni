@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Image as ImageIcon, Coins, Wand2, Upload, X, Plus, Zap } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import useCredits from "@/hooks/useCredits";
 import { 
   IMAGE_GENERATION_TYPES, 
@@ -51,6 +52,7 @@ export default function ImageGenerator({
 }: ImageGeneratorProps) {
   const { user, setShowSignModal, setShowPricingModal } = useAppContext();
   const { leftCredits, updateLeftCredits, setCredits, isLoading: creditsLoading, hasInitialized } = useCredits();
+  const t = useTranslations("imageGenerator");
   
   // 页面加载时主动查询积分
   useEffect(() => {
@@ -127,11 +129,11 @@ export default function ImageGenerator({
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
-      toast.error(`${file.name} is not a valid image file`);
+      toast.error(t("invalidImageFile", { filename: file.name }));
       return;
     }
     if (file.size > 10 * 1024 * 1024) {
-      toast.error(`${file.name} exceeds 10MB size limit`);
+      toast.error(t("fileSizeExceeded", { filename: file.name }));
       return;
     }
 
@@ -151,13 +153,13 @@ export default function ImageGenerator({
         // Replace the existing image (single image mode)
         setUploadedImages([file]);
         setImageUrls([uploadResult.data.url]);
-        toast.success("Image uploaded successfully");
+        toast.success(t("imageUploadedSuccessfully"));
       } else {
         throw new Error(uploadResult.message || "Upload failed");
       }
     } catch (error) {
       console.error("Upload error:", error);
-      toast.error("Failed to upload image");
+      toast.error(t("uploadFailed"));
     } finally {
       setIsUploadingImages(false);
     }
@@ -179,17 +181,17 @@ export default function ImageGenerator({
     }
 
     if (!prompt.trim()) {
-      toast.error("Please enter a description for your image");
+      toast.error(t("pleaseEnterDescription"));
       return;
     }
 
     if (selectedType === "image-to-image" && imageUrls.length === 0) {
-      toast.error("Please upload at least one image for editing");
+      toast.error(t("pleaseUploadImage"));
       return;
     }
 
     if (leftCredits !== null && leftCredits < requiredCredits) {
-      toast.error(`Insufficient credits. Need ${requiredCredits} credits to generate with this model.`);
+      toast.error(t("insufficientCredits", { credits: requiredCredits }));
       return;
     }
 
@@ -237,7 +239,7 @@ export default function ImageGenerator({
             const syncResult = await syncResponse.json();
             if (syncResult.code === 0) {
               console.log("✅ User sync successful:", syncResult.data.action);
-              toast.success("Account synchronized successfully. Please try again.");
+              toast.success(t("accountSyncSuccessful"));
               return;
             }
           }
@@ -245,10 +247,10 @@ export default function ImageGenerator({
           console.error("❌ Auto sync failed:", syncError);
         }
         
-        toast.error("Please sign out and sign in again to synchronize your account.");
+        toast.error(t("pleaseSignInAgain"));
       } else {
         // 显示失败信息
-        toast.error(`Generation failed: ${errorMessage || "Unknown error"}`);
+        toast.error(t("generationFailed", { error: errorMessage || t("unknownError") }));
       }
     }
   };
@@ -286,9 +288,9 @@ export default function ImageGenerator({
           {/* Image Upload Section (for image-to-image mode) */}
           {selectedType === "image-to-image" && (
             <div>
-              <div className="text-white text-lg font-semibold mb-4">
-                Image
-              </div>
+                          <div className="text-white text-lg font-semibold mb-4">
+              {t("image")}
+            </div>
               {uploadedImages.length === 0 ? (
                 <div
                   className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
@@ -308,10 +310,10 @@ export default function ImageGenerator({
                   <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                   <div className="space-y-2">
                     <p className="text-sm text-gray-300 px-2 text-center">
-                      Click to upload or drag and drop
+                      {t("clickToUpload")}
                     </p>
                     <p className="text-xs text-gray-400 px-2 text-center">
-                      Supported formats: JPEG, PNG, WEBP
+                      {t("supportedFormats")}
                     </p>
                   </div>
                   <input
@@ -341,7 +343,7 @@ export default function ImageGenerator({
                     <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
                       <div className="flex flex-col items-center gap-2">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                        <span className="text-white text-sm">Uploading...</span>
+                        <span className="text-white text-sm">{t("uploading")}</span>
                       </div>
                     </div>
                   )}
@@ -353,15 +355,15 @@ export default function ImageGenerator({
           {/* Prompt Input */}
           <div>
             <div className="text-white text-lg font-semibold mb-4">
-              Prompt
+              {t("prompt")}
             </div>
             <Textarea
               ref={textareaRef}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder={selectedType === "image-to-image" 
-                ? "Describe how you want to edit the image, e.g., Change the background to a sunset scene, add more contrast..."
-                : (descriptionPlaceholder || "Describe the image you want to create, e.g., A majestic eagle soaring through mountain peaks at golden hour...")
+                ? t("imageToImagePlaceholder")
+                : (descriptionPlaceholder || t("textToImagePlaceholder"))
               }
               className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
               style={{ minHeight: "150px", maxHeight: "300px" }}
@@ -372,13 +374,13 @@ export default function ImageGenerator({
           {/* Settings */}
           <div>
             <div className="text-white text-lg font-semibold mb-4">
-              Settings
+              {t("settings")}
             </div>
 
             {/* AI Model Display - Fixed to Nano Banana */}
             <div className="mb-4">
               <label className="text-gray-300 text-sm mb-2 block">
-                Model
+                {t("model")}
               </label>
               <div className="bg-gray-800 border border-gray-700 rounded-md px-3 py-2">
                 <div className="flex items-center gap-3">
@@ -388,7 +390,7 @@ export default function ImageGenerator({
                   <div className="flex flex-col flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="font-medium text-gray-100">
-                        Nano Banana
+                        {t("nanoBananaDisplayName")}
                       </span>
                       <div className="flex items-center gap-1 text-xs text-blue-300">
                         <Coins className="h-3 w-3" />
@@ -400,10 +402,10 @@ export default function ImageGenerator({
                     </span>
                     <div className="flex flex-wrap gap-1">
                       <span className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full">
-                        High Quality
+                        {t("highQuality")}
                       </span>
                       <span className="text-xs px-2 py-0.5 bg-green-500/20 text-green-300 rounded-full">
-                        Fast Generation
+                        {t("fastGeneration")}
                       </span>
                     </div>
                   </div>
@@ -416,10 +418,10 @@ export default function ImageGenerator({
               <div className="flex justify-between items-center">
                 <div>
                   <div className="text-gray-300 mb-1">
-                    Credits: {leftCredits !== null ? leftCredits : "-"}
+                    {t("credits")}: {leftCredits !== null ? leftCredits : "-"}
                   </div>
                   <div className="text-gray-300">
-                    Cost: {requiredCredits} ⚡
+                    {t("cost")}: {requiredCredits} ⚡
                   </div>
                 </div>
                 <Button
@@ -428,7 +430,7 @@ export default function ImageGenerator({
                   className="bg-transparent border-gray-600 text-gray-300 hover:bg-gray-700"
                   onClick={() => setShowPricingModal(true)}
                 >
-                  Recharge
+                  {t("recharge")}
                 </Button>
               </div>
             </div>
@@ -451,13 +453,13 @@ export default function ImageGenerator({
           {isGenerating ? (
             <>
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-              <span className="truncate">Generating...</span>
+              <span className="truncate">{t("generating")}</span>
             </>
           ) : (
             <>
               <Wand2 className="h-4 w-4 mr-2" />
               <span className="truncate">
-                {selectedType === "image-to-image" ? "Transform Image" : "Generate Image"}
+                {selectedType === "image-to-image" ? t("transformImage") : t("generateImage")}
               </span>
             </>
           )}

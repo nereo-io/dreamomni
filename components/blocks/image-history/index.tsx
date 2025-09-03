@@ -19,6 +19,7 @@ import {
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { useTranslations } from "next-intl";
+import ImageHistorySkeleton from "./ImageHistorySkeleton";
 
 export interface ImageGenerationResult {
   id: string;
@@ -39,9 +40,10 @@ interface ImageHistoryProps {
   refreshTrigger: number;
   userId?: string;
   newImage?: ImageGenerationResult; // 新生成的图片，立即显示
+  filterMode?: "text-to-image" | "image-to-image" | "all"; // 过滤模式
 }
 
-export default function ImageHistory({ refreshTrigger, userId, newImage }: ImageHistoryProps) {
+export default function ImageHistory({ refreshTrigger, userId, newImage, filterMode = "all" }: ImageHistoryProps) {
   const [images, setImages] = useState<ImageGenerationResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
@@ -118,6 +120,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
     }
 
     console.log("🔄 Fetching image history for userId:", userId);
+    setLoading(true); // 开始加载时设置loading状态
 
     try {
       const response = await fetch("/api/image-generations/history", {
@@ -143,13 +146,26 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
         });
 
         if (data.code === 0 && Array.isArray(data.data)) {
-          setImages(data.data);
+          // Apply filter based on mode
+          let filteredData = data.data;
+          if (filterMode !== "all") {
+            filteredData = data.data.filter((img: ImageGenerationResult) => {
+              if (filterMode === "text-to-image") {
+                return img.model === "google/nano-banana";
+              } else if (filterMode === "image-to-image") {
+                return img.model === "nano-banana-edit";
+              }
+              return true;
+            });
+          }
+          
+          setImages(filteredData);
           
           // 重置加载中的图片集合
           setLoadingImages(new Set());
           
           // 标记所有完成的图片为需要加载
-          const completedImages = data.data.filter((img: ImageGenerationResult) => 
+          const completedImages = filteredData.filter((img: ImageGenerationResult) => 
             (img.status === "completed" || img.status === "saved_to_r2") && img.image_url
           );
           
@@ -160,16 +176,31 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
           }
           
           // 开始轮询生成中的图片
-          startPollingForProcessingImages(data.data);
+          startPollingForProcessingImages(filteredData);
+          
+          // 检查是否需要结束loading状态
+          const hasProcessingImages = filteredData.some((img: ImageGenerationResult) => 
+            img.status === "pending" || 
+            img.status === "processing" || 
+            img.status === "in_progress" || 
+            img.status === "in_queue"
+          );
+          
+          // 如果没有处理中的图片，立即结束loading
+          if (!hasProcessingImages) {
+            setLoading(false);
+          }
         } else {
           console.error("❌ Invalid response format:", data);
           setImages([]);
+          setLoading(false);
         }
       } else {
         console.error("❌ Failed to fetch image history:", response.status, response.statusText);
         const errorText = await response.text();
         console.error("❌ Error response body:", errorText);
         setImages([]);
+        setLoading(false);
       }
     } catch (error) {
       console.error("❌ Error fetching image history:", error);
@@ -266,9 +297,9 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
           
           // 如果图片成功生成，显示通知
           if (updatedImage.status === "completed" && updatedImage.image_url) {
-            toast.success("图片生成完成！", { duration: 3000 });
+            toast.success(t("generatingComplete"), { duration: 3000 });
           } else if (updatedImage.status === "failed") {
-            toast.error(`图片生成失败: ${updatedImage.error_message || "未知错误"}`);
+            toast.error(t("generatingFailed", { error: updatedImage.error_message || t("unknownError") }));
           }
         }
       }
@@ -311,10 +342,10 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
     const newFavorites = new Set(favorites);
     if (newFavorites.has(imageId)) {
       newFavorites.delete(imageId);
-      toast.success("Removed from favorites");
+      toast.success(t("removedFromFavorites"));
     } else {
       newFavorites.add(imageId);
-      toast.success("Added to favorites");
+      toast.success(t("addedToFavorites"));
     }
     saveFavorites(newFavorites);
   };
@@ -404,7 +435,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
     forceDownload(blob, filename);
 
     console.log("✅ Fetch download successful");
-    toast.success(`图片已下载: ${filename}`);
+    toast.success(t("imageDownloaded"));
   };
 
   // 方法1: 通过代理下载（避免CORS问题）
@@ -470,7 +501,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
         try {
           forceDownload(blob, filename);
           console.log(`✅ Proxy download successful with service ${i + 1}`);
-          toast.success(`图片已下载: ${filename}`);
+          toast.success(t("imageDownloaded"));
           return;
         } catch (downloadError) {
           console.error(`❌ forceDownload failed for proxy ${i + 1}:`, downloadError);
@@ -490,7 +521,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
             setTimeout(() => {
               tempLink.click();
               console.log(`✅ Alternative download triggered for proxy ${i + 1}`);
-              toast.success(`图片已下载: ${filename}`);
+              toast.success(t("imageDownloaded"));
               
               // 清理
               setTimeout(() => {
@@ -515,7 +546,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
               finalLink.click();
               
               console.log(`✅ Final fallback download triggered for proxy ${i + 1}`);
-              toast.success(`图片已下载: ${filename}`);
+              toast.success(t("imageDownloaded"));
               
               // 清理
               setTimeout(() => URL.revokeObjectURL(finalUrl), 1000);
@@ -633,7 +664,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
             forceDownload(blob, filename);
             
             console.log("✅ Canvas download successful");
-            toast.success(`图片已下载: ${filename}`);
+            toast.success(t("imageDownloaded"));
             resolve();
           }, 'image/jpeg', 0.9);
           
@@ -800,7 +831,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
   // Copy prompt
   const copyPrompt = (prompt: string) => {
     navigator.clipboard.writeText(prompt);
-    toast.success("Prompt copied to clipboard");
+    toast.success(t("promptCopied"));
   };
 
 
@@ -814,9 +845,9 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
   const formatModelDisplayName = (modelName: string): string => {
     switch (modelName) {
       case 'google/nano-banana':
-        return 'Text to Image/nano-banana';
+        return t("textToImageModel");
       case 'nano-banana-edit':
-        return 'Image to Image/nano-banana';
+        return t("imageToImageModel");
       default:
         return modelName;
     }
@@ -866,7 +897,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
         console.log("✅ Delete successful, updating UI");
         // 从列表中移除已删除的图片
         setImages(prevImages => prevImages.filter(img => img.id !== imageId));
-        toast.success("Image deleted successfully");
+        toast.success(t("imageDeleted"));
         
         // 强制刷新历史记录以确保数据一致性
         setTimeout(() => {
@@ -884,7 +915,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
     } catch (error) {
       console.error("Delete error:", error);
       const errorMessage = error instanceof Error ? error.message : "Failed to delete image";
-      toast.error(errorMessage);
+      toast.error(t("deleteFailed"));
     }
   };
 
@@ -987,9 +1018,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
       </header>
 
       {loading ? (
-        <div className="flex items-center justify-center flex-1">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-        </div>
+        <ImageHistorySkeleton />
       ) : images.length === 0 ? (
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="text-center">
@@ -1009,12 +1038,12 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
               </svg>
             </div>
             <h3 className="text-lg font-medium text-white mb-2">
-              {!userId ? "Please sign in" : "No images yet"}
+              {!userId ? t("pleaseSignIn") : t("noImagesTitle")}
             </h3>
             <p className="text-gray-400">
               {!userId 
-                ? "Sign in to view your generated images and create new ones."
-                : "Your generated images will appear here once you start creating."
+                ? t("signInToView")
+                : t("noImagesDescription")
               }
             </p>
           </div>
@@ -1047,6 +1076,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage }: Image
                     formatModelDisplayName={formatModelDisplayName}
                     onImageStartLoading={handleImageStartLoading}
                     onImageLoaded={handleImageLoaded}
+                    t={t}
                   />
                 );
               })}
@@ -1072,6 +1102,7 @@ interface MasonryImageCardProps {
   formatModelDisplayName: (modelName: string) => string;
   onImageStartLoading?: (imageId: string) => void;
   onImageLoaded?: (imageId: string) => void;
+  t: (key: string, params?: any) => string;
 }
 
 const MasonryImageCard = ({ 
@@ -1086,7 +1117,8 @@ const MasonryImageCard = ({
   getStatusBadge,
   formatModelDisplayName,
   onImageStartLoading,
-  onImageLoaded
+  onImageLoaded,
+  t
 }: MasonryImageCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [naturalDimensions, setNaturalDimensions] = useState<{ width: number; height: number } | null>(null);
@@ -1155,7 +1187,7 @@ const MasonryImageCard = ({
                     onDownload(image.image_url!, image.prompt);
                   }}
                   className="bg-white/90 text-black hover:bg-white shadow-lg backdrop-blur-sm"
-                  title="Download image"
+                  title={t("downloadImage")}
                 >
                   <Download className="h-4 w-4" />
                 </Button>
@@ -1166,7 +1198,7 @@ const MasonryImageCard = ({
                     onOpen(image.image_url!);
                   }}
                   className="bg-white/90 text-black hover:bg-white shadow-lg backdrop-blur-sm"
-                  title="Open image in new tab"
+                  title={t("openInNewTab")}
                 >
                   <ExternalLink className="h-4 w-4" />
                 </Button>
@@ -1178,7 +1210,7 @@ const MasonryImageCard = ({
                     onCopyPrompt(image.prompt);
                   }}
                   className="bg-white/90 text-black hover:bg-white shadow-lg backdrop-blur-sm"
-                  title="Copy prompt"
+                  title={t("copyPrompt")}
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
@@ -1193,7 +1225,7 @@ const MasonryImageCard = ({
             <div className="text-center">
               <Loader2 className="h-8 w-8 animate-spin text-gray-300 mx-auto mb-2" />
               <p className="text-sm text-gray-300">
-                {(image.status === "processing" || image.status === "in_progress") ? "Generating..." : "In queue..."}
+                {(image.status === "processing" || image.status === "in_progress") ? t("generatingImage") : t("inQueue")}
               </p>
               {pollingImages.has(image.id) && (
                 <div className="flex items-center justify-center mt-2">
@@ -1234,7 +1266,7 @@ const MasonryImageCard = ({
                 size="sm"
                 onClick={() => onDelete(image.id, image.prompt)}
                 className="text-red-400 hover:text-red-600 bg-red-50/10 hover:bg-red-50/20 h-7 w-7 p-0"
-                title="Delete image"
+                title={t("deleteImage")}
               >
                 <Trash2 className="h-3 w-3" />
               </Button>
@@ -1244,7 +1276,7 @@ const MasonryImageCard = ({
                 size="sm"
                 onClick={() => onToggleFavorite(image.id)}
                 className="text-gray-400 hover:text-red-400 h-7 w-7 p-0"
-                title="Add to favorites"
+                title={t("addToFavorites")}
               >
                 <Heart
                   className={`h-3 w-3 ${

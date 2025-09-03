@@ -6,6 +6,7 @@ import ImageGenerator from "../image-generator";
 import ImageHistory from "../image-history";
 import useImageGeneration from "@/hooks/useImageGeneration";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
 import { useAppContext } from "@/contexts/app";
 
@@ -18,13 +19,14 @@ interface ImageGenerationToolProps {
   descriptionPlaceholder?: string;
 }
 
-export function ImageGenerationTool({
+export function LegacyImageGenerationTool({
   descriptionLabel,
   descriptionPlaceholder,
 }: ImageGenerationToolProps) {
   const { submitGeneration, pollStatus, startSmartPolling, fetchHistory } = useImageGeneration();
   const { trackImageGeneration } = useYandexTracking();
   const { user } = useAppContext();
+  const t = useTranslations("imageGenerator");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationTrigger, setGenerationTrigger] = useState(0);
   const [currentSelectedModel, setCurrentSelectedModel] = useState<string>("");
@@ -44,7 +46,7 @@ export function ImageGenerationTool({
   // Handle generation submission
   const handleGenerate = async (params: ImageGenerationParams) => {
     if (!user?.uuid) {
-      toast.error("Please sign in to generate images");
+      toast.error(t("pleaseSignInToGenerate"));
       return;
     }
 
@@ -80,7 +82,7 @@ export function ImageGenerationTool({
         }
       } else {
         // Unknown status
-        toast.info("Image generation started. Please check history for updates.");
+        toast.info(t("generationStarted"));
       }
       
       // Refresh history after generation submission
@@ -90,8 +92,8 @@ export function ImageGenerationTool({
       
     } catch (error) {
       console.error("Generation error:", error);
-      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
-      toast.error(`Generation failed: ${errorMessage}`);
+      const errorMessage = error instanceof Error ? error.message : t("unknownError");
+      toast.error(t("generationFailed", { error: errorMessage }));
       
       // If we have a generation ID, stop any polling for it
       if (generationId) {
@@ -125,7 +127,7 @@ export function ImageGenerationTool({
     setNewImage(newImageObj);
     
     // Show completion notification
-    toast.success("图片生成完成！", {
+    toast.success(t("generationCompleted"), {
       duration: 3000,
     });
   };
@@ -136,7 +138,7 @@ export function ImageGenerationTool({
     setPollingGenerations(prev => new Set(prev).add(generationId));
     
     // Show initial toast
-    toast.info("Image generation started. Checking status...", {
+    toast.info(t("generationStatusChecking"), {
       duration: 3000,
     });
 
@@ -178,7 +180,7 @@ export function ImageGenerationTool({
         
         // Show status update toast for significant changes
         if (result.status === "processing") {
-          toast.info("生成中...", { duration: 2000 });
+          toast.info(t("generationInProgress"), { duration: 2000 });
         }
       },
       // onComplete callback
@@ -203,11 +205,11 @@ export function ImageGenerationTool({
         setNewImage(completedImageObj);
         
         if (result.image_url) {
-          toast.success("图片生成完成！", {
+          toast.success(t("generationCompleted"), {
             duration: 3000,
           });
         } else {
-          toast.success("图片生成完成，但未找到图片URL");
+          toast.success(t("generationCompleted"));
         }
         
         // Refresh history after completion
@@ -239,7 +241,7 @@ export function ImageGenerationTool({
         
         setNewImage(errorImageObj);
         
-        toast.error(`Generation failed: ${error}`);
+        toast.error(t("generationFailed", { error }));
         
         // Refresh history after error
         setTimeout(() => {
@@ -294,3 +296,6 @@ export function ImageGenerationTool({
     </div>
   );
 }
+
+// Export the new tab-based component as the default
+export { TabImageGenerationTool as ImageGenerationTool } from "./TabImageGenerationTool";
