@@ -27,7 +27,7 @@ import {
   VideoModelProvider,
 } from "@/config/video-models";
 import { ProviderFactory } from "@/services/providers";
-import { optimizePromptWithTimeout } from "@/services/promptOptimization";
+import { optimizeVideoPromptWithTimeout } from "@/services/promptOptimization";
 import { getEffectConfigById } from "@/models/effectConfig";
 
 // 验证Cloudflare Turnstile CAPTCHA
@@ -248,7 +248,7 @@ export async function POST(req: Request) {
     let enhancedPrompt = finalPrompt;
     if (enable_prompt_enhancement) {
       try {
-        const optimizedPrompt = await optimizePromptWithTimeout(
+        const optimizedPrompt = await optimizeVideoPromptWithTimeout(
           finalPrompt,
           finalModel,
           30000

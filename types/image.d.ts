@@ -4,11 +4,12 @@
  */
 
 export type ImageGenerationStatus =
-  | "PENDING"      // 待处理
-  | "IN_QUEUE"     // 队列中
-  | "IN_PROGRESS"  // 生成中
-  | "COMPLETED"    // 生成成功
-  | "FAILED"       // 生成失败
+  | "PENDING"           // 待处理
+  | "PROMPT_OPTIMIZING" // 提示词优化中
+  | "IN_QUEUE"          // 队列中
+  | "IN_PROGRESS"       // 生成中
+  | "COMPLETED"         // 生成成功
+  | "FAILED"            // 生成失败
   | "SAVED_TO_R2"; // 已保存到云存储
 
 export type ImageGenerationSource = 

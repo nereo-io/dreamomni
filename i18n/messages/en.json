@@ -464,6 +464,7 @@
     "pleaseSignInAgain": "Please sign out and sign in again to synchronize your account.",
     "generationFailed": "Generation failed: {error}",
     "unknownError": "Unknown error",
+    "promptEnhancementDescription": "AI will enhance your prompt for better image quality",
     "nanoBananaDisplayName": "Nano Banana",
     "nanoBananaProvider": "Kie.ai Nano Banana",
     "highQuality": "High Quality",

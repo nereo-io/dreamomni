@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
 // Select components removed - using fixed model display
 import { Image as ImageIcon, Coins, Wand2, Upload, X, Plus, Zap } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
@@ -29,6 +30,7 @@ export interface ImageGenerationParams {
   quality?: string;
   style?: string;
   seed?: number;
+  enable_prompt_enhancement?: boolean; // Prompt Enhancement 开关
   captchaToken?: string; // CAPTCHA验证令牌
 }
 
@@ -74,6 +76,7 @@ export default function ImageGenerator({
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [isUploadingImages, setIsUploadingImages] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(true);
   
   // CAPTCHA related states
   const [showCaptchaModal, setShowCaptchaModal] = useState(false);
@@ -238,6 +241,7 @@ export default function ImageGenerator({
       mode: selectedType === "text-to-image" ? "text-to-image" : "image-edit",
       provider: provider || undefined,
       image_urls: selectedType === "image-to-image" ? imageUrls : undefined,
+      enable_prompt_enhancement: enablePromptEnhancement,
     };
 
     // 基于积分的CAPTCHA判断
@@ -453,6 +457,25 @@ export default function ImageGenerator({
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Prompt Enhancement Toggle */}
+            <div className="bg-gray-800 rounded-lg p-4 mb-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-gray-300 font-medium mb-1">
+                    Prompt Enhancement
+                  </div>
+                  <div className="text-xs text-gray-400">
+                    {t("promptEnhancementDescription")}
+                  </div>
+                </div>
+                <Switch
+                  checked={enablePromptEnhancement}
+                  onCheckedChange={setEnablePromptEnhancement}
+                  className="data-[state=checked]:bg-primary"
+                />
               </div>
             </div>
 

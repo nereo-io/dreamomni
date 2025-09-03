@@ -464,6 +464,7 @@
     "pleaseSignInAgain": "Пожалуйста, выйдите и войдите снова для синхронизации аккаунта.",
     "generationFailed": "Генерация не удалась: {error}",
     "unknownError": "Неизвестная ошибка",
+    "promptEnhancementDescription": "ИИ улучшит ваш промпт для лучшего качества изображения",
     "nanoBananaDisplayName": "Nano Banana",
     "nanoBananaProvider": "Kie.ai Nano Banana",
     "highQuality": "Высокое качество",

@@ -11,6 +11,7 @@ import { useAppContext } from "@/contexts/app";
 import { CaptchaModal } from "@/components/ui/captcha-modal";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
 import { Image as ImageIcon, Coins, Wand2 } from "lucide-react";
 import useCredits from "@/hooks/useCredits";
 
@@ -38,6 +39,7 @@ export default function TextToImageTab({
   const [newImage, setNewImage] = useState<HistoryImageResult | undefined>();
   const [pollingGenerations, setPollingGenerations] = useState<Set<string>>(new Set());
   const [prompt, setPrompt] = useState("");
+  const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(true);
   
   // CAPTCHA related states
   const [showCaptchaModal, setShowCaptchaModal] = useState(false);
@@ -186,6 +188,7 @@ export default function TextToImageTab({
       prompt,
       model: selectedModel,
       mode: "text-to-image",
+      enable_prompt_enhancement: enablePromptEnhancement,
     };
 
     // 基于积分的CAPTCHA判断
@@ -374,8 +377,21 @@ export default function TextToImageTab({
           <div className="space-y-4 md:space-y-5 px-4 md:px-6 py-4 md:py-5">
             {/* Prompt Input */}
             <div>
-              <div className="text-white text-lg font-semibold mb-4">
-                {t("prompt")}
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-2 mb-4">
+                <div className="text-white text-lg font-semibold">
+                  {t("prompt")}
+                </div>
+                {/* Prompt Enhancement Toggle */}
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <span className="text-xs text-gray-400 whitespace-nowrap">
+                    Prompt Enhancement
+                  </span>
+                  <Switch
+                    checked={enablePromptEnhancement}
+                    onCheckedChange={setEnablePromptEnhancement}
+                    className="data-[state=checked]:bg-primary scale-75"
+                  />
+                </div>
               </div>
               <Textarea
                 ref={textareaRef}

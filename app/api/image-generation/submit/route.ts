@@ -12,6 +12,7 @@ import {
   CreditsTransType,
   getUserCredits,
 } from "@/services/credit";
+import { optimizeImagePromptWithTimeout } from "@/services/promptOptimization";
 import type { CreateImageGenerationParams } from "@/types/image.d";
 import type { AIServiceProvider } from "@/types/provider.d";
 import { NextRequest } from "next/server";
@@ -99,6 +100,7 @@ export async function POST(req: NextRequest) {
       image_urls,
       negative_prompt,
       provider,
+      enable_prompt_enhancement = true,
       captchaToken,
     } = await req.json();
 
@@ -176,22 +178,42 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-      // 1. 创建数据库记录
+      // 1. 优化提示词（如果启用）
+      let enhancedPrompt = prompt;
+      if (enable_prompt_enhancement) {
+        console.log("🔧 Optimizing prompt...");
+        try {
+                  const optimizedPrompt = await optimizeImagePromptWithTimeout(
+          prompt,
+          model, // 传递具体的图片模型类型
+          30000
+        );
+          enhancedPrompt = optimizedPrompt;
+          console.log("✨ Prompt optimized successfully");
+        } catch (error) {
+          console.error("Prompt optimization failed:", error);
+          // 如果优化失败，继续使用原始prompt
+        }
+      }
+
+      // 2. 创建数据库记录
       const createParams: CreateImageGenerationParams = {
         user_id: userInfo.uuid!,
         model_id: model,
-        prompt,
+        prompt: enhancedPrompt,
         negative_prompt,
         mode: mode as any,
         source: "web",
         provider: selectedProvider,
         input_image_urls: image_urls,
         credits_used: creditsRequired,
-        status: "PENDING",
+        status: enable_prompt_enhancement ? "PROMPT_OPTIMIZING" : "PENDING",
         metadata: {
           request_source: "api",
           user_agent: req.headers.get("user-agent"),
           provider: selectedProvider,
+          original_prompt: prompt, // 保存原始prompt
+          enable_prompt_enhancement,
         },
       };
 
@@ -199,26 +221,26 @@ export async function POST(req: NextRequest) {
       const imageGeneration = await createImageGeneration(createParams);
       console.log("✅ Created image generation record:", imageGeneration.id);
 
-      // 2. 更新状态为 IN_PROGRESS
+      // 3. 更新状态为 IN_PROGRESS
       console.log("🔄 Updating status to IN_PROGRESS...");
       await updateImageGenerationById(imageGeneration.id, {
         status: "IN_PROGRESS",
       });
 
-      // 3. 调用AI服务提供商API
+      // 4. 调用AI服务提供商API
       console.log(`🤖 Calling ${selectedProvider} API...`);
       
       let result;
       if (mode === "image-to-image" && image_urls && image_urls.length > 0) {
         result = await aiServiceManager.editImage(selectedProvider, {
-          prompt,
+          prompt: enhancedPrompt,
           imageUrls: image_urls,
           model,
           negativePrompt: negative_prompt,
         });
       } else {
         result = await aiServiceManager.generateImage(selectedProvider, {
-          prompt,
+          prompt: enhancedPrompt,
           model,
           negativePrompt: negative_prompt,
           count: 1,
