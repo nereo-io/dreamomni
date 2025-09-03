@@ -148,7 +148,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
     if (session && session.user) {
       fetchUserInfo();
     }
-  }, [session]);
+  }, [session?.user?.email]);
 
   // 获取 pricing 数据
   useEffect(() => {
