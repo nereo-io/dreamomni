@@ -1012,6 +1012,13 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
             {t("completed")}
           </Badge>
         );
+      case "prompt_optimizing":
+        return (
+          <Badge variant="secondary" className="bg-purple-500 hover:bg-purple-600 text-white border-transparent">
+            <Loader2 className="mr-2 h-3 w-3 animate-spin" />
+            {t("optimizingPrompt")}
+          </Badge>
+        );
       case "in_progress":
       case "in_queue":
       case "pending":

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import type React from "react";
-import ImageHistory from "../image-history";
+import ImageHistoryForGeneration from "../image-history-for-generation";
 import useImageGeneration from "@/hooks/useImageGeneration";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
@@ -136,7 +136,7 @@ export default function TextToImageTab({
       if (response.data?.status === "completed" && response.data.image_url) {
         // Synchronous completion - image already generated
         await handleCompletedGeneration(response.data, params);
-      } else if (response.data?.status === "pending" || response.data?.status === "processing") {
+      } else if (response.data?.status === "pending" || response.data?.status === "processing" || response.data?.status === "PROMPT_OPTIMIZING") {
         // Asynchronous generation - start polling
         if (generationId) {
           await handleAsyncGeneration(generationId, params);
@@ -240,7 +240,7 @@ export default function TextToImageTab({
       id: generationId,
       prompt: params.prompt,
       image_url: null,
-      status: "pending",
+      status: params.enable_prompt_enhancement ? "prompt_optimizing" : "pending",
       model: params.model,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
@@ -384,7 +384,7 @@ export default function TextToImageTab({
                 {/* Prompt Enhancement Toggle */}
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <span className="text-xs text-gray-400 whitespace-nowrap">
-                    Prompt Enhancement
+                    {t("promptEnhancement")}
                   </span>
                   <Switch
                     checked={enablePromptEnhancement}
@@ -498,11 +498,11 @@ export default function TextToImageTab({
       </div>
 
       {/* Text to Image History */}
-      <ImageHistory
+      <ImageHistoryForGeneration
         refreshTrigger={generationTrigger}
         userId={user?.uuid}
         newImage={newImage}
-        filterMode="text-to-image"
+        mode="text-to-image"
       />
 
       {/* CAPTCHA模态框 */}

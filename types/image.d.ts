@@ -5,6 +5,7 @@
 
 export type ImageGenerationStatus =
   | "PENDING"           // 待处理
+  | "PROMPT_OPTIMIZING" // 提示词优化中
   | "IN_QUEUE"          // 队列中
   | "IN_PROGRESS"       // 生成中
   | "COMPLETED"         // 生成成功
@@ -108,6 +109,7 @@ export interface CreateImageGenerationParams {
 export interface UpdateImageGenerationParams {
   provider_task_id?: string;
   status?: ImageGenerationStatus;
+  optimized_prompt?: string;
   image_urls?: string[];
   image_urls_r2?: string[];
   image_count?: number;

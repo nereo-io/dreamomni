@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import type React from "react";
 import ImageGenerator from "../image-generator";
-import ImageHistory from "../image-history";
+import ImageHistoryForGeneration from "../image-history-for-generation";
 import useImageGeneration from "@/hooks/useImageGeneration";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
@@ -17,11 +17,13 @@ import type { ImageGenerationResult as HistoryImageResult } from "../image-histo
 interface ImageGenerationToolProps {
   descriptionLabel?: string;
   descriptionPlaceholder?: string;
+  mode?: "text-to-image" | "image-to-image";
 }
 
 export function LegacyImageGenerationTool({
   descriptionLabel,
   descriptionPlaceholder,
+  mode = "text-to-image",
 }: ImageGenerationToolProps) {
   const { submitGeneration, pollStatus, startSmartPolling, fetchHistory } = useImageGeneration();
   const { trackImageGeneration } = useYandexTracking();
@@ -276,6 +278,20 @@ export function LegacyImageGenerationTool({
     setCurrentSelectedModel(model);
   };
 
+  // Handle edit image
+  const handleEditImage = (image: any) => {
+    // TODO: Implement edit functionality
+    console.log("Edit image:", image);
+    toast.info("Edit functionality coming soon");
+  };
+
+  // Handle regenerate image
+  const handleRegenerateImage = (image: any) => {
+    // TODO: Implement regenerate functionality
+    console.log("Regenerate image:", image);
+    toast.info("Regenerate functionality coming soon");
+  };
+
   return (
     <div className="w-full mb-6 sm:mb-8 lg:mb-10 lg:h-[calc(100vh-120px)]">
       <div className="flex flex-col lg:flex-row gap-2 h-full">
@@ -287,10 +303,14 @@ export function LegacyImageGenerationTool({
           onModelChange={handleModelChange}
         />
 
-        <ImageHistory
+        <ImageHistoryForGeneration
           refreshTrigger={generationTrigger}
           userId={user?.uuid}
           newImage={newImage}
+          selectedModel={currentSelectedModel}
+          mode={mode}
+          onEditImage={handleEditImage}
+          onRegenerateImage={handleRegenerateImage}
         />
       </div>
     </div>

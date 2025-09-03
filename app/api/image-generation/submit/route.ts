@@ -178,37 +178,19 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-      // 1. 优化提示词（如果启用）
-      let enhancedPrompt = prompt;
-      if (enable_prompt_enhancement) {
-        console.log("🔧 Optimizing prompt...");
-        try {
-                  const optimizedPrompt = await optimizeImagePromptWithTimeout(
-          prompt,
-          model, // 传递具体的图片模型类型
-          30000
-        );
-          enhancedPrompt = optimizedPrompt;
-          console.log("✨ Prompt optimized successfully");
-        } catch (error) {
-          console.error("Prompt optimization failed:", error);
-          // 如果优化失败，继续使用原始prompt
-        }
-      }
-
-      // 2. 创建数据库记录
+      // 2. 创建数据库记录（先创建记录，再进行提示词优化）
       const createParams: CreateImageGenerationParams = {
         user_id: userInfo.uuid!,
         model_id: model,
         prompt: prompt, // 存储原始用户输入
-        optimized_prompt: enhancedPrompt, // 存储优化后的prompt
+        optimized_prompt: undefined, // 优化后的prompt稍后更新
         negative_prompt,
         mode: mode as any,
         source: "web",
         provider: selectedProvider,
         input_image_urls: image_urls,
         credits_used: creditsRequired,
-        status: "PENDING",
+        status: enable_prompt_enhancement ? "PROMPT_OPTIMIZING" : "PENDING",
         metadata: {
           request_source: "api",
           user_agent: req.headers.get("user-agent"),
@@ -220,6 +202,35 @@ export async function POST(req: NextRequest) {
       console.log("📝 Creating image generation record...");
       const imageGeneration = await createImageGeneration(createParams);
       console.log("✅ Created image generation record:", imageGeneration.id);
+
+      // 1. 优化提示词（如果启用）
+      let enhancedPrompt = prompt;
+      if (enable_prompt_enhancement) {
+        console.log("🔧 Optimizing prompt for image generation:", imageGeneration.id);
+        try {
+          const optimizedPrompt = await optimizeImagePromptWithTimeout(
+            prompt,
+            model, // 传递具体的图片模型类型
+            30000
+          );
+          enhancedPrompt = optimizedPrompt;
+          console.log("✨ Prompt optimized successfully");
+          
+          // 更新优化后的提示词
+          await updateImageGenerationById(imageGeneration.id, {
+            optimized_prompt: enhancedPrompt,
+            status: "PENDING",
+          });
+        } catch (error) {
+          console.error("Prompt optimization failed:", error);
+          // 如果优化失败，继续使用原始prompt，更新状态为PENDING
+          await updateImageGenerationById(imageGeneration.id, {
+            status: "PENDING",
+          });
+        }
+      }
+
+
 
       // 3. 更新状态为 IN_PROGRESS
       console.log("🔄 Updating status to IN_PROGRESS...");
