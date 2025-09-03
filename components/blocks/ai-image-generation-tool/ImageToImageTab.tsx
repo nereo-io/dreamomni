@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import type React from "react";
 import ImageHistory from "../image-history";
 import useImageGeneration from "@/hooks/useImageGeneration";
@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
 import { useAppContext } from "@/contexts/app";
+import { CaptchaModal } from "@/components/ui/captcha-modal";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Image as ImageIcon, Coins, Wand2, X } from "lucide-react";
@@ -41,11 +42,21 @@ export default function ImageToImageTab({
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [isUploadingImages, setIsUploadingImages] = useState(false);
   
+  // CAPTCHA related states
+  const [showCaptchaModal, setShowCaptchaModal] = useState(false);
+  const [pendingCaptchaParams, setPendingCaptchaParams] = useState<ImageGenerationParams | null>(null);
+  
   const cleanupFunctionsRef = useRef<Map<string, () => void>>(new Map());
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const selectedModel = "nano-banana-edit";
   const requiredCredits = 2;
+
+  // 检查是否需要CAPTCHA验证（基于积分）
+  const needsCaptcha = useCallback(() => {
+    // 新用户（积分=10）需要CAPTCHA验证，防止薅羊毛
+    return user?.uuid && leftCredits === 10;
+  }, [user?.uuid, leftCredits]);
 
   // 页面加载时主动查询积分
   useEffect(() => {
@@ -131,40 +142,36 @@ export default function ImageToImageTab({
     setImageUrls(prev => prev.filter((_, i) => i !== index));
   };
 
-  // Handle generation submission
-  const handleGenerate = async () => {
-    if (!user?.uuid) {
-      toast.error(t("pleaseSignInToGenerate"));
-      return;
+  // 处理CAPTCHA验证完成
+  const handleCaptchaComplete = async (captchaToken: string) => {
+    if (pendingCaptchaParams) {
+      const finalParams = {
+        ...pendingCaptchaParams,
+        captchaToken
+      };
+      
+      // 关闭模态框并清理状态
+      setShowCaptchaModal(false);
+      setPendingCaptchaParams(null);
+      
+      // 执行实际的生成请求
+      await executeGeneration(finalParams);
     }
+  };
 
-    if (!prompt.trim()) {
-      toast.error(t("pleaseEnterDescription"));
-      return;
-    }
+  // 处理CAPTCHA模态框关闭
+  const handleCaptchaModalClose = () => {
+    setShowCaptchaModal(false);
+    setPendingCaptchaParams(null);
+  };
 
-    if (imageUrls.length === 0) {
-      toast.error(t("pleaseUploadImage"));
-      return;
-    }
-
-    if (leftCredits !== null && leftCredits < requiredCredits) {
-      toast.error(t("insufficientCredits", { credits: requiredCredits }));
-      return;
-    }
-
+  // 执行实际的生成逻辑
+  const executeGeneration = async (params: ImageGenerationParams) => {
     setIsGenerating(true);
     let generationId: string | null = null;
 
     try {
-      console.log("Starting image-to-image generation with params:", { prompt, model: selectedModel, imageUrls });
-      
-      const params: ImageGenerationParams = {
-        prompt,
-        model: selectedModel,
-        mode: "image-edit",
-        image_urls: imageUrls,
-      };
+      console.log("Starting image-to-image generation with params:", params);
       
       // Submit generation request
       const response = await submitGeneration(params);
@@ -212,6 +219,47 @@ export default function ImageToImageTab({
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  // Handle generation submission
+  const handleGenerate = async () => {
+    if (!user?.uuid) {
+      toast.error(t("pleaseSignInToGenerate"));
+      return;
+    }
+
+    if (!prompt.trim()) {
+      toast.error(t("pleaseEnterDescription"));
+      return;
+    }
+
+    if (imageUrls.length === 0) {
+      toast.error(t("pleaseUploadImage"));
+      return;
+    }
+
+    if (leftCredits !== null && leftCredits < requiredCredits) {
+      toast.error(t("insufficientCredits", { credits: requiredCredits }));
+      return;
+    }
+
+    const params: ImageGenerationParams = {
+      prompt,
+      model: selectedModel,
+      mode: "image-edit",
+      image_urls: imageUrls,
+    };
+
+    // 基于积分的CAPTCHA判断
+    if (needsCaptcha()) {
+      // 新用户需要CAPTCHA验证
+      setPendingCaptchaParams(params);
+      setShowCaptchaModal(true);
+      return;
+    }
+
+    // 直接执行生成
+    await executeGeneration(params);
   };
 
   // Handle completed generation (synchronous)
@@ -567,6 +615,15 @@ export default function ImageToImageTab({
         userId={user?.uuid}
         newImage={newImage}
         filterMode="image-to-image"
+      />
+
+      {/* CAPTCHA模态框 */}
+      <CaptchaModal
+        isOpen={showCaptchaModal}
+        onClose={handleCaptchaModalClose}
+        onCaptchaComplete={handleCaptchaComplete}
+        isSubmitting={isGenerating}
+        mode="image"
       />
     </div>
   );

@@ -9,6 +9,7 @@ import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import useCredits from "@/hooks/useCredits";
+import { CaptchaModal } from "@/components/ui/captcha-modal";
 import { 
   IMAGE_GENERATION_TYPES, 
   getModelById, 
@@ -28,6 +29,7 @@ export interface ImageGenerationParams {
   quality?: string;
   style?: string;
   seed?: number;
+  captchaToken?: string; // CAPTCHA验证令牌
 }
 
 interface ImageGeneratorProps {
@@ -72,6 +74,10 @@ export default function ImageGenerator({
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [isUploadingImages, setIsUploadingImages] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
+  
+  // CAPTCHA related states
+  const [showCaptchaModal, setShowCaptchaModal] = useState(false);
+  const [pendingCaptchaParams, setPendingCaptchaParams] = useState<ImageGenerationParams | null>(null);
 
   // 固定的Nano Banana模型信息
   const currentModel = {
@@ -84,6 +90,12 @@ export default function ImageGenerator({
   // 计算所需积分
   // 图片生成固定消耗2个积分
   const requiredCredits = 2;
+  
+  // 检查是否需要CAPTCHA验证（基于积分）
+  const needsCaptcha = useCallback(() => {
+    // 新用户（积分=10）需要CAPTCHA验证，防止薅羊毛
+    return user?.uuid && leftCredits === 10;
+  }, [user?.uuid, leftCredits]);
   
   // Refs
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -173,6 +185,29 @@ export default function ImageGenerator({
 
   // Get selected model info (这行被移除，因为上面已经定义)
 
+  // 处理CAPTCHA验证完成
+  const handleCaptchaComplete = async (captchaToken: string) => {
+    if (pendingCaptchaParams) {
+      const finalParams = {
+        ...pendingCaptchaParams,
+        captchaToken
+      };
+      
+      // 关闭模态框并清理状态
+      setShowCaptchaModal(false);
+      setPendingCaptchaParams(null);
+      
+      // 执行实际的生成请求
+      await onGenerate(finalParams);
+    }
+  };
+
+  // 处理CAPTCHA模态框关闭
+  const handleCaptchaModalClose = () => {
+    setShowCaptchaModal(false);
+    setPendingCaptchaParams(null);
+  };
+
   // Handle generation
   const handleGenerate = async () => {
     if (!user?.uuid) {
@@ -204,6 +239,14 @@ export default function ImageGenerator({
       provider: provider || undefined,
       image_urls: selectedType === "image-to-image" ? imageUrls : undefined,
     };
+
+    // 基于积分的CAPTCHA判断
+    if (needsCaptcha()) {
+      // 新用户需要CAPTCHA验证
+      setPendingCaptchaParams(params);
+      setShowCaptchaModal(true);
+      return;
+    }
 
     try {
       await onGenerate(params);
@@ -465,6 +508,15 @@ export default function ImageGenerator({
           )}
         </Button>
       </div>
+
+      {/* CAPTCHA模态框 */}
+      <CaptchaModal
+        isOpen={showCaptchaModal}
+        onClose={handleCaptchaModalClose}
+        onCaptchaComplete={handleCaptchaComplete}
+        isSubmitting={isGenerating}
+        mode="image"
+      />
     </div>
   );
 }

@@ -15,6 +15,35 @@ import {
 import type { CreateImageGenerationParams } from "@/types/image.d";
 import type { AIServiceProvider } from "@/types/provider.d";
 import { NextRequest } from "next/server";
+import { getClientIp } from "@/lib/ip";
+
+// 验证Cloudflare Turnstile CAPTCHA
+async function verifyCaptcha(token: string, clientIP: string): Promise<boolean> {
+  if (!process.env.TURNSTILE_SECRET_KEY) {
+    console.warn("TURNSTILE_SECRET_KEY not configured, skipping CAPTCHA verification");
+    return true; // 如果没配置密钥，跳过验证
+  }
+
+  try {
+    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        secret: process.env.TURNSTILE_SECRET_KEY,
+        response: token,
+        remoteip: clientIP,
+      }),
+    });
+
+    const result = await response.json();
+    return result.success === true;
+  } catch (error) {
+    console.error('CAPTCHA verification error:', error);
+    return false;
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -70,6 +99,7 @@ export async function POST(req: NextRequest) {
       image_urls,
       negative_prompt,
       provider,
+      captchaToken,
     } = await req.json();
 
     // 验证必需参数
@@ -80,6 +110,20 @@ export async function POST(req: NextRequest) {
     // 验证图片转图片模式的参数
     if (mode === "image-to-image" && (!image_urls || image_urls.length === 0)) {
       return respErr("图片转图片模式需要提供 image_urls 参数");
+    }
+
+    // 4. CAPTCHA验证（新用户）
+    if (userCredits.left_credits === 10 && captchaToken) {
+      const clientIP = await getClientIp();
+      const captchaValid = await verifyCaptcha(captchaToken, clientIP);
+      
+      if (!captchaValid) {
+        return respErr("CAPTCHA验证失败，请重试");
+      }
+      
+      console.log("✅ CAPTCHA验证通过");
+    } else if (userCredits.left_credits === 10 && !captchaToken) {
+      return respErr("新用户需要完成CAPTCHA验证");
     }
 
     // 确定使用的服务提供商
