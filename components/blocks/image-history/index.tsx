@@ -8,14 +8,19 @@ import {
   Copy, 
   Heart, 
   MoreHorizontal,
-  Clock,
-  CheckCircle,
-  XCircle,
   Loader2,
   Image,
   ExternalLink,
-  Trash2
+  Trash2,
+  XCircle
 } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { useTranslations } from "next-intl";
@@ -23,9 +28,10 @@ import ImageHistorySkeleton from "./ImageHistorySkeleton";
 
 export interface ImageGenerationResult {
   id: string;
-  prompt: string;
+  prompt: string; // 原始用户输入的prompt
+  optimized_prompt?: string; // 优化后的prompt
   image_url?: string;
-  status: "pending" | "processing" | "completed" | "failed" | "in_progress" | "in_queue" | "saved_to_r2";
+  status: "pending" | "completed" | "failed" | "in_progress" | "in_queue" | "saved_to_r2";
   model: string;
   aspect_ratio: string;
   quality: string;
@@ -47,12 +53,71 @@ interface ImageHistoryProps {
 
 export default function ImageHistory({ refreshTrigger, userId, newImage, filterMode = "all", className, showEmptyState = false }: ImageHistoryProps) {
   const [images, setImages] = useState<ImageGenerationResult[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // 只用于初次加载
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [pollingImages, setPollingImages] = useState<Set<string>>(new Set());
   const [loadingImages, setLoadingImages] = useState<Set<string>>(new Set());
   const pollingIntervalsRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false); // 标记初次加载是否完成
   const t = useTranslations("imageHistory");
+
+  // 后台异步更新进行中的任务状态（类似视频历史的处理方式）
+  const updateActiveTasksInBackground = useCallback(
+    async (images: ImageGenerationResult[]) => {
+      const activeStatuses = [
+        "pending",
+        "in_progress", 
+        "in_queue"
+      ];
+
+      const allActiveTasks = images.filter(
+        (image: ImageGenerationResult) =>
+          activeStatuses.includes(image.status)
+      );
+
+      if (allActiveTasks.length === 0) {
+        return;
+      }
+
+      console.log(`后台更新 ${allActiveTasks.length} 个进行中图片的状态...`);
+
+      try {
+        // 并行触发状态更新（不阻塞UI）
+        const statusPromises = allActiveTasks.map(
+          async (image: ImageGenerationResult) => {
+            try {
+              await fetch("/api/image-generation/status", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ id: image.id }),
+              });
+            } catch (error) {
+              console.error(`更新图片 ${image.id} 状态失败:`, error);
+            }
+          }
+        );
+
+        await Promise.all(statusPromises);
+        console.log(`后台图片状态更新完成`);
+
+        // 静默刷新历史记录以显示最新状态
+        const refreshResponse = await fetch(`/api/image-generations/history`);
+        if (refreshResponse.ok) {
+          const refreshResult = await refreshResponse.json();
+          if (refreshResult.code === 0 && refreshResult.data) {
+            const updatedImages = refreshResult.data || [];
+            setImages(updatedImages);
+            console.log(`图片历史记录已静默更新`);
+          }
+        }
+      } catch (error) {
+        console.error("后台图片状态更新失败:", error);
+      }
+    },
+    []
+  );
 
   // 图片开始加载
   const handleImageStartLoading = useCallback((imageId: string) => {
@@ -70,18 +135,20 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
 
   // 检查是否所有关键内容都已加载完成
   const checkAllContentLoaded = useCallback(() => {
-    const hasProcessingImages = images.some(img => 
-      img.status === "pending" || 
-      img.status === "processing" || 
-      img.status === "in_progress" || 
-      img.status === "in_queue"
-    );
+    // 只在初次加载时检查loading状态
+    if (!initialLoadComplete) {
+      const hasProcessingImages = images.some(img => 
+        img.status === "pending" || 
+        img.status === "in_progress" || 
+        img.status === "in_queue"
+      );
 
-    // 如果没有处理中的图片，并且没有正在加载的图片，则结束loading
-    if (!hasProcessingImages && loadingImages.size === 0) {
-      setLoading(false);
+      // 如果没有处理中的图片，并且没有正在加载的图片，则结束loading
+      if (!hasProcessingImages && loadingImages.size === 0) {
+        setLoading(false);
+      }
     }
-  }, [images, loadingImages]);
+  }, [images, loadingImages, initialLoadComplete]);
 
   // 监听图片加载状态变化
   useEffect(() => {
@@ -118,11 +185,15 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
       console.log("📝 No userId provided, skipping fetchHistory");
       setImages([]);
       setLoading(false);
+      setInitialLoadComplete(true);
       return;
     }
 
     console.log("🔄 Fetching image history for userId:", userId);
-    setLoading(true); // 开始加载时设置loading状态
+    // 只在初次加载时显示整页loading
+    if (!initialLoadComplete) {
+      setLoading(true);
+    }
 
     try {
       const response = await fetch("/api/image-generations/history", {
@@ -177,25 +248,28 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
             console.log("🖼️ Found completed images to load:", imageIds.length);
           }
           
-          // 开始轮询生成中的图片
-          startPollingForProcessingImages(filteredData);
-          
           // 检查是否需要结束loading状态
           const hasProcessingImages = filteredData.some((img: ImageGenerationResult) => 
             img.status === "pending" || 
-            img.status === "processing" || 
             img.status === "in_progress" || 
             img.status === "in_queue"
           );
+          
+          // 标记初次加载完成
+          setInitialLoadComplete(true);
           
           // 如果没有处理中的图片，立即结束loading
           if (!hasProcessingImages) {
             setLoading(false);
           }
+
+          // 异步检查并更新进行中的任务状态（不阻塞页面渲染）
+          updateActiveTasksInBackground(filteredData);
         } else {
           console.error("❌ Invalid response format:", data);
           setImages([]);
           setLoading(false);
+          setInitialLoadComplete(true);
         }
       } else {
         console.error("❌ Failed to fetch image history:", response.status, response.statusText);
@@ -203,12 +277,14 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
         console.error("❌ Error response body:", errorText);
         setImages([]);
         setLoading(false);
+        setInitialLoadComplete(true);
       }
     } catch (error) {
       console.error("❌ Error fetching image history:", error);
       setImages([]);
       setLoadingImages(new Set()); // 清空加载中的图片
       setLoading(false); // 出错时立即停止loading
+      setInitialLoadComplete(true);
     }
   };
 
@@ -247,7 +323,6 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
     // 找出正在处理的图片
     const processingImages = imageList.filter(img => 
       img.status === "pending" || 
-      img.status === "processing" || 
       img.status === "in_progress" || 
       img.status === "in_queue"
     );
@@ -922,46 +997,34 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
   };
 
   // Get status badge
-  const getStatusBadge = (status: string) => {
+  const getStatusBadge = (status: string, imageId?: string) => {
     const normalizedStatus = status.toLowerCase();
+    const isPolling = imageId && pollingImages.has(imageId);
+    
     switch (normalizedStatus) {
       case "completed":
       case "saved_to_r2":
         return (
-          <Badge variant="default" className="bg-green-600 text-white">
-            <CheckCircle className="h-3 w-3 mr-1" />
-            Completed
+          <Badge
+            variant="default"
+            className="bg-green-600 hover:bg-green-700 text-white border-transparent"
+          >
+            {t("completed")}
           </Badge>
         );
-      case "processing":
       case "in_progress":
-        return (
-          <Badge variant="default" className="bg-blue-600 text-white">
-            <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-            Processing
-          </Badge>
-        );
-      case "pending":
       case "in_queue":
+      case "pending":
         return (
-          <Badge variant="default" className="bg-yellow-600 text-white">
-            <Clock className="h-3 w-3 mr-1" />
-            Pending
+          <Badge variant="secondary">
+            <Loader2 className="mr-2 h-3 w-3 animate-spin" />
+            {isPolling ? t("processing") : t("processing")}
           </Badge>
         );
       case "failed":
-        return (
-          <Badge variant="destructive">
-            <XCircle className="h-3 w-3 mr-1" />
-            Failed
-          </Badge>
-        );
+        return <Badge variant="destructive">{t("failed")}</Badge>;
       default:
-        return (
-          <Badge variant="secondary">
-            {status}
-          </Badge>
-        );
+        return <Badge>{status}</Badge>;
     }
   };
 
@@ -995,7 +1058,6 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
           
           // 如果新图片是处理中状态，开始轮询
           if (newImage.status === "pending" || 
-              newImage.status === "processing" || 
               newImage.status === "in_progress" || 
               newImage.status === "in_queue") {
             setTimeout(() => {
@@ -1013,7 +1075,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
     <div className={className || "bg-gray-900 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]"}>
       {/* Scrollable content area */}
       <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
-        {loading ? (
+        {loading && !initialLoadComplete ? (
           <ImageHistorySkeleton />
         ) : images.length === 0 ? (
         <div className="flex-1 flex items-center justify-center p-6">
@@ -1046,9 +1108,9 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
         </div>
       ) : (
         <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
-          {/* Responsive Masonry Grid */}
-          <div className="p-3 md:p-4">
-            <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 gap-4">
+          {/* Grid Layout consistent with VideoTab */}
+          <div className="p-4 md:p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {images.map((image) => {
                 console.log('Rendering image:', {
                   id: image.id,
@@ -1058,7 +1120,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
                 });
                 
                 return (
-                  <MasonryImageCard 
+                  <CardImageItem 
                     key={image.id}
                     image={image}
                     pollingImages={pollingImages}
@@ -1085,8 +1147,8 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
   );
 }
 
-// Masonry Image Card Component
-interface MasonryImageCardProps {
+// Card Image Item Component (consistent with VideoTab style)
+interface CardImageItemProps {
   image: ImageGenerationResult;
   pollingImages: Set<string>;
   favorites: Set<string>;
@@ -1095,14 +1157,14 @@ interface MasonryImageCardProps {
   onDownload: (imageUrl: string, prompt: string) => void;
   onOpen: (imageUrl: string) => void;
   onCopyPrompt: (prompt: string) => void;
-  getStatusBadge: (status: string) => JSX.Element;
+  getStatusBadge: (status: string, imageId?: string) => JSX.Element;
   formatModelDisplayName: (modelName: string) => string;
   onImageStartLoading?: (imageId: string) => void;
   onImageLoaded?: (imageId: string) => void;
   t: (key: string, params?: any) => string;
 }
 
-const MasonryImageCard = ({ 
+const CardImageItem = ({ 
   image, 
   pollingImages, 
   favorites, 
@@ -1116,7 +1178,7 @@ const MasonryImageCard = ({
   onImageStartLoading,
   onImageLoaded,
   t
-}: MasonryImageCardProps) => {
+}: CardImageItemProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [naturalDimensions, setNaturalDimensions] = useState<{ width: number; height: number } | null>(null);
 
@@ -1147,165 +1209,143 @@ const MasonryImageCard = ({
   }, [image.id, image.status, image.image_url, imageLoaded, onImageStartLoading]);
 
   return (
-    <div className="break-inside-avoid mb-4">
-      <div className="bg-gray-700/50 rounded-xl overflow-hidden hover:bg-gray-700/70 transition-all duration-200 hover:shadow-lg hover:shadow-black/20">
-        
-        {/* Image Preview */}
-        {(image.status === "completed" || image.status === "saved_to_r2") && image.image_url && (
-          <div className="relative group">
-            <img
-              src={image.image_url}
-              alt={image.prompt}
-              className={`w-full object-cover cursor-pointer transition-opacity duration-300 ${
-                imageLoaded ? 'opacity-100' : 'opacity-0'
-              }`}
-              style={{
-                aspectRatio: naturalDimensions ? `${naturalDimensions.width}/${naturalDimensions.height}` : '1/1'
-              }}
-              onClick={() => onOpen(image.image_url!)}
-              onLoad={handleImageLoad}
-              loading="lazy"
-            />
-            
-            {/* Loading placeholder */}
-            {!imageLoaded && (
-              <div className="absolute inset-0 bg-gray-600 animate-pulse flex items-center justify-center">
-                <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
-              </div>
-            )}
-            
-            {/* Hover overlay with actions */}
-            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
-              <div className="flex gap-2">
-                <Button
-                  size="sm"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDownload(image.image_url!, image.prompt);
-                  }}
-                  className="bg-white/90 text-black hover:bg-white shadow-lg backdrop-blur-sm"
-                  title={t("downloadImage")}
-                >
-                  <Download className="h-4 w-4" />
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onOpen(image.image_url!);
-                  }}
-                  className="bg-white/90 text-black hover:bg-white shadow-lg backdrop-blur-sm"
-                  title={t("openInNewTab")}
-                >
-                  <ExternalLink className="h-4 w-4" />
-                </Button>
-
-                <Button
-                  size="sm"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onCopyPrompt(image.prompt);
-                  }}
-                  className="bg-white/90 text-black hover:bg-white shadow-lg backdrop-blur-sm"
-                  title={t("copyPrompt")}
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Processing State */}
-        {(image.status === "processing" || image.status === "pending" || image.status === "in_progress" || image.status === "in_queue") && (
-          <div className="aspect-square bg-gray-600 flex items-center justify-center relative">
-            <div className="text-center">
-              <Loader2 className="h-8 w-8 animate-spin text-gray-300 mx-auto mb-2" />
-              <p className="text-sm text-gray-300">
-                {(image.status === "processing" || image.status === "in_progress") ? t("generatingImage") : t("inQueue")}
-              </p>
-              {pollingImages.has(image.id) && (
-                <div className="flex items-center justify-center mt-2">
-                  <div className="flex space-x-1">
-                    <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse"></div>
-                    <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
-                    <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
-                  </div>
-                  <span className="text-xs text-blue-400 ml-2">Auto-refreshing</span>
+    <Card className="bg-gray-700/50 border-gray-700 text-gray-200 flex flex-col hover:bg-gray-700/70 transition-all duration-200">
+      <CardHeader>
+        <div className="aspect-square bg-gray-700 rounded-md mb-3 flex items-center justify-center overflow-hidden relative">
+          {/* Completed Image */}
+          {(image.status === "completed" || image.status === "saved_to_r2") && image.image_url ? (
+            <div className="relative w-full h-full group">
+              <img
+                src={image.image_url}
+                alt={image.prompt}
+                className={`w-full h-full object-cover cursor-pointer transition-opacity duration-300 ${
+                  imageLoaded ? 'opacity-100' : 'opacity-0'
+                }`}
+                onClick={() => onOpen(image.image_url!)}
+                onLoad={handleImageLoad}
+                loading="lazy"
+              />
+              
+              {/* Loading placeholder */}
+              {!imageLoaded && (
+                <div className="absolute inset-0 bg-gray-600 animate-pulse flex items-center justify-center">
+                  <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
                 </div>
               )}
-            </div>
-          </div>
-        )}
+              
 
-        {/* Failed State */}
-        {image.status === "failed" && (
-          <div className="aspect-square bg-red-900/20 border border-red-700/50 flex items-center justify-center">
-            <div className="text-center p-4">
-              <XCircle className="h-8 w-8 text-red-400 mx-auto mb-2" />
-              <p className="text-sm text-red-400 mb-1">Generation failed</p>
-              {image.error_message && (
-                <p className="text-xs text-red-300 line-clamp-2">{image.error_message}</p>
-              )}
             </div>
-          </div>
-        )}
-
-        {/* Content Section */}
-        <div className="p-4 space-y-3">
-          {/* Status Badge and Actions */}
-          <div className="flex justify-between items-start gap-2">
-            {getStatusBadge(image.status)}
-            <div className="flex items-center gap-1">
-              {/* Delete button */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => onDelete(image.id, image.prompt)}
-                className="text-red-400 hover:text-red-600 bg-red-50/10 hover:bg-red-50/20 h-7 w-7 p-0"
-                title={t("deleteImage")}
-              >
-                <Trash2 className="h-3 w-3" />
-              </Button>
-              {/* Favorite button */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => onToggleFavorite(image.id)}
-                className="text-gray-400 hover:text-red-400 h-7 w-7 p-0"
-                title={t("addToFavorites")}
-              >
-                <Heart
-                  className={`h-3 w-3 ${
-                    favorites.has(image.id) ? "fill-red-400 text-red-400" : ""
-                  }`}
-                />
-              </Button>
+          ) : (image.status === "pending" || image.status === "in_progress" || image.status === "in_queue") ? (
+            /* Processing State */
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="text-center">
+                <Loader2 className="h-8 w-8 animate-spin text-gray-300 mx-auto mb-2" />
+                <p className="text-sm text-gray-300">
+                  {image.status === "in_progress" ? t("generatingImage") : t("inQueue")}
+                </p>
+                {pollingImages.has(image.id) && (
+                  <div className="flex items-center justify-center mt-2">
+                    <div className="flex space-x-1">
+                      <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse"></div>
+                      <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                      <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+                    </div>
+                    <span className="text-xs text-blue-400 ml-2">Auto-refreshing</span>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-
-          {/* Prompt */}
-          <p className="text-sm font-medium text-white leading-relaxed line-clamp-3">
-            {image.prompt}
-          </p>
-
-          {/* Metadata */}
-          <div className="text-xs text-gray-400 space-y-1">
-            <div className="flex items-center justify-between">
-              <span>{formatDistanceToNow(new Date(image.created_at), { addSuffix: true })}</span>
-              <span>{image.credits_used} credits</span>
+          ) : image.status === "failed" ? (
+            /* Failed State */
+            <div className="w-full h-full bg-red-900/20 border border-red-700/50 flex items-center justify-center">
+              <div className="text-center p-4">
+                <XCircle className="h-8 w-8 text-red-400 mx-auto mb-2" />
+                <p className="text-sm text-red-400 mb-1">Generation failed</p>
+                {image.error_message && (
+                  <p className="text-xs text-red-300 line-clamp-2">{image.error_message}</p>
+                )}
+              </div>
             </div>
-            <div className="flex items-center gap-2 text-gray-500">
-              <span>{formatModelDisplayName(image.model)}</span>
-              {image.aspect_ratio && <span>•</span>}
-              {image.aspect_ratio && <span>{image.aspect_ratio}</span>}
-              {image.quality && <span>•</span>}
-              {image.quality && <span>{image.quality}</span>}
-            </div>
-          </div>
+          ) : (
+            /* Default placeholder */
+            <Image className="h-16 w-16 text-gray-500" />
+          )}
         </div>
-      </div>
-    </div>
+        <div className="flex items-start gap-2">
+          <CardTitle className="text-lg truncate flex-1" title={image.prompt}>
+            {image.prompt}
+          </CardTitle>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onCopyPrompt(image.prompt)}
+            title={t("copyPrompt")}
+            className="flex-shrink-0 h-8 w-8 p-0 text-gray-400 hover:text-gray-200"
+          >
+            <Copy className="h-4 w-4" />
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent className="flex-grow">
+        <div className="flex justify-between items-center mb-2">
+          {getStatusBadge(image.status, image.id)}
+          <p className="text-xs text-gray-400">
+            {formatDistanceToNow(new Date(image.created_at), {
+              addSuffix: true,
+            })}
+          </p>
+        </div>
+        
+        <p className="text-sm text-gray-400">
+          Model: {formatModelDisplayName(image.model)}
+        </p>
+        {image.aspect_ratio && (
+          <p className="text-sm text-gray-400">
+            Aspect Ratio: {image.aspect_ratio}
+          </p>
+        )}
+      </CardContent>
+      <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 pt-4 border-t border-gray-700">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onOpen(image.image_url!)}
+          disabled={
+            image.status !== "completed" &&
+            image.status !== "saved_to_r2" &&
+            !image.image_url
+          }
+          className="w-full sm:w-auto border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <ExternalLink className="mr-2 h-4 w-4" /> Open
+        </Button>
+        <div className="flex gap-2 w-full sm:w-auto">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onDownload(image.image_url!, image.prompt)}
+            disabled={
+              image.status !== "completed" &&
+              image.status !== "saved_to_r2" &&
+              !image.image_url
+            }
+            title={t("downloadImage")}
+            className="text-gray-400 hover:text-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Download className="h-5 w-5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onDelete(image.id, image.prompt)}
+            title={t("deleteImage")}
+            className="text-gray-400 hover:text-red-400"
+          >
+            <Trash2 className="h-5 w-5 text-gray-400 hover:text-gray-200" />
+          </Button>
+        </div>
+      </CardFooter>
+    </Card>
   );
 };
 

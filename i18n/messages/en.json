@@ -515,8 +515,8 @@
     "deleteImage": "Delete image",
     "addToFavorites": "Add to favorites",
     "inQueue": "In queue...",
-    "textToImageModel": "Text to Image/nano-banana",
-    "imageToImageModel": "Image to Image/nano-banana"
+    "textToImageModel": "nano-banana",
+    "imageToImageModel": "nano-banana"
   },
   "effects": {
     "ai-kissing": "AI Kissing Video Generator",

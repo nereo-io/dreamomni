@@ -254,6 +254,7 @@ export async function getUserImageGenerations(
   const baseFields = [
     "id",
     "prompt", 
+    "optimized_prompt",
     "image_urls",
     "status",
     "model_id",
@@ -271,7 +272,8 @@ export async function getUserImageGenerations(
     "quality", 
     "style",
     "updated_at",
-    "is_delete"
+    "is_delete",
+    "metadata"
   ];
 
   // 检查哪些字段存在

@@ -515,8 +515,8 @@
     "deleteImage": "Удалить изображение",
     "addToFavorites": "Добавить в избранное",
     "inQueue": "В очереди...",
-    "textToImageModel": "Текст в изображение/nano-banana",
-    "imageToImageModel": "Изображение в изображение/nano-banana"
+    "textToImageModel": "nano-banana",
+    "imageToImageModel": "nano-banana"
   },
   "effects": {
     "ai-kissing": "AI генератор видео поцелуев",

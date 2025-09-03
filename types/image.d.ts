@@ -5,7 +5,6 @@
 
 export type ImageGenerationStatus =
   | "PENDING"           // 待处理
-  | "PROMPT_OPTIMIZING" // 提示词优化中
   | "IN_QUEUE"          // 队列中
   | "IN_PROGRESS"       // 生成中
   | "COMPLETED"         // 生成成功
@@ -149,7 +148,8 @@ export interface ImageGenerationRequest {
 // 历史记录显示接口
 export interface ImageGenerationHistoryItem {
   id: string;
-  prompt: string;
+  prompt: string; // 原始用户输入
+  optimized_prompt?: string; // 优化后的prompt
   image_urls?: string[];
   status: ImageGenerationStatus;
   model_id: string;
@@ -160,6 +160,7 @@ export interface ImageGenerationHistoryItem {
   created_at: string;
   updated_at: string;
   error_message?: string;
+  metadata?: any; // 元数据
 }
 
 // 提供商专用扩展接口（示例）

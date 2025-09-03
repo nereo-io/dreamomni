@@ -200,19 +200,19 @@ export async function POST(req: NextRequest) {
       const createParams: CreateImageGenerationParams = {
         user_id: userInfo.uuid!,
         model_id: model,
-        prompt: enhancedPrompt,
+        prompt: prompt, // 存储原始用户输入
+        optimized_prompt: enhancedPrompt, // 存储优化后的prompt
         negative_prompt,
         mode: mode as any,
         source: "web",
         provider: selectedProvider,
         input_image_urls: image_urls,
         credits_used: creditsRequired,
-        status: enable_prompt_enhancement ? "PROMPT_OPTIMIZING" : "PENDING",
+        status: "PENDING",
         metadata: {
           request_source: "api",
           user_agent: req.headers.get("user-agent"),
           provider: selectedProvider,
-          original_prompt: prompt, // 保存原始prompt
           enable_prompt_enhancement,
         },
       };

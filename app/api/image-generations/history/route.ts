@@ -60,7 +60,8 @@ export async function GET(req: NextRequest) {
     // 安全地处理可能不存在的字段
     const formattedData = historyItems.map(item => ({
       id: item.id,
-      prompt: item.prompt,
+      prompt: item.prompt, // 原始用户输入的 prompt
+      optimized_prompt: item.optimized_prompt, // 优化后的 prompt
       image_url: Array.isArray(item.image_urls) && item.image_urls.length > 0 
         ? item.image_urls[0] 
         : undefined, // 取第一张图片URL
