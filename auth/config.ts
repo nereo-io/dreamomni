@@ -2,6 +2,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import AppleProvider from "next-auth/providers/apple";
+import VkProvider from "next-auth/providers/vk";
 import { NextAuthConfig } from "next-auth";
 import { Provider } from "next-auth/providers/index";
 import { User } from "@/types/user";
@@ -122,6 +123,21 @@ if (
     GoogleProvider({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    })
+  );
+}
+
+// VK Auth
+if (
+  process.env.NEXT_PUBLIC_AUTH_VK_ENABLED === "true" &&
+  process.env.AUTH_VK_ID &&
+  process.env.AUTH_VK_SECRET
+) {
+  providers.push(
+    VkProvider({
+      clientId: process.env.AUTH_VK_ID,
+      clientSecret: process.env.AUTH_VK_SECRET,
+      checks: ["state"], // VK doesn't support PKCE
     })
   );
 }

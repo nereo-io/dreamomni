@@ -56,6 +56,7 @@
     "no_account": "Don't have an account?",
     "email_sign_in": "Sign in with Email",
     "google_sign_in": "Sign in with Google",
+    "vk_sign_in": "Sign in with VK",
     "github_sign_in": "Sign in with GitHub",
     "apple_sign_in": "Sign in with Apple",
     "close_title": "Close",

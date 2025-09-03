@@ -56,6 +56,7 @@
     "no_account": "Нет аккаунта?",
     "email_sign_in": "Войти через Email",
     "google_sign_in": "Войти через Google",
+    "vk_sign_in": "Войти через ВКонтакте",
     "github_sign_in": "Войти через GitHub",
     "apple_sign_in": "Войти через Apple",
     "close_title": "Закрыть",
