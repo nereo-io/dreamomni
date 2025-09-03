@@ -94,49 +94,67 @@ export default function VideoHistory({
     loadHistory();
   }, [loadHistory]);
 
-  // 检查是否有未完成的视频需要轮询
-  const hasIncompleteVideos = useCallback(() => {
-    if (!history || history.length === 0) return false;
-
-    // 检查最新的视频是否未完成
-    const latestVideo = history[0];
-    if (!latestVideo) return false;
-
-    // 未完成的状态包括：提交中、优化中、排队中、生成中
-    return INCOMPLETE_STATUSES.includes(latestVideo.status);
+  // 获取所有未完成的视频（限制最多轮询数量）
+  const getIncompleteVideos = useCallback(() => {
+    if (!history || history.length === 0) return [];
+    
+    // 返回所有未完成状态的视频，最多轮询5个（与历史记录获取数量一致）
+    const MAX_POLLING_VIDEOS = 5;
+    return history
+      .filter(video => INCOMPLETE_STATUSES.includes(video.status))
+      .slice(0, MAX_POLLING_VIDEOS);
   }, [history]);
 
-  // 更新最新视频的状态
-  const updateLatestVideoStatus = useCallback(async () => {
-    if (!history || history.length === 0) return;
+  // 检查是否有未完成的视频需要轮询
+  const hasIncompleteVideos = useCallback(() => {
+    return getIncompleteVideos().length > 0;
+  }, [getIncompleteVideos]);
 
-    const latestVideo = history[0];
-    if (!latestVideo) return;
+  // 更新所有未完成视频的状态
+  const updateIncompleteVideosStatus = useCallback(async () => {
+    const incompleteVideos = getIncompleteVideos();
+    if (incompleteVideos.length === 0) return;
 
-    try {
-      const response = await fetch("/api/video-generation/status", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: latestVideo.id }),
-      });
+    console.log(`Updating status for ${incompleteVideos.length} incomplete videos (max 5)...`);
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result.code === 0 && result.data) {
-          // 更新本地状态
-          setHistory((prevHistory) =>
-            prevHistory.map((video, index) =>
-              index === 0 ? { ...video, ...result.data } : video
-            )
-          );
+    // 使用串行请求减少服务器压力，每个请求间隔100ms
+    const results: Array<{ id: string; data: any }> = [];
+    for (const video of incompleteVideos) {
+      try {
+        const response = await fetch("/api/video-generation/status", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: video.id }),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          if (result.code === 0 && result.data) {
+            results.push({ id: video.id, data: result.data });
+          }
         }
+        
+        // 添加短暂延迟，避免请求过于密集
+        if (incompleteVideos.indexOf(video) < incompleteVideos.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+      } catch (error) {
+        console.error(`更新视频 ${video.id} 状态失败:`, error);
       }
-    } catch (error) {
-      console.error("更新视频状态失败:", error);
     }
-  }, [history, setHistory]);
+    
+    // 批量更新本地状态
+    if (results.length > 0) {
+      setHistory((prevHistory) =>
+        prevHistory.map((video) => {
+          const update = results.find(r => r && r.id === video.id);
+          return update ? { ...video, ...update.data } : video;
+        })
+      );
+    }
+  }, [getIncompleteVideos, setHistory]);
 
   // 轮询机制：当有未完成的视频时，每3秒检查一次状态
   useEffect(() => {
@@ -148,14 +166,14 @@ export default function VideoHistory({
 
     const pollInterval = setInterval(() => {
       console.log("Polling video status...");
-      updateLatestVideoStatus();
+      updateIncompleteVideosStatus();
     }, 3000); // 每3秒轮询一次
 
     return () => {
       console.log("Stopping polling...");
       clearInterval(pollInterval);
     };
-  }, [user?.uuid, hasIncompleteVideos, updateLatestVideoStatus]);
+  }, [user?.uuid, hasIncompleteVideos, updateIncompleteVideosStatus]);
 
   // 监听刷新触发器
   useEffect(() => {
