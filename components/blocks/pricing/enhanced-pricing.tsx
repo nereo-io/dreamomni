@@ -26,6 +26,7 @@ import {
 } from "@/lib/payment-methods";
 import HighlightFeature from "./highlight-feature";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
+import MembershipExistsModal from "@/components/ui/membership-exists-modal";
 
 interface EnhancedPricingProps {
   pricing: PricingType;
@@ -36,7 +37,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     return null;
   }
 
-  const { user, setShowSignModal } = useAppContext();
+  const { user, setShowSignModal, membership } = useAppContext();
   const { loading: locationLoading, isRussia } = useGeolocation();
   const { trackPricingView, trackCheckoutStart, trackPayment } =
     useYandexTracking();
@@ -50,6 +51,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [selectedProvider, setSelectedProvider] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showMembershipModal, setShowMembershipModal] = useState(false);
   const [successInfo, setSuccessInfo] = useState<{
     planName?: string;
     credits?: number;
@@ -180,6 +182,12 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     try {
       if (!user) {
         setShowSignModal(true);
+        return;
+      }
+
+      // Check if user is already a member
+      if (membership && membership.status === 'active') {
+        setShowMembershipModal(true);
         return;
       }
 
@@ -389,7 +397,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                           {item.name === "yearly" && (
                             <Badge
                               variant="outline"
-                              className="border-primary bg-primary px-1.5 ml-2 text-primary-foreground"
+                              className="border-primary bg-primary px-2 py-0.5 ml-2 text-primary-foreground text-xs font-medium"
                             >
                               40% OFF
                             </Badge>
@@ -705,6 +713,16 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* 确保会员弹窗不受父容器影响 */}
+      {showMembershipModal && (
+        <div className="fixed inset-0 z-[100]">
+          <MembershipExistsModal
+            isOpen={showMembershipModal}
+            onClose={() => setShowMembershipModal(false)}
+          />
+        </div>
+      )}
     </>
   );
 }

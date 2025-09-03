@@ -9,8 +9,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogPortal,
-  DialogOverlay,
   DialogClose,
 } from "@/components/ui/dialog";
 import { sendGAEvent } from "@next/third-parties/google";
@@ -28,6 +26,7 @@ import {
 import { useTranslations } from "next-intl";
 import HighlightFeature from "./highlight-feature";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
+import MembershipExistsModal from "@/components/ui/membership-exists-modal";
 
 interface PricingModalProps {
   isOpen: boolean;
@@ -40,7 +39,7 @@ export default function PricingModal({
   onClose,
   pricing,
 }: PricingModalProps) {
-  const { user, setShowSignModal } = useAppContext();
+  const { user, setShowSignModal, membership } = useAppContext();
   const { location, loading: locationLoading, isRussia } = useGeolocation();
   const t = useTranslations("pricing_modal");
   const { trackPricingView, trackCheckoutStart } = useYandexTracking();
@@ -54,6 +53,7 @@ export default function PricingModal({
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [selectedProvider, setSelectedProvider] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showMembershipModal, setShowMembershipModal] = useState(false);
   const [successInfo, setSuccessInfo] = useState<{
     planName?: string;
     credits?: number;
@@ -174,6 +174,12 @@ export default function PricingModal({
     try {
       if (!user) {
         setShowSignModal(true);
+        return;
+      }
+
+      // Check if user is already a member
+      if (membership && membership.status === 'active') {
+        setShowMembershipModal(true);
         return;
       }
 
@@ -339,9 +345,7 @@ export default function PricingModal({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogPortal>
-          <DialogOverlay className="z-[99]" />
-          <DialogContent className="sm:max-w-4xl max-h-[85vh] overflow-y-auto p-0 z-[100]">
+        <DialogContent className="sm:max-w-4xl max-h-[85vh] overflow-y-auto p-0">
             <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground z-10">
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
@@ -387,7 +391,7 @@ export default function PricingModal({
                               {item.name === "yearly" && (
                                 <Badge
                                   variant="outline"
-                                  className="border-primary bg-primary px-1.5 ml-2 text-primary-foreground"
+                                  className="border-primary bg-primary px-2 py-0.5 ml-2 text-primary-foreground text-xs font-medium"
                                 >
                                   40% OFF
                                 </Badge>
@@ -664,14 +668,11 @@ export default function PricingModal({
               </div>
             </div>
           </DialogContent>
-        </DialogPortal>
       </Dialog>
 
       {/* 支付成功弹窗 */}
       <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
-        <DialogPortal>
-          <DialogOverlay className="z-[99]" />
-          <DialogContent className="sm:max-w-md z-[100]">
+          <DialogContent className="sm:max-w-md">
             <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground z-10">
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
@@ -718,8 +719,21 @@ export default function PricingModal({
               </div>
             </div>
           </DialogContent>
-        </DialogPortal>
       </Dialog>
+
+      {/* 确保会员弹窗不受 pricing-modal 影响 */}
+      {showMembershipModal && (
+        <div className="fixed inset-0 z-[100]">
+          <MembershipExistsModal
+            isOpen={showMembershipModal}
+            onClose={() => setShowMembershipModal(false)}
+            onViewSubscription={() => {
+              onClose();
+              window.location.href = '/memberships';
+            }}
+          />
+        </div>
+      )}
     </>
   );
 }

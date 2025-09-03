@@ -78,10 +78,11 @@ export default function SignUser({ user }: { user: User }) {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem className="flex justify-center cursor-pointer">
+        {/* 邀请功能已禁用以防止薅羊毛 */}
+        {/* <DropdownMenuItem className="flex justify-center cursor-pointer">
           <Link href="/my-invites">{t("my_invites.title")}</Link>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator /> */}
 
         <DropdownMenuItem
           className="flex justify-center cursor-pointer"

@@ -1,15 +1,10 @@
-import {
-  CreditsTransType,
-  CreditsAmount,
-  increaseCredits,
-} from "@/services/credit";
+// 已移除邀请积分相关导入以防止薅羊毛
 import {
   findUserByInviteCode,
   findUserByUuid,
   updateUserInvitedBy,
 } from "@/models/user";
 import { respData, respErr } from "@/lib/resp";
-import { getOneMonthLaterTimestr } from "@/lib/time";
 import { insertAffiliate } from "@/models/affiliate";
 import {
   AffiliateStatus,
@@ -45,31 +40,8 @@ export async function POST(req: Request) {
       return respErr("user already has invite user");
     }
 
-    user.invited_by = inviteUser.uuid;
-
-    // update invite user uuid
-    await updateUserInvitedBy(user_uuid, inviteUser.uuid);
-
-    // increase credits for new user, expire in one year
-    await increaseCredits({
-      user_uuid: inviteUser.uuid || "",
-      trans_type: CreditsTransType.Invite,
-      credits: CreditsAmount.InviteGet,
-      expired_at: getOneMonthLaterTimestr(),
-    });
-
-    await insertAffiliate({
-      user_uuid: user_uuid,
-      invited_by: inviteUser.uuid,
-      created_at: getIsoTimestr(),
-      status: AffiliateStatus.Pending,
-      paid_order_no: "",
-      paid_amount: 0,
-      reward_percent: AffiliateRewardPercent.Invited,
-      reward_amount: AffiliateRewardAmount.Invited,
-    });
-
-    return respData(user);
+    // 邀请功能已完全禁用以防止薅羊毛
+    return respErr("Invite feature temporarily disabled for maintenance");
   } catch (e) {
     console.error("update invited by failed: ", e);
     return respErr("update invited by failed");

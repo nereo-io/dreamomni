@@ -1,0 +1,1 @@
+- 只在必要的时候pnpm lint和pnpm build,为了节省开发时间

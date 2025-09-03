@@ -20,6 +20,7 @@ import { useForm } from "react-hook-form";
 import { useEmailAuth } from "@/hooks/useEmailAuth";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useSearchParams } from "next/navigation";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 interface EmailFormData {
   email: string;
@@ -41,6 +42,7 @@ export default function SignForm({
   const [pendingVerificationEmail, setPendingVerificationEmail] = useState<
     string | null
   >(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const {
     login,
@@ -78,13 +80,20 @@ export default function SignForm({
         setPendingVerificationEmail(result.email || data.email);
       }
     } else if (mode === "signup") {
-      const result = await signup(data);
+      // 注册时检查CAPTCHA
+      if (!captchaToken) {
+        setMessage("Please complete the CAPTCHA verification");
+        return;
+      }
+      
+      const result = await signup({ ...data, captchaToken });
       if (result) {
         if (result.requiresVerification) {
           // 注册成功需要验证时，显示验证提示
           setPendingVerificationEmail(data.email);
           setMode("signin");
           reset();
+          setCaptchaToken(null); // 清空CAPTCHA token
         } else {
           // Auto-login after successful signup
           await login(
@@ -106,6 +115,7 @@ export default function SignForm({
     clearError();
     setMessage(null);
     setPendingVerificationEmail(null);
+    setCaptchaToken(null);
     reset();
   };
 
@@ -330,7 +340,27 @@ export default function SignForm({
                     </div>
                   )}
 
-                  <Button type="submit" className="w-full" disabled={isLoading}>
+                  {/* Turnstile CAPTCHA - Only for signup */}
+                  {mode === "signup" && process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+                    <div className="flex justify-center">
+                      <Turnstile
+                        siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                        onSuccess={(token) => {
+                          setCaptchaToken(token);
+                          setMessage(null); // Clear CAPTCHA error message
+                        }}
+                        onExpire={() => {
+                          setCaptchaToken(null);
+                        }}
+                        onError={() => {
+                          setCaptchaToken(null);
+                          setMessage("CAPTCHA verification failed. Please try again.");
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  <Button type="submit" className="w-full" disabled={isLoading || (mode === "signup" && !captchaToken)}>
                     {isLoading
                       ? "Loading..."
                       : mode === "signin"

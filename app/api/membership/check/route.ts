@@ -2,8 +2,6 @@ import { checkMembershipStatus } from "@/services/membership";
 import { respData, respErr } from "@/lib/resp";
 import { auth } from "@/auth";
 
-export const dynamic = 'force-dynamic';
-
 export async function GET() {
   try {
     const session = await auth();
@@ -12,6 +10,8 @@ export async function GET() {
     }
 
     const result = await checkMembershipStatus(session.user);
+    
+    // 会员状态实时性优先 - 移除HTTP缓存避免支付后状态延迟
     return respData(result);
   } catch (error) {
     console.error("Check membership status failed:", error);

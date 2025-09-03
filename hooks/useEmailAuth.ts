@@ -8,6 +8,7 @@ interface SignupData {
   email: string;
   password: string;
   name?: string;
+  captchaToken?: string;
 }
 
 interface LoginData {

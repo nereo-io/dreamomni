@@ -39,12 +39,13 @@ export default async function ({ children }: { children: ReactNode }) {
           icon: "RiBankCardLine",
           is_active: false,
         },
-        {
-          title: t("my_invites.title"),
-          url: "/my-invites",
-          icon: "RiMoneyCnyCircleFill",
-          is_active: false,
-        },
+        // 邀请功能已禁用以防止薅羊毛
+        // {
+        //   title: t("my_invites.title"),
+        //   url: "/my-invites",
+        //   icon: "RiMoneyCnyCircleFill",
+        //   is_active: false,
+        // },
       ],
     },
   };

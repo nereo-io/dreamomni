@@ -41,6 +41,7 @@ export async function createVideoGeneration(
       volcano_request_id: params.volcano_request_id,
       veo3_request_id: params.veo3_request_id,
       ali_request_id: params.ali_request_id,
+      pixverse_request_id: params.pixverse_request_id,
       input_image_url: params.input_image_url,
       negative_prompt: params.negative_prompt,
       aspect_ratio: params.aspect_ratio || "16:9",
@@ -49,6 +50,7 @@ export async function createVideoGeneration(
       seed: params.seed,
       has_audio: params.has_audio || false,
       status: params.status || "PENDING",
+      effect_id: params.effect_id,
     })
     .select()
     .single();
@@ -159,6 +161,27 @@ export async function getVideoGenerationByAliRequestId(
     handleSupabaseError(
       error,
       `get video generation by ali_request_id ${aliRequestId}`
+    );
+  }
+  return data || null;
+}
+
+/**
+ * 根据 PixVerse 请求 ID 获取视频生成记录。
+ */
+export async function getVideoGenerationByPixVerseRequestId(
+  pixverseRequestId: string
+): Promise<VideoGeneration | null> {
+  const { data, error } = await supabase
+    .from("video_generations")
+    .select("*")
+    .eq("pixverse_request_id", pixverseRequestId)
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    handleSupabaseError(
+      error,
+      `get video generation by pixverse_request_id ${pixverseRequestId}`
     );
   }
   return data || null;
@@ -284,6 +307,32 @@ export async function updateVideoGenerationByAliRequestId(
     handleSupabaseError(
       error,
       `update video generation by ali_request_id ${aliRequestId}`
+    );
+  }
+  return data || null;
+}
+
+/**
+ * 根据 PixVerse 请求 ID 更新视频生成记录。
+ */
+export async function updateVideoGenerationByPixVerseRequestId(
+  pixverseRequestId: string,
+  params: UpdateVideoGenerationParams
+): Promise<VideoGeneration | null> {
+  const { data, error } = await supabase
+    .from("video_generations")
+    .update({
+      ...params,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("pixverse_request_id", pixverseRequestId)
+    .select()
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    handleSupabaseError(
+      error,
+      `update video generation by pixverse_request_id ${pixverseRequestId}`
     );
   }
   return data || null;

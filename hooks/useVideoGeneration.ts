@@ -14,6 +14,10 @@ interface VideoGenerationParams {
   enable_prompt_enhancement?: boolean;
   cfg_scale?: number;
   seed?: number;
+  effect_id?: string; // For video effects feature
+  effect_type?: 'hailuo_prompt' | 'pixverse_template'; // Route selection
+  pixverse_img_ids?: number[]; // For pixverse template effects
+  captchaToken?: string; // For CAPTCHA verification
 }
 
 interface UserCreditsInfo {
@@ -40,6 +44,12 @@ interface VideoGenerationResult {
   duration_seconds?: number;
   userCredits?: UserCreditsInfo;
   image_url?: string;
+  effect_id?: string;
+  effect_info?: {
+    id: string;
+    title: string;
+    slug: string;
+  };
 }
 
 interface PollOptions {
@@ -196,12 +206,30 @@ export default function useVideoGeneration() {
     ): Promise<VideoGenerationResult | null> => {
       setIsLoading(true);
       try {
-        const response = await fetch("/api/video-generation/submit", {
+        // 根据 effect_type 决定 API 端点
+        let apiEndpoint = "/api/video-generation/submit";
+        let requestBody: any = { ...params };
+        
+        if (params.effect_type === 'pixverse_template' && params.pixverse_img_ids) {
+          // 使用 PixVerse template API
+          apiEndpoint = "/api/video-effects/pixverse/generate";
+          requestBody = {
+            effectId: params.effect_id,
+            imgIds: params.pixverse_img_ids,
+            prompt: params.prompt,
+            duration: params.duration || "5",
+            quality: params.resolution === "1080p" ? "1080p" : "540p",
+            model: "v4.5",
+            imageUrl: params.image_url // 添加原始图片URL
+          };
+        }
+        
+        const response = await fetch(apiEndpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(params),
+          body: JSON.stringify(requestBody),
         });
 
         const result = await response.json();

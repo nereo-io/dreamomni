@@ -46,7 +46,7 @@ export function Sidebar() {
   const videoAIItems: SidebarItem[] = [
     { icon: ImageIcon, labelKey: "image_to_video", href: "/image-to-video" },
     { icon: Type, labelKey: "text_to_video", href: "/text-to-video" },
-    // { icon: Sparkles, labelKey: "ai_video_effects", href: "/video-affects" }, // 暂时隐藏
+    { icon: Sparkles, labelKey: "ai_effects", href: "/video-effects" },
   ];
 
   const imageAIItems: SidebarItem[] = [
@@ -84,11 +84,7 @@ export function Sidebar() {
               isCollapsed ? "justify-center" : "space-x-2"
             }`}
           >
-            <img
-              src="/logo.png"
-              alt="Veo3"
-              className="w-8 h-8"
-            />
+            <img src="/logo.png" alt="Veo3" className="w-8 h-8" />
             {!isCollapsed && <span className="text-xl font-bold">Veo3</span>}
           </div>
           {!isCollapsed && (
