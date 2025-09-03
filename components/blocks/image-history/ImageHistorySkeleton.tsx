@@ -9,8 +9,8 @@ export default function ImageHistorySkeleton({ className }: ImageHistorySkeleton
   return (
     <div className="lg:flex-1 lg:overflow-y-auto">
         {/* Responsive Masonry Grid Skeleton */}
-        <div className="p-4">
-          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4">
+        <div className="p-3 md:p-4">
+          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 gap-4">
             {/* Skeleton Items */}
             {Array.from({ length: 8 }).map((_, index) => (
               <div 

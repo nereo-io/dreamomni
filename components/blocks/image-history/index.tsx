@@ -1008,9 +1008,9 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
   }, [newImage, startPollingImage]);
 
   return (
-    <div className="bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]">
+    <div className="bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]">
       {/* Header */}
-      <header className="border-b border-gray-700 px-4 md:px-6 py-4">
+      <header className="border-b border-gray-700 px-3 md:px-4 py-3">
         <div className="flex items-center space-x-2">
           <Image className="h-5 w-5 text-white" />
           <h3 className="text-lg font-semibold text-white">Image History</h3>
@@ -1051,8 +1051,8 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
       ) : (
         <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
           {/* Responsive Masonry Grid */}
-          <div className="p-4">
-            <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4">
+          <div className="p-3 md:p-4">
+            <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 gap-4">
               {images.map((image) => {
                 console.log('Rendering image:', {
                   id: image.id,
