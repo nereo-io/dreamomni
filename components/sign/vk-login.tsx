@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { signIn } from 'next-auth/react';
+import { useAppContext } from '@/contexts/app';
 
 // VK SDK类型声明
 declare global {
@@ -15,6 +16,7 @@ declare global {
 
 export function VKLoginButton() {
   const router = useRouter();
+  const { setShowSignModal } = useAppContext();
   
   useEffect(() => {
     // 动态加载VK SDK脚本
@@ -100,6 +102,7 @@ export function VKLoginButton() {
            
            if (result?.ok && !result?.error) {
              toast.success('Login successful!');
+             setShowSignModal(false); // 关闭登录弹窗
              router.push('/pricing');
              router.refresh();
            } else {
@@ -149,6 +152,7 @@ export function VKLoginButton() {
               
               if (result?.ok && !result?.error) {
                 toast.success('Login successful!');
+                setShowSignModal(false); // 关闭登录弹窗
                 router.push('/pricing');
                 router.refresh();
               } else {
