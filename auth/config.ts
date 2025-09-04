@@ -127,21 +127,79 @@ if (
   );
 }
 
-// VK Auth - 使用SDK方案，暂时禁用OAuth Provider
-// SDK集成在 /components/sign/vk-login.tsx 和 /app/api/auth/vk-sdk/
-// if (
-//   process.env.NEXT_PUBLIC_AUTH_VK_ENABLED === "true" &&
-//   process.env.AUTH_VK_ID &&
-//   process.env.AUTH_VK_SECRET
-// ) {
-//   providers.push(
-//     VkProvider({
-//       clientId: process.env.AUTH_VK_ID,
-//       clientSecret: process.env.AUTH_VK_SECRET,
-//       checks: ["state"], // VK doesn't support PKCE
-//     })
-//   );
-// }
+// VK Auth - 使用Credentials Provider处理VK SDK登录
+if (process.env.NEXT_PUBLIC_AUTH_VK_ENABLED === "true") {
+  providers.push(
+    CredentialsProvider({
+      id: "vk",
+      name: "VK",
+      credentials: {
+        access_token: { type: "text" },
+        user_id: { type: "text" },
+        refresh_token: { type: "text" },
+        id_token: { type: "text" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.access_token || !credentials?.user_id) {
+          console.error("[VK Auth] Missing required credentials");
+          return null;
+        }
+        
+        try {
+          console.log("[VK Auth] Authorizing VK user with credentials");
+          
+          // 获取用户信息
+          const clientId = process.env.AUTH_VK_ID || process.env.NEXT_PUBLIC_AUTH_VK_ID || '54107692';
+          const userResponse = await fetch('https://id.vk.com/oauth2/user_info', {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'Accept': 'application/json',
+            },
+            body: new URLSearchParams({
+              access_token: credentials.access_token as string,
+              client_id: clientId,
+            }),
+          });
+          
+          if (!userResponse.ok) {
+            const errorText = await userResponse.text();
+            console.error('[VK Auth] Failed to fetch user info:', errorText);
+            return null;
+          }
+          
+          const userInfo = await userResponse.json();
+          console.log('[VK Auth] User info received:', userInfo);
+          const vkUser = userInfo.user || userInfo;
+          
+          if (!vkUser || !vkUser.user_id) {
+            console.error('[VK Auth] Invalid user info received:', userInfo);
+            return null;
+          }
+          
+          // 构建NextAuth标准用户对象
+          const user = {
+            id: String(vkUser.user_id),
+            name: [vkUser.first_name, vkUser.last_name]
+              .filter(Boolean)
+              .join(' ') || `User ${vkUser.user_id}`,
+            email: vkUser.email || `vk_${vkUser.user_id}@vk.local`,
+            image: vkUser.avatar || null,
+            // 添加VK特有信息
+            vk_user_id: vkUser.user_id,
+          };
+          
+          console.log('[VK Auth] Returning user object:', user);
+          return user;
+          
+        } catch (error) {
+          console.error('[VK Auth] Authorization error:', error);
+          return null;
+        }
+      }
+    })
+  );
+}
 
 // Github Auth
 if (

@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
+import { signIn } from 'next-auth/react';
 
 // VK SDK类型声明
 declare global {
@@ -84,35 +85,27 @@ export function VKLoginButton() {
             user_id: tokens.user_id
           });
           
-          // 发送tokens到后端处理
-          const requestBody = { 
-            access_token: tokens.access_token,
-            refresh_token: tokens.refresh_token,
-            id_token: tokens.id_token,
-            user_id: tokens.user_id,
-          };
-          console.log('[VK Login] Sending tokens to backend');
-          
-          const res = await fetch('/api/auth/vk-sdk', {
-            method: 'POST',
-            headers: { 
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestBody),
-          });
-          
-          console.log('[VK Login] Backend response status:', res.status);
-          
-          if (res.ok) {
-            toast.success('Login successful!');
-            router.push('/pricing');  // 跳转到pricing页面
-            router.refresh();
-            // 强制刷新页面以更新登录状态
-            window.location.href = '/pricing';
-          } else {
-            const error = await res.json();
-            toast.error(error.message || 'VK login failed');
-          }
+                     // 使用NextAuth的signIn处理登录
+           console.log('[VK Login] Using NextAuth signIn with credentials');
+           
+           const result = await signIn('vk', {
+             access_token: tokens.access_token,
+             refresh_token: tokens.refresh_token,
+             id_token: tokens.id_token,
+             user_id: tokens.user_id,
+             redirect: false, // 不自动重定向，手动处理
+           });
+           
+           console.log('[VK Login] NextAuth signIn result:', result);
+           
+           if (result?.ok && !result?.error) {
+             toast.success('Login successful!');
+             router.push('/pricing');
+             router.refresh();
+           } else {
+             console.error('[VK Login] NextAuth signIn failed:', result?.error);
+             toast.error(result?.error || 'VK login failed');
+           }
         } catch (error) {
           console.error('Backend processing error:', error);
           toast.error('Failed to process login');
@@ -141,27 +134,26 @@ export function VKLoginButton() {
                 user_id: tokens.user_id
               });
               
-              // 发送tokens到后端
-              const res = await fetch('/api/auth/vk-sdk', {
-                method: 'POST',
-                headers: { 
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                  access_token: tokens.access_token,
-                  refresh_token: tokens.refresh_token,
-                  id_token: tokens.id_token,
-                  user_id: tokens.user_id,
-                }),
+              // 使用NextAuth的signIn处理登录
+              console.log('[VK Login] Using NextAuth signIn with credentials (Auth.login path)');
+              
+              const result = await signIn('vk', {
+                access_token: tokens.access_token,
+                refresh_token: tokens.refresh_token,
+                id_token: tokens.id_token,
+                user_id: tokens.user_id,
+                redirect: false, // 不自动重定向，手动处理
               });
               
-              if (res.ok) {
+              console.log('[VK Login] NextAuth signIn result (Auth.login path):', result);
+              
+              if (result?.ok && !result?.error) {
                 toast.success('Login successful!');
-                // 强制刷新页面以更新登录状态
-                window.location.href = '/pricing';
+                router.push('/pricing');
+                router.refresh();
               } else {
-                const error = await res.json();
-                toast.error(error.message || 'VK login failed');
+                console.error('[VK Login] NextAuth signIn failed (Auth.login path):', result?.error);
+                toast.error(result?.error || 'VK login failed');
               }
             } catch (error) {
               console.error('[VK Login] Token exchange error:', error);
