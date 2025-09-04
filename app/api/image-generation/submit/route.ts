@@ -13,7 +13,7 @@ import {
   getUserCredits,
 } from "@/services/credit";
 import { optimizeImagePromptWithTimeout } from "@/services/promptOptimization";
-import type { CreateImageGenerationParams } from "@/types/image.d";
+import type { CreateImageGenerationParams, ImageGenerationStatus } from "@/types/image.d";
 import type { AIServiceProvider } from "@/types/provider.d";
 import { NextRequest } from "next/server";
 import { getClientIp } from "@/lib/ip";
@@ -178,35 +178,10 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-      // 2. 创建数据库记录（先创建记录，再进行提示词优化）
-      const createParams: CreateImageGenerationParams = {
-        user_id: userInfo.uuid!,
-        model_id: model,
-        prompt: prompt, // 存储原始用户输入
-        optimized_prompt: undefined, // 优化后的prompt稍后更新
-        negative_prompt,
-        mode: mode as any,
-        source: "web",
-        provider: selectedProvider,
-        input_image_urls: image_urls,
-        credits_used: creditsRequired,
-        status: enable_prompt_enhancement ? "PROMPT_OPTIMIZING" : "PENDING",
-        metadata: {
-          request_source: "api",
-          user_agent: req.headers.get("user-agent"),
-          provider: selectedProvider,
-          enable_prompt_enhancement,
-        },
-      };
-
-      console.log("📝 Creating image generation record...");
-      const imageGeneration = await createImageGeneration(createParams);
-      console.log("✅ Created image generation record:", imageGeneration.id);
-
-      // 1. 优化提示词（如果启用）
+      // 1. 优化提示词（如果启用） - 在调用AI服务之前处理
       let enhancedPrompt = prompt;
       if (enable_prompt_enhancement) {
-        console.log("🔧 Optimizing prompt for image generation:", imageGeneration.id);
+        console.log("🔧 Optimizing prompt for image generation...");
         try {
           const optimizedPrompt = await optimizeImagePromptWithTimeout(
             prompt,
@@ -215,30 +190,14 @@ export async function POST(req: NextRequest) {
           );
           enhancedPrompt = optimizedPrompt;
           console.log("✨ Prompt optimized successfully");
-          
-          // 更新优化后的提示词
-          await updateImageGenerationById(imageGeneration.id, {
-            optimized_prompt: enhancedPrompt,
-            status: "PENDING",
-          });
         } catch (error) {
           console.error("Prompt optimization failed:", error);
-          // 如果优化失败，继续使用原始prompt，更新状态为PENDING
-          await updateImageGenerationById(imageGeneration.id, {
-            status: "PENDING",
-          });
+          // 如果优化失败，继续使用原始prompt
+          console.log("⚠️ Using original prompt due to optimization failure");
         }
       }
 
-
-
-      // 3. 更新状态为 IN_PROGRESS
-      console.log("🔄 Updating status to IN_PROGRESS...");
-      await updateImageGenerationById(imageGeneration.id, {
-        status: "IN_PROGRESS",
-      });
-
-      // 4. 调用AI服务提供商API
+      // 2. 调用AI服务提供商API
       console.log(`🤖 Calling ${selectedProvider} API...`);
       
       let result;
@@ -260,25 +219,53 @@ export async function POST(req: NextRequest) {
 
       console.log(`${selectedProvider} API response:`, result);
 
-      // 4. 根据API返回结果更新数据库
+      // 3. 根据API调用结果确定初始状态
+      let initialStatus: ImageGenerationStatus;
+      if (result.taskId && result.status === "pending") {
+        initialStatus = "IN_QUEUE";
+      } else if (result.status === "completed") {
+        initialStatus = "COMPLETED";
+      } else if (result.error) {
+        initialStatus = "FAILED";
+      } else {
+        initialStatus = "IN_PROGRESS";
+      }
+
+      // 4. 创建数据库记录 - 在AI服务调用之后
+      const createParams: CreateImageGenerationParams = {
+        user_id: userInfo.uuid!,
+        model_id: model,
+        prompt: prompt, // 存储原始用户输入
+        optimized_prompt: enable_prompt_enhancement ? enhancedPrompt : undefined,
+        negative_prompt,
+        mode: mode as any,
+        source: "web",
+        provider: selectedProvider,
+        input_image_urls: image_urls,
+        credits_used: creditsRequired,
+        status: initialStatus,
+        provider_task_id: result.taskId,
+        metadata: {
+          request_source: "api",
+          user_agent: req.headers.get("user-agent"),
+          provider: selectedProvider,
+          enable_prompt_enhancement,
+          provider_task_id: result.taskId,
+          provider_status: result.status,
+          provider_metadata: result.metadata,
+        },
+      };
+
+      console.log("📝 Creating image generation record with initial status:", initialStatus);
+      const imageGeneration = await createImageGeneration(createParams);
+      console.log("✅ Created image generation record:", imageGeneration.id);
+
+      // 5. 根据API返回结果处理不同情况
       console.log(`📋 Processing API result: taskId=${result.taskId}, status=${result.status}`);
 
       if (result.taskId && result.status === "pending") {
-        // 异步回调模式 - 更新任务ID，等待回调
-        console.log(`📝 Storing taskId ${result.taskId} for async callback processing`);
-        
-        await updateImageGenerationById(imageGeneration.id, {
-          status: "IN_QUEUE",
-          provider_task_id: result.taskId,
-          metadata: {
-            ...createParams.metadata,
-            provider_task_id: result.taskId,
-            provider_status: result.status,
-            provider_metadata: result.metadata,
-          },
-        });
-
-        console.log(`✅ TaskId ${result.taskId} stored successfully for image generation ${imageGeneration.id}`);
+        // 异步回调模式 - 任务已提交，等待回调
+        console.log(`📝 TaskId ${result.taskId} stored for async callback processing`);
 
         return respData({
           id: imageGeneration.id,
@@ -296,7 +283,6 @@ export async function POST(req: NextRequest) {
           status: "COMPLETED",
           image_urls: imageUrls,
           image_count: imageUrls.length,
-          provider_task_id: result.taskId,
           completed_at: new Date().toISOString(),
           metadata: {
             ...createParams.metadata,
@@ -322,7 +308,6 @@ export async function POST(req: NextRequest) {
         await updateImageGenerationById(imageGeneration.id, {
           status: "FAILED",
           error_message: errorMessage,
-          provider_task_id: result.taskId,
           metadata: {
             ...createParams.metadata,
             provider_response: result,
