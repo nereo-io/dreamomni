@@ -12,6 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Frontend language: English only (no Chinese support needed)
 - Database: Supabase project named "Veo3"
 - Credit pricing: $0.25 USD = 10 credits
+- Deployment: Vercel (production), Cloudflare Pages (optional)
 
 ## Architecture Overview
 
@@ -25,7 +26,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Video Generation**: Multi-provider system via ProviderFactory
 - **Internationalization**: next-intl with locale-based routing
 - **Analytics**: Plausible, Yandex Metrica
-- **Deployment**: Cloudflare Pages (standalone build)
+- **Deployment**: Vercel (primary), Cloudflare Pages (standalone build option)
 
 ### Key Architectural Patterns
 
@@ -100,6 +101,16 @@ pnpm analyze     # Bundle analyzer
 pnpm ts          # Run ts/test.ts script
 ```
 
+### SEO Content Generation
+```bash
+pnpm seo:generate        # Generate SEO content
+pnpm seo:fix-i18n        # Fix i18n issues
+pnpm seo:shorten-buttons # Shorten button text
+pnpm seo:validate        # Validate SEO content
+pnpm seo:all             # Run all SEO tasks
+pnpm seo:help            # Show SEO help
+```
+
 ## Key File Locations
 
 ### Configuration
@@ -116,9 +127,12 @@ pnpm ts          # Run ts/test.ts script
 
 ### API Routes
 - `app/api/video-generation/` - Video generation endpoints
+- `app/api/video-generation/webhook/` - Provider-specific webhooks (Ali, etc.)
 - `app/api/subscription/` - Subscription management
 - `app/api/creem/webhook/` - Creem payment webhooks
-- `app/api/payssion/v2-webhook/` - Payssion webhooks
+- `app/api/payssion/v2-webhook/` - Payssion V2 webhooks
+- `app/api/stripe-notify/` - Stripe payment notifications
+- `app/api/outrank/webhook/` - Outrank service webhooks
 
 ### Provider Implementations
 - `services/providers/VolcanoProvider.ts` - Volcano Engine (Seedance)
@@ -175,6 +189,7 @@ NEXT_PUBLIC_PLAUSIBLE_DOMAIN
 - Credit calculation: `calculateCredits(modelId, duration, hasAudio, resolution)`
 - Each provider has specific model IDs and capabilities
 - Seedance models support 480p/1080p with 5x price difference
+- Product configuration in `config/products.ts`
 
 ### Payment Flow
 1. Location detection determines available payment methods
@@ -185,16 +200,19 @@ NEXT_PUBLIC_PLAUSIBLE_DOMAIN
 
 ### Security Considerations
 - Row-level security (RLS) on all Supabase tables
-- Webhook signature verification for payment providers
+- Webhook signature verification for payment providers (HMAC-SHA256)
 - Zod schemas for API request validation
 - Sensitive data filtered from logs
+- Cloudflare Turnstile integration for bot protection
 
 ## Current Development Status
 
-- **Active Branch**: main (or feature branch as specified)
+- **Active Branch**: main
 - **Recent Features**: 
   - Creem payment integration
   - UI redesign with (home) route group
   - Yandex Metrica offline conversion tracking
-- **Active Video Providers**: Kie.ai (Veo3), Volcano Engine (Seedance), MiniMax (Hailuo), Ali Cloud
+  - SEO content generation tooling
+  - Multi-provider webhook support
+- **Active Video Providers**: Kie.ai (Veo3), Volcano Engine (Seedance), MiniMax (Hailuo), Ali Cloud, fal.ai
 - **Commented Providers**: Some fal.ai models (Kling), APICore Veo3
