@@ -104,12 +104,12 @@ export async function POST(
       };
     } else if (processedResult.status === 'failed') {
       updateData.error_message = processedResult.error || 'Generation failed';
-      updateData.failed_at = new Date().toISOString();
       updateData.metadata = {
         ...imageGeneration.metadata,
         provider_error: processedResult.error,
         provider_metadata: processedResult.metadata,
         callback_received_at: new Date().toISOString(),
+        failed_at: new Date().toISOString(), // 移到metadata中，因为数据库表中没有failed_at字段
       };
 
       // 图片生成失败，返还积分
