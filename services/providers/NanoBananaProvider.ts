@@ -270,7 +270,7 @@ export class NanoBananaProvider extends BaseAIProvider {
    * Generate callback URL for the current environment
    */
   private getNanoBananaCallbackUrl(): string {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://6782080cf00c.ngrok-free.app";
+    const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || 'http://localhost:3000';
     return `${baseUrl}/api/ai-callback/nano_banana`;
   }
 

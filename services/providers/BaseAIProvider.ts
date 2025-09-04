@@ -93,7 +93,7 @@ export abstract class BaseAIProvider {
    * 生成回调URL
    */
   protected getCallbackUrl(): string {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || 'http://localhost:3000';
     return `${baseUrl}/api/ai-callback/${this.provider}`;
   }
 
