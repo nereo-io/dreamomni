@@ -2,7 +2,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import AppleProvider from "next-auth/providers/apple";
-import VkProvider from "next-auth/providers/vk";
+// import VkProvider from "next-auth/providers/vk";  // 使用SDK方案，不再使用OAuth Provider
 import { NextAuthConfig } from "next-auth";
 import { Provider } from "next-auth/providers/index";
 import { User } from "@/types/user";
@@ -127,20 +127,21 @@ if (
   );
 }
 
-// VK Auth
-if (
-  process.env.NEXT_PUBLIC_AUTH_VK_ENABLED === "true" &&
-  process.env.AUTH_VK_ID &&
-  process.env.AUTH_VK_SECRET
-) {
-  providers.push(
-    VkProvider({
-      clientId: process.env.AUTH_VK_ID,
-      clientSecret: process.env.AUTH_VK_SECRET,
-      checks: ["state"], // VK doesn't support PKCE
-    })
-  );
-}
+// VK Auth - 使用SDK方案，暂时禁用OAuth Provider
+// SDK集成在 /components/sign/vk-login.tsx 和 /app/api/auth/vk-sdk/
+// if (
+//   process.env.NEXT_PUBLIC_AUTH_VK_ENABLED === "true" &&
+//   process.env.AUTH_VK_ID &&
+//   process.env.AUTH_VK_SECRET
+// ) {
+//   providers.push(
+//     VkProvider({
+//       clientId: process.env.AUTH_VK_ID,
+//       clientSecret: process.env.AUTH_VK_SECRET,
+//       checks: ["state"], // VK doesn't support PKCE
+//     })
+//   );
+// }
 
 // Github Auth
 if (

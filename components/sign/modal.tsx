@@ -18,7 +18,8 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import { SiGithub, SiGmail, SiGoogle, SiApple, SiVk } from "react-icons/si";
+import { SiGithub, SiGmail, SiGoogle, SiApple } from "react-icons/si";
+import { VKLoginButton } from "./vk-login";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -280,14 +281,7 @@ function ProfileForm({ className, mode, setMode, showEmailAuth, setShowEmailAuth
             )}
 
             {process.env.NEXT_PUBLIC_AUTH_VK_ENABLED === "true" && (
-              <Button
-                variant="outline"
-                className="w-full flex items-center gap-2"
-                onClick={() => signIn("vk")}
-              >
-                <SiVk className="w-4 h-4" />
-                {t("sign_modal.vk_sign_in")}
-              </Button>
+              <VKLoginButton />
             )}
 
             {process.env.NEXT_PUBLIC_AUTH_GITHUB_ENABLED === "true" && (
