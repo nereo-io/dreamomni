@@ -41,6 +41,11 @@ export default function ImageToImageTab({
   const [pollingGenerations, setPollingGenerations] = useState<Set<string>>(new Set());
   const [prompt, setPrompt] = useState("");
   const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(true);
+  
+  // 新的输出设置状态
+  const [outputFormat, setOutputFormat] = useState<"png" | "jpeg">("png");
+  const [imageSize, setImageSize] = useState<"auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9">("auto");
+  
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -323,6 +328,8 @@ export default function ImageToImageTab({
       model: selectedModel,
       mode: "image-edit",
       image_urls: uploadedImageUrl ? [uploadedImageUrl] : undefined,
+      output_format: outputFormat,
+      image_size: imageSize,
       enable_prompt_enhancement: enablePromptEnhancement,
     };
 
@@ -646,6 +653,85 @@ export default function ImageToImageTab({
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+
+              {/* Output Format */}
+              <div className="mb-4">
+                <label className="text-gray-300 text-sm mb-2 block">
+                  {t("outputFormat")}
+                </label>
+                <div className="flex flex-wrap gap-3 sm:gap-6">
+                  {["png", "jpeg"].map((format) => (
+                    <label
+                      key={format}
+                      className="flex items-center cursor-pointer min-w-0"
+                    >
+                      <input
+                        type="radio"
+                        name="outputFormat"
+                        value={format}
+                        checked={outputFormat === format}
+                        onChange={(e) => setOutputFormat(e.target.value as "png" | "jpeg")}
+                        className="sr-only"
+                      />
+                      <div
+                        className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
+                          outputFormat === format
+                            ? "border-primary bg-primary"
+                            : "border-gray-500"
+                        }`}
+                      >
+                        {outputFormat === format && (
+                          <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                        )}
+                      </div>
+                      <span className="text-gray-300 text-sm uppercase">{format}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Image Size Ratio */}
+              <div className="mb-4">
+                <label className="text-gray-300 text-sm mb-2 block">
+                  {t("imageSize")}
+                </label>
+                <div className="flex flex-wrap gap-3 sm:gap-6">
+                  {[
+                    { value: "auto", label: "Auto" },
+                    { value: "1:1", label: "1:1" },
+                    { value: "3:4", label: "3:4" },
+                    { value: "9:16", label: "9:16" },
+                    { value: "4:3", label: "4:3" },
+                    { value: "16:9", label: "16:9" },
+                  ].map((size) => (
+                    <label
+                      key={size.value}
+                      className="flex items-center cursor-pointer min-w-0"
+                    >
+                      <input
+                        type="radio"
+                        name="imageSize"
+                        value={size.value}
+                        checked={imageSize === size.value}
+                        onChange={(e) => setImageSize(e.target.value as typeof imageSize)}
+                        className="sr-only"
+                      />
+                      <div
+                        className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
+                          imageSize === size.value
+                            ? "border-primary bg-primary"
+                            : "border-gray-500"
+                        }`}
+                      >
+                        {imageSize === size.value && (
+                          <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                        )}
+                      </div>
+                      <span className="text-gray-300 text-sm">{size.label}</span>
+                    </label>
+                  ))}
                 </div>
               </div>
 

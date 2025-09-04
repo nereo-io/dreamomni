@@ -470,6 +470,8 @@
     "nanoBananaProvider": "Kie.ai Nano Banana",
     "highQuality": "High Quality",
     "fastGeneration": "Fast",
+    "outputFormat": "Output Format",
+    "imageSize": "Image Size",
     "pleaseSignInToGenerate": "Please sign in to generate images",
     "generationStarted": "Image generation started. Please check history for updates.",
     "generationCompleted": "Image generation complete!",
