@@ -61,6 +61,14 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
   const [initialLoadComplete, setInitialLoadComplete] = useState(false); // 标记初次加载是否完成
   const t = useTranslations("imageHistory");
 
+  // 定义未完成的状态，与图片生成页面保持一致
+  const INCOMPLETE_STATUSES = [
+    "pending",
+    "prompt_optimizing", 
+    "in_queue",
+    "in_progress"
+  ];
+
   // 后台异步更新进行中的任务状态（类似视频历史的处理方式）
   const updateActiveTasksInBackground = useCallback(
     async (images: ImageGenerationResult[]) => {
@@ -132,6 +140,50 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
       return newSet;
     });
   }, []);
+
+  // 检查是否有未完成的图片需要轮询
+  const hasIncompleteImages = useCallback(() => {
+    if (!images || images.length === 0) return false;
+
+    // 检查最新的图片是否未完成
+    const latestImage = images[0]; // My Creations中数据没有反转，最新的在前
+    if (!latestImage) return false;
+
+    // 未完成的状态包括：提交中、优化中、排队中、生成中
+    return INCOMPLETE_STATUSES.includes(latestImage.status);
+  }, [images, INCOMPLETE_STATUSES]);
+
+  // 更新最新图片的状态
+  const updateLatestImageStatus = useCallback(async () => {
+    if (!images || images.length === 0) return;
+
+    const latestImage = images[0]; // My Creations中数据没有反转，最新的在前
+    if (!latestImage) return;
+
+    try {
+      const response = await fetch("/api/image-generation/status", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: latestImage.id }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.code === 0 && result.data) {
+          // 更新本地状态
+          setImages((prevImages) =>
+            prevImages.map((image, index) =>
+              index === 0 ? { ...image, ...result.data } : image
+            )
+          );
+        }
+      }
+    } catch (error) {
+      console.error("更新图片状态失败:", error);
+    }
+  }, [images]);
 
   // 检查是否所有关键内容都已加载完成
   const checkAllContentLoaded = useCallback(() => {
@@ -1043,6 +1095,25 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
       pollingIntervalsRef.current.clear();
     };
   }, []);
+
+  // 轮询机制：当有未完成的图片时，每3秒检查一次状态
+  useEffect(() => {
+    if (!userId || !hasIncompleteImages()) {
+      return;
+    }
+
+    console.log("Starting polling for incomplete images in My Creations...");
+
+    const pollInterval = setInterval(() => {
+      console.log("Polling image status in My Creations...");
+      updateLatestImageStatus();
+    }, 3000); // 每3秒轮询一次
+
+    return () => {
+      console.log("Stopping polling in My Creations...");
+      clearInterval(pollInterval);
+    };
+  }, [userId, hasIncompleteImages, updateLatestImageStatus]);
 
   useEffect(() => {
     fetchHistory();

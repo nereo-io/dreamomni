@@ -1,7 +1,8 @@
 import { respData, respErr } from "@/lib/resp";
 import { auth } from "@/auth";
 import { getUserInfo } from "@/services/user";
-import { getImageGenerationById } from "@/models/imageGeneration";
+import { getImageGenerationById, updateImageGenerationById } from "@/models/imageGeneration";
+import { AIServiceManager } from "@/services/AIServiceManager";
 
 import { NextRequest } from "next/server";
 
@@ -31,17 +32,69 @@ export async function POST(req: NextRequest) {
     }
 
     // 4. 查询数据库记录
-    const imageGeneration = await getImageGenerationById(id, userInfo.uuid);
+    let imageGeneration = await getImageGenerationById(id, userInfo.uuid);
 
     if (!imageGeneration) {
       return respErr("Image generation not found or access denied");
     }
 
-    // 5. 构造响应数据
+    // 5. 尝试从AI服务提供商同步最新状态（仅当状态未完成时）
+    const incompleteStatuses = ["PENDING", "PROMPT_OPTIMIZING", "IN_QUEUE", "IN_PROGRESS"];
+    const shouldSync = incompleteStatuses.includes(imageGeneration.status.toUpperCase()) && 
+                       imageGeneration.task_id && 
+                       imageGeneration.provider;
+
+    if (shouldSync) {
+      try {
+        console.log(`🔄 Syncing status from AI service for image ${imageGeneration.id}, taskId: ${imageGeneration.task_id}`);
+        
+        const aiServiceManager = AIServiceManager.getInstance();
+        const statusResult = await aiServiceManager.getTaskStatus(
+          imageGeneration.provider as any,
+          imageGeneration.task_id!
+        );
+
+        console.log(`📊 Received status from AI service:`, statusResult);
+
+        // 如果从AI服务获取到新状态，更新数据库
+        if (statusResult && statusResult.status) {
+          const updateParams: any = {
+            status: statusResult.status.toUpperCase(),
+          };
+
+          // 如果有图片结果，更新图片URL
+          if (statusResult.images && statusResult.images.length > 0) {
+            const imageUrls = statusResult.images.map(img => img.url).filter(Boolean);
+            if (imageUrls.length > 0) {
+              updateParams.image_urls = imageUrls;
+            }
+          }
+
+          // 如果有错误信息，也更新
+          if (statusResult.error) {
+            updateParams.error_message = statusResult.error;
+          }
+
+          console.log(`💾 Updating database with new status:`, updateParams);
+          
+          const updatedGeneration = await updateImageGenerationById(imageGeneration.id, updateParams);
+          if (updatedGeneration) {
+            imageGeneration = updatedGeneration;
+            console.log(`✅ Status updated successfully: ${imageGeneration.status}`);
+          }
+        }
+      } catch (error) {
+        console.warn(`⚠️ Failed to sync status from AI service:`, error);
+        // 即使同步失败，也继续返回数据库中的状态
+      }
+    }
+
+    // 6. 构造响应数据
     const responseData = {
       id: imageGeneration.id,
       status: imageGeneration.status.toLowerCase(), // 转换为小写以匹配前端预期
       prompt: imageGeneration.prompt,
+      optimized_prompt: imageGeneration.optimized_prompt, // 添加优化后的提示词
       model: imageGeneration.model_id,
       mode: imageGeneration.mode,
       image_url: imageGeneration.image_urls && imageGeneration.image_urls.length > 0 

@@ -54,6 +54,14 @@ export default function ImageHistoryForGeneration({
   const pollingIntervalsRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
   
   const { user, setShowSignModal } = useAppContext();
+  
+  // 定义未完成的状态，与视频生成保持一致
+  const INCOMPLETE_STATUSES = [
+    "pending",
+    "prompt_optimizing", 
+    "in_queue",
+    "in_progress"
+  ];
   const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -67,9 +75,55 @@ export default function ImageHistoryForGeneration({
     }
   }, []);
 
-  // 删除图片功能
-  const onDeleteImage = async (imageId: string) => {
+  // 检查是否有未完成的图片需要轮询
+  const hasIncompleteImages = useCallback(() => {
+    if (!images || images.length === 0) return false;
+
+    // 检查最新的图片是否未完成
+    const latestImage = images[images.length - 1]; // 因为数组已反转，最新的在最后
+    if (!latestImage) return false;
+
+    // 未完成的状态包括：提交中、优化中、排队中、生成中
+    return INCOMPLETE_STATUSES.includes(latestImage.status);
+  }, [images, INCOMPLETE_STATUSES]);
+
+  // 更新最新图片的状态
+  const updateLatestImageStatus = useCallback(async () => {
+    if (!images || images.length === 0) return;
+
+    const latestImage = images[images.length - 1]; // 因为数组已反转，最新的在最后
+    if (!latestImage) return;
+
     try {
+      const response = await fetch("/api/image-generation/status", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: latestImage.id }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.code === 0 && result.data) {
+          // 更新本地状态
+          setImages((prevImages) =>
+            prevImages.map((image, index) =>
+              index === prevImages.length - 1 ? { ...image, ...result.data } : image
+            )
+          );
+        }
+      }
+    } catch (error) {
+      console.error("更新图片状态失败:", error);
+    }
+  }, [images]);
+
+  // 删除图片功能 - 与 My Creations 保持一致
+  const onDeleteImage = async (imageId: string, prompt: string) => {
+    try {
+      console.log(`🗑️ Attempting to delete image: ${imageId}`);
+      
       const response = await fetch("/api/image-generations/delete", {
         method: "DELETE",
         headers: {
@@ -78,17 +132,50 @@ export default function ImageHistoryForGeneration({
         body: JSON.stringify({ imageId }),
       });
 
-      const data = await response.json();
+      console.log("Delete API raw response:", {
+        status: response.status,
+        statusText: response.statusText,
+        ok: response.ok,
+        headers: Object.fromEntries(response.headers.entries())
+      });
+
+      let result;
+      try {
+        result = await response.json();
+      } catch (parseError) {
+        console.error("Failed to parse response JSON:", parseError);
+        throw new Error("Invalid response format from server");
+      }
       
-      if (response.ok && data.code === 0) {
-        // 删除成功，从本地状态中移除该图片
-        setImages(prev => prev.filter(img => img.id !== imageId));
-        console.log("✅ Image deleted successfully:", imageId);
+      console.log("Delete API parsed result:", result);
+
+      // 检查响应格式
+      if (typeof result !== 'object' || result === null) {
+        console.error("Invalid result format - not an object:", result);
+        throw new Error("Invalid response format");
+      }
+
+      if (response.ok && result.code === 0) {
+        console.log("✅ Delete successful, updating UI");
+        // 从列表中移除已删除的图片
+        setImages(prevImages => prevImages.filter(img => img.id !== imageId));
+        
+        // 强制刷新历史记录以确保数据一致性
+        setTimeout(() => {
+          console.log("🔄 Refreshing history after delete to ensure consistency");
+          fetchHistory();
+        }, 500);
       } else {
-        throw new Error(data.message || "Failed to delete image");
+        console.error("Delete failed - Conditions not met:", {
+          responseOk: response.ok,
+          resultCode: result.code,
+          resultMessage: result.message
+        });
+        throw new Error(result.message || `Delete failed: HTTP ${response.status}`);
       }
     } catch (error) {
-      console.error("❌ Failed to delete image:", error);
+      console.error("Delete error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to delete image";
       throw error; // 重新抛出错误，让UI组件处理
     }
   };
@@ -270,6 +357,25 @@ export default function ImageHistoryForGeneration({
       }
     }
   }, [scrollToBottomFlag, images]);
+
+  // 轮询机制：当有未完成的图片时，每3秒检查一次状态
+  useEffect(() => {
+    if (!user?.uuid || !hasIncompleteImages()) {
+      return;
+    }
+
+    console.log("Starting polling for incomplete images...");
+
+    const pollInterval = setInterval(() => {
+      console.log("Polling image status...");
+      updateLatestImageStatus();
+    }, 3000); // 每3秒轮询一次
+
+    return () => {
+      console.log("Stopping polling...");
+      clearInterval(pollInterval);
+    };
+  }, [user?.uuid, hasIncompleteImages, updateLatestImageStatus]);
 
   // 未登录用户：显示登录提示
   if (!user?.uuid) {
