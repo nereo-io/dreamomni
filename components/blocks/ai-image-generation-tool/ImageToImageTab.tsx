@@ -248,6 +248,16 @@ export default function ImageToImageTab({
       console.log("Generation submitted successfully:", response);
       generationId = response.data?.id || null;
       
+      // 生成请求提交成功后立即更新积分显示
+      // 因为后端API已经扣除了积分，前端需要立即反映这个变化
+      try {
+        await updateLeftCredits();
+        console.log("✅ Credits updated after successful generation submission");
+      } catch (error) {
+        console.error("❌ Failed to update credits display:", error);
+        // 不阻塞生成流程，但记录错误
+      }
+      
       // Track generation event
       trackImageGeneration(params.model, params.prompt);
       
