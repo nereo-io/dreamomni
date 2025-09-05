@@ -429,10 +429,10 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   if (isCompleted && imageUrl) {
     return (
       <div className="space-y-3">
-        {/* Image preview - 三分之二宽度，左对齐 */}
+        {/* Image preview with hover buttons - 三分之二宽度，左对齐 */}
         <div className="flex justify-start">
           <div 
-            className="w-2/3 aspect-square bg-gray-700 rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
+            className="w-2/3 aspect-square bg-gray-700 rounded-lg overflow-hidden cursor-pointer relative group"
             onClick={handleOpen}
           >
             <img
@@ -441,67 +441,75 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
               className="w-full h-full object-cover"
               loading="lazy"
             />
+            
+            {/* Hover overlay buttons */}
+            <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex gap-2">
+              <Button
+                variant="secondary"
+                size="sm"
+                className="bg-black/60 hover:bg-black/80 text-white border-none h-8 w-8 p-0 rounded-md"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDownload();
+                }}
+                title="Download image"
+              >
+                <Download className="h-4 w-4" />
+              </Button>
+              {onDelete && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="bg-black/60 hover:bg-red-600/80 text-white border-none h-8 w-8 p-0 rounded-md"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteClick(e);
+                  }}
+                  disabled={isDeleting}
+                  title="Delete image"
+                >
+                  {isDeleting ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Trash2 className="h-4 w-4" />
+                  )}
+                </Button>
+              )}
+            </div>
           </div>
         </div>
 
         {/* Action buttons */}
-        <div className="flex justify-between items-center">
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleOpen}
-              className="border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"
-            >
-              <ExternalLink className="mr-2 h-4 w-4" />
-              Open
-            </Button>
-            {canEdit && onEdit && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleEdit}
-                className="text-gray-400 hover:text-white"
-              >
-                <Edit className="h-4 w-4" />
-              </Button>
-            )}
-            {canEdit && onRegenerate && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleRegenerate}
-                className="text-gray-400 hover:text-white"
-              >
-                <RotateCcw className="h-4 w-4" />
-              </Button>
-            )}
-          </div>
-          <div className="flex gap-2">
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleOpen}
+            className="border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"
+          >
+            <ExternalLink className="mr-2 h-4 w-4" />
+            Open
+          </Button>
+          {canEdit && onEdit && (
             <Button
               variant="ghost"
               size="sm"
-              onClick={handleDownload}
+              onClick={handleEdit}
               className="text-gray-400 hover:text-white"
             >
-              <Download className="h-4 w-4" />
+              <Edit className="h-4 w-4" />
             </Button>
-            {onDelete && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleDeleteClick}
-                disabled={isDeleting}
-                className="text-gray-400 hover:text-red-400"
-              >
-                {isDeleting ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Trash2 className="h-4 w-4" />
-                )}
-              </Button>
-            )}
-          </div>
+          )}
+          {canEdit && onRegenerate && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleRegenerate}
+              className="text-gray-400 hover:text-white"
+            >
+              <RotateCcw className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       </div>
     );

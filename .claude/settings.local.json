@@ -37,7 +37,8 @@
       "Bash(npm update:*)",
       "Bash(claude --version)",
       "Bash(pnpm dev:*)",
-      "Bash(git restore:*)"
+      "Bash(git restore:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": [],

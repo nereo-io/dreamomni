@@ -296,7 +296,8 @@ export default function ImageHistoryForGeneration({
     });
 
     if (!hasActiveImages) {
-      console.log('没有需要轮询的活跃图片');
+      // 没有需要轮询的图片时，确保loading状态为false
+      setLoading(false);
       return;
     }
 
@@ -319,24 +320,50 @@ export default function ImageHistoryForGeneration({
             });
             return newImages;
           });
-          console.log(`更新了 ${updates.length} 张图片状态`);
         },
         onTimeout: (image) => {
           // 处理超时的图片
-          setImages(prevImages => 
-            prevImages.map(img => 
+          setImages(prevImages => {
+            const newImages = prevImages.map(img => 
               img.id === image.id 
                 ? { ...img, status: 'failed', error_message: '生成超时（超过5分钟）' } as ImageGenerationResult
                 : img
-            )
-          );
-          console.log(`图片 ${image.id} 生成超时`);
+            );
+            
+            // 检查是否还有其他处理中的图片
+            const hasProcessing = newImages.some(img => 
+              img.status === 'pending' || 
+              img.status === 'in_progress' || 
+              img.status === 'in_queue' ||
+              img.status === 'prompt_optimizing'
+            );
+            if (!hasProcessing) {
+              setLoading(false);
+            }
+            
+            return newImages;
+          });
         },
         onComplete: (image) => {
-          console.log(`图片 ${image.id} 生成完成，状态: ${image.status}`);
+          // Image generation completed
+          // 检查是否还有其他处理中的图片
+          setImages(prevImages => {
+            const hasProcessing = prevImages.some(img => 
+              img.id !== image.id && (
+                img.status === 'pending' || 
+                img.status === 'in_progress' || 
+                img.status === 'in_queue' ||
+                img.status === 'prompt_optimizing'
+              )
+            );
+            if (!hasProcessing) {
+              setLoading(false);
+            }
+            return prevImages;
+          });
         },
         onError: (error, imageId) => {
-          console.error(`更新图片 ${imageId} 状态时出错:`, error);
+          console.error(`Error updating image ${imageId}:`, error);
         }
       },
       {
@@ -437,9 +464,9 @@ export default function ImageHistoryForGeneration({
             </div>
           </div>
         ) : (
-          <div ref={scrollAreaRef} className="flex-1 overflow-y-auto p-4 md:p-6 image-history-scroll lg:dark-scrollbar">
-            <div className="space-y-4">
-              {images.map((image, index) => (
+          <div ref={scrollAreaRef} className="flex-1 overflow-y-auto image-history-scroll lg:dark-scrollbar">
+            <div className="divide-y divide-gray-700">
+              {(isMobile ? [...images].reverse() : images).map((image, index) => (
                 <ImageHistoryItem
                   key={image.id}
                   image={image}

@@ -2,8 +2,6 @@ import React from "react";
 import { Copy, Sparkles, Loader2, CheckCircle, XCircle, Clock } from "lucide-react";
 import { toast } from "sonner";
 import type { ImageGenerationResult } from "@/components/blocks/image-history";
-import StatusBadge from "./StatusBadge";
-import ImageMetadata from "./ImageMetadata";
 import EnhancedPrompt from "./EnhancedPrompt";
 import ImageStatusDisplay from "./ImageStatusDisplay";
 
@@ -120,30 +118,27 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
 
     return (
       <div className="p-5 space-y-4">
-        {/* Header: Status + Prompt + Timestamp */}
+        {/* Header: Prompt + Timestamp */}
         <div className="flex justify-between items-start gap-3">
-          <div className="flex items-start gap-3 flex-1">
-            <StatusBadge status={image.status} statusMap={statusMap} />
-            <div className="flex items-start gap-2 flex-1">
-              <p
-                className="text-base font-bold text-white leading-relaxed flex-1"
-                style={{
-                  display: "-webkit-box",
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                }}
-              >
-                {image.prompt}
-              </p>
-              <button
-                onClick={handleCopyPrompt}
-                className="flex-shrink-0 p-1 text-gray-400 hover:text-white transition-colors rounded"
-                title="Copy prompt"
-              >
-                <Copy className="h-4 w-4" />
-              </button>
-            </div>
+          <div className="flex items-start gap-2 flex-1">
+            <p
+              className="text-base font-bold text-white leading-relaxed flex-1"
+              style={{
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+              }}
+            >
+              {image.prompt}
+            </p>
+            <button
+              onClick={handleCopyPrompt}
+              className="flex-shrink-0 p-1 text-gray-400 hover:text-white transition-colors rounded"
+              title="Copy prompt"
+            >
+              <Copy className="h-4 w-4" />
+            </button>
           </div>
           {formatTimestamp() && (
             <span className="text-sm text-gray-400 flex-shrink-0 mt-0.5">
@@ -151,12 +146,6 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
             </span>
           )}
         </div>
-
-        {/* Metadata tags */}
-        <ImageMetadata
-          aspectRatio={image.aspect_ratio}
-          modelName={formatModelDisplayName(image.model)}
-        />
 
         {/* Enhanced Prompt */}
         <EnhancedPrompt

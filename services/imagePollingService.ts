@@ -129,7 +129,6 @@ class ImagePollingService {
       const elapsedSinceCreation = now - createdTime;
       
       if (elapsedSinceCreation >= maxDuration) {
-        console.log(`图片 ${image.id} 创建已超过 ${maxDuration / 1000} 秒，不再轮询`);
         return false;
       }
       
@@ -149,24 +148,18 @@ class ImagePollingService {
     const interval = config?.interval || DEFAULT_CONFIG.interval;
     const maxDuration = config?.maxDuration || DEFAULT_CONFIG.maxDuration;
     
-    console.log(`开始轮询，ID: ${pollingId}，间隔: ${interval}ms，最大时长: ${maxDuration}ms`);
-    
     // 记录所有图片的开始时间
     images.forEach(img => {
       if (!this.imageStartTimes.has(img.id)) {
         this.imageStartTimes.set(img.id, Date.now());
-        console.log(`记录图片 ${img.id} 开始轮询时间`);
       }
     });
     
     const timer = setInterval(async () => {
       const imagesToPoll = this.getIncompleteImages(images, config);
       
-      console.log(`轮询中... 需要更新的图片数量: ${imagesToPoll.length}`);
-      
       // 如果没有需要轮询的图片了，停止轮询
       if (imagesToPoll.length === 0) {
-        console.log(`没有需要轮询的图片了，停止轮询 ${pollingId}`);
         this.stopPolling(pollingId);
         return;
       }
@@ -183,7 +176,6 @@ class ImagePollingService {
         
         if (elapsed >= maxDuration) {
           timeoutImages.push(img);
-          console.log(`图片 ${img.id} 超时（已轮询 ${elapsed / 1000} 秒）`);
         } else {
           activeImages.push(img);
         }
@@ -197,13 +189,10 @@ class ImagePollingService {
       
       // 批量更新活跃图片
       if (activeImages.length > 0) {
-        console.log(`批量更新 ${activeImages.length} 张图片状态...`);
         try {
           const result = await this.fetchBatchImageStatus(
             activeImages.map(img => img.id)
           );
-          
-          console.log(`批量更新结果 - 成功: ${result.success.length}, 失败: ${result.failed.length}`);
           
           // 通知更新
           if (result.updates && result.updates.length > 0 && options?.onUpdate) {
@@ -214,8 +203,6 @@ class ImagePollingService {
           result.updates?.forEach(update => {
             const status = update.data.status?.toLowerCase();
             if (status === 'completed' || status === 'saved_to_r2' || status === 'failed') {
-              console.log(`图片 ${update.id} 已完成，状态: ${status}`);
-              
               // 触发完成回调
               const completeImage = activeImages.find(img => img.id === update.id);
               if (completeImage) {
@@ -228,7 +215,7 @@ class ImagePollingService {
             }
           });
         } catch (error) {
-          console.error('批量更新图片状态时出错:', error);
+          console.error('Error updating image status:', error);
           activeImages.forEach(img => {
             options?.onError?.(error as Error, img.id);
           });
@@ -237,8 +224,6 @@ class ImagePollingService {
     }, interval);
     
     this.pollingTimers.set(pollingId, timer);
-    console.log(`轮询已启动，共 ${images.length} 张图片需要监控`);
-    
     return pollingId;
   }
   
@@ -250,7 +235,6 @@ class ImagePollingService {
     if (timer) {
       clearInterval(timer);
       this.pollingTimers.delete(pollingId);
-      console.log(`停止轮询: ${pollingId}`);
     }
   }
   
@@ -258,10 +242,8 @@ class ImagePollingService {
    * 停止所有轮询
    */
   stopAllPolling(): void {
-    console.log(`停止所有轮询，共 ${this.pollingTimers.size} 个`);
     this.pollingTimers.forEach((timer, id) => {
       clearInterval(timer);
-      console.log(`停止轮询: ${id}`);
     });
     this.pollingTimers.clear();
     this.imageStartTimes.clear();
@@ -289,7 +271,6 @@ class ImagePollingService {
     
     toDelete.forEach(id => {
       this.imageStartTimes.delete(id);
-      console.log(`清理超时记录: ${id}`);
     });
   }
 }
