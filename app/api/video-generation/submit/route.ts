@@ -240,7 +240,7 @@ export async function POST(req: Request) {
       duration_seconds: parseInt(duration),
       cfg_scale,
       seed,
-      has_audio: generate_audio, // 新增：记录是否包含音频
+      has_audio: finalModel.includes('veo') && generate_audio, // 只有 VEO 模型有音频
       status: enable_prompt_enhancement ? "PROMPT_OPTIMIZING" : "IN_QUEUE",
       effect_id: effect_id,
     });

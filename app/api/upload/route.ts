@@ -1,6 +1,7 @@
 import { respData, respErr } from "@/lib/resp";
 import { auth } from "@/auth";
 import { newStorage } from "@/lib/storage";
+import { aliOSSService } from "@/services/storage/AliOSSService";
 
 export async function POST(req: Request) {
   try {
@@ -32,23 +33,48 @@ export async function POST(req: Request) {
     // 生成文件名
     const timestamp = Date.now();
     const extension = file.name.split(".").pop() || "jpg";
-    const fileName = `uploads/images/${session.user.uuid}/${timestamp}.${extension}`;
+    const r2FileName = `uploads/images/${session.user.uuid}/${timestamp}.${extension}`;
+    const ossFileName = `uploads/images/${session.user.uuid}/${timestamp}.${extension}`;
 
     // 读取文件内容
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    // 上传到 R2
-    const storage = newStorage();
-    const uploadResult = await storage.uploadFile({
-      body: buffer,
-      key: fileName,
-      contentType: file.type,
-    });
+    // 并行上传到 R2 和 OSS
+    const [r2Result, ossResult] = await Promise.allSettled([
+      // 上传到 R2
+      newStorage().uploadFile({
+        body: buffer,
+        key: r2FileName,
+        contentType: file.type,
+      }),
+      // 上传到 OSS（如果服务可用）
+      aliOSSService.isAvailable()
+        ? aliOSSService.uploadBuffer(buffer, ossFileName, file.type)
+        : Promise.reject(new Error('OSS service not available'))
+    ]);
+
+    // 默认使用 R2 结果
+    let primaryUrl = '';
+    let ossUrl = null;
+    
+    if (r2Result.status === 'fulfilled' && r2Result.value.url) {
+      primaryUrl = r2Result.value.url;
+    } else {
+      console.error('R2 upload failed:', r2Result.status === 'rejected' ? r2Result.reason : 'No URL returned');
+      return respErr("Failed to upload to primary storage");
+    }
+    
+    if (ossResult.status === 'fulfilled') {
+      ossUrl = ossResult.value;
+    } else {
+      // OSS 失败不影响主流程
+    }
 
     return respData({
-      url: uploadResult.url,
-      filename: uploadResult.filename,
+      url: primaryUrl,  // 主 URL（R2）
+      oss_url: ossUrl,  // OSS URL（可选）
+      filename: r2Result.status === 'fulfilled' && r2Result.value.filename ? r2Result.value.filename : 'upload',
       size: file.size,
       type: file.type,
     });

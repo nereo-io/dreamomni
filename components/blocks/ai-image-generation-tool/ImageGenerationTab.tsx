@@ -631,13 +631,23 @@ export default function ImageGenerationTab({
 
             {/* Prompt Input */}
             <div>
-              <div className="text-white text-lg font-semibold mb-4">
-                {t("prompt")}
+              <div className="flex justify-between items-center text-white text-lg font-semibold mb-4">
+                <span>{t("prompt")}</span>
+                {prompt.length > 900 && (
+                  <span className="text-sm font-normal text-gray-400">
+                    {prompt.length}/1000
+                  </span>
+                )}
               </div>
               <Textarea
                 ref={textareaRef}
                 value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
+                onChange={(e) => {
+                  const newValue = e.target.value;
+                  if (newValue.length <= 1000) {
+                    setPrompt(newValue);
+                  }
+                }}
                 placeholder={
                   descriptionPlaceholder || 
                   (isImageToImage ? t("imageToImagePlaceholder") : t("textToImagePlaceholder"))
@@ -645,6 +655,7 @@ export default function ImageGenerationTab({
                 className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
                 style={{ minHeight: "150px", maxHeight: "300px" }}
                 disabled={isGenerating}
+                maxLength={1000}
               />
             </div>
 
