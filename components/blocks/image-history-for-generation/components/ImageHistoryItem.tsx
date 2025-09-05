@@ -15,6 +15,7 @@ interface ImageHistoryItemProps {
   onEdit?: (image: ImageGenerationResult) => void;
   onRegenerate?: (image: ImageGenerationResult) => void;
   onDelete?: (imageId: string) => void;
+  onImageClick?: (imageUrl: string, prompt: string) => void;
   canEdit?: boolean;
 }
 
@@ -27,6 +28,7 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
     onEdit,
     onRegenerate,
     onDelete,
+    onImageClick,
     canEdit = false,
   }) => {
     
@@ -175,6 +177,7 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
           onEdit={onEdit}
           onRegenerate={onRegenerate}
           onDelete={onDelete}
+          onImageClick={onImageClick}
           canEdit={canEdit}
           pollingImages={pollingImages}
         />

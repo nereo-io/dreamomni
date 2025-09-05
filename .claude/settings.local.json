@@ -35,7 +35,9 @@
       "Read(//Users/jasper/**)",
       "Bash(claude doctor)",
       "Bash(npm update:*)",
-      "Bash(claude --version)"
+      "Bash(claude --version)",
+      "Bash(pnpm dev:*)",
+      "Bash(git restore:*)"
     ],
     "deny": [],
     "ask": [],

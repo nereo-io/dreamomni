@@ -21,6 +21,7 @@ interface ImageStatusDisplayProps {
   onEdit?: (image: ImageGenerationResult) => void;
   onRegenerate?: (image: ImageGenerationResult) => void;
   onDelete?: (imageId: string, prompt: string) => void;
+  onImageClick?: (imageUrl: string, prompt: string) => void;
   canEdit?: boolean;
   pollingImages: Set<string>;
 }
@@ -35,6 +36,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   onEdit,
   onRegenerate,
   onDelete,
+  onImageClick,
   canEdit,
   pollingImages,
 }) => {
@@ -340,7 +342,11 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
       toast.error("Image not available");
       return;
     }
-    window.open(imageUrl, "_blank");
+    if (onImageClick) {
+      onImageClick(imageUrl, image.prompt);
+    } else {
+      window.open(imageUrl, "_blank");
+    }
   };
 
   const handleEdit = () => {

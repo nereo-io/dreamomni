@@ -9,6 +9,7 @@ import { useAppContext } from "@/contexts/app";
 import { useIsMobile } from "@/hooks/use-mobile";
 import ImageHistoryItem from "./components/ImageHistoryItem";
 import ImageHistorySkeleton from "./components/ImageHistorySkeleton";
+import ImagePreviewModal from "./components/ImagePreviewModal";
 import type { ImageGenerationResult } from "@/components/blocks/image-history";
 import { imagePollingService } from "@/services/imagePollingService";
 import type { ImageGenerationHistoryItem } from "@/types/image";
@@ -54,6 +55,10 @@ export default function ImageHistoryForGeneration({
   const [loadingImages, setLoadingImages] = useState<Set<string>>(new Set());
   const [scrollToBottomFlag, setScrollToBottomFlag] = useState(false);
   const pollingIntervalsRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
+  
+  // Modal state
+  const [previewModalOpen, setPreviewModalOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState<{ url: string; prompt: string } | null>(null);
   
   const { user, setShowSignModal } = useAppContext();
   
@@ -137,6 +142,12 @@ export default function ImageHistoryForGeneration({
   };
 
   // Removed updateActiveTasksInBackground - now handled by imagePollingService
+
+  // Handle image click
+  const handleImageClick = useCallback((imageUrl: string, prompt: string) => {
+    setPreviewImage({ url: imageUrl, prompt });
+    setPreviewModalOpen(true);
+  }, []);
 
   // Fetch image history
   const fetchHistory = async () => {
@@ -438,6 +449,7 @@ export default function ImageHistoryForGeneration({
                   onEdit={onEditImage}
                   onRegenerate={onRegenerateImage}
                   onDelete={onDeleteImage}
+                  onImageClick={handleImageClick}
                   canEdit={true}
                 />
               ))}
@@ -445,6 +457,19 @@ export default function ImageHistoryForGeneration({
           </div>
         )}
       </div>
+      
+      {/* Image Preview Modal */}
+      {previewImage && (
+        <ImagePreviewModal
+          isOpen={previewModalOpen}
+          onClose={() => {
+            setPreviewModalOpen(false);
+            setPreviewImage(null);
+          }}
+          imageUrl={previewImage.url}
+          prompt={previewImage.prompt}
+        />
+      )}
     </div>
   );
 }
