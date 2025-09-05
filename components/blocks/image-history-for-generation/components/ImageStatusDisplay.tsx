@@ -387,15 +387,6 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
         <div className="flex justify-between items-center">
           <div className="flex gap-2">
             <Button
-              variant="outline"
-              size="sm"
-              disabled
-              className="opacity-50"
-            >
-              <ExternalLink className="mr-2 h-4 w-4" />
-              Open
-            </Button>
-            <Button
               variant="ghost"
               size="sm"
               disabled
@@ -480,37 +471,30 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
         </div>
 
         {/* Action buttons */}
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleOpen}
-            className="border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"
-          >
-            <ExternalLink className="mr-2 h-4 w-4" />
-            Open
-          </Button>
-          {canEdit && onEdit && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleEdit}
-              className="text-gray-400 hover:text-white"
-            >
-              <Edit className="h-4 w-4" />
-            </Button>
-          )}
-          {canEdit && onRegenerate && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleRegenerate}
-              className="text-gray-400 hover:text-white"
-            >
-              <RotateCcw className="h-4 w-4" />
-            </Button>
-          )}
-        </div>
+        {(canEdit && (onEdit || onRegenerate)) && (
+          <div className="flex gap-2">
+            {canEdit && onEdit && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleEdit}
+                className="text-gray-400 hover:text-white"
+              >
+                <Edit className="h-4 w-4" />
+              </Button>
+            )}
+            {canEdit && onRegenerate && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleRegenerate}
+                className="text-gray-400 hover:text-white"
+              >
+                <RotateCcw className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+        )}
       </div>
     );
   }
@@ -562,15 +546,6 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
         {/* Disabled action buttons with delete available */}
         <div className="flex justify-between items-center">
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              disabled
-              className="opacity-50"
-            >
-              <ExternalLink className="mr-2 h-4 w-4" />
-              Open
-            </Button>
             <Button
               variant="ghost"
               size="sm"
