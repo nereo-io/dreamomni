@@ -4,16 +4,14 @@ import { FAQSection } from "@/components/blocks/faq-section";
 import CTA from "@/components/blocks/cta";
 import ImageToImageTab from "@/components/blocks/ai-image-generation-tool/ImageToImageTab";
 import imageToImagePageData from "@/i18n/pages/image-to-image/en.json";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({
   params: { locale },
 }: {
   params: { locale: string };
 }) {
-  // Load localized page data
-  const pageData = locale === 'en' 
-    ? imageToImagePageData
-    : imageToImagePageData; // For now, fallback to English for other locales
+  const t = await getTranslations();
 
   let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/image-to-image`;
 
@@ -22,8 +20,8 @@ export async function generateMetadata({
   }
 
   return {
-    title: pageData.meta.title,
-    description: pageData.meta.description,
+    title: t("pages.imageToImage.title"),
+    description: t("pages.imageToImage.description"),
     alternates: {
       canonical: canonicalUrl,
     },
