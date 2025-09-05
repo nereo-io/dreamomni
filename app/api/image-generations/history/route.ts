@@ -57,18 +57,20 @@ export async function GET(req: NextRequest) {
     console.log(`✅ Found ${historyItems.length} history items (total: ${total})`);
 
     // 格式化响应数据 - 直接返回数组以匹配组件期望
-    // 安全地处理可能不存在的字段
     const formattedData = historyItems.map(item => ({
       id: item.id,
-      prompt: item.prompt, // 原始用户输入的 prompt
-      optimized_prompt: item.optimized_prompt, // 优化后的 prompt
+      prompt: item.prompt,
+      optimized_prompt: item.optimized_prompt,
       image_url: Array.isArray(item.image_urls) && item.image_urls.length > 0 
         ? item.image_urls[0] 
-        : undefined, // 取第一张图片URL
+        : undefined,
+      image_url_r2: Array.isArray(item.image_urls_r2) && item.image_urls_r2.length > 0 
+        ? item.image_urls_r2[0]
+        : undefined,
       status: item.status.toLowerCase(),
       model: item.model_id,
       created_at: item.created_at,
-      updated_at: item.updated_at || item.created_at, // 回退到created_at如果updated_at不存在
+      updated_at: item.updated_at || item.created_at,
       credits_used: item.credits_used,
       error_message: item.error_message,
       provider: item.provider,

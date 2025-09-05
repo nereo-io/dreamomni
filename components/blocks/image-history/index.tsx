@@ -31,6 +31,7 @@ export interface ImageGenerationResult {
   prompt: string; // 原始用户输入的prompt
   optimized_prompt?: string; // 优化后的prompt
   image_url?: string;
+  image_url_r2?: string; // R2存储的URL
   status: "pending" | "completed" | "failed" | "in_progress" | "in_queue" | "saved_to_r2";
   model: string;
   aspect_ratio: string;

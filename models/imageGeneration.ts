@@ -256,6 +256,7 @@ export async function getUserImageGenerations(
     "prompt", 
     "optimized_prompt",
     "image_urls",
+    "image_urls_r2",
     "status",
     "model_id",
     "mode",

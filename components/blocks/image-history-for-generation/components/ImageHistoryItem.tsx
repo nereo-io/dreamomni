@@ -168,7 +168,7 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
         <ImageStatusDisplay
           status={image.status}
           statusInfo={status}
-          imageUrl={image.image_url}
+          imageUrl={image.image_url_r2 || image.image_url}
           errorMessage={image.error_message}
           createdAt={image.created_at}
           image={image}

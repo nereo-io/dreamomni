@@ -13,6 +13,7 @@ import {
   increaseCredits,
   CreditsTransType,
 } from "@/services/credit";
+import { ImageStorageService } from "@/services/imageStorageService";
 
 import type { AIServiceProvider } from "@/types/provider.d";
 import { NextRequest } from "next/server";
@@ -85,11 +86,25 @@ export async function POST(
 
     if (processedResult.status === 'completed') {
       if (processedResult.images && processedResult.images.length > 0) {
+        // 保存原始 provider URLs
         updateData.image_urls = processedResult.images.map(img => img.url);
         updateData.image_count = processedResult.images.length;
         updateData.completed_at = new Date().toISOString();
         
         console.log(`[Callback] Completed with ${processedResult.images.length} images`);
+        
+        // 使用 ImageStorageService 上传图片到 R2
+        const uploadResult = await ImageStorageService.uploadImagesToR2(
+          processedResult.images,
+          imageGeneration.id
+        );
+        
+        if (uploadResult.success && uploadResult.r2Urls) {
+          updateData.image_urls_r2 = uploadResult.r2Urls;
+          console.log(`[Callback] R2 upload complete: ${uploadResult.r2Urls.length} successful, ${uploadResult.failedCount} failed`);
+        } else if (uploadResult.failedCount > 0) {
+          console.warn(`[Callback] R2 upload partial failure: ${uploadResult.failedCount} images failed`);
+        }
       } else {
         console.error(`[Callback] Completed but no images found`);
       }
