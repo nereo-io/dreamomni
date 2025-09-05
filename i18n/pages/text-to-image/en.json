@@ -47,60 +47,53 @@
   "aiModelsHero": {
     "title": "Advanced AI Text to Image Generation",
     "description": "Powered by cutting-edge Nano Banana AI model, Veo3 AI delivers exceptional image quality with fast generation times. Create professional-grade images in seconds with our optimized text-to-image technology.",
-    "features": [
+    "models": [
       {
-        "id": "high-quality",
-        "title": "High Quality Output",
-        "description": "Generate crisp, detailed images with excellent color accuracy and composition"
-      },
-      {
-        "id": "fast-generation",
-        "title": "Lightning Fast",
-        "description": "Get your images in seconds, not minutes. Our optimized pipeline ensures rapid generation"
-      },
-      {
-        "id": "style-versatility",
-        "title": "Any Style, Any Subject",
-        "description": "From photorealistic to artistic, create images in any style you can imagine"
-      },
-      {
-        "id": "easy-to-use",
-        "title": "Simple & Intuitive",
-        "description": "Just describe what you want to see. No technical knowledge required"
+        "id": "nano-banana",
+        "name": "Nano Banana",
+        "logo": "/imgs/intro/nano-banana.svg"
       }
-    ]
+    ],
+    "moreModels": "More Models Coming Soon"
   },
   "creatorShowcase": {
     "title": "Text to Image Creation Showcase",
-    "description": "Explore the endless possibilities of AI-powered text-to-image generation",
-    "examples": [
+    "creatorTypes": [
       {
-        "id": "digital-art",
-        "title": "Digital Art & Illustrations",
-        "description": "Create stunning digital artwork and illustrations for books, games, and creative projects",
+        "id": "digital-artists",
+        "name": "Digital Artists",
         "image": "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=600&h=400&fit=crop&q=80",
-        "imageAlt": "Vibrant digital art creation"
+        "imageAlt": "Digital artist creating vibrant artwork",
+        "title": "Create stunning digital artwork from text",
+        "description": "Generate illustrations, concept art, and digital paintings directly from your text descriptions. Perfect for book covers, game assets, and creative projects.",
+        "badge": "Digital Artists"
       },
       {
-        "id": "product-design",
-        "title": "Product Visualization",
-        "description": "Generate product concepts and mockups for design presentations and marketing",
+        "id": "product-designers",
+        "name": "Product Designers",
         "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop&q=80",
-        "imageAlt": "Product design visualization"
+        "imageAlt": "Product designer visualizing concepts",
+        "title": "Visualize product concepts instantly",
+        "description": "Transform product ideas into visual mockups with simple descriptions. Create design presentations, marketing materials, and concept explorations effortlessly.",
+        "badge": "Product Designers"
       },
       {
-        "id": "concept-art",
-        "title": "Concept Art & Characters",
-        "description": "Design characters, environments, and concepts for games and entertainment",
+        "id": "game-developers",
+        "name": "Game Developers",
         "image": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=600&h=400&fit=crop&q=80",
-        "imageAlt": "Fantasy concept art"
+        "imageAlt": "Game developer creating concept art",
+        "title": "Design characters and environments",
+        "description": "Generate game assets, character designs, and environment concepts from text. Rapidly prototype visual ideas for games and entertainment projects.",
+        "badge": "Game Developers"
       },
       {
-        "id": "marketing-visuals",
-        "title": "Marketing & Social Media",
-        "description": "Create eye-catching visuals for social media posts, ads, and marketing campaigns",
+        "id": "marketers",
+        "name": "Marketers",
         "image": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&q=80",
-        "imageAlt": "Marketing visual content"
+        "imageAlt": "Marketer creating social media content",
+        "title": "Create marketing visuals on demand",
+        "description": "Generate eye-catching images for social media, ads, and campaigns. Produce unlimited visual content variations without photo shoots or design teams.",
+        "badge": "Marketers"
       }
     ]
   }

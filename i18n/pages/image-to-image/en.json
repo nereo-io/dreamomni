@@ -47,60 +47,53 @@
   "aiModelsHero": {
     "title": "Powerful AI Image Transformation",
     "description": "Leveraging advanced Nano Banana Edit AI model, Veo3 AI provides precise image-to-image transformations. Edit, style transfer, and reimagine your images with unparalleled control and quality.",
-    "features": [
+    "models": [
       {
-        "id": "precise-editing",
-        "title": "Precise Editing",
-        "description": "Make specific changes while preserving important details from your original image"
-      },
-      {
-        "id": "style-transfer",
-        "title": "Style Transfer",
-        "description": "Transform photos into paintings, sketches, or any artistic style you desire"
-      },
-      {
-        "id": "smart-preservation",
-        "title": "Smart Preservation",
-        "description": "AI intelligently maintains composition and structure while applying changes"
-      },
-      {
-        "id": "creative-control",
-        "title": "Creative Control",
-        "description": "Guide the transformation with detailed text descriptions for precise results"
+        "id": "nano-banana-edit",
+        "name": "Nano Banana Edit",
+        "logo": "/imgs/intro/nano-banana.svg"
       }
-    ]
+    ],
+    "moreModels": "More Models Coming Soon"
   },
   "creatorShowcase": {
     "title": "Image Transformation Showcase",
-    "description": "See how creators are using AI to transform and reimagine their images",
-    "examples": [
+    "creatorTypes": [
       {
-        "id": "style-variations",
-        "title": "Artistic Style Variations",
-        "description": "Transform photos into different artistic styles - paintings, sketches, digital art",
+        "id": "artists",
+        "name": "Digital Artists",
         "image": "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&h=400&fit=crop&q=80",
-        "imageAlt": "Artistic style transformation"
+        "imageAlt": "Digital artist working on creative transformations",
+        "title": "Transform photos into artistic masterpieces",
+        "description": "Turn ordinary images into paintings, sketches, or digital art. Apply artistic styles and create unique variations of your photos with AI-powered transformations.",
+        "badge": "Digital Artists"
       },
       {
-        "id": "product-variants",
-        "title": "Product Variations",
-        "description": "Create multiple versions of product images with different colors, materials, or settings",
+        "id": "designers",
+        "name": "Product Designers",
         "image": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=400&fit=crop&q=80",
-        "imageAlt": "Product variation examples"
+        "imageAlt": "Product designer creating variations",
+        "title": "Create endless product variations instantly",
+        "description": "Generate multiple versions of product images with different colors, materials, and settings. Perfect for e-commerce, mockups, and design presentations.",
+        "badge": "Product Designers"
       },
       {
-        "id": "scene-modification",
-        "title": "Scene & Background Changes",
-        "description": "Replace backgrounds, change seasons, alter time of day, or modify environments",
+        "id": "photographers",
+        "name": "Photographers",
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&q=80",
-        "imageAlt": "Scene modification example"
+        "imageAlt": "Photographer editing scenes and backgrounds",
+        "title": "Edit scenes and backgrounds effortlessly",
+        "description": "Replace backgrounds, change seasons, alter lighting conditions, or modify environments. Transform your photos without complex editing software.",
+        "badge": "Photographers"
       },
       {
-        "id": "creative-remix",
-        "title": "Creative Remixing",
-        "description": "Reimagine existing artwork, photos, or designs with new creative directions",
+        "id": "creators",
+        "name": "Content Creators",
         "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&h=400&fit=crop&q=80",
-        "imageAlt": "Creative remix transformation"
+        "imageAlt": "Content creator remixing images",
+        "title": "Remix and reimagine existing content",
+        "description": "Transform existing images into new creative directions. Generate variations for social media, marketing materials, and creative projects.",
+        "badge": "Content Creators"
       }
     ]
   }
