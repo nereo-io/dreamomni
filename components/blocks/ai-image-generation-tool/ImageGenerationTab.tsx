@@ -555,7 +555,7 @@ export default function ImageGenerationTab({
   return (
     <div className="flex flex-col lg:flex-row gap-2 h-full">
       {/* Image Generator */}
-      <div className="bg-gray-900 rounded-xl shadow-lg image-generator-container flex flex-col flex-shrink-0 w-full lg:w-[420px] lg:overflow-hidden lg:h-full">
+      <div className="bg-gray-900 rounded-xl shadow-lg image-generator-container flex flex-col flex-shrink-0 w-full lg:w-[420px] lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]">
         {/* Scrollable content area */}
         <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
           <div className="space-y-4 md:space-y-5 px-4 md:px-6 py-4 md:py-5">
@@ -664,29 +664,13 @@ export default function ImageGenerationTab({
                     <div className="w-5 h-5 flex-shrink-0 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
                       <span className="text-sm font-bold text-white">🍌</span>
                     </div>
-                    <div className="flex flex-col flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-medium text-gray-100">
-                          {t("nanoBananaDisplayName")}{isImageToImage ? " Edit" : ""}
-                        </span>
-                        <div className="flex items-center gap-1 text-xs text-blue-300">
-                          <Coins className="h-3 w-3" />
-                          2 credits
-                        </div>
-                      </div>
-                      <span className="text-xs text-gray-400 mb-1">
-                        {isImageToImage 
-                          ? "Advanced AI model for image-to-image editing and transformation"
-                          : "Advanced AI model for natural language-driven image generation"
-                        }
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-gray-100">
+                        {t("nanoBananaDisplayName")}{isImageToImage ? " Edit" : ""}
                       </span>
-                      <div className="flex flex-wrap gap-1">
-                        <span className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full">
-                          {t("highQuality")}
-                        </span>
-                        <span className="text-xs px-2 py-0.5 bg-green-500/20 text-green-300 rounded-full">
-                          {t("fastGeneration")}
-                        </span>
+                      <div className="flex items-center gap-1 text-xs text-blue-300">
+                        <Coins className="h-3 w-3" />
+                        2 credits
                       </div>
                     </div>
                   </div>
