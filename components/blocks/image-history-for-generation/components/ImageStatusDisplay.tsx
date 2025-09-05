@@ -71,6 +71,8 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   };
   
   const handleConfirmDelete = async () => {
+    if (!onDelete) return;
+    
     setIsDeleting(true);
     setShowDeleteDialog(false);
     

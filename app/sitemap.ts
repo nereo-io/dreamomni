@@ -50,6 +50,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "weekly" as ChangeFrequency,
         priority: 0.8,
       },
+      // 新增图片生成页面
+      {
+        url: `${baseUrl}/text-to-image`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/image-to-image`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/image-generation`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.8,
+      },
       {
         url: `${baseUrl}/video-effects`,
         lastModified: currentDate,
@@ -160,6 +179,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
         {
           url: `${baseUrl}/${locale}/image-to-video`,
+          lastModified: currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.8,
+        },
+        // 新增图片生成页面
+        {
+          url: `${baseUrl}/${locale}/text-to-image`,
+          lastModified: currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.8,
+        },
+        {
+          url: `${baseUrl}/${locale}/image-to-image`,
+          lastModified: currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.8,
+        },
+        {
+          url: `${baseUrl}/${locale}/image-generation`,
           lastModified: currentDate,
           changeFrequency: "weekly" as ChangeFrequency,
           priority: 0.8,

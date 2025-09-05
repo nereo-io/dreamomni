@@ -33,7 +33,7 @@ export interface ImageGenerationResult {
   image_url?: string;
   image_url_r2?: string; // R2存储的URL
   input_image_urls?: string[]; // 输入图片URLs (用于image-to-image)
-  status: "pending" | "completed" | "failed" | "in_progress" | "in_queue" | "saved_to_r2";
+  status: "pending" | "completed" | "failed" | "in_progress" | "in_queue" | "prompt_optimizing" | "saved_to_r2";
   model: string;
   aspect_ratio: string;
   quality: string;

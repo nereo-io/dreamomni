@@ -154,6 +154,7 @@ export interface ImageGenerationHistoryItem {
   optimized_prompt?: string; // 优化后的prompt
   image_urls?: string[];
   image_urls_r2?: string[]; // R2 存储的URLs
+  input_image_urls?: string[]; // 输入图片URLs (for image-to-image mode)
   status: ImageGenerationStatus;
   model_id: string;
   mode: ImageGenerationMode;
