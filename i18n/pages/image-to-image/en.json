@@ -1,0 +1,96 @@
+{
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "description": "Learn more about our AI image-to-image transformation service.",
+    "items": [
+      {
+        "id": "what-is-image-to-image",
+        "question": "What is AI image to image transformation?",
+        "answer": "AI image to image transformation allows you to modify existing images using text descriptions. You can change styles, add or remove elements, alter backgrounds, and create variations while preserving the core structure of your original image."
+      },
+      {
+        "id": "how-does-it-work",
+        "question": "How does image to image AI work?",
+        "answer": "Our AI analyzes your uploaded image along with your text prompt, understanding what changes you want to make. It then generates a new image that incorporates your requested modifications while maintaining the essential elements of the original."
+      },
+      {
+        "id": "what-can-i-change",
+        "question": "What can I change in my images?",
+        "answer": "You can modify styles (realistic to artistic), change backgrounds, alter colors and lighting, add or remove objects, transform seasons or time of day, change clothing or accessories, and much more."
+      },
+      {
+        "id": "supported-formats",
+        "question": "What image formats are supported?",
+        "answer": "We support the most common image formats including JPEG, PNG, and WebP. Images should be under 10MB for optimal processing."
+      },
+      {
+        "id": "preserve-quality",
+        "question": "Will my image quality be preserved?",
+        "answer": "Yes, our AI maintains high quality in the transformed images. The output resolution matches or exceeds the input, ensuring your edited images are suitable for professional use."
+      },
+      {
+        "id": "use-cases",
+        "question": "What are common use cases for image to image?",
+        "answer": "Popular uses include product variations for e-commerce, style transfers for artistic projects, background replacements for photos, concept iterations for design work, and creative remixing of existing artwork."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Transform Your Images with AI Today",
+    "description": "Upload an image and describe your vision. Watch as AI transforms it into something new.",
+    "buttonText": "Try Image to Image Editor"
+  },
+  "aiModelsHero": {
+    "title": "Powerful AI Image Transformation",
+    "description": "Leveraging advanced Nano Banana Edit AI model, Veo3 AI provides precise image-to-image transformations. Edit, style transfer, and reimagine your images with unparalleled control and quality.",
+    "models": [
+      {
+        "id": "nano-banana-edit",
+        "name": "Nano Banana Edit",
+        "logo": "/imgs/intro/nano-banana.svg"
+      }
+    ],
+    "moreModels": "More Models Coming Soon"
+  },
+  "creatorShowcase": {
+    "title": "Image Transformation Showcase",
+    "creatorTypes": [
+      {
+        "id": "artists",
+        "name": "Digital Artists",
+        "image": "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Digital artist working on creative transformations",
+        "title": "Transform photos into artistic masterpieces",
+        "description": "Turn ordinary images into paintings, sketches, or digital art. Apply artistic styles and create unique variations of your photos with AI-powered transformations.",
+        "badge": "Digital Artists"
+      },
+      {
+        "id": "designers",
+        "name": "Product Designers",
+        "image": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Product designer creating variations",
+        "title": "Create endless product variations instantly",
+        "description": "Generate multiple versions of product images with different colors, materials, and settings. Perfect for e-commerce, mockups, and design presentations.",
+        "badge": "Product Designers"
+      },
+      {
+        "id": "photographers",
+        "name": "Photographers",
+        "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Photographer editing scenes and backgrounds",
+        "title": "Edit scenes and backgrounds effortlessly",
+        "description": "Replace backgrounds, change seasons, alter lighting conditions, or modify environments. Transform your photos without complex editing software.",
+        "badge": "Photographers"
+      },
+      {
+        "id": "creators",
+        "name": "Content Creators",
+        "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Content creator remixing images",
+        "title": "Remix and reimagine existing content",
+        "description": "Transform existing images into new creative directions. Generate variations for social media, marketing materials, and creative projects.",
+        "badge": "Content Creators"
+      }
+    ]
+  }
+}

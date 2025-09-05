@@ -14,7 +14,10 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+  Image,
+  Play,
 } from "lucide-react";
+import { BananaEmoji } from "@/components/icons/BananaIcon";
 import { Button } from "@/components/ui/button";
 import PricingModal from "@/components/blocks/pricing/pricing-modal";
 import { Pricing } from "@/types/blocks/pricing";
@@ -46,6 +49,19 @@ export function Sidebar() {
     { icon: ImageIcon, labelKey: "image_to_video", href: "/image-to-video" },
     { icon: Type, labelKey: "text_to_video", href: "/text-to-video" },
     { icon: Sparkles, labelKey: "ai_effects", href: "/video-effects" },
+  ];
+
+  const imageAIItems: SidebarItem[] = [
+    {
+      icon: BananaEmoji as any,
+      labelKey: "text_to_image",
+      href: "/text-to-image",
+    },
+    {
+      icon: BananaEmoji as any,
+      labelKey: "image_to_image",
+      href: "/image-to-image",
+    },
   ];
 
   const otherItems: SidebarItem[] = [
@@ -123,6 +139,22 @@ export function Sidebar() {
         {/* Video AI items without header */}
         <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
           {videoAIItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${
+                pathname === item.href ? "bg-gray-800" : ""
+              } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
+            >
+              <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
+              {!isCollapsed && <span>{t(item.labelKey)}</span>}
+            </Link>
+          ))}
+        </div>
+
+        {/* Image AI items */}
+        <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
+          {imageAIItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}

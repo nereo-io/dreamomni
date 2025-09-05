@@ -11,6 +11,11 @@ interface CreatorShowcaseProps {
 export function CreatorShowcase({ data, title }: CreatorShowcaseProps) {
   const [activeTab, setActiveTab] = useState(0);
 
+  // Add safety check for data
+  if (!data || !data.creatorTypes || data.creatorTypes.length === 0) {
+    return null; // Or return a loading/empty state
+  }
+
   const finalTitle = title || data.title;
   const creatorTypes = data.creatorTypes;
   const activeCreator = creatorTypes[activeTab];

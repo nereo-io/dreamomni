@@ -17,6 +17,7 @@ interface CaptchaModalProps {
   onClose: () => void;
   onCaptchaComplete: (token: string) => void;
   isSubmitting?: boolean;
+  mode?: "video" | "image"; // 新增：区分视频和图片生成
 }
 
 export function CaptchaModal({
@@ -24,6 +25,7 @@ export function CaptchaModal({
   onClose,
   onCaptchaComplete,
   isSubmitting = false,
+  mode = "video",
 }: CaptchaModalProps) {
   const t = useTranslations("captcha");
   const [captchaToken, setCaptchaToken] = useState<string>("");
@@ -90,7 +92,7 @@ export function CaptchaModal({
               onExpire={handleCaptchaExpire}
               options={{
                 size: "normal",
-                action: "video-generation",
+                action: mode === "image" ? "image-generation" : "video-generation",
                 cData: "captcha-modal",
               }}
             />
@@ -107,7 +109,7 @@ export function CaptchaModal({
           {isSubmitting && (
             <div className="text-sm text-green-600 text-center flex items-center justify-center gap-2">
               <Loader2 className="h-4 w-4 animate-spin" />
-              正在生成视频...
+              {mode === "image" ? "正在生成图片..." : "正在生成视频..."}
             </div>
           )}
 

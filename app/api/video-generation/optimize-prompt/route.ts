@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { respData, respErr } from "@/lib/resp";
 import { auth } from "@/auth";
-import { optimizePromptWithTimeout } from "@/services/promptOptimization";
+import { optimizeVideoPromptWithTimeout } from "@/services/promptOptimization";
 import { updateVideoGenerationById } from "@/models/videoGeneration";
 
 export async function POST(req: NextRequest) {
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     });
 
     // 4. 优化提示词（30秒超时）
-    const optimizedPrompt = await optimizePromptWithTimeout(
+    const optimizedPrompt = await optimizeVideoPromptWithTimeout(
       originalPrompt,
       modelType,
       30000

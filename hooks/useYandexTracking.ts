@@ -42,6 +42,13 @@ export function useYandexTracking() {
     }
   };
 
+  const trackImageGeneration = (model: string, prompt?: string) => {
+    if (typeof window !== "undefined") {
+      // Image generation tracking - using video generation tracking for now
+      yandexTracking.trackVideoGenerated(model, undefined, model);
+    }
+  };
+
   const trackCreditsPurchase = (amount: number, credits: number) => {
     if (typeof window !== "undefined") {
       yandexTracking.trackCreditsPurchased(amount, credits);
@@ -101,6 +108,7 @@ export function useYandexTracking() {
     trackPayment,
     trackVideoGeneration,
     trackFirstVideo,
+    trackImageGeneration,
     trackCreditsPurchase,
     trackPricingView,
     trackCheckoutStart,
