@@ -15,7 +15,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Image,
+  Play,
 } from "lucide-react";
+import { BananaEmoji } from "@/components/icons/BananaIcon";
 import { Button } from "@/components/ui/button";
 import PricingModal from "@/components/blocks/pricing/pricing-modal";
 import { Pricing } from "@/types/blocks/pricing";
@@ -50,8 +52,16 @@ export function Sidebar() {
   ];
 
   const imageAIItems: SidebarItem[] = [
-    { icon: Type, labelKey: "text_to_image", href: "/text-to-image" },
-    { icon: Image, labelKey: "image_to_image", href: "/image-to-image" },
+    {
+      icon: BananaEmoji as any,
+      labelKey: "text_to_image",
+      href: "/text-to-image",
+    },
+    {
+      icon: BananaEmoji as any,
+      labelKey: "image_to_image",
+      href: "/image-to-image",
+    },
   ];
 
   const otherItems: SidebarItem[] = [
