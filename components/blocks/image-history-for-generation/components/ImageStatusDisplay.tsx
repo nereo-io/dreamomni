@@ -54,11 +54,6 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   const [isDeleting, setIsDeleting] = useState(false);
   const t = useTranslations("imageHistory");
 
-  // Debug: 检查 onDelete 函数是否存在
-  console.log("🔍 Debug - onDelete function exists:", !!onDelete);
-  console.log("🔍 Debug - current status:", status);
-  console.log("🔍 Debug - isDeleting:", isDeleting);
-
   const handleDeleteClick = async (e?: React.MouseEvent) => {
     e?.preventDefault();
     e?.stopPropagation();

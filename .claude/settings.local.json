@@ -31,7 +31,11 @@
       "Bash(npm view:*)",
       "Bash(npm cache clean:*)",
       "Bash(git log:*)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Read(//Users/jasper/**)",
+      "Bash(claude doctor)",
+      "Bash(npm update:*)",
+      "Bash(claude --version)"
     ],
     "deny": [],
     "ask": [],
