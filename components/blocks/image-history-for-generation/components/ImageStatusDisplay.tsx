@@ -589,7 +589,6 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
 
   // Failed state
   if (isFailed) {
-    console.log("🔴 Rendering failed state with delete button");
     return (
       <div className="space-y-3">
         {/* Error placeholder - 三分之二宽度，左对齐 */}

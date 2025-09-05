@@ -10,6 +10,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import ImageHistoryItem from "./components/ImageHistoryItem";
 import ImageHistorySkeleton from "./components/ImageHistorySkeleton";
 import type { ImageGenerationResult } from "@/components/blocks/image-history";
+import { imagePollingService } from "@/services/imagePollingService";
+import type { ImageGenerationHistoryItem } from "@/types/image";
 
 interface ImageHistoryForGenerationProps {
   refreshTrigger?: number;
@@ -55,13 +57,7 @@ export default function ImageHistoryForGeneration({
   
   const { user, setShowSignModal } = useAppContext();
   
-  // 定义未完成的状态，与视频生成保持一致
-  const INCOMPLETE_STATUSES = [
-    "pending",
-    "prompt_optimizing", 
-    "in_queue",
-    "in_progress"
-  ];
+  // Incomplete statuses now defined in imagePollingService config
   const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -75,49 +71,9 @@ export default function ImageHistoryForGeneration({
     }
   }, []);
 
-  // 检查是否有未完成的图片需要轮询
-  const hasIncompleteImages = useCallback(() => {
-    if (!images || images.length === 0) return false;
+  // Removed hasIncompleteImages - now handled by imagePollingService
 
-    // 检查最新的图片是否未完成
-    const latestImage = images[images.length - 1]; // 因为数组已反转，最新的在最后
-    if (!latestImage) return false;
-
-    // 未完成的状态包括：提交中、优化中、排队中、生成中
-    return INCOMPLETE_STATUSES.includes(latestImage.status);
-  }, [images, INCOMPLETE_STATUSES]);
-
-  // 更新最新图片的状态
-  const updateLatestImageStatus = useCallback(async () => {
-    if (!images || images.length === 0) return;
-
-    const latestImage = images[images.length - 1]; // 因为数组已反转，最新的在最后
-    if (!latestImage) return;
-
-    try {
-      const response = await fetch("/api/image-generation/status", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: latestImage.id }),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        if (result.code === 0 && result.data) {
-          // 更新本地状态
-          setImages((prevImages) =>
-            prevImages.map((image, index) =>
-              index === prevImages.length - 1 ? { ...image, ...result.data } : image
-            )
-          );
-        }
-      }
-    } catch (error) {
-      console.error("更新图片状态失败:", error);
-    }
-  }, [images]);
+  // Removed updateLatestImageStatus - now handled by imagePollingService
 
   // 删除图片功能 - 与 My Creations 保持一致
   const onDeleteImage = async (imageId: string, prompt: string) => {
@@ -180,65 +136,7 @@ export default function ImageHistoryForGeneration({
     }
   };
 
-  // 后台异步更新进行中的任务状态（类似视频历史的处理方式）
-  const updateActiveTasksInBackground = useCallback(
-    async (images: ImageGenerationResult[]) => {
-      const activeStatuses = [
-        "pending",
-        "in_progress", 
-        "in_queue"
-      ];
-
-      const allActiveTasks = images.filter(
-        (image: ImageGenerationResult) =>
-          activeStatuses.includes(image.status)
-      );
-
-      if (allActiveTasks.length === 0) {
-        return;
-      }
-
-      console.log(`后台更新 ${allActiveTasks.length} 个进行中图片的状态...`);
-
-      try {
-        // 并行触发状态更新（不阻塞UI）
-        const statusPromises = allActiveTasks.map(
-          async (image: ImageGenerationResult) => {
-            try {
-              await fetch("/api/image-generation/status", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ id: image.id }),
-              });
-            } catch (error) {
-              console.error(`更新图片 ${image.id} 状态失败:`, error);
-            }
-          }
-        );
-
-        await Promise.all(statusPromises);
-        console.log(`后台图片状态更新完成`);
-
-        // 静默刷新历史记录以显示最新状态
-        const refreshResponse = await fetch(`/api/image-generations/history`);
-        if (refreshResponse.ok) {
-          const refreshResult = await refreshResponse.json();
-          if (refreshResult.code === 0 && refreshResult.data) {
-            const updatedImages = refreshResult.data || [];
-            // 与主数据获取逻辑保持一致，反转数组顺序
-            const reversedUpdatedImages = [...updatedImages].reverse();
-            setImages(reversedUpdatedImages);
-            console.log(`图片历史记录已静默更新`);
-          }
-        }
-      } catch (error) {
-        console.error("后台图片状态更新失败:", error);
-      }
-    },
-    []
-  );
+  // Removed updateActiveTasksInBackground - now handled by imagePollingService
 
   // Fetch image history
   const fetchHistory = async () => {
@@ -292,8 +190,7 @@ export default function ImageHistoryForGeneration({
             setLoading(false);
           }
 
-          // 异步检查并更新进行中的任务状态（不阻塞页面渲染）
-          updateActiveTasksInBackground(reversedData);
+          // Background task updates now handled by imagePollingService in useEffect
           
           // 滚动到底部显示最新内容
           setScrollToBottomFlag(true);
@@ -358,24 +255,95 @@ export default function ImageHistoryForGeneration({
     }
   }, [scrollToBottomFlag, images]);
 
-  // 轮询机制：当有未完成的图片时，每3秒检查一次状态
+  // 使用轮询服务管理图片状态更新
+  const pollingIdRef = useRef<string | null>(null);
+  
   useEffect(() => {
-    if (!user?.uuid || !hasIncompleteImages()) {
+    if (!user?.uuid || images.length === 0) {
       return;
     }
 
-    console.log("Starting polling for incomplete images...");
+    // 停止之前的轮询
+    if (pollingIdRef.current) {
+      imagePollingService.stopPolling(pollingIdRef.current);
+    }
 
-    const pollInterval = setInterval(() => {
-      console.log("Polling image status...");
-      updateLatestImageStatus();
-    }, 3000); // 每3秒轮询一次
+    // 检查是否有需要轮询的图片
+    const now = Date.now();
+    const maxDuration = 5 * 60 * 1000; // 5分钟
+    const incompleteStatuses = ['pending', 'prompt_optimizing', 'in_queue', 'in_progress'];
+    
+    const hasActiveImages = images.some(img => {
+      const statusLower = img.status.toLowerCase();
+      if (!incompleteStatuses.includes(statusLower)) {
+        return false;
+      }
+      
+      // 检查是否在5分钟内创建
+      const createdTime = new Date(img.created_at).getTime();
+      return (now - createdTime) < maxDuration;
+    });
+
+    if (!hasActiveImages) {
+      console.log('没有需要轮询的活跃图片');
+      return;
+    }
+
+    // 转换类型以符合服务接口
+    const imagesToPoll = images as unknown as ImageGenerationHistoryItem[];
+    
+    // 启动轮询
+    const pollingId = imagePollingService.startPolling(
+      imagesToPoll,
+      {
+        onUpdate: (updates) => {
+          // 批量更新图片状态
+          setImages(prevImages => {
+            const newImages = [...prevImages];
+            updates.forEach(update => {
+              const index = newImages.findIndex(img => img.id === update.id);
+              if (index !== -1) {
+                newImages[index] = { ...newImages[index], ...update.data } as ImageGenerationResult;
+              }
+            });
+            return newImages;
+          });
+          console.log(`更新了 ${updates.length} 张图片状态`);
+        },
+        onTimeout: (image) => {
+          // 处理超时的图片
+          setImages(prevImages => 
+            prevImages.map(img => 
+              img.id === image.id 
+                ? { ...img, status: 'failed', error_message: '生成超时（超过5分钟）' } as ImageGenerationResult
+                : img
+            )
+          );
+          console.log(`图片 ${image.id} 生成超时`);
+        },
+        onComplete: (image) => {
+          console.log(`图片 ${image.id} 生成完成，状态: ${image.status}`);
+        },
+        onError: (error, imageId) => {
+          console.error(`更新图片 ${imageId} 状态时出错:`, error);
+        }
+      },
+      {
+        interval: 3000,           // 3秒轮询间隔
+        maxDuration: maxDuration, // 5分钟超时
+        incompleteStatuses: incompleteStatuses
+      }
+    );
+
+    pollingIdRef.current = pollingId;
 
     return () => {
-      console.log("Stopping polling...");
-      clearInterval(pollInterval);
+      if (pollingIdRef.current) {
+        imagePollingService.stopPolling(pollingIdRef.current);
+        pollingIdRef.current = null;
+      }
     };
-  }, [user?.uuid, hasIncompleteImages, updateLatestImageStatus]);
+  }, [user?.uuid, images]);
 
   // 未登录用户：显示登录提示
   if (!user?.uuid) {
