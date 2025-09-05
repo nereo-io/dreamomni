@@ -257,6 +257,7 @@ export async function getUserImageGenerations(
     "optimized_prompt",
     "image_urls",
     "image_urls_r2",
+    "input_image_urls",  // 添加输入图片URLs字段
     "status",
     "model_id",
     "mode",

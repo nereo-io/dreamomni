@@ -67,6 +67,7 @@ export async function GET(req: NextRequest) {
       image_url_r2: Array.isArray(item.image_urls_r2) && item.image_urls_r2.length > 0 
         ? item.image_urls_r2[0]
         : undefined,
+      input_image_urls: item.input_image_urls, // 添加输入图片URLs
       status: item.status.toLowerCase(),
       model: item.model_id,
       created_at: item.created_at,

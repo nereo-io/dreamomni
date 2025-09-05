@@ -471,10 +471,10 @@
     "highQuality": "High Quality",
     "fastGeneration": "Fast",
     "pleaseSignInToGenerate": "Please sign in to generate images",
-    "generationStarted": "Image generation started. Please check history for updates.",
+    "generationStarted": "Image generation started.",
     "generationCompleted": "Image generation complete!",
     "generationInProgress": "Generating...",
-    "generationStatusChecking": "Image generation started. Checking status..."
+    "generationStatusChecking": "Checking status..."
   },
   "myCreations": {
     "title": "My Creations",

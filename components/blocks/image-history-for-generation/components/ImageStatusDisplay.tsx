@@ -371,7 +371,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
       <div className="space-y-3">
         {/* Prompt Optimizing placeholder with Sparkles effect - 三分之二宽度，左对齐 */}
         <div className="flex justify-start">
-          <div className="w-2/3 aspect-square bg-gray-700 rounded-lg flex items-center justify-center">
+          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} aspect-square bg-gray-700 rounded-lg flex items-center justify-center`}>
             <div className="text-center py-8">
               <div className="relative mb-4">
                 <div className="absolute inset-0 bg-purple-500/20 blur-xl rounded-full animate-pulse" />
@@ -387,35 +387,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
           </div>
         </div>
 
-        {/* Disabled action buttons with delete available */}
-        <div className="flex justify-between items-center">
-          <div className="flex gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              disabled
-              className="opacity-50"
-            >
-              <Download className="h-4 w-4" />
-            </Button>
-          </div>
-          {onDelete && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleDeleteClick}
-              disabled={isDeleting}
-              className="text-gray-400 hover:text-red-400 cursor-pointer"
-              style={{ pointerEvents: 'auto' }}
-            >
-              {isDeleting ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Trash2 className="h-4 w-4" />
-              )}
-            </Button>
-          )}
-        </div>
+        {/* No action buttons during prompt optimizing */}
       </div>
     );
   }
@@ -428,7 +400,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
         {/* Image preview with hover buttons - 三分之二宽度，左对齐 */}
         <div className="flex justify-start">
           <div 
-            className="w-2/3 aspect-square bg-gray-700 rounded-lg overflow-hidden cursor-pointer relative group"
+            className={`${isMobile ? 'w-2/3' : 'w-1/2'} aspect-square bg-gray-700 rounded-lg overflow-hidden cursor-pointer relative group`}
             onClick={handleOpen}
           >
             <img
@@ -521,7 +493,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
       <div className="space-y-3">
         {/* Processing placeholder with progress - 三分之二宽度，左对齐 */}
         <div className="flex justify-start">
-          <div className="w-2/3 aspect-square bg-gray-700 rounded-lg flex items-center justify-center relative overflow-hidden">
+          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} aspect-square bg-gray-700 rounded-lg flex items-center justify-center relative overflow-hidden`}>
             {/* Background with subtle gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20" />
             
@@ -559,35 +531,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
           </div>
         </div>
 
-        {/* Disabled action buttons with delete available */}
-        <div className="flex justify-between items-center">
-          <div className="flex gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              disabled
-              className="opacity-50"
-            >
-              <Download className="h-4 w-4" />
-            </Button>
-          </div>
-          {onDelete && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleDeleteClick}
-              disabled={isDeleting}
-              className="text-gray-400 hover:text-red-400 cursor-pointer"
-              style={{ pointerEvents: 'auto' }}
-            >
-              {isDeleting ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Trash2 className="h-4 w-4" />
-              )}
-            </Button>
-          )}
-        </div>
+        {/* No action buttons during processing */}
       </div>
       
       {/* Delete confirmation dialog */}
@@ -609,7 +553,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
       <div className="space-y-3">
         {/* Error placeholder - 三分之二宽度，左对齐 */}
         <div className="flex justify-start">
-          <div className="w-2/3 aspect-square bg-gray-700 rounded-lg flex items-center justify-center">
+          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} aspect-square bg-gray-700 rounded-lg flex items-center justify-center`}>
             <div className="text-center">
               <div className="text-red-400 mb-2">❌</div>
               <p className="text-sm text-red-400">Generation Failed</p>
@@ -690,7 +634,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
     <>
       <div className="space-y-3">
         <div className="flex justify-start">
-          <div className="w-2/3 aspect-square bg-gray-700 rounded-lg flex items-center justify-center">
+          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} aspect-square bg-gray-700 rounded-lg flex items-center justify-center`}>
             <div className="text-center">
               <p className="text-sm text-gray-400">Unknown Status</p>
             </div>

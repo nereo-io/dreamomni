@@ -518,7 +518,7 @@ export default function ImageGenerator({
         >
           {isGenerating ? (
             <>
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+              <Wand2 className="h-4 w-4 mr-2 animate-spin" />
               <span className="truncate">{t("generating")}</span>
             </>
           ) : (

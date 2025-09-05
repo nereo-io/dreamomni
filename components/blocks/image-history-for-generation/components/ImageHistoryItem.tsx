@@ -12,7 +12,7 @@ interface ImageHistoryItemProps {
   onToggleExpanded: () => void;
   onEdit?: (image: ImageGenerationResult) => void;
   onRegenerate?: (image: ImageGenerationResult) => void;
-  onDelete?: (imageId: string) => void;
+  onDelete?: (imageId: string, prompt: string) => void;
   onImageClick?: (imageUrl: string, prompt: string) => void;
   canEdit?: boolean;
 }
@@ -116,30 +116,57 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
       }
     };
 
+    // Handle source image click (for image-to-image mode)
+    const handleSourceImageClick = () => {
+      if (image.input_image_urls && image.input_image_urls[0] && onImageClick) {
+        onImageClick(image.input_image_urls[0], "Source Image");
+      }
+    };
+
     return (
       <div className="p-5 space-y-4">
-        {/* Header: Prompt + Timestamp */}
+        {/* Header: Source Image Thumbnail + Prompt + Timestamp */}
         <div className="flex justify-between items-start gap-3">
-          <div className="flex items-start gap-2 flex-1">
-            <p
-              className="text-base font-bold text-white leading-relaxed flex-1"
-              style={{
-                display: "-webkit-box",
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: "vertical",
-                overflow: "hidden",
-              }}
-            >
-              {image.prompt}
-            </p>
-            <button
-              onClick={handleCopyPrompt}
-              className="flex-shrink-0 p-1 text-gray-400 hover:text-white transition-colors rounded"
-              title="Copy prompt"
-            >
-              <Copy className="h-4 w-4" />
-            </button>
+          <div className="flex items-start gap-3 flex-1">
+            {/* Source Image Thumbnail (if exists) */}
+            {image.input_image_urls && image.input_image_urls[0] && (
+              <div 
+                className="flex-shrink-0 h-12 w-12 rounded overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={handleSourceImageClick}
+                title="Click to view source image"
+              >
+                <img 
+                  src={image.input_image_urls[0]} 
+                  alt="Source Image"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+            
+            {/* Prompt and Copy Button */}
+            <div className="flex items-start gap-2 flex-1">
+              <p
+                className="text-base font-bold text-white leading-relaxed flex-1"
+                style={{
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
+                {image.prompt}
+              </p>
+              <button
+                onClick={handleCopyPrompt}
+                className="flex-shrink-0 p-1 text-gray-400 hover:text-white transition-colors rounded"
+                title="Copy prompt"
+              >
+                <Copy className="h-4 w-4" />
+              </button>
+            </div>
           </div>
+          
+          {/* Timestamp */}
           {formatTimestamp() && (
             <span className="text-sm text-gray-400 flex-shrink-0 mt-0.5">
               {formatTimestamp()}

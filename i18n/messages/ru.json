@@ -471,10 +471,10 @@
     "highQuality": "Высокое качество",
     "fastGeneration": "Быстрая генерация",
     "pleaseSignInToGenerate": "Пожалуйста, войдите для генерации изображений",
-    "generationStarted": "Генерация изображения начата. Пожалуйста, проверьте историю для обновлений.",
+    "generationStarted": "Генерация изображения начата.",
     "generationCompleted": "Генерация изображения завершена!",
     "generationInProgress": "Генерация...",
-    "generationStatusChecking": "Генерация изображения начата. Проверяем статус..."
+    "generationStatusChecking": "Проверяем статус..."
   },
   "myCreations": {
     "title": "Мои Творения",
