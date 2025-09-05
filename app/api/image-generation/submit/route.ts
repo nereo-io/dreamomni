@@ -133,7 +133,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 4. CAPTCHA验证（新用户）
-    if (userCredits.left_credits === 10 && captchaToken) {
+    if (userCredits.left_credits <= 10 && captchaToken) {
       const clientIP = await getClientIp();
       const captchaValid = await verifyCaptcha(captchaToken, clientIP);
 
@@ -142,7 +142,7 @@ export async function POST(req: NextRequest) {
       }
 
       console.log("✅ CAPTCHA验证通过");
-    } else if (userCredits.left_credits === 10 && !captchaToken) {
+    } else if (userCredits.left_credits <= 10 && !captchaToken) {
       return respErr("新用户需要完成CAPTCHA验证");
     }
 
