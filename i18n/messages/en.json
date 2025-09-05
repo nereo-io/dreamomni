@@ -493,6 +493,7 @@
     "optimizingPrompt": "Optimizing Prompt",
     "optimizingPromptTitle": "Optimizing Prompt...",
     "optimizingPromptDescription": "AI is optimizing your prompt for better results",
+    "imageDeleted": "Image deleted successfully",
     "deleteSuccess": "Image deleted successfully",
     "deleteFailed": "Failed to delete image",
     "deleteConfirmTitle": "Delete Image",

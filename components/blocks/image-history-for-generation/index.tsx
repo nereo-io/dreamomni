@@ -83,21 +83,12 @@ export default function ImageHistoryForGeneration({
   // 删除图片功能 - 与 My Creations 保持一致
   const onDeleteImage = async (imageId: string, prompt: string) => {
     try {
-      console.log(`🗑️ Attempting to delete image: ${imageId}`);
-      
       const response = await fetch("/api/image-generations/delete", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ imageId }),
-      });
-
-      console.log("Delete API raw response:", {
-        status: response.status,
-        statusText: response.statusText,
-        ok: response.ok,
-        headers: Object.fromEntries(response.headers.entries())
       });
 
       let result;
@@ -108,34 +99,18 @@ export default function ImageHistoryForGeneration({
         throw new Error("Invalid response format from server");
       }
       
-      console.log("Delete API parsed result:", result);
-
       // 检查响应格式
       if (typeof result !== 'object' || result === null) {
-        console.error("Invalid result format - not an object:", result);
         throw new Error("Invalid response format");
       }
 
       if (response.ok && result.code === 0) {
-        console.log("✅ Delete successful, updating UI");
-        // 从列表中移除已删除的图片
+        // 从列表中移除已删除的图片，不需要重新获取整个列表
         setImages(prevImages => prevImages.filter(img => img.id !== imageId));
-        
-        // 强制刷新历史记录以确保数据一致性
-        setTimeout(() => {
-          console.log("🔄 Refreshing history after delete to ensure consistency");
-          fetchHistory();
-        }, 500);
       } else {
-        console.error("Delete failed - Conditions not met:", {
-          responseOk: response.ok,
-          resultCode: result.code,
-          resultMessage: result.message
-        });
         throw new Error(result.message || `Delete failed: HTTP ${response.status}`);
       }
     } catch (error) {
-      console.error("Delete error:", error);
       const errorMessage = error instanceof Error ? error.message : "Failed to delete image";
       throw error; // 重新抛出错误，让UI组件处理
     }
@@ -436,17 +411,6 @@ export default function ImageHistoryForGeneration({
           <History className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3 flex-shrink-0" />
           <span className="truncate">Recent Generations</span>
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={handleRefresh}
-          disabled={loading}
-          className="text-gray-400 hover:text-white"
-        >
-          <RefreshCw
-            className={cn("h-4 w-4", loading && "animate-spin")}
-          />
-        </Button>
       </header>
 
       {/* Content */}

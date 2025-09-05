@@ -5,7 +5,9 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import type { ImageGenerationResult } from "@/components/blocks/image-history";
 import { useImageGenerationProgress } from "@/hooks/useImageGenerationProgress";
+import { useIsMobile } from "@/hooks/use-mobile";
 import ImageProgressBar from "./ImageProgressBar";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 
 interface ImageStatusDisplayProps {
   status: string;
@@ -45,6 +47,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   const isProcessing = ["pending", "in_queue", "in_progress", "prompt_optimizing"].includes(status);
   const isFailed = status === "failed";
   const isPolling = pollingImages.has(image.id);
+  const isMobile = useIsMobile();
   
   // Use progress hook for processing states
   const progressData = useImageGenerationProgress({
@@ -54,31 +57,28 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   });
   
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const t = useTranslations("imageHistory");
 
   const handleDeleteClick = async (e?: React.MouseEvent) => {
     e?.preventDefault();
     e?.stopPropagation();
-    console.log("🗑️ Delete button clicked");
     
     if (!onDelete || isDeleting) return;
-
-    // Use simple confirm dialog like My Creations
-    const confirmed = confirm(`Are you sure you want to delete this image?\n\nPrompt: ${(image.prompt || '').slice(0, 100)}...`);
-    if (!confirmed) {
-      console.log("❌ Delete cancelled by user");
-      return;
-    }
     
+    // Show custom delete confirmation dialog
+    setShowDeleteDialog(true);
+  };
+  
+  const handleConfirmDelete = async () => {
     setIsDeleting(true);
+    setShowDeleteDialog(false);
     
     try {
-      console.log("✅ Delete confirmed by user, calling onDelete");
       await onDelete(image.id, image.prompt || '');
-      console.log("✅ Delete operation completed successfully");
       toast.success(t("imageDeleted"));
     } catch (error) {
-      console.error("❌ Delete operation failed:", error);
+      console.error("Delete operation failed:", error);
       toast.error(t("deleteFailed"));
     } finally {
       setIsDeleting(false);
@@ -87,21 +87,25 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
 
   // Download image to local file system - 与图片历史记录保持一致
   const handleDownload = async () => {
-    if (!imageUrl) {
+    // 优先使用 R2 URL，如果没有则使用普通 URL
+    const downloadUrl = image.image_url_r2 || image.image_url || imageUrl;
+    
+    if (!downloadUrl) {
       toast.error("Image not available for download");
       return;
     }
 
     try {
-      console.log("🔽 Starting image download:", imageUrl);
+      console.log("🔽 Starting image download:", downloadUrl);
+      console.log("📍 Using R2 URL:", !!image.image_url_r2);
       
       // 验证URL
-      if (!imageUrl || typeof imageUrl !== 'string') {
+      if (!downloadUrl || typeof downloadUrl !== 'string') {
         throw new Error("Invalid image URL provided");
       }
 
       // 获取图片文件扩展名
-      const urlParts = imageUrl.split('.');
+      const urlParts = downloadUrl.split('.');
       const extension = urlParts[urlParts.length - 1]?.split('?')[0]?.toLowerCase() || 'jpg';
       const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
       
@@ -117,10 +121,10 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
       // 尝试多种下载方法，确保能下载到本地
       // 优化顺序：代理方法优先，因为可以绕过CORS限制
       const downloadMethods = [
-        () => downloadWithProxy(imageUrl, filename),    // 最可靠：使用代理绕过CORS
-        () => downloadWithCanvas(imageUrl, filename),   // 次选：Canvas方法处理CORS
-        () => downloadWithFetch(imageUrl, filename),    // 第三：直接fetch（可能被CORS阻止）
-        () => downloadWithDirectLink(imageUrl, filename) // 最后：直接链接（CORS限制时无效）
+        () => downloadWithProxy(downloadUrl, filename),    // 最可靠：使用代理绕过CORS
+        () => downloadWithCanvas(downloadUrl, filename),   // 次选：Canvas方法处理CORS
+        () => downloadWithFetch(downloadUrl, filename),    // 第三：直接fetch（可能被CORS阻止）
+        () => downloadWithDirectLink(downloadUrl, filename) // 最后：直接链接（CORS限制时无效）
       ];
 
       for (let i = 0; i < downloadMethods.length; i++) {
@@ -419,6 +423,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   // Completed state
   if (isCompleted && imageUrl) {
     return (
+      <>
       <div className="space-y-3">
         {/* Image preview with hover buttons - 三分之二宽度，左对齐 */}
         <div className="flex justify-start">
@@ -433,8 +438,8 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
               loading="lazy"
             />
             
-            {/* Hover overlay buttons */}
-            <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex gap-2">
+            {/* Hover overlay buttons - 移动端默认显示 */}
+            <div className={`absolute top-3 right-3 ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-200 flex gap-2`}>
               <Button
                 variant="secondary"
                 size="sm"
@@ -496,12 +501,23 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
           </div>
         )}
       </div>
+      
+      {/* Delete confirmation dialog */}
+      <DeleteConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        onConfirm={handleConfirmDelete}
+        prompt={image.prompt || ''}
+        isDeleting={isDeleting}
+      />
+      </>
     );
   }
 
   // Processing state
   if (isProcessing) {
     return (
+      <>
       <div className="space-y-3">
         {/* Processing placeholder with progress - 三分之二宽度，左对齐 */}
         <div className="flex justify-start">
@@ -573,12 +589,23 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
           )}
         </div>
       </div>
+      
+      {/* Delete confirmation dialog */}
+      <DeleteConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        onConfirm={handleConfirmDelete}
+        prompt={image.prompt || ''}
+        isDeleting={isDeleting}
+      />
+      </>
     );
   }
 
   // Failed state
   if (isFailed) {
     return (
+      <>
       <div className="space-y-3">
         {/* Error placeholder - 三分之二宽度，左对齐 */}
         <div className="flex justify-start">
@@ -645,20 +672,41 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
           )}
         </div>
       </div>
+      
+      {/* Delete confirmation dialog */}
+      <DeleteConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        onConfirm={handleConfirmDelete}
+        prompt={image.prompt || ''}
+        isDeleting={isDeleting}
+      />
+      </>
     );
   }
 
   // Default state
   return (
-    <div className="space-y-3">
-      <div className="flex justify-start">
-        <div className="w-2/3 aspect-square bg-gray-700 rounded-lg flex items-center justify-center">
-          <div className="text-center">
-            <p className="text-sm text-gray-400">Unknown Status</p>
+    <>
+      <div className="space-y-3">
+        <div className="flex justify-start">
+          <div className="w-2/3 aspect-square bg-gray-700 rounded-lg flex items-center justify-center">
+            <div className="text-center">
+              <p className="text-sm text-gray-400">Unknown Status</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      
+      {/* Delete confirmation dialog */}
+      <DeleteConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        onConfirm={handleConfirmDelete}
+        prompt={image.prompt || ''}
+        isDeleting={isDeleting}
+      />
+    </>
   );
 });
 
