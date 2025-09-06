@@ -95,7 +95,11 @@ export class PayssionProvider extends BasePaymentProvider {
       if (existingMandate) {
         console.log(
           "Found existing active mandate:",
-          existingMandate.mandate_id
+          existingMandate.mandate_id,
+          "Status:",
+          existingMandate.status,
+          "Created:",
+          existingMandate.created_at
         );
 
         // 直接使用现有授权创建订阅
@@ -121,6 +125,13 @@ export class PayssionProvider extends BasePaymentProvider {
             metadata: metadata,
           };
 
+          console.log("Attempting to create subscription with existing mandate:", {
+            mandateId: existingMandate.mandate_id,
+            amount: subscriptionRequest.amount,
+            currency: subscriptionRequest.currency,
+            interval: subscriptionRequest.interval
+          });
+
           const subscriptionResult = await this.createSubscription(
             subscriptionRequest
           );
@@ -135,8 +146,12 @@ export class PayssionProvider extends BasePaymentProvider {
             };
           } else {
             console.error(
-              "Failed to create subscription with existing mandate:",
-              subscriptionResult.errorMessage
+              "❌ Failed to create subscription with existing mandate:",
+              {
+                mandateId: existingMandate.mandate_id,
+                error: subscriptionResult.errorMessage,
+                willCreateNewMandate: true
+              }
             );
             // 如果订阅创建失败，fallback 到创建新授权
           }
@@ -226,6 +241,8 @@ export class PayssionProvider extends BasePaymentProvider {
         metadata: request.metadata || {},
       };
 
+      console.log("Payssion V2 subscription request body:", JSON.stringify(requestBody, null, 2));
+
       const response = await fetch(
         `${this.config.v2.baseUrl}/v2/subscriptions`,
         {
@@ -239,6 +256,26 @@ export class PayssionProvider extends BasePaymentProvider {
       );
 
       const result = await response.json();
+      
+      // 添加详细的响应日志
+      console.log("Payssion V2 subscription API response:", {
+        status: response.status,
+        ok: response.ok,
+        result: JSON.stringify(result, null, 2)
+      });
+
+      // 检查响应状态和结果
+      if (!response.ok || !result.id) {
+        const errorMessage = result.error?.message || result.message || 
+                           `Subscription creation failed with status ${response.status}`;
+        console.error("❌ Subscription creation failed:", errorMessage);
+        
+        return {
+          success: false,
+          errorMessage: errorMessage,
+          paymentProvider: this.name,
+        };
+      }
 
       console.log(
         `✅ Subscription created: ${result.id} for mandate ${request.mandateId}`
