@@ -110,7 +110,6 @@ export default function VideoGenerator({
   const [generateAudio] = useState(true);
   const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(true);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
-  const [uploadedOssUrl, setUploadedOssUrl] = useState<string | null>(null);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [isSubmitting] = useState(false);
@@ -442,10 +441,6 @@ export default function VideoGenerator({
         }
 
         setUploadedImageUrl(uploadResult.data.url);
-        // 保存 OSS URL（如果存在）
-        if (uploadResult.data.oss_url) {
-          setUploadedOssUrl(uploadResult.data.oss_url);
-        }
         
         // If using pixverse_template effect, also upload to Pixverse
         if (effect?.effect_type === 'pixverse_template') {
@@ -501,19 +496,13 @@ export default function VideoGenerator({
     setSelectedImage(null);
     setImagePreview(null);
     setUploadedImageUrl(null);
-    setUploadedOssUrl(null);
     setIsUploadingImage(false);
     setPixverseImgId(null);
   };
 
   // 构建生成参数的辅助函数
   const buildGenerationParams = (): VideoGenerationParams => {
-    // 根据模型选择使用哪个 URL
-    // 如果是阿里 Wan 模型且有 OSS URL，优先使用 OSS URL
     let imageUrl = uploadedImageUrl || undefined;
-    if (selectedModel && selectedModel.includes('ali-video-generation') && uploadedOssUrl) {
-      imageUrl = uploadedOssUrl;
-    }
     
     return {
       model: selectedModel,

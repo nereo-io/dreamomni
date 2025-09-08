@@ -80,7 +80,6 @@
     "@uiw/react-md-editor": "^4.0.5",
     "@vercel/analytics": "^1.4.1",
     "ai": "^4.0.27",
-    "ali-oss": "^6.23.0",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -123,7 +122,6 @@
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.13.7",
     "@next/bundle-analyzer": "^15.1.3",
-    "@types/ali-oss": "^6.16.11",
     "@types/jest": "^29.5.14",
     "@types/luxon": "^3.4.2",
     "@types/markdown-it": "^14.1.2",
