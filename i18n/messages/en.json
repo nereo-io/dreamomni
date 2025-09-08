@@ -65,6 +65,17 @@
     "close_title": "Close",
     "cancel_title": "Cancel"
   },
+  "vk_login": {
+    "button_text": "Continue with VK",
+    "sdk_not_loaded": "VK SDK is not loaded",
+    "login_successful": "Login successful!",
+    "login_failed": "VK login failed",
+    "failed_to_process": "Failed to process login",
+    "failed_to_exchange": "Failed to exchange code for tokens",
+    "failed_to_initialize": "Failed to initialize VK login",
+    "error_unknown": "Unknown error",
+    "error_message": "VK login error: {message}"
+  },
   "my_orders": {
     "title": "My Orders",
     "description": "orders paid with Veo3AI.",
