@@ -6,6 +6,8 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { signIn } from 'next-auth/react';
 import { useAppContext } from '@/contexts/app';
+import { useTranslations } from 'next-intl';
+import { SiVk } from 'react-icons/si';
 
 // VK SDK类型声明
 declare global {
@@ -17,6 +19,7 @@ declare global {
 export function VKLoginButton() {
   const router = useRouter();
   const { setShowSignModal } = useAppContext();
+  const t = useTranslations('vk_login');
   
   useEffect(() => {
     // 动态加载VK SDK脚本
@@ -55,7 +58,7 @@ export function VKLoginButton() {
   
   const handleLogin = async () => {
     if (!window.VKIDSDK) {
-      toast.error('VK SDK is not loaded');
+      toast.error(t('sdk_not_loaded'));
       return;
     }
     
@@ -101,24 +104,24 @@ export function VKLoginButton() {
            console.log('[VK Login] NextAuth signIn result:', result);
            
            if (result?.ok && !result?.error) {
-             toast.success('Login successful!');
+             toast.success(t('login_successful'));
              setShowSignModal(false); // 关闭登录弹窗
-             router.push('/pricing');
+            //  router.push('/pricing');
              router.refresh();
            } else {
              console.error('[VK Login] NextAuth signIn failed:', result?.error);
-             toast.error(result?.error || 'VK login failed');
+             toast.error(result?.error || t('login_failed'));
            }
         } catch (error) {
           console.error('Backend processing error:', error);
-          toast.error('Failed to process login');
+          toast.error(t('failed_to_process'));
         }
       });
       
       // 监听错误事件
       oneTap.on(VKID.WidgetEvents.ERROR, (error: any) => {
         console.error('[VK Login] SDK Error:', error);
-        toast.error(`VK login error: ${error.message || 'Unknown error'}`);
+        toast.error(t('error_message', { message: error.message || t('error_unknown') }));
       });
       
       // 使用Auth.login()触发登录
@@ -151,28 +154,28 @@ export function VKLoginButton() {
               console.log('[VK Login] NextAuth signIn result (Auth.login path):', result);
               
               if (result?.ok && !result?.error) {
-                toast.success('Login successful!');
+                toast.success(t('login_successful'));
                 setShowSignModal(false); // 关闭登录弹窗
-                router.push('/pricing');
+                // router.push('/pricing');
                 router.refresh();
               } else {
                 console.error('[VK Login] NextAuth signIn failed (Auth.login path):', result?.error);
-                toast.error(result?.error || 'VK login failed');
+                toast.error(result?.error || t('login_failed'));
               }
             } catch (error) {
               console.error('[VK Login] Token exchange error:', error);
-              toast.error('Failed to exchange code for tokens');
+              toast.error(t('failed_to_exchange'));
             }
           }
         })
         .catch((error: any) => {
           console.error('[VK Login] Auth.login error:', error);
-          toast.error(`VK login failed: ${error.message || 'Unknown error'}`);
+          toast.error(t('error_message', { message: error.message || t('error_unknown') }));
         });
         
     } catch (error) {
       console.error('VK login error:', error);
-      toast.error('Failed to initialize VK login');
+      toast.error(t('failed_to_initialize'));
     }
   };
   
@@ -180,23 +183,11 @@ export function VKLoginButton() {
     <Button
       variant="outline"
       onClick={handleLogin}
-      className="w-full"
+      className="w-full flex items-center gap-2"
       type="button"
     >
-      <svg
-        className="mr-2 h-5 w-5"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M12.65 20h-1.3c-.55 0-.85-.35-.7-.85l.7-2.3c.15-.5-.15-.85-.65-.85H8.4c-.5 0-.9-.35-1.05-.85l-2.3-7.7C4.9 6.95 5.2 6.5 5.7 6.5h3.15c.5 0 .9.35 1.05.85l1.5 5c.15.5.65.85 1.15.85h2.75c.5 0 1 .35 1.15.85l1.5 5c.15.5-.15.85-.65.85h-2.65c-.5 0-.8.35-.65.85l.7 2.3c.15.5-.15.85-.65.85z"
-          fill="#0077FF"
-        />
-      </svg>
-      Continue with VK
+      <SiVk className="w-4 h-4" />
+      {t('button_text')}
     </Button>
   );
 }

@@ -62,6 +62,17 @@
     "close_title": "Закрыть",
     "cancel_title": "Отмена"
   },
+  "vk_login": {
+    "button_text": "Продолжить с ВКонтакте",
+    "sdk_not_loaded": "VK SDK не загружен",
+    "login_successful": "Вход выполнен успешно!",
+    "login_failed": "Ошибка входа через ВКонтакте",
+    "failed_to_process": "Не удалось обработать вход",
+    "failed_to_exchange": "Не удалось обменять код на токены",
+    "failed_to_initialize": "Не удалось инициализировать вход через ВКонтакте",
+    "error_unknown": "Неизвестная ошибка",
+    "error_message": "Ошибка входа ВКонтакте: {message}"
+  },
   "my_orders": {
     "title": "Мои заказы",
     "description": "заказы, оплаченные через Veo3AI.",
