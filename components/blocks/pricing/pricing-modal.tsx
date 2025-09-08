@@ -333,9 +333,9 @@ export default function PricingModal({
 
   useEffect(() => {
     if (pricing.items) {
-      const yearlyGroup = pricing.groups?.find((g) => g.name === "yearly");
-      const defaultGroup = yearlyGroup
-        ? "yearly"
+      const monthlyGroup = pricing.groups?.find((g) => g.name === "monthly");
+      const defaultGroup = monthlyGroup
+        ? "monthly"
         : pricing.items[0].group || pricing.groups?.[0]?.name;
       setGroup(defaultGroup);
     }
