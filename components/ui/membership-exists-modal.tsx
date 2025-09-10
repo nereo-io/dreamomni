@@ -15,12 +15,14 @@ interface MembershipExistsModalProps {
   isOpen: boolean;
   onClose: () => void;
   onViewSubscription?: () => void;
+  onContinuePurchase?: () => void;
 }
 
 export default function MembershipExistsModal({
   isOpen,
   onClose,
   onViewSubscription,
+  onContinuePurchase,
 }: MembershipExistsModalProps) {
   const t = useTranslations("membershipModal");
 
@@ -30,6 +32,13 @@ export default function MembershipExistsModal({
       onViewSubscription();
     } else {
       window.location.href = "/membership";
+    }
+  };
+
+  const handleContinuePurchase = () => {
+    onClose();
+    if (onContinuePurchase) {
+      onContinuePurchase();
     }
   };
 
@@ -55,8 +64,8 @@ export default function MembershipExistsModal({
             <Button className="w-full sm:flex-1" onClick={handleViewSubscription}>
               {t("viewSubscription")}
             </Button>
-            <Button variant="outline" className="w-full sm:flex-1" onClick={onClose}>
-              {t("cancel")}
+            <Button variant="outline" className="w-full sm:flex-1" onClick={handleContinuePurchase}>
+              {t("continuePurchase")}
             </Button>
           </div>
         </div>

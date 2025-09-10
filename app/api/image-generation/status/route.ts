@@ -46,15 +46,14 @@ export async function POST(req: NextRequest) {
 
     if (shouldSync) {
       try {
-        console.log(`🔄 Syncing status from AI service for image ${imageGeneration.id}, taskId: ${imageGeneration.task_id}`);
+        // Nano Banana 不支持轮询，只能通过回调获取结果
+        console.log(`[Status] Note: Nano Banana only supports callback, not polling for task: ${imageGeneration.task_id}`);
         
         const aiServiceManager = AIServiceManager.getInstance();
         const statusResult = await aiServiceManager.getTaskStatus(
           imageGeneration.provider as any,
           imageGeneration.task_id!
         );
-
-        console.log(`📊 Received status from AI service:`, statusResult);
 
         // 如果从AI服务获取到新状态，更新数据库
         if (statusResult && statusResult.status) {
@@ -75,17 +74,15 @@ export async function POST(req: NextRequest) {
             updateParams.error_message = statusResult.error;
           }
 
-          console.log(`💾 Updating database with new status:`, updateParams);
-          
           const updatedGeneration = await updateImageGenerationById(imageGeneration.id, updateParams);
           if (updatedGeneration) {
             imageGeneration = updatedGeneration;
-            console.log(`✅ Status updated successfully: ${imageGeneration.status}`);
+            console.log(`[Status] Updated to: ${imageGeneration.status}`);
           }
         }
       } catch (error) {
-        console.warn(`⚠️ Failed to sync status from AI service:`, error);
-        // 即使同步失败，也继续返回数据库中的状态
+        // Nano Banana 不支持轮询，这是预期的行为
+        // 继续返回数据库中的状态
       }
     }
 

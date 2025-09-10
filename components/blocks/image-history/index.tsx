@@ -31,7 +31,9 @@ export interface ImageGenerationResult {
   prompt: string; // 原始用户输入的prompt
   optimized_prompt?: string; // 优化后的prompt
   image_url?: string;
-  status: "pending" | "completed" | "failed" | "in_progress" | "in_queue" | "saved_to_r2";
+  image_url_r2?: string; // R2存储的URL
+  input_image_urls?: string[]; // 输入图片URLs (用于image-to-image)
+  status: "pending" | "completed" | "failed" | "in_progress" | "in_queue" | "prompt_optimizing" | "saved_to_r2";
   model: string;
   aspect_ratio: string;
   quality: string;
@@ -55,9 +57,9 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
   const [images, setImages] = useState<ImageGenerationResult[]>([]);
   const [loading, setLoading] = useState(true); // 只用于初次加载
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
-  const [pollingImages, setPollingImages] = useState<Set<string>>(new Set());
+  // Removed pollingImages state - My Creations page only displays history
   const [loadingImages, setLoadingImages] = useState<Set<string>>(new Set());
-  const pollingIntervalsRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
+  // Removed pollingIntervalsRef - My Creations page only displays history
   const [initialLoadComplete, setInitialLoadComplete] = useState(false); // 标记初次加载是否完成
   const t = useTranslations("imageHistory");
 
@@ -69,63 +71,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
     "in_progress"
   ];
 
-  // 后台异步更新进行中的任务状态（类似视频历史的处理方式）
-  const updateActiveTasksInBackground = useCallback(
-    async (images: ImageGenerationResult[]) => {
-      const activeStatuses = [
-        "pending",
-        "in_progress", 
-        "in_queue"
-      ];
-
-      const allActiveTasks = images.filter(
-        (image: ImageGenerationResult) =>
-          activeStatuses.includes(image.status)
-      );
-
-      if (allActiveTasks.length === 0) {
-        return;
-      }
-
-      console.log(`后台更新 ${allActiveTasks.length} 个进行中图片的状态...`);
-
-      try {
-        // 并行触发状态更新（不阻塞UI）
-        const statusPromises = allActiveTasks.map(
-          async (image: ImageGenerationResult) => {
-            try {
-              await fetch("/api/image-generation/status", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ id: image.id }),
-              });
-            } catch (error) {
-              console.error(`更新图片 ${image.id} 状态失败:`, error);
-            }
-          }
-        );
-
-        await Promise.all(statusPromises);
-        console.log(`后台图片状态更新完成`);
-
-        // 静默刷新历史记录以显示最新状态
-        const refreshResponse = await fetch(`/api/image-generations/history`);
-        if (refreshResponse.ok) {
-          const refreshResult = await refreshResponse.json();
-          if (refreshResult.code === 0 && refreshResult.data) {
-            const updatedImages = refreshResult.data || [];
-            setImages(updatedImages);
-            console.log(`图片历史记录已静默更新`);
-          }
-        }
-      } catch (error) {
-        console.error("后台图片状态更新失败:", error);
-      }
-    },
-    []
-  );
+  // Removed updateActiveTasksInBackground - My Creations page only displays history
 
   // 图片开始加载
   const handleImageStartLoading = useCallback((imageId: string) => {
@@ -141,49 +87,9 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
     });
   }, []);
 
-  // 检查是否有未完成的图片需要轮询
-  const hasIncompleteImages = useCallback(() => {
-    if (!images || images.length === 0) return false;
+  // Removed hasIncompleteImages - My Creations page only displays history
 
-    // 检查最新的图片是否未完成
-    const latestImage = images[0]; // My Creations中数据没有反转，最新的在前
-    if (!latestImage) return false;
-
-    // 未完成的状态包括：提交中、优化中、排队中、生成中
-    return INCOMPLETE_STATUSES.includes(latestImage.status);
-  }, [images, INCOMPLETE_STATUSES]);
-
-  // 更新最新图片的状态
-  const updateLatestImageStatus = useCallback(async () => {
-    if (!images || images.length === 0) return;
-
-    const latestImage = images[0]; // My Creations中数据没有反转，最新的在前
-    if (!latestImage) return;
-
-    try {
-      const response = await fetch("/api/image-generation/status", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: latestImage.id }),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        if (result.code === 0 && result.data) {
-          // 更新本地状态
-          setImages((prevImages) =>
-            prevImages.map((image, index) =>
-              index === 0 ? { ...image, ...result.data } : image
-            )
-          );
-        }
-      }
-    } catch (error) {
-      console.error("更新图片状态失败:", error);
-    }
-  }, [images]);
+  // Removed updateLatestImageStatus - My Creations page only displays history
 
   // 检查是否所有关键内容都已加载完成
   const checkAllContentLoaded = useCallback(() => {
@@ -315,8 +221,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
             setLoading(false);
           }
 
-          // 异步检查并更新进行中的任务状态（不阻塞页面渲染）
-          updateActiveTasksInBackground(filteredData);
+          // Removed background task updates - My Creations page only displays history
         } else {
           console.error("❌ Invalid response format:", data);
           setImages([]);
@@ -340,117 +245,14 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
     }
   };
 
-  // 轮询单个图片状态
-  const pollImageStatus = useCallback(async (imageId: string): Promise<ImageGenerationResult | null> => {
-    try {
-      const response = await fetch("/api/image-generation/status", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: imageId }),
-      });
+  // Removed pollImageStatus - My Creations page only displays history
 
-      const result = await response.json();
-      
-      if (response.ok && result.code === 0) {
-        return result.data as ImageGenerationResult;
-      } else {
-        console.error(`Failed to poll status for ${imageId}:`, result.message);
-        return null;
-      }
-    } catch (error) {
-      console.error(`Error polling status for ${imageId}:`, error);
-      return null;
-    }
-  }, []);
-
-  // 开始轮询正在处理的图片
-  const startPollingForProcessingImages = useCallback((imageList: ImageGenerationResult[]) => {
-    // 清理现有的轮询
-    pollingIntervalsRef.current.forEach(interval => clearInterval(interval));
-    pollingIntervalsRef.current.clear();
-    setPollingImages(new Set());
-
-    // 找出正在处理的图片
-    const processingImages = imageList.filter(img => 
-      img.status === "pending" || 
-      img.status === "in_progress" || 
-      img.status === "in_queue"
-    );
-
-    console.log(`🔄 Starting polling for ${processingImages.length} processing images`);
-
-    processingImages.forEach(img => {
-      startPollingImage(img.id);
-    });
-  }, []);
+  // Removed startPollingForProcessingImages - My Creations page only displays history
 
   // 开始轮询单个图片
-  const startPollingImage = useCallback((imageId: string) => {
-    // 避免重复轮询
-    if (pollingImages.has(imageId) || pollingIntervalsRef.current.has(imageId)) {
-      return;
-    }
+  // Removed startPollingImage - My Creations page only displays history
 
-    console.log(`📡 Starting polling for image: ${imageId}`);
-    setPollingImages(prev => new Set(prev).add(imageId));
-
-    let pollCount = 0;
-    const maxPollCount = 150; // 最大轮询5分钟 (150 * 2秒)
-
-    const interval = setInterval(async () => {
-      pollCount++;
-      
-      // 超过最大轮询次数则停止
-      if (pollCount > maxPollCount) {
-        console.warn(`⏰ Polling timeout for image: ${imageId}`);
-        stopPollingImage(imageId);
-        return;
-      }
-
-      const updatedImage = await pollImageStatus(imageId);
-      
-      if (updatedImage) {
-        // 更新图片状态
-        setImages(prevImages => 
-          prevImages.map(img => 
-            img.id === imageId ? { ...img, ...updatedImage } : img
-          )
-        );
-
-        // 如果图片已完成或失败，停止轮询
-        if (updatedImage.status === "completed" || updatedImage.status === "failed") {
-          console.log(`✅ Polling completed for image: ${imageId}, status: ${updatedImage.status}`);
-          stopPollingImage(imageId);
-          
-          // 如果图片成功生成，显示通知
-          if (updatedImage.status === "completed" && updatedImage.image_url) {
-            toast.success(t("generatingComplete"), { duration: 3000 });
-          } else if (updatedImage.status === "failed") {
-            toast.error(t("generatingFailed", { error: updatedImage.error_message || t("unknownError") }));
-          }
-        }
-      }
-    }, 2000); // 每2秒轮询一次
-
-    pollingIntervalsRef.current.set(imageId, interval);
-  }, [pollImageStatus, pollingImages]);
-
-  // 停止轮询单个图片
-  const stopPollingImage = useCallback((imageId: string) => {
-    const interval = pollingIntervalsRef.current.get(imageId);
-    if (interval) {
-      clearInterval(interval);
-      pollingIntervalsRef.current.delete(imageId);
-      setPollingImages(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(imageId);
-        return newSet;
-      });
-      console.log(`🛑 Stopped polling for image: ${imageId}`);
-    }
-  }, []);
+  // Removed stopPollingImage - My Creations page only displays history
 
   // Load favorites from localStorage
   useEffect(() => {
@@ -1051,7 +853,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
   // Get status badge
   const getStatusBadge = (status: string, imageId?: string) => {
     const normalizedStatus = status.toLowerCase();
-    const isPolling = imageId && pollingImages.has(imageId);
+    const isPolling = false; // Polling removed - My Creations page only displays history
     
     switch (normalizedStatus) {
       case "completed":
@@ -1089,32 +891,11 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
 
   // 清理轮询
   useEffect(() => {
-    return () => {
-      // 清理所有轮询间隔
-      pollingIntervalsRef.current.forEach(interval => clearInterval(interval));
-      pollingIntervalsRef.current.clear();
-    };
+    // Cleanup removed - no polling in My Creations page
   }, []);
 
-  // 轮询机制：当有未完成的图片时，每3秒检查一次状态
-  useEffect(() => {
-    if (!userId || !hasIncompleteImages()) {
-      return;
-    }
-
-    console.log("Starting polling for incomplete images in My Creations...");
-
-    const pollInterval = setInterval(() => {
-      console.log("Polling image status in My Creations...");
-      updateLatestImageStatus();
-    }, 3000); // 每3秒轮询一次
-
-    return () => {
-      console.log("Stopping polling in My Creations...");
-      clearInterval(pollInterval);
-    };
-  }, [userId, hasIncompleteImages, updateLatestImageStatus]);
-
+  // Removed polling mechanism - My Creations page is for viewing history only
+  
   useEffect(() => {
     fetchHistory();
   }, [userId, refreshTrigger]);
@@ -1134,20 +915,13 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
           // Add new image to the top
           const newImages = [newImage, ...prevImages];
           
-          // 如果新图片是处理中状态，开始轮询
-          if (newImage.status === "pending" || 
-              newImage.status === "in_progress" || 
-              newImage.status === "in_queue") {
-            setTimeout(() => {
-              startPollingImage(newImage.id);
-            }, 1000); // 延迟1秒开始轮询，避免立即轮询
-          }
+          // Removed polling - My Creations page only displays history
           
           return newImages;
         }
       });
     }
-  }, [newImage, startPollingImage]);
+  }, [newImage]); // Removed startPollingImage dependency
 
   return (
     <div className={className || "bg-gray-900 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]"}>
@@ -1201,7 +975,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
                   <CardImageItem 
                     key={image.id}
                     image={image}
-                    pollingImages={pollingImages}
+                    // pollingImages prop removed
                     favorites={favorites}
                     onDelete={deleteImage}
                     onToggleFavorite={toggleFavorite}
@@ -1228,7 +1002,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
 // Card Image Item Component (consistent with VideoTab style)
 interface CardImageItemProps {
   image: ImageGenerationResult;
-  pollingImages: Set<string>;
+  // pollingImages removed - no polling in My Creations
   favorites: Set<string>;
   onDelete: (id: string, prompt: string) => void;
   onToggleFavorite: (id: string) => void;
@@ -1244,7 +1018,7 @@ interface CardImageItemProps {
 
 const CardImageItem = ({ 
   image, 
-  pollingImages, 
+  // pollingImages removed
   favorites, 
   onDelete, 
   onToggleFavorite, 
@@ -1321,7 +1095,7 @@ const CardImageItem = ({
                 <p className="text-sm text-gray-300">
                   {image.status === "in_progress" ? t("generatingImage") : t("inQueue")}
                 </p>
-                {pollingImages.has(image.id) && (
+                {false && ( // Polling indicator removed - no polling in My Creations
                   <div className="flex items-center justify-center mt-2">
                     <div className="flex space-x-1">
                       <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse"></div>

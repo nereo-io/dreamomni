@@ -1,0 +1,96 @@
+{
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "description": "Find answers to common questions about our AI text to image generation service.",
+    "items": [
+      {
+        "id": "what-is-text-to-image",
+        "question": "What is an AI text to image generator?",
+        "answer": "An AI text to image generator is a powerful tool that uses artificial intelligence to create images from text descriptions. It analyzes your text prompt and generates high-quality, unique images that match your description."
+      },
+      {
+        "id": "how-does-text-to-image-work",
+        "question": "How does text to image AI generation work?",
+        "answer": "Our AI analyzes your written description, understands the objects, styles, composition, and artistic elements mentioned, then generates a corresponding image with appropriate colors, lighting, and details to match your prompt."
+      },
+      {
+        "id": "what-can-i-create",
+        "question": "What types of images can I create with text to image?",
+        "answer": "You can create a wide variety of images including digital art, illustrations, concept art, product visualizations, character designs, landscapes, abstract art, and photorealistic images. The possibilities are limited only by your imagination."
+      },
+      {
+        "id": "image-quality",
+        "question": "What is the quality of generated images?",
+        "answer": "Our AI generates high-resolution images with excellent detail and artistic quality. Images are created at optimal resolutions suitable for web use, social media, printing, and professional applications."
+      },
+      {
+        "id": "is-it-free",
+        "question": "Is Veo3 AI's text to image generator free?",
+        "answer": "New users receive free credits to explore the service. For regular use, we offer affordable subscription plans with more credits and features. Each image generation costs 2 credits."
+      },
+      {
+        "id": "commercial-use",
+        "question": "Can I use generated images commercially?",
+        "answer": "Yes, all images generated with Veo3 AI can be used for commercial purposes according to our terms of service. You have full rights to use the images in your projects, marketing materials, and products."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Start Creating Images from Text Today",
+    "description": "Transform your ideas into stunning visuals with just a text description. No design skills required.",
+    "buttonText": "Try Text to Image Generator"
+  },
+  "aiModelsHero": {
+    "title": "Advanced AI Text to Image Generation",
+    "description": "Powered by cutting-edge Nano Banana AI model, Veo3 AI delivers exceptional image quality with fast generation times. Create professional-grade images in seconds with our optimized text-to-image technology.",
+    "models": [
+      {
+        "id": "nano-banana",
+        "name": "Nano Banana",
+        "logo": "/imgs/intro/nano-banana.svg"
+      }
+    ],
+    "moreModels": "More Models Coming Soon"
+  },
+  "creatorShowcase": {
+    "title": "Text to Image Creation Showcase",
+    "creatorTypes": [
+      {
+        "id": "digital-artists",
+        "name": "Digital Artists",
+        "image": "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Digital artist creating vibrant artwork",
+        "title": "Create stunning digital artwork from text",
+        "description": "Generate illustrations, concept art, and digital paintings directly from your text descriptions. Perfect for book covers, game assets, and creative projects.",
+        "badge": "Digital Artists"
+      },
+      {
+        "id": "product-designers",
+        "name": "Product Designers",
+        "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Product designer visualizing concepts",
+        "title": "Visualize product concepts instantly",
+        "description": "Transform product ideas into visual mockups with simple descriptions. Create design presentations, marketing materials, and concept explorations effortlessly.",
+        "badge": "Product Designers"
+      },
+      {
+        "id": "game-developers",
+        "name": "Game Developers",
+        "image": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Game developer creating concept art",
+        "title": "Design characters and environments",
+        "description": "Generate game assets, character designs, and environment concepts from text. Rapidly prototype visual ideas for games and entertainment projects.",
+        "badge": "Game Developers"
+      },
+      {
+        "id": "marketers",
+        "name": "Marketers",
+        "image": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Marketer creating social media content",
+        "title": "Create marketing visuals on demand",
+        "description": "Generate eye-catching images for social media, ads, and campaigns. Produce unlimited visual content variations without photo shoots or design teams.",
+        "badge": "Marketers"
+      }
+    ]
+  }
+}

@@ -16,7 +16,7 @@ export default function () {
     
     setIsLoadingMembership(true);
     try {
-      const response = await fetch('/api/membership/check');
+      const response = await fetch('/api/membership/status');
       const data = await response.json();
       
       if (data.code === 0) {

@@ -59,10 +59,22 @@
     "no_account": "Don't have an account?",
     "email_sign_in": "Sign in with Email",
     "google_sign_in": "Sign in with Google",
+    "vk_sign_in": "Sign in with VK",
     "github_sign_in": "Sign in with GitHub",
     "apple_sign_in": "Sign in with Apple",
     "close_title": "Close",
     "cancel_title": "Cancel"
+  },
+  "vk_login": {
+    "button_text": "Continue with VK",
+    "sdk_not_loaded": "VK SDK is not loaded",
+    "login_successful": "Login successful!",
+    "login_failed": "VK login failed",
+    "failed_to_process": "Failed to process login",
+    "failed_to_exchange": "Failed to exchange code for tokens",
+    "failed_to_initialize": "Failed to initialize VK login",
+    "error_unknown": "Unknown error",
+    "error_message": "VK login error: {message}"
   },
   "my_orders": {
     "title": "My Orders",
@@ -473,10 +485,10 @@
     "outputFormat": "Output Format",
     "imageSize": "Image Size",
     "pleaseSignInToGenerate": "Please sign in to generate images",
-    "generationStarted": "Image generation started. Please check history for updates.",
+    "generationStarted": "Image generation started.",
     "generationCompleted": "Image generation complete!",
     "generationInProgress": "Generating...",
-    "generationStatusChecking": "Image generation started. Checking status..."
+    "generationStatusChecking": "Checking status..."
   },
   "myCreations": {
     "title": "My Creations",
@@ -495,6 +507,7 @@
     "optimizingPrompt": "Optimizing Prompt",
     "optimizingPromptTitle": "Optimizing Prompt...",
     "optimizingPromptDescription": "AI is optimizing your prompt for better results",
+    "imageDeleted": "Image deleted successfully",
     "deleteSuccess": "Image deleted successfully",
     "deleteFailed": "Failed to delete image",
     "deleteConfirmTitle": "Delete Image",
@@ -593,6 +606,7 @@
     "description": "You are already a member.",
     "explanation": "You can view and manage your current subscription details.",
     "viewSubscription": "View Subscription",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "continuePurchase": "Continue Purchase"
   }
 }

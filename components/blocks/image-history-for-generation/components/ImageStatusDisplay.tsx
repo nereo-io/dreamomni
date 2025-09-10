@@ -5,7 +5,9 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import type { ImageGenerationResult } from "@/components/blocks/image-history";
 import { useImageGenerationProgress } from "@/hooks/useImageGenerationProgress";
+import { useIsMobile } from "@/hooks/use-mobile";
 import ImageProgressBar from "./ImageProgressBar";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 
 interface ImageStatusDisplayProps {
   status: string;
@@ -21,6 +23,7 @@ interface ImageStatusDisplayProps {
   onEdit?: (image: ImageGenerationResult) => void;
   onRegenerate?: (image: ImageGenerationResult) => void;
   onDelete?: (imageId: string, prompt: string) => void;
+  onImageClick?: (imageUrl: string, prompt: string) => void;
   canEdit?: boolean;
   pollingImages: Set<string>;
 }
@@ -35,6 +38,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   onEdit,
   onRegenerate,
   onDelete,
+  onImageClick,
   canEdit,
   pollingImages,
 }) => {
@@ -43,6 +47,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   const isProcessing = ["pending", "in_queue", "in_progress", "prompt_optimizing"].includes(status);
   const isFailed = status === "failed";
   const isPolling = pollingImages.has(image.id);
+  const isMobile = useIsMobile();
   
   // Use progress hook for processing states
   const progressData = useImageGenerationProgress({
@@ -52,36 +57,30 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   });
   
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const t = useTranslations("imageHistory");
-
-  // Debug: 检查 onDelete 函数是否存在
-  console.log("🔍 Debug - onDelete function exists:", !!onDelete);
-  console.log("🔍 Debug - current status:", status);
-  console.log("🔍 Debug - isDeleting:", isDeleting);
 
   const handleDeleteClick = async (e?: React.MouseEvent) => {
     e?.preventDefault();
     e?.stopPropagation();
-    console.log("🗑️ Delete button clicked");
     
     if (!onDelete || isDeleting) return;
-
-    // Use simple confirm dialog like My Creations
-    const confirmed = confirm(`Are you sure you want to delete this image?\n\nPrompt: ${(image.prompt || '').slice(0, 100)}...`);
-    if (!confirmed) {
-      console.log("❌ Delete cancelled by user");
-      return;
-    }
+    
+    // Show custom delete confirmation dialog
+    setShowDeleteDialog(true);
+  };
+  
+  const handleConfirmDelete = async () => {
+    if (!onDelete) return;
     
     setIsDeleting(true);
+    setShowDeleteDialog(false);
     
     try {
-      console.log("✅ Delete confirmed by user, calling onDelete");
       await onDelete(image.id, image.prompt || '');
-      console.log("✅ Delete operation completed successfully");
       toast.success(t("imageDeleted"));
     } catch (error) {
-      console.error("❌ Delete operation failed:", error);
+      console.error("Delete operation failed:", error);
       toast.error(t("deleteFailed"));
     } finally {
       setIsDeleting(false);
@@ -90,21 +89,25 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
 
   // Download image to local file system - 与图片历史记录保持一致
   const handleDownload = async () => {
-    if (!imageUrl) {
+    // 优先使用 R2 URL，如果没有则使用普通 URL
+    const downloadUrl = image.image_url_r2 || image.image_url || imageUrl;
+    
+    if (!downloadUrl) {
       toast.error("Image not available for download");
       return;
     }
 
     try {
-      console.log("🔽 Starting image download:", imageUrl);
+      console.log("🔽 Starting image download:", downloadUrl);
+      console.log("📍 Using R2 URL:", !!image.image_url_r2);
       
       // 验证URL
-      if (!imageUrl || typeof imageUrl !== 'string') {
+      if (!downloadUrl || typeof downloadUrl !== 'string') {
         throw new Error("Invalid image URL provided");
       }
 
       // 获取图片文件扩展名
-      const urlParts = imageUrl.split('.');
+      const urlParts = downloadUrl.split('.');
       const extension = urlParts[urlParts.length - 1]?.split('?')[0]?.toLowerCase() || 'jpg';
       const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
       
@@ -120,10 +123,10 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
       // 尝试多种下载方法，确保能下载到本地
       // 优化顺序：代理方法优先，因为可以绕过CORS限制
       const downloadMethods = [
-        () => downloadWithProxy(imageUrl, filename),    // 最可靠：使用代理绕过CORS
-        () => downloadWithCanvas(imageUrl, filename),   // 次选：Canvas方法处理CORS
-        () => downloadWithFetch(imageUrl, filename),    // 第三：直接fetch（可能被CORS阻止）
-        () => downloadWithDirectLink(imageUrl, filename) // 最后：直接链接（CORS限制时无效）
+        () => downloadWithProxy(downloadUrl, filename),    // 最可靠：使用代理绕过CORS
+        () => downloadWithCanvas(downloadUrl, filename),   // 次选：Canvas方法处理CORS
+        () => downloadWithFetch(downloadUrl, filename),    // 第三：直接fetch（可能被CORS阻止）
+        () => downloadWithDirectLink(downloadUrl, filename) // 最后：直接链接（CORS限制时无效）
       ];
 
       for (let i = 0; i < downloadMethods.length; i++) {
@@ -345,7 +348,11 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
       toast.error("Image not available");
       return;
     }
-    window.open(imageUrl, "_blank");
+    if (onImageClick) {
+      onImageClick(imageUrl, image.prompt);
+    } else {
+      window.open(imageUrl, "_blank");
+    }
   };
 
   const handleEdit = () => {
@@ -366,7 +373,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
       <div className="space-y-3">
         {/* Prompt Optimizing placeholder with Sparkles effect - 三分之二宽度，左对齐 */}
         <div className="flex justify-start">
-          <div className="w-2/3 aspect-square bg-gray-700 rounded-lg flex items-center justify-center">
+          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} aspect-square bg-gray-700 rounded-lg flex items-center justify-center`}>
             <div className="text-center py-8">
               <div className="relative mb-4">
                 <div className="absolute inset-0 bg-purple-500/20 blur-xl rounded-full animate-pulse" />
@@ -382,44 +389,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
           </div>
         </div>
 
-        {/* Disabled action buttons with delete available */}
-        <div className="flex justify-between items-center">
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              disabled
-              className="opacity-50"
-            >
-              <ExternalLink className="mr-2 h-4 w-4" />
-              Open
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              disabled
-              className="opacity-50"
-            >
-              <Download className="h-4 w-4" />
-            </Button>
-          </div>
-          {onDelete && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleDeleteClick}
-              disabled={isDeleting}
-              className="text-gray-400 hover:text-red-400 cursor-pointer"
-              style={{ pointerEvents: 'auto' }}
-            >
-              {isDeleting ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Trash2 className="h-4 w-4" />
-              )}
-            </Button>
-          )}
-        </div>
+        {/* No action buttons during prompt optimizing */}
       </div>
     );
   }
@@ -427,11 +397,12 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   // Completed state
   if (isCompleted && imageUrl) {
     return (
+      <>
       <div className="space-y-3">
-        {/* Image preview - 三分之二宽度，左对齐 */}
+        {/* Image preview with hover buttons - 三分之二宽度，左对齐 */}
         <div className="flex justify-start">
           <div 
-            className="w-2/3 aspect-square bg-gray-700 rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
+            className={`${isMobile ? 'w-2/3' : 'w-1/2'} aspect-square bg-gray-700 rounded-lg overflow-hidden cursor-pointer relative group`}
             onClick={handleOpen}
           >
             <img
@@ -440,21 +411,47 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
               className="w-full h-full object-cover"
               loading="lazy"
             />
+            
+            {/* Hover overlay buttons - 移动端默认显示 */}
+            <div className={`absolute top-3 right-3 ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-200 flex gap-2`}>
+              <Button
+                variant="secondary"
+                size="sm"
+                className="bg-black/60 hover:bg-black/80 text-white border-none h-8 w-8 p-0 rounded-md"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDownload();
+                }}
+                title="Download image"
+              >
+                <Download className="h-4 w-4" />
+              </Button>
+              {onDelete && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="bg-black/60 hover:bg-red-600/80 text-white border-none h-8 w-8 p-0 rounded-md"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteClick(e);
+                  }}
+                  disabled={isDeleting}
+                  title="Delete image"
+                >
+                  {isDeleting ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Trash2 className="h-4 w-4" />
+                  )}
+                </Button>
+              )}
+            </div>
           </div>
         </div>
 
         {/* Action buttons */}
-        <div className="flex justify-between items-center">
+        {(canEdit && (onEdit || onRegenerate)) && (
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleOpen}
-              className="border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"
-            >
-              <ExternalLink className="mr-2 h-4 w-4" />
-              Open
-            </Button>
             {canEdit && onEdit && (
               <Button
                 variant="ghost"
@@ -476,43 +473,29 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
               </Button>
             )}
           </div>
-          <div className="flex gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleDownload}
-              className="text-gray-400 hover:text-white"
-            >
-              <Download className="h-4 w-4" />
-            </Button>
-            {onDelete && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleDeleteClick}
-                disabled={isDeleting}
-                className="text-gray-400 hover:text-red-400"
-              >
-                {isDeleting ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Trash2 className="h-4 w-4" />
-                )}
-              </Button>
-            )}
-          </div>
-        </div>
+        )}
       </div>
+      
+      {/* Delete confirmation dialog */}
+      <DeleteConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        onConfirm={handleConfirmDelete}
+        prompt={image.prompt || ''}
+        isDeleting={isDeleting}
+      />
+      </>
     );
   }
 
   // Processing state
   if (isProcessing) {
     return (
+      <>
       <div className="space-y-3">
         {/* Processing placeholder with progress - 三分之二宽度，左对齐 */}
         <div className="flex justify-start">
-          <div className="w-2/3 aspect-square bg-gray-700 rounded-lg flex items-center justify-center relative overflow-hidden">
+          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} aspect-square bg-gray-700 rounded-lg flex items-center justify-center relative overflow-hidden`}>
             {/* Background with subtle gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20" />
             
@@ -550,56 +533,29 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
           </div>
         </div>
 
-        {/* Disabled action buttons with delete available */}
-        <div className="flex justify-between items-center">
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              disabled
-              className="opacity-50"
-            >
-              <ExternalLink className="mr-2 h-4 w-4" />
-              Open
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              disabled
-              className="opacity-50"
-            >
-              <Download className="h-4 w-4" />
-            </Button>
-          </div>
-          {onDelete && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleDeleteClick}
-              disabled={isDeleting}
-              className="text-gray-400 hover:text-red-400 cursor-pointer"
-              style={{ pointerEvents: 'auto' }}
-            >
-              {isDeleting ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Trash2 className="h-4 w-4" />
-              )}
-            </Button>
-          )}
-        </div>
+        {/* No action buttons during processing */}
       </div>
+      
+      {/* Delete confirmation dialog */}
+      <DeleteConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        onConfirm={handleConfirmDelete}
+        prompt={image.prompt || ''}
+        isDeleting={isDeleting}
+      />
+      </>
     );
   }
 
   // Failed state
   if (isFailed) {
-    console.log("🔴 Rendering failed state with delete button");
     return (
+      <>
       <div className="space-y-3">
         {/* Error placeholder - 三分之二宽度，左对齐 */}
         <div className="flex justify-start">
-          <div className="w-2/3 aspect-square bg-gray-700 rounded-lg flex items-center justify-center">
+          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} aspect-square bg-gray-700 rounded-lg flex items-center justify-center`}>
             <div className="text-center">
               <div className="text-red-400 mb-2">❌</div>
               <p className="text-sm text-red-400">Generation Failed</p>
@@ -662,20 +618,41 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
           )}
         </div>
       </div>
+      
+      {/* Delete confirmation dialog */}
+      <DeleteConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        onConfirm={handleConfirmDelete}
+        prompt={image.prompt || ''}
+        isDeleting={isDeleting}
+      />
+      </>
     );
   }
 
   // Default state
   return (
-    <div className="space-y-3">
-      <div className="flex justify-start">
-        <div className="w-2/3 aspect-square bg-gray-700 rounded-lg flex items-center justify-center">
-          <div className="text-center">
-            <p className="text-sm text-gray-400">Unknown Status</p>
+    <>
+      <div className="space-y-3">
+        <div className="flex justify-start">
+          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} aspect-square bg-gray-700 rounded-lg flex items-center justify-center`}>
+            <div className="text-center">
+              <p className="text-sm text-gray-400">Unknown Status</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      
+      {/* Delete confirmation dialog */}
+      <DeleteConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        onConfirm={handleConfirmDelete}
+        prompt={image.prompt || ''}
+        isDeleting={isDeleting}
+      />
+    </>
   );
 });
 

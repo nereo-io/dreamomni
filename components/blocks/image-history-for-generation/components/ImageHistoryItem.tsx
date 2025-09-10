@@ -2,8 +2,6 @@ import React from "react";
 import { Copy, Sparkles, Loader2, CheckCircle, XCircle, Clock } from "lucide-react";
 import { toast } from "sonner";
 import type { ImageGenerationResult } from "@/components/blocks/image-history";
-import StatusBadge from "./StatusBadge";
-import ImageMetadata from "./ImageMetadata";
 import EnhancedPrompt from "./EnhancedPrompt";
 import ImageStatusDisplay from "./ImageStatusDisplay";
 
@@ -14,7 +12,8 @@ interface ImageHistoryItemProps {
   onToggleExpanded: () => void;
   onEdit?: (image: ImageGenerationResult) => void;
   onRegenerate?: (image: ImageGenerationResult) => void;
-  onDelete?: (imageId: string) => void;
+  onDelete?: (imageId: string, prompt: string) => void;
+  onImageClick?: (imageUrl: string, prompt: string) => void;
   canEdit?: boolean;
 }
 
@@ -27,6 +26,7 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
     onEdit,
     onRegenerate,
     onDelete,
+    onImageClick,
     canEdit = false,
   }) => {
     
@@ -116,12 +116,34 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
       }
     };
 
+    // Handle source image click (for image-to-image mode)
+    const handleSourceImageClick = () => {
+      if (image.input_image_urls && image.input_image_urls[0] && onImageClick) {
+        onImageClick(image.input_image_urls[0], "Source Image");
+      }
+    };
+
     return (
       <div className="p-5 space-y-4">
-        {/* Header: Status + Prompt + Timestamp */}
+        {/* Header: Source Image Thumbnail + Prompt + Timestamp */}
         <div className="flex justify-between items-start gap-3">
           <div className="flex items-start gap-3 flex-1">
-            <StatusBadge status={image.status} statusMap={statusMap} />
+            {/* Source Image Thumbnail (if exists) */}
+            {image.input_image_urls && image.input_image_urls[0] && (
+              <div 
+                className="flex-shrink-0 h-12 w-12 rounded overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={handleSourceImageClick}
+                title="Click to view source image"
+              >
+                <img 
+                  src={image.input_image_urls[0]} 
+                  alt="Source Image"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+            
+            {/* Prompt and Copy Button */}
             <div className="flex items-start gap-2 flex-1">
               <p
                 className="text-base font-bold text-white leading-relaxed flex-1"
@@ -143,18 +165,14 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
               </button>
             </div>
           </div>
+          
+          {/* Timestamp */}
           {formatTimestamp() && (
             <span className="text-sm text-gray-400 flex-shrink-0 mt-0.5">
               {formatTimestamp()}
             </span>
           )}
         </div>
-
-        {/* Metadata tags */}
-        <ImageMetadata
-          aspectRatio={image.aspect_ratio}
-          modelName={formatModelDisplayName(image.model)}
-        />
 
         {/* Enhanced Prompt */}
         <EnhancedPrompt
@@ -168,13 +186,14 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
         <ImageStatusDisplay
           status={image.status}
           statusInfo={status}
-          imageUrl={image.image_url}
+          imageUrl={image.image_url_r2 || image.image_url}
           errorMessage={image.error_message}
           createdAt={image.created_at}
           image={image}
           onEdit={onEdit}
           onRegenerate={onRegenerate}
           onDelete={onDelete}
+          onImageClick={onImageClick}
           canEdit={canEdit}
           pollingImages={pollingImages}
         />

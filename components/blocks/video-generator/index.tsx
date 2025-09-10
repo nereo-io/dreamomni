@@ -502,7 +502,7 @@ export default function VideoGenerator({
 
   // 构建生成参数的辅助函数
   const buildGenerationParams = (): VideoGenerationParams => {
-    const imageUrl = uploadedImageUrl || undefined;
+    let imageUrl = uploadedImageUrl || undefined;
     
     return {
       model: selectedModel,

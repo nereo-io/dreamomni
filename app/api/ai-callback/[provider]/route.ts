@@ -13,6 +13,7 @@ import {
   increaseCredits,
   CreditsTransType,
 } from "@/services/credit";
+import { ImageStorageService } from "@/services/imageStorageService";
 
 import type { AIServiceProvider } from "@/types/provider.d";
 import { NextRequest } from "next/server";
@@ -28,37 +29,37 @@ export async function POST(
   try {
     const provider = params.provider as AIServiceProvider;
     
-    console.log(`📞 Received callback from provider: ${provider}`);
+    console.log(`[Callback] Received from provider: ${provider}`);
 
     // 验证提供商是否支持
     const providerInstance = aiServiceManager.getProvider(provider);
     if (!providerInstance) {
-      console.error(`❌ Unsupported provider: ${provider}`);
+      console.error(`[Callback] Unsupported provider: ${provider}`);
       return respErr(`Unsupported provider: ${provider}`);
     }
 
     // 解析回调数据
     const callbackData = await req.json();
-    console.log(`📞 Callback data from ${provider}:`, callbackData);
+    console.log(`[Callback] Data from ${provider}:`, {
+      taskId: callbackData.data?.taskId,
+      state: callbackData.data?.state,
+      code: callbackData.code
+    });
 
     // 使用提供商特定的处理逻辑
     const processedResult = await providerInstance.handleCallback(callbackData);
-    console.log(`✅ Processed result from ${provider}:`, processedResult);
 
     // 查找对应的图片生成记录
-    console.log(`🔍 Searching for image generation record with provider_task_id: ${processedResult.taskId}`);
-    
     const imageGeneration = await getImageGenerationByProviderTaskId(
       processedResult.taskId
     );
 
     if (!imageGeneration) {
-      console.error(`❌ Image generation not found for provider_task_id: ${processedResult.taskId}`);
-      console.log(`💡 This might indicate that the taskId was not properly stored during creation, or the taskId format doesn't match`);
+      console.error(`[Callback] Image generation not found for task: ${processedResult.taskId}`);
       return respErr(`Image generation not found for task: ${processedResult.taskId}`);
     }
 
-    console.log(`📝 Found image generation record: ${imageGeneration.id} for task: ${processedResult.taskId}`);
+    console.log(`[Callback] Found generation record: ${imageGeneration.id} for task: ${processedResult.taskId}`);
 
     // 映射 ProviderResponse 状态到数据库状态
     const mapStatusToDb = (providerStatus: string): string => {
@@ -85,14 +86,27 @@ export async function POST(
 
     if (processedResult.status === 'completed') {
       if (processedResult.images && processedResult.images.length > 0) {
+        // 保存原始 provider URLs
         updateData.image_urls = processedResult.images.map(img => img.url);
         updateData.image_count = processedResult.images.length;
         updateData.completed_at = new Date().toISOString();
         
-        console.log(`🖼️ Updating with ${processedResult.images.length} images:`, 
-          processedResult.images.map(img => img.url));
+        console.log(`[Callback] Completed with ${processedResult.images.length} images`);
+        
+        // 使用 ImageStorageService 上传图片到 R2
+        const uploadResult = await ImageStorageService.uploadImagesToR2(
+          processedResult.images,
+          imageGeneration.id
+        );
+        
+        if (uploadResult.success && uploadResult.r2Urls) {
+          updateData.image_urls_r2 = uploadResult.r2Urls;
+          console.log(`[Callback] R2 upload complete: ${uploadResult.r2Urls.length} successful, ${uploadResult.failedCount} failed`);
+        } else if (uploadResult.failedCount > 0) {
+          console.warn(`[Callback] R2 upload partial failure: ${uploadResult.failedCount} images failed`);
+        }
       } else {
-        console.log(`⚠️ Completed callback but no images found in processedResult:`, processedResult);
+        console.error(`[Callback] Completed but no images found`);
       }
       
       // 存储提供商的响应数据
@@ -126,9 +140,9 @@ export async function POST(
           expired_at: expiredAt,
         });
 
-        console.log(`💰 Credits refunded: ${creditsToRefund} to user ${imageGeneration.user_id} for failed image generation ${imageGeneration.id}`);
+        console.log(`[Callback] Credits refunded: ${creditsToRefund} for failed generation ${imageGeneration.id}`);
       } catch (refundError) {
-        console.error("❌ Failed to refund credits for failed image generation:", refundError);
+        console.error("[Callback] Failed to refund credits:", refundError);
         // 不阻止回调处理，继续执行
       }
     } else {
@@ -142,11 +156,8 @@ export async function POST(
     }
 
     // 更新数据库记录
-    console.log(`💾 Updating database with data:`, updateData);
-    
     const updatedRecord = await updateImageGenerationById(imageGeneration.id, updateData);
-    console.log(`✅ Updated image generation ${imageGeneration.id} with status: ${updateData.status}`);
-    console.log(`📝 Updated record result:`, updatedRecord);
+    console.log(`[Callback] Updated generation ${imageGeneration.id} with status: ${updateData.status}`);
 
     // 返回成功响应
     return respData({
@@ -158,7 +169,7 @@ export async function POST(
     });
 
   } catch (error) {
-    console.error("❌ Callback processing error:", error);
+    console.error("[Callback] Processing error:", error);
     return respErr(error instanceof Error ? error.message : "Internal server error");
   }
 }
@@ -167,27 +178,21 @@ export async function POST(
  * 处理回调完成的任务
  */
 async function handleCompletedCallback(callbackData: any): Promise<void> {
-  console.log("✅ Handling completed callback:", callbackData);
-  // 这里可以添加额外的完成后处理逻辑
-  // 比如发送通知、更新用户积分等
+  // 额外的完成后处理逻辑
 }
 
 /**
  * 处理回调失败的任务
  */
 async function handleFailedCallback(callbackData: any): Promise<void> {
-  console.log("❌ Handling failed callback:", callbackData);
-  // 这里可以添加额外的失败处理逻辑
-  // 比如退还积分、记录错误日志等
+  // 额外的失败处理逻辑
 }
 
 /**
  * 处理回调中的任务
  */
 async function handleProcessingCallback(callbackData: any): Promise<void> {
-  console.log("🔄 Handling processing callback:", callbackData);
-  // 这里可以添加额外的处理中逻辑
-  // 比如更新进度、发送中间状态通知等
+  // 额外的处理中逻辑
 }
 
 // 不支持其他 HTTP 方法

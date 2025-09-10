@@ -90,13 +90,24 @@ export function useImageGenerationProgress({
     // Update progress immediately
     setProgress(calculateProgress());
 
-    // Set up interval to update progress every second
+    // Don't set up interval for completed or failed states
+    if (status === "completed" || status === "saved_to_r2" || status === "failed") {
+      return; // No need to update progress for finished states
+    }
+
+    // Set up interval to update progress every second for in-progress states
     const interval = setInterval(() => {
-      setProgress(calculateProgress());
+      const newProgress = calculateProgress();
+      setProgress(newProgress);
+      
+      // Stop interval if status becomes complete
+      if (newProgress.isComplete || status === "failed") {
+        clearInterval(interval);
+      }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [calculateProgress]);
+  }, [calculateProgress, status]);
 
   return progress;
 }

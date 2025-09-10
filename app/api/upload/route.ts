@@ -39,16 +39,20 @@ export async function POST(req: Request) {
     const buffer = Buffer.from(arrayBuffer);
 
     // 上传到 R2
-    const storage = newStorage();
-    const uploadResult = await storage.uploadFile({
+    const uploadResult = await newStorage().uploadFile({
       body: buffer,
       key: fileName,
       contentType: file.type,
     });
 
+    if (!uploadResult.url) {
+      console.error('R2 upload failed: No URL returned');
+      return respErr("Failed to upload to storage");
+    }
+
     return respData({
       url: uploadResult.url,
-      filename: uploadResult.filename,
+      filename: uploadResult.filename || 'upload',
       size: file.size,
       type: file.type,
     });

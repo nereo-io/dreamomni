@@ -95,7 +95,11 @@ export class PayssionProvider extends BasePaymentProvider {
       if (existingMandate) {
         console.log(
           "Found existing active mandate:",
-          existingMandate.mandate_id
+          existingMandate.mandate_id,
+          "Status:",
+          existingMandate.status,
+          "Created:",
+          existingMandate.created_at
         );
 
         // 直接使用现有授权创建订阅
@@ -121,6 +125,16 @@ export class PayssionProvider extends BasePaymentProvider {
             metadata: metadata,
           };
 
+          console.log(
+            "Attempting to create subscription with existing mandate:",
+            {
+              mandateId: existingMandate.mandate_id,
+              amount: subscriptionRequest.amount,
+              currency: subscriptionRequest.currency,
+              interval: subscriptionRequest.interval,
+            }
+          );
+
           const subscriptionResult = await this.createSubscription(
             subscriptionRequest
           );
@@ -135,8 +149,12 @@ export class PayssionProvider extends BasePaymentProvider {
             };
           } else {
             console.error(
-              "Failed to create subscription with existing mandate:",
-              subscriptionResult.errorMessage
+              "❌ Failed to create subscription with existing mandate:",
+              {
+                mandateId: existingMandate.mandate_id,
+                error: subscriptionResult.errorMessage,
+                willCreateNewMandate: true,
+              }
             );
             // 如果订阅创建失败，fallback 到创建新授权
           }
@@ -222,9 +240,14 @@ export class PayssionProvider extends BasePaymentProvider {
         description:
           request.description || `Subscription for ${request.userEmail}`,
         interval_unit: request.interval,
-        times: 24, // 测试环境Payssion V2 要求必须为 1
+        times: 5, // 测试环境Payssion V2 要求必须为 1
         metadata: request.metadata || {},
       };
+
+      console.log(
+        "Payssion V2 subscription request body:",
+        JSON.stringify(requestBody, null, 2)
+      );
 
       const response = await fetch(
         `${this.config.v2.baseUrl}/v2/subscriptions`,
@@ -239,6 +262,28 @@ export class PayssionProvider extends BasePaymentProvider {
       );
 
       const result = await response.json();
+
+      // 添加详细的响应日志
+      console.log("Payssion V2 subscription API response:", {
+        status: response.status,
+        ok: response.ok,
+        result: JSON.stringify(result, null, 2),
+      });
+
+      // 检查响应状态和结果
+      if (!response.ok || !result.id) {
+        const errorMessage =
+          result.error?.message ||
+          result.message ||
+          `Subscription creation failed with status ${response.status}`;
+        console.error("❌ Subscription creation failed:", errorMessage);
+
+        return {
+          success: false,
+          errorMessage: errorMessage,
+          paymentProvider: this.name,
+        };
+      }
 
       console.log(
         `✅ Subscription created: ${result.id} for mandate ${request.mandateId}`
@@ -399,11 +444,18 @@ export class PayssionProvider extends BasePaymentProvider {
     console.log("Subscription created:", subscriptionId, "mandate:", mandateId);
 
     // 幂等性检查：检查订阅是否已存在
-    const { findSubscriptionByPayssionId, createSubscription } = await import("@/models/subscription");
-    const existingSubscription = await findSubscriptionByPayssionId(subscriptionId);
-    
+    const { findSubscriptionByPayssionId, createSubscription } = await import(
+      "@/models/subscription"
+    );
+    const existingSubscription = await findSubscriptionByPayssionId(
+      subscriptionId
+    );
+
     if (existingSubscription) {
-      console.log("✅ Subscription already exists, skipping creation:", subscriptionId);
+      console.log(
+        "✅ Subscription already exists, skipping creation:",
+        subscriptionId
+      );
       return; // 订阅已存在，直接返回成功（幂等处理）
     }
 
@@ -435,18 +487,20 @@ export class PayssionProvider extends BasePaymentProvider {
    * 处理支付成功事件 - 激活订阅并发放积分
    */
   private async handlePaymentSucceeded(data: any) {
-    const paymentId = data.object?.id;  // 实际的支付ID (如 pm_HOm50K4GybH0eXP0uPzn9W9S)
+    const paymentId = data.object?.id; // 实际的支付ID (如 pm_HOm50K4GybH0eXP0uPzn9W9S)
     const subscriptionId = data.object?.source_id;
     const amount = parseFloat(data.object?.amount);
     const metadata = data.object?.metadata;
 
-    console.log(`💰 Payment succeeded: order ${metadata?.order_no}, payment ${paymentId} ($${amount})`);
+    console.log(
+      `💰 Payment succeeded: order ${metadata?.order_no}, payment ${paymentId} ($${amount})`
+    );
 
     // 使用 order_no + payment_id 进行幂等性检查
     const alreadyProcessed =
       await PaymentProcessingService.checkPaymentAlreadyProcessed(
-        metadata.order_no,  // order_no
-        paymentId          // payment_id (每次支付都不同)
+        metadata.order_no, // order_no
+        paymentId // payment_id (每次支付都不同)
       );
 
     if (alreadyProcessed) {
@@ -466,8 +520,8 @@ export class PayssionProvider extends BasePaymentProvider {
 
     // 2. 处理支付并发放积分
     const processingResult = await PaymentProcessingService.processPayment({
-      paymentId,  // 实际的支付ID，不是 order_no
-      orderId: metadata.order_no,  // 订单号
+      paymentId, // 实际的支付ID，不是 order_no
+      orderId: metadata.order_no, // 订单号
       userUuid: metadata.user_uuid,
       amount: amount.toString(),
       subscriptionId,
@@ -484,13 +538,17 @@ export class PayssionProvider extends BasePaymentProvider {
       );
     }
 
-    console.log(`✅ Payment completed: ${processingResult.creditsAwarded} credits awarded`);
-    
+    console.log(
+      `✅ Payment completed: ${processingResult.creditsAwarded} credits awarded`
+    );
+
     // 3. Track offline conversion for Yandex Metrica
     try {
-      const { offlineConversionService } = await import("@/services/analytics/yandex-offline-conversion");
+      const { offlineConversionService } = await import(
+        "@/services/analytics/yandex-offline-conversion"
+      );
       const { findOrderByOrderNo } = await import("@/models/order");
-      
+
       const order = await findOrderByOrderNo(metadata.order_no);
       if (order?.client_id) {
         const success = await offlineConversionService.trackPaymentSuccess(
@@ -498,17 +556,20 @@ export class PayssionProvider extends BasePaymentProvider {
           metadata.order_no,
           amount
         );
-        
+
         if (success) {
           console.log(`✅ Offline conversion tracked for Yandex Metrica`, {
             clientId: order.client_id,
             orderNo: metadata.order_no,
-            amount
+            amount,
           });
         }
       }
     } catch (conversionError: any) {
-      console.error("⚠️ Failed to track offline conversion:", conversionError.message);
+      console.error(
+        "⚠️ Failed to track offline conversion:",
+        conversionError.message
+      );
       // Don't fail the payment processing if conversion tracking fails
     }
   }

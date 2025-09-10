@@ -59,10 +59,22 @@
     "no_account": "Нет аккаунта?",
     "email_sign_in": "Войти через Email",
     "google_sign_in": "Войти через Google",
+    "vk_sign_in": "Войти через ВКонтакте",
     "github_sign_in": "Войти через GitHub",
     "apple_sign_in": "Войти через Apple",
     "close_title": "Закрыть",
     "cancel_title": "Отмена"
+  },
+  "vk_login": {
+    "button_text": "Продолжить с ВКонтакте",
+    "sdk_not_loaded": "VK SDK не загружен",
+    "login_successful": "Вход выполнен успешно!",
+    "login_failed": "Ошибка входа через ВКонтакте",
+    "failed_to_process": "Не удалось обработать вход",
+    "failed_to_exchange": "Не удалось обменять код на токены",
+    "failed_to_initialize": "Не удалось инициализировать вход через ВКонтакте",
+    "error_unknown": "Неизвестная ошибка",
+    "error_message": "Ошибка входа ВКонтакте: {message}"
   },
   "my_orders": {
     "title": "Мои заказы",
@@ -473,10 +485,10 @@
     "outputFormat": "Формат вывода",
     "imageSize": "Размер изображения",
     "pleaseSignInToGenerate": "Пожалуйста, войдите для генерации изображений",
-    "generationStarted": "Генерация изображения начата. Пожалуйста, проверьте историю для обновлений.",
+    "generationStarted": "Генерация изображения начата.",
     "generationCompleted": "Генерация изображения завершена!",
     "generationInProgress": "Генерация...",
-    "generationStatusChecking": "Генерация изображения начата. Проверяем статус..."
+    "generationStatusChecking": "Проверяем статус..."
   },
   "myCreations": {
     "title": "Мои Творения",
@@ -562,6 +574,7 @@
     "description": "Вы уже являетесь участником.",
     "explanation": "Вы можете просмотреть и управлять деталями вашей текущей подписки.",
     "viewSubscription": "Просмотреть подписку",
-    "cancel": "Отмена"
+    "cancel": "Отмена",
+    "continuePurchase": "Продолжить покупку"
   }
 }

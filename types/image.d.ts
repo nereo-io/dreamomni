@@ -153,6 +153,8 @@ export interface ImageGenerationHistoryItem {
   prompt: string; // 原始用户输入
   optimized_prompt?: string; // 优化后的prompt
   image_urls?: string[];
+  image_urls_r2?: string[]; // R2 存储的URLs
+  input_image_urls?: string[]; // 输入图片URLs (for image-to-image mode)
   status: ImageGenerationStatus;
   model_id: string;
   mode: ImageGenerationMode;
@@ -170,4 +172,35 @@ export interface ProviderImageGeneration extends ImageGeneration {
   provider_task_id: string;            // 必需的提供商任务ID  
   callback_received_at?: string | null; // 回调接收时间
   callback_data?: any | null;          // 原始回调数据 (JSONB)
+}
+
+// ============ 图片轮询相关类型 ============
+
+// 轮询配置
+export interface ImagePollingConfig {
+  interval: number;                    // 轮询间隔（毫秒）
+  maxDuration: number;                 // 最大轮询时间（毫秒）
+  incompleteStatuses: string[];        // 需要轮询的状态列表
+}
+
+// 轮询选项
+export interface ImagePollingOptions {
+  onUpdate?: (updates: ImagePollingUpdate[]) => void;  // 状态更新回调
+  onTimeout?: (image: ImageGenerationHistoryItem) => void;  // 超时回调
+  onComplete?: (image: ImageGenerationHistoryItem) => void; // 完成回调
+  onError?: (error: Error, imageId: string) => void;        // 错误回调
+}
+
+// 单个图片轮询更新结果
+export interface ImagePollingUpdate {
+  id: string;
+  data: Partial<ImageGenerationHistoryItem>;
+}
+
+// 批量更新结果
+export interface BatchUpdateResult {
+  success: string[];                   // 成功更新的图片ID列表
+  failed: string[];                    // 更新失败的图片ID列表
+  timeout: string[];                   // 超时的图片ID列表
+  updates?: ImagePollingUpdate[];      // 更新的数据
 }

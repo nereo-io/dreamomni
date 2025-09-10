@@ -17,4 +17,4 @@ export async function GET() {
     console.error("Check membership status failed:", error);
     return respErr("检查会员状态失败");
   }
-} 
+}

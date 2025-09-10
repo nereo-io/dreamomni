@@ -54,6 +54,7 @@ export default function PricingModal({
   const [selectedProvider, setSelectedProvider] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showMembershipModal, setShowMembershipModal] = useState(false);
+  const [pendingCheckoutItem, setPendingCheckoutItem] = useState<PricingItem | null>(null);
   const [successInfo, setSuccessInfo] = useState<{
     planName?: string;
     credits?: number;
@@ -170,15 +171,17 @@ export default function PricingModal({
     return "";
   };
 
-  const handleCheckout = async (item: PricingItem, cn_pay: boolean = false) => {
+  const handleCheckout = async (item: PricingItem, cn_pay: boolean = false, skipMembershipCheck: boolean = false) => {
     try {
       if (!user) {
         setShowSignModal(true);
         return;
       }
 
-      // Check if user is already a member
-      if (membership && membership.status === 'active') {
+      // Check if user is already a member (unless explicitly skipping this check)
+      if (!skipMembershipCheck && membership && membership.status === 'active') {
+        // Store the item for potential retry after membership modal
+        setPendingCheckoutItem(item);
         setShowMembershipModal(true);
         return;
       }
@@ -330,9 +333,9 @@ export default function PricingModal({
 
   useEffect(() => {
     if (pricing.items) {
-      const yearlyGroup = pricing.groups?.find((g) => g.name === "yearly");
-      const defaultGroup = yearlyGroup
-        ? "yearly"
+      const monthlyGroup = pricing.groups?.find((g) => g.name === "monthly");
+      const defaultGroup = monthlyGroup
+        ? "monthly"
         : pricing.items[0].group || pricing.groups?.[0]?.name;
       setGroup(defaultGroup);
     }
@@ -726,10 +729,21 @@ export default function PricingModal({
         <div className="fixed inset-0 z-[100]">
           <MembershipExistsModal
             isOpen={showMembershipModal}
-            onClose={() => setShowMembershipModal(false)}
+            onClose={() => {
+              setShowMembershipModal(false);
+              setPendingCheckoutItem(null);
+            }}
             onViewSubscription={() => {
               onClose();
               window.location.href = '/memberships';
+            }}
+            onContinuePurchase={() => {
+              setShowMembershipModal(false);
+              // Continue with the checkout that was interrupted
+              if (pendingCheckoutItem) {
+                handleCheckout(pendingCheckoutItem, false, true);
+                setPendingCheckoutItem(null);
+              }
             }}
           />
         </div>

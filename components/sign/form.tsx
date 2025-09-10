@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { SiGithub, SiGoogle, SiApple } from "react-icons/si";
+import { VKLoginButton } from "./vk-login";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -226,6 +227,9 @@ export default function SignForm({
                       <SiGoogle className="w-4 h-4" />
                       {t("sign_modal.google_sign_in")}
                     </Button>
+                  )}
+                  {process.env.NEXT_PUBLIC_AUTH_VK_ENABLED === "true" && (
+                    <VKLoginButton />
                   )}
                   {process.env.NEXT_PUBLIC_AUTH_GITHUB_ENABLED === "true" && (
                     <Button

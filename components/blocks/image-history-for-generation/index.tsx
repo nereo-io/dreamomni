@@ -9,7 +9,10 @@ import { useAppContext } from "@/contexts/app";
 import { useIsMobile } from "@/hooks/use-mobile";
 import ImageHistoryItem from "./components/ImageHistoryItem";
 import ImageHistorySkeleton from "./components/ImageHistorySkeleton";
+import ImagePreviewModal from "./components/ImagePreviewModal";
 import type { ImageGenerationResult } from "@/components/blocks/image-history";
+import { imagePollingService } from "@/services/imagePollingService";
+import type { ImageGenerationHistoryItem } from "@/types/image";
 
 interface ImageHistoryForGenerationProps {
   refreshTrigger?: number;
@@ -53,15 +56,13 @@ export default function ImageHistoryForGeneration({
   const [scrollToBottomFlag, setScrollToBottomFlag] = useState(false);
   const pollingIntervalsRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
   
+  // Modal state
+  const [previewModalOpen, setPreviewModalOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState<{ url: string; prompt: string } | null>(null);
+  
   const { user, setShowSignModal } = useAppContext();
   
-  // 定义未完成的状态，与视频生成保持一致
-  const INCOMPLETE_STATUSES = [
-    "pending",
-    "prompt_optimizing", 
-    "in_queue",
-    "in_progress"
-  ];
+  // Incomplete statuses now defined in imagePollingService config
   const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -75,68 +76,19 @@ export default function ImageHistoryForGeneration({
     }
   }, []);
 
-  // 检查是否有未完成的图片需要轮询
-  const hasIncompleteImages = useCallback(() => {
-    if (!images || images.length === 0) return false;
+  // Removed hasIncompleteImages - now handled by imagePollingService
 
-    // 检查最新的图片是否未完成
-    const latestImage = images[images.length - 1]; // 因为数组已反转，最新的在最后
-    if (!latestImage) return false;
-
-    // 未完成的状态包括：提交中、优化中、排队中、生成中
-    return INCOMPLETE_STATUSES.includes(latestImage.status);
-  }, [images, INCOMPLETE_STATUSES]);
-
-  // 更新最新图片的状态
-  const updateLatestImageStatus = useCallback(async () => {
-    if (!images || images.length === 0) return;
-
-    const latestImage = images[images.length - 1]; // 因为数组已反转，最新的在最后
-    if (!latestImage) return;
-
-    try {
-      const response = await fetch("/api/image-generation/status", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: latestImage.id }),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        if (result.code === 0 && result.data) {
-          // 更新本地状态
-          setImages((prevImages) =>
-            prevImages.map((image, index) =>
-              index === prevImages.length - 1 ? { ...image, ...result.data } : image
-            )
-          );
-        }
-      }
-    } catch (error) {
-      console.error("更新图片状态失败:", error);
-    }
-  }, [images]);
+  // Removed updateLatestImageStatus - now handled by imagePollingService
 
   // 删除图片功能 - 与 My Creations 保持一致
   const onDeleteImage = async (imageId: string, prompt: string) => {
     try {
-      console.log(`🗑️ Attempting to delete image: ${imageId}`);
-      
       const response = await fetch("/api/image-generations/delete", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ imageId }),
-      });
-
-      console.log("Delete API raw response:", {
-        status: response.status,
-        statusText: response.statusText,
-        ok: response.ok,
-        headers: Object.fromEntries(response.headers.entries())
       });
 
       let result;
@@ -147,98 +99,30 @@ export default function ImageHistoryForGeneration({
         throw new Error("Invalid response format from server");
       }
       
-      console.log("Delete API parsed result:", result);
-
       // 检查响应格式
       if (typeof result !== 'object' || result === null) {
-        console.error("Invalid result format - not an object:", result);
         throw new Error("Invalid response format");
       }
 
       if (response.ok && result.code === 0) {
-        console.log("✅ Delete successful, updating UI");
-        // 从列表中移除已删除的图片
+        // 从列表中移除已删除的图片，不需要重新获取整个列表
         setImages(prevImages => prevImages.filter(img => img.id !== imageId));
-        
-        // 强制刷新历史记录以确保数据一致性
-        setTimeout(() => {
-          console.log("🔄 Refreshing history after delete to ensure consistency");
-          fetchHistory();
-        }, 500);
       } else {
-        console.error("Delete failed - Conditions not met:", {
-          responseOk: response.ok,
-          resultCode: result.code,
-          resultMessage: result.message
-        });
         throw new Error(result.message || `Delete failed: HTTP ${response.status}`);
       }
     } catch (error) {
-      console.error("Delete error:", error);
       const errorMessage = error instanceof Error ? error.message : "Failed to delete image";
       throw error; // 重新抛出错误，让UI组件处理
     }
   };
 
-  // 后台异步更新进行中的任务状态（类似视频历史的处理方式）
-  const updateActiveTasksInBackground = useCallback(
-    async (images: ImageGenerationResult[]) => {
-      const activeStatuses = [
-        "pending",
-        "in_progress", 
-        "in_queue"
-      ];
+  // Removed updateActiveTasksInBackground - now handled by imagePollingService
 
-      const allActiveTasks = images.filter(
-        (image: ImageGenerationResult) =>
-          activeStatuses.includes(image.status)
-      );
-
-      if (allActiveTasks.length === 0) {
-        return;
-      }
-
-      console.log(`后台更新 ${allActiveTasks.length} 个进行中图片的状态...`);
-
-      try {
-        // 并行触发状态更新（不阻塞UI）
-        const statusPromises = allActiveTasks.map(
-          async (image: ImageGenerationResult) => {
-            try {
-              await fetch("/api/image-generation/status", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ id: image.id }),
-              });
-            } catch (error) {
-              console.error(`更新图片 ${image.id} 状态失败:`, error);
-            }
-          }
-        );
-
-        await Promise.all(statusPromises);
-        console.log(`后台图片状态更新完成`);
-
-        // 静默刷新历史记录以显示最新状态
-        const refreshResponse = await fetch(`/api/image-generations/history`);
-        if (refreshResponse.ok) {
-          const refreshResult = await refreshResponse.json();
-          if (refreshResult.code === 0 && refreshResult.data) {
-            const updatedImages = refreshResult.data || [];
-            // 与主数据获取逻辑保持一致，反转数组顺序
-            const reversedUpdatedImages = [...updatedImages].reverse();
-            setImages(reversedUpdatedImages);
-            console.log(`图片历史记录已静默更新`);
-          }
-        }
-      } catch (error) {
-        console.error("后台图片状态更新失败:", error);
-      }
-    },
-    []
-  );
+  // Handle image click
+  const handleImageClick = useCallback((imageUrl: string, prompt: string) => {
+    setPreviewImage({ url: imageUrl, prompt });
+    setPreviewModalOpen(true);
+  }, []);
 
   // Fetch image history
   const fetchHistory = async () => {
@@ -292,8 +176,7 @@ export default function ImageHistoryForGeneration({
             setLoading(false);
           }
 
-          // 异步检查并更新进行中的任务状态（不阻塞页面渲染）
-          updateActiveTasksInBackground(reversedData);
+          // Background task updates now handled by imagePollingService in useEffect
           
           // 滚动到底部显示最新内容
           setScrollToBottomFlag(true);
@@ -358,24 +241,122 @@ export default function ImageHistoryForGeneration({
     }
   }, [scrollToBottomFlag, images]);
 
-  // 轮询机制：当有未完成的图片时，每3秒检查一次状态
+  // 使用轮询服务管理图片状态更新
+  const pollingIdRef = useRef<string | null>(null);
+  
   useEffect(() => {
-    if (!user?.uuid || !hasIncompleteImages()) {
+    if (!user?.uuid || images.length === 0) {
       return;
     }
 
-    console.log("Starting polling for incomplete images...");
+    // 停止之前的轮询
+    if (pollingIdRef.current) {
+      imagePollingService.stopPolling(pollingIdRef.current);
+    }
 
-    const pollInterval = setInterval(() => {
-      console.log("Polling image status...");
-      updateLatestImageStatus();
-    }, 3000); // 每3秒轮询一次
+    // 检查是否有需要轮询的图片
+    const now = Date.now();
+    const maxDuration = 5 * 60 * 1000; // 5分钟
+    const incompleteStatuses = ['pending', 'prompt_optimizing', 'in_queue', 'in_progress'];
+    
+    const hasActiveImages = images.some(img => {
+      const statusLower = img.status.toLowerCase();
+      if (!incompleteStatuses.includes(statusLower)) {
+        return false;
+      }
+      
+      // 检查是否在5分钟内创建
+      const createdTime = new Date(img.created_at).getTime();
+      return (now - createdTime) < maxDuration;
+    });
+
+    if (!hasActiveImages) {
+      // 没有需要轮询的图片时，确保loading状态为false
+      setLoading(false);
+      return;
+    }
+
+    // 转换类型以符合服务接口
+    const imagesToPoll = images as unknown as ImageGenerationHistoryItem[];
+    
+    // 启动轮询
+    const pollingId = imagePollingService.startPolling(
+      imagesToPoll,
+      {
+        onUpdate: (updates) => {
+          // 批量更新图片状态
+          setImages(prevImages => {
+            const newImages = [...prevImages];
+            updates.forEach(update => {
+              const index = newImages.findIndex(img => img.id === update.id);
+              if (index !== -1) {
+                newImages[index] = { ...newImages[index], ...update.data } as ImageGenerationResult;
+              }
+            });
+            return newImages;
+          });
+        },
+        onTimeout: (image) => {
+          // 处理超时的图片
+          setImages(prevImages => {
+            const newImages = prevImages.map(img => 
+              img.id === image.id 
+                ? { ...img, status: 'failed', error_message: '生成超时（超过5分钟）' } as ImageGenerationResult
+                : img
+            );
+            
+            // 检查是否还有其他处理中的图片
+            const hasProcessing = newImages.some(img => 
+              img.status === 'pending' || 
+              img.status === 'in_progress' || 
+              img.status === 'in_queue' ||
+              img.status === 'prompt_optimizing'
+            );
+            if (!hasProcessing) {
+              setLoading(false);
+            }
+            
+            return newImages;
+          });
+        },
+        onComplete: (image) => {
+          // Image generation completed
+          // 检查是否还有其他处理中的图片
+          setImages(prevImages => {
+            const hasProcessing = prevImages.some(img => 
+              img.id !== image.id && (
+                img.status === 'pending' || 
+                img.status === 'in_progress' || 
+                img.status === 'in_queue' ||
+                img.status === 'prompt_optimizing'
+              )
+            );
+            if (!hasProcessing) {
+              setLoading(false);
+            }
+            return prevImages;
+          });
+        },
+        onError: (error, imageId) => {
+          console.error(`Error updating image ${imageId}:`, error);
+        }
+      },
+      {
+        interval: 3000,           // 3秒轮询间隔
+        maxDuration: maxDuration, // 5分钟超时
+        incompleteStatuses: incompleteStatuses
+      }
+    );
+
+    pollingIdRef.current = pollingId;
 
     return () => {
-      console.log("Stopping polling...");
-      clearInterval(pollInterval);
+      if (pollingIdRef.current) {
+        imagePollingService.stopPolling(pollingIdRef.current);
+        pollingIdRef.current = null;
+      }
     };
-  }, [user?.uuid, hasIncompleteImages, updateLatestImageStatus]);
+  }, [user?.uuid, images]);
 
   // 未登录用户：显示登录提示
   if (!user?.uuid) {
@@ -430,17 +411,6 @@ export default function ImageHistoryForGeneration({
           <History className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3 flex-shrink-0" />
           <span className="truncate">Recent Generations</span>
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={handleRefresh}
-          disabled={loading}
-          className="text-gray-400 hover:text-white"
-        >
-          <RefreshCw
-            className={cn("h-4 w-4", loading && "animate-spin")}
-          />
-        </Button>
       </header>
 
       {/* Content */}
@@ -458,9 +428,9 @@ export default function ImageHistoryForGeneration({
             </div>
           </div>
         ) : (
-          <div ref={scrollAreaRef} className="flex-1 overflow-y-auto p-4 md:p-6 image-history-scroll lg:dark-scrollbar">
-            <div className="space-y-4">
-              {images.map((image, index) => (
+          <div ref={scrollAreaRef} className="flex-1 overflow-y-auto image-history-scroll lg:dark-scrollbar">
+            <div className="divide-y divide-gray-700">
+              {(isMobile ? [...images].reverse() : images).map((image, index) => (
                 <ImageHistoryItem
                   key={image.id}
                   image={image}
@@ -470,6 +440,7 @@ export default function ImageHistoryForGeneration({
                   onEdit={onEditImage}
                   onRegenerate={onRegenerateImage}
                   onDelete={onDeleteImage}
+                  onImageClick={handleImageClick}
                   canEdit={true}
                 />
               ))}
@@ -477,6 +448,19 @@ export default function ImageHistoryForGeneration({
           </div>
         )}
       </div>
+      
+      {/* Image Preview Modal */}
+      {previewImage && (
+        <ImagePreviewModal
+          isOpen={previewModalOpen}
+          onClose={() => {
+            setPreviewModalOpen(false);
+            setPreviewImage(null);
+          }}
+          imageUrl={previewImage.url}
+          prompt={previewImage.prompt}
+        />
+      )}
     </div>
   );
 }

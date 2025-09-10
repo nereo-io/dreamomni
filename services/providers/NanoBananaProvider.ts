@@ -206,31 +206,49 @@ export class NanoBananaProvider extends BaseAIProvider {
    * Returns task ID for tracking the async generation
    */
   async editImages(request: NanoBananaImageEditRequest): Promise<{ taskId: string; recordId: string }> {
+    const headers = {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${this.apiKey}`,
+    };
+    
+    const body = {
+      callBackUrl: this.getNanoBananaCallbackUrl(),
+      input: {
+        prompt: request.prompt,
+        image_urls: request.image_urls,
+      },
+      model: "google/nano-banana-edit",
+    };
+
+    // 关键日志：请求 Kie.ai Edit API
+    console.log("🎨 NanoBanana editImages Request:");
+    console.log("📋 Headers:", JSON.stringify(headers, null, 2));
+    console.log("📦 Body:", JSON.stringify(body, null, 2));
+    console.log("🔗 URL:", `${this.baseUrl}/api/v1/playground/createTask`);
+    console.log("🖼️ Image URLs:", request.image_urls);
+
     const response = await fetch(`${this.baseUrl}/api/v1/playground/createTask`, {
       method: "POST", 
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.apiKey}`,
-      },
-      body: JSON.stringify({
-        callBackUrl: this.getNanoBananaCallbackUrl(),
-        input: {
-          prompt: request.prompt,
-          image_urls: request.image_urls,
-        },
-        model: "google/nano-banana-edit",
-      }),
+      headers: headers,
+      body: JSON.stringify(body),
     });
+
+    // 打印响应信息
+    console.log("📨 NanoBanana Edit API Response:");
+    console.log("🔢 Status:", response.status);
+    console.log("✅ OK:", response.ok);
+    console.log("📋 Response Headers:", Object.fromEntries(response.headers.entries()));
 
     if (!response.ok) {
       const errorText = await response.text();
+      console.log("❌ Error Response Body:", errorText);
       throw new Error(`Nano Banana Edit API error: ${response.status} - ${errorText}`);
     }
 
     const apiResponse: NanoBananaApiResponse = await response.json();
     
-    // Log the response for debugging
-    console.log('Nano Banana Edit API Response:', JSON.stringify(apiResponse, null, 2));
+    // 关键日志：Kie.ai Edit API 响应
+    console.log('📦 Nano Banana Edit API Response Body:', JSON.stringify(apiResponse, null, 2));
     
     // Check if the API returned success code
     if (apiResponse.code !== 200) {
@@ -241,6 +259,12 @@ export class NanoBananaProvider extends BaseAIProvider {
     if (!apiResponse.data) {
       throw new Error('Nano Banana Edit API error: No data in response');
     }
+
+    console.log('[Kie.ai] Edit task created:', {
+      code: apiResponse.code,
+      taskId: apiResponse.data?.taskId,
+      recordId: apiResponse.data?.recordId
+    });
 
     return apiResponse.data;
   }

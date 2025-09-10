@@ -107,18 +107,35 @@ export class PaymentProcessingService {
     // 1. 增加积分
     if (credits > 0) {
       const { increaseCredits } = await import("@/services/credit");
+      
+      // 根据订阅类型计算新的有效期
+      let expiredAt: string;
+      if (membershipType === "yearly") {
+        // 年度订阅：12个月 + 1天缓冲
+        const expireDate = new Date();
+        expireDate.setMonth(expireDate.getMonth() + 12);
+        expireDate.setDate(expireDate.getDate() + 1);
+        expiredAt = expireDate.toISOString();
+        console.log(`📅 年度订阅积分有效期: ${expiredAt}`);
+      } else {
+        // 月度订阅：1个月 + 1天缓冲
+        const expireDate = new Date();
+        expireDate.setMonth(expireDate.getMonth() + 1);
+        expireDate.setDate(expireDate.getDate() + 1);
+        expiredAt = expireDate.toISOString();
+        console.log(`📅 月度订阅积分有效期: ${expiredAt}`);
+      }
+      
       await increaseCredits({
         user_uuid: data.userUuid,
         trans_type: "order_pay",
         credits: credits,
         order_no: orderId,
         payment_id: data.paymentId,
-        expired_at:
-          order.expired_at ||
-          new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+        expired_at: expiredAt,
       });
 
-      console.log(`💰 Credits added: ${credits} for user ${data.userUuid}`);
+      console.log(`💰 Credits added: ${credits} for user ${data.userUuid}, expires at ${expiredAt}`);
     }
 
     // 2. 更新会员状态
