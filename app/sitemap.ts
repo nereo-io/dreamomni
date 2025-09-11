@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { getPostsByLocale } from "@/models/post";
+import { getAllEffectConfigs } from "@/models/effectConfig";
 import { locales } from "@/i18n/locale";
 
 type ChangeFrequency =
@@ -308,8 +309,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     console.log(`总共添加了 ${blogPages.length} 个博客页面`);
 
+    // 获取所有 video effect 页面
+    const videoEffectPages = [];
+
+    for (const locale of locales) {
+      try {
+        const effects = await getAllEffectConfigs(locale);
+        
+        const effectUrls = effects.map((effect) => ({
+          url:
+            locale === "en"
+              ? `${baseUrl}/video-effects/${effect.slug}`
+              : `${baseUrl}/${locale}/video-effects/${effect.slug}`,
+          lastModified: effect.updated_at || effect.created_at || currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.7,
+        }));
+
+        console.log(`为 ${locale} 语言添加了 ${effectUrls.length} 个 video effect 页面`);
+        videoEffectPages.push(...effectUrls);
+      } catch (error) {
+        console.error(`获取 ${locale} 语言的 video effects 时出错:`, error);
+      }
+    }
+
+    console.log(`总共添加了 ${videoEffectPages.length} 个 video effect 页面`);
+
     // 合并所有页面
-    const allPages = [...staticPages, ...localizedStaticPages, ...blogPages];
+    const allPages = [...staticPages, ...localizedStaticPages, ...blogPages, ...videoEffectPages];
 
     console.log(`sitemap 生成完成，总共包含 ${allPages.length} 个页面`);
     return allPages;

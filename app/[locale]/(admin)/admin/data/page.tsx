@@ -2,26 +2,19 @@ import { auth } from "@/auth";
 import {
   getUserStatistics,
   getVideoGenerationStatistics,
-  getVideoGenerationByModel,
   getOrderStatistics,
   getMembershipDetailedStatistics,
-  getTargetMetrics,
   getTodayVideoStatistics,
   getLatestVideoStatusStatistics,
 } from "@/models/statistics";
 import {
   UserStatistics,
   VideoGenerationStatistics,
-  ModelUsageStatistics,
   OrderStatistics,
   MembershipStatistics,
-  TargetMetrics,
 } from "@/types/statistics";
 import { EnhancedStatsCard } from "@/components/dashboard/enhanced-stats-card";
 import { VideoGenerationStatsCard } from "@/components/dashboard/video-generation-stats-card";
-import { EnhancedTargetBoard } from "@/components/dashboard/enhanced-target-board";
-import ModelUsageChart from "@/components/dashboard/model-usage-chart";
-import { redirect } from "next/navigation";
 
 export async function generateMetadata() {
   return {
@@ -36,19 +29,15 @@ export default async function DataPage() {
   const [
     userStats,
     videoStats,
-    modelUsage,
     orderStats,
     membershipStats,
-    targetMetrics,
     todayVideoStats,
     latestVideoStatusStats,
   ] = await Promise.all([
     getUserStatistics(),
     getVideoGenerationStatistics(),
-    getVideoGenerationByModel(),
     getOrderStatistics(),
     getMembershipDetailedStatistics(),
-    getTargetMetrics(),
     getTodayVideoStatistics(),
     getLatestVideoStatusStatistics(),
   ]);
@@ -165,7 +154,7 @@ export default async function DataPage() {
                   Active Models
                 </span>
                 <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
-                  {modelUsage.length}
+                  N/A
                 </span>
               </div>
             </div>
@@ -322,23 +311,6 @@ export default async function DataPage() {
         </div>
       </section>
 
-      {/* Target Board */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Monthly Targets</h2>
-        <EnhancedTargetBoard targetMetrics={targetMetrics} />
-      </section>
-
-      {/* Model Usage Analysis */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">AI Model Usage Analysis</h2>
-        <ModelUsageChart
-          data={modelUsage.map((stat) => ({
-            model_id: stat.modelName,
-            count: stat.totalUsage,
-            percentage: stat.usagePercentage,
-          }))}
-        />
-      </section>
     </div>
   );
 }
