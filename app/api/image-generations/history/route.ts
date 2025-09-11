@@ -40,6 +40,7 @@ export async function GET(req: NextRequest) {
     // 查询数据库
     const result = await getUserImageGenerations(userInfo.uuid, limit, offset);
     let historyItems = result.data;
+    
     let total = result.total;
 
     // 按状态筛选 (如果指定)
@@ -70,6 +71,7 @@ export async function GET(req: NextRequest) {
       input_image_urls: item.input_image_urls, // 添加输入图片URLs
       status: item.status.toLowerCase(),
       model: item.model_id,
+      image_size: item.metadata?.image_size || '1:1', // 解析metadata中的image_size
       created_at: item.created_at,
       updated_at: item.updated_at || item.created_at,
       credits_used: item.credits_used,

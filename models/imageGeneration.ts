@@ -284,10 +284,11 @@ export async function getUserImageGenerations(
   // 构建查询字段列表
   const selectFields = [
     ...baseFields,
-    ...optionalFields.filter(field => existingColumns.has(field))
+    ...optionalFields.filter(field => existingColumns.has(field)),
+    // 强制包含metadata字段
+    'metadata'
   ].join(',\n      ');
 
-  console.log(`📊 Querying with fields: ${selectFields}`);
 
   // 构建查询，强制应用删除过滤
   let query = supabase

@@ -272,6 +272,9 @@ export async function POST(req: NextRequest) {
           provider_task_id: result.taskId,
           provider_status: result.status,
           provider_metadata: result.metadata,
+          // 将图片尺寸存储到元数据中
+          image_size: image_size,
+          output_format: output_format,
         },
       };
 

@@ -155,6 +155,7 @@ export default function ImageHistoryForGeneration({
           // 显示所有类型的图片，不进行过滤
           const allData = data.data;
           
+          
           // 数据库返回的是按创建时间倒序排列（最新的在前）
           // 为了在UI中实现"最新的在底部"的效果，我们需要反转数组
           // 这样最新的内容就会在数组的最后，显示在底部
