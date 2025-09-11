@@ -60,10 +60,10 @@ export default function ImageGenerationTab({
   const [prompt, setPrompt] = useState("");
   
   // Image upload states (only for image-to-image mode)
-  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [uploadingImages, setUploadingImages] = useState<Set<number>>(new Set());
   const [isDragOver, setIsDragOver] = useState(false);
   
   // CAPTCHA related states
@@ -119,97 +119,157 @@ export default function ImageGenerationTab({
     adjustTextareaHeight();
   }, [prompt]);
 
-  // Handle image upload (only for image-to-image mode)
+  // Handle image upload - support up to 5 images
   const handleImageUpload = async (files: FileList) => {
     if (!user?.uuid) {
       setShowSignModal(true);
       return;
     }
 
-    const file = files[0];
-    if (!file) return;
-
-    // 使用基于模型的图片验证规则
-    const validationResult = await validateImage(file, selectedModel);
+    const fileArray = Array.from(files);
+    const maxImages = 5;
+    const remainingSlots = maxImages - uploadedImages.length;
     
-    if (!validationResult.valid) {
-      toast.error(validationResult.error || "Invalid image file.");
+    // Check if adding these files would exceed the limit
+    if (fileArray.length > remainingSlots) {
+      toast.error(t("maxImagesExceeded", { max: remainingSlots }));
       return;
     }
 
-    setUploadedImage(file);
-
-    // Convert to base64 for preview immediately
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = reader.result as string;
-      setImagePreview(result);
-    };
-    reader.readAsDataURL(file);
+    // Validate each file
+    for (const file of fileArray) {
+      const validationResult = await validateImage(file, selectedModel);
+      if (!validationResult.valid) {
+        toast.error(validationResult.error || `Invalid image file: ${file.name}`);
+        return;
+      }
+    }
 
     // Start upload process
     console.log("🔄 Starting image upload...");
-    setIsUploadingImage(true);
-
-    // Ensure minimum upload display time for better UX
-    const minDisplayTime = 500; // 500ms minimum
-    const uploadStartTime = Date.now();
+    
+    // Add new images to state immediately for preview
+    const newImageIndices: number[] = [];
+    const newFiles: File[] = [];
+    const newPreviews: string[] = [];
+    
+    for (let i = 0; i < fileArray.length; i++) {
+      const file = fileArray[i];
+      const newIndex = uploadedImages.length + i;
+      newImageIndices.push(newIndex);
+      newFiles.push(file);
+      
+      // Generate preview immediately
+      const reader = new FileReader();
+      const preview = await new Promise<string>((resolve) => {
+        reader.onload = () => resolve(reader.result as string);
+        reader.readAsDataURL(file);
+      });
+      newPreviews.push(preview);
+    }
+    
+    // Add new images to state
+    setUploadedImages(prev => [...prev, ...newFiles]);
+    setImagePreviews(prev => [...prev, ...newPreviews]);
+    setUploadingImages(prev => new Set([...prev, ...newImageIndices]));
 
     try {
-      const formData = new FormData();
-      formData.append("file", file);
+      const uploadPromises = fileArray.map(async (file, index) => {
+        const actualIndex = uploadedImages.length + index;
+        
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
 
-      const uploadResponse = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
+          const uploadResponse = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          const uploadResult = await uploadResponse.json();
+          if (uploadResult.code === 0) {
+            return { file, url: uploadResult.data.url, index: actualIndex };
+          } else {
+            throw new Error(uploadResult.message || "Upload failed");
+          }
+        } catch (error) {
+          // Remove from uploading state on error
+          setUploadingImages(prev => {
+            const newSet = new Set(prev);
+            newSet.delete(actualIndex);
+            return newSet;
+          });
+          throw error;
+        }
       });
 
-      const uploadResult = await uploadResponse.json();
-      if (uploadResult.code === 0) {
-        console.log("✅ Image upload successful");
-        setUploadedImageUrl(uploadResult.data.url);
-        toast.success(t("imageUploadedSuccessfully"));
-      } else {
-        console.error("❌ Upload failed:", uploadResult.message);
-        throw new Error(uploadResult.message || "Upload failed");
-      }
+      const uploadResults = await Promise.all(uploadPromises);
+      
+      // Update URLs
+      const newUrls = new Array(uploadedImageUrls.length + fileArray.length).fill(null);
+      uploadResults.forEach(result => {
+        newUrls[result.index] = result.url;
+      });
+      
+      // Fill existing URLs
+      uploadedImageUrls.forEach((url, index) => {
+        if (url) newUrls[index] = url;
+      });
+      
+      setUploadedImageUrls(newUrls.filter(url => url !== null));
+      
+      // Remove from uploading state
+      setUploadingImages(prev => {
+        const newSet = new Set(prev);
+        newImageIndices.forEach(index => newSet.delete(index));
+        return newSet;
+      });
+      
+      toast.success(t("imagesUploadedSuccessfully", { count: uploadResults.length }));
     } catch (error) {
       console.error("Upload error:", error);
       toast.error(t("uploadFailed"));
-      // 上传失败时清除图片
-      removeImage();
-    } finally {
-      // Ensure minimum display time for upload state
-      const uploadDuration = Date.now() - uploadStartTime;
-      const remainingTime = Math.max(0, minDisplayTime - uploadDuration);
       
-      if (remainingTime > 0) {
-        console.log(`⏱️ Waiting ${remainingTime}ms to meet minimum display time`);
-        setTimeout(() => {
-          console.log("🏁 Upload process completed, clearing upload state");
-          setIsUploadingImage(false);
-        }, remainingTime);
-      } else {
-        console.log("🏁 Upload process completed, clearing upload state");
-        setIsUploadingImage(false);
-      }
+      // Remove failed images from state
+      setUploadedImages(prev => prev.slice(0, uploadedImages.length));
+      setImagePreviews(prev => prev.slice(0, imagePreviews.length));
+      setUploadingImages(prev => {
+        const newSet = new Set(prev);
+        newImageIndices.forEach(index => newSet.delete(index));
+        return newSet;
+      });
     }
   };
 
   // Remove uploaded image
-  const removeImage = () => {
-    setUploadedImage(null);
-    setUploadedImageUrl(null);
-    setImagePreview(null);
-    setIsUploadingImage(false);
+  const removeImage = (index: number) => {
+    setUploadedImages(prev => prev.filter((_, i) => i !== index));
+    setUploadedImageUrls(prev => prev.filter((_, i) => i !== index));
+    setImagePreviews(prev => prev.filter((_, i) => i !== index));
+    setUploadingImages(prev => {
+      const newSet = new Set(prev);
+      newSet.delete(index);
+      // Adjust indices for remaining items
+      const adjustedSet = new Set<number>();
+      newSet.forEach(idx => {
+        if (idx > index) {
+          adjustedSet.add(idx - 1);
+        } else if (idx < index) {
+          adjustedSet.add(idx);
+        }
+      });
+      return adjustedSet;
+    });
   };
 
   // Handle file input change
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      handleImageUpload([file] as any as FileList);
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      handleImageUpload(files);
     }
+    // Clear the input value to allow selecting the same file again
+    e.target.value = '';
   };
 
   // Drag and drop handlers
@@ -227,8 +287,8 @@ export default function ImageGenerationTab({
     e.preventDefault();
     setIsDragOver(false);
     const files = e.dataTransfer.files;
-    if (files && files[0]) {
-      handleImageUpload([files[0]] as any as FileList);
+    if (files && files.length > 0) {
+      handleImageUpload(files);
     }
   };
 
@@ -346,7 +406,7 @@ export default function ImageGenerationTab({
     }
 
     // Check for image upload in image-to-image mode
-    if (isImageToImage && !uploadedImageUrl) {
+    if (isImageToImage && uploadedImageUrls.length === 0) {
       toast.error(t("pleaseUploadImage"));
       return;
     }
@@ -360,7 +420,7 @@ export default function ImageGenerationTab({
       prompt,
       model: selectedModel,
       mode: isImageToImage ? "image-edit" : "text-to-image",
-      image_urls: isImageToImage && uploadedImageUrl ? [uploadedImageUrl] : undefined,
+      image_urls: isImageToImage && uploadedImageUrls.length > 0 ? uploadedImageUrls : undefined,
       enable_prompt_enhancement: false,
       output_format: outputFormat,
       image_size: imageSize,
@@ -569,64 +629,117 @@ export default function ImageGenerationTab({
             {isImageToImage && (
               <div>
                 <div className="text-white text-lg font-semibold mb-4">
-                  {t("image")}
+                  {t("images")} ({uploadedImages.length}/5)
                 </div>
-                {!uploadedImage ? (
+                {uploadedImages.length === 0 ? (
                   <div
-                    className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
-                      isUploadingImage
-                        ? "cursor-not-allowed opacity-50"
-                        : "cursor-pointer"
-                    } ${
+                    className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer ${
                       isDragOver
                         ? "border-blue-400 bg-blue-900/50"
                         : "border-gray-600 hover:border-gray-500"
                     }`}
-                    onDragOver={!isUploadingImage ? handleDragOver : undefined}
-                    onDragLeave={!isUploadingImage ? handleDragLeave : undefined}
-                    onDrop={!isUploadingImage ? handleDrop : undefined}
-                    onClick={() =>
-                      !isUploadingImage &&
-                      document.getElementById("image-upload")?.click()
-                    }
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    onClick={() => {
+                      const input = document.getElementById("image-upload") as HTMLInputElement;
+                      if (input) {
+                        const remainingSlots = 5 - uploadedImages.length;
+                        input.setAttribute("data-max-files", remainingSlots.toString());
+                        input.click();
+                      }
+                    }}
                   >
                     <input
                       id="image-upload"
                       type="file"
                       accept="image/*"
+                      multiple
                       onChange={handleFileInputChange}
                       className="hidden"
                     />
                     <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                     <div className="space-y-2">
                       <p className="text-sm text-gray-300 px-2 text-center">
-                        {t("clickToUpload")}
+                        {t("clickToUploadMultiple")}
                       </p>
                       <p className="text-xs text-gray-400 px-2 text-center">
-                        {t("supportedFormats")}
+                        {t("maxImages", { max: 5 })} - {t("canUpload", { count: 5 })}
                       </p>
                     </div>
                   </div>
                 ) : (
-                  <div className="relative">
-                    <img
-                      src={imagePreview || ""}
-                      alt="Uploaded"
-                      className="w-full h-32 object-contain rounded-lg bg-gray-800"
-                    />
-                    {!isUploadingImage && (
-                      <button
-                        onClick={removeImage}
-                        className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      {uploadedImages.map((image, index) => {
+                        const isUploading = uploadingImages.has(index);
+                        return (
+                          <div key={index} className="relative">
+                            <img
+                              src={imagePreviews[index] || ""}
+                              alt={`Uploaded ${index + 1}`}
+                              className="w-full h-32 object-contain rounded-lg bg-gray-800"
+                            />
+                            {!isUploading && (
+                              <button
+                                onClick={() => removeImage(index)}
+                                className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                              >
+                                <X className="h-4 w-4" />
+                              </button>
+                            )}
+                            {isUploading && (
+                              <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
+                                <div className="flex flex-col items-center gap-2">
+                                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                                  <span className="text-white text-sm">{t("uploading")}</span>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    {uploadedImages.length < 5 && (
+                      <div
+                        className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors cursor-pointer ${
+                          isDragOver
+                            ? "border-blue-400 bg-blue-900/50"
+                            : "border-gray-600 hover:border-gray-500"
+                        }`}
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                        onClick={() => {
+                          const input = document.getElementById("image-upload-more") as HTMLInputElement;
+                          if (input) {
+                            const remainingSlots = 5 - uploadedImages.length;
+                            input.setAttribute("data-max-files", remainingSlots.toString());
+                            input.click();
+                          }
+                        }}
                       >
-                        <X className="h-4 w-4" />
-                      </button>
-                    )}
-                    {isUploadingImage && (
-                      <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
-                        <div className="flex flex-col items-center gap-2">
-                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                          <span className="text-white text-sm">{t("uploading")}</span>
+                        <input
+                          id="image-upload-more"
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          onChange={handleFileInputChange}
+                          className="hidden"
+                        />
+                        <div className="flex flex-col items-center space-y-2">
+                          <ImageIcon className="h-6 w-6 text-gray-400" />
+                          <p className="text-gray-400 text-sm">
+                            {t("addMoreImages")}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {t("canUpload", { count: 5 - uploadedImages.length })}
+                            {uploadingImages.size > 0 && (
+                              <span className="ml-2 text-blue-400">
+                                ({uploadingImages.size} {t("uploading")})
+                              </span>
+                            )}
+                          </p>
                         </div>
                       </div>
                     )}
@@ -805,7 +918,7 @@ export default function ImageGenerationTab({
             disabled={
               isGenerating ||
               !prompt.trim() ||
-              (isImageToImage && !uploadedImageUrl) ||
+              (isImageToImage && uploadedImageUrls.length === 0) ||
               (leftCredits !== null && leftCredits < requiredCredits)
             }
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-h-[44px]"
