@@ -8,11 +8,15 @@ import { AIServiceProvider, ProviderImageResult } from "@/types/provider";
 
 export interface NanoBananaTextToImageRequest {
   prompt: string;
+  output_format?: "png" | "jpeg";
+  image_size?: "auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9";
 }
 
 export interface NanoBananaImageEditRequest {
   prompt: string;
   image_urls: string[];
+  output_format?: "png" | "jpeg";
+  image_size?: "auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9";
 }
 
 export interface NanoBananaApiResponse {
@@ -155,6 +159,8 @@ export class NanoBananaProvider extends BaseAIProvider {
       callBackUrl: this.getNanoBananaCallbackUrl(),
       input: {
         prompt: request.prompt,
+        ...(request.output_format && { output_format: request.output_format }),
+        ...(request.image_size && { image_size: request.image_size }),
       },
       model: "google/nano-banana",
     };
@@ -216,6 +222,8 @@ export class NanoBananaProvider extends BaseAIProvider {
       input: {
         prompt: request.prompt,
         image_urls: request.image_urls,
+        ...(request.output_format && { output_format: request.output_format }),
+        ...(request.image_size && { image_size: request.image_size }),
       },
       model: "google/nano-banana-edit",
     };
@@ -331,6 +339,8 @@ export class NanoBananaProvider extends BaseAIProvider {
       
       const result = await this.generateFromText({
         prompt: request.prompt,
+        output_format: request.output_format,
+        image_size: request.image_size,
       });
 
       return {
@@ -365,6 +375,8 @@ export class NanoBananaProvider extends BaseAIProvider {
       const result = await this.editImages({
         prompt: request.prompt,
         image_urls: request.imageUrls,
+        output_format: request.output_format,
+        image_size: request.image_size,
       });
 
       return {

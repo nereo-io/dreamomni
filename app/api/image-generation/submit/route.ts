@@ -119,6 +119,8 @@ export async function POST(req: NextRequest) {
       negative_prompt,
       provider,
       enable_prompt_enhancement = true,
+      output_format,
+      image_size,
       captchaToken,
     } = await req.json();
 
@@ -218,6 +220,8 @@ export async function POST(req: NextRequest) {
           imageUrls: image_urls,
           model,
           negativePrompt: negative_prompt,
+          output_format,
+          image_size,
         });
       } else {
         result = await aiServiceManager.generateImage(selectedProvider, {
@@ -225,6 +229,8 @@ export async function POST(req: NextRequest) {
           model,
           negativePrompt: negative_prompt,
           count: 1,
+          output_format,
+          image_size,
         });
       }
 
