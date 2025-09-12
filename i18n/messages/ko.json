@@ -428,5 +428,9 @@
     "surprise-reaction": "놀라는 반응 효과",
     "anger-expression": "분노 표현 효과",
     "love-struck": "사랑에 빠진 효과"
+  },
+  "footer": {
+    "popularEffects": "인기 효과",
+    "moreEffects": "더 많은 효과 →"
   }
 }

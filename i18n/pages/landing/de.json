@@ -13,19 +13,47 @@
     "nav": {
       "items": [
         {
-          "title": "Generator",
-          "url": "/image-to-video",
-          "icon": "RiVideoLine"
+          "title": "KI-Video",
+          "children": [
+            {
+              "title": "Bild zu Video",
+              "description": "Verwandeln Sie Ihre Bilder in beeindruckende Videos",
+              "url": "/image-to-video"
+            },
+            {
+              "title": "Text zu Video",
+              "description": "Generieren Sie Videos aus Textbeschreibungen",
+              "url": "/text-to-video"
+            },
+            {
+              "title": "Videoeffekte",
+              "description": "Wenden Sie KI-gestützte Effekte auf Ihre Videos an",
+              "url": "/video-effects"
+            }
+          ]
         },
         {
-          "title": "Verlauf",
-          "url": "/history",
-          "icon": "RiHistoryLine"
+          "title": "KI-Bild",
+          "children": [
+            {
+              "title": "Text zu Bild",
+              "description": "Erstellen Sie Bilder aus Textbeschreibungen",
+              "url": "/text-to-image"
+            },
+            {
+              "title": "Bild zu Bild",
+              "description": "Transformieren und verbessern Sie Ihre Bilder",
+              "url": "/image-to-image"
+            }
+          ]
         },
         {
           "title": "Preise",
-          "url": "/pricing",
-          "icon": "RiMoneyDollarCircleLine"
+          "url": "/pricing"
+        },
+        {
+          "title": "Blog",
+          "url": "/blog"
         }
       ]
     },
@@ -217,7 +245,7 @@
     "name": "footer",
     "brand": {
       "title": "Seedance 1.0",
-      "description": "Seedance 1.0 - Revolutionärer KI-Video-Generator mit bahnbrechender Multi-Shot-Storytelling-Technologie. Erstellen Sie atemberaubende 1080p-Videos mit kinematischer Ästhetik, flüssigen Bewegungen und vielfältigem Stilausdruck. Verwandeln Sie Ihre Ideen in professionelle Video-Meisterwerke mit Seedances erweiterten KI-Fähigkeiten.",
+      "description": "Verwandeln Sie Text und Bilder mit Seedances fortschrittlicher Multi-Shot-Technologie in beeindruckende 1080p KI-Videos.",
       "logo": {
         "src": "/logo.png",
         "alt": "Seedance AI Video Generator"
@@ -228,21 +256,61 @@
     "nav": {
       "items": [
         {
-          "title": "Produkte",
+          "title": "KI-Video-Tools",
           "children": [
             {
-              "title": "Generieren",
-              "url": "/#video-generator",
+              "title": "Text zu Video",
+              "url": "/text-to-video",
               "target": "_self"
             },
             {
-              "title": "Verlauf",
+              "title": "Bild zu Video",
+              "url": "/image-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "KI-Videoeffekte",
+              "url": "/video-effects",
+              "target": "_self"
+            },
+            {
+              "title": "Meine Kreationen",
               "url": "/history",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "KI-Bild-Tools",
+          "children": [
+            {
+              "title": "Text zu Bild",
+              "url": "/text-to-image",
+              "target": "_self"
+            },
+            {
+              "title": "Bild zu Bild",
+              "url": "/image-to-image",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "Ressourcen",
+          "children": [
+            {
+              "title": "Startseite",
+              "url": "/home",
               "target": "_self"
             },
             {
               "title": "Preise",
               "url": "/pricing",
+              "target": "_self"
+            },
+            {
+              "title": "Blog",
+              "url": "/blog",
               "target": "_self"
             }
           ]

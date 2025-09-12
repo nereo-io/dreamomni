@@ -36,10 +36,10 @@ importers:
         specifier: ^0.37.4
         version: 0.37.4
       '@aws-sdk/client-s3':
-        specifier: ^3.741.0
+        specifier: ^3.750.0
         version: 3.876.0
       '@aws-sdk/lib-storage':
-        specifier: ^3.741.0
+        specifier: ^3.750.0
         version: 3.876.0(@aws-sdk/client-s3@3.876.0)
       '@devnomic/marquee':
         specifier: ^1.0.2

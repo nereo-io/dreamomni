@@ -198,15 +198,12 @@ export function VideoGenerationTool({
     });
 
     if (result) {
-<<<<<<< HEAD
-=======
       // Track video generation success
       const duration = parseInt(params.duration) || 5;
       trackVideoGeneration(params.model, duration, params.model);
 
       // Note: First video tracking is handled by video-history component now
 
->>>>>>> upstream/main
       // 开始轮询状态
       pollStatus(result.id);
 

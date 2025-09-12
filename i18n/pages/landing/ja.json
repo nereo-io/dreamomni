@@ -13,19 +13,47 @@
     "nav": {
       "items": [
         {
-          "title": "ジェネレーター",
-          "url": "/image-to-video",
-          "icon": "RiVideoLine"
+          "title": "AI動画",
+          "children": [
+            {
+              "title": "画像から動画",
+              "description": "画像を魅力的な動画に変換",
+              "url": "/image-to-video"
+            },
+            {
+              "title": "テキストから動画",
+              "description": "テキスト記述から動画を生成",
+              "url": "/text-to-video"
+            },
+            {
+              "title": "動画エフェクト",
+              "description": "AIパワーのエフェクトを動画に適用",
+              "url": "/video-effects"
+            }
+          ]
         },
         {
-          "title": "履歴",
-          "url": "/history",
-          "icon": "RiHistoryLine"
+          "title": "AI画像",
+          "children": [
+            {
+              "title": "テキストから画像",
+              "description": "テキストプロンプトから画像を作成",
+              "url": "/text-to-image"
+            },
+            {
+              "title": "画像から画像",
+              "description": "画像を変換・強化",
+              "url": "/image-to-image"
+            }
+          ]
         },
         {
           "title": "料金",
-          "url": "/pricing",
-          "icon": "RiMoneyDollarCircleLine"
+          "url": "/pricing"
+        },
+        {
+          "title": "ブログ",
+          "url": "/blog"
         }
       ]
     },
@@ -217,7 +245,7 @@
     "name": "footer",
     "brand": {
       "title": "Seedance 1.0",
-      "description": "Seedance 1.0 - 画期的なマルチショット動画生成技術を備えた革命的AI動画ジェネレーター。映画美学、滑らかな動き、多様なスタイル表現で素晴らしい1080p動画を作成。Seedanceの高度なAI機能で、あなたのアイデアをプロフェッショナルグレードの動画傑作に変換。",
+      "description": "テキストと画像をSeedanceの高度なマルチショット技術で魅力的な1080p AI動画に変換します。",
       "logo": {
         "src": "/logo.png",
         "alt": "Seedance AI動画生成"
@@ -228,21 +256,61 @@
     "nav": {
       "items": [
         {
-          "title": "製品",
+          "title": "AI動画ツール",
           "children": [
             {
-              "title": "生成",
-              "url": "/#video-generator",
+              "title": "テキストから動画",
+              "url": "/text-to-video",
               "target": "_self"
             },
             {
-              "title": "履歴",
+              "title": "画像から動画",
+              "url": "/image-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "AI動画エフェクト",
+              "url": "/video-effects",
+              "target": "_self"
+            },
+            {
+              "title": "マイクリエーション",
               "url": "/history",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "AI画像ツール",
+          "children": [
+            {
+              "title": "テキストから画像",
+              "url": "/text-to-image",
+              "target": "_self"
+            },
+            {
+              "title": "画像から画像",
+              "url": "/image-to-image",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "リソース",
+          "children": [
+            {
+              "title": "ホーム",
+              "url": "/home",
               "target": "_self"
             },
             {
               "title": "料金",
               "url": "/pricing",
+              "target": "_self"
+            },
+            {
+              "title": "ブログ",
+              "url": "/blog",
               "target": "_self"
             }
           ]

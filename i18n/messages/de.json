@@ -428,5 +428,9 @@
     "surprise-reaction": "Überraschungs-Reaktions-Effekt",
     "anger-expression": "Wut-Ausdrucks-Effekt",
     "love-struck": "Verliebt-Effekt"
+  },
+  "footer": {
+    "popularEffects": "Beliebte Effekte",
+    "moreEffects": "Mehr Effekte →"
   }
 }

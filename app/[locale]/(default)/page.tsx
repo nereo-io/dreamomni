@@ -1,7 +1,5 @@
 import FAQ from "@/components/blocks/faq";
 import Hero from "@/components/blocks/hero";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 import Testimonial from "@/components/blocks/testimonial";
 import VideoGenerator from "@/components/blocks/video-generator";
 import SeedanceFeaturesBlock from "@/components/blocks/seedance-features";
@@ -10,7 +8,6 @@ import GettingStarted from "@/components/blocks/getting-started";
 import StructuredData from "@/components/seo/structured-data";
 import Feature1 from "@/components/blocks/feature1";
 import Feature from "@/components/blocks/feature";
-import AuthRedirect from "@/components/auth/auth-redirect";
 import { ImageToVideoShowcase } from "@/components/blocks/image-to-video-showcase";
 import { AIModelsHero } from "@/components/blocks/ai-models-hero";
 import { AIVideoShowcase } from "@/components/blocks/ai-video-showcase";
@@ -45,20 +42,11 @@ export default async function LandingPage({
 }: {
   params: { locale: string };
 }) {
-  // 在服务器端检查认证状态
-  const session = await auth();
-
-  // 如果已登录，直接重定向到/home (保持Seedance的重定向逻辑)
-  if (session) {
-    redirect("/home");
-  }
-
   const page = await getLandingPage(locale);
   const seedanceFeatures = await getSeedanceFeaturesBlock(locale);
 
   return (
     <>
-      <AuthRedirect />
       {page.hero && <Hero hero={page.hero} />}
       {/* <VideoFeatureShowcase data={videoFeatureShowcase} /> */}
       <SeedanceFeaturesBlock translations={seedanceFeatures} />
@@ -90,7 +78,9 @@ export default async function LandingPage({
         </>
       )}
 
-      {page.cta && <CTA section={page.cta} />}
+      {page.cta && Array.isArray(page.cta) && page.cta.length > 0 && (
+        <CTA section={page.cta[0]} />
+      )}
 
       {/* There's An AI For That verification embed - 保留Seedance品牌 */}
       <div className="flex justify-center py-8">

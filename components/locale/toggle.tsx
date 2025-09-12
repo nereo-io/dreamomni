@@ -29,7 +29,7 @@ export default function ({ isIcon = false }: { isIcon?: boolean }) {
 
   return (
     <Select value={locale} onValueChange={handleSwitchLanguage}>
-      <SelectTrigger className="flex items-center gap-x-2 border-none text-muted-foreground outline-none hover:bg-transparent focus:ring-0 focus:ring-offset-0">
+      <SelectTrigger className="flex items-center gap-x-2 border-none text-white/90 hover:text-white outline-none hover:bg-transparent focus:ring-0 focus:ring-offset-0">
         <MdLanguage className="text-xl" />
         {!isIcon && (
           <span className="hidden md:block">{localeNames[locale]}</span>

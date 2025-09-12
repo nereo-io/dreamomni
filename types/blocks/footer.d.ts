@@ -13,6 +13,18 @@ export interface Contact {
   items?: ContactItem[];
 }
 
+export interface EffectLink {
+  title: string;
+  slug: string;
+}
+
+export interface Effects {
+  title?: string;
+  items?: EffectLink[];
+  moreText?: string;
+  moreUrl?: string;
+}
+
 export interface Footer {
   disabled?: boolean;
   name?: string;
@@ -22,4 +34,5 @@ export interface Footer {
   social?: Social;
   agreement?: Agreement;
   contact?: Contact;
+  effects?: Effects;
 }

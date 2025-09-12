@@ -13,19 +13,47 @@
     "nav": {
       "items": [
         {
-          "title": "Генератор",
-          "url": "/image-to-video",
-          "icon": "RiVideoLine"
+          "title": "AI Видео",
+          "children": [
+            {
+              "title": "Изображение в видео",
+              "description": "Превратите ваши изображения в потрясающие видео",
+              "url": "/image-to-video"
+            },
+            {
+              "title": "Текст в видео",
+              "description": "Создавайте видео из текстовых описаний",
+              "url": "/text-to-video"
+            },
+            {
+              "title": "Видео эффекты",
+              "description": "Применяйте AI-эффекты к вашим видео",
+              "url": "/video-effects"
+            }
+          ]
         },
         {
-          "title": "История",
-          "url": "/history",
-          "icon": "RiHistoryLine"
+          "title": "AI Изображения",
+          "children": [
+            {
+              "title": "Текст в изображение",
+              "description": "Создавайте изображения из текстовых запросов",
+              "url": "/text-to-image"
+            },
+            {
+              "title": "Изображение в изображение",
+              "description": "Трансформируйте и улучшайте ваши изображения",
+              "url": "/image-to-image"
+            }
+          ]
         },
         {
           "title": "Цены",
-          "url": "/pricing",
-          "icon": "RiMoneyDollarCircleLine"
+          "url": "/pricing"
+        },
+        {
+          "title": "Блог",
+          "url": "/blog"
         }
       ]
     },
@@ -212,7 +240,7 @@
     "name": "footer",
     "brand": {
       "title": "Seedance 1.0",
-      "description": "Seedance 1.0 - Революционный ИИ генератор видео с прорывной технологией многокадрового повествования. Создавайте потрясающие видео 1080p с кинематографической эстетикой, плавным движением и разнообразным стилевым выражением.",
+      "description": "Преобразуйте текст и изображения в потрясающие 1080p видео с помощью передовых технологий Seedance AI.",
       "logo": {
         "src": "/logo.png",
         "alt": "Seedance AI генератор видео"
@@ -223,21 +251,61 @@
     "nav": {
       "items": [
         {
-          "title": "Продукты",
+          "title": "ИИ Видео Инструменты",
           "children": [
             {
-              "title": "Генерация",
-              "url": "/#video-generator",
+              "title": "Текст в Видео",
+              "url": "/text-to-video",
               "target": "_self"
             },
             {
-              "title": "История",
+              "title": "Изображение в Видео",
+              "url": "/image-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "ИИ Видео Эффекты",
+              "url": "/video-effects",
+              "target": "_self"
+            },
+            {
+              "title": "Мои Творения",
               "url": "/history",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "ИИ Фото Инструменты",
+          "children": [
+            {
+              "title": "Текст в Изображение",
+              "url": "/text-to-image",
+              "target": "_self"
+            },
+            {
+              "title": "Изображение в Изображение",
+              "url": "/image-to-image",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "Ресурсы",
+          "children": [
+            {
+              "title": "Главная",
+              "url": "/home",
               "target": "_self"
             },
             {
               "title": "Цены",
               "url": "/pricing",
+              "target": "_self"
+            },
+            {
+              "title": "Блог",
+              "url": "/blog",
               "target": "_self"
             }
           ]

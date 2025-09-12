@@ -314,12 +314,6 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                       Date.now() + 30 * 24 * 60 * 60 * 1000
                     ).toLocaleDateString(),
             });
-<<<<<<< HEAD
-            localStorage.removeItem("veo3_payment_pending");
-            localStorage.removeItem("veo3_payment_timestamp");
-            localStorage.removeItem("veo3_payment_info");
-=======
->>>>>>> upstream/main
           }
           setShowSuccessModal(true);
         } else {
@@ -348,12 +342,6 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                       Date.now() + 30 * 24 * 60 * 60 * 1000
                     ).toLocaleDateString(),
             });
-<<<<<<< HEAD
-            localStorage.removeItem("veo3_payment_pending");
-            localStorage.removeItem("veo3_payment_timestamp");
-            localStorage.removeItem("veo3_payment_info");
-=======
->>>>>>> upstream/main
           }
           setShowSuccessModal(true);
         } else {

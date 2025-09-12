@@ -70,7 +70,7 @@ export default function Header({ header }: { header: HeaderType }) {
                 />
               )}
               {header.brand?.title && (
-                <span className="text-xl text-white font-bold">
+                <span className="text-2xl text-white font-bold">
                   {header.brand?.title || ""}
                 </span>
               )}
@@ -78,16 +78,18 @@ export default function Header({ header }: { header: HeaderType }) {
           </div>
           <div className="flex items-center">
             <div className="flex items-center mr-8">
-              <NavigationMenu>
-                <NavigationMenuList>
-                  {header.nav?.items?.map((item, i) => {
-                    if (item.children && item.children.length > 0) {
-                      return (
+              {header.nav?.items?.map((item, i) => {
+                if (item.children && item.children.length > 0) {
+                  return (
+                    <NavigationMenu key={i}>
+                      <NavigationMenuList>
                         <NavigationMenuItem
-                          key={i}
                           className="text-white/90"
                         >
-                          <NavigationMenuTrigger className="text-lg font-medium !text-lg" style={{ fontSize: '18px' }}>
+                          <NavigationMenuTrigger 
+                            className="text-white/90 hover:text-white font-medium text-lg" 
+                            style={{ fontSize: '20px' }}
+                          >
                             {item.icon && (
                               <Icon
                                 name={item.icon}
@@ -97,13 +99,13 @@ export default function Header({ header }: { header: HeaderType }) {
                             <span>{item.title}</span>
                           </NavigationMenuTrigger>
                           <NavigationMenuContent>
-                            <ul className="w-80 p-3">
+                            <ul className="min-w-[160px] p-1">
                               <NavigationMenuLink>
                                 {item.children.map((iitem, ii) => (
                                   <li key={ii}>
                                     <a
                                       className={cn(
-                                        "flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                        "flex items-center select-none gap-2 rounded-sm px-3 py-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                                       )}
                                       href={iitem.url}
                                       target={iitem.target}
@@ -111,17 +113,12 @@ export default function Header({ header }: { header: HeaderType }) {
                                       {iitem.icon && (
                                         <Icon
                                           name={iitem.icon}
-                                          className="size-5 shrink-0"
+                                          className="size-4 shrink-0"
                                         />
                                       )}
-                                      <div>
-                                        <div className="text-sm font-semibold">
-                                          {iitem.title}
-                                        </div>
-                                        <p className="text-sm leading-snug text-muted-foreground">
-                                          {iitem.description}
-                                        </p>
-                                      </div>
+                                      <span className="text-base font-medium">
+                                        {iitem.title}
+                                      </span>
                                     </a>
                                   </li>
                                 ))}
@@ -129,33 +126,32 @@ export default function Header({ header }: { header: HeaderType }) {
                             </ul>
                           </NavigationMenuContent>
                         </NavigationMenuItem>
-                      );
-                    }
+                      </NavigationMenuList>
+                    </NavigationMenu>
+                  );
+                }
 
-                    return (
-                      <NavigationMenuItem key={i}>
-                        <a
-                          className={cn(
-                            "text-white/90 hover:text-white font-medium px-4 py-2 rounded-md transition-colors",
-                            "text-lg !text-lg"
-                          )}
-                          style={{ fontSize: '18px' }}
-                          href={item.url}
-                          target={item.target}
-                        >
-                          {item.icon && (
-                            <Icon
-                              name={item.icon}
-                              className="size-4 shrink-0 mr-2"
-                            />
-                          )}
-                          {item.title}
-                        </a>
-                      </NavigationMenuItem>
-                    );
-                  })}
-                </NavigationMenuList>
-              </NavigationMenu>
+                return (
+                  <a
+                    key={i}
+                    className={cn(
+                      "text-white/90 hover:text-white font-medium px-4 py-2 rounded-md transition-colors inline-flex items-center",
+                      "text-lg !text-lg"
+                    )}
+                    style={{ fontSize: '20px' }}
+                    href={item.url}
+                    target={item.target}
+                  >
+                    {item.icon && (
+                      <Icon
+                        name={item.icon}
+                        className="size-4 shrink-0 mr-2"
+                      />
+                    )}
+                    {item.title}
+                  </a>
+                );
+              })}
             </div>
             <div className="shrink-0 flex gap-3 items-center">
             {header.show_locale && <LocaleToggle />}
@@ -205,7 +201,7 @@ export default function Header({ header }: { header: HeaderType }) {
                 />
               )}
               {header.brand?.title && (
-                <span className="text-xl text-white font-bold">
+                <span className="text-2xl text-white font-bold">
                   {header.brand?.title || ""}
                 </span>
               )}
@@ -228,7 +224,7 @@ export default function Header({ header }: { header: HeaderType }) {
                         />
                       )}
                       {header.brand?.title && (
-                        <span className="text-xl font-bold text-foreground">
+                        <span className="text-2xl font-bold text-foreground">
                           {header.brand?.title || ""}
                         </span>
                       )}
@@ -253,7 +249,7 @@ export default function Header({ header }: { header: HeaderType }) {
                                 <a
                                   key={ii}
                                   className={cn(
-                                    "flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                    "flex items-center select-none gap-2 rounded-md px-3 py-2 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                                   )}
                                   href={iitem.url}
                                   target={iitem.target}
@@ -264,14 +260,9 @@ export default function Header({ header }: { header: HeaderType }) {
                                       className="size-4 shrink-0"
                                     />
                                   )}
-                                  <div>
-                                    <div className="text-sm font-semibold">
-                                      {iitem.title}
-                                    </div>
-                                    <p className="text-sm leading-snug text-muted-foreground">
-                                      {iitem.description}
-                                    </p>
-                                  </div>
+                                  <span className="text-base font-medium">
+                                    {iitem.title}
+                                  </span>
                                 </a>
                               ))}
                             </AccordionContent>

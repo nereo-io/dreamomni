@@ -51,7 +51,11 @@ export default function Footer({ footer }: { footer: FooterType }) {
             </div>
             <div
               className={`grid gap-6 lg:gap-8 ${
-                footer.contact ? "grid-cols-2 lg:grid-cols-3" : "grid-cols-3"
+                footer.contact && footer.effects
+                  ? "grid-cols-2 lg:grid-cols-4"
+                  : footer.contact || footer.effects
+                  ? "grid-cols-2 lg:grid-cols-3"
+                  : "grid-cols-3"
               }`}
             >
               {footer.nav?.items?.map((item, i) => (
@@ -68,6 +72,29 @@ export default function Footer({ footer }: { footer: FooterType }) {
                   </ul>
                 </div>
               ))}
+              {footer.effects && (
+                <div>
+                  <p className="mb-4 font-bold text-base">
+                    {footer.effects.title || "Popular Effects"}
+                  </p>
+                  <ul className="space-y-3 text-base text-muted-foreground">
+                    {footer.effects.items?.map((effect, i) => (
+                      <li key={i} className="font-medium hover:text-primary">
+                        <a href={`/video-effects/${effect.slug}`}>
+                          {effect.title}
+                        </a>
+                      </li>
+                    ))}
+                    {footer.effects.moreUrl && (
+                      <li className="font-medium hover:text-primary">
+                        <a href={footer.effects.moreUrl}>
+                          {footer.effects.moreText || "More Effects →"}
+                        </a>
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              )}
               {footer.contact && (
                 <div className="lg:col-span-1 text-center lg:text-left">
                   <p className="mb-4 font-bold text-base">

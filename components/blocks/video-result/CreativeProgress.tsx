@@ -254,7 +254,7 @@ export default function CreativeProgress({
           <div className="flex items-center gap-3">
             <SpaceAnimation />
             <div className="text-right">
-              <div className="text-sm font-mono text-gray-300">
+              <div className="text-sm font-semibold text-gray-300">
                 {Math.round(progress)}%
               </div>
               <div className="text-xs text-gray-500">

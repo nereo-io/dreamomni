@@ -151,19 +151,16 @@ export class NanoBananaProvider extends BaseAIProvider {
       "Authorization": `Bearer ${this.apiKey}`,
     };
     
+    const callbackUrl = this.getNanoBananaCallbackUrl();
     const body = {
-      callBackUrl: this.getNanoBananaCallbackUrl(),
+      callBackUrl: callbackUrl,
       input: {
         prompt: request.prompt,
       },
       model: "google/nano-banana",
     };
 
-    // 打印请求头和请求体
-    console.log("🌟 NanoBanana generateFromText Request:");
-    console.log("📋 Headers:", JSON.stringify(headers, null, 2));
-    console.log("📦 Body:", JSON.stringify(body, null, 2));
-    console.log("🔗 URL:", `${this.baseUrl}/api/v1/playground/createTask`);
+    console.log("🌟 NanoBanana text-to-image request with callback:", callbackUrl);
 
     const response = await fetch(`${this.baseUrl}/api/v1/playground/createTask`, {
       method: "POST",
@@ -171,11 +168,7 @@ export class NanoBananaProvider extends BaseAIProvider {
       body: JSON.stringify(body),
     });
 
-    // 打印响应信息
-    console.log("📨 NanoBanana API Response:");
-    console.log("🔢 Status:", response.status);
-    console.log("✅ OK:", response.ok);
-    console.log("📋 Response Headers:", Object.fromEntries(response.headers.entries()));
+    // 只在错误时打印详细信息
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -184,9 +177,6 @@ export class NanoBananaProvider extends BaseAIProvider {
     }
 
     const apiResponse: NanoBananaApiResponse = await response.json();
-    
-    // Log the response for debugging
-    console.log('📦 Nano Banana API Response Body:', JSON.stringify(apiResponse, null, 2));
     
     // Check if the API returned success code
     if (apiResponse.code !== 200) {
@@ -211,8 +201,9 @@ export class NanoBananaProvider extends BaseAIProvider {
       "Authorization": `Bearer ${this.apiKey}`,
     };
     
+    const callbackUrl = this.getNanoBananaCallbackUrl();
     const body = {
-      callBackUrl: this.getNanoBananaCallbackUrl(),
+      callBackUrl: callbackUrl,
       input: {
         prompt: request.prompt,
         image_urls: request.image_urls,
@@ -220,12 +211,7 @@ export class NanoBananaProvider extends BaseAIProvider {
       model: "google/nano-banana-edit",
     };
 
-    // 关键日志：请求 Kie.ai Edit API
-    console.log("🎨 NanoBanana editImages Request:");
-    console.log("📋 Headers:", JSON.stringify(headers, null, 2));
-    console.log("📦 Body:", JSON.stringify(body, null, 2));
-    console.log("🔗 URL:", `${this.baseUrl}/api/v1/playground/createTask`);
-    console.log("🖼️ Image URLs:", request.image_urls);
+    console.log("🎨 NanoBanana image-edit request with callback:", callbackUrl);
 
     const response = await fetch(`${this.baseUrl}/api/v1/playground/createTask`, {
       method: "POST", 
@@ -233,11 +219,7 @@ export class NanoBananaProvider extends BaseAIProvider {
       body: JSON.stringify(body),
     });
 
-    // 打印响应信息
-    console.log("📨 NanoBanana Edit API Response:");
-    console.log("🔢 Status:", response.status);
-    console.log("✅ OK:", response.ok);
-    console.log("📋 Response Headers:", Object.fromEntries(response.headers.entries()));
+    // 只在错误时打印详细信息
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -246,9 +228,6 @@ export class NanoBananaProvider extends BaseAIProvider {
     }
 
     const apiResponse: NanoBananaApiResponse = await response.json();
-    
-    // 关键日志：Kie.ai Edit API 响应
-    console.log('📦 Nano Banana Edit API Response Body:', JSON.stringify(apiResponse, null, 2));
     
     // Check if the API returned success code
     if (apiResponse.code !== 200) {
@@ -260,11 +239,7 @@ export class NanoBananaProvider extends BaseAIProvider {
       throw new Error('Nano Banana Edit API error: No data in response');
     }
 
-    console.log('[Kie.ai] Edit task created:', {
-      code: apiResponse.code,
-      taskId: apiResponse.data?.taskId,
-      recordId: apiResponse.data?.recordId
-    });
+    console.log(`✅ Task created: ${apiResponse.data?.taskId}`);
 
     return apiResponse.data;
   }
@@ -295,7 +270,8 @@ export class NanoBananaProvider extends BaseAIProvider {
    */
   private getNanoBananaCallbackUrl(): string {
     const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || 'http://localhost:3000';
-    return `${baseUrl}/api/ai-callback/nano_banana`;
+    const callbackUrl = `${baseUrl}/api/ai-callback/nano_banana`;
+    return callbackUrl;
   }
 
   /**
@@ -408,7 +384,7 @@ export class NanoBananaProvider extends BaseAIProvider {
    * Handle callback from Nano Banana API
    */
   async handleCallback(callbackData: NanoBananaCallbackRequest): Promise<ProviderResponse> {
-    console.log('🍌 Processing Nano Banana callback:', JSON.stringify(callbackData, null, 2));
+    console.log(`🍌 Processing callback for task: ${callbackData.data?.taskId}, state: ${callbackData.data?.state}`);
 
     // 解析回调数据
     const { code, msg, data } = callbackData;
@@ -460,7 +436,6 @@ export class NanoBananaProvider extends BaseAIProvider {
     if (mappedStatus === "completed" && resultJson) {
       try {
         // 解析 resultJson 字符串
-        console.log('📦 Parsing resultJson:', resultJson);
         const resultData: NanoBananaResultData = JSON.parse(resultJson);
         
         if (!resultData.resultUrls || !Array.isArray(resultData.resultUrls)) {
@@ -481,7 +456,7 @@ export class NanoBananaProvider extends BaseAIProvider {
           };
         });
 
-        console.log(`✅ Successfully parsed ${images.length} images from callback`);
+        console.log(`✅ Callback completed with ${images.length} images`);
         
         return {
           ...baseResult,
@@ -494,7 +469,7 @@ export class NanoBananaProvider extends BaseAIProvider {
           },
         };
       } catch (parseError) {
-        console.error('❌ Failed to parse resultJson:', parseError, 'Raw resultJson:', resultJson);
+        console.error('❌ Failed to parse resultJson:', parseError);
         
         return {
           ...baseResult,

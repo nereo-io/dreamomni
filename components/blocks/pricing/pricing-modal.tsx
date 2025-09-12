@@ -348,24 +348,6 @@ export default function PricingModal({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-<<<<<<< HEAD
-        <DialogPortal>
-          <DialogOverlay className="z-[99]" />
-          <DialogContent className="sm:max-w-4xl max-h-[85vh] overflow-y-auto p-0 z-[100]">
-          <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground z-10">
-            <X className="h-4 w-4" />
-            <span className="sr-only">Close</span>
-          </DialogClose>
-          <DialogHeader className="p-6 pb-4">
-            <DialogTitle className="flex items-center gap-2">
-              <Crown className="h-6 w-6 text-primary" />
-              <span className="text-2xl font-bold">{pricing.title}</span>
-            </DialogTitle>
-            <p className="text-muted-foreground text-center">
-              {pricing.description}
-            </p>
-          </DialogHeader>
-=======
         <DialogContent className="sm:max-w-4xl max-h-[85vh] overflow-y-auto p-0">
             <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground z-10">
               <X className="h-4 w-4" />
@@ -380,7 +362,6 @@ export default function PricingModal({
                 {pricing.description}
               </p>
             </DialogHeader>
->>>>>>> upstream/main
 
             <div className="px-6 pb-6">
               <div className="flex flex-col items-center gap-6">
@@ -689,40 +670,11 @@ export default function PricingModal({
                 </div>
               </div>
             </div>
-<<<<<<< HEAD
-          </div>
           </DialogContent>
-        </DialogPortal>
-=======
-          </DialogContent>
->>>>>>> upstream/main
       </Dialog>
 
       {/* 支付成功弹窗 */}
       <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
-<<<<<<< HEAD
-        <DialogPortal>
-          <DialogOverlay className="z-[99]" />
-          <DialogContent className="sm:max-w-md z-[100]">
-          <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground z-10">
-            <X className="h-4 w-4" />
-            <span className="sr-only">Close</span>
-          </DialogClose>
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-center">
-              <span className="text-2xl">🎉</span>
-              {t("payment_successful")}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="text-center space-y-2">
-              <p className="text-lg font-semibold text-green-600">
-                {successInfo.planName} {t("plan_activated")}
-              </p>
-              {successInfo.credits && successInfo.credits > 0 && (
-                <p className="text-sm text-muted-foreground">
-                  {successInfo.credits} {t("credits_added")}
-=======
           <DialogContent className="sm:max-w-md">
             <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground z-10">
               <X className="h-4 w-4" />
@@ -738,7 +690,6 @@ export default function PricingModal({
               <div className="text-center space-y-2">
                 <p className="text-lg font-semibold text-green-600">
                   {successInfo.planName} {t("plan_activated")}
->>>>>>> upstream/main
                 </p>
                 {successInfo.credits && successInfo.credits > 0 && (
                   <p className="text-sm text-muted-foreground">
@@ -770,36 +721,7 @@ export default function PricingModal({
                 </Button>
               </div>
             </div>
-<<<<<<< HEAD
-            <div className="flex gap-2">
-              <Button
-                className="flex-1"
-                onClick={() => {
-                  setShowSuccessModal(false);
-                  onClose();
-                  window.location.reload();
-                }}
-              >
-                {t("continue")}
-              </Button>
-              <Button
-                variant="outline"
-                className="flex-1"
-                onClick={() => {
-                  setShowSuccessModal(false);
-                  onClose();
-                  window.location.href = "/";
-                }}
-              >
-                {t("start_creating")}
-              </Button>
-            </div>
-          </div>
           </DialogContent>
-        </DialogPortal>
-=======
-          </DialogContent>
->>>>>>> upstream/main
       </Dialog>
 
       {/* 确保会员弹窗不受 pricing-modal 影响 */}

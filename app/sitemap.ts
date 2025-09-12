@@ -88,8 +88,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "weekly" as ChangeFrequency,
         priority: 0.7,
       },
-<<<<<<< HEAD
-=======
       // Console 页面
       {
         url: `${baseUrl}/membership`,

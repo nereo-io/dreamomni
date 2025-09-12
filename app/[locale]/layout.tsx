@@ -4,7 +4,7 @@ import "@/app/globals.css";
 import { getMessages, getTranslations } from "next-intl/server";
 
 import { AppContextProvider } from "@/contexts/app";
-import { Source_Code_Pro as FontSans } from "next/font/google";
+import { Inter as FontSans } from "next/font/google";
 import { Source_Serif_4 as FontSerif } from "next/font/google";
 import { Metadata } from "next";
 import { NextAuthSessionProvider } from "@/auth/session";

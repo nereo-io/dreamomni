@@ -428,5 +428,9 @@
     "surprise-reaction": "サプライズリアクションエフェクト",
     "anger-expression": "怒り表現エフェクト",
     "love-struck": "恋に落ちたエフェクト"
+  },
+  "footer": {
+    "popularEffects": "人気のエフェクト",
+    "moreEffects": "もっと見る →"
   }
 }

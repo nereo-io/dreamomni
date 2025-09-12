@@ -29,7 +29,7 @@ export async function POST(
   try {
     const provider = params.provider as AIServiceProvider;
     
-    console.log(`[Callback] Received from provider: ${provider}`);
+    console.log(`📥 [Callback] Received from ${provider} at ${new Date().toISOString()}`);
 
     // 验证提供商是否支持
     const providerInstance = aiServiceManager.getProvider(provider);
@@ -40,11 +40,7 @@ export async function POST(
 
     // 解析回调数据
     const callbackData = await req.json();
-    console.log(`[Callback] Data from ${provider}:`, {
-      taskId: callbackData.data?.taskId,
-      state: callbackData.data?.state,
-      code: callbackData.code
-    });
+    console.log(`[Callback] Task: ${callbackData.data?.taskId}, State: ${callbackData.data?.state}, Code: ${callbackData.code}`);
 
     // 使用提供商特定的处理逻辑
     const processedResult = await providerInstance.handleCallback(callbackData);
@@ -59,7 +55,6 @@ export async function POST(
       return respErr(`Image generation not found for task: ${processedResult.taskId}`);
     }
 
-    console.log(`[Callback] Found generation record: ${imageGeneration.id} for task: ${processedResult.taskId}`);
 
     // 映射 ProviderResponse 状态到数据库状态
     const mapStatusToDb = (providerStatus: string): string => {
@@ -101,9 +96,9 @@ export async function POST(
         
         if (uploadResult.success && uploadResult.r2Urls) {
           updateData.image_urls_r2 = uploadResult.r2Urls;
-          console.log(`[Callback] R2 upload complete: ${uploadResult.r2Urls.length} successful, ${uploadResult.failedCount} failed`);
-        } else if (uploadResult.failedCount > 0) {
-          console.warn(`[Callback] R2 upload partial failure: ${uploadResult.failedCount} images failed`);
+          if (uploadResult.failedCount > 0) {
+            console.warn(`[Callback] R2 upload partial: ${uploadResult.r2Urls.length} OK, ${uploadResult.failedCount} failed`);
+          }
         }
       } else {
         console.error(`[Callback] Completed but no images found`);
@@ -140,9 +135,9 @@ export async function POST(
           expired_at: expiredAt,
         });
 
-        console.log(`[Callback] Credits refunded: ${creditsToRefund} for failed generation ${imageGeneration.id}`);
+        console.log(`[Callback] Credits refunded: ${creditsToRefund}`);
       } catch (refundError) {
-        console.error("[Callback] Failed to refund credits:", refundError);
+        console.error("[Callback] Credit refund failed");
         // 不阻止回调处理，继续执行
       }
     } else {
@@ -157,7 +152,7 @@ export async function POST(
 
     // 更新数据库记录
     const updatedRecord = await updateImageGenerationById(imageGeneration.id, updateData);
-    console.log(`[Callback] Updated generation ${imageGeneration.id} with status: ${updateData.status}`);
+    console.log(`[Callback] Task ${processedResult.taskId} updated to: ${updateData.status}`);
 
     // 返回成功响应
     return respData({

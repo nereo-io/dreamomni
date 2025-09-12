@@ -575,5 +575,9 @@
     "viewSubscription": "Просмотреть подписку",
     "cancel": "Отмена",
     "continuePurchase": "Продолжить покупку"
+  },
+  "footer": {
+    "popularEffects": "Популярные эффекты",
+    "moreEffects": "Больше эффектов →"
   }
 }

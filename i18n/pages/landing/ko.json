@@ -13,19 +13,47 @@
     "nav": {
       "items": [
         {
-          "title": "생성기",
-          "url": "/image-to-video",
-          "icon": "RiVideoLine"
+          "title": "AI 비디오",
+          "children": [
+            {
+              "title": "이미지를 비디오로",
+              "description": "이미지를 멋진 비디오로 변환",
+              "url": "/image-to-video"
+            },
+            {
+              "title": "텍스트를 비디오로",
+              "description": "텍스트 설명에서 비디오 생성",
+              "url": "/text-to-video"
+            },
+            {
+              "title": "비디오 효과",
+              "description": "AI 기반 효과를 비디오에 적용",
+              "url": "/video-effects"
+            }
+          ]
         },
         {
-          "title": "기록",
-          "url": "/history",
-          "icon": "RiHistoryLine"
+          "title": "AI 이미지",
+          "children": [
+            {
+              "title": "텍스트를 이미지로",
+              "description": "텍스트 프롬프트에서 이미지 생성",
+              "url": "/text-to-image"
+            },
+            {
+              "title": "이미지를 이미지로",
+              "description": "이미지 변환 및 향상",
+              "url": "/image-to-image"
+            }
+          ]
         },
         {
           "title": "요금제",
-          "url": "/pricing",
-          "icon": "RiMoneyDollarCircleLine"
+          "url": "/pricing"
+        },
+        {
+          "title": "블로그",
+          "url": "/blog"
         }
       ]
     },
@@ -217,7 +245,7 @@
     "name": "footer",
     "brand": {
       "title": "Seedance 1.0",
-      "description": "Seedance 1.0 - 혁신적인 멀티샷 스토리텔링 기술을 갖춘 혁명적 AI 비디오 생성기. 영화적 미학, 부드러운 움직임, 다양한 스타일 표현으로 놀라운 1080p 비디오를 제작하세요. Seedance의 고급 AI 기능으로 아이디어를 전문가급 비디오 걸작으로 변환하세요.",
+      "description": "텍스트와 이미지를 Seedance의 고급 멀티샷 기술로 멋진 1080p AI 비디오로 변환하세요.",
       "logo": {
         "src": "/logo.png",
         "alt": "Seedance AI 비디오 생성"
@@ -228,21 +256,61 @@
     "nav": {
       "items": [
         {
-          "title": "제품",
+          "title": "AI 비디오 도구",
           "children": [
             {
-              "title": "생성",
-              "url": "/#video-generator",
+              "title": "텍스트를 비디오로",
+              "url": "/text-to-video",
               "target": "_self"
             },
             {
-              "title": "기록",
+              "title": "이미지를 비디오로",
+              "url": "/image-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "AI 비디오 효과",
+              "url": "/video-effects",
+              "target": "_self"
+            },
+            {
+              "title": "내 창작물",
               "url": "/history",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "AI 이미지 도구",
+          "children": [
+            {
+              "title": "텍스트를 이미지로",
+              "url": "/text-to-image",
+              "target": "_self"
+            },
+            {
+              "title": "이미지를 이미지로",
+              "url": "/image-to-image",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "리소스",
+          "children": [
+            {
+              "title": "홈",
+              "url": "/home",
               "target": "_self"
             },
             {
               "title": "요금제",
               "url": "/pricing",
+              "target": "_self"
+            },
+            {
+              "title": "블로그",
+              "url": "/blog",
               "target": "_self"
             }
           ]

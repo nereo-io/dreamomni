@@ -13,19 +13,47 @@
     "nav": {
       "items": [
         {
-          "title": "Generator",
-          "url": "/image-to-video",
-          "icon": "RiVideoLine"
+          "title": "AI Video",
+          "children": [
+            {
+              "title": "Image to Video",
+              "description": "Transform your images into stunning videos",
+              "url": "/image-to-video"
+            },
+            {
+              "title": "Text to Video",
+              "description": "Generate videos from text descriptions",
+              "url": "/text-to-video"
+            },
+            {
+              "title": "Video Effects",
+              "description": "Apply AI-powered effects to your videos",
+              "url": "/video-effects"
+            }
+          ]
         },
         {
-          "title": "Histroy",
-          "url": "/history",
-          "icon": "RiHistoryLine"
+          "title": "AI Image",
+          "children": [
+            {
+              "title": "Text to Image",
+              "description": "Create images from text prompts",
+              "url": "/text-to-image"
+            },
+            {
+              "title": "Image to Image",
+              "description": "Transform and enhance your images",
+              "url": "/image-to-image"
+            }
+          ]
         },
         {
           "title": "Pricing",
-          "url": "/pricing",
-          "icon": "RiMoneyDollarCircleLine"
+          "url": "/pricing"
+        },
+        {
+          "title": "Blog",
+          "url": "/blog"
         }
       ]
     },
@@ -212,7 +240,7 @@
     "name": "footer",
     "brand": {
       "title": "Seedance 1.0 AI Video Generator",
-      "description": "Seedance 1.0 - Revolutionary AI Video Generator with breakthrough multi-shot storytelling technology from Seedance ByteDance. Create stunning 1080p videos with cinematic aesthetics, smooth motion, and diverse style expression. Transform your ideas into professional-grade video masterpieces with Seedance AI video generator's advanced capabilities and cutting-edge video generator platform.",
+      "description": "Transform text and images into stunning 1080p AI videos with Seedance's advanced multi-shot storytelling technology.",
       "logo": {
         "src": "/logo.png",
         "alt": "Seedance AI Video Generator"
@@ -223,21 +251,61 @@
     "nav": {
       "items": [
         {
-          "title": "Products",
+          "title": "AI Video Tools",
           "children": [
             {
-              "title": "Generate",
-              "url": "/#video-generator",
+              "title": "Text to Video",
+              "url": "/text-to-video",
               "target": "_self"
             },
             {
-              "title": "History",
+              "title": "Image to Video",
+              "url": "/image-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "AI Video Effects",
+              "url": "/video-effects",
+              "target": "_self"
+            },
+            {
+              "title": "My Creations",
               "url": "/history",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "AI Image Tools",
+          "children": [
+            {
+              "title": "Text to Image",
+              "url": "/text-to-image",
+              "target": "_self"
+            },
+            {
+              "title": "Image to Image",
+              "url": "/image-to-image",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "Resources",
+          "children": [
+            {
+              "title": "Home",
+              "url": "/home",
               "target": "_self"
             },
             {
               "title": "Pricing",
               "url": "/pricing",
+              "target": "_self"
+            },
+            {
+              "title": "Blog",
+              "url": "/blog",
               "target": "_self"
             }
           ]

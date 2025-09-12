@@ -45,9 +45,9 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     provider: VideoModelProvider.VOLCANO,
     volcanoModel: "doubao-seedance-1-0-pro-250528",
     displayName: "Seedance 1.0 Pro",
-    perSecondCredits: 1,
-    description: "ByteDance's video model, starting at $0.15/video",
-    features: ["Wait 30s"],
+    perSecondCredits: 2,
+    description: "ByteDance's video model, starting at $0.3/video",
+    features: ["Wait 45s"],
     maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16", "1:1"],
     supportedResolutions: ["480p", "1080p"],
@@ -64,9 +64,9 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     provider: VideoModelProvider.VOLCANO,
     volcanoModel: "doubao-seedance-1-0-pro-250528",
     displayName: "Seedance 1.0 Pro",
-    perSecondCredits: 1, // 7.5 tokens for 5s = 1.5 tokens/second
-    description: "ByteDance's video model, starting at $0.15/video.",
-    features: ["Wait 30s"],
+    perSecondCredits: 2, // 7.5 tokens for 5s = 1.5 tokens/second
+    description: "ByteDance's video model, starting at $0.3/video.",
+    features: ["Wait 45s"],
     maxDuration: 10,
     supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
     supportedResolutions: ["480p", "1080p"],

@@ -579,5 +579,9 @@
     "viewSubscription": "View Subscription",
     "cancel": "Cancel",
     "continuePurchase": "Continue Purchase"
+  },
+  "footer": {
+    "popularEffects": "Popular Effects",
+    "moreEffects": "More Effects →"
   }
 }

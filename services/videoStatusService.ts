@@ -227,30 +227,17 @@ export class VideoStatusService {
     providerStatus: any
   ): Promise<void> {
     console.log("处理失败状态，提取错误信息");
-<<<<<<< HEAD
-    
-    // 从 raw_data 中提取更详细的错误信息
-    if (providerStatus.raw_data) {
-      const rawData = providerStatus.raw_data;
-      
-=======
 
     // 从 raw_data 中提取更详细的错误信息
     if (providerStatus.raw_data) {
       const rawData = providerStatus.raw_data;
-
->>>>>>> upstream/main
       // 优先使用 errorMessage，然后是 errorCode
       if (rawData.errorMessage) {
         updateParams.error_message = rawData.errorMessage;
       } else if (rawData.errorCode) {
         updateParams.error_message = `错误代码: ${rawData.errorCode}`;
       }
-<<<<<<< HEAD
-      
-=======
 
->>>>>>> upstream/main
       // 如果有额外的错误详情，添加到 logs 中
       if (rawData.errorCode || rawData.errorMessage) {
         const errorLog = {
@@ -258,24 +245,13 @@ export class VideoStatusService {
           level: "ERROR",
           message: rawData.errorMessage || `Error code: ${rawData.errorCode}`,
           errorCode: rawData.errorCode,
-<<<<<<< HEAD
-          provider: "KieAI"
-        };
-        
-=======
           provider: "KieAI",
         };
-
->>>>>>> upstream/main
         updateParams.logs = updateParams.logs || [];
         updateParams.logs.push(errorLog);
       }
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> upstream/main
     console.log("失败状态处理完成，错误信息:", updateParams.error_message);
   }
 
@@ -290,11 +266,7 @@ export class VideoStatusService {
   ): Promise<void> {
     try {
       const { ProviderFactory } = await import("@/services/providers");
-<<<<<<< HEAD
-    const provider = ProviderFactory.getProvider(videoGeneration.model_id);
-=======
       const provider = ProviderFactory.getProvider(videoGeneration.model_id);
->>>>>>> upstream/main
       const result = await provider.result(videoGeneration.model_id, requestId);
 
       console.log("获取到生成结果:", result);

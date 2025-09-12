@@ -210,12 +210,8 @@ export class KieAiVeo3Provider implements VideoProvider {
         status = "FAILED";
         progress = 0;
         // Extract error message from errorMessage field or fallback to code description
-<<<<<<< HEAD
-        error_message = data.errorMessage || response.msg || `Error code: ${data.errorCode}`;
-=======
         error_message =
           data.errorMessage || response.msg || `Error code: ${data.errorCode}`;
->>>>>>> upstream/main
       } else if (
         data.successFlag === 1 &&
         data.completeTime &&
