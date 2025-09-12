@@ -27,9 +27,9 @@ export interface GettingStarted {
 export interface LandingPage {
   header?: Header;
   hero?: Hero;
-  aiModelsHero: AIModelsHero;
-  aiVideoShowcase: AIVideoShowcase;
-  imageToVideoShowcase: ImageToVideoShowcase;
+  aiModelsHero?: AIModelsHero;
+  aiVideoShowcase?: AIVideoShowcase;
+  imageToVideoShowcase?: ImageToVideoShowcase;
   branding?: Section;
   introduce?: Section;
   benefit?: Section;

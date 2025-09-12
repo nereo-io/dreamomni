@@ -104,7 +104,11 @@
       "Bash(python3:*)",
       "Bash(test:*)",
       "Bash(ls:*)",
-      "Bash(git show:*)"
+      "Bash(git show:*)",
+      "Bash(for lang in de ja ko ru)",
+      "Bash(done)",
+      "Bash(for lang in en de ja ko ru)",
+      "Bash(for lang in de ko ru)"
     ],
     "deny": [],
     "ask": [],

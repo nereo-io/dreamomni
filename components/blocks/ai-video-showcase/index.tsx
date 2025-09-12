@@ -40,29 +40,33 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
   const TRANSITION_DURATION = 300; // Animation duration in ms
 
   const handlePrevious = useCallback(() => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : examples.length - 1));
-    setTimeout(() => setIsTransitioning(false), TRANSITION_DURATION);
-  }, [examples.length, isTransitioning]);
+    setIsTransitioning((transitioning) => {
+      if (transitioning) return true;
+      setCurrentIndex((prev) => (prev > 0 ? prev - 1 : examples.length - 1));
+      setTimeout(() => setIsTransitioning(false), TRANSITION_DURATION);
+      return true;
+    });
+  }, [examples.length]);
 
   const handleNext = useCallback(() => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev < examples.length - 1 ? prev + 1 : 0));
-    setTimeout(() => setIsTransitioning(false), TRANSITION_DURATION);
-  }, [examples.length, isTransitioning]);
+    setIsTransitioning((transitioning) => {
+      if (transitioning) return true;
+      setCurrentIndex((prev) => (prev < examples.length - 1 ? prev + 1 : 0));
+      setTimeout(() => setIsTransitioning(false), TRANSITION_DURATION);
+      return true;
+    });
+  }, [examples.length]);
 
   // Handle drag/swipe start
-  const handleDragStart = useCallback(
-    (clientX: number) => {
-      if (isTransitioning) return;
+  const handleDragStart = useCallback((clientX: number) => {
+    setIsTransitioning((transitioning) => {
+      if (transitioning) return true;
       setIsDragging(true);
       setStartX(clientX);
       setCurrentX(clientX);
-    },
-    [isTransitioning]
-  );
+      return transitioning;
+    });
+  }, []);
 
   // Handle drag/swipe move
   const handleDragMove = useCallback(

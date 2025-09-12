@@ -377,6 +377,43 @@
       ]
     }
   ],
+  "aiVideoShowcase": {
+    "title": "Visualize Any Text with Our AI Video Generator",
+    "description": "Bring any text to life with our AI video generator! Create engaging videos of any style with just a simple text prompt.",
+    "cta": "Start Creating",
+    "examples": [
+      {
+        "id": "1",
+        "image": "/intro/camera.mp4",
+        "alt": "Camera movement demonstration",
+        "prompt": "Dynamic camera angles showcasing cinematic movements"
+      },
+      {
+        "id": "2",
+        "image": "/intro/storytelling.mp4",
+        "alt": "Storytelling capabilities",
+        "prompt": "Multi-scene narrative with consistent characters"
+      },
+      {
+        "id": "3",
+        "image": "/intro/versatility.mp4",
+        "alt": "Style versatility",
+        "prompt": "Transform scenes into different artistic styles"
+      },
+      {
+        "id": "4",
+        "image": "/intro/dynamic-range.mp4",
+        "alt": "Dynamic range",
+        "prompt": "From subtle animations to explosive action"
+      },
+      {
+        "id": "5",
+        "image": "/intro/professional-1080.mp4",
+        "alt": "Professional quality",
+        "prompt": "Crystal clear 1080p with smooth motion"
+      }
+    ]
+  },
   "questionExamples": {
     "title": "Идеи видео: ",
     "examples": [

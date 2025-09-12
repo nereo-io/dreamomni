@@ -81,7 +81,34 @@
   },
   "aiVideoShowcase": {
     "title": "Visualisieren Sie jeden Text mit unserem KI-Video-Generator",
-    "description": "Erwecken Sie jeden Text mit unserem KI-Video-Generator zum Leben! Erstellen Sie ansprechende Videos in jedem Stil mit nur einer einfachen Textanweisung. Beschreiben Sie Ihre Ideen mit wenigen Worten, und unsere Video-KI kann sie kreativ visualisieren."
+    "description": "Erwecken Sie jeden Text mit unserem KI-Video-Generator zum Leben! Erstellen Sie ansprechende Videos in jedem Stil mit nur einer einfachen Textanweisung. Beschreiben Sie Ihre Ideen mit wenigen Worten, und unsere Video-KI kann sie kreativ visualisieren.",
+    "examples": [
+      {
+        "id": "glass-strawberry",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
+        "alt": "Glass strawberry shattering when sliced",
+        "prompt": "A glass strawberry shatters when sliced with a knife on a wooden board."
+      },
+      {
+        "id": "anime-rose",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Anime-Rose-Blooming-Bridge.mp4",
+        "alt": "Anime rose blooming with dancing petals",
+        "prompt": "An anime-style rose blooms before a rope bridge, with petals dancing in the air."
+      },
+      {
+        "id": "monkey-seagull",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
+        "alt": "Monkey and seagull dancing on moonlit beach",
+        "prompt": "A monkey and a seagull dance on a moonlit beach under a starry sky."
+      },
+      {
+        "id": "monarch-butterfly",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
+        "alt": "Monarch butterfly fluttering wings on flowers",
+        "prompt": "A monarch butterfly flutters its wings on colorful flowers in a sunlit garden.",
+        "isNew": true
+      }
+    ]
   },
   "creatorShowcase": {
     "title": "Ermächtigung jeden Text-zu-Video-Erstellers",

@@ -21,13 +21,23 @@
     "my_orders": "注文履歴",
     "membership": "メンバーシップ"
   },
+  "header": {
+    "video_effects": "動画エフェクト",
+    "more_effects": "もっと見る"
+  },
   "sidebar": {
     "home": "ホーム",
     "image_to_video": "画像から動画",
     "text_to_video": "テキストから動画",
+    "text_to_image": "テキストから画像",
+    "image_to_image": "画像から画像",
     "ai_video_effects": "AI動画エフェクト",
+    "ai_effects": "AIエフェクト",
     "my_creations": "私の作品",
-    "upgrade_now": "今すぐアップグレード"
+    "upgrade_now": "今すぐアップグレード",
+    "feedback_title": "フィードバック？DMしてください！",
+    "feedback_telegram": "Telegramに参加",
+    "feedback_discord": "Discordに参加"
   },
   "pricing_modal": {
     "select_payment_method": "支払い方法を選択",
@@ -227,6 +237,8 @@
     "videoAspectRatio": "動画アスペクト比",
     "videoDuration": "動画の長さ",
     "videoModel": "モデル",
+    "videoEffect": "ビデオエフェクト",
+    "chooseVideoEffect": "ビデオエフェクトを選択",
     "credits": "クレジット",
     "creditsRequired": "必要クレジット",
     "remainingCredits": "残りクレジット",
@@ -354,6 +366,13 @@
       "title": "Seedanceへようこそ",
       "description": "高度なAI技術でアイデアを素晴らしい動画に変換。テキストから動画、画像から動画を選択するか、創造的な動画エフェクトを探索してください。"
     },
+    "videoEffects": {
+      "title": "AI動画エフェクト - 動画を変換",
+      "description": "AIで素晴らしい動画エフェクトを作成。数十種類のテンプレートから選択して、動画を即座に変換。",
+      "keywords": "AI動画エフェクト, 動画変換, AIテンプレート, 動画編集, ビジュアルエフェクト, AIフィルター",
+      "gridTitle": "無料100以上のAI動画テンプレートとエフェクト",
+      "useThisEffect": "このエフェクトを使用"
+    },
     "textToVideo": {
       "title": "無料AI動画ジェネレーター: テキストから動画AI オンライン",
       "description": "Seedance動画ジェネレーターを発見してください。テキストプロンプトを魅力的な動画に簡単に変換する最先端の無料ソリューション。今日私たちのテキストから動画AIをお試しください！",
@@ -428,6 +447,20 @@
     "surprise-reaction": "サプライズリアクションエフェクト",
     "anger-expression": "怒り表現エフェクト",
     "love-struck": "恋に落ちたエフェクト"
+  },
+  "captcha": {
+    "title": "セキュリティ認証",
+    "description": "悪用を防ぐため、動画生成を続行するにはセキュリティ認証を完了してください",
+    "verifying": "認証中...",
+    "verificationFailed": "認証に失敗しました。もう一度お試しください",
+    "verificationExpired": "認証が期限切れです。再度認証してください"
+  },
+  "membershipModal": {
+    "description": "あなたは既にメンバーです。",
+    "explanation": "現在のサブスクリプションの詳細を表示・管理できます。",
+    "viewSubscription": "サブスクリプションを表示",
+    "cancel": "キャンセル",
+    "continuePurchase": "購入を続行"
   },
   "footer": {
     "popularEffects": "人気のエフェクト",

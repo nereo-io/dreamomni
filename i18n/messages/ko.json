@@ -21,13 +21,23 @@
     "my_orders": "주문 내역",
     "membership": "멤버십"
   },
+  "header": {
+    "video_effects": "비디오 효과",
+    "more_effects": "더 보기"
+  },
   "sidebar": {
     "home": "홈",
     "image_to_video": "이미지에서 비디오",
     "text_to_video": "텍스트에서 비디오",
+    "text_to_image": "텍스트에서 이미지",
+    "image_to_image": "이미지에서 이미지",
     "ai_video_effects": "AI 비디오 효과",
+    "ai_effects": "AI 효과",
     "my_creations": "내 작품",
-    "upgrade_now": "지금 업그레이드"
+    "upgrade_now": "지금 업그레이드",
+    "feedback_title": "피드백? DM 보내주세요!",
+    "feedback_telegram": "텔레그램 참여",
+    "feedback_discord": "디스코드 참여"
   },
   "pricing_modal": {
     "select_payment_method": "결제 방법 선택",
@@ -227,6 +237,8 @@
     "videoAspectRatio": "비디오 종횡비",
     "videoDuration": "비디오 길이",
     "videoModel": "모델",
+    "videoEffect": "비디오 효과",
+    "chooseVideoEffect": "비디오 효과 선택",
     "credits": "크레딧",
     "creditsRequired": "필요 크레딧",
     "remainingCredits": "남은 크레딧",
@@ -354,6 +366,13 @@
       "title": "Seedance에 오신 것을 환영합니다",
       "description": "고급 AI 기술로 아이디어를 멋진 비디오로 변환하세요. 텍스트에서 비디오, 이미지에서 비디오 중에서 선택하거나 창의적인 비디오 효과를 탐색하세요."
     },
+    "videoEffects": {
+      "title": "AI 비디오 효과 - 비디오 변환",
+      "description": "AI로 멋진 비디오 효과를 만드세요. 수십 가지 템플릿 중에서 선택하여 비디오를 즉시 변환하세요.",
+      "keywords": "AI 비디오 효과, 비디오 변환, AI 템플릿, 비디오 편집, 시각 효과, AI 필터",
+      "gridTitle": "무료 100개 이상의 AI 비디오 템플릿 및 효과",
+      "useThisEffect": "이 효과 사용"
+    },
     "textToVideo": {
       "title": "무료 AI 비디오 생성기: 텍스트에서 비디오 AI 온라인",
       "description": "Seedance 비디오 생성기를 발견하세요. 텍스트 프롬프트를 매력적인 비디오로 쉽게 변환하는 최첨단 무료 솔루션입니다. 오늘 우리의 텍스트에서 비디오 AI를 체험해보세요!",
@@ -428,6 +447,20 @@
     "surprise-reaction": "놀라는 반응 효과",
     "anger-expression": "분노 표현 효과",
     "love-struck": "사랑에 빠진 효과"
+  },
+  "captcha": {
+    "title": "보안 인증",
+    "description": "악용을 방지하기 위해 비디오 생성을 계속하려면 보안 인증을 완료해주세요",
+    "verifying": "인증 중...",
+    "verificationFailed": "인증에 실패했습니다. 다시 시도해주세요",
+    "verificationExpired": "인증이 만료되었습니다. 다시 인증해주세요"
+  },
+  "membershipModal": {
+    "description": "이미 회원이십니다.",
+    "explanation": "현재 구독 세부정보를 확인하고 관리할 수 있습니다.",
+    "viewSubscription": "구독 보기",
+    "cancel": "취소",
+    "continuePurchase": "구매 계속"
   },
   "footer": {
     "popularEffects": "인기 효과",

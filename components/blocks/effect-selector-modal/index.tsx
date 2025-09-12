@@ -70,7 +70,7 @@ export function EffectSelectorModal({
       >
         <DialogHeader className="px-6 pt-6 pb-4 border-b border-gray-700 shrink-0">
           <DialogTitle className="text-xl font-semibold text-white">
-            Choose Video Effect
+            {t("chooseVideoEffect")}
           </DialogTitle>
         </DialogHeader>
         

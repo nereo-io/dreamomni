@@ -382,6 +382,43 @@
       ]
     }
   ],
+  "aiVideoShowcase": {
+    "title": "Visualize Any Text with Our AI Video Generator",
+    "description": "Bring any text to life with our AI video generator! Create engaging videos of any style with just a simple text prompt.",
+    "cta": "Start Creating",
+    "examples": [
+      {
+        "id": "1",
+        "image": "/intro/camera.mp4",
+        "alt": "Camera movement demonstration",
+        "prompt": "Dynamic camera angles showcasing cinematic movements"
+      },
+      {
+        "id": "2",
+        "image": "/intro/storytelling.mp4",
+        "alt": "Storytelling capabilities",
+        "prompt": "Multi-scene narrative with consistent characters"
+      },
+      {
+        "id": "3",
+        "image": "/intro/versatility.mp4",
+        "alt": "Style versatility",
+        "prompt": "Transform scenes into different artistic styles"
+      },
+      {
+        "id": "4",
+        "image": "/intro/dynamic-range.mp4",
+        "alt": "Dynamic range",
+        "prompt": "From subtle animations to explosive action"
+      },
+      {
+        "id": "5",
+        "image": "/intro/professional-1080.mp4",
+        "alt": "Professional quality",
+        "prompt": "Crystal clear 1080p with smooth motion"
+      }
+    ]
+  },
   "gettingStarted": {
     "title": "Seedance AI 비디오 생성기로 비디오를 만드는 방법",
     "description": "Seedance ByteDance로 몇 분 만에 전문 1080p 비디오 생성을 시작하세요. 간단하고, 빠르고, 강력합니다.",

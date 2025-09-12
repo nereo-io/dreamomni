@@ -6,6 +6,8 @@ export async function getEffectConfigBySlug(
   locale: string
 ): Promise<VideoEffect | null> {
   const supabase = getSupabaseClient();
+  
+  // 首先尝试获取目标语言的特效
   const { data, error } = await supabase
     .from("effect_configs")
     .select("*")
@@ -14,18 +16,36 @@ export async function getEffectConfigBySlug(
     .eq("status", "online")
     .single();
 
-  if (error || !data) {
-    console.error("Error fetching effect config:", error);
-    return null;
+  if (!error && data) {
+    return data as VideoEffect;
   }
 
-  return data as VideoEffect;
+  // 如果目标语言没有找到且不是英语，降级到英语
+  if (locale !== "en") {
+    console.log(`No effect config found for locale ${locale}, falling back to English`);
+    const { data: enData, error: enError } = await supabase
+      .from("effect_configs")
+      .select("*")
+      .eq("slug", slug)
+      .eq("locale", "en")
+      .eq("status", "online")
+      .single();
+
+    if (!enError && enData) {
+      return enData as VideoEffect;
+    }
+  }
+
+  console.error("Error fetching effect config:", error);
+  return null;
 }
 
 export async function getAllEffectConfigs(
   locale: string
 ): Promise<VideoEffect[]> {
   const supabase = getSupabaseClient();
+  
+  // 首先尝试获取目标语言的特效
   const { data, error } = await supabase
     .from("effect_configs")
     .select("*")
@@ -39,13 +59,31 @@ export async function getAllEffectConfigs(
     return [];
   }
 
-  if (!data) {
-    console.log("No effect configs found for locale:", locale);
-    return [];
+  // 如果有数据，直接返回
+  if (data && data.length > 0) {
+    console.log(`Found ${data.length} effect configs for locale ${locale}`);
+    return data as VideoEffect[];
   }
 
-  console.log(`Found ${data.length} effect configs for locale ${locale}`);
-  return data as VideoEffect[];
+  // 如果目标语言没有数据且不是英语，降级到英语
+  if (locale !== "en") {
+    console.log(`No effect configs found for locale ${locale}, falling back to English`);
+    const { data: enData, error: enError } = await supabase
+      .from("effect_configs")
+      .select("*")
+      .eq("locale", "en")
+      .eq("status", VideoEffectStatus.Online)
+      .order("display_order", { ascending: true })
+      .order("created_at", { ascending: false });
+
+    if (!enError && enData && enData.length > 0) {
+      console.log(`Found ${enData.length} English effect configs as fallback`);
+      return enData as VideoEffect[];
+    }
+  }
+
+  console.log("No effect configs found for locale:", locale);
+  return [];
 }
 
 export async function getEffectConfigById(
@@ -72,6 +110,8 @@ export async function getEffectConfigsByCategory(
   locale: string
 ): Promise<VideoEffect[]> {
   const supabase = getSupabaseClient();
+  
+  // 首先尝试获取目标语言的分类特效
   const { data, error } = await supabase
     .from("effect_configs")
     .select("*")
@@ -81,12 +121,34 @@ export async function getEffectConfigsByCategory(
     .order("display_order", { ascending: true })
     .order("created_at", { ascending: false });
 
-  if (error || !data) {
+  if (error) {
     console.error("Error fetching effect configs by category:", error);
     return [];
   }
 
-  return data as VideoEffect[];
+  // 如果有数据，直接返回
+  if (data && data.length > 0) {
+    return data as VideoEffect[];
+  }
+
+  // 如果目标语言没有该分类的特效且不是英语，降级到英语
+  if (locale !== "en") {
+    console.log(`No effect configs found for category ${category} in locale ${locale}, falling back to English`);
+    const { data: enData, error: enError } = await supabase
+      .from("effect_configs")
+      .select("*")
+      .eq("category", category)
+      .eq("locale", "en")
+      .eq("status", "online")
+      .order("display_order", { ascending: true })
+      .order("created_at", { ascending: false });
+
+    if (!enError && enData && enData.length > 0) {
+      return enData as VideoEffect[];
+    }
+  }
+
+  return [];
 }
 
 export async function getHotEffectConfigs(
@@ -94,6 +156,8 @@ export async function getHotEffectConfigs(
   limit: number = 6
 ): Promise<VideoEffect[]> {
   const supabase = getSupabaseClient();
+  
+  // 首先尝试获取目标语言的热门特效
   const { data, error } = await supabase
     .from("effect_configs")
     .select("*")
@@ -108,13 +172,32 @@ export async function getHotEffectConfigs(
     return [];
   }
 
-  if (!data) {
-    console.log("No hot effect configs found for locale:", locale);
-    return [];
+  // 如果有数据，直接返回
+  if (data && data.length > 0) {
+    console.log(`Found ${data.length} hot effect configs for locale ${locale}`);
+    return data as VideoEffect[];
   }
 
-  console.log(`Found ${data.length} hot effect configs for locale ${locale}`);
-  return data as VideoEffect[];
+  // 如果目标语言没有热门特效且不是英语，降级到英语
+  if (locale !== "en") {
+    console.log(`No hot effect configs found for locale ${locale}, falling back to English`);
+    const { data: enData, error: enError } = await supabase
+      .from("effect_configs")
+      .select("*")
+      .eq("locale", "en")
+      .eq("status", VideoEffectStatus.Online)
+      .eq("is_hot", true)
+      .order("display_order", { ascending: true })
+      .limit(limit);
+
+    if (!enError && enData && enData.length > 0) {
+      console.log(`Found ${enData.length} English hot effect configs as fallback`);
+      return enData as VideoEffect[];
+    }
+  }
+
+  console.log("No hot effect configs found for locale:", locale);
+  return [];
 }
 
 export async function getEffectUsageStats(

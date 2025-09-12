@@ -21,13 +21,23 @@
     "my_orders": "Meine Bestellungen",
     "membership": "Mitgliedschaft"
   },
+  "header": {
+    "video_effects": "Video-Effekte",
+    "more_effects": "Mehr Effekte"
+  },
   "sidebar": {
     "home": "Startseite",
     "image_to_video": "Bild zu Video",
     "text_to_video": "Text zu Video",
+    "text_to_image": "Text zu Bild",
+    "image_to_image": "Bild zu Bild",
     "ai_video_effects": "AI Video-Effekte",
+    "ai_effects": "AI-Effekte",
     "my_creations": "Meine Kreationen",
-    "upgrade_now": "Jetzt Upgraden"
+    "upgrade_now": "Jetzt Upgraden",
+    "feedback_title": "Feedback? Schreib uns!",
+    "feedback_telegram": "Telegram beitreten",
+    "feedback_discord": "Discord beitreten"
   },
   "pricing_modal": {
     "select_payment_method": "Zahlungsmethode wählen",
@@ -227,6 +237,8 @@
     "videoAspectRatio": "Video-Seitenverhältnis",
     "videoDuration": "Video-Dauer",
     "videoModel": "Modell",
+    "videoEffect": "Video-Effekt",
+    "chooseVideoEffect": "Video-Effekt wählen",
     "credits": "Credits",
     "creditsRequired": "Benötigte Credits",
     "remainingCredits": "Verbleibende Credits",
@@ -354,6 +366,13 @@
       "title": "Willkommen bei Seedance",
       "description": "Verwandeln Sie Ihre Ideen mit unserer fortschrittlichen AI-Technologie in atemberaubende Videos. Wählen Sie zwischen Text-zu-Video, Bild-zu-Video oder erkunden Sie unsere kreativen Video-Effekte."
     },
+    "videoEffects": {
+      "title": "AI Video-Effekte - Verwandeln Sie Ihre Videos",
+      "description": "Erstellen Sie atemberaubende Video-Effekte mit AI. Wählen Sie aus Dutzenden von Vorlagen und verwandeln Sie Ihre Videos sofort.",
+      "keywords": "AI Video-Effekte, Video-Transformation, AI-Vorlagen, Videobearbeitung, visuelle Effekte, AI-Filter",
+      "gridTitle": "Kostenlose 100+ AI Video-Vorlagen und Effekte",
+      "useThisEffect": "Diesen Effekt verwenden"
+    },
     "textToVideo": {
       "title": "Kostenloser AI Video Generator: Text zu Video AI Online",
       "description": "Entdecken Sie den Seedance Video Generator, eine hochmoderne, kostenlose Lösung, die mühelos eine Textanweisung in ein ansprechendes Video verwandelt. Probieren Sie noch heute unsere Text-zu-Video AI!",
@@ -428,6 +447,20 @@
     "surprise-reaction": "Überraschungs-Reaktions-Effekt",
     "anger-expression": "Wut-Ausdrucks-Effekt",
     "love-struck": "Verliebt-Effekt"
+  },
+  "captcha": {
+    "title": "Sicherheitsüberprüfung",
+    "description": "Um Missbrauch zu verhindern, schließen Sie bitte die Sicherheitsüberprüfung ab, um mit der Videogenerierung fortzufahren",
+    "verifying": "Überprüfung läuft...",
+    "verificationFailed": "Überprüfung fehlgeschlagen, bitte versuchen Sie es erneut",
+    "verificationExpired": "Überprüfung abgelaufen, bitte verifizieren Sie sich erneut"
+  },
+  "membershipModal": {
+    "description": "Sie sind bereits Mitglied.",
+    "explanation": "Sie können Ihre aktuellen Abonnementdetails einsehen und verwalten.",
+    "viewSubscription": "Abonnement anzeigen",
+    "cancel": "Abbrechen",
+    "continuePurchase": "Kauf fortsetzen"
   },
   "footer": {
     "popularEffects": "Beliebte Effekte",

@@ -5,6 +5,7 @@ import { Plus, ChevronRight } from "lucide-react";
 import type { VideoEffect } from "@/types/video-effect";
 import { EffectSelectorModal } from "@/components/blocks/effect-selector-modal";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 interface EffectSelectorProps {
   current: VideoEffect | null;
@@ -14,6 +15,7 @@ interface EffectSelectorProps {
 
 export function EffectSelector({ current, onChange, locale }: EffectSelectorProps) {
   const [showModal, setShowModal] = useState(false);
+  const t = useTranslations("video-generator");
   
   const handleRemove = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -25,7 +27,7 @@ export function EffectSelector({ current, onChange, locale }: EffectSelectorProp
       {/* 触发按钮 */}
       <div>
         <div className="text-white text-lg font-semibold mb-4">
-          Video Effect
+          {t("videoEffect")}
         </div>
         
         {current ? (
@@ -53,7 +55,7 @@ export function EffectSelector({ current, onChange, locale }: EffectSelectorProp
             className="w-full justify-start bg-gray-800 border-gray-700 hover:bg-gray-700 text-gray-200 mb-4"
           >
             <Plus className="mr-2 h-4 w-4" />
-            Choose Video Effect
+            {t("chooseVideoEffect")}
           </Button>
         )}
       </div>
