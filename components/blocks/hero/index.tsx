@@ -1,11 +1,9 @@
 import { RainbowButton } from "@/components/ui/rainbow-button";
-import { Button } from "@/components/ui/button";
 import HeroBg from "./bg";
 import { Hero as HeroType } from "@/types/blocks/hero";
 import Icon from "@/components/icon";
 import Link from "next/link";
 import { Type } from "lucide-react";
-
 
 export default function Hero({ hero }: { hero: HeroType }) {
   if (hero.disabled) {

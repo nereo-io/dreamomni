@@ -1,5 +1,7 @@
 import FAQ from "@/components/blocks/faq";
 import Hero from "@/components/blocks/hero";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 import Testimonial from "@/components/blocks/testimonial";
 import VideoGenerator from "@/components/blocks/video-generator";
 import SeedanceFeaturesBlock from "@/components/blocks/seedance-features";
@@ -9,6 +11,10 @@ import StructuredData from "@/components/seo/structured-data";
 import Feature1 from "@/components/blocks/feature1";
 import Feature from "@/components/blocks/feature";
 import AuthRedirect from "@/components/auth/auth-redirect";
+import { ImageToVideoShowcase } from "@/components/blocks/image-to-video-showcase";
+import { AIModelsHero } from "@/components/blocks/ai-models-hero";
+import { AIVideoShowcase } from "@/components/blocks/ai-video-showcase";
+import CTA from "@/components/blocks/cta";
 
 import {
   getLandingPage,
@@ -39,6 +45,14 @@ export default async function LandingPage({
 }: {
   params: { locale: string };
 }) {
+  // 在服务器端检查认证状态
+  const session = await auth();
+
+  // 如果已登录，直接重定向到/home (保持Seedance的重定向逻辑)
+  if (session) {
+    redirect("/home");
+  }
+
   const page = await getLandingPage(locale);
   const seedanceFeatures = await getSeedanceFeaturesBlock(locale);
 
@@ -53,6 +67,12 @@ export default async function LandingPage({
       {page.gettingStarted && <GettingStarted data={page.gettingStarted} />}
 
       {/* {page.testimonial && <Testimonial section={page.testimonial} />} */}
+
+      {page.aiModelsHero && <AIModelsHero data={page.aiModelsHero} />}
+      {page.imageToVideoShowcase && (
+        <ImageToVideoShowcase data={page.imageToVideoShowcase} />
+      )}
+      {page.aiVideoShowcase && <AIVideoShowcase data={page.aiVideoShowcase} />}
 
       {page.faq && (
         <>
@@ -70,7 +90,9 @@ export default async function LandingPage({
         </>
       )}
 
-      {/* There's An AI For That verification embed */}
+      {page.cta && <CTA section={page.cta} />}
+
+      {/* There's An AI For That verification embed - 保留Seedance品牌 */}
       <div className="flex justify-center py-8">
         <a
           href="https://theresanaiforthat.com/ai/seedance/?ref=featured&v=4601560"
@@ -84,7 +106,7 @@ export default async function LandingPage({
           />
         </a>
       </div>
-      <div className="flex items-center justify-center gap-2">
+      <div className="max-w-7xl mx-auto px-8 py-3">
         <p className="text-sm text-muted-foreground text-center font-medium">
           This platform is an independent product and is not affiliated with
           Bytedance.

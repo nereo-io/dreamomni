@@ -26,7 +26,7 @@ function HomeLayoutContent({ children }: { children: ReactNode }) {
       >
         <AIVideoHeader />
 
-        <main className="p-6 pt-[81px]">{children}</main>
+        <main className="px-2 py-6 pt-[78px]">{children}</main>
       </div>
     </div>
   );

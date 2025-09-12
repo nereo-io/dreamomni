@@ -1,10 +1,5 @@
-export interface VideoExample {
-  id: string;
-  image: string;
-  alt: string;
-  prompt: string;
-  isNew?: boolean;
-}
+import { AIModelsHero } from "@/types/blocks/ai-model-hero";
+import { AIVideoShowcase, VideoExample } from "@/types/blocks/ai-video-showcase";
 
 export interface FAQItem {
   id: string;
@@ -24,19 +19,6 @@ export interface CTA {
   buttonText: string;
 }
 
-export interface AIModel {
-  id: string;
-  name: string;
-  logo: string;
-}
-
-export interface AIModelsHero {
-  title: string;
-  description: string;
-  models: AIModel[];
-  moreModels: string;
-}
-
 export interface CreatorType {
   id: string;
   name: string;
@@ -53,7 +35,6 @@ export interface CreatorShowcase {
 }
 
 export interface TextToVideoPage {
-  videoExamples: VideoExample[];
   faq: FAQ;
   cta: CTA;
   aiModelsHero: AIModelsHero;

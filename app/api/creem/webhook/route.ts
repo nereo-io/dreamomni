@@ -1,12 +1,8 @@
 import { NextRequest } from "next/server";
 import { respData, respErr } from "@/lib/resp";
-import { updateOrderStatus } from "@/models/order";
-import { insertCredit } from "@/models/credit";
-import { updateMembership } from "@/models/membership";
+import { findOrderByOrderNo } from "@/models/order";
 import { findUserByUuid } from "@/models/user";
 import { getProductConfig } from "@/config/products";
-import { getSnowId } from "@/lib/hash";
-import { Credit } from "@/types/credit";
 import { getCreemConfig } from "@/config/creem";
 import * as crypto from "crypto";
 import {
@@ -14,6 +10,8 @@ import {
   findCreemSubscriptionByCreemId,
   updateCreemSubscriptionStatus,
 } from "@/models/creem-subscription";
+import { offlineConversionService } from "@/services/analytics/yandex-offline-conversion";
+import { PaymentProcessingService } from "@/services/payment/PaymentProcessingService";
 import { findOrderByOrderNo, OrderStatus } from "@/models/order";
 
 // 日志函数
@@ -75,41 +73,28 @@ export async function POST(req: NextRequest) {
     const signature =
       req.headers.get("creem-signature") ||
       req.headers.get("x-creem-signature");
-    if (signature) {
-      try {
-        const config = getCreemConfig();
-        if (!verifyWebhookSignature(rawBody, signature, config.webhookSecret)) {
-          logError("❌ Invalid webhook signature");
-          return respErr("Invalid signature");
-        }
-        logInfo("✅ Webhook signature verified");
-      } catch (error) {
-        logError("❌ Signature verification failed", error);
-        // 在生产环境中应该拒绝未验证的请求，这里先记录警告
-        logInfo(
-          "⚠️ Proceeding without signature verification (development mode)"
-        );
+
+    if (!signature) {
+      logError("❌ No signature header found");
+      return respErr("Missing webhook signature");
+    }
+
+    try {
+      const config = getCreemConfig();
+      if (!verifyWebhookSignature(rawBody, signature, config.webhookSecret)) {
+        logError("❌ Invalid webhook signature");
+        return respErr("Invalid webhook signature");
       }
-    } else {
-      logInfo("⚠️ No signature header found, proceeding without verification");
+      logInfo("✅ Webhook signature verified");
+    } catch (error) {
+      logError("❌ Signature verification failed", error);
+      return respErr("Signature verification failed");
     }
 
     // 根据不同的事件类型处理业务逻辑
     switch (body.eventType) {
       case "checkout.completed":
         await handleCheckoutCompleted(body);
-        break;
-      case "subscription.created":
-        await handleSubscriptionCreated(body);
-        break;
-      case "subscription.updated":
-        await handleSubscriptionUpdated(body);
-        break;
-      case "subscription.trialing":
-        await handleSubscriptionTrialing(body);
-        break;
-      case "payment_intent.succeeded":
-        await handlePaymentIntentSucceeded(body);
         break;
       default:
         logInfo("ℹ️ Unhandled event type", { eventType: body.eventType });
@@ -128,6 +113,7 @@ export async function POST(req: NextRequest) {
 async function handleCheckoutCompleted(webhookData: any) {
   try {
     const checkoutObject = webhookData.object;
+    const checkoutId = checkoutObject?.id; // 使用 checkout ID 作为唯一标识
     const metadata = checkoutObject?.metadata;
     const order = checkoutObject?.order;
     const subscription = checkoutObject?.subscription;
@@ -141,6 +127,10 @@ async function handleCheckoutCompleted(webhookData: any) {
       metadata: metadata,
     });
 
+    if (!checkoutId) {
+      logError("❌ Missing checkout ID", { webhookData });
+      return;
+    }
     // 从 metadata 中获取必要信息
     const userUuid = metadata?.user_uuid;
     const userEmail = metadata?.user_email;
@@ -171,206 +161,58 @@ async function handleCheckoutCompleted(webhookData: any) {
       return;
     }
 
-    await processPaymentSuccess({
+    // 幂等性检查 - 使用 checkoutId 作为 payment_id
+    const isProcessed =
+      await PaymentProcessingService.checkPaymentAlreadyProcessed(
+        orderNo,
+        checkoutId
+      );
+
+    if (isProcessed) {
+      logInfo("⚠️ Webhook already processed, skipping", {
+        checkoutId,
+        orderNo,
+        eventType: webhookData.eventType,
+        eventId: webhookData.id,
+      });
+      return;
+    }
+
+    // 使用 PaymentProcessingService 处理支付
+    const processingResult = await PaymentProcessingService.processPayment({
+      paymentId: checkoutId, // 使用 checkoutId 作为 payment_id 确保唯一性
+      orderId: orderNo,
       userUuid,
+      amount: productConfig.amount.toString(),
       userEmail: userEmail || customer?.email || "",
+      metadata: {
+        credits: productConfig.credits,
+        product_id: productId,
+        product_name: productConfig.product_name,
+        interval: productConfig.interval,
+        membershipType: productConfig.membershipType,
+        valid_months: productConfig.valid_months,
+      },
+    });
+
+    if (!processingResult.success) {
+      logError("❌ Payment processing failed", {
+        checkoutId,
+        orderNo,
+        error: processingResult.error,
+      });
+      return;
+    }
+
+    logInfo("✅ Payment processed successfully", {
+      checkoutId,
       orderNo,
-      productConfig,
-      webhookData,
-      checkoutObject,
-    });
-  } catch (error: any) {
-    logError("❌ Error processing checkout completed", error.message);
-  }
-}
-
-/**
- * 处理订阅创建事件
- */
-async function handleSubscriptionCreated(webhookData: any) {
-  try {
-    const subscriptionObject = webhookData.object;
-    const metadata = subscriptionObject?.metadata;
-
-    logInfo("📝 Processing subscription created event", {
-      subscriptionId: subscriptionObject?.id,
-      customerId: subscriptionObject?.customer,
-      status: subscriptionObject?.status,
-      metadata: metadata,
-    });
-
-    // 订阅创建通常在 checkout.completed 之后发生
-    // 这里主要做状态同步和记录
-    logInfo("✅ Subscription created successfully", {
-      subscriptionId: subscriptionObject?.id,
-      status: subscriptionObject?.status,
-    });
-  } catch (error: any) {
-    logError("❌ Error processing subscription created", error.message);
-  }
-}
-
-/**
- * 处理订阅更新事件
- */
-async function handleSubscriptionUpdated(webhookData: any) {
-  try {
-    const subscriptionObject = webhookData.object;
-
-    logInfo("🔄 Processing subscription updated event", {
-      subscriptionId: subscriptionObject?.id,
-      status: subscriptionObject?.status,
-      currentPeriodStart: subscriptionObject?.current_period_start_date,
-      currentPeriodEnd: subscriptionObject?.current_period_end_date,
-    });
-
-    if (subscriptionObject?.id) {
-      // 更新订阅状态
-      await updateCreemSubscriptionStatus(
-        subscriptionObject.id,
-        subscriptionObject.status,
-        {
-          current_period_start: subscriptionObject.current_period_start_date,
-          current_period_end: subscriptionObject.current_period_end_date,
-        }
-      );
-
-      logInfo("✅ Subscription status updated", {
-        subscriptionId: subscriptionObject.id,
-        newStatus: subscriptionObject.status,
-      });
-    }
-  } catch (error: any) {
-    logError("❌ Error processing subscription updated", error.message);
-  }
-}
-
-/**
- * 处理订阅试用期事件
- */
-async function handleSubscriptionTrialing(webhookData: any) {
-  try {
-    const subscriptionObject = webhookData.object;
-
-    logInfo("🆓 Processing subscription trialing event", {
-      subscriptionId: subscriptionObject?.id,
-      status: subscriptionObject?.status,
-    });
-
-    // 处理试用期逻辑
-  } catch (error: any) {
-    logError("❌ Error processing subscription trialing", error.message);
-  }
-}
-
-/**
- * 处理支付意图成功事件
- */
-async function handlePaymentIntentSucceeded(webhookData: any) {
-  try {
-    logInfo("💰 Processing payment intent succeeded event", {
-      eventId: webhookData.id,
-      objectId: webhookData.object?.id,
-    });
-
-    // 处理一次性支付成功
-  } catch (error: any) {
-    logError("❌ Error processing payment intent succeeded", error.message);
-  }
-}
-
-/**
- * 统一的支付成功处理逻辑
- */
-async function processPaymentSuccess(params: {
-  userUuid: string;
-  userEmail: string;
-  orderNo: string;
-  productConfig: any;
-  webhookData: any;
-  checkoutObject: any;
-}) {
-  const {
-    userUuid,
-    userEmail,
-    orderNo,
-    productConfig,
-    webhookData,
-    checkoutObject,
-  } = params;
-
-  try {
-    // 检查订单是否已经处理过（防止重复处理）
-    const existingOrder = await findOrderByOrderNo(orderNo);
-    if (existingOrder && existingOrder.status === OrderStatus.Paid) {
-      logInfo("⚠️ Order already processed, skipping payment processing", {
-        orderNo,
-        userUuid,
-        existingStatus: existingOrder.status,
-        paidAt: existingOrder.paid_at,
-      });
-      return; // 直接返回，不重复处理
-    }
-
-    // 更新订单状态
-    try {
-      await updateOrderStatus(
-        orderNo,
-        OrderStatus.Paid,
-        new Date().toISOString(),
-        userEmail,
-        JSON.stringify(webhookData)
-      );
-      logInfo("✅ Order status updated to paid", { orderNo });
-    } catch (orderError) {
-      logError("⚠️ Failed to update order status - order might not exist", {
-        orderNo,
-        error: orderError,
-      });
-      // 继续处理积分和会员状态，即使订单记录不存在
-    }
-
-    // 添加积分
-    const creditRecord: Credit = {
-      trans_no: getSnowId(),
-      user_uuid: userUuid,
-      credits: productConfig.credits,
-      trans_type: `Creem payment: ${productConfig.product_name}`,
-      order_no: orderNo,
-      created_at: new Date().toISOString(),
-      expired_at: new Date(
-        Date.now() + 365 * 24 * 60 * 60 * 1000
-      ).toISOString(), // 1年后过期
-    };
-
-    await insertCredit(creditRecord);
-    logInfo("✅ Credits added to user", {
-      userUuid,
-      credits: productConfig.credits,
-      productName: productConfig.product_name,
-    });
-
-    // 更新会员状态
-    const membershipEndDate = new Date();
-    membershipEndDate.setMonth(
-      membershipEndDate.getMonth() + productConfig.valid_months
-    );
-
-    await updateMembership(userUuid, {
-      plan_type: productConfig.membershipType,
-      end_date: membershipEndDate.toISOString(),
-      status: "active",
-    });
-
-    logInfo("✅ Membership updated", {
-      userUuid,
-      membershipType: productConfig.membershipType,
-      endDate: membershipEndDate.toISOString(),
+      creditsAwarded: processingResult.creditsAwarded,
+      membershipUpdated: processingResult.membershipUpdated,
     });
 
     // 创建或更新 Creem 订阅记录
     try {
-      const subscription = checkoutObject?.subscription;
       if (subscription?.id) {
         // 检查订阅记录是否已存在
         const existingSubscription = await findCreemSubscriptionByCreemId(
@@ -426,14 +268,32 @@ async function processPaymentSuccess(params: {
       // 即使订阅记录创建失败，也不影响支付成功的处理
     }
 
-    logInfo("🎉 Payment success processing completed", {
-      userUuid,
-      orderNo,
-      credits: productConfig.credits,
-      membershipType: productConfig.membershipType,
-    });
+    // Track offline conversion for Yandex Metrica
+    try {
+      const orderData = await findOrderByOrderNo(orderNo);
+      if (orderData?.client_id) {
+        const success = await offlineConversionService.trackPaymentSuccess(
+          orderData.client_id,
+          orderNo,
+          orderData.amount / 100
+        );
+
+        if (success) {
+          logInfo("✅ Offline conversion tracked for Yandex Metrica", {
+            clientId: orderData.client_id,
+            orderNo,
+            amount: orderData.amount / 100,
+          });
+        }
+      }
+    } catch (conversionError: any) {
+      logError(
+        "⚠️ Failed to track offline conversion",
+        conversionError.message
+      );
+      // Don't fail the payment processing if conversion tracking fails
+    }
   } catch (error: any) {
-    logError("❌ Error in payment success processing", error.message);
-    throw error;
+    logError("❌ Error processing checkout completed", error.message);
   }
 }

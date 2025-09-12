@@ -14,6 +14,7 @@ export interface User {
   invite_code?: string;
   invited_by?: string;
   is_affiliate?: boolean;
+  is_banned?: boolean; // 用户是否被禁用
 }
 
 export interface UserCredits {

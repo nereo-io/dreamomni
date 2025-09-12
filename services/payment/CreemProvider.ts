@@ -126,16 +126,18 @@ export class CreemProvider implements PaymentProvider {
         metadata: {
           user_uuid: request.userUuid,
           user_email: request.userEmail,
-          product_id: productId,  // 保持一致的命名，使用我们的内部产品ID
+          product_id: productId, // 保持一致的命名，使用我们的内部产品ID
           ...request.metadata,
         },
       };
 
       // 调用 Creem API 创建 checkout session
-      const checkoutResponse = await this.createCheckoutSession(checkoutRequest);
+      const checkoutResponse = await this.createCheckoutSession(
+        checkoutRequest
+      );
 
       const redirectUrl = checkoutResponse.url || checkoutResponse.checkout_url;
-      
+
       console.log("✅ Creem checkout session created:", {
         sessionId: checkoutResponse.id,
         checkoutUrl: redirectUrl,
@@ -157,7 +159,7 @@ export class CreemProvider implements PaymentProvider {
       };
     } catch (error: any) {
       console.error("❌ Creem mandate creation failed:", error);
-      
+
       if (error instanceof PaymentError) {
         throw error;
       }
@@ -174,65 +176,44 @@ export class CreemProvider implements PaymentProvider {
   /**
    * 创建订阅
    * 在 Creem 中，订阅是在 checkout session 完成后自动创建的
+   * 直接调用 createMandate 方法，避免重复逻辑
    */
-  async createSubscription(request: SubscriptionRequest): Promise<SubscriptionResponse> {
-    try {
-      console.log("🚀 Creating Creem subscription:", {
-        userUuid: request.userUuid,
+  async createSubscription(
+    request: SubscriptionRequest
+  ): Promise<SubscriptionResponse> {
+    // 直接调用 createMandate，传递所有必要的 metadata
+    const mandateResponse = await this.createMandate({
+      userUuid: request.userUuid,
+      userEmail: request.userEmail,
+      paymentMethod: request.paymentMethod,
+      returnUrl: request.returnUrl,
+      reference: request.reference,
+      metadata: {
         amount: request.amount,
+        currency: request.currency,
         interval: request.interval,
         planType: request.planType,
-      });
+        description: request.description,
+        ...request.metadata,
+      },
+    });
 
-      // 对于 Creem，先创建 mandate（实际上是 checkout session）
-      const mandateRequest: MandateRequest = {
-        userUuid: request.userUuid,
-        userEmail: request.userEmail,
-        paymentMethod: request.paymentMethod,
-        returnUrl: request.returnUrl,
-        reference: request.reference,
-        metadata: {
-          amount: request.amount,
-          currency: request.currency,
-          interval: request.interval,
-          planType: request.planType,
-          description: request.description,
-          ...request.metadata,
-        },
-      };
-
-      const mandateResponse = await this.createMandate(mandateRequest);
-
-      if (!mandateResponse.success) {
-        throw new PaymentError(
-          "SUBSCRIPTION_CREATION_FAILED",
-          mandateResponse.errorMessage || "Failed to create subscription",
-          "creem"
-        );
-      }
-
-      return {
-        success: true,
-        subscriptionId: mandateResponse.subscriptionId,
-        mandateId: mandateResponse.mandateId,
-        redirectUrl: mandateResponse.redirectUrl,
-        requiresAction: true, // 用户需要访问 redirectUrl 完成支付
-        paymentProvider: "creem",
-      };
-    } catch (error: any) {
-      console.error("❌ Creem subscription creation failed:", error);
-      
-      if (error instanceof PaymentError) {
-        throw error;
-      }
-
+    if (!mandateResponse.success) {
       throw new PaymentError(
         "SUBSCRIPTION_CREATION_FAILED",
-        error.message || "Failed to create Creem subscription",
-        "creem",
-        error
+        mandateResponse.errorMessage || "Failed to create subscription",
+        "creem"
       );
     }
+
+    return {
+      success: true,
+      subscriptionId: mandateResponse.subscriptionId,
+      mandateId: mandateResponse.mandateId,
+      redirectUrl: mandateResponse.redirectUrl,
+      requiresAction: true, // 用户需要访问 redirectUrl 完成支付
+      paymentProvider: "creem",
+    };
   }
 
   /**
@@ -243,9 +224,12 @@ export class CreemProvider implements PaymentProvider {
       console.log("🔍 Querying Creem subscription:", { subscriptionId });
 
       // 调用 Creem API 查询订阅状态
-      const response = await this.apiRequest(`/v1/subscriptions/${subscriptionId}`, {
-        method: "GET",
-      });
+      const response = await this.apiRequest(
+        `/v1/subscriptions/${subscriptionId}`,
+        {
+          method: "GET",
+        }
+      );
 
       return {
         subscriptionId: response.id,
@@ -286,13 +270,15 @@ export class CreemProvider implements PaymentProvider {
       return true;
     } catch (error: any) {
       console.error("❌ Creem subscription cancellation failed:", error);
-      
+
       // 如果是 404 错误，可能订阅已经不存在或已取消
       if (error.message?.includes("404")) {
-        console.log("⚠️ Subscription not found on Creem (404) - might already be canceled");
+        console.log(
+          "⚠️ Subscription not found on Creem (404) - might already be canceled"
+        );
         return false; // 返回 false 表示取消操作没有成功，但不抛出错误
       }
-      
+
       throw new PaymentError(
         "SUBSCRIPTION_CANCEL_FAILED",
         error.message || "Failed to cancel Creem subscription",
@@ -305,21 +291,14 @@ export class CreemProvider implements PaymentProvider {
   /**
    * 处理订阅 Webhook
    */
-  async handleSubscriptionWebhook(data: any): Promise<SubscriptionWebhookResult> {
+  async handleSubscriptionWebhook(
+    data: any
+  ): Promise<SubscriptionWebhookResult> {
     try {
       console.log("🔔 Processing Creem subscription webhook:", {
         eventType: data.event_type,
         subscriptionId: data.subscription_id,
       });
-
-      // 验证 webhook 签名
-      if (!this.verifyWebhookSignature(data)) {
-        throw new PaymentError(
-          "WEBHOOK_VERIFICATION_FAILED",
-          "Invalid webhook signature",
-          "creem"
-        );
-      }
 
       // 处理不同的 webhook 事件
       switch (data.event_type) {
@@ -365,7 +344,10 @@ export class CreemProvider implements PaymentProvider {
           };
 
         default:
-          console.warn("⚠️  Unknown Creem webhook event type:", data.event_type);
+          console.warn(
+            "⚠️  Unknown Creem webhook event type:",
+            data.event_type
+          );
           return {
             success: true,
             eventType: data.event_type,
@@ -411,7 +393,7 @@ export class CreemProvider implements PaymentProvider {
         url: `${this.config.baseUrl}/v1/checkouts`,
         requestBody: request,
       });
-      
+
       throw new PaymentError(
         "CHECKOUT_CREATION_FAILED",
         error.message || "Failed to create Creem checkout session",
@@ -424,9 +406,12 @@ export class CreemProvider implements PaymentProvider {
   /**
    * 调用 Creem API
    */
-  private async apiRequest(endpoint: string, options: RequestInit = {}): Promise<any> {
+  private async apiRequest(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise<any> {
     const url = `${this.config.baseUrl}${endpoint}`;
-    
+
     const headers = {
       "Content-Type": "application/json",
       "x-api-key": this.config.apiKey,
@@ -446,15 +431,5 @@ export class CreemProvider implements PaymentProvider {
     }
 
     return await response.json();
-  }
-
-  /**
-   * 验证 webhook 签名
-   */
-  private verifyWebhookSignature(data: any): boolean {
-    // TODO: 实现 Creem webhook 签名验证
-    // 这里需要根据 Creem 的具体签名验证方式实现
-    console.warn("⚠️  Webhook signature verification not implemented yet");
-    return true;
   }
 }

@@ -37,7 +37,7 @@
   },
   "aiModelsHero": {
     "title": "All-in-One AI Image to Video Generator",
-    "description": "Seedance is the ultimate, all-in-one AI image to video generator. We offer access to industry-leading video models including Veo3 and Seedance, all in one single place. Try them seamlessly and create stunning visuals without juggling multiple platforms!",
+    "description": "Seedance is the ultimate, all-in-one AI image to video generator. We offer access to industry-leading video models including Veo3, Seedance, Hailuo, and Wan2.2, all in one single place. Try them seamlessly and create stunning visuals without juggling multiple platforms!",
     "models": [
       {
         "id": "veo3",
@@ -48,6 +48,16 @@
         "id": "seedance",
         "name": "Seedance",
         "logo": "/imgs/intro/seedance.png"
+      },
+      {
+        "id": "hailuo",
+        "name": "Hailuo",
+        "logo": "/imgs/intro/hailuo.webp"
+      },
+      {
+        "id": "wan",
+        "name": "Wan2.2",
+        "logo": "/imgs/intro/wan.png"
       }
     ],
     "moreModels": "More Models"

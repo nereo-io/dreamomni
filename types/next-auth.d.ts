@@ -7,7 +7,9 @@ declare module "next-auth" {
       nickname?: string;
       avatar_url?: string;
       created_at?: string;
+      provider?: string;
     };
+    isNewUser?: boolean;
   }
 
   interface Session {
@@ -16,6 +18,8 @@ declare module "next-auth" {
       nickname?: string;
       avatar_url?: string;
       created_at?: string;
+      provider?: string;
     } & DefaultSession["user"];
+    isNewUser?: boolean;
   }
 }

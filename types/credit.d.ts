@@ -6,4 +6,5 @@ export interface Credit {
   credits: number;
   order_no: string;
   expired_at?: string;
+  payment_id?: string;
 }

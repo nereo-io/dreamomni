@@ -3,6 +3,7 @@ import { FalProvider } from "./FalProvider";
 import { VolcanoProvider } from "./VolcanoProvider";
 import { Veo3Provider } from "./Veo3Provider";
 import { KieAiVeo3Provider } from "./KieAiVeo3Provider";
+import { AliProvider } from "./AliProvider";
 import { getVideoModel, VideoModelProvider } from "@/config/video-models";
 
 export class ProviderFactory {
@@ -56,6 +57,16 @@ export class ProviderFactory {
           );
         }
         provider = new KieAiVeo3Provider(kieaiApiKey);
+        break;
+
+      case VideoModelProvider.ALI:
+        const aliApiKey = process.env.ALI_API_KEY;
+        if (!aliApiKey) {
+          throw new Error(
+            "ALI_API_KEY environment variable is required for Ali models"
+          );
+        }
+        provider = new AliProvider(aliApiKey);
         break;
 
       default:

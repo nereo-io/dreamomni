@@ -1,6 +1,11 @@
 @baseUrl = http://localhost:3000
-@authCookie = authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiMjdjQzA0V0toaXVJbUNVOEtSOUpFREFhS0RNemVILXgzU0Vqc3pqRnZBYkFEUjE4VzVkWVB2Y0dSZXUyQkZhRnY2MGMxSGlSUVJyUk85bDFNR09VNVEifQ..f4N91IwOMNdN_805sbb6vw.Fqy5afbkccP9POIGiXWqMzA6tqwbv7sgy2wWl2jvhLBNyFL1c6vnBSii0uVummFNp_I2J8frFWdnCyCsI18vKsZUR94ERTBoNuFG5_GI9kN7wK58NOnLjUsJoDurkbIlUa1x5UfANEFvMxyrUA3QjaIr5BN3_dmy95tKAJfqUzmjY-uT-s3bqas0f6dkXwnT0N8ruIPtEC6j3nCjOOx-yC_Qp8TlhVKthkLRo8VUzJuaAyx5RL8Seua9YRgj6yRpNK980PFJN06B6H49CPyioeLGWMoXpfLva8ENAbwVb745ZWShDeFqQIYSPCTGqsSKzAu-XrmQrR3WZ70hkGYsKXJS74jPyRUQJc9p71mNpDQe7FgycaAtSQZ7lidV7TH9DqVgTg3jJ1CdABpcm5kdyMlFQK5LmB13h3RoytTsEYdxXjKdoKR5SOOalQMzz480-tAw0IfvgCTz2O2SoovUxJm5HwgTP00DWum5TiuTIBcFPE1Og2_bLNmMySRlEltcibvU-yNl3IAm9-Lzuo26xkkzjSnyHKg_DqzRsdiNxUEYt3anHD-onBNGFKTbsBLfmxjdf-9U-9jfl9iV09yKnkU86Dzrm0r4TuOLUOBLlsaiWb3v-OThRAkYveTDbNOSO-ejHH0kZzmlynIP_ZJ4hBI5ZTTO4CGksOvav29gW9ZwGKSz4K7wuQIKi3tSJBpHmaMPNanRRUcQ8vCPj9A6XZk10ZR_e443yTtg_IYTqwI.przkLGGvw_dRAFWpY8aWaEyYLim97Wgmc1Ux3OBUBzE
+
+### auth cookie从浏览器 cookie 中获取
+@authCookie = authjs.session-token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiMjdjQzA0V0toaXVJbUNVOEtSOUpFREFhS0RNemVILXgzU0Vqc3pqRnZBYkFEUjE4VzVkWVB2Y0dSZXUyQkZhRnY2MGMxSGlSUVJyUk95bDFNR09VNVEifQ..n6IEIhBjHMhvazkzYxqYsQ.VwkfPbzhHkHe41Xk71xkQjc_cte3bX-4H4HRTMHQzOrXUUVqIbbwDtd4CM2-Vi79wjKoZrAN4V4lFD7LcOR3SsiPCH0BnG3kB2mcBumfOlHHb0LeGcG1Gsq9T57ORDS68iNJU5FpD0kSkHiRUUIXW7l09YBh20hY7KIqPASKD2qHAfKxT4EUudT7Go1EE3oAz9h3Cg8EMzqrWfSSFqJPAZhzHk2-aZTVH9ryrrjiDNPuS8c7kGamMj10hRtue0QZ1f9hoY_CAY2t2yEo2DDmJCOLrziy8bC9TDmzrdLrf95mHY_z1t-Y8tZYAgaV2mS9K96-9Us7GZsZFJ8UFI2-ekcqekPnbHmPjlI3DSHz-6BEKQDqrluRd6yppJVJRpm9r-TLJe1P-t8aLiFLrdQR_VCBwAoqiktQ8rpXkpyqZEiCxAdKAEqUrza_JBTXT6E11UWOw3mYhD7LbfnM1Qikti5FJaHGiLOPy_nYf9U1ydkLmIAY0N8NrOuay2S7_ro97CLOGqyfquCia3R0g6WPdEr5Wjc3qS20mjBnWdI9xIDxpIKG4ie_RzEU36fl9NQDgRsv78RFczuBA95BLUzOvAIFc5Qwbnfm7gu6Pv0COl34DF1-XoxrnisgHXogyqpbI2-d76yYBbKl9bla60BkPFuscwgrK2VrZHK501Rw9I3xIqWdmfOBpijDzP1tkCzu330nHaD3TRs2lMJkdxU4M43CBmIj5BnnNCX_YWSt-5RycYnIf1OsQkOgqN7aY_4wpURqpqgd2dyH7w0HLg0z3Q.2N_aCfsnGfUo3wz5-mCdr77hrLSCAs65uqVkcFaOa9A
+
 @apiKey = sk-xxx
+@pixverseApiUrl = https://app-api.pixverse.ai/openapi/v2
+@pixverseApiKey = sk-469913e251d7ec05d51bd758474b0ba3
 
 ### ping api (使用Cookie认证)
 POST {{baseUrl}}/api/ping
@@ -80,3 +85,174 @@ Cookie: {{authCookie}}
   "imageUrl": "https://picsum.photos/id/1015/800/600"
 }
 
+### ========== Payssion V2 Webhook Tests ==========
+
+### Payssion V2 Webhook Test - Payment Succeeded (首次支付)
+POST http://localhost:3000/api/payssion/v2-webhook
+Content-Type: application/json; charset=UTF-8
+
+{
+    "object": "event",
+    "livemode": false,
+    "type": "payment.succeeded",
+    "data": {
+        "object": {
+            "id": "pm_vHGSCGe1y9aPiHGq5C9C2AWA",
+            "object": "payment",
+            "livemode": false,
+            "payment_method": "sberpay_ru",
+            "flow": "direct",
+            "terminal_type": "web",
+            "reference": null,
+            "source": "subscription",
+            "source_id": "sub_LOC4CGzHSeHKGmrr",
+            "mandate_id": "mdt_D40ej9Tu9q5GiXHC",
+            "customer_id": "cst_TCKiT4vDiHOCTWLG",
+            "currency": "USD",
+            "amount": "15.00",
+            "currency_local": "RUB",
+            "amount_local": "1315.38",
+            "amount_paid": "15.00",
+            "amount_refunded": "0.00",
+            "amount_local_paid": "1315.38",
+            "amount_local_refunded": "0.00",
+            "fx_to_local_converted": 87.6917,
+            "failure_message": null,
+            "failure_code": null,
+            "status": "paid",
+            "paid": true,
+            "description": "Subscription for Veo3 AI Мини",
+            "action": [
+
+            ],
+            "return_url": null,
+            "metadata": {
+                "project": "Veo3",
+                "product_name": "Veo3 AI Мини",
+                "product_id": "mini-monthly",
+                "order_no": "727756243296325",
+                "user_email": "hugeroger@gmail.com",
+                "credits": 200,
+                "user_uuid": "f54371bb-72c1-4c41-91ef-3c9c0b924704",
+                "interval": "month",
+                "amount": 1500,
+                "currency": "USD"
+            },
+            "extra": [
+
+            ],
+            "time_created": "2025-08-18T18:07:49+08:00",
+            "time_paid": "2025-08-18T18:07:49+08:00",
+            "time_expired": null,
+            "amount_disputed": null,
+            "is_disputed": false
+        }
+    },
+    "request": "iar_LWHmTKazvbn1mjP4aHaXH4u9",
+    "account": "acct_zb5mH8",
+    "time_created": "2025-08-18T18:07:49+08:00"
+}
+
+
+### Payssion V2 Webhook Test - Payment Succeeded (首次支付)
+POST http://localhost:3000/api/creem/webhook
+Content-Type: application/json; charset=UTF-8
+
+{
+  "id": "evt_1CwkuZPR6IcEaLcV1WMbz7",
+  "eventType": "checkout.completed",
+  "created_at": 1756044823082,
+  "object": {
+    "id": "ch_3AN6QmrsN8cf4iBz4qSK01",
+    "object": "checkout",
+    "request_id": "mdt729938967142469",
+    "order": {
+      "object": "order",
+      "id": "ord_1RiptvvuBXo3af9MIr2Opa",
+      "customer": "cust_4dgzeCuJsYgCj9fCqHJBym",
+      "product": "prod_3anPiH9opJYivargJPlZTV",
+      "amount": 999,
+      "currency": "USD",
+      "sub_total": 999,
+      "tax_amount": 210,
+      "amount_due": 1209,
+      "amount_paid": 1209,
+      "status": "paid",
+      "type": "recurring",
+      "transaction": "tran_5tkAgfNeaaBRJQ7MkmfBMe",
+      "created_at": "2025-08-24T14:09:24.228Z",
+      "updated_at": "2025-08-24T14:09:24.228Z",
+      "mode": "test"
+    },
+    "product": {
+      "id": "prod_3anPiH9opJYivargJPlZTV",
+      "object": "product",
+      "name": "subscription",
+      "description": "sub pay 123",
+      "image_url": "https://nucn5fajkcc6sgrd.public.blob.vercel-storage.com/Anime-Girl-with-Braids-TXHzsYUngYHYClm9RhQ6Ird2vMzA1C.png",
+      "price": 999,
+      "currency": "USD",
+      "billing_type": "recurring",
+      "billing_period": "every-month",
+      "status": "active",
+      "tax_mode": "exclusive",
+      "tax_category": "saas",
+      "default_success_url": "",
+      "created_at": "2025-07-18T05:46:11.844Z",
+      "updated_at": "2025-07-18T05:46:11.844Z",
+      "mode": "test"
+    },
+    "units": 1,
+    "success_url": "http://localhost:3000/pricing",
+    "customer": {
+      "id": "cust_4dgzeCuJsYgCj9fCqHJBym",
+      "object": "customer",
+      "email": "hugeroger@gmail.com",
+      "name": "joe",
+      "country": "NL",
+      "created_at": "2025-07-18T05:53:27.247Z",
+      "updated_at": "2025-07-18T05:53:27.247Z",
+      "mode": "test"
+    },
+    "subscription": {
+      "id": "sub_1s4XtHQximdItXsXHGQIUX",
+      "object": "subscription",
+      "product": "prod_3anPiH9opJYivargJPlZTV",
+      "customer": "cust_4dgzeCuJsYgCj9fCqHJBym",
+      "collection_method": "charge_automatically",
+      "status": "active",
+      "current_period_start_date": "2025-08-24T14:13:31.000Z",
+      "current_period_end_date": "2025-09-24T14:13:31.000Z",
+      "canceled_at": null,
+      "created_at": "2025-08-24T14:13:34.031Z",
+      "updated_at": "2025-08-24T14:13:36.847Z",
+      "metadata": {
+        "amount": 1500,
+        "credits": 200,
+        "project": "Veo3",
+        "currency": "USD",
+        "interval": "month",
+        "order_no": "729938967142469",
+        "user_uuid": "f54371bb-72c1-4c41-91ef-3c9c0b924704",
+        "product_id": "mini-monthly",
+        "user_email": "hugeroger@gmail.com",
+        "product_name": "Veo3 AI Mini"
+      },
+      "mode": "test"
+    },
+    "status": "completed",
+    "metadata": {
+      "amount": 1500,
+      "credits": 200,
+      "project": "Veo3",
+      "currency": "USD",
+      "interval": "month",
+      "order_no": "729938967142469",
+      "user_uuid": "f54371bb-72c1-4c41-91ef-3c9c0b924704",
+      "product_id": "mini-monthly",
+      "user_email": "hugeroger@gmail.com",
+      "product_name": "Veo3 AI Mini"
+    },
+    "mode": "test"
+  }
+}

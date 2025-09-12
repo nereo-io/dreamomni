@@ -3,78 +3,57 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import {
-  Download,
-  RefreshCw,
-  CheckCircle,
-  XCircle,
-  Clock,
-  Loader2,
-  History,
-  ChevronDown,
-  ChevronUp,
-  Sparkles,
-} from "lucide-react";
+import { RefreshCw, History, Loader2, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getVideoModel } from "@/config/video-models";
 import useVideoGeneration from "@/hooks/useVideoGeneration";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 import { useAppContext } from "@/contexts/app";
-import { EXAMPLE_VIDEOS } from "@/data/example-videos";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { getStatusMap, INCOMPLETE_STATUSES } from "./components/constants";
+import VideoHistoryItem from "./components/VideoHistoryItem";
+import VideoHistorySkeleton from "./components/VideoHistorySkeleton";
+import VideoShowcase from "../video-showcase";
+import type { ShowcaseVideo } from "@/types/showcase";
 
 interface VideoHistoryProps {
   refreshTrigger?: number;
   className?: string;
   selectedModel?: string;
   mode?: "text-to-video" | "image-to-video";
+  onSelectShowcaseVideo?: (
+    prompt: string,
+    aspectRatio: string,
+    duration: number,
+    model?: string,
+    imageUrl?: string
+  ) => void;
+  // New props for edit/regenerate functionality
+  onEditVideo?: (generation: VideoGenerationResult) => void;
+  onRegenerateVideo?: (generation: VideoGenerationResult) => void;
+  // Custom showcase data for effect preview
+  showcaseData?: any;
 }
-
-const getStatusMap = (t: any) => ({
-  submitted: {
-    label: t("status.submitted"),
-    color: "bg-blue-500",
-    icon: Clock,
-  },
-  PROMPT_OPTIMIZING: {
-    label: t("status.optimizingPrompt"),
-    color: "bg-purple-500",
-    icon: Loader2,
-  },
-  IN_QUEUE: { label: t("status.inQueue"), color: "bg-yellow-500", icon: Clock },
-  IN_PROGRESS: {
-    label: t("status.generating"),
-    color: "bg-orange-500",
-    icon: Loader2,
-  },
-  COMPLETED: {
-    label: t("status.completed"),
-    color: "bg-green-500",
-    icon: CheckCircle,
-  },
-  SAVED_TO_R2: {
-    label: t("status.completed"),
-    color: "bg-green-500",
-    icon: CheckCircle,
-  },
-  FAILED: { label: t("status.failed"), color: "bg-red-500", icon: XCircle },
-});
 
 export default function VideoHistory({
   refreshTrigger,
   className,
   selectedModel,
   mode,
+  onSelectShowcaseVideo,
+  onEditVideo,
+  onRegenerateVideo,
+  showcaseData,
 }: VideoHistoryProps) {
   const t = useTranslations("video-result");
-  const { fetchHistory, history, isLoadingHistory, setHistory } = useVideoGeneration();
+  const { fetchHistory, history, isLoadingHistory, setHistory } =
+    useVideoGeneration();
   const { user, setShowSignModal } = useAppContext();
+  const isMobile = useIsMobile();
   const [scrollToBottom, setScrollToBottom] = useState(false);
   const [expandedPrompts, setExpandedPrompts] = useState<Set<string>>(
     new Set()
   );
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
   // 客户端检测
@@ -82,33 +61,9 @@ export default function VideoHistory({
     setIsClient(true);
   }, []);
 
-  // 检测是否为移动端
-  useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768); // md breakpoint
-    };
-
-    checkIsMobile();
-    window.addEventListener("resize", checkIsMobile);
-
-    return () => window.removeEventListener("resize", checkIsMobile);
-  }, []);
-
-  // 获取要显示的示例视频
-  const getExampleVideos = () => {
-    if (!selectedModel) return EXAMPLE_VIDEOS.veo; // 默认显示veo3小黄鸡
-
-    // 根据模型ID判断类型
-    if (selectedModel.includes("veo") || selectedModel.includes("Veo")) {
-      return EXAMPLE_VIDEOS.veo;
-    } else {
-      return EXAMPLE_VIDEOS.seedance;
-    }
-  };
-
-  // 决定要显示的视频列表
-  const videosToShow =
-    !user?.uuid || history.length === 0 ? getExampleVideos() : history;
+  // 渲染逻辑：
+  // 1. 未登录用户：直接显示 showcase (特效 sample 或系统 showcase)
+  // 2. 已登录用户：先显示骨架屏，数据加载完成后根据结果显示内容
 
   // Toggle enhanced prompt visibility
   const togglePromptExpansion = (generationId: string) => {
@@ -121,19 +76,6 @@ export default function VideoHistory({
       }
       return newSet;
     });
-  };
-
-  // 获取视频URL
-  const getVideoUrl = (gen: VideoGenerationResult) => {
-    return (
-      gen.video_url ||
-      gen.video_url_r2 ||
-      gen.upsample_video_url_veo3 ||
-      gen.video_url_veo3 ||
-      gen.video_url_volcano ||
-      gen.video_url_fal ||
-      null
-    );
   };
 
   // 加载历史记录
@@ -152,56 +94,67 @@ export default function VideoHistory({
     loadHistory();
   }, [loadHistory]);
 
-  // 检查是否有未完成的视频需要轮询
-  const hasIncompleteVideos = useCallback(() => {
-    if (!history || history.length === 0) return false;
-
-    // 检查最新的视频是否未完成
-    const latestVideo = history[0];
-    if (!latestVideo) return false;
-
-    // 未完成的状态包括：提交中、优化中、排队中、生成中
-    const incompleteStatuses = [
-      "submitted",
-      "PROMPT_OPTIMIZING",
-      "IN_QUEUE",
-      "IN_PROGRESS",
-    ];
-    return incompleteStatuses.includes(latestVideo.status);
+  // 获取所有未完成的视频（限制最多轮询数量）
+  const getIncompleteVideos = useCallback(() => {
+    if (!history || history.length === 0) return [];
+    
+    // 返回所有未完成状态的视频，最多轮询5个（与历史记录获取数量一致）
+    const MAX_POLLING_VIDEOS = 5;
+    return history
+      .filter(video => INCOMPLETE_STATUSES.includes(video.status))
+      .slice(0, MAX_POLLING_VIDEOS);
   }, [history]);
 
-  // 更新最新视频的状态
-  const updateLatestVideoStatus = useCallback(async () => {
-    if (!history || history.length === 0) return;
+  // 检查是否有未完成的视频需要轮询
+  const hasIncompleteVideos = useCallback(() => {
+    return getIncompleteVideos().length > 0;
+  }, [getIncompleteVideos]);
 
-    const latestVideo = history[0];
-    if (!latestVideo) return;
+  // 更新所有未完成视频的状态
+  const updateIncompleteVideosStatus = useCallback(async () => {
+    const incompleteVideos = getIncompleteVideos();
+    if (incompleteVideos.length === 0) return;
 
-    try {
-      const response = await fetch("/api/video-generation/status", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: latestVideo.id }),
-      });
+    console.log(`Updating status for ${incompleteVideos.length} incomplete videos (max 5)...`);
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result.code === 0 && result.data) {
-          // 更新本地状态
-          setHistory(prevHistory => 
-            prevHistory.map((video, index) => 
-              index === 0 ? { ...video, ...result.data } : video
-            )
-          );
+    // 使用串行请求减少服务器压力，每个请求间隔100ms
+    const results: Array<{ id: string; data: any }> = [];
+    for (const video of incompleteVideos) {
+      try {
+        const response = await fetch("/api/video-generation/status", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: video.id }),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          if (result.code === 0 && result.data) {
+            results.push({ id: video.id, data: result.data });
+          }
         }
+        
+        // 添加短暂延迟，避免请求过于密集
+        if (incompleteVideos.indexOf(video) < incompleteVideos.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+      } catch (error) {
+        console.error(`更新视频 ${video.id} 状态失败:`, error);
       }
-    } catch (error) {
-      console.error("更新视频状态失败:", error);
     }
-  }, [history, setHistory]);
-
+    
+    // 批量更新本地状态
+    if (results.length > 0) {
+      setHistory((prevHistory) =>
+        prevHistory.map((video) => {
+          const update = results.find(r => r && r.id === video.id);
+          return update ? { ...video, ...update.data } : video;
+        })
+      );
+    }
+  }, [getIncompleteVideos, setHistory]);
 
   // 轮询机制：当有未完成的视频时，每3秒检查一次状态
   useEffect(() => {
@@ -213,14 +166,14 @@ export default function VideoHistory({
 
     const pollInterval = setInterval(() => {
       console.log("Polling video status...");
-      updateLatestVideoStatus();
+      updateIncompleteVideosStatus();
     }, 3000); // 每3秒轮询一次
 
     return () => {
       console.log("Stopping polling...");
       clearInterval(pollInterval);
     };
-  }, [user?.uuid, hasIncompleteVideos, updateLatestVideoStatus]);
+  }, [user?.uuid, hasIncompleteVideos, updateIncompleteVideosStatus]);
 
   // 监听刷新触发器
   useEffect(() => {
@@ -242,53 +195,6 @@ export default function VideoHistory({
       }
     }
   }, [scrollToBottom, history]);
-
-  // 动态匹配左侧组件高度 - 仅在移动端使用
-  useEffect(() => {
-    if (isMobile) {
-      const matchHeight = () => {
-        const generatorElement = document.querySelector(
-          ".video-generator-container"
-        );
-        if (generatorElement && containerRef.current) {
-          const generatorHeight =
-            generatorElement.getBoundingClientRect().height;
-          containerRef.current.style.height = `${generatorHeight}px`;
-        }
-      };
-
-      // 初始设置
-      setTimeout(matchHeight, 100);
-
-      // 监听窗口大小变化
-      window.addEventListener("resize", matchHeight);
-
-      // 使用 MutationObserver 监听左侧组件变化
-      const generatorElement = document.querySelector(
-        ".video-generator-container"
-      );
-      let observer: MutationObserver | null = null;
-
-      if (generatorElement) {
-        observer = new MutationObserver(matchHeight);
-        observer.observe(generatorElement, {
-          childList: true,
-          subtree: true,
-          attributes: true,
-          attributeFilter: ["class", "style"],
-        });
-      }
-
-      // 定时检查（作为备用）
-      const interval = setInterval(matchHeight, 2000);
-
-      return () => {
-        window.removeEventListener("resize", matchHeight);
-        if (observer) observer.disconnect();
-        clearInterval(interval);
-      };
-    }
-  }, [isMobile]);
 
   // 手动刷新
   const handleRefresh = () => {
@@ -329,42 +235,92 @@ export default function VideoHistory({
 
   const STATUS_MAP = getStatusMap(t);
 
-  // 获取状态颜色
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "COMPLETED":
-      case "SAVED_TO_R2":
-        return "bg-green-500";
-      case "IN_PROGRESS":
-      case "IN_QUEUE":
-      case "PROMPT_OPTIMIZING":
-        return "bg-blue-500";
-      case "FAILED":
-        return "bg-red-500";
-      default:
-        return "bg-yellow-500";
+  // Handle showcase video selection
+  const handleShowcaseVideoSelect = (video: ShowcaseVideo) => {
+    if (onSelectShowcaseVideo) {
+      // Parse aspect ratio to match form format
+      const aspectRatio = video.aspectRatio.replace(":", ":");
+      onSelectShowcaseVideo(video.prompt, aspectRatio, video.duration, video.model, video.imageUrl);
     }
   };
 
+  // 未登录用户：直接显示 showcase
+  if (!user?.uuid) {
+    return (
+      <div
+        className={cn(
+          "bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
+          className
+        )}
+      >
+        {/* Header */}
+        <header className="py-3 px-4 md:px-5 flex justify-between items-center border-b border-gray-700">
+          <div className="text-lg md:text-xl font-semibold flex items-center text-white">
+            <Sparkles className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3" />
+            <span className="truncate">Explore Examples</span>
+          </div>
+        </header>
+
+        {/* Showcase Content - No overflow, full height */}
+        <div className="flex-1 min-h-0 flex flex-col p-4 md:p-6">
+          <VideoShowcase 
+          mode={mode} 
+          onSelectVideo={handleShowcaseVideoSelect}
+          showcaseData={showcaseData}
+        />
+        </div>
+      </div>
+    );
+  }
+
+  // 已登录用户：数据加载中显示骨架屏
+  if (isLoadingHistory) {
+    return <VideoHistorySkeleton className={className} />;
+  }
+
+  // 已登录用户：无数据时显示 showcase
+  if (history.length === 0) {
+    return (
+      <div
+        className={cn(
+          "bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
+          className
+        )}
+      >
+        {/* Header */}
+        <header className="py-3 px-4 md:px-5 flex justify-between items-center border-b border-gray-700">
+          <div className="text-lg md:text-xl font-semibold flex items-center text-white">
+            <Sparkles className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3" />
+            <span className="truncate">Explore Examples</span>
+          </div>
+        </header>
+
+        {/* Showcase Content - No overflow, full height */}
+        <div className="flex-1 min-h-0 flex flex-col p-4 md:p-6">
+          <VideoShowcase 
+          mode={mode} 
+          onSelectVideo={handleShowcaseVideoSelect}
+          showcaseData={showcaseData}
+        />
+        </div>
+      </div>
+    );
+  }
+
+  // 已登录用户：有数据时显示历史记录
   return (
     <div
       ref={containerRef}
       className={cn(
-        "bg-gray-800 rounded-xl shadow-lg overflow-hidden",
-        // PC端使用屏幕高度，移动端保持auto
-        isMobile ? "" : "h-screen",
+        "bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
         className
       )}
-      style={{
-        height: isMobile ? "auto" : "calc(100vh - 81px)",
-        minHeight: "600px",
-      }}
     >
       {/* Header */}
-      <header className="py-3 px-5 flex justify-between items-center border-b border-gray-700">
-        <div className="text-xl font-semibold flex items-center text-white">
-          <History className="h-5 w-5 mr-3" />
-          Recent Generations
+      <header className="py-3 px-4 md:px-5 flex justify-between items-center border-b border-gray-700">
+        <div className="text-lg md:text-xl font-semibold flex items-center text-white min-w-0">
+          <History className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3 flex-shrink-0" />
+          <span className="truncate">Recent Generations</span>
         </div>
         <Button
           variant="ghost"
@@ -379,252 +335,27 @@ export default function VideoHistory({
         </Button>
       </header>
 
-      {isLoadingHistory && history.length === 0 && user?.uuid ? (
-        <div className="flex items-center justify-center py-8">
-          <Loader2 className="h-6 w-6 text-gray-500 animate-spin" />
-        </div>
-      ) : videosToShow.length === 0 ? (
-        <div className="text-center py-8">
-          <History className="h-12 w-12 text-gray-600 mx-auto mb-3" />
-          <p className="text-gray-400">No video generations yet</p>
-          <p className="text-gray-500 text-sm mt-1">
-            Your generated videos will appear here
-          </p>
-        </div>
-      ) : (
-        <div
-          className="flex-1 overflow-y-auto video-history-scroll custom-scrollbar divide-y divide-gray-700"
-          style={{
-            maxHeight: isMobile ? "calc(100% - 50px)" : "calc(100vh - 141px)",
-          }}
-        >
-          {/* 如果显示的是示例视频，添加提示 */}
-          {(!user?.uuid || history.length === 0) && (
-            <div className="p-4 bg-blue-900/20 border-b border-blue-500/30">
-              <div className="flex items-center gap-2 text-blue-300 text-sm">
-                <Sparkles className="h-4 w-4" />
-                <span>
-                  {!user?.uuid
-                    ? "Sign in to see your video generations. Here are some examples:"
-                    : "Here are some example videos to get you started:"}
-                </span>
-              </div>
-            </div>
+      <div className="lg:flex-1 lg:overflow-y-auto video-history-scroll lg:dark-scrollbar">
+        <div className="divide-y divide-gray-700">
+          {(isMobile ? [...history] : [...history].reverse()).map(
+            (generation) => (
+              <VideoHistoryItem
+                key={generation.id}
+                generation={generation}
+                statusMap={STATUS_MAP}
+                isExpanded={expandedPrompts.has(generation.id)}
+                onToggleExpanded={() => togglePromptExpansion(generation.id)}
+                onDownload={handleDownload}
+                isExample={false}
+                isClient={isClient}
+                onEdit={onEditVideo}
+                onRegenerate={onRegenerateVideo}
+                canEdit={true} // Always true for real videos
+              />
+            )
           )}
-
-          {[...videosToShow].reverse().map((generation) => {
-            console.log("Video generation data:", {
-              id: generation.id,
-              prompt: generation.prompt,
-              optimized_prompt: generation.optimized_prompt,
-              has_optimized: !!generation.optimized_prompt,
-              is_different: generation.optimized_prompt !== generation.prompt,
-            });
-
-            const videoUrl = getVideoUrl(generation);
-            const status =
-              STATUS_MAP[generation.status as keyof typeof STATUS_MAP] ||
-              STATUS_MAP.submitted;
-            const isCompleted =
-              generation.status === "COMPLETED" ||
-              generation.status === "SAVED_TO_R2";
-            const isFailed = generation.status === "FAILED";
-            const modelConfig = getVideoModel(generation.model_id);
-            const statusColor = getStatusColor(generation.status);
-
-            return (
-              <div key={generation.id} className="p-5 space-y-4">
-                {/* 头部信息：状态 + Prompt + 时间戳 */}
-                <div className="flex justify-between items-start gap-3">
-                  <div className="flex items-start gap-3 flex-1">
-                    <Badge
-                      className={cn(
-                        "text-white text-xs font-semibold px-2.5 py-1 rounded-full border-0 flex-shrink-0 mt-0.5",
-                        isCompleted
-                          ? "bg-green-500 text-green-900"
-                          : isFailed
-                          ? "bg-red-500 text-red-900"
-                          : "bg-blue-500 text-blue-900"
-                      )}
-                    >
-                      {status.label}
-                    </Badge>
-                    <p
-                      className="text-base font-bold text-white leading-relaxed flex-1"
-                      style={{
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                      }}
-                    >
-                      {generation.prompt}
-                    </p>
-                  </div>
-                  {generation.created_at && isClient && (
-                    <span className="text-sm text-gray-400 flex-shrink-0 mt-0.5">
-                      {(() => {
-                        const date = new Date(generation.created_at);
-                        const now = new Date();
-                        const diffInHours =
-                          (now.getTime() - date.getTime()) / (1000 * 60 * 60);
-
-                        if (diffInHours < 24) {
-                          return date.toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          });
-                        } else {
-                          return date.toLocaleDateString([], {
-                            month: "short",
-                            day: "numeric",
-                          });
-                        }
-                      })()}
-                    </span>
-                  )}
-                </div>
-
-                {/* 参数标签和模型名称 */}
-                <div className="flex items-center gap-2">
-                  <Badge
-                    variant="secondary"
-                    className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded border-0"
-                  >
-                    {generation.aspect_ratio || "adaptive"}
-                  </Badge>
-                  <Badge
-                    variant="secondary"
-                    className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded border-0"
-                  >
-                    {generation.duration_seconds || 5}s
-                  </Badge>
-                  {generation.upsample_video_url_veo3 && (
-                    <Badge
-                      variant="secondary"
-                      className="bg-blue-600 text-white text-xs px-2 py-1 rounded border-0"
-                    >
-                      ↑ HD
-                    </Badge>
-                  )}
-                  <div className="text-gray-300 flex-1 text-sm leading-relaxed">
-                    {modelConfig?.displayName || generation.model_id}
-                  </div>
-                </div>
-
-                {/* Enhanced Prompt 区域 */}
-                {generation.optimized_prompt &&
-                  generation.optimized_prompt !== generation.prompt && (
-                    <div className="bg-gray-900/50 rounded-lg p-4">
-                      <div
-                        className="flex justify-between items-center cursor-pointer"
-                        onClick={() => togglePromptExpansion(generation.id)}
-                      >
-                        <div className="text-sm font-semibold text-purple-400 flex items-center">
-                          <Sparkles className="text-base mr-2 h-4 w-4" />
-                          Enhanced Prompt:
-                        </div>
-                        {expandedPrompts.has(generation.id) ? (
-                          <ChevronUp className="text-gray-400 h-5 w-5" />
-                        ) : (
-                          <ChevronDown className="text-gray-400 h-5 w-5" />
-                        )}
-                      </div>
-                      <p
-                        className="mt-2 text-sm text-gray-300"
-                        style={
-                          expandedPrompts.has(generation.id)
-                            ? {}
-                            : {
-                                display: "-webkit-box",
-                                WebkitLineClamp: 2,
-                                WebkitBoxOrient: "vertical",
-                                overflow: "hidden",
-                              }
-                        }
-                      >
-                        {generation.optimized_prompt}
-                      </p>
-                    </div>
-                  )}
-
-                {/* 视频播放区域 */}
-                <div className="w-full mt-4">
-                  <div
-                    className={cn(
-                      "h-56 sm:h-64 md:h-72 lg:h-80 xl:h-96 rounded-lg overflow-hidden relative group flex items-center justify-center",
-                      isCompleted && videoUrl ? "bg-transparent" : "bg-gray-700"
-                    )}
-                  >
-                    {isCompleted && videoUrl ? (
-                      <>
-                        <video
-                          className="max-w-full max-h-full object-contain rounded-lg"
-                          controls
-                          preload="auto"
-                          muted
-                          playsInline
-                          onLoadedData={(e) => {
-                            const video = e.target as HTMLVideoElement;
-                            video.currentTime = 0.1;
-                          }}
-                        >
-                          <source src={videoUrl} type="video/mp4" />
-                          Your browser does not support the video tag.
-                        </video>
-
-                        {/* 下载按钮 */}
-                        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                          {!user?.uuid || history.length === 0 ? (
-                            // 示例视频不允许下载
-                            <div className="bg-black/60 text-white border-none h-8 w-8 p-0 rounded-md flex items-center justify-center">
-                              <Download className="h-4 w-4 opacity-50" />
-                            </div>
-                          ) : (
-                            // 真实视频允许下载
-                            <Button
-                              variant="secondary"
-                              size="sm"
-                              className="bg-black/60 hover:bg-black/80 text-white border-none h-8 w-8 p-0 rounded-md"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDownload(videoUrl);
-                              }}
-                            >
-                              <Download className="h-4 w-4" />
-                            </Button>
-                          )}
-                        </div>
-                      </>
-                    ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center bg-gray-700 rounded-lg">
-                        <status.icon
-                          className={cn(
-                            "h-8 w-8 text-gray-400 mb-2",
-                            status.icon === Loader2 && "animate-spin"
-                          )}
-                        />
-                        <span className="text-xs text-gray-500 text-center px-2">
-                          {status.label}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* 错误信息 */}
-                  {isFailed && generation.error_message && (
-                    <div className="mt-3 p-3 bg-red-900/20 rounded-lg border border-red-500/30">
-                      <p className="text-xs text-red-300 leading-relaxed">
-                        ❌ {generation.error_message}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
         </div>
-      )}
+      </div>
     </div>
   );
 }

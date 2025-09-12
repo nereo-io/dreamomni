@@ -2,7 +2,7 @@
 
 "use client";
 
-import { Check, Loader, CreditCard, Globe } from "lucide-react";
+import { Check, Loader } from "lucide-react";
 import { PricingItem, Pricing as PricingType } from "@/types/blocks/pricing";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useEffect, useState } from "react";
@@ -20,7 +20,13 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useAppContext } from "@/contexts/app";
 import { useGeolocation } from "@/hooks/useGeolocation";
-import { getAvailablePaymentMethods, PaymentMethodConfig } from "@/lib/payment-methods";
+import {
+  getAvailablePaymentMethods,
+  PaymentMethodConfig,
+} from "@/lib/payment-methods";
+import HighlightFeature from "./highlight-feature";
+import { useYandexTracking } from "@/hooks/useYandexTracking";
+import MembershipExistsModal from "@/components/ui/membership-exists-modal";
 
 interface EnhancedPricingProps {
   pricing: PricingType;
@@ -31,10 +37,12 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     return null;
   }
 
-  const { user, setShowSignModal } = useAppContext();
-  const { location, loading: locationLoading, isRussia } = useGeolocation();
+  const { user, setShowSignModal, membership } = useAppContext();
+  const { loading: locationLoading, isRussia } = useGeolocation();
+  const { trackPricingView, trackCheckoutStart, trackPayment } =
+    useYandexTracking();
 
-  const [group, setGroup] = useState(pricing.groups?.[0]?.name);
+  const [group, setGroup] = useState("yearly");
   const [isLoading, setIsLoading] = useState(false);
   const [productId, setProductId] = useState<string | null>(null);
   const [availableMethods, setAvailableMethods] = useState<
@@ -43,6 +51,8 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [selectedProvider, setSelectedProvider] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showMembershipModal, setShowMembershipModal] = useState(false);
+  const [pendingCheckoutItem, setPendingCheckoutItem] = useState<PricingItem | null>(null);
   const [successInfo, setSuccessInfo] = useState<{
     planName?: string;
     credits?: number;
@@ -97,7 +107,12 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     }
   }, [locationLoading, isRussia]);
 
-  // 检测支付成功状态
+  // Track pricing view when component mounts
+  useEffect(() => {
+    trackPricingView();
+  }, []);
+
+  // 检测支付成功状态（仅用于显示成功弹窗，不再上报 Metrica）
   useEffect(() => {
     const checkRecentPayment = async () => {
       // 检查是否有支付等待标记
@@ -106,7 +121,9 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       if (!paymentPending || !paymentTimestamp) return;
 
       try {
-        const response = await fetch(`/api/check-recent-payment?timestamp=${paymentTimestamp}`);
+        const response = await fetch(
+          `/api/check-recent-payment?timestamp=${paymentTimestamp}`
+        );
         const result = await response.json();
 
         if (result.code === 0 && result.data.hasRecentPayment) {
@@ -162,10 +179,18 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     return "";
   };
 
-  const handleCheckout = async (item: PricingItem, cn_pay: boolean = false) => {
+  const handleCheckout = async (item: PricingItem, cn_pay: boolean = false, skipMembershipCheck: boolean = false) => {
     try {
       if (!user) {
         setShowSignModal(true);
+        return;
+      }
+
+      // Check if user is already a member (unless explicitly skipping this check)
+      if (!skipMembershipCheck && membership && membership.status === 'active') {
+        // Store the item for potential retry after membership modal
+        setPendingCheckoutItem(item);
+        setShowMembershipModal(true);
         return;
       }
 
@@ -174,6 +199,10 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         toast.error("Пожалуйста, выберите способ оплаты");
         return;
       }
+
+      // Track checkout start
+      const amount = cn_pay ? item.cn_amount : item.amount;
+      trackCheckoutStart(item.product_name || item.product_id, amount || 0);
 
       await processPayment(item, cn_pay);
     } catch (e) {
@@ -195,7 +224,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       user_preference: selectedProvider,
     };
 
-    // 设置支付等待标记
+    // 设置支付等待标记（仅用于显示成功弹窗）
     const paymentTimestamp = Date.now();
     localStorage.setItem("veo3_payment_pending", "true");
     localStorage.setItem("veo3_payment_timestamp", paymentTimestamp.toString());
@@ -285,9 +314,12 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                       Date.now() + 30 * 24 * 60 * 60 * 1000
                     ).toLocaleDateString(),
             });
+<<<<<<< HEAD
             localStorage.removeItem("veo3_payment_pending");
             localStorage.removeItem("veo3_payment_timestamp");
             localStorage.removeItem("veo3_payment_info");
+=======
+>>>>>>> upstream/main
           }
           setShowSuccessModal(true);
         } else {
@@ -316,9 +348,12 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                       Date.now() + 30 * 24 * 60 * 60 * 1000
                     ).toLocaleDateString(),
             });
+<<<<<<< HEAD
             localStorage.removeItem("veo3_payment_pending");
             localStorage.removeItem("veo3_payment_timestamp");
             localStorage.removeItem("veo3_payment_info");
+=======
+>>>>>>> upstream/main
           }
           setShowSuccessModal(true);
         } else {
@@ -333,18 +368,6 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       setProductId(null);
     }
   };
-
-  useEffect(() => {
-    if (pricing.items) {
-      const yearlyGroup = pricing.groups?.find((g) => g.name === "yearly");
-      const defaultGroup = yearlyGroup
-        ? "yearly"
-        : pricing.items[0].group || pricing.groups?.[0]?.name;
-      setGroup(defaultGroup);
-      setProductId(pricing.items[0].product_id);
-      setIsLoading(false);
-    }
-  }, [pricing.items]);
 
   return (
     <>
@@ -373,7 +396,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                     return (
                       <div
                         key={i}
-                        className='h-full rounded-md transition-all has-[button[data-state="checked"]]:bg-white'
+                        className='h-full rounded-md transition-all has-[button[data-state="checked"]]:bg-white/80 dark:has-[button[data-state="checked"]]:bg-white'
                       >
                         <RadioGroupItem
                           value={item.name || ""}
@@ -385,10 +408,19 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                           className="flex h-full cursor-pointer items-center justify-center px-7 font-semibold text-muted-foreground peer-data-[state=checked]:text-primary"
                         >
                           {item.title}
-                          {item.label && (
+                          {/* 为yearly添加40%折扣标签 */}
+                          {item.name === "yearly" && (
                             <Badge
                               variant="outline"
-                              className="border-primary bg-primary px-1.5 ml-1 text-primary-foreground"
+                              className="border-primary bg-primary px-2 py-0.5 ml-2 text-primary-foreground text-xs font-medium"
+                            >
+                              40% OFF
+                            </Badge>
+                          )}
+                          {item.label && item.name !== "yearly" && (
+                            <Badge
+                              variant="outline"
+                              className="border-primary bg-primary px-1.5 ml-2 text-primary-foreground"
                             >
                               {item.label}
                             </Badge>
@@ -476,7 +508,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                   key={`feature-${fi}`}
                                 >
                                   <Check className="mt-1 size-4 shrink-0" />
-                                  {feature}
+                                  <HighlightFeature feature={feature} />
                                 </li>
                               );
                             })}
@@ -696,6 +728,27 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* 确保会员弹窗不受父容器影响 */}
+      {showMembershipModal && (
+        <div className="fixed inset-0 z-[100]">
+          <MembershipExistsModal
+            isOpen={showMembershipModal}
+            onClose={() => {
+              setShowMembershipModal(false);
+              setPendingCheckoutItem(null);
+            }}
+            onContinuePurchase={() => {
+              setShowMembershipModal(false);
+              // Continue with the checkout that was interrupted
+              if (pendingCheckoutItem) {
+                handleCheckout(pendingCheckoutItem, false, true);
+                setPendingCheckoutItem(null);
+              }
+            }}
+          />
+        </div>
+      )}
     </>
   );
 }

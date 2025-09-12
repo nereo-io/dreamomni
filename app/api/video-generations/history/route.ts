@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { getUserInfo } from "@/services/user";
 import { getUserVideoGenerations } from "@/models/videoGeneration";
+import { getEffectConfigById } from "@/models/effectConfig";
 import { respData, respErr } from "@/lib/resp";
 
 export async function GET(req: Request) {
@@ -39,9 +40,27 @@ export async function GET(req: Request) {
     const hasNext = page < totalPages;
     const hasPrev = page > 1;
 
-    // 6. 返回数据
+    // 6. 获取每个视频关联的特效信息
+    const videoGenerationsWithEffects = await Promise.all(
+      videoGenerations.map(async (video) => {
+        let effectInfo = null;
+        if (video.effect_id) {
+          const effectConfig = await getEffectConfigById(video.effect_id);
+          if (effectConfig) {
+            effectInfo = {
+              id: effectConfig.id,
+              title: effectConfig.title,
+              slug: effectConfig.slug,
+            };
+          }
+        }
+        return { ...video, effectInfo };
+      })
+    );
+
+    // 7. 返回数据
     return respData({
-      data: videoGenerations.map((video) => ({
+      data: videoGenerationsWithEffects.map((video) => ({
         id: video.id,
         model_id: video.model_id,
         prompt: video.prompt,
@@ -61,6 +80,8 @@ export async function GET(req: Request) {
         error_message: video.error_message,
         created_at: video.created_at,
         updated_at: video.updated_at,
+        effect_id: video.effect_id,
+        effect_info: video.effectInfo, // 添加特效信息
         // 不返回敏感信息如logs和metrics的详细内容
         has_logs: !!(video.logs && Object.keys(video.logs).length > 0),
         has_metrics: !!(video.metrics && Object.keys(video.metrics).length > 0),

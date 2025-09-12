@@ -1,5 +1,5 @@
 
-> seedance@1.0.0 dev /Users/jasper/Desktop/LLM/macmini/seedance
+> veo3-ai@1.0.0 dev /Users/jasper/Desktop/LLM/macmini/veo3-fresh
 > NODE_NO_WARNINGS=1 next dev
 
  ⚠ Port 3000 is in use, trying 3001 instead.
@@ -9,4 +9,5 @@
 
  ✓ Starting...
    automatically enabled Fast Refresh for 1 custom loader
- ✓ Ready in 1951ms
+ ✓ Ready in 1932ms
+[?25h

@@ -7,7 +7,7 @@ import { findOrderByOrderNo, updateOrderStatus } from "@/models/order";
 import { createOrUpdateMembership } from "./membership";
 import { getIsoTimestr, getOneYearLaterTimestr } from "@/lib/time";
 import Stripe from "stripe";
-import { updateAffiliateForOrder } from "./affiliate";
+// import { updateAffiliateForOrder } from "./affiliate"; // 已移除邀请奖励功能
 import { getProductConfigByProductId } from "@/config/payssion";
 
 export async function handleOrderSession(session: Stripe.Checkout.Session) {
@@ -82,6 +82,7 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
         credits: actualCreditsToIncrease,
         order_no: order.order_no,
         expired_at: order.expired_at || getOneYearLaterTimestr(),
+        payment_id: session.metadata.payment_id, // 从 metadata 获取 payment_id
       });
       console.log(
         `Increased ${actualCreditsToIncrease} credits for user ${user_uuid} for order ${order.order_no} (Product ID: ${product_id})`

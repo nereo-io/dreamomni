@@ -38,9 +38,7 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error: any) {
-    console.error("Email signin error:", error);
-    
-    // 处理特殊错误类型
+    // Service层已经记录了日志，这里只处理响应
     if (error.message === "EMAIL_NOT_CONFIRMED") {
       return NextResponse.json(
         { 
@@ -52,7 +50,6 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // 处理其他错误
     return NextResponse.json(
       { 
         error: "invalid_credentials",

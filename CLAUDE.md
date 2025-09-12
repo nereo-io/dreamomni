@@ -21,35 +21,45 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Key Development Commands
 
-**Essential Commands for Daily Development:**
+### Core Development
 ```bash
-# Development
-pnpm dev                    # Start development server with NODE_NO_WARNINGS=1
-pnpm dev:clean             # Clean cache and start development
-pnpm build                 # Build production version  
-pnpm lint                  # Run ESLint (run this before committing)
+pnpm dev         # Start dev server (port 3000, Node warnings disabled)
+pnpm dev:clean   # Clean cache and start development
+pnpm build       # Production build
+pnpm start       # Start production server
+pnpm lint        # Run ESLint (run this before committing)
 ```
 
-**Testing:**
+### Testing
 ```bash
 pnpm test                  # Run all Jest tests (tests in **/__tests__/**/*.test.ts)
 pnpm ts                    # Run test TypeScript file (ts/test.ts)
 jest path/to/test.test.ts  # Run specific test file
 ```
 
-**Analysis & Deployment:**
+### Analysis & Deployment
 ```bash
-pnpm start                 # Start production server with NODE_NO_WARNINGS=1
-pnpm analyze               # Bundle analysis with ANALYZE=true
-pnpm cf:build             # Build for Cloudflare Pages
-pnpm cf:preview           # Preview Cloudflare build
-pnpm cf:deploy            # Deploy to Cloudflare
+pnpm analyze     # Bundle analysis with ANALYZE=true
+pnpm cf:build    # Build for Cloudflare Pages
+pnpm cf:preview  # Preview Cloudflare build
+pnpm cf:deploy   # Deploy to Cloudflare
 ```
 
-**Utilities:**
+### Cache & Cleanup
 ```bash
-pnpm clean                # Remove node_modules, .next, pnpm-lock.yaml
-pnpm clean:cache          # Remove .next and node_modules/.cache
+pnpm clean:cache  # Clear Next.js cache
+pnpm clean        # Full clean (node_modules, .next, pnpm-lock.yaml)
+rm -rf .next      # Quick cache clear
+```
+
+### SEO Content Generation
+```bash
+pnpm seo:generate        # Generate SEO content
+pnpm seo:fix-i18n        # Fix i18n issues
+pnpm seo:shorten-buttons # Shorten button text
+pnpm seo:validate        # Validate SEO content
+pnpm seo:all             # Run all SEO tasks
+pnpm seo:help            # Show SEO help
 ```
 
 ## 项目开发记录
@@ -143,78 +153,103 @@ pnpm clean:cache          # Remove .next and node_modules/.cache
 
 ### Tech Stack
 
-- **Frontend**: Next.js 14 with App Router, TypeScript, Tailwind CSS
-- **UI Components**: Shadcn/ui, Radix UI primitives
-- **Database**: Supabase (PostgreSQL) with Row Level Security
-- **Authentication**: NextAuth.js 5.0 with multiple providers (Google, GitHub, Apple, Email)
-- **Payments**: Stripe & Payssion V2 with unified payment router
-- **Video Generation**: Multi-provider system (Volcano Engine/Seedance, APICore Veo3, fal.ai, KieAi)
+- **Framework**: Next.js 14 with App Router, TypeScript
+- **UI**: Tailwind CSS, Shadcn/ui, Radix UI
+- **Database**: Supabase (PostgreSQL with RLS)
+- **Auth**: NextAuth.js 5.0 (Google, GitHub, Apple, Email)
+- **Payments**: Creem (primary), Stripe, Payssion V2 (Russian market)
+- **Video Generation**: Multi-provider system via ProviderFactory
+- **Image Generation**: AIServiceManager with provider abstraction
 - **Internationalization**: next-intl with locale-based routing
-- **Analytics**: Plausible with custom event tracking
-- **Deployment**: Cloudflare Pages with standalone build
+- **Analytics**: Plausible, Yandex Metrica
+- **Deployment**: Vercel (primary), Cloudflare Pages (standalone build option)
 
 ### Key Architectural Patterns
 
-- **Model-Service-Component**: Database operations in `models/`, business logic in `services/`, UI in `components/`
-- **Provider Pattern**: Unified interfaces for payments (`PaymentRouter`) and video generation (`ProviderFactory`)
-- **Layered Architecture**: Clear separation between API routes, services, and data models
-- **Service-Oriented**: Modular services for credits, memberships, video generation, etc.
+#### Model-Service-Component Pattern
+- **models/**: Database operations with Supabase
+- **services/**: Business logic and provider integrations
+- **components/**: UI components (blocks/, ui/, dashboard/)
 
-### Database Schema Highlights
-
-- **Users**: Authentication with multiple providers, credits system
-- **Subscriptions**: Stripe/Payssion integration with automatic credit distribution
-- **Video Generations**: Multi-provider generation tracking with status management
-- **Orders**: Payment tracking across multiple providers
-- **Credits**: Comprehensive credit system with transaction history
+#### Provider Pattern
+- **PaymentRouter**: Unified payment provider selection
+- **ProviderFactory**: Video generation provider routing
+- **AIServiceManager**: Image generation provider management
+- **Provider interfaces**: Consistent API across different providers
 
 ### Video Generation Flow
 
-1. **Provider Selection**: `ProviderFactory` routes to appropriate provider (Volcano/Seedance, APICore, fal.ai, KieAi)
-2. **Request Processing**: Unified interface through `services/providers/`
-3. **Status Tracking**: `videoStatusService` monitors generation progress
-4. **Webhook Handling**: Provider-specific webhooks update generation status
-5. **Result Storage**: Generated videos stored via Supabase Storage/cloud providers
+1. Request arrives at `/api/video-generation/submit`
+2. `ProviderFactory` selects provider based on model ID
+3. Provider submits job to external API (Volcano, Kie.ai, etc.)
+4. `videoStatusService` tracks generation progress
+5. Provider webhooks update status at `/api/video-generation/webhook/*`
+6. Generated videos stored in cloud storage
+
+### Image Generation Flow
+
+1. Request arrives at `/api/image-generation/submit`
+2. `AIServiceManager` selects provider (Nano Banana/Kie.ai primary)
+3. Optional prompt optimization via `optimizeImagePromptWithTimeout`
+4. Provider API call (sync or async callback mode)
+5. Status tracking via `/api/ai-callback/[provider]`
+6. Credits: 2 credits per generation (fixed), auto-refund on failure
 
 ### Payment Processing
 
-- **Unified Router**: `PaymentRouter` handles provider selection based on user location/preference
-- **Stripe Integration**: Primary payment processor with subscription management
-- **Payssion V2**: Alternative payment processor with webhook signature verification
-- **Creem Integration**: Payment processor for certain regions with subscription support
-- **Credit System**: Automatic credit distribution based on subscription tier
+- **PaymentRouter** (`services/payment/PaymentRouter.ts`): Intelligent provider selection
+- **Creem**: Primary payment processor for most regions
+- **Stripe**: International fallback processor
+- **Payssion V2**: Russian market (SberPay, YooMoney, Mir Card)
+- Webhook signature verification (HMAC-SHA256 for Payssion)
+- Automatic credit distribution on successful payment
 
-### Security Features
+### Database Schema
 
-- **Webhook Validation**: HMAC-SHA256 signature verification for Payssion V2
-- **RLS Policies**: Row-level security on all database operations
-- **Input Validation**: Zod schemas for API request validation
-- **Sensitive Data Filtering**: Automatic filtering of sensitive fields in logs
+- **users**: Multi-provider auth, credits balance
+- **subscriptions**: Stripe/Payssion/Creem subscriptions
+- **video_generations**: Video generation tracking with provider metadata
+- **image_generations**: Image generation records with status tracking
+- **orders**: Cross-provider payment tracking
+- **credits**: Transaction history and balance management
 
-## 重要文件和目录结构
+## Key File Locations
 
-### 核心服务文件
-- **`services/providers/`**: 视频生成提供商实现（VolcanoProvider, Veo3Provider, FalProvider, KieAiVeo3Provider）
-- **`services/payment/`**: 支付处理服务（StripeProvider, PayssionProvider, CreemProvider, PaymentRouter）
-- **`services/videoStatusService.ts`**: 视频生成状态监控服务
-- **`models/`**: 数据库模型定义（user, videoGeneration, subscription, order, credit等）
+### Configuration
+- `next.config.mjs` - Next.js config with MDX, i18n, bundle analyzer
+- `tailwind.config.ts` - Tailwind with custom animations
+- `i18n/request.ts` - Locale configuration
+- `config/video-models.ts` - Video model definitions and pricing
+- `config/products.ts` - Product configuration
 
-### API 路由架构
-- **`app/api/video-generation/`**: 视频生成相关API（submit, result, status, webhook）
-- **`app/api/auth/`**: 身份验证API（NextAuth.js配置）
-- **`app/api/payment/`**: 支付相关API（checkout, webhook处理）
-- **`app/api/subscription/`**: 订阅管理API
+### Service Layer
+- `services/payment/PaymentRouter.ts` - Payment provider routing
+- `services/providers/ProviderFactory.ts` - Video provider selection
+- `services/AIServiceManager.ts` - Image generation provider management
+- `services/providers/BaseAIProvider.ts` - Abstract provider interface
+- `services/providers/NanoBananaProvider.ts` - Kie.ai image provider
+- `services/videoStatusService.ts` - Generation status tracking
+- `services/creditsService.ts` - Credit management
+- `services/promptOptimization.ts` - AI prompt enhancement
 
-### 组件架构
-- **`components/blocks/`**: 页面级组件（hero-section, video-generator, pricing等）
-- **`components/ui/`**: 基础UI组件（基于shadcn/ui）
-- **`components/console/`**: 控制台页面组件
-- **`components/auth/`**: 认证相关组件
+### API Routes
+- `app/api/video-generation/` - Video generation endpoints
+- `app/api/video-generation/webhook/` - Provider-specific webhooks (Ali, etc.)
+- `app/api/image-generation/submit` - Image generation submission
+- `app/api/image-generation/status` - Image generation status polling
+- `app/api/image-generations/history` - User generation history
+- `app/api/ai-callback/[provider]` - AI provider async callbacks
+- `app/api/subscription/` - Subscription management
+- `app/api/creem/webhook/` - Creem payment webhooks
+- `app/api/payssion/v2-webhook/` - Payssion V2 webhooks
+- `app/api/stripe-notify/` - Stripe payment notifications
+- `app/api/outrank/webhook/` - Outrank service webhooks
 
-### 国际化结构
-- **`i18n/messages/`**: 主要消息文件（5种语言）
-- **`i18n/pages/`**: 页面特定翻译（image-to-video, text-to-video等）
-- **`i18n/blocks/`**: 组件级翻译文件
+### Provider Implementations
+- `services/providers/VolcanoProvider.ts` - Volcano Engine (Seedance)
+- `services/providers/KieAiVeo3Provider.ts` - Kie.ai (Veo3)
+- `services/providers/AliProvider.ts` - Ali Cloud
+- `services/providers/FalProvider.ts` - fal.ai integration
 
 ## 开发技巧
 
@@ -223,15 +258,109 @@ pnpm clean:cache          # Remove .next and node_modules/.cache
 - 使用 `pnpm dev:clean` 可以清理缓存后启动开发服务器
 - 运行单个测试文件：`jest path/to/test.test.ts`
 - 调试TypeScript文件：`pnpm ts` (运行 ts/test.ts)
+- Debug logging: `pnpm dev 2>&1 | tee dev.log`
 
-## 环境配置要求
+## Environment Variables
 
-### 必需的环境变量
-- **Supabase**: `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`
-- **NextAuth**: `NEXTAUTH_URL`, `NEXTAUTH_SECRET`
-- **支付服务**: Stripe, Payssion V2, Creem相关配置
-- **视频生成**: Volcano Engine, APICore, fal.ai, KieAi API密钥
+### Core Services
+```bash
+SUPABASE_URL
+SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY
+AUTH_SECRET
+```
 
-## Login Information
+### Payment Providers
+```bash
+STRIPE_PUBLIC_KEY
+STRIPE_PRIVATE_KEY
+STRIPE_WEBHOOK_SECRET
+PAYSSION_API_KEY
+PAYSSION_WEBHOOK_SECRET
+CREEM_API_KEY
+CREEM_WEBHOOK_SECRET
+```
 
-- 备用登录账号：hugeroger@gmail.com 密码：123123
+### Video Generation Providers
+```bash
+ARK_API_KEY           # Volcano Engine
+KIE_AI_API_KEY        # Kie.ai (also for Nano Banana image)
+APICORE_API_KEY       # APICore (commented out)
+ALI_API_KEY           # Ali Cloud
+FAL_KEY               # fal.ai
+```
+
+### Image Generation Providers
+```bash
+KIE_AI_API_KEY        # Nano Banana (Kie.ai)
+OPENAI_API_KEY        # DALL-E (if configured)
+REPLICATE_API_TOKEN   # Replicate models
+HF_TOKEN              # Hugging Face models
+```
+
+### CAPTCHA
+```bash
+TURNSTILE_SECRET_KEY  # Cloudflare Turnstile for new users
+```
+
+### Analytics
+```bash
+NEXT_PUBLIC_YANDEX_METRICA_ID
+YANDEX_OFFLINE_CONVERSION_TOKEN
+NEXT_PUBLIC_PLAUSIBLE_DOMAIN
+```
+
+## Important Development Notes
+
+### Local Development
+- Check if dev server is already running before starting new instance
+- Use port 3000 (typically bound to ngrok for testing)
+- Debug logging: `pnpm dev 2>&1 | tee dev.log`
+
+### Video Model Configuration
+- Models defined in `config/video-models.ts`
+- Credit calculation: `calculateCredits(modelId, duration, hasAudio, resolution)`
+- Each provider has specific model IDs and capabilities
+- Seedance models support 480p/1080p with 5x price difference
+- Product configuration in `config/products.ts`
+
+### Image Generation Configuration
+- Providers managed by `AIServiceManager`
+- Fixed 2 credits per image generation
+- Supports text-to-image and image-to-image modes
+- Async callback pattern for Nano Banana provider
+- Automatic credit refund on generation failure
+- CAPTCHA required for new users (10 credits balance)
+
+### Payment Flow
+1. Location detection determines available payment methods
+2. Russian regions → Payssion
+3. Other regions → Creem (primary) or Stripe (fallback)
+4. Webhook handlers process payment confirmations
+5. Credits distributed automatically on successful payment
+
+### Security Considerations
+- Row-level security (RLS) on all Supabase tables
+- Webhook signature verification for payment providers (HMAC-SHA256)
+- Zod schemas for API request validation
+- Sensitive data filtered from logs
+- Cloudflare Turnstile integration for bot protection
+
+## Current Development Status
+
+- **Active Branch**: main
+- **Recent Features**: 
+  - Text-to-image generation with Nano Banana (Kie.ai)
+  - Image-to-image transformation
+  - Prompt optimization with AI enhancement
+  - CAPTCHA verification for new users (Cloudflare Turnstile)
+  - Async callback pattern for image generation
+  - Auto-refund credits on generation failure
+  - Creem payment integration
+  - UI redesign with (home) route group
+  - Yandex Metrica offline conversion tracking
+  - SEO content generation tooling
+  - Multi-provider webhook support
+- **Active Video Providers**: Kie.ai (Veo3), Volcano Engine (Seedance), MiniMax (Hailuo), Ali Cloud, fal.ai
+- **Active Image Providers**: Nano Banana (Kie.ai primary), OpenAI DALL-E (configured), Stable Diffusion (planned)
+- **Commented Providers**: Some fal.ai models (Kling), APICore Veo3

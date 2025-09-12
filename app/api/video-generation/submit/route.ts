@@ -1,6 +1,7 @@
 import { respData, respErr } from "@/lib/resp";
 import { auth } from "@/auth";
 import { getUserInfo } from "@/services/user";
+import { getClientIp, isIPBlocked } from "@/lib/ip";
 import { createVideoGeneration } from "@/models/videoGeneration";
 import {
   decreaseCredits,
@@ -20,10 +21,42 @@ import {
   isKieAiModel,
   isVeoModel,
   isVolcanoModel,
+  isAliModel,
+  isMinimaxModel,
   calculateCredits,
   VideoModelProvider,
 } from "@/config/video-models";
-import { optimizePromptWithTimeout } from "@/services/promptOptimization";
+import { ProviderFactory } from "@/services/providers";
+import { optimizeVideoPromptWithTimeout } from "@/services/promptOptimization";
+import { getEffectConfigById } from "@/models/effectConfig";
+
+// 验证Cloudflare Turnstile CAPTCHA
+async function verifyCaptcha(token: string, clientIP: string): Promise<boolean> {
+  if (!process.env.TURNSTILE_SECRET_KEY) {
+    console.warn("TURNSTILE_SECRET_KEY not configured, skipping CAPTCHA verification");
+    return true; // 如果没配置密钥，跳过验证
+  }
+
+  try {
+    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        secret: process.env.TURNSTILE_SECRET_KEY,
+        response: token,
+        remoteip: clientIP,
+      }),
+    });
+
+    const result = await response.json();
+    return result.success === true;
+  } catch (error) {
+    console.error('CAPTCHA verification error:', error);
+    return false;
+  }
+}
 
 export async function POST(req: Request) {
   try {
@@ -37,6 +70,19 @@ export async function POST(req: Request) {
     const userInfo = await getUserInfo();
     if (!userInfo?.uuid) {
       return respErr("Failed to get user information");
+    }
+
+    // 检查用户是否被禁用
+    if (userInfo.is_banned) {
+      return respErr("Account has been suspended due to suspicious activity");
+    }
+
+    // 检查IP是否在黑名单中
+    const clientIP = await getClientIp();
+    const isBlocked = await isIPBlocked(clientIP);
+    if (isBlocked) {
+      console.warn(`Video generation blocked for IP: ${clientIP}`);
+      return respErr("Video generation not available from this network");
     }
 
     // 3. 检查用户积分
@@ -60,6 +106,8 @@ export async function POST(req: Request) {
       enable_safety_checker = true,
       generate_audio = false, // 新增：音频生成选项
       enable_prompt_enhancement = true, // 新增：prompt增强开关
+      effect_id, // 新增：特效ID
+      captchaToken, // 新增：CAPTCHA token
       ...otherParams
     } = await req.json();
 
@@ -68,20 +116,62 @@ export async function POST(req: Request) {
       return respErr("model 和 prompt 参数是必需的");
     }
 
+    // 4. 基于积分的CAPTCHA验证（与前端逻辑一致）
+    if (userCredits.left_credits <= 10) {
+      // 新用户（积分<=10）需要CAPTCHA验证，防止薅羊毛
+      if (!captchaToken) {
+        return respErr("CAPTCHA verification is required for new users");
+      }
+      
+      const captchaValid = await verifyCaptcha(captchaToken, clientIP);
+      if (!captchaValid) {
+        console.warn(`CAPTCHA verification failed for new user: ${userInfo.uuid}, IP: ${clientIP}, credits: ${userCredits.left_credits}`);
+        return respErr("CAPTCHA verification failed. Please try again.");
+      }
+      
+      console.log(`CAPTCHA verification passed for new user: ${userInfo.uuid}, credits: ${userCredits.left_credits}`);
+    }
+
+    // 处理特效配置
+    let finalPrompt = prompt;
+    let finalModel = model;
+    let effectCreditsOverride: number | null = null;
+    
+    if (effect_id) {
+      const effectConfig = await getEffectConfigById(effect_id);
+      
+      if (effectConfig) {
+        // 应用prompt模板
+        if (effectConfig.prompt_template) {
+          finalPrompt = effectConfig.prompt_template.replace('{{USER_PROMPT}}', prompt);
+        }
+        
+        // 使用默认模型 minimax-hailuo02-image-to-video 用于特效
+        if (effectConfig) {
+          finalModel = 'minimax-hailuo02-image-to-video';
+        }
+        
+        // 使用特效积分
+        if (effectConfig.credits_required) {
+          effectCreditsOverride = effectConfig.credits_required;
+        }
+      }
+    }
+
     // 验证模型是否支持
-    const modelConfig = getVideoModel(model);
+    const modelConfig = getVideoModel(finalModel);
     if (!modelConfig) {
       return respErr(
-        `不支持的模型: ${model}。支持的模型: ${getSupportedModelIds().join(
+        `不支持的模型: ${finalModel}。支持的模型: ${getSupportedModelIds().join(
           ", "
         )}`
       );
     }
 
-    // 4. 计算所需积分并检查余额
+    // 5. 计算所需积分并检查余额
     const durationInt = parseInt(duration);
-    const requiredCredits = calculateCredits(
-      model,
+    const requiredCredits = effectCreditsOverride || calculateCredits(
+      finalModel,
       durationInt,
       generate_audio,
       resolution
@@ -114,8 +204,11 @@ export async function POST(req: Request) {
     // 根据时长确定交易类型（所有模型通用）
     if (durationInt === 5) {
       transType = CreditsTransType.VideoGeneration5s;
+    } else if (durationInt === 6) {
+      // MiniMax 模型的6秒使用5秒类型（积分计算已经按实际秒数计算）
+      transType = CreditsTransType.VideoGeneration6s;
     } else if (durationInt === 8) {
-      // VEO模型的8秒使用5秒类型（积分计算已经按实际秒数计算）
+      // VEO模型的8秒使用8秒类型
       transType = CreditsTransType.VideoGeneration8s;
     } else if (durationInt === 10) {
       transType = CreditsTransType.VideoGeneration10s;
@@ -123,9 +216,10 @@ export async function POST(req: Request) {
       return respErr(`不支持的时长: ${durationInt}秒`);
     }
 
-    // 5. 扣除积分（在创建任务前扣除）
+    // 6. 扣除积分（在创建任务前扣除）
+    let creditInfo: { order_no: string; expired_at?: string };
     try {
-      await decreaseCredits({
+      creditInfo = await decreaseCredits({
         user_uuid: userInfo.uuid,
         trans_type: transType,
         credits: requiredCredits,
@@ -135,31 +229,32 @@ export async function POST(req: Request) {
       return respErr("Failed to deduct credits, please try again later");
     }
 
-    // 6. 在数据库中创建记录（根据是否启用prompt增强设置初始状态）
+    // 7. 在数据库中创建记录（根据是否启用prompt增强设置初始状态）
     const videoGeneration = await createVideoGeneration({
       user_id: userInfo.uuid,
-      model_id: model,
-      prompt,
+      model_id: finalModel,
+      prompt: effect_id ? prompt : finalPrompt, // 如果有特效，保存原始prompt
       input_image_url: image_url,
       negative_prompt,
       aspect_ratio,
       duration_seconds: parseInt(duration),
       cfg_scale,
       seed,
-      has_audio: generate_audio, // 新增：记录是否包含音频
+      has_audio: finalModel.includes('veo') && generate_audio, // 只有 VEO 模型有音频
       status: enable_prompt_enhancement ? "PROMPT_OPTIMIZING" : "IN_QUEUE",
+      effect_id: effect_id,
     });
 
-    // 6.5. 优化提示词
-    let finalPrompt = prompt;
+    // 7.5. 优化提示词
+    let enhancedPrompt = finalPrompt;
     if (enable_prompt_enhancement) {
       try {
-        const optimizedPrompt = await optimizePromptWithTimeout(
-          prompt,
-          model,
+        const optimizedPrompt = await optimizeVideoPromptWithTimeout(
+          finalPrompt,
+          finalModel,
           30000
         );
-        finalPrompt = optimizedPrompt;
+        enhancedPrompt = optimizedPrompt;
 
         // 更新记录保存优化后的提示词
         await import("@/models/videoGeneration").then(
@@ -176,8 +271,8 @@ export async function POST(req: Request) {
 
     // 构建请求输入（使用优化后的提示词）
     const input: any = {
-      model,
-      prompt: finalPrompt,
+      model: finalModel,
+      prompt: enhancedPrompt,
     };
 
     // 通用参数
@@ -198,7 +293,7 @@ export async function POST(req: Request) {
     }
 
     // 根据模型类型添加相应参数
-    if (isImageToVideoModel(model)) {
+    if (isImageToVideoModel(finalModel)) {
       if (!image_url) {
         return respErr("Image-to-video models require an image_url parameter");
       }
@@ -206,7 +301,7 @@ export async function POST(req: Request) {
     }
 
     // 按模型提供商分类处理参数
-    if (isKlingModel(model)) {
+    if (isKlingModel(finalModel)) {
       // Kling 模型特有参数
       if (duration) {
         input.duration = duration;
@@ -217,7 +312,23 @@ export async function POST(req: Request) {
       if (cfg_scale !== undefined) {
         input.cfg_scale = cfg_scale;
       }
-    } else if (isVeo3ApicoreModel(model)) {
+    } else if (isMinimaxModel(finalModel)) {
+      // MiniMax 支持 prompt_optimizer（根据用户选择）
+      input.prompt_optimizer = enable_prompt_enhancement;
+
+      // 图片转视频模型支持分辨率选择
+      if (finalModel === "minimax-hailuo02-image-to-video") {
+        // MiniMax 仅支持 512P 和 768P（大写）
+        if (resolution === "512p") {
+          input.resolution = "512P";
+        } else if (resolution === "768p") {
+          input.resolution = "768P";
+        } else {
+          input.resolution = "768P"; // 默认使用 768P
+        }
+      }
+      // Text-to-video 不需要设置 resolution，使用默认768p
+    } else if (isVeo3ApicoreModel(finalModel)) {
       // Veo3 APICore 模型特有参数
       if (generate_audio !== undefined) {
         input.generate_audio = generate_audio;
@@ -226,12 +337,12 @@ export async function POST(req: Request) {
       if (image_url) {
         input.image_url = image_url;
       }
-    } else if (isVolcanoModel(model)) {
+    } else if (isVolcanoModel(finalModel)) {
       // Volcano 模型特有参数 (使用volcanoModel配置)
       if (modelConfig.volcanoModel) {
         input.model = modelConfig.volcanoModel;
       }
-    } else if (isKieAiModel(model)) {
+    } else if (isKieAiModel(finalModel)) {
       // Kie.ai 模型特有参数
       if (image_url) {
         input.image_url = image_url;
@@ -240,24 +351,29 @@ export async function POST(req: Request) {
       if (otherParams.watermark) {
         input.watermark = otherParams.watermark;
       }
+    } else if (isAliModel(finalModel)) {
+      // 阿里百炼模型特有参数
+      if (image_url) {
+        input.image_url = image_url;
+      }
+      // 阿里百炼使用 resolution 参数
+      input.resolution = resolution;
     }
 
-    // 7. 提交任务到队列，包含webhook URL
+    // 8. 提交任务到队列，包含webhook URL
     const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
-    // const webhookUrl = `https://cb7d7fd27e71.ngrok-free.app/api/video-generation/webhook`;
+    // const webhookUrl = `https://b3b0385f848b.ngrok-free.app/api/video-generation/webhook`;
 
     try {
-      // 动态导入Provider Factory以避免build时环境变量检查
-      const { ProviderFactory } = await import("@/services/providers");
-      const provider = ProviderFactory.getProvider(model);
+      // 使用Provider Factory获取合适的provider
+      const provider = ProviderFactory.getProvider(finalModel);
 
       console.log("submit input", input);
-
       // 重试机制：针对连接超时错误重试3次
       let submitResponse;
       for (let attempt = 1; attempt <= 3; attempt++) {
         try {
-          submitResponse = await provider.submit(model, input, webhookUrl);
+          submitResponse = await provider.submit(finalModel, input, webhookUrl);
           break;
         } catch (error) {
           const errorMsg =
@@ -287,7 +403,7 @@ export async function POST(req: Request) {
         throw new Error("视频生成提交失败");
       }
 
-      // 8. 更新数据库记录的请求ID
+      // 9. 更新数据库记录的请求ID
       const updateParams: any = {};
 
       // 根据提供商类型设置相应的专用字段
@@ -301,6 +417,8 @@ export async function POST(req: Request) {
       ) {
         // Both APICore and KieAI use the same veo3_request_id field
         updateParams.veo3_request_id = submitResponse.request_id;
+      } else if (modelConfig.provider === VideoModelProvider.ALI) {
+        updateParams.ali_request_id = submitResponse.request_id;
       }
 
       // 更新请求ID和状态为 IN_QUEUE
@@ -346,17 +464,14 @@ export async function POST(req: Request) {
 
       // 如果提交失败，我们需要退还积分
       try {
-        // 为退还的积分设置一个合理的过期时间（1个月后）
-        const oneMonthFromNow = new Date();
-        oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
-        const expiredAt = oneMonthFromNow.toISOString();
-
+        // 使用扣积分时的order_no和expired_at
         await import("@/services/credit").then(({ increaseCredits }) =>
           increaseCredits({
             user_uuid: userInfo.uuid!,
             trans_type: transType,
             credits: requiredCredits,
-            expired_at: expiredAt,
+            order_no: creditInfo.order_no,
+            expired_at: creditInfo.expired_at,
           })
         );
       } catch (refundError) {

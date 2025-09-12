@@ -8,7 +8,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Drawer,
@@ -18,9 +17,9 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/components/ui/drawer";
 import { SiGithub, SiGmail, SiGoogle, SiApple } from "react-icons/si";
+import { VKLoginButton } from "./vk-login";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,6 +33,7 @@ import { useTranslations } from "next-intl";
 import { useEmailAuth } from "@/hooks/useEmailAuth";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 export default function SignModal() {
   const t = useTranslations();
@@ -43,7 +43,6 @@ export default function SignModal() {
   const [mode, setMode] = useState<"signin" | "signup" | "forgot">("signin");
   const [showEmailAuth, setShowEmailAuth] = useState(false);
 
-  const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   // 动态标题和描述
@@ -132,6 +131,7 @@ function ProfileForm({ className, mode, setMode, showEmailAuth, setShowEmailAuth
   const { setShowSignModal } = useAppContext();
   const [message, setMessage] = useState<string | null>(null);
   const [pendingVerificationEmail, setPendingVerificationEmail] = useState<string | null>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   
   const { login, signup, forgotPassword, resendVerification, isLoading, error, clearError } = useEmailAuth();
   
@@ -158,12 +158,19 @@ function ProfileForm({ className, mode, setMode, showEmailAuth, setShowEmailAuth
         setShowSignModal(false);
       }
     } else if (mode === "signup") {
-      const result = await signup(data);
+      // 注册时检查CAPTCHA
+      if (!captchaToken) {
+        setMessage("Please complete the CAPTCHA verification");
+        return;
+      }
+      
+      const result = await signup({ ...data, captchaToken });
       if (result) {
         if (result.requiresVerification) {
           setPendingVerificationEmail(data.email);
           setMode("signin");
           reset();
+          setCaptchaToken(null); // 清空CAPTCHA token
         } else {
           const loginResult = await login({ email: data.email, password: data.password });
           if (loginResult === true) {
@@ -184,6 +191,7 @@ function ProfileForm({ className, mode, setMode, showEmailAuth, setShowEmailAuth
     clearError();
     setMessage(null);
     setPendingVerificationEmail(null);
+    setCaptchaToken(null);
     reset();
   };
 
@@ -270,6 +278,10 @@ function ProfileForm({ className, mode, setMode, showEmailAuth, setShowEmailAuth
                 <SiGoogle className="w-4 h-4" />
                 {t("sign_modal.google_sign_in")}
               </Button>
+            )}
+
+            {process.env.NEXT_PUBLIC_AUTH_VK_ENABLED === "true" && (
+              <VKLoginButton />
             )}
 
             {process.env.NEXT_PUBLIC_AUTH_GITHUB_ENABLED === "true" && (
@@ -379,7 +391,27 @@ function ProfileForm({ className, mode, setMode, showEmailAuth, setShowEmailAuth
               </div>
             )}
 
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            {/* Turnstile CAPTCHA - Only for signup */}
+            {mode === "signup" && process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+              <div className="flex justify-center">
+                <Turnstile
+                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                  onSuccess={(token) => {
+                    setCaptchaToken(token);
+                    setMessage(null); // Clear CAPTCHA error message
+                  }}
+                  onExpire={() => {
+                    setCaptchaToken(null);
+                  }}
+                  onError={() => {
+                    setCaptchaToken(null);
+                    setMessage("CAPTCHA verification failed. Please try again.");
+                  }}
+                />
+              </div>
+            )}
+
+            <Button type="submit" className="w-full" disabled={isLoading || (mode === "signup" && !captchaToken)}>
               {isLoading ? "Loading..." : (
                 mode === "signin" ? "Sign In" :
                 mode === "signup" ? "Create Account" : "Send Reset Email"

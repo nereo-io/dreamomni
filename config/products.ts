@@ -26,7 +26,7 @@ export interface ProductConfig {
 export const PRODUCT_CONFIGS: ProductConfig[] = [
   {
     product_id: "mini-monthly",
-    product_name: "Veo3 AI Mini",
+    product_name: "Seedance Mini",
     amount: 3000,
     currency: "USD",
     credits: 400,
@@ -37,7 +37,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   },
   {
     product_id: "mini-yearly",
-    product_name: "Veo3 AI Mini Yearly",
+    product_name: "Seedance Mini Yearly",
     amount: 21600,
     currency: "USD",
     credits: 4800,
@@ -48,25 +48,47 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   },
   {
     product_id: "standard-monthly",
-    product_name: "Veo3 AI Standard",
+    product_name: "Seedance Standard",
     amount: 10000,
     currency: "USD",
     credits: 2000,
     interval: "month",
     valid_months: 1,
     membershipType: "monthly",
-    creem_product_id: "prod_7GjxcCpy3AfjhpdG3kzxic", // Creem 月付费产品ID（复用）
+    creem_product_id: "prod_7GjxcCpy3AfjhpdG3kzxic", // Creem 月付费产品ID
   },
   {
     product_id: "standard-yearly",
-    product_name: "Veo3 AI Standard Yearly",
+    product_name: "Seedance Standard Yearly",
     amount: 72000,
     currency: "USD",
     credits: 24000,
     interval: "year",
     valid_months: 12,
     membershipType: "yearly",
-    creem_product_id: "prod_6Jg7ySsDYHBBYDzIjml96Y", // Creem 年付费产品ID（复用）
+    creem_product_id: "prod_6Jg7ySsDYHBBYDzIjml96Y", // Creem 年付费产品ID
+  },
+  {
+    product_id: "plus-monthly",
+    product_name: "Seedance Plus",
+    amount: 9900,
+    currency: "USD",
+    credits: 3000,
+    interval: "month",
+    valid_months: 1,
+    membershipType: "monthly",
+    creem_product_id: "prod_1ZVFmSS2oXjvSRR2YX6azq", // Creem 月付费产品ID
+  },
+  {
+    product_id: "plus-yearly",
+    product_name: "Seedance Plus Yearly",
+    amount: 72000,
+    currency: "USD",
+    credits: 36000,
+    interval: "year",
+    valid_months: 12,
+    membershipType: "yearly",
+    creem_product_id: "prod_pZyGxqSgMeWwX51BkK9F9", // Creem 年付费产品ID
   },
 ];
 

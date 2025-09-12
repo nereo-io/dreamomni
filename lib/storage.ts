@@ -95,6 +95,26 @@ export class Storage {
     contentType?: string;
     disposition?: "inline" | "attachment";
   }) {
+    // 优先使用代理下载（如果配置了代理）
+    if (process.env.PROXY_URL && process.env.PROXY_SECRET) {
+      try {
+        const { videoDownloadProxy } = await import('@/utils/video-download-proxy');
+        const buffer = await videoDownloadProxy.downloadVideo(url);
+        
+        return this.uploadFile({
+          body: buffer,
+          key,
+          bucket,
+          contentType,
+          disposition,
+        });
+      } catch (proxyError) {
+        console.warn("代理下载失败，回退到直连:", proxyError);
+        // 继续执行原有的直连逻辑
+      }
+    }
+
+    // 原有的直连下载逻辑
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

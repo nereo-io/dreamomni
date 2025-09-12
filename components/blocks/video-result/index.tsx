@@ -29,17 +29,17 @@ interface VideoResultProps {
     status: string;
     prompt: string;
     optimized_prompt?: string;
-    video_url?: string;
-    video_url_r2?: string;
-    video_url_fal?: string;
-    video_url_volcano?: string;
-    video_url_veo3?: string;
-    upsample_video_url_veo3?: string;
+    video_url_r2?: string | null;
+    video_url_fal?: string | null;
+    video_url_volcano?: string | null;
+    video_url_veo3?: string | null;
+    upsample_video_url_veo3?: string | null;
     error_message?: string;
     created_at?: string;
     aspect_ratio?: string;
     duration_seconds?: number;
   } | null;
+  generatedVideo?: string | null;
   isGenerating?: boolean;
   placeholderIcon?: React.ReactNode;
   placeholderText?: string;
@@ -128,6 +128,7 @@ const getFriendlyErrorMessage = (apiErrorMessage?: string, t?: any): string => {
 
 export default function VideoResult({
   generation,
+  generatedVideo,
   isGenerating = false,
   placeholderIcon,
   placeholderText = "Upload an image and click generate to create your video",
@@ -135,67 +136,95 @@ export default function VideoResult({
   onVideoUrlUpdate,
   className,
 }: VideoResultProps) {
-  // 所有hooks调用都放在顶部，避免条件性返回
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoadingVideo, setIsLoadingVideo] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
-  const [currentTime, setCurrentTime] = useState(Date.now());
-  const router = useRouter();
-  const t = useTranslations("video-result");
-
   // 获取优先级最高的视频URL
-  const getVideoUrl = (gen?: VideoResultProps["generation"]) => {
-    if (!gen) return null;
-    // 优先使用API已经处理好的video_url字段，它已经应用了正确的优先级逻辑
-    // 如果没有，则手动应用优先级逻辑作为备用
+  const getVideoUrl = (gen?: VideoResultProps['generation']) => {
+    if (!gen) return generatedVideo;
     return (
-      gen.video_url ||
       gen.video_url_r2 ||
       gen.upsample_video_url_veo3 ||
       gen.video_url_veo3 ||
       gen.video_url_volcano ||
       gen.video_url_fal ||
-      null
+      generatedVideo
     );
   };
 
   const [videoUrl, setVideoUrl] = useState(getVideoUrl(generation));
-
-  // 获取模型配置以确定等待时间
-  const modelConfig = generation ? getVideoModel(generation.model) : null;
-  const TOTAL_WAIT_TIME_SECONDS =
-    modelConfig?.estimatedGenerationTime || DEFAULT_WAIT_TIME_SECONDS;
-
-  // 计算状态值（如果没有generation则使用默认值）
-  const STATUS_MAP = getStatusMap(t);
-  const status = generation
-    ? STATUS_MAP[generation.status as keyof typeof STATUS_MAP] ||
-      STATUS_MAP.submitted
-    : STATUS_MAP.submitted;
-  const isCompleted = generation
-    ? generation.status === "COMPLETED" || generation.status === "SAVED_TO_R2"
-    : false;
-  const isFailed = generation ? generation.status === "FAILED" : false;
-  const isProcessing = generation
-    ? generation.status === "IN_PROGRESS" ||
-      generation.status === "IN_QUEUE" ||
-      generation.status === "submitted" ||
-      generation.status === "PROMPT_OPTIMIZING"
-    : false;
+  const [currentTime, setCurrentTime] = useState(Date.now());
+  const router = useRouter();
+  const t = useTranslations("video-result");
 
   // 当generation对象发生变化时，重置videoUrl状态
   useEffect(() => {
     const newVideoUrl = getVideoUrl(generation);
     setVideoUrl(newVideoUrl);
   }, [
-    generation?.id,
-    generation?.video_url,
-    generation?.video_url_r2,
+    generation?.id, 
+    generation?.video_url_r2, 
     generation?.upsample_video_url_veo3,
     generation?.video_url_veo3,
     generation?.video_url_volcano,
     generation?.video_url_fal,
+    generatedVideo
   ]);
+
+  // 获取模型配置以确定等待时间
+  const modelConfig = generation ? getVideoModel(generation.model) : null;
+  const TOTAL_WAIT_TIME_SECONDS =
+    modelConfig?.estimatedGenerationTime || DEFAULT_WAIT_TIME_SECONDS;
+
+  // 如果没有generation数据，使用简化模式
+  if (!generation) {
+    return (
+      <div className={cn("bg-gray-900 rounded-lg p-6", className)}>
+        <h2 className="text-white text-lg font-semibold mb-3">Generated Video</h2>
+        
+        <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden relative">
+          {videoUrl ? (
+            <>
+              <video
+                className="w-full h-full object-cover"
+                controls
+                preload="metadata"
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+              >
+                <source src={videoUrl} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </>
+          ) : isGenerating ? (
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500 mb-4"></div>
+              <p className="text-gray-400">Generating your video...</p>
+              <p className="text-gray-500 text-sm mt-2">This may take a few minutes</p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              {placeholderIcon}
+              <p className="text-gray-400">{placeholderText}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  const STATUS_MAP = getStatusMap(t);
+  const status =
+    STATUS_MAP[generation.status as keyof typeof STATUS_MAP] ||
+    STATUS_MAP.submitted;
+  const isCompleted =
+    generation.status === "COMPLETED" || generation.status === "SAVED_TO_R2";
+  const isFailed = generation.status === "FAILED";
+  const isProcessing =
+    generation.status === "IN_PROGRESS" ||
+    generation.status === "IN_QUEUE" ||
+    generation.status === "submitted" ||
+    generation.status === "PROMPT_OPTIMIZING";
 
   // 定时器更新当前时间
   useEffect(() => {
@@ -212,7 +241,6 @@ export default function VideoResult({
   useEffect(() => {
     const fetchVideoResult = async () => {
       if (
-        generation &&
         isCompleted &&
         !videoUrl &&
         generation.requestId &&
@@ -221,8 +249,6 @@ export default function VideoResult({
       ) {
         setIsLoadingVideo(true);
         try {
-          console.log("Fetching video result for:", generation.requestId);
-
           const response = await fetch(
             `/api/video-generation/result?model=${encodeURIComponent(
               generation.model
@@ -234,52 +260,13 @@ export default function VideoResult({
             if (result.code === 0 && result.data?.video_url) {
               const newVideoUrl = result.data.video_url;
               setVideoUrl(newVideoUrl);
-              // 通知父组件更新视频URL
               if (onVideoUrlUpdate) {
                 onVideoUrlUpdate(newVideoUrl);
-              }
-              console.log("Video URL fetched successfully:", newVideoUrl);
-            } else {
-              console.error("Failed to get video URL from result:", result);
-              console.log("Full result data:", result);
-
-              // 如果获取视频结果失败，可能需要重新检查状态
-              // 这里可以添加逻辑通知父组件状态可能有问题
-              if (result.message && result.message.includes("Unprocessable")) {
-                console.warn("视频结果不可处理，可能需要重新检查状态");
-                // 可以触发状态重新检查
-                if (onRetry) {
-                  setTimeout(() => {
-                    console.log("自动重新检查状态");
-                    onRetry();
-                  }, 2000);
-                }
-              }
-            }
-          } else {
-            console.error("Failed to fetch video result:", response.status);
-
-            // 如果是422错误（Unprocessable Entity），可能需要重新检查状态
-            if (response.status === 422) {
-              console.warn("视频结果无法处理，可能需要重新检查状态");
-              if (onRetry) {
-                setTimeout(() => {
-                  console.log("自动重新检查状态");
-                  onRetry();
-                }, 2000);
               }
             }
           }
         } catch (error) {
           console.error("Error fetching video result:", error);
-
-          // 网络错误也可以考虑重试
-          if (onRetry) {
-            setTimeout(() => {
-              console.log("获取视频结果出错，自动重新检查状态");
-              onRetry();
-            }, 3000);
-          }
         } finally {
           setIsLoadingVideo(false);
         }
@@ -290,16 +277,15 @@ export default function VideoResult({
   }, [
     isCompleted,
     videoUrl,
-    generation?.requestId,
-    generation?.model,
+    generation.requestId,
+    generation.model,
     isLoadingVideo,
     onVideoUrlUpdate,
-    onRetry,
   ]);
 
   // 计算已等待时间和剩余时间
   const getWaitTimeInfo = () => {
-    if (!generation?.created_at) {
+    if (!generation.created_at) {
       return {
         elapsedSeconds: 0,
         remainingSeconds: TOTAL_WAIT_TIME_SECONDS,
@@ -331,18 +317,15 @@ export default function VideoResult({
   // 根据时间计算进度百分比
   const getProgressValue = () => {
     if (!isProcessing) {
-      if (generation) {
-        switch (generation.status) {
-          case "COMPLETED":
-          case "SAVED_TO_R2":
-            return 100;
-          case "FAILED":
-            return 0;
-          default:
-            return 5;
-        }
+      switch (generation.status) {
+        case "COMPLETED":
+        case "SAVED_TO_R2":
+          return 100;
+        case "FAILED":
+          return 0;
+        default:
+          return 5;
       }
-      return 0;
     }
 
     return getWaitTimeInfo().progressValue;
@@ -364,57 +347,16 @@ export default function VideoResult({
     }
   };
 
-  // 如果没有generation数据，使用简化模式
-  if (!generation) {
-    return (
-      <div className={cn("bg-gray-900 rounded-lg p-6", className)}>
-        <h2 className="text-white text-lg font-semibold mb-3">
-          Generated Video
-        </h2>
-
-        <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden relative">
-          {videoUrl ? (
-            <>
-              <video
-                className="w-full h-full object-cover"
-                controls
-                preload="auto"
-                onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
-              >
-                <source src={videoUrl} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </>
-          ) : isGenerating ? (
-            <div className="flex flex-col items-center justify-center h-full text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500 mb-4"></div>
-              <p className="text-gray-400">Generating your video...</p>
-              <p className="text-gray-500 text-sm mt-2">
-                This may take a few minutes
-              </p>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center h-full text-center">
-              {placeholderIcon}
-              <p className="text-gray-400">{placeholderText}</p>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className={cn("bg-gray-900 rounded-lg p-6", className)}>
       <h2 className="text-white text-lg font-semibold mb-3">Generated Video</h2>
-
+      
       <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden relative mb-4">
         {isCompleted && videoUrl && !isFailed ? (
           <video
             className="w-full h-full object-cover"
             controls
-            preload="auto"
+            preload="metadata"
             onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
             style={{ aspectRatio: generation.aspect_ratio || "16/9" }}
@@ -422,26 +364,6 @@ export default function VideoResult({
             <source src={videoUrl} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-        ) : isCompleted && !videoUrl && isLoadingVideo && !isFailed ? (
-          <div className="flex flex-col items-center justify-center h-full text-center">
-            <div className="flex items-center gap-2 mb-4">
-              <Loader2 className="h-6 w-6 text-blue-500 animate-spin" />
-              <span className="text-blue-400">Loading video...</span>
-            </div>
-            <p className="text-gray-500 text-sm">
-              Processing the generated video file
-            </p>
-          </div>
-        ) : isCompleted && !videoUrl && !isLoadingVideo && !isFailed ? (
-          <div className="flex flex-col items-center justify-center h-full text-center">
-            <div className="flex items-center gap-2 mb-4">
-              <Clock className="h-6 w-6 text-yellow-500" />
-              <span className="text-yellow-400">Video processing...</span>
-            </div>
-            <p className="text-gray-500 text-sm">
-              Video is still being processed, please wait
-            </p>
-          </div>
         ) : isProcessing || isGenerating ? (
           <div className="flex flex-col items-center justify-center h-full text-center">
             <div className="flex items-center gap-2 mb-4">
@@ -452,7 +374,7 @@ export default function VideoResult({
                 )}
               />
               <Badge className={cn(status.color, "text-white")}>
-                {status.label || "Generating"}
+                {status.label}
               </Badge>
             </div>
             <p className="text-gray-400 mb-2">
@@ -507,18 +429,17 @@ export default function VideoResult({
           <p className="text-sm text-gray-300 leading-relaxed">
             {generation.prompt}
           </p>
-          {generation.optimized_prompt &&
-            generation.optimized_prompt !== generation.prompt && (
-              <div className="mt-2 pt-2 border-t border-gray-700">
-                <p className="text-xs text-purple-400 mb-1 flex items-center gap-1">
-                  <Sparkles className="h-3 w-3" />
-                  Enhanced Prompt:
-                </p>
-                <p className="text-sm text-gray-300 leading-relaxed">
-                  {generation.optimized_prompt}
-                </p>
-              </div>
-            )}
+          {generation.optimized_prompt && generation.optimized_prompt !== generation.prompt && (
+            <div className="mt-2 pt-2 border-t border-gray-700">
+              <p className="text-xs text-purple-400 mb-1 flex items-center gap-1">
+                <Sparkles className="h-3 w-3" />
+                Enhanced Prompt:
+              </p>
+              <p className="text-sm text-gray-300 leading-relaxed">
+                {generation.optimized_prompt}
+              </p>
+            </div>
+          )}
         </div>
       )}
     </div>

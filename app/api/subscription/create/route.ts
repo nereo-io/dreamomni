@@ -5,6 +5,7 @@ import { findUserByUuid } from "@/models/user";
 import { getPaymentRouter } from "@/services/payment";
 import { MandateRequest } from "@/services/payment/types";
 import { insertOrder } from "@/models/order";
+import { getClientIdFromCookie } from "@/lib/yandex-metrica";
 import { Order } from "@/types/order";
 import { getSnowId } from "@/lib/hash";
 import { getPayssionConfig } from "@/config/payssion";
@@ -86,6 +87,10 @@ export async function POST(req: NextRequest) {
       return respErr("invalid user");
     }
 
+    // Extract clientID from cookies for Yandex Metrica offline conversion tracking
+    const cookieHeader = req.headers.get('cookie') || '';
+    const clientId = getClientIdFromCookie(cookieHeader);
+
     // 创建订单号
     const order_no = getSnowId();
 
@@ -132,6 +137,7 @@ export async function POST(req: NextRequest) {
       valid_months: valid_months,
       payment_provider: getPaymentProvider(payment_method),
       payment_method: payment_method,
+      client_id: clientId, // Add clientID for offline conversion tracking
     };
     await insertOrder(order);
 

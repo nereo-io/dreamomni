@@ -18,18 +18,20 @@ export enum CreditsTransType {
   SystemAdd = "system_add", // system add credits
   Ping = "ping", // cost for ping api
   Chat = "chat", // cost for chat api
-  Invite = "invite", // cost for invite
   RefundNonResponse = "refund_non_response", // compensation for unanswered messages
   VideoGeneration5s = "video_generation_5s", // cost for 5 seconds video generation
+  VideoGeneration6s = "video_generation_6s", // cost for 6 seconds video generation
   VideoGeneration8s = "video_generation_8s", // cost for 8 seconds video generation
   VideoGeneration10s = "video_generation_10s", // cost for 10 seconds video generation
+  RefundVideoGenerationFailed = "refund_video_generation_failed", // refund credits for failed video generation
+  ImageGeneration = "image_generation", // cost for image generation
+  RefundImageGenerationFailed = "refund_image_generation_failed", // refund credits for failed image generation
 }
 
 export enum CreditsAmount {
   NewUserGet = 10,
   PingCost = 1,
   ChatCost = 1,
-  InviteGet = 5,
   VideoGeneration5sCost = 10,
   VideoGeneration10sCost = 20,
 }
@@ -75,7 +77,7 @@ export async function decreaseCredits({
   user_uuid: string;
   trans_type: CreditsTransType;
   credits: number;
-}) {
+}): Promise<{ order_no: string; expired_at?: string }> {
   try {
     let order_no = "";
     let expired_at: string | undefined = undefined;
@@ -109,6 +111,9 @@ export async function decreaseCredits({
       expired_at: expired_at,
     };
     await insertCredit(new_credit);
+    
+    // 返回使用的order_no和expired_at，供退款时使用
+    return { order_no, expired_at };
   } catch (e) {
     console.log("decrease credits failed: ", e);
     throw e;
@@ -121,12 +126,14 @@ export async function increaseCredits({
   credits,
   expired_at,
   order_no,
+  payment_id,
 }: {
   user_uuid: string;
   trans_type: string;
   credits: number;
   expired_at?: string;
   order_no?: string;
+  payment_id?: string;
 }) {
   try {
     const new_credit: Credit = {
@@ -137,6 +144,7 @@ export async function increaseCredits({
       credits: credits,
       order_no: order_no || "",
       expired_at: expired_at || undefined,
+      payment_id: payment_id || undefined,
     };
     await insertCredit(new_credit);
   } catch (e) {

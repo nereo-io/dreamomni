@@ -25,9 +25,15 @@
     "home": "Home",
     "image_to_video": "Image to Video",
     "text_to_video": "Text to Video",
+    "text_to_image": "Text to Image",
+    "image_to_image": "Image to Image",
     "ai_video_effects": "AI Video Effects",
+    "ai_effects": "AI Effects",
     "my_creations": "My Creations",
-    "upgrade_now": "Upgrade Now"
+    "upgrade_now": "Upgrade Now",
+    "feedback_title": "Feedback? DM us!",
+    "feedback_telegram": "Join Telegram",
+    "feedback_discord": "Join Discord"
   },
   "pricing_modal": {
     "select_payment_method": "Choose payment method",
@@ -53,14 +59,26 @@
     "no_account": "Don't have an account?",
     "email_sign_in": "Sign in with Email",
     "google_sign_in": "Sign in with Google",
+    "vk_sign_in": "Sign in with VK",
     "github_sign_in": "Sign in with GitHub",
     "apple_sign_in": "Sign in with Apple",
     "close_title": "Close",
     "cancel_title": "Cancel"
   },
+  "vk_login": {
+    "button_text": "Continue with VK",
+    "sdk_not_loaded": "VK SDK is not loaded",
+    "login_successful": "Login successful!",
+    "login_failed": "VK login failed",
+    "failed_to_process": "Failed to process login",
+    "failed_to_exchange": "Failed to exchange code for tokens",
+    "failed_to_initialize": "Failed to initialize VK login",
+    "error_unknown": "Unknown error",
+    "error_message": "VK login error: {message}"
+  },
   "my_orders": {
     "title": "My Orders",
-    "description": "orders paid with Veo3AI.",
+    "description": "orders paid with Seedance.",
     "no_orders": "No orders found",
     "activate_order": "Activate Order",
     "actived": "Activated",
@@ -193,7 +211,7 @@
     "edit_invite_link": "Edit Invite Link",
     "copy_invite_link": "Copy Invite Link",
     "invite_code": "Invite Code",
-    "invite_tip": "Get bonus credits for every friend who signs up through your link.",
+    "invite_tip": "Share your invite link with friends to help them discover our platform.",
     "invite_balance": "Invite Reward Balance",
     "total_invite_count": "Total Invite Count",
     "total_paid_count": "Total Paid Count",
@@ -232,6 +250,7 @@
     "remainingCredits": "Remaining Credits",
     "cost": "Cost",
     "recharge": "Recharge",
+    "additionalOptions": "Additional Options",
     "generateVideo": "Generate Video",
     "submitting": "Submitting...",
     "uploading": "Uploading...",
@@ -260,7 +279,7 @@
     "duration": "Duration",
     "resolution": "Resolution",
     "telegramBanner": {
-      "text": "Join Telegram group to discuss Veo3",
+      "text": "Join Telegram group to discuss Seedance",
       "linkText": "Join"
     },
     "toast": {
@@ -303,7 +322,10 @@
       "regenerationNotImplemented": "Regeneration functionality to be implemented.",
       "fetchError": "Failed to fetch video history",
       "noDataReturned": "No data returned"
-    }
+    },
+    "pleaseSignIn": "Please sign in",
+    "signInToViewVideos": "Sign in to view your generated videos",
+    "signInButton": "Sign In"
   },
   "video-result": {
     "status": {
@@ -354,15 +376,37 @@
       "title": "Welcome to Seedance",
       "description": "Transform your ideas into stunning videos with our advanced AI technology. Choose from text-to-video, image-to-video, or explore our creative video effects."
     },
+    "videoEffects": {
+      "title": "AI Video Effects - Transform Your Videos",
+      "description": "Create stunning video effects with AI. Choose from dozens of templates and transform your videos instantly.",
+      "keywords": "AI video effects, video transformation, AI templates, video editing, visual effects, AI filters",
+      "gridTitle": "Free 100+ AI Video Templates and Effects",
+      "useThisEffect": "Use This Effect"
+    },
     "textToVideo": {
       "title": "Free AI Video Generator: Text to Video AI Online",
       "description": "Discover the Seedance video generator, a cutting-edge, free solution that effortlessly turns a text prompt into an engaging video. Try our text to video AI today!",
       "keywords": "AI video generator, text to video, free video generator, Seedance, AI video creation, text to video online"
     },
+    "textToImage": {
+      "title": "Free AI Text to Image Generator: Create Images from Text | Seedance",
+      "description": "Transform your words into stunning visuals with Seedance's free text-to-image generator. Create high-quality images from detailed text descriptions with cutting-edge AI technology.",
+      "keywords": "AI text to image, text to image generator, free AI image creator, Seedance, AI art from text, image generation from text"
+    },
+    "imageToImage": {
+      "title": "Free AI Image to Image Editor: Transform Images with AI | Seedance",
+      "description": "Edit and transform your images with Seedance's powerful image-to-image editor. Upload your photos and use AI to create stunning variations and modifications.",
+      "keywords": "AI image editor, image to image AI, photo transformation, AI image editing, Seedance, image modification AI"
+    },
     "imageToVideo": {
       "title": "Free Image to Video AI Generator: Turn Photos to Videos",
       "description": "Use the image to video AI generator of Seedance for free. Convert photos to videos with high-quality and captivating results. Try our image to video AI now!",
       "keywords": "image to video AI, photo to video converter, free image to video, Seedance, AI video from image, image animation"
+    },
+    "imageGeneration": {
+      "title": "Free AI Image Generator: Create Stunning Images from Text | Seedance",
+      "description": "Generate high-quality images from text prompts with Seedance's free image generator. Create stunning artwork, photos, and illustrations with cutting-edge AI technology.",
+      "keywords": "AI image generator, text to image, free image generator, Seedance, AI art, image creation, AI artwork"
     },
     "videoAffects": {
       "heroSection": {
@@ -402,31 +446,138 @@
       }
     }
   },
-  "effects": {
-    "ai-kissing": "AI Kissing Video Generator",
-    "kiss-me-ai": "Kiss Me AI",
-    "ai-twerk": "AI Twerk Video Generator",
-    "ai-hug": "AI Hug",
-    "ai-muscle": "AI Muscle Generator",
-    "ai-french-kissing": "AI French Kissing",
-    "ai-360-rotation": "AI 360° Rotation Video Generator",
-    "ai-cloud-ride": "AI Cloud Ride Video Generator",
-    "dance-party": "Dance Party Generator",
-    "magic-tricks": "Magic Tricks Effect",
-    "time-travel": "Time Travel Effect",
-    "vampire-transformation": "Vampire Transformation",
-    "ghost-effect": "Ghost Appearance Effect",
-    "gender-swap": "Gender Swap Effect",
-    "hair-color-change": "Hair Color Changer",
-    "makeup-artist": "AI Makeup Artist",
-    "body-transformation": "Body Transformation",
-    "halloween-spooky": "Halloween Spooky Effect",
-    "valentine-romance": "Valentine Romance Effect",
-    "new-year-celebration": "New Year Celebration",
-    "summer-beach": "Summer Beach Vibes",
-    "happiness-boost": "Happiness Boost Effect",
-    "surprise-reaction": "Surprise Reaction Effect",
-    "anger-expression": "Anger Expression Effect",
-    "love-struck": "Love Struck Effect"
+  "imageGenerator": {
+    "textToImage": "Text to Image",
+    "imageToImage": "Image to Image",
+    "prompt": "Prompt",
+    "settings": "Settings",
+    "model": "Model",
+    "image": "Image",
+    "credits": "Credits",
+    "cost": "Cost",
+    "recharge": "Recharge",
+    "generateImage": "Generate Image",
+    "transformImage": "Transform Image",
+    "generating": "Generating...",
+    "uploading": "Uploading...",
+    "clickToUpload": "Click to upload or drag and drop",
+    "supportedFormats": "Supported formats: JPEG, PNG, WEBP",
+    "textToImagePlaceholder": "Describe the image you want to create, e.g., A majestic eagle soaring through mountain peaks at golden hour...",
+    "imageToImagePlaceholder": "Describe how you want to edit the image, e.g., Change the background to a sunset scene, add more contrast...",
+    "pleaseEnterDescription": "Please enter a description for your image",
+    "pleaseUploadImage": "Please upload at least one image for editing",
+    "insufficientCredits": "Insufficient credits. Need {credits} credits to generate with this model.",
+    "imageUploadedSuccessfully": "Image uploaded successfully",
+    "uploadFailed": "Failed to upload image",
+    "invalidImageFile": "{filename} is not a valid image file",
+    "fileSizeExceeded": "{filename} exceeds 10MB size limit",
+    "generationSuccessful": "Image generation successful",
+    "accountSyncSuccessful": "Account synchronized successfully. Please try again.",
+    "pleaseSignInAgain": "Please sign out and sign in again to synchronize your account.",
+    "generationFailed": "Generation failed: {error}",
+    "unknownError": "Unknown error",
+    "promptEnhancement": "Prompt Enhancement",
+    "promptEnhancementDescription": "AI will enhance your prompt for better image quality",
+    "nanoBananaDisplayName": "Nano Banana",
+    "nanoBananaProvider": "Kie.ai Nano Banana",
+    "highQuality": "High Quality",
+    "fastGeneration": "Fast",
+    "pleaseSignInToGenerate": "Please sign in to generate images",
+    "generationStarted": "Image generation started.",
+    "generationCompleted": "Image generation complete!",
+    "generationInProgress": "Generating...",
+    "generationStatusChecking": "Checking status..."
+  },
+  "myCreations": {
+    "title": "My Creations",
+    "description": "View all your AI-generated videos and images",
+    "videoTab": "Videos",
+    "imageTab": "Images"
+  },
+  "imageHistory": {
+    "title": "Image History",
+    "noImagesTitle": "No images yet",
+    "noImagesDescription": "Your generated images will appear here once you start creating.",
+    "completed": "Completed",
+    "processing": "Processing",
+    "pending": "Pending",
+    "failed": "Failed",
+    "optimizingPrompt": "Optimizing Prompt",
+    "optimizingPromptTitle": "Optimizing Prompt...",
+    "optimizingPromptDescription": "AI is optimizing your prompt for better results",
+    "imageDeleted": "Image deleted successfully",
+    "deleteSuccess": "Image deleted successfully",
+    "deleteFailed": "Failed to delete image",
+    "deleteConfirmTitle": "Delete Image",
+    "deleteConfirmDescription": "Are you sure you want to delete this image? This action cannot be undone.",
+    "deleteConfirmCancel": "Cancel",
+    "deleteConfirmConfirm": "Delete",
+    "generationFailed": "Generation failed",
+    "generatingImage": "Generating image...",
+    "waitingInQueue": "Waiting in queue...",
+    "addedToFavorites": "Added to favorites",
+    "removedFromFavorites": "Removed from favorites",
+    "imageDownloaded": "Image downloaded",
+    "downloadFailed": "Failed to download image",
+    "promptCopied": "Prompt copied to clipboard",
+    "urlCopied": "Image URL copied to clipboard",
+    "copyFailed": "Failed to copy image URL",
+    "openInNewTab": "Open image in new tab",
+    "copyImageUrl": "Copy image URL",
+    "pleaseSignIn": "Please sign in",
+    "signInToViewImages": "Sign in to view your generated images",
+    "signInButton": "Sign In",
+    "downloadImage": "Download image",
+    "copyPrompt": "Copy prompt",
+    "credits": "credits",
+    "signInToView": "Sign in to view your generated images and create new ones.",
+    "generatingComplete": "Image generation complete!",
+    "generatingFailed": "Image generation failed: {error}",
+    "deleteImage": "Delete image",
+    "addToFavorites": "Add to favorites",
+    "inQueue": "In queue...",
+    "textToImageModel": "nano-banana",
+    "imageToImageModel": "nano-banana"
+  },
+  "common": {
+    "useThisEffect": "Use This Effect",
+    "loading": "Loading...",
+    "error": "Error"
+  },
+  "components": {
+    "heroSection": {
+      "defaultTitle": "AI Video Effects",
+      "defaultDescription": "Transform your videos with AI-powered effects",
+      "defaultButtonText": "Get Started"
+    },
+    "categoryTabs": {
+      "all": "All",
+      "interaction": "Interaction",
+      "appearance": "Appearance",
+      "emotions": "Emotions",
+      "entertainment": "Entertainment",
+      "herovillain": "Hero/Villain",
+      "horrorFantasy": "Horror/Fantasy",
+      "xmas": "Xmas",
+      "others": "Others",
+      "newLabel": "New"
+    },
+    "categoryEffectSection": {
+      "defaultDescription": "Discover amazing {categoryName} effects for your videos"
+    }
+  },
+  "captcha": {
+    "title": "Security Verification",
+    "description": "To prevent abuse, please complete the security verification to continue generating your video",
+    "verifying": "Verifying...",
+    "verificationFailed": "Verification failed, please try again",
+    "verificationExpired": "Verification expired, please verify again"
+  },
+  "membershipModal": {
+    "description": "You are already a member.",
+    "explanation": "You can view and manage your current subscription details.",
+    "viewSubscription": "View Subscription",
+    "cancel": "Cancel",
+    "continuePurchase": "Continue Purchase"
   }
 }

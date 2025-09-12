@@ -8,9 +8,15 @@ export default function () {
   const [isLoadingMembership, setIsLoadingMembership] = useState<boolean>(false);
 
   const checkMembership = async () => {
+    // 防止重复请求
+    if (isLoadingMembership) {
+      console.log('Membership check already in progress, skipping...');
+      return null;
+    }
+    
     setIsLoadingMembership(true);
     try {
-      const response = await fetch('/api/membership/check');
+      const response = await fetch('/api/membership/status');
       const data = await response.json();
       
       if (data.code === 0) {

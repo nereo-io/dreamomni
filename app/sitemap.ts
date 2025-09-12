@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { getPostsByLocale } from "@/models/post";
+import { getAllEffectConfigs } from "@/models/effectConfig";
 import { locales } from "@/i18n/locale";
 
 type ChangeFrequency =
@@ -45,7 +46,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.9,
       },
       {
-        url: `${baseUrl}/video-affects`,
+        url: `${baseUrl}/video-effects`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.7,
+      },
+      // 新增图片生成页面
+      {
+        url: `${baseUrl}/text-to-image`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/image-to-image`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/image-generation`,
         lastModified: currentDate,
         changeFrequency: "weekly" as ChangeFrequency,
         priority: 0.8,
@@ -68,23 +88,64 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "weekly" as ChangeFrequency,
         priority: 0.7,
       },
+<<<<<<< HEAD
+=======
+      // Console 页面
+      {
+        url: `${baseUrl}/membership`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.6,
+      },
+      {
+        url: `${baseUrl}/my-credits`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.6,
+      },
+      {
+        url: `${baseUrl}/my-orders`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.6,
+      },
+      {
+        url: `${baseUrl}/my-invites`,
+        lastModified: currentDate,
+        changeFrequency: "weekly" as ChangeFrequency,
+        priority: 0.6,
+      },
+      // 认证页面
+      {
+        url: `${baseUrl}/auth/signin`,
+        lastModified: currentDate,
+        changeFrequency: "monthly" as ChangeFrequency,
+        priority: 0.5,
+      },
+      {
+        url: `${baseUrl}/auth/reset-password`,
+        lastModified: currentDate,
+        changeFrequency: "monthly" as ChangeFrequency,
+        priority: 0.4,
+      },
+      // 法律条款页面
       {
         url: `${baseUrl}/privacy-policy`,
         lastModified: currentDate,
         changeFrequency: "monthly" as ChangeFrequency,
-        priority: 0.4,
+        priority: 0.5,
       },
       {
         url: `${baseUrl}/terms-of-service`,
         lastModified: currentDate,
         changeFrequency: "monthly" as ChangeFrequency,
-        priority: 0.4,
+        priority: 0.5,
       },
       {
         url: `${baseUrl}/refund-policy`,
         lastModified: currentDate,
         changeFrequency: "monthly" as ChangeFrequency,
-        priority: 0.4,
+        priority: 0.5,
       },
     ];
 
@@ -119,17 +180,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           changeFrequency: "daily" as ChangeFrequency,
           priority: 0.9,
         },
+        // 新增图片生成页面
         {
-          url: `${baseUrl}/${locale}/video-affects`,
+          url: `${baseUrl}/${locale}/text-to-image`,
           lastModified: currentDate,
           changeFrequency: "weekly" as ChangeFrequency,
           priority: 0.8,
         },
         {
-          url: `${baseUrl}/${locale}/pricing`,
+          url: `${baseUrl}/${locale}/image-to-image`,
           lastModified: currentDate,
           changeFrequency: "weekly" as ChangeFrequency,
           priority: 0.8,
+        },
+        {
+          url: `${baseUrl}/${locale}/image-generation`,
+          lastModified: currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.8,
+        },
+        {
+          url: `${baseUrl}/${locale}/video-effects`,
+          lastModified: currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.7,
         },
         {
           url: `${baseUrl}/${locale}/history`,
@@ -143,6 +217,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           changeFrequency: "weekly" as ChangeFrequency,
           priority: 0.7,
         },
+        // Console 页面
         {
           url: `${baseUrl}/${locale}/membership`,
           lastModified: currentDate,
@@ -156,19 +231,45 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           priority: 0.6,
         },
         {
-          url: `${baseUrl}/${locale}/my-invites`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.6,
-        },
-        {
           url: `${baseUrl}/${locale}/my-orders`,
           lastModified: currentDate,
           changeFrequency: "weekly" as ChangeFrequency,
           priority: 0.6,
         },
         {
+          url: `${baseUrl}/${locale}/my-invites`,
+          lastModified: currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.6,
+        },
+        // 认证页面
+        {
           url: `${baseUrl}/${locale}/auth/signin`,
+          lastModified: currentDate,
+          changeFrequency: "monthly" as ChangeFrequency,
+          priority: 0.5,
+        },
+        {
+          url: `${baseUrl}/${locale}/auth/reset-password`,
+          lastModified: currentDate,
+          changeFrequency: "monthly" as ChangeFrequency,
+          priority: 0.4,
+        },
+        // 法律条款页面
+        {
+          url: `${baseUrl}/${locale}/privacy-policy`,
+          lastModified: currentDate,
+          changeFrequency: "monthly" as ChangeFrequency,
+          priority: 0.5,
+        },
+        {
+          url: `${baseUrl}/${locale}/terms-of-service`,
+          lastModified: currentDate,
+          changeFrequency: "monthly" as ChangeFrequency,
+          priority: 0.5,
+        },
+        {
+          url: `${baseUrl}/${locale}/refund-policy`,
           lastModified: currentDate,
           changeFrequency: "monthly" as ChangeFrequency,
           priority: 0.5,
@@ -204,8 +305,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     console.log(`总共添加了 ${blogPages.length} 个博客页面`);
 
+    // 获取所有 video effect 页面
+    const videoEffectPages = [];
+
+    for (const locale of locales) {
+      try {
+        const effects = await getAllEffectConfigs(locale);
+        
+        const effectUrls = effects.map((effect) => ({
+          url:
+            locale === "en"
+              ? `${baseUrl}/video-effects/${effect.slug}`
+              : `${baseUrl}/${locale}/video-effects/${effect.slug}`,
+          lastModified: effect.updated_at || effect.created_at || currentDate,
+          changeFrequency: "weekly" as ChangeFrequency,
+          priority: 0.7,
+        }));
+
+        console.log(`为 ${locale} 语言添加了 ${effectUrls.length} 个 video effect 页面`);
+        videoEffectPages.push(...effectUrls);
+      } catch (error) {
+        console.error(`获取 ${locale} 语言的 video effects 时出错:`, error);
+      }
+    }
+
+    console.log(`总共添加了 ${videoEffectPages.length} 个 video effect 页面`);
+
     // 合并所有页面
-    const allPages = [...staticPages, ...localizedStaticPages, ...blogPages];
+    const allPages = [...staticPages, ...localizedStaticPages, ...blogPages, ...videoEffectPages];
 
     console.log(`sitemap 生成完成，总共包含 ${allPages.length} 个页面`);
     return allPages;

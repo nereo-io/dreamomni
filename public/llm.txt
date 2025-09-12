@@ -1,188 +1,131 @@
-# Seedance - Advanced AI Video Generation Platform
+# Veo3 AI - Advanced AI Video Generation Platform
 
-Seedance is the leading AI video generation platform that transforms text and images into professional-quality cinematic videos. Powered by Seedance 1.0 technology and supporting multiple AI providers including ByteDance's video generation models.
+## Project Overview
 
-## About Seedance Platform
+Veo3 AI (veo3ai.io) is a comprehensive AI-powered video generation platform that enables users to create professional-quality videos from text prompts or images. The platform offers multiple AI video generation providers and a complete credit-based subscription system with global payment processing.
 
-Seedance revolutionizes video content creation through artificial intelligence. Our platform leverages cutting-edge AI models to generate high-quality 1080p videos with cinematic aesthetics, multi-shot storytelling capabilities, and diverse artistic styles. Whether you're creating marketing content, educational materials, or entertainment videos, Seedance delivers professional results in minutes.
+## Core Features & Capabilities
 
-### Core AI Video Generation Technologies
-- **Seedance 1.0 Model**: ByteDance's advanced video generation technology
-- **Multi-Provider Support**: Integration with Volcano Engine, APICore Veo3, fal.ai, and KieAi
-- **Text-to-Video AI**: Transform written descriptions into dynamic video content
-- **Image-to-Video AI**: Animate static images with realistic motion and effects
-- **Video Effects AI**: Apply sophisticated visual effects and transformations
+### Video Generation
+- **Text-to-Video**: Generate videos from detailed text descriptions with cinematic quality
+- **Image-to-Video**: Animate static images into dynamic video content
+- **AI Video Effects**: Specialized effects including muscle transformation, kissing videos, 360° rotation
+- **Multiple AI Providers**: Veo3, Seedance, and other leading AI video models
+- **High-Quality Output**: Up to 1080p resolution with professional motion physics
+- **Customizable Settings**: Aspect ratios (16:9, 9:16, 1:1), durations (5-10 seconds), various resolutions
 
-## Key Features & Capabilities
+### User Experience
+- **Intuitive Interface**: Clean, modern design with easy-to-use video generation tools
+- **Real-time Progress**: Live status tracking for video generation with estimated completion times
+- **Video History**: Complete generation history with playback, download, and regeneration options
+- **Multi-language Support**: English and Russian localization
+- **Responsive Design**: Optimized for desktop and mobile devices
 
-### Video Generation Features
-- **Professional 1080p Quality**: Crystal-clear videos with cinematic production value
-- **Multi-Shot Storytelling**: Create complex narratives with seamless scene transitions and visual consistency
-- **Style Versatility**: Support for photorealistic, cyberpunk, illustration, and artistic styles
-- **Complex Prompt Understanding**: Advanced natural language processing for precise creative control
-- **Character Interactions**: Multi-agent AI controls character movements and interactions
-- **Camera Movement Control**: Dynamic camera angles, zooms, and cinematic techniques
+### Credit & Payment System
+- **Credit-based Pricing**: 0.25 USD = 10 credits, with dynamic pricing based on model and settings
+- **Multiple Payment Providers**: Creem (primary), Stripe (international), Payssion V2 (Russian market)
+- **Subscription Plans**: Monthly and yearly memberships with automatic credit distribution
+- **Free Trial**: New users receive free credits to explore the platform
 
-### Platform Features
-- **Multi-Language Support**: Available in English, German, Japanese, Korean, and Russian
-- **Credit-Based System**: Flexible pricing with $0.25 = 10 credits conversion
-- **Subscription Plans**: Monthly and yearly memberships with unlimited generation
-- **Professional API**: Integration capabilities for businesses and developers
-- **Real-Time Status Tracking**: Monitor video generation progress with detailed status updates
+### Authentication & User Management
+- **Multiple Sign-in Options**: Google, GitHub, Apple, Email authentication
+- **User Dashboard**: Credits management, subscription details, order history
+- **Invite System**: Referral program with bonus credits for successful invites
+- **API Access**: API keys for developers and integrations
 
-## AI Video Generation Use Cases
+## Technical Architecture
 
-### Business & Marketing
-- Product demonstration videos and commercials
-- Brand storytelling and promotional content
-- Social media marketing campaigns
-- E-commerce product showcases
-- Corporate training and educational materials
+### Frontend Technology
+- **Next.js 14**: Modern React framework with App Router and Server Components
+- **TypeScript**: Full type safety throughout the application
+- **Tailwind CSS**: Utility-first CSS framework with custom animations
+- **Shadcn/ui & Radix**: High-quality UI components and primitives
+- **Framer Motion**: Advanced animations and micro-interactions
 
-### Creative & Entertainment
-- Music video creation and visual content
-- Short film and documentary production
-- Animation and motion graphics
-- Art projects and creative experimentation
-- Social media content for influencers
+### Backend & Infrastructure
+- **Supabase**: PostgreSQL database with Row Level Security
+- **NextAuth.js 5.0**: Secure authentication with multiple providers
+- **Cloudflare Pages**: Global deployment with edge optimization
+- **Webhooks**: Real-time status updates from video generation providers
 
-### Educational & Training
-- Online course content and tutorials
-- Training simulations and demonstrations
-- Educational storytelling and explainer videos
-- Language learning visual aids
-- Historical recreations and visualizations
+### AI Integration
+- **Kie.ai (Veo3)**: Premium video generation with 3 credits/second, 8-second max
+- **Volcano Engine (Seedance)**: High-quality video generation with 2 credits/second, 10-second max
+- **Provider Factory Pattern**: Unified interface for multiple AI video providers
+- **Intelligent Routing**: Automatic provider selection based on requirements
 
-## Technology Architecture
+### Security & Compliance
+- **Row Level Security**: Database-level access control
+- **Webhook Verification**: HMAC-SHA256 signature validation for payments
+- **Input Validation**: Zod schemas for all API requests
+- **Content Filtering**: Automatic sensitive data filtering in logs
 
-### AI Models & Providers
-- **ByteDance Seedance 1.0**: Advanced video generation with multi-shot capabilities
-- **Google Veo Integration**: State-of-the-art text-to-video technology
-- **Multi-Provider Framework**: Automatic provider selection for optimal results
-- **Real-Time Processing**: Fast generation times with quality optimization
+## User Journey & Workflows
 
-### Platform Infrastructure
-- **Next.js 14 Framework**: Modern web application with server-side rendering
-- **Supabase Database**: PostgreSQL with row-level security and real-time features
-- **Multi-Payment Integration**: Stripe, Payssion V2, and regional payment processors
-- **Cloud Storage**: Secure video storage and delivery worldwide
-- **API-First Design**: RESTful APIs for third-party integrations
+### Video Creation Process
+1. **Authentication**: Sign in with preferred provider (Google, GitHub, Apple, Email)
+2. **Generation Type Selection**: Choose text-to-video, image-to-video, or video effects
+3. **Content Input**: Provide text prompt (30+ characters) or upload image (JPG/PNG, max 10MB)
+4. **Configuration**: Select model, aspect ratio, duration, and quality settings
+5. **Credit Calculation**: System calculates required credits based on settings
+6. **Generation**: AI processes request with real-time status updates
+7. **Result**: Download, view, or regenerate completed videos
 
-## Getting Started with Seedance
+### Subscription & Payment Flow
+1. **Plan Selection**: Choose from available subscription tiers
+2. **Payment Processing**: Intelligent routing to appropriate payment provider based on location
+3. **Credit Distribution**: Automatic credit allocation upon successful payment
+4. **Subscription Management**: Cancel, modify, or upgrade plans through user dashboard
 
-### Free Trial & Pricing
-- Start with free credits to test video generation
-- Flexible credit system: $0.25 per 10 credits
-- Subscription plans for unlimited access
-- Enterprise solutions for high-volume usage
+## Content Categories & Use Cases
 
-### Video Generation Process
-1. **Input Creation**: Write text prompts or upload reference images
-2. **Style Selection**: Choose from various artistic styles and effects
-3. **AI Processing**: Advanced models analyze and generate video content
-4. **Quality Review**: Preview and download professional-quality results
-5. **Integration**: Use generated videos in your projects and campaigns
+### Professional Applications
+- **Marketing Videos**: Product demonstrations, promotional content, brand storytelling
+- **Educational Content**: Tutorial videos, concept explanations, training materials
+- **Social Media**: Instagram Reels, TikTok content, YouTube videos
+- **Business Presentations**: Corporate videos, pitch decks, announcement videos
 
-## Platform Pages & Features
+### Creative Applications
+- **Artistic Projects**: Abstract visuals, creative storytelling, experimental films
+- **Entertainment**: Character animations, fantasy scenes, action sequences
+- **Personal Content**: Family videos, vacation memories, creative photo animations
+- **Portfolio Work**: Showcase projects for photographers, artists, and content creators
 
-### Text-to-Video Generation (/text-to-video)
-**Free AI Video Generator: Text to Video AI Online | Seedance**
-Transform written descriptions into dynamic video content using advanced AI models. Our text-to-video generator understands complex prompts and creates professional-quality videos with cinematic aesthetics. Perfect for:
-- Marketing content creation from written briefs
-- Social media videos from text descriptions
-- Educational content and tutorials
-- Creative storytelling and narrative videos
-- Product demonstrations from specifications
+### Specialized Effects
+- **Transformation Effects**: Muscle enhancement, gender swap, body modifications
+- **Emotional Expressions**: Happiness boost, surprise reactions, love effects
+- **Seasonal Content**: Halloween spooky, Valentine romance, New Year celebrations
+- **Fantasy Elements**: Vampire transformation, magic tricks, time travel effects
 
-**Key Features:**
-- Advanced natural language processing for accurate interpretation
-- Multiple video styles and artistic expressions
-- Professional 1080p output quality
-- Real-time generation progress tracking
-- Customizable video settings (duration, aspect ratio, resolution)
+## Platform Benefits
 
-### Image-to-Video Generation (/image-to-video)
-**Free Image to Video AI Generator: Turn Photos to Videos | Seedance**
-Animate static images with realistic motion and bring photos to life. Our image-to-video AI technology creates smooth, natural animations from single images. Ideal for:
-- Product photography animation for e-commerce
-- Social media content enhancement
-- Architectural visualization and walkthroughs
-- Portrait animation and character movement
-- Creative art projects and digital installations
+### For Content Creators
+- **No Equipment Needed**: Create professional videos without cameras or studios
+- **Rapid Prototyping**: Test concepts and ideas quickly with AI generation
+- **Scalable Production**: Generate multiple video variations for A/B testing
+- **Cost Effective**: Affordable alternative to traditional video production
 
-**Key Features:**
-- Intelligent motion prediction and camera movements
-- Preserve image quality while adding dynamic elements
-- Multiple animation styles and effects
-- Seamless integration with existing workflows
-- Support for various image formats (JPG, PNG, GIF, max 10MB)
+### For Businesses
+- **Marketing Efficiency**: Create campaign content at scale without production teams
+- **Brand Consistency**: Maintain visual style across all generated content
+- **Global Reach**: Multi-language support for international markets
+- **Commercial Rights**: Full commercial usage rights for generated content
 
-### Video Generation History (/history)
-**My Creations - Video Generation History**
-Comprehensive dashboard for managing and reviewing all generated videos. Track your creative journey and access all your AI-generated content in one centralized location.
+### For Educators & Trainers
+- **Visual Learning**: Transform text-based content into engaging video materials
+- **Concept Visualization**: Make complex topics accessible through visual storytelling
+- **Interactive Content**: Create dynamic educational experiences
+- **Time Saving**: Generate lesson videos without extensive preparation
 
-**Features:**
-- Complete video generation history with timestamps
-- Status tracking for all generation requests (pending, processing, completed, failed)
-- Download and replay capabilities for all completed videos
-- Regeneration options for improved results
-- Organization by date, model, and video type
-- Search and filter functionality for easy content discovery
-- Video metadata including prompts, settings, and generation details
+## Competitive Advantages
 
-**Video Status Management:**
-- **Completed**: Videos ready for download and use
-- **Processing**: Active generation with estimated completion time
-- **Pending**: Queued requests waiting for processing
-- **Failed**: Error handling with retry options and detailed error messages
+- **Multi-Provider Architecture**: Access to multiple AI models in one platform
+- **Global Payment Support**: Comprehensive payment solutions for worldwide users
+- **High-Quality Output**: Professional-grade video generation with advanced AI models
+- **User-Friendly Interface**: Intuitive design that requires no technical expertise
+- **Comprehensive Features**: End-to-end solution from generation to management
+- **Scalable Infrastructure**: Built for high-volume usage with global deployment
 
-### Video Effects & Templates (/video-affects)
-**AI Video Effects & Templates Library**
-Extensive collection of AI-powered video effects and transformations. Apply sophisticated visual effects to images and create unique video content with pre-designed templates.
+## Future Roadmap
 
-**Effect Categories:**
-- **Fun and Creative Effects**: Entertainment and social media content
-- **Horror and Fantasy Effects**: Cinematic and dramatic transformations
-- **Appearance Changing Effects**: Character and style modifications
-- **Seasonal Special Effects**: Holiday and event-specific content
-- **Emotional Expression Effects**: Mood and sentiment enhancements
-
-**Popular Effects:**
-- AI Muscle Generator: Transform subjects into muscular versions
-- AI Kissing Video Generator: Create romantic interaction content
-- AI 360° Rotation: Dynamic perspective and camera movement
-- Character Transformation: Age, gender, and style modifications
-- Seasonal Themes: Halloween, Valentine's, New Year effects
-
-## SEO Keywords & Tags
-
-**Primary Keywords**: AI video generator, text to video AI, image to video AI, Seedance AI, video creation platform, AI video generation, professional video maker
-
-**Secondary Keywords**: ByteDance video AI, multi-shot storytelling, cinematic AI videos, 1080p video generation, AI video effects, automated video creation, AI-powered filmmaking
-
-**Technology Keywords**: Seedance 1.0, Volcano Engine, Veo3 AI, machine learning video, deep learning video generation, neural network video creation
-
-**Use Case Keywords**: marketing video AI, social media video generator, educational video AI, e-commerce video creation, content creation AI, video automation
-
-## Contact & Resources
-
-**Website**: https://www.seedance.tv
-**Platform Access**: https://seedance.tv/home
-**API Documentation**: Available for developers and businesses
-**Support Email**: support@seedance.tv
-**Community**: Join our community for tips, tutorials, and inspiration
-
-## Platform Statistics & Recognition
-
-- **Supported Languages**: 5 international languages for global accessibility
-- **Video Quality**: Professional 1080p resolution with cinematic aesthetics
-- **Generation Speed**: Rapid processing for efficient content creation workflows
-- **User Base**: Growing community of creators, marketers, and businesses worldwide
-
----
-
-**About This Document**: This file provides comprehensive information about Seedance AI video generation platform for search engines, AI training, and user discovery. Seedance is committed to advancing AI video technology and making professional video creation accessible to everyone.
-
-**Last Updated**: January 2025
-**Version**: 2.0
-**Platform Status**: Active and continuously improving with new AI models and features
+The platform continues to evolve with new AI model integrations, enhanced features, and improved user experience based on community feedback and technological advances in AI video generation.

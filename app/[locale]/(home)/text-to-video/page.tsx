@@ -3,7 +3,7 @@ import { AIVideoShowcase } from "@/components/blocks/ai-video-showcase";
 import { AIModelsHero } from "@/components/blocks/ai-models-hero";
 import { CreatorShowcase } from "@/components/blocks/creator-showcase";
 import { FAQSection } from "@/components/blocks/faq-section";
-import { CTASectionClient } from "@/components/blocks/cta-section-client";
+import CTA from "@/components/blocks/cta";
 import { getTextToVideoPage } from "@/services/page";
 import { getTranslations } from "next-intl/server";
 
@@ -46,11 +46,7 @@ export default async function TextToVideoPage({
       <AIModelsHero data={pageData.aiModelsHero} />
 
       {/* AI Video Showcase */}
-      <AIVideoShowcase
-        title={pageData.aiVideoShowcase.title}
-        description={pageData.aiVideoShowcase.description}
-        examples={pageData.videoExamples}
-      />
+      <AIVideoShowcase data={pageData.aiVideoShowcase} />
 
       {/* Creator Showcase */}
       <CreatorShowcase data={pageData.creatorShowcase} />
@@ -63,10 +59,16 @@ export default async function TextToVideoPage({
       />
 
       {/* CTA Section */}
-      <CTASectionClient
-        title={pageData.cta.title}
-        description={pageData.cta.description}
-        buttonText={pageData.cta.buttonText}
+      <CTA
+        section={{
+          title: pageData.cta.title,
+          buttons: [
+            {
+              title: pageData.cta.buttonText,
+              url: "/text-to-video",
+            },
+          ],
+        }}
       />
     </>
   );

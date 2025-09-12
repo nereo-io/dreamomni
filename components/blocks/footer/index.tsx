@@ -10,8 +10,8 @@ export default function Footer({ footer }: { footer: FooterType }) {
     <section id={footer.name} className="py-16">
       <div className="max-w-7xl mx-auto px-8">
         <footer>
-          <div className="flex flex-col items-center justify-between gap-10 text-center lg:flex-row lg:text-left">
-            <div className="flex w-full max-w-96 shrink flex-col items-center justify-between gap-6 lg:items-start">
+          <div className="flex flex-col items-center justify-between gap-8 text-center lg:flex-row lg:text-left">
+            <div className="flex w-full max-w-xs shrink flex-col items-center justify-between gap-4 lg:items-start">
               {footer.brand && (
                 <div>
                   <div className="flex items-center justify-center gap-2 lg:justify-start">
@@ -29,14 +29,14 @@ export default function Footer({ footer }: { footer: FooterType }) {
                     )}
                   </div>
                   {footer.brand.description && (
-                    <p className="mt-6 text-md text-muted-foreground">
+                    <p className="mt-4 text-md text-muted-foreground">
                       {footer.brand.description}
                     </p>
                   )}
                 </div>
               )}
               {footer.social && (
-                <ul className="flex items-center space-x-6 text-muted-foreground">
+                <ul className="flex items-center space-x-4 text-muted-foreground">
                   {footer.social.items?.map((item, i) => (
                     <li key={i} className="font-medium hover:text-primary">
                       <a href={item.url} target={item.target}>
@@ -50,14 +50,14 @@ export default function Footer({ footer }: { footer: FooterType }) {
               )}
             </div>
             <div
-              className={`grid gap-6 lg:gap-12 ${
-                footer.contact ? "grid-cols-2 lg:grid-cols-2" : "grid-cols-3"
+              className={`grid gap-6 lg:gap-8 ${
+                footer.contact ? "grid-cols-2 lg:grid-cols-3" : "grid-cols-3"
               }`}
             >
               {footer.nav?.items?.map((item, i) => (
                 <div key={i}>
-                  <p className="mb-6 font-bold">{item.title}</p>
-                  <ul className="space-y-4 text-sm text-muted-foreground">
+                  <p className="mb-4 font-bold text-base">{item.title}</p>
+                  <ul className="space-y-3 text-base text-muted-foreground">
                     {item.children?.map((iitem, ii) => (
                       <li key={ii} className="font-medium hover:text-primary">
                         <a href={iitem.url} target={iitem.target}>
@@ -69,23 +69,23 @@ export default function Footer({ footer }: { footer: FooterType }) {
                 </div>
               ))}
               {footer.contact && (
-                <div className="lg:col-span-1">
-                  <p className="mb-6 font-bold">
+                <div className="lg:col-span-1 text-center lg:text-left">
+                  <p className="mb-4 font-bold text-base">
                     {footer.contact.title || "CONTACT"}
                   </p>
-                  <ul className="space-y-4 text-sm text-muted-foreground">
+                  <ul className="space-y-3 text-base text-muted-foreground">
                     {footer.contact.items?.map((item, i) => (
                       <li key={i} className="font-medium hover:text-primary">
                         {item.url ? (
                           <a
                             href={item.url}
                             target={item.target}
-                            className="flex items-start gap-2"
+                            className="flex items-start gap-2 justify-center lg:justify-start"
                           >
                             {item.icon && (
                               <Icon
                                 name={item.icon}
-                                className="size-4 flex-shrink-0 mt-0.5"
+                                className="size-5 flex-shrink-0 mt-0.5"
                               />
                             )}
                             <span className="break-words">
@@ -93,11 +93,11 @@ export default function Footer({ footer }: { footer: FooterType }) {
                             </span>
                           </a>
                         ) : (
-                          <div className="flex items-start gap-2">
+                          <div className="flex items-start gap-2 justify-center lg:justify-start">
                             {item.icon && (
                               <Icon
                                 name={item.icon}
-                                className="size-4 flex-shrink-0 mt-0.5"
+                                className="size-5 flex-shrink-0 mt-0.5"
                               />
                             )}
                             <span className="break-words">
@@ -112,7 +112,7 @@ export default function Footer({ footer }: { footer: FooterType }) {
               )}
             </div>
           </div>
-          <div className="mt-8 flex flex-col justify-between gap-4 border-t pt-8 text-center text-sm font-medium text-muted-foreground lg:flex-row lg:items-center lg:text-left">
+          <div className="mt-8 flex flex-col justify-between gap-4 border-t pt-8 text-center text-base font-medium text-muted-foreground lg:flex-row lg:items-center lg:text-left">
             {footer.copyright && <p>{footer.copyright}</p>}
             {footer.agreement && (
               <ul className="flex justify-center gap-4 lg:justify-start">

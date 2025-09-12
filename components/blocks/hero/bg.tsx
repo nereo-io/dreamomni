@@ -11,22 +11,16 @@ const VideoBackground = () => {
         muted
         loop
         playsInline
-        poster="/video-intro-poster.jpg"
+        poster="/imgs/intro/veo-cover-202508-poster.jpg"
         className="absolute inset-0 w-full h-full object-cover"
         style={{ minWidth: "100%", minHeight: "100%" }}
       >
         <source
-          src={`https://r2.veo3ai.io/intro/video-intro.mp4`}
+          src={`https://r2.veo3ai.io/intro/Veo-Cover-202508.mp4`}
           type="video/mp4"
         />
         Your browser does not support video playback.
       </video>
-
-      {/* 深色遮罩层，确保文字可读性 */}
-      <div className="absolute inset-0 bg-black/50 dark:bg-black/60"></div>
-
-      {/* 渐变遮罩，增强视觉效果和文字对比度 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/60"></div>
     </div>
   );
 };

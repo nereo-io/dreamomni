@@ -102,18 +102,18 @@ export async function POST(req: NextRequest) {
 
     // 同步处理 webhook 业务逻辑，确保错误能被正确捕获和响应
     console.log(`🚀 Starting webhook processing for ${eventType}`);
-    
+
     try {
       const result = await payssionProvider.handleSubscriptionWebhook!(data);
-      
+
       if (result.success) {
         console.log(`✅ ${eventType} processed successfully`);
         console.log(`🎉 Processing result:`, {
           subscriptionId: result.subscriptionId,
           mandateId: result.mandateId,
-          eventType: result.eventType
+          eventType: result.eventType,
         });
-        
+
         return new Response("Webhook processed successfully", {
           status: 200,
           headers: {
@@ -122,7 +122,7 @@ export async function POST(req: NextRequest) {
         });
       } else {
         console.error(`❌ ${eventType} processing failed:`, result.error);
-        
+
         // 返回 500 让 Payssion 重试
         return new Response(`Webhook processing failed: ${result.error}`, {
           status: 500,
@@ -137,14 +137,17 @@ export async function POST(req: NextRequest) {
         processingError
       );
       console.error("Error stack:", processingError.stack);
-      
+
       // 返回 500 让 Payssion 重试
-      return new Response(`Webhook processing error: ${processingError.message}`, {
-        status: 500,
-        headers: {
-          "Content-Type": "text/plain",
-        },
-      });
+      return new Response(
+        `Webhook processing error: ${processingError.message}`,
+        {
+          status: 500,
+          headers: {
+            "Content-Type": "text/plain",
+          },
+        }
+      );
     }
   } catch (error: any) {
     console.error("❌ Webhook processing error:", error);

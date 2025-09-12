@@ -10,5 +10,6 @@
     // "i18n/blocks/claude-sonnet-features",
     // "i18n/blocks/pricing"
   ],
-  "i18n-ally.keystyle": "nested"
+  "i18n-ally.keystyle": "nested",
+  "claudeCodeChat.permissions.yoloMode": true
 }
