@@ -180,7 +180,7 @@ export default function Header({ header }: { header: HeaderType }) {
                                 {dropdownEffects.map((effect) => (
                                   <NavigationMenuLink key={effect.id} asChild>
                                     <a
-                                      href={`/video-affects/${effect.id}`}
+                                      href={`/video-effects/${effect.id}`}
                                       className="flex items-center select-none gap-2 rounded-sm px-3 py-2 text-base font-medium leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                                     >
                                       {effect.titleKey ? t(`effects.${effect.titleKey}`) : effect.title}
@@ -191,7 +191,7 @@ export default function Header({ header }: { header: HeaderType }) {
                               <div className="border-t mt-2 pt-2">
                                 <NavigationMenuLink asChild>
                                   <a
-                                    href="/video-affects"
+                                    href="/video-effects"
                                     className="flex items-center justify-center select-none gap-2 rounded-sm px-3 py-2 text-base font-medium leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-primary"
                                   >
                                     {t("header.more_effects")} →
@@ -353,7 +353,7 @@ export default function Header({ header }: { header: HeaderType }) {
                           {dropdownEffects.map((effect) => (
                             <a
                               key={effect.id}
-                              href={`/video-affects/${effect.id}`}
+                              href={`/video-effects/${effect.id}`}
                               className="flex items-center select-none gap-2 rounded-md px-3 py-2 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-sm"
                             >
                               <span className="text-base font-medium">
@@ -364,7 +364,7 @@ export default function Header({ header }: { header: HeaderType }) {
                         </div>
                         <div className="border-t mt-2 pt-2">
                           <a
-                            href="/video-affects"
+                            href="/video-effects"
                             className="flex items-center justify-center select-none gap-2 rounded-md px-3 py-2 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-primary"
                           >
                             <span className="text-base font-medium">
