@@ -1,0 +1,96 @@
+{
+  "faq": {
+    "title": "Häufig gestellte Fragen",
+    "description": "Finden Sie Antworten auf häufige Fragen zu unserem AI Text-zu-Bild-Generierungsservice.",
+    "items": [
+      {
+        "id": "what-is-text-to-image",
+        "question": "Was ist ein AI Text-zu-Bild Generator?",
+        "answer": "Ein AI Text-zu-Bild Generator ist ein leistungsstarkes Tool, das künstliche Intelligenz nutzt, um Bilder aus Textbeschreibungen zu erstellen. Es analysiert Ihren Text-Prompt und generiert hochwertige, einzigartige Bilder, die Ihrer Beschreibung entsprechen."
+      },
+      {
+        "id": "how-does-text-to-image-work",
+        "question": "Wie funktioniert die AI Text-zu-Bild-Generierung?",
+        "answer": "Unsere AI analysiert Ihre schriftliche Beschreibung, versteht die erwähnten Objekte, Stile, Komposition und künstlerischen Elemente und generiert dann ein entsprechendes Bild mit passenden Farben, Beleuchtung und Details zu Ihrem Prompt."
+      },
+      {
+        "id": "what-can-i-create",
+        "question": "Welche Arten von Bildern kann ich mit Text-zu-Bild erstellen?",
+        "answer": "Sie können eine große Vielfalt von Bildern erstellen, einschließlich digitaler Kunst, Illustrationen, Concept Art, Produktvisualisierungen, Charakterdesigns, Landschaften, abstrakte Kunst und fotorealistische Bilder. Die Möglichkeiten sind nur durch Ihre Vorstellungskraft begrenzt."
+      },
+      {
+        "id": "image-quality",
+        "question": "Welche Qualität haben die generierten Bilder?",
+        "answer": "Unsere AI generiert hochauflösende Bilder mit exzellenten Details und künstlerischer Qualität. Die Bilder werden in optimalen Auflösungen erstellt, die für Web-Nutzung, soziale Medien, Druck und professionelle Anwendungen geeignet sind."
+      },
+      {
+        "id": "is-it-free",
+        "question": "Ist Seedances Text-zu-Bild Generator kostenlos?",
+        "answer": "Neue Nutzer erhalten kostenlose Credits, um den Service zu erkunden. Für die regelmäßige Nutzung bieten wir erschwingliche Abonnement-Pläne mit mehr Credits und Funktionen an. Jede Bildgenerierung kostet 2 Credits."
+      },
+      {
+        "id": "commercial-use",
+        "question": "Kann ich generierte Bilder kommerziell nutzen?",
+        "answer": "Ja, alle mit Seedance generierten Bilder können gemäß unseren Nutzungsbedingungen für kommerzielle Zwecke verwendet werden. Sie haben vollständige Rechte zur Nutzung der Bilder in Ihren Projekten, Marketingmaterialien und Produkten."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Beginnen Sie heute mit der Bilderstellung aus Text",
+    "description": "Verwandeln Sie Ihre Ideen mit nur einer Textbeschreibung in atemberaubende Visuals. Keine Designkenntnisse erforderlich.",
+    "buttonText": "Text-zu-Bild Generator ausprobieren"
+  },
+  "aiModelsHero": {
+    "title": "Fortschrittliche AI Text-zu-Bild-Generierung",
+    "description": "Angetrieben von dem hochmodernen Nano Banana AI-Modell liefert Seedance außergewöhnliche Bildqualität mit schnellen Generierungszeiten. Erstellen Sie professionelle Bilder in Sekunden mit unserer optimierten Text-zu-Bild-Technologie.",
+    "models": [
+      {
+        "id": "nano-banana",
+        "name": "Nano Banana",
+        "logo": "/imgs/intro/nano-banana.svg"
+      }
+    ],
+    "moreModels": "Weitere Modelle kommen bald"
+  },
+  "creatorShowcase": {
+    "title": "Text-zu-Bild Kreations-Showcase",
+    "creatorTypes": [
+      {
+        "id": "digital-artists",
+        "name": "Digital-Künstler",
+        "image": "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Digital-Künstler beim Erstellen lebendiger Kunstwerke",
+        "title": "Erstellen Sie atemberaubende digitale Kunstwerke aus Text",
+        "description": "Generieren Sie Illustrationen, Concept Art und digitale Gemälde direkt aus Ihren Textbeschreibungen. Perfekt für Buchcover, Spiel-Assets und kreative Projekte.",
+        "badge": "Digital-Künstler"
+      },
+      {
+        "id": "product-designers",
+        "name": "Produktdesigner",
+        "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Produktdesigner beim Visualisieren von Konzepten",
+        "title": "Produktkonzepte sofort visualisieren",
+        "description": "Verwandeln Sie Produktideen mit einfachen Beschreibungen in visuelle Mockups. Erstellen Sie mühelos Design-Präsentationen, Marketingmaterialien und Konzept-Explorationen.",
+        "badge": "Produktdesigner"
+      },
+      {
+        "id": "game-developers",
+        "name": "Spieleentwickler",
+        "image": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Spieleentwickler beim Erstellen von Concept Art",
+        "title": "Charaktere und Umgebungen designen",
+        "description": "Generieren Sie Spiel-Assets, Charakterdesigns und Umgebungskonzepte aus Text. Prototypisieren Sie schnell visuelle Ideen für Spiele und Entertainment-Projekte.",
+        "badge": "Spieleentwickler"
+      },
+      {
+        "id": "marketers",
+        "name": "Marketer",
+        "image": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Marketer beim Erstellen von Social Media-Inhalten",
+        "title": "Marketing-Visuals auf Abruf erstellen",
+        "description": "Generieren Sie auffällige Bilder für soziale Medien, Anzeigen und Kampagnen. Produzieren Sie unbegrenzte visuelle Content-Variationen ohne Fotoshootings oder Design-Teams.",
+        "badge": "Marketer"
+      }
+    ]
+  }
+}

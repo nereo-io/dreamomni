@@ -25,13 +25,13 @@
       },
       {
         "id": "is-it-free",
-        "question": "Is Veo3 AI's text to image generator free?",
+        "question": "Is Seedance's text to image generator free?",
         "answer": "New users receive free credits to explore the service. For regular use, we offer affordable subscription plans with more credits and features. Each image generation costs 2 credits."
       },
       {
         "id": "commercial-use",
         "question": "Can I use generated images commercially?",
-        "answer": "Yes, all images generated with Veo3 AI can be used for commercial purposes according to our terms of service. You have full rights to use the images in your projects, marketing materials, and products."
+        "answer": "Yes, all images generated with Seedance can be used for commercial purposes according to our terms of service. You have full rights to use the images in your projects, marketing materials, and products."
       }
     ]
   },
@@ -42,7 +42,7 @@
   },
   "aiModelsHero": {
     "title": "Advanced AI Text to Image Generation",
-    "description": "Powered by cutting-edge Nano Banana AI model, Veo3 AI delivers exceptional image quality with fast generation times. Create professional-grade images in seconds with our optimized text-to-image technology.",
+    "description": "Powered by cutting-edge Nano Banana AI model, Seedance delivers exceptional image quality with fast generation times. Create professional-grade images in seconds with our optimized text-to-image technology.",
     "models": [
       {
         "id": "nano-banana",

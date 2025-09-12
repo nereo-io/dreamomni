@@ -1,0 +1,96 @@
+{
+  "faq": {
+    "title": "Häufig gestellte Fragen",
+    "description": "Erfahren Sie mehr über unseren AI-Bild-zu-Bild-Transformationsservice.",
+    "items": [
+      {
+        "id": "what-is-image-to-image",
+        "question": "Was ist AI Bild-zu-Bild-Transformation?",
+        "answer": "AI Bild-zu-Bild-Transformation ermöglicht es Ihnen, vorhandene Bilder mithilfe von Textbeschreibungen zu modifizieren. Sie können Stile ändern, Elemente hinzufügen oder entfernen, Hintergründe ändern und Variationen erstellen, während die Kernstruktur Ihres ursprünglichen Bildes erhalten bleibt."
+      },
+      {
+        "id": "how-does-it-work",
+        "question": "Wie funktioniert Bild-zu-Bild-AI?",
+        "answer": "Unsere AI analysiert Ihr hochgeladenes Bild zusammen mit Ihrer Textaufforderung und versteht, welche Änderungen Sie vornehmen möchten. Anschließend generiert sie ein neues Bild, das Ihre gewünschten Modifikationen enthält und dabei die wesentlichen Elemente des Originals beibehält."
+      },
+      {
+        "id": "what-can-i-change",
+        "question": "Was kann ich in meinen Bildern ändern?",
+        "answer": "Sie können Stile ändern (realistisch zu künstlerisch), Hintergründe ändern, Farben und Beleuchtung anpassen, Objekte hinzufügen oder entfernen, Jahreszeiten oder Tageszeiten ändern, Kleidung oder Accessoires ändern und vieles mehr."
+      },
+      {
+        "id": "supported-formats",
+        "question": "Welche Bildformate werden unterstützt?",
+        "answer": "Wir unterstützen die gängigsten Bildformate einschließlich JPEG, PNG und WebP. Bilder sollten unter 10 MB für optimale Verarbeitung sein."
+      },
+      {
+        "id": "preserve-quality",
+        "question": "Wird meine Bildqualität beibehalten?",
+        "answer": "Ja, unsere AI erhält hohe Qualität in den transformierten Bildern. Die Ausgabeauflösung entspricht der Eingabe oder übertrifft sie, wodurch sichergestellt wird, dass Ihre bearbeiteten Bilder für professionelle Nutzung geeignet sind."
+      },
+      {
+        "id": "use-cases",
+        "question": "Was sind häufige Anwendungsfälle für Bild-zu-Bild?",
+        "answer": "Beliebte Anwendungen umfassen Produktvariationen für E-Commerce, Stiltransfers für künstlerische Projekte, Hintergrundersetzungen für Fotos, Konzeptiterationen für Designarbeit und kreatives Remixen von vorhandenem Artwork."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Transformieren Sie Ihre Bilder heute mit AI",
+    "description": "Laden Sie ein Bild hoch und beschreiben Sie Ihre Vision. Sehen Sie zu, wie AI es in etwas Neues verwandelt.",
+    "buttonText": "Bild-zu-Bild-Editor ausprobieren"
+  },
+  "aiModelsHero": {
+    "title": "Leistungsstarke AI-Bildtransformation",
+    "description": "Mit dem fortschrittlichen Nano Banana Edit AI-Modell bietet Seedance präzise Bild-zu-Bild-Transformationen. Bearbeiten, Stiltransfer und Neugestaltung Ihrer Bilder mit unvergleichlicher Kontrolle und Qualität.",
+    "models": [
+      {
+        "id": "nano-banana-edit",
+        "name": "Nano Banana Edit",
+        "logo": "/imgs/intro/nano-banana.svg"
+      }
+    ],
+    "moreModels": "Weitere Modelle kommen bald"
+  },
+  "creatorShowcase": {
+    "title": "Bildtransformation Showcase",
+    "creatorTypes": [
+      {
+        "id": "artists",
+        "name": "Digitale Künstler",
+        "image": "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Digitaler Künstler bei kreativen Transformationen",
+        "title": "Verwandeln Sie Fotos in künstlerische Meisterwerke",
+        "description": "Verwandeln Sie gewöhnliche Bilder in Gemälde, Skizzen oder digitale Kunst. Wenden Sie künstlerische Stile an und erstellen Sie einzigartige Variationen Ihrer Fotos mit AI-gesteuerten Transformationen.",
+        "badge": "Digitale Künstler"
+      },
+      {
+        "id": "designers",
+        "name": "Produktdesigner",
+        "image": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Produktdesigner erstellt Variationen",
+        "title": "Erstellen Sie endlose Produktvariationen sofort",
+        "description": "Generieren Sie mehrere Versionen von Produktbildern mit verschiedenen Farben, Materialien und Einstellungen. Perfekt für E-Commerce, Mockups und Designpräsentationen.",
+        "badge": "Produktdesigner"
+      },
+      {
+        "id": "photographers",
+        "name": "Fotografen",
+        "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Fotograf bearbeitet Szenen und Hintergründe",
+        "title": "Bearbeiten Sie Szenen und Hintergründe mühelos",
+        "description": "Ersetzen Sie Hintergründe, ändern Sie Jahreszeiten, passen Sie Beleuchtungsbedingungen an oder modifizieren Sie Umgebungen. Transformieren Sie Ihre Fotos ohne komplexe Bearbeitungssoftware.",
+        "badge": "Fotografen"
+      },
+      {
+        "id": "creators",
+        "name": "Content-Ersteller",
+        "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Content-Ersteller remixed Bilder",
+        "title": "Remixen und reimaginieren Sie vorhandene Inhalte",
+        "description": "Transformieren Sie vorhandene Bilder in neue kreative Richtungen. Generieren Sie Variationen für soziale Medien, Marketingmaterialien und kreative Projekte.",
+        "badge": "Content-Ersteller"
+      }
+    ]
+  }
+}

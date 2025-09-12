@@ -3,7 +3,6 @@ import { CreatorShowcase } from "@/components/blocks/creator-showcase";
 import { FAQSection } from "@/components/blocks/faq-section";
 import CTA from "@/components/blocks/cta";
 import ImageToImageTab from "@/components/blocks/ai-image-generation-tool/ImageToImageTab";
-import imageToImagePageData from "@/i18n/pages/image-to-image/en.json";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({
@@ -34,9 +33,14 @@ export default async function ImageToImagePage({
   params: { locale: string };
 }) {
   // Load localized page data
-  const pageData = locale === 'en' 
-    ? imageToImagePageData
-    : imageToImagePageData; // For now, fallback to English for other locales
+  let imageToImagePageData;
+  try {
+    imageToImagePageData = await import(`@/i18n/pages/image-to-image/${locale}.json`);
+  } catch (error) {
+    // Fallback to English if locale file doesn't exist
+    imageToImagePageData = await import(`@/i18n/pages/image-to-image/en.json`);
+  }
+  const pageData = imageToImagePageData.default || imageToImagePageData;
 
   return (
     <>
