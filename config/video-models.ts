@@ -47,7 +47,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     displayName: "Seedance 1.0 Pro",
     perSecondCredits: 2,
     description: "ByteDance's video model, starting at $0.3/video",
-    features: ["wait 30s"],
+    features: ["wait 45s"],
     maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16", "1:1"],
     supportedResolutions: ["480p", "1080p"],
@@ -66,7 +66,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     displayName: "Seedance 1.0 Pro",
     perSecondCredits: 2, // 7.5 tokens for 5s = 1.5 tokens/second
     description: "ByteDance's video model, starting at $0.3/video",
-    features: ["wait 30s"],
+    features: ["wait 45s"],
     maxDuration: 10,
     supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
     supportedResolutions: ["480p", "1080p"],
