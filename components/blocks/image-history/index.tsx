@@ -1151,9 +1151,9 @@ const CardImageItem = ({
         <p className="text-sm text-gray-400">
           Model: {formatModelDisplayName(image.model)}
         </p>
-        {image.aspect_ratio && (
+        {image.image_size && (
           <p className="text-sm text-gray-400">
-            Aspect Ratio: {image.aspect_ratio}
+            Image Size: {image.image_size}
           </p>
         )}
       </CardContent>
