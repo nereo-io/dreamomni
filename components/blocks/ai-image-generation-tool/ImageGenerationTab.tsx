@@ -449,7 +449,7 @@ export default function ImageGenerationTab({
       image_url: result.image_url,
       status: mapStatusForHistory(result.status),
       model: params.model,
-      aspect_ratio: "1:1",
+      image_size: params.image_size || "1:1",
       quality: "standard",
       credits_used: requiredCredits,
       created_at: result.created_at || new Date().toISOString(),
