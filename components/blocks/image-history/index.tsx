@@ -35,9 +35,9 @@ export interface ImageGenerationResult {
   input_image_urls?: string[]; // 输入图片URLs (用于image-to-image)
   status: "pending" | "completed" | "failed" | "in_progress" | "in_queue" | "prompt_optimizing" | "saved_to_r2";
   model: string;
-  aspect_ratio: string;
   quality: string;
   style?: string;
+  image_size?: string; // 图片尺寸比例
   created_at: string;
   updated_at: string;
   credits_used: number;

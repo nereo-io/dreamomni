@@ -119,6 +119,8 @@ export async function POST(req: NextRequest) {
       negative_prompt,
       provider,
       enable_prompt_enhancement = true,
+      output_format,
+      image_size,
       captchaToken,
     } = await req.json();
 
@@ -218,6 +220,8 @@ export async function POST(req: NextRequest) {
           imageUrls: image_urls,
           model,
           negativePrompt: negative_prompt,
+          output_format,
+          image_size,
         });
       } else {
         result = await aiServiceManager.generateImage(selectedProvider, {
@@ -225,6 +229,8 @@ export async function POST(req: NextRequest) {
           model,
           negativePrompt: negative_prompt,
           count: 1,
+          output_format,
+          image_size,
         });
       }
 
@@ -266,6 +272,9 @@ export async function POST(req: NextRequest) {
           provider_task_id: result.taskId,
           provider_status: result.status,
           provider_metadata: result.metadata,
+          // 将图片尺寸存储到元数据中
+          image_size: image_size,
+          output_format: output_format,
         },
       };
 

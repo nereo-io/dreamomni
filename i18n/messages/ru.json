@@ -482,6 +482,8 @@
     "nanoBananaProvider": "Kie.ai Nano Banana",
     "highQuality": "Высокое качество",
     "fastGeneration": "Быстрая генерация",
+    "outputFormat": "Формат вывода",
+    "imageSize": "Размер изображения",
     "pleaseSignInToGenerate": "Пожалуйста, войдите для генерации изображений",
     "generationStarted": "Генерация изображения начата.",
     "generationCompleted": "Генерация изображения завершена!",
