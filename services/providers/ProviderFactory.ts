@@ -1,6 +1,7 @@
 import { VideoProvider } from "./types";
 import { FalProvider } from "./FalProvider";
 import { VolcanoProvider } from "./VolcanoProvider";
+import { BytePlusProvider } from "./BytePlusProvider";
 import { Veo3Provider } from "./Veo3Provider";
 import { KieAiVeo3Provider } from "./KieAiVeo3Provider";
 import { AliProvider } from "./AliProvider";
@@ -37,6 +38,16 @@ export class ProviderFactory {
           );
         }
         provider = new VolcanoProvider(volcanoApiKey);
+        break;
+
+      case VideoModelProvider.BYTEPLUS:
+        const byteplusApiKey = process.env.BYTEPLUS_API_KEY;
+        if (!byteplusApiKey) {
+          throw new Error(
+            "BYTEPLUS_API_KEY environment variable is required for BytePlus models"
+          );
+        }
+        provider = new BytePlusProvider(byteplusApiKey);
         break;
 
       case VideoModelProvider.APICORE:

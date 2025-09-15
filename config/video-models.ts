@@ -8,6 +8,7 @@ export enum VideoModelType {
 export enum VideoModelProvider {
   FAL = "fal", // fal.ai 提供的各种模型 (Seedance, Kling, VEO等)
   VOLCANO = "volcano", // 火山引擎提供的模型 (Doubao-Seedance等)
+  BYTEPLUS = "byteplus", // BytePlus 提供的模型 (Southeast Asia)
   APICORE = "apicore", // APICore 提供的模型 (Veo3等)
   KIEAI = "kieai", // Kie.ai 提供的模型 (Veo3等)
   ALI = "ali", // 阿里百炼提供的模型
@@ -37,6 +38,43 @@ export interface VideoModelConfig {
 
 // 视频模型配置
 export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
+  // BytePlus Seedance Pro 文本转视频模型 (Southeast Asia)
+  "byteplus-seedance-pro-text-to-video": {
+    id: "byteplus-seedance-pro-text-to-video",
+    name: "BytePlus Seedance Pro Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.BYTEPLUS,
+    volcanoModel: "seedance-1-0-pro-250528",
+    displayName: "Seedance Pro (SEA)",
+    perSecondCredits: 2,
+    description: "ByteDance's video model, starting at $0.3/video",
+    features: ["wait 45s", "Direct Access"],
+    maxDuration: 10,
+    supportedAspectRatios: ["16:9", "9:16", "1:1"],
+    supportedResolutions: ["480p", "1080p"],
+    supportsAudio: false,
+    estimatedGenerationTime: 45,
+    supportedDurations: [5, 10],
+  },
+
+  // BytePlus Seedance Pro 图片转视频模型 (Southeast Asia)
+  "byteplus-seedance-pro-image-to-video": {
+    id: "byteplus-seedance-pro-image-to-video",
+    name: "BytePlus Seedance Pro Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.BYTEPLUS,
+    volcanoModel: "seedance-1-0-pro-250528",
+    displayName: "Seedance Pro (SEA)",
+    perSecondCredits: 2,
+    description: "ByteDance's video model, starting at $0.3/video",
+    features: ["wait 45s", "Direct Access"],
+    maxDuration: 10,
+    supportedAspectRatios: ["adaptive"],
+    supportedResolutions: ["480p", "1080p"],
+    supportsAudio: false,
+    estimatedGenerationTime: 45,
+    supportedDurations: [5, 10],
+  },
   // Doubao-Seedance 1.0 Pro 文本转视频模型 (Volcano Engine)
   "doubao-seedance-1-0-pro-text-to-video": {
     id: "doubao-seedance-1-0-pro-text-to-video",
@@ -219,6 +257,12 @@ export function getVolcanoModels(): VideoModelConfig[] {
   );
 }
 
+export function getBytePlusModels(): VideoModelConfig[] {
+  return Object.values(VIDEO_MODELS).filter(
+    (model) => model.provider === VideoModelProvider.BYTEPLUS
+  );
+}
+
 export function getVeo3Models(): VideoModelConfig[] {
   return Object.values(VIDEO_MODELS).filter(
     (model) => model.provider === VideoModelProvider.APICORE
@@ -321,6 +365,11 @@ export function isSeedanceModel(modelId: string): boolean {
 // 检查模型是否为Volcano Engine模型
 export function isVolcanoModel(modelId: string): boolean {
   return modelId.includes("doubao-");
+}
+
+// 检查模型是否为BytePlus模型
+export function isBytePlusModel(modelId: string): boolean {
+  return modelId.includes("byteplus-");
 }
 
 // 检查模型是否为fal.ai提供的模型

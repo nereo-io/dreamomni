@@ -321,6 +321,8 @@ export class VideoStatusService {
   ): void {
     switch (provider) {
       case VideoModelProvider.VOLCANO:
+      case VideoModelProvider.BYTEPLUS:
+        // BytePlus 和 Volcano 使用相同的字段
         updateParams.video_url_volcano = result.video_url;
         break;
       case VideoModelProvider.FAL:
