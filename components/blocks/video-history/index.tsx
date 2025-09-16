@@ -97,11 +97,22 @@ export default function VideoHistory({
   // 获取所有未完成的视频（限制最多轮询数量）
   const getIncompleteVideos = useCallback(() => {
     if (!history || history.length === 0) return [];
-    
+
     // 返回所有未完成状态的视频，最多轮询5个（与历史记录获取数量一致）
     const MAX_POLLING_VIDEOS = 5;
+    const TEN_MINUTES = 10 * 60 * 1000; // 10分钟毫秒数
+    const now = Date.now();
+
     return history
-      .filter(video => INCOMPLETE_STATUSES.includes(video.status))
+      .filter(video => {
+        // 检查是否未完成
+        const isIncomplete = INCOMPLETE_STATUSES.includes(video.status);
+        // 检查是否在10分钟内创建
+        const createdAt = video.created_at;
+        if (!createdAt) return false; // 如果没有创建时间，不轮询
+        const isRecent = (now - new Date(createdAt).getTime()) < TEN_MINUTES;
+        return isIncomplete && isRecent;
+      })
       .slice(0, MAX_POLLING_VIDEOS);
   }, [history]);
 
