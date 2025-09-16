@@ -40,7 +40,8 @@
       "Bash(git restore:*)",
       "Bash(find:*)",
       "Bash(git push:*)",
-      "Bash(git stash:*)"
+      "Bash(git stash:*)",
+      "WebFetch(domain:www.alibabacloud.com)"
     ],
     "deny": [],
     "ask": [],

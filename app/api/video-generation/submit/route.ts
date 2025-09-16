@@ -265,7 +265,8 @@ export async function POST(req: Request) {
         const optimizedPrompt = await optimizeVideoPromptWithTimeout(
           finalPrompt,
           finalModel,
-          30000
+          30000,
+          image_url // 传递图片URL（如果有）
         );
         enhancedPrompt = optimizedPrompt;
 
