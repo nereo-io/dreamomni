@@ -735,7 +735,7 @@ export default function PricingModal({
             }}
             onViewSubscription={() => {
               onClose();
-              window.location.href = '/memberships';
+              window.location.href = '/membership';
             }}
             onContinuePurchase={() => {
               setShowMembershipModal(false);
