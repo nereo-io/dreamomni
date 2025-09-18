@@ -23,6 +23,8 @@ interface ImageGenerationTabProps {
   mode: "text-to-image" | "image-to-image";
   descriptionLabel?: string;
   descriptionPlaceholder?: string;
+  promptValue?: string;
+  onPromptChange?: (value: string) => void;
 }
 
 // Helper function to map statuses between different types
@@ -46,6 +48,8 @@ export default function ImageGenerationTab({
   mode,
   descriptionLabel,
   descriptionPlaceholder,
+  promptValue,
+  onPromptChange,
 }: ImageGenerationTabProps) {
   const { submitGeneration, pollStatus, startSmartPolling } = useImageGeneration();
   const { trackImageGeneration } = useYandexTracking();
@@ -57,7 +61,9 @@ export default function ImageGenerationTab({
   const [generationTrigger, setGenerationTrigger] = useState(0);
   const [newImage, setNewImage] = useState<HistoryImageResult | undefined>();
   const [pollingGenerations, setPollingGenerations] = useState<Set<string>>(new Set());
-  const [prompt, setPrompt] = useState("");
+  const isControlledPrompt = typeof onPromptChange === "function";
+  const [internalPrompt, setInternalPrompt] = useState("");
+  const prompt = isControlledPrompt ? promptValue ?? "" : internalPrompt;
   
   // Image upload states (only for image-to-image mode)
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
@@ -118,6 +124,63 @@ export default function ImageGenerationTab({
   useEffect(() => {
     adjustTextareaHeight();
   }, [prompt]);
+
+  const handlePromptChange = useCallback((value: string) => {
+    if (value.length > 1000) {
+      return;
+    }
+
+    if (isControlledPrompt) {
+      onPromptChange?.(value);
+    } else {
+      setInternalPrompt(value);
+    }
+  }, [isControlledPrompt, onPromptChange]);
+
+  const applyPromptFromShowcase = useCallback(async (
+    value: string,
+    aspectRatio?: string,
+    model?: string,
+    imageUrl?: string
+  ) => {
+    handlePromptChange(value);
+
+    // For image-to-image mode, also load the image if provided
+    if (isImageToImage && imageUrl) {
+      try {
+        // Download the image through proxy to avoid CORS issues
+        const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(imageUrl)}`;
+        const response = await fetch(proxyUrl);
+        const blob = await response.blob();
+
+        // Create a File object from the blob
+        const fileName = imageUrl.split('/').pop() || 'showcase-image.jpg';
+        const file = new File([blob], fileName, { type: blob.type });
+
+        // Create preview URL
+        const previewUrl = URL.createObjectURL(blob);
+
+        // Clear existing images and set the new one
+        setUploadedImages([file]);
+        setImagePreviews([previewUrl]);
+        setUploadedImageUrls([imageUrl]);
+
+        toast.success(t("showcaseImageLoaded"));
+      } catch (error) {
+        console.error('Failed to load showcase image:', error);
+        toast.error(t("failedToLoadShowcaseImage"));
+      }
+    }
+
+    requestAnimationFrame(() => {
+      const textarea = textareaRef.current;
+      if (textarea) {
+        textarea.focus();
+        const caretPosition = value.length;
+        textarea.setSelectionRange(caretPosition, caretPosition);
+      }
+    });
+  }, [handlePromptChange, isImageToImage, t]);
 
   // Handle image upload - support up to 5 images
   const handleImageUpload = async (files: FileList) => {
@@ -759,14 +822,10 @@ export default function ImageGenerationTab({
                 )}
               </div>
               <Textarea
+                id={`${mode}-prompt-input`}
                 ref={textareaRef}
                 value={prompt}
-                onChange={(e) => {
-                  const newValue = e.target.value;
-                  if (newValue.length <= 1000) {
-                    setPrompt(newValue);
-                  }
-                }}
+                onChange={(e) => handlePromptChange(e.target.value)}
                 placeholder={
                   descriptionPlaceholder || 
                   (isImageToImage ? t("imageToImagePlaceholder") : t("textToImagePlaceholder"))
@@ -946,6 +1005,9 @@ export default function ImageGenerationTab({
         userId={user?.uuid}
         newImage={newImage}
         mode={isImageToImage ? "image-to-image" : "text-to-image"}
+        onSelectShowcaseImage={(selectedPrompt, aspectRatio, model, imageUrl) => {
+          applyPromptFromShowcase(selectedPrompt, aspectRatio, model, imageUrl);
+        }}
       />
 
       {/* CAPTCHA模态框 */}

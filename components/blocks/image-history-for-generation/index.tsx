@@ -3,9 +3,10 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { RefreshCw, History, Loader2, Sparkles } from "lucide-react";
+import { History, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAppContext } from "@/contexts/app";
+import { useSession } from "next-auth/react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import ImageHistoryItem from "./components/ImageHistoryItem";
 import ImageHistorySkeleton from "./components/ImageHistorySkeleton";
@@ -13,6 +14,10 @@ import ImagePreviewModal from "./components/ImagePreviewModal";
 import type { ImageGenerationResult } from "@/components/blocks/image-history";
 import { imagePollingService } from "@/services/imagePollingService";
 import type { ImageGenerationHistoryItem } from "@/types/image";
+import {
+  PromptInspirationGallery,
+  type PromptInspirationItem,
+} from "@/components/blocks/ai-image-generation-tool/PromptInspirationGallery";
 
 interface ImageHistoryForGenerationProps {
   refreshTrigger?: number;
@@ -48,19 +53,26 @@ export default function ImageHistoryForGeneration({
 }: ImageHistoryForGenerationProps) {
   
   const [images, setImages] = useState<ImageGenerationResult[]>([]);
-  const [loading, setLoading] = useState(true);
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
+  const [userStateConfirmed, setUserStateConfirmed] = useState(false);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [pollingImages, setPollingImages] = useState<Set<string>>(new Set());
   const [loadingImages, setLoadingImages] = useState<Set<string>>(new Set());
   const [scrollToBottomFlag, setScrollToBottomFlag] = useState(false);
   const pollingIntervalsRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
+
+  // Featured images state
+  const [featuredImages, setFeaturedImages] = useState<PromptInspirationItem[]>([]);
+  const [featuredLoading, setFeaturedLoading] = useState(false);
   
   // Modal state
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState<{ url: string; prompt: string } | null>(null);
   
   const { user, setShowSignModal } = useAppContext();
+  const { status: sessionStatus } = useSession();
+  const [activeTab, setActiveTab] = useState<"discovery" | "history">("history");
+  const [hasUserSelectedTab, setHasUserSelectedTab] = useState(false);
   
   // Incomplete statuses now defined in imagePollingService config
   const isMobile = useIsMobile();
@@ -75,6 +87,42 @@ export default function ImageHistoryForGeneration({
       scrollContainer.scrollTop = scrollContainer.scrollHeight;
     }
   }, []);
+
+  // Fetch featured images for discovery
+  const fetchFeaturedImages = useCallback(async () => {
+    setFeaturedLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (mode) {
+        // 映射前端 mode 到数据库 mode
+        const apiMode = mode === "image-to-image" ? "image-edit" : mode;
+        params.append("mode", apiMode);
+      }
+      params.append("limit", "25");
+
+      const response = await fetch(`/api/image-generations/featured?${params}`);
+      const data = await response.json();
+
+      if (data.code === 0 && Array.isArray(data.data)) {
+        const transformedItems: PromptInspirationItem[] = data.data.map((item: any) => ({
+          id: item.id,
+          title: item.title,
+          prompt: item.prompt,
+          imageUrl: item.imageUrl,
+          inputImageUrl: item.inputImageUrl,
+          aspectRatio: item.aspectRatio,
+          model: item.model
+        }));
+        setFeaturedImages(transformedItems);
+      }
+    } catch (error) {
+      console.error("Failed to fetch featured images:", error);
+      // 加载失败时使用空数组
+      setFeaturedImages([]);
+    } finally {
+      setFeaturedLoading(false);
+    }
+  }, [mode]);
 
   // Removed hasIncompleteImages - now handled by imagePollingService
 
@@ -129,16 +177,11 @@ export default function ImageHistoryForGeneration({
     if (!userId) {
       console.log("📝 No userId provided, skipping fetchHistory");
       setImages([]);
-      setLoading(false);
       setInitialLoadComplete(true);
       return;
     }
 
     console.log("🔄 Fetching image history for userId:", userId);
-    // 只在初次加载时显示整页loading
-    if (!initialLoadComplete) {
-      setLoading(true);
-    }
 
     try {
       const response = await fetch("/api/image-generations/history", {
@@ -166,16 +209,6 @@ export default function ImageHistoryForGeneration({
           // 标记初次加载完成
           setInitialLoadComplete(true);
           
-          // 如果没有处理中的图片，立即结束loading
-          const hasProcessingImages = reversedData.some((img: ImageGenerationResult) => 
-            img.status === "pending" || 
-            img.status === "in_progress" || 
-            img.status === "in_queue"
-          );
-          
-          if (!hasProcessingImages) {
-            setLoading(false);
-          }
 
           // Background task updates now handled by imagePollingService in useEffect
           
@@ -184,34 +217,51 @@ export default function ImageHistoryForGeneration({
         } else {
           console.error("❌ Invalid response format:", data);
           setImages([]);
-          setLoading(false);
           setInitialLoadComplete(true);
         }
       } else {
         console.error("❌ Failed to fetch image history:", response.status, response.statusText);
         setImages([]);
-        setLoading(false);
         setInitialLoadComplete(true);
       }
     } catch (error) {
       console.error("❌ Error fetching image history:", error);
       setImages([]);
-      setLoading(false);
       setInitialLoadComplete(true);
     }
   };
 
-  // Handle refresh
-  const handleRefresh = useCallback(() => {
-    fetchHistory();
-  }, [fetchHistory]);
-
   // Initial load
   useEffect(() => {
-    if (userId) {
-      fetchHistory();
+    // 1. 如果认证状态未知，等待
+    if (sessionStatus === "loading") {
+      return;
     }
-  }, [userId]);
+
+    // 2. 如果已认证但 userId 还未传入（可能是 props 延迟），继续等待
+    if (sessionStatus === "authenticated" && userId === undefined) {
+      return;
+    }
+
+    // 3. 现在可以确定用户状态了
+    setUserStateConfirmed(true);
+
+    if (userId) {
+      // 有 userId，加载历史
+      fetchHistory();
+    } else {
+      // 确定没有 userId（未登录或明确为 null），设置初始化完成
+      setImages([]);
+      setInitialLoadComplete(true);
+    }
+  }, [userId, sessionStatus]);
+
+  // Fetch featured images when discovery tab is active
+  useEffect(() => {
+    if (activeTab === "discovery") {
+      fetchFeaturedImages();
+    }
+  }, [activeTab, fetchFeaturedImages]);
 
   // Handle refresh trigger
   useEffect(() => {
@@ -272,8 +322,7 @@ export default function ImageHistoryForGeneration({
     });
 
     if (!hasActiveImages) {
-      // 没有需要轮询的图片时，确保loading状态为false
-      setLoading(false);
+      // 没有需要轮询的图片
       return;
     }
 
@@ -306,37 +355,13 @@ export default function ImageHistoryForGeneration({
                 : img
             );
             
-            // 检查是否还有其他处理中的图片
-            const hasProcessing = newImages.some(img => 
-              img.status === 'pending' || 
-              img.status === 'in_progress' || 
-              img.status === 'in_queue' ||
-              img.status === 'prompt_optimizing'
-            );
-            if (!hasProcessing) {
-              setLoading(false);
-            }
-            
+
             return newImages;
           });
         },
         onComplete: (image) => {
           // Image generation completed
-          // 检查是否还有其他处理中的图片
-          setImages(prevImages => {
-            const hasProcessing = prevImages.some(img => 
-              img.id !== image.id && (
-                img.status === 'pending' || 
-                img.status === 'in_progress' || 
-                img.status === 'in_queue' ||
-                img.status === 'prompt_optimizing'
-              )
-            );
-            if (!hasProcessing) {
-              setLoading(false);
-            }
-            return prevImages;
-          });
+          console.log(`Image ${image.id} generation completed`);
         },
         onError: (error, imageId) => {
           console.error(`Error updating image ${imageId}:`, error);
@@ -358,99 +383,200 @@ export default function ImageHistoryForGeneration({
       }
     };
   }, [user?.uuid, images]);
+  useEffect(() => {
+    if (!user?.uuid) {
+      // 即使未登录，也保持 history 为默认 tab
+      setHasUserSelectedTab(false);
+      return;
+    }
+  }, [user?.uuid]);
 
-  // 未登录用户：显示登录提示
-  if (!user?.uuid) {
-    return (
-      <div
-        ref={containerRef}
-        className={cn(
-          "bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
-          className
-        )}
+  useEffect(() => {
+    if (!user?.uuid) {
+      return;
+    }
+
+    if (!initialLoadComplete) {
+      return;
+    }
+
+    if (hasUserSelectedTab) {
+      return;
+    }
+
+    // 始终保持 history 为默认 tab
+    setActiveTab("history");
+  }, [user?.uuid, initialLoadComplete, images.length, hasUserSelectedTab]);
+
+  const handleTabChange = (tab: "discovery" | "history") => {
+    setActiveTab(tab);
+    setHasUserSelectedTab(true);
+  };
+
+  const renderSignInCard = () => (
+    <div className="rounded-xl border border-gray-700/80 bg-gray-900/70 p-6 text-center shadow-md">
+      <Sparkles className="mx-auto mb-4 h-12 w-12 text-blue-400" />
+      <h3 className="text-xl font-semibold text-gray-100 mb-2">
+        {t("pleaseSignIn")}
+      </h3>
+      <p className="text-sm text-gray-400 mb-5">
+        {t("signInToViewImages")}
+      </p>
+      <Button
+        onClick={() => setShowSignModal(true)}
+        size="lg"
+        className="bg-blue-600 text-white hover:bg-blue-700"
       >
-        <header className="py-3 px-4 md:px-5 flex justify-between items-center border-b border-gray-700">
-          <div className="text-lg md:text-xl font-semibold flex items-center text-white min-w-0">
-            <Sparkles className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3 flex-shrink-0" />
-            <span className="truncate">Explore Examples</span>
-          </div>
-        </header>
+        {t("signInButton")}
+      </Button>
+    </div>
+  );
 
-        {/* Showcase Content - No overflow, full height */}
-        <div className="flex-1 min-h-0 flex flex-col p-4 md:p-6">
-          <div className="text-center py-12">
-            <Sparkles className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-            <h3 className="text-2xl font-semibold text-gray-200 mb-2">
-              {t("pleaseSignIn")}
-            </h3>
-            <p className="text-gray-400 mb-6">{t("signInToViewImages")}</p>
-            <Button
-              onClick={() => setShowSignModal(true)}
-              size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white"
-            >
-              {t("signInButton")}
-            </Button>
+  const discoveryContent = (
+    <div className="flex-1 min-h-0 flex flex-col">
+      <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:dark-scrollbar">
+        {featuredLoading ? (
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
+              <p className="text-gray-400">Loading featured images...</p>
+            </div>
+          </div>
+        ) : featuredImages.length > 0 ? (
+          <div className="space-y-6">
+            <PromptInspirationGallery
+              items={featuredImages}
+              onSelect={(item) => {
+                // 对于图生图模式，传递输入图片URL
+                if (mode === "image-to-image" && item.inputImageUrl) {
+                  onSelectShowcaseImage?.(item.prompt, item.aspectRatio || "", item.model, item.inputImageUrl);
+                } else {
+                  onSelectShowcaseImage?.(item.prompt, item.aspectRatio || "", item.model, item.imageUrl);
+                }
+              }}
+              showPromptText={false}
+              showTitle
+              showHeader={false}
+            />
+          </div>
+        ) : (
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <p className="text-xl text-gray-400 mb-2">No featured images yet</p>
+              <p className="text-sm text-gray-500">Check back later for inspiring creations</p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  const historyContent = (
+    <div className="flex-1 min-h-0 flex flex-col">
+      {/* 1. 用户状态未确定或数据未加载完成：显示骨架 */}
+      {!userStateConfirmed || !initialLoadComplete ? (
+        <ImageHistorySkeleton />
+      ) : /* 2. 用户状态已确定且数据加载完成，根据实际情况显示内容 */
+      !userId ? (
+        <div className="flex-1 flex items-center justify-center p-6">
+          <div className="w-full max-w-md">
+            {renderSignInCard()}
           </div>
         </div>
-      </div>
-    );
-  }
+      ) : images.length === 0 ? (
+        <div className="flex-1 flex items-center justify-center p-6">
+          <div className="text-center">
+            <History className="mx-auto h-16 w-16 text-gray-400 mb-4" />
+            <h3 className="text-2xl font-semibold text-gray-200 mb-2">
+              {t("noImagesTitle")}
+            </h3>
+            <p className="text-gray-400 mb-6">{t("noImagesDescription")}</p>
+          </div>
+        </div>
+      ) : (
+        <div ref={scrollAreaRef} className="flex-1 overflow-y-auto image-history-scroll lg:dark-scrollbar">
+          <div className="divide-y divide-gray-700">
+            {(isMobile ? [...images].reverse() : images).map((image) => (
+              <ImageHistoryItem
+                key={image.id}
+                image={image}
+                pollingImages={pollingImages}
+                isExpanded={false}
+                onToggleExpanded={() => {}}
+                onEdit={onEditImage}
+                onRegenerate={onRegenerateImage}
+                onDelete={onDeleteImage}
+                onImageClick={handleImageClick}
+                canEdit={true}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 
-  // 已登录用户：有数据时显示历史记录
+  const tabs = [
+    {
+      id: "discovery" as const,
+      label: t("discoveryTab"),
+      icon: Sparkles,
+    },
+    {
+      id: "history" as const,
+      label: t("historyTab"),
+      icon: History,
+    },
+  ];
+
   return (
     <div
       ref={containerRef}
       className={cn(
-        "bg-gray-800 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
+        "bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-lg flex flex-col flex-1 w-full lg:w-auto lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]",
         className
       )}
     >
-      {/* Header */}
-      <header className="py-3 px-4 md:px-5 flex justify-between items-center border-b border-gray-700">
-        <div className="text-lg md:text-xl font-semibold flex items-center text-white min-w-0">
-          <History className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3 flex-shrink-0" />
-          <span className="truncate">Recent Generations</span>
+      <header className="border-b border-gray-800/30">
+        <div className="px-6 pt-4">
+          <div className="flex items-center gap-8">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => handleTabChange(tab.id)}
+                  className={cn(
+                    "relative flex items-center gap-2.5 pb-3 text-lg font-semibold transition-all duration-300 ease-out",
+                    isActive
+                      ? "text-white"
+                      : "text-gray-500 hover:text-gray-300"
+                  )}
+                >
+                  <Icon className={cn(
+                    "h-5 w-5 transition-all duration-300",
+                    isActive ? "text-white" : "text-current opacity-60"
+                  )} />
+                  <span className="tracking-wide">{tab.label}</span>
+                  {isActive && (
+                    <div
+                      className="absolute inset-x-0 -bottom-[1px] h-[2px] bg-white rounded-full"
+                      style={{
+                        animation: "slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                      }}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </header>
 
-      {/* Content */}
-      <div className="flex-1 min-h-0 flex flex-col">
-        {loading && !initialLoadComplete ? (
-          <ImageHistorySkeleton />
-        ) : images.length === 0 ? (
-          <div className="flex-1 flex items-center justify-center p-6">
-            <div className="text-center">
-              <History className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-              <h3 className="text-2xl font-semibold text-gray-200 mb-2">
-                {t("noImagesTitle")}
-              </h3>
-              <p className="text-gray-400 mb-6">{t("noImagesDescription")}</p>
-            </div>
-          </div>
-        ) : (
-          <div ref={scrollAreaRef} className="flex-1 overflow-y-auto image-history-scroll lg:dark-scrollbar">
-            <div className="divide-y divide-gray-700">
-              {(isMobile ? [...images].reverse() : images).map((image, index) => (
-                <ImageHistoryItem
-                  key={image.id}
-                  image={image}
-                  pollingImages={pollingImages}
-                  isExpanded={false}
-                  onToggleExpanded={() => {}}
-                  onEdit={onEditImage}
-                  onRegenerate={onRegenerateImage}
-                  onDelete={onDeleteImage}
-                  onImageClick={handleImageClick}
-                  canEdit={true}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-      
-      {/* Image Preview Modal */}
+      {activeTab === "discovery" ? discoveryContent : historyContent}
+
       {previewImage && (
         <ImagePreviewModal
           isOpen={previewModalOpen}

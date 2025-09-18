@@ -71,7 +71,13 @@ export interface ImageGeneration {
   // 扩展信息
   metadata?: any | null;               // 额外元数据 (JSONB)
   tags?: string[] | null;              // 标签 (JSONB)
-  
+
+  // 精选展示相关
+  is_featured?: boolean;               // 是否在 Discovery 中展示
+  featured_at?: string | null;         // 被标记为精选的时间
+  featured_order?: number | null;      // 展示顺序
+  featured_by?: string | null;         // 标记者ID
+
   // 时间戳
   created_at: string;                  // 创建时间
   updated_at: string;                  // 更新时间

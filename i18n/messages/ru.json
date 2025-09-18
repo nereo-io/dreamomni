@@ -478,6 +478,10 @@
     "unknownError": "Неизвестная ошибка",
     "promptEnhancement": "Улучшение промпта",
     "promptEnhancementDescription": "ИИ улучшит ваш промпт для лучшего качества изображения",
+    "promptInspirationTitle": "Получите вдохновение",
+    "promptInspirationSubtitle": "Ознакомьтесь с популярными промптами и кликните по карточке, чтобы подставить текст в генератор.",
+    "useThisPrompt": "Использовать промпт",
+    "useThisPromptAria": "Использовать этот промпт: {prompt}",
     "nanoBananaDisplayName": "Nano Banana",
     "nanoBananaProvider": "Kie.ai Nano Banana",
     "highQuality": "Высокое качество",
@@ -497,6 +501,12 @@
     "imageTab": "Изображения"
   },
   "imageHistory": {
+    "discoveryTab": "Подборка",
+    "historyTab": "История",
+    "discoveryHeading": "Подборка вдохновляющих промптов",
+    "discoverySubtitle": "Просматривайте подборку промптов и добавляйте их в генератор одним кликом.",
+    "discoveryDescription": "Нажмите на любую карточку, чтобы мгновенно заполнить поле промпта в инструменте текст-в-изображение.",
+    "historySubtitle": "Отслеживайте свои последние генерации, их статусы и управляйте результатами.",
     "title": "История изображений",
     "noImagesTitle": "Изображений пока нет",
     "noImagesDescription": "Ваши сгенерированные изображения появятся здесь после создания.",

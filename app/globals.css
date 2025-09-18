@@ -8,6 +8,18 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Minimalist tab indicator animation */
+@keyframes slideIn {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
 /* 隐藏滚动条但保留滚动功能 */
 @layer utilities {
   .scrollbar-hide {

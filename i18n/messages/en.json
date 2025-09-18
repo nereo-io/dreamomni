@@ -485,6 +485,10 @@
     "unknownError": "Unknown error",
     "promptEnhancement": "Prompt Enhancement",
     "promptEnhancementDescription": "AI will enhance your prompt for better image quality",
+    "promptInspirationTitle": "Get Inspired",
+    "promptInspirationSubtitle": "Discover popular prompts and click any card to fill it into the generator.",
+    "useThisPrompt": "Use this prompt",
+    "useThisPromptAria": "Use this prompt: {prompt}",
     "nanoBananaDisplayName": "Nano Banana",
     "nanoBananaProvider": "Kie.ai Nano Banana",
     "highQuality": "High Quality",
@@ -495,7 +499,9 @@
     "generationStarted": "Image generation started.",
     "generationCompleted": "Image generation complete!",
     "generationInProgress": "Generating...",
-    "generationStatusChecking": "Checking status..."
+    "generationStatusChecking": "Checking status...",
+    "showcaseImageLoaded": "Showcase image loaded successfully",
+    "failedToLoadShowcaseImage": "Failed to load showcase image"
   },
   "myCreations": {
     "title": "My Creations",
@@ -504,6 +510,12 @@
     "imageTab": "Images"
   },
   "imageHistory": {
+    "discoveryTab": "Discover",
+    "historyTab": "History",
+    "discoveryHeading": "Curated Prompt Gallery",
+    "discoverySubtitle": "Browse curated prompts and drop them straight into the generator.",
+    "discoveryDescription": "Tap any card to instantly populate the prompt field in the text-to-image tool.",
+    "historySubtitle": "Review your recent generations, track status updates, and manage outputs.",
     "title": "Image History",
     "noImagesTitle": "No images yet",
     "noImagesDescription": "Your generated images will appear here once you start creating.",

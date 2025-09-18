@@ -65,12 +65,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.8,
       },
       {
-        url: `${baseUrl}/image-generation`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
-        priority: 0.8,
-      },
-      {
         url: `${baseUrl}/video-effects`,
         lastModified: currentDate,
         changeFrequency: "weekly" as ChangeFrequency,
@@ -193,12 +187,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
         {
           url: `${baseUrl}/${locale}/image-to-image`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.8,
-        },
-        {
-          url: `${baseUrl}/${locale}/image-generation`,
           lastModified: currentDate,
           changeFrequency: "weekly" as ChangeFrequency,
           priority: 0.8,
