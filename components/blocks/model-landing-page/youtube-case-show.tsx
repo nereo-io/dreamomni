@@ -77,11 +77,9 @@ export default function YoutubeCaseShow({ section }: YouTubeCaseShowProps) {
   return (
     <div className="w-full py-16 bg-emerald-900">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl font-bold text-white mb-8">
-          {section.title}
-        </h2>
+        <h2 className="text-2xl font-bold text-white mb-8">{section.title}</h2>
 
-        <div className="relative">
+        <div className="relative h-full flex items-center justify-center">
           {/* 左右导航按钮 */}
           <button
             onClick={moveLeft}
@@ -111,7 +109,7 @@ export default function YoutubeCaseShow({ section }: YouTubeCaseShowProps) {
           {/* 视频卡片容器 */}
           <div
             ref={containerRef}
-            className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
+            className="flex overflow-hidden snap-x snap-mandatory"
             style={{ scrollbarWidth: "none" }} // Firefox
           >
             {section.videos.map((video: VideoCard, index: number) => (

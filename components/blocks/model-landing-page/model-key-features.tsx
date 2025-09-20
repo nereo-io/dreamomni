@@ -38,6 +38,7 @@ interface DetailItem {
   description: string;
   type: "table" | "video";
   data: TableData | string;
+  poster?: string; // 视频封面图URL，可选
 }
 
 // 定义完整的section接口
@@ -224,6 +225,85 @@ const FeatureItemComponent: React.FC<FeatureItem & { index: number }> =
 // 添加显示名称便于调试
 FeatureItemComponent.displayName = "FeatureItemComponent";
 
+// 视频自动捕获第一帧作为封面的组件
+const VideoWithAutoPoster: React.FC<{
+  src: string;
+  className?: string;
+}> = ({ src, className }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [poster, setPoster] = useState<string | undefined>();
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // 尝试捕获第一帧作为封面
+    const captureFirstFrame = async () => {
+      try {
+        // 设置视频源
+        video.src = src;
+        
+        // 监听元数据加载事件
+        video.addEventListener('loadedmetadata', async () => {
+          try {
+            // 视频加载足够的数据来获取第一帧
+            // 由于浏览器的自动播放政策，我们可能需要用户交互才能播放
+            // 这里我们使用preload和seek的方式来获取第一帧
+            video.currentTime = 0.1;
+            
+            // 监听seeked事件，确保视频已经定位到指定时间点
+            const handleSeeked = () => {
+              try {
+                // 创建canvas来捕获第一帧
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+                if (ctx) {
+                  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                  // 将canvas内容转换为base64编码的图片
+                  const posterUrl = canvas.toDataURL('image/jpeg');
+                  setPoster(posterUrl);
+                }
+              } catch (error) {
+                console.error('Failed to capture first frame as poster:', error);
+              }
+              // 移除事件监听器
+              video.removeEventListener('seeked', handleSeeked);
+            };
+            
+            video.addEventListener('seeked', handleSeeked);
+          } catch (error) {
+            console.error('Failed to load video metadata:', error);
+          }
+        });
+      } catch (error) {
+        console.error('Failed to set up video for poster capture:', error);
+      }
+    };
+
+    captureFirstFrame();
+
+    return () => {
+      // 清理工作
+      if (video) {
+        video.src = '';
+      }
+    };
+  }, [src]);
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      controls
+      className={className}
+      preload="metadata"
+      poster={poster}
+    />
+  );
+};
+
 export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
   // 为所有必需属性提供默认值，防止数据不完整时出错
   const safeSection = {
@@ -309,15 +389,25 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
                   </div>
                 )}
                 {item.type === "video" && (
-                  <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 shadow-xl max-w-3xl mx-auto transition-all duration-500 hover:shadow-2xl hover:border-blue-500/20">
-                    <video
-                      src={item.data as string}
-                      controls
-                      className="w-full h-auto rounded-t-lg"
-                      preload="metadata"
-                    />
-                  </div>
-                )}
+                    <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 shadow-xl max-w-3xl mx-auto transition-all duration-500 hover:shadow-2xl hover:border-blue-500/20">
+                      {item.poster ? (
+                        // 如果提供了封面图，则使用原始video标签
+                        <video
+                          src={item.data as string}
+                          controls
+                          className="w-full h-auto rounded-t-lg"
+                          preload="metadata"
+                          poster={item.poster}
+                        />
+                      ) : (
+                        // 如果没有提供封面图，则使用自动捕获第一帧的组件
+                        <VideoWithAutoPoster
+                          src={item.data as string}
+                          className="w-full h-auto rounded-t-lg"
+                        />
+                      )}
+                    </div>
+                  )}
               </div>
             </div>
           </section>

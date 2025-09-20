@@ -36,7 +36,7 @@ const TwitterPost: React.FC<TwitterPostProps> = ({
         src={imageUrl}
         width={width}
         height={height}
-        className="w-full object-cover transition-transform hover:scale-105 duration-500 border-0 rounded-lg shadow-lg"
+        className="w-full object-cover border-0 rounded-lg shadow-lg"
         loading="lazy"
         title={
           postId || `Twitter Post ${Math.random().toString(36).substr(2, 9)}`

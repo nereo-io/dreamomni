@@ -35,24 +35,10 @@ const Step: React.FC<Step> = ({ number, title, description }) => {
 export default function NanoBananaUsageGuide({
   section,
 }: NanoBananaUsageGuideProps) {
-  // 添加视差滚动效果
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const guideSection = document.querySelector(
-        ".usage-guide-section"
-      ) as HTMLElement | null;
-      if (guideSection) {
-        guideSection.style.backgroundPositionY = `${scrollY * 0.2}px`;
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // 背景已改为纯色，移除视差滚动效果代码
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-950/90 via-purple-900/70 to-indigo-950/80 text-white py-20 usage-guide-section bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyIiBoZWlnaHQ9IjIiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuMDUiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcGF0dGVybikiLz48L3N2Zz4=')] bg-repeat opacity-95">
+    <div className="min-h-screen bg-purple-950 text-white py-20 usage-guide-section">
       <div className="container mx-auto px-4">
         {/* 标题区域 */}
         <div className="text-center mb-20">
