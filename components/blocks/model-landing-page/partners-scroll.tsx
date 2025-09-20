@@ -1,85 +1,104 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-// 合作伙伴 logo 数据
-const partners = [
-  { name: "Coca-Cola", logo: "/imgs/partners/coca-cola-logo.png" },
-  { name: "Microsoft", logo: "/imgs/partners/microsoft-logo.png" },
-  { name: "Nike", logo: "/imgs/partners/nike-logo.png" },
-  { name: "P&G", logo: "/imgs/partners/p-g-logo.png" },
-  { name: "Lancome", logo: "/imgs/partners/lancome-logo.png" },
-  { name: "Zoom", logo: "/imgs/partners/zoom-logo.png" },
-  { name: "Sony", logo: "/imgs/partners/sony-logo.png" },
-  { name: "Mercedes", logo: "/imgs/partners/mercedes-logo.png" }
-];
+interface Partner {
+  name: string;
+  logo: string;
+}
+
+interface PartnersSection {
+  items: Partner[];
+}
 
 interface PartnersScrollProps {
   className?: string;
   speed?: number; // 滚动速度，单位为像素/秒
+  section: PartnersSection;
 }
 
-export function PartnersScroll({ className, speed = 30 }: PartnersScrollProps) {
+export default function PartnersScroll({
+  className,
+  speed = 60, // 提高默认滚动速度
+  section,
+}: PartnersScrollProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!scrollRef.current || !contentRef.current) return;
-    
-    // 复制内容以实现无缝滚动
+    if (!scrollRef.current || !contentRef.current || section.items.length === 0)
+      return;
+
     const content = contentRef.current;
     const scrollContainer = scrollRef.current;
-    
-    // 克隆节点以实现无限滚动效果
-    const clone = content.cloneNode(true);
-    scrollContainer.appendChild(clone);
-    
+
+    // 创建多个克隆以确保无缝滚动效果
+    const clone1 = content.cloneNode(true);
+    const clone2 = content.cloneNode(true);
+    scrollContainer.appendChild(clone1);
+    scrollContainer.appendChild(clone2);
+
     let animationId: number;
     let startTime: number;
     let distance = 0;
-    
+
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
-      
+
       // 计算滚动距离
       distance = (elapsed * speed) / 1000;
-      
-      // 当滚动距离超过内容宽度时重置
-      if (distance >= content.offsetWidth) {
-        distance = 0;
-        startTime = timestamp;
-      }
-      
-      // 应用滚动
-      scrollContainer.style.transform = `translateX(-${distance}px)`;
-      
+
+      // 使用取模运算代替直接重置，实现更平滑的循环
+      const contentWidth = content.offsetWidth;
+      const translateX = -(distance % contentWidth);
+
+      scrollContainer.style.transform = `translateX(${translateX}px)`;
       animationId = requestAnimationFrame(animate);
     };
-    
+
     animationId = requestAnimationFrame(animate);
-    
+
     return () => {
       cancelAnimationFrame(animationId);
     };
-  }, [speed]);
+  }, [speed, section.items]);
 
   return (
-    <div className={cn("w-full overflow-hidden bg-black py-4", className)}>
-      <div ref={scrollRef} className="inline-flex">
-        <div ref={contentRef} className="flex items-center space-x-12">
-          {partners.map((partner, index) => (
-            <div key={index} className="flex items-center justify-center h-12">
-              {/* 使用 div 和背景图片作为替代方案，因为我们没有实际的 SVG 文件 */}
-              <div 
-                className="h-6 w-24 bg-contain bg-center bg-no-repeat opacity-80"
-                style={{ 
+    <div
+      className={cn(
+        "w-full overflow-hidden bg-black py-6 md:py-8 relative",
+        className
+      )}
+    >
+      {/* 添加渐变遮罩效果 */}
+      <div className="absolute left-0 top-0 bottom-0 w-12 md:w-24 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
+      <div className="absolute right-0 top-0 bottom-0 w-12 md:w-24 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
+
+      <div
+        ref={scrollRef}
+        className="inline-flex transition-transform duration-0 ease-linear"
+        style={{ willChange: "transform" }}
+      >
+        <div
+          ref={contentRef}
+          className="flex items-center space-x-8 md:space-x-16"
+        >
+          {section.items.map((partner, index) => (
+            <div
+              key={index}
+              className="flex items-center justify-center h-16"
+              aria-label={partner.name}
+            >
+              <div
+                className="h-8 w-32 md:h-10 md:w-40 bg-contain bg-center bg-no-repeat opacity-80"
+                style={{
                   backgroundImage: `url(${partner.logo})`,
-                  // 由于实际文件可能不存在，使用内联样式作为备选
-                  filter: "brightness(0) invert(1)"
+                  filter:
+                    "brightness(0) invert(1) drop-shadow(0 0 8px rgba(255, 255, 255, 0.2))",
                 }}
+                role="img"
                 aria-label={partner.name}
               />
             </div>

@@ -3,6 +3,7 @@ import { Pricing } from "@/types/blocks/pricing";
 import { ClaudeSonnetFeaturesBlockTranslations } from "@/types/blocks/claude-sonnet-features";
 import { TextToVideoPage } from "@/types/pages/text-to-video";
 import { ImageToVideoPage } from "@/types/pages/image-to-video";
+import { NanoBananaLandingPage } from "@/types/pages/nano-banana";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -19,6 +20,24 @@ export async function getLandingPage(locale: string): Promise<LandingPage> {
     );
   }
 }
+export async function getNanoBananaLandingPage(
+  locale: string
+): Promise<NanoBananaLandingPage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/nano-banana/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(`Failed to load ${locale}.json, falling back to en.json`);
+    return await import("@/i18n/pages/nano-banana/en.json").then(
+      (module) => module.default as NanoBananaLandingPage
+    );
+  }
+}
+
 export async function getPricingBlock(locale: string): Promise<Pricing> {
   try {
     if (locale === "zh-CN") {
@@ -57,7 +76,9 @@ export async function getClaudeSonnetFeaturesBlock(
   }
 }
 
-export async function getTextToVideoPage(locale: string): Promise<TextToVideoPage> {
+export async function getTextToVideoPage(
+  locale: string
+): Promise<TextToVideoPage> {
   try {
     if (locale === "zh-CN") {
       locale = "zh";
@@ -66,14 +87,18 @@ export async function getTextToVideoPage(locale: string): Promise<TextToVideoPag
       `@/i18n/pages/text-to-video/${locale.toLowerCase()}.json`
     ).then((module) => module.default);
   } catch (error) {
-    console.warn(`Failed to load text-to-video/${locale}.json, falling back to en.json`);
+    console.warn(
+      `Failed to load text-to-video/${locale}.json, falling back to en.json`
+    );
     return await import("@/i18n/pages/text-to-video/en.json").then(
       (module) => module.default as TextToVideoPage
     );
   }
 }
 
-export async function getImageToVideoPage(locale: string): Promise<ImageToVideoPage> {
+export async function getImageToVideoPage(
+  locale: string
+): Promise<ImageToVideoPage> {
   try {
     if (locale === "zh-CN") {
       locale = "zh";
@@ -82,10 +107,11 @@ export async function getImageToVideoPage(locale: string): Promise<ImageToVideoP
       `@/i18n/pages/image-to-video/${locale.toLowerCase()}.json`
     ).then((module) => module.default);
   } catch (error) {
-    console.warn(`Failed to load image-to-video/${locale}.json, falling back to en.json`);
+    console.warn(
+      `Failed to load image-to-video/${locale}.json, falling back to en.json`
+    );
     return await import("@/i18n/pages/image-to-video/en.json").then(
       (module) => module.default as ImageToVideoPage
     );
   }
 }
-
