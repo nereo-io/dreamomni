@@ -39,11 +39,21 @@ export default function NanoBananaBanner({ section }: NanoBananaBannerProps) {
       setShowSignModal(true);
       return;
     }
-    // 已登录，根据当前标签页跳转到对应页面
-    if (activeTab === "text-to-image") {
+
+    // 已登录，存储当前输入的数据到 localStorage
+    if (activeTab === "text-to-image" && prompt.trim()) {
+      localStorage.setItem("nanoBananaPrompt", prompt);
       router.push("/text-to-image");
-    } else {
-      router.push("/image-to-image");
+    } else if (activeTab === "image-to-image" && imageFile) {
+      // 对于图像文件，我们需要先转换为base64字符串才能存储
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target && typeof e.target.result === "string") {
+          localStorage.setItem("nanoBananaImage", e.target.result);
+          router.push("/image-to-image");
+        }
+      };
+      reader.readAsDataURL(imageFile);
     }
   };
 
