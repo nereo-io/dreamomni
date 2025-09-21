@@ -26,7 +26,7 @@ export default function NanoBananaUsageGuide({
   // 背景已改为纯色，移除视差滚动效果代码
 
   return (
-    <div className="min-h-[70vh] text-white py-12 usage-guide-section">
+    <div className="text-white py-12 usage-guide-section">
       <div className="container mx-auto px-4">
         {/* 标题区域 */}
         <div className="text-center mb-12">

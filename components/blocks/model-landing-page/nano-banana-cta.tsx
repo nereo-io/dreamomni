@@ -17,16 +17,8 @@ export default function NanoBananaCta({ section }: NanoBananaCtaProps) {
     };
   }, []);
 
-  // Enhanced glow effect on hover
-  const hoverGlowStyle = useMemo(() => {
-    return {
-      filter:
-        "drop-shadow(0 0 15px rgba(192, 132, 252, 0.8)) drop-shadow(0 0 30px rgba(192, 132, 252, 0.6)) drop-shadow(0 0 50px rgba(192, 132, 252, 0.4))",
-    };
-  }, []);
-
   return (
-    <div className="relative w-full min-h-[60vh] bg-black text-white overflow-hidden font-sans">
+    <div className="relative w-full bg-black text-white overflow-hidden font-sans">
       {/* Enhanced Background Glows with more dynamic effects */}
       <div
         className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-gradient-to-br from-yellow-400 via-orange-500 to-pink-500 rounded-full filter blur-[100px] opacity-20 animate-pulse"
@@ -43,7 +35,7 @@ export default function NanoBananaCta({ section }: NanoBananaCtaProps) {
       {/* Grid pattern overlay for texture */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMtMS4zNiAwLTIuNS0xLjEyNS0yLjUtMi41cyAxLjE0LTIuNSAyLjUtMi41IDIuNSAxLjEyNSAyLjUgMi41LTEuMTQgMi41LTIuNSAyLjV6IiBzdHJva2Utb3BhY2l0eT0iLjAyIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMC41Ii8+PC9nPjwvc3ZnPg==')] opacity-30"></div>
 
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-[60vh] px-4 py-16">
+      <div className="relative z-10 flex flex-col items-center justify-center px-4 py-16">
         {/* Logo with enhanced animation and interactive effects */}
         <div className="flex items-center justify-center mb-12">
           {/* Simplified logo container */}
