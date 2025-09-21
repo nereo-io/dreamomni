@@ -43,7 +43,7 @@ export default function NanoBananaCta({ section }: NanoBananaCtaProps) {
             {/* Main logo */}
             <Image
               src="/logo.png"
-              alt="Pollo AI Logo"
+              alt="Veo3 AI Logo"
               width={80}
               height={80}
               className="transition-all duration-300 group-hover:brightness-110"
