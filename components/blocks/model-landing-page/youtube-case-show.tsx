@@ -131,7 +131,7 @@ export default function YoutubeCaseShow({ section }: YouTubeCaseShowProps) {
   }, [section.content.length]);
 
   return (
-    <section className="w-full py-16 md:py-24 bg-gradient-to-b from-gray-900 to-black">
+    <section className="w-full py-16 md:py-24 bg-gray-900">
       <div className="container mx-auto px-4 md:px-8">
         {/* 标题区域 */}
         <div className="text-center mb-12">
