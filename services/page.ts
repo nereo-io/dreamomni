@@ -76,9 +76,7 @@ export async function getClaudeSonnetFeaturesBlock(
   }
 }
 
-export async function getTextToVideoPage(
-  locale: string
-): Promise<TextToVideoPage> {
+export async function getTextToVideoPage(locale: string): Promise<TextToVideoPage> {
   try {
     if (locale === "zh-CN") {
       locale = "zh";
@@ -87,18 +85,14 @@ export async function getTextToVideoPage(
       `@/i18n/pages/text-to-video/${locale.toLowerCase()}.json`
     ).then((module) => module.default);
   } catch (error) {
-    console.warn(
-      `Failed to load text-to-video/${locale}.json, falling back to en.json`
-    );
+    console.warn(`Failed to load text-to-video/${locale}.json, falling back to en.json`);
     return await import("@/i18n/pages/text-to-video/en.json").then(
       (module) => module.default as TextToVideoPage
     );
   }
 }
 
-export async function getImageToVideoPage(
-  locale: string
-): Promise<ImageToVideoPage> {
+export async function getImageToVideoPage(locale: string): Promise<ImageToVideoPage> {
   try {
     if (locale === "zh-CN") {
       locale = "zh";
@@ -107,11 +101,10 @@ export async function getImageToVideoPage(
       `@/i18n/pages/image-to-video/${locale.toLowerCase()}.json`
     ).then((module) => module.default);
   } catch (error) {
-    console.warn(
-      `Failed to load image-to-video/${locale}.json, falling back to en.json`
-    );
+    console.warn(`Failed to load image-to-video/${locale}.json, falling back to en.json`);
     return await import("@/i18n/pages/image-to-video/en.json").then(
       (module) => module.default as ImageToVideoPage
     );
   }
 }
+

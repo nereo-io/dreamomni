@@ -64,7 +64,7 @@ export default function ImageGenerationTab({
   const isControlledPrompt = typeof onPromptChange === "function";
   const [internalPrompt, setInternalPrompt] = useState("");
   const prompt = isControlledPrompt ? promptValue ?? "" : internalPrompt;
-
+  
   // Image upload states (only for image-to-image mode)
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
@@ -415,7 +415,7 @@ export default function ImageGenerationTab({
       handleImageUpload(files);
     }
     // Clear the input value to allow selecting the same file again
-    e.target.value = "";
+    e.target.value = '';
   };
 
   // Drag and drop handlers
@@ -915,7 +915,7 @@ export default function ImageGenerationTab({
                 value={prompt}
                 onChange={(e) => handlePromptChange(e.target.value)}
                 placeholder={
-                  descriptionPlaceholder ||
+                  descriptionPlaceholder || 
                   (isImageToImage ? t("imageToImagePlaceholder") : t("textToImagePlaceholder"))
                 }
                 className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
