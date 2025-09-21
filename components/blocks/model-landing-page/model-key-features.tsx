@@ -242,43 +242,46 @@ const VideoWithAutoPoster: React.FC<{
       try {
         // 设置视频源
         video.src = src;
-        
+
         // 监听元数据加载事件
-        video.addEventListener('loadedmetadata', async () => {
+        video.addEventListener("loadedmetadata", async () => {
           try {
             // 视频加载足够的数据来获取第一帧
             // 由于浏览器的自动播放政策，我们可能需要用户交互才能播放
             // 这里我们使用preload和seek的方式来获取第一帧
             video.currentTime = 0.1;
-            
+
             // 监听seeked事件，确保视频已经定位到指定时间点
             const handleSeeked = () => {
               try {
                 // 创建canvas来捕获第一帧
-                const canvas = document.createElement('canvas');
+                const canvas = document.createElement("canvas");
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
-                const ctx = canvas.getContext('2d');
+                const ctx = canvas.getContext("2d");
                 if (ctx) {
                   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                   // 将canvas内容转换为base64编码的图片
-                  const posterUrl = canvas.toDataURL('image/jpeg');
+                  const posterUrl = canvas.toDataURL("image/jpeg");
                   setPoster(posterUrl);
                 }
               } catch (error) {
-                console.error('Failed to capture first frame as poster:', error);
+                console.error(
+                  "Failed to capture first frame as poster:",
+                  error
+                );
               }
               // 移除事件监听器
-              video.removeEventListener('seeked', handleSeeked);
+              video.removeEventListener("seeked", handleSeeked);
             };
-            
-            video.addEventListener('seeked', handleSeeked);
+
+            video.addEventListener("seeked", handleSeeked);
           } catch (error) {
-            console.error('Failed to load video metadata:', error);
+            console.error("Failed to load video metadata:", error);
           }
         });
       } catch (error) {
-        console.error('Failed to set up video for poster capture:', error);
+        console.error("Failed to set up video for poster capture:", error);
       }
     };
 
@@ -287,7 +290,7 @@ const VideoWithAutoPoster: React.FC<{
     return () => {
       // 清理工作
       if (video) {
-        video.src = '';
+        video.src = "";
       }
     };
   }, [src]);
@@ -338,7 +341,7 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-950 via-blue-900/80 to-blue-950/90 text-white py-20">
+    <div className="min-h-screen bg-gray-900 text-white py-20">
       <div className="container mx-auto px-4">
         {/* Key Features Section */}
         <div className="mb-20">
@@ -389,25 +392,25 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
                   </div>
                 )}
                 {item.type === "video" && (
-                    <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 shadow-xl max-w-3xl mx-auto transition-all duration-500 hover:shadow-2xl hover:border-blue-500/20">
-                      {item.poster ? (
-                        // 如果提供了封面图，则使用原始video标签
-                        <video
-                          src={item.data as string}
-                          controls
-                          className="w-full h-auto rounded-t-lg"
-                          preload="metadata"
-                          poster={item.poster}
-                        />
-                      ) : (
-                        // 如果没有提供封面图，则使用自动捕获第一帧的组件
-                        <VideoWithAutoPoster
-                          src={item.data as string}
-                          className="w-full h-auto rounded-t-lg"
-                        />
-                      )}
-                    </div>
-                  )}
+                  <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 shadow-xl max-w-3xl mx-auto transition-all duration-500 hover:shadow-2xl hover:border-blue-500/20">
+                    {item.poster ? (
+                      // 如果提供了封面图，则使用原始video标签
+                      <video
+                        src={item.data as string}
+                        controls
+                        className="w-full h-auto rounded-t-lg"
+                        preload="metadata"
+                        poster={item.poster}
+                      />
+                    ) : (
+                      // 如果没有提供封面图，则使用自动捕获第一帧的组件
+                      <VideoWithAutoPoster
+                        src={item.data as string}
+                        className="w-full h-auto rounded-t-lg"
+                      />
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </section>

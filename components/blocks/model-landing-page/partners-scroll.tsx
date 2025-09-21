@@ -68,14 +68,10 @@ export default function PartnersScroll({
   return (
     <div
       className={cn(
-        "w-full overflow-hidden bg-black py-6 md:py-8 relative",
+        "w-full overflow-hidden bg-gray-900 py-6 md:py-8 relative",
         className
       )}
     >
-      {/* 添加渐变遮罩效果 */}
-      <div className="absolute left-0 top-0 bottom-0 w-12 md:w-24 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
-      <div className="absolute right-0 top-0 bottom-0 w-12 md:w-24 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
-
       <div
         ref={scrollRef}
         className="inline-flex transition-transform duration-0 ease-linear"

@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useRouter } from "next/navigation";
+import { useAppContext } from "@/contexts/app";
 
 interface BannerSection {
   title: string;
@@ -27,9 +29,22 @@ export default function NanoBananaBanner({ section }: NanoBananaBannerProps) {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const router = useRouter();
+  const { user, setShowSignModal } = useAppContext();
+
   const handleGenerate = () => {
-    // 这里实现生成图片的逻辑
-    console.log("Generating with prompt:", prompt);
+    // 检查用户登陆状态
+    if (!user?.uuid) {
+      // 未登录，显示登陆弹窗
+      setShowSignModal(true);
+      return;
+    }
+    // 已登录，根据当前标签页跳转到对应页面
+    if (activeTab === "text-to-image") {
+      router.push("/text-to-image");
+    } else {
+      router.push("/image-to-image");
+    }
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -188,6 +203,7 @@ export default function NanoBananaBanner({ section }: NanoBananaBannerProps) {
             <div className="flex justify-center mt-8">
               <Button
                 className="w-full max-w-xs bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-700/30 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+                disabled={!prompt.trim()}
                 onClick={handleGenerate}
               >
                 <svg
@@ -348,11 +364,7 @@ export default function NanoBananaBanner({ section }: NanoBananaBannerProps) {
                     : ""
                 } focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900`}
                 disabled={!imageFile}
-                onClick={() => {
-                  if (imageFile) {
-                    console.log("Generating with image:", imageFile.name);
-                  }
-                }}
+                onClick={handleGenerate}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
