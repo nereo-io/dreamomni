@@ -17,12 +17,17 @@ const NavigationButton: React.FC<{
       disabled={disabled}
       aria-label={direction === "left" ? "上一页" : "下一页"}
       className={`
-        absolute top-1/2 ${direction === "left" ? "left-2 md:left-[-20px]" : "right-2 md:right-[-20px]"}
+        absolute top-1/2 ${
+          direction === "left"
+            ? "left-2 md:left-[-20px]"
+            : "right-2 md:right-[-20px]"
+        }
         transform -translate-y-1/2 z-10 
         w-10 h-10 rounded-full 
-        bg-gradient-to-r ${direction === "left" 
-          ? "from-purple-600 to-indigo-700" 
-          : "from-indigo-700 to-purple-600"
+        bg-gradient-to-r ${
+          direction === "left"
+            ? "from-purple-600 to-indigo-700"
+            : "from-indigo-700 to-purple-600"
         }
         text-white flex items-center justify-center 
         transition-all duration-300 
@@ -58,7 +63,6 @@ const VideoCard: React.FC<VideoCardType> = ({ width, height, youtubeLink }) => {
       <div className="relative aspect-video bg-gradient-to-br from-gray-900 to-gray-800">
         {/* 视频缩略图边框效果 */}
         <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/20 to-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        
         {/* YouTube视频嵌入 */}
         <iframe
           ref={iframeRef}
@@ -73,27 +77,6 @@ const VideoCard: React.FC<VideoCardType> = ({ width, height, youtubeLink }) => {
           title="YouTube video player"
         />
       </div>
-    </div>
-  );
-};
-
-// 分页指示器组件
-const PaginationIndicator: React.FC<{
-  totalPages: number;
-  currentPage: number;
-}> = ({ totalPages, currentPage }) => {
-  return (
-    <div className="flex justify-center mt-6 gap-2">
-      {Array.from({ length: totalPages }).map((_, index) => (
-        <div
-          key={index}
-          className={`h-2 rounded-full transition-all duration-300 ${
-            index === currentPage
-              ? "w-6 bg-purple-500"
-              : "w-2 bg-gray-600 hover:bg-gray-500"
-          }`}
-        />
-      ))}
     </div>
   );
 };
@@ -147,10 +130,6 @@ export default function YoutubeCaseShow({ section }: YouTubeCaseShowProps) {
     return () => window.removeEventListener("resize", handleResize);
   }, [section.content.length]);
 
-  // 计算总页数
-  const totalPages = Math.ceil(section.content.length / getVisibleCount());
-  const currentPage = Math.floor(currentIndex / getVisibleCount());
-
   return (
     <section className="w-full py-16 md:py-24 bg-gradient-to-b from-gray-900 to-black">
       <div className="container mx-auto px-4 md:px-8">
@@ -159,11 +138,6 @@ export default function YoutubeCaseShow({ section }: YouTubeCaseShowProps) {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-500">
             {section.title}
           </h2>
-          {section.description && (
-            <p className="text-gray-300 max-w-2xl mx-auto">
-              {section.description}
-            </p>
-          )}
         </div>
 
         {/* 轮播区域 */}
@@ -179,9 +153,9 @@ export default function YoutubeCaseShow({ section }: YouTubeCaseShowProps) {
           <div
             ref={containerRef}
             className="flex overflow-hidden snap-x snap-mandatory gap-4 md:gap-6 pb-2"
-            style={{ 
+            style={{
               scrollbarWidth: "none", // Firefox
-              msOverflowStyle: "none" // IE/Edge
+              msOverflowStyle: "none", // IE/Edge
             }}
           >
             {section.content.map((video: VideoCardType, index: number) => (
@@ -207,14 +181,6 @@ export default function YoutubeCaseShow({ section }: YouTubeCaseShowProps) {
             }
           />
         </div>
-
-        {/* 分页指示器 */}
-        {totalPages > 1 && (
-          <PaginationIndicator
-            totalPages={totalPages}
-            currentPage={currentPage}
-          />
-        )}
       </div>
     </section>
   );
