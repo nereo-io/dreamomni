@@ -4,11 +4,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
-import { CtaSection } from "@/types/pages/nano-banana";
-
-interface NanoBananaCtaProps {
-  section: CtaSection;
-}
+import { NanoBananaCtaProps } from "@/types/pages/nano-banana";
 
 export default function NanoBananaCta({ section }: NanoBananaCtaProps) {
   // Enhanced glow effect for the logo with purple color
@@ -77,20 +73,20 @@ export default function NanoBananaCta({ section }: NanoBananaCtaProps) {
               size="lg"
               className={cn(
                 "w-full sm:w-auto py-6 px-8 text-lg font-medium text-white",
-                "bg-black/60 border-2 border-white/80 rounded-full",
-                "hover:bg-black/80 transition-all duration-500 ease-out",
+                "border-2 border-white/80 rounded-full",
+                "hover:bg-gray-800/90 transition-all duration-500 ease-out",
                 "relative overflow-hidden group-hover:scale-105",
                 "shadow-lg hover:shadow-2xl hover:shadow-purple-500/30"
               )}
             >
-              {/* Enhanced gradient effect */}
-              <span className="absolute w-full h-full bg-gradient-to-r from-yellow-400 via-green-400 to-teal-500 left-[-100%] top-0 group-hover:left-0 transition-all duration-700 ease-out" />
+              {/* Purple fill effect on hover */}
+              <span className="absolute w-full h-full bg-purple-600 left-[-100%] top-0 group-hover:left-0 transition-all duration-700 ease-out" />
               <span className="relative z-10 flex items-center gap-2">
                 {section.buttonText}
               </span>
-              {/* Glow effect on hover */}
+              {/* Purple glow effect on hover */}
               <span
-                className="absolute inset-0 rounded-full bg-green-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                className="absolute inset-0 rounded-full bg-purple-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 aria-hidden="true"
               ></span>
             </Button>

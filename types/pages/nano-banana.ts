@@ -1,48 +1,89 @@
 import { Section } from "@/types/blocks/section";
 
-interface BannerSection {
+// NanoBananaBanner
+export interface BannerSection {
   title: string;
   description: string;
   textToImageTab: string;
   imageToImageTab: string;
   promptPlaceholder: string;
-  translatePromptLabel: string;
   createButtonText: string;
-  generateWithAILabel: string;
-  imageToImageTitle: string;
+  imageUploadPlaceholder: string;
+  fileFormatLimit: string;
 }
 
-interface Partner {
+// PartnersScroll
+export interface Partner {
   name: string;
   logo: string;
 }
 
-interface PartnersSection {
-  items: Partner[];
-}
-
-interface Feature {
+// ModelKeyFeatures
+export interface FeatureItem {
   title: string;
   description: string;
 }
 
-interface KeyFeaturesSection {
-  features: Feature[];
+export interface TableCell {
+  type: "text" | "image";
+  content: string;
+  altText?: string; // 仅图片类型需要
 }
 
-interface Step {
+export interface TableHeader {
+  title: string;
+}
+
+export interface TableRow {
+  cells: TableCell[];
+}
+
+export interface TableData {
+  headers: TableHeader[];
+  rows: TableRow[];
+}
+
+export interface DetailItem {
+  title: string;
+  description: string;
+  type: "table" | "video";
+  data: TableData | string;
+  poster?: string; // 视频封面图URL，可选
+}
+
+export interface KeyFeaturesSection {
+  title?: string;
+  features?: FeatureItem[];
+  details?: DetailItem[];
+}
+
+export interface ModelKeyFeaturesProps {
+  section: Partial<KeyFeaturesSection>;
+}
+
+export interface DynamicTableProps {
+  tableData: TableData;
+}
+
+// NanoBananaUsageGuide
+export interface Step {
   number: string;
   title: string;
   description: string;
 }
 
-interface UsageGuideSection {
+export interface UsageGuideSection {
   title: string;
   description: string;
   steps: Step[];
   buttonText: string;
 }
 
+export interface NanoBananaUsageGuideProps {
+  section: UsageGuideSection;
+}
+
+// YoutubeCaseShow
 export interface VideoCard {
   youtubeLink: string;
   width: string;
@@ -55,66 +96,64 @@ export interface VideoCard {
 
 export interface YoutubeCasesSection {
   title: string;
-  videos: VideoCard[];
+  content: VideoCard[];
   shareButtonText?: string;
   watchButtonText?: string;
 }
 
-interface RedditPostContent {
-  author: string;
-  timeAgo: string;
-  title: string;
-  imageUrl: string;
-  upvotes: number;
-  comments: number;
-  link: string;
+export interface YouTubeCaseShowProps {
+  section: YoutubeCasesSection;
 }
 
-interface TwitterPostContent {
-  author: string;
-  timeAgo: string;
-  title: string;
-  imageUrl: string;
-  likes: number;
-  comments: number;
-  retweets: number;
-  link: string;
-}
-
-interface RedditPost {
+// RedditCaseShow
+export interface RedditPost {
   id?: string;
   width: string;
   height: string;
   src: string;
 }
 
-interface RedditCasesSection {
+export interface RedditCasesSection {
   title: string;
-  posts: RedditPost[];
+  content: RedditPost[];
 }
 
-interface TwitterPost {
+export interface RedditCaseShowProps {
+  section: RedditCasesSection;
+}
+
+// TwitterCaseShow
+export interface TwitterPost {
   id?: string;
   width: string;
   height: string;
   src: string;
 }
 
-interface TwitterCasesSection {
+export interface TwitterCasesSection {
   title: string;
-  posts: TwitterPost[];
+  content: TwitterPost[];
 }
 
+export interface TwitterCaseShowProps {
+  section: TwitterCasesSection;
+}
+
+// NanoBananaCta
 export interface CtaSection {
   title: string;
   description?: string;
   buttonText: string;
 }
 
+export interface NanoBananaCtaProps {
+  section: CtaSection;
+}
+
 export interface NanoBananaLandingPage {
   banner?: BannerSection;
-  partners?: PartnersSection;
-  keyFeatures?: KeyFeaturesSection;
+  partners?: Partner[];
+  features?: KeyFeaturesSection;
   usageGuide?: UsageGuideSection;
   youtubeCases?: YoutubeCasesSection;
   redditCases?: RedditCasesSection;

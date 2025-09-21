@@ -1,13 +1,14 @@
 {
   "banner": {
     "title": "Google Nano Banana AI Image Generator",
-    "description": "Google Nano Banana AI, also called Gemini 2.5 Flash Image, is an SOTA AI image generation and editing model developed by Google DeepMind. It has been rolled out to the Gemini app, praised for its unparalleled ability to achieve ultra-high character consistency, the model's popularity has skyrocketed on social media. Try Nano Banana for free in Veo3 AI image generator!",
+    "description": "Google Nano Banana AI, также называемый Gemini 2.5 Flash Image, представляет собой модель генерации и редактирования изображений SOTA AI, разработанную Google DeepMind. Он был внедрен в приложение Gemini, похвально за его беспрецедентную способность достичь сверхвысокой последовательности характера, популярность модели резко возросла в социальных сетях. Попробуйте нано банана бесплатно в Veo3 AI image generator!",
     "textToImageTab": "Text to Image",
     "imageToImageTab": "Image to Image",
-    "promptPlaceholder": "What do you want to create?",
-    "imageUploadPlaceholder": "Drag and drop an image here, or click to select",
-    "createButtonText": "Create",
-    "fileFormatLimit": "We accept JPEG, PNG, GIF, WEBP, JPG formats up to 20MB with dimensions up to 4096 x 4096 pixels."
+    "promptPlaceholder": "Что ты хочешь создать?",
+    "imageUploadPlaceholder": "Перетащите изображение сюда или нажмите, чтобы выбрать",
+    "createButtonText": "Создать новые возможности",
+    "imageToImageTitle": "Image to Image",
+    "fileFormatLimit": "Мы принимаем форматы JPEG, PNG, GIF, WEBP, JPG до 20 мб с размерами до 4096 x 4096 пикселей."
   },
   "partners": [
     { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
@@ -20,33 +21,33 @@
     { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
   ],
   "features": {
-    "title": "Key Features of Google Nano Banana AI",
+    "title": "Ключевые функции Google Nano Banana AI",
     "features": [
       {
-        "title": "SOTA Image Generation",
-        "description": "Create detail-rich images with unmatched stylistic precision."
+        "title": "Формирование изображений SOTA",
+        "description": "Создайте подробные изображения с непревзойдимой стилистической точностью."
       },
       {
-        "title": "Perfect Character Consistency",
-        "description": "Maintain character and scene elements across iterative changes to ensure consistency."
+        "title": "Идеальная последовательность символов",
+        "description": "Сохранение элементов характера и сцены во время итеративных изменений для обеспечения последовательности."
       },
       {
-        "title": "Natural Language Image Refinement",
-        "description": "Implement advanced image edits using plain text."
+        "title": "Улучшение изображения на естественном языке",
+        "description": "Реализовать расширенные правки изображений с помощью простого текста."
       },
       {
-        "title": "Multi-Image Fusion",
-        "description": "Merge multiple images, insert objects, restyle scenes, or combine visuals."
+        "title": "Слияние нескольких изображений",
+        "description": "Объединить несколько изображений, вставить объекты, переделать сцены или объединить визуалы."
       },
       {
-        "title": "Ultra-Fast Image Processing",
-        "description": "Generate and edit images quickly without compromising quality."
+        "title": "Ультра-быстрая обработка изображений",
+        "description": "Быстро создавать и редактировать изображения без ущерба для их качества."
       }
     ],
     "details": [
       {
-        "title": "State-of-the-art to Image Generation",
-        "description": "Google Nano Banana AI (technically Gemini 2.5 Flash Image) boasts remarkable prompt accuracy and contextual consistency that rivals most industry leaders.Whether it’s photorealism, abstract, surrealist or any other art style, Google Nano Banana AI perfectly understands natural languages to generate a perfect image rendition that meets expected standards.",
+        "title": "Современное оборудование для создания изображений",
+        "description": "Google Nano Banana AI (технически Gemini 2.5 Flash Image) может похвастаться удивительной оперативной точностью и контекстной последовательностью, что соперничает с большинством лидеров отрасли. Будь то фотореализм, абстракция, сюрреализм или любой другой художественный стиль, Google Nano Banana AI прекрасно понимает естественные языки для создания идеального изображения, которое соответствует ожидаемым стандартам.",
         "type": "table",
         "data": {
           "headers": [{ "title": "Prompt" }, { "title": "Output Image" }],
@@ -55,7 +56,7 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "A man and a woman, positioned centrally in the image, are embracing with their arms outstretched, as if soaring. The woman, with auburn hair, appears to be in her late twenties or early thirties. She has a light complexion, and her expression is serene. She is wearing a flowing, olive-green dress with intricate lace details. The man is slightly behind her, and his attire includes a dark gray or black coat. Both subjects are in a classic romantic pose that suggests freedom and happiness."
+                  "content": "Мужчина и женщина, занимающие центральное положение на изображении, обнимаются протянутыми руками, как будто вздымаясь. Женщина с волосатыми ожогами, похоже, около двадцати или тридцати лет. У нее светлая кожа и спокойное выражение лица. На ней прочное, оливково-зеленое платье со сложными кружевами деталей. Мужчина немного позади нее, и его одежда включает темно-серый или черный плащ. Оба предмета находятся в классической романтической позе, которая предполагает свободу и счастье."
                 },
                 {
                   "type": "image",
@@ -68,7 +69,7 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "A young Asian female figure, positioned in the center of the image. She appears to be a teenager, with long, straight, dark black hair styled in pigtails. She is wearing a light beige-colored cardigan-style sweater over a white collared shirt, a plaid mini skirt, black socks, and brown oxfords."
+                  "content": "Молодая азиатка, расположенная в центре изображения. Похоже, она подросток, с длинными, прямыми темными черными волосами в косичках. На ней светло-бежевый кардиганский свитер, надетый на бело-красную рубашку, клетчатую мини-юбку, черные носки и коричневые оксфорды."
                 },
                 {
                   "type": "image",
@@ -81,8 +82,8 @@
         }
       },
       {
-        "title": "Perfect Character Consistency",
-        "description": "With Nano Banana AI, users can implement specific changes and the core subject/scene elements will still remain perfectly intact. Whether it’s adding, removing or adjusting backgrounds, lighting, objects, perspective, etc, the AI model presents an unmatched level of identity and stylistic consistency, even across multiple revisions.",
+        "title": "Идеальная последовательность символов",
+        "description": "С помощью Nano Banana AI пользователи могут вносить конкретные изменения, а основные элементы объекта/сцены останутся совершенно нетронутыми. Независимо от того, идет ли речь о добавлении, удалении или регулировке фонов, освещения, объектов, перспективы и т.д., модель ии обеспечивает беспрецедентный уровень идентичности и стилистической последовательности, даже при многочисленных изменениях.",
         "type": "table",
         "data": {
           "headers": [
@@ -106,7 +107,7 @@
                 },
                 {
                   "type": "text",
-                  "content": "Place the earrings in figure 2 on the woman's ears."
+                  "content": "Положите серьги на рис. 2 на уши женщины."
                 },
                 {
                   "type": "image",
@@ -119,8 +120,8 @@
         }
       },
       {
-        "title": "Natural Language Image Refinement",
-        "description": "Using plain, natural language prompts, Nano Banana can detect edit regions in images to implement unbelievably precise modifications with no touch-up, layers, or masks needed.Whether you want to blur backgrounds, remove stains or people, change poses, or colorize black and white images, just describe it—and the AI delivers.",
+        "title": "Улучшение изображения на естественном языке",
+        "description": "Используя простые, естественные языковые подсказки, нано банана может обнаружить редактирование регионов в изображениях для реализации невероятно точных модификаций без необходимости подтягивания, слоев или масок. Хотите ли вы размыть фон, удалить пятна или людей, изменить позы, или раскрасить черно-белые изображения, просто опишите it-и AI поставляет.",
         "type": "table",
         "data": {
           "headers": [
@@ -138,7 +139,7 @@
                 },
                 {
                   "type": "text",
-                  "content": "Change the background to vocano"
+                  "content": "Измените фон на вокано"
                 },
                 {
                   "type": "image",
@@ -151,41 +152,41 @@
         }
       },
       {
-        "title": "Seamless Multi-Image Fusion",
-        "description": "Gemini 2.5 Flash Image effortlessly understands and blends multiple input images. Whether inserting an object into a scene, restyling a room with new colors or textures, or merging images, you can achieve stunning results with a single natural language prompt.",
+        "title": "Плавный мульти-визуальный синтез",
+        "description": "Gemini 2.5 Flash Image легко понимает и объединяет несколько входных изображений. Независимо от того, вставляя объект в сцену, реставрируя комнату с новыми цветами или текстурами, или сливая изображения, вы можете достичь потрясающих результатов с помощью одной естественной языковой подсказки.",
         "type": "video",
         "data": "https://static-lib.s3.amazonaws.com/cms/gemini_2_5_flash_image_multi_image_fusion_1_8a98510063.mp4?updated_at=2025-08-27T07:22:07.603Z"
       },
       {
-        "title": "Ultra-Fast Image Processing",
-        "description": "Compared to other AI image models, Google Nano Banana AI takes speed to a whole new level. It doesn’t process imagery in tens of seconds but in even less time than that. Because of this, it can be an ideal solution for rapid ideation, experimentation, and editing, making it easier than ever for creators to produce more refined projects."
+        "title": "Ультра-быстрая обработка изображений",
+        "description": "По сравнению с другими моделями изображений ии, Google Nano Banana AI переходит на совершенно новый уровень скорости. Он не обрабатывает изображения за десятки секунд, но за еще меньшее время. Благодаря этому, он может быть идеальным решением для быстрой идеации, экспериментирования и редактирования, что делает его более легким, чем когда-либо для создателей, чтобы производить более изысканные проекты."
       }
     ]
   },
   "usageGuide": {
-    "title": "How To Use Google Nano Banana AI on Veo3 AI for Free",
-    "description": "Generate stunning AI images with Google's Nano Banana model through our easy-to-use interface",
+    "title": "Как использовать Google Nano Banana AI на Veo3 AI бесплатно",
+    "description": "Создайте потрясающие изображения ии с помощью нано банановой модели Google через наш простой в использовании интерфейс",
     "steps": [
       {
         "number": "01",
-        "title": "Pick Google Nano Banana AI model",
-        "description": "Head to Veo3 AI image generator and select the \"Nano Banana\" AI image model."
+        "title": "Выберите Google Nano Banana AI модель",
+        "description": "Перейдите в Veo3 AI image generator и выберите модель AI \"Nano Banana\"."
       },
       {
         "number": "02",
-        "title": "Input Your Text Prompt",
-        "description": "Describe the image you want to generate and configure your customization settings."
+        "title": "Введите свой текст",
+        "description": "Опишите изображение, которое вы хотите создать и настроить настройки настройки."
       },
       {
         "number": "03",
-        "title": "Generate Your Image",
-        "description": "Click 'Create' and wait for your image request to be processed."
+        "title": "Генерируйте ваше изображение",
+        "description": "Нажмите кнопку \"создать\" и ждите обработки запроса изображения."
       }
     ],
-    "buttonText": "Try Google Nano Banana AI on Veo3 AI"
+    "buttonText": "Попробуйте Google Nano Banana AI на Veo3 AI"
   },
   "youtubeCases": {
-    "title": "YouTube Videos About Nano Banana (Gemini 2.5 Flash Image)",
+    "title": "YouTube видео о Nano Banana (Gemini 2.5 Flash Image)",
     "content": [
       {
         "youtubeLink": "https://www.youtube.com/embed/1UJKlS9NyAs?si=zhADEyqbKaFzfafm",
@@ -218,7 +219,7 @@
     ]
   },
   "redditCases": {
-    "title": "Reddit Discussions About Nano Banana (Gemini 2.5 Flash Image)",
+    "title": "Reddit говорит о нано банане (Gemini 2.5 Flash Image)",
     "content": [
       {
         "src": "https://embed.reddit.com/r/OpenAI/comments/1mx8up2/nano_banana_delivers_prolevel_edits_in_seconds/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed&embed_host_url=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana",
@@ -265,7 +266,7 @@
     ]
   },
   "twitterCases": {
-    "title": "X Reviews on Nano Banana (Gemini 2.5 Flash Image)",
+    "title": "X отзывы о Nano Banana (Gemini 2.5 Flash Image)",
     "content": [
       {
         "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-0&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1960054452599279840&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana&sessionId=c2e0eb15f03a47bada6c6fa3f6d248ab65279d47&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
@@ -375,34 +376,34 @@
     ]
   },
   "cta": {
-    "title": "Try Google Nano Banana AI on Veo3 AI Now!",
-    "buttonText": "Try Nano Banana for Free"
+    "title": "Попробуйте Google Nano Banana AI на Veo3 AI сейчас!",
+    "buttonText": "Попробуйте \"Nano Banana\" бесплатно"
   },
   "faq": {
     "name": "faq",
     "label": "FAQ",
-    "title": "Frequently Asked Questions",
-    "description": "Learn more about free Veo 3 AI video generator",
+    "title": "Часто задаваемые вопросы",
+    "description": "Узнайте больше о free Veo 3 AI image generator",
     "items": [
       {
-        "title": "What is Google Nano Banana AI?",
-        "description": "Developed by Google, Nano Banana, technically Gemini 2.5 Flash Image, is a powerful AI image model that lets users create detail-rich imagery or make advanced edits using plain language.Capable of handling complex, multi-step instructions, it excels at ensuring core characters, environments, and scene elements remain perfectly consistent, despite any iterative changes."
+        "title": "Что такое Google Nano Banana AI?",
+        "description": "Разработанный Google, Nano Banana, технически Gemini 2.5 Flash Image, представляет собой мощную модель изображений ии, которая позволяет пользователям создавать детальные изображения или вносить усовершенствованные изменения, используя простой язык. Он способен работать со сложными, многоэтапными инструкциями, и, несмотря на любые итеративные изменения, отлично справляется с обеспечением того, чтобы ключевые символы, окружения и элементы сцены оставались абсолютно последовательными."
       },
       {
-        "title": "Why use Google Nano Banana AI(Gemini 2.5 Flash Image)?",
-        "description": "Nano Banana is an exceptional AI image model of Google that can generate imagery and make incredibly precise modifications using everyday language. Its impressively strong prompt awareness means it can understand what you want and apply those specific edits cleanly and methodically, preserving subject and scene coherence perfectly."
+        "title": "Зачем использовать Google Nano Banana AI(Gemini 2.5 Flash Image)?",
+        "description": "Nano Banana-это исключительная модель изображений AI Google, которая может создавать изображения и делать невероятно точные модификации, используя повседневный язык. Его впечатляющее быстрое осознание означает, что он может понять, чего вы хотите, и применить эти специфические исправления чисто и методично, сохраняя при этом безупречную последовательность объекта и сцены."
       },
       {
-        "title": "Can I use Google Nano Banana (Gemini 2.5 Flash Image) for free?",
-        "description": "Yes. You can use Google Nano Banana AI to generate images via Veo3 AI at no cost at all. Simply sign up for an account, and with our free trial plan, you can explore the AI model's extensive features and capabilities to produce all kinds of professional-grade imagery fast."
+        "title": "Могу ли я использовать Google Nano Banana (Gemini 2.5 Flash Image) бесплатно?",
+        "description": "- да. - да. Вы можете использовать Google Nano Banana AI для создания изображений через Veo3 AI бесплатно. Просто зарегистрируйтесь на аккаунт, и с нашим бесплатным экспериментальным планом, вы можете исследовать широкие возможности модели ии для быстрого получения всех видов профессиональных изображений."
       },
       {
-        "title": "What projects is Gemini 2.5 Flash Image best-suited for?",
-        "description": "Google Nano Banana AI is considered to be one of the most advanced AI image editors for its capacity to perfectly keep identities and aesthetics unaltered, even with multiple image modifications. Because of this, it is the perfect choice for iterative projects like storyboard design, graphic art, artistic illustrations, fashion modeling, product showcasing, etc."
+        "title": "Для каких проектов лучше всего подходит Flash-изображение Gemini 2.5?",
+        "description": "Google Nano Banana AI считается одним из самых продвинутых редакторов изображений AI за свою способность отлично сохранять идентичность и эстетику неизменными, даже с несколькими изменениями изображений. Из-за этого, это идеальный выбор для итеративных проектов, как storyboard дизайн, графическое искусство, художественные иллюстрации, моделирование моды, демонстрация продукции и т.д."
       },
       {
-        "title": "What art styles does Google Nano Banana image generator support?",
-        "description": "You can use Google Nano Banana AI to generate or modify images across any visual style for personal or professional use. Feel free to explore and experiment with photorealism, anime, abstract art, 3D imagery, fantasy art, etc. For this reason, it can prove useful to artists, marketers, game designers, and other digital creators."
+        "title": "Какие стили искусства поддерживает Google Nano Banana image generator?",
+        "description": "Вы можете использовать Google Nano Banana AI для создания или изменения изображений в любом визуальном стиле для личного или профессионального использования. Не стесняйтесь исследовать и экспериментировать с фотореализмом, аниме, абстрактным искусством, 3D изображениями, искусством фантазий и т.д. По этой причине он может оказаться полезным для художников, маркетологов, дизайнеров игр и других цифровых создателей."
       }
     ]
   }

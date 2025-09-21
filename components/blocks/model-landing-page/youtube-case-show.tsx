@@ -1,10 +1,9 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { YoutubeCasesSection, type VideoCard } from "@/types/pages/nano-banana";
-
-interface YouTubeCaseShowProps {
-  section: YoutubeCasesSection;
-}
+import type {
+  VideoCard,
+  YouTubeCaseShowProps,
+} from "@/types/pages/nano-banana";
 
 const VideoCard: React.FC<VideoCard> = ({ width, height, youtubeLink }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -46,7 +45,7 @@ export default function YoutubeCaseShow({ section }: YouTubeCaseShowProps) {
   // 向右移动
   const moveRight = () => {
     const visibleCount = getVisibleCount();
-    const maxIndex = Math.max(0, section.videos.length - visibleCount);
+    const maxIndex = Math.max(0, section.content.length - visibleCount);
     setCurrentIndex((prev) => Math.min(maxIndex, prev + visibleCount));
   };
 
@@ -60,19 +59,19 @@ export default function YoutubeCaseShow({ section }: YouTubeCaseShowProps) {
         behavior: "smooth",
       });
     }
-  }, [currentIndex, section.videos.length]);
+  }, [currentIndex, section.content.length]);
 
   // 响应窗口大小变化
   useEffect(() => {
     const handleResize = () => {
       const visibleCount = getVisibleCount();
-      const maxIndex = Math.max(0, section.videos.length - visibleCount);
+      const maxIndex = Math.max(0, section.content.length - visibleCount);
       setCurrentIndex((prev) => Math.min(maxIndex, prev));
     };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [section.videos.length]);
+  }, [section.content.length]);
 
   return (
     <div className="w-full py-16 bg-gray-900">
@@ -112,7 +111,7 @@ export default function YoutubeCaseShow({ section }: YouTubeCaseShowProps) {
             className="flex overflow-hidden snap-x snap-mandatory"
             style={{ scrollbarWidth: "none" }} // Firefox
           >
-            {section.videos.map((video: VideoCard, index: number) => (
+            {section.content.map((video: VideoCard, index: number) => (
               <div
                 key={index}
                 className="flex-shrink-0 w-full md:w-1/3 px-2 snap-start"
@@ -130,11 +129,11 @@ export default function YoutubeCaseShow({ section }: YouTubeCaseShowProps) {
             onClick={moveRight}
             disabled={
               currentIndex >=
-              Math.max(0, section.videos.length - getVisibleCount())
+              Math.max(0, section.content.length - getVisibleCount())
             }
             className={`absolute top-1/2 right-[-40px] transform -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/70 text-white flex items-center justify-center transition-all duration-300 hover:bg-black/90 focus:outline-none focus:ring-2 focus:ring-white/50 ${
               currentIndex >=
-              Math.max(0, section.videos.length - getVisibleCount())
+              Math.max(0, section.content.length - getVisibleCount())
                 ? "opacity-50 cursor-not-allowed"
                 : "opacity-100"
             }`}

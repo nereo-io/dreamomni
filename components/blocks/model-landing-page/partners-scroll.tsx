@@ -2,32 +2,22 @@
 
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
-
-interface Partner {
-  name: string;
-  logo: string;
-}
-
-interface PartnersSection {
-  items: Partner[];
-}
-
-interface PartnersScrollProps {
-  className?: string;
-  speed?: number; // 滚动速度，单位为像素/秒
-  section: PartnersSection;
-}
+import { Partner } from "@/types/pages/nano-banana";
 
 export default function PartnersScroll({
   className,
   speed = 60, // 提高默认滚动速度
   section,
-}: PartnersScrollProps) {
+}: {
+  className?: string;
+  speed?: number; // 滚动速度，单位为像素/秒
+  section: Partner[];
+}) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!scrollRef.current || !contentRef.current || section.items.length === 0)
+    if (!scrollRef.current || !contentRef.current || section.length === 0)
       return;
 
     const content = contentRef.current;
@@ -63,7 +53,7 @@ export default function PartnersScroll({
     return () => {
       cancelAnimationFrame(animationId);
     };
-  }, [speed, section.items]);
+  }, [speed, section]);
 
   return (
     <div
@@ -81,7 +71,7 @@ export default function PartnersScroll({
           ref={contentRef}
           className="flex items-center space-x-8 md:space-x-16"
         >
-          {section.items.map((partner, index) => (
+          {section.map((partner, index) => (
             <div
               key={index}
               className="flex items-center justify-center h-16"

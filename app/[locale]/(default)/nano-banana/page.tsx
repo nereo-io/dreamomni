@@ -25,7 +25,7 @@ export default async function NanoBananaLandingPage({
         <PartnersScroll section={page.partners} className="mt-8" />
       )}
       {/* 主要特点 */}
-      {page.keyFeatures && <ModelKeyFeatures section={page.keyFeatures} />}
+      {page.features && <ModelKeyFeatures section={page.features} />}
       {/* 用法指南 */}
       {page.usageGuide && <NanoBananaUsageGuide section={page.usageGuide} />}
       {/* Youtube案例展示 */}

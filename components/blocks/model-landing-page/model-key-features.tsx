@@ -1,62 +1,13 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-
-// 定义基础特性接口
-interface FeatureItem {
-  title: string;
-  description: string;
-}
-
-// 定义表格相关接口
-// 定义单元格数据类型接口
-export interface TableCell {
-  type: "text" | "image";
-  content: string;
-  altText?: string; // 仅图片类型需要
-}
-
-// 定义表头列数据类型接口
-export interface TableHeader {
-  title: string;
-}
-
-// 定义表格行数据类型接口
-export interface TableRow {
-  cells: TableCell[];
-}
-
-// 定义完整表格数据接口
-export interface TableData {
-  headers: TableHeader[];
-  rows: TableRow[];
-}
-
-// 定义详情项接口
-interface DetailItem {
-  title: string;
-  description: string;
-  type: "table" | "video";
-  data: TableData | string;
-  poster?: string; // 视频封面图URL，可选
-}
-
-// 定义完整的section接口
-interface KeyFeaturesSection {
-  title?: string;
-  features?: FeatureItem[];
-  details?: DetailItem[];
-}
-
-// 定义组件接口
-interface ModelKeyFeaturesProps {
-  section: Partial<KeyFeaturesSection>;
-}
-
-// 定义表格组件接口
-interface DynamicTableProps {
-  tableData: TableData;
-}
+import {
+  FeatureItem,
+  TableRow,
+  TableData,
+  ModelKeyFeaturesProps,
+  DynamicTableProps,
+} from "@/types/pages/nano-banana";
 
 const DynamicTable: React.FC<DynamicTableProps> = ({ tableData }) => {
   const { headers, rows } = tableData;
@@ -211,7 +162,7 @@ const FeatureItemComponent: React.FC<FeatureItem & { index: number }> =
           onClick={scrollToDetail}
           className="block p-2 rounded-lg hover:bg-emerald-900/20 transition-all duration-300 cursor-pointer group"
         >
-          <span className="font-semibold text-emerald-400 hover:text-emerald-300 transition-colors duration-300">
+          <span className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600 transition-all duration-300">
             {title}：
           </span>
           <span className="ml-2 text-gray-300 group-hover:text-gray-200">
@@ -341,13 +292,13 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white py-20">
+    <div className="min-h-screen text-white py-20 bg-gray-900">
       <div className="container mx-auto px-4">
         {/* Key Features Section */}
         <div className="mb-20">
           <h2
             ref={titleRef}
-            className={`text-4xl md:text-5xl font-bold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-blue-500 transition-all duration-1000 ease-out transform ${
+            className={`text-4xl md:text-5xl font-bold mb-10 text-center text-white transition-all duration-1000 ease-out transform ${
               isTitleVisible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-[-30px] opacity-0"
@@ -355,7 +306,7 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
           >
             {safeSection.title}
           </h2>
-          <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50 mx-auto shadow-xl hover:shadow-2xl transition-all duration-500 hover:border-emerald-500/20">
+          <div className="bg-gray-900 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50 mx-auto shadow-xl hover:shadow-2xl transition-all duration-500 hover:border-emerald-500/20">
             <ul>
               {safeSection.features.map((feature, index) => (
                 <FeatureItemComponent
@@ -378,12 +329,12 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
             <div className="container mx-auto px-4">
               <div className="max-w-7xl mx-auto">
                 <h2
-                  className="text-3xl md:text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400"
+                  className="text-3xl md:text-4xl font-bold mb-6 text-white"
                   id={`detail-title-${index}`}
                 >
                   {item.title}
                 </h2>
-                <p className="text-gray-300 text-lg mb-12 max-w-6xl leading-relaxed">
+                <p className="text-white text-lg mb-12 max-w-6xl leading-relaxed">
                   {item.description}
                 </p>
                 {item.type === "table" && (
