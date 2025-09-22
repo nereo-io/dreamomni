@@ -57,10 +57,7 @@ export default function PartnersScroll({
 
   return (
     <div
-      className={cn(
-        "w-full overflow-hidden bg-gray-900 py-6 md:py-8 relative",
-        className
-      )}
+      className="w-full overflow-hidden bg-gray-900 py-6 md:py-8 relative"
     >
       <div
         ref={scrollRef}
