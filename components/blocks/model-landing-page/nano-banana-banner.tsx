@@ -5,7 +5,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
-import { useAppContext } from "@/contexts/app";
 import { BannerSection } from "@/types/pages/nano-banana";
 
 export default function NanoBananaBanner({
@@ -21,33 +20,22 @@ export default function NanoBananaBanner({
   const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
-  const { user, setShowSignModal } = useAppContext();
 
   const handleGenerate = () => {
-    // 存储数据到本地存储
-    if (activeTab === "image-to-image" && imageFile) {
+    if (activeTab === "text-to-image" && prompt.trim()) {
+      localStorage.setItem("nanoBananaPrompt", prompt);
+      router.push("/text-to-image");
+    } else if (activeTab === "image-to-image" && imageFile) {
       // 对于图像文件，我们需要先转换为base64字符串才能存储
       const reader = new FileReader();
       reader.onload = (e) => {
         if (e.target && typeof e.target.result === "string") {
           localStorage.setItem("nanoBananaImage", e.target.result);
+          router.push("/image-to-image");
         }
       };
       reader.readAsDataURL(imageFile);
-    } else if (activeTab === "text-to-image" && prompt.trim()) {
-      localStorage.setItem("nanoBananaPrompt", prompt);
     }
-
-    // 检查用户登录状态
-    if (!user?.uuid) {
-      // 存储标签页信息
-      localStorage.setItem("nanoBananaRedirectTab", activeTab);
-      setShowSignModal(true);
-      return;
-    }
-
-    // 已登录，根据当前选中的标签页跳转到对应页面
-    router.push(activeTab === "text-to-image" ? "/text-to-image" : "/image-to-image");
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -85,7 +73,7 @@ export default function NanoBananaBanner({
     // 验证文件类型
     const validTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
     if (!validTypes.includes(file.type)) {
-      setError("Please upload a valid image file (JPEG, PNG, WebP, GIF)");
+      setError("Please upload a valid image file (JPEG, PNG, GIF, WEBP, JPG)");
       setSelectedImage(null);
       setImageFile(null);
       return;
@@ -119,6 +107,11 @@ export default function NanoBananaBanner({
     setSelectedImage(null);
     setImageFile(null);
     setError(null);
+    // 重置文件输入元素，解决删除后无法再次上传同一张图片的问题
+    const fileInput = document.getElementById('image-upload') as HTMLInputElement | null;
+    if (fileInput) {
+      fileInput.value = '';
+    }
   };
 
   const ImageBackground = () => {
@@ -127,14 +120,14 @@ export default function NanoBananaBanner({
         <img src="https://cdn.pollo.ai/prod/public/images/review/top-bg.jpg" className="absolute inset-0 w-full h-full object-cover" alt="background" />
       </div>
     );
-};
+  };
 
   return (
     <>
       <ImageBackground />
-      <div className="w-full">
-        <div className="w-full max-w-4xl mx-auto py-12 px-4 md:px-0">
-          <div className="text-center mb-10">
+      <section className="w-full h-[calc(100vh-64px)]">
+        <div className="w-full h-full max-w-4xl mx-auto px-4 md:px-0 flex flex-col items-center">
+          <div className="text-center mb-6">
             <h1 className="text-4xl md:text-5xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
               {section.title}
             </h1>
@@ -148,7 +141,7 @@ export default function NanoBananaBanner({
             className="w-full"
             onValueChange={setActiveTab}
           >
-            <TabsList className="grid w-full max-w-lg mx-auto grid-cols-2 mb-8 p-1 bg-gray-800/50 rounded-xl">
+            <TabsList className="grid w-full max-w-lg mx-auto grid-cols-2 mb-9 p-1 bg-gray-800/50 rounded-xl">
               <TabsTrigger
                 value="text-to-image"
                 className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300"
@@ -163,7 +156,7 @@ export default function NanoBananaBanner({
               </TabsTrigger>
             </TabsList>
 
-            <div className="bg-gray-900 rounded-2xl p-6 md:p-8 border border-gray-800 shadow-xl shadow-purple-900/10">
+            <div className="bg-gray-900 rounded-2xl p-6 md:p-6 border border-gray-800">
               <TabsContent
                 value="text-to-image"
                 className="mt-0 animate-in fade-in-50 duration-300"
@@ -193,7 +186,7 @@ export default function NanoBananaBanner({
 
                   <Textarea
                     placeholder={section.promptPlaceholder}
-                    className="min-h-36 bg-gray-950 border-gray-700 rounded-xl resize-y focus:border-white/50 focus-visible:ring-0 focus-visible:outline-none transition-colors duration-200"
+                    className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto min-h-[150px] max-h-[300px]"
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                   />
@@ -208,20 +201,22 @@ export default function NanoBananaBanner({
                           : ""
                       }`}
                     >
-                      {prompt.length} / 2000
+                      {prompt.length} / 1000
                     </div>
                   </div>
                 </div>
 
                 <div className="flex justify-center mt-8">
-                  <Button
-                    className="w-full max-w-xs bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-700/30 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
-                    disabled={!prompt.trim()}
-                    onClick={handleGenerate}
-                  >
+                  <div className={`w-full max-w-xs ${(!prompt.trim() || prompt.trim().length > 1000) ? 'cursor-not-allowed' : ''}`}>
+                    <Button
+                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-700/30 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+                      disabled={!prompt.trim() || prompt.trim().length > 1000}
+                      onClick={handleGenerate}
+                    >
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-wand-sparkles h-4 w-4 mr-2"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"></path><path d="m14 7 3 3"></path><path d="M5 6v4"></path><path d="M19 14v4"></path><path d="M10 2v2"></path><path d="M7 8H3"></path><path d="M21 16h-4"></path><path d="M11 3H9"></path></svg>
                     {section.createButtonText}
-                  </Button>
+                    </Button>
+                  </div>
                 </div>
               </TabsContent>
 
@@ -258,9 +253,9 @@ export default function NanoBananaBanner({
                     onChange={handleFileChange}
                   />
 
-                  {/* 上传区域 - 减小高度到h-48 */}
+                  {/* 上传区域 */}
                   <div
-                    className={`flex justify-center items-center border-2 border-dashed rounded-xl h-48 transition-all duration-300 ${
+                    className={`flex justify-center items-center border-2 border-dashed rounded-xl min-h-[150px] max-h-[300px] transition-all duration-300 ${
                       isDragging
                         ? "border-purple-500 bg-purple-900/10"
                         : selectedImage
@@ -273,7 +268,7 @@ export default function NanoBananaBanner({
                     onClick={handleFileClick}
                   >
                     {selectedImage ? (
-                      <div className="relative w-full h-full p-2">
+                      <div className="relative w-full h-full p-2 flex items-center justify-center overflow-hidden">
                         <div className="absolute top-2 right-2 z-10 bg-gray-900/80 p-1 rounded-full">
                           <button
                             onClick={(e) => {
@@ -302,7 +297,7 @@ export default function NanoBananaBanner({
                         <img
                           src={selectedImage}
                           alt="Preview"
-                          className="w-full h-full object-contain rounded-lg"
+                          className="max-w-full max-h-[150px] object-contain rounded-lg"
                         />
                       </div>
                     ) : (
@@ -345,54 +340,42 @@ export default function NanoBananaBanner({
 
                   {/* 错误消息 */}
                   {error && (
-                    <div className="mt-2 text-sm text-red-400 animate-in fade-in-50 duration-300">
+                    <div className="mt-3 text-sm text-red-400 animate-in fade-in-50 duration-300">
                       {error}
                     </div>
                   )}
 
                   {/* 文件格式说明 */}
-                  <div className="mt-2 text-xs text-gray-400">
+                  <div className="mt-3 text-sm text-muted-foreground">
                     {section.fileFormatLimit}
                   </div>
                 </div>
 
                 <div className="flex justify-center mt-8">
-                  <Button
-                    className={`w-full max-w-xs bg-gradient-to-r ${
-                      imageFile
-                        ? "from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
-                        : "from-blue-600/70 to-purple-600/70 text-white/80 font-medium cursor-not-allowed"
-                    } py-6 rounded-xl transition-all duration-300 transform ${
-                      imageFile
-                        ? "hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-700/30"
-                        : ""
-                    } focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900`}
-                    disabled={!imageFile}
-                    onClick={handleGenerate}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="mr-2"
+                  <div className={`w-full max-w-xs ${!imageFile ? 'cursor-not-allowed' : ''}`}>
+                    <Button
+                      className={`w-full bg-gradient-to-r ${
+                        imageFile
+                          ? "from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
+                          : "from-blue-600/70 to-purple-600/70 text-white/80 font-medium"
+                      } py-6 rounded-xl transition-all duration-300 transform ${
+                        imageFile
+                          ? "hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-700/30"
+                          : ""
+                      } focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900`}
+                      disabled={!imageFile}
+                      onClick={handleGenerate}
                     >
-                      <path d="M12 3v3" />
-                      <path d="M18.4 5.6a9 9 0 1 1-12.77.04" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-wand-sparkles h-4 w-4 mr-2"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"></path><path d="m14 7 3 3"></path><path d="M5 6v4"></path><path d="M19 14v4"></path><path d="M10 2v2"></path><path d="M7 8H3"></path><path d="M21 16h-4"></path><path d="M11 3H9"></path></svg>
                     Create
-                  </Button>
+                    </Button>
+                  </div>
                 </div>
               </TabsContent>
             </div>
           </Tabs>
         </div>
-      </div>
+      </section>
     </>
   );
 }

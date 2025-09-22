@@ -56,21 +56,7 @@ export function useEmailAuth() {
       });
 
       if (authResult?.ok) {
-        // 检查localStorage中是否有nanoBananaRedirectTab
-        const redirectTab = localStorage.getItem("nanoBananaRedirectTab");
-        
-        if (redirectTab === "text-to-image") {
-          router.push("/text-to-image");
-        } else if (redirectTab === "image-to-image") {
-          router.push("/image-to-image");
-        } else {
-          // 如果没有特殊的重定向标签，使用默认行为
-          router.push(callbackUrl || "/image-to-video");
-        }
-        
-        // 清除存储的重定向标签，避免影响后续登录
-        localStorage.removeItem("nanoBananaRedirectTab");
-        
+        router.push(callbackUrl || "/image-to-video");
         return true;
       }
 
