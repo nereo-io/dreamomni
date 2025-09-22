@@ -116,7 +116,7 @@ export default function NanoBananaBanner({
 
   return (
     <>
-      <div className="fixed inset-0 -z-50 overflow-hidden">
+      <div className="absolute inset-0 -z-50 overflow-hidden">
         <img src="https://cdn.pollo.ai/prod/public/images/review/top-bg.jpg" className="absolute inset-0 w-full h-full object-cover" alt="background" />
       </div>
       <section className="w-full min-h-[calc(100vh-64px)] max-h-[150vh] pt-4 pb-12 md:pt-0 md:pb-0">
