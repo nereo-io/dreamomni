@@ -114,18 +114,12 @@ export default function NanoBananaBanner({
     }
   };
 
-  const ImageBackground = () => {
-    return (
-      <div className="absolute inset-0 -z-50 overflow-hidden">
-        <img src="https://cdn.pollo.ai/prod/public/images/review/top-bg.jpg" className="absolute inset-0 w-full h-full object-cover" alt="background" />
-      </div>
-    );
-  };
-
   return (
     <>
-      <ImageBackground />
-      <section className="w-full h-[calc(100vh-64px)]">
+      <div className="fixed inset-0 -z-50 overflow-hidden">
+        <img src="https://cdn.pollo.ai/prod/public/images/review/top-bg.jpg" className="absolute inset-0 w-full h-full object-cover" alt="background" />
+      </div>
+      <section className="w-full min-h-[calc(100vh-64px)] max-h-[150vh] pt-4 pb-12 md:pt-0 md:pb-0">
         <div className="w-full h-full max-w-4xl mx-auto px-4 md:px-0 flex flex-col items-center">
           <div className="text-center mt-10 mb-6">
             <h1 className="text-4xl md:text-5xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
