@@ -8,8 +8,8 @@ export default function RedditCaseShow({ section }: RedditCaseShowProps) {
     const handleMessage = (event: MessageEvent) => {
       try {
         // 尝试解析消息数据
-        const data = JSON.parse(event.data);
-
+        const data =
+          typeof event.data === "string" ? JSON.parse(event.data) : event.data;
         // 检查是否是resize.embed类型的消息
         if (data && data.type === "resize.embed" && data.data) {
           // 获取所有的reddit iframe元素，并进行类型断言

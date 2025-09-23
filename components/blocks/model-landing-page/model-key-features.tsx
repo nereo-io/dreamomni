@@ -35,7 +35,8 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ tableData }) => {
   );
 
   // 计算每列的宽度百分比，确保列宽一致
-  const columnWidth = headers.length > 0 ? `${100 / headers.length}%` : "auto";
+  const columnWidth =
+    headers.length > 0 ? `${1000 / headers.length}px` : "auto";
 
   return (
     <div className="overflow-x-auto rounded-xl border border-gray-700/50 shadow-xl bg-gray-900/80 backdrop-blur-md transition-all duration-300 hover:shadow-2xl hover:border-gray-600">

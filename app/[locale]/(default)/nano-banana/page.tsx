@@ -9,6 +9,31 @@ import FAQ from "@/components/blocks/faq";
 import NanoBananaCta from "@/components/blocks/model-landing-page/nano-banana-cta";
 
 import { getNanoBananaLandingPage } from "@/services/page";
+import { getTranslations } from "next-intl/server";
+
+// TDK 配置
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  const t = await getTranslations();
+
+  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/nano-banana`;
+
+  if (locale !== "en") {
+    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/nano-banana`;
+  }
+
+  return {
+    title: t("nano_banana.title"),
+    description: t("nano_banana.description"),
+    keywords: t("nano_banana.keywords"),
+    alternates: {
+      canonical: canonicalUrl,
+    },
+  };
+}
 
 export default async function NanoBananaLandingPage({
   params: { locale },
@@ -35,7 +60,9 @@ export default async function NanoBananaLandingPage({
       {/* Twitter案例展示 */}
       {page.twitterCases && <TwitterCaseShow section={page.twitterCases} />}
       {/* FAQs */}
-      {page.faq && <FAQ section={page.faq} />}
+      <div className="bg-gray-950">
+        {page.faq && <FAQ section={page.faq} />}
+      </div>
       {/* CTA */}
       {page.cta && <NanoBananaCta section={page.cta} />}
     </div>

@@ -28,11 +28,11 @@ export default function NanoBananaUsageGuide({
     window.scrollTo({
       top: 0,
       behavior: "smooth",
-    })
+    });
   };
 
   return (
-    <div className="text-white py-12 usage-guide-section">
+    <div className="text-white py-12 bg-gray-950 usage-guide-section">
       <div className="container mx-auto px-4">
         {/* 标题区域 */}
         <div className="text-center mb-12">
@@ -63,7 +63,7 @@ export default function NanoBananaUsageGuide({
 
         {/* 按钮区域 */}
         <div className="flex justify-center">
-          <RainbowButton 
+          <RainbowButton
             onClick={handleButtonClick}
             className="transition-transform duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/50"
             aria-label={`${section.buttonText} - 点击返回页面顶部`}

@@ -108,18 +108,24 @@ export default function NanoBananaBanner({
     setImageFile(null);
     setError(null);
     // 重置文件输入元素，解决删除后无法再次上传同一张图片的问题
-    const fileInput = document.getElementById('image-upload') as HTMLInputElement | null;
+    const fileInput = document.getElementById(
+      "image-upload"
+    ) as HTMLInputElement | null;
     if (fileInput) {
-      fileInput.value = '';
+      fileInput.value = "";
     }
   };
 
   return (
     <>
-      <div className="absolute inset-0 -z-50 overflow-hidden">
-        <img src="https://cdn.pollo.ai/prod/public/images/review/top-bg.jpg" className="absolute inset-0 w-full h-full object-cover" alt="background" />
+      <div className="fixed inset-0 -z-50 overflow-hidden bg-black">
+        <img
+          src="https://cdn.pollo.ai/prod/public/images/review/top-bg.jpg"
+          className="absolute inset-0 w-full h-full object-cover"
+          alt="background"
+        />
       </div>
-      <section className="w-full min-h-[calc(100vh-64px)] max-h-[150vh] pt-4 pb-12 md:pt-0 md:pb-0">
+      <section className="z-1 w-full min-h-[calc(100vh-64px)] max-h-[150vh] pt-4 pb-12 md:pt-0 md:pb-0">
         <div className="w-full h-full max-w-4xl mx-auto px-4 md:px-0 flex flex-col items-center">
           <div className="text-center mt-10 mb-6">
             <h1 className="text-4xl md:text-5xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
@@ -201,14 +207,40 @@ export default function NanoBananaBanner({
                 </div>
 
                 <div className="flex justify-center mt-8">
-                  <div className={`w-full max-w-xs ${(!prompt.trim() || prompt.trim().length > 1000) ? 'cursor-not-allowed' : ''}`}>
+                  <div
+                    className={`w-full max-w-xs ${
+                      !prompt.trim() || prompt.trim().length > 1000
+                        ? "cursor-not-allowed"
+                        : ""
+                    }`}
+                  >
                     <Button
                       className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-700/30 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
                       disabled={!prompt.trim() || prompt.trim().length > 1000}
                       onClick={handleGenerate}
                     >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-wand-sparkles h-4 w-4 mr-2"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"></path><path d="m14 7 3 3"></path><path d="M5 6v4"></path><path d="M19 14v4"></path><path d="M10 2v2"></path><path d="M7 8H3"></path><path d="M21 16h-4"></path><path d="M11 3H9"></path></svg>
-                    {section.createButtonText}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        className="lucide lucide-wand-sparkles h-4 w-4 mr-2"
+                      >
+                        <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"></path>
+                        <path d="m14 7 3 3"></path>
+                        <path d="M5 6v4"></path>
+                        <path d="M19 14v4"></path>
+                        <path d="M10 2v2"></path>
+                        <path d="M7 8H3"></path>
+                        <path d="M21 16h-4"></path>
+                        <path d="M11 3H9"></path>
+                      </svg>
+                      {section.createButtonText}
                     </Button>
                   </div>
                 </div>
@@ -224,7 +256,9 @@ export default function NanoBananaBanner({
                   </h2>
 
                   <div className="mb-3 flex items-center justify-between">
-                    <div className="text-sm font-medium text-gray-300">Image</div>
+                    <div className="text-sm font-medium text-gray-300">
+                      Image
+                    </div>
                     <div className="flex items-center space-x-3">
                       <div className="flex items-center space-x-2">
                         <img
@@ -346,7 +380,11 @@ export default function NanoBananaBanner({
                 </div>
 
                 <div className="flex justify-center mt-8">
-                  <div className={`w-full max-w-xs ${!imageFile ? 'cursor-not-allowed' : ''}`}>
+                  <div
+                    className={`w-full max-w-xs ${
+                      !imageFile ? "cursor-not-allowed" : ""
+                    }`}
+                  >
                     <Button
                       className={`w-full bg-gradient-to-r ${
                         imageFile
@@ -360,8 +398,28 @@ export default function NanoBananaBanner({
                       disabled={!imageFile}
                       onClick={handleGenerate}
                     >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-wand-sparkles h-4 w-4 mr-2"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"></path><path d="m14 7 3 3"></path><path d="M5 6v4"></path><path d="M19 14v4"></path><path d="M10 2v2"></path><path d="M7 8H3"></path><path d="M21 16h-4"></path><path d="M11 3H9"></path></svg>
-                    Create
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        className="lucide lucide-wand-sparkles h-4 w-4 mr-2"
+                      >
+                        <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"></path>
+                        <path d="m14 7 3 3"></path>
+                        <path d="M5 6v4"></path>
+                        <path d="M19 14v4"></path>
+                        <path d="M10 2v2"></path>
+                        <path d="M7 8H3"></path>
+                        <path d="M21 16h-4"></path>
+                        <path d="M11 3H9"></path>
+                      </svg>
+                      Create
                     </Button>
                   </div>
                 </div>
