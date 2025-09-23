@@ -45,7 +45,7 @@ export default async function NanoBananaLandingPage({
     <div className="flex flex-col">
       {/* banner */}
       {page.banner && <NanoBananaBanner section={page.banner} />}
-      {/* 合作伙伴滚动条 */}
+      {/* partners */}
       {page.partners && (
         <PartnersScroll section={page.partners} className="mt-8" />
       )}
