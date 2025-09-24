@@ -590,14 +590,46 @@ export class PayssionProvider extends BasePaymentProvider {
         }
       );
 
-      const result = await response.json();
+      if (response.status === 204) {
+        console.error("Failed to query subscription: empty 204 response", {
+          subscriptionId,
+        });
+        return null;
+      }
+
+      const rawBody = await response.text();
+
+      if (!rawBody) {
+        console.error("Failed to query subscription: empty body", {
+          subscriptionId,
+          status: response.status,
+        });
+        return null;
+      }
+
+      let result: any;
+      try {
+        result = JSON.parse(rawBody);
+      } catch (parseError) {
+        console.error("Failed to parse subscription response", {
+          subscriptionId,
+          status: response.status,
+          rawBody,
+          parseError,
+        });
+        return null;
+      }
 
       if (response.ok && result.id) {
         return result;
-      } else {
-        console.error("Failed to query subscription:", result);
-        return null;
       }
+
+      console.error("Failed to query subscription:", {
+        subscriptionId,
+        status: response.status,
+        result,
+      });
+      return null;
     } catch (error: any) {
       console.error("Subscription query error:", error);
       return null;
