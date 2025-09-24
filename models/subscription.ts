@@ -93,6 +93,7 @@ export async function findSubscriptionsByUserUuid(
     .from("subscriptions")
     .select("*")
     .eq("user_uuid", userUuid)
+    .neq("status", "pending")
     .order("created_at", { ascending: false })
     .range(offset, offset + limit - 1);
 

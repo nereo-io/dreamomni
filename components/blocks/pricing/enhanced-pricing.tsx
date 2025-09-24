@@ -5,7 +5,7 @@
 import { Check, Loader } from "lucide-react";
 import { PricingItem, Pricing as PricingType } from "@/types/blocks/pricing";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   Dialog,
   DialogContent,
@@ -58,6 +58,59 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     credits?: number;
     nextBilling?: string;
   }>({});
+
+  function calculateNextBilling(interval: string, paidAt: string) {
+    const paidDate = new Date(paidAt);
+    if (interval === "year") {
+      return new Date(
+        paidDate.getTime() + 365 * 24 * 60 * 60 * 1000
+      ).toLocaleDateString();
+    }
+    if (interval === "month") {
+      return new Date(
+        paidDate.getTime() + 30 * 24 * 60 * 60 * 1000
+      ).toLocaleDateString();
+    }
+    return "";
+  }
+
+  const checkRecentPayment = useCallback(async (): Promise<boolean> => {
+    const paymentPending = localStorage.getItem("veo3_payment_pending");
+    const paymentTimestamp = localStorage.getItem("veo3_payment_timestamp");
+    if (!paymentPending || !paymentTimestamp) {
+      return false;
+    }
+
+    try {
+      const response = await fetch(
+        `/api/check-recent-payment?timestamp=${paymentTimestamp}`
+      );
+      const result = await response.json();
+
+      if (result.code === 0 && result.data.hasRecentPayment) {
+        const paymentInfo = result.data.paymentInfo;
+
+        setSuccessInfo({
+          planName: paymentInfo.planName,
+          credits: paymentInfo.credits,
+          nextBilling: calculateNextBilling(
+            paymentInfo.interval,
+            paymentInfo.paidAt
+          ),
+        });
+
+        setShowSuccessModal(true);
+        localStorage.removeItem("veo3_payment_pending");
+        localStorage.removeItem("veo3_payment_timestamp");
+        localStorage.removeItem("veo3_payment_info");
+        return true;
+      }
+    } catch (error) {
+      console.error("检查支付状态失败:", error);
+    }
+
+    return false;
+  }, []);
 
   // 获取支持订阅的支付方式
   useEffect(() => {
@@ -114,70 +167,24 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
   // 检测支付成功状态（仅用于显示成功弹窗，不再上报 Metrica）
   useEffect(() => {
-    const checkRecentPayment = async () => {
-      // 检查是否有支付等待标记
-      const paymentPending = localStorage.getItem("veo3_payment_pending");
-      const paymentTimestamp = localStorage.getItem("veo3_payment_timestamp");
-      if (!paymentPending || !paymentTimestamp) return;
-
-      try {
-        const response = await fetch(
-          `/api/check-recent-payment?timestamp=${paymentTimestamp}`
-        );
-        const result = await response.json();
-
-        if (result.code === 0 && result.data.hasRecentPayment) {
-          const paymentInfo = result.data.paymentInfo;
-
-          // 设置弹窗信息
-          setSuccessInfo({
-            planName: paymentInfo.planName,
-            credits: paymentInfo.credits,
-            nextBilling: calculateNextBilling(
-              paymentInfo.interval,
-              paymentInfo.paidAt
-            ),
-          });
-
-          // 显示成功弹窗
-          setShowSuccessModal(true);
-
-          // 清除等待标记
-          localStorage.removeItem("veo3_payment_pending");
-          localStorage.removeItem("veo3_payment_timestamp");
-          localStorage.removeItem("veo3_payment_info");
-        }
-      } catch (error) {
-        console.error("检查支付状态失败:", error);
-      }
-    };
-
-    // 页面加载时检查
     checkRecentPayment();
 
-    // 监听页面重新获得焦点（用户从支付页面返回）
     const handleFocus = () => {
-      setTimeout(checkRecentPayment, 1000); // 延迟 1 秒检查
+      setTimeout(() => {
+        checkRecentPayment();
+      }, 1000);
     };
 
     window.addEventListener("focus", handleFocus);
-    return () => window.removeEventListener("focus", handleFocus);
-  }, []);
+    const intervalId = window.setInterval(() => {
+      checkRecentPayment();
+    }, 3000);
 
-  // 计算下次扣费时间的辅助函数
-  const calculateNextBilling = (interval: string, paidAt: string) => {
-    const paidDate = new Date(paidAt);
-    if (interval === "year") {
-      return new Date(
-        paidDate.getTime() + 365 * 24 * 60 * 60 * 1000
-      ).toLocaleDateString();
-    } else if (interval === "month") {
-      return new Date(
-        paidDate.getTime() + 30 * 24 * 60 * 60 * 1000
-      ).toLocaleDateString();
-    }
-    return "";
-  };
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+      window.clearInterval(intervalId);
+    };
+  }, [checkRecentPayment]);
 
   const handleCheckout = async (item: PricingItem, cn_pay: boolean = false, skipMembershipCheck: boolean = false) => {
     try {
@@ -299,23 +306,12 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         if (redirect_url) {
           window.location.href = redirect_url;
         } else if (success && subscriptionId) {
-          const paymentInfo = localStorage.getItem("veo3_payment_info");
-          if (paymentInfo) {
-            const info = JSON.parse(paymentInfo);
-            setSuccessInfo({
-              planName: info.planName,
-              credits: info.credits,
-              nextBilling:
-                item.interval === "year"
-                  ? new Date(
-                      Date.now() + 365 * 24 * 60 * 60 * 1000
-                    ).toLocaleDateString()
-                  : new Date(
-                      Date.now() + 30 * 24 * 60 * 60 * 1000
-                    ).toLocaleDateString(),
-            });
+          const confirmed = await checkRecentPayment();
+          if (!confirmed) {
+            window.setTimeout(() => {
+              checkRecentPayment();
+            }, 2000);
           }
-          setShowSuccessModal(true);
         } else {
           toast.error("Payment link generation failed");
         }
@@ -326,24 +322,12 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
           // 需要用户授权，跳转到授权页面
           window.location.href = redirect_url;
         } else if (success && subscriptionId) {
-          // 订阅已直接创建成功（使用现有授权），立即显示成功弹窗
-          const paymentInfo = localStorage.getItem("veo3_payment_info");
-          if (paymentInfo) {
-            const info = JSON.parse(paymentInfo);
-            setSuccessInfo({
-              planName: info.planName,
-              credits: info.credits,
-              nextBilling:
-                item.interval === "year"
-                  ? new Date(
-                      Date.now() + 365 * 24 * 60 * 60 * 1000
-                    ).toLocaleDateString()
-                  : new Date(
-                      Date.now() + 30 * 24 * 60 * 60 * 1000
-                    ).toLocaleDateString(),
-            });
+          const confirmed = await checkRecentPayment();
+          if (!confirmed) {
+            window.setTimeout(() => {
+              checkRecentPayment();
+            }, 2000);
           }
-          setShowSuccessModal(true);
         } else {
           toast.error("Payment link generation failed");
         }
