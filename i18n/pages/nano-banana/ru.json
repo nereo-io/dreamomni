@@ -2,13 +2,29 @@
   "banner": {
     "title": "Google Nano Banana AI Image Generator",
     "description": "Google Nano Banana AI, также называемый Gemini 2.5 Flash Image, представляет собой модель генерации и редактирования изображений SOTA AI, разработанную Google DeepMind. Он был внедрен в приложение Gemini, похвально за его беспрецедентную способность достичь сверхвысокой последовательности характера, популярность модели резко возросла в социальных сетях. Попробуйте нано банана бесплатно в Veo3 AI image generator!",
-    "textToImageTab": "Text to Image",
-    "imageToImageTab": "Image to Image",
-    "promptPlaceholder": "Что ты хочешь создать?",
-    "imageUploadPlaceholder": "Перетащите изображение сюда или нажмите, чтобы выбрать",
-    "createButtonText": "Создать новые возможности",
-    "imageToImageTitle": "Image to Image",
-    "fileFormatLimit": "Мы принимаем форматы JPEG, PNG, GIF, WEBP, JPG до 20 мб с размерами до 4096 x 4096 пикселей."
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Text to Image",
+        "subTitle": "Prompt",
+        "value": "text-to-image",
+        "modelName": "Google Nano Banana",
+        "modelLogo": "https://videocdn.pollo.ai/web-cdn/pollo/test/cm97uxg1v000m1490lu4pqgla/image/1756783760309-5e0cde26-2d05-44c8-8b53-0bb58d05f252.svg",
+        "placeholder": "Что ты хочешь создать?",
+        "buttonText": "Создать новые возможности"
+      },
+      {
+        "type": "image",
+        "title": "Image to Image",
+        "subTitle": "Image",
+        "value": "image-to-image",
+        "modelName": "Google Nano Banana",
+        "modelLogo": "https://videocdn.pollo.ai/web-cdn/pollo/test/cm97uxg1v000m1490lu4pqgla/image/1756783760309-5e0cde26-2d05-44c8-8b53-0bb58d05f252.svg",
+        "placeholder": "Перетащите изображение сюда или нажмите, чтобы выбрать",
+        "tips": "Мы принимаем форматы JPEG, PNG, GIF, WEBP, JPG до 20 мб с размерами до 4096 x 4096 пикселей.",
+        "buttonText": "Создать новые возможности"
+      }
+    ]
   },
   "partners": [
     { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
@@ -60,7 +76,7 @@
                 },
                 {
                   "type": "image",
-                  "content": "/imgs/nano-banana/page1_bfecbd5ba1.png",
+                  "content": "https://pollo.ai/cms/page1_bfecbd5ba1.png",
                   "altText": "A pair of gold earrings"
                 }
               ]
@@ -73,7 +89,7 @@
                 },
                 {
                   "type": "image",
-                  "content": "/imgs/nano-banana/page2_6e3ffabc68.png",
+                  "content": "https://pollo.ai/cms/page2_6e3ffabc68.png",
                   "altText": "Landscape with castle"
                 }
               ]
@@ -97,12 +113,12 @@
               "cells": [
                 {
                   "type": "image",
-                  "content": "/imgs/nano-banana/page3_8fd81051f4.png",
+                  "content": "https://pollo.ai/cms/page3_8fd81051f4.png",
                   "altText": "A woman with short hair"
                 },
                 {
                   "type": "image",
-                  "content": "/imgs/nano-banana/page4_7e3c0b8db7.png",
+                  "content": "https://pollo.ai/cms/page4_7e3c0b8db7.png",
                   "altText": "A pair of gold earrings"
                 },
                 {
@@ -111,7 +127,7 @@
                 },
                 {
                   "type": "image",
-                  "content": "/imgs/nano-banana/page5_dec9d56c7d.png",
+                  "content": "https://pollo.ai/cms/page5_dec9d56c7d.png",
                   "altText": "The woman with earrings added"
                 }
               ]
@@ -134,7 +150,7 @@
               "cells": [
                 {
                   "type": "image",
-                  "content": "/imgs/nano-banana/page6_266c7d809f.png",
+                  "content": "https://pollo.ai/cms/page6_266c7d809f.png",
                   "altText": "A woman with short hair"
                 },
                 {
@@ -143,7 +159,7 @@
                 },
                 {
                   "type": "image",
-                  "content": "/imgs/nano-banana/page7_7b8cbb32e0.png",
+                  "content": "https://pollo.ai/cms/page7_7b8cbb32e0.png",
                   "altText": "The woman with earrings added"
                 }
               ]

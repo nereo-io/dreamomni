@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
-import { BannerSection } from "@/types/pages/nano-banana";
+import { BannerSection, Tab } from "@/types/pages/nano-banana";
 
 export default function NanoBananaBanner({
   section,
@@ -13,7 +13,9 @@ export default function NanoBananaBanner({
   section: BannerSection;
 }) {
   const [prompt, setPrompt] = useState("");
-  const [activeTab, setActiveTab] = useState("text-to-image");
+  const [activeTab, setActiveTab] = useState<string>(
+    section.tabs[0]?.value || "text-to-image"
+  );
   const [isDragging, setIsDragging] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -22,16 +24,21 @@ export default function NanoBananaBanner({
   const router = useRouter();
 
   const handleGenerate = () => {
-    if (activeTab === "text-to-image" && prompt.trim()) {
-      localStorage.setItem("nanoBananaPrompt", prompt);
-      router.push("/text-to-image");
-    } else if (activeTab === "image-to-image" && imageFile) {
+    // 找到当前激活的标签页
+    const currentTab = section.tabs.find((tab) => tab.value === activeTab);
+
+    if (!currentTab) return;
+
+    if (currentTab.type === "text" && prompt.trim()) {
+      localStorage.setItem("modelLandingPagePrompt", prompt);
+      router.push(`/${activeTab}`);
+    } else if (currentTab.type === "image" && imageFile) {
       // 对于图像文件，我们需要先转换为base64字符串才能存储
       const reader = new FileReader();
       reader.onload = (e) => {
         if (e.target && typeof e.target.result === "string") {
-          localStorage.setItem("nanoBananaImage", e.target.result);
-          router.push("/image-to-image");
+          localStorage.setItem("modelLandingPageImage", e.target.result);
+          router.push(`/${activeTab}`);
         }
       };
       reader.readAsDataURL(imageFile);
@@ -116,6 +123,238 @@ export default function NanoBananaBanner({
     }
   };
 
+  // 渲染标签页内容
+  const renderTabContent = (tab: Tab) => {
+    if (tab.type === "text") {
+      return (
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold mb-4 text-card-foreground">
+            {tab.title}
+          </h2>
+
+          <div className="mb-3 flex items-center justify-between">
+            <div className="text-sm font-medium text-muted-foreground">
+              {tab.subTitle}
+            </div>
+            <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2">
+                <img
+                  src={tab.modelLogo}
+                  alt="Google Nano Banana"
+                  className="h-6 w-6"
+                />
+                <span className="text-sm text-muted-foreground">
+                  {tab.modelName}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <Textarea
+            placeholder={tab.placeholder}
+            className="resize-none bg-input border-border text-foreground placeholder:text-muted-foreground mt-0 overflow-y-auto min-h-[150px] max-h-[300px]"
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+          />
+
+          <div className="flex justify-end mt-3 text-sm text-muted-foreground">
+            <div
+              className={`transition-colors duration-300 ${
+                prompt.length > 1800
+                  ? "text-amber-400"
+                  : prompt.length > 1900
+                  ? "text-destructive"
+                  : ""
+              }`}
+            >
+              {prompt.length} / 1000
+            </div>
+          </div>
+        </div>
+      );
+    } else if (tab.type === "image") {
+      return (
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold mb-4 text-card-foreground">
+            {tab.title}
+          </h2>
+
+          <div className="mb-3 flex items-center justify-between">
+            <div className="text-sm font-medium text-muted-foreground">
+              Image
+            </div>
+            <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2">
+                <img
+                  src="https://videocdn.pollo.ai/web-cdn/pollo/test/cm97uxg1v000m1490lu4pqgla/image/1756783760309-5e0cde26-2d05-44c8-8b53-0bb58d05f252.svg"
+                  alt="Google Nano Banana"
+                  className="h-6 w-6"
+                />
+                <span className="text-sm text-muted-foreground">
+                  Google Nano Banana
+                </span>
+              </div>
+            </div>
+          </div>
+          {/* 隐藏的文件输入字段 */}
+          <input
+            id="image-upload"
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleFileChange}
+          />
+
+          {/* 上传区域 */}
+          <div
+            className={`flex justify-center items-center border-2 border-dashed rounded-xl min-h-[150px] max-h-[300px] transition-all duration-300 ${
+              isDragging
+                ? "border-primary bg-primary/10"
+                : selectedImage
+                ? "border-green-500"
+                : "border-border hover:border-muted"
+            }`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            onClick={handleFileClick}
+          >
+            {selectedImage ? (
+              <div className="relative w-full h-full p-2 flex items-center justify-center overflow-hidden">
+                <div className="absolute top-2 right-2 z-10 bg-background/80 p-1 rounded-full">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeImage();
+                    }}
+                    className="text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label="Remove image"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
+                </div>
+                <img
+                  src={selectedImage}
+                  alt="Preview"
+                  className="max-w-full max-h-[150px] object-contain rounded-lg"
+                />
+              </div>
+            ) : (
+              <div className="text-center cursor-pointer group">
+                <div className="flex justify-center mb-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={`transition-all duration-300 ${
+                      isDragging
+                        ? "text-primary scale-110"
+                        : "text-muted-foreground group-hover:text-foreground"
+                    }`}
+                  >
+                    <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                    <circle cx="9" cy="9" r="2" />
+                    <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                  </svg>
+                </div>
+                <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300">
+                  {tab.placeholder}
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* 错误消息 */}
+          {error && (
+            <div className="mt-3 text-sm text-destructive animate-in fade-in-50 duration-300">
+              {error}
+            </div>
+          )}
+
+          {/* 文件格式说明 */}
+          {tab.tips && (
+            <div className="mt-3 text-sm text-muted-foreground">{tab.tips}</div>
+          )}
+        </div>
+      );
+    }
+    return null;
+  };
+
+  // 渲染创建按钮
+  const renderCreateButton = (tab: Tab) => {
+    const isDisabled =
+      tab.type === "text"
+        ? !prompt.trim() || prompt.trim().length > 1000
+        : !imageFile;
+
+    return (
+      <div className="flex justify-center mt-8">
+        <div
+          className={`w-full max-w-xs ${
+            isDisabled ? "cursor-not-allowed" : ""
+          }`}
+        >
+          <Button
+            className={`w-full bg-gradient-to-r ${
+              !isDisabled
+                ? "from-primary to-primary hover:from-primary hover:to-primary text-primary-foreground font-medium"
+                : "from-primary/70 to-primary/70 text-primary-foreground/80 font-medium"
+            } py-6 rounded-xl transition-all duration-300 transform ${
+              !isDisabled
+                ? "hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/30"
+                : ""
+            } focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background`}
+            disabled={isDisabled}
+            onClick={handleGenerate}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              className="lucide lucide-wand-sparkles h-4 w-4 mr-2"
+            >
+              <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"></path>
+              <path d="m14 7 3 3"></path>
+              <path d="M5 6v4"></path>
+              <path d="M19 14v4"></path>
+              <path d="M10 2v2"></path>
+              <path d="M7 8H3"></path>
+              <path d="M21 16h-4"></path>
+              <path d="M11 3H9"></path>
+            </svg>
+            {tab.buttonText}
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       <div className="fixed inset-0 -z-50 overflow-hidden bg-background">
@@ -137,293 +376,33 @@ export default function NanoBananaBanner({
           </div>
 
           <Tabs
-            defaultValue="text-to-image"
+            defaultValue={section.tabs[0]?.value || "text-to-image"}
             className="w-full"
             onValueChange={setActiveTab}
           >
             <TabsList className="grid w-full max-w-lg mx-auto grid-cols-2 mb-9 p-1 bg-background/50 rounded-xl">
-              <TabsTrigger
-                value="text-to-image"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary data-[state=active]:text-primary-foreground transition-all duration-300"
-              >
-                {section.textToImageTab}
-              </TabsTrigger>
-              <TabsTrigger
-                value="image-to-image"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary data-[state=active]:text-primary-foreground transition-all duration-300"
-              >
-                {section.imageToImageTab}
-              </TabsTrigger>
+              {section.tabs.map((tab) => (
+                <TabsTrigger
+                  key={tab.value}
+                  value={tab.value}
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary data-[state=active]:text-primary-foreground transition-all duration-300"
+                >
+                  {tab.title}
+                </TabsTrigger>
+              ))}
             </TabsList>
 
-            <div className="bg-card rounded-2xl p-6 md:p-6 border border-border">
-              <TabsContent
-                value="text-to-image"
-                className="mt-0 animate-in fade-in-50 duration-300"
-              >
-                <div className="mb-6">
-                  <h2 className="text-xl font-semibold mb-4 text-card-foreground">
-                    {section.textToImageTab}
-                  </h2>
-
-                  <div className="mb-3 flex items-center justify-between">
-                    <div className="text-sm font-medium text-muted-foreground">
-                      Prompt
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <div className="flex items-center space-x-2">
-                        <img
-                          src="https://videocdn.pollo.ai/web-cdn/pollo/test/cm97uxg1v000m1490lu4pqgla/image/1756783760309-5e0cde26-2d05-44c8-8b53-0bb58d05f252.svg"
-                          alt="Google Nano Banana"
-                          className="h-6 w-6"
-                        />
-                        <span className="text-sm text-muted-foreground">
-                          Google Nano Banana
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <Textarea
-                    placeholder={section.promptPlaceholder}
-                    className="resize-none bg-input border-border text-foreground placeholder:text-muted-foreground mt-0 overflow-y-auto min-h-[150px] max-h-[300px]"
-                    value={prompt}
-                    onChange={(e) => setPrompt(e.target.value)}
-                  />
-
-                  <div className="flex justify-end mt-3 text-sm text-muted-foreground">
-                    <div
-                      className={`transition-colors duration-300 ${
-                        prompt.length > 1800
-                          ? "text-amber-400"
-                          : prompt.length > 1900
-                          ? "text-destructive"
-                          : ""
-                      }`}
-                    >
-                      {prompt.length} / 1000
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex justify-center mt-8">
-                  <div
-                    className={`w-full max-w-xs ${
-                      !prompt.trim() || prompt.trim().length > 1000
-                        ? "cursor-not-allowed"
-                        : ""
-                    }`}
-                  >
-                    <Button
-                      className="w-full bg-gradient-to-r from-primary to-primary hover:from-primary hover:to-primary text-primary-foreground font-medium py-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/30 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
-                      disabled={!prompt.trim() || prompt.trim().length > 1000}
-                      onClick={handleGenerate}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        className="lucide lucide-wand-sparkles h-4 w-4 mr-2"
-                      >
-                        <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"></path>
-                        <path d="m14 7 3 3"></path>
-                        <path d="M5 6v4"></path>
-                        <path d="M19 14v4"></path>
-                        <path d="M10 2v2"></path>
-                        <path d="M7 8H3"></path>
-                        <path d="M21 16h-4"></path>
-                        <path d="M11 3H9"></path>
-                      </svg>
-                      {section.createButtonText}
-                    </Button>
-                  </div>
-                </div>
-              </TabsContent>
-
-              <TabsContent
-                value="image-to-image"
-                className="mt-0 animate-in fade-in-50 duration-300"
-              >
-                <div className="mb-6">
-                  <h2 className="text-xl font-semibold mb-4 text-card-foreground">
-                    {section.imageToImageTab}
-                  </h2>
-
-                  <div className="mb-3 flex items-center justify-between">
-                    <div className="text-sm font-medium text-muted-foreground">
-                      Image
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <div className="flex items-center space-x-2">
-                        <img
-                          src="https://videocdn.pollo.ai/web-cdn/pollo/test/cm97uxg1v000m1490lu4pqgla/image/1756783760309-5e0cde26-2d05-44c8-8b53-0bb58d05f252.svg"
-                          alt="Google Nano Banana"
-                          className="h-6 w-6"
-                        />
-                        <span className="text-sm text-muted-foreground">
-                          Google Nano Banana
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  {/* 隐藏的文件输入字段 */}
-                  <input
-                    id="image-upload"
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleFileChange}
-                  />
-
-                  {/* 上传区域 */}
-                  <div
-                    className={`flex justify-center items-center border-2 border-dashed rounded-xl min-h-[150px] max-h-[300px] transition-all duration-300 ${
-                      isDragging
-                        ? "border-primary bg-primary/10"
-                        : selectedImage
-                        ? "border-green-500"
-                        : "border-border hover:border-muted"
-                    }`}
-                    onDragOver={handleDragOver}
-                    onDragLeave={handleDragLeave}
-                    onDrop={handleDrop}
-                    onClick={handleFileClick}
-                  >
-                    {selectedImage ? (
-                      <div className="relative w-full h-full p-2 flex items-center justify-center overflow-hidden">
-                        <div className="absolute top-2 right-2 z-10 bg-background/80 p-1 rounded-full">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              removeImage();
-                            }}
-                            className="text-muted-foreground hover:text-foreground transition-colors"
-                            aria-label="Remove image"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <line x1="18" y1="6" x2="6" y2="18" />
-                              <line x1="6" y1="6" x2="18" y2="18" />
-                            </svg>
-                          </button>
-                        </div>
-                        <img
-                          src={selectedImage}
-                          alt="Preview"
-                          className="max-w-full max-h-[150px] object-contain rounded-lg"
-                        />
-                      </div>
-                    ) : (
-                      <div className="text-center cursor-pointer group">
-                        <div className="flex justify-center mb-3">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="32"
-                            height="32"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className={`transition-all duration-300 ${
-                              isDragging
-                                ? "text-primary scale-110"
-                                : "text-muted-foreground group-hover:text-foreground"
-                            }`}
-                          >
-                            <rect
-                              width="18"
-                              height="18"
-                              x="3"
-                              y="3"
-                              rx="2"
-                              ry="2"
-                            />
-                            <circle cx="9" cy="9" r="2" />
-                            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-                          </svg>
-                        </div>
-                        <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300">
-                          {section.imageUploadPlaceholder}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* 错误消息 */}
-                  {error && (
-                    <div className="mt-3 text-sm text-destructive animate-in fade-in-50 duration-300">
-                      {error}
-                    </div>
-                  )}
-
-                  {/* 文件格式说明 */}
-                  <div className="mt-3 text-sm text-muted-foreground">
-                    {section.fileFormatLimit}
-                  </div>
-                </div>
-
-                <div className="flex justify-center mt-8">
-                  <div
-                    className={`w-full max-w-xs ${
-                      !imageFile ? "cursor-not-allowed" : ""
-                    }`}
-                  >
-                    <Button
-                      className={`w-full bg-gradient-to-r ${
-                        imageFile
-                          ? "from-primary to-primary hover:from-primary hover:to-primary text-primary-foreground font-medium"
-                          : "from-primary/70 to-primary/70 text-primary-foreground/80 font-medium"
-                      } py-6 rounded-xl transition-all duration-300 transform ${
-                        imageFile
-                          ? "hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/30"
-                          : ""
-                      } focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background`}
-                      disabled={!imageFile}
-                      onClick={handleGenerate}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        className="lucide lucide-wand-sparkles h-4 w-4 mr-2"
-                      >
-                        <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"></path>
-                        <path d="m14 7 3 3"></path>
-                        <path d="M5 6v4"></path>
-                        <path d="M19 14v4"></path>
-                        <path d="M10 2v2"></path>
-                        <path d="M7 8H3"></path>
-                        <path d="M21 16h-4"></path>
-                        <path d="M11 3H9"></path>
-                      </svg>
-                      Create
-                    </Button>
-                  </div>
-                </div>
-              </TabsContent>
+            <div className="bg-card rounded-2xl p-6 md:p-6 border border-border max-w-2xl mx-auto">
+              {section.tabs.map((tab) => (
+                <TabsContent
+                  key={tab.value}
+                  value={tab.value}
+                  className="mt-0 animate-in fade-in-50 duration-300"
+                >
+                  {renderTabContent(tab)}
+                  {renderCreateButton(tab)}
+                </TabsContent>
+              ))}
             </div>
           </Tabs>
         </div>

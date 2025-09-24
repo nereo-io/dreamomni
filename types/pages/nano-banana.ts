@@ -1,15 +1,22 @@
 import { Section } from "@/types/blocks/section";
 
 // NanoBananaBanner
+export interface Tab {
+  type: "text" | "image";
+  title: string;
+  subTitle: string;
+  value: string;
+  placeholder: string;
+  buttonText: string;
+  modelName: string;
+  modelLogo: string;
+  tips?: string;
+}
+
 export interface BannerSection {
   title: string;
   description: string;
-  textToImageTab: string;
-  imageToImageTab: string;
-  promptPlaceholder: string;
-  createButtonText: string;
-  imageUploadPlaceholder: string;
-  fileFormatLimit: string;
+  tabs: Tab[];
 }
 
 // PartnersScroll
