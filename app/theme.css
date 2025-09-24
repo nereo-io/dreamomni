@@ -1,46 +1,97 @@
 :root {
-  /* 颜色变量 */
-  --background: 262 76% 95%;
-  --foreground: 262 5% 10%;
-  --card: 262 50% 90%;
-  --card-foreground: 262 5% 10%;
-  --popover: 262 76% 95%;
-  --popover-foreground: 262 95% 10%;
-  --primary: 262 88% 44%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 262 30% 70%;
-  --secondary-foreground: 0 0% 0%;
-  --muted: 224 30% 85%;
-  --muted-foreground: 262 5% 35%;
-  --accent: 224 30% 80%;
-  --accent-foreground: 262 5% 10%;
-  --destructive: 0 76% 30%;
-  --destructive-foreground: 262 5% 90%;
-  --border: 262 30% 50%;
-  --input: 262 30% 18%;
-  --ring: 262 88% 44%;
-  --radius: 0.5rem;
+  /* 
+   * 主题颜色变量定义文件
+   * 使用HSL格式 (色相 饱和度% 亮度%) 定义颜色
+   * 所有变量可在整个应用中通过 var(--变量名) 的方式使用
+   */
+  
+  /* 基础颜色 */
+  --background: 262 76% 95%; /* 应用背景色 - 淡紫色 */
+  --foreground: 262 5% 10%;  /* 主要文字颜色 - 深紫色 */
+  
+  /* 卡片相关 */
+  --card: 262 50% 90%;       /* 卡片背景色 - 较深的紫色 */
+  --card-foreground: 262 5% 10%; /* 卡片文字颜色 - 深紫色 */
+  
+  /* 弹出层相关 */
+  --popover: 262 76% 95%;    /* 弹出层背景色 - 淡紫色 */
+  --popover-foreground: 262 95% 10%; /* 弹出层文字颜色 - 近黑色 */
+  
+  /* 主要颜色 */
+  --primary: 262 88% 44%;    /* 主色调 - 深紫色，用于按钮、高亮元素等 */
+  --primary-foreground: 0 0% 100%; /* 主色上的文字颜色 - 白色 */
+  
+  /* 次要颜色 */
+  --secondary: 262 30% 70%;  /* 辅助色 - 中浅紫色，用于次要按钮、提示等 */
+  --secondary-foreground: 0 0% 0%; /* 辅助色上的文字颜色 - 黑色 */
+  
+  /* 柔和颜色 */
+  --muted: 224 30% 85%;      /* 柔和背景色 - 浅灰色，用于次要信息 */
+  --muted-foreground: 262 5% 35%; /* 柔和背景上的文字颜色 - 中灰色 */
+  
+  /* 强调色 */
+  --accent: 224 30% 80%;     /* 强调色 - 比muted稍深的灰色，用于特殊标记 */
+  --accent-foreground: 262 5% 10%; /* 强调色上的文字颜色 - 深紫色 */
+  
+  /* 危险/破坏性颜色 */
+  --destructive: 0 76% 30%;  /* 危险色 - 红色，用于删除按钮、错误提示等 */
+  --destructive-foreground: 262 5% 90%; /* 危险色上的文字颜色 - 浅灰色 */
+  
+  /* 边框和输入框 */
+  --border: 262 30% 50%;     /* 边框颜色 - 中紫色 */
+  --input: 262 30% 18%;      /* 输入框颜色 - 深紫色 */
+  
+  /* 焦点和高亮 */
+  --ring: 262 88% 44%;       /* 焦点环颜色 - 与主色相同 */
+  
+  /* 尺寸 */
+  --radius: 0.5rem;          /* 圆角半径 - 8px */
 }
 .dark {
-  /* 暗黑模式颜色变量 */
-  --background: 240 10% 12%;
-  --foreground: 0 0% 90%;
-  --card: 240 5% 18%;
-  --card-foreground: 0 0% 90%;
-  --popover: 240 5% 15%;
-  --popover-foreground: 0 0% 90%;
-  --primary: 260 60% 60%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 240 5% 25%;
-  --secondary-foreground: 0 0% 90%;
-  --muted: 240 5% 20%;
-  --muted-foreground: 0 0% 60%;
-  --accent: 240 5% 22%;
-  --accent-foreground: 0 0% 90%;
-  --destructive: 0 63% 31%;
-  --destructive-foreground: 0 0% 90%;
-  --border: 240 5% 25%;
-  --input: 240 5% 25%;
-  --ring: 260 60% 60%;
-  --radius: 0.5rem;
+  /* 
+   * 暗黑模式下的颜色变量
+   * 当html或body元素添加dark类时，这些变量将覆盖默认变量
+   */
+  
+  /* 基础颜色 */
+  --background: 240 10% 12%; /* 深色背景 - 近黑色 */
+  --foreground: 0 0% 90%;    /* 深色模式下的文字颜色 - 浅灰色 */
+  
+  /* 卡片相关 */
+  --card: 240 5% 18%;        /* 深色模式卡片背景 - 深灰色 */
+  --card-foreground: 0 0% 90%; /* 深色模式卡片文字 - 浅灰色 */
+  
+  /* 弹出层相关 */
+  --popover: 240 5% 15%;     /* 深色模式弹出层背景 - 比背景稍亮的灰色 */
+  --popover-foreground: 0 0% 90%; /* 深色模式弹出层文字 - 浅灰色 */
+  
+  /* 主要颜色 */
+  --primary: 260 60% 60%;    /* 深色模式主色 - 紫色 */
+  --primary-foreground: 0 0% 100%; /* 深色模式主色文字 - 白色 */
+  
+  /* 次要颜色 */
+  --secondary: 240 5% 25%;   /* 深色模式辅助色 - 中灰色 */
+  --secondary-foreground: 0 0% 90%; /* 深色模式辅助色文字 - 浅灰色 */
+  
+  /* 柔和颜色 */
+  --muted: 240 5% 20%;       /* 深色模式柔和背景 - 暗灰色 */
+  --muted-foreground: 0 0% 60%; /* 深色模式柔和文字 - 中灰色 */
+  
+  /* 强调色 */
+  --accent: 240 5% 22%;      /* 深色模式强调色 - 比muted稍亮的灰色 */
+  --accent-foreground: 0 0% 90%; /* 深色模式强调色文字 - 浅灰色 */
+  
+  /* 危险/破坏性颜色 */
+  --destructive: 0 63% 31%;  /* 深色模式危险色 - 深红色 */
+  --destructive-foreground: 0 0% 90%; /* 深色模式危险色文字 - 浅灰色 */
+  
+  /* 边框和输入框 */
+  --border: 240 5% 25%;      /* 深色模式边框颜色 - 中灰色 */
+  --input: 240 5% 25%;       /* 深色模式输入框颜色 - 中灰色 */
+  
+  /* 焦点和高亮 */
+  --ring: 260 60% 60%;       /* 深色模式焦点环颜色 - 与主色相同 */
+  
+  /* 尺寸 */
+  --radius: 0.5rem;          /* 圆角半径 - 8px，与亮色模式相同 */
 }

@@ -1,0 +1,426 @@
+{
+  "banner": {
+    "title": "Google Nano Banana AI Image Generator",
+    "description": "Google Nano Banana AI, также называемый Gemini 2.5 Flash Image, представляет собой модель генерации и редактирования изображений SOTA AI, разработанную Google DeepMind. Он был внедрен в приложение Gemini, похвально за его беспрецедентную способность достичь сверхвысокой последовательности характера, популярность модели резко возросла в социальных сетях. Попробуйте нано банана бесплатно в Veo3 AI image generator!",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Text to Image",
+        "subTitle": "Prompt",
+        "value": "text-to-image",
+        "modelName": "Google Nano Banana",
+        "modelLogo": "https://videocdn.pollo.ai/web-cdn/pollo/test/cm97uxg1v000m1490lu4pqgla/image/1756783760309-5e0cde26-2d05-44c8-8b53-0bb58d05f252.svg",
+        "placeholder": "Что ты хочешь создать?",
+        "buttonText": "Создать новые возможности"
+      },
+      {
+        "type": "image",
+        "title": "Image to Image",
+        "subTitle": "Image",
+        "value": "image-to-image",
+        "modelName": "Google Nano Banana",
+        "modelLogo": "https://videocdn.pollo.ai/web-cdn/pollo/test/cm97uxg1v000m1490lu4pqgla/image/1756783760309-5e0cde26-2d05-44c8-8b53-0bb58d05f252.svg",
+        "placeholder": "Перетащите изображение сюда или нажмите, чтобы выбрать",
+        "tips": "Мы принимаем форматы JPEG, PNG, GIF, WEBP, JPG до 20 мб с размерами до 4096 x 4096 пикселей.",
+        "buttonText": "Создать новые возможности"
+      }
+    ]
+  },
+  "partners": [
+    { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
+    { "name": "Microsoft", "logo": "/imgs/partners/microsoft-logo.png" },
+    { "name": "Nike", "logo": "/imgs/partners/nike-logo.png" },
+    { "name": "P&G", "logo": "/imgs/partners/p-g-logo.png" },
+    { "name": "Lancome", "logo": "/imgs/partners/lancome-logo.png" },
+    { "name": "Zoom", "logo": "/imgs/partners/zoom-logo.png" },
+    { "name": "Sony", "logo": "/imgs/partners/sony-logo.png" },
+    { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
+  ],
+  "features": {
+    "title": "Ключевые функции Google Nano Banana AI",
+    "features": [
+      {
+        "title": "Формирование изображений SOTA",
+        "description": "Создайте подробные изображения с непревзойдимой стилистической точностью."
+      },
+      {
+        "title": "Идеальная последовательность символов",
+        "description": "Сохранение элементов характера и сцены во время итеративных изменений для обеспечения последовательности."
+      },
+      {
+        "title": "Улучшение изображения на естественном языке",
+        "description": "Реализовать расширенные правки изображений с помощью простого текста."
+      },
+      {
+        "title": "Слияние нескольких изображений",
+        "description": "Объединить несколько изображений, вставить объекты, переделать сцены или объединить визуалы."
+      },
+      {
+        "title": "Ультра-быстрая обработка изображений",
+        "description": "Быстро создавать и редактировать изображения без ущерба для их качества."
+      }
+    ],
+    "details": [
+      {
+        "title": "Современное оборудование для создания изображений",
+        "description": "Google Nano Banana AI (технически Gemini 2.5 Flash Image) может похвастаться удивительной оперативной точностью и контекстной последовательностью, что соперничает с большинством лидеров отрасли. Будь то фотореализм, абстракция, сюрреализм или любой другой художественный стиль, Google Nano Banana AI прекрасно понимает естественные языки для создания идеального изображения, которое соответствует ожидаемым стандартам.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Output Image" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Мужчина и женщина, занимающие центральное положение на изображении, обнимаются протянутыми руками, как будто вздымаясь. Женщина с волосатыми ожогами, похоже, около двадцати или тридцати лет. У нее светлая кожа и спокойное выражение лица. На ней прочное, оливково-зеленое платье со сложными кружевами деталей. Мужчина немного позади нее, и его одежда включает темно-серый или черный плащ. Оба предмета находятся в классической романтической позе, которая предполагает свободу и счастье."
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/page1_bfecbd5ba1.png",
+                  "altText": "A pair of gold earrings"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Молодая азиатка, расположенная в центре изображения. Похоже, она подросток, с длинными, прямыми темными черными волосами в косичках. На ней светло-бежевый кардиганский свитер, надетый на бело-красную рубашку, клетчатую мини-юбку, черные носки и коричневые оксфорды."
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/page2_6e3ffabc68.png",
+                  "altText": "Landscape with castle"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Идеальная последовательность символов",
+        "description": "С помощью Nano Banana AI пользователи могут вносить конкретные изменения, а основные элементы объекта/сцены останутся совершенно нетронутыми. Независимо от того, идет ли речь о добавлении, удалении или регулировке фонов, освещения, объектов, перспективы и т.д., модель ии обеспечивает беспрецедентный уровень идентичности и стилистической последовательности, даже при многочисленных изменениях.",
+        "type": "table",
+        "data": {
+          "headers": [
+            { "title": "Original Image" },
+            { "title": "Original Image 2" },
+            { "title": "Prompt" },
+            { "title": "Output Image" }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/page3_8fd81051f4.png",
+                  "altText": "A woman with short hair"
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/page4_7e3c0b8db7.png",
+                  "altText": "A pair of gold earrings"
+                },
+                {
+                  "type": "text",
+                  "content": "Положите серьги на рис. 2 на уши женщины."
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/page5_dec9d56c7d.png",
+                  "altText": "The woman with earrings added"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Улучшение изображения на естественном языке",
+        "description": "Используя простые, естественные языковые подсказки, нано банана может обнаружить редактирование регионов в изображениях для реализации невероятно точных модификаций без необходимости подтягивания, слоев или масок. Хотите ли вы размыть фон, удалить пятна или людей, изменить позы, или раскрасить черно-белые изображения, просто опишите it-и AI поставляет.",
+        "type": "table",
+        "data": {
+          "headers": [
+            { "title": "Original Image" },
+            { "title": "Prompt" },
+            { "title": "Output Image" }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/page6_266c7d809f.png",
+                  "altText": "A woman with short hair"
+                },
+                {
+                  "type": "text",
+                  "content": "Измените фон на вокано"
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/page7_7b8cbb32e0.png",
+                  "altText": "The woman with earrings added"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Плавный мульти-визуальный синтез",
+        "description": "Gemini 2.5 Flash Image легко понимает и объединяет несколько входных изображений. Независимо от того, вставляя объект в сцену, реставрируя комнату с новыми цветами или текстурами, или сливая изображения, вы можете достичь потрясающих результатов с помощью одной естественной языковой подсказки.",
+        "type": "video",
+        "data": "https://static-lib.s3.amazonaws.com/cms/gemini_2_5_flash_image_multi_image_fusion_1_8a98510063.mp4?updated_at=2025-08-27T07:22:07.603Z"
+      },
+      {
+        "title": "Ультра-быстрая обработка изображений",
+        "description": "По сравнению с другими моделями изображений ии, Google Nano Banana AI переходит на совершенно новый уровень скорости. Он не обрабатывает изображения за десятки секунд, но за еще меньшее время. Благодаря этому, он может быть идеальным решением для быстрой идеации, экспериментирования и редактирования, что делает его более легким, чем когда-либо для создателей, чтобы производить более изысканные проекты."
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Как использовать Google Nano Banana AI на Veo3 AI бесплатно",
+    "description": "Создайте потрясающие изображения ии с помощью нано банановой модели Google через наш простой в использовании интерфейс",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Выберите Google Nano Banana AI модель",
+        "description": "Перейдите в Veo3 AI image generator и выберите модель AI \"Nano Banana\"."
+      },
+      {
+        "number": "02",
+        "title": "Введите свой текст",
+        "description": "Опишите изображение, которое вы хотите создать и настроить настройки настройки."
+      },
+      {
+        "number": "03",
+        "title": "Генерируйте ваше изображение",
+        "description": "Нажмите кнопку \"создать\" и ждите обработки запроса изображения."
+      }
+    ],
+    "buttonText": "Попробуйте Google Nano Banana AI на Veo3 AI"
+  },
+  "youtubeCases": {
+    "title": "YouTube видео о Nano Banana (Gemini 2.5 Flash Image)",
+    "content": [
+      {
+        "youtubeLink": "https://www.youtube.com/embed/1UJKlS9NyAs?si=zhADEyqbKaFzfafm",
+        "id": "(无id)",
+        "name": "(无name)",
+        "width": "525",
+        "height": "296"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/3qARXEKojyc?si=spY8GF-s-oqKTBPS",
+        "id": "(无id)",
+        "name": "(无name)",
+        "width": "525",
+        "height": "296"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/4SdGPHb8vms?si=1fDRQlJOrm6aazQr",
+        "id": "(无id)",
+        "name": "(无name)",
+        "width": "525",
+        "height": "296"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/xAl5hLCGA7k?si=NNc9DIwhHpDYJGR8",
+        "id": "(无id)",
+        "name": "(无name)",
+        "width": "525",
+        "height": "296"
+      }
+    ]
+  },
+  "redditCases": {
+    "title": "Reddit говорит о нано банане (Gemini 2.5 Flash Image)",
+    "content": [
+      {
+        "src": "https://embed.reddit.com/r/OpenAI/comments/1mx8up2/nano_banana_delivers_prolevel_edits_in_seconds/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed&embed_host_url=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana",
+        "id": "(无id)",
+        "name": "(无name)",
+        "width": "640",
+        "height": "411"
+      },
+      {
+        "src": "https://embed.reddit.com/r/Bard/comments/1mva2wr/nano_banana_is_the_first_image_generator_that_can/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed&embed_host_url=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana",
+        "id": "(无id)",
+        "name": "(无name)",
+        "width": "640",
+        "height": "316"
+      },
+      {
+        "src": "https://embed.reddit.com/r/singularity/comments/1mpei4u/nanobanana_new_image_model_examples/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed&embed_host_url=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana",
+        "id": "(无id)",
+        "name": "(无name)",
+        "width": "640",
+        "height": "502"
+      },
+      {
+        "src": "https://embed.reddit.com/r/Bard/comments/1mqqss8/nano_banana_can_do_the_most_insane_replications/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed&embed_host_url=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana",
+        "id": "(无id)",
+        "name": "(无name)",
+        "width": "640",
+        "height": "316"
+      },
+      {
+        "src": "https://embed.reddit.com/r/Bard/comments/1mr6ays/nanobanana_is_nearly_on_par_with_imagen_4_while/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed&embed_host_url=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana",
+        "id": "(无id)",
+        "name": "(无name)",
+        "width": "640",
+        "height": "522"
+      },
+      {
+        "src": "https://embed.reddit.com/r/GeminiAI/comments/1mvenbl/nano_banana_sets_a_standard_and_benchmark_in/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed&embed_host_url=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana",
+        "id": "(无id)",
+        "name": "(无name)",
+        "width": "640",
+        "height": "522"
+      }
+    ]
+  },
+  "twitterCases": {
+    "title": "X отзывы о Nano Banana (Gemini 2.5 Flash Image)",
+    "content": [
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-0&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1960054452599279840&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana&sessionId=c2e0eb15f03a47bada6c6fa3f6d248ab65279d47&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-0",
+        "name": "(无name)",
+        "width": "318",
+        "height": "623"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-1&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1958490155880153202&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana&sessionId=c2e0eb15f03a47bada6c6fa3f6d248ab65279d47&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-1",
+        "name": "(无name)",
+        "width": "318",
+        "height": "653"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-2&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1959068336903659778&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana&sessionId=c2e0eb15f03a47bada6c6fa3f6d248ab65279d47&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-2",
+        "name": "(无name)",
+        "width": "398",
+        "height": "608"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-3&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1957910694608925065&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana&sessionId=c2e0eb15f03a47bada6c6fa3f6d248ab65279d47&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-3",
+        "name": "(无name)",
+        "width": "318",
+        "height": "585"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-4&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1956952368010117436&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana&sessionId=c2e0eb15f03a47bada6c6fa3f6d248ab65279d47&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-4",
+        "name": "(无name)",
+        "width": "318",
+        "height": "452"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-5&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1959996856844664993&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana&sessionId=c2e0eb15f03a47bada6c6fa3f6d248ab65279d47&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-5",
+        "name": "(无name)",
+        "width": "398",
+        "height": "519"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-6&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1958200137676628294&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana&sessionId=c2e0eb15f03a47bada6c6fa3f6d248ab65279d47&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-6",
+        "name": "(无name)",
+        "width": "318px",
+        "height": "510px"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-7&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1955745610948337888&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana&sessionId=c2e0eb15f03a47bada6c6fa3f6d248ab65279d47&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-7",
+        "name": "(无name)",
+        "width": "318px",
+        "height": "490px"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-8&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1958019251178267111&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana&sessionId=c2e0eb15f03a47bada6c6fa3f6d248ab65279d47&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-8",
+        "name": "(无name)",
+        "width": "398px",
+        "height": "509px"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-9&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1958102908504780853&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana&sessionId=c2e0eb15f03a47bada6c6fa3f6d248ab65279d47&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-9",
+        "name": "(无name)",
+        "width": "318px",
+        "height": "595px"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-10&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1959654257252352003&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana&sessionId=c2e0eb15f03a47bada6c6fa3f6d248ab65279d47&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-10",
+        "name": "(无name)",
+        "width": "318",
+        "height": "510"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-11&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1960264979455844415&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana&sessionId=c2e0eb15f03a47bada6c6fa3f6d248ab65279d47&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-11",
+        "name": "(无name)",
+        "width": "398",
+        "height": "528"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-12&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1959965497484562433&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana&sessionId=c2e0eb15f03a47bada6c6fa3f6d248ab65279d47&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-12",
+        "name": "(无name)",
+        "width": "318",
+        "height": "558"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-13&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1960324136573837655&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana&sessionId=c2e0eb15f03a47bada6c6fa3f6d248ab65279d47&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-13",
+        "name": "(无name)",
+        "width": "318",
+        "height": "482"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-14&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1959009084021084613&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fim%2Fnano-banana&sessionId=c2e0eb15f03a47bada6c6fa3f6d248ab65279d47&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-14",
+        "name": "(无name)",
+        "width": "398",
+        "height": "375"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Попробуйте Google Nano Banana AI на Veo3 AI сейчас!",
+    "buttonText": "Попробуйте \"Nano Banana\" бесплатно"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Часто задаваемые вопросы",
+    "description": "Узнайте больше о free Veo 3 AI image generator",
+    "items": [
+      {
+        "title": "Что такое Google Nano Banana AI?",
+        "description": "Разработанный Google, Nano Banana, технически Gemini 2.5 Flash Image, представляет собой мощную модель изображений ии, которая позволяет пользователям создавать детальные изображения или вносить усовершенствованные изменения, используя простой язык. Он способен работать со сложными, многоэтапными инструкциями, и, несмотря на любые итеративные изменения, отлично справляется с обеспечением того, чтобы ключевые символы, окружения и элементы сцены оставались абсолютно последовательными."
+      },
+      {
+        "title": "Зачем использовать Google Nano Banana AI(Gemini 2.5 Flash Image)?",
+        "description": "Nano Banana-это исключительная модель изображений AI Google, которая может создавать изображения и делать невероятно точные модификации, используя повседневный язык. Его впечатляющее быстрое осознание означает, что он может понять, чего вы хотите, и применить эти специфические исправления чисто и методично, сохраняя при этом безупречную последовательность объекта и сцены."
+      },
+      {
+        "title": "Могу ли я использовать Google Nano Banana (Gemini 2.5 Flash Image) бесплатно?",
+        "description": "- да. - да. Вы можете использовать Google Nano Banana AI для создания изображений через Veo3 AI бесплатно. Просто зарегистрируйтесь на аккаунт, и с нашим бесплатным экспериментальным планом, вы можете исследовать широкие возможности модели ии для быстрого получения всех видов профессиональных изображений."
+      },
+      {
+        "title": "Для каких проектов лучше всего подходит Flash-изображение Gemini 2.5?",
+        "description": "Google Nano Banana AI считается одним из самых продвинутых редакторов изображений AI за свою способность отлично сохранять идентичность и эстетику неизменными, даже с несколькими изменениями изображений. Из-за этого, это идеальный выбор для итеративных проектов, как storyboard дизайн, графическое искусство, художественные иллюстрации, моделирование моды, демонстрация продукции и т.д."
+      },
+      {
+        "title": "Какие стили искусства поддерживает Google Nano Banana image generator?",
+        "description": "Вы можете использовать Google Nano Banana AI для создания или изменения изображений в любом визуальном стиле для личного или профессионального использования. Не стесняйтесь исследовать и экспериментировать с фотореализмом, аниме, абстрактным искусством, 3D изображениями, искусством фантазий и т.д. По этой причине он может оказаться полезным для художников, маркетологов, дизайнеров игр и других цифровых создателей."
+      }
+    ]
+  }
+}

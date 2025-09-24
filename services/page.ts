@@ -3,6 +3,7 @@ import { Pricing } from "@/types/blocks/pricing";
 import { ClaudeSonnetFeaturesBlockTranslations } from "@/types/blocks/claude-sonnet-features";
 import { TextToVideoPage } from "@/types/pages/text-to-video";
 import { ImageToVideoPage } from "@/types/pages/image-to-video";
+import { NanoBananaLandingPage } from "@/types/pages/nano-banana";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -19,6 +20,24 @@ export async function getLandingPage(locale: string): Promise<LandingPage> {
     );
   }
 }
+export async function getNanoBananaLandingPage(
+  locale: string
+): Promise<NanoBananaLandingPage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/nano-banana/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(`Failed to load ${locale}.json, falling back to en.json`);
+    return await import("@/i18n/pages/nano-banana/en.json").then(
+      (module) => module.default as NanoBananaLandingPage
+    );
+  }
+}
+
 export async function getPricingBlock(locale: string): Promise<Pricing> {
   try {
     if (locale === "zh-CN") {

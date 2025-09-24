@@ -253,6 +253,16 @@
           ]
         },
         {
+          "title": "Image Models",
+          "children": [
+            {
+              "title": "Nano Banana",
+              "url": "/nano-banana",
+              "target": "_self"
+            }
+          ]
+        },
+        {
           "title": "Resources",
           "children": [
             {
