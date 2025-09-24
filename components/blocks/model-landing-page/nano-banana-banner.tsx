@@ -118,7 +118,7 @@ export default function NanoBananaBanner({
 
   return (
     <>
-      <div className="fixed inset-0 -z-50 overflow-hidden bg-black">
+      <div className="fixed inset-0 -z-50 overflow-hidden bg-background">
         <img
           src="https://cdn.pollo.ai/prod/public/images/review/top-bg.jpg"
           className="absolute inset-0 w-full h-full object-cover"
@@ -128,10 +128,10 @@ export default function NanoBananaBanner({
       <section className="z-1 w-full min-h-[calc(100vh-64px)] max-h-[150vh] pt-4 pb-12 md:pt-0 md:pb-0">
         <div className="w-full h-full max-w-4xl mx-auto px-4 md:px-0 flex flex-col items-center">
           <div className="text-center mt-10 mb-6">
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-foreground">
               {section.title}
             </h1>
-            <p className="text-base text-muted-foreground max-w-5xl mx-auto leading-relaxed">
+            <p className="text-base text-foreground max-w-5xl">
               {section.description}
             </p>
           </div>
@@ -141,33 +141,33 @@ export default function NanoBananaBanner({
             className="w-full"
             onValueChange={setActiveTab}
           >
-            <TabsList className="grid w-full max-w-lg mx-auto grid-cols-2 mb-9 p-1 bg-gray-800/50 rounded-xl">
+            <TabsList className="grid w-full max-w-lg mx-auto grid-cols-2 mb-9 p-1 bg-background/50 rounded-xl">
               <TabsTrigger
                 value="text-to-image"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary data-[state=active]:text-primary-foreground transition-all duration-300"
               >
                 {section.textToImageTab}
               </TabsTrigger>
               <TabsTrigger
                 value="image-to-image"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary data-[state=active]:text-primary-foreground transition-all duration-300"
               >
                 {section.imageToImageTab}
               </TabsTrigger>
             </TabsList>
 
-            <div className="bg-gray-900 rounded-2xl p-6 md:p-6 border border-gray-800">
+            <div className="bg-card rounded-2xl p-6 md:p-6 border border-border">
               <TabsContent
                 value="text-to-image"
                 className="mt-0 animate-in fade-in-50 duration-300"
               >
                 <div className="mb-6">
-                  <h2 className="text-xl font-semibold mb-4 text-white">
+                  <h2 className="text-xl font-semibold mb-4 text-card-foreground">
                     {section.textToImageTab}
                   </h2>
 
                   <div className="mb-3 flex items-center justify-between">
-                    <div className="text-sm font-medium text-gray-300">
+                    <div className="text-sm font-medium text-muted-foreground">
                       Prompt
                     </div>
                     <div className="flex items-center space-x-3">
@@ -177,7 +177,7 @@ export default function NanoBananaBanner({
                           alt="Google Nano Banana"
                           className="h-6 w-6"
                         />
-                        <span className="text-sm text-gray-400">
+                        <span className="text-sm text-muted-foreground">
                           Google Nano Banana
                         </span>
                       </div>
@@ -186,7 +186,7 @@ export default function NanoBananaBanner({
 
                   <Textarea
                     placeholder={section.promptPlaceholder}
-                    className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto min-h-[150px] max-h-[300px]"
+                    className="resize-none bg-input border-border text-foreground placeholder:text-muted-foreground mt-0 overflow-y-auto min-h-[150px] max-h-[300px]"
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                   />
@@ -197,7 +197,7 @@ export default function NanoBananaBanner({
                         prompt.length > 1800
                           ? "text-amber-400"
                           : prompt.length > 1900
-                          ? "text-red-400"
+                          ? "text-destructive"
                           : ""
                       }`}
                     >
@@ -215,7 +215,7 @@ export default function NanoBananaBanner({
                     }`}
                   >
                     <Button
-                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-700/30 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+                      className="w-full bg-gradient-to-r from-primary to-primary hover:from-primary hover:to-primary text-primary-foreground font-medium py-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/30 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
                       disabled={!prompt.trim() || prompt.trim().length > 1000}
                       onClick={handleGenerate}
                     >
@@ -251,12 +251,12 @@ export default function NanoBananaBanner({
                 className="mt-0 animate-in fade-in-50 duration-300"
               >
                 <div className="mb-6">
-                  <h2 className="text-xl font-semibold mb-4 text-white">
+                  <h2 className="text-xl font-semibold mb-4 text-card-foreground">
                     {section.imageToImageTab}
                   </h2>
 
                   <div className="mb-3 flex items-center justify-between">
-                    <div className="text-sm font-medium text-gray-300">
+                    <div className="text-sm font-medium text-muted-foreground">
                       Image
                     </div>
                     <div className="flex items-center space-x-3">
@@ -266,7 +266,7 @@ export default function NanoBananaBanner({
                           alt="Google Nano Banana"
                           className="h-6 w-6"
                         />
-                        <span className="text-sm text-gray-400">
+                        <span className="text-sm text-muted-foreground">
                           Google Nano Banana
                         </span>
                       </div>
@@ -285,10 +285,10 @@ export default function NanoBananaBanner({
                   <div
                     className={`flex justify-center items-center border-2 border-dashed rounded-xl min-h-[150px] max-h-[300px] transition-all duration-300 ${
                       isDragging
-                        ? "border-purple-500 bg-purple-900/10"
+                        ? "border-primary bg-primary/10"
                         : selectedImage
                         ? "border-green-500"
-                        : "border-gray-700 hover:border-gray-600"
+                        : "border-border hover:border-muted"
                     }`}
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
@@ -297,13 +297,13 @@ export default function NanoBananaBanner({
                   >
                     {selectedImage ? (
                       <div className="relative w-full h-full p-2 flex items-center justify-center overflow-hidden">
-                        <div className="absolute top-2 right-2 z-10 bg-gray-900/80 p-1 rounded-full">
+                        <div className="absolute top-2 right-2 z-10 bg-background/80 p-1 rounded-full">
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               removeImage();
                             }}
-                            className="text-gray-400 hover:text-white transition-colors"
+                            className="text-muted-foreground hover:text-foreground transition-colors"
                             aria-label="Remove image"
                           >
                             <svg
@@ -343,8 +343,8 @@ export default function NanoBananaBanner({
                             strokeLinejoin="round"
                             className={`transition-all duration-300 ${
                               isDragging
-                                ? "text-purple-400 scale-110"
-                                : "text-gray-400 group-hover:text-gray-300"
+                                ? "text-primary scale-110"
+                                : "text-muted-foreground group-hover:text-foreground"
                             }`}
                           >
                             <rect
@@ -359,7 +359,7 @@ export default function NanoBananaBanner({
                             <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
                           </svg>
                         </div>
-                        <p className="text-sm text-muted-foreground group-hover:text-white transition-colors duration-300">
+                        <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300">
                           {section.imageUploadPlaceholder}
                         </p>
                       </div>
@@ -368,7 +368,7 @@ export default function NanoBananaBanner({
 
                   {/* 错误消息 */}
                   {error && (
-                    <div className="mt-3 text-sm text-red-400 animate-in fade-in-50 duration-300">
+                    <div className="mt-3 text-sm text-destructive animate-in fade-in-50 duration-300">
                       {error}
                     </div>
                   )}
@@ -388,13 +388,13 @@ export default function NanoBananaBanner({
                     <Button
                       className={`w-full bg-gradient-to-r ${
                         imageFile
-                          ? "from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
-                          : "from-blue-600/70 to-purple-600/70 text-white/80 font-medium"
+                          ? "from-primary to-primary hover:from-primary hover:to-primary text-primary-foreground font-medium"
+                          : "from-primary/70 to-primary/70 text-primary-foreground/80 font-medium"
                       } py-6 rounded-xl transition-all duration-300 transform ${
                         imageFile
-                          ? "hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-700/30"
+                          ? "hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/30"
                           : ""
-                      } focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900`}
+                      } focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background`}
                       disabled={!imageFile}
                       onClick={handleGenerate}
                     >

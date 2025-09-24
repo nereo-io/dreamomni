@@ -25,9 +25,10 @@ export interface FeatureItem {
 }
 
 export interface TableCell {
-  type: "text" | "image";
+  type: "text" | "image" | "video";
   content: string;
   altText?: string; // 仅图片类型需要
+  poster?: string; // 视频封面图URL，可选
 }
 
 export interface TableHeader {

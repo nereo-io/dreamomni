@@ -7,6 +7,7 @@ import {
   TableData,
   ModelKeyFeaturesProps,
   DynamicTableProps,
+  TableCell,
 } from "@/types/pages/nano-banana";
 
 const DynamicTable: React.FC<DynamicTableProps> = ({ tableData }) => {
@@ -38,15 +39,78 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ tableData }) => {
   const columnWidth =
     headers.length > 0 ? `${1000 / headers.length}px` : "auto";
 
+  // 创建一个辅助函数来渲染单元格内容，提高代码可维护性
+  const renderCellContent = (
+    cell: TableCell, // 修改类型为TableCell
+    rowIndex: number,
+    cellIndex: number
+  ) => {
+    // 通用的容器类名
+    const containerBaseClasses =
+      "bg-secondary/60 p-3 rounded-lg overflow-hidden shadow-inner";
+
+    switch (cell.type) {
+      case "image":
+        return (
+          <div className={containerBaseClasses}>
+            <Image
+              src={cell.content}
+              alt={cell.altText || ""} // 添加默认值避免undefined
+              width={200}
+              height={200}
+              className="rounded object-cover w-full h-full"
+              style={{ aspectRatio: "1/1" }}
+              loading="lazy" // 添加懒加载提高性能
+            />
+          </div>
+        );
+
+      case "video":
+        return (
+          <div className={containerBaseClasses}>
+            <video
+              src={cell.content}
+              controls
+              className="rounded w-full h-auto"
+              poster={cell.poster}
+              aria-label={`Video content ${rowIndex + 1}-${cellIndex + 1}`} // 提高可访问性
+            />
+          </div>
+        );
+
+      case "text":
+        return (
+          <div
+            className={`${containerBaseClasses} p-4 h-full flex items-center`}
+          >
+            <p className="text-foreground text-sm font-medium">
+              {cell.content}
+            </p>
+          </div>
+        );
+
+      default:
+        // 添加类型保护，防止意外的单元格类型
+        console.warn(`Unsupported cell type: ${(cell as any).type}`);
+        return (
+          <div
+            className={`${containerBaseClasses} p-4 h-full flex items-center justify-center text-muted-foreground`}
+          >
+            <span className="text-sm">Unsupported content</span>
+          </div>
+        );
+    }
+  };
+
   return (
-    <div className="overflow-x-auto rounded-xl border border-gray-700/50 shadow-xl bg-gray-900/80 backdrop-blur-md transition-all duration-300 hover:shadow-2xl hover:border-gray-600">
+    <div className="overflow-x-auto rounded-xl border border-border shadow-xl bg-card backdrop-blur-md transition-all duration-300 hover:shadow-2xl">
       <table className="w-full border-collapse table-fixed">
         <thead>
-          <tr className="bg-gray-800/90">
+          <tr className="bg-secondary/80">
             {headers.map((header, index) => (
               <th
                 key={index}
-                className="p-5 text-center text-sm font-medium text-white border-b border-gray-700/50 transition-colors duration-300 hover:bg-gray-700/70"
+                className="p-5 text-center text-sm font-medium text-card-foreground border-b border-border transition-colors duration-300 hover:bg-secondary"
                 style={{ width: columnWidth }}
               >
                 {header.title}
@@ -58,37 +122,19 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ tableData }) => {
           {normalizedRows.map((row, rowIndex) => (
             <tr
               key={rowIndex}
-              className={`transition-colors duration-300 hover:bg-gray-800/50 ${
-                rowIndex % 2 === 0 ? "bg-gray-900/40" : "bg-gray-900/20"
+              className={`transition-colors duration-300 hover:bg-secondary/30 ${
+                rowIndex % 2 === 0 ? "bg-background/40" : "bg-background/20"
               }`}
             >
               {row.cells.map((cell, cellIndex) => (
                 <td
                   key={cellIndex}
-                  className="p-5 border-b border-gray-700/50 transition-all duration-300"
+                  className="p-5 border-b border-border transition-all duration-300"
                   style={{ width: columnWidth }}
+                  role="gridcell" // 提高可访问性
+                  aria-colindex={cellIndex + 1}
                 >
-                  {cell.type === "image" ? (
-                    <div className="bg-gray-800/60 p-3 rounded-lg overflow-hidden shadow-inner transition-all duration-300 hover:shadow-lg">
-                      <Image
-                        src={cell.content}
-                        alt={
-                          cell.altText ||
-                          `Image ${rowIndex + 1}-${cellIndex + 1}`
-                        }
-                        width={200}
-                        height={200}
-                        className="rounded object-cover w-full h-full transition-transform duration-500 hover:scale-110"
-                        style={{ aspectRatio: "1/1" }}
-                      />
-                    </div>
-                  ) : (
-                    <div className="bg-gray-800/60 p-4 rounded-lg h-full flex items-center shadow-inner transition-all duration-300 hover:shadow-lg hover:bg-gray-800/80">
-                      <p className="text-gray-200 text-sm font-medium transition-colors duration-300 hover:text-white">
-                        {cell.content}
-                      </p>
-                    </div>
-                  )}
+                  {renderCellContent(cell, rowIndex, cellIndex)}
                 </td>
               ))}
             </tr>
@@ -161,14 +207,12 @@ const FeatureItemComponent: React.FC<FeatureItem & { index: number }> =
         <a
           href={`#detail-${index}`}
           onClick={scrollToDetail}
-          className="block p-2 rounded-lg hover:bg-emerald-900/20 transition-all duration-300 cursor-pointer group"
+          className="block p-2 rounded-lg hover:bg-primary/10 transition-all duration-300 cursor-pointer group"
         >
-          <span className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600 transition-all duration-300">
+          <span className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary/80 to-primary transition-all duration-300">
             {title}：
           </span>
-          <span className="ml-2 text-gray-300 group-hover:text-gray-200">
-            {description}
-          </span>
+          <span className="ml-2 text-foreground">{description}</span>
         </a>
       </li>
     );
@@ -293,13 +337,13 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
   }, []);
 
   return (
-    <div className="min-h-screen text-white py-20 bg-gray-900">
+    <div className="min-h-screen text-foreground py-20 bg-gray-900">
       <div className="container mx-auto px-4">
         {/* Key Features Section */}
         <div className="mb-20">
           <h2
             ref={titleRef}
-            className={`text-4xl md:text-5xl font-bold mb-10 text-center text-white transition-all duration-1000 ease-out transform ${
+            className={`text-4xl md:text-5xl font-bold mb-10 text-center text-foreground transition-all duration-1000 ease-out transform ${
               isTitleVisible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-[-30px] opacity-0"
@@ -307,7 +351,7 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
           >
             {safeSection.title}
           </h2>
-          <div className="bg-gray-900 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50 mx-auto shadow-xl hover:shadow-2xl transition-all duration-500 hover:border-emerald-500/20">
+          <div className="bg-card backdrop-blur-sm rounded-2xl p-8 border border-border mx-auto shadow-xl hover:shadow-2xl transition-all duration-500 hover:border-primary/20">
             <ul>
               {safeSection.features.map((feature, index) => (
                 <FeatureItemComponent
@@ -330,12 +374,12 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
             <div className="container mx-auto px-4">
               <div className="max-w-7xl mx-auto">
                 <h2
-                  className="text-3xl md:text-4xl font-bold mb-6 text-white"
+                  className="text-3xl md:text-4xl font-bold mb-6 text-foreground"
                   id={`detail-title-${index}`}
                 >
                   {item.title}
                 </h2>
-                <p className="text-white text-lg mb-12 max-w-6xl leading-relaxed">
+                <p className="text-foreground text-lg mb-12 max-w-6xl leading-relaxed">
                   {item.description}
                 </p>
                 {item.type === "table" && (
@@ -344,7 +388,7 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
                   </div>
                 )}
                 {item.type === "video" && (
-                  <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 shadow-xl max-w-3xl mx-auto transition-all duration-500 hover:shadow-2xl hover:border-blue-500/20">
+                  <div className="bg-secondary/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-border shadow-xl max-w-3xl mx-auto transition-all duration-500 hover:shadow-2xl hover:border-primary/20">
                     {item.poster ? (
                       // 如果提供了封面图，则使用原始video标签
                       <video
