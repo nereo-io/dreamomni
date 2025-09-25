@@ -240,7 +240,7 @@ export class PayssionProvider extends BasePaymentProvider {
         description:
           request.description || `Subscription for ${request.userEmail}`,
         interval_unit: request.interval,
-        times: 1, // 测试环境Payssion V2 要求必须为 1；正式环境为 5
+        times: 5, // 测试环境Payssion V2 要求必须为 1；正式环境为 5
         metadata: request.metadata || {},
       };
 
