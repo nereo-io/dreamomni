@@ -240,7 +240,7 @@ export class PayssionProvider extends BasePaymentProvider {
         description:
           request.description || `Subscription for ${request.userEmail}`,
         interval_unit: request.interval,
-        times: 1, // 测试环境Payssion V2 要求必须为 1；正式环境为 5
+        times: 5, // 测试环境Payssion V2 要求必须为 1；正式环境为 5
         metadata: request.metadata || {},
       };
 
@@ -703,16 +703,21 @@ export class PayssionProvider extends BasePaymentProvider {
     const [primaryMessage = failureCode] = rawFailureMessage.split("|");
 
     const failureMessageMap: Record<string, string> = {
-      insufficient_funds: "Недостаточно средств на счёте. Пополните баланс и попробуйте снова.",
-      card_declined: "Карта отклонена банком. Обратитесь в банк или используйте другую карту.",
-      payment_network: "Ошибка платёжной сети. Попробуйте через несколько минут.",
+      insufficient_funds:
+        "Недостаточно средств на счёте. Пополните баланс и попробуйте снова.",
+      card_declined:
+        "Карта отклонена банком. Обратитесь в банк или используйте другую карту.",
+      payment_network:
+        "Ошибка платёжной сети. Попробуйте через несколько минут.",
       expired_card: "Срок действия карты истёк. Используйте другую карту.",
       incorrect_cvc: "Неверный CVC-код карты. Проверьте и введите заново.",
       amount_too_small: "Сумма платежа слишком мала. Минимальная сумма: 100 ₽.",
       cancelled_by_user: "Платёж отменён. Вы можете повторить попытку.",
       authentication_failed: "Ошибка аутентификации. Проверьте данные карты.",
-      processing_error: "Ошибка обработки платежа. Попробуйте другой способ оплаты.",
-      unknown_error: "Платёж не прошёл. Попробуйте снова или обратитесь в поддержку.",
+      processing_error:
+        "Ошибка обработки платежа. Попробуйте другой способ оплаты.",
+      unknown_error:
+        "Платёж не прошёл. Попробуйте снова или обратитесь в поддержку.",
     };
 
     const displayMessage = failureMessageMap[failureCode] || primaryMessage;
