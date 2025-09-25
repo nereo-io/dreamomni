@@ -47,8 +47,6 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
     // 从 image_size 字段读取图片比例
     const aspectRatio = image?.image_size;
     
-    console.log('🔍 Image aspect ratio:', aspectRatio);
-    
     if (!aspectRatio) return 'w-1/2 aspect-square'; // 默认正方形
     
     let aspectClass;
@@ -78,8 +76,6 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
         aspectClass = 'w-1/2 aspect-square'; // 默认正方形
         break;
     }
-    
-    console.log('🔍 Generated aspect class:', aspectClass);
     return aspectClass;
   };
   const isCompleted = status === "completed" || status === "saved_to_r2";
