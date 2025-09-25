@@ -396,6 +396,37 @@ export default function VideoGenerator({
     adjustTextareaHeight();
   }, [adjustTextareaHeight]);
 
+  // 从 localStorage 获取数据并回填表单
+  useEffect(() => {
+    // 检查 URL 中是否包含目标路径
+    const pathname = window.location.pathname;
+    if (!pathname.includes('/text-to-video') && !pathname.includes('/image-to-video')) {
+      return;
+    }
+
+    // 对于文本模式
+    if (mode === 'text-to-video') {
+      const savedPrompt = localStorage.getItem('modelLandingPagePrompt');
+      if (savedPrompt) {
+        setDescription(savedPrompt);
+        // 获取后清空 localStorage 中的数据，避免重复填充
+        localStorage.removeItem('modelLandingPagePrompt');
+      }
+    }
+
+    // 对于图像模式
+    if (mode === 'image-to-video') {
+      const savedImage = localStorage.getItem('modelLandingPageImage');
+      if (savedImage) {
+        setSelectedImage(savedImage);
+        setImagePreview(savedImage);
+        setUploadedImageUrl(savedImage);
+        // 获取后清空 localStorage 中的数据，避免重复填充
+        localStorage.removeItem('modelLandingPageImage');
+      }
+    }
+  }, []);
+
   // Handle image upload with enhanced validation
   const handleImageUpload = useCallback(
     async (file: File) => {
