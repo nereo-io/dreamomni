@@ -3,8 +3,7 @@ import { Pricing } from "@/types/blocks/pricing";
 import { ClaudeSonnetFeaturesBlockTranslations } from "@/types/blocks/claude-sonnet-features";
 import { TextToVideoPage } from "@/types/pages/text-to-video";
 import { ImageToVideoPage } from "@/types/pages/image-to-video";
-import { NanoBananaLandingPage } from "@/types/pages/model-landing-page";
-import { WanAILandingPage } from "@/types/pages/wan-2-5";
+import { ModelLandingPage } from "@/types/pages/model-landing-page";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -23,7 +22,7 @@ export async function getLandingPage(locale: string): Promise<LandingPage> {
 }
 export async function getNanoBananaLandingPage(
   locale: string
-): Promise<NanoBananaLandingPage> {
+): Promise<ModelLandingPage> {
   try {
     if (locale === "zh-CN") {
       locale = "zh";
@@ -34,14 +33,14 @@ export async function getNanoBananaLandingPage(
   } catch (error) {
     console.warn(`Failed to load ${locale}.json, falling back to en.json`);
     return await import("@/i18n/pages/nano-banana/en.json").then(
-      (module) => module.default as NanoBananaLandingPage
+      (module) => module.default as ModelLandingPage
     );
   }
 }
 
 export async function getWanAILandingPage(
   locale: string
-): Promise<WanAILandingPage> {
+): Promise<ModelLandingPage> {
   try {
     if (locale === "zh-CN") {
       locale = "zh";
@@ -52,7 +51,7 @@ export async function getWanAILandingPage(
   } catch (error) {
     console.warn(`Failed to load ${locale}.json, falling back to en.json`);
     return await import("@/i18n/pages/wan-2-5/en.json").then(
-      (module) => module.default as WanAILandingPage
+      (module) => module.default as ModelLandingPage
     );
   }
 }
