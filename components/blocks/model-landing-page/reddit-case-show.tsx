@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { RedditCaseShowProps } from "@/types/pages/nano-banana";
+import { RedditCaseShowProps } from "@/types/pages/model-landing-page";
 
 export default function RedditCaseShow({ section }: RedditCaseShowProps) {
   useEffect(() => {

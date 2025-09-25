@@ -4,8 +4,8 @@ import { RainbowButton } from "@/components/ui/rainbow-button";
 
 import type {
   Step as StepType,
-  NanoBananaUsageGuideProps,
-} from "@/types/pages/nano-banana";
+  ModelUsageGuideProps,
+} from "@/types/pages/model-landing-page";
 
 const Step: React.FC<StepType> = ({ number, title, description }) => {
   return (
@@ -21,9 +21,7 @@ const Step: React.FC<StepType> = ({ number, title, description }) => {
   );
 };
 
-export default function NanoBananaUsageGuide({
-  section,
-}: NanoBananaUsageGuideProps) {
+export default function ModelUsageGuide({ section }: ModelUsageGuideProps) {
   const handleButtonClick = () => {
     window.scrollTo({
       top: 0,

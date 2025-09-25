@@ -5,13 +5,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
-import { BannerSection, Tab } from "@/types/pages/nano-banana";
+import { BannerSection, Tab } from "@/types/pages/model-landing-page";
 
-export default function NanoBananaBanner({
-  section,
-}: {
-  section: BannerSection;
-}) {
+export default function ModelBanner({ section }: { section: BannerSection }) {
   const [prompt, setPrompt] = useState("");
   const [activeTab, setActiveTab] = useState<string>(
     section.tabs[0]?.value || "text-to-image"
@@ -181,17 +177,17 @@ export default function NanoBananaBanner({
 
           <div className="mb-3 flex items-center justify-between">
             <div className="text-sm font-medium text-muted-foreground">
-              Image
+              {tab.subTitle}
             </div>
             <div className="flex items-center space-x-3">
               <div className="flex items-center space-x-2">
                 <img
-                  src="https://videocdn.pollo.ai/web-cdn/pollo/test/cm97uxg1v000m1490lu4pqgla/image/1756783760309-5e0cde26-2d05-44c8-8b53-0bb58d05f252.svg"
+                  src={tab.modelLogo}
                   alt="Google Nano Banana"
                   className="h-6 w-6"
                 />
                 <span className="text-sm text-muted-foreground">
-                  Google Nano Banana
+                  {tab.modelName}
                 </span>
               </div>
             </div>

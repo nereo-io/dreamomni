@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import type {
   VideoCard as VideoCardType,
   YouTubeCaseShowProps,
-} from "@/types/pages/nano-banana";
+} from "@/types/pages/model-landing-page";
 
 // 导航按钮组件
 const NavigationButton: React.FC<{

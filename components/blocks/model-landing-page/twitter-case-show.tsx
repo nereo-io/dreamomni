@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { TwitterCaseShowProps } from "@/types/pages/nano-banana";
+import { TwitterCaseShowProps } from "@/types/pages/model-landing-page";
 
 export default function TwitterCaseShow({ section }: TwitterCaseShowProps) {
   // 存储每个iframe的引用和动态尺寸

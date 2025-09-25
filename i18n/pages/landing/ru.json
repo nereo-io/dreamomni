@@ -253,6 +253,16 @@
           ]
         },
         {
+          "title": "Видеомодели",
+          "children": [
+            {
+              "title": "Wan AI",
+              "url": "/wan-2-5",
+              "target": "_self"
+            }
+          ]
+        },
+        {
           "title": "Модели изображений",
           "children": [
             {
