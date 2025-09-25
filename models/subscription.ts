@@ -10,7 +10,7 @@ export interface Subscription {
   plan_type: 'monthly' | 'yearly';
   amount: number;
   currency: string;
-  status: 'pending' | 'active' | 'canceled' | 'expired';
+  status: 'pending' | 'active' | 'canceled' | 'expired' | 'past_due';
   current_period_start?: string;
   current_period_end?: string;
   canceled_at?: string;

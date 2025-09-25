@@ -240,7 +240,7 @@ export class PayssionProvider extends BasePaymentProvider {
         description:
           request.description || `Subscription for ${request.userEmail}`,
         interval_unit: request.interval,
-        times: 5, // 测试环境Payssion V2 要求必须为 1；正式环境为 5
+        times: 1, // 测试环境Payssion V2 要求必须为 1；正式环境为 5
         metadata: request.metadata || {},
       };
 
@@ -343,6 +343,7 @@ export class PayssionProvider extends BasePaymentProvider {
               webhookData.object?.failure_code || "Unknown reason"
             }`
           );
+          await this.handlePaymentFailed(webhookData);
           break;
 
         case "subscription.canceled":
@@ -684,6 +685,67 @@ export class PayssionProvider extends BasePaymentProvider {
     } catch (error: any) {
       console.error("Subscription cancellation error:", error);
       return false;
+    }
+  }
+
+  /**
+   * 处理支付失败事件 - 记录失败原因并更新订阅状态
+   */
+  private async handlePaymentFailed(data: any) {
+    const paymentObject = data.object;
+    const subscriptionId = paymentObject?.source_id;
+    const metadata = paymentObject?.metadata || {};
+    const orderNo = metadata?.order_no;
+    const failureCode = paymentObject?.failure_code || "unknown_error";
+
+    // Payssion 的 failure_message 形如 "insufficient_funds|payment_network"
+    const rawFailureMessage = paymentObject?.failure_message || "";
+    const [primaryMessage = failureCode] = rawFailureMessage.split("|");
+
+    const failureMessageMap: Record<string, string> = {
+      insufficient_funds: "Insufficient funds",
+      card_declined: "Card was declined",
+      payment_network: "Payment network error",
+      expired_card: "Card has expired",
+      incorrect_cvc: "Incorrect card CVC",
+    };
+
+    const displayMessage = failureMessageMap[failureCode] || primaryMessage;
+
+    if (subscriptionId) {
+      try {
+        const { updateSubscriptionStatus } = await import(
+          "@/models/subscription"
+        );
+        await updateSubscriptionStatus(subscriptionId, "past_due");
+      } catch (error) {
+        console.error(
+          "Failed to update subscription status after payment failure",
+          {
+            subscriptionId,
+            error,
+          }
+        );
+      }
+    }
+
+    if (orderNo) {
+      try {
+        const { recordOrderPaymentFailure } = await import("@/models/order");
+        await recordOrderPaymentFailure(orderNo, {
+          code: failureCode,
+          message: displayMessage,
+          rawMessage: rawFailureMessage,
+          provider: this.name,
+          failureAt: paymentObject?.time_created,
+          eventId: data.id,
+        });
+      } catch (error) {
+        console.error("Failed to record payment failure on order", {
+          orderNo,
+          error,
+        });
+      }
     }
   }
 }

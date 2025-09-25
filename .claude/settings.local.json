@@ -41,7 +41,8 @@
       "Bash(find:*)",
       "Bash(git push:*)",
       "Bash(git stash:*)",
-      "WebFetch(domain:www.alibabacloud.com)"
+      "WebFetch(domain:www.alibabacloud.com)",
+      "Bash(cp:*)"
     ],
     "deny": [],
     "ask": [],

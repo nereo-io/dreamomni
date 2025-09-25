@@ -31,4 +31,5 @@ export interface Order {
   payment_provider_fee?: number;
   // Yandex Metrica tracking
   client_id?: string | null;
+  subscription_status?: string;
 }

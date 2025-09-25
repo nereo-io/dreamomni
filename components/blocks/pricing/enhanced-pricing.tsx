@@ -74,11 +74,11 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     return "";
   }
 
-  const checkRecentPayment = useCallback(async (): Promise<boolean> => {
+  const checkRecentPayment = useCallback(async (): Promise<"success" | "failure" | "none"> => {
     const paymentPending = localStorage.getItem("veo3_payment_pending");
     const paymentTimestamp = localStorage.getItem("veo3_payment_timestamp");
     if (!paymentPending || !paymentTimestamp) {
-      return false;
+      return "none";
     }
 
     try {
@@ -87,29 +87,42 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       );
       const result = await response.json();
 
-      if (result.code === 0 && result.data.hasRecentPayment) {
-        const paymentInfo = result.data.paymentInfo;
+      if (result.code === 0 && result.data) {
+        if (result.data.hasRecentPayment) {
+          const paymentInfo = result.data.paymentInfo;
 
-        setSuccessInfo({
-          planName: paymentInfo.planName,
-          credits: paymentInfo.credits,
-          nextBilling: calculateNextBilling(
-            paymentInfo.interval,
-            paymentInfo.paidAt
-          ),
-        });
+          setSuccessInfo({
+            planName: paymentInfo.planName,
+            credits: paymentInfo.credits,
+            nextBilling: calculateNextBilling(
+              paymentInfo.interval,
+              paymentInfo.paidAt
+            ),
+          });
 
-        setShowSuccessModal(true);
-        localStorage.removeItem("veo3_payment_pending");
-        localStorage.removeItem("veo3_payment_timestamp");
-        localStorage.removeItem("veo3_payment_info");
-        return true;
+          setShowSuccessModal(true);
+          localStorage.removeItem("veo3_payment_pending");
+          localStorage.removeItem("veo3_payment_timestamp");
+          localStorage.removeItem("veo3_payment_info");
+          return "success";
+        }
+
+        if (result.data.hasFailedPayment && result.data.failureInfo) {
+          const failureInfo = result.data.failureInfo;
+          const message = failureInfo.message || failureInfo.code || "Payment failed";
+
+          toast.error(message);
+          localStorage.removeItem("veo3_payment_pending");
+          localStorage.removeItem("veo3_payment_timestamp");
+          localStorage.removeItem("veo3_payment_info");
+          return "failure";
+        }
       }
     } catch (error) {
       console.error("检查支付状态失败:", error);
     }
 
-    return false;
+    return "none";
   }, []);
 
   // 获取支持订阅的支付方式
@@ -306,8 +319,8 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         if (redirect_url) {
           window.location.href = redirect_url;
         } else if (success && subscriptionId) {
-          const confirmed = await checkRecentPayment();
-          if (!confirmed) {
+          const status = await checkRecentPayment();
+          if (status === "none") {
             window.setTimeout(() => {
               checkRecentPayment();
             }, 2000);
@@ -322,8 +335,8 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
           // 需要用户授权，跳转到授权页面
           window.location.href = redirect_url;
         } else if (success && subscriptionId) {
-          const confirmed = await checkRecentPayment();
-          if (!confirmed) {
+          const status = await checkRecentPayment();
+          if (status === "none") {
             window.setTimeout(() => {
               checkRecentPayment();
             }, 2000);
