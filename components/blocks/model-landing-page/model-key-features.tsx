@@ -8,7 +8,7 @@ import {
   ModelKeyFeaturesProps,
   DynamicTableProps,
   TableCell,
-} from "@/types/pages/nano-banana";
+} from "@/types/pages/model-landing-page";
 
 const DynamicTable: React.FC<DynamicTableProps> = ({ tableData }) => {
   const { headers, rows } = tableData;

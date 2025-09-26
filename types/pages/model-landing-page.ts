@@ -1,6 +1,6 @@
 import { Section } from "@/types/blocks/section";
 
-// NanoBananaBanner
+// ModelBanner
 export interface Tab {
   type: "text" | "image";
   title: string;
@@ -73,7 +73,7 @@ export interface DynamicTableProps {
   tableData: TableData;
 }
 
-// NanoBananaUsageGuide
+// ModelUsageGuide
 export interface Step {
   number: string;
   title: string;
@@ -87,7 +87,7 @@ export interface UsageGuideSection {
   buttonText: string;
 }
 
-export interface NanoBananaUsageGuideProps {
+export interface ModelUsageGuideProps {
   section: UsageGuideSection;
 }
 
@@ -147,18 +147,18 @@ export interface TwitterCaseShowProps {
   section: TwitterCasesSection;
 }
 
-// NanoBananaCta
+// ModelCta
 export interface CtaSection {
   title: string;
   description?: string;
   buttonText: string;
 }
 
-export interface NanoBananaCtaProps {
+export interface ModelCtaProps {
   section: CtaSection;
 }
 
-export interface NanoBananaLandingPage {
+export interface ModelLandingPage {
   banner?: BannerSection;
   partners?: Partner[];
   features?: KeyFeaturesSection;

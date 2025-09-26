@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
-import { Partner } from "@/types/pages/nano-banana";
+import { Partner } from "@/types/pages/model-landing-page";
 
 export default function PartnersScroll({
   className,
@@ -56,9 +56,7 @@ export default function PartnersScroll({
   }, [speed, section]);
 
   return (
-    <div
-      className="w-full overflow-hidden bg-gray-900 py-6 md:py-8 relative"
-    >
+    <div className="w-full overflow-hidden bg-gray-900 py-6 md:py-8 relative">
       <div
         ref={scrollRef}
         className="inline-flex transition-transform duration-0 ease-linear"

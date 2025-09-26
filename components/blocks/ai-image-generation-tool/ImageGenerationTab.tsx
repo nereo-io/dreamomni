@@ -366,7 +366,7 @@ export default function ImageGenerationTab({
           uploadedImages.length
         );
 
-        if (savedImageData && uploadedImages.length === 0) {
+        if (savedImageData) {
           try {
             // Create a Blob from the base64 data
             console.log("Processing image data...");
@@ -399,7 +399,7 @@ export default function ImageGenerationTab({
               // Create a FileList-like object
               const fileList = new DataTransfer();
               fileList.items.add(file);
-
+              console.log("User logged in, creating FileList...");
               // Upload the image
               console.log("Uploading image...");
               handleImageUpload(fileList.files);
@@ -421,7 +421,7 @@ export default function ImageGenerationTab({
     prompt,
     uploadedImages.length,
     handlePromptChange,
-    handleImageUpload,
+    handleImageUpload
   ]);
 
   // Remove uploaded image
