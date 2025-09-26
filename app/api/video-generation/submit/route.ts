@@ -19,6 +19,7 @@ import {
   isVeo3Model,
   isVeo3ApicoreModel,
   isKieAiModel,
+  isSeedanceModel,
   isVeoModel,
   isVolcanoModel,
   isBytePlusModel,
@@ -119,6 +120,9 @@ export async function POST(req: Request) {
       captchaToken, // 新增：CAPTCHA token
       ...otherParams
     } = await req.json();
+
+    const { watermarkEnabled = false, ...additionalParams } =
+      otherParams || {};
 
     // 验证必需参数
     if (!model || !prompt) {
@@ -283,6 +287,13 @@ export async function POST(req: Request) {
       }
     }
 
+    if (watermarkEnabled && isSeedanceModel(finalModel)) {
+      const trimmed = enhancedPrompt.trim();
+      if (!/--wm\s+true\b/i.test(trimmed)) {
+        enhancedPrompt = `${trimmed} --wm true`.trim();
+      }
+    }
+
     // 构建请求输入（使用优化后的提示词）
     const input: any = {
       model: finalModel,
@@ -367,8 +378,8 @@ export async function POST(req: Request) {
         input.image_url = image_url;
       }
       // Kie.ai 支持水印
-      if (otherParams.watermark) {
-        input.watermark = otherParams.watermark;
+      if (additionalParams.watermark) {
+        input.watermark = additionalParams.watermark;
       }
     } else if (isAliModel(finalModel)) {
       // 阿里百炼模型特有参数

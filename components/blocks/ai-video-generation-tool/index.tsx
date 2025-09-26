@@ -181,7 +181,7 @@ export function VideoGenerationTool({
 
     const result = await submitGeneration({
       model: finalParams.model,
-      prompt: finalParams.prompt,
+      prompt: finalParams.prompt.trim(),
       duration: finalParams.duration,
       aspect_ratio: finalParams.aspect_ratio,
       resolution: finalParams.resolution,
@@ -189,6 +189,7 @@ export function VideoGenerationTool({
       enable_prompt_enhancement: finalParams.enable_prompt_enhancement,
       image_url: finalParams.image_url,
       captchaToken: finalParams.captchaToken, // Pass CAPTCHA token
+      watermarkEnabled: finalParams.watermarkEnabled,
       // Pass effect-related params
       ...(effect && { 
         effect_id: effect.id,
@@ -199,8 +200,8 @@ export function VideoGenerationTool({
 
     if (result) {
       // Track video generation success
-      const duration = parseInt(params.duration) || 5;
-      trackVideoGeneration(params.model, duration, params.model);
+      const duration = parseInt(finalParams.duration) || 5;
+      trackVideoGeneration(finalParams.model, duration, finalParams.model);
 
       // Note: First video tracking is handled by video-history component now
 

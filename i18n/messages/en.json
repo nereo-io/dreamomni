@@ -274,6 +274,10 @@
       "portrait": "9:16 Portrait",
       "square": "1:1 Square"
     },
+    "watermark": {
+      "label": "Watermark",
+      "membersOnly": "Only members can remove the watermark."
+    },
     "durations": {
       "5seconds": "5 Seconds",
       "10seconds": "10 Seconds"

@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Play, ImageIcon, X, Coins } from "lucide-react";
+import { Play, ImageIcon, X, Coins, Crown } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import { useTranslations, useLocale } from "next-intl";
@@ -22,6 +22,7 @@ import {
   getImageToVideoModels,
   calculateCredits,
   getVideoModel,
+  isSeedanceModel,
 } from "@/config/video-models";
 import { validateImage } from "@/config/image-validation-rules";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
@@ -42,6 +43,7 @@ export interface VideoGenerationParams {
   effect_id?: string;
   pixverse_img_id?: number;
   captchaToken?: string;
+  watermarkEnabled?: boolean;
 }
 
 interface VideoGeneratorProps {
@@ -117,6 +119,7 @@ export default function VideoGenerator({
     effect || null
   );
   const [pixverseImgId, setPixverseImgId] = useState<number | null>(null);
+  const [watermarkEnabled, setWatermarkEnabled] = useState(false);
   
   // CAPTCHA related states
   const [showCaptchaModal, setShowCaptchaModal] = useState(false);
@@ -125,8 +128,11 @@ export default function VideoGenerator({
   // Textarea 引用
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const { user, setShowSignModal, setShowPricingModal } = useAppContext();
+  const { user, setShowSignModal, setShowPricingModal, membership } =
+    useAppContext();
   const { leftCredits, updateLeftCredits } = useCredits();
+  const isMember = membership?.status === "active";
+  const isSeedanceSelected = isSeedanceModel(selectedModel);
 
   // 用户登录时获取积分
   useEffect(() => {
@@ -300,6 +306,20 @@ export default function VideoGenerator({
     setCurrentEffect(effect || null);
   }, [effect]);
 
+  // Seedance 模型水印开关默认行为
+  useEffect(() => {
+    if (!isSeedanceSelected) {
+      setWatermarkEnabled(false);
+      return;
+    }
+
+    if (isMember) {
+      setWatermarkEnabled(false);
+    } else {
+      setWatermarkEnabled(true);
+    }
+  }, [isSeedanceSelected, isMember]);
+
   // 确保默认选项被选中
   useEffect(() => {
     if (selectedModelConfig) {
@@ -389,6 +409,26 @@ export default function VideoGenerator({
       setTimeout(adjustTextareaHeight, 0);
     },
     [adjustTextareaHeight]
+  );
+
+  const handleWatermarkToggle = useCallback(
+    (nextValue: boolean) => {
+      if (!isSeedanceSelected) {
+        setWatermarkEnabled(nextValue);
+        return;
+      }
+
+      if (isMember) {
+        setWatermarkEnabled(nextValue);
+        return;
+      }
+
+      if (!nextValue) {
+        toast.info(t("watermark.membersOnly"));
+      }
+      setWatermarkEnabled(true);
+    },
+    [isSeedanceSelected, isMember, t]
   );
 
   // 初始化 textarea 高度
@@ -546,6 +586,7 @@ export default function VideoGenerator({
       effect_id: currentEffect?.id,
       image_url: imageUrl,
       pixverse_img_id: pixverseImgId || undefined,
+      watermarkEnabled: isSeedanceSelected ? watermarkEnabled : false,
     };
   };
 
@@ -1011,6 +1052,24 @@ export default function VideoGenerator({
                   ))}
                 </div>
               </div>
+
+              {isSeedanceSelected && !isMember && (
+                <div className="mb-4">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-sm text-gray-300">
+                      {t("watermark.label")}
+                    </span>
+                    <div className="flex items-center gap-3">
+                      <Crown className="h-3.5 w-3.5 text-amber-300" />
+                      <Switch
+                        checked={watermarkEnabled}
+                        onCheckedChange={handleWatermarkToggle}
+                        className="data-[state=checked]:bg-primary scale-75"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
