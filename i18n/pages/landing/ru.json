@@ -236,25 +236,40 @@
           "title": "Инструменты для видео",
           "children": [
             {
-              "title": "Изображение в видео",
-              "url": "/image-to-video",
-              "target": "_self"
-            },
-            {
               "title": "Текст в видео",
               "url": "/text-to-video",
               "target": "_self"
             },
             {
-              "title": "Мои творения",
-              "url": "/history",
+              "title": "Изображение в видео",
+              "url": "/image-to-video",
               "target": "_self"
             }
           ]
         },
         {
-          "title": "Модели изображений",
+          "title": "Инструменты для изображений",
           "children": [
+            {
+              "title": "Текст в изображение",
+              "url": "/text-to-image",
+              "target": "_self"
+            },
+            {
+              "title": "Изображение в изображение",
+              "url": "/image-to-image",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "ИИ Модели",
+          "children": [
+            {
+              "title": "WAN-2.5",
+              "url": "/wan-2-5",
+              "target": "_self"
+            },
             {
               "title": "Nano Banana",
               "url": "/nano-banana",
@@ -265,6 +280,11 @@
         {
           "title": "Ресурсы",
           "children": [
+            {
+              "title": "Мои творения",
+              "url": "/history",
+              "target": "_self"
+            },
             {
               "title": "Цены",
               "url": "/pricing",

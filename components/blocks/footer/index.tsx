@@ -7,7 +7,7 @@ export default function Footer({ footer }: { footer: FooterType }) {
   }
 
   return (
-    <section id={footer.name} className="py-16 bg-background">
+    <section id={footer.name} className="py-16 bg-gray-950">
       <div className="max-w-7xl mx-auto px-8">
         <footer>
           <div className="flex flex-col items-center justify-between gap-8 text-center lg:flex-row lg:text-left">

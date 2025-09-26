@@ -236,25 +236,40 @@
           "title": "Video Tools",
           "children": [
             {
-              "title": "Image to Video",
-              "url": "/image-to-video",
-              "target": "_self"
-            },
-            {
               "title": "Text to Video",
               "url": "/text-to-video",
               "target": "_self"
             },
             {
-              "title": "My Creations",
-              "url": "/history",
+              "title": "Image to Video",
+              "url": "/image-to-video",
               "target": "_self"
             }
           ]
         },
         {
-          "title": "Image Models",
+          "title": "Image Tools",
           "children": [
+            {
+              "title": "Text to Image",
+              "url": "/text-to-image",
+              "target": "_self"
+            },
+            {
+              "title": "Image to Image",
+              "url": "/image-to-image",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "AI Models",
+          "children": [
+            {
+              "title": "WAN-2.5",
+              "url": "/wan-2-5",
+              "target": "_self"
+            },
             {
               "title": "Nano Banana",
               "url": "/nano-banana",
@@ -265,6 +280,11 @@
         {
           "title": "Resources",
           "children": [
+            {
+              "title": "My Creations",
+              "url": "/history",
+              "target": "_self"
+            },
             {
               "title": "Pricing",
               "url": "/pricing",
