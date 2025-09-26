@@ -195,7 +195,7 @@ export default function ImageGenerationTab({
           setImagePreviews([previewUrl]);
           setUploadedImageUrls([imageUrl]);
 
-          toast.success(t("showcaseImageLoaded"));
+          // toast.success(t("showcaseImageLoaded"));
         } catch (error) {
           console.error("Failed to load showcase image:", error);
           toast.error(t("failedToLoadShowcaseImage"));
@@ -421,7 +421,7 @@ export default function ImageGenerationTab({
     prompt,
     uploadedImages.length,
     handlePromptChange,
-    handleImageUpload
+    handleImageUpload,
   ]);
 
   // Remove uploaded image

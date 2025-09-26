@@ -71,8 +71,11 @@ export default function ImageHistoryForGeneration({
   
   const { user, setShowSignModal } = useAppContext();
   const { status: sessionStatus } = useSession();
-  const [activeTab, setActiveTab] = useState<"discovery" | "history">("history");
+  const [activeTab, setActiveTab] = useState<"discovery" | "history" | null>(
+    null
+  );
   const [hasUserSelectedTab, setHasUserSelectedTab] = useState(false);
+  const defaultTabSetRef = useRef(false);
   
   // Incomplete statuses now defined in imagePollingService config
   const isMobile = useIsMobile();
@@ -385,14 +388,33 @@ export default function ImageHistoryForGeneration({
   }, [user?.uuid, images]);
   useEffect(() => {
     if (!user?.uuid) {
-      // 即使未登录，也保持 history 为默认 tab
       setHasUserSelectedTab(false);
-      return;
+      defaultTabSetRef.current = false;
     }
   }, [user?.uuid]);
 
   useEffect(() => {
-    if (!user?.uuid) {
+    if (hasUserSelectedTab) {
+      return;
+    }
+
+    if (sessionStatus === "loading") {
+      defaultTabSetRef.current = false;
+      if (activeTab !== null) {
+        setActiveTab(null);
+      }
+      return;
+    }
+
+    if (sessionStatus === "unauthenticated") {
+      if (!defaultTabSetRef.current || activeTab !== "discovery") {
+        setActiveTab("discovery");
+      }
+      defaultTabSetRef.current = true;
+      return;
+    }
+
+    if (sessionStatus !== "authenticated") {
       return;
     }
 
@@ -400,13 +422,14 @@ export default function ImageHistoryForGeneration({
       return;
     }
 
-    if (hasUserSelectedTab) {
-      return;
+    const desiredTab = images.length > 0 ? "history" : "discovery";
+
+    if (!defaultTabSetRef.current || activeTab !== desiredTab) {
+      setActiveTab(desiredTab);
     }
 
-    // 始终保持 history 为默认 tab
-    setActiveTab("history");
-  }, [user?.uuid, initialLoadComplete, images.length, hasUserSelectedTab]);
+    defaultTabSetRef.current = true;
+  }, [sessionStatus, initialLoadComplete, images.length, hasUserSelectedTab, activeTab]);
 
   const handleTabChange = (tab: "discovery" | "history") => {
     setActiveTab(tab);
@@ -575,7 +598,15 @@ export default function ImageHistoryForGeneration({
         </div>
       </header>
 
-      {activeTab === "discovery" ? discoveryContent : historyContent}
+      {activeTab === null ? (
+        <div className="flex-1 flex items-center justify-center p-6">
+          <ImageHistorySkeleton />
+        </div>
+      ) : activeTab === "discovery" ? (
+        discoveryContent
+      ) : (
+        historyContent
+      )}
 
       {previewImage && (
         <ImagePreviewModal
