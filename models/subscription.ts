@@ -94,6 +94,7 @@ export async function findSubscriptionsByUserUuid(
     .select("*")
     .eq("user_uuid", userUuid)
     .neq("status", "pending")
+    .neq("status", "past_due")
     .order("created_at", { ascending: false })
     .range(offset, offset + limit - 1);
 
