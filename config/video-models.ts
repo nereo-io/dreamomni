@@ -157,7 +157,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     provider: VideoModelProvider.FAL,
     falEndpoint: "fal-ai/minimax/hailuo-02/standard/text-to-video",
     displayName: "Hailuo 02",
-    perSecondCredits: 2, // $0.045/秒 = 1.8积分/秒，取整为2
+    perSecondCredits: 4, // $0.045/秒 = 1.8积分/秒，取整为2
     description: "MiniMax's video model",
     features: ["wait 200s", "Instruction Following"],
     maxDuration: 10,
