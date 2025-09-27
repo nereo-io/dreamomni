@@ -37,7 +37,7 @@ async function verifyCaptcha(token: string, clientIP: string): Promise<boolean> 
 const BLOCKED_EMAIL_DOMAINS = [
   // 主要攻击域名
   'drmail.in',      // 主要攻击域名 (4407个账号)
-  'mriscan.live',   // 攻击域名 (9个账号) 
+  'mriscan.live',   // 攻击域名 (9个账号)
   'powerscrews.com', // 攻击域名 (2个账号)
   // 新发现的攻击域名
   'moakt.ws',       // 临时邮箱服务 (5个账号)
@@ -55,7 +55,34 @@ const BLOCKED_EMAIL_DOMAINS = [
   'noidem.com',     // 临时邮箱服务 (15个账号)
   'skateru.com',    // 临时邮箱服务 (12个账号)
   'tmail.ws',       // 临时邮箱服务
-  'tmpeml.com'      // 临时邮箱服务
+  'tmpeml.com',     // 临时邮箱服务
+  // 2025-09-27 紧急封锁 - 大规模攻击域名
+  'qqveo.online',   // 针对veo3的钓鱼域名 (3个账号)
+  'ablyd.com',      // 207个虚假账号，197个视频
+  'pzejw.com',      // 194个虚假账号，183个视频
+  'wbmta.com',      // 182个虚假账号，180个视频
+  'atomicmail.io',  // 102个虚假账号，91个视频
+  'atminmail.com',  // 113个虚假账号，106个视频
+  'tiffincrane.com',// 99个虚假账号，98个视频
+  'allfreemail.net',// 66个虚假账号，67个视频
+  'usiver.com',     // 8个虚假账号
+  'tlexes.com',     // 6个虚假账号
+  'hiepth.com',     // 7个虚假账号
+  'etenx.com',      // 7个虚假账号
+  'bitmens.com',    // 4个虚假账号
+  'rograc.com',     // 14个虚假账号
+  '10minmail.pro',  // 临时邮箱服务 (8个账号)
+  '10minutes.email',// 临时邮箱服务 (22个账号)
+  'gddcorp.com',    // 8个虚假账号
+  'concu.net',      // 临时邮箱服务
+  'heheee.com',     // 临时邮箱服务
+  'mailba.uk',      // 临时邮箱服务
+  'onmailflare.com',// 临时邮箱服务
+  'tiksofi.uk',     // 临时邮箱服务
+  'priyo.ovh',      // 临时邮箱服务
+  'forexnews.bg',   // 临时邮箱服务
+  'forexzig.com',   // 临时邮箱服务
+  'ro.ru'           // 临时邮箱服务
 ];
 
 const signupSchema = z.object({
@@ -82,6 +109,21 @@ export async function POST(request: NextRequest) {
     if (BLOCKED_EMAIL_DOMAINS.includes(emailDomain)) {
       console.warn(`Registration blocked for attack domain: ${emailDomain}`);
       return respErr("This email provider is not supported");
+    }
+
+    // 检查1.5：检测可疑邮箱模式（随机字符串用户名）
+    const emailUsername = email.split('@')[0]?.toLowerCase();
+    // 检测模式：名字+数字+随机字符（如 justin2sfsd, aarond2ffsfs）
+    const suspiciousPattern = /^[a-z]+\d+[a-z]{4,}$/;
+    // 检测纯随机字符串（如 wrmhd04491, nlhhd84138）
+    const randomPattern = /^[a-z]{5}\d{5}$/;
+
+    if (suspiciousPattern.test(emailUsername) || randomPattern.test(emailUsername)) {
+      console.warn(`Suspicious email pattern detected: ${email}`);
+      // 对可疑邮箱要求更严格的CAPTCHA验证
+      if (!captchaToken) {
+        return respErr("CAPTCHA verification is required for this email pattern.");
+      }
     }
 
     // 检查2：IP注册限制
