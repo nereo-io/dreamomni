@@ -14,8 +14,9 @@ interface VideoStatusDisplayProps {
     icon: React.ComponentType<{ className?: string }>;
   };
   videoUrl: string | null;
-  onDownload: (url: string) => void;
+  onDownload: () => void;
   canDownload: boolean;
+  isDownloading: boolean;
   errorMessage?: string;
   createdAt?: string;
   estimatedTime?: number;
@@ -34,6 +35,7 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
   videoUrl,
   onDownload,
   canDownload,
+  isDownloading,
   errorMessage,
   createdAt,
   estimatedTime,
@@ -55,10 +57,11 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
         {isCompleted && videoUrl ? (
           <>
             <div className="w-full">
-              <VideoPlayer 
-                videoUrl={videoUrl} 
-                onDownload={onDownload} 
-                canDownload={canDownload} 
+              <VideoPlayer
+                videoUrl={videoUrl}
+                onDownload={onDownload}
+                canDownload={canDownload}
+                isDownloading={isDownloading}
               />
             </div>
             {/* Action buttons for completed videos */}

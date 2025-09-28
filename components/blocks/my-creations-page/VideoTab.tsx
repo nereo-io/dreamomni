@@ -49,6 +49,7 @@ export default function VideoTab() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
+  const [downloadingVideoId, setDownloadingVideoId] = useState<string | null>(null);
 
   // 后台异步更新进行中的任务状态
   const updateActiveTasksInBackground = useCallback(
@@ -212,7 +213,7 @@ export default function VideoTab() {
     }
   };
 
-  const handleDownloadVideo = (video: VideoGeneration) => {
+  const handleDownloadVideo = async (video: VideoGeneration) => {
     const videoUrl =
       video.video_url_r2 ||
       video.upsample_video_url_veo3 ||
@@ -230,11 +231,20 @@ export default function VideoTab() {
     }.mp4`;
     const proxyUrl = createProxyDownloadUrl(videoUrl, filename);
 
+    setDownloadingVideoId(video.id);
+    // Keep the spinner visible while the browser prepares the download prompt
+    const minimumSpinnerDelay = new Promise((resolve) =>
+      setTimeout(resolve, 1500)
+    );
+
     try {
       triggerDownload(proxyUrl, filename);
     } catch (error) {
       console.error("Proxy download failed, falling back to original URL:", error);
       triggerDownload(videoUrl, filename, true);
+    } finally {
+      await minimumSpinnerDelay;
+      setDownloadingVideoId((current) => (current === video.id ? null : current));
     }
   };
 
@@ -441,18 +451,24 @@ export default function VideoTab() {
                   size="icon"
                   onClick={() => handleDownloadVideo(video)}
                   disabled={
-                    video.status !== "COMPLETED" &&
-                    video.status !== "SAVED_TO_R2" &&
-                    !video.video_url_r2 &&
-                    !video.upsample_video_url_veo3 &&
-                    !video.video_url_veo3 &&
-                    !video.video_url_volcano &&
-                    !video.video_url_fal
+                    (
+                      video.status !== "COMPLETED" &&
+                      video.status !== "SAVED_TO_R2" &&
+                      !video.video_url_r2 &&
+                      !video.upsample_video_url_veo3 &&
+                      !video.video_url_veo3 &&
+                      !video.video_url_volcano &&
+                      !video.video_url_fal
+                    ) || downloadingVideoId === video.id
                   }
                   title={t("downloadButton")}
                   className="disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Download className="h-5 w-5 text-gray-400 hover:text-gray-200" />
+                  {downloadingVideoId === video.id ? (
+                    <Loader2 className="h-5 w-5 animate-spin text-gray-200" />
+                  ) : (
+                    <Download className="h-5 w-5 text-gray-400 hover:text-gray-200" />
+                  )}
                 </Button>
                 <Button
                   variant="ghost"
