@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { RefreshCw, History, Loader2, Sparkles } from "lucide-react";
+import { RefreshCw, History, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import useVideoGeneration from "@/hooks/useVideoGeneration";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
@@ -47,7 +47,7 @@ export default function VideoHistory({
   const t = useTranslations("video-result");
   const { fetchHistory, history, isLoadingHistory, setHistory } =
     useVideoGeneration();
-  const { user, setShowSignModal } = useAppContext();
+  const { user } = useAppContext();
   const isMobile = useIsMobile();
   const [scrollToBottom, setScrollToBottom] = useState(false);
   const [expandedPrompts, setExpandedPrompts] = useState<Set<string>>(
@@ -55,9 +55,7 @@ export default function VideoHistory({
   );
   const containerRef = useRef<HTMLDivElement>(null);
   const [isClient, setIsClient] = useState(false);
-  const [downloadingVideoId, setDownloadingVideoId] = useState<string | null>(
-    null
-  );
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
 
   // 客户端检测
   useEffect(() => {
@@ -241,11 +239,28 @@ export default function VideoHistory({
   };
 
   // 下载视频
-  const handleDownload = async (videoUrl: string, generationId: string) => {
-    setDownloadingVideoId(generationId);
+  const handleDownload = async (generation: VideoGenerationResult) => {
+    const videoUrl =
+      generation.video_url ||
+      generation.video_url_r2 ||
+      generation.upsample_video_url_veo3 ||
+      generation.video_url_veo3 ||
+      generation.video_url_volcano ||
+      generation.video_url_fal;
 
-    const filename = `video_${Date.now()}.mp4`;
+    if (!videoUrl) {
+      console.error("No video URL available for download");
+      return;
+    }
+
+    const filename = `video_${generation.id}.mp4`;
     const proxyUrl = createProxyDownloadUrl(videoUrl, filename);
+
+    setDownloadingId(generation.id);
+    // Keep the spinner visible while the browser prepares the download prompt
+    const minimumSpinnerDelay = new Promise((resolve) =>
+      setTimeout(resolve, 1500)
+    );
 
     try {
       const response = await fetch(proxyUrl);
@@ -270,7 +285,10 @@ export default function VideoHistory({
         triggerDownload(videoUrl, filename, true);
       }
     } finally {
-      setDownloadingVideoId(null);
+      await minimumSpinnerDelay;
+      setDownloadingId((current) =>
+        current === generation.id ? null : current
+      );
     }
   };
 
@@ -386,13 +404,13 @@ export default function VideoHistory({
                 statusMap={STATUS_MAP}
                 isExpanded={expandedPrompts.has(generation.id)}
                 onToggleExpanded={() => togglePromptExpansion(generation.id)}
-                onDownload={(url) => handleDownload(url, generation.id)}
+                onDownload={handleDownload}
+                isDownloading={downloadingId === generation.id}
                 isExample={false}
                 isClient={isClient}
                 onEdit={onEditVideo}
                 onRegenerate={onRegenerateVideo}
                 canEdit={true} // Always true for real videos
-                isDownloading={downloadingVideoId === generation.id}
               />
             )
           )}

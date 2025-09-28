@@ -35,7 +35,6 @@ import Link from "next/link";
 import { getVideoModel } from "@/config/video-models";
 import { useAppContext } from "@/contexts/app";
 import VideoHistorySkeleton from "./VideoHistorySkeleton";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -50,8 +49,7 @@ export default function VideoTab() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-  const [downloadingId, setDownloadingId] = useState<string | null>(null);
-  const isMobile = useIsMobile();
+  const [downloadingVideoId, setDownloadingVideoId] = useState<string | null>(null);
 
   // 后台异步更新进行中的任务状态
   const updateActiveTasksInBackground = useCallback(
@@ -233,34 +231,20 @@ export default function VideoTab() {
     }.mp4`;
     const proxyUrl = createProxyDownloadUrl(videoUrl, filename);
 
-    setDownloadingId(video.id);
+    setDownloadingVideoId(video.id);
+    // Keep the spinner visible while the browser prepares the download prompt
+    const minimumSpinnerDelay = new Promise((resolve) =>
+      setTimeout(resolve, 1500)
+    );
 
     try {
-      const response = await fetch(proxyUrl);
-      if (!response.ok) {
-        throw new Error("下载失败");
-      }
-
-      const blob = await response.blob();
-      if (!blob || blob.size === 0) {
-        throw new Error("Empty video blob");
-      }
-
-      const objectUrl = window.URL.createObjectURL(blob);
-      triggerDownload(objectUrl, filename);
-      window.URL.revokeObjectURL(objectUrl);
-      return;
+      triggerDownload(proxyUrl, filename);
     } catch (error) {
       console.error("Proxy download failed, falling back to original URL:", error);
-
-      try {
-        triggerDownload(proxyUrl, filename, isMobile);
-      } catch (fallbackError) {
-        console.error("Proxy download fallback failed:", fallbackError);
-        triggerDownload(videoUrl, filename, true);
-      }
+      triggerDownload(videoUrl, filename, true);
     } finally {
-      setDownloadingId(null);
+      await minimumSpinnerDelay;
+      setDownloadingVideoId((current) => (current === video.id ? null : current));
     }
   };
 
@@ -465,23 +449,23 @@ export default function VideoTab() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => void handleDownloadVideo(video)}
+                  onClick={() => handleDownloadVideo(video)}
                   disabled={
-                    video.status !== "COMPLETED" &&
-                    video.status !== "SAVED_TO_R2" &&
-                    !video.video_url_r2 &&
-                    !video.upsample_video_url_veo3 &&
-                    !video.video_url_veo3 &&
-                    !video.video_url_volcano &&
-                    !video.video_url_fal ||
-                    downloadingId === video.id
+                    (
+                      video.status !== "COMPLETED" &&
+                      video.status !== "SAVED_TO_R2" &&
+                      !video.video_url_r2 &&
+                      !video.upsample_video_url_veo3 &&
+                      !video.video_url_veo3 &&
+                      !video.video_url_volcano &&
+                      !video.video_url_fal
+                    ) || downloadingVideoId === video.id
                   }
                   title={t("downloadButton")}
-                  aria-busy={downloadingId === video.id}
                   className="disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {downloadingId === video.id ? (
-                    <Loader2 className="h-5 w-5 text-gray-400 animate-spin" />
+                  {downloadingVideoId === video.id ? (
+                    <Loader2 className="h-5 w-5 animate-spin text-gray-200" />
                   ) : (
                     <Download className="h-5 w-5 text-gray-400 hover:text-gray-200" />
                   )}

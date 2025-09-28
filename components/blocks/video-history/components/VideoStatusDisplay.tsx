@@ -14,8 +14,9 @@ interface VideoStatusDisplayProps {
     icon: React.ComponentType<{ className?: string }>;
   };
   videoUrl: string | null;
-  onDownload?: () => void | Promise<void>;
+  onDownload: () => void;
   canDownload: boolean;
+  isDownloading: boolean;
   errorMessage?: string;
   createdAt?: string;
   estimatedTime?: number;
@@ -26,7 +27,6 @@ interface VideoStatusDisplayProps {
   onEdit?: (generation: VideoGenerationResult) => void;
   onRegenerate?: (generation: VideoGenerationResult) => void;
   canEdit?: boolean;
-  isDownloading?: boolean;
 }
 
 const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
@@ -35,6 +35,7 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
   videoUrl,
   onDownload,
   canDownload,
+  isDownloading,
   errorMessage,
   createdAt,
   estimatedTime,
@@ -43,8 +44,7 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
   generation,
   onEdit,
   onRegenerate,
-  canEdit = false,
-  isDownloading = false
+  canEdit = false
 }) => {
   const isCompleted = status === "COMPLETED" || status === "SAVED_TO_R2";
   const isFailed = status === "FAILED";
@@ -57,11 +57,11 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
         {isCompleted && videoUrl ? (
           <>
             <div className="w-full">
-              <VideoPlayer 
-                videoUrl={videoUrl} 
-                onDownload={onDownload} 
-                canDownload={canDownload} 
-                isLoading={isDownloading}
+              <VideoPlayer
+                videoUrl={videoUrl}
+                onDownload={onDownload}
+                canDownload={canDownload}
+                isDownloading={isDownloading}
               />
             </div>
             {/* Action buttons for completed videos */}
