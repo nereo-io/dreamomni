@@ -212,35 +212,58 @@ export default function VideoHistory({
     loadHistory();
   };
 
+  const createProxyDownloadUrl = (sourceUrl: string, filename: string) =>
+    `/api/proxy-video?url=${encodeURIComponent(sourceUrl)}&filename=${encodeURIComponent(filename)}`;
+
+  const triggerDownload = (
+    href: string,
+    filename: string,
+    openInNewTab = false
+  ) => {
+    const downloadLink = document.createElement("a");
+    downloadLink.href = href;
+    downloadLink.download = filename;
+    downloadLink.rel = "noopener noreferrer";
+    downloadLink.style.cssText =
+      "display: none; position: absolute; top: -9999px; left: -9999px;";
+    downloadLink.target = openInNewTab ? "_blank" : "_self";
+
+    document.body.appendChild(downloadLink);
+
+    try {
+      downloadLink.click();
+    } finally {
+      document.body.removeChild(downloadLink);
+    }
+  };
+
   // 下载视频
   const handleDownload = async (videoUrl: string) => {
+    const filename = `video_${Date.now()}.mp4`;
+    const proxyUrl = createProxyDownloadUrl(videoUrl, filename);
+
     try {
-      // 显示下载进度（可选）
-      const response = await fetch(videoUrl);
+      const response = await fetch(proxyUrl);
       if (!response.ok) throw new Error("下载失败");
 
       const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+      if (!blob || blob.size === 0) {
+        throw new Error("Empty video blob");
+      }
 
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `video_${Date.now()}.mp4`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      // 清理blob URL
-      window.URL.revokeObjectURL(url);
+      const objectUrl = window.URL.createObjectURL(blob);
+      triggerDownload(objectUrl, filename);
+      window.URL.revokeObjectURL(objectUrl);
+      return;
     } catch (error) {
       console.error("下载失败:", error);
-      // 如果fetch失败，尝试传统方式
-      const link = document.createElement("a");
-      link.href = videoUrl;
-      link.download = `video_${Date.now()}.mp4`;
-      link.target = "_blank";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    }
+
+    try {
+      triggerDownload(proxyUrl, filename, isMobile);
+    } catch (fallbackError) {
+      console.error("Proxy download fallback failed:", fallbackError);
+      triggerDownload(videoUrl, filename, true);
     }
   };
 

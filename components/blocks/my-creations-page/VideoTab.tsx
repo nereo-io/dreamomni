@@ -189,6 +189,29 @@ export default function VideoTab() {
     }
   };
 
+  const createProxyDownloadUrl = (sourceUrl: string, filename: string) =>
+    `/api/proxy-video?url=${encodeURIComponent(sourceUrl)}&filename=${encodeURIComponent(filename)}`;
+
+  const triggerDownload = (
+    href: string,
+    filename: string,
+    openInNewTab = false
+  ) => {
+    const link = document.createElement("a");
+    link.href = href;
+    link.download = filename;
+    link.rel = "noopener noreferrer";
+    link.style.display = "none";
+    link.target = openInNewTab ? "_blank" : "_self";
+
+    document.body.appendChild(link);
+    try {
+      link.click();
+    } finally {
+      document.body.removeChild(link);
+    }
+  };
+
   const handleDownloadVideo = (video: VideoGeneration) => {
     const videoUrl =
       video.video_url_r2 ||
@@ -196,17 +219,22 @@ export default function VideoTab() {
       video.video_url_veo3 ||
       video.video_url_volcano ||
       video.video_url_fal;
-    if (videoUrl) {
-      const link = document.createElement("a");
-      link.href = videoUrl;
-      link.download = `${video.prompt.substring(0, 20).replace(/\s+/g, "_")}_${
-        video.id
-      }.mp4`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
+
+    if (!videoUrl) {
       toast.error(t("toast.downloadNotAvailable"));
+      return;
+    }
+
+    const filename = `${video.prompt.substring(0, 20).replace(/\s+/g, "_")}_${
+      video.id
+    }.mp4`;
+    const proxyUrl = createProxyDownloadUrl(videoUrl, filename);
+
+    try {
+      triggerDownload(proxyUrl, filename);
+    } catch (error) {
+      console.error("Proxy download failed, falling back to original URL:", error);
+      triggerDownload(videoUrl, filename, true);
     }
   };
 
