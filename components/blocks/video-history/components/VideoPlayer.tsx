@@ -1,17 +1,19 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, Loader2 } from "lucide-react";
 
 interface VideoPlayerProps {
   videoUrl: string;
-  onDownload: (url: string) => void;
+  onDownload?: () => void | Promise<void>;
   canDownload: boolean;
+  isLoading?: boolean;
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({ 
   videoUrl, 
   onDownload, 
-  canDownload 
+  canDownload,
+  isLoading = false
 }) => {
   return (
     <div className="relative w-full max-w-[518px] group bg-black rounded-lg overflow-hidden">
@@ -45,12 +47,20 @@ const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
             variant="secondary"
             size="sm"
             className="bg-black/60 hover:bg-black/80 text-white border-none h-8 w-8 p-0 rounded-md pointer-events-auto"
+            disabled={isLoading || !onDownload}
+            aria-busy={isLoading}
             onClick={(e) => {
               e.stopPropagation();
-              onDownload(videoUrl);
+              if (onDownload) {
+                void onDownload();
+              }
             }}
           >
-            <Download className="h-4 w-4" />
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Download className="h-4 w-4" />
+            )}
           </Button>
         )}
       </div>

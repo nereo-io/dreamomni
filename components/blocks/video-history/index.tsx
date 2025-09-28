@@ -55,6 +55,9 @@ export default function VideoHistory({
   );
   const containerRef = useRef<HTMLDivElement>(null);
   const [isClient, setIsClient] = useState(false);
+  const [downloadingVideoId, setDownloadingVideoId] = useState<string | null>(
+    null
+  );
 
   // 客户端检测
   useEffect(() => {
@@ -238,7 +241,9 @@ export default function VideoHistory({
   };
 
   // 下载视频
-  const handleDownload = async (videoUrl: string) => {
+  const handleDownload = async (videoUrl: string, generationId: string) => {
+    setDownloadingVideoId(generationId);
+
     const filename = `video_${Date.now()}.mp4`;
     const proxyUrl = createProxyDownloadUrl(videoUrl, filename);
 
@@ -257,13 +262,15 @@ export default function VideoHistory({
       return;
     } catch (error) {
       console.error("下载失败:", error);
-    }
 
-    try {
-      triggerDownload(proxyUrl, filename, isMobile);
-    } catch (fallbackError) {
-      console.error("Proxy download fallback failed:", fallbackError);
-      triggerDownload(videoUrl, filename, true);
+      try {
+        triggerDownload(proxyUrl, filename, isMobile);
+      } catch (fallbackError) {
+        console.error("Proxy download fallback failed:", fallbackError);
+        triggerDownload(videoUrl, filename, true);
+      }
+    } finally {
+      setDownloadingVideoId(null);
     }
   };
 
@@ -379,12 +386,13 @@ export default function VideoHistory({
                 statusMap={STATUS_MAP}
                 isExpanded={expandedPrompts.has(generation.id)}
                 onToggleExpanded={() => togglePromptExpansion(generation.id)}
-                onDownload={handleDownload}
+                onDownload={(url) => handleDownload(url, generation.id)}
                 isExample={false}
                 isClient={isClient}
                 onEdit={onEditVideo}
                 onRegenerate={onRegenerateVideo}
                 canEdit={true} // Always true for real videos
+                isDownloading={downloadingVideoId === generation.id}
               />
             )
           )}
