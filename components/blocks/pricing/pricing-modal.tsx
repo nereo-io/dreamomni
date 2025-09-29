@@ -44,7 +44,7 @@ export default function PricingModal({
   const t = useTranslations("pricing_modal");
   const { trackPricingView, trackCheckoutStart } = useYandexTracking();
 
-  const [group, setGroup] = useState(pricing.groups?.[0]?.name);
+  const [group, setGroup] = useState<string | undefined>(pricing.groups?.[0]?.name);
   const [isLoading, setIsLoading] = useState(false);
   const [productId, setProductId] = useState<string | null>(null);
   const [availableMethods, setAvailableMethods] = useState<
@@ -52,6 +52,7 @@ export default function PricingModal({
   >([]);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [selectedProvider, setSelectedProvider] = useState("");
+  const [hasUserSelectedGroup, setHasUserSelectedGroup] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showMembershipModal, setShowMembershipModal] = useState(false);
   const [pendingCheckoutItem, setPendingCheckoutItem] = useState<PricingItem | null>(null);
@@ -340,14 +341,26 @@ export default function PricingModal({
   };
 
   useEffect(() => {
-    if (pricing.items) {
-      const monthlyGroup = pricing.groups?.find((g) => g.name === "monthly");
-      const defaultGroup = monthlyGroup
-        ? "monthly"
-        : pricing.items[0].group || pricing.groups?.[0]?.name;
-      setGroup(defaultGroup);
+    if (!pricing.items?.length || hasUserSelectedGroup) {
+      return;
     }
-  }, [pricing.items]);
+
+    let preferredGroup =
+      selectedProvider === "creem"
+        ? pricing.groups?.find((g) => g.name === "yearly")?.name
+        : undefined;
+
+    if (!preferredGroup) {
+      preferredGroup = pricing.groups?.find((g) => g.name === "monthly")?.name;
+    }
+
+    const fallbackGroup = pricing.items?.[0]?.group || pricing.groups?.[0]?.name;
+    const nextGroup = preferredGroup || fallbackGroup;
+
+    if (nextGroup && nextGroup !== group) {
+      setGroup(nextGroup);
+    }
+  }, [pricing.items, pricing.groups, selectedProvider, hasUserSelectedGroup, group]);
 
   if (pricing.disabled) {
     return null;
@@ -380,6 +393,7 @@ export default function PricingModal({
                       className={`h-full grid-cols-${pricing.groups.length}`}
                       onValueChange={(value) => {
                         setGroup(value);
+                        setHasUserSelectedGroup(true);
                       }}
                     >
                       {pricing.groups.map((item, i) => {
