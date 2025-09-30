@@ -1056,8 +1056,8 @@ export default function ImageGenerationTab({
                 </div>
               </div> */}
 
-              {/* Image Size Ratio */}
-              <div className="mb-4">
+              {/* Image Size Ratio - 暂时隐藏，用户不能选择图片比例 */}
+              {/* <div className="mb-4">
                 <label className="text-gray-300 text-sm mb-2 block">
                   {t("imageSize")}
                 </label>
@@ -1101,7 +1101,7 @@ export default function ImageGenerationTab({
                     </label>
                   ))}
                 </div>
-              </div>
+              </div> */}
 
               {/* Credits and Cost */}
               <div className="bg-gray-800 rounded-lg p-4 mb-4">
