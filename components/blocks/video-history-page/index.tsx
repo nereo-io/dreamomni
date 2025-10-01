@@ -29,11 +29,13 @@ import {
   AlertTriangle,
   Loader2,
   Volume2,
+  Trash2,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { getVideoModel } from "@/config/video-models";
 import { useAppContext } from "@/contexts/app";
+import DeleteConfirmDialog from "@/components/blocks/image-history-for-generation/components/DeleteConfirmDialog";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -48,6 +50,9 @@ export default function VideoHistoryPageClient() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [videoToDelete, setVideoToDelete] = useState<VideoGeneration | null>(null);
 
   // 后台异步更新进行中的任务状态
   const updateActiveTasksInBackground = useCallback(
@@ -219,6 +224,55 @@ export default function VideoHistoryPageClient() {
     // router.push(`/generate?prompt=${encodeURIComponent(video.prompt)}&aspect_ratio=${video.aspect_ratio}...`);
   };
 
+  const handleDeleteVideo = (video: VideoGeneration) => {
+    setVideoToDelete(video);
+    setShowDeleteDialog(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!videoToDelete) return;
+
+    setDeletingId(videoToDelete.id);
+
+    try {
+      const response = await fetch(`/api/video-generations/${videoToDelete.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ videoId: videoToDelete.id }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete video");
+      }
+
+      const result = await response.json();
+
+      if (result.code === 0) {
+        // 成功删除，从本地状态移除
+        setVideos((prevVideos) =>
+          prevVideos.filter((v) => v.id !== videoToDelete.id)
+        );
+        toast.success("Video deleted successfully");
+
+        // 如果当前页没有视频了，并且不是第一页，跳转到上一页
+        if (videos.length === 1 && currentPage > 1) {
+          handlePageChange(currentPage - 1);
+        }
+      } else {
+        throw new Error(result.message || "Failed to delete video");
+      }
+    } catch (error) {
+      console.error("Error deleting video:", error);
+      toast.error("Failed to delete video");
+    } finally {
+      setDeletingId(null);
+      setShowDeleteDialog(false);
+      setVideoToDelete(null);
+    }
+  };
+
   const getStatusBadge = (status: VideoGeneration["status"]) => {
     switch (status) {
       case "COMPLETED":
@@ -369,7 +423,7 @@ export default function VideoHistoryPageClient() {
                 }
                 className="w-full sm:w-auto border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <PlayCircle className="mr-2 h-4 w-4" /> {t("playButton")}
+                <PlayCircle className="mr-2 h-4 w-4" /> Play
               </Button>
               <div className="flex gap-2 w-full sm:w-auto">
                 <Button
@@ -397,6 +451,20 @@ export default function VideoHistoryPageClient() {
                   title={t("regenerateButton")}
                 >
                   <RotateCcw className="h-5 w-5 text-gray-400 hover:text-gray-200" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleDeleteVideo(video)}
+                  disabled={deletingId === video.id}
+                  title="Delete video"
+                  className="disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {deletingId === video.id ? (
+                    <Loader2 className="h-5 w-5 text-gray-400 animate-spin" />
+                  ) : (
+                    <Trash2 className="h-5 w-5 text-gray-400 hover:text-red-400" />
+                  )}
                 </Button>
               </div>
             </CardFooter>
@@ -473,6 +541,19 @@ export default function VideoHistoryPageClient() {
           </PaginationContent>
         </Pagination>
       )}
+
+      {/* Delete Confirmation Dialog */}
+      <DeleteConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={() => {
+          setShowDeleteDialog(false);
+          setVideoToDelete(null);
+        }}
+        onConfirm={handleConfirmDelete}
+        prompt={videoToDelete?.prompt || ""}
+        isDeleting={!!deletingId}
+        description="Are you sure you want to delete this video?"
+      />
     </div>
   );
 }

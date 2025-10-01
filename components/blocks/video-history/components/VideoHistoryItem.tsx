@@ -22,10 +22,12 @@ interface VideoHistoryItemProps {
   isDownloading: boolean;
   isExample?: boolean;
   isClient: boolean;
-  // New props for edit/regenerate functionality
+  // New props for edit/regenerate/delete functionality
   onEdit?: (generation: VideoGenerationResult) => void;
   onRegenerate?: (generation: VideoGenerationResult) => void;
+  onDelete?: (generation: VideoGenerationResult) => void;
   canEdit?: boolean;
+  isDeleting?: boolean;
 }
 
 const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
@@ -40,7 +42,9 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
     isClient,
     onEdit,
     onRegenerate,
+    onDelete,
     canEdit = false,
+    isDeleting = false,
   }) => {
     // Get video URL from various sources
     const getVideoUrl = (gen: VideoGenerationResult) => {
@@ -149,7 +153,9 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
           generation={generation}
           onEdit={onEdit}
           onRegenerate={onRegenerate}
+          onDelete={onDelete}
           canEdit={canEdit && !isExample}
+          isDeleting={isDeleting}
         />
       </div>
     );

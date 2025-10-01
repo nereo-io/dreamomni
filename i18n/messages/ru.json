@@ -567,6 +567,12 @@
     "textToImageModel": "nano-banana",
     "imageToImageModel": "nano-banana"
   },
+  "videoHistory": {
+    "videoDeleted": "Видео успешно удалено",
+    "deleteFailed": "Не удалось удалить видео",
+    "deleteVideo": "Удалить видео",
+    "deleteConfirmDescription": "Вы уверены, что хотите удалить это видео?"
+  },
   "effects": {
     "ai-kissing": "AI генератор видео поцелуев",
     "kiss-me-ai": "Поцелуй меня AI",

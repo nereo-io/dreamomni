@@ -14,6 +14,8 @@ import VideoHistoryItem from "./components/VideoHistoryItem";
 import VideoHistorySkeleton from "./components/VideoHistorySkeleton";
 import VideoShowcase from "../video-showcase";
 import type { ShowcaseVideo } from "@/types/showcase";
+import DeleteConfirmDialog from "@/components/blocks/image-history-for-generation/components/DeleteConfirmDialog";
+import { toast } from "sonner";
 
 interface VideoHistoryProps {
   refreshTrigger?: number;
@@ -45,6 +47,7 @@ export default function VideoHistory({
   showcaseData,
 }: VideoHistoryProps) {
   const t = useTranslations("video-result");
+  const tVideo = useTranslations("videoHistory");
   const { fetchHistory, history, isLoadingHistory, setHistory } =
     useVideoGeneration();
   const { user } = useAppContext();
@@ -56,6 +59,9 @@ export default function VideoHistory({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isClient, setIsClient] = useState(false);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [videoToDelete, setVideoToDelete] = useState<VideoGenerationResult | null>(null);
 
   // 客户端检测
   useEffect(() => {
@@ -294,6 +300,52 @@ export default function VideoHistory({
 
   const STATUS_MAP = getStatusMap(t);
 
+  // Handle delete video
+  const handleDelete = (generation: VideoGenerationResult) => {
+    setVideoToDelete(generation);
+    setShowDeleteDialog(true);
+  };
+
+  // Confirm delete video
+  const handleConfirmDelete = async () => {
+    if (!videoToDelete) return;
+
+    setDeletingId(videoToDelete.id);
+
+    try {
+      const response = await fetch(`/api/video-generations/${videoToDelete.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ videoId: videoToDelete.id }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete video");
+      }
+
+      const result = await response.json();
+
+      if (result.code === 0) {
+        // 成功删除，从本地状态移除
+        setHistory((prevHistory) =>
+          prevHistory.filter((v) => v.id !== videoToDelete.id)
+        );
+        toast.success(tVideo("videoDeleted"));
+      } else {
+        throw new Error(result.message || tVideo("deleteFailed"));
+      }
+    } catch (error) {
+      console.error("Error deleting video:", error);
+      toast.error(tVideo("deleteFailed"));
+    } finally {
+      setDeletingId(null);
+      setShowDeleteDialog(false);
+      setVideoToDelete(null);
+    }
+  };
+
   // Handle showcase video selection
   const handleShowcaseVideoSelect = (video: ShowcaseVideo) => {
     if (onSelectShowcaseVideo) {
@@ -410,12 +462,27 @@ export default function VideoHistory({
                 isClient={isClient}
                 onEdit={onEditVideo}
                 onRegenerate={onRegenerateVideo}
+                onDelete={handleDelete}
                 canEdit={true} // Always true for real videos
+                isDeleting={deletingId === generation.id}
               />
             )
           )}
         </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <DeleteConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={() => {
+          setShowDeleteDialog(false);
+          setVideoToDelete(null);
+        }}
+        onConfirm={handleConfirmDelete}
+        prompt={videoToDelete?.prompt || ""}
+        isDeleting={!!deletingId}
+        description={tVideo("deleteConfirmDescription")}
+      />
     </div>
   );
 }

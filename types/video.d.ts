@@ -39,6 +39,7 @@ export interface VideoGeneration {
   logs?: any | null; // jsonb
   metrics?: any | null; // jsonb
   effect_id?: string | null; // 特效ID
+  is_delete?: boolean | null; // 软删除标记
   created_at: string; // timestamptz
   updated_at: string; // timestamptz
 }

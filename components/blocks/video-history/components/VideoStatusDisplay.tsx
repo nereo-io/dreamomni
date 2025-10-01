@@ -22,11 +22,13 @@ interface VideoStatusDisplayProps {
   estimatedTime?: number;
   modelName?: string;
   imageUrl?: string;
-  // New props for edit/regenerate functionality
+  // New props for edit/regenerate/delete functionality
   generation?: VideoGenerationResult;
   onEdit?: (generation: VideoGenerationResult) => void;
   onRegenerate?: (generation: VideoGenerationResult) => void;
+  onDelete?: (generation: VideoGenerationResult) => void;
   canEdit?: boolean;
+  isDeleting?: boolean;
 }
 
 const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
@@ -44,7 +46,9 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
   generation,
   onEdit,
   onRegenerate,
-  canEdit = false
+  onDelete,
+  canEdit = false,
+  isDeleting = false
 }) => {
   const isCompleted = status === "COMPLETED" || status === "SAVED_TO_R2";
   const isFailed = status === "FAILED";
@@ -70,7 +74,9 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
                 generation={generation}
                 onEdit={onEdit}
                 onRegenerate={onRegenerate}
+                onDelete={onDelete}
                 canEdit={canDownload} // Use canDownload as indicator for non-example videos
+                isDeleting={isDeleting}
               />
             )}
           </>

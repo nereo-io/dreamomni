@@ -16,6 +16,7 @@ interface DeleteConfirmDialogProps {
   onConfirm: () => void;
   prompt: string;
   isDeleting?: boolean;
+  description?: string; // Optional custom description
 }
 
 const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
@@ -24,6 +25,7 @@ const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
   onConfirm,
   prompt,
   isDeleting = false,
+  description = "Are you sure you want to delete this image?", // Default for images
 }) => {
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
@@ -31,7 +33,7 @@ const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
         <AlertDialogHeader>
           <AlertDialogTitle className="sr-only">Delete Confirmation</AlertDialogTitle>
           <AlertDialogDescription className="text-center py-4 text-base">
-            Are you sure you want to delete this image?
+            {description}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex justify-center gap-3 sm:justify-center">

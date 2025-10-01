@@ -350,6 +350,7 @@ export async function getUserVideoGenerations(
     .from("video_generations")
     .select("*", { count: "exact" })
     .eq("user_id", userId)
+    .eq("is_delete", false)
     .order("created_at", { ascending: false })
     .range(offset, offset + limit - 1);
 
@@ -437,5 +438,123 @@ export async function getUserVideoGenerationStats(userId: number): Promise<{
   }
 
   return stats;
+}
+
+/**
+ * 软删除视频生成记录
+ */
+export async function softDeleteVideoGeneration(
+  videoId: string,
+  userId: string
+): Promise<boolean> {
+  try {
+    // 首先检查记录是否存在
+    console.log(`🔍 Checking if video exists: ${videoId} for user: ${userId}`);
+
+    const { data: existingRecord, error: checkError } = await supabase
+      .from("video_generations")
+      .select("id, user_id, is_delete")
+      .eq("id", videoId)
+      .single();
+
+    if (checkError) {
+      console.error("Error checking video record:", checkError);
+      // 如果是字段不存在错误，尝试不检查 is_delete 字段
+      if (checkError.message?.includes("is_delete")) {
+        console.log("⚠️ is_delete field doesn't exist, trying without it...");
+
+        const { data: simpleRecord, error: simpleError } = await supabase
+          .from("video_generations")
+          .select("id, user_id")
+          .eq("id", videoId)
+          .single();
+
+        if (simpleError) {
+          console.error("Video record not found:", simpleError);
+          return false;
+        }
+
+        if (simpleRecord.user_id !== userId) {
+          console.error("User doesn't own this video");
+          return false;
+        }
+
+        // 尝试添加 is_delete 字段并更新
+        const { data, error } = await supabase
+          .from("video_generations")
+          .update({ is_delete: true })
+          .eq("id", videoId)
+          .eq("user_id", userId)
+          .select();
+
+        if (error) {
+          console.error("Error updating with is_delete field:", error);
+          // 如果 is_delete 字段不存在，建议用户运行迁移
+          if (error.message?.includes("is_delete")) {
+            console.error("💡 Please run the database migration script: docs/database/add-video-is-delete-field.sql");
+          }
+          return false;
+        }
+
+        console.log(`✅ Successfully added is_delete field and marked as deleted: ${videoId}`);
+        return data && data.length > 0;
+      }
+      return false;
+    }
+
+    if (!existingRecord) {
+      console.warn(`❌ Video record not found: ${videoId}`);
+      return false;
+    }
+
+    if (existingRecord.user_id !== userId) {
+      console.warn(`❌ User ${userId} doesn't own video ${videoId} (owned by ${existingRecord.user_id})`);
+      return false;
+    }
+
+    if (existingRecord.is_delete === true) {
+      console.log(`✅ Video ${videoId} is already deleted, treating as success`);
+      return true; // 已经删除的视频，视为成功
+    }
+
+    // 执行软删除
+    console.log(`🗑️ Executing soft delete for video: ${videoId}`);
+    const { data, error } = await supabase
+      .from("video_generations")
+      .update({ is_delete: true })
+      .eq("id", videoId)
+      .eq("user_id", userId)
+      .select();
+
+    if (error) {
+      console.error("Supabase error in soft delete video generation:", error);
+      return false;
+    }
+
+    if (!data || data.length === 0) {
+      console.warn(`❌ No records updated for video: ${videoId}, but deletion may have succeeded`);
+      // 即使没有更新记录，我们也检查一下是否实际上已经被删除了
+      const { data: checkData, error: checkError } = await supabase
+        .from("video_generations")
+        .select("is_delete")
+        .eq("id", videoId)
+        .eq("user_id", userId)
+        .single();
+
+      if (!checkError && checkData && checkData.is_delete === true) {
+        console.log(`✅ Video ${videoId} is confirmed deleted despite update failure`);
+        return true;
+      }
+
+      return false;
+    }
+
+    console.log(`✅ Successfully soft deleted video generation: ${videoId}`);
+    return true;
+
+  } catch (err) {
+    console.error("Unexpected error in softDeleteVideoGeneration:", err);
+    return false;
+  }
 }
 
