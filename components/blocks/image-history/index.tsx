@@ -3,10 +3,18 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Download, 
-  Copy, 
-  Heart, 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
+  Download,
+  Copy,
+  Heart,
   MoreHorizontal,
   Loader2,
   Image,
@@ -62,6 +70,11 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
   // Removed pollingIntervalsRef - My Creations page only displays history
   const [initialLoadComplete, setInitialLoadComplete] = useState(false); // 标记初次加载是否完成
   const t = useTranslations("imageHistory");
+
+  // 分页状态
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
 
   // 定义未完成的状态，与图片生成页面保持一致
   const INCOMPLETE_STATUSES = [
@@ -138,7 +151,7 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
   };
 
   // Fetch image history
-  const fetchHistory = async () => {
+  const fetchHistory = async (page: number = 1) => {
     if (!userId) {
       console.log("📝 No userId provided, skipping fetchHistory");
       setImages([]);
@@ -147,14 +160,14 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
       return;
     }
 
-    console.log("🔄 Fetching image history for userId:", userId);
+    console.log(`🔄 Fetching image history for userId: ${userId}, page: ${page}`);
     // 只在初次加载时显示整页loading
     if (!initialLoadComplete) {
       setLoading(true);
     }
 
     try {
-      const response = await fetch("/api/image-generations/history", {
+      const response = await fetch(`/api/image-generations/history?page=${page}&limit=20`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -171,16 +184,21 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
         const data = await response.json();
         console.log("📦 History API data:", {
           code: data.code,
-          dataType: Array.isArray(data.data) ? 'array' : typeof data.data,
-          dataLength: Array.isArray(data.data) ? data.data.length : 'N/A',
+          dataType: typeof data.data,
+          hasData: !!data.data?.data,
+          hasPagination: !!data.data?.pagination,
           message: data.message
         });
 
-        if (data.code === 0 && Array.isArray(data.data)) {
+        if (data.code === 0 && data.data) {
+          // 处理新的嵌套数据结构：data.data.data 和 data.data.pagination
+          const imageData = Array.isArray(data.data.data) ? data.data.data : [];
+          const pagination = data.data.pagination || {};
+
           // Apply filter based on mode
-          let filteredData = data.data;
+          let filteredData = imageData;
           if (filterMode !== "all") {
-            filteredData = data.data.filter((img: ImageGenerationResult) => {
+            filteredData = imageData.filter((img: ImageGenerationResult) => {
               if (filterMode === "text-to-image") {
                 return img.model === "google/nano-banana";
               } else if (filterMode === "image-to-image") {
@@ -189,8 +207,13 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
               return true;
             });
           }
-          
+
           setImages(filteredData);
+
+          // 更新分页信息
+          setCurrentPage(pagination.page || page);
+          setTotalPages(pagination.totalPages || 1);
+          setTotalItems(pagination.total || 0);
           
           // 重置加载中的图片集合
           setLoadingImages(new Set());
@@ -894,10 +917,16 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
     // Cleanup removed - no polling in My Creations page
   }, []);
 
+  // 处理页码变化
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    fetchHistory(newPage);
+  };
+
   // Removed polling mechanism - My Creations page is for viewing history only
-  
+
   useEffect(() => {
-    fetchHistory();
+    fetchHistory(1); // 始终从第1页开始
   }, [userId, refreshTrigger]);
 
   // Handle new image - add to top of the list immediately
@@ -991,6 +1020,77 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
                 );
               })}
             </div>
+
+            {/* 分页组件 */}
+            {totalPages > 1 && (
+              <Pagination className="mt-8">
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage > 1) handlePageChange(currentPage - 1);
+                      }}
+                      className={
+                        currentPage === 1
+                          ? "pointer-events-none opacity-50"
+                          : undefined
+                      }
+                    />
+                  </PaginationItem>
+                  {(() => {
+                    const pageNumbers = [];
+                    const maxVisiblePages = 5;
+
+                    if (totalPages <= maxVisiblePages) {
+                      // 如果总页数少于或等于最大可见页数，显示所有页码
+                      for (let i = 1; i <= totalPages; i++) {
+                        pageNumbers.push(i);
+                      }
+                    } else {
+                      // 如果总页数大于最大可见页数，智能显示页码
+                      const startPage = Math.max(1, currentPage - 2);
+                      const endPage = Math.min(totalPages, currentPage + 2);
+
+                      for (let i = startPage; i <= endPage; i++) {
+                        pageNumbers.push(i);
+                      }
+                    }
+
+                    return pageNumbers.map((pageNum) => (
+                      <PaginationItem key={pageNum}>
+                        <PaginationLink
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePageChange(pageNum);
+                          }}
+                          isActive={currentPage === pageNum}
+                        >
+                          {pageNum}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ));
+                  })()}
+                  <PaginationItem>
+                    <PaginationNext
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage < totalPages)
+                          handlePageChange(currentPage + 1);
+                      }}
+                      className={
+                        currentPage === totalPages
+                          ? "pointer-events-none opacity-50"
+                          : undefined
+                      }
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            )}
           </div>
         </div>
       )}

@@ -80,8 +80,18 @@ export async function GET(req: NextRequest) {
       mode: item.mode,
     }));
 
-    // 返回数组格式以匹配组件期望
-    return respData(formattedData);
+    // 返回包含分页信息的标准格式
+    return respData({
+      data: formattedData,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages,
+        hasNext,
+        hasPrev
+      }
+    });
 
   } catch (error) {
     console.error("Fetch image history error:", error);
