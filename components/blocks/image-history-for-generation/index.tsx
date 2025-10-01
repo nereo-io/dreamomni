@@ -197,16 +197,19 @@ export default function ImageHistoryForGeneration({
       if (response.ok) {
         const data = await response.json();
         
-        if (data.code === 0 && Array.isArray(data.data)) {
+        if (data.code === 0 && data.data) {
+          // 处理新的嵌套数据结构：data.data.data 和 data.data.pagination
+          const imageData = Array.isArray(data.data.data) ? data.data.data : [];
+
           // 显示所有类型的图片，不进行过滤
-          const allData = data.data;
-          
-          
+          const allData = imageData;
+
+
           // 数据库返回的是按创建时间倒序排列（最新的在前）
           // 为了在UI中实现"最新的在底部"的效果，我们需要反转数组
           // 这样最新的内容就会在数组的最后，显示在底部
           const reversedData = [...allData].reverse();
-          
+
           setImages(reversedData);
           
           // 标记初次加载完成
