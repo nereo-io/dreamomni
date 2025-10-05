@@ -306,6 +306,7 @@
       "imageTooLarge": "Image file is too large (max 10MB)",
       "imageUploadFailed": "Image upload failed",
       "insufficientCredits": "Insufficient credits. Required: {required}, Available: {available}",
+      "membersOnlyModel": "Only members can use this model.",
       "videoSubmitted": "Video generation task submitted, processing...",
       "videoCompleted": "Video generation completed!",
       "videoFailed": "Video generation failed"

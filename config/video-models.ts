@@ -34,6 +34,7 @@ export interface VideoModelConfig {
   supportedResolutions?: string[]; // 支持的分辨率
   audioPremiumCredits?: number; // 音频额外费用
   estimatedGenerationTime?: number; // 预估生成时间（秒），用于前端倒计时
+  requiresMembership?: boolean; // 是否需要会员才能选择
 }
 
 // 视频模型配置
@@ -166,6 +167,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     estimatedGenerationTime: 180, // 预估3分钟
     supportedDurations: [10],
     supportedResolutions: ["1080p"], // 固定1080p HD
+    requiresMembership: true,
   },
 
   // Kie.ai Sora 2 图片转视频模型
@@ -184,6 +186,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     estimatedGenerationTime: 180, // 预估3分钟
     supportedDurations: [10],
     supportedResolutions: ["1080p"], // 固定1080p HD
+    requiresMembership: true,
   },
   // MiniMax Hailuo02 文本转视频模型 (via fal.ai)
   "minimax-hailuo02-text-to-video": {
