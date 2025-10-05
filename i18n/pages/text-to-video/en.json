@@ -37,8 +37,13 @@
   },
   "aiModelsHero": {
     "title": "All-in-One AI Text to Video Generator",
-    "description": "Veo3 AI is the ultimate, all-in-one AI text to video generator. We offer access to industry-leading video models including Veo3, Seedance, Hailuo, and Wan2.2, all in one single place. Try them seamlessly and create stunning visuals without juggling multiple platforms!",
+    "description": "Veo3 AI is the ultimate, all-in-one AI text to video generator. We offer access to industry-leading video models including Sora 2, Veo3, Seedance, and Hailuo, all in one single place. Try them seamlessly and create stunning visuals without juggling multiple platforms!",
     "models": [
+      {
+        "id": "sora2",
+        "name": "Sora 2",
+        "logo": "/imgs/intro/sora.png"
+      },
       {
         "id": "veo3",
         "name": "Veo 3",
@@ -53,11 +58,6 @@
         "id": "hailuo",
         "name": "Hailuo",
         "logo": "/imgs/intro/hailuo.webp"
-      },
-      {
-        "id": "wan",
-        "name": "Wan2.2",
-        "logo": "/imgs/intro/wan.png"
       }
     ],
     "moreModels": "More Models"

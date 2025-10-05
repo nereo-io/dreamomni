@@ -25,6 +25,7 @@ import {
   isBytePlusModel,
   isAliModel,
   isMinimaxModel,
+  isSora2Model,
   calculateCredits,
   VideoModelProvider,
 } from "@/config/video-models";
@@ -441,10 +442,17 @@ export async function POST(req: Request) {
         updateParams.fal_request_id = submitResponse.request_id;
       } else if (
         modelConfig.provider === VideoModelProvider.APICORE ||
-        modelConfig.provider === VideoModelProvider.KIEAI
+        (modelConfig.provider === VideoModelProvider.KIEAI &&
+          !isSora2Model(finalModel))
       ) {
-        // Both APICore and KieAI use the same veo3_request_id field
+        // APICore and KieAI Veo3 use the same veo3_request_id field
         updateParams.veo3_request_id = submitResponse.request_id;
+      } else if (
+        modelConfig.provider === VideoModelProvider.KIEAI &&
+        isSora2Model(finalModel)
+      ) {
+        // Sora 2 使用专用的 sora_request_id 字段
+        updateParams.sora_request_id = submitResponse.request_id;
       } else if (modelConfig.provider === VideoModelProvider.ALI) {
         updateParams.ali_request_id = submitResponse.request_id;
       } else if (modelConfig.provider === VideoModelProvider.BYTEPLUS) {

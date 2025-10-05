@@ -38,6 +38,7 @@ interface VideoGenerationResult {
   video_url_fal?: string;
   video_url_volcano?: string;
   video_url_veo3?: string;
+  video_url_sora?: string;
   upsample_video_url_veo3?: string;
   error_message?: string;
   created_at?: string;

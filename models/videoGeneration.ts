@@ -42,6 +42,7 @@ export async function createVideoGeneration(
       veo3_request_id: params.veo3_request_id,
       ali_request_id: params.ali_request_id,
       pixverse_request_id: params.pixverse_request_id,
+      sora_request_id: params.sora_request_id,
       input_image_url: params.input_image_url,
       negative_prompt: params.negative_prompt,
       aspect_ratio: params.aspect_ratio || "16:9",
@@ -182,6 +183,27 @@ export async function getVideoGenerationByPixVerseRequestId(
     handleSupabaseError(
       error,
       `get video generation by pixverse_request_id ${pixverseRequestId}`
+    );
+  }
+  return data || null;
+}
+
+/**
+ * 根据 Sora 2 请求 ID 获取视频生成记录。
+ */
+export async function getVideoGenerationBySoraRequestId(
+  soraRequestId: string
+): Promise<VideoGeneration | null> {
+  const { data, error } = await supabase
+    .from("video_generations")
+    .select("*")
+    .eq("sora_request_id", soraRequestId)
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    handleSupabaseError(
+      error,
+      `get video generation by sora_request_id ${soraRequestId}`
     );
   }
   return data || null;
@@ -333,6 +355,32 @@ export async function updateVideoGenerationByPixVerseRequestId(
     handleSupabaseError(
       error,
       `update video generation by pixverse_request_id ${pixverseRequestId}`
+    );
+  }
+  return data || null;
+}
+
+/**
+ * 根据 Sora 2 请求 ID 更新视频生成记录。
+ */
+export async function updateVideoGenerationBySoraRequestId(
+  soraRequestId: string,
+  params: UpdateVideoGenerationParams
+): Promise<VideoGeneration | null> {
+  const { data, error } = await supabase
+    .from("video_generations")
+    .update({
+      ...params,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("sora_request_id", soraRequestId)
+    .select()
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    handleSupabaseError(
+      error,
+      `update video generation by sora_request_id ${soraRequestId}`
     );
   }
   return data || null;

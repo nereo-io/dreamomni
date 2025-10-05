@@ -120,10 +120,11 @@ export default function VideoGenerator({
   );
   const [pixverseImgId, setPixverseImgId] = useState<number | null>(null);
   const [watermarkEnabled, setWatermarkEnabled] = useState(false);
-  
+
   // CAPTCHA related states
   const [showCaptchaModal, setShowCaptchaModal] = useState(false);
-  const [pendingCaptchaParams, setPendingCaptchaParams] = useState<VideoGenerationParams | null>(null);
+  const [pendingCaptchaParams, setPendingCaptchaParams] =
+    useState<VideoGenerationParams | null>(null);
 
   // Textarea 引用
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -164,23 +165,25 @@ export default function VideoGenerator({
         setSelectedImage(showcaseVideoParams.imageUrl);
         setImagePreview(showcaseVideoParams.imageUrl);
         setUploadedImageUrl(showcaseVideoParams.imageUrl);
-        
+
         // If using pixverse_template effect, upload to Pixverse
-        if (effect?.effect_type === 'pixverse_template') {
-          fetch('/api/video-effects/pixverse/upload', {
-            method: 'POST',
+        if (effect?.effect_type === "pixverse_template") {
+          fetch("/api/video-effects/pixverse/upload", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({ imageUrl: showcaseVideoParams.imageUrl }),
           })
-          .then(res => res.json())
-          .then(result => {
-            if (result.code === 0 && result.data?.imgId) {
-              setPixverseImgId(result.data.imgId);
-            }
-          })
-          .catch(err => console.error('Failed to upload showcase image to Pixverse:', err));
+            .then((res) => res.json())
+            .then((result) => {
+              if (result.code === 0 && result.data?.imgId) {
+                setPixverseImgId(result.data.imgId);
+              }
+            })
+            .catch((err) =>
+              console.error("Failed to upload showcase image to Pixverse:", err)
+            );
         }
       }
 
@@ -213,23 +216,25 @@ export default function VideoGenerator({
         setSelectedImage(editVideoData.image_url);
         setImagePreview(editVideoData.image_url);
         setUploadedImageUrl(editVideoData.image_url);
-        
+
         // If using pixverse_template effect, upload to Pixverse
-        if (effect?.effect_type === 'pixverse_template') {
-          fetch('/api/video-effects/pixverse/upload', {
-            method: 'POST',
+        if (effect?.effect_type === "pixverse_template") {
+          fetch("/api/video-effects/pixverse/upload", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({ imageUrl: editVideoData.image_url }),
           })
-          .then(res => res.json())
-          .then(result => {
-            if (result.code === 0 && result.data?.imgId) {
-              setPixverseImgId(result.data.imgId);
-            }
-          })
-          .catch(err => console.error('Failed to upload edit image to Pixverse:', err));
+            .then((res) => res.json())
+            .then((result) => {
+              if (result.code === 0 && result.data?.imgId) {
+                setPixverseImgId(result.data.imgId);
+              }
+            })
+            .catch((err) =>
+              console.error("Failed to upload edit image to Pixverse:", err)
+            );
         }
       }
 
@@ -440,29 +445,32 @@ export default function VideoGenerator({
   useEffect(() => {
     // 检查 URL 中是否包含目标路径
     const pathname = window.location.pathname;
-    if (!pathname.includes('/text-to-video') && !pathname.includes('/image-to-video')) {
+    if (
+      !pathname.includes("/text-to-video") &&
+      !pathname.includes("/image-to-video")
+    ) {
       return;
     }
 
     // 对于文本模式
-    if (mode === 'text-to-video') {
-      const savedPrompt = localStorage.getItem('modelLandingPagePrompt');
+    if (mode === "text-to-video") {
+      const savedPrompt = localStorage.getItem("modelLandingPagePrompt");
       if (savedPrompt) {
         setDescription(savedPrompt);
         // 获取后清空 localStorage 中的数据，避免重复填充
-        localStorage.removeItem('modelLandingPagePrompt');
+        localStorage.removeItem("modelLandingPagePrompt");
       }
     }
 
     // 对于图像模式
-    if (mode === 'image-to-video') {
-      const savedImage = localStorage.getItem('modelLandingPageImage');
+    if (mode === "image-to-video") {
+      const savedImage = localStorage.getItem("modelLandingPageImage");
       if (savedImage) {
         setSelectedImage(savedImage);
         setImagePreview(savedImage);
         setUploadedImageUrl(savedImage);
         // 获取后清空 localStorage 中的数据，避免重复填充
-        localStorage.removeItem('modelLandingPageImage');
+        localStorage.removeItem("modelLandingPageImage");
       }
     }
   }, []);
@@ -478,7 +486,7 @@ export default function VideoGenerator({
 
       // 使用基于模型的图片验证规则
       const validationResult = await validateImage(file, selectedModel);
-      
+
       if (!validationResult.valid) {
         toast.error(validationResult.error || "Invalid image file.");
         return;
@@ -512,29 +520,32 @@ export default function VideoGenerator({
         }
 
         setUploadedImageUrl(uploadResult.data.url);
-        
+
         // If using pixverse_template effect, also upload to Pixverse
-        if (effect?.effect_type === 'pixverse_template') {
+        if (effect?.effect_type === "pixverse_template") {
           try {
-            const pixverseUploadResponse = await fetch('/api/video-effects/pixverse/upload', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ imageUrl: uploadResult.data.url }),
-            });
-            
+            const pixverseUploadResponse = await fetch(
+              "/api/video-effects/pixverse/upload",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ imageUrl: uploadResult.data.url }),
+              }
+            );
+
             const pixverseResult = await pixverseUploadResponse.json();
-            
+
             if (pixverseResult.code === 0 && pixverseResult.data?.imgId) {
               setPixverseImgId(pixverseResult.data.imgId);
               toast.success("Image uploaded successfully!");
             } else {
-              throw new Error('Failed to upload image to Pixverse');
+              throw new Error("Failed to upload image to Pixverse");
             }
           } catch (pixverseError) {
-            console.error('Pixverse upload error:', pixverseError);
-            toast.error('Failed to upload image for effect. Please try again.');
+            console.error("Pixverse upload error:", pixverseError);
+            toast.error("Failed to upload image for effect. Please try again.");
             removeImage();
             return;
           }
@@ -574,7 +585,7 @@ export default function VideoGenerator({
   // 构建生成参数的辅助函数
   const buildGenerationParams = (): VideoGenerationParams => {
     let imageUrl = uploadedImageUrl || undefined;
-    
+
     return {
       model: selectedModel,
       prompt: description.trim(),
@@ -595,13 +606,13 @@ export default function VideoGenerator({
     if (pendingCaptchaParams) {
       const finalParams = {
         ...pendingCaptchaParams,
-        captchaToken
+        captchaToken,
       };
-      
+
       // 关闭模态框并清理状态
       setShowCaptchaModal(false);
       setPendingCaptchaParams(null);
-      
+
       // 提交生成请求
       await onGenerate(finalParams);
     }
@@ -641,7 +652,7 @@ export default function VideoGenerator({
 
     // 准备生成参数
     const params = buildGenerationParams();
-    
+
     // 基于积分的CAPTCHA判断
     if (needsCaptcha()) {
       // 新用户需要CAPTCHA验证
@@ -858,6 +869,8 @@ export default function VideoGenerator({
                                   ? "/imgs/intro/hailuo.webp"
                                   : selectedModelConfig.id.includes("veo")
                                   ? "/imgs/intro/veo.svg"
+                                  : selectedModelConfig.id.includes("sora")
+                                  ? "/imgs/intro/sora.png"
                                   : selectedModelConfig.id.includes("wan") ||
                                     selectedModelConfig.id.includes("ali")
                                   ? "/imgs/intro/wan.png"
@@ -886,6 +899,8 @@ export default function VideoGenerator({
                                   ? "/imgs/intro/hailuo.webp"
                                   : model.id.includes("veo")
                                   ? "/imgs/intro/veo.svg"
+                                  : model.id.includes("sora")
+                                  ? "/imgs/intro/sora.png"
                                   : model.id.includes("wan") ||
                                     model.id.includes("ali")
                                   ? "/imgs/intro/wan.png"

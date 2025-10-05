@@ -4,8 +4,14 @@ import { VolcanoProvider } from "./VolcanoProvider";
 import { BytePlusProvider } from "./BytePlusProvider";
 import { Veo3Provider } from "./Veo3Provider";
 import { KieAiVeo3Provider } from "./KieAiVeo3Provider";
+import { KieAiSoraProvider } from "./KieAiSoraProvider";
 import { AliProvider } from "./AliProvider";
-import { getVideoModel, VideoModelProvider } from "@/config/video-models";
+import {
+  getVideoModel,
+  VideoModelProvider,
+  isSora2Model,
+  isKieAiVeo3Model,
+} from "@/config/video-models";
 
 export class ProviderFactory {
   private static instances: Map<string, VideoProvider> = new Map();
@@ -16,7 +22,7 @@ export class ProviderFactory {
       throw new Error(`Unknown model: ${modelId}`);
     }
 
-    const providerKey = modelConfig.provider;
+    const providerKey = this.getProviderCacheKey(modelConfig.provider, modelId);
 
     // Return cached instance if available
     if (this.instances.has(providerKey)) {
@@ -67,7 +73,15 @@ export class ProviderFactory {
             "KIE_AI_API_KEY environment variable is required for Kie.ai models"
           );
         }
-        provider = new KieAiVeo3Provider(kieaiApiKey);
+        // Route to different providers based on model type
+        if (isSora2Model(modelId)) {
+          provider = new KieAiSoraProvider(kieaiApiKey);
+        } else if (isKieAiVeo3Model(modelId)) {
+          provider = new KieAiVeo3Provider(kieaiApiKey);
+        } else {
+          // Default to Veo3 for backward compatibility
+          provider = new KieAiVeo3Provider(kieaiApiKey);
+        }
         break;
 
       case VideoModelProvider.ALI:
@@ -86,6 +100,25 @@ export class ProviderFactory {
 
     // Cache the instance
     this.instances.set(providerKey, provider);
+
+    return provider;
+  }
+
+  private static getProviderCacheKey(
+    provider: VideoModelProvider,
+    modelId: string
+  ): string {
+    if (provider === VideoModelProvider.KIEAI) {
+      if (isSora2Model(modelId)) {
+        return `${provider}:sora2`;
+      }
+
+      if (isKieAiVeo3Model(modelId)) {
+        return `${provider}:veo3`;
+      }
+
+      return `${provider}:${modelId}`;
+    }
 
     return provider;
   }

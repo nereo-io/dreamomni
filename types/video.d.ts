@@ -17,6 +17,7 @@ export interface VideoGeneration {
   veo3_request_id?: string | null; // Veo3 APICore request ID
   ali_request_id?: string | null; // Ali Video Generation request ID
   pixverse_request_id?: string | null; // PixVerse request ID
+  sora_request_id?: string | null; // Sora 2 request ID
   model_id: string;
   prompt: string;
   optimized_prompt?: string | null; // 优化后的提示词
@@ -34,6 +35,7 @@ export interface VideoGeneration {
   video_url_veo3?: string | null; // Veo3 APICore video URL
   video_url_ali?: string | null; // Ali Video Generation video URL
   video_url_pixverse?: string | null; // PixVerse video URL
+  video_url_sora?: string | null; // Sora 2 video URL
   upsample_video_url_veo3?: string | null; // Veo3 high-quality video URL
   error_message?: string | null;
   logs?: any | null; // jsonb
@@ -54,6 +56,7 @@ export interface CreateVideoGenerationParams {
   veo3_request_id?: string; // Veo3 APICore request ID
   ali_request_id?: string; // Ali Video Generation request ID
   pixverse_request_id?: string; // PixVerse request ID
+  sora_request_id?: string; // Sora 2 request ID
   input_image_url?: string;
   negative_prompt?: string;
   aspect_ratio?: string;
@@ -74,6 +77,7 @@ export interface UpdateVideoGenerationParams {
   video_url_veo3?: string; // Veo3 APICore video URL
   video_url_ali?: string; // Ali Video Generation video URL
   video_url_pixverse?: string; // PixVerse video URL
+  video_url_sora?: string; // Sora 2 video URL
   upsample_video_url_veo3?: string; // Veo3 high-quality video URL
   error_message?: string;
   logs?: any;
@@ -83,6 +87,7 @@ export interface UpdateVideoGenerationParams {
   veo3_request_id?: string; // Veo3 APICore request ID
   ali_request_id?: string; // Ali Video Generation request ID
   pixverse_request_id?: string; // PixVerse request ID
+  sora_request_id?: string; // Sora 2 request ID
 }
 
 // Adding types from previous video.d.ts content if they are still relevant

@@ -149,6 +149,42 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedDurations: [8],
     supportedResolutions: ["1080p"], // Veo3支持高分辨率
   },
+
+  // Kie.ai Sora 2 文本转视频模型
+  "sora-2-text-to-video": {
+    id: "sora-2-text-to-video",
+    name: "Sora 2 Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    displayName: "Sora 2",
+    perSecondCredits: 0.5, // 5秒12积分 = 2.4积分/秒
+    description: "OpenAI's Sora 2 model. Note: It has a watermark from OpenAI.",
+    features: ["wait 200s", "Audio"],
+    maxDuration: 10,
+    supportedAspectRatios: ["16:9", "9:16"],
+    supportsAudio: false,
+    estimatedGenerationTime: 180, // 预估3分钟
+    supportedDurations: [10],
+    supportedResolutions: ["1080p"], // 固定1080p HD
+  },
+
+  // Kie.ai Sora 2 图片转视频模型
+  "sora-2-image-to-video": {
+    id: "sora-2-image-to-video",
+    name: "Sora 2 Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    displayName: "Sora 2",
+    perSecondCredits: 0.5, // 图生视频10积分/5秒 = 2积分/秒
+    description: "OpenAI's Sora 2 model. Note: It has a watermark from OpenAI.",
+    features: ["wait 200s", "Audio"],
+    maxDuration: 10,
+    supportedAspectRatios: ["16:9", "9:16"],
+    supportsAudio: false,
+    estimatedGenerationTime: 180, // 预估3分钟
+    supportedDurations: [10],
+    supportedResolutions: ["1080p"], // 固定1080p HD
+  },
   // MiniMax Hailuo02 文本转视频模型 (via fal.ai)
   "minimax-hailuo02-text-to-video": {
     id: "minimax-hailuo02-text-to-video",
@@ -323,6 +359,8 @@ export function calculateCredits(
     totalCredits += duration * model.audioPremiumCredits;
   }
 
+  // Sora 2 固定为 1080p HD，无需额外调整（已在 perSecondCredits 中包含）
+
   return Math.round(totalCredits);
 }
 
@@ -395,6 +433,11 @@ export function isKieAiModel(modelId: string): boolean {
 // 检查模型是否为Kie.ai Veo3模型
 export function isKieAiVeo3Model(modelId: string): boolean {
   return modelId.includes("kie-veo3-");
+}
+
+// 检查模型是否为Sora 2模型
+export function isSora2Model(modelId: string): boolean {
+  return modelId.includes("sora-2-");
 }
 
 // 检查模型是否为阿里百炼模型

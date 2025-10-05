@@ -44,7 +44,15 @@
       "WebFetch(domain:www.alibabacloud.com)",
       "Bash(cp:*)",
       "Bash(grep:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(curl:*)",
+      "Bash(ffmpeg:*)",
+      "Bash(ffprobe:*)",
+      "Bash(xxd:*)",
+      "Bash(lsof:*)",
+      "Bash(kill:*)",
+      "Read(//private/tmp/**)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": [],

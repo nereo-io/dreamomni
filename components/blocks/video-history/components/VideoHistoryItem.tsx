@@ -53,6 +53,7 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
         gen.video_url_r2 ||
         gen.upsample_video_url_veo3 ||
         gen.video_url_veo3 ||
+        gen.video_url_sora ||
         gen.video_url_volcano ||
         gen.video_url_fal ||
         null
