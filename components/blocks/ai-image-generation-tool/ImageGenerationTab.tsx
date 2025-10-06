@@ -27,6 +27,8 @@ interface ImageGenerationTabProps {
   onPromptChange?: (value: string) => void;
 }
 
+const MAX_PROMPT_LENGTH = 2000;
+
 // Helper function to map statuses between different types
 const mapStatusForHistory = (
   status: string
@@ -151,7 +153,7 @@ export default function ImageGenerationTab({
 
   const handlePromptChange = useCallback(
     (value: string) => {
-      if (value.length > 1000) {
+      if (value.length > MAX_PROMPT_LENGTH) {
         return;
       }
 
@@ -969,7 +971,7 @@ export default function ImageGenerationTab({
                 <span>{t("prompt")}</span>
                 {prompt.length > 900 && (
                   <span className="text-sm font-normal text-gray-400">
-                    {prompt.length}/1000
+                    {prompt.length}/{MAX_PROMPT_LENGTH}
                   </span>
                 )}
               </div>
@@ -987,7 +989,7 @@ export default function ImageGenerationTab({
                 className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
                 style={{ minHeight: "150px", maxHeight: "300px" }}
                 disabled={isGenerating}
-                maxLength={1000}
+                maxLength={MAX_PROMPT_LENGTH}
               />
             </div>
 

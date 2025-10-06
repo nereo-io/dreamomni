@@ -109,8 +109,8 @@ export abstract class BaseAIProvider {
       throw new Error('Prompt is required');
     }
     
-    if (request.prompt.length > 1000) {
-      throw new Error('Prompt is too long (max 1000 characters)');
+    if (request.prompt.length > 2000) {
+      throw new Error('Prompt is too long (max 2000 characters)');
     }
   }
 

@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import { BannerSection, Tab } from "@/types/pages/model-landing-page";
 
+const MAX_PROMPT_LENGTH = 2000;
+
 export default function ModelBanner({ section }: { section: BannerSection }) {
   const [prompt, setPrompt] = useState("");
   const [activeTab, setActiveTab] = useState<string>(
@@ -150,7 +152,12 @@ export default function ModelBanner({ section }: { section: BannerSection }) {
             placeholder={tab.placeholder}
             className="resize-none bg-input border-border text-foreground placeholder:text-muted-foreground mt-0 overflow-y-auto min-h-[150px] max-h-[300px]"
             value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
+            onChange={(e) => {
+              if (e.target.value.length <= MAX_PROMPT_LENGTH) {
+                setPrompt(e.target.value);
+              }
+            }}
+            maxLength={MAX_PROMPT_LENGTH}
           />
 
           <div className="flex justify-end mt-3 text-sm text-muted-foreground">
@@ -163,7 +170,7 @@ export default function ModelBanner({ section }: { section: BannerSection }) {
                   : ""
               }`}
             >
-              {prompt.length} / 1000
+              {prompt.length} / {MAX_PROMPT_LENGTH}
             </div>
           </div>
         </div>
@@ -300,7 +307,7 @@ export default function ModelBanner({ section }: { section: BannerSection }) {
   const renderCreateButton = (tab: Tab) => {
     const isDisabled =
       tab.type === "text"
-        ? !prompt.trim() || prompt.trim().length > 1000
+        ? !prompt.trim() || prompt.trim().length > MAX_PROMPT_LENGTH
         : !imageFile;
 
     return (
