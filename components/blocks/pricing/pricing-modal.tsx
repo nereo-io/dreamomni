@@ -3,7 +3,7 @@
 import { Check, Loader, Crown, X } from "lucide-react";
 import { PricingItem, Pricing as PricingType } from "@/types/blocks/pricing";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import {
   Dialog,
   DialogContent,
@@ -61,6 +61,32 @@ export default function PricingModal({
     credits?: number;
     nextBilling?: string;
   }>({});
+
+  const visiblePlans = useMemo(() => {
+    if (!pricing.items?.length) {
+      return [] as PricingItem[];
+    }
+
+    return pricing.items.filter((item) => {
+      if (item.group && group && item.group !== group) {
+        return false;
+      }
+      if (item.amount === 0 || item.product_id === "free-plan") {
+        return false;
+      }
+      return true;
+    });
+  }, [pricing.items, group]);
+
+  const gridColumnsClass = useMemo(() => {
+    if (visiblePlans.length >= 3) {
+      return "md:grid-cols-2 lg:grid-cols-3";
+    }
+    if (visiblePlans.length === 2) {
+      return "md:grid-cols-2 lg:grid-cols-2";
+    }
+    return "md:grid-cols-1 lg:grid-cols-1";
+  }, [visiblePlans.length]);
 
   function calculateNextBilling(interval: string, paidAt: string) {
     const paidDate = new Date(paidAt);
@@ -369,7 +395,7 @@ export default function PricingModal({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-4xl max-h-[85vh] overflow-y-auto p-0">
+        <DialogContent className="sm:max-w-5xl max-h-[85vh] overflow-y-auto p-0">
             <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground z-10">
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
@@ -437,29 +463,11 @@ export default function PricingModal({
                   </div>
                 )}
 
-                <div
-                  className={`w-full grid gap-4 lg:grid-cols-2 md:grid-cols-2 grid-cols-1`}
-                >
-                  {pricing.items?.map((item, index) => {
-                    if (item.group && item.group !== group) {
-                      return null;
-                    }
-
-                    // 隐藏免费计划以节省空间
-                    if (item.amount === 0 || item.product_id === "free-plan") {
-                      return null;
-                    }
-
-                    // 基于 product_id 只显示 Mini 和 Standard 方案（语言无关）
-                    const allowedPlans = ["mini", "standard"];
-                    const planType = item.product_id?.split("-")[0];
-                    if (!planType || !allowedPlans.includes(planType)) {
-                      return null;
-                    }
-
+                <div className={`w-full grid gap-4 grid-cols-1 ${gridColumnsClass}`}>
+                  {visiblePlans.map((item, index) => {
                     return (
                       <div
-                        key={index}
+                        key={item.product_id ?? index}
                         className={`rounded-lg p-4 ${
                           item.is_featured
                             ? "border-primary border-2 bg-card text-card-foreground"
