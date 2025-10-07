@@ -159,7 +159,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     provider: VideoModelProvider.KIEAI,
     displayName: "Sora 2",
     perSecondCredits: 0.5, // 5秒12积分 = 2.4积分/秒
-    description: "OpenAI's Sora 2 model. Note: It has a watermark from OpenAI.",
+    description: "OpenAI's Sora 2 model, Limited-time promotion",
     features: ["wait 200s", "Audio"],
     maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16"],
@@ -178,7 +178,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     provider: VideoModelProvider.KIEAI,
     displayName: "Sora 2",
     perSecondCredits: 0.5, // 图生视频10积分/5秒 = 2积分/秒
-    description: "OpenAI's Sora 2 model. Note: It has a watermark from OpenAI.",
+    description: "OpenAI's Sora 2 model, Limited-time promotion",
     features: ["wait 200s", "Audio"],
     maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16"],
