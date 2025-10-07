@@ -152,7 +152,7 @@ export class KieAiSoraProvider implements VideoProvider {
           prompt: input.prompt,
           aspect_ratio: aspectRatio,
           aspectRatio,
-          quality: "hd", // 固定1080p HD
+          quality: "standard", // Kie.ai API rejects hd for this tenant, keep default standard tier
         },
       };
 
