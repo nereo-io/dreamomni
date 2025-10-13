@@ -20,7 +20,13 @@ export async function getLandingPage(locale: string): Promise<LandingPage> {
     );
   }
 }
-export async function getNanoBananaLandingPage(
+/**
+ * Unified model landing page data loader
+ * @param model - Model slug (e.g., 'nano-banana', 'wan-2-5')
+ * @param locale - User locale
+ */
+export async function getModelLandingPage(
+  model: string,
   locale: string
 ): Promise<ModelLandingPage> {
   try {
@@ -28,29 +34,13 @@ export async function getNanoBananaLandingPage(
       locale = "zh";
     }
     return await import(
-      `@/i18n/pages/nano-banana/${locale.toLowerCase()}.json`
+      `@/i18n/pages/${model}/${locale.toLowerCase()}.json`
     ).then((module) => module.default);
   } catch (error) {
-    console.warn(`Failed to load ${locale}.json, falling back to en.json`);
-    return await import("@/i18n/pages/nano-banana/en.json").then(
-      (module) => module.default as ModelLandingPage
+    console.warn(
+      `Failed to load ${model}/${locale}.json, falling back to en.json`
     );
-  }
-}
-
-export async function getWanAILandingPage(
-  locale: string
-): Promise<ModelLandingPage> {
-  try {
-    if (locale === "zh-CN") {
-      locale = "zh";
-    }
-    return await import(
-      `@/i18n/pages/wan-2-5/${locale.toLowerCase()}.json`
-    ).then((module) => module.default);
-  } catch (error) {
-    console.warn(`Failed to load ${locale}.json, falling back to en.json`);
-    return await import("@/i18n/pages/wan-2-5/en.json").then(
+    return await import(`@/i18n/pages/model-landing/${model}/en.json`).then(
       (module) => module.default as ModelLandingPage
     );
   }

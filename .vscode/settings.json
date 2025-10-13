@@ -12,5 +12,5 @@
   ],
   "i18n-ally.keystyle": "nested",
   "claudeCodeChat.permissions.yoloMode": true,
-  "chatgpt.openOnStartup": true
+  "chatgpt.openOnStartup": false
 }

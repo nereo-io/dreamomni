@@ -4,11 +4,6 @@
     "description": "Generate stunning 4K videos with AI. Create professional videos from text prompts with realistic physics and native audio. Start free today.",
     "keywords": "Veo3 AI, AI Video Generator, Free Video Creation, Text to Video, 4K Videos, AI Filmmaking"
   },
-  "nano_banana": {
-    "title": "Google Nano Banana AI: Try This AI Image Generator | Veo3 AI",
-    "description": "Create stunning images with Nano Banana AI. Generate high-quality images from text prompts with advanced AI technology.",
-    "keywords": "Nano Banana, AI Image Generator, Text to Image, Image Creation, AI Art, AI Images"
-  },
   "wan-2-5": {
     "title": "Wan 2.5 Free: Try This Wan AI Video Model Now | Veo3 AI",
     "description": "Experience Wan 2.5, Wan AI’s upgraded AI video model with built-in audio, improved consistency, and fluid motion technology.",
@@ -621,5 +616,10 @@
     "viewSubscription": "View Subscription",
     "cancel": "Cancel",
     "continuePurchase": "Continue Purchase"
+  },
+  "nano-banana": {
+    "title": "Google Nano Banana AI: Try This AI Image Generator | Veo3 AI",
+    "description": "Create stunning images with Nano Banana AI. Generate high-quality images from text prompts with advanced AI technology.",
+    "keywords": "Nano Banana, AI Image Generator, Text to Image, Image Creation, AI Art, AI Images"
   }
 }
