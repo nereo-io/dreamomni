@@ -38,28 +38,6 @@
   ],
   "features": {
     "title": "Key Features of Google Nano Banana AI",
-    "features": [
-      {
-        "title": "SOTA Image Generation",
-        "description": "Create detail-rich images with unmatched stylistic precision."
-      },
-      {
-        "title": "Perfect Character Consistency",
-        "description": "Maintain character and scene elements across iterative changes to ensure consistency."
-      },
-      {
-        "title": "Natural Language Image Refinement",
-        "description": "Implement advanced image edits using plain text."
-      },
-      {
-        "title": "Multi-Image Fusion",
-        "description": "Merge multiple images, insert objects, restyle scenes, or combine visuals."
-      },
-      {
-        "title": "Ultra-Fast Image Processing",
-        "description": "Generate and edit images quickly without compromising quality."
-      }
-    ],
     "details": [
       {
         "title": "State-of-the-art to Image Generation",

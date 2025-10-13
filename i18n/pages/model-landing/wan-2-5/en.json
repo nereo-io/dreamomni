@@ -38,32 +38,6 @@
   ],
   "features": {
     "title": "Key Features of Wan 2.5 AI Video Model",
-    "features": [
-      {
-        "title": "Native Audio Integration",
-        "description": "Automatically generates sounds with custom audio upload, also available"
-      },
-      {
-        "title": "Upgraded Motion Dynamics",
-        "description": "Renders complex motions with more fluid and natural detail"
-      },
-      {
-        "title": "Precise Camera Control",
-        "description": "Greater bandwidth for cinematic video production."
-      },
-      {
-        "title": "Enhanced Visual Realism",
-        "description": "Richer and more detailed scene compositions"
-      },
-      {
-        "title": "Improved Contextual Understanding",
-        "description": "Better interprets intricate character actions and creative scene direction."
-      },
-      {
-        "title": "Faster Video Generation",
-        "description": "Renders videos with much shorter processing times."
-      }
-    ],
     "details": [
       {
         "title": "Native Audio Integration",

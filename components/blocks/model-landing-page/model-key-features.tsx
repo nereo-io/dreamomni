@@ -190,9 +190,7 @@ const FeatureItemComponent: React.FC<FeatureItem & { index: number }> =
             <Sparkles className="h-5 w-5 text-primary" />
           </div>
           <div className="flex flex-col">
-            <span className="text-base font-semibold text-white">
-              {title}
-            </span>
+            <span className="text-base font-semibold text-white">{title}</span>
             <span className="mt-1 text-sm leading-relaxed text-white/90">
               {description}
             </span>
@@ -291,7 +289,6 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
   // 为所有必需属性提供默认值，防止数据不完整时出错
   const safeSection = {
     title: section.title || "Key Features",
-    features: section.features || [],
     details: section.details || [],
   };
 
@@ -335,7 +332,7 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
           >
             {safeSection.title}
           </h2>
-          <div className="mx-auto max-w-5xl">
+          {/* <div className="mx-auto max-w-5xl">
             <div className="grid gap-6 md:grid-cols-2 md:auto-rows-fr">
               {safeSection.features.map((feature, index) => (
                 <FeatureItemComponent
@@ -346,17 +343,17 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
                 />
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
 
         {safeSection.details.map((item, index) => (
           <section id={`detail-${index}`} key={index} className="py-20">
-            <h2
+            <h3
               className="text-3xl md:text-4xl font-bold mb-6 text-foreground"
               id={`detail-title-${index}`}
             >
               {item.title}
-            </h2>
+            </h3>
             <p className="text-foreground/90 text-lg mb-12 leading-relaxed">
               {item.description}
             </p>

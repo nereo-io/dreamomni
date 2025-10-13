@@ -61,7 +61,7 @@ export interface DetailItem {
 
 export interface KeyFeaturesSection {
   title?: string;
-  features?: FeatureItem[];
+  // features?: FeatureItem[];
   details?: DetailItem[];
 }
 
