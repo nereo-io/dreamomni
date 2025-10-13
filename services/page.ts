@@ -34,7 +34,7 @@ export async function getModelLandingPage(
       locale = "zh";
     }
     return await import(
-      `@/i18n/pages/${model}/${locale.toLowerCase()}.json`
+      `@/i18n/pages/model-landing/${model}/${locale.toLowerCase()}.json`
     ).then((module) => module.default);
   } catch (error) {
     console.warn(

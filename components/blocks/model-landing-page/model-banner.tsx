@@ -130,18 +130,18 @@ export default function ModelBanner({ section }: { section: BannerSection }) {
             {tab.title}
           </h2>
 
-          <div className="mb-3 flex items-center justify-between">
-            <div className="text-sm font-medium text-muted-foreground">
+          <div className="mb-3 flex items-center justify-between gap-4">
+            <div className="text-sm font-medium text-muted-foreground flex-shrink-0">
               {tab.subTitle}
             </div>
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-3 flex-shrink-0">
+              <div className="flex items-center gap-2">
                 <img
                   src={tab.modelLogo}
                   alt="Google Nano Banana"
-                  className="h-6 w-6"
+                  className="h-6 w-6 flex-shrink-0"
                 />
-                <span className="text-sm text-muted-foreground">
+                <span className="text-sm text-muted-foreground whitespace-nowrap">
                   {tab.modelName}
                 </span>
               </div>
@@ -182,18 +182,18 @@ export default function ModelBanner({ section }: { section: BannerSection }) {
             {tab.title}
           </h2>
 
-          <div className="mb-3 flex items-center justify-between">
-            <div className="text-sm font-medium text-muted-foreground">
+          <div className="mb-3 flex items-center justify-between gap-4">
+            <div className="text-sm font-medium text-muted-foreground flex-shrink-0">
               {tab.subTitle}
             </div>
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-3 flex-shrink-0">
+              <div className="flex items-center gap-2">
                 <img
                   src={tab.modelLogo}
                   alt="Google Nano Banana"
-                  className="h-6 w-6"
+                  className="h-6 w-6 flex-shrink-0"
                 />
-                <span className="text-sm text-muted-foreground">
+                <span className="text-sm text-muted-foreground whitespace-nowrap">
                   {tab.modelName}
                 </span>
               </div>
@@ -360,15 +360,11 @@ export default function ModelBanner({ section }: { section: BannerSection }) {
 
   return (
     <>
-      <div className="fixed inset-0 -z-50 overflow-hidden bg-background">
-        <img
-          src="https://cdn.pollo.ai/prod/public/images/review/top-bg.jpg"
-          className="absolute inset-0 w-full h-full object-cover"
-          alt="background"
-        />
+      <div className='fixed inset-0 -z-10 bg-[url("/imgs/cta-bg.png")] bg-cover bg-center bg-no-repeat'>
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
       </div>
-      <section className="z-1 w-full min-h-[calc(100vh-64px)] max-h-[150vh] pt-4 pb-12 md:pt-0 md:pb-0">
-        <div className="w-full h-full max-w-4xl mx-auto px-4 md:px-0 flex flex-col items-center">
+      <section className="z-1 w-full pt-4 pb-12 md:pt-8 md:pb-16 relative">
+        <div className="relative z-10 w-full h-full max-w-4xl mx-auto px-4 md:px-0 flex flex-col items-center">
           <div className="text-center mt-10 mb-6">
             <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-foreground">
               {section.title}
@@ -378,36 +374,38 @@ export default function ModelBanner({ section }: { section: BannerSection }) {
             </p>
           </div>
 
-          <Tabs
-            defaultValue={section.tabs[0]?.value || "text-to-image"}
-            className="w-full"
-            onValueChange={setActiveTab}
-          >
-            <TabsList className="grid w-full max-w-lg mx-auto grid-cols-2 mb-9 p-1 bg-background/50 rounded-xl">
-              {section.tabs.map((tab) => (
-                <TabsTrigger
-                  key={tab.value}
-                  value={tab.value}
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary data-[state=active]:text-primary-foreground transition-all duration-300"
-                >
-                  {tab.title}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+          <div className="bg-card rounded-2xl border border-border w-full max-w-2xl mx-auto overflow-hidden">
+            <Tabs
+              defaultValue={section.tabs[0]?.value || "text-to-image"}
+              className="w-full"
+              onValueChange={setActiveTab}
+            >
+              <TabsList className="grid w-full grid-cols-2 rounded-none border-b border-border bg-muted/30 h-14">
+                {section.tabs.map((tab) => (
+                  <TabsTrigger
+                    key={tab.value}
+                    value={tab.value}
+                    className="rounded-none data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=active]:font-medium transition-all duration-300 h-full"
+                  >
+                    {tab.title}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
 
-            <div className="bg-card rounded-2xl p-6 md:p-6 border border-border max-w-2xl mx-auto">
-              {section.tabs.map((tab) => (
-                <TabsContent
-                  key={tab.value}
-                  value={tab.value}
-                  className="mt-0 animate-in fade-in-50 duration-300"
-                >
-                  {renderTabContent(tab)}
-                  {renderCreateButton(tab)}
-                </TabsContent>
-              ))}
-            </div>
-          </Tabs>
+              <div className="p-6 md:p-6">
+                {section.tabs.map((tab) => (
+                  <TabsContent
+                    key={tab.value}
+                    value={tab.value}
+                    className="mt-0 animate-in fade-in-50 duration-300"
+                  >
+                    {renderTabContent(tab)}
+                    {renderCreateButton(tab)}
+                  </TabsContent>
+                ))}
+              </div>
+            </Tabs>
+          </div>
         </div>
       </section>
     </>

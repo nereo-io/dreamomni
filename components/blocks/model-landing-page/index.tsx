@@ -25,9 +25,9 @@ export default function ModelLandingPage({ page }: ModelLandingPageProps) {
       {/* banner */}
       {page.banner && <ModelBanner section={page.banner} />}
       {/* partners */}
-      {page.partners && (
+      {/* {page.partners && (
         <PartnersScroll section={page.partners} className="mt-8" />
-      )}
+      )} */}
       {/* 主要特点 */}
       {page.features && <ModelKeyFeatures section={page.features} />}
       {/* 用法指南 */}
