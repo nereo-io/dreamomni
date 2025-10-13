@@ -30,8 +30,17 @@ export default function ModelUsageGuide({ section }: ModelUsageGuideProps) {
   };
 
   return (
-    <div className="text-foreground py-12 bg-gray-900 usage-guide-section">
-      <div className="container mx-auto px-4">
+    <section className="relative overflow-hidden text-foreground py-12 usage-guide-section">
+      <div
+        className="absolute inset-0 bg-[url('/imgs/elements/earth.png')] bg-cover bg-center"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-0 bg-gray-950/75 backdrop-blur-sm"
+        aria-hidden="true"
+      />
+
+      <div className="relative z-10 container mx-auto px-4">
         {/* 标题区域 */}
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold font-black mb-10 text-center text-foreground">
@@ -70,6 +79,6 @@ export default function ModelUsageGuide({ section }: ModelUsageGuideProps) {
           </RainbowButton>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

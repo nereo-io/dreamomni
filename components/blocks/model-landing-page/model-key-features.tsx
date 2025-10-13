@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { Sparkles } from "lucide-react";
 import {
   FeatureItem,
   TableRow,
@@ -35,82 +36,62 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ tableData }) => {
     ensureConsistentRowLength(row, headers.length)
   );
 
-  // 计算每列的宽度百分比，确保列宽一致
-  const columnWidth =
-    headers.length > 0 ? `${1000 / headers.length}px` : "auto";
+  // 响应式列宽：自动平分剩余空间
+  const columnWidth = headers.length > 0 ? `${100 / headers.length}%` : "auto";
 
-  // 创建一个辅助函数来渲染单元格内容，提高代码可维护性
+  // 渲染单元格内容 - 简化版，去掉冗余背景层
   const renderCellContent = (
-    cell: TableCell, // 修改类型为TableCell
+    cell: TableCell,
     rowIndex: number,
     cellIndex: number
   ) => {
-    // 通用的容器类名
-    const containerBaseClasses =
-      "bg-secondary/60 p-3 rounded-lg overflow-hidden shadow-inner";
-
     switch (cell.type) {
       case "image":
         return (
-          <div className={containerBaseClasses}>
-            <Image
-              src={cell.content}
-              alt={cell.altText || ""} // 添加默认值避免undefined
-              width={200}
-              height={200}
-              className="rounded object-cover w-full h-full"
-              style={{ aspectRatio: "1/1" }}
-              loading="lazy" // 添加懒加载提高性能
-            />
-          </div>
+          <Image
+            src={cell.content}
+            alt={cell.altText || ""}
+            width={200}
+            height={200}
+            className="rounded object-cover w-full h-full"
+            style={{ aspectRatio: "1/1" }}
+            loading="lazy"
+          />
         );
 
       case "video":
         return (
-          <div className={containerBaseClasses}>
-            <video
-              src={cell.content}
-              controls
-              className="rounded w-full h-auto"
-              poster={cell.poster}
-              aria-label={`Video content ${rowIndex + 1}-${cellIndex + 1}`} // 提高可访问性
-            />
-          </div>
+          <video
+            src={cell.content}
+            controls
+            className="rounded w-full h-auto"
+            poster={cell.poster}
+            aria-label={`Video content ${rowIndex + 1}-${cellIndex + 1}`}
+          />
         );
 
       case "text":
-        return (
-          <div
-            className={`${containerBaseClasses} p-4 h-full flex items-center`}
-          >
-            <p className="text-foreground text-sm font-medium">
-              {cell.content}
-            </p>
-          </div>
-        );
+        return <p className="text-foreground/90 text-sm">{cell.content}</p>;
 
       default:
-        // 添加类型保护，防止意外的单元格类型
         console.warn(`Unsupported cell type: ${(cell as any).type}`);
         return (
-          <div
-            className={`${containerBaseClasses} p-4 h-full flex items-center justify-center text-muted-foreground`}
-          >
-            <span className="text-sm">Unsupported content</span>
-          </div>
+          <span className="text-sm text-muted-foreground">
+            Unsupported content
+          </span>
         );
     }
   };
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-border shadow-xl bg-card backdrop-blur-md transition-all duration-300 hover:shadow-2xl">
+    <div className="overflow-x-auto rounded-xl border border-border/50 bg-card/30 backdrop-blur-sm">
       <table className="w-full border-collapse table-fixed">
         <thead>
-          <tr className="bg-secondary/80">
+          <tr className="bg-secondary/50 border-b border-border/50">
             {headers.map((header, index) => (
               <th
                 key={index}
-                className="p-5 text-center text-sm font-medium text-card-foreground border-b border-border transition-colors duration-300 hover:bg-secondary"
+                className="px-4 py-3 text-center text-sm font-medium text-foreground"
                 style={{ width: columnWidth }}
               >
                 {header.title}
@@ -122,16 +103,14 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ tableData }) => {
           {normalizedRows.map((row, rowIndex) => (
             <tr
               key={rowIndex}
-              className={`transition-colors duration-300 hover:bg-secondary/30 ${
-                rowIndex % 2 === 0 ? "bg-background/40" : "bg-background/20"
-              }`}
+              className="border-b border-border/30 hover:bg-secondary/20 transition-colors"
             >
               {row.cells.map((cell, cellIndex) => (
                 <td
                   key={cellIndex}
-                  className="p-5 border-b border-border transition-all duration-300"
+                  className="p-4"
                   style={{ width: columnWidth }}
-                  role="gridcell" // 提高可访问性
+                  role="gridcell"
                   aria-colindex={cellIndex + 1}
                 >
                   {renderCellContent(cell, rowIndex, cellIndex)}
@@ -145,15 +124,14 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ tableData }) => {
   );
 };
 
-// FeatureItem组件 - 使用React.memo优化性能
+// FeatureItem组件 - 网格布局 + 图标
 const FeatureItemComponent: React.FC<FeatureItem & { index: number }> =
   React.memo(({ title, description, index }) => {
-    const ref = useRef<HTMLLIElement>(null);
+    const ref = useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState(false);
 
-    // 创建锚点点击处理函数
-    const scrollToDetail = (e: React.MouseEvent) => {
-      e.preventDefault();
+    // 滚动到详情区
+    const scrollToDetail = () => {
       const targetId = `detail-${index}`;
       const targetElement = document.getElementById(targetId);
       if (targetElement) {
@@ -161,7 +139,6 @@ const FeatureItemComponent: React.FC<FeatureItem & { index: number }> =
           behavior: "smooth",
           block: "start",
         });
-        // 添加一个微小的偏移量，确保标题完全可见
         setTimeout(() => {
           const yOffset = -80;
           const y =
@@ -196,25 +173,32 @@ const FeatureItemComponent: React.FC<FeatureItem & { index: number }> =
     }, []);
 
     return (
-      <li
+      <div
         ref={ref}
-        className={`transition-all duration-700 ease-out transform ${
+        className={`h-full transition-all duration-700 ease-out transform ${
           isVisible
             ? "translate-x-0 opacity-100"
             : "translate-x-[-20px] opacity-0"
         }`}
       >
-        <a
-          href={`#detail-${index}`}
+        <button
+          type="button"
           onClick={scrollToDetail}
-          className="block p-2 rounded-lg hover:bg-primary/10 transition-all duration-300 cursor-pointer group"
+          className="flex h-full w-full items-start gap-4 rounded-xl border border-white/10 bg-white/[0.08] px-5 py-4 text-left transition hover:border-primary/70 hover:bg-white/[0.12] focus:outline-none focus:ring-2 focus:ring-primary/40"
         >
-          <span className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary/80 to-primary transition-all duration-300">
-            {title}：
-          </span>
-          <span className="ml-2 text-foreground">{description}</span>
-        </a>
-      </li>
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/40">
+            <Sparkles className="h-5 w-5 text-primary" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-base font-semibold text-white">
+              {title}
+            </span>
+            <span className="mt-1 text-sm leading-relaxed text-white/90">
+              {description}
+            </span>
+          </div>
+        </button>
+      </div>
     );
   });
 
@@ -337,8 +321,8 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
   }, []);
 
   return (
-    <div className="min-h-screen text-foreground py-20 bg-gray-900">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen py-20 bg-gray-900">
+      <div className="container mx-auto max-w-7xl px-4">
         {/* Key Features Section */}
         <div className="mb-20">
           <h2
@@ -351,8 +335,8 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
           >
             {safeSection.title}
           </h2>
-          <div className="bg-card backdrop-blur-sm rounded-2xl p-8 border border-border mx-auto shadow-xl hover:shadow-2xl transition-all duration-500 hover:border-primary/20">
-            <ul>
+          <div className="mx-auto max-w-5xl">
+            <div className="grid gap-6 md:grid-cols-2 md:auto-rows-fr">
               {safeSection.features.map((feature, index) => (
                 <FeatureItemComponent
                   key={index}
@@ -361,54 +345,42 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
                   description={feature.description}
                 />
               ))}
-            </ul>
+            </div>
           </div>
         </div>
 
         {safeSection.details.map((item, index) => (
-          <section
-            id={`detail-${index}`}
-            key={index}
-            className={`py-20 transition-all duration-700 ease-out transform opacity-100`}
-          >
-            <div className="container mx-auto px-4">
-              <div className="max-w-7xl mx-auto">
-                <h2
-                  className="text-3xl md:text-4xl font-bold mb-6 text-foreground"
-                  id={`detail-title-${index}`}
-                >
-                  {item.title}
-                </h2>
-                <p className="text-foreground text-lg mb-12 max-w-6xl leading-relaxed">
-                  {item.description}
-                </p>
-                {item.type === "table" && (
-                  <div className="transform transition-all duration-500 hover:scale-[1.01]">
-                    <DynamicTable tableData={item.data as TableData} />
-                  </div>
-                )}
-                {item.type === "video" && (
-                  <div className="bg-secondary/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-border shadow-xl max-w-3xl mx-auto transition-all duration-500 hover:shadow-2xl hover:border-primary/20">
-                    {item.poster ? (
-                      // 如果提供了封面图，则使用原始video标签
-                      <video
-                        src={item.data as string}
-                        controls
-                        className="w-full h-auto rounded-t-lg"
-                        preload="metadata"
-                        poster={item.poster}
-                      />
-                    ) : (
-                      // 如果没有提供封面图，则使用自动捕获第一帧的组件
-                      <VideoWithAutoPoster
-                        src={item.data as string}
-                        className="w-full h-auto rounded-t-lg"
-                      />
-                    )}
-                  </div>
+          <section id={`detail-${index}`} key={index} className="py-20">
+            <h2
+              className="text-3xl md:text-4xl font-bold mb-6 text-foreground"
+              id={`detail-title-${index}`}
+            >
+              {item.title}
+            </h2>
+            <p className="text-foreground/90 text-lg mb-12 leading-relaxed">
+              {item.description}
+            </p>
+            {item.type === "table" && (
+              <DynamicTable tableData={item.data as TableData} />
+            )}
+            {item.type === "video" && (
+              <div className="bg-card/30 backdrop-blur-sm rounded-xl overflow-hidden border border-border/50 max-w-4xl mx-auto">
+                {item.poster ? (
+                  <video
+                    src={item.data as string}
+                    controls
+                    className="w-full h-auto"
+                    preload="metadata"
+                    poster={item.poster}
+                  />
+                ) : (
+                  <VideoWithAutoPoster
+                    src={item.data as string}
+                    className="w-full h-auto"
+                  />
                 )}
               </div>
-            </div>
+            )}
           </section>
         ))}
       </div>
