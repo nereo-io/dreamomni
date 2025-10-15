@@ -266,6 +266,11 @@
           "title": "AI Models",
           "children": [
             {
+              "title": "Veo 3.1",
+              "url": "/veo-3-1",
+              "target": "_self"
+            },
+            {
               "title": "WAN-2.5",
               "url": "/wan-2-5",
               "target": "_self"

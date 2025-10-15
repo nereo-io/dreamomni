@@ -10,6 +10,7 @@
 export const MODEL_LANDING_PAGES = [
   'nano-banana',
   'wan-2-5',
+  'veo-3-1',
 ] as const;
 
 export type ModelSlug = typeof MODEL_LANDING_PAGES[number];
