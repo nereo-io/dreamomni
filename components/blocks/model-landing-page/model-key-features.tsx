@@ -362,19 +362,19 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
               <DynamicTable tableData={item.data as TableData} />
             )}
             {item.type === "video" && (
-              <div className="bg-card/30 backdrop-blur-sm rounded-xl overflow-hidden border border-border/50 max-w-4xl mx-auto">
+              <div className="bg-card/30 backdrop-blur-sm rounded-xl overflow-hidden border border-border/50 max-w-4xl mx-auto flex justify-center">
                 {item.poster ? (
                   <video
                     src={item.data as string}
                     controls
-                    className="w-full h-auto"
+                    className="w-full h-auto max-h-[600px] object-contain"
                     preload="metadata"
                     poster={item.poster}
                   />
                 ) : (
                   <VideoWithAutoPoster
                     src={item.data as string}
-                    className="w-full h-auto"
+                    className="w-full h-auto max-h-[600px] object-contain"
                   />
                 )}
               </div>
