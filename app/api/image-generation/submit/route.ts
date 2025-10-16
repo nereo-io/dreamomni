@@ -12,7 +12,6 @@ import {
   CreditsTransType,
   getUserCredits,
 } from "@/services/credit";
-import { optimizeImagePromptWithTimeout } from "@/services/promptOptimization";
 import type {
   CreateImageGenerationParams,
   ImageGenerationStatus,
@@ -119,6 +118,8 @@ export async function POST(req: NextRequest) {
       negative_prompt,
       provider,
       enable_prompt_enhancement = true,
+      output_format,
+      image_size,
       captchaToken,
     } = await req.json();
 
@@ -128,7 +129,10 @@ export async function POST(req: NextRequest) {
     }
 
     // 验证图片编辑模式的参数
-    if ((mode === "image-to-image" || mode === "image-edit") && (!image_urls || image_urls.length === 0)) {
+    if (
+      (mode === "image-to-image" || mode === "image-edit") &&
+      (!image_urls || image_urls.length === 0)
+    ) {
       return respErr("图片编辑模式需要提供 image_urls 参数");
     }
 
@@ -191,33 +195,23 @@ export async function POST(req: NextRequest) {
     try {
       // 1. 优化提示词（如果启用） - 在调用AI服务之前处理
       let enhancedPrompt = prompt;
-      // if (enable_prompt_enhancement) {
-      //   console.log("🔧 Optimizing prompt for image generation...");
-      //   try {
-      //     const optimizedPrompt = await optimizeImagePromptWithTimeout(
-      //       prompt,
-      //       model, // 传递具体的图片模型类型
-      //       30000
-      //     );
-      //     enhancedPrompt = optimizedPrompt;
-      //     console.log("✨ Prompt optimized successfully");
-      //   } catch (error) {
-      //     console.error("Prompt optimization failed:", error);
-      //     // 如果优化失败，继续使用原始prompt
-      //     console.log("⚠️ Using original prompt due to optimization failure");
-      //   }
-      // }
 
       // 2. 调用AI服务提供商API
       console.log(`🤖 Calling ${selectedProvider} API...`);
 
       let result;
-      if ((mode === "image-to-image" || mode === "image-edit") && image_urls && image_urls.length > 0) {
+      if (
+        (mode === "image-to-image" || mode === "image-edit") &&
+        image_urls &&
+        image_urls.length > 0
+      ) {
         result = await aiServiceManager.editImage(selectedProvider, {
           prompt: enhancedPrompt,
           imageUrls: image_urls,
           model,
           negativePrompt: negative_prompt,
+          output_format,
+          image_size,
         });
       } else {
         result = await aiServiceManager.generateImage(selectedProvider, {
@@ -225,6 +219,8 @@ export async function POST(req: NextRequest) {
           model,
           negativePrompt: negative_prompt,
           count: 1,
+          output_format,
+          image_size,
         });
       }
 
@@ -266,6 +262,9 @@ export async function POST(req: NextRequest) {
           provider_task_id: result.taskId,
           provider_status: result.status,
           provider_metadata: result.metadata,
+          // 将图片尺寸存储到元数据中
+          image_size: image_size,
+          output_format: output_format,
         },
       };
 

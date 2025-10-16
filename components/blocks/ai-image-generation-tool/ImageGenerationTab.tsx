@@ -23,10 +23,22 @@ interface ImageGenerationTabProps {
   mode: "text-to-image" | "image-to-image";
   descriptionLabel?: string;
   descriptionPlaceholder?: string;
+  promptValue?: string;
+  onPromptChange?: (value: string) => void;
 }
 
+const MAX_PROMPT_LENGTH = 2000;
+
 // Helper function to map statuses between different types
-const mapStatusForHistory = (status: string): "pending" | "completed" | "failed" | "in_progress" | "in_queue" | "saved_to_r2" => {
+const mapStatusForHistory = (
+  status: string
+):
+  | "pending"
+  | "completed"
+  | "failed"
+  | "in_progress"
+  | "in_queue"
+  | "saved_to_r2" => {
   switch (status) {
     case "processing":
     case "PROMPT_OPTIMIZING":
@@ -46,36 +58,60 @@ export default function ImageGenerationTab({
   mode,
   descriptionLabel,
   descriptionPlaceholder,
+  promptValue,
+  onPromptChange,
 }: ImageGenerationTabProps) {
-  const { submitGeneration, pollStatus, startSmartPolling } = useImageGeneration();
+  const { submitGeneration, pollStatus, startSmartPolling } =
+    useImageGeneration();
   const { trackImageGeneration } = useYandexTracking();
   const { user, setShowSignModal, setShowPricingModal } = useAppContext();
   const t = useTranslations("imageGenerator");
-  const { leftCredits, updateLeftCredits, setCredits, isLoading: creditsLoading, hasInitialized } = useCredits();
-  
+  const {
+    leftCredits,
+    updateLeftCredits,
+    setCredits,
+    isLoading: creditsLoading,
+    hasInitialized,
+  } = useCredits();
+
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationTrigger, setGenerationTrigger] = useState(0);
   const [newImage, setNewImage] = useState<HistoryImageResult | undefined>();
-  const [pollingGenerations, setPollingGenerations] = useState<Set<string>>(new Set());
-  const [prompt, setPrompt] = useState("");
-  
+  const [pollingGenerations, setPollingGenerations] = useState<Set<string>>(
+    new Set()
+  );
+  const isControlledPrompt = typeof onPromptChange === "function";
+  const [internalPrompt, setInternalPrompt] = useState("");
+  const prompt = isControlledPrompt ? promptValue ?? "" : internalPrompt;
+
   // Image upload states (only for image-to-image mode)
-  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [uploadingImages, setUploadingImages] = useState<Set<number>>(
+    new Set()
+  );
   const [isDragOver, setIsDragOver] = useState(false);
-  
+
   // CAPTCHA related states
   const [showCaptchaModal, setShowCaptchaModal] = useState(false);
-  const [pendingCaptchaParams, setPendingCaptchaParams] = useState<ImageGenerationParams | null>(null);
-  
+  const [pendingCaptchaParams, setPendingCaptchaParams] =
+    useState<ImageGenerationParams | null>(null);
+
+  // Image generation settings
+  const [outputFormat] = useState<"png" | "jpeg">("png"); // 默认使用 PNG，暂时不显示选择器
+  const [imageSize, setImageSize] = useState<
+    "auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9"
+  >("auto");
+
   const cleanupFunctionsRef = useRef<Map<string, () => void>>(new Map());
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Mode-specific configuration
   const isImageToImage = mode === "image-to-image";
-  const selectedModel = isImageToImage ? "nano-banana-edit" : "google/nano-banana";
+  const selectedModel = isImageToImage
+    ? "nano-banana-edit"
+    : "google/nano-banana";
   const requiredCredits = 2;
 
   // 检查是否需要CAPTCHA验证（基于积分）
@@ -87,7 +123,7 @@ export default function ImageGenerationTab({
   // 页面加载时主动查询积分
   useEffect(() => {
     if (user?.uuid && !hasInitialized) {
-      updateLeftCredits().catch(error => {
+      updateLeftCredits().catch((error) => {
         console.error("Failed to fetch credits on mount:", error);
       });
     }
@@ -97,7 +133,7 @@ export default function ImageGenerationTab({
   useEffect(() => {
     return () => {
       // Cleanup all active polling
-      cleanupFunctionsRef.current.forEach(cleanup => cleanup());
+      cleanupFunctionsRef.current.forEach((cleanup) => cleanup());
       cleanupFunctionsRef.current.clear();
     };
   }, []);
@@ -115,97 +151,310 @@ export default function ImageGenerationTab({
     adjustTextareaHeight();
   }, [prompt]);
 
-  // Handle image upload (only for image-to-image mode)
+  const handlePromptChange = useCallback(
+    (value: string) => {
+      if (value.length > MAX_PROMPT_LENGTH) {
+        return;
+      }
+
+      if (isControlledPrompt) {
+        onPromptChange?.(value);
+      } else {
+        setInternalPrompt(value);
+      }
+    },
+    [isControlledPrompt, onPromptChange]
+  );
+
+  const applyPromptFromShowcase = useCallback(
+    async (
+      value: string,
+      aspectRatio?: string,
+      model?: string,
+      imageUrl?: string
+    ) => {
+      handlePromptChange(value);
+
+      // For image-to-image mode, also load the image if provided
+      if (isImageToImage && imageUrl) {
+        try {
+          // Download the image through proxy to avoid CORS issues
+          const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(
+            imageUrl
+          )}`;
+          const response = await fetch(proxyUrl);
+          const blob = await response.blob();
+
+          // Create a File object from the blob
+          const fileName = imageUrl.split("/").pop() || "showcase-image.jpg";
+          const file = new File([blob], fileName, { type: blob.type });
+
+          // Create preview URL
+          const previewUrl = URL.createObjectURL(blob);
+
+          // Clear existing images and set the new one
+          setUploadedImages([file]);
+          setImagePreviews([previewUrl]);
+          setUploadedImageUrls([imageUrl]);
+
+          // toast.success(t("showcaseImageLoaded"));
+        } catch (error) {
+          console.error("Failed to load showcase image:", error);
+          toast.error(t("failedToLoadShowcaseImage"));
+        }
+      }
+
+      requestAnimationFrame(() => {
+        const textarea = textareaRef.current;
+        if (textarea) {
+          textarea.focus();
+          const caretPosition = value.length;
+          textarea.setSelectionRange(caretPosition, caretPosition);
+        }
+      });
+    },
+    [handlePromptChange, isImageToImage, t]
+  );
+
+  // Handle image upload - support up to 5 images
   const handleImageUpload = async (files: FileList) => {
     if (!user?.uuid) {
       setShowSignModal(true);
       return;
     }
 
-    const file = files[0];
-    if (!file) return;
+    const fileArray = Array.from(files);
+    const maxImages = 5;
+    const remainingSlots = maxImages - uploadedImages.length;
 
-    // 使用基于模型的图片验证规则
-    const validationResult = await validateImage(file, selectedModel);
-    
-    if (!validationResult.valid) {
-      toast.error(validationResult.error || "Invalid image file.");
+    // Check if adding these files would exceed the limit
+    if (fileArray.length > remainingSlots) {
+      toast.error(t("maxImagesExceeded", { max: remainingSlots }));
       return;
     }
 
-    setUploadedImage(file);
-
-    // Convert to base64 for preview immediately
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = reader.result as string;
-      setImagePreview(result);
-    };
-    reader.readAsDataURL(file);
+    // Validate each file
+    for (const file of fileArray) {
+      const validationResult = await validateImage(file, selectedModel);
+      if (!validationResult.valid) {
+        toast.error(
+          validationResult.error || `Invalid image file: ${file.name}`
+        );
+        return;
+      }
+    }
 
     // Start upload process
     console.log("🔄 Starting image upload...");
-    setIsUploadingImage(true);
 
-    // Ensure minimum upload display time for better UX
-    const minDisplayTime = 500; // 500ms minimum
-    const uploadStartTime = Date.now();
+    // Add new images to state immediately for preview
+    const newImageIndices: number[] = [];
+    const newFiles: File[] = [];
+    const newPreviews: string[] = [];
+
+    for (let i = 0; i < fileArray.length; i++) {
+      const file = fileArray[i];
+      const newIndex = uploadedImages.length + i;
+      newImageIndices.push(newIndex);
+      newFiles.push(file);
+
+      // Generate preview immediately
+      const reader = new FileReader();
+      const preview = await new Promise<string>((resolve) => {
+        reader.onload = () => resolve(reader.result as string);
+        reader.readAsDataURL(file);
+      });
+      newPreviews.push(preview);
+    }
+
+    // Add new images to state
+    setUploadedImages((prev) => [...prev, ...newFiles]);
+    setImagePreviews((prev) => [...prev, ...newPreviews]);
+    setUploadingImages((prev) => new Set([...prev, ...newImageIndices]));
 
     try {
-      const formData = new FormData();
-      formData.append("file", file);
+      const uploadPromises = fileArray.map(async (file, index) => {
+        const actualIndex = uploadedImages.length + index;
 
-      const uploadResponse = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const uploadResponse = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          const uploadResult = await uploadResponse.json();
+          if (uploadResult.code === 0) {
+            return { file, url: uploadResult.data.url, index: actualIndex };
+          } else {
+            throw new Error(uploadResult.message || "Upload failed");
+          }
+        } catch (error) {
+          // Remove from uploading state on error
+          setUploadingImages((prev) => {
+            const newSet = new Set(prev);
+            newSet.delete(actualIndex);
+            return newSet;
+          });
+          throw error;
+        }
       });
 
-      const uploadResult = await uploadResponse.json();
-      if (uploadResult.code === 0) {
-        console.log("✅ Image upload successful");
-        setUploadedImageUrl(uploadResult.data.url);
-        toast.success(t("imageUploadedSuccessfully"));
-      } else {
-        console.error("❌ Upload failed:", uploadResult.message);
-        throw new Error(uploadResult.message || "Upload failed");
-      }
+      const uploadResults = await Promise.all(uploadPromises);
+
+      // Update URLs
+      const newUrls = new Array(
+        uploadedImageUrls.length + fileArray.length
+      ).fill(null);
+      uploadResults.forEach((result) => {
+        newUrls[result.index] = result.url;
+      });
+
+      // Fill existing URLs
+      uploadedImageUrls.forEach((url, index) => {
+        if (url) newUrls[index] = url;
+      });
+
+      setUploadedImageUrls(newUrls.filter((url) => url !== null));
+
+      // Remove from uploading state
+      setUploadingImages((prev) => {
+        const newSet = new Set(prev);
+        newImageIndices.forEach((index) => newSet.delete(index));
+        return newSet;
+      });
+
+      toast.success(
+        t("imagesUploadedSuccessfully", { count: uploadResults.length })
+      );
     } catch (error) {
       console.error("Upload error:", error);
       toast.error(t("uploadFailed"));
-      // 上传失败时清除图片
-      removeImage();
-    } finally {
-      // Ensure minimum display time for upload state
-      const uploadDuration = Date.now() - uploadStartTime;
-      const remainingTime = Math.max(0, minDisplayTime - uploadDuration);
-      
-      if (remainingTime > 0) {
-        console.log(`⏱️ Waiting ${remainingTime}ms to meet minimum display time`);
-        setTimeout(() => {
-          console.log("🏁 Upload process completed, clearing upload state");
-          setIsUploadingImage(false);
-        }, remainingTime);
-      } else {
-        console.log("🏁 Upload process completed, clearing upload state");
-        setIsUploadingImage(false);
-      }
+
+      // Remove failed images from state
+      setUploadedImages((prev) => prev.slice(0, uploadedImages.length));
+      setImagePreviews((prev) => prev.slice(0, imagePreviews.length));
+      setUploadingImages((prev) => {
+        const newSet = new Set(prev);
+        newImageIndices.forEach((index) => newSet.delete(index));
+        return newSet;
+      });
     }
   };
 
+  // Load data from localStorage on component mount
+  useEffect(() => {
+    // Check if we're in a browser environment
+    if (typeof window !== "undefined") {
+      // For text-to-image mode
+      if (mode === "text-to-image") {
+        const savedPrompt = localStorage.getItem("modelLandingPagePrompt");
+        if (savedPrompt && !prompt.trim()) {
+          // Only set the prompt if it's empty
+          handlePromptChange(savedPrompt);
+          // Clear the saved data after using it
+          localStorage.removeItem("modelLandingPagePrompt");
+        }
+      }
+      // For image-to-image mode
+      else if (mode === "image-to-image") {
+        const savedImageData = localStorage.getItem("modelLandingPageImage");
+        console.log(
+          "Loading image from localStorage:",
+          !!savedImageData,
+          "Uploaded images count:",
+          uploadedImages.length
+        );
+
+        if (savedImageData) {
+          try {
+            // Create a Blob from the base64 data
+            console.log("Processing image data...");
+            const base64Part = savedImageData.split(",")[1];
+            const byteCharacters = atob(base64Part);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+              byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: "image/jpeg" });
+
+            // Create a File object from the blob
+            const file = new File([blob], "nano-banana-image.jpg", {
+              type: "image/jpeg",
+            });
+
+            console.log("Image file created:", file.name, file.size);
+
+            // Check if user is logged in before uploading
+            if (!user?.uuid) {
+              console.log("User not logged in, showing sign modal...");
+              // Just show preview without uploading
+              const previewUrl = URL.createObjectURL(blob);
+              setUploadedImages([file]);
+              setImagePreviews([previewUrl]);
+              setShowSignModal(true);
+            } else {
+              console.log("User logged in, creating FileList...");
+              // Create a FileList-like object
+              const fileList = new DataTransfer();
+              fileList.items.add(file);
+              console.log("User logged in, creating FileList...");
+              // Upload the image
+              console.log("Uploading image...");
+              handleImageUpload(fileList.files);
+            }
+
+            // Clear the saved data after using it
+            localStorage.removeItem("modelLandingPageImage");
+          } catch (error) {
+            console.error("Error processing image from localStorage:", error);
+            // Clear the invalid data
+            localStorage.removeItem("modelLandingPageImage");
+          }
+        }
+      }
+    }
+  }, [
+    mode,
+    user?.uuid,
+    prompt,
+    uploadedImages.length,
+    handlePromptChange,
+    handleImageUpload,
+  ]);
+
   // Remove uploaded image
-  const removeImage = () => {
-    setUploadedImage(null);
-    setUploadedImageUrl(null);
-    setImagePreview(null);
-    setIsUploadingImage(false);
+  const removeImage = (index: number) => {
+    setUploadedImages((prev) => prev.filter((_, i) => i !== index));
+    setUploadedImageUrls((prev) => prev.filter((_, i) => i !== index));
+    setImagePreviews((prev) => prev.filter((_, i) => i !== index));
+    setUploadingImages((prev) => {
+      const newSet = new Set(prev);
+      newSet.delete(index);
+      // Adjust indices for remaining items
+      const adjustedSet = new Set<number>();
+      newSet.forEach((idx) => {
+        if (idx > index) {
+          adjustedSet.add(idx - 1);
+        } else if (idx < index) {
+          adjustedSet.add(idx);
+        }
+      });
+      return adjustedSet;
+    });
   };
 
   // Handle file input change
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      handleImageUpload([file] as any as FileList);
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      handleImageUpload(files);
     }
+    // Clear the input value to allow selecting the same file again
+    e.target.value = "";
   };
 
   // Drag and drop handlers
@@ -223,8 +472,8 @@ export default function ImageGenerationTab({
     e.preventDefault();
     setIsDragOver(false);
     const files = e.dataTransfer.files;
-    if (files && files[0]) {
-      handleImageUpload([files[0]] as any as FileList);
+    if (files && files.length > 0) {
+      handleImageUpload(files);
     }
   };
 
@@ -233,13 +482,13 @@ export default function ImageGenerationTab({
     if (pendingCaptchaParams) {
       const finalParams = {
         ...pendingCaptchaParams,
-        captchaToken
+        captchaToken,
       };
-      
+
       // 关闭模态框并清理状态
       setShowCaptchaModal(false);
       setPendingCaptchaParams(null);
-      
+
       // 执行实际的生成请求
       await executeGeneration(finalParams);
     }
@@ -258,30 +507,34 @@ export default function ImageGenerationTab({
 
     try {
       console.log(`Starting ${mode} generation with params:`, params);
-      
+
       // Submit generation request
       const response = await submitGeneration(params);
-      
+
       if (!response?.success) {
-        throw new Error(response?.message || "Failed to submit generation request");
+        throw new Error(
+          response?.message || "Failed to submit generation request"
+        );
       }
 
       console.log("Generation submitted successfully:", response);
       generationId = response.data?.id || null;
-      
+
       // 生成请求提交成功后立即更新积分显示
       // 因为后端API已经扣除了积分，前端需要立即反映这个变化
       try {
         await updateLeftCredits();
-        console.log("✅ Credits updated after successful generation submission");
+        console.log(
+          "✅ Credits updated after successful generation submission"
+        );
       } catch (error) {
         console.error("❌ Failed to update credits display:", error);
         // 不阻塞生成流程，但记录错误
       }
-      
+
       // Track generation event
       trackImageGeneration(params.model, params.prompt);
-      
+
       // Handle different response types
       if (response.data?.status === "completed" && response.data.image_url) {
         // Synchronous completion - image already generated
@@ -298,7 +551,11 @@ export default function ImageGenerationTab({
           credits_used: requiredCredits,
         };
         await handleCompletedGeneration(result, params);
-      } else if (response.data?.status === "pending" || response.data?.status === "processing" || response.data?.status === "PROMPT_OPTIMIZING") {
+      } else if (
+        response.data?.status === "pending" ||
+        response.data?.status === "processing" ||
+        response.data?.status === "PROMPT_OPTIMIZING"
+      ) {
         // Asynchronous generation - start polling
         if (generationId) {
           await handleAsyncGeneration(generationId, params);
@@ -309,17 +566,17 @@ export default function ImageGenerationTab({
         // Unknown status
         toast.info(t("generationStarted"));
       }
-      
+
       // Refresh history after generation submission
       setTimeout(() => {
-        setGenerationTrigger(prev => prev + 1);
+        setGenerationTrigger((prev) => prev + 1);
       }, 500);
-      
     } catch (error) {
       console.error("Generation error:", error);
-      const errorMessage = error instanceof Error ? error.message : t("unknownError");
+      const errorMessage =
+        error instanceof Error ? error.message : t("unknownError");
       toast.error(t("generationFailed", { error: errorMessage }));
-      
+
       // If we have a generation ID, stop any polling for it
       if (generationId) {
         stopPolling(generationId);
@@ -342,7 +599,7 @@ export default function ImageGenerationTab({
     }
 
     // Check for image upload in image-to-image mode
-    if (isImageToImage && !uploadedImageUrl) {
+    if (isImageToImage && uploadedImageUrls.length === 0) {
       toast.error(t("pleaseUploadImage"));
       return;
     }
@@ -356,8 +613,13 @@ export default function ImageGenerationTab({
       prompt,
       model: selectedModel,
       mode: isImageToImage ? "image-edit" : "text-to-image",
-      image_urls: isImageToImage && uploadedImageUrl ? [uploadedImageUrl] : undefined,
+      image_urls:
+        isImageToImage && uploadedImageUrls.length > 0
+          ? uploadedImageUrls
+          : undefined,
       enable_prompt_enhancement: false,
+      output_format: outputFormat,
+      image_size: imageSize,
     };
 
     // 基于积分的CAPTCHA判断
@@ -373,9 +635,12 @@ export default function ImageGenerationTab({
   };
 
   // Handle completed generation (synchronous)
-  const handleCompletedGeneration = async (result: ImageGenerationResult, params: ImageGenerationParams) => {
+  const handleCompletedGeneration = async (
+    result: ImageGenerationResult,
+    params: ImageGenerationParams
+  ) => {
     console.log("Handling completed generation:", result);
-    
+
     // Create completed image object for immediate display
     const completedImageObj: HistoryImageResult = {
       id: result.id,
@@ -383,25 +648,28 @@ export default function ImageGenerationTab({
       image_url: result.image_url,
       status: mapStatusForHistory(result.status),
       model: params.model,
-      aspect_ratio: "1:1",
+      image_size: params.image_size || "1:1",
       quality: "standard",
       credits_used: requiredCredits,
       created_at: result.created_at || new Date().toISOString(),
       updated_at: result.updated_at || new Date().toISOString(),
     };
-    
+
     setNewImage(completedImageObj);
-    
+
     toast.success(t("generationCompleted"), {
       duration: 3000,
     });
   };
 
   // Handle async generation with polling
-  const handleAsyncGeneration = async (generationId: string, params: ImageGenerationParams) => {
+  const handleAsyncGeneration = async (
+    generationId: string,
+    params: ImageGenerationParams
+  ) => {
     // Add to polling set
-    setPollingGenerations(prev => new Set(prev).add(generationId));
-    
+    setPollingGenerations((prev) => new Set(prev).add(generationId));
+
     // Show initial toast
     toast.info(t("generationStatusChecking"), {
       duration: 3000,
@@ -414,13 +682,13 @@ export default function ImageGenerationTab({
       image_url: undefined,
       status: "pending",
       model: params.model,
-      aspect_ratio: "1:1",
+      image_size: "1:1",
       quality: "standard",
       credits_used: requiredCredits,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
-    
+
     setNewImage(pendingImageObj);
 
     // Start smart polling with callbacks
@@ -429,7 +697,7 @@ export default function ImageGenerationTab({
       // onUpdate callback
       async (result: ImageGenerationResult) => {
         console.log(`Status update for ${generationId}:`, result.status);
-        
+
         // Update the image object with new status
         const updatedImageObj: HistoryImageResult = {
           id: generationId,
@@ -437,15 +705,15 @@ export default function ImageGenerationTab({
           image_url: result.image_url,
           status: mapStatusForHistory(result.status),
           model: params.model,
-          aspect_ratio: "1:1",
+          image_size: "1:1",
           quality: "standard",
           credits_used: requiredCredits,
           created_at: result.created_at || new Date().toISOString(),
           updated_at: result.updated_at || new Date().toISOString(),
         };
-        
+
         setNewImage(updatedImageObj);
-        
+
         // Show status update toast for significant changes
         if (result.status === "processing") {
           toast.info(t("generationInProgress"), { duration: 2000 });
@@ -454,14 +722,14 @@ export default function ImageGenerationTab({
       // onComplete callback
       async (result: ImageGenerationResult) => {
         console.log(`Generation completed for ${generationId}`);
-        
+
         // Remove from polling set
-        setPollingGenerations(prev => {
+        setPollingGenerations((prev) => {
           const newSet = new Set(prev);
           newSet.delete(generationId);
           return newSet;
         });
-        
+
         // Create final completed image object
         const completedImageObj: HistoryImageResult = {
           id: generationId,
@@ -469,15 +737,15 @@ export default function ImageGenerationTab({
           image_url: result.image_url,
           status: mapStatusForHistory(result.status),
           model: params.model,
-          aspect_ratio: "1:1",
+          image_size: "1:1",
           quality: "standard",
           credits_used: requiredCredits,
           created_at: result.created_at || new Date().toISOString(),
           updated_at: result.updated_at || new Date().toISOString(),
         };
-        
+
         setNewImage(completedImageObj);
-        
+
         // Show success toast
         if (result.image_url) {
           toast.success(t("generationCompleted"), {
@@ -486,26 +754,26 @@ export default function ImageGenerationTab({
         } else {
           toast.success(t("generationCompleted"));
         }
-        
+
         // Refresh history after completion
         setTimeout(() => {
-          setGenerationTrigger(prev => prev + 1);
+          setGenerationTrigger((prev) => prev + 1);
         }, 1000);
-        
+
         // Cleanup
         cleanupFunctionsRef.current.delete(generationId);
       },
       // onError callback
       async (error: string) => {
         console.error(`Generation failed for ${generationId}:`, error);
-        
+
         // Remove from polling set
-        setPollingGenerations(prev => {
+        setPollingGenerations((prev) => {
           const newSet = new Set(prev);
           newSet.delete(generationId);
           return newSet;
         });
-        
+
         // Create error image object
         const errorImageObj: HistoryImageResult = {
           id: generationId,
@@ -513,22 +781,22 @@ export default function ImageGenerationTab({
           image_url: undefined,
           status: "failed",
           model: params.model,
-          aspect_ratio: "1:1",
+          image_size: "1:1",
           quality: "standard",
           credits_used: 0, // No credits used on failure
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         };
-        
+
         setNewImage(errorImageObj);
-        
+
         toast.error(t("generationFailed", { error }));
-        
+
         // Refresh history after error
         setTimeout(() => {
-          setGenerationTrigger(prev => prev + 1);
+          setGenerationTrigger((prev) => prev + 1);
         }, 1000);
-        
+
         // Cleanup
         cleanupFunctionsRef.current.delete(generationId);
       }
@@ -544,7 +812,7 @@ export default function ImageGenerationTab({
     if (cleanup) {
       cleanup();
       cleanupFunctionsRef.current.delete(generationId);
-      setPollingGenerations(prev => {
+      setPollingGenerations((prev) => {
         const newSet = new Set(prev);
         newSet.delete(generationId);
         return newSet;
@@ -563,64 +831,132 @@ export default function ImageGenerationTab({
             {isImageToImage && (
               <div>
                 <div className="text-white text-lg font-semibold mb-4">
-                  {t("image")}
+                  {t("images")} ({uploadedImages.length}/5)
                 </div>
-                {!uploadedImage ? (
+                {uploadedImages.length === 0 ? (
                   <div
-                    className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
-                      isUploadingImage
-                        ? "cursor-not-allowed opacity-50"
-                        : "cursor-pointer"
-                    } ${
+                    className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer ${
                       isDragOver
                         ? "border-blue-400 bg-blue-900/50"
                         : "border-gray-600 hover:border-gray-500"
                     }`}
-                    onDragOver={!isUploadingImage ? handleDragOver : undefined}
-                    onDragLeave={!isUploadingImage ? handleDragLeave : undefined}
-                    onDrop={!isUploadingImage ? handleDrop : undefined}
-                    onClick={() =>
-                      !isUploadingImage &&
-                      document.getElementById("image-upload")?.click()
-                    }
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    onClick={() => {
+                      const input = document.getElementById(
+                        "image-upload"
+                      ) as HTMLInputElement;
+                      if (input) {
+                        const remainingSlots = 5 - uploadedImages.length;
+                        input.setAttribute(
+                          "data-max-files",
+                          remainingSlots.toString()
+                        );
+                        input.click();
+                      }
+                    }}
                   >
                     <input
                       id="image-upload"
                       type="file"
                       accept="image/*"
+                      multiple
                       onChange={handleFileInputChange}
                       className="hidden"
                     />
                     <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                     <div className="space-y-2">
                       <p className="text-sm text-gray-300 px-2 text-center">
-                        {t("clickToUpload")}
+                        {t("clickToUploadMultiple")}
                       </p>
                       <p className="text-xs text-gray-400 px-2 text-center">
-                        {t("supportedFormats")}
+                        {t("maxImages", { max: 5 })} -{" "}
+                        {t("canUpload", { count: 5 })}
                       </p>
                     </div>
                   </div>
                 ) : (
-                  <div className="relative">
-                    <img
-                      src={imagePreview || ""}
-                      alt="Uploaded"
-                      className="w-full h-32 object-contain rounded-lg bg-gray-800"
-                    />
-                    {!isUploadingImage && (
-                      <button
-                        onClick={removeImage}
-                        className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      {uploadedImages.map((image, index) => {
+                        const isUploading = uploadingImages.has(index);
+                        return (
+                          <div key={index} className="relative">
+                            <img
+                              src={imagePreviews[index] || ""}
+                              alt={`Uploaded ${index + 1}`}
+                              className="w-full h-32 object-contain rounded-lg bg-gray-800"
+                            />
+                            {!isUploading && (
+                              <button
+                                onClick={() => removeImage(index)}
+                                className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                              >
+                                <X className="h-4 w-4" />
+                              </button>
+                            )}
+                            {isUploading && (
+                              <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
+                                <div className="flex flex-col items-center gap-2">
+                                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                                  <span className="text-white text-sm">
+                                    {t("uploading")}
+                                  </span>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    {uploadedImages.length < 5 && (
+                      <div
+                        className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors cursor-pointer ${
+                          isDragOver
+                            ? "border-blue-400 bg-blue-900/50"
+                            : "border-gray-600 hover:border-gray-500"
+                        }`}
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                        onClick={() => {
+                          const input = document.getElementById(
+                            "image-upload-more"
+                          ) as HTMLInputElement;
+                          if (input) {
+                            const remainingSlots = 5 - uploadedImages.length;
+                            input.setAttribute(
+                              "data-max-files",
+                              remainingSlots.toString()
+                            );
+                            input.click();
+                          }
+                        }}
                       >
-                        <X className="h-4 w-4" />
-                      </button>
-                    )}
-                    {isUploadingImage && (
-                      <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
-                        <div className="flex flex-col items-center gap-2">
-                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                          <span className="text-white text-sm">{t("uploading")}</span>
+                        <input
+                          id="image-upload-more"
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          onChange={handleFileInputChange}
+                          className="hidden"
+                        />
+                        <div className="flex flex-col items-center space-y-2">
+                          <ImageIcon className="h-6 w-6 text-gray-400" />
+                          <p className="text-gray-400 text-sm">
+                            {t("addMoreImages")}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {t("canUpload", {
+                              count: 5 - uploadedImages.length,
+                            })}
+                            {uploadingImages.size > 0 && (
+                              <span className="ml-2 text-blue-400">
+                                ({uploadingImages.size} {t("uploading")})
+                              </span>
+                            )}
+                          </p>
                         </div>
                       </div>
                     )}
@@ -635,27 +971,25 @@ export default function ImageGenerationTab({
                 <span>{t("prompt")}</span>
                 {prompt.length > 900 && (
                   <span className="text-sm font-normal text-gray-400">
-                    {prompt.length}/1000
+                    {prompt.length}/{MAX_PROMPT_LENGTH}
                   </span>
                 )}
               </div>
               <Textarea
+                id={`${mode}-prompt-input`}
                 ref={textareaRef}
                 value={prompt}
-                onChange={(e) => {
-                  const newValue = e.target.value;
-                  if (newValue.length <= 1000) {
-                    setPrompt(newValue);
-                  }
-                }}
+                onChange={(e) => handlePromptChange(e.target.value)}
                 placeholder={
-                  descriptionPlaceholder || 
-                  (isImageToImage ? t("imageToImagePlaceholder") : t("textToImagePlaceholder"))
+                  descriptionPlaceholder ||
+                  (isImageToImage
+                    ? t("imageToImagePlaceholder")
+                    : t("textToImagePlaceholder"))
                 }
                 className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
                 style={{ minHeight: "150px", maxHeight: "300px" }}
                 disabled={isGenerating}
-                maxLength={1000}
+                maxLength={MAX_PROMPT_LENGTH}
               />
             </div>
 
@@ -677,14 +1011,97 @@ export default function ImageGenerationTab({
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="font-medium text-gray-100">
-                        {t("nanoBananaDisplayName")}{isImageToImage ? " Edit" : ""}
+                        {t("nanoBananaDisplayName")}
+                        {isImageToImage ? " Edit" : ""}
                       </span>
                       <div className="flex items-center gap-1 text-xs text-blue-300">
-                        <Coins className="h-3 w-3" />
-                        2 credits
+                        <Coins className="h-3 w-3" />2 credits
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+
+              {/* Output Format - 暂时注释掉，默认使用 PNG */}
+              {/* <div className="mb-4">
+                <label className="text-gray-300 text-sm mb-2 block">
+                  {t("outputFormat")}
+                </label>
+                <div className="flex flex-wrap gap-3 sm:gap-6">
+                  {["png", "jpeg"].map((format) => (
+                    <label
+                      key={format}
+                      className="flex items-center cursor-pointer min-w-0"
+                    >
+                      <input
+                        type="radio"
+                        name="outputFormat"
+                        value={format}
+                        checked={outputFormat === format}
+                        onChange={(e) => setOutputFormat(e.target.value as "png" | "jpeg")}
+                        className="sr-only"
+                      />
+                      <div
+                        className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
+                          outputFormat === format
+                            ? "border-primary bg-primary"
+                            : "border-gray-500"
+                        }`}
+                      >
+                        {outputFormat === format && (
+                          <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                        )}
+                      </div>
+                      <span className="text-gray-300 text-sm uppercase">{format}</span>
+                    </label>
+                  ))}
+                </div>
+              </div> */}
+
+              {/* Image Size Ratio - 暂时隐藏，用户不能选择图片比例 */}
+              <div className="mb-4">
+                <label className="text-gray-300 text-sm mb-2 block">
+                  {t("imageSize")}
+                </label>
+                <div className="flex flex-wrap gap-3 sm:gap-6">
+                  {[
+                    { value: "auto", label: "Auto" },
+                    { value: "1:1", label: "1:1" },
+                    { value: "3:4", label: "3:4" },
+                    { value: "9:16", label: "9:16" },
+                    { value: "4:3", label: "4:3" },
+                    { value: "16:9", label: "16:9" },
+                  ].map((size) => (
+                    <label
+                      key={size.value}
+                      className="flex items-center cursor-pointer min-w-0"
+                    >
+                      <input
+                        type="radio"
+                        name="imageSize"
+                        value={size.value}
+                        checked={imageSize === size.value}
+                        onChange={(e) =>
+                          setImageSize(e.target.value as typeof imageSize)
+                        }
+                        className="sr-only"
+                      />
+                      <div
+                        className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
+                          imageSize === size.value
+                            ? "border-primary bg-primary"
+                            : "border-gray-500"
+                        }`}
+                      >
+                        {imageSize === size.value && (
+                          <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                        )}
+                      </div>
+                      <span className="text-gray-300 text-sm">
+                        {size.label}
+                      </span>
+                    </label>
+                  ))}
                 </div>
               </div>
 
@@ -720,7 +1137,7 @@ export default function ImageGenerationTab({
             disabled={
               isGenerating ||
               !prompt.trim() ||
-              (isImageToImage && !uploadedImageUrl) ||
+              (isImageToImage && uploadedImageUrls.length === 0) ||
               (leftCredits !== null && leftCredits < requiredCredits)
             }
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-h-[44px]"
@@ -748,6 +1165,14 @@ export default function ImageGenerationTab({
         userId={user?.uuid}
         newImage={newImage}
         mode={isImageToImage ? "image-to-image" : "text-to-image"}
+        onSelectShowcaseImage={(
+          selectedPrompt,
+          aspectRatio,
+          model,
+          imageUrl
+        ) => {
+          applyPromptFromShowcase(selectedPrompt, aspectRatio, model, imageUrl);
+        }}
       />
 
       {/* CAPTCHA模态框 */}

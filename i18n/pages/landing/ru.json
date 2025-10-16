@@ -254,23 +254,48 @@
           "title": "ИИ Видео Инструменты",
           "children": [
             {
-              "title": "Текст в Видео",
+              "title": "Текст в видео",
               "url": "/text-to-video",
               "target": "_self"
             },
             {
-              "title": "Изображение в Видео",
+              "title": "Изображение в видео",
               "url": "/image-to-video",
               "target": "_self"
-            },
+            }
+          ]
+        },
+        {
+          "title": "Инструменты для изображений",
+          "children": [
             {
-              "title": "ИИ Видео Эффекты",
-              "url": "/video-effects",
+              "title": "Текст в изображение",
+              "url": "/text-to-image",
               "target": "_self"
             },
             {
-              "title": "Мои Творения",
-              "url": "/history",
+              "title": "Изображение в изображение",
+              "url": "/image-to-image",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "ИИ Модели",
+          "children": [
+            {
+              "title": "Veo 3.1",
+              "url": "/veo-3-1",
+              "target": "_self"
+            },
+            {
+              "title": "WAN-2.5",
+              "url": "/wan-2-5",
+              "target": "_self"
+            },
+            {
+              "title": "Nano Banana",
+              "url": "/nano-banana",
               "target": "_self"
             }
           ]
@@ -294,8 +319,8 @@
           "title": "Ресурсы",
           "children": [
             {
-              "title": "Главная",
-              "url": "/home",
+              "title": "Мои творения",
+              "url": "/history",
               "target": "_self"
             },
             {

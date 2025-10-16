@@ -15,6 +15,7 @@ export interface VideoStatusResult {
   video_url_veo3?: string;
   video_url_ali?: string;
   video_url_pixverse?: string;
+  video_url_sora?: string;
   upsample_video_url_veo3?: string;
   error_message?: string;
   logs?: any[];
@@ -64,7 +65,8 @@ export class VideoStatusService {
       videoGeneration.volcano_request_id ||
       videoGeneration.veo3_request_id ||
       videoGeneration.ali_request_id ||
-      videoGeneration.pixverse_request_id
+      videoGeneration.pixverse_request_id ||
+      videoGeneration.sora_request_id
     );
 
     return isNotFinalStatus && hasRequestId && videoGeneration.model_id;
@@ -144,7 +146,8 @@ export class VideoStatusService {
       videoGeneration.volcano_request_id ||
       videoGeneration.veo3_request_id ||
       videoGeneration.ali_request_id ||
-      videoGeneration.pixverse_request_id
+      videoGeneration.pixverse_request_id ||
+      videoGeneration.sora_request_id
     );
   }
 
@@ -275,7 +278,12 @@ export class VideoStatusService {
         result && (result.video_url || (result as any).upsample_video_url);
 
       if (hasVideoData) {
-        this.setVideoUrlByProvider(updateParams, modelConfig.provider, result);
+        this.setVideoUrlByProvider(
+          updateParams,
+          modelConfig.provider,
+          result,
+          videoGeneration.model_id
+        );
 
         // 如果result包含seed信息，也更新
         if ((result as any).data?.seed) {
@@ -319,28 +327,50 @@ export class VideoStatusService {
   private static setVideoUrlByProvider(
     updateParams: any,
     provider: VideoModelProvider,
-    result: any
+    result: any,
+    modelIdFromGeneration?: string
   ): void {
+    const { isSora2Model } = require("@/config/video-models");
+    const resolvedModelId =
+      modelIdFromGeneration ||
+      result.model ||
+      result.data?.model ||
+      "";
+
     switch (provider) {
       case VideoModelProvider.VOLCANO:
+      case VideoModelProvider.BYTEPLUS:
+        // BytePlus 和 Volcano 使用相同的字段
         updateParams.video_url_volcano = result.video_url;
         break;
       case VideoModelProvider.FAL:
         updateParams.video_url_fal = result.video_url;
         break;
       case VideoModelProvider.APICORE:
-      case VideoModelProvider.KIEAI:
         if (result.video_url) {
           updateParams.video_url_veo3 = result.video_url;
         }
-        // For KieAI: map hd_video_url to upsample_video_url_veo3
-        // For APICore: map upsample_video_url to upsample_video_url_veo3
-        if (result.hd_video_url) {
-          updateParams.upsample_video_url_veo3 = result.hd_video_url;
-        } else if ((result as any).upsample_video_url) {
+        if ((result as any).upsample_video_url) {
           updateParams.upsample_video_url_veo3 = (
             result as any
           ).upsample_video_url;
+        }
+        break;
+      case VideoModelProvider.KIEAI:
+        // Check if it's a Sora model based on model id from provider or DB
+        if (resolvedModelId && isSora2Model(resolvedModelId)) {
+          // Sora 2 使用专用字段
+          if (result.video_url) {
+            updateParams.video_url_sora = result.video_url;
+          }
+        } else {
+          // Veo3 使用原有字段
+          if (result.video_url) {
+            updateParams.video_url_veo3 = result.video_url;
+          }
+          if (result.hd_video_url) {
+            updateParams.upsample_video_url_veo3 = result.hd_video_url;
+          }
         }
         break;
       case VideoModelProvider.ALI:
@@ -507,7 +537,8 @@ export class VideoStatusService {
         videoGeneration.volcano_request_id ||
         videoGeneration.veo3_request_id ||
         videoGeneration.ali_request_id ||
-        videoGeneration.pixverse_request_id,
+        videoGeneration.pixverse_request_id ||
+        videoGeneration.sora_request_id,
       model: videoGeneration.model_id,
       prompt: videoGeneration.prompt,
       optimized_prompt: videoGeneration.optimized_prompt,
@@ -515,6 +546,7 @@ export class VideoStatusService {
         videoGeneration.video_url_r2 ||
         videoGeneration.upsample_video_url_veo3 ||
         videoGeneration.video_url_veo3 ||
+        videoGeneration.video_url_sora ||
         videoGeneration.video_url_pixverse ||
         videoGeneration.video_url_volcano ||
         videoGeneration.video_url_ali ||
@@ -523,6 +555,7 @@ export class VideoStatusService {
       video_url_fal: videoGeneration.video_url_fal,
       video_url_volcano: videoGeneration.video_url_volcano,
       video_url_veo3: videoGeneration.video_url_veo3,
+      video_url_sora: videoGeneration.video_url_sora,
       video_url_ali: videoGeneration.video_url_ali,
       video_url_pixverse: videoGeneration.video_url_pixverse,
       upsample_video_url_veo3: videoGeneration.upsample_video_url_veo3,

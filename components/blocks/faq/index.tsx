@@ -24,7 +24,7 @@ export default function FAQ({ section }: { section: SectionType }) {
   }
 
   return (
-    <section id={section.name} className="w-full py-16">
+    <section id={section.name} className="w-full py-16 bg-gray-950">
       <div className="max-w-4xl mx-auto px-4">
         <div className="mb-16">
           <SectionHeader

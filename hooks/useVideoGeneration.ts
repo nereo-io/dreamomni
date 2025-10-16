@@ -18,6 +18,7 @@ interface VideoGenerationParams {
   effect_type?: 'hailuo_prompt' | 'pixverse_template'; // Route selection
   pixverse_img_ids?: number[]; // For pixverse template effects
   captchaToken?: string; // For CAPTCHA verification
+  watermarkEnabled?: boolean; // Frontend flag for Seedance watermark control
 }
 
 interface UserCreditsInfo {
@@ -37,6 +38,7 @@ interface VideoGenerationResult {
   video_url_fal?: string;
   video_url_volcano?: string;
   video_url_veo3?: string;
+  video_url_sora?: string;
   upsample_video_url_veo3?: string;
   error_message?: string;
   created_at?: string;
@@ -210,7 +212,10 @@ export default function useVideoGeneration() {
         let apiEndpoint = "/api/video-generation/submit";
         let requestBody: any = { ...params };
         
-        if (params.effect_type === 'pixverse_template' && params.pixverse_img_ids) {
+        if (
+          params.effect_type === 'pixverse_template' &&
+          params.pixverse_img_ids
+        ) {
           // 使用 PixVerse template API
           apiEndpoint = "/api/video-effects/pixverse/generate";
           requestBody = {
@@ -223,7 +228,7 @@ export default function useVideoGeneration() {
             imageUrl: params.image_url // 添加原始图片URL
           };
         }
-        
+
         const response = await fetch(apiEndpoint, {
           method: "POST",
           headers: {

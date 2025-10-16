@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Play, ImageIcon, X, Sparkles, Coins } from "lucide-react";
+import { Play, ImageIcon, X, Coins, Crown } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import { useTranslations, useLocale } from "next-intl";
@@ -22,6 +22,7 @@ import {
   getImageToVideoModels,
   calculateCredits,
   getVideoModel,
+  isSeedanceModel,
 } from "@/config/video-models";
 import { validateImage } from "@/config/image-validation-rules";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
@@ -42,6 +43,7 @@ export interface VideoGenerationParams {
   effect_id?: string;
   pixverse_img_id?: number;
   captchaToken?: string;
+  watermarkEnabled?: boolean;
 }
 
 interface VideoGeneratorProps {
@@ -117,16 +119,21 @@ export default function VideoGenerator({
     effect || null
   );
   const [pixverseImgId, setPixverseImgId] = useState<number | null>(null);
-  
+  const [watermarkEnabled, setWatermarkEnabled] = useState(false);
+
   // CAPTCHA related states
   const [showCaptchaModal, setShowCaptchaModal] = useState(false);
-  const [pendingCaptchaParams, setPendingCaptchaParams] = useState<VideoGenerationParams | null>(null);
+  const [pendingCaptchaParams, setPendingCaptchaParams] =
+    useState<VideoGenerationParams | null>(null);
 
   // Textarea 引用
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const { user, setShowSignModal, setShowPricingModal } = useAppContext();
+  const { user, setShowSignModal, setShowPricingModal, membership } =
+    useAppContext();
   const { leftCredits, updateLeftCredits } = useCredits();
+  const isMember = membership?.status === "active";
+  const isSeedanceSelected = isSeedanceModel(selectedModel);
 
   // 用户登录时获取积分
   useEffect(() => {
@@ -158,23 +165,25 @@ export default function VideoGenerator({
         setSelectedImage(showcaseVideoParams.imageUrl);
         setImagePreview(showcaseVideoParams.imageUrl);
         setUploadedImageUrl(showcaseVideoParams.imageUrl);
-        
+
         // If using pixverse_template effect, upload to Pixverse
-        if (effect?.effect_type === 'pixverse_template') {
-          fetch('/api/video-effects/pixverse/upload', {
-            method: 'POST',
+        if (effect?.effect_type === "pixverse_template") {
+          fetch("/api/video-effects/pixverse/upload", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({ imageUrl: showcaseVideoParams.imageUrl }),
           })
-          .then(res => res.json())
-          .then(result => {
-            if (result.code === 0 && result.data?.imgId) {
-              setPixverseImgId(result.data.imgId);
-            }
-          })
-          .catch(err => console.error('Failed to upload showcase image to Pixverse:', err));
+            .then((res) => res.json())
+            .then((result) => {
+              if (result.code === 0 && result.data?.imgId) {
+                setPixverseImgId(result.data.imgId);
+              }
+            })
+            .catch((err) =>
+              console.error("Failed to upload showcase image to Pixverse:", err)
+            );
         }
       }
 
@@ -207,23 +216,25 @@ export default function VideoGenerator({
         setSelectedImage(editVideoData.image_url);
         setImagePreview(editVideoData.image_url);
         setUploadedImageUrl(editVideoData.image_url);
-        
+
         // If using pixverse_template effect, upload to Pixverse
-        if (effect?.effect_type === 'pixverse_template') {
-          fetch('/api/video-effects/pixverse/upload', {
-            method: 'POST',
+        if (effect?.effect_type === "pixverse_template") {
+          fetch("/api/video-effects/pixverse/upload", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({ imageUrl: editVideoData.image_url }),
           })
-          .then(res => res.json())
-          .then(result => {
-            if (result.code === 0 && result.data?.imgId) {
-              setPixverseImgId(result.data.imgId);
-            }
-          })
-          .catch(err => console.error('Failed to upload edit image to Pixverse:', err));
+            .then((res) => res.json())
+            .then((result) => {
+              if (result.code === 0 && result.data?.imgId) {
+                setPixverseImgId(result.data.imgId);
+              }
+            })
+            .catch((err) =>
+              console.error("Failed to upload edit image to Pixverse:", err)
+            );
         }
       }
 
@@ -254,40 +265,150 @@ export default function VideoGenerator({
   }, [isGenerating, user?.uuid, updateLeftCredits]);
 
   // 获取所有可用模型 - 基于mode参数，而不是图片状态
-  const availableModels =
-    mode === "image-to-video"
-      ? getImageToVideoModels()
-      : getTextToVideoModels();
+  const availableModels = useMemo(
+    () =>
+      mode === "image-to-video"
+        ? getImageToVideoModels()
+        : getTextToVideoModels(),
+    [mode]
+  );
+
+  const memberOnlyModelIds = useMemo(
+    () =>
+      new Set(
+        availableModels
+          .filter((model) => model.requiresMembership)
+          .map((model) => model.id)
+      ),
+    [availableModels]
+  );
+
+  const isMemberOnlyModel = useCallback(
+    (modelId?: string) => !!(modelId && memberOnlyModelIds.has(modelId)),
+    [memberOnlyModelIds]
+  );
+
+  const defaultAccessibleModel = useMemo(() => {
+    if (!availableModels.length) {
+      return undefined;
+    }
+
+    if (isMember) {
+      return availableModels[0];
+    }
+
+    return (
+      availableModels.find((model) => !model.requiresMembership) ||
+      availableModels[0]
+    );
+  }, [availableModels, isMember]);
 
   // 获取选中模型的详细信息
   const selectedModelConfig = getVideoModel(selectedModel);
 
+  const syncModelDefaults = useCallback((modelId: string) => {
+    const modelConfig = getVideoModel(modelId);
+    if (!modelConfig) {
+      return;
+    }
+
+    const supportedDurations = modelConfig.supportedDurations || [5, 10];
+    setSelectedDuration((prev) => {
+      if (!prev) {
+        return `${supportedDurations[0]}s`;
+      }
+
+      const currentDuration = parseInt(prev.replace("s", ""));
+      if (!supportedDurations.includes(currentDuration)) {
+        return `${supportedDurations[0]}s`;
+      }
+
+      return prev;
+    });
+
+    const supportedResolutions = modelConfig.supportedResolutions || [
+      "480p",
+      "1080p",
+    ];
+
+    setSelectedResolution((prev) => {
+      if (!prev || !supportedResolutions.includes(prev)) {
+        return supportedResolutions[0];
+      }
+
+      return prev;
+    });
+  }, []);
+
+  const handleModelSelect = useCallback(
+    (value: string) => {
+      if (!isMember && isMemberOnlyModel(value)) {
+        toast.info(t("toast.membersOnlyModel"));
+        return;
+      }
+
+      setSelectedModel(value);
+      onModelChange?.(value);
+      syncModelDefaults(value);
+    },
+    [isMember, isMemberOnlyModel, onModelChange, syncModelDefaults, t]
+  );
+
   // 初始化默认模型选择和模型智能切换
   useEffect(() => {
-    // If forceModel is provided, use it
     if (forceModel) {
+      if (isMemberOnlyModel(forceModel) && !isMember) {
+        if (defaultAccessibleModel) {
+          setSelectedModel(defaultAccessibleModel.id);
+          onModelChange?.(defaultAccessibleModel.id);
+          syncModelDefaults(defaultAccessibleModel.id);
+        }
+        return;
+      }
+
       setSelectedModel(forceModel);
-      if (onModelChange) {
-        onModelChange(forceModel);
-      }
-    } else if (!selectedModel && availableModels.length > 0) {
-      const firstModel = availableModels[0];
-      setSelectedModel(firstModel.id);
-      // 设置该模型支持的默认时长
-      const supportedDurations = firstModel.supportedDurations || [5, 10];
-      if (!selectedDuration) {
-        setSelectedDuration(`${supportedDurations[0]}s`);
-      }
-      // 设置该模型支持的默认分辨率
-      const supportedResolutions = firstModel.supportedResolutions || [
-        "480p",
-        "1080p",
-      ];
-      if (!selectedResolution) {
-        setSelectedResolution(supportedResolutions[0]);
-      }
+      onModelChange?.(forceModel);
+      syncModelDefaults(forceModel);
+      return;
     }
-  }, [selectedModel, availableModels, selectedDuration, selectedResolution]);
+
+    if (!selectedModel && defaultAccessibleModel) {
+      setSelectedModel(defaultAccessibleModel.id);
+      onModelChange?.(defaultAccessibleModel.id);
+      syncModelDefaults(defaultAccessibleModel.id);
+    }
+  }, [
+    forceModel,
+    isMember,
+    defaultAccessibleModel,
+    selectedModel,
+    onModelChange,
+    syncModelDefaults,
+    isMemberOnlyModel,
+  ]);
+
+  useEffect(() => {
+    if (
+      !isMember &&
+      isMemberOnlyModel(selectedModel) &&
+      defaultAccessibleModel
+    ) {
+      if (selectedModel === defaultAccessibleModel.id) {
+        return;
+      }
+
+      setSelectedModel(defaultAccessibleModel.id);
+      onModelChange?.(defaultAccessibleModel.id);
+      syncModelDefaults(defaultAccessibleModel.id);
+    }
+  }, [
+    isMember,
+    selectedModel,
+    defaultAccessibleModel,
+    onModelChange,
+    syncModelDefaults,
+    isMemberOnlyModel,
+  ]);
 
   // 同步 selectedImage 和 imagePreview
   useEffect(() => {
@@ -298,6 +419,21 @@ export default function VideoGenerator({
   useEffect(() => {
     setCurrentEffect(effect || null);
   }, [effect]);
+
+  // Seedance 模型水印开关默认行为
+  useEffect(() => {
+    if (!isSeedanceSelected) {
+      setWatermarkEnabled(false);
+      return;
+    }
+
+    if (isMember) {
+      setWatermarkEnabled(false);
+    } else {
+      setWatermarkEnabled(true);
+    }
+  }, [isSeedanceSelected, isMember]);
+
   // 确保默认选项被选中
   useEffect(() => {
     if (selectedModelConfig) {
@@ -389,10 +525,64 @@ export default function VideoGenerator({
     [adjustTextareaHeight]
   );
 
+  const handleWatermarkToggle = useCallback(
+    (nextValue: boolean) => {
+      if (!isSeedanceSelected) {
+        setWatermarkEnabled(nextValue);
+        return;
+      }
+
+      if (isMember) {
+        setWatermarkEnabled(nextValue);
+        return;
+      }
+
+      if (!nextValue) {
+        toast.info(t("watermark.membersOnly"));
+      }
+      setWatermarkEnabled(true);
+    },
+    [isSeedanceSelected, isMember, t]
+  );
+
   // 初始化 textarea 高度
   useEffect(() => {
     adjustTextareaHeight();
   }, [adjustTextareaHeight]);
+
+  // 从 localStorage 获取数据并回填表单
+  useEffect(() => {
+    // 检查 URL 中是否包含目标路径
+    const pathname = window.location.pathname;
+    if (
+      !pathname.includes("/text-to-video") &&
+      !pathname.includes("/image-to-video")
+    ) {
+      return;
+    }
+
+    // 对于文本模式
+    if (mode === "text-to-video") {
+      const savedPrompt = localStorage.getItem("modelLandingPagePrompt");
+      if (savedPrompt) {
+        setDescription(savedPrompt);
+        // 获取后清空 localStorage 中的数据，避免重复填充
+        localStorage.removeItem("modelLandingPagePrompt");
+      }
+    }
+
+    // 对于图像模式
+    if (mode === "image-to-video") {
+      const savedImage = localStorage.getItem("modelLandingPageImage");
+      if (savedImage) {
+        setSelectedImage(savedImage);
+        setImagePreview(savedImage);
+        setUploadedImageUrl(savedImage);
+        // 获取后清空 localStorage 中的数据，避免重复填充
+        localStorage.removeItem("modelLandingPageImage");
+      }
+    }
+  }, []);
 
   // Handle image upload with enhanced validation
   const handleImageUpload = useCallback(
@@ -405,7 +595,7 @@ export default function VideoGenerator({
 
       // 使用基于模型的图片验证规则
       const validationResult = await validateImage(file, selectedModel);
-      
+
       if (!validationResult.valid) {
         toast.error(validationResult.error || "Invalid image file.");
         return;
@@ -439,29 +629,32 @@ export default function VideoGenerator({
         }
 
         setUploadedImageUrl(uploadResult.data.url);
-        
+
         // If using pixverse_template effect, also upload to Pixverse
-        if (effect?.effect_type === 'pixverse_template') {
+        if (effect?.effect_type === "pixverse_template") {
           try {
-            const pixverseUploadResponse = await fetch('/api/video-effects/pixverse/upload', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ imageUrl: uploadResult.data.url }),
-            });
-            
+            const pixverseUploadResponse = await fetch(
+              "/api/video-effects/pixverse/upload",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ imageUrl: uploadResult.data.url }),
+              }
+            );
+
             const pixverseResult = await pixverseUploadResponse.json();
-            
+
             if (pixverseResult.code === 0 && pixverseResult.data?.imgId) {
               setPixverseImgId(pixverseResult.data.imgId);
               toast.success("Image uploaded successfully!");
             } else {
-              throw new Error('Failed to upload image to Pixverse');
+              throw new Error("Failed to upload image to Pixverse");
             }
           } catch (pixverseError) {
-            console.error('Pixverse upload error:', pixverseError);
-            toast.error('Failed to upload image for effect. Please try again.');
+            console.error("Pixverse upload error:", pixverseError);
+            toast.error("Failed to upload image for effect. Please try again.");
             removeImage();
             return;
           }
@@ -501,7 +694,7 @@ export default function VideoGenerator({
   // 构建生成参数的辅助函数
   const buildGenerationParams = (): VideoGenerationParams => {
     let imageUrl = uploadedImageUrl || undefined;
-    
+
     return {
       model: selectedModel,
       prompt: description.trim(),
@@ -513,6 +706,7 @@ export default function VideoGenerator({
       effect_id: currentEffect?.id,
       image_url: imageUrl,
       pixverse_img_id: pixverseImgId || undefined,
+      watermarkEnabled: isSeedanceSelected ? watermarkEnabled : false,
     };
   };
 
@@ -521,13 +715,13 @@ export default function VideoGenerator({
     if (pendingCaptchaParams) {
       const finalParams = {
         ...pendingCaptchaParams,
-        captchaToken
+        captchaToken,
       };
-      
+
       // 关闭模态框并清理状态
       setShowCaptchaModal(false);
       setPendingCaptchaParams(null);
-      
+
       // 提交生成请求
       await onGenerate(finalParams);
     }
@@ -567,7 +761,7 @@ export default function VideoGenerator({
 
     // 准备生成参数
     const params = buildGenerationParams();
-    
+
     // 基于积分的CAPTCHA判断
     if (needsCaptcha()) {
       // 新用户需要CAPTCHA验证
@@ -747,27 +941,7 @@ export default function VideoGenerator({
                   </label>
                   <Select
                     value={selectedModel}
-                    onValueChange={(value) => {
-                      setSelectedModel(value);
-                      onModelChange?.(value);
-                      // 切换模型时，重置时长和分辨率为新模型支持的默认值
-                      const newModel = getVideoModel(value);
-                      if (newModel) {
-                        // 检查并更新时长
-                        const supportedDurations =
-                          newModel.supportedDurations || [5, 10];
-                        const currentDuration = parseInt(
-                          selectedDuration.replace("s", "")
-                        );
-                        if (!supportedDurations.includes(currentDuration)) {
-                          setSelectedDuration(`${supportedDurations[0]}s`);
-                        }
-                        // 检查并更新分辨率 - 始终重置为默认值
-                        const supportedResolutions =
-                          newModel.supportedResolutions || ["480p", "1080p"];
-                        setSelectedResolution(supportedResolutions[0]);
-                      }
-                    }}
+                    onValueChange={handleModelSelect}
                   >
                     <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                       <SelectValue placeholder={t("selectModel")}>
@@ -784,6 +958,8 @@ export default function VideoGenerator({
                                   ? "/imgs/intro/hailuo.webp"
                                   : selectedModelConfig.id.includes("veo")
                                   ? "/imgs/intro/veo.svg"
+                                  : selectedModelConfig.id.includes("sora")
+                                  ? "/imgs/intro/sora.png"
                                   : selectedModelConfig.id.includes("wan") ||
                                     selectedModelConfig.id.includes("ali")
                                   ? "/imgs/intro/wan.png"
@@ -795,60 +971,87 @@ export default function VideoGenerator({
                             <span className="font-medium">
                               {selectedModelConfig.displayName}
                             </span>
+                            {selectedModelConfig.requiresMembership && (
+                              <Crown className="h-3.5 w-3.5 text-amber-300" />
+                            )}
                           </div>
                         )}
                       </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
-                      {availableModels.map((model) => (
-                        <SelectItem key={model.id} value={model.id}>
-                          <div className="flex items-start gap-3 w-full py-1">
-                            <img
-                              src={
-                                model.id.includes("kling")
-                                  ? "/imgs/intro/kling.svg"
-                                  : model.id.includes("minimax") ||
-                                    model.id.includes("hailuo")
-                                  ? "/imgs/intro/hailuo.webp"
-                                  : model.id.includes("veo")
-                                  ? "/imgs/intro/veo.svg"
-                                  : model.id.includes("wan") ||
-                                    model.id.includes("ali")
-                                  ? "/imgs/intro/wan.png"
-                                  : "/imgs/intro/seedance.png"
-                              }
-                              alt={model.provider}
-                              className="w-5 h-5 flex-shrink-0 mt-0.5"
-                            />
-                            <div className="flex flex-col flex-1 min-w-0">
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="font-medium text-gray-100">
-                                  {model.displayName}
+                      {availableModels.map((model) => {
+                        const isMemberOnly = model.requiresMembership;
+
+                        return (
+                          <SelectItem
+                            key={model.id}
+                            value={model.id}
+                            aria-disabled={!isMember && isMemberOnly}
+                            className={
+                              !isMember && isMemberOnly
+                                ? "opacity-60 cursor-not-allowed"
+                                : undefined
+                            }
+                          >
+                            <div
+                              className={`flex items-start gap-3 w-full py-1 ${
+                                !isMember && isMemberOnly
+                                  ? "cursor-not-allowed"
+                                  : ""
+                              }`}
+                            >
+                              <img
+                                src={
+                                  model.id.includes("kling")
+                                    ? "/imgs/intro/kling.svg"
+                                    : model.id.includes("minimax") ||
+                                      model.id.includes("hailuo")
+                                    ? "/imgs/intro/hailuo.webp"
+                                    : model.id.includes("veo")
+                                    ? "/imgs/intro/veo.svg"
+                                    : model.id.includes("sora")
+                                    ? "/imgs/intro/sora.png"
+                                    : model.id.includes("wan") ||
+                                      model.id.includes("ali")
+                                    ? "/imgs/intro/wan.png"
+                                    : "/imgs/intro/seedance.png"
+                                }
+                                alt={model.provider}
+                                className="w-5 h-5 flex-shrink-0 mt-0.5"
+                              />
+                              <div className="flex flex-col flex-1 min-w-0">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <span className="font-medium text-gray-100">
+                                    {model.displayName}
+                                  </span>
+                                  {isMemberOnly && (
+                                    <Crown className="h-3.5 w-3.5 text-amber-300" />
+                                  )}
+                                  <div className="flex items-center gap-1 text-xs text-blue-300">
+                                    <Coins className="h-3 w-3" />
+                                    {model.perSecondCredits}/s
+                                  </div>
+                                </div>
+                                <span className="text-xs text-gray-400 mb-1 line-clamp-2">
+                                  {model.description}
                                 </span>
-                                <div className="flex items-center gap-1 text-xs text-blue-300">
-                                  <Coins className="h-3 w-3" />
-                                  {model.perSecondCredits}/s
-                                </div>
+                                {model.features && (
+                                  <div className="flex flex-wrap gap-1">
+                                    {model.features.map((feature, index) => (
+                                      <span
+                                        key={index}
+                                        className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full"
+                                      >
+                                        {feature}
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
                               </div>
-                              <span className="text-xs text-gray-400 mb-1 line-clamp-2">
-                                {model.description}
-                              </span>
-                              {model.features && (
-                                <div className="flex flex-wrap gap-1">
-                                  {model.features.map((feature, index) => (
-                                    <span
-                                      key={index}
-                                      className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full"
-                                    >
-                                      {feature}
-                                    </span>
-                                  ))}
-                                </div>
-                              )}
                             </div>
-                          </div>
-                        </SelectItem>
-                      ))}
+                          </SelectItem>
+                        );
+                      })}
                     </SelectContent>
                   </Select>
                 </div>
@@ -978,6 +1181,24 @@ export default function VideoGenerator({
                   ))}
                 </div>
               </div>
+
+              {isSeedanceSelected && !isMember && (
+                <div className="mb-4">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-sm text-gray-300">
+                      {t("watermark.label")}
+                    </span>
+                    <div className="flex items-center gap-3">
+                      <Crown className="h-3.5 w-3.5 text-amber-300" />
+                      <Switch
+                        checked={watermarkEnabled}
+                        onCheckedChange={handleWatermarkToggle}
+                        className="data-[state=checked]:bg-primary scale-75"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

@@ -116,30 +116,29 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
       }
     };
 
-    // Handle source image click (for image-to-image mode)
-    const handleSourceImageClick = () => {
-      if (image.input_image_urls && image.input_image_urls[0] && onImageClick) {
-        onImageClick(image.input_image_urls[0], "Source Image");
-      }
-    };
 
     return (
       <div className="p-5 space-y-4">
         {/* Header: Source Image Thumbnail + Prompt + Timestamp */}
         <div className="flex justify-between items-start gap-3">
           <div className="flex items-start gap-3 flex-1">
-            {/* Source Image Thumbnail (if exists) */}
-            {image.input_image_urls && image.input_image_urls[0] && (
-              <div 
-                className="flex-shrink-0 h-12 w-12 rounded overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
-                onClick={handleSourceImageClick}
-                title="Click to view source image"
-              >
-                <img 
-                  src={image.input_image_urls[0]} 
-                  alt="Source Image"
-                  className="w-full h-full object-cover"
-                />
+            {/* Source Images Thumbnails (if exist) */}
+            {image.input_image_urls && image.input_image_urls.length > 0 && (
+              <div className="flex-shrink-0 flex gap-1">
+                {image.input_image_urls.map((url, index) => (
+                  <div 
+                    key={index}
+                    className="h-12 w-12 rounded overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
+                    onClick={() => onImageClick?.(url, `Source Image ${index + 1}`)}
+                    title={`Click to view source image ${index + 1}`}
+                  >
+                    <img 
+                      src={url} 
+                      alt={`Source Image ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
               </div>
             )}
             

@@ -22,6 +22,8 @@ export interface GenerateImageRequest {
   count?: number;
   width?: number;
   height?: number;
+  output_format?: "png" | "jpeg";
+  image_size?: "auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9";
   metadata?: Record<string, any>;
 }
 
@@ -32,6 +34,8 @@ export interface EditImageRequest {
   model?: string;
   strength?: number; // 0.0 - 1.0
   seed?: number;
+  output_format?: "png" | "jpeg";
+  image_size?: "auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9";
   metadata?: Record<string, any>;
 }
 
@@ -105,8 +109,8 @@ export abstract class BaseAIProvider {
       throw new Error('Prompt is required');
     }
     
-    if (request.prompt.length > 1000) {
-      throw new Error('Prompt is too long (max 1000 characters)');
+    if (request.prompt.length > 2000) {
+      throw new Error('Prompt is too long (max 2000 characters)');
     }
   }
 

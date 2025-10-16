@@ -42,6 +42,42 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   canEdit,
   pollingImages,
 }) => {
+  // 根据图片比例计算显示尺寸，最长边为可显示区域宽度的一半
+  const getImageAspectClass = (image?: any) => {
+    // 从 image_size 字段读取图片比例
+    const aspectRatio = image?.image_size;
+    
+    if (!aspectRatio) return 'w-1/2 aspect-square'; // 默认正方形
+    
+    let aspectClass;
+    switch (aspectRatio) {
+      case '1:1':
+        // 正方形：宽度和高度都等于容器宽度的3/5
+        aspectClass = 'w-3/5 aspect-square';
+        break;
+      case '3:4':
+        // 竖图：宽度为容器宽度的1/3，高度按比例
+        aspectClass = 'w-1/3 aspect-[3/4]';
+        break;
+      case '4:3':
+        // 横图：宽度为容器宽度的3/5，高度按比例
+        aspectClass = 'w-3/5 aspect-[4/3]';
+        break;
+      case '9:16':
+        // 竖图：宽度为容器宽度的1/3，高度按比例
+        aspectClass = 'w-1/3 aspect-[9/16]';
+        break;
+      case '16:9':
+        // 横图：宽度为容器宽度的3/5，高度按比例
+        aspectClass = 'w-3/5 aspect-[16/9]';
+        break;
+      case 'auto':
+      default:
+        aspectClass = 'w-1/2 aspect-square'; // 默认正方形
+        break;
+    }
+    return aspectClass;
+  };
   const isCompleted = status === "completed" || status === "saved_to_r2";
   const isPromptOptimizing = status === "prompt_optimizing";
   const isProcessing = ["pending", "in_queue", "in_progress", "prompt_optimizing"].includes(status);
@@ -373,7 +409,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
       <div className="space-y-3">
         {/* Prompt Optimizing placeholder with Sparkles effect - 三分之二宽度，左对齐 */}
         <div className="flex justify-start">
-          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} aspect-square bg-gray-700 rounded-lg flex items-center justify-center`}>
+          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} ${getImageAspectClass(image)} bg-gray-700 rounded-lg flex items-center justify-center`}>
             <div className="text-center py-8">
               <div className="relative mb-4">
                 <div className="absolute inset-0 bg-purple-500/20 blur-xl rounded-full animate-pulse" />
@@ -402,13 +438,13 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
         {/* Image preview with hover buttons - 三分之二宽度，左对齐 */}
         <div className="flex justify-start">
           <div 
-            className={`${isMobile ? 'w-2/3' : 'w-1/2'} aspect-square bg-gray-700 rounded-lg overflow-hidden cursor-pointer relative group`}
+            className={`${isMobile ? 'w-1/2' : 'w-1/3'} ${getImageAspectClass(image)} overflow-hidden cursor-pointer relative group`}
             onClick={handleOpen}
           >
             <img
               src={imageUrl}
               alt={image.prompt}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain rounded-lg"
               loading="lazy"
             />
             
@@ -495,9 +531,9 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
       <div className="space-y-3">
         {/* Processing placeholder with progress - 三分之二宽度，左对齐 */}
         <div className="flex justify-start">
-          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} aspect-square bg-gray-700 rounded-lg flex items-center justify-center relative overflow-hidden`}>
+          <div className={`${isMobile ? 'w-1/2' : 'w-1/3'} ${getImageAspectClass(image)} flex items-center justify-center relative overflow-hidden rounded-lg`}>
             {/* Background with subtle gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20" />
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-lg" />
             
             {/* Content */}
             <div className="relative z-10 text-center w-full px-4">
@@ -555,7 +591,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
       <div className="space-y-3">
         {/* Error placeholder - 三分之二宽度，左对齐 */}
         <div className="flex justify-start">
-          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} aspect-square bg-gray-700 rounded-lg flex items-center justify-center`}>
+          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} ${getImageAspectClass(image)} bg-gray-700 rounded-lg flex items-center justify-center`}>
             <div className="text-center">
               <div className="text-red-400 mb-2">❌</div>
               <p className="text-sm text-red-400">Generation Failed</p>
@@ -636,7 +672,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
     <>
       <div className="space-y-3">
         <div className="flex justify-start">
-          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} aspect-square bg-gray-700 rounded-lg flex items-center justify-center`}>
+          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} ${getImageAspectClass(image)} bg-gray-700 rounded-lg flex items-center justify-center`}>
             <div className="text-center">
               <p className="text-sm text-gray-400">Unknown Status</p>
             </div>

@@ -29,12 +29,14 @@ import {
   AlertTriangle,
   Loader2,
   Volume2,
+  Trash2,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { getVideoModel } from "@/config/video-models";
 import { useAppContext } from "@/contexts/app";
 import VideoHistorySkeleton from "./VideoHistorySkeleton";
+import DeleteConfirmDialog from "@/components/blocks/image-history-for-generation/components/DeleteConfirmDialog";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -49,6 +51,10 @@ export default function VideoTab() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
+  const [downloadingVideoId, setDownloadingVideoId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [videoToDelete, setVideoToDelete] = useState<VideoGeneration | null>(null);
 
   // 后台异步更新进行中的任务状态
   const updateActiveTasksInBackground = useCallback(
@@ -189,24 +195,61 @@ export default function VideoTab() {
     }
   };
 
-  const handleDownloadVideo = (video: VideoGeneration) => {
+  const createProxyDownloadUrl = (sourceUrl: string, filename: string) =>
+    `/api/proxy-video?url=${encodeURIComponent(sourceUrl)}&filename=${encodeURIComponent(filename)}`;
+
+  const triggerDownload = (
+    href: string,
+    filename: string,
+    openInNewTab = false
+  ) => {
+    const link = document.createElement("a");
+    link.href = href;
+    link.download = filename;
+    link.rel = "noopener noreferrer";
+    link.style.display = "none";
+    link.target = openInNewTab ? "_blank" : "_self";
+
+    document.body.appendChild(link);
+    try {
+      link.click();
+    } finally {
+      document.body.removeChild(link);
+    }
+  };
+
+  const handleDownloadVideo = async (video: VideoGeneration) => {
     const videoUrl =
       video.video_url_r2 ||
       video.upsample_video_url_veo3 ||
       video.video_url_veo3 ||
       video.video_url_volcano ||
       video.video_url_fal;
-    if (videoUrl) {
-      const link = document.createElement("a");
-      link.href = videoUrl;
-      link.download = `${video.prompt.substring(0, 20).replace(/\s+/g, "_")}_${
-        video.id
-      }.mp4`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
+
+    if (!videoUrl) {
       toast.error(t("toast.downloadNotAvailable"));
+      return;
+    }
+
+    const filename = `${video.prompt.substring(0, 20).replace(/\s+/g, "_")}_${
+      video.id
+    }.mp4`;
+    const proxyUrl = createProxyDownloadUrl(videoUrl, filename);
+
+    setDownloadingVideoId(video.id);
+    // Keep the spinner visible while the browser prepares the download prompt
+    const minimumSpinnerDelay = new Promise((resolve) =>
+      setTimeout(resolve, 1500)
+    );
+
+    try {
+      triggerDownload(proxyUrl, filename);
+    } catch (error) {
+      console.error("Proxy download failed, falling back to original URL:", error);
+      triggerDownload(videoUrl, filename, true);
+    } finally {
+      await minimumSpinnerDelay;
+      setDownloadingVideoId((current) => (current === video.id ? null : current));
     }
   };
 
@@ -216,6 +259,55 @@ export default function VideoTab() {
     console.log("Regenerate video:", video);
     toast.info(t("toast.regenerationNotImplemented"));
     // router.push(`/generate?prompt=${encodeURIComponent(video.prompt)}&aspect_ratio=${video.aspect_ratio}...`);
+  };
+
+  const handleDeleteVideo = (video: VideoGeneration) => {
+    setVideoToDelete(video);
+    setShowDeleteDialog(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!videoToDelete) return;
+
+    setDeletingId(videoToDelete.id);
+
+    try {
+      const response = await fetch(`/api/video-generations/${videoToDelete.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ videoId: videoToDelete.id }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete video");
+      }
+
+      const result = await response.json();
+
+      if (result.code === 0) {
+        // 成功删除，从本地状态移除
+        setVideos((prevVideos) =>
+          prevVideos.filter((v) => v.id !== videoToDelete.id)
+        );
+        toast.success("Video deleted successfully");
+
+        // 如果当前页没有视频了，并且不是第一页，跳转到上一页
+        if (videos.length === 1 && currentPage > 1) {
+          handlePageChange(currentPage - 1);
+        }
+      } else {
+        throw new Error(result.message || "Failed to delete video");
+      }
+    } catch (error) {
+      console.error("Error deleting video:", error);
+      toast.error("Failed to delete video");
+    } finally {
+      setDeletingId(null);
+      setShowDeleteDialog(false);
+      setVideoToDelete(null);
+    }
   };
 
   const getStatusBadge = (status: VideoGeneration["status"]) => {
@@ -405,7 +497,7 @@ export default function VideoTab() {
                 }
                 className="w-full sm:w-auto border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <PlayCircle className="mr-2 h-4 w-4" /> {t("playButton")}
+                <PlayCircle className="mr-2 h-4 w-4" /> Play
               </Button>
               <div className="flex gap-2 w-full sm:w-auto">
                 <Button
@@ -413,18 +505,24 @@ export default function VideoTab() {
                   size="icon"
                   onClick={() => handleDownloadVideo(video)}
                   disabled={
-                    video.status !== "COMPLETED" &&
-                    video.status !== "SAVED_TO_R2" &&
-                    !video.video_url_r2 &&
-                    !video.upsample_video_url_veo3 &&
-                    !video.video_url_veo3 &&
-                    !video.video_url_volcano &&
-                    !video.video_url_fal
+                    (
+                      video.status !== "COMPLETED" &&
+                      video.status !== "SAVED_TO_R2" &&
+                      !video.video_url_r2 &&
+                      !video.upsample_video_url_veo3 &&
+                      !video.video_url_veo3 &&
+                      !video.video_url_volcano &&
+                      !video.video_url_fal
+                    ) || downloadingVideoId === video.id
                   }
                   title={t("downloadButton")}
                   className="disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Download className="h-5 w-5 text-gray-400 hover:text-gray-200" />
+                  {downloadingVideoId === video.id ? (
+                    <Loader2 className="h-5 w-5 animate-spin text-gray-200" />
+                  ) : (
+                    <Download className="h-5 w-5 text-gray-400 hover:text-gray-200" />
+                  )}
                 </Button>
                 <Button
                   variant="ghost"
@@ -433,6 +531,20 @@ export default function VideoTab() {
                   title={t("regenerateButton")}
                 >
                   <RotateCcw className="h-5 w-5 text-gray-400 hover:text-gray-200" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleDeleteVideo(video)}
+                  disabled={deletingId === video.id}
+                  title="Delete video"
+                  className="disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {deletingId === video.id ? (
+                    <Loader2 className="h-5 w-5 text-gray-400 animate-spin" />
+                  ) : (
+                    <Trash2 className="h-5 w-5 text-gray-400 hover:text-red-400" />
+                  )}
                 </Button>
               </div>
             </CardFooter>
@@ -512,6 +624,19 @@ export default function VideoTab() {
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <DeleteConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={() => {
+          setShowDeleteDialog(false);
+          setVideoToDelete(null);
+        }}
+        onConfirm={handleConfirmDelete}
+        prompt={videoToDelete?.prompt || ""}
+        isDeleting={!!deletingId}
+        description="Are you sure you want to delete this video?"
+      />
     </div>
   );
 }

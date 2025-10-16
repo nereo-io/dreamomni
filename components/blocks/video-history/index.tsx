@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { RefreshCw, History, Loader2, Sparkles } from "lucide-react";
+import { RefreshCw, History, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import useVideoGeneration from "@/hooks/useVideoGeneration";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
@@ -14,6 +14,8 @@ import VideoHistoryItem from "./components/VideoHistoryItem";
 import VideoHistorySkeleton from "./components/VideoHistorySkeleton";
 import VideoShowcase from "../video-showcase";
 import type { ShowcaseVideo } from "@/types/showcase";
+import DeleteConfirmDialog from "@/components/blocks/image-history-for-generation/components/DeleteConfirmDialog";
+import { toast } from "sonner";
 
 interface VideoHistoryProps {
   refreshTrigger?: number;
@@ -45,9 +47,10 @@ export default function VideoHistory({
   showcaseData,
 }: VideoHistoryProps) {
   const t = useTranslations("video-result");
+  const tVideo = useTranslations("videoHistory");
   const { fetchHistory, history, isLoadingHistory, setHistory } =
     useVideoGeneration();
-  const { user, setShowSignModal } = useAppContext();
+  const { user } = useAppContext();
   const isMobile = useIsMobile();
   const [scrollToBottom, setScrollToBottom] = useState(false);
   const [expandedPrompts, setExpandedPrompts] = useState<Set<string>>(
@@ -55,6 +58,10 @@ export default function VideoHistory({
   );
   const containerRef = useRef<HTMLDivElement>(null);
   const [isClient, setIsClient] = useState(false);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [videoToDelete, setVideoToDelete] = useState<VideoGenerationResult | null>(null);
 
   // 客户端检测
   useEffect(() => {
@@ -97,11 +104,22 @@ export default function VideoHistory({
   // 获取所有未完成的视频（限制最多轮询数量）
   const getIncompleteVideos = useCallback(() => {
     if (!history || history.length === 0) return [];
-    
+
     // 返回所有未完成状态的视频，最多轮询5个（与历史记录获取数量一致）
     const MAX_POLLING_VIDEOS = 5;
+    const TEN_MINUTES = 10 * 60 * 1000; // 10分钟毫秒数
+    const now = Date.now();
+
     return history
-      .filter(video => INCOMPLETE_STATUSES.includes(video.status))
+      .filter(video => {
+        // 检查是否未完成
+        const isIncomplete = INCOMPLETE_STATUSES.includes(video.status);
+        // 检查是否在10分钟内创建
+        const createdAt = video.created_at;
+        if (!createdAt) return false; // 如果没有创建时间，不轮询
+        const isRecent = (now - new Date(createdAt).getTime()) < TEN_MINUTES;
+        return isIncomplete && isRecent;
+      })
       .slice(0, MAX_POLLING_VIDEOS);
   }, [history]);
 
@@ -201,39 +219,132 @@ export default function VideoHistory({
     loadHistory();
   };
 
-  // 下载视频
-  const handleDownload = async (videoUrl: string) => {
+  const createProxyDownloadUrl = (sourceUrl: string, filename: string) =>
+    `/api/proxy-video?url=${encodeURIComponent(sourceUrl)}&filename=${encodeURIComponent(filename)}`;
+
+  const triggerDownload = (
+    href: string,
+    filename: string,
+    openInNewTab = false
+  ) => {
+    const downloadLink = document.createElement("a");
+    downloadLink.href = href;
+    downloadLink.download = filename;
+    downloadLink.rel = "noopener noreferrer";
+    downloadLink.style.cssText =
+      "display: none; position: absolute; top: -9999px; left: -9999px;";
+    downloadLink.target = openInNewTab ? "_blank" : "_self";
+
+    document.body.appendChild(downloadLink);
+
     try {
-      // 显示下载进度（可选）
-      const response = await fetch(videoUrl);
+      downloadLink.click();
+    } finally {
+      document.body.removeChild(downloadLink);
+    }
+  };
+
+  // 下载视频
+  const handleDownload = async (generation: VideoGenerationResult) => {
+    const videoUrl =
+      generation.video_url ||
+      generation.video_url_r2 ||
+      generation.upsample_video_url_veo3 ||
+      generation.video_url_veo3 ||
+      generation.video_url_volcano ||
+      generation.video_url_fal;
+
+    if (!videoUrl) {
+      console.error("No video URL available for download");
+      return;
+    }
+
+    const filename = `video_${generation.id}.mp4`;
+    const proxyUrl = createProxyDownloadUrl(videoUrl, filename);
+
+    setDownloadingId(generation.id);
+    // Keep the spinner visible while the browser prepares the download prompt
+    const minimumSpinnerDelay = new Promise((resolve) =>
+      setTimeout(resolve, 1500)
+    );
+
+    try {
+      const response = await fetch(proxyUrl);
       if (!response.ok) throw new Error("下载失败");
 
       const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+      if (!blob || blob.size === 0) {
+        throw new Error("Empty video blob");
+      }
 
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `video_${Date.now()}.mp4`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      // 清理blob URL
-      window.URL.revokeObjectURL(url);
+      const objectUrl = window.URL.createObjectURL(blob);
+      triggerDownload(objectUrl, filename);
+      window.URL.revokeObjectURL(objectUrl);
+      return;
     } catch (error) {
       console.error("下载失败:", error);
-      // 如果fetch失败，尝试传统方式
-      const link = document.createElement("a");
-      link.href = videoUrl;
-      link.download = `video_${Date.now()}.mp4`;
-      link.target = "_blank";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+
+      try {
+        triggerDownload(proxyUrl, filename, isMobile);
+      } catch (fallbackError) {
+        console.error("Proxy download fallback failed:", fallbackError);
+        triggerDownload(videoUrl, filename, true);
+      }
+    } finally {
+      await minimumSpinnerDelay;
+      setDownloadingId((current) =>
+        current === generation.id ? null : current
+      );
     }
   };
 
   const STATUS_MAP = getStatusMap(t);
+
+  // Handle delete video
+  const handleDelete = (generation: VideoGenerationResult) => {
+    setVideoToDelete(generation);
+    setShowDeleteDialog(true);
+  };
+
+  // Confirm delete video
+  const handleConfirmDelete = async () => {
+    if (!videoToDelete) return;
+
+    setDeletingId(videoToDelete.id);
+
+    try {
+      const response = await fetch(`/api/video-generations/${videoToDelete.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ videoId: videoToDelete.id }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete video");
+      }
+
+      const result = await response.json();
+
+      if (result.code === 0) {
+        // 成功删除，从本地状态移除
+        setHistory((prevHistory) =>
+          prevHistory.filter((v) => v.id !== videoToDelete.id)
+        );
+        toast.success(tVideo("videoDeleted"));
+      } else {
+        throw new Error(result.message || tVideo("deleteFailed"));
+      }
+    } catch (error) {
+      console.error("Error deleting video:", error);
+      toast.error(tVideo("deleteFailed"));
+    } finally {
+      setDeletingId(null);
+      setShowDeleteDialog(false);
+      setVideoToDelete(null);
+    }
+  };
 
   // Handle showcase video selection
   const handleShowcaseVideoSelect = (video: ShowcaseVideo) => {
@@ -346,16 +457,32 @@ export default function VideoHistory({
                 isExpanded={expandedPrompts.has(generation.id)}
                 onToggleExpanded={() => togglePromptExpansion(generation.id)}
                 onDownload={handleDownload}
+                isDownloading={downloadingId === generation.id}
                 isExample={false}
                 isClient={isClient}
                 onEdit={onEditVideo}
                 onRegenerate={onRegenerateVideo}
+                onDelete={handleDelete}
                 canEdit={true} // Always true for real videos
+                isDeleting={deletingId === generation.id}
               />
             )
           )}
         </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <DeleteConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={() => {
+          setShowDeleteDialog(false);
+          setVideoToDelete(null);
+        }}
+        onConfirm={handleConfirmDelete}
+        prompt={videoToDelete?.prompt || ""}
+        isDeleting={!!deletingId}
+        description={tVideo("deleteConfirmDescription")}
+      />
     </div>
   );
 }

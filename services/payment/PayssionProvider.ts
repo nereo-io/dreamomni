@@ -240,7 +240,7 @@ export class PayssionProvider extends BasePaymentProvider {
         description:
           request.description || `Subscription for ${request.userEmail}`,
         interval_unit: request.interval,
-        times: 5, // 测试环境Payssion V2 要求必须为 1
+        times: 5, // 测试环境Payssion V2 要求必须为 1；正式环境为 5
         metadata: request.metadata || {},
       };
 
@@ -343,6 +343,7 @@ export class PayssionProvider extends BasePaymentProvider {
               webhookData.object?.failure_code || "Unknown reason"
             }`
           );
+          await this.handlePaymentFailed(webhookData);
           break;
 
         case "subscription.canceled":
@@ -590,14 +591,46 @@ export class PayssionProvider extends BasePaymentProvider {
         }
       );
 
-      const result = await response.json();
+      if (response.status === 204) {
+        console.error("Failed to query subscription: empty 204 response", {
+          subscriptionId,
+        });
+        return null;
+      }
+
+      const rawBody = await response.text();
+
+      if (!rawBody) {
+        console.error("Failed to query subscription: empty body", {
+          subscriptionId,
+          status: response.status,
+        });
+        return null;
+      }
+
+      let result: any;
+      try {
+        result = JSON.parse(rawBody);
+      } catch (parseError) {
+        console.error("Failed to parse subscription response", {
+          subscriptionId,
+          status: response.status,
+          rawBody,
+          parseError,
+        });
+        return null;
+      }
 
       if (response.ok && result.id) {
         return result;
-      } else {
-        console.error("Failed to query subscription:", result);
-        return null;
       }
+
+      console.error("Failed to query subscription:", {
+        subscriptionId,
+        status: response.status,
+        result,
+      });
+      return null;
     } catch (error: any) {
       console.error("Subscription query error:", error);
       return null;
@@ -652,6 +685,77 @@ export class PayssionProvider extends BasePaymentProvider {
     } catch (error: any) {
       console.error("Subscription cancellation error:", error);
       return false;
+    }
+  }
+
+  /**
+   * 处理支付失败事件 - 记录失败原因并更新订阅状态
+   */
+  private async handlePaymentFailed(data: any) {
+    const paymentObject = data.object;
+    const subscriptionId = paymentObject?.source_id;
+    const metadata = paymentObject?.metadata || {};
+    const orderNo = metadata?.order_no;
+    const failureCode = paymentObject?.failure_code || "unknown_error";
+
+    // Payssion 的 failure_message 形如 "insufficient_funds|payment_network"
+    const rawFailureMessage = paymentObject?.failure_message || "";
+    const [primaryMessage = failureCode] = rawFailureMessage.split("|");
+
+    const failureMessageMap: Record<string, string> = {
+      insufficient_funds:
+        "Недостаточно средств на счёте. Пополните баланс и попробуйте снова.",
+      card_declined:
+        "Карта отклонена банком. Обратитесь в банк или используйте другую карту.",
+      payment_network:
+        "Ошибка платёжной сети. Попробуйте через несколько минут.",
+      expired_card: "Срок действия карты истёк. Используйте другую карту.",
+      incorrect_cvc: "Неверный CVC-код карты. Проверьте и введите заново.",
+      amount_too_small: "Сумма платежа слишком мала. Минимальная сумма: 100 ₽.",
+      cancelled_by_user: "Платёж отменён. Вы можете повторить попытку.",
+      authentication_failed: "Ошибка аутентификации. Проверьте данные карты.",
+      processing_error:
+        "Ошибка обработки платежа. Попробуйте другой способ оплаты.",
+      unknown_error:
+        "Платёж не прошёл. Попробуйте снова или обратитесь в поддержку.",
+    };
+
+    const displayMessage = failureMessageMap[failureCode] || primaryMessage;
+
+    if (subscriptionId) {
+      try {
+        const { updateSubscriptionStatus } = await import(
+          "@/models/subscription"
+        );
+        await updateSubscriptionStatus(subscriptionId, "past_due");
+      } catch (error) {
+        console.error(
+          "Failed to update subscription status after payment failure",
+          {
+            subscriptionId,
+            error,
+          }
+        );
+      }
+    }
+
+    if (orderNo) {
+      try {
+        const { recordOrderPaymentFailure } = await import("@/models/order");
+        await recordOrderPaymentFailure(orderNo, {
+          code: failureCode,
+          message: displayMessage,
+          rawMessage: rawFailureMessage,
+          provider: this.name,
+          failureAt: paymentObject?.time_created,
+          eventId: data.id,
+        });
+      } catch (error) {
+        console.error("Failed to record payment failure on order", {
+          orderNo,
+          error,
+        });
+      }
     }
   }
 }

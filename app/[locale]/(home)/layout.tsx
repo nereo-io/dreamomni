@@ -1,9 +1,11 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Sidebar } from "@/components/blocks/home-layout/sidebar";
 import { AIVideoHeader } from "@/components/blocks/home-layout/header";
 import { SidebarProvider, useSidebar } from "@/contexts/sidebar";
+import Footer from "@/components/blocks/footer";
+import { LandingPage } from "@/types/pages/landing";
 
 interface HomeLayoutProps {
   children: ReactNode;
@@ -12,7 +14,13 @@ interface HomeLayoutProps {
   };
 }
 
-function HomeLayoutContent({ children }: { children: ReactNode }) {
+function HomeLayoutContent({
+  children,
+  footer
+}: {
+  children: ReactNode;
+  footer?: LandingPage['footer'];
+}) {
   const { isCollapsed } = useSidebar();
 
   return (
@@ -27,6 +35,8 @@ function HomeLayoutContent({ children }: { children: ReactNode }) {
         <AIVideoHeader />
 
         <main className="px-2 py-6 pt-[78px]">{children}</main>
+
+        {footer && <Footer footer={footer} />}
       </div>
     </div>
   );
@@ -36,9 +46,24 @@ export default function HomeLayout({
   children,
   params: { locale },
 }: HomeLayoutProps) {
+  const [footer, setFooter] = useState<LandingPage['footer']>();
+
+  useEffect(() => {
+    async function loadFooter() {
+      try {
+        const { getLandingPage } = await import("@/services/page");
+        const page = await getLandingPage(locale);
+        setFooter(page.footer);
+      } catch (error) {
+        console.error("Failed to load footer:", error);
+      }
+    }
+    loadFooter();
+  }, [locale]);
+
   return (
     <SidebarProvider>
-      <HomeLayoutContent>{children}</HomeLayoutContent>
+      <HomeLayoutContent footer={footer}>{children}</HomeLayoutContent>
     </SidebarProvider>
   );
 }

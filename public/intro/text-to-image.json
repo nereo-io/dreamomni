@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "title": "制作精致可爱的产品照片",
+    "prompt": "A high-resolution advertising photograph of a realistic, miniature [PRODUCT] held delicately between a person's thumb and index finger. clean and white background, studio lighting, soft shadows. The hand is well-groomed, natural skin tone, and positioned to highlight the product's shape and details. The product appears extremely small but hyper-detailed and brand-accurate, centered in the frame with a shallow depth of field. Emulates luxury product photography and minimalist commercial style.",
+    "image": "https://r2.veo3ai.io/intro/text-to-image/1.webp"
+  },
+  {
+    "id": "2",
+    "title": "制作模型全息投影照片",
+    "prompt": "超逼真的产品照片。主体：虚拟全息角色 [CHARACTER]，悬浮于现代桌面上直径 120 毫米的圆形全息投影仪上方。投影源规则：- 如果输入参考对象是 3D 物体，则在投影仪旁边放置一台桌面 3D 扫描仪。将参考对象放置在扫描板上。投影仪上方的全息图由扫描对象生成。- 如果输入参考对象是 2D 图像，则在桌面上放置一台带显示器的现代 PC。在显示器屏幕上显示参考图像。投影仪上方的全息图由该屏幕内容生成。全息图渲染规则：- 角色始终显示为半透明的体积图像，背景隐约可见。- 无光束、无粒子、无实体雕像表面。- 均衡的解剖结构（头身比例为 1/7-1/8），比例正确。- 姿势自然，轮廓清晰。- 头发、衣服褶皱和配饰可见但半透明。- 面部清晰富有表现力，在 1000 像素裁剪下清晰可读。- 无版权角色、无品牌设计、无 IP 标识。环境：现代办公桌，带投影仪底座 + 辅助设备（扫描仪或显示器）。相机：85-100 毫米镜头，3/4 英雄角，眼平，f/11-f/16，ISO100，三脚架。照明：桌面柔和照明；全息人物仅由体积光定义。背景：无缝黑色工作室，反射微妙。输出：4:5，2048×2560。负片：无文字、无水印、无标识、无品牌、版权角色、系列 IP、商标设计、树脂、PVC、实体雕像、不透明表面、玩具光泽、光束、扫描线、点、失真、多余数字。采样：确定性，Seed=12345，Temperature=0。",
+    "image": "https://r2.veo3ai.io/intro/text-to-image/2.webp"
+  },
+  {
+    "id": "3",
+    "title": "微型商店",
+    "prompt": "[品牌] 的微型立体模型店。屋顶由超大的 [产品] 制成，窗户上方是巨大的 [品牌] 标识，摊主正在向顾客递上 [产品]，地面上覆盖着许多 [产品]。手工软陶造型，摄影棚微距照片，柔和的光线，浅景深，竖屏 3:4",
+    "image": "https://r2.veo3ai.io/intro/text-to-image/3.webp"
+  },
+  {
+    "id": "4",
+    "title": "玻璃瓶纪念品",
+    "prompt": "1/7比例的商品化收藏级人偶，以照片中人物为原型，高度写实的风格打造。人偶置于细致的沙滩环境中，沙滩、贝壳和轻柔的海浪交织在一起。整个玩具展示架被封装在一个透明的纪念品玻璃瓶中，使其呈现出高端的微缩立体模型效果，并拥有逼真的光影效果。",
+    "image": "https://r2.veo3ai.io/intro/text-to-image/4.webp"
+  },
+  {
+    "id": "5",
+    "title": "印刷插画生成",
+    "prompt": "仅使用短语 [\"riding a bike\"] 中的字母，创作一幅极简主义的黑白印刷插图，描绘骑自行车的场景。每个字母的形状和位置都应富有创意，以构成骑车人、自行车和动感。设计应简洁、极简，完全由修改后的 [\"riding a bike\"] 字母组成，不添加任何额外的形状或线条。字母应流畅或弯曲，以模仿场景的自然形态，同时保持清晰易读。",
+    "image": "https://r2.veo3ai.io/intro/text-to-image/5.webp"
+  },
+  {
+    "id": "6",
+    "title": "设计国际象棋",
+    "prompt": "绘制一个棋盘和受此图片启发的 3D 打印棋子",
+    "image": "https://r2.veo3ai.io/intro/text-to-image/6.webp"
+  },
+  {
+    "id": "7",
+    "title": "科普漫画",
+    "prompt": "请帮我生成多张 16:9 的涂鸦风格图片，向中学生解释\"未来\"的概念。图片应采用一致的彩色粗铅笔手绘风格，信息丰富，包含英文文本，使用纯色背景，卡片周围有轮廓，并包含统一的标题，类似于 PowerPoint 演示文稿。",
+    "image": "https://r2.veo3ai.io/intro/text-to-image/7.webp"
+  },
+  {
+    "id": "8",
+    "title": "生成黑白进化图",
+    "prompt": "生成 进化的行进 图，极简黑白风格，从最早的猿猴逐渐进化为人再进化为最后的 香蕉",
+    "image": "https://r2.veo3ai.io/intro/text-to-image/8.webp"
+  },
+  {
+    "id": "9",
+    "title": "美女写真图",
+    "prompt": "具有强烈、直白闪光灯效果的图像生成风格：高光模式，前景曝光背景暗，超现实主义，光影氛围，细闪光影，梦幻的电影胶片质感，以莫奈花园为主题，（女孩穿着白色纱质连衣裙，红色小皮鞋，白色小短袜，棕色微卷短发，发丝凌乱，一手背在身后，一手拿着脏脏的白色破旧的大兔子玩偶，面无表情，站立在花丛后面），全身远景，全身照，动感模糊，正负片，撕拉片，梦核，极简，极端构图，暗角，漏光",
+    "image": "https://r2.veo3ai.io/intro/text-to-image/9.webp"
+  },
+  {
+    "id": "10",
+    "title": "3D解剖图",
+    "prompt": "绘制一幅展示湾流飞机工作原理的3D立体剖面设计图，以高度还原的方式精细呈现其内部结构。每个零部件被拆解并有序排列，各部分均配有清晰英文标注，注明结构名称与功能说明，整体布局兼具专业性与视觉逻辑性，呈现出清晰、整洁且极具科技感的解析示意图。",
+    "image": "https://r2.veo3ai.io/intro/text-to-image/10.webp"
+  }
+]

@@ -30,6 +30,9 @@ export interface ImageGenerationParams {
   quality?: string;
   style?: string;
   seed?: number;
+  // Nano Banana API支持的新参数
+  output_format?: "png" | "jpeg"; // 输出格式
+  image_size?: "auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9"; // 图片尺寸比例
   enable_prompt_enhancement?: boolean; // Prompt Enhancement 开关
   captchaToken?: string; // CAPTCHA验证令牌
 }
@@ -77,6 +80,10 @@ export default function ImageGenerator({
   const [isUploadingImages, setIsUploadingImages] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
   const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(true);
+  
+  // 新的输出设置状态
+  const [outputFormat, setOutputFormat] = useState<"png" | "jpeg">("png");
+  const [imageSize, setImageSize] = useState<"auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9">("auto");
   
   // CAPTCHA related states
   const [showCaptchaModal, setShowCaptchaModal] = useState(false);
@@ -133,45 +140,62 @@ export default function ImageGenerator({
     }
   }, [onModelChange, selectedModel]);
 
-  // Handle image upload
+  // Handle image upload - support up to 5 images
   const handleImageUpload = async (files: FileList) => {
     if (!user?.uuid) {
       setShowSignModal(true);
       return;
     }
 
-    const file = files[0];
-    if (!file) return;
-
-    if (!file.type.startsWith("image/")) {
-      toast.error(t("invalidImageFile", { filename: file.name }));
+    const fileArray = Array.from(files);
+    const maxImages = 5;
+    const remainingSlots = maxImages - uploadedImages.length;
+    
+    // Check if adding these files would exceed the limit
+    if (fileArray.length > remainingSlots) {
+      toast.error(t("maxImagesExceeded", { max: remainingSlots }));
       return;
     }
-    if (file.size > 10 * 1024 * 1024) {
-      toast.error(t("fileSizeExceeded", { filename: file.name }));
-      return;
+
+    // Validate each file
+    for (const file of fileArray) {
+      if (!file.type.startsWith("image/")) {
+        toast.error(t("invalidImageFile", { filename: file.name }));
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        toast.error(t("fileSizeExceeded", { filename: file.name }));
+        return;
+      }
     }
 
     setIsUploadingImages(true);
 
     try {
-      const formData = new FormData();
-      formData.append("file", file);
+      const uploadPromises = fileArray.map(async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
 
-      const uploadResponse = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
+        const uploadResponse = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const uploadResult = await uploadResponse.json();
+        if (uploadResult.code === 0) {
+          return { file, url: uploadResult.data.url };
+        } else {
+          throw new Error(uploadResult.message || "Upload failed");
+        }
       });
 
-      const uploadResult = await uploadResponse.json();
-      if (uploadResult.code === 0) {
-        // Replace the existing image (single image mode)
-        setUploadedImages([file]);
-        setImageUrls([uploadResult.data.url]);
-        toast.success(t("imageUploadedSuccessfully"));
-      } else {
-        throw new Error(uploadResult.message || "Upload failed");
-      }
+      const uploadResults = await Promise.all(uploadPromises);
+      
+      // Add new images to existing ones
+      setUploadedImages(prev => [...prev, ...uploadResults.map(r => r.file)]);
+      setImageUrls(prev => [...prev, ...uploadResults.map(r => r.url)]);
+      
+      toast.success(t("imagesUploadedSuccessfully", { count: uploadResults.length }));
     } catch (error) {
       console.error("Upload error:", error);
       toast.error(t("uploadFailed"));
@@ -241,6 +265,8 @@ export default function ImageGenerator({
       mode: selectedType === "text-to-image" ? "text-to-image" : "image-edit",
       provider: provider || undefined,
       image_urls: selectedType === "image-to-image" ? imageUrls : undefined,
+      output_format: outputFormat,
+      image_size: imageSize,
       enable_prompt_enhancement: enablePromptEnhancement,
     };
 
@@ -335,9 +361,9 @@ export default function ImageGenerator({
           {/* Image Upload Section (for image-to-image mode) */}
           {selectedType === "image-to-image" && (
             <div>
-                          <div className="text-white text-lg font-semibold mb-4">
-              {t("image")}
-            </div>
+              <div className="text-white text-lg font-semibold mb-4">
+                {t("images")} ({uploadedImages.length}/5)
+              </div>
               {uploadedImages.length === 0 ? (
                 <div
                   className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
@@ -349,48 +375,96 @@ export default function ImageGenerator({
                       ? "border-blue-400 bg-blue-900/50"
                       : "border-gray-600 hover:border-gray-500"
                   }`}
-                  onClick={() =>
-                    !isUploadingImages &&
-                    document.getElementById("image-upload")?.click()
-                  }
+                  onClick={() => {
+                    if (!isUploadingImages) {
+                      const input = document.getElementById("image-upload") as HTMLInputElement;
+                      if (input) {
+                        // 动态设置文件选择限制
+                        const remainingSlots = 5 - uploadedImages.length;
+                        input.setAttribute("data-max-files", remainingSlots.toString());
+                        input.click();
+                      }
+                    }
+                  }}
                 >
                   <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                   <div className="space-y-2">
                     <p className="text-sm text-gray-300 px-2 text-center">
-                      {t("clickToUpload")}
+                      {t("clickToUploadMultiple")}
                     </p>
                     <p className="text-xs text-gray-400 px-2 text-center">
-                      {t("supportedFormats")}
+                      {t("maxImages", { max: 5 })} - {t("canUpload", { count: 5 })}
                     </p>
                   </div>
                   <input
                     type="file"
                     accept="image/*"
-                    onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files)}
+                    multiple
+                    onChange={(e) => e.target.files && handleImageUpload(e.target.files)}
                     className="hidden"
                     id="image-upload"
                   />
                 </div>
               ) : (
-                <div className="relative">
-                  <img
-                    src={URL.createObjectURL(uploadedImages[0])}
-                    alt="Uploaded"
-                    className="w-full h-32 object-contain rounded-lg bg-gray-800"
-                  />
-                  {!isUploadingImages && (
-                    <button
-                      onClick={() => removeImage(0)}
-                      className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    {uploadedImages.map((image, index) => (
+                      <div key={index} className="relative">
+                        <img
+                          src={URL.createObjectURL(image)}
+                          alt={`Uploaded ${index + 1}`}
+                          className="w-full h-32 object-contain rounded-lg bg-gray-800"
+                        />
+                        {!isUploadingImages && (
+                          <button
+                            onClick={() => removeImage(index)}
+                            className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        )}
+                        {isUploadingImages && (
+                          <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
+                            <div className="flex flex-col items-center gap-2">
+                              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                              <span className="text-white text-sm">{t("uploading")}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  {uploadedImages.length < 5 && (
+                    <div
+                      className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors ${
+                        isUploadingImages
+                          ? "cursor-not-allowed opacity-50"
+                          : "cursor-pointer"
+                      } ${
+                        false // isDragOver placeholder for future drag support
+                          ? "border-blue-400 bg-blue-900/50"
+                          : "border-gray-600 hover:border-gray-500"
+                      }`}
+                      onClick={() => {
+                        if (!isUploadingImages) {
+                          const input = document.getElementById("image-upload") as HTMLInputElement;
+                          if (input) {
+                            // 动态设置文件选择限制
+                            const remainingSlots = 5 - uploadedImages.length;
+                            input.setAttribute("data-max-files", remainingSlots.toString());
+                            input.click();
+                          }
+                        }
+                      }}
                     >
-                      <X className="h-4 w-4" />
-                    </button>
-                  )}
-                  {isUploadingImages && (
-                    <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
-                      <div className="flex flex-col items-center gap-2">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                        <span className="text-white text-sm">{t("uploading")}</span>
+                      <div className="flex flex-col items-center space-y-2">
+                        <Plus className="h-6 w-6 text-gray-400" />
+                        <p className="text-gray-400 text-sm">
+                          {isUploadingImages ? t("uploading") : t("addMoreImages")}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {t("canUpload", { count: 5 - uploadedImages.length })}
+                        </p>
                       </div>
                     </div>
                   )}
@@ -457,6 +531,85 @@ export default function ImageGenerator({
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Output Format */}
+            <div className="mb-4">
+              <label className="text-gray-300 text-sm mb-2 block">
+                {t("outputFormat")}
+              </label>
+              <div className="flex flex-wrap gap-3 sm:gap-6">
+                {["png", "jpeg"].map((format) => (
+                  <label
+                    key={format}
+                    className="flex items-center cursor-pointer min-w-0"
+                  >
+                    <input
+                      type="radio"
+                      name="outputFormat"
+                      value={format}
+                      checked={outputFormat === format}
+                      onChange={(e) => setOutputFormat(e.target.value as "png" | "jpeg")}
+                      className="sr-only"
+                    />
+                    <div
+                      className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
+                        outputFormat === format
+                          ? "border-primary bg-primary"
+                          : "border-gray-500"
+                      }`}
+                    >
+                      {outputFormat === format && (
+                        <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                      )}
+                    </div>
+                    <span className="text-gray-300 text-sm uppercase">{format}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Image Size Ratio */}
+            <div className="mb-4">
+              <label className="text-gray-300 text-sm mb-2 block">
+                {t("imageSize")}
+              </label>
+              <div className="flex flex-wrap gap-3 sm:gap-6">
+                {[
+                  { value: "auto", label: "Auto" },
+                  { value: "1:1", label: "1:1" },
+                  { value: "3:4", label: "3:4" },
+                  { value: "9:16", label: "9:16" },
+                  { value: "4:3", label: "4:3" },
+                  { value: "16:9", label: "16:9" },
+                ].map((size) => (
+                  <label
+                    key={size.value}
+                    className="flex items-center cursor-pointer min-w-0"
+                  >
+                    <input
+                      type="radio"
+                      name="imageSize"
+                      value={size.value}
+                      checked={imageSize === size.value}
+                      onChange={(e) => setImageSize(e.target.value as typeof imageSize)}
+                      className="sr-only"
+                    />
+                    <div
+                      className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
+                        imageSize === size.value
+                          ? "border-primary bg-primary"
+                          : "border-gray-500"
+                      }`}
+                    >
+                      {imageSize === size.value && (
+                        <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                      )}
+                    </div>
+                    <span className="text-gray-300 text-sm">{size.label}</span>
+                  </label>
+                ))}
               </div>
             </div>
 

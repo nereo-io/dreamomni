@@ -15,11 +15,22 @@ import { increaseCredits } from "./credit";
 import { checkIPRegistrationLimit, updateIPRegistrationCount } from "@/lib/ip";
 
 export async function saveUser(user: User) {
+  const truncate = (value: string | undefined | null, max = 255) => {
+    if (value === undefined || value === null) {
+      return value ?? "";
+    }
+    return value.length > max ? value.slice(0, max) : value;
+  };
+
   try {
     const existUser = await findUserByEmail(user.email);
     let isNewUser = false;
     
     if (!existUser) {
+      user.avatar_url = truncate(user.avatar_url);
+      user.nickname = truncate(user.nickname);
+      user.signin_openid = truncate(user.signin_openid);
+
       // 对于新用户，检查IP注册限制
       if (user.signin_ip) {
         const ipCheck = await checkIPRegistrationLimit(user.signin_ip);

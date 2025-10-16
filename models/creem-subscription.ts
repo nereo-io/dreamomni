@@ -84,6 +84,8 @@ export async function findCreemSubscriptionsByUserUuid(
     .from("creem_subscriptions")
     .select("*")
     .eq("user_uuid", userUuid)
+    .neq("status", "incomplete")
+    .neq("status", "past_due")
     .order("created_at", { ascending: false })
     .range(offset, offset + limit - 1);
 

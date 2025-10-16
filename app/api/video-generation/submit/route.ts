@@ -19,10 +19,13 @@ import {
   isVeo3Model,
   isVeo3ApicoreModel,
   isKieAiModel,
+  isSeedanceModel,
   isVeoModel,
   isVolcanoModel,
+  isBytePlusModel,
   isAliModel,
   isMinimaxModel,
+  isSora2Model,
   calculateCredits,
   VideoModelProvider,
 } from "@/config/video-models";
@@ -31,29 +34,37 @@ import { optimizeVideoPromptWithTimeout } from "@/services/promptOptimization";
 import { getEffectConfigById } from "@/models/effectConfig";
 
 // 验证Cloudflare Turnstile CAPTCHA
-async function verifyCaptcha(token: string, clientIP: string): Promise<boolean> {
+async function verifyCaptcha(
+  token: string,
+  clientIP: string
+): Promise<boolean> {
   if (!process.env.TURNSTILE_SECRET_KEY) {
-    console.warn("TURNSTILE_SECRET_KEY not configured, skipping CAPTCHA verification");
+    console.warn(
+      "TURNSTILE_SECRET_KEY not configured, skipping CAPTCHA verification"
+    );
     return true; // 如果没配置密钥，跳过验证
   }
 
   try {
-    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        secret: process.env.TURNSTILE_SECRET_KEY,
-        response: token,
-        remoteip: clientIP,
-      }),
-    });
+    const response = await fetch(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          secret: process.env.TURNSTILE_SECRET_KEY,
+          response: token,
+          remoteip: clientIP,
+        }),
+      }
+    );
 
     const result = await response.json();
     return result.success === true;
   } catch (error) {
-    console.error('CAPTCHA verification error:', error);
+    console.error("CAPTCHA verification error:", error);
     return false;
   }
 }
@@ -111,6 +122,9 @@ export async function POST(req: Request) {
       ...otherParams
     } = await req.json();
 
+    const { watermarkEnabled = false, ...additionalParams } =
+      otherParams || {};
+
     // 验证必需参数
     if (!model || !prompt) {
       return respErr("model 和 prompt 参数是必需的");
@@ -122,35 +136,42 @@ export async function POST(req: Request) {
       if (!captchaToken) {
         return respErr("CAPTCHA verification is required for new users");
       }
-      
+
       const captchaValid = await verifyCaptcha(captchaToken, clientIP);
       if (!captchaValid) {
-        console.warn(`CAPTCHA verification failed for new user: ${userInfo.uuid}, IP: ${clientIP}, credits: ${userCredits.left_credits}`);
+        console.warn(
+          `CAPTCHA verification failed for new user: ${userInfo.uuid}, IP: ${clientIP}, credits: ${userCredits.left_credits}`
+        );
         return respErr("CAPTCHA verification failed. Please try again.");
       }
-      
-      console.log(`CAPTCHA verification passed for new user: ${userInfo.uuid}, credits: ${userCredits.left_credits}`);
+
+      console.log(
+        `CAPTCHA verification passed for new user: ${userInfo.uuid}, credits: ${userCredits.left_credits}`
+      );
     }
 
     // 处理特效配置
     let finalPrompt = prompt;
     let finalModel = model;
     let effectCreditsOverride: number | null = null;
-    
+
     if (effect_id) {
       const effectConfig = await getEffectConfigById(effect_id);
-      
+
       if (effectConfig) {
         // 应用prompt模板
         if (effectConfig.prompt_template) {
-          finalPrompt = effectConfig.prompt_template.replace('{{USER_PROMPT}}', prompt);
+          finalPrompt = effectConfig.prompt_template.replace(
+            "{{USER_PROMPT}}",
+            prompt
+          );
         }
-        
+
         // 使用默认模型 minimax-hailuo02-image-to-video 用于特效
         if (effectConfig) {
-          finalModel = 'minimax-hailuo02-image-to-video';
+          finalModel = "minimax-hailuo02-image-to-video";
         }
-        
+
         // 使用特效积分
         if (effectConfig.credits_required) {
           effectCreditsOverride = effectConfig.credits_required;
@@ -170,12 +191,9 @@ export async function POST(req: Request) {
 
     // 5. 计算所需积分并检查余额
     const durationInt = parseInt(duration);
-    const requiredCredits = effectCreditsOverride || calculateCredits(
-      finalModel,
-      durationInt,
-      generate_audio,
-      resolution
-    );
+    const requiredCredits =
+      effectCreditsOverride ||
+      calculateCredits(finalModel, durationInt, generate_audio, resolution);
 
     if (requiredCredits === 0) {
       return respErr(
@@ -240,7 +258,7 @@ export async function POST(req: Request) {
       duration_seconds: parseInt(duration),
       cfg_scale,
       seed,
-      has_audio: finalModel.includes('veo') && generate_audio, // 只有 VEO 模型有音频
+      has_audio: finalModel.includes("veo") && generate_audio, // 只有 VEO 模型有音频
       status: enable_prompt_enhancement ? "PROMPT_OPTIMIZING" : "IN_QUEUE",
       effect_id: effect_id,
     });
@@ -252,7 +270,8 @@ export async function POST(req: Request) {
         const optimizedPrompt = await optimizeVideoPromptWithTimeout(
           finalPrompt,
           finalModel,
-          30000
+          30000,
+          image_url // 传递图片URL（如果有）
         );
         enhancedPrompt = optimizedPrompt;
 
@@ -266,6 +285,13 @@ export async function POST(req: Request) {
       } catch (error) {
         console.error("提示词优化失败，使用原始提示词:", error);
         // 如果优化失败，继续使用原始提示词
+      }
+    }
+
+    if (watermarkEnabled && isSeedanceModel(finalModel)) {
+      const trimmed = enhancedPrompt.trim();
+      if (!/--wm\s+true\b/i.test(trimmed)) {
+        enhancedPrompt = `${trimmed} --wm true`.trim();
       }
     }
 
@@ -342,14 +368,19 @@ export async function POST(req: Request) {
       if (modelConfig.volcanoModel) {
         input.model = modelConfig.volcanoModel;
       }
+    } else if (isBytePlusModel(finalModel)) {
+      // BytePlus 模型特有参数 (使用volcanoModel配置)
+      if (modelConfig.volcanoModel) {
+        input.model = modelConfig.volcanoModel;
+      }
     } else if (isKieAiModel(finalModel)) {
       // Kie.ai 模型特有参数
       if (image_url) {
         input.image_url = image_url;
       }
       // Kie.ai 支持水印
-      if (otherParams.watermark) {
-        input.watermark = otherParams.watermark;
+      if (additionalParams.watermark) {
+        input.watermark = additionalParams.watermark;
       }
     } else if (isAliModel(finalModel)) {
       // 阿里百炼模型特有参数
@@ -362,7 +393,7 @@ export async function POST(req: Request) {
 
     // 8. 提交任务到队列，包含webhook URL
     const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
-    // const webhookUrl = `https://b3b0385f848b.ngrok-free.app/api/video-generation/webhook`;
+    // const webhookUrl = `https://d76d2707b239.ngrok-free.app/api/video-generation/webhook`;
 
     try {
       // 使用Provider Factory获取合适的provider
@@ -413,12 +444,22 @@ export async function POST(req: Request) {
         updateParams.fal_request_id = submitResponse.request_id;
       } else if (
         modelConfig.provider === VideoModelProvider.APICORE ||
-        modelConfig.provider === VideoModelProvider.KIEAI
+        (modelConfig.provider === VideoModelProvider.KIEAI &&
+          !isSora2Model(finalModel))
       ) {
-        // Both APICore and KieAI use the same veo3_request_id field
+        // APICore and KieAI Veo3 use the same veo3_request_id field
         updateParams.veo3_request_id = submitResponse.request_id;
+      } else if (
+        modelConfig.provider === VideoModelProvider.KIEAI &&
+        isSora2Model(finalModel)
+      ) {
+        // Sora 2 使用专用的 sora_request_id 字段
+        updateParams.sora_request_id = submitResponse.request_id;
       } else if (modelConfig.provider === VideoModelProvider.ALI) {
         updateParams.ali_request_id = submitResponse.request_id;
+      } else if (modelConfig.provider === VideoModelProvider.BYTEPLUS) {
+        // BytePlus 使用 volcano_request_id 字段（API 兼容）
+        updateParams.volcano_request_id = submitResponse.request_id;
       }
 
       // 更新请求ID和状态为 IN_QUEUE

@@ -65,16 +65,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.8,
       },
       {
-        url: `${baseUrl}/image-generation`,
+        url: `${baseUrl}/video-effects`,
         lastModified: currentDate,
         changeFrequency: "weekly" as ChangeFrequency,
-        priority: 0.8,
-      },
-      {
-        url: `${baseUrl}/pricing`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
-        priority: 0.8,
+        priority: 0.7,
       },
       {
         url: `${baseUrl}/history`,
@@ -192,12 +186,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           priority: 0.8,
         },
         {
-          url: `${baseUrl}/${locale}/image-generation`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.8,
-        },
-        {
           url: `${baseUrl}/${locale}/video-effects`,
           lastModified: currentDate,
           changeFrequency: "weekly" as ChangeFrequency,
@@ -309,7 +297,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const locale of locales) {
       try {
         const effects = await getAllEffectConfigs(locale);
-        
+
         const effectUrls = effects.map((effect) => ({
           url:
             locale === "en"
@@ -320,7 +308,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           priority: 0.7,
         }));
 
-        console.log(`为 ${locale} 语言添加了 ${effectUrls.length} 个 video effect 页面`);
+        console.log(
+          `为 ${locale} 语言添加了 ${effectUrls.length} 个 video effect 页面`
+        );
         videoEffectPages.push(...effectUrls);
       } catch (error) {
         console.error(`获取 ${locale} 语言的 video effects 时出错:`, error);
@@ -330,7 +320,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.log(`总共添加了 ${videoEffectPages.length} 个 video effect 页面`);
 
     // 合并所有页面
-    const allPages = [...staticPages, ...localizedStaticPages, ...blogPages, ...videoEffectPages];
+    const allPages = [
+      ...staticPages,
+      ...localizedStaticPages,
+      ...blogPages,
+      ...videoEffectPages,
+    ];
 
     console.log(`sitemap 生成完成，总共包含 ${allPages.length} 个页面`);
     return allPages;

@@ -3,7 +3,7 @@
 import { Check, Loader, Crown, X } from "lucide-react";
 import { PricingItem, Pricing as PricingType } from "@/types/blocks/pricing";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import {
   Dialog,
   DialogContent,
@@ -44,7 +44,7 @@ export default function PricingModal({
   const t = useTranslations("pricing_modal");
   const { trackPricingView, trackCheckoutStart } = useYandexTracking();
 
-  const [group, setGroup] = useState(pricing.groups?.[0]?.name);
+  const [group, setGroup] = useState<string | undefined>(pricing.groups?.[0]?.name);
   const [isLoading, setIsLoading] = useState(false);
   const [productId, setProductId] = useState<string | null>(null);
   const [availableMethods, setAvailableMethods] = useState<
@@ -52,6 +52,7 @@ export default function PricingModal({
   >([]);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [selectedProvider, setSelectedProvider] = useState("");
+  const [hasUserSelectedGroup, setHasUserSelectedGroup] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showMembershipModal, setShowMembershipModal] = useState(false);
   const [pendingCheckoutItem, setPendingCheckoutItem] = useState<PricingItem | null>(null);
@@ -60,6 +61,98 @@ export default function PricingModal({
     credits?: number;
     nextBilling?: string;
   }>({});
+
+  const visiblePlans = useMemo(() => {
+    if (!pricing.items?.length) {
+      return [] as PricingItem[];
+    }
+
+    return pricing.items.filter((item) => {
+      if (item.group && group && item.group !== group) {
+        return false;
+      }
+      if (item.amount === 0 || item.product_id === "free-plan") {
+        return false;
+      }
+      return true;
+    });
+  }, [pricing.items, group]);
+
+  const gridColumnsClass = useMemo(() => {
+    if (visiblePlans.length >= 3) {
+      return "md:grid-cols-2 lg:grid-cols-3";
+    }
+    if (visiblePlans.length === 2) {
+      return "md:grid-cols-2 lg:grid-cols-2";
+    }
+    return "md:grid-cols-1 lg:grid-cols-1";
+  }, [visiblePlans.length]);
+
+  function calculateNextBilling(interval: string, paidAt: string) {
+    const paidDate = new Date(paidAt);
+    if (interval === "year") {
+      return new Date(
+        paidDate.getTime() + 365 * 24 * 60 * 60 * 1000
+      ).toLocaleDateString();
+    }
+    if (interval === "month") {
+      return new Date(
+        paidDate.getTime() + 30 * 24 * 60 * 60 * 1000
+      ).toLocaleDateString();
+    }
+    return "";
+  }
+
+  const checkRecentPayment = useCallback(async (): Promise<"success" | "failure" | "none"> => {
+    const paymentPending = localStorage.getItem("veo3_payment_pending");
+    const paymentTimestamp = localStorage.getItem("veo3_payment_timestamp");
+    if (!paymentPending || !paymentTimestamp) {
+      return "none";
+    }
+
+    try {
+      const response = await fetch(
+        `/api/check-recent-payment?timestamp=${paymentTimestamp}`
+      );
+      const result = await response.json();
+
+      if (result.code === 0 && result.data) {
+        if (result.data.hasRecentPayment) {
+          const paymentInfo = result.data.paymentInfo;
+
+          setSuccessInfo({
+            planName: paymentInfo.planName,
+            credits: paymentInfo.credits,
+            nextBilling: calculateNextBilling(
+              paymentInfo.interval,
+              paymentInfo.paidAt
+            ),
+          });
+
+          setShowSuccessModal(true);
+          localStorage.removeItem("veo3_payment_pending");
+          localStorage.removeItem("veo3_payment_timestamp");
+          localStorage.removeItem("veo3_payment_info");
+          return "success";
+        }
+
+        if (result.data.hasFailedPayment && result.data.failureInfo) {
+          const failureInfo = result.data.failureInfo;
+          const message = failureInfo.message || failureInfo.code || "Payment failed";
+
+          toast.error(message);
+          localStorage.removeItem("veo3_payment_pending");
+          localStorage.removeItem("veo3_payment_timestamp");
+          localStorage.removeItem("veo3_payment_info");
+          return "failure";
+        }
+      }
+    } catch (error) {
+      console.error("检查支付状态失败:", error);
+    }
+
+    return "none";
+  }, []);
 
   // 获取支持订阅的支付方式
   useEffect(() => {
@@ -114,62 +207,26 @@ export default function PricingModal({
 
   // 检测支付成功状态（仅用于显示成功弹窗，不再上报 Metrica）
   useEffect(() => {
-    const checkRecentPayment = async () => {
-      const paymentPending = localStorage.getItem("veo3_payment_pending");
-      const paymentTimestamp = localStorage.getItem("veo3_payment_timestamp");
-      if (!paymentPending || !paymentTimestamp) return;
+    if (!isOpen) {
+      return;
+    }
 
-      try {
-        const response = await fetch(
-          `/api/check-recent-payment?timestamp=${paymentTimestamp}`
-        );
-        const result = await response.json();
-
-        if (result.code === 0 && result.data.hasRecentPayment) {
-          const paymentInfo = result.data.paymentInfo;
-
-          setSuccessInfo({
-            planName: paymentInfo.planName,
-            credits: paymentInfo.credits,
-            nextBilling: calculateNextBilling(
-              paymentInfo.interval,
-              paymentInfo.paidAt
-            ),
-          });
-
-          setShowSuccessModal(true);
-          localStorage.removeItem("veo3_payment_pending");
-          localStorage.removeItem("veo3_payment_timestamp");
-          localStorage.removeItem("veo3_payment_info");
-        }
-      } catch (error) {
-        console.error("检查支付状态失败:", error);
-      }
+    checkRecentPayment();
+    const handleFocus = () => {
+      setTimeout(() => {
+        checkRecentPayment();
+      }, 1000);
     };
-
-    if (isOpen) {
+    window.addEventListener("focus", handleFocus);
+    const intervalId = window.setInterval(() => {
       checkRecentPayment();
-      const handleFocus = () => {
-        setTimeout(checkRecentPayment, 1000);
-      };
-      window.addEventListener("focus", handleFocus);
-      return () => window.removeEventListener("focus", handleFocus);
-    }
-  }, [isOpen]);
+    }, 3000);
 
-  const calculateNextBilling = (interval: string, paidAt: string) => {
-    const paidDate = new Date(paidAt);
-    if (interval === "year") {
-      return new Date(
-        paidDate.getTime() + 365 * 24 * 60 * 60 * 1000
-      ).toLocaleDateString();
-    } else if (interval === "month") {
-      return new Date(
-        paidDate.getTime() + 30 * 24 * 60 * 60 * 1000
-      ).toLocaleDateString();
-    }
-    return "";
-  };
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+      window.clearInterval(intervalId);
+    };
+  }, [isOpen, checkRecentPayment]);
 
   const handleCheckout = async (item: PricingItem, cn_pay: boolean = false, skipMembershipCheck: boolean = false) => {
     try {
@@ -276,23 +333,12 @@ export default function PricingModal({
         if (redirect_url) {
           window.location.href = redirect_url;
         } else if (success && subscriptionId) {
-          const paymentInfo = localStorage.getItem("veo3_payment_info");
-          if (paymentInfo) {
-            const info = JSON.parse(paymentInfo);
-            setSuccessInfo({
-              planName: info.planName,
-              credits: info.credits,
-              nextBilling:
-                item.interval === "year"
-                  ? new Date(
-                      Date.now() + 365 * 24 * 60 * 60 * 1000
-                    ).toLocaleDateString()
-                  : new Date(
-                      Date.now() + 30 * 24 * 60 * 60 * 1000
-                    ).toLocaleDateString(),
-            });
+          const status = await checkRecentPayment();
+          if (status === "none") {
+            window.setTimeout(() => {
+              checkRecentPayment();
+            }, 2000);
           }
-          setShowSuccessModal(true);
         } else {
           toast.error("Payment link generation failed");
         }
@@ -301,23 +347,12 @@ export default function PricingModal({
         if (redirect_url) {
           window.location.href = redirect_url;
         } else if (success && subscriptionId) {
-          const paymentInfo = localStorage.getItem("veo3_payment_info");
-          if (paymentInfo) {
-            const info = JSON.parse(paymentInfo);
-            setSuccessInfo({
-              planName: info.planName,
-              credits: info.credits,
-              nextBilling:
-                item.interval === "year"
-                  ? new Date(
-                      Date.now() + 365 * 24 * 60 * 60 * 1000
-                    ).toLocaleDateString()
-                  : new Date(
-                      Date.now() + 30 * 24 * 60 * 60 * 1000
-                    ).toLocaleDateString(),
-            });
+          const status = await checkRecentPayment();
+          if (status === "none") {
+            window.setTimeout(() => {
+              checkRecentPayment();
+            }, 2000);
           }
-          setShowSuccessModal(true);
         } else {
           toast.error("Payment link generation failed");
         }
@@ -332,14 +367,26 @@ export default function PricingModal({
   };
 
   useEffect(() => {
-    if (pricing.items) {
-      const monthlyGroup = pricing.groups?.find((g) => g.name === "monthly");
-      const defaultGroup = monthlyGroup
-        ? "monthly"
-        : pricing.items[0].group || pricing.groups?.[0]?.name;
-      setGroup(defaultGroup);
+    if (!pricing.items?.length || hasUserSelectedGroup) {
+      return;
     }
-  }, [pricing.items]);
+
+    let preferredGroup =
+      selectedProvider === "creem"
+        ? pricing.groups?.find((g) => g.name === "yearly")?.name
+        : undefined;
+
+    if (!preferredGroup) {
+      preferredGroup = pricing.groups?.find((g) => g.name === "monthly")?.name;
+    }
+
+    const fallbackGroup = pricing.items?.[0]?.group || pricing.groups?.[0]?.name;
+    const nextGroup = preferredGroup || fallbackGroup;
+
+    if (nextGroup && nextGroup !== group) {
+      setGroup(nextGroup);
+    }
+  }, [pricing.items, pricing.groups, selectedProvider, hasUserSelectedGroup, group]);
 
   if (pricing.disabled) {
     return null;
@@ -348,7 +395,7 @@ export default function PricingModal({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-4xl max-h-[85vh] overflow-y-auto p-0">
+        <DialogContent className="sm:max-w-5xl max-h-[85vh] overflow-y-auto p-0">
             <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground z-10">
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
@@ -372,6 +419,7 @@ export default function PricingModal({
                       className={`h-full grid-cols-${pricing.groups.length}`}
                       onValueChange={(value) => {
                         setGroup(value);
+                        setHasUserSelectedGroup(true);
                       }}
                     >
                       {pricing.groups.map((item, i) => {
@@ -415,29 +463,11 @@ export default function PricingModal({
                   </div>
                 )}
 
-                <div
-                  className={`w-full grid gap-4 lg:grid-cols-2 md:grid-cols-2 grid-cols-1`}
-                >
-                  {pricing.items?.map((item, index) => {
-                    if (item.group && item.group !== group) {
-                      return null;
-                    }
-
-                    // 隐藏免费计划以节省空间
-                    if (item.amount === 0 || item.product_id === "free-plan") {
-                      return null;
-                    }
-
-                    // 基于 product_id 只显示 Mini 和 Standard 方案（语言无关）
-                    const allowedPlans = ["mini", "standard"];
-                    const planType = item.product_id?.split("-")[0];
-                    if (!planType || !allowedPlans.includes(planType)) {
-                      return null;
-                    }
-
+                <div className={`w-full grid gap-4 grid-cols-1 ${gridColumnsClass}`}>
+                  {visiblePlans.map((item, index) => {
                     return (
                       <div
-                        key={index}
+                        key={item.product_id ?? index}
                         className={`rounded-lg p-4 ${
                           item.is_featured
                             ? "border-primary border-2 bg-card text-card-foreground"
@@ -735,7 +765,7 @@ export default function PricingModal({
             }}
             onViewSubscription={() => {
               onClose();
-              window.location.href = '/memberships';
+              window.location.href = '/membership';
             }}
             onContinuePurchase={() => {
               setShowMembershipModal(false);

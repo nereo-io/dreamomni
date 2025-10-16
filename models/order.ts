@@ -1,6 +1,15 @@
 import { Order } from "@/types/order";
 import { getSupabaseClient } from "@/models/db";
 
+interface PaymentFailureInfo {
+  code?: string;
+  message?: string;
+  rawMessage?: string;
+  provider?: string;
+  failureAt?: string;
+  eventId?: string;
+}
+
 export enum OrderStatus {
   Created = "created",
   Paid = "paid",
@@ -281,6 +290,175 @@ export async function getOrdersByPaidEmail(
   }
 
   return data;
+}
+
+export async function recordOrderPaymentFailure(
+  order_no: string,
+  failure: PaymentFailureInfo
+) {
+  const supabase = getSupabaseClient();
+
+  const { data: order, error: fetchError } = await supabase
+    .from("orders")
+    .select("order_detail")
+    .eq("order_no", order_no)
+    .single();
+
+  if (fetchError) {
+    console.error("Failed to load order for failure recording", {
+      order_no,
+      error: fetchError.message,
+    });
+    throw fetchError;
+  }
+
+  let detail: any = {};
+
+  if (order?.order_detail) {
+    try {
+      detail = typeof order.order_detail === "string"
+        ? JSON.parse(order.order_detail)
+        : order.order_detail;
+    } catch (parseError) {
+      console.warn("Failed to parse existing order_detail, resetting", {
+        order_no,
+        parseError,
+      });
+      detail = {};
+    }
+  }
+
+  const failureRecord = {
+    code: failure.code,
+    message: failure.message,
+    rawMessage: failure.rawMessage,
+    provider: failure.provider,
+    failureAt: failure.failureAt,
+    eventId: failure.eventId,
+    recordedAt: new Date().toISOString(),
+  };
+
+  detail.last_payment_failure = failureRecord;
+
+  const updatePayload = {
+    order_detail: JSON.stringify(detail),
+  };
+
+  try {
+    const { error: updateError } = await supabase
+      .from("orders")
+      .update({
+        ...updatePayload,
+        subscription_status: "past_due",
+      })
+      .eq("order_no", order_no);
+
+    if (updateError) {
+      throw updateError;
+    }
+  } catch (error: any) {
+    if (error?.code === "42703" || error?.code === "PGRST204") {
+      // 数据库缺少 subscription_status 字段，退回只更新 order_detail
+      const { error: fallbackError } = await supabase
+        .from("orders")
+        .update(updatePayload)
+        .eq("order_no", order_no);
+
+      if (fallbackError) {
+        console.error("Failed to persist payment failure details", {
+          order_no,
+          error: fallbackError.message,
+        });
+        throw fallbackError;
+      }
+    } else {
+      console.error("Failed to update order with payment failure", {
+        order_no,
+        error: error?.message || error,
+      });
+      throw error;
+    }
+  }
+
+  return failureRecord;
+}
+
+export async function findRecentFailedPayment(
+  user_uuid: string,
+  minutesAgo: number = 5
+): Promise<{
+  order: any;
+  failure: {
+    code?: string;
+    message?: string;
+    rawMessage?: string;
+    provider?: string;
+    failureAt?: string;
+    recordedAt?: string;
+  };
+} | null> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("orders")
+    .select("*")
+    .eq("user_uuid", user_uuid)
+    .order("created_at", { ascending: false })
+    .limit(10);
+
+  if (error) {
+    console.error("Failed to query recent payment failures", {
+      user_uuid,
+      error: error.message,
+    });
+    throw error;
+  }
+
+  if (!data || data.length === 0) {
+    return null;
+  }
+
+  const threshold = Date.now() - minutesAgo * 60 * 1000;
+
+  for (const order of data) {
+    if (!order?.order_detail) {
+      continue;
+    }
+
+    let detail: any;
+    try {
+      detail = typeof order.order_detail === "string"
+        ? JSON.parse(order.order_detail)
+        : order.order_detail;
+    } catch (parseError) {
+      continue;
+    }
+
+    const failure = detail?.last_payment_failure;
+    if (!failure) {
+      continue;
+    }
+
+    const failureTimeStr = failure.failureAt || failure.recordedAt;
+    const fallbackTime = order.updated_at || order.paid_at || order.created_at;
+    const failureTime = failureTimeStr
+      ? new Date(failureTimeStr).getTime()
+      : fallbackTime
+      ? new Date(fallbackTime).getTime()
+      : Number.NaN;
+
+    if (!Number.isFinite(failureTime)) {
+      continue;
+    }
+
+    if (failureTime >= threshold) {
+      return {
+        order,
+        failure,
+      };
+    }
+  }
+
+  return null;
 }
 
 export async function getPaiedOrders(

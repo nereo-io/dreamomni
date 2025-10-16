@@ -11,5 +11,6 @@
     // "i18n/blocks/pricing"
   ],
   "i18n-ally.keystyle": "nested",
-  "claudeCodeChat.permissions.yoloMode": true
+  "claudeCodeChat.permissions.yoloMode": true,
+  "chatgpt.openOnStartup": false
 }

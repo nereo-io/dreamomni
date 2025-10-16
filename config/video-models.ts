@@ -8,6 +8,7 @@ export enum VideoModelType {
 export enum VideoModelProvider {
   FAL = "fal", // fal.ai 提供的各种模型 (Seedance, Kling, VEO等)
   VOLCANO = "volcano", // 火山引擎提供的模型 (Doubao-Seedance等)
+  BYTEPLUS = "byteplus", // BytePlus 提供的模型 (Southeast Asia)
   APICORE = "apicore", // APICore 提供的模型 (Veo3等)
   KIEAI = "kieai", // Kie.ai 提供的模型 (Veo3等)
   ALI = "ali", // 阿里百炼提供的模型
@@ -33,47 +34,87 @@ export interface VideoModelConfig {
   supportedResolutions?: string[]; // 支持的分辨率
   audioPremiumCredits?: number; // 音频额外费用
   estimatedGenerationTime?: number; // 预估生成时间（秒），用于前端倒计时
+  requiresMembership?: boolean; // 是否需要会员才能选择
 }
 
 // 视频模型配置
 export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
-  // Doubao-Seedance 1.0 Pro 文本转视频模型 (Volcano Engine)
-  "doubao-seedance-1-0-pro-text-to-video": {
-    id: "doubao-seedance-1-0-pro-text-to-video",
-    name: "Doubao-Seedance 1.0 Pro Text-to-Video",
+  // BytePlus Seedance Pro 文本转视频模型 (Southeast Asia)
+  "byteplus-seedance-pro-text-to-video": {
+    id: "byteplus-seedance-pro-text-to-video",
+    name: "BytePlus Seedance Pro Text-to-Video",
     type: VideoModelType.TEXT_TO_VIDEO,
-    provider: VideoModelProvider.VOLCANO,
-    volcanoModel: "doubao-seedance-1-0-pro-250528",
+    provider: VideoModelProvider.BYTEPLUS,
+    // volcanoModel: "seedance-1-0-pro-250528",
+    volcanoModel: "ep-20250915143914-m57vr",
     displayName: "Seedance 1.0 Pro",
     perSecondCredits: 2,
     description: "ByteDance's video model, starting at $0.3/video",
-    features: ["Wait 45s"],
+    features: ["wait 45s", "Direct Access"],
     maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16", "1:1"],
     supportedResolutions: ["480p", "1080p"],
     supportsAudio: false,
-    estimatedGenerationTime: 45, // Seedance 预估45秒
+    estimatedGenerationTime: 45,
     supportedDurations: [5, 10],
   },
 
-  // Doubao-Seedance 1.0 Pro 图片转视频模型 (Volcano Engine)
-  "doubao-seedance-1-0-pro-image-to-video": {
-    id: "doubao-seedance-1-0-pro-image-to-video",
-    name: "Doubao-Seedance 1.0 Pro Image-to-Video",
+  // BytePlus Seedance Pro 图片转视频模型 (Southeast Asia)
+  "byteplus-seedance-pro-image-to-video": {
+    id: "byteplus-seedance-pro-image-to-video",
+    name: "BytePlus Seedance Pro Image-to-Video",
     type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.VOLCANO,
-    volcanoModel: "doubao-seedance-1-0-pro-250528",
+    provider: VideoModelProvider.BYTEPLUS,
+    // volcanoModel: "seedance-1-0-pro-250528",
+    volcanoModel: "ep-20250915143914-m57vr",
     displayName: "Seedance 1.0 Pro",
-    perSecondCredits: 2, // 7.5 tokens for 5s = 1.5 tokens/second
-    description: "ByteDance's video model, starting at $0.3/video.",
-    features: ["Wait 45s"],
+    perSecondCredits: 2,
+    description: "ByteDance's video model, starting at $0.3/video",
+    features: ["wait 45s", "Direct Access"],
     maxDuration: 10,
-    supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
+    supportedAspectRatios: ["adaptive"],
     supportedResolutions: ["480p", "1080p"],
     supportsAudio: false,
-    estimatedGenerationTime: 45, // Seedance 图片转视频预估45秒
+    estimatedGenerationTime: 45,
     supportedDurations: [5, 10],
   },
+  // Doubao-Seedance 1.0 Pro 文本转视频模型 (Volcano Engine)
+  // "doubao-seedance-1-0-pro-text-to-video": {
+  //   id: "doubao-seedance-1-0-pro-text-to-video",
+  //   name: "Doubao-Seedance 1.0 Pro Text-to-Video",
+  //   type: VideoModelType.TEXT_TO_VIDEO,
+  //   provider: VideoModelProvider.VOLCANO,
+  //   volcanoModel: "doubao-seedance-1-0-pro-250528",
+  //   displayName: "Seedance 1.0 Pro",
+  //   perSecondCredits: 2,
+  //   description: "ByteDance's video model, starting at $0.3/video",
+  //   features: ["wait 45s"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["16:9", "9:16", "1:1"],
+  //   supportedResolutions: ["480p", "1080p"],
+  //   supportsAudio: false,
+  //   estimatedGenerationTime: 45, // Seedance 预估45秒
+  //   supportedDurations: [5, 10],
+  // },
+
+  // Doubao-Seedance 1.0 Pro 图片转视频模型 (Volcano Engine)
+  // "doubao-seedance-1-0-pro-image-to-video": {
+  //   id: "doubao-seedance-1-0-pro-image-to-video",
+  //   name: "Doubao-Seedance 1.0 Pro Image-to-Video",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.VOLCANO,
+  //   volcanoModel: "doubao-seedance-1-0-pro-250528",
+  //   displayName: "Seedance 1.0 Pro",
+  //   perSecondCredits: 2, // 7.5 tokens for 5s = 1.5 tokens/second
+  //   description: "ByteDance's video model, starting at $0.3/video",
+  //   features: ["wait 45s"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
+  //   supportedResolutions: ["480p", "1080p"],
+  //   supportsAudio: false,
+  //   estimatedGenerationTime: 45, // Seedance 图片转视频预估45秒
+  //   supportedDurations: [5, 10],
+  // },
   // Kie.ai Veo3 文本转视频模型（基于 Kie.ai API）
   "kie-veo3-text-to-video": {
     id: "kie-veo3-text-to-video",
@@ -109,6 +150,44 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedDurations: [8],
     supportedResolutions: ["1080p"], // Veo3支持高分辨率
   },
+
+  // Kie.ai Sora 2 文本转视频模型
+  "sora-2-text-to-video": {
+    id: "sora-2-text-to-video",
+    name: "Sora 2 Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    displayName: "Sora 2",
+    perSecondCredits: 0.5, // 5秒12积分 = 2.4积分/秒
+    description: "OpenAI's Sora 2 model, Limited-time promotion",
+    features: ["wait 200s", "Audio"],
+    maxDuration: 10,
+    supportedAspectRatios: ["16:9", "9:16"],
+    supportsAudio: false,
+    estimatedGenerationTime: 180, // 预估3分钟
+    supportedDurations: [10],
+    supportedResolutions: ["1080p"], // 固定1080p HD
+    requiresMembership: true,
+  },
+
+  // Kie.ai Sora 2 图片转视频模型
+  "sora-2-image-to-video": {
+    id: "sora-2-image-to-video",
+    name: "Sora 2 Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    displayName: "Sora 2",
+    perSecondCredits: 0.5, // 图生视频10积分/5秒 = 2积分/秒
+    description: "OpenAI's Sora 2 model, Limited-time promotion",
+    features: ["wait 200s", "Audio"],
+    maxDuration: 10,
+    supportedAspectRatios: ["16:9", "9:16"],
+    supportsAudio: false,
+    estimatedGenerationTime: 180, // 预估3分钟
+    supportedDurations: [10],
+    supportedResolutions: ["1080p"], // 固定1080p HD
+    requiresMembership: true,
+  },
   // MiniMax Hailuo02 文本转视频模型 (via fal.ai)
   "minimax-hailuo02-text-to-video": {
     id: "minimax-hailuo02-text-to-video",
@@ -117,7 +196,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     provider: VideoModelProvider.FAL,
     falEndpoint: "fal-ai/minimax/hailuo-02/standard/text-to-video",
     displayName: "Hailuo 02",
-    perSecondCredits: 2, // $0.045/秒 = 1.8积分/秒，取整为2
+    perSecondCredits: 4, // $0.045/秒 = 1.8积分/秒，取整为2
     description: "MiniMax's video model",
     features: ["wait 200s", "Instruction Following"],
     maxDuration: 10,
@@ -219,6 +298,12 @@ export function getVolcanoModels(): VideoModelConfig[] {
   );
 }
 
+export function getBytePlusModels(): VideoModelConfig[] {
+  return Object.values(VIDEO_MODELS).filter(
+    (model) => model.provider === VideoModelProvider.BYTEPLUS
+  );
+}
+
 export function getVeo3Models(): VideoModelConfig[] {
   return Object.values(VIDEO_MODELS).filter(
     (model) => model.provider === VideoModelProvider.APICORE
@@ -277,6 +362,8 @@ export function calculateCredits(
     totalCredits += duration * model.audioPremiumCredits;
   }
 
+  // Sora 2 固定为 1080p HD，无需额外调整（已在 perSecondCredits 中包含）
+
   return Math.round(totalCredits);
 }
 
@@ -323,6 +410,11 @@ export function isVolcanoModel(modelId: string): boolean {
   return modelId.includes("doubao-");
 }
 
+// 检查模型是否为BytePlus模型
+export function isBytePlusModel(modelId: string): boolean {
+  return modelId.includes("byteplus-");
+}
+
 // 检查模型是否为fal.ai提供的模型
 export function isFalModel(modelId: string): boolean {
   const model = getVideoModel(modelId);
@@ -344,6 +436,11 @@ export function isKieAiModel(modelId: string): boolean {
 // 检查模型是否为Kie.ai Veo3模型
 export function isKieAiVeo3Model(modelId: string): boolean {
   return modelId.includes("kie-veo3-");
+}
+
+// 检查模型是否为Sora 2模型
+export function isSora2Model(modelId: string): boolean {
+  return modelId.includes("sora-2-");
 }
 
 // 检查模型是否为阿里百炼模型

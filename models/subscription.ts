@@ -10,7 +10,7 @@ export interface Subscription {
   plan_type: 'monthly' | 'yearly';
   amount: number;
   currency: string;
-  status: 'pending' | 'active' | 'canceled' | 'expired';
+  status: 'pending' | 'active' | 'canceled' | 'expired' | 'past_due';
   current_period_start?: string;
   current_period_end?: string;
   canceled_at?: string;
@@ -93,6 +93,8 @@ export async function findSubscriptionsByUserUuid(
     .from("subscriptions")
     .select("*")
     .eq("user_uuid", userUuid)
+    .neq("status", "pending")
+    .neq("status", "past_due")
     .order("created_at", { ascending: false })
     .range(offset, offset + limit - 1);
 
