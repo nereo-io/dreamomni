@@ -121,9 +121,9 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     name: "Kie.ai Veo3 Text-to-Video",
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
-    displayName: "Veo 3",
+    displayName: "Veo 3.1",
     perSecondCredits: 1.5,
-    description: "Google's Veo3 model, starting at $0.36/video",
+    description: "Google's Veo3.1 model, starting at $0.36/video",
     features: ["wait 200s", "Audio"],
     maxDuration: 8, // Kie.ai Veo3 默认5秒
     supportedAspectRatios: ["16:9", "9:16"],
@@ -139,9 +139,9 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     name: "Kie.ai Veo3 Image-to-Video",
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
-    displayName: "Veo 3",
+    displayName: "Veo 3.1",
     perSecondCredits: 1.5, // 与文本转视频同样的积分消耗
-    description: "Google's Veo3 model, starting at $0.36/video",
+    description: "Google's Veo3.1 model, starting at $0.36/video",
     features: ["wait 200s", "Audio"],
     maxDuration: 8, // Kie.ai Veo3 默认5秒
     supportedAspectRatios: ["16:9", "9:16"],
