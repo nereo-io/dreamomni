@@ -51,11 +51,12 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ tableData }) => {
           <Image
             src={cell.content}
             alt={cell.altText || ""}
-            width={200}
-            height={200}
+            width={1024}
+            height={1024}
             className="rounded object-cover w-full h-full"
             style={{ aspectRatio: "1/1" }}
             loading="lazy"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         );
 

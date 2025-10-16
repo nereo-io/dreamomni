@@ -82,7 +82,70 @@ const BLOCKED_EMAIL_DOMAINS = [
   'priyo.ovh',      // 临时邮箱服务
   'forexnews.bg',   // 临时邮箱服务
   'forexzig.com',   // 临时邮箱服务
-  'ro.ru'           // 临时邮箱服务
+  'ro.ru',          // 临时邮箱服务
+  // 2025-10-16 新增 - 最近7天批量注册攻击域名（安全审计发现）
+  'webxios.pro',       // 136个账户，65个IP（大规模分布式攻击）
+  'yopmail.com',       // 59个账户（知名临时邮箱，无需密码）
+  'quiet-branch.com',  // 61个账户
+  'radiant-flow.org',  // 47个账户
+  'uiemail.com',       // 41个账户
+  'wtwtt.com',         // 25个账户
+  'lorkex.com',        // 28个账户
+  'fanlvr.com',        // 30个账户
+  'gamegta.com',       // 29个账户（游戏主题临时邮箱）
+  'gta5hx.com',        // 21个账户（游戏主题临时邮箱）
+  'djkux.com',         // 23个账户
+  'no.vsmailpro.com',  // 25个账户（VSMailPro临时邮箱）
+  'suvvs.com',         // 16个账户
+  'bbcvt.com',         // 14个账户
+  'koletter.com',      // 22个账户
+  'jstmail.com',       // 11个账户
+  'f1t.online',        // 11个账户
+  'arqsis.com',        // 14个账户
+  'fontfee.com',       // 20个账户
+  'capiena.com',       // 17个账户
+  'opemails.com',      // 17个账户
+  'bdnets.com',        // 9个账户
+  'trashlify.com',     // 14个账户（明确的"垃圾邮箱"服务）
+  '0ut.online',        // 18个账户
+  're146.dev',         // 12个账户（4个IP，集中式滥用）
+  'necub.com',         // 11个账户
+  'easymailer.live',   // 11个账户（2个IP，高度集中滥用）
+  'audince.com',       // 12个账户
+  'moonfee.com',       // 10个账户
+  'sharklasers.com',   // 8个账户
+  'dunefee.com',       // 5个账户
+  'picoaxis.com',      // 8个账户
+  'faraby.net',        // 8个账户
+  'priyo-mail.com',    // 3个账户
+  'priyomail.in',      // 1个账户
+  'priyomail.net',     // 1个账户
+  'nrehi.com',         // 4个账户
+  'usm.ovh',           // 2个账户
+  'mailp.org',         // 2个账户
+  'omailo.top',        // 1个账户
+  'xenta.cfd',         // 1个账户
+  'scopevps.com',      // 2个账户
+  'basefast.net',      // 1个账户
+  'hivespark.net',     // 2个账户
+  'tempzulu.com',      // 3个账户
+  'orbitfast.net',     // 4个账户
+  'vectorsonata.com',  // 2个账户（企业域名伪装）
+  'chaossonata.com',   // 1个账户
+  'spaceeclipse.com',  // 5个账户
+  'hubbeta.org',       // 3个账户
+  'orbitcomet.org',    // 2个账户
+  'sourcesigma.net',   // 3个账户（企业域名伪装）
+  'briefinnovation.com', // 2个账户
+  'primepixel.org',    // 2个账户
+  'scalarnova.org',    // 6个账户（企业域名伪装）
+  'spaceblink.net',    // 2个账户
+  'pidelta.net',       // 1个账户
+  'vaultcortex.com',   // 5个账户
+  'pispectrum.org',    // 2个账户
+  'portalforge.org',   // 1个账户
+  'asyncpioneer.com',  // 1个账户
+  'autorambler.ru'     // 6个账户
 ];
 
 const signupSchema = z.object({
