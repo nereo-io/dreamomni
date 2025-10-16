@@ -163,6 +163,8 @@ export class NanoBananaProvider extends BaseAIProvider {
   async generateFromText(
     request: NanoBananaTextToImageRequest
   ): Promise<{ taskId: string; recordId: string }> {
+    const callbackUrl = this.getNanoBananaCallbackUrl();
+
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${this.apiKey}`,
@@ -241,6 +243,8 @@ export class NanoBananaProvider extends BaseAIProvider {
   async editImages(
     request: modelLandingPageImageEditRequest
   ): Promise<{ taskId: string; recordId: string }> {
+    const callbackUrl = this.getNanoBananaCallbackUrl();
+
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${this.apiKey}`,
