@@ -9,7 +9,7 @@
         "subTitle": "Prompt",
         "value": "text-to-video",
         "modelName": "Sora 2",
-        "modelLogo": "/imgs/intro/sora.svg",
+        "modelLogo": "/imgs/intro/sora.png",
         "placeholder": "Describe the video you want to generate...",
         "buttonText": "Create"
       },
@@ -19,7 +19,7 @@
         "subTitle": "Image",
         "value": "image-to-video",
         "modelName": "Sora 2",
-        "modelLogo": "/imgs/intro/sora.svg",
+        "modelLogo": "/imgs/intro/sora.png",
         "placeholder": "Upload an image to animate",
         "tips": "Upload JPG/PNG/WEBP images up to 10MB, minimum width/height of 300px.",
         "buttonText": "Create"

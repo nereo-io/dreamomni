@@ -9,7 +9,7 @@
         "subTitle": "Подсказка",
         "value": "text-to-video",
         "modelName": "Sora 2",
-        "modelLogo": "/imgs/intro/sora.svg",
+        "modelLogo": "/imgs/intro/sora.png",
         "placeholder": "Опишите видео, которое хотите создать...",
         "buttonText": "Создать"
       },
@@ -19,7 +19,7 @@
         "subTitle": "Изображение",
         "value": "image-to-video",
         "modelName": "Sora 2",
-        "modelLogo": "/imgs/intro/sora.svg",
+        "modelLogo": "/imgs/intro/sora.png",
         "placeholder": "Загрузите изображение для анимации",
         "tips": "Загружайте JPG/PNG/WEBP размером до 10МБ, минимальная ширина/высота 300px.",
         "buttonText": "Создать"
