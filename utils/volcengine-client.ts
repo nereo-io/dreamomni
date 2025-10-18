@@ -11,11 +11,11 @@ export class VolcengineClient {
     this.proxySecret = process.env.PROXY_SECRET || "";
     this.apiKey = process.env.ARK_API_KEY || "";
 
-    if (!this.proxyUrl || !this.proxySecret || !this.apiKey) {
-      throw new Error(
-        "Missing required environment variables: PROXY_URL, PROXY_SECRET, or ARK_API_KEY"
-      );
-    }
+    // 移除强制检查，让代理变为可选
+    // 当代理未配置时，VolcanoProvider 会自动使用直连
+    // if (!this.proxyUrl || !this.proxySecret || !this.apiKey) {
+    //   console.warn("VolcengineClient: Proxy not configured, will use direct connection in VolcanoProvider");
+    // }
   }
 
   /**
@@ -54,12 +54,17 @@ export class VolcengineClient {
         } catch (e) {
           errorData = { error: await response.text() };
         }
-        
-        const errorMessage = errorData.error || errorData.proxyError || errorData.message || response.statusText;
-        const errorString = typeof errorMessage === 'object' ? JSON.stringify(errorMessage) : errorMessage;
-        throw new Error(
-          `Proxy API call failed: ${errorString}`
-        );
+
+        const errorMessage =
+          errorData.error ||
+          errorData.proxyError ||
+          errorData.message ||
+          response.statusText;
+        const errorString =
+          typeof errorMessage === "object"
+            ? JSON.stringify(errorMessage)
+            : errorMessage;
+        throw new Error(`Proxy API call failed: ${errorString}`);
       }
 
       return await response.json();
@@ -82,11 +87,7 @@ export class VolcengineClient {
     return this.call(endpoint, data, "POST", headers);
   }
 
-  async put(
-    endpoint: string,
-    data: any,
-    headers: Record<string, string> = {}
-  ) {
+  async put(endpoint: string, data: any, headers: Record<string, string> = {}) {
     return this.call(endpoint, data, "PUT", headers);
   }
 
