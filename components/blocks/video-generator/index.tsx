@@ -12,17 +12,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Play, ImageIcon, X, Coins, Crown } from "lucide-react";
+import { Play, Coins, Crown } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import { useTranslations, useLocale } from "next-intl";
 import useCredits from "@/hooks/useCredits";
+import { ImageUploader } from "./ImageUploader";
 import {
   getTextToVideoModels,
   getImageToVideoModels,
   calculateCredits,
   getVideoModel,
   isSeedanceModel,
+  getMaxImagesForModel,
 } from "@/config/video-models";
 import { validateImage } from "@/config/image-validation-rules";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
@@ -103,17 +105,17 @@ export default function VideoGenerator({
   const [selectedRatio, setSelectedRatio] = useState("16:9");
   const [selectedDuration, setSelectedDuration] = useState("");
   const [selectedResolution, setSelectedResolution] = useState("");
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   // 其他内部状态
   const [selectedModel, setSelectedModel] = useState<string>("");
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [isDragOver, setIsDragOver] = useState(false);
   const [generateAudio] = useState(true);
   const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(true);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
-  const [isUploadingImage, setIsUploadingImage] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+
+  // 图片上传状态（通过 ImageUploader 组件管理）
+  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
+
+  // 向后兼容：保留旧状态供其他逻辑使用
+  const uploadedImageUrl = uploadedImageUrls[0] || null;
   const [isSubmitting] = useState(false);
   const [currentEffect, setCurrentEffect] = useState<VideoEffect | null>(
     effect || null
@@ -135,12 +137,25 @@ export default function VideoGenerator({
   const isMember = membership?.status === "active";
   const isSeedanceSelected = isSeedanceModel(selectedModel);
 
+  // 当前模型支持的最大图片数（从配置中获取）
+  const maxImages = useMemo(() => getMaxImagesForModel(selectedModel), [selectedModel]);
+  const supportsDualImages = maxImages >= 2;
+
   // 用户登录时获取积分
   useEffect(() => {
     if (user?.uuid) {
       updateLeftCredits().catch(console.error);
     }
   }, [user?.uuid, updateLeftCredits]);
+
+  // 模型切换时的兼容性处理
+  useEffect(() => {
+    // 当切换到不支持双图的模型时，保留第一张图片
+    if (!supportsDualImages && uploadedImageUrls.length > 1) {
+      setUploadedImageUrls([uploadedImageUrls[0]]);
+      toast.info("Current model only supports single image. Kept first frame.");
+    }
+  }, [selectedModel, supportsDualImages, uploadedImageUrls]);
 
   // 检查是否需要CAPTCHA验证（基于积分）
   const needsCaptcha = useCallback(() => {
@@ -162,9 +177,7 @@ export default function VideoGenerator({
 
       // Set image if provided (for image-to-video mode)
       if (showcaseVideoParams.imageUrl && mode === "image-to-video") {
-        setSelectedImage(showcaseVideoParams.imageUrl);
-        setImagePreview(showcaseVideoParams.imageUrl);
-        setUploadedImageUrl(showcaseVideoParams.imageUrl);
+        setUploadedImageUrls([showcaseVideoParams.imageUrl]);
 
         // If using pixverse_template effect, upload to Pixverse
         if (effect?.effect_type === "pixverse_template") {
@@ -213,9 +226,7 @@ export default function VideoGenerator({
 
       // If it's image-to-video mode and has image_url, set the image
       if (mode === "image-to-video" && editVideoData.image_url) {
-        setSelectedImage(editVideoData.image_url);
-        setImagePreview(editVideoData.image_url);
-        setUploadedImageUrl(editVideoData.image_url);
+        setUploadedImageUrls([editVideoData.image_url]);
 
         // If using pixverse_template effect, upload to Pixverse
         if (effect?.effect_type === "pixverse_template") {
@@ -407,11 +418,6 @@ export default function VideoGenerator({
     isMemberOnlyModel,
   ]);
 
-  // 同步 selectedImage 和 imagePreview
-  useEffect(() => {
-    setImagePreview(selectedImage);
-  }, [selectedImage]);
-
   // 同步 effect prop 到 currentEffect
   useEffect(() => {
     setCurrentEffect(effect || null);
@@ -572,125 +578,24 @@ export default function VideoGenerator({
     if (mode === "image-to-video") {
       const savedImage = localStorage.getItem("modelLandingPageImage");
       if (savedImage) {
-        setSelectedImage(savedImage);
-        setImagePreview(savedImage);
-        setUploadedImageUrl(savedImage);
+        setUploadedImageUrls([savedImage]);
         // 获取后清空 localStorage 中的数据，避免重复填充
         localStorage.removeItem("modelLandingPageImage");
       }
     }
   }, []);
 
-  // Handle image upload with enhanced validation
-  const handleImageUpload = useCallback(
-    async (file: File) => {
-      // 验证用户登录
-      if (!user?.uuid) {
-        setShowSignModal(true);
-        return;
-      }
-
-      // 使用基于模型的图片验证规则
-      const validationResult = await validateImage(file, selectedModel);
-
-      if (!validationResult.valid) {
-        toast.error(validationResult.error || "Invalid image file.");
-        return;
-      }
-
-      setUploadedImage(file);
-
-      // Convert to base64 for preview
-      const reader = new FileReader();
-      reader.onload = () => {
-        const result = reader.result as string;
-        setSelectedImage(result);
-        setImagePreview(result);
-      };
-      reader.readAsDataURL(file);
-
-      // 立即上传到 R2
-      const formData = new FormData();
-      formData.append("file", file);
-
-      try {
-        setIsUploadingImage(true);
-        const uploadResponse = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
-
-        const uploadResult = await uploadResponse.json();
-        if (uploadResult.code !== 0) {
-          throw new Error(uploadResult.message || "Image upload failed");
-        }
-
-        setUploadedImageUrl(uploadResult.data.url);
-
-        // If using pixverse_template effect, also upload to Pixverse
-        if (effect?.effect_type === "pixverse_template") {
-          try {
-            const pixverseUploadResponse = await fetch(
-              "/api/video-effects/pixverse/upload",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ imageUrl: uploadResult.data.url }),
-              }
-            );
-
-            const pixverseResult = await pixverseUploadResponse.json();
-
-            if (pixverseResult.code === 0 && pixverseResult.data?.imgId) {
-              setPixverseImgId(pixverseResult.data.imgId);
-              toast.success("Image uploaded successfully!");
-            } else {
-              throw new Error("Failed to upload image to Pixverse");
-            }
-          } catch (pixverseError) {
-            console.error("Pixverse upload error:", pixverseError);
-            toast.error("Failed to upload image for effect. Please try again.");
-            removeImage();
-            return;
-          }
-        } else {
-          toast.success("Image uploaded successfully!");
-        }
-      } catch (error) {
-        console.error("Image upload error:", error);
-        toast.error("Failed to upload image. Please try again.");
-        // 上传失败时清除图片
-        removeImage();
-      } finally {
-        setIsUploadingImage(false);
-      }
-    },
-    [t, user?.uuid, setShowSignModal, selectedModel]
-  );
-
-  // Handle file input change
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      handleImageUpload(file);
-    }
-  };
-
-  // Remove uploaded image
-  const removeImage = () => {
-    setUploadedImage(null);
-    setSelectedImage(null);
-    setImagePreview(null);
-    setUploadedImageUrl(null);
-    setIsUploadingImage(false);
-    setPixverseImgId(null);
-  };
+  // 图片URL变化回调
+  const handleImagesChange = useCallback((imageUrls: string[]) => {
+    setUploadedImageUrls(imageUrls);
+  }, []);
 
   // 构建生成参数的辅助函数
-  const buildGenerationParams = (): VideoGenerationParams => {
-    let imageUrl = uploadedImageUrl || undefined;
+  const buildGenerationParams = (): VideoGenerationParams & { image_urls?: string[] } => {
+    // 过滤掉 undefined/null，避免稀疏数组问题
+    const filteredImageUrls = uploadedImageUrls.filter((url) => url != null && url !== "");
+    const finalImageUrls = filteredImageUrls.length > 0 ? filteredImageUrls : undefined;
+    const imageUrl = uploadedImageUrl || undefined;
 
     return {
       model: selectedModel,
@@ -701,6 +606,8 @@ export default function VideoGenerator({
       generate_audio: generateAudio,
       enable_prompt_enhancement: enablePromptEnhancement,
       effect_id: currentEffect?.id,
+      // 双图支持：优先使用 image_urls，向后兼容 image_url
+      image_urls: finalImageUrls,
       image_url: imageUrl,
       pixverse_img_id: pixverseImgId || undefined,
       watermarkEnabled: isSeedanceSelected ? watermarkEnabled : false,
@@ -745,7 +652,8 @@ export default function VideoGenerator({
     }
 
     // 验证图片转视频模式下必须上传图片
-    if (mode === "image-to-video" && !uploadedImageUrl) {
+    const hasImages = uploadedImageUrls.length > 0 || uploadedImageUrl;
+    if (mode === "image-to-video" && !hasImages) {
       toast.error(t("toast.uploadImageRequired"));
       return;
     }
@@ -769,27 +677,6 @@ export default function VideoGenerator({
 
     // 老用户或充值用户直接生成
     await onGenerate(params);
-  };
-
-  // 拖拽处理
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-
-    const files = e.dataTransfer.files;
-    if (files && files[0]) {
-      handleImageUpload(files[0]);
-    }
   };
 
   return (
@@ -855,72 +742,15 @@ export default function VideoGenerator({
 
           {/* Image Upload Section (for image-to-video mode) */}
           {mode === "image-to-video" && (
-            <div>
-              <div className="text-white text-lg font-semibold mb-4">
-                {t("uploadImage")}
-              </div>
-              {!imagePreview ? (
-                <div
-                  className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
-                    isUploadingImage
-                      ? "cursor-not-allowed opacity-50"
-                      : "cursor-pointer"
-                  } ${
-                    isDragOver
-                      ? "border-blue-400 bg-blue-900/50"
-                      : "border-gray-600 hover:border-gray-500"
-                  }`}
-                  onDragOver={!isUploadingImage ? handleDragOver : undefined}
-                  onDragLeave={!isUploadingImage ? handleDragLeave : undefined}
-                  onDrop={!isUploadingImage ? handleDrop : undefined}
-                  onClick={() =>
-                    !isUploadingImage &&
-                    document.getElementById("image-upload")?.click()
-                  }
-                >
-                  <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                  <div className="space-y-2">
-                    <p className="text-sm text-gray-300 px-2 text-center">
-                      {t("dragAndDropImage")}
-                    </p>
-                    <p className="text-xs text-gray-400 px-2 text-center">
-                      {t("supportedFormats")}
-                    </p>
-                  </div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileInputChange}
-                    className="hidden"
-                    id="image-upload"
-                  />
-                </div>
-              ) : (
-                <div className="relative">
-                  <img
-                    src={imagePreview}
-                    alt="Uploaded"
-                    className="w-full h-32 object-contain rounded-lg bg-gray-800"
-                  />
-                  {!isUploadingImage && (
-                    <button
-                      onClick={removeImage}
-                      className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  )}
-                  {isUploadingImage && (
-                    <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
-                      <div className="flex flex-col items-center gap-2">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                        <span className="text-white text-sm">Uploading...</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
+            <ImageUploader
+              selectedModel={selectedModel}
+              maxImages={maxImages}
+              onImagesChange={handleImagesChange}
+              effect={currentEffect}
+              onPixverseImgIdChange={setPixverseImgId}
+              isAuthenticated={!!user?.uuid}
+              onShowSignModal={() => setShowSignModal(true)}
+            />
           )}
 
           {/* Video Settings - hide in effect mode */}
@@ -1225,10 +1055,9 @@ export default function VideoGenerator({
           disabled={
             isGenerating ||
             isSubmitting ||
-            isUploadingImage ||
             (!description.trim() && (!effect || !effect.prompt_template)) ||
             !selectedModel ||
-            (mode === "image-to-video" && !uploadedImageUrl) ||
+            (mode === "image-to-video" && uploadedImageUrls.length === 0 && !uploadedImageUrl) ||
             (leftCredits !== null && leftCredits < currentCreditsRequired)
           }
           className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-h-[44px]"

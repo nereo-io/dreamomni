@@ -105,7 +105,8 @@ export async function POST(req: Request) {
     const {
       model,
       prompt,
-      image_url,
+      image_url, // 保留用于向后兼容
+      image_urls, // 新增：支持1-2张图片数组（首帧、尾帧）
       negative_prompt,
       aspect_ratio = "16:9",
       duration = "5",
@@ -247,12 +248,21 @@ export async function POST(req: Request) {
       return respErr("Failed to deduct credits, please try again later");
     }
 
+    // 兼容性处理：统一转换为数组
+    let finalImageUrls: string[] | undefined;
+    if (image_urls && Array.isArray(image_urls) && image_urls.length > 0) {
+      finalImageUrls = image_urls;
+    } else if (image_url) {
+      finalImageUrls = [image_url];
+    }
+
     // 7. 在数据库中创建记录（根据是否启用prompt增强设置初始状态）
     const videoGeneration = await createVideoGeneration({
       user_id: userInfo.uuid,
       model_id: finalModel,
       prompt: effect_id ? prompt : finalPrompt, // 如果有特效，保存原始prompt
-      input_image_url: image_url,
+      input_image_url: image_url, // 保留用于向后兼容
+      image_urls: finalImageUrls, // 新增：支持1-2张图片数组
       negative_prompt,
       aspect_ratio,
       duration_seconds: parseInt(duration),
@@ -320,10 +330,13 @@ export async function POST(req: Request) {
 
     // 根据模型类型添加相应参数
     if (isImageToVideoModel(finalModel)) {
-      if (!image_url) {
-        return respErr("Image-to-video models require an image_url parameter");
+      if (!finalImageUrls || finalImageUrls.length === 0) {
+        return respErr("Image-to-video models require at least one image");
       }
-      input.image_url = image_url;
+      // 支持双图：优先使用 image_urls，向后兼容 image_url
+      input.image_urls = finalImageUrls;
+      // 向后兼容：同时设置 image_url（第一张图）
+      input.image_url = finalImageUrls[0];
     }
 
     // 按模型提供商分类处理参数
@@ -360,8 +373,9 @@ export async function POST(req: Request) {
         input.generate_audio = generate_audio;
       }
       // Veo3 APICore 支持图片输入，如果有图片则添加到输入中
-      if (image_url) {
-        input.image_url = image_url;
+      if (finalImageUrls && finalImageUrls.length > 0) {
+        input.image_urls = finalImageUrls;
+        input.image_url = finalImageUrls[0]; // 向后兼容
       }
     } else if (isVolcanoModel(finalModel)) {
       // Volcano 模型特有参数 (使用volcanoModel配置)
@@ -374,9 +388,10 @@ export async function POST(req: Request) {
         input.model = modelConfig.volcanoModel;
       }
     } else if (isKieAiModel(finalModel)) {
-      // Kie.ai 模型特有参数
-      if (image_url) {
-        input.image_url = image_url;
+      // Kie.ai 模型特有参数（支持双图）
+      if (finalImageUrls && finalImageUrls.length > 0) {
+        input.image_urls = finalImageUrls;
+        input.image_url = finalImageUrls[0]; // 向后兼容
       }
       // Kie.ai 支持水印
       if (additionalParams.watermark) {
@@ -384,8 +399,9 @@ export async function POST(req: Request) {
       }
     } else if (isAliModel(finalModel)) {
       // 阿里百炼模型特有参数
-      if (image_url) {
-        input.image_url = image_url;
+      if (finalImageUrls && finalImageUrls.length > 0) {
+        input.image_urls = finalImageUrls;
+        input.image_url = finalImageUrls[0]; // 向后兼容
       }
       // 阿里百炼使用 resolution 参数
       input.resolution = resolution;

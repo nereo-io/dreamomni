@@ -5,7 +5,8 @@ import { useTranslations } from "next-intl";
 interface VideoGenerationParams {
   model: string;
   prompt: string;
-  image_url?: string;
+  image_url?: string; // 保留用于向后兼容
+  image_urls?: string[]; // 新增：支持1-2张图片数组（首帧、尾帧）
   negative_prompt?: string;
   aspect_ratio?: string;
   duration?: string;

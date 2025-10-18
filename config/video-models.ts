@@ -35,6 +35,10 @@ export interface VideoModelConfig {
   audioPremiumCredits?: number; // 音频额外费用
   estimatedGenerationTime?: number; // 预估生成时间（秒），用于前端倒计时
   requiresMembership?: boolean; // 是否需要会员才能选择
+  imageCapabilities?: {
+    maxImages: number; // 支持的最大图片数量（1-2）
+    labels?: string[]; // 图片标签，如 ['First Frame', 'Last Frame']
+  };
 }
 
 // 视频模型配置
@@ -149,6 +153,10 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
     supportedDurations: [8],
     supportedResolutions: ["1080p"], // Veo3支持高分辨率
+    imageCapabilities: {
+      maxImages: 2, // 支持1-2张图片（首帧、尾帧）
+      labels: ["First Frame", "Last Frame"],
+    },
   },
 
   // Kie.ai Sora 2 文本转视频模型
@@ -187,6 +195,9 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedDurations: [10],
     supportedResolutions: ["1080p"], // 固定1080p HD
     requiresMembership: true,
+    imageCapabilities: {
+      maxImages: 1, // 目前只支持单张图片
+    },
   },
   // MiniMax Hailuo02 文本转视频模型 (via fal.ai)
   "minimax-hailuo02-text-to-video": {
@@ -495,4 +506,14 @@ export function getModelPricing(modelId: string): {
   }
 
   return result;
+}
+
+/**
+ * 获取模型支持的最大图片数量
+ * @param modelId - 模型ID
+ * @returns 支持的最大图片数量，默认为1
+ */
+export function getMaxImagesForModel(modelId: string): number {
+  const model = getVideoModel(modelId);
+  return model?.imageCapabilities?.maxImages ?? 1;
 }

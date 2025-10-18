@@ -187,11 +187,12 @@ export function VideoGenerationTool({
       resolution: finalParams.resolution,
       generate_audio: finalParams.generate_audio,
       enable_prompt_enhancement: finalParams.enable_prompt_enhancement,
-      image_url: finalParams.image_url,
+      image_url: finalParams.image_url, // 保留用于向后兼容
+      image_urls: (finalParams as any).image_urls, // 新增：支持1-2张图片数组（首帧、尾帧）
       captchaToken: finalParams.captchaToken, // Pass CAPTCHA token
       watermarkEnabled: finalParams.watermarkEnabled,
       // Pass effect-related params
-      ...(effect && { 
+      ...(effect && {
         effect_id: effect.id,
         effect_type: effectConfig?.effectType,
         pixverse_img_ids: pixverseImgIds

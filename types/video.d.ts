@@ -21,7 +21,8 @@ export interface VideoGeneration {
   model_id: string;
   prompt: string;
   optimized_prompt?: string | null; // 优化后的提示词
-  input_image_url?: string | null;
+  input_image_url?: string | null; // 保留用于向后兼容
+  image_urls?: string[] | null; // 新增：支持1-2张图片数组（首帧、尾帧）
   negative_prompt?: string | null;
   aspect_ratio: string;
   duration_seconds: number;
@@ -57,7 +58,8 @@ export interface CreateVideoGenerationParams {
   ali_request_id?: string; // Ali Video Generation request ID
   pixverse_request_id?: string; // PixVerse request ID
   sora_request_id?: string; // Sora 2 request ID
-  input_image_url?: string;
+  input_image_url?: string; // 保留用于向后兼容
+  image_urls?: string[]; // 新增：支持1-2张图片数组（首帧、尾帧）
   negative_prompt?: string;
   aspect_ratio?: string;
   duration_seconds?: number;

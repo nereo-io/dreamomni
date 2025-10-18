@@ -44,6 +44,7 @@ export async function createVideoGeneration(
       pixverse_request_id: params.pixverse_request_id,
       sora_request_id: params.sora_request_id,
       input_image_url: params.input_image_url,
+      image_urls: params.image_urls, // 新增：支持1-2张图片数组
       negative_prompt: params.negative_prompt,
       aspect_ratio: params.aspect_ratio || "16:9",
       duration_seconds: params.duration_seconds || 5,
