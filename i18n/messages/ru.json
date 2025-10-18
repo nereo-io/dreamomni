@@ -273,6 +273,12 @@
     "dragAndDropImage": "Нажмите для загрузки или перетащите изображение сюда",
     "supportedFormats": "Поддерживаются форматы JPG, PNG, GIF, максимум 10МБ",
     "chooseFile": "Выбрать файл",
+    "swapFrames": "Поменять кадры",
+    "firstFrame": "Первый кадр",
+    "lastFrame": "Последний кадр",
+    "clickToUpload": "Нажмите для загрузки",
+    "uploadingFirstFrame": "Загрузка первого кадра...",
+    "uploadingLastFrame": "Загрузка последнего кадра...",
     "aspectRatios": {
       "landscape": "16:9 Альбомная",
       "portrait": "9:16 Портретная",

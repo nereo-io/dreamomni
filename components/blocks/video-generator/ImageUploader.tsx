@@ -215,7 +215,7 @@ export function ImageUploader({
             size="sm"
             className="text-xs"
           >
-            Swap Frames
+            {t("swapFrames")}
           </Button>
         )}
       </div>
@@ -232,7 +232,7 @@ export function ImageUploader({
                 {/* 标签 */}
                 <div className="absolute -top-2 left-2 z-10">
                   <span className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded">
-                    {index === 0 ? "First Frame" : "Last Frame"}
+                    {index === 0 ? t("firstFrame") : t("lastFrame")}
                   </span>
                 </div>
 
@@ -254,13 +254,13 @@ export function ImageUploader({
                       <>
                         <div className="animate-spin rounded-full h-6 w-6 border-2 border-blue-400 border-t-transparent mx-auto mb-2"></div>
                         <p className="text-xs text-blue-300">
-                          Uploading {index === 0 ? "first" : "last"} frame...
+                          {index === 0 ? t("uploadingFirstFrame") : t("uploadingLastFrame")}
                         </p>
                       </>
                     ) : (
                       <>
                         <ImageIcon className="mx-auto h-8 w-8 text-gray-400 mb-2" />
-                        <p className="text-xs text-gray-300">Click to upload</p>
+                        <p className="text-xs text-gray-300">{t("clickToUpload")}</p>
                       </>
                     )}
                     <input

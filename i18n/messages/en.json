@@ -274,6 +274,12 @@
     "dragAndDropImage": "Click to upload or drag image here",
     "supportedFormats": "Supports JPG, PNG, GIF formats, max 10MB",
     "chooseFile": "Choose File",
+    "swapFrames": "Swap Frames",
+    "firstFrame": "First Frame",
+    "lastFrame": "Last Frame",
+    "clickToUpload": "Click to upload",
+    "uploadingFirstFrame": "Uploading first frame...",
+    "uploadingLastFrame": "Uploading last frame...",
     "aspectRatios": {
       "landscape": "16:9 Landscape",
       "portrait": "9:16 Portrait",
