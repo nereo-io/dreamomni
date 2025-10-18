@@ -109,7 +109,7 @@ export default function VideoGenerator({
   // 其他内部状态
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [generateAudio] = useState(true);
-  const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(true);
+  const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(false);
 
   // 图片上传状态（通过 ImageUploader 组件管理）
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);

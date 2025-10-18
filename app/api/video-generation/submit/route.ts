@@ -117,7 +117,7 @@ export async function POST(req: Request) {
       seed,
       enable_safety_checker = true,
       generate_audio = false, // 新增：音频生成选项
-      enable_prompt_enhancement = true, // 新增：prompt增强开关
+      enable_prompt_enhancement = false, // 新增：prompt增强开关（默认关闭）
       effect_id, // 新增：特效ID
       captchaToken, // 新增：CAPTCHA token
       ...otherParams
