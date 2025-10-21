@@ -1,0 +1,116 @@
+{
+  "hero": {
+    "title": "Veo3 Reference to Video: Lock Character Identity Across Scenes",
+    "description": "Upload 1-3 reference images and generate 8-second videos with Veo 3.1's character consistency technology. Preserve subject appearance across multiple scenes with native audio sync.",
+    "cta": {
+      "buttonText": "Try Veo3 R2V Now",
+      "scrollTarget": "[data-video-generation-tool]"
+    },
+    "media": {
+      "type": "video",
+      "src": "https://r2.veo3ai.io/intro/reference-to-video/Reference-to-video-intro.mp4",
+      "alt": "Veo3 reference to video character consistency demonstration"
+    }
+  },
+  "features": {
+    "title": "Why Choose Veo3 Reference to Video?",
+    "features": [
+      {
+        "id": "character-consistency",
+        "title": "Cross-Scene Character Consistency",
+        "description": "Upload 1-3 reference images from different angles. Veo 3.1's AI preserves subject appearance across all frames, maintaining facial features, clothing, and identity throughout your video. Using 2-3 images provides better consistency than single image."
+      },
+      {
+        "id": "native-audio",
+        "title": "Native Audio Sync",
+        "description": "Veo 3.1 generates synchronized audio automatically. Dialogue, environmental sounds, and effects match on-screen action naturally, eliminating post-production voiceover costs and enhancing realism."
+      },
+      {
+        "id": "scene-flexibility",
+        "title": "Multi-Scene Storytelling",
+        "description": "Lock character identity, then place them in any scene. Use Veo 3.1's Extend feature to create longer narratives by chaining 8-second clips while maintaining character consistency. Build complex stories with minimal input."
+      },
+      {
+        "id": "precision-control",
+        "title": "Cinematic-Level Control",
+        "description": "Control start/end frames, camera movements, and object positions. Veo 3.1 generates smooth transitions between provided frames with synchronized audio. Supports 720p/1080p in 16:9 or 9:16 aspect ratios."
+      }
+    ],
+    "cta": {
+      "buttonText": "Start Creating Now",
+      "scrollTarget": "[data-video-generation-tool]"
+    }
+  },
+  "usageGuide": {
+    "title": "How to Use Veo3 Reference to Video?",
+    "description": "Three simple steps to create videos with consistent character identity using Veo 3.1",
+    "steps": [
+      {
+        "number": "1",
+        "title": "Upload 1-3 Reference Images",
+        "description": "JPEG/PNG, 720p+, multiple angles, clear lighting works best."
+      },
+      {
+        "number": "2",
+        "title": "Write Your Prompt",
+        "description": "Describe scene, action, audio. Get 8-second video with audio."
+      },
+      {
+        "number": "3",
+        "title": "Generate & Extend",
+        "description": "60-120s generation. Extend adds +7s per extension."
+      }
+    ],
+    "buttonText": "Try Veo3 R2V Now"
+  },
+  "faq": {
+    "title": "Veo3 Reference to Video FAQs",
+    "description": "Common questions about Veo 3.1's reference to video feature for consistent character generation",
+    "items": [
+      {
+        "id": "what-is-reference-to-video",
+        "question": "What is Veo3 reference to video?",
+        "answer": "Veo3 reference to video uses 1-3 reference images as 'asset constraints' to preserve subject appearance across video frames. Unlike image to video which animates a single starting frame, R2V treats reference images as identity anchors, generating entirely new scenes while maintaining character consistency."
+      },
+      {
+        "id": "consistency-guarantee",
+        "question": "Does Veo3 guarantee 100% character consistency?",
+        "answer": "Veo 3.1 aims to 'preserve subject appearance' but does not guarantee 100% pixel-perfect consistency. Using 2-3 high-quality reference images from different angles (front/side views) significantly improves stability compared to single images."
+      },
+      {
+        "id": "how-many-reference-images",
+        "question": "How many reference images should I upload?",
+        "answer": "You can upload 1 to 3 reference images. While 1 image works, using 2-3 images from different angles provides better coverage of facial features, clothing details, and overall appearance, resulting in more consistent character rendering."
+      },
+      {
+        "id": "what-makes-it-different",
+        "question": "How is this different from regular image to video?",
+        "answer": "Image to video (I2V) animates a single image as the starting frame. Reference to video (R2V) uses 1-3 images as identity constraints without using them as starting frames, allowing you to generate videos in completely new scenes and poses while maintaining character appearance."
+      },
+      {
+        "id": "video-length-extend",
+        "question": "Are videos limited to 8 seconds?",
+        "answer": "Veo3 R2V generates 8-second base clips. Use Veo 3.1's Extend feature to add +7 seconds per extension (up to 20 times) for videos up to ~148 seconds. Extend only works with Veo-generated videos in 16:9 or 9:16 aspect ratio at 720p, under 141 seconds."
+      },
+      {
+        "id": "what-images-work-best",
+        "question": "What image requirements work best?",
+        "answer": "Use JPEG or PNG format at 720p or higher resolution. Clear subject visibility, good lighting, simple backgrounds, and minimal obstructions improve consistency. Combine front/side/half-body shots for best results. Maximum 10MB per image."
+      },
+      {
+        "id": "aspect-ratio-resolution",
+        "question": "What aspect ratios and resolutions are supported?",
+        "answer": "Veo3 R2V supports 16:9 (landscape) and 9:16 (vertical) aspect ratios. Output resolution can be set to 720p or 1080p. Non-standard aspect ratios may be cropped or scaled during generation."
+      },
+      {
+        "id": "reference-to-video-cost",
+        "question": "How much does Veo3 reference to video cost?",
+        "answer": "Reference to video uses the same credit pricing as image to video. Cost depends on video duration and resolution. You can check exact credit cost before generating each video. Standard rate applies per generated second."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Start Creating with Veo3 Reference to Video!",
+    "buttonText": "Try Veo3 R2V Now"
+  }
+}

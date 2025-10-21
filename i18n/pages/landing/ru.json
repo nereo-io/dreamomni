@@ -244,6 +244,11 @@
               "title": "Изображение в видео",
               "url": "/image-to-video",
               "target": "_self"
+            },
+            {
+              "title": "Референс в видео",
+              "url": "/reference-to-video",
+              "target": "_self"
             }
           ]
         },

@@ -38,6 +38,6 @@ export interface ImageToVideoPage {
   faq: FAQ;
   cta: CTA;
   aiModelsHero: AIModelsHero;
-  imageToVideoShowcase: ImageToVideoShowcase;
+  imageToVideoShowcase?: ImageToVideoShowcase;
   creatorShowcase: CreatorShowcase;
 }

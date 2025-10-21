@@ -120,6 +120,7 @@ export async function POST(req: Request) {
       enable_prompt_enhancement = false, // 新增：prompt增强开关（默认关闭）
       effect_id, // 新增：特效ID
       captchaToken, // 新增：CAPTCHA token
+      generationType, // 新增：视频生成类型（如 REFERENCE_2_VIDEO）
       ...otherParams
     } = await req.json();
 
@@ -188,6 +189,12 @@ export async function POST(req: Request) {
           ", "
         )}`
       );
+    }
+
+    // 自动设置 generationType（如果未提供但模型配置中有）
+    let finalGenerationType = generationType;
+    if (!finalGenerationType && modelConfig?.generationType) {
+      finalGenerationType = modelConfig.generationType;
     }
 
     // 5. 计算所需积分并检查余额
@@ -333,6 +340,19 @@ export async function POST(req: Request) {
       if (!finalImageUrls || finalImageUrls.length === 0) {
         return respErr("Image-to-video models require at least one image");
       }
+
+      // 验证 REFERENCE_2_VIDEO 特殊要求
+      if (finalGenerationType === "REFERENCE_2_VIDEO") {
+        const minImages = modelConfig?.imageCapabilities?.minImages || 1;
+        const maxImages = modelConfig?.imageCapabilities?.maxImages || 3;
+
+        if (finalImageUrls.length < minImages || finalImageUrls.length > maxImages) {
+          return respErr(
+            `REFERENCE_2_VIDEO requires ${minImages}-${maxImages} reference images, but got ${finalImageUrls.length}`
+          );
+        }
+      }
+
       // 支持双图：优先使用 image_urls，向后兼容 image_url
       input.image_urls = finalImageUrls;
       // 向后兼容：同时设置 image_url（第一张图）
@@ -396,6 +416,10 @@ export async function POST(req: Request) {
       // Kie.ai 支持水印
       if (additionalParams.watermark) {
         input.watermark = additionalParams.watermark;
+      }
+      // Kie.ai 支持 generationType（如 REFERENCE_2_VIDEO）
+      if (finalGenerationType) {
+        input.generationType = finalGenerationType;
       }
     } else if (isAliModel(finalModel)) {
       // 阿里百炼模型特有参数

@@ -11,9 +11,9 @@ import { useAppContext } from "@/contexts/app";
 import { CaptchaModal } from "@/components/ui/captcha-modal";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Image as ImageIcon, Coins, Wand2, X } from "lucide-react";
+import { Coins, Wand2 } from "lucide-react";
 import useCredits from "@/hooks/useCredits";
-import { validateImage } from "@/config/image-validation-rules";
+import { ImageGridUploader } from "@/components/blocks/video-generator/ImageGridUploader";
 
 import type { ImageGenerationParams } from "../image-generator";
 import type { ImageGenerationResult } from "@/hooks/useImageGeneration";
@@ -84,14 +84,8 @@ export default function ImageGenerationTab({
   const [internalPrompt, setInternalPrompt] = useState("");
   const prompt = isControlledPrompt ? promptValue ?? "" : internalPrompt;
 
-  // Image upload states (only for image-to-image mode)
-  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  // Image upload state (only for image-to-image mode)
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  const [uploadingImages, setUploadingImages] = useState<Set<number>>(
-    new Set()
-  );
-  const [isDragOver, setIsDragOver] = useState(false);
 
   // CAPTCHA related states
   const [showCaptchaModal, setShowCaptchaModal] = useState(false);
@@ -175,34 +169,8 @@ export default function ImageGenerationTab({
     ) => {
       handlePromptChange(value);
 
-      // For image-to-image mode, also load the image if provided
-      if (isImageToImage && imageUrl) {
-        try {
-          // Download the image through proxy to avoid CORS issues
-          const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(
-            imageUrl
-          )}`;
-          const response = await fetch(proxyUrl);
-          const blob = await response.blob();
-
-          // Create a File object from the blob
-          const fileName = imageUrl.split("/").pop() || "showcase-image.jpg";
-          const file = new File([blob], fileName, { type: blob.type });
-
-          // Create preview URL
-          const previewUrl = URL.createObjectURL(blob);
-
-          // Clear existing images and set the new one
-          setUploadedImages([file]);
-          setImagePreviews([previewUrl]);
-          setUploadedImageUrls([imageUrl]);
-
-          // toast.success(t("showcaseImageLoaded"));
-        } catch (error) {
-          console.error("Failed to load showcase image:", error);
-          toast.error(t("failedToLoadShowcaseImage"));
-        }
-      }
+      // Note: Image loading from showcase is now handled by ImageGridUploader
+      // For image-to-image mode, users need to manually upload the image
 
       requestAnimationFrame(() => {
         const textarea = textareaRef.current;
@@ -213,269 +181,27 @@ export default function ImageGenerationTab({
         }
       });
     },
-    [handlePromptChange, isImageToImage, t]
+    [handlePromptChange]
   );
 
-  // Handle image upload - support up to 5 images
-  const handleImageUpload = async (files: FileList) => {
-    if (!user?.uuid) {
-      setShowSignModal(true);
-      return;
-    }
+  // Handle image changes from ImageGridUploader
+  const handleImagesChange = useCallback((imageUrls: string[]) => {
+    setUploadedImageUrls(imageUrls);
+  }, []);
 
-    const fileArray = Array.from(files);
-    const maxImages = 5;
-    const remainingSlots = maxImages - uploadedImages.length;
-
-    // Check if adding these files would exceed the limit
-    if (fileArray.length > remainingSlots) {
-      toast.error(t("maxImagesExceeded", { max: remainingSlots }));
-      return;
-    }
-
-    // Validate each file
-    for (const file of fileArray) {
-      const validationResult = await validateImage(file, selectedModel);
-      if (!validationResult.valid) {
-        toast.error(
-          validationResult.error || `Invalid image file: ${file.name}`
-        );
-        return;
-      }
-    }
-
-    // Start upload process
-    console.log("🔄 Starting image upload...");
-
-    // Add new images to state immediately for preview
-    const newImageIndices: number[] = [];
-    const newFiles: File[] = [];
-    const newPreviews: string[] = [];
-
-    for (let i = 0; i < fileArray.length; i++) {
-      const file = fileArray[i];
-      const newIndex = uploadedImages.length + i;
-      newImageIndices.push(newIndex);
-      newFiles.push(file);
-
-      // Generate preview immediately
-      const reader = new FileReader();
-      const preview = await new Promise<string>((resolve) => {
-        reader.onload = () => resolve(reader.result as string);
-        reader.readAsDataURL(file);
-      });
-      newPreviews.push(preview);
-    }
-
-    // Add new images to state
-    setUploadedImages((prev) => [...prev, ...newFiles]);
-    setImagePreviews((prev) => [...prev, ...newPreviews]);
-    setUploadingImages((prev) => new Set([...prev, ...newImageIndices]));
-
-    try {
-      const uploadPromises = fileArray.map(async (file, index) => {
-        const actualIndex = uploadedImages.length + index;
-
-        try {
-          const formData = new FormData();
-          formData.append("file", file);
-
-          const uploadResponse = await fetch("/api/upload", {
-            method: "POST",
-            body: formData,
-          });
-
-          const uploadResult = await uploadResponse.json();
-          if (uploadResult.code === 0) {
-            return { file, url: uploadResult.data.url, index: actualIndex };
-          } else {
-            throw new Error(uploadResult.message || "Upload failed");
-          }
-        } catch (error) {
-          // Remove from uploading state on error
-          setUploadingImages((prev) => {
-            const newSet = new Set(prev);
-            newSet.delete(actualIndex);
-            return newSet;
-          });
-          throw error;
-        }
-      });
-
-      const uploadResults = await Promise.all(uploadPromises);
-
-      // Update URLs
-      const newUrls = new Array(
-        uploadedImageUrls.length + fileArray.length
-      ).fill(null);
-      uploadResults.forEach((result) => {
-        newUrls[result.index] = result.url;
-      });
-
-      // Fill existing URLs
-      uploadedImageUrls.forEach((url, index) => {
-        if (url) newUrls[index] = url;
-      });
-
-      setUploadedImageUrls(newUrls.filter((url) => url !== null));
-
-      // Remove from uploading state
-      setUploadingImages((prev) => {
-        const newSet = new Set(prev);
-        newImageIndices.forEach((index) => newSet.delete(index));
-        return newSet;
-      });
-
-      toast.success(
-        t("imagesUploadedSuccessfully", { count: uploadResults.length })
-      );
-    } catch (error) {
-      console.error("Upload error:", error);
-      toast.error(t("uploadFailed"));
-
-      // Remove failed images from state
-      setUploadedImages((prev) => prev.slice(0, uploadedImages.length));
-      setImagePreviews((prev) => prev.slice(0, imagePreviews.length));
-      setUploadingImages((prev) => {
-        const newSet = new Set(prev);
-        newImageIndices.forEach((index) => newSet.delete(index));
-        return newSet;
-      });
-    }
-  };
-
-  // Load data from localStorage on component mount
+  // Load prompt from localStorage on component mount
   useEffect(() => {
     // Check if we're in a browser environment
-    if (typeof window !== "undefined") {
-      // For text-to-image mode
-      if (mode === "text-to-image") {
-        const savedPrompt = localStorage.getItem("modelLandingPagePrompt");
-        if (savedPrompt && !prompt.trim()) {
-          // Only set the prompt if it's empty
-          handlePromptChange(savedPrompt);
-          // Clear the saved data after using it
-          localStorage.removeItem("modelLandingPagePrompt");
-        }
-      }
-      // For image-to-image mode
-      else if (mode === "image-to-image") {
-        const savedImageData = localStorage.getItem("modelLandingPageImage");
-        console.log(
-          "Loading image from localStorage:",
-          !!savedImageData,
-          "Uploaded images count:",
-          uploadedImages.length
-        );
-
-        if (savedImageData) {
-          try {
-            // Create a Blob from the base64 data
-            console.log("Processing image data...");
-            const base64Part = savedImageData.split(",")[1];
-            const byteCharacters = atob(base64Part);
-            const byteNumbers = new Array(byteCharacters.length);
-            for (let i = 0; i < byteCharacters.length; i++) {
-              byteNumbers[i] = byteCharacters.charCodeAt(i);
-            }
-            const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], { type: "image/jpeg" });
-
-            // Create a File object from the blob
-            const file = new File([blob], "nano-banana-image.jpg", {
-              type: "image/jpeg",
-            });
-
-            console.log("Image file created:", file.name, file.size);
-
-            // Check if user is logged in before uploading
-            if (!user?.uuid) {
-              console.log("User not logged in, showing sign modal...");
-              // Just show preview without uploading
-              const previewUrl = URL.createObjectURL(blob);
-              setUploadedImages([file]);
-              setImagePreviews([previewUrl]);
-              setShowSignModal(true);
-            } else {
-              console.log("User logged in, creating FileList...");
-              // Create a FileList-like object
-              const fileList = new DataTransfer();
-              fileList.items.add(file);
-              console.log("User logged in, creating FileList...");
-              // Upload the image
-              console.log("Uploading image...");
-              handleImageUpload(fileList.files);
-            }
-
-            // Clear the saved data after using it
-            localStorage.removeItem("modelLandingPageImage");
-          } catch (error) {
-            console.error("Error processing image from localStorage:", error);
-            // Clear the invalid data
-            localStorage.removeItem("modelLandingPageImage");
-          }
-        }
+    if (typeof window !== "undefined" && mode === "text-to-image") {
+      const savedPrompt = localStorage.getItem("modelLandingPagePrompt");
+      if (savedPrompt && !prompt.trim()) {
+        // Only set the prompt if it's empty
+        handlePromptChange(savedPrompt);
+        // Clear the saved data after using it
+        localStorage.removeItem("modelLandingPagePrompt");
       }
     }
-  }, [
-    mode,
-    user?.uuid,
-    prompt,
-    uploadedImages.length,
-    handlePromptChange,
-    handleImageUpload,
-  ]);
-
-  // Remove uploaded image
-  const removeImage = (index: number) => {
-    setUploadedImages((prev) => prev.filter((_, i) => i !== index));
-    setUploadedImageUrls((prev) => prev.filter((_, i) => i !== index));
-    setImagePreviews((prev) => prev.filter((_, i) => i !== index));
-    setUploadingImages((prev) => {
-      const newSet = new Set(prev);
-      newSet.delete(index);
-      // Adjust indices for remaining items
-      const adjustedSet = new Set<number>();
-      newSet.forEach((idx) => {
-        if (idx > index) {
-          adjustedSet.add(idx - 1);
-        } else if (idx < index) {
-          adjustedSet.add(idx);
-        }
-      });
-      return adjustedSet;
-    });
-  };
-
-  // Handle file input change
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      handleImageUpload(files);
-    }
-    // Clear the input value to allow selecting the same file again
-    e.target.value = "";
-  };
-
-  // Drag and drop handlers
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    const files = e.dataTransfer.files;
-    if (files && files.length > 0) {
-      handleImageUpload(files);
-    }
-  };
+  }, [mode, prompt, handlePromptChange]);
 
   // 处理CAPTCHA验证完成
   const handleCaptchaComplete = async (captchaToken: string) => {
@@ -829,140 +555,13 @@ export default function ImageGenerationTab({
           <div className="space-y-4 md:space-y-5 px-4 md:px-6 py-4 md:py-5">
             {/* Image Upload Section (only for image-to-image) */}
             {isImageToImage && (
-              <div>
-                <div className="text-white text-lg font-semibold mb-4">
-                  {t("images")} ({uploadedImages.length}/5)
-                </div>
-                {uploadedImages.length === 0 ? (
-                  <div
-                    className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer ${
-                      isDragOver
-                        ? "border-blue-400 bg-blue-900/50"
-                        : "border-gray-600 hover:border-gray-500"
-                    }`}
-                    onDragOver={handleDragOver}
-                    onDragLeave={handleDragLeave}
-                    onDrop={handleDrop}
-                    onClick={() => {
-                      const input = document.getElementById(
-                        "image-upload"
-                      ) as HTMLInputElement;
-                      if (input) {
-                        const remainingSlots = 5 - uploadedImages.length;
-                        input.setAttribute(
-                          "data-max-files",
-                          remainingSlots.toString()
-                        );
-                        input.click();
-                      }
-                    }}
-                  >
-                    <input
-                      id="image-upload"
-                      type="file"
-                      accept="image/*"
-                      multiple
-                      onChange={handleFileInputChange}
-                      className="hidden"
-                    />
-                    <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                    <div className="space-y-2">
-                      <p className="text-sm text-gray-300 px-2 text-center">
-                        {t("clickToUploadMultiple")}
-                      </p>
-                      <p className="text-xs text-gray-400 px-2 text-center">
-                        {t("maxImages", { max: 5 })} -{" "}
-                        {t("canUpload", { count: 5 })}
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      {uploadedImages.map((image, index) => {
-                        const isUploading = uploadingImages.has(index);
-                        return (
-                          <div key={index} className="relative">
-                            <img
-                              src={imagePreviews[index] || ""}
-                              alt={`Uploaded ${index + 1}`}
-                              className="w-full h-32 object-contain rounded-lg bg-gray-800"
-                            />
-                            {!isUploading && (
-                              <button
-                                onClick={() => removeImage(index)}
-                                className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
-                              >
-                                <X className="h-4 w-4" />
-                              </button>
-                            )}
-                            {isUploading && (
-                              <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
-                                <div className="flex flex-col items-center gap-2">
-                                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                                  <span className="text-white text-sm">
-                                    {t("uploading")}
-                                  </span>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                    {uploadedImages.length < 5 && (
-                      <div
-                        className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors cursor-pointer ${
-                          isDragOver
-                            ? "border-blue-400 bg-blue-900/50"
-                            : "border-gray-600 hover:border-gray-500"
-                        }`}
-                        onDragOver={handleDragOver}
-                        onDragLeave={handleDragLeave}
-                        onDrop={handleDrop}
-                        onClick={() => {
-                          const input = document.getElementById(
-                            "image-upload-more"
-                          ) as HTMLInputElement;
-                          if (input) {
-                            const remainingSlots = 5 - uploadedImages.length;
-                            input.setAttribute(
-                              "data-max-files",
-                              remainingSlots.toString()
-                            );
-                            input.click();
-                          }
-                        }}
-                      >
-                        <input
-                          id="image-upload-more"
-                          type="file"
-                          accept="image/*"
-                          multiple
-                          onChange={handleFileInputChange}
-                          className="hidden"
-                        />
-                        <div className="flex flex-col items-center space-y-2">
-                          <ImageIcon className="h-6 w-6 text-gray-400" />
-                          <p className="text-gray-400 text-sm">
-                            {t("addMoreImages")}
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            {t("canUpload", {
-                              count: 5 - uploadedImages.length,
-                            })}
-                            {uploadingImages.size > 0 && (
-                              <span className="ml-2 text-blue-400">
-                                ({uploadingImages.size} {t("uploading")})
-                              </span>
-                            )}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+              <ImageGridUploader
+                maxImages={5}
+                selectedModel={selectedModel}
+                onImagesChange={handleImagesChange}
+                isAuthenticated={!!user?.uuid}
+                onShowSignModal={() => setShowSignModal(true)}
+              />
             )}
 
             {/* Prompt Input */}
