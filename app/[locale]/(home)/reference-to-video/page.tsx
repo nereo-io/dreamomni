@@ -21,11 +21,9 @@ export async function generateMetadata({
   }
 
   return {
-    title: "Reference-to-Video (Consistent Character) | Veo3",
-    description:
-      "Turn 1–3 reference images into consistent-character videos with Veo 3.1. Lock identity and style across scenes with Veo3's Reference-to-Video.",
-    keywords:
-      "reference-to-video, reference image to video, image to video, consistent character, character reference, identity lock, Veo3",
+    title: t("pages.referenceToVideo.title"),
+    description: t("pages.referenceToVideo.description"),
+    keywords: t("pages.referenceToVideo.keywords"),
     alternates: {
       canonical: canonicalUrl,
     },
