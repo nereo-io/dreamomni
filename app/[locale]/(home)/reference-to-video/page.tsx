@@ -43,6 +43,7 @@ export default async function ReferenceToVideoPage({
       <VideoGenerationTool
         mode="image-to-video"
         generationType="REFERENCE_2_VIDEO"
+        hidePromptEnhancement
       />
 
       {/* Hero Section */}

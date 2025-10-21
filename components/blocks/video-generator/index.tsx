@@ -43,10 +43,12 @@ export interface VideoGenerationParams {
   generate_audio: boolean;
   enable_prompt_enhancement: boolean;
   image_url?: string;
+  image_urls?: string[]; // 新增：支持1-2张图片数组（首帧、尾帧）
   effect_id?: string;
   pixverse_img_id?: number;
   captchaToken?: string;
   watermarkEnabled?: boolean;
+  generationType?: string; // For Reference-to-Video feature (e.g., "REFERENCE_2_VIDEO")
 }
 
 interface VideoGeneratorProps {
@@ -77,6 +79,9 @@ interface VideoGeneratorProps {
 
   // Optional: Specify generation type to filter available models
   generationType?: string;
+
+  // Optional: Hide prompt enhancement toggle
+  hidePromptEnhancement?: boolean;
 }
 
 type VideoDuration = "5" | "6" | "8" | "10";
@@ -97,6 +102,7 @@ export default function VideoGenerator({
   forceModel,
   creditsOverride,
   generationType,
+  hidePromptEnhancement = false,
 }: VideoGeneratorProps) {
   const t = useTranslations("video-generator");
   const locale = useLocale();
@@ -746,16 +752,18 @@ export default function VideoGenerator({
                   {finalDescriptionLabel}
                 </div>
                 {/* Prompt Enhancement Toggle */}
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <span className="text-xs text-gray-400 whitespace-nowrap">
-                    Prompt Enhancement
-                  </span>
-                  <Switch
-                    checked={enablePromptEnhancement}
-                    onCheckedChange={setEnablePromptEnhancement}
-                    className="data-[state=checked]:bg-primary scale-75"
-                  />
-                </div>
+                {!hidePromptEnhancement && (
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <span className="text-xs text-gray-400 whitespace-nowrap">
+                      Prompt Enhancement
+                    </span>
+                    <Switch
+                      checked={enablePromptEnhancement}
+                      onCheckedChange={setEnablePromptEnhancement}
+                      className="data-[state=checked]:bg-primary scale-75"
+                    />
+                  </div>
+                )}
               </div>
               <Textarea
                 ref={textareaRef}
@@ -770,8 +778,8 @@ export default function VideoGenerator({
           )}
 
           {/* Image Upload Section (for image-to-video mode) */}
-          {mode === "image-to-video" && (
-            generationType === "REFERENCE_2_VIDEO" ? (
+          {mode === "image-to-video" &&
+            (generationType === "REFERENCE_2_VIDEO" ? (
               <ImageGridUploader
                 maxImages={3}
                 selectedModel={selectedModel}
@@ -790,8 +798,7 @@ export default function VideoGenerator({
                 onShowSignModal={() => setShowSignModal(true)}
                 generationType={generationType}
               />
-            )
-          )}
+            ))}
 
           {/* Video Settings - hide in effect mode */}
           {!effect && (

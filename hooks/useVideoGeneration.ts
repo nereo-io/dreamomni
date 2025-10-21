@@ -20,6 +20,7 @@ interface VideoGenerationParams {
   pixverse_img_ids?: number[]; // For pixverse template effects
   captchaToken?: string; // For CAPTCHA verification
   watermarkEnabled?: boolean; // Frontend flag for Seedance watermark control
+  generationType?: string; // For Reference-to-Video feature (e.g., "REFERENCE_2_VIDEO")
 }
 
 interface UserCreditsInfo {

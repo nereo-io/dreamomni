@@ -292,6 +292,8 @@
     "uploadingMultiple": "Загрузка {current}/{total} изображений...",
     "addMoreImages": "Добавить больше изображений",
     "canUpload": "Можно загрузить еще {count}",
+    "uploadMultipleImages": "Загрузите 1-{max} изображения",
+    "uploadMoreImagesRemaining": "Загрузите больше изображений (осталось {remaining})",
     "aspectRatios": {
       "landscape": "16:9 Альбомная",
       "portrait": "9:16 Портретная",

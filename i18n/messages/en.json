@@ -293,6 +293,8 @@
     "uploadingMultiple": "Uploading {current}/{total} images...",
     "addMoreImages": "Add more images",
     "canUpload": "Can upload {count} more",
+    "uploadMultipleImages": "Upload 1-{max} images",
+    "uploadMoreImagesRemaining": "Upload more images ({remaining} remaining)",
     "aspectRatios": {
       "landscape": "16:9 Landscape",
       "portrait": "9:16 Portrait",

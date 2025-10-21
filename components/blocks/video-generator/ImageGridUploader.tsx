@@ -229,8 +229,8 @@ export function ImageGridUploader({
               <Upload className="h-12 w-12 text-gray-400 mb-4" />
               <p className="text-sm text-gray-300 mb-2">
                 {images.length === 0
-                  ? `Upload 1-${maxImages} images`
-                  : `Upload more images (${maxImages - images.length} remaining)`
+                  ? t("uploadMultipleImages", { max: maxImages })
+                  : t("uploadMoreImagesRemaining", { remaining: maxImages - images.length })
                 }
               </p>
               <p className="text-xs text-gray-500">

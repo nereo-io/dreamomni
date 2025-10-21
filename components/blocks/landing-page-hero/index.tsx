@@ -55,7 +55,7 @@ export function LandingPageHero({ data }: LandingPageHeroProps) {
               <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-r from-purple-900/20 to-pink-900/20 p-1">
                 {data.media.type === "video" ? (
                   <video
-                    className="w-full rounded-xl"
+                    className="w-full rounded-xl aspect-video"
                     src={data.media.src}
                     poster={data.media.poster}
                     autoPlay
@@ -71,7 +71,7 @@ export function LandingPageHero({ data }: LandingPageHeroProps) {
                   </video>
                 ) : (
                   <img
-                    className="w-full rounded-xl"
+                    className="w-full rounded-xl aspect-video object-cover"
                     src={data.media.src}
                     alt={data.media.alt || data.title}
                   />

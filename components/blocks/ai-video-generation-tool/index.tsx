@@ -21,6 +21,8 @@ interface VideoGenerationToolProps {
   effect?: VideoEffect;
   // Optional: Specify generation type to filter available models
   generationType?: string;
+  // Optional: Hide prompt enhancement toggle
+  hidePromptEnhancement?: boolean;
 }
 
 export function VideoGenerationTool({
@@ -29,6 +31,7 @@ export function VideoGenerationTool({
   descriptionPlaceholder,
   effect,
   generationType,
+  hidePromptEnhancement = false,
 }: VideoGenerationToolProps) {
   const { submitGeneration, pollStatus, fetchHistory } = useVideoGeneration();
   const { trackVideoGeneration, trackFirstVideo } = useYandexTracking();
@@ -191,10 +194,10 @@ export function VideoGenerationTool({
       generate_audio: finalParams.generate_audio,
       enable_prompt_enhancement: finalParams.enable_prompt_enhancement,
       image_url: finalParams.image_url, // 保留用于向后兼容
-      image_urls: (finalParams as any).image_urls, // 新增：支持1-2张图片数组（首帧、尾帧）
+      image_urls: finalParams.image_urls, // 新增：支持1-2张图片数组（首帧、尾帧）
       captchaToken: finalParams.captchaToken, // Pass CAPTCHA token
       watermarkEnabled: finalParams.watermarkEnabled,
-      generationType: (finalParams as any).generationType, // Pass generationType if present
+      generationType: finalParams.generationType, // Pass generationType if present
       // Pass effect-related params
       ...(effect && {
         effect_id: effect.id,
@@ -243,6 +246,8 @@ export function VideoGenerationTool({
           creditsOverride={effectConfig?.creditsRequired}
           // Pass generationType for model filtering
           generationType={generationType}
+          // Pass hidePromptEnhancement to hide the toggle
+          hidePromptEnhancement={hidePromptEnhancement}
         />
 
         <VideoHistory
