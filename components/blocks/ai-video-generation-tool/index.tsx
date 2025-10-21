@@ -19,6 +19,8 @@ interface VideoGenerationToolProps {
   descriptionPlaceholder?: string;
   // Simplified: Just pass the complete effect object
   effect?: VideoEffect;
+  // Optional: Specify generation type to filter available models
+  generationType?: string;
 }
 
 export function VideoGenerationTool({
@@ -26,6 +28,7 @@ export function VideoGenerationTool({
   descriptionLabel,
   descriptionPlaceholder,
   effect,
+  generationType,
 }: VideoGenerationToolProps) {
   const { submitGeneration, pollStatus, fetchHistory } = useVideoGeneration();
   const { trackVideoGeneration, trackFirstVideo } = useYandexTracking();
@@ -159,18 +162,18 @@ export function VideoGenerationTool({
     // Apply effect modifications if present
     let finalParams = { ...params };
     let pixverseImgIds: number[] | undefined;
-    
+
     if (effectConfig) {
       // Override model if specified
       if (effectConfig.forceModel) {
         finalParams.model = effectConfig.forceModel;
       }
-      
-      // Apply prompt template if provided  
+
+      // Apply prompt template if provided
       if (effectConfig.promptTemplate) {
         finalParams.prompt = effectConfig.promptTemplate.replace('{{USER_PROMPT}}', params.prompt);
       }
-      
+
       // Handle PixVerse template effects
       if (effectConfig.effectType === 'pixverse_template' && params.pixverse_img_id) {
         // Use pixverse_img_id from video-generator component
@@ -191,6 +194,7 @@ export function VideoGenerationTool({
       image_urls: (finalParams as any).image_urls, // 新增：支持1-2张图片数组（首帧、尾帧）
       captchaToken: finalParams.captchaToken, // Pass CAPTCHA token
       watermarkEnabled: finalParams.watermarkEnabled,
+      generationType: (finalParams as any).generationType, // Pass generationType if present
       // Pass effect-related params
       ...(effect && {
         effect_id: effect.id,
@@ -237,6 +241,8 @@ export function VideoGenerationTool({
           effect={effect}
           forceModel={effectConfig?.forceModel}
           creditsOverride={effectConfig?.creditsRequired}
+          // Pass generationType for model filtering
+          generationType={generationType}
         />
 
         <VideoHistory

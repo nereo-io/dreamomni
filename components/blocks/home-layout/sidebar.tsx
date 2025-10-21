@@ -48,6 +48,7 @@ export function Sidebar() {
   const videoAIItems: SidebarItem[] = [
     { icon: ImageIcon, labelKey: "image_to_video", href: "/image-to-video" },
     { icon: Type, labelKey: "text_to_video", href: "/text-to-video" },
+    { icon: Play, labelKey: "reference_to_video", href: "/reference-to-video" },
     // { icon: Sparkles, labelKey: "ai_effects", href: "/video-effects" },
   ];
 

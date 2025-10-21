@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { useTranslations, useLocale } from "next-intl";
 import useCredits from "@/hooks/useCredits";
 import { ImageUploader } from "./ImageUploader";
+import { ImageGridUploader } from "./ImageGridUploader";
 import {
   getTextToVideoModels,
   getImageToVideoModels,
@@ -73,6 +74,9 @@ interface VideoGeneratorProps {
   effect?: VideoEffect;
   forceModel?: string;
   creditsOverride?: number;
+
+  // Optional: Specify generation type to filter available models
+  generationType?: string;
 }
 
 type VideoDuration = "5" | "6" | "8" | "10";
@@ -92,6 +96,7 @@ export default function VideoGenerator({
   effect,
   forceModel,
   creditsOverride,
+  generationType,
 }: VideoGeneratorProps) {
   const t = useTranslations("video-generator");
   const locale = useLocale();
@@ -138,7 +143,10 @@ export default function VideoGenerator({
   const isSeedanceSelected = isSeedanceModel(selectedModel);
 
   // 当前模型支持的最大图片数（从配置中获取）
-  const maxImages = useMemo(() => getMaxImagesForModel(selectedModel), [selectedModel]);
+  const maxImages = useMemo(
+    () => getMaxImagesForModel(selectedModel),
+    [selectedModel]
+  );
   const supportsDualImages = maxImages >= 2;
 
   // 用户登录时获取积分
@@ -276,14 +284,21 @@ export default function VideoGenerator({
     }
   }, [isGenerating, user?.uuid, updateLeftCredits]);
 
-  // 获取所有可用模型 - 基于mode参数，而不是图片状态
-  const availableModels = useMemo(
-    () =>
+  // 获取所有可用模型 - 基于mode参数和generationType筛选
+  const availableModels = useMemo(() => {
+    const allModels =
       mode === "image-to-video"
         ? getImageToVideoModels()
-        : getTextToVideoModels(),
-    [mode]
-  );
+        : getTextToVideoModels();
+
+    // 如果指定了 generationType，只显示匹配的模型
+    if (generationType) {
+      return allModels.filter((m) => m.generationType === generationType);
+    }
+
+    // 否则返回该模式下所有通用模型（排除有 generationType 标记的特殊模型）
+    return allModels.filter((m) => !m.generationType);
+  }, [mode, generationType]);
 
   const memberOnlyModelIds = useMemo(
     () =>
@@ -400,7 +415,11 @@ export default function VideoGenerator({
   ]);
 
   useEffect(() => {
-    if (!isMember && isMemberOnlyModel(selectedModel) && defaultAccessibleModel) {
+    if (
+      !isMember &&
+      isMemberOnlyModel(selectedModel) &&
+      defaultAccessibleModel
+    ) {
       if (selectedModel === defaultAccessibleModel.id) {
         return;
       }
@@ -591,11 +610,18 @@ export default function VideoGenerator({
   }, []);
 
   // 构建生成参数的辅助函数
-  const buildGenerationParams = (): VideoGenerationParams & { image_urls?: string[] } => {
+  const buildGenerationParams = (): VideoGenerationParams & {
+    image_urls?: string[];
+    generationType?: string;
+  } => {
     // 过滤掉 undefined/null，避免稀疏数组问题
-    const filteredImageUrls = uploadedImageUrls.filter((url) => url != null && url !== "");
-    const finalImageUrls = filteredImageUrls.length > 0 ? filteredImageUrls : undefined;
+    const filteredImageUrls = uploadedImageUrls.filter(
+      (url) => url != null && url !== ""
+    );
+    const finalImageUrls =
+      filteredImageUrls.length > 0 ? filteredImageUrls : undefined;
     const imageUrl = uploadedImageUrl || undefined;
+    const finalGenerationType = selectedModelConfig?.generationType;
 
     return {
       model: selectedModel,
@@ -611,6 +637,7 @@ export default function VideoGenerator({
       image_url: imageUrl,
       pixverse_img_id: pixverseImgId || undefined,
       watermarkEnabled: isSeedanceSelected ? watermarkEnabled : false,
+      generationType: finalGenerationType,
     };
   };
 
@@ -742,15 +769,26 @@ export default function VideoGenerator({
 
           {/* Image Upload Section (for image-to-video mode) */}
           {mode === "image-to-video" && (
-            <ImageUploader
-              selectedModel={selectedModel}
-              maxImages={maxImages}
-              onImagesChange={handleImagesChange}
-              effect={currentEffect}
-              onPixverseImgIdChange={setPixverseImgId}
-              isAuthenticated={!!user?.uuid}
-              onShowSignModal={() => setShowSignModal(true)}
-            />
+            generationType === "REFERENCE_2_VIDEO" ? (
+              <ImageGridUploader
+                maxImages={3}
+                selectedModel={selectedModel}
+                onImagesChange={handleImagesChange}
+                isAuthenticated={!!user?.uuid}
+                onShowSignModal={() => setShowSignModal(true)}
+              />
+            ) : (
+              <ImageUploader
+                selectedModel={selectedModel}
+                maxImages={maxImages}
+                onImagesChange={handleImagesChange}
+                effect={currentEffect}
+                onPixverseImgIdChange={setPixverseImgId}
+                isAuthenticated={!!user?.uuid}
+                onShowSignModal={() => setShowSignModal(true)}
+                generationType={generationType}
+              />
+            )
           )}
 
           {/* Video Settings - hide in effect mode */}
@@ -766,7 +804,10 @@ export default function VideoGenerator({
                   <label className="text-gray-300 text-sm mb-2 block">
                     {t("videoModel")}
                   </label>
-                  <Select value={selectedModel} onValueChange={handleModelSelect}>
+                  <Select
+                    value={selectedModel}
+                    onValueChange={handleModelSelect}
+                  >
                     <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                       <SelectValue placeholder={t("selectModel")}>
                         {selectedModelConfig && (
@@ -819,58 +860,60 @@ export default function VideoGenerator({
                           >
                             <div
                               className={`flex items-start gap-3 w-full py-1 ${
-                                !isMember && isMemberOnly ? "cursor-not-allowed" : ""
+                                !isMember && isMemberOnly
+                                  ? "cursor-not-allowed"
+                                  : ""
                               }`}
                             >
                               <img
                                 src={
                                   model.id.includes("kling")
                                     ? "/imgs/intro/kling.svg"
-                                  : model.id.includes("minimax") ||
-                                    model.id.includes("hailuo")
-                                  ? "/imgs/intro/hailuo.webp"
-                                  : model.id.includes("veo")
-                                  ? "/imgs/intro/veo.svg"
-                                  : model.id.includes("sora")
-                                  ? "/imgs/intro/sora.png"
-                                  : model.id.includes("wan") ||
-                                    model.id.includes("ali")
-                                  ? "/imgs/intro/wan.png"
-                                  : "/imgs/intro/seedance.png"
-                              }
-                              alt={model.provider}
-                              className="w-5 h-5 flex-shrink-0 mt-0.5"
-                            />
+                                    : model.id.includes("minimax") ||
+                                      model.id.includes("hailuo")
+                                    ? "/imgs/intro/hailuo.webp"
+                                    : model.id.includes("veo")
+                                    ? "/imgs/intro/veo.svg"
+                                    : model.id.includes("sora")
+                                    ? "/imgs/intro/sora.png"
+                                    : model.id.includes("wan") ||
+                                      model.id.includes("ali")
+                                    ? "/imgs/intro/wan.png"
+                                    : "/imgs/intro/seedance.png"
+                                }
+                                alt={model.provider}
+                                className="w-5 h-5 flex-shrink-0 mt-0.5"
+                              />
                               <div className="flex flex-col flex-1 min-w-0">
                                 <div className="flex items-center gap-2 mb-1">
                                   <span className="font-medium text-gray-100">
                                     {model.displayName}
                                   </span>
-                                {isMemberOnly && (
-                                  <Crown className="h-3.5 w-3.5 text-amber-300" />
+                                  {isMemberOnly && (
+                                    <Crown className="h-3.5 w-3.5 text-amber-300" />
+                                  )}
+                                  <div className="flex items-center gap-1 text-xs text-blue-300">
+                                    <Coins className="h-3 w-3" />
+                                    {model.perSecondCredits}/s
+                                  </div>
+                                </div>
+                                <span className="text-xs text-gray-400 mb-1 line-clamp-2">
+                                  {model.description}
+                                </span>
+                                {model.features && (
+                                  <div className="flex flex-wrap gap-1">
+                                    {model.features.map((feature, index) => (
+                                      <span
+                                        key={index}
+                                        className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full"
+                                      >
+                                        {feature}
+                                      </span>
+                                    ))}
+                                  </div>
                                 )}
-                                <div className="flex items-center gap-1 text-xs text-blue-300">
-                                  <Coins className="h-3 w-3" />
-                                  {model.perSecondCredits}/s
-                                </div>
                               </div>
-                              <span className="text-xs text-gray-400 mb-1 line-clamp-2">
-                                {model.description}
-                              </span>
-                              {model.features && (
-                                <div className="flex flex-wrap gap-1">
-                                  {model.features.map((feature, index) => (
-                                    <span
-                                      key={index}
-                                      className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full"
-                                    >
-                                      {feature}
-                                    </span>
-                                  ))}
-                                </div>
-                              )}
                             </div>
-                          </div>
                           </SelectItem>
                         );
                       })}
@@ -1057,7 +1100,9 @@ export default function VideoGenerator({
             isSubmitting ||
             (!description.trim() && (!effect || !effect.prompt_template)) ||
             !selectedModel ||
-            (mode === "image-to-video" && uploadedImageUrls.length === 0 && !uploadedImageUrl) ||
+            (mode === "image-to-video" &&
+              uploadedImageUrls.length === 0 &&
+              !uploadedImageUrl) ||
             (leftCredits !== null && leftCredits < currentCreditsRequired)
           }
           className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-h-[44px]"

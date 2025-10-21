@@ -35,8 +35,10 @@ export interface VideoModelConfig {
   audioPremiumCredits?: number; // 音频额外费用
   estimatedGenerationTime?: number; // 预估生成时间（秒），用于前端倒计时
   requiresMembership?: boolean; // 是否需要会员才能选择
+  generationType?: string; // 视频生成类型（如 REFERENCE_2_VIDEO）
   imageCapabilities?: {
-    maxImages: number; // 支持的最大图片数量（1-2）
+    maxImages: number; // 支持的最大图片数量（1-3）
+    minImages?: number; // 最小图片数量（可选）
     labels?: string[]; // 图片标签，如 ['First Frame', 'Last Frame']
   };
 }
@@ -157,6 +159,29 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
       maxImages: 2, // 支持1-2张图片（首帧、尾帧）
       labels: ["First Frame", "Last Frame"],
     },
+  },
+
+  // Kie.ai Veo3 Reference-to-Video 模型（一致角色生成）
+  "kie-veo3-reference-to-video": {
+    id: "kie-veo3-reference-to-video", // 使用独立的 ID，通过 generationType 区分
+    name: "Veo3 Reference-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    displayName: "Veo 3.1 (Consistent Character)",
+    perSecondCredits: 1.5,
+    description: "Create videos with consistent character identity using 1-3 reference images",
+    features: ["wait 200s", "Character Consistency", "1-3 Reference Images"],
+    supportedAspectRatios: ["16:9"], // REFERENCE_2_VIDEO 只支持 16:9
+    supportedDurations: [8], // 固定 8 秒
+    supportedResolutions: ["1080p"], // 固定 1080p
+    supportsAudio: false, // Reference-to-Video 不支持音频
+    imageCapabilities: {
+      maxImages: 3, // 支持 1-3 张参考图片
+      minImages: 1, // 至少 1 张
+      labels: ["Reference 1", "Reference 2", "Reference 3"],
+    },
+    estimatedGenerationTime: 240,
+    generationType: "REFERENCE_2_VIDEO", // 标识这是 Reference-to-Video 模式
   },
 
   // Kie.ai Sora 2 文本转视频模型

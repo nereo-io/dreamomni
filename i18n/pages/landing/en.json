@@ -244,6 +244,11 @@
               "title": "Image to Video",
               "url": "/image-to-video",
               "target": "_self"
+            },
+            {
+              "title": "Reference to Video",
+              "url": "/reference-to-video",
+              "target": "_self"
             }
           ]
         },

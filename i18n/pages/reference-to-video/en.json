@@ -1,0 +1,96 @@
+{
+  "faq": {
+    "title": "FAQs",
+    "description": "Find answers to common questions about our AI reference-to-video generation with consistent character features.",
+    "items": [
+      {
+        "id": "what-is-reference-to-video",
+        "question": "What is reference-to-video with consistent character?",
+        "answer": "Reference-to-video is an advanced AI feature that uses 1-3 reference images to generate videos while maintaining consistent character identity, appearance, and style across all frames. This ensures your character looks the same throughout the entire video."
+      },
+      {
+        "id": "how-many-reference-images",
+        "question": "How many reference images can I upload?",
+        "answer": "You can upload 1 to 3 reference images. Using multiple reference images from different angles helps the AI better understand your character's features and maintain better consistency in the generated video."
+      },
+      {
+        "id": "what-makes-it-different",
+        "question": "How is this different from regular image-to-video?",
+        "answer": "Regular image-to-video animates a single image, while reference-to-video uses multiple reference images to lock in character identity and style. This allows you to create videos in completely new scenes and poses while keeping your character's appearance perfectly consistent."
+      },
+      {
+        "id": "what-images-work-best",
+        "question": "What types of reference images work best?",
+        "answer": "For best results, use high-quality images of the same character from different angles with good lighting. The character should be clearly visible in each image. JPG, PNG, and WEBP formats are supported, with a maximum size of 10MB per image."
+      },
+      {
+        "id": "can-i-change-scenes",
+        "question": "Can I place my character in different scenes?",
+        "answer": "Yes! That's the power of reference-to-video. You can describe any scene or action in your prompt, and the AI will generate a video with your character maintaining their consistent appearance in the new environment."
+      },
+      {
+        "id": "reference-to-video-cost",
+        "question": "How much does reference-to-video generation cost?",
+        "answer": "Reference-to-video uses the same credit pricing as image-to-video. The cost depends on video duration and resolution. You can check the exact credit cost before generating each video."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Create Videos with Consistent Characters!",
+    "description": "Upload your reference images and generate videos with perfect character consistency across all frames. Bring your characters to life in any scene you imagine.",
+    "buttonText": "Try Reference-to-Video Now"
+  },
+  "aiModelsHero": {
+    "title": "Powered by Veo 3.1 for Consistent Character Generation",
+    "description": "Veo3 AI uses Google's Veo 3.1 model, specifically designed for reference-to-video generation with consistent character features. Lock in your character's identity and create videos in any scene while maintaining perfect consistency.",
+    "models": [
+      {
+        "id": "veo3",
+        "name": "Veo 3.1",
+        "logo": "/imgs/intro/veo.svg"
+      }
+    ],
+    "moreModels": ""
+  },
+  "creatorShowcase": {
+    "title": "Perfect for Character-Focused Creators",
+    "creatorTypes": [
+      {
+        "id": "content-creators",
+        "name": "Content Creators",
+        "image": "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Content creator filming with professional equipment",
+        "title": "Bring your characters to life consistently",
+        "description": "Create video content featuring your signature characters across multiple scenes and episodes. Maintain perfect character consistency without expensive production costs or complex animation software.",
+        "badge": "Content Creators"
+      },
+      {
+        "id": "brand-marketers",
+        "name": "Brand Marketers",
+        "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Marketing team collaborating on brand strategy",
+        "title": "Consistent brand mascots and ambassadors",
+        "description": "Generate video content featuring your brand mascot or spokesperson with perfect consistency across all campaigns. Create unlimited scenarios while maintaining brand identity.",
+        "badge": "Brand Marketers"
+      },
+      {
+        "id": "game-developers",
+        "name": "Game Developers",
+        "image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Game developer working on character design",
+        "title": "Preview game characters in motion",
+        "description": "Test and showcase your game characters in various scenarios before full production. Create marketing videos and trailers featuring consistent character models in different environments.",
+        "badge": "Game Developers"
+      },
+      {
+        "id": "storytellers",
+        "name": "Storytellers & Writers",
+        "image": "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Writer creating story content with notebook",
+        "title": "Visualize your story characters",
+        "description": "Bring your written characters to life with consistent visual representation. Create book trailers, promotional content, or visual aids for your stories with characters that maintain their identity across scenes.",
+        "badge": "Storytellers"
+      }
+    ]
+  }
+}

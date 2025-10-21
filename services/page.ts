@@ -123,3 +123,23 @@ export async function getImageToVideoPage(
     );
   }
 }
+
+export async function getReferenceToVideoPage(
+  locale: string
+): Promise<ImageToVideoPage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/reference-to-video/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load reference-to-video/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/pages/reference-to-video/en.json").then(
+      (module) => module.default as ImageToVideoPage
+    );
+  }
+}

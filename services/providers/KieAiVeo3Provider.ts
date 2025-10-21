@@ -122,12 +122,18 @@ export class KieAiVeo3Provider implements VideoProvider {
         // model: input.model || "veo3_fast", // Use input.model if available, fallback to veo3
       };
 
-      // Add image URLs if provided (支持1-2张图片)
+      // Handle generationType (e.g., REFERENCE_2_VIDEO)
+      if (input.generationType) {
+        requestBody.generationType = input.generationType;
+      }
+
+      // Add image URLs if provided (支持1-2张图片，REFERENCE_2_VIDEO支持1-3张)
       // 优先使用 image_urls 数组，向后兼容 image_url
       if (input.image_urls && input.image_urls.length > 0) {
         // 直接传递图片数组，API 会自动判断模式：
         // - 1张图片：单图生成视频
         // - 2张图片：首尾帧生成视频
+        // - 1-3张图片 (REFERENCE_2_VIDEO)：参考图生成一致角色视频
         requestBody.imageUrls = input.image_urls;
       } else if (input.image_url) {
         // 向后兼容单个 image_url
