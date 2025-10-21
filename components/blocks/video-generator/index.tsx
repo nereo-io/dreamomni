@@ -716,9 +716,11 @@ export default function VideoGenerator({
             <h1 className="text-white text-xl font-semibold">
               {effect
                 ? effect.title
+                : generationType === "REFERENCE_2_VIDEO"
+                ? t("titleReferenceToVideo")
                 : mode === "image-to-video"
-                ? "Image to Video"
-                : "Text to Video"}
+                ? t("titleImageToVideo")
+                : t("titleTextToVideo")}
             </h1>
           </div>
 

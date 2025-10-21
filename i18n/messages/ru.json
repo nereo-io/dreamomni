@@ -256,8 +256,10 @@
     }
   },
   "video-generator": {
+    "titleTextToVideo": "Текст в видео",
+    "titleImageToVideo": "Изображение в видео",
+    "titleReferenceToVideo": "Референс в видео",
     "videoDescription": "Промпт",
-    "referenceImage": "Референсное изображение (необязательно)",
     "videoAspectRatio": "Соотношение сторон видео",
     "videoDuration": "Длительность видео",
     "videoModel": "Модель",

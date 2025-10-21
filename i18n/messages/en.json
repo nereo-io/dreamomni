@@ -256,8 +256,10 @@
     }
   },
   "video-generator": {
+    "titleTextToVideo": "Text to Video",
+    "titleImageToVideo": "Image to Video",
+    "titleReferenceToVideo": "Reference to Video",
     "videoDescription": "Prompt",
-    "referenceImage": "Reference Image (Optional)",
     "videoAspectRatio": "Video Aspect Ratio",
     "videoDuration": "Video Duration",
     "videoModel": "Model",
