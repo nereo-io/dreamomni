@@ -9,14 +9,14 @@ import type {
 
 const Step: React.FC<StepType> = ({ number, title, description }) => {
   return (
-    <div className="bg-card/80 backdrop-blur-md rounded-xl p-8 flex flex-col border border-border transition-all duration-300 hover:bg-card/90 hover:-translate-y-1 h-full">
-      <div className="text-5xl font-black mb-4 text-primary-foreground bg-clip-text">
+    <div className="bg-slate-900/50 backdrop-blur-md rounded-xl p-8 flex flex-col border border-slate-700/50 transition-all duration-300 hover:bg-slate-800/60 hover:-translate-y-1 h-full">
+      <div className="text-5xl font-black mb-4 text-white bg-clip-text">
         {number}
       </div>
-      <h3 className="text-xl font-semibold mb-3 tracking-tight text-foreground">
+      <h3 className="text-xl font-semibold mb-3 tracking-tight text-white">
         {title}
       </h3>
-      <p className="text-muted-foreground leading-relaxed">{description}</p>
+      <p className="text-gray-300 leading-relaxed">{description}</p>
     </div>
   );
 };

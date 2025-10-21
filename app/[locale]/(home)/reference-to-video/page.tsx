@@ -1,6 +1,7 @@
 import { VideoGenerationTool } from "@/components/blocks/ai-video-generation-tool";
-import { AIModelsHero } from "@/components/blocks/ai-models-hero";
-import { CreatorShowcase } from "@/components/blocks/creator-showcase";
+import { LandingPageHero } from "@/components/blocks/landing-page-hero";
+import { FeatureHighlights } from "@/components/blocks/feature-highlights";
+import ModelUsageGuide from "@/components/blocks/model-landing-page/model-usage-guide";
 import { FAQSection } from "@/components/blocks/faq-section";
 import CTA from "@/components/blocks/cta";
 import { getReferenceToVideoPage } from "@/services/page";
@@ -46,11 +47,14 @@ export default async function ReferenceToVideoPage({
         generationType="REFERENCE_2_VIDEO"
       />
 
-      {/* AI Models Hero */}
-      <AIModelsHero data={pageData.aiModelsHero} />
+      {/* Hero Section */}
+      <LandingPageHero data={pageData.hero} />
 
-      {/* Creator Showcase - Use Cases */}
-      <CreatorShowcase data={pageData.creatorShowcase} />
+      {/* Feature Highlights */}
+      <FeatureHighlights data={pageData.features} />
+
+      {/* How to Use */}
+      <ModelUsageGuide section={pageData.usageGuide} />
 
       {/* FAQ Section */}
       <FAQSection

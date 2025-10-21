@@ -195,9 +195,9 @@ export function ImageGridUploader({
     <div className="space-y-4">
       {/* 标题 */}
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-white">
+        <div className="text-lg font-semibold text-white">
           {t("uploadImage")}
-        </h3>
+        </div>
       </div>
 
       {/* 上传区域 - 只在还能上传时显示 */}

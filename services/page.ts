@@ -3,6 +3,7 @@ import { Pricing } from "@/types/blocks/pricing";
 import { ClaudeSonnetFeaturesBlockTranslations } from "@/types/blocks/claude-sonnet-features";
 import { TextToVideoPage } from "@/types/pages/text-to-video";
 import { ImageToVideoPage } from "@/types/pages/image-to-video";
+import { ReferenceToVideoPage } from "@/types/pages/reference-to-video";
 import { ModelLandingPage } from "@/types/pages/model-landing-page";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
@@ -126,7 +127,7 @@ export async function getImageToVideoPage(
 
 export async function getReferenceToVideoPage(
   locale: string
-): Promise<ImageToVideoPage> {
+): Promise<ReferenceToVideoPage> {
   try {
     if (locale === "zh-CN") {
       locale = "zh";
@@ -139,7 +140,7 @@ export async function getReferenceToVideoPage(
       `Failed to load reference-to-video/${locale}.json, falling back to en.json`
     );
     return await import("@/i18n/pages/reference-to-video/en.json").then(
-      (module) => module.default as ImageToVideoPage
+      (module) => module.default as ReferenceToVideoPage
     );
   }
 }

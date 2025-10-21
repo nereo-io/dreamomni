@@ -1,4 +1,68 @@
 {
+  "hero": {
+    "title": "Reference-to-Video: Consistent Character Generation",
+    "description": "Upload 1-3 reference images and generate videos with perfect character consistency across all frames. Create unlimited scenes while maintaining character identity.",
+    "cta": {
+      "buttonText": "Try Reference-to-Video Now",
+      "scrollTarget": "[data-video-generation-tool]"
+    },
+    "media": {
+      "type": "video",
+      "src": "https://r2.veo3ai.io/videos/8a4795b6-47a8-411c-9d0e-884e8f30b27b-1761012798718.mp4",
+      "alt": "Reference-to-video demonstration"
+    }
+  },
+  "features": {
+    "title": "Why Choose Reference-to-Video?",
+    "features": [
+      {
+        "id": "character-consistency",
+        "title": "Perfect Character Identity Lock",
+        "description": "Upload 1-3 reference images of your character from different angles. Our AI analyzes facial features, clothing, and style to maintain 100% consistency across every frame.",
+        "media": {
+          "type": "video",
+          "src": "https://r2.veo3ai.io/videos/8a4795b6-47a8-411c-9d0e-884e8f30b27b-1761012798718.mp4",
+          "alt": "Character consistency demonstration"
+        }
+      },
+      {
+        "id": "scene-flexibility",
+        "title": "Unlimited Scene Possibilities",
+        "description": "Lock your character's identity, then place them in any scene you imagine. From fantasy worlds to realistic environments, your character maintains their appearance."
+      },
+      {
+        "id": "quality-output",
+        "title": "Professional-Grade Results",
+        "description": "Generate broadcast-quality videos with smooth motion, natural lighting, and cinematic effects. Perfect for content creators, marketers, and storytellers."
+      }
+    ],
+    "cta": {
+      "buttonText": "Start Creating Now",
+      "scrollTarget": "[data-video-generation-tool]"
+    }
+  },
+  "usageGuide": {
+    "title": "How to Use Reference-to-Video?",
+    "description": "Follow these simple steps to create videos with consistent character identity",
+    "steps": [
+      {
+        "number": "1",
+        "title": "Upload Reference Images",
+        "description": "Select 1-3 high-quality images of your character from different angles. Clear, well-lit photos work best."
+      },
+      {
+        "number": "2",
+        "title": "Describe Your Scene",
+        "description": "Write a detailed prompt describing the action, environment, and mood. Be specific about what you want your character to do."
+      },
+      {
+        "number": "3",
+        "title": "Generate & Download",
+        "description": "Click generate and wait 60-120 seconds. Your video will maintain perfect character consistency throughout."
+      }
+    ],
+    "buttonText": "Try Reference-to-Video Now"
+  },
   "faq": {
     "title": "FAQs",
     "description": "Find answers to common questions about our AI reference-to-video generation with consistent character features.",
@@ -37,60 +101,6 @@
   },
   "cta": {
     "title": "Create Videos with Consistent Characters!",
-    "description": "Upload your reference images and generate videos with perfect character consistency across all frames. Bring your characters to life in any scene you imagine.",
     "buttonText": "Try Reference-to-Video Now"
-  },
-  "aiModelsHero": {
-    "title": "Powered by Veo 3.1 for Consistent Character Generation",
-    "description": "Veo3 AI uses Google's Veo 3.1 model, specifically designed for reference-to-video generation with consistent character features. Lock in your character's identity and create videos in any scene while maintaining perfect consistency.",
-    "models": [
-      {
-        "id": "veo3",
-        "name": "Veo 3.1",
-        "logo": "/imgs/intro/veo.svg"
-      }
-    ],
-    "moreModels": ""
-  },
-  "creatorShowcase": {
-    "title": "Perfect for Character-Focused Creators",
-    "creatorTypes": [
-      {
-        "id": "content-creators",
-        "name": "Content Creators",
-        "image": "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=600&h=400&fit=crop&q=80",
-        "imageAlt": "Content creator filming with professional equipment",
-        "title": "Bring your characters to life consistently",
-        "description": "Create video content featuring your signature characters across multiple scenes and episodes. Maintain perfect character consistency without expensive production costs or complex animation software.",
-        "badge": "Content Creators"
-      },
-      {
-        "id": "brand-marketers",
-        "name": "Brand Marketers",
-        "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop&q=80",
-        "imageAlt": "Marketing team collaborating on brand strategy",
-        "title": "Consistent brand mascots and ambassadors",
-        "description": "Generate video content featuring your brand mascot or spokesperson with perfect consistency across all campaigns. Create unlimited scenarios while maintaining brand identity.",
-        "badge": "Brand Marketers"
-      },
-      {
-        "id": "game-developers",
-        "name": "Game Developers",
-        "image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&h=400&fit=crop&q=80",
-        "imageAlt": "Game developer working on character design",
-        "title": "Preview game characters in motion",
-        "description": "Test and showcase your game characters in various scenarios before full production. Create marketing videos and trailers featuring consistent character models in different environments.",
-        "badge": "Game Developers"
-      },
-      {
-        "id": "storytellers",
-        "name": "Storytellers & Writers",
-        "image": "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&h=400&fit=crop&q=80",
-        "imageAlt": "Writer creating story content with notebook",
-        "title": "Visualize your story characters",
-        "description": "Bring your written characters to life with consistent visual representation. Create book trailers, promotional content, or visual aids for your stories with characters that maintain their identity across scenes.",
-        "badge": "Storytellers"
-      }
-    ]
   }
 }
