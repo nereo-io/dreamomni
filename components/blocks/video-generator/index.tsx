@@ -120,7 +120,8 @@ export default function VideoGenerator({
   // 其他内部状态
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [generateAudio] = useState(true);
-  const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(true);
+  // 当 hidePromptEnhancement 为 true 时，默认关闭增强提示
+  const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(!hidePromptEnhancement);
 
   // 图片上传状态（通过 ImageUploader 组件管理）
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
