@@ -126,21 +126,35 @@ export async function POST(
         failed_at: new Date().toISOString(), // 移到metadata中，因为数据库表中没有failed_at字段
       };
 
-      // 图片生成失败，返还积分
+      // 图片生成失败，返还积分到原池
       try {
-        const creditsToRefund = imageGeneration.credits_used || 2; // 默认2个积分
-        const oneMonthFromNow = new Date();
-        oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
-        const expiredAt = oneMonthFromNow.toISOString();
+        // 从 metadata 中提取原始扣费池信息
+        const creditDeduction = imageGeneration.metadata?.credit_deduction;
 
-        await increaseCredits({
-          user_uuid: imageGeneration.user_id,
-          trans_type: CreditsTransType.RefundImageGenerationFailed,
-          credits: creditsToRefund,
-          expired_at: expiredAt,
-        });
+        if (!creditDeduction || !creditDeduction.pools || creditDeduction.pools.length === 0) {
+          console.error("[Callback] ❌ Missing credit_deduction metadata for generation:", imageGeneration.id);
+          console.error("[Callback] Cannot refund credits - pool information lost");
+          throw new Error("Missing credit pool information for refund. This is a data integrity issue.");
+        }
 
-        console.log(`[Callback] Credits refunded: ${creditsToRefund} for failed generation ${imageGeneration.id}`);
+        // 遍历所有扣费的池，按原扣费金额逐一退款
+        for (const pool of creditDeduction.pools) {
+          await increaseCredits({
+            user_uuid: imageGeneration.user_id,
+            trans_type: CreditsTransType.RefundImageGenerationFailed,
+            credits: pool.deducted,
+            order_no: pool.order_no,
+            expired_at: pool.expired_at,
+          });
+
+          console.log(
+            `[Callback] ✅ Credits refunded: ${pool.deducted} to pool ${pool.order_no} for failed generation ${imageGeneration.id}`
+          );
+        }
+
+        console.log(
+          `[Callback] ✅ Total refunded: ${creditDeduction.totalDeducted} credits across ${creditDeduction.pools.length} pool(s) for image generation ${imageGeneration.id}`
+        );
       } catch (refundError) {
         console.error("[Callback] Failed to refund credits:", refundError);
         // 不阻止回调处理，继续执行

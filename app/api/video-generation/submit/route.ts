@@ -243,13 +243,16 @@ export async function POST(req: Request) {
     }
 
     // 6. 扣除积分（在创建任务前扣除）
-    let creditInfo: { order_no: string; expired_at?: string };
+    let deductResult;
     try {
-      creditInfo = await decreaseCredits({
+      deductResult = await decreaseCredits({
         user_uuid: userInfo.uuid,
         trans_type: transType,
         credits: requiredCredits,
       });
+      console.log(
+        `💰 Credits deducted: ${deductResult.totalDeducted} from ${deductResult.pools.length} pool(s) for user ${userInfo.uuid}`
+      );
     } catch (error) {
       console.error("扣除积分失败:", error);
       return respErr("Failed to deduct credits, please try again later");
@@ -277,6 +280,14 @@ export async function POST(req: Request) {
       seed,
       has_audio: finalModel.includes("veo") && generate_audio, // 只有 VEO 模型有音频
       status: enable_prompt_enhancement ? "PROMPT_OPTIMIZING" : "IN_QUEUE",
+      metadata: {
+        // 保存积分扣费池信息，用于退款追溯
+        credit_deduction: {
+          pools: deductResult.pools,
+          total_deducted: deductResult.totalDeducted,
+          deducted_at: new Date().toISOString(),
+        },
+      },
       effect_id: effect_id,
     });
 
@@ -543,15 +554,25 @@ export async function POST(req: Request) {
 
       // 如果提交失败，我们需要退还积分
       try {
-        // 使用扣积分时的order_no和expired_at
-        await import("@/services/credit").then(({ increaseCredits }) =>
-          increaseCredits({
+        // 遍历所有扣费的池，按原扣费金额逐一退款
+        const { increaseCredits } = await import("@/services/credit");
+
+        for (const pool of deductResult.pools) {
+          await increaseCredits({
             user_uuid: userInfo.uuid!,
-            trans_type: transType,
-            credits: requiredCredits,
-            order_no: creditInfo.order_no,
-            expired_at: creditInfo.expired_at,
-          })
+            trans_type: CreditsTransType.RefundVideoGenerationFailed,
+            credits: pool.deducted,
+            order_no: pool.order_no,
+            expired_at: pool.expired_at,
+          });
+
+          console.log(
+            `💰 Credits refunded: ${pool.deducted} to pool ${pool.order_no} due to submission failure`
+          );
+        }
+
+        console.log(
+          `💰 Total refunded: ${deductResult.totalDeducted} credits across ${deductResult.pools.length} pool(s)`
         );
       } catch (refundError) {
         console.error("退还积分失败:", refundError);

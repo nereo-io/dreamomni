@@ -327,32 +327,35 @@ export async function POST(req: Request) {
           await updateVideoGenerationBySoraRequestId(request_id, errorParams);
         }
 
-        // 处理 veo3 模型的积分返还
+        // 处理视频生成失败的积分返还
         if (isKieAiModel(videoGeneration.model_id)) {
           try {
-            // 计算需要返还的积分
-            const requiredCredits = calculateCredits(
-              videoGeneration.model_id,
-              videoGeneration.duration_seconds || 5,
-              videoGeneration.has_audio || false,
-              "1080p" // 默认分辨率，因为数据库中可能没有存储分辨率信息
-            );
+            // 从 metadata 中提取原始扣费池信息
+            const creditDeduction = videoGeneration.metadata?.credit_deduction;
 
-            // 为退还的积分设置一个合理的过期时间（1个月后）
-            const oneMonthFromNow = new Date();
-            oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
-            const expiredAt = oneMonthFromNow.toISOString();
+            if (!creditDeduction || !creditDeduction.pools || creditDeduction.pools.length === 0) {
+              console.error(`❌ Missing credit_deduction metadata for video generation: ${videoGeneration.id}`);
+              console.error("Cannot refund credits - pool information lost");
+              throw new Error("Missing credit pool information for refund. This is a data integrity issue.");
+            }
 
-            // 返还积分
-            await increaseCredits({
-              user_uuid: videoGeneration.user_id,
-              trans_type: CreditsTransType.RefundVideoGenerationFailed,
-              credits: requiredCredits,
-              expired_at: expiredAt,
-            });
+            // 遍历所有扣费的池，按原扣费金额逐一退款
+            for (const pool of creditDeduction.pools) {
+              await increaseCredits({
+                user_uuid: videoGeneration.user_id,
+                trans_type: CreditsTransType.RefundVideoGenerationFailed,
+                credits: pool.deducted,
+                order_no: pool.order_no,
+                expired_at: pool.expired_at,
+              });
+
+              console.log(
+                `✅ Credits refunded: ${pool.deducted} to pool ${pool.order_no} for failed video generation ${videoGeneration.id}`
+              );
+            }
 
             console.log(
-              `已返还用户 ${videoGeneration.user_id} 的 ${requiredCredits} 积分（veo3 生成失败）`
+              `✅ Total refunded: ${creditDeduction.totalDeducted} credits across ${creditDeduction.pools.length} pool(s) for video generation ${videoGeneration.id}`
             );
           } catch (refundError) {
             console.error("返还积分失败:", refundError);

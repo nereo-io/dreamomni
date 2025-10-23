@@ -116,16 +116,24 @@ export async function POST(req: Request) {
       return respErr(`Unsupported duration: ${durationInt} seconds`);
     }
 
+    // 扣除积分
+    let deductResult;
     try {
-      await decreaseCredits({
+      deductResult = await decreaseCredits({
         user_uuid: userInfo.uuid,
         trans_type: transType,
         credits: requiredCredits,
       });
+      console.log(
+        `💰 Credits deducted: ${deductResult.totalDeducted} from ${deductResult.pools.length} pool(s)`
+      );
     } catch (error) {
       console.error("Failed to deduct credits:", error);
       return respErr("Failed to deduct credits, please try again later");
     }
+
+    // TODO: Save deductResult to video_generations.logs for refund tracking
+    // Currently video_generations schema doesn't have metadata field
 
     // 8. 在数据库中创建记录
     const videoGeneration = await createVideoGeneration({

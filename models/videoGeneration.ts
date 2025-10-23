@@ -52,6 +52,7 @@ export async function createVideoGeneration(
       seed: params.seed,
       has_audio: params.has_audio || false,
       status: params.status || "PENDING",
+      metadata: params.metadata || {},
       effect_id: params.effect_id,
     })
     .select()

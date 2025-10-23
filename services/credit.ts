@@ -36,6 +36,19 @@ export enum CreditsAmount {
   VideoGeneration10sCost = 20,
 }
 
+/**
+ * Result of credit deduction operation
+ * Contains pool information for refund tracking
+ */
+export type DeductResult = {
+  pools: Array<{
+    order_no: string;
+    expired_at?: string;
+    deducted: number;
+  }>;
+  totalDeducted: number;
+};
+
 export async function getUserCredits(user_uuid: string): Promise<UserCredits> {
   let user_credits: UserCredits = {
     left_credits: 0,
@@ -69,6 +82,12 @@ export async function getUserCredits(user_uuid: string): Promise<UserCredits> {
   }
 }
 
+/**
+ * Decrease credits using pool-based deduction
+ * Uses Supabase RPC function for transaction safety and pool aggregation
+ *
+ * @returns DeductResult containing pool information for refund tracking
+ */
 export async function decreaseCredits({
   user_uuid,
   trans_type,
@@ -77,45 +96,38 @@ export async function decreaseCredits({
   user_uuid: string;
   trans_type: CreditsTransType;
   credits: number;
-}): Promise<{ order_no: string; expired_at?: string }> {
+}): Promise<DeductResult> {
   try {
-    let order_no = "";
-    let expired_at: string | undefined = undefined;
-    let left_credits = 0;
+    const { getSupabaseClient } = await import("@/models/db");
+    const supabase = getSupabaseClient();
 
-    const userCredits = await getUserValidCredits(user_uuid);
-    if (userCredits) {
-      for (let i = 0, l = userCredits.length; i < l; i++) {
-        const credit = userCredits[i];
-        left_credits += credit.credits;
+    // Call the deduct_credits_v2 RPC function
+    const { data, error } = await supabase.rpc('deduct_credits_v2', {
+      p_user_uuid: user_uuid,
+      p_credits_needed: credits,
+      p_trans_type: trans_type
+    });
 
-        // credit enough for cost
-        if (left_credits >= credits) {
-          order_no = credit.order_no;
-          expired_at = credit.expired_at || undefined;
-          break;
-        }
-      }
-      if (left_credits < credits) {
-        throw new Error("not enough credits");
-      }
+    if (error) {
+      console.error("Deduct credits RPC error:", error);
+      throw new Error(`Failed to deduct credits: ${error.message}`);
     }
 
-    const new_credit: Credit = {
-      trans_no: getSnowId(),
-      created_at: getIsoTimestr(),
-      user_uuid: user_uuid,
-      trans_type: trans_type,
-      credits: 0 - credits,
-      order_no: order_no,
-      expired_at: expired_at,
+    if (!data) {
+      throw new Error("Deduct credits returned no data");
+    }
+
+    // Parse the JSONB result from database
+    const result: DeductResult = {
+      pools: data.pools || [],
+      totalDeducted: data.totalDeducted || 0
     };
-    await insertCredit(new_credit);
-    
-    // 返回使用的order_no和expired_at，供退款时使用
-    return { order_no, expired_at };
+
+    console.log(`✅ Deducted ${result.totalDeducted} credits from ${result.pools.length} pool(s) for user ${user_uuid}`);
+
+    return result;
   } catch (e) {
-    console.log("decrease credits failed: ", e);
+    console.error("decrease credits failed:", e);
     throw e;
   }
 }

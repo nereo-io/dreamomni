@@ -41,6 +41,7 @@ export interface VideoGeneration {
   error_message?: string | null;
   logs?: any | null; // jsonb
   metrics?: any | null; // jsonb
+  metadata?: any | null; // jsonb - stores credit_deduction and other metadata
   effect_id?: string | null; // 特效ID
   is_delete?: boolean | null; // 软删除标记
   created_at: string; // timestamptz
@@ -67,6 +68,7 @@ export interface CreateVideoGenerationParams {
   seed?: number;
   has_audio?: boolean; // 新增：是否包含音频
   status?: VideoGenerationStatus; // 允许在创建时指定初始状态
+  metadata?: any; // 新增：元数据（包括积分扣费信息）
   effect_id?: string; // 新增：特效ID
 }
 
@@ -84,6 +86,7 @@ export interface UpdateVideoGenerationParams {
   error_message?: string;
   logs?: any;
   metrics?: any;
+  metadata?: any; // 元数据更新
   fal_request_id?: string; // 有时可能在创建后才知道 fal_request_id
   volcano_request_id?: string; // Volcano Engine request ID
   veo3_request_id?: string; // Veo3 APICore request ID

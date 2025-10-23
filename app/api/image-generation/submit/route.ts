@@ -178,14 +178,15 @@ export async function POST(req: NextRequest) {
     }
 
     // 5. 扣除积分（在创建任务前扣除）
+    let deductResult;
     try {
-      await decreaseCredits({
+      deductResult = await decreaseCredits({
         user_uuid: userInfo.uuid!,
         trans_type: CreditsTransType.ImageGeneration,
         credits: creditsRequired,
       });
       console.log(
-        `💰 Credits deducted: ${creditsRequired} from user ${userInfo.uuid}`
+        `💰 Credits deducted: ${deductResult.totalDeducted} from ${deductResult.pools.length} pool(s) for user ${userInfo.uuid}`
       );
     } catch (error) {
       console.error("扣除积分失败:", error);
@@ -265,6 +266,12 @@ export async function POST(req: NextRequest) {
           // 将图片尺寸存储到元数据中
           image_size: image_size,
           output_format: output_format,
+          // 保存扣费池信息，用于退款追溯
+          credit_deduction: {
+            pools: deductResult.pools,
+            total_deducted: deductResult.totalDeducted,
+            deducted_at: new Date().toISOString(),
+          },
         },
       };
 
@@ -343,26 +350,55 @@ export async function POST(req: NextRequest) {
           },
         });
 
+        // 生成失败，返还积分到原池
+        try {
+          // 遍历所有扣费的池，按原扣费金额逐一退款
+          for (const pool of deductResult.pools) {
+            await increaseCredits({
+              user_uuid: userInfo.uuid!,
+              trans_type: CreditsTransType.RefundImageGenerationFailed,
+              credits: pool.deducted,
+              order_no: pool.order_no,
+              expired_at: pool.expired_at,
+            });
+
+            console.log(
+              `💰 Credits refunded: ${pool.deducted} to pool ${pool.order_no} for user ${userInfo.uuid} due to provider error`
+            );
+          }
+
+          console.log(
+            `💰 Total refunded: ${deductResult.totalDeducted} credits across ${deductResult.pools.length} pool(s)`
+          );
+        } catch (refundError) {
+          console.error("❌ Failed to refund credits:", refundError);
+          // 不阻止错误返回，但记录退款失败
+        }
+
         return respErr(errorMessage);
       }
     } catch (error) {
       console.error("❌ Image generation error:", error);
 
-      // 生成失败，返还积分
+      // 生成失败，返还积分到原池
       try {
-        const oneMonthFromNow = new Date();
-        oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
-        const expiredAt = oneMonthFromNow.toISOString();
+        // 遍历所有扣费的池，按原扣费金额逐一退款
+        for (const pool of deductResult.pools) {
+          await increaseCredits({
+            user_uuid: userInfo.uuid!,
+            trans_type: CreditsTransType.RefundImageGenerationFailed,
+            credits: pool.deducted,
+            order_no: pool.order_no,
+            expired_at: pool.expired_at,
+          });
 
-        await increaseCredits({
-          user_uuid: userInfo.uuid!,
-          trans_type: CreditsTransType.RefundImageGenerationFailed,
-          credits: creditsRequired,
-          expired_at: expiredAt,
-        });
+          console.log(
+            `💰 Credits refunded: ${pool.deducted} to pool ${pool.order_no} for user ${userInfo.uuid} due to generation failure`
+          );
+        }
 
         console.log(
-          `💰 Credits refunded: ${creditsRequired} to user ${userInfo.uuid} due to generation failure`
+          `💰 Total refunded: ${deductResult.totalDeducted} credits across ${deductResult.pools.length} pool(s)`
         );
       } catch (refundError) {
         console.error("❌ Failed to refund credits:", refundError);
