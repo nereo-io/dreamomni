@@ -36,6 +36,7 @@ export interface VideoModelConfig {
   estimatedGenerationTime?: number; // 预估生成时间（秒），用于前端倒计时
   requiresMembership?: boolean; // 是否需要会员才能选择
   generationType?: string; // 视频生成类型（如 REFERENCE_2_VIDEO）
+  internal?: boolean; // 是否为内部使用模型，不在前端UI显示（如 Storyboard）
   imageCapabilities?: {
     maxImages: number; // 支持的最大图片数量（1-3）
     minImages?: number; // 最小图片数量（可选）
@@ -56,12 +57,12 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     displayName: "Seedance 1.0 Pro",
     perSecondCredits: 2,
     description: "ByteDance's video model, starting at $0.3/video",
-    features: ["wait 45s", "Direct Access"],
+    features: ["Wait 30s", "Direct Access"],
     maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16", "1:1"],
     supportedResolutions: ["480p", "1080p"],
     supportsAudio: false,
-    estimatedGenerationTime: 45,
+    estimatedGenerationTime: 30,
     supportedDurations: [5, 10],
   },
 
@@ -76,12 +77,12 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     displayName: "Seedance 1.0 Pro",
     perSecondCredits: 2,
     description: "ByteDance's video model, starting at $0.3/video",
-    features: ["wait 45s", "Direct Access"],
+    features: ["Wait 30s", "Direct Access"],
     maxDuration: 10,
     supportedAspectRatios: ["adaptive"],
     supportedResolutions: ["480p", "1080p"],
     supportsAudio: false,
-    estimatedGenerationTime: 45,
+    estimatedGenerationTime: 30,
     supportedDurations: [5, 10],
   },
   // Doubao-Seedance 1.0 Pro 文本转视频模型 (Volcano Engine)
@@ -130,7 +131,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     displayName: "Veo 3.1",
     perSecondCredits: 1.5,
     description: "Google's Veo3.1 model, starting at $0.36/video",
-    features: ["wait 200s", "Audio"],
+    features: ["Wait 200s", "Audio"],
     maxDuration: 8, // Kie.ai Veo3 默认5秒
     supportedAspectRatios: ["16:9", "9:16"],
     supportsAudio: true, // 根据用户要求支持音频
@@ -148,7 +149,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     displayName: "Veo 3.1",
     perSecondCredits: 1.5, // 与文本转视频同样的积分消耗
     description: "Google's Veo3.1 model, starting at $0.36/video",
-    features: ["wait 200s", "Audio"],
+    features: ["Wait 200s", "Audio", "Support 2 images"],
     maxDuration: 8, // Kie.ai Veo3 默认5秒
     supportedAspectRatios: ["16:9", "9:16"],
     supportsAudio: true, // 根据用户要求支持音频
@@ -169,8 +170,9 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     provider: VideoModelProvider.KIEAI,
     displayName: "Veo 3.1 (Consistent Character)",
     perSecondCredits: 1.5,
-    description: "Create videos with consistent character identity using 1-3 reference images",
-    features: ["wait 200s", "Character Consistency", "1-3 Reference Images"],
+    description:
+      "Create videos with consistent character identity using 1-3 reference images",
+    features: ["Wait 200s", "Character Consistency", "1-3 Reference Images"],
     supportedAspectRatios: ["16:9"], // REFERENCE_2_VIDEO 只支持 16:9
     supportedDurations: [8], // 固定 8 秒
     supportedResolutions: ["1080p"], // 固定 1080p
@@ -191,14 +193,14 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
     displayName: "Sora 2",
-    perSecondCredits: 0.5, // 5秒12积分 = 2.4积分/秒
-    description: "OpenAI's Sora 2 model, Limited-time promotion",
-    features: ["wait 200s", "Audio"],
-    maxDuration: 10,
+    perSecondCredits: 1, // 10秒12积分 = 1.2积分/秒
+    description: "OpenAI's Sora 2 model",
+    features: ["Wait 300s", "Audio"],
+    maxDuration: 15, // 扩展到 15s
     supportedAspectRatios: ["16:9", "9:16"],
-    supportsAudio: false,
-    estimatedGenerationTime: 180, // 预估3分钟
-    supportedDurations: [10],
+    supportsAudio: true,
+    estimatedGenerationTime: 300, // 预估5分钟
+    supportedDurations: [10, 15], // 添加 15s 支持
     supportedResolutions: ["1080p"], // 固定1080p HD
     requiresMembership: true,
   },
@@ -210,57 +212,122 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
     displayName: "Sora 2",
-    perSecondCredits: 0.5, // 图生视频10积分/5秒 = 2积分/秒
-    description: "OpenAI's Sora 2 model, Limited-time promotion",
-    features: ["wait 200s", "Audio"],
-    maxDuration: 10,
+    perSecondCredits: 1, // 图生视频10积分/5秒 = 2积分/秒
+    description: "OpenAI's Sora 2 model",
+    features: ["Wait 300s", "Audio"],
+    maxDuration: 15, // 扩展到 15s
     supportedAspectRatios: ["16:9", "9:16"],
-    supportsAudio: false,
-    estimatedGenerationTime: 180, // 预估3分钟
-    supportedDurations: [10],
+    supportsAudio: true,
+    estimatedGenerationTime: 300, // 预估5分钟
+    supportedDurations: [10, 15], // 添加 15s 支持
     supportedResolutions: ["1080p"], // 固定1080p HD
     requiresMembership: true,
     imageCapabilities: {
       maxImages: 1, // 目前只支持单张图片
     },
   },
-  // MiniMax Hailuo02 文本转视频模型 (via fal.ai)
-  "minimax-hailuo02-text-to-video": {
-    id: "minimax-hailuo02-text-to-video",
-    name: "MiniMax Hailuo 02 Text-to-Video",
+
+  // Kie.ai Sora 2 Pro 文本转视频模型
+  "sora-2-pro-text-to-video": {
+    id: "sora-2-pro-text-to-video",
+    name: "Sora 2 Pro Text-to-Video",
     type: VideoModelType.TEXT_TO_VIDEO,
-    provider: VideoModelProvider.FAL,
-    falEndpoint: "fal-ai/minimax/hailuo-02/standard/text-to-video",
-    displayName: "Hailuo 02",
-    perSecondCredits: 4, // $0.045/秒 = 1.8积分/秒，取整为2
-    description: "MiniMax's video model",
-    features: ["wait 200s", "Instruction Following"],
-    maxDuration: 10,
-    supportedAspectRatios: ["adaptive"],
-    supportedResolutions: ["768p"], // 固定768p分辨率
-    supportsAudio: false,
-    estimatedGenerationTime: 200, // 预估4分钟
-    supportedDurations: [6, 10], // 支持6秒和10秒
+    provider: VideoModelProvider.KIEAI,
+    displayName: "Sora 2 Pro",
+    perSecondCredits: 6, // 6x 标准版 (1 * 6 = 6)
+    description: "OpenAI's Sora 2 Pro model with enhanced quality",
+    features: ["Wait 600s", "Audio"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16"],
+    supportsAudio: true,
+    estimatedGenerationTime: 600, // Pro 版本可能更慢
+    supportedDurations: [10, 15],
+    supportedResolutions: ["1080p"], // 固定1080p
+    requiresMembership: true,
   },
 
-  // MiniMax Hailuo02 图片转视频模型 (via fal.ai)
-  "minimax-hailuo02-image-to-video": {
-    id: "minimax-hailuo02-image-to-video",
-    name: "MiniMax Hailuo 02 Image-to-Video",
+  // Kie.ai Sora 2 Pro 图片转视频模型
+  "sora-2-pro-image-to-video": {
+    id: "sora-2-pro-image-to-video",
+    name: "Sora 2 Pro Image-to-Video",
     type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.FAL,
-    falEndpoint: "fal-ai/minimax/hailuo-02/standard/image-to-video",
-    displayName: "Hailuo 02",
-    perSecondCredits: 2, // 默认768p价格，512p会在计算时特殊处理
-    description: "MiniMax's video model",
-    features: ["wait 200s", "Instruction Following"],
-    maxDuration: 10,
-    supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
-    supportedResolutions: ["512p", "768p"], // 支持两种分辨率
-    supportsAudio: false,
-    estimatedGenerationTime: 200, // 预估4分钟
-    supportedDurations: [6, 10], // 支持6秒和10秒
+    provider: VideoModelProvider.KIEAI,
+    displayName: "Sora 2 Pro",
+    perSecondCredits: 6, // 6x 标准版 (1 * 6 = 6)
+    description: "OpenAI's Sora 2 Pro model with enhanced quality",
+    features: ["Wait 600s", "Audio"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16"],
+    supportsAudio: true,
+    estimatedGenerationTime: 600,
+    supportedDurations: [10, 15],
+    supportedResolutions: ["1080p"], // 固定1080p
+    requiresMembership: true,
+    imageCapabilities: {
+      maxImages: 1,
+    },
   },
+
+  // Kie.ai Sora 2 Pro Storyboard (仅 API 支持，前端不显示)
+  "sora-2-pro-storyboard": {
+    id: "sora-2-pro-storyboard",
+    name: "Sora 2 Pro Storyboard",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    displayName: "Sora 2 Pro Storyboard",
+    perSecondCredits: 6, // 6x 标准版 (1 * 6 = 6)
+    description: "Multi-image sequence video generation (2-8 images)",
+    features: ["Wait 900s", "Multi-Image", "Extended Duration"],
+    maxDuration: 25,
+    supportedAspectRatios: ["16:9", "9:16"],
+    supportsAudio: false,
+    estimatedGenerationTime: 900, // Storyboard 可能需要更长时间
+    supportedDurations: [10, 15, 25],
+    supportedResolutions: ["1080p"],
+    requiresMembership: true,
+    internal: true, // 标记为内部使用，前端不显示
+    imageCapabilities: {
+      minImages: 2,
+      maxImages: 8,
+    },
+  },
+  // MiniMax Hailuo02 文本转视频模型 (via fal.ai)
+  // "minimax-hailuo02-text-to-video": {
+  //   id: "minimax-hailuo02-text-to-video",
+  //   name: "MiniMax Hailuo 02 Text-to-Video",
+  //   type: VideoModelType.TEXT_TO_VIDEO,
+  //   provider: VideoModelProvider.FAL,
+  //   falEndpoint: "fal-ai/minimax/hailuo-02/standard/text-to-video",
+  //   displayName: "Hailuo 02",
+  //   perSecondCredits: 4, // $0.045/秒 = 1.8积分/秒，取整为2
+  //   description: "MiniMax's video model",
+  //   features: ["wait 200s", "Instruction Following"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["adaptive"],
+  //   supportedResolutions: ["768p"], // 固定768p分辨率
+  //   supportsAudio: false,
+  //   estimatedGenerationTime: 200, // 预估4分钟
+  //   supportedDurations: [6, 10], // 支持6秒和10秒
+  // },
+
+  // MiniMax Hailuo02 图片转视频模型 (via fal.ai)
+  // "minimax-hailuo02-image-to-video": {
+  //   id: "minimax-hailuo02-image-to-video",
+  //   name: "MiniMax Hailuo 02 Image-to-Video",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.FAL,
+  //   falEndpoint: "fal-ai/minimax/hailuo-02/standard/image-to-video",
+  //   displayName: "Hailuo 02",
+  //   perSecondCredits: 2, // 默认768p价格，512p会在计算时特殊处理
+  //   description: "MiniMax's video model",
+  //   features: ["wait 200s", "Instruction Following"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
+  //   supportedResolutions: ["512p", "768p"], // 支持两种分辨率
+  //   supportsAudio: false,
+  //   estimatedGenerationTime: 200, // 预估4分钟
+  //   supportedDurations: [6, 10], // 支持6秒和10秒
+  // },
 
   // 阿里百炼 文本转视频模型
   // "ali-video-generation-text-to-video": {
@@ -312,13 +379,13 @@ export function getVideoModelsByType(type: VideoModelType): VideoModelConfig[] {
 
 export function getTextToVideoModels(): VideoModelConfig[] {
   return getVideoModelsByType(VideoModelType.TEXT_TO_VIDEO).filter(
-    (model) => !model.name.includes("Legacy")
+    (model) => !model.name.includes("Legacy") && !model.internal
   );
 }
 
 export function getImageToVideoModels(): VideoModelConfig[] {
   return getVideoModelsByType(VideoModelType.IMAGE_TO_VIDEO).filter(
-    (model) => !model.name.includes("Legacy")
+    (model) => !model.name.includes("Legacy") && !model.internal
   );
 }
 
@@ -474,9 +541,19 @@ export function isKieAiVeo3Model(modelId: string): boolean {
   return modelId.includes("kie-veo3-");
 }
 
-// 检查模型是否为Sora 2模型
+// 检查模型是否为Sora 2模型（包括 Standard 和 Pro）
 export function isSora2Model(modelId: string): boolean {
   return modelId.includes("sora-2-");
+}
+
+// 检查模型是否为 Sora 2 Pro 模型
+export function isSora2ProModel(modelId: string): boolean {
+  return modelId.includes("sora-2-pro-");
+}
+
+// 检查模型是否为 Storyboard 模型
+export function isStoryboardModel(modelId: string): boolean {
+  return modelId === "sora-2-pro-storyboard";
 }
 
 // 检查模型是否为阿里百炼模型

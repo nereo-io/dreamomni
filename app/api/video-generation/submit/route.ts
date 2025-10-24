@@ -26,6 +26,7 @@ import {
   isAliModel,
   isMinimaxModel,
   isSora2Model,
+  isStoryboardModel,
   calculateCredits,
   VideoModelProvider,
 } from "@/config/video-models";
@@ -238,6 +239,12 @@ export async function POST(req: Request) {
       transType = CreditsTransType.VideoGeneration8s;
     } else if (durationInt === 10) {
       transType = CreditsTransType.VideoGeneration10s;
+    } else if (durationInt === 15) {
+      // Sora 2/Pro 模型的15秒
+      transType = CreditsTransType.VideoGeneration15s;
+    } else if (durationInt === 25) {
+      // Storyboard 模型的25秒
+      transType = CreditsTransType.VideoGeneration25s;
     } else {
       return respErr(`不支持的时长: ${durationInt}秒`);
     }
@@ -346,6 +353,16 @@ export async function POST(req: Request) {
       input.resolution = resolution;
     }
 
+    // Storyboard 参数验证
+    if (isStoryboardModel(finalModel)) {
+      if (!finalImageUrls || finalImageUrls.length < 2 || finalImageUrls.length > 8) {
+        return respErr(
+          `Storyboard requires 2-8 images, but got ${finalImageUrls?.length || 0}`
+        );
+      }
+      input.image_urls = finalImageUrls;
+    }
+
     // 根据模型类型添加相应参数
     if (isImageToVideoModel(finalModel)) {
       if (!finalImageUrls || finalImageUrls.length === 0) {
@@ -431,6 +448,10 @@ export async function POST(req: Request) {
       // Kie.ai 支持 generationType（如 REFERENCE_2_VIDEO）
       if (finalGenerationType) {
         input.generationType = finalGenerationType;
+      }
+      // Kie.ai Sora 模型不接受 resolution 参数
+      if (isSora2Model(finalModel)) {
+        delete input.resolution;
       }
     } else if (isAliModel(finalModel)) {
       // 阿里百炼模型特有参数
