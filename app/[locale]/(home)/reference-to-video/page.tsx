@@ -6,6 +6,7 @@ import { FAQSection } from "@/components/blocks/faq-section";
 import CTA from "@/components/blocks/cta";
 import { getReferenceToVideoPage } from "@/services/page";
 import { getTranslations } from "next-intl/server";
+import { auth } from "@/auth";
 
 export async function generateMetadata({
   params: { locale },
@@ -35,6 +36,7 @@ export default async function ReferenceToVideoPage({
 }: {
   params: { locale: string };
 }) {
+  const session = await auth();
   const pageData = await getReferenceToVideoPage(locale);
 
   return (
@@ -46,34 +48,38 @@ export default async function ReferenceToVideoPage({
         hidePromptEnhancement
       />
 
-      {/* Hero Section */}
-      <LandingPageHero data={pageData.hero} />
+      {!session && (
+        <>
+          {/* Hero Section */}
+          <LandingPageHero data={pageData.hero} />
 
-      {/* Feature Highlights */}
-      <FeatureHighlights data={pageData.features} />
+          {/* Feature Highlights */}
+          <FeatureHighlights data={pageData.features} />
 
-      {/* How to Use */}
-      <ModelUsageGuide section={pageData.usageGuide} />
+          {/* How to Use */}
+          <ModelUsageGuide section={pageData.usageGuide} />
 
-      {/* FAQ Section */}
-      <FAQSection
-        title={pageData.faq.title}
-        description={pageData.faq.description}
-        faqItems={pageData.faq.items}
-      />
+          {/* FAQ Section */}
+          <FAQSection
+            title={pageData.faq.title}
+            description={pageData.faq.description}
+            faqItems={pageData.faq.items}
+          />
 
-      {/* CTA Section */}
-      <CTA
-        section={{
-          title: pageData.cta.title,
-          buttons: [
-            {
-              title: pageData.cta.buttonText,
-              url: "/reference-to-video",
-            },
-          ],
-        }}
-      />
+          {/* CTA Section */}
+          <CTA
+            section={{
+              title: pageData.cta.title,
+              buttons: [
+                {
+                  title: pageData.cta.buttonText,
+                  url: "/reference-to-video",
+                },
+              ],
+            }}
+          />
+        </>
+      )}
     </>
   );
 }

@@ -6,6 +6,7 @@ import { FAQSection } from "@/components/blocks/faq-section";
 import CTA from "@/components/blocks/cta";
 import { getTextToVideoPage } from "@/services/page";
 import { getTranslations } from "next-intl/server";
+import { auth } from "@/auth";
 
 export async function generateMetadata({
   params: { locale },
@@ -35,6 +36,7 @@ export default async function TextToVideoPage({
 }: {
   params: { locale: string };
 }) {
+  const session = await auth();
   const pageData = await getTextToVideoPage(locale);
 
   return (
@@ -42,34 +44,38 @@ export default async function TextToVideoPage({
       {/* Video Generation Tool */}
       <VideoGenerationTool mode="text-to-video" />
 
-      {/* AI Models Hero */}
-      <AIModelsHero data={pageData.aiModelsHero} />
+      {!session && (
+        <>
+          {/* AI Models Hero */}
+          <AIModelsHero data={pageData.aiModelsHero} />
 
-      {/* AI Video Showcase */}
-      <AIVideoShowcase data={pageData.aiVideoShowcase} />
+          {/* AI Video Showcase */}
+          <AIVideoShowcase data={pageData.aiVideoShowcase} />
 
-      {/* Creator Showcase */}
-      <CreatorShowcase data={pageData.creatorShowcase} />
+          {/* Creator Showcase */}
+          <CreatorShowcase data={pageData.creatorShowcase} />
 
-      {/* FAQ Section */}
-      <FAQSection
-        title={pageData.faq.title}
-        description={pageData.faq.description}
-        faqItems={pageData.faq.items}
-      />
+          {/* FAQ Section */}
+          <FAQSection
+            title={pageData.faq.title}
+            description={pageData.faq.description}
+            faqItems={pageData.faq.items}
+          />
 
-      {/* CTA Section */}
-      <CTA
-        section={{
-          title: pageData.cta.title,
-          buttons: [
-            {
-              title: pageData.cta.buttonText,
-              url: "/text-to-video",
-            },
-          ],
-        }}
-      />
+          {/* CTA Section */}
+          <CTA
+            section={{
+              title: pageData.cta.title,
+              buttons: [
+                {
+                  title: pageData.cta.buttonText,
+                  url: "/text-to-video",
+                },
+              ],
+            }}
+          />
+        </>
+      )}
     </>
   );
 }

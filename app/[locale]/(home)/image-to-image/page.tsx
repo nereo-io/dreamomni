@@ -5,6 +5,7 @@ import CTA from "@/components/blocks/cta";
 import ImageToImageTab from "@/components/blocks/ai-image-generation-tool/ImageToImageTab";
 import imageToImagePageData from "@/i18n/pages/image-to-image/en.json";
 import { getTranslations } from "next-intl/server";
+import { auth } from "@/auth";
 
 export async function generateMetadata({
   params: { locale },
@@ -33,8 +34,10 @@ export default async function ImageToImagePage({
 }: {
   params: { locale: string };
 }) {
+  const session = await auth();
+
   // Load localized page data
-  const pageData = locale === 'en' 
+  const pageData = locale === 'en'
     ? imageToImagePageData
     : imageToImagePageData; // For now, fallback to English for other locales
 
@@ -45,31 +48,35 @@ export default async function ImageToImagePage({
         <ImageToImageTab />
       </div>
 
-      {/* AI Models Hero */}
-      <AIModelsHero data={pageData.aiModelsHero} />
+      {!session && (
+        <>
+          {/* AI Models Hero */}
+          <AIModelsHero data={pageData.aiModelsHero} />
 
-      {/* Creator Showcase */}
-      <CreatorShowcase data={pageData.creatorShowcase} />
+          {/* Creator Showcase */}
+          <CreatorShowcase data={pageData.creatorShowcase} />
 
-      {/* FAQ Section */}
-      <FAQSection
-        title={pageData.faq.title}
-        description={pageData.faq.description}
-        faqItems={pageData.faq.items}
-      />
+          {/* FAQ Section */}
+          <FAQSection
+            title={pageData.faq.title}
+            description={pageData.faq.description}
+            faqItems={pageData.faq.items}
+          />
 
-      {/* CTA Section */}
-      <CTA section={{
-        name: "cta",
-        title: pageData.cta.title,
-        buttons: [
-          {
-            title: pageData.cta.buttonText,
-            url: "/image-to-image",
-            target: "_self"
-          }
-        ]
-      }} />
+          {/* CTA Section */}
+          <CTA section={{
+            name: "cta",
+            title: pageData.cta.title,
+            buttons: [
+              {
+                title: pageData.cta.buttonText,
+                url: "/image-to-image",
+                target: "_self"
+              }
+            ]
+          }} />
+        </>
+      )}
     </>
   );
 }
