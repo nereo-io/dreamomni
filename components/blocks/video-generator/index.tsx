@@ -121,9 +121,9 @@ export default function VideoGenerator({
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [generateAudio] = useState(true);
 
-  // Enhanced Prompt 开关状态：优先读取 localStorage，否则使用 hidePromptEnhancement 决定默认值
+  // Enhanced Prompt 开关状态：优先读取 localStorage，默认关闭
   const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(() => {
-    if (typeof window === 'undefined') return !hidePromptEnhancement;
+    if (typeof window === 'undefined') return false;
 
     try {
       const stored = localStorage.getItem('video-prompt-enhancement-enabled');
@@ -134,7 +134,7 @@ export default function VideoGenerator({
       console.error('Failed to read from localStorage:', error);
     }
 
-    return !hidePromptEnhancement;
+    return false; // 默认关闭 enhanced prompt
   });
 
   // 图片上传状态（通过 ImageUploader 组件管理）
