@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { useAppContext } from "@/contexts/app";
 import { useSession } from "next-auth/react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { toast } from "sonner";
 import ImageHistoryItem from "./components/ImageHistoryItem";
 import ImageHistorySkeleton from "./components/ImageHistorySkeleton";
 import ImagePreviewModal from "./components/ImagePreviewModal";
@@ -59,6 +60,7 @@ export default function ImageHistoryForGeneration({
   const [pollingImages, setPollingImages] = useState<Set<string>>(new Set());
   const [loadingImages, setLoadingImages] = useState<Set<string>>(new Set());
   const [scrollToBottomFlag, setScrollToBottomFlag] = useState(false);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const pollingIntervalsRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
 
   // Featured images state
@@ -85,9 +87,14 @@ export default function ImageHistoryForGeneration({
 
   // 自动滚动到底部，与视频历史保持一致的实现方式
   const scrollToBottom = useCallback(() => {
-    const scrollContainer = document.querySelector(".image-history-scroll");
-    if (scrollContainer) {
-      scrollContainer.scrollTop = scrollContainer.scrollHeight;
+    if (scrollAreaRef.current) {
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          if (scrollAreaRef.current) {
+            scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+          }
+        }, 0);
+      });
     }
   }, []);
 
@@ -168,6 +175,89 @@ export default function ImageHistoryForGeneration({
   };
 
   // Removed updateActiveTasksInBackground - now handled by imagePollingService
+
+  // 创建代理下载 URL - 绕过 CORS
+  const createProxyDownloadUrl = (sourceUrl: string, filename: string) =>
+    `/api/proxy-image?url=${encodeURIComponent(sourceUrl)}&filename=${encodeURIComponent(filename)}`;
+
+  const triggerDownload = (href: string, filename: string) => {
+    const downloadLink = document.createElement("a");
+    downloadLink.href = href;
+    downloadLink.download = filename;
+    downloadLink.rel = "noopener noreferrer";
+    downloadLink.style.cssText =
+      "display: none; position: absolute; top: -9999px; left: -9999px;";
+
+    document.body.appendChild(downloadLink);
+
+    try {
+      downloadLink.click();
+    } finally {
+      document.body.removeChild(downloadLink);
+    }
+  };
+
+  // 下载图片功能 - 与视频历史保持一致
+  const handleDownload = async (image: ImageGenerationResult) => {
+    const imageUrl = image.image_url_r2 || image.image_url;
+
+    if (!imageUrl) {
+      console.error("No image URL available for download");
+      toast.error("Image not available for download");
+      return;
+    }
+
+    // 生成文件名
+    const safePrompt = image.prompt.substring(0, 20).replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
+    const urlParts = imageUrl.split('.');
+    const extension = urlParts[urlParts.length - 1]?.split('?')[0]?.toLowerCase() || 'png';
+    const filename = `${safePrompt}_${image.id}.${extension}`;
+
+    const proxyUrl = createProxyDownloadUrl(imageUrl, filename);
+
+    // 立即设置下载状态，显示加载动画
+    setDownloadingId(image.id);
+
+    // 确保加载动画至少显示1.5秒
+    const minimumSpinnerDelay = new Promise((resolve) =>
+      setTimeout(resolve, 1500)
+    );
+
+    try {
+      console.log("🔽 Starting image download via proxy:", imageUrl);
+
+      const response = await fetch(proxyUrl);
+      if (!response.ok) throw new Error("Download failed");
+
+      const blob = await response.blob();
+      if (!blob || blob.size === 0) {
+        throw new Error("Empty image blob");
+      }
+
+      const objectUrl = window.URL.createObjectURL(blob);
+      triggerDownload(objectUrl, filename);
+      window.URL.revokeObjectURL(objectUrl);
+
+      console.log("✅ Image download successful");
+      toast.success("Image downloaded");
+    } catch (error) {
+      console.error("💥 Proxy download failed, trying fallback:", error);
+
+      // 失败后尝试直接下载（可能被 CORS 阻止）
+      try {
+        triggerDownload(proxyUrl, filename);
+      } catch (fallbackError) {
+        console.error("💥 Fallback download failed:", fallbackError);
+        triggerDownload(imageUrl, filename);
+      }
+    } finally {
+      // 确保加载动画显示足够时间
+      await minimumSpinnerDelay;
+      setDownloadingId((current) =>
+        current === image.id ? null : current
+      );
+    }
+  };
 
   // Handle image click
   const handleImageClick = useCallback((imageUrl: string, prompt: string) => {
@@ -289,14 +379,19 @@ export default function ImageHistoryForGeneration({
 
   // 自动滚动到底部显示最新内容，与视频历史保持一致
   useEffect(() => {
-    if (scrollToBottomFlag && images.length > 0) {
-      const scrollContainer = document.querySelector(".image-history-scroll");
-      if (scrollContainer) {
-        scrollContainer.scrollTop = scrollContainer.scrollHeight;
-        setScrollToBottomFlag(false);
-      }
+    // 必须等待 activeTab 切换到 history 后，scrollAreaRef 才会绑定到 DOM
+    if (scrollToBottomFlag && images.length > 0 && activeTab === "history") {
+      // 使用双重延迟确保 DOM 完全渲染后再滚动
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          if (scrollAreaRef.current) {
+            scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+            setScrollToBottomFlag(false);
+          }
+        }, 0);
+      });
     }
-  }, [scrollToBottomFlag, images]);
+  }, [scrollToBottomFlag, images, activeTab]);
 
   // 使用轮询服务管理图片状态更新
   const pollingIdRef = useRef<string | null>(null);
@@ -533,6 +628,8 @@ export default function ImageHistoryForGeneration({
                 onRegenerate={onRegenerateImage}
                 onDelete={onDeleteImage}
                 onImageClick={handleImageClick}
+                onDownload={handleDownload}
+                isDownloading={downloadingId === image.id}
                 canEdit={true}
               />
             ))}

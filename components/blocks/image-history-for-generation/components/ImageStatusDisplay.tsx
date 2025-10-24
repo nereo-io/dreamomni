@@ -24,6 +24,8 @@ interface ImageStatusDisplayProps {
   onRegenerate?: (image: ImageGenerationResult) => void;
   onDelete?: (imageId: string, prompt: string) => void;
   onImageClick?: (imageUrl: string, prompt: string) => void;
+  onDownload?: (image: ImageGenerationResult) => void;
+  isDownloading?: boolean;
   canEdit?: boolean;
   pollingImages: Set<string>;
 }
@@ -39,6 +41,8 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   onRegenerate,
   onDelete,
   onImageClick,
+  onDownload,
+  isDownloading = false,
   canEdit,
   pollingImages,
 }) => {
@@ -123,8 +127,8 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
     }
   };
 
-  // Download image to local file system - 与图片历史记录保持一致
-  const handleDownload = async () => {
+  // Download image to local file system - 实际下载逻辑（内部使用）
+  const downloadImage = async () => {
     // 优先使用 R2 URL，如果没有则使用普通 URL
     const downloadUrl = image.image_url_r2 || image.image_url || imageUrl;
     
@@ -456,11 +460,18 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
                 className="bg-black/60 hover:bg-black/80 text-white border-none h-8 w-8 p-0 rounded-md"
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleDownload();
+                  if (onDownload) {
+                    onDownload(image);
+                  }
                 }}
+                disabled={isDownloading}
                 title="Download image"
               >
-                <Download className="h-4 w-4" />
+                {isDownloading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Download className="h-4 w-4" />
+                )}
               </Button>
               {onDelete && (
                 <Button

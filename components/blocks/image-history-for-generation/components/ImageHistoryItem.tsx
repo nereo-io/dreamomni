@@ -14,6 +14,8 @@ interface ImageHistoryItemProps {
   onRegenerate?: (image: ImageGenerationResult) => void;
   onDelete?: (imageId: string, prompt: string) => void;
   onImageClick?: (imageUrl: string, prompt: string) => void;
+  onDownload?: (image: ImageGenerationResult) => void;
+  isDownloading?: boolean;
   canEdit?: boolean;
 }
 
@@ -27,6 +29,8 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
     onRegenerate,
     onDelete,
     onImageClick,
+    onDownload,
+    isDownloading = false,
     canEdit = false,
   }) => {
     
@@ -193,6 +197,8 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
           onRegenerate={onRegenerate}
           onDelete={onDelete}
           onImageClick={onImageClick}
+          onDownload={onDownload}
+          isDownloading={isDownloading}
           canEdit={canEdit}
           pollingImages={pollingImages}
         />
