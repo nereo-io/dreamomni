@@ -46,6 +46,70 @@ export interface VideoModelConfig {
 
 // 视频模型配置
 export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
+  // Kie.ai Veo3 文本转视频模型(基于 Kie.ai API)
+  "kie-veo3-text-to-video": {
+    id: "kie-veo3-text-to-video",
+    name: "Kie.ai Veo3 Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    displayName: "Veo 3.1",
+    perSecondCredits: 1.5,
+    description: "Google's Veo3.1 model, starting at $0.36/video",
+    features: ["Wait 100s", "Audio"],
+    maxDuration: 8, // Kie.ai Veo3 默认5秒
+    supportedAspectRatios: ["16:9", "9:16"],
+    supportsAudio: true, // 根据用户要求支持音频
+    estimatedGenerationTime: 100,
+    supportedDurations: [8],
+    supportedResolutions: ["1080p"], // Veo3支持高分辨率
+  },
+
+  // Kie.ai Veo3 图片转视频模型
+  "kie-veo3-image-to-video": {
+    id: "kie-veo3-image-to-video",
+    name: "Kie.ai Veo3 Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    displayName: "Veo 3.1",
+    perSecondCredits: 1.5, // 与文本转视频同样的积分消耗
+    description: "Google's Veo3.1 model, starting at $0.36/video",
+    features: ["Wait 100s", "Audio", "Support 2 images"],
+    maxDuration: 8, // Kie.ai Veo3 默认5秒
+    supportedAspectRatios: ["16:9", "9:16"],
+    supportsAudio: true, // 根据用户要求支持音频
+    estimatedGenerationTime: 100,
+    supportedDurations: [8],
+    supportedResolutions: ["1080p"], // Veo3支持高分辨率
+    imageCapabilities: {
+      maxImages: 2, // 支持1-2张图片(首帧、尾帧)
+      labels: ["First Frame", "Last Frame"],
+    },
+  },
+
+  // Kie.ai Veo3 Reference-to-Video 模型(一致角色生成)
+  "kie-veo3-reference-to-video": {
+    id: "kie-veo3-reference-to-video", // 使用独立的 ID,通过 generationType 区分
+    name: "Veo3 Reference-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    displayName: "Veo 3.1 (Consistent Character)",
+    perSecondCredits: 1.5,
+    description:
+      "Create videos with consistent character identity using 1-3 reference images",
+    features: ["Wait 200s", "Character Consistency", "1-3 Reference Images"],
+    supportedAspectRatios: ["16:9"], // REFERENCE_2_VIDEO 只支持 16:9
+    supportedDurations: [8], // 固定 8 秒
+    supportedResolutions: ["1080p"], // 固定 1080p
+    supportsAudio: false, // Reference-to-Video 不支持音频
+    imageCapabilities: {
+      maxImages: 3, // 支持 1-3 张参考图片
+      minImages: 1, // 至少 1 张
+      labels: ["Reference 1", "Reference 2", "Reference 3"],
+    },
+    estimatedGenerationTime: 240,
+    generationType: "REFERENCE_2_VIDEO", // 标识这是 Reference-to-Video 模式
+  },
+
   // BytePlus Seedance Pro 文本转视频模型 (Southeast Asia)
   "byteplus-seedance-pro-text-to-video": {
     id: "byteplus-seedance-pro-text-to-video",
@@ -122,70 +186,6 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   //   estimatedGenerationTime: 45, // Seedance 图片转视频预估45秒
   //   supportedDurations: [5, 10],
   // },
-  // Kie.ai Veo3 文本转视频模型（基于 Kie.ai API）
-  "kie-veo3-text-to-video": {
-    id: "kie-veo3-text-to-video",
-    name: "Kie.ai Veo3 Text-to-Video",
-    type: VideoModelType.TEXT_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    displayName: "Veo 3.1",
-    perSecondCredits: 1.5,
-    description: "Google's Veo3.1 model, starting at $0.36/video",
-    features: ["Wait 200s", "Audio"],
-    maxDuration: 8, // Kie.ai Veo3 默认5秒
-    supportedAspectRatios: ["16:9", "9:16"],
-    supportsAudio: true, // 根据用户要求支持音频
-    estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
-    supportedDurations: [8],
-    supportedResolutions: ["1080p"], // Veo3支持高分辨率
-  },
-
-  // Kie.ai Veo3 图片转视频模型
-  "kie-veo3-image-to-video": {
-    id: "kie-veo3-image-to-video",
-    name: "Kie.ai Veo3 Image-to-Video",
-    type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    displayName: "Veo 3.1",
-    perSecondCredits: 1.5, // 与文本转视频同样的积分消耗
-    description: "Google's Veo3.1 model, starting at $0.36/video",
-    features: ["Wait 200s", "Audio", "Support 2 images"],
-    maxDuration: 8, // Kie.ai Veo3 默认5秒
-    supportedAspectRatios: ["16:9", "9:16"],
-    supportsAudio: true, // 根据用户要求支持音频
-    estimatedGenerationTime: 240, // Veo3 预估4分钟（基于实际数据：平均3.77分钟，取整到4分钟）
-    supportedDurations: [8],
-    supportedResolutions: ["1080p"], // Veo3支持高分辨率
-    imageCapabilities: {
-      maxImages: 2, // 支持1-2张图片（首帧、尾帧）
-      labels: ["First Frame", "Last Frame"],
-    },
-  },
-
-  // Kie.ai Veo3 Reference-to-Video 模型（一致角色生成）
-  "kie-veo3-reference-to-video": {
-    id: "kie-veo3-reference-to-video", // 使用独立的 ID，通过 generationType 区分
-    name: "Veo3 Reference-to-Video",
-    type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    displayName: "Veo 3.1 (Consistent Character)",
-    perSecondCredits: 1.5,
-    description:
-      "Create videos with consistent character identity using 1-3 reference images",
-    features: ["Wait 200s", "Character Consistency", "1-3 Reference Images"],
-    supportedAspectRatios: ["16:9"], // REFERENCE_2_VIDEO 只支持 16:9
-    supportedDurations: [8], // 固定 8 秒
-    supportedResolutions: ["1080p"], // 固定 1080p
-    supportsAudio: false, // Reference-to-Video 不支持音频
-    imageCapabilities: {
-      maxImages: 3, // 支持 1-3 张参考图片
-      minImages: 1, // 至少 1 张
-      labels: ["Reference 1", "Reference 2", "Reference 3"],
-    },
-    estimatedGenerationTime: 240,
-    generationType: "REFERENCE_2_VIDEO", // 标识这是 Reference-to-Video 模式
-  },
-
   // Kie.ai Sora 2 文本转视频模型
   "sora-2-text-to-video": {
     id: "sora-2-text-to-video",
