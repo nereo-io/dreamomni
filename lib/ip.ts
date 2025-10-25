@@ -16,8 +16,8 @@ export async function getClientIp() {
 
 // IP注册限制配置
 const IP_LIMITS = {
-  DAILY_LIMIT: 10,   // 每IP每日最多10个账号
-  HOURLY_LIMIT: 3,   // 每IP每小时最多3个账号
+  DAILY_LIMIT: 5,    // 每IP每日最多5个账号（2025-10-25降低：反欺诈分析发现单IP注册40个账号）
+  HOURLY_LIMIT: 2,   // 每IP每小时最多2个账号（2025-10-25降低：防止批量注册脚本）
 };
 
 /**

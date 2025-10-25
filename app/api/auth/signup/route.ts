@@ -145,7 +145,18 @@ const BLOCKED_EMAIL_DOMAINS = [
   'pispectrum.org',    // 2个账户
   'portalforge.org',   // 1个账户
   'asyncpioneer.com',  // 1个账户
-  'autorambler.ru'     // 6个账户
+  'autorambler.ru',    // 6个账户
+  // 2025-10-25 反欺诈分析新增 - 最近7天批量注册攻击域名
+  'byom.de',           // 41个账号，20个IP（2.05账号/IP）
+  'inbox.eu',          // 35个账号，9个IP（3.89账号/IP，最高异常比率）
+  'school.vin',        // 208个账号，可疑教育邮箱域名
+  'dunkos.xyz',        // 94个账号，临时邮箱服务
+  '10mail.xyz',        // 19个账号，知名临时邮箱
+  'dropmail.me',       // 临时邮箱服务
+  'emltmp.com',        // 临时邮箱服务
+  'spymail.one',       // 临时邮箱服务
+  'mailpwr.com',       // 临时邮箱服务
+  'femailtor.com',     // 临时邮箱服务（出现在dot-trick案例中）
 ];
 
 const signupSchema = z.object({
