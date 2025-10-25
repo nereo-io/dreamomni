@@ -162,6 +162,7 @@ export default function VideoGenerator({
   const { leftCredits, updateLeftCredits } = useCredits();
   const isMember = membership?.status === "active";
   const isSeedanceSelected = isSeedanceModel(selectedModel);
+  const isVeo3Selected = selectedModel.includes('kie-veo3-');
 
   // 当前模型支持的最大图片数（从配置中获取）
   const maxImages = useMemo(
@@ -472,19 +473,21 @@ export default function VideoGenerator({
     setCurrentEffect(effect || null);
   }, [effect]);
 
-  // Seedance 模型水印开关默认行为
+  // Seedance 和 Veo3 模型水印开关默认行为
   useEffect(() => {
-    if (!isSeedanceSelected) {
+    // 只有 Seedance 和 Veo3 需要水印控制
+    if (!isSeedanceSelected && !isVeo3Selected) {
       setWatermarkEnabled(false);
       return;
     }
 
+    // 会员用户无水印，非会员强制水印
     if (isMember) {
       setWatermarkEnabled(false);
     } else {
       setWatermarkEnabled(true);
     }
-  }, [isSeedanceSelected, isMember]);
+  }, [isSeedanceSelected, isVeo3Selected, isMember]);
 
   // 确保默认选项被选中
   useEffect(() => {
@@ -579,22 +582,25 @@ export default function VideoGenerator({
 
   const handleWatermarkToggle = useCallback(
     (nextValue: boolean) => {
-      if (!isSeedanceSelected) {
+      // 非 Seedance/Veo3 模型直接允许切换
+      if (!isSeedanceSelected && !isVeo3Selected) {
         setWatermarkEnabled(nextValue);
         return;
       }
 
+      // 会员用户可以自由切换
       if (isMember) {
         setWatermarkEnabled(nextValue);
         return;
       }
 
+      // 非会员尝试关闭水印时提示
       if (!nextValue) {
         toast.info(t("watermark.membersOnly"));
       }
       setWatermarkEnabled(true);
     },
-    [isSeedanceSelected, isMember, t]
+    [isSeedanceSelected, isVeo3Selected, isMember, t]
   );
 
   // 初始化 textarea 高度
@@ -666,7 +672,7 @@ export default function VideoGenerator({
       image_urls: finalImageUrls,
       image_url: imageUrl,
       pixverse_img_id: pixverseImgId || undefined,
-      watermarkEnabled: isSeedanceSelected ? watermarkEnabled : false,
+      watermarkEnabled: (isSeedanceSelected || isVeo3Selected) ? watermarkEnabled : false,
       generationType: finalGenerationType,
     };
   };
@@ -1080,7 +1086,7 @@ export default function VideoGenerator({
                 </div>
               </div>
 
-              {isSeedanceSelected && !isMember && (
+              {(isSeedanceSelected || isVeo3Selected) && !isMember && (
                 <div className="mb-4">
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-sm text-gray-300">

@@ -150,6 +150,11 @@ export class KieAiVeo3Provider implements VideoProvider {
         requestBody.seeds = input.seed;
       }
 
+      // Add watermark if enabled (for non-member users)
+      if (input.watermarkEnabled) {
+        requestBody.watermark = "veo3ai.io";
+      }
+
       // Add callback URL if provided
       if (webhookUrl) {
         requestBody.callBackUrl = webhookUrl;
