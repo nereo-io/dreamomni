@@ -91,3 +91,19 @@ export async function isIPBlocked(ip: string): Promise<boolean> {
     return false; // 发生错误时不阻止
   }
 }
+
+/**
+ * 获取客户端国家代码 (从Cloudflare CF-IPCountry header)
+ * @returns ISO 3166-1 alpha-2 国家代码 (如 "US", "RU", "CN") 或 null
+ */
+export async function getClientCountry(): Promise<string | null> {
+  const h = headers();
+  const country = h.get("cf-ipcountry");
+
+  // 过滤无效值: XX (未知), T1 (Tor)
+  if (!country || country === "XX" || country === "T1") {
+    return null;
+  }
+
+  return country.toUpperCase(); // ISO 3166-1 标准
+}

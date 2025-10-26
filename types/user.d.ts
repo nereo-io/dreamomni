@@ -10,6 +10,7 @@ export interface User {
   signin_ip?: string;
   signin_provider?: string;
   signin_openid?: string;
+  signup_country?: string; // ISO 3166-1 alpha-2 (e.g., US, RU, CN)
   credits?: UserCredits;
   invite_code?: string;
   invited_by?: string;

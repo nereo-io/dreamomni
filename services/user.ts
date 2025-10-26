@@ -12,7 +12,7 @@ import { auth } from "@/auth";
 import { getOneMonthLaterTimestr } from "@/lib/time";
 import { headers } from "next/headers";
 import { increaseCredits } from "./credit";
-import { checkIPRegistrationLimit, updateIPRegistrationCount } from "@/lib/ip";
+import { checkIPRegistrationLimit, updateIPRegistrationCount, getClientCountry } from "@/lib/ip";
 
 export async function saveUser(user: User) {
   const truncate = (value: string | undefined | null, max = 255) => {
@@ -39,7 +39,15 @@ export async function saveUser(user: User) {
           throw new Error("Too many registrations from this network. Please try again later.");
         }
       }
-      
+
+      // 检测并记录注册国家 (首次登录时)
+      if (!user.signup_country) {
+        const country = await getClientCountry();
+        if (country) {
+          user.signup_country = country;
+        }
+      }
+
       await insertUser(user);
       isNewUser = true;
       
