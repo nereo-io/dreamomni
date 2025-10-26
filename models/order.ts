@@ -505,7 +505,7 @@ export async function findRecentPaidOrder(
 ): Promise<Order | null> {
   const supabase = getSupabaseClient();
   const timeThreshold = new Date(Date.now() - minutesAgo * 60 * 1000).toISOString();
-  
+
   const { data, error } = await supabase
     .from('orders')
     .select('*')
@@ -522,6 +522,24 @@ export async function findRecentPaidOrder(
       return null;
     }
     console.error('查询最近支付订单失败:', error);
+    throw error;
+  }
+
+  return data;
+}
+
+// 更新订单的 payment_id
+export async function updateOrderPaymentId(
+  order_no: string,
+  payment_id: string
+) {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("orders")
+    .update({ payment_id })
+    .eq("order_no", order_no);
+
+  if (error) {
     throw error;
   }
 

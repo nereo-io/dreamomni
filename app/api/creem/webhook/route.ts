@@ -220,6 +220,15 @@ async function handleCheckoutCompleted(webhookData: any) {
       }
 
       finalOrderNo = renewalOrderNo;
+    } else {
+      // 首次购买：更新原订单的 payment_id
+      const { updateOrderPaymentId } = await import("@/models/order");
+      await updateOrderPaymentId(orderNo, checkoutId);
+
+      logInfo("✅ 首次购买订单 payment_id 已更新", {
+        orderNo,
+        paymentId: checkoutId,
+      });
     }
 
     // 使用 PaymentProcessingService 处理支付

@@ -570,6 +570,15 @@ export class PayssionProvider extends BasePaymentProvider {
       }
 
       finalOrderNo = renewalOrderNo;
+    } else {
+      // 首次购买：更新原订单的 payment_id
+      const { updateOrderPaymentId } = await import("@/models/order");
+      await updateOrderPaymentId(metadata.order_no, paymentId);
+
+      console.log("✅ 首次购买订单 payment_id 已更新", {
+        orderNo: metadata.order_no,
+        paymentId: paymentId,
+      });
     }
 
     // 2. 处理支付并发放积分
