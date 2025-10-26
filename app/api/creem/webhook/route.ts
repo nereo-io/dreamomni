@@ -170,10 +170,62 @@ async function handleCheckoutCompleted(webhookData: any) {
       return;
     }
 
+    // 检测是否为续费支付
+    const existingSubscription = subscription?.id
+      ? await findCreemSubscriptionByCreemId(subscription.id)
+      : null;
+
+    const isRenewal = !!existingSubscription;
+    let finalOrderNo = orderNo;
+
+    if (isRenewal) {
+      // 创建续费订单
+      const renewalOrderNo = `RNW_${checkoutId}`;
+
+      logInfo("🔄 检测到续费支付，创建续费订单", {
+        originalOrderNo: orderNo,
+        renewalOrderNo,
+        subscriptionId: subscription.id,
+      });
+
+      // 检查续费订单是否已创建（幂等性）
+      const renewalOrder = await findOrderByOrderNo(renewalOrderNo);
+      if (!renewalOrder) {
+        const { insertOrder } = await import("@/models/order");
+
+        await insertOrder({
+          order_no: renewalOrderNo,
+          user_uuid: userUuid,
+          user_email: userEmail || customer?.email || "",
+          amount: productConfig.amount,
+          currency: productConfig.currency,
+          product_id: productId,
+          product_name: productConfig.product_name,
+          interval: productConfig.interval,
+          status: "paid",
+          is_renewal: true,
+          payment_id: checkoutId,
+          payment_provider: "creem",
+          credits: productConfig.credits,
+          paid_at: new Date().toISOString(),
+          created_at: new Date().toISOString(),
+        });
+
+        logInfo("✅ 续费订单创建成功", {
+          renewalOrderNo,
+          credits: productConfig.credits,
+        });
+      } else {
+        logInfo("ℹ️ 续费订单已存在，跳过创建", { renewalOrderNo });
+      }
+
+      finalOrderNo = renewalOrderNo;
+    }
+
     // 使用 PaymentProcessingService 处理支付
     const processingResult = await PaymentProcessingService.processPayment({
       paymentId: checkoutId, // 使用 checkoutId 作为 payment_id 确保唯一性
-      orderId: orderNo,
+      orderId: finalOrderNo, // 使用 finalOrderNo（续费时为 RNW_ 开头）
       userUuid,
       amount: productConfig.amount.toString(),
       userEmail: userEmail || customer?.email || "",

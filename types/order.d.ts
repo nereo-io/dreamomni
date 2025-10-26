@@ -32,4 +32,7 @@ export interface Order {
   // Yandex Metrica tracking
   client_id?: string | null;
   subscription_status?: string;
+  // 续费订单支持
+  is_renewal: boolean;
+  payment_id?: string | null;
 }

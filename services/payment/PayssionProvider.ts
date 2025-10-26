@@ -519,10 +519,63 @@ export class PayssionProvider extends BasePaymentProvider {
       console.log(`✅ Subscription ${subscriptionId} activated`);
     }
 
+    // 检测是否为续费支付
+    const isRenewal = subscription && subscription.status === "active";
+    let finalOrderNo = metadata.order_no;
+
+    if (isRenewal) {
+      // 创建续费订单
+      const renewalOrderNo = `RNW_${paymentId}`;
+
+      console.log("🔄 检测到续费支付，创建续费订单", {
+        originalOrderNo: metadata.order_no,
+        renewalOrderNo,
+        subscriptionId,
+      });
+
+      // 检查续费订单是否已创建（幂等性）
+      const { findOrderByOrderNo } = await import("@/models/order");
+      const renewalOrder = await findOrderByOrderNo(renewalOrderNo);
+
+      if (!renewalOrder) {
+        const { insertOrder } = await import("@/models/order");
+        const { getProductConfig } = await import("@/config/products");
+
+        const productConfig = getProductConfig(subscription.product_id);
+
+        await insertOrder({
+          order_no: renewalOrderNo,
+          user_uuid: subscription.user_uuid,
+          user_email: metadata.user_email || "",
+          amount: subscription.amount,
+          currency: subscription.currency,
+          product_id: subscription.product_id,
+          product_name: subscription.product_name,
+          interval: subscription.plan_type === "yearly" ? "year" : "month",
+          status: "paid",
+          is_renewal: true,
+          payment_id: paymentId,
+          payment_provider: "payssion",
+          credits: productConfig?.credits || 0,
+          paid_at: new Date().toISOString(),
+          created_at: new Date().toISOString(),
+        });
+
+        console.log(`✅ 续费订单创建成功`, {
+          renewalOrderNo,
+          credits: productConfig?.credits || 0,
+        });
+      } else {
+        console.log(`ℹ️ 续费订单已存在，跳过创建`, { renewalOrderNo });
+      }
+
+      finalOrderNo = renewalOrderNo;
+    }
+
     // 2. 处理支付并发放积分
     const processingResult = await PaymentProcessingService.processPayment({
       paymentId, // 实际的支付ID，不是 order_no
-      orderId: metadata.order_no, // 订单号
+      orderId: finalOrderNo, // 使用 finalOrderNo（续费时为 RNW_ 开头）
       userUuid: metadata.user_uuid,
       amount: amount.toString(),
       subscriptionId,
