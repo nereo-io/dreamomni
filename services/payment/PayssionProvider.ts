@@ -541,7 +541,19 @@ export class PayssionProvider extends BasePaymentProvider {
         const { insertOrder } = await import("@/models/order");
         const { getProductConfig } = await import("@/config/products");
 
+        if (!subscription.product_id) {
+          console.error("❌ 续费订单缺少 product_id", { subscription });
+          throw new Error("Renewal order missing product_id");
+        }
+
         const productConfig = getProductConfig(subscription.product_id);
+
+        // 计算到期时间
+        const currentDate = new Date();
+        const expiredDate = new Date(currentDate);
+        const validMonths = subscription.plan_type === "yearly" ? 12 : 1;
+        expiredDate.setMonth(currentDate.getMonth() + validMonths);
+        expiredDate.setTime(expiredDate.getTime() + 24 * 60 * 60 * 1000); // 延迟24小时
 
         await insertOrder({
           order_no: renewalOrderNo,
@@ -552,6 +564,7 @@ export class PayssionProvider extends BasePaymentProvider {
           product_id: subscription.product_id,
           product_name: subscription.product_name,
           interval: subscription.plan_type === "yearly" ? "year" : "month",
+          expired_at: expiredDate.toISOString(),
           status: "paid",
           is_renewal: true,
           payment_id: paymentId,

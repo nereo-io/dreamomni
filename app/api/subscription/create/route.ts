@@ -138,6 +138,7 @@ export async function POST(req: NextRequest) {
       payment_provider: getPaymentProvider(payment_method),
       payment_method: payment_method,
       client_id: clientId, // Add clientID for offline conversion tracking
+      is_renewal: false,
     };
     await insertOrder(order);
 

@@ -111,6 +111,7 @@ export async function POST(req: Request) {
       // 临时注释掉，等待数据库结构更新
       // product_type: product_type,
       valid_months: valid_months,
+      is_renewal: false,
     };
     await insertOrder(order);
 

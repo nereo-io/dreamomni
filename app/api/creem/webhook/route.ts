@@ -193,6 +193,12 @@ async function handleCheckoutCompleted(webhookData: any) {
       if (!renewalOrder) {
         const { insertOrder } = await import("@/models/order");
 
+        // 计算到期时间
+        const currentDate = new Date();
+        const expiredDate = new Date(currentDate);
+        expiredDate.setMonth(currentDate.getMonth() + productConfig.valid_months);
+        expiredDate.setTime(expiredDate.getTime() + 24 * 60 * 60 * 1000); // 延迟24小时
+
         await insertOrder({
           order_no: renewalOrderNo,
           user_uuid: userUuid,
@@ -202,6 +208,7 @@ async function handleCheckoutCompleted(webhookData: any) {
           product_id: productId,
           product_name: productConfig.product_name,
           interval: productConfig.interval,
+          expired_at: expiredDate.toISOString(),
           status: "paid",
           is_renewal: true,
           payment_id: checkoutId,
