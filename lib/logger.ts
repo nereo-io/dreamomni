@@ -48,8 +48,9 @@ class Logger {
    */
   private sanitize(data: any): any {
     if (typeof data === "string") {
-      // 移除邮箱域名部分
-      return data.replace(/([a-zA-Z0-9._%+-]+)@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, "$1@***");
+      // 保留完整邮箱用于内部审计和安全分析
+      // 邮箱域名信息对于判断是否误伤用户至关重要
+      return data;
     }
     
     if (typeof data === "object" && data !== null) {
