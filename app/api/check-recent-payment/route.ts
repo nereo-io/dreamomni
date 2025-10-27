@@ -49,6 +49,13 @@ export async function GET(req: NextRequest) {
 
     const recentFailure = await findRecentFailedPayment(user_uuid, 5);
 
+    console.log("🔍 findRecentFailedPayment result:", {
+      user_uuid,
+      found: !!recentFailure,
+      orderNo: recentFailure?.order.order_no,
+      failureCode: recentFailure?.failure.code,
+    });
+
     if (recentFailure) {
       const failureTimeStr =
         recentFailure.failure.failureAt || recentFailure.failure.recordedAt;
@@ -56,7 +63,18 @@ export async function GET(req: NextRequest) {
         ? new Date(failureTimeStr).getTime()
         : Date.now();
 
-      if (failureTime >= requestTimestamp - 60000) {
+      console.log("⏰ Time comparison:", {
+        failureTime,
+        failureTimeStr,
+        requestTimestamp,
+        diff: failureTime - requestTimestamp,
+        threshold: requestTimestamp - 300000,
+        passes: failureTime >= requestTimestamp - 300000,
+      });
+
+      // 修改：时间窗口从 1 分钟扩大到 5 分钟（与查询窗口一致）
+      if (failureTime >= requestTimestamp - 300000) {  // 300000 毫秒 = 5 分钟
+        console.log("✅ Returning failure info to frontend");
         return respData({
           hasRecentPayment: false,
           hasFailedPayment: true,
@@ -70,7 +88,11 @@ export async function GET(req: NextRequest) {
             failureAt: failureTimeStr,
           },
         });
+      } else {
+        console.log("❌ Failure time outside 5min window");
       }
+    } else {
+      console.log("ℹ️ No recent failure found");
     }
 
     return respData({ hasRecentPayment: false });

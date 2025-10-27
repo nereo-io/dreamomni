@@ -773,6 +773,16 @@ export class PayssionProvider extends BasePaymentProvider {
     const orderNo = metadata?.order_no;
     const failureCode = paymentObject?.failure_code || "unknown_error";
 
+    // 调试日志：检查 metadata 内容
+    console.log("🔍 handlePaymentFailed debug:", {
+      paymentId: paymentObject?.id,
+      subscriptionId,
+      orderNo,
+      metadataKeys: Object.keys(metadata),
+      hasOrderNo: !!orderNo,
+      failureCode,
+    });
+
     // Payssion 的 failure_message 形如 "insufficient_funds|payment_network"
     const rawFailureMessage = paymentObject?.failure_message || "";
     const [primaryMessage = failureCode] = rawFailureMessage.split("|");
@@ -816,6 +826,8 @@ export class PayssionProvider extends BasePaymentProvider {
 
     if (orderNo) {
       try {
+        console.log(`📝 Recording payment failure for order: ${orderNo}`);
+
         const { recordOrderPaymentFailure } = await import("@/models/order");
         await recordOrderPaymentFailure(orderNo, {
           code: failureCode,
@@ -825,12 +837,19 @@ export class PayssionProvider extends BasePaymentProvider {
           failureAt: paymentObject?.time_created,
           eventId: data.id,
         });
+
+        console.log(`✅ Payment failure recorded successfully for order: ${orderNo}`);
       } catch (error) {
         console.error("Failed to record payment failure on order", {
           orderNo,
           error,
         });
       }
+    } else {
+      console.error("❌ No orderNo found in metadata", {
+        subscriptionId,
+        metadataKeys: Object.keys(metadata),
+      });
     }
   }
 }

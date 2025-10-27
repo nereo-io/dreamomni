@@ -296,6 +296,12 @@ export async function recordOrderPaymentFailure(
   order_no: string,
   failure: PaymentFailureInfo
 ) {
+  console.log("📝 recordOrderPaymentFailure called:", {
+    order_no,
+    failureCode: failure.code,
+    failureMessage: failure.message,
+  });
+
   const supabase = getSupabaseClient();
 
   const { data: order, error: fetchError } = await supabase
@@ -305,12 +311,17 @@ export async function recordOrderPaymentFailure(
     .single();
 
   if (fetchError) {
-    console.error("Failed to load order for failure recording", {
+    console.error("❌ Failed to load order for failure recording", {
       order_no,
       error: fetchError.message,
     });
     throw fetchError;
   }
+
+  console.log("📦 Order found:", {
+    order_no,
+    hasDetail: !!order?.order_detail,
+  });
 
   let detail: any = {};
 
@@ -356,6 +367,11 @@ export async function recordOrderPaymentFailure(
     if (updateError) {
       throw updateError;
     }
+
+    console.log("✅ Order updated successfully with payment failure:", {
+      order_no,
+      failureCode: failure.code,
+    });
   } catch (error: any) {
     if (error?.code === "42703" || error?.code === "PGRST204") {
       // 数据库缺少 subscription_status 字段，退回只更新 order_detail
@@ -365,14 +381,19 @@ export async function recordOrderPaymentFailure(
         .eq("order_no", order_no);
 
       if (fallbackError) {
-        console.error("Failed to persist payment failure details", {
+        console.error("❌ Failed to persist payment failure details", {
           order_no,
           error: fallbackError.message,
         });
         throw fallbackError;
       }
+
+      console.log("✅ Order updated successfully (fallback mode):", {
+        order_no,
+        failureCode: failure.code,
+      });
     } else {
-      console.error("Failed to update order with payment failure", {
+      console.error("❌ Failed to update order with payment failure", {
         order_no,
         error: error?.message || error,
       });
