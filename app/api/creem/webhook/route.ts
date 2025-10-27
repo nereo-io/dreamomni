@@ -189,7 +189,7 @@ async function handleCheckoutCompleted(webhookData: any) {
       return;
     }
 
-    // 首次购买：更新原订单的 payment_id
+    // 首次订阅：更新原订单的 payment_id
     const { updateOrderPaymentId } = await import("@/models/order");
     await updateOrderPaymentId(orderNo, transactionId);
 
@@ -375,6 +375,29 @@ async function handleSubscriptionPaid(webhookData: any) {
       logError("❌ User not found", { userUuid });
       return;
     }
+
+    // 检查订阅记录是否已存在（用于区分首次订阅和续费）
+    const existingSubscription = subscriptionId
+      ? await findCreemSubscriptionByCreemId(subscriptionId)
+      : null;
+
+    if (!existingSubscription) {
+      // 首次订阅：订阅记录不存在，跳过 subscription.paid 处理
+      // Creem 首次订阅时会同时发送 checkout.completed 和 subscription.paid
+      // 应该让 checkout.completed 处理首次订阅
+      logInfo("ℹ️ 首次订阅的 subscription.paid 事件，跳过处理（由 checkout.completed 处理）", {
+        subscriptionId,
+        transactionId,
+        originalOrderNo,
+      });
+      return;
+    }
+
+    // 真正的续费：订阅记录已存在
+    logInfo("✅ 检测到真实续费（订阅记录已存在）", {
+      subscriptionId,
+      transactionId,
+    });
 
     // 创建续费订单号
     const renewalOrderNo = `RNW_${transactionId}`;
