@@ -548,6 +548,20 @@ export class PayssionProvider extends BasePaymentProvider {
 
         const productConfig = getProductConfig(subscription.product_id);
 
+        // 获取原订单的 client_id（用于 Yandex Metrica 追踪）
+        let clientId: string | undefined;
+        if (metadata.order_no) {
+          const originalOrder = await findOrderByOrderNo(metadata.order_no);
+          clientId = originalOrder?.client_id || undefined; // 将 null 转换为 undefined
+
+          if (!clientId) {
+            console.error("⚠️ 原订单缺少 client_id，续费订单将无法追踪转化", {
+              originalOrderNo: metadata.order_no,
+              renewalOrderNo,
+            });
+          }
+        }
+
         // 计算到期时间
         const currentDate = new Date();
         const expiredDate = new Date(currentDate);
@@ -570,6 +584,7 @@ export class PayssionProvider extends BasePaymentProvider {
           payment_id: paymentId,
           payment_provider: "payssion",
           credits: productConfig?.credits || 0,
+          client_id: clientId, // 从原订单复制 client_id
           paid_at: new Date().toISOString(),
           created_at: new Date().toISOString(),
         });
@@ -625,21 +640,28 @@ export class PayssionProvider extends BasePaymentProvider {
       );
       const { findOrderByOrderNo } = await import("@/models/order");
 
-      const order = await findOrderByOrderNo(metadata.order_no);
-      if (order?.client_id) {
+      // 使用 finalOrderNo（续费时为 RNW_xxx，首次购买为原订单号）
+      const orderToTrack = await findOrderByOrderNo(finalOrderNo);
+      if (orderToTrack?.client_id) {
         const success = await offlineConversionService.trackPaymentSuccess(
-          order.client_id,
-          metadata.order_no,
+          orderToTrack.client_id,
+          finalOrderNo, // 使用实际的订单号
           amount
         );
 
         if (success) {
           console.log(`✅ Offline conversion tracked for Yandex Metrica`, {
-            clientId: order.client_id,
-            orderNo: metadata.order_no,
+            clientId: orderToTrack.client_id,
+            orderNo: finalOrderNo,
             amount,
+            isRenewal,
           });
         }
+      } else {
+        console.error("⚠️ 订单缺少 client_id，无法追踪转化", {
+          orderNo: finalOrderNo,
+          isRenewal,
+        });
       }
     } catch (conversionError: any) {
       console.error(

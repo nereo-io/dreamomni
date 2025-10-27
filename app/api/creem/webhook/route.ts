@@ -95,6 +95,9 @@ export async function POST(req: NextRequest) {
       case "checkout.completed":
         await handleCheckoutCompleted(body);
         break;
+      case "subscription.paid":
+        await handleSubscriptionPaid(body);
+        break;
       default:
         logInfo("ℹ️ Unhandled event type", { eventType: body.eventType });
     }
@@ -107,21 +110,36 @@ export async function POST(req: NextRequest) {
 }
 
 /**
- * 处理 checkout 完成事件 - 这是主要的支付成功事件
+ * 处理首次购买完成事件
+ * checkout.completed 事件只在用户首次购买订阅时触发
+ * 续费由 subscription.paid 事件处理
  */
 async function handleCheckoutCompleted(webhookData: any) {
   try {
     const checkoutObject = webhookData.object;
-    const checkoutId = checkoutObject?.id; // 使用 checkout ID 作为唯一标识
+    const checkoutId = checkoutObject?.id;
     const metadata = checkoutObject?.metadata;
     const order = checkoutObject?.order;
     const subscription = checkoutObject?.subscription;
     const customer = checkoutObject?.customer;
 
-    if (!checkoutId) {
-      logError("❌ Missing checkout ID", { webhookData });
+    // 使用 transaction ID 作为唯一支付标识（与续费逻辑保持一致）
+    const transactionId = order?.transaction;
+
+    if (!transactionId) {
+      logError("❌ Missing transaction ID", {
+        checkoutId,
+        hasOrder: !!order,
+        webhookData
+      });
       return;
     }
+
+    logInfo("🛒 Processing first-time checkout", {
+      checkoutId,
+      transactionId,
+      eventId: webhookData.id,
+    });
 
     // 从 metadata 中获取必要信息
     const userUuid = metadata?.user_uuid;
@@ -153,15 +171,16 @@ async function handleCheckoutCompleted(webhookData: any) {
       return;
     }
 
-    // 幂等性检查 - 使用 checkoutId 作为 payment_id
+    // 幂等性检查 - 使用 transactionId 作为 payment_id
     const isProcessed =
       await PaymentProcessingService.checkPaymentAlreadyProcessed(
         orderNo,
-        checkoutId
+        transactionId
       );
 
     if (isProcessed) {
       logInfo("⚠️ Webhook already processed, skipping", {
+        transactionId,
         checkoutId,
         orderNo,
         eventType: webhookData.eventType,
@@ -170,78 +189,20 @@ async function handleCheckoutCompleted(webhookData: any) {
       return;
     }
 
-    // 检测是否为续费支付
-    const existingSubscription = subscription?.id
-      ? await findCreemSubscriptionByCreemId(subscription.id)
-      : null;
+    // 首次购买：更新原订单的 payment_id
+    const { updateOrderPaymentId } = await import("@/models/order");
+    await updateOrderPaymentId(orderNo, transactionId);
 
-    const isRenewal = !!existingSubscription;
-    let finalOrderNo = orderNo;
-
-    if (isRenewal) {
-      // 创建续费订单
-      const renewalOrderNo = `RNW_${checkoutId}`;
-
-      logInfo("🔄 检测到续费支付，创建续费订单", {
-        originalOrderNo: orderNo,
-        renewalOrderNo,
-        subscriptionId: subscription.id,
-      });
-
-      // 检查续费订单是否已创建（幂等性）
-      const renewalOrder = await findOrderByOrderNo(renewalOrderNo);
-      if (!renewalOrder) {
-        const { insertOrder } = await import("@/models/order");
-
-        // 计算到期时间
-        const currentDate = new Date();
-        const expiredDate = new Date(currentDate);
-        expiredDate.setMonth(currentDate.getMonth() + productConfig.valid_months);
-        expiredDate.setTime(expiredDate.getTime() + 24 * 60 * 60 * 1000); // 延迟24小时
-
-        await insertOrder({
-          order_no: renewalOrderNo,
-          user_uuid: userUuid,
-          user_email: userEmail || customer?.email || "",
-          amount: productConfig.amount,
-          currency: productConfig.currency,
-          product_id: productId,
-          product_name: productConfig.product_name,
-          interval: productConfig.interval,
-          expired_at: expiredDate.toISOString(),
-          status: "paid",
-          is_renewal: true,
-          payment_id: checkoutId,
-          payment_provider: "creem",
-          credits: productConfig.credits,
-          paid_at: new Date().toISOString(),
-          created_at: new Date().toISOString(),
-        });
-
-        logInfo("✅ 续费订单创建成功", {
-          renewalOrderNo,
-          credits: productConfig.credits,
-        });
-      } else {
-        logInfo("ℹ️ 续费订单已存在，跳过创建", { renewalOrderNo });
-      }
-
-      finalOrderNo = renewalOrderNo;
-    } else {
-      // 首次购买：更新原订单的 payment_id
-      const { updateOrderPaymentId } = await import("@/models/order");
-      await updateOrderPaymentId(orderNo, checkoutId);
-
-      logInfo("✅ 首次购买订单 payment_id 已更新", {
-        orderNo,
-        paymentId: checkoutId,
-      });
-    }
+    logInfo("✅ 首次购买订单 payment_id 已更新", {
+      orderNo,
+      paymentId: transactionId,
+      checkoutId,
+    });
 
     // 使用 PaymentProcessingService 处理支付
     const processingResult = await PaymentProcessingService.processPayment({
-      paymentId: checkoutId, // 使用 checkoutId 作为 payment_id 确保唯一性
-      orderId: finalOrderNo, // 使用 finalOrderNo（续费时为 RNW_ 开头）
+      paymentId: transactionId,
+      orderId: orderNo,
       userUuid,
       amount: productConfig.amount.toString(),
       userEmail: userEmail || customer?.email || "",
@@ -257,6 +218,7 @@ async function handleCheckoutCompleted(webhookData: any) {
 
     if (!processingResult.success) {
       logError("❌ Payment processing failed", {
+        transactionId,
         checkoutId,
         orderNo,
         error: processingResult.error,
@@ -265,6 +227,7 @@ async function handleCheckoutCompleted(webhookData: any) {
     }
 
     logInfo("✅ Payment processed successfully", {
+      transactionId,
       checkoutId,
       orderNo,
       creditsAwarded: processingResult.creditsAwarded,
@@ -355,5 +318,231 @@ async function handleCheckoutCompleted(webhookData: any) {
     }
   } catch (error: any) {
     logError("❌ Error processing checkout completed", error.message);
+  }
+}
+
+/**
+ * 处理订阅续费成功事件
+ * subscription.paid 事件在订阅自动续费成功后触发
+ */
+async function handleSubscriptionPaid(webhookData: any) {
+  try {
+    const subscriptionObject = webhookData.object;
+    const subscriptionId = subscriptionObject?.id;
+    const metadata = subscriptionObject?.metadata;
+    const lastTransaction = subscriptionObject?.last_transaction;
+    const customer = subscriptionObject?.customer;
+
+    // 使用 transaction ID 作为唯一支付标识
+    const transactionId = lastTransaction?.id;
+
+    if (!transactionId) {
+      logError("❌ Missing transaction ID", { webhookData });
+      return;
+    }
+
+    logInfo("🔄 Processing subscription renewal", {
+      subscriptionId,
+      transactionId,
+      eventId: webhookData.id,
+    });
+
+    // 从 metadata 中获取必要信息
+    const userUuid = metadata?.user_uuid;
+    const userEmail = metadata?.user_email;
+    const productId = metadata?.product_id;
+    const originalOrderNo = metadata?.order_no; // 首次购买时的订单号
+
+    if (!userUuid || !productId) {
+      logError("❌ Missing required metadata", {
+        userUuid,
+        productId,
+        metadata,
+      });
+      return;
+    }
+
+    // 获取产品配置
+    const productConfig = getProductConfig(productId);
+    if (!productConfig) {
+      logError("❌ Product configuration not found", { productId });
+      return;
+    }
+
+    // 检查用户是否存在
+    const user = await findUserByUuid(userUuid);
+    if (!user) {
+      logError("❌ User not found", { userUuid });
+      return;
+    }
+
+    // 创建续费订单号
+    const renewalOrderNo = `RNW_${transactionId}`;
+
+    // 幂等性检查
+    const isProcessed =
+      await PaymentProcessingService.checkPaymentAlreadyProcessed(
+        renewalOrderNo,
+        transactionId
+      );
+
+    if (isProcessed) {
+      logInfo("⚠️ Subscription renewal already processed, skipping", {
+        transactionId,
+        renewalOrderNo,
+        eventType: webhookData.eventType,
+        eventId: webhookData.id,
+      });
+      return;
+    }
+
+    // 检查续费订单是否已创建（幂等性）
+    const existingRenewalOrder = await findOrderByOrderNo(renewalOrderNo);
+    if (!existingRenewalOrder) {
+      const { insertOrder } = await import("@/models/order");
+
+      // 获取原订单的 client_id（用于 Yandex Metrica 追踪）
+      let clientId: string | undefined;
+      if (originalOrderNo) {
+        const originalOrder = await findOrderByOrderNo(originalOrderNo);
+        clientId = originalOrder?.client_id || undefined; // 将 null 转换为 undefined
+
+        if (!clientId) {
+          logError("⚠️ 原订单缺少 client_id，续费订单将无法追踪转化", {
+            originalOrderNo,
+            renewalOrderNo,
+          });
+        }
+      }
+
+      // 计算到期时间
+      const currentDate = new Date();
+      const expiredDate = new Date(currentDate);
+      expiredDate.setMonth(
+        currentDate.getMonth() + productConfig.valid_months
+      );
+      expiredDate.setTime(expiredDate.getTime() + 24 * 60 * 60 * 1000); // 延迟24小时
+
+      await insertOrder({
+        order_no: renewalOrderNo,
+        user_uuid: userUuid,
+        user_email: userEmail || customer?.email || "",
+        amount: productConfig.amount,
+        currency: productConfig.currency,
+        product_id: productId,
+        product_name: productConfig.product_name,
+        interval: productConfig.interval,
+        expired_at: expiredDate.toISOString(),
+        status: "paid",
+        is_renewal: true,
+        payment_id: transactionId,
+        payment_provider: "creem",
+        credits: productConfig.credits,
+        client_id: clientId, // 从原订单复制 client_id
+        paid_at: new Date().toISOString(),
+        created_at: new Date().toISOString(),
+      });
+
+      logInfo("✅ Renewal order created", {
+        renewalOrderNo,
+        credits: productConfig.credits,
+        transactionId,
+      });
+    } else {
+      logInfo("ℹ️ Renewal order already exists, skipping creation", {
+        renewalOrderNo,
+      });
+    }
+
+    // 使用 PaymentProcessingService 处理支付：充值积分 + 更新会员
+    const processingResult = await PaymentProcessingService.processPayment({
+      paymentId: transactionId,
+      orderId: renewalOrderNo,
+      userUuid,
+      amount: productConfig.amount.toString(),
+      userEmail: userEmail || customer?.email || "",
+      metadata: {
+        credits: productConfig.credits,
+        product_id: productId,
+        product_name: productConfig.product_name,
+        interval: productConfig.interval,
+        membershipType: productConfig.membershipType,
+        valid_months: productConfig.valid_months,
+      },
+    });
+
+    if (!processingResult.success) {
+      logError("❌ Subscription renewal payment processing failed", {
+        transactionId,
+        renewalOrderNo,
+        error: processingResult.error,
+      });
+      return;
+    }
+
+    logInfo("✅ Subscription renewal processed successfully", {
+      transactionId,
+      renewalOrderNo,
+      creditsAwarded: processingResult.creditsAwarded,
+      membershipUpdated: processingResult.membershipUpdated,
+    });
+
+    // 更新订阅记录状态
+    try {
+      if (subscriptionId) {
+        await updateCreemSubscriptionStatus(
+          subscriptionId,
+          subscriptionObject.status || "active",
+          {
+            current_period_start: subscriptionObject.current_period_start_date,
+            current_period_end: subscriptionObject.current_period_end_date,
+          }
+        );
+
+        logInfo("✅ Creem subscription status updated", {
+          subscriptionId,
+          status: subscriptionObject.status,
+        });
+      }
+    } catch (subscriptionError: any) {
+      logError(
+        "⚠️ Failed to update subscription status",
+        subscriptionError.message
+      );
+      // 不影响支付处理成功
+    }
+
+    // Track offline conversion for Yandex Metrica (optional for renewals)
+    try {
+      // 直接从续费订单获取 client_id（已从原订单复制）
+      const renewalOrder = await findOrderByOrderNo(renewalOrderNo);
+      if (renewalOrder?.client_id) {
+        const success = await offlineConversionService.trackPaymentSuccess(
+          renewalOrder.client_id,
+          renewalOrderNo,
+          productConfig.amount / 100
+        );
+
+        if (success) {
+          logInfo("✅ Offline conversion tracked for renewal", {
+            clientId: renewalOrder.client_id,
+            renewalOrderNo,
+            amount: productConfig.amount / 100,
+          });
+        }
+      } else {
+        logError("⚠️ 续费订单缺少 client_id，无法追踪转化", {
+          renewalOrderNo,
+        });
+      }
+    } catch (conversionError: any) {
+      logError(
+        "⚠️ Failed to track offline conversion for renewal",
+        conversionError.message
+      );
+      // 不影响支付处理
+    }
+  } catch (error: any) {
+    logError("❌ Error processing subscription paid", error.message);
   }
 }
