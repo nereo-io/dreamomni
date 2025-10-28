@@ -128,6 +128,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportsAudio: false,
     estimatedGenerationTime: 30,
     supportedDurations: [5, 10],
+    requiresMembership: true,
   },
 
   // BytePlus Seedance Pro 图片转视频模型 (Southeast Asia)
@@ -148,6 +149,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportsAudio: false,
     estimatedGenerationTime: 30,
     supportedDurations: [5, 10],
+    requiresMembership: true,
   },
   // Doubao-Seedance 1.0 Pro 文本转视频模型 (Volcano Engine)
   // "doubao-seedance-1-0-pro-text-to-video": {
