@@ -102,7 +102,7 @@ export default async function () {
         {
           title: t("my_invites.copy_invite_link"),
           icon: "RiCopy2Line",
-          url: "https://discord.gg/HQNnrzjZQS",
+          url: "https://discord.gg/pBmsgE8s",
           target: "_blank",
         },
       ],
