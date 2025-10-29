@@ -1,0 +1,663 @@
+{
+  "metadata": {
+    "title": "Veo3 AI - Kostenloser KI-Videogenerator",
+    "description": "Erstellen Sie beeindruckende 4K-Videos mit KI. Erstellen Sie professionelle Videos aus Textbeschreibungen mit realistischer Physik und natürlichem Audio. Jetzt kostenlos starten.",
+    "keywords": "Veo3 AI, KI-Videogenerator, Kostenlose Videoerstellung, Text zu Video, 4K-Videos, KI-Filmproduktion"
+  },
+  "wan-2-5": {
+    "title": "Wan 2.5 Kostenlos: Testen Sie dieses Wan AI Videomodell jetzt | Veo3 AI",
+    "description": "Erleben Sie Wan 2.5, Wan AIs verbessertes KI-Videomodell mit integriertem Audio, verbesserter Konsistenz und flüssiger Bewegungstechnologie.",
+    "keywords": "N/A"
+  },
+  "veo-3-1": {
+    "title": "Veo 3.1 Kostenlos: Testen Sie Google Veo 3.1 KI-Videomodell jetzt | Veo3 AI",
+    "description": "Veo 3.1 ist ein Upgrade von Googles Veo 3 Modell mit Steuerung des ersten und letzten Frames sowie Bildreferenzfunktionen. Erleben Sie Veo 3.1 jetzt kostenlos auf Veo3 AI.",
+    "keywords": "Veo 3.1, Google Veo 3.1, KI-Videogenerator, kostenlos Veo 3.1, Video-KI, Text zu Video, Bild zu Video, Veo3 AI"
+  },
+  "sora-2": {
+    "title": "Sora 2 Kostenlos: Testen Sie OpenAI Sora 2 KI-Videomodell jetzt | Veo3 AI",
+    "description": "Erleben Sie Sora 2, OpenAIs fortschrittliches KI-Videomodell mit realistischer Physik, synchronisiertem Audio und Multi-Shot-Konsistenz. Erstellen Sie jetzt beeindruckende 1080p HD-Videos für Mitglieder!",
+    "keywords": "Sora 2, OpenAI Sora 2, KI-Videogenerator, kostenlos Sora 2, Video-KI, Text zu Video, Bild zu Video, Veo3 AI, Sora-Modell"
+  },
+  "pricing": {
+    "title": "Videotarife | Veo3 AI Preise",
+    "description": "Wählen Sie Ihren KI-Videotarif. Erhalten Sie 4K-Ausgabe, unbegrenzte Generierungen, erweiterte Steuerungen und vorrangigen Support mit Veo3 AI.",
+    "keywords": "Veo3 AI Preise, Videogenerierungstarife, 4K-Videos, KI-Video-Abonnement"
+  },
+  "history": {
+    "title": "Videogenerierungsverlauf",
+    "description": "Sehen Sie Ihren Videogenerierungsverlauf an"
+  },
+  "user": {
+    "sign_in": "Anmelden",
+    "sign_out": "Abmelden",
+    "credits": "Credits",
+    "api_keys": "API-Schlüssel",
+    "my_orders": "Meine Bestellungen",
+    "membership": "Mitgliedschaft"
+  },
+  "sidebar": {
+    "home": "Startseite",
+    "image_to_video": "Bild zu Video",
+    "text_to_video": "Text zu Video",
+    "reference_to_video": "Referenz zu Video",
+    "text_to_image": "Text zu Bild",
+    "image_to_image": "Bild zu Bild",
+    "ai_video_effects": "KI-Videoeffekte",
+    "ai_effects": "KI-Effekte",
+    "my_creations": "Meine Kreationen",
+    "upgrade_now": "Jetzt upgraden",
+    "feedback_title": "Feedback? Schreiben Sie uns!",
+    "feedback_telegram": "Telegram beitreten",
+    "feedback_discord": "Discord beitreten"
+  },
+  "pricing_modal": {
+    "select_payment_method": "Zahlungsmethode wählen",
+    "payment_successful": "Zahlung erfolgreich!",
+    "plan_activated": "Aktiviert",
+    "credits_added": "Credits wurden Ihrem Konto gutgeschrieben",
+    "continue": "Fortfahren",
+    "start_creating": "Erstellen beginnen",
+    "please_select_payment": "Bitte wählen Sie eine Zahlungsmethode"
+  },
+  "sign_modal": {
+    "sign_in_title": "Anmelden",
+    "sign_in_description": "Bei Ihrem Konto anmelden",
+    "sign_up_title": "Registrieren",
+    "sign_up_description": "Konto erstellen",
+    "email_title": "E-Mail",
+    "email_placeholder": "Geben Sie hier Ihre E-Mail ein",
+    "password_title": "Passwort",
+    "password_placeholder": "Geben Sie hier Ihr Passwort ein",
+    "forgot_password": "Passwort vergessen?",
+    "or": "Oder",
+    "continue": "Fortfahren",
+    "no_account": "Noch kein Konto?",
+    "email_sign_in": "Mit E-Mail anmelden",
+    "google_sign_in": "Mit Google anmelden",
+    "vk_sign_in": "Mit VK anmelden",
+    "github_sign_in": "Mit GitHub anmelden",
+    "apple_sign_in": "Mit Apple anmelden",
+    "close_title": "Schließen",
+    "cancel_title": "Abbrechen"
+  },
+  "vk_login": {
+    "button_text": "Mit VK fortfahren",
+    "sdk_not_loaded": "VK SDK ist nicht geladen",
+    "login_successful": "Anmeldung erfolgreich!",
+    "login_failed": "VK-Anmeldung fehlgeschlagen",
+    "failed_to_process": "Anmeldung konnte nicht verarbeitet werden",
+    "failed_to_exchange": "Fehler beim Austausch von Code gegen Tokens",
+    "failed_to_initialize": "VK-Anmeldung konnte nicht initialisiert werden",
+    "error_unknown": "Unbekannter Fehler",
+    "error_message": "VK-Anmeldefehler: {message}"
+  },
+  "my_orders": {
+    "title": "Meine Bestellungen",
+    "description": "mit Veo3AI bezahlte Bestellungen.",
+    "no_orders": "Keine Bestellungen gefunden",
+    "activate_order": "Bestellung aktivieren",
+    "actived": "Aktiviert",
+    "join_discord": "Discord beitreten",
+    "read_docs": "Dokumentation lesen",
+    "table": {
+      "order_no": "Bestellnr.",
+      "email": "E-Mail",
+      "product_name": "Produktname",
+      "amount": "Betrag",
+      "paid_at": "Bezahlt am",
+      "github_username": "GitHub-Benutzername",
+      "status": "Status"
+    }
+  },
+  "membership": {
+    "title": "Mitgliedschaft",
+    "description": "Sehen Sie Ihre Mitgliedschaftsinformationen und Gültigkeitsdauer an",
+    "status": "Status",
+    "status_active": "Aktiv",
+    "status_expired": "Abgelaufen",
+    "type": "Typ",
+    "type_monthly": "Monatsplan",
+    "type_yearly": "Jahresplan",
+    "start_date": "Startdatum",
+    "end_date": "Enddatum",
+    "remaining_days": "Verbleibende Tage",
+    "days": "Tage",
+    "no_membership": "Keine aktiv",
+    "manage_subscription": "Abonnement verwalten",
+    "loading": "Wird geladen..."
+  },
+  "subscription": {
+    "allSubscriptions": "Alle Abonnements",
+    "subscriptionHistory": "Ihr Payssion-Abonnementverlauf",
+    "cancelTitle": "Abonnement kündigen",
+    "cancelDescription": "Sind Sie sicher, dass Sie kündigen möchten? Sie behalten den Zugriff bis zum Ende Ihrer Abrechnungsperiode.",
+    "keepSubscription": "Abonnement behalten",
+    "confirmCancel": "Ja, kündigen",
+    "canceling": "Wird gekündigt...",
+    "cancel": "Kündigen",
+    "cancelSuccess": "Abonnement gekündigt",
+    "cancelSuccessDescription": "Sie werden nicht mehr belastet.",
+    "cancelFailed": "Kündigung fehlgeschlagen",
+    "cancelFailedDescription": "Bitte versuchen Sie es erneut.",
+    "networkError": "Netzwerkfehler",
+    "networkErrorDescription": "Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut."
+  },
+  "my_credits": {
+    "title": "Meine Credits",
+    "rules_title": "Regeln",
+    "rules": "1. Kostenlose Benutzer erhalten täglich 3 Konversationen, die alle 24 Stunden zurückgesetzt werden. Sie erhalten weitere 3 Konversationen für jeden Freund, den Sie zur Anmeldung einladen. \n2. Upgraden Sie auf Pro für unbegrenzte Konversationen und erweiterte Funktionen.",
+    "left_tip": "Verbleibende Credits: {left_credits}",
+    "no_credits": "Keine Credits-Einträge",
+    "recharge": "Mitgliedschaft upgraden",
+    "invite": "Freunde einladen",
+    "table": {
+      "trans_no": "Transaktions-Nr.",
+      "trans_type": "Transaktionstyp",
+      "credits": "Credits",
+      "updated_at": "Aktualisiert am",
+      "status": "Status"
+    }
+  },
+  "api_keys": {
+    "title": "API-Schlüssel",
+    "tip": "Bitte bewahren Sie Ihren API-Schlüssel sicher auf, um Lecks zu vermeiden",
+    "no_api_keys": "Keine API-Schlüssel",
+    "create_api_key": "API-Schlüssel erstellen",
+    "table": {
+      "name": "Name",
+      "key": "Schlüssel",
+      "created_at": "Erstellt am"
+    },
+    "form": {
+      "name": "Name",
+      "name_placeholder": "API-Schlüsselname",
+      "submit": "Absenden"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Neuigkeiten, Ressourcen und Updates zur Veo3 AI Videogenerierung",
+    "read_more_text": "Weiterlesen"
+  },
+  "chat": {
+    "title": "Neue Generation - Veo3 AI Videoplattform",
+    "description": "Beginnen Sie mit der Erstellung professioneller Videos mit Veo3 AI für verbesserte visuelle Inhalte, 4K-Generierung und kreatives Storytelling"
+  },
+  "survey_banner": {
+    "message": "👋 Kurzes Feedback benötigt - helfen Sie mit, Veo3 AI zu gestalten!",
+    "close": "Schließen"
+  },
+  "credit_exhausted_modal": {
+    "title": "Konversations-Credits aufgebraucht",
+    "description": "Fortgeschrittene KI-Konversationen, Programmierassistenz, Datenanalyse - schalten Sie jetzt alles frei",
+    "lifetime_analysis": {
+      "title": "Persönlicher KI-Assistent",
+      "description1": "Benötigen Sie Hilfe bei komplexen Problemen oder kreativen Projekten? Claude 4 bietet intelligente Einblicke und Lösungen für Ihre spezifischen Bedürfnisse.",
+      "description2": "Für wichtige Aufgaben (Programmierung, Schreiben, Analyse, Planung) kann ein fortschrittlicher KI-Assistent Ihre Produktivität erheblich steigern."
+    },
+    "dual_chart": {
+      "title": "Teamzusammenarbeit",
+      "description": "Teilen Sie Konversationen mit Ihren Teammitgliedern und arbeiten Sie mit KI-Unterstützung an Projekten zusammen."
+    },
+    "use_cases": {
+      "relationship": "Persönlich: Intelligente Beratung für persönliche Entscheidungen und Lebensplanung erhalten?",
+      "family": "Bildung: Unterstützung beim Lernen, Recherchieren und akademischen Projekten - perfekt für Studenten und Fachleute?",
+      "career": "Beruflich: Benötigen Sie Hilfe bei Programmierung, Schreiben, Datenanalyse oder Geschäftsplanung?"
+    },
+    "choice_section": {
+      "title": "👇 Wählen Sie Ihren nächsten KI-Konversationspfad:",
+      "premium": {
+        "title": "🔓 Unbegrenzte Konversationen freischalten",
+        "description": "Mitgliedschaft upgraden"
+      },
+      "share": {
+        "title": "🎁 Mit Freunden teilen",
+        "description": "Kostenlose Konversationen erhalten",
+        "tips": "1 Person einladen = 3 Bonus-Konversationen erhalten"
+      }
+    },
+    "footer_text": "Bereits Mitglied? Bitte melden Sie sich erneut an, um Ihre Privilegien wiederherzustellen.\nEinladungen gelten nur für nicht registrierte Benutzer. Credits können nicht mehrfach beansprucht werden."
+  },
+  "my_invites": {
+    "title": "Meine Einladungen",
+    "description": "Sehen Sie Ihre Einladungseinträge an",
+    "no_invites": "Keine Einladungseinträge gefunden",
+    "my_invite_link": "Mein Einladungslink",
+    "edit_invite_link": "Einladungslink bearbeiten",
+    "copy_invite_link": "Einladungslink kopieren",
+    "invite_code": "Einladungscode",
+    "invite_tip": "Teilen Sie Ihren Einladungslink mit Freunden, um ihnen unsere Plattform zu zeigen.",
+    "invite_balance": "Einladungsbelohnungsguthaben",
+    "total_invite_count": "Gesamtzahl Einladungen",
+    "total_paid_count": "Gesamtzahl bezahlter",
+    "total_award_amount": "Gesamtbelohnungsbetrag",
+    "update_invite_code": "Einladungscode festlegen",
+    "update_invite_code_tip": "Geben Sie Ihren benutzerdefinierten Einladungscode ein",
+    "update_invite_button": "Speichern",
+    "no_orders": "Sie können keine anderen einladen, bevor Sie Veo3 AI Premium gekauft haben",
+    "no_affiliates": "Sie dürfen keine anderen einladen, bitte kontaktieren Sie uns, um eine Genehmigung zu beantragen.",
+    "invite_templates": "Einladungsvorlagen",
+    "copy": "Kopieren",
+    "template1_title": "🎬 KI-Videoerstellung",
+    "template2_title": "🚀 Content-Erstellung",
+    "template3_title": "💼 Professionelle Videos",
+    "template1": "Hallo Freunde! Ich habe gerade Veo3 AI entdeckt – den fortschrittlichsten KI-Videogenerator, der atemberaubende Videos aus Textbeschreibungen erstellt. Die Qualität ist absolut umwerfend! Perfekt für soziale Medien, Marketing oder kreative Projekte. Melden Sie sich an und entdecken Sie die Möglichkeiten!\n👉 Probieren Sie jetzt Veo3 AI aus",
+    "template2": "Möchten Sie erstaunliche Videos ohne Filmaufnahmen erstellen? Veo3 AI generiert professionelle Videos aus einfachen Textbeschreibungen. Ich verwende es für meine Content-Erstellung und die Ergebnisse sind unglaublich – spart so viel Zeit und Geld! Schauen Sie es sich heute an.\n🚀 Entdecken Sie hier Veo3 AI",
+    "template3": "Benötigen Sie professionelle Videos für Ihr Unternehmen? Veo3 AI erstellt hochwertige Werbevideos, Produktdemos und Marketinginhalte mit fortschrittlicher KI. Keine Kameras, keine Bearbeitungsfähigkeiten erforderlich – beschreiben Sie einfach, was Sie möchten! Probieren Sie es heute aus.\n💼 Erkunden Sie jetzt Veo3 AI",
+    "table": {
+      "invite_time": "Einladungszeit",
+      "invite_user": "Eingeladener Benutzer",
+      "status": "Status",
+      "reward_percent": "Belohnungsprozent",
+      "reward_amount": "Belohnungs-Credits",
+      "pending": "Ausstehend",
+      "completed": "Abgeschlossen"
+    }
+  },
+  "video-generator": {
+    "titleTextToVideo": "Text zu Video",
+    "titleImageToVideo": "Bild zu Video",
+    "titleReferenceToVideo": "Referenz zu Video",
+    "videoDescription": "Beschreibung",
+    "videoAspectRatio": "Video-Seitenverhältnis",
+    "videoDuration": "Videodauer",
+    "videoModel": "Modell",
+    "credits": "Credits",
+    "creditsRequired": "Erforderliche Credits",
+    "remainingCredits": "Verbleibende Credits",
+    "cost": "Kosten",
+    "recharge": "Aufladen",
+    "additionalOptions": "Zusätzliche Optionen",
+    "generateVideo": "Video generieren",
+    "submitting": "Wird übermittelt...",
+    "uploading": "Wird hochgeladen...",
+    "generating": "Wird generiert...",
+    "uploadImage": "Bild",
+    "dragAndDropImage": "Klicken Sie zum Hochladen oder ziehen Sie das Bild hierher",
+    "supportedFormats": "Unterstützt JPG-, PNG-, GIF-Formate, max. 10 MB",
+    "chooseFile": "Datei auswählen",
+    "swapFrames": "Frames tauschen",
+    "firstFrame": "Erster Frame",
+    "lastFrame": "Letzter Frame",
+    "clickToUpload": "Klicken zum Hochladen",
+    "uploadingFirstFrame": "Erster Frame wird hochgeladen...",
+    "uploadingLastFrame": "Letzter Frame wird hochgeladen...",
+    "referenceUploadGuide": "Laden Sie 1-3 Referenzbilder für konsistente Charaktergenerierung hoch",
+    "addMoreReferences": "Weitere Referenzbilder hinzufügen",
+    "referenceImage": "Referenzbild",
+    "clickToUploadMore": "Klicken Sie zum Hochladen weiterer (bis zu 3)",
+    "multipleUploadHint": "Unterstützt Mehrfachauswahl, Drag & Drop oder Einfügen (Strg+V)",
+    "maxImagesError": "Maximal {max} Bilder erlaubt",
+    "onlyUploadingFirst": "Es werden nur die ersten {count} Bilder hochgeladen (max. {max})",
+    "uploadingMultiple": "{current}/{total} Bilder werden hochgeladen...",
+    "addMoreImages": "Weitere Bilder hinzufügen",
+    "canUpload": "Können noch {count} hochladen",
+    "uploadMultipleImages": "1-{max} Bilder hochladen",
+    "uploadMoreImagesRemaining": "Weitere Bilder hochladen ({remaining} verbleibend)",
+    "aspectRatios": {
+      "landscape": "16:9 Querformat",
+      "portrait": "9:16 Hochformat",
+      "square": "1:1 Quadrat"
+    },
+    "watermark": {
+      "label": "Wasserzeichen",
+      "membersOnly": "Nur Mitglieder können das Wasserzeichen entfernen."
+    },
+    "durations": {
+      "5seconds": "5 Sekunden",
+      "10seconds": "10 Sekunden"
+    },
+    "characterCount": "Zeichen mindestens",
+    "uploadInstructions": {
+      "clickToUpload": "Klicken Sie zum Hochladen oder ziehen Sie das Bild hierher",
+      "supportedFormats": "Unterstützt JPG-, PNG-, GIF-Formate, max. 10 MB"
+    },
+    "selectModel": "Modell auswählen",
+    "videoSettings": "Einstellungen",
+    "ratio": "Verhältnis",
+    "duration": "Dauer",
+    "resolution": "Auflösung",
+    "telegramBanner": {
+      "text": "Treten Sie der Telegram-Gruppe bei, um über Veo3 zu diskutieren",
+      "linkText": "Beitreten"
+    },
+    "toast": {
+      "signInFirst": "Bitte melden Sie sich zuerst an",
+      "enterDescription": "Bitte geben Sie eine Videobeschreibung ein",
+      "descriptionTooShort": "Videobeschreibung muss mindestens 30 Zeichen lang sein",
+      "uploadImageFile": "Bitte laden Sie eine Bilddatei hoch",
+      "uploadImageRequired": "Bitte laden Sie ein Bild für die Bild-zu-Video-Generierung hoch",
+      "imageUploaded": "Bild erfolgreich hochgeladen",
+      "imageTooLarge": "Bilddatei ist zu groß (max. 10 MB)",
+      "imageUploadFailed": "Bild-Upload fehlgeschlagen",
+      "insufficientCredits": "Unzureichende Credits. Erforderlich: {required}, Verfügbar: {available}",
+      "membersOnlyModel": "Nur Mitglieder können dieses Modell verwenden.",
+      "videoSubmitted": "Videogenerierungsaufgabe übermittelt, wird verarbeitet...",
+      "videoCompleted": "Videogenerierung abgeschlossen!",
+      "videoFailed": "Videogenerierung fehlgeschlagen"
+    }
+  },
+  "video-history": {
+    "title": "Videogenerierungsverlauf",
+    "noVideosTitle": "Noch keine Videos",
+    "noVideosDescription": "Sie haben noch keine Videos generiert. Beginnen Sie mit der Erstellung Ihres ersten Meisterwerks!",
+    "generateVideoButton": "Video generieren",
+    "playButton": "Abspielen",
+    "downloadButton": "Herunterladen",
+    "regenerateButton": "Neu generieren",
+    "status": {
+      "completed": "Abgeschlossen",
+      "processing": "Wird verarbeitet",
+      "pending": "Ausstehend",
+      "failed": "Fehlgeschlagen"
+    },
+    "labels": {
+      "model": "Modell",
+      "duration": "Dauer",
+      "aspectRatio": "Seitenverhältnis"
+    },
+    "toast": {
+      "videoNotAvailable": "Video ist noch nicht verfügbar.",
+      "downloadNotAvailable": "Video nicht zum Download verfügbar.",
+      "regenerationNotImplemented": "Neugenerierungsfunktion wird implementiert.",
+      "fetchError": "Fehler beim Abrufen des Videoverlaufs",
+      "noDataReturned": "Keine Daten zurückgegeben"
+    },
+    "pleaseSignIn": "Bitte anmelden",
+    "signInToViewVideos": "Melden Sie sich an, um Ihre generierten Videos anzusehen",
+    "signInButton": "Anmelden"
+  },
+  "video-result": {
+    "status": {
+      "submitted": "Übermittelt",
+      "optimizingPrompt": "Beschreibung wird optimiert",
+      "inQueue": "In Warteschlange",
+      "generating": "Wird generiert",
+      "completed": "Abgeschlossen",
+      "failed": "Fehlgeschlagen"
+    },
+    "videoCompleted": "Videogenerierung abgeschlossen!",
+    "videoFailed": "Videogenerierung fehlgeschlagen",
+    "processing": "Wird verarbeitet...",
+    "taskSubmitted": "Aufgabe übermittelt, geschätzte verbleibende Zeit: {time}",
+    "optimizingPrompt": "Ihre Beschreibung wird für bessere Ergebnisse optimiert, geschätzte verbleibende Zeit: {time}",
+    "taskInQueue": "Aufgabe in Warteschlange, geschätzte verbleibende Zeit: {time}",
+    "generatingVideo": "Video wird generiert, geschätzte verbleibende Zeit: {time}",
+    "processingGeneral": "Wird verarbeitet, geschätzte verbleibende Zeit: {time}",
+    "viewHistory": "Verlauf anzeigen",
+    "retry": "Wiederholen",
+    "successMessage": "🎉 Ihr Video ist fertig! Sie können es herunterladen oder alle Ihre Kreationen im Verlauf ansehen.",
+    "prompt": "Beschreibung",
+    "originalPrompt": "Originalbeschreibung",
+    "optimizedPrompt": "Verbesserte Beschreibung",
+    "enhanced": "Verbessert",
+    "optimizing": "Wird optimiert...",
+    "browserNotSupported": "Ihr Browser unterstützt keine Videowiedergabe.",
+    "download": "Herunterladen",
+    "downloading": "Wird heruntergeladen...",
+    "openInNewTab": "In neuem Tab öffnen",
+    "loadingVideo": "Video wird geladen",
+    "videoLoadingMessage": "Videogenerierung ist abgeschlossen. Video-URL wird abgerufen...",
+    "videoProcessing": "Videoverarbeitung",
+    "videoNotAvailableMessage": "Videogenerierung ist abgeschlossen, aber das Video ist noch nicht verfügbar. Bitte warten Sie einen Moment.",
+    "generationProgress": "Generierungsfortschritt",
+    "generationFailed": "Generierung fehlgeschlagen",
+    "errorMessages": {
+      "unexpected": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+      "externalService": "Ein Problem ist mit einem externen Dienst aufgetreten. Bitte versuchen Sie es später erneut.",
+      "inputIssue": "Es gibt ein Problem mit Ihrer Eingabe oder Einstellungen. Bitte überprüfen und versuchen Sie es erneut.",
+      "serverError": "Ein unerwarteter Fehler ist auf unserer Seite aufgetreten. Bitte versuchen Sie es später erneut.",
+      "timeout": "Die Anfrage hat zu lange gedauert und ist abgelaufen. Bitte versuchen Sie es erneut.",
+      "statusCode": "Ein Fehler ist aufgetreten (Status {code}). Bitte versuchen Sie es erneut."
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Willkommen bei Veo3 AI",
+      "description": "Verwandeln Sie Ihre Ideen mit unserer fortschrittlichen KI-Technologie in beeindruckende Videos. Wählen Sie zwischen Text-zu-Video, Bild-zu-Video oder erkunden Sie unsere kreativen Videoeffekte."
+    },
+    "videoEffects": {
+      "title": "KI-Videoeffekte - Transformieren Sie Ihre Videos",
+      "description": "Erstellen Sie beeindruckende Videoeffekte mit KI. Wählen Sie aus Dutzenden von Vorlagen und transformieren Sie Ihre Videos sofort.",
+      "keywords": "KI-Videoeffekte, Videotransformation, KI-Vorlagen, Videobearbeitung, visuelle Effekte, KI-Filter",
+      "gridTitle": "Kostenlose 100+ KI-Videovorlagen und Effekte",
+      "useThisEffect": "Diesen Effekt verwenden"
+    },
+    "textToVideo": {
+      "title": "Kostenloser KI-Videogenerator: Text zu Video KI Online | Veo3 AI",
+      "description": "Entdecken Sie den Veo3 AI Videogenerator, eine hochmoderne, kostenlose Lösung, die mühelos eine Textbeschreibung in ein ansprechendes Video verwandelt. Probieren Sie unsere Text-zu-Video-KI heute aus!",
+      "keywords": "KI-Videogenerator, Text zu Video, kostenloser Videogenerator, Veo3 AI, KI-Videoerstellung, Text zu Video online"
+    },
+    "textToImage": {
+      "title": "Kostenloser KI-Text-zu-Bild-Generator: Erstellen Sie Bilder aus Text | Veo3 AI",
+      "description": "Verwandeln Sie Ihre Worte mit dem kostenlosen Text-zu-Bild-Generator von Veo3 AI in atemberaubende Visuals. Erstellen Sie hochwertige Bilder aus detaillierten Textbeschreibungen mit modernster KI-Technologie.",
+      "keywords": "KI Text zu Bild, Text-zu-Bild-Generator, kostenloser KI-Bildersteller, Veo3 AI, KI-Kunst aus Text, Bildgenerierung aus Text"
+    },
+    "imageToImage": {
+      "title": "Kostenloser KI-Bild-zu-Bild-Editor: Bilder mit KI transformieren | Veo3 AI",
+      "description": "Bearbeiten und transformieren Sie Ihre Bilder mit dem leistungsstarken Bild-zu-Bild-Editor von Veo3 AI. Laden Sie Ihre Fotos hoch und verwenden Sie KI, um beeindruckende Variationen und Modifikationen zu erstellen.",
+      "keywords": "KI-Bildeditor, Bild zu Bild KI, Fototransformation, KI-Bildbearbeitung, Veo3 AI, Bildmodifikation KI"
+    },
+    "imageToVideo": {
+      "title": "Kostenloser Bild-zu-Video-KI-Generator: Fotos in Videos verwandeln | Veo3 AI",
+      "description": "Verwenden Sie den Bild-zu-Video-KI-Generator von Veo3 AI kostenlos. Konvertieren Sie Fotos in Videos mit hoher Qualität und fesselnden Ergebnissen. Probieren Sie unsere Bild-zu-Video-KI jetzt aus!",
+      "keywords": "Bild zu Video KI, Foto-zu-Video-Konverter, kostenlos Bild zu Video, Veo3 AI, KI-Video aus Bild, Bildanimation"
+    },
+    "referenceToVideo": {
+      "title": "Kostenlos Veo3 Referenz zu Video: Charakteridentität sperren | Veo3 AI",
+      "description": "Laden Sie 1-3 Referenzbilder hoch und generieren Sie 8s-Videos mit Veo 3.1. Bewahren Sie das Aussehen von Charakteren über Szenen hinweg mit nativem Audio. Erweitern Sie auf 148s.",
+      "keywords": "Veo3 Referenz zu Video, konsistenter Charakter, Identitätssperre, Veo 3.1, Charakterkonsistenz"
+    },
+    "imageGeneration": {
+      "title": "Kostenloser KI-Bildgenerator: Erstellen Sie atemberaubende Bilder aus Text | Veo3 AI",
+      "description": "Generieren Sie hochwertige Bilder aus Textbeschreibungen mit dem kostenlosen Bildgenerator von Veo3 AI. Erstellen Sie atemberaubende Kunstwerke, Fotos und Illustrationen mit modernster KI-Technologie.",
+      "keywords": "KI-Bildgenerator, Text zu Bild, kostenloser Bildgenerator, Veo3 AI, KI-Kunst, Bildkreation, KI-Kunstwerk"
+    },
+    "videoAffects": {
+      "heroSection": {
+        "title": "Machen Sie jeden muskulös",
+        "description": "Probieren Sie den leistungsstarken KI-Muskelgenerator von Veo3 AI! Laden Sie ein Bild von jemandem hoch und generieren Sie ein beeindruckendes Video, das eine muskulöse Version des Motivs zeigt.",
+        "buttonText": "Kostenlos testen"
+      },
+      "effectsTitle": "KI-Videoeffekte & Vorlagen",
+      "categoryEffects": {
+        "funAndCreative": "Spaß und kreative Effekte",
+        "horrorAndFantasy": "Horror- und Fantasy-Effekte",
+        "appearanceChanging": "Aussehensverändernde Effekte",
+        "seasonalSpecial": "Saisonale Spezialeffekte",
+        "emotionalExpression": "Emotionale Ausdruckseffekte"
+      }
+    },
+    "effectDetail": {
+      "defaultTitle": "KI-Videoeffekt",
+      "defaultDescription": "Transformieren Sie Ihre Fotos mit KI-gestützten Videoeffekten",
+      "tryButtonText": "Diesen Effekt testen",
+      "placeholderText": "Laden Sie ein Bild hoch, um diesen Effekt anzuwenden",
+      "effectDescriptionLabel": "Effektbeschreibung (Optional)",
+      "effectDescriptionPlaceholder": "Beschreiben Sie zusätzliche Details für den Effekt...",
+      "imageAlt": "Muskulöse Transformation",
+      "effectsMap": {
+        "ai-kissing": {
+          "title": "KI-Kussvideogenerator",
+          "description": "Erstellen Sie romantische Kussvideos mit KI-Technologie"
+        },
+        "ai-muscle": {
+          "title": "KI-Muskelgenerator",
+          "description": "Verwandeln Sie jeden in eine muskulöse Version mit KI"
+        }
+      },
+      "howToUse": {
+        "title": "So verwenden Sie diesen Effekt"
+      }
+    }
+  },
+  "imageGenerator": {
+    "textToImage": "Text zu Bild",
+    "imageToImage": "Bild zu Bild",
+    "prompt": "Beschreibung",
+    "settings": "Einstellungen",
+    "model": "Modell",
+    "image": "Bild",
+    "images": "Bilder",
+    "credits": "Credits",
+    "cost": "Kosten",
+    "recharge": "Aufladen",
+    "generateImage": "Bild generieren",
+    "transformImage": "Bild transformieren",
+    "generating": "Wird generiert...",
+    "uploading": "Wird hochgeladen...",
+    "clickToUpload": "Klicken zum Hochladen oder Drag & Drop",
+    "clickToUploadMultiple": "Klicken Sie zum Hochladen mehrerer Bilder oder Drag & Drop",
+    "addMoreImages": "Weitere Bilder hinzufügen",
+    "maxImages": "Maximal {max} Bilder",
+    "maxImagesExceeded": "Sie können nur noch {max} Bilder auswählen",
+    "imagesUploadedSuccessfully": "{count} Bilder erfolgreich hochgeladen",
+    "canUpload": "Können noch {count} hochladen",
+    "supportedFormats": "Unterstützte Formate: JPEG, PNG, WEBP",
+    "textToImagePlaceholder": "Beschreiben Sie das Bild, das Sie erstellen möchten, z.B. Ein majestätischer Adler, der zur goldenen Stunde durch Berggipfel fliegt...",
+    "imageToImagePlaceholder": "Beschreiben Sie, wie Sie das Bild bearbeiten möchten, z.B. Ändern Sie den Hintergrund in eine Sonnenuntergangsszene, fügen Sie mehr Kontrast hinzu...",
+    "pleaseEnterDescription": "Bitte geben Sie eine Beschreibung für Ihr Bild ein",
+    "pleaseUploadImage": "Bitte laden Sie mindestens ein Bild zur Bearbeitung hoch",
+    "insufficientCredits": "Unzureichende Credits. Benötigen {credits} Credits zur Generierung mit diesem Modell.",
+    "imageUploadedSuccessfully": "Bild erfolgreich hochgeladen",
+    "uploadFailed": "Fehler beim Hochladen des Bildes",
+    "invalidImageFile": "{filename} ist keine gültige Bilddatei",
+    "fileSizeExceeded": "{filename} überschreitet die 10MB-Größenbeschränkung",
+    "generationSuccessful": "Bildgenerierung erfolgreich",
+    "accountSyncSuccessful": "Konto erfolgreich synchronisiert. Bitte versuchen Sie es erneut.",
+    "pleaseSignInAgain": "Bitte melden Sie sich ab und wieder an, um Ihr Konto zu synchronisieren.",
+    "generationFailed": "Generierung fehlgeschlagen: {error}",
+    "unknownError": "Unbekannter Fehler",
+    "promptEnhancement": "Beschreibungsverbesserung",
+    "promptEnhancementDescription": "KI wird Ihre Beschreibung für bessere Bildqualität verbessern",
+    "promptInspirationTitle": "Inspirieren lassen",
+    "promptInspirationSubtitle": "Entdecken Sie beliebte Beschreibungen und klicken Sie auf eine Karte, um sie in den Generator einzufügen.",
+    "useThisPrompt": "Diese Beschreibung verwenden",
+    "useThisPromptAria": "Diese Beschreibung verwenden: {prompt}",
+    "nanoBananaDisplayName": "Nano Banana",
+    "nanoBananaProvider": "Kie.ai Nano Banana",
+    "highQuality": "Hohe Qualität",
+    "fastGeneration": "Schnell",
+    "outputFormat": "Ausgabeformat",
+    "imageSize": "Bildgröße",
+    "pleaseSignInToGenerate": "Bitte melden Sie sich an, um Bilder zu generieren",
+    "generationStarted": "Bildgenerierung gestartet.",
+    "generationCompleted": "Bildgenerierung abgeschlossen!",
+    "generationInProgress": "Wird generiert...",
+    "generationStatusChecking": "Status wird überprüft...",
+    "showcaseImageLoaded": "Showcase-Bild erfolgreich geladen",
+    "failedToLoadShowcaseImage": "Fehler beim Laden des Showcase-Bildes"
+  },
+  "myCreations": {
+    "title": "Meine Kreationen",
+    "description": "Sehen Sie alle Ihre KI-generierten Videos und Bilder an",
+    "videoTab": "Videos",
+    "imageTab": "Bilder"
+  },
+  "imageHistory": {
+    "discoveryTab": "Entdecken",
+    "historyTab": "Verlauf",
+    "discoveryHeading": "Kuratierte Beschreibungsgalerie",
+    "discoverySubtitle": "Durchsuchen Sie kuratierte Beschreibungen und übernehmen Sie sie direkt in den Generator.",
+    "discoveryDescription": "Tippen Sie auf eine Karte, um das Beschreibungsfeld im Text-zu-Bild-Tool sofort zu füllen.",
+    "historySubtitle": "Überprüfen Sie Ihre letzten Generierungen, verfolgen Sie Statusaktualisierungen und verwalten Sie Ausgaben.",
+    "title": "Bildverlauf",
+    "noImagesTitle": "Noch keine Bilder",
+    "noImagesDescription": "Ihre generierten Bilder werden hier angezeigt, sobald Sie mit der Erstellung beginnen.",
+    "completed": "Abgeschlossen",
+    "processing": "Wird verarbeitet",
+    "pending": "Ausstehend",
+    "failed": "Fehlgeschlagen",
+    "optimizingPrompt": "Beschreibung wird optimiert",
+    "optimizingPromptTitle": "Beschreibung wird optimiert...",
+    "optimizingPromptDescription": "KI optimiert Ihre Beschreibung für bessere Ergebnisse",
+    "imageDeleted": "Bild erfolgreich gelöscht",
+    "deleteSuccess": "Bild erfolgreich gelöscht",
+    "deleteFailed": "Fehler beim Löschen des Bildes",
+    "deleteConfirmTitle": "Bild löschen",
+    "deleteConfirmDescription": "Sind Sie sicher, dass Sie dieses Bild löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "deleteConfirmCancel": "Abbrechen",
+    "deleteConfirmConfirm": "Löschen",
+    "generationFailed": "Generierung fehlgeschlagen",
+    "generatingImage": "Bild wird generiert...",
+    "waitingInQueue": "In Warteschlange...",
+    "addedToFavorites": "Zu Favoriten hinzugefügt",
+    "removedFromFavorites": "Aus Favoriten entfernt",
+    "imageDownloaded": "Bild heruntergeladen",
+    "downloadFailed": "Fehler beim Herunterladen des Bildes",
+    "promptCopied": "Beschreibung in Zwischenablage kopiert",
+    "urlCopied": "Bild-URL in Zwischenablage kopiert",
+    "copyFailed": "Fehler beim Kopieren der Bild-URL",
+    "openInNewTab": "Bild in neuem Tab öffnen",
+    "copyImageUrl": "Bild-URL kopieren",
+    "pleaseSignIn": "Bitte anmelden",
+    "signInToViewImages": "Melden Sie sich an, um Ihre generierten Bilder anzusehen",
+    "signInButton": "Anmelden",
+    "downloadImage": "Bild herunterladen",
+    "copyPrompt": "Beschreibung kopieren",
+    "credits": "Credits",
+    "signInToView": "Melden Sie sich an, um Ihre generierten Bilder anzusehen und neue zu erstellen.",
+    "generatingComplete": "Bildgenerierung abgeschlossen!",
+    "generatingFailed": "Bildgenerierung fehlgeschlagen: {error}",
+    "deleteImage": "Bild löschen",
+    "addToFavorites": "Zu Favoriten hinzufügen",
+    "inQueue": "In Warteschlange...",
+    "textToImageModel": "nano-banana",
+    "imageToImageModel": "nano-banana"
+  },
+  "videoHistory": {
+    "exploreExamples": "Beispiele erkunden",
+    "recentGenerations": "Neueste Generierungen",
+    "videoDeleted": "Video erfolgreich gelöscht",
+    "deleteFailed": "Fehler beim Löschen des Videos",
+    "deleteVideo": "Video löschen",
+    "deleteConfirmDescription": "Sind Sie sicher, dass Sie dieses Video löschen möchten?"
+  },
+  "common": {
+    "useThisEffect": "Diesen Effekt verwenden",
+    "loading": "Wird geladen...",
+    "error": "Fehler"
+  },
+  "components": {
+    "heroSection": {
+      "defaultTitle": "KI-Videoeffekte",
+      "defaultDescription": "Transformieren Sie Ihre Videos mit KI-gestützten Effekten",
+      "defaultButtonText": "Jetzt starten"
+    },
+    "categoryTabs": {
+      "all": "Alle",
+      "interaction": "Interaktion",
+      "appearance": "Aussehen",
+      "emotions": "Emotionen",
+      "entertainment": "Unterhaltung",
+      "herovillain": "Held/Schurke",
+      "horrorFantasy": "Horror/Fantasy",
+      "xmas": "Weihnachten",
+      "others": "Andere",
+      "newLabel": "Neu"
+    },
+    "categoryEffectSection": {
+      "defaultDescription": "Entdecken Sie erstaunliche {categoryName} Effekte für Ihre Videos"
+    }
+  },
+  "captcha": {
+    "title": "Sicherheitsüberprüfung",
+    "description": "Um Missbrauch zu verhindern, schließen Sie bitte die Sicherheitsüberprüfung ab, um mit der Generierung Ihres Videos fortzufahren",
+    "verifying": "Wird überprüft...",
+    "verificationFailed": "Überprüfung fehlgeschlagen, bitte versuchen Sie es erneut",
+    "verificationExpired": "Überprüfung abgelaufen, bitte erneut überprüfen"
+  },
+  "membershipModal": {
+    "description": "Sie sind bereits Mitglied.",
+    "explanation": "Sie können Ihre aktuellen Abonnementdetails anzeigen und verwalten.",
+    "viewSubscription": "Abonnement anzeigen",
+    "cancel": "Abbrechen",
+    "continuePurchase": "Kauf fortsetzen"
+  },
+  "nano-banana": {
+    "title": "Google Nano Banana AI: Testen Sie diesen KI-Bildgenerator | Veo3 AI",
+    "description": "Erstellen Sie atemberaubende Bilder mit Nano Banana AI. Generieren Sie hochwertige Bilder aus Textbeschreibungen mit fortschrittlicher KI-Technologie.",
+    "keywords": "Nano Banana, KI-Bildgenerator, Text zu Bild, Bildkreation, KI-Kunst, KI-Bilder"
+  }
+}

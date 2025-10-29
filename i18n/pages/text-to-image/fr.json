@@ -1,0 +1,96 @@
+{
+  "faq": {
+    "title": "Questions fréquentes",
+    "description": "Trouvez des réponses aux questions courantes sur notre service de génération d'images IA à partir de texte.",
+    "items": [
+      {
+        "id": "what-is-text-to-image",
+        "question": "Qu'est-ce qu'un générateur d'images IA à partir de texte ?",
+        "answer": "Un générateur d'images IA à partir de texte est un outil puissant qui utilise l'intelligence artificielle pour créer des images à partir de descriptions textuelles. Il analyse votre description textuelle et génère des images uniques de haute qualité qui correspondent à votre description."
+      },
+      {
+        "id": "how-does-text-to-image-work",
+        "question": "Comment fonctionne la génération d'images IA à partir de texte ?",
+        "answer": "Notre IA analyse votre description écrite, comprend les objets, les styles, la composition et les éléments artistiques mentionnés, puis génère une image correspondante avec les couleurs, l'éclairage et les détails appropriés pour correspondre à votre description."
+      },
+      {
+        "id": "what-can-i-create",
+        "question": "Quels types d'images puis-je créer avec texte vers image ?",
+        "answer": "Vous pouvez créer une grande variété d'images, notamment de l'art numérique, des illustrations, de l'art conceptuel, des visualisations de produits, des designs de personnages, des paysages, de l'art abstrait et des images photoréalistes. Les possibilités ne sont limitées que par votre imagination."
+      },
+      {
+        "id": "image-quality",
+        "question": "Quelle est la qualité des images générées ?",
+        "answer": "Notre IA génère des images haute résolution avec d'excellents détails et une qualité artistique. Les images sont créées à des résolutions optimales adaptées à l'utilisation web, aux médias sociaux, à l'impression et aux applications professionnelles."
+      },
+      {
+        "id": "is-it-free",
+        "question": "Le générateur texte vers image de Veo3 AI est-il gratuit ?",
+        "answer": "Les nouveaux utilisateurs reçoivent des crédits gratuits pour explorer le service. Pour une utilisation régulière, nous proposons des plans d'abonnement abordables avec plus de crédits et de fonctionnalités. Chaque génération d'image coûte 2 crédits."
+      },
+      {
+        "id": "commercial-use",
+        "question": "Puis-je utiliser les images générées commercialement ?",
+        "answer": "Oui, toutes les images générées avec Veo3 AI peuvent être utilisées à des fins commerciales conformément à nos conditions d'utilisation. Vous avez tous les droits d'utiliser les images dans vos projets, matériaux marketing et produits."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Commencez à créer des images à partir de texte aujourd'hui",
+    "description": "Transformez vos idées en visuels époustouflants avec juste une description textuelle. Aucune compétence en design requise.",
+    "buttonText": "Essayer le générateur texte vers image"
+  },
+  "aiModelsHero": {
+    "title": "Génération d'images IA avancée à partir de texte",
+    "description": "Propulsé par le modèle IA Nano Banana de pointe, Veo3 AI offre une qualité d'image exceptionnelle avec des temps de génération rapides. Créez des images de qualité professionnelle en quelques secondes avec notre technologie texte vers image optimisée.",
+    "models": [
+      {
+        "id": "nano-banana",
+        "name": "Nano Banana",
+        "logo": "/imgs/intro/nano-banana.svg"
+      }
+    ],
+    "moreModels": "Plus de modèles à venir"
+  },
+  "creatorShowcase": {
+    "title": "Vitrine de création texte vers image",
+    "creatorTypes": [
+      {
+        "id": "digital-artists",
+        "name": "Artistes numériques",
+        "image": "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Artiste numérique créant des œuvres vibrantes",
+        "title": "Créez de superbes œuvres d'art numériques à partir de texte",
+        "description": "Générez des illustrations, de l'art conceptuel et des peintures numériques directement à partir de vos descriptions textuelles. Parfait pour les couvertures de livres, les ressources de jeux et les projets créatifs.",
+        "badge": "Artistes numériques"
+      },
+      {
+        "id": "product-designers",
+        "name": "Designers de produits",
+        "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Designer de produits visualisant des concepts",
+        "title": "Visualisez instantanément les concepts de produits",
+        "description": "Transformez les idées de produits en maquettes visuelles avec de simples descriptions. Créez des présentations de design, des matériaux marketing et des explorations de concepts sans effort.",
+        "badge": "Designers de produits"
+      },
+      {
+        "id": "game-developers",
+        "name": "Développeurs de jeux",
+        "image": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Développeur de jeux créant de l'art conceptuel",
+        "title": "Concevez des personnages et des environnements",
+        "description": "Générez des ressources de jeu, des designs de personnages et des concepts d'environnement à partir de texte. Prototypez rapidement des idées visuelles pour les jeux et les projets de divertissement.",
+        "badge": "Développeurs de jeux"
+      },
+      {
+        "id": "marketers",
+        "name": "Spécialistes du marketing",
+        "image": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Spécialiste du marketing créant du contenu pour les médias sociaux",
+        "title": "Créez des visuels marketing sur demande",
+        "description": "Générez des images accrocheuses pour les médias sociaux, les publicités et les campagnes. Produisez des variations de contenu visuel illimitées sans séances photo ou équipes de design.",
+        "badge": "Spécialistes du marketing"
+      }
+    ]
+  }
+}

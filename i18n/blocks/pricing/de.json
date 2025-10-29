@@ -1,0 +1,262 @@
+{
+  "name": "pricing",
+  "label": "Video-Generierungspläne",
+  "title": "Veo3 AI Video-Generierungspläne",
+  "description": "Wählen Sie Ihren KI-Video-Generierungsplan und beginnen Sie mit der Erstellung professioneller Videos",
+  "groups": [
+    {
+      "name": "monthly",
+      "title": "Monatlich",
+      "description": "Monatliche Abrechnung"
+    },
+    {
+      "name": "yearly",
+      "title": "Jährlich",
+      "description": "Jährliche Abrechnung"
+    }
+  ],
+  "items": [
+    {
+      "title": "Mini Plan",
+      "label": "",
+      "features_title": "Inklusive",
+      "features": [
+        "<highlight>200</highlight> monatliche Credits",
+        "Bis zu <highlight>20</highlight> Videos pro Monat",
+        "1080p Auflösungsausgabe",
+        "Hochwertige Video-Modelle",
+        "Bild & Text-zu-Video",
+        "Kommerzielle Nutzungsrechte"
+      ],
+      "interval": "month",
+      "amount": 1500,
+      "currency": "USD",
+      "price": "$15.00",
+      "original_price": "",
+      "unit": "/Monat",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "Mini abonnieren",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "mini-monthly",
+      "product_name": "Veo3 AI Mini",
+      "credits": 200,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Mini Plan",
+      "label": "",
+      "features_title": "Inklusive",
+      "features": [
+        "<highlight>200</highlight> monatliche Credits",
+        "Bis zu <highlight>20</highlight> Videos pro Monat",
+        "1080p Auflösungsausgabe",
+        "Hochwertige Video-Modelle",
+        "Bild & Text-zu-Video",
+        "Kommerzielle Nutzungsrechte"
+      ],
+      "interval": "year",
+      "amount": 10800,
+      "currency": "USD",
+      "price": "$9.00",
+      "original_price": "$15.00",
+      "unit": "/Monat",
+      "is_featured": false,
+      "discount_label": "40% RABATT",
+      "tip": "Abonnement für $108.00 jährlich",
+      "button": {
+        "title": "Mini abonnieren",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "mini-yearly",
+      "product_name": "Veo3 AI Mini Yearly",
+      "credits": 2400,
+      "valid_months": 12,
+      "group": "yearly"
+    },
+    {
+      "title": "Standard Plan",
+      "label": "BELIEBT",
+      "features_title": "Inklusive",
+      "features": [
+        "<highlight>1000</highlight> monatliche Credits",
+        "Bis zu <highlight>100</highlight> Videos pro Monat",
+        "1080p Auflösungsausgabe",
+        "Hochwertige Video-Modelle",
+        "Bild & Text-zu-Video",
+        "Schnelle Generierungswarteschlange",
+        "Kommerzielle Nutzungsrechte"
+      ],
+      "interval": "month",
+      "amount": 5000,
+      "currency": "USD",
+      "price": "$50.00",
+      "original_price": "",
+      "unit": "/Monat",
+      "is_featured": true,
+      "discount_label": "",
+      "button": {
+        "title": "Standard abonnieren",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "standard-monthly",
+      "product_name": "Veo3 AI Standard",
+      "credits": 1000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Standard Plan",
+      "label": "BELIEBT",
+      "features_title": "Inklusive",
+      "features": [
+        "<highlight>1000</highlight> monatliche Credits",
+        "Bis zu <highlight>100</highlight> Videos pro Monat",
+        "1080p Auflösungsausgabe",
+        "Hochwertige Video-Modelle",
+        "Bild & Text-zu-Video",
+        "Schnelle Generierungswarteschlange",
+        "Kommerzielle Nutzungsrechte"
+      ],
+      "interval": "year",
+      "amount": 36000,
+      "currency": "USD",
+      "price": "$30.00",
+      "original_price": "$50.00",
+      "unit": "/Monat",
+      "is_featured": true,
+      "discount_label": "40% RABATT",
+      "tip": "Abonnement für $360.00 jährlich",
+      "button": {
+        "title": "Standard abonnieren",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "standard-yearly",
+      "product_name": "Veo3 AI Standard Yearly",
+      "credits": 12000,
+      "valid_months": 12,
+      "group": "yearly"
+    },
+    {
+      "title": "Plus Plan",
+      "label": "",
+      "features_title": "Inklusive",
+      "features": [
+        "<highlight>3000</highlight> monatliche Credits",
+        "Bis zu <highlight>300</highlight> Videos pro Monat",
+        "1080p Auflösungsausgabe",
+        "Hochwertige Video-Modelle",
+        "Bild & Text-zu-Video",
+        "Schnelle Generierungswarteschlange",
+        "Kommerzielle Nutzungsrechte",
+        "Prioritäts-Support"
+      ],
+      "interval": "month",
+      "amount": 9900,
+      "currency": "USD",
+      "price": "$99.00",
+      "original_price": "",
+      "unit": "/Monat",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "Plus abonnieren",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-monthly",
+      "product_name": "Veo3 AI Plus",
+      "credits": 3000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Plus Plan",
+      "label": "",
+      "features_title": "Inklusive",
+      "features": [
+        "<highlight>3000</highlight> monatliche Credits",
+        "Bis zu <highlight>300</highlight> Videos pro Monat",
+        "1080p Auflösungsausgabe",
+        "Hochwertige Video-Modelle",
+        "Bild & Text-zu-Video",
+        "Schnelle Generierungswarteschlange",
+        "Kommerzielle Nutzungsrechte",
+        "Prioritäts-Support"
+      ],
+      "interval": "year",
+      "amount": 72000,
+      "currency": "USD",
+      "price": "$60.00",
+      "original_price": "$99.00",
+      "unit": "/Monat",
+      "is_featured": false,
+      "discount_label": "40% RABATT",
+      "tip": "Abonnement für $720.00 jährlich",
+      "button": {
+        "title": "Plus abonnieren",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-yearly",
+      "product_name": "Veo3 AI Plus Yearly",
+      "credits": 36000,
+      "valid_months": 12,
+      "group": "yearly"
+    }
+  ],
+  "faq": {
+    "name": "faq",
+    "title": "Häufig gestellte Fragen",
+    "description": "Alles, was Sie über unsere Preise und Pläne wissen müssen",
+    "items": [
+      {
+        "title": "Was sind Credits und wie funktionieren sie?",
+        "description": "Credits sind die Währung für die Videogenerierung. Jede Videogenerierung verbraucht 10 Credits. Beispielsweise können Sie mit 200 Credits bis zu 20 Videos erstellen. Credits werden jeden Monat oder jedes Jahr automatisch Ihrem Konto gutgeschrieben, basierend auf Ihrem Abonnementplan."
+      },
+      {
+        "title": "Was passiert mit ungenutzten Credits am Monatsende?",
+        "description": "Monatliche Credits werden nicht in den nächsten Monat übertragen. Wir empfehlen, Ihre Credits innerhalb Ihres Abrechnungszyklus zu nutzen. Bei Jahresplänen werden alle Credits im Voraus bereitgestellt und können das ganze Jahr über genutzt werden."
+      },
+      {
+        "title": "Kann ich meinen Plan jederzeit auf- oder abwerten?",
+        "description": "Ja! Sie können Ihren Plan jederzeit upgraden und die Änderungen treten sofort in Kraft. Bei einem Downgrade wird die Änderung zu Beginn Ihres nächsten Abrechnungszyklus wirksam. Alle ungenutzten Credits aus Ihrem aktuellen Plan stehen bis zum Ende Ihrer aktuellen Abrechnungsperiode zur Verfügung."
+      },
+      {
+        "title": "Welche Zahlungsmethoden akzeptieren Sie?",
+        "description": "Wir akzeptieren alle gängigen Kredit- und Debitkarten über unseren sicheren Zahlungsanbieter. Für Nutzer in bestimmten Regionen unterstützen wir auch lokale Zahlungsmethoden, einschließlich SberPay, YooMoney und Mir Card für russische Nutzer."
+      },
+      {
+        "title": "Gibt es eine kostenlose Testversion?",
+        "description": "Neue Nutzer erhalten bei der Registrierung 10 kostenlose Credits, um unsere Video-Generierungsfunktionen zu testen. Damit können Sie 1 Video erstellen und die Qualität unserer KI-Modelle erleben, bevor Sie abonnieren."
+      },
+      {
+        "title": "Was ist der Unterschied zwischen monatlicher und jährlicher Abrechnung?",
+        "description": "Die jährliche Abrechnung bietet einen Rabatt von 40% im Vergleich zur monatlichen Abrechnung. Bei Jahresplänen zahlen Sie im Voraus für das gesamte Jahr und erhalten alle Ihre Credits sofort. Monatliche Pläne werden jeden Monat abgerechnet, wobei die Credits in jedem Abrechnungszyklus erneuert werden."
+      },
+      {
+        "title": "Kann ich die generierten Videos kommerziell nutzen?",
+        "description": "Ja! Alle unsere Pläne beinhalten volle kommerzielle Nutzungsrechte für die Videos, die Sie generieren. Sie besitzen den von Ihnen erstellten Inhalt und können ihn für jeden Zweck verwenden, einschließlich kommerzieller Projekte, soziale Medien, Marketing und mehr."
+      },
+      {
+        "title": "Welche Videoqualität und Auflösung erhalte ich?",
+        "description": "Alle Pläne beinhalten 1080p HD-Auflösungsausgabe, was professionelle Videos gewährleistet, die für jede Plattform geeignet sind. Wir verwenden erstklassige KI-Modelle, um qualitativ hochwertige, realistische Videos zu generieren, die professionellen Standards entsprechen."
+      },
+      {
+        "title": "Wie lange dauert die Videogenerierung?",
+        "description": "Die Videogenerierung dauert in der Regel 2-5 Minuten, abhängig von der Komplexität und der aktuellen Warteschlange. Standard- und Plus-Pläne beinhalten Priorität in der schnellen Generierungswarteschlange, was die Wartezeiten während Spitzenzeiten reduzieren kann."
+      },
+      {
+        "title": "Kann ich mein Abonnement jederzeit kündigen?",
+        "description": "Ja, Sie können Ihr Abonnement jederzeit in Ihren Kontoeinstellungen kündigen. Ihr Abonnement bleibt bis zum Ende Ihrer aktuellen Abrechnungsperiode aktiv, und Sie behalten Zugriff auf Ihre Credits bis dahin."
+      }
+    ]
+  }
+}

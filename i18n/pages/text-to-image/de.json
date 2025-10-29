@@ -1,0 +1,96 @@
+{
+  "faq": {
+    "title": "Häufig gestellte Fragen",
+    "description": "Finden Sie Antworten auf häufige Fragen zu unserem KI-Text-zu-Bild-Generierungsdienst.",
+    "items": [
+      {
+        "id": "what-is-text-to-image",
+        "question": "Was ist ein KI-Text-zu-Bild-Generator?",
+        "answer": "Ein KI-Text-zu-Bild-Generator ist ein leistungsstarkes Tool, das künstliche Intelligenz verwendet, um Bilder aus Textbeschreibungen zu erstellen. Es analysiert Ihre Textbeschreibung und generiert hochwertige, einzigartige Bilder, die Ihrer Beschreibung entsprechen."
+      },
+      {
+        "id": "how-does-text-to-image-work",
+        "question": "Wie funktioniert die KI-Text-zu-Bild-Generierung?",
+        "answer": "Unsere KI analysiert Ihre schriftliche Beschreibung, versteht die Objekte, Stile, Komposition und künstlerischen Elemente, die erwähnt werden, und generiert dann ein entsprechendes Bild mit passenden Farben, Beleuchtung und Details, die zu Ihrer Beschreibung passen."
+      },
+      {
+        "id": "what-can-i-create",
+        "question": "Welche Arten von Bildern kann ich mit Text-zu-Bild erstellen?",
+        "answer": "Sie können eine Vielzahl von Bildern erstellen, darunter digitale Kunst, Illustrationen, Konzeptkunst, Produktvisualisierungen, Charakterdesigns, Landschaften, abstrakte Kunst und fotorealistische Bilder. Die Möglichkeiten sind nur durch Ihre Vorstellungskraft begrenzt."
+      },
+      {
+        "id": "image-quality",
+        "question": "Welche Qualität haben die generierten Bilder?",
+        "answer": "Unsere KI generiert hochauflösende Bilder mit ausgezeichneten Details und künstlerischer Qualität. Bilder werden in optimalen Auflösungen erstellt, die für Webnutzung, soziale Medien, Druck und professionelle Anwendungen geeignet sind."
+      },
+      {
+        "id": "is-it-free",
+        "question": "Ist der Text-zu-Bild-Generator von Veo3 AI kostenlos?",
+        "answer": "Neue Benutzer erhalten kostenlose Credits, um den Dienst zu erkunden. Für die regelmäßige Nutzung bieten wir erschwingliche Abonnementpläne mit mehr Credits und Funktionen. Jede Bildgenerierung kostet 2 Credits."
+      },
+      {
+        "id": "commercial-use",
+        "question": "Kann ich generierte Bilder kommerziell nutzen?",
+        "answer": "Ja, alle mit Veo3 AI generierten Bilder können gemäß unseren Nutzungsbedingungen für kommerzielle Zwecke verwendet werden. Sie haben volle Rechte, die Bilder in Ihren Projekten, Marketingmaterialien und Produkten zu verwenden."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Beginnen Sie heute mit der Erstellung von Bildern aus Text",
+    "description": "Verwandeln Sie Ihre Ideen mit nur einer Textbeschreibung in beeindruckende Visuals. Keine Designfähigkeiten erforderlich.",
+    "buttonText": "Text-zu-Bild-Generator testen"
+  },
+  "aiModelsHero": {
+    "title": "Fortgeschrittene KI-Text-zu-Bild-Generierung",
+    "description": "Angetrieben vom hochmodernen Nano Banana KI-Modell liefert Veo3 AI außergewöhnliche Bildqualität mit schnellen Generierungszeiten. Erstellen Sie Bilder in professioneller Qualität in Sekunden mit unserer optimierten Text-zu-Bild-Technologie.",
+    "models": [
+      {
+        "id": "nano-banana",
+        "name": "Nano Banana",
+        "logo": "/imgs/intro/nano-banana.svg"
+      }
+    ],
+    "moreModels": "Weitere Modelle demnächst"
+  },
+  "creatorShowcase": {
+    "title": "Text-zu-Bild-Kreations-Showcase",
+    "creatorTypes": [
+      {
+        "id": "digital-artists",
+        "name": "Digitale Künstler",
+        "image": "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Digitaler Künstler erstellt lebendige Kunstwerke",
+        "title": "Erstellen Sie beeindruckende digitale Kunstwerke aus Text",
+        "description": "Generieren Sie Illustrationen, Konzeptkunst und digitale Gemälde direkt aus Ihren Textbeschreibungen. Perfekt für Buchumschläge, Spielassets und kreative Projekte.",
+        "badge": "Digitale Künstler"
+      },
+      {
+        "id": "product-designers",
+        "name": "Produktdesigner",
+        "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Produktdesigner visualisiert Konzepte",
+        "title": "Visualisieren Sie Produktkonzepte sofort",
+        "description": "Verwandeln Sie Produktideen mit einfachen Beschreibungen in visuelle Mockups. Erstellen Sie Designpräsentationen, Marketingmaterialien und Konzepterkundungen mühelos.",
+        "badge": "Produktdesigner"
+      },
+      {
+        "id": "game-developers",
+        "name": "Spieleentwickler",
+        "image": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Spieleentwickler erstellt Konzeptkunst",
+        "title": "Entwerfen Sie Charaktere und Umgebungen",
+        "description": "Generieren Sie Spielassets, Charakterdesigns und Umgebungskonzepte aus Text. Prototypen Sie schnell visuelle Ideen für Spiele und Unterhaltungsprojekte.",
+        "badge": "Spieleentwickler"
+      },
+      {
+        "id": "marketers",
+        "name": "Marketer",
+        "image": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Marketer erstellt Social-Media-Inhalte",
+        "title": "Erstellen Sie Marketing-Visuals auf Abruf",
+        "description": "Generieren Sie auffällige Bilder für soziale Medien, Anzeigen und Kampagnen. Produzieren Sie unbegrenzte Variationen visueller Inhalte ohne Fotoshootings oder Designteams.",
+        "badge": "Marketer"
+      }
+    ]
+  }
+}

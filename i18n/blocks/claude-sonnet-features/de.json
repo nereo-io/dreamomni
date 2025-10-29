@@ -1,0 +1,109 @@
+{
+  "mainTitle": "Veo 3: Modernste Videogenerierungsmodell",
+  "features": [
+    {
+      "id": "greater-realism",
+      "title": "Neu gestaltet für größeren Realismus",
+      "description": "Veo 3 liefert größeren Realismus und Wiedergabetreue als je zuvor, einschließlich atemberaubender 4K-Ausgabe und Veo 3's fortschrittlicher Simulation realer Physik mit nativer Audio-Generierung. Erleben Sie beispiellose visuelle Qualität, die Ihre kreative Vision zum Leben erweckt.",
+      "imageUrl": "/imgs/intro/veo3-realism.png",
+      "imageAlt": "Veo 3's verbesserter Realismus mit 4K-Ausgabe und realer Physik",
+      "subPoints": [
+        {
+          "title": "4K Ultra-High Definition",
+          "text": "Generieren Sie atemberaubende 4K-Auflösungsvideos mit außergewöhnlicher Detailgenauigkeit und Klarheit, perfekt für professionelles Filmemachen und hochwertige Content-Erstellung."
+        },
+        {
+          "title": "Realistische Physik & Audio",
+          "text": "Fortschrittliche Physiksimulation mit synchronisierter Audio-Generierung schafft authentische Bewegung, Beleuchtung und Klanglandschaften, die die Realität widerspiegeln."
+        }
+      ],
+      "buttonText": "4K-Video generieren",
+      "buttonUrl": "#video-generator"
+    },
+    {
+      "id": "prompt-following",
+      "title": "Folgt Prompts wie nie zuvor",
+      "description": "Verbesserte Prompt-Einhaltung bedeutet genauere Reaktionen auf Ihre kreativen Anweisungen. Veo 3 versteht komplexe kreative Anweisungen und liefert präzise das, was Sie sich vorstellen, reduziert Iterationen und maximiert kreative Effizienz.",
+      "imageUrl": "/imgs/intro/veo3-prompts.png",
+      "imageAlt": "Veo 3's überlegene Prompt-Befolgung und Anweisungsgenauigkeit",
+      "subPoints": [
+        {
+          "title": "Verbessertes Verständnis",
+          "text": "Fortschrittliche Verarbeitung natürlicher Sprache interpretiert komplexe kreative Briefings mit nuanciertem Verständnis künstlerischer Absicht und technischer Anforderungen."
+        },
+        {
+          "title": "Präzise Ausführung",
+          "text": "Liefern Sie genau das, was Sie beschreiben, mit minimalem Hin und Her, übersetzt detaillierte Prompts in genaue visuelle Darstellungen."
+        }
+      ]
+    },
+    {
+      "id": "creative-control",
+      "title": "Verbesserte kreative Kontrolle",
+      "description": "Neue Fähigkeiten für beispiellose Kontrolle, Konsistenz und Kreativität. Veo 3 ermächtigt Kreative mit professionellen Tools für präzise künstlerische Anleitung und nahtlose kreative Workflows.",
+      "imageUrl": "/imgs/intro/veo3-creative.png",
+      "imageAlt": "Veo 3's fortschrittliche kreative Kontrolle und Konsistenzfunktionen",
+      "subPoints": [
+        {
+          "title": "Verbesserte Konsistenz",
+          "text": "Behalten Sie visuelle Kohärenz über Szenen hinweg mit verbesserter Charakter- und Objekterkennung bei, um nahtlose Storytelling-Kontinuität zu gewährleisten."
+        },
+        {
+          "title": "Professionelle Kontrolle",
+          "text": "Zugriff auf Filmemacher-gradige Kontrollen für Kamerabewegungen, Beleuchtung, Komposition und Tempo, um Ihre exakte kreative Vision zu erreichen."
+        }
+      ]
+    },
+    {
+      "id": "motion-master",
+      "title": "Motion Master: Definieren Sie exakte Bewegung",
+      "description": "Revolutionäre Motion Master Funktion ermöglicht es Ihnen, die exakte Bewegung von Objekten in Ihrem Video zu definieren. Wählen Sie ein beliebiges Objekt und definieren Sie deren Pfad, und Veo 3 wird sie mit präziser, kontrollierter Bewegung zum Leben erwecken, die Ihrer kreativen Absicht entspricht.",
+      "imageUrl": "/imgs/intro/veo3-motion.png",
+      "imageAlt": "Motion Master's präzise Objektbewegungskontrolle in Veo 3",
+      "subPoints": [
+        {
+          "title": "Pfadgesteuerte Animation",
+          "text": "Zeichnen Sie benutzerdefinierte Bewegungstrajektorien für jedes Objekt oder jeden Charakter, erstellen Sie fließende, bewusste Animationen mit bildgenauer Präzision."
+        },
+        {
+          "title": "Kinoreife Kameraführung",
+          "text": "Orchestrieren Sie komplexe Kamerabewegungen einschließlich Tracking-Shots, Enthüllungen und dynamischen Perspektiven mit professionellen Kinematografie-Standards."
+        }
+      ]
+    },
+    {
+      "id": "native-audio",
+      "title": "Video trifft Audio: Native Soundgenerierung",
+      "description": "Veo 3 ist darauf ausgelegt, Filmemacher und Geschichtenerzähler mit nativer Audio-Generierung zu befähigen. Fügen Sie Soundeffekte, Umgebungsgeräusche und sogar Dialoge zu Ihren Kreationen hinzu – generieren Sie alle Audio nativ für wirklich immersive Multimedia-Erlebnisse.",
+      "imageUrl": "/imgs/intro/veo3-audio.png",
+      "imageAlt": "Veo 3's revolutionäre native Audio-Generierungsfähigkeiten",
+      "subPoints": [
+        {
+          "title": "Synchronisiertes Sounddesign",
+          "text": "Automatische Generierung kontextgerechter Soundeffekte, Umgebungsaudio und Umweltgeräusche, die perfekt zu Ihrem visuellen Inhalt passen."
+        },
+        {
+          "title": "Natürliche Dialogerstellung",
+          "text": "Erstellen Sie realistische gesprochene Dialoge mit korrekter Synchronisation, erwecken Sie Charaktere mit authentischen stimmlichen Performances und natürlichen Sprachmustern zum Leben."
+        }
+      ]
+    },
+    {
+      "id": "best-in-class",
+      "title": "Beste Qualität & Leistung ihrer Klasse",
+      "description": "Veo 3 liefert außergewöhnliche Qualität, übertrifft in Physiksimulation, fotorealistischem Rendering und präziser Prompt-Einhaltung. Erzielen Sie modernste Ergebnisse in direkten Vergleichen mit führenden Videogenerierungsmodellen.",
+      "imageUrl": "/imgs/intro/veo3-quality.png",
+      "imageAlt": "Veo 3's überlegene Qualität und Benchmark-Leistung",
+      "subPoints": [
+        {
+          "title": "Benchmark-Führerschaft",
+          "text": "Erzielt modernste Ergebnisse in menschlichen Bewertungen, übertrifft konsequent andere Videogenerierungsmodelle in Qualität und Genauigkeit."
+        },
+        {
+          "title": "Physik-Exzellenz",
+          "text": "Überlegenes Physikverständnis schafft natürliche Objektinteraktionen, realistische Lichteffekte und glaubwürdige Umweltdynamik."
+        }
+      ]
+    }
+  ]
+}

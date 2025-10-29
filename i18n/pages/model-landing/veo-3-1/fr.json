@@ -1,0 +1,142 @@
+{
+  "banner": {
+    "title": "Générateur vidéo IA Google Veo 3.1",
+    "description": "Veo 3.1 est une mise à niveau du modèle Veo 3 de Google, introduisant un contrôle amélioré des images de début et de fin et des capacités de référence d'image pour un contrôle créatif plus précis. Découvrez Veo 3.1 gratuitement sur Veo3 AI !",
+    "tabs": [
+      {
+        "type": "image",
+        "title": "Image vers Vidéo",
+        "subTitle": "Image",
+        "value": "image-to-video",
+        "modelName": "Veo 3.1",
+        "modelLogo": "/imgs/intro/veo.svg",
+        "placeholder": "Glissez-déposez une image ici ou cliquez pour sélectionner",
+        "tips": "Téléchargez des images JPG/PNG/WEBP jusqu'à 10 Mo, avec une largeur/hauteur minimum de 300px.",
+        "buttonText": "Créer"
+      },
+      {
+        "type": "text",
+        "title": "Texte vers Vidéo",
+        "subTitle": "Prompt",
+        "value": "text-to-video",
+        "modelName": "Veo 3.1",
+        "modelLogo": "/imgs/intro/veo.svg",
+        "placeholder": "Que voulez-vous créer ?",
+        "buttonText": "Créer"
+      }
+    ]
+  },
+  "partners": [
+    { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
+    { "name": "Microsoft", "logo": "/imgs/partners/microsoft-logo.png" },
+    { "name": "Nike", "logo": "/imgs/partners/nike-logo.png" },
+    { "name": "P&G", "logo": "/imgs/partners/p-g-logo.png" },
+    { "name": "Lancome", "logo": "/imgs/partners/lancome-logo.png" },
+    { "name": "Zoom", "logo": "/imgs/partners/zoom-logo.png" },
+    { "name": "Sony", "logo": "/imgs/partners/sony-logo.png" },
+    { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
+  ],
+  "features": {
+    "title": "Caractéristiques clés du modèle vidéo IA Veo 3.1",
+    "details": [
+      {
+        "title": "Contrôle de la première et dernière image",
+        "description": "Créez des transitions parfaitement fluides en téléchargeant une image de début et de fin. Veo 3.1 génère le mouvement intermédiaire, idéal pour les scènes morphantes, les time-lapses ou la continuité narrative. Cette fonctionnalité avancée offre aux créateurs un contrôle sans précédent sur leur storytelling vidéo.",
+        "type": "video",
+        "data": "https://pollo.ai/cms/first_last_frames_5b87eb9d90.mp4"
+      },
+      {
+        "title": "Correspondance de style par référence d'image",
+        "description": "Vous voulez un look spécifique ? Téléchargez une image de référence – une peinture, une photo ou un moodboard – et Veo 3.1 fera correspondre le style, l'étalonnage des couleurs et la composition avec une précision impressionnante. Parfait pour maintenir une esthétique visuelle cohérente dans vos projets vidéo.",
+        "type": "video",
+        "data": "https://pollo.ai/cms/reference_to_video_1_57dde91dc5.mp4"
+      },
+      {
+        "title": "Intégration audio avancée",
+        "description": "Veo 3.1 maintient une génération audio native exceptionnelle. Le modèle produit des paysages sonores synchronisés et contextuellement appropriés qui donnent vie à vos vidéos avec des sons ambiants, des effets et des atmosphères réalistes – aucune édition supplémentaire requise.",
+        "type": "video",
+        "data": "https://pollo.ai/cms/quality_2_e4d485dc0e.mp4"
+      },
+      {
+        "title": "Excellence de cohérence des personnages",
+        "description": "L'une des fonctionnalités les plus demandées dans la génération vidéo IA. Veo 3.1 excelle à maintenir des apparences de personnages cohérentes tout au long de vos vidéos. Que vous créiez une histoire courte ou une série de clips, vos personnages restent reconnaissables et stables dans chaque image.",
+        "type": "video",
+        "data": "https://pollo.ai/cms/reference_to_video_2_e99c175bf0.mp4"
+      },
+      {
+        "title": "Compréhension précise des prompts",
+        "description": "Veo 3.1 démontre une compréhension remarquable des prompts complexes et nuancés. Décrivez des scènes complexes, des mouvements de caméra spécifiques ou des styles artistiques détaillés – Veo 3.1 traduit vos mots en visuels époustouflants avec une précision impressionnante. Le système comprend le contexte, l'émotion et les directions créatives subtiles."
+      },
+      {
+        "title": "Sortie de haute qualité",
+        "description": "Générez des vidéos en résolution 1080p avec une fidélité visuelle exceptionnelle et une cohérence de style. De l'émulation d'expressions émotionnelles subtiles au rendu de séquences de niveau cinématographique, Veo 3.1 donne vie à votre vision créative avec des détails incroyablement réalistes."
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Comment générer des vidéos avec Veo 3.1 sur Veo3 AI",
+    "description": "Créez de superbes vidéos IA avec le modèle Veo 3.1 de Google via notre interface facile à utiliser",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Sélectionnez le modèle Veo 3.1",
+        "description": "Naviguez vers la page 'Image vers Vidéo' ou 'Texte vers Vidéo' et choisissez 'Veo 3.1' dans le menu de sélection du modèle."
+      },
+      {
+        "number": "02",
+        "title": "Saisissez votre prompt ou votre image",
+        "description": "Entrez votre prompt textuel détaillé ou téléchargez une image de référence. Configurez la durée, le format d'image et les paramètres audio pour correspondre à votre vision créative."
+      },
+      {
+        "number": "03",
+        "title": "Générer et télécharger",
+        "description": "Cliquez sur 'Créer' et attendez environ 3 à 4 minutes pour que votre vidéo soit générée. Une fois terminé, téléchargez votre vidéo de haute qualité générée par IA."
+      }
+    ],
+    "buttonText": "Essayer Veo 3.1 sur Veo3 AI"
+  },
+  "cta": {
+    "title": "Découvrez Veo 3.1 sur Veo3 AI maintenant !",
+    "buttonText": "Essayer Veo 3.1 gratuitement"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Questions fréquemment posées",
+    "description": "En savoir plus sur le générateur vidéo IA Google Veo 3.1 sur Veo3 AI",
+    "items": [
+      {
+        "title": "Qu'est-ce que Google Veo 3.1 ?",
+        "description": "Google Veo 3.1 est la version améliorée du modèle vidéo IA Veo 3. Il introduit des fonctionnalités améliorées, notamment le contrôle vidéo de la première et dernière image, la correspondance de style par référence d'image et une compréhension plus précise des prompts tout en maintenant une intégration audio exceptionnelle et une cohérence des personnages."
+      },
+      {
+        "title": "En quoi Veo 3.1 diffère-t-il de Veo 3 ?",
+        "description": "Par rapport à Veo 3, Veo 3.1 offre un contrôle créatif plus important grâce à des paramètres d'images de début et de fin spécifiques, la correspondance de style par image de référence et une précision améliorée dans la réponse aux prompts complexes. La génération audio et la cohérence des personnages restent de premier ordre tout en ajoutant des outils de précision supplémentaires pour les créateurs."
+      },
+      {
+        "title": "Puis-je utiliser Veo 3.1 gratuitement sur Veo3 AI ?",
+        "description": "Oui ! Veo3 AI offre un accès à Veo 3.1 gratuitement avec notre plan d'essai. Vous pouvez essayer la création texte-vidéo ou image-vidéo sans frais. Pour des générations illimitées, envisagez nos plans d'abonnement payants avec des crédits supplémentaires."
+      },
+      {
+        "title": "Veo 3.1 prend-il en charge la génération audio ?",
+        "description": "Absolument. Veo 3.1 produit de l'audio natif synchronisé, du dialogue aux effets ambiants, créant une expérience vidéo plus immersive. L'audio est généré simultanément avec la vidéo et correspond parfaitement au contenu visuel."
+      },
+      {
+        "title": "Qu'est-ce que la fonctionnalité 'Première et dernière image' dans Veo 3.1 ?",
+        "description": "Cette fonctionnalité vous permet de télécharger une image de début et une image de fin. Veo 3.1 génère le mouvement intermédiaire, parfait pour les transitions fluides, les visuels morphants et les arcs narratifs. Elle vous donne un contrôle précis sur le début et la fin de votre séquence vidéo."
+      },
+      {
+        "title": "Comment fonctionne la fonctionnalité de référence d'image dans Veo 3.1 ?",
+        "description": "Vous pouvez télécharger n'importe quelle image – photo, peinture ou moodboard de design – et Veo 3.1 adaptera le style, la palette de couleurs et la composition de votre vidéo pour correspondre. Cela garantit que vos vidéos générées par IA maintiennent une esthétique visuelle cohérente avec votre marque ou votre vision créative."
+      },
+      {
+        "title": "Veo 3.1 convient-il à la création vidéo professionnelle ?",
+        "description": "Oui. Avec un contrôle de mouvement précis, une correspondance de style et une forte cohérence des personnages, Veo 3.1 est idéal pour les cinéastes, les spécialistes du marketing et les créateurs recherchant des vidéos IA professionnelles et soignées. La sortie 1080p et l'audio natif le rendent prêt pour la production."
+      },
+      {
+        "title": "Combien de temps faut-il pour générer une vidéo avec Veo 3.1 ?",
+        "description": "Sur Veo3 AI, Veo 3.1 prend généralement 3 à 4 minutes pour générer une vidéo de 8 secondes. Le temps de génération peut varier en fonction de la complexité, des paramètres de résolution et de la charge actuelle du serveur. Nous fournissons des mises à jour de progression en temps réel pendant la génération."
+      }
+    ]
+  }
+}

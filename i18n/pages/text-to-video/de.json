@@ -1,0 +1,137 @@
+{
+  "faq": {
+    "title": "Häufig gestellte Fragen",
+    "description": "Finden Sie Antworten auf häufige Fragen zu unserem KI-Text-zu-Video-Generierungsdienst.",
+    "items": [
+      {
+        "id": "what-is-text-to-video",
+        "question": "Was ist ein KI-Text-zu-Video-Generator?",
+        "answer": "Ein KI-Text-zu-Video-Generator ist ein leistungsstarkes Tool, das künstliche Intelligenz verwendet, um Videoinhalte aus einfachen Textbeschreibungen zu erstellen. Es analysiert Ihre Textbeschreibung und generiert dynamische, hochwertige Videos, die Ihre Worte zum Leben erwecken."
+      },
+      {
+        "id": "best-text-to-video-generator",
+        "question": "Was ist der beste Text-zu-Video-KI-Generator?",
+        "answer": "Veo3 AI bietet einen der fortschrittlichsten Text-zu-Video-Generatoren mit außergewöhnlicher Ausgabequalität, realistischer Bewegung und anspruchsvollem Szenenverständnis. Unsere KI-Modelle werden auf vielfältigen Datensätzen trainiert, um filmische, professionelle Videos zu erstellen."
+      },
+      {
+        "id": "how-does-text-to-video-work",
+        "question": "Wie funktioniert die KI-Text-zu-Video-Generierung?",
+        "answer": "Unsere Text-zu-Video-KI analysiert Ihre schriftliche Beschreibung, versteht den Kontext, Objekte, Aktionen und erwähnte Stile und generiert dann entsprechende visuelle Sequenzen mit passender Bewegung, Beleuchtung und Effekten, die zu Ihrer Beschreibung passen."
+      },
+      {
+        "id": "what-can-i-create-with-text-to-video",
+        "question": "Welche Arten von Videos kann ich mit Text-zu-Video erstellen?",
+        "answer": "Sie können eine Vielzahl von Inhalten erstellen, darunter Werbevideos, Social-Media-Inhalte, Bildungsmaterialien, Konzeptvisualisierungen, Storytelling-Videos und künstlerische Kreationen. Die Möglichkeiten sind nur durch Ihre Vorstellungskraft begrenzt."
+      },
+      {
+        "id": "is-text-to-video-free",
+        "question": "Ist der Text-zu-Video-Generator von Veo3 AI kostenlos?",
+        "answer": "Veo3 AI bietet sowohl kostenlose als auch Premium-Optionen. Neue Benutzer erhalten kostenlose Credits, um den Dienst zu erkunden. Für die regelmäßige Nutzung bieten wir erschwingliche Abonnementpläne mit mehr Credits und erweiterten Funktionen wie höheren Auflösungen und längeren Videodauern."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Erstellen Sie jetzt beeindruckende Videos nur mit Text!",
+    "description": "Verwandeln Sie Ihre Ideen mit nur einer einfachen Textbeschreibung in beeindruckende KI-generierte Videos. Beginnen Sie in Sekunden mit der Erstellung professioneller Videos.",
+    "buttonText": "Text-zu-Video-Generator testen"
+  },
+  "aiModelsHero": {
+    "title": "All-in-One KI-Text-zu-Video-Generator",
+    "description": "Veo3 AI ist der ultimative All-in-One-KI-Text-zu-Video-Generator. Wir bieten Zugang zu branchenführenden Videomodellen wie Sora 2, Veo3, Seedance und Hailuo, alles an einem einzigen Ort. Probieren Sie sie nahtlos aus und erstellen Sie beeindruckende Visuals, ohne zwischen mehreren Plattformen zu wechseln!",
+    "models": [
+      {
+        "id": "sora2",
+        "name": "Sora 2",
+        "logo": "/imgs/intro/sora.png"
+      },
+      {
+        "id": "veo3",
+        "name": "Veo 3",
+        "logo": "/imgs/intro/veo.svg"
+      },
+      {
+        "id": "seedance",
+        "name": "Seedance",
+        "logo": "/imgs/intro/seedance.png"
+      },
+      {
+        "id": "hailuo",
+        "name": "Hailuo",
+        "logo": "/imgs/intro/hailuo.webp"
+      }
+    ],
+    "moreModels": "Weitere Modelle"
+  },
+  "aiVideoShowcase": {
+    "title": "Visualisieren Sie jeden Text mit unserem KI-Videogenerator",
+    "description": "Erwecken Sie jeden Text mit unserem KI-Videogenerator zum Leben! Erstellen Sie ansprechende Videos in jedem Stil mit nur einer einfachen Textbeschreibung. Beschreiben Sie Ihre Ideen mit ein paar Worten, und unsere Video-KI kann sie kreativ visualisieren.",
+    "examples": [
+      {
+        "id": "glass-strawberry",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
+        "alt": "Glaserdbeere zerbricht beim Schneiden",
+        "prompt": "Eine Glaserdbeere zerbricht, wenn sie mit einem Messer auf einem Holzbrett geschnitten wird."
+      },
+      {
+        "id": "anime-rose",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Anime-Rose-Blooming-Bridge.mp4",
+        "alt": "Anime-Rose blüht mit tanzenden Blütenblättern",
+        "prompt": "Eine Rose im Anime-Stil blüht vor einer Seilbrücke, mit Blütenblättern, die in der Luft tanzen."
+      },
+      {
+        "id": "monkey-seagull",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
+        "alt": "Affe und Möwe tanzen am mondbeschienenen Strand",
+        "prompt": "Ein Affe und eine Möwe tanzen am mondbeschienenen Strand unter einem Sternenhimmel."
+      },
+      {
+        "id": "monarch-butterfly",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
+        "alt": "Monarchfalter flattern Flügel auf Blumen",
+        "prompt": "Ein Monarchfalter flattert mit seinen Flügeln auf bunten Blumen in einem sonnenbeschienenen Garten.",
+        "isNew": true
+      }
+    ]
+  },
+  "creatorShowcase": {
+    "title": "Jeden Text-zu-Video-Creator stärken",
+    "creatorTypes": [
+      {
+        "id": "content-creators",
+        "name": "Content-Ersteller",
+        "image": "https://images.unsplash.com/photo-1493612276216-ee3925520721?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Content-Ersteller richtet Videoausrüstung mit professioneller Beleuchtung ein",
+        "title": "Verwandeln Sie Ideen sofort in viralen Content",
+        "description": "Verwandeln Sie Ihre kreativen Konzepte in ansprechende Videos ohne Filmaufnahmen. Beschreiben Sie einfach Ihre Vision und sehen Sie zu, wie sie mit professioneller Qualität und unbegrenzten kreativen Möglichkeiten zum Leben erwacht.",
+        "badge": "Content-Ersteller"
+      },
+      {
+        "id": "marketers",
+        "name": "Marketer & Agenturen",
+        "image": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Marketingteam erarbeitet kreative Kampagnenstrategien",
+        "title": "Videomarketingkampagnen mühelos skalieren",
+        "description": "Erstellen Sie mehrere Videovariationen aus Textbeschreibungen für A/B-Tests, verschiedene Zielgruppen und Kampagnen. Generieren Sie personalisierten Marketingcontent im großen Maßstab ohne traditionelle Produktionseinschränkungen.",
+        "badge": "Marketer & Agenturen"
+      },
+      {
+        "id": "educators",
+        "name": "Pädagogen & Trainer",
+        "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Professioneller Pädagoge präsentiert ansprechende Inhalte in modernem Klassenraum",
+        "title": "Erstellen Sie ansprechende Bildungsvideos aus Text",
+        "description": "Verwandeln Sie Lehrpläne und Bildungskonzepte in überzeugende Videoinhalte. Machen Sie komplexe Themen zugänglich und ansprechend mit KI-generierten Visuals, die Lernerfahrungen verbessern.",
+        "badge": "Pädagogen & Trainer"
+      },
+      {
+        "id": "storytellers",
+        "name": "Geschichtenerzähler & Autoren",
+        "image": "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Kreativer Autor arbeitet am Storytelling mit Notizbüchern und Laptop",
+        "title": "Erwecken Sie geschriebene Geschichten visuell zum Leben",
+        "description": "Verwandeln Sie Ihre Erzählungen, Skripte und schriftlichen Inhalte in dynamische Videogeschichten. Visualisieren Sie Charaktere, Szenen und Handlungspunkte ohne die Notwendigkeit von Schauspielern oder Filmausrüstung.",
+        "badge": "Geschichtenerzähler & Autoren"
+      }
+    ]
+  }
+}

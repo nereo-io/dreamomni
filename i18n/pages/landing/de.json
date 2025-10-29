@@ -1,0 +1,356 @@
+{
+  "template": "luckbox-template",
+  "theme": "light",
+  "header": {
+    "brand": {
+      "title": "Veo3",
+      "logo": {
+        "src": "/logo.png",
+        "alt": "Veo3"
+      },
+      "url": "/"
+    },
+    "nav": {
+      "items": [
+        {
+          "title": "Bild zu Video",
+          "url": "/image-to-video"
+        },
+        {
+          "title": "Text zu Video",
+          "url": "/text-to-video"
+        },
+        {
+          "title": "Meine Kreationen",
+          "url": "/history"
+        },
+        {
+          "title": "Preise",
+          "url": "/pricing"
+        }
+      ]
+    },
+    "show_sign": true,
+    "show_theme": false,
+    "show_locale": true
+  },
+  "hero": {
+    "title": "Kostenloser Veo 3 AI Video Generator",
+    "highlight_text": "Veo 3 AI",
+    "announcement": {
+      "title": "🎬 Veo 3 AI Jetzt Verfügbar!",
+      "label": "Neu!",
+      "url": "#video-generator"
+    },
+    "description": "Verwandeln Sie Ihre Ideen in Minuten in Professionelle Videos",
+    "show_happy_users": false,
+    "show_badge": false,
+    "buttons": [
+      {
+        "title": "Videos Erstellen",
+        "url": "/image-to-video",
+        "target": "_self",
+        "variant": "default",
+        "icon": "GoArrowUpRight"
+      }
+    ]
+  },
+  "aiModelsHero": {
+    "title": "All-in-One AI Bild zu Video Generator",
+    "description": "Veo3 AI ist der ultimative All-in-One AI Bild-zu-Video-Generator. Wir bieten Zugang zu branchenführenden Videomodellen wie Veo3, Seedance, Wan2.2 und Hailuo, alles an einem einzigen Ort. Probieren Sie sie nahtlos aus und erstellen Sie atemberaubende Visuals, ohne zwischen mehreren Plattformen zu wechseln!",
+    "models": [
+      {
+        "id": "veo3",
+        "name": "Veo 3",
+        "logo": "/imgs/intro/veo.svg"
+      },
+      {
+        "id": "seedance",
+        "name": "Seedance",
+        "logo": "/imgs/intro/seedance.png"
+      },
+      {
+        "id": "wan",
+        "name": "Wan2.2",
+        "logo": "/imgs/intro/wan.png"
+      },
+      {
+        "id": "hailuo",
+        "name": "Hailuo",
+        "logo": "/imgs/intro/hailuo.webp"
+      }
+    ],
+    "moreModels": "Weitere Modelle"
+  },
+  "imageToVideoShowcase": {
+    "title": "Bild zu Video AI",
+    "description": "Erwecken Sie Ihre Bilder mit unserem Bild-zu-Video AI Generator zum Leben",
+    "cta": "Veo3 AI Ausprobieren",
+    "labels": {
+      "originalImage": "Originalbild",
+      "prompt": "Prompt",
+      "video": "Video"
+    },
+    "examples": [
+      {
+        "id": "anime-girl",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Anime-Girl-with-Braids.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Girl-Pokes-Camera.mp4",
+        "originalAlt": "Anime-Mädchen mit Zöpfen",
+        "videoAlt": "Anime-Mädchen lächelt und stupst Kamera an",
+        "prompt": "Das kleine Mädchen lächelt weiter in die Kamera und stupst mit dem Finger auf die Linse."
+      },
+      {
+        "id": "t-rex",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Tyrannosaurus-Rex-in-Wilderness.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/TRex-Peeks-at-Camera.mp4",
+        "originalAlt": "Tyrannosaurus Rex in der Wildnis",
+        "videoAlt": "T-Rex-Kopf lugt aus der Kamera",
+        "prompt": "Der Kopf des T-Rex schaut aus der Kamera heraus."
+      },
+      {
+        "id": "mother-son",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Mother-Son-Walking-in-Park.mp4",
+        "originalAlt": "Mutter und Sohn spazieren im Park",
+        "videoAlt": "Mutter geht fröhlich mit Kind",
+        "prompt": "Eine Mutter geht fröhlich und hält die Hand ihres Kindes."
+      },
+      {
+        "id": "motorcycle",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Astronaut-Looking-at-Earth.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
+        "originalAlt": "Motorrad bereit zum Rasen",
+        "videoAlt": "Motorrad rast mit Lichtspur",
+        "prompt": "Das Motorrad rast, und das Rücklicht wird zu einer Linie."
+      }
+    ]
+  },
+  "aiVideoShowcase": {
+    "title": "Text zu Video AI",
+    "description": "Visualisieren Sie jeden Text mit unserem AI Video Generator",
+    "cta": "Veo3 AI Ausprobieren",
+    "examples": [
+      {
+        "id": "glass-strawberry",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
+        "alt": "Glas-Erdbeere zerbricht beim Schneiden",
+        "prompt": "Eine Glas-Erdbeere zerbricht, wenn sie mit einem Messer auf einem Holzbrett geschnitten wird."
+      },
+      {
+        "id": "anime-rose",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Anime-Rose-Blooming-Bridge.mp4",
+        "alt": "Anime-Rose erblüht mit tanzenden Blütenblättern",
+        "prompt": "Eine Rose im Anime-Stil erblüht vor einer Hängebrücke, mit Blütenblättern, die in der Luft tanzen."
+      },
+      {
+        "id": "monkey-seagull",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
+        "alt": "Affe und Möwe tanzen am mondbeschienenen Strand",
+        "prompt": "Ein Affe und eine Möwe tanzen an einem mondbeschienenen Strand unter einem Sternenhimmel."
+      },
+      {
+        "id": "monarch-butterfly",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
+        "alt": "Monarchfalter flattert mit Flügeln auf Blumen",
+        "prompt": "Ein Monarchfalter flattert mit seinen Flügeln auf bunten Blumen in einem sonnenbeschienenen Garten.",
+        "isNew": true
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Häufig Gestellte Fragen",
+    "description": "Erfahren Sie mehr über den kostenlosen Veo 3 AI Video Generator",
+    "items": [
+      {
+        "title": "Was ist der kostenlose Veo 3 AI Video Generator und wie funktioniert er?",
+        "description": "Der kostenlose Veo 3 AI Video Generator gibt Ihnen kostenlosen Zugang zur fortschrittlichsten KI-Videoerstellungstechnologie der Welt. Beschreiben Sie einfach Ihre Videoidee in Text, und Veo 3 AI wird hochwertige, professionelle Videos von bis zu 2 Minuten Länge mit atemberaubenden visuellen Effekten und flüssigen Bewegungen generieren."
+      },
+      {
+        "title": "Was unterscheidet den Veo 3 AI Video Generator von anderen AI Video Tools?",
+        "description": "Veo 3 AI bietet einzigartige Funktionen: ultrarealistsche Videogenerierung, fortgeschrittenes Bewegungsverständnis, kinoreife Qualität, präzises Befolgen von Prompts und Unterstützung für verschiedene Videostile von fotorealistisch bis animiert. Es ist die leistungsfähigste KI für die Erstellung professioneller Videos."
+      },
+      {
+        "title": "Welche Arten von Videos kann ich mit dem kostenlosen Veo 3 AI Generator erstellen?",
+        "description": "Der kostenlose Veo 3 AI Video Generator unterstützt eine breite Palette von Videotypen: Marketing-Videos, Social-Media-Inhalte, Bildungsmaterialien, Produktdemonstrationen, animierte Geschichten, Musikvideos, Concept Art und kinematografische Szenen. Die KI passt sich jeder kreativen Vision an."
+      },
+      {
+        "title": "Gibt es Einschränkungen beim kostenlosen Veo 3 AI Video Generator?",
+        "description": "Während der kostenlose Veo 3 AI Video Generator Zugang zu erweiterten Funktionen bietet, genießen Premium-Nutzer unbegrenzte Generierungen, längere Videodauern, Prioritätsverarbeitung und zusätzliche Funktionen wie benutzerdefinierte Stile und Batch-Verarbeitung. Kostenlose Nutzer können großartige Videos mit angemessenen Nutzungsgrenzen erstellen."
+      },
+      {
+        "title": "Wie lange dauert es, Videos mit Veo 3 AI zu generieren?",
+        "description": "Die Veo 3 AI Videogenerierung dauert normalerweise 2-5 Minuten für Standardvideos, abhängig von Komplexität und Länge. Die KI verarbeitet Ihren Prompt, erstellt die Videosequenz und wendet fortgeschrittenes Rendering für professionelle Qualitätsergebnisse an. Premium-Nutzer erhalten Prioritätsverarbeitung für schnellere Generierung."
+      },
+      {
+        "title": "Kann ich den Stil und die Qualität der generierten Videos anpassen?",
+        "description": "Ja! Der Veo 3 AI Video Generator bietet umfangreiche Anpassungsoptionen. Sie können Videostil, Kamerawinkel, Beleuchtung, Stimmung, Farbpalette und Bewegungsmerkmale in Ihren Prompts angeben. Die KI versteht detaillierte kreative Anweisungen und produziert Videos, die genau Ihrer Vision entsprechen."
+      },
+      {
+        "title": "Sind meine Inhalte sicher, wenn ich den kostenlosen Veo 3 AI Video Generator verwende?",
+        "description": "Absolut. Der kostenlose Veo 3 AI Video Generator verwendet branchenführende Sicherheitsmaßnahmen, um Ihre Inhalte und Prompts zu schützen. Wir befolgen strenge Datenschutzprotokolle und verwenden Ihre persönlichen Projekte niemals zum Trainieren von Modellen oder teilen Inhalte mit Dritten. Ihre kreative Arbeit bleibt privat."
+      },
+      {
+        "title": "Wie fange ich mit dem kostenlosen Veo 3 AI Video Generator an?",
+        "description": "Der Einstieg in den kostenlosen Veo 3 AI Video Generator ist einfach! Klicken Sie einfach auf die Schaltfläche 'Video generieren', beschreiben Sie Ihre Videoidee im Prompt-Feld und sehen Sie zu, wie die KI Ihr professionelles Video erstellt. Keine komplizierte Einrichtung erforderlich - beginnen Sie sofort mit der Erstellung großartiger Videos."
+      },
+      {
+        "title": "Welche Videoformate und Auflösungen unterstützt Veo 3 AI?",
+        "description": "Der Veo 3 AI Video Generator unterstützt mehrere Formate wie MP4, MOV und WebM. Videos werden standardmäßig in hoher Auflösung (1080p) generiert, mit Optionen für 4K-Auflösung für Premium-Nutzer. Alle Videos sind für Web-Sharing und professionelle Nutzung optimiert."
+      },
+      {
+        "title": "Kann ich mit Veo 3 AI generierte Videos für kommerzielle Zwecke verwenden?",
+        "description": "Ja! Mit dem kostenlosen Veo 3 AI Video Generator erstellte Videos können für kommerzielle Zwecke verwendet werden, einschließlich Marketing, Werbung, soziale Medien und Geschäftspräsentationen. Premium-Pläne bieten erweiterte kommerzielle Lizenzen und zusätzliche Nutzungsrechte für Unternehmensanwendungen."
+      }
+    ]
+  },
+  "cta": {
+    "name": "cta-generate",
+    "title": "Beginnen Sie mit dem Erstellen von Videos mit Kostenlosem Veo 3 AI",
+    "buttons": [
+      {
+        "title": "Veo3 AI Ausprobieren",
+        "url": "#video-generator",
+        "target": "_self",
+        "icon": "GoArrowUpRight"
+      }
+    ]
+  },
+  "footer": {
+    "name": "footer",
+    "brand": {
+      "title": "Veo3",
+      "description": "Verwandeln Sie Ihre Ideen in wenigen Minuten in kinoreife Meisterwerke.",
+      "logo": {
+        "src": "/logo.png",
+        "alt": "Veo3"
+      },
+      "url": "/"
+    },
+    "copyright": " 2025 • Veo3 Alle Rechte vorbehalten.",
+    "nav": {
+      "items": [
+        {
+          "title": "Video-Tools",
+          "children": [
+            {
+              "title": "Text zu Video",
+              "url": "/text-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "Bild zu Video",
+              "url": "/image-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "Referenz zu Video",
+              "url": "/reference-to-video",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "Bild-Tools",
+          "children": [
+            {
+              "title": "Text zu Bild",
+              "url": "/text-to-image",
+              "target": "_self"
+            },
+            {
+              "title": "Bild zu Bild",
+              "url": "/image-to-image",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "AI-Modelle",
+          "children": [
+            {
+              "title": "Sora 2",
+              "url": "/sora-2",
+              "target": "_self"
+            },
+            {
+              "title": "Veo 3.1",
+              "url": "/veo-3-1",
+              "target": "_self"
+            },
+            {
+              "title": "Wan 2.5",
+              "url": "/wan-2-5",
+              "target": "_self"
+            },
+            {
+              "title": "Nano Banana",
+              "url": "/nano-banana",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "Ressourcen",
+          "children": [
+            {
+              "title": "Meine Kreationen",
+              "url": "/history",
+              "target": "_self"
+            },
+            {
+              "title": "Preise",
+              "url": "/pricing",
+              "target": "_self"
+            },
+            {
+              "title": "Blog",
+              "url": "/blog",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    "agreement": {
+      "items": [
+        {
+          "title": "Datenschutzerklärung",
+          "url": "/privacy-policy"
+        },
+        {
+          "title": "Nutzungsbedingungen",
+          "url": "/terms-of-service"
+        },
+        {
+          "title": "Rückerstattungsrichtlinie",
+          "url": "/refund-policy"
+        }
+      ]
+    },
+    "contact": {
+      "title": "KONTAKT",
+      "items": [
+        {
+          "title": "E-Mail-Support",
+          "value": "support@veo3ai.io",
+          "icon": "RiMailFill",
+          "url": "mailto:support@veo3ai.io",
+          "target": "_self"
+        },
+        {
+          "title": "Unternehmen",
+          "value": "ASTROINSPIRE LTD",
+          "icon": "RiBuildingFill"
+        },
+        {
+          "title": "Adresse",
+          "value": "71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM",
+          "icon": "RiMapPinFill"
+        }
+      ]
+    }
+  }
+}

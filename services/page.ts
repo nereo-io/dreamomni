@@ -4,6 +4,8 @@ import { ClaudeSonnetFeaturesBlockTranslations } from "@/types/blocks/claude-son
 import { TextToVideoPage } from "@/types/pages/text-to-video";
 import { ImageToVideoPage } from "@/types/pages/image-to-video";
 import { ReferenceToVideoPage } from "@/types/pages/reference-to-video";
+import { TextToImagePage } from "@/types/pages/text-to-image";
+import { ImageToImagePage } from "@/types/pages/image-to-image";
 import { ModelLandingPage } from "@/types/pages/model-landing-page";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
@@ -141,6 +143,46 @@ export async function getReferenceToVideoPage(
     );
     return await import("@/i18n/pages/reference-to-video/en.json").then(
       (module) => module.default as ReferenceToVideoPage
+    );
+  }
+}
+
+export async function getTextToImagePage(
+  locale: string
+): Promise<TextToImagePage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/text-to-image/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load text-to-image/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/pages/text-to-image/en.json").then(
+      (module) => module.default as TextToImagePage
+    );
+  }
+}
+
+export async function getImageToImagePage(
+  locale: string
+): Promise<ImageToImagePage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/image-to-image/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load image-to-image/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/pages/image-to-image/en.json").then(
+      (module) => module.default as ImageToImagePage
     );
   }
 }

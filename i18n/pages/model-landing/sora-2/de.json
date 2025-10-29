@@ -1,0 +1,353 @@
+{
+  "banner": {
+    "title": "OpenAI Sora 2 AI Video Generator",
+    "description": "Sora 2 ist OpenAIs neuestes Video-Generierungsmodell mit fortschrittlicher Physik-Simulation, synchronisierter Audio-Generierung und beeindruckender Multi-Shot-Konsistenz. Probieren Sie Sora 2 kostenlos auf Veo3 AI aus - jetzt exklusiv für Mitglieder verfügbar!",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Text zu Video",
+        "subTitle": "Prompt",
+        "value": "text-to-video",
+        "modelName": "Sora 2",
+        "modelLogo": "/imgs/intro/sora.png",
+        "placeholder": "Beschreiben Sie das Video, das Sie generieren möchten...",
+        "buttonText": "Erstellen"
+      },
+      {
+        "type": "image",
+        "title": "Bild zu Video",
+        "subTitle": "Bild",
+        "value": "image-to-video",
+        "modelName": "Sora 2",
+        "modelLogo": "/imgs/intro/sora.png",
+        "placeholder": "Laden Sie ein Bild hoch, um es zu animieren",
+        "tips": "Laden Sie JPG/PNG/WEBP-Bilder bis 10 MB mit einer Mindestbreite/-höhe von 300 px hoch.",
+        "buttonText": "Erstellen"
+      }
+    ]
+  },
+  "partners": [
+    { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
+    { "name": "Microsoft", "logo": "/imgs/partners/microsoft-logo.png" },
+    { "name": "Nike", "logo": "/imgs/partners/nike-logo.png" },
+    { "name": "P&G", "logo": "/imgs/partners/p-g-logo.png" },
+    { "name": "Lancome", "logo": "/imgs/partners/lancome-logo.png" },
+    { "name": "Zoom", "logo": "/imgs/partners/zoom-logo.png" },
+    { "name": "Sony", "logo": "/imgs/partners/sony-logo.png" },
+    { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
+  ],
+  "features": {
+    "title": "Hauptmerkmale des Sora 2 AI Video Modells",
+    "details": [
+      {
+        "title": "Realistische Physik und Weltverständnis",
+        "description": "Sora 2 simuliert präzise reale Physik, einschließlich Schwerkraft, Auftrieb, Objektkollisionen und Umweltinteraktionen. Das Modell zeigt ein fortgeschrittenes Verständnis dafür, wie physikalische Gesetze Bewegung und Objektverhalten in komplexen Szenarien steuern.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Generiertes Video" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Eine Eiskunstläuferin führt einen dreifachen Axel mit einer Katze auf ihrem Kopf auf"
+                },
+                {
+                  "type": "video",
+                  "content": "https://pollo.ai/cms/1_9c5082b5d5.mp4",
+                  "poster": ""
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Ein Gymnast macht einen Salto auf einem Schwebebalken. Kinematische Beleuchtung."
+                },
+                {
+                  "type": "video",
+                  "content": "https://pollo.ai/cms/2_a16ddfcaaf.mp4",
+                  "poster": ""
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Synchronisierter Sound und Dialog",
+        "description": "Sora 2 generiert synchronisierte Audio-Landschaften mit realistischer Sprache, Umgebungsgeräuschen und Soundeffekten, die perfekt mit Videoinhalten abgestimmt sind. Charaktere sprechen natürlich und Umgebungen erwachen mit immersiven Soundscapes zum Leben - keine zusätzliche Audio-Bearbeitung erforderlich.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Generiertes Video" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Zwei Bergsteiger in heller technischer Ausrüstung, Gesichter mit Eiskrustern, Augen vor Dringlichkeit zusammengekniffen, schreiend im Schnee"
+                },
+                {
+                  "type": "video",
+                  "content": "https://pollo.ai/cms/3_d40976e7f1.mp4",
+                  "poster": ""
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Unterwasser-Taucher, Geräusche des Korallenriffs"
+                },
+                {
+                  "type": "video",
+                  "content": "https://pollo.ai/cms/4_d40976e7f1.mp4",
+                  "poster": ""
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Präzise Langzeit-Konsistenz und Multi-Shot-Storytelling",
+        "description": "Sora 2 erhält die Objektpermanenz und Szenenkontinuität über komplexe Multi-Shot-Sequenzen hinweg. Elemente wie Charaktere, Requisiten und Umgebungen bleiben logisch konsistent, ohne sich in ausgedehnten, komplizierten Sequenzen mit mehreren Szenen zu verformen oder zu verschwinden - perfekt für kinematisches, anime und realistisches Storytelling.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Generiertes Video" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Im Stil von japanischer Anime erwacht der Held mit weißem Haar seine schlummernden Kräfte. Sein Körper ist in einer blauschwarzen Feueraura gehüllt und Markierungen bedecken sein Gesicht und seinen Körper, während eine tiefe uralte Kraft endlich erwacht"
+                },
+                {
+                  "type": "video",
+                  "content": "https://pollo.ai/cms/6_8f4b0e2607.mp4",
+                  "poster": ""
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Im Stil von Studio Ghibli rennen ein Junge und sein Hund einen grünen malerischen Berg mit wunderschönen Wolken hinauf und überblicken ein Dorf in der fernen Ferne"
+                },
+                {
+                  "type": "video",
+                  "content": "https://pollo.ai/cms/7_4b37c177c7.mp4",
+                  "poster": ""
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "\"Cameos\": Fügen Sie sich realistisch in Videos ein",
+        "description": "Zum ersten Mal können Sie ein kurzes Video und eine Sprachprobe hochladen, um einen persönlichen Cameo in generierten Videos zu erstellen. Sora 2 lernt Ihr Aussehen und Ihre Stimme und fügt Sie dann mit beeindruckender Treue und natürlichem Verhalten in jedes Szenario ein - perfekt für personalisiertes Marketing, kreative Projekte und Storytelling.",
+        "type": "video",
+        "data": "https://pollo.ai/cms/5_415e112471.mp4"
+      },
+      {
+        "title": "1080p HD-Qualität - Feste hochauflösende Ausgabe",
+        "description": "Sora 2 generiert Videos mit konsistenter 1080p HD-Auflösung und außergewöhnlicher visueller Treue. Egal ob Sie kinematische Sequenzen, Produktdemonstrationen oder kreative Inhalte erstellen, Ihre Videos behalten professionelle Klarheit und Detail bei."
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "So verwenden Sie Sora 2 AI Video Generator auf Veo3 AI",
+    "description": "Generieren Sie atemberaubende Videos mit OpenAIs Sora 2 Modell über unsere benutzerfreundliche Schnittstelle. Nur für Mitglieder!",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Wählen Sie Sora 2 Modell",
+        "description": "Navigieren Sie zur Seite 'Text zu Video' oder 'Bild zu Video' und wählen Sie 'Sora 2' aus dem Modell-Dropdown-Menü."
+      },
+      {
+        "number": "02",
+        "title": "Geben Sie Ihren Prompt ein oder laden Sie ein Bild hoch",
+        "description": "Beschreiben Sie detailliert, was Sie generieren möchten, oder laden Sie ein Bild für Bild-zu-Video hoch. Konfigurieren Sie Ihr bevorzugtes Seitenverhältnis (16:9 oder 9:16) und wählen Sie die Dauer von 10 Sekunden."
+      },
+      {
+        "number": "03",
+        "title": "Generieren und Herunterladen",
+        "description": "Klicken Sie auf 'Erstellen' und warten Sie auf die Generierung Ihres Videos (normalerweise 2-3 Minuten). Nach Abschluss können Sie Ihr 1080p HD-Video herunterladen oder direkt teilen."
+      }
+    ],
+    "buttonText": "Probieren Sie Sora 2 auf Veo3 AI"
+  },
+  "youtubeCases": {
+    "title": "YouTube Videos über Sora 2 AI Video Modell",
+    "content": [
+      {
+        "youtubeLink": "https://www.youtube.com/embed/pNMMFov2f_c?si=YZlkPQCl4_ApQLCn",
+        "width": "525",
+        "height": "296"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/bxEoScc64Bw?si=Zz0YVcFCVnIt5eqy",
+        "width": "525",
+        "height": "296"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/ZoXZUvIPKf4?si=94XxTFZSuIPKf4",
+        "width": "525",
+        "height": "296"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/xyOP5eCQgUI?si=CqEgllwVQg7wasC",
+        "width": "525",
+        "height": "296"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/YEkXyoO2UeE?si=gignm1DQuUag6kwm",
+        "width": "525",
+        "height": "296"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/sUXFBQjjkgA?si=cJksHYIkgVwPzWvI",
+        "width": "525",
+        "height": "296"
+      }
+    ]
+  },
+  "redditCases": {
+    "title": "Reddit-Diskussionen über Sora 2 AI Video Modell",
+    "content": [
+      {
+        "src": "https://embed.reddit.com/r/OpenAI/comments/1o15m6z/what_is_the_point_of_sora_2/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "411"
+      },
+      {
+        "src": "https://embed.reddit.com/r/technology/comments/1ny0tds/openais_sora_2_is_an_unholy_abomination/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "500"
+      },
+      {
+        "src": "https://embed.reddit.com/r/SoraAi/comments/1nxja66/sora_2_is_already_dead/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "316"
+      },
+      {
+        "src": "https://embed.reddit.com/r/singularity/comments/1nvmr4a/sora_2_is_a_paradigm_shift_i_have_been_browsing/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "316"
+      }
+    ]
+  },
+  "twitterCases": {
+    "title": "X-Beiträge über Sora 2 AI Video Modell",
+    "content": [
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1973363399234052232&dnt=false",
+        "width": "318",
+        "height": "350"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1974583900249936042&dnt=false",
+        "width": "318",
+        "height": "400"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1975152802688385040&dnt=false",
+        "width": "318",
+        "height": "350"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1974173242014249314&dnt=false",
+        "width": "318",
+        "height": "400"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1975015404524474485&dnt=false",
+        "width": "318",
+        "height": "380"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1975131720333857170&dnt=false",
+        "width": "398",
+        "height": "420"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1975499455035220353&dnt=false",
+        "width": "318",
+        "height": "380"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1973715367252520560&dnt=false",
+        "width": "318",
+        "height": "400"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1973424740133179667&dnt=false",
+        "width": "318",
+        "height": "350"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1975940358526623953&dnt=false",
+        "width": "398",
+        "height": "420"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1974144279955325191&dnt=false",
+        "width": "318",
+        "height": "380"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1973916657471918583&dnt=false",
+        "width": "318",
+        "height": "350"
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "label": "Häufig gestellte Fragen",
+    "title": "Häufig gestellte Fragen",
+    "description": "Erfahren Sie mehr über Sora 2 auf Veo3 AI",
+    "items": [
+      {
+        "title": "Was ist Sora 2 von OpenAI?",
+        "description": "Sora 2 ist OpenAIs neuestes Video-Generierungsmodell, das hochrealistische, physikalisch genaue und steuerbare Videos produziert. Es zeichnet sich durch die Erstellung von kinematischen, anime und realistischen Stilen aus, während lange Konsistenz über Multi-Shot-Sequenzen mit integrierter Audio-Generierung beibehalten wird."
+      },
+      {
+        "title": "Wie unterscheidet sich Sora 2 vom vorherigen Sora-Modell?",
+        "description": "Sora 2 stellt einen großen Sprung nach vorn dar mit stärkerer Physik-Simulation, präziser Objektpermanenz, Multi-Szenen-Storytelling-Fähigkeiten, synchronisierter Soundgenerierung und der neuen Cameos-Funktion, mit der Sie Ihr eigenes Aussehen in Videos einfügen können. Diese Verbesserungen machen es für fortgeschrittene kreative Projekte überlegen."
+      },
+      {
+        "title": "Kann ich Sora 2 kostenlos auf Veo3 AI verwenden?",
+        "description": "Sora 2 ist exklusiv für Veo3 AI Mitglieder verfügbar. Mitglieder erhalten Zugriff auf hochwertige Videogenerierung zu wettbewerbsfähigen Credit-Raten. Melden Sie sich für eine Mitgliedschaft an, um dieses Premium-Modell freizuschalten und unbegrenzte Generierungsmöglichkeiten zu genießen!"
+      },
+      {
+        "title": "Welche Qualität hat Sora 2-Ausgabe?",
+        "description": "Sora 2 generiert Videos mit fester 1080p HD-Auflösung und außergewöhnlicher visueller Treue. Das Modell produziert Videos in professionellem Qualitätsgrad, geeignet für Inhaltserstellung, Marketing, Filmemachen und kreative Projekte ohne zusätzliche Nachbearbeitung."
+      },
+      {
+        "title": "Wie lang können Sora 2 Videos sein?",
+        "description": "Auf Veo3 AI unterstützt Sora 2 die Videogenerierung bis zu einer Dauer von 10 Sekunden. Dies gibt Kreativen genug Zeit, um überraschende Geschichten zu erzählen und dabei die hohe Qualität und Kohärenz beizubehalten, für die das Modell bekannt ist."
+      },
+      {
+        "title": "Kann ich Sora 2 für professionelle oder kommerzielle Projekte verwenden?",
+        "description": "Ja! Sora 2s präzise Physik-Simulation, Multi-Shot-Konsistenz und synchronisierter Sound machen es zur hervorragenden Wahl für Filmemacher, Animatoren, Inhaltsersteller und Marketing-Profis. Die 1080p HD-Ausgabe ist produktionsreif für professionelle Nutzung."
+      },
+      {
+        "title": "Wie funktioniert die Cameos-Funktion von Sora 2?",
+        "description": "Cameos ermöglicht es Ihnen, ein kurzes Video von sich selbst aufzuzeichnen und eine Sprachprobe bereitzustellen. Sora 2 lernt Ihr Aussehen und Ihre Stimme und kann Sie dann realistisch in jedes generierte Video-Szenario einfügen - perfekt für personalisierte Inhalte, Testimonials oder kreatives Marketing."
+      },
+      {
+        "title": "Wie viel kostet die Generierung mit Sora 2?",
+        "description": "Sora 2 Credits sind wettbewerbsfähig bepreist als Teil der Mitgliedschaftsvorteile. Mitglieder genießen effiziente Credit-Konsumption mit der Möglichkeit, 10-Sekunden-Videos zu großem Wert zu generieren. Überprüfen Sie Ihre Mitgliedschaftsdetails für spezifische Preisgestaltung und enthaltene Generierungsanforderungen."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Generieren Sie jetzt beeindruckende Videos mit Sora 2 auf Veo3 AI!",
+    "buttonText": "Probieren Sie Sora 2 (Nur Mitglieder)"
+  }
+}

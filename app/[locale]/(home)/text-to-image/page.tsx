@@ -3,9 +3,9 @@ import { CreatorShowcase } from "@/components/blocks/creator-showcase";
 import { FAQSection } from "@/components/blocks/faq-section";
 import CTA from "@/components/blocks/cta";
 import TextToImageTab from "@/components/blocks/ai-image-generation-tool/TextToImageTab";
-import textToImagePageData from "@/i18n/pages/text-to-image/en.json";
 import { getTranslations } from "next-intl/server";
 import { auth } from "@/auth";
+import { getTextToImagePage } from "@/services/page";
 
 export async function generateMetadata({
   params: { locale },
@@ -37,9 +37,7 @@ export default async function TextToImagePage({
   const session = await auth();
 
   // Load localized page data
-  const pageData = locale === 'en'
-    ? textToImagePageData
-    : textToImagePageData; // For now, fallback to English for other locales
+  const pageData = await getTextToImagePage(locale);
 
   return (
     <>
