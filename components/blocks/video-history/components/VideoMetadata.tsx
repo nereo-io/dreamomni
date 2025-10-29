@@ -20,7 +20,7 @@ const VideoMetadata: React.FC<VideoMetadataProps> = React.memo(({
         variant="secondary"
         className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded border-0"
       >
-        {aspectRatio || "adaptive"}
+        {aspectRatio || "Auto"}
       </Badge>
       <Badge
         variant="secondary"

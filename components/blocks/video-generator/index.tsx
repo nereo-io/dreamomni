@@ -113,7 +113,7 @@ export default function VideoGenerator({
 
   // 组件内部状态管理
   const [description, setDescription] = useState("");
-  const [selectedRatio, setSelectedRatio] = useState("16:9");
+  const [selectedRatio, setSelectedRatio] = useState("");
   const [selectedDuration, setSelectedDuration] = useState("");
   const [selectedResolution, setSelectedResolution] = useState("");
 
@@ -492,13 +492,13 @@ export default function VideoGenerator({
   // 确保默认选项被选中
   useEffect(() => {
     if (selectedModelConfig) {
-      // 设置默认比例（如果当前选择不在支持列表中）
+      // 设置默认比例（如果当前选择不在支持列表中或未设置）
       const supportedRatios = selectedModelConfig.supportedAspectRatios || [
         "16:9",
         "9:16",
         "1:1",
       ];
-      if (!supportedRatios.includes(selectedRatio)) {
+      if (!selectedRatio || !supportedRatios.includes(selectedRatio)) {
         setSelectedRatio(supportedRatios[0]);
       }
 

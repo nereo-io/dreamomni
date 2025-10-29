@@ -12,7 +12,7 @@ export const SHOWCASE_IMAGE_VIDEOS: ShowcaseVideo[] = [
     imageUrl:
       "https://r2.veo3ai.io/intro/0816-sample/image-to-video/img/anime-dance.png",
     duration: 5,
-    aspectRatio: "adaptive",
+    aspectRatio: "Auto",
     model: "doubao-seedance-1-0-pro-image-to-video",
     category: "trending",
     tags: ["anime", "dance", "creative", "top-view"],
@@ -28,7 +28,7 @@ export const SHOWCASE_IMAGE_VIDEOS: ShowcaseVideo[] = [
     imageUrl:
       "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
     duration: 5,
-    aspectRatio: "adaptive",
+    aspectRatio: "Auto",
     model: "doubao-seedance-1-0-pro-image-to-video",
     category: "featured",
     tags: ["family", "walking", "happiness"],
@@ -44,7 +44,7 @@ export const SHOWCASE_IMAGE_VIDEOS: ShowcaseVideo[] = [
     imageUrl:
       "https://r2.veo3ai.io/intro/image-to-video/img/Astronaut-Looking-at-Earth.png",
     duration: 5,
-    aspectRatio: "adaptive",
+    aspectRatio: "Auto",
     model: "doubao-seedance-1-0-pro-image-to-video",
     category: "new",
     tags: ["motorcycle", "speed", "light-trail"],
@@ -61,7 +61,7 @@ export const SHOWCASE_IMAGE_VIDEOS: ShowcaseVideo[] = [
     imageUrl:
       "https://r2.veo3ai.io/intro/0816-sample/image-to-video/img/red-woman.png",
     duration: 5,
-    aspectRatio: "adaptive",
+    aspectRatio: "Auto",
     model: "doubao-seedance-1-0-pro-image-to-video",
     category: "new",
     tags: ["fashion", "portrait", "elegant", "lifestyle"],
@@ -77,7 +77,7 @@ export const SHOWCASE_IMAGE_VIDEOS: ShowcaseVideo[] = [
     imageUrl:
       "https://r2.veo3ai.io/intro/0816-sample/image-to-video/img/cart.jpg",
     duration: 5,
-    aspectRatio: "adaptive",
+    aspectRatio: "Auto",
     model: "doubao-seedance-1-0-pro-image-to-video",
     category: "new",
     tags: ["product", "360-degree", "showcase", "commercial"],

@@ -55,11 +55,11 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     displayName: "Veo 3.1",
     perSecondCredits: 1.5,
     description: "Google's Veo3.1 model, starting at $0.36/video",
-    features: ["Wait 100s", "Audio"],
+    features: ["Wait 120s", "Audio"],
     maxDuration: 8, // Kie.ai Veo3 默认5秒
-    supportedAspectRatios: ["16:9", "9:16"],
+    supportedAspectRatios: ["Auto", "16:9", "9:16"],
     supportsAudio: true, // 根据用户要求支持音频
-    estimatedGenerationTime: 100,
+    estimatedGenerationTime: 120,
     supportedDurations: [8],
     supportedResolutions: ["1080p"], // Veo3支持高分辨率
   },
@@ -73,11 +73,11 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     displayName: "Veo 3.1",
     perSecondCredits: 1.5, // 与文本转视频同样的积分消耗
     description: "Google's Veo3.1 model, starting at $0.36/video",
-    features: ["Wait 100s", "Audio", "Support 2 images"],
+    features: ["Wait 120s", "Audio", "Support 2 images"],
     maxDuration: 8, // Kie.ai Veo3 默认5秒
-    supportedAspectRatios: ["16:9", "9:16"],
+    supportedAspectRatios: ["Auto", "16:9", "9:16"],
     supportsAudio: true, // 根据用户要求支持音频
-    estimatedGenerationTime: 100,
+    estimatedGenerationTime: 120,
     supportedDurations: [8],
     supportedResolutions: ["1080p"], // Veo3支持高分辨率
     imageCapabilities: {
@@ -96,7 +96,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     perSecondCredits: 1.5,
     description:
       "Create videos with consistent character identity using 1-3 reference images",
-    features: ["Wait 200s", "Character Consistency", "1-3 Reference Images"],
+    features: ["Wait 240s", "Character Consistency", "1-3 Reference Images"],
     supportedAspectRatios: ["16:9"], // REFERENCE_2_VIDEO 只支持 16:9
     supportedDurations: [8], // 固定 8 秒
     supportedResolutions: ["1080p"], // 固定 1080p
@@ -144,7 +144,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     description: "ByteDance's video model, starting at $0.3/video",
     features: ["Wait 30s", "Direct Access"],
     maxDuration: 10,
-    supportedAspectRatios: ["adaptive"],
+    supportedAspectRatios: ["Auto"],
     supportedResolutions: ["480p", "1080p"],
     supportsAudio: false,
     estimatedGenerationTime: 30,
@@ -182,7 +182,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   //   description: "ByteDance's video model, starting at $0.3/video",
   //   features: ["wait 45s"],
   //   maxDuration: 10,
-  //   supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
+  //   supportedAspectRatios: ["auto"], // 图片转视频跟随图片尺寸
   //   supportedResolutions: ["480p", "1080p"],
   //   supportsAudio: false,
   //   estimatedGenerationTime: 45, // Seedance 图片转视频预估45秒
@@ -305,7 +305,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   //   description: "MiniMax's video model",
   //   features: ["wait 200s", "Instruction Following"],
   //   maxDuration: 10,
-  //   supportedAspectRatios: ["adaptive"],
+  //   supportedAspectRatios: ["auto"],
   //   supportedResolutions: ["768p"], // 固定768p分辨率
   //   supportsAudio: false,
   //   estimatedGenerationTime: 200, // 预估4分钟
@@ -324,7 +324,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   //   description: "MiniMax's video model",
   //   features: ["wait 200s", "Instruction Following"],
   //   maxDuration: 10,
-  //   supportedAspectRatios: ["adaptive"], // 图片转视频跟随图片尺寸
+  //   supportedAspectRatios: ["auto"], // 图片转视频跟随图片尺寸
   //   supportedResolutions: ["512p", "768p"], // 支持两种分辨率
   //   supportsAudio: false,
   //   estimatedGenerationTime: 200, // 预估4分钟
@@ -362,7 +362,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   //   description: "Ali Video Generation model, starting at $0.5/video",
   //   features: ["wait 120s"],
   //   maxDuration: 10,
-  //   supportedAspectRatios: ["adaptive"],
+  //   supportedAspectRatios: ["auto"],
   //   supportedResolutions: ["480p", "1080p"],
   //   supportsAudio: false,
   //   supportedDurations: [5],

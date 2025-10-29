@@ -142,6 +142,7 @@ export class KieAiVeo3Provider implements VideoProvider {
 
       // Add aspect ratio if provided
       if (input.aspect_ratio) {
+        // Frontend uses 'Auto' which matches Veo3 API requirement
         requestBody.aspectRatio = input.aspect_ratio;
       }
 
