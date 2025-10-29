@@ -607,6 +607,8 @@
     "imageToImageModel": "nano-banana"
   },
   "videoHistory": {
+    "exploreExamples": "Explore Examples",
+    "recentGenerations": "Recent Generations",
     "videoDeleted": "Video deleted successfully",
     "deleteFailed": "Failed to delete video",
     "deleteVideo": "Delete video",

@@ -600,6 +600,8 @@
     "imageToImageModel": "nano-banana"
   },
   "videoHistory": {
+    "exploreExamples": "Примеры",
+    "recentGenerations": "Недавние генерации",
     "videoDeleted": "Видео успешно удалено",
     "deleteFailed": "Не удалось удалить видео",
     "deleteVideo": "Удалить видео",

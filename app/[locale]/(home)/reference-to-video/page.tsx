@@ -46,6 +46,7 @@ export default async function ReferenceToVideoPage({
         mode="image-to-video"
         generationType="REFERENCE_2_VIDEO"
         hidePromptEnhancement
+        introVideoUrl="https://r2.veo3ai.io/intro/reference-to-video/Reference-to-video-intro-new.mp4"
       />
 
       {!session && (

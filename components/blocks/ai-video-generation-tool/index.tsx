@@ -23,6 +23,8 @@ interface VideoGenerationToolProps {
   generationType?: string;
   // Optional: Hide prompt enhancement toggle
   hidePromptEnhancement?: boolean;
+  // Optional: Intro video URL for simple video display
+  introVideoUrl?: string;
 }
 
 export function VideoGenerationTool({
@@ -32,6 +34,7 @@ export function VideoGenerationTool({
   effect,
   generationType,
   hidePromptEnhancement = false,
+  introVideoUrl,
 }: VideoGenerationToolProps) {
   const { submitGeneration, pollStatus, fetchHistory } = useVideoGeneration();
   const { trackVideoGeneration, trackFirstVideo } = useYandexTracking();
@@ -258,6 +261,7 @@ export function VideoGenerationTool({
           onEditVideo={handleEditVideo}
           onRegenerateVideo={handleRegenerateVideo}
           showcaseData={effectConfig?.showcaseData}
+          introVideoUrl={introVideoUrl}
         />
       </div>
     </div>

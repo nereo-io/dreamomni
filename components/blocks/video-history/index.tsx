@@ -12,7 +12,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { getStatusMap, INCOMPLETE_STATUSES } from "./components/constants";
 import VideoHistoryItem from "./components/VideoHistoryItem";
 import VideoHistorySkeleton from "./components/VideoHistorySkeleton";
-import VideoShowcase from "../video-showcase";
+// import VideoShowcase from "../video-showcase";
+import IntroVideoPlayer from "./components/IntroVideoPlayer";
 import type { ShowcaseVideo } from "@/types/showcase";
 import DeleteConfirmDialog from "@/components/blocks/image-history-for-generation/components/DeleteConfirmDialog";
 import { toast } from "sonner";
@@ -34,6 +35,8 @@ interface VideoHistoryProps {
   onRegenerateVideo?: (generation: VideoGenerationResult) => void;
   // Custom showcase data for effect preview
   showcaseData?: any;
+  // Intro video URL for simple video display
+  introVideoUrl?: string;
 }
 
 export default function VideoHistory({
@@ -45,6 +48,7 @@ export default function VideoHistory({
   onEditVideo,
   onRegenerateVideo,
   showcaseData,
+  introVideoUrl = "https://r2.veo3ai.io/intro/cover-video.mp4",
 }: VideoHistoryProps) {
   const t = useTranslations("video-result");
   const tVideo = useTranslations("videoHistory");
@@ -368,17 +372,18 @@ export default function VideoHistory({
         <header className="py-3 px-4 md:px-5 flex justify-between items-center border-b border-gray-700">
           <div className="text-lg md:text-xl font-semibold flex items-center text-white">
             <Sparkles className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3" />
-            <span className="truncate">Explore Examples</span>
+            <span className="truncate">{tVideo("exploreExamples")}</span>
           </div>
         </header>
 
         {/* Showcase Content - No overflow, full height */}
         <div className="flex-1 min-h-0 flex flex-col p-4 md:p-6">
-          <VideoShowcase 
-          mode={mode} 
+          {/* <VideoShowcase
+          mode={mode}
           onSelectVideo={handleShowcaseVideoSelect}
           showcaseData={showcaseData}
-        />
+        /> */}
+          <IntroVideoPlayer videoUrl={introVideoUrl} />
         </div>
       </div>
     );
@@ -402,17 +407,18 @@ export default function VideoHistory({
         <header className="py-3 px-4 md:px-5 flex justify-between items-center border-b border-gray-700">
           <div className="text-lg md:text-xl font-semibold flex items-center text-white">
             <Sparkles className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3" />
-            <span className="truncate">Explore Examples</span>
+            <span className="truncate">{tVideo("exploreExamples")}</span>
           </div>
         </header>
 
         {/* Showcase Content - No overflow, full height */}
         <div className="flex-1 min-h-0 flex flex-col p-4 md:p-6">
-          <VideoShowcase 
-          mode={mode} 
+          {/* <VideoShowcase
+          mode={mode}
           onSelectVideo={handleShowcaseVideoSelect}
           showcaseData={showcaseData}
-        />
+        /> */}
+          <IntroVideoPlayer videoUrl={introVideoUrl} />
         </div>
       </div>
     );
@@ -431,7 +437,7 @@ export default function VideoHistory({
       <header className="py-3 px-4 md:px-5 flex justify-between items-center border-b border-gray-700">
         <div className="text-lg md:text-xl font-semibold flex items-center text-white min-w-0">
           <History className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3 flex-shrink-0" />
-          <span className="truncate">Recent Generations</span>
+          <span className="truncate">{tVideo("recentGenerations")}</span>
         </div>
         <Button
           variant="ghost"
