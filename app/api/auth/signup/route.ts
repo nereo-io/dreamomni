@@ -157,6 +157,13 @@ const BLOCKED_EMAIL_DOMAINS = [
   'spymail.one',       // 临时邮箱服务
   'mailpwr.com',       // 临时邮箱服务
   'femailtor.com',     // 临时邮箱服务（出现在dot-trick案例中）
+  // 2025-10-29 新增 - 数据分析确认的薅羊毛域名（安全审计发现）
+  'inwagit.com',       // 62账号，0付费，98%积分耗尽，100%激活率
+  'raligaan.com',      // 54账号，0付费，96%积分耗尽，98%激活率
+  'cherobe.com',       // 51账号，0付费，100%积分耗尽，100%激活率
+  'keevle.com',        // 44账号，0付费，91%积分耗尽，95%激活率
+  'haotuwu.com',       // 41账号，0付费，71%积分耗尽，98%激活率
+  'lovleo.com',        // 40账号，0付费，78%积分耗尽，98%激活率
 ];
 
 const signupSchema = z.object({
