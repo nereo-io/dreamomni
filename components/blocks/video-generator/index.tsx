@@ -198,8 +198,8 @@ export default function VideoGenerator({
 
   // 检查是否需要CAPTCHA验证（基于积分）
   const needsCaptcha = useCallback(() => {
-    // 新用户（积分<=10）需要CAPTCHA验证，防止薅羊毛
-    return user?.uuid && leftCredits !== null && leftCredits <= 10;
+    // 新用户（积分<=12）需要CAPTCHA验证，防止薅羊毛
+    return user?.uuid && leftCredits !== null && leftCredits <= 12;
   }, [user?.uuid, leftCredits]);
 
   // Populate form fields when showcase video params are provided

@@ -134,8 +134,8 @@ export async function POST(req: Request) {
     }
 
     // 4. 基于积分的CAPTCHA验证（与前端逻辑一致）
-    if (userCredits.left_credits <= 10) {
-      // 新用户（积分<=10）需要CAPTCHA验证，防止薅羊毛
+    if (userCredits.left_credits <= 12) {
+      // 新用户（积分<=12）需要CAPTCHA验证，防止薅羊毛
       if (!captchaToken) {
         return respErr("CAPTCHA verification is required for new users");
       }
