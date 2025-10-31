@@ -46,6 +46,49 @@ export interface VideoModelConfig {
 
 // 视频模型配置
 export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
+    // BytePlus Seedance Pro 文本转视频模型 (Southeast Asia)
+  "byteplus-seedance-pro-text-to-video": {
+    id: "byteplus-seedance-pro-text-to-video",
+    name: "BytePlus Seedance Pro Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.BYTEPLUS,
+    // volcanoModel: "seedance-1-0-pro-250528",
+    // volcanoModel: "ep-20250915143914-m57vr",
+    volcanoModel: "ep-20251031184345-xbr8l",
+    displayName: "Seedance 1.0 Pro",
+    perSecondCredits: 2,
+    description: "ByteDance's video model, starting at $0.3/video",
+    features: ["Wait 30s", "Direct Access"],
+    maxDuration: 10,
+    supportedAspectRatios: ["16:9", "9:16", "1:1"],
+    supportedResolutions: ["480p", "1080p"],
+    supportsAudio: false,
+    estimatedGenerationTime: 30,
+    supportedDurations: [5, 10],
+    // requiresMembership: true,
+  },
+
+  // BytePlus Seedance Pro 图片转视频模型 (Southeast Asia)
+  "byteplus-seedance-pro-image-to-video": {
+    id: "byteplus-seedance-pro-image-to-video",
+    name: "BytePlus Seedance Pro Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.BYTEPLUS,
+    // volcanoModel: "seedance-1-0-pro-250528",
+    // volcanoModel: "ep-20250915143914-m57vr",
+    volcanoModel: "ep-20251031184345-xbr8l",
+    displayName: "Seedance 1.0 Pro",
+    perSecondCredits: 2,
+    description: "ByteDance's video model, starting at $0.3/video",
+    features: ["Wait 30s", "Direct Access"],
+    maxDuration: 10,
+    supportedAspectRatios: ["Auto"],
+    supportedResolutions: ["480p", "1080p"],
+    supportsAudio: false,
+    estimatedGenerationTime: 30,
+    supportedDurations: [5, 10],
+    // requiresMembership: true,
+  },
   // Kie.ai Veo3 文本转视频模型(基于 Kie.ai API)
   "kie-veo3-text-to-video": {
     id: "kie-veo3-text-to-video",
@@ -110,47 +153,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     generationType: "REFERENCE_2_VIDEO", // 标识这是 Reference-to-Video 模式
   },
 
-  // BytePlus Seedance Pro 文本转视频模型 (Southeast Asia)
-  "byteplus-seedance-pro-text-to-video": {
-    id: "byteplus-seedance-pro-text-to-video",
-    name: "BytePlus Seedance Pro Text-to-Video",
-    type: VideoModelType.TEXT_TO_VIDEO,
-    provider: VideoModelProvider.BYTEPLUS,
-    // volcanoModel: "seedance-1-0-pro-250528",
-    volcanoModel: "ep-20250915143914-m57vr",
-    displayName: "Seedance 1.0 Pro",
-    perSecondCredits: 2,
-    description: "ByteDance's video model, starting at $0.3/video",
-    features: ["Wait 30s", "Direct Access"],
-    maxDuration: 10,
-    supportedAspectRatios: ["16:9", "9:16", "1:1"],
-    supportedResolutions: ["480p", "1080p"],
-    supportsAudio: false,
-    estimatedGenerationTime: 30,
-    supportedDurations: [5, 10],
-    requiresMembership: true,
-  },
 
-  // BytePlus Seedance Pro 图片转视频模型 (Southeast Asia)
-  "byteplus-seedance-pro-image-to-video": {
-    id: "byteplus-seedance-pro-image-to-video",
-    name: "BytePlus Seedance Pro Image-to-Video",
-    type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.BYTEPLUS,
-    // volcanoModel: "seedance-1-0-pro-250528",
-    volcanoModel: "ep-20250915143914-m57vr",
-    displayName: "Seedance 1.0 Pro",
-    perSecondCredits: 2,
-    description: "ByteDance's video model, starting at $0.3/video",
-    features: ["Wait 30s", "Direct Access"],
-    maxDuration: 10,
-    supportedAspectRatios: ["Auto"],
-    supportedResolutions: ["480p", "1080p"],
-    supportsAudio: false,
-    estimatedGenerationTime: 30,
-    supportedDurations: [5, 10],
-    requiresMembership: true,
-  },
   // Doubao-Seedance 1.0 Pro 文本转视频模型 (Volcano Engine)
   // "doubao-seedance-1-0-pro-text-to-video": {
   //   id: "doubao-seedance-1-0-pro-text-to-video",
