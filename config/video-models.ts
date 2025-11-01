@@ -46,7 +46,7 @@ export interface VideoModelConfig {
 
 // 视频模型配置
 export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
-    // BytePlus Seedance Pro 文本转视频模型 (Southeast Asia)
+  // BytePlus Seedance Pro 文本转视频模型 (Southeast Asia)
   "byteplus-seedance-pro-text-to-video": {
     id: "byteplus-seedance-pro-text-to-video",
     name: "BytePlus Seedance Pro Text-to-Video",
@@ -153,7 +153,6 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     generationType: "REFERENCE_2_VIDEO", // 标识这是 Reference-to-Video 模式
   },
 
-
   // Doubao-Seedance 1.0 Pro 文本转视频模型 (Volcano Engine)
   // "doubao-seedance-1-0-pro-text-to-video": {
   //   id: "doubao-seedance-1-0-pro-text-to-video",
@@ -233,69 +232,69 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   },
 
   // Kie.ai Sora 2 Pro 文本转视频模型
-  "sora-2-pro-text-to-video": {
-    id: "sora-2-pro-text-to-video",
-    name: "Sora 2 Pro Text-to-Video",
-    type: VideoModelType.TEXT_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    displayName: "Sora 2 Pro",
-    perSecondCredits: 6, // 6x 标准版 (1 * 6 = 6)
-    description: "OpenAI's Sora 2 Pro model with enhanced quality",
-    features: ["Wait 600s", "Audio"],
-    maxDuration: 15,
-    supportedAspectRatios: ["16:9", "9:16"],
-    supportsAudio: true,
-    estimatedGenerationTime: 600, // Pro 版本可能更慢
-    supportedDurations: [10, 15],
-    supportedResolutions: ["1080p"], // 固定1080p
-    requiresMembership: true,
-  },
+  // "sora-2-pro-text-to-video": {
+  //   id: "sora-2-pro-text-to-video",
+  //   name: "Sora 2 Pro Text-to-Video",
+  //   type: VideoModelType.TEXT_TO_VIDEO,
+  //   provider: VideoModelProvider.KIEAI,
+  //   displayName: "Sora 2 Pro",
+  //   perSecondCredits: 6, // 6x 标准版 (1 * 6 = 6)
+  //   description: "OpenAI's Sora 2 Pro model with enhanced quality",
+  //   features: ["Wait 600s", "Audio"],
+  //   maxDuration: 15,
+  //   supportedAspectRatios: ["16:9", "9:16"],
+  //   supportsAudio: true,
+  //   estimatedGenerationTime: 600, // Pro 版本可能更慢
+  //   supportedDurations: [10, 15],
+  //   supportedResolutions: ["1080p"], // 固定1080p
+  //   requiresMembership: true,
+  // },
 
-  // Kie.ai Sora 2 Pro 图片转视频模型
-  "sora-2-pro-image-to-video": {
-    id: "sora-2-pro-image-to-video",
-    name: "Sora 2 Pro Image-to-Video",
-    type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    displayName: "Sora 2 Pro",
-    perSecondCredits: 6, // 6x 标准版 (1 * 6 = 6)
-    description: "OpenAI's Sora 2 Pro model with enhanced quality",
-    features: ["Wait 600s", "Audio"],
-    maxDuration: 15,
-    supportedAspectRatios: ["16:9", "9:16"],
-    supportsAudio: true,
-    estimatedGenerationTime: 600,
-    supportedDurations: [10, 15],
-    supportedResolutions: ["1080p"], // 固定1080p
-    requiresMembership: true,
-    imageCapabilities: {
-      maxImages: 1,
-    },
-  },
+  // // Kie.ai Sora 2 Pro 图片转视频模型
+  // "sora-2-pro-image-to-video": {
+  //   id: "sora-2-pro-image-to-video",
+  //   name: "Sora 2 Pro Image-to-Video",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.KIEAI,
+  //   displayName: "Sora 2 Pro",
+  //   perSecondCredits: 6, // 6x 标准版 (1 * 6 = 6)
+  //   description: "OpenAI's Sora 2 Pro model with enhanced quality",
+  //   features: ["Wait 600s", "Audio"],
+  //   maxDuration: 15,
+  //   supportedAspectRatios: ["16:9", "9:16"],
+  //   supportsAudio: true,
+  //   estimatedGenerationTime: 600,
+  //   supportedDurations: [10, 15],
+  //   supportedResolutions: ["1080p"], // 固定1080p
+  //   requiresMembership: true,
+  //   imageCapabilities: {
+  //     maxImages: 1,
+  //   },
+  // },
 
-  // Kie.ai Sora 2 Pro Storyboard (仅 API 支持，前端不显示)
-  "sora-2-pro-storyboard": {
-    id: "sora-2-pro-storyboard",
-    name: "Sora 2 Pro Storyboard",
-    type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    displayName: "Sora 2 Pro Storyboard",
-    perSecondCredits: 6, // 6x 标准版 (1 * 6 = 6)
-    description: "Multi-image sequence video generation (2-8 images)",
-    features: ["Wait 900s", "Multi-Image", "Extended Duration"],
-    maxDuration: 25,
-    supportedAspectRatios: ["16:9", "9:16"],
-    supportsAudio: false,
-    estimatedGenerationTime: 900, // Storyboard 可能需要更长时间
-    supportedDurations: [10, 15, 25],
-    supportedResolutions: ["1080p"],
-    requiresMembership: true,
-    internal: true, // 标记为内部使用，前端不显示
-    imageCapabilities: {
-      minImages: 2,
-      maxImages: 8,
-    },
-  },
+  // // Kie.ai Sora 2 Pro Storyboard (仅 API 支持，前端不显示)
+  // "sora-2-pro-storyboard": {
+  //   id: "sora-2-pro-storyboard",
+  //   name: "Sora 2 Pro Storyboard",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.KIEAI,
+  //   displayName: "Sora 2 Pro Storyboard",
+  //   perSecondCredits: 6, // 6x 标准版 (1 * 6 = 6)
+  //   description: "Multi-image sequence video generation (2-8 images)",
+  //   features: ["Wait 900s", "Multi-Image", "Extended Duration"],
+  //   maxDuration: 25,
+  //   supportedAspectRatios: ["16:9", "9:16"],
+  //   supportsAudio: false,
+  //   estimatedGenerationTime: 900, // Storyboard 可能需要更长时间
+  //   supportedDurations: [10, 15, 25],
+  //   supportedResolutions: ["1080p"],
+  //   requiresMembership: true,
+  //   internal: true, // 标记为内部使用，前端不显示
+  //   imageCapabilities: {
+  //     minImages: 2,
+  //     maxImages: 8,
+  //   },
+  // },
   // MiniMax Hailuo02 文本转视频模型 (via fal.ai)
   // "minimax-hailuo02-text-to-video": {
   //   id: "minimax-hailuo02-text-to-video",
