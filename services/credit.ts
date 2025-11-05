@@ -28,6 +28,11 @@ export enum CreditsTransType {
   RefundVideoGenerationFailed = "refund_video_generation_failed", // refund credits for failed video generation
   ImageGeneration = "image_generation", // cost for image generation
   RefundImageGenerationFailed = "refund_image_generation_failed", // refund credits for failed image generation
+  // Agent system transaction types
+  AgentShotAnalysis = "agent_shot_analysis", // cost for Agent shot analysis (分镜分析)
+  AgentKeyframe = "agent_keyframe", // cost for Agent keyframe generation (关键帧生成)
+  AgentVideoClip = "agent_video_clip", // cost for Agent video clip generation (视频片段生成)
+  AgentVideoSplicing = "agent_video_splicing", // cost for Agent video splicing (视频拼接)
 }
 
 export enum CreditsAmount {

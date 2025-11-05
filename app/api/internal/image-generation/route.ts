@@ -1,0 +1,151 @@
+import { NextRequest, NextResponse } from 'next/server';
+
+/**
+ * 内部 API: 图像生成
+ * 简化版 - 直接转发到现有的 submit API
+ */
+export async function POST(req: NextRequest) {
+  // 验证内部调用
+  const authHeader = req.headers.get('Authorization');
+  const expectedKey = `Bearer ${process.env.INTERNAL_API_KEY}`;
+
+  if (!authHeader || authHeader !== expectedKey) {
+    return NextResponse.json(
+      { error: 'Unauthorized' },
+      { status: 401 }
+    );
+  }
+
+  try {
+    const body = await req.json();
+    const { userId, prompt, referenceImage, model } = body;
+
+    // 参数验证
+    if (!userId || !prompt) {
+      return NextResponse.json(
+        { error: 'Missing required fields: userId, prompt' },
+        { status: 400 }
+      );
+    }
+
+    // 调用现有的图像生成模型层
+    const { createImageGeneration } = await import('@/models/imageGeneration');
+    const { aiServiceManager } = await import('@/services/AIServiceManager');
+
+    // 确定 provider
+    const provider = 'nano_banana' as const;
+    const selectedModel = model || 'nano-banana';
+
+    console.log('[Internal Image Gen] Provider:', provider, 'Model:', selectedModel, 'UserId:', userId);
+    console.log('[Internal Image Gen] Available providers:', aiServiceManager.getAvailableProviders());
+
+    // 检查 provider 是否可用
+    const providerInstance = aiServiceManager.getProvider(provider);
+    console.log('[Internal Image Gen] Provider instance:', providerInstance ? 'found' : 'null');
+
+    if (!providerInstance) {
+      const error = `Provider ${provider} not available. Available: ${aiServiceManager.getAvailableProviders().join(', ')}`;
+      console.error('[Internal Image Gen]', error);
+      return NextResponse.json({ error }, { status: 500 });
+    }
+
+    // 调用 AI 服务
+    const result = await aiServiceManager.generateImage(provider, {
+      prompt: prompt,
+      model: selectedModel,
+      userId: userId,
+      count: 1,
+      output_format: 'png'
+    });
+
+    // 检查结果 (ProviderResponse 没有 success 字段,检查 status 和 taskId)
+    if (result.status === 'failed' || (!result.taskId && !result.imageUrl)) {
+      throw new Error(result.error || 'Image generation failed');
+    }
+
+    // 创建数据库记录
+    const imageGeneration = await createImageGeneration({
+      user_id: userId,
+      provider: provider,
+      model_id: selectedModel,
+      prompt: prompt,
+      mode: referenceImage ? 'image-to-image' : 'text-to-image',
+      source: 'api',
+      task_id: result.taskId,
+      provider_task_id: result.taskId,
+      status: result.taskId ? 'IN_QUEUE' : 'PENDING',
+      input_image_urls: referenceImage ? [referenceImage] : undefined
+    });
+
+    // 返回结果
+    return NextResponse.json({
+      success: true,
+      taskId: result.taskId,
+      imageGenerationId: imageGeneration.id,
+      status: result.status || 'pending',
+      // 如果是同步返回图片,直接返回
+      imageUrl: result.imageUrl || result.url || undefined
+    });
+
+  } catch (error: any) {
+    console.error('Internal image generation error:', error);
+
+    return NextResponse.json(
+      { error: error.message || 'Failed to generate image' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * 查询图像生成状态
+ */
+export async function GET(req: NextRequest) {
+  // 验证内部调用
+  const authHeader = req.headers.get('Authorization');
+  const expectedKey = `Bearer ${process.env.INTERNAL_API_KEY}`;
+
+  if (!authHeader || authHeader !== expectedKey) {
+    return NextResponse.json(
+      { error: 'Unauthorized' },
+      { status: 401 }
+    );
+  }
+
+  const { searchParams } = new URL(req.url);
+  const imageGenerationId = searchParams.get('id');
+
+  if (!imageGenerationId) {
+    return NextResponse.json(
+      { error: 'Missing query parameter: id' },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const { getImageGenerationById } = await import('@/models/imageGeneration');
+    const imageGen = await getImageGenerationById(imageGenerationId);
+
+    if (!imageGen) {
+      return NextResponse.json(
+        { error: 'Image generation not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      id: imageGen.id,
+      status: imageGen.status,
+      imageUrl: imageGen.image_urls_r2?.[0] || imageGen.image_urls?.[0],
+      errorMessage: imageGen.error_message
+    });
+
+  } catch (error: any) {
+    console.error('Query image generation error:', error);
+    return NextResponse.json(
+      { error: error.message || 'Failed to query image generation' },
+      { status: 500 }
+    );
+  }
+}
