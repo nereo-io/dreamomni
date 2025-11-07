@@ -19,35 +19,64 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { userId, credits, transType, reason } = body;
+    const { userId, credits, transType, reason, pools } = body;
 
     // 参数验证
-    if (!userId || typeof credits !== 'number' || !transType) {
+    if (!userId || !transType) {
       return NextResponse.json(
-        { error: 'Missing required fields: userId, credits, transType' },
+        { error: 'Missing required fields: userId, transType' },
         { status: 400 }
       );
     }
 
-    if (credits <= 0) {
+    // 支持两种模式:
+    // 1. 池化退款模式: 传入 pools 数组,按原订单和过期时间退款
+    // 2. 简单退款模式: 传入 credits 数字,创建新的积分记录
+    if (pools && Array.isArray(pools) && pools.length > 0) {
+      // 池化退款模式: 遍历每个池,按原始 order_no 和 expired_at 退款
+      let totalRefunded = 0;
+      for (const pool of pools) {
+        await increaseCredits({
+          user_uuid: userId,
+          trans_type: transType,
+          credits: pool.deducted,
+          order_no: pool.order_no,
+          expired_at: pool.expired_at,
+        });
+        totalRefunded += pool.deducted;
+      }
+
+      return NextResponse.json({
+        success: true,
+        refunded: totalRefunded,
+        pools: pools.length
+      });
+    } else if (typeof credits === 'number') {
+      // 简单退款模式: 创建新的积分记录
+      if (credits <= 0) {
+        return NextResponse.json(
+          { error: 'Credits must be greater than 0' },
+          { status: 400 }
+        );
+      }
+
+      await increaseCredits({
+        user_uuid: userId,
+        trans_type: transType,
+        credits: credits,
+        order_no: reason || 'Agent refund'
+      });
+
+      return NextResponse.json({
+        success: true,
+        refunded: credits
+      });
+    } else {
       return NextResponse.json(
-        { error: 'Credits must be greater than 0' },
+        { error: 'Must provide either pools array or credits number' },
         { status: 400 }
       );
     }
-
-    // 调用现有的积分增加服务
-    await increaseCredits({
-      user_uuid: userId,
-      trans_type: transType, // 例如: "refund" 或自定义类型
-      credits: credits,
-      order_no: reason || 'Agent refund' // 使用 reason 作为描述
-    });
-
-    return NextResponse.json({
-      success: true,
-      refunded: credits
-    });
 
   } catch (error: any) {
     console.error('Internal credits refund error:', error);
