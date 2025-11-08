@@ -1,0 +1,100 @@
+/**
+ * Agent Types
+ * TypeScript definitions for the intelligent video orchestration Agent system
+ */
+
+export interface AgentJob {
+  id: string;
+  user_id: string;
+  prompt: string;
+  reference_image_url?: string;
+  duration_seconds: number;
+  num_shots: number;
+  image_model: string;
+  video_model: string;
+  status: 'pending' | 'splitting_shots' | 'generating_keyframes' |
+          'waiting_for_confirmation' | 'orchestrating_videos' |
+          'splicing' | 'completed' | 'failed';
+  current_step?: string;
+  final_video_url?: string;
+  credits_charged: number;
+  created_at: string;
+  updated_at: string;
+
+  // Phase 4: Progress tracking and logs
+  progress?: {
+    keyframes?: { done: number; total: number; failed?: number };
+    videos?: { done: number; total: number; failed?: number };
+  };
+  logs?: Array<{ timestamp: string; message: string }>;
+  shots?: AgentShot[];
+}
+
+export interface AgentShot {
+  id: string;
+  job_id: string;
+  shot_number: number;
+  prompt: string;
+  duration_seconds: number;
+  keyframe_url?: string;
+  keyframe_status: 'pending' | 'generating' | 'done' | 'failed';
+  video_url?: string;
+  video_status: 'pending' | 'generating' | 'done' | 'failed';
+  created_at: string;
+  updated_at?: string;
+}
+
+export interface AgentAsset {
+  id: string;
+  job_id: string;
+  asset_type: 'script' | 'image' | 'clip' | 'final';
+  url?: string;
+  content?: string;
+  status: 'pending' | 'generating' | 'done' | 'failed';
+  metadata?: Record<string, any>;
+  created_at: string;
+}
+
+export interface AgentJobListResponse {
+  jobs: AgentJob[];
+  total: number;
+  page: number;
+  page_size: number;
+}
+
+export interface AgentAssetListResponse {
+  assets: AgentAsset[];
+  total: number;
+}
+
+export interface CreateAgentJobRequest {
+  prompt: string;
+  reference_image_url?: string;
+  duration_seconds: number;
+  image_model?: string;
+  video_model?: string;
+}
+
+export interface CreateAgentJobResponse {
+  job_id: string;
+  message: string;
+}
+
+// Status display helpers
+export const AgentJobStatusMap: Record<AgentJob['status'], { label: string; color: string }> = {
+  pending: { label: 'Pending', color: 'gray' },
+  splitting_shots: { label: 'Splitting Shots', color: 'blue' },
+  generating_keyframes: { label: 'Generating Keyframes', color: 'purple' },
+  waiting_for_confirmation: { label: 'Awaiting Confirmation', color: 'yellow' },
+  orchestrating_videos: { label: 'Orchestrating Videos', color: 'indigo' },
+  splicing: { label: 'Splicing Videos', color: 'violet' },
+  completed: { label: 'Completed', color: 'green' },
+  failed: { label: 'Failed', color: 'red' },
+};
+
+export const AgentShotStatusMap: Record<AgentShot['keyframe_status'], { label: string; color: string }> = {
+  pending: { label: 'Pending', color: 'gray' },
+  generating: { label: 'Generating', color: 'blue' },
+  done: { label: 'Done', color: 'green' },
+  failed: { label: 'Failed', color: 'red' },
+};
