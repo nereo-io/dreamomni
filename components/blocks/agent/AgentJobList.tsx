@@ -5,7 +5,7 @@
 
 "use client";
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { AgentJob, AgentJobListResponse } from '@/types/agent';
 import { AgentJobCard } from './AgentJobCard';
 import { AgentJobSkeleton } from './AgentJobSkeleton';
@@ -25,6 +25,7 @@ import DeleteConfirmDialog from '@/components/blocks/image-history-for-generatio
 
 const ITEMS_PER_PAGE = 12;
 const POLLING_INTERVAL = 5000; // 5 seconds
+const JOB_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
 
 interface AgentJobListProps {
   locale: string;
@@ -39,9 +40,18 @@ export function AgentJobList({ locale }: AgentJobListProps) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [jobToDelete, setJobToDelete] = useState<AgentJob | null>(null);
+  const [isUnauthorized, setIsUnauthorized] = useState(false);
+
+  // Use ref to track latest jobs without causing re-renders
+  const jobsRef = useRef<AgentJob[]>([]);
+
+  // Update ref whenever jobs change
+  useEffect(() => {
+    jobsRef.current = jobs;
+  }, [jobs]);
 
   // Background polling for active jobs
-  const updateActiveJobsInBackground = useCallback(async (jobs: AgentJob[]) => {
+  const updateActiveJobsInBackground = useCallback(async () => {
     const activeStatuses = [
       'pending',
       'splitting_shots',
@@ -50,7 +60,22 @@ export function AgentJobList({ locale }: AgentJobListProps) {
       'splicing',
     ];
 
-    const activeJobs = jobs.filter(job => activeStatuses.includes(job.status));
+    // Filter active jobs, skip those older than 30 minutes (optimization)
+    const activeJobs = jobsRef.current.filter(job => {
+      if (!activeStatuses.includes(job.status)) {
+        return false;
+      }
+
+      // Skip polling for jobs older than 30 minutes to save resources
+      // Backend will auto-mark them as failed when queried
+      const createdAt = new Date(job.created_at).getTime();
+      const now = Date.now();
+      if (now - createdAt > JOB_TIMEOUT_MS) {
+        return false;
+      }
+
+      return true;
+    });
 
     if (activeJobs.length === 0) {
       return;
@@ -84,6 +109,11 @@ export function AgentJobList({ locale }: AgentJobListProps) {
       );
 
       if (!response.ok) {
+        if (response.status === 401) {
+          setIsUnauthorized(true);
+          setIsLoading(false);
+          return;
+        }
         throw new Error('Failed to fetch Agent jobs');
       }
 
@@ -93,16 +123,13 @@ export function AgentJobList({ locale }: AgentJobListProps) {
       setCurrentPage(data.page);
       setTotalPages(Math.ceil(data.total / data.page_size));
       setTotalItems(data.total);
-
-      // Start background polling for active jobs
-      updateActiveJobsInBackground(data.jobs);
     } catch (error: any) {
       console.error('Error fetching jobs:', error);
       toast.error(error.message || 'Failed to load Agent jobs');
     } finally {
       setIsLoading(false);
     }
-  }, [updateActiveJobsInBackground]);
+  }, []);
 
   // Initial fetch
   useEffect(() => {
@@ -110,21 +137,14 @@ export function AgentJobList({ locale }: AgentJobListProps) {
   }, [fetchJobs]);
 
   // Set up polling interval for active jobs
+  // Use a single interval that checks jobsRef.current on each tick
   useEffect(() => {
-    const hasActiveJobs = jobs.some(job =>
-      ['pending', 'splitting_shots', 'generating_keyframes', 'orchestrating_videos', 'splicing'].includes(job.status)
-    );
-
-    if (!hasActiveJobs) {
-      return;
-    }
-
     const interval = setInterval(() => {
-      updateActiveJobsInBackground(jobs);
+      updateActiveJobsInBackground();
     }, POLLING_INTERVAL);
 
     return () => clearInterval(interval);
-  }, [jobs, updateActiveJobsInBackground]);
+  }, [updateActiveJobsInBackground]);
 
   const handlePageChange = (newPage: number) => {
     if (newPage < 1 || newPage > totalPages) return;
@@ -171,6 +191,30 @@ export function AgentJobList({ locale }: AgentJobListProps) {
       setJobToDelete(null);
     }
   };
+
+  // Unauthorized state (not logged in)
+  if (isUnauthorized) {
+    return (
+      <div className="p-6 text-center py-12">
+        <AlertTriangle className="mx-auto h-16 w-16 text-yellow-400 mb-4" />
+        <h3 className="text-2xl font-semibold text-gray-200 mb-2">
+          Authentication Required
+        </h3>
+        <p className="text-gray-400 mb-6">
+          Please log in to view your Agent jobs
+        </p>
+        <Button
+          asChild
+          size="lg"
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          <Link href="/auth/signin">
+            Sign In
+          </Link>
+        </Button>
+      </div>
+    );
+  }
 
   // Loading state
   if (isLoading && jobs.length === 0) {
