@@ -13,7 +13,7 @@ export interface AgentJob {
   image_model: string;
   video_model: string;
   status: 'pending' | 'splitting_shots' | 'generating_keyframes' |
-          'waiting_for_confirmation' | 'orchestrating_videos' |
+          'waiting_for_confirmation' | 'orchestrating_videos' | 'generating_videos' |
           'splicing' | 'completed' | 'failed';
   current_step?: string;
   final_video_url?: string;
@@ -87,6 +87,7 @@ export const AgentJobStatusMap: Record<AgentJob['status'], { label: string; colo
   generating_keyframes: { label: 'Generating Keyframes', color: 'purple' },
   waiting_for_confirmation: { label: 'Awaiting Confirmation', color: 'yellow' },
   orchestrating_videos: { label: 'Orchestrating Videos', color: 'indigo' },
+  generating_videos: { label: 'Generating Videos', color: 'cyan' },
   splicing: { label: 'Splicing Videos', color: 'violet' },
   completed: { label: 'Completed', color: 'green' },
   failed: { label: 'Failed', color: 'red' },

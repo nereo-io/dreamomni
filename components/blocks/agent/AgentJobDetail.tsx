@@ -82,7 +82,7 @@ export function AgentJobDetail({ jobId, locale }: AgentJobDetailProps) {
   useEffect(() => {
     if (!job) return;
 
-    const isActive = ['pending', 'splitting_shots', 'generating_keyframes', 'orchestrating_videos', 'splicing'].includes(
+    const isActive = ['pending', 'splitting_shots', 'generating_keyframes', 'orchestrating_videos', 'generating_videos', 'splicing'].includes(
       job.status
     );
 

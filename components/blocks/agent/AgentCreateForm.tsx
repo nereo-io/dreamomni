@@ -115,7 +115,7 @@ export function AgentCreateForm({ locale }: AgentCreateFormProps) {
       toast.success('Agent job created successfully!');
 
       // Navigate to job detail page
-      router.push(`/${locale}/agent/${data.job_id}`);
+      router.push(`/${locale}/agent/${data.id}`);
     } catch (error: any) {
       console.error('Error creating Agent job:', error);
       toast.error(error.message || 'Failed to create Agent job');
@@ -164,8 +164,11 @@ export function AgentCreateForm({ locale }: AgentCreateFormProps) {
                 Upload a reference image to guide the visual style
               </p>
               <ImageUploader
-                imageUrl={referenceImageUrl}
-                onImageUrlChange={url => setReferenceImageUrl(url)}
+                selectedModel={imageModel}
+                maxImages={1}
+                onImagesChange={(urls) => setReferenceImageUrl(urls[0] || null)}
+                isAuthenticated={!!user?.uuid}
+                onShowSignModal={() => setShowSignModal(true)}
                 onPixverseImgIdChange={() => {}}
               />
             </div>
