@@ -55,3 +55,7 @@ docs/vk
 /a_marketing/
 /a_strategy/
 /.cursor/
+
+# Playwright 测试认证状态（包含敏感 session）
+tests/e2e/.auth/
+playwright-report/
