@@ -49,17 +49,31 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error }, { status: 500 });
     }
 
-    // 调用 AI 服务
-    const result = await aiServiceManager.generateImage(provider, {
-      prompt: prompt,
-      model: selectedModel,
-      userId: userId,
-      count: 1,
-      output_format: 'png'
-    });
+    // 调用 AI 服务 - 根据是否有参考图片选择方法
+    let result;
+    if (referenceImage) {
+      // Image-to-Image: 使用 editImage 方法
+      console.log('[Internal Image Gen] Using image-to-image mode with reference:', referenceImage);
+      result = await aiServiceManager.editImage(provider, {
+        prompt: prompt,
+        imageUrls: [referenceImage],
+        model: selectedModel,
+        output_format: 'png'
+      });
+    } else {
+      // Text-to-Image: 使用 generateImage 方法
+      console.log('[Internal Image Gen] Using text-to-image mode');
+      result = await aiServiceManager.generateImage(provider, {
+        prompt: prompt,
+        model: selectedModel,
+        count: 1,
+        output_format: 'png'
+      });
+    }
 
     // 检查结果 (ProviderResponse 没有 success 字段,检查 status 和 taskId)
-    if (result.status === 'failed' || (!result.taskId && !result.imageUrl)) {
+    const firstImage = result.images?.[0];
+    if (result.status === 'failed' || (!result.taskId && !firstImage)) {
       throw new Error(result.error || 'Image generation failed');
     }
 
@@ -74,7 +88,8 @@ export async function POST(req: NextRequest) {
       task_id: result.taskId,
       provider_task_id: result.taskId,
       status: result.taskId ? 'IN_QUEUE' : 'PENDING',
-      input_image_urls: referenceImage ? [referenceImage] : undefined
+      input_image_urls: referenceImage ? [referenceImage] : undefined,
+      credits_used: 2 // Fixed 2 credits per image generation
     });
 
     // 返回结果
@@ -84,7 +99,7 @@ export async function POST(req: NextRequest) {
       imageGenerationId: imageGeneration.id,
       status: result.status || 'pending',
       // 如果是同步返回图片,直接返回
-      imageUrl: result.imageUrl || result.url || undefined
+      imageUrl: firstImage?.url || undefined
     });
 
   } catch (error: any) {
