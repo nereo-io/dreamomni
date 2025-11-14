@@ -8,6 +8,7 @@
 import React, { useMemo, useState } from 'react';
 import { AgentShot } from '@/types/agent';
 import { AssetModal } from './AssetModal';
+import { FileText, PlayCircle } from 'lucide-react';
 
 type AssetType = 'script' | 'image' | 'video';
 
@@ -75,15 +76,8 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
         }
       });
 
-      // 4. Final video
-      if (finalVideoUrl) {
-        result.push({
-          id: 'final-video',
-          type: 'video',
-          url: finalVideoUrl,
-          title: 'Final Video',
-        });
-      }
+      // 4. Final video is now rendered separately in AgentJobItem
+      // We don't include it in the grid anymore
 
       return result;
     }, [shots, finalVideoUrl]);
@@ -120,60 +114,64 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
 
     return (
       <>
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
           {assets.map(asset => (
             <div
               key={asset.id}
-              className="aspect-video bg-gray-800 rounded-lg overflow-hidden cursor-pointer relative transition-transform hover:scale-105"
+              className="relative group aspect-video rounded-lg overflow-hidden cursor-pointer transition-transform hover:scale-105"
               onClick={() => setSelectedAsset(asset)}
             >
-              {/* Asset content */}
+              {/* Script Card */}
               {asset.type === 'script' && (
-                <div
-                  className="w-full h-full flex items-center justify-center"
-                  style={{
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  }}
-                >
-                  <div className="text-5xl">📝</div>
+                <div className="w-full h-full bg-purple-200 dark:bg-purple-900/40 flex items-center justify-center">
+                  <div className="text-center text-purple-800 dark:text-purple-200">
+                    <FileText className="w-8 h-8 mx-auto" />
+                    <p className="text-sm font-medium mt-1">Script</p>
+                  </div>
                 </div>
               )}
 
+              {/* Keyframe Image */}
               {asset.type === 'image' && asset.url && (
-                <img
-                  src={asset.url}
-                  alt={asset.title}
-                  className="w-full h-full object-cover"
-                />
+                <>
+                  <img
+                    src={asset.url}
+                    alt={asset.title}
+                    className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute bottom-2 left-2 text-white text-xs font-medium">
+                    Shot #{asset.shotNumber}
+                  </div>
+                </>
               )}
 
+              {/* Video */}
               {asset.type === 'video' && asset.url && (
-                <video
-                  src={asset.url}
-                  className="w-full h-full object-cover"
-                  preload="metadata"
-                />
-              )}
-
-              {/* Type badge (top-left) */}
-              <div className="absolute top-2 left-2 bg-black/70 backdrop-blur-sm px-2 py-1 rounded text-xs font-semibold flex items-center gap-1">
-                <span className={getAssetTypeColor(asset.type)}>
-                  {getAssetTypeLabel(asset.type).split(' ')[0]}
-                </span>
-                <span className="text-white">{getAssetTypeLabel(asset.type).split(' ')[1]}</span>
-              </div>
-
-              {/* Info overlay (bottom) */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
-                <div className="text-xs text-white font-medium">
-                  {asset.type === 'script' && `${shots.length} shots`}
-                  {asset.type === 'image' && asset.shotNumber && `Shot #${asset.shotNumber}`}
-                  {asset.type === 'video' && asset.shotNumber && (
-                    <>Shot #{asset.shotNumber} • {asset.duration}s</>
+                <>
+                  <video
+                    src={asset.url}
+                    className="w-full h-full object-cover"
+                    preload="metadata"
+                    muted
+                  />
+                  {/* Play icon - always visible */}
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 flex items-center justify-center transition-all">
+                    <PlayCircle className="w-10 h-10 text-white group-hover:scale-110 transition-transform" />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
+                  {/* Duration badge (top-right) */}
+                  {asset.duration && (
+                    <div className="absolute top-2 right-2 bg-black/50 text-white text-[10px] font-medium px-1.5 py-0.5 rounded-full">
+                      {asset.duration}s
+                    </div>
                   )}
-                  {asset.type === 'video' && !asset.shotNumber && 'Final Video'}
-                </div>
-              </div>
+                  {/* Shot number (bottom-left) */}
+                  <div className="absolute bottom-2 left-2 text-white text-xs font-medium">
+                    {asset.shotNumber ? `Shot #${asset.shotNumber}` : 'Final Video'}
+                  </div>
+                </>
+              )}
             </div>
           ))}
         </div>

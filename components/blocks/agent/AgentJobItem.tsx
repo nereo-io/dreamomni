@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 import { Loader2, Trash2, Download } from 'lucide-react';
 import DeleteConfirmDialog from '@/components/blocks/image-history-for-generation/components/DeleteConfirmDialog';
 import { AgentAssetGrid } from './AgentAssetGrid';
+import VideoPlayer from '@/components/blocks/video-history/components/VideoPlayer';
 
 interface AgentJobItemProps {
   job: AgentJob;
@@ -25,6 +26,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
   ({ job, onDelete, locale }) => {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isDownloading, setIsDownloading] = useState(false);
 
     // Get status info
     const statusInfo = AgentJobStatusMap[job.status] || AgentJobStatusMap.pending;
@@ -39,7 +41,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
       'splicing',
     ].includes(job.status);
 
-    // Format timestamp
+    // Format timestamp (aligned with video-history/VideoHistoryItem.tsx)
     const formatTimestamp = () => {
       if (!job.created_at) return null;
 
@@ -47,15 +49,15 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
       const now = new Date();
       const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
 
-      if (diffInHours < 1) {
-        const diffInMinutes = Math.floor(diffInHours * 60);
-        return `${diffInMinutes} min ago`;
-      } else if (diffInHours < 24) {
-        return `${Math.floor(diffInHours)} hr ago`;
+      if (diffInHours < 24) {
+        return date.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
       } else {
         return date.toLocaleDateString([], {
-          month: 'short',
-          day: 'numeric',
+          month: "short",
+          day: "numeric",
         });
       }
     };
@@ -71,25 +73,82 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
       setShowDeleteDialog(false);
     };
 
-    const handleDownloadFinal = () => {
-      if (job.final_video_url) {
-        const link = document.createElement('a');
-        link.href = job.final_video_url;
-        link.download = `agent_video_${job.id}.mp4`;
-        link.click();
+    // Download helper functions (aligned with video-history/index.tsx)
+    const createProxyDownloadUrl = (sourceUrl: string, filename: string) =>
+      `/api/proxy-video?url=${encodeURIComponent(sourceUrl)}&filename=${encodeURIComponent(filename)}`;
+
+    const triggerDownload = (href: string, filename: string) => {
+      const downloadLink = document.createElement('a');
+      downloadLink.href = href;
+      downloadLink.download = filename;
+      downloadLink.rel = 'noopener noreferrer';
+      downloadLink.style.cssText =
+        'display: none; position: absolute; top: -9999px; left: -9999px;';
+      downloadLink.target = '_self';
+
+      document.body.appendChild(downloadLink);
+
+      try {
+        downloadLink.click();
+      } finally {
+        document.body.removeChild(downloadLink);
       }
     };
 
+    const handleDownloadFinal = async () => {
+      if (!job.final_video_url) return;
+
+      const filename = `agent_video_${job.id}.mp4`;
+      const proxyUrl = createProxyDownloadUrl(job.final_video_url, filename);
+
+      setIsDownloading(true);
+
+      try {
+        const response = await fetch(proxyUrl);
+        if (!response.ok) throw new Error('Download failed');
+
+        const blob = await response.blob();
+        if (!blob || blob.size === 0) {
+          throw new Error('Empty video blob');
+        }
+
+        const objectUrl = window.URL.createObjectURL(blob);
+        triggerDownload(objectUrl, filename);
+        window.URL.revokeObjectURL(objectUrl);
+      } catch (error) {
+        console.error('Download failed:', error);
+        // Fallback: try direct proxy download
+        try {
+          triggerDownload(proxyUrl, filename);
+        } catch (fallbackError) {
+          console.error('Proxy download fallback failed:', fallbackError);
+          // Last resort: direct URL (may open in new tab due to CORS)
+          triggerDownload(job.final_video_url, filename);
+        }
+      } finally {
+        setIsDownloading(false);
+      }
+    };
+
+    // Get thumbnail URL (only show user-uploaded reference image)
+    const getThumbnailUrl = () => {
+      // Only display if user uploaded a reference image
+      if (job.reference_image_url) return job.reference_image_url;
+      return null;
+    };
+
+    const thumbnailUrl = getThumbnailUrl();
+
     return (
       <>
-        <div className="bg-gray-900 rounded-xl shadow-lg p-5 space-y-4">
-          {/* Header: Status + Prompt + Timestamp + Actions */}
-          <div className="flex justify-between items-start gap-3">
-            <div className="flex items-start gap-3 flex-1">
+        <div className="bg-gray-50 dark:bg-gray-900 rounded-xl shadow-lg p-5 space-y-2">
+          {/* Header: Status + Thumbnail + Prompt + Timestamp + Actions */}
+          <div className="flex justify-between items-center gap-3">
+            <div className="flex items-center gap-3 flex-1 min-w-0">
               {/* Status Badge */}
               <Badge
                 className={cn(
-                  'text-white text-xs font-semibold px-2.5 py-1 rounded-full border-0 flex-shrink-0 mt-0.5',
+                  'text-white text-xs font-semibold px-2.5 py-1 rounded-full border-0 flex-shrink-0',
                   isCompleted
                     ? 'bg-green-500 text-green-900'
                     : isFailed
@@ -101,9 +160,18 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
                 {statusInfo.label}
               </Badge>
 
+              {/* Thumbnail - User uploaded reference image */}
+              {thumbnailUrl && (
+                <img
+                  src={thumbnailUrl}
+                  alt="Reference"
+                  className="h-7 w-7 rounded-sm object-contain bg-gray-800 flex-shrink-0"
+                />
+              )}
+
               {/* Prompt */}
               <p
-                className="text-base font-bold text-white leading-relaxed flex-1"
+                className="text-base font-bold text-gray-900 dark:text-white leading-relaxed flex-1 min-w-0"
                 style={{
                   display: '-webkit-box',
                   WebkitLineClamp: 2,
@@ -116,60 +184,98 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
             </div>
 
             {/* Timestamp and Actions */}
-            <div className="flex flex-col items-end gap-2 flex-shrink-0">
+            <div className="flex items-center gap-3 flex-shrink-0">
               {formatTimestamp() && (
                 <span className="text-sm text-gray-400">{formatTimestamp()}</span>
               )}
-
-              <div className="flex gap-2">
-                {job.final_video_url && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleDownloadFinal}
-                    className="text-gray-400 hover:text-gray-200"
-                  >
-                    <Download className="h-4 w-4" />
-                  </Button>
-                )}
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleDelete}
-                  className="text-gray-400 hover:text-red-400"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleDelete}
+                className="text-gray-400 hover:text-red-400"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
             </div>
           </div>
 
           {/* Metadata Tags */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <Badge
               variant="secondary"
-              className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded border-0"
+              className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium px-2.5 py-1 rounded-md border-0"
             >
               16:9
             </Badge>
             <Badge
               variant="secondary"
-              className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded border-0"
+              className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium px-2.5 py-1 rounded-md border-0"
             >
               {job.duration_seconds}s
             </Badge>
             <Badge
               variant="secondary"
-              className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded border-0"
+              className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium px-2.5 py-1 rounded-md border-0"
             >
               {job.num_shots} shots
             </Badge>
             {job.video_model && (
-              <div className="text-gray-300 flex-1 text-sm leading-relaxed">
+              <Badge
+                variant="secondary"
+                className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium px-2.5 py-1 rounded-md border-0"
+              >
                 {job.video_model === 'kie-veo3-image-to-video' ? 'Veo3' : 'Seedance Pro'}
-              </div>
+              </Badge>
             )}
           </div>
+
+          {/* Progress Bar (only show during generation, hide on completed/failed) */}
+          {job.progress && isProcessing && (
+            <div className="space-y-2">
+              {/* Keyframes Progress */}
+              {job.progress.keyframes && (
+                <div className="space-y-1">
+                  <div className="flex justify-between text-xs text-gray-400">
+                    <span>Keyframes</span>
+                    <span>
+                      {job.progress.keyframes.done}/{job.progress.keyframes.total}
+                      {job.progress.keyframes.failed ? ` (${job.progress.keyframes.failed} failed)` : ''}
+                    </span>
+                  </div>
+                  <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-blue-500 transition-all duration-300"
+                      style={{
+                        width: `${(job.progress.keyframes.done / job.progress.keyframes.total) * 100}%`
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Videos Progress */}
+              {job.progress.videos && (
+                <div className="space-y-1">
+                  <div className="flex justify-between text-xs text-gray-400">
+                    <span>Videos</span>
+                    <span>
+                      {job.progress.videos.done}/{job.progress.videos.total}
+                      {job.progress.videos.failed ? ` (${job.progress.videos.failed} failed)` : ''}
+                    </span>
+                  </div>
+                  <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-green-500 transition-all duration-300"
+                      style={{
+                        width: `${(job.progress.videos.done / job.progress.videos.total) * 100}%`
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
 
           {/* Error message for failed jobs */}
           {isFailed && (
@@ -185,6 +291,22 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               finalVideoUrl={job.final_video_url}
               locale={locale}
             />
+          )}
+
+          {/* Final Video - Using VideoPlayer component */}
+          {job.final_video_url && (
+            <div className="relative w-full">
+              <VideoPlayer
+                videoUrl={job.final_video_url}
+                onDownload={handleDownloadFinal}
+                canDownload={true}
+                isDownloading={isDownloading}
+              />
+              {/* Final Video label overlay */}
+              <div className="absolute top-3 left-3 text-white text-xs font-medium bg-black/50 px-2 py-1 rounded-md pointer-events-none z-10">
+                Final Video
+              </div>
+            </div>
           )}
         </div>
 
