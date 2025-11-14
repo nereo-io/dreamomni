@@ -57,8 +57,13 @@
   },
   "aiModelsHero": {
     "title": "Générateur Image vers Vidéo IA Tout-en-Un",
-    "description": "Veo3 AI est le générateur image vers vidéo IA ultime et tout-en-un. Nous offrons l'accès aux modèles vidéo leaders du secteur, notamment Veo3, Seedance, Wan2.2 et Hailuo, le tout en un seul endroit. Essayez-les de manière transparente et créez des visuels époustouflants sans jongler entre plusieurs plateformes !",
+    "description": "Veo3 AI est le générateur vidéo AI tout-en-un ultime. Nous offrons un accès aux modèles vidéo leaders de l'industrie, y compris Sora 2, Veo3 et Seedance, le tout en un seul endroit. Essayez-les de manière transparente et créez des visuels époustouflants sans jongler entre plusieurs plateformes !",
     "models": [
+      {
+        "id": "sora2",
+        "name": "Sora 2",
+        "logo": "/imgs/intro/sora.png"
+      },
       {
         "id": "veo3",
         "name": "Veo 3",
@@ -68,16 +73,6 @@
         "id": "seedance",
         "name": "Seedance",
         "logo": "/imgs/intro/seedance.png"
-      },
-      {
-        "id": "wan",
-        "name": "Wan2.2",
-        "logo": "/imgs/intro/wan.png"
-      },
-      {
-        "id": "hailuo",
-        "name": "Hailuo",
-        "logo": "/imgs/intro/hailuo.webp"
       }
     ],
     "moreModels": "Plus de Modèles"
