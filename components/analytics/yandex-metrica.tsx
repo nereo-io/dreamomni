@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Script from 'next/script';
 import { initClientId } from '@/lib/yandex-metrica';
 
 export default function YandexMetrica() {
@@ -20,7 +21,9 @@ export default function YandexMetrica() {
 
   return (
     <>
-      <script
+      <Script
+        id="yandex-metrica"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
             (function(m,e,t,r,i,k,a){
