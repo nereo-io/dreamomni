@@ -80,9 +80,10 @@ export async function getAgentJobAssets(
 export async function getAgentJobs(
   userId: string,
   page = 1,
-  pageSize = 20
+  pageSize = 20,
+  includeShots = false
 ) {
-  return agentRequest(`/v1/jobs?user_id=${userId}&page=${page}&page_size=${pageSize}`);
+  return agentRequest(`/v1/jobs?user_id=${userId}&page=${page}&page_size=${pageSize}&include_shots=${includeShots}`);
 }
 
 /**

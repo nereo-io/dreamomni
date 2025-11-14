@@ -1,38 +1,36 @@
 /**
- * Agent Jobs List Page
- * Display all Agent video orchestration jobs for the current user
+ * Agent Page
+ * Unified page with left-right layout for creating and viewing Agent jobs
+ * References: ai-video-generation-tool for layout structure
  */
 
-import { AgentJobList } from '@/components/blocks/agent/AgentJobList';
+"use client";
 
-export async function generateMetadata({
+import { useState } from 'react';
+import { AgentCreatePanel } from '@/components/blocks/agent/AgentCreatePanel';
+import { AgentJobsList } from '@/components/blocks/agent/AgentJobsList';
+
+export default function AgentPage({
   params: { locale },
 }: {
   params: { locale: string };
 }) {
-  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/agent`;
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  if (locale !== 'en') {
-    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/agent`;
-  }
-
-  return {
-    title: 'Agent Jobs - Intelligent Video Orchestration',
-    description: 'View and manage your AI-powered multi-shot video generation jobs',
-    alternates: {
-      canonical: canonicalUrl,
-    },
+  const handleJobCreated = () => {
+    // Trigger refresh of jobs list
+    setRefreshTrigger(prev => prev + 1);
   };
-}
 
-export default function AgentJobsPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
   return (
-    <div className="bg-gray-900 rounded-xl shadow-lg min-h-[600px]">
-      <AgentJobList locale={locale} />
+    <div className="w-full mb-6 sm:mb-8 lg:mb-10 lg:h-[calc(100vh-120px)]">
+      <div className="flex flex-col lg:flex-row gap-2 h-full">
+        {/* Left Panel: Create Form */}
+        <AgentCreatePanel onJobCreated={handleJobCreated} />
+
+        {/* Right Panel: Jobs List */}
+        <AgentJobsList refreshTrigger={refreshTrigger} locale={locale} />
+      </div>
     </div>
   );
 }

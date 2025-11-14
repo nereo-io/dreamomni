@@ -18,8 +18,9 @@ export async function GET(request: NextRequest) {
 
     const page = parseInt(request.nextUrl.searchParams.get('page') || '1');
     const pageSize = parseInt(request.nextUrl.searchParams.get('page_size') || '20');
+    const includeShots = request.nextUrl.searchParams.get('include_shots') === 'true';
 
-    const jobs = await getAgentJobs(session.user.uuid, page, pageSize);
+    const jobs = await getAgentJobs(session.user.uuid, page, pageSize, includeShots);
 
     return NextResponse.json(jobs);
   } catch (error: any) {

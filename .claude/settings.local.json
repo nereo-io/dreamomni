@@ -56,7 +56,10 @@
       "Bash(source:*)",
       "Bash(awk:*)",
       "Bash(xargs kill:*)",
-      "Read(///**)"
+      "Read(///**)",
+      "Bash(timeout 5 curl:*)",
+      "Bash(pkill:*)",
+      "Bash(uv run python:*)"
     ],
     "deny": [],
     "ask": [],

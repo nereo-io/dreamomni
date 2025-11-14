@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent UI Prototype - Updated</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #111827;
+      color: #e5e7eb;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Main Container - 参考 ai-video-generation-tool */
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      height: calc(100vh - 90px);
+      padding: 0;
+    }
+
+    @media (min-width: 1024px) {
+      .container {
+        flex-direction: row;
+      }
+    }
+
+    /* Left Panel - 参考 video-generator */
+    .create-panel {
+      background: #111827;
+      border-radius: 12px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    @media (min-width: 1024px) {
+      .create-panel {
+        width: 420px;
+        max-height: calc(100vh - 90px);
+        overflow: hidden;
+      }
+    }
+
+    /* Scrollable content area */
+    .create-panel-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 24px;
+    }
+
+    @media (min-width: 768px) {
+      .create-panel-scroll {
+        padding: 20px 24px;
+      }
+    }
+
+    /* Dark scrollbar */
+    .create-panel-scroll::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .create-panel-scroll::-webkit-scrollbar-track {
+      background: #1f2937;
+      border-radius: 4px;
+    }
+
+    .create-panel-scroll::-webkit-scrollbar-thumb {
+      background: #4b5563;
+      border-radius: 4px;
+    }
+
+    .create-panel-scroll::-webkit-scrollbar-thumb:hover {
+      background: #6b7280;
+    }
+
+    .panel-header {
+      border-bottom: 1px solid #374151;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .panel-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #f9fafb;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .form-group {
+        margin-bottom: 20px;
+      }
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      color: #d1d5db;
+      margin-bottom: 8px;
+    }
+
+    .form-textarea {
+      width: 100%;
+      background: #374151;
+      border: 1px solid #4b5563;
+      border-radius: 6px;
+      padding: 10px 12px;
+      color: #f9fafb;
+      font-size: 14px;
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-select {
+      width: 100%;
+      background: #374151;
+      border: 1px solid #4b5563;
+      border-radius: 6px;
+      padding: 10px 12px;
+      color: #f9fafb;
+      font-size: 14px;
+    }
+
+    .char-count {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    .upload-box {
+      border: 2px dashed #4b5563;
+      border-radius: 6px;
+      padding: 24px;
+      text-align: center;
+      color: #9ca3af;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .upload-box:hover {
+      border-color: #6b7280;
+    }
+
+    /* Credits Section - 参考 video-generator */
+    .credits-section {
+      background: #1f2937;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .credits-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .credits-info {
+      flex: 1;
+    }
+
+    .credits-text {
+      color: #d1d5db;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .recharge-btn {
+      background: transparent;
+      border: 1px solid #4b5563;
+      color: #d1d5db;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .recharge-btn:hover {
+      background: #374151;
+    }
+
+    /* Bottom Fixed Section */
+    .bottom-section {
+      border-top: 1px solid #4b5563;
+      background: rgba(17, 24, 39, 0.95);
+      backdrop-filter: blur(8px);
+      padding: 16px;
+      margin-top: auto;
+    }
+
+    @media (min-width: 768px) {
+      .bottom-section {
+        padding: 24px;
+      }
+    }
+
+    .btn-generate {
+      width: 100%;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+      min-height: 44px;
+    }
+
+    .btn-generate:hover:not(:disabled) {
+      background: #1d4ed8;
+      transform: scale(1.05);
+    }
+
+    .btn-generate:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Right Panel - Jobs List */
+    .jobs-panel {
+      flex: 1;
+      background: #111827;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .jobs-panel::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .jobs-panel::-webkit-scrollbar-track {
+      background: #1f2937;
+      border-radius: 4px;
+    }
+
+    .jobs-panel::-webkit-scrollbar-thumb {
+      background: #4b5563;
+      border-radius: 4px;
+    }
+
+    .jobs-header {
+      margin-bottom: 24px;
+    }
+
+    .jobs-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #f9fafb;
+      margin-bottom: 4px;
+    }
+
+    .jobs-count {
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    /* Job Card - 参考 video-history-item */
+    .job-card {
+      background: #111827;
+      border-radius: 12px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 16px;
+      padding: 20px;
+    }
+
+    /* Header: Status + Prompt + Timestamp */
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .job-header-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      flex: 1;
+    }
+
+    /* Status Badge - 参考 StatusBadge 组件 */
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .status-badge.processing {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+    }
+
+    .status-badge.completed {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+    }
+
+    .status-badge.failed {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+    }
+
+    .status-badge.pending {
+      background: rgba(107, 114, 128, 0.15);
+      color: #9ca3af;
+    }
+
+    .status-icon {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .status-badge.processing .status-icon {
+      background: #60a5fa;
+    }
+
+    .status-badge.completed .status-icon {
+      background: #34d399;
+      animation: none;
+    }
+
+    .status-badge.failed .status-icon {
+      background: #f87171;
+      animation: none;
+    }
+
+    .status-badge.pending .status-icon {
+      background: #9ca3af;
+      animation: none;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .job-prompt {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.5;
+      flex: 1;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .job-timestamp {
+      font-size: 14px;
+      color: #9ca3af;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Metadata Tags - 参考 VideoMetadata */
+    .metadata-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .metadata-tag {
+      background: #1f2937;
+      color: #9ca3af;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Assets Grid */
+    .assets-section {
+      margin-top: 16px;
+    }
+
+    .assets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .asset-item {
+      aspect-ratio: 16/9;
+      background: #1f2937;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s;
+    }
+
+    .asset-item:hover {
+      transform: scale(1.05);
+    }
+
+    .asset-item img,
+    .asset-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .asset-type-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .asset-type-badge.script {
+      color: #a78bfa;
+    }
+
+    .asset-type-badge.image {
+      color: #60a5fa;
+    }
+
+    .asset-type-badge.video {
+      color: #34d399;
+    }
+
+    .asset-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      padding: 8px;
+      font-size: 11px;
+      color: white;
+      font-weight: 500;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #1f2937;
+      border: 1px solid #374151;
+      border-radius: 12px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #374151;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #f9fafb;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .modal-btn {
+      background: transparent;
+      border: 1px solid #4b5563;
+      color: #d1d5db;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.2s;
+    }
+
+    .modal-btn:hover {
+      background: #374151;
+    }
+
+    .modal-body {
+      padding: 24px;
+      overflow: auto;
+      max-height: calc(90vh - 100px);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    .modal-video {
+      width: 100%;
+      max-height: 70vh;
+      border-radius: 8px;
+    }
+
+    .modal-script {
+      background: #0d1117;
+      border-radius: 8px;
+      padding: 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: #d1d5db;
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .container {
+        height: auto;
+        min-height: 100vh;
+      }
+
+      .create-panel {
+        max-height: 50vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Left Panel: Create Form -->
+    <div class="create-panel">
+      <!-- Scrollable Content -->
+      <div class="create-panel-scroll">
+        <div class="panel-header">
+          <h2 class="panel-title">Create Agent Job</h2>
+        </div>
+
+        <form>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea class="form-textarea" placeholder="Describe your video concept..."></textarea>
+            <div class="char-count">0/2000</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Reference (Optional)</label>
+            <div class="upload-box">
+              📸 Click to upload
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Duration</label>
+            <select class="form-select">
+              <option>16s</option>
+              <option>30s</option>
+              <option>60s</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Keyframe</label>
+            <select class="form-select">
+              <option>Nano Banana</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Video</label>
+            <select class="form-select">
+              <option>Veo3</option>
+              <option>Seedance Pro</option>
+            </select>
+          </div>
+
+          <!-- Credits Section -->
+          <div class="credits-section">
+            <div class="credits-row">
+              <div class="credits-info">
+                <div class="credits-text">Credits: 250</div>
+                <div class="credits-text">Cost: 100 ⚡</div>
+              </div>
+              <button type="button" class="recharge-btn">Recharge</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Bottom Fixed Section -->
+      <div class="bottom-section">
+        <button type="button" class="btn-generate">
+          ▶️ Generate
+        </button>
+      </div>
+    </div>
+
+    <!-- Right Panel: Jobs List -->
+    <div class="jobs-panel">
+      <div class="jobs-header">
+        <h2 class="jobs-title">Jobs</h2>
+        <div class="jobs-count">3 jobs total</div>
+      </div>
+
+      <!-- Job 1: Processing -->
+      <div class="job-card">
+        <div class="job-header">
+          <div class="job-header-left">
+            <span class="status-badge processing">
+              <span class="status-icon"></span>
+              Processing
+            </span>
+            <p class="job-prompt">A cinematic journey through a futuristic city at sunset, showcasing flying cars and neon lights</p>
+          </div>
+          <span class="job-timestamp">2 min ago</span>
+        </div>
+
+        <div class="metadata-tags">
+          <span class="metadata-tag">16:9</span>
+          <span class="metadata-tag">30s</span>
+          <span class="metadata-tag">4 shots</span>
+          <span class="metadata-tag">Veo3</span>
+        </div>
+
+        <div class="assets-grid">
+          <div class="asset-item" onclick="openModal('image', 'https://via.placeholder.com/800x450/3b82f6/ffffff?text=Shot+1', 'Shot #1 Keyframe')">
+            <img src="https://via.placeholder.com/400x225/3b82f6/ffffff?text=Shot+1" alt="Shot 1">
+            <span class="asset-type-badge image">📷 Image</span>
+            <div class="asset-overlay">Shot #1 Keyframe</div>
+          </div>
+          <div class="asset-item" onclick="openModal('image', 'https://via.placeholder.com/800x450/10b981/ffffff?text=Shot+2', 'Shot #2 Keyframe')">
+            <img src="https://via.placeholder.com/400x225/10b981/ffffff?text=Shot+2" alt="Shot 2">
+            <span class="asset-type-badge image">📷 Image</span>
+            <div class="asset-overlay">Shot #2 Keyframe</div>
+          </div>
+          <div class="asset-item" onclick="openModal('video', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', 'Shot #1 Video')">
+            <video src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" preload="metadata"></video>
+            <span class="asset-type-badge video">🎬 Video</span>
+            <div class="asset-overlay">Shot #1 • 5s</div>
+          </div>
+          <div class="asset-item" onclick="openModal('script', `Shot 1 (8s): Wide establishing shot of futuristic city at sunset\nShot 2 (8s): Flying cars weaving through neon-lit skyscrapers\nShot 3 (7s): Close-up of holographic advertisements\nShot 4 (7s): Pull back to reveal bustling cityscape`, 'Script')">
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+              <div style="font-size: 48px;">📝</div>
+            </div>
+            <span class="asset-type-badge script">📝 Script</span>
+            <div class="asset-overlay">Script • 4 shots</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Job 2: Completed -->
+      <div class="job-card">
+        <div class="job-header">
+          <div class="job-header-left">
+            <span class="status-badge completed">
+              <span class="status-icon"></span>
+              Completed
+            </span>
+            <p class="job-prompt">Mountain landscape with dramatic lighting and rolling clouds in golden hour</p>
+          </div>
+          <span class="job-timestamp">1 hr ago</span>
+        </div>
+
+        <div class="metadata-tags">
+          <span class="metadata-tag">16:9</span>
+          <span class="metadata-tag">16s</span>
+          <span class="metadata-tag">2 shots</span>
+          <span class="metadata-tag">Seedance Pro</span>
+        </div>
+
+        <div class="assets-grid">
+          <div class="asset-item" onclick="openModal('script', `Shot 1 (8s): Wide establishing shot of mountain range at golden hour\nShot 2 (8s): Clouds rolling over peaks with dramatic backlighting`, 'Script')">
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+              <div style="font-size: 48px;">📝</div>
+            </div>
+            <span class="asset-type-badge script">📝 Script</span>
+            <div class="asset-overlay">Script • 2 shots</div>
+          </div>
+          <div class="asset-item" onclick="openModal('image', 'https://via.placeholder.com/800x450/f59e0b/ffffff?text=Mountain', 'Shot #1 Keyframe')">
+            <img src="https://via.placeholder.com/400x225/f59e0b/ffffff?text=Mountain" alt="Mountain">
+            <span class="asset-type-badge image">📷 Image</span>
+            <div class="asset-overlay">Shot #1 Keyframe</div>
+          </div>
+          <div class="asset-item" onclick="openModal('video', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', 'Shot #1 Video')">
+            <video src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" preload="metadata"></video>
+            <span class="asset-type-badge video">🎬 Video</span>
+            <div class="asset-overlay">Shot #1 • 8s</div>
+          </div>
+          <div class="asset-item" onclick="openModal('video', 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4', 'Final Video')">
+            <video src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" preload="metadata"></video>
+            <span class="asset-type-badge video">🎬 Video</span>
+            <div class="asset-overlay">Final Video • 16s</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Job 3: Failed -->
+      <div class="job-card">
+        <div class="job-header">
+          <div class="job-header-left">
+            <span class="status-badge failed">
+              <span class="status-icon"></span>
+              Failed
+            </span>
+            <p class="job-prompt">Underwater scene with bioluminescent jellyfish swimming through coral reef</p>
+          </div>
+          <span class="job-timestamp">3 hrs ago</span>
+        </div>
+
+        <div class="metadata-tags">
+          <span class="metadata-tag">16:9</span>
+          <span class="metadata-tag">60s</span>
+          <span class="metadata-tag">Veo3</span>
+        </div>
+
+        <p style="color: #f87171; font-size: 14px; margin-top: 12px;">
+          ⚠️ Generation failed: Insufficient credits
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">Asset Preview</div>
+        <div class="modal-actions">
+          <button class="modal-btn" onclick="alert('Download clicked')">⬇️ Download</button>
+          <button class="modal-btn" onclick="closeModal()">✕ Close</button>
+        </div>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Content will be injected here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(type, content, title) {
+      const modal = document.getElementById('modal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalBody = document.getElementById('modalBody');
+
+      modalTitle.textContent = title;
+
+      if (type === 'image') {
+        modalBody.innerHTML = `<img src="${content}" class="modal-image" alt="${title}">`;
+      } else if (type === 'video') {
+        modalBody.innerHTML = `<video src="${content}" class="modal-video" controls autoplay></video>`;
+      } else if (type === 'script') {
+        modalBody.innerHTML = `<div class="modal-script">${content}</div>`;
+      }
+
+      modal.classList.add('active');
+    }
+
+    function closeModal(event) {
+      if (!event || event.target.id === 'modal') {
+        document.getElementById('modal').classList.remove('active');
+      }
+    }
+
+    // ESC to close modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
