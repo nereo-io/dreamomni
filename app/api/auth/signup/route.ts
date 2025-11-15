@@ -164,6 +164,11 @@ const BLOCKED_EMAIL_DOMAINS = [
   'keevle.com',        // 44账号，0付费，91%积分耗尽，95%激活率
   'haotuwu.com',       // 41账号，0付费，71%积分耗尽，98%激活率
   'lovleo.com',        // 40账号，0付费，78%积分耗尽，98%激活率
+  // 2025-11-15 新增 - 最近7天高频薅羊毛域名（安全审计发现）
+  'wyoxafp.com',       // 336账号，7天内批量注册，严重薅羊毛
+  'webxio.pro',        // 203账号，7天内批量注册，严重薅羊毛
+  'rungel.net',        // 188账号，7天内批量注册
+  'snakement.com',     // 28账号，18.6小时内批量注册
 ];
 
 const signupSchema = z.object({
