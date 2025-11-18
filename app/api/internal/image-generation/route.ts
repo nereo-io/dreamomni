@@ -50,13 +50,18 @@ export async function POST(req: NextRequest) {
     }
 
     // 调用 AI 服务 - 根据是否有参考图片选择方法
+    // referenceImage 支持 string 或 string[]
     let result;
     if (referenceImage) {
+      const referenceImages = Array.isArray(referenceImage)
+        ? referenceImage.filter(Boolean)
+        : [referenceImage];
+
       // Image-to-Image: 使用 editImage 方法
-      console.log('[Internal Image Gen] Using image-to-image mode with reference:', referenceImage);
+      console.log('[Internal Image Gen] Using image-to-image mode with references:', referenceImages);
       result = await aiServiceManager.editImage(provider, {
         prompt: prompt,
-        imageUrls: [referenceImage],
+        imageUrls: referenceImages,
         model: selectedModel,
         output_format: 'png'
       });
@@ -88,7 +93,11 @@ export async function POST(req: NextRequest) {
       task_id: result.taskId,
       provider_task_id: result.taskId,
       status: result.taskId ? 'IN_QUEUE' : 'PENDING',
-      input_image_urls: referenceImage ? [referenceImage] : undefined,
+      input_image_urls: referenceImage
+        ? Array.isArray(referenceImage)
+          ? referenceImage
+          : [referenceImage]
+        : undefined,
       credits_used: 2 // Fixed 2 credits per image generation
     });
 

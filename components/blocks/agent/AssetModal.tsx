@@ -12,7 +12,7 @@ import { Download, Copy } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState, useEffect } from 'react';
 
-type AssetType = 'script' | 'image' | 'video';
+type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs';
 
 interface AssetModalProps {
   isOpen: boolean;
@@ -70,7 +70,12 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
     if (data.url) {
       const link = document.createElement('a');
       link.href = data.url;
-      const ext = type === 'video' ? 'mp4' : type === 'image' ? 'png' : 'txt';
+      const ext =
+        type === 'video'
+          ? 'mp4'
+          : type === 'image' || type === 'character_refs'
+          ? 'png'
+          : 'txt';
       link.download = `${type}_${data.shotNumber || 'asset'}.${ext}`;
       link.click();
     }
@@ -79,6 +84,8 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
   const getTitle = () => {
     if (data.title) return data.title;
     if (data.shotNumber) return `Shot #${data.shotNumber} ${type}`;
+    if (type === 'story') return 'Story & Characters';
+    if (type === 'character_refs') return 'Character References';
     return type.charAt(0).toUpperCase() + type.slice(1);
   };
 
@@ -117,14 +124,14 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
 
         <div className="mt-4 overflow-auto max-h-[calc(90vh-120px)]">
           {/* Script */}
-          {type === 'script' && data.content && (
+          {(type === 'script' || type === 'story') && data.content && (
             <pre className="bg-gray-900 rounded-lg p-4 text-sm text-gray-300 font-mono whitespace-pre-wrap line-height-relaxed">
               {data.content}
             </pre>
           )}
 
           {/* Image */}
-          {type === 'image' && data.url && (
+          {(type === 'image' || type === 'character_refs') && data.url && (
             <div className="flex items-center justify-center bg-gray-900 rounded-lg p-4">
               <img
                 src={data.url}

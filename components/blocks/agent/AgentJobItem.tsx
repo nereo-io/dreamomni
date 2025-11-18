@@ -27,6 +27,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isDownloading, setIsDownloading] = useState(false);
+     const [showLogs, setShowLogs] = useState(false);
 
     // Get status info
     const statusInfo = AgentJobStatusMap[job.status] || AgentJobStatusMap.pending;
@@ -139,6 +140,24 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
 
     const thumbnailUrl = getThumbnailUrl();
 
+    // Story outline & characters (Phase 3.5)
+    const storyOutline = (job.story_outline || {}) as any;
+    const acts =
+      storyOutline.acts && Array.isArray(storyOutline.acts)
+        ? storyOutline.acts
+        : [];
+    const theme = storyOutline.theme;
+    const tone = storyOutline.tone;
+
+    const mainCharacters = (job.main_characters || []) as any[];
+
+    const referenceImages =
+      job.character_reference_images && job.character_reference_images.length > 0
+        ? job.character_reference_images
+        : job.reference_image_url
+        ? [job.reference_image_url]
+        : [];
+
     return (
       <>
         <div className="bg-gray-50 dark:bg-gray-900 rounded-xl shadow-lg p-5 space-y-2">
@@ -229,6 +248,46 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
             )}
           </div>
 
+          {/* Story outline & main characters summary */}
+          {(theme || tone || mainCharacters.length > 0) && (
+            <div className="mt-1 space-y-1 text-xs text-gray-500 dark:text-gray-400">
+              {(theme || tone) && (
+                <div className="flex flex-wrap gap-x-3 gap-y-1">
+                  {theme && <span>主题: {theme}</span>}
+                  {tone && <span>基调: {tone}</span>}
+                  {acts.length > 0 && (
+                    <span>章节数: {acts.length}</span>
+                  )}
+                </div>
+              )}
+
+              {mainCharacters.length > 0 && (
+                <div className="flex flex-wrap items-center gap-1">
+                  <span className="mr-1">主角:</span>
+                  {mainCharacters.slice(0, 3).map((char, index) => (
+                    <span
+                      key={char?.name || index}
+                      className="inline-flex items-center px-2 py-0.5 rounded-full bg-gray-200 dark:bg-gray-800 text-[11px] text-gray-800 dark:text-gray-100"
+                    >
+                      {char?.name || `角色 ${index + 1}`}
+                    </span>
+                  ))}
+                  {mainCharacters.length > 3 && (
+                    <span className="text-[11px] text-gray-400">
+                      +{mainCharacters.length - 3} 更多
+                    </span>
+                  )}
+
+                  {referenceImages.length > 0 && (
+                    <span className="ml-2 text-[11px] text-gray-400">
+                      参考图 {referenceImages.length} 张
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Progress Bar (only show during generation, hide on completed/failed) */}
           {job.progress && isProcessing && (
             <div className="space-y-2">
@@ -289,6 +348,9 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
             <AgentAssetGrid
               shots={job.shots}
               finalVideoUrl={job.final_video_url}
+              storyOutline={job.story_outline || null}
+              mainCharacters={job.main_characters || null}
+              characterReferenceImages={job.character_reference_images || null}
               locale={locale}
             />
           )}
@@ -306,6 +368,34 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               <div className="absolute top-3 left-3 text-white text-xs font-medium bg-black/50 px-2 py-1 rounded-md pointer-events-none z-10">
                 Final Video
               </div>
+            </div>
+          )}
+
+          {/* Agent Logs – inline on job list for better visibility */}
+          {job.logs && job.logs.length > 0 && (
+            <div className="mt-2 bg-gray-950/40 rounded-lg border border-gray-800/60">
+              <button
+                type="button"
+                onClick={() => setShowLogs((prev) => !prev)}
+                className="w-full flex items-center justify-between px-3 py-2 text-xs text-gray-300 hover:bg-gray-900/60 transition-colors"
+              >
+                <span>Agent Logs</span>
+                <span className="text-gray-500">
+                  {showLogs ? 'Hide' : 'Show'}
+                </span>
+              </button>
+              {showLogs && (
+                <div className="px-3 pb-2 max-h-40 overflow-y-auto text-[11px] text-gray-300 space-y-1">
+                  {job.logs.map((log) => (
+                    <div key={log.timestamp} className="flex gap-2">
+                      <span className="text-gray-500">
+                        {new Date(log.timestamp).toLocaleTimeString()}
+                      </span>
+                      <span>{log.message}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>

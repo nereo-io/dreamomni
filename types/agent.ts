@@ -27,6 +27,14 @@ export interface AgentJob {
     videos?: { done: number; total: number; failed?: number };
   };
   logs?: Array<{ timestamp: string; message: string }>;
+
+  // Phase 3.5: Story / characters / quality
+  story_outline?: Record<string, any> | null;
+  main_characters?: Array<Record<string, any>> | null;
+  character_reference_images?: string[] | null;
+  shot_quality?: Array<Record<string, any>> | null;
+  global_quality?: Record<string, any> | null;
+
   shots?: AgentShot[];
 }
 
@@ -47,7 +55,7 @@ export interface AgentShot {
 export interface AgentAsset {
   id: string;
   job_id: string;
-  asset_type: 'script' | 'image' | 'clip' | 'final';
+  asset_type: 'script' | 'image' | 'clip' | 'final' | 'story_outline' | 'character_ref' | 'quality_report';
   url?: string;
   content?: string;
   status: 'pending' | 'generating' | 'done' | 'failed';
