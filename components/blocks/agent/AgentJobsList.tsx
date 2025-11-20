@@ -85,7 +85,10 @@ export function AgentJobsList({ refreshTrigger, locale }: AgentJobsListProps) {
       return true;
     });
 
-    // Always poll to ensure fresh data, even if no active jobs
+    if (activeJobs.length === 0) {
+      return;
+    }
+
     console.log(`Polling ${activeJobs.length} active jobs...`);
 
     try {

@@ -15,6 +15,8 @@ import { Loader2, Trash2, Download } from 'lucide-react';
 import DeleteConfirmDialog from '@/components/blocks/image-history-for-generation/components/DeleteConfirmDialog';
 import { AgentAssetGrid } from './AgentAssetGrid';
 import VideoPlayer from '@/components/blocks/video-history/components/VideoPlayer';
+import { getVideoModel } from '@/config/video-models';
+import { useGenerationProgress } from '@/hooks/useGenerationProgress';
 
 interface AgentJobItemProps {
   job: AgentJob;
@@ -27,7 +29,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isDownloading, setIsDownloading] = useState(false);
-     const [showLogs, setShowLogs] = useState(false);
+    const [showLogs, setShowLogs] = useState(false);
 
     // Get status info
     const statusInfo = AgentJobStatusMap[job.status] || AgentJobStatusMap.pending;
@@ -35,6 +37,8 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
     const isFailed = job.status === 'failed';
     const isProcessing = [
       'pending',
+      'generating_script',
+      'generating_characters',
       'splitting_shots',
       'generating_keyframes',
       'orchestrating_videos',
@@ -139,6 +143,13 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
     };
 
     const thumbnailUrl = getThumbnailUrl();
+    const badgeLabel = statusInfo.label;
+    const badgeClass =
+      isCompleted
+        ? 'bg-green-500 text-green-900'
+        : isFailed
+        ? 'bg-red-500 text-red-900'
+        : 'bg-blue-500 text-blue-900';
 
     // Story outline & characters (Phase 3.5)
     const storyOutline = (job.story_outline || {}) as any;
@@ -158,6 +169,17 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
         ? [job.reference_image_url]
         : [];
 
+    const aspectRatio = (job as any).aspect_ratio || '16:9';
+    const videoModelId = (job as any).video_model;
+    const modelConfig = videoModelId ? getVideoModel(videoModelId) : undefined;
+    const finalEstimateSeconds = modelConfig?.estimatedGenerationTime || 20;
+    const { progress: estimatedFinalProgress } = useGenerationProgress({
+      createdAt: job.created_at || new Date().toISOString(),
+      estimatedTime: finalEstimateSeconds,
+      status: ['splicing', 'generating_videos', 'orchestrating_videos'].includes(job.status) ? 'IN_PROGRESS' : 'submitted'
+    });
+    const finalProgressValue = (job.progress as any)?.merge?.progress ?? estimatedFinalProgress;
+
     return (
       <>
         <div className="bg-gray-50 dark:bg-gray-900 rounded-xl shadow-lg p-5 space-y-2">
@@ -167,16 +189,12 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               {/* Status Badge */}
               <Badge
                 className={cn(
-                  'text-white text-xs font-semibold px-2.5 py-1 rounded-full border-0 flex-shrink-0',
-                  isCompleted
-                    ? 'bg-green-500 text-green-900'
-                    : isFailed
-                    ? 'bg-red-500 text-red-900'
-                    : 'bg-blue-500 text-blue-900'
+                  'text-white text-xs font-semibold px-2.5 py-1 rounded-full border-0 flex-shrink-0 flex items-center gap-1',
+                  badgeClass
                 )}
               >
-                {isProcessing && <Loader2 className="h-3 w-3 mr-1 animate-spin inline" />}
-                {statusInfo.label}
+                {isProcessing && <Loader2 className="h-3 w-3 animate-spin inline" />}
+                {badgeLabel}
               </Badge>
 
               {/* Thumbnail - User uploaded reference image */}
@@ -220,12 +238,14 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
 
           {/* Metadata Tags */}
           <div className="flex items-center gap-2 flex-wrap">
-            <Badge
-              variant="secondary"
-              className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium px-2.5 py-1 rounded-md border-0"
-            >
-              16:9
-            </Badge>
+            {aspectRatio && (
+              <Badge
+                variant="secondary"
+                className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium px-2.5 py-1 rounded-md border-0"
+              >
+                {aspectRatio}
+              </Badge>
+            )}
             <Badge
               variant="secondary"
               className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium px-2.5 py-1 rounded-md border-0"
@@ -288,58 +308,15 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
             </div>
           )}
 
-          {/* Progress Bar (only show during generation, hide on completed/failed) */}
-          {job.progress && isProcessing && (
-            <div className="space-y-2">
-              {/* Keyframes Progress */}
-              {job.progress.keyframes && (
-                <div className="space-y-1">
-                  <div className="flex justify-between text-xs text-gray-400">
-                    <span>Keyframes</span>
-                    <span>
-                      {job.progress.keyframes.done}/{job.progress.keyframes.total}
-                      {job.progress.keyframes.failed ? ` (${job.progress.keyframes.failed} failed)` : ''}
-                    </span>
-                  </div>
-                  <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-blue-500 transition-all duration-300"
-                      style={{
-                        width: `${(job.progress.keyframes.done / job.progress.keyframes.total) * 100}%`
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Videos Progress */}
-              {job.progress.videos && (
-                <div className="space-y-1">
-                  <div className="flex justify-between text-xs text-gray-400">
-                    <span>Videos</span>
-                    <span>
-                      {job.progress.videos.done}/{job.progress.videos.total}
-                      {job.progress.videos.failed ? ` (${job.progress.videos.failed} failed)` : ''}
-                    </span>
-                  </div>
-                  <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-green-500 transition-all duration-300"
-                      style={{
-                        width: `${(job.progress.videos.done / job.progress.videos.total) * 100}%`
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-
           {/* Error message for failed jobs */}
           {isFailed && (
-            <div className="text-red-400 text-sm bg-red-900/20 border border-red-800/30 rounded-lg p-3">
-              ⚠️ Generation failed
+            <div className="bg-red-900/20 border border-red-800/40 rounded-lg p-3 text-sm">
+              <p className="text-red-300 font-medium">⚠️ Generation failed</p>
+              {job.error_message && (
+                <p className="mt-1 text-red-200/90 text-xs whitespace-pre-wrap break-words">
+                  {job.error_message}
+                </p>
+              )}
             </div>
           )}
 
@@ -352,11 +329,17 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               mainCharacters={job.main_characters || null}
               characterReferenceImages={job.character_reference_images || null}
               locale={locale}
+              aspectRatio={aspectRatio}
+              progress={job.progress}
+              referenceImageUrl={thumbnailUrl || referenceImages[0] || undefined}
+              jobStatus={job.status}
+              createdAt={job.created_at}
+              videoModelId={videoModelId}
             />
           )}
 
           {/* Final Video - Using VideoPlayer component */}
-          {job.final_video_url && (
+          {job.final_video_url ? (
             <div className="relative w-full">
               <VideoPlayer
                 videoUrl={job.final_video_url}
@@ -369,6 +352,34 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
                 Final Video
               </div>
             </div>
+          ) : (
+            // Only show Final Video loading state during 'splicing' phase
+            // Previous logic included 'generating_videos' and 'orchestrating_videos' which caused duplicate loading indicators
+            ['splicing'].includes(job.status) && (
+              <div className="relative w-full overflow-hidden rounded-lg bg-gray-800 border border-gray-700">
+                <div className="aspect-video w-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                  <div className="w-full max-w-md px-6">
+                    <div className="flex items-center justify-center gap-2 text-white text-sm font-medium mb-3">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Final video merging...
+                    </div>
+                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                      <div
+                        className={cn(
+                          "h-full bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400 transition-all duration-300",
+                          finalProgressValue ? "" : "animate-[agent-progress-indeterminate_1.2s_ease_infinite]"
+                        )}
+                        style={
+                          finalProgressValue
+                            ? { width: `${Math.min(100, Math.max(5, finalProgressValue))}%` }
+                            : undefined
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
           )}
 
           {/* Agent Logs – inline on job list for better visibility */}

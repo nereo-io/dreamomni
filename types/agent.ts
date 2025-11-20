@@ -8,15 +8,18 @@ export interface AgentJob {
   user_id: string;
   prompt: string;
   reference_image_url?: string;
+  reference_image_urls?: string[];
   duration_seconds: number;
   num_shots: number;
   image_model: string;
   video_model: string;
-  status: 'pending' | 'splitting_shots' | 'generating_keyframes' |
+  aspect_ratio?: string;
+  status: 'pending' | 'generating_script' | 'generating_characters' | 'splitting_shots' | 'generating_keyframes' |
           'waiting_for_confirmation' | 'orchestrating_videos' | 'generating_videos' |
           'splicing' | 'completed' | 'failed';
   current_step?: string;
   final_video_url?: string;
+  error_message?: string | null;
   credits_charged: number;
   created_at: string;
   updated_at: string;
@@ -43,6 +46,11 @@ export interface AgentShot {
   job_id: string;
   shot_number: number;
   prompt: string;
+  keyframe_prompt?: string;
+  keyframe_metadata?: {
+    prompt?: string;
+    [key: string]: any;
+  } | null;
   duration_seconds: number;
   keyframe_url?: string;
   keyframe_status: 'pending' | 'generating' | 'done' | 'failed';
@@ -78,6 +86,7 @@ export interface AgentAssetListResponse {
 export interface CreateAgentJobRequest {
   prompt: string;
   reference_image_url?: string;
+  reference_image_urls?: string[];
   duration_seconds: number;
   image_model?: string;
   video_model?: string;
@@ -91,6 +100,8 @@ export interface CreateAgentJobResponse {
 // Status display helpers
 export const AgentJobStatusMap: Record<AgentJob['status'], { label: string; color: string }> = {
   pending: { label: 'Pending', color: 'gray' },
+  generating_script: { label: 'Generating Script', color: 'indigo' },
+  generating_characters: { label: 'Generating Characters', color: 'purple' },
   splitting_shots: { label: 'Splitting Shots', color: 'blue' },
   generating_keyframes: { label: 'Generating Keyframes', color: 'purple' },
   waiting_for_confirmation: { label: 'Awaiting Confirmation', color: 'yellow' },

@@ -107,6 +107,7 @@ export async function createAgentJob(data: {
   user_id: string;
   prompt: string;
   reference_image_url?: string;
+  reference_image_urls?: string[];
   duration_seconds: number;
   image_model?: string;
   video_model?: string;

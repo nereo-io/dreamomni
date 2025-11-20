@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ImageUploader } from '@/components/blocks/video-generator/ImageUploader';
+import { ImageGridUploader } from '@/components/blocks/video-generator/ImageGridUploader';
 import { CreateAgentJobRequest } from '@/types/agent';
 import { toast } from 'sonner';
 import { Loader2, Play } from 'lucide-react';
@@ -35,8 +35,8 @@ const VIDEO_MODELS = [
 
 const DURATIONS = [
   { value: 16, label: '16s' },
-  { value: 30, label: '30s' },
-  { value: 60, label: '60s' },
+  { value: 32, label: '32s' },
+  { value: 48, label: '48s' },
 ];
 
 interface AgentCreatePanelProps {
@@ -48,7 +48,7 @@ export function AgentCreatePanel({ onJobCreated }: AgentCreatePanelProps) {
   const { leftCredits, updateLeftCredits } = useCredits();
 
   const [prompt, setPrompt] = useState('');
-  const [referenceImageUrl, setReferenceImageUrl] = useState<string | null>(null);
+  const [referenceImageUrls, setReferenceImageUrls] = useState<string[]>([]);
   const [duration, setDuration] = useState<number>(16);
   const [imageModel, setImageModel] = useState('nano-banana');
   const [videoModel, setVideoModel] = useState('kie-veo3-image-to-video');
@@ -86,7 +86,8 @@ export function AgentCreatePanel({ onJobCreated }: AgentCreatePanelProps) {
     try {
       const requestBody: CreateAgentJobRequest = {
         prompt: prompt.trim(),
-        reference_image_url: referenceImageUrl || undefined,
+        reference_image_url: referenceImageUrls[0] || undefined,
+        reference_image_urls: referenceImageUrls.length > 0 ? referenceImageUrls : undefined,
         duration_seconds: duration,
         image_model: imageModel,
         video_model: videoModel,
@@ -111,7 +112,7 @@ export function AgentCreatePanel({ onJobCreated }: AgentCreatePanelProps) {
 
       // Reset form
       setPrompt('');
-      setReferenceImageUrl(null);
+      setReferenceImageUrls([]);
       setDuration(16);
 
       // Notify parent to refresh job list
@@ -162,16 +163,14 @@ export function AgentCreatePanel({ onJobCreated }: AgentCreatePanelProps) {
             </p>
           </div>
 
-          {/* Reference Image */}
+          {/* Reference Images */}
           <div>
-            <div className="text-gray-300 text-sm mb-2">Reference Image (Optional)</div>
-            <ImageUploader
+            <ImageGridUploader
               selectedModel={imageModel}
-              maxImages={1}
-              onImagesChange={(urls) => setReferenceImageUrl(urls[0] || null)}
+              maxImages={5}
+              onImagesChange={setReferenceImageUrls}
               isAuthenticated={!!user?.uuid}
               onShowSignModal={() => setShowSignModal(true)}
-              onPixverseImgIdChange={() => {}}
             />
           </div>
 
