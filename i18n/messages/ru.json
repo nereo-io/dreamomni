@@ -551,7 +551,13 @@
     "title": "Мои Творения",
     "description": "Просмотрите все ваши видео и изображения, созданные ИИ",
     "videoTab": "Видео",
+    "jobsTab": "Задания",
     "imageTab": "Изображения"
+  },
+  "agentJobs": {
+    "pleaseSignIn": "Пожалуйста, войдите",
+    "signInToViewJobs": "Войдите, чтобы просмотреть свои задания",
+    "signInButton": "Войти"
   },
   "imageHistory": {
     "discoveryTab": "Подборка",

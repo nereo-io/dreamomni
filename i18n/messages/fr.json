@@ -553,7 +553,13 @@
     "title": "Mes créations",
     "description": "Consultez toutes vos vidéos et images générées par l'IA",
     "videoTab": "Vidéos",
+    "jobsTab": "Jobs",
     "imageTab": "Images"
+  },
+  "agentJobs": {
+    "pleaseSignIn": "Veuillez vous connecter",
+    "signInToViewJobs": "Connectez-vous pour voir vos jobs",
+    "signInButton": "Se connecter"
   },
   "imageHistory": {
     "discoveryTab": "Découvrir",

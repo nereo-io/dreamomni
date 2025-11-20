@@ -12,6 +12,7 @@ interface ImageGridUploaderProps {
   onImagesChange: (imageUrls: string[]) => void;
   isAuthenticated: boolean;
   onShowSignModal: () => void;
+  initialImages?: string[]; // 初始图片列表 (用于 Re-edit)
 }
 
 export function ImageGridUploader({
@@ -20,6 +21,7 @@ export function ImageGridUploader({
   onImagesChange,
   isAuthenticated,
   onShowSignModal,
+  initialImages,
 }: ImageGridUploaderProps) {
   const t = useTranslations("video-generator");
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -29,6 +31,14 @@ export function ImageGridUploader({
   const [isUploading, setIsUploading] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
   const [uploadProgress, setUploadProgress] = useState({ current: 0, total: 0 });
+
+  // 初始化图片列表 (用于 Re-edit 功能)
+  useEffect(() => {
+    if (initialImages && initialImages.length > 0) {
+      setImages(initialImages);
+      onImagesChange(initialImages);
+    }
+  }, [initialImages, onImagesChange]);
 
   // 上传单个文件
   const uploadFile = async (file: File): Promise<string | null> => {

@@ -82,7 +82,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
   ({ shots, finalVideoUrl: _finalVideoUrl, storyOutline, mainCharacters, characterReferenceImages, locale, aspectRatio = '16:9', progress, referenceImageUrl, jobStatus, createdAt, videoModelId }) => {
     const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
     const aspectRatioValue = aspectRatio === '4:3' ? '4 / 3' : '16 / 9';
-    const maxCardWidth = aspectRatio === '4:3' ? 186 : 248;
+    const minCardWidth = aspectRatio === '4:3' ? 128 : 160;
     const fallbackBackground =
       (characterReferenceImages && characterReferenceImages[0]) ||
       referenceImageUrl ||
@@ -98,12 +98,12 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
     const modelConfig = videoModelId ? getVideoModel(videoModelId) : undefined;
     const videoEstimateSeconds = modelConfig?.estimatedGenerationTime || 20;
     const { progress: estimatedImageProgress } = useGenerationProgress({
-      createdAt: createdAt || new Date().toISOString(),
+      createdAt: createdAt || '',
       estimatedTime: imageEstimateSeconds,
       status: isKeyframeStage ? 'IN_PROGRESS' : 'submitted'
     });
     const { progress: estimatedVideoProgress } = useGenerationProgress({
-      createdAt: createdAt || new Date().toISOString(),
+      createdAt: createdAt || '',
       estimatedTime: videoEstimateSeconds,
       status: isVideoStage ? 'IN_PROGRESS' : 'submitted'
     });
@@ -113,8 +113,8 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       const result: Asset[] = [];
 
       // Calculate derived progress values inside useMemo
-      const storyProgressValue = progress?.script?.progress ?? 0;
-      const characterProgressValue = progress?.characters?.progress ?? estimatedImageProgress ?? 0;
+      const storyProgressValue = 0; // Story generation doesn't have trackable progress
+      const characterProgressValue = estimatedImageProgress ?? 0;
       const keyframeProgressValue =
         progress?.keyframes && progress.keyframes.total > 0
           ? (progress.keyframes.done / progress.keyframes.total) * 100
@@ -465,15 +465,15 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
 
     return (
       <>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+        <div
+          className="grid gap-3"
+          style={{ gridTemplateColumns: `repeat(auto-fill, minmax(${minCardWidth}px, 1fr))` }}
+        >
           {assets.map(asset => (
             <div
               key={asset.id}
-              className="relative group w-full max-h-[140px] rounded-lg overflow-hidden cursor-pointer transition-transform hover:scale-105"
-              style={{
-                aspectRatio: aspectRatioValue,
-                width: `min(100%, ${maxCardWidth}px)`,
-              }}
+              className="relative group w-full rounded-lg overflow-hidden cursor-pointer transition-transform hover:scale-105"
+              style={{ aspectRatio: aspectRatioValue }}
               onClick={() => {
                 if (asset.loading || asset.status === 'failed') return;
                 setSelectedAsset(asset);

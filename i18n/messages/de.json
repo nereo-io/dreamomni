@@ -553,7 +553,13 @@
     "title": "Meine Kreationen",
     "description": "Sehen Sie alle Ihre KI-generierten Videos und Bilder an",
     "videoTab": "Videos",
+    "jobsTab": "Jobs",
     "imageTab": "Bilder"
+  },
+  "agentJobs": {
+    "pleaseSignIn": "Bitte anmelden",
+    "signInToViewJobs": "Melde dich an, um deine Jobs zu sehen",
+    "signInButton": "Anmelden"
   },
   "imageHistory": {
     "discoveryTab": "Entdecken",

@@ -11,7 +11,7 @@ import { AgentJob, AgentJobStatusMap } from '@/types/agent';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Loader2, Trash2, Download } from 'lucide-react';
+import { Loader2, Trash2, Download, Edit } from 'lucide-react';
 import DeleteConfirmDialog from '@/components/blocks/image-history-for-generation/components/DeleteConfirmDialog';
 import { AgentAssetGrid } from './AgentAssetGrid';
 import VideoPlayer from '@/components/blocks/video-history/components/VideoPlayer';
@@ -21,11 +21,12 @@ import { useGenerationProgress } from '@/hooks/useGenerationProgress';
 interface AgentJobItemProps {
   job: AgentJob;
   onDelete: (jobId: string) => void;
+  onReEdit?: (job: AgentJob) => void;
   locale: string;
 }
 
 export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
-  ({ job, onDelete, locale }) => {
+  ({ job, onDelete, onReEdit, locale }) => {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isDownloading, setIsDownloading] = useState(false);
@@ -172,13 +173,6 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
     const aspectRatio = (job as any).aspect_ratio || '16:9';
     const videoModelId = (job as any).video_model;
     const modelConfig = videoModelId ? getVideoModel(videoModelId) : undefined;
-    const finalEstimateSeconds = modelConfig?.estimatedGenerationTime || 20;
-    const { progress: estimatedFinalProgress } = useGenerationProgress({
-      createdAt: job.created_at || new Date().toISOString(),
-      estimatedTime: finalEstimateSeconds,
-      status: ['splicing', 'generating_videos', 'orchestrating_videos'].includes(job.status) ? 'IN_PROGRESS' : 'submitted'
-    });
-    const finalProgressValue = (job.progress as any)?.merge?.progress ?? estimatedFinalProgress;
 
     return (
       <>
@@ -220,20 +214,10 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               </p>
             </div>
 
-            {/* Timestamp and Actions */}
-            <div className="flex items-center gap-3 flex-shrink-0">
-              {formatTimestamp() && (
-                <span className="text-sm text-gray-400">{formatTimestamp()}</span>
-              )}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleDelete}
-                className="text-gray-400 hover:text-red-400"
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </div>
+            {/* Timestamp */}
+            {formatTimestamp() && (
+              <span className="text-sm text-gray-400 flex-shrink-0">{formatTimestamp()}</span>
+            )}
           </div>
 
           {/* Metadata Tags */}
@@ -281,30 +265,6 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
                 </div>
               )}
 
-              {mainCharacters.length > 0 && (
-                <div className="flex flex-wrap items-center gap-1">
-                  <span className="mr-1">主角:</span>
-                  {mainCharacters.slice(0, 3).map((char, index) => (
-                    <span
-                      key={char?.name || index}
-                      className="inline-flex items-center px-2 py-0.5 rounded-full bg-gray-200 dark:bg-gray-800 text-[11px] text-gray-800 dark:text-gray-100"
-                    >
-                      {char?.name || `角色 ${index + 1}`}
-                    </span>
-                  ))}
-                  {mainCharacters.length > 3 && (
-                    <span className="text-[11px] text-gray-400">
-                      +{mainCharacters.length - 3} 更多
-                    </span>
-                  )}
-
-                  {referenceImages.length > 0 && (
-                    <span className="ml-2 text-[11px] text-gray-400">
-                      参考图 {referenceImages.length} 张
-                    </span>
-                  )}
-                </div>
-              )}
             </div>
           )}
 
@@ -340,16 +300,43 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
 
           {/* Final Video - Using VideoPlayer component */}
           {job.final_video_url ? (
-            <div className="relative w-full">
-              <VideoPlayer
-                videoUrl={job.final_video_url}
-                onDownload={handleDownloadFinal}
-                canDownload={true}
-                isDownloading={isDownloading}
-              />
-              {/* Final Video label overlay */}
-              <div className="absolute top-3 left-3 text-white text-xs font-medium bg-black/50 px-2 py-1 rounded-md pointer-events-none z-10">
-                Final Video
+            <div className="space-y-3">
+              <div className="relative w-full">
+                <VideoPlayer
+                  videoUrl={job.final_video_url}
+                  onDownload={handleDownloadFinal}
+                  canDownload={true}
+                  isDownloading={isDownloading}
+                />
+                {/* Final Video label overlay */}
+                <div className="absolute top-3 left-3 text-white text-xs font-medium bg-black/50 px-2 py-1 rounded-md pointer-events-none z-10">
+                  Final Video
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-2 flex-wrap">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="bg-gray-700/60 hover:bg-gray-600/80 text-white border-gray-600/50 hover:border-gray-500 px-3"
+                  onClick={() => onReEdit?.(job)}
+                  disabled={isDeleting}
+                >
+                  <Edit className="h-4 w-4 mr-1.5" />
+                  <span className="text-xs sm:text-sm">Re-edit</span>
+                </Button>
+
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="bg-gray-700/60 hover:bg-gray-600/80 text-white border-gray-600/50 hover:border-gray-500 px-3"
+                  onClick={handleDelete}
+                  disabled={isDeleting}
+                >
+                  <Trash2 className="h-4 w-4 mr-1.5" />
+                  <span className="text-xs sm:text-sm">{isDeleting ? 'Deleting...' : 'Delete'}</span>
+                </Button>
               </div>
             </div>
           ) : (
@@ -358,24 +345,14 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
             ['splicing'].includes(job.status) && (
               <div className="relative w-full overflow-hidden rounded-lg bg-gray-800 border border-gray-700">
                 <div className="aspect-video w-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                  <div className="w-full max-w-md px-6">
-                    <div className="flex items-center justify-center gap-2 text-white text-sm font-medium mb-3">
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      Final video merging...
-                    </div>
-                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                      <div
-                        className={cn(
-                          "h-full bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400 transition-all duration-300",
-                          finalProgressValue ? "" : "animate-[agent-progress-indeterminate_1.2s_ease_infinite]"
-                        )}
-                        style={
-                          finalProgressValue
-                            ? { width: `${Math.min(100, Math.max(5, finalProgressValue))}%` }
-                            : undefined
-                        }
+                  <div className="flex items-center gap-2">
+                    {[0, 1, 2].map(index => (
+                      <span
+                        key={index}
+                        className="block w-3 h-3 rounded-full bg-white/70 animate-[agent-loader-bounce_1.2s_ease-in-out_infinite]"
+                        style={{ animationDelay: `${index * 0.15}s` }}
                       />
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>

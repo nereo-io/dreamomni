@@ -100,14 +100,14 @@ export interface CreateAgentJobResponse {
 // Status display helpers
 export const AgentJobStatusMap: Record<AgentJob['status'], { label: string; color: string }> = {
   pending: { label: 'Pending', color: 'gray' },
-  generating_script: { label: 'Generating Script', color: 'indigo' },
-  generating_characters: { label: 'Generating Characters', color: 'purple' },
-  splitting_shots: { label: 'Splitting Shots', color: 'blue' },
-  generating_keyframes: { label: 'Generating Keyframes', color: 'purple' },
-  waiting_for_confirmation: { label: 'Awaiting Confirmation', color: 'yellow' },
-  orchestrating_videos: { label: 'Orchestrating Videos', color: 'indigo' },
-  generating_videos: { label: 'Generating Videos', color: 'cyan' },
-  splicing: { label: 'Splicing Videos', color: 'violet' },
+  generating_script: { label: 'Scripting', color: 'indigo' },
+  generating_characters: { label: 'Casting', color: 'purple' },
+  splitting_shots: { label: 'Planning', color: 'blue' },
+  generating_keyframes: { label: 'Keyframing', color: 'purple' },
+  waiting_for_confirmation: { label: 'Reviewing', color: 'yellow' },
+  orchestrating_videos: { label: 'Queueing', color: 'indigo' },
+  generating_videos: { label: 'Rendering', color: 'cyan' },
+  splicing: { label: 'Splicing', color: 'violet' },
   completed: { label: 'Completed', color: 'green' },
   failed: { label: 'Failed', color: 'red' },
 };

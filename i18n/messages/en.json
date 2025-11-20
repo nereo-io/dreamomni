@@ -554,7 +554,13 @@
     "title": "My Creations",
     "description": "View all your AI-generated videos and images",
     "videoTab": "Videos",
+    "jobsTab": "Jobs",
     "imageTab": "Images"
+  },
+  "agentJobs": {
+    "pleaseSignIn": "Please sign in",
+    "signInToViewJobs": "Sign in to view your jobs",
+    "signInButton": "Sign In"
   },
   "imageHistory": {
     "discoveryTab": "Discover",

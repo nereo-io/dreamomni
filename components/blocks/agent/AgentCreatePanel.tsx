@@ -29,9 +29,19 @@ const IMAGE_MODELS = [
 ];
 
 const VIDEO_MODELS = [
-  { value: 'kie-veo3-image-to-video', label: 'Veo3', creditsPerShot: 50 },
-  { value: 'doubao-seedance-1-0-pro-image-to-video', label: 'Seedance Pro', creditsPerShot: 120 },
+  { value: 'kie-veo3-image-to-video', label: 'Veo3' },
+  { value: 'doubao-seedance-1-0-pro-image-to-video', label: 'Seedance Pro' },
 ];
+
+const COST_CONFIG = {
+  planReserve: 2, // plan_story_and_shots_node
+  characterRefPerImage: 2, // design_characters_node
+  characterRefMax: 2,
+  keyframePerShot: 2, // generate_keyframes_node
+  averageShotDuration: 8,
+  videoCostPerSecond: 1.5, // orchestrate_videos_node
+  spliceCost: 3, // splice_videos_node
+};
 
 const DURATIONS = [
   { value: 16, label: '16s' },
@@ -41,9 +51,16 @@ const DURATIONS = [
 
 interface AgentCreatePanelProps {
   onJobCreated?: () => void;
+  initialData?: {
+    prompt: string;
+    referenceImageUrl?: string;
+    durationSeconds?: number;
+    imageModel?: string;
+    videoModel?: string;
+  };
 }
 
-export function AgentCreatePanel({ onJobCreated }: AgentCreatePanelProps) {
+export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanelProps) {
   const { user, setShowSignModal, setShowPricingModal } = useAppContext();
   const { leftCredits, updateLeftCredits } = useCredits();
 
@@ -54,13 +71,29 @@ export function AgentCreatePanel({ onJobCreated }: AgentCreatePanelProps) {
   const [videoModel, setVideoModel] = useState('kie-veo3-image-to-video');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Pre-fill form when initialData changes (for re-edit)
+  useEffect(() => {
+    if (initialData) {
+      setPrompt(initialData.prompt || '');
+      setReferenceImageUrls(initialData.referenceImageUrl ? [initialData.referenceImageUrl] : []);
+      setDuration(initialData.durationSeconds || 16);
+      setImageModel(initialData.imageModel || 'nano-banana');
+      setVideoModel(initialData.videoModel || 'kie-veo3-image-to-video');
+    }
+  }, [initialData]);
+
   const calculateEstimatedCredits = () => {
-    const estimatedShots = Math.ceil(duration / 8);
-    const videoModelInfo = VIDEO_MODELS.find(m => m.value === videoModel);
-    const creditsPerShot = videoModelInfo?.creditsPerShot || 50;
-    const keyframeCredits = estimatedShots * 2;
-    const videoCredits = estimatedShots * creditsPerShot;
-    return keyframeCredits + videoCredits;
+    const estimatedShots = Math.max(1, Math.ceil(duration / COST_CONFIG.averageShotDuration));
+    const planCost = COST_CONFIG.planReserve;
+    const characterReferenceCost =
+      referenceImageUrls.length > 0
+        ? 0
+        : COST_CONFIG.characterRefMax * COST_CONFIG.characterRefPerImage;
+    const keyframeCredits = estimatedShots * COST_CONFIG.keyframePerShot;
+    const videoCredits = Math.ceil(duration * COST_CONFIG.videoCostPerSecond);
+    const spliceCredits = COST_CONFIG.spliceCost;
+
+    return planCost + characterReferenceCost + keyframeCredits + videoCredits + spliceCredits;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -78,6 +111,11 @@ export function AgentCreatePanel({ onJobCreated }: AgentCreatePanelProps) {
 
     if (prompt.length < 10) {
       toast.error('Description must be at least 10 characters');
+      return;
+    }
+
+    if (prompt.length > 2000) {
+      toast.error('Description must not exceed 2000 characters');
       return;
     }
 
@@ -171,6 +209,7 @@ export function AgentCreatePanel({ onJobCreated }: AgentCreatePanelProps) {
               onImagesChange={setReferenceImageUrls}
               isAuthenticated={!!user?.uuid}
               onShowSignModal={() => setShowSignModal(true)}
+              initialImages={referenceImageUrls}
             />
           </div>
 

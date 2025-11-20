@@ -64,6 +64,7 @@ interface AssetModalProps {
 
 export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
   const [isCopied, setIsCopied] = useState(false);
+  const [isMediaLoading, setIsMediaLoading] = useState(false);
 
   const formatDuration = (seconds?: number) => {
     if (!seconds || seconds <= 0) return '—';
@@ -113,6 +114,15 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
 
     return result || prompt;
   };
+
+  // Reset media loading state when modal opens or data changes
+  useEffect(() => {
+    if (isOpen && (type === 'image' || type === 'character_refs' || type === 'video')) {
+      setIsMediaLoading(true);
+    } else {
+      setIsMediaLoading(false);
+    }
+  }, [isOpen, data.url, type]);
 
   // Handle keyboard navigation
   useEffect(() => {
@@ -187,89 +197,134 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
     }
 
     const { theme, tone, acts = [], characters = [], shots = [] } = data.storyDetails;
+
     const shotsValue = typeof (data.shotsCount ?? shots.length) === 'number'
       ? (data.shotsCount ?? shots.length)
       : undefined;
-    const summaryCards = [
-      { label: 'Theme', value: theme || '—' },
-      { label: 'Tone', value: tone || '—' },
-      { label: 'Shots', value: typeof shotsValue === 'number' ? shotsValue : '—' },
-      { label: 'Total Duration', value: formatDuration(data.totalDurationSeconds) },
-    ];
 
     return (
-      <div className="space-y-8">
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {summaryCards.map(card => (
-            <div key={card.label} className="rounded-xl border border-white/5 bg-white/5 px-4 py-3 min-h-[90px] flex flex-col justify-between">
-              <p className="text-xs uppercase tracking-wide text-gray-400">{card.label}</p>
-              <p className="text-2xl font-semibold text-white">{card.value}</p>
-            </div>
-          ))}
+      <div className="space-y-6">
+        {/* Compact summary line */}
+        <div className="flex items-center gap-3 text-sm text-gray-300 border-b border-white/5 pb-4">
+          <span className="font-semibold text-white text-base">
+            {typeof shotsValue === 'number' ? shotsValue : '—'} Shots
+          </span>
+          <span className="text-gray-500">·</span>
+          <span>{formatDuration(data.totalDurationSeconds)}</span>
+          {acts.length > 0 && (
+            <>
+              <span className="text-gray-500">·</span>
+              <span>{acts.length} Acts</span>
+            </>
+          )}
+          {characters.length > 0 && (
+            <>
+              <span className="text-gray-500">·</span>
+              <span>{characters.length} Characters</span>
+            </>
+          )}
         </div>
 
         {acts.length > 0 && (
-          <section className="space-y-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wide text-gray-300">Acts</h4>
-            <div className="space-y-3">
-              {acts.map((act, index) => (
-                <div key={`${act.title}-${index}`} className="rounded-xl border border-white/5 bg-black/20 p-4">
-                  <div className="flex items-center justify-between gap-3">
-                    <div>
-                      <p className="text-sm font-semibold text-white">{act.title}</p>
-                      {act.summary && <p className="text-sm text-gray-300 mt-2 leading-relaxed">{act.summary}</p>}
-                    </div>
-                    <Badge variant="outline" className="border-white/15 text-[11px] text-gray-300">{`Act ${index + 1}`}</Badge>
+          <Accordion type="single" collapsible defaultValue="acts" className="rounded-xl border border-white/5 bg-black/30">
+            <AccordionItem value="acts" className="border-none">
+              <AccordionTrigger className="px-4 py-3 text-sm font-semibold text-gray-300 hover:no-underline">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <span className="uppercase tracking-wide">ACTS</span>
+                  <div className="flex items-center gap-2 text-xs text-gray-400 font-normal">
+                    {acts.map((act, index) => (
+                      <span key={index}>
+                        {index > 0 && <span className="mx-1">→</span>}
+                        {act.title}
+                      </span>
+                    ))}
                   </div>
                 </div>
-              ))}
-            </div>
-          </section>
+              </AccordionTrigger>
+              <AccordionContent className="px-4 pb-4">
+                <div className="space-y-3">
+                  {acts.map((act, index) => (
+                    <div key={`${act.title}-${index}`} className="border-l-2 border-white/10 pl-3">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-sm font-semibold text-white">{act.title}</span>
+                        <Badge variant="outline" className="border-white/15 text-[10px] text-gray-400">
+                          Act {index + 1}
+                        </Badge>
+                      </div>
+                      {act.summary && (
+                        <p className="text-sm text-gray-300 leading-relaxed">{act.summary}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         )}
 
         {characters.length > 0 && (
-          <section className="space-y-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wide text-gray-300">Main Characters</h4>
-            <div className="grid gap-4 md:grid-cols-2">
-              {characters.map((character, index) => (
-                <div key={`${character.name || index}`} className="rounded-xl border border-white/5 bg-black/30 p-4 space-y-3">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-base font-semibold text-white">{character.name || `Character ${index + 1}`}</p>
-                    {character.role && (
-                      <Badge variant="outline" className="border-white/20 text-gray-200 text-[11px]">
-                        {character.role}
+          <Accordion type="single" collapsible defaultValue="characters" className="rounded-xl border border-white/5 bg-black/30">
+            <AccordionItem value="characters" className="border-none">
+              <AccordionTrigger className="px-4 py-3 text-sm font-semibold text-gray-300 hover:no-underline">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <span className="uppercase tracking-wide">MAIN CHARACTERS</span>
+                  <div className="flex flex-wrap gap-2">
+                    {characters.map((char, index) => (
+                      <Badge
+                        key={index}
+                        variant="outline"
+                        className="border-white/20 text-gray-200 text-xs font-normal"
+                      >
+                        {char.name || `Character ${index + 1}`}
+                        {char.role && <span className="text-gray-400 ml-1">({char.role})</span>}
                       </Badge>
-                    )}
+                    ))}
                   </div>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    {character.traits && (
-                      <div className="rounded-lg border border-white/5 bg-black/40 p-2">
-                        <p className="text-[11px] uppercase tracking-wide text-gray-500">Traits</p>
-                        <p className="text-sm text-gray-200 mt-1">{character.traits}</p>
-                      </div>
-                    )}
-                    {character.appearance && (
-                      <div className="rounded-lg border border-white/5 bg-black/40 p-2">
-                        <p className="text-[11px] uppercase tracking-wide text-gray-500">Appearance</p>
-                        <p className="text-sm text-gray-200 mt-1">{character.appearance}</p>
-                      </div>
-                    )}
-                  </div>
-                  {character.description && (
-                    <p className="text-sm text-gray-300">{character.description}</p>
-                  )}
                 </div>
-              ))}
-            </div>
-          </section>
+              </AccordionTrigger>
+              <AccordionContent className="px-4 pb-4">
+                <div className="space-y-4">
+                  {characters.map((character, index) => (
+                    <div
+                      key={`${character.name || index}`}
+                      className="border-l-2 border-white/10 pl-3 space-y-2"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-base font-semibold text-white">
+                          {character.name || `Character ${index + 1}`}
+                        </span>
+                        {character.role && (
+                          <Badge variant="outline" className="border-white/20 text-gray-300 text-[10px]">
+                            {character.role}
+                          </Badge>
+                        )}
+                      </div>
+                      {character.traits && (
+                        <div className="text-sm">
+                          <span className="text-gray-500">Traits:</span>{' '}
+                          <span className="text-gray-300">{character.traits}</span>
+                        </div>
+                      )}
+                      {character.appearance && (
+                        <div className="text-sm">
+                          <span className="text-gray-500">Appearance:</span>{' '}
+                          <span className="text-gray-300">{character.appearance}</span>
+                        </div>
+                      )}
+                      {character.description && (
+                        <p className="text-sm text-gray-300">{character.description}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         )}
 
         {shots.length > 0 && (
           <section className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h4 className="text-sm font-semibold uppercase tracking-wide text-gray-300">Shots</h4>
-              <p className="text-xs text-gray-400">Click a shot to view prompts and metadata</p>
-            </div>
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-gray-300">Shots</h4>
             <Accordion
               type="multiple"
               defaultValue={shots.map((shot, index) => `shot-${shot.number ?? index}`)}
@@ -287,36 +342,39 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                     value={itemValue}
                     className="border-none"
                   >
-                  <AccordionTrigger className="text-left px-4 text-gray-100 hover:no-underline">
-                    <div className="flex flex-col gap-1 text-sm w-full">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="font-semibold">
-                          Shot #{shot.number ?? index + 1}
-                        </span>
-                        {shot.duration && (
-                          <Badge variant="outline" className="border-white/15 text-gray-200">
-                            {formatDuration(shot.duration)}
-                          </Badge>
-                        )}
-                        {shot.keyframeStatus && (
-                          <Badge variant="outline" className={getStatusBadgeClasses(shot.keyframeStatus)}>
-                            Keyframe: {formatStatusLabel(shot.keyframeStatus)}
-                          </Badge>
-                        )}
-                        {shot.videoStatus && (
-                          <Badge variant="outline" className={getStatusBadgeClasses(shot.videoStatus)}>
-                            Video: {formatStatusLabel(shot.videoStatus)}
-                          </Badge>
-                        )}
-                      </div>
+                  <AccordionTrigger className="text-left px-4 py-3 text-gray-100 hover:no-underline">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-semibold text-sm">
+                        Shot #{shot.number ?? index + 1}
+                      </span>
+                      {shot.duration && (
+                        <Badge variant="outline" className="border-white/15 text-gray-200 text-xs">
+                          {formatDuration(shot.duration)}
+                        </Badge>
+                      )}
+                      {shot.keyframeStatus === 'done' && (
+                        <Badge variant="outline" className="border-emerald-400/30 text-emerald-300 text-xs">
+                          Keyframe Done
+                        </Badge>
+                      )}
+                      {shot.videoStatus === 'generating' && (
+                        <Badge variant="outline" className="border-amber-300/30 text-amber-200 text-xs">
+                          Generating
+                        </Badge>
+                      )}
+                      {shot.videoStatus === 'done' && (
+                        <Badge variant="outline" className="border-emerald-400/30 text-emerald-300 text-xs">
+                          Video Done
+                        </Badge>
+                      )}
                     </div>
                   </AccordionTrigger>
-                    <AccordionContent className="px-4 pb-6">
-                      <div className="space-y-5">
+                    <AccordionContent className="px-4 pb-4">
+                      <div className="space-y-4">
                         {keyframePromptText && (
                           <div className="space-y-2">
                             <div className="flex items-center justify-between text-xs uppercase tracking-wide text-gray-400">
-                              <span>Keyframe prompt</span>
+                              <span>Keyframe Prompt</span>
                               <Button
                                 variant="ghost"
                                 size="sm"
@@ -335,7 +393,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                         {shot.prompt && (
                           <div className="space-y-2">
                             <div className="flex items-center justify-between text-xs uppercase tracking-wide text-gray-400">
-                              <span>Shot prompt</span>
+                              <span>Shot Prompt</span>
                               <Button
                                 variant="ghost"
                                 size="sm"
@@ -367,32 +425,30 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden bg-gray-800 border-gray-700 text-gray-200">
         <DialogHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
             <DialogTitle className="text-gray-100">{getTitle()}</DialogTitle>
-            <div className="flex items-center gap-2">
-              {(type === 'script' || (type === 'story' && data.content)) && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleCopy(undefined, true)}
-                  className="border-gray-600 text-gray-300 hover:bg-gray-700"
-                >
-                  <Copy className="h-4 w-4 mr-1" />
-                  {isCopied ? 'Copied!' : 'Copy'}
-                </Button>
-              )}
-              {data.url && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleDownload}
-                  className="border-gray-600 text-gray-300 hover:bg-gray-700"
-                >
-                  <Download className="h-4 w-4 mr-1" />
-                  Download
-                </Button>
-              )}
-            </div>
+            {(type === 'script' || (type === 'story' && data.content)) && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleCopy(undefined, true)}
+                className="h-8 text-gray-400 hover:text-gray-100 hover:bg-gray-700/50"
+              >
+                <Copy className="h-3.5 w-3.5 mr-1.5" />
+                {isCopied ? 'Copied' : 'Copy'}
+              </Button>
+            )}
+            {data.url && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleDownload}
+                className="h-8 text-gray-400 hover:text-gray-100 hover:bg-gray-700/50"
+              >
+                <Download className="h-3.5 w-3.5 mr-1.5" />
+                Download
+              </Button>
+            )}
           </div>
         </DialogHeader>
 
@@ -409,24 +465,56 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
 
           {/* Image */}
           {(type === 'image' || type === 'character_refs') && data.url && (
-            <div className="flex items-center justify-center bg-gray-900 rounded-lg p-4">
+            <div className="relative flex items-center justify-center bg-gray-900 rounded-lg p-4 min-h-[60vh]">
+              {isMediaLoading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex items-center gap-2">
+                    {[0, 1, 2].map(index => (
+                      <span
+                        key={index}
+                        className="block w-3 h-3 rounded-full bg-white/60 animate-[agent-loader-bounce_1.2s_ease-in-out_infinite]"
+                        style={{ animationDelay: `${index * 0.15}s` }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
               <img
                 src={data.url}
                 alt={getTitle()}
                 className="max-w-full max-h-[70vh] object-contain rounded"
+                onLoad={() => setIsMediaLoading(false)}
+                onError={() => setIsMediaLoading(false)}
+                style={{ opacity: isMediaLoading ? 0 : 1, transition: 'opacity 0.3s' }}
               />
             </div>
           )}
 
           {/* Video */}
           {type === 'video' && data.url && (
-            <div className="bg-gray-900 rounded-lg overflow-hidden">
+            <div className="relative bg-gray-900 rounded-lg overflow-hidden min-h-[60vh] flex items-center justify-center">
+              {isMediaLoading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex items-center gap-2">
+                    {[0, 1, 2].map(index => (
+                      <span
+                        key={index}
+                        className="block w-3 h-3 rounded-full bg-white/60 animate-[agent-loader-bounce_1.2s_ease-in-out_infinite]"
+                        style={{ animationDelay: `${index * 0.15}s` }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
               <video
                 src={data.url}
                 controls
                 autoPlay
                 className="w-full max-h-[70vh]"
                 preload="auto"
+                onLoadedData={() => setIsMediaLoading(false)}
+                onError={() => setIsMediaLoading(false)}
+                style={{ opacity: isMediaLoading ? 0 : 1, transition: 'opacity 0.3s' }}
               >
                 Your browser does not support the video tag.
               </video>
