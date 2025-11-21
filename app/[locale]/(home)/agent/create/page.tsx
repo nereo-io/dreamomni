@@ -3,7 +3,8 @@
  * Page for creating new intelligent video orchestration jobs
  */
 
-import { AgentCreateForm } from '@/components/blocks/agent/AgentCreateForm';
+// TODO: Phase 5 - Implement AgentCreateForm component
+// import { AgentCreateForm } from '@/components/blocks/agent/AgentCreateForm';
 
 export async function generateMetadata({
   params: { locale },
@@ -31,8 +32,11 @@ export default function CreateAgentJobPage({
   params: { locale: string };
 }) {
   return (
-    <div className="bg-gray-900 rounded-xl shadow-lg min-h-[600px]">
-      <AgentCreateForm locale={locale} />
+    <div className="bg-gray-900 rounded-xl shadow-lg min-h-[600px] flex items-center justify-center">
+      <div className="text-center text-gray-400">
+        <h2 className="text-2xl font-bold mb-4">Agent Create - Coming Soon</h2>
+        <p>This feature is under development (Phase 5)</p>
+      </div>
     </div>
   );
 }

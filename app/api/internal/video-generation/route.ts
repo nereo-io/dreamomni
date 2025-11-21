@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
       input_image_url: imageUrl,
       duration_seconds: durationSeconds,
       user_id: userId,
-      status: 'PROCESSING',
+      status: 'IN_PROGRESS',
       [requestIdField]: submitResult.request_id, // 动态设置 request_id 字段
     });
 
@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
       success: true,
       videoGenerationId: videoGeneration.id,
       providerRequestId: submitResult.request_id,
-      status: 'PROCESSING',
+      status: 'IN_PROGRESS',
       message: 'Video generation submitted successfully'
     });
 
