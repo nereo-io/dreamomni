@@ -343,7 +343,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
             // Only show Final Video loading state during 'splicing' phase
             // Previous logic included 'generating_videos' and 'orchestrating_videos' which caused duplicate loading indicators
             ['splicing'].includes(job.status) && (
-              <div className="relative w-full overflow-hidden rounded-lg bg-gray-800 border border-gray-700">
+              <div className="relative w-full max-w-[518px] overflow-hidden rounded-lg bg-gray-900 border border-gray-800">
                 <div className="aspect-video w-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
                   <div className="flex items-center gap-2">
                     {[0, 1, 2].map(index => (

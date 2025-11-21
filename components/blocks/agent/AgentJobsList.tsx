@@ -7,23 +7,14 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { AgentJob, AgentJobListResponse } from '@/types/agent';
+import { AgentJob } from '@/types/agent';
 import { AgentJobItem } from './AgentJobItem';
 import { AgentJobSkeleton } from './AgentJobSkeleton';
 import { AlertTriangle, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
 
 const POLLING_INTERVAL = 5000; // 5 seconds
 const JOB_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
-const ITEMS_PER_PAGE = 8;
 
 interface AgentJobsListProps {
   refreshTrigger?: number;
@@ -35,10 +26,6 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
   const [jobs, setJobs] = useState<AgentJob[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isUnauthorized, setIsUnauthorized] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-  const [isPageLoading, setIsPageLoading] = useState(false);
 
   // Use ref to track latest jobs without causing re-renders
   const jobsRef = useRef<AgentJob[]>([]);
@@ -49,14 +36,9 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
   }, [jobs]);
 
   // Fetch jobs from API
-  const fetchJobs = useCallback(async (page = 1, showLoading = true) => {
-    if (showLoading) {
-      setIsLoading(true);
-    } else {
-      setIsPageLoading(true);
-    }
+  const fetchJobs = useCallback(async () => {
     try {
-      const response = await fetch(`/api/agent/jobs?page=${page}&page_size=${ITEMS_PER_PAGE}&include_shots=true`);
+      const response = await fetch('/api/agent/jobs?page=1&page_size=5&include_shots=true');
 
       if (!response.ok) {
         if (response.status === 401) {
@@ -67,21 +49,13 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
         throw new Error('Failed to fetch Agent jobs');
       }
 
-      const data: AgentJobListResponse | { jobs: AgentJob[] } = await response.json();
-      const total = 'total' in data ? data.total : data.jobs.length;
-      const pageSize = 'page_size' in data ? data.page_size : ITEMS_PER_PAGE;
-      const pageFromResponse = 'page' in data ? data.page : page;
+      const data = await response.json();
       setJobs(data.jobs);
-      setCurrentPage(pageFromResponse);
-      setTotalItems(total);
-      setTotalPages(Math.max(1, Math.ceil(total / pageSize || 1)));
       setIsLoading(false);
-      setIsPageLoading(false);
     } catch (error: any) {
       console.error('Error fetching jobs:', error);
       toast.error(error.message || 'Failed to load Agent jobs');
       setIsLoading(false);
-      setIsPageLoading(false);
     }
   }, []);
 
@@ -111,21 +85,17 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
     console.log(`Polling ${activeJobs.length} active jobs...`);
 
     try {
-      const response = await fetch(`/api/agent/jobs?page=${currentPage}&page_size=${ITEMS_PER_PAGE}&include_shots=true`);
+      const response = await fetch('/api/agent/jobs?page=1&page_size=5&include_shots=true');
 
       if (response.ok) {
-        const data: AgentJobListResponse | { jobs: AgentJob[] } = await response.json();
+        const data = await response.json();
         setJobs(data.jobs);
-        if ('total' in data && 'page_size' in data) {
-          setTotalItems(data.total);
-          setTotalPages(Math.max(1, Math.ceil(data.total / (data.page_size || ITEMS_PER_PAGE))));
-        }
         console.log('Job statuses refreshed');
       }
     } catch (error) {
       console.error('Failed to poll job statuses:', error);
     }
-  }, [currentPage]);
+  }, []);
 
   // Initial fetch
   useEffect(() => {
@@ -147,12 +117,6 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
 
     return () => clearInterval(interval);
   }, [updateActiveJobsInBackground]);
-
-  const handlePageChange = useCallback((page: number) => {
-    if (page === currentPage) return;
-    setCurrentPage(page);
-    fetchJobs(page, false);
-  }, [currentPage, fetchJobs]);
 
   // Handle delete job
   const handleDeleteJob = async (jobId: string) => {
@@ -225,17 +189,12 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
       <header className="py-3 px-4 md:px-5 flex justify-between items-center border-b border-gray-700">
         <div className="text-lg md:text-xl font-semibold flex items-center text-white min-w-0">
           <Sparkles className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3 flex-shrink-0" />
-          <span className="truncate">Agent Jobs ({totalItems || jobs.length})</span>
+          <span className="truncate">Agent Jobs ({jobs.length})</span>
         </div>
       </header>
 
       {/* Job list */}
-      <div className="flex-1 overflow-y-auto px-4 md:px-6 py-4 md:py-5 lg:dark-scrollbar relative">
-        {isPageLoading && (
-          <div className="absolute inset-0 bg-gray-900/60 flex items-center justify-center z-10">
-            <AgentJobSkeleton variant="card" count={2} />
-          </div>
-        )}
+      <div className="flex-1 overflow-y-auto px-4 md:px-6 py-4 md:py-5 lg:dark-scrollbar">
         <div className="space-y-4">
           {jobs.map(job => (
             <AgentJobItem
@@ -248,52 +207,6 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
           ))}
         </div>
       </div>
-
-      {totalPages > 1 && (
-        <div className="border-t border-gray-700 bg-gray-900">
-          <Pagination className="py-3">
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (currentPage > 1) handlePageChange(currentPage - 1);
-                  }}
-                  className={currentPage === 1 ? "pointer-events-none opacity-50" : undefined}
-                />
-              </PaginationItem>
-              {Array.from({ length: totalPages }).map((_, idx) => {
-                const pageNum = idx + 1;
-                return (
-                  <PaginationItem key={pageNum}>
-                    <PaginationLink
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handlePageChange(pageNum);
-                      }}
-                      isActive={currentPage === pageNum}
-                    >
-                      {pageNum}
-                    </PaginationLink>
-                  </PaginationItem>
-                );
-              })}
-              <PaginationItem>
-                <PaginationNext
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (currentPage < totalPages) handlePageChange(currentPage + 1);
-                  }}
-                  className={currentPage === totalPages ? "pointer-events-none opacity-50" : undefined}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
-      )}
     </div>
   );
 }
