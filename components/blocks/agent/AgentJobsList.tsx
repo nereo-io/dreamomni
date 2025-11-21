@@ -109,13 +109,25 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
     }
   }, [refreshTrigger, fetchJobs]);
 
-  // Set up polling interval for active jobs
+  // Set up polling for active jobs (wait for previous request to complete)
   useEffect(() => {
-    const interval = setInterval(() => {
-      updateActiveJobsInBackground();
-    }, POLLING_INTERVAL);
+    let timeoutId: NodeJS.Timeout | null = null;
+    let isMounted = true;
 
-    return () => clearInterval(interval);
+    const poll = async () => {
+      await updateActiveJobsInBackground();
+      if (isMounted) {
+        timeoutId = setTimeout(poll, POLLING_INTERVAL);
+      }
+    };
+
+    // Start first poll after interval
+    timeoutId = setTimeout(poll, POLLING_INTERVAL);
+
+    return () => {
+      isMounted = false;
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, [updateActiveJobsInBackground]);
 
   // Handle delete job
