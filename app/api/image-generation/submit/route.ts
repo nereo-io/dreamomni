@@ -120,6 +120,9 @@ export async function POST(req: NextRequest) {
       enable_prompt_enhancement = true,
       output_format,
       image_size,
+      aspect_ratio, // Pro 模型参数
+      resolution,   // Pro 模型参数
+      image_input,  // Pro 模型图生图参数
       captchaToken,
     } = await req.json();
 
@@ -213,6 +216,9 @@ export async function POST(req: NextRequest) {
           negativePrompt: negative_prompt,
           output_format,
           image_size,
+          // Pro 模型参数
+          aspect_ratio,
+          resolution,
         });
       } else {
         result = await aiServiceManager.generateImage(selectedProvider, {
@@ -222,6 +228,10 @@ export async function POST(req: NextRequest) {
           count: 1,
           output_format,
           image_size,
+          // Pro 模型参数
+          aspect_ratio,
+          resolution,
+          image_input,
         });
       }
 
@@ -266,6 +276,9 @@ export async function POST(req: NextRequest) {
           // 将图片尺寸存储到元数据中
           image_size: image_size,
           output_format: output_format,
+          // Pro 模型参数
+          aspect_ratio: aspect_ratio,
+          resolution: resolution,
           // 保存扣费池信息，用于退款追溯
           credit_deduction: {
             pools: deductResult.pools,

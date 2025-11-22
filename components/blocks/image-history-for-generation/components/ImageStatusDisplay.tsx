@@ -8,6 +8,7 @@ import { useImageGenerationProgress } from "@/hooks/useImageGenerationProgress";
 import { useIsMobile } from "@/hooks/use-mobile";
 import ImageProgressBar from "./ImageProgressBar";
 import DeleteConfirmDialog from "./DeleteConfirmDialog";
+import { getImageModel } from "@/config/image-models";
 
 interface ImageStatusDisplayProps {
   status: string;
@@ -46,41 +47,10 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   canEdit,
   pollingImages,
 }) => {
-  // 根据图片比例计算显示尺寸，最长边为可显示区域宽度的一半
-  const getImageAspectClass = (image?: any) => {
-    // 从 image_size 字段读取图片比例
-    const aspectRatio = image?.image_size;
-    
-    if (!aspectRatio) return 'w-1/2 aspect-square'; // 默认正方形
-    
-    let aspectClass;
-    switch (aspectRatio) {
-      case '1:1':
-        // 正方形：宽度和高度都等于容器宽度的3/5
-        aspectClass = 'w-3/5 aspect-square';
-        break;
-      case '3:4':
-        // 竖图：宽度为容器宽度的1/3，高度按比例
-        aspectClass = 'w-1/3 aspect-[3/4]';
-        break;
-      case '4:3':
-        // 横图：宽度为容器宽度的3/5，高度按比例
-        aspectClass = 'w-3/5 aspect-[4/3]';
-        break;
-      case '9:16':
-        // 竖图：宽度为容器宽度的1/3，高度按比例
-        aspectClass = 'w-1/3 aspect-[9/16]';
-        break;
-      case '16:9':
-        // 横图：宽度为容器宽度的3/5，高度按比例
-        aspectClass = 'w-3/5 aspect-[16/9]';
-        break;
-      case 'auto':
-      default:
-        aspectClass = 'w-1/2 aspect-square'; // 默认正方形
-        break;
-    }
-    return aspectClass;
+  // 统一使用固定高度显示，保持图片原始比例
+  const getImageContainerClass = () => {
+    // 所有图片使用统一的固定高度容器
+    return 'h-64'; // 256px 固定高度
   };
   const isCompleted = status === "completed" || status === "saved_to_r2";
   const isPromptOptimizing = status === "prompt_optimizing";
@@ -88,11 +58,15 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   const isFailed = status === "failed";
   const isPolling = pollingImages.has(image.id);
   const isMobile = useIsMobile();
-  
+
+  // Get model config to use estimated generation time
+  const modelConfig = getImageModel(image.model || 'nano-banana');
+  const estimatedTime = modelConfig?.estimatedGenerationTime || 30;
+
   // Use progress hook for processing states
   const progressData = useImageGenerationProgress({
     createdAt: image.created_at,
-    estimatedTime: 30, // 30 seconds estimated for image generation
+    estimatedTime: estimatedTime,
     status: status
   });
   
@@ -411,9 +385,9 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   if (isPromptOptimizing) {
     return (
       <div className="space-y-3">
-        {/* Prompt Optimizing placeholder with Sparkles effect - 三分之二宽度，左对齐 */}
+        {/* Prompt Optimizing placeholder with Sparkles effect - 固定高度，左对齐 */}
         <div className="flex justify-start">
-          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} ${getImageAspectClass(image)} bg-gray-700 rounded-lg flex items-center justify-center`}>
+          <div className={`${getImageContainerClass()} w-80 bg-gray-700 rounded-lg flex items-center justify-center`}>
             <div className="text-center py-8">
               <div className="relative mb-4">
                 <div className="absolute inset-0 bg-purple-500/20 blur-xl rounded-full animate-pulse" />
@@ -439,21 +413,19 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
     return (
       <>
       <div className="space-y-3">
-        {/* Image preview with hover buttons - 三分之二宽度，左对齐 */}
+        {/* Image preview with hover buttons - 固定高度，左对齐 */}
         <div className="flex justify-start">
-          <div 
-            className={`${isMobile ? 'w-1/2' : 'w-1/3'} ${getImageAspectClass(image)} overflow-hidden cursor-pointer relative group`}
-            onClick={handleOpen}
-          >
-            <img
-              src={imageUrl}
-              alt={image.prompt}
-              className="w-full h-full object-contain rounded-lg"
-              loading="lazy"
-            />
-            
-            {/* Hover overlay buttons - 移动端默认显示 */}
-            <div className={`absolute top-3 right-3 ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-200 flex gap-2`}>
+          <div className={`${getImageContainerClass()} w-full max-w-md`}>
+            <div className="relative group inline-block cursor-pointer" onClick={handleOpen}>
+              <img
+                src={imageUrl}
+                alt={image.prompt}
+                className="max-h-64 object-contain rounded-lg"
+                loading="lazy"
+              />
+
+              {/* Hover overlay buttons - 移动端默认显示 */}
+              <div className={`absolute top-3 right-3 ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-200 flex gap-2 z-10`}>
               <Button
                 variant="secondary"
                 size="sm"
@@ -492,6 +464,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
                   )}
                 </Button>
               )}
+              </div>
             </div>
           </div>
         </div>
@@ -540,14 +513,14 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
     return (
       <>
       <div className="space-y-3">
-        {/* Processing placeholder with progress - 三分之二宽度，左对齐 */}
+        {/* Processing placeholder with progress - 固定高度，左对齐 */}
         <div className="flex justify-start">
-          <div className={`${isMobile ? 'w-1/2' : 'w-1/3'} ${getImageAspectClass(image)} flex items-center justify-center relative overflow-hidden rounded-lg`}>
+          <div className={`${getImageContainerClass()} w-80 flex items-center justify-center relative overflow-hidden rounded-lg bg-gray-800`}>
             {/* Background with subtle gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-lg" />
-            
+
             {/* Content */}
-            <div className="relative z-10 text-center w-full px-4">
+            <div className="relative z-10 text-center w-full px-6 py-4">
               {/* Status text - only for prompt optimizing */}
               {status === "prompt_optimizing" && (
                 <p className="text-sm font-medium text-white mb-4">
@@ -600,9 +573,9 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
     return (
       <>
       <div className="space-y-3">
-        {/* Error placeholder - 三分之二宽度，左对齐 */}
+        {/* Error placeholder - 固定高度，左对齐 */}
         <div className="flex justify-start">
-          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} ${getImageAspectClass(image)} bg-gray-700 rounded-lg flex items-center justify-center`}>
+          <div className={`${getImageContainerClass()} w-80 bg-gray-700 rounded-lg flex items-center justify-center`}>
             <div className="text-center">
               <div className="text-red-400 mb-2">❌</div>
               <p className="text-sm text-red-400">Generation Failed</p>
@@ -683,7 +656,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
     <>
       <div className="space-y-3">
         <div className="flex justify-start">
-          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} ${getImageAspectClass(image)} bg-gray-700 rounded-lg flex items-center justify-center`}>
+          <div className={`${getImageContainerClass()} w-80 bg-gray-700 rounded-lg flex items-center justify-center`}>
             <div className="text-center">
               <p className="text-sm text-gray-400">Unknown Status</p>
             </div>

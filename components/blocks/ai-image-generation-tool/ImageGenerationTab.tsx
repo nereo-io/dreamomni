@@ -11,9 +11,17 @@ import { useAppContext } from "@/contexts/app";
 import { CaptchaModal } from "@/components/ui/captcha-modal";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Coins, Wand2 } from "lucide-react";
 import useCredits from "@/hooks/useCredits";
 import { ImageGridUploader } from "@/components/blocks/video-generator/ImageGridUploader";
+import { IMAGE_MODELS, getImageModel, calculateImageCredits } from "@/config/image-models";
 
 import type { ImageGenerationParams } from "../image-generator";
 import type { ImageGenerationResult } from "@/hooks/useImageGeneration";
@@ -94,19 +102,38 @@ export default function ImageGenerationTab({
 
   // Image generation settings
   const [outputFormat] = useState<"png" | "jpeg">("png"); // 默认使用 PNG，暂时不显示选择器
-  const [imageSize, setImageSize] = useState<
-    "auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9"
-  >("auto");
+  const [imageSize, setImageSize] = useState<string>("Auto"); // 默认 Auto
+
+  // Model selection state
+  const isImageToImage = mode === "image-to-image";
+  const [selectedModel, setSelectedModel] = useState<string>(
+    "nano-banana-pro" // 默认选中 Pro 模型
+  );
+
+  // Pro model specific settings
+  const [aspectRatio, setAspectRatio] = useState<string>("1:1"); // Pro 模型默认 1:1
+  const [resolution, setResolution] = useState<string>("1K"); // Pro 模型默认 1K
 
   const cleanupFunctionsRef = useRef<Map<string, () => void>>(new Map());
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Mode-specific configuration
-  const isImageToImage = mode === "image-to-image";
-  const selectedModel = isImageToImage
-    ? "nano-banana-edit"
-    : "google/nano-banana";
-  const requiredCredits = 2;
+  // Get available models based on mode
+  const availableModels = Object.values(IMAGE_MODELS).filter((m) => {
+    if (isImageToImage) {
+      return m.features.includes("image-to-image") || m.features.includes("image-edit");
+    } else {
+      return m.features.includes("text-to-image");
+    }
+  });
+
+  // Get current model config
+  const currentModelConfig = getImageModel(selectedModel);
+
+  // Calculate required credits dynamically from config
+  const requiredCredits = calculateImageCredits(selectedModel);
+
+  // Check if current model is Pro
+  const isProModel = selectedModel === "nano-banana-pro";
 
   // 检查是否需要CAPTCHA验证（基于积分）
   const needsCaptcha = useCallback(() => {
@@ -345,7 +372,16 @@ export default function ImageGenerationTab({
           : undefined,
       enable_prompt_enhancement: false,
       output_format: outputFormat,
-      image_size: imageSize,
+      // Pro 模型使用 aspect_ratio 和 resolution,标准模型使用 image_size
+      ...(isProModel
+        ? {
+            aspect_ratio: aspectRatio,
+            resolution: resolution,
+            image_input: isImageToImage ? uploadedImageUrls : [],
+          }
+        : {
+            image_size: imageSize.toLowerCase() as "auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9",
+          }),
     };
 
     // 基于积分的CAPTCHA判断
@@ -556,7 +592,7 @@ export default function ImageGenerationTab({
             {/* Image Upload Section (only for image-to-image) */}
             {isImageToImage && (
               <ImageGridUploader
-                maxImages={5}
+                maxImages={currentModelConfig?.maxInputImages || 5}
                 selectedModel={selectedModel}
                 onImagesChange={handleImagesChange}
                 isAuthenticated={!!user?.uuid}
@@ -598,27 +634,63 @@ export default function ImageGenerationTab({
                 {t("settings")}
               </div>
 
-              {/* AI Model Display */}
+              {/* Model Selection - Dropdown Style */}
               <div className="mb-4">
                 <label className="text-gray-300 text-sm mb-2 block">
                   {t("model")}
                 </label>
-                <div className="bg-gray-800 border border-gray-700 rounded-md px-3 py-2">
-                  <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 flex-shrink-0 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                      <span className="text-sm font-bold text-white">🍌</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium text-gray-100">
-                        {t("nanoBananaDisplayName")}
-                        {isImageToImage ? " Edit" : ""}
-                      </span>
-                      <div className="flex items-center gap-1 text-xs text-blue-300">
-                        <Coins className="h-3 w-3" />2 credits
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Select value={selectedModel} onValueChange={setSelectedModel}>
+                  <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                    <SelectValue placeholder={t("model")}>
+                      {currentModelConfig && (
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 h-5 flex-shrink-0 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                            <span className="text-xs">🍌</span>
+                          </div>
+                          <span className="font-medium">
+                            {currentModelConfig.displayName}
+                          </span>
+                          {currentModelConfig.id === "nano-banana-pro" && (
+                            <span className="text-xs bg-gradient-to-r from-red-500 to-orange-500 text-white px-1.5 py-0.5 rounded">
+                              HOT
+                            </span>
+                          )}
+                          <div className="flex items-center gap-1 text-xs text-blue-300 ml-auto">
+                            <Coins className="h-3 w-3" />
+                            {currentModelConfig.credits}
+                          </div>
+                        </div>
+                      )}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableModels.map((model) => (
+                      <SelectItem key={model.id} value={model.id}>
+                        <div className="flex items-center gap-3 w-full py-1">
+                          <div className="w-5 h-5 flex-shrink-0 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                            <span className="text-xs">🍌</span>
+                          </div>
+                          <div className="flex flex-col">
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium text-gray-100">
+                                {model.displayName}
+                              </span>
+                              {model.id === "nano-banana-pro" && (
+                                <span className="text-xs bg-gradient-to-r from-red-500 to-orange-500 text-white px-1.5 py-0.5 rounded">
+                                  HOT
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-1 text-xs text-blue-300">
+                              <Coins className="h-3 w-3" />
+                              {model.credits} credits
+                            </div>
+                          </div>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Output Format - 暂时注释掉，默认使用 PNG */}
@@ -657,47 +729,84 @@ export default function ImageGenerationTab({
                 </div>
               </div> */}
 
-              {/* Image Size Ratio - 暂时隐藏，用户不能选择图片比例 */}
+              {/* Pro Model: Resolution Selector */}
+              {isProModel && currentModelConfig?.supportedResolutions && (
+                <div className="mb-4">
+                  <label className="text-gray-300 text-sm mb-2 block">
+                    Resolution
+                  </label>
+                  <div className="flex flex-wrap gap-3">
+                    {currentModelConfig.supportedResolutions.map((res) => (
+                      <label
+                        key={res}
+                        className="flex items-center cursor-pointer min-w-0"
+                      >
+                        <input
+                          type="radio"
+                          name="resolution"
+                          value={res}
+                          checked={resolution === res}
+                          onChange={(e) => setResolution(e.target.value)}
+                          className="sr-only"
+                        />
+                        <div
+                          className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
+                            resolution === res
+                              ? "border-primary bg-primary"
+                              : "border-gray-500"
+                          }`}
+                        >
+                          {resolution === res && (
+                            <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                          )}
+                        </div>
+                        <span className="text-gray-300 text-sm font-medium">
+                          {res}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Ratio Selector - all from config */}
               <div className="mb-4">
                 <label className="text-gray-300 text-sm mb-2 block">
-                  {t("imageSize")}
+                  Ratio
                 </label>
-                <div className="flex flex-wrap gap-3 sm:gap-6">
-                  {[
-                    { value: "auto", label: "Auto" },
-                    { value: "1:1", label: "1:1" },
-                    { value: "3:4", label: "3:4" },
-                    { value: "9:16", label: "9:16" },
-                    { value: "4:3", label: "4:3" },
-                    { value: "16:9", label: "16:9" },
-                  ].map((size) => (
+                <div className="flex flex-wrap gap-x-6 gap-y-3">
+                  {currentModelConfig?.supportedAspectRatios.map((ratio) => (
                     <label
-                      key={size.value}
+                      key={ratio}
                       className="flex items-center cursor-pointer min-w-0"
                     >
                       <input
                         type="radio"
-                        name="imageSize"
-                        value={size.value}
-                        checked={imageSize === size.value}
-                        onChange={(e) =>
-                          setImageSize(e.target.value as typeof imageSize)
-                        }
+                        name="ratio"
+                        value={ratio}
+                        checked={isProModel ? aspectRatio === ratio : imageSize === ratio}
+                        onChange={(e) => {
+                          if (isProModel) {
+                            setAspectRatio(e.target.value);
+                          } else {
+                            setImageSize(e.target.value as typeof imageSize);
+                          }
+                        }}
                         className="sr-only"
                       />
                       <div
                         className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
-                          imageSize === size.value
+                          (isProModel ? aspectRatio === ratio : imageSize === ratio)
                             ? "border-primary bg-primary"
                             : "border-gray-500"
                         }`}
                       >
-                        {imageSize === size.value && (
+                        {(isProModel ? aspectRatio === ratio : imageSize === ratio) && (
                           <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
                         )}
                       </div>
                       <span className="text-gray-300 text-sm">
-                        {size.label}
+                        {ratio}
                       </span>
                     </label>
                   ))}

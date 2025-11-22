@@ -10,6 +10,7 @@ import {
   ProviderResponse,
 } from "./BaseAIProvider";
 import { AIServiceProvider, ProviderImageResult } from "@/types/provider";
+import { getImageModel } from "@/config/image-models";
 
 export interface NanoBananaTextToImageRequest {
   prompt: string;
@@ -22,6 +23,16 @@ export interface modelLandingPageImageEditRequest {
   image_urls: string[];
   output_format?: "png" | "jpeg";
   image_size?: "auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9";
+}
+
+// Nano Banana Pro API 请求接口
+// 注: aspect_ratio 和 resolution 的具体值定义在 config/image-models.ts
+export interface NanoBananaProRequest {
+  prompt: string;
+  image_input?: string[];  // 0-8 张图片
+  aspect_ratio?: string;  // 从配置文件动态获取支持的宽高比
+  resolution?: string;  // 从配置文件动态获取支持的分辨率 (1K, 2K, 4K)
+  output_format?: 'png' | 'jpg';
 }
 
 export interface NanoBananaApiResponse {
@@ -85,7 +96,8 @@ export class NanoBananaProvider extends BaseAIProvider {
   private baseUrl: string = "https://api.kie.ai";
 
   constructor() {
-    // 这里需要传递provider和config，先使用简化版本
+    // 注: 这里的配置是为了兼容 BaseAIProvider 的构造函数
+    // 实际使用时,AIServiceManager 会从 config/image-models.ts 动态加载模型配置
     super(
       "nano_banana",
       {
@@ -125,7 +137,7 @@ export class NanoBananaProvider extends BaseAIProvider {
           {
             id: "nano-banana-edit",
             name: "nano-banana-edit",
-            displayName: "Nano Banana",
+            displayName: "Nano Banana Edit",
             provider: "nano_banana",
             type: "image-edit",
             status: "active",
@@ -135,6 +147,20 @@ export class NanoBananaProvider extends BaseAIProvider {
             supportedAspectRatios: ["1:1"],
             supportedFormats: ["jpg", "png"],
             credits: 2,
+          },
+          {
+            id: "nano-banana-pro",
+            name: "nano-banana-pro",
+            displayName: "Nano Banana Pro",
+            provider: "nano_banana",
+            type: "text-to-image",
+            status: "active",
+            features: ["text-to-image", "image-to-image", "high-quality", "4k-resolution"],
+            maxImageCount: 1,
+            maxResolution: { width: 4096, height: 4096 },
+            supportedAspectRatios: ["1:1", "2:3", "3:2", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9"],
+            supportedFormats: ["jpg", "png"],
+            credits: 3,
           },
         ],
         pricing: {
@@ -323,6 +349,84 @@ export class NanoBananaProvider extends BaseAIProvider {
   }
 
   /**
+   * Generate with Pro API (supports both text-to-image and image-to-image)
+   * Returns task ID for tracking the async generation
+   */
+  private async generateWithProApi(
+    request: NanoBananaProRequest
+  ): Promise<{ taskId: string; recordId: string }> {
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${this.apiKey}`,
+    };
+
+    // 从配置文件获取默认值
+    const proModelConfig = getImageModel('nano-banana-pro');
+    const defaultAspectRatio = proModelConfig?.supportedAspectRatios[0] || '1:1';
+    const defaultResolution = proModelConfig?.supportedResolutions?.[0] || '1K';
+    const defaultFormat = proModelConfig?.supportedFormats[0] || 'png';
+
+    const body = {
+      model: 'nano-banana-pro',
+      input: {
+        prompt: request.prompt,
+        image_input: request.image_input || [],  // 文生图传空数组
+        aspect_ratio: request.aspect_ratio || defaultAspectRatio,
+        resolution: request.resolution || defaultResolution,
+        output_format: request.output_format || defaultFormat,
+      },
+      callBackUrl: this.getNanoBananaCallbackUrl(),
+    };
+
+    console.log("🌟 NanoBanana Pro API Request:");
+    console.log("📋 Headers:", JSON.stringify(headers, null, 2));
+    console.log("📦 Body:", JSON.stringify(body, null, 2));
+    console.log("🔗 URL:", `${this.baseUrl}/api/v1/jobs/createTask`);
+
+    const response = await fetch(
+      `${this.baseUrl}/api/v1/jobs/createTask`,
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body),
+      }
+    );
+
+    console.log("📨 NanoBanana Pro API Response:");
+    console.log("🔢 Status:", response.status);
+    console.log("✅ OK:", response.ok);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.log("❌ Error Response Body:", errorText);
+      throw new Error(
+        `Nano Banana Pro API error: ${response.status} - ${errorText}`
+      );
+    }
+
+    const apiResponse: NanoBananaApiResponse = await response.json();
+
+    console.log(
+      "📦 Nano Banana Pro API Response Body:",
+      JSON.stringify(apiResponse, null, 2)
+    );
+
+    if (apiResponse.code !== 200) {
+      throw new Error(
+        `Nano Banana Pro API error: ${apiResponse.code} - ${
+          apiResponse.message || "Unknown error"
+        }`
+      );
+    }
+
+    if (!apiResponse.data) {
+      throw new Error("Nano Banana Pro API error: No data in response");
+    }
+
+    return apiResponse.data;
+  }
+
+  /**
    * Get task status and result by task ID
    */
   async getTaskResult(
@@ -385,20 +489,42 @@ export class NanoBananaProvider extends BaseAIProvider {
     try {
       this.validateRequest(request);
 
-      const result = await this.generateFromText({
-        prompt: request.prompt,
-        output_format: request.output_format,
-        image_size: request.image_size,
-      });
+      // 根据模型 ID 自动检测 API 版本
+      const isPro = request.model === 'nano-banana-pro';
+
+      let result: { taskId: string; recordId: string };
+
+      if (isPro) {
+        // 使用 Pro API
+        result = await this.generateWithProApi({
+          prompt: request.prompt,
+          image_input: request.image_input || [],
+          aspect_ratio: request.aspect_ratio,
+          resolution: request.resolution,
+          output_format: request.output_format as 'png' | 'jpg',
+        });
+      } else {
+        // 使用标准 API
+        result = await this.generateFromText({
+          prompt: request.prompt,
+          output_format: request.output_format,
+          image_size: request.image_size,
+        });
+      }
 
       return {
-        taskId: result.taskId, // 修正字段名：taskId 而不是 task_id
-        status: "pending", // Nano Banana 是异步的
+        taskId: result.taskId,
+        status: "pending",
         metadata: {
           provider: this.getProvider(),
           model: request.model || "google/nano-banana",
-          recordId: result.recordId, // 添加 recordId 到元数据
-          raw_response: result, // 保存原始响应用于调试
+          api_version: isPro ? 'pro' : 'standard',
+          recordId: result.recordId,
+          ...(isPro && {
+            resolution: request.resolution || '1K',
+            aspect_ratio: request.aspect_ratio || '1:1',
+          }),
+          raw_response: result,
         },
       };
     } catch (error) {
@@ -420,21 +546,37 @@ export class NanoBananaProvider extends BaseAIProvider {
     try {
       this.validateRequest(request);
 
-      const result = await this.editImages({
-        prompt: request.prompt,
-        image_urls: request.imageUrls,
-        output_format: request.output_format,
-        image_size: request.image_size,
-      });
+      // 根据模型 ID 判断使用 Pro API 还是标准 Edit API
+      const isPro = request.model === 'nano-banana-pro';
+
+      let result: { taskId: string; recordId: string };
+
+      if (isPro) {
+        // Pro 模型使用统一 API
+        result = await this.generateWithProApi({
+          prompt: request.prompt,
+          image_input: request.imageUrls,
+          output_format: request.output_format as 'png' | 'jpg',
+        });
+      } else {
+        // 标准 Edit 模型
+        result = await this.editImages({
+          prompt: request.prompt,
+          image_urls: request.imageUrls,
+          output_format: request.output_format,
+          image_size: request.image_size,
+        });
+      }
 
       return {
-        taskId: result.taskId, // 修正字段名：taskId 而不是 task_id
-        status: "pending", // Nano Banana 是异步的
+        taskId: result.taskId,
+        status: "pending",
         metadata: {
           provider: this.getProvider(),
           model: request.model || "nano-banana-edit",
-          recordId: result.recordId, // 添加 recordId 到元数据
-          raw_response: result, // 保存原始响应用于调试
+          api_version: isPro ? 'pro' : 'standard',
+          recordId: result.recordId,
+          raw_response: result,
         },
       };
     } catch (error) {

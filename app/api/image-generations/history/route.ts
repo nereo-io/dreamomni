@@ -58,27 +58,46 @@ export async function GET(req: NextRequest) {
     console.log(`✅ Found ${historyItems.length} history items (total: ${total})`);
 
     // 格式化响应数据 - 直接返回数组以匹配组件期望
-    const formattedData = historyItems.map(item => ({
-      id: item.id,
-      prompt: item.prompt,
-      optimized_prompt: item.optimized_prompt,
-      image_url: Array.isArray(item.image_urls) && item.image_urls.length > 0 
-        ? item.image_urls[0] 
-        : undefined,
-      image_url_r2: Array.isArray(item.image_urls_r2) && item.image_urls_r2.length > 0 
-        ? item.image_urls_r2[0]
-        : undefined,
-      input_image_urls: item.input_image_urls, // 添加输入图片URLs
-      status: item.status.toLowerCase(),
-      model: item.model_id,
-      image_size: item.metadata?.image_size || '1:1', // 解析metadata中的image_size
-      created_at: item.created_at,
-      updated_at: item.updated_at || item.created_at,
-      credits_used: item.credits_used,
-      error_message: item.error_message,
-      provider: item.provider,
-      mode: item.mode,
-    }));
+    const formattedData = historyItems.map(item => {
+      // 自动推算分辨率(如果metadata中没有)
+      let resolution = item.metadata?.resolution || item.metadata?.quality;
+
+      // 如果没有显式的resolution,根据图片尺寸和aspect_ratio推算
+      if (!resolution && item.metadata?.image_size) {
+        const aspectRatio = item.metadata.image_size;
+        // 标准版 Nano Banana 固定生成 1024x1024 (1:1)
+        if (item.model_id === 'nano-banana' || item.model_id === 'nano-banana-edit') {
+          resolution = '1K';
+        }
+        // Pro 版本默认推算为 1K(如果没有明确指定)
+        else if (item.model_id === 'nano-banana-pro') {
+          resolution = resolution || '1K'; // 默认 1K
+        }
+      }
+
+      return {
+        id: item.id,
+        prompt: item.prompt,
+        optimized_prompt: item.optimized_prompt,
+        image_url: Array.isArray(item.image_urls) && item.image_urls.length > 0
+          ? item.image_urls[0]
+          : undefined,
+        image_url_r2: Array.isArray(item.image_urls_r2) && item.image_urls_r2.length > 0
+          ? item.image_urls_r2[0]
+          : undefined,
+        input_image_urls: item.input_image_urls, // 添加输入图片URLs
+        status: item.status.toLowerCase(),
+        model: item.model_id,
+        image_size: item.metadata?.image_size || '1:1', // 解析metadata中的image_size
+        resolution, // 分辨率 (1K, 2K, 4K)
+        created_at: item.created_at,
+        updated_at: item.updated_at || item.created_at,
+        credits_used: item.credits_used,
+        error_message: item.error_message,
+        provider: item.provider,
+        mode: item.mode,
+      };
+    });
 
     // 返回包含分页信息的标准格式
     return respData({

@@ -59,7 +59,9 @@
       "Read(///**)",
       "Bash(timeout 5 curl:*)",
       "Bash(pkill:*)",
-      "Bash(uv run python:*)"
+      "Bash(uv run python:*)",
+      "Bash(git checkout:*)",
+      "Bash(pnpm build:*)"
     ],
     "deny": [],
     "ask": [],

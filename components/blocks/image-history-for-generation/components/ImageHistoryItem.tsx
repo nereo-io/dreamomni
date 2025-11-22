@@ -4,6 +4,8 @@ import { toast } from "sonner";
 import type { ImageGenerationResult } from "@/components/blocks/image-history";
 import EnhancedPrompt from "./EnhancedPrompt";
 import ImageStatusDisplay from "./ImageStatusDisplay";
+import ImageMetadata from "@/components/blocks/image-history/ImageMetadata";
+import { getImageModel } from "@/config/image-models";
 
 interface ImageHistoryItemProps {
   image: ImageGenerationResult;
@@ -176,6 +178,13 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
             </span>
           )}
         </div>
+
+        {/* Metadata tags - aspect ratio, resolution, and model name */}
+        <ImageMetadata
+          aspectRatio={image.image_size}
+          resolution={image.resolution}
+          modelName={getImageModel(image.model)?.displayName || image.model}
+        />
 
         {/* Enhanced Prompt */}
         <EnhancedPrompt

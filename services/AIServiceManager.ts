@@ -6,6 +6,7 @@
 import { BaseAIProvider, ProviderFactory, GenerateImageRequest, EditImageRequest, ProviderResponse } from './providers/BaseAIProvider';
 import { NanoBananaProvider } from './providers/NanoBananaProvider';
 import type { AIServiceProvider, AIProviderConfig } from '@/types/provider.d';
+import { IMAGE_MODELS, getImageModel, calculateImageCredits } from '@/config/image-models';
 
 // 预定义的提供商配置
 const PROVIDER_CONFIGS: Record<AIServiceProvider, AIProviderConfig> = {
@@ -29,36 +30,25 @@ const PROVIDER_CONFIGS: Record<AIServiceProvider, AIProviderConfig> = {
       asyncCallback: true,
       realTimeStatus: false
     },
-    models: [
-      {
-        id: 'google/nano-banana',
-        name: 'nano-banana',
-        displayName: 'Nano Banana',
-        provider: 'nano_banana',
-        type: 'text-to-image',
-        status: 'active',
-        features: ['text-to-image', 'high-quality'],
+    // 使用配置文件中的模型定义
+    models: Object.values(IMAGE_MODELS)
+      .filter(m => m.provider === 'kie')
+      .map(m => ({
+        id: m.id === 'google/nano-banana' ? m.id : m.name, // 保持旧 ID 兼容性
+        name: m.name,
+        displayName: m.displayName,
+        provider: 'nano_banana' as const,
+        type: m.type as 'text-to-image' | 'image-edit',
+        status: (m.status === 'active' ? 'active' : 'deprecated') as 'active' | 'beta' | 'deprecated',
+        features: m.features,
         maxImageCount: 1,
-        maxResolution: { width: 1024, height: 1024 },
-        supportedAspectRatios: ['1:1', '16:9', '9:16'],
-        supportedFormats: ['jpg', 'png'],
-        credits: 1
-      },
-      {
-        id: 'nano-banana',
-        name: 'nano-banana',
-        displayName: 'Nano Banana',
-        provider: 'nano_banana',
-        type: 'image-edit',
-        status: 'active',
-        features: ['image-edit', 'high-quality'],
-        maxImageCount: 1,
-        maxResolution: { width: 1024, height: 1024 },
-        supportedAspectRatios: ['1:1'],
-        supportedFormats: ['jpg', 'png'],
-        credits: 2
-      }
-    ],
+        maxResolution: m.supportedResolutions
+          ? { width: 4096, height: 4096 } // Pro 模型支持 4K
+          : { width: 1024, height: 1024 },
+        supportedAspectRatios: m.supportedAspectRatios,
+        supportedFormats: m.supportedFormats,
+        credits: m.credits,
+      })),
     pricing: {
       baseCredits: 1,
       qualityMultiplier: {
@@ -437,17 +427,31 @@ export class AIServiceManager {
 
     const feature = featureMap[mode];
     const availableProviders = this.getProvidersByFeature(feature);
-    
+
     // 返回第一个可用的提供商，或者根据优先级排序
     const priorityOrder: AIServiceProvider[] = ['nano_banana', 'openai', 'stable_diffusion', 'replicate'];
-    
+
     for (const provider of priorityOrder) {
       if (availableProviders.includes(provider) && this.providers.has(provider)) {
         return provider;
       }
     }
-    
+
     return availableProviders.length > 0 ? availableProviders[0] : null;
+  }
+
+  /**
+   * 从配置文件获取图片模型信息
+   */
+  getImageModelConfig(modelId: string) {
+    return getImageModel(modelId);
+  }
+
+  /**
+   * 使用配置文件计算图片生成积分
+   */
+  calculateImageCreditsFromConfig(modelId: string): number {
+    return calculateImageCredits(modelId);
   }
 }
 

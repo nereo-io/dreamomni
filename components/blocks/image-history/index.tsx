@@ -33,6 +33,8 @@ import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { useTranslations } from "next-intl";
 import ImageHistorySkeleton from "./ImageHistorySkeleton";
+import ImageMetadata from "./ImageMetadata";
+import { getImageModel } from "@/config/image-models";
 
 export interface ImageGenerationResult {
   id: string;
@@ -45,7 +47,8 @@ export interface ImageGenerationResult {
   model: string;
   quality: string;
   style?: string;
-  image_size?: string; // 图片尺寸比例
+  image_size?: string; // 图片尺寸比例 (1:1, 16:9, etc.)
+  resolution?: string; // 图片分辨率 (1K, 2K, 4K)
   created_at: string;
   updated_at: string;
   credits_used: number;
@@ -766,22 +769,26 @@ const CardImageItem = ({
 
   return (
     <Card className="bg-gray-700/50 border-gray-700 text-gray-200 flex flex-col hover:bg-gray-700/70 transition-all duration-200">
-      <CardHeader>
-        <div className="aspect-square bg-gray-700 rounded-md mb-3 flex items-center justify-center overflow-hidden relative">
+      <CardHeader className="space-y-3">
+        <div className={`w-full h-64 rounded-md flex items-center justify-start overflow-hidden relative ${
+          (image.status === "completed" || image.status === "saved_to_r2") && imageLoaded
+            ? ''
+            : 'bg-gray-700'
+        }`}>
           {/* Completed Image */}
           {(image.status === "completed" || image.status === "saved_to_r2") && image.image_url ? (
-            <div className="relative w-full h-full group">
+            <div className="relative w-full h-full group flex items-center justify-start">
               <img
                 src={image.image_url}
                 alt={image.prompt}
-                className={`w-full h-full object-cover cursor-pointer transition-opacity duration-300 ${
+                className={`max-w-full max-h-full object-contain cursor-pointer transition-opacity duration-300 ${
                   imageLoaded ? 'opacity-100' : 'opacity-0'
                 }`}
                 onClick={() => onOpen(image.image_url!)}
                 onLoad={handleImageLoad}
                 loading="lazy"
               />
-              
+
               {/* Loading placeholder */}
               {!imageLoaded && (
                 <div className="absolute inset-0 bg-gray-600 animate-pulse flex items-center justify-center">
@@ -841,9 +848,16 @@ const CardImageItem = ({
             <Copy className="h-4 w-4" />
           </Button>
         </div>
+
+        {/* Metadata tags - aspect ratio, resolution, and model name */}
+        <ImageMetadata
+          aspectRatio={image.image_size}
+          resolution={image.resolution}
+          modelName={getImageModel(image.model)?.displayName || image.model}
+        />
       </CardHeader>
       <CardContent className="flex-grow">
-        <div className="flex justify-between items-center mb-2">
+        <div className="flex justify-between items-center">
           {getStatusBadge(image.status, image.id)}
           <p className="text-xs text-gray-400">
             {formatDistanceToNow(new Date(image.created_at), {
@@ -851,15 +865,6 @@ const CardImageItem = ({
             })}
           </p>
         </div>
-        
-        <p className="text-sm text-gray-400">
-          Model: {formatModelDisplayName(image.model)}
-        </p>
-        {image.image_size && (
-          <p className="text-sm text-gray-400">
-            Image Size: {image.image_size}
-          </p>
-        )}
       </CardContent>
       <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 pt-4 border-t border-gray-700">
         <Button
