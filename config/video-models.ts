@@ -53,8 +53,9 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.BYTEPLUS,
     // volcanoModel: "seedance-1-0-pro-250528",
-    volcanoModel: "ep-20250915143914-m57vr",
-    // volcanoModel: "ep-20251031184345-xbr8l",
+    // volcanoModel: "ep-20250915143914-m57vr", //hugeroger@gmail.com
+    // volcanoModel: "ep-20251031184345-xbr8l", //acostaandreab0@gmail.com
+    volcanoModel: "ep-20251122104716-5krl8", //mackensonsouverain34@gmail.com
     displayName: "Seedance 1.0 Pro",
     perSecondCredits: 2,
     description: "ByteDance's video model, starting at $0.3/video",
@@ -75,8 +76,9 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.BYTEPLUS,
     // volcanoModel: "seedance-1-0-pro-250528",
-    volcanoModel: "ep-20250915143914-m57vr",
-    // volcanoModel: "ep-20251031184345-xbr8l",
+    // volcanoModel: "ep-20250915143914-m57vr", //hugeroger@gmail.com
+    // volcanoModel: "ep-20251031184345-xbr8l", //acostaandreab0@gmail.com
+    volcanoModel: "ep-20251122104716-5krl8", //mackensonsouverain34@gmail.com
     displayName: "Seedance 1.0 Pro",
     perSecondCredits: 2,
     description: "ByteDance's video model, starting at $0.3/video",
