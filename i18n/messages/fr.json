@@ -499,6 +499,8 @@
     "prompt": "Description",
     "settings": "Paramètres",
     "model": "Modèle",
+    "resolution": "Résolution",
+    "ratio": "Ratio",
     "image": "Image",
     "images": "Images",
     "credits": "Crédits",
@@ -666,5 +668,10 @@
     "title": "Google Nano Banana AI : Essayez ce générateur d'images IA | Veo3 AI",
     "description": "Créez des images époustouflantes avec Nano Banana AI. Générez des images de haute qualité à partir de descriptions textuelles avec une technologie IA avancée.",
     "keywords": "Nano Banana, Générateur d'images IA, Texte vers image, Création d'images, Art IA, Images IA"
+  },
+  "nano-banana-pro": {
+    "title": "Google Nano Banana Pro AI : Générateur d'images IA professionnel | Veo3 AI",
+    "description": "Découvrez Nano Banana Pro, la version premium de Gemini 2.5 Flash Image de Google. Génération d'images IA de qualité professionnelle avec précision améliorée, qualité supérieure et fonctionnalités d'édition avancées.",
+    "keywords": "Nano Banana Pro, Google Nano Banana Pro, Gemini 2.5 Flash Pro, Générateur d'images IA, Images IA professionnelles, Texte vers image Pro, Édition d'images IA, Art IA avancé"
   }
 }

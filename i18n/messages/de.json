@@ -499,6 +499,8 @@
     "prompt": "Beschreibung",
     "settings": "Einstellungen",
     "model": "Modell",
+    "resolution": "Auflösung",
+    "ratio": "Verhältnis",
     "image": "Bild",
     "images": "Bilder",
     "credits": "Credits",
@@ -666,5 +668,10 @@
     "title": "Google Nano Banana AI: Testen Sie diesen KI-Bildgenerator | Veo3 AI",
     "description": "Erstellen Sie atemberaubende Bilder mit Nano Banana AI. Generieren Sie hochwertige Bilder aus Textbeschreibungen mit fortschrittlicher KI-Technologie.",
     "keywords": "Nano Banana, KI-Bildgenerator, Text zu Bild, Bildkreation, KI-Kunst, KI-Bilder"
+  },
+  "nano-banana-pro": {
+    "title": "Google Nano Banana Pro AI: Professioneller KI-Bildgenerator | Veo3 AI",
+    "description": "Erleben Sie Nano Banana Pro, die Premium-Version von Googles Gemini 2.5 Flash Image. Professionelle KI-Bildgenerierung mit verbesserter Präzision, überlegener Qualität und erweiterten Bearbeitungsfunktionen.",
+    "keywords": "Nano Banana Pro, Google Nano Banana Pro, Gemini 2.5 Flash Pro, KI-Bildgenerator, Professionelle KI-Bilder, Text zu Bild Pro, Bildbearbeitung KI, Fortgeschrittene KI-Kunst"
   }
 }

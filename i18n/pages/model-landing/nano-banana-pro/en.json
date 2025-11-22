@@ -1,0 +1,463 @@
+{
+  "banner": {
+    "title": "Google Nano Banana Pro AI Image Generator",
+    "description": "Building on the tremendous success of the original Nano Banana, Nano Banana Pro is here, with unprecedented enhancements across prompt interpretation, typography, styling capabilities, and composition control. Try Nano Banana Pro free today and experience the next evolution in image generation!",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Text to Image",
+        "subTitle": "Prompt",
+        "value": "text-to-image",
+        "modelName": "Google Nano Banana Pro",
+        "modelLogo": "https://videocdn.pollo.ai/web-cdn/pollo/test/cm97uxg1v000m1490lu4pqgla/image/1756783760309-5e0cde26-2d05-44c8-8b53-0bb58d05f252.svg",
+        "placeholder": "What do you want to create?",
+        "buttonText": "Create"
+      },
+      {
+        "type": "image",
+        "title": "Image to Image",
+        "subTitle": "Image",
+        "value": "image-to-image",
+        "modelName": "Google Nano Banana Pro",
+        "modelLogo": "https://videocdn.pollo.ai/web-cdn/pollo/test/cm97uxg1v000m1490lu4pqgla/image/1756783760309-5e0cde26-2d05-44c8-8b53-0bb58d05f252.svg",
+        "placeholder": "Drag and drop an image here, or click to select",
+        "tips": "We accept JPEG, PNG, GIF, WEBP, JPG formats up to 20MB with dimensions up to 4096 x 4096 pixels.",
+        "buttonText": "Create"
+      }
+    ]
+  },
+  "partners": [
+    { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
+    { "name": "Microsoft", "logo": "/imgs/partners/microsoft-logo.png" },
+    { "name": "Nike", "logo": "/imgs/partners/nike-logo.png" },
+    { "name": "P&G", "logo": "/imgs/partners/p-g-logo.png" },
+    { "name": "Lancome", "logo": "/imgs/partners/lancome-logo.png" },
+    { "name": "Zoom", "logo": "/imgs/partners/zoom-logo.png" },
+    { "name": "Sony", "logo": "/imgs/partners/sony-logo.png" },
+    { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
+  ],
+  "features": {
+    "title": "Features of Nano Banana Pro",
+    "details": [
+      {
+        "title": "Enhanced Prompt Understanding",
+        "description": "Nano Banana Pro demonstrates significant improvements in understanding complex, multi-layered prompts. The model excels at interpreting abstract concepts, emotional nuances, and technical specifications simultaneously. Whether describing intricate architectural details, specific camera angles, or complex narrative scenes, Nano Banana Pro can translate your vision with enhanced precision compared to current technologies.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Output Image" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "A serene mountain lake at sunrise, mist rising from the water, vibrant autumn foliage on the surrounding hills, peaceful and detailed."
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/image4_aebd7172fb.png",
+                  "altText": "Serene mountain lake at sunrise"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "A desert canyon during a sandstorm, swirling sands, dramatic shadows on rocky cliffs, vast and epic landscape."
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/image3_6240b661d5.png",
+                  "altText": "Desert canyon sandstorm"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Close-up of a dewdrop-covered spider web, sunlight refracting into rainbow colors, intricate patterns and delicate textures."
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/image5_b157291568.png",
+                  "altText": "Dewdrop spider web"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Improved Typography Integration",
+        "description": "One of the most advanced features of Nano Banana Pro is solving AI imaging's text generation challenges. The model enables the creation of perfect logos, signage, book covers, and branded content with typography that matches exact specifications.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Output Image" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Make an image of a four-panel strip, with padding around the border: A tiny cat sits on a chair at a busy office desk. The boss, a large dog, leans over trying to see the cat. Close-up on the cat, looking serious. It says, 'I need a promotion… and a bigger scratching post!' The boss scratches his head: 'Uh… sure?' Smash cut to the cat lounging on a giant scratching post, coworkers watching and whispering: 'The office hierarchy is clear now!'"
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/image2_224e748f8a.png",
+                  "altText": "Four-panel comic strip"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "A grand library hall with high shelves, a floating infographic showing 'Top 5 Classic Novels' with text labels: 'Pride and Prejudice', 'Moby Dick', 'War and Peace', 'Great Expectations', 'Jane Eyre', warm ambient lighting, books open on tables."
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/image8_baeada2998.png",
+                  "altText": "Library with text infographic"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "A realistic Instagram post screenshot: a photo of golden sunset over mountain peaks, soft warm light bathing the scene. Top overlay text: 'Chasing Sunsets 🌄', bottom caption: 'Nature never goes out of style #travel #adventure'. Visible interface elements: profile icon, likes count 12,345, three top comments, heart and comment icons, realistic app interface, cinematic lighting, shallow depth of field for the background photo."
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/image7_7830283935.png",
+                  "altText": "Instagram post mockup"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Advanced Lighting Capabilities",
+        "description": "Nano Banana Pro features photorealistic lighting that responds naturally to scene elements. This includes improved ray tracing, global illumination, and atmospheric scattering calculations.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Output Image" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "A close-up of a microscopic crystalline structure, light refracting and scattering through facets, tiny particles floating, iridescent colors, realistic micro-physics and detailed lighting."
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/image12_3b5f00f563.png",
+                  "altText": "Crystalline structure with lighting"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "A vibrant coral reef underwater, sunlight shafts penetrating the water, fish swimming through beams, water caustics on sand, bubbles rising, realistic physics and lighting."
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/image1_4dcb947fd3.png",
+                  "altText": "Underwater coral reef"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Better Composition Control",
+        "description": "Nano Banana Pro allows users to direct composition elements through intuitive language, specifying exact positions, relationships between objects, depth of field, and focal points without technical expertise.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Output Image" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "A snowy mountain valley, frozen river winding through mid-ground, hikers with colorful jackets in the foreground, towering peaks in background, clear blue sky, panoramic composition emphasizing depth and scale."
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/image13_22f457d2f2.png",
+                  "altText": "Mountain valley composition"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "A medieval marketplace, wooden stalls in foreground with merchants, shoppers in mid-ground negotiating, castle walls in background, flags and banners hanging, layered composition showing bustling daily life."
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/image11_30db6aacea.png",
+                  "altText": "Medieval marketplace scene"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Native 2K Resolution with 4K Upscaling",
+        "description": "Nano Banana Pro natively generates images in breathtaking 2K resolution, ensuring every detail is sharp and vibrant. Advanced upscaling technology allows you to enlarge your creations to pristine 4K without introducing any blurring or artifacting, preserving the integrity of intricate details.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Output Image" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Extreme close-up of moss and tiny plants on a forest floor, dew drops reflecting light, leaf veins and textures sharply detailed, soft sunlight filtering through canopy, ultra-high-resolution clarity."
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/image6_c024f5fac9.png",
+                  "altText": "Ultra-detailed forest floor"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "The deck of a futuristic spaceship orbiting a planet, metallic panels with detailed textures, lights and control panels glowing, reflections on polished surfaces, ultra-high-resolution clarity and crisp lighting."
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/image10_8db2b3ac29.png",
+                  "altText": "Futuristic spaceship deck"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Maximum Support for 14 Image Uploads",
+        "description": "Nano Banana Pro allows users to upload up to 14 images per project, making it easier than ever to combine multiple references, inspiration boards, or source materials in a single generation.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Output Image" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "A medium shot of the 14 fluffy characters sitting squeezed together side-by-side on a worn beige fabric sofa and on the floor. They are all facing forwards, watching a vintage, wooden-boxed television set placed on a low wooden table in front of the sofa. The room is dimly lit, with warm light from a window on the left and the glow from the TV illuminating the creatures' faces and fluffy textures."
+                },
+                {
+                  "type": "image",
+                  "content": "https://pollo.ai/cms/image9_f04cd4e650.png",
+                  "altText": "14 characters watching TV together"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "How To Use Google Nano Banana Pro Free",
+    "description": "Follow the simple steps below to try Google Nano Banana Pro",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Step 1",
+        "description": "Choose the 'Nano Banana Pro' model in our AI image generator."
+      },
+      {
+        "number": "02",
+        "title": "Step 2",
+        "description": "Write your text prompt, including any typography or detailed scene requirements."
+      },
+      {
+        "number": "03",
+        "title": "Step 3",
+        "description": "Click Create and watch as your high-fidelity image appears in seconds."
+      }
+    ],
+    "buttonText": "Try Nano Banana Pro Free on Veo3 AI"
+  },
+  "youtubeCases": {
+    "title": "YouTube Videos About Nano Banana Pro",
+    "content": [
+      {
+        "youtubeLink": "https://www.youtube.com/embed/2jkpEGk6hDE",
+        "id": "(无id)",
+        "name": "(无name)",
+        "width": "525",
+        "height": "296"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/IeHu5l8FvCo",
+        "id": "(无id)",
+        "name": "(无name)",
+        "width": "525",
+        "height": "296"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/P3ZQ9a1Q_aA",
+        "id": "(无id)",
+        "name": "(无name)",
+        "width": "525",
+        "height": "296"
+      }
+    ]
+  },
+  "redditCases": {
+    "title": "Reddit Discussions About Nano Banana Pro",
+    "content": []
+  },
+  "twitterCases": {
+    "title": "X Reviews on Nano Banana Pro",
+    "content": [
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1991523405045358636",
+        "id": "twitter-widget-0",
+        "name": "(无name)",
+        "width": "318",
+        "height": "623"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1991594946110148734",
+        "id": "twitter-widget-1",
+        "name": "(无name)",
+        "width": "318",
+        "height": "653"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1991607419798188405",
+        "id": "twitter-widget-2",
+        "name": "(无name)",
+        "width": "398",
+        "height": "608"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1991527921316773931",
+        "id": "twitter-widget-3",
+        "name": "(无name)",
+        "width": "398",
+        "height": "528"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1991526532536496353",
+        "id": "twitter-widget-4",
+        "name": "(无name)",
+        "width": "318",
+        "height": "585"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1991536669682721223",
+        "id": "twitter-widget-5",
+        "name": "(无name)",
+        "width": "398",
+        "height": "519"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1991633904609149295",
+        "id": "twitter-widget-6",
+        "name": "(无name)",
+        "width": "318",
+        "height": "510"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1991602004066783440",
+        "id": "twitter-widget-7",
+        "name": "(无name)",
+        "width": "318",
+        "height": "490"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1991542935725441273",
+        "id": "twitter-widget-8",
+        "name": "(无name)",
+        "width": "398",
+        "height": "509"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1991538403364729225",
+        "id": "twitter-widget-9",
+        "name": "(无name)",
+        "width": "318",
+        "height": "595"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1991572485490540850",
+        "id": "twitter-widget-10",
+        "name": "(无name)",
+        "width": "318",
+        "height": "510"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1991568404709536146",
+        "id": "twitter-widget-11",
+        "name": "(无name)",
+        "width": "398",
+        "height": "528"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1991481330966884672",
+        "id": "twitter-widget-12",
+        "name": "(无name)",
+        "width": "318",
+        "height": "558"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1991546877528142203",
+        "id": "twitter-widget-13",
+        "name": "(无name)",
+        "width": "318",
+        "height": "482"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1991725762504724819",
+        "id": "twitter-widget-14",
+        "name": "(无name)",
+        "width": "398",
+        "height": "375"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Try Nano Banana Pro for Free on Veo3 AI",
+    "buttonText": "Try Nano Banana Pro Free"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Frequently Asked Questions",
+    "description": "Learn more about Google Nano Banana Pro AI image generator",
+    "items": [
+      {
+        "title": "What is Google Nano Banana Pro?",
+        "description": "Google Nano Banana Pro is an advanced AI image generation model developed by Google that combines the reasoning power of Gemini 3 with breakthrough text rendering capabilities. It represents a significant leap forward in AI-generated imagery, offering studio-quality control, perfect text rendering in multiple languages, and unprecedented consistency across generated images."
+      },
+      {
+        "title": "What makes Nano Banana Pro stand out?",
+        "description": "Unlike traditional AI image generators that struggle with text and consistency, Nano Banana Pro solves the industry's biggest pain points through its unique reasoning-based approach. It can render perfect, readable text in any language (especially excelling at Chinese characters), understand complex physics and lighting scenarios, and maintain character consistency across multiple images."
+      },
+      {
+        "title": "Is Google Nano Banana Pro free?",
+        "description": "Yes, Google Nano Banana Pro is free to try on Veo3 AI, which offers users an accessible way to experience this cutting-edge image generation technology without any upfront costs."
+      },
+      {
+        "title": "How can I use Nano Banana Pro for free?",
+        "description": "Simply visit Veo3 AI's image generator platform to start creating with Nano Banana Pro at no charge. No payment required — just sign up and begin generating high-quality visuals instantly."
+      }
+    ]
+  }
+}

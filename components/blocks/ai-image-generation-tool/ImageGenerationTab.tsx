@@ -218,17 +218,18 @@ export default function ImageGenerationTab({
 
   // Load prompt from localStorage on component mount
   useEffect(() => {
-    // Check if we're in a browser environment
-    if (typeof window !== "undefined" && mode === "text-to-image") {
-      const savedPrompt = localStorage.getItem("modelLandingPagePrompt");
-      if (savedPrompt && !prompt.trim()) {
-        // Only set the prompt if it's empty
-        handlePromptChange(savedPrompt);
-        // Clear the saved data after using it
-        localStorage.removeItem("modelLandingPagePrompt");
-      }
+    // Only run on client-side mount, not during SSR or hydration
+    if (typeof window === "undefined" || mode !== "text-to-image") return;
+
+    const savedPrompt = localStorage.getItem("modelLandingPagePrompt");
+    if (savedPrompt && !internalPrompt.trim() && !promptValue?.trim()) {
+      // Only set the prompt if it's empty
+      handlePromptChange(savedPrompt);
+      // Clear the saved data after using it
+      localStorage.removeItem("modelLandingPagePrompt");
     }
-  }, [mode, prompt, handlePromptChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount
 
   // 处理CAPTCHA验证完成
   const handleCaptchaComplete = async (captchaToken: string) => {
@@ -733,7 +734,7 @@ export default function ImageGenerationTab({
               {isProModel && currentModelConfig?.supportedResolutions && (
                 <div className="mb-4">
                   <label className="text-gray-300 text-sm mb-2 block">
-                    Resolution
+                    {t("resolution")}
                   </label>
                   <div className="flex flex-wrap gap-3">
                     {currentModelConfig.supportedResolutions.map((res) => (
@@ -772,7 +773,7 @@ export default function ImageGenerationTab({
               {/* Ratio Selector - all from config */}
               <div className="mb-4">
                 <label className="text-gray-300 text-sm mb-2 block">
-                  Ratio
+                  {t("ratio")}
                 </label>
                 <div className="flex flex-wrap gap-x-6 gap-y-3">
                   {currentModelConfig?.supportedAspectRatios.map((ratio) => (
