@@ -19,6 +19,7 @@ import type {
 import type { AIServiceProvider } from "@/types/provider.d";
 import { NextRequest } from "next/server";
 import { getClientIp } from "@/lib/ip";
+import { calculateImageCredits } from "@/config/image-models";
 
 // 验证Cloudflare Turnstile CAPTCHA
 async function verifyCaptcha(
@@ -170,8 +171,13 @@ export async function POST(req: NextRequest) {
       return respErr(`Service provider ${selectedProvider} is not available`);
     }
 
-    // 计算积分消耗 - 图片生成固定2个积分
-    const creditsRequired = 2;
+    // 计算积分消耗 - 根据模型配置计算
+    const creditsRequired = calculateImageCredits(model);
+    if (creditsRequired === 0) {
+      return respErr(`Invalid or unsupported model: ${model}`);
+    }
+
+    console.log(`💰 Credits required for model ${model}: ${creditsRequired}`);
 
     // 4. 检查积分是否充足
     if (userCredits.left_credits < creditsRequired) {
