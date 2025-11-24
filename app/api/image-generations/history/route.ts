@@ -88,7 +88,8 @@ export async function GET(req: NextRequest) {
         input_image_urls: item.input_image_urls, // 添加输入图片URLs
         status: item.status.toLowerCase(),
         model: item.model_id,
-        image_size: item.metadata?.image_size || '1:1', // 解析metadata中的image_size
+        // 优先使用数据库的 aspect_ratio 字段，回退到 metadata
+        image_size: item.aspect_ratio || item.metadata?.image_size || item.metadata?.aspect_ratio || '1:1',
         resolution, // 分辨率 (1K, 2K, 4K)
         created_at: item.created_at,
         updated_at: item.updated_at || item.created_at,

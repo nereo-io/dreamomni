@@ -268,6 +268,8 @@ export async function POST(req: NextRequest) {
         source: "web",
         provider: selectedProvider,
         input_image_urls: image_urls,
+        // 图片比例：Pro 模型用 aspect_ratio，标准模型用 image_size
+        aspect_ratio: aspect_ratio || image_size,
         credits_used: creditsRequired,
         status: initialStatus,
         provider_task_id: result.taskId,

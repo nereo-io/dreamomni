@@ -166,6 +166,7 @@ export interface ImageGenerationHistoryItem {
   mode: ImageGenerationMode;
   source: ImageGenerationSource;
   provider: string;
+  aspect_ratio?: string; // 图片宽高比 (如 "1:1", "4:3", "16:9")
   credits_used: number;
   created_at: string;
   updated_at: string;

@@ -47,7 +47,7 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
     supportedAspectRatios: ["1:1", "3:4", "9:16", "4:3", "16:9"], // Pro API 不支持 Auto
     supportedResolutions: ["1K", "2K", "4K"],
     supportedFormats: ["jpg", "png"],
-    estimatedGenerationTime: 70, // 实测平均 130 秒,留 20 秒余量
+    estimatedGenerationTime: 80, // 实测平均 130 秒,留 20 秒余量
   },
 
   // Nano Banana 标准版 - 文生图
