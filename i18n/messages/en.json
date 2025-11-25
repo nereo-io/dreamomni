@@ -328,7 +328,7 @@
       "enterDescription": "Please enter a video description",
       "descriptionTooShort": "Video description must be at least 30 characters long",
       "uploadImageFile": "Please upload an image file",
-      "uploadImageRequired": "Please upload an image for image-to-video generation",
+      "uploadImageRequired": "Please upload an image",
       "imageUploaded": "Image uploaded successfully",
       "imageTooLarge": "Image file is too large (max 10MB)",
       "imageUploadFailed": "Image upload failed",

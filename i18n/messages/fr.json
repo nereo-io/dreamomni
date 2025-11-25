@@ -328,7 +328,7 @@
       "enterDescription": "Veuillez entrer une description vidéo",
       "descriptionTooShort": "La description vidéo doit contenir au moins 30 caractères",
       "uploadImageFile": "Veuillez télécharger un fichier image",
-      "uploadImageRequired": "Veuillez télécharger une image pour la génération image vers vidéo",
+      "uploadImageRequired": "Veuillez télécharger une image",
       "imageUploaded": "Image téléchargée avec succès",
       "imageTooLarge": "Le fichier image est trop volumineux (max 10 Mo)",
       "imageUploadFailed": "Échec du téléchargement de l'image",

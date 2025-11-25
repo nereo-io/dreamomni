@@ -1139,9 +1139,6 @@ export default function VideoGenerator({
             isSubmitting ||
             (!description.trim() && (!effect || !effect.prompt_template)) ||
             !selectedModel ||
-            (mode === "image-to-video" &&
-              uploadedImageUrls.length === 0 &&
-              !uploadedImageUrl) ||
             (leftCredits !== null && leftCredits < currentCreditsRequired)
           }
           className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-h-[44px]"

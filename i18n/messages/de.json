@@ -328,7 +328,7 @@
       "enterDescription": "Bitte geben Sie eine Videobeschreibung ein",
       "descriptionTooShort": "Videobeschreibung muss mindestens 30 Zeichen lang sein",
       "uploadImageFile": "Bitte laden Sie eine Bilddatei hoch",
-      "uploadImageRequired": "Bitte laden Sie ein Bild für die Bild-zu-Video-Generierung hoch",
+      "uploadImageRequired": "Bitte laden Sie ein Bild hoch",
       "imageUploaded": "Bild erfolgreich hochgeladen",
       "imageTooLarge": "Bilddatei ist zu groß (max. 10 MB)",
       "imageUploadFailed": "Bild-Upload fehlgeschlagen",
