@@ -81,7 +81,7 @@ export default async function () {
                   {t("membership.start_date")}
                 </span>
                 <span className="text-sm font-medium">
-                  <LocalTime date={membership.start_date} />
+                  <LocalTime date={membership.start_date} format="date" />
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -89,7 +89,7 @@ export default async function () {
                   {t("membership.end_date")}
                 </span>
                 <span className="text-sm font-medium">
-                  <LocalTime date={membership.end_date} />
+                  <LocalTime date={membership.end_date} format="date" />
                 </span>
               </div>
               <div className="flex items-center justify-between">
