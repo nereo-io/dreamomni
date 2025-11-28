@@ -1,5 +1,6 @@
 import { getVideoModel, VideoModelProvider } from "@/config/video-models";
 import { updateVideoGenerationById } from "@/models/videoGeneration";
+import { getStatusProviderForFallback } from "@/services/seedanceFallbackService";
 
 export interface VideoStatusResult {
   id: string;
@@ -94,12 +95,18 @@ export class VideoStatusService {
       throw new Error(`不支持的模型: ${videoGeneration.model_id}`);
     }
 
-    console.log(
-      `使用provider查询状态: ${modelConfig.provider}, requestId: ${requestId}`
-    );
+    // === Volcano 降级检查：根据 metadata.actual_provider 判断实际使用的 Provider ===
+    const actualProvider = videoGeneration.metadata?.actual_provider;
+    const fallbackProvider = getStatusProviderForFallback(actualProvider);
 
     const { ProviderFactory } = await import("@/services/providers");
-    const provider = ProviderFactory.getProvider(videoGeneration.model_id);
+    const provider =
+      fallbackProvider || ProviderFactory.getProvider(videoGeneration.model_id);
+
+    console.log(
+      `使用provider查询状态: ${fallbackProvider ? "volcano (fallback)" : modelConfig.provider}, requestId: ${requestId}`
+    );
+
     const providerStatus = await provider.status(
       videoGeneration.model_id,
       requestId
@@ -266,8 +273,13 @@ export class VideoStatusService {
     requestId: string
   ): Promise<void> {
     try {
+      // === Volcano 降级检查：根据 metadata.actual_provider 判断实际使用的 Provider ===
+      const actualProvider = videoGeneration.metadata?.actual_provider;
+      const fallbackProvider = getStatusProviderForFallback(actualProvider);
+
       const { ProviderFactory } = await import("@/services/providers");
-      const provider = ProviderFactory.getProvider(videoGeneration.model_id);
+      const provider =
+        fallbackProvider || ProviderFactory.getProvider(videoGeneration.model_id);
       const result = await provider.result(videoGeneration.model_id, requestId);
 
       console.log("获取到生成结果:", result);

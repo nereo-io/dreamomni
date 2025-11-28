@@ -32,6 +32,7 @@ import {
 } from "@/config/video-models";
 import { ProviderFactory } from "@/services/providers";
 import { optimizeVideoPromptWithTimeout } from "@/services/promptOptimization";
+import { tryVolcanoSubmit } from "@/services/seedanceFallbackService";
 import { getEffectConfigById } from "@/models/effectConfig";
 
 // 验证Cloudflare Turnstile CAPTCHA
@@ -468,35 +469,47 @@ export async function POST(req: Request) {
     // const webhookUrl = `https://d76d2707b239.ngrok-free.app/api/video-generation/webhook`;
 
     try {
-      // 使用Provider Factory获取合适的provider
-      const provider = ProviderFactory.getProvider(finalModel);
-      // 重试机制：针对连接超时错误重试3次
       let submitResponse;
-      for (let attempt = 1; attempt <= 3; attempt++) {
-        try {
-          submitResponse = await provider.submit(finalModel, input, webhookUrl);
-          break;
-        } catch (error) {
-          const errorMsg =
-            error instanceof Error ? error.message : String(error);
-          console.error(`视频生成提交失败 (${attempt}/3):`, errorMsg);
+      let actualProvider: string | undefined; // 记录实际使用的 provider
 
-          // 检查是否是连接超时错误
-          const isTimeoutError =
-            errorMsg.includes("fetch failed") ||
-            errorMsg.includes("Connect Timeout Error") ||
-            errorMsg.includes("timeout") ||
-            errorMsg.includes("ETIMEDOUT");
+      // === Volcano 降级尝试（临时方案：优先使用便宜的 Volcano，失败后降级到 BytePlus）===
+      const volcanoResponse = await tryVolcanoSubmit(finalModel, input, webhookUrl);
+      if (volcanoResponse) {
+        submitResponse = volcanoResponse;
+        actualProvider = "volcano"; // 标记使用了 Volcano
+      }
 
-          // 如果不是超时错误，或者是最后一次重试，直接抛出错误
-          if (!isTimeoutError || attempt === 3) {
-            throw error;
+      // 如果 Volcano 没有成功（未启用/不适用/失败），使用原有 Provider 逻辑
+      if (!submitResponse) {
+        // 使用Provider Factory获取合适的provider
+        const provider = ProviderFactory.getProvider(finalModel);
+        // 重试机制：针对连接超时错误重试3次
+        for (let attempt = 1; attempt <= 3; attempt++) {
+          try {
+            submitResponse = await provider.submit(finalModel, input, webhookUrl);
+            break;
+          } catch (error) {
+            const errorMsg =
+              error instanceof Error ? error.message : String(error);
+            console.error(`视频生成提交失败 (${attempt}/3):`, errorMsg);
+
+            // 检查是否是连接超时错误
+            const isTimeoutError =
+              errorMsg.includes("fetch failed") ||
+              errorMsg.includes("Connect Timeout Error") ||
+              errorMsg.includes("timeout") ||
+              errorMsg.includes("ETIMEDOUT");
+
+            // 如果不是超时错误，或者是最后一次重试，直接抛出错误
+            if (!isTimeoutError || attempt === 3) {
+              throw error;
+            }
+
+            // 等待后重试：第1次等1秒，第2次等2秒
+            const delay = attempt * 1000;
+            console.log(`连接超时，等待 ${delay}ms 后重试...`);
+            await new Promise((resolve) => setTimeout(resolve, delay));
           }
-
-          // 等待后重试：第1次等1秒，第2次等2秒
-          const delay = attempt * 1000;
-          console.log(`连接超时，等待 ${delay}ms 后重试...`);
-          await new Promise((resolve) => setTimeout(resolve, delay));
         }
       }
 
@@ -534,6 +547,14 @@ export async function POST(req: Request) {
 
       // 更新请求ID和状态为 IN_QUEUE
       updateParams.status = "IN_QUEUE";
+
+      // === 保存 actual_provider 到 metadata（用于状态查询时选择正确的 Provider）===
+      if (actualProvider) {
+        updateParams.metadata = {
+          ...videoGeneration.metadata,
+          actual_provider: actualProvider,
+        };
+      }
 
       await import("@/models/videoGeneration").then(
         ({ updateVideoGenerationById }) =>
