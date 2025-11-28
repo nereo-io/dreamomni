@@ -149,24 +149,13 @@ export function useGeolocation() {
     return { country: "Unknown", countryCode: "XX", detected: false };
   };
 
-  // 通过网站 locale 推测位置（优先网站语言，备选浏览器语言）
+  // 通过网站 locale 推测位置（只检查网站语言，不检查浏览器语言）
   const detectFromLanguage = (): LocationInfo => {
     try {
-      // 优先检查网站当前语言设置
-      // console.log("网站当前语言:", currentLocale);
-      // console.log("浏览器语言:", navigator.language);
-
+      // 只检查网站当前语言设置
+      // 注意：不再检查浏览器语言，因为哈萨克斯坦等独联体国家用户
+      // 浏览器语言可能是俄语，但他们无法使用俄罗斯本土支付方式
       if (currentLocale === "ru") {
-        return {
-          country: "Russia",
-          countryCode: "RU",
-          detected: true,
-        };
-      }
-
-      // 备选：检查浏览器语言
-      const browserLocale = navigator.language || "";
-      if (browserLocale.toLowerCase().startsWith("ru")) {
         return {
           country: "Russia",
           countryCode: "RU",
