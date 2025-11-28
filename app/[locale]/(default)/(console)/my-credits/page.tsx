@@ -5,7 +5,7 @@ import { getCreditsByUserUuid } from "@/models/credit";
 import { getTranslations } from "next-intl/server";
 import { getUserCredits } from "@/services/credit";
 import { getUserUuid } from "@/services/user";
-import moment from "moment";
+import { LocalTime } from "@/components/ui/local-time";
 
 export default async function () {
   const t = await getTranslations();
@@ -57,7 +57,7 @@ export default async function () {
         title: t("my_credits.table.updated_at"),
         name: "created_at",
         callback: (v: any) => {
-          return moment(v.created_at).format("YYYY-MM-DD HH:mm:ss");
+          return <LocalTime date={v.created_at} />;
         },
       },
     ],

@@ -5,7 +5,7 @@ import { TableColumn } from "@/types/blocks/table";
 import TableSlot from "@/components/console/slots/table";
 import { Table as TableSlotType } from "@/types/slots/table";
 import { getTranslations } from "next-intl/server";
-import moment from "moment";
+import { LocalTime } from "@/components/ui/local-time";
 import { redirect } from "next/navigation";
 
 export default async function () {
@@ -37,8 +37,7 @@ export default async function () {
     {
       name: "paid_at",
       title: t("my_orders.table.paid_at"),
-      callback: (item: any) =>
-        moment(item.paid_at).format("YYYY-MM-DD HH:mm:ss"),
+      callback: (item: any) => <LocalTime date={item.paid_at} />,
     },
   ];
 

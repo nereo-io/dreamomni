@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { ManageSubscriptionButton } from "@/components/subscription/manage-subscription-button";
 import { SubscriptionCard } from "@/components/subscription/subscription-card";
 import { CreemSubscriptionCard } from "@/components/subscription/creem-subscription-card";
-import moment from "moment";
+import { LocalTime } from "@/components/ui/local-time";
 
 export default async function () {
   const t = await getTranslations();
@@ -81,7 +81,7 @@ export default async function () {
                   {t("membership.start_date")}
                 </span>
                 <span className="text-sm font-medium">
-                  {moment(membership.start_date).format("YYYY-MM-DD HH:mm")}
+                  <LocalTime date={membership.start_date} />
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -89,7 +89,7 @@ export default async function () {
                   {t("membership.end_date")}
                 </span>
                 <span className="text-sm font-medium">
-                  {moment(membership.end_date).format("YYYY-MM-DD HH:mm")}
+                  <LocalTime date={membership.end_date} />
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -97,7 +97,7 @@ export default async function () {
                   {t("membership.remaining_days")}
                 </span>
                 <span className="text-sm font-medium">
-                  {moment(membership.end_date).diff(moment(), "days")}{" "}
+                  {Math.ceil((new Date(membership.end_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24))}{" "}
                   {t("membership.days")}
                 </span>
               </div>
