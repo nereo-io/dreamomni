@@ -174,7 +174,7 @@ export function Sidebar() {
         </div>
 
         {/* Agent items (hidden) */}
-        {agentItems.length > 0 && (
+        {/* {agentItems.length > 0 && (
           <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
             {agentItems.map((item) => (
               <Link
@@ -189,7 +189,7 @@ export function Sidebar() {
               </Link>
             ))}
           </div>
-        )}
+        )} */}
 
         {/* Other */}
         <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
