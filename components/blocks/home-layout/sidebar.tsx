@@ -177,7 +177,14 @@ export function Sidebar() {
                 } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
             >
               <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
-              {!isCollapsed && <span>{t(item.labelKey)}</span>}
+              {!isCollapsed && (
+                <span className="flex items-center gap-2">
+                  {t(item.labelKey)}
+                  <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-primary text-primary-foreground">
+                    Beta
+                  </span>
+                </span>
+              )}
             </Link>
           ))}
         </div>

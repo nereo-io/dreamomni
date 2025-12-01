@@ -111,7 +111,7 @@ export default function ImageGenerationTab({
   );
 
   // Pro model specific settings
-  const [aspectRatio, setAspectRatio] = useState<string>("1:1"); // Pro 模型默认 1:1
+  const [aspectRatio, setAspectRatio] = useState<string>("Auto"); // Pro 模型默认 Auto
   const [resolution, setResolution] = useState<string>("1K"); // Pro 模型默认 1K
 
   const cleanupFunctionsRef = useRef<Map<string, () => void>>(new Map());
