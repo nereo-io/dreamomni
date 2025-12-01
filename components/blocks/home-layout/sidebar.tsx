@@ -50,7 +50,7 @@ export function Sidebar() {
     { icon: ImageIcon, labelKey: "image_to_video", href: "/image-to-video" },
     { icon: Type, labelKey: "text_to_video", href: "/text-to-video" },
     { icon: Play, labelKey: "reference_to_video", href: "/reference-to-video" },
-    // { icon: Sparkles, labelKey: "ai_effects", href: "/video-effects" },
+    { icon: Sparkles, labelKey: "ai_effects", href: "/video-effects" },
   ];
 
   const imageAIItems: SidebarItem[] = [
@@ -92,14 +92,12 @@ export function Sidebar() {
       {/* Branding */}
       <div className="border-b border-gray-800 p-4">
         <div
-          className={`flex items-center ${
-            isCollapsed ? "justify-center" : "justify-between"
-          }`}
+          className={`flex items-center ${isCollapsed ? "justify-center" : "justify-between"
+            }`}
         >
           <div
-            className={`flex items-center ${
-              isCollapsed ? "justify-center" : "space-x-2"
-            }`}
+            className={`flex items-center ${isCollapsed ? "justify-center" : "space-x-2"
+              }`}
           >
             <img src="/logo.png" alt="Veo3" className="w-8 h-8" />
             {!isCollapsed && <span className="text-xl font-bold">Veo3</span>}
@@ -122,9 +120,8 @@ export function Sidebar() {
 
       {/* Scrollable navigation */}
       <div
-        className={`flex-1 overflow-y-auto p-4 ${
-          isCollapsed ? "space-y-2" : "space-y-6"
-        }`}
+        className={`flex-1 overflow-y-auto p-4 ${isCollapsed ? "space-y-2" : "space-y-6"
+          }`}
       >
         {/* Main */}
         <nav className={isCollapsed ? "space-y-2" : "space-y-0"}>
@@ -132,9 +129,8 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${
-                pathname === item.href ? "bg-gray-800" : ""
-              } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${pathname === item.href ? "bg-gray-800" : ""
+                } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
             >
               <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
               {!isCollapsed && <span>{t(item.labelKey)}</span>}
@@ -148,9 +144,8 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${
-                pathname === item.href ? "bg-gray-800" : ""
-              } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${pathname === item.href ? "bg-gray-800" : ""
+                } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
             >
               <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
               {!isCollapsed && <span>{t(item.labelKey)}</span>}
@@ -164,9 +159,8 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${
-                pathname === item.href ? "bg-gray-800" : ""
-              } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${pathname === item.href ? "bg-gray-800" : ""
+                } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
             >
               <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
               {!isCollapsed && <span>{t(item.labelKey)}</span>}
@@ -198,9 +192,8 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${
-                pathname === item.href ? "bg-gray-800" : ""
-              } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${pathname === item.href ? "bg-gray-800" : ""
+                } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
             >
               <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
               {!isCollapsed && <span>{t(item.labelKey)}</span>}
@@ -213,9 +206,8 @@ export function Sidebar() {
       <div className="p-4">
         <FeedbackSection isCollapsed={isCollapsed} />
         <Button
-          className={`w-full bg-primary hover:bg-primary/90 text-primary-foreground ${
-            isCollapsed ? "flex items-center justify-center p-2" : ""
-          }`}
+          className={`w-full bg-primary hover:bg-primary/90 text-primary-foreground ${isCollapsed ? "flex items-center justify-center p-2" : ""
+            }`}
           onClick={() => setShowPricingModal(true)}
         >
           <Crown className={`${isCollapsed ? "h-6 w-6" : "mr-2 h-4 w-4"}`} />
@@ -240,9 +232,8 @@ export function Sidebar() {
 
       {/* Desktop sidebar */}
       <div
-        className={`fixed left-0 top-0 z-[60] hidden h-screen transition-all duration-300 md:block ${
-          isCollapsed ? "w-16" : "w-56"
-        }`}
+        className={`fixed left-0 top-0 z-[60] hidden h-screen transition-all duration-300 md:block ${isCollapsed ? "w-16" : "w-56"
+          }`}
       >
         <SidebarContent />
 
