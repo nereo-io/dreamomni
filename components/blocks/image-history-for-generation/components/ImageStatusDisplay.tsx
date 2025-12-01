@@ -575,7 +575,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
       <div className="space-y-3">
         {/* Error placeholder - 固定高度，左对齐 */}
         <div className="flex justify-start">
-          <div className={`${getImageContainerClass()} w-80 bg-gray-700 rounded-lg flex items-center justify-center`}>
+          <div className={`${getImageContainerClass()} w-80 bg-gray-700 rounded-lg flex items-center justify-center relative group`}>
             <div className="text-center">
               <div className="text-red-400 mb-2">❌</div>
               <p className="text-sm text-red-400">Generation Failed</p>
@@ -585,58 +585,43 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
                 </p>
               )}
             </div>
+
+            {/* Delete button - hover 时显示，与成功状态保持一致 */}
+            {onDelete && (
+              <div className={`absolute top-3 right-3 ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-200`}>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="bg-black/60 hover:bg-red-600/80 text-white border-none h-8 w-8 p-0 rounded-md"
+                  onClick={handleDeleteClick}
+                  disabled={isDeleting}
+                  title="Delete image"
+                >
+                  {isDeleting ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Trash2 className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Retry and Delete buttons */}
-        <div className="flex justify-between items-center">
+        {/* Retry button */}
+        {canEdit && onRegenerate && (
           <div className="flex gap-2">
-            {canEdit && onRegenerate && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleRegenerate}
-                className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-              >
-                <RotateCcw className="mr-2 h-4 w-4" />
-                Retry
-              </Button>
-            )}
-          </div>
-          {onDelete && (
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
-              onClick={(e) => {
-                console.log("🗑️ FAILED STATE BUTTON CLICKED - Direct onClick handler");
-                handleDeleteClick(e);
-              }}
-              onMouseDown={(e) => {
-                console.log("🗑️ MOUSE DOWN on failed state button");
-              }}
-              onMouseUp={(e) => {
-                console.log("🗑️ MOUSE UP on failed state button");
-              }}
-              disabled={isDeleting}
-              className="text-gray-400 hover:text-red-400 cursor-pointer border-2 border-red-500"
-              style={{ 
-                pointerEvents: 'auto',
-                backgroundColor: 'rgba(255, 0, 0, 0.1)',
-                minWidth: '40px',
-                minHeight: '40px',
-                zIndex: 1000,
-                position: 'relative'
-              }}
-              title="Delete Failed Image - Click Me!"
+              onClick={handleRegenerate}
+              className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
             >
-              {isDeleting ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Trash2 className="h-4 w-4" />
-              )}
+              <RotateCcw className="mr-2 h-4 w-4" />
+              Retry
             </Button>
-          )}
-        </div>
+          </div>
+        )}
       </div>
       
       {/* Delete confirmation dialog */}
