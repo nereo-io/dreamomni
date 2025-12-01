@@ -66,8 +66,9 @@ export function Sidebar() {
     },
   ];
 
-  // Temporarily hide agent entry
-  const agentItems: SidebarItem[] = [];
+  const agentItems: SidebarItem[] = [
+    { icon: Film, labelKey: "agent_videos", href: "/agent" },
+  ];
 
   const otherItems: SidebarItem[] = [
     { icon: FolderOpen, labelKey: "my_creations", href: "/history" },
