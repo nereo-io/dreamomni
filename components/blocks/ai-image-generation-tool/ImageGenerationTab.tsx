@@ -129,11 +129,14 @@ export default function ImageGenerationTab({
   // Get current model config
   const currentModelConfig = getImageModel(selectedModel);
 
-  // Calculate required credits dynamically from config
-  const requiredCredits = calculateImageCredits(selectedModel);
-
   // Check if current model is Pro
   const isProModel = selectedModel === "nano-banana-pro";
+
+  // Calculate required credits dynamically from config (Pro 模型根据分辨率计费)
+  const requiredCredits = calculateImageCredits(
+    selectedModel,
+    isProModel ? resolution : undefined
+  );
 
   // 检查是否需要CAPTCHA验证（基于积分）
   const needsCaptcha = useCallback(() => {

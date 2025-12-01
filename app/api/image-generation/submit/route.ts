@@ -171,13 +171,13 @@ export async function POST(req: NextRequest) {
       return respErr(`Service provider ${selectedProvider} is not available`);
     }
 
-    // 计算积分消耗 - 根据模型配置计算
-    const creditsRequired = calculateImageCredits(model);
+    // 计算积分消耗 - 根据模型和分辨率计算（Pro 模型根据分辨率差异化计费）
+    const creditsRequired = calculateImageCredits(model, resolution);
     if (creditsRequired === 0) {
       return respErr(`Invalid or unsupported model: ${model}`);
     }
 
-    console.log(`💰 Credits required for model ${model}: ${creditsRequired}`);
+    console.log(`💰 Credits required for model ${model} (resolution: ${resolution || 'default'}): ${creditsRequired}`);
 
     // 4. 检查积分是否充足
     if (userCredits.left_credits < creditsRequired) {

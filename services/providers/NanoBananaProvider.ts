@@ -366,12 +366,18 @@ export class NanoBananaProvider extends BaseAIProvider {
     const defaultResolution = proModelConfig?.supportedResolutions?.[0] || '1K';
     const defaultFormat = proModelConfig?.supportedFormats[0] || 'png';
 
+    // 处理 aspect_ratio: API 需要小写的 "auto"
+    let aspectRatio = request.aspect_ratio || defaultAspectRatio;
+    if (aspectRatio.toLowerCase() === 'auto') {
+      aspectRatio = 'auto';
+    }
+
     const body = {
       model: 'nano-banana-pro',
       input: {
         prompt: request.prompt,
         image_input: request.image_input || [],  // 文生图传空数组
-        aspect_ratio: request.aspect_ratio || defaultAspectRatio,
+        aspect_ratio: aspectRatio,
         resolution: request.resolution || defaultResolution,
         output_format: request.output_format || defaultFormat,
       },
@@ -556,6 +562,8 @@ export class NanoBananaProvider extends BaseAIProvider {
         result = await this.generateWithProApi({
           prompt: request.prompt,
           image_input: request.imageUrls,
+          aspect_ratio: request.aspect_ratio,
+          resolution: request.resolution,
           output_format: request.output_format as 'png' | 'jpg',
         });
       } else {

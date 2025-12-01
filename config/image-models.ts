@@ -18,10 +18,11 @@ export interface ImageModelConfig {
   type: ImageModelType;
   status: "active" | "inactive";
   features: string[];
-  credits: number;
+  credits: number; // 基础积分（对于支持多分辨率的模型，这是最低分辨率的价格）
   maxInputImages?: number; // 图生图最多支持几张输入图片
   supportedAspectRatios: string[];
   supportedResolutions?: string[]; // 1K, 2K, 4K
+  resolutionCredits?: Record<string, number>; // 不同分辨率的积分价格
   supportedFormats: string[];
   estimatedGenerationTime?: number; // 预估生成时间(秒),用于前端倒计时
 }
@@ -42,10 +43,27 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
       "high-quality",
       "4k-resolution",
     ],
-    credits: 12, // 所有分辨率统一定价
+    credits: 6, // 基础积分 (1K 分辨率)
     maxInputImages: 5, // 支持最多 8 张参考图
-    supportedAspectRatios: ["1:1", "3:4", "9:16", "4:3", "16:9"], // Pro API 不支持 Auto
+    supportedAspectRatios: [
+      "Auto",
+      "1:1",
+      "2:3",
+      "3:2",
+      "3:4",
+      "4:3",
+      "4:5",
+      "5:4",
+      "9:16",
+      "16:9",
+      "21:9",
+    ],
     supportedResolutions: ["1K", "2K", "4K"],
+    resolutionCredits: {
+      "1K": 6,
+      "2K": 9,
+      "4K": 12,
+    },
     supportedFormats: ["jpg", "png"],
     estimatedGenerationTime: 80, // 实测平均 130 秒,留 20 秒余量
   },
@@ -87,10 +105,21 @@ export function getImageModel(modelId: string): ImageModelConfig | undefined {
   return IMAGE_MODELS[modelId];
 }
 
-export function calculateImageCredits(modelId: string): number {
+export function calculateImageCredits(
+  modelId: string,
+  resolution?: string
+): number {
   const model = getImageModel(modelId);
   if (!model) return 0;
 
-  // Pro 模型所有分辨率统一定价(已在配置中定义为 3)
+  // 如果有分辨率积分配置且传入了分辨率，使用对应分辨率的价格
+  if (resolution && model.resolutionCredits) {
+    const credits = model.resolutionCredits[resolution];
+    if (credits !== undefined) {
+      return credits;
+    }
+  }
+
+  // 否则返回基础积分
   return model.credits;
 }
