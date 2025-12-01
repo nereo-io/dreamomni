@@ -50,7 +50,7 @@ export function Sidebar() {
     { icon: ImageIcon, labelKey: "image_to_video", href: "/image-to-video" },
     { icon: Type, labelKey: "text_to_video", href: "/text-to-video" },
     { icon: Play, labelKey: "reference_to_video", href: "/reference-to-video" },
-    { icon: Sparkles, labelKey: "ai_effects", href: "/video-effects" },
+    // { icon: Sparkles, labelKey: "ai_effects", href: "/video-effects" },
   ];
 
   const imageAIItems: SidebarItem[] = [
@@ -168,23 +168,19 @@ export function Sidebar() {
           ))}
         </div>
 
-        {/* Agent items (hidden) */}
-        {/* {agentItems.length > 0 && (
-          <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
-            {agentItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${
-                  pathname.startsWith(item.href) ? "bg-gray-800" : ""
+        <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
+          {agentItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${pathname.startsWith(item.href) ? "bg-gray-800" : ""
                 } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
-              >
-                <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
-                {!isCollapsed && <span>{t(item.labelKey)}</span>}
-              </Link>
-            ))}
-          </div>
-        )} */}
+            >
+              <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
+              {!isCollapsed && <span>{t(item.labelKey)}</span>}
+            </Link>
+          ))}
+        </div>
 
         {/* Other */}
         <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
