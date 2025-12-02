@@ -40,7 +40,7 @@ export function ImageGridUploader({
     }
   }, [initialImages, onImagesChange]);
 
-  // 上传单个文件
+  // 上传单个文件（直传 R2，绕过 Vercel 4.5MB 限制）
   const uploadFile = async (file: File): Promise<string | null> => {
     const validationResult = await validateImage(file, selectedModel);
     if (!validationResult.valid) {
@@ -48,21 +48,37 @@ export function ImageGridUploader({
       return null;
     }
 
-    const formData = new FormData();
-    formData.append("file", file);
-
     try {
-      const response = await fetch("/api/upload", {
+      // 1. 获取 presigned URL
+      const presignResponse = await fetch("/api/upload/presign", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          filename: file.name,
+          contentType: file.type,
+          fileSize: file.size,
+        }),
       });
 
-      const result = await response.json();
-      if (result.code !== 0) {
-        throw new Error(result.message || "Upload failed");
+      const presignResult = await presignResponse.json();
+      if (presignResult.code !== 0) {
+        throw new Error(presignResult.message || "Failed to get upload URL");
       }
 
-      return result.data.url;
+      const { presignedUrl, publicUrl } = presignResult.data;
+
+      // 2. 直传 R2
+      const uploadResponse = await fetch(presignedUrl, {
+        method: "PUT",
+        headers: { "Content-Type": file.type },
+        body: file,
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error(`Upload failed: ${uploadResponse.status}`);
+      }
+
+      return publicUrl;
     } catch (error) {
       console.error("Upload error:", error);
       toast.error("Failed to upload image");

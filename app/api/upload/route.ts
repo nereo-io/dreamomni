@@ -23,10 +23,10 @@ export async function POST(req: Request) {
       return respErr("Only image files are supported");
     }
 
-    // 验证文件大小 (10MB)
-    const maxSize = 10 * 1024 * 1024;
+    // 验证文件大小 (20MB)
+    const maxSize = 20 * 1024 * 1024;
     if (file.size > maxSize) {
-      return respErr("File size cannot exceed 10MB");
+      return respErr("File size cannot exceed 20MB");
     }
 
     // 生成文件名

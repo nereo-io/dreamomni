@@ -25,7 +25,7 @@ const DEFAULT_RULE: ImageValidationRule = {
   maxHeight: 6000,
   minAspectRatio: 0.4,
   maxAspectRatio: 2.5,
-  maxFileSize: 10 * 1024 * 1024, // 10MB
+  maxFileSize: 20 * 1024 * 1024, // 20MB
   supportedFormats: [
     "image/jpeg",
     "image/jpg",
@@ -37,7 +37,7 @@ const DEFAULT_RULE: ImageValidationRule = {
     tooSmall: "Image too small. Minimum size is 300x300 pixels.",
     tooLarge: "Image too large. Maximum size is 6000x6000 pixels.",
     aspectRatio: "Invalid aspect ratio. Please use an image with aspect ratio between 0.4 and 2.5.",
-    fileSize: "File too large. Maximum size is 10MB.",
+    fileSize: "File too large. Maximum size is 20MB.",
     format: "Unsupported format. Please use JPEG, PNG, WEBP, or BMP.",
   },
 };
