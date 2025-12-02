@@ -110,16 +110,6 @@ export default function ImageGenerationTab({
 
   // Model selection state
   const isImageToImage = mode === "image-to-image";
-  const [selectedModel, setSelectedModel] = useState<string>(
-    "nano-banana-pro" // 默认选中 Pro 模型
-  );
-
-  // Pro model specific settings
-  const [aspectRatio, setAspectRatio] = useState<string>("1:1"); // Pro 模型默认 Auto
-  const [resolution, setResolution] = useState<string>("1K"); // Pro 模型默认 1K
-
-  const cleanupFunctionsRef = useRef<Map<string, () => void>>(new Map());
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Get available models based on mode
   const availableModels = Object.values(IMAGE_MODELS).filter((m) => {
@@ -132,6 +122,17 @@ export default function ImageGenerationTab({
       return m.features.includes("text-to-image");
     }
   });
+
+  const [selectedModel, setSelectedModel] = useState<string>(
+    () => availableModels[0]?.id || "nano-banana-pro"
+  );
+
+  // Pro model specific settings
+  const [aspectRatio, setAspectRatio] = useState<string>("1:1"); // Pro 模型默认 Auto
+  const [resolution, setResolution] = useState<string>("1K"); // Pro 模型默认 1K
+
+  const cleanupFunctionsRef = useRef<Map<string, () => void>>(new Map());
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Get current model config
   const currentModelConfig = getImageModel(selectedModel);
