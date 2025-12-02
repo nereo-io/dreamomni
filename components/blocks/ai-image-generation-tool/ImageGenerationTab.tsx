@@ -21,7 +21,11 @@ import {
 import { Coins, Wand2 } from "lucide-react";
 import useCredits from "@/hooks/useCredits";
 import { ImageGridUploader } from "@/components/blocks/video-generator/ImageGridUploader";
-import { IMAGE_MODELS, getImageModel, calculateImageCredits } from "@/config/image-models";
+import {
+  IMAGE_MODELS,
+  getImageModel,
+  calculateImageCredits,
+} from "@/config/image-models";
 
 import type { ImageGenerationParams } from "../image-generator";
 import type { ImageGenerationResult } from "@/hooks/useImageGeneration";
@@ -111,7 +115,7 @@ export default function ImageGenerationTab({
   );
 
   // Pro model specific settings
-  const [aspectRatio, setAspectRatio] = useState<string>("Auto"); // Pro 模型默认 Auto
+  const [aspectRatio, setAspectRatio] = useState<string>("1:1"); // Pro 模型默认 Auto
   const [resolution, setResolution] = useState<string>("1K"); // Pro 模型默认 1K
 
   const cleanupFunctionsRef = useRef<Map<string, () => void>>(new Map());
@@ -120,7 +124,10 @@ export default function ImageGenerationTab({
   // Get available models based on mode
   const availableModels = Object.values(IMAGE_MODELS).filter((m) => {
     if (isImageToImage) {
-      return m.features.includes("image-to-image") || m.features.includes("image-edit");
+      return (
+        m.features.includes("image-to-image") ||
+        m.features.includes("image-edit")
+      );
     } else {
       return m.features.includes("text-to-image");
     }
@@ -384,7 +391,13 @@ export default function ImageGenerationTab({
             image_input: isImageToImage ? uploadedImageUrls : [],
           }
         : {
-            image_size: imageSize.toLowerCase() as "auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9",
+            image_size: imageSize.toLowerCase() as
+              | "auto"
+              | "1:1"
+              | "3:4"
+              | "9:16"
+              | "4:3"
+              | "16:9",
           }),
     };
 
@@ -788,7 +801,11 @@ export default function ImageGenerationTab({
                         type="radio"
                         name="ratio"
                         value={ratio}
-                        checked={isProModel ? aspectRatio === ratio : imageSize === ratio}
+                        checked={
+                          isProModel
+                            ? aspectRatio === ratio
+                            : imageSize === ratio
+                        }
                         onChange={(e) => {
                           if (isProModel) {
                             setAspectRatio(e.target.value);
@@ -800,18 +817,22 @@ export default function ImageGenerationTab({
                       />
                       <div
                         className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
-                          (isProModel ? aspectRatio === ratio : imageSize === ratio)
+                          (
+                            isProModel
+                              ? aspectRatio === ratio
+                              : imageSize === ratio
+                          )
                             ? "border-primary bg-primary"
                             : "border-gray-500"
                         }`}
                       >
-                        {(isProModel ? aspectRatio === ratio : imageSize === ratio) && (
+                        {(isProModel
+                          ? aspectRatio === ratio
+                          : imageSize === ratio) && (
                           <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
                         )}
                       </div>
-                      <span className="text-gray-300 text-sm">
-                        {ratio}
-                      </span>
+                      <span className="text-gray-300 text-sm">{ratio}</span>
                     </label>
                   ))}
                 </div>

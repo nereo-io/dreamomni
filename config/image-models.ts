@@ -45,7 +45,7 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
     ],
     credits: 6, // 基础积分 (1K 分辨率)
     maxInputImages: 5, // 支持最多 8 张参考图
-    supportedAspectRatios: ["Auto", "1:1", "3:4", "9:16", "4:3", "16:9"],
+    supportedAspectRatios: ["1:1", "3:4", "9:16", "4:3", "16:9"],
     supportedResolutions: ["1K", "2K", "4K"],
     resolutionCredits: {
       "1K": 6,
@@ -55,7 +55,6 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
     supportedFormats: ["jpg", "png"],
     estimatedGenerationTime: 80, // 实测平均 130 秒,留 20 秒余量
   },
-
   // Nano Banana 标准版 - 文生图
   "nano-banana": {
     id: "nano-banana",
