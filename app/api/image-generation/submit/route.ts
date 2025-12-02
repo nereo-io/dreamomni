@@ -20,6 +20,8 @@ import type { AIServiceProvider } from "@/types/provider.d";
 import { NextRequest } from "next/server";
 import { getClientIp } from "@/lib/ip";
 import { calculateImageCredits } from "@/config/image-models";
+import { generateAgentImages } from "@/services/agentImageService";
+import type { UserContext } from "@/services/promptExpander";
 
 // 验证Cloudflare Turnstile CAPTCHA
 async function verifyCaptcha(
@@ -125,6 +127,10 @@ export async function POST(req: NextRequest) {
       resolution,   // Pro 模型参数
       image_input,  // Pro 模型图生图参数
       captchaToken,
+      // Agent 模式参数
+      agent_mode = false,
+      agent_image_count = 6,
+      agent_context = "general",
     } = await req.json();
 
     // 验证必需参数
@@ -170,6 +176,77 @@ export async function POST(req: NextRequest) {
     if (!providerInstance) {
       return respErr(`Service provider ${selectedProvider} is not available`);
     }
+
+    // ============ Agent 模式处理 ============
+    if (agent_mode) {
+      console.log(`🤖 Agent mode enabled, generating ${agent_image_count} images...`);
+
+      // 验证 Agent 模式参数
+      if (![6, 9, 12].includes(agent_image_count)) {
+        return respErr("Agent mode requires 6, 9, or 12 images");
+      }
+
+      // 计算 Agent 模式积分消耗
+      const singleImageCredits = calculateImageCredits(model, resolution);
+      const totalAgentCredits = singleImageCredits * agent_image_count;
+
+      console.log(`💰 Agent mode credits: ${singleImageCredits} × ${agent_image_count} = ${totalAgentCredits}`);
+
+      // 检查积分是否充足
+      if (userCredits.left_credits < totalAgentCredits) {
+        return respErr(
+          `Insufficient credits. Need ${totalAgentCredits} credits for Agent mode (${agent_image_count} images).`
+        );
+      }
+
+      try {
+        // 调用 Agent 图片生成服务
+        const agentResult = await generateAgentImages({
+          userId: userInfo.uuid!,
+          userUuid: userInfo.uuid!,
+          prompt,
+          imageCount: agent_image_count as 6 | 9 | 12,
+          model,
+          aspectRatio: aspect_ratio,
+          resolution,
+          imageInput: image_urls || image_input,
+          provider: selectedProvider,
+          outputFormat: output_format,
+          imageSize: image_size,
+          userContext: agent_context as UserContext,
+          metadata: {
+            request_source: "api",
+            user_agent: req.headers.get("user-agent"),
+            enable_prompt_enhancement,
+          },
+        });
+
+        console.log(`✅ Agent mode generation started: ${agentResult.generationId}`);
+
+        return respData({
+          id: agentResult.generationId,
+          status: agentResult.status,
+          image_count: agentResult.imageCount,
+          expanded_prompts: agentResult.expandedPrompts,
+          tasks: agentResult.tasks.map((t) => ({
+            index: t.index,
+            success: t.success,
+            task_id: t.taskId,
+            error: t.error,
+          })),
+          credits_used: agentResult.creditsUsed,
+          provider: selectedProvider,
+          is_agent_mode: true,
+          message: `Agent mode: ${agentResult.tasks.filter((t) => t.success).length}/${agent_image_count} tasks submitted`,
+        });
+      } catch (error) {
+        console.error("❌ Agent mode generation error:", error);
+        const errorMessage =
+          error instanceof Error ? error.message : "Agent mode generation failed";
+        return respErr(errorMessage);
+      }
+    }
+    // ============ Agent 模式处理结束 ============
 
     // 计算积分消耗 - 根据模型和分辨率计算（Pro 模型根据分辨率差异化计费）
     const creditsRequired = calculateImageCredits(model, resolution);

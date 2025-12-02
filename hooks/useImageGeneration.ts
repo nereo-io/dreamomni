@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { toast } from "sonner";
+import type { ImageGenerationParams } from "@/types/image.d";
 
 export interface ImageGenerationResult {
   id: string;
@@ -14,12 +15,7 @@ export interface ImageGenerationResult {
   error_message?: string;
 }
 
-export interface ImageGenerationParams {
-  model: string;
-  prompt: string;
-  mode: "text-to-image" | "image-edit";
-  image_urls?: string[]; // 仅在 image-edit 模式下使用
-}
+export type { ImageGenerationParams };
 
 interface SubmitGenerationResponse {
   success: boolean;

@@ -18,6 +18,8 @@ interface ImageStatusDisplayProps {
     icon: React.ComponentType<{ className?: string }> | null;
   };
   imageUrl?: string;
+  imageUrls?: string[]; // Agent 模式多张图片
+  imageUrlsR2?: string[]; // Agent 模式多张图片 R2 URLs
   errorMessage?: string;
   createdAt?: string;
   image: ImageGenerationResult;
@@ -35,6 +37,8 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   status,
   statusInfo,
   imageUrl,
+  imageUrls,
+  imageUrlsR2,
   errorMessage,
   createdAt,
   image,
@@ -47,6 +51,11 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   canEdit,
   pollingImages,
 }) => {
+  // Agent 模式: 使用数组中的图片，优先使用 R2 URLs
+  const isAgentMode = image.is_agent_mode || false;
+  const agentImageCount = image.agent_image_count || 0;
+  const allImageUrls = imageUrlsR2?.length ? imageUrlsR2 : (imageUrls || []);
+  const completedImageCount = allImageUrls.length;
   // 统一使用固定高度显示，保持图片原始比例
   const getImageContainerClass = () => {
     // 所有图片使用统一的固定高度容器
@@ -408,8 +417,103 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
     );
   }
 
-  // Completed state
-  if (isCompleted && imageUrl) {
+  // Completed state - Agent 模式多图网格展示
+  if (isCompleted && (imageUrl || (isAgentMode && allImageUrls.length > 0))) {
+    // Agent 模式: 网格展示多张图片
+    if (isAgentMode && allImageUrls.length > 0) {
+      // 根据图片数量决定网格列数
+      const getGridCols = (count: number) => {
+        if (count <= 4) return 'grid-cols-2';
+        if (count <= 6) return 'grid-cols-3';
+        if (count <= 9) return 'grid-cols-3';
+        return 'grid-cols-4';
+      };
+
+      return (
+        <>
+        <div className="space-y-3">
+          {/* Agent 模式进度指示 */}
+          {completedImageCount < agentImageCount && (
+            <div className="flex items-center gap-2 text-sm text-amber-400">
+              <Sparkles className="h-4 w-4" />
+              <span>Generating: {completedImageCount}/{agentImageCount} images</span>
+            </div>
+          )}
+
+          {/* 多图网格展示 */}
+          <div className={`grid ${getGridCols(allImageUrls.length)} gap-2`}>
+            {allImageUrls.map((url, index) => (
+              <div
+                key={index}
+                className="relative group cursor-pointer aspect-square"
+                onClick={() => onImageClick?.(url, `${image.prompt} (${index + 1}/${allImageUrls.length})`)}
+              >
+                <img
+                  src={url}
+                  alt={`${image.prompt} - Image ${index + 1}`}
+                  className="w-full h-full object-cover rounded-lg"
+                  loading="lazy"
+                />
+                {/* 图片序号标签 */}
+                <div className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
+                  {index + 1}/{allImageUrls.length}
+                </div>
+                {/* Hover 下载按钮 */}
+                <div className={`absolute top-2 right-2 ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-200`}>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="bg-black/60 hover:bg-black/80 text-white border-none h-7 w-7 p-0 rounded-md"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      // 下载单张图片
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = `agent_image_${index + 1}.jpg`;
+                      a.click();
+                    }}
+                    title={`Download image ${index + 1}`}
+                  >
+                    <Download className="h-3 w-3" />
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* 删除按钮 - 右下角 */}
+          {onDelete && (
+            <div className="flex justify-end">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-gray-400 hover:text-red-400"
+                onClick={handleDeleteClick}
+                disabled={isDeleting}
+              >
+                {isDeleting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Trash2 className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {/* Delete confirmation dialog */}
+        <DeleteConfirmDialog
+          isOpen={showDeleteDialog}
+          onClose={() => setShowDeleteDialog(false)}
+          onConfirm={handleConfirmDelete}
+          prompt={image.prompt || ''}
+          isDeleting={isDeleting}
+        />
+        </>
+      );
+    }
+
+    // 普通模式: 单张图片展示
     return (
       <>
       <div className="space-y-3">
@@ -495,7 +599,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
           </div>
         )}
       </div>
-      
+
       {/* Delete confirmation dialog */}
       <DeleteConfirmDialog
         isOpen={showDeleteDialog}

@@ -22,8 +22,9 @@ import { Coins, Wand2 } from "lucide-react";
 import useCredits from "@/hooks/useCredits";
 import { ImageGridUploader } from "@/components/blocks/video-generator/ImageGridUploader";
 import { IMAGE_MODELS, getImageModel, calculateImageCredits } from "@/config/image-models";
+import ImageAgentSection from "./ImageAgentSection";
 
-import type { ImageGenerationParams } from "../image-generator";
+import type { ImageGenerationParams } from "@/types/image.d";
 import type { ImageGenerationResult } from "@/hooks/useImageGeneration";
 import type { ImageGenerationResult as HistoryImageResult } from "../image-history";
 
@@ -104,6 +105,10 @@ export default function ImageGenerationTab({
   const [outputFormat] = useState<"png" | "jpeg">("png"); // 默认使用 PNG，暂时不显示选择器
   const [imageSize, setImageSize] = useState<string>("Auto"); // 默认 Auto
 
+  // Agent mode state
+  const [agentMode, setAgentMode] = useState(false);
+  const [agentImageCount, setAgentImageCount] = useState<6 | 9 | 12>(6);
+
   // Model selection state
   const isImageToImage = mode === "image-to-image";
   const [selectedModel, setSelectedModel] = useState<string>(
@@ -133,10 +138,12 @@ export default function ImageGenerationTab({
   const isProModel = selectedModel === "nano-banana-pro";
 
   // Calculate required credits dynamically from config (Pro 模型根据分辨率计费)
-  const requiredCredits = calculateImageCredits(
+  // Agent 模式下按图片数量计费
+  const creditsPerImage = calculateImageCredits(
     selectedModel,
     isProModel ? resolution : undefined
   );
+  const requiredCredits = agentMode ? creditsPerImage * agentImageCount : creditsPerImage;
 
   // 检查是否需要CAPTCHA验证（基于积分）
   const needsCaptcha = useCallback(() => {
@@ -386,6 +393,10 @@ export default function ImageGenerationTab({
         : {
             image_size: imageSize.toLowerCase() as "auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9",
           }),
+      // Agent 模式参数
+      agent_mode: agentMode,
+      agent_image_count: agentMode ? agentImageCount : undefined,
+      agent_context: agentMode ? "general" : undefined,
     };
 
     // 基于积分的CAPTCHA判断
@@ -632,6 +643,16 @@ export default function ImageGenerationTab({
               />
             </div>
 
+            {/* Agent Mode Section - 多角度批量生成 */}
+            <ImageAgentSection
+              agentMode={agentMode}
+              onAgentModeChange={setAgentMode}
+              imageCount={agentImageCount}
+              onImageCountChange={(count) => setAgentImageCount(count as 6 | 9 | 12)}
+              creditsPerImage={creditsPerImage}
+              disabled={isGenerating}
+            />
+
             {/* Settings */}
             <div>
               <div className="text-white text-lg font-semibold mb-4">
@@ -863,7 +884,11 @@ export default function ImageGenerationTab({
               <>
                 <Wand2 className="h-4 w-4 mr-2" />
                 <span className="truncate">
-                  {isImageToImage ? t("transformImage") : t("generateImage")}
+                  {agentMode
+                    ? `Generate ${agentImageCount} Images`
+                    : isImageToImage
+                    ? t("transformImage")
+                    : t("generateImage")}
                 </span>
               </>
             )}

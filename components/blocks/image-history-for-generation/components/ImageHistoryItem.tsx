@@ -179,11 +179,13 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
           )}
         </div>
 
-        {/* Metadata tags - aspect ratio, resolution, and model name */}
+        {/* Metadata tags - aspect ratio, resolution, model name, and Agent badge */}
         <ImageMetadata
           aspectRatio={image.image_size}
           resolution={image.resolution}
           modelName={getImageModel(image.model)?.displayName || image.model}
+          isAgentMode={image.is_agent_mode}
+          agentImageCount={image.agent_image_count}
         />
 
         {/* Enhanced Prompt */}
@@ -199,6 +201,8 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
           status={image.status}
           statusInfo={status}
           imageUrl={image.image_url_r2 || image.image_url}
+          imageUrls={image.image_urls}
+          imageUrlsR2={image.image_urls_r2}
           errorMessage={image.error_message}
           createdAt={image.created_at}
           image={image}

@@ -32,29 +32,43 @@ function handleSupabaseError(error: PostgrestError | null, context: string) {
 export async function createImageGeneration(
   params: CreateImageGenerationParams
 ): Promise<ImageGeneration> {
+  // 构建插入数据，包含 Agent 模式字段
+  const insertData: Record<string, any> = {
+    user_id: params.user_id,
+    model_id: params.model_id,
+    prompt: params.prompt,
+    optimized_prompt: params.optimized_prompt,
+    negative_prompt: params.negative_prompt,
+    mode: params.mode,
+    source: params.source,
+    provider: params.provider,
+    task_id: params.task_id,
+    provider_task_id: params.provider_task_id,
+    is_delete: params.is_delete || false,
+    input_image_urls: params.input_image_urls,
+    aspect_ratio: params.aspect_ratio,
+    quality: params.quality,
+    style: params.style,
+    seed: params.seed,
+    credits_used: params.credits_used,
+    status: params.status || "PENDING",
+    metadata: params.metadata,
+  };
+
+  // 添加 Agent 模式字段（如果提供）
+  if (params.is_agent_mode !== undefined) {
+    insertData.is_agent_mode = params.is_agent_mode;
+  }
+  if (params.agent_image_count !== undefined) {
+    insertData.agent_image_count = params.agent_image_count;
+  }
+  if (params.expanded_prompts !== undefined) {
+    insertData.expanded_prompts = params.expanded_prompts;
+  }
+
   const { data, error } = await supabase
     .from("image_generations")
-    .insert({
-      user_id: params.user_id,
-      model_id: params.model_id,
-      prompt: params.prompt,
-      optimized_prompt: params.optimized_prompt,
-      negative_prompt: params.negative_prompt,
-      mode: params.mode,
-      source: params.source,
-      provider: params.provider,
-      task_id: params.task_id,
-      provider_task_id: params.provider_task_id,
-      is_delete: params.is_delete || false,
-      input_image_urls: params.input_image_urls,
-      aspect_ratio: params.aspect_ratio,
-      quality: params.quality,
-      style: params.style,
-      seed: params.seed,
-      credits_used: params.credits_used,
-      status: params.status || "PENDING",
-      metadata: params.metadata,
-    })
+    .insert(insertData)
     .select()
     .single();
 
@@ -124,6 +138,86 @@ export async function getImageGenerationByProviderTaskId(
     );
   }
   return data || null;
+}
+
+/**
+ * 根据 Agent 模式的子任务 ID 获取主记录
+ * 搜索 metadata.agent_task_ids 数组中包含指定 taskId 的记录
+ */
+export async function getImageGenerationByAgentTaskId(
+  taskId: string
+): Promise<ImageGeneration | null> {
+  console.log(`[DB-Agent] ========== Searching for agent record ==========`);
+  console.log(`[DB-Agent] Looking for taskId: ${taskId}`);
+
+  // 策略1: 先尝试用 is_agent_mode 列查询
+  const { data: agentRecordsByColumn, error: columnError } = await supabase
+    .from("image_generations")
+    .select("*")
+    .eq("is_agent_mode", true)
+    .in("status", ["IN_PROGRESS", "PENDING", "IN_QUEUE"]);
+
+  if (columnError) {
+    console.error(`[DB-Agent] Column query error:`, columnError);
+  } else {
+    console.log(`[DB-Agent] Found ${agentRecordsByColumn?.length || 0} records by is_agent_mode column`);
+
+    // 详细打印每条记录的信息
+    agentRecordsByColumn?.forEach((record, idx) => {
+      const taskIds = record.metadata?.agent_task_ids || [];
+      console.log(`[DB-Agent] Record ${idx + 1}: id=${record.id}, status=${record.status}, taskIds count=${taskIds.length}`);
+      if (taskIds.length > 0) {
+        console.log(`[DB-Agent]   Task IDs: ${taskIds.slice(0, 3).join(', ')}${taskIds.length > 3 ? '...' : ''}`);
+      }
+    });
+  }
+
+  // 策略2: 也用 metadata.is_agent_mode 查询（兼容旧数据）
+  const { data: agentRecordsByMetadata, error: metadataError } = await supabase
+    .from("image_generations")
+    .select("*")
+    .eq("metadata->>is_agent_mode", "true")
+    .in("status", ["IN_PROGRESS", "PENDING", "IN_QUEUE"]);
+
+  if (metadataError) {
+    console.error(`[DB-Agent] Metadata query error:`, metadataError);
+  } else {
+    console.log(`[DB-Agent] Found ${agentRecordsByMetadata?.length || 0} records by metadata.is_agent_mode`);
+  }
+
+  // 合并两个查询结果，去重
+  const allRecords = new Map<string, any>();
+  agentRecordsByColumn?.forEach(r => allRecords.set(r.id, r));
+  agentRecordsByMetadata?.forEach(r => allRecords.set(r.id, r));
+
+  const uniqueRecords = Array.from(allRecords.values());
+  console.log(`[DB-Agent] Total unique agent records: ${uniqueRecords.length}`);
+
+  // 手动搜索包含该 taskId 的记录
+  const matchedRecord = uniqueRecords.find((record) => {
+    const taskIds = record.metadata?.agent_task_ids || [];
+    const found = taskIds.includes(taskId);
+    if (found) {
+      console.log(`[DB-Agent] ✅ MATCH FOUND! Record ID: ${record.id}`);
+      console.log(`[DB-Agent]   Status: ${record.status}`);
+      console.log(`[DB-Agent]   is_agent_mode column: ${record.is_agent_mode}`);
+      console.log(`[DB-Agent]   metadata.is_agent_mode: ${record.metadata?.is_agent_mode}`);
+      console.log(`[DB-Agent]   agent_task_ids count: ${taskIds.length}`);
+    }
+    return found;
+  });
+
+  if (!matchedRecord) {
+    console.warn(`[DB-Agent] ❌ No agent record found for taskId: ${taskId}`);
+    console.warn(`[DB-Agent] Searched ${uniqueRecords.length} records with the following task IDs:`);
+    uniqueRecords.forEach((record) => {
+      const taskIds = record.metadata?.agent_task_ids || [];
+      console.warn(`[DB-Agent]   Record ${record.id}: ${taskIds.length} task IDs`);
+    });
+  }
+
+  console.log(`[DB-Agent] ========== Search complete ==========`);
+  return matchedRecord || null;
 }
 
 /**
@@ -253,7 +347,7 @@ export async function getUserImageGenerations(
   // 基础字段（必须存在）
   const baseFields = [
     "id",
-    "prompt", 
+    "prompt",
     "optimized_prompt",
     "image_urls",
     "image_urls_r2",
@@ -265,7 +359,11 @@ export async function getUserImageGenerations(
     "provider",
     "credits_used",
     "created_at",
-    "error_message"
+    "error_message",
+    // Agent 模式字段
+    "is_agent_mode",
+    "agent_image_count",
+    "expanded_prompts"
   ];
 
   // 可选字段（可能不存在）

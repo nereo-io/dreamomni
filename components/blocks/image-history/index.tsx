@@ -42,6 +42,8 @@ export interface ImageGenerationResult {
   optimized_prompt?: string; // 优化后的prompt
   image_url?: string;
   image_url_r2?: string; // R2存储的URL
+  image_urls?: string[]; // Agent 模式多张图片URLs
+  image_urls_r2?: string[]; // Agent 模式多张图片R2 URLs
   input_image_urls?: string[]; // 输入图片URLs (用于image-to-image)
   status: "pending" | "completed" | "failed" | "in_progress" | "in_queue" | "prompt_optimizing" | "saved_to_r2";
   model: string;
@@ -53,6 +55,10 @@ export interface ImageGenerationResult {
   updated_at: string;
   credits_used: number;
   error_message?: string;
+  // Agent 模式字段
+  is_agent_mode?: boolean;
+  agent_image_count?: number;
+  expanded_prompts?: string[];
 }
 
 interface ImageHistoryProps {
