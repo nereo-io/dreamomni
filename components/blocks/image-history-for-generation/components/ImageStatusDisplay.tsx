@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Download, Edit, RotateCcw, ExternalLink, Loader2, Sparkles, Trash2 } from "lucide-react";
+import { Download, Edit, RotateCcw, ExternalLink, Loader2, Sparkles, Trash2, CheckCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import type { ImageGenerationResult } from "@/components/blocks/image-history";
@@ -9,6 +9,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import ImageProgressBar from "./ImageProgressBar";
 import DeleteConfirmDialog from "./DeleteConfirmDialog";
 import { getImageModel } from "@/config/image-models";
+import { ImageCard } from "./ImageCard";
 
 interface ImageStatusDisplayProps {
   status: string;
@@ -421,12 +422,10 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   if (isCompleted && (imageUrl || (isAgentMode && allImageUrls.length > 0))) {
     // Agent 模式: 网格展示多张图片
     if (isAgentMode && allImageUrls.length > 0) {
-      // 根据图片数量决定网格列数
+      // 根据图片数量决定网格列数 - 一行最多 4 张
       const getGridCols = (count: number) => {
-        if (count <= 4) return 'grid-cols-2';
-        if (count <= 6) return 'grid-cols-3';
-        if (count <= 9) return 'grid-cols-3';
-        return 'grid-cols-4';
+        if (count <= 4) return 'grid-cols-4';
+        return 'grid-cols-4'; // 超过4张也是一行4张，自动换行
       };
 
       return (
@@ -440,44 +439,17 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
             </div>
           )}
 
-          {/* 多图网格展示 */}
+          {/* 多图网格展示 - 使用复用组件 */}
           <div className={`grid ${getGridCols(allImageUrls.length)} gap-2`}>
             {allImageUrls.map((url, index) => (
-              <div
+              <ImageCard
                 key={index}
-                className="relative group cursor-pointer aspect-square"
-                onClick={() => onImageClick?.(url, `${image.prompt} (${index + 1}/${allImageUrls.length})`)}
-              >
-                <img
-                  src={url}
-                  alt={`${image.prompt} - Image ${index + 1}`}
-                  className="w-full h-full object-cover rounded-lg"
-                  loading="lazy"
-                />
-                {/* 图片序号标签 */}
-                <div className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
-                  {index + 1}/{allImageUrls.length}
-                </div>
-                {/* Hover 下载按钮 */}
-                <div className={`absolute top-2 right-2 ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-200`}>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    className="bg-black/60 hover:bg-black/80 text-white border-none h-7 w-7 p-0 rounded-md"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      // 下载单张图片
-                      const a = document.createElement('a');
-                      a.href = url;
-                      a.download = `agent_image_${index + 1}.jpg`;
-                      a.click();
-                    }}
-                    title={`Download image ${index + 1}`}
-                  >
-                    <Download className="h-3 w-3" />
-                  </Button>
-                </div>
-              </div>
+                imageUrl={url}
+                prompt={image.prompt}
+                index={index}
+                total={allImageUrls.length}
+                onImageClick={onImageClick}
+              />
             ))}
           </div>
 
@@ -614,6 +586,79 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
 
   // Processing state
   if (isProcessing) {
+    // Agent 模式：显示多个卡片网格，每个任务独立状态
+    if (isAgentMode && agentImageCount > 0) {
+      const agentTasks = image.metadata?.agent_tasks || [];
+      const currentImageUrls = imageUrlsR2?.length ? imageUrlsR2 : (imageUrls || []);
+      const getGridCols = (count: number) => {
+        if (count <= 4) return 'grid-cols-4';
+        return 'grid-cols-4'; // 超过4张也是一行4张，自动换行
+      };
+
+      return (
+        <>
+        <div className="space-y-3">
+          {/* Agent 模式进度指示 */}
+          <div className="flex items-center gap-2 text-sm text-amber-400">
+            <Sparkles className="h-4 w-4" />
+            <span>Generating: {currentImageUrls.length}/{agentImageCount} images</span>
+          </div>
+
+          {/* 多图网格展示 - 使用复用组件 */}
+          <div className={`grid ${getGridCols(agentImageCount)} gap-2`}>
+            {Array.from({ length: agentImageCount }).map((_, index) => {
+              const task = agentTasks[index];
+              const taskCompleted = task?.status === 'completed' || task?.imageUrl;
+              const taskImageUrl = task?.r2Url || task?.imageUrl;
+
+              return (
+                <ImageCard
+                  key={index}
+                  imageUrl={taskCompleted ? taskImageUrl : undefined}
+                  prompt={image.prompt}
+                  index={index}
+                  total={agentImageCount}
+                  isLoading={!taskCompleted}
+                  progress={progressData.progress}
+                  remainingTime={progressData.remainingTime}
+                  onImageClick={onImageClick}
+                />
+              );
+            })}
+          </div>
+
+          {/* 删除按钮 */}
+          {onDelete && (
+            <div className="flex justify-end">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-gray-400 hover:text-red-400"
+                onClick={handleDeleteClick}
+                disabled={isDeleting}
+              >
+                {isDeleting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Trash2 className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+          )}
+        </div>
+
+        <DeleteConfirmDialog
+          isOpen={showDeleteDialog}
+          onClose={() => setShowDeleteDialog(false)}
+          onConfirm={handleConfirmDelete}
+          prompt={image.prompt || ''}
+          isDeleting={isDeleting}
+        />
+        </>
+      );
+    }
+
+    // 普通模式：单个进度条
     return (
       <>
       <div className="space-y-3">
@@ -631,15 +676,15 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
                   Optimizing Prompt...
                 </p>
               )}
-              
+
               {/* Progress bar */}
               <div className="w-full mb-4">
-                <ImageProgressBar 
-                  progress={progressData.progress} 
+                <ImageProgressBar
+                  progress={progressData.progress}
                   showPercentage={false}
                 />
               </div>
-              
+
               {/* Progress percentage and remaining time */}
               <div className="text-center">
                 <div className="text-lg font-bold text-white mb-1">
@@ -659,7 +704,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
 
         {/* No action buttons during processing */}
       </div>
-      
+
       {/* Delete confirmation dialog */}
       <DeleteConfirmDialog
         isOpen={showDeleteDialog}

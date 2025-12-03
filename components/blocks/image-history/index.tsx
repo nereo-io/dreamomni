@@ -59,6 +59,15 @@ export interface ImageGenerationResult {
   is_agent_mode?: boolean;
   agent_image_count?: number;
   expanded_prompts?: string[];
+  metadata?: {
+    agent_tasks?: Array<{
+      taskId?: string;
+      status?: string;
+      imageUrl?: string;
+      r2Url?: string;
+    }>;
+    [key: string]: any;
+  };
 }
 
 interface ImageHistoryProps {
@@ -781,8 +790,41 @@ const CardImageItem = ({
             ? ''
             : 'bg-gray-700'
         }`}>
-          {/* Completed Image */}
-          {(image.status === "completed" || image.status === "saved_to_r2") && image.image_url ? (
+          {/* Agent Mode: Grid of multiple images */}
+          {(image.status === "completed" || image.status === "saved_to_r2") && image.is_agent_mode && (image.image_urls_r2?.length || image.image_urls?.length) ? (
+            (() => {
+              const allImageUrls = image.image_urls_r2?.length ? image.image_urls_r2 : (image.image_urls || []);
+              const displayImages = allImageUrls.slice(0, 4); // 最多显示4张预览
+              const remainingCount = allImageUrls.length - 4;
+
+              return (
+                <div className="w-full h-full grid grid-cols-2 gap-1 p-1">
+                  {displayImages.map((url, index) => (
+                    <div
+                      key={index}
+                      className="relative cursor-pointer overflow-hidden rounded group/img"
+                      onClick={() => onOpen(url)}
+                    >
+                      <img
+                        src={url}
+                        alt={`${image.prompt} - ${index + 1}`}
+                        className="w-full h-full object-cover transition-transform duration-200 group-hover/img:scale-105"
+                        loading="lazy"
+                        onLoad={index === 0 ? handleImageLoad : undefined}
+                      />
+                      {/* 显示剩余数量 */}
+                      {index === 3 && remainingCount > 0 && (
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                          <span className="text-white text-lg font-bold">+{remainingCount}</span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              );
+            })()
+          ) : (image.status === "completed" || image.status === "saved_to_r2") && image.image_url ? (
+            /* Single Image (Normal Mode) */
             <div className="relative w-full h-full group flex items-center justify-start">
               <img
                 src={image.image_url}
@@ -801,7 +843,7 @@ const CardImageItem = ({
                   <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
                 </div>
               )}
-              
+
 
             </div>
           ) : (image.status === "pending" || image.status === "in_progress" || image.status === "in_queue") ? (
@@ -855,11 +897,13 @@ const CardImageItem = ({
           </Button>
         </div>
 
-        {/* Metadata tags - aspect ratio, resolution, and model name */}
+        {/* Metadata tags - aspect ratio, resolution, model name, and Agent badge */}
         <ImageMetadata
           aspectRatio={image.image_size}
           resolution={image.resolution}
           modelName={getImageModel(image.model)?.displayName || image.model}
+          isAgentMode={image.is_agent_mode}
+          agentImageCount={image.agent_image_count}
         />
       </CardHeader>
       <CardContent className="flex-grow">

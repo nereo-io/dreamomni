@@ -75,16 +75,21 @@ export async function GET(req: NextRequest) {
         }
       }
 
+      // Agent 模式: 返回完整的图片数组
+      const isAgentMode = item.is_agent_mode || item.metadata?.is_agent_mode || false;
+      const imageUrls = Array.isArray(item.image_urls) ? item.image_urls : [];
+      const imageUrlsR2 = Array.isArray(item.image_urls_r2) ? item.image_urls_r2 : [];
+
       return {
         id: item.id,
         prompt: item.prompt,
         optimized_prompt: item.optimized_prompt,
-        image_url: Array.isArray(item.image_urls) && item.image_urls.length > 0
-          ? item.image_urls[0]
-          : undefined,
-        image_url_r2: Array.isArray(item.image_urls_r2) && item.image_urls_r2.length > 0
-          ? item.image_urls_r2[0]
-          : undefined,
+        // 普通模式: 返回第一张图片; Agent 模式: 也返回第一张作为封面
+        image_url: imageUrls.length > 0 ? imageUrls[0] : undefined,
+        image_url_r2: imageUrlsR2.length > 0 ? imageUrlsR2[0] : undefined,
+        // Agent 模式: 返回完整的图片数组
+        image_urls: isAgentMode ? imageUrls : undefined,
+        image_urls_r2: isAgentMode ? imageUrlsR2 : undefined,
         input_image_urls: item.input_image_urls, // 添加输入图片URLs
         status: item.status.toLowerCase(),
         model: item.model_id,
@@ -97,6 +102,10 @@ export async function GET(req: NextRequest) {
         error_message: item.error_message,
         provider: item.provider,
         mode: item.mode,
+        // Agent 模式字段
+        is_agent_mode: isAgentMode,
+        agent_image_count: item.agent_image_count || item.metadata?.agent_image_count,
+        expanded_prompts: item.expanded_prompts || item.metadata?.expanded_prompts,
       };
     });
 
