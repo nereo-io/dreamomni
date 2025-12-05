@@ -5,16 +5,16 @@
  * 使用 Evolink API (支持 Gemini/GPT 等模型)
  */
 
-import OpenAI from 'openai';
+import OpenAI from "openai";
 
 // 初始化 LLM 客户端
 const llmClient = new OpenAI({
-  apiKey: process.env.EVOLINK_API_KEY || '',
-  baseURL: process.env.EVOLINK_BASE_URL || 'https://api.evolink.ai/v1',
+  apiKey: process.env.EVOLINK_API_KEY || "",
+  baseURL: process.env.EVOLINK_BASE_URL || "https://api.evolink.ai/v1",
 });
 
 // 用户场景类型
-export type UserContext = 'ecommerce' | 'comic' | 'general';
+export type UserContext = "ecommerce" | "comic" | "general";
 
 // 扩展提示词结果
 export interface ExpandedPromptsResult {
@@ -40,24 +40,30 @@ Rules:
 7. Output as a JSON array of strings
 8. Write all prompts in English`;
 
-  if (context === 'ecommerce') {
-    return base + `
+  if (context === "ecommerce") {
+    return (
+      base +
+      `
 
 Special focus for e-commerce:
 - Product details and textures
 - Clean backgrounds with appropriate white space for text overlay
 - Brand aesthetics and premium feel
 - Multiple product angles for online shopping
-- Lifestyle shots showing the product in use`;
-  } else if (context === 'comic') {
-    return base + `
+- Lifestyle shots showing the product in use`
+    );
+  } else if (context === "comic") {
+    return (
+      base +
+      `
 
 Special focus for comic/manga:
 - Story coherence and narrative flow
 - Character consistency across different scenes
 - Cinematic camera angles and composition
 - Dramatic lighting for emotional impact
-- Action poses and dynamic compositions`;
+- Action poses and dynamic compositions`
+    );
   }
 
   return base;
@@ -78,7 +84,11 @@ Please expand this into ${count} different detailed prompts, each covering a uni
 - Scene/background (studio, outdoor, lifestyle, minimalist, etc.)
 - Lighting (natural, studio, dramatic, soft, etc.)
 
-${hasReferenceImages ? 'Note: The user has provided reference images, so maintain visual consistency with the reference style.' : ''}
+${
+  hasReferenceImages
+    ? "Note: The user has provided reference images, so maintain visual consistency with the reference style."
+    : ""
+}
 
 Output format: A JSON array of ${count} complete prompt strings. Each prompt should be ready for direct use in image generation.
 
@@ -93,7 +103,7 @@ Example output format:
  */
 function parseExpandedPrompts(content: string | null): string[] {
   if (!content) {
-    throw new Error('Empty response from LLM');
+    throw new Error("Empty response from LLM");
   }
 
   // 尝试提取 JSON 数组
@@ -115,15 +125,15 @@ function parseExpandedPrompts(content: string | null): string[] {
     const parsed = JSON.parse(jsonStr);
 
     if (!Array.isArray(parsed)) {
-      throw new Error('Response is not an array');
+      throw new Error("Response is not an array");
     }
 
     // 确保所有元素都是字符串
     const prompts = parsed.map((item, index) => {
-      if (typeof item === 'string') {
+      if (typeof item === "string") {
         return item;
       }
-      if (typeof item === 'object' && item.prompt) {
+      if (typeof item === "object" && item.prompt) {
         return item.prompt;
       }
       throw new Error(`Invalid item at index ${index}`);
@@ -131,9 +141,13 @@ function parseExpandedPrompts(content: string | null): string[] {
 
     return prompts;
   } catch (error) {
-    console.error('[PromptExpander] Failed to parse JSON:', error);
-    console.error('[PromptExpander] Raw content:', content);
-    throw new Error(`Failed to parse expanded prompts: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    console.error("[PromptExpander] Failed to parse JSON:", error);
+    console.error("[PromptExpander] Raw content:", content);
+    throw new Error(
+      `Failed to parse expanded prompts: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`
+    );
   }
 }
 
@@ -150,11 +164,11 @@ export async function expandImagePrompts(
   originalPrompt: string,
   imageCount: number,
   hasReferenceImages: boolean = false,
-  userContext: UserContext = 'general'
+  userContext: UserContext = "general"
 ): Promise<string[]> {
   // 验证 API 配置
   if (!process.env.EVOLINK_API_KEY) {
-    throw new Error('EVOLINK_API_KEY is not configured');
+    throw new Error("EVOLINK_API_KEY is not configured");
   }
 
   // 验证图片数量
@@ -162,19 +176,29 @@ export async function expandImagePrompts(
     throw new Error(`Invalid image count: ${imageCount}. Must be 6, 9, or 12.`);
   }
 
-  console.log(`[PromptExpander] Expanding prompt to ${imageCount} variations...`);
-  console.log(`[PromptExpander] Original: "${originalPrompt.substring(0, 100)}..."`);
-  console.log(`[PromptExpander] Context: ${userContext}, Has reference: ${hasReferenceImages}`);
+  console.log(
+    `[PromptExpander] Expanding prompt to ${imageCount} variations...`
+  );
+  console.log(
+    `[PromptExpander] Original: "${originalPrompt.substring(0, 100)}..."`
+  );
+  console.log(
+    `[PromptExpander] Context: ${userContext}, Has reference: ${hasReferenceImages}`
+  );
 
   try {
     const systemPrompt = buildSystemPrompt(userContext);
-    const userMessage = buildUserMessage(originalPrompt, imageCount, hasReferenceImages);
+    const userMessage = buildUserMessage(
+      originalPrompt,
+      imageCount,
+      hasReferenceImages
+    );
 
     const response = await llmClient.chat.completions.create({
-      model: process.env.EVOLINK_MODEL || 'gemini-2.5-flash-preview-05-20',
+      model: "gemini-3-pro-preview",
       messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userMessage },
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userMessage },
       ],
       temperature: 0.8, // 适度的创意性
       max_tokens: 4000,
@@ -185,11 +209,15 @@ export async function expandImagePrompts(
 
     // 验证数量
     if (expandedPrompts.length !== imageCount) {
-      console.warn(`[PromptExpander] Expected ${imageCount} prompts, got ${expandedPrompts.length}`);
+      console.warn(
+        `[PromptExpander] Expected ${imageCount} prompts, got ${expandedPrompts.length}`
+      );
 
       // 如果数量不够，用原始提示词填充
       while (expandedPrompts.length < imageCount) {
-        expandedPrompts.push(`${originalPrompt}, variation ${expandedPrompts.length + 1}`);
+        expandedPrompts.push(
+          `${originalPrompt}, variation ${expandedPrompts.length + 1}`
+        );
       }
 
       // 如果数量过多，截断
@@ -198,27 +226,47 @@ export async function expandImagePrompts(
       }
     }
 
-    console.log(`[PromptExpander] Successfully expanded to ${expandedPrompts.length} prompts`);
+    console.log(
+      `[PromptExpander] Successfully expanded to ${expandedPrompts.length} prompts`
+    );
 
     return expandedPrompts;
-
   } catch (error) {
-    console.error('[PromptExpander] Error expanding prompts:', error);
+    console.error("[PromptExpander] Error expanding prompts:", error);
 
     // 降级处理：返回基本的变体提示词
-    console.log('[PromptExpander] Falling back to basic variations...');
+    console.log("[PromptExpander] Falling back to basic variations...");
 
     const fallbackPrompts: string[] = [];
-    const angles = ['front view', 'side view', '45-degree angle', 'top-down view', 'close-up', 'wide shot'];
-    const scenes = ['studio background', 'minimalist white background', 'outdoor natural setting', 'lifestyle context'];
-    const lightings = ['natural lighting', 'soft studio light', 'dramatic lighting', 'warm ambient light'];
+    const angles = [
+      "front view",
+      "side view",
+      "45-degree angle",
+      "top-down view",
+      "close-up",
+      "wide shot",
+    ];
+    const scenes = [
+      "studio background",
+      "minimalist white background",
+      "outdoor natural setting",
+      "lifestyle context",
+    ];
+    const lightings = [
+      "natural lighting",
+      "soft studio light",
+      "dramatic lighting",
+      "warm ambient light",
+    ];
 
     for (let i = 0; i < imageCount; i++) {
       const angle = angles[i % angles.length];
       const scene = scenes[Math.floor(i / angles.length) % scenes.length];
       const lighting = lightings[i % lightings.length];
 
-      fallbackPrompts.push(`${originalPrompt}, ${angle}, ${scene}, ${lighting}, high quality, detailed`);
+      fallbackPrompts.push(
+        `${originalPrompt}, ${angle}, ${scene}, ${lighting}, high quality, detailed`
+      );
     }
 
     return fallbackPrompts;
@@ -235,5 +283,7 @@ export async function expandSinglePrompt(
   lighting: string
 ): Promise<string> {
   const expandedPrompts = await expandImagePrompts(originalPrompt, 1);
-  return expandedPrompts[0] || `${originalPrompt}, ${angle}, ${scene}, ${lighting}`;
+  return (
+    expandedPrompts[0] || `${originalPrompt}, ${angle}, ${scene}, ${lighting}`
+  );
 }

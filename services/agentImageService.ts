@@ -3,24 +3,24 @@
  * Agent 模式图片生成服务 - 批量多角度图片生成业务逻辑
  */
 
-import pLimit from 'p-limit';
-import { expandImagePrompts, UserContext } from './promptExpander';
-import { aiServiceManager } from './AIServiceManager';
+import pLimit from "p-limit";
+import { expandImagePrompts, UserContext } from "./promptExpander";
+import { aiServiceManager } from "./AIServiceManager";
 import {
   createImageGeneration,
   updateImageGenerationById,
-} from '@/models/imageGeneration';
+} from "@/models/imageGeneration";
 import {
   decreaseCredits,
   increaseCredits,
   CreditsTransType,
-} from '@/services/credit';
-import { calculateImageCredits } from '@/config/image-models';
-import type { CreateImageGenerationParams } from '@/types/image.d';
-import type { AIServiceProvider } from '@/types/provider.d';
+} from "@/services/credit";
+import { calculateImageCredits } from "@/config/image-models";
+import type { CreateImageGenerationParams } from "@/types/image.d";
+import type { AIServiceProvider } from "@/types/provider.d";
 
 // 最大并发请求数
-const MAX_CONCURRENT = 6;
+const MAX_CONCURRENT = 3;
 
 // 图片尺寸类型
 type ImageSizeType = "auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9";
@@ -36,7 +36,7 @@ export interface AgentGenerationParams {
   resolution?: string;
   imageInput?: string[];
   provider: AIServiceProvider;
-  outputFormat?: 'png' | 'jpeg';
+  outputFormat?: "png" | "jpeg";
   imageSize?: ImageSizeType;
   userContext?: UserContext;
   metadata?: Record<string, any>;
@@ -54,7 +54,7 @@ export interface AgentTaskResult {
 // Agent 模式生成结果
 export interface AgentGenerationResult {
   generationId: string;
-  status: 'processing' | 'completed' | 'partial_failure' | 'failed';
+  status: "processing" | "completed" | "partial_failure" | "failed";
   imageCount: number;
   expandedPrompts: string[];
   tasks: AgentTaskResult[];
@@ -84,12 +84,14 @@ export async function generateAgentImages(
     provider,
     outputFormat,
     imageSize,
-    userContext = 'general',
+    userContext = "general",
     metadata = {},
   } = params;
 
   console.log(`[AgentImageService] Starting agent mode generation`);
-  console.log(`[AgentImageService] User: ${userId}, Count: ${imageCount}, Model: ${model}`);
+  console.log(
+    `[AgentImageService] User: ${userId}, Count: ${imageCount}, Model: ${model}`
+  );
 
   // 1. 扩展提示词
   console.log(`[AgentImageService] Expanding prompts...`);
@@ -101,13 +103,17 @@ export async function generateAgentImages(
     userContext
   );
 
-  console.log(`[AgentImageService] Expanded to ${expandedPrompts.length} prompts`);
+  console.log(
+    `[AgentImageService] Expanded to ${expandedPrompts.length} prompts`
+  );
 
   // 2. 计算并扣除积分
   const singleImageCredits = calculateImageCredits(model, resolution);
   const totalCredits = singleImageCredits * imageCount;
 
-  console.log(`[AgentImageService] Credits: ${singleImageCredits} × ${imageCount} = ${totalCredits}`);
+  console.log(
+    `[AgentImageService] Credits: ${singleImageCredits} × ${imageCount} = ${totalCredits}`
+  );
 
   let deductResult;
   try {
@@ -121,8 +127,8 @@ export async function generateAgentImages(
       `[AgentImageService] Credits deducted: ${deductResult.totalDeducted} from ${deductResult.pools.length} pool(s)`
     );
   } catch (error) {
-    console.error('[AgentImageService] Failed to deduct credits:', error);
-    throw new Error('Failed to deduct credits');
+    console.error("[AgentImageService] Failed to deduct credits:", error);
+    throw new Error("Failed to deduct credits");
   }
 
   // 3. 创建数据库记录
@@ -130,20 +136,20 @@ export async function generateAgentImages(
     user_id: userId,
     model_id: model,
     prompt,
-    mode: hasReferenceImages ? 'image-to-image' : 'text-to-image',
-    source: 'web',
+    mode: hasReferenceImages ? "image-to-image" : "text-to-image",
+    source: "web",
     provider,
     input_image_urls: imageInput,
     aspect_ratio: aspectRatio || imageSize,
     credits_used: totalCredits,
-    status: 'IN_PROGRESS',
+    status: "IN_PROGRESS",
     // Agent 模式字段 - 必须作为顶级字段传递
     is_agent_mode: true,
     agent_image_count: imageCount,
     expanded_prompts: expandedPrompts,
     metadata: {
       ...metadata,
-      is_agent_mode: true,  // 同时保留在 metadata 中作为备份
+      is_agent_mode: true, // 同时保留在 metadata 中作为备份
       agent_image_count: imageCount,
       expanded_prompts: expandedPrompts,
       user_context: userContext,
@@ -160,16 +166,21 @@ export async function generateAgentImages(
   let imageGeneration;
   try {
     imageGeneration = await createImageGeneration(createParams);
-    console.log(`[AgentImageService] Created generation record: ${imageGeneration.id}`);
+    console.log(
+      `[AgentImageService] Created generation record: ${imageGeneration.id}`
+    );
   } catch (error) {
-    console.error('[AgentImageService] Failed to create generation record:', error);
+    console.error(
+      "[AgentImageService] Failed to create generation record:",
+      error
+    );
 
     // 退还积分
     await refundCredits(userUuid, deductResult);
-    throw new Error('Failed to create generation record');
+    throw new Error("Failed to create generation record");
   }
 
-  // 4. 并发生成图片 (最大 4 并发)
+  // 4. 并发生成图片 (最大 3 并发)
   const limit = pLimit(MAX_CONCURRENT);
   const providerInstance = aiServiceManager.getProvider(provider);
 
@@ -178,7 +189,7 @@ export async function generateAgentImages(
 
     // 更新记录状态并退款
     await updateImageGenerationById(imageGeneration.id, {
-      status: 'FAILED',
+      status: "FAILED",
       error_message: `Provider ${provider} not available`,
     });
     await refundCredits(userUuid, deductResult);
@@ -189,7 +200,9 @@ export async function generateAgentImages(
   const tasks = expandedPrompts.map((expandedPrompt, idx) =>
     limit(async (): Promise<AgentTaskResult> => {
       try {
-        console.log(`[AgentImageService] Generating image ${idx + 1}/${imageCount}...`);
+        console.log(
+          `[AgentImageService] Generating image ${idx + 1}/${imageCount}...`
+        );
 
         let result;
         if (hasReferenceImages) {
@@ -216,7 +229,18 @@ export async function generateAgentImages(
           });
         }
 
-        console.log(`[AgentImageService] Task ${idx + 1} submitted: taskId=${result.taskId}`);
+        // Ensure provider returned a valid taskId
+        if (!result.taskId || result.status === "failed") {
+          const providerError =
+            result.error || "No taskId returned from provider";
+          throw new Error(providerError);
+        }
+
+        console.log(
+          `[AgentImageService] Task ${idx + 1} submitted: taskId=${
+            result.taskId
+          }`
+        );
 
         return {
           index: idx,
@@ -225,8 +249,12 @@ export async function generateAgentImages(
           expandedPrompt,
         };
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        console.error(`[AgentImageService] Task ${idx + 1} failed:`, errorMessage);
+        const errorMessage =
+          error instanceof Error ? error.message : "Unknown error";
+        console.error(
+          `[AgentImageService] Task ${idx + 1} failed:`,
+          errorMessage
+        );
 
         return {
           index: idx,
@@ -244,23 +272,27 @@ export async function generateAgentImages(
   const successCount = results.filter((r) => r.success).length;
   const failedCount = results.filter((r) => !r.success).length;
 
-  console.log(`[AgentImageService] Generation tasks completed: ${successCount} success, ${failedCount} failed`);
+  console.log(
+    `[AgentImageService] Generation tasks completed: ${successCount} success, ${failedCount} failed`
+  );
 
   // 5. 更新数据库记录，存储 agent_task_ids
-  const taskIds = results.filter((r) => r.success && r.taskId).map((r) => r.taskId);
+  const taskIds = results
+    .filter((r) => r.success && r.taskId)
+    .map((r) => r.taskId);
 
   console.log(`[AgentImageService] ========== Storing task IDs ==========`);
   console.log(`[AgentImageService] Generation ID: ${imageGeneration.id}`);
   console.log(`[AgentImageService] Total task IDs: ${taskIds.length}`);
-  console.log(`[AgentImageService] Task IDs: ${taskIds.join(', ')}`);
+  console.log(`[AgentImageService] Task IDs: ${taskIds.join(", ")}`);
 
-  let status: 'processing' | 'completed' | 'partial_failure' | 'failed';
+  let status: "processing" | "completed" | "partial_failure" | "failed";
   if (failedCount === 0) {
-    status = 'processing';
+    status = "processing";
   } else if (successCount === 0) {
-    status = 'failed';
+    status = "failed";
   } else {
-    status = 'partial_failure';
+    status = "partial_failure";
   }
 
   const updatedMetadata = {
@@ -271,7 +303,11 @@ export async function generateAgentImages(
     failed_count: failedCount,
   };
 
-  console.log(`[AgentImageService] Updating record with metadata.agent_task_ids: ${updatedMetadata.agent_task_ids?.length || 0} IDs`);
+  console.log(
+    `[AgentImageService] Updating record with metadata.agent_task_ids: ${
+      updatedMetadata.agent_task_ids?.length || 0
+    } IDs`
+  );
 
   await updateImageGenerationById(imageGeneration.id, {
     metadata: updatedMetadata,
@@ -281,23 +317,32 @@ export async function generateAgentImages(
   console.log(`[AgentImageService] ========================================`);
 
   // 6. 如果全部失败，退还全部积分
-  if (status === 'failed') {
-    console.log('[AgentImageService] All tasks failed, refunding all credits...');
+  if (status === "failed") {
+    console.log(
+      "[AgentImageService] All tasks failed, refunding all credits..."
+    );
     await refundCredits(userUuid, deductResult);
 
     await updateImageGenerationById(imageGeneration.id, {
-      status: 'FAILED',
-      error_message: 'All image generation tasks failed',
+      status: "FAILED",
+      error_message: "All image generation tasks failed",
       credits_used: 0,
     });
   }
 
   // 7. 如果部分失败，退还失败部分的积分
-  if (status === 'partial_failure') {
+  if (status === "partial_failure") {
     const refundAmount = singleImageCredits * failedCount;
-    console.log(`[AgentImageService] Partial failure, refunding ${refundAmount} credits for ${failedCount} failed tasks...`);
+    console.log(
+      `[AgentImageService] Partial failure, refunding ${refundAmount} credits for ${failedCount} failed tasks...`
+    );
 
-    await refundPartialCredits(userUuid, deductResult, refundAmount, singleImageCredits);
+    await refundPartialCredits(
+      userUuid,
+      deductResult,
+      refundAmount,
+      singleImageCredits
+    );
 
     await updateImageGenerationById(imageGeneration.id, {
       credits_used: singleImageCredits * successCount,
@@ -321,7 +366,7 @@ export async function generateAgentImages(
     imageCount,
     expandedPrompts,
     tasks: results,
-    creditsUsed: status === 'failed' ? 0 : singleImageCredits * successCount,
+    creditsUsed: status === "failed" ? 0 : singleImageCredits * successCount,
     creditDeduction: deductResult,
   };
 }
@@ -329,7 +374,10 @@ export async function generateAgentImages(
 /**
  * 退还全部积分
  */
-async function refundCredits(userUuid: string, deductResult: any): Promise<void> {
+async function refundCredits(
+  userUuid: string,
+  deductResult: any
+): Promise<void> {
   try {
     for (const pool of deductResult.pools) {
       await increaseCredits({
@@ -349,7 +397,7 @@ async function refundCredits(userUuid: string, deductResult: any): Promise<void>
       `[AgentImageService] Total refunded: ${deductResult.totalDeducted} credits`
     );
   } catch (error) {
-    console.error('[AgentImageService] Failed to refund credits:', error);
+    console.error("[AgentImageService] Failed to refund credits:", error);
   }
 }
 
@@ -388,9 +436,14 @@ async function refundPartialCredits(
       remainingRefund -= refundFromPool;
     }
 
-    console.log(`[AgentImageService] Total partial refund: ${refundAmount} credits`);
+    console.log(
+      `[AgentImageService] Total partial refund: ${refundAmount} credits`
+    );
   } catch (error) {
-    console.error('[AgentImageService] Failed to refund partial credits:', error);
+    console.error(
+      "[AgentImageService] Failed to refund partial credits:",
+      error
+    );
   }
 }
 
@@ -408,7 +461,9 @@ export async function handleAgentImageCallback(
   // 用于聚合多张图片的回调结果
 
   // 实现细节将在修改 ai-callback 路由时完成
-  console.log(`[AgentImageService] Callback for generation ${generationId}, task ${taskId}, index ${imageIndex}`);
+  console.log(
+    `[AgentImageService] Callback for generation ${generationId}, task ${taskId}, index ${imageIndex}`
+  );
 
   return {
     allCompleted: false,
