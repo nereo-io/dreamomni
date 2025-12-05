@@ -227,6 +227,7 @@ export async function POST(req: NextRequest) {
           id: agentResult.generationId,
           status: agentResult.status,
           image_count: agentResult.imageCount,
+          agent_image_count: agentResult.imageCount,  // Agent 模式图片数量
           expanded_prompts: agentResult.expandedPrompts,
           tasks: agentResult.tasks.map((t) => ({
             index: t.index,
@@ -237,6 +238,8 @@ export async function POST(req: NextRequest) {
           credits_used: agentResult.creditsUsed,
           provider: selectedProvider,
           is_agent_mode: true,
+          image_urls: [],      // 初始为空数组
+          image_urls_r2: [],   // 初始为空数组
           message: `Agent mode: ${agentResult.tasks.filter((t) => t.success).length}/${agent_image_count} tasks submitted`,
         });
       } catch (error) {

@@ -19,9 +19,9 @@ const ImageProgressBar: React.FC<ImageProgressBarProps> = React.memo(({
     <div className={cn("w-full", className)}>
       {/* Progress bar container */}
       <div className="relative w-full h-2 bg-gray-700/50 rounded-full overflow-hidden">
-        {/* Progress bar fill with gradient */}
-        <div 
-          className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-500 ease-out"
+        {/* Progress bar fill with primary theme color (purple) */}
+        <div
+          className="absolute top-0 left-0 h-full bg-primary rounded-full transition-all duration-500 ease-out"
           style={{ width: `${clampedProgress}%` }}
         >
           {/* Animated shimmer effect */}

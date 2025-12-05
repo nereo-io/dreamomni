@@ -1,11 +1,13 @@
-import React from "react";
-import { Copy, Sparkles, Loader2, CheckCircle, XCircle, Clock } from "lucide-react";
+import React, { useState } from "react";
+import { Copy, Sparkles, Loader2, CheckCircle, XCircle, Clock, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import type { ImageGenerationResult } from "@/components/blocks/image-history";
 import EnhancedPrompt from "./EnhancedPrompt";
 import ImageStatusDisplay from "./ImageStatusDisplay";
 import ImageMetadata from "@/components/blocks/image-history/ImageMetadata";
 import { getImageModel } from "@/config/image-models";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 
 interface ImageHistoryItemProps {
   image: ImageGenerationResult;
@@ -35,7 +37,11 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
     isDownloading = false,
     canEdit = false,
   }) => {
-    
+
+    // Delete state
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
     // Get status map for images - 与视频生成保持一致的图标
     const getStatusMap = () => ({
       completed: {
@@ -122,24 +128,53 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
       }
     };
 
+    // Handle delete click
+    const handleDeleteClick = async (e?: React.MouseEvent) => {
+      e?.preventDefault();
+      e?.stopPropagation();
+
+      if (!onDelete || isDeleting) return;
+
+      setShowDeleteDialog(true);
+    };
+
+    // Handle confirm delete
+    const handleConfirmDelete = async () => {
+      if (!onDelete) return;
+
+      setIsDeleting(true);
+      setShowDeleteDialog(false);
+
+      try {
+        await onDelete(image.id, image.prompt || '');
+        toast.success("Image deleted");
+      } catch (error) {
+        console.error("Delete operation failed:", error);
+        toast.error("Failed to delete");
+      } finally {
+        setIsDeleting(false);
+      }
+    };
+
 
     return (
+      <>
       <div className="p-5 space-y-4">
-        {/* Header: Source Image Thumbnail + Prompt + Timestamp */}
+        {/* Header: Source Image Thumbnail + Prompt + Actions (Copy, Delete, Timestamp) */}
         <div className="flex justify-between items-start gap-3">
           <div className="flex items-start gap-3 flex-1">
             {/* Source Images Thumbnails (if exist) */}
             {image.input_image_urls && image.input_image_urls.length > 0 && (
               <div className="flex-shrink-0 flex gap-1">
                 {image.input_image_urls.map((url, index) => (
-                  <div 
+                  <div
                     key={index}
                     className="h-12 w-12 rounded overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
                     onClick={() => onImageClick?.(url, `Source Image ${index + 1}`)}
                     title={`Click to view source image ${index + 1}`}
                   >
-                    <img 
-                      src={url} 
+                    <img
+                      src={url}
                       alt={`Source Image ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
@@ -147,11 +182,11 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
                 ))}
               </div>
             )}
-            
-            {/* Prompt and Copy Button */}
-            <div className="flex items-start gap-2 flex-1">
+
+            {/* Prompt */}
+            <div className="flex-1">
               <p
-                className="text-base font-bold text-white leading-relaxed flex-1"
+                className="text-base font-bold text-white leading-relaxed"
                 style={{
                   display: "-webkit-box",
                   WebkitLineClamp: 2,
@@ -161,22 +196,43 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
               >
                 {image.prompt}
               </p>
-              <button
-                onClick={handleCopyPrompt}
-                className="flex-shrink-0 p-1 text-gray-400 hover:text-white transition-colors rounded"
-                title="Copy prompt"
-              >
-                <Copy className="h-4 w-4" />
-              </button>
             </div>
           </div>
-          
-          {/* Timestamp */}
-          {formatTimestamp() && (
-            <span className="text-sm text-gray-400 flex-shrink-0 mt-0.5">
-              {formatTimestamp()}
-            </span>
-          )}
+
+          {/* Right side actions: Copy + Delete + Timestamp */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Copy Button */}
+            <button
+              onClick={handleCopyPrompt}
+              className="p-1 text-gray-400 hover:text-white transition-colors rounded"
+              title="Copy prompt"
+            >
+              <Copy className="h-4 w-4" />
+            </button>
+
+            {/* Delete Button */}
+            {onDelete && (
+              <button
+                onClick={handleDeleteClick}
+                className="p-1 text-gray-400 hover:text-red-400 transition-colors rounded"
+                title="Delete"
+                disabled={isDeleting}
+              >
+                {isDeleting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Trash2 className="h-4 w-4" />
+                )}
+              </button>
+            )}
+
+            {/* Timestamp */}
+            {formatTimestamp() && (
+              <span className="text-sm text-gray-400 ml-2">
+                {formatTimestamp()}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Metadata tags - aspect ratio, resolution, model name, and Agent badge */}
@@ -208,7 +264,7 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
           image={image}
           onEdit={onEdit}
           onRegenerate={onRegenerate}
-          onDelete={onDelete}
+          onDelete={undefined} // 删除按钮已统一在顶部，不传递给 ImageStatusDisplay
           onImageClick={onImageClick}
           onDownload={onDownload}
           isDownloading={isDownloading}
@@ -216,6 +272,18 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
           pollingImages={pollingImages}
         />
       </div>
+
+      {/* Delete confirmation dialog */}
+      {onDelete && (
+        <DeleteConfirmDialog
+          isOpen={showDeleteDialog}
+          onClose={() => setShowDeleteDialog(false)}
+          onConfirm={handleConfirmDelete}
+          prompt={image.prompt || ''}
+          isDeleting={isDeleting}
+        />
+      )}
+      </>
     );
   }
 );

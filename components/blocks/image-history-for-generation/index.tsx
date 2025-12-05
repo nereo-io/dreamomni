@@ -69,7 +69,38 @@ export default function ImageHistoryForGeneration({
   
   // Modal state
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState<{ url: string; prompt: string } | null>(null);
+  const [previewImage, setPreviewImage] = useState<{ url: string; prompt: string; index: number } | null>(null);
+
+  // Get all available image URLs from history (including Agent mode multiple images)
+  const getAllImageUrls = useCallback(() => {
+    const allUrls: Array<{ url: string; prompt: string; imageId: string }> = [];
+
+    images.forEach((image) => {
+      if (image.status === "completed" || image.status === "saved_to_r2") {
+        // Agent 模式：多张图片
+        if (image.is_agent_mode && (image.image_urls_r2?.length || image.image_urls?.length)) {
+          const urls = image.image_urls_r2?.length ? image.image_urls_r2 : image.image_urls!;
+          urls.forEach((url, idx) => {
+            allUrls.push({
+              url,
+              prompt: `${image.prompt} (${idx + 1}/${urls.length})`,
+              imageId: image.id,
+            });
+          });
+        }
+        // 普通模式：单张图片
+        else if (image.image_url_r2 || image.image_url) {
+          allUrls.push({
+            url: image.image_url_r2 || image.image_url!,
+            prompt: image.prompt,
+            imageId: image.id,
+          });
+        }
+      }
+    });
+
+    return allUrls;
+  }, [images]);
   
   const { user, setShowSignModal } = useAppContext();
   const { status: sessionStatus } = useSession();
@@ -261,9 +292,48 @@ export default function ImageHistoryForGeneration({
 
   // Handle image click
   const handleImageClick = useCallback((imageUrl: string, prompt: string) => {
-    setPreviewImage({ url: imageUrl, prompt });
+    const allUrls = getAllImageUrls();
+    const index = allUrls.findIndex((img) => img.url === imageUrl);
+
+    setPreviewImage({
+      url: imageUrl,
+      prompt,
+      index: index >= 0 ? index : 0,
+    });
     setPreviewModalOpen(true);
-  }, []);
+  }, [getAllImageUrls]);
+
+  // Navigate to previous image
+  const handlePreviousImage = useCallback(() => {
+    if (!previewImage) return;
+
+    const allUrls = getAllImageUrls();
+    const newIndex = previewImage.index - 1;
+
+    if (newIndex >= 0 && newIndex < allUrls.length) {
+      setPreviewImage({
+        url: allUrls[newIndex].url,
+        prompt: allUrls[newIndex].prompt,
+        index: newIndex,
+      });
+    }
+  }, [previewImage, getAllImageUrls]);
+
+  // Navigate to next image
+  const handleNextImage = useCallback(() => {
+    if (!previewImage) return;
+
+    const allUrls = getAllImageUrls();
+    const newIndex = previewImage.index + 1;
+
+    if (newIndex >= 0 && newIndex < allUrls.length) {
+      setPreviewImage({
+        url: allUrls[newIndex].url,
+        prompt: allUrls[newIndex].prompt,
+        index: newIndex,
+      });
+    }
+  }, [previewImage, getAllImageUrls]);
 
   // Fetch image history
   const fetchHistory = async () => {
@@ -435,13 +505,28 @@ export default function ImageHistoryForGeneration({
       imagesToPoll,
       {
         onUpdate: (updates) => {
-          // 批量更新图片状态
+          // 批量更新图片状态，保留 Agent 模式关键字段
           setImages(prevImages => {
             const newImages = [...prevImages];
             updates.forEach(update => {
               const index = newImages.findIndex(img => img.id === update.id);
               if (index !== -1) {
-                newImages[index] = { ...newImages[index], ...update.data } as ImageGenerationResult;
+                const existing = newImages[index];
+                const updateData = update.data as Partial<ImageGenerationResult>;
+
+                // 合并更新，确保 Agent 模式字段不丢失
+                newImages[index] = {
+                  ...existing,
+                  ...updateData,
+                  // 保留 Agent 模式关键字段（如果轮询返回未包含则保留原值）
+                  is_agent_mode: updateData.is_agent_mode ?? existing.is_agent_mode,
+                  agent_image_count: updateData.agent_image_count ?? existing.agent_image_count,
+                  expanded_prompts: updateData.expanded_prompts ?? existing.expanded_prompts,
+                  // 合并 image_urls_r2（优先使用新数据，否则保留原值）
+                  image_urls_r2: (updateData.image_urls_r2 && updateData.image_urls_r2.length > 0)
+                    ? updateData.image_urls_r2
+                    : existing.image_urls_r2,
+                } as ImageGenerationResult;
               }
             });
             return newImages;
@@ -717,6 +802,12 @@ export default function ImageHistoryForGeneration({
           }}
           imageUrl={previewImage.url}
           prompt={previewImage.prompt}
+          onPrevious={handlePreviousImage}
+          onNext={handleNextImage}
+          hasPrevious={previewImage.index > 0}
+          hasNext={previewImage.index < getAllImageUrls().length - 1}
+          currentIndex={previewImage.index}
+          totalImages={getAllImageUrls().length}
         />
       )}
     </div>

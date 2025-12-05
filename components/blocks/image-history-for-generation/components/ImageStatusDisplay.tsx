@@ -595,36 +595,46 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
         return 'grid-cols-4'; // 超过4张也是一行4张，自动换行
       };
 
+      // 构建每个卡片的状态：优先用 agentTasks，否则用 currentImageUrls
+      const cardStates = Array.from({ length: agentImageCount }).map((_, index) => {
+        const task = agentTasks[index];
+        // 兼容 camelCase 和 snake_case 字段名
+        const taskImageUrl = task?.r2Url || task?.r2_url || task?.imageUrl || task?.image_url;
+        const taskCompleted = task?.status === 'completed' || !!taskImageUrl;
+
+        // 如果 agentTasks 没数据，回退到 currentImageUrls 数组
+        const fallbackUrl = currentImageUrls[index];
+
+        return {
+          isCompleted: taskCompleted || !!fallbackUrl,
+          imageUrl: taskImageUrl || fallbackUrl,
+        };
+      });
+
       return (
         <>
         <div className="space-y-3">
           {/* Agent 模式进度指示 */}
           <div className="flex items-center gap-2 text-sm text-amber-400">
             <Sparkles className="h-4 w-4" />
-            <span>Generating: {currentImageUrls.length}/{agentImageCount} images</span>
+            <span>Generating: {cardStates.filter(c => c.isCompleted).length}/{agentImageCount} images</span>
           </div>
 
           {/* 多图网格展示 - 使用复用组件 */}
           <div className={`grid ${getGridCols(agentImageCount)} gap-2`}>
-            {Array.from({ length: agentImageCount }).map((_, index) => {
-              const task = agentTasks[index];
-              const taskCompleted = task?.status === 'completed' || task?.imageUrl;
-              const taskImageUrl = task?.r2Url || task?.imageUrl;
-
-              return (
-                <ImageCard
-                  key={index}
-                  imageUrl={taskCompleted ? taskImageUrl : undefined}
-                  prompt={image.prompt}
-                  index={index}
-                  total={agentImageCount}
-                  isLoading={!taskCompleted}
-                  progress={progressData.progress}
-                  remainingTime={progressData.remainingTime}
-                  onImageClick={onImageClick}
-                />
-              );
-            })}
+            {cardStates.map((card, index) => (
+              <ImageCard
+                key={index}
+                imageUrl={card.isCompleted ? card.imageUrl : undefined}
+                prompt={image.prompt}
+                index={index}
+                total={agentImageCount}
+                isLoading={!card.isCompleted}
+                progress={progressData.progress}
+                remainingTime={progressData.remainingTime}
+                onImageClick={onImageClick}
+              />
+            ))}
           </div>
 
           {/* 删除按钮 */}
@@ -670,32 +680,18 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
 
             {/* Content */}
             <div className="relative z-10 text-center w-full px-6 py-4">
-              {/* Status text - only for prompt optimizing */}
-              {status === "prompt_optimizing" && (
-                <p className="text-sm font-medium text-white mb-4">
-                  Optimizing Prompt...
-                </p>
-              )}
-
-              {/* Progress bar */}
-              <div className="w-full mb-4">
+              {/* Progress bar and percentage */}
+              <div className="w-full mb-2">
                 <ImageProgressBar
                   progress={progressData.progress}
                   showPercentage={false}
                 />
               </div>
 
-              {/* Progress percentage and remaining time */}
+              {/* Progress percentage only */}
               <div className="text-center">
-                <div className="text-lg font-bold text-white mb-1">
+                <div className="text-lg font-bold text-white">
                   {Math.round(progressData.progress)}%
-                </div>
-                <div className="text-xs text-gray-300">
-                  {progressData.remainingTime > 0 ? (
-                    `${Math.floor(progressData.remainingTime)}s remaining`
-                  ) : (
-                    "Almost done..."
-                  )}
                 </div>
               </div>
             </div>

@@ -53,17 +53,10 @@ export const ImageCard: React.FC<ImageCardProps> = ({
                 />
               </div>
 
-              {/* Progress percentage and remaining time */}
+              {/* Progress percentage only - no remaining time */}
               <div className="text-center">
-                <div className="text-sm font-bold text-white mb-1">
+                <div className="text-sm font-bold text-white">
                   {Math.round(progress)}%
-                </div>
-                <div className="text-[10px] text-gray-300">
-                  {remainingTime > 0 ? (
-                    `${Math.floor(remainingTime)}s`
-                  ) : (
-                    "Almost done..."
-                  )}
                 </div>
               </div>
             </div>

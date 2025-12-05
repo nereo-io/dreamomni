@@ -430,6 +430,12 @@ export default function ImageGenerationTab({
       credits_used: requiredCredits,
       created_at: result.created_at || new Date().toISOString(),
       updated_at: result.updated_at || new Date().toISOString(),
+      // Agent 模式字段
+      is_agent_mode: result.is_agent_mode ?? params.agent_mode ?? false,
+      agent_image_count: result.agent_image_count ?? params.agent_image_count ?? 0,
+      image_urls: result.image_urls || [],
+      image_urls_r2: result.image_urls_r2 || [],
+      metadata: result.metadata,
     };
 
     setNewImage(completedImageObj);
@@ -464,6 +470,11 @@ export default function ImageGenerationTab({
       credits_used: requiredCredits,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
+      // Agent 模式字段
+      is_agent_mode: params.agent_mode || false,
+      agent_image_count: params.agent_image_count || 0,
+      image_urls: [],
+      image_urls_r2: [],
     };
 
     setNewImage(pendingImageObj);
@@ -487,6 +498,12 @@ export default function ImageGenerationTab({
           credits_used: requiredCredits,
           created_at: result.created_at || new Date().toISOString(),
           updated_at: result.updated_at || new Date().toISOString(),
+          // Agent 模式字段 - 从轮询结果或原始参数获取
+          is_agent_mode: result.is_agent_mode ?? params.agent_mode ?? false,
+          agent_image_count: result.agent_image_count ?? params.agent_image_count ?? 0,
+          image_urls: result.image_urls || [],
+          image_urls_r2: result.image_urls_r2 || [],
+          metadata: result.metadata,
         };
 
         setNewImage(updatedImageObj);
@@ -519,6 +536,12 @@ export default function ImageGenerationTab({
           credits_used: requiredCredits,
           created_at: result.created_at || new Date().toISOString(),
           updated_at: result.updated_at || new Date().toISOString(),
+          // Agent 模式字段
+          is_agent_mode: result.is_agent_mode ?? params.agent_mode ?? false,
+          agent_image_count: result.agent_image_count ?? params.agent_image_count ?? 0,
+          image_urls: result.image_urls || [],
+          image_urls_r2: result.image_urls_r2 || [],
+          metadata: result.metadata,
         };
 
         setNewImage(completedImageObj);
@@ -563,6 +586,11 @@ export default function ImageGenerationTab({
           credits_used: 0, // No credits used on failure
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
+          // Agent 模式字段
+          is_agent_mode: params.agent_mode || false,
+          agent_image_count: params.agent_image_count || 0,
+          image_urls: [],
+          image_urls_r2: [],
         };
 
         setNewImage(errorImageObj);
