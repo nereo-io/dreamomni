@@ -645,7 +645,7 @@ export default function ImageGenerationTab({
 
             {/* Prompt Input */}
             <div>
-              <div className="flex justify-between items-center text-white text-lg font-semibold mb-4">
+              <div className="flex justify-between items-center text-white text-lg font-semibold mb-3">
                 <span>{t("prompt")}</span>
                 {prompt.length > 900 && (
                   <span className="text-sm font-normal text-gray-400">
@@ -665,21 +665,11 @@ export default function ImageGenerationTab({
                     : t("textToImagePlaceholder"))
                 }
                 className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
-                style={{ minHeight: "150px", maxHeight: "300px" }}
+                style={{ minHeight: "128px", maxHeight: "255px" }}
                 disabled={isGenerating}
                 maxLength={MAX_PROMPT_LENGTH}
               />
             </div>
-
-            {/* Agent Mode Section - 多角度批量生成 */}
-            <ImageAgentSection
-              agentMode={agentMode}
-              onAgentModeChange={setAgentMode}
-              imageCount={agentImageCount}
-              onImageCountChange={(count) => setAgentImageCount(count as 6 | 9 | 12)}
-              creditsPerImage={creditsPerImage}
-              disabled={isGenerating}
-            />
 
             {/* Settings */}
             <div>
@@ -864,6 +854,18 @@ export default function ImageGenerationTab({
                     </label>
                   ))}
                 </div>
+              </div>
+
+              {/* Image Agent - 多角度批量生成 */}
+              <div className="mb-4">
+                <ImageAgentSection
+                  agentMode={agentMode}
+                  onAgentModeChange={setAgentMode}
+                  imageCount={agentImageCount}
+                  onImageCountChange={(count) => setAgentImageCount(count as 6 | 9 | 12)}
+                  creditsPerImage={creditsPerImage}
+                  disabled={isGenerating}
+                />
               </div>
 
               {/* Credits and Cost */}

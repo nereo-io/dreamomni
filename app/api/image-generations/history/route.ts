@@ -75,8 +75,11 @@ export async function GET(req: NextRequest) {
         }
       }
 
-      // Agent 模式: 返回完整的图片数组
+      // Agent 模式也默认为 1K（如果没有指定分辨率）
       const isAgentMode = item.is_agent_mode || item.metadata?.is_agent_mode || false;
+      if (isAgentMode && !resolution) {
+        resolution = '1K';
+      }
       const imageUrls = Array.isArray(item.image_urls) ? item.image_urls : [];
       const imageUrlsR2 = Array.isArray(item.image_urls_r2) ? item.image_urls_r2 : [];
 

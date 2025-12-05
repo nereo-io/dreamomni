@@ -218,7 +218,7 @@ export function ImageGridUploader({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {/* 标题 */}
       <div className="flex items-center justify-between">
         <div className="text-lg font-semibold text-white">
@@ -230,7 +230,7 @@ export function ImageGridUploader({
       {images.length < maxImages && (
         <div
           className={`
-            relative border-2 border-dashed rounded-lg p-8
+            relative border-2 border-dashed rounded-lg py-5 px-4
             transition-all cursor-pointer
             ${isDragOver
               ? 'border-blue-500 bg-blue-500/10'
@@ -245,23 +245,25 @@ export function ImageGridUploader({
         >
           {isUploading ? (
             <div className="flex flex-col items-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4" />
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-3" />
               <p className="text-sm text-blue-400">
                 Uploading {uploadProgress.current}/{uploadProgress.total}...
               </p>
             </div>
           ) : (
-            <div className="flex flex-col items-center">
-              <Upload className="h-12 w-12 text-gray-400 mb-4" />
-              <p className="text-sm text-gray-300 mb-2">
-                {images.length === 0
-                  ? t("uploadMultipleImages", { max: maxImages })
-                  : t("uploadMoreImagesRemaining", { remaining: maxImages - images.length })
-                }
-              </p>
-              <p className="text-xs text-gray-500">
-                {t("multipleUploadHint")}
-              </p>
+            <div className="flex items-center justify-center gap-3">
+              <Upload className="h-5 w-5 text-gray-400 flex-shrink-0" />
+              <div>
+                <p className="text-sm text-gray-300">
+                  {images.length === 0
+                    ? t("uploadMultipleImages", { max: maxImages })
+                    : t("uploadMoreImagesRemaining", { remaining: maxImages - images.length })
+                  }
+                </p>
+                <p className="text-xs text-gray-500">
+                  {t("multipleUploadHint")}
+                </p>
+              </div>
             </div>
           )}
 
@@ -281,20 +283,20 @@ export function ImageGridUploader({
 
       {/* 已上传的图片网格 */}
       {images.length > 0 && (
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3">
           {images.map((url, index) => (
             <div key={`${url}-${index}`} className="relative">
               <img
                 src={url}
                 alt={`Reference ${index + 1}`}
-                className="w-full h-32 object-contain rounded-lg bg-gray-800"
+                className="w-full h-24 object-contain rounded-lg bg-gray-800"
               />
               <button
                 onClick={() => removeImage(index)}
-                className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                className="absolute top-1.5 right-1.5 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
                 aria-label={`Remove image ${index + 1}`}
               >
-                <X className="h-4 w-4" />
+                <X className="h-3.5 w-3.5" />
               </button>
             </div>
           ))}

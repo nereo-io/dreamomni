@@ -1,16 +1,7 @@
-'use client';
+"use client";
 
-import { Switch } from '@/components/ui/switch';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
-import { Sparkles } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Switch } from "@/components/ui/switch";
+import { BetaBadge } from "@/components/ui/beta-badge";
 
 interface ImageAgentSectionProps {
   agentMode: boolean;
@@ -32,75 +23,61 @@ export default function ImageAgentSection({
   const totalCredits = creditsPerImage * imageCount;
 
   return (
-    <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">
+    <div className="transition-all duration-300">
       {/* Header with toggle */}
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg">
-            <Sparkles className="h-4 w-4 text-white" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h3 className="text-base font-semibold text-white">Image Agent</h3>
-              <Badge
-                variant="secondary"
-                className="bg-amber-500/20 text-amber-400 text-[10px] px-1.5 py-0 border-0"
-              >
-                BETA
-              </Badge>
-            </div>
-            <p className="text-xs text-gray-400">Multi-angle batch generation</p>
-          </div>
-        </div>
+      <div className="flex items-center justify-between mb-2">
+        <label className="text-gray-300 text-sm flex items-center gap-1.5">
+          Image Agent
+          <BetaBadge />
+        </label>
         <Switch
           checked={agentMode}
           onCheckedChange={onAgentModeChange}
           disabled={disabled}
-          className="data-[state=checked]:bg-amber-500"
         />
       </div>
 
-      {/* Agent mode content */}
+      {/* Agent mode content with collapse animation */}
       {agentMode && (
-        <div className="mt-4 pt-4 border-t border-gray-700/50">
-          {/* Number of images selection */}
-          <div>
-            <label className="block text-sm font-medium text-gray-200 mb-3">
-              Number of images
-            </label>
-            <RadioGroup
-              value={imageCount.toString()}
-              onValueChange={(v) => onImageCountChange(parseInt(v))}
-              className="flex items-center gap-4"
-              disabled={disabled}
-            >
+        <div className="pt-1 pb-1">
+          <div className="flex items-center justify-between">
+            <span className="text-gray-300 text-sm">Image count</span>
+            <div className="flex items-center gap-6">
               {[6, 9, 12].map((count) => (
-                <TooltipProvider key={count}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <div className="flex items-center">
-                        <RadioGroupItem
-                          value={count.toString()}
-                          id={`agent-count-${count}`}
-                          className="border-gray-500 text-amber-500 data-[state=checked]:border-amber-500 data-[state=checked]:bg-amber-500"
-                        />
-                        <Label
-                          htmlFor={`agent-count-${count}`}
-                          className="font-medium text-gray-300 ml-2 cursor-pointer"
-                        >
-                          {count}
-                        </Label>
-                      </div>
-                    </TooltipTrigger>
-                    <TooltipContent side="bottom" className="bg-gray-800 border-gray-700">
-                      <p className="text-xs">
-                        {creditsPerImage} × {count} = {creditsPerImage * count} credits
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <label
+                  key={count}
+                  className="flex items-center cursor-pointer min-w-0"
+                >
+                  <input
+                    type="radio"
+                    name="agent-image-count"
+                    value={count}
+                    checked={imageCount === count}
+                    onChange={() => !disabled && onImageCountChange(count)}
+                    className="sr-only"
+                    disabled={disabled}
+                  />
+                  <div
+                    className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
+                      imageCount === count
+                        ? "border-primary bg-primary"
+                        : "border-gray-500"
+                    } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+                  >
+                    {imageCount === count && (
+                      <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                    )}
+                  </div>
+                  <span
+                    className={`text-gray-300 text-sm ${
+                      disabled ? "opacity-50" : ""
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </label>
               ))}
-            </RadioGroup>
+            </div>
           </div>
         </div>
       )}

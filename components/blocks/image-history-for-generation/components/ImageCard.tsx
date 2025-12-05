@@ -1,5 +1,8 @@
 import React from "react";
+import { Download, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import ImageProgressBar from "./ImageProgressBar";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ImageCardProps {
   imageUrl?: string;
@@ -10,6 +13,8 @@ interface ImageCardProps {
   progress?: number; // 进度百分比 (0-100)
   remainingTime?: number; // 剩余时间（秒）
   onImageClick?: (imageUrl: string, prompt: string) => void;
+  onDownload?: (imageUrl: string, prompt: string, index: number) => void;
+  isDownloading?: boolean;
 }
 
 export const ImageCard: React.FC<ImageCardProps> = ({
@@ -20,8 +25,12 @@ export const ImageCard: React.FC<ImageCardProps> = ({
   isLoading = false,
   progress = 0,
   remainingTime = 0,
-  onImageClick
+  onImageClick,
+  onDownload,
+  isDownloading = false,
 }) => {
+  const isMobile = useIsMobile();
+
   return (
     <div className="relative group cursor-pointer aspect-square">
       {imageUrl && !isLoading ? (
@@ -33,6 +42,28 @@ export const ImageCard: React.FC<ImageCardProps> = ({
             onClick={() => onImageClick?.(imageUrl, `${prompt} (${index + 1}/${total})`)}
             loading="lazy"
           />
+          {/* Hover download button */}
+          {onDownload && (
+            <div className={`absolute top-2 right-2 ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-200 z-10`}>
+              <Button
+                variant="secondary"
+                size="sm"
+                className="bg-black/60 hover:bg-black/80 text-white border-none h-8 w-8 p-0 rounded-md"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDownload(imageUrl, prompt, index);
+                }}
+                disabled={isDownloading}
+                title="Download image"
+              >
+                {isDownloading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Download className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+          )}
           <div className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
             {index + 1}/{total}
           </div>

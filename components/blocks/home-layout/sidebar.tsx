@@ -26,6 +26,7 @@ import { getPricingBlock } from "@/services/page";
 import { useSidebar } from "@/contexts/sidebar";
 import { useTranslations, useLocale } from "next-intl";
 import { FeedbackSection } from "./feedback-section";
+import { BetaBadge } from "@/components/ui/beta-badge";
 
 interface SidebarItem {
   icon: any;
@@ -180,9 +181,7 @@ export function Sidebar() {
               {!isCollapsed && (
                 <span className="flex items-center gap-2">
                   {t(item.labelKey)}
-                  <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-primary text-primary-foreground">
-                    Beta
-                  </span>
+                  <BetaBadge />
                 </span>
               )}
             </Link>

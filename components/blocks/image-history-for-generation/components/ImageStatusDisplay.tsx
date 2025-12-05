@@ -82,6 +82,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [downloadingIndex, setDownloadingIndex] = useState<number | null>(null);
   const t = useTranslations("imageHistory");
 
   const handleDeleteClick = async (e?: React.MouseEvent) => {
@@ -96,10 +97,10 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   
   const handleConfirmDelete = async () => {
     if (!onDelete) return;
-    
+
     setIsDeleting(true);
     setShowDeleteDialog(false);
-    
+
     try {
       await onDelete(image.id, image.prompt || '');
       toast.success(t("imageDeleted"));
@@ -108,6 +109,61 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
       toast.error(t("deleteFailed"));
     } finally {
       setIsDeleting(false);
+    }
+  };
+
+  // Download single image from Agent mode grid - uses proxy URL
+  const handleAgentImageDownload = async (imageUrl: string, prompt: string, index: number) => {
+    if (!imageUrl) {
+      toast.error("Image not available for download");
+      return;
+    }
+
+    setDownloadingIndex(index);
+
+    try {
+      // 生成文件名
+      const safePrompt = prompt.substring(0, 15).replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
+      const urlParts = imageUrl.split('.');
+      const extension = urlParts[urlParts.length - 1]?.split('?')[0]?.toLowerCase() || 'png';
+      const filename = `${safePrompt}_${image.id}_${index + 1}.${extension}`;
+
+      // 使用代理下载以绕过 CORS
+      const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(imageUrl)}&filename=${encodeURIComponent(filename)}`;
+
+      const response = await fetch(proxyUrl);
+      if (!response.ok) throw new Error("Download failed");
+
+      const blob = await response.blob();
+      if (!blob || blob.size === 0) {
+        throw new Error("Empty image blob");
+      }
+
+      const objectUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = objectUrl;
+      a.download = filename;
+      a.style.cssText = "display: none; position: absolute; top: -9999px;";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(objectUrl);
+
+      toast.success("Image downloaded");
+    } catch (error) {
+      console.error("Download failed:", error);
+      // 回退到直接下载
+      try {
+        const a = document.createElement("a");
+        a.href = imageUrl;
+        a.download = `image_${index + 1}.png`;
+        a.target = "_blank";
+        a.click();
+      } catch (fallbackError) {
+        toast.error("Download failed");
+      }
+    } finally {
+      setDownloadingIndex(null);
     }
   };
 
@@ -449,6 +505,8 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
                 index={index}
                 total={allImageUrls.length}
                 onImageClick={onImageClick}
+                onDownload={handleAgentImageDownload}
+                isDownloading={downloadingIndex === index}
               />
             ))}
           </div>
@@ -633,6 +691,8 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
                 progress={progressData.progress}
                 remainingTime={progressData.remainingTime}
                 onImageClick={onImageClick}
+                onDownload={card.isCompleted ? handleAgentImageDownload : undefined}
+                isDownloading={downloadingIndex === index}
               />
             ))}
           </div>
