@@ -196,7 +196,7 @@ export async function expandImagePrompts(
     throw new Error(`Invalid image count: ${imageCount}. Must be 6, 9, or 12.`);
   }
 
-  const hasReferenceImages = referenceImageUrls && referenceImageUrls.length > 0;
+  const hasReferenceImages = !!(referenceImageUrls && referenceImageUrls.length > 0);
 
   console.log(
     `[PromptExpander] Expanding prompt to ${imageCount} variations...`
