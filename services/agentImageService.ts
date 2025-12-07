@@ -93,6 +93,7 @@ export async function generateAgentImages(
 
   // 1. 扩展提示词
   console.log(`[AgentImageService] Expanding prompts...`);
+  const hasReferenceImages = !!(imageInput && imageInput.length > 0);
   const expandedPrompts = await expandImagePrompts(
     prompt,
     imageCount,
