@@ -196,7 +196,9 @@ export async function expandImagePrompts(
     throw new Error(`Invalid image count: ${imageCount}. Must be 6, 9, or 12.`);
   }
 
-  const hasReferenceImages = !!(referenceImageUrls && referenceImageUrls.length > 0);
+  const hasReferenceImages = !!(
+    referenceImageUrls && referenceImageUrls.length > 0
+  );
 
   console.log(
     `[PromptExpander] Expanding prompt to ${imageCount} variations...`
@@ -205,7 +207,9 @@ export async function expandImagePrompts(
     `[PromptExpander] Original: "${originalPrompt.substring(0, 100)}..."`
   );
   console.log(
-    `[PromptExpander] Reference images: ${hasReferenceImages ? referenceImageUrls!.length : 0}`
+    `[PromptExpander] Reference images: ${
+      hasReferenceImages ? referenceImageUrls!.length : 0
+    }`
   );
 
   try {
@@ -217,33 +221,33 @@ export async function expandImagePrompts(
     );
 
     // 构建消息内容 - 支持 vision 模式
-    const messages: any[] = [
-      { role: "system", content: systemPrompt }
-    ];
+    const messages: any[] = [{ role: "system", content: systemPrompt }];
 
     // 如果有参考图片，使用 vision 格式
-    if (hasReferenceImages && referenceImageUrls && referenceImageUrls.length > 0) {
-      const contentParts: any[] = [
-        { type: "text", text: userMessage }
-      ];
+    if (
+      hasReferenceImages &&
+      referenceImageUrls &&
+      referenceImageUrls.length > 0
+    ) {
+      const contentParts: any[] = [{ type: "text", text: userMessage }];
 
       // 添加所有参考图片
       for (const imageUrl of referenceImageUrls) {
         contentParts.push({
           type: "image_url",
-          image_url: { url: imageUrl }
+          image_url: { url: imageUrl },
         });
       }
 
       messages.push({
         role: "user",
-        content: contentParts
+        content: contentParts,
       });
     } else {
       // 纯文本模式
       messages.push({
         role: "user",
-        content: userMessage
+        content: userMessage,
       });
     }
 
@@ -256,6 +260,8 @@ export async function expandImagePrompts(
 
     const content = response.choices[0]?.message?.content;
     const expandedPrompts = parseExpandedPrompts(content);
+    // console.log(content);
+    console.log(expandedPrompts);
 
     // 验证数量
     if (expandedPrompts.length !== imageCount) {
