@@ -67,9 +67,10 @@ export function Sidebar() {
     },
   ];
 
-  const agentItems: SidebarItem[] = [
-    { icon: Film, labelKey: "agent_videos", href: "/agent" },
-  ];
+  // Agent Videos - 暂时隐藏
+  // const agentItems: SidebarItem[] = [
+  //   { icon: Film, labelKey: "agent_videos", href: "/agent" },
+  // ];
 
   const otherItems: SidebarItem[] = [
     { icon: FolderOpen, labelKey: "my_creations", href: "/history" },
@@ -169,6 +170,7 @@ export function Sidebar() {
           ))}
         </div>
 
+        {/* Agent Videos - 暂时隐藏
         <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
           {agentItems.map((item) => (
             <Link
@@ -187,6 +189,7 @@ export function Sidebar() {
             </Link>
           ))}
         </div>
+        */}
 
         {/* Other */}
         <div className={isCollapsed ? "space-y-2" : "space-y-0"}>

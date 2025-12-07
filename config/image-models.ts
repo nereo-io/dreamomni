@@ -29,33 +29,6 @@ export interface ImageModelConfig {
 
 // 图片模型配置
 export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
-  // Nano Banana Pro - 统一模型(文生图 + 图生图) - 默认推荐
-  "nano-banana-pro": {
-    id: "nano-banana-pro",
-    name: "nano-banana-pro",
-    displayName: "Nano Banana Pro",
-    provider: ImageModelProvider.KIE,
-    type: ImageModelType.TEXT_TO_IMAGE,
-    status: "active",
-    features: [
-      "text-to-image",
-      "image-to-image",
-      "high-quality",
-      "4k-resolution",
-    ],
-    credits: 6, // 基础积分 (1K 分辨率)
-    maxInputImages: 5, // 支持最多 8 张参考图
-    supportedAspectRatios: ["Auto", "1:1", "3:4", "9:16", "4:3", "16:9"],
-    supportedResolutions: ["1K", "2K", "4K"],
-    resolutionCredits: {
-      "1K": 6,
-      "2K": 9,
-      "4K": 12,
-    },
-    supportedFormats: ["jpg", "png"],
-    estimatedGenerationTime: 80, // 实测平均 130 秒,留 20 秒余量
-  },
-
   // Nano Banana 标准版 - 文生图
   "nano-banana": {
     id: "nano-banana",
@@ -85,6 +58,32 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
     supportedAspectRatios: ["Auto", "1:1", "3:4", "9:16", "4:3", "16:9"],
     supportedFormats: ["jpg", "png"],
     estimatedGenerationTime: 30, // 实测平均 20 秒,留 5 秒余量
+  },
+  // Nano Banana Pro - 统一模型(文生图 + 图生图) - 默认推荐
+  "nano-banana-pro": {
+    id: "nano-banana-pro",
+    name: "nano-banana-pro",
+    displayName: "Nano Banana Pro",
+    provider: ImageModelProvider.KIE,
+    type: ImageModelType.TEXT_TO_IMAGE,
+    status: "active",
+    features: [
+      "text-to-image",
+      "image-to-image",
+      "high-quality",
+      "4k-resolution",
+    ],
+    credits: 6, // 基础积分 (1K 分辨率)
+    maxInputImages: 5, // 支持最多 8 张参考图
+    supportedAspectRatios: ["1:1", "3:4", "9:16", "4:3", "16:9"],
+    supportedResolutions: ["1K", "2K", "4K"],
+    resolutionCredits: {
+      "1K": 6,
+      "2K": 9,
+      "4K": 12,
+    },
+    supportedFormats: ["jpg", "png"],
+    estimatedGenerationTime: 80, // 实测平均 130 秒,留 20 秒余量
   },
 };
 
