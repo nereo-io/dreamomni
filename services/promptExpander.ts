@@ -13,60 +13,75 @@ const llmClient = new OpenAI({
   baseURL: process.env.EVOLINK_BASE_URL || "https://api.evolink.ai/v1",
 });
 
-// 用户场景类型
-export type UserContext = "ecommerce" | "comic" | "general";
-
-// 扩展提示词结果
-export interface ExpandedPromptsResult {
-  prompts: string[];
-  originalPrompt: string;
-  context: UserContext;
-}
-
 /**
- * 构建系统提示词
+ * 构建统一系统提示词 - LLM 自动判断场景类型
  */
-function buildSystemPrompt(context: UserContext): string {
-  const base = `You are a professional image generation prompt expansion expert.
-Your task is to expand a simple user prompt into multiple detailed prompts covering different angles, scenes, and lighting effects.
+function buildSystemPrompt(): string {
+  return `You are a professional image generation prompt expansion expert.
+Your task is to analyze the user's input, identify the scene type, and expand it into multiple detailed prompts covering different angles, scenes, and lighting effects.
 
-Rules:
-1. Maintain consistency of the original subject/product/character
+STEP 1: Scene Type Identification
+First, analyze the user's prompt and identify which scene type it belongs to:
+
+1. **E-commerce/Product Photography**: Product shots, merchandise, commercial items, things meant to be sold
+   - Focus: Product details, textures, clean backgrounds, brand aesthetics
+   - Examples: "wireless headphones", "coffee mug", "leather bag", "skincare bottle"
+
+2. **Comic/Story/Narrative**: Characters, storylines, manga-style, sequential art, dramatic scenes
+   - Focus: Story coherence, character consistency, cinematic angles, emotional impact
+   - Examples: "a hero fighting a dragon", "girl walking in rain", "detective in dark alley"
+
+3. **General/Artistic**: Landscapes, abstract art, conceptual pieces, general scenes
+   - Focus: Artistic expression, diverse perspectives, creative interpretation
+   - Examples: "sunset over mountains", "abstract colorful patterns", "futuristic city"
+
+4. **Other Scenarios**: Use your judgment to create appropriate variations
+   - Examples: architecture, food photography, portraits, nature, etc.
+
+STEP 2: Expansion Rules (Apply Based on Scene Type)
+
+**Core Rules (All Scenarios):**
+1. Maintain consistency of the original subject/product/character across all variations
 2. Each expanded prompt must be independent and complete, ready for direct use in image generation
-3. Cover multiple viewing angles: front view, side view, top-down view, 45-degree angle, close-up, etc.
-4. Cover multiple scenes: studio, outdoor, lifestyle, minimalist background, etc.
-5. Cover multiple lighting effects: natural light, studio lighting, dramatic shadows, soft diffused light, etc.
+3. Cover multiple viewing angles: front view, side view, top-down view, 45-degree angle, close-up, wide shot, etc.
+4. Cover multiple scenes/backgrounds: studio, outdoor, lifestyle, minimalist, contextual, etc.
+5. Cover multiple lighting effects: natural light, studio lighting, dramatic shadows, soft diffused light, golden hour, etc.
 6. Each prompt should be 1-2 sentences, detailed but concise
 7. Output as a JSON array of strings
-8. Write all prompts in English`;
+8. Write all prompts in English
 
-  if (context === "ecommerce") {
-    return (
-      base +
-      `
+**Scene-Specific Enhancement:**
 
-Special focus for e-commerce:
-- Product details and textures
-- Clean backgrounds with appropriate white space for text overlay
-- Brand aesthetics and premium feel
-- Multiple product angles for online shopping
-- Lifestyle shots showing the product in use`
-    );
-  } else if (context === "comic") {
-    return (
-      base +
-      `
+For E-commerce:
+- Emphasize product details, textures, and material quality
+- Include clean backgrounds with white space for potential text overlay
+- Add lifestyle context showing product in use
+- Ensure premium feel and brand aesthetics
+- Multiple practical angles for online shopping
 
-Special focus for comic/manga:
-- Story coherence and narrative flow
-- Character consistency across different scenes
-- Cinematic camera angles and composition
-- Dramatic lighting for emotional impact
-- Action poses and dynamic compositions`
-    );
-  }
+For Comic/Story:
+- Maintain character consistency across all variations
+- Use cinematic camera angles and dynamic composition
+- Add dramatic lighting for emotional impact
+- Include action poses and movement
+- Ensure narrative coherence between different angles
 
-  return base;
+For General/Artistic:
+- Emphasize artistic interpretation and creative freedom
+- Explore diverse visual styles and moods
+- Balance between realistic and stylized approaches
+- Focus on composition and visual impact
+
+For Other Scenarios:
+- Apply the most relevant principles from above
+- Use professional photography/art direction standards
+- Adapt to the specific subject matter appropriately
+
+STEP 3: Output Format
+Return ONLY a JSON array of prompt strings. Do not include scene type analysis in the output.
+
+Example output:
+["A sleek wireless headphone on white studio background, front view, soft natural lighting, product photography, 8k resolution", "A sleek wireless headphone in modern living room setting, 45-degree angle view, warm ambient light, lifestyle photography", ...]`;
 }
 
 /**
@@ -86,8 +101,15 @@ Please expand this into ${count} different detailed prompts, each covering a uni
 
 ${
   hasReferenceImages
-    ? "Note: The user has provided reference images, so maintain visual consistency with the reference style."
-    : ""
+    ? `IMPORTANT: The user has provided reference images (attached below). Analyze these images carefully:
+- Identify the visual style, color palette, and artistic direction
+- Note the character/object design, proportions, and key features
+- Understand the mood, atmosphere, and aesthetic preferences
+- Maintain STRICT visual consistency with the reference images in all expanded prompts
+- Preserve the character/object identity and style across different angles and scenes
+- If it's a character, keep their appearance, clothing, and distinctive features consistent
+- If it's a product, maintain its design, materials, and brand identity`
+    : "Create diverse variations while maintaining consistency with the described subject."
 }
 
 Output format: A JSON array of ${count} complete prompt strings. Each prompt should be ready for direct use in image generation.
@@ -152,19 +174,17 @@ function parseExpandedPrompts(content: string | null): string[] {
 }
 
 /**
- * 扩展图片提示词
+ * 扩展图片提示词 - LLM 自动判断场景类型
  *
  * @param originalPrompt - 用户原始提示词
  * @param imageCount - 需要生成的图片数量 (6, 9, 或 12)
- * @param hasReferenceImages - 是否有参考图片
- * @param userContext - 用户场景 ('ecommerce', 'comic', 或 'general')
+ * @param referenceImageUrls - 参考图片 URL 数组（可选）
  * @returns 扩展后的提示词数组
  */
 export async function expandImagePrompts(
   originalPrompt: string,
   imageCount: number,
-  hasReferenceImages: boolean = false,
-  userContext: UserContext = "general"
+  referenceImageUrls?: string[]
 ): Promise<string[]> {
   // 验证 API 配置
   if (!process.env.EVOLINK_API_KEY) {
@@ -176,6 +196,8 @@ export async function expandImagePrompts(
     throw new Error(`Invalid image count: ${imageCount}. Must be 6, 9, or 12.`);
   }
 
+  const hasReferenceImages = referenceImageUrls && referenceImageUrls.length > 0;
+
   console.log(
     `[PromptExpander] Expanding prompt to ${imageCount} variations...`
   );
@@ -183,23 +205,51 @@ export async function expandImagePrompts(
     `[PromptExpander] Original: "${originalPrompt.substring(0, 100)}..."`
   );
   console.log(
-    `[PromptExpander] Context: ${userContext}, Has reference: ${hasReferenceImages}`
+    `[PromptExpander] Reference images: ${hasReferenceImages ? referenceImageUrls!.length : 0}`
   );
 
   try {
-    const systemPrompt = buildSystemPrompt(userContext);
+    const systemPrompt = buildSystemPrompt();
     const userMessage = buildUserMessage(
       originalPrompt,
       imageCount,
       hasReferenceImages
     );
 
+    // 构建消息内容 - 支持 vision 模式
+    const messages: any[] = [
+      { role: "system", content: systemPrompt }
+    ];
+
+    // 如果有参考图片，使用 vision 格式
+    if (hasReferenceImages && referenceImageUrls && referenceImageUrls.length > 0) {
+      const contentParts: any[] = [
+        { type: "text", text: userMessage }
+      ];
+
+      // 添加所有参考图片
+      for (const imageUrl of referenceImageUrls) {
+        contentParts.push({
+          type: "image_url",
+          image_url: { url: imageUrl }
+        });
+      }
+
+      messages.push({
+        role: "user",
+        content: contentParts
+      });
+    } else {
+      // 纯文本模式
+      messages.push({
+        role: "user",
+        content: userMessage
+      });
+    }
+
     const response = await llmClient.chat.completions.create({
       model: "gemini-3-pro-preview",
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: userMessage },
-      ],
+      messages,
       temperature: 0.8, // 适度的创意性
       max_tokens: 4000,
     });

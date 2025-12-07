@@ -21,7 +21,6 @@ import { NextRequest } from "next/server";
 import { getClientIp } from "@/lib/ip";
 import { calculateImageCredits } from "@/config/image-models";
 import { generateAgentImages } from "@/services/agentImageService";
-import type { UserContext } from "@/services/promptExpander";
 
 // 验证Cloudflare Turnstile CAPTCHA
 async function verifyCaptcha(
@@ -130,7 +129,6 @@ export async function POST(req: NextRequest) {
       // Agent 模式参数
       agent_mode = false,
       agent_image_count = 6,
-      agent_context = "general",
     } = await req.json();
 
     // 验证必需参数
@@ -213,7 +211,6 @@ export async function POST(req: NextRequest) {
           provider: selectedProvider,
           outputFormat: output_format,
           imageSize: image_size,
-          userContext: agent_context as UserContext,
           metadata: {
             request_source: "api",
             user_agent: req.headers.get("user-agent"),

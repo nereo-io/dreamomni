@@ -189,7 +189,6 @@ export interface ImageGenerationParams {
   // Agent 模式参数
   agent_mode?: boolean;                 // 是否开启 Agent 模式
   agent_image_count?: number;           // Agent 模式生成数量 (6, 9, 12)
-  agent_context?: "ecommerce" | "comic" | "general"; // 用户场景
 }
 
 // 历史记录显示接口

@@ -4,7 +4,7 @@
  */
 
 import pLimit from "p-limit";
-import { expandImagePrompts, UserContext } from "./promptExpander";
+import { expandImagePrompts } from "./promptExpander";
 import { aiServiceManager } from "./AIServiceManager";
 import {
   createImageGeneration,
@@ -38,7 +38,6 @@ export interface AgentGenerationParams {
   provider: AIServiceProvider;
   outputFormat?: "png" | "jpeg";
   imageSize?: ImageSizeType;
-  userContext?: UserContext;
   metadata?: Record<string, any>;
 }
 
@@ -84,7 +83,6 @@ export async function generateAgentImages(
     provider,
     outputFormat,
     imageSize,
-    userContext = "general",
     metadata = {},
   } = params;
 
@@ -95,12 +93,10 @@ export async function generateAgentImages(
 
   // 1. 扩展提示词
   console.log(`[AgentImageService] Expanding prompts...`);
-  const hasReferenceImages = imageInput && imageInput.length > 0;
   const expandedPrompts = await expandImagePrompts(
     prompt,
     imageCount,
-    hasReferenceImages,
-    userContext
+    imageInput // 直接传递图片 URL 数组
   );
 
   console.log(
@@ -152,7 +148,6 @@ export async function generateAgentImages(
       is_agent_mode: true, // 同时保留在 metadata 中作为备份
       agent_image_count: imageCount,
       expanded_prompts: expandedPrompts,
-      user_context: userContext,
       resolution,
       output_format: outputFormat,
       credit_deduction: {
