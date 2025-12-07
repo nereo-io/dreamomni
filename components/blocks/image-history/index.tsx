@@ -61,12 +61,14 @@ export interface ImageGenerationResult {
   expanded_prompts?: string[];
   metadata?: {
     agent_tasks?: Array<{
-      taskId?: string;
-      status?: string;
+      taskId: string;
+      status: 'completed' | 'failed' | 'pending';
       imageUrl?: string;
       r2Url?: string;
+      completedAt?: string;
+      error?: string;
     }>;
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 

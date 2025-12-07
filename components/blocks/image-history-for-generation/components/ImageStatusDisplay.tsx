@@ -656,8 +656,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
       // 构建每个卡片的状态：优先用 agentTasks，否则用 currentImageUrls
       const cardStates = Array.from({ length: agentImageCount }).map((_, index) => {
         const task = agentTasks[index];
-        // 兼容 camelCase 和 snake_case 字段名
-        const taskImageUrl = task?.r2Url || task?.r2_url || task?.imageUrl || task?.image_url;
+        const taskImageUrl = task?.r2Url || task?.imageUrl;
         const taskCompleted = task?.status === 'completed' || !!taskImageUrl;
 
         // 如果 agentTasks 没数据，回退到 currentImageUrls 数组

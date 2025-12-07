@@ -13,6 +13,12 @@ export interface ImageGenerationResult {
   updated_at: string;
   credits_used: number;
   error_message?: string;
+  // Agent mode fields
+  is_agent_mode?: boolean;
+  agent_image_count?: number;
+  image_urls?: string[];
+  image_urls_r2?: string[];
+  metadata?: Record<string, unknown>;
 }
 
 export type { ImageGenerationParams };
