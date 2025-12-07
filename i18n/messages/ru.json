@@ -548,7 +548,10 @@
     "generationStarted": "Генерация изображения начата.",
     "generationCompleted": "Генерация изображения завершена!",
     "generationInProgress": "Генерация...",
-    "generationStatusChecking": "Проверяем статус..."
+    "generationStatusChecking": "Проверяем статус...",
+    "imageAgent": "Image Agent",
+    "imageCount": "Результаты",
+    "generateMultipleImages": "Сгенерировать {count} изображений"
   },
   "myCreations": {
     "title": "Мои Творения",

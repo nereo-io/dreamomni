@@ -550,7 +550,10 @@
     "generationInProgress": "Generating...",
     "generationStatusChecking": "Checking status...",
     "showcaseImageLoaded": "Showcase image loaded successfully",
-    "failedToLoadShowcaseImage": "Failed to load showcase image"
+    "failedToLoadShowcaseImage": "Failed to load showcase image",
+    "imageAgent": "Image Agent",
+    "imageCount": "Outputs",
+    "generateMultipleImages": "Generate {count} Images"
   },
   "myCreations": {
     "title": "My Creations",

@@ -2,6 +2,7 @@
 
 import { Switch } from "@/components/ui/switch";
 import { BetaBadge } from "@/components/ui/beta-badge";
+import { useTranslations } from "next-intl";
 
 interface ImageAgentSectionProps {
   agentMode: boolean;
@@ -20,6 +21,7 @@ export default function ImageAgentSection({
   creditsPerImage,
   disabled = false,
 }: ImageAgentSectionProps) {
+  const t = useTranslations("imageGenerator");
   const totalCredits = creditsPerImage * imageCount;
 
   return (
@@ -27,7 +29,7 @@ export default function ImageAgentSection({
       {/* Header with toggle */}
       <div className="flex items-center justify-between mb-2">
         <label className="text-gray-300 text-sm flex items-center gap-1.5">
-          Image Agent
+          {t("imageAgent")}
           <BetaBadge />
         </label>
         <Switch
@@ -41,7 +43,7 @@ export default function ImageAgentSection({
       {agentMode && (
         <div className="pt-1 pb-1">
           <div className="flex items-center justify-between">
-            <span className="text-gray-300 text-sm">Image count</span>
+            <span className="text-gray-300 text-sm">{t("imageCount")}</span>
             <div className="flex items-center gap-6">
               {[6, 9, 12].map((count) => (
                 <label

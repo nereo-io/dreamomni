@@ -550,7 +550,10 @@
     "generationInProgress": "Génération en cours...",
     "generationStatusChecking": "Vérification du statut...",
     "showcaseImageLoaded": "Image vitrine chargée avec succès",
-    "failedToLoadShowcaseImage": "Échec du chargement de l'image vitrine"
+    "failedToLoadShowcaseImage": "Échec du chargement de l'image vitrine",
+    "imageAgent": "Image Agent",
+    "imageCount": "Sorties",
+    "generateMultipleImages": "Générer {count} images"
   },
   "myCreations": {
     "title": "Mes créations",
