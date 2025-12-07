@@ -551,7 +551,8 @@
     "generationStatusChecking": "Checking status...",
     "showcaseImageLoaded": "Showcase image loaded successfully",
     "failedToLoadShowcaseImage": "Failed to load showcase image",
-    "imageAgent": "Image Agent",
+    "imageAgent": "Multi-Shot Generation",
+    "imageAgentTooltip": "AI expands your prompt into multiple angles, scenes, and lighting variations. Perfect for product photography, comic storyboards, and creative exploration.",
     "imageCount": "Outputs",
     "generateMultipleImages": "Generate {count} Images"
   },

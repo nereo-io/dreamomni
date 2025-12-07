@@ -3,6 +3,13 @@
 import { Switch } from "@/components/ui/switch";
 import { BetaBadge } from "@/components/ui/beta-badge";
 import { useTranslations } from "next-intl";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { HelpCircle } from "lucide-react";
 
 interface ImageAgentSectionProps {
   agentMode: boolean;
@@ -31,6 +38,16 @@ export default function ImageAgentSection({
         <label className="text-gray-300 text-sm flex items-center gap-1.5">
           {t("imageAgent")}
           <BetaBadge />
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+              </TooltipTrigger>
+              <TooltipContent className="max-w-xs">
+                <p className="text-sm">{t("imageAgentTooltip")}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </label>
         <Switch
           checked={agentMode}

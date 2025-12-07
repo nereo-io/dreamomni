@@ -549,7 +549,8 @@
     "generationCompleted": "Генерация изображения завершена!",
     "generationInProgress": "Генерация...",
     "generationStatusChecking": "Проверяем статус...",
-    "imageAgent": "Image Agent",
+    "imageAgent": "Multi-Shot Generation",
+    "imageAgentTooltip": "AI expands your prompt into multiple angles, scenes, and lighting variations. Perfect for product photography, comic storyboards, and creative exploration.",
     "imageCount": "Результаты",
     "generateMultipleImages": "Сгенерировать {count} изображений"
   },
