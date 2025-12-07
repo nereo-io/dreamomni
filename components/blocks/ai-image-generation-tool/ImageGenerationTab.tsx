@@ -936,7 +936,9 @@ export default function ImageGenerationTab({
                 <Wand2 className="h-4 w-4 mr-2" />
                 <span className="truncate">
                   {agentMode
-                    ? t("generateMultipleImages", { count: agentImageCount })
+                    ? isImageToImage
+                      ? t("transformMultipleImages", { count: agentImageCount })
+                      : t("generateMultipleImages", { count: agentImageCount })
                     : isImageToImage
                     ? t("transformImage")
                     : t("generateImage")}

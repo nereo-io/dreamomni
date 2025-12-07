@@ -508,6 +508,7 @@
     "recharge": "Aufladen",
     "generateImage": "Bild generieren",
     "transformImage": "Bild transformieren",
+    "transformMultipleImages": "{count} Bilder transformieren",
     "generating": "Wird generiert...",
     "uploading": "Wird hochgeladen...",
     "clickToUpload": "Klicken zum Hochladen oder Drag & Drop",

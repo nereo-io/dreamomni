@@ -508,6 +508,7 @@
     "recharge": "Пополнить",
     "generateImage": "Создать изображение",
     "transformImage": "Трансформировать изображение",
+    "transformMultipleImages": "Трансформировать {count} изображений",
     "generating": "Генерация...",
     "uploading": "Загрузка...",
     "clickToUploadMultiple": "Нажмите для загрузки нескольких изображений или перетащите их",

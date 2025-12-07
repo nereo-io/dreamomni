@@ -508,6 +508,7 @@
     "recharge": "Recharger",
     "generateImage": "Générer une image",
     "transformImage": "Transformer l'image",
+    "transformMultipleImages": "Transformer {count} images",
     "generating": "Génération en cours...",
     "uploading": "Téléchargement en cours...",
     "clickToUpload": "Cliquez pour télécharger ou glisser-déposer",
