@@ -5,6 +5,7 @@ import { ImageIcon, X, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { validateImage } from "@/config/image-validation-rules";
+import { uploadImageToR2 } from "@/lib/upload-utils";
 
 interface ImageGridUploaderProps {
   maxImages?: number; // 默认 3，支持配置为 5 等
@@ -40,7 +41,7 @@ export function ImageGridUploader({
     }
   }, [initialImages, onImagesChange]);
 
-  // 上传单个文件（直传 R2，绕过 Vercel 4.5MB 限制）
+  // 上传单个文件（使用统一的上传工具）
   const uploadFile = async (file: File): Promise<string | null> => {
     const validationResult = await validateImage(file, selectedModel);
     if (!validationResult.valid) {
@@ -49,36 +50,7 @@ export function ImageGridUploader({
     }
 
     try {
-      // 1. 获取 presigned URL
-      const presignResponse = await fetch("/api/upload/presign", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          filename: file.name,
-          contentType: file.type,
-          fileSize: file.size,
-        }),
-      });
-
-      const presignResult = await presignResponse.json();
-      if (presignResult.code !== 0) {
-        throw new Error(presignResult.message || "Failed to get upload URL");
-      }
-
-      const { presignedUrl, publicUrl } = presignResult.data;
-
-      // 2. 直传 R2
-      const uploadResponse = await fetch(presignedUrl, {
-        method: "PUT",
-        headers: { "Content-Type": file.type },
-        body: file,
-      });
-
-      if (!uploadResponse.ok) {
-        throw new Error(`Upload failed: ${uploadResponse.status}`);
-      }
-
-      return publicUrl;
+      return await uploadImageToR2(file);
     } catch (error) {
       console.error("Upload error:", error);
       toast.error("Failed to upload image");
