@@ -106,7 +106,7 @@ const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
       )}
 
       {/* Prompt */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 max-w-2xl text-center text-white/80 text-sm bg-black/50 px-4 py-2 rounded">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 max-w-2xl text-center text-white/80 text-sm bg-black/50 px-4 py-2 rounded overflow-hidden max-h-[4.5rem]">
         {prompt}
       </div>
     </div>
