@@ -52,7 +52,6 @@ export default function ImageHistoryForGeneration({
   userId,
   newImage,
 }: ImageHistoryForGenerationProps) {
-  
   const [images, setImages] = useState<ImageGenerationResult[]>([]);
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
   const [userStateConfirmed, setUserStateConfirmed] = useState(false);
@@ -64,12 +63,18 @@ export default function ImageHistoryForGeneration({
   const pollingIntervalsRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
 
   // Featured images state
-  const [featuredImages, setFeaturedImages] = useState<PromptInspirationItem[]>([]);
+  const [featuredImages, setFeaturedImages] = useState<PromptInspirationItem[]>(
+    []
+  );
   const [featuredLoading, setFeaturedLoading] = useState(false);
-  
+
   // Modal state
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState<{ url: string; prompt: string; index: number } | null>(null);
+  const [previewImage, setPreviewImage] = useState<{
+    url: string;
+    prompt: string;
+    index: number;
+  } | null>(null);
 
   // Get all available image URLs from history (including Agent mode multiple images)
   const getAllImageUrls = useCallback(() => {
@@ -78,8 +83,13 @@ export default function ImageHistoryForGeneration({
     images.forEach((image) => {
       if (image.status === "completed" || image.status === "saved_to_r2") {
         // Agent 模式：多张图片
-        if (image.is_agent_mode && (image.image_urls_r2?.length || image.image_urls?.length)) {
-          const urls = image.image_urls_r2?.length ? image.image_urls_r2 : image.image_urls!;
+        if (
+          image.is_agent_mode &&
+          (image.image_urls_r2?.length || image.image_urls?.length)
+        ) {
+          const urls = image.image_urls_r2?.length
+            ? image.image_urls_r2
+            : image.image_urls!;
           urls.forEach((url, idx) => {
             allUrls.push({
               url,
@@ -101,7 +111,7 @@ export default function ImageHistoryForGeneration({
 
     return allUrls;
   }, [images]);
-  
+
   const { user, setShowSignModal } = useAppContext();
   const { status: sessionStatus } = useSession();
   const [activeTab, setActiveTab] = useState<"discovery" | "history" | null>(
@@ -109,7 +119,7 @@ export default function ImageHistoryForGeneration({
   );
   const [hasUserSelectedTab, setHasUserSelectedTab] = useState(false);
   const defaultTabSetRef = useRef(false);
-  
+
   // Incomplete statuses now defined in imagePollingService config
   const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -122,7 +132,8 @@ export default function ImageHistoryForGeneration({
       requestAnimationFrame(() => {
         setTimeout(() => {
           if (scrollAreaRef.current) {
-            scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+            scrollAreaRef.current.scrollTop =
+              scrollAreaRef.current.scrollHeight;
           }
         }, 0);
       });
@@ -145,15 +156,17 @@ export default function ImageHistoryForGeneration({
       const data = await response.json();
 
       if (data.code === 0 && Array.isArray(data.data)) {
-        const transformedItems: PromptInspirationItem[] = data.data.map((item: any) => ({
-          id: item.id,
-          title: item.title,
-          prompt: item.prompt,
-          imageUrl: item.imageUrl,
-          inputImageUrl: item.inputImageUrl,
-          aspectRatio: item.aspectRatio,
-          model: item.model
-        }));
+        const transformedItems: PromptInspirationItem[] = data.data.map(
+          (item: any) => ({
+            id: item.id,
+            title: item.title,
+            prompt: item.prompt,
+            imageUrl: item.imageUrl,
+            inputImageUrl: item.inputImageUrl,
+            aspectRatio: item.aspectRatio,
+            model: item.model,
+          })
+        );
         setFeaturedImages(transformedItems);
       }
     } catch (error) {
@@ -187,20 +200,25 @@ export default function ImageHistoryForGeneration({
         console.error("Failed to parse response JSON:", parseError);
         throw new Error("Invalid response format from server");
       }
-      
+
       // 检查响应格式
-      if (typeof result !== 'object' || result === null) {
+      if (typeof result !== "object" || result === null) {
         throw new Error("Invalid response format");
       }
 
       if (response.ok && result.code === 0) {
         // 从列表中移除已删除的图片，不需要重新获取整个列表
-        setImages(prevImages => prevImages.filter(img => img.id !== imageId));
+        setImages((prevImages) =>
+          prevImages.filter((img) => img.id !== imageId)
+        );
       } else {
-        throw new Error(result.message || `Delete failed: HTTP ${response.status}`);
+        throw new Error(
+          result.message || `Delete failed: HTTP ${response.status}`
+        );
       }
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Failed to delete image";
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to delete image";
       throw error; // 重新抛出错误，让UI组件处理
     }
   };
@@ -209,7 +227,9 @@ export default function ImageHistoryForGeneration({
 
   // 创建代理下载 URL - 绕过 CORS
   const createProxyDownloadUrl = (sourceUrl: string, filename: string) =>
-    `/api/proxy-image?url=${encodeURIComponent(sourceUrl)}&filename=${encodeURIComponent(filename)}`;
+    `/api/proxy-image?url=${encodeURIComponent(
+      sourceUrl
+    )}&filename=${encodeURIComponent(filename)}`;
 
   const triggerDownload = (href: string, filename: string) => {
     const downloadLink = document.createElement("a");
@@ -239,9 +259,13 @@ export default function ImageHistoryForGeneration({
     }
 
     // 生成文件名
-    const safePrompt = image.prompt.substring(0, 20).replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
-    const urlParts = imageUrl.split('.');
-    const extension = urlParts[urlParts.length - 1]?.split('?')[0]?.toLowerCase() || 'png';
+    const safePrompt = image.prompt
+      .substring(0, 20)
+      .replace(/[^a-zA-Z0-9\s]/g, "")
+      .replace(/\s+/g, "_");
+    const urlParts = imageUrl.split(".");
+    const extension =
+      urlParts[urlParts.length - 1]?.split("?")[0]?.toLowerCase() || "png";
     const filename = `${safePrompt}_${image.id}.${extension}`;
 
     const proxyUrl = createProxyDownloadUrl(imageUrl, filename);
@@ -284,24 +308,25 @@ export default function ImageHistoryForGeneration({
     } finally {
       // 确保加载动画显示足够时间
       await minimumSpinnerDelay;
-      setDownloadingId((current) =>
-        current === image.id ? null : current
-      );
+      setDownloadingId((current) => (current === image.id ? null : current));
     }
   };
 
   // Handle image click
-  const handleImageClick = useCallback((imageUrl: string, prompt: string) => {
-    const allUrls = getAllImageUrls();
-    const index = allUrls.findIndex((img) => img.url === imageUrl);
+  const handleImageClick = useCallback(
+    (imageUrl: string, prompt: string) => {
+      const allUrls = getAllImageUrls();
+      const index = allUrls.findIndex((img) => img.url === imageUrl);
 
-    setPreviewImage({
-      url: imageUrl,
-      prompt,
-      index: index >= 0 ? index : 0,
-    });
-    setPreviewModalOpen(true);
-  }, [getAllImageUrls]);
+      setPreviewImage({
+        url: imageUrl,
+        prompt,
+        index: index >= 0 ? index : 0,
+      });
+      setPreviewModalOpen(true);
+    },
+    [getAllImageUrls]
+  );
 
   // Navigate to previous image
   const handlePreviousImage = useCallback(() => {
@@ -356,7 +381,7 @@ export default function ImageHistoryForGeneration({
 
       if (response.ok) {
         const data = await response.json();
-        
+
         if (data.code === 0 && data.data) {
           // 处理新的嵌套数据结构：data.data.data 和 data.data.pagination
           const imageData = Array.isArray(data.data.data) ? data.data.data : [];
@@ -364,20 +389,18 @@ export default function ImageHistoryForGeneration({
           // 显示所有类型的图片，不进行过滤
           const allData = imageData;
 
-
           // 数据库返回的是按创建时间倒序排列（最新的在前）
           // 为了在UI中实现"最新的在底部"的效果，我们需要反转数组
           // 这样最新的内容就会在数组的最后，显示在底部
           const reversedData = [...allData].reverse();
 
           setImages(reversedData);
-          
+
           // 标记初次加载完成
           setInitialLoadComplete(true);
-          
 
           // Background task updates now handled by imagePollingService in useEffect
-          
+
           // 滚动到底部显示最新内容
           setScrollToBottomFlag(true);
         } else {
@@ -386,7 +409,11 @@ export default function ImageHistoryForGeneration({
           setInitialLoadComplete(true);
         }
       } else {
-        console.error("❌ Failed to fetch image history:", response.status, response.statusText);
+        console.error(
+          "❌ Failed to fetch image history:",
+          response.status,
+          response.statusText
+        );
         setImages([]);
         setInitialLoadComplete(true);
       }
@@ -441,7 +468,10 @@ export default function ImageHistoryForGeneration({
   // Handle new image - 添加到底部
   useEffect(() => {
     if (newImage && newImage.id) {
-      setImages(prev => [...prev.filter(img => img.id !== newImage.id), newImage]);
+      setImages((prev) => [
+        ...prev.filter((img) => img.id !== newImage.id),
+        newImage,
+      ]);
       // 新图片添加后自动滚动到底部
       setScrollToBottomFlag(true);
     }
@@ -455,7 +485,8 @@ export default function ImageHistoryForGeneration({
       requestAnimationFrame(() => {
         setTimeout(() => {
           if (scrollAreaRef.current) {
-            scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+            scrollAreaRef.current.scrollTop =
+              scrollAreaRef.current.scrollHeight;
             setScrollToBottomFlag(false);
           }
         }, 0);
@@ -465,7 +496,7 @@ export default function ImageHistoryForGeneration({
 
   // 使用轮询服务管理图片状态更新
   const pollingIdRef = useRef<string | null>(null);
-  
+
   useEffect(() => {
     if (!user?.uuid || images.length === 0) {
       return;
@@ -479,17 +510,22 @@ export default function ImageHistoryForGeneration({
     // 检查是否有需要轮询的图片
     const now = Date.now();
     const maxDuration = 5 * 60 * 1000; // 5分钟
-    const incompleteStatuses = ['pending', 'prompt_optimizing', 'in_queue', 'in_progress'];
-    
-    const hasActiveImages = images.some(img => {
+    const incompleteStatuses = [
+      "pending",
+      "prompt_optimizing",
+      "in_queue",
+      "in_progress",
+    ];
+
+    const hasActiveImages = images.some((img) => {
       const statusLower = img.status.toLowerCase();
       if (!incompleteStatuses.includes(statusLower)) {
         return false;
       }
-      
+
       // 检查是否在5分钟内创建
       const createdTime = new Date(img.created_at).getTime();
-      return (now - createdTime) < maxDuration;
+      return now - createdTime < maxDuration;
     });
 
     if (!hasActiveImages) {
@@ -499,33 +535,39 @@ export default function ImageHistoryForGeneration({
 
     // 转换类型以符合服务接口
     const imagesToPoll = images as unknown as ImageGenerationHistoryItem[];
-    
+
     // 启动轮询
     const pollingId = imagePollingService.startPolling(
       imagesToPoll,
       {
         onUpdate: (updates) => {
           // 批量更新图片状态，保留 Agent 模式关键字段
-          setImages(prevImages => {
+          setImages((prevImages) => {
             const newImages = [...prevImages];
-            updates.forEach(update => {
-              const index = newImages.findIndex(img => img.id === update.id);
+            updates.forEach((update) => {
+              const index = newImages.findIndex((img) => img.id === update.id);
               if (index !== -1) {
                 const existing = newImages[index];
-                const updateData = update.data as Partial<ImageGenerationResult>;
+                const updateData =
+                  update.data as Partial<ImageGenerationResult>;
 
                 // 合并更新，确保 Agent 模式字段不丢失
                 newImages[index] = {
                   ...existing,
                   ...updateData,
                   // 保留 Agent 模式关键字段（如果轮询返回未包含则保留原值）
-                  is_agent_mode: updateData.is_agent_mode ?? existing.is_agent_mode,
-                  agent_image_count: updateData.agent_image_count ?? existing.agent_image_count,
-                  expanded_prompts: updateData.expanded_prompts ?? existing.expanded_prompts,
+                  is_agent_mode:
+                    updateData.is_agent_mode ?? existing.is_agent_mode,
+                  agent_image_count:
+                    updateData.agent_image_count ?? existing.agent_image_count,
+                  expanded_prompts:
+                    updateData.expanded_prompts ?? existing.expanded_prompts,
                   // 合并 image_urls_r2（优先使用新数据，否则保留原值）
-                  image_urls_r2: (updateData.image_urls_r2 && updateData.image_urls_r2.length > 0)
-                    ? updateData.image_urls_r2
-                    : existing.image_urls_r2,
+                  image_urls_r2:
+                    updateData.image_urls_r2 &&
+                    updateData.image_urls_r2.length > 0
+                      ? updateData.image_urls_r2
+                      : existing.image_urls_r2,
                 } as ImageGenerationResult;
               }
             });
@@ -534,13 +576,16 @@ export default function ImageHistoryForGeneration({
         },
         onTimeout: (image) => {
           // 处理超时的图片
-          setImages(prevImages => {
-            const newImages = prevImages.map(img => 
-              img.id === image.id 
-                ? { ...img, status: 'failed', error_message: '生成超时（超过5分钟）' } as ImageGenerationResult
+          setImages((prevImages) => {
+            const newImages = prevImages.map((img) =>
+              img.id === image.id
+                ? ({
+                    ...img,
+                    status: "failed",
+                    error_message: "生成超时（超过5分钟）",
+                  } as ImageGenerationResult)
                 : img
             );
-            
 
             return newImages;
           });
@@ -551,12 +596,12 @@ export default function ImageHistoryForGeneration({
         },
         onError: (error, imageId) => {
           console.error(`Error updating image ${imageId}:`, error);
-        }
+        },
       },
       {
-        interval: 3000,           // 3秒轮询间隔
+        interval: 3000, // 3秒轮询间隔
         maxDuration: maxDuration, // 5分钟超时
-        incompleteStatuses: incompleteStatuses
+        incompleteStatuses: incompleteStatuses,
       }
     );
 
@@ -612,7 +657,13 @@ export default function ImageHistoryForGeneration({
     }
 
     defaultTabSetRef.current = true;
-  }, [sessionStatus, initialLoadComplete, images.length, hasUserSelectedTab, activeTab]);
+  }, [
+    sessionStatus,
+    initialLoadComplete,
+    images.length,
+    hasUserSelectedTab,
+    activeTab,
+  ]);
 
   const handleTabChange = (tab: "discovery" | "history") => {
     setActiveTab(tab);
@@ -625,9 +676,7 @@ export default function ImageHistoryForGeneration({
       <h3 className="text-xl font-semibold text-gray-100 mb-2">
         {t("pleaseSignIn")}
       </h3>
-      <p className="text-sm text-gray-400 mb-5">
-        {t("signInToViewImages")}
-      </p>
+      <p className="text-sm text-gray-400 mb-5">{t("signInToViewImages")}</p>
       <Button
         onClick={() => setShowSignModal(true)}
         size="lg"
@@ -655,9 +704,19 @@ export default function ImageHistoryForGeneration({
               onSelect={(item) => {
                 // 对于图生图模式，传递输入图片URL
                 if (mode === "image-to-image" && item.inputImageUrl) {
-                  onSelectShowcaseImage?.(item.prompt, item.aspectRatio || "", item.model, item.inputImageUrl);
+                  onSelectShowcaseImage?.(
+                    item.prompt,
+                    item.aspectRatio || "",
+                    item.model,
+                    item.inputImageUrl
+                  );
                 } else {
-                  onSelectShowcaseImage?.(item.prompt, item.aspectRatio || "", item.model, item.imageUrl);
+                  onSelectShowcaseImage?.(
+                    item.prompt,
+                    item.aspectRatio || "",
+                    item.model,
+                    item.imageUrl
+                  );
                 }
               }}
               showPromptText={false}
@@ -668,8 +727,12 @@ export default function ImageHistoryForGeneration({
         ) : (
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
-              <p className="text-xl text-gray-400 mb-2">No featured images yet</p>
-              <p className="text-sm text-gray-500">Check back later for inspiring creations</p>
+              <p className="text-xl text-gray-400 mb-2">
+                No featured images yet
+              </p>
+              <p className="text-sm text-gray-500">
+                Check back later for inspiring creations
+              </p>
             </div>
           </div>
         )}
@@ -685,9 +748,7 @@ export default function ImageHistoryForGeneration({
       ) : /* 2. 用户状态已确定且数据加载完成，根据实际情况显示内容 */
       !userId ? (
         <div className="flex-1 flex items-center justify-center p-6">
-          <div className="w-full max-w-md">
-            {renderSignInCard()}
-          </div>
+          <div className="w-full max-w-md">{renderSignInCard()}</div>
         </div>
       ) : images.length === 0 ? (
         <div className="flex-1 flex items-center justify-center p-6">
@@ -700,7 +761,10 @@ export default function ImageHistoryForGeneration({
           </div>
         </div>
       ) : (
-        <div ref={scrollAreaRef} className="flex-1 overflow-y-auto image-history-scroll lg:dark-scrollbar">
+        <div
+          ref={scrollAreaRef}
+          className="flex-1 overflow-y-auto image-history-scroll lg:dark-scrollbar"
+        >
           <div className="divide-y divide-gray-700">
             {(isMobile ? [...images].reverse() : images).map((image) => (
               <ImageHistoryItem
@@ -763,16 +827,18 @@ export default function ImageHistoryForGeneration({
                       : "text-gray-500 hover:text-gray-300"
                   )}
                 >
-                  <Icon className={cn(
-                    "h-5 w-5 transition-all duration-300",
-                    isActive ? "text-white" : "text-current opacity-60"
-                  )} />
+                  <Icon
+                    className={cn(
+                      "h-5 w-5 transition-all duration-300",
+                      isActive ? "text-white" : "text-current opacity-60"
+                    )}
+                  />
                   <span className="tracking-wide">{tab.label}</span>
                   {isActive && (
                     <div
                       className="absolute inset-x-0 -bottom-[1px] h-[2px] bg-white rounded-full"
                       style={{
-                        animation: "slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                        animation: "slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                       }}
                     />
                   )}

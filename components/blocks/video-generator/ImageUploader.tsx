@@ -9,7 +9,6 @@ import { useMemo, useCallback } from "react";
 import type { VideoEffect } from "@/types/video-effect";
 import { SingleImageUploader } from "./SingleImageUploader";
 import { MultiImageUploader } from "./MultiImageUploader";
-import { ReferenceImageUploader } from "./ReferenceImageUploader";
 
 interface ImageUploaderProps {
   selectedModel: string;
@@ -32,7 +31,8 @@ export function ImageUploader({
   onShowSignModal,
   generationType,
 }: ImageUploaderProps) {
-  const isReferenceToVideo = generationType === "REFERENCE_2_VIDEO";
+  // Note: REFERENCE_2_VIDEO is handled by ImageGridUploader in parent component (index.tsx)
+  // This component only handles other image-to-video modes
 
   // Pixverse effect upload callback
   const handlePixverseUpload = useCallback(
@@ -68,18 +68,6 @@ export function ImageUploader({
 
   // Route to appropriate component
   const UploaderComponent = useMemo(() => {
-    if (isReferenceToVideo) {
-      return (
-        <ReferenceImageUploader
-          selectedModel={selectedModel}
-          isAuthenticated={isAuthenticated}
-          onShowSignModal={onShowSignModal}
-          onImagesChange={onImagesChange}
-          onImageUploaded={handlePixverseUpload}
-        />
-      );
-    }
-
     if (maxImages >= 2) {
       return (
         <MultiImageUploader
@@ -103,7 +91,6 @@ export function ImageUploader({
       />
     );
   }, [
-    isReferenceToVideo,
     maxImages,
     selectedModel,
     isAuthenticated,

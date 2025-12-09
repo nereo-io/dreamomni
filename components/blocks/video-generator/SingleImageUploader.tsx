@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ImageIcon, X } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useImageUpload } from "./useImageUpload";
+import { useImageUpload } from "@/hooks/useImageUpload";
 import type { ImageUploaderBaseProps } from "./types";
 
 interface SingleImageUploaderProps extends ImageUploaderBaseProps {
@@ -53,8 +53,10 @@ export function SingleImageUploader({
 
   return (
     <div>
-      <div className="text-white text-lg font-semibold mb-4">
-        {t("uploadImage")}
+      <div className="flex items-center gap-2 mb-4">
+        <span className="text-white text-lg font-semibold">
+          {t("uploadImage")}
+        </span>
       </div>
 
       {!slot.url ? (

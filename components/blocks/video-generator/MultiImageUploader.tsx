@@ -4,7 +4,7 @@ import { ImageIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 import { getVideoModel } from "@/config/video-models";
-import { useImageUpload } from "./useImageUpload";
+import { useImageUpload } from "@/hooks/useImageUpload";
 import type { ImageUploaderBaseProps } from "./types";
 
 interface MultiImageUploaderProps extends ImageUploaderBaseProps {
@@ -38,11 +38,17 @@ export function MultiImageUploader({
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <div className="text-white text-lg font-semibold">
-          {t("uploadImage")}
-          <span className="text-sm text-gray-400 ml-2">
-            (1-{maxImages} images)
+        <div className="flex items-center gap-2">
+          <span className="text-white text-lg font-semibold">
+            {t("uploadImage")}
+            <span className="text-sm text-gray-400 ml-2">
+              (1-{maxImages} images)
+            </span>
           </span>
+          <span className="text-gray-400 text-sm">or</span>
+          <button className="text-blue-400 hover:text-blue-300 text-sm transition-colors">
+            from my creations
+          </button>
         </div>
         {maxImages === 2 && uploadedCount === 2 && (
           <Button onClick={swapImages} variant="outline" size="sm" className="text-xs">

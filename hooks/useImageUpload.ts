@@ -166,6 +166,29 @@ export function useImageUpload({
     });
   }, [onImagesChange]);
 
+  // Add URLs directly (for selecting from existing images)
+  const addUrls = useCallback(
+    (urls: string[]) => {
+      setImageSlots((prev) => {
+        const updated = [...prev];
+        let nextIndex = updated.findIndex((slot) => !slot.url);
+
+        urls.forEach((url) => {
+          if (nextIndex >= 0 && nextIndex < maxImages) {
+            updated[nextIndex] = { url, isUploading: false };
+            nextIndex = updated.findIndex((slot, idx) => idx > nextIndex && !slot.url);
+          }
+        });
+
+        const allUrls = updated.map((slot) => slot.url).filter(Boolean) as string[];
+        onImagesChange(allUrls);
+
+        return updated;
+      });
+    },
+    [maxImages, onImagesChange]
+  );
+
   return {
     imageSlots,
     uploadImage,
@@ -173,5 +196,6 @@ export function useImageUpload({
     removeImage,
     swapImages,
     resetSlots,
+    addUrls,
   };
 }

@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { validateImage } from "@/config/image-validation-rules";
 import { uploadImageToR2 } from "@/lib/upload-utils";
+import { ImageSelectionModal } from "./ImageSelectionModal";
 
 interface ImageGridUploaderProps {
   maxImages?: number; // 默认 3，支持配置为 5 等
@@ -31,7 +32,11 @@ export function ImageGridUploader({
   const [images, setImages] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState({ current: 0, total: 0 });
+  const [uploadProgress, setUploadProgress] = useState({
+    current: 0,
+    total: 0,
+  });
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // 初始化图片列表 (用于 Re-edit 功能)
   useEffect(() => {
@@ -110,7 +115,7 @@ export function ImageGridUploader({
         handleFilesUpload(Array.from(files));
       }
       // 重置 input 值，允许重复选择同一文件
-      e.target.value = '';
+      e.target.value = "";
     },
     [handleFilesUpload]
   );
@@ -131,8 +136,8 @@ export function ImageGridUploader({
       e.preventDefault();
       setIsDragOver(false);
 
-      const files = Array.from(e.dataTransfer.files).filter(file =>
-        file.type.startsWith('image/')
+      const files = Array.from(e.dataTransfer.files).filter((file) =>
+        file.type.startsWith("image/")
       );
 
       if (files.length > 0) {
@@ -152,7 +157,7 @@ export function ImageGridUploader({
 
       for (let i = 0; i < items.length; i++) {
         const item = items[i];
-        if (item.type.startsWith('image')) {
+        if (item.type.startsWith("image")) {
           const file = item.getAsFile();
           if (file) {
             imageFiles.push(file);
@@ -166,8 +171,8 @@ export function ImageGridUploader({
       }
     };
 
-    document.addEventListener('paste', handlePaste);
-    return () => document.removeEventListener('paste', handlePaste);
+    document.addEventListener("paste", handlePaste);
+    return () => document.removeEventListener("paste", handlePaste);
   }, [handleFilesUpload]);
 
   // 删除图片
@@ -189,13 +194,32 @@ export function ImageGridUploader({
     }
   };
 
+  // 从 My Creations 选择图片
+  const handleSelectFromCreations = useCallback(
+    (urls: string[]) => {
+      if (urls.length === 0) return;
+
+      const remainingSlots = maxImages - images.length;
+      const urlsToAdd = urls.slice(0, remainingSlots);
+
+      if (urls.length > remainingSlots) {
+        toast.warning(`Only adding first ${remainingSlots} images`);
+      }
+
+      const newImages = [...images, ...urlsToAdd];
+      setImages(newImages);
+      onImagesChange(newImages);
+    },
+    [images, maxImages, onImagesChange]
+  );
+
   return (
     <div className="space-y-3">
       {/* 标题 */}
-      <div className="flex items-center justify-between">
-        <div className="text-lg font-semibold text-white">
+      <div className="flex items-center gap-2">
+        <span className="text-lg font-semibold text-white">
           {t("uploadImage")}
-        </div>
+        </span>
       </div>
 
       {/* 上传区域 - 只在还能上传时显示 */}
@@ -204,11 +228,12 @@ export function ImageGridUploader({
           className={`
             relative border-2 border-dashed rounded-lg py-5 px-4
             transition-all cursor-pointer
-            ${isDragOver
-              ? 'border-blue-500 bg-blue-500/10'
-              : 'border-gray-600 hover:border-gray-500 bg-gray-900/50'
+            ${
+              isDragOver
+                ? "border-blue-500 bg-blue-500/10"
+                : "border-gray-600 hover:border-gray-500 bg-gray-900/50"
             }
-            ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}
+            ${isUploading ? "opacity-50 cursor-not-allowed" : ""}
           `}
           onClick={handleUploadClick}
           onDragOver={handleDragOver}
@@ -226,15 +251,29 @@ export function ImageGridUploader({
             <div className="flex items-center justify-center gap-3">
               <Upload className="h-5 w-5 text-gray-400 flex-shrink-0" />
               <div>
-                <p className="text-sm text-gray-300">
+                <p className="text text-gray-300">
                   {images.length === 0
                     ? t("uploadMultipleImages", { max: maxImages })
-                    : t("uploadMoreImagesRemaining", { remaining: maxImages - images.length })
-                  }
+                    : t("uploadMoreImagesRemaining", {
+                        remaining: maxImages - images.length,
+                      })}
                 </p>
-                <p className="text-xs text-gray-500">
-                  {t("multipleUploadHint")}
-                </p>
+                <div className="flex items-center gap-1 text-sm text-gray-500">
+                  <span>{t("multipleUploadHint")}</span>
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (!isAuthenticated) {
+                      onShowSignModal();
+                    } else {
+                      setIsModalOpen(true);
+                    }
+                  }}
+                  className="text-gray-500 underline text-sm hover:text-blue-400"
+                >
+                  {t("selectFromCreations")}
+                </button>
               </div>
             </div>
           )}
@@ -275,6 +314,14 @@ export function ImageGridUploader({
         </div>
       )}
 
+      {/* Image Selection Modal */}
+      <ImageSelectionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSelect={handleSelectFromCreations}
+        maxSelection={maxImages}
+        currentCount={images.length}
+      />
     </div>
   );
 }
