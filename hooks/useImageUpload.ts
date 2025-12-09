@@ -8,7 +8,11 @@ import { useState, useCallback } from "react";
 import { toast } from "sonner";
 import { validateImage } from "@/config/image-validation-rules";
 import { uploadImageToR2 } from "@/lib/upload-utils";
-import type { ImageSlot } from "./types";
+
+interface ImageSlot {
+  url: string | null;
+  isUploading: boolean;
+}
 
 interface UseImageUploadProps {
   maxImages: number;

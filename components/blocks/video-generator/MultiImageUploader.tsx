@@ -1,11 +1,14 @@
 "use client";
 
+import { useState, useCallback } from "react";
 import { ImageIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { getVideoModel } from "@/config/video-models";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import type { ImageUploaderBaseProps } from "./types";
+import { ImageSelectionModal } from "./ImageSelectionModal";
 
 interface MultiImageUploaderProps extends ImageUploaderBaseProps {
   maxImages: 2 | 3;
@@ -24,7 +27,7 @@ export function MultiImageUploader({
   const modelConfig = getVideoModel(selectedModel);
   const imageLabels = modelConfig?.imageCapabilities?.labels;
 
-  const { imageSlots, uploadImage, removeImage, swapImages } = useImageUpload({
+  const { imageSlots, uploadImage, removeImage, swapImages, addUrls } = useImageUpload({
     maxImages,
     selectedModel,
     isAuthenticated,
@@ -34,6 +37,24 @@ export function MultiImageUploader({
   });
 
   const uploadedCount = imageSlots.filter((slot) => slot.url).length;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleSelectFromCreations = useCallback(
+    (urls: string[]) => {
+      if (urls.length === 0) return;
+
+      const currentCount = imageSlots.filter(slot => slot.url).length;
+      const remainingSlots = maxImages - currentCount;
+      const urlsToAdd = urls.slice(0, remainingSlots);
+
+      if (urls.length > remainingSlots) {
+        toast.warning(`Only adding first ${remainingSlots} images`);
+      }
+
+      addUrls(urlsToAdd);
+    },
+    [imageSlots, maxImages, addUrls]
+  );
 
   return (
     <div>
@@ -46,7 +67,17 @@ export function MultiImageUploader({
             </span>
           </span>
           <span className="text-gray-400 text-sm">or</span>
-          <button className="text-blue-400 hover:text-blue-300 text-sm transition-colors">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              if (!isAuthenticated) {
+                onShowSignModal();
+              } else {
+                setIsModalOpen(true);
+              }
+            }}
+            className="text-blue-400 hover:text-blue-300 text-sm transition-colors"
+          >
             from my creations
           </button>
         </div>
@@ -144,6 +175,14 @@ export function MultiImageUploader({
           );
         })}
       </div>
+
+      <ImageSelectionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSelect={handleSelectFromCreations}
+        maxSelection={maxImages}
+        currentCount={imageSlots.filter(slot => slot.url).length}
+      />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -85,12 +85,12 @@ export function ImageSelectionModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden flex flex-col bg-gray-900 border-gray-800">
-        <DialogHeader>
+      <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden flex flex-col bg-gray-900 border-gray-800 p-3 sm:p-6">
+        <DialogHeader className="px-0">
           <DialogTitle className="text-white">{t("selectFromCreations")}</DialogTitle>
         </DialogHeader>
 
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto -mx-3 sm:mx-0 scrollbar-hide">
           {isLoading ? (
             <div className="flex items-center justify-center h-40">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
@@ -101,7 +101,7 @@ export function ImageSelectionModal({
               <p className="text-gray-400">{t("noImagesYet")}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-3 md:grid-cols-4 gap-3 p-4">
+            <div className="grid grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 p-3 sm:p-4">
               {images.map((image) => {
                 // 优先使用R2存储的URL,回退到原始URL
                 const imageUrl = image.image_url_r2 || image.image_url;
@@ -147,28 +147,31 @@ export function ImageSelectionModal({
           )}
         </div>
 
-        <div className="flex items-center justify-between border-t border-gray-800 pt-4">
-          <div className="text-sm text-gray-400">
+        <div className="flex items-center justify-between border-t border-gray-800 pt-3 sm:pt-4 px-0">
+          <div className="text-xs sm:text-sm text-gray-400">
             {selectedUrls.size > 0 && (
               <span>
                 {selectedUrls.size} selected · {remainingSlots - selectedUrls.size} remaining
               </span>
             )}
             {selectedUrls.size === 0 && (
-              <span>Select up to {remainingSlots} images</span>
+              <>
+                <span className="hidden sm:inline">Select up to {remainingSlots} images</span>
+                <span className="sm:hidden">Select up to {remainingSlots}</span>
+              </>
             )}
           </div>
           <div className="flex gap-2">
             <button
               onClick={onClose}
-              className="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-800 transition-colors text-white"
+              className="px-3 sm:px-4 py-2 text-sm border border-gray-600 rounded-lg hover:bg-gray-800 transition-colors text-white"
             >
               Cancel
             </button>
             <button
               onClick={handleConfirm}
               disabled={selectedUrls.size === 0}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-3 sm:px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               Add {selectedUrls.size > 0 && `(${selectedUrls.size})`}
             </button>

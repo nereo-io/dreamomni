@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { ImageIcon, X } from "lucide-react";
+import { useState, useCallback } from "react";
+import { ImageIcon, X, Upload } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import type { ImageUploaderBaseProps } from "./types";
+import { ImageSelectionModal } from "./ImageSelectionModal";
 
 interface SingleImageUploaderProps extends ImageUploaderBaseProps {
   onImageUploaded?: (url: string, index: number) => Promise<void>;
@@ -19,8 +20,9 @@ export function SingleImageUploader({
 }: SingleImageUploaderProps) {
   const t = useTranslations("video-generator");
   const [isDragOver, setIsDragOver] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { imageSlots, uploadImage, removeImage } = useImageUpload({
+  const { imageSlots, uploadImage, removeImage, addUrls } = useImageUpload({
     maxImages: 1,
     selectedModel,
     isAuthenticated,
@@ -51,6 +53,15 @@ export function SingleImageUploader({
     }
   };
 
+  const handleSelectFromCreations = useCallback(
+    (urls: string[]) => {
+      if (urls.length === 0) return;
+      // SingleImageUploader 只需要第一张
+      addUrls([urls[0]]);
+    },
+    [addUrls]
+  );
+
   return (
     <div>
       <div className="flex items-center gap-2 mb-4">
@@ -77,22 +88,35 @@ export function SingleImageUploader({
           }
         >
           {slot.isUploading ? (
-            <>
-              <div className="animate-spin rounded-full h-12 w-12 border-2 border-blue-400 border-t-transparent mx-auto mb-4"></div>
+            <div className="flex flex-col items-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-2 border-blue-400 border-t-transparent mb-4"></div>
               <p className="text-sm text-blue-300">Uploading image...</p>
-            </>
+            </div>
           ) : (
-            <>
-              <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-              <div className="space-y-2">
-                <p className="text-sm text-gray-300 px-2 text-center">
+            <div className="flex items-center justify-center gap-3">
+              <Upload className="h-5 w-5 text-gray-400 flex-shrink-0" />
+              <div>
+                <p className="text-sm text-gray-300">
                   {t("dragAndDropImage")}
                 </p>
-                <p className="text-xs text-gray-400 px-2 text-center">
+                <p className="text-xs text-gray-400">
                   {t("supportedFormats")}
                 </p>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (!isAuthenticated) {
+                      onShowSignModal();
+                    } else {
+                      setIsModalOpen(true);
+                    }
+                  }}
+                  className="text-gray-500 underline text-sm hover:text-blue-400 mt-1"
+                >
+                  {t("selectFromCreations")}
+                </button>
               </div>
-            </>
+            </div>
           )}
           <input
             type="file"
@@ -130,6 +154,14 @@ export function SingleImageUploader({
           )}
         </div>
       )}
+
+      <ImageSelectionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSelect={handleSelectFromCreations}
+        maxSelection={1}
+        currentCount={slot.url ? 1 : 0}
+      />
     </div>
   );
 }
