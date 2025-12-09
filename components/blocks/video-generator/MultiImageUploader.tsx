@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { ImageIcon, X } from "lucide-react";
+import { ImageIcon, X, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { getVideoModel } from "@/config/video-models";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import type { ImageUploaderBaseProps } from "./types";
-import { ImageSelectionModal } from "./ImageSelectionModal";
+import { ImageSelectionModal, type SelectedImage } from "./ImageSelectionModal";
 
 interface MultiImageUploaderProps extends ImageUploaderBaseProps {
   maxImages: 2 | 3;
@@ -27,31 +27,36 @@ export function MultiImageUploader({
   const modelConfig = getVideoModel(selectedModel);
   const imageLabels = modelConfig?.imageCapabilities?.labels;
 
-  const { imageSlots, uploadImage, removeImage, swapImages, addUrls } = useImageUpload({
-    maxImages,
-    selectedModel,
-    isAuthenticated,
-    onShowSignModal,
-    onImagesChange,
-    onImageUploaded,
-  });
+  const { imageSlots, uploadImage, removeImage, swapImages, addUrls } =
+    useImageUpload({
+      maxImages,
+      selectedModel,
+      isAuthenticated,
+      onShowSignModal,
+      onImagesChange,
+      onImageUploaded,
+    });
 
   const uploadedCount = imageSlots.filter((slot) => slot.url).length;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSelectFromCreations = useCallback(
-    (urls: string[]) => {
-      if (urls.length === 0) return;
+    (selections: SelectedImage[]) => {
+      if (selections.length === 0) return;
 
-      const currentCount = imageSlots.filter(slot => slot.url).length;
+      const currentCount = imageSlots.filter((slot) => slot.url).length;
       const remainingSlots = maxImages - currentCount;
-      const urlsToAdd = urls.slice(0, remainingSlots);
+      const toAdd = selections.slice(0, remainingSlots);
 
-      if (urls.length > remainingSlots) {
+      if (selections.length > remainingSlots) {
         toast.warning(`Only adding first ${remainingSlots} images`);
       }
 
-      addUrls(urlsToAdd);
+      // Pass both URLs and source IDs
+      addUrls(
+        toAdd.map((s) => s.url),
+        toAdd.map((s) => s.id)
+      );
     },
     [imageSlots, maxImages, addUrls]
   );
@@ -68,8 +73,14 @@ export function MultiImageUploader({
           </span>
         </div>
         {maxImages === 2 && uploadedCount === 2 && (
-          <Button onClick={swapImages} variant="outline" size="sm" className="text-xs">
-            {t("swapFrames")}
+          <Button
+            onClick={swapImages}
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 text-gray-300 hover:text-white hover:bg-white/10"
+            title={t("swapFrames")}
+          >
+            <RefreshCw className="h-4 w-4" />
           </Button>
         )}
       </div>
@@ -100,13 +111,13 @@ export function MultiImageUploader({
               {!slot.url ? (
                 <div
                   className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors ${
-                    slot.isUploading
-                      ? "cursor-not-allowed"
-                      : "cursor-pointer"
+                    slot.isUploading ? "cursor-not-allowed" : "cursor-pointer"
                   } border-gray-600 hover:border-gray-500`}
                   onClick={() =>
                     !slot.isUploading &&
-                    document.getElementById(`multi-image-upload-${index}`)?.click()
+                    document
+                      .getElementById(`multi-image-upload-${index}`)
+                      ?.click()
                   }
                 >
                   {slot.isUploading ? (
@@ -121,7 +132,9 @@ export function MultiImageUploader({
                   ) : (
                     <>
                       <ImageIcon className="mx-auto h-8 w-8 text-gray-400 mb-2" />
-                      <p className="text-xs text-gray-300">{t("clickToUpload")}</p>
+                      <p className="text-xs text-gray-300">
+                        {t("clickToUpload")}
+                      </p>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -180,7 +193,7 @@ export function MultiImageUploader({
         onClose={() => setIsModalOpen(false)}
         onSelect={handleSelectFromCreations}
         maxSelection={maxImages}
-        currentCount={imageSlots.filter(slot => slot.url).length}
+        currentCount={imageSlots.filter((slot) => slot.url).length}
       />
     </div>
   );
