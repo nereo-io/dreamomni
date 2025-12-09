@@ -117,6 +117,7 @@ export async function POST(req: NextRequest) {
       prompt,
       mode = "text-to-image",
       image_urls,
+      source_image_ids, // 新增：来源图片ID数组（用于追踪"My Creations"选择）
       negative_prompt,
       provider,
       enable_prompt_enhancement = true,
@@ -345,6 +346,7 @@ export async function POST(req: NextRequest) {
         source: "web",
         provider: selectedProvider,
         input_image_urls: image_urls,
+        source_image_ids: source_image_ids, // 新增：保存来源图片ID（用于追踪"My Creations"选择）
         // 图片比例：Pro 模型用 aspect_ratio，标准模型用 image_size
         aspect_ratio: aspect_ratio || image_size,
         credits_used: creditsRequired,

@@ -5,7 +5,7 @@ import { ImageIcon, X, Upload } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import type { ImageUploaderBaseProps } from "./types";
-import { ImageSelectionModal } from "./ImageSelectionModal";
+import { ImageSelectionModal, type SelectedImage } from "./ImageSelectionModal";
 
 interface SingleImageUploaderProps extends ImageUploaderBaseProps {
   onImageUploaded?: (url: string, index: number) => Promise<void>;
@@ -54,10 +54,11 @@ export function SingleImageUploader({
   };
 
   const handleSelectFromCreations = useCallback(
-    (urls: string[]) => {
-      if (urls.length === 0) return;
+    (selections: SelectedImage[]) => {
+      if (selections.length === 0) return;
       // SingleImageUploader 只需要第一张
-      addUrls([urls[0]]);
+      const first = selections[0];
+      addUrls([first.url], [first.id]);
     },
     [addUrls]
   );

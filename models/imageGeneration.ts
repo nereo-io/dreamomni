@@ -46,6 +46,7 @@ export async function createImageGeneration(
     provider_task_id: params.provider_task_id,
     is_delete: params.is_delete || false,
     input_image_urls: params.input_image_urls,
+    source_image_ids: params.source_image_ids, // 新增：来源图片ID数组
     aspect_ratio: params.aspect_ratio,
     quality: params.quality,
     style: params.style,

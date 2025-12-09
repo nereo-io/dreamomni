@@ -109,6 +109,7 @@ export async function POST(req: Request) {
       prompt,
       image_url, // 保留用于向后兼容
       image_urls, // 新增：支持1-2张图片数组（首帧、尾帧）
+      source_image_ids, // 新增：来源图片ID数组（用于追踪"My Creations"选择）
       negative_prompt,
       aspect_ratio = "16:9",
       duration = "5",
@@ -281,6 +282,7 @@ export async function POST(req: Request) {
       prompt: effect_id ? prompt : finalPrompt, // 如果有特效，保存原始prompt
       input_image_url: image_url, // 保留用于向后兼容
       image_urls: finalImageUrls, // 新增：支持1-2张图片数组
+      source_image_ids: source_image_ids, // 新增：保存来源图片ID（用于追踪"My Creations"选择）
       negative_prompt,
       aspect_ratio,
       duration_seconds: parseInt(duration),
@@ -585,6 +587,8 @@ export async function POST(req: Request) {
           prompt,
           optimized_prompt: finalPrompt,
           image_url: image_url || null,
+          image_urls: finalImageUrls || null,
+          source_image_ids: source_image_ids || null,
           aspect_ratio,
           duration,
           generate_audio,

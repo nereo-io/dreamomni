@@ -46,6 +46,7 @@ export interface ImageGeneration {
   // 输入图片相关 (for image-edit, image-to-image modes)
   input_image_urls?: string[] | null;  // 输入图片URL数组 (JSONB)
   input_image_count?: number | null;   // 输入图片数量
+  source_image_ids?: string[] | null;  // 来源图片ID数组（追踪"My Creations"选择）
   
   // 生成参数
   aspect_ratio?: string | null;        // 宽高比 "1:1", "16:9", "9:16"
@@ -101,6 +102,7 @@ export interface CreateImageGenerationParams {
   provider_task_id?: string;
   provider: string;
   input_image_urls?: string[];
+  source_image_ids?: string[]; // 新增：来源图片ID数组（追踪"My Creations"选择）
   aspect_ratio?: string;
   quality?: string;
   style?: string;
@@ -174,6 +176,7 @@ export interface ImageGenerationParams {
   mode: "text-to-image" | "image-edit";
   provider?: string;                    // AI服务提供商
   image_urls?: string[];                // 仅在 image-edit 模式下使用
+  source_image_ids?: string[];          // 来源图片ID追踪（从 My Creations 选择的图片）
   negative_prompt?: string;
   aspect_ratio?: string;
   resolution?: string;                  // Pro 模型分辨率 (1K, 2K, 4K)

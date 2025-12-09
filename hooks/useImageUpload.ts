@@ -12,6 +12,7 @@ import { uploadImageToR2 } from "@/lib/upload-utils";
 interface ImageSlot {
   url: string | null;
   isUploading: boolean;
+  sourceImageId?: string; // ID from image_generations table (for "My Creations" selections)
 }
 
 interface UseImageUploadProps {
@@ -19,7 +20,7 @@ interface UseImageUploadProps {
   selectedModel: string;
   isAuthenticated: boolean;
   onShowSignModal: () => void;
-  onImagesChange: (urls: string[]) => void;
+  onImagesChange: (urls: string[], sourceImageIds?: string[]) => void;
   onImageUploaded?: (url: string, index: number) => Promise<void>;
 }
 
@@ -81,9 +82,12 @@ export function useImageUpload({
           const updated = [...prev];
           updated[index] = { url: uploadedUrl, isUploading: false };
 
-          // Sync to parent
+          // Sync to parent (with source IDs)
           const urls = updated.map((slot) => slot.url).filter(Boolean) as string[];
-          onImagesChange(urls);
+          const sourceIds = updated
+            .map((slot) => slot.sourceImageId)
+            .filter(Boolean) as string[];
+          onImagesChange(urls, sourceIds);
 
           return updated;
         });
@@ -149,7 +153,10 @@ export function useImageUpload({
         updated.push({ url: null, isUploading: false });
 
         const urls = updated.map((slot) => slot.url).filter(Boolean) as string[];
-        onImagesChange(urls);
+        const sourceIds = updated
+          .map((slot) => slot.sourceImageId)
+          .filter(Boolean) as string[];
+        onImagesChange(urls, sourceIds);
 
         return updated;
       });
@@ -164,7 +171,10 @@ export function useImageUpload({
 
       const swapped = [prev[1], prev[0]];
       const urls = swapped.map((slot) => slot.url).filter(Boolean) as string[];
-      onImagesChange(urls);
+      const sourceIds = swapped
+        .map((slot) => slot.sourceImageId)
+        .filter(Boolean) as string[];
+      onImagesChange(urls, sourceIds);
 
       return swapped;
     });
@@ -172,26 +182,40 @@ export function useImageUpload({
 
   // Add URLs directly (for selecting from existing images)
   const addUrls = useCallback(
-    (urls: string[]) => {
+    (urls: string[], sourceImageIds?: string[]) => {
       setImageSlots((prev) => {
         const updated = [...prev];
         let nextIndex = updated.findIndex((slot) => !slot.url);
 
-        urls.forEach((url) => {
+        urls.forEach((url, i) => {
           if (nextIndex >= 0 && nextIndex < maxImages) {
-            updated[nextIndex] = { url, isUploading: false };
+            updated[nextIndex] = {
+              url,
+              isUploading: false,
+              sourceImageId: sourceImageIds?.[i], // Attach source image ID if provided
+            };
             nextIndex = updated.findIndex((slot, idx) => idx > nextIndex && !slot.url);
           }
         });
 
         const allUrls = updated.map((slot) => slot.url).filter(Boolean) as string[];
-        onImagesChange(allUrls);
+        const allSourceIds = updated
+          .map((slot) => slot.sourceImageId)
+          .filter(Boolean) as string[];
+        onImagesChange(allUrls, allSourceIds);
 
         return updated;
       });
     },
     [maxImages, onImagesChange]
   );
+
+  // Get all source image IDs (for API submission)
+  const getSourceImageIds = useCallback(() => {
+    return imageSlots
+      .map((slot) => slot.sourceImageId)
+      .filter(Boolean) as string[];
+  }, [imageSlots]);
 
   return {
     imageSlots,
@@ -201,5 +225,6 @@ export function useImageUpload({
     swapImages,
     resetSlots,
     addUrls,
+    getSourceImageIds,
   };
 }

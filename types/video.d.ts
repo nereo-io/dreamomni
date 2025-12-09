@@ -23,6 +23,7 @@ export interface VideoGeneration {
   optimized_prompt?: string | null; // 优化后的提示词
   input_image_url?: string | null; // 保留用于向后兼容
   image_urls?: string[] | null; // 新增：支持1-2张图片数组（首帧、尾帧）
+  source_image_ids?: string[] | null; // 新增：来源图片ID数组（追踪"My Creations"选择）
   negative_prompt?: string | null;
   aspect_ratio: string;
   duration_seconds: number;
@@ -61,6 +62,7 @@ export interface CreateVideoGenerationParams {
   sora_request_id?: string; // Sora 2 request ID
   input_image_url?: string; // 保留用于向后兼容
   image_urls?: string[]; // 新增：支持1-2张图片数组（首帧、尾帧）
+  source_image_ids?: string[]; // 新增：来源图片ID数组（追踪"My Creations"选择）
   negative_prompt?: string;
   aspect_ratio?: string;
   duration_seconds?: number;

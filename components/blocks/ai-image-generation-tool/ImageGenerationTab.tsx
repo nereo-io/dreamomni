@@ -99,6 +99,7 @@ export default function ImageGenerationTab({
 
   // Image upload state (only for image-to-image mode)
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
+  const [sourceImageIds, setSourceImageIds] = useState<string[]>([]); // 来源图片ID追踪（My Creations）
 
   // CAPTCHA related states
   const [showCaptchaModal, setShowCaptchaModal] = useState(false);
@@ -230,8 +231,9 @@ export default function ImageGenerationTab({
   );
 
   // Handle image changes from ImageGridUploader
-  const handleImagesChange = useCallback((imageUrls: string[]) => {
+  const handleImagesChange = useCallback((imageUrls: string[], sourceIds?: string[]) => {
     setUploadedImageUrls(imageUrls);
+    setSourceImageIds(sourceIds || []); // 保存来源图片ID
   }, []);
 
   // Load prompt from localStorage on component mount
@@ -389,6 +391,7 @@ export default function ImageGenerationTab({
         isImageToImage && uploadedImageUrls.length > 0
           ? uploadedImageUrls
           : undefined,
+      source_image_ids: sourceImageIds.length > 0 ? sourceImageIds : undefined, // 来源图片ID追踪
       enable_prompt_enhancement: false,
       output_format: outputFormat,
       // Pro 模型使用 aspect_ratio 和 resolution,标准模型使用 image_size

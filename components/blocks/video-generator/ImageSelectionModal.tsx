@@ -14,10 +14,15 @@ interface ImageItem {
   created_at: string;
 }
 
+export interface SelectedImage {
+  id: string;
+  url: string;
+}
+
 interface ImageSelectionModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelect: (imageUrls: string[]) => void;
+  onSelect: (images: SelectedImage[]) => void;
   maxSelection: number;
   currentCount: number;
 }
@@ -31,7 +36,7 @@ export function ImageSelectionModal({
 }: ImageSelectionModalProps) {
   const t = useTranslations("video-generator");
   const [images, setImages] = useState<ImageItem[]>([]);
-  const [selectedUrls, setSelectedUrls] = useState<Set<string>>(new Set());
+  const [selectedImages, setSelectedImages] = useState<SelectedImage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
 
@@ -63,23 +68,36 @@ export function ImageSelectionModal({
     fetchImages();
   }, [isOpen, hasFetched]);
 
-  const toggleSelection = (url: string) => {
-    setSelectedUrls((prev) => {
-      const updated = new Set(prev);
-      if (updated.has(url)) {
-        updated.delete(url);
-      } else {
-        if (updated.size < remainingSlots) {
-          updated.add(url);
-        }
+  const toggleSelection = (image: ImageItem) => {
+    const imageUrl = image.image_url_r2 || image.image_url;
+    if (!imageUrl) return;
+
+    setSelectedImages((prev) => {
+      const existingIndex = prev.findIndex((img) => img.id === image.id);
+      if (existingIndex !== -1) {
+        // Remove if already selected
+        return prev.filter((_, idx) => idx !== existingIndex);
+      } else if (prev.length < remainingSlots) {
+        // Add if within limit
+        return [...prev, { id: image.id, url: imageUrl }];
       }
-      return updated;
+      return prev;
     });
   };
 
   const handleConfirm = () => {
-    onSelect(Array.from(selectedUrls));
-    setSelectedUrls(new Set());
+    // Send analytics event
+    if (typeof window !== "undefined" && (window as any).plausible) {
+      (window as any).plausible("Image Selection", {
+        props: {
+          count: selectedImages.length,
+          source: "my_creations",
+        },
+      });
+    }
+
+    onSelect(selectedImages);
+    setSelectedImages([]);
     onClose();
   };
 
@@ -107,8 +125,8 @@ export function ImageSelectionModal({
                 const imageUrl = image.image_url_r2 || image.image_url;
                 if (!imageUrl) return null;
 
-                const isSelected = selectedUrls.has(imageUrl);
-                const canSelect = selectedUrls.size < remainingSlots;
+                const isSelected = selectedImages.some((img) => img.id === image.id);
+                const canSelect = selectedImages.length < remainingSlots;
 
                 return (
                   <div
@@ -120,7 +138,7 @@ export function ImageSelectionModal({
                         ? "hover:ring-2 hover:ring-gray-400"
                         : "opacity-50 cursor-not-allowed"
                     }`}
-                    onClick={() => (canSelect || isSelected) && toggleSelection(imageUrl)}
+                    onClick={() => (canSelect || isSelected) && toggleSelection(image)}
                   >
                     <Image
                       src={imageUrl}
@@ -149,12 +167,12 @@ export function ImageSelectionModal({
 
         <div className="flex items-center justify-between border-t border-gray-800 pt-3 sm:pt-4 px-0">
           <div className="text-xs sm:text-sm text-gray-400">
-            {selectedUrls.size > 0 && (
+            {selectedImages.length > 0 && (
               <span>
-                {selectedUrls.size} selected · {remainingSlots - selectedUrls.size} remaining
+                {selectedImages.length} selected · {remainingSlots - selectedImages.length} remaining
               </span>
             )}
-            {selectedUrls.size === 0 && (
+            {selectedImages.length === 0 && (
               <>
                 <span className="hidden sm:inline">Select up to {remainingSlots} images</span>
                 <span className="sm:hidden">Select up to {remainingSlots}</span>
@@ -170,10 +188,10 @@ export function ImageSelectionModal({
             </button>
             <button
               onClick={handleConfirm}
-              disabled={selectedUrls.size === 0}
+              disabled={selectedImages.length === 0}
               className="px-3 sm:px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
-              Add {selectedUrls.size > 0 && `(${selectedUrls.size})`}
+              Add {selectedImages.length > 0 && `(${selectedImages.length})`}
             </button>
           </div>
         </div>

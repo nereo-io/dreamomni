@@ -44,6 +44,7 @@ export interface VideoGenerationParams {
   enable_prompt_enhancement: boolean;
   image_url?: string;
   image_urls?: string[]; // 新增：支持1-2张图片数组（首帧、尾帧）
+  source_image_ids?: string[]; // 新增：来源图片ID数组（追踪"My Creations"选择）
   effect_id?: string;
   pixverse_img_id?: number;
   captchaToken?: string;
@@ -139,6 +140,7 @@ export default function VideoGenerator({
 
   // 图片上传状态（通过 ImageUploader 组件管理）
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
+  const [sourceImageIds, setSourceImageIds] = useState<string[]>([]); // 来源图片ID（追踪"My Creations"选择）
 
   // 向后兼容：保留旧状态供其他逻辑使用
   const uploadedImageUrl = uploadedImageUrls[0] || null;
@@ -641,8 +643,9 @@ export default function VideoGenerator({
   }, []);
 
   // 图片URL变化回调
-  const handleImagesChange = useCallback((imageUrls: string[]) => {
+  const handleImagesChange = useCallback((imageUrls: string[], sourceIds?: string[]) => {
     setUploadedImageUrls(imageUrls);
+    setSourceImageIds(sourceIds || []); // 保存来源图片ID
   }, []);
 
   // 构建生成参数的辅助函数
@@ -659,7 +662,7 @@ export default function VideoGenerator({
     const imageUrl = uploadedImageUrl || undefined;
     const finalGenerationType = selectedModelConfig?.generationType;
 
-    return {
+    const params = {
       model: selectedModel,
       prompt: description.trim(),
       duration: selectedDuration.replace("s", ""),
@@ -671,10 +674,19 @@ export default function VideoGenerator({
       // 双图支持：优先使用 image_urls，向后兼容 image_url
       image_urls: finalImageUrls,
       image_url: imageUrl,
+      source_image_ids: sourceImageIds.length > 0 ? sourceImageIds : undefined, // 包含来源图片ID
       pixverse_img_id: pixverseImgId || undefined,
       watermarkEnabled: (isSeedanceSelected || isVeo3Selected) ? watermarkEnabled : false,
       generationType: finalGenerationType,
     };
+
+    console.log('[VideoGenerator] buildGenerationParams:', {
+      sourceImageIds,
+      finalSourceImageIds: params.source_image_ids,
+      imageUrls: finalImageUrls?.map(u => u.substring(0, 50) + '...'),
+    });
+
+    return params;
   };
 
   // 处理CAPTCHA验证完成

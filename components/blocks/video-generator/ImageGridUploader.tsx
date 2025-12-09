@@ -6,15 +6,20 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { validateImage } from "@/config/image-validation-rules";
 import { uploadImageToR2 } from "@/lib/upload-utils";
-import { ImageSelectionModal } from "./ImageSelectionModal";
+import { ImageSelectionModal, type SelectedImage } from "./ImageSelectionModal";
 
 interface ImageGridUploaderProps {
   maxImages?: number; // 默认 3，支持配置为 5 等
   selectedModel: string;
-  onImagesChange: (imageUrls: string[]) => void;
+  onImagesChange: (imageUrls: string[], sourceImageIds?: string[]) => void;
   isAuthenticated: boolean;
   onShowSignModal: () => void;
   initialImages?: string[]; // 初始图片列表 (用于 Re-edit)
+}
+
+interface ImageItem {
+  url: string;
+  sourceId?: string; // 来源图片ID（如果是从 My Creations 选择的）
 }
 
 export function ImageGridUploader({
@@ -28,8 +33,11 @@ export function ImageGridUploader({
   const t = useTranslations("video-generator");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // 状态管理
-  const [images, setImages] = useState<string[]>([]);
+  // 状态管理 - 改为存储完整的图片信息（URL + 来源ID）
+  const [imageItems, setImageItems] = useState<ImageItem[]>([]);
+
+  // 向后兼容：提供简单的 images 数组用于现有逻辑
+  const images = imageItems.map(item => item.url);
   const [isUploading, setIsUploading] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
   const [uploadProgress, setUploadProgress] = useState({
@@ -41,8 +49,9 @@ export function ImageGridUploader({
   // 初始化图片列表 (用于 Re-edit 功能)
   useEffect(() => {
     if (initialImages && initialImages.length > 0) {
-      setImages(initialImages);
-      onImagesChange(initialImages);
+      const items: ImageItem[] = initialImages.map(url => ({ url }));
+      setImageItems(items);
+      onImagesChange(initialImages, []); // Re-edit 的图片没有来源 ID
     }
   }, [initialImages, onImagesChange]);
 
@@ -96,15 +105,21 @@ export function ImageGridUploader({
       }
 
       if (uploadedUrls.length > 0) {
-        const newImages = [...images, ...uploadedUrls];
-        setImages(newImages);
-        onImagesChange(newImages);
+        // 上传的图片没有 sourceId
+        const newItems: ImageItem[] = uploadedUrls.map(url => ({ url }));
+        const allItems = [...imageItems, ...newItems];
+        setImageItems(allItems);
+
+        // 通知父组件
+        const urls = allItems.map(item => item.url);
+        const sourceIds = allItems.map(item => item.sourceId).filter(Boolean) as string[];
+        onImagesChange(urls, sourceIds);
       }
 
       setIsUploading(false);
       setUploadProgress({ current: 0, total: 0 });
     },
-    [images, isAuthenticated, onShowSignModal, onImagesChange, maxImages]
+    [imageItems, isAuthenticated, onShowSignModal, onImagesChange, maxImages]
   );
 
   // 文件选择处理
@@ -178,11 +193,14 @@ export function ImageGridUploader({
   // 删除图片
   const removeImage = useCallback(
     (index: number) => {
-      const newImages = images.filter((_, i) => i !== index);
-      setImages(newImages);
-      onImagesChange(newImages);
+      const newItems = imageItems.filter((_, i) => i !== index);
+      setImageItems(newItems);
+
+      const urls = newItems.map(item => item.url);
+      const sourceIds = newItems.map(item => item.sourceId).filter(Boolean) as string[];
+      onImagesChange(urls, sourceIds);
     },
-    [images, onImagesChange]
+    [imageItems, onImagesChange]
   );
 
   // 点击上传区域
@@ -196,21 +214,34 @@ export function ImageGridUploader({
 
   // 从 My Creations 选择图片
   const handleSelectFromCreations = useCallback(
-    (urls: string[]) => {
-      if (urls.length === 0) return;
+    (selections: SelectedImage[]) => {
+      if (selections.length === 0) return;
 
       const remainingSlots = maxImages - images.length;
-      const urlsToAdd = urls.slice(0, remainingSlots);
+      const toAdd = selections.slice(0, remainingSlots);
 
-      if (urls.length > remainingSlots) {
+      if (selections.length > remainingSlots) {
         toast.warning(`Only adding first ${remainingSlots} images`);
       }
 
-      const newImages = [...images, ...urlsToAdd];
-      setImages(newImages);
-      onImagesChange(newImages);
+      // 从 My Creations 选择的图片包含来源 ID
+      const newItems: ImageItem[] = toAdd.map(s => ({ url: s.url, sourceId: s.id }));
+      const allItems = [...imageItems, ...newItems];
+      setImageItems(allItems);
+
+      // 通知父组件
+      const urls = allItems.map(item => item.url);
+      const sourceIds = allItems.map(item => item.sourceId).filter(Boolean) as string[];
+
+      console.log('[ImageGridUploader] Selected from My Creations:', {
+        selections: toAdd.map(s => ({ id: s.id, url: s.url.substring(0, 50) + '...' })),
+        urls: urls.map(u => u.substring(0, 50) + '...'),
+        sourceIds,
+      });
+
+      onImagesChange(urls, sourceIds);
     },
-    [images, maxImages, onImagesChange]
+    [imageItems, maxImages, onImagesChange]
   );
 
   return (
