@@ -94,13 +94,10 @@ export function SingleImageUploader({
             </div>
           ) : (
             <div className="flex items-center justify-center gap-3">
-              <Upload className="h-5 w-5 text-gray-400 flex-shrink-0" />
+              <ImageIcon className="h-8 w-8 text-gray-400 flex-shrink-0" />
               <div>
-                <p className="text-sm text-gray-300">
+                <p className="text text-gray-300">
                   {t("dragAndDropImage")}
-                </p>
-                <p className="text-xs text-gray-400">
-                  {t("supportedFormats")}
                 </p>
                 <button
                   onClick={(e) => {
@@ -129,7 +126,16 @@ export function SingleImageUploader({
             id="single-image-upload"
           />
         </div>
-      ) : (
+      ) : null}
+
+      {/* 格式说明文字 - 放在上传框下方 */}
+      {!slot.url && (
+        <p className="text-xs text-gray-400 mt-2">
+          {t("supportedFormats")}
+        </p>
+      )}
+
+      {slot.url && (
         <div className="relative">
           <img
             src={slot.url}

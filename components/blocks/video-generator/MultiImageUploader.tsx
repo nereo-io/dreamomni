@@ -66,20 +66,6 @@ export function MultiImageUploader({
               (1-{maxImages} images)
             </span>
           </span>
-          <span className="text-gray-400 text-sm">or</span>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              if (!isAuthenticated) {
-                onShowSignModal();
-              } else {
-                setIsModalOpen(true);
-              }
-            }}
-            className="text-blue-400 hover:text-blue-300 text-sm transition-colors"
-          >
-            from my creations
-          </button>
         </div>
         {maxImages === 2 && uploadedCount === 2 && (
           <Button onClick={swapImages} variant="outline" size="sm" className="text-xs">
@@ -136,6 +122,19 @@ export function MultiImageUploader({
                     <>
                       <ImageIcon className="mx-auto h-8 w-8 text-gray-400 mb-2" />
                       <p className="text-xs text-gray-300">{t("clickToUpload")}</p>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (!isAuthenticated) {
+                            onShowSignModal();
+                          } else {
+                            setIsModalOpen(true);
+                          }
+                        }}
+                        className="text-gray-500 underline text-xs hover:text-blue-400 mt-1"
+                      >
+                        {t("myCreations")}
+                      </button>
                     </>
                   )}
                   <input
