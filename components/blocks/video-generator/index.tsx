@@ -793,7 +793,7 @@ export default function VideoGenerator({
           {/* Description Input - hide in effect mode */}
           {!effect && (
             <div>
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-2 mb-4">
+              <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-4">
                 <div className="text-white text-lg font-semibold">
                   {finalDescriptionLabel}
                 </div>
