@@ -123,7 +123,7 @@ const VideoGenerationStatus: React.FC<VideoGenerationStatusProps> = React.memo((
 
       case "FAILED":
         return (
-          <div className="flex flex-col items-center justify-center py-8 px-4">
+          <div className="relative w-full h-full bg-gray-700 flex flex-col items-center justify-center py-8 px-4">
             <div className="relative mb-4">
               <div className="absolute inset-0 bg-red-500/20 blur-xl rounded-full" />
               <Info className="h-12 w-12 text-red-400 relative" />
@@ -133,11 +133,9 @@ const VideoGenerationStatus: React.FC<VideoGenerationStatusProps> = React.memo((
             </h3>
             {/* Error message */}
             {errorMessage && (
-              <div className="mt-3 p-3 bg-red-900/20 rounded-lg border border-red-500/30 w-full max-w-md overflow-hidden">
-                <p className="text-xs text-red-300 leading-relaxed line-clamp-3 break-all">
-                  ❌ {errorMessage}
-                </p>
-              </div>
+              <p className="mt-2 text-sm text-gray-400 leading-relaxed line-clamp-3 break-all text-center max-w-md">
+                {errorMessage}
+              </p>
             )}
           </div>
         );

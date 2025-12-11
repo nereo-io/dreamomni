@@ -49,6 +49,7 @@ interface VideoGenerationResult {
   duration_seconds?: number;
   userCredits?: UserCreditsInfo;
   image_url?: string;
+  image_urls?: string[];
   effect_id?: string;
   effect_info?: {
     id: string;

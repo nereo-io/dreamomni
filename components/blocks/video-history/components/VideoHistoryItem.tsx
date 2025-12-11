@@ -1,10 +1,11 @@
 import React from "react";
 import { getVideoModel } from "@/config/video-models";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
-import StatusBadge from "./StatusBadge";
 import VideoMetadata from "./VideoMetadata";
 import EnhancedPrompt from "./EnhancedPrompt";
 import VideoStatusDisplay from "./VideoStatusDisplay";
+import ReferenceImagesThumbnails from "./ReferenceImagesThumbnails";
+import ImagePreviewModal from "@/components/blocks/image-history-for-generation/components/ImagePreviewModal";
 
 interface VideoHistoryItemProps {
   generation: VideoGenerationResult;
@@ -46,6 +47,10 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
     canEdit = false,
     isDeleting = false,
   }) => {
+    // State for image preview modal
+    const [selectedImageUrl, setSelectedImageUrl] = React.useState<string | null>(null);
+    const [selectedImageIndex, setSelectedImageIndex] = React.useState<number>(0);
+
     // Get video URL from various sources
     const getVideoUrl = (gen: VideoGenerationResult) => {
       return (
@@ -87,6 +92,37 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
       }
     };
 
+    // Get image array (unified handling of single and multiple images)
+    const getImageArray = (): string[] => {
+      if (generation.image_urls && generation.image_urls.length > 0) {
+        return generation.image_urls;
+      }
+      if (generation.image_url) {
+        return [generation.image_url];
+      }
+      return [];
+    };
+
+    const imageArray = getImageArray();
+    const hasImages = imageArray.length > 0;
+
+    // Modal navigation functions
+    const handlePrevious = () => {
+      if (selectedImageIndex > 0) {
+        const newIndex = selectedImageIndex - 1;
+        setSelectedImageIndex(newIndex);
+        setSelectedImageUrl(imageArray[newIndex]);
+      }
+    };
+
+    const handleNext = () => {
+      if (selectedImageIndex < imageArray.length - 1) {
+        const newIndex = selectedImageIndex + 1;
+        setSelectedImageIndex(newIndex);
+        setSelectedImageUrl(imageArray[newIndex]);
+      }
+    };
+
     // console.log("Video generation data:", {
     //   id: generation.id,
     //   prompt: generation.prompt,
@@ -97,10 +133,20 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
 
     return (
       <div className="p-5 space-y-4">
-        {/* Header: Status + Prompt/Effect Title + Timestamp */}
+        {/* Header: Status/Images + Prompt/Effect Title + Timestamp */}
         <div className="flex justify-between items-start gap-3">
           <div className="flex items-start gap-3 flex-1">
-            <StatusBadge status={generation.status} statusMap={statusMap} />
+            {/* Show reference images if available, otherwise hide status badge */}
+            {hasImages && (
+              <ReferenceImagesThumbnails
+                images={imageArray}
+                onImageClick={(url, index) => {
+                  setSelectedImageUrl(url);
+                  setSelectedImageIndex(index);
+                }}
+                maxDisplay={3}
+              />
+            )}
             <p
               className="text-base font-bold text-white leading-relaxed flex-1"
               style={{
@@ -158,6 +204,25 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
           canEdit={canEdit && !isExample}
           isDeleting={isDeleting}
         />
+
+        {/* Image Preview Modal */}
+        {selectedImageUrl && (
+          <ImagePreviewModal
+            isOpen={!!selectedImageUrl}
+            onClose={() => {
+              setSelectedImageUrl(null);
+              setSelectedImageIndex(0);
+            }}
+            imageUrl={selectedImageUrl}
+            prompt={generation.effect_info ? generation.effect_info.title : generation.prompt}
+            currentIndex={selectedImageIndex}
+            totalImages={imageArray.length}
+            hasPrevious={selectedImageIndex > 0}
+            hasNext={selectedImageIndex < imageArray.length - 1}
+            onPrevious={handlePrevious}
+            onNext={handleNext}
+          />
+        )}
       </div>
     );
   }
