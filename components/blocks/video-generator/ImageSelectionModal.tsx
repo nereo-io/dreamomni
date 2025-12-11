@@ -111,7 +111,7 @@ export function ImageSelectionModal({
         <div className="flex-1 overflow-y-auto -mx-3 sm:mx-0 scrollbar-hide">
           {isLoading ? (
             <div className="flex items-center justify-center h-40">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
               <p className="ml-3 text-gray-400">{t("loadingImages")}</p>
             </div>
           ) : images.length === 0 ? (

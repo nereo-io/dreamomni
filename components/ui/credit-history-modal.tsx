@@ -92,20 +92,10 @@ export function CreditHistoryModal({
           </DialogTitle>
 
           {/* Current Balance - simple text with accent */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center">
             <span className="text-sm text-white">
               {t("current_balance")}: {leftCredits !== null ? leftCredits : "-"}
             </span>
-
-            {credits.length >= 20 && (
-              <Button
-                variant="link"
-                onClick={handleViewAll}
-                className="text-sm h-auto p-0"
-              >
-                {t("view_all")} →
-              </Button>
-            )}
           </div>
         </DialogHeader>
 
@@ -179,6 +169,22 @@ export function CreditHistoryModal({
           {!isLoading && !error && credits.length === 0 && (
             <div className="flex-1 flex items-center justify-center">
               <Empty message={t("empty")} />
+            </div>
+          )}
+
+          {/* View Full History Button - at bottom with gradient hint */}
+          {!isLoading && !error && credits.length >= 20 && (
+            <div className="relative mt-auto">
+              <div className="absolute -top-8 left-0 right-0 h-8 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+              <div className="pt-4 bg-background/95 backdrop-blur-sm">
+                <Button
+                  variant="link"
+                  onClick={handleViewAll}
+                  className="text-sm h-auto p-0 w-full justify-center"
+                >
+                  {t("view_all")} →
+                </Button>
+              </div>
             </div>
           )}
         </div>
