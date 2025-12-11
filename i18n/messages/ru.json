@@ -687,5 +687,23 @@
     "title": "Google Nano Banana Pro AI: Профессиональный генератор AI-изображений | Veo3 AI",
     "description": "Откройте для себя Nano Banana Pro, премиум-версию Gemini 2.5 Flash Image от Google. Профессиональная генерация AI-изображений с улучшенной точностью, превосходным качеством и расширенными возможностями редактирования.",
     "keywords": "Nano Banana Pro, Google Nano Banana Pro, Gemini 2.5 Flash Pro, Генератор AI-изображений, Профессиональные AI-изображения, Text to Image Pro, Редактирование изображений AI, Продвинутое AI искусство"
+  },
+  "trans_type": {
+    "new_user": "Приветственный бонус",
+    "order_pay": "Покупка",
+    "system_add": "Системные кредиты",
+    "video_generation_5s": "Видео (5с)",
+    "video_generation_10s": "Видео (10с)",
+    "video_generation_15s": "Видео (15с)",
+    "video_generation_20s": "Видео (20с)",
+    "video_generation_25s": "Видео (25с)",
+    "image_generation": "Генерация изображения",
+    "agent_shot_analysis": "Анализ агента",
+    "agent_keyframe": "Ключевой кадр агента",
+    "agent_clip": "Клип агента",
+    "agent_splicing": "Склейка агента",
+    "refund_video_generation": "Возврат за видео",
+    "refund_image_generation": "Возврат за изображение",
+    "refund": "Возврат"
   }
 }
