@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Coins, Wand2 } from "lucide-react";
+import { Coins, Wand2, ChevronRight } from "lucide-react";
 import useCredits from "@/hooks/useCredits";
 import { ImageGridUploader } from "@/components/blocks/video-generator/ImageGridUploader";
 import {
@@ -27,6 +27,7 @@ import {
   calculateImageCredits,
 } from "@/config/image-models";
 import ImageAgentSection from "./ImageAgentSection";
+import { CreditHistoryModal } from "@/components/ui/credit-history-modal";
 
 import type { ImageGenerationParams } from "@/types/image.d";
 import type { ImageGenerationResult } from "@/hooks/useImageGeneration";
@@ -105,6 +106,9 @@ export default function ImageGenerationTab({
   const [showCaptchaModal, setShowCaptchaModal] = useState(false);
   const [pendingCaptchaParams, setPendingCaptchaParams] =
     useState<ImageGenerationParams | null>(null);
+
+  // Credit history modal state
+  const [showCreditHistoryModal, setShowCreditHistoryModal] = useState(false);
 
   // Image generation settings
   const [outputFormat] = useState<"png" | "jpeg">("png"); // 默认使用 PNG，暂时不显示选择器
@@ -896,9 +900,19 @@ export default function ImageGenerationTab({
               <div className="bg-gray-800 rounded-lg p-4 mb-4">
                 <div className="flex justify-between items-center">
                   <div>
-                    <div className="text-gray-300 mb-1">
-                      {t("credits")}: {leftCredits !== null ? leftCredits : "-"}
-                    </div>
+                    {leftCredits !== null ? (
+                      <button
+                        className="text-gray-300 mb-1 flex items-center gap-1 hover:text-gray-100 transition-colors cursor-pointer"
+                        onClick={() => setShowCreditHistoryModal(true)}
+                      >
+                        {t("credits")}: {leftCredits}
+                        <ChevronRight className="h-4 w-4 text-gray-400" />
+                      </button>
+                    ) : (
+                      <div className="text-gray-300 mb-1">
+                        {t("credits")}: -
+                      </div>
+                    )}
                     <div className="text-gray-300">
                       {t("cost")}: {requiredCredits} ⚡
                     </div>
@@ -975,6 +989,12 @@ export default function ImageGenerationTab({
         onCaptchaComplete={handleCaptchaComplete}
         isSubmitting={isGenerating}
         mode="image"
+      />
+
+      {/* Credit History Modal */}
+      <CreditHistoryModal
+        open={showCreditHistoryModal}
+        onOpenChange={setShowCreditHistoryModal}
       />
     </div>
   );

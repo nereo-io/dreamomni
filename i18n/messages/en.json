@@ -148,7 +148,7 @@
     "title": "My Credits",
     "rules_title": "Rules",
     "rules": "1. Free users get 3 conversations daily, which reset every 24 hours. You'll earn additional 3 conversations for every friend you invite who signs up. \n2. Upgrade to Pro for unlimited conversations and advanced features.",
-    "left_tip": "left credits: {left_credits}",
+    "left_tip": "Current Balance: {left_credits}",
     "no_credits": "No credits records",
     "recharge": "Upgrade Membership",
     "invite": "Invite friends",
@@ -188,6 +188,17 @@
   "survey_banner": {
     "message": "👋 Quick feedback needed - help shape Veo3 AI!",
     "close": "Close"
+  },
+  "credit_history_modal": {
+    "title": "Credit History",
+    "current_balance": "Current Balance",
+    "view_all": "View Full History",
+    "empty": "No credit records yet",
+    "type": "Type",
+    "credits": "Credits",
+    "date": "Date",
+    "loading": "Loading...",
+    "error": "Failed to load credit history"
   },
   "credit_exhausted_modal": {
     "title": "Out of Conversation Credits",
@@ -683,5 +694,23 @@
     "title": "Google Nano Banana Pro AI: Professional AI Image Generator | Veo3 AI",
     "description": "Experience Nano Banana Pro, the premium version of Google's Gemini 2.5 Flash Image. Professional-grade AI image generation with enhanced precision, superior quality, and advanced editing capabilities.",
     "keywords": "Nano Banana Pro, Google Nano Banana Pro, Gemini 2.5 Flash Pro, AI Image Generator, Professional AI Images, Text to Image Pro, Image Editing AI, Advanced AI Art, Professional Image Generation"
+  },
+  "trans_type": {
+    "new_user": "Welcome Bonus",
+    "order_pay": "Purchase",
+    "system_add": "System Credit",
+    "video_generation_5s": "Video (5s)",
+    "video_generation_10s": "Video (10s)",
+    "video_generation_15s": "Video (15s)",
+    "video_generation_20s": "Video (20s)",
+    "video_generation_25s": "Video (25s)",
+    "image_generation": "Image Generation",
+    "agent_shot_analysis": "Agent Analysis",
+    "agent_keyframe": "Agent Keyframe",
+    "agent_clip": "Agent Clip",
+    "agent_splicing": "Agent Splicing",
+    "refund_video_generation": "Video Refund",
+    "refund_image_generation": "Image Refund",
+    "refund": "Refund"
   }
 }

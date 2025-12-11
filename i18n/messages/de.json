@@ -148,7 +148,7 @@
     "title": "Meine Credits",
     "rules_title": "Regeln",
     "rules": "1. Kostenlose Benutzer erhalten täglich 3 Konversationen, die alle 24 Stunden zurückgesetzt werden. Sie erhalten weitere 3 Konversationen für jeden Freund, den Sie zur Anmeldung einladen. \n2. Upgraden Sie auf Pro für unbegrenzte Konversationen und erweiterte Funktionen.",
-    "left_tip": "Verbleibende Credits: {left_credits}",
+    "left_tip": "Aktuelles Guthaben: {left_credits}",
     "no_credits": "Keine Credits-Einträge",
     "recharge": "Mitgliedschaft upgraden",
     "invite": "Freunde einladen",

@@ -148,7 +148,7 @@
     "title": "Mes crédits",
     "rules_title": "Règles",
     "rules": "1. Les utilisateurs gratuits reçoivent 3 conversations quotidiennes, qui se réinitialisent toutes les 24 heures. Vous gagnerez 3 conversations supplémentaires pour chaque ami que vous invitez à s'inscrire. \n2. Passez à Pro pour des conversations illimitées et des fonctionnalités avancées.",
-    "left_tip": "crédits restants : {left_credits}",
+    "left_tip": "Solde actuel : {left_credits}",
     "no_credits": "Aucun enregistrement de crédits",
     "recharge": "Mettre à niveau l'adhésion",
     "invite": "Inviter des amis",
