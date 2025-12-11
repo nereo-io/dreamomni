@@ -784,7 +784,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
               <div className="text-red-400 mb-2">❌</div>
               <p className="text-sm text-red-400">Generation Failed</p>
               {errorMessage && (
-                <p className="text-xs text-gray-400 mt-1 max-w-xs">
+                <p className="text-xs text-gray-400 mt-1 max-w-xs line-clamp-3 break-all overflow-hidden px-2">
                   {errorMessage}
                 </p>
               )}
