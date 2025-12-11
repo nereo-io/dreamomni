@@ -692,18 +692,21 @@
     "new_user": "Приветственный бонус",
     "order_pay": "Покупка",
     "system_add": "Системные кредиты",
+    "ping": "API запрос",
+    "chat": "Чат",
+    "refund_non_response": "Возврат за отсутствие ответа",
     "video_generation_5s": "Видео (5с)",
+    "video_generation_6s": "Видео (6с)",
+    "video_generation_8s": "Видео (8с)",
     "video_generation_10s": "Видео (10с)",
     "video_generation_15s": "Видео (15с)",
-    "video_generation_20s": "Видео (20с)",
     "video_generation_25s": "Видео (25с)",
+    "refund_video_generation_failed": "Возврат за видео",
     "image_generation": "Генерация изображения",
+    "refund_image_generation_failed": "Возврат за изображение",
     "agent_shot_analysis": "Анализ агента",
     "agent_keyframe": "Ключевой кадр агента",
-    "agent_clip": "Клип агента",
-    "agent_splicing": "Склейка агента",
-    "refund_video_generation": "Возврат за видео",
-    "refund_image_generation": "Возврат за изображение",
-    "refund": "Возврат"
+    "agent_video_clip": "Клип агента",
+    "agent_video_splicing": "Склейка агента"
   }
 }

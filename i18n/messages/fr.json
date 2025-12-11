@@ -699,18 +699,21 @@
     "new_user": "Bonus de bienvenue",
     "order_pay": "Achat",
     "system_add": "Crédits système",
+    "ping": "Requête API",
+    "chat": "Chat",
+    "refund_non_response": "Remboursement sans réponse",
     "video_generation_5s": "Vidéo (5s)",
+    "video_generation_6s": "Vidéo (6s)",
+    "video_generation_8s": "Vidéo (8s)",
     "video_generation_10s": "Vidéo (10s)",
     "video_generation_15s": "Vidéo (15s)",
-    "video_generation_20s": "Vidéo (20s)",
     "video_generation_25s": "Vidéo (25s)",
+    "refund_video_generation_failed": "Remboursement vidéo",
     "image_generation": "Génération d'image",
+    "refund_image_generation_failed": "Remboursement image",
     "agent_shot_analysis": "Analyse de l'agent",
     "agent_keyframe": "Image clé de l'agent",
-    "agent_clip": "Clip de l'agent",
-    "agent_splicing": "Montage de l'agent",
-    "refund_video_generation": "Remboursement vidéo",
-    "refund_image_generation": "Remboursement image",
-    "refund": "Remboursement"
+    "agent_video_clip": "Clip de l'agent",
+    "agent_video_splicing": "Montage de l'agent"
   }
 }

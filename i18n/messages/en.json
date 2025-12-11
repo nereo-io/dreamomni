@@ -699,18 +699,21 @@
     "new_user": "Welcome Bonus",
     "order_pay": "Purchase",
     "system_add": "System Credit",
+    "ping": "API Ping",
+    "chat": "Chat",
+    "refund_non_response": "No Response Refund",
     "video_generation_5s": "Video (5s)",
+    "video_generation_6s": "Video (6s)",
+    "video_generation_8s": "Video (8s)",
     "video_generation_10s": "Video (10s)",
     "video_generation_15s": "Video (15s)",
-    "video_generation_20s": "Video (20s)",
     "video_generation_25s": "Video (25s)",
+    "refund_video_generation_failed": "Video Refund",
     "image_generation": "Image Generation",
+    "refund_image_generation_failed": "Image Refund",
     "agent_shot_analysis": "Agent Analysis",
     "agent_keyframe": "Agent Keyframe",
-    "agent_clip": "Agent Clip",
-    "agent_splicing": "Agent Splicing",
-    "refund_video_generation": "Video Refund",
-    "refund_image_generation": "Image Refund",
-    "refund": "Refund"
+    "agent_video_clip": "Agent Clip",
+    "agent_video_splicing": "Agent Splicing"
   }
 }
