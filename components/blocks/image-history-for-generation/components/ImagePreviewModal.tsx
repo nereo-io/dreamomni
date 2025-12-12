@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ImagePreviewModalProps {
@@ -55,9 +56,26 @@ const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, hasPrevious, hasNext, onPrevious, onNext, onClose]);
 
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // Save original body overflow style
+    const originalOverflow = document.body.style.overflow;
+
+    // Prevent scrolling
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      // Restore original overflow when modal closes
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
-  return (
+  // Render modal content
+  const modalContent = (
     <div
       className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-8"
       onClick={onClose}
@@ -111,6 +129,12 @@ const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
       </div>
     </div>
   );
+
+  // Use Portal to render modal at document.body level
+  // This ensures fixed positioning works correctly even when parent has backdrop-filter
+  return typeof document !== "undefined"
+    ? createPortal(modalContent, document.body)
+    : null;
 };
 
 export default ImagePreviewModal;
