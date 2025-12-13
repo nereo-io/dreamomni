@@ -20,6 +20,7 @@ export interface ImageModelConfig {
   features: string[];
   credits: number; // 基础积分（对于支持多分辨率的模型，这是最低分辨率的价格）
   maxInputImages?: number; // 图生图最多支持几张输入图片
+  maxPromptLength: number; // 提示词最大字符数
   supportedAspectRatios: string[];
   supportedResolutions?: string[]; // 1K, 2K, 4K
   resolutionCredits?: Record<string, number>; // 不同分辨率的积分价格
@@ -39,6 +40,7 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
     status: "active",
     features: ["text-to-image", "high-quality"],
     credits: 3,
+    maxPromptLength: 5000,
     supportedAspectRatios: ["Auto", "1:1", "3:4", "9:16", "4:3", "16:9"],
     supportedFormats: ["jpg", "png"],
     estimatedGenerationTime: 30, // 实测平均 13 秒
@@ -55,6 +57,7 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
     features: ["image-to-image", "high-quality"],
     credits: 3,
     maxInputImages: 5, // 标准版最多支持 5 张输入图片
+    maxPromptLength: 5000,
     supportedAspectRatios: ["Auto", "1:1", "3:4", "9:16", "4:3", "16:9"],
     supportedFormats: ["jpg", "png"],
     estimatedGenerationTime: 30, // 实测平均 20 秒,留 5 秒余量
@@ -75,6 +78,7 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
     ],
     credits: 6, // 基础积分 (1K 分辨率)
     maxInputImages: 5, // 支持最多 8 张参考图
+    maxPromptLength: 10000, // Pro 版本支持更长的提示词
     supportedAspectRatios: ["1:1", "3:4", "9:16", "4:3", "16:9"],
     supportedResolutions: ["1K", "2K", "4K"],
     resolutionCredits: {
@@ -109,4 +113,14 @@ export function calculateImageCredits(
 
   // 否则返回基础积分
   return model.credits;
+}
+
+/**
+ * 获取指定模型的最大提示词长度
+ * @param modelId 模型 ID
+ * @returns 最大提示词字符数，如果模型不存在则返回默认值 5000
+ */
+export function getMaxPromptLength(modelId: string): number {
+  const model = getImageModel(modelId);
+  return model?.maxPromptLength ?? 5000; // 默认 5000 字符
 }

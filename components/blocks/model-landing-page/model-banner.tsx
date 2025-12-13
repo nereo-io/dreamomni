@@ -6,8 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import { BannerSection, Tab } from "@/types/pages/model-landing-page";
+import { getMaxPromptLength } from "@/config/image-models";
 
-const MAX_PROMPT_LENGTH = 2000;
+// 使用默认模型的最大提示词长度（首页 banner 不选择具体模型，使用默认值）
+const MAX_PROMPT_LENGTH = getMaxPromptLength("nano-banana");
 
 export default function ModelBanner({ section }: { section: BannerSection }) {
   const [prompt, setPrompt] = useState("");
