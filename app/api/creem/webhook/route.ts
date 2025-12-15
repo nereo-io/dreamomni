@@ -95,6 +95,9 @@ export async function POST(req: NextRequest) {
       case "checkout.completed":
         await handleCheckoutCompleted(body);
         break;
+      case "subscription.paid":
+        await handleSubscriptionPaid(body);
+        break;
       default:
         logInfo("ℹ️ Unhandled event type", { eventType: body.eventType });
     }
@@ -294,5 +297,194 @@ async function handleCheckoutCompleted(webhookData: any) {
     }
   } catch (error: any) {
     logError("❌ Error processing checkout completed", error.message);
+  }
+}
+
+/**
+ * 处理订阅续费事件
+ * subscription.paid 在每次订阅续费成功时触发
+ */
+async function handleSubscriptionPaid(webhookData: any) {
+  try {
+    const subscription = webhookData.object;
+    const subscriptionId = subscription?.id;
+    const metadata = subscription?.metadata;
+    const customer = subscription?.customer;
+    const lastTransaction = subscription?.last_transaction;
+
+    logInfo("🔄 Processing subscription.paid event", {
+      subscriptionId,
+      customerId: customer?.id,
+      customerEmail: customer?.email,
+      transactionId: lastTransaction?.id,
+      amount: lastTransaction?.amount,
+      metadata,
+    });
+
+    if (!subscriptionId) {
+      logError("❌ Missing subscription ID", { webhookData });
+      return;
+    }
+
+    // 从 metadata 中获取必要信息
+    const userUuid = metadata?.user_uuid;
+    const userEmail = metadata?.user_email;
+    const productId = metadata?.product_id;
+    const orderNo = metadata?.order_no;
+    const credits = metadata?.credits;
+
+    if (!userUuid || !productId) {
+      logError("❌ Missing required metadata for subscription.paid", {
+        userUuid,
+        productId,
+        metadata,
+      });
+      return;
+    }
+
+    // 获取产品配置
+    const productConfig = getProductConfig(productId);
+    if (!productConfig) {
+      logError("❌ Product configuration not found", { productId });
+      return;
+    }
+
+    // 检查用户是否存在
+    const user = await findUserByUuid(userUuid);
+    if (!user) {
+      logError("❌ User not found", { userUuid });
+      return;
+    }
+
+    // 幂等性检查 - 使用 transactionId 作为唯一标识
+    const transactionId = lastTransaction?.id;
+    if (!transactionId) {
+      logError("❌ Missing transaction ID", { webhookData });
+      return;
+    }
+
+    // 判断是否为首次订阅（避免与 checkout.completed 重复充值）
+    // 首次订阅时 created_at 和 last_transaction_date 几乎相同（秒级差异）
+    const createdAt = new Date(subscription.created_at).getTime();
+    const lastTransactionDate = new Date(
+      subscription.last_transaction_date
+    ).getTime();
+    const timeDiffMs = Math.abs(lastTransactionDate - createdAt);
+    const isFirstSubscription = timeDiffMs < 60 * 1000; // 60秒内认为是首次订阅
+
+    if (isFirstSubscription) {
+      logInfo(
+        "⏭️ First subscription detected, skipping (handled by checkout.completed)",
+        {
+          subscriptionId,
+          createdAt: subscription.created_at,
+          lastTransactionDate: subscription.last_transaction_date,
+          timeDiffMs,
+        }
+      );
+      return;
+    }
+
+    const isProcessed =
+      await PaymentProcessingService.checkPaymentAlreadyProcessed(
+        orderNo || subscriptionId,
+        transactionId
+      );
+
+    if (isProcessed) {
+      logInfo("⚠️ Subscription payment already processed, skipping", {
+        transactionId,
+        subscriptionId,
+        eventType: webhookData.eventType,
+        eventId: webhookData.id,
+      });
+      return;
+    }
+
+    // 使用 PaymentProcessingService 处理续费支付
+    const processingResult = await PaymentProcessingService.processPayment({
+      paymentId: transactionId,
+      orderId: orderNo || `renewal_${subscriptionId}_${Date.now()}`,
+      userUuid,
+      amount: (lastTransaction?.amount || productConfig.amount).toString(),
+      userEmail: userEmail || customer?.email || "",
+      metadata: {
+        credits: credits || productConfig.credits,
+        product_id: productId,
+        product_name: metadata?.product_name || productConfig.product_name,
+        interval: metadata?.interval || productConfig.interval,
+        membershipType: productConfig.membershipType,
+        valid_months: productConfig.valid_months,
+        is_renewal: true,
+        subscription_id: subscriptionId,
+      },
+    });
+
+    if (!processingResult.success) {
+      logError("❌ Subscription renewal payment processing failed", {
+        transactionId,
+        subscriptionId,
+        error: processingResult.error,
+      });
+      return;
+    }
+
+    logInfo("✅ Subscription renewal processed successfully", {
+      transactionId,
+      subscriptionId,
+      creditsAwarded: processingResult.creditsAwarded,
+      membershipUpdated: processingResult.membershipUpdated,
+    });
+
+    // 更新 Creem 订阅记录的周期信息
+    try {
+      const existingSubscription =
+        await findCreemSubscriptionByCreemId(subscriptionId);
+
+      if (existingSubscription) {
+        await updateCreemSubscriptionStatus(
+          subscriptionId,
+          subscription.status || "active",
+          {
+            current_period_start: subscription.current_period_start_date,
+            current_period_end: subscription.current_period_end_date,
+          }
+        );
+
+        logInfo("✅ Subscription period updated", {
+          subscriptionId,
+          periodStart: subscription.current_period_start_date,
+          periodEnd: subscription.current_period_end_date,
+        });
+      } else {
+        logInfo("⚠️ Subscription record not found, creating new one", {
+          subscriptionId,
+        });
+
+        // 如果订阅记录不存在（异常情况），创建一个
+        await createCreemSubscription({
+          user_uuid: userUuid,
+          creem_subscription_id: subscriptionId,
+          creem_customer_id: customer?.id,
+          plan_type:
+            productConfig.interval === "month" ? "monthly" : "yearly",
+          amount: productConfig.amount,
+          currency: productConfig.currency,
+          status: subscription.status || "active",
+          current_period_start: subscription.current_period_start_date,
+          current_period_end: subscription.current_period_end_date,
+          product_name: productConfig.product_name,
+          product_id: productConfig.product_id,
+          creem_product_id: subscription.product?.id,
+        });
+      }
+    } catch (subscriptionError: any) {
+      logError(
+        "⚠️ Failed to update subscription record",
+        subscriptionError.message
+      );
+    }
+  } catch (error: any) {
+    logError("❌ Error processing subscription.paid", error.message);
   }
 }
