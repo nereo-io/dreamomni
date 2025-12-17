@@ -22,6 +22,27 @@ export class PayssionProvider extends BasePaymentProvider {
 
   private config: PayssionConfig;
 
+  private normalizeMandateStatus(
+    status: unknown
+  ): "pending" | "authorized" | "expired" | "canceled" | "created" {
+    if (typeof status !== "string") return "pending";
+
+    const normalized = status.toLowerCase();
+    if (
+      normalized === "pending" ||
+      normalized === "authorized" ||
+      normalized === "expired" ||
+      normalized === "canceled" ||
+      normalized === "created"
+    ) {
+      return normalized;
+    }
+
+    if (normalized === "cancelled") return "canceled";
+
+    return "pending";
+  }
+
   constructor() {
     super();
     this.config = getPayssionConfig();
@@ -194,11 +215,20 @@ export class PayssionProvider extends BasePaymentProvider {
       // 获取重定向URL
       const redirectUrl = result.action?.redirect_to_url?.url;
 
+      const mandateStatus = this.normalizeMandateStatus(result.status);
+      if (result.status !== mandateStatus) {
+        console.log("Normalized mandate status:", {
+          from: result.status,
+          to: mandateStatus,
+          mandateId: result.id,
+        });
+      }
+
       await insertPayssionMandate({
         user_uuid: request.userUuid,
         user_email: request.userEmail,
         mandate_id: result.id,
-        status: result.status || "pending",
+        status: mandateStatus,
         payment_method: request.paymentMethod,
         authorization_url: redirectUrl,
       });
@@ -207,7 +237,7 @@ export class PayssionProvider extends BasePaymentProvider {
         success: true,
         mandateId: result.id,
         redirectUrl: redirectUrl,
-        status: result.status || "pending",
+        status: mandateStatus,
       };
     } catch (error: any) {
       return {

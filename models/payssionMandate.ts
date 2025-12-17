@@ -7,7 +7,7 @@ export interface PayssionMandate {
   user_uuid: string;
   user_email: string;
   mandate_id: string; // Payssion 授权 ID
-  status: "pending" | "authorized" | "expired" | "canceled";
+  status: "pending" | "authorized" | "expired" | "canceled" | "created";
   payment_method: string; // 前端格式：mir, yoomoney, sberpay, tbank
   authorization_url?: string;
   authorized_at?: string;
