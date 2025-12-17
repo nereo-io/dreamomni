@@ -1,0 +1,309 @@
+
+> veo3-ai@1.0.0 build /Users/jasper/Projects/veo3
+> next build
+
+  ▲ Next.js 14.2.15
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+(node:53521) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+ ⨯ ESLint: Invalid Options: - Unknown options: useEslintrc, extensions - 'extensions' has been removed.
+   Collecting page data ...
+✅ Nano Banana provider initialized
+(node:54953) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:54955) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:54957) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:54956) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:54954) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✅ Nano Banana provider initialized
+(node:54958) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✅ Nano Banana provider initialized
+(node:54959) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+   Generating static pages (0/78) ...
+获取统计数据失败: n [Error]: Dynamic server usage: Route /api/admin/statistics couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at l (/Users/jasper/Projects/veo3/.next/server/chunks/7590.js:1:57695)
+    at c (/Users/jasper/Projects/veo3/.next/server/chunks/9109.js:1:1504)
+    at /Users/jasper/Projects/veo3/.next/server/chunks/9336.js:368:59671
+    at c (/Users/jasper/Projects/veo3/.next/server/app/api/admin/statistics/route.js:1:1366)
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:36963
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24) {
+  description: "Route /api/admin/statistics couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Failed to get credit history: n [Error]: Dynamic server usage: Route /api/credits/history couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at l (/Users/jasper/Projects/veo3/.next/server/chunks/7590.js:1:57695)
+    at c (/Users/jasper/Projects/veo3/.next/server/chunks/9109.js:1:1504)
+    at /Users/jasper/Projects/veo3/.next/server/chunks/9336.js:368:59671
+    at c (/Users/jasper/Projects/veo3/.next/server/chunks/8355.js:1:6962)
+    at c (/Users/jasper/Projects/veo3/.next/server/app/api/credits/history/route.js:1:1366)
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:36963
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31) {
+  description: "Route /api/credits/history couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+   Generating static pages (19/78) 
+检查支付状态失败: n [Error]: Dynamic server usage: Route /api/check-recent-payment couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at l (/Users/jasper/Projects/veo3/.next/server/chunks/7590.js:1:57695)
+    at c (/Users/jasper/Projects/veo3/.next/server/chunks/9109.js:1:1504)
+    at /Users/jasper/Projects/veo3/.next/server/chunks/9336.js:368:59671
+    at c (/Users/jasper/Projects/veo3/.next/server/chunks/8355.js:1:6962)
+    at p (/Users/jasper/Projects/veo3/.next/server/app/api/check-recent-payment/route.js:1:1366)
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:36963
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31) {
+  description: "Route /api/check-recent-payment couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Unexpected error in featured images API: B [Error]: Dynamic server usage: Route /api/image-generations/featured couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at V (/Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:21777)
+    at Object.get (/Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:29137)
+    at p (/Users/jasper/Projects/veo3/.next/server/app/api/image-generations/featured/route.js:1:783)
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:36963
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/server/lib/trace/tracer.js:122:103 {
+  description: "Route /api/image-generations/featured couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Check membership status failed: n [Error]: Dynamic server usage: Route /api/membership/status couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at l (/Users/jasper/Projects/veo3/.next/server/chunks/7590.js:1:57695)
+    at c (/Users/jasper/Projects/veo3/.next/server/chunks/9109.js:1:1504)
+    at /Users/jasper/Projects/veo3/.next/server/chunks/9336.js:368:59671
+    at c (/Users/jasper/Projects/veo3/.next/server/app/api/membership/status/route.js:1:1370)
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:36963
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24) {
+  description: "Route /api/membership/status couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Failed to get user credits: n [Error]: Dynamic server usage: Route /api/credits couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at l (/Users/jasper/Projects/veo3/.next/server/chunks/7590.js:1:57695)
+    at c (/Users/jasper/Projects/veo3/.next/server/chunks/9109.js:1:1504)
+    at /Users/jasper/Projects/veo3/.next/server/chunks/9336.js:368:59671
+    at c (/Users/jasper/Projects/veo3/.next/server/chunks/8355.js:1:6962)
+    at c (/Users/jasper/Projects/veo3/.next/server/app/api/credits/route.js:1:1365)
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:36963
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31) {
+  description: "Route /api/credits couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Subscription details error: n [Error]: Dynamic server usage: Route /api/subscription/details couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at l (/Users/jasper/Projects/veo3/.next/server/chunks/7590.js:1:57695)
+    at c (/Users/jasper/Projects/veo3/.next/server/chunks/9109.js:1:1504)
+    at /Users/jasper/Projects/veo3/.next/server/chunks/9336.js:368:59671
+    at c (/Users/jasper/Projects/veo3/.next/server/chunks/8355.js:1:6962)
+    at d (/Users/jasper/Projects/veo3/.next/server/app/api/subscription/details/route.js:1:1382)
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:36963
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31) {
+  description: "Route /api/subscription/details couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+   Generating static pages (38/78) 
+Error proxying image: B [Error]: Dynamic server usage: Route /api/proxy-image couldn't be rendered statically because it used `nextUrl.searchParams`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at V (/Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:21777)
+    at Object.get (/Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:28809)
+    at u (/Users/jasper/Projects/veo3/.next/server/app/api/proxy-image/route.js:1:531)
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:36963
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/server/lib/trace/tracer.js:122:103 {
+  description: "Route /api/proxy-image couldn't be rendered statically because it used `nextUrl.searchParams`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+获取视频生成结果失败: B [Error]: Dynamic server usage: Route /api/video-generation/result couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at V (/Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:21777)
+    at Object.get (/Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:29137)
+    at l (/Users/jasper/Projects/veo3/.next/server/app/api/video-generation/result/route.js:1:558)
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:36963
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/server/lib/trace/tracer.js:122:103 {
+  description: "Route /api/video-generation/result couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Failed to get video generation history: n [Error]: Dynamic server usage: Route /api/video-generations/history couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at l (/Users/jasper/Projects/veo3/.next/server/chunks/7590.js:1:57695)
+    at c (/Users/jasper/Projects/veo3/.next/server/chunks/9109.js:1:1504)
+    at /Users/jasper/Projects/veo3/.next/server/chunks/9336.js:368:59671
+    at c (/Users/jasper/Projects/veo3/.next/server/app/api/video-generations/history/route.js:1:1382)
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:36963
+    at /Users/jasper/Projects/veo3/node_modules/.pnpm/next@14.2.15_@babel+core@7.28.3_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-_80b57ba1a45d7913dec5379f0793c01d/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/jasper/Projects/veo3/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24) {
+  description: "Route /api/video-generations/history couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+开始生成 sitemap...
+添加了 19 个基础页面
+添加了 57 个本地化基础页面
+   Generating static pages (58/78) 
+为 en 语言添加了 77 个博客页面
+为 ru 语言添加了 51 个博客页面
+为 de 语言添加了 51 个博客页面
+为 fr 语言添加了 51 个博客页面
+总共添加了 230 个博客页面
+Found 29 effect configs for locale en
+为 en 语言添加了 29 个 video effect 页面
+Found 29 effect configs for locale ru
+为 ru 语言添加了 29 个 video effect 页面
+Found 0 effect configs for locale de
+为 de 语言添加了 0 个 video effect 页面
+Found 0 effect configs for locale fr
+为 fr 语言添加了 0 个 video effect 页面
+总共添加了 58 个 video effect 页面
+sitemap 生成完成，总共包含 364 个页面
+ ✓ Generating static pages (78/78)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                Size     First Load JS
+┌ ○ /_not-found                            880 B          89.2 kB
+├ ƒ /[locale]                              4.45 kB         579 kB
+├ ● /[locale]/[model]                      13.9 kB         126 kB
+├   ├ /en/nano-banana
+├   ├ /ru/nano-banana
+├   ├ /de/nano-banana
+├   └ [+17 more paths]
+├ ƒ /[locale]/admin                        168 B          88.5 kB
+├ ƒ /[locale]/admin/data                   168 B          88.5 kB
+├ ƒ /[locale]/admin/paid-orders            3.65 kB         613 kB
+├ ƒ /[locale]/admin/posts                  6.34 kB         622 kB
+├ ƒ /[locale]/admin/posts/[uuid]/edit      183 B             1 MB
+├ ƒ /[locale]/admin/posts/add              185 B             1 MB
+├ ƒ /[locale]/admin/users                  3.65 kB         613 kB
+├ ƒ /[locale]/agent                        18.9 kB         673 kB
+├ ƒ /[locale]/agent/[id]                   2.09 kB        90.4 kB
+├ ƒ /[locale]/agent/create                 168 B          88.5 kB
+├ ƒ /[locale]/auth/error                   180 B          95.4 kB
+├ ƒ /[locale]/auth/reset-password          43.1 kB         148 kB
+├ ƒ /[locale]/auth/signin                  4.99 kB         641 kB
+├ ƒ /[locale]/blog                         2.61 kB        97.8 kB
+├ ƒ /[locale]/blog/[slug]                  357 kB          495 kB
+├ ƒ /[locale]/history                      17.6 kB         650 kB
+├ ƒ /[locale]/home                         4.22 kB         579 kB
+├ ƒ /[locale]/i/[code]                     398 B          88.7 kB
+├ ƒ /[locale]/image-to-image               401 B           688 kB
+├ ƒ /[locale]/image-to-video               1.93 kB         693 kB
+├ ƒ /[locale]/membership                   6.33 kB         166 kB
+├ ƒ /[locale]/my-credits                   1.04 kB         585 kB
+├ ƒ /[locale]/my-invites                   168 B          88.5 kB
+├ ƒ /[locale]/my-orders                    1.04 kB         585 kB
+├ ƒ /[locale]/pay-success/[session_id]     168 B          88.5 kB
+├ ƒ /[locale]/pricing                      8.2 kB          637 kB
+├ ƒ /[locale]/reference-to-video           2.03 kB         691 kB
+├ ƒ /[locale]/text-to-image                425 B           688 kB
+├ ƒ /[locale]/text-to-video                1.25 kB         694 kB
+├ ƒ /[locale]/video-effects                3.19 kB         115 kB
+├ ƒ /[locale]/video-effects/[slug]         1.03 kB         690 kB
+├ ƒ /api/admin/statistics                  0 B                0 B
+├ ƒ /api/agent/jobs                        0 B                0 B
+├ ƒ /api/agent/jobs/[id]                   0 B                0 B
+├ ƒ /api/agent/jobs/[id]/assets            0 B                0 B
+├ ƒ /api/agent/jobs/[id]/retry             0 B                0 B
+├ ƒ /api/ai-callback/[provider]            0 B                0 B
+├ ƒ /api/auth/[...nextauth]                0 B                0 B
+├ ƒ /api/auth/email-signin                 0 B                0 B
+├ ƒ /api/auth/forgot-password              0 B                0 B
+├ ƒ /api/auth/resend-verification          0 B                0 B
+├ ƒ /api/auth/signup                       0 B                0 B
+├ ƒ /api/auth/vk-sdk                       0 B                0 B
+├ ƒ /api/auth/vk-sdk/callback              0 B                0 B
+├ ƒ /api/check-recent-payment              0 B                0 B
+├ ƒ /api/checkout                          0 B                0 B
+├ ƒ /api/credits                           0 B                0 B
+├ ƒ /api/credits/history                   0 B                0 B
+├ ƒ /api/creem/subscription/cancel         0 B                0 B
+├ ƒ /api/creem/webhook                     0 B                0 B
+├ ƒ /api/customer-portal                   0 B                0 B
+├ ƒ /api/effects/list                      0 B                0 B
+├ ƒ /api/geolocation                       0 B                0 B
+├ ƒ /api/get-user-info                     0 B                0 B
+├ ƒ /api/image-generation/status           0 B                0 B
+├ ƒ /api/image-generation/submit           0 B                0 B
+├ ƒ /api/image-generations/delete          0 B                0 B
+├ ƒ /api/image-generations/featured        0 B                0 B
+├ ƒ /api/image-generations/history         0 B                0 B
+├ ƒ /api/internal/credits/deduct           0 B                0 B
+├ ƒ /api/internal/credits/refund           0 B                0 B
+├ ƒ /api/internal/image-generation         0 B                0 B
+├ ƒ /api/internal/video-generation         0 B                0 B
+├ ƒ /api/membership/status                 0 B                0 B
+├ ƒ /api/outrank/webhook                   0 B                0 B
+├ ƒ /api/payment-methods                   0 B                0 B
+├ ƒ /api/payssion/v2-webhook               0 B                0 B
+├ ƒ /api/ping                              0 B                0 B
+├ ƒ /api/proxy-image                       0 B                0 B
+├ ƒ /api/proxy-video                       0 B                0 B
+├ ƒ /api/stripe-notify                     0 B                0 B
+├ ƒ /api/subscription/cancel               0 B                0 B
+├ ƒ /api/subscription/create               0 B                0 B
+├ ƒ /api/subscription/details              0 B                0 B
+├ ƒ /api/update-invite                     0 B                0 B
+├ ƒ /api/update-invite-code                0 B                0 B
+├ ƒ /api/upload/presign                    0 B                0 B
+├ ƒ /api/user/sync                         0 B                0 B
+├ ƒ /api/video-effects/pixverse/generate   0 B                0 B
+├ ƒ /api/video-effects/pixverse/upload     0 B                0 B
+├ ƒ /api/video-generation/optimize-prompt  0 B                0 B
+├ ƒ /api/video-generation/result           0 B                0 B
+├ ƒ /api/video-generation/status           0 B                0 B
+├ ƒ /api/video-generation/submit           0 B                0 B
+├ ƒ /api/video-generation/webhook          0 B                0 B
+├ ƒ /api/video-generation/webhook/ali      0 B                0 B
+├ ƒ /api/video-generations/[id]            0 B                0 B
+├ ƒ /api/video-generations/history         0 B                0 B
+├ ƒ /privacy-policy                        168 B          88.5 kB
+├ ƒ /refund-policy                         168 B          88.5 kB
+├ ○ /sitemap.xml                           0 B                0 B
+└ ƒ /terms-of-service                      168 B          88.5 kB
++ First Load JS shared by all              88.3 kB
+  ├ chunks/7468-271aa7dbcc5362fb.js        31.7 kB
+  ├ chunks/a9a86dbb-279d7766acf387b8.js    53.6 kB
+  └ other shared chunks (total)            2.97 kB
+
+
+ƒ Middleware                               48.5 kB
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses getStaticProps)
+ƒ  (Dynamic)  server-rendered on demand
+

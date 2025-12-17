@@ -568,8 +568,8 @@
     "generationStatusChecking": "Status wird überprüft...",
     "showcaseImageLoaded": "Showcase-Bild erfolgreich geladen",
     "failedToLoadShowcaseImage": "Fehler beim Laden des Showcase-Bildes",
-    "imageAgent": "Multi-Shot Generation",
-    "imageAgentTooltip": "AI expands your prompt into multiple angles, scenes, and lighting variations. Perfect for product photography, comic storyboards, and creative exploration.",
+    "imageAgent": "Mehrfachaufnahme-Generierung",
+    "imageAgentTooltip": "KI erweitert Ihre Eingabe in mehrere Blickwinkel, Szenen und Beleuchtungsvariationen. Perfekt für Produktfotografie, Comic-Storyboards und kreative Erkundungen.",
     "imageCount": "Ausgaben",
     "generateMultipleImages": "{count} Bilder generieren"
   },

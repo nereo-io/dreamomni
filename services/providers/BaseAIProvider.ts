@@ -3,13 +3,14 @@
  * Base AI Provider Abstract Class
  */
 
-import type { 
-  AIServiceProvider, 
-  ProviderTaskResponse, 
+import type {
+  AIServiceProvider,
+  ProviderTaskResponse,
   ProviderImageResult,
   AIProviderModel,
   AIProviderConfig
 } from "@/types/provider.d";
+import { getMaxPromptLength } from "@/config/image-models";
 
 export interface GenerateImageRequest {
   prompt: string;
@@ -127,8 +128,8 @@ export abstract class BaseAIProvider {
     const modelId = 'model' in request ? request.model : undefined;
     const modelConfig = modelId ? this.getModelById(modelId) : null;
 
-    // 根据模型配置确定提示词最大长度
-    const maxLength = modelId === 'nano-banana-pro' ? 5000 : 2000;
+    // 根据模型配置确定提示词最大长度（从统一配置获取）
+    const maxLength = modelId ? getMaxPromptLength(modelId) : 5000;
     if (request.prompt.length > maxLength) {
       throw new Error(`Prompt is too long (max ${maxLength} characters)`);
     }

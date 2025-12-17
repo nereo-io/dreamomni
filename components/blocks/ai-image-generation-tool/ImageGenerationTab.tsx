@@ -25,6 +25,7 @@ import {
   IMAGE_MODELS,
   getImageModel,
   calculateImageCredits,
+  getMaxPromptLength,
 } from "@/config/image-models";
 import ImageAgentSection from "./ImageAgentSection";
 import { CreditHistoryModal } from "@/components/ui/credit-history-modal";
@@ -40,8 +41,6 @@ interface ImageGenerationTabProps {
   promptValue?: string;
   onPromptChange?: (value: string) => void;
 }
-
-const MAX_PROMPT_LENGTH = 2000;
 
 // Helper function to map statuses between different types
 const mapStatusForHistory = (
@@ -156,7 +155,9 @@ export default function ImageGenerationTab({
     selectedModel,
     isProModel ? resolution : undefined
   );
-  const requiredCredits = agentMode ? creditsPerImage * agentImageCount : creditsPerImage;
+  const requiredCredits = agentMode
+    ? creditsPerImage * agentImageCount
+    : creditsPerImage;
 
   // 检查是否需要CAPTCHA验证（基于积分）
   const needsCaptcha = useCallback(() => {
@@ -195,9 +196,12 @@ export default function ImageGenerationTab({
     adjustTextareaHeight();
   }, [prompt]);
 
+  // 获取当前模型的最大提示词长度
+  const maxPromptLength = getMaxPromptLength(selectedModel);
+
   const handlePromptChange = useCallback(
     (value: string) => {
-      if (value.length > MAX_PROMPT_LENGTH) {
+      if (value.length > maxPromptLength) {
         return;
       }
 
@@ -207,7 +211,7 @@ export default function ImageGenerationTab({
         setInternalPrompt(value);
       }
     },
-    [isControlledPrompt, onPromptChange]
+    [isControlledPrompt, onPromptChange, maxPromptLength]
   );
 
   const applyPromptFromShowcase = useCallback(
@@ -235,10 +239,13 @@ export default function ImageGenerationTab({
   );
 
   // Handle image changes from ImageGridUploader
-  const handleImagesChange = useCallback((imageUrls: string[], sourceIds?: string[]) => {
-    setUploadedImageUrls(imageUrls);
-    setSourceImageIds(sourceIds || []); // 保存来源图片ID
-  }, []);
+  const handleImagesChange = useCallback(
+    (imageUrls: string[], sourceIds?: string[]) => {
+      setUploadedImageUrls(imageUrls);
+      setSourceImageIds(sourceIds || []); // 保存来源图片ID
+    },
+    []
+  );
 
   // Load prompt from localStorage on component mount
   useEffect(() => {
@@ -452,7 +459,8 @@ export default function ImageGenerationTab({
       updated_at: result.updated_at || new Date().toISOString(),
       // Agent 模式字段
       is_agent_mode: result.is_agent_mode ?? params.agent_mode ?? false,
-      agent_image_count: result.agent_image_count ?? params.agent_image_count ?? 0,
+      agent_image_count:
+        result.agent_image_count ?? params.agent_image_count ?? 0,
       image_urls: result.image_urls || [],
       image_urls_r2: result.image_urls_r2 || [],
       metadata: result.metadata,
@@ -520,7 +528,8 @@ export default function ImageGenerationTab({
           updated_at: result.updated_at || new Date().toISOString(),
           // Agent 模式字段 - 从轮询结果或原始参数获取
           is_agent_mode: result.is_agent_mode ?? params.agent_mode ?? false,
-          agent_image_count: result.agent_image_count ?? params.agent_image_count ?? 0,
+          agent_image_count:
+            result.agent_image_count ?? params.agent_image_count ?? 0,
           image_urls: result.image_urls || [],
           image_urls_r2: result.image_urls_r2 || [],
           metadata: result.metadata,
@@ -558,7 +567,8 @@ export default function ImageGenerationTab({
           updated_at: result.updated_at || new Date().toISOString(),
           // Agent 模式字段
           is_agent_mode: result.is_agent_mode ?? params.agent_mode ?? false,
-          agent_image_count: result.agent_image_count ?? params.agent_image_count ?? 0,
+          agent_image_count:
+            result.agent_image_count ?? params.agent_image_count ?? 0,
           image_urls: result.image_urls || [],
           image_urls_r2: result.image_urls_r2 || [],
           metadata: result.metadata,
@@ -667,9 +677,9 @@ export default function ImageGenerationTab({
             <div>
               <div className="flex justify-between items-center text-white text-lg font-semibold mb-3">
                 <span>{t("prompt")}</span>
-                {prompt.length > 900 && (
+                {prompt.length > 3000 && (
                   <span className="text-sm font-normal text-gray-400">
-                    {prompt.length}/{MAX_PROMPT_LENGTH}
+                    {prompt.length}/{maxPromptLength}
                   </span>
                 )}
               </div>
@@ -687,7 +697,7 @@ export default function ImageGenerationTab({
                 className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
                 style={{ minHeight: "128px", maxHeight: "255px" }}
                 disabled={isGenerating}
-                maxLength={MAX_PROMPT_LENGTH}
+                maxLength={maxPromptLength}
               />
             </div>
 
@@ -890,7 +900,9 @@ export default function ImageGenerationTab({
                   agentMode={agentMode}
                   onAgentModeChange={setAgentMode}
                   imageCount={agentImageCount}
-                  onImageCountChange={(count) => setAgentImageCount(count as 6 | 9 | 12)}
+                  onImageCountChange={(count) =>
+                    setAgentImageCount(count as 6 | 9 | 12)
+                  }
                   creditsPerImage={creditsPerImage}
                   disabled={isGenerating}
                 />

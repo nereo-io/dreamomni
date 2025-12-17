@@ -4,11 +4,10 @@ import { Switch } from "@/components/ui/switch";
 import { BetaBadge } from "@/components/ui/beta-badge";
 import { useTranslations } from "next-intl";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { HelpCircle } from "lucide-react";
 
 interface ImageAgentSectionProps {
@@ -38,16 +37,20 @@ export default function ImageAgentSection({
         <label className="text-gray-300 text-sm flex items-center gap-1.5">
           {t("imageAgent")}
           <BetaBadge />
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <HelpCircle className="h-3.5 w-3.5 text-gray-400 cursor-help" />
-              </TooltipTrigger>
-              <TooltipContent className="max-w-xs">
-                <p className="text-sm">{t("imageAgentTooltip")}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Popover>
+            <PopoverTrigger asChild>
+              <button
+                type="button"
+                className="inline-flex items-center justify-center"
+                aria-label="Help"
+              >
+                <HelpCircle className="h-3.5 w-3.5 text-gray-400 hover:text-gray-300 transition-colors cursor-pointer" />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="max-w-xs p-3" align="start">
+              <p className="text-sm text-gray-200">{t("imageAgentTooltip")}</p>
+            </PopoverContent>
+          </Popover>
         </label>
         <Switch
           checked={agentMode}
