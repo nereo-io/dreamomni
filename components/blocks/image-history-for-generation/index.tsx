@@ -582,7 +582,7 @@ export default function ImageHistoryForGeneration({
                 ? ({
                     ...img,
                     status: "failed",
-                    error_message: "生成超时（超过5分钟）",
+                    error_message: "Generation timed out (over 5 minutes)",
                   } as ImageGenerationResult)
                 : img
             );
