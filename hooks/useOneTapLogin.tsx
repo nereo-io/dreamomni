@@ -6,148 +6,6 @@ import { useYandexTracking } from "@/hooks/useYandexTracking";
 
 const GOOGLE_ONE_TAP_SCRIPT_SRC = "https://accounts.google.com/gsi/client";
 const ONE_TAP_IDLE_TIMEOUT_MS = 4000;
-const ONE_TAP_DEBUG =
-  process.env.NEXT_PUBLIC_AUTH_GOOGLE_ONE_TAP_DEBUG === "true";
-
-function installOneTapNetworkLogger() {
-  if (typeof window === "undefined") return () => {};
-
-  const globalKey = "__veo3_one_tap_netlog__";
-  const existing = (window as any)[globalKey] as
-    | { cleanup: () => void }
-    | undefined;
-  if (existing) return existing.cleanup;
-
-  const shouldLog = (url: string) =>
-    url.includes("accounts.google.com/gsi/") ||
-    url.includes("oauth2.googleapis.com/") ||
-    url.includes("accounts.google.com/gsi/fedcm/");
-
-  const originalFetch = window.fetch?.bind(window);
-  const originalXHROpen = XMLHttpRequest.prototype.open;
-  const originalXHRSend = XMLHttpRequest.prototype.send;
-
-  if (typeof originalFetch === "function") {
-    window.fetch = (async (...args: any[]) => {
-      const [input, init] = args;
-      const url =
-        typeof input === "string"
-          ? input
-          : input?.url
-            ? String(input.url)
-            : String(input);
-      const method = (init?.method || "GET").toUpperCase();
-      const start = performance.now();
-
-      try {
-        const res = await originalFetch(...(args as [any, any]));
-        if (shouldLog(url)) {
-          const ms = Math.round(performance.now() - start);
-          console.log("[One Tap][net] fetch", {
-            method,
-            url,
-            status: res.status,
-            ok: res.ok,
-            type: (res as any).type,
-            redirected: res.redirected,
-            ms,
-            contentType: res.headers.get("content-type"),
-            contentDisposition: res.headers.get("content-disposition"),
-          });
-        }
-        return res;
-      } catch (error) {
-        if (shouldLog(url)) {
-          const ms = Math.round(performance.now() - start);
-          console.log("[One Tap][net] fetch error", { method, url, ms, error });
-        }
-        throw error;
-      }
-    }) as any;
-  }
-
-  XMLHttpRequest.prototype.open = function (
-    this: XMLHttpRequest,
-    method: string,
-    url: string | URL,
-    ...rest: any[]
-  ) {
-    (this as any).__oneTapLog = {
-      method: String(method || "GET").toUpperCase(),
-      url: typeof url === "string" ? url : String(url),
-      start: performance.now(),
-    };
-    const openArgs = [method, url as any, ...rest];
-    return originalXHROpen.apply(this, openArgs as Parameters<typeof originalXHROpen>);
-  };
-
-  XMLHttpRequest.prototype.send = function (
-    this: XMLHttpRequest,
-    ...args: any[]
-  ) {
-    const meta = (this as any).__oneTapLog as
-      | { method: string; url: string; start: number }
-      | undefined;
-
-    if (meta && shouldLog(meta.url)) {
-      const onDone = () => {
-        const ms = Math.round(performance.now() - meta.start);
-        console.log("[One Tap][net] xhr", {
-          method: meta.method,
-          url: meta.url,
-          status: this.status,
-          ms,
-        });
-      };
-
-      this.addEventListener("loadend", onDone, { once: true });
-    }
-
-    return originalXHRSend.apply(this, args as [any]);
-  };
-
-  let observer: PerformanceObserver | null = null;
-  if (typeof PerformanceObserver !== "undefined") {
-    try {
-      observer = new PerformanceObserver((list) => {
-        for (const entry of list.getEntries()) {
-          const name = String((entry as any).name || "");
-          if (!shouldLog(name)) continue;
-          console.log("[One Tap][net] resource", {
-            name,
-            initiatorType: (entry as any).initiatorType,
-            duration: Math.round((entry as any).duration || 0),
-            transferSize: (entry as any).transferSize,
-            encodedBodySize: (entry as any).encodedBodySize,
-          });
-        }
-      });
-
-      observer.observe({ entryTypes: ["resource"] });
-    } catch {
-      // ignore
-    }
-  }
-
-  const cleanup = () => {
-    try {
-      if (typeof originalFetch === "function") {
-        window.fetch = originalFetch as any;
-      }
-      XMLHttpRequest.prototype.open = originalXHROpen;
-      XMLHttpRequest.prototype.send = originalXHRSend;
-      observer?.disconnect();
-    } catch {
-      // ignore
-    } finally {
-      delete (window as any)[globalKey];
-    }
-  };
-
-  (window as any)[globalKey] = { cleanup };
-  return cleanup;
-}
-
 function waitForLargestContentfulPaint({
   settleMs = 500,
   timeoutMs = 10000,
@@ -307,23 +165,6 @@ export default function useOneTapLogin({
     const lcpReady = waitForLargestContentfulPaint();
     const initAndPrompt = async () => {
       try {
-        const cleanupNetLog =
-          process.env.NODE_ENV !== "production" && ONE_TAP_DEBUG
-            ? installOneTapNetworkLogger()
-            : null;
-        if (process.env.NODE_ENV !== "production" && ONE_TAP_DEBUG) {
-          console.log("[One Tap] init", {
-            href: window.location.href,
-            origin: window.location.origin,
-            resetKey,
-            effectiveType: connection?.effectiveType,
-            saveData: connection?.saveData,
-            downlink: connection?.downlink,
-            rtt: connection?.rtt,
-            clientIdPresent: !!process.env.NEXT_PUBLIC_AUTH_GOOGLE_ID,
-          });
-        }
-
         await loadGoogleOneTapScript();
 
         if (!window.google?.accounts?.id) {
@@ -363,7 +204,6 @@ export default function useOneTapLogin({
           }
         });
 
-        cleanupNetLog?.();
       } catch (error) {
         console.error("Failed to initialize Google One Tap:", error);
       }
