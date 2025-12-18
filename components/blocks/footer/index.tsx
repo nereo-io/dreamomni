@@ -20,6 +20,11 @@ export default function Footer({ footer }: { footer: FooterType }) {
                         src={footer.brand.logo.src}
                         alt={footer.brand.logo.alt || footer.brand.title}
                         className="h-11"
+                        loading="lazy"
+                        decoding="async"
+                        fetchPriority="low"
+                        width={44}
+                        height={44}
                       />
                     )}
                     {footer.brand.title && (

@@ -15,21 +15,60 @@ import useOneTapLogin from "@/hooks/useOneTapLogin";
 import useMembership from "@/hooks/useMembership";
 import useCredits from "@/hooks/useCredits";
 import { useSession } from "next-auth/react";
-import PricingModal from "@/components/blocks/pricing/pricing-modal";
-import { getPricingBlock } from "@/services/page";
 import { Pricing } from "@/types/blocks/pricing";
+import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
+import { locales } from "@/i18n/locale";
+
+const PricingModal = dynamic(
+  () => import("@/components/blocks/pricing/pricing-modal"),
+  { ssr: false }
+);
 
 const AppContext = createContext({} as ContextValue);
 
 export const useAppContext = () => useContext(AppContext);
 
-export const AppContextProvider = ({ children }: { children: ReactNode }) => {
-  if (
-    process.env.NEXT_PUBLIC_AUTH_GOOGLE_ONE_TAP_ENABLED === "true" &&
-    process.env.NEXT_PUBLIC_AUTH_GOOGLE_ID
-  ) {
-    useOneTapLogin();
-  }
+export const AppContextProvider = ({
+  children,
+  locale,
+}: {
+  children: ReactNode;
+  locale?: string;
+}) => {
+  const pathname = usePathname() || "/";
+  const normalizedPathname = (() => {
+    const segments = pathname.split("/").filter(Boolean);
+    if (segments.length === 0) return "/";
+
+    const maybeLocale = segments[0];
+    if (locales.includes(maybeLocale as (typeof locales)[number])) {
+      return `/${segments.slice(1).join("/")}` || "/";
+    }
+
+    return pathname;
+  })();
+
+  const oneTapRouteEnabled =
+    normalizedPathname === "/" ||
+    normalizedPathname.startsWith("/agent") ||
+    normalizedPathname.startsWith("/history") ||
+    normalizedPathname.startsWith("/home") ||
+    normalizedPathname.startsWith("/image-to-image") ||
+    normalizedPathname.startsWith("/image-to-video") ||
+    normalizedPathname.startsWith("/nano-banana-pro") ||
+    normalizedPathname.startsWith("/reference-to-video") ||
+    normalizedPathname.startsWith("/text-to-image") ||
+    normalizedPathname.startsWith("/text-to-video") ||
+    normalizedPathname.startsWith("/video-effects");
+
+  useOneTapLogin({
+    resetKey: normalizedPathname,
+    enabled:
+      oneTapRouteEnabled &&
+      process.env.NEXT_PUBLIC_AUTH_GOOGLE_ONE_TAP_ENABLED === "true" &&
+      !!process.env.NEXT_PUBLIC_AUTH_GOOGLE_ID,
+  });
 
   const { data: session } = useSession();
   const { membership, isLoadingMembership, refreshMembership } =
@@ -150,19 +189,31 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [session]);
 
-  // 获取 pricing 数据
   useEffect(() => {
+    if (!showPricingModal || pricingData) {
+      return;
+    }
+
+    let cancelled = false;
+
     const fetchPricingData = async () => {
       try {
-        const data = await getPricingBlock("en");
-        setPricingData(data);
+        const { getPricingBlock } = await import("@/services/page");
+        const data = await getPricingBlock(locale || "en");
+        if (!cancelled) {
+          setPricingData(data);
+        }
       } catch (error) {
         console.error("Failed to fetch pricing data:", error);
       }
     };
 
     fetchPricingData();
-  }, []);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [showPricingModal, pricingData, locale]);
 
   return (
     <AppContext.Provider

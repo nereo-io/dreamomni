@@ -123,21 +123,9 @@ export default function VideoGenerator({
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [generateAudio] = useState(true);
 
-  // Enhanced Prompt 开关状态：优先读取 localStorage，默认关闭
-  const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(() => {
-    if (typeof window === 'undefined') return false;
-
-    try {
-      const stored = localStorage.getItem('video-prompt-enhancement-enabled');
-      if (stored !== null) {
-        return stored === 'true';
-      }
-    } catch (error) {
-      console.error('Failed to read from localStorage:', error);
-    }
-
-    return false; // 默认关闭 enhanced prompt
-  });
+  // Enhanced Prompt 开关状态：默认关闭，避免 SSR/CSR 因 localStorage 产生 hydration mismatch
+  const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(false);
+  const promptEnhancementPrefLoadedRef = useRef(false);
 
   // 图片上传状态（通过 ImageUploader 组件管理）
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
@@ -184,8 +172,24 @@ export default function VideoGenerator({
     }
   }, [user?.uuid, updateLeftCredits]);
 
+  // 读取 Enhanced Prompt 偏好（仅在客户端）
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('video-prompt-enhancement-enabled');
+      if (stored !== null) {
+        setEnablePromptEnhancement(stored === 'true');
+      }
+    } catch (error) {
+      console.error('Failed to read from localStorage:', error);
+    } finally {
+      promptEnhancementPrefLoadedRef.current = true;
+    }
+  }, []);
+
   // 自动保存 Enhanced Prompt 偏好到 localStorage
   useEffect(() => {
+    if (!promptEnhancementPrefLoadedRef.current) return;
+
     try {
       localStorage.setItem('video-prompt-enhancement-enabled', String(enablePromptEnhancement));
     } catch (error) {

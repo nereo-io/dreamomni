@@ -48,7 +48,7 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning className="dark">
       <body
         className={cn(
           "min-h-screen bg-gray-950 font-sans antialiased overflow-x-hidden",

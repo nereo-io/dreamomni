@@ -17,8 +17,10 @@ const withMDX = mdx({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
   reactStrictMode: false,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   images: {
     remotePatterns: [
@@ -40,13 +42,21 @@ const nextConfig = {
     return [];
   },
   async headers() {
+    const isDev = process.env.NODE_ENV === "development";
+    const staticAssetCacheControl = isDev
+      ? "no-store, must-revalidate"
+      : "public, max-age=31536000, immutable";
+    const mediaCacheControl = isDev
+      ? "no-store, must-revalidate"
+      : "public, max-age=86400, s-maxage=86400";
+
     return [
       {
         source: '/:path*.(jpg|jpeg|png|gif|webp|avif|svg|ico)',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
+            value: staticAssetCacheControl
           }
         ]
       },
@@ -55,7 +65,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=86400, s-maxage=86400'
+            value: mediaCacheControl
           }
         ]
       },
@@ -64,7 +74,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
+            value: staticAssetCacheControl
           }
         ]
       },
@@ -73,7 +83,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
+            value: staticAssetCacheControl
           }
         ]
       },

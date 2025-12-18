@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ImageToVideoShowcase as ImageToVideoShowcaseData } from "@/types/blocks/image-to-video-showcase";
 import { cn } from "@/lib/utils";
 import { SectionHeader } from "@/components/blocks/section-header";
+import { useInViewport } from "@/hooks/useInViewport";
 
 interface ImageToVideoShowcaseProps {
   data: ImageToVideoShowcaseData;
@@ -18,6 +19,8 @@ export function ImageToVideoShowcase({
   title,
   description,
 }: ImageToVideoShowcaseProps) {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const shouldLoadMedia = useInViewport(sectionRef, { rootMargin: "0px" });
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -155,9 +158,15 @@ export function ImageToVideoShowcase({
   }
 
   const currentExample = examples[currentIndex];
+  const getExamplePoster = (exampleId: string) =>
+    `/imgs/intro/image-to-video/posters/${exampleId}.webp`;
 
   return (
-    <div className="w-full py-12 md:py-16 relative overflow-hidden">
+    <div
+      id="video-generator"
+      ref={sectionRef}
+      className="w-full py-12 md:py-16 relative overflow-hidden"
+    >
       {/* Background gradient effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
       <div className="absolute inset-0">
@@ -215,7 +224,15 @@ export function ImageToVideoShowcase({
                         <img
                           alt={currentExample.originalAlt}
                           className="w-full h-full object-contain aspect-square"
-                          src={currentExample.originalImage}
+                          src={
+                            shouldLoadMedia
+                              ? currentExample.originalImage
+                              : getExamplePoster(currentExample.id)
+                          }
+                          loading="lazy"
+                          decoding="async"
+                          width={512}
+                          height={512}
                         />
                       </div>
                     </div>
@@ -263,11 +280,13 @@ export function ImageToVideoShowcase({
                       controls
                       loop
                       muted
-                      autoPlay
+                      autoPlay={shouldLoadMedia}
                       playsInline
+                      preload="none"
                       className="w-full h-auto object-contain"
                       style={{ maxHeight: "60vh" }}
-                      src={currentExample.videoImage}
+                      src={shouldLoadMedia ? currentExample.videoImage : undefined}
+                      poster={getExamplePoster(currentExample.id)}
                       aria-label={currentExample.videoAlt}
                     >
                       Your browser does not support the video tag.
@@ -325,7 +344,15 @@ export function ImageToVideoShowcase({
                       <img
                         alt={currentExample.originalAlt}
                         className="w-[360px] max-h-[360px] object-contain"
-                        src={currentExample.originalImage}
+                        src={
+                          shouldLoadMedia
+                            ? currentExample.originalImage
+                            : getExamplePoster(currentExample.id)
+                        }
+                        loading="lazy"
+                        decoding="async"
+                        width={360}
+                        height={360}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
@@ -372,10 +399,14 @@ export function ImageToVideoShowcase({
                         controls
                         loop
                         muted
-                        autoPlay
+                        autoPlay={shouldLoadMedia}
                         playsInline
+                        preload="none"
                         className="w-[640px] h-[400px] object-contain"
-                        src={currentExample.videoImage}
+                        src={
+                          shouldLoadMedia ? currentExample.videoImage : undefined
+                        }
+                        poster={getExamplePoster(currentExample.id)}
                         aria-label={currentExample.videoAlt}
                       >
                         Your browser does not support the video tag.

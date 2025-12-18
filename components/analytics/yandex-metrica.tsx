@@ -3,13 +3,21 @@
 import { useEffect } from 'react';
 import Script from 'next/script';
 import { initClientId } from '@/lib/yandex-metrica';
+import { useHasInteracted } from "@/hooks/useHasInteracted";
 
 export default function YandexMetrica() {
+  const hasInteracted = useHasInteracted();
+
   useEffect(() => {
+    if (!hasInteracted) return;
     initClientId();
-  }, []);
+  }, [hasInteracted]);
 
   if (process.env.NODE_ENV !== "production") {
+    return null;
+  }
+
+  if (!hasInteracted) {
     return null;
   }
 
@@ -23,7 +31,7 @@ export default function YandexMetrica() {
     <>
       <Script
         id="yandex-metrica"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         dangerouslySetInnerHTML={{
           __html: `
             (function(m,e,t,r,i,k,a){
@@ -45,15 +53,6 @@ export default function YandexMetrica() {
           `,
         }}
       />
-      <noscript>
-        <div>
-          <img
-            src={`https://mc.yandex.ru/watch/${metricaId}`}
-            style={{ position: "absolute", left: "-9999px" }}
-            alt=""
-          />
-        </div>
-      </noscript>
     </>
   );
 }

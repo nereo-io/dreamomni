@@ -104,6 +104,21 @@ html {
       background-position: 0% 50%;
     }
   }
+
+  .rainbow-gradient {
+    background: linear-gradient(
+      90deg,
+      #ff0080,
+      #ff8c00,
+      #ffd700,
+      #00ff00,
+      #00ffff,
+      #0080ff,
+      #8000ff
+    );
+    background-size: 200% 100%;
+    animation: gradient 3s ease infinite;
+  }
   body {
     @apply bg-background text-foreground;
   }

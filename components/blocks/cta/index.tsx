@@ -1,6 +1,7 @@
 import { RainbowButton } from "@/components/ui/rainbow-button";
 import Icon from "@/components/icon";
 import Link from "next/link";
+import Image from "next/image";
 import { Section as SectionType } from "@/types/blocks/section";
 
 export default function CTA({ section }: { section: SectionType }) {
@@ -10,7 +11,14 @@ export default function CTA({ section }: { section: SectionType }) {
 
   return (
     <section id={section.name} className="relative w-full overflow-hidden">
-      <div className='relative flex min-h-[400px] items-center justify-center bg-[url("/imgs/cta-bg.png")] bg-cover bg-center bg-no-repeat py-20 text-center'>
+      <div className="relative flex min-h-[400px] items-center justify-center py-20 text-center">
+        <Image
+          src="/imgs/cta-bg.png"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
         <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
         <div className="relative z-10 mx-auto max-w-4xl px-8">
           <h2 className="mb-10 text-balance text-3xl font-bold text-white md:text-5xl lg:text-6xl">

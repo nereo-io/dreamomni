@@ -39,6 +39,9 @@ yarn-error.log*
 next-env.d.ts
 scripts/node_modules
 scripts
+!scripts/
+scripts/*
+!scripts/start-standalone.mjs
 processed-media
 
 # Makefile

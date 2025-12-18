@@ -276,6 +276,7 @@ export const providerMap = providers
 
 export const authOptions: NextAuthConfig = {
   providers,
+  trustHost: true,
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
