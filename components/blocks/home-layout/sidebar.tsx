@@ -67,10 +67,9 @@ export function Sidebar() {
     },
   ];
 
-  // Agent Videos - 暂时隐藏
-  // const agentItems: SidebarItem[] = [
-  //   { icon: Film, labelKey: "agent_videos", href: "/agent" },
-  // ];
+  const agentItems: SidebarItem[] = [
+    { icon: Film, labelKey: "agent_videos", href: "/agent" },
+  ];
 
   const otherItems: SidebarItem[] = [
     { icon: FolderOpen, labelKey: "my_creations", href: "/history" },
@@ -97,13 +96,14 @@ export function Sidebar() {
           className={`flex items-center ${isCollapsed ? "justify-center" : "justify-between"
             }`}
         >
-          <div
-            className={`flex items-center ${isCollapsed ? "justify-center" : "space-x-2"
+          <Link
+            href={`/${locale}`}
+            className={`flex items-center transition-opacity hover:opacity-80 ${isCollapsed ? "justify-center" : "space-x-2"
               }`}
           >
             <img src="/logo.png" alt="Veo3" className="w-8 h-8" />
             {!isCollapsed && <span className="text-xl font-bold">Veo3</span>}
-          </div>
+          </Link>
           {!isCollapsed && (
             <div className="flex items-center space-x-2">
               <Button
@@ -170,7 +170,7 @@ export function Sidebar() {
           ))}
         </div>
 
-        {/* Agent Videos - 暂时隐藏
+        {/* Agent Videos */}
         <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
           {agentItems.map((item) => (
             <Link
@@ -189,7 +189,6 @@ export function Sidebar() {
             </Link>
           ))}
         </div>
-        */}
 
         {/* Other */}
         <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
