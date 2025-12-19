@@ -4,7 +4,7 @@ import "@/app/globals.css";
 import { getMessages, getTranslations } from "next-intl/server";
 
 import { AppContextProvider } from "@/contexts/app";
-import { Outfit } from "next/font/google";
+import localFont from "next/font/local";
 import { Metadata } from "next";
 import { NextAuthSessionProvider } from "@/auth/session";
 import { NextIntlClientProvider } from "next-intl";
@@ -15,10 +15,43 @@ import YandexMetrica from "@/components/analytics/yandex-metrica";
 // import { SpeedInsights } from '@vercel/speed-insights/next';
 // import { Analytics } from "@vercel/analytics/react";
 
-const fontSans = Outfit({
-  subsets: ["latin"],
+const fontSans = localFont({
+  src: [
+    {
+      path: "../../public/fonts/outfit/Outfit-Regular.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/outfit/Outfit-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/outfit/Outfit-Regular.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/outfit/Outfit-Regular.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/outfit/Outfit-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/outfit/Outfit-Bold.ttf",
+      weight: "800",
+      style: "normal",
+    },
+  ],
   variable: "--font-sans",
-  weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
+  preload: true,
+  fallback: ["Inter", "Helvetica", "Arial", "sans-serif"],
 });
 
 export async function generateMetadata({
