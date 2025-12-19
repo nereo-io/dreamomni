@@ -90,6 +90,10 @@ export async function POST(req: NextRequest) {
     // Extract clientID from cookies for Yandex Metrica offline conversion tracking
     const cookieHeader = req.headers.get('cookie') || '';
     const clientId = getClientIdFromCookie(cookieHeader);
+    const requestHost =
+      req.headers.get("x-forwarded-host") || req.headers.get("host");
+    const requestReferer = req.headers.get("referer");
+    const requestUserAgent = req.headers.get("user-agent");
 
     // 创建订单号
     const order_no = getSnowId();
@@ -141,6 +145,29 @@ export async function POST(req: NextRequest) {
       is_renewal: false,
     };
     await insertOrder(order);
+
+    // TEMP: audit tracking for client_id gaps; remove after data collection.
+    try {
+      const { insertOrderTrackingAudit } = await import(
+        "@/models/orderTrackingAudit"
+      );
+
+      await insertOrderTrackingAudit({
+        order_no: order_no,
+        user_uuid: user_uuid,
+        payment_provider: order.payment_provider,
+        payment_method: payment_method,
+        has_client_id: !!clientId,
+        request_host: requestHost || undefined,
+        request_referer: requestReferer || undefined,
+        request_user_agent: requestUserAgent || undefined,
+      });
+    } catch (auditError: any) {
+      logError("⚠️ 订单追踪审计写入失败", {
+        order_no,
+        error: auditError?.message || String(auditError),
+      });
+    }
 
     // 直接使用 PaymentRouter 创建订阅
     const paymentRouter = getPaymentRouter();
