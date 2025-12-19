@@ -109,6 +109,8 @@ export async function createAgentJob(data: {
   reference_image_url?: string;
   reference_image_urls?: string[];
   duration_seconds: number;
+  aspect_ratio?: string;
+  keyframes_enabled?: boolean;
   image_model?: string;
   video_model?: string;
 }) {

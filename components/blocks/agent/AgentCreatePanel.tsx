@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import {
   Select,
   SelectContent,
@@ -23,30 +24,32 @@ import { toast } from 'sonner';
 import { Loader2, Play } from 'lucide-react';
 import { useAppContext } from '@/contexts/app';
 import useCredits from '@/hooks/useCredits';
+import { getVideoModel } from '@/config/video-models';
 
 const IMAGE_MODELS = [
+  { value: 'nano-banana-pro', label: 'Nano Banana Pro', credits: 2 },
   { value: 'nano-banana', label: 'Nano Banana', credits: 2 },
 ];
 
 const VIDEO_MODELS = [
+  { value: 'auto', label: 'Auto (Sora → Veo3 → Seedance)' },
+  { value: 'sora-2-image-to-video', label: 'Sora 2' },
   { value: 'kie-veo3-image-to-video', label: 'Veo3' },
-  { value: 'doubao-seedance-1-0-pro-image-to-video', label: 'Seedance Pro' },
+  { value: 'byteplus-seedance-pro-image-to-video', label: 'Seedance Pro' },
 ];
 
 const COST_CONFIG = {
   planReserve: 2, // plan_story_and_shots_node
-  characterRefPerImage: 2, // design_characters_node
-  characterRefMax: 2,
+  roleSceneReference: 2, // design_characters_node (role+scene reference image)
   keyframePerShot: 2, // generate_keyframes_node
-  averageShotDuration: 8,
-  videoCostPerSecond: 1.5, // orchestrate_videos_node
+  averageShotDuration: 10, // planning target
   spliceCost: 3, // splice_videos_node
 };
 
 const DURATIONS = [
-  { value: 16, label: '16s' },
-  { value: 32, label: '32s' },
-  { value: 48, label: '48s' },
+  { value: 20, label: '20s' },
+  { value: 40, label: '40s' },
+  { value: 60, label: '60s' },
 ];
 
 interface AgentCreatePanelProps {
@@ -54,7 +57,10 @@ interface AgentCreatePanelProps {
   initialData?: {
     prompt: string;
     referenceImageUrl?: string;
+    referenceImageUrls?: string[];
     durationSeconds?: number;
+    aspectRatio?: string;
+    keyframesEnabled?: boolean;
     imageModel?: string;
     videoModel?: string;
   };
@@ -66,34 +72,53 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
 
   const [prompt, setPrompt] = useState('');
   const [referenceImageUrls, setReferenceImageUrls] = useState<string[]>([]);
-  const [duration, setDuration] = useState<number>(16);
-  const [imageModel, setImageModel] = useState('nano-banana');
-  const [videoModel, setVideoModel] = useState('kie-veo3-image-to-video');
+  const [duration, setDuration] = useState<number>(20);
+  const [aspectRatio, setAspectRatio] = useState<string>('16:9');
+  const [keyframesEnabled, setKeyframesEnabled] = useState<boolean>(true);
+  const [imageModel, setImageModel] = useState('nano-banana-pro');
+  const [videoModel, setVideoModel] = useState('auto');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Pre-fill form when initialData changes (for re-edit)
   useEffect(() => {
     if (initialData) {
       setPrompt(initialData.prompt || '');
-      setReferenceImageUrls(initialData.referenceImageUrl ? [initialData.referenceImageUrl] : []);
-      setDuration(initialData.durationSeconds || 16);
-      setImageModel(initialData.imageModel || 'nano-banana');
-      setVideoModel(initialData.videoModel || 'kie-veo3-image-to-video');
+      const refs =
+        initialData.referenceImageUrls && initialData.referenceImageUrls.length > 0
+          ? initialData.referenceImageUrls
+          : initialData.referenceImageUrl
+          ? [initialData.referenceImageUrl]
+          : [];
+      setReferenceImageUrls(refs);
+      setDuration(initialData.durationSeconds || 20);
+      setAspectRatio(initialData.aspectRatio || '16:9');
+      setKeyframesEnabled(typeof initialData.keyframesEnabled === 'boolean' ? initialData.keyframesEnabled : true);
+      setImageModel(initialData.imageModel || 'nano-banana-pro');
+      setVideoModel(initialData.videoModel || 'auto');
     }
   }, [initialData]);
+
+  const getEstimatedVideoDurationPerShot = (selected: string) => {
+    if (selected === 'kie-veo3-image-to-video') return 8;
+    if (selected === 'byteplus-seedance-pro-image-to-video') return 10;
+    if (selected === 'sora-2-image-to-video') return 10;
+    return 10; // auto or unknown
+  };
 
   const calculateEstimatedCredits = () => {
     const estimatedShots = Math.max(1, Math.ceil(duration / COST_CONFIG.averageShotDuration));
     const planCost = COST_CONFIG.planReserve;
-    const characterReferenceCost =
-      referenceImageUrls.length > 0
-        ? 0
-        : COST_CONFIG.characterRefMax * COST_CONFIG.characterRefPerImage;
-    const keyframeCredits = estimatedShots * COST_CONFIG.keyframePerShot;
-    const videoCredits = Math.ceil(duration * COST_CONFIG.videoCostPerSecond);
+    const roleSceneReferenceCost = COST_CONFIG.roleSceneReference;
+    const keyframeCredits = keyframesEnabled ? estimatedShots * COST_CONFIG.keyframePerShot : 0;
+
+    const resolvedVideoModel = videoModel === 'auto' ? 'sora-2-image-to-video' : videoModel;
+    const modelConfig = getVideoModel(resolvedVideoModel);
+    const perSecondCredits = modelConfig?.perSecondCredits ?? 1.5;
+    const perShotDuration = getEstimatedVideoDurationPerShot(resolvedVideoModel);
+    const videoCredits = estimatedShots * (perShotDuration * perSecondCredits);
     const spliceCredits = COST_CONFIG.spliceCost;
 
-    return planCost + characterReferenceCost + keyframeCredits + videoCredits + spliceCredits;
+    return Math.ceil(planCost + roleSceneReferenceCost + keyframeCredits + videoCredits + spliceCredits);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -127,6 +152,8 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
         reference_image_url: referenceImageUrls[0] || undefined,
         reference_image_urls: referenceImageUrls.length > 0 ? referenceImageUrls : undefined,
         duration_seconds: duration,
+        aspect_ratio: aspectRatio,
+        keyframes_enabled: keyframesEnabled,
         image_model: imageModel,
         video_model: videoModel,
       };
@@ -151,7 +178,9 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
       // Reset form
       setPrompt('');
       setReferenceImageUrls([]);
-      setDuration(16);
+      setDuration(20);
+      setAspectRatio('16:9');
+      setKeyframesEnabled(true);
 
       // Notify parent to refresh job list
       onJobCreated?.();
@@ -214,26 +243,49 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
           </div>
 
           {/* Duration */}
-          <div>
-            <Label className="text-gray-300 text-sm mb-2 block">Duration</Label>
-            <Select value={duration.toString()} onValueChange={val => setDuration(Number(val))}>
-              <SelectTrigger className="bg-gray-800 border-gray-700 text-gray-100">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {DURATIONS.map(d => (
-                  <SelectItem key={d.value} value={d.value.toString()}>
-                    {d.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="grid grid-cols-1 gap-4">
+            <div>
+              <Label className="text-gray-300 text-sm mb-2 block">Aspect Ratio</Label>
+              <Select value={aspectRatio} onValueChange={setAspectRatio}>
+                <SelectTrigger className="bg-gray-800 border-gray-700 text-gray-100">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="16:9">16:9</SelectItem>
+                  <SelectItem value="9:16">9:16</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label className="text-gray-300 text-sm mb-2 block">Duration</Label>
+              <Select value={duration.toString()} onValueChange={val => setDuration(Number(val))}>
+                <SelectTrigger className="bg-gray-800 border-gray-700 text-gray-100">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {DURATIONS.map(d => (
+                    <SelectItem key={d.value} value={d.value.toString()}>
+                      {d.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex items-center justify-between rounded-lg border border-gray-700 bg-gray-800 px-4 py-3">
+              <div className="space-y-1">
+                <div className="text-sm font-medium text-gray-200">Generate Keyframes</div>
+                <div className="text-xs text-gray-400">1 keyframe per shot for image-to-video</div>
+              </div>
+              <Switch checked={keyframesEnabled} onCheckedChange={setKeyframesEnabled} />
+            </div>
           </div>
 
           {/* Models */}
           <div className="space-y-4">
             <div>
-              <Label className="text-gray-300 text-sm mb-2 block">Keyframe Model</Label>
+              <Label className="text-gray-300 text-sm mb-2 block">Image Model</Label>
               <Select value={imageModel} onValueChange={setImageModel}>
                 <SelectTrigger className="bg-gray-800 border-gray-700 text-gray-100">
                   <SelectValue />

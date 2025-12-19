@@ -11,12 +11,11 @@ import { AgentJob, AgentJobStatusMap } from '@/types/agent';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Loader2, Trash2, Download, Edit } from 'lucide-react';
+import { Loader2, Trash2, Edit } from 'lucide-react';
 import DeleteConfirmDialog from '@/components/blocks/image-history-for-generation/components/DeleteConfirmDialog';
 import { AgentAssetGrid } from './AgentAssetGrid';
 import VideoPlayer from '@/components/blocks/video-history/components/VideoPlayer';
 import { getVideoModel } from '@/config/video-models';
-import { useGenerationProgress } from '@/hooks/useGenerationProgress';
 
 interface AgentJobItemProps {
   job: AgentJob;
@@ -170,9 +169,17 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
         ? [job.reference_image_url]
         : [];
 
-    const aspectRatio = (job as any).aspect_ratio || '16:9';
-    const videoModelId = (job as any).video_model;
+    const aspectRatio = job.aspect_ratio || '16:9';
+    const videoModelId = job.video_model;
     const modelConfig = videoModelId ? getVideoModel(videoModelId) : undefined;
+    const videoModelLabel = (() => {
+      if (!videoModelId) return null;
+      if (videoModelId === 'auto') return 'Auto';
+      if (videoModelId === 'sora-2-image-to-video') return 'Sora 2';
+      if (videoModelId === 'kie-veo3-image-to-video') return 'Veo3';
+      if (videoModelId === 'byteplus-seedance-pro-image-to-video') return 'Seedance Pro';
+      return modelConfig?.displayName || videoModelId;
+    })();
 
     return (
       <>
@@ -242,12 +249,12 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
             >
               {job.num_shots} shots
             </Badge>
-            {job.video_model && (
+            {videoModelLabel && (
               <Badge
                 variant="secondary"
                 className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium px-2.5 py-1 rounded-md border-0"
               >
-                {job.video_model === 'kie-veo3-image-to-video' ? 'Veo3' : 'Seedance Pro'}
+                {videoModelLabel}
               </Badge>
             )}
           </div>
@@ -290,6 +297,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               characterReferenceImages={job.character_reference_images || null}
               locale={locale}
               aspectRatio={aspectRatio}
+              keyframesEnabled={job.keyframes_enabled}
               progress={job.progress}
               referenceImageUrl={thumbnailUrl || referenceImages[0] || undefined}
               jobStatus={job.status}

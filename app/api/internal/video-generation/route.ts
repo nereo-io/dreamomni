@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getVideoModel, VideoModelProvider, isSora2Model } from '@/config/video-models';
 
 /**
  * 内部 API: 视频生成
@@ -18,7 +19,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { userId, prompt, imageUrl, duration, model } = body;
+    const { userId, prompt, imageUrl, duration, model, aspectRatio, aspect_ratio } = body;
 
     // 参数验证
     if (!userId || !prompt || !imageUrl) {
@@ -35,6 +36,14 @@ export async function POST(req: NextRequest) {
     // 确定模型ID (默认 kie-veo3-image-to-video)
     const modelId = model || 'kie-veo3-image-to-video';
     const durationSeconds = duration || 8;
+    const resolvedAspectRatio = aspectRatio || aspect_ratio || '16:9';
+    const modelConfig = getVideoModel(modelId);
+    // 部分提供商需要实际的 API 模型 ID（如 BytePlus/Volcano 使用 endpoint ID）
+    const providerModelId =
+      modelConfig?.provider === VideoModelProvider.BYTEPLUS ||
+      modelConfig?.provider === VideoModelProvider.VOLCANO
+        ? modelConfig?.volcanoModel || modelId
+        : modelId;
 
     // 获取对应的 Provider
     const provider = ProviderFactory.getProvider(modelId);
@@ -42,14 +51,15 @@ export async function POST(req: NextRequest) {
     // 构建 webhook URL
     const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
 
-    // 提交视频生成任务
+    // 提交视频生成任务（Agent 直接走 BytePlus，不走 Volcano 降级）
     const submitResult = await provider.submit(
       modelId,
       {
-        model: modelId,
+        model: providerModelId,
         prompt: prompt,
         image_url: imageUrl,
         duration: String(durationSeconds),
+        aspect_ratio: resolvedAspectRatio,
       },
       webhookUrl // 使用 webhook 自动更新状态
     );
@@ -61,9 +71,18 @@ export async function POST(req: NextRequest) {
     // 根据模型类型确定 request_id 字段名
     // Kie.ai Veo3 模型使用 veo3_request_id (与 APICore 共享字段)
     // Kie.ai Sora 模型使用 sora_request_id
-    let requestIdField = 'veo3_request_id';
-    if (modelId.includes('sora-2-')) {
-      requestIdField = 'sora_request_id';
+    let requestIdField = "veo3_request_id";
+    if (isSora2Model(modelId)) {
+      requestIdField = "sora_request_id";
+    } else if (modelConfig?.provider === VideoModelProvider.FAL) {
+      requestIdField = "fal_request_id";
+    } else if (modelConfig?.provider === VideoModelProvider.ALI) {
+      requestIdField = "ali_request_id";
+    } else if (
+      modelConfig?.provider === VideoModelProvider.BYTEPLUS ||
+      modelConfig?.provider === VideoModelProvider.VOLCANO
+    ) {
+      requestIdField = "volcano_request_id";
     }
 
     // 创建视频生成记录
@@ -74,6 +93,7 @@ export async function POST(req: NextRequest) {
       duration_seconds: durationSeconds,
       user_id: userId,
       status: 'IN_PROGRESS',
+      aspect_ratio: resolvedAspectRatio,
       [requestIdField]: submitResult.request_id, // 动态设置 request_id 字段
     });
 
@@ -135,11 +155,20 @@ export async function GET(req: NextRequest) {
       );
     }
 
+    const videoUrl =
+      videoGeneration.video_url_r2 ||
+      videoGeneration.video_url_veo3 ||
+      videoGeneration.video_url_sora ||
+      videoGeneration.video_url_volcano ||
+      videoGeneration.video_url_fal ||
+      videoGeneration.video_url_ali ||
+      videoGeneration.video_url_pixverse;
+
     return NextResponse.json({
       success: true,
       id: videoGeneration.id,
       status: videoGeneration.status,
-      videoUrl: videoGeneration.video_url_r2 || videoGeneration.video_url_veo3,
+      videoUrl,
       errorMessage: videoGeneration.error_message
     });
 

@@ -4,19 +4,39 @@
  * 用途: 手动登录一次，保存 session 供后续测试使用
  *
  * 支持两种登录方式:
- * 1. 邮箱登录 (自动化): 461453258@qq.com / 12341234
- * 2. Google 登录 (手动): hugeroger@gmail.com
+ * 1. 邮箱登录 (自动化): 通过环境变量配置
+ * 2. Google 登录 (手动)
+ *
+ * 环境变量:
+ * - E2E_TEST_EMAIL / E2E_TEST_PASSWORD: 邮箱登录凭据（不要写入仓库）
+ * - E2E_FORCE_LOGIN=true: 忽略已保存的 storageState，强制重新登录
  */
 
 import { chromium, FullConfig } from '@playwright/test';
+import { config as loadDotenv } from 'dotenv';
 import * as fs from 'fs';
 import * as path from 'path';
 
 async function globalSetup(config: FullConfig) {
   const storageStatePath = 'tests/e2e/.auth/user.json';
+  const forceLogin = process.env.E2E_FORCE_LOGIN === 'true';
+
+  // Load local env files for convenience (do not commit passwords).
+  // Priority: .env.e2e.local -> .env.local
+  try {
+    const e2eEnvPath = path.resolve(process.cwd(), '.env.e2e.local');
+    const localEnvPath = path.resolve(process.cwd(), '.env.local');
+    if (fs.existsSync(e2eEnvPath)) {
+      loadDotenv({ path: e2eEnvPath, override: false });
+    } else if (fs.existsSync(localEnvPath)) {
+      loadDotenv({ path: localEnvPath, override: false });
+    }
+  } catch (error) {
+    console.log('⚠️  Failed to load local env files:', error);
+  }
 
   // 检查是否已存在有效 session
-  if (fs.existsSync(storageStatePath)) {
+  if (!forceLogin && fs.existsSync(storageStatePath)) {
     console.log('✅ Found existing auth state, skipping login');
     console.log('💡 Tip: Delete tests/e2e/.auth/user.json to re-login');
     return;
@@ -57,9 +77,18 @@ async function globalSetup(config: FullConfig) {
     const passwordInput = page.locator('input[type="password"], input[name="password"]').first();
 
     if (await emailInput.isVisible({ timeout: 5000 }).catch(() => false)) {
+      const email = process.env.E2E_TEST_EMAIL;
+      const password = process.env.E2E_TEST_PASSWORD;
+
+      if (!email || !password) {
+        throw new Error(
+          'E2E_TEST_EMAIL / E2E_TEST_PASSWORD not set. Set env vars or use manual Google login.'
+        );
+      }
+
       // 邮箱登录表单可见
-      await emailInput.fill('461453258@qq.com');
-      await passwordInput.fill('12341234');
+      await emailInput.fill(email);
+      await passwordInput.fill(password);
 
       // 查找提交按钮
       const submitButton = page.locator('button[type="submit"], button:has-text("Sign In"), button:has-text("Log In")').first();

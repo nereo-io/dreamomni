@@ -29,6 +29,7 @@ yarn-error.log*
 .env.local
 .env.development
 .env.production
+.env.e2e.local
 
 # vercel
 .vercel
@@ -53,6 +54,9 @@ magicuidesign-saas-template-12514ccfe8614a3204f886565bc3ab7b75bfded3
 .kiro
 docs/vk
 
+# Playwright local auth state
+tests/e2e/.auth/
+
 # instructions
 /a_instructions/
 /a_marketing/
@@ -62,3 +66,4 @@ docs/vk
 # Playwright 测试认证状态（包含敏感 session）
 tests/e2e/.auth/
 playwright-report/
+test-results/

@@ -14,6 +14,7 @@ export interface AgentJob {
   image_model: string;
   video_model: string;
   aspect_ratio?: string;
+  keyframes_enabled?: boolean;
   status: 'pending' | 'generating_script' | 'generating_characters' | 'splitting_shots' | 'generating_keyframes' |
           'waiting_for_confirmation' | 'orchestrating_videos' | 'generating_videos' |
           'splicing' | 'completed' | 'failed';
@@ -53,9 +54,14 @@ export interface AgentShot {
   } | null;
   duration_seconds: number;
   keyframe_url?: string;
-  keyframe_status: 'pending' | 'generating' | 'done' | 'failed';
+  keyframe_status: 'pending' | 'generating' | 'done' | 'failed' | 'skipped';
+  keyframe_model_used?: string | null;
+  keyframe_attempts?: Array<Record<string, any>> | null;
   video_url?: string;
   video_status: 'pending' | 'generating' | 'done' | 'failed';
+  video_error_message?: string | null;
+  model_used?: string | null;
+  attempts?: Array<Record<string, any>> | null;
   created_at: string;
   updated_at?: string;
 }
@@ -88,6 +94,8 @@ export interface CreateAgentJobRequest {
   reference_image_url?: string;
   reference_image_urls?: string[];
   duration_seconds: number;
+  aspect_ratio?: string;
+  keyframes_enabled?: boolean;
   image_model?: string;
   video_model?: string;
 }
@@ -117,4 +125,5 @@ export const AgentShotStatusMap: Record<AgentShot['keyframe_status'], { label: s
   generating: { label: 'Generating', color: 'blue' },
   done: { label: 'Done', color: 'green' },
   failed: { label: 'Failed', color: 'red' },
+  skipped: { label: 'Skipped', color: 'gray' },
 };

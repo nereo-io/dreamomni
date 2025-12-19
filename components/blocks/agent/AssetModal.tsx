@@ -36,7 +36,12 @@ interface StoryShotDetail {
   keyframePrompt?: string;
   keyframeMetadata?: Record<string, any> | null;
   keyframeStatus?: string;
+  keyframeModelUsed?: string | null;
+  keyframeAttempts?: Array<Record<string, any>> | null;
   videoStatus?: string;
+  videoModelUsed?: string | null;
+  videoAttempts?: Array<Record<string, any>> | null;
+  videoErrorMessage?: string | null;
 }
 
 interface StoryDetails {
@@ -164,6 +169,38 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
     }
   };
 
+  const getDownloadableTextContent = () => {
+    if (type === 'script' && data.content) return data.content;
+
+    if (type === 'story' && data.storyDetails) {
+      const { theme, tone, acts = [], characters = [], shots = [] } = data.storyDetails;
+      return JSON.stringify(
+        {
+          story_outline: { theme, tone, acts },
+          main_characters: characters,
+          shots: shots.map((shot) => ({
+            shot_number: shot.number,
+            duration_seconds: shot.duration,
+            prompt: shot.prompt,
+            keyframe_prompt: shot.keyframePrompt,
+            keyframe_status: shot.keyframeStatus,
+            keyframe_model_used: shot.keyframeModelUsed,
+            video_status: shot.videoStatus,
+            model_used: shot.videoModelUsed,
+            attempts: shot.videoAttempts,
+            video_error_message: shot.videoErrorMessage,
+          })),
+          total_duration_seconds: data.totalDurationSeconds,
+          shots_count: data.shotsCount,
+        },
+        null,
+        2
+      );
+    }
+
+    return null;
+  };
+
   const handleDownload = () => {
     if (data.url) {
       const link = document.createElement('a');
@@ -173,10 +210,27 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
           ? 'mp4'
           : type === 'image' || type === 'character_refs'
           ? 'png'
+          : type === 'story' || type === 'script'
+          ? 'json'
           : 'txt';
       link.download = `${type}_${data.shotNumber || 'asset'}.${ext}`;
       link.click();
+      return;
     }
+
+    const content = getDownloadableTextContent();
+    if (!content) return;
+
+    const blob = new Blob([content], {
+      type: type === 'story' || type === 'script' ? 'application/json' : 'text/plain',
+    });
+    const objectUrl = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = `${type}_${data.shotNumber || 'asset'}.${type === 'story' || type === 'script' ? 'json' : 'txt'}`;
+    link.click();
+    window.URL.revokeObjectURL(objectUrl);
   };
 
   const getTitle = () => {
@@ -335,6 +389,10 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                 const keyframePromptText = shot.keyframePrompt
                   ? sanitizeKeyframePrompt(shot.keyframePrompt, shot.prompt)
                   : null;
+                const videoAttemptsText =
+                  shot.videoAttempts && shot.videoAttempts.length > 0
+                    ? JSON.stringify(shot.videoAttempts, null, 2)
+                    : null;
 
                 return (
                   <AccordionItem
@@ -357,6 +415,16 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                           Keyframe Done
                         </Badge>
                       )}
+                      {shot.keyframeStatus === 'skipped' && (
+                        <Badge variant="outline" className="border-white/15 text-gray-200 text-xs">
+                          Keyframe Skipped
+                        </Badge>
+                      )}
+                      {shot.keyframeStatus === 'failed' && (
+                        <Badge variant="outline" className="border-rose-400/40 text-rose-300 text-xs">
+                          Keyframe Failed
+                        </Badge>
+                      )}
                       {shot.videoStatus === 'generating' && (
                         <Badge variant="outline" className="border-amber-300/30 text-amber-200 text-xs">
                           Generating
@@ -365,6 +433,16 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                       {shot.videoStatus === 'done' && (
                         <Badge variant="outline" className="border-emerald-400/30 text-emerald-300 text-xs">
                           Video Done
+                        </Badge>
+                      )}
+                      {shot.videoStatus === 'failed' && (
+                        <Badge variant="outline" className="border-rose-400/40 text-rose-300 text-xs">
+                          Video Failed
+                        </Badge>
+                      )}
+                      {shot.videoModelUsed && (
+                        <Badge variant="outline" className="border-white/15 text-gray-200 text-xs">
+                          Model: {shot.videoModelUsed}
                         </Badge>
                       )}
                     </div>
@@ -409,6 +487,35 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                             </pre>
                           </div>
                         )}
+
+                        {(shot.videoErrorMessage || videoAttemptsText) && (
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between text-xs uppercase tracking-wide text-gray-400">
+                              <span>Video Routing</span>
+                              {videoAttemptsText && (
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-7 px-2 text-xs text-gray-300 hover:bg-white/10"
+                                  onClick={() => handleCopy(videoAttemptsText)}
+                                >
+                                  <Copy className="h-3.5 w-3.5 mr-1" />
+                                  Copy Attempts
+                                </Button>
+                              )}
+                            </div>
+                            {shot.videoErrorMessage && (
+                              <div className="text-xs text-rose-300 bg-rose-500/10 border border-rose-500/20 rounded-lg p-3 whitespace-pre-wrap break-words">
+                                {shot.videoErrorMessage}
+                              </div>
+                            )}
+                            {videoAttemptsText && (
+                              <pre className="bg-black/40 rounded-lg p-3 text-xs text-gray-100 whitespace-pre-wrap leading-relaxed">
+                                {videoAttemptsText}
+                              </pre>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </AccordionContent>
                   </AccordionItem>
@@ -427,18 +534,18 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
         <DialogHeader>
           <div className="flex items-center gap-3">
             <DialogTitle className="text-gray-100">{getTitle()}</DialogTitle>
-            {(type === 'script' || (type === 'story' && data.content)) && (
+            {(type === 'script' || type === 'story') && getDownloadableTextContent() && (
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => handleCopy(undefined, true)}
+                onClick={() => handleCopy(getDownloadableTextContent() || undefined, true)}
                 className="h-8 text-gray-400 hover:text-gray-100 hover:bg-gray-700/50"
               >
                 <Copy className="h-3.5 w-3.5 mr-1.5" />
                 {isCopied ? 'Copied' : 'Copy'}
               </Button>
             )}
-            {data.url && (
+            {(data.url || getDownloadableTextContent()) && (
               <Button
                 variant="ghost"
                 size="sm"

@@ -34,7 +34,12 @@ interface StoryShotDetail {
   keyframePrompt?: string;
   keyframeMetadata?: Record<string, any> | null;
   keyframeStatus?: AgentShot['keyframe_status'];
+  keyframeModelUsed?: string | null;
+  keyframeAttempts?: Array<Record<string, any>> | null;
   videoStatus?: AgentShot['video_status'];
+  videoModelUsed?: string | null;
+  videoAttempts?: Array<Record<string, any>> | null;
+  videoErrorMessage?: string | null;
 }
 
 interface StoryDetails {
@@ -71,6 +76,7 @@ interface AgentAssetGridProps {
   characterReferenceImages?: string[] | null;
   locale: string;
   aspectRatio?: string;
+  keyframesEnabled?: boolean;
   progress?: AgentJob['progress'];
   referenceImageUrl?: string;
   jobStatus?: AgentJob['status'];
@@ -79,10 +85,16 @@ interface AgentAssetGridProps {
 }
 
 export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
-  ({ shots, finalVideoUrl: _finalVideoUrl, storyOutline, mainCharacters, characterReferenceImages, locale, aspectRatio = '16:9', progress, referenceImageUrl, jobStatus, createdAt, videoModelId }) => {
+  ({ shots, finalVideoUrl: _finalVideoUrl, storyOutline, mainCharacters, characterReferenceImages, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrl, jobStatus, createdAt, videoModelId }) => {
     const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
-    const aspectRatioValue = aspectRatio === '4:3' ? '4 / 3' : '16 / 9';
-    const minCardWidth = aspectRatio === '4:3' ? 128 : 160;
+    const aspectRatioValue =
+      aspectRatio === '9:16'
+        ? '9 / 16'
+        : aspectRatio === '4:3'
+        ? '4 / 3'
+        : '16 / 9';
+    const minCardWidth =
+      aspectRatio === '9:16' ? 120 : aspectRatio === '4:3' ? 128 : 160;
     const fallbackBackground =
       (characterReferenceImages && characterReferenceImages[0]) ||
       referenceImageUrl ||
@@ -92,7 +104,8 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       characterCount > 0 &&
       (!characterReferenceImages || characterReferenceImages.length === 0) &&
       ['pending', 'generating_script', 'generating_characters', 'splitting_shots', 'generating_keyframes'].includes(jobStatus || '');
-    const isKeyframeStage = ['generating_keyframes', 'waiting_for_confirmation', 'orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
+    const isImageStage = ['generating_characters', 'generating_keyframes', 'waiting_for_confirmation', 'orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
+    const isKeyframeStage = keyframesEnabled && ['generating_keyframes', 'waiting_for_confirmation', 'orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
     const isVideoStage = ['orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
     const imageEstimateSeconds = 15;
     const modelConfig = videoModelId ? getVideoModel(videoModelId) : undefined;
@@ -100,7 +113,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
     const { progress: estimatedImageProgress } = useGenerationProgress({
       createdAt: createdAt || '',
       estimatedTime: imageEstimateSeconds,
-      status: isKeyframeStage ? 'IN_PROGRESS' : 'submitted'
+      status: isImageStage ? 'IN_PROGRESS' : 'submitted'
     });
     const { progress: estimatedVideoProgress } = useGenerationProgress({
       createdAt: createdAt || '',
@@ -198,7 +211,12 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
                 ? (shot.keyframe_metadata as Record<string, any>)
                 : undefined,
             keyframeStatus: shot.keyframe_status,
+            keyframeModelUsed: shot.keyframe_model_used ?? null,
+            keyframeAttempts: shot.keyframe_attempts ?? null,
             videoStatus: shot.video_status,
+            videoModelUsed: shot.model_used ?? null,
+            videoAttempts: shot.attempts ?? null,
+            videoErrorMessage: shot.video_error_message ?? null,
           };
         });
 

@@ -20,7 +20,10 @@ export default function AgentPage({
   const [reEditData, setReEditData] = useState<{
     prompt: string;
     referenceImageUrl?: string;
+    referenceImageUrls?: string[];
     durationSeconds?: number;
+    aspectRatio?: string;
+    keyframesEnabled?: boolean;
     imageModel?: string;
     videoModel?: string;
   } | null>(null);
@@ -35,7 +38,10 @@ export default function AgentPage({
     setReEditData({
       prompt: job.prompt,
       referenceImageUrl: job.reference_image_url || undefined,
+      referenceImageUrls: job.reference_image_urls || undefined,
       durationSeconds: job.duration_seconds,
+      aspectRatio: (job as any).aspect_ratio || undefined,
+      keyframesEnabled: (job as any).keyframes_enabled,
       imageModel: job.image_model,
       videoModel: job.video_model,
     });
