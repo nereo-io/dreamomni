@@ -74,7 +74,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
   const [referenceImageUrls, setReferenceImageUrls] = useState<string[]>([]);
   const [duration, setDuration] = useState<number>(20);
   const [aspectRatio, setAspectRatio] = useState<string>('16:9');
-  const [keyframesEnabled, setKeyframesEnabled] = useState<boolean>(true);
+  const [keyframesEnabled, setKeyframesEnabled] = useState<boolean>(false);
   const [imageModel, setImageModel] = useState('nano-banana-pro');
   const [videoModel, setVideoModel] = useState('auto');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -92,7 +92,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
       setReferenceImageUrls(refs);
       setDuration(initialData.durationSeconds || 20);
       setAspectRatio(initialData.aspectRatio || '16:9');
-      setKeyframesEnabled(typeof initialData.keyframesEnabled === 'boolean' ? initialData.keyframesEnabled : true);
+      setKeyframesEnabled(typeof initialData.keyframesEnabled === 'boolean' ? initialData.keyframesEnabled : false);
       setImageModel(initialData.imageModel || 'nano-banana-pro');
       setVideoModel(initialData.videoModel || 'auto');
     }
@@ -101,8 +101,9 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
   const getEstimatedVideoDurationPerShot = (selected: string) => {
     if (selected === 'kie-veo3-image-to-video') return 8;
     if (selected === 'byteplus-seedance-pro-image-to-video') return 10;
-    if (selected === 'sora-2-image-to-video') return 10;
-    return 10; // auto or unknown
+    if (selected === 'sora-2-image-to-video') return 15;
+    if (selected === 'auto') return 15;
+    return 10; // unknown
   };
 
   const calculateEstimatedCredits = () => {
@@ -180,7 +181,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
       setReferenceImageUrls([]);
       setDuration(20);
       setAspectRatio('16:9');
-      setKeyframesEnabled(true);
+      setKeyframesEnabled(false);
 
       // Notify parent to refresh job list
       onJobCreated?.();

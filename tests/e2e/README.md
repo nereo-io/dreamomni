@@ -12,9 +12,14 @@
 在 `veo3-main/.env.e2e.local` 填入（该文件已在 `.gitignore` 忽略）：
 
 ```bash
+# Local-only Playwright E2E credentials (do not commit)
 E2E_TEST_EMAIL="your@email.com"
 E2E_TEST_PASSWORD="your-password"
+# E2E_FORCE_LOGIN="true"
+# E2E_REAL_RUN="true"
+# E2E_MAX_WAIT_MINUTES="45"
 ```
+
 
 ## 运行
 
