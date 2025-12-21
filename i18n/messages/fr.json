@@ -299,7 +299,7 @@
     "addMoreReferences": "Ajouter plus d'images de référence",
     "referenceImage": "Image de référence",
     "clickToUploadMore": "Cliquez pour télécharger plus (jusqu'à 3)",
-    "multipleUploadHint": "Prend en charge la sélection multiple, glisser-déposer ou coller (Ctrl+V)",
+    "multipleUploadHint": "Facultatif. Sélection multiple, glisser-déposer ou coller (Ctrl+V)",
     "fromMyCreations": "de mes créations",
     "myCreations": "Mes créations",
     "selectFromCreations": "Sélectionner depuis mes créations",
@@ -310,7 +310,7 @@
     "uploadingMultiple": "Téléchargement de {current}/{total} images...",
     "addMoreImages": "Ajouter plus d'images",
     "canUpload": "Peut télécharger {count} de plus",
-    "uploadMultipleImages": "Télécharger 1 à {max} images",
+    "uploadMultipleImages": "Télécharger jusqu'à {max} images",
     "uploadMoreImagesRemaining": "Télécharger plus d'images ({remaining} restantes)",
     "aspectRatios": {
       "landscape": "16:9 Paysage",

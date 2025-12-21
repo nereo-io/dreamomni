@@ -298,7 +298,7 @@
     "addMoreReferences": "Добавить больше референсных изображений",
     "referenceImage": "Референсное изображение",
     "clickToUploadMore": "Нажмите, чтобы загрузить больше (до 3)",
-    "multipleUploadHint": "Поддержка мультивыбора, перетаскивания или вставки (Ctrl+V)",
+    "multipleUploadHint": "Необязательно. Поддержка мультивыбора, перетаскивания или вставки (Ctrl+V)",
     "fromMyCreations": "из моих работ",
     "myCreations": "Мои работы",
     "selectFromCreations": "Выбрать из моих работ",
@@ -309,7 +309,7 @@
     "uploadingMultiple": "Загрузка {current}/{total} изображений...",
     "addMoreImages": "Добавить больше изображений",
     "canUpload": "Можно загрузить еще {count}",
-    "uploadMultipleImages": "Загрузите 1-{max} изображения",
+    "uploadMultipleImages": "Загрузите до {max} изображений",
     "uploadMoreImagesRemaining": "Загрузите больше изображений (осталось {remaining})",
     "aspectRatios": {
       "landscape": "16:9 Альбомная",

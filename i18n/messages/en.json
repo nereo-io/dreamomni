@@ -299,7 +299,7 @@
     "addMoreReferences": "Add more reference images",
     "referenceImage": "Reference Image",
     "clickToUploadMore": "Click to upload more (up to 3)",
-    "multipleUploadHint": "Support multi-select, drag & drop, or paste",
+    "multipleUploadHint": "Optional. Multi-select, drag & drop, or paste",
     "fromMyCreations": "from my creations",
     "myCreations": "My Creations",
     "selectFromCreations": "Select from My Creations",
@@ -310,7 +310,7 @@
     "uploadingMultiple": "Uploading {current}/{total} images...",
     "addMoreImages": "Add more images",
     "canUpload": "Can upload {count} more",
-    "uploadMultipleImages": "Upload 1-{max} images",
+    "uploadMultipleImages": "Upload up to {max} images",
     "uploadMoreImagesRemaining": "Upload more images ({remaining} remaining)",
     "aspectRatios": {
       "landscape": "16:9 Landscape",
