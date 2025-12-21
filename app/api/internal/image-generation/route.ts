@@ -18,7 +18,8 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { userId, prompt, referenceImage, model } = body;
+    const { userId, prompt, referenceImage, model, aspectRatio, aspect_ratio } = body;
+    const resolvedAspectRatio = aspectRatio || aspect_ratio;
 
     // 参数验证
     if (!userId || !prompt) {
@@ -63,6 +64,7 @@ export async function POST(req: NextRequest) {
         prompt: prompt,
         imageUrls: referenceImages,
         model: selectedModel,
+        aspect_ratio: resolvedAspectRatio,
         output_format: 'png'
       });
     } else {
@@ -71,6 +73,7 @@ export async function POST(req: NextRequest) {
       result = await aiServiceManager.generateImage(provider, {
         prompt: prompt,
         model: selectedModel,
+        aspect_ratio: resolvedAspectRatio,
         count: 1,
         output_format: 'png'
       });
@@ -98,6 +101,7 @@ export async function POST(req: NextRequest) {
           ? referenceImage
           : [referenceImage]
         : undefined,
+      aspect_ratio: resolvedAspectRatio,
       credits_used: 2 // Fixed 2 credits per image generation
     });
 
