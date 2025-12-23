@@ -17,6 +17,10 @@ export class BytePlusProvider implements VideoProvider {
     this.apiKey = apiKey;
   }
 
+  private supportsAudio(modelId: string): boolean {
+    return modelId.includes("1-5-pro");
+  }
+
   getName(): string {
     return "byteplus";
   }
@@ -89,22 +93,58 @@ export class BytePlusProvider implements VideoProvider {
 
     const requestBody: any = {
       model: input.model || "doubao-seedance-1-0-pro-250528",
-      content: [
-        {
-          type: "text",
-          text: promptText,
-        },
-      ],
+      content: [],
     };
 
-    // Add image content if provided
-    if (input.image_url) {
-      requestBody.content.unshift({
+    const imageUrls = (
+      Array.isArray(input.image_urls) ? input.image_urls : []
+    ).filter((url): url is string => Boolean(url));
+
+    if (imageUrls.length > 1) {
+      const firstFrame = imageUrls[0];
+      const lastFrame = imageUrls[imageUrls.length - 1];
+
+      requestBody.content.push({
         type: "image_url",
+        role: "first_frame",
         image_url: {
-          url: input.image_url,
+          url: firstFrame,
         },
       });
+
+      requestBody.content.push({
+        type: "image_url",
+        role: "last_frame",
+        image_url: {
+          url: lastFrame,
+        },
+      });
+    } else if (imageUrls.length === 1 || input.image_url) {
+      const singleImage = imageUrls[0] || input.image_url;
+      const imageContent: any = {
+        type: "image_url",
+        image_url: {
+          url: singleImage,
+        },
+      };
+
+      if (model.includes("seedance")) {
+        imageContent.role = "first_frame";
+      }
+
+      requestBody.content.push(imageContent);
+    }
+
+    requestBody.content.push({
+      type: "text",
+      text: promptText,
+    });
+
+    if (
+      typeof input.generate_audio === "boolean" &&
+      this.supportsAudio(model)
+    ) {
+      requestBody.generate_audio = input.generate_audio;
     }
 
     // Add webhook callback URL if provided
