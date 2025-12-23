@@ -76,7 +76,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     displayName: "Seedance 1.5 Pro",
     perSecondCredits: 2,
     description: "Seedance 1.5 Pro with dual-frame image input & audio",
-    features: ["Audio", "2 Images"],
+    features: ["Audio", "Wait 30s", "2 Images"],
     maxDuration: 10,
     supportedAspectRatios: ["Auto"],
     supportedResolutions: ["480p", "720p"],
