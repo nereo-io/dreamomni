@@ -30,7 +30,7 @@ const IMAGE_MODELS = [
 
 const VIDEO_MODELS = [
   { value: 'kie-veo3-image-to-video', label: 'Veo3' },
-  { value: 'doubao-seedance-1-0-pro-image-to-video', label: 'Seedance Pro' },
+  { value: 'byteplus-seedance-1-5-pro-image-to-video', label: 'Seedance 1.5 Pro' },
 ];
 
 const COST_CONFIG = {
@@ -78,7 +78,12 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
       setReferenceImageUrls(initialData.referenceImageUrl ? [initialData.referenceImageUrl] : []);
       setDuration(initialData.durationSeconds || 16);
       setImageModel(initialData.imageModel || 'nano-banana');
-      setVideoModel(initialData.videoModel || 'kie-veo3-image-to-video');
+      const normalizedVideoModel =
+        initialData.videoModel === 'byteplus-seedance-pro-image-to-video' ||
+        initialData.videoModel === 'doubao-seedance-1-0-pro-image-to-video'
+          ? 'byteplus-seedance-1-5-pro-image-to-video'
+          : initialData.videoModel;
+      setVideoModel(normalizedVideoModel || 'kie-veo3-image-to-video');
     }
   }, [initialData]);
 

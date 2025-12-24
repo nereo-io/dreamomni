@@ -247,7 +247,11 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
                 variant="secondary"
                 className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium px-2.5 py-1 rounded-md border-0"
               >
-                {job.video_model === 'kie-veo3-image-to-video' ? 'Veo3' : 'Seedance Pro'}
+                {job.video_model === 'kie-veo3-image-to-video'
+                  ? 'Veo3'
+                  : job.video_model.includes('seedance-1-5')
+                  ? 'Seedance 1.5 Pro'
+                  : 'Seedance Pro'}
               </Badge>
             )}
           </div>
