@@ -109,6 +109,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
     const isImageStage = ['generating_characters', 'generating_keyframes', 'waiting_for_confirmation', 'orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
     const isKeyframeStage = keyframesEnabled && ['generating_keyframes', 'waiting_for_confirmation', 'orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
     const isVideoStage = ['orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
+    const isJobFailed = jobStatus === 'failed';
     const imageEstimateSeconds = 15;
     const modelConfig = videoModelId ? getVideoModel(videoModelId) : undefined;
     const videoEstimateSeconds = modelConfig?.estimatedGenerationTime || 20;
@@ -346,11 +347,17 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
 
       // 3. Keyframe images
       shots?.forEach(shot => {
-        const isKeyframeVisible = isKeyframeStage || !!shot.keyframe_url || shot.keyframe_status === 'failed';
+        const normalizedKeyframeStatus =
+          isJobFailed && !['done', 'failed', 'skipped'].includes(shot.keyframe_status)
+            ? 'failed'
+            : shot.keyframe_status;
+        const isKeyframeVisible =
+          isKeyframeStage || !!shot.keyframe_url || normalizedKeyframeStatus === 'failed';
         if (!isKeyframeVisible) return;
-        const isKeyframeFailed = shot.keyframe_status === 'failed';
-        const isKeyframeDone = shot.keyframe_status === 'done' && !!shot.keyframe_url;
-        const isKeyframeLoading = !isKeyframeFailed && !isKeyframeDone;
+        const isKeyframeFailed = normalizedKeyframeStatus === 'failed';
+        const isKeyframeDone = normalizedKeyframeStatus === 'done' && !!shot.keyframe_url;
+        const isKeyframeSkipped = normalizedKeyframeStatus === 'skipped';
+        const isKeyframeLoading = !isKeyframeFailed && !isKeyframeDone && !isKeyframeSkipped;
         const backgroundUrl = shot.keyframe_url || fallbackBackground;
         
         // Improved progress logic: Backend > Derived > Estimated
@@ -367,7 +374,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           url: shot.keyframe_url,
           shotNumber: shot.shot_number,
           title: `Shot #${shot.shot_number} Keyframe`,
-          status: shot.keyframe_status,
+          status: normalizedKeyframeStatus,
           loading: isKeyframeLoading,
           backgroundUrl,
           progressValue,
@@ -376,12 +383,17 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
 
       // 4. Shot videos
       shots?.forEach(shot => {
-        if (!isVideoStage && !shot.video_url && shot.video_status !== 'failed') {
+        const normalizedVideoStatus =
+          isJobFailed && !['done', 'failed'].includes(shot.video_status)
+            ? 'failed'
+            : shot.video_status;
+        if (!isVideoStage && !shot.video_url && normalizedVideoStatus !== 'failed') {
           return;
         }
-        const isVideoFailed = shot.video_status === 'failed';
-        const isVideoDone = shot.video_status === 'done' && !!shot.video_url;
-        const hasVideoStarted = isVideoStage || shot.video_status === 'generating' || isVideoDone || isVideoFailed;
+        const isVideoFailed = normalizedVideoStatus === 'failed';
+        const isVideoDone = normalizedVideoStatus === 'done' && !!shot.video_url;
+        const hasVideoStarted =
+          isVideoStage || normalizedVideoStatus === 'generating' || isVideoDone || isVideoFailed;
         const isVideoLoading = hasVideoStarted && !isVideoFailed && !isVideoDone;
         const backgroundUrl = shot.keyframe_url || fallbackBackground;
         
@@ -404,7 +416,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           shotNumber: shot.shot_number,
           duration: shot.duration_seconds,
           title: `Shot #${shot.shot_number} Video`,
-          status: shot.video_status,
+          status: normalizedVideoStatus,
           loading: isVideoLoading,
           backgroundUrl,
           progressValue,
@@ -415,7 +427,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       // We don't include it in the grid anymore
 
       return result;
-    }, [shots, storyOutline, mainCharacters, characterReferenceImages, roleSceneReferencePrompt, progress, fallbackBackground, shouldShowCharacterPlaceholders, characterCount, jobStatus, isKeyframeStage, isVideoStage, estimatedImageProgress, estimatedVideoProgress]);
+    }, [shots, storyOutline, mainCharacters, characterReferenceImages, roleSceneReferencePrompt, progress, fallbackBackground, shouldShowCharacterPlaceholders, characterCount, jobStatus, isKeyframeStage, isVideoStage, isJobFailed, estimatedImageProgress, estimatedVideoProgress]);
 
     const getAssetTypeLabel = (type: AssetType) => {
       switch (type) {

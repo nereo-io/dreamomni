@@ -177,8 +177,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
       if (videoModelId === 'auto') return 'Auto';
       if (videoModelId === 'sora-2-image-to-video') return 'Sora 2';
       if (videoModelId === 'kie-veo3-image-to-video') return 'Veo3';
-      if (videoModelId.includes('seedance-1-5')) return 'Seedance 1.5 Pro';
-      if (videoModelId === 'byteplus-seedance-pro-image-to-video') return 'Seedance Pro';
+      if (videoModelId === 'byteplus-seedance-1-5-pro-image-to-video') return 'Seedance Pro';
       return modelConfig?.displayName || videoModelId;
     })();
 
@@ -384,6 +383,9 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               </button>
               {showLogs && (
                 <div className="px-3 pb-2 max-h-80 overflow-y-auto text-sm text-gray-300 space-y-1">
+                  <div className="text-xs text-gray-500 font-mono break-all">
+                    Agent ID: {job.id}
+                  </div>
                   {job.logs.map((log) => (
                     <div key={log.timestamp} className="flex gap-2">
                       <span className="text-gray-500">

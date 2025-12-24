@@ -253,6 +253,9 @@ export function AgentJobDetail({ jobId }: AgentJobDetailProps) {
         <section className="bg-gray-900/60 rounded-lg border border-gray-800 p-4 space-y-3">
           <h2 className="text-lg font-semibold">执行日志 Agent Logs</h2>
           <div className="mt-1 space-y-1 max-h-96 overflow-y-auto text-sm text-gray-300 bg-black/20 rounded-md p-2">
+            <div className="text-xs text-gray-500 font-mono break-all">
+              Agent ID: {job.id}
+            </div>
             {allLogs.map((log) => (
               <div key={log.timestamp} className="flex gap-2">
                 <span className="text-gray-500">

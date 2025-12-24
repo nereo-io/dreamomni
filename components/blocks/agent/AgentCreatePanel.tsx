@@ -10,7 +10,6 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
 import {
   Select,
   SelectContent,
@@ -35,7 +34,7 @@ const VIDEO_MODELS = [
   { value: 'auto', label: 'Auto (Sora → Veo3 → Seedance)' },
   { value: 'sora-2-image-to-video', label: 'Sora 2' },
   { value: 'kie-veo3-image-to-video', label: 'Veo3' },
-  { value: 'byteplus-seedance-1-5-pro-image-to-video', label: 'Seedance 1.5 Pro' },
+  { value: 'byteplus-seedance-1-5-pro-image-to-video', label: 'Seedance Pro' },
 ];
 
 const COST_CONFIG = {
@@ -78,7 +77,6 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
   const [imageModel, setImageModel] = useState('nano-banana-pro');
   const [videoModel, setVideoModel] = useState('auto');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const showAdvancedOptions = false;
 
   // Pre-fill form when initialData changes (for re-edit)
   useEffect(() => {
@@ -91,25 +89,17 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
           ? [initialData.referenceImageUrl]
           : [];
       setReferenceImageUrls(refs);
-      setDuration(initialData.durationSeconds || 16);
+      setDuration(initialData.durationSeconds || 20);
       setAspectRatio(initialData.aspectRatio || '16:9');
-      setKeyframesEnabled(
-        typeof initialData.keyframesEnabled === 'boolean' ? initialData.keyframesEnabled : true
-      );
-      setImageModel(initialData.imageModel || 'nano-banana');
-      const normalizedVideoModel =
-        initialData.videoModel === 'byteplus-seedance-pro-image-to-video' ||
-        initialData.videoModel === 'doubao-seedance-1-0-pro-image-to-video'
-          ? 'byteplus-seedance-1-5-pro-image-to-video'
-          : initialData.videoModel;
-      setVideoModel(normalizedVideoModel || 'kie-veo3-image-to-video');
+      setKeyframesEnabled(typeof initialData.keyframesEnabled === 'boolean' ? initialData.keyframesEnabled : true);
+      setImageModel(initialData.imageModel || 'nano-banana-pro');
+      setVideoModel(initialData.videoModel || 'auto');
     }
   }, [initialData]);
 
   const getEstimatedVideoDurationPerShot = (selected: string) => {
     if (selected === 'kie-veo3-image-to-video') return 8;
-    if (selected === 'byteplus-seedance-1-5-pro-image-to-video') return 10;
-    if (selected === 'byteplus-seedance-pro-image-to-video') return 10;
+    if (selected === 'byteplus-seedance-1-5-pro-image-to-video') return 12;
     if (selected === 'sora-2-image-to-video') return 15;
     if (selected === 'auto') return 15;
     return 10; // unknown
@@ -283,51 +273,26 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
               </Select>
             </div>
 
-            <div className="flex items-center justify-between rounded-lg border border-gray-700 bg-gray-800 px-4 py-3">
-              <div className="space-y-1">
-                <div className="text-sm font-medium text-gray-200">Generate Keyframes</div>
-                <div className="text-xs text-gray-400">1 keyframe per shot for image-to-video</div>
-              </div>
-              <Switch checked={keyframesEnabled} onCheckedChange={setKeyframesEnabled} />
-            </div>
           </div>
 
           {/* Models */}
-          {showAdvancedOptions && (
-            <div className="space-y-4">
-              <div>
-                <Label className="text-gray-300 text-sm mb-2 block">Image Model</Label>
-                <Select value={imageModel} onValueChange={setImageModel}>
-                  <SelectTrigger className="bg-gray-800 border-gray-700 text-gray-100">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {IMAGE_MODELS.map(model => (
-                      <SelectItem key={model.value} value={model.value}>
-                        {model.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label className="text-gray-300 text-sm mb-2 block">Video Model</Label>
-                <Select value={videoModel} onValueChange={setVideoModel}>
-                  <SelectTrigger className="bg-gray-800 border-gray-700 text-gray-100">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {VIDEO_MODELS.map(model => (
-                      <SelectItem key={model.value} value={model.value}>
-                        {model.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+          <div>
+            <div>
+              <Label className="text-gray-300 text-sm mb-2 block">Video Model</Label>
+              <Select value={videoModel} onValueChange={setVideoModel}>
+                <SelectTrigger className="bg-gray-800 border-gray-700 text-gray-100">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {VIDEO_MODELS.map(model => (
+                    <SelectItem key={model.value} value={model.value}>
+                      {model.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-          )}
+          </div>
 
           {/* Credits and Cost */}
           <div className="bg-gray-800 rounded-lg p-4">

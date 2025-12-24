@@ -39,7 +39,7 @@ E2E_REAL_RUN=true pnpm exec playwright test tests/e2e/anime-short-full-workflow.
 可选参数：
 
 - `E2E_KEYFRAMES_ENABLED=false`：关闭关键帧（更快）
-- `E2E_VIDEO_MODEL=auto|sora-2-image-to-video|kie-veo3-image-to-video|byteplus-seedance-pro-image-to-video`：指定视频模型（默认 Veo3）
+- `E2E_VIDEO_MODEL=auto|sora-2-image-to-video|kie-veo3-image-to-video|byteplus-seedance-1-5-pro-image-to-video`：指定视频模型（默认 Veo3）
 - `E2E_ASPECT_RATIO=16:9|9:16`：指定画幅（默认 16:9）
 - `E2E_MAX_WAIT_MINUTES=45`：最大等待时长
 - `E2E_FORCE_LOGIN=true`：忽略已保存 session，强制重新登录

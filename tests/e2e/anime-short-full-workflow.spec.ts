@@ -36,7 +36,7 @@ function getVideoModelLabel(modelId: string) {
   if (modelId === 'auto') return 'Auto (Sora → Veo3 → Seedance)';
   if (modelId === 'sora-2-image-to-video') return 'Sora 2';
   if (modelId === 'kie-veo3-image-to-video') return 'Veo3';
-  if (modelId === 'byteplus-seedance-pro-image-to-video') return 'Seedance Pro';
+  if (modelId === 'byteplus-seedance-1-5-pro-image-to-video') return 'Seedance Pro';
   return modelId;
 }
 
@@ -86,7 +86,7 @@ test.describe('Anime short agent (real credits)', () => {
     // - Duration defaults to 20s
     // - Aspect ratio defaults to 16:9
     // - Keyframes can be disabled for speed
-    // - Set video model via env: E2E_VIDEO_MODEL=auto|sora-2-image-to-video|kie-veo3-image-to-video|byteplus-seedance-pro-image-to-video
+    // - Set video model via env: E2E_VIDEO_MODEL=auto|sora-2-image-to-video|kie-veo3-image-to-video|byteplus-seedance-1-5-pro-image-to-video
     const videoModelLabel = getVideoModelLabel(selectedVideoModel);
     const videoModelSection = page.getByText('Video Model', { exact: true }).locator('..');
     const videoModelCombobox = videoModelSection.getByRole('combobox').first();
