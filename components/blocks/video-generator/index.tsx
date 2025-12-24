@@ -86,7 +86,7 @@ interface VideoGeneratorProps {
   hidePromptEnhancement?: boolean;
 }
 
-type VideoDuration = "5" | "6" | "8" | "10";
+type VideoDuration = "5" | "6" | "8" | "10" | "12" | "15" | "25";
 type VideoResolution = "480p" | "512p" | "720p" | "768p" | "1080p";
 
 export default function VideoGenerator({

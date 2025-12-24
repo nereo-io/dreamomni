@@ -242,6 +242,8 @@ export async function POST(req: Request) {
       transType = CreditsTransType.VideoGeneration8s;
     } else if (durationInt === 10) {
       transType = CreditsTransType.VideoGeneration10s;
+    } else if (durationInt === 12) {
+      transType = CreditsTransType.VideoGeneration12s;
     } else if (durationInt === 15) {
       // Sora 2/Pro 模型的15秒
       transType = CreditsTransType.VideoGeneration15s;

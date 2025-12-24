@@ -56,14 +56,14 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     volcanoModel: "ep-20251223205943-d8rhb",
     displayName: "Seedance 1.5 Pro",
     perSecondCredits: 2,
-    description: "Seedance 1.5 Pro with optional audio output",
-    features: ["Audio", "Wait 30s"],
-    maxDuration: 10,
+    description: "ByteDance's lastest video model",
+    features: ["Wait 30s", "Audio", "Surpport 2 images"],
+    maxDuration: 12,
     supportedAspectRatios: ["16:9", "9:16", "1:1"],
     supportedResolutions: ["480p", "720p"],
     supportsAudio: true,
     estimatedGenerationTime: 30,
-    supportedDurations: [5, 10],
+    supportedDurations: [5, 12],
   },
 
   // BytePlus Seedance 1.5 Pro 图片转视频模型 (Southeast Asia)
@@ -75,14 +75,14 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     volcanoModel: "ep-20251223205943-d8rhb",
     displayName: "Seedance 1.5 Pro",
     perSecondCredits: 2,
-    description: "Seedance 1.5 Pro with dual-frame image input & audio",
-    features: ["Audio", "Wait 30s", "2 Images"],
-    maxDuration: 10,
+    description: "ByteDance's lastest video model",
+    features: ["Wait 30s", "Audio", "Surpport 2 images"],
+    maxDuration: 12,
     supportedAspectRatios: ["Auto"],
     supportedResolutions: ["480p", "720p"],
     supportsAudio: true,
     estimatedGenerationTime: 30,
-    supportedDurations: [5, 10],
+    supportedDurations: [5, 12],
     imageCapabilities: {
       maxImages: 2,
       labels: ["First Frame", "Last Frame"],
@@ -498,6 +498,9 @@ export function calculateCredits(
     if (resolution === "1080p") {
       // 1080p 价格是 480p 的 5 倍
       totalCredits *= 5;
+    } else if (resolution === "720p") {
+      // 720p 价格是 480p 的 2.5 倍
+      totalCredits *= 2;
     }
     // 480p 保持原价格不变
   }
