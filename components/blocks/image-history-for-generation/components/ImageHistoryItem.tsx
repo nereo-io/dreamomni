@@ -159,9 +159,9 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
 
     return (
       <>
-      <div className="p-5 space-y-4">
+      <div className="px-4 py-5 space-y-4">
         {/* Header: Source Image Thumbnail + Prompt + Actions (Copy, Delete, Timestamp) */}
-        <div className="flex justify-between items-start gap-3">
+        <div className="flex justify-between items-start gap-2">
           <div className="flex items-start gap-3 flex-1">
             {/* Source Images Thumbnails (if exist) */}
             {image.input_image_urls && image.input_image_urls.length > 0 && (
@@ -199,39 +199,41 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
             </div>
           </div>
 
-          {/* Right side actions: Copy + Delete + Timestamp */}
-          <div className="flex items-center gap-2 flex-shrink-0">
-            {/* Copy Button */}
-            <button
-              onClick={handleCopyPrompt}
-              className="p-1 text-gray-400 hover:text-white transition-colors rounded"
-              title="Copy prompt"
-            >
-              <Copy className="h-4 w-4" />
-            </button>
-
-            {/* Delete Button */}
-            {onDelete && (
-              <button
-                onClick={handleDeleteClick}
-                className="p-1 text-gray-400 hover:text-red-400 transition-colors rounded"
-                title="Delete"
-                disabled={isDeleting}
-              >
-                {isDeleting ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Trash2 className="h-4 w-4" />
-                )}
-              </button>
-            )}
-
+          {/* Right side actions: Timestamp above buttons */}
+          <div className="flex flex-col items-end gap-1 flex-shrink-0">
             {/* Timestamp */}
             {formatTimestamp() && (
-              <span className="text-sm text-gray-400 ml-2">
+              <span className="text-sm text-gray-400">
                 {formatTimestamp()}
               </span>
             )}
+
+            <div className="flex items-center gap-1">
+              {/* Copy Button */}
+              <button
+                onClick={handleCopyPrompt}
+                className="p-0.5 text-gray-400 hover:text-white transition-colors rounded"
+                title="Copy prompt"
+              >
+                <Copy className="h-4 w-4" />
+              </button>
+
+              {/* Delete Button */}
+              {onDelete && (
+                <button
+                  onClick={handleDeleteClick}
+                  className="p-0.5 text-gray-400 hover:text-red-400 transition-colors rounded"
+                  title="Delete"
+                  disabled={isDeleting}
+                >
+                  {isDeleting ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Trash2 className="h-4 w-4" />
+                  )}
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
