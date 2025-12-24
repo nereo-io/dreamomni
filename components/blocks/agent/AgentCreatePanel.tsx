@@ -275,15 +275,13 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
               </Select>
             </div>
 
-            {showAdvancedOptions && (
-              <div className="flex items-center justify-between rounded-lg border border-gray-700 bg-gray-800 px-4 py-3">
-                <div className="space-y-1">
-                  <div className="text-sm font-medium text-gray-200">Generate Keyframes</div>
-                  <div className="text-xs text-gray-400">1 keyframe per shot for image-to-video</div>
-                </div>
-                <Switch checked={keyframesEnabled} onCheckedChange={setKeyframesEnabled} />
+            <div className="flex items-center justify-between rounded-lg border border-gray-700 bg-gray-800 px-4 py-3">
+              <div className="space-y-1">
+                <div className="text-sm font-medium text-gray-200">Generate Keyframes</div>
+                <div className="text-xs text-gray-400">1 keyframe per shot for image-to-video</div>
               </div>
-            )}
+              <Switch checked={keyframesEnabled} onCheckedChange={setKeyframesEnabled} />
+            </div>
           </div>
 
           {/* Models */}

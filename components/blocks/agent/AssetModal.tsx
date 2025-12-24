@@ -49,6 +49,7 @@ interface StoryDetails {
   tone?: string;
   acts?: StoryAct[];
   characters?: StoryCharacter[];
+  roleSceneReferencePrompt?: string;
   shots?: StoryShotDetail[];
 }
 

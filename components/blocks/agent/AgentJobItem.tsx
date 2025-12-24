@@ -295,6 +295,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               storyOutline={job.story_outline || null}
               mainCharacters={job.main_characters || null}
               characterReferenceImages={job.character_reference_images || null}
+              roleSceneReferencePrompt={job.role_scene_reference_prompt || undefined}
               locale={locale}
               aspectRatio={aspectRatio}
               keyframesEnabled={job.keyframes_enabled}
@@ -373,7 +374,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               <button
                 type="button"
                 onClick={() => setShowLogs((prev) => !prev)}
-                className="w-full flex items-center justify-between px-3 py-2 text-xs text-gray-300 hover:bg-gray-900/60 transition-colors"
+                className="w-full flex items-center justify-between px-3 py-2 text-sm text-gray-300 hover:bg-gray-900/60 transition-colors"
               >
                 <span>Agent Logs</span>
                 <span className="text-gray-500">
@@ -381,13 +382,13 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
                 </span>
               </button>
               {showLogs && (
-                <div className="px-3 pb-2 max-h-40 overflow-y-auto text-[11px] text-gray-300 space-y-1">
+                <div className="px-3 pb-2 max-h-80 overflow-y-auto text-sm text-gray-300 space-y-1">
                   {job.logs.map((log) => (
                     <div key={log.timestamp} className="flex gap-2">
                       <span className="text-gray-500">
                         {new Date(log.timestamp).toLocaleTimeString()}
                       </span>
-                      <span>{log.message}</span>
+                      <span className="whitespace-pre-wrap break-words">{log.message}</span>
                     </div>
                   ))}
                 </div>

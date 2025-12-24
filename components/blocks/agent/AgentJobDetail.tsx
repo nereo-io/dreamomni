@@ -231,13 +231,13 @@ export function AgentJobDetail({ jobId }: AgentJobDetailProps) {
         )}
 
         {qualityLogs.length > 0 ? (
-          <div className="mt-2 space-y-1 max-h-40 overflow-y-auto text-xs text-gray-300 bg-black/20 rounded-md p-2">
+          <div className="mt-2 space-y-1 max-h-40 overflow-y-auto text-sm text-gray-300 bg-black/20 rounded-md p-2">
             {qualityLogs.map((log) => (
               <div key={log.timestamp} className="flex gap-2">
                 <span className="text-gray-500">
                   {new Date(log.timestamp).toLocaleTimeString()}
                 </span>
-                <span>{log.message}</span>
+                <span className="whitespace-pre-wrap break-words">{log.message}</span>
               </div>
             ))}
           </div>
@@ -252,13 +252,13 @@ export function AgentJobDetail({ jobId }: AgentJobDetailProps) {
       {allLogs.length > 0 && (
         <section className="bg-gray-900/60 rounded-lg border border-gray-800 p-4 space-y-3">
           <h2 className="text-lg font-semibold">执行日志 Agent Logs</h2>
-          <div className="mt-1 space-y-1 max-h-60 overflow-y-auto text-xs text-gray-300 bg-black/20 rounded-md p-2">
+          <div className="mt-1 space-y-1 max-h-96 overflow-y-auto text-sm text-gray-300 bg-black/20 rounded-md p-2">
             {allLogs.map((log) => (
               <div key={log.timestamp} className="flex gap-2">
                 <span className="text-gray-500">
                   {new Date(log.timestamp).toLocaleTimeString()}
                 </span>
-                <span>{log.message}</span>
+                <span className="whitespace-pre-wrap break-words">{log.message}</span>
               </div>
             ))}
           </div>

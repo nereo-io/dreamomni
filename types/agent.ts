@@ -36,6 +36,7 @@ export interface AgentJob {
   story_outline?: Record<string, any> | null;
   main_characters?: Array<Record<string, any>> | null;
   character_reference_images?: string[] | null;
+  role_scene_reference_prompt?: string | null;
   shot_quality?: Array<Record<string, any>> | null;
   global_quality?: Record<string, any> | null;
 

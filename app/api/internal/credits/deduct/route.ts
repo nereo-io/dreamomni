@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { decreaseCredits, CreditsTransType } from '@/services/credit';
+import { decreaseCredits, CreditsTransType, getUserCredits } from '@/services/credit';
 
 /**
  * 内部 API: 扣除积分
@@ -43,10 +43,13 @@ export async function POST(req: NextRequest) {
       credits: credits
     });
 
+    const userCredits = await getUserCredits(userId);
+
     return NextResponse.json({
       success: true,
       deducted: result.totalDeducted,
-      pools: result.pools
+      pools: result.pools,
+      new_balance: userCredits.left_credits
     });
 
   } catch (error: any) {

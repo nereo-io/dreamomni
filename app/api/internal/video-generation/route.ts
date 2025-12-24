@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { userId, prompt, imageUrl, duration, model, aspectRatio, aspect_ratio, resolution } = body;
+    const { userId, prompt, imageUrl, duration, model, aspectRatio, aspect_ratio, resolution, skipCredits } = body;
 
     // 参数验证
     if (!userId || !prompt || !imageUrl) {
@@ -92,20 +92,23 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const userCredits = await getUserCredits(userId);
-    if (!userCredits) {
-      return NextResponse.json(
-        { error: 'Failed to get user credits' },
-        { status: 500 }
-      );
-    }
-    if (userCredits.left_credits < requiredCredits) {
-      return NextResponse.json(
-        {
-          error: `积分不足，需要 ${requiredCredits} 积分，当前剩余 ${userCredits.left_credits} 积分`,
-        },
-        { status: 400 }
-      );
+    const shouldSkipCredits = Boolean(skipCredits);
+    if (!shouldSkipCredits) {
+      const userCredits = await getUserCredits(userId);
+      if (!userCredits) {
+        return NextResponse.json(
+          { error: 'Failed to get user credits' },
+          { status: 500 }
+        );
+      }
+      if (userCredits.left_credits < requiredCredits) {
+        return NextResponse.json(
+          {
+            error: `积分不足，需要 ${requiredCredits} 积分，当前剩余 ${userCredits.left_credits} 积分`,
+          },
+          { status: 400 }
+        );
+      }
     }
 
     let transType: CreditsTransType;
@@ -129,21 +132,23 @@ export async function POST(req: NextRequest) {
     }
 
     let deductResult;
-    try {
-      deductResult = await decreaseCredits({
-        user_uuid: userId,
-        trans_type: transType,
-        credits: requiredCredits,
-      });
-      console.log(
-        `💰 Credits deducted: ${deductResult.totalDeducted} from ${deductResult.pools.length} pool(s) for user ${userId}`
-      );
-    } catch (error) {
-      console.error('扣除积分失败:', error);
-      return NextResponse.json(
-        { error: 'Failed to deduct credits, please try again later' },
-        { status: 500 }
-      );
+    if (!shouldSkipCredits) {
+      try {
+        deductResult = await decreaseCredits({
+          user_uuid: userId,
+          trans_type: transType,
+          credits: requiredCredits,
+        });
+        console.log(
+          `💰 Credits deducted: ${deductResult.totalDeducted} from ${deductResult.pools.length} pool(s) for user ${userId}`
+        );
+      } catch (error) {
+        console.error('扣除积分失败:', error);
+        return NextResponse.json(
+          { error: 'Failed to deduct credits, please try again later' },
+          { status: 500 }
+        );
+      }
     }
 
     const refundCredits = async () => {
@@ -230,13 +235,22 @@ export async function POST(req: NextRequest) {
         user_id: userId,
         status: 'IN_PROGRESS',
         aspect_ratio: resolvedAspectRatio,
-        metadata: {
-          credit_deduction: {
-            pools: deductResult.pools,
-            total_deducted: deductResult.totalDeducted,
-            deducted_at: new Date().toISOString(),
-          },
-        },
+        metadata: deductResult
+          ? {
+              credit_deduction: {
+                pools: deductResult.pools,
+                total_deducted: deductResult.totalDeducted,
+                deducted_at: new Date().toISOString(),
+              },
+            }
+          : {
+              credit_deduction: {
+                skipped: true,
+                pools: [],
+                total_deducted: 0,
+                deducted_at: new Date().toISOString(),
+              },
+            },
         [requestIdField]: submitResult.request_id, // 动态设置 request_id 字段
       });
     } catch (error) {

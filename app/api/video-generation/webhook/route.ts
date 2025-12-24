@@ -333,6 +333,10 @@ export async function POST(req: Request) {
             // 从 metadata 中提取原始扣费池信息
             const creditDeduction = videoGeneration.metadata?.credit_deduction;
 
+            if (creditDeduction?.skipped) {
+              console.log(`ℹ️ Skip refund: agent precharged for video generation ${videoGeneration.id}`);
+              break;
+            }
             if (!creditDeduction || !creditDeduction.pools || creditDeduction.pools.length === 0) {
               console.error(`❌ Missing credit_deduction metadata for video generation: ${videoGeneration.id}`);
               console.error("Cannot refund credits - pool information lost");

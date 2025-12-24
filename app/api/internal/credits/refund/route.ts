@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { increaseCredits } from '@/services/credit';
+import { getUserCredits, increaseCredits } from '@/services/credit';
 
 /**
  * 内部 API: 退还积分
@@ -46,10 +46,13 @@ export async function POST(req: NextRequest) {
         totalRefunded += pool.deducted;
       }
 
+      const userCredits = await getUserCredits(userId);
+
       return NextResponse.json({
         success: true,
         refunded: totalRefunded,
-        pools: pools.length
+        pools: pools.length,
+        new_balance: userCredits.left_credits
       });
     } else if (typeof credits === 'number') {
       // 简单退款模式: 创建新的积分记录
@@ -67,9 +70,12 @@ export async function POST(req: NextRequest) {
         order_no: reason || 'Agent refund'
       });
 
+      const userCredits = await getUserCredits(userId);
+
       return NextResponse.json({
         success: true,
-        refunded: credits
+        refunded: credits,
+        new_balance: userCredits.left_credits
       });
     } else {
       return NextResponse.json(

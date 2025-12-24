@@ -45,6 +45,7 @@ interface StoryShotDetail {
 interface StoryDetails {
   theme?: string;
   tone?: string;
+  roleSceneReferencePrompt?: string;
   acts: StoryAct[];
   characters: StoryCharacter[];
   shots: StoryShotDetail[];
@@ -74,6 +75,7 @@ interface AgentAssetGridProps {
   storyOutline?: Record<string, any> | null;
   mainCharacters?: Array<Record<string, any>> | null;
   characterReferenceImages?: string[] | null;
+  roleSceneReferencePrompt?: string;
   locale: string;
   aspectRatio?: string;
   keyframesEnabled?: boolean;
@@ -85,7 +87,7 @@ interface AgentAssetGridProps {
 }
 
 export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
-  ({ shots, finalVideoUrl: _finalVideoUrl, storyOutline, mainCharacters, characterReferenceImages, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrl, jobStatus, createdAt, videoModelId }) => {
+  ({ shots, finalVideoUrl: _finalVideoUrl, storyOutline, mainCharacters, characterReferenceImages, roleSceneReferencePrompt, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrl, jobStatus, createdAt, videoModelId }) => {
     const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
     const aspectRatioValue =
       aspectRatio === '9:16'
@@ -191,6 +193,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       const theme = storyOutline ? (storyOutline as any).theme : undefined;
       const tone = storyOutline ? (storyOutline as any).tone : undefined;
       const characters = mainCharacters && Array.isArray(mainCharacters) ? mainCharacters : [];
+      const roleSceneReferenceText = roleSceneReferencePrompt?.trim();
 
       if (shots && shots.length > 0) {
         const shotCount = shots.length;
@@ -254,6 +257,11 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
             lines.push(parts.join(' | '));
           });
         }
+        if (roleSceneReferenceText) {
+          lines.push('');
+          lines.push('Role/Scene Reference Prompt:');
+          lines.push(roleSceneReferenceText);
+        }
 
         // 追加脚本信息
         const scriptContentLines = shots.flatMap((s) => {
@@ -296,6 +304,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
               appearance: character.appearance,
               description: character.description,
             })),
+            roleSceneReferencePrompt: roleSceneReferenceText,
             shots: structuredShots,
           },
           totalDurationSeconds,
@@ -406,7 +415,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       // We don't include it in the grid anymore
 
       return result;
-    }, [shots, storyOutline, mainCharacters, characterReferenceImages, progress, fallbackBackground, shouldShowCharacterPlaceholders, characterCount, jobStatus, isKeyframeStage, isVideoStage, estimatedImageProgress, estimatedVideoProgress]);
+    }, [shots, storyOutline, mainCharacters, characterReferenceImages, roleSceneReferencePrompt, progress, fallbackBackground, shouldShowCharacterPlaceholders, characterCount, jobStatus, isKeyframeStage, isVideoStage, estimatedImageProgress, estimatedVideoProgress]);
 
     const getAssetTypeLabel = (type: AssetType) => {
       switch (type) {
