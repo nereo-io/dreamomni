@@ -55,9 +55,9 @@
       }
     ]
   },
-  "aiModelsHero": {
+    "aiModelsHero": {
     "title": "All-in-One AI Bild zu Video Generator",
-    "description": "Veo3 AI ist der ultimative All-in-One-KI-Videogenerator. Wir bieten Zugang zu branchenführenden Videomodellen wie Sora 2, Veo3 und Seedance, alles an einem Ort. Probieren Sie sie nahtlos aus und erstellen Sie beeindruckende Visuals, ohne zwischen mehreren Plattformen jonglieren zu müssen!",
+    "description": "Veo3 AI ist der ultimative All-in-One-KI-Videogenerator. Wir bieten Zugang zu branchenführenden Videomodellen wie Sora 2, Veo 3.1, Seedance und mehr, alles an einem Ort. Probieren Sie sie nahtlos aus und erstellen Sie beeindruckende Visuals, ohne zwischen mehreren Plattformen jonglieren zu müssen!",
     "models": [
       {
         "id": "sora2",
@@ -273,6 +273,11 @@
             {
               "title": "Veo 3.1",
               "url": "/veo-3-1",
+              "target": "_self"
+            },
+            {
+              "title": "Seedance 1.5 Pro",
+              "url": "/seedance-1-5",
               "target": "_self"
             },
             {
