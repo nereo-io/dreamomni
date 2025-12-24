@@ -1,3 +1,4 @@
+import { IMAGE_CACHE_CONTROL } from "@/lib/cache-control";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -38,7 +39,7 @@ export async function GET(request: NextRequest) {
     return new NextResponse(imageBuffer, {
       headers: {
         "Content-Type": contentType,
-        "Cache-Control": "public, max-age=3600", // Cache for 1 hour
+        "Cache-Control": IMAGE_CACHE_CONTROL,
       },
     });
   } catch (error) {

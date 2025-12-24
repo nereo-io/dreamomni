@@ -3,6 +3,7 @@
  * 处理图片上传到 R2 存储的服务
  */
 
+import { IMAGE_CACHE_CONTROL } from "@/lib/cache-control";
 import { newStorage } from "@/lib/storage";
 import type { ProviderImageResult } from "@/types/provider";
 
@@ -40,6 +41,7 @@ export class ImageStorageService {
             url: image.url,
             key: fileName,
             contentType: `image/${image.format || 'png'}`,
+            cacheControl: IMAGE_CACHE_CONTROL,
           });
           
           if (uploadResult?.url) {
@@ -106,6 +108,7 @@ export class ImageStorageService {
         url: imageUrl,
         key: fileName,
         contentType: `image/${format}`,
+        cacheControl: IMAGE_CACHE_CONTROL,
       });
       
       if (uploadResult?.url) {
