@@ -21,7 +21,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
         <video
           className="rounded-lg w-full h-full object-contain"
           controls
-          preload="auto"
+          preload="metadata"
           muted
           playsInline
           onLoadedData={(e) => {

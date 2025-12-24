@@ -66,6 +66,8 @@ export default function VideoHistory({
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [videoToDelete, setVideoToDelete] = useState<VideoGenerationResult | null>(null);
+  const HISTORY_PAGE_SIZE = 20;
+  const MAX_POLLING_VIDEOS = 5;
 
   // 客户端检测
   useEffect(() => {
@@ -95,10 +97,10 @@ export default function VideoHistory({
       // 用户未登录，不发送请求
       return;
     }
-    await fetchHistory(1, 5);
+    await fetchHistory(1, HISTORY_PAGE_SIZE);
     // 加载完成后滚动到底部显示最新内容
     setScrollToBottom(true);
-  }, [fetchHistory, user?.uuid]);
+  }, [fetchHistory, user?.uuid, HISTORY_PAGE_SIZE]);
 
   // 初始加载
   useEffect(() => {
@@ -109,8 +111,7 @@ export default function VideoHistory({
   const getIncompleteVideos = useCallback(() => {
     if (!history || history.length === 0) return [];
 
-    // 返回所有未完成状态的视频，最多轮询5个（与历史记录获取数量一致）
-    const MAX_POLLING_VIDEOS = 5;
+    // 返回所有未完成状态的视频，最多轮询5个（避免过多轮询压力）
     const TEN_MINUTES = 10 * 60 * 1000; // 10分钟毫秒数
     const now = Date.now();
 
@@ -125,7 +126,7 @@ export default function VideoHistory({
         return isIncomplete && isRecent;
       })
       .slice(0, MAX_POLLING_VIDEOS);
-  }, [history]);
+  }, [history, MAX_POLLING_VIDEOS]);
 
   // 检查是否有未完成的视频需要轮询
   const hasIncompleteVideos = useCallback(() => {
