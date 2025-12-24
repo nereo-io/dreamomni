@@ -8,6 +8,8 @@
  * - Saves Vercel bandwidth
  */
 
+import { IMAGE_CACHE_CONTROL } from "@/lib/cache-control";
+
 export interface UploadResult {
   url: string;
   key: string;
@@ -48,7 +50,10 @@ export async function uploadImageToR2(file: File): Promise<string> {
   // 2. Direct upload to R2
   const uploadResponse = await fetch(presignedUrl, {
     method: "PUT",
-    headers: { "Content-Type": file.type },
+    headers: {
+      "Content-Type": file.type,
+      "Cache-Control": IMAGE_CACHE_CONTROL,
+    },
     body: file,
   });
 

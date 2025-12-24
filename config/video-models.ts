@@ -46,51 +46,49 @@ export interface VideoModelConfig {
 
 // 视频模型配置
 export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
-  // BytePlus Seedance Pro 文本转视频模型 (Southeast Asia)
-  "byteplus-seedance-pro-text-to-video": {
-    id: "byteplus-seedance-pro-text-to-video",
-    name: "BytePlus Seedance Pro Text-to-Video",
+  // BytePlus Seedance 1.5 Pro 文本转视频模型 (Southeast Asia)
+  "byteplus-seedance-1-5-pro-text-to-video": {
+    id: "byteplus-seedance-1-5-pro-text-to-video",
+    name: "BytePlus Seedance 1.5 Pro Text-to-Video",
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.BYTEPLUS,
-    // volcanoModel: "seedance-1-0-pro-250528",
-    volcanoModel: "ep-20250915143914-m57vr", //hugeroger@gmail.com
-    // volcanoModel: "ep-20251031184345-xbr8l", //acostaandreab0@gmail.com
-    // volcanoModel: "ep-20251122104716-5krl8", //mackensonsouverain34@gmail.com
-    displayName: "Seedance 1.0 Pro",
+    // BytePlus dashboard endpoint ID (replace if rotated)
+    volcanoModel: "ep-20251223205943-d8rhb",
+    displayName: "Seedance 1.5 Pro",
     perSecondCredits: 2,
-    description: "ByteDance's video model, starting at $0.3/video",
-    features: ["Wait 30s", "Direct Access"],
-    maxDuration: 10,
+    description: "ByteDance's lastest video model",
+    features: ["Wait 60s", "Audio"],
+    maxDuration: 12,
     supportedAspectRatios: ["16:9", "9:16", "1:1"],
-    supportedResolutions: ["480p", "1080p"],
-    supportsAudio: false,
-    estimatedGenerationTime: 30,
-    supportedDurations: [5, 10],
-    // requiresMembership: true,
+    supportedResolutions: ["480p", "720p"],
+    supportsAudio: true,
+    estimatedGenerationTime: 60,
+    supportedDurations: [5, 12],
   },
 
-  // BytePlus Seedance Pro 图片转视频模型 (Southeast Asia)
-  "byteplus-seedance-pro-image-to-video": {
-    id: "byteplus-seedance-pro-image-to-video",
-    name: "BytePlus Seedance Pro Image-to-Video",
+  // BytePlus Seedance 1.5 Pro 图片转视频模型 (Southeast Asia)
+  "byteplus-seedance-1-5-pro-image-to-video": {
+    id: "byteplus-seedance-1-5-pro-image-to-video",
+    name: "BytePlus Seedance 1.5 Pro Image-to-Video",
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.BYTEPLUS,
-    // volcanoModel: "seedance-1-0-pro-250528",
-    volcanoModel: "ep-20250915143914-m57vr", //hugeroger@gmail.com
-    // volcanoModel: "ep-20251031184345-xbr8l", //acostaandreab0@gmail.com
-    // volcanoModel: "ep-20251122104716-5krl8", //mackensonsouverain34@gmail.com
-    displayName: "Seedance 1.0 Pro",
+    volcanoModel: "ep-20251223205943-d8rhb",
+    displayName: "Seedance 1.5 Pro",
     perSecondCredits: 2,
-    description: "ByteDance's video model, starting at $0.3/video",
-    features: ["Wait 30s", "Direct Access"],
-    maxDuration: 10,
+    description: "ByteDance's lastest video model",
+    features: ["Wait 60s", "Audio", "Surpport 2 images"],
+    maxDuration: 12,
     supportedAspectRatios: ["Auto"],
-    supportedResolutions: ["480p", "1080p"],
-    supportsAudio: false,
-    estimatedGenerationTime: 30,
-    supportedDurations: [5, 10],
-    // requiresMembership: true,
+    supportedResolutions: ["480p", "720p"],
+    supportsAudio: true,
+    estimatedGenerationTime: 60,
+    supportedDurations: [5, 12],
+    imageCapabilities: {
+      maxImages: 2,
+      labels: ["First Frame", "Last Frame"],
+    },
   },
+  
   // Kie.ai Veo3 文本转视频模型(基于 Kie.ai API)
   "kie-veo3-text-to-video": {
     id: "kie-veo3-text-to-video",
@@ -231,6 +229,51 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     imageCapabilities: {
       maxImages: 1, // 目前只支持单张图片
     },
+  },
+  // BytePlus Seedance 1.0 Pro 文本转视频模型 (Southeast Asia) - legacy ordering
+  "byteplus-seedance-pro-text-to-video": {
+    id: "byteplus-seedance-pro-text-to-video",
+    name: "BytePlus Seedance Pro Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.BYTEPLUS,
+    // volcanoModel: "seedance-1-0-pro-250528",
+    volcanoModel: "ep-20250915143914-m57vr", //hugeroger@gmail.com
+    // volcanoModel: "ep-20251031184345-xbr8l", //acostaandreab0@gmail.com
+    // volcanoModel: "ep-20251122104716-5krl8", //mackensonsouverain34@gmail.com
+    displayName: "Seedance 1.0 Pro",
+    perSecondCredits: 2,
+    description: "ByteDance's video model, starting at $0.3/video",
+    features: ["Wait 30s", "Direct Access"],
+    maxDuration: 10,
+    supportedAspectRatios: ["16:9", "9:16", "1:1"],
+    supportedResolutions: ["480p", "1080p"],
+    supportsAudio: false,
+    estimatedGenerationTime: 30,
+    supportedDurations: [5, 10],
+    // requiresMembership: true,
+  },
+
+  // BytePlus Seedance Pro 图片转视频模型 (Southeast Asia)
+  "byteplus-seedance-pro-image-to-video": {
+    id: "byteplus-seedance-pro-image-to-video",
+    name: "BytePlus Seedance Pro Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.BYTEPLUS,
+    // volcanoModel: "seedance-1-0-pro-250528",
+    volcanoModel: "ep-20250915143914-m57vr", //hugeroger@gmail.com
+    // volcanoModel: "ep-20251031184345-xbr8l", //acostaandreab0@gmail.com
+    // volcanoModel: "ep-20251122104716-5krl8", //mackensonsouverain34@gmail.com
+    displayName: "Seedance 1.0 Pro",
+    perSecondCredits: 2,
+    description: "ByteDance's video model, starting at $0.3/video",
+    features: ["Wait 30s", "Direct Access"],
+    maxDuration: 10,
+    supportedAspectRatios: ["Auto"],
+    supportedResolutions: ["480p", "1080p"],
+    supportsAudio: false,
+    estimatedGenerationTime: 30,
+    supportedDurations: [5, 10],
+    // requiresMembership: true,
   },
 
   // Kie.ai Sora 2 Pro 文本转视频模型
@@ -455,6 +498,9 @@ export function calculateCredits(
     if (resolution === "1080p") {
       // 1080p 价格是 480p 的 5 倍
       totalCredits *= 5;
+    } else if (resolution === "720p") {
+      // 720p 价格是 480p 的 2.5 倍
+      totalCredits *= 2;
     }
     // 480p 保持原价格不变
   }

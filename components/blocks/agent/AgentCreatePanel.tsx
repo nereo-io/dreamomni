@@ -35,7 +35,7 @@ const VIDEO_MODELS = [
   { value: 'auto', label: 'Auto (Sora → Veo3 → Seedance)' },
   { value: 'sora-2-image-to-video', label: 'Sora 2' },
   { value: 'kie-veo3-image-to-video', label: 'Veo3' },
-  { value: 'byteplus-seedance-pro-image-to-video', label: 'Seedance Pro' },
+  { value: 'byteplus-seedance-1-5-pro-image-to-video', label: 'Seedance 1.5 Pro' },
 ];
 
 const COST_CONFIG = {
@@ -91,16 +91,24 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
           ? [initialData.referenceImageUrl]
           : [];
       setReferenceImageUrls(refs);
-      setDuration(initialData.durationSeconds || 20);
+      setDuration(initialData.durationSeconds || 16);
       setAspectRatio(initialData.aspectRatio || '16:9');
-      setKeyframesEnabled(typeof initialData.keyframesEnabled === 'boolean' ? initialData.keyframesEnabled : true);
-      setImageModel(initialData.imageModel || 'nano-banana-pro');
-      setVideoModel(initialData.videoModel || 'auto');
+      setKeyframesEnabled(
+        typeof initialData.keyframesEnabled === 'boolean' ? initialData.keyframesEnabled : true
+      );
+      setImageModel(initialData.imageModel || 'nano-banana');
+      const normalizedVideoModel =
+        initialData.videoModel === 'byteplus-seedance-pro-image-to-video' ||
+        initialData.videoModel === 'doubao-seedance-1-0-pro-image-to-video'
+          ? 'byteplus-seedance-1-5-pro-image-to-video'
+          : initialData.videoModel;
+      setVideoModel(normalizedVideoModel || 'kie-veo3-image-to-video');
     }
   }, [initialData]);
 
   const getEstimatedVideoDurationPerShot = (selected: string) => {
     if (selected === 'kie-veo3-image-to-video') return 8;
+    if (selected === 'byteplus-seedance-1-5-pro-image-to-video') return 10;
     if (selected === 'byteplus-seedance-pro-image-to-video') return 10;
     if (selected === 'sora-2-image-to-video') return 15;
     if (selected === 'auto') return 15;

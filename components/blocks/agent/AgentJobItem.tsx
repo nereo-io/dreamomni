@@ -177,6 +177,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
       if (videoModelId === 'auto') return 'Auto';
       if (videoModelId === 'sora-2-image-to-video') return 'Sora 2';
       if (videoModelId === 'kie-veo3-image-to-video') return 'Veo3';
+      if (videoModelId.includes('seedance-1-5')) return 'Seedance 1.5 Pro';
       if (videoModelId === 'byteplus-seedance-pro-image-to-video') return 'Seedance Pro';
       return modelConfig?.displayName || videoModelId;
     })();

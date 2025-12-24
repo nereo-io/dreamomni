@@ -256,6 +256,25 @@ def get_job_with_download_urls(job_id: str) -> AgentJob:
 | 用户体验 | 需等待转发 | 即时下载 | **显著提升** |
 | 代码复杂度 | 高（proxy + blob） | 低（直接链接） | **简化 70%** |
 
+## 播放缓存策略（R2 + Cloudflare）
+
+**目标**：页面刷新或重复播放时尽量命中浏览器/边缘缓存，减少回源和带宽。
+
+**已在代码中处理**：
+- 新上传到 R2 的视频对象带 `Cache-Control: public, max-age=31536000, immutable`
+- 下载代理 `/api/proxy-video` 不再强制 `no-cache`，会保留上游的缓存头
+
+**还需要在 Cloudflare 控制台完成**：
+- Cache Rules：`host == r2.veo3ai.io` 且 `path starts_with /videos/`
+  - Cache Everything
+  - Edge TTL：例如 30d/90d（按内容更新频率选择）
+  - Browser TTL：遵循源站（source headers）
+- 如使用 Range 请求，建议开启 **Cache Range Requests**
+
+**注意事项**：
+- 旧视频对象没有 `Cache-Control` 时，需重新上传或用 Cache Rule 覆盖
+- 若 URL 带签名参数，不建议忽略 query string（可能绕过权限控制）
+
 ## 参考资料
 
 - [Cloudflare Workers 文档](https://developers.cloudflare.com/workers/)

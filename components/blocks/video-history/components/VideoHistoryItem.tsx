@@ -1,4 +1,7 @@
 import React from "react";
+import { Copy } from "lucide-react";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import { getVideoModel } from "@/config/video-models";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 import VideoMetadata from "./VideoMetadata";
@@ -47,6 +50,7 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
     canEdit = false,
     isDeleting = false,
   }) => {
+    const tImage = useTranslations("imageHistory");
     // State for image preview modal
     const [selectedImageUrl, setSelectedImageUrl] = React.useState<string | null>(null);
     const [selectedImageIndex, setSelectedImageIndex] = React.useState<number>(0);
@@ -70,6 +74,9 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
       statusMap[generation.status as keyof typeof statusMap] ||
       statusMap.submitted;
     const modelConfig = getVideoModel(generation.model_id);
+    const displayPrompt = generation.effect_info
+      ? generation.effect_info.title
+      : generation.prompt;
 
     // Format timestamp
     const formatTimestamp = () => {
@@ -123,6 +130,16 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
       }
     };
 
+    const handleCopyPrompt = async () => {
+      if (!displayPrompt) return;
+      try {
+        await navigator.clipboard.writeText(displayPrompt);
+        toast.success(tImage("promptCopied"));
+      } catch (error) {
+        console.error("Failed to copy prompt:", error);
+      }
+    };
+
     // console.log("Video generation data:", {
     //   id: generation.id,
     //   prompt: generation.prompt,
@@ -132,7 +149,7 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
     // });
 
     return (
-      <div className="p-5 space-y-4">
+      <div className="px-4 py-5 space-y-4">
         {/* Header: Status/Images + Prompt/Effect Title + Timestamp */}
         <div className="flex justify-between items-start gap-3">
           <div className="flex items-start gap-3 flex-1">
@@ -156,14 +173,23 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
                 overflow: "hidden",
               }}
             >
-              {generation.effect_info ? generation.effect_info.title : generation.prompt}
+              {displayPrompt}
             </p>
           </div>
-          {formatTimestamp() && (
-            <span className="text-sm text-gray-400 flex-shrink-0 mt-0.5">
-              {formatTimestamp()}
-            </span>
-          )}
+          <div className="flex flex-col items-end gap-1 flex-shrink-0">
+            {formatTimestamp() && (
+              <span className="text-sm text-gray-400">
+                {formatTimestamp()}
+              </span>
+            )}
+            <button
+              onClick={handleCopyPrompt}
+              className="p-0.5 text-gray-400 hover:text-white transition-colors rounded"
+              title={tImage("copyPrompt")}
+            >
+              <Copy className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
         {/* Metadata tags */}
@@ -214,7 +240,7 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
               setSelectedImageIndex(0);
             }}
             imageUrl={selectedImageUrl}
-            prompt={generation.effect_info ? generation.effect_info.title : generation.prompt}
+            prompt={displayPrompt}
             currentIndex={selectedImageIndex}
             totalImages={imageArray.length}
             hasPrevious={selectedImageIndex > 0}

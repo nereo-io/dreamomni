@@ -1,3 +1,4 @@
+import { VIDEO_CACHE_CONTROL } from "@/lib/cache-control";
 import { updateVideoGenerationById } from "@/models/videoGeneration";
 
 /**
@@ -90,6 +91,7 @@ export class PixVerseStatusService {
               url: pixverseData.url,
               key: fileName,
               contentType: "video/mp4",
+              cacheControl: VIDEO_CACHE_CONTROL,
             });
 
             if (uploadResult?.url) {

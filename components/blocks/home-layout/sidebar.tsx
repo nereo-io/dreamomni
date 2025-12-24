@@ -16,7 +16,6 @@ import {
   ChevronRight,
   Image,
   Play,
-  Film,
 } from "lucide-react";
 import { BananaEmoji } from "@/components/icons/BananaIcon";
 import { Button } from "@/components/ui/button";
@@ -68,7 +67,7 @@ export function Sidebar() {
   ];
 
   const agentItems: SidebarItem[] = [
-    { icon: Film, labelKey: "agent_videos", href: "/agent" },
+    // { icon: Film, labelKey: "agent_videos", href: "/agent" },
   ];
 
   const otherItems: SidebarItem[] = [
@@ -170,25 +169,26 @@ export function Sidebar() {
           ))}
         </div>
 
-        {/* Agent Videos */}
-        <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
-          {agentItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${pathname.startsWith(item.href) ? "bg-gray-800" : ""
-                } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
-            >
-              <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
-              {!isCollapsed && (
-                <span className="flex items-center gap-2">
-                  {t(item.labelKey)}
-                  <BetaBadge />
-                </span>
-              )}
-            </Link>
-          ))}
-        </div>
+        {agentItems.length > 0 && (
+          <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
+            {agentItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${pathname.startsWith(item.href) ? "bg-gray-800" : ""
+                  } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
+              >
+                <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
+                {!isCollapsed && (
+                  <span className="flex items-center gap-2">
+                    {t(item.labelKey)}
+                    <BetaBadge />
+                  </span>
+                )}
+              </Link>
+            ))}
+          </div>
+        )}
 
         {/* Other */}
         <div className={isCollapsed ? "space-y-2" : "space-y-0"}>

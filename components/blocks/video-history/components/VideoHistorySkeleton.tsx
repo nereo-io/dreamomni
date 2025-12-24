@@ -27,7 +27,7 @@ export default function VideoHistorySkeleton({ className }: VideoHistorySkeleton
         <div className="divide-y divide-gray-700">
           {/* Skeleton Items */}
           {Array.from({ length: 3 }).map((_, index) => (
-            <div key={index} className="p-4 md:p-6">
+            <div key={index} className="px-4 py-5">
               <div className="flex flex-col lg:flex-row lg:items-start lg:gap-6">
                 {/* Video Thumbnail Skeleton */}
                 <div className="relative mb-4 lg:mb-0 lg:flex-shrink-0">

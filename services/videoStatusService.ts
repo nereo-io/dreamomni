@@ -1,4 +1,5 @@
 import { getVideoModel, VideoModelProvider } from "@/config/video-models";
+import { VIDEO_CACHE_CONTROL } from "@/lib/cache-control";
 import { updateVideoGenerationById } from "@/models/videoGeneration";
 import { getStatusProviderForFallback } from "@/services/seedanceFallbackService";
 
@@ -419,6 +420,7 @@ export class VideoStatusService {
         url: videoToUpload,
         key: fileName,
         contentType: "video/mp4",
+        cacheControl: VIDEO_CACHE_CONTROL,
       });
 
       if (uploadResult?.url) {
@@ -464,6 +466,7 @@ export class VideoStatusService {
         url: videoToUpload,
         key: fileName,
         contentType: "video/mp4",
+        cacheControl: VIDEO_CACHE_CONTROL,
       });
 
       if (uploadResult?.url) {
@@ -503,6 +506,7 @@ export class VideoStatusService {
         url: videoToUpload,
         key: fileName,
         contentType: "video/mp4",
+        cacheControl: VIDEO_CACHE_CONTROL,
       });
 
       if (uploadResult?.url) {

@@ -29,6 +29,7 @@ import {
   isStoryboardModel,
   calculateCredits,
   VideoModelProvider,
+  modelSupportsAudio,
 } from "@/config/video-models";
 import { ProviderFactory } from "@/services/providers";
 import { optimizeVideoPromptWithTimeout } from "@/services/promptOptimization";
@@ -241,6 +242,8 @@ export async function POST(req: Request) {
       transType = CreditsTransType.VideoGeneration8s;
     } else if (durationInt === 10) {
       transType = CreditsTransType.VideoGeneration10s;
+    } else if (durationInt === 12) {
+      transType = CreditsTransType.VideoGeneration12s;
     } else if (durationInt === 15) {
       // Sora 2/Pro 模型的15秒
       transType = CreditsTransType.VideoGeneration15s;
@@ -288,7 +291,7 @@ export async function POST(req: Request) {
       duration_seconds: parseInt(duration),
       cfg_scale,
       seed,
-      has_audio: finalModel.includes("veo") && generate_audio, // 只有 VEO 模型有音频
+      has_audio: modelSupportsAudio(finalModel) && generate_audio,
       status: enable_prompt_enhancement ? "PROMPT_OPTIMIZING" : "IN_QUEUE",
       metadata: {
         // 保存积分扣费池信息，用于退款追溯
@@ -437,6 +440,10 @@ export async function POST(req: Request) {
       // BytePlus 模型特有参数 (使用volcanoModel配置)
       if (modelConfig.volcanoModel) {
         input.model = modelConfig.volcanoModel;
+      }
+
+      if (generate_audio !== undefined && modelConfig.supportsAudio) {
+        input.generate_audio = generate_audio;
       }
     } else if (isKieAiModel(finalModel)) {
       // Kie.ai 模型特有参数（支持双图）
