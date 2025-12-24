@@ -120,6 +120,8 @@ export async function POST(req: NextRequest) {
       transType = CreditsTransType.VideoGeneration8s;
     } else if (durationSeconds === 10) {
       transType = CreditsTransType.VideoGeneration10s;
+    } else if (durationSeconds === 12) {
+      transType = CreditsTransType.VideoGeneration12s;
     } else if (durationSeconds === 15) {
       transType = CreditsTransType.VideoGeneration15s;
     } else if (durationSeconds === 25) {
