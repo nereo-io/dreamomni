@@ -15,6 +15,7 @@ export interface AgentJob {
   video_model: string;
   aspect_ratio?: string;
   keyframes_enabled?: boolean;
+  prompt_variant?: AgentPromptVariant;
   status: 'pending' | 'generating_script' | 'generating_characters' | 'splitting_shots' | 'generating_keyframes' |
           'waiting_for_confirmation' | 'orchestrating_videos' | 'generating_videos' |
           'splicing' | 'completed' | 'failed';
@@ -97,9 +98,12 @@ export interface CreateAgentJobRequest {
   duration_seconds: number;
   aspect_ratio?: string;
   keyframes_enabled?: boolean;
+  prompt_variant?: AgentPromptVariant;
   image_model?: string;
   video_model?: string;
 }
+
+export type AgentPromptVariant = 'keyframes_9grid' | 'current' | 'direct_video';
 
 export interface CreateAgentJobResponse {
   job_id: string;

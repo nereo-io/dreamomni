@@ -9,7 +9,7 @@
 import { useState } from 'react';
 import { AgentCreatePanel } from '@/components/blocks/agent/AgentCreatePanel';
 import { AgentJobsList } from '@/components/blocks/agent/AgentJobsList';
-import { AgentJob } from '@/types/agent';
+import { AgentJob, AgentPromptVariant } from '@/types/agent';
 
 export default function AgentPage({
   params: { locale },
@@ -24,6 +24,7 @@ export default function AgentPage({
     durationSeconds?: number;
     aspectRatio?: string;
     keyframesEnabled?: boolean;
+    promptVariant?: AgentPromptVariant;
     imageModel?: string;
     videoModel?: string;
   } | null>(null);
@@ -42,6 +43,7 @@ export default function AgentPage({
       durationSeconds: job.duration_seconds,
       aspectRatio: (job as any).aspect_ratio || undefined,
       keyframesEnabled: (job as any).keyframes_enabled,
+      promptVariant: (job as any).prompt_variant,
       imageModel: job.image_model,
       videoModel: job.video_model,
     });
