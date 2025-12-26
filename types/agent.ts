@@ -7,7 +7,6 @@ export interface AgentJob {
   id: string;
   user_id: string;
   prompt: string;
-  reference_image_url?: string;
   reference_image_urls?: string[];
   duration_seconds: number;
   num_shots: number;
@@ -93,7 +92,6 @@ export interface AgentAssetListResponse {
 
 export interface CreateAgentJobRequest {
   prompt: string;
-  reference_image_url?: string;
   reference_image_urls?: string[];
   duration_seconds: number;
   aspect_ratio?: string;

@@ -19,7 +19,6 @@ export default function AgentPage({
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [reEditData, setReEditData] = useState<{
     prompt: string;
-    referenceImageUrl?: string;
     referenceImageUrls?: string[];
     durationSeconds?: number;
     aspectRatio?: string;
@@ -38,7 +37,6 @@ export default function AgentPage({
     // Extract data from job and pass to create panel
     setReEditData({
       prompt: job.prompt,
-      referenceImageUrl: job.reference_image_url || undefined,
       referenceImageUrls: job.reference_image_urls || undefined,
       durationSeconds: job.duration_seconds,
       aspectRatio: (job as any).aspect_ratio || undefined,

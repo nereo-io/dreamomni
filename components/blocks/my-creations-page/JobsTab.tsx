@@ -253,7 +253,7 @@ export default function JobsTab() {
                       {job.final_video_url ? (
                         <video
                           src={job.final_video_url}
-                          poster={job.reference_image_url || undefined}
+                          poster={job.reference_image_urls?.[0]}
                           className="w-full h-full object-cover"
                           preload="auto"
                           controls={false}

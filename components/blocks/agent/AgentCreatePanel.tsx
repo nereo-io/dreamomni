@@ -61,7 +61,6 @@ interface AgentCreatePanelProps {
   onJobCreated?: () => void;
   initialData?: {
     prompt: string;
-    referenceImageUrl?: string;
     referenceImageUrls?: string[];
     durationSeconds?: number;
     aspectRatio?: string;
@@ -93,8 +92,6 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
       const refs =
         initialData.referenceImageUrls && initialData.referenceImageUrls.length > 0
           ? initialData.referenceImageUrls
-          : initialData.referenceImageUrl
-          ? [initialData.referenceImageUrl]
           : [];
       setReferenceImageUrls(refs);
       const resolvedPromptVariant: AgentPromptVariant =
@@ -170,7 +167,6 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
     try {
       const requestBody: CreateAgentJobRequest = {
         prompt: prompt.trim(),
-        reference_image_url: referenceImageUrls[0] || undefined,
         reference_image_urls: referenceImageUrls.length > 0 ? referenceImageUrls : undefined,
         duration_seconds: duration,
         aspect_ratio: aspectRatio,

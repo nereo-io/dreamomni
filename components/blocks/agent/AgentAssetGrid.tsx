@@ -80,14 +80,14 @@ interface AgentAssetGridProps {
   aspectRatio?: string;
   keyframesEnabled?: boolean;
   progress?: AgentJob['progress'];
-  referenceImageUrl?: string;
+  referenceImageUrls?: string[];
   jobStatus?: AgentJob['status'];
   createdAt?: string;
   videoModelId?: string;
 }
 
 export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
-  ({ shots, finalVideoUrl: _finalVideoUrl, storyOutline, mainCharacters, characterReferenceImages, roleSceneReferencePrompt, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrl, jobStatus, createdAt, videoModelId }) => {
+  ({ shots, finalVideoUrl: _finalVideoUrl, storyOutline, mainCharacters, characterReferenceImages, roleSceneReferencePrompt, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrls, jobStatus, createdAt, videoModelId }) => {
     const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
     const aspectRatioValue =
       aspectRatio === '9:16'
@@ -99,7 +99,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       aspectRatio === '9:16' ? 120 : aspectRatio === '4:3' ? 128 : 160;
     const fallbackBackground =
       (characterReferenceImages && characterReferenceImages[0]) ||
-      referenceImageUrl ||
+      (referenceImageUrls && referenceImageUrls[0]) ||
       undefined;
     const characterCount = mainCharacters && Array.isArray(mainCharacters) ? mainCharacters.length : 0;
     const shouldShowCharacterPlaceholders =

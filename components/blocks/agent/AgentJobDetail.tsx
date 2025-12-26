@@ -104,8 +104,8 @@ export function AgentJobDetail({ jobId }: AgentJobDetailProps) {
   const referenceImages =
     job.character_reference_images && job.character_reference_images.length > 0
       ? job.character_reference_images
-      : job.reference_image_url
-      ? [job.reference_image_url]
+      : job.reference_image_urls && job.reference_image_urls.length > 0
+      ? job.reference_image_urls
       : [];
 
   return (

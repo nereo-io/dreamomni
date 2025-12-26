@@ -138,7 +138,9 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
     // Get thumbnail URL (only show user-uploaded reference image)
     const getThumbnailUrl = () => {
       // Only display if user uploaded a reference image
-      if (job.reference_image_url) return job.reference_image_url;
+      if (job.reference_image_urls && job.reference_image_urls.length > 0) {
+        return job.reference_image_urls[0];
+      }
       return null;
     };
 
@@ -165,8 +167,8 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
     const referenceImages =
       job.character_reference_images && job.character_reference_images.length > 0
         ? job.character_reference_images
-        : job.reference_image_url
-        ? [job.reference_image_url]
+        : job.reference_image_urls && job.reference_image_urls.length > 0
+        ? job.reference_image_urls
         : [];
 
     const aspectRatio = job.aspect_ratio || '16:9';
@@ -300,7 +302,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               aspectRatio={aspectRatio}
               keyframesEnabled={job.keyframes_enabled}
               progress={job.progress}
-              referenceImageUrl={thumbnailUrl || referenceImages[0] || undefined}
+              referenceImageUrls={job.reference_image_urls || undefined}
               jobStatus={job.status}
               createdAt={job.created_at}
               videoModelId={videoModelId}
