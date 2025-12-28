@@ -11,6 +11,7 @@ export const MODEL_LANDING_PAGES = [
   'nano-banana',
   'nano-banana-pro',
   'wan-2-5',
+  'seedance-1-5',
   'veo-3-1',
   'sora-2',
 ] as const;
