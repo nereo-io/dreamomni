@@ -101,7 +101,7 @@ export interface CreateAgentJobRequest {
   video_model?: string;
 }
 
-export type AgentPromptVariant = 'keyframes_9grid' | 'current' | 'direct_video';
+export type AgentPromptVariant = 'current';
 
 export interface CreateAgentJobResponse {
   job_id: string;

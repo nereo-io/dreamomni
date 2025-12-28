@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ImageGridUploader } from '@/components/blocks/video-generator/ImageGridUploader';
-import { AgentPromptVariant, CreateAgentJobRequest } from '@/types/agent';
+import { CreateAgentJobRequest } from '@/types/agent';
 import { toast } from 'sonner';
 import { Loader2, Play } from 'lucide-react';
 import { useAppContext } from '@/contexts/app';
@@ -35,12 +35,6 @@ const VIDEO_MODELS = [
   { value: 'sora-2-image-to-video', label: 'Sora 2' },
   { value: 'kie-veo3-image-to-video', label: 'Veo3' },
   { value: 'byteplus-seedance-1-5-pro-image-to-video', label: 'Seedance Pro' },
-];
-
-const PROMPT_VARIANTS: Array<{ value: AgentPromptVariant; label: string }> = [
-  { value: 'keyframes_9grid', label: '9-grid keyframes (legacy)' },
-  { value: 'current', label: 'Current keyframes' },
-  { value: 'direct_video', label: 'Direct video (no keyframes)' },
 ];
 
 const COST_CONFIG = {
@@ -64,8 +58,6 @@ interface AgentCreatePanelProps {
     referenceImageUrls?: string[];
     durationSeconds?: number;
     aspectRatio?: string;
-    keyframesEnabled?: boolean;
-    promptVariant?: AgentPromptVariant;
     imageModel?: string;
     videoModel?: string;
   };
@@ -79,8 +71,6 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
   const [referenceImageUrls, setReferenceImageUrls] = useState<string[]>([]);
   const [duration, setDuration] = useState<number>(20);
   const [aspectRatio, setAspectRatio] = useState<string>('16:9');
-  const [keyframesEnabled, setKeyframesEnabled] = useState<boolean>(true);
-  const [promptVariant, setPromptVariant] = useState<AgentPromptVariant>('keyframes_9grid');
   const [imageModel, setImageModel] = useState('nano-banana-pro');
   const [videoModel, setVideoModel] = useState('auto');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -94,22 +84,9 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
           ? initialData.referenceImageUrls
           : [];
       setReferenceImageUrls(refs);
-      const resolvedPromptVariant: AgentPromptVariant =
-        initialData.promptVariant ||
-        (initialData.keyframesEnabled === false ? 'current' : 'keyframes_9grid');
-      const resolvedKeyframesEnabled =
-        resolvedPromptVariant === 'direct_video'
-          ? false
-          : resolvedPromptVariant === 'keyframes_9grid'
-          ? true
-          : typeof initialData.keyframesEnabled === 'boolean'
-          ? initialData.keyframesEnabled
-          : true;
 
       setDuration(initialData.durationSeconds || 20);
       setAspectRatio(initialData.aspectRatio || '16:9');
-      setPromptVariant(resolvedPromptVariant);
-      setKeyframesEnabled(resolvedKeyframesEnabled);
       setImageModel(initialData.imageModel || 'nano-banana-pro');
       setVideoModel(initialData.videoModel || 'auto');
     }
@@ -127,7 +104,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
     const estimatedShots = Math.max(1, Math.ceil(duration / COST_CONFIG.averageShotDuration));
     const planCost = COST_CONFIG.planReserve;
     const roleSceneReferenceCost = COST_CONFIG.roleSceneReference;
-    const keyframeCredits = keyframesEnabled ? estimatedShots * COST_CONFIG.keyframePerShot : 0;
+    const keyframeCredits = estimatedShots * COST_CONFIG.keyframePerShot;
 
     const resolvedVideoModel = videoModel === 'auto' ? 'sora-2-image-to-video' : videoModel;
     const modelConfig = getVideoModel(resolvedVideoModel);
@@ -170,8 +147,8 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
         reference_image_urls: referenceImageUrls.length > 0 ? referenceImageUrls : undefined,
         duration_seconds: duration,
         aspect_ratio: aspectRatio,
-        keyframes_enabled: keyframesEnabled,
-        prompt_variant: promptVariant,
+        keyframes_enabled: true,
+        prompt_variant: 'current',
         image_model: imageModel,
         video_model: videoModel,
       };
@@ -198,8 +175,6 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
       setReferenceImageUrls([]);
       setDuration(20);
       setAspectRatio('16:9');
-      setKeyframesEnabled(true);
-      setPromptVariant('keyframes_9grid');
 
       // Notify parent to refresh job list
       onJobCreated?.();
@@ -292,34 +267,6 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
               </Select>
             </div>
 
-          </div>
-
-          {/* Prompt Variant */}
-          <div>
-            <Label className="text-gray-300 text-sm mb-2 block">Prompt Variant</Label>
-            <Select
-              value={promptVariant}
-              onValueChange={value => {
-                const nextVariant = value as AgentPromptVariant;
-                setPromptVariant(nextVariant);
-                if (nextVariant === 'direct_video') {
-                  setKeyframesEnabled(false);
-                } else {
-                  setKeyframesEnabled(true);
-                }
-              }}
-            >
-              <SelectTrigger className="bg-gray-800 border-gray-700 text-gray-100">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {PROMPT_VARIANTS.map(variant => (
-                  <SelectItem key={variant.value} value={variant.value}>
-                    {variant.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
 
           {/* Models */}
