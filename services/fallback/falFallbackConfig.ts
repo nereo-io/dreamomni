@@ -40,7 +40,7 @@ export const isRetryableProviderError = (error: unknown) => {
   const not_retry_messages = [
     "The input or output was flagged as sensitive"
   ];
-  return !not_retry_messages.some(message => lower.includes(message));
+  return !not_retry_messages.some(message => lower.includes(message.toLowerCase()));
   // return (
   //   // 超时相
   //   lower.includes("timeout") ||
