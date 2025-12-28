@@ -10,7 +10,8 @@ export type AIServiceProvider =
   | "stable_diffusion" // Stability AI
   | "replicate"       // Replicate
   | "huggingface"     // Hugging Face
-  | "custom";         // 自定义服务商
+  | "custom"          // 自定义服务商
+  | "fal";            // fal.ai
 
 export type ProviderStatus = 
   | "active"          // 活跃可用

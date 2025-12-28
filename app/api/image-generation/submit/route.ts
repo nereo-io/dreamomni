@@ -16,11 +16,169 @@ import type {
   CreateImageGenerationParams,
   ImageGenerationStatus,
 } from "@/types/image.d";
+import type {
+  GenerateImageRequest,
+  EditImageRequest,
+  ProviderResponse,
+} from "@/services/providers/BaseAIProvider";
 import type { AIServiceProvider } from "@/types/provider.d";
 import { NextRequest } from "next/server";
 import { getClientIp } from "@/lib/ip";
 import { calculateImageCredits } from "@/config/image-models";
 import { generateAgentImages } from "@/services/agentImageService";
+import { isRetryableProviderError } from "@/services/fallback/falFallbackConfig";
+import { submitFalImageFallback } from "@/services/fallback/falFallbackProviders";
+
+// 降级处理结果类型
+type FallbackResult = {
+  success: boolean;
+  result?: ProviderResponse;
+  usedProvider?: AIServiceProvider;
+  fallbackInfo?: {
+    from_provider: AIServiceProvider;
+    from_model: string;
+    to_provider: AIServiceProvider;
+    to_model: string;
+    error: string;
+    at: string;
+  };
+};
+
+/**
+ * 尝试降级到 fal.ai（异步队列模式）
+ * 统一处理异常和失败状态的降级逻辑
+ */
+async function tryFallbackToFal(
+  originalProvider: AIServiceProvider,
+  model: string,
+  request: GenerateImageRequest | EditImageRequest,
+  isEditMode: boolean,
+  errorOrResult: Error | ProviderResponse,
+  webhookUrl?: string
+): Promise<FallbackResult> {
+  // 仅支持 nano_banana 降级到 fal
+  if (originalProvider !== "nano_banana") {
+    return { success: false };
+  }
+
+  // 提取错误信息
+  const errorMessage =
+    errorOrResult instanceof Error
+      ? errorOrResult.message
+      : (errorOrResult as ProviderResponse).error || "Unknown error";
+
+  // 检查是否可以降级
+  if (!isRetryableProviderError(errorMessage)) {
+    return { success: false };
+  }
+
+  console.warn(
+    `⚠️ ${originalProvider} failed, attempting fal.ai fallback for model ${model} (async queue mode)`
+  );
+
+  try {
+    const fallbackResult = await submitFalImageFallback(
+      model,
+      request,
+      isEditMode ? "edit" : "generate",
+      webhookUrl
+    );
+
+    if (!fallbackResult) {
+      console.warn("⚠️ Fallback to fal.ai not available for this model");
+      return { success: false };
+    }
+
+    console.log(`✅ Fallback to fal.ai succeeded (request_id: ${fallbackResult.response.taskId})`);
+
+    return {
+      success: true,
+      result: fallbackResult.response,
+      usedProvider: "fal",
+      fallbackInfo: {
+        from_provider: originalProvider,
+        from_model: model,
+        to_provider: "fal",
+        to_model: fallbackResult.modelId,
+        error: errorMessage,
+        at: new Date().toISOString(),
+      },
+    };
+  } catch (fallbackError) {
+    console.error("❌ Fallback to fal.ai failed:", fallbackError);
+    return { success: false };
+  }
+}
+
+/**
+ * 调用图片生成 Provider（带降级处理）
+ * 高内聚：封装调用、异常处理、降级逻辑
+ */
+async function callImageProviderWithFallback(
+  provider: AIServiceProvider,
+  model: string,
+  generateRequest: GenerateImageRequest,
+  editRequest: EditImageRequest | null,
+  isEditMode: boolean,
+  webhookUrl?: string
+): Promise<{
+  result: ProviderResponse;
+  usedProvider: AIServiceProvider;
+  fallbackInfo?: FallbackResult["fallbackInfo"];
+}> {
+  let result: ProviderResponse;
+  let hasException = false;
+
+  // 1. 调用 AI 服务提供商
+  try {
+    result = isEditMode
+      ? await aiServiceManager.editImage(provider, editRequest!)
+      : await aiServiceManager.generateImage(provider, generateRequest);
+  } catch (providerError) {
+    // 将异常转换为失败响应，后续统一处理
+    hasException = true;
+    result = {
+      taskId: "",
+      status: "failed",
+      error:
+        providerError instanceof Error
+          ? providerError.message
+          : String(providerError),
+      metadata: { provider },
+    };
+  }
+
+  // 2. 统一处理失败（异常 + 状态失败）
+  if (result.status === "failed") {
+    const fallback = await tryFallbackToFal(
+      provider,
+      model,
+      isEditMode ? editRequest! : generateRequest,
+      isEditMode,
+      result,
+      webhookUrl
+    );
+
+    if (fallback.success && fallback.result) {
+      // 降级成功（异步队列模式）
+      return {
+        result: fallback.result,
+        usedProvider: fallback.usedProvider!,
+        fallbackInfo: fallback.fallbackInfo,
+      };
+    } else if (hasException) {
+      // 异常 + 降级失败 → 抛出错误
+      throw new Error(result.error || "Provider failed");
+    }
+    // 状态失败 + 降级失败 → 返回失败结果（后续会记录失败、退款）
+  }
+
+  // 3. 返回成功或失败结果
+  return {
+    result,
+    usedProvider: provider,
+  };
+}
 
 // 验证Cloudflare Turnstile CAPTCHA
 async function verifyCaptcha(
@@ -281,47 +439,59 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-      // 1. 优化提示词（如果启用） - 在调用AI服务之前处理
+      // 1. 优化提示词（如果启用）
       let enhancedPrompt = prompt;
 
-      // 2. 调用AI服务提供商API
+      // 2. 准备请求参数和 webhook URL
       console.log(`🤖 Calling ${selectedProvider} API...`);
 
-      let result;
-      if (
+      const isEditMode =
         (mode === "image-to-image" || mode === "image-edit") &&
         image_urls &&
-        image_urls.length > 0
-      ) {
-        result = await aiServiceManager.editImage(selectedProvider, {
-          prompt: enhancedPrompt,
-          imageUrls: image_urls,
-          model,
-          negativePrompt: negative_prompt,
-          output_format,
-          image_size,
-          // Pro 模型参数
-          aspect_ratio,
-          resolution,
-        });
-      } else {
-        result = await aiServiceManager.generateImage(selectedProvider, {
-          prompt: enhancedPrompt,
-          model,
-          negativePrompt: negative_prompt,
-          count: 1,
-          output_format,
-          image_size,
-          // Pro 模型参数
-          aspect_ratio,
-          resolution,
-          image_input,
-        });
-      }
+        image_urls.length > 0;
 
-      console.log(`${selectedProvider} API response:`, result);
+      // 生成 webhook URL（用于 fal 异步回调）
+      const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/ai-callback/fal`;
 
-      // 3. 根据API调用结果确定初始状态
+      const generateRequest: GenerateImageRequest = {
+        prompt: enhancedPrompt,
+        model,
+        negativePrompt: negative_prompt,
+        count: 1,
+        output_format,
+        image_size,
+        aspect_ratio,
+        resolution,
+        image_input,
+      };
+
+      const editRequest: EditImageRequest | null = isEditMode
+        ? {
+            prompt: enhancedPrompt,
+            imageUrls: image_urls!,
+            model,
+            negativePrompt: negative_prompt,
+            output_format,
+            image_size,
+            aspect_ratio,
+            resolution,
+          }
+        : null;
+
+      // 3. 调用图片生成服务（包含降级处理，支持异步队列模式）
+      const { result, usedProvider, fallbackInfo } =
+        await callImageProviderWithFallback(
+          selectedProvider,
+          model,
+          generateRequest,
+          editRequest,
+          isEditMode,
+          webhookUrl
+        );
+
+      console.log(`${usedProvider} API response:`, result);
+
+      // 4. 根据API调用结果确定初始状态
       let initialStatus: ImageGenerationStatus;
       if (result.taskId && result.status === "pending") {
         initialStatus = "IN_QUEUE";
@@ -344,7 +514,7 @@ export async function POST(req: NextRequest) {
         negative_prompt,
         mode: mode as any,
         source: "web",
-        provider: selectedProvider,
+        provider: usedProvider,
         input_image_urls: image_urls,
         source_image_ids: source_image_ids, // 新增：保存来源图片ID（用于追踪"My Creations"选择）
         // 图片比例：Pro 模型用 aspect_ratio，标准模型用 image_size
@@ -355,7 +525,7 @@ export async function POST(req: NextRequest) {
         metadata: {
           request_source: "api",
           user_agent: req.headers.get("user-agent"),
-          provider: selectedProvider,
+          provider: usedProvider,
           enable_prompt_enhancement,
           provider_task_id: result.taskId,
           provider_status: result.status,
@@ -372,6 +542,7 @@ export async function POST(req: NextRequest) {
             total_deducted: deductResult.totalDeducted,
             deducted_at: new Date().toISOString(),
           },
+          ...(fallbackInfo && { fallback: fallbackInfo }),
         },
       };
 
@@ -397,7 +568,7 @@ export async function POST(req: NextRequest) {
           id: imageGeneration.id,
           task_id: result.taskId,
           status: "in_queue",
-          provider: selectedProvider,
+          provider: usedProvider,
           message: "Image generation task submitted successfully",
         });
       } else if (
@@ -428,7 +599,7 @@ export async function POST(req: NextRequest) {
           status: "completed",
           image_url: imageUrls[0],
           image_urls: imageUrls,
-          provider: selectedProvider,
+          provider: usedProvider,
           message: "Image generated successfully",
         });
       } else {

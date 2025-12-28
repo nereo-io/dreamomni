@@ -94,9 +94,11 @@ export async function POST(req: NextRequest) {
       optimized_prompt: imageGeneration.optimized_prompt, // 添加优化后的提示词
       model: imageGeneration.model_id,
       mode: imageGeneration.mode,
-      image_url: imageGeneration.image_urls && imageGeneration.image_urls.length > 0
+      image_url: imageGeneration.image_urls_r2 && imageGeneration.image_urls_r2.length > 0
+        ? imageGeneration.image_urls_r2[0]
+        : (imageGeneration.image_urls && imageGeneration.image_urls.length > 0
         ? imageGeneration.image_urls[0]
-        : null,
+        : null),
       image_urls: imageGeneration.image_urls || [],
       image_urls_r2: imageGeneration.image_urls_r2 || [], // Agent 模式 R2 URLs
       image_count: imageGeneration.image_count || 0,

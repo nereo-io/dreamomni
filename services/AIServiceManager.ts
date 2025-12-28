@@ -3,8 +3,9 @@
  * 统一管理多个AI服务提供商
  */
 
-import { BaseAIProvider, ProviderFactory, GenerateImageRequest, EditImageRequest, ProviderResponse } from './providers/BaseAIProvider';
+import { BaseAIProvider, GenerateImageRequest, EditImageRequest, ProviderResponse } from './providers/BaseAIProvider';
 import { NanoBananaProvider } from './providers/NanoBananaProvider';
+import { FalImageProvider } from './providers/FalImageProvider';
 import type { AIServiceProvider, AIProviderConfig } from '@/types/provider.d';
 import { IMAGE_MODELS, getImageModel, calculateImageCredits } from '@/config/image-models';
 
@@ -237,6 +238,47 @@ const PROVIDER_CONFIGS: Record<AIServiceProvider, AIProviderConfig> = {
     pricing: {
       baseCredits: 1
     }
+  },
+  fal: {
+    id: 'fal',
+    name: 'fal.ai',
+    displayName: 'fal.ai',
+    description: 'fal.ai hosted image models',
+    status: 'active',
+    features: {
+      textToImage: true,
+      imageToImage: true,
+      imageEdit: true,
+      inpainting: false,
+      outpainting: false,
+      upscaling: false,
+      backgroundRemoval: false,
+      styleTransfer: false,
+      batchGeneration: false,
+      asyncCallback: false,
+      realTimeStatus: true
+    },
+    models: Object.values(IMAGE_MODELS)
+      .filter(m => m.provider === 'fal')
+      .map(m => ({
+        id: m.id,
+        name: m.name,
+        displayName: m.displayName,
+        provider: 'fal' as const,
+        type: m.type as 'text-to-image' | 'image-edit',
+        status: (m.status === 'active' ? 'active' : 'deprecated') as 'active' | 'beta' | 'deprecated',
+        features: m.features,
+        maxImageCount: m.maxInputImages || 1,
+        maxResolution: m.supportedResolutions
+          ? { width: 4096, height: 4096 }
+          : { width: 1024, height: 1024 },
+        supportedAspectRatios: m.supportedAspectRatios,
+        supportedFormats: m.supportedFormats,
+        credits: m.credits,
+      })),
+    pricing: {
+      baseCredits: 1
+    }
   }
 };
 
@@ -269,6 +311,15 @@ export class AIServiceManager {
       console.log('✅ Nano Banana provider initialized');
     } catch (error) {
       console.warn('⚠️ Nano Banana provider initialization failed:', error);
+    }
+
+    // 注册 fal 提供商
+    try {
+      const falProvider = new FalImageProvider();
+      this.providers.set('fal', falProvider);
+      console.log('✅ fal.ai provider initialized');
+    } catch (error) {
+      console.warn('⚠️ fal.ai provider initialization failed:', error);
     }
 
     // TODO: 注册其他提供商

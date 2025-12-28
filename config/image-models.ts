@@ -7,6 +7,7 @@ export enum ImageModelType {
 // 图片模型提供商
 export enum ImageModelProvider {
   KIE = "kie", // Kie.ai (提供 Nano Banana 等模型)
+  FAL = "fal", // fal.ai 托管的模型
 }
 
 // 图片模型配置接口
@@ -88,7 +89,7 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
     },
     supportedFormats: ["jpg", "png"],
     estimatedGenerationTime: 80, // 实测平均 130 秒,留 20 秒余量
-  },
+  }
 };
 
 // 辅助函数
