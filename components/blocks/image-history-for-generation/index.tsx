@@ -509,7 +509,7 @@ export default function ImageHistoryForGeneration({
 
     // 检查是否有需要轮询的图片
     const now = Date.now();
-    const maxDuration = 5 * 60 * 1000; // 5分钟
+    const maxDuration = 10 * 60 * 1000; // 5分钟
     const incompleteStatuses = [
       "pending",
       "prompt_optimizing",

@@ -30,6 +30,8 @@ export async function POST(
   { params }: { params: { provider: string } }
 ) {
   try {
+    
+
     const provider = params.provider as AIServiceProvider;
 
     // 验证提供商是否支持
@@ -40,7 +42,13 @@ export async function POST(
     }
 
     // 解析回调数据
-    const callbackData = await req.json();
+    let callbackData;
+    if (provider === "fal") {
+      const rawBody = await req.text();
+      callbackData = JSON.parse(rawBody);
+    } else {
+      callbackData = await req.json();
+    }
     // 使用提供商特定的处理逻辑
     const processedResult = await providerInstance.handleCallback(callbackData);
 
