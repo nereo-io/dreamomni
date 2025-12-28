@@ -10,6 +10,7 @@ import {
   decreaseCredits,
   getUserCredits,
   increaseCredits,
+  DeductResult,
 } from '@/services/credit';
 
 /**
@@ -133,7 +134,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    let deductResult;
+    let deductResult: DeductResult | undefined;
     if (!shouldSkipCredits) {
       try {
         deductResult = await decreaseCredits({
