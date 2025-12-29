@@ -153,23 +153,28 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
         ? 'bg-red-500 text-red-900'
         : 'bg-blue-500 text-blue-900';
 
-    // Story outline & characters (Phase 3.5)
-    const storyOutline = (job.story_outline || {}) as any;
-    const acts =
-      storyOutline.acts && Array.isArray(storyOutline.acts)
-        ? storyOutline.acts
-        : [];
-    const theme = storyOutline.theme;
-    const tone = storyOutline.tone;
-
-    const mainCharacters = (job.main_characters || []) as any[];
-
-    const referenceImages =
-      job.character_reference_images && job.character_reference_images.length > 0
-        ? job.character_reference_images
-        : job.reference_image_urls && job.reference_image_urls.length > 0
-        ? job.reference_image_urls
-        : [];
+    // Storyboard summary (Phase 3.5+)
+    const storyboardJson = job.storyboard_json as any;
+    const outline = (storyboardJson?.story_outline || job.story_outline || {}) as any;
+    const acts = Array.isArray(outline?.acts) ? outline.acts : [];
+    const theme = outline?.theme;
+    const tone = outline?.tone;
+    const logline = outline?.logline;
+    const conflict = outline?.conflict;
+    const ending = outline?.ending;
+    const summaryText = logline || conflict || ending;
+    const storyboardRoot =
+      storyboardJson && typeof storyboardJson === 'object'
+        ? (storyboardJson as any).storyboard || storyboardJson
+        : null;
+    const keyElements = Array.isArray(storyboardRoot?.key_elements)
+      ? storyboardRoot.key_elements
+      : [];
+    const characterElements = keyElements.filter(
+      (element: any) => element && element.type === 'character'
+    );
+    const sceneElement =
+      keyElements.find((element: any) => element && element.type === 'scene') || null;
 
     const aspectRatio = job.aspect_ratio || '16:9';
     const videoModelId = job.video_model;
@@ -261,19 +266,29 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
             )}
           </div>
 
-          {/* Story outline & main characters summary */}
-          {(theme || tone || mainCharacters.length > 0) && (
+          {/* Story summary */}
+          {(summaryText || theme || tone || acts.length > 0 || characterElements.length > 0 || sceneElement) && (
             <div className="mt-1 space-y-1 text-xs text-gray-500 dark:text-gray-400">
-              {(theme || tone) && (
-                <div className="flex flex-wrap gap-x-3 gap-y-1">
-                  {theme && <span>主题: {theme}</span>}
-                  {tone && <span>基调: {tone}</span>}
-                  {acts.length > 0 && (
-                    <span>章节数: {acts.length}</span>
-                  )}
+              {summaryText && (
+                <div
+                  className="text-gray-500 dark:text-gray-400"
+                  style={{
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}
+                >
+                  剧情: {summaryText}
                 </div>
               )}
-
+              <div className="flex flex-wrap gap-x-3 gap-y-1">
+                {theme && <span>主题: {theme}</span>}
+                {tone && <span>基调: {tone}</span>}
+                {acts.length > 0 && <span>章节数: {acts.length}</span>}
+                {characterElements.length > 0 && <span>角色: {characterElements.length}</span>}
+                {sceneElement && <span>场景: 1</span>}
+              </div>
             </div>
           )}
 
@@ -294,10 +309,11 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
             <AgentAssetGrid
               shots={job.shots}
               finalVideoUrl={job.final_video_url}
-              storyOutline={job.story_outline || null}
-              mainCharacters={job.main_characters || null}
+              storyboardJson={
+                job.storyboard_json ||
+                (job.story_outline ? { story_outline: job.story_outline } : null)
+              }
               characterReferenceImages={job.character_reference_images || null}
-              roleSceneReferencePrompt={job.role_scene_reference_prompt || undefined}
               locale={locale}
               aspectRatio={aspectRatio}
               keyframesEnabled={job.keyframes_enabled}

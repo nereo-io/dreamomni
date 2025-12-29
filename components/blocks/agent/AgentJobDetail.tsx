@@ -91,15 +91,28 @@ export function AgentJobDetail({ jobId }: AgentJobDetailProps) {
     );
   }
 
-  const acts =
-    (job.story_outline as any)?.acts && Array.isArray((job.story_outline as any).acts)
-      ? (job.story_outline as any).acts
-      : [];
+  const storyboardJson = job.storyboard_json as any;
+  const outline = (storyboardJson?.story_outline || (job.story_outline as any) || {}) as any;
+  const acts = Array.isArray(outline?.acts) ? outline.acts : [];
+  const theme = outline?.theme;
+  const tone = outline?.tone;
+  const logline = outline?.logline;
+  const conflict = outline?.conflict;
+  const ending = outline?.ending;
+  const soundBed = outline?.sound_bed;
 
-  const theme = (job.story_outline as any)?.theme;
-  const tone = (job.story_outline as any)?.tone;
-
-  const mainCharacters = job.main_characters || [];
+  const storyboardRoot =
+    storyboardJson && typeof storyboardJson === "object"
+      ? (storyboardJson as any).storyboard || storyboardJson
+      : null;
+  const keyElements = Array.isArray(storyboardRoot?.key_elements)
+    ? storyboardRoot.key_elements
+    : [];
+  const characterElements = keyElements.filter(
+    (element: any) => element && element.type === "character"
+  );
+  const sceneElement =
+    keyElements.find((element: any) => element && element.type === "scene") || null;
 
   const referenceImages =
     job.character_reference_images && job.character_reference_images.length > 0
@@ -121,25 +134,57 @@ export function AgentJobDetail({ jobId }: AgentJobDetailProps) {
       {/* Story Outline */}
       <section className="bg-gray-900/60 rounded-lg border border-gray-800 p-4 space-y-3">
         <h2 className="text-lg font-semibold">故事梗概 Story Outline</h2>
-        {(theme || tone) && (
-          <div className="text-sm text-gray-300 space-x-3">
-            {theme && <span>主题: {theme}</span>}
-            {tone && <span>基调: {tone}</span>}
+        {(logline || conflict || ending || soundBed || theme || tone || acts.length > 0) ? (
+          <div className="space-y-3 text-sm text-gray-300">
+            {(logline || conflict || ending || soundBed) && (
+              <div className="space-y-2">
+                {logline && (
+                  <div>
+                    <span className="text-gray-400">Logline:</span>{" "}
+                    <span>{logline}</span>
+                  </div>
+                )}
+                {conflict && (
+                  <div>
+                    <span className="text-gray-400">Conflict:</span>{" "}
+                    <span>{conflict}</span>
+                  </div>
+                )}
+                {ending && (
+                  <div>
+                    <span className="text-gray-400">Ending:</span>{" "}
+                    <span>{ending}</span>
+                  </div>
+                )}
+                {soundBed && (
+                  <div>
+                    <span className="text-gray-400">Sound bed:</span>{" "}
+                    <span>{soundBed}</span>
+                  </div>
+                )}
+              </div>
+            )}
+            {(theme || tone) && (
+              <div className="space-x-3">
+                {theme && <span>主题: {theme}</span>}
+                {tone && <span>基调: {tone}</span>}
+              </div>
+            )}
+            {acts.length > 0 && (
+              <ol className="space-y-2 text-gray-200 list-decimal list-inside">
+                {acts.map((act: any, index: number) => (
+                  <li key={act.id || index}>
+                    <span className="font-medium">
+                      {act.title || `Act ${index + 1}`}:
+                    </span>{" "}
+                    <span className="text-gray-300">
+                      {act.summary || act.description || ""}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            )}
           </div>
-        )}
-        {acts.length > 0 ? (
-          <ol className="mt-2 space-y-2 text-sm text-gray-200 list-decimal list-inside">
-            {acts.map((act: any, index: number) => (
-              <li key={act.id || index}>
-                <span className="font-medium">
-                  {act.title || `Act ${index + 1}`}:
-                </span>{" "}
-                <span className="text-gray-300">
-                  {act.summary || act.description || ""}
-                </span>
-              </li>
-            ))}
-          </ol>
         ) : (
           <p className="text-sm text-gray-400">
             当前任务尚未生成结构化的故事梗概,请稍后重试。
@@ -147,55 +192,52 @@ export function AgentJobDetail({ jobId }: AgentJobDetailProps) {
         )}
       </section>
 
+      {/* Scene */}
+      <section className="bg-gray-900/60 rounded-lg border border-gray-800 p-4 space-y-3">
+        <h2 className="text-lg font-semibold">场景设定 Scene</h2>
+        {sceneElement ? (
+          <div className="text-sm text-gray-300 space-y-1">
+            <div className="font-medium">
+              {sceneElement.id || "Scene"}
+            </div>
+            {sceneElement.description && (
+              <p className="text-gray-400">{sceneElement.description}</p>
+            )}
+          </div>
+        ) : (
+          <p className="text-sm text-gray-400">
+            当前任务尚未生成场景设定,请稍后重试。
+          </p>
+        )}
+      </section>
+
       {/* Main Characters */}
       <section className="bg-gray-900/60 rounded-lg border border-gray-800 p-4 space-y-3">
         <h2 className="text-lg font-semibold">主角角色 Main Characters</h2>
-        {mainCharacters.length > 0 ? (
+        {characterElements.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {mainCharacters.map((char: any, index) => {
-              const traits = Array.isArray(char.traits)
-                ? char.traits
-                : typeof char.traits === "string"
-                ? [char.traits]
-                : [];
+            {characterElements.map((char: any, index) => {
               const imageUrl = referenceImages[index] || referenceImages[0];
 
               return (
                 <div
-                  key={char.name || index}
+                  key={char.id || index}
                   className="flex gap-3 items-start bg-gray-950/40 rounded-md p-3"
                 >
                   {imageUrl && (
                     <img
                       src={imageUrl}
-                      alt={char.name || "character"}
+                      alt={char.id || "character"}
                       className="w-14 h-14 rounded-md object-cover flex-shrink-0 border border-gray-800"
                     />
                   )}
                   <div className="space-y-1">
                     <div className="text-sm font-semibold">
-                      {char.name || `Character ${index + 1}`}
+                      {char.id || `Character ${index + 1}`}
                     </div>
-                    {char.role && (
-                      <div className="text-xs text-gray-300">
-                        角色: {char.role}
-                      </div>
-                    )}
-                    {traits.length > 0 && (
-                      <div className="flex flex-wrap gap-1 mt-1">
-                        {traits.map((t: string, i: number) => (
-                          <span
-                            key={`${t}-${i}`}
-                            className="inline-flex items-center px-2 py-0.5 rounded-full bg-gray-800 text-[11px] text-gray-200"
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    {char.appearance && (
+                    {char.description && (
                       <p className="text-xs text-gray-400 mt-1">
-                        外观: {char.appearance}
+                        {char.description}
                       </p>
                     )}
                   </div>

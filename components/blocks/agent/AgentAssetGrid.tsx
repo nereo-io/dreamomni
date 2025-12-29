@@ -14,16 +14,22 @@ import { getVideoModel } from '@/config/video-models';
 
 type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs';
 
-interface StoryAct {
-  title: string;
-  summary?: string;
+interface StoryOutline {
+  logline?: string;
+  conflict?: string;
+  ending?: string;
+  sound_bed?: string;
+  theme?: string;
+  tone?: string;
+  acts?: Array<{
+    title?: string;
+    summary?: string;
+    description?: string;
+  }>;
 }
 
-interface StoryCharacter {
-  name?: string;
-  role?: string;
-  traits?: string;
-  appearance?: string;
+interface StoryElement {
+  id?: string;
   description?: string;
 }
 
@@ -42,13 +48,21 @@ interface StoryShotDetail {
   videoErrorMessage?: string | null;
 }
 
+interface StoryboardShotDetail {
+  shot_number?: number;
+  duration_seconds?: number;
+  start_frame_brief?: string;
+  story_description?: string;
+  start_frame_element_refs?: string[];
+}
+
 interface StoryDetails {
-  theme?: string;
-  tone?: string;
-  roleSceneReferencePrompt?: string;
-  acts: StoryAct[];
-  characters: StoryCharacter[];
+  outline?: StoryOutline;
+  characters: StoryElement[];
+  scene?: StoryElement | null;
+  storyboardShots?: StoryboardShotDetail[];
   shots: StoryShotDetail[];
+  storyboardJson?: Record<string, any> | null;
 }
 
 interface Asset {
@@ -72,10 +86,8 @@ interface Asset {
 interface AgentAssetGridProps {
   shots: AgentShot[];
   finalVideoUrl?: string;
-  storyOutline?: Record<string, any> | null;
-  mainCharacters?: Array<Record<string, any>> | null;
+  storyboardJson?: Record<string, any> | null;
   characterReferenceImages?: string[] | null;
-  roleSceneReferencePrompt?: string;
   locale: string;
   aspectRatio?: string;
   keyframesEnabled?: boolean;
@@ -87,7 +99,7 @@ interface AgentAssetGridProps {
 }
 
 export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
-  ({ shots, finalVideoUrl: _finalVideoUrl, storyOutline, mainCharacters, characterReferenceImages, roleSceneReferencePrompt, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrls, jobStatus, createdAt, videoModelId }) => {
+  ({ shots, finalVideoUrl: _finalVideoUrl, storyboardJson, characterReferenceImages, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrls, jobStatus, createdAt, videoModelId }) => {
     const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
     const aspectRatioValue =
       aspectRatio === '9:16'
@@ -101,7 +113,31 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       (characterReferenceImages && characterReferenceImages[0]) ||
       (referenceImageUrls && referenceImageUrls[0]) ||
       undefined;
-    const characterCount = mainCharacters && Array.isArray(mainCharacters) ? mainCharacters.length : 0;
+    const storyboardRoot = (() => {
+      if (!storyboardJson || typeof storyboardJson !== 'object') return null;
+      const nested = (storyboardJson as any).storyboard;
+      if (nested && typeof nested === 'object') return nested as Record<string, any>;
+      return storyboardJson as Record<string, any>;
+    })();
+    const outlineSource =
+      (storyboardJson && typeof storyboardJson === 'object' && (storyboardJson as any).story_outline) ||
+      (storyboardRoot && (storyboardRoot as any).story_outline) ||
+      null;
+    const storyOutline =
+      outlineSource && typeof outlineSource === 'object' ? (outlineSource as StoryOutline) : null;
+    const keyElements = Array.isArray((storyboardRoot as any)?.key_elements)
+      ? (storyboardRoot as any).key_elements
+      : [];
+    const storyboardShots = Array.isArray((storyboardRoot as any)?.shots)
+      ? (storyboardRoot as any).shots
+      : [];
+    const characterElements = keyElements.filter(
+      (element: any) => element && element.type === 'character'
+    );
+    const sceneElement = keyElements.find(
+      (element: any) => element && element.type === 'scene'
+    ) || null;
+    const characterCount = characterElements.length;
     const shouldShowCharacterPlaceholders =
       characterCount > 0 &&
       (!characterReferenceImages || characterReferenceImages.length === 0) &&
@@ -185,16 +221,17 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       })();
 
       // 1. Story + Characters + Script summary card（合并展示）
+      const normalizedOutline = storyOutline && typeof storyOutline === 'object' ? storyOutline : {};
       const acts =
-        storyOutline &&
-        (storyOutline as any).acts &&
-        Array.isArray((storyOutline as any).acts)
-          ? (storyOutline as any).acts
+        normalizedOutline.acts && Array.isArray(normalizedOutline.acts)
+          ? normalizedOutline.acts
           : [];
-      const theme = storyOutline ? (storyOutline as any).theme : undefined;
-      const tone = storyOutline ? (storyOutline as any).tone : undefined;
-      const characters = mainCharacters && Array.isArray(mainCharacters) ? mainCharacters : [];
-      const roleSceneReferenceText = roleSceneReferencePrompt?.trim();
+      const theme = normalizedOutline.theme;
+      const tone = normalizedOutline.tone;
+      const logline = normalizedOutline.logline;
+      const conflict = normalizedOutline.conflict;
+      const ending = normalizedOutline.ending;
+      const soundBed = normalizedOutline.sound_bed;
 
       if (shots && shots.length > 0) {
         const shotCount = shots.length;
@@ -225,6 +262,10 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
         });
 
         const lines: string[] = [];
+        if (logline) lines.push(`Logline: ${logline}`);
+        if (conflict) lines.push(`Conflict: ${conflict}`);
+        if (ending) lines.push(`Ending: ${ending}`);
+        if (soundBed) lines.push(`Sound bed: ${soundBed}`);
         if (theme) lines.push(`Theme: ${theme}`);
         if (tone) lines.push(`Tone: ${tone}`);
         if (acts.length > 0) {
@@ -236,32 +277,34 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
             lines.push(`- ${title}: ${summary}`);
           });
         }
-        if (characters.length > 0) {
+        if (characterElements.length > 0) {
           lines.push('');
-          lines.push('Main Characters:');
-          characters.forEach((char: any, index: number) => {
-            const name = char.name || `Character ${index + 1}`;
-            const role = char.role ? ` (${char.role})` : '';
-            const traits = Array.isArray(char.traits)
-              ? char.traits.join(', ')
-              : typeof char.traits === 'string'
-              ? char.traits
-              : '';
-            const appearance = char.appearance || '';
-            const parts = [`- ${name}${role}`];
-            if (traits) {
-              parts.push(`Traits: ${traits}`);
-            }
-            if (appearance) {
-              parts.push(`Appearance: ${appearance}`);
-            }
-            lines.push(parts.join(' | '));
+          lines.push('Characters:');
+          characterElements.forEach((char: any, index: number) => {
+            const label = char?.id || `Character ${index + 1}`;
+            const description = char?.description || '';
+            lines.push(`- ${label}${description ? `: ${description}` : ''}`);
           });
         }
-        if (roleSceneReferenceText) {
+        if (sceneElement) {
           lines.push('');
-          lines.push('Role/Scene Reference Prompt:');
-          lines.push(roleSceneReferenceText);
+          lines.push('Scene:');
+          const sceneLabel = (sceneElement as any)?.id || 'Scene';
+          const sceneDescription = (sceneElement as any)?.description || '';
+          lines.push(`- ${sceneLabel}${sceneDescription ? `: ${sceneDescription}` : ''}`);
+        }
+        if (storyboardShots.length > 0) {
+          lines.push('');
+          lines.push('Storyboard Shots:');
+          storyboardShots.forEach((shot: any, index: number) => {
+            const number = shot?.shot_number ?? index + 1;
+            const startFrame = shot?.start_frame_brief || '';
+            const storyDescription = shot?.story_description || '';
+            const parts = [`- Shot ${number}`];
+            if (startFrame) parts.push(`Start frame: ${startFrame}`);
+            if (storyDescription) parts.push(`Story: ${storyDescription}`);
+            lines.push(parts.join(' | '));
+          });
         }
 
         // 追加脚本信息
@@ -292,21 +335,28 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           loading: ['pending', 'splitting_shots'].includes(jobStatus || ''),
           progressValue: storyProgressValue,
           storyDetails: {
-            theme,
-            tone,
-            acts: acts.map((act: any, index: number) => ({
-              title: act.title || `Act ${index + 1}`,
-              summary: act.summary || act.description || '',
+            outline: storyOutline || undefined,
+            characters: characterElements.map((character: any) => ({
+              id: character?.id,
+              description: character?.description,
             })),
-            characters: characters.map((character: any) => ({
-              name: character.name,
-              role: character.role,
-              traits: character.traits,
-              appearance: character.appearance,
-              description: character.description,
+            scene: sceneElement
+              ? {
+                  id: (sceneElement as any)?.id,
+                  description: (sceneElement as any)?.description,
+                }
+              : null,
+            storyboardShots: storyboardShots.map((shot: any, index: number) => ({
+              shot_number: shot?.shot_number ?? index + 1,
+              duration_seconds: shot?.duration_seconds,
+              start_frame_brief: shot?.start_frame_brief,
+              story_description: shot?.story_description,
+              start_frame_element_refs: Array.isArray(shot?.start_frame_element_refs)
+                ? shot.start_frame_element_refs
+                : undefined,
             })),
-            roleSceneReferencePrompt: roleSceneReferenceText,
             shots: structuredShots,
+            storyboardJson: storyboardJson ?? null,
           },
           totalDurationSeconds,
           shotsCount: shotCount,
@@ -427,7 +477,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       // We don't include it in the grid anymore
 
       return result;
-    }, [shots, storyOutline, mainCharacters, characterReferenceImages, roleSceneReferencePrompt, progress, fallbackBackground, shouldShowCharacterPlaceholders, characterCount, jobStatus, isKeyframeStage, isVideoStage, isJobFailed, estimatedImageProgress, estimatedVideoProgress]);
+    }, [shots, storyOutline, characterElements, sceneElement, storyboardShots, storyboardJson, characterReferenceImages, progress, fallbackBackground, shouldShowCharacterPlaceholders, characterCount, jobStatus, isKeyframeStage, isVideoStage, isJobFailed, estimatedImageProgress, estimatedVideoProgress]);
 
     const getAssetTypeLabel = (type: AssetType) => {
       switch (type) {
@@ -438,7 +488,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
         case 'video':
           return '🎬 Video';
         case 'story':
-          return '📖 Story & Characters';
+          return '📖 Story & Script';
         case 'character_refs':
           return '🧑‍🎨 Character Refs';
         default:

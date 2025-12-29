@@ -34,10 +34,8 @@ export interface AgentJob {
 
   // Phase 3.5: Story / characters / quality
   story_outline?: Record<string, any> | null;
-  main_characters?: Array<Record<string, any>> | null;
+  storyboard_json?: Record<string, any> | null;
   character_reference_images?: string[] | null;
-  role_scene_reference_prompt?: string | null;
-  shot_quality?: Array<Record<string, any>> | null;
   global_quality?: Record<string, any> | null;
 
   shots?: AgentShot[];
@@ -49,6 +47,7 @@ export interface AgentShot {
   shot_number: number;
   prompt: string;
   keyframe_prompt?: string;
+  keyframe_reference_urls?: string[];
   keyframe_metadata?: {
     prompt?: string;
     [key: string]: any;
@@ -70,7 +69,15 @@ export interface AgentShot {
 export interface AgentAsset {
   id: string;
   job_id: string;
-  asset_type: 'script' | 'image' | 'clip' | 'final' | 'story_outline' | 'character_ref' | 'quality_report';
+  asset_type:
+    | 'script'
+    | 'image'
+    | 'clip'
+    | 'final'
+    | 'story_outline'
+    | 'character_ref'
+    | 'scene_ref'
+    | 'quality_report';
   url?: string;
   content?: string;
   status: 'pending' | 'generating' | 'done' | 'failed';
