@@ -38,6 +38,14 @@ export async function GET(req: NextRequest) {
     }
 
     const details = await provider.querySubscription(subscriptionId);
+    const remoteStatus = details?.status?.toLowerCase?.();
+    const canceledStatuses = ["canceled", "cancelled", "terminated"];
+    if (remoteStatus && canceledStatuses.includes(remoteStatus)) {
+      const { updateSubscriptionStatus } = await import("@/models/subscription");
+      if (subscription.status !== "canceled") {
+        await updateSubscriptionStatus(subscriptionId, "canceled");
+      }
+    }
     
     if (details) {
       return respJson(0, "Success", {
