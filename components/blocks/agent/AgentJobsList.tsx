@@ -481,7 +481,7 @@ function JobMediaCard({
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const posterUrl = job.reference_image_urls?.[0];
+  const posterUrl = job.reference_image_urls?.[0]; // Revert to only using reference images for poster
 
   const handleMouseEnter = async () => {
     if (isMobile) return;
@@ -562,12 +562,12 @@ function JobMediaCard({
         {job.final_video_url ? (
           <video
             ref={videoRef}
-            src={job.final_video_url}
+            src={`${job.final_video_url}#t=0.1`}
             className={cn(
               "h-full w-full object-cover transition-opacity duration-300",
-              isHovered && isVideoLoaded ? "opacity-100" : "opacity-0"
+              "opacity-100" // Always visible
             )}
-            preload="none" // Don't load until hover
+            preload="metadata"
             playsInline
             muted={isMuted}
             loop
