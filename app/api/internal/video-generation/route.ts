@@ -186,6 +186,7 @@ export async function POST(req: NextRequest) {
           image_url: imageUrl,
           duration: String(durationSeconds),
           aspect_ratio: resolvedAspectRatio,
+          resolution: resolvedResolution,
         },
         webhookUrl // 使用 webhook 自动更新状态
       );

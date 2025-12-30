@@ -8,6 +8,7 @@ export interface VideoGenerationRequest {
   negative_prompt?: string;
   aspect_ratio?: string;
   duration?: string;
+  resolution?: string;
   cfg_scale?: number;
   seed?: number;
   generate_audio?: boolean;
