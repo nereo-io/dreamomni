@@ -566,13 +566,11 @@ export default function JobsTab() {
           }
         }}
         videoUrl={selectedJob?.final_video_url}
-        posterUrl={selectedJob?.reference_image_url}
+        posterUrl={selectedJob?.reference_image_urls?.[0]}
         prompt={selectedJob?.prompt || ""}
         inputImages={
           selectedJob?.reference_image_urls?.length
             ? selectedJob.reference_image_urls
-            : selectedJob?.reference_image_url
-            ? [selectedJob.reference_image_url]
             : []
         }
         details={
@@ -666,7 +664,7 @@ function JobMediaCard({
         {job.final_video_url ? (
           <video
             src={job.final_video_url}
-            poster={job.reference_image_url || undefined}
+            poster={job.reference_image_urls?.[0]}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             preload="metadata"
             playsInline

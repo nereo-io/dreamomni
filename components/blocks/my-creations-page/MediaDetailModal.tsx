@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import {
   Copy,
@@ -68,11 +68,37 @@ export function MediaDetailModal({
 }: MediaDetailProps) {
   const isMobile = useIsMobile();
   const [isPromptExpanded, setIsPromptExpanded] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   // Reset expansion state when opening a new item (conceptually when prompt changes)
   useEffect(() => {
     setIsPromptExpanded(false);
   }, [prompt]);
+
+  useEffect(() => {
+    if (!open || !videoUrl || !videoRef.current) {
+      return;
+    }
+
+    const element = videoRef.current;
+    element.currentTime = 0;
+    element.muted = false;
+
+    const tryPlay = async () => {
+      try {
+        await element.play();
+      } catch (error) {
+        element.muted = true;
+        try {
+          await element.play();
+        } catch {
+          // Ignore autoplay failures.
+        }
+      }
+    };
+
+    void tryPlay();
+  }, [open, videoUrl]);
 
   const detailBody = (
     <div className="grid h-full min-h-0 grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
@@ -80,9 +106,11 @@ export function MediaDetailModal({
       <div className="relative flex items-center justify-center bg-black/80">
         {videoUrl ? (
           <video
+            ref={videoRef}
             src={videoUrl}
             poster={posterUrl || undefined}
             controls
+            autoPlay
             playsInline
             className="h-full w-full object-contain"
           />

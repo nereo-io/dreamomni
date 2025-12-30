@@ -316,6 +316,50 @@ export default function VideoTab() {
     fetchHistory(1, true, normalizedQuery);
   }, [fetchHistory, normalizedQuery, searchVersion, user?.uuid]);
 
+  useEffect(() => {
+    if (!isDetailOpen || !selectedVideo || videos.length === 0 || showDeleteDialog) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "ArrowUp" && event.key !== "ArrowDown") {
+        return;
+      }
+
+      if (event.defaultPrevented) {
+        return;
+      }
+
+      const target = event.target as HTMLElement | null;
+      if (
+        target &&
+        (target.isContentEditable ||
+          target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.tagName === "SELECT")
+      ) {
+        return;
+      }
+
+      const currentIndex = videos.findIndex((item) => item.id === selectedVideo.id);
+      if (currentIndex === -1) {
+        return;
+      }
+
+      const delta = event.key === "ArrowUp" ? -1 : 1;
+      const nextIndex = currentIndex + delta;
+      if (nextIndex < 0 || nextIndex >= videos.length) {
+        return;
+      }
+
+      event.preventDefault();
+      setSelectedVideo(videos[nextIndex]);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isDetailOpen, selectedVideo, showDeleteDialog, videos]);
+
   const handlePageChange = (newPage: number) => {
     if (newPage === currentPage) return;
     setCurrentPage(newPage);
@@ -684,7 +728,7 @@ export default function VideoTab() {
             : []
         }
         statusBadge={null} // Already included in details, or can be passed here if we want it in header
-        hasAudio={selectedVideo?.has_audio}
+        hasAudio={selectedVideo?.has_audio ?? undefined}
         errorMessage={selectedVideo?.error_message}
         title="Video details"
         onDownload={() => selectedVideo && handleDownloadVideo(selectedVideo)}

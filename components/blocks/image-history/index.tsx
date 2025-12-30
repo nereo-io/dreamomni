@@ -360,6 +360,50 @@ export default function ImageHistory({
     }
   }, [currentPage, hasSearch, newImage, normalizedQuery]);
 
+  useEffect(() => {
+    if (!isDetailOpen || !selectedImage || images.length === 0) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "ArrowUp" && event.key !== "ArrowDown") {
+        return;
+      }
+
+      if (event.defaultPrevented) {
+        return;
+      }
+
+      const target = event.target as HTMLElement | null;
+      if (
+        target &&
+        (target.isContentEditable ||
+          target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.tagName === "SELECT")
+      ) {
+        return;
+      }
+
+      const currentIndex = images.findIndex((item) => item.id === selectedImage.id);
+      if (currentIndex === -1) {
+        return;
+      }
+
+      const delta = event.key === "ArrowUp" ? -1 : 1;
+      const nextIndex = currentIndex + delta;
+      if (nextIndex < 0 || nextIndex >= images.length) {
+        return;
+      }
+
+      event.preventDefault();
+      setSelectedImage(images[nextIndex]);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [images, isDetailOpen, selectedImage]);
+
   const handlePageChange = (newPage: number) => {
     if (newPage === currentPage) return;
     setCurrentPage(newPage);
