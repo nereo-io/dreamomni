@@ -710,6 +710,23 @@
       "generating": "Wird generiert",
       "skipped": "Übersprungen",
       "model": "Modell"
+    },
+    "createPanel": {
+      "title": "Agenten-Job erstellen",
+      "description": "Beschreibung",
+      "descriptionPlaceholder": "Beschreiben Sie Ihr Videokonzept, z. B. Eine filmische Reise durch eine futuristische Stadt bei Sonnenuntergang...",
+      "aspectRatio": "Seitenverhältnis",
+      "duration": "Dauer",
+      "videoModel": "Videomodell",
+      "credits": "Credits",
+      "cost": "Kosten",
+      "recharge": "Aufladen",
+      "generate": "Generieren",
+      "creating": "Wird erstellt...",
+      "errorNoDescription": "Bitte geben Sie eine Videobeschreibung ein",
+      "errorMinLength": "Die Beschreibung muss mindestens 10 Zeichen lang sein",
+      "errorMaxLength": "Die Beschreibung darf 2000 Zeichen nicht überschreiten",
+      "toastSuccess": "Agenten-Job erstellt!"
     }
   },
   "imageHistory": {

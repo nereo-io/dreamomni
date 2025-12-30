@@ -20,10 +20,12 @@ import {
 import { ImageGridUploader } from '@/components/blocks/video-generator/ImageGridUploader';
 import { CreateAgentJobRequest } from '@/types/agent';
 import { toast } from 'sonner';
-import { Loader2, Play } from 'lucide-react';
+import { Loader2, Play, ChevronRight } from 'lucide-react';
 import { useAppContext } from '@/contexts/app';
 import useCredits from '@/hooks/useCredits';
 import { getVideoModel } from '@/config/video-models';
+import { useTranslations } from 'next-intl';
+import { CreditsCostSection } from '@/components/blocks/common/CreditsCostSection';
 
 const IMAGE_MODELS = [
   { value: 'nano-banana-pro', label: 'Nano Banana Pro', credits: 2 },
@@ -61,6 +63,7 @@ interface AgentCreatePanelProps {
 }
 
 export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanelProps) {
+  const t = useTranslations("agentJobs.createPanel");
   const { user, setShowSignModal, setShowPricingModal } = useAppContext();
   const { leftCredits, updateLeftCredits } = useCredits();
 
@@ -123,17 +126,17 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
     }
 
     if (!prompt.trim()) {
-      toast.error('Please enter a video description');
+      toast.error(t("errorNoDescription"));
       return;
     }
 
     if (prompt.length < 10) {
-      toast.error('Description must be at least 10 characters');
+      toast.error(t("errorMinLength"));
       return;
     }
 
     if (prompt.length > 2000) {
-      toast.error('Description must not exceed 2000 characters');
+      toast.error(t("errorMaxLength"));
       return;
     }
 
@@ -166,7 +169,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
 
       const data = await response.json();
 
-      toast.success('Agent job created!');
+      toast.success(t("toastSuccess"));
 
       // Reset form
       setPrompt('');
@@ -203,17 +206,17 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
         <div className="space-y-4 md:space-y-5 px-4 md:px-6 py-4 md:py-5">
           {/* Header Title */}
           <div className="border-b border-gray-700 pb-3">
-            <h1 className="text-white text-xl font-semibold">Create Agent Job</h1>
+            <h1 className="text-white text-xl font-semibold">{t("title")}</h1>
           </div>
 
           {/* Prompt */}
           <div>
-            <div className="text-white text-lg font-semibold mb-4">Description</div>
+            <div className="text-white text-lg font-semibold mb-4">{t("description")}</div>
             <Textarea
               id="prompt"
               value={prompt}
               onChange={e => setPrompt(e.target.value)}
-              placeholder="Describe your video concept, e.g., A cinematic journey through a futuristic city at sunset..."
+              placeholder={t("descriptionPlaceholder")}
               className="min-h-[100px] bg-gray-800 border-gray-700 text-gray-100 placeholder:text-gray-500 resize-none"
               maxLength={2000}
             />
@@ -237,7 +240,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
           {/* Duration */}
           <div className="grid grid-cols-1 gap-4">
             <div>
-              <Label className="text-gray-300 text-sm mb-2 block">Aspect Ratio</Label>
+              <Label className="text-gray-300 text-sm mb-2 block">{t("aspectRatio")}</Label>
               <Select value={aspectRatio} onValueChange={setAspectRatio}>
                 <SelectTrigger className="bg-gray-800 border-gray-700 text-gray-100">
                   <SelectValue />
@@ -250,7 +253,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
             </div>
 
             <div>
-              <Label className="text-gray-300 text-sm mb-2 block">Duration</Label>
+              <Label className="text-gray-300 text-sm mb-2 block">{t("duration")}</Label>
               <Select value={duration.toString()} onValueChange={val => setDuration(Number(val))}>
                 <SelectTrigger className="bg-gray-800 border-gray-700 text-gray-100">
                   <SelectValue />
@@ -270,7 +273,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
           {/* Models */}
           <div>
             <div>
-              <Label className="text-gray-300 text-sm mb-2 block">Video Model</Label>
+              <Label className="text-gray-300 text-sm mb-2 block">{t("videoModel")}</Label>
               <Select value={videoModel} onValueChange={setVideoModel}>
                 <SelectTrigger className="bg-gray-800 border-gray-700 text-gray-100">
                   <SelectValue />
@@ -287,26 +290,16 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
           </div>
 
           {/* Credits and Cost */}
-          <div className="bg-gray-800 rounded-lg p-4">
-            <div className="flex justify-between items-center">
-              <div>
-                <div className="text-gray-300 mb-1">
-                  Credits: {leftCredits !== null ? leftCredits : '-'}
-                </div>
-                <div className="text-gray-300">
-                  Cost: {estimatedCredits} ⚡
-                </div>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-transparent border-gray-600 text-gray-300 hover:bg-gray-700"
-                onClick={() => setShowPricingModal(true)}
-              >
-                Recharge
-              </Button>
-            </div>
-          </div>
+          <CreditsCostSection
+            leftCredits={leftCredits}
+            estimatedCost={estimatedCredits}
+            onShowPricing={() => setShowPricingModal(true)}
+            labels={{
+              credits: t("credits"),
+              cost: t("cost"),
+              recharge: t("recharge"),
+            }}
+          />
         </div>
       </div>
 
@@ -324,12 +317,12 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
           {isSubmitting ? (
             <>
               <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-              Creating...
+              {t("creating")}
             </>
           ) : (
             <>
               <Play className="h-5 w-5 mr-2" />
-              Generate
+              {t("generate")}
             </>
           )}
         </Button>

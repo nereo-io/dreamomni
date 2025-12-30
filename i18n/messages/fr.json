@@ -710,6 +710,23 @@
       "generating": "Génération",
       "skipped": "Ignoré",
       "model": "Modèle"
+    },
+    "createPanel": {
+      "title": "Créer un Job d'Agent",
+      "description": "Description",
+      "descriptionPlaceholder": "Décrivez votre concept de vidéo, ex : Un voyage cinématographique à travers une ville futuriste au coucher du soleil...",
+      "aspectRatio": "Rapport d'aspect",
+      "duration": "Durée",
+      "videoModel": "Modèle vidéo",
+      "credits": "Crédits",
+      "cost": "Coût",
+      "recharge": "Recharger",
+      "generate": "Générer",
+      "creating": "Création...",
+      "errorNoDescription": "Veuillez entrer une description de vidéo",
+      "errorMinLength": "La description doit comporter au moins 10 caractères",
+      "errorMaxLength": "La description ne doit pas dépasser 2000 caractères",
+      "toastSuccess": "Job d'agent créé !"
     }
   },
   "imageHistory": {

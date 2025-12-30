@@ -32,7 +32,7 @@ import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 import type { VideoEffect } from "@/types/video-effect";
 import { EffectSelector } from "@/components/blocks/effect-selector";
 import { CaptchaModal } from "@/components/ui/captcha-modal";
-import { CreditHistoryModal } from "@/components/ui/credit-history-modal";
+import { CreditsCostSection } from "@/components/blocks/common/CreditsCostSection";
 
 // 生成参数接口
 export interface VideoGenerationParams {
@@ -144,9 +144,6 @@ export default function VideoGenerator({
   const [showCaptchaModal, setShowCaptchaModal] = useState(false);
   const [pendingCaptchaParams, setPendingCaptchaParams] =
     useState<VideoGenerationParams | null>(null);
-
-  // Credit history modal state
-  const [showCreditHistoryModal, setShowCreditHistoryModal] = useState(false);
 
   // Textarea 引用
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -1127,36 +1124,17 @@ export default function VideoGenerator({
           )}
 
           {/* Credits and Cost - always visible */}
-          <div className="bg-gray-800 rounded-lg p-4 mb-4">
-            <div className="flex justify-between items-center">
-              <div>
-                {leftCredits !== null ? (
-                  <button
-                    className="text-gray-300 mb-1 flex items-center gap-1 hover:text-gray-100 transition-colors cursor-pointer"
-                    onClick={() => setShowCreditHistoryModal(true)}
-                  >
-                    {t("credits")}: {leftCredits}
-                    <ChevronRight className="h-4 w-4 text-gray-400" />
-                  </button>
-                ) : (
-                  <div className="text-gray-300 mb-1">
-                    {t("credits")}: -
-                  </div>
-                )}
-                <div className="text-gray-300">
-                  {t("cost")}: {currentCreditsRequired} ⚡
-                </div>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-transparent border-gray-600 text-gray-300 hover:bg-gray-700"
-                onClick={() => setShowPricingModal(true)}
-              >
-                {t("recharge")}
-              </Button>
-            </div>
-          </div>
+          <CreditsCostSection
+            leftCredits={leftCredits}
+            estimatedCost={currentCreditsRequired}
+            onShowPricing={() => setShowPricingModal(true)}
+            labels={{
+              credits: t("credits"),
+              cost: t("cost"),
+              recharge: t("recharge"),
+            }}
+            className="mb-4"
+          />
         </div>
       </div>
 
@@ -1195,12 +1173,6 @@ export default function VideoGenerator({
         onClose={handleCaptchaModalClose}
         onCaptchaComplete={handleCaptchaComplete}
         isSubmitting={isGenerating}
-      />
-
-      {/* Credit History Modal */}
-      <CreditHistoryModal
-        open={showCreditHistoryModal}
-        onOpenChange={setShowCreditHistoryModal}
       />
     </div>
   );
