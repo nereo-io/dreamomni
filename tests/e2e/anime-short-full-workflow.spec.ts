@@ -60,7 +60,7 @@ test.describe('Anime short agent (real credits)', () => {
 
     const now = new Date();
     const prompt = [
-      'Generate a 20-second anime short film.',
+      'Generate a 60-second anime short film.',
       'Keep the main character consistent across shots.',
       `E2E run at ${now.toISOString()}.`,
       'Story: a shy barista finds courage to help a lost child in the rain, warm ending.',
@@ -83,7 +83,7 @@ test.describe('Anime short agent (real credits)', () => {
     }
 
     // Use real credits but keep it time-efficient:
-    // - Duration defaults to 20s
+    // - Duration defaults to 60s
     // - Aspect ratio defaults to 16:9
     // - Keyframes can be disabled for speed
     // - Set video model via env: E2E_VIDEO_MODEL=auto|sora-2-image-to-video|kie-veo3-image-to-video|byteplus-seedance-1-5-pro-image-to-video

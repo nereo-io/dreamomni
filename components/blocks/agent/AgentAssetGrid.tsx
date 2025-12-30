@@ -5,14 +5,14 @@
 
 "use client";
 
-import React, { useMemo, useState } from 'react';
-import { AgentShot, AgentJob } from '@/types/agent';
+import React, { useEffect, useMemo, useState } from 'react';
+import { AgentShot, AgentJob, AgentAsset } from '@/types/agent';
 import { AssetModal } from './AssetModal';
 import { FileText, PlayCircle, Sparkles } from 'lucide-react';
 import { useGenerationProgress } from '@/hooks/useGenerationProgress';
 import { getVideoModel } from '@/config/video-models';
 
-type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs';
+type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref';
 
 interface StoryOutline {
   logline?: string;
@@ -84,6 +84,7 @@ interface Asset {
 }
 
 interface AgentAssetGridProps {
+  jobId: string;
   shots: AgentShot[];
   finalVideoUrl?: string;
   storyboardJson?: Record<string, any> | null;
@@ -96,11 +97,14 @@ interface AgentAssetGridProps {
   jobStatus?: AgentJob['status'];
   createdAt?: string;
   videoModelId?: string;
+  jobUpdatedAt?: string;
 }
 
 export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
-  ({ shots, finalVideoUrl: _finalVideoUrl, storyboardJson, characterReferenceImages, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrls, jobStatus, createdAt, videoModelId }) => {
+  ({ jobId, shots, finalVideoUrl: _finalVideoUrl, storyboardJson, characterReferenceImages, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrls, jobStatus, createdAt, videoModelId, jobUpdatedAt }) => {
     const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
+    const [sceneAssets, setSceneAssets] = useState<AgentAsset[]>([]);
+    const [sceneAssetsStatus, setSceneAssetsStatus] = useState<'idle' | 'loading' | 'error'>('idle');
     const aspectRatioValue =
       aspectRatio === '9:16'
         ? '9 / 16'
@@ -142,6 +146,11 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       characterCount > 0 &&
       (!characterReferenceImages || characterReferenceImages.length === 0) &&
       ['pending', 'generating_script', 'generating_characters', 'splitting_shots', 'generating_keyframes'].includes(jobStatus || '');
+    const shouldShowScenePlaceholder =
+      !!sceneElement &&
+      sceneAssets.length === 0 &&
+      sceneAssetsStatus !== 'error' &&
+      ['pending', 'generating_script', 'generating_characters', 'splitting_shots', 'generating_keyframes'].includes(jobStatus || '');
     const isImageStage = ['generating_characters', 'generating_keyframes', 'waiting_for_confirmation', 'orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
     const isKeyframeStage = keyframesEnabled && ['generating_keyframes', 'waiting_for_confirmation', 'orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
     const isVideoStage = ['orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
@@ -159,6 +168,43 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       estimatedTime: videoEstimateSeconds,
       status: isVideoStage ? 'IN_PROGRESS' : 'submitted'
     });
+
+    useEffect(() => {
+      let cancelled = false;
+
+      const fetchSceneAssets = async () => {
+        if (!jobId) return;
+        try {
+          setSceneAssetsStatus('loading');
+          const res = await fetch(`/api/agent/jobs/${jobId}/assets?asset_type=scene_ref&limit=10&offset=0`);
+          if (!res.ok) {
+            throw new Error('Failed to fetch scene assets');
+          }
+          const payload = await res.json();
+          if (cancelled) return;
+          const assets = Array.isArray(payload?.assets)
+            ? payload.assets
+            : Array.isArray(payload)
+            ? payload
+            : [];
+          setSceneAssets(
+            assets.filter((asset: AgentAsset) => asset && asset.asset_type === 'scene_ref')
+          );
+          setSceneAssetsStatus('idle');
+        } catch (error) {
+          if (cancelled) return;
+          console.error('[AgentAssetGrid] Fetch scene assets failed:', error);
+          setSceneAssets([]);
+          setSceneAssetsStatus('error');
+        }
+      };
+
+      fetchSceneAssets();
+
+      return () => {
+        cancelled = true;
+      };
+    }, [jobId, jobUpdatedAt]);
 
     // Aggregate all assets from shots and job-level metadata
     const assets = useMemo(() => {
@@ -395,6 +441,34 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
         });
       }
 
+      // 2.5 Scene reference image
+      const sceneRefAssets = sceneAssets.filter(asset => asset.asset_type === 'scene_ref');
+      if (sceneRefAssets.length > 0) {
+        sceneRefAssets.forEach((asset, index) => {
+          const isFailed = asset.status === 'failed';
+          const isLoading = !isFailed && (!asset.url || asset.status === 'pending' || asset.status === 'generating');
+          result.push({
+            id: `scene-ref-${asset.id || index}`,
+            type: 'scene_ref',
+            url: asset.url,
+            title: sceneElement?.id ? `${sceneElement.id} Scene Ref` : `Scene Ref #${index + 1}`,
+            status: asset.status,
+            loading: isLoading,
+            backgroundUrl: asset.url ? undefined : fallbackBackground,
+            progressValue: isLoading ? characterProgressValue : undefined,
+          });
+        });
+      } else if (shouldShowScenePlaceholder) {
+        result.push({
+          id: 'scene-ref-loading',
+          type: 'scene_ref',
+          title: sceneElement?.id ? `${sceneElement.id} Scene Ref` : 'Scene Ref',
+          loading: true,
+          backgroundUrl: fallbackBackground,
+          progressValue: characterProgressValue,
+        });
+      }
+
       // 3. Keyframe images
       shots?.forEach(shot => {
         const normalizedKeyframeStatus =
@@ -477,7 +551,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       // We don't include it in the grid anymore
 
       return result;
-    }, [shots, storyOutline, characterElements, sceneElement, storyboardShots, storyboardJson, characterReferenceImages, progress, fallbackBackground, shouldShowCharacterPlaceholders, characterCount, jobStatus, isKeyframeStage, isVideoStage, isJobFailed, estimatedImageProgress, estimatedVideoProgress]);
+    }, [shots, storyOutline, characterElements, sceneElement, storyboardShots, storyboardJson, characterReferenceImages, progress, fallbackBackground, shouldShowCharacterPlaceholders, shouldShowScenePlaceholder, characterCount, jobStatus, isKeyframeStage, isVideoStage, isJobFailed, estimatedImageProgress, estimatedVideoProgress, sceneAssets]);
 
     const getAssetTypeLabel = (type: AssetType) => {
       switch (type) {
@@ -491,6 +565,8 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           return '📖 Story & Script';
         case 'character_refs':
           return '🧑‍🎨 Character Refs';
+        case 'scene_ref':
+          return '🏞️ Scene Ref';
         default:
           return '';
       }
@@ -508,6 +584,8 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           return 'text-amber-400';
         case 'character_refs':
           return 'text-pink-400';
+        case 'scene_ref':
+          return 'text-sky-400';
         default:
           return 'text-gray-400';
       }
@@ -631,6 +709,28 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
                     </div>
                   )}
                 </>
+              )}
+
+              {/* Scene Reference Image */}
+              {asset.type === 'scene_ref' && asset.url && (
+                <>
+                  <img
+                    src={asset.url}
+                    alt={asset.title}
+                    className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+                  <div
+                    className="absolute top-2 left-2 text-white text-xs font-medium bg-black/50 px-2 py-0.5 rounded-md max-w-[80%] truncate"
+                    title={asset.title || 'Scene Ref'}
+                  >
+                    {asset.title || 'Scene Ref'}
+                  </div>
+                </>
+              )}
+
+              {asset.type === 'scene_ref' && !asset.url && asset.status !== 'failed' && !asset.loading && (
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900" />
               )}
 
               {/* Video */}

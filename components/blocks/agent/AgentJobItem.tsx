@@ -307,6 +307,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
           {/* Assets Grid */}
           {job.shots && job.shots.length > 0 && (
             <AgentAssetGrid
+              jobId={job.id}
               shots={job.shots}
               finalVideoUrl={job.final_video_url}
               storyboardJson={
@@ -322,6 +323,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               jobStatus={job.status}
               createdAt={job.created_at}
               videoModelId={videoModelId}
+              jobUpdatedAt={job.updated_at}
             />
           )}
 

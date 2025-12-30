@@ -38,15 +38,12 @@ const VIDEO_MODELS = [
 ];
 
 const COST_CONFIG = {
-  planReserve: 2, // plan_story_and_shots_node
-  roleSceneReference: 2, // design_characters_node (role+scene reference image)
-  keyframePerShot: 2, // generate_keyframes_node
+  planReserve: 4, // plan_story_and_shots_node
   averageShotDuration: 10, // planning target
   spliceCost: 3, // splice_videos_node
 };
 
 const DURATIONS = [
-  { value: 20, label: '20s' },
   { value: 40, label: '40s' },
   { value: 60, label: '60s' },
 ];
@@ -69,7 +66,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
 
   const [prompt, setPrompt] = useState('');
   const [referenceImageUrls, setReferenceImageUrls] = useState<string[]>([]);
-  const [duration, setDuration] = useState<number>(20);
+  const [duration, setDuration] = useState<number>(60);
   const [aspectRatio, setAspectRatio] = useState<string>('16:9');
   const [imageModel, setImageModel] = useState('nano-banana-pro');
   const [videoModel, setVideoModel] = useState('auto');
@@ -85,7 +82,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
           : [];
       setReferenceImageUrls(refs);
 
-      setDuration(initialData.durationSeconds || 20);
+      setDuration(initialData.durationSeconds || 60);
       setAspectRatio(initialData.aspectRatio || '16:9');
       setImageModel(initialData.imageModel || 'nano-banana-pro');
       setVideoModel(initialData.videoModel || 'auto');
@@ -94,17 +91,18 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
 
   const getEstimatedVideoDurationPerShot = (selected: string) => {
     if (selected === 'kie-veo3-image-to-video') return 8;
-    if (selected === 'byteplus-seedance-1-5-pro-image-to-video') return 12;
-    if (selected === 'sora-2-image-to-video') return 15;
-    if (selected === 'auto') return 15;
+    if (selected === 'byteplus-seedance-1-5-pro-image-to-video') return 10;
+    if (selected === 'sora-2-image-to-video') return 10;
+    if (selected === 'auto') return 10;
     return 10; // unknown
   };
 
   const calculateEstimatedCredits = () => {
     const estimatedShots = Math.max(1, Math.ceil(duration / COST_CONFIG.averageShotDuration));
+    const perImageCost = imageModel === 'nano-banana' ? 3 : 6;
     const planCost = COST_CONFIG.planReserve;
-    const roleSceneReferenceCost = COST_CONFIG.roleSceneReference;
-    const keyframeCredits = estimatedShots * COST_CONFIG.keyframePerShot;
+    const roleSceneReferenceCost = perImageCost * 3;
+    const keyframeCredits = estimatedShots * perImageCost;
 
     const resolvedVideoModel = videoModel === 'auto' ? 'sora-2-image-to-video' : videoModel;
     const modelConfig = getVideoModel(resolvedVideoModel);
@@ -173,7 +171,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
       // Reset form
       setPrompt('');
       setReferenceImageUrls([]);
-      setDuration(20);
+      setDuration(60);
       setAspectRatio('16:9');
 
       // Notify parent to refresh job list

@@ -14,7 +14,7 @@ import { useState, useEffect } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 
-type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs';
+type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref';
 
 interface StoryAct {
   title?: string;
@@ -139,7 +139,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
 
   // Reset media loading state when modal opens or data changes
   useEffect(() => {
-    if (isOpen && (type === 'image' || type === 'character_refs' || type === 'video')) {
+    if (isOpen && (type === 'image' || type === 'character_refs' || type === 'scene_ref' || type === 'video')) {
       setIsMediaLoading(true);
     } else {
       setIsMediaLoading(false);
@@ -268,7 +268,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
       const ext =
         type === 'video'
           ? 'mp4'
-          : type === 'image' || type === 'character_refs'
+          : type === 'image' || type === 'character_refs' || type === 'scene_ref'
           ? 'png'
           : type === 'story' || type === 'script'
           ? 'json'
@@ -298,6 +298,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
     if (data.shotNumber) return `Shot #${data.shotNumber} ${type}`;
     if (type === 'story') return 'Story & Script';
     if (type === 'character_refs') return 'Character References';
+    if (type === 'scene_ref') return 'Scene Reference';
     return type.charAt(0).toUpperCase() + type.slice(1);
   };
 
@@ -770,7 +771,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
           {type === 'story' && renderStoryDetails()}
 
           {/* Image */}
-          {(type === 'image' || type === 'character_refs') && data.url && (
+          {(type === 'image' || type === 'character_refs' || type === 'scene_ref') && data.url && (
             <div className="relative flex items-center justify-center bg-gray-900 rounded-lg p-4 min-h-[60vh]">
               {isMediaLoading && (
                 <div className="absolute inset-0 flex items-center justify-center">

@@ -63,7 +63,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedResolutions: ["480p", "720p"],
     supportsAudio: true,
     estimatedGenerationTime: 60,
-    supportedDurations: [5, 12],
+    supportedDurations: [5, 10],
   },
 
   // BytePlus Seedance 1.5 Pro 图片转视频模型 (Southeast Asia)
@@ -82,7 +82,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedResolutions: ["480p", "720p"],
     supportsAudio: true,
     estimatedGenerationTime: 60,
-    supportedDurations: [5, 12],
+    supportedDurations: [5, 10],
     imageCapabilities: {
       maxImages: 2,
       labels: ["First Frame", "Last Frame"],
