@@ -304,7 +304,7 @@
     "addMoreReferences": "Weitere Referenzbilder hinzufügen",
     "referenceImage": "Referenzbild",
     "clickToUploadMore": "Klicken Sie zum Hochladen weiterer (bis zu 3)",
-    "multipleUploadHint": "Unterstützt Mehrfachauswahl, Drag & Drop oder Einfügen (Strg+V)",
+    "multipleUploadHint": "Optional. Unterstützt Mehrfachauswahl, Drag & Drop oder Einfügen (Strg+V)",
     "fromMyCreations": "aus meinen Kreationen",
     "myCreations": "Meine Kreationen",
     "selectFromCreations": "Aus meinen Kreationen auswählen",
@@ -315,7 +315,7 @@
     "uploadingMultiple": "{current}/{total} Bilder werden hochgeladen...",
     "addMoreImages": "Weitere Bilder hinzufügen",
     "canUpload": "Können noch {count} hochladen",
-    "uploadMultipleImages": "1-{max} Bilder hochladen",
+    "uploadMultipleImages": "Bis zu {max} Bilder hochladen",
     "uploadMoreImagesRemaining": "Weitere Bilder hochladen ({remaining} verbleibend)",
     "aspectRatios": {
       "landscape": "16:9 Querformat",

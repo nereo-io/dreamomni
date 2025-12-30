@@ -11,12 +11,11 @@ import { AgentJob, AgentJobStatusMap } from '@/types/agent';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Loader2, Trash2, Download, Edit } from 'lucide-react';
+import { Loader2, Trash2, Edit } from 'lucide-react';
 import DeleteConfirmDialog from '@/components/blocks/image-history-for-generation/components/DeleteConfirmDialog';
 import { AgentAssetGrid } from './AgentAssetGrid';
 import VideoPlayer from '@/components/blocks/video-history/components/VideoPlayer';
 import { getVideoModel } from '@/config/video-models';
-import { useGenerationProgress } from '@/hooks/useGenerationProgress';
 
 interface AgentJobItemProps {
   job: AgentJob;
@@ -139,7 +138,9 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
     // Get thumbnail URL (only show user-uploaded reference image)
     const getThumbnailUrl = () => {
       // Only display if user uploaded a reference image
-      if (job.reference_image_url) return job.reference_image_url;
+      if (job.reference_image_urls && job.reference_image_urls.length > 0) {
+        return job.reference_image_urls[0];
+      }
       return null;
     };
 
@@ -152,27 +153,40 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
         ? 'bg-red-500 text-red-900'
         : 'bg-blue-500 text-blue-900';
 
-    // Story outline & characters (Phase 3.5)
-    const storyOutline = (job.story_outline || {}) as any;
-    const acts =
-      storyOutline.acts && Array.isArray(storyOutline.acts)
-        ? storyOutline.acts
-        : [];
-    const theme = storyOutline.theme;
-    const tone = storyOutline.tone;
+    // Storyboard summary (Phase 3.5+)
+    const storyboardJson = job.storyboard_json as any;
+    const outline = (storyboardJson?.story_outline || job.story_outline || {}) as any;
+    const acts = Array.isArray(outline?.acts) ? outline.acts : [];
+    const theme = outline?.theme;
+    const tone = outline?.tone;
+    const logline = outline?.logline;
+    const conflict = outline?.conflict;
+    const ending = outline?.ending;
+    const summaryText = logline || conflict || ending;
+    const storyboardRoot =
+      storyboardJson && typeof storyboardJson === 'object'
+        ? (storyboardJson as any).storyboard || storyboardJson
+        : null;
+    const keyElements = Array.isArray(storyboardRoot?.key_elements)
+      ? storyboardRoot.key_elements
+      : [];
+    const characterElements = keyElements.filter(
+      (element: any) => element && element.type === 'character'
+    );
+    const sceneElement =
+      keyElements.find((element: any) => element && element.type === 'scene') || null;
 
-    const mainCharacters = (job.main_characters || []) as any[];
-
-    const referenceImages =
-      job.character_reference_images && job.character_reference_images.length > 0
-        ? job.character_reference_images
-        : job.reference_image_url
-        ? [job.reference_image_url]
-        : [];
-
-    const aspectRatio = (job as any).aspect_ratio || '16:9';
-    const videoModelId = (job as any).video_model;
+    const aspectRatio = job.aspect_ratio || '16:9';
+    const videoModelId = job.video_model;
     const modelConfig = videoModelId ? getVideoModel(videoModelId) : undefined;
+    const videoModelLabel = (() => {
+      if (!videoModelId) return null;
+      if (videoModelId === 'auto') return 'Auto';
+      if (videoModelId === 'sora-2-image-to-video') return 'Sora 2';
+      if (videoModelId === 'kie-veo3-image-to-video') return 'Veo3';
+      if (videoModelId === 'byteplus-seedance-1-5-pro-image-to-video') return 'Seedance Pro';
+      return modelConfig?.displayName || videoModelId;
+    })();
 
     return (
       <>
@@ -242,33 +256,39 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
             >
               {job.num_shots} shots
             </Badge>
-            {job.video_model && (
+            {videoModelLabel && (
               <Badge
                 variant="secondary"
                 className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium px-2.5 py-1 rounded-md border-0"
               >
-                {job.video_model === 'kie-veo3-image-to-video'
-                  ? 'Veo3'
-                  : job.video_model.includes('seedance-1-5')
-                  ? 'Seedance 1.5 Pro'
-                  : 'Seedance Pro'}
+                {videoModelLabel}
               </Badge>
             )}
           </div>
 
-          {/* Story outline & main characters summary */}
-          {(theme || tone || mainCharacters.length > 0) && (
+          {/* Story summary */}
+          {(summaryText || theme || tone || acts.length > 0 || characterElements.length > 0 || sceneElement) && (
             <div className="mt-1 space-y-1 text-xs text-gray-500 dark:text-gray-400">
-              {(theme || tone) && (
-                <div className="flex flex-wrap gap-x-3 gap-y-1">
-                  {theme && <span>主题: {theme}</span>}
-                  {tone && <span>基调: {tone}</span>}
-                  {acts.length > 0 && (
-                    <span>章节数: {acts.length}</span>
-                  )}
+              {summaryText && (
+                <div
+                  className="text-gray-500 dark:text-gray-400"
+                  style={{
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}
+                >
+                  剧情: {summaryText}
                 </div>
               )}
-
+              <div className="flex flex-wrap gap-x-3 gap-y-1">
+                {theme && <span>主题: {theme}</span>}
+                {tone && <span>基调: {tone}</span>}
+                {acts.length > 0 && <span>章节数: {acts.length}</span>}
+                {characterElements.length > 0 && <span>角色: {characterElements.length}</span>}
+                {sceneElement && <span>场景: 1</span>}
+              </div>
             </div>
           )}
 
@@ -287,18 +307,23 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
           {/* Assets Grid */}
           {job.shots && job.shots.length > 0 && (
             <AgentAssetGrid
+              jobId={job.id}
               shots={job.shots}
               finalVideoUrl={job.final_video_url}
-              storyOutline={job.story_outline || null}
-              mainCharacters={job.main_characters || null}
+              storyboardJson={
+                job.storyboard_json ||
+                (job.story_outline ? { story_outline: job.story_outline } : null)
+              }
               characterReferenceImages={job.character_reference_images || null}
               locale={locale}
               aspectRatio={aspectRatio}
+              keyframesEnabled={job.keyframes_enabled}
               progress={job.progress}
-              referenceImageUrl={thumbnailUrl || referenceImages[0] || undefined}
+              referenceImageUrls={job.reference_image_urls || undefined}
               jobStatus={job.status}
               createdAt={job.created_at}
               videoModelId={videoModelId}
+              jobUpdatedAt={job.updated_at}
             />
           )}
 
@@ -369,7 +394,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               <button
                 type="button"
                 onClick={() => setShowLogs((prev) => !prev)}
-                className="w-full flex items-center justify-between px-3 py-2 text-xs text-gray-300 hover:bg-gray-900/60 transition-colors"
+                className="w-full flex items-center justify-between px-3 py-2 text-sm text-gray-300 hover:bg-gray-900/60 transition-colors"
               >
                 <span>Agent Logs</span>
                 <span className="text-gray-500">
@@ -377,13 +402,16 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
                 </span>
               </button>
               {showLogs && (
-                <div className="px-3 pb-2 max-h-40 overflow-y-auto text-[11px] text-gray-300 space-y-1">
+                <div className="px-3 pb-2 max-h-80 overflow-y-auto text-sm text-gray-300 space-y-1">
+                  <div className="text-xs text-gray-500 font-mono break-all">
+                    Agent ID: {job.id}
+                  </div>
                   {job.logs.map((log) => (
                     <div key={log.timestamp} className="flex gap-2">
                       <span className="text-gray-500">
                         {new Date(log.timestamp).toLocaleTimeString()}
                       </span>
-                      <span>{log.message}</span>
+                      <span className="whitespace-pre-wrap break-words">{log.message}</span>
                     </div>
                   ))}
                 </div>

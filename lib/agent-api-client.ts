@@ -108,9 +108,11 @@ export async function retryAgentJob(jobId: string) {
 export async function createAgentJob(data: {
   user_id: string;
   prompt: string;
-  reference_image_url?: string;
   reference_image_urls?: string[];
   duration_seconds: number;
+  aspect_ratio?: string;
+  keyframes_enabled?: boolean;
+  prompt_variant?: string;
   image_model?: string;
   video_model?: string;
 }) {

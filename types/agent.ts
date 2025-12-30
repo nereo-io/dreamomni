@@ -7,13 +7,14 @@ export interface AgentJob {
   id: string;
   user_id: string;
   prompt: string;
-  reference_image_url?: string;
   reference_image_urls?: string[];
   duration_seconds: number;
   num_shots: number;
   image_model: string;
   video_model: string;
   aspect_ratio?: string;
+  keyframes_enabled?: boolean;
+  prompt_variant?: AgentPromptVariant;
   status: 'pending' | 'generating_script' | 'generating_characters' | 'splitting_shots' | 'generating_keyframes' |
           'waiting_for_confirmation' | 'orchestrating_videos' | 'generating_videos' |
           'splicing' | 'completed' | 'failed';
@@ -33,9 +34,8 @@ export interface AgentJob {
 
   // Phase 3.5: Story / characters / quality
   story_outline?: Record<string, any> | null;
-  main_characters?: Array<Record<string, any>> | null;
+  storyboard_json?: Record<string, any> | null;
   character_reference_images?: string[] | null;
-  shot_quality?: Array<Record<string, any>> | null;
   global_quality?: Record<string, any> | null;
 
   shots?: AgentShot[];
@@ -47,15 +47,21 @@ export interface AgentShot {
   shot_number: number;
   prompt: string;
   keyframe_prompt?: string;
+  keyframe_reference_urls?: string[];
   keyframe_metadata?: {
     prompt?: string;
     [key: string]: any;
   } | null;
   duration_seconds: number;
   keyframe_url?: string;
-  keyframe_status: 'pending' | 'generating' | 'done' | 'failed';
+  keyframe_status: 'pending' | 'generating' | 'done' | 'failed' | 'skipped';
+  keyframe_model_used?: string | null;
+  keyframe_attempts?: Array<Record<string, any>> | null;
   video_url?: string;
   video_status: 'pending' | 'generating' | 'done' | 'failed';
+  video_error_message?: string | null;
+  model_used?: string | null;
+  attempts?: Array<Record<string, any>> | null;
   created_at: string;
   updated_at?: string;
 }
@@ -63,7 +69,15 @@ export interface AgentShot {
 export interface AgentAsset {
   id: string;
   job_id: string;
-  asset_type: 'script' | 'image' | 'clip' | 'final' | 'story_outline' | 'character_ref' | 'quality_report';
+  asset_type:
+    | 'script'
+    | 'image'
+    | 'clip'
+    | 'final'
+    | 'story_outline'
+    | 'character_ref'
+    | 'scene_ref'
+    | 'quality_report';
   url?: string;
   content?: string;
   status: 'pending' | 'generating' | 'done' | 'failed';
@@ -85,12 +99,16 @@ export interface AgentAssetListResponse {
 
 export interface CreateAgentJobRequest {
   prompt: string;
-  reference_image_url?: string;
   reference_image_urls?: string[];
   duration_seconds: number;
+  aspect_ratio?: string;
+  keyframes_enabled?: boolean;
+  prompt_variant?: AgentPromptVariant;
   image_model?: string;
   video_model?: string;
 }
+
+export type AgentPromptVariant = 'current';
 
 export interface CreateAgentJobResponse {
   job_id: string;
@@ -117,4 +135,5 @@ export const AgentShotStatusMap: Record<AgentShot['keyframe_status'], { label: s
   generating: { label: 'Generating', color: 'blue' },
   done: { label: 'Done', color: 'green' },
   failed: { label: 'Failed', color: 'red' },
+  skipped: { label: 'Skipped', color: 'gray' },
 };

@@ -5,25 +5,31 @@
 
 "use client";
 
-import React, { useMemo, useState } from 'react';
-import { AgentShot, AgentJob } from '@/types/agent';
+import React, { useEffect, useMemo, useState } from 'react';
+import { AgentShot, AgentJob, AgentAsset } from '@/types/agent';
 import { AssetModal } from './AssetModal';
 import { FileText, PlayCircle, Sparkles } from 'lucide-react';
 import { useGenerationProgress } from '@/hooks/useGenerationProgress';
 import { getVideoModel } from '@/config/video-models';
 
-type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs';
+type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref';
 
-interface StoryAct {
-  title: string;
-  summary?: string;
+interface StoryOutline {
+  logline?: string;
+  conflict?: string;
+  ending?: string;
+  sound_bed?: string;
+  theme?: string;
+  tone?: string;
+  acts?: Array<{
+    title?: string;
+    summary?: string;
+    description?: string;
+  }>;
 }
 
-interface StoryCharacter {
-  name?: string;
-  role?: string;
-  traits?: string;
-  appearance?: string;
+interface StoryElement {
+  id?: string;
   description?: string;
 }
 
@@ -34,15 +40,29 @@ interface StoryShotDetail {
   keyframePrompt?: string;
   keyframeMetadata?: Record<string, any> | null;
   keyframeStatus?: AgentShot['keyframe_status'];
+  keyframeModelUsed?: string | null;
+  keyframeAttempts?: Array<Record<string, any>> | null;
   videoStatus?: AgentShot['video_status'];
+  videoModelUsed?: string | null;
+  videoAttempts?: Array<Record<string, any>> | null;
+  videoErrorMessage?: string | null;
+}
+
+interface StoryboardShotDetail {
+  shot_number?: number;
+  duration_seconds?: number;
+  start_frame_brief?: string;
+  story_description?: string;
+  start_frame_element_refs?: string[];
 }
 
 interface StoryDetails {
-  theme?: string;
-  tone?: string;
-  acts: StoryAct[];
-  characters: StoryCharacter[];
+  outline?: StoryOutline;
+  characters: StoryElement[];
+  scene?: StoryElement | null;
+  storyboardShots?: StoryboardShotDetail[];
   shots: StoryShotDetail[];
+  storyboardJson?: Record<string, any> | null;
 }
 
 interface Asset {
@@ -64,49 +84,127 @@ interface Asset {
 }
 
 interface AgentAssetGridProps {
+  jobId: string;
   shots: AgentShot[];
   finalVideoUrl?: string;
-  storyOutline?: Record<string, any> | null;
-  mainCharacters?: Array<Record<string, any>> | null;
+  storyboardJson?: Record<string, any> | null;
   characterReferenceImages?: string[] | null;
   locale: string;
   aspectRatio?: string;
+  keyframesEnabled?: boolean;
   progress?: AgentJob['progress'];
-  referenceImageUrl?: string;
+  referenceImageUrls?: string[];
   jobStatus?: AgentJob['status'];
   createdAt?: string;
   videoModelId?: string;
+  jobUpdatedAt?: string;
 }
 
 export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
-  ({ shots, finalVideoUrl: _finalVideoUrl, storyOutline, mainCharacters, characterReferenceImages, locale, aspectRatio = '16:9', progress, referenceImageUrl, jobStatus, createdAt, videoModelId }) => {
+  ({ jobId, shots, finalVideoUrl: _finalVideoUrl, storyboardJson, characterReferenceImages, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrls, jobStatus, createdAt, videoModelId, jobUpdatedAt }) => {
     const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
-    const aspectRatioValue = aspectRatio === '4:3' ? '4 / 3' : '16 / 9';
-    const minCardWidth = aspectRatio === '4:3' ? 128 : 160;
+    const [sceneAssets, setSceneAssets] = useState<AgentAsset[]>([]);
+    const [sceneAssetsStatus, setSceneAssetsStatus] = useState<'idle' | 'loading' | 'error'>('idle');
+    const aspectRatioValue =
+      aspectRatio === '9:16'
+        ? '9 / 16'
+        : aspectRatio === '4:3'
+        ? '4 / 3'
+        : '16 / 9';
+    const minCardWidth =
+      aspectRatio === '9:16' ? 120 : aspectRatio === '4:3' ? 128 : 160;
     const fallbackBackground =
       (characterReferenceImages && characterReferenceImages[0]) ||
-      referenceImageUrl ||
+      (referenceImageUrls && referenceImageUrls[0]) ||
       undefined;
-    const characterCount = mainCharacters && Array.isArray(mainCharacters) ? mainCharacters.length : 0;
+    const storyboardRoot = (() => {
+      if (!storyboardJson || typeof storyboardJson !== 'object') return null;
+      const nested = (storyboardJson as any).storyboard;
+      if (nested && typeof nested === 'object') return nested as Record<string, any>;
+      return storyboardJson as Record<string, any>;
+    })();
+    const outlineSource =
+      (storyboardJson && typeof storyboardJson === 'object' && (storyboardJson as any).story_outline) ||
+      (storyboardRoot && (storyboardRoot as any).story_outline) ||
+      null;
+    const storyOutline =
+      outlineSource && typeof outlineSource === 'object' ? (outlineSource as StoryOutline) : null;
+    const keyElements = Array.isArray((storyboardRoot as any)?.key_elements)
+      ? (storyboardRoot as any).key_elements
+      : [];
+    const storyboardShots = Array.isArray((storyboardRoot as any)?.shots)
+      ? (storyboardRoot as any).shots
+      : [];
+    const characterElements = keyElements.filter(
+      (element: any) => element && element.type === 'character'
+    );
+    const sceneElement = keyElements.find(
+      (element: any) => element && element.type === 'scene'
+    ) || null;
+    const characterCount = characterElements.length;
     const shouldShowCharacterPlaceholders =
       characterCount > 0 &&
       (!characterReferenceImages || characterReferenceImages.length === 0) &&
       ['pending', 'generating_script', 'generating_characters', 'splitting_shots', 'generating_keyframes'].includes(jobStatus || '');
-    const isKeyframeStage = ['generating_keyframes', 'waiting_for_confirmation', 'orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
+    const shouldShowScenePlaceholder =
+      !!sceneElement &&
+      sceneAssets.length === 0 &&
+      sceneAssetsStatus !== 'error' &&
+      ['pending', 'generating_script', 'generating_characters', 'splitting_shots', 'generating_keyframes'].includes(jobStatus || '');
+    const isImageStage = ['generating_characters', 'generating_keyframes', 'waiting_for_confirmation', 'orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
+    const isKeyframeStage = keyframesEnabled && ['generating_keyframes', 'waiting_for_confirmation', 'orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
     const isVideoStage = ['orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
+    const isJobFailed = jobStatus === 'failed';
     const imageEstimateSeconds = 15;
     const modelConfig = videoModelId ? getVideoModel(videoModelId) : undefined;
     const videoEstimateSeconds = modelConfig?.estimatedGenerationTime || 20;
     const { progress: estimatedImageProgress } = useGenerationProgress({
       createdAt: createdAt || '',
       estimatedTime: imageEstimateSeconds,
-      status: isKeyframeStage ? 'IN_PROGRESS' : 'submitted'
+      status: isImageStage ? 'IN_PROGRESS' : 'submitted'
     });
     const { progress: estimatedVideoProgress } = useGenerationProgress({
       createdAt: createdAt || '',
       estimatedTime: videoEstimateSeconds,
       status: isVideoStage ? 'IN_PROGRESS' : 'submitted'
     });
+
+    useEffect(() => {
+      let cancelled = false;
+
+      const fetchSceneAssets = async () => {
+        if (!jobId) return;
+        try {
+          setSceneAssetsStatus('loading');
+          const res = await fetch(`/api/agent/jobs/${jobId}/assets?asset_type=scene_ref&limit=10&offset=0`);
+          if (!res.ok) {
+            throw new Error('Failed to fetch scene assets');
+          }
+          const payload = await res.json();
+          if (cancelled) return;
+          const assets = Array.isArray(payload?.assets)
+            ? payload.assets
+            : Array.isArray(payload)
+            ? payload
+            : [];
+          setSceneAssets(
+            assets.filter((asset: AgentAsset) => asset && asset.asset_type === 'scene_ref')
+          );
+          setSceneAssetsStatus('idle');
+        } catch (error) {
+          if (cancelled) return;
+          console.error('[AgentAssetGrid] Fetch scene assets failed:', error);
+          setSceneAssets([]);
+          setSceneAssetsStatus('error');
+        }
+      };
+
+      fetchSceneAssets();
+
+      return () => {
+        cancelled = true;
+      };
+    }, [jobId, jobUpdatedAt]);
 
     // Aggregate all assets from shots and job-level metadata
     const assets = useMemo(() => {
@@ -169,15 +267,17 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       })();
 
       // 1. Story + Characters + Script summary card（合并展示）
+      const normalizedOutline = storyOutline && typeof storyOutline === 'object' ? storyOutline : {};
       const acts =
-        storyOutline &&
-        (storyOutline as any).acts &&
-        Array.isArray((storyOutline as any).acts)
-          ? (storyOutline as any).acts
+        normalizedOutline.acts && Array.isArray(normalizedOutline.acts)
+          ? normalizedOutline.acts
           : [];
-      const theme = storyOutline ? (storyOutline as any).theme : undefined;
-      const tone = storyOutline ? (storyOutline as any).tone : undefined;
-      const characters = mainCharacters && Array.isArray(mainCharacters) ? mainCharacters : [];
+      const theme = normalizedOutline.theme;
+      const tone = normalizedOutline.tone;
+      const logline = normalizedOutline.logline;
+      const conflict = normalizedOutline.conflict;
+      const ending = normalizedOutline.ending;
+      const soundBed = normalizedOutline.sound_bed;
 
       if (shots && shots.length > 0) {
         const shotCount = shots.length;
@@ -198,11 +298,20 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
                 ? (shot.keyframe_metadata as Record<string, any>)
                 : undefined,
             keyframeStatus: shot.keyframe_status,
+            keyframeModelUsed: shot.keyframe_model_used ?? null,
+            keyframeAttempts: shot.keyframe_attempts ?? null,
             videoStatus: shot.video_status,
+            videoModelUsed: shot.model_used ?? null,
+            videoAttempts: shot.attempts ?? null,
+            videoErrorMessage: shot.video_error_message ?? null,
           };
         });
 
         const lines: string[] = [];
+        if (logline) lines.push(`Logline: ${logline}`);
+        if (conflict) lines.push(`Conflict: ${conflict}`);
+        if (ending) lines.push(`Ending: ${ending}`);
+        if (soundBed) lines.push(`Sound bed: ${soundBed}`);
         if (theme) lines.push(`Theme: ${theme}`);
         if (tone) lines.push(`Tone: ${tone}`);
         if (acts.length > 0) {
@@ -214,25 +323,32 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
             lines.push(`- ${title}: ${summary}`);
           });
         }
-        if (characters.length > 0) {
+        if (characterElements.length > 0) {
           lines.push('');
-          lines.push('Main Characters:');
-          characters.forEach((char: any, index: number) => {
-            const name = char.name || `Character ${index + 1}`;
-            const role = char.role ? ` (${char.role})` : '';
-            const traits = Array.isArray(char.traits)
-              ? char.traits.join(', ')
-              : typeof char.traits === 'string'
-              ? char.traits
-              : '';
-            const appearance = char.appearance || '';
-            const parts = [`- ${name}${role}`];
-            if (traits) {
-              parts.push(`Traits: ${traits}`);
-            }
-            if (appearance) {
-              parts.push(`Appearance: ${appearance}`);
-            }
+          lines.push('Characters:');
+          characterElements.forEach((char: any, index: number) => {
+            const label = char?.id || `Character ${index + 1}`;
+            const description = char?.description || '';
+            lines.push(`- ${label}${description ? `: ${description}` : ''}`);
+          });
+        }
+        if (sceneElement) {
+          lines.push('');
+          lines.push('Scene:');
+          const sceneLabel = (sceneElement as any)?.id || 'Scene';
+          const sceneDescription = (sceneElement as any)?.description || '';
+          lines.push(`- ${sceneLabel}${sceneDescription ? `: ${sceneDescription}` : ''}`);
+        }
+        if (storyboardShots.length > 0) {
+          lines.push('');
+          lines.push('Storyboard Shots:');
+          storyboardShots.forEach((shot: any, index: number) => {
+            const number = shot?.shot_number ?? index + 1;
+            const startFrame = shot?.start_frame_brief || '';
+            const storyDescription = shot?.story_description || '';
+            const parts = [`- Shot ${number}`];
+            if (startFrame) parts.push(`Start frame: ${startFrame}`);
+            if (storyDescription) parts.push(`Story: ${storyDescription}`);
             lines.push(parts.join(' | '));
           });
         }
@@ -265,20 +381,28 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           loading: ['pending', 'splitting_shots'].includes(jobStatus || ''),
           progressValue: storyProgressValue,
           storyDetails: {
-            theme,
-            tone,
-            acts: acts.map((act: any, index: number) => ({
-              title: act.title || `Act ${index + 1}`,
-              summary: act.summary || act.description || '',
+            outline: storyOutline || undefined,
+            characters: characterElements.map((character: any) => ({
+              id: character?.id,
+              description: character?.description,
             })),
-            characters: characters.map((character: any) => ({
-              name: character.name,
-              role: character.role,
-              traits: character.traits,
-              appearance: character.appearance,
-              description: character.description,
+            scene: sceneElement
+              ? {
+                  id: (sceneElement as any)?.id,
+                  description: (sceneElement as any)?.description,
+                }
+              : null,
+            storyboardShots: storyboardShots.map((shot: any, index: number) => ({
+              shot_number: shot?.shot_number ?? index + 1,
+              duration_seconds: shot?.duration_seconds,
+              start_frame_brief: shot?.start_frame_brief,
+              story_description: shot?.story_description,
+              start_frame_element_refs: Array.isArray(shot?.start_frame_element_refs)
+                ? shot.start_frame_element_refs
+                : undefined,
             })),
             shots: structuredShots,
+            storyboardJson: storyboardJson ?? null,
           },
           totalDurationSeconds,
           shotsCount: shotCount,
@@ -317,13 +441,47 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
         });
       }
 
+      // 2.5 Scene reference image
+      const sceneRefAssets = sceneAssets.filter(asset => asset.asset_type === 'scene_ref');
+      if (sceneRefAssets.length > 0) {
+        sceneRefAssets.forEach((asset, index) => {
+          const isFailed = asset.status === 'failed';
+          const isLoading = !isFailed && (!asset.url || asset.status === 'pending' || asset.status === 'generating');
+          result.push({
+            id: `scene-ref-${asset.id || index}`,
+            type: 'scene_ref',
+            url: asset.url,
+            title: sceneElement?.id ? `${sceneElement.id} Scene Ref` : `Scene Ref #${index + 1}`,
+            status: asset.status,
+            loading: isLoading,
+            backgroundUrl: asset.url ? undefined : fallbackBackground,
+            progressValue: isLoading ? characterProgressValue : undefined,
+          });
+        });
+      } else if (shouldShowScenePlaceholder) {
+        result.push({
+          id: 'scene-ref-loading',
+          type: 'scene_ref',
+          title: sceneElement?.id ? `${sceneElement.id} Scene Ref` : 'Scene Ref',
+          loading: true,
+          backgroundUrl: fallbackBackground,
+          progressValue: characterProgressValue,
+        });
+      }
+
       // 3. Keyframe images
       shots?.forEach(shot => {
-        const isKeyframeVisible = isKeyframeStage || !!shot.keyframe_url || shot.keyframe_status === 'failed';
+        const normalizedKeyframeStatus =
+          isJobFailed && !['done', 'failed', 'skipped'].includes(shot.keyframe_status)
+            ? 'failed'
+            : shot.keyframe_status;
+        const isKeyframeVisible =
+          isKeyframeStage || !!shot.keyframe_url || normalizedKeyframeStatus === 'failed';
         if (!isKeyframeVisible) return;
-        const isKeyframeFailed = shot.keyframe_status === 'failed';
-        const isKeyframeDone = shot.keyframe_status === 'done' && !!shot.keyframe_url;
-        const isKeyframeLoading = !isKeyframeFailed && !isKeyframeDone;
+        const isKeyframeFailed = normalizedKeyframeStatus === 'failed';
+        const isKeyframeDone = normalizedKeyframeStatus === 'done' && !!shot.keyframe_url;
+        const isKeyframeSkipped = normalizedKeyframeStatus === 'skipped';
+        const isKeyframeLoading = !isKeyframeFailed && !isKeyframeDone && !isKeyframeSkipped;
         const backgroundUrl = shot.keyframe_url || fallbackBackground;
         
         // Improved progress logic: Backend > Derived > Estimated
@@ -340,7 +498,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           url: shot.keyframe_url,
           shotNumber: shot.shot_number,
           title: `Shot #${shot.shot_number} Keyframe`,
-          status: shot.keyframe_status,
+          status: normalizedKeyframeStatus,
           loading: isKeyframeLoading,
           backgroundUrl,
           progressValue,
@@ -349,12 +507,17 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
 
       // 4. Shot videos
       shots?.forEach(shot => {
-        if (!isVideoStage && !shot.video_url && shot.video_status !== 'failed') {
+        const normalizedVideoStatus =
+          isJobFailed && !['done', 'failed'].includes(shot.video_status)
+            ? 'failed'
+            : shot.video_status;
+        if (!isVideoStage && !shot.video_url && normalizedVideoStatus !== 'failed') {
           return;
         }
-        const isVideoFailed = shot.video_status === 'failed';
-        const isVideoDone = shot.video_status === 'done' && !!shot.video_url;
-        const hasVideoStarted = isVideoStage || shot.video_status === 'generating' || isVideoDone || isVideoFailed;
+        const isVideoFailed = normalizedVideoStatus === 'failed';
+        const isVideoDone = normalizedVideoStatus === 'done' && !!shot.video_url;
+        const hasVideoStarted =
+          isVideoStage || normalizedVideoStatus === 'generating' || isVideoDone || isVideoFailed;
         const isVideoLoading = hasVideoStarted && !isVideoFailed && !isVideoDone;
         const backgroundUrl = shot.keyframe_url || fallbackBackground;
         
@@ -377,7 +540,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           shotNumber: shot.shot_number,
           duration: shot.duration_seconds,
           title: `Shot #${shot.shot_number} Video`,
-          status: shot.video_status,
+          status: normalizedVideoStatus,
           loading: isVideoLoading,
           backgroundUrl,
           progressValue,
@@ -388,7 +551,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       // We don't include it in the grid anymore
 
       return result;
-    }, [shots, storyOutline, mainCharacters, characterReferenceImages, progress, fallbackBackground, shouldShowCharacterPlaceholders, characterCount, jobStatus, isKeyframeStage, isVideoStage, estimatedImageProgress, estimatedVideoProgress]);
+    }, [shots, storyOutline, characterElements, sceneElement, storyboardShots, storyboardJson, characterReferenceImages, progress, fallbackBackground, shouldShowCharacterPlaceholders, shouldShowScenePlaceholder, characterCount, jobStatus, isKeyframeStage, isVideoStage, isJobFailed, estimatedImageProgress, estimatedVideoProgress, sceneAssets]);
 
     const getAssetTypeLabel = (type: AssetType) => {
       switch (type) {
@@ -399,9 +562,11 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
         case 'video':
           return '🎬 Video';
         case 'story':
-          return '📖 Story & Characters';
+          return '📖 Story & Script';
         case 'character_refs':
           return '🧑‍🎨 Character Refs';
+        case 'scene_ref':
+          return '🏞️ Scene Ref';
         default:
           return '';
       }
@@ -419,6 +584,8 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           return 'text-amber-400';
         case 'character_refs':
           return 'text-pink-400';
+        case 'scene_ref':
+          return 'text-sky-400';
         default:
           return 'text-gray-400';
       }
@@ -542,6 +709,28 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
                     </div>
                   )}
                 </>
+              )}
+
+              {/* Scene Reference Image */}
+              {asset.type === 'scene_ref' && asset.url && (
+                <>
+                  <img
+                    src={asset.url}
+                    alt={asset.title}
+                    className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+                  <div
+                    className="absolute top-2 left-2 text-white text-xs font-medium bg-black/50 px-2 py-0.5 rounded-md max-w-[80%] truncate"
+                    title={asset.title || 'Scene Ref'}
+                  >
+                    {asset.title || 'Scene Ref'}
+                  </div>
+                </>
+              )}
+
+              {asset.type === 'scene_ref' && !asset.url && asset.status !== 'failed' && !asset.loading && (
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900" />
               )}
 
               {/* Video */}

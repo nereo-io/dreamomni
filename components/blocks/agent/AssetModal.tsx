@@ -14,19 +14,35 @@ import { useState, useEffect } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 
-type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs';
+type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref';
 
 interface StoryAct {
-  title: string;
+  title?: string;
   summary?: string;
+  description?: string;
 }
 
-interface StoryCharacter {
-  name?: string;
-  role?: string;
-  traits?: string;
-  appearance?: string;
+interface StoryOutline {
+  logline?: string;
+  conflict?: string;
+  ending?: string;
+  sound_bed?: string;
+  theme?: string;
+  tone?: string;
+  acts?: StoryAct[];
+}
+
+interface StoryElement {
+  id?: string;
   description?: string;
+}
+
+interface StoryboardShotDetail {
+  shot_number?: number;
+  duration_seconds?: number;
+  start_frame_brief?: string;
+  story_description?: string;
+  start_frame_element_refs?: string[];
 }
 
 interface StoryShotDetail {
@@ -36,15 +52,21 @@ interface StoryShotDetail {
   keyframePrompt?: string;
   keyframeMetadata?: Record<string, any> | null;
   keyframeStatus?: string;
+  keyframeModelUsed?: string | null;
+  keyframeAttempts?: Array<Record<string, any>> | null;
   videoStatus?: string;
+  videoModelUsed?: string | null;
+  videoAttempts?: Array<Record<string, any>> | null;
+  videoErrorMessage?: string | null;
 }
 
 interface StoryDetails {
-  theme?: string;
-  tone?: string;
-  acts?: StoryAct[];
-  characters?: StoryCharacter[];
+  outline?: StoryOutline;
+  characters?: StoryElement[];
+  scene?: StoryElement | null;
+  storyboardShots?: StoryboardShotDetail[];
   shots?: StoryShotDetail[];
+  storyboardJson?: Record<string, any> | null;
 }
 
 interface AssetModalProps {
@@ -117,7 +139,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
 
   // Reset media loading state when modal opens or data changes
   useEffect(() => {
-    if (isOpen && (type === 'image' || type === 'character_refs' || type === 'video')) {
+    if (isOpen && (type === 'image' || type === 'character_refs' || type === 'scene_ref' || type === 'video')) {
       setIsMediaLoading(true);
     } else {
       setIsMediaLoading(false);
@@ -164,6 +186,81 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
     }
   };
 
+  const getDownloadableTextContent = () => {
+    if (type === 'script' && data.content) return data.content;
+
+    if (type === 'story' && data.storyDetails) {
+      const {
+        storyboardJson,
+        outline,
+        characters = [],
+        scene,
+        storyboardShots = [],
+        shots = [],
+      } = data.storyDetails;
+
+      if (storyboardJson && typeof storyboardJson === 'object') {
+        return JSON.stringify(storyboardJson, null, 2);
+      }
+
+      const keyElements: Array<Record<string, any>> = [];
+      characters.forEach((char, index) => {
+        if (!char) return;
+        keyElements.push({
+          id: char.id || `Character_${index + 1}`,
+          type: 'character',
+          description: char.description,
+        });
+      });
+      if (scene) {
+        keyElements.push({
+          id: scene.id || 'Scene',
+          type: 'scene',
+          description: scene.description,
+        });
+      }
+
+      const payload: Record<string, any> = {
+        story_outline: outline || {},
+        storyboard: {
+          key_elements: keyElements,
+          shots: storyboardShots.map((shot, index) => ({
+            shot_number: shot.shot_number ?? index + 1,
+            duration_seconds: shot.duration_seconds,
+            start_frame_brief: shot.start_frame_brief,
+            story_description: shot.story_description,
+            start_frame_element_refs: shot.start_frame_element_refs,
+          })),
+        },
+      };
+
+      if (shots.length > 0) {
+        payload.shots = shots.map((shot) => ({
+          shot_number: shot.number,
+          duration_seconds: shot.duration,
+          prompt: shot.prompt,
+          keyframe_prompt: shot.keyframePrompt,
+          keyframe_status: shot.keyframeStatus,
+          keyframe_model_used: shot.keyframeModelUsed,
+          video_status: shot.videoStatus,
+          model_used: shot.videoModelUsed,
+          attempts: shot.videoAttempts,
+          video_error_message: shot.videoErrorMessage,
+        }));
+      }
+      if (typeof data.totalDurationSeconds === 'number') {
+        payload.total_duration_seconds = data.totalDurationSeconds;
+      }
+      if (typeof data.shotsCount === 'number') {
+        payload.shots_count = data.shotsCount;
+      }
+
+      return JSON.stringify(payload, null, 2);
+    }
+
+    return null;
+  };
+
   const handleDownload = () => {
     if (data.url) {
       const link = document.createElement('a');
@@ -171,19 +268,37 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
       const ext =
         type === 'video'
           ? 'mp4'
-          : type === 'image' || type === 'character_refs'
+          : type === 'image' || type === 'character_refs' || type === 'scene_ref'
           ? 'png'
+          : type === 'story' || type === 'script'
+          ? 'json'
           : 'txt';
       link.download = `${type}_${data.shotNumber || 'asset'}.${ext}`;
       link.click();
+      return;
     }
+
+    const content = getDownloadableTextContent();
+    if (!content) return;
+
+    const blob = new Blob([content], {
+      type: type === 'story' || type === 'script' ? 'application/json' : 'text/plain',
+    });
+    const objectUrl = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = `${type}_${data.shotNumber || 'asset'}.${type === 'story' || type === 'script' ? 'json' : 'txt'}`;
+    link.click();
+    window.URL.revokeObjectURL(objectUrl);
   };
 
   const getTitle = () => {
     if (data.title) return data.title;
     if (data.shotNumber) return `Shot #${data.shotNumber} ${type}`;
-    if (type === 'story') return 'Story & Characters';
+    if (type === 'story') return 'Story & Script';
     if (type === 'character_refs') return 'Character References';
+    if (type === 'scene_ref') return 'Scene Reference';
     return type.charAt(0).toUpperCase() + type.slice(1);
   };
 
@@ -196,11 +311,29 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
       ) : null;
     }
 
-    const { theme, tone, acts = [], characters = [], shots = [] } = data.storyDetails;
+    const {
+      outline,
+      characters = [],
+      scene,
+      storyboardShots = [],
+      shots = [],
+    } = data.storyDetails;
+    const acts = outline?.acts ?? [];
+    const theme = outline?.theme;
+    const tone = outline?.tone;
+    const logline = outline?.logline;
+    const conflict = outline?.conflict;
+    const ending = outline?.ending;
+    const soundBed = outline?.sound_bed;
 
-    const shotsValue = typeof (data.shotsCount ?? shots.length) === 'number'
-      ? (data.shotsCount ?? shots.length)
-      : undefined;
+    const shotsValue =
+      typeof data.shotsCount === 'number'
+        ? data.shotsCount
+        : shots.length > 0
+        ? shots.length
+        : storyboardShots.length > 0
+        ? storyboardShots.length
+        : undefined;
 
     return (
       <div className="space-y-6">
@@ -223,7 +356,53 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
               <span>{characters.length} Characters</span>
             </>
           )}
+          {scene && (
+            <>
+              <span className="text-gray-500">·</span>
+              <span>1 Scene</span>
+            </>
+          )}
         </div>
+
+        {(logline || conflict || ending || soundBed || theme || tone) && (
+          <section className="rounded-xl border border-white/5 bg-black/30 px-4 py-4 space-y-3">
+            <div className="text-xs uppercase tracking-wide text-gray-400">Story Outline</div>
+            {(logline || conflict || ending || soundBed) && (
+              <div className="space-y-2 text-sm text-gray-200">
+                {logline && (
+                  <div>
+                    <span className="text-gray-500">Logline:</span>{' '}
+                    <span>{logline}</span>
+                  </div>
+                )}
+                {conflict && (
+                  <div>
+                    <span className="text-gray-500">Conflict:</span>{' '}
+                    <span>{conflict}</span>
+                  </div>
+                )}
+                {ending && (
+                  <div>
+                    <span className="text-gray-500">Ending:</span>{' '}
+                    <span>{ending}</span>
+                  </div>
+                )}
+                {soundBed && (
+                  <div>
+                    <span className="text-gray-500">Sound bed:</span>{' '}
+                    <span>{soundBed}</span>
+                  </div>
+                )}
+              </div>
+            )}
+            {(theme || tone) && (
+              <div className="text-sm text-gray-400 flex flex-wrap gap-x-3 gap-y-1">
+                {theme && <span>Theme: {theme}</span>}
+                {tone && <span>Tone: {tone}</span>}
+              </div>
+            )}
+          </section>
+        )}
 
         {acts.length > 0 && (
           <Accordion type="single" collapsible defaultValue="acts" className="rounded-xl border border-white/5 bg-black/30">
@@ -235,7 +414,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                     {acts.map((act, index) => (
                       <span key={index}>
                         {index > 0 && <span className="mx-1">→</span>}
-                        {act.title}
+                        {act.title || `Act ${index + 1}`}
                       </span>
                     ))}
                   </div>
@@ -246,13 +425,15 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                   {acts.map((act, index) => (
                     <div key={`${act.title}-${index}`} className="border-l-2 border-white/10 pl-3">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-sm font-semibold text-white">{act.title}</span>
+                        <span className="text-sm font-semibold text-white">{act.title || `Act ${index + 1}`}</span>
                         <Badge variant="outline" className="border-white/15 text-[10px] text-gray-400">
                           Act {index + 1}
                         </Badge>
                       </div>
-                      {act.summary && (
-                        <p className="text-sm text-gray-300 leading-relaxed">{act.summary}</p>
+                      {(act.summary || act.description) && (
+                        <p className="text-sm text-gray-300 leading-relaxed">
+                          {act.summary || act.description}
+                        </p>
                       )}
                     </div>
                   ))}
@@ -262,23 +443,35 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
           </Accordion>
         )}
 
-        {characters.length > 0 && (
-          <Accordion type="single" collapsible defaultValue="characters" className="rounded-xl border border-white/5 bg-black/30">
-            <AccordionItem value="characters" className="border-none">
+        {(characters.length > 0 || scene) && (
+          <Accordion
+            type="single"
+            collapsible
+            defaultValue="elements"
+            className="rounded-xl border border-white/5 bg-black/30"
+          >
+            <AccordionItem value="elements" className="border-none">
               <AccordionTrigger className="px-4 py-3 text-sm font-semibold text-gray-300 hover:no-underline">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <span className="uppercase tracking-wide">MAIN CHARACTERS</span>
+                  <span className="uppercase tracking-wide">ELEMENTS</span>
                   <div className="flex flex-wrap gap-2">
                     {characters.map((char, index) => (
                       <Badge
-                        key={index}
+                        key={`char-${index}`}
                         variant="outline"
                         className="border-white/20 text-gray-200 text-xs font-normal"
                       >
-                        {char.name || `Character ${index + 1}`}
-                        {char.role && <span className="text-gray-400 ml-1">({char.role})</span>}
+                        {char.id || `Character ${index + 1}`}
                       </Badge>
                     ))}
+                    {scene && (
+                      <Badge
+                        variant="outline"
+                        className="border-white/20 text-gray-200 text-xs font-normal"
+                      >
+                        {scene.id || 'Scene'}
+                      </Badge>
+                    )}
                   </div>
                 </div>
               </AccordionTrigger>
@@ -286,40 +479,101 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                 <div className="space-y-4">
                   {characters.map((character, index) => (
                     <div
-                      key={`${character.name || index}`}
+                      key={`${character.id || index}`}
                       className="border-l-2 border-white/10 pl-3 space-y-2"
                     >
-                      <div className="flex items-center gap-2">
-                        <span className="text-base font-semibold text-white">
-                          {character.name || `Character ${index + 1}`}
-                        </span>
-                        {character.role && (
-                          <Badge variant="outline" className="border-white/20 text-gray-300 text-[10px]">
-                            {character.role}
-                          </Badge>
-                        )}
+                      <div className="text-xs uppercase tracking-wide text-gray-400">
+                        Character
                       </div>
-                      {character.traits && (
-                        <div className="text-sm">
-                          <span className="text-gray-500">Traits:</span>{' '}
-                          <span className="text-gray-300">{character.traits}</span>
-                        </div>
-                      )}
-                      {character.appearance && (
-                        <div className="text-sm">
-                          <span className="text-gray-500">Appearance:</span>{' '}
-                          <span className="text-gray-300">{character.appearance}</span>
-                        </div>
-                      )}
+                      <div className="text-base font-semibold text-white">
+                        {character.id || `Character ${index + 1}`}
+                      </div>
                       {character.description && (
                         <p className="text-sm text-gray-300">{character.description}</p>
                       )}
                     </div>
                   ))}
+                  {scene && (
+                    <div className="border-l-2 border-white/10 pl-3 space-y-2">
+                      <div className="text-xs uppercase tracking-wide text-gray-400">Scene</div>
+                      <div className="text-base font-semibold text-white">{scene.id || 'Scene'}</div>
+                      {scene.description && (
+                        <p className="text-sm text-gray-300">{scene.description}</p>
+                      )}
+                    </div>
+                  )}
                 </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+        )}
+
+        {storyboardShots.length > 0 && (
+          <section className="space-y-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-gray-300">Storyboard</h4>
+            <Accordion
+              type="multiple"
+              defaultValue={storyboardShots.map((shot, index) => `storyboard-shot-${shot.shot_number ?? index}`)}
+              className="rounded-xl border border-white/5 bg-black/30 divide-y divide-white/5"
+            >
+              {storyboardShots.map((shot, index) => {
+                const itemValue = `storyboard-shot-${shot.shot_number ?? index}`;
+                const elementRefs = Array.isArray(shot.start_frame_element_refs)
+                  ? shot.start_frame_element_refs
+                  : [];
+
+                return (
+                  <AccordionItem key={itemValue} value={itemValue} className="border-none">
+                    <AccordionTrigger className="text-left px-4 py-3 text-gray-100 hover:no-underline">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-semibold text-sm">
+                          Shot #{shot.shot_number ?? index + 1}
+                        </span>
+                        {shot.duration_seconds && (
+                          <Badge variant="outline" className="border-white/15 text-gray-200 text-xs">
+                            {formatDuration(shot.duration_seconds)}
+                          </Badge>
+                        )}
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="px-4 pb-4">
+                      <div className="space-y-3">
+                        {shot.start_frame_brief && (
+                          <div className="space-y-1">
+                            <div className="text-xs uppercase tracking-wide text-gray-400">Start frame</div>
+                            <p className="text-sm text-gray-200 whitespace-pre-wrap">
+                              {shot.start_frame_brief}
+                            </p>
+                          </div>
+                        )}
+                        {shot.story_description && (
+                          <div className="space-y-1">
+                            <div className="text-xs uppercase tracking-wide text-gray-400">Story</div>
+                            <p className="text-sm text-gray-200 whitespace-pre-wrap">
+                              {shot.story_description}
+                            </p>
+                          </div>
+                        )}
+                        {elementRefs.length > 0 && (
+                          <div className="flex flex-wrap gap-2">
+                            {elementRefs.map((ref) => (
+                              <Badge
+                                key={ref}
+                                variant="outline"
+                                className="border-white/20 text-gray-200 text-xs"
+                              >
+                                {ref}
+                              </Badge>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                );
+              })}
+            </Accordion>
+          </section>
         )}
 
         {shots.length > 0 && (
@@ -335,6 +589,10 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                 const keyframePromptText = shot.keyframePrompt
                   ? sanitizeKeyframePrompt(shot.keyframePrompt, shot.prompt)
                   : null;
+                const videoAttemptsText =
+                  shot.videoAttempts && shot.videoAttempts.length > 0
+                    ? JSON.stringify(shot.videoAttempts, null, 2)
+                    : null;
 
                 return (
                   <AccordionItem
@@ -357,6 +615,16 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                           Keyframe Done
                         </Badge>
                       )}
+                      {shot.keyframeStatus === 'skipped' && (
+                        <Badge variant="outline" className="border-white/15 text-gray-200 text-xs">
+                          Keyframe Skipped
+                        </Badge>
+                      )}
+                      {shot.keyframeStatus === 'failed' && (
+                        <Badge variant="outline" className="border-rose-400/40 text-rose-300 text-xs">
+                          Keyframe Failed
+                        </Badge>
+                      )}
                       {shot.videoStatus === 'generating' && (
                         <Badge variant="outline" className="border-amber-300/30 text-amber-200 text-xs">
                           Generating
@@ -365,6 +633,16 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                       {shot.videoStatus === 'done' && (
                         <Badge variant="outline" className="border-emerald-400/30 text-emerald-300 text-xs">
                           Video Done
+                        </Badge>
+                      )}
+                      {shot.videoStatus === 'failed' && (
+                        <Badge variant="outline" className="border-rose-400/40 text-rose-300 text-xs">
+                          Video Failed
+                        </Badge>
+                      )}
+                      {shot.videoModelUsed && (
+                        <Badge variant="outline" className="border-white/15 text-gray-200 text-xs">
+                          Model: {shot.videoModelUsed}
                         </Badge>
                       )}
                     </div>
@@ -409,6 +687,35 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                             </pre>
                           </div>
                         )}
+
+                        {(shot.videoErrorMessage || videoAttemptsText) && (
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between text-xs uppercase tracking-wide text-gray-400">
+                              <span>Video Routing</span>
+                              {videoAttemptsText && (
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-7 px-2 text-xs text-gray-300 hover:bg-white/10"
+                                  onClick={() => handleCopy(videoAttemptsText)}
+                                >
+                                  <Copy className="h-3.5 w-3.5 mr-1" />
+                                  Copy Attempts
+                                </Button>
+                              )}
+                            </div>
+                            {shot.videoErrorMessage && (
+                              <div className="text-xs text-rose-300 bg-rose-500/10 border border-rose-500/20 rounded-lg p-3 whitespace-pre-wrap break-words">
+                                {shot.videoErrorMessage}
+                              </div>
+                            )}
+                            {videoAttemptsText && (
+                              <pre className="bg-black/40 rounded-lg p-3 text-xs text-gray-100 whitespace-pre-wrap leading-relaxed">
+                                {videoAttemptsText}
+                              </pre>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </AccordionContent>
                   </AccordionItem>
@@ -427,18 +734,18 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
         <DialogHeader>
           <div className="flex items-center gap-3">
             <DialogTitle className="text-gray-100">{getTitle()}</DialogTitle>
-            {(type === 'script' || (type === 'story' && data.content)) && (
+            {(type === 'script' || type === 'story') && getDownloadableTextContent() && (
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => handleCopy(undefined, true)}
+                onClick={() => handleCopy(getDownloadableTextContent() || undefined, true)}
                 className="h-8 text-gray-400 hover:text-gray-100 hover:bg-gray-700/50"
               >
                 <Copy className="h-3.5 w-3.5 mr-1.5" />
                 {isCopied ? 'Copied' : 'Copy'}
               </Button>
             )}
-            {data.url && (
+            {(data.url || getDownloadableTextContent()) && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -464,7 +771,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
           {type === 'story' && renderStoryDetails()}
 
           {/* Image */}
-          {(type === 'image' || type === 'character_refs') && data.url && (
+          {(type === 'image' || type === 'character_refs' || type === 'scene_ref') && data.url && (
             <div className="relative flex items-center justify-center bg-gray-900 rounded-lg p-4 min-h-[60vh]">
               {isMediaLoading && (
                 <div className="absolute inset-0 flex items-center justify-center">

@@ -16,6 +16,7 @@ import {
   ChevronRight,
   Image,
   Play,
+  Film,
 } from "lucide-react";
 import { BananaEmoji } from "@/components/icons/BananaIcon";
 import { Button } from "@/components/ui/button";
@@ -67,7 +68,7 @@ export function Sidebar() {
   ];
 
   const agentItems: SidebarItem[] = [
-    // { icon: Film, labelKey: "agent_videos", href: "/agent" },
+    { icon: Film, labelKey: "agent_videos", href: "/agent" },
   ];
 
   const otherItems: SidebarItem[] = [

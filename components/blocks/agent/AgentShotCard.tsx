@@ -28,7 +28,7 @@ export function AgentShotCard({ shot, showVideoActions = true }: AgentShotCardPr
   };
 
   const getStatusBadgeVariant = (
-    status: 'pending' | 'generating' | 'done' | 'failed'
+    status: AgentShot['keyframe_status'] | AgentShot['video_status']
   ): 'default' | 'secondary' | 'destructive' | 'outline' => {
     switch (status) {
       case 'done':

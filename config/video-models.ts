@@ -63,7 +63,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedResolutions: ["480p", "720p"],
     supportsAudio: true,
     estimatedGenerationTime: 60,
-    supportedDurations: [5, 12],
+    supportedDurations: [5, 10],
   },
 
   // BytePlus Seedance 1.5 Pro 图片转视频模型 (Southeast Asia)
@@ -83,7 +83,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedResolutions: ["480p", "720p"],
     supportsAudio: true,
     estimatedGenerationTime: 60,
-    supportedDurations: [5, 12],
+    supportedDurations: [5, 10],
     imageCapabilities: {
       maxImages: 2,
       labels: ["First Frame", "Last Frame"],
@@ -201,11 +201,11 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     perSecondCredits: 1, // 10秒12积分 = 1.2积分/秒
     description: "OpenAI's Sora 2 model",
     features: ["Wait 300s", "Audio"],
-    maxDuration: 15, // 扩展到 15s
+    maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16"],
     supportsAudio: true,
     estimatedGenerationTime: 300, // 预估5分钟
-    supportedDurations: [10, 15], // 添加 15s 支持
+    supportedDurations: [10],
     supportedResolutions: ["1080p"], // 固定1080p HD
     requiresMembership: true,
   },
@@ -220,11 +220,11 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     perSecondCredits: 1, // 图生视频10积分/5秒 = 2积分/秒
     description: "OpenAI's Sora 2 model",
     features: ["Wait 300s", "Audio"],
-    maxDuration: 15, // 扩展到 15s
+    maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16"],
     supportsAudio: true,
     estimatedGenerationTime: 300, // 预估5分钟
-    supportedDurations: [10, 15], // 添加 15s 支持
+    supportedDurations: [10],
     supportedResolutions: ["1080p"], // 固定1080p HD
     requiresMembership: true,
     imageCapabilities: {

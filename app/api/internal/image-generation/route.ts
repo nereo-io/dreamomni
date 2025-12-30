@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { calculateImageCredits } from '@/config/image-models';
 
 /**
  * 内部 API: 图像生成
@@ -18,7 +19,8 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { userId, prompt, referenceImage, model } = body;
+    const { userId, prompt, referenceImage, model, aspectRatio, aspect_ratio, resolution } = body;
+    const resolvedAspectRatio = aspectRatio || aspect_ratio;
 
     // 参数验证
     if (!userId || !prompt) {
@@ -35,6 +37,7 @@ export async function POST(req: NextRequest) {
     // 确定 provider
     const provider = 'nano_banana' as const;
     const selectedModel = model || 'nano-banana';
+    const creditsUsed = calculateImageCredits(selectedModel, resolution);
 
     console.log('[Internal Image Gen] Provider:', provider, 'Model:', selectedModel, 'UserId:', userId);
     console.log('[Internal Image Gen] Available providers:', aiServiceManager.getAvailableProviders());
@@ -63,6 +66,7 @@ export async function POST(req: NextRequest) {
         prompt: prompt,
         imageUrls: referenceImages,
         model: selectedModel,
+        aspect_ratio: resolvedAspectRatio,
         output_format: 'png'
       });
     } else {
@@ -71,6 +75,7 @@ export async function POST(req: NextRequest) {
       result = await aiServiceManager.generateImage(provider, {
         prompt: prompt,
         model: selectedModel,
+        aspect_ratio: resolvedAspectRatio,
         count: 1,
         output_format: 'png'
       });
@@ -98,7 +103,8 @@ export async function POST(req: NextRequest) {
           ? referenceImage
           : [referenceImage]
         : undefined,
-      credits_used: 2 // Fixed 2 credits per image generation
+      aspect_ratio: resolvedAspectRatio,
+      credits_used: creditsUsed
     });
 
     // 返回结果
