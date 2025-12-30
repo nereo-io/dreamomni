@@ -30,6 +30,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
     const [isDeleting, setIsDeleting] = useState(false);
     const [isDownloading, setIsDownloading] = useState(false);
     const [showLogs, setShowLogs] = useState(false);
+    const showAgentInternals = process.env.NEXT_PUBLIC_AGENT_INTERNALS === 'true';
 
     // Get status info
     const statusInfo = AgentJobStatusMap[job.status] || AgentJobStatusMap.pending;
@@ -267,7 +268,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
           </div>
 
           {/* Story summary */}
-          {(summaryText || theme || tone || acts.length > 0 || characterElements.length > 0 || sceneElement) && (
+          {showAgentInternals && (summaryText || theme || tone || acts.length > 0 || characterElements.length > 0 || sceneElement) && (
             <div className="mt-1 space-y-1 text-xs text-gray-500 dark:text-gray-400">
               {summaryText && (
                 <div
@@ -279,15 +280,15 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
                     overflow: 'hidden',
                   }}
                 >
-                  剧情: {summaryText}
+                  Story: {summaryText}
                 </div>
               )}
               <div className="flex flex-wrap gap-x-3 gap-y-1">
-                {theme && <span>主题: {theme}</span>}
-                {tone && <span>基调: {tone}</span>}
-                {acts.length > 0 && <span>章节数: {acts.length}</span>}
-                {characterElements.length > 0 && <span>角色: {characterElements.length}</span>}
-                {sceneElement && <span>场景: 1</span>}
+                {theme && <span>Theme: {theme}</span>}
+                {tone && <span>Tone: {tone}</span>}
+                {acts.length > 0 && <span>Acts: {acts.length}</span>}
+                {characterElements.length > 0 && <span>Characters: {characterElements.length}</span>}
+                {sceneElement && <span>Scene: 1</span>}
               </div>
             </div>
           )}
@@ -389,7 +390,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
           )}
 
           {/* Agent Logs – inline on job list for better visibility */}
-          {job.logs && job.logs.length > 0 && (
+          {showAgentInternals && job.logs && job.logs.length > 0 && (
             <div className="mt-2 bg-gray-950/40 rounded-lg border border-gray-800/60">
               <button
                 type="button"

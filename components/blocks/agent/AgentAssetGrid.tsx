@@ -105,6 +105,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
     const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
     const [sceneAssets, setSceneAssets] = useState<AgentAsset[]>([]);
     const [sceneAssetsStatus, setSceneAssetsStatus] = useState<'idle' | 'loading' | 'error'>('idle');
+    const showAgentInternals = process.env.NEXT_PUBLIC_AGENT_INTERNALS === 'true';
     const aspectRatioValue =
       aspectRatio === '9:16'
         ? '9 / 16'
@@ -279,7 +280,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       const ending = normalizedOutline.ending;
       const soundBed = normalizedOutline.sound_bed;
 
-      if (shots && shots.length > 0) {
+      if (showAgentInternals && shots && shots.length > 0) {
         const shotCount = shots.length;
         const totalDurationSeconds = shots.reduce((sum, shot) => sum + (shot.duration_seconds || 0), 0);
         const structuredShots: StoryShotDetail[] = shots.map((shot) => {
