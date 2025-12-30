@@ -24,6 +24,7 @@ export async function GET(req: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '20');
     const status = searchParams.get('status'); // 可选的状态筛选
+    const search = searchParams.get('search')?.trim();
 
     // 验证参数
     if (page < 1) {
@@ -38,7 +39,7 @@ export async function GET(req: NextRequest) {
     console.log(`📊 Fetching image history for user ${userInfo.uuid}, page ${page}, limit ${limit}`);
 
     // 查询数据库
-    const result = await getUserImageGenerations(userInfo.uuid, limit, offset);
+    const result = await getUserImageGenerations(userInfo.uuid, limit, offset, search);
     let historyItems = result.data;
     
     let total = result.total;

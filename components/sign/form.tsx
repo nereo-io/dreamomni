@@ -35,7 +35,7 @@ export default function SignForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const t = useTranslations();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || undefined;
+  const callbackUrl = searchParams?.get("callbackUrl") || undefined;
 
   const [mode, setMode] = useState<"signin" | "signup" | "forgot">("signin");
   const [showEmailAuth, setShowEmailAuth] = useState(false);

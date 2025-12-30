@@ -379,6 +379,10 @@
       "duration": "Dauer",
       "aspectRatio": "Seitenverhältnis"
     },
+    "searchPromptPlaceholder": "Prompts durchsuchen",
+    "searchMatches": "{count} Treffer",
+    "searchNoResults": "Keine Prompts passen zu deiner Suche",
+    "searchButton": "Suchen",
     "toast": {
       "videoNotAvailable": "Video ist noch nicht verfügbar.",
       "downloadNotAvailable": "Video nicht zum Download verfügbar.",
@@ -598,6 +602,10 @@
     "discoveryDescription": "Tippen Sie auf eine Karte, um das Beschreibungsfeld im Text-zu-Bild-Tool sofort zu füllen.",
     "historySubtitle": "Überprüfen Sie Ihre letzten Generierungen, verfolgen Sie Statusaktualisierungen und verwalten Sie Ausgaben.",
     "title": "Bildverlauf",
+    "searchPromptPlaceholder": "Prompts durchsuchen",
+    "searchMatches": "{count} Treffer",
+    "searchNoResults": "Keine Prompts passen zu deiner Suche",
+    "searchButton": "Suchen",
     "noImagesTitle": "Noch keine Bilder",
     "noImagesDescription": "Ihre generierten Bilder werden hier angezeigt, sobald Sie mit der Erstellung beginnen.",
     "completed": "Abgeschlossen",

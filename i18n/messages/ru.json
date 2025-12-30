@@ -378,6 +378,10 @@
       "duration": "Длительность",
       "aspectRatio": "Соотношение сторон"
     },
+    "searchPromptPlaceholder": "Поиск по промптам",
+    "searchMatches": "{count} совпадений",
+    "searchNoResults": "Нет промптов, соответствующих поиску",
+    "searchButton": "Найти",
     "toast": {
       "videoNotAvailable": "Видео пока недоступно.",
       "downloadNotAvailable": "Видео недоступно для скачивания.",
@@ -596,6 +600,10 @@
     "discoveryDescription": "Нажмите на любую карточку, чтобы мгновенно заполнить поле промпта в инструменте текст-в-изображение.",
     "historySubtitle": "Отслеживайте свои последние генерации, их статусы и управляйте результатами.",
     "title": "История изображений",
+    "searchPromptPlaceholder": "Поиск по промптам",
+    "searchMatches": "{count} совпадений",
+    "searchNoResults": "Нет промптов, соответствующих поиску",
+    "searchButton": "Найти",
     "noImagesTitle": "Изображений пока нет",
     "noImagesDescription": "Ваши сгенерированные изображения появятся здесь после создания.",
     "completed": "Завершено",

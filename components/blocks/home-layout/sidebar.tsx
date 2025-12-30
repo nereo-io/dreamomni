@@ -38,7 +38,7 @@ export function Sidebar() {
   const { isCollapsed, setIsCollapsed } = useSidebar();
   const [showPricingModal, setShowPricingModal] = useState(false);
   const [pricingData, setPricingData] = useState<Pricing | null>(null);
-  const pathname = usePathname();
+  const pathname = usePathname() || "";
   const locale = useLocale();
   const t = useTranslations("sidebar");
 

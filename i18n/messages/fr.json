@@ -379,6 +379,10 @@
       "duration": "Durée",
       "aspectRatio": "Rapport d'aspect"
     },
+    "searchPromptPlaceholder": "Rechercher des prompts",
+    "searchMatches": "{count} résultats",
+    "searchNoResults": "Aucun prompt ne correspond à votre recherche",
+    "searchButton": "Rechercher",
     "toast": {
       "videoNotAvailable": "La vidéo n'est pas encore disponible.",
       "downloadNotAvailable": "Vidéo non disponible pour le téléchargement.",
@@ -598,6 +602,10 @@
     "discoveryDescription": "Appuyez sur n'importe quelle carte pour remplir instantanément le champ de description dans l'outil texte vers image.",
     "historySubtitle": "Consultez vos générations récentes, suivez les mises à jour de statut et gérez les sorties.",
     "title": "Historique des images",
+    "searchPromptPlaceholder": "Rechercher des prompts",
+    "searchMatches": "{count} résultats",
+    "searchNoResults": "Aucun prompt ne correspond à votre recherche",
+    "searchButton": "Rechercher",
     "noImagesTitle": "Aucune image pour le moment",
     "noImagesDescription": "Vos images générées apparaîtront ici une fois que vous commencerez à créer.",
     "completed": "Terminé",

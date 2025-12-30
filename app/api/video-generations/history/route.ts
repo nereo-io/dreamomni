@@ -17,6 +17,7 @@ export async function GET(req: Request) {
     const page = parseInt(url.searchParams.get("page") || "1");
     const limit = parseInt(url.searchParams.get("limit") || "12");
     const status = url.searchParams.get("status");
+    const search = url.searchParams.get('search')?.trim();
 
     // 验证分页参数
     if (page < 1) {
@@ -32,7 +33,8 @@ export async function GET(req: Request) {
     const { data: videoGenerations, total } = await getUserVideoGenerations(
       session?.user?.uuid,
       limit,
-      offset
+      offset,
+      search
     );
 
     // 5. 计算分页信息

@@ -395,15 +395,23 @@ export async function updateVideoGenerationBySoraRequestId(
 export async function getUserVideoGenerations(
   userId: number,
   limit: number = 10,
-  offset: number = 0
+  offset: number = 0,
+  search?: string
 ): Promise<{ data: VideoGeneration[]; total: number }> {
-  const { data, error, count } = await supabase
+  let query = supabase
     .from("video_generations")
     .select("*", { count: "exact" })
     .eq("user_id", userId)
     .eq("is_delete", false)
-    .order("created_at", { ascending: false })
-    .range(offset, offset + limit - 1);
+    .order("created_at", { ascending: false });
+
+  if (search?.trim()) {
+    const escapedSearch = search.trim().replace(/,/g, '\\,');
+    const pattern = `%${escapedSearch}%`;
+    query = query.or(`prompt.ilike.${pattern},optimized_prompt.ilike.${pattern}`);
+  }
+
+  const { data, error, count } = await query.range(offset, offset + limit - 1);
 
   handleSupabaseError(error, `get user video generations for user ${userId}`);
 
@@ -608,4 +616,3 @@ export async function softDeleteVideoGeneration(
     return false;
   }
 }
-

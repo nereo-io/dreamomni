@@ -83,7 +83,9 @@ export async function getAgentJobs(
   pageSize = 20,
   includeShots = false
 ) {
-  return agentRequest(`/v1/jobs?user_id=${userId}&page=${page}&page_size=${pageSize}&include_shots=${includeShots}`);
+  return agentRequest(
+    `/v1/jobs?user_id=${userId}&page=${page}&page_size=${pageSize}&include_shots=${includeShots}`
+  );
 }
 
 /**

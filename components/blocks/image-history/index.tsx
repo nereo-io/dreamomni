@@ -1,68 +1,78 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useTranslations } from "next-intl";
+import { toast } from "sonner";
+import { formatDistanceToNow } from "date-fns";
+import {
+  Copy,
+  Download,
+  ExternalLink,
+  Image as ImageIcon,
+  Loader2,
+  Trash2,
+  X,
+  XCircle,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import {
-  Download,
-  Copy,
-  Heart,
-  MoreHorizontal,
-  Loader2,
-  Image,
-  ExternalLink,
-  Trash2,
-  XCircle
-} from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
-import { toast } from "sonner";
-import { formatDistanceToNow } from "date-fns";
-import { useTranslations } from "next-intl";
-import ImageHistorySkeleton from "./ImageHistorySkeleton";
-import ImageMetadata from "./ImageMetadata";
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { buildPaginationItems } from "@/utils/pagination";
 import { getImageModel } from "@/config/image-models";
+import ImageHistorySkeleton from "./ImageHistorySkeleton";
+import PromptSearchBar from '@/components/blocks/my-creations-page/PromptSearchBar';
 
 export interface ImageGenerationResult {
   id: string;
-  prompt: string; // 原始用户输入的prompt
-  optimized_prompt?: string; // 优化后的prompt
+  prompt: string;
+  optimized_prompt?: string;
   image_url?: string;
-  image_url_r2?: string; // R2存储的URL
-  image_urls?: string[]; // Agent 模式多张图片URLs
-  image_urls_r2?: string[]; // Agent 模式多张图片R2 URLs
-  input_image_urls?: string[]; // 输入图片URLs (用于image-to-image)
-  status: "pending" | "completed" | "failed" | "in_progress" | "in_queue" | "prompt_optimizing" | "saved_to_r2";
+  image_url_r2?: string;
+  image_urls?: string[];
+  image_urls_r2?: string[];
+  input_image_urls?: string[];
+  status:
+    | "pending"
+    | "completed"
+    | "failed"
+    | "in_progress"
+    | "in_queue"
+    | "prompt_optimizing"
+    | "saved_to_r2";
   model: string;
   quality: string;
   style?: string;
-  image_size?: string; // 图片尺寸比例 (1:1, 16:9, etc.)
-  resolution?: string; // 图片分辨率 (1K, 2K, 4K)
+  image_size?: string;
+  resolution?: string;
   created_at: string;
   updated_at: string;
   credits_used: number;
   error_message?: string;
-  // Agent 模式字段
   is_agent_mode?: boolean;
   agent_image_count?: number;
   expanded_prompts?: string[];
   metadata?: {
     agent_tasks?: Array<{
       taskId: string;
-      status: 'completed' | 'failed' | 'pending';
+      status: "completed" | "failed" | "pending";
       imageUrl?: string;
       r2Url?: string;
       completedAt?: string;
@@ -75,257 +85,287 @@ export interface ImageGenerationResult {
 interface ImageHistoryProps {
   refreshTrigger: number;
   userId?: string;
-  newImage?: ImageGenerationResult; // 新生成的图片，立即显示
-  filterMode?: "text-to-image" | "image-to-image" | "all"; // 过滤模式
-  className?: string; // 允许传递自定义样式
-  showEmptyState?: boolean; // 是否显示空状态
+  newImage?: ImageGenerationResult;
+  filterMode?: "text-to-image" | "image-to-image" | "all";
+  className?: string;
+  showEmptyState?: boolean;
 }
 
-export default function ImageHistory({ refreshTrigger, userId, newImage, filterMode = "all", className, showEmptyState = false }: ImageHistoryProps) {
-  const [images, setImages] = useState<ImageGenerationResult[]>([]);
-  const [loading, setLoading] = useState(true); // 只用于初次加载
-  const [favorites, setFavorites] = useState<Set<string>>(new Set());
-  // Removed pollingImages state - My Creations page only displays history
-  const [loadingImages, setLoadingImages] = useState<Set<string>>(new Set());
-  // Removed pollingIntervalsRef - My Creations page only displays history
-  const [initialLoadComplete, setInitialLoadComplete] = useState(false); // 标记初次加载是否完成
-  const [downloadingId, setDownloadingId] = useState<string | null>(null);
-  const t = useTranslations("imageHistory");
+const ITEMS_PER_PAGE = 50;
+const MAX_VISIBLE_PAGES = 10;
+const getCacheKey = (page: number, query: string) => `${page}|${query}`;
 
-  // 分页状态
+const getImageDisplayUrl = (image: ImageGenerationResult) =>
+  image.image_url_r2 ||
+  image.image_url ||
+  image.image_urls_r2?.[0] ||
+  image.image_urls?.[0] ||
+  "";
+
+const getOutputImages = (image: ImageGenerationResult) =>
+  image.image_urls_r2?.length
+    ? image.image_urls_r2
+    : image.image_urls?.length
+    ? image.image_urls
+    : image.image_url
+    ? [image.image_url]
+    : [];
+
+export default function ImageHistory({
+  refreshTrigger,
+  userId,
+  newImage,
+  filterMode = "all",
+  className,
+  showEmptyState = false,
+}: ImageHistoryProps) {
+  const t = useTranslations("imageHistory");
+  const [images, setImages] = useState<ImageGenerationResult[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isPageLoading, setIsPageLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-
-  // 定义未完成的状态，与图片生成页面保持一致
-  const INCOMPLETE_STATUSES = [
-    "pending",
-    "prompt_optimizing", 
-    "in_queue",
-    "in_progress"
-  ];
-
-  // Removed updateActiveTasksInBackground - My Creations page only displays history
-
-  // 图片开始加载
-  const handleImageStartLoading = useCallback((imageId: string) => {
-    setLoadingImages(prev => new Set(prev).add(imageId));
-  }, []);
-
-  // 图片加载完成
-  const handleImageLoaded = useCallback((imageId: string) => {
-    setLoadingImages(prev => {
-      const newSet = new Set(prev);
-      newSet.delete(imageId);
-      return newSet;
-    });
-  }, []);
-
-  // Removed hasIncompleteImages - My Creations page only displays history
-
-  // Removed updateLatestImageStatus - My Creations page only displays history
-
-  // 检查是否所有关键内容都已加载完成
-  const checkAllContentLoaded = useCallback(() => {
-    // 只在初次加载时检查loading状态
-    if (!initialLoadComplete) {
-      const hasProcessingImages = images.some(img => 
-        img.status === "pending" || 
-        img.status === "in_progress" || 
-        img.status === "in_queue"
-      );
-
-      // 如果没有处理中的图片，并且没有正在加载的图片，则结束loading
-      if (!hasProcessingImages && loadingImages.size === 0) {
-        setLoading(false);
+  const [, setTotalItems] = useState(0);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<ImageGenerationResult | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchVersion, setSearchVersion] = useState(0);
+  const normalizedQuery = searchQuery.trim();
+  const hasSearch = normalizedQuery.length > 0;
+  const pageCacheRef = useRef<
+    Map<
+      string,
+      {
+        images: ImageGenerationResult[];
+        page: number;
+        totalPages: number;
+        totalItems: number;
       }
-    }
-  }, [images, loadingImages, initialLoadComplete]);
+    >
+  >(new Map());
 
-  // 监听图片加载状态变化
-  useEffect(() => {
-    checkAllContentLoaded();
-  }, [checkAllContentLoaded]);
-
-  // 等待图片加载完成
-  const waitForImageLoad = (imageUrl: string): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      const img = document.createElement('img');
-      const timeout = setTimeout(() => {
-        reject(new Error('Image load timeout'));
-      }, 5000); // 5秒超时
-
-      img.onload = () => {
-        clearTimeout(timeout);
-        console.log('✅ First image loaded successfully');
-        resolve();
-      };
-
-      img.onerror = () => {
-        clearTimeout(timeout);
-        console.warn('⚠️ First image failed to load, but continuing...');
-        resolve(); // 即使加载失败也继续，不阻塞界面
-      };
-
-      img.src = imageUrl;
+  const buildHistoryUrl = useCallback((page: number, query: string) => {
+    const params = new URLSearchParams({
+      page: String(page),
+      limit: String(ITEMS_PER_PAGE),
     });
-  };
-
-  // Fetch image history
-  const fetchHistory = async (page: number = 1) => {
-    if (!userId) {
-      console.log("📝 No userId provided, skipping fetchHistory");
-      setImages([]);
-      setLoading(false);
-      setInitialLoadComplete(true);
-      return;
+    if (query) {
+      params.set('search', query);
     }
+    return `/api/image-generations/history?${params.toString()}`;
+  }, []);
 
-    console.log(`🔄 Fetching image history for userId: ${userId}, page: ${page}`);
-    // 只在初次加载时显示整页loading
-    if (!initialLoadComplete) {
-      setLoading(true);
-    }
+  const applyPageData = useCallback((data: {
+    images: ImageGenerationResult[];
+    page: number;
+    totalPages: number;
+    totalItems: number;
+  }) => {
+    setImages(data.images);
+    setCurrentPage(data.page);
+    setTotalPages(data.totalPages);
+    setTotalItems(data.totalItems);
+  }, []);
 
-    try {
-      const response = await fetch(`/api/image-generations/history?page=${page}&limit=20`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+  const prefetchPage = useCallback(
+    async (page: number, maxPage: number, query: string) => {
+      if (!userId || page < 1 || page > maxPage) {
+        return;
+      }
 
-      console.log("📡 History API response:", {
-        status: response.status,
-        statusText: response.statusText,
-        ok: response.ok
-      });
+      const cacheKey = getCacheKey(page, query);
+      if (pageCacheRef.current.has(cacheKey)) {
+        return;
+      }
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log("📦 History API data:", {
-          code: data.code,
-          dataType: typeof data.data,
-          hasData: !!data.data?.data,
-          hasPagination: !!data.data?.pagination,
-          message: data.message
+      try {
+        const response = await fetch(buildHistoryUrl(page, query), {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
         });
 
+        if (!response.ok) {
+          return;
+        }
+
+        const data = await response.json();
         if (data.code === 0 && data.data) {
-          // 处理新的嵌套数据结构：data.data.data 和 data.data.pagination
           const imageData = Array.isArray(data.data.data) ? data.data.data : [];
           const pagination = data.data.pagination || {};
 
-          // Apply filter based on mode
           let filteredData = imageData;
           if (filterMode !== "all") {
             filteredData = imageData.filter((img: ImageGenerationResult) => {
               if (filterMode === "text-to-image") {
                 return img.model === "google/nano-banana";
-              } else if (filterMode === "image-to-image") {
+              }
+              if (filterMode === "image-to-image") {
                 return img.model === "nano-banana-edit";
               }
               return true;
             });
           }
 
-          setImages(filteredData);
+          const pageValue = pagination.page || page;
+          const totalPagesValue = pagination.totalPages || maxPage || 1;
+          const totalValue = pagination.total || filteredData.length;
 
-          // 更新分页信息
-          setCurrentPage(pagination.page || page);
-          setTotalPages(pagination.totalPages || 1);
-          setTotalItems(pagination.total || 0);
-          
-          // 重置加载中的图片集合
-          setLoadingImages(new Set());
-          
-          // 标记所有完成的图片为需要加载
-          const completedImages = filteredData.filter((img: ImageGenerationResult) => 
-            (img.status === "completed" || img.status === "saved_to_r2") && img.image_url
-          );
-          
-          if (completedImages.length > 0) {
-            const imageIds = completedImages.map((img: ImageGenerationResult) => img.id);
-            setLoadingImages(new Set(imageIds));
-            console.log("🖼️ Found completed images to load:", imageIds.length);
-          }
-          
-          // 检查是否需要结束loading状态
-          const hasProcessingImages = filteredData.some((img: ImageGenerationResult) => 
-            img.status === "pending" || 
-            img.status === "in_progress" || 
-            img.status === "in_queue"
-          );
-          
-          // 标记初次加载完成
-          setInitialLoadComplete(true);
-          
-          // 如果没有处理中的图片，立即结束loading
-          if (!hasProcessingImages) {
-            setLoading(false);
-          }
-
-          // Removed background task updates - My Creations page only displays history
-        } else {
-          console.error("❌ Invalid response format:", data);
-          setImages([]);
-          setLoading(false);
-          setInitialLoadComplete(true);
+          pageCacheRef.current.set(getCacheKey(pageValue, query), {
+            images: filteredData,
+            page: pageValue,
+            totalPages: totalPagesValue,
+            totalItems: totalValue,
+          });
         }
-      } else {
-        console.error("❌ Failed to fetch image history:", response.status, response.statusText);
-        const errorText = await response.text();
-        console.error("❌ Error response body:", errorText);
+      } catch (error) {
+        console.warn("Prefetch image history failed:", error);
+      }
+    },
+    [buildHistoryUrl, filterMode, userId]
+  );
+
+  const fetchHistory = useCallback(
+    async (page: number = 1, showLoading = true, query: string) => {
+      if (!userId) {
         setImages([]);
         setLoading(false);
-        setInitialLoadComplete(true);
+        setCurrentPage(1);
+        setTotalPages(1);
+        setTotalItems(0);
+        pageCacheRef.current.clear();
+        return;
       }
-    } catch (error) {
-      console.error("❌ Error fetching image history:", error);
-      setImages([]);
-      setLoadingImages(new Set()); // 清空加载中的图片
-      setLoading(false); // 出错时立即停止loading
-      setInitialLoadComplete(true);
-    }
-  };
 
-  // Removed pollImageStatus - My Creations page only displays history
+      const cacheKey = getCacheKey(page, query);
+      const cached = pageCacheRef.current.get(cacheKey);
+      if (cached) {
+        applyPageData(cached);
+        setLoading(false);
+        setIsPageLoading(false);
+        prefetchPage(page - 1, cached.totalPages, query);
+        prefetchPage(page + 1, cached.totalPages, query);
+        return;
+      }
 
-  // Removed startPollingForProcessingImages - My Creations page only displays history
+      if (showLoading) {
+        setLoading(true);
+      } else {
+        setIsPageLoading(true);
+      }
 
-  // 开始轮询单个图片
-  // Removed startPollingImage - My Creations page only displays history
+      try {
+        const response = await fetch(buildHistoryUrl(page, query), {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-  // Removed stopPollingImage - My Creations page only displays history
+        if (response.ok) {
+          const data = await response.json();
+          if (data.code === 0 && data.data) {
+            const imageData = Array.isArray(data.data.data) ? data.data.data : [];
+            const pagination = data.data.pagination || {};
 
-  // Load favorites from localStorage
-  useEffect(() => {
-    const savedFavorites = localStorage.getItem("favoriteImages");
-    if (savedFavorites) {
-      setFavorites(new Set(JSON.parse(savedFavorites)));
-    }
+            let filteredData = imageData;
+            if (filterMode !== "all") {
+              filteredData = imageData.filter((img: ImageGenerationResult) => {
+                if (filterMode === "text-to-image") {
+                  return img.model === "google/nano-banana";
+                }
+                if (filterMode === "image-to-image") {
+                  return img.model === "nano-banana-edit";
+                }
+                return true;
+              });
+            }
+
+            const pageValue = pagination.page || page;
+            const totalPagesValue = pagination.totalPages || 1;
+            const totalValue = pagination.total || filteredData.length;
+
+            const cacheEntry = {
+              images: filteredData,
+              page: pageValue,
+              totalPages: totalPagesValue,
+              totalItems: totalValue,
+            };
+
+            pageCacheRef.current.set(getCacheKey(pageValue, query), cacheEntry);
+            applyPageData(cacheEntry);
+            prefetchPage(pageValue - 1, totalPagesValue, query);
+            prefetchPage(pageValue + 1, totalPagesValue, query);
+          } else {
+            setImages([]);
+          }
+        } else {
+          console.error("Failed to fetch image history:", response.statusText);
+          setImages([]);
+        }
+      } catch (error) {
+        console.error("Error fetching image history:", error);
+        setImages([]);
+      } finally {
+        setLoading(false);
+        setIsPageLoading(false);
+      }
+    },
+    [applyPageData, buildHistoryUrl, filterMode, prefetchPage, userId]
+  );
+
+  const handleSearch = useCallback((value: string) => {
+    setSearchQuery(value.trim());
+    setSearchVersion((prev) => prev + 1);
   }, []);
 
-  // Save favorites to localStorage
-  const saveFavorites = (newFavorites: Set<string>) => {
-    localStorage.setItem("favoriteImages", JSON.stringify(Array.from(newFavorites)));
-    setFavorites(newFavorites);
-  };
+  useEffect(() => {
+    pageCacheRef.current.clear();
+    setCurrentPage(1);
+    fetchHistory(1, true, normalizedQuery);
+  }, [fetchHistory, normalizedQuery, refreshTrigger, searchVersion, userId]);
 
-  // Toggle favorite
-  const toggleFavorite = (imageId: string) => {
-    const newFavorites = new Set(favorites);
-    if (newFavorites.has(imageId)) {
-      newFavorites.delete(imageId);
-      toast.success(t("removedFromFavorites"));
-    } else {
-      newFavorites.add(imageId);
-      toast.success(t("addedToFavorites"));
+  useEffect(() => {
+    if (!newImage || !newImage.id || hasSearch) {
+      return;
     }
-    saveFavorites(newFavorites);
+
+    setImages((prevImages) => {
+      const existingIndex = prevImages.findIndex((img) => img.id === newImage.id);
+      if (existingIndex !== -1) {
+        const updatedImages = [...prevImages];
+        updatedImages[existingIndex] = newImage;
+        return updatedImages;
+      }
+      const nextImages = [newImage, ...prevImages];
+      return nextImages.slice(0, ITEMS_PER_PAGE);
+    });
+
+    setTotalItems((prev) => prev + 1);
+
+    if (currentPage === 1) {
+      const cacheKey = getCacheKey(1, normalizedQuery);
+      const cached = pageCacheRef.current.get(cacheKey);
+      if (cached) {
+        const updatedImages = [newImage, ...cached.images].slice(0, ITEMS_PER_PAGE);
+        pageCacheRef.current.set(cacheKey, {
+          ...cached,
+          images: updatedImages,
+          totalItems: cached.totalItems + 1,
+        });
+      }
+    }
+  }, [currentPage, hasSearch, newImage, normalizedQuery]);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage === currentPage) return;
+    setCurrentPage(newPage);
+    fetchHistory(newPage, false, normalizedQuery);
   };
 
-  // 创建代理下载 URL - 绕过 CORS
   const createProxyDownloadUrl = (sourceUrl: string, filename: string) =>
     `/api/proxy-image?url=${encodeURIComponent(sourceUrl)}&filename=${encodeURIComponent(filename)}`;
 
@@ -346,32 +386,30 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
     }
   };
 
-  // Download image to local file system - 与视频下载保持一致
-  const downloadImage = async (imageId: string, imageUrl: string, prompt: string) => {
+  const downloadImage = async (
+    imageId: string,
+    imageUrl: string,
+    prompt: string
+  ) => {
     if (!imageUrl) {
       toast.error("Image not available for download");
       return;
     }
 
-    // 生成文件名
-    const safePrompt = prompt.substring(0, 20).replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
-    const urlParts = imageUrl.split('.');
-    const extension = urlParts[urlParts.length - 1]?.split('?')[0]?.toLowerCase() || 'png';
+    const safePrompt = prompt
+      .substring(0, 20)
+      .replace(/[^a-zA-Z0-9\s]/g, "")
+      .replace(/\s+/g, "_");
+    const urlParts = imageUrl.split(".");
+    const extension = urlParts[urlParts.length - 1]?.split("?")[0]?.toLowerCase() || "png";
     const filename = `${safePrompt}_${imageId}.${extension}`;
 
     const proxyUrl = createProxyDownloadUrl(imageUrl, filename);
 
-    // 立即设置下载状态，显示加载动画
     setDownloadingId(imageId);
-
-    // 确保加载动画至少显示1.5秒
-    const minimumSpinnerDelay = new Promise((resolve) =>
-      setTimeout(resolve, 1500)
-    );
+    const minimumSpinnerDelay = new Promise((resolve) => setTimeout(resolve, 1500));
 
     try {
-      console.log("🔽 Starting image download via proxy:", imageUrl);
-
       const response = await fetch(proxyUrl);
       if (!response.ok) throw new Error("Download failed");
 
@@ -384,72 +422,37 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
       triggerDownload(objectUrl, filename);
       window.URL.revokeObjectURL(objectUrl);
 
-      console.log("✅ Image download successful");
       toast.success(t("imageDownloaded"));
     } catch (error) {
-      console.error("💥 Proxy download failed, trying fallback:", error);
-
-      // 失败后尝试直接下载（可能被 CORS 阻止）
+      console.error("Proxy download failed, trying fallback:", error);
       try {
         triggerDownload(proxyUrl, filename);
       } catch (fallbackError) {
-        console.error("💥 Fallback download failed:", fallbackError);
+        console.error("Fallback download failed:", fallbackError);
         triggerDownload(imageUrl, filename);
       }
     } finally {
-      // 确保加载动画显示足够时间
       await minimumSpinnerDelay;
-      setDownloadingId((current) =>
-        current === imageId ? null : current
-      );
+      setDownloadingId((current) => (current === imageId ? null : current));
     }
   };
 
-  // Copy prompt
-  const copyPrompt = (prompt: string) => {
-    navigator.clipboard.writeText(prompt);
-    toast.success(t("promptCopied"));
-  };
-
-  // Open image in new tab
   const openImage = (imageUrl: string) => {
-    window.open(imageUrl, '_blank', 'noopener,noreferrer');
+    window.open(imageUrl, "_blank", "noopener,noreferrer");
   };
 
-  // Format model display name
-  const formatModelDisplayName = (modelName: string): string => {
-    switch (modelName) {
-      case 'google/nano-banana':
-        return t("textToImageModel");
-      case 'nano-banana-edit':
-        return t("imageToImageModel");
-      default:
-        return modelName;
-    }
-  };
-
-  // Delete image
   const deleteImage = async (imageId: string, prompt: string) => {
     if (!confirm(`Are you sure you want to delete this image?\n\nPrompt: ${prompt.slice(0, 100)}...`)) {
       return;
     }
 
     try {
-      console.log(`🗑️ Attempting to delete image: ${imageId}`);
-      
       const response = await fetch("/api/image-generations/delete", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ imageId }),
-      });
-
-      console.log("Delete API raw response:", {
-        status: response.status,
-        statusText: response.statusText,
-        ok: response.ok,
-        headers: Object.fromEntries(response.headers.entries())
       });
 
       let result;
@@ -459,60 +462,45 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
         console.error("Failed to parse response JSON:", parseError);
         throw new Error("Invalid response format from server");
       }
-      
-      console.log("Delete API parsed result:", result);
-
-      // 检查响应格式
-      if (typeof result !== 'object' || result === null) {
-        console.error("Invalid result format - not an object:", result);
-        throw new Error("Invalid response format");
-      }
 
       if (response.ok && result.code === 0) {
-        console.log("✅ Delete successful, updating UI");
-        // 从列表中移除已删除的图片
-        setImages(prevImages => prevImages.filter(img => img.id !== imageId));
-        toast.success(t("imageDeleted"));
-        
-        // 强制刷新历史记录以确保数据一致性
-        setTimeout(() => {
-          console.log("🔄 Refreshing history after delete to ensure consistency");
-          fetchHistory();
-        }, 500);
-      } else {
-        console.error("Delete failed - Conditions not met:", {
-          responseOk: response.ok,
-          resultCode: result.code,
-          resultMessage: result.message
+        setImages((prevImages) => prevImages.filter((img) => img.id !== imageId));
+        setTotalItems((prev) => Math.max(0, prev - 1));
+        pageCacheRef.current.forEach((entry, key) => {
+          const nextImages = entry.images.filter((img) => img.id !== imageId);
+          if (nextImages.length !== entry.images.length) {
+            pageCacheRef.current.set(key, {
+              ...entry,
+              images: nextImages,
+              totalItems: Math.max(0, entry.totalItems - 1),
+            });
+          }
         });
+        toast.success(t("imageDeleted"));
+        setIsDetailOpen(false);
+      } else {
         throw new Error(result.message || `Delete failed: HTTP ${response.status}`);
       }
     } catch (error) {
       console.error("Delete error:", error);
-      const errorMessage = error instanceof Error ? error.message : "Failed to delete image";
       toast.error(t("deleteFailed"));
     }
   };
 
-  // Get status badge
-  const getStatusBadge = (status: string, imageId?: string) => {
+  const getStatusBadge = (status: string) => {
     const normalizedStatus = status.toLowerCase();
-    const isPolling = false; // Polling removed - My Creations page only displays history
-    
+
     switch (normalizedStatus) {
       case "completed":
       case "saved_to_r2":
         return (
-          <Badge
-            variant="default"
-            className="bg-green-600 hover:bg-green-700 text-white border-transparent"
-          >
+          <Badge className="bg-emerald-500/20 text-emerald-200 border border-emerald-400/40">
             {t("completed")}
           </Badge>
         );
       case "prompt_optimizing":
         return (
-          <Badge variant="secondary" className="bg-purple-500 hover:bg-purple-600 text-white border-transparent">
+          <Badge className="bg-purple-500/20 text-purple-200 border border-purple-400/40">
             <Loader2 className="mr-2 h-3 w-3 animate-spin" />
             {t("optimizingPrompt")}
           </Badge>
@@ -521,9 +509,9 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
       case "in_queue":
       case "pending":
         return (
-          <Badge variant="secondary">
+          <Badge variant="secondary" className="bg-blue-500/20 text-blue-200">
             <Loader2 className="mr-2 h-3 w-3 animate-spin" />
-            {isPolling ? t("processing") : t("processing")}
+            {t("processing")}
           </Badge>
         );
       case "failed":
@@ -533,437 +521,532 @@ export default function ImageHistory({ refreshTrigger, userId, newImage, filterM
     }
   };
 
-  // 清理轮询
-  useEffect(() => {
-    // Cleanup removed - no polling in My Creations page
-  }, []);
-
-  // 处理页码变化
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-    fetchHistory(newPage);
-  };
-
-  // Removed polling mechanism - My Creations page is for viewing history only
-
-  useEffect(() => {
-    fetchHistory(1); // 始终从第1页开始
-  }, [userId, refreshTrigger]);
-
-  // Handle new image - add to top of the list immediately
-  useEffect(() => {
-    if (newImage && newImage.id) {
-      setImages(prevImages => {
-        // Check if image already exists to avoid duplicates
-        const existingImageIndex = prevImages.findIndex(img => img.id === newImage.id);
-        if (existingImageIndex !== -1) {
-          // Update existing image
-          const updatedImages = [...prevImages];
-          updatedImages[existingImageIndex] = newImage;
-          return updatedImages;
-        } else {
-          // Add new image to the top
-          const newImages = [newImage, ...prevImages];
-          
-          // Removed polling - My Creations page only displays history
-          
-          return newImages;
-        }
-      });
-    }
-  }, [newImage]); // Removed startPollingImage dependency
+  const paginationItems = buildPaginationItems(
+    currentPage,
+    totalPages,
+    MAX_VISIBLE_PAGES
+  );
+  const matchesLabel = hasSearch ? t('searchMatches', { count: images.length }) : '';
 
   return (
-    <div className={className || "bg-gray-900 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]"}>
-      {/* Scrollable content area */}
-      <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
-        {loading && !initialLoadComplete ? (
+    <div
+      className={
+        className ||
+        "bg-gray-900 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]"
+      }
+    >
+      <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar relative">
+        {loading ? (
           <ImageHistorySkeleton />
-        ) : images.length === 0 ? (
-        <div className="flex-1 flex items-center justify-center p-6">
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto mb-4 text-gray-400">
-              <svg
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                className="w-full h-full"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1}
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-            </div>
-            <h3 className="text-lg font-medium text-white mb-2">
-              {!userId ? t("pleaseSignIn") : t("noImagesTitle")}
-            </h3>
-            <p className="text-gray-400">
-              {!userId 
-                ? t("signInToView")
-                : t("noImagesDescription")
-              }
-            </p>
-          </div>
-        </div>
-      ) : (
-        <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
-          {/* Grid Layout consistent with VideoTab */}
-          <div className="p-4 md:p-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {images.map((image) => {
-                console.log('Rendering image:', {
-                  id: image.id,
-                  status: image.status,
-                  prompt: image.prompt?.slice(0, 50) + '...',
-                  hasImage: !!image.image_url
-                });
-                
-                return (
-                  <CardImageItem
-                    key={image.id}
-                    image={image}
-                    // pollingImages prop removed
-                    favorites={favorites}
-                    onDelete={deleteImage}
-                    onToggleFavorite={toggleFavorite}
-                    onDownload={downloadImage}
-                    onOpen={openImage}
-                    onCopyPrompt={copyPrompt}
-                    getStatusBadge={getStatusBadge}
-                    formatModelDisplayName={formatModelDisplayName}
-                    onImageStartLoading={handleImageStartLoading}
-                    onImageLoaded={handleImageLoaded}
-                    downloadingId={downloadingId}
-                    t={t}
-                  />
-                );
-              })}
-            </div>
-
-            {/* 分页组件 */}
-            {totalPages > 1 && (
-              <Pagination className="mt-8">
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (currentPage > 1) handlePageChange(currentPage - 1);
-                      }}
-                      className={
-                        currentPage === 1
-                          ? "pointer-events-none opacity-50"
-                          : undefined
-                      }
+        ) : images.length === 0 && !hasSearch ? (
+          showEmptyState ? (
+            <div className="flex-1 flex items-center justify-center p-6">
+              <div className="text-center">
+                <div className="w-16 h-16 mx-auto mb-4 text-gray-400">
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    className="w-full h-full"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1}
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                     />
-                  </PaginationItem>
-                  {(() => {
-                    const pageNumbers = [];
-                    const maxVisiblePages = 5;
-
-                    if (totalPages <= maxVisiblePages) {
-                      // 如果总页数少于或等于最大可见页数，显示所有页码
-                      for (let i = 1; i <= totalPages; i++) {
-                        pageNumbers.push(i);
-                      }
-                    } else {
-                      // 如果总页数大于最大可见页数，智能显示页码
-                      const startPage = Math.max(1, currentPage - 2);
-                      const endPage = Math.min(totalPages, currentPage + 2);
-
-                      for (let i = startPage; i <= endPage; i++) {
-                        pageNumbers.push(i);
-                      }
-                    }
-
-                    return pageNumbers.map((pageNum) => (
-                      <PaginationItem key={pageNum}>
-                        <PaginationLink
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handlePageChange(pageNum);
-                          }}
-                          isActive={currentPage === pageNum}
-                        >
-                          {pageNum}
-                        </PaginationLink>
-                      </PaginationItem>
-                    ));
-                  })()}
-                  <PaginationItem>
-                    <PaginationNext
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (currentPage < totalPages)
-                          handlePageChange(currentPage + 1);
-                      }}
-                      className={
-                        currentPage === totalPages
-                          ? "pointer-events-none opacity-50"
-                          : undefined
-                      }
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
+                  </svg>
+                </div>
+                <h3 className="text-lg font-medium text-white mb-2">
+                  {!userId ? t("pleaseSignIn") : t("noImagesTitle")}
+                </h3>
+                <p className="text-gray-400">
+                  {!userId ? t("signInToView") : t("noImagesDescription")}
+                </p>
+              </div>
+            </div>
+          ) : null
+        ) : (
+          <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
+            {isPageLoading && (
+              <div className="absolute inset-0 bg-gray-900/60 flex items-center justify-center z-10">
+                <ImageHistorySkeleton />
+              </div>
             )}
+            <div className="p-4 md:p-6">
+              <PromptSearchBar
+                value={searchInput}
+                onChange={setSearchInput}
+                onSearch={handleSearch}
+                placeholder={t('searchPromptPlaceholder')}
+                buttonLabel={t('searchButton')}
+                matchesLabel={matchesLabel}
+              />
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6 mt-8 md:mt-10">
+                {images.length === 0 ? (
+                  hasSearch ? (
+                    <div className="col-span-full rounded-2xl border border-dashed border-gray-800 bg-gray-900/40 p-8 text-center text-sm text-gray-400">
+                      {t('searchNoResults')}
+                    </div>
+                  ) : null
+                ) : (
+                  images.map((image) => (
+                    <ImageMediaCard
+                      key={image.id}
+                      image={image}
+                      downloadingId={downloadingId}
+                      t={t}
+                      onOpen={(item) => {
+                        setSelectedImage(item);
+                        setIsDetailOpen(true);
+                      }}
+                      onDownload={downloadImage}
+                      onDelete={deleteImage}
+                    />
+                  ))
+                )}
+              </div>
+
+              {totalPages > 1 && (
+                <Pagination className="mt-8">
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (currentPage > 1) handlePageChange(currentPage - 1);
+                        }}
+                        className={
+                          currentPage === 1
+                            ? "pointer-events-none opacity-50"
+                            : undefined
+                        }
+                      />
+                    </PaginationItem>
+                    {paginationItems.map((item, index) =>
+                      item === "ellipsis" ? (
+                        <PaginationItem key={`ellipsis-${index}`}>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                      ) : (
+                        <PaginationItem key={item}>
+                          <PaginationLink
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handlePageChange(item);
+                            }}
+                            isActive={currentPage === item}
+                          >
+                            {item}
+                          </PaginationLink>
+                        </PaginationItem>
+                      )
+                    )}
+                    <PaginationItem>
+                      <PaginationNext
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (currentPage < totalPages)
+                            handlePageChange(currentPage + 1);
+                        }}
+                        className={
+                          currentPage === totalPages
+                            ? "pointer-events-none opacity-50"
+                            : undefined
+                        }
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+
+      <ImageDetailModal
+        open={isDetailOpen}
+        onOpenChange={(open) => {
+          setIsDetailOpen(open);
+          if (!open) {
+            setSelectedImage(null);
+          }
+        }}
+        image={selectedImage}
+        downloadingId={downloadingId}
+        onDownload={downloadImage}
+        onDelete={deleteImage}
+        onOpenInNewTab={openImage}
+        getStatusBadge={getStatusBadge}
+        t={t}
+      />
+    </div>
+  );
+}
+
+interface ImageMediaCardProps {
+  image: ImageGenerationResult;
+  downloadingId: string | null;
+  t: (key: string) => string;
+  onOpen: (image: ImageGenerationResult) => void;
+  onDownload: (id: string, url: string, prompt: string) => void;
+  onDelete: (id: string, prompt: string) => void;
+}
+
+function ImageMediaCard({
+  image,
+  downloadingId,
+  t,
+  onOpen,
+  onDownload,
+  onDelete,
+}: ImageMediaCardProps) {
+  const isMobile = useIsMobile();
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const displayUrl = getImageDisplayUrl(image);
+  const status = image.status.toLowerCase();
+  const isReady = status === "completed" || status === "saved_to_r2";
+
+  return (
+    <div
+      className="group relative overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/60 shadow-sm transition-transform duration-200 hover:-translate-y-1"
+      onClick={() => onOpen(image)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(event) => {
+        if (event.key === "Enter") {
+          onOpen(image);
+        }
+      }}
+    >
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-800">
+        {displayUrl && isReady ? (
+          <>
+            <img
+              src={displayUrl}
+              alt={image.prompt}
+              className={`h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 ${
+                imageLoaded ? "opacity-100" : "opacity-0"
+              }`}
+              loading="lazy"
+              onLoad={() => setImageLoaded(true)}
+            />
+            {!imageLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-700/60">
+                <Loader2 className="h-6 w-6 animate-spin text-gray-300" />
+              </div>
+            )}
+          </>
+        ) : status === "failed" ? (
+          <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-red-300">
+            <XCircle className="h-8 w-8" />
+            <span className="text-xs">Generation failed</span>
+          </div>
+        ) : (
+          <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-gray-300">
+            <Loader2 className="h-6 w-6 animate-spin" />
+            <span className="text-xs">
+              {status === "prompt_optimizing"
+                ? t("optimizingPrompt")
+                : status === "in_progress"
+                ? t("generatingImage")
+                : t("inQueue")}
+            </span>
+          </div>
+        )}
+
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+        <div className="absolute right-3 top-3 flex items-center gap-2">
+          <Button
+            variant="secondary"
+            size="icon"
+            onClick={(event) => {
+              event.stopPropagation();
+                onDownload(image.id, displayUrl, image.prompt);
+              }}
+              disabled={!displayUrl || downloadingId === image.id}
+              className={`h-9 w-9 bg-black/60 text-white hover:bg-black/80 ${
+                isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              } transition-opacity`}
+            >
+              {downloadingId === image.id ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Download className="h-4 w-4" />
+              )}
+            </Button>
+            <Button
+              variant="secondary"
+              size="icon"
+              onClick={(event) => {
+                event.stopPropagation();
+                onDelete(image.id, image.prompt);
+              }}
+              className={`h-9 w-9 bg-black/60 text-white hover:bg-red-500/80 ${
+                isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              } transition-opacity`}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
       </div>
     </div>
   );
 }
 
-// Card Image Item Component (consistent with VideoTab style)
-interface CardImageItemProps {
-  image: ImageGenerationResult;
-  // pollingImages removed - no polling in My Creations
-  favorites: Set<string>;
-  onDelete: (id: string, prompt: string) => void;
-  onToggleFavorite: (id: string) => void;
-  onDownload: (imageId: string, imageUrl: string, prompt: string) => void;
-  onOpen: (imageUrl: string) => void;
-  onCopyPrompt: (prompt: string) => void;
-  getStatusBadge: (status: string, imageId?: string) => JSX.Element;
-  formatModelDisplayName: (modelName: string) => string;
-  onImageStartLoading?: (imageId: string) => void;
-  onImageLoaded?: (imageId: string) => void;
+interface ImageDetailModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  image: ImageGenerationResult | null;
   downloadingId: string | null;
-  t: (key: string, params?: any) => string;
+  onDownload: (id: string, url: string, prompt: string) => void;
+  onDelete: (id: string, prompt: string) => void;
+  onOpenInNewTab: (url: string) => void;
+  getStatusBadge: (status: string) => JSX.Element;
+  t: (key: string) => string;
 }
 
-const CardImageItem = ({
+function ImageDetailModal({
+  open,
+  onOpenChange,
   image,
-  // pollingImages removed
-  favorites,
-  onDelete,
-  onToggleFavorite,
-  onDownload,
-  onOpen,
-  onCopyPrompt,
-  getStatusBadge,
-  formatModelDisplayName,
-  onImageStartLoading,
-  onImageLoaded,
   downloadingId,
-  t
-}: CardImageItemProps) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [naturalDimensions, setNaturalDimensions] = useState<{ width: number; height: number } | null>(null);
+  onDownload,
+  onDelete,
+  onOpenInNewTab,
+  getStatusBadge,
+  t,
+}: ImageDetailModalProps) {
+  const isMobile = useIsMobile();
+  const [isPromptExpanded, setIsPromptExpanded] = useState(false);
 
-  // Calculate aspect ratio for responsive sizing
-  const getImageHeight = () => {
-    if (!naturalDimensions) return 'auto';
-    const aspectRatio = naturalDimensions.height / naturalDimensions.width;
-    return aspectRatio;
-  };
-
-  const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
-    const img = event.target as HTMLImageElement;
-    setNaturalDimensions({
-      width: img.naturalWidth,
-      height: img.naturalHeight
-    });
-    setImageLoaded(true);
-    
-    // 通知父组件图片加载完成
-    onImageLoaded?.(image.id);
-  };
-
-  // 在组件挂载时，如果有图片URL，通知开始加载
   useEffect(() => {
-    if ((image.status === "completed" || image.status === "saved_to_r2") && image.image_url && !imageLoaded) {
-      onImageStartLoading?.(image.id);
-    }
-  }, [image.id, image.status, image.image_url, imageLoaded, onImageStartLoading]);
+    setIsPromptExpanded(false);
+  }, [image?.id]);
 
-  return (
-    <Card className="bg-gray-700/50 border-gray-700 text-gray-200 flex flex-col hover:bg-gray-700/70 transition-all duration-200">
-      <CardHeader className="space-y-3">
-        <div className={`w-full h-64 rounded-md flex items-center justify-start overflow-hidden relative ${
-          (image.status === "completed" || image.status === "saved_to_r2") && imageLoaded
-            ? ''
-            : 'bg-gray-700'
-        }`}>
-          {/* Agent Mode: Grid of multiple images */}
-          {(image.status === "completed" || image.status === "saved_to_r2") && image.is_agent_mode && (image.image_urls_r2?.length || image.image_urls?.length) ? (
-            (() => {
-              const allImageUrls = image.image_urls_r2?.length ? image.image_urls_r2 : (image.image_urls || []);
-              const displayImages = allImageUrls.slice(0, 4); // 最多显示4张预览
-              const remainingCount = allImageUrls.length - 4;
+  if (!image) {
+    return null;
+  }
 
-              return (
-                <div className="w-full h-full grid grid-cols-2 gap-1 p-1">
-                  {displayImages.map((url, index) => (
+  const displayUrl = getImageDisplayUrl(image);
+  const outputImages = getOutputImages(image);
+  const inputImages = image.input_image_urls || [];
+
+  const detailBody = (
+    <div className="grid h-full grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <div className="relative flex items-center justify-center bg-black/80">
+        {displayUrl ? (
+          <img
+            src={displayUrl}
+            alt={image.prompt}
+            className="h-full w-full object-contain"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-gray-400">
+            <ImageIcon className="h-16 w-16" />
+          </div>
+        )}
+      </div>
+      <div className="flex h-full flex-col border-t border-gray-800 md:border-t-0 md:border-l">
+        <ScrollArea className="flex-1">
+          <div className="space-y-5 p-5 md:p-6">
+            <div className="flex items-center justify-between">
+              <div className="text-sm font-semibold text-gray-100">Image details</div>
+              {image.is_agent_mode && (
+                <Badge className="bg-orange-500/20 text-orange-200 border border-orange-400/40">
+                  Agent ({image.agent_image_count || outputImages.length})
+                </Badge>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <div className="text-xs uppercase tracking-widest text-gray-400">
+                Prompt
+              </div>
+              <p
+                className={`text-sm text-gray-100 ${
+                  isPromptExpanded ? "" : "line-clamp-3"
+                }`}
+              >
+                {image.prompt}
+              </p>
+              {image.prompt && image.prompt.length > 120 && (
+                <button
+                  type="button"
+                  onClick={() => setIsPromptExpanded((prev) => !prev)}
+                  className="text-xs font-medium text-blue-300 hover:text-blue-200"
+                >
+                  {isPromptExpanded ? "Collapse" : "Expand"}
+                </button>
+              )}
+            </div>
+
+            <div className="space-y-3">
+              <DetailRow label="Status" value={getStatusBadge(image.status)} />
+              <DetailRow
+                label="Model"
+                value={getImageModel(image.model)?.displayName || image.model}
+              />
+              <DetailRow label="Aspect ratio" value={image.image_size || "-"} />
+              <DetailRow label="Resolution" value={image.resolution || "-"} />
+              <DetailRow label={t("credits")} value={image.credits_used} />
+              <DetailRow
+                label="Created"
+                value={formatDistanceToNow(new Date(image.created_at), {
+                  addSuffix: true,
+                })}
+              />
+            </div>
+
+            {inputImages.length > 0 && (
+              <div className="space-y-2">
+                <div className="text-xs uppercase tracking-widest text-gray-400">
+                  Input images
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {inputImages.slice(0, 4).map((imageUrl, index) => (
                     <div
-                      key={index}
-                      className="relative cursor-pointer overflow-hidden rounded group/img"
-                      onClick={() => onOpen(url)}
+                      key={`${imageUrl}-${index}`}
+                      className="relative aspect-video w-full overflow-hidden rounded-md border border-gray-800 bg-black/50"
                     >
                       <img
-                        src={url}
-                        alt={`${image.prompt} - ${index + 1}`}
-                        className="w-full h-full object-cover transition-transform duration-200 group-hover/img:scale-105"
-                        loading="lazy"
-                        onLoad={index === 0 ? handleImageLoad : undefined}
+                        src={imageUrl}
+                        alt={`Input ${index + 1}`}
+                        className="h-full w-full object-contain"
                       />
-                      {/* 显示剩余数量 */}
-                      {index === 3 && remainingCount > 0 && (
-                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                          <span className="text-white text-lg font-bold">+{remainingCount}</span>
-                        </div>
-                      )}
                     </div>
                   ))}
                 </div>
-              );
-            })()
-          ) : (image.status === "completed" || image.status === "saved_to_r2") && image.image_url ? (
-            /* Single Image (Normal Mode) */
-            <div className="relative w-full h-full group flex items-center justify-start">
-              <img
-                src={image.image_url}
-                alt={image.prompt}
-                className={`max-w-full max-h-full object-contain cursor-pointer transition-opacity duration-300 ${
-                  imageLoaded ? 'opacity-100' : 'opacity-0'
-                }`}
-                onClick={() => onOpen(image.image_url!)}
-                onLoad={handleImageLoad}
-                loading="lazy"
-              />
-
-              {/* Loading placeholder */}
-              {!imageLoaded && (
-                <div className="absolute inset-0 bg-gray-600 animate-pulse flex items-center justify-center">
-                  <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
-                </div>
-              )}
-
-
-            </div>
-          ) : (image.status === "pending" || image.status === "in_progress" || image.status === "in_queue") ? (
-            /* Processing State */
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="text-center">
-                <Loader2 className="h-8 w-8 animate-spin text-gray-300 mx-auto mb-2" />
-                <p className="text-sm text-gray-300">
-                  {image.status === "in_progress" ? t("generatingImage") : t("inQueue")}
-                </p>
-                {false && ( // Polling indicator removed - no polling in My Creations
-                  <div className="flex items-center justify-center mt-2">
-                    <div className="flex space-x-1">
-                      <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse"></div>
-                      <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
-                      <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
-                    </div>
-                    <span className="text-xs text-blue-400 ml-2">Auto-refreshing</span>
-                  </div>
-                )}
               </div>
-            </div>
-          ) : image.status === "failed" ? (
-            /* Failed State */
-            <div className="w-full h-full bg-red-900/20 border border-red-700/50 flex items-center justify-center">
-              <div className="text-center p-4">
-                <XCircle className="h-8 w-8 text-red-400 mx-auto mb-2" />
-                <p className="text-sm text-red-400 mb-1">Generation failed</p>
-                {image.error_message && (
-                  <p className="text-xs text-red-300 line-clamp-2">{image.error_message}</p>
-                )}
-              </div>
-            </div>
-          ) : (
-            /* Default placeholder */
-            <Image className="h-16 w-16 text-gray-500" />
-          )}
-        </div>
-        <div className="flex items-start gap-2">
-          <CardTitle className="text-lg truncate flex-1" title={image.prompt}>
-            {image.prompt}
-          </CardTitle>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => onCopyPrompt(image.prompt)}
-            title={t("copyPrompt")}
-            className="flex-shrink-0 h-8 w-8 p-0 text-gray-400 hover:text-gray-200"
-          >
-            <Copy className="h-4 w-4" />
-          </Button>
-        </div>
-
-        {/* Metadata tags - aspect ratio, resolution, model name, and Agent badge */}
-        <ImageMetadata
-          aspectRatio={image.image_size}
-          resolution={image.resolution}
-          modelName={getImageModel(image.model)?.displayName || image.model}
-          isAgentMode={image.is_agent_mode}
-          agentImageCount={image.agent_image_count}
-        />
-      </CardHeader>
-      <CardContent className="flex-grow">
-        <div className="flex justify-between items-center">
-          {getStatusBadge(image.status, image.id)}
-          <p className="text-xs text-gray-400">
-            {formatDistanceToNow(new Date(image.created_at), {
-              addSuffix: true,
-            })}
-          </p>
-        </div>
-      </CardContent>
-      <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 pt-4 border-t border-gray-700">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => onOpen(image.image_url!)}
-          disabled={
-            image.status !== "completed" &&
-            image.status !== "saved_to_r2" &&
-            !image.image_url
-          }
-          className="w-full sm:w-auto border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <ExternalLink className="mr-2 h-4 w-4" /> Open
-        </Button>
-        <div className="flex gap-2 w-full sm:w-auto">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => onDownload(image.id, image.image_url!, image.prompt)}
-            disabled={
-              downloadingId === image.id ||
-              (image.status !== "completed" &&
-              image.status !== "saved_to_r2" &&
-              !image.image_url)
-            }
-            title={t("downloadImage")}
-            className="text-gray-400 hover:text-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {downloadingId === image.id ? (
-              <Loader2 className="h-5 w-5 animate-spin" />
-            ) : (
-              <Download className="h-5 w-5" />
             )}
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => onDelete(image.id, image.prompt)}
-            title={t("deleteImage")}
-            className="text-gray-400 hover:text-red-400"
-          >
-            <Trash2 className="h-5 w-5 text-gray-400 hover:text-gray-200" />
-          </Button>
-        </div>
-      </CardFooter>
-    </Card>
-  );
-};
 
+            {outputImages.length > 1 && (
+              <div className="space-y-2">
+                <div className="text-xs uppercase tracking-widest text-gray-400">
+                  Outputs
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {outputImages.slice(0, 4).map((imageUrl, index) => (
+                    <button
+                      key={`${imageUrl}-${index}`}
+                      type="button"
+                      onClick={() => onOpenInNewTab(imageUrl)}
+                      className="relative aspect-video w-full overflow-hidden rounded-md border border-gray-800 bg-black/50"
+                    >
+                      <img
+                        src={imageUrl}
+                        alt={`Output ${index + 1}`}
+                        className="h-full w-full object-contain"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {image.error_message && (
+              <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-xs text-red-200">
+                {image.error_message}
+              </div>
+            )}
+          </div>
+        </ScrollArea>
+
+        <div className="p-5 md:p-6 border-t border-gray-800 bg-gray-900/30">
+          <div className="grid grid-cols-2 gap-3">
+            <Button
+              variant="secondary"
+              onClick={() => displayUrl && onOpenInNewTab(displayUrl)}
+              disabled={!displayUrl}
+              className="w-full bg-gray-800/80 text-gray-100 hover:bg-gray-700"
+            >
+              <ExternalLink className="mr-2 h-4 w-4" />
+              Open
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => displayUrl && onDownload(image.id, displayUrl, image.prompt)}
+              disabled={!displayUrl || downloadingId === image.id}
+              className="w-full bg-gray-800/80 text-gray-100 hover:bg-gray-700"
+            >
+              {downloadingId === image.id ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Download className="mr-2 h-4 w-4" />
+              )}
+              Download
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => onDelete(image.id, image.prompt)}
+              className="w-full bg-red-500/20 text-red-100 hover:bg-red-500/40"
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              Delete
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                navigator.clipboard.writeText(image.prompt);
+                toast.success(t("promptCopied"));
+              }}
+              className="w-full border border-gray-800 bg-gray-900 text-gray-300 hover:bg-gray-800 hover:text-white"
+            >
+              <Copy className="mr-2 h-4 w-4" />
+              Copy prompt
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <Drawer open={open} onOpenChange={onOpenChange}>
+        <DrawerContent className="flex h-[95vh] flex-col bg-gray-950 text-gray-100 border-gray-800">
+          <div className="flex items-center justify-between px-4 pt-2">
+            <DrawerTitle className="text-sm font-semibold">Image details</DrawerTitle>
+            <DrawerClose asChild>
+              <button
+                type="button"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-gray-200 hover:bg-gray-700"
+                aria-label="Close"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </DrawerClose>
+          </div>
+          <div className="mt-3 flex-1 overflow-hidden">{detailBody}</div>
+        </DrawerContent>
+      </Drawer>
+    );
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-[90vw] w-[1400px] h-[85vh] p-0 overflow-hidden bg-gray-950 text-gray-100 border-gray-800 flex flex-col">
+        {detailBody}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function DetailRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: ReactNode;
+}) {
+  return (
+    <div className="flex items-start justify-between gap-4 text-sm text-gray-200">
+      <span className="text-gray-400">{label}</span>
+      <span className="text-right">{value}</span>
+    </div>
+  );
+}

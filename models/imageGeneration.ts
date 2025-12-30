@@ -302,7 +302,8 @@ export async function updateImageGenerationByProviderTaskId(
 export async function getUserImageGenerations(
   userId: string,
   limit: number = 10,
-  offset: number = 0
+  offset: number = 0,
+  search?: string
 ): Promise<{ data: ImageGenerationHistoryItem[]; total: number }> {
   // 首先查询表结构，检查哪些字段存在
   const { data: tableInfo } = await supabase
@@ -372,6 +373,12 @@ export async function getUserImageGenerations(
     console.log("⚠️ Could not add is_delete filter, field may not exist");
   }
 
+  if (search?.trim()) {
+    const escapedSearch = search.trim().replace(/,/g, '\\,');
+    const pattern = `%${escapedSearch}%`;
+    query = query.or(`prompt.ilike.${pattern},optimized_prompt.ilike.${pattern}`);
+  }
+
   const { data, error, count } = await query
     .order("created_at", { ascending: false })
     .range(offset, offset + limit - 1);
@@ -380,12 +387,22 @@ export async function getUserImageGenerations(
   if (error && error.message?.includes("is_delete")) {
     console.log("🔄 Retrying query without is_delete filter due to field error");
     
-    const { data: retryData, error: retryError, count: retryCount } = await supabase
+    let retryQuery = supabase
       .from("image_generations")
       .select(selectFields, { count: "exact" })
       .eq("user_id", userId)
-      .order("created_at", { ascending: false })
-      .range(offset, offset + limit - 1);
+      .order("created_at", { ascending: false });
+
+    if (search?.trim()) {
+      const escapedSearch = search.trim().replace(/,/g, '\\,');
+      const pattern = `%${escapedSearch}%`;
+      retryQuery = retryQuery.or(`prompt.ilike.${pattern},optimized_prompt.ilike.${pattern}`);
+    }
+
+    const { data: retryData, error: retryError, count: retryCount } = await retryQuery.range(
+      offset,
+      offset + limit - 1
+    );
       
     if (retryError) {
       handleSupabaseError(retryError, `get user image generations for user ${userId} (retry)`);

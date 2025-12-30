@@ -41,7 +41,7 @@ const ITEMS_PER_PAGE = 12;
 
 export default function VideoHistoryPageClient() {
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname() || "";
   const searchParams = useSearchParams();
   const t = useTranslations("video-history");
   const { user, setShowSignModal } = useAppContext();
@@ -170,7 +170,7 @@ export default function VideoHistoryPageClient() {
   );
 
   useEffect(() => {
-    const pageFromUrl = parseInt(searchParams.get("page") || "1");
+    const pageFromUrl = parseInt(searchParams?.get("page") || "1");
     fetchHistory(pageFromUrl);
   }, [searchParams, fetchHistory]);
 

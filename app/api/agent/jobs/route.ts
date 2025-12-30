@@ -4,6 +4,7 @@
  */
 import { NextRequest, NextResponse } from 'next/server';
 import { getAgentJobs, createAgentJob } from '@/lib/agent-api-client';
+import type { AgentJob } from '@/types/agent';
 import { auth } from '@/auth';
 
 export async function GET(request: NextRequest) {
@@ -19,10 +20,61 @@ export async function GET(request: NextRequest) {
     const page = parseInt(request.nextUrl.searchParams.get('page') || '1');
     const pageSize = parseInt(request.nextUrl.searchParams.get('page_size') || '20');
     const includeShots = request.nextUrl.searchParams.get('include_shots') === 'true';
+    const search = request.nextUrl.searchParams.get('search')?.trim();
 
-    const jobs = await getAgentJobs(session.user.uuid, page, pageSize, includeShots);
+    if (!search) {
+      const jobs = await getAgentJobs(session.user.uuid, page, pageSize, includeShots);
+      return NextResponse.json(jobs);
+    }
 
-    return NextResponse.json(jobs);
+    const normalizedSearch = search.toLowerCase();
+    const allJobs: AgentJob[] = [];
+    let pageToFetch = 1;
+    let totalPages = 1;
+    let pageSizeForFetch = pageSize;
+
+    while (pageToFetch <= totalPages) {
+      const data = await getAgentJobs(
+        session.user.uuid,
+        pageToFetch,
+        pageSizeForFetch,
+        includeShots
+      );
+
+      const jobsData = data.jobs || [];
+      const total =
+        typeof (data as any).total === 'number' ? (data as any).total : jobsData.length;
+      const pageSizeFromResponse =
+        typeof (data as any).page_size === 'number'
+          ? (data as any).page_size
+          : pageSizeForFetch;
+      const totalPagesFromResponse =
+        typeof (data as any).total_pages === 'number'
+          ? (data as any).total_pages
+          : Math.max(1, Math.ceil((total || 0) / (pageSizeFromResponse || pageSizeForFetch)));
+
+      pageSizeForFetch = pageSizeFromResponse || pageSizeForFetch;
+      totalPages = totalPagesFromResponse;
+      allJobs.push(...jobsData);
+      pageToFetch += 1;
+    }
+
+    const filteredJobs = allJobs.filter((job) =>
+      (job.prompt || '').toLowerCase().includes(normalizedSearch)
+    );
+    const finalJobs = filteredJobs.filter((job) => job.final_video_url);
+    const totalFiltered = finalJobs.length;
+    const totalFilteredPages = Math.max(1, Math.ceil(totalFiltered / pageSize));
+    const startIndex = Math.max(0, (page - 1) * pageSize);
+    const pageJobs = finalJobs.slice(startIndex, startIndex + pageSize);
+
+    return NextResponse.json({
+      jobs: pageJobs,
+      total: totalFiltered,
+      page,
+      page_size: pageSize,
+      total_pages: totalFilteredPages,
+    });
   } catch (error: any) {
     console.error('[Agent API] Get jobs failed:', error);
     return NextResponse.json(

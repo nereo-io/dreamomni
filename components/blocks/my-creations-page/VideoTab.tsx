@@ -1,53 +1,74 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import type { ReactNode } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { VideoGeneration, VideoGenerationHistoryResponse } from "@/types/video";
-import { Button } from "@/components/ui/button";
+import { formatDistanceToNow } from "date-fns";
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
+  AlertTriangle,
+  Copy,
+  Download,
+  Loader2,
+  PlayCircle,
+  Trash2,
+  Volume2,
+  VolumeX,
+  X,
+} from "lucide-react";
+import { VideoGeneration } from "@/types/video";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import {
-  PlayCircle,
-  Download,
-  RotateCcw,
-  AlertTriangle,
-  Loader2,
-  Volume2,
-  Trash2,
-} from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import Link from "next/link";
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { getVideoModel } from "@/config/video-models";
 import { useAppContext } from "@/contexts/app";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { buildPaginationItems } from "@/utils/pagination";
 import VideoHistorySkeleton from "./VideoHistorySkeleton";
 import DeleteConfirmDialog from "@/components/blocks/image-history-for-generation/components/DeleteConfirmDialog";
+import { MediaDetailModal } from "./MediaDetailModal";
+import PromptSearchBar from './PromptSearchBar';
 
-const ITEMS_PER_PAGE = 12;
+const ITEMS_PER_PAGE = 50;
+const MAX_VISIBLE_PAGES = 10;
+const getCacheKey = (page: number, query: string) => `${page}|${query}`;
+
+const getVideoSource = (video: VideoGeneration) =>
+  video.video_url_r2 ||
+  video.upsample_video_url_veo3 ||
+  video.video_url_veo3 ||
+  video.video_url_volcano ||
+  video.video_url_fal ||
+  video.video_url_ali ||
+  video.video_url_pixverse ||
+  video.video_url_sora ||
+  null;
+
+const getVideoPoster = (video: VideoGeneration) =>
+  video.image_urls?.[0] || video.input_image_url || "";
 
 export default function VideoTab() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
   const t = useTranslations("video-history");
   const { user, setShowSignModal } = useAppContext();
   const [videos, setVideos] = useState<VideoGeneration[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPageLoading, setIsPageLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
@@ -55,10 +76,50 @@ export default function VideoTab() {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [videoToDelete, setVideoToDelete] = useState<VideoGeneration | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<VideoGeneration | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchVersion, setSearchVersion] = useState(0);
+  const normalizedQuery = searchQuery.trim();
+  const hasSearch = normalizedQuery.length > 0;
+  const pageCacheRef = useRef<
+    Map<
+      string,
+      {
+        videos: VideoGeneration[];
+        page: number;
+        totalPages: number;
+        totalItems: number;
+      }
+    >
+  >(new Map());
 
-  // 后台异步更新进行中的任务状态
+  const buildHistoryUrl = useCallback((page: number, query: string) => {
+    const params = new URLSearchParams({
+      page: String(page),
+      limit: String(ITEMS_PER_PAGE),
+    });
+    if (query) {
+      params.set('search', query);
+    }
+    return `/api/video-generations/history?${params.toString()}`;
+  }, []);
+
+  const applyPageData = useCallback((data: {
+    videos: VideoGeneration[];
+    page: number;
+    totalPages: number;
+    totalItems: number;
+  }) => {
+    setVideos(data.videos);
+    setCurrentPage(data.page);
+    setTotalPages(data.totalPages);
+    setTotalItems(data.totalItems);
+  }, []);
+
   const updateActiveTasksInBackground = useCallback(
-    async (videos: VideoGeneration[]) => {
+    async (videos: VideoGeneration[], page: number, query: string) => {
       const activeStatuses = [
         "PENDING",
         "PROMPT_OPTIMIZING",
@@ -83,82 +144,147 @@ export default function VideoTab() {
         return;
       }
 
-      console.log(`后台更新 ${allActiveTasks.length} 个进行中任务的状态...`);
-
       try {
-        // 并行触发状态更新（不阻塞UI）
-        const statusPromises = allActiveTasks.map(
-          async (video: VideoGeneration) => {
-            try {
-              await fetch("/api/video-generation/status", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ id: video.id }),
-              });
-            } catch (error) {
-              console.error(`更新任务 ${video.id} 状态失败:`, error);
-            }
+        const statusPromises = allActiveTasks.map(async (video: VideoGeneration) => {
+          try {
+            await fetch("/api/video-generation/status", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ id: video.id }),
+            });
+          } catch (error) {
+            console.error(`更新任务 ${video.id} 状态失败:`, error);
           }
-        );
+        });
 
         await Promise.all(statusPromises);
-        console.log(`后台状态更新完成`);
 
-        // 静默刷新历史记录以显示最新状态
-        const refreshResponse = await fetch(`/api/video-generations/history`);
+        const refreshResponse = await fetch(buildHistoryUrl(page, query));
         if (refreshResponse.ok) {
           const refreshResult = await refreshResponse.json();
           if (refreshResult.code === 0 && refreshResult.data) {
             const updatedVideos = refreshResult.data.data || [];
-            setVideos(updatedVideos);
-            console.log(`历史记录已静默更新`);
+            const pageInfo = refreshResult.data.pagination || {};
+            const pageValue = pageInfo.page || page;
+            const totalPagesValue = pageInfo.totalPages || 1;
+            const totalValue = pageInfo.total || updatedVideos.length;
+            const cacheEntry = {
+              videos: updatedVideos,
+              page: pageValue,
+              totalPages: totalPagesValue,
+              totalItems: totalValue,
+            };
+
+            pageCacheRef.current.set(getCacheKey(pageValue, query), cacheEntry);
+            if (query === normalizedQuery && pageValue === currentPage) {
+              applyPageData(cacheEntry);
+            }
           }
         }
       } catch (error) {
         console.error("后台状态更新失败:", error);
       }
     },
-    []
+    [applyPageData, buildHistoryUrl, currentPage, normalizedQuery]
   );
 
-  // 快速加载历史记录（不检查状态）
-  const fetchHistory = useCallback(
-    async (page: number) => {
-      setIsLoading(true);
+  const prefetchPage = useCallback(
+    async (page: number, maxPage: number, query: string) => {
+      if (!user?.uuid || page < 1 || page > maxPage) {
+        return;
+      }
 
-      // 如果用户未登录，直接设置为空状态，不发送请求
+      const cacheKey = getCacheKey(page, query);
+      if (pageCacheRef.current.has(cacheKey)) {
+        return;
+      }
+
+      try {
+        const response = await fetch(buildHistoryUrl(page, query));
+        if (!response.ok) {
+          return;
+        }
+        const result = await response.json();
+        if (result.code === 0 && result.data) {
+          const fetchedVideos = result.data.data || [];
+          const pageInfo = result.data.pagination || {};
+          const pageValue = pageInfo.page || page;
+          const totalPagesValue = pageInfo.totalPages || maxPage || 1;
+          const totalValue = pageInfo.total || fetchedVideos.length;
+          pageCacheRef.current.set(getCacheKey(pageValue, query), {
+            videos: fetchedVideos,
+            page: pageValue,
+            totalPages: totalPagesValue,
+            totalItems: totalValue,
+          });
+        }
+      } catch (error) {
+        console.warn("Prefetch history failed:", error);
+      }
+    },
+    [buildHistoryUrl, user?.uuid]
+  );
+
+  const fetchHistory = useCallback(
+    async (page: number, showLoading = true, query: string) => {
       if (!user?.uuid) {
         setVideos([]);
         setCurrentPage(1);
         setTotalPages(1);
         setTotalItems(0);
         setIsLoading(false);
+        setIsPageLoading(false);
+        pageCacheRef.current.clear();
         return;
       }
 
+      const cacheKey = getCacheKey(page, query);
+      const cached = pageCacheRef.current.get(cacheKey);
+      if (cached) {
+        applyPageData(cached);
+        updateActiveTasksInBackground(cached.videos, cached.page, query);
+        prefetchPage(page - 1, cached.totalPages, query);
+        prefetchPage(page + 1, cached.totalPages, query);
+        setIsLoading(false);
+        setIsPageLoading(false);
+        return;
+      }
+
+      if (showLoading) {
+        setIsLoading(true);
+      } else {
+        setIsPageLoading(true);
+      }
+
       try {
-        const response = await fetch(
-          `/api/video-generations/history?page=${page}&limit=${ITEMS_PER_PAGE}`
-        );
+        const response = await fetch(buildHistoryUrl(page, query));
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message || t("toast.fetchError"));
         }
         const result = await response.json();
-        console.log(result);
 
         if (result.code === 0 && result.data) {
-          const videos = result.data.data || [];
+          const fetchedVideos = result.data.data || [];
+          const pageInfo = result.data.pagination || {};
+          const pageValue = pageInfo.page || page;
+          const totalPagesValue = pageInfo.totalPages || 1;
+          const totalValue = pageInfo.total || fetchedVideos.length;
 
-          setVideos(videos);
-          setCurrentPage(result.data.pagination?.page || 1);
-          setTotalPages(result.data.pagination?.totalPages || 1);
-          setTotalItems(result.data.pagination?.total || 0);
+          const cacheEntry = {
+            videos: fetchedVideos,
+            page: pageValue,
+            totalPages: totalPagesValue,
+            totalItems: totalValue,
+          };
 
-          // 异步检查并更新进行中的任务状态（不阻塞页面渲染）
-          updateActiveTasksInBackground(videos);
+          pageCacheRef.current.set(getCacheKey(pageValue, query), cacheEntry);
+          applyPageData(cacheEntry);
+          updateActiveTasksInBackground(fetchedVideos, pageValue, query);
+          prefetchPage(pageValue - 1, totalPagesValue, query);
+          prefetchPage(pageValue + 1, totalPagesValue, query);
         } else {
           throw new Error(result.message || t("toast.noDataReturned"));
         }
@@ -166,28 +292,38 @@ export default function VideoTab() {
         toast.error(error.message);
       } finally {
         setIsLoading(false);
+        setIsPageLoading(false);
       }
     },
-    [updateActiveTasksInBackground, t, user?.uuid]
+    [
+      applyPageData,
+      buildHistoryUrl,
+      prefetchPage,
+      t,
+      updateActiveTasksInBackground,
+      user?.uuid,
+    ]
   );
 
+  const handleSearch = useCallback((value: string) => {
+    setSearchQuery(value.trim());
+    setSearchVersion((prev) => prev + 1);
+  }, []);
+
   useEffect(() => {
-    fetchHistory(1); // Always start from page 1 in tab context
-  }, [fetchHistory]);
+    pageCacheRef.current.clear();
+    setCurrentPage(1);
+    fetchHistory(1, true, normalizedQuery);
+  }, [fetchHistory, normalizedQuery, searchVersion, user?.uuid]);
 
   const handlePageChange = (newPage: number) => {
+    if (newPage === currentPage) return;
     setCurrentPage(newPage);
-    fetchHistory(newPage);
+    fetchHistory(newPage, false, normalizedQuery);
   };
 
   const handlePlayVideo = (video: VideoGeneration) => {
-    // Check for video URL availability (prioritize R2, then upsample veo3, then regular veo3, then volcano/seedance, then fal)
-    const videoUrl =
-      video.video_url_r2 ||
-      video.upsample_video_url_veo3 ||
-      video.video_url_veo3 ||
-      video.video_url_volcano ||
-      video.video_url_fal;
+    const videoUrl = getVideoSource(video);
     if (videoUrl) {
       window.open(videoUrl, "_blank");
     } else {
@@ -219,28 +355,18 @@ export default function VideoTab() {
   };
 
   const handleDownloadVideo = async (video: VideoGeneration) => {
-    const videoUrl =
-      video.video_url_r2 ||
-      video.upsample_video_url_veo3 ||
-      video.video_url_veo3 ||
-      video.video_url_volcano ||
-      video.video_url_fal;
+    const videoUrl = getVideoSource(video);
 
     if (!videoUrl) {
       toast.error(t("toast.downloadNotAvailable"));
       return;
     }
 
-    const filename = `${video.prompt.substring(0, 20).replace(/\s+/g, "_")}_${
-      video.id
-    }.mp4`;
+    const filename = `${video.prompt.substring(0, 20).replace(/\s+/g, "_")}_${video.id}.mp4`;
     const proxyUrl = createProxyDownloadUrl(videoUrl, filename);
 
     setDownloadingVideoId(video.id);
-    // Keep the spinner visible while the browser prepares the download prompt
-    const minimumSpinnerDelay = new Promise((resolve) =>
-      setTimeout(resolve, 1500)
-    );
+    const minimumSpinnerDelay = new Promise((resolve) => setTimeout(resolve, 1500));
 
     try {
       triggerDownload(proxyUrl, filename);
@@ -251,14 +377,6 @@ export default function VideoTab() {
       await minimumSpinnerDelay;
       setDownloadingVideoId((current) => (current === video.id ? null : current));
     }
-  };
-
-  const handleRegenerateVideo = (video: VideoGeneration) => {
-    // This might involve navigating back to the generator with pre-filled params
-    // For simplicity, just logging now. Can be expanded later.
-    console.log("Regenerate video:", video);
-    toast.info(t("toast.regenerationNotImplemented"));
-    // router.push(`/generate?prompt=${encodeURIComponent(video.prompt)}&aspect_ratio=${video.aspect_ratio}...`);
   };
 
   const handleDeleteVideo = (video: VideoGeneration) => {
@@ -287,13 +405,24 @@ export default function VideoTab() {
       const result = await response.json();
 
       if (result.code === 0) {
-        // 成功删除，从本地状态移除
-        setVideos((prevVideos) =>
-          prevVideos.filter((v) => v.id !== videoToDelete.id)
-        );
-        toast.success("Video deleted successfully");
+        const nextTotalItems = Math.max(0, totalItems - 1);
+        setTotalItems(nextTotalItems);
 
-        // 如果当前页没有视频了，并且不是第一页，跳转到上一页
+        pageCacheRef.current.forEach((entry, key) => {
+          const nextVideos = entry.videos.filter((item) => item.id !== videoToDelete.id);
+          if (nextVideos.length !== entry.videos.length) {
+            pageCacheRef.current.set(key, {
+              ...entry,
+              videos: nextVideos,
+              totalItems: nextTotalItems,
+            });
+          }
+        });
+
+        setVideos((prevVideos) => prevVideos.filter((v) => v.id !== videoToDelete.id));
+        toast.success("Video deleted successfully");
+        setIsDetailOpen(false);
+
         if (videos.length === 1 && currentPage > 1) {
           handlePageChange(currentPage - 1);
         }
@@ -315,23 +444,24 @@ export default function VideoTab() {
       case "COMPLETED":
       case "SAVED_TO_R2":
         return (
-          <Badge
-            variant="default"
-            className="bg-green-600 hover:bg-green-700 text-white border-transparent"
-          >
+          <Badge className="bg-emerald-500/20 text-emerald-200 border border-emerald-400/40">
             {t("status.completed")}
           </Badge>
         );
       case "IN_PROGRESS":
       case "IN_QUEUE":
         return (
-          <Badge variant="secondary">
+          <Badge variant="secondary" className="bg-blue-500/20 text-blue-200">
             <Loader2 className="mr-2 h-3 w-3 animate-spin" />
             {t("status.processing")}
           </Badge>
         );
       case "PENDING":
-        return <Badge variant="outline">{t("status.pending")}</Badge>;
+        return (
+          <Badge variant="outline" className="border-gray-600 text-gray-200">
+            {t("status.pending")}
+          </Badge>
+        );
       case "FAILED":
         return <Badge variant="destructive">{t("status.failed")}</Badge>;
       default:
@@ -339,22 +469,12 @@ export default function VideoTab() {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex flex-col lg:flex-row gap-2 h-full">
-        <div className="bg-gray-900 rounded-xl shadow-lg flex flex-col w-full lg:overflow-hidden lg:h-full ">
-          <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
-            <VideoHistorySkeleton />
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const matchesLabel = hasSearch ? t('searchMatches', { count: videos.length }) : '';
 
   if (!user?.uuid) {
     return (
       <div className="flex flex-col lg:flex-row gap-2 h-full">
-        <div className="bg-gray-900 rounded-xl shadow-lg flex flex-col w-full lg:overflow-hidden lg:h-full ">
+        <div className="bg-gray-900 min-h-[calc(100vh-180px)] rounded-xl shadow-lg flex flex-col w-full lg:overflow-hidden lg:h-full ">
           <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
             <div className="p-4 md:p-6 text-center py-12">
               <AlertTriangle className="mx-auto h-16 w-16 text-gray-400 mb-4" />
@@ -376,10 +496,10 @@ export default function VideoTab() {
     );
   }
 
-  if (!videos?.length) {
+  if (!videos?.length && !hasSearch && !isLoading) {
     return (
       <div className="flex flex-col lg:flex-row gap-2 h-full">
-        <div className="bg-gray-900 rounded-xl shadow-lg flex flex-col w-full lg:overflow-hidden lg:h-full ">
+        <div className="bg-gray-900 min-h-[calc(100vh-180px)] rounded-xl shadow-lg flex flex-col w-full lg:overflow-hidden lg:h-full ">
           <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
             <div className="p-4 md:p-6 text-center py-12">
               <AlertTriangle className="mx-auto h-16 w-16 text-gray-400 mb-4" />
@@ -392,7 +512,7 @@ export default function VideoTab() {
                 size="lg"
                 className="bg-blue-600 hover:bg-blue-700 text-white"
               >
-                <Link href="/image-to-video">{t("generateVideoButton")}</Link>
+                <a href="/image-to-video">{t("generateVideoButton")}</a>
               </Button>
             </div>
           </div>
@@ -401,231 +521,179 @@ export default function VideoTab() {
     );
   }
 
+  const paginationItems = buildPaginationItems(
+    currentPage,
+    totalPages,
+    MAX_VISIBLE_PAGES
+  );
+
   return (
     <div className="flex flex-col lg:flex-row gap-2 h-full">
-      {/* Video Content Area */}
-      <div className="bg-gray-900 rounded-xl shadow-lg flex flex-col w-full lg:overflow-hidden lg:h-full ">
-        <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
-          <div className="p-4 md:p-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {videos.map((video) => (
-          <Card
-            key={video.id}
-            className="bg-gray-700/50 border-gray-700 text-gray-200 flex flex-col hover:bg-gray-700/70 transition-all duration-200"
-          >
-            <CardHeader>
-              <div className="aspect-video bg-gray-700 rounded-md mb-3 flex items-center justify-center overflow-hidden relative">
-                {video.video_url_r2 ||
-                video.upsample_video_url_veo3 ||
-                video.video_url_veo3 ||
-                video.video_url_volcano ||
-                video.video_url_fal ? (
-                  <video
-                    src={
-                      video.video_url_r2 ??
-                      video.upsample_video_url_veo3 ??
-                      video.video_url_veo3 ??
-                      video.video_url_volcano ??
-                      video.video_url_fal ??
-                      ""
-                    }
-                    poster={video.input_image_url ?? ""}
-                    className="w-full h-full object-cover"
-                    preload="auto"
-                    controls={false} // Disable default controls, using custom play button
-                  />
-                ) : video.input_image_url ? (
-                  <img
-                    src={video.input_image_url}
-                    alt="Input image"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <PlayCircle className="h-16 w-16 text-gray-500" />
-                )}
-
-                {/* Audio indicator */}
-                {video.has_audio && (
-                  <div className="absolute top-2 right-2">
-                    <Badge
-                      variant="secondary"
-                      className="text-xs flex items-center gap-1 bg-blue-100 text-blue-700 border-blue-200"
-                    >
-                      <Volume2 className="h-3 w-3" />
-                      Audio
-                    </Badge>
-                  </div>
-                )}
-              </div>
-              <CardTitle className="text-lg truncate" title={video.prompt}>
-                {video.prompt}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="flex-grow">
-              <div className="flex justify-between items-center mb-2">
-                {getStatusBadge(video.status)}
-                <p className="text-xs text-gray-400">
-                  {formatDistanceToNow(new Date(video.created_at), {
-                    addSuffix: true,
-                  })}
-                </p>
-              </div>
-              <p className="text-sm text-gray-400">
-                {t("labels.model")}:{" "}
-                {getVideoModel(video.model_id)?.displayName || video.model_id}
-              </p>
-              <p className="text-sm text-gray-400">
-                {t("labels.duration")}: {video.duration_seconds}s
-              </p>
-              <p className="text-sm text-gray-400">
-                {t("labels.aspectRatio")}: {video.aspect_ratio}
-              </p>
-            </CardContent>
-            <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 pt-4 border-t border-gray-700">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handlePlayVideo(video)}
-                disabled={
-                  video.status !== "COMPLETED" &&
-                  video.status !== "SAVED_TO_R2" &&
-                  !video.video_url_r2 &&
-                  !video.upsample_video_url_veo3 &&
-                  !video.video_url_veo3 &&
-                  !video.video_url_volcano &&
-                  !video.video_url_fal
-                }
-                className="w-full sm:w-auto border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <PlayCircle className="mr-2 h-4 w-4" /> Play
-              </Button>
-              <div className="flex gap-2 w-full sm:w-auto">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleDownloadVideo(video)}
-                  disabled={
-                    (
-                      video.status !== "COMPLETED" &&
-                      video.status !== "SAVED_TO_R2" &&
-                      !video.video_url_r2 &&
-                      !video.upsample_video_url_veo3 &&
-                      !video.video_url_veo3 &&
-                      !video.video_url_volcano &&
-                      !video.video_url_fal
-                    ) || downloadingVideoId === video.id
-                  }
-                  title={t("downloadButton")}
-                  className="disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {downloadingVideoId === video.id ? (
-                    <Loader2 className="h-5 w-5 animate-spin text-gray-200" />
-                  ) : (
-                    <Download className="h-5 w-5 text-gray-400 hover:text-gray-200" />
-                  )}
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleRegenerateVideo(video)}
-                  title={t("regenerateButton")}
-                >
-                  <RotateCcw className="h-5 w-5 text-gray-400 hover:text-gray-200" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleDeleteVideo(video)}
-                  disabled={deletingId === video.id}
-                  title="Delete video"
-                  className="disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {deletingId === video.id ? (
-                    <Loader2 className="h-5 w-5 text-gray-400 animate-spin" />
-                  ) : (
-                    <Trash2 className="h-5 w-5 text-gray-400 hover:text-red-400" />
-                  )}
-                </Button>
-              </div>
-            </CardFooter>
-          </Card>
-        ))}
+      <div className="bg-gray-900 min-h-[calc(100vh-180px)] rounded-xl shadow-lg flex flex-col w-full lg:overflow-hidden lg:h-full ">
+        <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar relative">
+          {isPageLoading && (
+            <div className="absolute inset-0 bg-gray-900/60 flex items-center justify-center z-10">
+              <VideoHistorySkeleton />
             </div>
+          )}
+          <div className="p-4 md:p-6">
+            <PromptSearchBar
+              value={searchInput}
+              onChange={setSearchInput}
+              onSearch={handleSearch}
+              placeholder={t('searchPromptPlaceholder')}
+              buttonLabel={t('searchButton')}
+              matchesLabel={matchesLabel}
+            />
+            {isLoading ? (
+              <VideoHistorySkeleton className="p-0 mt-8 md:mt-10" />
+            ) : (
+              <>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6 mt-8 md:mt-10">
+                  {videos.length === 0 ? (
+                    hasSearch ? (
+                      <div className="col-span-full rounded-2xl border border-dashed border-gray-800 bg-gray-900/40 p-8 text-center text-sm text-gray-400">
+                        {t('searchNoResults')}
+                      </div>
+                    ) : null
+                  ) : (
+                    videos.map((video) => (
+                      <VideoMediaCard
+                        key={video.id}
+                        video={video}
+                        downloadingId={downloadingVideoId}
+                        deletingId={deletingId}
+                        onOpen={(item) => {
+                          setSelectedVideo(item);
+                          setIsDetailOpen(true);
+                        }}
+                        onDownload={handleDownloadVideo}
+                        onDelete={handleDeleteVideo}
+                      />
+                    ))
+                  )}
+                </div>
 
-            {totalPages > 1 && (
-              <Pagination className="mt-8">
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (currentPage > 1) handlePageChange(currentPage - 1);
-                      }}
-                      className={
-                        currentPage === 1
-                          ? "pointer-events-none opacity-50"
-                          : undefined
-                      }
-                    />
-                  </PaginationItem>
-                  {(() => {
-                    const pageNumbers = [];
-                    const maxVisiblePages = 5;
-
-                    if (totalPages <= maxVisiblePages) {
-                      // 如果总页数少于或等于最大可见页数，显示所有页码
-                      for (let i = 1; i <= totalPages; i++) {
-                        pageNumbers.push(i);
-                      }
-                    } else {
-                      // 如果总页数大于最大可见页数，智能显示页码
-                      const startPage = Math.max(1, currentPage - 2);
-                      const endPage = Math.min(totalPages, currentPage + 2);
-
-                      for (let i = startPage; i <= endPage; i++) {
-                        pageNumbers.push(i);
-                      }
-                    }
-
-                    return pageNumbers.map((pageNum) => (
-                      <PaginationItem key={pageNum}>
-                        <PaginationLink
+                {totalPages > 1 && (
+                  <Pagination className="mt-8">
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious
                           href="#"
                           onClick={(e) => {
                             e.preventDefault();
-                            handlePageChange(pageNum);
+                            if (currentPage > 1) handlePageChange(currentPage - 1);
                           }}
-                          isActive={currentPage === pageNum}
-                        >
-                          {pageNum}
-                        </PaginationLink>
+                          className={
+                            currentPage === 1
+                              ? "pointer-events-none opacity-50"
+                              : undefined
+                          }
+                        />
                       </PaginationItem>
-                    ));
-                  })()}
-                  <PaginationItem>
-                    <PaginationNext
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (currentPage < totalPages)
-                          handlePageChange(currentPage + 1);
-                      }}
-                      className={
-                        currentPage === totalPages
-                          ? "pointer-events-none opacity-50"
-                          : undefined
-                      }
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
+                      {paginationItems.map((item, index) =>
+                        item === "ellipsis" ? (
+                          <PaginationItem key={`ellipsis-${index}`}>
+                            <PaginationEllipsis />
+                          </PaginationItem>
+                        ) : (
+                          <PaginationItem key={item}>
+                            <PaginationLink
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handlePageChange(item);
+                              }}
+                              isActive={currentPage === item}
+                            >
+                              {item}
+                            </PaginationLink>
+                          </PaginationItem>
+                        )
+                      )}
+                      <PaginationItem>
+                        <PaginationNext
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (currentPage < totalPages)
+                              handlePageChange(currentPage + 1);
+                          }}
+                          className={
+                            currentPage === totalPages
+                              ? "pointer-events-none opacity-50"
+                              : undefined
+                          }
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                )}
+              </>
             )}
           </div>
         </div>
       </div>
 
-      {/* Delete Confirmation Dialog */}
+      <MediaDetailModal
+        open={isDetailOpen}
+        onOpenChange={(open) => {
+          setIsDetailOpen(open);
+          if (!open) {
+            setSelectedVideo(null);
+          }
+        }}
+        videoUrl={selectedVideo ? getVideoSource(selectedVideo) : null}
+        posterUrl={selectedVideo ? getVideoPoster(selectedVideo) : null}
+        prompt={selectedVideo?.prompt || ""}
+        inputImages={
+          selectedVideo?.image_urls?.length
+            ? selectedVideo.image_urls
+            : selectedVideo?.input_image_url
+            ? [selectedVideo.input_image_url]
+            : []
+        }
+        details={
+          selectedVideo
+            ? [
+                {
+                  label: t("labels.model"),
+                  value: getVideoModel(selectedVideo.model_id)?.displayName || selectedVideo.model_id,
+                },
+                {
+                  label: "Status",
+                  value: getStatusBadge(selectedVideo.status),
+                },
+                {
+                  label: t("labels.aspectRatio"),
+                  value: selectedVideo.aspect_ratio || "-",
+                },
+                {
+                  label: t("labels.duration"),
+                  value: selectedVideo.duration_seconds
+                    ? `${selectedVideo.duration_seconds}s`
+                    : "-",
+                },
+                {
+                  label: "Created",
+                  value: formatDistanceToNow(new Date(selectedVideo.created_at), {
+                    addSuffix: true,
+                  }),
+                },
+              ]
+            : []
+        }
+        statusBadge={null} // Already included in details, or can be passed here if we want it in header
+        hasAudio={selectedVideo?.has_audio}
+        errorMessage={selectedVideo?.error_message}
+        title="Video details"
+        onDownload={() => selectedVideo && handleDownloadVideo(selectedVideo)}
+        onDelete={() => selectedVideo && handleDeleteVideo(selectedVideo)}
+        onOpenOriginal={() => selectedVideo && handlePlayVideo(selectedVideo)}
+        isDownloading={selectedVideo ? downloadingVideoId === selectedVideo.id : false}
+        isDeleting={selectedVideo ? deletingId === selectedVideo.id : false}
+      />
+
       <DeleteConfirmDialog
         isOpen={showDeleteDialog}
         onClose={() => {
@@ -637,6 +705,443 @@ export default function VideoTab() {
         isDeleting={!!deletingId}
         description="Are you sure you want to delete this video?"
       />
+    </div>
+  );
+}
+
+interface VideoMediaCardProps {
+  video: VideoGeneration;
+  onOpen: (video: VideoGeneration) => void;
+  onDownload: (video: VideoGeneration) => void;
+  onDelete: (video: VideoGeneration) => void;
+  downloadingId: string | null;
+  deletingId: string | null;
+}
+
+function VideoMediaCard({
+  video,
+  onOpen,
+  onDownload,
+  onDelete,
+  downloadingId,
+  deletingId,
+}: VideoMediaCardProps) {
+  const isMobile = useIsMobile();
+  const [isHovered, setIsHovered] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const videoUrl = getVideoSource(video);
+  const posterUrl = getVideoPoster(video);
+
+  const handleMouseEnter = async () => {
+    if (isMobile) {
+      return;
+    }
+    setIsHovered(true);
+    if (!videoUrl || !videoRef.current) {
+      return;
+    }
+    const element = videoRef.current;
+    element.currentTime = 0;
+    element.muted = false;
+    try {
+      await element.play();
+      setIsMuted(false);
+      setAutoplayBlocked(false);
+    } catch (error) {
+      element.muted = true;
+      setIsMuted(true);
+      setAutoplayBlocked(true);
+      try {
+        await element.play();
+      } catch (playError) {
+        console.warn("Video autoplay failed:", playError);
+      }
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (isMobile) {
+      return;
+    }
+    setIsHovered(false);
+    if (!videoRef.current) {
+      return;
+    }
+    const element = videoRef.current;
+    element.pause();
+    element.currentTime = 0;
+    element.muted = true;
+    setIsMuted(true);
+    setAutoplayBlocked(false);
+  };
+
+  const handleToggleMute = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.stopPropagation();
+    if (!videoRef.current) {
+      return;
+    }
+    const element = videoRef.current;
+    if (element.muted) {
+      element.muted = false;
+      setIsMuted(false);
+      setAutoplayBlocked(false);
+      try {
+        await element.play();
+      } catch (error) {
+        element.muted = true;
+        setIsMuted(true);
+      }
+    } else {
+      element.muted = true;
+      setIsMuted(true);
+    }
+  };
+
+  const showOverlay = isMobile || isHovered;
+  return (
+    <div
+      className="group relative overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/60 shadow-sm transition-transform duration-200 hover:-translate-y-1"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={() => onOpen(video)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(event) => {
+        if (event.key === "Enter") {
+          onOpen(video);
+        }
+      }}
+    >
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-800">
+        {videoUrl ? (
+          <video
+            ref={videoRef}
+            src={videoUrl}
+            poster={posterUrl}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            preload="metadata"
+            playsInline
+            controls={isHovered}
+          />
+        ) : posterUrl ? (
+          <img
+            src={posterUrl}
+            alt={video.prompt}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-gray-500">
+            <PlayCircle className="h-12 w-12" />
+          </div>
+        )}
+
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+        {showOverlay && (
+          <div className="absolute right-3 top-3 flex items-center gap-2">
+            <Button
+              variant="secondary"
+              size="icon"
+              onClick={(event) => {
+                event.stopPropagation();
+                onDownload(video);
+              }}
+              disabled={!videoUrl || downloadingId === video.id}
+              className="h-9 w-9 bg-black/60 text-white hover:bg-black/80"
+            >
+              {downloadingId === video.id ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Download className="h-4 w-4" />
+              )}
+            </Button>
+            <Button
+              variant="secondary"
+              size="icon"
+              onClick={(event) => {
+                event.stopPropagation();
+                onDelete(video);
+              }}
+              disabled={deletingId === video.id}
+              className="h-9 w-9 bg-black/60 text-white hover:bg-red-500/80"
+            >
+              {deletingId === video.id ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Trash2 className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
+        )}
+
+        {video.has_audio && autoplayBlocked && isHovered && (
+          <button
+            type="button"
+            onClick={handleToggleMute}
+            className="absolute bottom-3 left-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80"
+            aria-label={isMuted ? "Unmute preview" : "Mute preview"}
+          >
+            {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+interface VideoDetailModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  video: VideoGeneration | null;
+  onDownload: (video: VideoGeneration) => void;
+  onDelete: (video: VideoGeneration) => void;
+  onOpenInNewTab: (video: VideoGeneration) => void;
+  downloadingId: string | null;
+  deletingId: string | null;
+  getStatusBadge: (status: VideoGeneration["status"]) => JSX.Element;
+  t: (key: string) => string;
+}
+
+function VideoDetailModal({
+  open,
+  onOpenChange,
+  video,
+  onDownload,
+  onDelete,
+  onOpenInNewTab,
+  downloadingId,
+  deletingId,
+  getStatusBadge,
+  t,
+}: VideoDetailModalProps) {
+  const isMobile = useIsMobile();
+  const [isPromptExpanded, setIsPromptExpanded] = useState(false);
+
+  useEffect(() => {
+    setIsPromptExpanded(false);
+  }, [video?.id]);
+
+  if (!video) {
+    return null;
+  }
+
+  const videoUrl = getVideoSource(video);
+  const posterUrl = getVideoPoster(video);
+  const inputImages = video.image_urls?.length
+    ? video.image_urls
+    : video.input_image_url
+    ? [video.input_image_url]
+    : [];
+
+  const detailBody = (
+    <div className="grid h-full grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <div className="relative flex items-center justify-center bg-black/80">
+        {videoUrl ? (
+          <video
+            src={videoUrl}
+            poster={posterUrl}
+            controls
+            playsInline
+            className="h-full w-full object-contain"
+          />
+        ) : posterUrl ? (
+          <img
+            src={posterUrl}
+            alt={video.prompt}
+            className="h-full w-full object-contain"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-gray-400">
+            <PlayCircle className="h-16 w-16" />
+          </div>
+        )}
+      </div>
+      <div className="flex h-full flex-col border-t border-gray-800 md:border-t-0 md:border-l">
+        <ScrollArea className="flex-1">
+          <div className="space-y-5 p-5 md:p-6">
+            <div className="flex items-center justify-between">
+              <div className="text-sm font-semibold text-gray-100">Video details</div>
+              {video.has_audio && (
+                <Badge className="bg-blue-500/20 text-blue-200 border border-blue-400/40">
+                  Audio
+                </Badge>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <div className="text-xs uppercase tracking-widest text-gray-400">
+                Prompt
+              </div>
+              <p
+                className={`text-sm text-gray-100 ${
+                  isPromptExpanded ? "" : "line-clamp-3"
+                }`}
+              >
+                {video.prompt}
+              </p>
+              {video.prompt && video.prompt.length > 120 && (
+                <button
+                  type="button"
+                  onClick={() => setIsPromptExpanded((prev) => !prev)}
+                  className="text-xs font-medium text-blue-300 hover:text-blue-200"
+                >
+                  {isPromptExpanded ? "Collapse" : "Expand"}
+                </button>
+              )}
+            </div>
+
+            {inputImages.length > 0 && (
+              <div className="space-y-2">
+                <div className="text-xs uppercase tracking-widest text-gray-400">
+                  Input images
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {inputImages.slice(0, 4).map((imageUrl, index) => (
+                    <div key={`${imageUrl}-${index}`} className="relative aspect-video w-full overflow-hidden rounded-md border border-gray-800 bg-black/50">
+                      <img
+                        src={imageUrl}
+                        alt={`Input ${index + 1}`}
+                        className="h-full w-full object-contain"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="space-y-3">
+              <DetailRow
+                label={t("labels.model")}
+                value={getVideoModel(video.model_id)?.displayName || video.model_id}
+              />
+              <DetailRow label="Status" value={getStatusBadge(video.status)} />
+              <DetailRow
+                label={t("labels.aspectRatio")}
+                value={video.aspect_ratio || "-"}
+              />
+              <DetailRow
+                label={t("labels.duration")}
+                value={
+                  video.duration_seconds ? `${video.duration_seconds}s` : "-"
+                }
+              />
+              <DetailRow
+                label="Created"
+                value={formatDistanceToNow(new Date(video.created_at), {
+                  addSuffix: true,
+                })}
+              />
+            </div>
+
+            {video.error_message && (
+              <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-xs text-red-200">
+                {video.error_message}
+              </div>
+            )}
+          </div>
+        </ScrollArea>
+
+        <div className="p-5 md:p-6 border-t border-gray-800 bg-gray-900/30">
+          <div className="grid grid-cols-2 gap-3">
+            <Button
+              variant="secondary"
+              onClick={() => onOpenInNewTab(video)}
+              disabled={!videoUrl}
+              className="w-full bg-gray-800/80 text-gray-100 hover:bg-gray-700"
+            >
+              <PlayCircle className="mr-2 h-4 w-4" />
+              Open
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => onDownload(video)}
+              disabled={!videoUrl || downloadingId === video.id}
+              className="w-full bg-gray-800/80 text-gray-100 hover:bg-gray-700"
+            >
+              {downloadingId === video.id ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Download className="mr-2 h-4 w-4" />
+              )}
+              Download
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => onDelete(video)}
+              disabled={deletingId === video.id}
+              className="w-full bg-red-500/20 text-red-100 hover:bg-red-500/40"
+            >
+              {deletingId === video.id ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Trash2 className="mr-2 h-4 w-4" />
+              )}
+              Delete
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                navigator.clipboard.writeText(video.prompt);
+                toast.success("Prompt copied");
+              }}
+              className="w-full border border-gray-800 bg-gray-900 text-gray-300 hover:bg-gray-800 hover:text-white"
+            >
+              <Copy className="mr-2 h-4 w-4" />
+              Copy prompt
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <Drawer open={open} onOpenChange={onOpenChange}>
+        <DrawerContent className="flex h-[95vh] flex-col bg-gray-950 text-gray-100 border-gray-800">
+          <div className="flex items-center justify-between px-4 pt-2">
+            <DrawerTitle className="text-sm font-semibold">Video details</DrawerTitle>
+            <DrawerClose asChild>
+              <button
+                type="button"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-gray-200 hover:bg-gray-700"
+                aria-label="Close"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </DrawerClose>
+          </div>
+          <div className="mt-3 flex-1 overflow-hidden">{detailBody}</div>
+        </DrawerContent>
+      </Drawer>
+    );
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-[90vw] w-[1400px] h-[85vh] p-0 overflow-hidden bg-gray-950 text-gray-100 border-gray-800 flex flex-col">
+        {detailBody}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function DetailRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: ReactNode;
+}) {
+  return (
+    <div className="flex items-start justify-between gap-4 text-sm text-gray-200">
+      <span className="text-gray-400">{label}</span>
+      <span className="text-right">{value}</span>
     </div>
   );
 }

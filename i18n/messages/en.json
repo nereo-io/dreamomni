@@ -379,6 +379,10 @@
       "duration": "Duration",
       "aspectRatio": "Aspect Ratio"
     },
+    "searchPromptPlaceholder": "Search prompts",
+    "searchMatches": "{count} matches",
+    "searchNoResults": "No prompts match your search",
+    "searchButton": "Search",
     "toast": {
       "videoNotAvailable": "Video is not available yet.",
       "downloadNotAvailable": "Video not available for download.",
@@ -598,6 +602,10 @@
     "discoveryDescription": "Tap any card to instantly populate the prompt field in the text-to-image tool.",
     "historySubtitle": "Review your recent generations, track status updates, and manage outputs.",
     "title": "Image History",
+    "searchPromptPlaceholder": "Search prompts",
+    "searchMatches": "{count} matches",
+    "searchNoResults": "No prompts match your search",
+    "searchButton": "Search",
     "noImagesTitle": "No images yet",
     "noImagesDescription": "Your generated images will appear here once you start creating.",
     "completed": "Completed",
