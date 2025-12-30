@@ -478,7 +478,10 @@ function JobMediaCard({
   const [isHovered, setIsHovered] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  const posterUrl = job.reference_image_urls?.[0];
 
   const handleMouseEnter = async () => {
     if (isMobile) return;
@@ -486,6 +489,12 @@ function JobMediaCard({
     if (!job.final_video_url || !videoRef.current) return;
 
     const element = videoRef.current;
+    
+    // If video hasn't been loaded yet, setting src and calling play will start it
+    if (element.readyState < 2) {
+      element.load();
+    }
+
     element.currentTime = 0;
     element.muted = false; // Match /history logic: unmute on hover
     try {
@@ -537,16 +546,32 @@ function JobMediaCard({
       onClick={() => onOpen(job)}
     >
       <div className="relative aspect-[16/9] w-full overflow-hidden bg-gray-800">
+        {/* Poster Image - Always shown when video is not playing */}
+        {posterUrl && (
+          <img
+            src={posterUrl}
+            alt={job.prompt}
+            className={cn(
+              "absolute inset-0 h-full w-full object-cover transition-all duration-500",
+              isHovered && isVideoLoaded ? "opacity-0 scale-110" : "opacity-100 scale-100"
+            )}
+            loading="lazy"
+          />
+        )}
+
         {job.final_video_url ? (
           <video
             ref={videoRef}
             src={job.final_video_url}
-            poster={job.reference_image_urls?.[0]}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            preload="metadata"
+            className={cn(
+              "h-full w-full object-cover transition-opacity duration-300",
+              isHovered && isVideoLoaded ? "opacity-100" : "opacity-0"
+            )}
+            preload="none" // Don't load until hover
             playsInline
             muted={isMuted}
             loop
+            onLoadedData={() => setIsVideoLoaded(true)}
             controls={isHovered}
           />
         ) : (
