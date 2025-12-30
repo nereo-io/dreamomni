@@ -205,7 +205,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedAspectRatios: ["16:9", "9:16"],
     supportsAudio: true,
     estimatedGenerationTime: 300, // 预估5分钟
-    supportedDurations: [10],
+    supportedDurations: [10,15],
     supportedResolutions: ["1080p"], // 固定1080p HD
     requiresMembership: true,
   },
@@ -224,7 +224,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedAspectRatios: ["16:9", "9:16"],
     supportsAudio: true,
     estimatedGenerationTime: 300, // 预估5分钟
-    supportedDurations: [10],
+    supportedDurations: [10,15],
     supportedResolutions: ["1080p"], // 固定1080p HD
     requiresMembership: true,
     imageCapabilities: {
