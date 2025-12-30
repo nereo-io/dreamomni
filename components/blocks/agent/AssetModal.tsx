@@ -13,6 +13,7 @@ import { toast } from 'sonner';
 import { useState, useEffect } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
+import { useTranslations } from 'next-intl';
 
 type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref';
 
@@ -85,6 +86,7 @@ interface AssetModalProps {
 }
 
 export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
+  const t = useTranslations("agentJobs");
   const [isCopied, setIsCopied] = useState(false);
   const [isMediaLoading, setIsMediaLoading] = useState(false);
 
@@ -97,10 +99,23 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
 
   const formatStatusLabel = (status?: string) => {
     if (!status) return '';
-    return status
-      .split('_')
-      .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-      .join(' ');
+    switch (status) {
+      case 'done':
+        return t("assetModal.done");
+      case 'failed':
+        return t("assetModal.failed");
+      case 'generating':
+      case 'generating_keyframes':
+      case 'generating_videos':
+        return t("assetModal.generating");
+      case 'skipped':
+        return t("assetModal.skipped");
+      default:
+        return status
+          .split('_')
+          .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+          .join(' ');
+    }
   };
 
   const getStatusBadgeClasses = (status?: string) => {
@@ -179,9 +194,9 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
           setIsCopied(true);
           setTimeout(() => setIsCopied(false), 2000);
         }
-        toast.success('Copied to clipboard');
+        toast.success(t("assetModal.copied"));
       } catch (error) {
-        toast.error('Failed to copy');
+        toast.error(t("toast.copyError") || 'Failed to copy');
       }
     }
   };
@@ -295,10 +310,10 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
 
   const getTitle = () => {
     if (data.title) return data.title;
-    if (data.shotNumber) return `Shot #${data.shotNumber} ${type}`;
-    if (type === 'story') return 'Story & Script';
-    if (type === 'character_refs') return 'Character References';
-    if (type === 'scene_ref') return 'Scene Reference';
+    if (data.shotNumber) return `${t("assetModal.shot")} #${data.shotNumber} ${type}`;
+    if (type === 'story') return t("assetModal.storyboard");
+    if (type === 'character_refs') return t("assetModal.characterRefs");
+    if (type === 'scene_ref') return t("assetModal.sceneRef");
     return type.charAt(0).toUpperCase() + type.slice(1);
   };
 
@@ -340,56 +355,56 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
         {/* Compact summary line */}
         <div className="flex items-center gap-3 text-sm text-gray-300 border-b border-white/5 pb-4">
           <span className="font-semibold text-white text-base">
-            {typeof shotsValue === 'number' ? shotsValue : '—'} Shots
+            {typeof shotsValue === 'number' ? shotsValue : '—'} {t("assetModal.shots")}
           </span>
           <span className="text-gray-500">·</span>
           <span>{formatDuration(data.totalDurationSeconds)}</span>
           {acts.length > 0 && (
             <>
               <span className="text-gray-500">·</span>
-              <span>{acts.length} Acts</span>
+              <span>{acts.length} {t("assetModal.acts")}</span>
             </>
           )}
           {characters.length > 0 && (
             <>
               <span className="text-gray-500">·</span>
-              <span>{characters.length} Characters</span>
+              <span>{characters.length} {t("assetModal.characters")}</span>
             </>
           )}
           {scene && (
             <>
               <span className="text-gray-500">·</span>
-              <span>1 Scene</span>
+              <span>1 {t("assetModal.scene")}</span>
             </>
           )}
         </div>
 
         {(logline || conflict || ending || soundBed || theme || tone) && (
           <section className="rounded-xl border border-white/5 bg-black/30 px-4 py-4 space-y-3">
-            <div className="text-xs uppercase tracking-wide text-gray-400">Story Outline</div>
+            <div className="text-xs uppercase tracking-wide text-gray-400">{t("assetModal.storyOutline")}</div>
             {(logline || conflict || ending || soundBed) && (
               <div className="space-y-2 text-sm text-gray-200">
                 {logline && (
                   <div>
-                    <span className="text-gray-500">Logline:</span>{' '}
+                    <span className="text-gray-500">{t("assetModal.logline")}:</span>{' '}
                     <span>{logline}</span>
                   </div>
                 )}
                 {conflict && (
                   <div>
-                    <span className="text-gray-500">Conflict:</span>{' '}
+                    <span className="text-gray-500">{t("assetModal.conflict")}:</span>{' '}
                     <span>{conflict}</span>
                   </div>
                 )}
                 {ending && (
                   <div>
-                    <span className="text-gray-500">Ending:</span>{' '}
+                    <span className="text-gray-500">{t("assetModal.ending")}:</span>{' '}
                     <span>{ending}</span>
                   </div>
                 )}
                 {soundBed && (
                   <div>
-                    <span className="text-gray-500">Sound bed:</span>{' '}
+                    <span className="text-gray-500">{t("assetModal.soundBed")}:</span>{' '}
                     <span>{soundBed}</span>
                   </div>
                 )}
@@ -397,8 +412,8 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
             )}
             {(theme || tone) && (
               <div className="text-sm text-gray-400 flex flex-wrap gap-x-3 gap-y-1">
-                {theme && <span>Theme: {theme}</span>}
-                {tone && <span>Tone: {tone}</span>}
+                {theme && <span>{t("assetModal.theme")}: {theme}</span>}
+                {tone && <span>{t("assetModal.tone")}: {tone}</span>}
               </div>
             )}
           </section>
@@ -409,12 +424,12 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
             <AccordionItem value="acts" className="border-none">
               <AccordionTrigger className="px-4 py-3 text-sm font-semibold text-gray-300 hover:no-underline">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <span className="uppercase tracking-wide">ACTS</span>
+                  <span className="uppercase tracking-wide">{t("assetModal.actsUpper")}</span>
                   <div className="flex items-center gap-2 text-xs text-gray-400 font-normal">
                     {acts.map((act, index) => (
                       <span key={index}>
                         {index > 0 && <span className="mx-1">→</span>}
-                        {act.title || `Act ${index + 1}`}
+                        {act.title || `${t("assetModal.acts")} ${index + 1}`}
                       </span>
                     ))}
                   </div>
@@ -425,9 +440,9 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                   {acts.map((act, index) => (
                     <div key={`${act.title}-${index}`} className="border-l-2 border-white/10 pl-3">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-sm font-semibold text-white">{act.title || `Act ${index + 1}`}</span>
+                        <span className="text-sm font-semibold text-white">{act.title || `${t("assetModal.acts")} ${index + 1}`}</span>
                         <Badge variant="outline" className="border-white/15 text-[10px] text-gray-400">
-                          Act {index + 1}
+                          {t("assetModal.acts")} {index + 1}
                         </Badge>
                       </div>
                       {(act.summary || act.description) && (
@@ -453,7 +468,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
             <AccordionItem value="elements" className="border-none">
               <AccordionTrigger className="px-4 py-3 text-sm font-semibold text-gray-300 hover:no-underline">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <span className="uppercase tracking-wide">ELEMENTS</span>
+                  <span className="uppercase tracking-wide">{t("assetModal.elementsUpper")}</span>
                   <div className="flex flex-wrap gap-2">
                     {characters.map((char, index) => (
                       <Badge
@@ -461,7 +476,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                         variant="outline"
                         className="border-white/20 text-gray-200 text-xs font-normal"
                       >
-                        {char.id || `Character ${index + 1}`}
+                        {char.id || `${t("assetModal.character")} ${index + 1}`}
                       </Badge>
                     ))}
                     {scene && (
@@ -469,7 +484,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                         variant="outline"
                         className="border-white/20 text-gray-200 text-xs font-normal"
                       >
-                        {scene.id || 'Scene'}
+                        {scene.id || t("assetModal.scene")}
                       </Badge>
                     )}
                   </div>
@@ -483,10 +498,10 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                       className="border-l-2 border-white/10 pl-3 space-y-2"
                     >
                       <div className="text-xs uppercase tracking-wide text-gray-400">
-                        Character
+                        {t("assetModal.character")}
                       </div>
                       <div className="text-base font-semibold text-white">
-                        {character.id || `Character ${index + 1}`}
+                        {character.id || `${t("assetModal.character")} ${index + 1}`}
                       </div>
                       {character.description && (
                         <p className="text-sm text-gray-300">{character.description}</p>
@@ -495,8 +510,8 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                   ))}
                   {scene && (
                     <div className="border-l-2 border-white/10 pl-3 space-y-2">
-                      <div className="text-xs uppercase tracking-wide text-gray-400">Scene</div>
-                      <div className="text-base font-semibold text-white">{scene.id || 'Scene'}</div>
+                      <div className="text-xs uppercase tracking-wide text-gray-400">{t("assetModal.scene")}</div>
+                      <div className="text-base font-semibold text-white">{scene.id || t("assetModal.scene")}</div>
                       {scene.description && (
                         <p className="text-sm text-gray-300">{scene.description}</p>
                       )}
@@ -510,7 +525,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
 
         {storyboardShots.length > 0 && (
           <section className="space-y-4">
-            <h4 className="text-sm font-semibold uppercase tracking-wide text-gray-300">Storyboard</h4>
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-gray-300">{t("assetModal.storyboard")}</h4>
             <Accordion
               type="multiple"
               defaultValue={storyboardShots.map((shot, index) => `storyboard-shot-${shot.shot_number ?? index}`)}
@@ -527,7 +542,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                     <AccordionTrigger className="text-left px-4 py-3 text-gray-100 hover:no-underline">
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="font-semibold text-sm">
-                          Shot #{shot.shot_number ?? index + 1}
+                          {t("assetModal.shot")} #{shot.shot_number ?? index + 1}
                         </span>
                         {shot.duration_seconds && (
                           <Badge variant="outline" className="border-white/15 text-gray-200 text-xs">
@@ -540,7 +555,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                       <div className="space-y-3">
                         {shot.start_frame_brief && (
                           <div className="space-y-1">
-                            <div className="text-xs uppercase tracking-wide text-gray-400">Start frame</div>
+                            <div className="text-xs uppercase tracking-wide text-gray-400">{t("assetModal.startFrame")}</div>
                             <p className="text-sm text-gray-200 whitespace-pre-wrap">
                               {shot.start_frame_brief}
                             </p>
@@ -548,7 +563,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                         )}
                         {shot.story_description && (
                           <div className="space-y-1">
-                            <div className="text-xs uppercase tracking-wide text-gray-400">Story</div>
+                            <div className="text-xs uppercase tracking-wide text-gray-400">{t("assetModal.story")}</div>
                             <p className="text-sm text-gray-200 whitespace-pre-wrap">
                               {shot.story_description}
                             </p>
@@ -578,7 +593,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
 
         {shots.length > 0 && (
           <section className="space-y-4">
-            <h4 className="text-sm font-semibold uppercase tracking-wide text-gray-300">Shots</h4>
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-gray-300">{t("assetModal.shots")}</h4>
             <Accordion
               type="multiple"
               defaultValue={shots.map((shot, index) => `shot-${shot.number ?? index}`)}
@@ -603,7 +618,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                   <AccordionTrigger className="text-left px-4 py-3 text-gray-100 hover:no-underline">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="font-semibold text-sm">
-                        Shot #{shot.number ?? index + 1}
+                        {t("assetModal.shot")} #{shot.number ?? index + 1}
                       </span>
                       {shot.duration && (
                         <Badge variant="outline" className="border-white/15 text-gray-200 text-xs">
@@ -612,37 +627,37 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                       )}
                       {shot.keyframeStatus === 'done' && (
                         <Badge variant="outline" className="border-emerald-400/30 text-emerald-300 text-xs">
-                          Keyframe Done
+                          {t("assetModal.keyframePrompt")} {t("assetModal.done")}
                         </Badge>
                       )}
                       {shot.keyframeStatus === 'skipped' && (
                         <Badge variant="outline" className="border-white/15 text-gray-200 text-xs">
-                          Keyframe Skipped
+                          {t("assetModal.keyframePrompt")} {t("assetModal.skipped")}
                         </Badge>
                       )}
                       {shot.keyframeStatus === 'failed' && (
                         <Badge variant="outline" className="border-rose-400/40 text-rose-300 text-xs">
-                          Keyframe Failed
+                          {t("assetModal.keyframePrompt")} {t("assetModal.failed")}
                         </Badge>
                       )}
                       {shot.videoStatus === 'generating' && (
                         <Badge variant="outline" className="border-amber-300/30 text-amber-200 text-xs">
-                          Generating
+                          {t("assetModal.generating")}
                         </Badge>
                       )}
                       {shot.videoStatus === 'done' && (
                         <Badge variant="outline" className="border-emerald-400/30 text-emerald-300 text-xs">
-                          Video Done
+                          {t("assets.video")} {t("assetModal.done")}
                         </Badge>
                       )}
                       {shot.videoStatus === 'failed' && (
                         <Badge variant="outline" className="border-rose-400/40 text-rose-300 text-xs">
-                          Video Failed
+                          {t("assets.video")} {t("assetModal.failed")}
                         </Badge>
                       )}
                       {shot.videoModelUsed && (
                         <Badge variant="outline" className="border-white/15 text-gray-200 text-xs">
-                          Model: {shot.videoModelUsed}
+                          {t("assetModal.model")}: {shot.videoModelUsed}
                         </Badge>
                       )}
                     </div>
@@ -652,7 +667,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                         {keyframePromptText && (
                           <div className="space-y-2">
                             <div className="flex items-center justify-between text-xs uppercase tracking-wide text-gray-400">
-                              <span>Keyframe Prompt</span>
+                              <span>{t("assetModal.keyframePrompt")}</span>
                               <Button
                                 variant="ghost"
                                 size="sm"
@@ -660,7 +675,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                                 onClick={() => handleCopy(keyframePromptText)}
                               >
                                 <Copy className="h-3.5 w-3.5 mr-1" />
-                                Copy
+                                {t("assetModal.copy")}
                               </Button>
                             </div>
                             <pre className="bg-black/40 rounded-lg p-3 text-sm text-gray-100 whitespace-pre-wrap leading-relaxed">
@@ -671,7 +686,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                         {shot.prompt && (
                           <div className="space-y-2">
                             <div className="flex items-center justify-between text-xs uppercase tracking-wide text-gray-400">
-                              <span>Shot Prompt</span>
+                              <span>{t("assetModal.shotPrompt")}</span>
                               <Button
                                 variant="ghost"
                                 size="sm"
@@ -679,7 +694,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                                 onClick={() => handleCopy(shot.prompt)}
                               >
                                 <Copy className="h-3.5 w-3.5 mr-1" />
-                                Copy
+                                {t("assetModal.copy")}
                               </Button>
                             </div>
                             <pre className="text-sm leading-relaxed text-gray-100 bg-white/5 rounded-lg p-3 whitespace-pre-wrap">
@@ -691,7 +706,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                         {(shot.videoErrorMessage || videoAttemptsText) && (
                           <div className="space-y-2">
                             <div className="flex items-center justify-between text-xs uppercase tracking-wide text-gray-400">
-                              <span>Video Routing</span>
+                              <span>{t("assetModal.videoRouting")}</span>
                               {videoAttemptsText && (
                                 <Button
                                   variant="ghost"
@@ -700,7 +715,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                                   onClick={() => handleCopy(videoAttemptsText)}
                                 >
                                   <Copy className="h-3.5 w-3.5 mr-1" />
-                                  Copy Attempts
+                                  {t("assetModal.copyAttempts")}
                                 </Button>
                               )}
                             </div>
@@ -742,7 +757,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                 className="h-8 text-gray-400 hover:text-gray-100 hover:bg-gray-700/50"
               >
                 <Copy className="h-3.5 w-3.5 mr-1.5" />
-                {isCopied ? 'Copied' : 'Copy'}
+                {isCopied ? t("assetModal.copied") : t("assetModal.copy")}
               </Button>
             )}
             {(data.url || getDownloadableTextContent()) && (
@@ -753,7 +768,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                 className="h-8 text-gray-400 hover:text-gray-100 hover:bg-gray-700/50"
               >
                 <Download className="h-3.5 w-3.5 mr-1.5" />
-                Download
+                {t("assetModal.download")}
               </Button>
             )}
           </div>
@@ -823,7 +838,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                 onError={() => setIsMediaLoading(false)}
                 style={{ opacity: isMediaLoading ? 0 : 1, transition: 'opacity 0.3s' }}
               >
-                Your browser does not support the video tag.
+                {t("assetModal.videoNotSupported")}
               </video>
             </div>
           )}
@@ -832,7 +847,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
         {/* Hint for keyboard shortcuts */}
         {type === 'video' && (
           <div className="text-xs text-gray-500 text-center mt-2">
-            Press Space to pause/play • ESC to close
+            {t("assetModal.keyboardHint")}
           </div>
         )}
       </DialogContent>

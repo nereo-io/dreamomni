@@ -361,6 +361,7 @@
   },
   "video-history": {
     "title": "История генерации видео",
+    "videoDetailsTitle": "Детали видео",
     "noVideosTitle": "Видео пока нет",
     "noVideosDescription": "Вы ещё не создали ни одного видео. Начните создавать свой первый шедевр!",
     "generateVideoButton": "Генерировать видео",
@@ -587,10 +588,127 @@
     "jobsTab": "Задания",
     "imageTab": "Изображения"
   },
+  "media-detail": {
+    "title": "Детали медиа",
+    "audio": "Аудио",
+    "prompt": "Промпт",
+    "inputImages": "Входные изображения",
+    "expand": "Развернуть",
+    "collapse": "Свернуть",
+    "actions": {
+      "open": "Открыть",
+      "download": "Скачать",
+      "delete": "Удалить",
+      "copyPrompt": "Копировать промпт",
+      "promptCopied": "Промпт скопирован"
+    }
+  },
   "agentJobs": {
     "pleaseSignIn": "Пожалуйста, войдите",
     "signInToViewJobs": "Войдите, чтобы просмотреть свои задания",
-    "signInButton": "Войти"
+    "signInButton": "Войти",
+    "tabs": {
+      "history": "История",
+      "discover": "Подборка"
+    },
+    "modal": {
+      "title": "Детали задания",
+      "labels": {
+        "videoModel": "Видео модель",
+        "imageModel": "Имидж модель",
+        "aspectRatio": "Соотношение сторон",
+        "duration": "Длительность",
+        "shots": "Кадры",
+        "created": "Создано"
+      },
+      "actions": {
+        "open": "Открыть",
+        "download": "Скачать",
+        "copyPrompt": "Копировать промпт"
+      }
+    },
+    "empty": {
+      "noJobsTitle": "Заданий агента пока нет",
+      "noJobsDescription": "Создайте свое первое задание по интеллектуальной оркестровке видео, чтобы начать",
+      "checkExamples": "Посмотрите примеры",
+      "noShowcase": "Нет доступных элементов витрины."
+    },
+    "auth": {
+      "required": "Требуется аутентификация",
+      "description": "Пожалуйста, войдите, чтобы просмотреть свои задания агента",
+      "viewShowcase": "Посмотреть витрину"
+    },
+    "toast": {
+      "deleteSuccess": "Задание агента успешно удалено",
+      "deleteError": "Не удалось удалить задание",
+      "downloadError": "Не удалось скачать видео",
+      "fetchError": "Не удалось загрузить задания агента",
+      "copyError": "Не удалось скопировать"
+    },
+    "item": {
+      "finalVideo": "Итоговое видео",
+      "reEdit": "Перередактировать",
+      "delete": "Удалить",
+      "deleting": "Удаление...",
+      "story": "История",
+      "theme": "Тема",
+      "tone": "Тон",
+      "acts": "Акты",
+      "characters": "Персонажи",
+      "scene": "Сцена",
+      "logs": "Логи агента",
+      "show": "Показать",
+      "hide": "Скрыть",
+      "deleteTitle": "Удалить задание агента?",
+      "deleteConfirm": "Вы уверены, что хотите удалить \"{prompt}\"? Это действие нельзя отменить.",
+      "shots": "кадров",
+      "failed": "Генерация не удалась"
+    },
+    "assets": {
+      "script": "Сценарий",
+      "image": "Изображение",
+      "video": "Видео",
+      "storyScript": "История и сценарий",
+      "characterRefs": "Персонажи",
+      "sceneRef": "Сцена",
+      "shot": "Кадр",
+      "ref": "Реф",
+      "more": "еще",
+      "finalVideo": "Итоговое видео"
+    },
+    "assetModal": {
+      "shots": "Кадры",
+      "acts": "Акты",
+      "characters": "Персонажи",
+      "scene": "Сцена",
+      "storyOutline": "Сюжетная линия",
+      "logline": "Логлайн",
+      "conflict": "Конфликт",
+      "ending": "Концовка",
+      "soundBed": "Звуковой фон",
+      "theme": "Тема",
+      "tone": "Тон",
+      "actsUpper": "АКТЫ",
+      "elementsUpper": "ЭЛЕМЕНТЫ",
+      "character": "Персонаж",
+      "storyboard": "Раскадровка",
+      "startFrame": "Начальный кадр",
+      "story": "История",
+      "keyframePrompt": "Промпт ключевого кадра",
+      "shotPrompt": "Промпт кадра",
+      "videoRouting": "Маршрутизация видео",
+      "copy": "Копировать",
+      "copied": "Скопировано",
+      "download": "Скачать",
+      "copyAttempts": "Копировать попытки",
+      "keyboardHint": "Нажмите Пробел для паузы/воспроизведения • ESC для закрытия",
+      "videoNotSupported": "Ваш браузер не поддерживает тег видео.",
+      "done": "Готово",
+      "failed": "Ошибка",
+      "generating": "Генерация",
+      "skipped": "Пропущено",
+      "model": "Модель"
+    }
   },
   "imageHistory": {
     "discoveryTab": "Подборка",

@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/drawer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTranslations } from "next-intl";
 
 export interface MediaDetailProps {
   open: boolean;
@@ -59,16 +60,19 @@ export function MediaDetailModal({
   statusBadge,
   errorMessage,
   hasAudio,
-  title = "Media details",
+  title,
   onDownload,
   onDelete,
   onOpenOriginal,
   isDownloading,
   isDeleting,
 }: MediaDetailProps) {
+  const t = useTranslations("media-detail");
   const isMobile = useIsMobile();
   const [isPromptExpanded, setIsPromptExpanded] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const displayTitle = title || t("title");
 
   // Reset expansion state when opening a new item (conceptually when prompt changes)
   useEffect(() => {
@@ -132,11 +136,11 @@ export function MediaDetailModal({
         <ScrollArea className="min-h-0 flex-1">
           <div className="space-y-5 p-5 md:p-6">
             <div className="flex items-center justify-between">
-              <div className="text-sm font-semibold text-gray-100">{title}</div>
+              <div className="text-sm font-semibold text-gray-100">{displayTitle}</div>
               <div className="flex items-center gap-2">
                 {hasAudio && (
                   <Badge className="bg-blue-500/20 text-blue-200 border border-blue-400/40">
-                    Audio
+                    {t("audio")}
                   </Badge>
                 )}
                 {statusBadge}
@@ -146,7 +150,7 @@ export function MediaDetailModal({
             {/* Prompt Section */}
             <div className="space-y-2">
               <div className="text-xs uppercase tracking-widest text-gray-400">
-                Prompt
+                {t("prompt")}
               </div>
               <p
                 className={`text-sm text-gray-100 ${
@@ -161,7 +165,7 @@ export function MediaDetailModal({
                   onClick={() => setIsPromptExpanded((prev) => !prev)}
                   className="text-xs font-medium text-blue-300 hover:text-blue-200"
                 >
-                  {isPromptExpanded ? "Collapse" : "Expand"}
+                  {isPromptExpanded ? t("collapse") : t("expand")}
                 </button>
               )}
             </div>
@@ -170,7 +174,7 @@ export function MediaDetailModal({
             {inputImages.length > 0 && (
               <div className="space-y-2">
                 <div className="text-xs uppercase tracking-widest text-gray-400">
-                  Input images
+                  {t("inputImages")}
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   {inputImages.slice(0, 4).map((imageUrl, index) => (
@@ -215,7 +219,7 @@ export function MediaDetailModal({
               className="w-full bg-gray-800/80 text-gray-100 hover:bg-gray-700"
             >
               <PlayCircle className="mr-2 h-4 w-4" />
-              Open
+              {t("actions.open")}
             </Button>
             <Button
               variant="secondary"
@@ -228,7 +232,7 @@ export function MediaDetailModal({
               ) : (
                 <Download className="mr-2 h-4 w-4" />
               )}
-              Download
+              {t("actions.download")}
             </Button>
             <Button
               variant="secondary"
@@ -241,18 +245,18 @@ export function MediaDetailModal({
               ) : (
                 <Trash2 className="mr-2 h-4 w-4" />
               )}
-              Delete
+              {t("actions.delete")}
             </Button>
             <Button
               variant="ghost"
               onClick={() => {
                 navigator.clipboard.writeText(prompt);
-                toast.success("Prompt copied");
+                toast.success(t("actions.promptCopied"));
               }}
               className="w-full border border-gray-800 bg-gray-900 text-gray-300 hover:bg-gray-800 hover:text-white"
             >
               <Copy className="mr-2 h-4 w-4" />
-              Copy prompt
+              {t("actions.copyPrompt")}
             </Button>
           </div>
         </div>
@@ -265,7 +269,7 @@ export function MediaDetailModal({
       <Drawer open={open} onOpenChange={onOpenChange}>
         <DrawerContent className="flex h-[95vh] flex-col bg-gray-950 text-gray-100 border-gray-800">
           <div className="flex items-center justify-between px-4 pt-2">
-            <DrawerTitle className="text-sm font-semibold">{title}</DrawerTitle>
+            <DrawerTitle className="text-sm font-semibold">{displayTitle}</DrawerTitle>
             <DrawerClose asChild>
               <button
                 type="button"

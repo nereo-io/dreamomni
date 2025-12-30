@@ -362,6 +362,7 @@
   },
   "video-history": {
     "title": "Video Generation History",
+    "videoDetailsTitle": "Video details",
     "noVideosTitle": "No Videos Yet",
     "noVideosDescription": "You haven't generated any videos. Start creating your first masterpiece!",
     "generateVideoButton": "Generate Video",
@@ -589,10 +590,127 @@
     "jobsTab": "Jobs",
     "imageTab": "Images"
   },
+  "media-detail": {
+    "title": "Media details",
+    "audio": "Audio",
+    "prompt": "Prompt",
+    "inputImages": "Input images",
+    "expand": "Expand",
+    "collapse": "Collapse",
+    "actions": {
+      "open": "Open",
+      "download": "Download",
+      "delete": "Delete",
+      "copyPrompt": "Copy prompt",
+      "promptCopied": "Prompt copied"
+    }
+  },
   "agentJobs": {
     "pleaseSignIn": "Please sign in",
     "signInToViewJobs": "Sign in to view your jobs",
-    "signInButton": "Sign In"
+    "signInButton": "Sign In",
+    "tabs": {
+      "history": "History",
+      "discover": "Discover"
+    },
+    "modal": {
+      "title": "Job details",
+      "labels": {
+        "videoModel": "Video model",
+        "imageModel": "Image model",
+        "aspectRatio": "Aspect ratio",
+        "duration": "Duration",
+        "shots": "Shots",
+        "created": "Created"
+      },
+      "actions": {
+        "open": "Open",
+        "download": "Download",
+        "copyPrompt": "Copy prompt"
+      }
+    },
+    "empty": {
+      "noJobsTitle": "No Agent Jobs Yet",
+      "noJobsDescription": "Create your first intelligent video orchestration job to get started",
+      "checkExamples": "Check out examples",
+      "noShowcase": "No showcase items available."
+    },
+    "auth": {
+      "required": "Authentication Required",
+      "description": "Please log in to view your Agent jobs",
+      "viewShowcase": "View Showcase"
+    },
+    "toast": {
+      "deleteSuccess": "Agent job deleted successfully",
+      "deleteError": "Failed to delete job",
+      "downloadError": "Failed to download video",
+      "fetchError": "Failed to load Agent jobs",
+      "copyError": "Failed to copy"
+    },
+    "item": {
+      "finalVideo": "Final Video",
+      "reEdit": "Re-edit",
+      "delete": "Delete",
+      "deleting": "Deleting...",
+      "story": "Story",
+      "theme": "Theme",
+      "tone": "Tone",
+      "acts": "Acts",
+      "characters": "Characters",
+      "scene": "Scene",
+      "logs": "Agent Logs",
+      "show": "Show",
+      "hide": "Hide",
+      "deleteTitle": "Delete Agent Job?",
+      "deleteConfirm": "Are you sure you want to delete \"{prompt}\"? This action cannot be undone.",
+      "shots": "shots",
+      "failed": "Generation failed"
+    },
+    "assets": {
+      "script": "Script",
+      "image": "Image",
+      "video": "Video",
+      "storyScript": "Story & Script",
+      "characterRefs": "Character Refs",
+      "sceneRef": "Scene Ref",
+      "shot": "Shot",
+      "ref": "Ref",
+      "more": "more",
+      "finalVideo": "Final Video"
+    },
+    "assetModal": {
+      "shots": "Shots",
+      "acts": "Acts",
+      "characters": "Characters",
+      "scene": "Scene",
+      "storyOutline": "Story Outline",
+      "logline": "Logline",
+      "conflict": "Conflict",
+      "ending": "Ending",
+      "soundBed": "Sound bed",
+      "theme": "Theme",
+      "tone": "Tone",
+      "actsUpper": "ACTS",
+      "elementsUpper": "ELEMENTS",
+      "character": "Character",
+      "storyboard": "Storyboard",
+      "startFrame": "Start frame",
+      "story": "Story",
+      "keyframePrompt": "Keyframe Prompt",
+      "shotPrompt": "Shot Prompt",
+      "videoRouting": "Video Routing",
+      "copy": "Copy",
+      "copied": "Copied",
+      "download": "Download",
+      "copyAttempts": "Copy Attempts",
+      "keyboardHint": "Press Space to pause/play • ESC to close",
+      "videoNotSupported": "Your browser does not support the video tag.",
+      "done": "Done",
+      "failed": "Failed",
+      "generating": "Generating",
+      "skipped": "Skipped",
+      "model": "Model"
+    }
   },
   "imageHistory": {
     "discoveryTab": "Discover",

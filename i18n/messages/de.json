@@ -362,6 +362,7 @@
   },
   "video-history": {
     "title": "Videogenerierungsverlauf",
+    "videoDetailsTitle": "Videodetails",
     "noVideosTitle": "Noch keine Videos",
     "noVideosDescription": "Sie haben noch keine Videos generiert. Beginnen Sie mit der Erstellung Ihres ersten Meisterwerks!",
     "generateVideoButton": "Video generieren",
@@ -589,10 +590,127 @@
     "jobsTab": "Jobs",
     "imageTab": "Bilder"
   },
+  "media-detail": {
+    "title": "Medien-Details",
+    "audio": "Audio",
+    "prompt": "Prompt",
+    "inputImages": "Eingabebilder",
+    "expand": "Erweitern",
+    "collapse": "Einklappen",
+    "actions": {
+      "open": "Öffnen",
+      "download": "Herunterladen",
+      "delete": "Löschen",
+      "copyPrompt": "Beschreibung kopieren",
+      "promptCopied": "Beschreibung kopiert"
+    }
+  },
   "agentJobs": {
     "pleaseSignIn": "Bitte anmelden",
     "signInToViewJobs": "Melde dich an, um deine Jobs zu sehen",
-    "signInButton": "Anmelden"
+    "signInButton": "Anmelden",
+    "tabs": {
+      "history": "Verlauf",
+      "discover": "Entdecken"
+    },
+    "modal": {
+      "title": "Job-Details",
+      "labels": {
+        "videoModel": "Videomodell",
+        "imageModel": "Bildmodell",
+        "aspectRatio": "Seitenverhältnis",
+        "duration": "Dauer",
+        "shots": "Aufnahmen",
+        "created": "Erstellt"
+      },
+      "actions": {
+        "open": "Öffnen",
+        "download": "Herunterladen",
+        "copyPrompt": "Beschreibung kopieren"
+      }
+    },
+    "empty": {
+      "noJobsTitle": "Noch keine Agent-Jobs",
+      "noJobsDescription": "Erstellen Sie Ihren ersten intelligenten Video-Orchestrierungsjob, um loszulegen",
+      "checkExamples": "Beispiele ansehen",
+      "noShowcase": "Keine Showcase-Elemente verfügbar."
+    },
+    "auth": {
+      "required": "Authentifizierung erforderlich",
+      "description": "Bitte melden Sie sich an, um Ihre Agent-Jobs zu sehen",
+      "viewShowcase": "Showcase ansehen"
+    },
+    "toast": {
+      "deleteSuccess": "Agent-Job erfolgreich gelöscht",
+      "deleteError": "Fehler beim Löschen des Jobs",
+      "downloadError": "Fehler beim Herunterladen des Videos",
+      "fetchError": "Fehler beim Laden der Agent-Jobs",
+      "copyError": "Kopieren fehlgeschlagen"
+    },
+    "item": {
+      "finalVideo": "Finales Video",
+      "reEdit": "Neu bearbeiten",
+      "delete": "Löschen",
+      "deleting": "Wird gelöscht...",
+      "story": "Geschichte",
+      "theme": "Thema",
+      "tone": "Ton",
+      "acts": "Akte",
+      "characters": "Charaktere",
+      "scene": "Szene",
+      "logs": "Agenten-Logs",
+      "show": "Anzeigen",
+      "hide": "Ausblenden",
+      "deleteTitle": "Agent-Job löschen?",
+      "deleteConfirm": "Sind Sie sicher, dass Sie \"{prompt}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "shots": "Aufnahmen",
+      "failed": "Generierung fehlgeschlagen"
+    },
+    "assets": {
+      "script": "Skript",
+      "image": "Bild",
+      "video": "Video",
+      "storyScript": "Geschichte & Skript",
+      "characterRefs": "Charakter-Refs",
+      "sceneRef": "Szenen-Ref",
+      "shot": "Aufnahme",
+      "ref": "Ref",
+      "more": "mehr",
+      "finalVideo": "Finales Video"
+    },
+    "assetModal": {
+      "shots": "Aufnahmen",
+      "acts": "Akte",
+      "characters": "Charaktere",
+      "scene": "Szene",
+      "storyOutline": "Story-Zusammenfassung",
+      "logline": "Logline",
+      "conflict": "Konflikt",
+      "ending": "Ende",
+      "soundBed": "Soundtrack",
+      "theme": "Thema",
+      "tone": "Ton",
+      "actsUpper": "AKTE",
+      "elementsUpper": "ELEMENTE",
+      "character": "Charakter",
+      "storyboard": "Storyboard",
+      "startFrame": "Anfangsbild",
+      "story": "Geschichte",
+      "keyframePrompt": "Keyframe-Prompt",
+      "shotPrompt": "Aufnahme-Prompt",
+      "videoRouting": "Video-Routing",
+      "copy": "Kopieren",
+      "copied": "Kopiert",
+      "download": "Herunterladen",
+      "copyAttempts": "Versuche kopieren",
+      "keyboardHint": "Leertaste für Pause/Wiedergabe • ESC zum Schließen",
+      "videoNotSupported": "Ihr Browser unterstützt das Video-Tag nicht.",
+      "done": "Fertig",
+      "failed": "Fehlgeschlagen",
+      "generating": "Wird generiert",
+      "skipped": "Übersprungen",
+      "model": "Modell"
+    }
   },
   "imageHistory": {
     "discoveryTab": "Entdecken",

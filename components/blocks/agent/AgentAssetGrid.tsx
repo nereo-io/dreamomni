@@ -11,6 +11,7 @@ import { AssetModal } from './AssetModal';
 import { FileText, PlayCircle, Sparkles } from 'lucide-react';
 import { useGenerationProgress } from '@/hooks/useGenerationProgress';
 import { getVideoModel } from '@/config/video-models';
+import { useTranslations } from 'next-intl';
 
 type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref';
 
@@ -102,6 +103,7 @@ interface AgentAssetGridProps {
 
 export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
   ({ jobId, shots, finalVideoUrl: _finalVideoUrl, storyboardJson, characterReferenceImages, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrls, jobStatus, createdAt, videoModelId, jobUpdatedAt }) => {
+    const t = useTranslations("agentJobs");
     const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
     const [sceneAssets, setSceneAssets] = useState<AgentAsset[]>([]);
     const [sceneAssetsStatus, setSceneAssetsStatus] = useState<'idle' | 'loading' | 'error'>('idle');
@@ -371,14 +373,14 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
         });
         const scriptContent = scriptContentLines.join('\n\n');
         lines.push('');
-        lines.push('Script:');
+        lines.push(`${t("assets.script")}:`);
         lines.push(scriptContent);
 
         result.push({
           id: 'story-script',
           type: 'story',
           content: lines.join('\n'),
-          title: 'Story & Script',
+          title: t("assets.storyScript"),
           loading: ['pending', 'splitting_shots'].includes(jobStatus || ''),
           progressValue: storyProgressValue,
           storyDetails: {
@@ -423,8 +425,8 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
             url,
             title:
               refImages.length > 1
-                ? `Ref #${index + 1}`
-                : 'Ref #1',
+                ? `${t("assets.ref")} #${index + 1}`
+                : `${t("assets.ref")} #1`,
           });
         });
       }
@@ -434,7 +436,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           result.push({
             id: `character-refs-loading-${index}`,
             type: 'character_refs',
-            title: `Ref #${index + 1}`,
+            title: `${t("assets.ref")} #${index + 1}`,
             loading: true,
             backgroundUrl: fallbackBackground,
             progressValue: characterProgressValue,
@@ -452,7 +454,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
             id: `scene-ref-${asset.id || index}`,
             type: 'scene_ref',
             url: asset.url,
-            title: sceneElement?.id ? `${sceneElement.id} Scene Ref` : `Scene Ref #${index + 1}`,
+            title: sceneElement?.id ? `${sceneElement.id} ${t("assets.sceneRef")}` : `${t("assets.sceneRef")} #${index + 1}`,
             status: asset.status,
             loading: isLoading,
             backgroundUrl: asset.url ? undefined : fallbackBackground,
@@ -463,7 +465,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
         result.push({
           id: 'scene-ref-loading',
           type: 'scene_ref',
-          title: sceneElement?.id ? `${sceneElement.id} Scene Ref` : 'Scene Ref',
+          title: sceneElement?.id ? `${sceneElement.id} ${t("assets.sceneRef")}` : t("assets.sceneRef"),
           loading: true,
           backgroundUrl: fallbackBackground,
           progressValue: characterProgressValue,
@@ -498,7 +500,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           type: 'image',
           url: shot.keyframe_url,
           shotNumber: shot.shot_number,
-          title: `Shot #${shot.shot_number} Keyframe`,
+          title: `${t("assets.shot")} #${shot.shot_number} ${t("assets.image")}`,
           status: normalizedKeyframeStatus,
           loading: isKeyframeLoading,
           backgroundUrl,
@@ -540,7 +542,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           url: shot.video_url,
           shotNumber: shot.shot_number,
           duration: shot.duration_seconds,
-          title: `Shot #${shot.shot_number} Video`,
+          title: `${t("assets.shot")} #${shot.shot_number} ${t("assets.video")}`,
           status: normalizedVideoStatus,
           loading: isVideoLoading,
           backgroundUrl,
@@ -552,22 +554,22 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       // We don't include it in the grid anymore
 
       return result;
-    }, [shots, storyOutline, characterElements, sceneElement, storyboardShots, storyboardJson, characterReferenceImages, progress, fallbackBackground, shouldShowCharacterPlaceholders, shouldShowScenePlaceholder, characterCount, jobStatus, isKeyframeStage, isVideoStage, isJobFailed, estimatedImageProgress, estimatedVideoProgress, sceneAssets]);
+    }, [shots, storyOutline, characterElements, sceneElement, storyboardShots, storyboardJson, characterReferenceImages, progress, fallbackBackground, shouldShowCharacterPlaceholders, shouldShowScenePlaceholder, characterCount, jobStatus, isKeyframeStage, isVideoStage, isJobFailed, estimatedImageProgress, estimatedVideoProgress, sceneAssets, t, showAgentInternals]);
 
     const getAssetTypeLabel = (type: AssetType) => {
       switch (type) {
         case 'script':
-          return '📝 Script';
+          return `📝 ${t("assets.script")}`;
         case 'image':
-          return '📷 Image';
+          return `📷 ${t("assets.image")}`;
         case 'video':
-          return '🎬 Video';
+          return `🎬 ${t("assets.video")}`;
         case 'story':
-          return '📖 Story & Script';
+          return `📖 ${t("assets.storyScript")}`;
         case 'character_refs':
-          return '🧑‍🎨 Character Refs';
+          return `🧑‍🎨 ${t("assets.characterRefs")}`;
         case 'scene_ref':
-          return '🏞️ Scene Ref';
+          return `🏞️ ${t("assets.sceneRef")}`;
         default:
           return '';
       }
@@ -623,7 +625,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
 
     const renderFailedOverlay = () => (
       <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-        <div className="text-red-300 text-sm font-medium">Generation failed</div>
+        <div className="text-red-300 text-sm font-medium">{t("item.failed")}</div>
       </div>
     );
 
@@ -655,7 +657,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
                 <div className="w-full h-full bg-purple-200 dark:bg-purple-900/40 flex items-center justify-center">
                   <div className="text-center text-purple-800 dark:text-purple-200">
                     <FileText className="w-8 h-8 mx-auto" />
-                    <p className="text-sm font-medium mt-1">Script</p>
+                    <p className="text-sm font-medium mt-1">{t("assets.script")}</p>
                   </div>
                 </div>
               )}
@@ -663,9 +665,9 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
               {/* Story + Script Card */}
               {asset.type === 'story' && (
                 <div className="w-full h-full bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center px-3">
-                  <div className="text-center text-sky-900 dark:text-sky-50" title="Story &amp; Script">
+                  <div className="text-center text-sky-900 dark:text-sky-50" title={t("assets.storyScript")}>
                     <Sparkles className="w-7 h-7 mx-auto" />
-                    <span className="sr-only">Story &amp; Script</span>
+                    <span className="sr-only">{t("assets.storyScript")}</span>
                   </div>
                 </div>
               )}
@@ -706,7 +708,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
                   </div>
                   {asset.extraCount && asset.extraCount > 1 && (
                     <div className="absolute top-2 right-2 bg-black/60 text-white text-[10px] font-medium px-1.5 py-0.5 rounded-full">
-                      +{asset.extraCount - 1} more
+                      +{asset.extraCount - 1} {t("assets.more")}
                     </div>
                   )}
                 </>
@@ -756,7 +758,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
                   )}
                   {/* Shot number (top-left) */}
                   <div className="absolute top-2 left-2 text-white text-xs font-medium bg-black/50 px-2 py-0.5 rounded-md">
-                    {asset.shotNumber ? `Shot #${asset.shotNumber}` : 'Final Video'}
+                    {asset.shotNumber ? `${t("assets.shot")} #${asset.shotNumber}` : t("assets.finalVideo")}
                   </div>
                 </>
               )}

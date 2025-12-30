@@ -730,7 +730,7 @@ export default function VideoTab() {
         statusBadge={null} // Already included in details, or can be passed here if we want it in header
         hasAudio={selectedVideo?.has_audio ?? undefined}
         errorMessage={selectedVideo?.error_message}
-        title="Video details"
+        title={t("videoDetailsTitle")}
         onDownload={() => selectedVideo && handleDownloadVideo(selectedVideo)}
         onDelete={() => selectedVideo && handleDeleteVideo(selectedVideo)}
         onOpenOriginal={() => selectedVideo && handlePlayVideo(selectedVideo)}

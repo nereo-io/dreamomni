@@ -16,16 +16,19 @@ import DeleteConfirmDialog from '@/components/blocks/image-history-for-generatio
 import { AgentAssetGrid } from './AgentAssetGrid';
 import VideoPlayer from '@/components/blocks/video-history/components/VideoPlayer';
 import { getVideoModel } from '@/config/video-models';
+import { useTranslations } from 'next-intl';
 
 interface AgentJobItemProps {
   job: AgentJob;
   onDelete: (jobId: string) => void;
   onReEdit?: (job: AgentJob) => void;
   locale: string;
+  isReadOnly?: boolean;
 }
 
 export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
-  ({ job, onDelete, onReEdit, locale }) => {
+  ({ job, onDelete, onReEdit, locale, isReadOnly }) => {
+    const t = useTranslations("agentJobs");
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isDownloading, setIsDownloading] = useState(false);
@@ -255,7 +258,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               variant="secondary"
               className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium px-2.5 py-1 rounded-md border-0"
             >
-              {job.num_shots} shots
+              {job.num_shots} {t("item.shots")}
             </Badge>
             {videoModelLabel && (
               <Badge
@@ -280,15 +283,15 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
                     overflow: 'hidden',
                   }}
                 >
-                  Story: {summaryText}
+                  {t("item.story")}: {summaryText}
                 </div>
               )}
               <div className="flex flex-wrap gap-x-3 gap-y-1">
-                {theme && <span>Theme: {theme}</span>}
-                {tone && <span>Tone: {tone}</span>}
-                {acts.length > 0 && <span>Acts: {acts.length}</span>}
-                {characterElements.length > 0 && <span>Characters: {characterElements.length}</span>}
-                {sceneElement && <span>Scene: 1</span>}
+                {theme && <span>{t("item.theme")}: {theme}</span>}
+                {tone && <span>{t("item.tone")}: {tone}</span>}
+                {acts.length > 0 && <span>{t("item.acts")}: {acts.length}</span>}
+                {characterElements.length > 0 && <span>{t("item.characters")}: {characterElements.length}</span>}
+                {sceneElement && <span>{t("item.scene")}: 1</span>}
               </div>
             </div>
           )}
@@ -296,7 +299,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
           {/* Error message for failed jobs */}
           {isFailed && (
             <div className="bg-red-900/20 border border-red-800/40 rounded-lg p-3 text-sm">
-              <p className="text-red-300 font-medium">⚠️ Generation failed</p>
+              <p className="text-red-300 font-medium">⚠️ {t("item.failed")}</p>
               {job.error_message && (
                 <p className="mt-1 text-red-200/90 text-xs whitespace-pre-wrap break-words">
                   {job.error_message}
@@ -340,34 +343,36 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
                 />
                 {/* Final Video label overlay */}
                 <div className="absolute top-3 left-3 text-white text-xs font-medium bg-black/50 px-2 py-1 rounded-md pointer-events-none z-10">
-                  Final Video
+                  {t("item.finalVideo")}
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="flex gap-2 flex-wrap">
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  className="bg-gray-700/60 hover:bg-gray-600/80 text-white border-gray-600/50 hover:border-gray-500 px-3"
-                  onClick={() => onReEdit?.(job)}
-                  disabled={isDeleting}
-                >
-                  <Edit className="h-4 w-4 mr-1.5" />
-                  <span className="text-xs sm:text-sm">Re-edit</span>
-                </Button>
+              {!isReadOnly && (
+                <div className="flex gap-2 flex-wrap">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="bg-gray-700/60 hover:bg-gray-600/80 text-white border-gray-600/50 hover:border-gray-500 px-3"
+                    onClick={() => onReEdit?.(job)}
+                    disabled={isDeleting}
+                  >
+                    <Edit className="h-4 w-4 mr-1.5" />
+                    <span className="text-xs sm:text-sm">{t("item.reEdit")}</span>
+                  </Button>
 
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  className="bg-gray-700/60 hover:bg-gray-600/80 text-white border-gray-600/50 hover:border-gray-500 px-3"
-                  onClick={handleDelete}
-                  disabled={isDeleting}
-                >
-                  <Trash2 className="h-4 w-4 mr-1.5" />
-                  <span className="text-xs sm:text-sm">{isDeleting ? 'Deleting...' : 'Delete'}</span>
-                </Button>
-              </div>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="bg-gray-700/60 hover:bg-gray-600/80 text-white border-gray-600/50 hover:border-gray-500 px-3"
+                    onClick={handleDelete}
+                    disabled={isDeleting}
+                  >
+                    <Trash2 className="h-4 w-4 mr-1.5" />
+                    <span className="text-xs sm:text-sm">{isDeleting ? t("item.deleting") : t("item.delete")}</span>
+                  </Button>
+                </div>
+              )}
             </div>
           ) : (
             // Only show Final Video loading state during 'splicing' phase
@@ -397,9 +402,9 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
                 onClick={() => setShowLogs((prev) => !prev)}
                 className="w-full flex items-center justify-between px-3 py-2 text-sm text-gray-300 hover:bg-gray-900/60 transition-colors"
               >
-                <span>Agent Logs</span>
+                <span>{t("item.logs")}</span>
                 <span className="text-gray-500">
-                  {showLogs ? 'Hide' : 'Show'}
+                  {showLogs ? t("item.hide") : t("item.show")}
                 </span>
               </button>
               {showLogs && (
@@ -427,8 +432,8 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
           onOpenChange={setShowDeleteDialog}
           onConfirm={handleConfirmDelete}
           isDeleting={isDeleting}
-          title="Delete Agent Job?"
-          description={`Are you sure you want to delete "${job.prompt.substring(0, 50)}..."? This action cannot be undone.`}
+          title={t("item.deleteTitle")}
+          description={t("item.deleteConfirm", { prompt: job.prompt.substring(0, 50) })}
         />
       </>
     );

@@ -1,17 +1,24 @@
 /**
  * AgentJobsList
- * Right panel displaying user's Agent jobs
+ * Right panel displaying user's Agent jobs and Showcase
  * References: video-history/index.tsx for structure and polling logic
  */
 
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { AgentJob } from '@/types/agent';
+import { AgentJob, AgentJobStatusMap } from '@/types/agent';
 import { AgentJobItem } from './AgentJobItem';
 import { AgentJobSkeleton } from './AgentJobSkeleton';
-import { AlertTriangle, Sparkles } from 'lucide-react';
+import { AlertTriangle, Sparkles, History, PlayCircle, Download, Loader2, Volume2, VolumeX } from 'lucide-react';
 import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
+import { MediaDetailModal } from '../my-creations-page/MediaDetailModal';
+import { Button } from '@/components/ui/button';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { formatDistanceToNow } from 'date-fns';
+import { Badge } from '@/components/ui/badge';
+import { useTranslations } from 'next-intl';
 
 const POLLING_INTERVAL = 5000; // 5 seconds
 const JOB_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
@@ -23,9 +30,23 @@ interface AgentJobsListProps {
 }
 
 export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsListProps) {
+  const t = useTranslations("agentJobs");
   const [jobs, setJobs] = useState<AgentJob[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isUnauthorized, setIsUnauthorized] = useState(false);
+  
+  // Tabs: 'history' | 'discover'
+  const [activeTab, setActiveTab] = useState<'history' | 'discover'>('history');
+  const [showcaseJobs, setShowcaseJobs] = useState<AgentJob[]>([]);
+  const [isShowcaseLoading, setIsShowcaseLoading] = useState(false);
+  const [hasFetchedShowcase, setHasFetchedShowcase] = useState(false);
+
+  // Modal State
+  const [selectedJob, setSelectedJob] = useState<AgentJob | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+
+  const isMobile = useIsMobile();
 
   // Use ref to track latest jobs without causing re-renders
   const jobsRef = useRef<AgentJob[]>([]);
@@ -44,6 +65,8 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
         if (response.status === 401) {
           setIsUnauthorized(true);
           setIsLoading(false);
+          // 如果未登录，默认切换到 Discover
+          setActiveTab('discover');
           return;
         }
         throw new Error('Failed to fetch Agent jobs');
@@ -52,6 +75,11 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
       const data = await response.json();
       setJobs(data.jobs);
       setIsLoading(false);
+      
+      // 如果没有 Job，默认切换到 Discover
+      if (data.jobs.length === 0) {
+        setActiveTab('discover');
+      }
     } catch (error: any) {
       console.error('Error fetching jobs:', error);
       toast.error(error.message || 'Failed to load Agent jobs');
@@ -59,8 +87,37 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
     }
   }, []);
 
+  // Fetch Showcase Jobs
+  const fetchShowcaseJobs = useCallback(async () => {
+    if (hasFetchedShowcase) return;
+    
+    setIsShowcaseLoading(true);
+    try {
+      const response = await fetch('/api/agent/showcase');
+      if (response.ok) {
+        const data = await response.json();
+        setShowcaseJobs(data.jobs || []);
+      }
+    } catch (error) {
+      console.error('Failed to fetch showcase jobs:', error);
+    } finally {
+      setIsShowcaseLoading(false);
+      setHasFetchedShowcase(true);
+    }
+  }, [hasFetchedShowcase]);
+
+  // Fetch showcase when tab becomes active
+  useEffect(() => {
+    if (activeTab === 'discover') {
+      fetchShowcaseJobs();
+    }
+  }, [activeTab, fetchShowcaseJobs]);
+
   // Background polling for active jobs
   const updateActiveJobsInBackground = useCallback(async () => {
+    // Only poll when History tab is active
+    if (activeTab !== 'history' || isUnauthorized) return;
+
     const terminalStatuses: AgentJob['status'][] = ['completed', 'failed'];
     // Filter active jobs, skip those older than 30 minutes
     const activeJobs = jobsRef.current.filter(job => {
@@ -95,7 +152,7 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
     } catch (error) {
       console.error('Failed to poll job statuses:', error);
     }
-  }, []);
+  }, [activeTab, isUnauthorized]);
 
   // Initial fetch
   useEffect(() => {
@@ -106,6 +163,8 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
   useEffect(() => {
     if (refreshTrigger && refreshTrigger > 0) {
       fetchJobs();
+      // Normally switch to history when new job created
+      setActiveTab('history');
     }
   }, [refreshTrigger, fetchJobs]);
 
@@ -150,74 +209,388 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
     }
   };
 
-  // Unauthorized state (not logged in)
-  if (isUnauthorized) {
-    return (
-      <div className="flex-1 bg-gray-900 rounded-xl shadow-lg flex items-center justify-center p-6">
-        <div className="text-center">
-          <AlertTriangle className="mx-auto h-16 w-16 text-yellow-400 mb-4" />
-          <h3 className="text-2xl font-semibold text-gray-200 mb-2">
-            Authentication Required
-          </h3>
-          <p className="text-gray-400">
-            Please log in to view your Agent jobs
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const handleDownload = async (job: AgentJob) => {
+    if (!job.final_video_url) return;
 
-  // Loading state
-  if (isLoading && jobs.length === 0) {
-    return (
-      <div className="flex-1 bg-gray-900 rounded-xl shadow-lg overflow-y-auto p-6">
-        <div className="space-y-4">
-          <AgentJobSkeleton variant="card" count={3} />
-        </div>
-      </div>
-    );
-  }
+    setDownloadingId(job.id);
+    const filename = `agent_video_${job.id}.mp4`;
+    const proxyUrl = `/api/proxy-video?url=${encodeURIComponent(job.final_video_url)}&filename=${encodeURIComponent(filename)}`;
 
-  // Empty state
-  if (!isLoading && jobs.length === 0) {
-    return (
-      <div className="flex-1 bg-gray-900 rounded-xl shadow-lg flex items-center justify-center p-6">
-        <div className="text-center py-12">
-          <AlertTriangle className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-          <h3 className="text-2xl font-semibold text-gray-200 mb-2">
-            No Agent Jobs Yet
-          </h3>
-          <p className="text-gray-400">
-            Create your first intelligent video orchestration job to get started
-          </p>
+    try {
+      const response = await fetch(proxyUrl);
+      if (!response.ok) throw new Error('Download failed');
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error('Download error:', error);
+      toast.error('Failed to download video');
+    } finally {
+      setDownloadingId(null);
+    }
+  };
+
+  // Render Logic
+  const renderContent = () => {
+    // History Tab Logic
+    if (activeTab === 'history') {
+      if (isUnauthorized) {
+        return (
+          <div className="flex-1 flex items-center justify-center p-6">
+            <div className="text-center">
+              <AlertTriangle className="mx-auto h-16 w-16 text-yellow-400 mb-4" />
+              <h3 className="text-2xl font-semibold text-gray-200 mb-2">
+                {t("auth.required")}
+              </h3>
+              <p className="text-gray-400 mb-4">
+                {t("auth.description")}
+              </p>
+              <button 
+                onClick={() => setActiveTab('discover')}
+                className="text-blue-400 hover:text-blue-300 underline"
+              >
+                {t("auth.viewShowcase")}
+              </button>
+            </div>
+          </div>
+        );
+      }
+
+      if (isLoading && jobs.length === 0) {
+        return (
+          <div className="flex-1 overflow-y-auto p-6">
+            <div className="space-y-4">
+              <AgentJobSkeleton variant="card" count={3} />
+            </div>
+          </div>
+        );
+      }
+
+      if (jobs.length === 0) {
+        // Normally shouldn't be reached if we auto-switch, but just in case or if user manually clicks History
+        return (
+          <div className="flex-1 flex items-center justify-center p-6">
+            <div className="text-center py-12">
+              <History className="mx-auto h-16 w-16 text-gray-400 mb-4" />
+              <h3 className="text-2xl font-semibold text-gray-200 mb-2">
+                {t("empty.noJobsTitle")}
+              </h3>
+              <p className="text-gray-400 mb-4">
+                {t("empty.noJobsDescription")}
+              </p>
+              <button 
+                onClick={() => setActiveTab('discover')}
+                className="text-blue-400 hover:text-blue-300 underline"
+              >
+                {t("empty.checkExamples")}
+              </button>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="flex-1 overflow-y-auto px-4 md:px-6 py-4 md:py-5 lg:dark-scrollbar">
+          <div className="space-y-4">
+            {jobs.map(job => (
+              <AgentJobItem
+                key={job.id}
+                job={job}
+                onDelete={handleDeleteJob}
+                onReEdit={onReEdit}
+                locale={locale}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    );
-  }
+      );
+    }
+
+    // Discover Tab Logic
+    if (activeTab === 'discover') {
+      if (isShowcaseLoading && showcaseJobs.length === 0) {
+        return (
+          <div className="flex-1 overflow-y-auto p-6">
+            <div className="space-y-4">
+              <AgentJobSkeleton variant="card" count={3} />
+            </div>
+          </div>
+        );
+      }
+
+      if (showcaseJobs.length === 0) {
+         return (
+          <div className="flex-1 flex items-center justify-center p-6">
+            <div className="text-center">
+              <p className="text-gray-400">{t("empty.noShowcase")}</p>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="flex-1 overflow-y-auto px-4 md:px-6 py-4 md:py-5 lg:dark-scrollbar">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {showcaseJobs.map(job => (
+              <JobMediaCard
+                key={job.id}
+                job={job}
+                onOpen={(j) => {
+                  setSelectedJob(j);
+                  setIsDetailOpen(true);
+                }}
+                onDownload={handleDownload}
+                downloadingId={downloadingId}
+              />
+            ))}
+          </div>
+        </div>
+      );
+    }
+  };
 
   return (
     <div className="flex-1 bg-gray-900 rounded-xl shadow-lg overflow-hidden flex flex-col lg:h-full">
-      {/* Header */}
-      <header className="py-3 px-4 md:px-5 flex justify-between items-center border-b border-gray-700">
-        <div className="text-lg md:text-xl font-semibold flex items-center text-white min-w-0">
-          <Sparkles className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3 flex-shrink-0" />
-          <span className="truncate">Agent Jobs ({jobs.length})</span>
-        </div>
-      </header>
+      {/* Header with Tabs - Matched with Image Generation UI style */}
+      <div className="bg-gray-900 border-b border-gray-800/30 rounded-t-xl">
+        <div className="px-6 pt-4">
+          <div className="flex items-center gap-8">
+            {/* Discover Tab */}
+            <button
+              onClick={() => setActiveTab('discover')}
+              type="button"
+              className={cn(
+                "relative flex items-center gap-2.5 pb-3 text-lg font-semibold transition-all duration-300 ease-out",
+                activeTab === 'discover'
+                  ? "text-white"
+                  : "text-gray-500 hover:text-gray-300"
+              )}
+            >
+              <Sparkles
+                className={cn(
+                  "h-5 w-5 transition-all duration-300",
+                  activeTab === 'discover' ? "text-white" : "text-current opacity-60"
+                )}
+              />
+              <span className="tracking-wide">{t("tabs.discover")}</span>
+              {activeTab === 'discover' && (
+                <div
+                  className="absolute inset-x-0 -bottom-[1px] h-[2px] bg-white rounded-full"
+                  style={{
+                    animation: "slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  }}
+                />
+              )}
+            </button>
 
-      {/* Job list */}
-      <div className="flex-1 overflow-y-auto px-4 md:px-6 py-4 md:py-5 lg:dark-scrollbar">
-        <div className="space-y-4">
-          {jobs.map(job => (
-            <AgentJobItem
-              key={job.id}
-              job={job}
-              onDelete={handleDeleteJob}
-              onReEdit={onReEdit}
-              locale={locale}
-            />
-          ))}
+            {/* History Tab */}
+            <button
+              onClick={() => setActiveTab('history')}
+              type="button"
+              className={cn(
+                "relative flex items-center gap-2.5 pb-3 text-lg font-semibold transition-all duration-300 ease-out",
+                activeTab === 'history'
+                  ? "text-white"
+                  : "text-gray-500 hover:text-gray-300"
+              )}
+            >
+              <History
+                className={cn(
+                  "h-5 w-5 transition-all duration-300",
+                  activeTab === 'history' ? "text-white" : "text-current opacity-60"
+                )}
+              />
+              <span className="tracking-wide">
+                {t("tabs.history")} {jobs.length > 0 && `(${jobs.length})`}
+              </span>
+              {activeTab === 'history' && (
+                <div
+                  className="absolute inset-x-0 -bottom-[1px] h-[2px] bg-white rounded-full"
+                  style={{
+                    animation: "slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  }}
+                />
+              )}
+            </button>
+          </div>
         </div>
+      </div>
+
+      {/* Content */}
+      {renderContent()}
+
+      <MediaDetailModal
+        open={isDetailOpen}
+        onOpenChange={(open) => {
+          setIsDetailOpen(open);
+          if (!open) setSelectedJob(null);
+        }}
+        videoUrl={selectedJob?.final_video_url}
+        posterUrl={selectedJob?.reference_image_urls?.[0]}
+        prompt={selectedJob?.prompt || ""}
+        inputImages={selectedJob?.reference_image_urls || []}
+        details={
+          selectedJob
+            ? [
+                { label: t("modal.labels.videoModel"), value: selectedJob.video_model },
+                { label: t("modal.labels.imageModel"), value: selectedJob.image_model },
+                { label: t("modal.labels.aspectRatio"), value: selectedJob.aspect_ratio || "-" },
+                { label: t("modal.labels.duration"), value: `${selectedJob.duration_seconds}s` },
+                { label: t("modal.labels.shots"), value: selectedJob.num_shots },
+                {
+                  label: t("modal.labels.created"),
+                  value: formatDistanceToNow(new Date(selectedJob.created_at), {
+                    addSuffix: true,
+                  }),
+                },
+              ]
+            : []
+        }
+        title={t("modal.title")}
+        onDownload={() => selectedJob && handleDownload(selectedJob)}
+        onDelete={() => {}} // No delete for showcase
+        onOpenOriginal={() => selectedJob?.final_video_url && window.open(selectedJob.final_video_url, "_blank")}
+        isDownloading={selectedJob ? downloadingId === selectedJob.id : false}
+      />
+    </div>
+  );
+}
+
+// Simple media card for Discover tab
+function JobMediaCard({
+  job,
+  onOpen,
+  onDownload,
+  downloadingId,
+}: {
+  job: AgentJob;
+  onOpen: (job: AgentJob) => void;
+  onDownload: (job: AgentJob) => void;
+  downloadingId: string | null;
+}) {
+  const isMobile = useIsMobile();
+  const [isHovered, setIsHovered] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleMouseEnter = async () => {
+    if (isMobile) return;
+    setIsHovered(true);
+    if (!job.final_video_url || !videoRef.current) return;
+
+    const element = videoRef.current;
+    element.currentTime = 0;
+    element.muted = false; // Match /history logic: unmute on hover
+    try {
+      await element.play();
+      setIsMuted(false);
+      setAutoplayBlocked(false);
+    } catch (error) {
+      // Autoplay with sound might be blocked
+      element.muted = true;
+      setIsMuted(true);
+      setAutoplayBlocked(true);
+      try {
+        await element.play();
+      } catch (playError) {
+        console.warn("Video autoplay failed:", playError);
+      }
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (isMobile) return;
+    setIsHovered(false);
+    if (!videoRef.current) return;
+
+    const element = videoRef.current;
+    element.pause();
+    element.currentTime = 0;
+    element.muted = true;
+    setIsMuted(true);
+    setAutoplayBlocked(false);
+  };
+
+  const handleToggleMute = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    if (!videoRef.current) return;
+    const element = videoRef.current;
+    element.muted = !element.muted;
+    setIsMuted(element.muted);
+    if (!element.muted) setAutoplayBlocked(false);
+  };
+
+  const showOverlay = isMobile || isHovered;
+
+  return (
+    <div
+      className="group relative overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/60 shadow-sm transition-transform duration-200 hover:-translate-y-1 cursor-pointer"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={() => onOpen(job)}
+    >
+      <div className="relative aspect-[16/9] w-full overflow-hidden bg-gray-800">
+        {job.final_video_url ? (
+          <video
+            ref={videoRef}
+            src={job.final_video_url}
+            poster={job.reference_image_urls?.[0]}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            preload="metadata"
+            playsInline
+            muted={isMuted}
+            loop
+            controls={isHovered}
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-gray-500">
+            <PlayCircle className="h-12 w-12" />
+          </div>
+        )}
+
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+        {showOverlay && (
+          <div className="absolute right-3 top-3 flex items-center gap-2">
+            <Button
+              variant="secondary"
+              size="icon"
+              onClick={(event) => {
+                event.stopPropagation();
+                onDownload(job);
+              }}
+              disabled={!job.final_video_url || downloadingId === job.id}
+              className={cn(
+                "h-9 w-9 bg-black/60 text-white hover:bg-black/80 transition-opacity",
+                isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              )}
+            >
+              {downloadingId === job.id ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Download className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
+        )}
+
+        {/* Mute toggle if autoplay was blocked */}
+        {autoplayBlocked && isHovered && (
+          <button
+            type="button"
+            onClick={handleToggleMute}
+            className="absolute bottom-3 left-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80 z-20"
+          >
+            {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+          </button>
+        )}
       </div>
     </div>
   );
