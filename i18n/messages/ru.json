@@ -48,6 +48,10 @@
     "reference_to_video": "Референс в видео",
     "text_to_image": "Текст в изображение",
     "image_to_image": "Изображение в изображение",
+    "text_to_music": "Текст в музыку",
+    "add_vocals": "Добавить вокал",
+    "add_instrumental": "Добавить инструментал",
+    "upload_cover": "Загрузить кавер",
     "agent_videos": "Видео агента",
     "ai_video_effects": "ИИ видео эффекты",
     "ai_effects": "ИИ эффекты",
@@ -437,6 +441,122 @@
       "timeout": "Запрос занял слишком много времени. Попробуйте снова.",
       "statusCode": "Произошла ошибка (Статус {code}). Попробуйте снова."
     }
+  },
+  "music-generator": {
+    "title": "Генерация музыки",
+    "subtitle": "Создавайте удивительную музыку с ИИ",
+    "generateMusic": "Сгенерировать музыку",
+    "history": "История генерации",
+    "generating": "Генерация...",
+    "prompt": "Запрос",
+    "description": "Описание",
+    "promptPlaceholder": "Введите описание музыки или текст песни...",
+    "musicTitle": "Название",
+    "titlePlaceholder": "Введите название песни...",
+    "style": "Стиль",
+    "stylePlaceholder": "напр., Джаз, Рок, Электроника...",
+    "negativeTags": "Негативные теги (по желанию)",
+    "negativeTagsPlaceholder": "Стили которых следует избегать...",
+    "creditsRequired": "Требуемые кредиты",
+    "yourCredits": "Ваши кредиты",
+    "generate": "Сгенерировать музыку",
+    "maxLength500": "Максимум 500 символов",
+    "maxLength5000": "Максимум 5000 символов",
+    "generationType": "Тип генерации",
+    "uploadAudio": "Загрузить аудио",
+    "dragAndDropAudio": "Перетащите аудиофайл сюда",
+    "orClickToUpload": "или нажмите для выбора",
+    "supportedAudioFormats": "Поддерживаемые форматы: MP3, WAV, FLAC, OGG (макс. 50МБ)",
+    "removeAudio": "Удалить аудио",
+    "audioNotSupported": "Ваш браузер не поддерживает воспроизведение аудио.",
+    "mode": "Режим",
+    "songMode": "Песня (с вокалом)",
+    "instrumentalMode": "Инструментальная (только музыка)",
+    "modes": {
+      "song": {
+        "label": "Песня",
+        "description": "Музыка с вокалом"
+      },
+      "instrumental": {
+        "label": "Инструментальная",
+        "description": "Только музыка"
+      }
+    },
+    "loadingHistory": "Загрузка истории...",
+    "noHistory": "История генерации пуста",
+    "startGenerating": "Начните генерировать музыку, чтобы увидеть историю здесь",
+    "status": {
+      "pending": "Ожидание",
+      "textGenerated": "Текст сгенерирован",
+      "firstTrack": "Первый трек готов",
+      "completed": "Завершено",
+      "failed": "Не удалось"
+    },
+    "types": {
+      "direct": {
+        "label": "Прямая генерация",
+        "description": "Создать музыку из текста"
+      },
+      "addVocals": {
+        "label": "Добавить вокал",
+        "description": "Добавить голос к музыке"
+      },
+      "addInstrumental": {
+        "label": "Добавить инструментал",
+        "description": "Добавить аккомпанемент"
+      },
+      "uploadCover": {
+        "label": "Загрузить кавер",
+        "description": "Изменить стиль аудио"
+      }
+    },
+    "errors": {
+      "invalidAudioFormat": "Пожалуйста, загрузите аудиофайл",
+      "audioTooLarge": "Аудиофайл слишком большой (максимум 50 МБ)",
+      "uploadFailed": "Загрузка не удалась",
+      "insufficientCredits": "Недостаточно кредитов",
+      "audioRequired": "Пожалуйста, загрузите аудиофайл",
+      "promptRequired": "Пожалуйста, введите запрос",
+      "titleRequired": "Пожалуйста, введите название",
+      "styleRequired": "Пожалуйста, введите стиль",
+      "negativeTagsRequired": "Пожалуйста, введите негативные теги"
+    },
+    "toast": {
+      "audioUploaded": "Аудиофайл успешно загружен",
+      "musicSubmitted": "Задача генерации музыки отправлена",
+      "musicCompleted": "Генерация музыки завершена!",
+      "musicFailed": "Генерация музыки не удалась",
+      "pollTimeout": "Тайм-аут опроса, обновите вручную",
+      "statusCheckFailed": "Проверка статуса не удалась, попробуйте еще раз"
+    },
+    "customMode": "Пользовательский режим",
+    "customModeDescription": "Включить детальный контроль всех параметров",
+    "instrumental": "Инструментальная",
+    "instrumentalDescription": "Генерировать музыку без вокала",
+    "lyricsAndStyle": "Текст и вокальный стиль",
+    "lyrics": "Текст песни",
+    "promptPlaceholderAddVocals": "Введите текст и вокальный стиль...",
+    "promptPlaceholderLyrics": "Введите текст песни...",
+    "promptPlaceholderDescription": "Введите описание музыки...",
+    "tags": "Теги",
+    "tagsPlaceholder": "напр., бодрый, энергичный, электронный...",
+    "maxLength": "Макс",
+    "characters": "символов",
+    "track": "Трек",
+    "download": "Скачать",
+    "advancedOptions": "Расширенные Настройки",
+    "optional": "Опционально",
+    "styleWeight": "Вес Стиля",
+    "styleWeightDescription": "Насколько строго следовать указанному стилю (0-1). Рекомендуется: 0,65-0,80",
+    "weirdnessConstraint": "Уровень Креативности",
+    "weirdnessConstraintDescription": "Контроль экспериментального/креативного отклонения (0-1). Ниже=традиционный, Выше=креативный. Рекомендуется: 0,30-0,50",
+    "audioWeight": "Вес Аудио",
+    "audioWeightDescription": "Баланс веса аудио характеристик (0-1). Рекомендуется: 0,60-0,75",
+    "vocalGender": "Предпочтение Пола Вокала",
+    "auto": "Авто",
+    "male": "Мужской",
+    "female": "Женский",
+    "vocalGenderDescription": "Примечание: Это увеличивает вероятность, но не гарантирует строгое соблюдение"
   },
   "pages": {
     "home": {

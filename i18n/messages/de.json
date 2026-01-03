@@ -48,6 +48,10 @@
     "reference_to_video": "Referenz zu Video",
     "text_to_image": "Text zu Bild",
     "image_to_image": "Bild zu Bild",
+    "text_to_music": "Text zu Musik",
+    "add_vocals": "Gesang hinzufügen",
+    "add_instrumental": "Instrumental hinzufügen",
+    "upload_cover": "Cover hochladen",
     "agent_videos": "Agent-Videos",
     "ai_video_effects": "KI-Videoeffekte",
     "ai_effects": "KI-Effekte",
@@ -438,6 +442,122 @@
       "timeout": "Die Anfrage hat zu lange gedauert und ist abgelaufen. Bitte versuchen Sie es erneut.",
       "statusCode": "Ein Fehler ist aufgetreten (Status {code}). Bitte versuchen Sie es erneut."
     }
+  },
+  "music-generator": {
+    "title": "Musikgenerierung",
+    "subtitle": "Erstellen Sie erstaunliche Musik mit KI",
+    "generateMusic": "Musik generieren",
+    "history": "Generierungshistorie",
+    "generating": "Generiere...",
+    "prompt": "Eingabe",
+    "description": "Beschreibung",
+    "promptPlaceholder": "Geben Sie Ihre Musikbeschreibung oder Texte ein...",
+    "musicTitle": "Titel",
+    "titlePlaceholder": "Songtitel eingeben...",
+    "style": "Stil",
+    "stylePlaceholder": "z.B. Jazz, Rock, Elektronisch...",
+    "negativeTags": "Negative Tags (Optional)",
+    "negativeTagsPlaceholder": "Zu vermeidende Stile...",
+    "creditsRequired": "Benötigte Credits",
+    "yourCredits": "Ihre Credits",
+    "generate": "Musik generieren",
+    "maxLength500": "Maximal 500 Zeichen",
+    "maxLength5000": "Maximal 5000 Zeichen",
+    "generationType": "Generierungstyp",
+    "uploadAudio": "Audio hochladen",
+    "dragAndDropAudio": "Audiodatei hierher ziehen und ablegen",
+    "orClickToUpload": "oder klicken zum Durchsuchen",
+    "supportedAudioFormats": "Unterstützte Formate: MP3, WAV, FLAC, OGG (max. 50MB)",
+    "removeAudio": "Audio entfernen",
+    "audioNotSupported": "Ihr Browser unterstützt keine Audiowiedergabe.",
+    "mode": "Modus",
+    "songMode": "Song (mit Gesang)",
+    "instrumentalMode": "Instrumental (nur Musik)",
+    "modes": {
+      "song": {
+        "label": "Song",
+        "description": "Musik mit Gesang"
+      },
+      "instrumental": {
+        "label": "Instrumental",
+        "description": "Nur Musik"
+      }
+    },
+    "loadingHistory": "Historie wird geladen...",
+    "noHistory": "Noch keine Generierungshistorie",
+    "startGenerating": "Beginnen Sie mit der Musikgenerierung, um Ihre Historie hier zu sehen",
+    "status": {
+      "pending": "Ausstehend",
+      "textGenerated": "Texte generiert",
+      "firstTrack": "Erster Track fertig",
+      "completed": "Abgeschlossen",
+      "failed": "Fehlgeschlagen"
+    },
+    "types": {
+      "direct": {
+        "label": "Direkte Generierung",
+        "description": "Musik aus Text erstellen"
+      },
+      "addVocals": {
+        "label": "Gesang hinzufügen",
+        "description": "Stimme zu Musik hinzufügen"
+      },
+      "addInstrumental": {
+        "label": "Instrumental hinzufügen",
+        "description": "Begleittrack hinzufügen"
+      },
+      "uploadCover": {
+        "label": "Cover hochladen",
+        "description": "Audiostil transformieren"
+      }
+    },
+    "errors": {
+      "invalidAudioFormat": "Bitte laden Sie eine Audiodatei hoch",
+      "audioTooLarge": "Audiodatei ist zu groß (max. 50MB)",
+      "uploadFailed": "Upload fehlgeschlagen",
+      "insufficientCredits": "Nicht genügend Credits",
+      "audioRequired": "Bitte laden Sie eine Audiodatei hoch",
+      "promptRequired": "Bitte geben Sie eine Eingabe ein",
+      "titleRequired": "Bitte geben Sie einen Titel ein",
+      "styleRequired": "Bitte geben Sie einen Stil ein",
+      "negativeTagsRequired": "Bitte geben Sie negative Tags ein"
+    },
+    "toast": {
+      "audioUploaded": "Audio erfolgreich hochgeladen",
+      "musicSubmitted": "Musikgenerierungsaufgabe eingereicht",
+      "musicCompleted": "Musikgenerierung abgeschlossen!",
+      "musicFailed": "Musikgenerierung fehlgeschlagen",
+      "pollTimeout": "Abfrage-Timeout, bitte manuell aktualisieren",
+      "statusCheckFailed": "Statusprüfung fehlgeschlagen, bitte erneut versuchen"
+    },
+    "customMode": "Benutzerdefinierter Modus",
+    "customModeDescription": "Detaillierte Kontrolle über alle Parameter aktivieren",
+    "instrumental": "Instrumental",
+    "instrumentalDescription": "Musik ohne Gesang erzeugen",
+    "lyricsAndStyle": "Text & Gesangsstil",
+    "lyrics": "Text",
+    "promptPlaceholderAddVocals": "Geben Sie Text und Gesangsstil ein...",
+    "promptPlaceholderLyrics": "Geben Sie Ihren Text ein...",
+    "promptPlaceholderDescription": "Geben Sie die Musikbeschreibung ein...",
+    "tags": "Tags",
+    "tagsPlaceholder": "z.B. lebhaft, energiegeladen, elektronisch...",
+    "maxLength": "Max",
+    "characters": "Zeichen",
+    "track": "Track",
+    "download": "Herunterladen",
+    "advancedOptions": "Erweiterte Optionen",
+    "optional": "Optional",
+    "styleWeight": "Stilgewicht",
+    "styleWeightDescription": "Wie strikt dem angegebenen Stil gefolgt werden soll (0-1). Empfohlen: 0,65-0,80",
+    "weirdnessConstraint": "Kreativitätsstufe",
+    "weirdnessConstraintDescription": "Steuerung experimenteller/kreativer Abweichung (0-1). Niedriger=traditionell, Höher=kreativ. Empfohlen: 0,30-0,50",
+    "audioWeight": "Audiogewicht",
+    "audioWeightDescription": "Audio-Merkmalgewicht ausbalancieren (0-1). Empfohlen: 0,60-0,75",
+    "vocalGender": "Stimmgeschlecht-Präferenz",
+    "auto": "Automatisch",
+    "male": "Männlich",
+    "female": "Weiblich",
+    "vocalGenderDescription": "Hinweis: Dies erhöht die Wahrscheinlichkeit, garantiert jedoch keine strikte Einhaltung"
   },
   "pages": {
     "home": {

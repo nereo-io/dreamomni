@@ -17,6 +17,10 @@ import {
   Image,
   Play,
   Film,
+  Music,
+  Mic,
+  Guitar,
+  Upload,
 } from "lucide-react";
 import { BananaEmoji } from "@/components/icons/BananaIcon";
 import { Button } from "@/components/ui/button";
@@ -64,6 +68,29 @@ export function Sidebar() {
       icon: BananaEmoji as any,
       labelKey: "image_to_image",
       href: "/image-to-image",
+    },
+  ];
+
+  const musicAIItems: SidebarItem[] = [
+    {
+      icon: Music,
+      labelKey: "text_to_music",
+      href: "/text-to-music",
+    },
+    {
+      icon: Mic,
+      labelKey: "add_vocals",
+      href: "/add-vocals",
+    },
+    {
+      icon: Guitar,
+      labelKey: "add_instrumental",
+      href: "/add-instrumental",
+    },
+    {
+      icon: Upload,
+      labelKey: "upload_cover",
+      href: "/upload-cover",
     },
   ];
 
@@ -158,6 +185,21 @@ export function Sidebar() {
         {/* Image AI items */}
         <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
           {imageAIItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${pathname === item.href ? "bg-gray-800" : ""
+                } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
+            >
+              <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
+              {!isCollapsed && <span>{t(item.labelKey)}</span>}
+            </Link>
+          ))}
+        </div>
+
+        {/* Music AI items */}
+        <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
+          {musicAIItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
