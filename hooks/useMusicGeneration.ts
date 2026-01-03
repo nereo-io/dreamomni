@@ -11,7 +11,7 @@ interface MusicGenerationParams {
   generationType?: MusicGenerationType;
   customMode?: boolean;
   instrumental?: boolean;
-  prompt: string;
+  prompt?: string;
   title?: string;
   style?: string;
   negativeTags?: string;
@@ -50,7 +50,7 @@ interface MusicGenerationResult {
   custom_mode: boolean;
   instrumental: boolean;
   status: MusicGenerationStatus;
-  prompt: string;
+  prompt?: string;
   title?: string;
   style?: string;
   // 保留旧字段以兼容老数据
@@ -102,24 +102,33 @@ export default function useMusicGeneration() {
 
   const checkStatus = useCallback(
     async (id: string): Promise<MusicGenerationResult> => {
-      const response = await fetch(`/api/music-generation/status/${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+        const response = await fetch(`/api/music-generation/status/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-      const result = await response.json();
+        const result = await response.json();
 
-      if (result.code !== 0) {
-        throw new Error(result.message || "Failed to check status");
-      }
+        if (result.code !== 0) {
+          throw new Error(result.message || "Failed to check status");
+        }
 
       if (!result.data) {
         throw new Error("No data returned from status check");
       }
 
-      return result.data;
+      // 映射字段：API 返回驼峰命名，前端使用下划线命名
+      const data = result.data;
+      return {
+        ...data,
+        audio_files: data.audioFiles || data.audio_files,
+        error_message: data.errorMessage || data.error_message,
+        created_at: data.createdAt || data.created_at,
+        updated_at: data.updatedAt || data.updated_at,
+        completed_at: data.completedAt || data.completed_at,
+      };
     },
     []
   );
@@ -159,7 +168,10 @@ export default function useMusicGeneration() {
         // 成功获取状态，重置连续错误计数
         consecutiveErrorsRef.current = 0;
 
-        console.log(`[Polling] Attempt ${pollAttemptsRef.current}: Status = ${status.status}`);
+        console.log(`[Polling] Attempt ${pollAttemptsRef.current}: Status = ${status.status}`, {
+          audioFiles: status.audio_files,
+          audioFilesCount: status.audio_files?.length || 0,
+        });
 
         updateCurrentGeneration({
           ...status,
@@ -168,16 +180,24 @@ export default function useMusicGeneration() {
 
         // 直接更新历史列表中对应的任务卡片
         setHistory((prevHistory) => {
-          return prevHistory.map((item) => {
+          const updated = prevHistory.map((item) => {
             if (item.id === pollingId) {
-              return {
+              const updatedItem = {
                 ...item,
                 ...status,
                 id: status.id || pollingId,
               };
+              console.log(`[Polling] Updated history item:`, {
+                id: updatedItem.id,
+                status: updatedItem.status,
+                audioFiles: updatedItem.audio_files,
+                audioFilesCount: updatedItem.audio_files?.length || 0,
+              });
+              return updatedItem;
             }
             return item;
           });
+          return updated;
         });
 
         if (status.status === "COMPLETED") {

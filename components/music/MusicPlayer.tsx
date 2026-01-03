@@ -75,67 +75,67 @@ export function MusicPlayer({
     <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-3">
-          <button
-            onClick={togglePlay}
-            className="p-2 bg-blue-500 hover:bg-blue-600 rounded-full transition-colors"
-          >
-            {isPlaying ? (
-              <Pause className="h-5 w-5 text-white" />
-            ) : (
-              <Play className="h-5 w-5 text-white" />
-            )}
-          </button>
-
-          <div className="flex-1">
-            <input
-              type="range"
-              min="0"
-              max={totalDuration || 100}
-              value={currentTime}
-              onChange={handleSeek}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-              style={{
-                background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${
-                  (currentTime / (totalDuration || 1)) * 100
-                }%, #374151 ${(currentTime / (totalDuration || 1)) * 100}%, #374151 100%)`,
-              }}
-            />
-            <div className="flex justify-between text-xs text-gray-400 mt-1">
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(totalDuration)}</span>
-            </div>
-          </div>
-
-          <button
-            onClick={toggleMute}
-            className="p-2 text-gray-400 hover:text-white transition-colors"
-          >
-            {isMuted ? (
-              <VolumeX className="h-5 w-5" />
-            ) : (
-              <Volume2 className="h-5 w-5" />
-            )}
-          </button>
-
-          {onDownload && (
             <button
-              onClick={onDownload}
-              className="p-2 text-gray-400 hover:text-white transition-colors"
-              title={t("download") || "Download"}
+              onClick={togglePlay}
+              className="p-2 bg-blue-500 hover:bg-blue-600 rounded-full transition-colors"
             >
-              <Download className="h-5 w-5" />
+              {isPlaying ? (
+                <Pause className="h-5 w-5 text-white" />
+              ) : (
+                <Play className="h-5 w-5 text-white" />
+              )}
             </button>
-          )}
-        </div>
 
-        <audio
-          ref={setAudioElement}
-          src={audioUrl}
-          onTimeUpdate={handleTimeUpdate}
-          onLoadedMetadata={handleLoadedMetadata}
-          onEnded={() => setIsPlaying(false)}
-          className="hidden"
-        />
+            <div className="flex-1">
+              <input
+                type="range"
+                min="0"
+                max={totalDuration || 100}
+                value={currentTime}
+                onChange={handleSeek}
+                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                style={{
+                  background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${
+                    (currentTime / (totalDuration || 1)) * 100
+                  }%, #374151 ${(currentTime / (totalDuration || 1)) * 100}%, #374151 100%)`,
+                }}
+              />
+              <div className="flex justify-between text-xs text-gray-400 mt-1">
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(totalDuration)}</span>
+              </div>
+            </div>
+
+            <button
+              onClick={toggleMute}
+              className="p-2 text-gray-400 hover:text-white transition-colors"
+            >
+              {isMuted ? (
+                <VolumeX className="h-5 w-5" />
+              ) : (
+                <Volume2 className="h-5 w-5" />
+              )}
+            </button>
+
+            {onDownload && (
+              <button
+                onClick={onDownload}
+                className="p-2 text-gray-400 hover:text-white transition-colors"
+                title={t("download") || "Download"}
+              >
+                <Download className="h-5 w-5" />
+              </button>
+            )}
+      </div>
+
+      <audio
+        ref={setAudioElement}
+        src={audioUrl}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onEnded={() => setIsPlaying(false)}
+        className="hidden"
+      />
       </div>
     </div>
   );
