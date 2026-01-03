@@ -91,6 +91,7 @@ export default function useMusicGeneration() {
 
   const pollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pollAttemptsRef = useRef<number>(0);
+  const consecutiveErrorsRef = useRef<number>(0);
 
   const clearPollTimeout = useCallback(() => {
     if (pollTimeoutRef.current) {
@@ -100,26 +101,25 @@ export default function useMusicGeneration() {
   }, []);
 
   const checkStatus = useCallback(
-    async (id: string): Promise<MusicGenerationResult | null> => {
-      try {
-        const response = await fetch(`/api/music-generation/status/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+    async (id: string): Promise<MusicGenerationResult> => {
+      const response = await fetch(`/api/music-generation/status/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-        const result = await response.json();
+      const result = await response.json();
 
-        if (result.code !== 0) {
-          throw new Error(result.message || "Failed to check status");
-        }
-
-        return result.data;
-      } catch (error) {
-        console.error("Failed to check status:", error);
-        return null;
+      if (result.code !== 0) {
+        throw new Error(result.message || "Failed to check status");
       }
+
+      if (!result.data) {
+        throw new Error("No data returned from status check");
+      }
+
+      return result.data;
     },
     []
   );
@@ -143,6 +143,7 @@ export default function useMusicGeneration() {
     }
 
     const pollFunction = async () => {
+      // 检查最大轮询次数
       if (pollAttemptsRef.current >= 100) {
         setIsPolling(false);
         setPollingId(null);
@@ -155,11 +156,10 @@ export default function useMusicGeneration() {
       try {
         const status = await checkStatus(pollingId);
 
-        if (!status) {
-          setIsPolling(false);
-          setPollingId(null);
-          return;
-        }
+        // 成功获取状态，重置连续错误计数
+        consecutiveErrorsRef.current = 0;
+
+        console.log(`[Polling] Attempt ${pollAttemptsRef.current}: Status = ${status.status}`);
 
         updateCurrentGeneration({
           ...status,
@@ -181,6 +181,7 @@ export default function useMusicGeneration() {
         });
 
         if (status.status === "COMPLETED") {
+          console.log("[Polling] Task completed, stopping polling");
           setIsPolling(false);
           setPollingId(null);
           toast.success(t("toast.musicCompleted") || "Music generation completed!");
@@ -188,32 +189,48 @@ export default function useMusicGeneration() {
         }
 
         if (status.status === "FAILED") {
+          console.log("[Polling] Task failed, stopping polling");
           setIsPolling(false);
           setPollingId(null);
           toast.error(status.error_message || t("toast.musicFailed") || "Music generation failed");
           return;
         }
 
+        // 继续轮询
+        const timeoutId = setTimeout(pollFunction, 5000);
+        pollTimeoutRef.current = timeoutId;
+
       } catch (error) {
-        console.error("Error polling status:", error);
-        if (pollAttemptsRef.current >= 5) {
+        console.error(`[Polling] Error on attempt ${pollAttemptsRef.current}:`, error);
+        consecutiveErrorsRef.current++;
+        
+        // 连续错误5次才停止
+        if (consecutiveErrorsRef.current >= 5) {
+          console.error("[Polling] Too many consecutive errors (5+), stopping polling");
           setIsPolling(false);
           setPollingId(null);
           toast.error(t("toast.statusCheckFailed") || "Status check failed, please retry");
+          return;
         }
+
+        console.log(`[Polling] Error ${consecutiveErrorsRef.current}/5, will retry in 5 seconds...`);
+        // 继续尝试轮询
+        const timeoutId = setTimeout(pollFunction, 5000);
+        pollTimeoutRef.current = timeoutId;
       }
     };
 
+    // 首次立即执行
     pollFunction();
 
-    const timeoutId = setTimeout(() => {
-      pollFunction();
-    }, 5000);
-
-    pollTimeoutRef.current = timeoutId;
-
-    return () => clearTimeout(timeoutId);
-  }, [isPolling, pollingId, checkStatus, updateCurrentGeneration, t]);
+    // 清理函数
+    return () => {
+      if (pollTimeoutRef.current) {
+        clearTimeout(pollTimeoutRef.current);
+        pollTimeoutRef.current = null;
+      }
+    };
+  }, [isPolling, pollingId]);
 
   useEffect(() => {
     return () => {
@@ -276,15 +293,19 @@ export default function useMusicGeneration() {
   );
 
   const pollStatus = useCallback((id: string) => {
+    console.log(`[Polling] Starting polling for task: ${id}`);
     setPollingId(id);
     setIsPolling(true);
     pollAttemptsRef.current = 0;
+    consecutiveErrorsRef.current = 0;
   }, []);
 
   const stopPolling = useCallback(() => {
+    console.log("[Polling] Manually stopping polling");
     setIsPolling(false);
     setPollingId(null);
     pollAttemptsRef.current = 0;
+    consecutiveErrorsRef.current = 0;
     clearPollTimeout();
   }, [clearPollTimeout]);
 
