@@ -23,6 +23,12 @@ export function MultiAudioPlayer({
   const [currentTime, setCurrentTime] = useState(0);
   const [totalDuration, setTotalDuration] = useState(audioFiles[0]?.duration_seconds || 0);
   const audioElementsRef = useRef<(HTMLAudioElement | null)[]>([]);
+  const setAudioElement = useCallback(
+    (index: number) => (element: HTMLAudioElement | null) => {
+      audioElementsRef.current[index] = element;
+    },
+    [],
+  );
 
   // 初始化时设置第一个音频的总时长
   useEffect(() => {
@@ -112,10 +118,6 @@ export function MultiAudioPlayer({
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
-
-  const setAudioElement = useCallback((index: number) => (element: HTMLAudioElement | null) => {
-    audioElementsRef.current[index] = element;
-  }, []);
 
   return (
     <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
@@ -259,4 +261,3 @@ export function MultiAudioPlayer({
     </div>
   );
 }
-
