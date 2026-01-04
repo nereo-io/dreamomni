@@ -48,6 +48,10 @@
     "reference_to_video": "Reference to Video",
     "text_to_image": "Text to Image",
     "image_to_image": "Image to Image",
+    "text_to_music": "Text to Music",
+    "add_vocals": "Add Vocals",
+    "add_instrumental": "Add Instrumental",
+    "upload_cover": "Upload Cover",
     "agent_videos": "Agent Videos",
     "ai_video_effects": "AI Video Effects",
     "ai_effects": "AI Effects",
@@ -438,6 +442,122 @@
       "timeout": "The request took too long and timed out. Please try again.",
       "statusCode": "An error occurred (Status {code}). Please try again."
     }
+  },
+  "music-generator": {
+    "title": "Music Generation",
+    "subtitle": "Create amazing music with AI",
+    "generateMusic": "Generate Music",
+    "history": "Generation History",
+    "generating": "Generating...",
+    "prompt": "Prompt",
+    "description": "Description",
+    "promptPlaceholder": "Enter your music description or lyrics...",
+    "musicTitle": "Title",
+    "titlePlaceholder": "Enter song title...",
+    "style": "Style",
+    "stylePlaceholder": "e.g., Jazz, Rock, Electronic...",
+    "negativeTags": "Negative Tags (Optional)",
+    "negativeTagsPlaceholder": "Styles to avoid...",
+    "creditsRequired": "Credits Required",
+    "yourCredits": "Your Credits",
+    "generate": "Generate Music",
+    "maxLength500": "Max 500 characters",
+    "maxLength5000": "Max 5000 characters",
+    "generationType": "Generation Type",
+    "uploadAudio": "Upload Audio",
+    "dragAndDropAudio": "Drag and drop audio file here",
+    "orClickToUpload": "or click to browse",
+    "supportedAudioFormats": "Supported formats: MP3, WAV, FLAC, OGG (max 50MB)",
+    "removeAudio": "Remove audio",
+    "audioNotSupported": "Your browser does not support audio playback.",
+    "mode": "Mode",
+    "songMode": "Song (with vocals)",
+    "instrumentalMode": "Instrumental (music only)",
+    "modes": {
+      "song": {
+        "label": "Song",
+        "description": "Music with vocals"
+      },
+      "instrumental": {
+        "label": "Instrumental",
+        "description": "Music only"
+      }
+    },
+    "loadingHistory": "Loading history...",
+    "noHistory": "No generation history yet",
+    "startGenerating": "Start generating music to see your history here",
+    "status": {
+      "pending": "Pending",
+      "textGenerated": "Lyrics Generated",
+      "firstTrack": "First Track Ready",
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "types": {
+      "direct": {
+        "label": "Direct Generation",
+        "description": "Create music from text"
+      },
+      "addVocals": {
+        "label": "Add Vocals",
+        "description": "Add voice to music"
+      },
+      "addInstrumental": {
+        "label": "Add Instrumental",
+        "description": "Add backing track"
+      },
+      "uploadCover": {
+        "label": "Upload Cover",
+        "description": "Transform audio style"
+      }
+    },
+    "errors": {
+      "invalidAudioFormat": "Please upload an audio file",
+      "audioTooLarge": "Audio file is too large (max 50MB)",
+      "uploadFailed": "Upload failed",
+      "insufficientCredits": "Insufficient credits",
+      "audioRequired": "Please upload an audio file",
+      "promptRequired": "Please enter a prompt",
+      "titleRequired": "Please enter a title",
+      "styleRequired": "Please enter a style",
+      "negativeTagsRequired": "Please enter negative tags"
+    },
+    "toast": {
+      "audioUploaded": "Audio uploaded successfully",
+      "musicSubmitted": "Music generation task submitted",
+      "musicCompleted": "Music generation completed!",
+      "musicFailed": "Music generation failed",
+      "pollTimeout": "Poll timeout, please refresh manually",
+      "statusCheckFailed": "Status check failed, please retry"
+    },
+    "customMode": "Custom Mode",
+    "customModeDescription": "Enable detailed control over all parameters",
+    "instrumental": "Instrumental",
+    "instrumentalDescription": "Generate music without vocals",
+    "lyricsAndStyle": "Lyrics & Vocal Style",
+    "lyrics": "Lyrics",
+    "promptPlaceholderAddVocals": "Enter lyrics and vocal style...",
+    "promptPlaceholderLyrics": "Enter your lyrics...",
+    "promptPlaceholderDescription": "Enter music description...",
+    "tags": "Tags",
+    "tagsPlaceholder": "e.g., upbeat, energetic, electronic...",
+    "maxLength": "Max",
+    "characters": "characters",
+    "track": "Track",
+    "download": "Download",
+    "advancedOptions": "Advanced Options",
+    "optional": "Optional",
+    "styleWeight": "Style Weight",
+    "styleWeightDescription": "How strictly to follow the specified style (0-1). Recommended: 0.65-0.80",
+    "weirdnessConstraint": "Creativity Level",
+    "weirdnessConstraintDescription": "Control experimental/creative deviation (0-1). Lower=traditional, Higher=creative. Recommended: 0.30-0.50",
+    "audioWeight": "Audio Weight",
+    "audioWeightDescription": "Balance audio feature weight (0-1). Recommended: 0.60-0.75",
+    "vocalGender": "Vocal Gender Preference",
+    "auto": "Auto",
+    "male": "Male",
+    "female": "Female",
+    "vocalGenderDescription": "Note: This increases probability but does not guarantee strict adherence"
   },
   "pages": {
     "home": {

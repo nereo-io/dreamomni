@@ -48,6 +48,7 @@
     "reference_to_video": "Référence vers vidéo",
     "text_to_image": "Texte vers image",
     "image_to_image": "Image vers image",
+    "text_to_music": "Texte vers musique",
     "agent_videos": "Vidéos de l'agent",
     "ai_video_effects": "Effets vidéo IA",
     "ai_effects": "Effets IA",
@@ -438,6 +439,122 @@
       "timeout": "La demande a pris trop de temps et a expiré. Veuillez réessayer.",
       "statusCode": "Une erreur s'est produite (Statut {code}). Veuillez réessayer."
     }
+  },
+  "music-generator": {
+    "title": "Génération de musique",
+    "subtitle": "Créez de la musique incroyable avec l'IA",
+    "generateMusic": "Générer de la musique",
+    "history": "Historique de génération",
+    "generating": "Génération en cours...",
+    "prompt": "Invite",
+    "description": "Description",
+    "promptPlaceholder": "Entrez votre description musicale ou vos paroles...",
+    "musicTitle": "Titre",
+    "titlePlaceholder": "Entrez le titre de la chanson...",
+    "style": "Style",
+    "stylePlaceholder": "ex: Jazz, Rock, Électronique...",
+    "negativeTags": "Tags négatifs (optionnel)",
+    "negativeTagsPlaceholder": "Styles à éviter...",
+    "creditsRequired": "Crédits requis",
+    "yourCredits": "Vos crédits",
+    "generate": "Générer de la musique",
+    "maxLength500": "Maximum 500 caractères",
+    "maxLength5000": "Maximum 5000 caractères",
+    "generationType": "Type de génération",
+    "uploadAudio": "Télécharger l'audio",
+    "dragAndDropAudio": "Glissez-déposez le fichier audio ici",
+    "orClickToUpload": "ou cliquez pour parcourir",
+    "supportedAudioFormats": "Formats pris en charge: MP3, WAV, FLAC, OGG (max. 50Mo)",
+    "removeAudio": "Supprimer l'audio",
+    "audioNotSupported": "Votre navigateur ne prend pas en charge la lecture audio.",
+    "mode": "Mode",
+    "songMode": "Chanson (avec voix)",
+    "instrumentalMode": "Instrumental (musique seule)",
+    "modes": {
+      "song": {
+        "label": "Chanson",
+        "description": "Musique avec voix"
+      },
+      "instrumental": {
+        "label": "Instrumental",
+        "description": "Musique seule"
+      }
+    },
+    "loadingHistory": "Chargement de l'historique...",
+    "noHistory": "Aucun historique de génération",
+    "startGenerating": "Commencez à générer de la musique pour voir votre historique ici",
+    "status": {
+      "pending": "En attente",
+      "textGenerated": "Paroles générées",
+      "firstTrack": "Premier morceau prêt",
+      "completed": "Terminé",
+      "failed": "Échoué"
+    },
+    "types": {
+      "direct": {
+        "label": "Génération directe",
+        "description": "Créer de la musique à partir de texte"
+      },
+      "addVocals": {
+        "label": "Ajouter des voix",
+        "description": "Ajouter de la voix à la musique"
+      },
+      "addInstrumental": {
+        "label": "Ajouter instrumental",
+        "description": "Ajouter une piste d'accompagnement"
+      },
+      "uploadCover": {
+        "label": "Télécharger une reprise",
+        "description": "Transformer le style audio"
+      }
+    },
+    "errors": {
+      "invalidAudioFormat": "Veuillez télécharger un fichier audio",
+      "audioTooLarge": "Le fichier audio est trop volumineux (max 50 Mo)",
+      "uploadFailed": "Le téléchargement a échoué",
+      "insufficientCredits": "Crédits insuffisants",
+      "audioRequired": "Veuillez télécharger un fichier audio",
+      "promptRequired": "Veuillez entrer une invite",
+      "titleRequired": "Veuillez entrer un titre",
+      "styleRequired": "Veuillez entrer un style",
+      "negativeTagsRequired": "Veuillez entrer des tags négatifs"
+    },
+    "toast": {
+      "audioUploaded": "Fichier audio téléchargé avec succès",
+      "musicSubmitted": "Tâche de génération de musique soumise",
+      "musicCompleted": "Génération de musique terminée!",
+      "musicFailed": "Échec de la génération de musique",
+      "pollTimeout": "Délai d'attente dépassé, veuillez actualiser manuellement",
+      "statusCheckFailed": "Échec de la vérification du statut, veuillez réessayer"
+    },
+    "customMode": "Mode personnalisé",
+    "customModeDescription": "Activer le contrôle détaillé de tous les paramètres",
+    "instrumental": "Instrumental",
+    "instrumentalDescription": "Générer de la musique sans voix",
+    "lyricsAndStyle": "Paroles et style vocal",
+    "lyrics": "Paroles",
+    "promptPlaceholderAddVocals": "Entrez les paroles et le style vocal...",
+    "promptPlaceholderLyrics": "Entrez vos paroles...",
+    "promptPlaceholderDescription": "Entrez la description de la musique...",
+    "tags": "Tags",
+    "tagsPlaceholder": "ex: enjoué, énergique, électronique...",
+    "maxLength": "Max",
+    "characters": "caractères",
+    "track": "Piste",
+    "download": "Télécharger",
+    "advancedOptions": "Options Avancées",
+    "optional": "Optionnel",
+    "styleWeight": "Poids du Style",
+    "styleWeightDescription": "À quel point suivre strictement le style spécifié (0-1). Recommandé : 0,65-0,80",
+    "weirdnessConstraint": "Niveau de Créativité",
+    "weirdnessConstraintDescription": "Contrôler la déviation expérimentale/créative (0-1). Bas=traditionnel, Haut=créatif. Recommandé : 0,30-0,50",
+    "audioWeight": "Poids Audio",
+    "audioWeightDescription": "Équilibrer le poids des caractéristiques audio (0-1). Recommandé : 0,60-0,75",
+    "vocalGender": "Préférence de Genre Vocal",
+    "auto": "Auto",
+    "male": "Homme",
+    "female": "Femme",
+    "vocalGenderDescription": "Note : Cela augmente la probabilité mais ne garantit pas une adhésion stricte"
   },
   "pages": {
     "home": {

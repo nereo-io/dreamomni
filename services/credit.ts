@@ -34,6 +34,9 @@ export enum CreditsTransType {
   AgentKeyframe = "agent_keyframe", // cost for Agent keyframe generation (关键帧生成)
   AgentVideoClip = "agent_video_clip", // cost for Agent video clip generation (视频片段生成)
   AgentVideoSplicing = "agent_video_splicing", // cost for Agent video splicing (视频拼接)
+  // Music generation transaction types
+  MusicGeneration = "music_generation", // cost for music generation
+  RefundMusicGenerationFailed = "refund_music_generation_failed", // refund credits for failed music generation
 }
 
 export enum CreditsAmount {
