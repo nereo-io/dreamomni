@@ -8,12 +8,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { AgentShot, AgentJob, AgentAsset } from '@/types/agent';
 import { AssetModal } from './AssetModal';
-import { FileText, PlayCircle, Sparkles } from 'lucide-react';
+import { FileText, Music, PlayCircle, Sparkles } from 'lucide-react';
 import { useGenerationProgress } from '@/hooks/useGenerationProgress';
 import { getVideoModel } from '@/config/video-models';
 import { useTranslations } from 'next-intl';
 
-type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref';
+type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref' | 'audio';
 
 interface StoryOutline {
   logline?: string;
@@ -107,6 +107,8 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
     const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
     const [sceneAssets, setSceneAssets] = useState<AgentAsset[]>([]);
     const [sceneAssetsStatus, setSceneAssetsStatus] = useState<'idle' | 'loading' | 'error'>('idle');
+    const [musicAssets, setMusicAssets] = useState<AgentAsset[]>([]);
+    const [musicAssetsStatus, setMusicAssetsStatus] = useState<'idle' | 'loading' | 'error'>('idle');
     const showAgentInternals = process.env.NEXT_PUBLIC_AGENT_INTERNALS === 'true';
     const aspectRatioValue =
       aspectRatio === '9:16'
@@ -203,6 +205,43 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       };
 
       fetchSceneAssets();
+
+      return () => {
+        cancelled = true;
+      };
+    }, [jobId, jobUpdatedAt]);
+
+    useEffect(() => {
+      let cancelled = false;
+
+      const fetchMusicAssets = async () => {
+        if (!jobId) return;
+        try {
+          setMusicAssetsStatus('loading');
+          const res = await fetch(`/api/agent/jobs/${jobId}/assets?asset_type=background_music&limit=10&offset=0`);
+          if (!res.ok) {
+            throw new Error('Failed to fetch background music assets');
+          }
+          const payload = await res.json();
+          if (cancelled) return;
+          const assets = Array.isArray(payload?.assets)
+            ? payload.assets
+            : Array.isArray(payload)
+            ? payload
+            : [];
+          setMusicAssets(
+            assets.filter((asset: AgentAsset) => asset && asset.asset_type === 'background_music')
+          );
+          setMusicAssetsStatus('idle');
+        } catch (error) {
+          if (cancelled) return;
+          console.error('[AgentAssetGrid] Fetch background music assets failed:', error);
+          setMusicAssets([]);
+          setMusicAssetsStatus('error');
+        }
+      };
+
+      fetchMusicAssets();
 
       return () => {
         cancelled = true;
@@ -472,6 +511,39 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
         });
       }
 
+      // 2.6 Background music (BGM)
+      const bgmAssets = musicAssets.filter(asset => asset.asset_type === 'background_music');
+      if (bgmAssets.length > 0) {
+        bgmAssets.forEach((asset, index) => {
+          const isFailed = asset.status === 'failed';
+          const isLoading = !isFailed && (!asset.url || asset.status === 'pending' || asset.status === 'generating');
+          const durationSeconds =
+            typeof asset.metadata?.source_duration_seconds === 'number'
+              ? asset.metadata.source_duration_seconds
+              : typeof asset.metadata?.duration_seconds === 'number'
+              ? asset.metadata.duration_seconds
+              : undefined;
+          result.push({
+            id: `bgm-${asset.id || index}`,
+            type: 'audio',
+            url: asset.url,
+            title: t("assets.backgroundMusic"),
+            status: asset.status,
+            loading: isLoading,
+            backgroundUrl: fallbackBackground,
+            duration: durationSeconds,
+          });
+        });
+      } else if (musicAssetsStatus === 'loading') {
+        result.push({
+          id: 'bgm-loading',
+          type: 'audio',
+          title: t("assets.backgroundMusic"),
+          loading: true,
+          backgroundUrl: fallbackBackground,
+        });
+      }
+
       // 3. Keyframe images
       shots?.forEach(shot => {
         const normalizedKeyframeStatus =
@@ -554,7 +626,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       // We don't include it in the grid anymore
 
       return result;
-    }, [shots, storyOutline, characterElements, sceneElement, storyboardShots, storyboardJson, characterReferenceImages, progress, fallbackBackground, shouldShowCharacterPlaceholders, shouldShowScenePlaceholder, characterCount, jobStatus, isKeyframeStage, isVideoStage, isJobFailed, estimatedImageProgress, estimatedVideoProgress, sceneAssets, t, showAgentInternals]);
+    }, [shots, storyOutline, characterElements, sceneElement, storyboardShots, storyboardJson, characterReferenceImages, progress, fallbackBackground, shouldShowCharacterPlaceholders, shouldShowScenePlaceholder, characterCount, jobStatus, isKeyframeStage, isVideoStage, isJobFailed, estimatedImageProgress, estimatedVideoProgress, sceneAssets, musicAssets, musicAssetsStatus, t, showAgentInternals]);
 
     const getAssetTypeLabel = (type: AssetType) => {
       switch (type) {
@@ -570,6 +642,8 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           return `🧑‍🎨 ${t("assets.characterRefs")}`;
         case 'scene_ref':
           return `🏞️ ${t("assets.sceneRef")}`;
+        case 'audio':
+          return `🎵 ${t("assets.backgroundMusic")}`;
         default:
           return '';
       }
@@ -589,6 +663,8 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           return 'text-pink-400';
         case 'scene_ref':
           return 'text-sky-400';
+        case 'audio':
+          return 'text-emerald-400';
         default:
           return 'text-gray-400';
       }
@@ -734,6 +810,23 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
 
               {asset.type === 'scene_ref' && !asset.url && asset.status !== 'failed' && !asset.loading && (
                 <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900" />
+              )}
+
+              {/* Audio (BGM) */}
+              {asset.type === 'audio' && (
+                <div className="w-full h-full bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-950 flex items-center justify-center">
+                  <div className="text-center text-emerald-100 px-3">
+                    <Music className="w-8 h-8 mx-auto text-emerald-300" />
+                    <p className="text-xs font-medium mt-2">
+                      {asset.title || t("assets.backgroundMusic")}
+                    </p>
+                  </div>
+                  {asset.duration && (
+                    <div className="absolute top-2 right-2 bg-black/50 text-white text-[10px] font-medium px-1.5 py-0.5 rounded-full">
+                      {Math.round(asset.duration)}s
+                    </div>
+                  )}
+                </div>
               )}
 
               {/* Video */}

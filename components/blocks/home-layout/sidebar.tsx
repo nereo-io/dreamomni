@@ -17,10 +17,7 @@ import {
   Image,
   Play,
   Film,
-  Music,
-  Mic,
-  Guitar,
-  Upload,
+  // Music, Mic, Guitar, Upload - removed as music AI items are hidden
 } from "lucide-react";
 import { BananaEmoji } from "@/components/icons/BananaIcon";
 import { Button } from "@/components/ui/button";
@@ -71,28 +68,29 @@ export function Sidebar() {
     },
   ];
 
-  const musicAIItems: SidebarItem[] = [
-    {
-      icon: Music,
-      labelKey: "text_to_music",
-      href: "/text-to-music",
-    },
-    {
-      icon: Mic,
-      labelKey: "add_vocals",
-      href: "/add-vocals",
-    },
-    {
-      icon: Guitar,
-      labelKey: "add_instrumental",
-      href: "/add-instrumental",
-    },
-    {
-      icon: Upload,
-      labelKey: "upload_cover",
-      href: "/upload-cover",
-    },
-  ];
+  // Music AI items - Hidden per user request
+  // const musicAIItems: SidebarItem[] = [
+  //   {
+  //     icon: Music,
+  //     labelKey: "text_to_music",
+  //     href: "/text-to-music",
+  //   },
+  //   {
+  //     icon: Mic,
+  //     labelKey: "add_vocals",
+  //     href: "/add-vocals",
+  //   },
+  //   {
+  //     icon: Guitar,
+  //     labelKey: "add_instrumental",
+  //     href: "/add-instrumental",
+  //   },
+  //   {
+  //     icon: Upload,
+  //     labelKey: "upload_cover",
+  //     href: "/upload-cover",
+  //   },
+  // ];
 
   const agentItems: SidebarItem[] = [
     { icon: Film, labelKey: "agent_videos", href: "/agent" },
@@ -197,8 +195,8 @@ export function Sidebar() {
           ))}
         </div>
 
-        {/* Music AI items */}
-        <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
+        {/* Music AI items - Hidden per user request */}
+        {/* <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
           {musicAIItems.map((item) => (
             <Link
               key={item.href}
@@ -210,7 +208,7 @@ export function Sidebar() {
               {!isCollapsed && <span>{t(item.labelKey)}</span>}
             </Link>
           ))}
-        </div>
+        </div> */}
 
         {agentItems.length > 0 && (
           <div className={isCollapsed ? "space-y-2" : "space-y-0"}>

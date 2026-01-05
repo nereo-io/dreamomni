@@ -15,7 +15,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Badge } from '@/components/ui/badge';
 import { useTranslations } from 'next-intl';
 
-type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref';
+type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref' | 'audio';
 
 interface StoryAct {
   title?: string;
@@ -154,7 +154,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
 
   // Reset media loading state when modal opens or data changes
   useEffect(() => {
-    if (isOpen && (type === 'image' || type === 'character_refs' || type === 'scene_ref' || type === 'video')) {
+    if (isOpen && (type === 'image' || type === 'character_refs' || type === 'scene_ref' || type === 'video' || type === 'audio')) {
       setIsMediaLoading(true);
     } else {
       setIsMediaLoading(false);
@@ -283,6 +283,8 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
       const ext =
         type === 'video'
           ? 'mp4'
+          : type === 'audio'
+          ? 'mp3'
           : type === 'image' || type === 'character_refs' || type === 'scene_ref'
           ? 'png'
           : type === 'story' || type === 'script'
@@ -314,6 +316,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
     if (type === 'story') return t("assetModal.storyboard");
     if (type === 'character_refs') return t("assetModal.characterRefs");
     if (type === 'scene_ref') return t("assetModal.sceneRef");
+    if (type === 'audio') return t("assets.backgroundMusic");
     return type.charAt(0).toUpperCase() + type.slice(1);
   };
 
@@ -840,6 +843,37 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
               >
                 {t("assetModal.videoNotSupported")}
               </video>
+            </div>
+          )}
+
+          {/* Audio */}
+          {type === 'audio' && data.url && (
+            <div className="relative bg-gray-900 rounded-lg overflow-hidden flex items-center justify-center p-6">
+              {isMediaLoading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex items-center gap-2">
+                    {[0, 1, 2].map(index => (
+                      <span
+                        key={index}
+                        className="block w-3 h-3 rounded-full bg-white/60 animate-[agent-loader-bounce_1.2s_ease-in-out_infinite]"
+                        style={{ animationDelay: `${index * 0.15}s` }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+              <audio
+                src={data.url}
+                controls
+                autoPlay
+                preload="auto"
+                className="w-full"
+                onLoadedData={() => setIsMediaLoading(false)}
+                onError={() => setIsMediaLoading(false)}
+                style={{ opacity: isMediaLoading ? 0 : 1, transition: 'opacity 0.3s' }}
+              >
+                {t("assetModal.videoNotSupported")}
+              </audio>
             </div>
           )}
         </div>

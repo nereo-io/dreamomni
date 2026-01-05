@@ -74,6 +74,8 @@ export interface AgentAsset {
     | 'image'
     | 'clip'
     | 'final'
+    | 'background_music'
+    | 'final_with_bgm'
     | 'story_outline'
     | 'character_ref'
     | 'scene_ref'

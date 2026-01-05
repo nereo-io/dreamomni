@@ -41,6 +41,7 @@ const VIDEO_MODELS = [
 
 const COST_CONFIG = {
   planReserve: 4, // plan_story_and_shots_node
+  bgmCost: 12, // submit_background_music_node (Suno V5)
   averageShotDuration: 10, // planning target
   spliceCost: 3, // splice_videos_node
 };
@@ -104,6 +105,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
     const estimatedShots = Math.max(1, Math.ceil(duration / COST_CONFIG.averageShotDuration));
     const perImageCost = imageModel === 'nano-banana' ? 3 : 6;
     const planCost = COST_CONFIG.planReserve;
+    const bgmCost = COST_CONFIG.bgmCost;
     const roleSceneReferenceCost = perImageCost * 3;
     const keyframeCredits = estimatedShots * perImageCost;
 
@@ -114,7 +116,9 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
     const videoCredits = estimatedShots * (perShotDuration * perSecondCredits);
     const spliceCredits = COST_CONFIG.spliceCost;
 
-    return Math.ceil(planCost + roleSceneReferenceCost + keyframeCredits + videoCredits + spliceCredits);
+    return Math.ceil(
+      planCost + bgmCost + roleSceneReferenceCost + keyframeCredits + videoCredits + spliceCredits
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -50,12 +50,20 @@ export class KieAiMusicProvider {
   }
 
   /**
+   * 查询任务状态（record-info）
+   */
+  async getRecordInfo(taskId: string): Promise<any> {
+    const endpoint = `/api/v1/generate/record-info?taskId=${encodeURIComponent(taskId)}`;
+    return this.makeRequest(endpoint, 'GET');
+  }
+
+  /**
    * Generate Music（直接生成）
    * API: POST /api/v1/generate
    */
   private async generateMusic(params: GenerateMusicParams): Promise<ProviderSubmitResponse> {
     const endpoint = '/api/v1/generate';
-    const response = await this.makeRequest(endpoint, params);
+    const response = await this.makeRequest(endpoint, 'POST', params);
     
     if (response.code !== 200) {
       throw new Error(response.msg || 'Failed to generate music');
@@ -76,7 +84,7 @@ export class KieAiMusicProvider {
    */
   private async addVocals(params: AddVocalsParams): Promise<ProviderSubmitResponse> {
     const endpoint = '/api/v1/generate/add-vocals';
-    const response = await this.makeRequest(endpoint, params);
+    const response = await this.makeRequest(endpoint, 'POST', params);
     
     if (response.code !== 200) {
       throw new Error(response.msg || 'Failed to add vocals');
@@ -97,7 +105,7 @@ export class KieAiMusicProvider {
    */
   private async addInstrumental(params: AddInstrumentalParams): Promise<ProviderSubmitResponse> {
     const endpoint = '/api/v1/generate/add-instrumental';
-    const response = await this.makeRequest(endpoint, params);
+    const response = await this.makeRequest(endpoint, 'POST', params);
     
     if (response.code !== 200) {
       throw new Error(response.msg || 'Failed to add instrumental');
@@ -118,7 +126,7 @@ export class KieAiMusicProvider {
    */
   private async uploadCover(params: UploadCoverParams): Promise<ProviderSubmitResponse> {
     const endpoint = '/api/v1/generate/upload-cover';
-    const response = await this.makeRequest(endpoint, params);
+    const response = await this.makeRequest(endpoint, 'POST', params);
     
     if (response.code !== 200) {
       throw new Error(response.msg || 'Failed to upload cover');
@@ -136,7 +144,11 @@ export class KieAiMusicProvider {
   /**
    * 发送 HTTP 请求（通用方法）
    */
-  private async makeRequest(endpoint: string, body: any): Promise<any> {
+  private async makeRequest(
+    endpoint: string,
+    method: 'POST' | 'GET' = 'POST',
+    body?: any
+  ): Promise<any> {
     const url = `${this.baseUrl}${endpoint}`;
     
     const controller = new AbortController();
@@ -144,12 +156,12 @@ export class KieAiMusicProvider {
     
     try {
       const response = await fetch(url, {
-        method: 'POST',
+        method,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${this.apiKey}`,
         },
-        body: JSON.stringify(body),
+        body: body ? JSON.stringify(body) : undefined,
         signal: controller.signal,
       });
       
