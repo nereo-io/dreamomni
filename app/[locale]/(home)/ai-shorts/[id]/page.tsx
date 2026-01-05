@@ -10,10 +10,10 @@ export async function generateMetadata({
 }: {
   params: { locale: string; id: string };
 }) {
-  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/agent/${id}`;
+  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/ai-shorts/${id}`;
 
   if (locale !== 'en') {
-    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/agent/${id}`;
+    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/ai-shorts/${id}`;
   }
 
   return {

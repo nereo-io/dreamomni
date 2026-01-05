@@ -52,7 +52,7 @@ test.describe('Anime short agent (real credits)', () => {
     const selectedAspectRatio = process.env.E2E_ASPECT_RATIO || '16:9';
 
     const locale = process.env.E2E_LOCALE || 'en';
-    await page.goto(`/${locale}/agent`, { waitUntil: 'networkidle' });
+    await page.goto(`/${locale}/ai-shorts`, { waitUntil: 'networkidle' });
 
     await expect(page.getByRole('heading', { name: 'Create Agent Job' })).toBeVisible({
       timeout: 60_000,
