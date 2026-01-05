@@ -979,8 +979,22 @@
     "image_generation": "Génération d'image",
     "refund_image_generation_failed": "Remboursement image",
     "agent_shot_analysis": "Analyse de l'agent",
+    "agent_plan_reserve": "Plan de l'agent",
+    "agent_plan_refund": "Remboursement plan de l'agent",
     "agent_keyframe": "Image clé de l'agent",
+    "agent_keyframe_reserve": "Image clé de l'agent",
+    "agent_keyframe_refund": "Remboursement image clé de l'agent",
     "agent_video_clip": "Clip de l'agent",
-    "agent_video_splicing": "Montage de l'agent"
+    "agent_video_reserve": "Vidéo de l'agent",
+    "agent_video_refund": "Remboursement vidéo de l'agent",
+    "agent_bgm_reserve": "BGM de l'agent",
+    "agent_bgm_refund": "Remboursement BGM de l'agent",
+    "agent_video_splicing": "Montage de l'agent",
+    "agent_splice": "Montage de l'agent",
+    "agent_splice_refund": "Remboursement montage de l'agent",
+    "agent_scene_ref_reserve": "Référence de scène de l'agent",
+    "agent_scene_ref_refund": "Remboursement référence de scène de l'agent",
+    "agent_character_ref_reserve": "Référence de personnage de l'agent",
+    "agent_character_ref_refund": "Remboursement référence de personnage de l'agent"
   }
 }

@@ -975,8 +975,22 @@
     "image_generation": "Генерация изображения",
     "refund_image_generation_failed": "Возврат за изображение",
     "agent_shot_analysis": "Анализ агента",
+    "agent_plan_reserve": "План агента",
+    "agent_plan_refund": "Возврат за план агента",
     "agent_keyframe": "Ключевой кадр агента",
+    "agent_keyframe_reserve": "Ключевой кадр агента",
+    "agent_keyframe_refund": "Возврат за ключевой кадр агента",
     "agent_video_clip": "Клип агента",
-    "agent_video_splicing": "Склейка агента"
+    "agent_video_reserve": "Видео агента",
+    "agent_video_refund": "Возврат за видео агента",
+    "agent_bgm_reserve": "BGM агента",
+    "agent_bgm_refund": "Возврат за BGM агента",
+    "agent_video_splicing": "Склейка агента",
+    "agent_splice": "Склейка агента",
+    "agent_splice_refund": "Возврат за склейку агента",
+    "agent_scene_ref_reserve": "Ссылка на сцену агента",
+    "agent_scene_ref_refund": "Возврат за ссылку на сцену агента",
+    "agent_character_ref_reserve": "Ссылка на персонажа агента",
+    "agent_character_ref_refund": "Возврат за ссылку на персонажа агента"
   }
 }

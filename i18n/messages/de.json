@@ -982,8 +982,22 @@
     "image_generation": "Bildgenerierung",
     "refund_image_generation_failed": "Bild-Rückerstattung",
     "agent_shot_analysis": "Agentenanalyse",
+    "agent_plan_reserve": "Agent Plan",
+    "agent_plan_refund": "Agent Plan Rückerstattung",
     "agent_keyframe": "Agenten-Keyframe",
+    "agent_keyframe_reserve": "Agenten-Keyframe",
+    "agent_keyframe_refund": "Agenten-Keyframe Rückerstattung",
     "agent_video_clip": "Agenten-Clip",
-    "agent_video_splicing": "Agenten-Zusammenführung"
+    "agent_video_reserve": "Agenten-Video",
+    "agent_video_refund": "Agenten-Video Rückerstattung",
+    "agent_bgm_reserve": "Agent BGM",
+    "agent_bgm_refund": "Agent BGM Rückerstattung",
+    "agent_video_splicing": "Agenten-Zusammenführung",
+    "agent_splice": "Agenten-Zusammenfügung",
+    "agent_splice_refund": "Agenten-Zusammenfügung Rückerstattung",
+    "agent_scene_ref_reserve": "Agenten-Szenenreferenz",
+    "agent_scene_ref_refund": "Agenten-Szenenreferenz Rückerstattung",
+    "agent_character_ref_reserve": "Agenten-Charakterreferenz",
+    "agent_character_ref_refund": "Agenten-Charakterreferenz Rückerstattung"
   }
 }
