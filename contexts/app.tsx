@@ -51,7 +51,7 @@ export const AppContextProvider = ({
 
   const oneTapRouteEnabled =
     normalizedPathname === "/" ||
-    normalizedPathname.startsWith("/agent") ||
+    normalizedPathname.startsWith("/ai-shorts") ||
     normalizedPathname.startsWith("/history") ||
     normalizedPathname.startsWith("/home") ||
     normalizedPathname.startsWith("/image-to-image") ||

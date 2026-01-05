@@ -93,7 +93,7 @@ export function Sidebar() {
   // ];
 
   const agentItems: SidebarItem[] = [
-    { icon: Film, labelKey: "agent_videos", href: "/agent" },
+    { icon: Film, labelKey: "agent_videos", href: "/ai-shorts" },
   ];
 
   const otherItems: SidebarItem[] = [
