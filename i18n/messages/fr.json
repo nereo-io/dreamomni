@@ -766,6 +766,8 @@
     },
     "item": {
       "finalVideo": "Vidéo finale",
+      "finalVideoNoBgm": "Vidéo finale (sans BGM)",
+      "finalVideoWithBgm": "Vidéo finale (avec BGM)",
       "reEdit": "Rééditer",
       "delete": "Supprimer",
       "deleting": "Suppression...",
