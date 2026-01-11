@@ -8,9 +8,9 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Download, Copy } from 'lucide-react';
+import { Download, Copy, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { useTranslations } from 'next-intl';
@@ -97,6 +97,8 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
   const t = useTranslations("agentJobs");
   const [isCopied, setIsCopied] = useState(false);
   const [isMediaLoading, setIsMediaLoading] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const downloadResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const formatDuration = (seconds?: number) => {
     if (!seconds || seconds <= 0) return '—';
@@ -168,6 +170,24 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
       setIsMediaLoading(false);
     }
   }, [isOpen, data.url, type]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setIsDownloading(false);
+      if (downloadResetTimer.current) {
+        clearTimeout(downloadResetTimer.current);
+        downloadResetTimer.current = null;
+      }
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    return () => {
+      if (downloadResetTimer.current) {
+        clearTimeout(downloadResetTimer.current);
+      }
+    };
+  }, []);
 
   // Handle keyboard navigation
   useEffect(() => {
@@ -284,8 +304,20 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
     return null;
   };
 
+  const startDownloadFeedback = () => {
+    setIsDownloading(true);
+    if (downloadResetTimer.current) {
+      clearTimeout(downloadResetTimer.current);
+    }
+    downloadResetTimer.current = setTimeout(() => {
+      setIsDownloading(false);
+      downloadResetTimer.current = null;
+    }, 3000);
+  };
+
   const handleDownload = () => {
     if (data.url) {
+      startDownloadFeedback();
       const link = document.createElement('a');
       const ext =
         type === 'video'
@@ -345,6 +377,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
     const content = getDownloadableTextContent();
     if (!content) return;
 
+    startDownloadFeedback();
     const blob = new Blob([content], {
       type: type === 'story' || type === 'script' ? 'application/json' : 'text/plain',
     });
@@ -816,8 +849,13 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                 size="sm"
                 onClick={handleDownload}
                 className="h-8 text-gray-400 hover:text-gray-100 hover:bg-gray-700/50"
+                disabled={isDownloading}
               >
-                <Download className="h-3.5 w-3.5 mr-1.5" />
+                {isDownloading ? (
+                  <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />
+                ) : (
+                  <Download className="h-3.5 w-3.5 mr-1.5" />
+                )}
                 {t("assetModal.download")}
               </Button>
             )}
