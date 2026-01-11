@@ -19,6 +19,8 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { formatDistanceToNow } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import { useTranslations } from 'next-intl';
+import { buildAgentAssetDownloadUrl } from '@/utils/agent-download';
+import { trackPlausibleEvent } from '@/utils/plausible';
 
 const POLLING_INTERVAL = 5000; // 5 seconds
 const JOB_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
@@ -209,15 +211,74 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
     }
   };
 
-  const handleDownload = async (job: AgentJob) => {
+  const handleDownload = async (
+    job: AgentJob,
+    source: string,
+    useTracking: boolean
+  ) => {
     if (!job.final_video_url) return;
 
     setDownloadingId(job.id);
     const filename = `agent_video_${job.id}.mp4`;
     const proxyUrl = `/api/proxy-video?url=${encodeURIComponent(job.final_video_url)}&filename=${encodeURIComponent(filename)}`;
+    let downloadUrl = proxyUrl;
+    let assetType = "final";
+    let assetId: string | undefined;
+
+    if (useTracking) {
+      try {
+        const [finalWithBgmRes, finalRes] = await Promise.all([
+          fetch(`/api/agent/jobs/${job.id}/assets?asset_type=final_with_bgm&limit=1&offset=0`),
+          fetch(`/api/agent/jobs/${job.id}/assets?asset_type=final&limit=1&offset=0`),
+        ]);
+
+        const finalWithBgmPayload = finalWithBgmRes.ok ? await finalWithBgmRes.json() : null;
+        const finalPayload = finalRes.ok ? await finalRes.json() : null;
+
+        const finalWithBgmAssets = Array.isArray(finalWithBgmPayload?.assets)
+          ? finalWithBgmPayload.assets
+          : Array.isArray(finalWithBgmPayload)
+          ? finalWithBgmPayload
+          : [];
+        const finalAssets = Array.isArray(finalPayload?.assets)
+          ? finalPayload.assets
+          : Array.isArray(finalPayload)
+          ? finalPayload
+          : [];
+
+        if (finalWithBgmAssets[0]?.id) {
+          assetId = finalWithBgmAssets[0].id;
+          assetType = "final_with_bgm";
+        } else if (finalAssets[0]?.id) {
+          assetId = finalAssets[0].id;
+          assetType = "final";
+        }
+        if (assetId) {
+          downloadUrl = buildAgentAssetDownloadUrl(assetId, filename, source);
+        }
+      } catch (error) {
+        console.error('[AgentJobsList] Resolve asset download failed:', error);
+        downloadUrl = proxyUrl;
+      }
+    }
+
+    if (useTracking) {
+      trackPlausibleEvent('ai_shorts_asset_download_completed', {
+        user_id: job.user_id,
+        job_id: job.id,
+        asset_id: assetId,
+        asset_type: assetType,
+        file_type: 'video',
+        file_ext: job.final_video_url.split('?')[0]?.split('.').pop() || 'mp4',
+        duration_seconds: job.duration_seconds,
+        download_source: source,
+        download_method: 'button_click',
+        timestamp: new Date().toISOString(),
+      });
+    }
 
     try {
-      const response = await fetch(proxyUrl);
+      const response = await fetch(downloadUrl);
       if (!response.ok) throw new Error('Download failed');
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
@@ -345,7 +406,7 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
                   setSelectedJob(j);
                   setIsDetailOpen(true);
                 }}
-                onDownload={handleDownload}
+                onDownload={(job) => handleDownload(job, 'agent_showcase_card', false)}
                 downloadingId={downloadingId}
               />
             ))}
@@ -453,7 +514,14 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
             : []
         }
         title={t("modal.title")}
-        onDownload={() => selectedJob && handleDownload(selectedJob)}
+        onDownload={() =>
+          selectedJob &&
+          handleDownload(
+            selectedJob,
+            activeTab === 'history' ? 'agent_jobs_modal' : 'agent_showcase_modal',
+            activeTab === 'history' && !isUnauthorized
+          )
+        }
         onDelete={() => {}} // No delete for showcase
         onOpenOriginal={() => selectedJob?.final_video_url && window.open(selectedJob.final_video_url, "_blank")}
         isDownloading={selectedJob ? downloadingId === selectedJob.id : false}

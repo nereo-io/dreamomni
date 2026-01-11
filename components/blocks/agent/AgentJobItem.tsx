@@ -17,6 +17,8 @@ import { AgentAssetGrid } from './AgentAssetGrid';
 import VideoPlayer from '@/components/blocks/video-history/components/VideoPlayer';
 import { getVideoModel } from '@/config/video-models';
 import { useTranslations } from 'next-intl';
+import { buildAgentAssetDownloadUrl } from '@/utils/agent-download';
+import { trackPlausibleEvent } from '@/utils/plausible';
 
 interface AgentJobItemProps {
   job: AgentJob;
@@ -109,18 +111,43 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
     const handleDownloadVideo = async (
       videoUrl: string,
       downloadSuffix: string,
-      targetKey: string
+      targetKey: string,
+      assetId?: string
     ) => {
       if (!videoUrl) return;
+
+      const fileExt = videoUrl.split('?')[0]?.split('.').pop() || 'mp4';
+      const assetType =
+        targetKey === 'final_with_bgm'
+          ? 'final_with_bgm'
+          : targetKey === 'final'
+          ? 'final'
+          : 'final';
+
+      trackPlausibleEvent('ai_shorts_asset_download_completed', {
+        user_id: job.user_id,
+        job_id: job.id,
+        asset_id: assetId,
+        asset_type: assetType,
+        file_type: 'video',
+        file_ext: fileExt,
+        duration_seconds: job.duration_seconds,
+        download_source: 'agent_job_item',
+        download_method: 'button_click',
+        timestamp: new Date().toISOString(),
+      });
 
       const safeSuffix = downloadSuffix ? `_${downloadSuffix}` : '';
       const filename = `agent_video_${job.id}${safeSuffix}.mp4`;
       const proxyUrl = createProxyDownloadUrl(videoUrl, filename);
+      const trackedUrl = assetId
+        ? buildAgentAssetDownloadUrl(assetId, filename, 'agent_job_item')
+        : proxyUrl;
 
       setDownloadingTarget(targetKey);
 
       try {
-        const response = await fetch(proxyUrl);
+        const response = await fetch(trackedUrl);
         if (!response.ok) throw new Error('Download failed');
 
         const blob = await response.blob();
@@ -259,40 +286,54 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
     }, [job.id, job.status, job.updated_at]);
 
     const finalHasBgm = finalAsset?.metadata?.has_bgm === true;
-    const finalVideos: Array<{
-      key: string;
-      url: string;
-      label: string;
-      downloadSuffix: string;
-    }> = [];
-
-    if (finalWithBgmAsset?.url) {
-      finalVideos.push({
-        key: 'final_with_bgm',
-        url: finalWithBgmAsset.url,
-        label: t("item.finalVideoWithBgm"),
-        downloadSuffix: 'with_bgm',
-      });
-    }
-
-    if (finalAsset?.url) {
-      const isNoBgmVariant = finalWithBgmAsset?.url ? true : !finalHasBgm;
-      finalVideos.push({
-        key: 'final',
-        url: finalAsset.url,
-        label: isNoBgmVariant ? t("item.finalVideoNoBgm") : t("item.finalVideoWithBgm"),
-        downloadSuffix: isNoBgmVariant ? 'no_bgm' : 'with_bgm',
-      });
-    }
-
-    if (finalVideos.length === 0 && job.final_video_url) {
-      finalVideos.push({
-        key: 'final_fallback',
-        url: job.final_video_url,
-        label: t("item.finalVideo"),
-        downloadSuffix: 'final',
-      });
-    }
+    const hasFinalWithBgm = !!finalWithBgmAsset?.url;
+    const finalAssetIsNoBgm = !!finalAsset?.url && (hasFinalWithBgm || !finalHasBgm);
+    const finalAssetDuration =
+      typeof finalAsset?.metadata?.source_duration_seconds === 'number'
+        ? finalAsset.metadata.source_duration_seconds
+        : typeof finalAsset?.metadata?.duration_seconds === 'number'
+        ? finalAsset.metadata.duration_seconds
+        : undefined;
+    const primaryFinalVideo = (() => {
+      if (finalWithBgmAsset?.url) {
+        return {
+          key: 'final_with_bgm',
+          url: finalWithBgmAsset.url,
+          label: t("item.finalVideo"),
+          downloadSuffix: 'with_bgm',
+          assetId: finalWithBgmAsset.id,
+        };
+      }
+      if (finalAsset?.url) {
+        return {
+          key: 'final',
+          url: finalAsset.url,
+          label: finalAssetIsNoBgm ? t("item.finalVideoNoBgm") : t("item.finalVideo"),
+          downloadSuffix: finalAssetIsNoBgm ? 'no_bgm' : 'with_bgm',
+          assetId: finalAsset.id,
+        };
+      }
+      if (job.final_video_url) {
+        return {
+          key: 'final_fallback',
+          url: job.final_video_url,
+          label: t("item.finalVideo"),
+          downloadSuffix: 'final',
+        };
+      }
+      return null;
+    })();
+    const extraVideoAssets = finalAssetIsNoBgm && hasFinalWithBgm && finalAsset?.url
+      ? [
+          {
+            id: finalAsset.id || 'final_no_bgm',
+            url: finalAsset.url,
+            assetId: finalAsset.id,
+            title: t("item.finalVideoNoBgm"),
+            duration: finalAssetDuration,
+          },
+        ]
+      : undefined;
 
     return (
       <>
@@ -414,6 +455,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
           {job.shots && job.shots.length > 0 && (
             <AgentAssetGrid
               jobId={job.id}
+              userId={job.user_id}
               shots={job.shots}
               finalVideoUrl={job.final_video_url}
               storyboardJson={
@@ -430,34 +472,32 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               createdAt={job.created_at}
               videoModelId={videoModelId}
               jobUpdatedAt={job.updated_at}
+              extraVideoAssets={extraVideoAssets}
             />
           )}
 
           {/* Final Video - Using VideoPlayer component */}
-          {finalVideos.length > 0 ? (
+          {primaryFinalVideo ? (
             <div className="space-y-3">
-              <div
-                className={
-                  finalVideos.length > 1
-                    ? "grid gap-3 sm:grid-cols-2"
-                    : "grid gap-3"
-                }
-              >
-                {finalVideos.map((video) => (
-                  <div key={video.key} className="relative w-full">
-                    <VideoPlayer
-                      videoUrl={video.url}
-                      onDownload={() =>
-                        handleDownloadVideo(video.url, video.downloadSuffix, video.key)
-                      }
-                      canDownload={true}
-                      isDownloading={downloadingTarget === video.key}
-                    />
-                    <div className="absolute top-3 left-3 text-white text-xs font-medium bg-black/50 px-2 py-1 rounded-md pointer-events-none z-10">
-                      {video.label}
-                    </div>
+              <div className="grid gap-3">
+                <div className="relative w-full">
+                  <VideoPlayer
+                    videoUrl={primaryFinalVideo.url}
+                    onDownload={() =>
+                      handleDownloadVideo(
+                        primaryFinalVideo.url,
+                        primaryFinalVideo.downloadSuffix,
+                        primaryFinalVideo.key,
+                        primaryFinalVideo.assetId
+                      )
+                    }
+                    canDownload={true}
+                    isDownloading={downloadingTarget === primaryFinalVideo.key}
+                  />
+                  <div className="absolute top-3 left-3 text-white text-xs font-medium bg-black/50 px-2 py-1 rounded-md pointer-events-none z-10">
+                    {primaryFinalVideo.label}
                   </div>
-                ))}
+                </div>
               </div>
 
               {/* Action Buttons */}

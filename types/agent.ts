@@ -84,6 +84,7 @@ export interface AgentAsset {
   content?: string;
   status: 'pending' | 'generating' | 'done' | 'failed';
   metadata?: Record<string, any>;
+  download_count?: number;
   created_at: string;
 }
 

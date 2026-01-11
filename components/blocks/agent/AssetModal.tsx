@@ -14,6 +14,8 @@ import { useState, useEffect } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { useTranslations } from 'next-intl';
+import { buildAgentAssetDownloadUrl } from '@/utils/agent-download';
+import { trackPlausibleEvent } from '@/utils/plausible';
 
 type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref' | 'audio';
 
@@ -75,10 +77,16 @@ interface AssetModalProps {
   onClose: () => void;
   type: AssetType;
   data: {
+    assetId?: string;
+    assetType?: string;
+    jobId?: string;
+    userId?: string;
     url?: string;
     content?: string;
     title?: string;
     shotNumber?: number;
+    durationSeconds?: number;
+    fileSize?: number;
     storyDetails?: StoryDetails;
     totalDurationSeconds?: number;
     shotsCount?: number;
@@ -279,7 +287,6 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
   const handleDownload = () => {
     if (data.url) {
       const link = document.createElement('a');
-      link.href = data.url;
       const ext =
         type === 'video'
           ? 'mp4'
@@ -290,7 +297,47 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
           : type === 'story' || type === 'script'
           ? 'json'
           : 'txt';
-      link.download = `${type}_${data.shotNumber || 'asset'}.${ext}`;
+      const filename = `${type}_${data.shotNumber || 'asset'}.${ext}`;
+      if (['image', 'video', 'audio', 'character_refs', 'scene_ref'].includes(type)) {
+        const fileType =
+          type === 'audio'
+            ? 'audio'
+            : type === 'video'
+            ? 'video'
+            : 'image';
+        const assetType =
+          data.assetType ||
+          (type === 'character_refs'
+            ? 'character_ref'
+            : type === 'scene_ref'
+            ? 'scene_ref'
+            : type === 'audio'
+            ? 'background_music'
+            : type === 'video'
+            ? 'clip'
+            : 'image');
+        const fileExt = data.url ? data.url.split('?')[0]?.split('.').pop() || ext : ext;
+
+        trackPlausibleEvent('ai_shorts_asset_download_completed', {
+          user_id: data.userId,
+          job_id: data.jobId,
+          asset_id: data.assetId,
+          asset_type: assetType,
+          file_type: fileType,
+          file_ext: fileExt,
+          file_size: data.fileSize,
+          duration_seconds: data.durationSeconds,
+          shot_number: data.shotNumber,
+          download_source: 'asset_modal',
+          download_method: 'button_click',
+          timestamp: new Date().toISOString(),
+        });
+      }
+      link.href =
+        data.assetId && ['image', 'video', 'audio', 'character_refs', 'scene_ref'].includes(type)
+          ? buildAgentAssetDownloadUrl(data.assetId, filename, 'asset_modal')
+          : data.url;
+      link.download = filename;
       link.click();
       return;
     }

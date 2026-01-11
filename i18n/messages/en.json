@@ -769,7 +769,7 @@
     },
     "item": {
       "finalVideo": "Final Video",
-      "finalVideoNoBgm": "Final Video (No BGM)",
+      "finalVideoNoBgm": "Spliced Video",
       "finalVideoWithBgm": "Final Video (With BGM)",
       "reEdit": "Re-edit",
       "delete": "Delete",

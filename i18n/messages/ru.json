@@ -767,7 +767,7 @@
     },
     "item": {
       "finalVideo": "Итоговое видео",
-      "finalVideoNoBgm": "Итоговое видео (без BGM)",
+      "finalVideoNoBgm": "Склеенное видео",
       "finalVideoWithBgm": "Итоговое видео (с BGM)",
       "reEdit": "Перередактировать",
       "delete": "Удалить",

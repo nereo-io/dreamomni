@@ -66,13 +66,31 @@ interface StoryDetails {
   storyboardJson?: Record<string, any> | null;
 }
 
+interface AssetDownloadLookup {
+  imageByShot: Record<string, AgentAsset>;
+  clipByShot: Record<string, AgentAsset>;
+  characterRefByUrl: Record<string, AgentAsset>;
+}
+
+interface ExtraVideoAsset {
+  id: string;
+  url: string;
+  assetId?: string;
+  title?: string;
+  duration?: number;
+}
+
 interface Asset {
   id: string;
   type: AssetType;
+  assetId?: string;
+  assetType?: string;
   url?: string;
   content?: string;
   shotNumber?: number;
   duration?: number;
+  durationSeconds?: number;
+  fileSize?: number;
   title?: string;
   extraCount?: number;
   status?: string;
@@ -86,6 +104,7 @@ interface Asset {
 
 interface AgentAssetGridProps {
   jobId: string;
+  userId?: string;
   shots: AgentShot[];
   finalVideoUrl?: string;
   storyboardJson?: Record<string, any> | null;
@@ -99,16 +118,22 @@ interface AgentAssetGridProps {
   createdAt?: string;
   videoModelId?: string;
   jobUpdatedAt?: string;
+  extraVideoAssets?: ExtraVideoAsset[];
 }
 
 export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
-  ({ jobId, shots, finalVideoUrl: _finalVideoUrl, storyboardJson, characterReferenceImages, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrls, jobStatus, createdAt, videoModelId, jobUpdatedAt }) => {
+  ({ jobId, userId, shots, finalVideoUrl: _finalVideoUrl, storyboardJson, characterReferenceImages, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrls, jobStatus, createdAt, videoModelId, jobUpdatedAt, extraVideoAssets }) => {
     const t = useTranslations("agentJobs");
     const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
     const [sceneAssets, setSceneAssets] = useState<AgentAsset[]>([]);
     const [sceneAssetsStatus, setSceneAssetsStatus] = useState<'idle' | 'loading' | 'error'>('idle');
     const [musicAssets, setMusicAssets] = useState<AgentAsset[]>([]);
     const [musicAssetsStatus, setMusicAssetsStatus] = useState<'idle' | 'loading' | 'error'>('idle');
+    const [assetDownloadLookup, setAssetDownloadLookup] = useState<AssetDownloadLookup>({
+      imageByShot: {},
+      clipByShot: {},
+      characterRefByUrl: {},
+    });
     const showAgentInternals = process.env.NEXT_PUBLIC_AGENT_INTERNALS === 'true';
     const aspectRatioValue =
       aspectRatio === '9:16'
@@ -205,6 +230,75 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       };
 
       fetchSceneAssets();
+
+      return () => {
+        cancelled = true;
+      };
+    }, [jobId, jobUpdatedAt]);
+
+    useEffect(() => {
+      let cancelled = false;
+
+      const fetchDownloadAssets = async () => {
+        if (!jobId) return;
+        try {
+          const pageSize = 100;
+          const res = await fetch(`/api/agent/jobs/${jobId}/assets?limit=${pageSize}&offset=0`);
+          if (!res.ok) {
+            throw new Error('Failed to fetch assets for download tracking');
+          }
+          const payload = await res.json();
+          if (cancelled) return;
+          let assets = Array.isArray(payload?.assets)
+            ? payload.assets
+            : Array.isArray(payload)
+            ? payload
+            : [];
+          const total = typeof payload?.total === 'number' ? payload.total : assets.length;
+
+          if (total > pageSize) {
+            const resPage2 = await fetch(`/api/agent/jobs/${jobId}/assets?limit=${pageSize}&offset=${pageSize}`);
+            if (resPage2.ok) {
+              const payloadPage2 = await resPage2.json();
+              const page2Assets = Array.isArray(payloadPage2?.assets)
+                ? payloadPage2.assets
+                : Array.isArray(payloadPage2)
+                ? payloadPage2
+                : [];
+              assets = assets.concat(page2Assets);
+            }
+          }
+
+          const imageByShot: Record<string, AgentAsset> = {};
+          const clipByShot: Record<string, AgentAsset> = {};
+          const characterRefByUrl: Record<string, AgentAsset> = {};
+
+          assets.forEach((asset: AgentAsset) => {
+            if (!asset) return;
+            if (asset.asset_type === 'image' && asset.metadata?.shot_number != null) {
+              imageByShot[String(asset.metadata.shot_number)] = asset;
+            }
+            if (asset.asset_type === 'clip' && asset.metadata?.shot_number != null) {
+              clipByShot[String(asset.metadata.shot_number)] = asset;
+            }
+            if (asset.asset_type === 'character_ref' && asset.url) {
+              characterRefByUrl[asset.url] = asset;
+            }
+          });
+
+          setAssetDownloadLookup({ imageByShot, clipByShot, characterRefByUrl });
+        } catch (error) {
+          if (cancelled) return;
+          console.error('[AgentAssetGrid] Fetch download assets failed:', error);
+          setAssetDownloadLookup({
+            imageByShot: {},
+            clipByShot: {},
+            characterRefByUrl: {},
+          });
+        }
+      };
+
+      fetchDownloadAssets();
 
       return () => {
         cancelled = true;
@@ -458,10 +552,14 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           : [];
       if (refImages.length > 0) {
         refImages.forEach((url, index) => {
+          const characterAsset = assetDownloadLookup.characterRefByUrl[url];
           result.push({
             id: `character-refs-${index}`,
             type: 'character_refs',
+            assetId: characterAsset?.id,
+            assetType: 'character_ref',
             url,
+            fileSize: characterAsset?.metadata?.file_size,
             title:
               refImages.length > 1
                 ? `${t("assets.ref")} #${index + 1}`
@@ -492,7 +590,10 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           result.push({
             id: `scene-ref-${asset.id || index}`,
             type: 'scene_ref',
+            assetId: asset.id,
+            assetType: 'scene_ref',
             url: asset.url,
+            fileSize: asset.metadata?.file_size,
             title: sceneElement?.id ? `${sceneElement.id} ${t("assets.sceneRef")}` : `${t("assets.sceneRef")} #${index + 1}`,
             status: asset.status,
             loading: isLoading,
@@ -526,12 +627,16 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           result.push({
             id: `bgm-${asset.id || index}`,
             type: 'audio',
+            assetId: asset.id,
+            assetType: 'background_music',
             url: asset.url,
             title: t("assets.backgroundMusic"),
             status: asset.status,
             loading: isLoading,
             backgroundUrl: fallbackBackground,
             duration: durationSeconds,
+            durationSeconds,
+            fileSize: asset.metadata?.file_size,
           });
         });
       } else if (musicAssetsStatus === 'loading') {
@@ -570,8 +675,11 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
         result.push({
           id: `keyframe-${shot.id}`,
           type: 'image',
+          assetId: assetDownloadLookup.imageByShot[String(shot.shot_number)]?.id,
+          assetType: 'image',
           url: shot.keyframe_url,
           shotNumber: shot.shot_number,
+          fileSize: assetDownloadLookup.imageByShot[String(shot.shot_number)]?.metadata?.file_size,
           title: `${t("assets.shot")} #${shot.shot_number} ${t("assets.image")}`,
           status: normalizedKeyframeStatus,
           loading: isKeyframeLoading,
@@ -611,9 +719,13 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
         result.push({
           id: `video-${shot.id}`,
           type: 'video',
+          assetId: assetDownloadLookup.clipByShot[String(shot.shot_number)]?.id,
+          assetType: 'clip',
           url: shot.video_url,
           shotNumber: shot.shot_number,
           duration: shot.duration_seconds,
+          durationSeconds: shot.duration_seconds,
+          fileSize: assetDownloadLookup.clipByShot[String(shot.shot_number)]?.metadata?.file_size,
           title: `${t("assets.shot")} #${shot.shot_number} ${t("assets.video")}`,
           status: normalizedVideoStatus,
           loading: isVideoLoading,
@@ -625,8 +737,23 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       // 4. Final video is now rendered separately in AgentJobItem
       // We don't include it in the grid anymore
 
+      // 4.5 Optional extra videos (e.g., Final Video No BGM) rendered as small cards
+      if (extraVideoAssets && extraVideoAssets.length > 0) {
+        extraVideoAssets.forEach((asset) => {
+          if (!asset?.url) return;
+          result.push({
+            id: `extra-video-${asset.id}`,
+            type: 'video',
+            assetId: asset.assetId,
+            url: asset.url,
+            title: asset.title,
+            duration: asset.duration,
+          });
+        });
+      }
+
       return result;
-    }, [shots, storyOutline, characterElements, sceneElement, storyboardShots, storyboardJson, characterReferenceImages, progress, fallbackBackground, shouldShowCharacterPlaceholders, shouldShowScenePlaceholder, characterCount, jobStatus, isKeyframeStage, isVideoStage, isJobFailed, estimatedImageProgress, estimatedVideoProgress, sceneAssets, musicAssets, musicAssetsStatus, t, showAgentInternals]);
+    }, [shots, storyOutline, characterElements, sceneElement, storyboardShots, storyboardJson, characterReferenceImages, progress, fallbackBackground, shouldShowCharacterPlaceholders, shouldShowScenePlaceholder, characterCount, jobStatus, isKeyframeStage, isVideoStage, isJobFailed, estimatedImageProgress, estimatedVideoProgress, sceneAssets, musicAssets, musicAssetsStatus, assetDownloadLookup, t, showAgentInternals, extraVideoAssets]);
 
     const getAssetTypeLabel = (type: AssetType) => {
       switch (type) {
@@ -844,14 +971,16 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
                   {/* Duration badge (top-right) */}
-                  {asset.duration && (
+                  {typeof asset.duration === 'number' && asset.duration > 0 && (
                     <div className="absolute top-2 right-2 bg-black/50 text-white text-[10px] font-medium px-1.5 py-0.5 rounded-full">
-                      {asset.duration}s
+                      {Math.round(asset.duration)}s
                     </div>
                   )}
                   {/* Shot number (top-left) */}
                   <div className="absolute top-2 left-2 text-white text-xs font-medium bg-black/50 px-2 py-0.5 rounded-md">
-                    {asset.shotNumber ? `${t("assets.shot")} #${asset.shotNumber}` : t("assets.finalVideo")}
+                    {asset.shotNumber
+                      ? `${t("assets.shot")} #${asset.shotNumber}`
+                      : asset.title || t("assets.finalVideo")}
                   </div>
                 </>
               )}
@@ -870,10 +999,16 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
             onClose={() => setSelectedAsset(null)}
             type={selectedAsset.type}
             data={{
+              assetId: selectedAsset.assetId,
+              assetType: selectedAsset.assetType,
+              jobId,
+              userId,
               url: selectedAsset.url,
               content: selectedAsset.content,
               title: selectedAsset.title,
               shotNumber: selectedAsset.shotNumber,
+              durationSeconds: selectedAsset.durationSeconds,
+              fileSize: selectedAsset.fileSize,
               storyDetails: selectedAsset.storyDetails,
               shotsCount: selectedAsset.shotsCount,
               totalDurationSeconds: selectedAsset.totalDurationSeconds,
