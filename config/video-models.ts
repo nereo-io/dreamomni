@@ -52,8 +52,8 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     name: "BytePlus Seedance 1.5 Pro Text-to-Video",
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.BYTEPLUS,
-    volcanoModel: "ep-20251223205943-d8rhb", //hugeroger@gmail.com
-    // volcanoModel: "ep-20251228123459-x2ccs",   //mackensonsouverain34@gmail.com
+    // volcanoModel: "ep-20251223205943-d8rhb", //hugeroger@gmail.com
+    volcanoModel: "ep-20251228123459-x2ccs",   //mackensonsouverain34@gmail.com
     // volcanoModel: "ep-20251230222441-b27wd",   //baziai012@gmail.com
     displayName: "Seedance 1.5 Pro",
     perSecondCredits: 2,
@@ -73,8 +73,8 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     name: "BytePlus Seedance 1.5 Pro Image-to-Video",
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.BYTEPLUS,
-    volcanoModel: "ep-20251223205943-d8rhb", //hugeroger@gmail.com
-    // volcanoModel: "ep-20251228123459-x2ccs",   //mackensonsouverain34@gmail.com
+    // volcanoModel: "ep-20251223205943-d8rhb", //hugeroger@gmail.com
+    volcanoModel: "ep-20251228123459-x2ccs",   //mackensonsouverain34@gmail.com
     // volcanoModel: "ep-20251230222441-b27wd",   //baziai012@gmail.com
     displayName: "Seedance 1.5 Pro",
     perSecondCredits: 2,
@@ -240,9 +240,9 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.BYTEPLUS,
     // volcanoModel: "seedance-1-0-pro-250528",
-    volcanoModel: "ep-20250915143914-m57vr", //hugeroger@gmail.com
-    // volcanoModel: "ep-20251031184345-xbr8l", //acostaandreab0@gmail.com
-    // volcanoModel: "ep-20251122104716-5krl8", //mackensonsouverain34@gmail.com
+    // volcanoModel: "ep-20250915143914-m57vr", //hugeroger@gmail.com
+    //volcanoModel: "ep-20251031184345-xbr8l", //acostaandreab0@gmail.com
+    volcanoModel: "ep-20251122104716-5krl8", //mackensonsouverain34@gmail.com
     // volcanoModel: "ep-20251230222856-s5ln9", //baziai012@gmail.com
     displayName: "Seedance 1.0 Pro",
     perSecondCredits: 2,
@@ -264,9 +264,9 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.BYTEPLUS,
     // volcanoModel: "seedance-1-0-pro-250528",
-    volcanoModel: "ep-20250915143914-m57vr", //hugeroger@gmail.com
+    // volcanoModel: "ep-20250915143914-m57vr", //hugeroger@gmail.com
     // volcanoModel: "ep-20251031184345-xbr8l", //acostaandreab0@gmail.com
-    // volcanoModel: "ep-20251122104716-5krl8", //mackensonsouverain34@gmail.com
+    volcanoModel: "ep-20251122104716-5krl8", //mackensonsouverain34@gmail.com
     // volcanoModel: "ep-20251230222856-s5ln9", //baziai012@gmail.com
     displayName: "Seedance 1.0 Pro",
     perSecondCredits: 2,
