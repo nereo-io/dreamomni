@@ -83,6 +83,8 @@ export default function VideoTab() {
   const [searchVersion, setSearchVersion] = useState(0);
   const normalizedQuery = searchQuery.trim();
   const hasSearch = normalizedQuery.length > 0;
+  const currentPageRef = useRef(1);
+  const normalizedQueryRef = useRef(normalizedQuery);
   const pageCacheRef = useRef<
     Map<
       string,
@@ -178,7 +180,10 @@ export default function VideoTab() {
             };
 
             pageCacheRef.current.set(getCacheKey(pageValue, query), cacheEntry);
-            if (query === normalizedQuery && pageValue === currentPage) {
+            if (
+              query === normalizedQueryRef.current &&
+              pageValue === currentPageRef.current
+            ) {
               applyPageData(cacheEntry);
             }
           }
@@ -187,7 +192,7 @@ export default function VideoTab() {
         console.error("后台状态更新失败:", error);
       }
     },
-    [applyPageData, buildHistoryUrl, currentPage, normalizedQuery]
+    [applyPageData, buildHistoryUrl]
   );
 
   const prefetchPage = useCallback(
@@ -315,6 +320,14 @@ export default function VideoTab() {
     setCurrentPage(1);
     fetchHistory(1, true, normalizedQuery);
   }, [fetchHistory, normalizedQuery, searchVersion, user?.uuid]);
+
+  useEffect(() => {
+    currentPageRef.current = currentPage;
+  }, [currentPage]);
+
+  useEffect(() => {
+    normalizedQueryRef.current = normalizedQuery;
+  }, [normalizedQuery]);
 
   useEffect(() => {
     if (!isDetailOpen || !selectedVideo || videos.length === 0 || showDeleteDialog) {
