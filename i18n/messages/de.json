@@ -786,7 +786,9 @@
       "deleteTitle": "Agent-Job löschen?",
       "deleteConfirm": "Sind Sie sicher, dass Sie \"{prompt}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
       "shots": "Aufnahmen",
-      "failed": "Generierung fehlgeschlagen"
+      "failed": "Generierung fehlgeschlagen",
+      "copyPrompt": "Prompt kopieren",
+      "promptCopied": "Prompt kopiert"
     },
     "assets": {
       "script": "Skript",
