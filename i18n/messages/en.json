@@ -786,7 +786,9 @@
       "deleteTitle": "Delete Agent Job?",
       "deleteConfirm": "Are you sure you want to delete \"{prompt}\"? This action cannot be undone.",
       "shots": "shots",
-      "failed": "Generation failed"
+      "failed": "Generation failed",
+      "copyPrompt": "Copy prompt",
+      "promptCopied": "Prompt copied"
     },
     "assets": {
       "script": "Script",
