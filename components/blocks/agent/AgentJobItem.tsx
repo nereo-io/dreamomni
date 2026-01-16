@@ -11,7 +11,8 @@ import { AgentAsset, AgentJob, AgentJobStatusMap } from '@/types/agent';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Loader2, Trash2, Edit } from 'lucide-react';
+import { Loader2, Trash2, Edit, Copy } from 'lucide-react';
+import { toast } from 'sonner';
 import DeleteConfirmDialog from '@/components/blocks/image-history-for-generation/components/DeleteConfirmDialog';
 import { AgentAssetGrid } from './AgentAssetGrid';
 import VideoPlayer from '@/components/blocks/video-history/components/VideoPlayer';
@@ -84,6 +85,17 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
       await onDelete(job.id);
       setIsDeleting(false);
       setShowDeleteDialog(false);
+    };
+
+    const handleCopyPrompt = async () => {
+      if (!job.prompt) return;
+      try {
+        await navigator.clipboard.writeText(job.prompt);
+        toast.success(t("item.promptCopied"));
+      } catch (error) {
+        console.error("Failed to copy prompt:", error);
+        toast.error(t("toast.copyError"));
+      }
     };
 
     // Download helper functions (aligned with video-history/index.tsx)
@@ -375,10 +387,19 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               </p>
             </div>
 
-            {/* Timestamp */}
-            {formatTimestamp() && (
-              <span className="text-sm text-gray-400 flex-shrink-0">{formatTimestamp()}</span>
-            )}
+            {/* Timestamp and Copy Button */}
+            <div className="flex flex-col items-end gap-1 flex-shrink-0">
+              {formatTimestamp() && (
+                <span className="text-sm text-gray-400">{formatTimestamp()}</span>
+              )}
+              <button
+                onClick={handleCopyPrompt}
+                className="p-0.5 text-gray-400 hover:text-white transition-colors rounded"
+                title={t("item.copyPrompt")}
+              >
+                <Copy className="h-4 w-4" />
+              </button>
+            </div>
           </div>
 
           {/* Metadata Tags */}
