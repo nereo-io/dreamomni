@@ -783,7 +783,9 @@
       "deleteTitle": "Supprimer le job d'agent ?",
       "deleteConfirm": "Êtes-vous sûr de vouloir supprimer \"{prompt}\" ? Cette action ne peut pas être annulée.",
       "shots": "plans",
-      "failed": "Échec de la génération"
+      "failed": "Échec de la génération",
+      "copyPrompt": "Copier le prompt",
+      "promptCopied": "Prompt copié"
     },
     "assets": {
       "script": "Script",
