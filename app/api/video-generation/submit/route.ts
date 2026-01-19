@@ -300,6 +300,8 @@ export async function POST(req: Request) {
           total_deducted: deductResult.totalDeducted,
           deducted_at: new Date().toISOString(),
         },
+        // 保存用户请求的分辨率，用于4K升级判断
+        requested_resolution: resolution,
       },
       effect_id: effect_id,
     });

@@ -367,6 +367,7 @@
   "video-history": {
     "title": "Video Generation History",
     "videoDetailsTitle": "Video details",
+    "downgradedTo720P": "Downgraded to 720P",
     "noVideosTitle": "No Videos Yet",
     "noVideosDescription": "You haven't generated any videos. Start creating your first masterpiece!",
     "generateVideoButton": "Generate Video",
@@ -788,7 +789,28 @@
       "shots": "shots",
       "failed": "Generation failed",
       "copyPrompt": "Copy prompt",
-      "promptCopied": "Prompt copied"
+      "promptCopied": "Prompt copied",
+      "failedShots": "Failed shots",
+      "estimatedCost": "Estimated cost to resume: {cost} credits",
+      "resume": "Resume",
+      "resumeStarted": "Resume started",
+      "resumeFailed": "Resume failed",
+      "retryStarted": "Retry started",
+      "retryFailed": "Retry failed",
+      "retryFromStart": "Retry from Start"
+    },
+    "steps": {
+      "plan_story_and_shots": "Story Planning",
+      "generate_prompts": "Prompt Generation",
+      "submit_background_music": "BGM Submission",
+      "design_characters": "Character Design",
+      "generate_scene_ref": "Scene Reference",
+      "generate_keyframes": "Keyframe Generation",
+      "generate_video_prompts": "Video Prompts",
+      "orchestrate_videos": "Video Generation",
+      "check_quality": "Quality Check",
+      "wait_for_background_music": "Waiting for BGM",
+      "splice_videos": "Video Splicing"
     },
     "assets": {
       "script": "Script",

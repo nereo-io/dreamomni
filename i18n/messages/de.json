@@ -367,6 +367,7 @@
   "video-history": {
     "title": "Videogenerierungsverlauf",
     "videoDetailsTitle": "Videodetails",
+    "downgradedTo720P": "Herabgestuft auf 720P",
     "noVideosTitle": "Noch keine Videos",
     "noVideosDescription": "Sie haben noch keine Videos generiert. Beginnen Sie mit der Erstellung Ihres ersten Meisterwerks!",
     "generateVideoButton": "Video generieren",
@@ -788,7 +789,28 @@
       "shots": "Aufnahmen",
       "failed": "Generierung fehlgeschlagen",
       "copyPrompt": "Prompt kopieren",
-      "promptCopied": "Prompt kopiert"
+      "promptCopied": "Prompt kopiert",
+      "failedShots": "Fehlgeschlagene Aufnahmen",
+      "estimatedCost": "Geschätzte Kosten für Fortsetzung: {cost} Credits",
+      "resume": "Fortsetzen",
+      "resumeStarted": "Fortsetzung gestartet",
+      "resumeFailed": "Fortsetzung fehlgeschlagen",
+      "retryStarted": "Neustart gestartet",
+      "retryFailed": "Neustart fehlgeschlagen",
+      "retryFromStart": "Von vorne beginnen"
+    },
+    "steps": {
+      "plan_story_and_shots": "Story-Planung",
+      "generate_prompts": "Prompt-Generierung",
+      "submit_background_music": "BGM-Übermittlung",
+      "design_characters": "Charakter-Design",
+      "generate_scene_ref": "Szenenreferenz",
+      "generate_keyframes": "Keyframe-Generierung",
+      "generate_video_prompts": "Video-Prompts",
+      "orchestrate_videos": "Videogenerierung",
+      "check_quality": "Qualitätsprüfung",
+      "wait_for_background_music": "Warten auf BGM",
+      "splice_videos": "Videozusammenführung"
     },
     "assets": {
       "script": "Skript",

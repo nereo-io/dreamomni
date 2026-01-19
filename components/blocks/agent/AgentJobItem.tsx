@@ -6,12 +6,13 @@
 
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { AgentAsset, AgentJob, AgentJobStatusMap } from '@/types/agent';
+import { resumeAgentJob, retryAgentJob } from '@/lib/agent-api-client';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Loader2, Trash2, Edit, Copy } from 'lucide-react';
+import { Loader2, Trash2, Edit, Copy, Play, RotateCcw, Zap } from 'lucide-react';
 import { toast } from 'sonner';
 import DeleteConfirmDialog from '@/components/blocks/image-history-for-generation/components/DeleteConfirmDialog';
 import { AgentAssetGrid } from './AgentAssetGrid';
@@ -20,30 +21,83 @@ import { getVideoModel } from '@/config/video-models';
 import { useTranslations } from 'next-intl';
 import { buildAgentAssetDownloadUrl } from '@/utils/agent-download';
 import { trackPlausibleEvent } from '@/utils/plausible';
+import useCredits from '@/hooks/useCredits';
+import { useRouter } from 'next/navigation';
+
+// Timeout for resume operation - if job is still failed after this time, reset UI
+const RESUME_TIMEOUT_MS = 60 * 1000; // 60 seconds
 
 interface AgentJobItemProps {
   job: AgentJob;
   onDelete: (jobId: string) => void;
   onReEdit?: (job: AgentJob) => void;
+  onJobResumed?: (jobId: string) => void;
   locale: string;
   isReadOnly?: boolean;
 }
 
 export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
-  ({ job, onDelete, onReEdit, locale, isReadOnly }) => {
+  ({ job, onDelete, onReEdit, onJobResumed, locale, isReadOnly }) => {
     const t = useTranslations("agentJobs");
+    const router = useRouter();
+    const { leftCredits, updateLeftCredits, hasInitialized } = useCredits();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isResuming, setIsResuming] = useState(false);
+    const [hasResumed, setHasResumed] = useState(false); // Optimistic state for resume
+    const resumedAtRef = useRef<number | null>(null); // Track when resume was initiated for timeout
+    // const [isRetrying, setIsRetrying] = useState(false); // Retry removed per design
     const [downloadingTarget, setDownloadingTarget] = useState<string | null>(null);
     const [showLogs, setShowLogs] = useState(false);
     const [finalAsset, setFinalAsset] = useState<AgentAsset | null>(null);
     const [finalWithBgmAsset, setFinalWithBgmAsset] = useState<AgentAsset | null>(null);
     const showAgentInternals = process.env.NEXT_PUBLIC_AGENT_INTERNALS === 'true';
 
+    useEffect(() => {
+        updateLeftCredits();
+    }, [updateLeftCredits]);
+
+    // Reset optimistic resumed state when job status actually changes
+    useEffect(() => {
+      if (job.status !== 'failed') {
+        setHasResumed(false);
+        resumedAtRef.current = null; // Clear timeout tracking when status changes
+      }
+    }, [job.status]);
+
+    // Timeout check: if job is still failed after RESUME_TIMEOUT_MS, reset hasResumed
+    // This ensures UI returns to failed state if resume operation didn't work
+    useEffect(() => {
+      if (!hasResumed || !resumedAtRef.current) return;
+
+      const checkTimeout = () => {
+        if (resumedAtRef.current && Date.now() - resumedAtRef.current > RESUME_TIMEOUT_MS) {
+          // Timeout reached and job is still failed, reset to show Continue button again
+          if (job.status === 'failed') {
+            setHasResumed(false);
+            resumedAtRef.current = null;
+            console.log(`Resume timeout for job ${job.id}, resetting to failed state`);
+          }
+        }
+      };
+
+      // Check every 5 seconds
+      const intervalId = setInterval(checkTimeout, 5000);
+
+      // Also check immediately in case we're past the timeout already
+      checkTimeout();
+
+      return () => clearInterval(intervalId);
+    }, [hasResumed, job.status, job.id]);
+
     // Get status info
     const statusInfo = AgentJobStatusMap[job.status] || AgentJobStatusMap.pending;
     const isCompleted = job.status === 'completed';
     const isFailed = job.status === 'failed';
+    
+    // UI Logic: Override failed state if user just clicked Resume
+    const isVisualFailed = isFailed && !hasResumed;
+    
     const isProcessing = [
       'pending',
       'generating_script',
@@ -53,7 +107,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
       'orchestrating_videos',
       'generating_videos',
       'splicing',
-    ].includes(job.status);
+    ].includes(job.status) || hasResumed;
 
     // Format timestamp (aligned with video-history/VideoHistoryItem.tsx)
     const formatTimestamp = () => {
@@ -86,6 +140,43 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
       setIsDeleting(false);
       setShowDeleteDialog(false);
     };
+
+    const handleResume = async () => {
+      try {
+        setIsResuming(true);
+        setHasResumed(true); // Optimistic update
+        resumedAtRef.current = Date.now(); // Record resume time for timeout tracking
+        await resumeAgentJob(job.id);
+        toast.success(t("item.resumeStarted") || "Resume started");
+        onJobResumed?.(job.id);
+      } catch (error: any) {
+        setHasResumed(false); // Revert on error
+        resumedAtRef.current = null; // Clear timeout tracking on error
+        console.error("Resume failed:", error);
+        toast.error(error.message || t("item.resumeFailed") || "Resume failed");
+      } finally {
+        setIsResuming(false);
+      }
+    };
+
+    const handleRecharge = () => {
+        router.push('/pricing');
+    };
+
+    /* Retry logic removed per design requirement
+    const handleRetry = async () => {
+      try {
+        setIsRetrying(true);
+        await retryAgentJob(job.id);
+        toast.success(t("item.retryStarted") || "Retry started");
+      } catch (error: any) {
+        console.error("Retry failed:", error);
+        toast.error(error.message || t("item.retryFailed") || "Retry failed");
+      } finally {
+        setIsRetrying(false);
+      }
+    };
+    */
 
     const handleCopyPrompt = async () => {
       if (!job.prompt) return;
@@ -199,7 +290,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
     const badgeClass =
       isCompleted
         ? 'bg-green-500 text-green-900'
-        : isFailed
+        : isVisualFailed
         ? 'bg-red-500 text-red-900'
         : 'bg-blue-500 text-blue-900';
 
@@ -460,16 +551,72 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
             </div>
           )}
 
-          {/* Error message for failed jobs */}
-          {isFailed && (
-            <div className="bg-red-900/20 border border-red-800/40 rounded-lg p-3 text-sm">
-              <p className="text-red-300 font-medium">⚠️ {t("item.failed")}</p>
-              {job.error_message && (
-                <p className="mt-1 text-red-200/90 text-xs whitespace-pre-wrap break-words">
-                  {job.error_message}
-                </p>
-              )}
-            </div>
+          {/* Action Bar for Failed/Paused Jobs */}
+          {isVisualFailed && (
+            <div className="mt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-gray-100/5 dark:bg-gray-800/30 rounded-lg border border-gray-200/20 dark:border-gray-700/30">
+              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                 <span className="flex h-2 w-2 rounded-full bg-red-500/80" />
+                 <span>Generation interrupted.</span>
+              </div>
+
+                              {!isReadOnly && job.can_resume && (
+                                  <div className="flex-shrink-0 w-full sm:w-auto">
+                                      {(() => {
+                                          // If credits haven't loaded yet, show a neutral loading state
+                                          if (!hasInitialized) {
+                                              return (
+                                                  <Button
+                                                      size="sm"
+                                                      variant="outline"
+                                                      className="w-full sm:w-auto h-9 px-5 opacity-70"
+                                                      disabled
+                                                  >
+                                                      <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                                                      Checking credits...
+                                                  </Button>
+                                              );
+                                          }
+              
+                                          const estimatedCost = job.estimated_remaining_credits || 0;
+                                          const hasEnoughCredits = (leftCredits ?? 0) >= estimatedCost;
+              
+                                          if (hasEnoughCredits) {
+                                              return (
+                                                  <Button
+                                                      size="sm"
+                                                      className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground font-medium h-9 px-5 shadow-sm"
+                                                      onClick={handleResume}
+                                                      disabled={isResuming}
+                                                  >
+                                                                                            {isResuming ? (
+                                                                                                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                                                                                            ) : (
+                                                                                                <Play className="h-4 w-4 mr-2 fill-current" />
+                                                                                            )}
+                                                                                            Continue
+                                                                                            <span className="ml-2 text-xs opacity-80 font-normal">
+                                                                                               ({estimatedCost} credits)
+                                                                                            </span>
+                                                                                        </Button>
+                                                                                    );
+                                                                                } else {
+                                                                                     return (
+                                                                                        <Button
+                                                                                            size="sm"
+                                                                                            variant="secondary"
+                                                                                            className="w-full sm:w-auto bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:bg-amber-500/20 border border-amber-500/20 h-9 px-5"
+                                                                                            onClick={handleRecharge}
+                                                                                        >
+                                                                                            <Zap className="h-4 w-4 mr-2" />
+                                                                                            Recharge
+                                                                                            <span className="ml-2 text-xs opacity-80">
+                                                                                               (Need {estimatedCost})
+                                                                                            </span>
+                                                                                        </Button>
+                                                                                    );                                          }
+                                      })()}
+                                  </div>
+                              )}            </div>
           )}
 
           {/* Assets Grid */}
@@ -494,6 +641,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               videoModelId={videoModelId}
               jobUpdatedAt={job.updated_at}
               extraVideoAssets={extraVideoAssets}
+              isResuming={hasResumed}
             />
           )}
 

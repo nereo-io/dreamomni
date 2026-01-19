@@ -103,6 +103,13 @@ export async function retryAgentJob(jobId: string) {
 }
 
 /**
+ * 恢复任务
+ */
+export async function resumeAgentJob(jobId: string) {
+  return agentRequest(`/v1/jobs/${jobId}/resume`, { method: 'POST' });
+}
+
+/**
  * 创建 Agent 任务
  */
 export async function createAgentJob(data: {

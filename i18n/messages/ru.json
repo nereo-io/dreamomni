@@ -366,6 +366,7 @@
   "video-history": {
     "title": "История генерации видео",
     "videoDetailsTitle": "Детали видео",
+    "downgradedTo720P": "Понижено до 720P",
     "noVideosTitle": "Видео пока нет",
     "noVideosDescription": "Вы ещё не создали ни одного видео. Начните создавать свой первый шедевр!",
     "generateVideoButton": "Генерировать видео",
@@ -786,7 +787,28 @@
       "shots": "кадров",
       "failed": "Генерация не удалась",
       "copyPrompt": "Копировать промпт",
-      "promptCopied": "Промпт скопирован"
+      "promptCopied": "Промпт скопирован",
+      "failedShots": "Неудачные кадры",
+      "estimatedCost": "Примерная стоимость продолжения: {cost} кредитов",
+      "resume": "Продолжить",
+      "resumeStarted": "Продолжение начато",
+      "resumeFailed": "Ошибка продолжения",
+      "retryStarted": "Перезапуск начат",
+      "retryFailed": "Ошибка перезапуска",
+      "retryFromStart": "Начать сначала"
+    },
+    "steps": {
+      "plan_story_and_shots": "Планирование сюжета",
+      "generate_prompts": "Генерация промптов",
+      "submit_background_music": "Отправка BGM",
+      "design_characters": "Дизайн персонажей",
+      "generate_scene_ref": "Референс сцены",
+      "generate_keyframes": "Генерация ключевых кадров",
+      "generate_video_prompts": "Промпты видео",
+      "orchestrate_videos": "Генерация видео",
+      "check_quality": "Проверка качества",
+      "wait_for_background_music": "Ожидание BGM",
+      "splice_videos": "Склейка видео"
     },
     "assets": {
       "script": "Сценарий",

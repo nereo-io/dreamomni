@@ -119,10 +119,11 @@ interface AgentAssetGridProps {
   videoModelId?: string;
   jobUpdatedAt?: string;
   extraVideoAssets?: ExtraVideoAsset[];
+  isResuming?: boolean;
 }
 
 export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
-  ({ jobId, userId, shots, finalVideoUrl: _finalVideoUrl, storyboardJson, characterReferenceImages, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrls, jobStatus, createdAt, videoModelId, jobUpdatedAt, extraVideoAssets }) => {
+  ({ jobId, userId, shots, finalVideoUrl: _finalVideoUrl, storyboardJson, characterReferenceImages, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrls, jobStatus, createdAt, videoModelId, jobUpdatedAt, extraVideoAssets, isResuming = false }) => {
     const t = useTranslations("agentJobs");
     const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
     const [sceneAssets, setSceneAssets] = useState<AgentAsset[]>([]);
@@ -184,7 +185,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
     const isImageStage = ['generating_characters', 'generating_keyframes', 'waiting_for_confirmation', 'orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
     const isKeyframeStage = keyframesEnabled && ['generating_keyframes', 'waiting_for_confirmation', 'orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
     const isVideoStage = ['orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
-    const isJobFailed = jobStatus === 'failed';
+    const isJobFailed = jobStatus === 'failed' && !isResuming;
     const imageEstimateSeconds = 15;
     const modelConfig = videoModelId ? getVideoModel(videoModelId) : undefined;
     const videoEstimateSeconds = modelConfig?.estimatedGenerationTime || 20;
