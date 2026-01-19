@@ -7,7 +7,7 @@ import {
 } from "./types";
 
 export class KieAiVeo3Provider implements VideoProvider {
-  private baseUrl = "https://kieai.erweima.ai/api/v1/veo";
+  private baseUrl: string;
   private apiKey: string;
 
   constructor(apiKey: string) {
@@ -15,6 +15,7 @@ export class KieAiVeo3Provider implements VideoProvider {
       throw new Error("Kie.ai API key is required");
     }
     this.apiKey = apiKey;
+    this.baseUrl = `${process.env.KIE_AI_BASE_URL || 'https://api.kie.ai'}/api/v1/veo`;
   }
 
   getName(): string {
@@ -259,6 +260,124 @@ export class KieAiVeo3Provider implements VideoProvider {
     }
   }
 
+  // Public method to request 1080P video with polling
+  // Returns the 1080P video URL or null if failed/timeout
+  async request1080P(
+    requestId: string,
+    maxRetries: number = 10,
+    retryInterval: number = 20000 // 20 seconds
+  ): Promise<{
+    success: boolean;
+    video_url?: string;
+    message: string;
+  }> {
+    console.log(`🎬 开始1080P升级轮询: ${requestId}, 最大重试${maxRetries}次`);
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const result = await this.get1080P(requestId);
+
+        if (result.hd_available && result.hd_video_url) {
+          console.log(`✅ 1080P升级成功 (第${attempt}次尝试): ${result.hd_video_url}`);
+          return {
+            success: true,
+            video_url: result.hd_video_url,
+            message: "1080P upgrade successful",
+          };
+        }
+
+        if (result.hd_processing) {
+          console.log(`⏳ 1080P仍在处理中 (第${attempt}/${maxRetries}次)，${retryInterval/1000}秒后重试...`);
+          if (attempt < maxRetries) {
+            await new Promise((resolve) => setTimeout(resolve, retryInterval));
+          }
+        } else {
+          // hd_available = false, hd_processing = false - 1080P不可用
+          console.warn(`⚠️ 1080P不可用 (第${attempt}次尝试)`);
+          // 继续重试几次，可能是暂时性问题
+          if (attempt < maxRetries) {
+            await new Promise((resolve) => setTimeout(resolve, retryInterval));
+          }
+        }
+      } catch (error) {
+        console.error(`1080P轮询失败 (第${attempt}次):`, error);
+        if (attempt < maxRetries) {
+          await new Promise((resolve) => setTimeout(resolve, retryInterval));
+        }
+      }
+    }
+
+    console.warn(`❌ 1080P升级超时，已达最大重试次数: ${maxRetries}`);
+    return {
+      success: false,
+      message: `1080P upgrade timeout after ${maxRetries} attempts`,
+    };
+  }
+
+  // Public method to request 4K video upscaling with callback
+  async request4K(
+    requestId: string,
+    callbackUrl: string
+  ): Promise<{
+    success: boolean;
+    message: string;
+    taskId?: string; // 4K 升级任务的新 taskId
+  }> {
+    try {
+      const endpoint = "/get-4k-video";
+
+      const requestBody = {
+        taskId: requestId,
+        index: 0,
+        callBackUrl: callbackUrl,
+      };
+
+      console.log(
+        "🎬 Kie.ai 4K 升级请求参数:",
+        JSON.stringify(requestBody, null, 2)
+      );
+
+      const response = await this.makeRequest(endpoint, "POST", requestBody);
+
+      console.log(
+        "🎬 Kie.ai 4K 升级响应:",
+        JSON.stringify(response, null, 2)
+      );
+
+      // 4K 升级会产生新的 taskId，用于回调查找记录
+      const newTaskId = response.data?.taskId;
+
+      if (response.code === 200) {
+        return {
+          success: true,
+          message: "4K upscaling request submitted successfully",
+          taskId: newTaskId,
+        };
+      } else if (response.code === 422) {
+        // 可能已经在处理中或已完成
+        return {
+          success: true,
+          message: response.msg || "4K upscaling already in progress or completed",
+          taskId: newTaskId,
+        };
+      } else {
+        return {
+          success: false,
+          message: response.msg || "4K upscaling request failed",
+        };
+      }
+    } catch (error) {
+      console.error(
+        "4K upscaling request failed:",
+        error instanceof Error ? error.message : "Unknown error"
+      );
+      return {
+        success: false,
+        message: error instanceof Error ? error.message : "4K upscaling request failed",
+      };
+    }
+  }
+
   // Private method to attempt 1080P video retrieval
   private async get1080P(requestId: string): Promise<{
     hd_video_url?: string;
@@ -270,11 +389,15 @@ export class KieAiVeo3Provider implements VideoProvider {
         requestId
       )}`;
 
+      console.log(`🔍 1080P查询请求: ${this.baseUrl}${endpoint}`);
       const response = await this.makeRequest(endpoint, "GET");
+      console.log(`🔍 1080P查询响应:`, JSON.stringify(response, null, 2));
 
-      if (response.code === 200 && response.data?.videoUrl) {
+      // API 返回 resultUrl 或 result_url（两者都可能存在）
+      const hdVideoUrl = response.data?.resultUrl || response.data?.result_url || response.data?.videoUrl;
+      if (response.code === 200 && hdVideoUrl) {
         return {
-          hd_video_url: response.data.videoUrl,
+          hd_video_url: hdVideoUrl,
           hd_available: true,
           hd_processing: false,
         };
@@ -286,6 +409,7 @@ export class KieAiVeo3Provider implements VideoProvider {
         };
       } else {
         // 1080P not available or other error
+        console.warn(`⚠️ 1080P响应异常: code=${response.code}, msg=${response.msg}`);
         return {
           hd_available: false,
           hd_processing: false,

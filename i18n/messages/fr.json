@@ -364,6 +364,7 @@
   "video-history": {
     "title": "Historique de génération vidéo",
     "videoDetailsTitle": "Détails de la vidéo",
+    "downgradedTo720P": "Réduit à 720P",
     "noVideosTitle": "Aucune vidéo pour le moment",
     "noVideosDescription": "Vous n'avez pas encore généré de vidéos. Commencez à créer votre premier chef-d'œuvre !",
     "generateVideoButton": "Générer une vidéo",
@@ -785,7 +786,28 @@
       "shots": "plans",
       "failed": "Échec de la génération",
       "copyPrompt": "Copier le prompt",
-      "promptCopied": "Prompt copié"
+      "promptCopied": "Prompt copié",
+      "failedShots": "Prises échouées",
+      "estimatedCost": "Coût estimé pour reprendre : {cost} crédits",
+      "resume": "Reprendre",
+      "resumeStarted": "Reprise démarrée",
+      "resumeFailed": "Échec de la reprise",
+      "retryStarted": "Réessai démarré",
+      "retryFailed": "Échec du réessai",
+      "retryFromStart": "Recommencer du début"
+    },
+    "steps": {
+      "plan_story_and_shots": "Planification de l'histoire",
+      "generate_prompts": "Génération de prompts",
+      "submit_background_music": "Soumission de la musique",
+      "design_characters": "Conception des personnages",
+      "generate_scene_ref": "Référence de scène",
+      "generate_keyframes": "Génération d'images clés",
+      "generate_video_prompts": "Prompts vidéo",
+      "orchestrate_videos": "Génération de vidéos",
+      "check_quality": "Contrôle qualité",
+      "wait_for_background_music": "Attente de la musique",
+      "splice_videos": "Montage vidéo"
     },
     "assets": {
       "script": "Script",

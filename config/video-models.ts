@@ -107,7 +107,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportsAudio: true, // 根据用户要求支持音频
     estimatedGenerationTime: 120,
     supportedDurations: [8],
-    supportedResolutions: ["1080p"], // Veo3支持高分辨率
+    supportedResolutions: ["720p", "1080p", "4k"], // 支持720p/1080p/4K分辨率
   },
 
   // Kie.ai Veo3 图片转视频模型
@@ -125,7 +125,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportsAudio: true, // 根据用户要求支持音频
     estimatedGenerationTime: 120,
     supportedDurations: [8],
-    supportedResolutions: ["1080p"], // Veo3支持高分辨率
+    supportedResolutions: ["720p", "1080p", "4k"], // 支持720p/1080p/4K分辨率
     imageCapabilities: {
       maxImages: 2, // 支持1-2张图片(首帧、尾帧)
       labels: ["First Frame", "Last Frame"],
@@ -143,9 +143,9 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     description:
       "Create videos with consistent character identity using 1-3 reference images",
     features: ["Wait 240s", "Character Consistency", "1-3 Reference Images"],
-    supportedAspectRatios: ["16:9"], // REFERENCE_2_VIDEO 只支持 16:9
+    supportedAspectRatios: ["16:9", "9:16"], // REFERENCE_2_VIDEO 支持 16:9 和 9:16
     supportedDurations: [8], // 固定 8 秒
-    supportedResolutions: ["1080p"], // 固定 1080p
+    supportedResolutions: ["720p", "1080p", "4k"], // 支持720p/1080p/4K分辨率
     supportsAudio: false, // Reference-to-Video 不支持音频
     imageCapabilities: {
       maxImages: 3, // 支持 1-3 张参考图片
@@ -515,6 +515,20 @@ export function calculateCredits(
     if (resolution === "768p") {
       totalCredits *= 2;
     }
+  }
+
+  // Kie.ai Veo3 模型的分辨率定价
+  // 基础价格: 1.5积分/秒，8秒 = 12积分 (720p)
+  // 720p: 12积分 (1x)
+  // 1080p: 16积分 (1.33x)
+  // 4K: 36积分 (3x)
+  if (isKieAiVeo3Model(modelId)) {
+    if (resolution === "4k") {
+      totalCredits *= 3; // 4K = 3x 基础价格 (36积分/8秒)
+    } else if (resolution === "1080p") {
+      totalCredits = totalCredits * 4 / 3; // 1080p = 1.33x 基础价格 (16积分/8秒)
+    }
+    // 720p 保持基础价格 (12积分/8秒)
   }
 
   // Veo3 模型支持音频，需要额外费用

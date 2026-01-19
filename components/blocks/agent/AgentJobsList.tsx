@@ -24,14 +24,16 @@ import { trackPlausibleEvent } from '@/utils/plausible';
 
 const POLLING_INTERVAL = 5000; // 5 seconds
 const JOB_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+const RESUMED_JOB_GRACE_PERIOD_MS = 60 * 1000; // 60 seconds grace period for resumed jobs
 
 interface AgentJobsListProps {
   refreshTrigger?: number;
   locale: string;
   onReEdit?: (job: AgentJob) => void;
+  onJobResumed?: () => void;
 }
 
-export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsListProps) {
+export function AgentJobsList({ refreshTrigger, locale, onReEdit, onJobResumed: onJobResumedProp }: AgentJobsListProps) {
   const t = useTranslations("agentJobs");
   const [jobs, setJobs] = useState<AgentJob[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -52,6 +54,13 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
 
   // Use ref to track latest jobs without causing re-renders
   const jobsRef = useRef<AgentJob[]>([]);
+
+  // Track recently resumed job IDs with their resume timestamp
+  // This ensures polling continues even if server hasn't updated the job status yet
+  const resumedJobsRef = useRef<Map<string, number>>(new Map());
+
+  // Force polling until this timestamp (used after resume to ensure continuous polling)
+  const forcePollingUntilRef = useRef<number>(0);
 
   // Update ref whenever jobs change
   useEffect(() => {
@@ -120,16 +129,36 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
     // Only poll when History tab is active
     if (activeTab !== 'history' || isUnauthorized) return;
 
+    const now = Date.now();
     const terminalStatuses: AgentJob['status'][] = ['completed', 'failed'];
+
+    // Check if we're in force polling mode (after a resume)
+    const isForcePolling = now < forcePollingUntilRef.current;
+
+    // Clean up expired entries from resumedJobsRef
+    for (const [jobId, resumedAt] of resumedJobsRef.current.entries()) {
+      if (now - resumedAt > RESUMED_JOB_GRACE_PERIOD_MS) {
+        resumedJobsRef.current.delete(jobId);
+      }
+    }
+
     // Filter active jobs, skip those older than 30 minutes
     const activeJobs = jobsRef.current.filter(job => {
+      // Check if this job was recently resumed (within grace period)
+      const resumedAt = resumedJobsRef.current.get(job.id);
+      const isRecentlyResumed = resumedAt && (now - resumedAt < RESUMED_JOB_GRACE_PERIOD_MS);
+
+      // If recently resumed and still in failed status, treat as active (server may not have updated yet)
+      if (isRecentlyResumed) {
+        return true;
+      }
+
       if (terminalStatuses.includes(job.status)) {
         return false;
       }
 
       // Skip polling for jobs older than 30 minutes
       const createdAt = new Date(job.created_at).getTime();
-      const now = Date.now();
       if (now - createdAt > JOB_TIMEOUT_MS) {
         return false;
       }
@@ -137,11 +166,12 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
       return true;
     });
 
-    if (activeJobs.length === 0) {
+    // Only skip polling if no active jobs AND not in force polling mode
+    if (activeJobs.length === 0 && !isForcePolling) {
       return;
     }
 
-    console.log(`Polling ${activeJobs.length} active jobs...`);
+    console.log(`Polling ${activeJobs.length} active jobs (${resumedJobsRef.current.size} recently resumed, force=${isForcePolling})...`);
 
     try {
       const response = await fetch('/api/agent/jobs?page=1&page_size=5&include_shots=true');
@@ -149,6 +179,19 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
       if (response.ok) {
         const data = await response.json();
         setJobs(data.jobs);
+
+        // Clear resumed tracking for jobs that are no longer in failed status
+        for (const job of data.jobs) {
+          if (resumedJobsRef.current.has(job.id) && job.status !== 'failed') {
+            resumedJobsRef.current.delete(job.id);
+            // Also clear force polling if all resumed jobs are updated
+            if (resumedJobsRef.current.size === 0) {
+              forcePollingUntilRef.current = 0;
+            }
+            console.log(`Job ${job.id} status updated to ${job.status}, removed from resumed tracking`);
+          }
+        }
+
         console.log('Job statuses refreshed');
       }
     } catch (error) {
@@ -165,10 +208,14 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
   useEffect(() => {
     if (refreshTrigger && refreshTrigger > 0) {
       fetchJobs();
-      // Normally switch to history when new job created
-      setActiveTab('history');
+      // Only switch to history if not already there
+      // This avoids triggering updateActiveJobsInBackground recreation
+      // which would interrupt the polling chain
+      if (activeTab !== 'history') {
+        setActiveTab('history');
+      }
     }
-  }, [refreshTrigger, fetchJobs]);
+  }, [refreshTrigger, fetchJobs, activeTab]);
 
   // Set up polling for active jobs (wait for previous request to complete)
   useEffect(() => {
@@ -297,6 +344,20 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
     }
   };
 
+  const handleJobResumed = useCallback((jobId: string) => {
+    // Track this job as recently resumed - this ensures polling continues
+    // even if the server hasn't updated the job status yet
+    resumedJobsRef.current.set(jobId, Date.now());
+
+    // Set force polling to ensure continuous polling for the grace period
+    forcePollingUntilRef.current = Date.now() + RESUMED_JOB_GRACE_PERIOD_MS;
+    console.log(`Job ${jobId} marked as resumed, will force poll for ${RESUMED_JOB_GRACE_PERIOD_MS / 1000}s`);
+
+    // Notify parent to trigger refreshTrigger, which will call fetchJobs
+    // Don't call fetchJobs here to avoid duplicate calls
+    onJobResumedProp?.();
+  }, [onJobResumedProp]);
+
   // Render Logic
   const renderContent = () => {
     // History Tab Logic
@@ -365,6 +426,7 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit }: AgentJobsLis
                 job={job}
                 onDelete={handleDeleteJob}
                 onReEdit={onReEdit}
+                onJobResumed={handleJobResumed}
                 locale={locale}
               />
             ))}

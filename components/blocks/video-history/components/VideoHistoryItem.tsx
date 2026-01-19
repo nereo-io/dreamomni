@@ -197,6 +197,7 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
           aspectRatio={generation.aspect_ratio}
           durationSeconds={generation.duration_seconds}
           hasUpsample={!!generation.upsample_video_url_veo3}
+          isDowngradedTo720P={generation.is_downgraded_to_720p}
           modelName={generation.effect_info ? undefined : (modelConfig?.displayName || generation.model_id)}
         />
 

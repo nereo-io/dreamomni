@@ -11,8 +11,9 @@ import {
 } from "@/models/videoGeneration";
 import { newStorage } from "@/lib/storage";
 import { VIDEO_CACHE_CONTROL } from "@/lib/cache-control";
-import { getVideoModel, VideoModelProvider, calculateCredits, isKieAiModel, isSora2Model } from "@/config/video-models";
+import { getVideoModel, VideoModelProvider, isKieAiModel, isSora2Model } from "@/config/video-models";
 import { increaseCredits, CreditsTransType } from "@/services/credit";
+import { Veo3UpscaleService } from "@/services/veo3UpscaleService";
 
 export async function POST(req: Request) {
   try {
@@ -159,6 +160,10 @@ export async function POST(req: Request) {
       case "OK":
         console.log(`视频生成完成，请求ID: ${request_id}`);
 
+        // 在 try 块外声明升级相关变量，以便 catch 块访问进行补偿退款
+        let needs1080PUpscaleOK = false;
+        let refund1080PDoneOK = false;
+
         try {
           // 1. 获取视频URL
           const videoUrl = payload?.video?.url;
@@ -203,13 +208,76 @@ export async function POST(req: Request) {
             }
           }
 
-          // 3. 更新数据库
+          // 3. 检查分辨率升级需求（仅对Kie.ai Veo3模型）
+          const upscaleRequirement = Veo3UpscaleService.checkUpscaleRequirement(
+            videoGeneration.model_id,
+            videoGeneration.metadata?.requested_resolution
+          );
+          const { needs1080PUpscale, needs4KUpscale } = upscaleRequirement;
+          needs1080PUpscaleOK = needs1080PUpscale; // 同步到外部变量
+
+          // 4. 处理1080p升级（同步轮询）
+          let upscale1080PResult;
+          if (needs1080PUpscale) {
+            // 在开始升级前，更新状态为 IN_PROGRESS，让前端显示"处理中"
+            await Veo3UpscaleService.markUpscaleInProgress(
+              request_id,
+              videoGeneration,
+              videoUrl,
+              r2VideoUrl,
+              "1080p"
+            );
+
+            // 同步轮询1080P（约5分钟超时）
+            upscale1080PResult = await Veo3UpscaleService.process1080PUpscale(
+              request_id,
+              videoGeneration.id
+            );
+
+            // 如果1080P升级失败，退还升级费用
+            if (!upscale1080PResult.success) {
+              await Veo3UpscaleService.refund1080PUpgradeCost(videoGeneration);
+              refund1080PDoneOK = true; // 标记已退款
+            }
+          }
+
+          // 5. 确定最终状态和视频URL
+          const finalResult = Veo3UpscaleService.determineFinalResult({
+            needs4KUpscale,
+            needs1080PUpscale,
+            upscale1080PResult,
+            baseR2Url: r2VideoUrl,
+          });
+
+          // 6. 构建更新参数
           const updateParams: any = {
-            status: r2VideoUrl ? "SAVED_TO_R2" : "COMPLETED",
-            video_url_r2: r2VideoUrl || undefined,
+            status: finalResult.status,
             logs,
             metrics,
           };
+
+          // 设置 video_url_r2（4K 时不设置，等回调）
+          if (finalResult.videoUrlR2) {
+            updateParams.video_url_r2 = finalResult.videoUrlR2;
+          }
+
+          // 构建升级相关的 metadata
+          if (needs4KUpscale) {
+            updateParams.metadata = Veo3UpscaleService.buildUpscaleMetadata(
+              videoGeneration.metadata,
+              { type: "4k_processing", baseVideoUrl: videoUrl, baseR2Url: r2VideoUrl }
+            );
+          } else if (needs1080PUpscale) {
+            updateParams.metadata = Veo3UpscaleService.buildUpscaleMetadata(
+              videoGeneration.metadata,
+              {
+                type: upscale1080PResult?.success ? "1080p_completed" : "1080p_failed",
+                baseVideoUrl: videoUrl,
+                baseR2Url: r2VideoUrl,
+                video1080PUrl: upscale1080PResult?.r2Url,
+              }
+            );
+          }
 
           // 根据provider类型设置对应的video URL字段
           const modelConfig = getVideoModel(videoGeneration.model_id);
@@ -252,16 +320,39 @@ export async function POST(req: Request) {
             throw new Error("No valid request ID field found for update");
           }
 
+          // 7. 如果需要4K升级，触发4K升级请求（异步）
+          if (needs4KUpscale) {
+            await Veo3UpscaleService.trigger4KUpscale(
+              request_id,
+              videoGeneration,
+              videoUrl,
+              r2VideoUrl
+            );
+          }
+
+          // 8. 返回结果
           return respData({
-            message: "视频生成完成并已保存",
+            message: finalResult.responseMessage,
             request_id,
             video_url: r2VideoUrl || videoUrl,
             r2_uploaded: !!r2VideoUrl,
             processing_time: metrics?.inference_time || null,
             provider: modelConfig?.provider,
+            upscale_4k_processing: needs4KUpscale,
           });
         } catch (processError) {
           console.error("处理完成状态失败:", processError);
+
+          // 如果是 1080P 升级场景且还没退款，则补偿退款
+          // 场景：1080P 升级成功，但后续数据库更新等操作失败
+          if (needs1080PUpscaleOK && !refund1080PDoneOK) {
+            console.log("🔄 1080P 升级后续处理失败，执行补偿退款");
+            try {
+              await Veo3UpscaleService.refund1080PUpgradeCost(videoGeneration);
+            } catch (refundError) {
+              console.error("补偿退款失败:", refundError);
+            }
+          }
 
           // 更新为失败状态
           const failureParams = {
@@ -275,26 +366,30 @@ export async function POST(req: Request) {
           };
 
           // 使用合适的更新函数
-          if (videoGeneration.volcano_request_id) {
-            await updateVideoGenerationByVolcanoRequestId(
-              request_id,
-              failureParams
-            );
-          } else if (videoGeneration.fal_request_id) {
-            await updateVideoGenerationByFalRequestId(
-              request_id,
-              failureParams
-            );
-          } else if (videoGeneration.veo3_request_id) {
-            await updateVideoGenerationByVeo3RequestId(
-              request_id,
-              failureParams
-            );
-          } else if (videoGeneration.sora_request_id) {
-            await updateVideoGenerationBySoraRequestId(
-              request_id,
-              failureParams
-            );
+          try {
+            if (videoGeneration.volcano_request_id) {
+              await updateVideoGenerationByVolcanoRequestId(
+                request_id,
+                failureParams
+              );
+            } else if (videoGeneration.fal_request_id) {
+              await updateVideoGenerationByFalRequestId(
+                request_id,
+                failureParams
+              );
+            } else if (videoGeneration.veo3_request_id) {
+              await updateVideoGenerationByVeo3RequestId(
+                request_id,
+                failureParams
+              );
+            } else if (videoGeneration.sora_request_id) {
+              await updateVideoGenerationBySoraRequestId(
+                request_id,
+                failureParams
+              );
+            }
+          } catch (updateError) {
+            console.error("更新失败状态也失败:", updateError);
           }
 
           return respErr(

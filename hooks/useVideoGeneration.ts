@@ -43,6 +43,7 @@ interface VideoGenerationResult {
   video_url_veo3?: string;
   video_url_sora?: string;
   upsample_video_url_veo3?: string;
+  is_downgraded_to_720p?: boolean;
   error_message?: string;
   created_at?: string;
   aspect_ratio?: string;

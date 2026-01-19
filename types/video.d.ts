@@ -39,6 +39,7 @@ export interface VideoGeneration {
   video_url_pixverse?: string | null; // PixVerse video URL
   video_url_sora?: string | null; // Sora 2 video URL
   upsample_video_url_veo3?: string | null; // Veo3 high-quality video URL
+  is_downgraded_to_720p?: boolean | null; // HD升级失败，降级为720P
   error_message?: string | null;
   logs?: any | null; // jsonb
   metrics?: any | null; // jsonb

@@ -27,6 +27,11 @@ export function AiShortsClient({ locale }: { locale: string }) {
     setRefreshTrigger((prev) => prev + 1);
   };
 
+  const handleJobResumed = () => {
+    // Trigger refresh of jobs list (same as job created, to enable polling)
+    setRefreshTrigger((prev) => prev + 1);
+  };
+
   const handleReEdit = (job: AgentJob) => {
     // Extract data from job and pass to create panel
     setReEditData({
@@ -53,6 +58,7 @@ export function AiShortsClient({ locale }: { locale: string }) {
           refreshTrigger={refreshTrigger}
           locale={locale}
           onReEdit={handleReEdit}
+          onJobResumed={handleJobResumed}
         />
       </div>
     </div>

@@ -25,6 +25,16 @@ export interface AgentJob {
   created_at: string;
   updated_at: string;
 
+  // Resume capability fields
+  can_resume?: boolean;
+  failed_at_step?: string | null;
+  resume_context?: {
+    failed_shot_numbers?: number[];
+    successful_shot_numbers?: number[];
+    [key: string]: any;
+  } | null;
+  estimated_remaining_credits?: number | null;
+
   // Phase 4: Progress tracking and logs
   progress?: {
     keyframes?: { done: number; total: number; failed?: number };
