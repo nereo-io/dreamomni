@@ -5,12 +5,15 @@
 
 "use client";
 
+import { useRef, useState } from 'react';
 import { AgentShot, AgentShotStatusMap } from '@/types/agent';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Film, Image as ImageIcon, Download, ExternalLink, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useInViewport } from '@/hooks/useInViewport';
+import { useAutoLoadMedia } from '@/hooks/useAutoLoadMedia';
 
 interface AgentShotCardProps {
   shot: AgentShot;
@@ -26,6 +29,11 @@ export function AgentShotCard({ shot, showVideoActions = true }: AgentShotCardPr
     label: shot.video_status,
     color: 'gray',
   };
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const shouldAutoLoad = useAutoLoadMedia();
+  const isInViewport = useInViewport(containerRef, { rootMargin: '200px 0px', threshold: 0.1 });
+  const shouldLoadVideo = (shouldAutoLoad && isInViewport) || hasInteracted;
 
   const getStatusBadgeVariant = (
     status: AgentShot['keyframe_status'] | AgentShot['video_status']
@@ -83,12 +91,22 @@ export function AgentShotCard({ shot, showVideoActions = true }: AgentShotCardPr
               className="w-full h-full object-cover"
             />
           ) : shot.video_url ? (
-            <video
-              src={shot.video_url}
-              className="w-full h-full object-cover"
-              preload="auto"
-              controls={false}
-            />
+            <div
+              ref={containerRef}
+              className="w-full h-full"
+              onPointerEnter={() => setHasInteracted(true)}
+              onFocus={() => setHasInteracted(true)}
+              onTouchStart={() => setHasInteracted(true)}
+            >
+              <video
+                src={shouldLoadVideo ? shot.video_url : undefined}
+                className="w-full h-full object-cover"
+                preload={shouldLoadVideo ? 'metadata' : 'none'}
+                playsInline
+                muted
+                controls={false}
+              />
+            </div>
           ) : (
             <Film className="h-12 w-12 text-gray-500" />
           )}

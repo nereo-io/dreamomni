@@ -1,22 +1,34 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Download, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useInViewport } from "@/hooks/useInViewport";
+import { useAutoLoadMedia } from "@/hooks/useAutoLoadMedia";
 
 interface VideoPlayerProps {
   videoUrl: string;
   onDownload: () => void;
   canDownload: boolean;
   isDownloading: boolean;
+  posterUrl?: string | null;
+  className?: string;
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({ 
   videoUrl,
   onDownload,
   canDownload,
-  isDownloading
+  isDownloading,
+  posterUrl,
+  className
 }) => {
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
   const videoRef = React.useRef<HTMLVideoElement | null>(null);
   const [controlsBarHeight, setControlsBarHeight] = React.useState(56);
+  const [hasInteracted, setHasInteracted] = React.useState(false);
+  const shouldAutoLoad = useAutoLoadMedia();
+  const isInViewport = useInViewport(containerRef, { rootMargin: "200px 0px", threshold: 0.1 });
+  const shouldLoad = (shouldAutoLoad && isInViewport) || hasInteracted;
 
   const updateControlsBarHeight = React.useCallback(() => {
     const video = videoRef.current;
@@ -57,6 +69,19 @@ const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
       return;
     }
 
+    if (!shouldLoad) {
+      setHasInteracted(true);
+      if (!video.src) {
+        video.src = videoUrl;
+        video.load();
+      }
+      const playPromise = video.play();
+      if (playPromise?.catch) {
+        playPromise.catch(() => {});
+      }
+      return;
+    }
+
     if (video.paused) {
       const playPromise = video.play();
       if (playPromise !== undefined) {
@@ -68,13 +93,21 @@ const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
   };
 
   return (
-    <div className="relative w-full max-w-[518px] group bg-black rounded-lg overflow-hidden">
+    <div
+      ref={containerRef}
+      className={cn(
+        "relative w-full max-w-[518px] group bg-black rounded-lg overflow-hidden",
+        className
+      )}
+    >
       <div className="relative aspect-video w-full">
         <video
           ref={videoRef}
           className="rounded-lg w-full h-full object-contain cursor-pointer"
           controls
-          preload="metadata"
+          poster={posterUrl || undefined}
+          src={shouldLoad ? videoUrl : undefined}
+          preload={shouldLoad ? "metadata" : "none"}
           playsInline
           onLoadedData={(e) => {
             const video = e.target as HTMLVideoElement;
@@ -82,7 +115,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
             updateControlsBarHeight();
           }}
         >
-          <source src={videoUrl} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <button

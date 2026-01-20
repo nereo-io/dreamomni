@@ -112,6 +112,7 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
 
     const imageArray = getImageArray();
     const hasImages = imageArray.length > 0;
+    const posterUrl = imageArray[0];
 
     // Modal navigation functions
     const handlePrevious = () => {
@@ -216,6 +217,7 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
           status={generation.status}
           statusInfo={status}
           videoUrl={videoUrl}
+          posterUrl={posterUrl}
           onDownload={() => onDownload(generation)}
           canDownload={!isExample}
           isDownloading={isDownloading}

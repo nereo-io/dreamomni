@@ -652,6 +652,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
                 <div className="relative w-full">
                   <VideoPlayer
                     videoUrl={primaryFinalVideo.url}
+                    posterUrl={job.reference_image_urls?.[0]}
                     onDownload={() =>
                       handleDownloadVideo(
                         primaryFinalVideo.url,

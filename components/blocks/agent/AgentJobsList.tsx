@@ -16,6 +16,8 @@ import { cn } from '@/lib/utils';
 import { MediaDetailModal } from '../my-creations-page/MediaDetailModal';
 import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useAutoLoadMedia } from '@/hooks/useAutoLoadMedia';
+import { useInViewport } from '@/hooks/useInViewport';
 import { formatDistanceToNow } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import { useTranslations } from 'next-intl';
@@ -610,12 +612,24 @@ function JobMediaCard({
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const shouldAutoLoad = useAutoLoadMedia();
+  const isInViewport = useInViewport(cardRef, { rootMargin: '200px 0px', threshold: 0.1 });
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const shouldPlayOnLoadRef = useRef(false);
 
   const posterUrl = job.reference_image_urls?.[0]; // Revert to only using reference images for poster
+  const shouldLoadVideo =
+    Boolean(job.final_video_url) && ((shouldAutoLoad && isInViewport) || hasInteracted);
 
   const handleMouseEnter = async () => {
     if (isMobile) return;
     setIsHovered(true);
+    if (!shouldLoadVideo) {
+      shouldPlayOnLoadRef.current = true;
+      setHasInteracted(true);
+      return;
+    }
     if (!job.final_video_url || !videoRef.current) return;
 
     const element = videoRef.current;
@@ -670,9 +684,11 @@ function JobMediaCard({
 
   return (
     <div
+      ref={cardRef}
       className="group relative overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/60 shadow-sm transition-transform duration-200 hover:-translate-y-1 cursor-pointer"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onTouchStart={() => setHasInteracted(true)}
       onClick={() => onOpen(job)}
     >
       <div className="relative aspect-[16/9] w-full overflow-hidden bg-gray-800">
@@ -692,16 +708,25 @@ function JobMediaCard({
         {job.final_video_url ? (
           <video
             ref={videoRef}
-            src={`${job.final_video_url}#t=0.1`}
+            src={shouldLoadVideo ? `${job.final_video_url}#t=0.1` : undefined}
             className={cn(
               "h-full w-full object-cover transition-opacity duration-300",
-              "opacity-100" // Always visible
+              "opacity-100"
             )}
-            preload="metadata"
+            preload={shouldLoadVideo ? "metadata" : "none"}
             playsInline
             muted={isMuted}
             loop
-            onLoadedData={() => setIsVideoLoaded(true)}
+            onLoadedData={() => {
+              setIsVideoLoaded(true);
+              if (shouldPlayOnLoadRef.current && videoRef.current) {
+                const playPromise = videoRef.current.play();
+                if (playPromise?.catch) {
+                  playPromise.catch(() => {});
+                }
+                shouldPlayOnLoadRef.current = false;
+              }
+            }}
             controls={isHovered}
           />
         ) : (

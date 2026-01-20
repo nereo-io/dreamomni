@@ -5,13 +5,15 @@
 
 "use client";
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AgentShot, AgentJob, AgentAsset } from '@/types/agent';
 import { AssetModal } from './AssetModal';
 import { FileText, Music, PlayCircle, Sparkles } from 'lucide-react';
 import { useGenerationProgress } from '@/hooks/useGenerationProgress';
 import { getVideoModel } from '@/config/video-models';
 import { useTranslations } from 'next-intl';
+import { useInViewport } from '@/hooks/useInViewport';
+import { useAutoLoadMedia } from '@/hooks/useAutoLoadMedia';
 
 type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref' | 'audio';
 
@@ -100,6 +102,39 @@ interface Asset {
   storyDetails?: StoryDetails;
   totalDurationSeconds?: number;
   shotsCount?: number;
+}
+
+interface VideoAssetPreviewProps {
+  url: string;
+  posterUrl?: string;
+}
+
+function VideoAssetPreview({ url, posterUrl }: VideoAssetPreviewProps) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const shouldAutoLoad = useAutoLoadMedia();
+  const isInViewport = useInViewport(containerRef, { rootMargin: '200px 0px', threshold: 0.1 });
+  const shouldLoad = (shouldAutoLoad && isInViewport) || hasInteracted;
+
+  return (
+    <div
+      ref={containerRef}
+      className="w-full h-full"
+      onPointerEnter={() => setHasInteracted(true)}
+      onFocus={() => setHasInteracted(true)}
+      onTouchStart={() => setHasInteracted(true)}
+    >
+      <video
+        className="w-full h-full object-cover"
+        preload={shouldLoad ? 'metadata' : 'none'}
+        poster={posterUrl || undefined}
+        playsInline
+        muted
+      >
+        {shouldLoad && <source src={url} type="video/mp4" />}
+      </video>
+    </div>
+  );
 }
 
 interface AgentAssetGridProps {
@@ -960,12 +995,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
               {/* Video */}
               {asset.type === 'video' && asset.url && !asset.loading && asset.status !== 'failed' && (
                 <>
-                  <video
-                    src={asset.url}
-                    className="w-full h-full object-cover"
-                    preload="metadata"
-                    muted
-                  />
+                  <VideoAssetPreview url={asset.url} posterUrl={asset.backgroundUrl} />
                   {/* Play icon - always visible */}
                   <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 flex items-center justify-center transition-all">
                     <PlayCircle className="w-10 h-10 text-white group-hover:scale-110 transition-transform" />

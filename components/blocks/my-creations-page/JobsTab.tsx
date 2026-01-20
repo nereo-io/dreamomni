@@ -33,6 +33,8 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAppContext } from "@/contexts/app";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAutoLoadMedia } from "@/hooks/useAutoLoadMedia";
+import { useInViewport } from "@/hooks/useInViewport";
 import { buildPaginationItems } from "@/utils/pagination";
 import { AgentJob, AgentJobListResponse, AgentJobStatusMap } from "@/types/agent";
 import VideoHistorySkeleton from "./VideoHistorySkeleton";
@@ -637,12 +639,19 @@ function JobMediaCard({
 }: JobMediaCardProps) {
   const isMobile = useIsMobile();
   const [isHovered, setIsHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const shouldAutoLoad = useAutoLoadMedia();
+  const isInViewport = useInViewport(cardRef, { rootMargin: "200px 0px", threshold: 0.1 });
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const shouldLoadVideo = Boolean(job.final_video_url) && ((shouldAutoLoad && isInViewport) || hasInteracted);
 
   return (
     <div
+      ref={cardRef}
       className="group relative overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/60 shadow-sm transition-transform duration-200 hover:-translate-y-1"
       onMouseEnter={() => {
         if (!isMobile) {
+          setHasInteracted(true);
           setIsHovered(true);
         }
       }}
@@ -651,6 +660,7 @@ function JobMediaCard({
           setIsHovered(false);
         }
       }}
+      onTouchStart={() => setHasInteracted(true)}
       onClick={() => onOpen(job)}
       role="button"
       tabIndex={0}
@@ -663,10 +673,10 @@ function JobMediaCard({
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-800">
         {job.final_video_url ? (
           <video
-            src={job.final_video_url}
+            src={shouldLoadVideo ? job.final_video_url : undefined}
             poster={job.reference_image_urls?.[0]}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            preload="metadata"
+            preload={shouldLoadVideo ? "metadata" : "none"}
             playsInline
             controls={isHovered}
           />

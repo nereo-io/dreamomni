@@ -39,6 +39,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { getVideoModel } from "@/config/video-models";
 import { useAppContext } from "@/contexts/app";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAutoLoadMedia } from "@/hooks/useAutoLoadMedia";
+import { useInViewport } from "@/hooks/useInViewport";
 import { buildPaginationItems } from "@/utils/pagination";
 import VideoHistorySkeleton from "./VideoHistorySkeleton";
 import DeleteConfirmDialog from "@/components/blocks/image-history-for-generation/components/DeleteConfirmDialog";
@@ -788,14 +790,25 @@ function VideoMediaCard({
   const [isMuted, setIsMuted] = useState(true);
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  const shouldAutoLoad = useAutoLoadMedia();
+  const isInViewport = useInViewport(cardRef, { rootMargin: "200px 0px", threshold: 0.1 });
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const shouldPlayOnLoadRef = useRef(false);
   const videoUrl = getVideoSource(video);
   const posterUrl = getVideoPoster(video);
+  const shouldLoadVideo = Boolean(videoUrl) && ((shouldAutoLoad && isInViewport) || hasInteracted);
 
   const handleMouseEnter = async () => {
     if (isMobile) {
       return;
     }
     setIsHovered(true);
+    if (!shouldLoadVideo) {
+      shouldPlayOnLoadRef.current = true;
+      setHasInteracted(true);
+      return;
+    }
     if (!videoUrl || !videoRef.current) {
       return;
     }
@@ -861,9 +874,11 @@ function VideoMediaCard({
   const showOverlay = isMobile || isHovered;
   return (
     <div
+      ref={cardRef}
       className="group relative overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/60 shadow-sm transition-transform duration-200 hover:-translate-y-1"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onTouchStart={() => setHasInteracted(true)}
       onClick={() => onOpen(video)}
       role="button"
       tabIndex={0}
@@ -877,12 +892,26 @@ function VideoMediaCard({
         {videoUrl ? (
           <video
             ref={videoRef}
-            src={videoUrl}
+            src={shouldLoadVideo ? videoUrl : undefined}
             poster={posterUrl}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            preload="metadata"
+            preload={shouldLoadVideo ? "metadata" : "none"}
             playsInline
             controls={isHovered}
+            onLoadedData={() => {
+              if (shouldPlayOnLoadRef.current && videoRef.current) {
+                videoRef.current.muted = true;
+                setIsMuted(true);
+                setAutoplayBlocked(false);
+                const playPromise = videoRef.current.play();
+                if (playPromise?.catch) {
+                  playPromise.catch(() => {
+                    setAutoplayBlocked(true);
+                  });
+                }
+                shouldPlayOnLoadRef.current = false;
+              }
+            }}
           />
         ) : posterUrl ? (
           <img
