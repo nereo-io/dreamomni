@@ -139,7 +139,7 @@ export class SeedreamProvider extends BaseAIProvider {
         features: {
           textToImage: true,
           imageToImage: true,
-          imageEdit: false,
+          imageEdit: true,  // 支持通过 image 参数实现图生图
           inpainting: false,
           outpainting: false,
           upscaling: false,

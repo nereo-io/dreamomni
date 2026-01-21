@@ -292,7 +292,7 @@ const PROVIDER_CONFIGS: Record<AIServiceProvider, AIProviderConfig> = {
     features: {
       textToImage: true,
       imageToImage: true,
-      imageEdit: false,
+      imageEdit: true,  // Seedream 支持通过 image 参数实现图生图
       inpainting: false,
       outpainting: false,
       upscaling: false,
