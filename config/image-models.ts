@@ -8,6 +8,7 @@ export enum ImageModelType {
 export enum ImageModelProvider {
   KIE = "kie", // Kie.ai (提供 Nano Banana 等模型)
   FAL = "fal", // fal.ai 托管的模型
+  VOLCANO = "volcano", // 火山引擎/BytePlus (提供 Seedream 等模型)
 }
 
 // 图片模型配置接口
@@ -26,6 +27,7 @@ export interface ImageModelConfig {
   supportedResolutions?: string[]; // 1K, 2K, 4K
   resolutionCredits?: Record<string, number>; // 不同分辨率的积分价格
   supportedFormats: string[];
+  volcanoModel?: string; // BytePlus/火山引擎 模型 endpoint ID
   estimatedGenerationTime?: number; // 预估生成时间(秒),用于前端倒计时
 }
 
@@ -89,7 +91,41 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
     },
     supportedFormats: ["jpg", "png"],
     estimatedGenerationTime: 80, // 实测平均 130 秒,留 20 秒余量
-  }
+  },
+
+  // Seedream 4.5 - ByteDance/火山引擎图片生成模型
+  // 使用 Method 2 精确像素尺寸，根据 aspect_ratio + resolution 计算
+  // 2K = 官方推荐尺寸，4K = 2K × 2
+  "seedream-4-5": {
+    id: "seedream-4-5",
+    name: "seedream-4-5",
+    displayName: "Seedream 4.5",
+    provider: ImageModelProvider.VOLCANO,
+    volcanoModel: "ep-20260115153505-w288q", // BytePlus endpoint ID
+    type: ImageModelType.TEXT_TO_IMAGE,
+    status: "active",
+    features: [
+      "text-to-image",
+      "image-to-image",
+      "batch-generation",
+      "high-quality",
+      "4k-resolution",
+    ],
+    credits: 6, // 基础积分 (2K 分辨率)
+    maxInputImages: 5, // 支持最多 14 张参考图 (实际 API 支持 14 张，但 UI 统一为 5)
+    maxPromptLength: 1000, // 支持较长的提示词
+    // 官方推荐的所有宽高比 (顺序: 正方形 → 竖屏 → 横屏)
+    supportedAspectRatios: ["1:1", "2:3", "3:4", "9:16", "21:9", "16:9", "4:3", "3:2"],
+    supportedResolutions: ["2K", "4K"],
+    // 像素映射 (2K): 1:1→2048x2048, 4:3→2304x1728, 16:9→2560x1440, 21:9→3024x1296 等
+    // 像素映射 (4K): 1:1→4096x4096, 4:3→4608x3456, 16:9→5120x2880, 21:9→6048x2592 等
+    resolutionCredits: {
+      "2K": 6,
+      "4K": 9,
+    },
+    supportedFormats: ["jpeg"], // Seedream 输出格式
+    estimatedGenerationTime: 30, // 单图预估时间
+  },
 };
 
 // 辅助函数

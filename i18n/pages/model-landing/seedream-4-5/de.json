@@ -1,0 +1,252 @@
+{
+  "banner": {
+    "title": "Seedream 4.5 KI-Bildgenerator",
+    "description": "Seedream 4.5 ist ByteDances neuestes KI-Bildgenerierungsmodell mit hervorragendem Prompt-Verstaendnis, atemberaubender visueller Qualitaet und branchenfuehrender Unterstuetzung fuer bis zu 14 Referenzbilder. Mit nativer 4K-Aufloesung und Batch-Generierung liefert Seedream 4.5 professionelle Ergebnisse zu wettbewerbsfaehigen Preisen. Probieren Sie Seedream 4.5 heute kostenlos aus!",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Text zu Bild",
+        "subTitle": "Prompt",
+        "value": "text-to-image",
+        "modelName": "Seedream 4.5",
+        "modelLogo": "/imgs/models/seedream-logo.svg",
+        "placeholder": "Beschreiben Sie das Bild, das Sie erstellen moechten...",
+        "buttonText": "Erstellen"
+      },
+      {
+        "type": "image",
+        "title": "Bild zu Bild",
+        "subTitle": "Bild",
+        "value": "image-to-image",
+        "modelName": "Seedream 4.5",
+        "modelLogo": "/imgs/models/seedream-logo.svg",
+        "placeholder": "Bilder hier ablegen oder klicken zum Auswaehlen",
+        "tips": "Laden Sie bis zu 14 Referenzbilder hoch. Wir akzeptieren JPEG, PNG, GIF, WEBP Formate bis 20MB mit Abmessungen bis 4096 x 4096 Pixel.",
+        "buttonText": "Erstellen"
+      }
+    ]
+  },
+  "partners": [
+    { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
+    { "name": "Microsoft", "logo": "/imgs/partners/microsoft-logo.png" },
+    { "name": "Nike", "logo": "/imgs/partners/nike-logo.png" },
+    { "name": "P&G", "logo": "/imgs/partners/p-g-logo.png" },
+    { "name": "Lancome", "logo": "/imgs/partners/lancome-logo.png" },
+    { "name": "Zoom", "logo": "/imgs/partners/zoom-logo.png" },
+    { "name": "Sony", "logo": "/imgs/partners/sony-logo.png" },
+    { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
+  ],
+  "features": {
+    "title": "Funktionen von Seedream 4.5",
+    "details": [
+      {
+        "title": "Bis zu 14 Referenzbilder",
+        "description": "Seedream 4.5 unterstuetzt branchenfuehrende 14 Referenzbilder fuer die Bild-zu-Bild-Generierung. Diese leistungsstarke Faehigkeit ermoeglicht es Ihnen, mehrere Stilreferenzen, Charakterkonzepte oder Szenenelemente bereitzustellen, die das Modell intelligent zu kohaerenten, hochwertigen Ausgaben kombiniert.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Ausgabebild" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Eine Gruppe verschiedener Charaktere, die zusammen in einem gemuetlichen Wohnzimmer sitzen, jeder mit einzigartigen Persoenlichkeiten und Stilen, warmes Umgebungslicht, detaillierte Texturen."
+                },
+                {
+                  "type": "image",
+                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-1-1.jpg",
+                  "altText": "Mehrere Charakterreferenz Ergebnis"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Native 4K-Aufloesung",
+        "description": "Generieren Sie atemberaubende Bilder in nativer 4K-Aufloesung mit aussergewoehnlicher Detailschaerfe. Seedream 4.5 produziert scharfe, hochauflloesende Ausgaben, die fuer professionellen Druck, grosse Displays und kommerzielle Anwendungen geeignet sind.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Ausgabebild" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Ultra-detaillierte Nahaufnahme eines mechanischen Uhrwerks, komplizierte Zahnraeder und Juwelen, reflektierende metallische Oberflaechen, weiches Studiolicht, 4K-Qualitaet."
+                },
+                {
+                  "type": "image",
+                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-2-1.jpg",
+                  "altText": "4K Detail Uhrmechanismus"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Batch-Generierung",
+        "description": "Seedream 4.5 unterstuetzt die Batch-Generierung von bis zu 15 Bildern in einer einzigen Anfrage. Diese Funktion beschleunigt kreative Workflows erheblich und ermoeglicht es Ihnen, mehrere Variationen eines Konzepts gleichzeitig zu erkunden.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Ausgabebild" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Produktfotografie einer Luxus-Parfuemflasche, mehrere Winkel und Lichtsetups, eleganter minimalistischer Hintergrund, kommerzielle Qualitaet."
+                },
+                {
+                  "type": "image",
+                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-3-1.jpg",
+                  "altText": "Batch-generierte Produktaufnahmen"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Ueberlegenes Prompt-Verstaendnis",
+        "description": "Seedream 4.5 zeichnet sich durch die Interpretation komplexer, vielschichtiger Prompts mit bemerkenswerter Genauigkeit aus. Das Modell versteht raeumliche Beziehungen, kuenstlerische Stile, technische Fotografie-Begriffe und abstrakte Konzepte.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Ausgabebild" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Ein Cyberpunk-Strassenmarkt bei Nacht, Neonschilder in mehreren Sprachen, regennasser Buergersteig, der bunte Lichter reflektiert, Verkaeufer, die futuristische Gadgets verkaufen, atmosphaerischer Nebel."
+                },
+                {
+                  "type": "image",
+                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-4-1.jpg",
+                  "altText": "Cyberpunk Marktszene"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Ausgezeichnete Textdarstellung",
+        "description": "Seedream 4.5 demonstriert aussergewoehnliche Faehigkeiten bei der Darstellung von Text in Bildern, einschliesslich englischer und chinesischer Zeichen. Erstellen Sie professionelle Logos, Beschilderungen, Buchcover und Markeninhalte mit Typografie.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Ausgabebild" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Eine moderne Cafe-Fassade mit elegantem Schild 'DREAM CAFE', warmes Innenlicht durch die Fenster sichtbar, Topfpflanzen am Eingang, einladende Atmosphaere."
+                },
+                {
+                  "type": "image",
+                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-5-1.jpg",
+                  "altText": "Cafe mit Textbeschilderung"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Flexible Seitenverhaeltnisse",
+        "description": "Seedream 4.5 unterstuetzt eine breite Palette von Seitenverhaeltnissen einschliesslich 1:1, 3:4, 4:3, 9:16, 16:9, 2:3, 3:2 und 21:9. Diese Flexibilitaet stellt sicher, dass Ihre generierten Bilder perfekt fuer jede Plattform oder jeden Anwendungsfall passen.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Ausgabebild" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Panoramablick auf den Grand Canyon bei Sonnenuntergang, dramatische Wolken, Schichten farbiger Felsformationen, die sich bis zum Horizont erstrecken, 21:9 Ultrabreit-Kinoformat."
+                },
+                {
+                  "type": "image",
+                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-6-1.jpg",
+                  "altText": "Ultrabreites Canyon-Panorama"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "So verwenden Sie Seedream 4.5 kostenlos",
+    "description": "Folgen Sie den einfachen Schritten unten, um Seedream 4.5 auszuprobieren",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Schritt 1",
+        "description": "Waehlen Sie das 'Seedream 4.5' Modell in unserem KI-Bildgenerator."
+      },
+      {
+        "number": "02",
+        "title": "Schritt 2",
+        "description": "Geben Sie Ihren Textprompt ein oder laden Sie bis zu 14 Referenzbilder fuer die Bild-zu-Bild-Generierung hoch."
+      },
+      {
+        "number": "03",
+        "title": "Schritt 3",
+        "description": "Waehlen Sie Ihre bevorzugte Aufloesung (1K, 2K oder 4K) und Seitenverhaeltnis, dann klicken Sie auf Erstellen."
+      }
+    ],
+    "buttonText": "Probieren Sie Seedream 4.5 kostenlos auf Veo3 AI"
+  },
+  "youtubeCases": {
+    "title": "YouTube-Videos ueber Seedream 4.5",
+    "content": []
+  },
+  "redditCases": {
+    "title": "Reddit-Diskussionen ueber Seedream 4.5",
+    "content": []
+  },
+  "twitterCases": {
+    "title": "X-Bewertungen zu Seedream 4.5",
+    "content": []
+  },
+  "cta": {
+    "title": "Probieren Sie Seedream 4.5 kostenlos auf Veo3 AI",
+    "buttonText": "Seedream 4.5 kostenlos testen"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Haeufig gestellte Fragen",
+    "description": "Erfahren Sie mehr ueber den Seedream 4.5 KI-Bildgenerator",
+    "items": [
+      {
+        "title": "Was ist Seedream 4.5?",
+        "description": "Seedream 4.5 ist ByteDances fortschrittliches KI-Bildgenerierungsmodell, entwickelt vom Doubao-Team. Es bietet aussergewoehnliche Bildqualitaet, Unterstuetzung fuer bis zu 14 Referenzbilder, native 4K-Aufloesung und Batch-Generierungsfaehigkeiten."
+      },
+      {
+        "title": "Was macht Seedream 4.5 einzigartig?",
+        "description": "Seedream 4.5 zeichnet sich durch branchenfuehrende Unterstuetzung fuer 14 Referenzbilder im Bild-zu-Bild-Modus, native 4K-Aufloesung, Batch-Verarbeitung von bis zu 15 Bildern, ausgezeichnete Textdarstellung und wettbewerbsfaehige Preise aus."
+      },
+      {
+        "title": "Ist Seedream 4.5 kostenlos nutzbar?",
+        "description": "Ja, Seedream 4.5 ist auf Veo3 AI kostenlos zu testen. Neue Benutzer erhalten bei der Registrierung kostenlose Credits, sodass Sie die Faehigkeiten des Modells ohne Vorauszahlung erleben koennen."
+      },
+      {
+        "title": "Welche Aufloesungen unterstuetzt Seedream 4.5?",
+        "description": "Seedream 4.5 unterstuetzt drei Aufloesungsstufen: 1K (Standard), 2K (High Definition) und 4K (Ultra High Definition). Jede Aufloesungsstufe bietet unterschiedliche Credit-Preise."
+      },
+      {
+        "title": "Wie viele Bilder kann ich auf einmal generieren?",
+        "description": "Seedream 4.5 unterstuetzt die Batch-Generierung von bis zu 15 Bildern in einer einzigen Anfrage, was es effizient macht, Variationen zu erkunden oder Bildsets fuer Ihre Projekte zu erstellen."
+      },
+      {
+        "title": "Welche Seitenverhaeltnisse werden unterstuetzt?",
+        "description": "Seedream 4.5 unterstuetzt eine breite Palette von Seitenverhaeltnissen einschliesslich 1:1 (quadratisch), 3:4, 4:3, 9:16 (Hochformat), 16:9 (Querformat), 2:3, 3:2 und 21:9 (Ultrabreit-Kino)."
+      }
+    ]
+  }
+}

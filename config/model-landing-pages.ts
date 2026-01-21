@@ -14,6 +14,7 @@ export const MODEL_LANDING_PAGES = [
   'seedance-1-5',
   'veo-3-1',
   'sora-2',
+  'seedream-4-5',
 ] as const;
 
 export type ModelSlug = typeof MODEL_LANDING_PAGES[number];

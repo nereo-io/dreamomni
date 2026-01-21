@@ -317,16 +317,26 @@ export async function POST(req: NextRequest) {
       return respErr("新用户需要完成CAPTCHA验证");
     }
 
-    // 确定使用的服务提供商
+    // 确定使用的服务提供商 - 优先使用请求指定的provider，否则根据模型ID自动选择
     let selectedProvider: AIServiceProvider;
     if (provider) {
       selectedProvider = provider as AIServiceProvider;
     } else {
-      selectedProvider = aiServiceManager.getAvailableProviders()[0];
-      if (!selectedProvider) {
-        return respErr("No AI service providers available");
+      // 根据模型ID自动选择正确的provider
+      const providerByModel = aiServiceManager.getProviderByModelId(model);
+      if (providerByModel) {
+        selectedProvider = providerByModel;
+      } else {
+        // 如果模型没有配置对应的provider，回退到第一个可用的provider
+        selectedProvider = aiServiceManager.getAvailableProviders()[0];
+        if (!selectedProvider) {
+          return respErr("No AI service providers available");
+        }
       }
     }
+
+    console.log(`🔄 Provider selection for model ${model}: ${selectedProvider}`);
+    console.log(`🔍 Request params - aspect_ratio: ${aspect_ratio}, resolution: ${resolution}, image_size: ${image_size}`);
 
     // 验证提供商是否可用
     const providerInstance = aiServiceManager.getProvider(selectedProvider);
@@ -576,14 +586,16 @@ export async function POST(req: NextRequest) {
         result.images &&
         result.images.length > 0
       ) {
-        // 同步返回模式 - 直接更新结果
+        // 同步返回模式（备用，当前所有 provider 都使用异步回调模式）
+        // 注意：R2 上传由回调处理，这里只做基本的状态更新
         console.log(
-          `🖼️ Synchronous completion with ${result.images.length} images`
+          `🖼️ Synchronous completion with ${result.images.length} images (fallback path)`
         );
         const imageUrls = result.images.map((img) => img.url);
 
-        await updateImageGenerationById(imageGeneration.id, {
-          status: "COMPLETED",
+        // 更新数据库（R2 上传由回调处理）
+        const updateData = {
+          status: "COMPLETED" as const,
           image_urls: imageUrls,
           image_count: imageUrls.length,
           completed_at: new Date().toISOString(),
@@ -592,7 +604,10 @@ export async function POST(req: NextRequest) {
             provider_response: result.metadata,
             provider_images: result.images,
           },
-        });
+        };
+
+        await updateImageGenerationById(imageGeneration.id, updateData);
+        console.log(`✅ DB record ${imageGeneration.id} updated to COMPLETED`);
 
         return respData({
           id: imageGeneration.id,

@@ -3,7 +3,7 @@
  * AI服务提供商相关类型定义
  */
 
-export type AIServiceProvider = 
+export type AIServiceProvider =
   | "nano_banana"     // Kie.ai Nano Banana
   | "openai"          // OpenAI DALL-E
   | "midjourney"      // Midjourney
@@ -11,7 +11,8 @@ export type AIServiceProvider =
   | "replicate"       // Replicate
   | "huggingface"     // Hugging Face
   | "custom"          // 自定义服务商
-  | "fal";            // fal.ai
+  | "fal"             // fal.ai
+  | "seedream";       // ByteDance Seedream
 
 export type ProviderStatus = 
   | "active"          // 活跃可用
