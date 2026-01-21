@@ -143,14 +143,16 @@ export default function ImageGenerationTab({
   // Get current model config
   const currentModelConfig = getImageModel(selectedModel);
 
-  // Check if current model is Pro
-  const isProModel = selectedModel === "nano-banana-pro";
+  // Check if current model supports resolution selection (Pro models, Seedream, etc.)
+  const hasResolutionSupport =
+    currentModelConfig?.supportedResolutions &&
+    currentModelConfig.supportedResolutions.length > 0;
 
-  // Calculate required credits dynamically from config (Pro 模型根据分辨率计费)
+  // Calculate required credits dynamically from config (支持分辨率的模型根据分辨率计费)
   // Agent 模式下按图片数量计费
   const creditsPerImage = calculateImageCredits(
     selectedModel,
-    isProModel ? resolution : undefined
+    hasResolutionSupport ? resolution : undefined
   );
   const requiredCredits = agentMode
     ? creditsPerImage * agentImageCount
@@ -192,6 +194,22 @@ export default function ImageGenerationTab({
   useEffect(() => {
     adjustTextareaHeight();
   }, [prompt]);
+
+  // 当模型切换时，确保分辨率和宽高比是当前模型支持的值
+  useEffect(() => {
+    // 同步分辨率
+    if (currentModelConfig?.supportedResolutions?.length) {
+      if (!currentModelConfig.supportedResolutions.includes(resolution)) {
+        setResolution(currentModelConfig.supportedResolutions[0]);
+      }
+    }
+    // 同步宽高比
+    if (currentModelConfig?.supportedAspectRatios?.length) {
+      if (!currentModelConfig.supportedAspectRatios.includes(aspectRatio)) {
+        setAspectRatio(currentModelConfig.supportedAspectRatios[0]);
+      }
+    }
+  }, [selectedModel, currentModelConfig?.supportedResolutions, currentModelConfig?.supportedAspectRatios, resolution, aspectRatio]);
 
   // 获取当前模型的最大提示词长度
   const maxPromptLength = getMaxPromptLength(selectedModel);
@@ -402,8 +420,8 @@ export default function ImageGenerationTab({
       source_image_ids: sourceImageIds.length > 0 ? sourceImageIds : undefined, // 来源图片ID追踪
       enable_prompt_enhancement: false,
       output_format: outputFormat,
-      // Pro 模型使用 aspect_ratio 和 resolution,标准模型使用 image_size
-      ...(isProModel
+      // 支持分辨率的模型使用 aspect_ratio 和 resolution，标准模型使用 image_size
+      ...(hasResolutionSupport
         ? {
             aspect_ratio: aspectRatio,
             resolution: resolution,
@@ -799,14 +817,14 @@ export default function ImageGenerationTab({
                 </div>
               </div> */}
 
-              {/* Pro Model: Resolution Selector */}
-              {isProModel && currentModelConfig?.supportedResolutions && (
+              {/* Resolution Selector for models that support it */}
+              {hasResolutionSupport && (
                 <div className="mb-4">
                   <label className="text-gray-300 text-sm mb-2 block">
                     {t("resolution")}
                   </label>
                   <div className="flex flex-wrap gap-3">
-                    {currentModelConfig.supportedResolutions.map((res) => (
+                    {currentModelConfig?.supportedResolutions?.map((res) => (
                       <label
                         key={res}
                         className="flex items-center cursor-pointer min-w-0"
@@ -855,12 +873,12 @@ export default function ImageGenerationTab({
                         name="ratio"
                         value={ratio}
                         checked={
-                          isProModel
+                          hasResolutionSupport
                             ? aspectRatio === ratio
                             : imageSize === ratio
                         }
                         onChange={(e) => {
-                          if (isProModel) {
+                          if (hasResolutionSupport) {
                             setAspectRatio(e.target.value);
                           } else {
                             setImageSize(e.target.value as typeof imageSize);
@@ -871,7 +889,7 @@ export default function ImageGenerationTab({
                       <div
                         className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
                           (
-                            isProModel
+                            hasResolutionSupport
                               ? aspectRatio === ratio
                               : imageSize === ratio
                           )
@@ -879,7 +897,7 @@ export default function ImageGenerationTab({
                             : "border-gray-500"
                         }`}
                       >
-                        {(isProModel
+                        {(hasResolutionSupport
                           ? aspectRatio === ratio
                           : imageSize === ratio) && (
                           <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>

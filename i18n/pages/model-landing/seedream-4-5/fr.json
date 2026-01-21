@@ -1,0 +1,252 @@
+{
+  "banner": {
+    "title": "Generateur d'images IA Seedream 4.5",
+    "description": "Seedream 4.5 est le dernier modele de generation d'images IA de ByteDance, offrant une comprehension exceptionnelle des prompts, une qualite visuelle epoustouflante et un support leader de l'industrie pour jusqu'a 14 images de reference. Avec une sortie native en 4K et des capacites de generation par lots, Seedream 4.5 fournit des resultats de qualite professionnelle a des prix competitifs. Essayez Seedream 4.5 gratuitement aujourd'hui!",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Texte vers Image",
+        "subTitle": "Prompt",
+        "value": "text-to-image",
+        "modelName": "Seedream 4.5",
+        "modelLogo": "/imgs/models/seedream-logo.svg",
+        "placeholder": "Decrivez l'image que vous voulez creer...",
+        "buttonText": "Creer"
+      },
+      {
+        "type": "image",
+        "title": "Image vers Image",
+        "subTitle": "Image",
+        "value": "image-to-image",
+        "modelName": "Seedream 4.5",
+        "modelLogo": "/imgs/models/seedream-logo.svg",
+        "placeholder": "Deposez des images ici ou cliquez pour selectionner",
+        "tips": "Telechargez jusqu'a 14 images de reference. Nous acceptons les formats JPEG, PNG, GIF, WEBP jusqu'a 20Mo avec des dimensions jusqu'a 4096 x 4096 pixels.",
+        "buttonText": "Creer"
+      }
+    ]
+  },
+  "partners": [
+    { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
+    { "name": "Microsoft", "logo": "/imgs/partners/microsoft-logo.png" },
+    { "name": "Nike", "logo": "/imgs/partners/nike-logo.png" },
+    { "name": "P&G", "logo": "/imgs/partners/p-g-logo.png" },
+    { "name": "Lancome", "logo": "/imgs/partners/lancome-logo.png" },
+    { "name": "Zoom", "logo": "/imgs/partners/zoom-logo.png" },
+    { "name": "Sony", "logo": "/imgs/partners/sony-logo.png" },
+    { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
+  ],
+  "features": {
+    "title": "Fonctionnalites de Seedream 4.5",
+    "details": [
+      {
+        "title": "Jusqu'a 14 images de reference",
+        "description": "Seedream 4.5 prend en charge un nombre leader de l'industrie de 14 images de reference pour la generation image-vers-image. Cette puissante capacite vous permet de fournir plusieurs references de style, concepts de personnages ou elements de scene que le modele combine intelligemment en sorties coherentes et de haute qualite.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Image de sortie" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Un groupe de personnages divers assis ensemble dans un salon confortable, chacun avec des personnalites et styles uniques, eclairage ambiant chaleureux, textures detaillees."
+                },
+                {
+                  "type": "image",
+                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-1-1.jpg",
+                  "altText": "Resultat de reference multiple de personnages"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Resolution 4K native",
+        "description": "Generez des images epoustouflantes en resolution 4K native avec une clarte exceptionnelle des details. Seedream 4.5 produit des sorties nettes et haute fidelite adaptees a l'impression professionnelle, aux grands ecrans et aux applications commerciales.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Image de sortie" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Gros plan ultra-detaille d'un mouvement de montre mecanique, engrenages et rubis complexes, surfaces metalliques reflechissantes, eclairage studio doux, qualite 4K."
+                },
+                {
+                  "type": "image",
+                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-2-1.jpg",
+                  "altText": "Detail 4K mecanisme de montre"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Generation par lots",
+        "description": "Seedream 4.5 prend en charge la generation par lots de jusqu'a 15 images en une seule requete. Cette fonctionnalite accelere considerablement les flux de travail creatifs, vous permettant d'explorer plusieurs variations d'un concept simultanement.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Image de sortie" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Photographie de produit d'un flacon de parfum de luxe, plusieurs angles et configurations d'eclairage, fond minimaliste elegant, qualite commerciale."
+                },
+                {
+                  "type": "image",
+                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-3-1.jpg",
+                  "altText": "Photos de produits generees par lots"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Comprehension superieure des prompts",
+        "description": "Seedream 4.5 excelle dans l'interpretation de prompts complexes et multicouches avec une precision remarquable. Le modele comprend les relations spatiales, les styles artistiques, les termes techniques de photographie et les concepts abstraits.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Image de sortie" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Un marche de rue cyberpunk la nuit, enseignes neon en plusieurs langues, trottoir mouille par la pluie refletant des lumieres colorees, vendeurs de gadgets futuristes, brouillard atmospherique."
+                },
+                {
+                  "type": "image",
+                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-4-1.jpg",
+                  "altText": "Scene de marche cyberpunk"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Excellent rendu de texte",
+        "description": "Seedream 4.5 demontre des capacites exceptionnelles dans le rendu du texte dans les images, y compris les caracteres anglais et chinois. Creez des logos professionnels, de la signaletique, des couvertures de livres et du contenu de marque avec une typographie coherente.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Image de sortie" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Une facade de cafe moderne avec une enseigne elegante 'DREAM CAFE', lumiere interieure chaude visible a travers les fenetres, plantes en pot a l'entree, atmosphere accueillante."
+                },
+                {
+                  "type": "image",
+                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-5-1.jpg",
+                  "altText": "Cafe avec signaletique textuelle"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Rapports d'aspect flexibles",
+        "description": "Seedream 4.5 prend en charge une large gamme de rapports d'aspect incluant 1:1, 3:4, 4:3, 9:16, 16:9, 2:3, 3:2 et 21:9. Cette flexibilite garantit que vos images generees s'adaptent parfaitement a toute plateforme ou cas d'utilisation.",
+        "type": "table",
+        "data": {
+          "headers": [{ "title": "Prompt" }, { "title": "Image de sortie" }],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Vue panoramique du Grand Canyon au coucher du soleil, nuages dramatiques, couches de formations rocheuses colorees s'etendant jusqu'a l'horizon, format cinematique ultra-large 21:9."
+                },
+                {
+                  "type": "image",
+                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-6-1.jpg",
+                  "altText": "Panorama ultra-large du canyon"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Comment utiliser Seedream 4.5 gratuitement",
+    "description": "Suivez les etapes simples ci-dessous pour essayer Seedream 4.5",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Etape 1",
+        "description": "Selectionnez le modele 'Seedream 4.5' dans notre generateur d'images IA."
+      },
+      {
+        "number": "02",
+        "title": "Etape 2",
+        "description": "Entrez votre prompt texte ou telechargez jusqu'a 14 images de reference pour la generation image-vers-image."
+      },
+      {
+        "number": "03",
+        "title": "Etape 3",
+        "description": "Choisissez votre resolution preferee (1K, 2K ou 4K) et le rapport d'aspect, puis cliquez sur Creer."
+      }
+    ],
+    "buttonText": "Essayez Seedream 4.5 gratuitement sur Veo3 AI"
+  },
+  "youtubeCases": {
+    "title": "Videos YouTube sur Seedream 4.5",
+    "content": []
+  },
+  "redditCases": {
+    "title": "Discussions Reddit sur Seedream 4.5",
+    "content": []
+  },
+  "twitterCases": {
+    "title": "Avis X sur Seedream 4.5",
+    "content": []
+  },
+  "cta": {
+    "title": "Essayez Seedream 4.5 gratuitement sur Veo3 AI",
+    "buttonText": "Essayer Seedream 4.5 gratuitement"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Questions frequemment posees",
+    "description": "En savoir plus sur le generateur d'images IA Seedream 4.5",
+    "items": [
+      {
+        "title": "Qu'est-ce que Seedream 4.5?",
+        "description": "Seedream 4.5 est le modele avance de generation d'images IA de ByteDance, developpe par l'equipe Doubao. Il offre une qualite d'image exceptionnelle, le support de jusqu'a 14 images de reference, une sortie en resolution 4K native et des capacites de generation par lots."
+      },
+      {
+        "title": "Qu'est-ce qui rend Seedream 4.5 unique?",
+        "description": "Seedream 4.5 se distingue par son support leader de l'industrie pour 14 images de reference en mode image-vers-image, la generation en 4K native, le traitement par lots de jusqu'a 15 images, un excellent rendu de texte et des prix competitifs."
+      },
+      {
+        "title": "Seedream 4.5 est-il gratuit?",
+        "description": "Oui, Seedream 4.5 est gratuit a essayer sur Veo3 AI. Les nouveaux utilisateurs recoivent des credits gratuits lors de l'inscription, vous permettant d'experimenter les capacites du modele sans paiement initial."
+      },
+      {
+        "title": "Quelles resolutions Seedream 4.5 prend-il en charge?",
+        "description": "Seedream 4.5 prend en charge trois niveaux de resolution: 1K (standard), 2K (haute definition) et 4K (ultra haute definition). Chaque niveau de resolution offre des tarifs de credits differents."
+      },
+      {
+        "title": "Combien d'images puis-je generer a la fois?",
+        "description": "Seedream 4.5 prend en charge la generation par lots de jusqu'a 15 images en une seule requete, ce qui le rend efficace pour explorer des variations ou creer des ensembles d'images pour vos projets."
+      },
+      {
+        "title": "Quels rapports d'aspect sont pris en charge?",
+        "description": "Seedream 4.5 prend en charge une large gamme de rapports d'aspect incluant 1:1 (carre), 3:4, 4:3, 9:16 (portrait), 16:9 (paysage), 2:3, 3:2 et 21:9 (cinematique ultra-large)."
+      }
+    ]
+  }
+}

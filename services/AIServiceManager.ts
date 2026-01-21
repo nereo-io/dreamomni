@@ -6,7 +6,9 @@
 import { BaseAIProvider, GenerateImageRequest, EditImageRequest, ProviderResponse } from './providers/BaseAIProvider';
 import { NanoBananaProvider } from './providers/NanoBananaProvider';
 import { FalImageProvider } from './providers/FalImageProvider';
+import { SeedreamProvider } from './providers/SeedreamProvider';
 import type { AIServiceProvider, AIProviderConfig } from '@/types/provider.d';
+import { ImageModelProvider } from '@/config/image-models';
 import { IMAGE_MODELS, getImageModel, calculateImageCredits } from '@/config/image-models';
 
 // 预定义的提供商配置
@@ -279,6 +281,50 @@ const PROVIDER_CONFIGS: Record<AIServiceProvider, AIProviderConfig> = {
     pricing: {
       baseCredits: 1
     }
+  },
+  seedream: {
+    id: 'seedream',
+    name: 'seedream',
+    displayName: 'Seedream 4.5',
+    description: 'ByteDance Seedream image generation via BytePlus',
+    apiEndpoint: 'https://ark.ap-southeast.bytepluses.com/api/v3/images/generations',
+    status: 'active',
+    features: {
+      textToImage: true,
+      imageToImage: true,
+      imageEdit: false,
+      inpainting: false,
+      outpainting: false,
+      upscaling: false,
+      backgroundRemoval: false,
+      styleTransfer: false,
+      batchGeneration: true,
+      asyncCallback: false,
+      realTimeStatus: true
+    },
+    models: Object.values(IMAGE_MODELS)
+      .filter(m => m.provider === ImageModelProvider.VOLCANO)
+      .map(m => ({
+        id: m.id,
+        name: m.name,
+        displayName: m.displayName,
+        provider: 'seedream' as const,
+        type: m.type as 'text-to-image' | 'image-edit',
+        status: (m.status === 'active' ? 'active' : 'deprecated') as 'active' | 'beta' | 'deprecated',
+        features: m.features,
+        maxImageCount: m.maxInputImages || 1,
+        // 4K 最大尺寸: 21:9 → 6048x2592, 9:16 → 2880x5120
+        maxResolution: m.supportedResolutions
+          ? { width: 6048, height: 5120 }
+          : { width: 2048, height: 2048 },
+        supportedAspectRatios: m.supportedAspectRatios,
+        supportedFormats: m.supportedFormats,
+        credits: m.credits,
+      })),
+    // 实际计费逻辑在 config/image-models.ts 的 resolutionCredits 中
+    pricing: {
+      baseCredits: 6
+    }
   }
 };
 
@@ -320,6 +366,16 @@ export class AIServiceManager {
       console.log('✅ fal.ai provider initialized');
     } catch (error) {
       console.warn('⚠️ fal.ai provider initialization failed:', error);
+    }
+
+    // 注册 Seedream 提供商 (BytePlus)
+    // Seedream 使用内部回调模式，无需额外配置
+    try {
+      const seedreamProvider = new SeedreamProvider();
+      this.providers.set('seedream', seedreamProvider);
+      console.log('✅ Seedream provider initialized');
+    } catch (error) {
+      console.warn('⚠️ Seedream provider initialization failed:', error);
     }
 
     // TODO: 注册其他提供商
