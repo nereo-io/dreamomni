@@ -61,6 +61,7 @@ export default function VideoHistory({
     new Set()
   );
   const containerRef = useRef<HTMLDivElement>(null);
+  const isUpdatingStatusRef = useRef(false);
   const [isClient, setIsClient] = useState(false);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -68,6 +69,7 @@ export default function VideoHistory({
   const [videoToDelete, setVideoToDelete] = useState<VideoGenerationResult | null>(null);
   const HISTORY_PAGE_SIZE = 20;
   const MAX_POLLING_VIDEOS = 5;
+  const POLLING_INTERVAL_MS = 8000;
 
   // 客户端检测
   useEffect(() => {
@@ -135,37 +137,46 @@ export default function VideoHistory({
 
   // 更新所有未完成视频的状态
   const updateIncompleteVideosStatus = useCallback(async () => {
+    if (isUpdatingStatusRef.current) {
+      return;
+    }
+
     const incompleteVideos = getIncompleteVideos();
     if (incompleteVideos.length === 0) return;
 
+    isUpdatingStatusRef.current = true;
     console.log(`Updating status for ${incompleteVideos.length} incomplete videos (max 5)...`);
 
     // 使用串行请求减少服务器压力，每个请求间隔100ms
     const results: Array<{ id: string; data: any }> = [];
-    for (const video of incompleteVideos) {
-      try {
-        const response = await fetch("/api/video-generation/status", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id: video.id }),
-        });
+    try {
+      for (const video of incompleteVideos) {
+        try {
+          const response = await fetch("/api/video-generation/status", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id: video.id }),
+          });
 
-        if (response.ok) {
-          const result = await response.json();
-          if (result.code === 0 && result.data) {
-            results.push({ id: video.id, data: result.data });
+          if (response.ok) {
+            const result = await response.json();
+            if (result.code === 0 && result.data) {
+              results.push({ id: video.id, data: result.data });
+            }
           }
+          
+          // 添加短暂延迟，避免请求过于密集
+          if (incompleteVideos.indexOf(video) < incompleteVideos.length - 1) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+          }
+        } catch (error) {
+          console.error(`更新视频 ${video.id} 状态失败:`, error);
         }
-        
-        // 添加短暂延迟，避免请求过于密集
-        if (incompleteVideos.indexOf(video) < incompleteVideos.length - 1) {
-          await new Promise(resolve => setTimeout(resolve, 100));
-        }
-      } catch (error) {
-        console.error(`更新视频 ${video.id} 状态失败:`, error);
       }
+    } finally {
+      isUpdatingStatusRef.current = false;
     }
     
     // 批量更新本地状态
@@ -190,7 +201,7 @@ export default function VideoHistory({
     const pollInterval = setInterval(() => {
       console.log("Polling video status...");
       updateIncompleteVideosStatus();
-    }, 3000); // 每3秒轮询一次
+    }, POLLING_INTERVAL_MS);
 
     return () => {
       console.log("Stopping polling...");

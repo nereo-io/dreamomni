@@ -3,6 +3,8 @@ import { VIDEO_CACHE_CONTROL } from "@/lib/cache-control";
 import { updateVideoGenerationById } from "@/models/videoGeneration";
 import { getStatusProviderForFallback } from "@/services/seedanceFallbackService";
 
+const STATUS_SYNC_MIN_INTERVAL_MS = 15000;
+
 export interface VideoStatusResult {
   id: string;
   status: string;
@@ -43,7 +45,10 @@ export class VideoStatusService {
     console.log("从数据库获取的状态:", videoGeneration.status);
 
     // 如果状态不是最终状态，且有请求ID，则查询provider获取最新状态
-    if (this.shouldUpdateFromProvider(videoGeneration)) {
+    if (
+      this.shouldUpdateFromProvider(videoGeneration) &&
+      !this.isSyncCooldownActive(videoGeneration)
+    ) {
       try {
         const updatedGeneration = await this.syncStatusFromProvider(
           videoGeneration
@@ -82,6 +87,18 @@ export class VideoStatusService {
       videoGeneration.metadata?.upscale_1080p_status === "processing";
 
     return isNotFinalStatus && hasRequestId && videoGeneration.model_id && !isUpscaleInProgress;
+  }
+
+  private static isSyncCooldownActive(videoGeneration: any): boolean {
+    const lastSync = videoGeneration.metadata?.last_status_sync_at;
+    if (!lastSync) {
+      return false;
+    }
+    const lastSyncTime = Date.parse(lastSync);
+    if (Number.isNaN(lastSyncTime)) {
+      return false;
+    }
+    return Date.now() - lastSyncTime < STATUS_SYNC_MIN_INTERVAL_MS;
   }
 
   /**
@@ -125,6 +142,12 @@ export class VideoStatusService {
 
     console.log("从provider获取的最新状态:", providerStatus.status);
 
+    const nowIso = new Date().toISOString();
+    const nextMetadata = {
+      ...(videoGeneration.metadata || {}),
+      last_status_sync_at: nowIso,
+    };
+
     // 如果provider返回COMPLETED，但视频需要分辨率升级，不更新状态，等待webhook处理
     const { isKieAiVeo3Model } = await import("@/config/video-models");
     const needsResolutionUpgrade =
@@ -134,7 +157,9 @@ export class VideoStatusService {
 
     if (providerStatus.status.toLowerCase() === "completed" && needsResolutionUpgrade) {
       console.log("🎬 视频需要分辨率升级，跳过COMPLETED状态同步，等待webhook处理");
-      return videoGeneration; // 不更新状态，让webhook处理
+      return await updateVideoGenerationById(videoGeneration.id, {
+        metadata: nextMetadata,
+      });
     }
 
     const mappedStatus = this.mapProviderStatusToDbStatus(
@@ -154,18 +179,41 @@ export class VideoStatusService {
         requestId
       );
 
+      updateParams.metadata = this.mergeMetadata(
+        videoGeneration.metadata,
+        updateParams.metadata,
+        { last_status_sync_at: nowIso }
+      );
+
       return await updateVideoGenerationById(videoGeneration.id, updateParams);
     } else {
-      // 如果状态没有变化，但可能有新的logs，也合并一下
+      const updateParams: any = {
+        metadata: nextMetadata,
+      };
       if (providerStatus.logs) {
-        return {
-          ...videoGeneration,
-          logs: providerStatus.logs,
-        };
+        updateParams.logs = providerStatus.logs;
       }
-    }
+      if (providerStatus.metrics) {
+        updateParams.metrics = providerStatus.metrics;
+      }
+      if (providerStatus.error_message) {
+        updateParams.error_message = providerStatus.error_message;
+      }
 
-    return videoGeneration;
+      return await updateVideoGenerationById(videoGeneration.id, updateParams);
+    }
+  }
+
+  private static mergeMetadata(
+    baseMetadata: any,
+    updateMetadata: any,
+    extraMetadata: any
+  ) {
+    return {
+      ...(baseMetadata || {}),
+      ...(updateMetadata || {}),
+      ...(extraMetadata || {}),
+    };
   }
 
   /**

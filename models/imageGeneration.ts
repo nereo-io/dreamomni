@@ -12,6 +12,37 @@ import type {
 // Supabase 客户端初始化
 const supabase = getSupabaseClient();
 
+const IMAGE_GENERATIONS_SCHEMA_CACHE_TTL_MS = 5 * 60 * 1000;
+let imageGenerationsColumnsCache: {
+  columns: Set<string>;
+  fetchedAt: number;
+} | null = null;
+
+async function getImageGenerationsColumns(): Promise<Set<string>> {
+  const now = Date.now();
+  if (
+    imageGenerationsColumnsCache &&
+    now - imageGenerationsColumnsCache.fetchedAt < IMAGE_GENERATIONS_SCHEMA_CACHE_TTL_MS
+  ) {
+    return imageGenerationsColumnsCache.columns;
+  }
+
+  const { data: tableInfo, error } = await supabase
+    .from("information_schema.columns")
+    .select("column_name")
+    .eq("table_schema", "public")
+    .eq("table_name", "image_generations");
+
+  if (error) {
+    console.warn("Failed to load image_generations schema:", error);
+    return imageGenerationsColumnsCache?.columns || new Set();
+  }
+
+  const columns = new Set(tableInfo?.map((col) => col.column_name) || []);
+  imageGenerationsColumnsCache = { columns, fetchedAt: now };
+  return columns;
+}
+
 /**
  * 统一处理 Supabase 查询错误
  * @param error PostgrestError | null
@@ -305,13 +336,7 @@ export async function getUserImageGenerations(
   offset: number = 0,
   search?: string
 ): Promise<{ data: ImageGenerationHistoryItem[]; total: number }> {
-  // 首先查询表结构，检查哪些字段存在
-  const { data: tableInfo } = await supabase
-    .from("information_schema.columns")
-    .select("column_name")
-    .eq("table_schema", "public")
-    .eq("table_name", "image_generations");
-
+  const countMode = search?.trim() ? "estimated" : "exact";
   // 基础字段（必须存在）
   const baseFields = [
     "id",
@@ -345,7 +370,7 @@ export async function getUserImageGenerations(
   ];
 
   // 检查哪些字段存在
-  const existingColumns = new Set(tableInfo?.map(col => col.column_name) || []);
+  const existingColumns = await getImageGenerationsColumns();
   
   // 构建查询字段列表
   const selectFields = [
@@ -359,7 +384,7 @@ export async function getUserImageGenerations(
   // 构建查询，强制应用删除过滤
   let query = supabase
     .from("image_generations")
-    .select(selectFields, { count: "exact" })
+    .select(selectFields, { count: countMode })
     .eq("user_id", userId);
 
   // 尝试添加 is_delete 过滤条件
@@ -389,7 +414,7 @@ export async function getUserImageGenerations(
     
     let retryQuery = supabase
       .from("image_generations")
-      .select(selectFields, { count: "exact" })
+      .select(selectFields, { count: countMode })
       .eq("user_id", userId)
       .order("created_at", { ascending: false });
 

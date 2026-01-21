@@ -69,7 +69,7 @@ export async function createVideoGeneration(
  */
 export async function getVideoGenerationById(
   id: string,
-  userId?: number // 可选，因为RLS应该处理权限
+  userId?: string // 可选，因为RLS应该处理权限
 ): Promise<VideoGeneration | null> {
   let query = supabase.from("video_generations").select("*").eq("id", id);
 
@@ -393,14 +393,15 @@ export async function updateVideoGenerationBySoraRequestId(
  * 获取指定用户的视频生成历史记录 (分页)。
  */
 export async function getUserVideoGenerations(
-  userId: number,
+  userId: string,
   limit: number = 10,
   offset: number = 0,
   search?: string
 ): Promise<{ data: VideoGeneration[]; total: number }> {
+  const countMode = search?.trim() ? "estimated" : "exact";
   let query = supabase
     .from("video_generations")
-    .select("*", { count: "exact" })
+    .select("*", { count: countMode })
     .eq("user_id", userId)
     .eq("is_delete", false)
     .order("created_at", { ascending: false });
@@ -427,7 +428,7 @@ export async function getUserVideoGenerations(
  */
 export async function deleteVideoGeneration(
   id: string,
-  userId?: number // 可选，RLS应处理
+  userId?: string // 可选，RLS应处理
 ): Promise<boolean> {
   let query = supabase.from("video_generations").delete().eq("id", id);
 
@@ -449,7 +450,7 @@ export async function deleteVideoGeneration(
 /**
  * 获取用户视频生成统计
  */
-export async function getUserVideoGenerationStats(userId: number): Promise<{
+export async function getUserVideoGenerationStats(userId: string): Promise<{
   total: number;
   completed: number;
   failed: number;
