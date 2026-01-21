@@ -426,9 +426,13 @@ async function handleSubscriptionPaid(webhookData: any) {
 
       // 获取原订单的 client_id（用于 Yandex Metrica 追踪）
       let clientId: string | undefined;
+      let originalFirstTouch = null;
+      let originalLastTouch = null;
       if (originalOrderNo) {
         const originalOrder = await findOrderByOrderNo(originalOrderNo);
         clientId = originalOrder?.client_id || undefined; // 将 null 转换为 undefined
+        originalFirstTouch = originalOrder?.first_touch || null;
+        originalLastTouch = originalOrder?.last_touch || null;
 
         if (!clientId) {
           logError("⚠️ 原订单缺少 client_id，续费订单将无法追踪转化", {
@@ -462,6 +466,8 @@ async function handleSubscriptionPaid(webhookData: any) {
         payment_provider: "creem",
         credits: productConfig.credits,
         client_id: clientId, // 从原订单复制 client_id
+        first_touch: originalFirstTouch,
+        last_touch: originalLastTouch,
         paid_at: new Date().toISOString(),
         created_at: new Date().toISOString(),
       });

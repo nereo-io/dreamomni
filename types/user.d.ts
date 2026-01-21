@@ -1,3 +1,5 @@
+import type { AttributionSnapshot } from './attribution';
+
 export interface User {
   id?: number;
   uuid?: string;
@@ -16,6 +18,8 @@ export interface User {
   invited_by?: string;
   is_affiliate?: boolean;
   is_banned?: boolean; // 用户是否被禁用
+  first_touch?: AttributionSnapshot | null;
+  last_touch?: AttributionSnapshot | null;
 }
 
 export interface UserCredits {

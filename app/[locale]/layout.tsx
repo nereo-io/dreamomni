@@ -11,6 +11,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { ThemeProvider } from "@/providers/theme";
 import { cn } from "@/lib/utils";
 import { SignupTracker } from "@/components/analytics/signup-tracker";
+import AttributionTracker from "@/components/analytics/attribution-tracker";
 import YandexMetrica from "@/components/analytics/yandex-metrica";
 // import { SpeedInsights } from '@vercel/speed-insights/next';
 // import { Analytics } from "@vercel/analytics/react";
@@ -94,6 +95,7 @@ export default async function RootLayout({
             <AppContextProvider>
               <ThemeProvider attribute="class" disableTransitionOnChange>
                 <SignupTracker />
+                <AttributionTracker />
                 {children}
               </ThemeProvider>
             </AppContextProvider>

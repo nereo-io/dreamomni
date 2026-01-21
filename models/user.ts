@@ -2,6 +2,7 @@ import { User } from "@/types/user";
 import { getIsoTimestr } from "@/lib/time";
 import { getSupabaseClient } from "./db";
 import Stripe from "stripe";
+import type { AttributionSnapshot } from "@/types/attribution";
 
 export async function insertUser(user: User) {
   const supabase = getSupabaseClient();
@@ -129,6 +130,39 @@ export async function updateUserInvitedBy(
   const { data, error } = await supabase
     .from("users")
     .update({ invited_by, updated_at })
+    .eq("uuid", user_uuid);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+export async function updateUserAttribution(
+  user_uuid: string,
+  attribution: {
+    first_touch?: AttributionSnapshot | null;
+    last_touch?: AttributionSnapshot | null;
+  }
+) {
+  const updateData: Record<string, AttributionSnapshot | null> = {};
+
+  if (attribution.first_touch) {
+    updateData.first_touch = attribution.first_touch;
+  }
+  if (attribution.last_touch) {
+    updateData.last_touch = attribution.last_touch;
+  }
+
+  if (Object.keys(updateData).length === 0) {
+    return null;
+  }
+
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("users")
+    .update(updateData)
     .eq("uuid", user_uuid);
 
   if (error) {

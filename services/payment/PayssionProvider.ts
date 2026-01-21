@@ -580,9 +580,13 @@ export class PayssionProvider extends BasePaymentProvider {
 
         // 获取原订单的 client_id（用于 Yandex Metrica 追踪）
         let clientId: string | undefined;
+        let originalFirstTouch = null;
+        let originalLastTouch = null;
         if (metadata.order_no) {
           const originalOrder = await findOrderByOrderNo(metadata.order_no);
           clientId = originalOrder?.client_id || undefined; // 将 null 转换为 undefined
+          originalFirstTouch = originalOrder?.first_touch || null;
+          originalLastTouch = originalOrder?.last_touch || null;
 
           if (!clientId) {
             console.error("⚠️ 原订单缺少 client_id，续费订单将无法追踪转化", {
@@ -615,6 +619,8 @@ export class PayssionProvider extends BasePaymentProvider {
           payment_provider: "payssion",
           credits: productConfig?.credits || 0,
           client_id: clientId, // 从原订单复制 client_id
+          first_touch: originalFirstTouch,
+          last_touch: originalLastTouch,
           paid_at: new Date().toISOString(),
           created_at: new Date().toISOString(),
         });

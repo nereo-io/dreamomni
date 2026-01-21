@@ -1,11 +1,12 @@
 import { NextRequest } from "next/server";
 import { respErr, respJson, respData } from "@/lib/resp";
 import { getUserUuid, getUserEmail } from "@/services/user";
-import { findUserByUuid } from "@/models/user";
+import { findUserByUuid, updateUserAttribution } from "@/models/user";
 import { getPaymentRouter } from "@/services/payment";
 import { MandateRequest } from "@/services/payment/types";
 import { insertOrder } from "@/models/order";
 import { getClientIdFromCookie } from "@/lib/yandex-metrica";
+import { getAttributionFromCookie, resolveAttribution } from "@/lib/attribution";
 import { Order } from "@/types/order";
 import { getSnowId } from "@/lib/hash";
 import { getPayssionConfig } from "@/config/payssion";
@@ -76,11 +77,9 @@ export async function POST(req: NextRequest) {
     }
 
     let user_email = await getUserEmail();
-    if (!user_email) {
-      const user = await findUserByUuid(user_uuid);
-      if (user) {
-        user_email = user.email;
-      }
+    const userRecord = await findUserByUuid(user_uuid);
+    if (!user_email && userRecord) {
+      user_email = userRecord.email;
     }
     if (!user_email) {
       logError("❌ 用户邮箱不存在");
@@ -90,6 +89,31 @@ export async function POST(req: NextRequest) {
     // Extract clientID from cookies for Yandex Metrica offline conversion tracking
     const cookieHeader = req.headers.get('cookie') || '';
     const clientId = getClientIdFromCookie(cookieHeader);
+    const cookieAttribution = getAttributionFromCookie(cookieHeader);
+    const resolvedAttribution = resolveAttribution({
+      userAttribution: {
+        first_touch: userRecord?.first_touch ?? null,
+        last_touch: userRecord?.last_touch ?? null,
+      },
+      cookieAttribution,
+      requestUrl: req.url,
+      requestReferrer: req.headers.get("referer"),
+    });
+
+    if (
+      userRecord?.uuid &&
+      ((resolvedAttribution.first_touch && !userRecord.first_touch) ||
+        (resolvedAttribution.last_touch && !userRecord.last_touch))
+    ) {
+      await updateUserAttribution(userRecord.uuid, {
+        first_touch: !userRecord.first_touch
+          ? resolvedAttribution.first_touch
+          : null,
+        last_touch: !userRecord.last_touch
+          ? resolvedAttribution.last_touch
+          : null,
+      });
+    }
     const requestHost =
       req.headers.get("x-forwarded-host") || req.headers.get("host");
     const requestReferer = req.headers.get("referer");
@@ -142,6 +166,8 @@ export async function POST(req: NextRequest) {
       payment_provider: getPaymentProvider(payment_method),
       payment_method: payment_method,
       client_id: clientId, // Add clientID for offline conversion tracking
+      first_touch: resolvedAttribution.first_touch,
+      last_touch: resolvedAttribution.last_touch,
       is_renewal: false,
     };
     await insertOrder(order);

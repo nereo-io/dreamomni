@@ -3,6 +3,7 @@ import {
   findUserByEmail,
   findUserByUuid,
   insertUser,
+  updateUserAttribution,
   updateUserInviteCode,
 } from "@/models/user";
 import { generateInviteCode } from "@/lib/random";
@@ -13,6 +14,7 @@ import { getOneMonthLaterTimestr } from "@/lib/time";
 import { headers } from "next/headers";
 import { increaseCredits } from "./credit";
 import { checkIPRegistrationLimit, updateIPRegistrationCount, getClientCountry } from "@/lib/ip";
+import { getAttributionFromCookie } from "@/lib/attribution";
 
 export async function saveUser(user: User) {
   const truncate = (value: string | undefined | null, max = 255) => {
@@ -25,11 +27,26 @@ export async function saveUser(user: User) {
   try {
     const existUser = await findUserByEmail(user.email);
     let isNewUser = false;
+    let attributionFromCookie = null;
+
+    try {
+      const cookieHeader = headers().get("cookie");
+      attributionFromCookie = getAttributionFromCookie(cookieHeader);
+    } catch (error) {
+      console.warn("Failed to read attribution cookie:", error);
+    }
     
     if (!existUser) {
       user.avatar_url = truncate(user.avatar_url);
       user.nickname = truncate(user.nickname);
       user.signin_openid = truncate(user.signin_openid);
+
+      if (attributionFromCookie?.first_touch) {
+        user.first_touch = attributionFromCookie.first_touch;
+      }
+      if (attributionFromCookie?.last_touch) {
+        user.last_touch = attributionFromCookie.last_touch;
+      }
 
       // 对于新用户，检查IP注册限制
       if (user.signin_ip) {
@@ -80,6 +97,15 @@ export async function saveUser(user: User) {
       user.id = existUser.id;
       user.uuid = existUser.uuid;
       user.created_at = existUser.created_at;
+
+      const needsFirstTouch = !existUser.first_touch && attributionFromCookie?.first_touch;
+      const needsLastTouch = !existUser.last_touch && attributionFromCookie?.last_touch;
+      if (user.uuid && (needsFirstTouch || needsLastTouch)) {
+        await updateUserAttribution(user.uuid, {
+          first_touch: needsFirstTouch ? attributionFromCookie?.first_touch : null,
+          last_touch: needsLastTouch ? attributionFromCookie?.last_touch : null,
+        });
+      }
     }
 
     // 返回用户信息和是否新用户标志

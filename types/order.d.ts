@@ -1,3 +1,5 @@
+import type { AttributionSnapshot } from './attribution';
+
 export interface Order {
   order_no: string;
   created_at: string;
@@ -31,6 +33,8 @@ export interface Order {
   payment_provider_fee?: number;
   // Yandex Metrica tracking
   client_id?: string | null;
+  first_touch?: AttributionSnapshot | null;
+  last_touch?: AttributionSnapshot | null;
   subscription_status?: string;
   // 续费订单支持
   is_renewal: boolean;
