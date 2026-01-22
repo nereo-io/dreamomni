@@ -19,6 +19,7 @@ export enum CreditsTransType {
   Ping = "ping", // cost for ping api
   Chat = "chat", // cost for chat api
   RefundNonResponse = "refund_non_response", // compensation for unanswered messages
+  VideoGeneration4s = "video_generation_4s", // cost for 4 seconds video generation
   VideoGeneration5s = "video_generation_5s", // cost for 5 seconds video generation
   VideoGeneration6s = "video_generation_6s", // cost for 6 seconds video generation
   VideoGeneration8s = "video_generation_8s", // cost for 8 seconds video generation

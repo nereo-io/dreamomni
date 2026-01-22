@@ -22,16 +22,17 @@
       "features_title": "Inklusive",
       "features": [
         "<highlight>200</highlight> monatliche Credits",
-        "Bis zu <highlight>20</highlight> Videos pro Monat",
+        "Bis zu <highlight>25</highlight> Veo3-Videos (8s 1080p)",
+        "Bis zu <highlight>100</highlight> NanoBanana Pro Bilder",
         "1080p Auflösungsausgabe",
         "Hochwertige Video-Modelle",
         "Bild & Text-zu-Video",
         "Kommerzielle Nutzungsrechte"
       ],
       "interval": "month",
-      "amount": 1500,
+      "amount": 2000,
       "currency": "USD",
-      "price": "$15.00",
+      "price": "$20.00",
       "original_price": "",
       "unit": "/Monat",
       "is_featured": false,
@@ -53,21 +54,22 @@
       "features_title": "Inklusive",
       "features": [
         "<highlight>200</highlight> monatliche Credits",
-        "Bis zu <highlight>20</highlight> Videos pro Monat",
+        "Bis zu <highlight>25</highlight> Veo3-Videos (8s 1080p)",
+        "Bis zu <highlight>100</highlight> NanoBanana Pro Bilder",
         "1080p Auflösungsausgabe",
         "Hochwertige Video-Modelle",
         "Bild & Text-zu-Video",
         "Kommerzielle Nutzungsrechte"
       ],
       "interval": "year",
-      "amount": 10800,
+      "amount": 14400,
       "currency": "USD",
-      "price": "$9.00",
-      "original_price": "$15.00",
+      "price": "$12.00",
+      "original_price": "$20.00",
       "unit": "/Monat",
       "is_featured": false,
       "discount_label": "40% RABATT",
-      "tip": "Abonnement für $108.00 jährlich",
+      "tip": "Abonnement für $144.00 jährlich",
       "button": {
         "title": "Mini abonnieren",
         "url": "/#pricing",
@@ -85,8 +87,9 @@
       "features_title": "Inklusive",
       "features": [
         "<highlight>1000</highlight> monatliche Credits",
-        "Bis zu <highlight>100</highlight> Videos pro Monat",
-        "1080p Auflösungsausgabe",
+        "Bis zu <highlight>125</highlight> Veo3-Videos (8s 1080p)",
+        "Bis zu <highlight>500</highlight> NanoBanana Pro Bilder",
+        "4K Auflösungsausgabe",
         "Hochwertige Video-Modelle",
         "Bild & Text-zu-Video",
         "Schnelle Generierungswarteschlange",
@@ -117,8 +120,9 @@
       "features_title": "Inklusive",
       "features": [
         "<highlight>1000</highlight> monatliche Credits",
-        "Bis zu <highlight>100</highlight> Videos pro Monat",
-        "1080p Auflösungsausgabe",
+        "Bis zu <highlight>125</highlight> Veo3-Videos (8s 1080p)",
+        "Bis zu <highlight>500</highlight> NanoBanana Pro Bilder",
+        "4K Auflösungsausgabe",
         "Hochwertige Video-Modelle",
         "Bild & Text-zu-Video",
         "Schnelle Generierungswarteschlange",
@@ -150,8 +154,9 @@
       "features_title": "Inklusive",
       "features": [
         "<highlight>3000</highlight> monatliche Credits",
-        "Bis zu <highlight>300</highlight> Videos pro Monat",
-        "1080p Auflösungsausgabe",
+        "Bis zu <highlight>375</highlight> Veo3-Videos (8s 1080p)",
+        "Bis zu <highlight>1500</highlight> NanoBanana Pro Bilder",
+        "4K Auflösungsausgabe",
         "Hochwertige Video-Modelle",
         "Bild & Text-zu-Video",
         "Schnelle Generierungswarteschlange",
@@ -183,8 +188,9 @@
       "features_title": "Inklusive",
       "features": [
         "<highlight>3000</highlight> monatliche Credits",
-        "Bis zu <highlight>300</highlight> Videos pro Monat",
-        "1080p Auflösungsausgabe",
+        "Bis zu <highlight>375</highlight> Veo3-Videos (8s 1080p)",
+        "Bis zu <highlight>1500</highlight> NanoBanana Pro Bilder",
+        "4K Auflösungsausgabe",
         "Hochwertige Video-Modelle",
         "Bild & Text-zu-Video",
         "Schnelle Generierungswarteschlange",
@@ -219,7 +225,7 @@
     "items": [
       {
         "title": "Was sind Credits und wie funktionieren sie?",
-        "description": "Credits sind die Währung für die Videogenerierung. Jede Videogenerierung verbraucht 10 Credits. Beispielsweise können Sie mit 200 Credits bis zu 20 Videos erstellen. Credits werden jeden Monat oder jedes Jahr automatisch Ihrem Konto gutgeschrieben, basierend auf Ihrem Abonnementplan."
+        "description": "Credits werden für alle KI-Generierungen verwendet. Ein Veo3 8s 1080p Video kostet 8 Credits, ein NanoBanana Pro Bild kostet 2 Credits. Mit den 200 Credits des Mini-Plans können Sie 25 Videos oder 100 Bilder pro Monat erstellen."
       },
       {
         "title": "Was passiert mit ungenutzten Credits am Monatsende?",

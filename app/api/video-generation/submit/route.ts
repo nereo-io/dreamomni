@@ -232,7 +232,9 @@ export async function POST(req: Request) {
     }
 
     // 根据时长确定交易类型（所有模型通用）
-    if (durationInt === 5) {
+    if (durationInt === 4) {
+      transType = CreditsTransType.VideoGeneration4s;
+    } else if (durationInt === 5) {
       transType = CreditsTransType.VideoGeneration5s;
     } else if (durationInt === 6) {
       // MiniMax 模型的6秒使用5秒类型（积分计算已经按实际秒数计算）

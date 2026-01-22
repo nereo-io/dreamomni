@@ -11,8 +11,8 @@
 ### 1.1 核心需求
 
 1. **非 Pro Sora 时长扩展**
-   - 当前状态: Sora 2 仅支持 10s 时长
-   - 目标: 添加 15s 时长选项
+   - 当前状态: Sora 2 支持 10s/15s 时长
+   - 目标: 前端开放 15s 时长选项
    - 前端: 需要显示时长选择器
 
 2. **Sora 2 Pro 模型支持**
@@ -133,29 +133,29 @@
 
 ### 3.1 当前定价（Sora 2 Standard）
 
-- **基础价格**: 0.5 credits/秒
-- **10 秒**: 5 credits ($0.125)
-- **15 秒**: 7.5 credits ($0.1875)
+- **基础价格**: 0.4 credits/秒
+- **10 秒**: 4 credits ($0.10)
+- **15 秒**: 6 credits ($0.15)
 
 ### 3.2 Pro 定价（6倍标准版）
 
-- **基础价格**: 3 credits/秒
-- **10 秒**: 30 credits ($0.75)
-- **15 秒**: 45 credits ($1.125)
+- **基础价格**: 2.4 credits/秒
+- **10 秒**: 24 credits ($0.60)
+- **15 秒**: 36 credits ($0.90)
 
 ### 3.3 Storyboard 定价（与 Pro 相同）
 
-- **10 秒**: 30 credits
-- **15 秒**: 45 credits
-- **25 秒**: 75 credits
+- **10 秒**: 24 credits
+- **15 秒**: 36 credits
+- **25 秒**: 60 credits
 
 ### 3.4 定价对比表
 
 | 模型类型 | 10s | 15s | 25s | 备注 |
 |---------|-----|-----|-----|------|
-| Sora 2 Standard | 5 | 7.5 | - | 当前价格 |
-| Sora 2 Pro | 30 | 45 | - | 6x 标准版 |
-| Storyboard | 30 | 45 | 75 | Pro only |
+| Sora 2 Standard | 4 | 6 | - | 当前价格 |
+| Sora 2 Pro | 24 | 36 | - | 6x 标准版 |
+| Storyboard | 24 | 36 | 60 | Pro only |
 
 ---
 
@@ -175,7 +175,7 @@
   type: VideoModelType.TEXT_TO_VIDEO,
   provider: VideoModelProvider.KIEAI,
   displayName: "Sora 2",
-  perSecondCredits: 0.5,
+  perSecondCredits: 0.4,
   description: "OpenAI's Sora 2 model, Limited-time promotion",
   features: ["wait 200s", "Audio"],
   maxDuration: 15, // 从 10 改为 15
@@ -194,7 +194,7 @@
   type: VideoModelType.IMAGE_TO_VIDEO,
   provider: VideoModelProvider.KIEAI,
   displayName: "Sora 2",
-  perSecondCredits: 0.5,
+  perSecondCredits: 0.4,
   description: "OpenAI's Sora 2 model, Limited-time promotion",
   features: ["wait 200s", "Audio"],
   maxDuration: 15, // 从 10 改为 15
@@ -220,7 +220,7 @@
   type: VideoModelType.TEXT_TO_VIDEO,
   provider: VideoModelProvider.KIEAI,
   displayName: "Sora 2 Pro",
-  perSecondCredits: 3, // 6x 标准版
+  perSecondCredits: 2.4, // 6x 标准版
   description: "OpenAI's Sora 2 Pro model with enhanced quality",
   features: ["wait 200s", "High Quality", "Better Detail"],
   maxDuration: 15,
@@ -239,7 +239,7 @@
   type: VideoModelType.IMAGE_TO_VIDEO,
   provider: VideoModelProvider.KIEAI,
   displayName: "Sora 2 Pro",
-  perSecondCredits: 3, // 6x 标准版
+  perSecondCredits: 2.4, // 6x 标准版
   description: "OpenAI's Sora 2 Pro model with enhanced quality",
   features: ["wait 200s", "High Quality", "Better Detail"],
   maxDuration: 15,
@@ -261,7 +261,7 @@
   type: VideoModelType.IMAGE_TO_VIDEO,
   provider: VideoModelProvider.KIEAI,
   displayName: "Sora 2 Pro Storyboard",
-  perSecondCredits: 3,
+  perSecondCredits: 2.4,
   description: "Multi-image sequence video generation (2-8 images)",
   features: ["wait 300s", "Multi-Image", "Extended Duration"],
   maxDuration: 25,
@@ -556,7 +556,7 @@ setSelectedDuration((prev) => {
 #### Sora 2 Standard (15s)
 - [ ] Text-to-Video 15s 生成
 - [ ] Image-to-Video 15s 生成
-- [ ] 积分扣除验证（7.5 credits）
+- [ ] 积分扣除验证（6 credits）
 - [ ] Webhook 回调验证
 
 #### Sora 2 Pro
@@ -564,7 +564,7 @@ setSelectedDuration((prev) => {
 - [ ] Text-to-Video 15s
 - [ ] Image-to-Video 10s
 - [ ] Image-to-Video 15s
-- [ ] 积分扣除验证（30/45 credits）
+- [ ] 积分扣除验证（24/36 credits）
 - [ ] 质量验证（确认输出为 1080p）
 
 #### Storyboard (API Only)
@@ -640,7 +640,7 @@ setSelectedDuration((prev) => {
 **无需开发，仅需验证**：
 - [ ] 刷新页面，确认 Pro 模型显示在选择器中
 - [ ] 选择 Pro 模型，确认显示 10s/15s 选项
-- [ ] 验证积分估算显示正确（30/45 credits）
+- [ ] 验证积分估算显示正确（24/36 credits）
 - [ ] 确认 Storyboard 不显示在 UI
 
 ### 7.4 阶段 4: 生产部署（1-2 小时）

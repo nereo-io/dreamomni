@@ -56,7 +56,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     // volcanoModel: "ep-20251228123459-x2ccs",   //mackensonsouverain34@gmail.com
     // volcanoModel: "ep-20251230222441-b27wd",   //baziai012@gmail.com
     displayName: "Seedance 1.5 Pro",
-    perSecondCredits: 2,
+    perSecondCredits: 1,
     description: "ByteDance's lastest video model",
     features: ["Wait 60s", "Audio"],
     maxDuration: 12,
@@ -64,7 +64,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedResolutions: ["480p", "720p"],
     supportsAudio: true,
     estimatedGenerationTime: 60,
-    supportedDurations: [5, 10],
+    supportedDurations: [4, 8, 12],
   },
 
   // BytePlus Seedance 1.5 Pro 图片转视频模型 (Southeast Asia)
@@ -77,7 +77,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     // volcanoModel: "ep-20251228123459-x2ccs",   //mackensonsouverain34@gmail.com
     // volcanoModel: "ep-20251230222441-b27wd",   //baziai012@gmail.com
     displayName: "Seedance 1.5 Pro",
-    perSecondCredits: 2,
+    perSecondCredits: 1,
     description: "ByteDance's lastest video model",
     features: ["Wait 60s", "Audio", "Surpport 2 images"],
     maxDuration: 12,
@@ -85,7 +85,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedResolutions: ["480p", "720p"],
     supportsAudio: true,
     estimatedGenerationTime: 60,
-    supportedDurations: [5, 10],
+    supportedDurations: [4, 8, 12],
     imageCapabilities: {
       maxImages: 2,
       labels: ["First Frame", "Last Frame"],
@@ -99,7 +99,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
     displayName: "Veo 3.1",
-    perSecondCredits: 1.5,
+    perSecondCredits: 0.75,
     description: "Google's Veo3.1 model, starting at $0.36/video",
     features: ["Wait 120s", "Audio"],
     maxDuration: 8, // Kie.ai Veo3 默认5秒
@@ -117,7 +117,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
     displayName: "Veo 3.1",
-    perSecondCredits: 1.5, // 与文本转视频同样的积分消耗
+    perSecondCredits: 0.75, // 与文本转视频同样的积分消耗
     description: "Google's Veo3.1 model, starting at $0.36/video",
     features: ["Wait 120s", "Audio", "Support 2 images"],
     maxDuration: 8, // Kie.ai Veo3 默认5秒
@@ -139,7 +139,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
     displayName: "Veo 3.1 (Consistent Character)",
-    perSecondCredits: 1.5,
+    perSecondCredits: 0.75,
     description:
       "Create videos with consistent character identity using 1-3 reference images",
     features: ["Wait 240s", "Character Consistency", "1-3 Reference Images"],
@@ -200,7 +200,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
     displayName: "Sora 2",
-    perSecondCredits: 1, // 10秒12积分 = 1.2积分/秒
+    perSecondCredits: 0.4, // 10秒4积分 = 0.4积分/秒
     description: "OpenAI's Sora 2 model",
     features: ["Wait 300s", "Audio"],
     maxDuration: 10,
@@ -219,7 +219,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
     displayName: "Sora 2",
-    perSecondCredits: 1, // 图生视频10积分/5秒 = 2积分/秒
+    perSecondCredits: 0.4, // 图生视频10秒4积分 = 0.4积分/秒
     description: "OpenAI's Sora 2 model",
     features: ["Wait 300s", "Audio"],
     maxDuration: 10,
@@ -504,7 +504,7 @@ export function calculateCredits(
       // 1080p 价格是 480p 的 5 倍
       totalCredits *= 5;
     } else if (resolution === "720p") {
-      // 720p 价格是 480p 的 2.5 倍
+      // Seedance 1.5 Pro: 720p = 480p 的 2 倍
       totalCredits *= 2;
     }
     // 480p 保持原价格不变
@@ -518,17 +518,17 @@ export function calculateCredits(
   }
 
   // Kie.ai Veo3 模型的分辨率定价
-  // 基础价格: 1.5积分/秒，8秒 = 12积分 (720p)
-  // 720p: 12积分 (1x)
-  // 1080p: 16积分 (1.33x)
-  // 4K: 36积分 (3x)
+  // 基础价格: 0.75积分/秒，8秒 = 6积分 (720p)
+  // 720p: 6积分 (1x)
+  // 1080p: 8积分 (1.33x)
+  // 4K: 12积分 (2x)
   if (isKieAiVeo3Model(modelId)) {
     if (resolution === "4k") {
-      totalCredits *= 3; // 4K = 3x 基础价格 (36积分/8秒)
+      totalCredits *= 2; // 4K = 2x 基础价格 (12积分/8秒)
     } else if (resolution === "1080p") {
-      totalCredits = totalCredits * 4 / 3; // 1080p = 1.33x 基础价格 (16积分/8秒)
+      totalCredits = totalCredits * 4 / 3; // 1080p = 1.33x 基础价格 (8积分/8秒)
     }
-    // 720p 保持基础价格 (12积分/8秒)
+    // 720p 保持基础价格 (6积分/8秒)
   }
 
   // Veo3 模型支持音频，需要额外费用

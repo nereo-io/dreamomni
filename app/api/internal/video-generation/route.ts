@@ -113,7 +113,9 @@ export async function POST(req: NextRequest) {
     }
 
     let transType: CreditsTransType;
-    if (durationSeconds === 5) {
+    if (durationSeconds === 4) {
+      transType = CreditsTransType.VideoGeneration4s;
+    } else if (durationSeconds === 5) {
       transType = CreditsTransType.VideoGeneration5s;
     } else if (durationSeconds === 6) {
       transType = CreditsTransType.VideoGeneration6s;

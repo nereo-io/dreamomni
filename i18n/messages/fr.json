@@ -999,6 +999,7 @@
     "ping": "Requête API",
     "chat": "Chat",
     "refund_non_response": "Remboursement sans réponse",
+    "video_generation_4s": "Vidéo (4s)",
     "video_generation_5s": "Vidéo (5s)",
     "video_generation_6s": "Vidéo (6s)",
     "video_generation_8s": "Vidéo (8s)",

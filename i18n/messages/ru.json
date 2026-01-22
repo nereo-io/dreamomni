@@ -995,6 +995,7 @@
     "ping": "API запрос",
     "chat": "Чат",
     "refund_non_response": "Возврат за отсутствие ответа",
+    "video_generation_4s": "Видео (4с)",
     "video_generation_5s": "Видео (5с)",
     "video_generation_6s": "Видео (6с)",
     "video_generation_8s": "Видео (8с)",

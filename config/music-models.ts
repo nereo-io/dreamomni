@@ -39,7 +39,7 @@ export const MUSIC_MODELS: Record<string, MusicModelConfig> = {
     name: "Suno V5",
     provider: MusicModelProvider.KIEAI,
     displayName: "Suno V5",
-    credits: 12, // 固定12积分
+    credits: 3, // 固定3积分
     description: "Superior musical expression, faster generation",
     features: ["Song Mode", "Instrumental Mode", "Faster", "Better Quality"],
     maxDuration: 480, // 8分钟
@@ -85,7 +85,7 @@ export function getMusicModelsByGenerationType(
 
 export function getMusicModelCredits(modelId: string): number {
   const model = getMusicModel(modelId);
-  return model?.credits || 12; // 默认12积分
+  return model?.credits || 3; // 默认3积分
 }
 
 export function getMusicModelProvider(

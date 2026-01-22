@@ -1002,6 +1002,7 @@
     "ping": "API-Anfrage",
     "chat": "Chat",
     "refund_non_response": "Rückerstattung ohne Antwort",
+    "video_generation_4s": "Video (4s)",
     "video_generation_5s": "Video (5s)",
     "video_generation_6s": "Video (6s)",
     "video_generation_8s": "Video (8s)",

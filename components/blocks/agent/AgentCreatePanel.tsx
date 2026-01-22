@@ -24,12 +24,21 @@ import { Loader2, Play, ChevronRight } from 'lucide-react';
 import { useAppContext } from '@/contexts/app';
 import useCredits from '@/hooks/useCredits';
 import { getVideoModel } from '@/config/video-models';
+import { calculateImageCredits } from '@/config/image-models';
 import { useTranslations } from 'next-intl';
 import { CreditsCostSection } from '@/components/blocks/common/CreditsCostSection';
 
 const IMAGE_MODELS = [
-  { value: 'nano-banana-pro', label: 'Nano Banana Pro', credits: 2 },
-  { value: 'nano-banana', label: 'Nano Banana', credits: 2 },
+  {
+    value: 'nano-banana-pro',
+    label: 'Nano Banana Pro',
+    credits: calculateImageCredits('nano-banana-pro'),
+  },
+  {
+    value: 'nano-banana',
+    label: 'Nano Banana',
+    credits: calculateImageCredits('nano-banana'),
+  },
 ];
 
 const VIDEO_MODELS = [
@@ -41,7 +50,7 @@ const VIDEO_MODELS = [
 
 const COST_CONFIG = {
   planReserve: 4, // plan_story_and_shots_node
-  bgmCost: 12, // submit_background_music_node (Suno V5)
+  bgmCost: 3, // submit_background_music_node (Suno V5)
   averageShotDuration: 10, // planning target
   spliceCost: 3, // splice_videos_node
 };
@@ -95,7 +104,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
 
   const getEstimatedVideoDurationPerShot = (selected: string) => {
     if (selected === 'kie-veo3-image-to-video') return 8;
-    if (selected === 'byteplus-seedance-1-5-pro-image-to-video') return 10;
+    if (selected === 'byteplus-seedance-1-5-pro-image-to-video') return 8;
     if (selected === 'sora-2-image-to-video') return 10;
     if (selected === 'auto') return 10;
     return 10; // unknown
@@ -103,7 +112,9 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
 
   const calculateEstimatedCredits = () => {
     const estimatedShots = Math.max(1, Math.ceil(duration / COST_CONFIG.averageShotDuration));
-    const perImageCost = imageModel === 'nano-banana' ? 3 : 6;
+    const perImageCost =
+      calculateImageCredits(imageModel) ||
+      calculateImageCredits('nano-banana-pro');
     const planCost = COST_CONFIG.planReserve;
     const bgmCost = COST_CONFIG.bgmCost;
     const roleSceneReferenceCost = perImageCost * 3;

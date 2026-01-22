@@ -22,16 +22,17 @@
       "features_title": "Including",
       "features": [
         "<highlight>200</highlight> monthly credits",
-        "Up to <highlight>20</highlight> videos per month",
+        "Up to <highlight>25</highlight> Veo3 videos (8s 1080p)",
+        "Up to <highlight>100</highlight> NanoBanana Pro images",
         "1080p resolution output",
         "Top-Quality Video Models",
         "Image & Text-to-Video",
         "Commercial usage rights"
       ],
       "interval": "month",
-      "amount": 1500,
+      "amount": 2000,
       "currency": "USD",
-      "price": "$15.00",
+      "price": "$20.00",
       "original_price": "",
       "unit": "/month",
       "is_featured": false,
@@ -53,21 +54,22 @@
       "features_title": "Including",
       "features": [
         "<highlight>200</highlight> monthly credits",
-        "Up to <highlight>20</highlight> videos per month",
+        "Up to <highlight>25</highlight> Veo3 videos (8s 1080p)",
+        "Up to <highlight>100</highlight> NanoBanana Pro images",
         "1080p resolution output",
         "Top-Quality Video Models",
         "Image & Text-to-Video",
         "Commercial usage rights"
       ],
       "interval": "year",
-      "amount": 10800,
+      "amount": 14400,
       "currency": "USD",
-      "price": "$9.00",
-      "original_price": "$15.00",
+      "price": "$12.00",
+      "original_price": "$20.00",
       "unit": "/month",
       "is_featured": false,
       "discount_label": "40% OFF",
-      "tip": "Subscription at $108.00 yearly",
+      "tip": "Subscription at $144.00 yearly",
       "button": {
         "title": "Subscribe to Mini",
         "url": "/#pricing",
@@ -85,8 +87,9 @@
       "features_title": "Including",
       "features": [
         "<highlight>1000</highlight> monthly credits",
-        "Up to <highlight>100</highlight> videos per month",
-        "1080p resolution output",
+        "Up to <highlight>125</highlight> Veo3 videos (8s 1080p)",
+        "Up to <highlight>500</highlight> NanoBanana Pro images",
+        "4K resolution output",
         "Top-Quality Video Models",
         "Image & Text-to-Video",
         "Fast generation queue",
@@ -117,8 +120,9 @@
       "features_title": "Including",
       "features": [
         "<highlight>1000</highlight> monthly credits",
-        "Up to <highlight>100</highlight> videos per month",
-        "1080p resolution output",
+        "Up to <highlight>125</highlight> Veo3 videos (8s 1080p)",
+        "Up to <highlight>500</highlight> NanoBanana Pro images",
+        "4K resolution output",
         "Top-Quality Video Models",
         "Image & Text-to-Video",
         "Fast generation queue",
@@ -150,8 +154,9 @@
       "features_title": "Including",
       "features": [
         "<highlight>3000</highlight> monthly credits",
-        "Up to <highlight>300</highlight> videos per month",
-        "1080p resolution output",
+        "Up to <highlight>375</highlight> Veo3 videos (8s 1080p)",
+        "Up to <highlight>1500</highlight> NanoBanana Pro images",
+        "4K resolution output",
         "Top-Quality Video Models",
         "Image & Text-to-Video",
         "Fast generation queue",
@@ -183,8 +188,9 @@
       "features_title": "Including",
       "features": [
         "<highlight>3000</highlight> monthly credits",
-        "Up to <highlight>300</highlight> videos per month",
-        "1080p resolution output",
+        "Up to <highlight>375</highlight> Veo3 videos (8s 1080p)",
+        "Up to <highlight>1500</highlight> NanoBanana Pro images",
+        "4K resolution output",
         "Top-Quality Video Models",
         "Image & Text-to-Video",
         "Fast generation queue",
@@ -219,7 +225,7 @@
     "items": [
       {
         "title": "What are credits and how do they work?",
-        "description": "Credits are the currency used for video generation. Each video generation consumes 10 credits. For example, with 200 credits, you can create up to 20 videos. Credits are automatically added to your account each month or year based on your subscription plan."
+        "description": "Credits are used for all AI generations. A Veo3 8s 1080p video costs 8 credits, a NanoBanana Pro image costs 2 credits. With the Mini plan's 200 credits, you can create 25 videos or 100 images per month."
       },
       {
         "title": "What happens to unused credits at the end of the month?",

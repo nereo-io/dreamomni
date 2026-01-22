@@ -28,16 +28,16 @@ export interface PayssionConfig {
 
 // 产品配置映射（基于金额，单位：美分）
 export const PAYSSION_PRODUCT_CONFIG: Record<string, PayssionProductConfig> = {
-  "1500": {
+  "2000": {
     product_id: "mini-monthly",
     credits: 200,
     membershipType: "monthly",
-  }, // $15
-  "10800": {
+  }, // $20
+  "14400": {
     product_id: "mini-yearly",
     credits: 2400,
     membershipType: "yearly",
-  }, // $108
+  }, // $144
   "5000": {
     product_id: "standard-monthly",
     credits: 1000,

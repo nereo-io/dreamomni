@@ -22,16 +22,17 @@
       "features_title": "Inclus",
       "features": [
         "<highlight>200</highlight> crédits mensuels",
-        "Jusqu'à <highlight>20</highlight> vidéos par mois",
+        "Jusqu'à <highlight>25</highlight> vidéos Veo3 (8s 1080p)",
+        "Jusqu'à <highlight>100</highlight> images NanoBanana Pro",
         "Sortie en résolution 1080p",
         "Modèles vidéo de haute qualité",
         "Image et Texte vers Vidéo",
         "Droits d'utilisation commerciale"
       ],
       "interval": "month",
-      "amount": 1500,
+      "amount": 2000,
       "currency": "USD",
-      "price": "$15.00",
+      "price": "$20.00",
       "original_price": "",
       "unit": "/mois",
       "is_featured": false,
@@ -53,21 +54,22 @@
       "features_title": "Inclus",
       "features": [
         "<highlight>200</highlight> crédits mensuels",
-        "Jusqu'à <highlight>20</highlight> vidéos par mois",
+        "Jusqu'à <highlight>25</highlight> vidéos Veo3 (8s 1080p)",
+        "Jusqu'à <highlight>100</highlight> images NanoBanana Pro",
         "Sortie en résolution 1080p",
         "Modèles vidéo de haute qualité",
         "Image et Texte vers Vidéo",
         "Droits d'utilisation commerciale"
       ],
       "interval": "year",
-      "amount": 10800,
+      "amount": 14400,
       "currency": "USD",
-      "price": "$9.00",
-      "original_price": "$15.00",
+      "price": "$12.00",
+      "original_price": "$20.00",
       "unit": "/mois",
       "is_featured": false,
       "discount_label": "40% DE RÉDUCTION",
-      "tip": "Abonnement à $108.00 par an",
+      "tip": "Abonnement à $144.00 par an",
       "button": {
         "title": "S'abonner à Mini",
         "url": "/#pricing",
@@ -85,8 +87,9 @@
       "features_title": "Inclus",
       "features": [
         "<highlight>1000</highlight> crédits mensuels",
-        "Jusqu'à <highlight>100</highlight> vidéos par mois",
-        "Sortie en résolution 1080p",
+        "Jusqu'à <highlight>125</highlight> vidéos Veo3 (8s 1080p)",
+        "Jusqu'à <highlight>500</highlight> images NanoBanana Pro",
+        "Sortie en résolution 4K",
         "Modèles vidéo de haute qualité",
         "Image et Texte vers Vidéo",
         "File de génération rapide",
@@ -117,8 +120,9 @@
       "features_title": "Inclus",
       "features": [
         "<highlight>1000</highlight> crédits mensuels",
-        "Jusqu'à <highlight>100</highlight> vidéos par mois",
-        "Sortie en résolution 1080p",
+        "Jusqu'à <highlight>125</highlight> vidéos Veo3 (8s 1080p)",
+        "Jusqu'à <highlight>500</highlight> images NanoBanana Pro",
+        "Sortie en résolution 4K",
         "Modèles vidéo de haute qualité",
         "Image et Texte vers Vidéo",
         "File de génération rapide",
@@ -150,8 +154,9 @@
       "features_title": "Inclus",
       "features": [
         "<highlight>3000</highlight> crédits mensuels",
-        "Jusqu'à <highlight>300</highlight> vidéos par mois",
-        "Sortie en résolution 1080p",
+        "Jusqu'à <highlight>375</highlight> vidéos Veo3 (8s 1080p)",
+        "Jusqu'à <highlight>1500</highlight> images NanoBanana Pro",
+        "Sortie en résolution 4K",
         "Modèles vidéo de haute qualité",
         "Image et Texte vers Vidéo",
         "File de génération rapide",
@@ -183,8 +188,9 @@
       "features_title": "Inclus",
       "features": [
         "<highlight>3000</highlight> crédits mensuels",
-        "Jusqu'à <highlight>300</highlight> vidéos par mois",
-        "Sortie en résolution 1080p",
+        "Jusqu'à <highlight>375</highlight> vidéos Veo3 (8s 1080p)",
+        "Jusqu'à <highlight>1500</highlight> images NanoBanana Pro",
+        "Sortie en résolution 4K",
         "Modèles vidéo de haute qualité",
         "Image et Texte vers Vidéo",
         "File de génération rapide",
@@ -219,7 +225,7 @@
     "items": [
       {
         "title": "Que sont les crédits et comment fonctionnent-ils ?",
-        "description": "Les crédits sont la devise utilisée pour la génération vidéo. Chaque génération vidéo consomme 10 crédits. Par exemple, avec 200 crédits, vous pouvez créer jusqu'à 20 vidéos. Les crédits sont automatiquement ajoutés à votre compte chaque mois ou chaque année en fonction de votre plan d'abonnement."
+        "description": "Les crédits sont utilisés pour toutes les générations IA. Une vidéo Veo3 8s 1080p coûte 8 crédits, une image NanoBanana Pro coûte 2 crédits. Avec les 200 crédits du plan Mini, vous pouvez créer 25 vidéos ou 100 images par mois."
       },
       {
         "title": "Que se passe-t-il avec les crédits non utilisés à la fin du mois ?",

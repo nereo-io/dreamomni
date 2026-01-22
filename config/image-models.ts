@@ -42,7 +42,7 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
     type: ImageModelType.TEXT_TO_IMAGE,
     status: "active",
     features: ["text-to-image", "high-quality"],
-    credits: 3,
+    credits: 1,
     maxPromptLength: 5000,
     supportedAspectRatios: ["Auto", "1:1", "3:4", "9:16", "4:3", "16:9"],
     supportedFormats: ["jpg", "png"],
@@ -58,7 +58,7 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
     type: ImageModelType.IMAGE_TO_IMAGE,
     status: "active",
     features: ["image-to-image", "high-quality"],
-    credits: 3,
+    credits: 1,
     maxInputImages: 5, // 标准版最多支持 5 张输入图片
     maxPromptLength: 5000,
     supportedAspectRatios: ["Auto", "1:1", "3:4", "9:16", "4:3", "16:9"],
@@ -79,15 +79,15 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
       "high-quality",
       "4k-resolution",
     ],
-    credits: 6, // 基础积分 (1K 分辨率)
+    credits: 2, // 基础积分 (1K 分辨率)
     maxInputImages: 5, // 支持最多 8 张参考图
     maxPromptLength: 10000, // Pro 版本支持更长的提示词
     supportedAspectRatios: ["1:1", "3:4", "9:16", "4:3", "16:9"],
     supportedResolutions: ["1K", "2K", "4K"],
     resolutionCredits: {
-      "1K": 6,
-      "2K": 9,
-      "4K": 12,
+      "1K": 2,
+      "2K": 2,
+      "4K": 4,
     },
     supportedFormats: ["jpg", "png"],
     estimatedGenerationTime: 80, // 实测平均 130 秒,留 20 秒余量

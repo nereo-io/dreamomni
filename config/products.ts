@@ -27,7 +27,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   {
     product_id: "mini-monthly",
     product_name: "Veo3 AI Mini",
-    amount: 1500,
+    amount: 2000,
     currency: "USD",
     credits: 200,
     interval: "month",
@@ -39,7 +39,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   {
     product_id: "mini-yearly",
     product_name: "Veo3 AI Mini Yearly",
-    amount: 10800,
+    amount: 14400,
     currency: "USD",
     credits: 2400,
     interval: "year",
