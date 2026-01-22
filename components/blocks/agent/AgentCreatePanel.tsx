@@ -49,10 +49,10 @@ const VIDEO_MODELS = [
 ];
 
 const COST_CONFIG = {
-  planReserve: 4, // plan_story_and_shots_node
+  planReserve: 2, // plan_story_and_shots_node
   bgmCost: 3, // submit_background_music_node (Suno V5)
   averageShotDuration: 10, // planning target
-  spliceCost: 3, // splice_videos_node
+  spliceCost: 1, // splice_videos_node
 };
 
 const DURATIONS = [
