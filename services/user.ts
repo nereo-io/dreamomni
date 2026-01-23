@@ -15,6 +15,7 @@ import { headers } from "next/headers";
 import { increaseCredits } from "./credit";
 import { checkIPRegistrationLimit, updateIPRegistrationCount, getClientCountry } from "@/lib/ip";
 import { getAttributionFromCookie } from "@/lib/attribution";
+import { getEmailDomain, isBlockedEmailDomain } from "@/lib/blocked-email-domains";
 
 export async function saveUser(user: User) {
   const truncate = (value: string | undefined | null, max = 255) => {
@@ -37,6 +38,12 @@ export async function saveUser(user: User) {
     }
     
     if (!existUser) {
+      const emailDomain = getEmailDomain(user.email || "");
+      if (emailDomain && isBlockedEmailDomain(emailDomain)) {
+        console.warn(`Registration blocked for attack domain: ${emailDomain}`);
+        throw new Error("This email provider is not supported");
+      }
+
       user.avatar_url = truncate(user.avatar_url);
       user.nickname = truncate(user.nickname);
       user.signin_openid = truncate(user.signin_openid);

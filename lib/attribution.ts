@@ -241,11 +241,26 @@ export function resolveAttribution({
   let firstTouch = userFirst || cookieFirst || null;
   let lastTouch = userLast || cookieLast || null;
 
+  let fallbackUrl = requestUrl;
+  let fallbackReferrer = requestReferrer;
+
   if (requestUrl) {
     try {
+      const parsedRequestUrl = new URL(requestUrl);
+      if (parsedRequestUrl.pathname.startsWith('/api/')) {
+        fallbackUrl = requestReferrer || null;
+        fallbackReferrer = requestReferrer;
+      }
+    } catch {
+      // Ignore malformed requestUrl
+    }
+  }
+
+  if (fallbackUrl) {
+    try {
       const { snapshot, isDirect } = buildSnapshotFromUrl({
-        url: new URL(requestUrl),
-        referrer: requestReferrer,
+        url: new URL(fallbackUrl),
+        referrer: fallbackReferrer,
       });
 
       if (!firstTouch && (!isDirect || allowDirectFallback)) {
