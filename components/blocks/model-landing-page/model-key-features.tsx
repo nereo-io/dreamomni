@@ -53,11 +53,43 @@ const DynamicTable: React.FC<DynamicTableProps> = ({ tableData }) => {
             alt={cell.altText || ""}
             width={1024}
             height={1024}
-            className="rounded object-cover w-full h-full"
-            style={{ aspectRatio: "1/1" }}
+            className="rounded object-contain w-full h-auto"
             loading="lazy"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
+        );
+
+      case "compareImage":
+        return (
+          <div className="relative w-full">
+            {/* Base image (input) */}
+            <Image
+              src={cell.content}
+              alt={cell.altText || "Input image"}
+              width={1024}
+              height={1024}
+              className="rounded object-contain w-full h-auto"
+              loading="lazy"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+            {/* Overlay image (output) - shown on hover */}
+            {cell.overlayContent && (
+              <Image
+                src={cell.overlayContent}
+                alt={`${cell.altText || "Output image"} - result`}
+                width={1024}
+                height={1024}
+                className="absolute inset-0 rounded object-contain w-full h-auto opacity-0 hover:opacity-100 transition-opacity duration-300"
+                loading="lazy"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            )}
+            {cell.overlayContent && (
+              <div className="absolute bottom-2 left-2 right-2 text-center text-xs text-white/80 bg-black/50 rounded px-2 py-1 pointer-events-none">
+                Hover to see result
+              </div>
+            )}
+          </div>
         );
 
       case "video":

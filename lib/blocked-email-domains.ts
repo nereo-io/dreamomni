@@ -154,7 +154,7 @@ export const BLOCKED_EMAIL_DOMAINS = [
   "temp.ly",
 ] as const;
 
-const BLOCKED_EMAIL_DOMAIN_SET = new Set(BLOCKED_EMAIL_DOMAINS);
+const BLOCKED_EMAIL_DOMAIN_SET: Set<string> = new Set(BLOCKED_EMAIL_DOMAINS);
 
 export function getEmailDomain(email: string | null | undefined): string | null {
   if (!email) return null;
