@@ -1,7 +1,7 @@
 {
   "banner": {
     "title": "Seedream 4.5 KI-Bildgenerator",
-    "description": "Seedream 4.5 ist ByteDances neuestes KI-Bildgenerierungsmodell mit hervorragendem Prompt-Verstaendnis, atemberaubender visueller Qualitaet und branchenfuehrender Unterstuetzung fuer bis zu 14 Referenzbilder. Mit nativer 4K-Aufloesung und Batch-Generierung liefert Seedream 4.5 professionelle Ergebnisse zu wettbewerbsfaehigen Preisen. Probieren Sie Seedream 4.5 heute kostenlos aus!",
+    "description": "Seedream 4.5 erzielt durch die Gesamtskalierung des Modells eine Rundum-Verbesserung. Es identifiziert die Hauptmotive in der Mehrbildbearbeitung praezise, bewahrt streng die Details der Referenzbilder und verbessert die Typografie- und dichte Textdarstellungsfaehigkeiten weiter, sodass es professionelle visuelle Kreationen mit hoher Konsistenz und Wiedergabetreue liefern kann.",
     "tabs": [
       {
         "type": "text",
@@ -9,7 +9,7 @@
         "subTitle": "Prompt",
         "value": "text-to-image",
         "modelName": "Seedream 4.5",
-        "modelLogo": "/imgs/models/seedream-logo.svg",
+        "modelLogo": "/imgs/intro/seedance.png",
         "placeholder": "Beschreiben Sie das Bild, das Sie erstellen moechten...",
         "buttonText": "Erstellen"
       },
@@ -19,7 +19,7 @@
         "subTitle": "Bild",
         "value": "image-to-image",
         "modelName": "Seedream 4.5",
-        "modelLogo": "/imgs/models/seedream-logo.svg",
+        "modelLogo": "/imgs/intro/seedance.png",
         "placeholder": "Bilder hier ablegen oder klicken zum Auswaehlen",
         "tips": "Laden Sie bis zu 14 Referenzbilder hoch. Wir akzeptieren JPEG, PNG, GIF, WEBP Formate bis 20MB mit Abmessungen bis 4096 x 4096 Pixel.",
         "buttonText": "Erstellen"
@@ -27,35 +27,137 @@
     ]
   },
   "partners": [
-    { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
-    { "name": "Microsoft", "logo": "/imgs/partners/microsoft-logo.png" },
-    { "name": "Nike", "logo": "/imgs/partners/nike-logo.png" },
-    { "name": "P&G", "logo": "/imgs/partners/p-g-logo.png" },
-    { "name": "Lancome", "logo": "/imgs/partners/lancome-logo.png" },
-    { "name": "Zoom", "logo": "/imgs/partners/zoom-logo.png" },
-    { "name": "Sony", "logo": "/imgs/partners/sony-logo.png" },
-    { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
+    {
+      "name": "Coca-Cola",
+      "logo": "/imgs/partners/coca-cola-logo.png"
+    },
+    {
+      "name": "Microsoft",
+      "logo": "/imgs/partners/microsoft-logo.png"
+    },
+    {
+      "name": "Nike",
+      "logo": "/imgs/partners/nike-logo.png"
+    },
+    {
+      "name": "P&G",
+      "logo": "/imgs/partners/p-g-logo.png"
+    },
+    {
+      "name": "Lancome",
+      "logo": "/imgs/partners/lancome-logo.png"
+    },
+    {
+      "name": "Zoom",
+      "logo": "/imgs/partners/zoom-logo.png"
+    },
+    {
+      "name": "Sony",
+      "logo": "/imgs/partners/sony-logo.png"
+    },
+    {
+      "name": "Mercedes",
+      "logo": "/imgs/partners/mercedes-logo.png"
+    }
   ],
   "features": {
     "title": "Funktionen von Seedream 4.5",
     "details": [
       {
-        "title": "Bis zu 14 Referenzbilder",
-        "description": "Seedream 4.5 unterstuetzt branchenfuehrende 14 Referenzbilder fuer die Bild-zu-Bild-Generierung. Diese leistungsstarke Faehigkeit ermoeglicht es Ihnen, mehrere Stilreferenzen, Charakterkonzepte oder Szenenelemente bereitzustellen, die das Modell intelligent zu kohaerenten, hochwertigen Ausgaben kombiniert.",
+        "title": "Konsistenz mit Referenzbild",
+        "description": "Bewahrt die Gesichtszuege, Beleuchtung, Farbtoene und andere Details des Referenzbildes und bietet professionelle Bearbeitungsfaehigkeiten.",
         "type": "table",
         "data": {
-          "headers": [{ "title": "Prompt" }, { "title": "Ausgabebild" }],
+          "headers": [
+            {
+              "title": "Prompt"
+            },
+            {
+              "title": "Ausgabebild"
+            }
+          ],
           "rows": [
             {
               "cells": [
                 {
                   "type": "text",
-                  "content": "Eine Gruppe verschiedener Charaktere, die zusammen in einem gemuetlichen Wohnzimmer sitzen, jeder mit einzigartigen Persoenlichkeiten und Stilen, warmes Umgebungslicht, detaillierte Texturen."
+                  "content": "Behalte nur den Charakter in der gruenen Umrandung und loesche die anderen Charaktere."
                 },
                 {
-                  "type": "image",
-                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-1-1.jpg",
-                  "altText": "Mehrere Charakterreferenz Ergebnis"
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/migrated-images/d7376b6e856e0b41adc88df2d88b8e2e.webp",
+                  "overlayContent": "https://r2.veo3ai.io/migrated-images/966bfc71671b055f006f51cb1d8295e1.webp",
+                  "altText": "Charakterentfernungsergebnis"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "3D-Rendering, Miniaturwelt. Nachtszene, dunkelblauer Himmel, Mondlicht auf dem Gras. Warmes orangefarbenes Licht aus den Fenstern der Jurten."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/migrated-images/12c5160f6e8a2a8e0db3e8da37d5506c.webp",
+                  "overlayContent": "https://r2.veo3ai.io/migrated-images/f1d2d5d101c4a0931a0d731588adca7a.webp",
+                  "altText": "3D Miniatur-Jurtenszene"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Uebersetze das Bild ins Chinesische mit handgeschriebener Schrift, alle anderen Inhalte bleiben unveraendert."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/migrated-images/33eec199e2ff82d6e22af966f6bcd777.webp",
+                  "overlayContent": "https://r2.veo3ai.io/migrated-images/43e6d3c7ce3eb4904c64ac770f30bc80.webp",
+                  "altText": "Textuebersetzungsergebnis"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Behalte die Pose des Models und die fliessende Form des fluessigen Kleides bei. Aendere das Kleidungsmaterial von silbernem Metall zu vollstaendig transparentem klarem Wasser (oder Glas). Durch das fluessige Wasser sind die Hautdetails des Models sichtbar. Die Beleuchtung wechselt von Reflexion zu Brechung."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/migrated-images/17bc0528c81c2a1a79ee166eec88b2b5.webp",
+                  "overlayContent": "https://r2.veo3ai.io/migrated-images/d2af840e6b0bbbc1acc1cbbb15fc789c.webp",
+                  "altText": "Materialtransformationsergebnis"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Aendere das Wort im rot markierten Bereich zu blauem kursivem Text."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/migrated-images/4094be4881cdaaf4cbf0ce902de3ff2c.webp",
+                  "overlayContent": "https://r2.veo3ai.io/migrated-images/17ccaf620075fdfd892fff1e2f4910fb.webp",
+                  "altText": "Textstilaenderungsergebnis"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Erstelle ein Bestseller-Produktanzeigebild im Stil einer modernen E-Commerce-Plattform. Oberer Titel: \"Today's Hot Sale\"; Hauptprodukt in der Bildmitte; Preis \"$9.99\" darunter. Gesamthintergrund: ein vertikaler Farbverlauf von Orange-Pink zu Hellviolett-Blau."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/migrated-images/d53da72c8b8d0d80abee0a9d91347ca2.webp",
+                  "overlayContent": "https://r2.veo3ai.io/migrated-images/93e3d1f190a2e285a910a497d5217ee5.webp",
+                  "altText": "E-Commerce-Produktanzeige"
                 }
               ]
             }
@@ -63,22 +165,107 @@
         }
       },
       {
-        "title": "Native 4K-Aufloesung",
-        "description": "Generieren Sie atemberaubende Bilder in nativer 4K-Aufloesung mit aussergewoehnlicher Detailschaerfe. Seedream 4.5 produziert scharfe, hochauflloesende Ausgaben, die fuer professionellen Druck, grosse Displays und kommerzielle Anwendungen geeignet sind.",
+        "title": "Poster-Layout und Logo-Design",
+        "description": "Bietet Designer-Level Komposition und Typografie. Zusammen mit klarer und lesbarer Kleinschriftdarstellung, ideal fuer Poster, Markenvisualisierungen und andere kreative Szenarien.",
         "type": "table",
         "data": {
-          "headers": [{ "title": "Prompt" }, { "title": "Ausgabebild" }],
+          "headers": [
+            {
+              "title": "Prompt"
+            },
+            {
+              "title": "Ausgabebild"
+            }
+          ],
           "rows": [
             {
               "cells": [
                 {
                   "type": "text",
-                  "content": "Ultra-detaillierte Nahaufnahme eines mechanischen Uhrwerks, komplizierte Zahnraeder und Juwelen, reflektierende metallische Oberflaechen, weiches Studiolicht, 4K-Qualitaet."
+                  "content": "Minimalistisches Kunstausstellungsplakat mit cremefarbenem Hintergrund. Eine schwarze Strichzeichnung eines menschlichen Portraits ist leicht rechts von der Mitte positioniert. Der Titel \"A/W ART FAIR\" ist in Serifenschrift in der oberen linken Ecke geschrieben. Drei Zeilen extrem kleiner Schrift in der unteren linken Ecke zeigen den Ausstellungszeitraum, Veranstaltungsort und die Ausstellungsgeschichte, linksbuendig mit gleichmaessigem Abstand."
                 },
                 {
                   "type": "image",
-                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-2-1.jpg",
-                  "altText": "4K Detail Uhrmechanismus"
+                  "content": "https://r2.veo3ai.io/migrated-images/3aa98d6f56aff1a8d2729a9bf23b8f34.webp",
+                  "altText": "Minimalistisches Kunstmesse-Plakat"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "High-End Duftprodukt-Detailseite, hauptsaechlich in dunkelgruenen und hellgruenen Toenen, mit praezisenm und elegantem Text, der die ruhige Atmosphaere von Bergwaeldern und weiter Wildnis vermittelt."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/39c0952995e92cd4683a0a095ebf920e.webp",
+                  "altText": "High-End Duftproduktseite"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Drei Sets minimalistischer kreativer Werbekombinationen: eine frische Blaubeere gepaart mit handgezeichneten schwarzen Tuschegraffiti mit lebhaften Linien; ein flauschiges handgemachtes Marshmallow gepaart mit handgezeichneten schwarzen Tuschegraffiti mit weichen welligen Linien; ein echtes Ginkgoblatt gepaart mit handgezeichneten schwarzen Tuschegraffiti mit eleganten und fliessenden Linien."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/dda1522a5b0fa0886cced73aa98e0197.webp",
+                  "altText": "Kreative Werbekombinationen"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Schwarz-oranges dynamisches Fitnessstudio-Werbemotiv mit geschichteten Typografie-Elementen. In der Mitte steht die Silhouette eines laufenden Athleten mit dynamischem Bewegungsunschaerfe-Effekt an den Gliedmassen und einer konzentrierten Haltung, die das Gefuehl von Geschwindigkeit und Kraft verstaerkt. Der Hintergrund zeigt abstrakte geometrische Muster in Schwarz, Orange und Dunkelgrau mit diagonalen Lichtstreifen und Energie-Burst-Effekten."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/d579141896d15b4af27351a490fcae5a.webp",
+                  "altText": "Fitnessstudio-Werbemotiv"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Ein Vollprozess-Cafe-Design-Tool fuer Unternehmer und Designer. Es deckt Kernbeduerfnisse ab, einschliesslich Ladenlayout, Funktionszonierung, Dekorationsstil, Geraeteauswahl und Kundenanpassung, und unterstuetzt die integrierte Planung von \"kommerziellen Attributen + aesthetischem Design\". Geeignet als Werbebild fuer ein Cafe-Design-SaaS-Produkt im 16:9-Format."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/ef7906b35b29a9539d49d20ffea1722c.webp",
+                  "altText": "Cafe-Design-SaaS-Werbung"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Ein europaeisches Vintage-Hochzeitseinladungsdesign. Die Karte hat eine dunkelgruene Basis mit strukturiertem weissem Papier mit zarten Praegungen darueber – die Raender sind mit aufwendigen spitzenartigen Schnitzereien verziert. Die Karte zeigt elegante Goldfolientypografie mit Hochzeitsdetails: die Namen von Braut und Braeutigam, Datum, Veranstaltungsort, Segenswuensche und Einladungstext. Am unteren Rand der Karte dient ein dunkelgruener kuppelfoermiger europaeischer Kirchenpapierausschnitt als Dekoration. Umgeben von Umschlaegen mit botanischen Mustern und gruenen Blumen."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/02681f298805f9442fcfae093d444a0e.webp",
+                  "altText": "Europaeische Hochzeitseinladung"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Beauty-Neuprodukt-KV-Design mit rosa-weissem Farbverlaufshintergrund. Das Produkt zeigt weiche Lichtreflexion. Grosser Text oben: Revitalize Skin Foundation Multi-Effect Repair. Kleiner Text fuer Inhaltsstoffbeschreibung rechts, in Abschnitten angeordnet: Sodium Hyaluronate 3% Feuchtigkeitsfaktor; Niacinamid 2% aufhellend; Ceramide 1,5% reparierend; Centella Asiatica + Calendula Extrakt 2,8% Komplex."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/1e1ac2481b12fd98fcafff1c3a8c895d.webp",
+                  "altText": "Beauty-Produkt-KV-Design"
                 }
               ]
             }
@@ -86,96 +273,132 @@
         }
       },
       {
-        "title": "Batch-Generierung",
-        "description": "Seedream 4.5 unterstuetzt die Batch-Generierung von bis zu 15 Bildern in einer einzigen Anfrage. Diese Funktion beschleunigt kreative Workflows erheblich und ermoeglicht es Ihnen, mehrere Variationen eines Konzepts gleichzeitig zu erkunden.",
+        "title": "Praezise Mehrbildbearbeitung",
+        "description": "Identifiziert praezise die Zielelemente ueber mehrere Eingabebilder hinweg und ermoeglicht kontrollierbare und konsistente Mehrbildgenerierung.",
         "type": "table",
         "data": {
-          "headers": [{ "title": "Prompt" }, { "title": "Ausgabebild" }],
+          "headers": [
+            {
+              "title": "Eingabe"
+            },
+            {
+              "title": "Ausgabebild"
+            }
+          ],
           "rows": [
             {
               "cells": [
                 {
                   "type": "text",
-                  "content": "Produktfotografie einer Luxus-Parfuemflasche, mehrere Winkel und Lichtsetups, eleganter minimalistischer Hintergrund, kommerzielle Qualitaet."
+                  "content": "Maerchenbuchcover: Ein kleines Maedchen und ein kleiner Fuchs stehen vor einer leuchtenden Waldhuette. Der Mond ist riesig und vertraeumt, mit Sternenstaub, der um sie herum schwebt; Gluehwuermchenlichter erleuchten die Wiese; kleine weisse Blumen zieren sie zart; Nebel schafft ein sanftes Tiefengefuehl; ein verzierter bronzener Maerchenrahmen umgibt die gesamte Szene. Das Farbschema zeigt einen Kontrast zwischen Blau-Violett und warmem Gold. Die Gesichtszuege der Charaktere bleiben konsistent mit dem Originalbild. Der Gesamtstil ist hochgradig vertraeumt, sanft und magisch, geeignet fuer ein Kinderbilderbuchcover."
                 },
                 {
                   "type": "image",
-                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-3-1.jpg",
-                  "altText": "Batch-generierte Produktaufnahmen"
+                  "content": "https://r2.veo3ai.io/migrated-images/88321252b53631c504c95dee0ad8200e.webp",
+                  "altText": "Maerchenbuchcover"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Basierend auf diesem Banner, erstelle 6 Poster. Behalte den gleichen Stil und die Elemente bei, aber das Layout der Elemente kann angepasst werden. Die Seitenverhaeltnisse sind 1:1, 2:3, 4:3, 16:9, 1:2 und 9:16."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/453622b2b766782861f6d027cab9aa10.webp",
+                  "altText": "Multi-Ratio-Postergenerierung"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Beziehe dich auf die Kreativitaet des Eingabebildes und generiere 4 separate Bilder fuer Fussball, Volleyball, Golf und Tennis."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/b94faa39c4bcdeeda99849e5de0606f2.webp",
+                  "altText": "Sport-Kreativvariationen"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Generiere andere Stile dieses Bildes: Oelgemaelde, Gruener-Berg-und-Wasser-Stil, Aquarellmalerei, Tuschmalerei-Stil."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/74599ec448f6d6bb492be0b05c160fa1.webp",
+                  "altText": "Stilvariationen"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Einzelbild, das \"eine Karnevalsszene eines Vintage-Zirkus\" praesentiert, wobei alle Charaktermerkmale genau erhalten bleiben. Szene: Ein Karnevalsgelaende mit bunten Vintage-Zelten und Neonreklamen, beleuchtet von warmgelben Buehnenlichtern. Stil: Retro-amerikanischer Cartoon-Stil. Charaktere versammeln sich als Kuenstler/Publikum, wobei alle Elemente praezise reproduziert werden."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/18fce288db0d15233df9b26e285206d2.webp",
+                  "altText": "Vintage-Zirkus-Karneval"
                 }
               ]
             }
           ]
         }
+      }
+    ]
+  },
+  "gallery": {
+    "title": "Kreativitaet entfesselt, erkunde die Moeglichkeiten",
+    "description": "Durchstoebere unsere kuratierte Vitrine, um deine naechste grosse Idee zu inspirieren.",
+    "items": [
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/8af61452b3007cac32a7631acf90d500.webp",
+        "prompt": "Behalte die Komposition und Lichtrichtung bei. Ersetze den Kiefernbonsai rechts durch ein minimalistisches Arrangement aus trockenen Zweigen (blattlose Zweige). Wichtig: Der Schatten an der Wand muss sich aendern, um der Form der trockenen Zweige zu entsprechen und spaerliche, einsame lineare Schatten zu zeigen."
       },
       {
-        "title": "Ueberlegenes Prompt-Verstaendnis",
-        "description": "Seedream 4.5 zeichnet sich durch die Interpretation komplexer, vielschichtiger Prompts mit bemerkenswerter Genauigkeit aus. Das Modell versteht raeumliche Beziehungen, kuenstlerische Stile, technische Fotografie-Begriffe und abstrakte Konzepte.",
-        "type": "table",
-        "data": {
-          "headers": [{ "title": "Prompt" }, { "title": "Ausgabebild" }],
-          "rows": [
-            {
-              "cells": [
-                {
-                  "type": "text",
-                  "content": "Ein Cyberpunk-Strassenmarkt bei Nacht, Neonschilder in mehreren Sprachen, regennasser Buergersteig, der bunte Lichter reflektiert, Verkaeufer, die futuristische Gadgets verkaufen, atmosphaerischer Nebel."
-                },
-                {
-                  "type": "image",
-                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-4-1.jpg",
-                  "altText": "Cyberpunk Marktszene"
-                }
-              ]
-            }
-          ]
-        }
+        "src": "https://r2.veo3ai.io/migrated-images/72bf74b3207ed01b1dddcf3be971c31d.webp",
+        "prompt": "Naechtliches Outdoor-Fotoshooting: Ein junger Mann steht in einer oeffentlichen Telefonzelle und haelt einen blauen Telefonhoerer ans Ohr. Eine Hand steckt laessig in der Tasche und er nimmt eine entspannte Haltung ein. Er traegt ein weisses T-Shirt mit Muster, lockere braune Hosen und eine Jacke ueber dem Arm. Das Glas der Kabine reflektiert Strassenlaternen mit Bokeh-Effekt und erzeugt einen Vintage-Film-Stil."
       },
       {
-        "title": "Ausgezeichnete Textdarstellung",
-        "description": "Seedream 4.5 demonstriert aussergewoehnliche Faehigkeiten bei der Darstellung von Text in Bildern, einschliesslich englischer und chinesischer Zeichen. Erstellen Sie professionelle Logos, Beschilderungen, Buchcover und Markeninhalte mit Typografie.",
-        "type": "table",
-        "data": {
-          "headers": [{ "title": "Prompt" }, { "title": "Ausgabebild" }],
-          "rows": [
-            {
-              "cells": [
-                {
-                  "type": "text",
-                  "content": "Eine moderne Cafe-Fassade mit elegantem Schild 'DREAM CAFE', warmes Innenlicht durch die Fenster sichtbar, Topfpflanzen am Eingang, einladende Atmosphaere."
-                },
-                {
-                  "type": "image",
-                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-5-1.jpg",
-                  "altText": "Cafe mit Textbeschilderung"
-                }
-              ]
-            }
-          ]
-        }
+        "src": "https://r2.veo3ai.io/migrated-images/e607e877b48997651ccc6e11b5806ded.webp",
+        "prompt": "Eine extrem visuell beeindruckende Bueorszene: Ein Berufstaetiger sitzt an einem Arbeitsplatz voller Dokumente und zwei zusaetzlichen Monitoren, waehrend der gesamte Raum dicht mit einer Vielzahl gelber Haftnotizen bedeckt ist – von den Waenden bis zur Decke und auf dem Boden verstreut. Jede Haftnotiz ist mit handgeschriebenem Text gefuellt, als ob sie unzaehlige ausstehende Aufgaben oder Informationen repraesentieren wuerde, wobei der visuelle Fokus durch die Haftnotizen auf die Position des Berufstaetigen gelenkt wird."
       },
       {
-        "title": "Flexible Seitenverhaeltnisse",
-        "description": "Seedream 4.5 unterstuetzt eine breite Palette von Seitenverhaeltnissen einschliesslich 1:1, 3:4, 4:3, 9:16, 16:9, 2:3, 3:2 und 21:9. Diese Flexibilitaet stellt sicher, dass Ihre generierten Bilder perfekt fuer jede Plattform oder jeden Anwendungsfall passen.",
-        "type": "table",
-        "data": {
-          "headers": [{ "title": "Prompt" }, { "title": "Ausgabebild" }],
-          "rows": [
-            {
-              "cells": [
-                {
-                  "type": "text",
-                  "content": "Panoramablick auf den Grand Canyon bei Sonnenuntergang, dramatische Wolken, Schichten farbiger Felsformationen, die sich bis zum Horizont erstrecken, 21:9 Ultrabreit-Kinoformat."
-                },
-                {
-                  "type": "image",
-                  "content": "https://videocdn.pollo.ai/web-cdn/pollo/seedream/feature-6-1.jpg",
-                  "altText": "Ultrabreites Canyon-Panorama"
-                }
-              ]
-            }
-          ]
-        }
+        "src": "https://r2.veo3ai.io/migrated-images/e0a3b126209abb494533105da31a68ef.webp",
+        "prompt": "Nachmittagsseitenlicht beleuchtet das Campingzelt, wobei die raue Textur der Zeltplane deutlich sichtbar ist. Ein Deutscher Schaeferhund liegt darin; sein Besitzer hockt sich hin, um ihm die Pfote zu geben."
+      },
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/65e12d7ee5b56bce6d83d960efdf0e6e.webp",
+        "prompt": "Dynamisches Bewegungsportrait: Eine dynamische Langzeitbelichtung einer Person in Bewegung vor einem lebhaft roten Hintergrund, die einen fliessenden und kuenstlerischen visuellen Effekt erzeugt."
+      },
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/5e03d8b37605436d45573ea45c680e91.webp",
+        "prompt": "Eine Hand haelt vier schwarz-weisse Polaroid-Portraetfotos vor einem leeren weissen Hintergrund."
+      },
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/4bcceb323c68d8f7eff53c38e2e53b4b.webp",
+        "prompt": "C4D-Stil Bildungsposter-Design fuer eine akademische Forum-Veranstaltung. Das Hauptmotiv ist eine durchscheinende Glas-DNA-Doppelhelix-Kette. Diagonale Komposition: in der unteren rechten Ecke wird der Haupttext in grosser dunkelgrauer Schrift angezeigt: \"Conference Subject\"; darunter in kleinerer Schrift: \"A major breakthrough in genetics: scientists have recently completed the most comprehensive map of human genome variation to date, propelling precision medicine and disease prevention into a new era.\""
+      },
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/e4ef0a537e10bdb5790468a949744087.webp",
+        "prompt": "Fuenf schimmernde Goldfische schlängeln sich durch Spalten zwischen Steinen; vier sind rot-weiss, waehrend einer silber-weiss ist. Am Teichrand beobachtet eine Golden-Shaded British Kurzhaar-Katze sie aufmerksam und hofft auf Glueck. Aquarell-Stil."
+      },
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/c385b83d51cdfb576798f29f57bfffb7.webp",
+        "prompt": "Nachtmarkt-Gassen-Szene: Ein belebter Nachtmarkt mit hellen Lichtern, dampfenden Essensstaenden und Reflexionen auf der nassen Strasse, die eine warme, lebendige und authentisch lebhafte Atmosphaere schaffen."
+      },
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/47cd138f356126f0097ef68cb9f9a1ee.webp",
+        "prompt": "Dies ist eine PPT-Seite: Die linke Seite zeigt drei Experimentschritte fuer Photosynthese, beginnend mit \"Experimental Preparation: 1. Select 2 geranium leaves of similar size; 2. Leaf Treatment; 3. Starch Test\", zusammen mit detaillierten Erklaerungen fuer jeden dieser drei Schritte. Auf der rechten Seite befindet sich ein Diagramm des Versuchsaufbaus in Hellgruen gezeichnet. In der Ecke des Hintergrunds befinden sich eine kleine hellgraue Jodflasche und eine Bueroklammer."
       }
     ]
   },
@@ -203,7 +426,43 @@
   },
   "youtubeCases": {
     "title": "YouTube-Videos ueber Seedream 4.5",
-    "content": []
+    "content": [
+      {
+        "youtubeLink": "https://www.youtube.com/embed/Q6QbaK57f5E",
+        "width": "560",
+        "height": "315"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/yMotu2o7U8w",
+        "width": "560",
+        "height": "315"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/LRzdO0pE4dM",
+        "width": "560",
+        "height": "315"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/ppDnmrgtHBk",
+        "width": "560",
+        "height": "315"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/fYVXpDNlSVs",
+        "width": "560",
+        "height": "315"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/APoss7LymdU",
+        "width": "560",
+        "height": "315"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/Xtl_z_cGtAE",
+        "width": "560",
+        "height": "315"
+      }
+    ]
   },
   "redditCases": {
     "title": "Reddit-Diskussionen ueber Seedream 4.5",
@@ -211,7 +470,56 @@
   },
   "twitterCases": {
     "title": "X-Bewertungen zu Seedream 4.5",
-    "content": []
+    "content": [
+      {
+        "id": "twitter-1",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1965763685647110332",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-2",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1965709887658500443",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-3",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1965439882152821169",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-4",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1965386520053121187",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-5",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1965510447693807854",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-6",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1965503376940302740",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-7",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1966187235088413176",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-8",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1912565147773858099",
+        "width": "550",
+        "height": "400"
+      }
+    ]
   },
   "cta": {
     "title": "Probieren Sie Seedream 4.5 kostenlos auf Veo3 AI",
