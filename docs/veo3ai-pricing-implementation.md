@@ -60,13 +60,13 @@
     - 480p 4/8/12s: 4/8/12 credits (1.0/s)
     - 720p 4/8/12s: 8/16/24 credits (2.0/s)
   - Sora 2 调整：
-    - 10s: 4 credits (0.4/s)
-    - 15s: 6 credits (0.4/s)
+    - 10s: 6 credits (0.6/s)
+    - 15s: 9 credits (0.6/s)
   - 实施点：
     - `kie-veo3-*` 的 `perSecondCredits` 改为 `0.75`
     - `byteplus-seedance-1-5-pro-*` 的 `perSecondCredits` 改为 `1`，`supportedDurations` 改为 `[4, 8, 12]`
     - `calculateCredits()` 中 Veo 3 分辨率倍率改为 `1080p: 4/3`、`4k: 2x`
-    - `sora-2-*` 的 `perSecondCredits` 改为 `0.4`
+    - `sora-2-*` 的 `perSecondCredits` 改为 `0.6`
 
 ### 3) 图片模型积分
 

@@ -1,8 +1,8 @@
 {
   "name": "pricing",
   "label": "Video Generation Plans",
-  "title": "Veo3 AI Video Generation Plans",
-  "description": "Choose your AI video generation plan and start creating professional videos",
+  "title": "Veo3 AI Subscription Plans",
+  "description": "Choose your plan and start creating",
   "groups": [
     {
       "name": "monthly",

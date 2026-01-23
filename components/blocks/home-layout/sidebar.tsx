@@ -251,12 +251,12 @@ export function Sidebar() {
       <div className="p-4">
         <FeedbackSection isCollapsed={isCollapsed} />
         <Button
-          className={`w-full bg-primary hover:bg-primary/90 text-primary-foreground ${isCollapsed ? "flex items-center justify-center p-2" : ""
+          className={`w-full bg-primary hover:bg-primary/90 text-primary-foreground ${isCollapsed ? "flex items-center justify-center p-2" : "whitespace-normal text-left"
             }`}
           onClick={() => setShowPricingModal(true)}
         >
-          <Crown className={`${isCollapsed ? "h-6 w-6" : "mr-2 h-4 w-4"}`} />
-          {!isCollapsed && <span>{t("upgrade_now")}</span>}
+          <Crown className={`${isCollapsed ? "h-6 w-6" : "mr-2 h-4 w-4 flex-shrink-0"}`} />
+          {!isCollapsed && <span className="break-words">{t("upgrade_now")}</span>}
         </Button>
       </div>
     </div>

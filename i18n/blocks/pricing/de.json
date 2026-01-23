@@ -1,8 +1,8 @@
 {
   "name": "pricing",
   "label": "Video-Generierungspläne",
-  "title": "Veo3 AI Video-Generierungspläne",
-  "description": "Wählen Sie Ihren KI-Video-Generierungsplan und beginnen Sie mit der Erstellung professioneller Videos",
+  "title": "Veo3 AI Abonnementpläne",
+  "description": "Wählen Sie Ihren Plan und beginnen Sie zu erstellen",
   "groups": [
     {
       "name": "monthly",

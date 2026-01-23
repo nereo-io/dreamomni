@@ -200,7 +200,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
     displayName: "Sora 2",
-    perSecondCredits: 0.4, // 10秒4积分 = 0.4积分/秒
+    perSecondCredits: 0.6, // 10秒6积分, 15秒9积分
     description: "OpenAI's Sora 2 model",
     features: ["Wait 300s", "Audio"],
     maxDuration: 10,
@@ -219,7 +219,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
     displayName: "Sora 2",
-    perSecondCredits: 0.4, // 图生视频10秒4积分 = 0.4积分/秒
+    perSecondCredits: 0.6, // 10秒6积分, 15秒9积分
     description: "OpenAI's Sora 2 model",
     features: ["Wait 300s", "Audio"],
     maxDuration: 10,

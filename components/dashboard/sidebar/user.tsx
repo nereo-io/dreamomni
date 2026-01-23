@@ -5,6 +5,7 @@ import {
   BadgeCheck,
   Bell,
   ChevronsUpDown,
+  Copy,
   CreditCard,
   Link,
   LogOut,
@@ -32,12 +33,22 @@ import { User } from "@/types/user";
 import { signOut } from "next-auth/react";
 import { useAppContext } from "@/contexts/app";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 export default function () {
   const t = useTranslations();
 
   const { user, setShowSignModal } = useAppContext();
   const { isMobile, open } = useSidebar();
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyEmail = async () => {
+    if (user?.email) {
+      await navigator.clipboard.writeText(user.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   return (
     <>
@@ -89,7 +100,18 @@ export default function () {
                       <span className="truncate font-semibold">
                         {user?.nickname}
                       </span>
-                      <span className="truncate text-xs">{user?.email}</span>
+                      <div className="flex items-center gap-1">
+                        <span className="truncate text-xs text-muted-foreground">
+                          {user?.email}
+                        </span>
+                        <button
+                          onClick={handleCopyEmail}
+                          className="inline-flex items-center justify-center rounded-sm p-0.5 hover:bg-accent transition-colors"
+                          title={copied ? "Copied!" : "Copy email"}
+                        >
+                          <Copy className="h-3 w-3 text-muted-foreground" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </DropdownMenuLabel>
