@@ -14,7 +14,11 @@ import { getOneMonthLaterTimestr } from "@/lib/time";
 import { headers } from "next/headers";
 import { increaseCredits } from "./credit";
 import { checkIPRegistrationLimit, updateIPRegistrationCount, getClientCountry } from "@/lib/ip";
-import { getAttributionFromCookie } from "@/lib/attribution";
+import {
+  getAttributionFromCookie,
+  isDirectSnapshot,
+  isSnapshotNewer,
+} from "@/lib/attribution";
 import { getEmailDomain, isBlockedEmailDomain } from "@/lib/blocked-email-domains";
 
 export async function saveUser(user: User) {
@@ -37,6 +41,9 @@ export async function saveUser(user: User) {
       console.warn("Failed to read attribution cookie:", error);
     }
     
+    const cookieFirstTouch = attributionFromCookie?.first_touch ?? null;
+    const cookieLastTouch = attributionFromCookie?.last_touch ?? null;
+
     if (!existUser) {
       const emailDomain = getEmailDomain(user.email || "");
       if (emailDomain && isBlockedEmailDomain(emailDomain)) {
@@ -48,11 +55,11 @@ export async function saveUser(user: User) {
       user.nickname = truncate(user.nickname);
       user.signin_openid = truncate(user.signin_openid);
 
-      if (attributionFromCookie?.first_touch) {
-        user.first_touch = attributionFromCookie.first_touch;
+      if (cookieFirstTouch && !isDirectSnapshot(cookieFirstTouch)) {
+        user.first_touch = cookieFirstTouch;
       }
-      if (attributionFromCookie?.last_touch) {
-        user.last_touch = attributionFromCookie.last_touch;
+      if (cookieLastTouch && !isDirectSnapshot(cookieLastTouch)) {
+        user.last_touch = cookieLastTouch;
       }
 
       // 对于新用户，检查IP注册限制
@@ -105,12 +112,18 @@ export async function saveUser(user: User) {
       user.uuid = existUser.uuid;
       user.created_at = existUser.created_at;
 
-      const needsFirstTouch = !existUser.first_touch && attributionFromCookie?.first_touch;
-      const needsLastTouch = !existUser.last_touch && attributionFromCookie?.last_touch;
+      const needsFirstTouch =
+        !existUser.first_touch &&
+        !!cookieFirstTouch &&
+        !isDirectSnapshot(cookieFirstTouch);
+      const needsLastTouch =
+        !!cookieLastTouch &&
+        !isDirectSnapshot(cookieLastTouch) &&
+        isSnapshotNewer(cookieLastTouch, existUser.last_touch);
       if (user.uuid && (needsFirstTouch || needsLastTouch)) {
         await updateUserAttribution(user.uuid, {
-          first_touch: needsFirstTouch ? attributionFromCookie?.first_touch : null,
-          last_touch: needsLastTouch ? attributionFromCookie?.last_touch : null,
+          first_touch: needsFirstTouch ? cookieFirstTouch : null,
+          last_touch: needsLastTouch ? cookieLastTouch : null,
         });
       }
     }

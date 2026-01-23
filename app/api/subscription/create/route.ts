@@ -6,7 +6,12 @@ import { getPaymentRouter } from "@/services/payment";
 import { MandateRequest } from "@/services/payment/types";
 import { insertOrder } from "@/models/order";
 import { getClientIdFromCookie } from "@/lib/yandex-metrica";
-import { getAttributionFromCookie, resolveAttribution } from "@/lib/attribution";
+import {
+  getAttributionFromCookie,
+  isDirectSnapshot,
+  isSnapshotNewer,
+  resolveAttribution,
+} from "@/lib/attribution";
 import { Order } from "@/types/order";
 import { getSnowId } from "@/lib/hash";
 import { getPayssionConfig } from "@/config/payssion";
@@ -90,6 +95,7 @@ export async function POST(req: NextRequest) {
     const cookieHeader = req.headers.get('cookie') || '';
     const clientId = getClientIdFromCookie(cookieHeader);
     const cookieAttribution = getAttributionFromCookie(cookieHeader);
+    const cookieLastTouch = cookieAttribution?.last_touch ?? null;
     const resolvedAttribution = resolveAttribution({
       userAttribution: {
         first_touch: userRecord?.first_touch ?? null,
@@ -100,18 +106,21 @@ export async function POST(req: NextRequest) {
       requestReferrer: req.headers.get("referer"),
     });
 
-    if (
-      userRecord?.uuid &&
-      ((resolvedAttribution.first_touch && !userRecord.first_touch) ||
-        (resolvedAttribution.last_touch && !userRecord.last_touch))
-    ) {
+    const shouldUpdateFirstTouch =
+      !userRecord?.first_touch &&
+      !!resolvedAttribution.first_touch &&
+      !isDirectSnapshot(resolvedAttribution.first_touch);
+    const shouldUpdateLastTouch =
+      !!cookieLastTouch &&
+      !isDirectSnapshot(cookieLastTouch) &&
+      isSnapshotNewer(cookieLastTouch, userRecord?.last_touch);
+
+    if (userRecord?.uuid && (shouldUpdateFirstTouch || shouldUpdateLastTouch)) {
       await updateUserAttribution(userRecord.uuid, {
-        first_touch: !userRecord.first_touch
+        first_touch: shouldUpdateFirstTouch
           ? resolvedAttribution.first_touch
           : null,
-        last_touch: !userRecord.last_touch
-          ? resolvedAttribution.last_touch
-          : null,
+        last_touch: shouldUpdateLastTouch ? cookieLastTouch : null,
       });
     }
     const requestHost =

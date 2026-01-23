@@ -6,7 +6,12 @@ import { Order } from "@/types/order";
 import Stripe from "stripe";
 import { findUserByUuid, updateUserAttribution } from "@/models/user";
 import { getSnowId } from "@/lib/hash";
-import { getAttributionFromCookie, resolveAttribution } from "@/lib/attribution";
+import {
+  getAttributionFromCookie,
+  isDirectSnapshot,
+  isSnapshotNewer,
+  resolveAttribution,
+} from "@/lib/attribution";
 
 // 延迟初始化 Stripe 客户端，避免构建时错误
 function getStripeClient() {
@@ -73,6 +78,7 @@ export async function POST(req: Request) {
 
     const cookieHeader = req.headers.get("cookie") || "";
     const cookieAttribution = getAttributionFromCookie(cookieHeader);
+    const cookieLastTouch = cookieAttribution?.last_touch ?? null;
     const resolvedAttribution = resolveAttribution({
       userAttribution: {
         first_touch: userRecord?.first_touch ?? null,
@@ -83,18 +89,21 @@ export async function POST(req: Request) {
       requestReferrer: req.headers.get("referer"),
     });
 
-    if (
-      userRecord?.uuid &&
-      ((resolvedAttribution.first_touch && !userRecord.first_touch) ||
-        (resolvedAttribution.last_touch && !userRecord.last_touch))
-    ) {
+    const shouldUpdateFirstTouch =
+      !userRecord?.first_touch &&
+      !!resolvedAttribution.first_touch &&
+      !isDirectSnapshot(resolvedAttribution.first_touch);
+    const shouldUpdateLastTouch =
+      !!cookieLastTouch &&
+      !isDirectSnapshot(cookieLastTouch) &&
+      isSnapshotNewer(cookieLastTouch, userRecord?.last_touch);
+
+    if (userRecord?.uuid && (shouldUpdateFirstTouch || shouldUpdateLastTouch)) {
       await updateUserAttribution(userRecord.uuid, {
-        first_touch: !userRecord.first_touch
+        first_touch: shouldUpdateFirstTouch
           ? resolvedAttribution.first_touch
           : null,
-        last_touch: !userRecord.last_touch
-          ? resolvedAttribution.last_touch
-          : null,
+        last_touch: shouldUpdateLastTouch ? cookieLastTouch : null,
       });
     }
 

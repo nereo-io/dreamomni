@@ -2,6 +2,7 @@ import { AttributionPayload, AttributionSnapshot } from '@/types/attribution';
 
 const ATTR_COOKIE_NAME = 'attr_snapshot';
 const COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
+const SESSION_REFERRER_FLAG = 'attr_referrer_seen';
 
 const FIELD_LIMITS: Record<string, number> = {
   source: 120,
@@ -111,7 +112,12 @@ function buildSnapshotFromUrl({
   url: URL;
   referrer?: string | null;
   now?: Date;
-}): { snapshot: AttributionSnapshot; isDirect: boolean } {
+}): {
+  snapshot: AttributionSnapshot;
+  isDirect: boolean;
+  hasExplicit: boolean;
+  hasExternalReferrer: boolean;
+} {
   const params = url.searchParams;
   const utmSource = sanitizeValue('source', params.get('utm_source'));
   const utmMedium = sanitizeValue('medium', params.get('utm_medium'));
@@ -130,6 +136,7 @@ function buildSnapshotFromUrl({
     !!utmSource || !!utmMedium || !!utmCampaign || !!utmContent || !!utmTerm;
   const hasClickId = !!gclid || !!yclid;
   const hasExternalReferrer = !!referrerDomain;
+  const hasExplicit = hasUtm || hasClickId;
   const isDirect = !hasUtm && !hasClickId && !hasExternalReferrer;
 
   const source = sanitizeValue(
@@ -159,7 +166,7 @@ function buildSnapshotFromUrl({
     timestamp: now.toISOString(),
   };
 
-  return { snapshot, isDirect };
+  return { snapshot, isDirect, hasExplicit, hasExternalReferrer };
 }
 
 function readDocumentCookie(name: string): string | null {
@@ -178,12 +185,69 @@ function writeDocumentCookie(name: string, value: string) {
   )};max-age=${COOKIE_MAX_AGE_SECONDS};path=/;samesite=lax${secure}`;
 }
 
+function hasSessionReferrerFlag(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    return sessionStorage.getItem(SESSION_REFERRER_FLAG) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function markSessionReferrerFlag() {
+  if (typeof window === 'undefined') return;
+  try {
+    sessionStorage.setItem(SESSION_REFERRER_FLAG, '1');
+  } catch {
+    // Ignore sessionStorage failures
+  }
+}
+
+function parseSnapshotTimestamp(
+  snapshot?: AttributionSnapshot | null
+): number | null {
+  if (!snapshot?.timestamp) return null;
+  const parsed = Date.parse(snapshot.timestamp);
+  return Number.isNaN(parsed) ? null : parsed;
+}
+
+export function isSnapshotNewer(
+  candidate?: AttributionSnapshot | null,
+  current?: AttributionSnapshot | null
+): boolean {
+  const candidateTime = parseSnapshotTimestamp(candidate);
+  if (!candidateTime) return false;
+  const currentTime = parseSnapshotTimestamp(current);
+  if (!currentTime) return true;
+  return candidateTime > currentTime;
+}
+
+export function isDirectSnapshot(
+  snapshot?: AttributionSnapshot | null
+): boolean {
+  if (!snapshot) return false;
+  const source = snapshot.source?.toLowerCase();
+  const medium = snapshot.medium?.toLowerCase();
+  const hasClickId = !!snapshot.gclid || !!snapshot.yclid;
+  const hasReferrer = !!snapshot.referrer;
+  const hasCampaign =
+    !!snapshot.campaign || !!snapshot.content || !!snapshot.term;
+  return (
+    source === 'direct' &&
+    medium === 'none' &&
+    !hasClickId &&
+    !hasReferrer &&
+    !hasCampaign
+  );
+}
+
 export function captureAttribution(): AttributionPayload | null {
   if (typeof window === 'undefined') return null;
-  const { snapshot, isDirect } = buildSnapshotFromUrl({
-    url: new URL(window.location.href),
-    referrer: document.referrer,
-  });
+  const { snapshot, isDirect, hasExplicit, hasExternalReferrer } =
+    buildSnapshotFromUrl({
+      url: new URL(window.location.href),
+      referrer: document.referrer,
+    });
 
   const existingRaw = readDocumentCookie(ATTR_COOKIE_NAME);
   const existing = existingRaw
@@ -195,15 +259,22 @@ export function captureAttribution(): AttributionPayload | null {
     last_touch: existing?.last_touch ?? null,
   };
 
-  if (isDirect && !next.first_touch && !next.last_touch) {
+  const hasSessionReferrer = hasSessionReferrerFlag();
+  const shouldUseExternalReferrer =
+    hasExternalReferrer && !hasSessionReferrer;
+  const shouldUpdate = !isDirect && (hasExplicit || shouldUseExternalReferrer);
+
+  if (!shouldUpdate) {
     return next;
   }
 
-  if (!isDirect) {
-    if (!next.first_touch) {
-      next.first_touch = snapshot;
-    }
-    next.last_touch = snapshot;
+  if (!next.first_touch) {
+    next.first_touch = snapshot;
+  }
+  next.last_touch = snapshot;
+
+  if (hasExternalReferrer && !hasSessionReferrer) {
+    markSessionReferrerFlag();
   }
 
   writeDocumentCookie(ATTR_COOKIE_NAME, JSON.stringify(next));
@@ -239,7 +310,7 @@ export function resolveAttribution({
   const cookieLast = sanitizeSnapshot(cookieAttribution?.last_touch);
 
   let firstTouch = userFirst || cookieFirst || null;
-  let lastTouch = userLast || cookieLast || null;
+  let lastTouch = cookieLast || userLast || null;
 
   let fallbackUrl = requestUrl;
   let fallbackReferrer = requestReferrer;
