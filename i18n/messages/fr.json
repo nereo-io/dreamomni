@@ -699,7 +699,8 @@
     "imageAgent": "Génération multi-prises",
     "imageAgentTooltip": "L'IA étend votre demande en plusieurs angles, scènes et variations d'éclairage. Parfait pour la photographie de produits, les storyboards de bandes dessinées et l'exploration créative.",
     "imageCount": "Sorties",
-    "generateMultipleImages": "Générer {count} images"
+    "generateMultipleImages": "Générer {count} images",
+    "promptTooLong": "Limite de caractères dépassée de {count}"
   },
   "myCreations": {
     "title": "Mes créations",

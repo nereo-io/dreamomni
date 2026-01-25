@@ -94,8 +94,21 @@ const ALI_WAN_RULE: ImageValidationRule = {
   },
 };
 
+// Seedream 图片生成模型规则
+const SEEDREAM_IMAGE_RULE: ImageValidationRule = {
+  ...DEFAULT_RULE,
+  maxFileSize: 10 * 1024 * 1024, // 10MB
+  errorMessages: {
+    ...DEFAULT_RULE.errorMessages,
+    fileSize: "File too large. Maximum size is 10MB.",
+  },
+};
+
 // 模型ID到验证规则的映射
 export const MODEL_IMAGE_VALIDATION_RULES: Record<string, ImageValidationRule> = {
+  // Seedream 图片生成模型
+  "seedream-4-5": SEEDREAM_IMAGE_RULE,
+
   // Seedance 模型（火山引擎）
   "doubao-seedance-1-0-pro-image-to-video": SEEDANCE_RULE,
   

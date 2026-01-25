@@ -213,20 +213,18 @@ export default function ImageGenerationTab({
 
   // 获取当前模型的最大提示词长度
   const maxPromptLength = getMaxPromptLength(selectedModel);
+  const isOverLimit = prompt.length > maxPromptLength;
 
   const handlePromptChange = useCallback(
     (value: string) => {
-      if (value.length > maxPromptLength) {
-        return;
-      }
-
+      // Allow typing over the limit to show error state
       if (isControlledPrompt) {
         onPromptChange?.(value);
       } else {
         setInternalPrompt(value);
       }
     },
-    [isControlledPrompt, onPromptChange, maxPromptLength]
+    [isControlledPrompt, onPromptChange]
   );
 
   const applyPromptFromShowcase = useCallback(
@@ -692,10 +690,17 @@ export default function ImageGenerationTab({
             <div>
               <div className="flex justify-between items-center text-white text-lg font-semibold mb-3">
                 <span>{t("prompt")}</span>
-                {prompt.length > 3000 && (
-                  <span className="text-sm font-normal text-gray-400">
-                    {prompt.length}/{maxPromptLength}
-                  </span>
+                {prompt.length > 0 && (
+                  <div className="flex items-center text-sm font-normal gap-0.5">
+                    <span
+                      className={
+                        isOverLimit ? "text-red-500 font-bold" : "text-gray-400"
+                      }
+                    >
+                      {prompt.length}
+                    </span>
+                    <span className="text-gray-500">/{maxPromptLength}</span>
+                  </div>
                 )}
               </div>
               <Textarea
@@ -709,11 +714,23 @@ export default function ImageGenerationTab({
                     ? t("imageToImagePlaceholder")
                     : t("textToImagePlaceholder"))
                 }
-                className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
+                className={`resize-none bg-gray-800 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto ${
+                  isOverLimit
+                    ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-0"
+                    : "border-gray-600"
+                }`}
                 style={{ minHeight: "128px", maxHeight: "255px" }}
                 disabled={isGenerating}
-                maxLength={maxPromptLength}
+                // maxLength limit removed to allow user to perceive the overflow
               />
+              {isOverLimit && (
+                <div className="text-red-500 text-xs mt-1.5 font-medium animate-pulse flex justify-end items-center gap-1">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500" />
+                  {t("promptTooLong", {
+                    count: prompt.length - maxPromptLength,
+                  })}
+                </div>
+              )}
             </div>
 
             {/* Settings */}
@@ -946,6 +963,7 @@ export default function ImageGenerationTab({
             disabled={
               isGenerating ||
               !prompt.trim() ||
+              isOverLimit ||
               (isImageToImage && uploadedImageUrls.length === 0) ||
               (leftCredits !== null && leftCredits < requiredCredits)
             }

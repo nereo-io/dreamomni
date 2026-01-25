@@ -702,7 +702,8 @@
     "imageAgent": "Mehrfachaufnahme-Generierung",
     "imageAgentTooltip": "KI erweitert Ihre Eingabe in mehrere Blickwinkel, Szenen und Beleuchtungsvariationen. Perfekt für Produktfotografie, Comic-Storyboards und kreative Erkundungen.",
     "imageCount": "Ausgaben",
-    "generateMultipleImages": "{count} Bilder generieren"
+    "generateMultipleImages": "{count} Bilder generieren",
+    "promptTooLong": "Zeichenlimit um {count} überschritten"
   },
   "myCreations": {
     "title": "Meine Kreationen",

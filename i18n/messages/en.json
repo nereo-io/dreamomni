@@ -702,7 +702,8 @@
     "imageAgent": "Multi-Shot Generation",
     "imageAgentTooltip": "AI expands your prompt into multiple angles, scenes, and lighting variations. Perfect for product photography, comic storyboards, and creative exploration.",
     "imageCount": "Outputs",
-    "generateMultipleImages": "Generate {count} Images"
+    "generateMultipleImages": "Generate {count} Images",
+    "promptTooLong": "Character limit exceeded by {count}"
   },
   "myCreations": {
     "title": "My Creations",
