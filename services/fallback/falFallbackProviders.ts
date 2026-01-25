@@ -14,6 +14,7 @@ import {
   IMAGE_FALLBACK_MAP,
   VIDEO_ENDPOINT_MAP,
   IMAGE_ENDPOINT_MAP,
+  getFalCallbackUrl,
 } from "./falFallbackConfig";
 
 type FalVideoFallbackResult = {
@@ -44,11 +45,9 @@ export async function submitFalVideoFallback(
   {
     durationSeconds,
     imageUrls,
-    webhookUrl,
   }: {
     durationSeconds?: number;
     imageUrls?: string[];
-    webhookUrl?: string;
   } = {}
 ): Promise<FalVideoFallbackResult | null> {
   if (!FALLBACK_TO_FAL_ENABLED) {
@@ -84,13 +83,11 @@ export async function submitFalVideoFallback(
     fallbackInput.image_url = imageUrls[0];
   }
 
+  // webhook URL 内聚到 fal 逻辑中
   const submitOptions: Record<string, any> = {
     input: fallbackInput,
+    webhookUrl: getFalCallbackUrl(),
   };
-
-  if (webhookUrl) {
-    submitOptions.webhookUrl = webhookUrl;
-  }
 
   const { request_id } = await fal.queue.submit(endpoint, submitOptions);
 
@@ -166,8 +163,7 @@ const toProviderResponse = (result: any): ProviderResponse => {
 export async function submitFalImageFallback(
   originalModelId: string,
   request: GenerateImageRequest | EditImageRequest,
-  mode: "generate" | "edit",
-  webhookUrl?: string
+  mode: "generate" | "edit"
 ): Promise<FalImageFallbackResult | null> {
   if (!FALLBACK_TO_FAL_ENABLED) {
     return null;
@@ -193,14 +189,11 @@ export async function submitFalImageFallback(
       ? buildImageEditInput(request as EditImageRequest)
       : buildImageGenerateInput(request as GenerateImageRequest);
 
-  // 使用异步队列模式（类似视频生成）
+  // 使用异步队列模式，webhook URL 内聚到 fal 逻辑中
   const submitOptions: Record<string, any> = {
     input,
+    webhookUrl: getFalCallbackUrl(),
   };
-
-  if (webhookUrl) {
-    submitOptions.webhookUrl = webhookUrl;
-  }
 
   const { request_id } = await fal.queue.submit(endpoint, submitOptions);
 
