@@ -53,8 +53,7 @@ async function tryFallbackToFal(
   model: string,
   request: GenerateImageRequest | EditImageRequest,
   isEditMode: boolean,
-  errorOrResult: Error | ProviderResponse,
-  webhookUrl?: string
+  errorOrResult: Error | ProviderResponse
 ): Promise<FallbackResult> {
   // 仅支持 nano_banana 降级到 fal
   if (originalProvider !== "nano_banana") {
@@ -77,11 +76,11 @@ async function tryFallbackToFal(
   );
 
   try {
+    // webhook URL 已内聚到 fal fallback 逻辑中
     const fallbackResult = await submitFalImageFallback(
       model,
       request,
-      isEditMode ? "edit" : "generate",
-      webhookUrl
+      isEditMode ? "edit" : "generate"
     );
 
     if (!fallbackResult) {
@@ -119,8 +118,7 @@ async function callImageProviderWithFallback(
   model: string,
   generateRequest: GenerateImageRequest,
   editRequest: EditImageRequest | null,
-  isEditMode: boolean,
-  webhookUrl?: string
+  isEditMode: boolean
 ): Promise<{
   result: ProviderResponse;
   usedProvider: AIServiceProvider;
@@ -155,8 +153,7 @@ async function callImageProviderWithFallback(
       model,
       isEditMode ? editRequest! : generateRequest,
       isEditMode,
-      result,
-      webhookUrl
+      result
     );
 
     if (fallback.success && fallback.result) {
@@ -460,9 +457,6 @@ export async function POST(req: NextRequest) {
         image_urls &&
         image_urls.length > 0;
 
-      // 生成 webhook URL（用于 fal 异步回调）
-      const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/ai-callback/fal`;
-
       const generateRequest: GenerateImageRequest = {
         prompt: enhancedPrompt,
         model,
@@ -488,15 +482,14 @@ export async function POST(req: NextRequest) {
           }
         : null;
 
-      // 3. 调用图片生成服务（包含降级处理，支持异步队列模式）
+      // 3. 调用图片生成服务（包含降级处理，fal webhook URL 已内聚到 fallback 逻辑中）
       const { result, usedProvider, fallbackInfo } =
         await callImageProviderWithFallback(
           selectedProvider,
           model,
           generateRequest,
           editRequest,
-          isEditMode,
-          webhookUrl
+          isEditMode
         );
 
       console.log(`${usedProvider} API response:`, result);

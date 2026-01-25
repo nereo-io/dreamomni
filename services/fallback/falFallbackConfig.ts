@@ -1,6 +1,15 @@
 export const FALLBACK_TO_FAL_ENABLED =
   process.env.FALLBACK_TO_FAL_ENABLED === "true";
 
+/**
+ * 获取 fal.ai 回调 URL
+ * Get fal.ai callback URL for async webhook notifications
+ */
+export const getFalCallbackUrl = (): string => {
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "http://localhost:3000";
+  return `${baseUrl}/api/ai-callback/fal`;
+};
+
 // 代理模型 -> fal 模型的映射
 export const VIDEO_FALLBACK_MAP: Record<string, string> = {
   "kie-veo3-text-to-video": "fal-veo3.1-fast-text-to-video",

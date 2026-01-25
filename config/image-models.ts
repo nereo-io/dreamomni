@@ -82,7 +82,7 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
     credits: 2, // 基础积分 (1K 分辨率)
     maxInputImages: 5, // 支持最多 8 张参考图
     maxPromptLength: 10000, // Pro 版本支持更长的提示词
-    supportedAspectRatios: ["1:1", "2:3", "3:2", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9"],
+    supportedAspectRatios: ["Auto","1:1", "2:3", "3:2", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9"],
     supportedResolutions: ["1K", "2K", "4K"],
     resolutionCredits: {
       "1K": 2,
