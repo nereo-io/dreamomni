@@ -724,7 +724,7 @@ export default function ImageGenerationTab({
                 // maxLength limit removed to allow user to perceive the overflow
               />
               {isOverLimit && (
-                <div className="text-red-500 text-xs mt-1.5 font-medium animate-pulse flex justify-end items-center gap-1">
+                <div className="text-red-500 text-xs mt-1.5 font-medium flex justify-end items-center gap-1">
                   <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500" />
                   {t("promptTooLong", {
                     count: prompt.length - maxPromptLength,
