@@ -139,10 +139,16 @@ function buildSnapshotFromUrl({
   const hasExplicit = hasUtm || hasClickId;
   const isDirect = !hasUtm && !hasClickId && !hasExternalReferrer;
 
-  const source = sanitizeValue(
-    'source',
-    utmSource || (gclid ? 'google' : yclid ? 'yandex' : referrerDomain || 'direct')
-  ) || 'direct';
+  const sourceFallback =
+    utmSource ||
+    (hasUtm
+      ? 'unknown'
+      : gclid
+      ? 'google'
+      : yclid
+      ? 'yandex'
+      : referrerDomain || 'direct');
+  const source = sanitizeValue('source', sourceFallback) || 'direct';
   const medium = sanitizeValue(
     'medium',
     utmMedium || (gclid || yclid ? 'cpc' : referrerDomain ? 'referral' : 'none')

@@ -87,6 +87,7 @@ export async function POST(req: Request) {
       cookieAttribution,
       requestUrl: req.url,
       requestReferrer: req.headers.get("referer"),
+      allowDirectFallback: false,
     });
 
     const shouldUpdateFirstTouch =
