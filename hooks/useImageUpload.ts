@@ -20,10 +20,10 @@ interface UseImageUploadProps {
   selectedModel: string;
   isAuthenticated: boolean;
   onShowSignModal: () => void;
-  onImagesChange: (urls: string[], sourceImageIds?: string[]) => void;
+  onImagesChange: (urls: (string | null)[], sourceImageIds?: (string | null)[]) => void;
   onImageUploaded?: (url: string, index: number) => Promise<void>;
-  initialImages?: string[];
-  initialSourceImageIds?: string[];
+  initialImages?: (string | null)[];
+  initialSourceImageIds?: (string | null)[];
 }
 
 export function useImageUpload({
@@ -37,13 +37,13 @@ export function useImageUpload({
   initialSourceImageIds,
 }: UseImageUploadProps) {
   const buildSlots = useCallback(
-    (urls?: string[], sourceIds?: string[]) => {
+    (urls?: (string | null)[], sourceIds?: (string | null)[]) => {
       const normalizedUrls = (urls || []).slice(0, maxImages);
       const normalizedSourceIds = (sourceIds || []).slice(0, maxImages);
       const slots: ImageSlot[] = normalizedUrls.map((url, index) => ({
-        url,
+        url: url ?? null,
         isUploading: false,
-        sourceImageId: normalizedSourceIds[index],
+        sourceImageId: url ? (normalizedSourceIds[index] ?? undefined) : undefined,
       }));
 
       while (slots.length < maxImages) {
@@ -123,10 +123,8 @@ export function useImageUpload({
           updated[index] = { url: uploadedUrl, isUploading: false };
 
           // Sync to parent (with source IDs)
-          const urls = updated.map((slot) => slot.url).filter(Boolean) as string[];
-          const sourceIds = updated
-            .map((slot) => slot.sourceImageId)
-            .filter(Boolean) as string[];
+          const urls = updated.map((slot) => slot.url);
+          const sourceIds = updated.map((slot) => slot.sourceImageId ?? null);
           onImagesChange(urls, sourceIds);
 
           return updated;
@@ -159,8 +157,10 @@ export function useImageUpload({
         return;
       }
 
-      const currentCount = imageSlots.filter((slot) => slot.url).length;
-      const remainingSlots = maxImages - currentCount;
+      const emptyIndexes = imageSlots
+        .map((slot, index) => (slot.url ? null : index))
+        .filter((index): index is number => index !== null);
+      const remainingSlots = emptyIndexes.length;
 
       if (remainingSlots <= 0) {
         toast.error(`Maximum ${maxImages} images allowed.`);
@@ -176,9 +176,8 @@ export function useImageUpload({
       }
 
       // Parallel upload
-      const startIndex = currentCount;
       await Promise.all(
-        filesToUpload.map((file, i) => uploadImage(file, startIndex + i))
+        filesToUpload.map((file, i) => uploadImage(file, emptyIndexes[i]))
       );
     },
     [isAuthenticated, onShowSignModal, maxImages, imageSlots, uploadImage]
@@ -189,13 +188,10 @@ export function useImageUpload({
     (index: number) => {
       setImageSlots((prev) => {
         const updated = [...prev];
-        updated.splice(index, 1);
-        updated.push({ url: null, isUploading: false });
+        updated[index] = { url: null, isUploading: false };
 
-        const urls = updated.map((slot) => slot.url).filter(Boolean) as string[];
-        const sourceIds = updated
-          .map((slot) => slot.sourceImageId)
-          .filter(Boolean) as string[];
+        const urls = updated.map((slot) => slot.url);
+        const sourceIds = updated.map((slot) => slot.sourceImageId ?? null);
         onImagesChange(urls, sourceIds);
 
         return updated;
@@ -210,10 +206,8 @@ export function useImageUpload({
       if (prev.length !== 2) return prev;
 
       const swapped = [prev[1], prev[0]];
-      const urls = swapped.map((slot) => slot.url).filter(Boolean) as string[];
-      const sourceIds = swapped
-        .map((slot) => slot.sourceImageId)
-        .filter(Boolean) as string[];
+      const urls = swapped.map((slot) => slot.url);
+      const sourceIds = swapped.map((slot) => slot.sourceImageId ?? null);
       onImagesChange(urls, sourceIds);
 
       return swapped;
@@ -238,10 +232,8 @@ export function useImageUpload({
           }
         });
 
-        const allUrls = updated.map((slot) => slot.url).filter(Boolean) as string[];
-        const allSourceIds = updated
-          .map((slot) => slot.sourceImageId)
-          .filter(Boolean) as string[];
+        const allUrls = updated.map((slot) => slot.url);
+        const allSourceIds = updated.map((slot) => slot.sourceImageId ?? null);
         onImagesChange(allUrls, allSourceIds);
 
         return updated;

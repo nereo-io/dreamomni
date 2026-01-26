@@ -128,11 +128,14 @@ export default function VideoGenerator({
   const promptEnhancementPrefLoadedRef = useRef(false);
 
   // 图片上传状态（通过 ImageUploader 组件管理）
-  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
-  const [sourceImageIds, setSourceImageIds] = useState<string[]>([]); // 来源图片ID（追踪"My Creations"选择）
+  const [uploadedImageUrls, setUploadedImageUrls] = useState<(string | null)[]>(
+    []
+  );
+  const [sourceImageIds, setSourceImageIds] = useState<(string | null)[]>([]); // 来源图片ID（追踪"My Creations"选择）
 
   // 向后兼容：保留旧状态供其他逻辑使用
-  const uploadedImageUrl = uploadedImageUrls[0] || null;
+  const uploadedImageUrl =
+    uploadedImageUrls.find((url): url is string => !!url) || null;
   const [isSubmitting] = useState(false);
   const [currentEffect, setCurrentEffect] = useState<VideoEffect | null>(
     effect || null
@@ -196,13 +199,26 @@ export default function VideoGenerator({
 
   // 模型切换时的兼容性处理
   useEffect(() => {
-    // 当切换到不支持双图的模型时，保留第一张图片
-    if (!supportsDualImages && uploadedImageUrls.length > 1) {
-      setUploadedImageUrls([uploadedImageUrls[0]]);
-      setSourceImageIds(sourceImageIds.length > 0 ? [sourceImageIds[0]] : []);
-      toast.info("Current model only supports single image. Kept first frame.");
+    if (supportsDualImages) {
+      return;
     }
-  }, [selectedModel, supportsDualImages, uploadedImageUrls, sourceImageIds]);
+
+    const firstUrl = uploadedImageUrls[0] || null;
+    const firstSourceId = sourceImageIds[0] || null;
+    const nextUrls = firstUrl ? [firstUrl] : [];
+    const nextSourceIds = firstSourceId ? [firstSourceId] : [];
+    const isSame =
+      uploadedImageUrls.length === nextUrls.length &&
+      uploadedImageUrls[0] === nextUrls[0] &&
+      sourceImageIds.length === nextSourceIds.length &&
+      sourceImageIds[0] === nextSourceIds[0];
+
+    if (!isSame) {
+      setUploadedImageUrls(nextUrls);
+      setSourceImageIds(nextSourceIds);
+      // Dropping non-first frames should be silent.
+    }
+  }, [supportsDualImages, uploadedImageUrls, sourceImageIds]);
 
   // 检查是否需要CAPTCHA验证（基于积分）
   const needsCaptcha = useCallback(() => {
@@ -649,9 +665,14 @@ export default function VideoGenerator({
   }, []);
 
   // 图片URL变化回调
-  const handleImagesChange = useCallback((imageUrls: string[], sourceIds?: string[]) => {
+  const handleImagesChange = useCallback((
+    imageUrls: (string | null)[],
+    sourceIds?: (string | null)[]
+  ) => {
     setUploadedImageUrls(imageUrls);
-    setSourceImageIds(sourceIds || []); // 保存来源图片ID
+    setSourceImageIds(
+      sourceIds ?? imageUrls.map(() => null)
+    ); // 保存来源图片ID
   }, []);
 
   // 构建生成参数的辅助函数
@@ -661,11 +682,14 @@ export default function VideoGenerator({
   } => {
     // 过滤掉 undefined/null，避免稀疏数组问题
     const filteredImageUrls = uploadedImageUrls.filter(
-      (url) => url != null && url !== ""
+      (url): url is string => url != null && url !== ""
     );
     const finalImageUrls =
       filteredImageUrls.length > 0 ? filteredImageUrls : undefined;
     const imageUrl = uploadedImageUrl || undefined;
+    const filteredSourceIds = sourceImageIds.filter(
+      (id): id is string => id != null && id !== ""
+    );
     const finalGenerationType = selectedModelConfig?.generationType;
 
     const params = {
@@ -680,7 +704,8 @@ export default function VideoGenerator({
       // 双图支持：优先使用 image_urls，向后兼容 image_url
       image_urls: finalImageUrls,
       image_url: imageUrl,
-      source_image_ids: sourceImageIds.length > 0 ? sourceImageIds : undefined, // 包含来源图片ID
+      source_image_ids:
+        filteredSourceIds.length > 0 ? filteredSourceIds : undefined, // 包含来源图片ID
       pixverse_img_id: pixverseImgId || undefined,
       watermarkEnabled: (isSeedanceSelected || isVeo3Selected) ? watermarkEnabled : false,
       generationType: finalGenerationType,
@@ -733,7 +758,8 @@ export default function VideoGenerator({
     }
 
     // 验证图片转视频模式下必须上传图片
-    const hasImages = uploadedImageUrls.length > 0 || uploadedImageUrl;
+    const hasImages =
+      uploadedImageUrls.some((url) => !!url) || !!uploadedImageUrl;
     if (mode === "image-to-video" && !hasImages) {
       toast.error(t("toast.uploadImageRequired"));
       return;

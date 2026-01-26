@@ -12,9 +12,12 @@ export interface ImageUploaderBaseProps {
   selectedModel: string;
   isAuthenticated: boolean;
   onShowSignModal: () => void;
-  onImagesChange: (imageUrls: string[], sourceImageIds?: string[]) => void;
-  imageUrls?: string[];
-  sourceImageIds?: string[];
+  onImagesChange: (
+    imageUrls: (string | null)[],
+    sourceImageIds?: (string | null)[]
+  ) => void;
+  imageUrls?: (string | null)[];
+  sourceImageIds?: (string | null)[];
 }
 
 export interface PixverseEffectProps {

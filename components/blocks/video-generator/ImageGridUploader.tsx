@@ -11,7 +11,10 @@ import { ImageSelectionModal, type SelectedImage } from "./ImageSelectionModal";
 interface ImageGridUploaderProps {
   maxImages?: number; // 默认 3，支持配置为 5 等
   selectedModel: string;
-  onImagesChange: (imageUrls: string[], sourceImageIds?: string[]) => void;
+  onImagesChange: (
+    imageUrls: (string | null)[],
+    sourceImageIds?: (string | null)[]
+  ) => void;
   isAuthenticated: boolean;
   onShowSignModal: () => void;
   initialImages?: string[]; // 初始图片列表 (用于 Re-edit)

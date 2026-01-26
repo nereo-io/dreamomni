@@ -13,9 +13,12 @@ import { MultiImageUploader } from "./MultiImageUploader";
 interface ImageUploaderProps {
   selectedModel: string;
   maxImages: number;
-  onImagesChange: (imageUrls: string[], sourceImageIds?: string[]) => void;
-  imageUrls?: string[];
-  sourceImageIds?: string[];
+  onImagesChange: (
+    imageUrls: (string | null)[],
+    sourceImageIds?: (string | null)[]
+  ) => void;
+  imageUrls?: (string | null)[];
+  sourceImageIds?: (string | null)[];
   effect?: VideoEffect | null;
   onPixverseImgIdChange?: (imgId: number | null) => void;
   isAuthenticated: boolean;
