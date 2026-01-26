@@ -22,6 +22,8 @@ export function MultiImageUploader({
   onShowSignModal,
   onImagesChange,
   onImageUploaded,
+  imageUrls,
+  sourceImageIds,
 }: MultiImageUploaderProps) {
   const t = useTranslations("video-generator");
   const modelConfig = getVideoModel(selectedModel);
@@ -30,12 +32,14 @@ export function MultiImageUploader({
   const { imageSlots, uploadImage, removeImage, swapImages, addUrls } =
     useImageUpload({
       maxImages,
-      selectedModel,
-      isAuthenticated,
-      onShowSignModal,
-      onImagesChange,
-      onImageUploaded,
-    });
+    selectedModel,
+    isAuthenticated,
+    onShowSignModal,
+    onImagesChange,
+    onImageUploaded,
+    initialImages: imageUrls,
+    initialSourceImageIds: sourceImageIds,
+  });
 
   const uploadedCount = imageSlots.filter((slot) => slot.url).length;
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -4,7 +4,7 @@
  * Uses R2 direct upload (presigned URL) to bypass Vercel 4.5MB limit
  */
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { toast } from "sonner";
 import { validateImage } from "@/config/image-validation-rules";
 import { uploadImageToR2 } from "@/lib/upload-utils";
@@ -22,6 +22,8 @@ interface UseImageUploadProps {
   onShowSignModal: () => void;
   onImagesChange: (urls: string[], sourceImageIds?: string[]) => void;
   onImageUploaded?: (url: string, index: number) => Promise<void>;
+  initialImages?: string[];
+  initialSourceImageIds?: string[];
 }
 
 export function useImageUpload({
@@ -31,12 +33,50 @@ export function useImageUpload({
   onShowSignModal,
   onImagesChange,
   onImageUploaded,
+  initialImages,
+  initialSourceImageIds,
 }: UseImageUploadProps) {
-  const [imageSlots, setImageSlots] = useState<ImageSlot[]>(
-    Array(maxImages)
-      .fill(null)
-      .map(() => ({ url: null, isUploading: false }))
+  const buildSlots = useCallback(
+    (urls?: string[], sourceIds?: string[]) => {
+      const normalizedUrls = (urls || []).slice(0, maxImages);
+      const normalizedSourceIds = (sourceIds || []).slice(0, maxImages);
+      const slots: ImageSlot[] = normalizedUrls.map((url, index) => ({
+        url,
+        isUploading: false,
+        sourceImageId: normalizedSourceIds[index],
+      }));
+
+      while (slots.length < maxImages) {
+        slots.push({ url: null, isUploading: false });
+      }
+
+      return slots;
+    },
+    [maxImages]
   );
+
+  const [imageSlots, setImageSlots] = useState<ImageSlot[]>(() =>
+    buildSlots(initialImages, initialSourceImageIds)
+  );
+
+  useEffect(() => {
+    setImageSlots((prev) => {
+      if (prev.some((slot) => slot.isUploading)) {
+        return prev;
+      }
+
+      const next = buildSlots(initialImages, initialSourceImageIds);
+      const isSame =
+        prev.length === next.length &&
+        prev.every(
+          (slot, index) =>
+            slot.url === next[index].url &&
+            slot.sourceImageId === next[index].sourceImageId
+        );
+
+      return isSame ? prev : next;
+    });
+  }, [buildSlots, initialImages, initialSourceImageIds]);
 
   // Sync maxImages changes
   const resetSlots = useCallback(() => {

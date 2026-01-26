@@ -199,9 +199,10 @@ export default function VideoGenerator({
     // 当切换到不支持双图的模型时，保留第一张图片
     if (!supportsDualImages && uploadedImageUrls.length > 1) {
       setUploadedImageUrls([uploadedImageUrls[0]]);
+      setSourceImageIds(sourceImageIds.length > 0 ? [sourceImageIds[0]] : []);
       toast.info("Current model only supports single image. Kept first frame.");
     }
-  }, [selectedModel, supportsDualImages, uploadedImageUrls]);
+  }, [selectedModel, supportsDualImages, uploadedImageUrls, sourceImageIds]);
 
   // 检查是否需要CAPTCHA验证（基于积分）
   const needsCaptcha = useCallback(() => {
@@ -839,6 +840,8 @@ export default function VideoGenerator({
                 selectedModel={selectedModel}
                 maxImages={maxImages}
                 onImagesChange={handleImagesChange}
+                imageUrls={uploadedImageUrls}
+                sourceImageIds={sourceImageIds}
                 effect={currentEffect}
                 onPixverseImgIdChange={setPixverseImgId}
                 isAuthenticated={!!user?.uuid}

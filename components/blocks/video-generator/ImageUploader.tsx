@@ -13,7 +13,9 @@ import { MultiImageUploader } from "./MultiImageUploader";
 interface ImageUploaderProps {
   selectedModel: string;
   maxImages: number;
-  onImagesChange: (imageUrls: string[]) => void;
+  onImagesChange: (imageUrls: string[], sourceImageIds?: string[]) => void;
+  imageUrls?: string[];
+  sourceImageIds?: string[];
   effect?: VideoEffect | null;
   onPixverseImgIdChange?: (imgId: number | null) => void;
   isAuthenticated: boolean;
@@ -25,6 +27,8 @@ export function ImageUploader({
   selectedModel,
   maxImages,
   onImagesChange,
+  imageUrls,
+  sourceImageIds,
   effect,
   onPixverseImgIdChange,
   isAuthenticated,
@@ -77,6 +81,8 @@ export function ImageUploader({
           onShowSignModal={onShowSignModal}
           onImagesChange={onImagesChange}
           onImageUploaded={handlePixverseUpload}
+          imageUrls={imageUrls}
+          sourceImageIds={sourceImageIds}
         />
       );
     }
@@ -88,6 +94,8 @@ export function ImageUploader({
         onShowSignModal={onShowSignModal}
         onImagesChange={onImagesChange}
         onImageUploaded={handlePixverseUpload}
+        imageUrls={imageUrls}
+        sourceImageIds={sourceImageIds}
       />
     );
   }, [
@@ -97,6 +105,8 @@ export function ImageUploader({
     onShowSignModal,
     onImagesChange,
     handlePixverseUpload,
+    imageUrls,
+    sourceImageIds,
   ]);
 
   return UploaderComponent;
