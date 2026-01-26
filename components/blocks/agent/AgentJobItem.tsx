@@ -637,6 +637,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               progress={job.progress}
               referenceImageUrls={job.reference_image_urls || undefined}
               jobStatus={job.status}
+              failedAtStep={job.failed_at_step}
               createdAt={job.created_at}
               videoModelId={videoModelId}
               jobUpdatedAt={job.updated_at}
