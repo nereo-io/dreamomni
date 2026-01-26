@@ -6,6 +6,8 @@ import { NavItem } from "@/types/blocks/base";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
+import { stripLocalePrefix } from "@/utils/pathname";
 
 export default function ({
   className,
@@ -15,7 +17,9 @@ export default function ({
   className?: string;
   items: NavItem[];
 }) {
-  const pathname = usePathname();
+  const pathname = usePathname() || "";
+  const locale = useLocale();
+  const activePathname = stripLocalePrefix(pathname, locale);
 
   return (
     <nav
@@ -25,22 +29,28 @@ export default function ({
       )}
       {...props}
     >
-      {items.map((item, index) => (
-        <Link
-          key={index}
-          href={item.url || ""}
-          className={cn(
-            buttonVariants({ variant: "ghost" }),
-            item.is_active
-              ? "bg-muted/50 text-primary hover:bg-muted hover:text-primary"
-              : "hover:bg-transparent hover:underline",
-            "justify-start"
-          )}
-        >
-          {item.icon && <Icon name={item.icon} className="w-4 h-4" />}
-          {item.title}
-        </Link>
-      ))}
+      {items.map((item, index) => {
+        const isActive =
+          Boolean(item.is_active) ||
+          (item.url ? activePathname.startsWith(item.url) : false);
+
+        return (
+          <Link
+            key={index}
+            href={item.url || ""}
+            className={cn(
+              buttonVariants({ variant: "ghost" }),
+              isActive
+                ? "bg-muted/50 text-primary hover:bg-muted hover:text-primary"
+                : "hover:bg-transparent hover:underline",
+              "justify-start"
+            )}
+          >
+            {item.icon && <Icon name={item.icon} className="w-4 h-4" />}
+            {item.title}
+          </Link>
+        );
+      })}
     </nav>
   );
 }
