@@ -556,11 +556,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
             <div className="mt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-gray-100/5 dark:bg-gray-800/30 rounded-lg border border-gray-200/20 dark:border-gray-700/30">
               <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                  <span className="flex h-2 w-2 rounded-full bg-red-500/80" />
-                 <span>
-                   {job.error_message?.toLowerCase().includes('insufficient')
-                     ? 'Insufficient credits.'
-                     : 'Generation interrupted.'}
-                 </span>
+                 <span>{job.error_message || 'Generation interrupted.'}</span>
               </div>
 
                               {!isReadOnly && job.can_resume && (
