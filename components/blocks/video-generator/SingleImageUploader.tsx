@@ -17,6 +17,8 @@ export function SingleImageUploader({
   onShowSignModal,
   onImagesChange,
   onImageUploaded,
+  imageUrls,
+  sourceImageIds,
 }: SingleImageUploaderProps) {
   const t = useTranslations("video-generator");
   const [isDragOver, setIsDragOver] = useState(false);
@@ -29,6 +31,8 @@ export function SingleImageUploader({
     onShowSignModal,
     onImagesChange,
     onImageUploaded,
+    initialImages: imageUrls,
+    initialSourceImageIds: sourceImageIds,
   });
 
   const slot = imageSlots[0];
