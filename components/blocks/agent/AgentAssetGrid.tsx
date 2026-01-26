@@ -211,12 +211,14 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
     const shouldShowCharacterPlaceholders =
       characterCount > 0 &&
       (!characterReferenceImages || characterReferenceImages.length === 0) &&
-      ['pending', 'generating_script', 'generating_characters', 'splitting_shots', 'generating_keyframes'].includes(jobStatus || '');
+      ['pending', 'generating_script', 'generating_characters', 'splitting_shots', 'generating_keyframes'].includes(jobStatus || '') &&
+      jobStatus !== 'failed';
     const shouldShowScenePlaceholder =
       !!sceneElement &&
       sceneAssets.length === 0 &&
       sceneAssetsStatus !== 'error' &&
-      ['pending', 'generating_script', 'generating_characters', 'splitting_shots', 'generating_keyframes'].includes(jobStatus || '');
+      ['pending', 'generating_script', 'generating_characters', 'splitting_shots', 'generating_keyframes'].includes(jobStatus || '') &&
+      jobStatus !== 'failed';
     const isImageStage = ['generating_characters', 'generating_keyframes', 'waiting_for_confirmation', 'orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
     const isKeyframeStage = keyframesEnabled && ['generating_keyframes', 'waiting_for_confirmation', 'orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
     const isVideoStage = ['orchestrating_videos', 'generating_videos', 'splicing', 'completed', 'failed'].includes(jobStatus || '');
@@ -687,10 +689,14 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
 
       // 3. Keyframe images
       shots?.forEach(shot => {
+        // Only show failed status if shot actually started (not pending) or job failed during keyframe stage
+        const shotHasKeyframeActivity = ['done', 'failed', 'skipped', 'generating'].includes(shot.keyframe_status);
         const normalizedKeyframeStatus =
-          isJobFailed && !['done', 'failed', 'skipped'].includes(shot.keyframe_status)
+          isJobFailed && shotHasKeyframeActivity && !['done', 'failed', 'skipped'].includes(shot.keyframe_status)
             ? 'failed'
             : shot.keyframe_status;
+        // Don't show pending shots as failed if job failed before keyframe stage
+        if (isJobFailed && shot.keyframe_status === 'pending') return;
         const isKeyframeVisible =
           isKeyframeStage || !!shot.keyframe_url || normalizedKeyframeStatus === 'failed';
         if (!isKeyframeVisible) return;
@@ -726,10 +732,14 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
 
       // 4. Shot videos
       shots?.forEach(shot => {
+        // Only show failed status if shot actually started (not pending) or job failed during video stage
+        const shotHasVideoActivity = ['done', 'failed', 'generating'].includes(shot.video_status);
         const normalizedVideoStatus =
-          isJobFailed && !['done', 'failed'].includes(shot.video_status)
+          isJobFailed && shotHasVideoActivity && !['done', 'failed'].includes(shot.video_status)
             ? 'failed'
             : shot.video_status;
+        // Don't show pending shots as failed if job failed before video stage
+        if (isJobFailed && shot.video_status === 'pending') return;
         if (!isVideoStage && !shot.video_url && normalizedVideoStatus !== 'failed') {
           return;
         }
