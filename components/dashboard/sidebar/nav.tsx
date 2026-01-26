@@ -22,9 +22,13 @@ import { ChevronRight } from "lucide-react";
 import Icon from "@/components/icon";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
+import { stripLocalePrefix } from "@/utils/pathname";
 
 export default function ({ nav }: { nav: NavType }) {
-  const pathname = usePathname();
+  const pathname = usePathname() || "";
+  const locale = useLocale();
+  const activePathname = stripLocalePrefix(pathname, locale);
   const { setOpenMobile } = useSidebar();
 
   // 处理导航项点击
@@ -38,12 +42,25 @@ export default function ({ nav }: { nav: NavType }) {
     <SidebarGroup>
       {/* <SidebarGroupLabel>Features</SidebarGroupLabel> */}
       <SidebarMenu>
-        {nav.items?.map((item: NavItem) =>
-          item.children ? (
+        {nav.items?.map((item: NavItem) => {
+          const isActive =
+            Boolean(item.is_active) ||
+            (item.url ? activePathname.startsWith(item.url) : false);
+          const hasActiveChild =
+            item.children?.some((subItem: NavItem) => {
+              return (
+                Boolean(subItem.is_active) ||
+                (subItem.url
+                  ? activePathname.startsWith(subItem.url)
+                  : false)
+              );
+            }) ?? false;
+
+          return item.children ? (
             <Collapsible
               key={item.title}
               asChild
-              defaultOpen={item.is_expand}
+              defaultOpen={item.is_expand || hasActiveChild}
               className="group/collapsible"
             >
               <SidebarMenuItem>
@@ -61,7 +78,12 @@ export default function ({ nav }: { nav: NavType }) {
                         <SidebarMenuSubButton
                           asChild
                           className={`${
-                            subItem.is_active ? "text-primary" : ""
+                            Boolean(subItem.is_active) ||
+                            (subItem.url
+                              ? activePathname.startsWith(subItem.url)
+                              : false)
+                              ? "text-primary"
+                              : ""
                           }`}
                         >
                           <Link
@@ -86,7 +108,7 @@ export default function ({ nav }: { nav: NavType }) {
               <SidebarMenuButton
                 asChild
                 tooltip={item.title}
-                className={`${item.is_active ? "text-primary" : ""}`}
+                className={`${isActive ? "text-primary" : ""}`}
               >
                 <Link
                   href={item.url || ""}
@@ -98,8 +120,8 @@ export default function ({ nav }: { nav: NavType }) {
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
-          )
-        )}
+          );
+        })}
       </SidebarMenu>
     </SidebarGroup>
   );

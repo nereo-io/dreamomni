@@ -253,9 +253,13 @@ export default function ImageGenerationTab({
 
   // Handle image changes from ImageGridUploader
   const handleImagesChange = useCallback(
-    (imageUrls: string[], sourceIds?: string[]) => {
-      setUploadedImageUrls(imageUrls);
-      setSourceImageIds(sourceIds || []); // 保存来源图片ID
+    (imageUrls: (string | null)[], sourceIds?: (string | null)[]) => {
+      const nextUrls = imageUrls.filter((url): url is string => !!url);
+      const nextSourceIds = (sourceIds || []).filter(
+        (id): id is string => !!id
+      );
+      setUploadedImageUrls(nextUrls);
+      setSourceImageIds(nextSourceIds); // 保存来源图片ID
     },
     []
   );

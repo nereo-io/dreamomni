@@ -5,13 +5,19 @@
 export interface ImageSlot {
   url: string | null;
   isUploading: boolean;
+  sourceImageId?: string;
 }
 
 export interface ImageUploaderBaseProps {
   selectedModel: string;
   isAuthenticated: boolean;
   onShowSignModal: () => void;
-  onImagesChange: (imageUrls: string[]) => void;
+  onImagesChange: (
+    imageUrls: (string | null)[],
+    sourceImageIds?: (string | null)[]
+  ) => void;
+  imageUrls?: (string | null)[];
+  sourceImageIds?: (string | null)[];
 }
 
 export interface PixverseEffectProps {

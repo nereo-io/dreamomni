@@ -22,7 +22,7 @@ import { useTranslations } from 'next-intl';
 import { buildAgentAssetDownloadUrl } from '@/utils/agent-download';
 import { trackPlausibleEvent } from '@/utils/plausible';
 import useCredits from '@/hooks/useCredits';
-import { useRouter } from 'next/navigation';
+import { useAppContext } from '@/contexts/app';
 
 // Timeout for resume operation - if job is still failed after this time, reset UI
 const RESUME_TIMEOUT_MS = 60 * 1000; // 60 seconds
@@ -39,7 +39,7 @@ interface AgentJobItemProps {
 export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
   ({ job, onDelete, onReEdit, onJobResumed, locale, isReadOnly }) => {
     const t = useTranslations("agentJobs");
-    const router = useRouter();
+    const { setShowPricingModal } = useAppContext();
     const { leftCredits, updateLeftCredits, hasInitialized } = useCredits();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -160,7 +160,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
     };
 
     const handleRecharge = () => {
-        router.push('/pricing');
+        setShowPricingModal(true);
     };
 
     /* Retry logic removed per design requirement
@@ -556,7 +556,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
             <div className="mt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-gray-100/5 dark:bg-gray-800/30 rounded-lg border border-gray-200/20 dark:border-gray-700/30">
               <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                  <span className="flex h-2 w-2 rounded-full bg-red-500/80" />
-                 <span>Generation interrupted.</span>
+                 <span>{job.error_message || 'Generation interrupted.'}</span>
               </div>
 
                               {!isReadOnly && job.can_resume && (
@@ -610,7 +610,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
                                                                                             <Zap className="h-4 w-4 mr-2" />
                                                                                             Recharge
                                                                                             <span className="ml-2 text-xs opacity-80">
-                                                                                               (Need {estimatedCost})
+                                                                                               (Need {estimatedCost} credits)
                                                                                             </span>
                                                                                         </Button>
                                                                                     );                                          }
@@ -637,6 +637,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
               progress={job.progress}
               referenceImageUrls={job.reference_image_urls || undefined}
               jobStatus={job.status}
+              failedAtStep={job.failed_at_step}
               createdAt={job.created_at}
               videoModelId={videoModelId}
               jobUpdatedAt={job.updated_at}
