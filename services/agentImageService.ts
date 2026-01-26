@@ -211,6 +211,7 @@ export async function generateAgentImages(
             resolution,
             output_format: outputFormat,
             image_size: imageSize,
+            isAgentMode: true,  // Agent 模式使用异步
           });
         } else {
           // 文生图模式
@@ -222,6 +223,7 @@ export async function generateAgentImages(
             count: 1,
             output_format: outputFormat,
             image_size: imageSize,
+            isAgentMode: true,  // Agent 模式使用异步
           });
         }
 

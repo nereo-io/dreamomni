@@ -36,6 +36,10 @@ export interface GenerateImageRequest {
   aspect_ratio?: string;  // 宽高比,如 '16:9', '1:1' 等
   resolution?: string;     // 分辨率,如 '1K', '2K', '4K' 等
   image_input?: string[];  // 用于图生图(替代 EditImageRequest 中的 imageUrls)
+
+  // 回调相关字段
+  generationId?: string;  // 用于回调时直接查询数据库记录
+  isAgentMode?: boolean;  // 是否为 Agent 模式（Agent 模式使用异步）
 }
 
 export interface EditImageRequest {
@@ -52,6 +56,10 @@ export interface EditImageRequest {
   // Pro 模型参数 (与 GenerateImageRequest 保持一致)
   aspect_ratio?: string;  // 宽高比,如 '16:9', '1:1' 等
   resolution?: string;     // 分辨率,如 '1K', '2K', '4K' 等
+
+  // 回调相关字段
+  generationId?: string;  // 用于回调时直接查询数据库记录
+  isAgentMode?: boolean;  // 是否为 Agent 模式（Agent 模式使用异步）
 }
 
 export interface ProviderResponse {

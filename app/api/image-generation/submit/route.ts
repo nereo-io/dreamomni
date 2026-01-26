@@ -449,13 +449,51 @@ export async function POST(req: NextRequest) {
       // 1. 优化提示词（如果启用）
       let enhancedPrompt = prompt;
 
-      // 2. 准备请求参数和 webhook URL
-      console.log(`🤖 Calling ${selectedProvider} API...`);
-
+      // 2. 判断是否为编辑模式
       const isEditMode =
         (mode === "image-to-image" || mode === "image-edit") &&
         image_urls &&
         image_urls.length > 0;
+
+      // 3. 先创建数据库记录（在 API 调用之前）
+      const createParams: CreateImageGenerationParams = {
+        user_id: userInfo.uuid!,
+        model_id: model,
+        prompt: prompt,
+        optimized_prompt: enable_prompt_enhancement ? enhancedPrompt : undefined,
+        negative_prompt,
+        mode: mode as any,
+        source: "web",
+        provider: selectedProvider,
+        input_image_urls: image_urls,
+        source_image_ids: source_image_ids,
+        aspect_ratio: aspect_ratio || image_size,
+        credits_used: creditsRequired,
+        status: "IN_PROGRESS",
+        provider_task_id: undefined,
+        metadata: {
+          request_source: "api",
+          user_agent: req.headers.get("user-agent"),
+          provider: selectedProvider,
+          enable_prompt_enhancement,
+          image_size,
+          output_format,
+          aspect_ratio,
+          resolution,
+          credit_deduction: {
+            pools: deductResult.pools,
+            total_deducted: deductResult.totalDeducted,
+            deducted_at: new Date().toISOString(),
+          },
+        },
+      };
+
+      console.log("📝 Creating record BEFORE API call");
+      const imageGeneration = await createImageGeneration(createParams);
+      console.log(`✅ Pre-created record ${imageGeneration.id}`);
+
+      // 4. 准备 Provider 请求参数（包含 generationId 和 isAgentMode）
+      console.log(`🤖 Calling ${selectedProvider} API...`);
 
       const generateRequest: GenerateImageRequest = {
         prompt: enhancedPrompt,
@@ -467,6 +505,8 @@ export async function POST(req: NextRequest) {
         aspect_ratio,
         resolution,
         image_input,
+        generationId: imageGeneration.id,
+        isAgentMode: false,
       };
 
       const editRequest: EditImageRequest | null = isEditMode
@@ -479,10 +519,12 @@ export async function POST(req: NextRequest) {
             image_size,
             aspect_ratio,
             resolution,
+            generationId: imageGeneration.id,
+            isAgentMode: false,
           }
         : null;
 
-      // 3. 调用图片生成服务（包含降级处理，fal webhook URL 已内聚到 fallback 逻辑中）
+      // 5. 调用图片生成服务（包含降级处理）
       const { result, usedProvider, fallbackInfo } =
         await callImageProviderWithFallback(
           selectedProvider,
@@ -494,78 +536,28 @@ export async function POST(req: NextRequest) {
 
       console.log(`${usedProvider} API response:`, result);
 
-      // 4. 根据API调用结果确定初始状态
-      let initialStatus: ImageGenerationStatus;
-      if (result.taskId && result.status === "pending") {
-        initialStatus = "IN_QUEUE";
-      } else if (result.status === "completed") {
-        initialStatus = "COMPLETED";
-      } else if (result.error) {
-        initialStatus = "FAILED";
-      } else {
-        initialStatus = "IN_PROGRESS";
-      }
-
-      // 4. 创建数据库记录 - 在AI服务调用之后
-      const createParams: CreateImageGenerationParams = {
-        user_id: userInfo.uuid!,
-        model_id: model,
-        prompt: prompt, // 存储原始用户输入
-        optimized_prompt: enable_prompt_enhancement
-          ? enhancedPrompt
-          : undefined,
-        negative_prompt,
-        mode: mode as any,
-        source: "web",
+      // 5. 更新 provider 和 provider_task_id
+      await updateImageGenerationById(imageGeneration.id, {
         provider: usedProvider,
-        input_image_urls: image_urls,
-        source_image_ids: source_image_ids, // 新增：保存来源图片ID（用于追踪"My Creations"选择）
-        // 图片比例：Pro 模型用 aspect_ratio，标准模型用 image_size
-        aspect_ratio: aspect_ratio || image_size,
-        credits_used: creditsRequired,
-        status: initialStatus,
         provider_task_id: result.taskId,
         metadata: {
-          request_source: "api",
-          user_agent: req.headers.get("user-agent"),
+          ...createParams.metadata,
           provider: usedProvider,
-          enable_prompt_enhancement,
           provider_task_id: result.taskId,
-          provider_status: result.status,
-          provider_metadata: result.metadata,
-          // 将图片尺寸存储到元数据中
-          image_size: image_size,
-          output_format: output_format,
-          // Pro 模型参数
-          aspect_ratio: aspect_ratio,
-          resolution: resolution,
-          // 保存扣费池信息，用于退款追溯
-          credit_deduction: {
-            pools: deductResult.pools,
-            total_deducted: deductResult.totalDeducted,
-            deducted_at: new Date().toISOString(),
-          },
           ...(fallbackInfo && { fallback: fallbackInfo }),
         },
-      };
+      });
 
-      console.log(
-        "📝 Creating image generation record with initial status:",
-        initialStatus
-      );
-      const imageGeneration = await createImageGeneration(createParams);
-      console.log("✅ Created image generation record:", imageGeneration.id);
-
-      // 5. 根据API返回结果处理不同情况
+      // 6. 根据 API 返回结果处理不同情况
       console.log(
         `📋 Processing API result: taskId=${result.taskId}, status=${result.status}`
       );
 
       if (result.taskId && result.status === "pending") {
-        // 异步回调模式 - 任务已提交，等待回调
-        console.log(
-          `📝 TaskId ${result.taskId} stored for async callback processing`
-        );
+        // 异步回调模式 - 更新状态为 IN_QUEUE，等待回调
+        await updateImageGenerationById(imageGeneration.id, {
+          status: "IN_QUEUE",
+        });
 
         return respData({
           id: imageGeneration.id,
@@ -579,28 +571,15 @@ export async function POST(req: NextRequest) {
         result.images &&
         result.images.length > 0
       ) {
-        // 同步返回模式（备用，当前所有 provider 都使用异步回调模式）
-        // 注意：R2 上传由回调处理，这里只做基本的状态更新
-        console.log(
-          `🖼️ Synchronous completion with ${result.images.length} images (fallback path)`
-        );
+        // 同步完成模式（Seedream）
         const imageUrls = result.images.map((img) => img.url);
 
-        // 更新数据库（R2 上传由回调处理）
-        const updateData = {
-          status: "COMPLETED" as const,
+        await updateImageGenerationById(imageGeneration.id, {
+          status: "COMPLETED",
           image_urls: imageUrls,
           image_count: imageUrls.length,
           completed_at: new Date().toISOString(),
-          metadata: {
-            ...createParams.metadata,
-            provider_response: result.metadata,
-            provider_images: result.images,
-          },
-        };
-
-        await updateImageGenerationById(imageGeneration.id, updateData);
-        console.log(`✅ DB record ${imageGeneration.id} updated to COMPLETED`);
+        });
 
         return respData({
           id: imageGeneration.id,
@@ -625,13 +604,13 @@ export async function POST(req: NextRequest) {
           error_message: errorMessage,
           metadata: {
             ...createParams.metadata,
+            provider: usedProvider,
             provider_response: result,
           },
         });
 
         // 生成失败，返还积分到原池
         try {
-          // 遍历所有扣费的池，按原扣费金额逐一退款
           for (const pool of deductResult.pools) {
             await increaseCredits({
               user_uuid: userInfo.uuid!,
@@ -651,7 +630,6 @@ export async function POST(req: NextRequest) {
           );
         } catch (refundError) {
           console.error("❌ Failed to refund credits:", refundError);
-          // 不阻止错误返回，但记录退款失败
         }
 
         return respErr(errorMessage);
@@ -661,7 +639,6 @@ export async function POST(req: NextRequest) {
 
       // 生成失败，返还积分到原池
       try {
-        // 遍历所有扣费的池，按原扣费金额逐一退款
         for (const pool of deductResult.pools) {
           await increaseCredits({
             user_uuid: userInfo.uuid!,
@@ -681,7 +658,6 @@ export async function POST(req: NextRequest) {
         );
       } catch (refundError) {
         console.error("❌ Failed to refund credits:", refundError);
-        // 不阻止错误返回，但记录退款失败
       }
 
       const errorMessage =
