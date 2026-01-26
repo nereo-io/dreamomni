@@ -309,6 +309,21 @@ export default function ImageGenerationTab({
       // Submit generation request
       const response = await submitGeneration(params);
 
+      // 超时处理：视为成功，刷新 history 获取最新状态
+      if (response.timeout) {
+        console.log("Request timed out, treating as success and refreshing history...");
+        toast.info(t("generationStarted"));
+        // 刷新 history 获取最新数据
+        setGenerationTrigger((prev) => prev + 1);
+        // 更新积分显示
+        try {
+          await updateLeftCredits();
+        } catch (error) {
+          console.error("Failed to update credits:", error);
+        }
+        return; // 正常结束
+      }
+
       if (!response?.success) {
         throw new Error(
           response?.message || "Failed to submit generation request"

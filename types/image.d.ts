@@ -124,6 +124,7 @@ export interface CreateImageGenerationParams {
 }
 
 export interface UpdateImageGenerationParams {
+  provider?: string;
   provider_task_id?: string;
   status?: ImageGenerationStatus;
   optimized_prompt?: string;
