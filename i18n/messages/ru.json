@@ -858,7 +858,9 @@
       "model": "Модель"
     },
     "gallery": {
-      "promptLabel": "Промпт"
+      "promptLabel": "Промпт",
+      "usedResources": "Ресурсы",
+      "resourceLabel": "Ресурс"
     },
     "createPanel": {
       "title": "Создать задачу агента",

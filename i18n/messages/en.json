@@ -860,7 +860,9 @@
       "model": "Model"
     },
     "gallery": {
-      "promptLabel": "Prompt"
+      "promptLabel": "Prompt",
+      "usedResources": "Resources",
+      "resourceLabel": "Resource"
     },
     "createPanel": {
       "title": "Create Agent Job",

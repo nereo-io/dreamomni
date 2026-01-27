@@ -857,7 +857,9 @@
       "model": "Modèle"
     },
     "gallery": {
-      "promptLabel": "Prompt"
+      "promptLabel": "Prompt",
+      "usedResources": "Ressources",
+      "resourceLabel": "Ressource"
     },
     "createPanel": {
       "title": "Créer un Job d'Agent",

@@ -8,7 +8,7 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Download, Copy, Loader2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Copy, Download, Image, Loader2, Music, PlayCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState, useEffect, useRef } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -18,6 +18,29 @@ import { buildAgentAssetDownloadUrl } from '@/utils/agent-download';
 import { trackPlausibleEvent } from '@/utils/plausible';
 
 type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref' | 'audio' | 'shot_ref';
+
+interface UsedResource {
+  id: string;
+  type?: string;
+  description?: string;
+}
+
+interface GalleryItem {
+  id: string;
+  type: AssetType;
+  assetId?: string;
+  assetType?: string;
+  url?: string;
+  title?: string;
+  shotNumber?: number;
+  durationSeconds?: number;
+  fileSize?: number;
+  backgroundUrl?: string;
+  prompt?: string;
+  shotPrompt?: string;
+  keyframePrompt?: string;
+  usedResources?: UsedResource[];
+}
 
 interface StoryAct {
   title?: string;
@@ -91,14 +114,33 @@ interface AssetModalProps {
     totalDurationSeconds?: number;
     shotsCount?: number;
   };
+  gallery?: {
+    items: GalleryItem[];
+    initialIndex?: number;
+  };
 }
 
-export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
+export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalProps) {
   const t = useTranslations("agentJobs");
   const [isCopied, setIsCopied] = useState(false);
   const [isMediaLoading, setIsMediaLoading] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const downloadResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const galleryItems = gallery?.items ?? [];
+  const [currentIndex, setCurrentIndex] = useState(gallery?.initialIndex ?? 0);
+  const isGalleryMode = galleryItems.length > 0;
+  const activeItem = isGalleryMode ? galleryItems[currentIndex] : undefined;
+  const activeType = activeItem?.type ?? type;
+  const activeUrl = activeItem?.url ?? data.url;
+  const activeTitle = activeItem?.title ?? data.title;
+  const activeShotNumber = activeItem?.shotNumber ?? data.shotNumber;
+  const activeDurationSeconds = activeItem?.durationSeconds ?? data.durationSeconds;
+  const activeFileSize = activeItem?.fileSize ?? data.fileSize;
+  const activeAssetId = activeItem?.assetId ?? data.assetId;
+  const activeAssetType = activeItem?.assetType ?? data.assetType;
+  const canPrev = currentIndex > 0;
+  const canNext = currentIndex < galleryItems.length - 1;
+  const hasGalleryNavigation = isGalleryMode && galleryItems.length > 1;
 
   const formatDuration = (seconds?: number) => {
     if (!seconds || seconds <= 0) return '—';
@@ -162,14 +204,28 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
     return result || prompt;
   };
 
+  useEffect(() => {
+    if (!isOpen || !isGalleryMode) return;
+    const safeIndex = Math.max(0, Math.min(gallery?.initialIndex ?? 0, galleryItems.length - 1));
+    setCurrentIndex(safeIndex);
+  }, [isOpen, isGalleryMode, gallery?.initialIndex, galleryItems.length]);
+
   // Reset media loading state when modal opens or data changes
   useEffect(() => {
-    if (isOpen && (type === 'image' || type === 'character_refs' || type === 'scene_ref' || type === 'shot_ref' || type === 'video' || type === 'audio')) {
+    if (
+      isOpen &&
+      (activeType === 'image' ||
+        activeType === 'character_refs' ||
+        activeType === 'scene_ref' ||
+        activeType === 'shot_ref' ||
+        activeType === 'video' ||
+        activeType === 'audio')
+    ) {
       setIsMediaLoading(true);
     } else {
       setIsMediaLoading(false);
     }
-  }, [isOpen, data.url, type]);
+  }, [isOpen, activeUrl, activeType]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -196,7 +252,19 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
 
       // ESC key is handled by Dialog component
       // Add space key for video pause/play
-      if (type === 'video' && e.code === 'Space') {
+      if (isGalleryMode && e.key === 'ArrowLeft' && canPrev) {
+        e.preventDefault();
+        setCurrentIndex((prev) => Math.max(0, prev - 1));
+        return;
+      }
+
+      if (isGalleryMode && e.key === 'ArrowRight' && canNext) {
+        e.preventDefault();
+        setCurrentIndex((prev) => Math.min(galleryItems.length - 1, prev + 1));
+        return;
+      }
+
+      if (activeType === 'video' && e.code === 'Space') {
         e.preventDefault();
         const video = document.querySelector('video');
         if (video) {
@@ -211,7 +279,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, type]);
+  }, [activeType, canNext, canPrev, galleryItems.length, isGalleryMode, isOpen]);
 
   const handleCopy = async (text?: string, updateState = false) => {
     const value = text ?? data.content;
@@ -316,59 +384,59 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
   };
 
   const handleDownload = () => {
-    if (data.url) {
+    if (activeUrl) {
       startDownloadFeedback();
       const link = document.createElement('a');
       const ext =
-        type === 'video'
+        activeType === 'video'
           ? 'mp4'
-          : type === 'audio'
+          : activeType === 'audio'
           ? 'mp3'
-          : type === 'image' || type === 'character_refs' || type === 'scene_ref'
+          : activeType === 'image' || activeType === 'character_refs' || activeType === 'scene_ref' || activeType === 'shot_ref'
           ? 'png'
-          : type === 'story' || type === 'script'
+          : activeType === 'story' || activeType === 'script'
           ? 'json'
           : 'txt';
-      const filename = `${type}_${data.shotNumber || 'asset'}.${ext}`;
-      if (['image', 'video', 'audio', 'character_refs', 'scene_ref', 'shot_ref'].includes(type)) {
+      const filename = `${activeType}_${activeShotNumber || 'asset'}.${ext}`;
+      if (['image', 'video', 'audio', 'character_refs', 'scene_ref', 'shot_ref'].includes(activeType)) {
         const fileType =
-          type === 'audio'
+          activeType === 'audio'
             ? 'audio'
-            : type === 'video'
+            : activeType === 'video'
             ? 'video'
             : 'image';
         const assetType =
-          data.assetType ||
-          (type === 'character_refs'
+          activeAssetType ||
+          (activeType === 'character_refs'
             ? 'character_ref'
-            : type === 'scene_ref'
+            : activeType === 'scene_ref'
             ? 'scene_ref'
-            : type === 'audio'
+            : activeType === 'audio'
             ? 'background_music'
-            : type === 'video'
+            : activeType === 'video'
             ? 'clip'
             : 'image');
-        const fileExt = data.url ? data.url.split('?')[0]?.split('.').pop() || ext : ext;
+        const fileExt = activeUrl ? activeUrl.split('?')[0]?.split('.').pop() || ext : ext;
 
         trackPlausibleEvent('ai_shorts_asset_download_completed', {
           user_id: data.userId,
           job_id: data.jobId,
-          asset_id: data.assetId,
+          asset_id: activeAssetId,
           asset_type: assetType,
           file_type: fileType,
           file_ext: fileExt,
-          file_size: data.fileSize,
-          duration_seconds: data.durationSeconds,
-          shot_number: data.shotNumber,
+          file_size: activeFileSize,
+          duration_seconds: activeDurationSeconds,
+          shot_number: activeShotNumber,
           download_source: 'asset_modal',
           download_method: 'button_click',
           timestamp: new Date().toISOString(),
         });
       }
       link.href =
-        data.assetId && ['image', 'video', 'audio', 'character_refs', 'scene_ref', 'shot_ref'].includes(type)
-          ? buildAgentAssetDownloadUrl(data.assetId, filename, 'asset_modal')
-          : data.url;
+        activeAssetId && ['image', 'video', 'audio', 'character_refs', 'scene_ref', 'shot_ref'].includes(activeType)
+          ? buildAgentAssetDownloadUrl(activeAssetId, filename, 'asset_modal')
+          : activeUrl;
       link.download = filename;
       link.click();
       return;
@@ -391,14 +459,14 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
   };
 
   const getTitle = () => {
-    if (data.title) return data.title;
-    if (data.shotNumber) return `${t("assetModal.shot")} #${data.shotNumber} ${type}`;
-    if (type === 'story') return t("assetModal.storyboard");
-    if (type === 'character_refs') return t("assetModal.characterRefs");
-    if (type === 'scene_ref') return t("assetModal.sceneRef");
-    if (type === 'shot_ref') return t("assets.ref");
-    if (type === 'audio') return t("assets.backgroundMusic");
-    return type.charAt(0).toUpperCase() + type.slice(1);
+    if (activeTitle) return activeTitle;
+    if (activeShotNumber) return `${t("assetModal.shot")} #${activeShotNumber} ${activeType}`;
+    if (activeType === 'story') return t("assetModal.storyboard");
+    if (activeType === 'character_refs') return t("assetModal.characterRefs");
+    if (activeType === 'scene_ref') return t("assetModal.sceneRef");
+    if (activeType === 'shot_ref') return t("assets.ref");
+    if (activeType === 'audio') return t("assets.backgroundMusic");
+    return activeType.charAt(0).toUpperCase() + activeType.slice(1);
   };
 
   const renderStoryDetails = () => {
@@ -827,13 +895,117 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
     );
   };
 
+  const renderPromptBlock = (label: string, value: string) => (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between text-xs uppercase tracking-wide text-gray-400">
+        <span>{label}</span>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-7 px-2 text-xs text-gray-300 hover:bg-white/10"
+          onClick={() => handleCopy(value)}
+        >
+          <Copy className="h-3.5 w-3.5 mr-1" />
+          {t("assetModal.copy")}
+        </Button>
+      </div>
+      <pre className="bg-black/40 rounded-lg p-3 text-sm text-gray-100 whitespace-pre-wrap leading-relaxed">
+        {value}
+      </pre>
+    </div>
+  );
+
+  const renderGalleryNavigation = () => {
+    if (!hasGalleryNavigation) return null;
+    return (
+      <>
+        <Button
+          type="button"
+          variant="secondary"
+          size="icon"
+          onClick={() => canPrev && setCurrentIndex((prev) => Math.max(0, prev - 1))}
+          disabled={!canPrev}
+          className="absolute left-3 top-1/2 -translate-y-1/2 z-10 h-9 w-9 bg-gray-900/80 hover:bg-gray-800/90 disabled:opacity-40"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </Button>
+        <Button
+          type="button"
+          variant="secondary"
+          size="icon"
+          onClick={() => canNext && setCurrentIndex((prev) => Math.min(galleryItems.length - 1, prev + 1))}
+          disabled={!canNext}
+          className="absolute right-3 top-1/2 -translate-y-1/2 z-10 h-9 w-9 bg-gray-900/80 hover:bg-gray-800/90 disabled:opacity-40"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </Button>
+      </>
+    );
+  };
+
+  const renderThumbnail = (item: GalleryItem) => {
+    const thumbnailUrl =
+      item.type === 'video'
+        ? item.backgroundUrl || item.url
+        : item.type === 'audio'
+        ? undefined
+        : item.url;
+
+    if (thumbnailUrl) {
+      return (
+        <img
+          src={thumbnailUrl}
+          alt={item.title || ''}
+          className="h-full w-full object-cover"
+        />
+      );
+    }
+
+    if (item.type === 'audio') {
+      return (
+        <div className="flex h-full w-full items-center justify-center bg-gray-800 text-emerald-200">
+          <Music className="h-5 w-5" />
+        </div>
+      );
+    }
+
+    if (item.type === 'video') {
+      return (
+        <div className="flex h-full w-full items-center justify-center bg-gray-800 text-gray-200">
+          <PlayCircle className="h-5 w-5" />
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex h-full w-full items-center justify-center bg-gray-800 text-gray-200">
+        <Image className="h-5 w-5" />
+      </div>
+    );
+  };
+
+  const keyframePromptText = activeItem?.keyframePrompt
+    ? sanitizeKeyframePrompt(activeItem.keyframePrompt, activeItem.shotPrompt)
+    : '';
+  const promptBlocks = [
+    activeItem?.prompt ? { label: t("gallery.promptLabel"), value: activeItem.prompt } : null,
+    keyframePromptText ? { label: t("assetModal.keyframePrompt"), value: keyframePromptText } : null,
+    activeItem?.shotPrompt ? { label: t("assetModal.shotPrompt"), value: activeItem.shotPrompt } : null,
+  ].filter(Boolean) as Array<{ label: string; value: string }>;
+  const usedResources = activeItem?.usedResources ?? [];
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden bg-gray-800 border-gray-700 text-gray-200">
         <DialogHeader>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <DialogTitle className="text-gray-100">{getTitle()}</DialogTitle>
-            {(type === 'script' || type === 'story') && getDownloadableTextContent() && (
+            {isGalleryMode && (
+              <span className="text-xs text-gray-400">
+                {currentIndex + 1}/{galleryItems.length}
+              </span>
+            )}
+            {(activeType === 'script' || activeType === 'story') && getDownloadableTextContent() && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -844,12 +1016,12 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                 {isCopied ? t("assetModal.copied") : t("assetModal.copy")}
               </Button>
             )}
-            {(data.url || getDownloadableTextContent()) && (
+            {(activeUrl || getDownloadableTextContent()) && (
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={handleDownload}
-                className="h-8 text-gray-400 hover:text-gray-100 hover:bg-gray-700/50"
+                className="h-8 text-gray-400 hover:text-gray-100 hover:bg-gray-700/50 ml-auto"
                 disabled={isDownloading}
               >
                 {isDownloading ? (
@@ -864,18 +1036,52 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
         </DialogHeader>
 
         <div className="mt-4 overflow-auto max-h-[calc(90vh-120px)] pr-1 space-y-6">
+          {(promptBlocks.length > 0 || usedResources.length > 0) && (
+            <section className="space-y-4">
+              {promptBlocks.map((block) => (
+                <div key={block.label}>{renderPromptBlock(block.label, block.value)}</div>
+              ))}
+              {usedResources.length > 0 && (
+                <div className="space-y-2">
+                  <div className="text-xs uppercase tracking-wide text-gray-400">
+                    {t("gallery.usedResources")}
+                  </div>
+                  <div className="grid gap-2">
+                    {usedResources.map((resource) => (
+                      <div
+                        key={resource.id}
+                        className="rounded-lg border border-white/10 bg-black/30 px-3 py-2"
+                      >
+                        <div className="text-xs text-gray-500">
+                          {resource.type || t("gallery.resourceLabel")}
+                        </div>
+                        <div className="text-sm text-gray-200">{resource.id}</div>
+                        {resource.description && (
+                          <p className="text-xs text-gray-400 mt-1">{resource.description}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </section>
+          )}
           {/* Script */}
-          {type === 'script' && data.content && (
+          {activeType === 'script' && data.content && (
             <pre className="bg-gray-900 rounded-lg p-4 text-sm text-gray-300 font-mono whitespace-pre-wrap leading-relaxed">
               {data.content}
             </pre>
           )}
 
           {/* Story Details */}
-          {type === 'story' && renderStoryDetails()}
+          {activeType === 'story' && renderStoryDetails()}
 
           {/* Image */}
-          {(type === 'image' || type === 'character_refs' || type === 'scene_ref' || type === 'shot_ref') && data.url && (
+          {(activeType === 'image' ||
+            activeType === 'character_refs' ||
+            activeType === 'scene_ref' ||
+            activeType === 'shot_ref') &&
+            activeUrl && (
             <div className="relative flex items-center justify-center bg-gray-900 rounded-lg p-4 min-h-[60vh]">
               {isMediaLoading && (
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -890,8 +1096,9 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                   </div>
                 </div>
               )}
+              {renderGalleryNavigation()}
               <img
-                src={data.url}
+                src={activeUrl}
                 alt={getTitle()}
                 className="max-w-full max-h-[70vh] object-contain rounded"
                 onLoad={() => setIsMediaLoading(false)}
@@ -902,7 +1109,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
           )}
 
           {/* Video */}
-          {type === 'video' && data.url && (
+          {activeType === 'video' && activeUrl && (
             <div className="relative bg-gray-900 rounded-lg overflow-hidden min-h-[60vh] flex items-center justify-center">
               {isMediaLoading && (
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -917,8 +1124,9 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                   </div>
                 </div>
               )}
+              {renderGalleryNavigation()}
               <video
-                src={data.url}
+                src={activeUrl}
                 controls
                 autoPlay
                 className="w-full max-h-[70vh]"
@@ -933,7 +1141,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
           )}
 
           {/* Audio */}
-          {type === 'audio' && data.url && (
+          {activeType === 'audio' && activeUrl && (
             <div className="relative bg-gray-900 rounded-lg overflow-hidden flex items-center justify-center p-6">
               {isMediaLoading && (
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -948,8 +1156,9 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
                   </div>
                 </div>
               )}
+              {renderGalleryNavigation()}
               <audio
-                src={data.url}
+                src={activeUrl}
                 controls
                 autoPlay
                 preload="auto"
@@ -962,10 +1171,30 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
               </audio>
             </div>
           )}
+
+          {hasGalleryNavigation && (
+            <div className="mt-4 border-t border-white/10 pt-4">
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {galleryItems.map((item, index) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setCurrentIndex(index)}
+                    className={`relative h-14 w-20 flex-shrink-0 overflow-hidden rounded-md border border-white/10 ${
+                      index === currentIndex ? 'ring-2 ring-white/70' : ''
+                    }`}
+                    title={item.title}
+                  >
+                    {renderThumbnail(item)}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Hint for keyboard shortcuts */}
-        {type === 'video' && (
+        {activeType === 'video' && (
           <div className="text-xs text-gray-500 text-center mt-2">
             {t("assetModal.keyboardHint")}
           </div>
