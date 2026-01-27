@@ -6,7 +6,7 @@
 
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -71,6 +71,14 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
   const [imageModel, setImageModel] = useState('auto');
   const [videoModel, setVideoModel] = useState('auto');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const handleReferenceImagesChange = useCallback(
+    (imageUrls: (string | null)[]) => {
+      setReferenceImageUrls(
+        imageUrls.filter((url): url is string => !!url)
+      );
+    },
+    []
+  );
 
   // Pre-fill form when initialData changes (for re-edit)
   useEffect(() => {
@@ -245,7 +253,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
             <ImageGridUploader
               selectedModel={resolvedImageModelForUploads}
               maxImages={5}
-              onImagesChange={setReferenceImageUrls}
+              onImagesChange={handleReferenceImagesChange}
               isAuthenticated={!!user?.uuid}
               onShowSignModal={() => setShowSignModal(true)}
               initialImages={referenceImageUrls}

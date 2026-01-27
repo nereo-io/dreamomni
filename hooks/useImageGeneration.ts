@@ -36,6 +36,7 @@ interface SubmitGenerationResponse {
     }>;
   };
   message?: string;
+  timeout?: boolean; // 请求超时标志，超时时应轮询 history
 }
 
 interface PollStatusResponse {
@@ -54,22 +55,30 @@ export default function useImageGeneration() {
   const [isLoading, setIsLoading] = useState(false);
 
   // Submit image generation request
+  // 超时时返回 timeout: true，调用方应轮询 history 获取结果
   const submitGeneration = useCallback(async (params: ImageGenerationParams): Promise<SubmitGenerationResponse> => {
     setIsLoading(true);
-    
+
+    // 超时时间：同步模式可能需要较长时间，设置 60 秒
+    const SUBMIT_TIMEOUT = 60000;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), SUBMIT_TIMEOUT);
+
     try {
       console.log("Submitting image generation request:", params);
-      
+
       const response = await fetch("/api/image-generation/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(params),
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
       const result = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(result.message || `HTTP error! status: ${response.status}`);
       }
@@ -83,9 +92,21 @@ export default function useImageGeneration() {
         throw new Error(result.message || "Unknown error occurred");
       }
     } catch (error) {
+      clearTimeout(timeoutId);
       console.error("Submit generation error:", error);
+
+      // 检查是否为超时错误（AbortError）
+      if (error instanceof Error && error.name === "AbortError") {
+        console.warn("Submit request timed out, should poll history for result");
+        return {
+          success: false,
+          timeout: true,
+          message: "Request timed out. Checking generation history...",
+        };
+      }
+
       const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
-      
+
       return {
         success: false,
         message: errorMessage,

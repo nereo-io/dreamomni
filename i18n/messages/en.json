@@ -859,6 +859,11 @@
       "skipped": "Skipped",
       "model": "Model"
     },
+    "gallery": {
+      "promptLabel": "Prompt",
+      "usedResources": "Resources",
+      "resourceLabel": "Resource"
+    },
     "createPanel": {
       "title": "Create Agent Job",
       "description": "Description",

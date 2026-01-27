@@ -26,6 +26,7 @@ import { Pricing } from "@/types/blocks/pricing";
 import { getPricingBlock } from "@/services/page";
 import { useSidebar } from "@/contexts/sidebar";
 import { useTranslations, useLocale } from "next-intl";
+import { stripLocalePrefix } from "@/utils/pathname";
 import { FeedbackSection } from "./feedback-section";
 import { BetaBadge } from "@/components/ui/beta-badge";
 
@@ -42,6 +43,8 @@ export function Sidebar() {
   const [pricingData, setPricingData] = useState<Pricing | null>(null);
   const pathname = usePathname() || "";
   const locale = useLocale();
+  const activePathname = stripLocalePrefix(pathname, locale);
+
   const t = useTranslations("sidebar");
 
   const sidebarItems: SidebarItem[] = [
@@ -156,7 +159,7 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${pathname === item.href ? "bg-gray-800" : ""
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${activePathname === item.href ? "bg-gray-800" : ""
                 } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
             >
               <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
@@ -171,7 +174,7 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${pathname === item.href ? "bg-gray-800" : ""
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${activePathname === item.href ? "bg-gray-800" : ""
                 } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
             >
               <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
@@ -186,7 +189,7 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${pathname === item.href ? "bg-gray-800" : ""
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${activePathname === item.href ? "bg-gray-800" : ""
                 } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
             >
               <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
@@ -216,7 +219,7 @@ export function Sidebar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${pathname.startsWith(item.href) ? "bg-gray-800" : ""
+                className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${activePathname.startsWith(item.href) ? "bg-gray-800" : ""
                   } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
               >
                 <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
@@ -237,7 +240,7 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${pathname === item.href ? "bg-gray-800" : ""
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${activePathname === item.href ? "bg-gray-800" : ""
                 } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
             >
               <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />

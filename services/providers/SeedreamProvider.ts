@@ -17,9 +17,9 @@ import {
   EditImageRequest,
   ProviderResponse,
 } from "./BaseAIProvider";
-import { triggerInternalCallback } from "@/services/internalCallbackService";
 import type { ProviderImageResult } from "@/types/provider";
 import { IMAGE_MODELS } from "@/config/image-models";
+import { triggerInternalCallback } from "@/services/internalCallbackService";
 
 // Seedream API 请求接口
 export interface SeedreamGenerateRequest {
@@ -201,9 +201,9 @@ export class SeedreamProvider extends BaseAIProvider {
   }
 
   /**
-   * 生成图片 - 异步模式
-   * 立即返回 taskId，异步执行 API 调用，模拟其他异步 provider 的行为
-   * 回调中处理 R2 上传和数据库状态更新
+   * 生成图片 - 双模式支持
+   * - Agent 模式（isAgentMode=true）: 异步执行，立即返回 pending，后台执行 + 回调
+   * - 非 Agent 模式: 同步执行，等待 API 返回 + 回调处理 R2 上传
    */
   async generateImage(request: GenerateImageRequest): Promise<ProviderResponse> {
     const taskId = this.generateTaskId();
@@ -214,6 +214,8 @@ export class SeedreamProvider extends BaseAIProvider {
       model: request.model,
       aspect_ratio: request.aspect_ratio,
       resolution: request.resolution,
+      isAgentMode: request.isAgentMode,
+      generationId: request.generationId,
     });
 
     // 先验证请求参数
@@ -243,37 +245,121 @@ export class SeedreamProvider extends BaseAIProvider {
       stream: false,
     };
 
-    console.log("🎨 Seedream generateImage - async mode:", {
+    // Agent 模式：异步执行，立即返回 pending
+    if (request.isAgentMode) {
+      console.log("🎨 Seedream generateImage - ASYNC mode (Agent):", {
+        taskId,
+        model: requestBody.model,
+        prompt: requestBody.prompt.substring(0, 100) + "...",
+        size,
+      });
+
+      // 后台异步执行 API 调用
+      this.executeGenerateAsync(taskId, requestBody);
+
+      // 立即返回 pending 状态
+      return {
+        taskId,
+        status: "pending",
+        metadata: {
+          provider: this.getProvider(),
+          model: "seedream-4-5",
+          mode: "async",
+        },
+      };
+    }
+
+    // 非 Agent 模式：同步执行
+    console.log("🎨 Seedream generateImage - SYNC mode:", {
       taskId,
       model: requestBody.model,
       prompt: requestBody.prompt.substring(0, 100) + "...",
       aspect_ratio: request.aspect_ratio,
       resolution: request.resolution,
       size,
+      generationId: request.generationId,
     });
 
-    // 异步执行 API 调用（不阻塞返回）
-    this.executeGenerateAsync(taskId, requestBody);
+    // 【同步】执行 API 调用，等待结果
+    try {
+      const response = await this.makeRequest(
+        "/images/generations",
+        "POST",
+        requestBody
+      );
 
-    // 立即返回 pending 状态
-    return {
-      taskId,
-      status: "pending",
-      metadata: {
-        provider: this.getProvider(),
-        model: "seedream-4-5",
-      },
-    };
+      // 检查 API 错误
+      if (response.error) {
+        console.error(`❌ Seedream API error for task ${taskId}:`, response.error);
+        return {
+          taskId,
+          status: "failed",
+          error: response.error.message || "Seedream API error",
+          metadata: {
+            provider: this.getProvider(),
+            error_code: response.error.code,
+          },
+        };
+      }
+
+      // 解析图片
+      const images = this.parseImageData(response.data);
+
+      if (images.length === 0) {
+        console.error(`❌ No images generated for task ${taskId}`);
+        return {
+          taskId,
+          status: "failed",
+          error: "No images generated",
+          metadata: { provider: this.getProvider() },
+        };
+      }
+
+      console.log(`✅ Seedream task ${taskId} completed with ${images.length} image(s)`);
+
+      // 同步触发内部回调处理 R2 上传（传入 generationId 用于直接查询）
+      await triggerInternalCallback({
+        taskId,
+        generationId: request.generationId,
+        status: "completed",
+        images,
+        metadata: {
+          provider: this.getProvider(),
+          model: "seedream-4-5",
+          usage: response.usage,
+        },
+      });
+
+      // 返回 completed 状态和图片
+      return {
+        taskId,
+        status: "completed",
+        images,
+        metadata: {
+          provider: this.getProvider(),
+          model: "seedream-4-5",
+          usage: response.usage,
+        },
+      };
+    } catch (error) {
+      console.error(`❌ Seedream sync execution failed for task ${taskId}:`, error);
+      return {
+        taskId,
+        status: "failed",
+        error: error instanceof Error ? error.message : "Unknown error",
+        metadata: { provider: this.getProvider() },
+      };
+    }
   }
 
   /**
-   * 异步执行图片生成 API 调用
-   * 完成后触发内部回调更新状态
+   * 后台异步执行 API 调用（Agent 模式专用）
+   * 使用 setImmediate 延迟执行，确保调用方有时间写入 agent_task_ids
    */
   private executeGenerateAsync(taskId: string, requestBody: SeedreamGenerateRequest): void {
     setImmediate(async () => {
       try {
-        console.log(`🔄 Seedream async API call started for task ${taskId}`);
+        console.log(`🔄 Seedream async execution started for task ${taskId}`);
 
         const response = await this.makeRequest(
           "/images/generations",
@@ -283,8 +369,8 @@ export class SeedreamProvider extends BaseAIProvider {
 
         // 检查 API 错误
         if (response.error) {
-          console.error(`❌ Seedream API error for task ${taskId}:`, response.error);
-          triggerInternalCallback({
+          console.error(`❌ Seedream async API error for task ${taskId}:`, response.error);
+          await triggerInternalCallback({
             taskId,
             status: "failed",
             error: response.error.message || "Seedream API error",
@@ -300,8 +386,8 @@ export class SeedreamProvider extends BaseAIProvider {
         const images = this.parseImageData(response.data);
 
         if (images.length === 0) {
-          console.error(`❌ No images generated for task ${taskId}`);
-          triggerInternalCallback({
+          console.error(`❌ Seedream async: No images generated for task ${taskId}`);
+          await triggerInternalCallback({
             taskId,
             status: "failed",
             error: "No images generated",
@@ -310,10 +396,10 @@ export class SeedreamProvider extends BaseAIProvider {
           return;
         }
 
-        console.log(`✅ Seedream task ${taskId} completed with ${images.length} image(s)`);
+        console.log(`✅ Seedream async task ${taskId} completed with ${images.length} image(s)`);
 
-        // 触发成功回调
-        triggerInternalCallback({
+        // 触发内部回调处理
+        await triggerInternalCallback({
           taskId,
           status: "completed",
           images,
@@ -325,7 +411,7 @@ export class SeedreamProvider extends BaseAIProvider {
         });
       } catch (error) {
         console.error(`❌ Seedream async execution failed for task ${taskId}:`, error);
-        triggerInternalCallback({
+        await triggerInternalCallback({
           taskId,
           status: "failed",
           error: error instanceof Error ? error.message : "Unknown error",
@@ -336,8 +422,9 @@ export class SeedreamProvider extends BaseAIProvider {
   }
 
   /**
-   * 图生图 - 异步模式，支持多图输入（最多 14 张）
-   * 立即返回 taskId，异步执行 API 调用
+   * 图生图 - 双模式支持，支持多图输入（最多 14 张）
+   * - Agent 模式（isAgentMode=true）: 异步执行，立即返回 pending，后台执行 + 回调
+   * - 非 Agent 模式: 同步执行，等待 API 返回 + 回调处理 R2 上传
    */
   async editImage(request: EditImageRequest): Promise<ProviderResponse> {
     const taskId = this.generateTaskId();
@@ -378,7 +465,34 @@ export class SeedreamProvider extends BaseAIProvider {
       stream: false,
     };
 
-    console.log("🖼️ Seedream editImage - async mode:", {
+    // Agent 模式：异步执行，立即返回 pending
+    if (request.isAgentMode) {
+      console.log("🖼️ Seedream editImage - ASYNC mode (Agent):", {
+        taskId,
+        model: requestBody.model,
+        prompt: requestBody.prompt.substring(0, 100) + "...",
+        size,
+        image_count: request.imageUrls.length,
+      });
+
+      // 后台异步执行 API 调用
+      this.executeEditAsync(taskId, requestBody, request.imageUrls.length);
+
+      // 立即返回 pending 状态
+      return {
+        taskId,
+        status: "pending",
+        metadata: {
+          provider: this.getProvider(),
+          model: "seedream-4-5",
+          mode: "image-to-image",
+          input_images: request.imageUrls.length,
+        },
+      };
+    }
+
+    // 非 Agent 模式：同步执行
+    console.log("🖼️ Seedream editImage - SYNC mode:", {
       taskId,
       model: requestBody.model,
       prompt: requestBody.prompt.substring(0, 100) + "...",
@@ -386,30 +500,100 @@ export class SeedreamProvider extends BaseAIProvider {
       resolution: request.resolution,
       size,
       image_count: request.imageUrls.length,
+      generationId: request.generationId,
     });
 
-    // 异步执行 API 调用（不阻塞返回）
-    this.executeEditAsync(taskId, requestBody, request.imageUrls.length);
+    // 【同步】执行 API 调用，等待结果
+    try {
+      const response = await this.makeRequest(
+        "/images/generations",
+        "POST",
+        requestBody
+      );
 
-    // 立即返回 pending 状态
-    return {
-      taskId,
-      status: "pending",
-      metadata: {
-        provider: this.getProvider(),
-        model: "seedream-4-5",
-        mode: "image-to-image",
-      },
-    };
+      // 检查 API 错误
+      if (response.error) {
+        console.error(`❌ Seedream API error for task ${taskId}:`, response.error);
+        return {
+          taskId,
+          status: "failed",
+          error: response.error.message || "Seedream API error",
+          metadata: {
+            provider: this.getProvider(),
+            error_code: response.error.code,
+            mode: "image-to-image",
+          },
+        };
+      }
+
+      // 解析图片
+      const images = this.parseImageData(response.data);
+
+      if (images.length === 0) {
+        console.error(`❌ No images generated for task ${taskId}`);
+        return {
+          taskId,
+          status: "failed",
+          error: "No images generated",
+          metadata: {
+            provider: this.getProvider(),
+            mode: "image-to-image",
+          },
+        };
+      }
+
+      console.log(`✅ Seedream edit task ${taskId} completed with ${images.length} image(s)`);
+
+      // 同步触发内部回调处理 R2 上传（传入 generationId 用于直接查询）
+      await triggerInternalCallback({
+        taskId,
+        generationId: request.generationId,
+        status: "completed",
+        images,
+        metadata: {
+          provider: this.getProvider(),
+          model: "seedream-4-5",
+          mode: "image-to-image",
+          input_images: request.imageUrls.length,
+          usage: response.usage,
+        },
+      });
+
+      // 返回 completed 状态和图片
+      return {
+        taskId,
+        status: "completed",
+        images,
+        metadata: {
+          provider: this.getProvider(),
+          model: "seedream-4-5",
+          mode: "image-to-image",
+          input_images: request.imageUrls.length,
+          usage: response.usage,
+        },
+      };
+    } catch (error) {
+      console.error(`❌ Seedream sync edit execution failed for task ${taskId}:`, error);
+      return {
+        taskId,
+        status: "failed",
+        error: error instanceof Error ? error.message : "Unknown error",
+        metadata: {
+          provider: this.getProvider(),
+          mode: "image-to-image",
+        },
+      };
+    }
   }
 
   /**
-   * 异步执行图生图 API 调用
+   * 后台异步执行图生图 API 调用（Agent 模式专用）
+   * 使用 setImmediate 延迟执行，确保调用方有时间写入 agent_task_ids
    */
   private executeEditAsync(taskId: string, requestBody: SeedreamGenerateRequest, inputImageCount: number): void {
     setImmediate(async () => {
       try {
-        console.log(`🔄 Seedream async edit API call started for task ${taskId}`);
+        console.log(`🔄 Seedream async edit execution started for task ${taskId}`);
 
         const response = await this.makeRequest(
           "/images/generations",
@@ -419,8 +603,8 @@ export class SeedreamProvider extends BaseAIProvider {
 
         // 检查 API 错误
         if (response.error) {
-          console.error(`❌ Seedream API error for task ${taskId}:`, response.error);
-          triggerInternalCallback({
+          console.error(`❌ Seedream async edit API error for task ${taskId}:`, response.error);
+          await triggerInternalCallback({
             taskId,
             status: "failed",
             error: response.error.message || "Seedream API error",
@@ -437,8 +621,8 @@ export class SeedreamProvider extends BaseAIProvider {
         const images = this.parseImageData(response.data);
 
         if (images.length === 0) {
-          console.error(`❌ No images generated for task ${taskId}`);
-          triggerInternalCallback({
+          console.error(`❌ Seedream async edit: No images generated for task ${taskId}`);
+          await triggerInternalCallback({
             taskId,
             status: "failed",
             error: "No images generated",
@@ -450,10 +634,10 @@ export class SeedreamProvider extends BaseAIProvider {
           return;
         }
 
-        console.log(`✅ Seedream edit task ${taskId} completed with ${images.length} image(s)`);
+        console.log(`✅ Seedream async edit task ${taskId} completed with ${images.length} image(s)`);
 
-        // 触发成功回调
-        triggerInternalCallback({
+        // 触发内部回调处理
+        await triggerInternalCallback({
           taskId,
           status: "completed",
           images,
@@ -467,7 +651,7 @@ export class SeedreamProvider extends BaseAIProvider {
         });
       } catch (error) {
         console.error(`❌ Seedream async edit execution failed for task ${taskId}:`, error);
-        triggerInternalCallback({
+        await triggerInternalCallback({
           taskId,
           status: "failed",
           error: error instanceof Error ? error.message : "Unknown error",
