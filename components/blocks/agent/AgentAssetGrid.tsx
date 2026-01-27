@@ -15,7 +15,32 @@ import { useTranslations } from 'next-intl';
 import { useInViewport } from '@/hooks/useInViewport';
 import { useAutoLoadMedia } from '@/hooks/useAutoLoadMedia';
 
-type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref' | 'audio';
+type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref' | 'audio' | 'shot_ref';
+
+interface UsedResource {
+  id: string;
+  type?: string;
+  description?: string;
+}
+
+interface GalleryItem {
+  id: string;
+  type: AssetType;
+  url?: string;
+  title?: string;
+  shotNumber?: number;
+  durationSeconds?: number;
+  fileSize?: number;
+  assetId?: string;
+  assetType?: string;
+  backgroundUrl?: string;
+  prompt?: string;
+  shotPrompt?: string;
+  keyframePrompt?: string;
+  keyframeReferenceUrls?: string[];
+  keyframeUrl?: string;
+  usedResources?: UsedResource[];
+}
 
 interface StoryOutline {
   logline?: string;
@@ -102,6 +127,12 @@ interface Asset {
   storyDetails?: StoryDetails;
   totalDurationSeconds?: number;
   shotsCount?: number;
+  prompt?: string;
+  shotPrompt?: string;
+  keyframePrompt?: string;
+  keyframeReferenceUrls?: string[];
+  keyframeUrl?: string;
+  usedResources?: UsedResource[];
 }
 
 interface VideoAssetPreviewProps {
@@ -208,6 +239,9 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
     const sceneElement = keyElements.find(
       (element: any) => element && element.type === 'scene'
     ) || null;
+    const narrationAndMusic = Array.isArray((storyboardRoot as any)?.narration_and_music)
+      ? (storyboardRoot as any).narration_and_music
+      : [];
     const characterCount = characterElements.length;
     const shouldShowCharacterPlaceholders =
       characterCount > 0 &&
@@ -446,6 +480,39 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
         return Math.min(99, base + smoothing);
       })();
 
+      const keyElementsById = new Map<string, StoryElement>();
+      keyElements.forEach((element: any) => {
+        if (!element?.id) return;
+        keyElementsById.set(element.id, {
+          id: element.id,
+          description: element.description,
+        });
+      });
+
+      const storyboardShotByNumber = new Map<number, StoryboardShotDetail>();
+      storyboardShots.forEach((shot: StoryboardShotDetail, index: number) => {
+        const number = shot?.shot_number ?? index + 1;
+        storyboardShotByNumber.set(number, shot);
+      });
+
+      const resolveUsedResources = (shotNumber?: number): UsedResource[] | undefined => {
+        if (!shotNumber) return undefined;
+        const storyboardShot = storyboardShotByNumber.get(shotNumber);
+        const refs = Array.isArray(storyboardShot?.start_frame_element_refs)
+          ? storyboardShot.start_frame_element_refs
+          : [];
+        if (!refs.length) return undefined;
+        return refs.map((refId) => {
+          const element = keyElementsById.get(refId);
+          const elementType = keyElements.find((item: any) => item?.id === refId)?.type;
+          return {
+            id: refId,
+            type: elementType,
+            description: element?.description,
+          };
+        });
+      };
+
       // 1. Story + Characters + Script summary card（合并展示）
       const normalizedOutline = storyOutline && typeof storyOutline === 'object' ? storyOutline : {};
       const acts =
@@ -590,9 +657,10 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       }
 
       // 2. Character reference images (always show all and place before keyframes)
+      const excludedReferenceUrls = new Set(referenceImageUrls || []);
       const refImages =
         characterReferenceImages && Array.isArray(characterReferenceImages)
-          ? characterReferenceImages.filter(Boolean)
+          ? characterReferenceImages.filter((url) => url && !excludedReferenceUrls.has(url))
           : [];
       if (refImages.length > 0) {
         refImages.forEach((url, index) => {
@@ -608,6 +676,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
               refImages.length > 1
                 ? `${t("assets.ref")} #${index + 1}`
                 : `${t("assets.ref")} #1`,
+            prompt: characterElements[index]?.description,
           });
         });
       }
@@ -643,6 +712,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
             loading: isLoading,
             backgroundUrl: asset.url ? undefined : fallbackBackground,
             progressValue: isLoading ? characterProgressValue : undefined,
+            prompt: sceneElement?.description,
           });
         });
       } else if (shouldShowScenePlaceholder) {
@@ -681,6 +751,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
             duration: durationSeconds,
             durationSeconds,
             fileSize: asset.metadata?.file_size,
+            prompt: narrationAndMusic[index]?.description,
           });
         });
       } else if (musicAssetsStatus === 'loading') {
@@ -720,6 +791,16 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
             ? 100
             : undefined;
 
+        const keyframePrompt =
+          shot.keyframe_prompt ||
+          (shot.keyframe_metadata && typeof (shot.keyframe_metadata as any).prompt === 'string'
+            ? (shot.keyframe_metadata as any).prompt
+            : undefined);
+        const keyframeReferenceUrls = Array.isArray(shot.keyframe_reference_urls)
+          ? shot.keyframe_reference_urls.filter(Boolean)
+          : [];
+        const usedResources = resolveUsedResources(shot.shot_number);
+
         result.push({
           id: `keyframe-${shot.id}`,
           type: 'image',
@@ -733,6 +814,10 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           loading: isKeyframeLoading,
           backgroundUrl,
           progressValue,
+          keyframePrompt,
+          keyframeReferenceUrls,
+          shotPrompt: shot.prompt,
+          usedResources,
         });
       });
 
@@ -767,6 +852,13 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           return;
         }
 
+        const keyframePrompt =
+          shot.keyframe_prompt ||
+          (shot.keyframe_metadata && typeof (shot.keyframe_metadata as any).prompt === 'string'
+            ? (shot.keyframe_metadata as any).prompt
+            : undefined);
+        const usedResources = resolveUsedResources(shot.shot_number);
+
         result.push({
           id: `video-${shot.id}`,
           type: 'video',
@@ -782,6 +874,10 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           loading: isVideoLoading,
           backgroundUrl,
           progressValue,
+          keyframePrompt,
+          shotPrompt: shot.prompt,
+          keyframeUrl: shot.keyframe_url,
+          usedResources,
         });
       });
 
@@ -796,15 +892,17 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
             id: `extra-video-${asset.id}`,
             type: 'video',
             assetId: asset.assetId,
+            assetType: 'final',
             url: asset.url,
             title: asset.title,
             duration: asset.duration,
+            backgroundUrl: fallbackBackground,
           });
         });
       }
 
       return result;
-    }, [shots, storyOutline, characterElements, sceneElement, storyboardShots, storyboardJson, characterReferenceImages, progress, fallbackBackground, shouldShowCharacterPlaceholders, shouldShowScenePlaceholder, characterCount, jobStatus, isKeyframeStage, isVideoStage, isJobFailed, failedDuringVideoStage, estimatedImageProgress, estimatedVideoProgress, sceneAssets, musicAssets, musicAssetsStatus, assetDownloadLookup, t, showAgentInternals, extraVideoAssets]);
+    }, [shots, storyOutline, characterElements, sceneElement, storyboardShots, storyboardJson, characterReferenceImages, referenceImageUrls, progress, fallbackBackground, shouldShowCharacterPlaceholders, shouldShowScenePlaceholder, characterCount, jobStatus, isKeyframeStage, isVideoStage, isJobFailed, failedDuringVideoStage, estimatedImageProgress, estimatedVideoProgress, sceneAssets, musicAssets, musicAssetsStatus, assetDownloadLookup, t, showAgentInternals, extraVideoAssets, narrationAndMusic]);
 
     const getAssetTypeLabel = (type: AssetType) => {
       switch (type) {
@@ -822,6 +920,8 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           return `🏞️ ${t("assets.sceneRef")}`;
         case 'audio':
           return `🎵 ${t("assets.backgroundMusic")}`;
+        case 'shot_ref':
+          return `🧩 ${t("assets.ref")}`;
         default:
           return '';
       }
@@ -843,6 +943,8 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           return 'text-sky-400';
         case 'audio':
           return 'text-emerald-400';
+        case 'shot_ref':
+          return 'text-indigo-400';
         default:
           return 'text-gray-400';
       }
@@ -882,6 +984,77 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
         <div className="text-red-300 text-sm font-medium">{t("item.failed")}</div>
       </div>
     );
+
+    const galleryItems = useMemo(() => {
+      const items: GalleryItem[] = assets
+        .filter(
+          (asset) =>
+            ['image', 'video', 'audio', 'character_refs', 'scene_ref'].includes(asset.type) &&
+            asset.url &&
+            !asset.loading &&
+            asset.status !== 'failed'
+        )
+        .map((asset): GalleryItem => ({
+          id: asset.id,
+          type: asset.type,
+          url: asset.url,
+          title: asset.title,
+          shotNumber: asset.shotNumber,
+          durationSeconds: asset.durationSeconds,
+          fileSize: asset.fileSize,
+          assetId: asset.assetId,
+          assetType: asset.assetType,
+          backgroundUrl: asset.backgroundUrl,
+          prompt: asset.prompt,
+          shotPrompt: asset.shotPrompt,
+          keyframePrompt: asset.keyframePrompt,
+          keyframeReferenceUrls: asset.keyframeReferenceUrls,
+          keyframeUrl: asset.keyframeUrl,
+          usedResources: asset.usedResources,
+        }));
+
+      const excludedReferenceUrls = new Set(referenceImageUrls || []);
+      const urlSet = new Set(items.map((item) => item.url).filter(Boolean));
+      const promptByUrl = new Map<string, string>();
+
+      (characterReferenceImages || []).forEach((url, index) => {
+        if (!url) return;
+        const description = characterElements[index]?.description;
+        if (description) {
+          promptByUrl.set(url, description);
+        }
+      });
+      sceneAssets.forEach((asset) => {
+        if (asset.url && sceneElement?.description) {
+          promptByUrl.set(asset.url, sceneElement.description);
+        }
+      });
+
+      shots?.forEach((shot) => {
+        const referenceUrls = Array.isArray(shot.keyframe_reference_urls)
+          ? shot.keyframe_reference_urls.filter(Boolean)
+          : [];
+        referenceUrls.forEach((url, index) => {
+          if (!url || urlSet.has(url) || excludedReferenceUrls.has(url)) return;
+          items.push({
+            id: `shot-ref-${shot.id}-${index}`,
+            type: 'shot_ref',
+            url,
+            title: `${t("assets.shot")} #${shot.shot_number} ${t("assets.ref")} ${index + 1}`,
+            shotNumber: shot.shot_number,
+            prompt: promptByUrl.get(url),
+          });
+          urlSet.add(url);
+        });
+      });
+
+      return items;
+    }, [assets, characterElements, characterReferenceImages, referenceImageUrls, sceneAssets, sceneElement, shots, t]);
+
+    const selectedGalleryIndex = selectedAsset
+      ? galleryItems.findIndex((item) => item.id === selectedAsset.id)
+      : -1;
+    const shouldShowGallery = selectedGalleryIndex >= 0 && galleryItems.length > 0;
 
     if (assets.length === 0) {
       return null;
@@ -1059,6 +1232,14 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
               shotsCount: selectedAsset.shotsCount,
               totalDurationSeconds: selectedAsset.totalDurationSeconds,
             }}
+            gallery={
+              shouldShowGallery
+                ? {
+                    items: galleryItems,
+                    initialIndex: selectedGalleryIndex,
+                  }
+                : undefined
+            }
           />
         )}
         <style jsx global>{`
