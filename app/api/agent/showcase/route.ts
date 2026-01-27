@@ -13,6 +13,7 @@ const SHOWCASE_JOB_IDS = [
   "80b44e0e-efb2-41d6-95a9-afdabc8869fc",
   "8adc4a84-f5ef-4196-a193-1f0b9bf06575",
   "0d90dbb9-cd00-4898-9955-ace381c826aa",  
+  "b6c73605-c9ac-4ee9-85f3-28ec537881ce",
 ];
 
 export async function GET() {
