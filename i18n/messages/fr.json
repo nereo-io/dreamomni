@@ -856,6 +856,9 @@
       "skipped": "Ignoré",
       "model": "Modèle"
     },
+    "gallery": {
+      "promptLabel": "Prompt"
+    },
     "createPanel": {
       "title": "Créer un Job d'Agent",
       "description": "Description",

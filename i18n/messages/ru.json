@@ -857,6 +857,9 @@
       "skipped": "Пропущено",
       "model": "Модель"
     },
+    "gallery": {
+      "promptLabel": "Промпт"
+    },
     "createPanel": {
       "title": "Создать задачу агента",
       "description": "Описание",

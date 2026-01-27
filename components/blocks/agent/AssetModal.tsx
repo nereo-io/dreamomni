@@ -17,7 +17,7 @@ import { useTranslations } from 'next-intl';
 import { buildAgentAssetDownloadUrl } from '@/utils/agent-download';
 import { trackPlausibleEvent } from '@/utils/plausible';
 
-type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref' | 'audio';
+type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref' | 'audio' | 'shot_ref';
 
 interface StoryAct {
   title?: string;
@@ -164,7 +164,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
 
   // Reset media loading state when modal opens or data changes
   useEffect(() => {
-    if (isOpen && (type === 'image' || type === 'character_refs' || type === 'scene_ref' || type === 'video' || type === 'audio')) {
+    if (isOpen && (type === 'image' || type === 'character_refs' || type === 'scene_ref' || type === 'shot_ref' || type === 'video' || type === 'audio')) {
       setIsMediaLoading(true);
     } else {
       setIsMediaLoading(false);
@@ -330,7 +330,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
           ? 'json'
           : 'txt';
       const filename = `${type}_${data.shotNumber || 'asset'}.${ext}`;
-      if (['image', 'video', 'audio', 'character_refs', 'scene_ref'].includes(type)) {
+      if (['image', 'video', 'audio', 'character_refs', 'scene_ref', 'shot_ref'].includes(type)) {
         const fileType =
           type === 'audio'
             ? 'audio'
@@ -366,7 +366,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
         });
       }
       link.href =
-        data.assetId && ['image', 'video', 'audio', 'character_refs', 'scene_ref'].includes(type)
+        data.assetId && ['image', 'video', 'audio', 'character_refs', 'scene_ref', 'shot_ref'].includes(type)
           ? buildAgentAssetDownloadUrl(data.assetId, filename, 'asset_modal')
           : data.url;
       link.download = filename;
@@ -396,6 +396,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
     if (type === 'story') return t("assetModal.storyboard");
     if (type === 'character_refs') return t("assetModal.characterRefs");
     if (type === 'scene_ref') return t("assetModal.sceneRef");
+    if (type === 'shot_ref') return t("assets.ref");
     if (type === 'audio') return t("assets.backgroundMusic");
     return type.charAt(0).toUpperCase() + type.slice(1);
   };
@@ -874,7 +875,7 @@ export function AssetModal({ isOpen, onClose, type, data }: AssetModalProps) {
           {type === 'story' && renderStoryDetails()}
 
           {/* Image */}
-          {(type === 'image' || type === 'character_refs' || type === 'scene_ref') && data.url && (
+          {(type === 'image' || type === 'character_refs' || type === 'scene_ref' || type === 'shot_ref') && data.url && (
             <div className="relative flex items-center justify-center bg-gray-900 rounded-lg p-4 min-h-[60vh]">
               {isMediaLoading && (
                 <div className="absolute inset-0 flex items-center justify-center">

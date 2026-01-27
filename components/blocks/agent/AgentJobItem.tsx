@@ -624,6 +624,7 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
             <AgentAssetGrid
               jobId={job.id}
               userId={job.user_id}
+              jobPrompt={job.prompt}
               shots={job.shots}
               finalVideoUrl={job.final_video_url}
               storyboardJson={

@@ -8,6 +8,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AgentShot, AgentJob, AgentAsset } from '@/types/agent';
 import { AssetModal } from './AssetModal';
+import { AssetGalleryModal } from './AssetGalleryModal';
 import { FileText, Music, PlayCircle, Sparkles } from 'lucide-react';
 import { useGenerationProgress } from '@/hooks/useGenerationProgress';
 import { getVideoModel } from '@/config/video-models';
@@ -15,7 +16,8 @@ import { useTranslations } from 'next-intl';
 import { useInViewport } from '@/hooks/useInViewport';
 import { useAutoLoadMedia } from '@/hooks/useAutoLoadMedia';
 
-type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref' | 'audio';
+type AssetType = 'script' | 'image' | 'video' | 'story' | 'character_refs' | 'scene_ref' | 'audio' | 'shot_ref';
+type MediaAssetType = 'image' | 'video' | 'audio' | 'character_refs' | 'scene_ref' | 'shot_ref';
 
 interface StoryOutline {
   logline?: string;
@@ -156,12 +158,14 @@ interface AgentAssetGridProps {
   jobUpdatedAt?: string;
   extraVideoAssets?: ExtraVideoAsset[];
   isResuming?: boolean;
+  jobPrompt?: string;
 }
 
 export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
-  ({ jobId, userId, shots, finalVideoUrl: _finalVideoUrl, storyboardJson, characterReferenceImages, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrls, jobStatus, failedAtStep, createdAt, videoModelId, jobUpdatedAt, extraVideoAssets, isResuming = false }) => {
+  ({ jobId, userId, shots, finalVideoUrl: _finalVideoUrl, storyboardJson, characterReferenceImages, locale, aspectRatio = '16:9', keyframesEnabled = true, progress, referenceImageUrls, jobStatus, failedAtStep, createdAt, videoModelId, jobUpdatedAt, extraVideoAssets, isResuming = false, jobPrompt }) => {
     const t = useTranslations("agentJobs");
     const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
+    const [selectedMediaIndex, setSelectedMediaIndex] = useState<number | null>(null);
     const [sceneAssets, setSceneAssets] = useState<AgentAsset[]>([]);
     const [sceneAssetsStatus, setSceneAssetsStatus] = useState<'idle' | 'loading' | 'error'>('idle');
     const [musicAssets, setMusicAssets] = useState<AgentAsset[]>([]);
@@ -736,6 +740,24 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
         });
       });
 
+      // 3.5 Shot reference attachments
+      shots?.forEach((shot) => {
+        const referenceUrls = Array.isArray(shot.keyframe_reference_urls)
+          ? shot.keyframe_reference_urls.filter(Boolean)
+          : [];
+        referenceUrls.forEach((url, index) => {
+          result.push({
+            id: `shot-ref-${shot.id}-${index}`,
+            type: 'shot_ref',
+            url,
+            assetType: 'image',
+            shotNumber: shot.shot_number,
+            title: `${t("assets.shot")} #${shot.shot_number} ${t("assets.ref")} ${index + 1}`,
+            backgroundUrl: url,
+          });
+        });
+      });
+
       // 4. Shot videos
       shots?.forEach(shot => {
         const shotHasVideoActivity = ['done', 'failed', 'generating'].includes(shot.video_status);
@@ -796,9 +818,11 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
             id: `extra-video-${asset.id}`,
             type: 'video',
             assetId: asset.assetId,
+            assetType: 'final',
             url: asset.url,
             title: asset.title,
             duration: asset.duration,
+            backgroundUrl: fallbackBackground,
           });
         });
       }
@@ -822,6 +846,8 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           return `🏞️ ${t("assets.sceneRef")}`;
         case 'audio':
           return `🎵 ${t("assets.backgroundMusic")}`;
+        case 'shot_ref':
+          return `🧩 ${t("assets.ref")}`;
         default:
           return '';
       }
@@ -843,6 +869,8 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           return 'text-sky-400';
         case 'audio':
           return 'text-emerald-400';
+        case 'shot_ref':
+          return 'text-indigo-400';
         default:
           return 'text-gray-400';
       }
@@ -887,6 +915,17 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       return null;
     }
 
+    const isMediaAssetType = (type: AssetType): type is MediaAssetType =>
+      ['image', 'video', 'audio', 'character_refs', 'scene_ref', 'shot_ref'].includes(type);
+
+    const mediaAssets = assets.filter(
+      (asset): asset is Asset & { type: MediaAssetType } =>
+        isMediaAssetType(asset.type) &&
+        !!asset.url &&
+        !asset.loading &&
+        asset.status !== 'failed'
+    );
+
     return (
       <>
         <div
@@ -900,6 +939,13 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
               style={{ aspectRatio: aspectRatioValue }}
               onClick={() => {
                 if (asset.loading || asset.status === 'failed') return;
+                if (isMediaAssetType(asset.type)) {
+                  const nextIndex = mediaAssets.findIndex((item) => item.id === asset.id);
+                  if (nextIndex >= 0) {
+                    setSelectedMediaIndex(nextIndex);
+                  }
+                  return;
+                }
                 setSelectedAsset(asset);
               }}
             >
@@ -965,6 +1011,24 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
                       +{asset.extraCount - 1} {t("assets.more")}
                     </div>
                   )}
+                </>
+              )}
+
+              {/* Shot Reference Attachments */}
+              {asset.type === 'shot_ref' && asset.url && (
+                <>
+                  <img
+                    src={asset.url}
+                    alt={asset.title}
+                    className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+                  <div
+                    className="absolute top-2 left-2 text-white text-xs font-medium bg-black/50 px-2 py-0.5 rounded-md max-w-[80%] truncate"
+                    title={asset.title || 'Ref'}
+                  >
+                    {asset.title || 'Ref'}
+                  </div>
                 </>
               )}
 
@@ -1061,6 +1125,31 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
             }}
           />
         )}
+
+        <AssetGalleryModal
+          open={selectedMediaIndex !== null}
+          onOpenChange={(nextOpen) => {
+            if (!nextOpen) {
+              setSelectedMediaIndex(null);
+            }
+          }}
+          items={mediaAssets.map((asset) => ({
+            id: asset.id,
+            type: asset.type,
+            url: asset.url,
+            title: asset.title,
+            shotNumber: asset.shotNumber,
+            durationSeconds: asset.durationSeconds,
+            fileSize: asset.fileSize,
+            assetId: asset.assetId,
+            assetType: asset.assetType,
+            backgroundUrl: asset.backgroundUrl,
+          }))}
+          initialIndex={selectedMediaIndex ?? 0}
+          prompt={jobPrompt}
+          jobId={jobId}
+          userId={userId}
+        />
         <style jsx global>{`
           @keyframes agent-loader-bounce {
             0%, 100% {
