@@ -51,12 +51,24 @@ export function ImageGridUploader({
 
   // 初始化图片列表 (用于 Re-edit 功能)
   useEffect(() => {
-    if (initialImages && initialImages.length > 0) {
-      const items: ImageItem[] = initialImages.map(url => ({ url }));
-      setImageItems(items);
-      onImagesChange(initialImages, []); // Re-edit 的图片没有来源 ID
+    if (initialImages === undefined) {
+      return;
     }
-  }, [initialImages, onImagesChange]);
+
+    setImageItems(prevItems => {
+      const currentImages = prevItems.map(item => item.url);
+      const isSameLength = initialImages.length === currentImages.length;
+      const isSameContent =
+        isSameLength &&
+        initialImages.every((url, index) => url === currentImages[index]);
+
+      if (isSameContent) {
+        return prevItems;
+      }
+
+      return initialImages.map(url => ({ url }));
+    });
+  }, [initialImages]);
 
   // 上传单个文件（使用统一的上传工具）
   const uploadFile = async (file: File): Promise<string | null> => {
