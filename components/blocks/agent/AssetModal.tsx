@@ -1048,7 +1048,7 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
           </div>
         </DialogHeader>
 
-        <div className="px-4 pb-4 overflow-auto max-h-[calc(90vh-120px)] pr-1 space-y-6">
+        <div className="px-4 pb-4 overflow-auto max-h-[calc(90vh-120px)] space-y-6">
           {shouldShowMetaSection && (
             <section className="space-y-4">
               {(showReferenceImages || showKeyframeImage) && (
