@@ -393,31 +393,31 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
         activeType === 'video'
           ? 'mp4'
           : activeType === 'audio'
-          ? 'mp3'
-          : activeType === 'image' || activeType === 'character_refs' || activeType === 'scene_ref' || activeType === 'shot_ref'
-          ? 'png'
-          : activeType === 'story' || activeType === 'script'
-          ? 'json'
-          : 'txt';
+            ? 'mp3'
+            : activeType === 'image' || activeType === 'character_refs' || activeType === 'scene_ref' || activeType === 'shot_ref'
+              ? 'png'
+              : activeType === 'story' || activeType === 'script'
+                ? 'json'
+                : 'txt';
       const filename = `${activeType}_${activeShotNumber || 'asset'}.${ext}`;
       if (['image', 'video', 'audio', 'character_refs', 'scene_ref', 'shot_ref'].includes(activeType)) {
         const fileType =
           activeType === 'audio'
             ? 'audio'
             : activeType === 'video'
-            ? 'video'
-            : 'image';
+              ? 'video'
+              : 'image';
         const assetType =
           activeAssetType ||
           (activeType === 'character_refs'
             ? 'character_ref'
             : activeType === 'scene_ref'
-            ? 'scene_ref'
-            : activeType === 'audio'
-            ? 'background_music'
-            : activeType === 'video'
-            ? 'clip'
-            : 'image');
+              ? 'scene_ref'
+              : activeType === 'audio'
+                ? 'background_music'
+                : activeType === 'video'
+                  ? 'clip'
+                  : 'image');
         const fileExt = activeUrl ? activeUrl.split('?')[0]?.split('.').pop() || ext : ext;
 
         trackPlausibleEvent('ai_shorts_asset_download_completed', {
@@ -499,10 +499,10 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
       typeof data.shotsCount === 'number'
         ? data.shotsCount
         : shots.length > 0
-        ? shots.length
-        : storyboardShots.length > 0
-        ? storyboardShots.length
-        : undefined;
+          ? shots.length
+          : storyboardShots.length > 0
+            ? storyboardShots.length
+            : undefined;
 
     return (
       <div className="space-y-6">
@@ -769,53 +769,53 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
                     value={itemValue}
                     className="border-none"
                   >
-                  <AccordionTrigger className="text-left px-4 py-3 text-gray-100 hover:no-underline">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-semibold text-sm">
-                        {t("assetModal.shot")} #{shot.number ?? index + 1}
-                      </span>
-                      {shot.duration && (
-                        <Badge variant="outline" className="border-white/15 text-gray-200 text-xs">
-                          {formatDuration(shot.duration)}
-                        </Badge>
-                      )}
-                      {shot.keyframeStatus === 'done' && (
-                        <Badge variant="outline" className="border-emerald-400/30 text-emerald-300 text-xs">
-                          {t("assetModal.keyframePrompt")} {t("assetModal.done")}
-                        </Badge>
-                      )}
-                      {shot.keyframeStatus === 'skipped' && (
-                        <Badge variant="outline" className="border-white/15 text-gray-200 text-xs">
-                          {t("assetModal.keyframePrompt")} {t("assetModal.skipped")}
-                        </Badge>
-                      )}
-                      {shot.keyframeStatus === 'failed' && (
-                        <Badge variant="outline" className="border-rose-400/40 text-rose-300 text-xs">
-                          {t("assetModal.keyframePrompt")} {t("assetModal.failed")}
-                        </Badge>
-                      )}
-                      {shot.videoStatus === 'generating' && (
-                        <Badge variant="outline" className="border-amber-300/30 text-amber-200 text-xs">
-                          {t("assetModal.generating")}
-                        </Badge>
-                      )}
-                      {shot.videoStatus === 'done' && (
-                        <Badge variant="outline" className="border-emerald-400/30 text-emerald-300 text-xs">
-                          {t("assets.video")} {t("assetModal.done")}
-                        </Badge>
-                      )}
-                      {shot.videoStatus === 'failed' && (
-                        <Badge variant="outline" className="border-rose-400/40 text-rose-300 text-xs">
-                          {t("assets.video")} {t("assetModal.failed")}
-                        </Badge>
-                      )}
-                      {shot.videoModelUsed && (
-                        <Badge variant="outline" className="border-white/15 text-gray-200 text-xs">
-                          {t("assetModal.model")}: {shot.videoModelUsed}
-                        </Badge>
-                      )}
-                    </div>
-                  </AccordionTrigger>
+                    <AccordionTrigger className="text-left px-4 py-3 text-gray-100 hover:no-underline">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-semibold text-sm">
+                          {t("assetModal.shot")} #{shot.number ?? index + 1}
+                        </span>
+                        {shot.duration && (
+                          <Badge variant="outline" className="border-white/15 text-gray-200 text-xs">
+                            {formatDuration(shot.duration)}
+                          </Badge>
+                        )}
+                        {shot.keyframeStatus === 'done' && (
+                          <Badge variant="outline" className="border-emerald-400/30 text-emerald-300 text-xs">
+                            {t("assetModal.keyframePrompt")} {t("assetModal.done")}
+                          </Badge>
+                        )}
+                        {shot.keyframeStatus === 'skipped' && (
+                          <Badge variant="outline" className="border-white/15 text-gray-200 text-xs">
+                            {t("assetModal.keyframePrompt")} {t("assetModal.skipped")}
+                          </Badge>
+                        )}
+                        {shot.keyframeStatus === 'failed' && (
+                          <Badge variant="outline" className="border-rose-400/40 text-rose-300 text-xs">
+                            {t("assetModal.keyframePrompt")} {t("assetModal.failed")}
+                          </Badge>
+                        )}
+                        {shot.videoStatus === 'generating' && (
+                          <Badge variant="outline" className="border-amber-300/30 text-amber-200 text-xs">
+                            {t("assetModal.generating")}
+                          </Badge>
+                        )}
+                        {shot.videoStatus === 'done' && (
+                          <Badge variant="outline" className="border-emerald-400/30 text-emerald-300 text-xs">
+                            {t("assets.video")} {t("assetModal.done")}
+                          </Badge>
+                        )}
+                        {shot.videoStatus === 'failed' && (
+                          <Badge variant="outline" className="border-rose-400/40 text-rose-300 text-xs">
+                            {t("assets.video")} {t("assetModal.failed")}
+                          </Badge>
+                        )}
+                        {shot.videoModelUsed && (
+                          <Badge variant="outline" className="border-white/15 text-gray-200 text-xs">
+                            {t("assetModal.model")}: {shot.videoModelUsed}
+                          </Badge>
+                        )}
+                      </div>
+                    </AccordionTrigger>
                     <AccordionContent className="px-4 pb-4">
                       <div className="space-y-4">
                         {keyframePromptText && (
@@ -911,9 +911,11 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
           {t("assetModal.copy")}
         </Button>
       </div>
-      <p className="bg-black/40 rounded-lg px-3 py-2 text-sm text-gray-100 whitespace-pre-wrap leading-relaxed break-words line-clamp-3">
-        {value}
-      </p>
+      <div className="bg-black/40 rounded-lg px-3 py-2 text-sm text-gray-100">
+        <p className="whitespace-pre-wrap leading-relaxed break-words line-clamp-3">
+          {value}
+        </p>
+      </div>
     </div>
   );
 
@@ -950,8 +952,8 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
       item.type === 'video'
         ? item.backgroundUrl || item.url
         : item.type === 'audio'
-        ? undefined
-        : item.url;
+          ? undefined
+          : item.url;
 
     if (thumbnailUrl) {
       return (
@@ -1111,31 +1113,31 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
             activeType === 'scene_ref' ||
             activeType === 'shot_ref') &&
             activeUrl && (
-            <div className="relative flex items-center justify-center bg-gray-900 rounded-lg p-4 min-h-[60vh]">
-              {isMediaLoading && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="flex items-center gap-2">
-                    {[0, 1, 2].map(index => (
-                      <span
-                        key={index}
-                        className="block w-3 h-3 rounded-full bg-white/60 animate-[agent-loader-bounce_1.2s_ease-in-out_infinite]"
-                        style={{ animationDelay: `${index * 0.15}s` }}
-                      />
-                    ))}
+              <div className="relative flex items-center justify-center bg-gray-900 rounded-lg p-4 min-h-[60vh]">
+                {isMediaLoading && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="flex items-center gap-2">
+                      {[0, 1, 2].map(index => (
+                        <span
+                          key={index}
+                          className="block w-3 h-3 rounded-full bg-white/60 animate-[agent-loader-bounce_1.2s_ease-in-out_infinite]"
+                          style={{ animationDelay: `${index * 0.15}s` }}
+                        />
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-              {renderGalleryNavigation()}
-              <img
-                src={activeUrl}
-                alt={getTitle()}
-                className="max-w-full max-h-[70vh] object-contain rounded"
-                onLoad={() => setIsMediaLoading(false)}
-                onError={() => setIsMediaLoading(false)}
-                style={{ opacity: isMediaLoading ? 0 : 1, transition: 'opacity 0.3s' }}
-              />
-            </div>
-          )}
+                )}
+                {renderGalleryNavigation()}
+                <img
+                  src={activeUrl}
+                  alt={getTitle()}
+                  className="max-w-full max-h-[70vh] object-contain rounded"
+                  onLoad={() => setIsMediaLoading(false)}
+                  onError={() => setIsMediaLoading(false)}
+                  style={{ opacity: isMediaLoading ? 0 : 1, transition: 'opacity 0.3s' }}
+                />
+              </div>
+            )}
 
           {/* Video */}
           {activeType === 'video' && activeUrl && (
@@ -1209,9 +1211,8 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
                     key={item.id}
                     type="button"
                     onClick={() => setCurrentIndex(index)}
-                    className={`relative h-14 w-20 flex-shrink-0 overflow-hidden rounded-md border border-white/10 ${
-                      index === currentIndex ? 'ring-2 ring-white/70' : ''
-                    }`}
+                    className={`relative h-14 w-20 flex-shrink-0 overflow-hidden rounded-md border border-white/10 ${index === currentIndex ? 'ring-2 ring-white/70' : ''
+                      }`}
                     title={item.title}
                   >
                     {renderThumbnail(item)}
