@@ -911,9 +911,9 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
           {t("assetModal.copy")}
         </Button>
       </div>
-      <pre className="bg-black/40 rounded-lg p-3 text-sm text-gray-100 whitespace-pre-wrap leading-relaxed">
+      <p className="bg-black/40 rounded-lg px-3 py-2 text-sm text-gray-100 whitespace-pre-wrap leading-relaxed break-words line-clamp-3">
         {value}
-      </pre>
+      </p>
     </div>
   );
 
@@ -993,28 +993,19 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
     ? activeItem.keyframeReferenceUrls.filter(Boolean)
     : [];
   const keyframeImageUrl = activeItem?.keyframeUrl;
-  const promptBlocks = (() => {
-    if (!activeItem) return [];
+  const promptText = (() => {
+    if (!activeItem) return '';
     if (activeType === 'image') {
-      return keyframePromptText
-        ? [{ label: t("assetModal.keyframePrompt"), value: keyframePromptText }]
-        : [];
+      return keyframePromptText || activeItem.prompt || activeItem.shotPrompt || '';
     }
     if (activeType === 'video') {
-      const videoPrompt = activeItem.shotPrompt || activeItem.prompt;
-      return videoPrompt
-        ? [{ label: t("gallery.promptLabel"), value: videoPrompt }]
-        : [];
+      return activeItem.shotPrompt || activeItem.prompt || '';
     }
-    return activeItem.prompt
-      ? [{ label: t("gallery.promptLabel"), value: activeItem.prompt }]
-      : [];
+    return activeItem.prompt || '';
   })();
-  const usedResources = activeItem?.usedResources ?? [];
   const showReferenceImages = activeType === 'image' && keyframeReferenceUrls.length > 0;
   const showKeyframeImage = activeType === 'video' && !!keyframeImageUrl;
-  const shouldShowMetaSection =
-    promptBlocks.length > 0 || usedResources.length > 0 || showReferenceImages || showKeyframeImage;
+  const shouldShowMetaSection = !!promptText || showReferenceImages || showKeyframeImage;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -1060,69 +1051,48 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
         <div className="mt-4 overflow-auto max-h-[calc(90vh-120px)] pr-1 space-y-6">
           {shouldShowMetaSection && (
             <section className="space-y-4">
-              {promptBlocks.map((block) => (
-                <div key={block.label}>{renderPromptBlock(block.label, block.value)}</div>
-              ))}
-              {showReferenceImages && (
+              {(showReferenceImages || showKeyframeImage) && (
                 <div className="space-y-2">
                   <div className="text-xs uppercase tracking-wide text-gray-400">
-                    {t("assets.ref")}
+                    REF
                   </div>
-                  <div className="grid gap-2 sm:grid-cols-2">
-                    {keyframeReferenceUrls.map((url, index) => (
+                  <div className="flex flex-wrap gap-2">
+                    {showReferenceImages &&
+                      keyframeReferenceUrls.map((url, index) => (
+                        <div
+                          key={`${url}-${index}`}
+                          className="relative h-16 w-24 overflow-hidden rounded-lg border border-white/10 bg-black/30"
+                        >
+                          <img
+                            src={url}
+                            alt={`REF#${index + 1}`}
+                            className="h-full w-full object-cover"
+                            loading="lazy"
+                          />
+                          <span className="absolute left-1 top-1 rounded bg-black/60 px-1 text-[10px] text-gray-100">
+                            REF#{index + 1}
+                          </span>
+                        </div>
+                      ))}
+                    {showKeyframeImage && keyframeImageUrl && (
                       <div
-                        key={`${url}-${index}`}
-                        className="rounded-lg border border-white/10 bg-black/30 p-2"
+                        className="relative h-16 w-24 overflow-hidden rounded-lg border border-white/10 bg-black/30"
                       >
                         <img
-                          src={url}
-                          alt={`${t("assets.ref")} ${index + 1}`}
-                          className="w-full max-h-48 object-contain rounded"
+                          src={keyframeImageUrl}
+                          alt="REF#1"
+                          className="h-full w-full object-cover"
                           loading="lazy"
                         />
+                        <span className="absolute left-1 top-1 rounded bg-black/60 px-1 text-[10px] text-gray-100">
+                          REF#1
+                        </span>
                       </div>
-                    ))}
+                    )}
                   </div>
                 </div>
               )}
-              {showKeyframeImage && (
-                <div className="space-y-2">
-                  <div className="text-xs uppercase tracking-wide text-gray-400">
-                    {t("assets.image")}
-                  </div>
-                  <div className="rounded-lg border border-white/10 bg-black/30 p-2">
-                    <img
-                      src={keyframeImageUrl}
-                      alt={t("assets.image")}
-                      className="w-full max-h-64 object-contain rounded"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-              )}
-              {usedResources.length > 0 && (
-                <div className="space-y-2">
-                  <div className="text-xs uppercase tracking-wide text-gray-400">
-                    {t("gallery.usedResources")}
-                  </div>
-                  <div className="grid gap-2">
-                    {usedResources.map((resource) => (
-                      <div
-                        key={resource.id}
-                        className="rounded-lg border border-white/10 bg-black/30 px-3 py-2"
-                      >
-                        <div className="text-xs text-gray-500">
-                          {resource.type || t("gallery.resourceLabel")}
-                        </div>
-                        <div className="text-sm text-gray-200">{resource.id}</div>
-                        {resource.description && (
-                          <p className="text-xs text-gray-400 mt-1">{resource.description}</p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+              {promptText && renderPromptBlock(t("gallery.promptLabel"), promptText)}
             </section>
           )}
           {/* Script */}
