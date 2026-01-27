@@ -17,6 +17,9 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // 用于在 catch 块中访问已创建的记录 ID
+  let createdGenerationId: string | null = null;
+
   try {
     const body = await req.json();
     const { userId, prompt, referenceImage, model, aspectRatio, aspect_ratio, resolution } = body;
@@ -31,7 +34,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 调用现有的图像生成模型层
-    const { createImageGeneration } = await import('@/models/imageGeneration');
+    const { createImageGeneration, updateImageGenerationById } = await import('@/models/imageGeneration');
     const { aiServiceManager } = await import('@/services/AIServiceManager');
 
     const modelAliasMap: Record<string, string> = {
@@ -55,14 +58,38 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error }, { status: 500 });
     }
 
-    // 调用 AI 服务 - 根据是否有参考图片选择方法
-    // referenceImage 支持 string 或 string[]
-    let result;
-    if (referenceImage) {
-      const referenceImages = Array.isArray(referenceImage)
-        ? referenceImage.filter(Boolean)
-        : [referenceImage];
+    // 处理参考图片数组（过滤空值，确保只有有效 URL）
+    const referenceImages = referenceImage
+      ? (Array.isArray(referenceImage)
+          ? referenceImage.filter(Boolean)
+          : [referenceImage].filter(Boolean)
+        ).filter(url => url && url.trim())  // 进一步过滤空字符串
+      : undefined;
 
+    // 判断是否有有效的参考图片
+    const hasValidReferenceImages = referenceImages && referenceImages.length > 0;
+
+    // 先创建数据库记录（在 API 调用之前，确保内部回调可以找到记录）
+    const imageGeneration = await createImageGeneration({
+      user_id: userId,
+      provider: provider,
+      model_id: selectedModel,
+      prompt: prompt,
+      mode: hasValidReferenceImages ? 'image-to-image' : 'text-to-image',
+      source: 'api',
+      status: 'IN_PROGRESS',
+      input_image_urls: hasValidReferenceImages ? referenceImages : undefined,
+      aspect_ratio: resolvedAspectRatio,
+      credits_used: creditsUsed
+    });
+
+    // 保存 ID 以便在 catch 中访问
+    createdGenerationId = imageGeneration.id;
+    console.log('[Internal Image Gen] Pre-created record:', imageGeneration.id);
+
+    // 调用 AI 服务 - 根据是否有有效参考图片选择方法
+    let result;
+    if (hasValidReferenceImages) {
       // Image-to-Image: 使用 editImage 方法
       console.log('[Internal Image Gen] Using image-to-image mode with references:', referenceImages);
       result = await aiServiceManager.editImage(provider, {
@@ -70,7 +97,10 @@ export async function POST(req: NextRequest) {
         imageUrls: referenceImages,
         model: selectedModel,
         aspect_ratio: resolvedAspectRatio,
-        output_format: 'png'
+        resolution: resolution,
+        output_format: 'png',
+        generationId: imageGeneration.id,
+        isAgentMode: false
       });
     } else {
       // Text-to-Image: 使用 generateImage 方法
@@ -79,49 +109,74 @@ export async function POST(req: NextRequest) {
         prompt: prompt,
         model: selectedModel,
         aspect_ratio: resolvedAspectRatio,
+        resolution: resolution,
         count: 1,
-        output_format: 'png'
+        output_format: 'png',
+        generationId: imageGeneration.id,
+        isAgentMode: false
       });
     }
 
     // 检查结果 (ProviderResponse 没有 success 字段,检查 status 和 taskId)
     const firstImage = result.images?.[0];
     if (result.status === 'failed' || (!result.taskId && !firstImage)) {
+      // 更新记录为失败状态
+      await updateImageGenerationById(imageGeneration.id, {
+        status: 'FAILED',
+        error_message: result.error || 'Image generation failed'
+      });
       throw new Error(result.error || 'Image generation failed');
     }
 
-    // 创建数据库记录
-    const imageGeneration = await createImageGeneration({
-      user_id: userId,
-      provider: provider,
-      model_id: selectedModel,
-      prompt: prompt,
-      mode: referenceImage ? 'image-to-image' : 'text-to-image',
-      source: 'api',
-      task_id: result.taskId,
-      provider_task_id: result.taskId,
-      status: result.taskId ? 'IN_QUEUE' : 'PENDING',
-      input_image_urls: referenceImage
-        ? Array.isArray(referenceImage)
-          ? referenceImage
-          : [referenceImage]
-        : undefined,
-      aspect_ratio: resolvedAspectRatio,
-      credits_used: creditsUsed
-    });
+    // 根据返回状态处理
+    if (result.status === 'completed' && firstImage) {
+      // 同步完成模式（Seedream）- 内部回调已上传到 R2，从数据库获取 R2 URL
+      const { getImageGenerationById } = await import('@/models/imageGeneration');
+      const updatedRecord = await getImageGenerationById(imageGeneration.id);
 
-    // 返回结果
-    return NextResponse.json({
-      success: true,
-      taskId: result.taskId,
-      imageGenerationId: imageGeneration.id,
-      status: result.status || 'pending',
-      // 如果是同步返回图片,直接返回
-      imageUrl: firstImage?.url || undefined
-    });
+      // 优先使用 R2 URL，fallback 到原始 URL
+      const imageUrl = updatedRecord?.image_urls_r2?.[0]
+        || updatedRecord?.image_urls?.[0]
+        || firstImage.url;
+
+      return NextResponse.json({
+        success: true,
+        taskId: result.taskId,
+        imageGenerationId: imageGeneration.id,
+        status: 'completed',
+        imageUrl: imageUrl
+      });
+    } else {
+      // 异步模式（nano_banana 等）- 更新状态为 IN_QUEUE
+      await updateImageGenerationById(imageGeneration.id, {
+        provider_task_id: result.taskId,
+        status: 'IN_QUEUE'
+      });
+
+      return NextResponse.json({
+        success: true,
+        taskId: result.taskId,
+        imageGenerationId: imageGeneration.id,
+        status: 'pending'
+      });
+    }
 
   } catch (error: any) {
     console.error('Internal image generation error:', error);
+
+    // 如果记录已创建但 API 调用异常，更新记录为失败状态
+    if (createdGenerationId) {
+      try {
+        const { updateImageGenerationById } = await import('@/models/imageGeneration');
+        await updateImageGenerationById(createdGenerationId, {
+          status: 'FAILED',
+          error_message: error.message || 'Image generation failed'
+        });
+        console.log(`[Internal Image Gen] Updated record ${createdGenerationId} to FAILED`);
+      } catch (updateError) {
+        console.error('[Internal Image Gen] Failed to update record status:', updateError);
+      }
+    }
 
     return NextResponse.json(
       { error: error.message || 'Failed to generate image' },
