@@ -1009,8 +1009,8 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden bg-gray-800 border-gray-700 text-gray-200">
-        <DialogHeader>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden bg-gray-800 border-gray-700 text-gray-200 p-0">
+        <DialogHeader className="p-4 pb-0">
           <div className="flex flex-wrap items-center gap-3">
             <DialogTitle className="text-gray-100">{getTitle()}</DialogTitle>
             {isGalleryMode && (
@@ -1048,7 +1048,7 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
           </div>
         </DialogHeader>
 
-        <div className="mt-4 overflow-auto max-h-[calc(90vh-120px)] pr-1 space-y-6">
+        <div className="px-4 pb-4 overflow-auto max-h-[calc(90vh-120px)] pr-1 space-y-6">
           {shouldShowMetaSection && (
             <section className="space-y-4">
               {(showReferenceImages || showKeyframeImage) && (
@@ -1224,7 +1224,7 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
 
         {/* Hint for keyboard shortcuts */}
         {activeType === 'video' && (
-          <div className="text-xs text-gray-500 text-center mt-2">
+          <div className="text-xs text-gray-500 text-center pb-2">
             {t("assetModal.keyboardHint")}
           </div>
         )}
