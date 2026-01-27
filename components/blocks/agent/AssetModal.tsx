@@ -39,6 +39,8 @@ interface GalleryItem {
   prompt?: string;
   shotPrompt?: string;
   keyframePrompt?: string;
+  keyframeReferenceUrls?: string[];
+  keyframeUrl?: string;
   usedResources?: UsedResource[];
 }
 
@@ -987,12 +989,32 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
   const keyframePromptText = activeItem?.keyframePrompt
     ? sanitizeKeyframePrompt(activeItem.keyframePrompt, activeItem.shotPrompt)
     : '';
-  const promptBlocks = [
-    activeItem?.prompt ? { label: t("gallery.promptLabel"), value: activeItem.prompt } : null,
-    keyframePromptText ? { label: t("assetModal.keyframePrompt"), value: keyframePromptText } : null,
-    activeItem?.shotPrompt ? { label: t("assetModal.shotPrompt"), value: activeItem.shotPrompt } : null,
-  ].filter(Boolean) as Array<{ label: string; value: string }>;
+  const keyframeReferenceUrls = Array.isArray(activeItem?.keyframeReferenceUrls)
+    ? activeItem.keyframeReferenceUrls.filter(Boolean)
+    : [];
+  const keyframeImageUrl = activeItem?.keyframeUrl;
+  const promptBlocks = (() => {
+    if (!activeItem) return [];
+    if (activeType === 'image') {
+      return keyframePromptText
+        ? [{ label: t("assetModal.keyframePrompt"), value: keyframePromptText }]
+        : [];
+    }
+    if (activeType === 'video') {
+      const videoPrompt = activeItem.shotPrompt || activeItem.prompt;
+      return videoPrompt
+        ? [{ label: t("gallery.promptLabel"), value: videoPrompt }]
+        : [];
+    }
+    return activeItem.prompt
+      ? [{ label: t("gallery.promptLabel"), value: activeItem.prompt }]
+      : [];
+  })();
   const usedResources = activeItem?.usedResources ?? [];
+  const showReferenceImages = activeType === 'image' && keyframeReferenceUrls.length > 0;
+  const showKeyframeImage = activeType === 'video' && !!keyframeImageUrl;
+  const shouldShowMetaSection =
+    promptBlocks.length > 0 || usedResources.length > 0 || showReferenceImages || showKeyframeImage;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -1036,11 +1058,48 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
         </DialogHeader>
 
         <div className="mt-4 overflow-auto max-h-[calc(90vh-120px)] pr-1 space-y-6">
-          {(promptBlocks.length > 0 || usedResources.length > 0) && (
+          {shouldShowMetaSection && (
             <section className="space-y-4">
               {promptBlocks.map((block) => (
                 <div key={block.label}>{renderPromptBlock(block.label, block.value)}</div>
               ))}
+              {showReferenceImages && (
+                <div className="space-y-2">
+                  <div className="text-xs uppercase tracking-wide text-gray-400">
+                    {t("assets.ref")}
+                  </div>
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    {keyframeReferenceUrls.map((url, index) => (
+                      <div
+                        key={`${url}-${index}`}
+                        className="rounded-lg border border-white/10 bg-black/30 p-2"
+                      >
+                        <img
+                          src={url}
+                          alt={`${t("assets.ref")} ${index + 1}`}
+                          className="w-full max-h-48 object-contain rounded"
+                          loading="lazy"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {showKeyframeImage && (
+                <div className="space-y-2">
+                  <div className="text-xs uppercase tracking-wide text-gray-400">
+                    {t("assets.image")}
+                  </div>
+                  <div className="rounded-lg border border-white/10 bg-black/30 p-2">
+                    <img
+                      src={keyframeImageUrl}
+                      alt={t("assets.image")}
+                      className="w-full max-h-64 object-contain rounded"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              )}
               {usedResources.length > 0 && (
                 <div className="space-y-2">
                   <div className="text-xs uppercase tracking-wide text-gray-400">

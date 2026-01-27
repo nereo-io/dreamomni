@@ -37,6 +37,8 @@ interface GalleryItem {
   prompt?: string;
   shotPrompt?: string;
   keyframePrompt?: string;
+  keyframeReferenceUrls?: string[];
+  keyframeUrl?: string;
   usedResources?: UsedResource[];
 }
 
@@ -128,6 +130,8 @@ interface Asset {
   prompt?: string;
   shotPrompt?: string;
   keyframePrompt?: string;
+  keyframeReferenceUrls?: string[];
+  keyframeUrl?: string;
   usedResources?: UsedResource[];
 }
 
@@ -791,6 +795,9 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           (shot.keyframe_metadata && typeof (shot.keyframe_metadata as any).prompt === 'string'
             ? (shot.keyframe_metadata as any).prompt
             : undefined);
+        const keyframeReferenceUrls = Array.isArray(shot.keyframe_reference_urls)
+          ? shot.keyframe_reference_urls.filter(Boolean)
+          : [];
         const usedResources = resolveUsedResources(shot.shot_number);
 
         result.push({
@@ -807,6 +814,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           backgroundUrl,
           progressValue,
           keyframePrompt,
+          keyframeReferenceUrls,
           shotPrompt: shot.prompt,
           usedResources,
         });
@@ -867,6 +875,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           progressValue,
           keyframePrompt,
           shotPrompt: shot.prompt,
+          keyframeUrl: shot.keyframe_url,
           usedResources,
         });
       });
@@ -998,6 +1007,8 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           prompt: asset.prompt,
           shotPrompt: asset.shotPrompt,
           keyframePrompt: asset.keyframePrompt,
+          keyframeReferenceUrls: asset.keyframeReferenceUrls,
+          keyframeUrl: asset.keyframeUrl,
           usedResources: asset.usedResources,
         }));
 
