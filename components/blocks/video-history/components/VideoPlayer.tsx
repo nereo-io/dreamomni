@@ -11,6 +11,8 @@ interface VideoPlayerProps {
   canDownload: boolean;
   isDownloading: boolean;
   posterUrl?: string | null;
+  eagerLoad?: boolean;
+  stickyLoad?: boolean;
   className?: string;
 }
 
@@ -20,15 +22,25 @@ const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
   canDownload,
   isDownloading,
   posterUrl,
+  eagerLoad = false,
+  stickyLoad = false,
   className
 }) => {
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   const videoRef = React.useRef<HTMLVideoElement | null>(null);
   const [controlsBarHeight, setControlsBarHeight] = React.useState(56);
   const [hasInteracted, setHasInteracted] = React.useState(false);
+  const [hasEverLoaded, setHasEverLoaded] = React.useState(false);
   const shouldAutoLoad = useAutoLoadMedia();
   const isInViewport = useInViewport(containerRef, { rootMargin: "200px 0px", threshold: 0.1 });
-  const shouldLoad = (shouldAutoLoad && isInViewport) || hasInteracted;
+  const shouldLoadTrigger = eagerLoad || (shouldAutoLoad && isInViewport) || hasInteracted;
+  const shouldLoad = stickyLoad ? (shouldLoadTrigger || hasEverLoaded) : shouldLoadTrigger;
+
+  React.useEffect(() => {
+    if (stickyLoad && shouldLoadTrigger) {
+      setHasEverLoaded(true);
+    }
+  }, [stickyLoad, shouldLoadTrigger]);
 
   const updateControlsBarHeight = React.useCallback(() => {
     const video = videoRef.current;
@@ -109,10 +121,14 @@ const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
           src={shouldLoad ? videoUrl : undefined}
           preload={shouldLoad ? "metadata" : "none"}
           playsInline
+          onPlay={() => setHasInteracted(true)}
           onLoadedData={(e) => {
             const video = e.target as HTMLVideoElement;
             video.currentTime = 0.1;
             updateControlsBarHeight();
+            if (stickyLoad) {
+              setHasEverLoaded(true);
+            }
           }}
         >
           Your browser does not support the video tag.

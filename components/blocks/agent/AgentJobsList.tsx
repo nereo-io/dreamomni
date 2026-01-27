@@ -69,6 +69,32 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit, onJobResumed: 
     jobsRef.current = jobs;
   }, [jobs]);
 
+  const mergeJobs = useCallback((nextJobs: AgentJob[]) => {
+    const prevJobs = jobsRef.current;
+    const prevMap = new Map<string, { job: AgentJob; signature: string }>();
+    for (const job of prevJobs) {
+      prevMap.set(job.id, { job, signature: JSON.stringify(job) });
+    }
+
+    let changed = prevJobs.length !== nextJobs.length;
+
+    const merged = nextJobs.map((job, index) => {
+      if (!changed && prevJobs[index]?.id !== job.id) {
+        changed = true;
+      }
+
+      const signature = JSON.stringify(job);
+      const prevEntry = prevMap.get(job.id);
+      if (prevEntry && prevEntry.signature === signature) {
+        return prevEntry.job;
+      }
+      changed = true;
+      return job;
+    });
+
+    return changed ? merged : null;
+  }, []);
+
   // Fetch jobs from API
   const fetchJobs = useCallback(async () => {
     try {
@@ -86,11 +112,15 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit, onJobResumed: 
       }
 
       const data = await response.json();
-      setJobs(data.jobs);
+      const nextJobs = Array.isArray(data.jobs) ? data.jobs : [];
+      const merged = mergeJobs(nextJobs);
+      if (merged) {
+        setJobs(merged);
+      }
       setIsLoading(false);
       
       // 如果没有 Job，默认切换到 Discover
-      if (data.jobs.length === 0) {
+      if (nextJobs.length === 0) {
         setActiveTab('discover');
       }
     } catch (error: any) {
@@ -180,10 +210,14 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit, onJobResumed: 
 
       if (response.ok) {
         const data = await response.json();
-        setJobs(data.jobs);
+        const nextJobs = Array.isArray(data.jobs) ? data.jobs : [];
+        const merged = mergeJobs(nextJobs);
+        if (merged) {
+          setJobs(merged);
+        }
 
         // Clear resumed tracking for jobs that are no longer in failed status
-        for (const job of data.jobs) {
+        for (const job of nextJobs) {
           if (resumedJobsRef.current.has(job.id) && job.status !== 'failed') {
             resumedJobsRef.current.delete(job.id);
             // Also clear force polling if all resumed jobs are updated
@@ -611,6 +645,7 @@ function JobMediaCard({
   const [isMuted, setIsMuted] = useState(true);
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [hasEverLoaded, setHasEverLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const shouldAutoLoad = useAutoLoadMedia();
@@ -619,8 +654,15 @@ function JobMediaCard({
   const shouldPlayOnLoadRef = useRef(false);
 
   const posterUrl = job.reference_image_urls?.[0]; // Revert to only using reference images for poster
-  const shouldLoadVideo =
+  const shouldLoadTrigger =
     Boolean(job.final_video_url) && ((shouldAutoLoad && isInViewport) || hasInteracted);
+  const shouldLoadVideo = shouldLoadTrigger || hasEverLoaded;
+
+  useEffect(() => {
+    if (shouldLoadTrigger) {
+      setHasEverLoaded(true);
+    }
+  }, [shouldLoadTrigger]);
 
   const handleMouseEnter = async () => {
     if (isMobile) return;
@@ -719,6 +761,7 @@ function JobMediaCard({
             loop
             onLoadedData={() => {
               setIsVideoLoaded(true);
+              setHasEverLoaded(true);
               if (shouldPlayOnLoadRef.current && videoRef.current) {
                 const playPromise = videoRef.current.play();
                 if (playPromise?.catch) {

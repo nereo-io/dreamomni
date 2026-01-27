@@ -112,9 +112,17 @@ interface VideoAssetPreviewProps {
 function VideoAssetPreview({ url, posterUrl }: VideoAssetPreviewProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [hasEverLoaded, setHasEverLoaded] = useState(false);
   const shouldAutoLoad = useAutoLoadMedia();
   const isInViewport = useInViewport(containerRef, { rootMargin: '200px 0px', threshold: 0.1 });
-  const shouldLoad = (shouldAutoLoad && isInViewport) || hasInteracted;
+  const shouldLoadTrigger = (shouldAutoLoad && isInViewport) || hasInteracted;
+  const shouldLoad = shouldLoadTrigger || hasEverLoaded;
+
+  useEffect(() => {
+    if (shouldLoadTrigger) {
+      setHasEverLoaded(true);
+    }
+  }, [shouldLoadTrigger]);
 
   return (
     <div
@@ -130,8 +138,13 @@ function VideoAssetPreview({ url, posterUrl }: VideoAssetPreviewProps) {
         poster={posterUrl || undefined}
         playsInline
         muted
+        src={shouldLoad ? url : undefined}
+        onLoadedData={() => setHasEverLoaded(true)}
       >
-        {shouldLoad && <source src={url} type="video/mp4" />}
+        {/*
+          Keep a stable <video> element with direct src assignment to avoid
+          aborts triggered by unmounting <source> during list re-renders.
+        */}
       </video>
     </div>
   );

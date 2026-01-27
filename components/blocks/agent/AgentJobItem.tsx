@@ -664,6 +664,8 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
                     }
                     canDownload={true}
                     isDownloading={downloadingTarget === primaryFinalVideo.key}
+                    eagerLoad
+                    stickyLoad
                   />
                   <div className="absolute top-3 left-3 text-white text-xs font-medium bg-black/50 px-2 py-1 rounded-md pointer-events-none z-10">
                     {primaryFinalVideo.label}

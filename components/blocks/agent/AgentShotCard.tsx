@@ -5,7 +5,7 @@
 
 "use client";
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AgentShot, AgentShotStatusMap } from '@/types/agent';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -31,9 +31,17 @@ export function AgentShotCard({ shot, showVideoActions = true }: AgentShotCardPr
   };
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [hasEverLoaded, setHasEverLoaded] = useState(false);
   const shouldAutoLoad = useAutoLoadMedia();
   const isInViewport = useInViewport(containerRef, { rootMargin: '200px 0px', threshold: 0.1 });
-  const shouldLoadVideo = (shouldAutoLoad && isInViewport) || hasInteracted;
+  const shouldLoadTrigger = (shouldAutoLoad && isInViewport) || hasInteracted;
+  const shouldLoadVideo = shouldLoadTrigger || hasEverLoaded;
+
+  useEffect(() => {
+    if (shouldLoadTrigger) {
+      setHasEverLoaded(true);
+    }
+  }, [shouldLoadTrigger]);
 
   const getStatusBadgeVariant = (
     status: AgentShot['keyframe_status'] | AgentShot['video_status']
@@ -105,6 +113,7 @@ export function AgentShotCard({ shot, showVideoActions = true }: AgentShotCardPr
                 playsInline
                 muted
                 controls={false}
+                onLoadedData={() => setHasEverLoaded(true)}
               />
             </div>
           ) : (
