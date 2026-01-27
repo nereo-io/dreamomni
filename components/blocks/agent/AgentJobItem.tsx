@@ -8,7 +8,6 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { AgentAsset, AgentJob, AgentJobStatusMap } from '@/types/agent';
-import { resumeAgentJob, retryAgentJob } from '@/lib/agent-api-client';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -146,7 +145,16 @@ export const AgentJobItem: React.FC<AgentJobItemProps> = React.memo(
         setIsResuming(true);
         setHasResumed(true); // Optimistic update
         resumedAtRef.current = Date.now(); // Record resume time for timeout tracking
-        await resumeAgentJob(job.id);
+
+        const response = await fetch(`/api/agent/jobs/${job.id}/resume`, {
+          method: 'POST',
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || 'Failed to resume job');
+        }
+
         toast.success(t("item.resumeStarted") || "Resume started");
         onJobResumed?.(job.id);
       } catch (error: any) {
