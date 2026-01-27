@@ -657,9 +657,10 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       }
 
       // 2. Character reference images (always show all and place before keyframes)
+      const excludedReferenceUrls = new Set(referenceImageUrls || []);
       const refImages =
         characterReferenceImages && Array.isArray(characterReferenceImages)
-          ? characterReferenceImages.filter(Boolean)
+          ? characterReferenceImages.filter((url) => url && !excludedReferenceUrls.has(url))
           : [];
       if (refImages.length > 0) {
         refImages.forEach((url, index) => {
@@ -901,7 +902,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       }
 
       return result;
-    }, [shots, storyOutline, characterElements, sceneElement, storyboardShots, storyboardJson, characterReferenceImages, progress, fallbackBackground, shouldShowCharacterPlaceholders, shouldShowScenePlaceholder, characterCount, jobStatus, isKeyframeStage, isVideoStage, isJobFailed, failedDuringVideoStage, estimatedImageProgress, estimatedVideoProgress, sceneAssets, musicAssets, musicAssetsStatus, assetDownloadLookup, t, showAgentInternals, extraVideoAssets, narrationAndMusic]);
+    }, [shots, storyOutline, characterElements, sceneElement, storyboardShots, storyboardJson, characterReferenceImages, referenceImageUrls, progress, fallbackBackground, shouldShowCharacterPlaceholders, shouldShowScenePlaceholder, characterCount, jobStatus, isKeyframeStage, isVideoStage, isJobFailed, failedDuringVideoStage, estimatedImageProgress, estimatedVideoProgress, sceneAssets, musicAssets, musicAssetsStatus, assetDownloadLookup, t, showAgentInternals, extraVideoAssets, narrationAndMusic]);
 
     const getAssetTypeLabel = (type: AssetType) => {
       switch (type) {
@@ -1012,6 +1013,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           usedResources: asset.usedResources,
         }));
 
+      const excludedReferenceUrls = new Set(referenceImageUrls || []);
       const urlSet = new Set(items.map((item) => item.url).filter(Boolean));
       const promptByUrl = new Map<string, string>();
 
@@ -1033,7 +1035,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
           ? shot.keyframe_reference_urls.filter(Boolean)
           : [];
         referenceUrls.forEach((url, index) => {
-          if (!url || urlSet.has(url)) return;
+          if (!url || urlSet.has(url) || excludedReferenceUrls.has(url)) return;
           items.push({
             id: `shot-ref-${shot.id}-${index}`,
             type: 'shot_ref',
@@ -1047,7 +1049,7 @@ export const AgentAssetGrid: React.FC<AgentAssetGridProps> = React.memo(
       });
 
       return items;
-    }, [assets, characterElements, characterReferenceImages, sceneAssets, sceneElement, shots, t]);
+    }, [assets, characterElements, characterReferenceImages, referenceImageUrls, sceneAssets, sceneElement, shots, t]);
 
     const selectedGalleryIndex = selectedAsset
       ? galleryItems.findIndex((item) => item.id === selectedAsset.id)
