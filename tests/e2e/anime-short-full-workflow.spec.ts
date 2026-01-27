@@ -33,7 +33,7 @@ async function getLeftCredits(page: Page) {
 }
 
 function getVideoModelLabel(modelId: string) {
-  if (modelId === 'auto') return 'Auto (Sora → Veo3 → Seedance)';
+  if (modelId === 'auto') return 'Auto (Sora → Seedance → Veo3)';
   if (modelId === 'sora-2-image-to-video') return 'Sora 2';
   if (modelId === 'kie-veo3-image-to-video') return 'Veo3';
   if (modelId === 'byteplus-seedance-1-5-pro-image-to-video') return 'Seedance Pro';

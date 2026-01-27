@@ -152,6 +152,20 @@ export const BLOCKED_EMAIL_DOMAINS = [
   "hook2ad.com",
   "ozsaip.com",
   "temp.ly",
+  "eligou.store",
+  "original-watches.ru",
+  "usualion.com",
+  "code-gmail.com",
+  "coswz.com",
+  "dev.nondon.store",
+  "1200b.com",
+  "yzcalo.com",
+  "tasiw.com",
+  "spam.care",
+  "zikzak.site",
+  "wfsocks.com",
+  "mailfrs.com",
+  "fxavaj.com",
 ] as const;
 
 const BLOCKED_EMAIL_DOMAIN_SET: Set<string> = new Set(BLOCKED_EMAIL_DOMAINS);

@@ -28,21 +28,8 @@ import { calculateImageCredits } from '@/config/image-models';
 import { useTranslations } from 'next-intl';
 import { CreditsCostSection } from '@/components/blocks/common/CreditsCostSection';
 
-const IMAGE_MODELS = [
-  {
-    value: 'nano-banana-pro',
-    label: 'Nano Banana Pro',
-    credits: calculateImageCredits('nano-banana-pro'),
-  },
-  {
-    value: 'nano-banana',
-    label: 'Nano Banana',
-    credits: calculateImageCredits('nano-banana'),
-  },
-];
-
 const VIDEO_MODELS = [
-  { value: 'auto', label: 'Auto (Sora → Veo3 → Seedance)' },
+  { value: 'auto', label: 'Auto (Sora → Seedance → Veo3)' },
   { value: 'sora-2-image-to-video', label: 'Sora 2' },
   { value: 'kie-veo3-image-to-video', label: 'Veo3' },
   { value: 'byteplus-seedance-1-5-pro-image-to-video', label: 'Seedance Pro' },
@@ -81,7 +68,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
   const [referenceImageUrls, setReferenceImageUrls] = useState<string[]>([]);
   const [duration, setDuration] = useState<number>(60);
   const [aspectRatio, setAspectRatio] = useState<string>('16:9');
-  const [imageModel, setImageModel] = useState('nano-banana-pro');
+  const [imageModel, setImageModel] = useState('auto');
   const [videoModel, setVideoModel] = useState('auto');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -97,14 +84,14 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
 
       setDuration(initialData.durationSeconds || 60);
       setAspectRatio(initialData.aspectRatio || '16:9');
-      setImageModel(initialData.imageModel || 'nano-banana-pro');
+      setImageModel(initialData.imageModel || 'auto');
       setVideoModel(initialData.videoModel || 'auto');
     }
   }, [initialData]);
 
   const getEstimatedVideoDurationPerShot = (selected: string) => {
     if (selected === 'kie-veo3-image-to-video') return 8;
-    if (selected === 'byteplus-seedance-1-5-pro-image-to-video') return 8;
+    if (selected === 'byteplus-seedance-1-5-pro-image-to-video') return 10;
     if (selected === 'sora-2-image-to-video') return 10;
     if (selected === 'auto') return 10;
     return 10; // unknown
@@ -112,8 +99,14 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
 
   const calculateEstimatedCredits = () => {
     const estimatedShots = Math.max(1, Math.ceil(duration / COST_CONFIG.averageShotDuration));
+    const resolvedImageModelForCredits =
+      imageModel === 'seedream'
+        ? 'seedream-4-5'
+        : imageModel === 'auto'
+          ? 'nano-banana-pro'
+          : imageModel;
     const perImageCost =
-      calculateImageCredits(imageModel) ||
+      calculateImageCredits(resolvedImageModelForCredits) ||
       calculateImageCredits('nano-banana-pro');
     const planCost = COST_CONFIG.planReserve;
     const bgmCost = COST_CONFIG.bgmCost;
@@ -191,6 +184,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
       setReferenceImageUrls([]);
       setDuration(60);
       setAspectRatio('16:9');
+      setImageModel('auto');
 
       // Notify parent to refresh job list
       onJobCreated?.();
@@ -203,6 +197,12 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
   };
 
   const estimatedCredits = calculateEstimatedCredits();
+  const resolvedImageModelForUploads =
+    imageModel === 'seedream'
+      ? 'seedream-4-5'
+      : imageModel === 'auto'
+        ? 'nano-banana-pro'
+        : imageModel;
 
   // Update credits after job creation
   useEffect(() => {
@@ -243,7 +243,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
           {/* Reference Images */}
           <div>
             <ImageGridUploader
-              selectedModel={imageModel}
+              selectedModel={resolvedImageModelForUploads}
               maxImages={5}
               onImagesChange={setReferenceImageUrls}
               isAuthenticated={!!user?.uuid}

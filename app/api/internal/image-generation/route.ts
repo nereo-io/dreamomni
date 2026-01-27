@@ -34,9 +34,12 @@ export async function POST(req: NextRequest) {
     const { createImageGeneration } = await import('@/models/imageGeneration');
     const { aiServiceManager } = await import('@/services/AIServiceManager');
 
-    // 确定 provider
-    const provider = 'nano_banana' as const;
-    const selectedModel = model || 'nano-banana';
+    const modelAliasMap: Record<string, string> = {
+      seedream: 'seedream-4-5',
+    };
+    const selectedModel = modelAliasMap[model] || model || 'nano-banana';
+    const provider =
+      aiServiceManager.getProviderByModelId(selectedModel) || ('nano_banana' as const);
     const creditsUsed = calculateImageCredits(selectedModel, resolution);
 
     console.log('[Internal Image Gen] Provider:', provider, 'Model:', selectedModel, 'UserId:', userId);
