@@ -1,4 +1,5 @@
 import { PDFDocument, rgb } from 'pdf-lib';
+import fontkit from '@pdf-lib/fontkit';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
@@ -68,6 +69,10 @@ const formatDate = (dateValue: string): string => {
 
 export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> => {
   const pdfDoc = await PDFDocument.create();
+
+  // Register fontkit to enable custom font embedding
+  pdfDoc.registerFontkit(fontkit);
+
   const page = pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
   // Load custom fonts that support Cyrillic characters
