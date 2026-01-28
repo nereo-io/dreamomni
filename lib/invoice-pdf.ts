@@ -1,4 +1,6 @@
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { PDFDocument, rgb } from 'pdf-lib';
+import * as fs from 'fs/promises';
+import * as path from 'path';
 
 export type InvoiceItem = {
   description: string;
@@ -44,14 +46,6 @@ const PAGE_HEIGHT = 841.89;
 const MARGIN = 50;
 const CONTENT_WIDTH = PAGE_WIDTH - MARGIN * 2;
 
-// Sanitize text to only include WinAnsi-compatible characters
-// pdf-lib standard fonts only support WinAnsi encoding
-const sanitizeText = (text: string): string => {
-  // Replace non-ASCII characters with '?'
-  // WinAnsi supports ASCII (0x20-0x7E) plus some extended Latin characters
-  return text.replace(/[^\x20-\x7E]/g, '?');
-};
-
 const formatCurrency = (amount: number, currency: string): string => {
   const symbols: Record<string, string> = {
     USD: '$',
@@ -76,8 +70,13 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
   const pdfDoc = await PDFDocument.create();
   const page = pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
-  const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
-  const helveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  // Load custom fonts that support Cyrillic characters
+  const fontDir = path.join(process.cwd(), 'public', 'fonts');
+  const regularFontBytes = await fs.readFile(path.join(fontDir, 'NotoSans-Regular.ttf'));
+  const boldFontBytes = await fs.readFile(path.join(fontDir, 'NotoSans-Bold.ttf'));
+
+  const regularFont = await pdfDoc.embedFont(regularFontBytes);
+  const boldFont = await pdfDoc.embedFont(boldFontBytes);
 
   const black = rgb(0, 0, 0);
   const gray = rgb(0.4, 0.4, 0.4);
@@ -94,18 +93,18 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     x: MARGIN,
     y,
     size: 20,
-    font: helveticaBold,
+    font: boldFont,
     color: black,
   });
 
   // INVOICE title (right)
   const invoiceTitle = 'INVOICE';
-  const titleWidth = helveticaBold.widthOfTextAtSize(invoiceTitle, 24);
+  const titleWidth = boldFont.widthOfTextAtSize(invoiceTitle, 24);
   page.drawText(invoiceTitle, {
     x: PAGE_WIDTH - MARGIN - titleWidth,
     y,
     size: 24,
-    font: helveticaBold,
+    font: boldFont,
     color: black,
   });
 
@@ -116,18 +115,18 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     x: MARGIN,
     y,
     size: 10,
-    font: helvetica,
+    font: regularFont,
     color: gray,
   });
 
   // Invoice number (right)
   const invoiceNumText = `Invoice #: ${data.invoiceNumber}`;
-  const invoiceNumWidth = helvetica.widthOfTextAtSize(invoiceNumText, 10);
+  const invoiceNumWidth = regularFont.widthOfTextAtSize(invoiceNumText, 10);
   page.drawText(invoiceNumText, {
     x: PAGE_WIDTH - MARGIN - invoiceNumWidth,
     y,
     size: 10,
-    font: helvetica,
+    font: regularFont,
     color: black,
   });
 
@@ -138,18 +137,18 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     x: MARGIN,
     y,
     size: 10,
-    font: helvetica,
+    font: regularFont,
     color: gray,
   });
 
   // Invoice date (right)
   const dateText = `Date: ${formatDate(data.invoiceDate)}`;
-  const dateWidth = helvetica.widthOfTextAtSize(dateText, 10);
+  const dateWidth = regularFont.widthOfTextAtSize(dateText, 10);
   page.drawText(dateText, {
     x: PAGE_WIDTH - MARGIN - dateWidth,
     y,
     size: 10,
-    font: helvetica,
+    font: regularFont,
     color: black,
   });
 
@@ -160,19 +159,19 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     x: MARGIN,
     y,
     size: 10,
-    font: helvetica,
+    font: regularFont,
     color: gray,
   });
 
   // Due date (right, if provided)
   if (data.dueDate) {
     const dueText = `Due: ${formatDate(data.dueDate)}`;
-    const dueWidth = helvetica.widthOfTextAtSize(dueText, 10);
+    const dueWidth = regularFont.widthOfTextAtSize(dueText, 10);
     page.drawText(dueText, {
       x: PAGE_WIDTH - MARGIN - dueWidth,
       y,
       size: 10,
-      font: helvetica,
+      font: regularFont,
       color: black,
     });
   }
@@ -194,28 +193,28 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     x: MARGIN,
     y,
     size: 12,
-    font: helveticaBold,
+    font: boldFont,
     color: black,
   });
 
   y -= 16;
 
   if (data.customerName) {
-    page.drawText(sanitizeText(data.customerName), {
+    page.drawText(data.customerName, {
       x: MARGIN,
       y,
       size: 10,
-      font: helvetica,
+      font: regularFont,
       color: black,
     });
     y -= 14;
   }
 
-  page.drawText(sanitizeText(data.customerEmail), {
+  page.drawText(data.customerEmail, {
     x: MARGIN,
     y,
     size: 10,
-    font: helvetica,
+    font: regularFont,
     color: black,
   });
 
@@ -243,7 +242,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     x: colDescription + 5,
     y: tableTop - 14,
     size: 10,
-    font: helveticaBold,
+    font: boldFont,
     color: black,
   });
 
@@ -251,7 +250,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     x: colQty,
     y: tableTop - 14,
     size: 10,
-    font: helveticaBold,
+    font: boldFont,
     color: black,
   });
 
@@ -259,7 +258,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     x: colUnitPrice,
     y: tableTop - 14,
     size: 10,
-    font: helveticaBold,
+    font: boldFont,
     color: black,
   });
 
@@ -267,7 +266,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     x: colAmount,
     y: tableTop - 14,
     size: 10,
-    font: helveticaBold,
+    font: boldFont,
     color: black,
   });
 
@@ -277,11 +276,11 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
   for (const item of data.items) {
     const lineTotal = item.quantity * item.unitPrice;
 
-    page.drawText(sanitizeText(item.description), {
+    page.drawText(item.description, {
       x: colDescription + 5,
       y: y + 8,
       size: 10,
-      font: helvetica,
+      font: regularFont,
       color: black,
     });
 
@@ -289,7 +288,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
       x: colQty,
       y: y + 8,
       size: 10,
-      font: helvetica,
+      font: regularFont,
       color: black,
     });
 
@@ -297,7 +296,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
       x: colUnitPrice,
       y: y + 8,
       size: 10,
-      font: helvetica,
+      font: regularFont,
       color: black,
     });
 
@@ -305,7 +304,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
       x: colAmount,
       y: y + 8,
       size: 10,
-      font: helvetica,
+      font: regularFont,
       color: black,
     });
 
@@ -338,14 +337,14 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     x: totalsX,
     y,
     size: 10,
-    font: helvetica,
+    font: regularFont,
     color: black,
   });
   page.drawText(formatCurrency(data.subtotal, data.currency), {
     x: colAmount,
     y,
     size: 10,
-    font: helvetica,
+    font: regularFont,
     color: black,
   });
 
@@ -357,14 +356,14 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     x: totalsX,
     y,
     size: 10,
-    font: helvetica,
+    font: regularFont,
     color: black,
   });
   page.drawText(formatCurrency(data.taxAmount, data.currency), {
     x: colAmount,
     y,
     size: 10,
-    font: helvetica,
+    font: regularFont,
     color: black,
   });
 
@@ -375,14 +374,14 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     x: totalsX,
     y,
     size: 12,
-    font: helveticaBold,
+    font: boldFont,
     color: black,
   });
   page.drawText(formatCurrency(data.total, data.currency), {
     x: colAmount,
     y,
     size: 12,
-    font: helveticaBold,
+    font: boldFont,
     color: black,
   });
 
@@ -410,14 +409,14 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     x: MARGIN,
     y,
     size: 10,
-    font: helveticaBold,
+    font: boldFont,
     color: black,
   });
   page.drawText(data.paymentStatus, {
     x: MARGIN + 95,
     y,
     size: 10,
-    font: helveticaBold,
+    font: boldFont,
     color: statusColor,
   });
 
@@ -429,14 +428,14 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
       x: MARGIN,
       y,
       size: 10,
-      font: helvetica,
+      font: regularFont,
       color: black,
     });
     page.drawText(formatDate(data.paymentDate), {
       x: MARGIN + 95,
       y,
       size: 10,
-      font: helvetica,
+      font: regularFont,
       color: black,
     });
     y -= 16;
@@ -448,14 +447,14 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
       x: MARGIN,
       y,
       size: 10,
-      font: helvetica,
+      font: regularFont,
       color: black,
     });
-    page.drawText(sanitizeText(data.paymentMethod), {
+    page.drawText(data.paymentMethod, {
       x: MARGIN + 95,
       y,
       size: 10,
-      font: helvetica,
+      font: regularFont,
       color: black,
     });
     y -= 16;
@@ -475,24 +474,24 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
 
   // Thank you message
   const thankYouText = 'Thank you for your business!';
-  const thankYouWidth = helvetica.widthOfTextAtSize(thankYouText, 12);
+  const thankYouWidth = regularFont.widthOfTextAtSize(thankYouText, 12);
   page.drawText(thankYouText, {
     x: (PAGE_WIDTH - thankYouWidth) / 2,
     y,
     size: 12,
-    font: helvetica,
+    font: regularFont,
     color: gray,
   });
 
   y -= 16;
 
   // Company website
-  const websiteWidth = helvetica.widthOfTextAtSize(data.companyWebsite, 10);
+  const websiteWidth = regularFont.widthOfTextAtSize(data.companyWebsite, 10);
   page.drawText(data.companyWebsite, {
     x: (PAGE_WIDTH - websiteWidth) / 2,
     y,
     size: 10,
-    font: helvetica,
+    font: regularFont,
     color: gray,
   });
 
