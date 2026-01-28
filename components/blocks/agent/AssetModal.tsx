@@ -50,14 +50,8 @@ interface AssetModalProps {
     durationSeconds?: number;
     fileSize?: number;
     // Legacy props for story/script types (not rendered in lightbox mode)
-    storyDetails?: {
-      outline?: Record<string, unknown>;
-      characters?: Array<Record<string, unknown>>;
-      scene?: Record<string, unknown> | null;
-      storyboardShots?: Array<Record<string, unknown>>;
-      shots?: Array<Record<string, unknown>>;
-      storyboardJson?: Record<string, unknown> | null;
-    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    storyDetails?: any;
     totalDurationSeconds?: number;
     shotsCount?: number;
   };
