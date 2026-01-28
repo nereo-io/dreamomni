@@ -455,7 +455,7 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
 
           {/* Audio */}
           {activeType === 'audio' && activeUrl && (
-            <div className="flex flex-col items-center gap-6 p-8 bg-white/5 rounded-2xl">
+            <div className="flex flex-col items-center gap-6 p-8 bg-gray-900 rounded-2xl">
               <div className="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-500/30 to-emerald-600/30 flex items-center justify-center">
                 <Music className="h-12 w-12 text-emerald-300" />
               </div>
