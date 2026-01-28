@@ -29,7 +29,7 @@ export type InvoiceData = {
 
 const PAGE_WIDTH = 595.28;
 const PAGE_HEIGHT = 841.89;
-const MARGIN = 50;
+const MARGIN = 30;
 const CONTENT_WIDTH = PAGE_WIDTH - MARGIN * 2;
 
 // Helper to format currency
@@ -81,12 +81,13 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
   // ==========================
 
   // Logo (左侧)
-  const logoHeight = 80;
+  const logoHeight = 120;
   const logoScale = logoHeight / logoImage.height;
   const logoWidth = logoImage.width * logoScale;
-  
+  const leftContentX = MARGIN + 15; // Logo / 公司名称 / Bill To 的 X 轴位置
+
   page.drawImage(logoImage, {
-    x: MARGIN,
+    x: leftContentX,
     y: y - logoHeight,
     width: logoWidth,
     height: logoHeight,
@@ -126,9 +127,10 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
   // Info Section (Sender & Dates)
   // ==========================
 
+  // Sender Name (左侧，Logo 下方)
   const senderName = 'AstroInspire Ltd (Veo3 AI)';
   page.drawText(senderName, {
-    x: MARGIN,
+    x: leftContentX,
     y,
     size: 11,
     font: boldFont,
@@ -136,35 +138,41 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
   });
 
   // 右侧数据块 (Date, Payment Terms, Balance Due)
-  // 我们需要计算右侧文本的起始位置
-  const rightColLabelX = PAGE_WIDTH - MARGIN - 220; // 标签起始X
+  // 使用固定的 Y 坐标，不受 Logo 高度影响
+  const rightColLabelEnd = PAGE_WIDTH - MARGIN - 130; // 标签右边界 (右对齐)
   const rightColValueEnd = PAGE_WIDTH - MARGIN;     // 值结束X (右对齐)
+  const rightColValueEndAdjusted = rightColValueEnd - 15; // 值的实际右边界，往左移动 15
+  let rightY = PAGE_HEIGHT - MARGIN - 100; // 固定起始位置，在 INVOICE 标题下方
 
   // 1. Date
-  page.drawText('Date:', {
-    x: rightColLabelX,
-    y,
+  const dateLabelText = 'Date:';
+  const dateLabelWidth = regularFont.widthOfTextAtSize(dateLabelText, 10);
+  page.drawText(dateLabelText, {
+    x: rightColLabelEnd - dateLabelWidth,
+    y: rightY,
     size: 10,
     font: regularFont,
     color: gray,
   });
-  
+
   const dateStr = formatDate(data.invoiceDate);
   const dateWidth = regularFont.widthOfTextAtSize(dateStr, 10);
   page.drawText(dateStr, {
-    x: rightColValueEnd - dateWidth,
-    y,
+    x: rightColValueEndAdjusted - dateWidth,
+    y: rightY,
     size: 10,
     font: regularFont,
     color: black,
   });
 
-  y -= 20;
+  rightY -= 20;
 
   // 2. Payment Terms
-  page.drawText('Payment Terms:', {
-    x: rightColLabelX,
-    y,
+  const termsLabelText = 'Payment Terms:';
+  const termsLabelWidth = regularFont.widthOfTextAtSize(termsLabelText, 10);
+  page.drawText(termsLabelText, {
+    x: rightColLabelEnd - termsLabelWidth,
+    y: rightY,
     size: 10,
     font: regularFont,
     color: gray,
@@ -172,31 +180,68 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
 
   const termsValWidth = regularFont.widthOfTextAtSize(data.paymentTerms, 10);
   page.drawText(data.paymentTerms, {
-    x: rightColValueEnd - termsValWidth,
-    y,
+    x: rightColValueEndAdjusted - termsValWidth,
+    y: rightY,
     size: 10,
     font: regularFont,
     color: black,
   });
 
-  y -= 25; // 增加一点间距给灰色背景条
+  rightY -= 25; // 增加一点间距给灰色背景条
 
   // 3. Balance Due (带灰色背景)
+  const balanceLabelText = 'Balance Due:';
+  const balanceLabelWidth = boldFont.widthOfTextAtSize(balanceLabelText, 10);
   const balanceRowHeight = 24;
-  const balanceY = y - 7; // 背景条的底部 Y
+  const balanceY = rightY - 9; // 背景条的底部 Y，向下移动 2
+  const balanceRectX = rightColLabelEnd - balanceLabelWidth - 40; // 背景条左边界，往左扩展
+  const balanceRectWidth = (PAGE_WIDTH - MARGIN) - balanceRectX;
+  const borderRadius = 4; // 圆角半径
 
-  // 绘制灰色背景条 (宽度覆盖标签和值)
+  // 绘制圆角矩形背景
   page.drawRectangle({
-    x: rightColLabelX - 10, // 左边多一点留白
+    x: balanceRectX + borderRadius,
     y: balanceY,
-    width: (PAGE_WIDTH - MARGIN) - (rightColLabelX - 10),
+    width: balanceRectWidth - borderRadius * 2,
     height: balanceRowHeight,
     color: lightGrayBg,
   });
+  page.drawRectangle({
+    x: balanceRectX,
+    y: balanceY + borderRadius,
+    width: balanceRectWidth,
+    height: balanceRowHeight - borderRadius * 2,
+    color: lightGrayBg,
+  });
+  // 四个圆角
+  page.drawCircle({
+    x: balanceRectX + borderRadius,
+    y: balanceY + borderRadius,
+    size: borderRadius,
+    color: lightGrayBg,
+  });
+  page.drawCircle({
+    x: balanceRectX + balanceRectWidth - borderRadius,
+    y: balanceY + borderRadius,
+    size: borderRadius,
+    color: lightGrayBg,
+  });
+  page.drawCircle({
+    x: balanceRectX + borderRadius,
+    y: balanceY + balanceRowHeight - borderRadius,
+    size: borderRadius,
+    color: lightGrayBg,
+  });
+  page.drawCircle({
+    x: balanceRectX + balanceRectWidth - borderRadius,
+    y: balanceY + balanceRowHeight - borderRadius,
+    size: borderRadius,
+    color: lightGrayBg,
+  });
 
-  page.drawText('Balance Due:', {
-    x: rightColLabelX,
-    y: y, // 文字基线
+  page.drawText(balanceLabelText, {
+    x: rightColLabelEnd - balanceLabelWidth,
+    y: rightY, // 文字基线
     size: 10,
     font: boldFont,
     color: black,
@@ -205,21 +250,21 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
   const balanceStr = formatCurrency(data.balanceDue, data.currency);
   const balanceWidth = boldFont.widthOfTextAtSize(balanceStr, 10);
   page.drawText(balanceStr, {
-    x: rightColValueEnd - balanceWidth,
-    y: y,
+    x: rightColValueEndAdjusted - balanceWidth,
+    y: rightY,
     size: 10,
     font: boldFont,
     color: black,
   });
 
-  y -= 40; // 向下移动更多
-
   // ==========================
   // Bill To Section
   // ==========================
 
+  y -= 30; // 增加 Bill To 与公司名称之间的间距
+
   page.drawText('Bill To:', {
-    x: MARGIN,
+    x: leftContentX,
     y,
     size: 10,
     font: regularFont,
@@ -231,7 +276,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
   if (data.customerName) {
     // 俄语名字，使用 boldFont (NotoSans-Bold 支持 Cyrillic)
     page.drawText(data.customerName, {
-      x: MARGIN,
+      x: leftContentX,
       y,
       size: 11,
       font: boldFont,
@@ -241,7 +286,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
   }
 
   page.drawText(`(${data.customerEmail})`, {
-    x: MARGIN,
+    x: leftContentX,
     y,
     size: 10,
     font: regularFont,
@@ -263,13 +308,50 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
   const col3End = PAGE_WIDTH - MARGIN - 80;  // Rate End
   const col4End = PAGE_WIDTH - MARGIN;       // Amount End (最右边)
 
-  // 1. 表头背景 (深灰色)
+  // 1. 表头背景 (深灰色，圆角矩形)
+  const tableHeaderY = tableTop - headerHeight + 8 - 1; // 向下移动 1
+  const tableHeaderRadius = 4;
+  const tableHeaderBgHeight = headerHeight - 2; // 高度减 2
+
+  // 绘制圆角矩形背景
+  page.drawRectangle({
+    x: MARGIN + tableHeaderRadius,
+    y: tableHeaderY,
+    width: CONTENT_WIDTH - tableHeaderRadius * 2,
+    height: tableHeaderBgHeight,
+    color: darkGray,
+  });
   page.drawRectangle({
     x: MARGIN,
-    y: tableTop - headerHeight + 8, // 微调位置
+    y: tableHeaderY + tableHeaderRadius,
     width: CONTENT_WIDTH,
-    height: headerHeight,
-    color: darkGray, // 改为深灰色
+    height: tableHeaderBgHeight - tableHeaderRadius * 2,
+    color: darkGray,
+  });
+  // 四个圆角
+  page.drawCircle({
+    x: MARGIN + tableHeaderRadius,
+    y: tableHeaderY + tableHeaderRadius,
+    size: tableHeaderRadius,
+    color: darkGray,
+  });
+  page.drawCircle({
+    x: MARGIN + CONTENT_WIDTH - tableHeaderRadius,
+    y: tableHeaderY + tableHeaderRadius,
+    size: tableHeaderRadius,
+    color: darkGray,
+  });
+  page.drawCircle({
+    x: MARGIN + tableHeaderRadius,
+    y: tableHeaderY + tableHeaderBgHeight - tableHeaderRadius,
+    size: tableHeaderRadius,
+    color: darkGray,
+  });
+  page.drawCircle({
+    x: MARGIN + CONTENT_WIDTH - tableHeaderRadius,
+    y: tableHeaderY + tableHeaderBgHeight - tableHeaderRadius,
+    size: tableHeaderRadius,
+    color: darkGray,
   });
 
   const headerY = tableTop - 12;
@@ -298,7 +380,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
   const headRate = 'Rate';
   const headRateWidth = boldFont.widthOfTextAtSize(headRate, 10);
   page.drawText(headRate, {
-    x: col3End - headRateWidth,
+    x: col3End - 15 - headRateWidth,
     y: headerY,
     size: 10,
     font: boldFont,
@@ -309,7 +391,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
   const headAmt = 'Amount';
   const headAmtWidth = boldFont.widthOfTextAtSize(headAmt, 10);
   page.drawText(headAmt, {
-    x: col4End - headAmtWidth,
+    x: col4End - 15 - headAmtWidth,
     y: headerY,
     size: 10,
     font: boldFont,
@@ -348,7 +430,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     const rateStr = formatCurrency(item.unitPrice, data.currency);
     const rateWidth = regularFont.widthOfTextAtSize(rateStr, 10);
     page.drawText(rateStr, {
-      x: col3End - rateWidth,
+      x: col3End - 15 - rateWidth,
       y: y,
       size: 10,
       font: regularFont,
@@ -359,7 +441,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     const amtStr = formatCurrency(lineTotal, data.currency);
     const amtWidth = regularFont.widthOfTextAtSize(amtStr, 10);
     page.drawText(amtStr, {
-      x: col4End - amtWidth,
+      x: col4End - 15 - amtWidth,
       y: y,
       size: 10,
       font: regularFont,
@@ -376,7 +458,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
   // ==========================
   
   const totalsLabelEnd = col3End; // 标签对齐 Rate 列
-  const totalsValueEnd = col4End; // 数值对齐 Amount 列
+  const totalsValueEnd = col4End - 15; // 数值对齐 Amount 列，往左移动 15
 
   const drawTotalLine = (label: string, value: number, isTotal: boolean = false) => {
     const valueStr = formatCurrency(value, data.currency);
@@ -417,17 +499,17 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
 
   if (data.notes) {
     page.drawText('Notes:', {
-      x: MARGIN,
+      x: MARGIN + 15,
       y,
       size: 10,
       font: regularFont,
       color: gray,
     });
     y -= 15;
-    
+
     // 这里如果 notes 很长可能需要处理换行 (此处暂按单行或简短多行处理)
     page.drawText(data.notes, {
-      x: MARGIN,
+      x: MARGIN + 15,
       y,
       size: 10,
       font: regularFont,
@@ -438,7 +520,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
 
   if (data.terms) {
     page.drawText('Terms:', {
-      x: MARGIN,
+      x: MARGIN + 15,
       y,
       size: 10,
       font: regularFont,
@@ -446,7 +528,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     });
     y -= 15;
     page.drawText(data.terms, {
-      x: MARGIN,
+      x: MARGIN + 15,
       y,
       size: 10,
       font: regularFont,

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { findOrderByOrderNo } from '@/models/order';
+import { findUserByUuid } from '@/models/user';
 import { getUserUuid } from '@/services/user';
 import { buildInvoicePdf, InvoiceData } from '@/lib/invoice-pdf';
 
@@ -39,13 +40,17 @@ export async function GET(
   }
 
   const order = await findOrderByOrderNo(orderNo);
+  const user = await findUserByUuid(userUuid)
+
   if (!order) {
     return NextResponse.json({ error: 'Order not found' }, { status: 404 });
   }
 
-  if (order.user_uuid !== userUuid) {
+  if (order.user_uuid !== userUuid || !user) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
+
+
 
   // Convert amount from cents to dollars
   const amountInDollars = (order.amount || 0) / 100;
@@ -75,6 +80,7 @@ export async function GET(
 
     // Customer information
     customerEmail: order.paid_email || order.user_email || '',
+    customerName: user.nickname,
 
     // Order items
     items: [
