@@ -336,7 +336,7 @@ export function AssetModal({ isOpen, onClose, type, data, gallery }: AssetModalP
       onClick={handleOverlayClick}
     >
       {/* Dark overlay background */}
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-xs pointer-events-none" />
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm pointer-events-none" />
 
       {/* Close button - top right */}
       <button
