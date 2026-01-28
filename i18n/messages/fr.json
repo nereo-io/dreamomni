@@ -113,6 +113,8 @@
       "product_name": "Nom du produit",
       "amount": "Montant",
       "paid_at": "Payé le",
+      "invoice": "Facture",
+      "download": "Télécharger",
       "github_username": "Nom d'utilisateur GitHub",
       "status": "Statut"
     }
