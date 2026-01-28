@@ -10,17 +10,11 @@ export type InvoiceItem = {
 };
 
 export type InvoiceData = {
-  // Company information (all configurable via parameters)
-  companyName: string;
-  companyAddress: string;
-  companyPhone: string;
-  companyEmail: string;
-  companyWebsite: string;
-
   // Invoice information
   invoiceNumber: string;
   invoiceDate: string;
-  dueDate?: string;
+  paymentTerms: string; // e.g., "Paid in full"
+  balanceDue: number;
 
   // Customer information
   customerName?: string;
@@ -31,15 +25,15 @@ export type InvoiceData = {
 
   // Amounts
   subtotal: number;
-  taxRate: number; // Default 0
-  taxAmount: number; // Auto-calculated
+  taxRate: number;
+  taxAmount: number;
   total: number;
+  amountPaid: number;
   currency: string;
 
-  // Payment information
-  paymentStatus: 'PAID' | 'PENDING' | 'FAILED';
-  paymentDate?: string;
-  paymentMethod?: string;
+  // Notes section
+  notes?: string;
+  terms?: string;
 };
 
 const PAGE_WIDTH = 595.28;
@@ -48,34 +42,25 @@ const MARGIN = 50;
 const CONTENT_WIDTH = PAGE_WIDTH - MARGIN * 2;
 
 const formatCurrency = (amount: number, currency: string): string => {
-  const symbols: Record<string, string> = {
-    USD: '$',
-    EUR: 'EUR ',
-    GBP: 'GBP ',
-    CNY: 'CNY ',
-    JPY: 'JPY ',
-    RUB: 'RUB ',
-  };
-  const symbol = symbols[currency.toUpperCase()] || currency + ' ';
-  return `${symbol}${amount.toFixed(2)}`;
+  const code = currency.toUpperCase();
+  return `${code}$${amount.toFixed(2)}`;
 };
 
 const formatDate = (dateValue: string): string => {
   if (!dateValue) return 'N/A';
   const date = new Date(dateValue);
   if (Number.isNaN(date.getTime())) return dateValue;
-  return date.toISOString().split('T')[0];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 };
 
 export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> => {
   const pdfDoc = await PDFDocument.create();
-
-  // Register fontkit to enable custom font embedding
   pdfDoc.registerFontkit(fontkit);
 
   const page = pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
-  // Load custom fonts that support Cyrillic characters
+  // Load custom fonts
   const fontDir = path.join(process.cwd(), 'public', 'fonts');
   const regularFontBytes = await fs.readFile(path.join(fontDir, 'NotoSans-Regular.ttf'));
   const boldFontBytes = await fs.readFile(path.join(fontDir, 'NotoSans-Bold.ttf'));
@@ -83,71 +68,77 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
   const regularFont = await pdfDoc.embedFont(regularFontBytes);
   const boldFont = await pdfDoc.embedFont(boldFontBytes);
 
+  // Load and embed logo
+  const logoPath = path.join(process.cwd(), 'public', 'logo.png');
+  const logoBytes = await fs.readFile(logoPath);
+  const logoImage = await pdfDoc.embedPng(logoBytes);
+
+  // Colors
   const black = rgb(0, 0, 0);
-  const gray = rgb(0.4, 0.4, 0.4);
-  const lightGray = rgb(0.9, 0.9, 0.9);
-  const green = rgb(0.2, 0.6, 0.2);
-  const red = rgb(0.8, 0.2, 0.2);
-  const orange = rgb(0.9, 0.6, 0.1);
+  const gray = rgb(0.5, 0.5, 0.5);
+  const purple = rgb(0.42, 0.35, 0.80); // #6B5ACD - table header color
 
   let y = PAGE_HEIGHT - MARGIN;
 
   // === Header Section ===
-  // Company name (left)
-  page.drawText(data.companyName, {
+
+  // Logo (left side) - scale to ~80px height
+  const logoScale = 80 / logoImage.height;
+  const logoWidth = logoImage.width * logoScale;
+  const logoHeight = 80;
+  page.drawImage(logoImage, {
     x: MARGIN,
-    y,
-    size: 20,
-    font: boldFont,
-    color: black,
+    y: y - logoHeight,
+    width: logoWidth,
+    height: logoHeight,
   });
 
-  // INVOICE title (right)
+  // INVOICE title (right side)
   const invoiceTitle = 'INVOICE';
-  const titleWidth = boldFont.widthOfTextAtSize(invoiceTitle, 24);
+  const titleWidth = boldFont.widthOfTextAtSize(invoiceTitle, 36);
   page.drawText(invoiceTitle, {
     x: PAGE_WIDTH - MARGIN - titleWidth,
-    y,
-    size: 24,
+    y: y - 30,
+    size: 36,
     font: boldFont,
     color: black,
   });
 
-  y -= 18;
-
-  // Company address
-  page.drawText(data.companyAddress, {
-    x: MARGIN,
-    y,
-    size: 10,
+  // Invoice number below title
+  const invoiceNumText = `# ${data.invoiceNumber}`;
+  const invoiceNumWidth = regularFont.widthOfTextAtSize(invoiceNumText, 12);
+  page.drawText(invoiceNumText, {
+    x: PAGE_WIDTH - MARGIN - invoiceNumWidth,
+    y: y - 50,
+    size: 12,
     font: regularFont,
     color: gray,
   });
 
-  // Invoice number (right)
-  const invoiceNumText = `Invoice #: ${data.invoiceNumber}`;
-  const invoiceNumWidth = regularFont.widthOfTextAtSize(invoiceNumText, 10);
-  page.drawText(invoiceNumText, {
-    x: PAGE_WIDTH - MARGIN - invoiceNumWidth,
+  y -= logoHeight + 20;
+
+  // Company name below logo
+  page.drawText('AstroInspire Ltd (Veo3 AI)', {
+    x: MARGIN,
     y,
-    size: 10,
-    font: regularFont,
+    size: 12,
+    font: boldFont,
     color: black,
   });
 
-  y -= 14;
+  // Right side info: Date, Payment Terms, Balance Due
+  const rightLabelX = PAGE_WIDTH - MARGIN - 200;
+  const rightValueX = PAGE_WIDTH - MARGIN - 80;
 
-  // Company phone
-  page.drawText(`Phone: ${data.companyPhone}`, {
-    x: MARGIN,
+  // Date
+  page.drawText('Date:', {
+    x: rightLabelX,
     y,
     size: 10,
     font: regularFont,
     color: gray,
   });
-
-  // Invoice date (right)
-  const dateText = `Date: ${formatDate(data.invoiceDate)}`;
+  const dateText = formatDate(data.invoiceDate);
   const dateWidth = regularFont.widthOfTextAtSize(dateText, 10);
   page.drawText(dateText, {
     x: PAGE_WIDTH - MARGIN - dateWidth,
@@ -157,49 +148,54 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     color: black,
   });
 
-  y -= 14;
+  y -= 18;
 
-  // Company email
-  page.drawText(`Email: ${data.companyEmail}`, {
-    x: MARGIN,
+  // Payment Terms
+  page.drawText('Payment Terms:', {
+    x: rightLabelX,
     y,
     size: 10,
     font: regularFont,
     color: gray,
   });
-
-  // Due date (right, if provided)
-  if (data.dueDate) {
-    const dueText = `Due: ${formatDate(data.dueDate)}`;
-    const dueWidth = regularFont.widthOfTextAtSize(dueText, 10);
-    page.drawText(dueText, {
-      x: PAGE_WIDTH - MARGIN - dueWidth,
-      y,
-      size: 10,
-      font: regularFont,
-      color: black,
-    });
-  }
-
-  y -= 30;
-
-  // === Separator line ===
-  page.drawLine({
-    start: { x: MARGIN, y },
-    end: { x: PAGE_WIDTH - MARGIN, y },
-    thickness: 1,
-    color: lightGray,
+  const termsWidth = regularFont.widthOfTextAtSize(data.paymentTerms, 10);
+  page.drawText(data.paymentTerms, {
+    x: PAGE_WIDTH - MARGIN - termsWidth,
+    y,
+    size: 10,
+    font: regularFont,
+    color: black,
   });
 
-  y -= 25;
+  y -= 18;
+
+  // Balance Due
+  page.drawText('Balance Due:', {
+    x: rightLabelX,
+    y,
+    size: 10,
+    font: boldFont,
+    color: black,
+  });
+  const balanceText = formatCurrency(data.balanceDue, data.currency);
+  const balanceWidth = boldFont.widthOfTextAtSize(balanceText, 10);
+  page.drawText(balanceText, {
+    x: PAGE_WIDTH - MARGIN - balanceWidth,
+    y,
+    size: 10,
+    font: boldFont,
+    color: black,
+  });
+
+  y -= 30;
 
   // === Bill To Section ===
   page.drawText('Bill To:', {
     x: MARGIN,
     y,
-    size: 12,
-    font: boldFont,
-    color: black,
+    size: 10,
+    font: regularFont,
+    color: gray,
   });
 
   y -= 16;
@@ -208,14 +204,14 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     page.drawText(data.customerName, {
       x: MARGIN,
       y,
-      size: 10,
-      font: regularFont,
+      size: 11,
+      font: boldFont,
       color: black,
     });
-    y -= 14;
+    y -= 16;
   }
 
-  page.drawText(data.customerEmail, {
+  page.drawText(`(${data.customerEmail})`, {
     x: MARGIN,
     y,
     size: 10,
@@ -223,83 +219,87 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     color: black,
   });
 
-  y -= 30;
+  y -= 40;
 
   // === Items Table ===
   const tableTop = y;
-  const colDescription = MARGIN;
+  const colItem = MARGIN;
   const colQty = MARGIN + 280;
-  const colUnitPrice = MARGIN + 340;
-  const colAmount = MARGIN + 420;
-  const tableRowHeight = 25;
+  const colRate = MARGIN + 360;
+  const colAmount = MARGIN + 440;
+  const tableRowHeight = 30;
+  const headerHeight = 28;
 
-  // Table header background
+  // Table header background (purple)
   page.drawRectangle({
     x: MARGIN,
-    y: tableTop - 20,
+    y: tableTop - headerHeight + 5,
     width: CONTENT_WIDTH,
-    height: 25,
-    color: lightGray,
+    height: headerHeight,
+    color: purple,
   });
 
-  // Table header text
-  page.drawText('Description', {
-    x: colDescription + 5,
-    y: tableTop - 14,
+  // Table header text (white)
+  const white = rgb(1, 1, 1);
+  page.drawText('Item', {
+    x: colItem + 10,
+    y: tableTop - 15,
     size: 10,
     font: boldFont,
-    color: black,
+    color: white,
   });
 
-  page.drawText('Qty', {
+  page.drawText('Quantity', {
     x: colQty,
-    y: tableTop - 14,
+    y: tableTop - 15,
     size: 10,
     font: boldFont,
-    color: black,
+    color: white,
   });
 
-  page.drawText('Unit Price', {
-    x: colUnitPrice,
-    y: tableTop - 14,
+  page.drawText('Rate', {
+    x: colRate,
+    y: tableTop - 15,
     size: 10,
     font: boldFont,
-    color: black,
+    color: white,
   });
 
   page.drawText('Amount', {
     x: colAmount,
-    y: tableTop - 14,
+    y: tableTop - 15,
     size: 10,
     font: boldFont,
-    color: black,
+    color: white,
   });
 
-  y = tableTop - 20 - tableRowHeight;
+  y = tableTop - headerHeight - 5;
 
   // Table rows
   for (const item of data.items) {
     const lineTotal = item.quantity * item.unitPrice;
 
+    y -= tableRowHeight;
+
     page.drawText(item.description, {
-      x: colDescription + 5,
-      y: y + 8,
+      x: colItem + 10,
+      y: y + 10,
       size: 10,
-      font: regularFont,
+      font: boldFont,
       color: black,
     });
 
     page.drawText(String(item.quantity), {
       x: colQty,
-      y: y + 8,
+      y: y + 10,
       size: 10,
       font: regularFont,
       color: black,
     });
 
     page.drawText(formatCurrency(item.unitPrice, data.currency), {
-      x: colUnitPrice,
-      y: y + 8,
+      x: colRate,
+      y: y + 10,
       size: 10,
       font: regularFont,
       color: black,
@@ -307,65 +307,51 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
 
     page.drawText(formatCurrency(lineTotal, data.currency), {
       x: colAmount,
-      y: y + 8,
+      y: y + 10,
       size: 10,
       font: regularFont,
       color: black,
     });
-
-    // Row separator line
-    page.drawLine({
-      start: { x: MARGIN, y },
-      end: { x: PAGE_WIDTH - MARGIN, y },
-      thickness: 0.5,
-      color: lightGray,
-    });
-
-    y -= tableRowHeight;
   }
 
-  // Table bottom line
-  page.drawLine({
-    start: { x: MARGIN, y: y + tableRowHeight },
-    end: { x: PAGE_WIDTH - MARGIN, y: y + tableRowHeight },
-    thickness: 1,
-    color: lightGray,
-  });
+  y -= 50;
 
-  y -= 10;
-
-  // === Totals Section ===
-  const totalsX = colUnitPrice - 30;
+  // === Totals Section (right aligned) ===
+  const totalsLabelX = colRate - 20;
 
   // Subtotal
   page.drawText('Subtotal:', {
-    x: totalsX,
+    x: totalsLabelX,
     y,
     size: 10,
     font: regularFont,
     color: black,
   });
-  page.drawText(formatCurrency(data.subtotal, data.currency), {
-    x: colAmount,
+  const subtotalText = formatCurrency(data.subtotal, data.currency);
+  const subtotalWidth = regularFont.widthOfTextAtSize(subtotalText, 10);
+  page.drawText(subtotalText, {
+    x: PAGE_WIDTH - MARGIN - subtotalWidth,
     y,
     size: 10,
     font: regularFont,
     color: black,
   });
 
-  y -= 16;
+  y -= 20;
 
   // Tax
   const taxLabel = `Tax (${(data.taxRate * 100).toFixed(0)}%):`;
   page.drawText(taxLabel, {
-    x: totalsX,
+    x: totalsLabelX,
     y,
     size: 10,
     font: regularFont,
     color: black,
   });
-  page.drawText(formatCurrency(data.taxAmount, data.currency), {
-    x: colAmount,
+  const taxText = formatCurrency(data.taxAmount, data.currency);
+  const taxWidth = regularFont.widthOfTextAtSize(taxText, 10);
+  page.drawText(taxText, {
+    x: PAGE_WIDTH - MARGIN - taxWidth,
     y,
     size: 10,
     font: regularFont,
@@ -374,131 +360,84 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
 
   y -= 20;
 
-  // Total (bold)
+  // Total
   page.drawText('Total:', {
-    x: totalsX,
+    x: totalsLabelX,
     y,
-    size: 12,
-    font: boldFont,
+    size: 10,
+    font: regularFont,
     color: black,
   });
-  page.drawText(formatCurrency(data.total, data.currency), {
-    x: colAmount,
+  const totalText = formatCurrency(data.total, data.currency);
+  const totalWidth = regularFont.widthOfTextAtSize(totalText, 10);
+  page.drawText(totalText, {
+    x: PAGE_WIDTH - MARGIN - totalWidth,
     y,
-    size: 12,
-    font: boldFont,
+    size: 10,
+    font: regularFont,
     color: black,
-  });
-
-  y -= 40;
-
-  // === Payment Status Section ===
-  page.drawLine({
-    start: { x: MARGIN, y },
-    end: { x: PAGE_WIDTH - MARGIN, y },
-    thickness: 1,
-    color: lightGray,
   });
 
   y -= 20;
 
-  // Payment status with color
-  const statusColor =
-    data.paymentStatus === 'PAID'
-      ? green
-      : data.paymentStatus === 'PENDING'
-        ? orange
-        : red;
-
-  page.drawText('Payment Status:', {
-    x: MARGIN,
+  // Amount Paid
+  page.drawText('Amount Paid:', {
+    x: totalsLabelX,
     y,
     size: 10,
-    font: boldFont,
+    font: regularFont,
     color: black,
   });
-  page.drawText(data.paymentStatus, {
-    x: MARGIN + 95,
+  const paidText = formatCurrency(data.amountPaid, data.currency);
+  const paidWidth = regularFont.widthOfTextAtSize(paidText, 10);
+  page.drawText(paidText, {
+    x: PAGE_WIDTH - MARGIN - paidWidth,
     y,
     size: 10,
-    font: boldFont,
-    color: statusColor,
+    font: regularFont,
+    color: black,
   });
 
-  y -= 16;
+  y -= 60;
 
-  // Payment date
-  if (data.paymentDate) {
-    page.drawText('Payment Date:', {
+  // === Notes Section ===
+  if (data.notes) {
+    page.drawText('Notes:', {
+      x: MARGIN,
+      y,
+      size: 10,
+      font: regularFont,
+      color: gray,
+    });
+    y -= 16;
+    page.drawText(data.notes, {
       x: MARGIN,
       y,
       size: 10,
       font: regularFont,
       color: black,
     });
-    page.drawText(formatDate(data.paymentDate), {
-      x: MARGIN + 95,
+    y -= 24;
+  }
+
+  // === Terms Section ===
+  if (data.terms) {
+    page.drawText('Terms:', {
+      x: MARGIN,
       y,
       size: 10,
       font: regularFont,
-      color: black,
+      color: gray,
     });
     y -= 16;
-  }
-
-  // Payment method
-  if (data.paymentMethod) {
-    page.drawText('Payment Method:', {
+    page.drawText(data.terms, {
       x: MARGIN,
       y,
       size: 10,
       font: regularFont,
       color: black,
     });
-    page.drawText(data.paymentMethod, {
-      x: MARGIN + 95,
-      y,
-      size: 10,
-      font: regularFont,
-      color: black,
-    });
-    y -= 16;
   }
-
-  y -= 30;
-
-  // === Footer Section ===
-  page.drawLine({
-    start: { x: MARGIN, y },
-    end: { x: PAGE_WIDTH - MARGIN, y },
-    thickness: 1,
-    color: lightGray,
-  });
-
-  y -= 25;
-
-  // Thank you message
-  const thankYouText = 'Thank you for your business!';
-  const thankYouWidth = regularFont.widthOfTextAtSize(thankYouText, 12);
-  page.drawText(thankYouText, {
-    x: (PAGE_WIDTH - thankYouWidth) / 2,
-    y,
-    size: 12,
-    font: regularFont,
-    color: gray,
-  });
-
-  y -= 16;
-
-  // Company website
-  const websiteWidth = regularFont.widthOfTextAtSize(data.companyWebsite, 10);
-  page.drawText(data.companyWebsite, {
-    x: (PAGE_WIDTH - websiteWidth) / 2,
-    y,
-    size: 10,
-    font: regularFont,
-    color: gray,
-  });
 
   return await pdfDoc.save();
 };
