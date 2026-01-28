@@ -7,6 +7,7 @@ import { Table as TableSlotType } from "@/types/slots/table";
 import { getTranslations } from "next-intl/server";
 import { LocalTime } from "@/components/ui/local-time";
 import { redirect } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export default async function () {
   const t = await getTranslations();
@@ -38,6 +39,27 @@ export default async function () {
       name: "paid_at",
       title: t("my_orders.table.paid_at"),
       callback: (item: any) => <LocalTime date={item.paid_at} />,
+    },
+    {
+      name: "invoice",
+      title: t("my_orders.table.invoice"),
+      callback: (item: any) => {
+        const orderNo = `${item.order_no || ""}`;
+        if (!orderNo) {
+          return "-";
+        }
+        const safeOrderNo = orderNo.replace(/[^a-zA-Z0-9_-]/g, "_");
+        const invoiceUrl = `/api/orders/${encodeURIComponent(
+          orderNo
+        )}/invoice`;
+        return (
+          <Button variant="outline" size="sm" asChild>
+            <a href={invoiceUrl} download={`invoice-${safeOrderNo}.pdf`}>
+              {t("my_orders.table.download")}
+            </a>
+          </Button>
+        );
+      },
     },
   ];
 

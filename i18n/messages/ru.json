@@ -116,6 +116,8 @@
       "product_name": "Название продукта",
       "amount": "Сумма",
       "paid_at": "Оплачено",
+      "invoice": "Счет",
+      "download": "Скачать",
       "github_username": "GitHub имя пользователя",
       "status": "Статус"
     }

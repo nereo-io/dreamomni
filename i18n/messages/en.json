@@ -116,6 +116,8 @@
       "product_name": "Product Name",
       "amount": "Amount",
       "paid_at": "Paid At",
+      "invoice": "Invoice",
+      "download": "Download",
       "github_username": "GitHub Username",
       "status": "Status"
     }
