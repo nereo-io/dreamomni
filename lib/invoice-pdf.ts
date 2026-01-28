@@ -44,14 +44,22 @@ const PAGE_HEIGHT = 841.89;
 const MARGIN = 50;
 const CONTENT_WIDTH = PAGE_WIDTH - MARGIN * 2;
 
+// Sanitize text to only include WinAnsi-compatible characters
+// pdf-lib standard fonts only support WinAnsi encoding
+const sanitizeText = (text: string): string => {
+  // Replace non-ASCII characters with '?'
+  // WinAnsi supports ASCII (0x20-0x7E) plus some extended Latin characters
+  return text.replace(/[^\x20-\x7E]/g, '?');
+};
+
 const formatCurrency = (amount: number, currency: string): string => {
   const symbols: Record<string, string> = {
     USD: '$',
-    EUR: '€',
-    GBP: '£',
-    CNY: '¥',
-    JPY: '¥',
-    RUB: '₽',
+    EUR: 'EUR ',
+    GBP: 'GBP ',
+    CNY: 'CNY ',
+    JPY: 'JPY ',
+    RUB: 'RUB ',
   };
   const symbol = symbols[currency.toUpperCase()] || currency + ' ';
   return `${symbol}${amount.toFixed(2)}`;
@@ -193,7 +201,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
   y -= 16;
 
   if (data.customerName) {
-    page.drawText(data.customerName, {
+    page.drawText(sanitizeText(data.customerName), {
       x: MARGIN,
       y,
       size: 10,
@@ -203,7 +211,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
     y -= 14;
   }
 
-  page.drawText(data.customerEmail, {
+  page.drawText(sanitizeText(data.customerEmail), {
     x: MARGIN,
     y,
     size: 10,
@@ -269,7 +277,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
   for (const item of data.items) {
     const lineTotal = item.quantity * item.unitPrice;
 
-    page.drawText(item.description, {
+    page.drawText(sanitizeText(item.description), {
       x: colDescription + 5,
       y: y + 8,
       size: 10,
@@ -443,7 +451,7 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
       font: helvetica,
       color: black,
     });
-    page.drawText(data.paymentMethod, {
+    page.drawText(sanitizeText(data.paymentMethod), {
       x: MARGIN + 95,
       y,
       size: 10,
