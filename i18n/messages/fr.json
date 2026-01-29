@@ -136,6 +136,19 @@
     "manage_subscription": "Gérer l'abonnement",
     "loading": "Chargement..."
   },
+  "creditPools": {
+    "title": "Pools de crédits",
+    "description": "Vos soldes de crédits actifs par achat",
+    "bonus": "Crédits bonus",
+    "table": {
+      "order_no": "N° commande",
+      "expired_at": "Expire",
+      "balance": "Solde",
+      "earned": "Obtenu",
+      "used": "Utilisé",
+      "created_at": "Créé"
+    }
+  },
   "subscription": {
     "allSubscriptions": "Tous les abonnements",
     "subscriptionHistory": "Votre historique d'abonnement Payssion",

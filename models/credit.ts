@@ -1,4 +1,4 @@
-import { Credit } from "@/types/credit";
+import { Credit, CreditPool } from "@/types/credit";
 import { getSupabaseClient } from "@/models/db";
 
 export async function insertCredit(credit: Credit) {
@@ -147,4 +147,20 @@ export async function getCreditsByUserUuid(
   }
 
   return data;
+}
+
+export async function getUserCreditPools(
+  user_uuid: string
+): Promise<CreditPool[]> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase.rpc("get_user_credit_pools", {
+    p_user_uuid: user_uuid,
+  });
+
+  if (error) {
+    console.error("Failed to get user credit pools:", error);
+    return [];
+  }
+
+  return data || [];
 }

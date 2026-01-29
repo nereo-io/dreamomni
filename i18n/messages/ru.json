@@ -139,6 +139,19 @@
     "manage_subscription": "Управление подпиской",
     "loading": "Загрузка..."
   },
+  "creditPools": {
+    "title": "Пулы кредитов",
+    "description": "Ваши активные балансы кредитов по покупкам",
+    "bonus": "Бонусные кредиты",
+    "table": {
+      "order_no": "Номер заказа",
+      "expired_at": "Истекает",
+      "balance": "Баланс",
+      "earned": "Получено",
+      "used": "Использовано",
+      "created_at": "Создано"
+    }
+  },
   "subscription": {
     "allSubscriptions": "Все подписки",
     "subscriptionHistory": "История ваших подписок Payssion",
