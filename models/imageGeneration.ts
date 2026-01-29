@@ -401,6 +401,9 @@ export async function getUserImageGenerations(
     console.log("⚠️ Could not add is_delete filter, field may not exist");
   }
 
+  // 过滤掉 agent 生成的内容（agent_shot_id 不为空的记录）
+  query = query.is("agent_shot_id", null);
+
   if (search?.trim()) {
     const escapedSearch = search.trim().replace(/,/g, '\\,');
     const pattern = `%${escapedSearch}%`;
@@ -419,6 +422,7 @@ export async function getUserImageGenerations(
       .from("image_generations")
       .select(selectFields, { count: countMode })
       .eq("user_id", userId)
+      .is("agent_shot_id", null)
       .order("created_at", { ascending: false });
 
     if (search?.trim()) {

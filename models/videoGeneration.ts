@@ -405,6 +405,7 @@ export async function getUserVideoGenerations(
     .select("*", { count: countMode })
     .eq("user_id", userId)
     .eq("is_delete", false)
+    .is("agent_shot_id", null)
     .order("created_at", { ascending: false });
 
   if (search?.trim()) {
