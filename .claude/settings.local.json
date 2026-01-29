@@ -61,7 +61,21 @@
       "Bash(pkill:*)",
       "Bash(uv run python:*)",
       "Bash(git checkout:*)",
-      "Bash(pnpm build:*)"
+      "Bash(pnpm build:*)",
+      "Bash(xargs find:*)",
+      "WebFetch(domain:docs.kie.ai)",
+      "WebFetch(domain:docs.byteplus.com)",
+      "Bash(xargs -I {} sh -c 'echo \"\"\"\"=== {} ===\"\"\"\" && grep -A 2 \"\"\"\"redditCases\"\"\"\" {}')",
+      "Bash(xargs -I {} sh -c 'echo \"\"\"\"=== {} ===\"\"\"\" && grep -c \"\"\"\"compareImage\"\"\"\" {}')",
+      "Bash(jq:*)",
+      "mcp__supabase__get_logs",
+      "WebFetch(domain:developers.google.com)",
+      "Bash(pnpm lint:*)",
+      "Bash(pnpm tsc:*)",
+      "Bash(git config:*)",
+      "Bash(ps:*)",
+      "Bash(nc:*)",
+      "Bash(git cherry-pick:*)"
     ],
     "deny": [],
     "ask": [],
@@ -69,7 +83,7 @@
   },
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
-    "context7",
-    "playwright"
+    "supabase",
+    "context7"
   ]
 }
