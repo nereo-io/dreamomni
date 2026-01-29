@@ -176,6 +176,10 @@
     "no_credits": "No credits records",
     "recharge": "Upgrade Membership",
     "invite": "Invite friends",
+    "tabs": {
+      "records": "Credit Records",
+      "pools": "Credit Pools"
+    },
     "table": {
       "trans_no": "Trans No",
       "trans_type": "Trans Type",

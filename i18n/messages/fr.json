@@ -173,6 +173,10 @@
     "no_credits": "Aucun enregistrement de crédits",
     "recharge": "Mettre à niveau l'adhésion",
     "invite": "Inviter des amis",
+    "tabs": {
+      "records": "Historique des crédits",
+      "pools": "Pools de crédits"
+    },
     "table": {
       "trans_no": "N° de transaction",
       "trans_type": "Type de transaction",

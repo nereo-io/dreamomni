@@ -176,6 +176,10 @@
     "no_credits": "Keine Credits-Einträge",
     "recharge": "Mitgliedschaft upgraden",
     "invite": "Freunde einladen",
+    "tabs": {
+      "records": "Credit-Verlauf",
+      "pools": "Credit-Pools"
+    },
     "table": {
       "trans_no": "Transaktions-Nr.",
       "trans_type": "Transaktionstyp",
