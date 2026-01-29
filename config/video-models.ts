@@ -501,8 +501,8 @@ export function calculateCredits(
   // 根据分辨率调整积分（对支持多分辨率的模型生效）
   if (isSeedanceModel(modelId) || isAliModel(modelId)) {
     if (resolution === "1080p") {
-      // 1080p 价格是 480p 的 5 倍
-      totalCredits *= 5;
+      // 1080p 价格是 480p 的 4 倍
+      totalCredits *= 4;
     } else if (resolution === "720p") {
       // Seedance 1.5 Pro: 720p = 480p 的 2 倍
       totalCredits *= 2;
