@@ -1,11 +1,12 @@
+import { cn } from '@/lib/utils'
 import { Button } from "@/components/ui/button";
 import { Button as ButtonType } from "@/types/blocks/base";
 import Icon from "@/components/icon";
 import Link from "next/link";
 
-export default function Toolbar({ items }: { items?: ButtonType[] }) {
+export default function Toolbar({ items, className }: { items?: ButtonType[], className?: string }) {
   return (
-    <div className="flex space-x-4 mb-8">
+    <div className={cn("flex space-x-4 mb-8", className)}>
       {items?.map((item, idx) => (
         <Button
           key={idx}

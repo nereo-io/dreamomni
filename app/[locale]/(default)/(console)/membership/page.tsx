@@ -3,7 +3,6 @@ import { findActiveMembershipByUserUuid } from "@/models/membership";
 import { getStripeCustomerId } from "@/models/user";
 import { findSubscriptionsByUserUuid } from "@/models/subscription";
 import { findCreemSubscriptionsByUserUuid } from "@/models/creem-subscription";
-import { getUserCreditPools } from "@/models/credit";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 import {
@@ -13,16 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { ManageSubscriptionButton } from "@/components/subscription/manage-subscription-button";
 import { SubscriptionCard } from "@/components/subscription/subscription-card";
 import { CreemSubscriptionCard } from "@/components/subscription/creem-subscription-card";
@@ -45,8 +35,6 @@ export default async function () {
   const payssionSubscriptions = await findSubscriptionsByUserUuid(user_uuid);
   // 获取 Creem 订阅信息
   const creemSubscriptions = await findCreemSubscriptionsByUserUuid(user_uuid);
-  // 获取积分池信息
-  const creditPools = await getUserCreditPools(user_uuid);
 
   return (
     <div className="container px-4 md:px-6 max-w-5xl py-6">
@@ -122,48 +110,6 @@ export default async function () {
           )}
         </CardContent>
       </Card>
-
-      {/* Credit Pools */}
-      {creditPools.length > 0 && (
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle>{t("creditPools.title")}</CardTitle>
-            <CardDescription>{t("creditPools.description")}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("creditPools.table.order_no")}</TableHead>
-                  <TableHead>{t("creditPools.table.expired_at")}</TableHead>
-                  <TableHead>{t("creditPools.table.balance")}</TableHead>
-                  <TableHead>{t("creditPools.table.earned")}</TableHead>
-                  <TableHead>{t("creditPools.table.used")}</TableHead>
-                  <TableHead>{t("creditPools.table.created_at")}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {creditPools.map((pool, index) => (
-                  <TableRow key={pool.order_no || `bonus-${index}`}>
-                    <TableCell>
-                      {pool.order_no || t("creditPools.bonus")}
-                    </TableCell>
-                    <TableCell>
-                      <LocalTime date={pool.expired_at} format="date" />
-                    </TableCell>
-                    <TableCell className="font-medium">{pool.balance}</TableCell>
-                    <TableCell className="text-green-600">+{pool.earned}</TableCell>
-                    <TableCell className="text-red-600">-{pool.used}</TableCell>
-                    <TableCell>
-                      <LocalTime date={pool.created_at} format="date" />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      )}
 
       {/* Payssion 订阅信息 */}
       {payssionSubscriptions.length > 0 && (
