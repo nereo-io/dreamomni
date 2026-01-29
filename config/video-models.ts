@@ -60,8 +60,8 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     description: "ByteDance's lastest video model",
     features: ["Wait 60s", "Audio"],
     maxDuration: 12,
-    supportedAspectRatios: ["16:9", "9:16", "1:1"],
-    supportedResolutions: ["480p", "720p"],
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
+    supportedResolutions: ["480p", "720p", "1080p"],
     supportsAudio: true,
     estimatedGenerationTime: 60,
     supportedDurations: [4, 8, 10, 12],
@@ -82,7 +82,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     features: ["Wait 60s", "Audio", "Surpport 2 images"],
     maxDuration: 12,
     supportedAspectRatios: ["Auto"],
-    supportedResolutions: ["480p", "720p"],
+    supportedResolutions: ["480p", "720p", "1080p"],
     supportsAudio: true,
     estimatedGenerationTime: 60,
     supportedDurations: [4, 8, 10, 12],
@@ -501,8 +501,8 @@ export function calculateCredits(
   // 根据分辨率调整积分（对支持多分辨率的模型生效）
   if (isSeedanceModel(modelId) || isAliModel(modelId)) {
     if (resolution === "1080p") {
-      // 1080p 价格是 480p 的 5 倍
-      totalCredits *= 5;
+      // 1080p 价格是 480p 的 4 倍
+      totalCredits *= 4;
     } else if (resolution === "720p") {
       // Seedance 1.5 Pro: 720p = 480p 的 2 倍
       totalCredits *= 2;

@@ -2,6 +2,29 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Meta Rules
+
+### Thinking
+
+1. **Infer before asking** — Use available data to reason; only ask when inference is impossible
+2. **Analysis must close the loop** — Cause → Conclusion → Solution → Verification, all required
+3. **State assumptions, don't block** — Document assumptions and proceed; never stop to ask
+
+### Execution
+
+4. **Change only what's necessary** — No "drive-by" optimizations outside the request
+5. **Clarify ambiguity first** — Restate understanding before acting on unclear requirements
+6. **Verify before assuming** — External interfaces must be validated, never guess field names
+7. **Follow project conventions** — Search existing code patterns before modifying
+8. **Proactively diagnose root causes** — When user reports issues, provide debug steps and ranked causes
+
+### Forbidden
+
+- ❌ Assuming API field names
+- ❌ Hardcoding configuration values
+- ❌ Ignoring race conditions in multi-source state updates
+- ❌ Outputting incomplete analysis
+
 ## Project Overview
 
 **Veo3 AI** (veo3ai.io) is an AI-powered video and image generation platform built on Next.js 14. The platform provides text-to-video, image-to-video, text-to-image, and image-to-image generation using multiple AI providers, with a complete user management system, credits, and subscription tiers.
