@@ -64,6 +64,9 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit, onJobResumed: 
   // Force polling until this timestamp (used after resume to ensure continuous polling)
   const forcePollingUntilRef = useRef<number>(0);
 
+  // Track previous refreshTrigger to detect actual changes
+  const prevRefreshTriggerRef = useRef(refreshTrigger);
+
   // Update ref whenever jobs change
   useEffect(() => {
     jobsRef.current = jobs;
@@ -242,16 +245,14 @@ export function AgentJobsList({ refreshTrigger, locale, onReEdit, onJobResumed: 
 
   // Refresh when trigger changes (from parent component)
   useEffect(() => {
-    if (refreshTrigger && refreshTrigger > 0) {
+    // Only trigger when refreshTrigger actually changes (not on initial mount or activeTab change)
+    if (refreshTrigger !== prevRefreshTriggerRef.current && refreshTrigger && refreshTrigger > 0) {
+      prevRefreshTriggerRef.current = refreshTrigger;
       fetchJobs();
-      // Only switch to history if not already there
-      // This avoids triggering updateActiveJobsInBackground recreation
-      // which would interrupt the polling chain
-      if (activeTab !== 'history') {
-        setActiveTab('history');
-      }
+      // Switch to history to show the new job
+      setActiveTab('history');
     }
-  }, [refreshTrigger, fetchJobs, activeTab]);
+  }, [refreshTrigger, fetchJobs]);
 
   // Set up polling for active jobs (wait for previous request to complete)
   useEffect(() => {
