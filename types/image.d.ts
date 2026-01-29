@@ -42,6 +42,7 @@ export interface ImageGeneration {
   is_agent_mode?: boolean;             // 是否为 Agent 模式（多角度批量生成）
   agent_image_count?: number | null;   // Agent 模式生成数量 (6, 9, 12)
   expanded_prompts?: string[] | null;  // Agent 模式扩展后的提示词数组
+  agent_shot_id?: string | null;       // Python Agent 关联的 shot ID
   
   // 输入图片相关 (for image-edit, image-to-image modes)
   input_image_urls?: string[] | null;  // 输入图片URL数组 (JSONB)
@@ -121,6 +122,7 @@ export interface CreateImageGenerationParams {
   is_agent_mode?: boolean;
   agent_image_count?: number;
   expanded_prompts?: string[];
+  agent_shot_id?: string;
 }
 
 export interface UpdateImageGenerationParams {
@@ -142,6 +144,7 @@ export interface UpdateImageGenerationParams {
   is_agent_mode?: boolean;
   agent_image_count?: number;
   expanded_prompts?: string[];
+  agent_shot_id?: string;
 }
 
 // 图片生成统计

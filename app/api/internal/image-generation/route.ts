@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { userId, prompt, referenceImage, model, aspectRatio, aspect_ratio, resolution } = body;
+    const { userId, prompt, referenceImage, model, aspectRatio, aspect_ratio, resolution, agentShotId } = body;
     const resolvedAspectRatio = aspectRatio || aspect_ratio;
 
     // 参数验证
@@ -80,7 +80,8 @@ export async function POST(req: NextRequest) {
       status: 'IN_PROGRESS',
       input_image_urls: hasValidReferenceImages ? referenceImages : undefined,
       aspect_ratio: resolvedAspectRatio,
-      credits_used: creditsUsed
+      credits_used: creditsUsed,
+      agent_shot_id: agentShotId,
     });
 
     // 保存 ID 以便在 catch 中访问

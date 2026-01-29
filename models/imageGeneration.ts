@@ -97,6 +97,9 @@ export async function createImageGeneration(
   if (params.expanded_prompts !== undefined) {
     insertData.expanded_prompts = params.expanded_prompts;
   }
+  if (params.agent_shot_id !== undefined) {
+    insertData.agent_shot_id = params.agent_shot_id;
+  }
 
   const { data, error } = await supabase
     .from("image_generations")

@@ -55,6 +55,7 @@ export async function createVideoGeneration(
       status: params.status || "PENDING",
       metadata: params.metadata || {},
       effect_id: params.effect_id,
+      agent_shot_id: params.agent_shot_id,
     })
     .select()
     .single();

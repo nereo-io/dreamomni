@@ -46,6 +46,7 @@ export interface VideoGeneration {
   metadata?: any | null; // jsonb - stores credit_deduction and other metadata
   effect_id?: string | null; // 特效ID
   is_delete?: boolean | null; // 软删除标记
+  agent_shot_id?: string | null; // Python Agent 关联的 shot ID
   created_at: string; // timestamptz
   updated_at: string; // timestamptz
 }
@@ -73,6 +74,7 @@ export interface CreateVideoGenerationParams {
   status?: VideoGenerationStatus; // 允许在创建时指定初始状态
   metadata?: any; // 新增：元数据（包括积分扣费信息）
   effect_id?: string; // 新增：特效ID
+  agent_shot_id?: string; // Python Agent 关联的 shot ID
 }
 
 export interface UpdateVideoGenerationParams {
@@ -96,6 +98,7 @@ export interface UpdateVideoGenerationParams {
   ali_request_id?: string; // Ali Video Generation request ID
   pixverse_request_id?: string; // PixVerse request ID
   sora_request_id?: string; // Sora 2 request ID
+  agent_shot_id?: string; // Python Agent 关联的 shot ID
 }
 
 // Adding types from previous video.d.ts content if they are still relevant

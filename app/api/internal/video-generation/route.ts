@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { userId, prompt, imageUrl, duration, model, aspectRatio, aspect_ratio, resolution, skipCredits } = body;
+    const { userId, prompt, imageUrl, duration, model, aspectRatio, aspect_ratio, resolution, skipCredits, agentShotId } = body;
 
     // 参数验证
     if (!userId || !prompt || !imageUrl) {
@@ -241,6 +241,7 @@ export async function POST(req: NextRequest) {
         user_id: userId,
         status: 'IN_PROGRESS',
         aspect_ratio: resolvedAspectRatio,
+        agent_shot_id: agentShotId,
         metadata: deductResult
           ? {
               credit_deduction: {
