@@ -139,6 +139,19 @@
     "manage_subscription": "Manage Subscription",
     "loading": "Loading..."
   },
+  "creditPools": {
+    "title": "Credit Pools",
+    "description": "Your active credit balances by purchase",
+    "bonus": "Bonus Credits",
+    "table": {
+      "order_no": "Order No",
+      "expired_at": "Expires",
+      "balance": "Balance",
+      "earned": "Earned",
+      "used": "Used",
+      "created_at": "Created"
+    }
+  },
   "subscription": {
     "allSubscriptions": "All Subscriptions",
     "subscriptionHistory": "Your Payssion subscription history",

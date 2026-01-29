@@ -139,6 +139,19 @@
     "manage_subscription": "Abonnement verwalten",
     "loading": "Wird geladen..."
   },
+  "creditPools": {
+    "title": "Credit-Pools",
+    "description": "Ihre aktiven Credit-Guthaben nach Kauf",
+    "bonus": "Bonus-Credits",
+    "table": {
+      "order_no": "Bestellnr.",
+      "expired_at": "Läuft ab",
+      "balance": "Guthaben",
+      "earned": "Erhalten",
+      "used": "Verwendet",
+      "created_at": "Erstellt"
+    }
+  },
   "subscription": {
     "allSubscriptions": "Alle Abonnements",
     "subscriptionHistory": "Ihr Payssion-Abonnementverlauf",

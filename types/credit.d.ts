@@ -8,3 +8,13 @@ export interface Credit {
   expired_at?: string;
   payment_id?: string;
 }
+
+export interface CreditPool {
+  order_no: string;
+  expired_at: string;
+  balance: number;
+  earned: number;
+  used: number;
+  status: string;
+  created_at: string;
+}
