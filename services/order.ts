@@ -66,11 +66,14 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
 
     if (config) {
       actualCreditsToIncrease = config.credits;
-      try {
-        await createOrUpdateMembership(user_uuid, config.membershipType);
-      } catch (e) {
-        console.log("update membership failed: ", e);
-        throw e;
+      // Only update membership for subscriptions (not bundles)
+      if (config.membershipType) {
+        try {
+          await createOrUpdateMembership(user_uuid, config.membershipType);
+        } catch (e) {
+          console.log("update membership failed: ", e);
+          throw e;
+        }
       }
     }
 
@@ -187,11 +190,14 @@ export async function handleInvoicePayment(
 
     if (renewalConfig) {
       actualCreditsToIncreaseForRenewal = renewalConfig.credits;
-      try {
-        await createOrUpdateMembership(user_uuid, renewalConfig.membershipType);
-      } catch (e) {
-        console.log("update membership failed for renewal: ", e);
-        throw e;
+      // Only update membership for subscriptions (not bundles)
+      if (renewalConfig.membershipType) {
+        try {
+          await createOrUpdateMembership(user_uuid, renewalConfig.membershipType);
+        } catch (e) {
+          console.log("update membership failed for renewal: ", e);
+          throw e;
+        }
       }
     }
 

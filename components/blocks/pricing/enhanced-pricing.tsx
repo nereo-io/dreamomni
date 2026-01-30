@@ -27,6 +27,10 @@ import {
 import HighlightFeature from "./highlight-feature";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
 import MembershipExistsModal from "@/components/ui/membership-exists-modal";
+import CreditsBundleModal, {
+  BundleItem,
+} from "@/components/ui/credits-bundle-modal";
+import { useTranslations } from "next-intl";
 
 interface EnhancedPricingProps {
   pricing: PricingType;
@@ -41,6 +45,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   const { loading: locationLoading, isRussia } = useGeolocation();
   const { trackPricingView, trackCheckoutStart, trackPayment } =
     useYandexTracking();
+  const t = useTranslations("creditsBundle");
 
   const [group, setGroup] = useState("yearly");
   const [isLoading, setIsLoading] = useState(false);
@@ -52,6 +57,8 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   const [selectedProvider, setSelectedProvider] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showMembershipModal, setShowMembershipModal] = useState(false);
+  const [showBundleModal, setShowBundleModal] = useState(false);
+  const [bundleLoading, setBundleLoading] = useState(false);
   const [pendingCheckoutItem, setPendingCheckoutItem] = useState<PricingItem | null>(null);
   const [successInfo, setSuccessInfo] = useState<{
     planName?: string;
@@ -228,6 +235,92 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     } catch (e) {
       console.log("checkout failed: ", e);
       toast.error("checkout failed");
+    }
+  };
+
+  const handleBundlePurchase = async (bundle: BundleItem) => {
+    try {
+      if (!user) {
+        setShowBundleModal(false);
+        setShowSignModal(true);
+        return;
+      }
+
+      // Track checkout start for bundle
+      trackCheckoutStart(bundle.name, bundle.amount);
+
+      setBundleLoading(true);
+
+      // Build payment params for bundle
+      const params = {
+        product_id: bundle.id,
+        product_name: bundle.name,
+        credits: bundle.credits,
+        interval: "one-time",
+        amount: bundle.amount,
+        currency: "USD",
+        valid_months: 12,
+        payment_method: selectedPaymentMethod || "creem",
+        user_preference: selectedProvider || "creem",
+      };
+
+      // Set payment pending marker
+      const paymentTimestamp = Date.now();
+      localStorage.setItem("veo3_payment_pending", "true");
+      localStorage.setItem("veo3_payment_timestamp", paymentTimestamp.toString());
+      localStorage.setItem(
+        "veo3_payment_info",
+        JSON.stringify({
+          planName: bundle.name,
+          credits: bundle.credits,
+          timestamp: paymentTimestamp,
+        })
+      );
+
+      // Call payment API
+      const response = await fetch("/api/subscription/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(params),
+      });
+
+      if (response.status === 401) {
+        setBundleLoading(false);
+        setShowBundleModal(false);
+        setShowSignModal(true);
+        return;
+      }
+
+      const { code, message, data } = await response.json();
+      if (code !== 0) {
+        toast.error(message);
+        setBundleLoading(false);
+        return;
+      }
+
+      // Handle redirect
+      const { redirect_url, success } = data;
+      if (redirect_url) {
+        window.location.href = redirect_url;
+      } else if (success) {
+        // Payment completed without redirect (existing mandate)
+        setShowBundleModal(false);
+        const status = await checkRecentPayment();
+        if (status === "none") {
+          window.setTimeout(() => {
+            checkRecentPayment();
+          }, 2000);
+        }
+      } else {
+        toast.error("Payment link generation failed");
+      }
+    } catch (error) {
+      console.error("Bundle purchase failed:", error);
+      toast.error("Purchase failed");
+    } finally {
+      setBundleLoading(false);
     }
   };
 
@@ -646,6 +739,17 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                 />
                               )}
                             </Button>
+
+                            {/* Buy Credits Button */}
+                            {item.amount > 0 && (
+                              <Button
+                                variant="outline"
+                                className="w-full mt-2"
+                                onClick={() => setShowBundleModal(true)}
+                              >
+                                {t("buyCredits")}
+                              </Button>
+                            )}
                           </div>
                         )}
 
@@ -734,6 +838,18 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
           />
         </div>
       )}
+
+      {/* Credits Bundle Modal */}
+      <CreditsBundleModal
+        isOpen={showBundleModal}
+        onClose={() => setShowBundleModal(false)}
+        onPurchase={handleBundlePurchase}
+        isLoading={bundleLoading}
+        isRussia={isRussia}
+        availablePaymentMethods={availableMethods}
+        selectedPaymentMethod={selectedPaymentMethod}
+        onPaymentMethodChange={setSelectedPaymentMethod}
+      />
     </>
   );
 }

@@ -66,19 +66,23 @@ export async function POST(req: NextRequest) {
       return respErr("invalid params");
     }
 
-    if (!["year", "month"].includes(interval)) {
+    if (!["year", "month", "one-time"].includes(interval)) {
       logError("❌ 无效的订阅类型", { interval });
       return respErr("invalid interval");
     }
 
     const is_subscription = interval === "month" || interval === "year";
+    const is_bundle = interval === "one-time";
 
-    if (interval === "year" && valid_months !== 12) {
-      return respErr("invalid valid_months");
-    }
+    // 仅对订阅验证 valid_months
+    if (is_subscription) {
+      if (interval === "year" && valid_months !== 12) {
+        return respErr("invalid valid_months");
+      }
 
-    if (interval === "month" && valid_months !== 1) {
-      return respErr("invalid valid_months");
+      if (interval === "month" && valid_months !== 1) {
+        return respErr("invalid valid_months");
+      }
     }
 
     let user_email = await getUserEmail();
@@ -142,13 +146,16 @@ export async function POST(req: NextRequest) {
 
     let expired_at = "";
 
+    // Bundle: 使用 valid_months（默认12个月），无延迟
+    // Subscription: 使用 valid_months + 24小时延迟
+    const bundleValidMonths = is_bundle ? (valid_months || 12) : valid_months;
     const timePeriod = new Date(currentDate);
-    timePeriod.setMonth(currentDate.getMonth() + valid_months);
+    timePeriod.setMonth(currentDate.getMonth() + bundleValidMonths);
 
     const timePeriodMillis = timePeriod.getTime();
     let delayTimeMillis = 0;
 
-    // subscription
+    // subscription only: add 24 hours buffer
     if (is_subscription) {
       delayTimeMillis = 24 * 60 * 60 * 1000; // delay 24 hours expired
     }

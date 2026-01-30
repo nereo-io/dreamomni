@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { respData, respErr } from "@/lib/resp";
 import { findOrderByOrderNo } from "@/models/order";
 import { findUserByUuid } from "@/models/user";
-import { getProductConfig } from "@/config/products";
+import { getProductConfig, getBundleConfig, getAnyProductConfig } from "@/config/products";
 import { getCreemConfig } from "@/config/creem";
 import * as crypto from "crypto";
 import {
@@ -157,12 +157,14 @@ async function handleCheckoutCompleted(webhookData: any) {
       return;
     }
 
-    // 获取产品配置
-    const productConfig = getProductConfig(productId);
+    // 获取产品配置（支持订阅和 Bundle）
+    const productConfig = getAnyProductConfig(productId);
     if (!productConfig) {
       logError("❌ Product configuration not found", { productId });
       return;
     }
+
+    const isBundle = productConfig.interval === "one-time";
 
     // 检查用户是否存在
     const user = await findUserByUuid(userUuid);
@@ -211,8 +213,11 @@ async function handleCheckoutCompleted(webhookData: any) {
         product_id: productId,
         product_name: productConfig.product_name,
         interval: productConfig.interval,
-        membershipType: productConfig.membershipType,
         valid_months: productConfig.valid_months,
+        // Bundle 不需要 membershipType
+        ...(!isBundle && "membershipType" in productConfig
+          ? { membershipType: productConfig.membershipType }
+          : {}),
       },
     });
 
@@ -234,61 +239,68 @@ async function handleCheckoutCompleted(webhookData: any) {
       membershipUpdated: processingResult.membershipUpdated,
     });
 
-    // 创建或更新 Creem 订阅记录
-    try {
-      if (subscription?.id) {
-        // 检查订阅记录是否已存在
-        const existingSubscription = await findCreemSubscriptionByCreemId(
-          subscription.id
-        );
-
-        if (!existingSubscription) {
-          // 创建新的订阅记录
-          await createCreemSubscription({
-            user_uuid: userUuid,
-            creem_subscription_id: subscription.id,
-            creem_customer_id: subscription.customer,
-            plan_type:
-              productConfig.interval === "month" ? "monthly" : "yearly",
-            amount: productConfig.amount,
-            currency: productConfig.currency,
-            status: subscription.status || "active",
-            current_period_start: subscription.current_period_start_date,
-            current_period_end: subscription.current_period_end_date,
-            product_name: productConfig.product_name,
-            product_id: productConfig.product_id,
-            creem_product_id: checkoutObject?.product?.id,
-            checkout_id: checkoutObject?.id,
-          });
-
-          logInfo("✅ Creem subscription record created", {
-            subscriptionId: subscription.id,
-            userUuid,
-            productName: productConfig.product_name,
-          });
-        } else {
-          // 更新现有订阅记录
-          await updateCreemSubscriptionStatus(
-            subscription.id,
-            subscription.status || "active",
-            {
-              current_period_start: subscription.current_period_start_date,
-              current_period_end: subscription.current_period_end_date,
-            }
+    // 创建或更新 Creem 订阅记录 - 仅订阅，Bundle 不创建订阅记录
+    if (!isBundle) {
+      try {
+        if (subscription?.id) {
+          // 检查订阅记录是否已存在
+          const existingSubscription = await findCreemSubscriptionByCreemId(
+            subscription.id
           );
 
-          logInfo("✅ Creem subscription record updated", {
-            subscriptionId: subscription.id,
-            status: subscription.status,
-          });
+          if (!existingSubscription) {
+            // 创建新的订阅记录
+            await createCreemSubscription({
+              user_uuid: userUuid,
+              creem_subscription_id: subscription.id,
+              creem_customer_id: subscription.customer,
+              plan_type:
+                productConfig.interval === "month" ? "monthly" : "yearly",
+              amount: productConfig.amount,
+              currency: productConfig.currency,
+              status: subscription.status || "active",
+              current_period_start: subscription.current_period_start_date,
+              current_period_end: subscription.current_period_end_date,
+              product_name: productConfig.product_name,
+              product_id: productConfig.product_id,
+              creem_product_id: checkoutObject?.product?.id,
+              checkout_id: checkoutObject?.id,
+            });
+
+            logInfo("✅ Creem subscription record created", {
+              subscriptionId: subscription.id,
+              userUuid,
+              productName: productConfig.product_name,
+            });
+          } else {
+            // 更新现有订阅记录
+            await updateCreemSubscriptionStatus(
+              subscription.id,
+              subscription.status || "active",
+              {
+                current_period_start: subscription.current_period_start_date,
+                current_period_end: subscription.current_period_end_date,
+              }
+            );
+
+            logInfo("✅ Creem subscription record updated", {
+              subscriptionId: subscription.id,
+              status: subscription.status,
+            });
+          }
         }
+      } catch (subscriptionError: any) {
+        logError(
+          "⚠️ Failed to create/update subscription record",
+          subscriptionError.message
+        );
+        // 即使订阅记录创建失败，也不影响支付成功的处理
       }
-    } catch (subscriptionError: any) {
-      logError(
-        "⚠️ Failed to create/update subscription record",
-        subscriptionError.message
-      );
-      // 即使订阅记录创建失败，也不影响支付成功的处理
+    } else {
+      logInfo("📦 Bundle purchase - skipping subscription record creation", {
+        productId,
+        orderNo,
+      });
     }
 
     // Track offline conversion for Yandex Metrica

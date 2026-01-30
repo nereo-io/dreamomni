@@ -130,3 +130,99 @@ export function getAllProductIds(): string[] {
 export function isValidProductId(productId: string): boolean {
   return PRODUCT_CONFIGS.some((config) => config.product_id === productId);
 }
+
+/**
+ * Bundle 产品配置接口（一次性购买积分包）
+ */
+export interface BundleProductConfig {
+  product_id: string;
+  product_name: string;
+  amount: number; // 金额（美分）
+  currency: string;
+  credits: number;
+  interval: "one-time";
+  valid_months: number; // 积分有效期（月）
+  creem_product_id: string; // Creem 产品ID（需要在 Creem 后台创建）
+}
+
+/**
+ * Bundle 产品配置表
+ * 一次性购买积分包，无需订阅
+ */
+export const BUNDLE_CONFIGS: BundleProductConfig[] = [
+  {
+    product_id: "bundle-20",
+    product_name: "20 Credits Pack",
+    amount: 2000, // $20
+    currency: "USD",
+    credits: 200,
+    interval: "one-time",
+    valid_months: 12,
+    creem_product_id: "prod_7ghfxUFOcOCn2mPBNBmX4p",
+  },
+  {
+    product_id: "bundle-40",
+    product_name: "40 Credits Pack",
+    amount: 4000, // $40
+    currency: "USD",
+    credits: 400,
+    interval: "one-time",
+    valid_months: 12,
+    creem_product_id: "prod_7ghfxUFOcOCn2mPBNBmX4p",
+  },
+  {
+    product_id: "bundle-60",
+    product_name: "60 Credits Pack",
+    amount: 6000, // $60
+    currency: "USD",
+    credits: 600,
+    interval: "one-time",
+    valid_months: 12,
+    creem_product_id: "prod_7ghfxUFOcOCn2mPBNBmX4p",
+  },
+  {
+    product_id: "bundle-100",
+    product_name: "100 Credits Pack",
+    amount: 10000, // $100
+    currency: "USD",
+    credits: 1000,
+    interval: "one-time",
+    valid_months: 12,
+    creem_product_id: "prod_7ghfxUFOcOCn2mPBNBmX4p",
+  },
+  {
+    product_id: "bundle-200",
+    product_name: "200 Credits Pack",
+    amount: 20000, // $200
+    currency: "USD",
+    credits: 2000,
+    interval: "one-time",
+    valid_months: 12,
+    creem_product_id: "prod_7ghfxUFOcOCn2mPBNBmX4p",
+  },
+];
+
+/**
+ * 根据产品ID获取 Bundle 配置
+ */
+export function getBundleConfig(
+  productId: string
+): BundleProductConfig | undefined {
+  return BUNDLE_CONFIGS.find((config) => config.product_id === productId);
+}
+
+/**
+ * 检查产品ID是否为 Bundle 类型
+ */
+export function isBundle(productId: string): boolean {
+  return BUNDLE_CONFIGS.some((config) => config.product_id === productId);
+}
+
+/**
+ * 获取任意产品配置（订阅或 Bundle）
+ */
+export function getAnyProductConfig(
+  productId: string
+): ProductConfig | BundleProductConfig | undefined {
+  return getProductConfig(productId) || getBundleConfig(productId);
+}

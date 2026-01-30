@@ -2,7 +2,7 @@
 export interface PayssionProductConfig {
   product_id: string;
   credits: number;
-  membershipType: "monthly" | "yearly";
+  membershipType: "monthly" | "yearly" | null; // null for one-time bundles
 }
 
 export interface PayssionConfig {
@@ -28,6 +28,7 @@ export interface PayssionConfig {
 
 // 产品配置映射（基于金额，单位：美分）
 export const PAYSSION_PRODUCT_CONFIG: Record<string, PayssionProductConfig> = {
+  // 订阅产品
   "2000": {
     product_id: "mini-monthly",
     credits: 200,
@@ -58,6 +59,24 @@ export const PAYSSION_PRODUCT_CONFIG: Record<string, PayssionProductConfig> = {
     credits: 36000,
     membershipType: "yearly",
   }, // $720
+
+  // Bundle 产品（一次性购买）
+  // Note: $20 (2000) conflicts with mini-monthly, $100 (10000) conflicts with bundle, handled by interval check
+  "4000": {
+    product_id: "bundle-40",
+    credits: 400,
+    membershipType: null,
+  }, // $40
+  "6000": {
+    product_id: "bundle-60",
+    credits: 600,
+    membershipType: null,
+  }, // $60
+  "20000": {
+    product_id: "bundle-200",
+    credits: 2000,
+    membershipType: null,
+  }, // $200
 };
 
 // 支付方式映射（前端 -> Payssion V2 API）

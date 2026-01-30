@@ -123,61 +123,100 @@ export class PayssionProvider extends BasePaymentProvider {
           existingMandate.created_at
         );
 
-        // 直接使用现有授权创建订阅
+        // 直接使用现有授权
         const metadata = request.metadata;
         if (metadata) {
-          const planType: "monthly" | "yearly" =
-            metadata.interval === "year" ? "yearly" : "monthly";
+          const isBundle = metadata.interval === "one-time";
 
-          const subscriptionRequest: SubscriptionRequest = {
-            userUuid: metadata.user_uuid,
-            userEmail: metadata.user_email,
-            mandateId: existingMandate.mandate_id,
-            amount: parseFloat(metadata.amount) / 100, // 美分转美元
-            currency: metadata.currency,
-            interval: metadata.interval,
-            planType: planType,
-            paymentMethod: request.paymentMethod,
-            description: `Subscription for ${
-              metadata.product_name || metadata.product_id
-            }`,
-            returnUrl: this.config.subscription.defaultReturnUrl,
-            notifyUrl: this.config.subscription.webhookUrl,
-            metadata: metadata,
-          };
+          if (isBundle) {
+            // Bundle: 直接处理支付，不创建订阅
+            console.log(`📦 Bundle purchase with existing mandate, processing payment directly`);
 
-          console.log(
-            "Attempting to create subscription with existing mandate:",
-            {
-              mandateId: existingMandate.mandate_id,
-              amount: subscriptionRequest.amount,
-              currency: subscriptionRequest.currency,
-              interval: subscriptionRequest.interval,
+            const processingResult = await PaymentProcessingService.processPayment({
+              paymentId: existingMandate.mandate_id,
+              orderId: metadata.order_no,
+              userUuid: metadata.user_uuid,
+              amount: metadata.amount,
+              userEmail: metadata.user_email,
+              paymentMethod: request.paymentMethod,
+              metadata: {
+                credits: parseInt(metadata.credits),
+                product_id: metadata.product_id,
+                product_name: metadata.product_name,
+                interval: metadata.interval,
+                valid_months: parseInt(metadata.valid_months) || 12,
+              },
+            });
+
+            if (processingResult.success) {
+              console.log(
+                `✅ Bundle payment processed: ${processingResult.creditsAwarded} credits awarded`
+              );
+              return {
+                success: true,
+                mandateId: existingMandate.mandate_id,
+                redirectUrl: "", // 不需要跳转
+                status: "bundle_payment_completed",
+              };
+            } else {
+              console.error(`❌ Bundle payment processing failed: ${processingResult.error}`);
+              // Fallback to creating new mandate
             }
-          );
-
-          const subscriptionResult = await this.createSubscription(
-            subscriptionRequest
-          );
-
-          if (subscriptionResult.success) {
-            return {
-              success: true,
-              mandateId: existingMandate.mandate_id,
-              subscriptionId: subscriptionResult.subscriptionId,
-              redirectUrl: "", // 不需要跳转
-              status: "subscription_created",
-            };
           } else {
-            console.error(
-              "❌ Failed to create subscription with existing mandate:",
+            // 订阅：创建订阅
+            const planType: "monthly" | "yearly" =
+              metadata.interval === "year" ? "yearly" : "monthly";
+
+            const subscriptionRequest: SubscriptionRequest = {
+              userUuid: metadata.user_uuid,
+              userEmail: metadata.user_email,
+              mandateId: existingMandate.mandate_id,
+              amount: parseFloat(metadata.amount) / 100, // 美分转美元
+              currency: metadata.currency,
+              interval: metadata.interval,
+              planType: planType,
+              paymentMethod: request.paymentMethod,
+              description: `Subscription for ${
+                metadata.product_name || metadata.product_id
+              }`,
+              returnUrl: this.config.subscription.defaultReturnUrl,
+              notifyUrl: this.config.subscription.webhookUrl,
+              metadata: metadata,
+            };
+
+            console.log(
+              "Attempting to create subscription with existing mandate:",
               {
                 mandateId: existingMandate.mandate_id,
-                error: subscriptionResult.errorMessage,
-                willCreateNewMandate: true,
+                amount: subscriptionRequest.amount,
+                currency: subscriptionRequest.currency,
+                interval: subscriptionRequest.interval,
               }
             );
-            // 如果订阅创建失败，fallback 到创建新授权
+
+            const subscriptionResult = await this.createSubscription(
+              subscriptionRequest
+            );
+
+            if (subscriptionResult.success) {
+              return {
+                success: true,
+                mandateId: existingMandate.mandate_id,
+                subscriptionId: subscriptionResult.subscriptionId,
+                redirectUrl: "", // 不需要跳转
+                status: "subscription_created",
+              };
+            } else {
+              console.error(
+                "❌ Failed to create subscription with existing mandate:",
+                {
+                  mandateId: existingMandate.mandate_id,
+                  error: subscriptionResult.errorMessage,
+                  willCreateNewMandate: true,
+                }
+              );
+              // 如果订阅创建失败，fallback 到创建新授权
+            }
           }
         }
       }
@@ -430,7 +469,42 @@ export class PayssionProvider extends BasePaymentProvider {
         }`
       );
 
-      // 2. 根据 metadata 中的 interval 确定计划类型
+      // 2. 检查是否为 Bundle（一次性购买）
+      const isBundle = metadata.interval === "one-time";
+
+      if (isBundle) {
+        // Bundle: 直接处理支付，不创建订阅
+        console.log(`📦 Bundle purchase detected, processing payment directly`);
+
+        // 使用 PaymentProcessingService 处理支付
+        const processingResult = await PaymentProcessingService.processPayment({
+          paymentId: mandateId, // 使用 mandateId 作为 paymentId
+          orderId: metadata.order_no,
+          userUuid: metadata.user_uuid,
+          amount: metadata.amount,
+          userEmail: metadata.user_email,
+          paymentMethod: paymentMethod,
+          metadata: {
+            credits: parseInt(metadata.credits),
+            product_id: metadata.product_id,
+            product_name: metadata.product_name,
+            interval: metadata.interval,
+            valid_months: parseInt(metadata.valid_months) || 12,
+          },
+        });
+
+        if (processingResult.success) {
+          console.log(
+            `✅ Bundle payment processed: ${processingResult.creditsAwarded} credits awarded`
+          );
+        } else {
+          console.error(`❌ Bundle payment processing failed: ${processingResult.error}`);
+        }
+
+        return; // Bundle 处理完成，不创建订阅
+      }
+
+      // 3. 订阅：根据 metadata 中的 interval 确定计划类型
       const planType: "monthly" | "yearly" =
         metadata.interval === "year" ? "yearly" : "monthly";
 
