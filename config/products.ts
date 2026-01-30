@@ -107,7 +107,7 @@ export function getProviderProductId(
   productId: string,
   provider: "creem"
 ): string | undefined {
-  const config = getProductConfig(productId);
+  const config = getAnyProductConfig(productId);
   if (!config) return undefined;
 
   if (provider === "creem") {
@@ -152,53 +152,53 @@ export interface BundleProductConfig {
 export const BUNDLE_CONFIGS: BundleProductConfig[] = [
   {
     product_id: "bundle-20",
-    product_name: "20 Credits Pack",
+    product_name: "Veo3 AI Credits Pack",
     amount: 2000, // $20
     currency: "USD",
     credits: 200,
     interval: "one-time",
     valid_months: 12,
-    creem_product_id: "prod_7ghfxUFOcOCn2mPBNBmX4p",
+    creem_product_id: "prod_1O0gQ2BJp0REUpWrkvSJdn",
   },
   {
     product_id: "bundle-40",
-    product_name: "40 Credits Pack",
+    product_name: "Veo3 AI Credits Pack",
     amount: 4000, // $40
     currency: "USD",
     credits: 400,
     interval: "one-time",
     valid_months: 12,
-    creem_product_id: "prod_7ghfxUFOcOCn2mPBNBmX4p",
+    creem_product_id: "prod_1O0gQ2BJp0REUpWrkvSJdn",
   },
   {
     product_id: "bundle-60",
-    product_name: "60 Credits Pack",
+    product_name: "Veo3 AI Credits Pack",
     amount: 6000, // $60
     currency: "USD",
     credits: 600,
     interval: "one-time",
     valid_months: 12,
-    creem_product_id: "prod_7ghfxUFOcOCn2mPBNBmX4p",
+    creem_product_id: "prod_1O0gQ2BJp0REUpWrkvSJdn",
   },
   {
     product_id: "bundle-100",
-    product_name: "100 Credits Pack",
+    product_name: "Veo3 AI Credits Pack",
     amount: 10000, // $100
     currency: "USD",
     credits: 1000,
     interval: "one-time",
     valid_months: 12,
-    creem_product_id: "prod_7ghfxUFOcOCn2mPBNBmX4p",
+    creem_product_id: "prod_1O0gQ2BJp0REUpWrkvSJdn",
   },
   {
     product_id: "bundle-200",
-    product_name: "200 Credits Pack",
+    product_name: "Veo3 AI Credits Pack",
     amount: 20000, // $200
     currency: "USD",
     credits: 2000,
     interval: "one-time",
     valid_months: 12,
-    creem_product_id: "prod_7ghfxUFOcOCn2mPBNBmX4p",
+    creem_product_id: "prod_1O0gQ2BJp0REUpWrkvSJdn",
   },
 ];
 
