@@ -63,10 +63,14 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    if (!modelConfig.supportedDurations?.includes(durationSeconds)) {
+    const allSupportedDurations = [
+      ...(modelConfig.supportedDurations ?? []),
+      ...(modelConfig.internalSupportedDurations ?? []),
+    ];
+    if (!allSupportedDurations.includes(durationSeconds)) {
       return NextResponse.json(
         {
-          error: `${modelId} 模型不支持 ${durationSeconds} 秒时长，支持的时长: ${modelConfig.supportedDurations?.join(
+          error: `${modelId} 模型不支持 ${durationSeconds} 秒时长，支持的时长: ${allSupportedDurations.join(
             ', '
           )} 秒`,
         },

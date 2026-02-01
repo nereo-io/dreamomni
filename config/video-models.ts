@@ -31,6 +31,7 @@ export interface VideoModelConfig {
   supportedAspectRatios?: string[];
   supportsAudio?: boolean;
   supportedDurations?: number[];
+  internalSupportedDurations?: number[]; // 仅内部 API 可用的额外时长（不在前端 UI 展示）
   supportedResolutions?: string[]; // 支持的分辨率
   audioPremiumCredits?: number; // 音频额外费用
   estimatedGenerationTime?: number; // 预估生成时间（秒），用于前端倒计时
@@ -65,6 +66,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportsAudio: true,
     estimatedGenerationTime: 60,
     supportedDurations: [4, 8, 10, 12],
+    internalSupportedDurations: [5],
   },
 
   // BytePlus Seedance 1.5 Pro 图片转视频模型 (Southeast Asia)
@@ -86,6 +88,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportsAudio: true,
     estimatedGenerationTime: 60,
     supportedDurations: [4, 8, 10, 12],
+    internalSupportedDurations: [5],
     imageCapabilities: {
       maxImages: 2,
       labels: ["First Frame", "Last Frame"],
