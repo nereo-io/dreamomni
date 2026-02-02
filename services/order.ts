@@ -8,7 +8,7 @@ import { createOrUpdateMembership } from "./membership";
 import { getIsoTimestr, getOneYearLaterTimestr } from "@/lib/time";
 import Stripe from "stripe";
 // import { updateAffiliateForOrder } from "./affiliate"; // 已移除邀请奖励功能
-import { getProductConfigByProductId } from "@/config/payssion";
+import { getAnyProductConfigByProductId } from "@/config/payssion";
 
 export async function handleOrderSession(session: Stripe.Checkout.Session) {
   try {
@@ -60,16 +60,17 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
     console.log("Processing membership/credits purchase for user:", user_uuid);
 
     const config = product_id
-      ? getProductConfigByProductId(product_id)
+      ? getAnyProductConfigByProductId(product_id)
       : undefined;
     let actualCreditsToIncrease = 0;
 
     if (config) {
       actualCreditsToIncrease = config.credits;
       // Only update membership for subscriptions (not bundles)
-      if (config.membershipType) {
+      // Bundle config doesn't have membershipType field
+      if ('membershipType' in config && config.membershipType) {
         try {
-          await createOrUpdateMembership(user_uuid, config.membershipType);
+          await createOrUpdateMembership(user_uuid, config.membershipType as "monthly" | "yearly");
         } catch (e) {
           console.log("update membership failed: ", e);
           throw e;
@@ -184,16 +185,16 @@ export async function handleInvoicePayment(
 
     // 产品配置映射
     const renewalConfig = productIdFromInvoice
-      ? getProductConfigByProductId(productIdFromInvoice)
+      ? getAnyProductConfigByProductId(productIdFromInvoice)
       : undefined;
     let actualCreditsToIncreaseForRenewal = 0;
 
     if (renewalConfig) {
       actualCreditsToIncreaseForRenewal = renewalConfig.credits;
       // Only update membership for subscriptions (not bundles)
-      if (renewalConfig.membershipType) {
+      if ('membershipType' in renewalConfig && renewalConfig.membershipType) {
         try {
-          await createOrUpdateMembership(user_uuid, renewalConfig.membershipType);
+          await createOrUpdateMembership(user_uuid, renewalConfig.membershipType as "monthly" | "yearly");
         } catch (e) {
           console.log("update membership failed for renewal: ", e);
           throw e;
