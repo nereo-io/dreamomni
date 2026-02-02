@@ -16,6 +16,7 @@ import {
   updatePayssionMandateStatus,
 } from "@/models/payssionMandate";
 import { PaymentProcessingService } from "./PaymentProcessingService";
+import { SubscriptionManagementService } from "./SubscriptionManagementService";
 
 export class PayssionProvider extends BasePaymentProvider {
   name = "payssion";
@@ -613,6 +614,18 @@ export class PayssionProvider extends BasePaymentProvider {
     if (subscription && subscription.status === "pending") {
       await updateSubscriptionStatus(subscriptionId, "active");
       console.log(`✅ Subscription ${subscriptionId} activated`);
+
+      // 取消用户其他订阅的自动续费（新订阅首次激活时）
+      try {
+        const cancelResult = await SubscriptionManagementService.cancelOtherSubscriptions(
+          subscription.user_uuid,
+          subscriptionId,
+          "payssion"
+        );
+        console.log(`✅ 其他订阅取消结果: canceled=${cancelResult.canceledCount}, failed=${cancelResult.failedCount}`);
+      } catch (cancelError: any) {
+        console.error("⚠️ 取消其他订阅失败（不影响新订阅）:", cancelError.message);
+      }
     }
 
     // 检测是否为续费支付

@@ -12,6 +12,7 @@ import {
 } from "@/models/creem-subscription";
 import { offlineConversionService } from "@/services/analytics/yandex-offline-conversion";
 import { PaymentProcessingService } from "@/services/payment/PaymentProcessingService";
+import { SubscriptionManagementService } from "@/services/payment/SubscriptionManagementService";
 
 // 日志函数
 function logInfo(message: string, data?: any) {
@@ -272,6 +273,21 @@ async function handleCheckoutCompleted(webhookData: any) {
               userUuid,
               productName: productConfig.product_name,
             });
+
+            // 取消用户其他订阅的自动续费（新订阅成功后）
+            try {
+              const cancelResult = await SubscriptionManagementService.cancelOtherSubscriptions(
+                userUuid,
+                subscription.id,
+                "creem"
+              );
+              logInfo("✅ 其他订阅取消结果", {
+                canceledCount: cancelResult.canceledCount,
+                failedCount: cancelResult.failedCount,
+              });
+            } catch (cancelError: any) {
+              logError("⚠️ 取消其他订阅失败（不影响新订阅）", cancelError.message);
+            }
           } else {
             // 更新现有订阅记录
             await updateCreemSubscriptionStatus(
