@@ -31,6 +31,7 @@ import CreditsBundleModal, {
   BundleItem,
 } from "@/components/ui/credits-bundle-modal";
 import { useTranslations } from "next-intl";
+import useCurrentSubscription from "@/hooks/useCurrentSubscription";
 
 interface EnhancedPricingProps {
   pricing: PricingType;
@@ -46,6 +47,14 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   const { trackPricingView, trackCheckoutStart, trackPayment } =
     useYandexTracking();
   const t = useTranslations("creditsBundle");
+  const {
+    subscriptionState,
+    isLoading: subscriptionLoading,
+    fetchCurrentSubscription,
+    canUpgradeTo,
+    isCurrentPlan,
+    isDowngrade,
+  } = useCurrentSubscription();
 
   const [group, setGroup] = useState("yearly");
   const [isLoading, setIsLoading] = useState(false);
@@ -184,6 +193,13 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   useEffect(() => {
     trackPricingView();
   }, []);
+
+  // Fetch current subscription when user is logged in
+  useEffect(() => {
+    if (user) {
+      fetchCurrentSubscription();
+    }
+  }, [user]);
 
   // 检测支付成功状态（仅用于显示成功弹窗，不再上报 Metrica）
   useEffect(() => {
@@ -523,6 +539,13 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                   return null;
                 }
 
+                // Calculate subscription status for this item
+                const itemIsCurrentPlan = item.product_id ? isCurrentPlan(item.product_id) : false;
+                const itemCanUpgrade = item.product_id ? canUpgradeTo(item.product_id) : true;
+                const itemIsDowngrade = item.product_id ? isDowngrade(item.product_id) : false;
+                // Free plan (amount === 0) is always purchasable
+                const isFreeItem = item.amount === 0;
+
                 return (
                   <div
                     key={index}
@@ -541,7 +564,15 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                             </h3>
                           )}
                           <div className="flex-1"></div>
-                          {item.label && (
+                          {itemIsCurrentPlan && (
+                            <Badge
+                              variant="outline"
+                              className="border-green-500 bg-green-500 px-1.5 text-white"
+                            >
+                              Current Plan
+                            </Badge>
+                          )}
+                          {item.label && !itemIsCurrentPlan && (
                             <Badge
                               variant="outline"
                               className="border-primary bg-primary px-1.5 text-primary-foreground"
@@ -619,12 +650,12 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
                         {/* 主要支付按钮 */}
                         {item.button && (
-                          <div className="space-y-3">
+                          <div>
                             {/* 支付方式选择器 */}
                             {isRussia &&
                               availableMethods.length > 0 &&
                               item.amount > 0 && (
-                                <div className="space-y-3">
+                                <div className="space-y-3 mb-3">
                                   <div>
                                     <span className="text-sm text-muted-foreground">
                                       Выберите способ оплаты
@@ -679,14 +710,38 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                 </div>
                               )}
 
+                            {/* Buy Credits Button */}
+                            {item.amount > 0 && (
+                              <Button
+                                variant="outline"
+                                className="w-full mb-3 bg-white text-primary border-primary hover:bg-primary/5"
+                                onClick={() => setShowBundleModal(true)}
+                              >
+                                {t("buyCredits")}
+                              </Button>
+                            )}
+
                             <Button
-                              className="w-full flex items-center justify-center gap-2 font-semibold relative overflow-hidden group hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200 ease-out"
-                              disabled={isLoading || item.button.disabled}
+                              className={`w-full flex items-center justify-center gap-2 font-semibold relative overflow-hidden group transition-transform duration-200 ease-out ${
+                                itemIsCurrentPlan || itemIsDowngrade
+                                  ? "opacity-60 cursor-not-allowed"
+                                  : "hover:scale-[1.02] active:scale-[0.98]"
+                              }`}
+                              disabled={isLoading || item.button.disabled || itemIsCurrentPlan || (!isFreeItem && itemIsDowngrade)}
                               onClick={() => {
                                 // Handle Free Plan navigation
                                 if (item.amount === 0 && item.button.url) {
                                   // Navigate to homepage for free plan
                                   window.location.href = "/";
+                                  return;
+                                }
+
+                                // Block if current plan or downgrade
+                                if (itemIsCurrentPlan) {
+                                  return;
+                                }
+                                if (itemIsDowngrade) {
+                                  toast.error("Downgrade is not allowed. Please contact support if you need to change your plan.");
                                   return;
                                 }
 
@@ -720,7 +775,13 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                 (isLoading &&
                                   productId !== item.product_id)) && (
                                 <span className="relative z-10">
-                                  {item.button.title}
+                                  {itemIsCurrentPlan
+                                    ? "Current Plan"
+                                    : itemIsDowngrade
+                                    ? "Downgrade Not Allowed"
+                                    : itemCanUpgrade && subscriptionState?.hasActiveSubscription
+                                    ? "Upgrade"
+                                    : item.button.title}
                                 </span>
                               )}
 
@@ -732,29 +793,18 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                   <Loader className="relative z-10 ml-2 h-4 w-4 animate-spin" />
                                 </>
                               )}
-                              {item.button.icon && (
+                              {item.button.icon && !itemIsCurrentPlan && !itemIsDowngrade && (
                                 <Icon
                                   name={item.button.icon}
                                   className="relative z-10 size-4"
                                 />
                               )}
                             </Button>
-
-                            {/* Buy Credits Button */}
-                            {item.amount > 0 && (
-                              <Button
-                                variant="outline"
-                                className="w-full mt-2"
-                                onClick={() => setShowBundleModal(true)}
-                              >
-                                {t("buyCredits")}
-                              </Button>
-                            )}
                           </div>
                         )}
 
                         {item.tip && (
-                          <p className="text-muted-foreground text-sm mt-2">
+                          <p className="text-muted-foreground text-sm mt-2 text-center">
                             {item.tip}
                           </p>
                         )}

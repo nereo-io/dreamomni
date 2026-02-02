@@ -226,3 +226,49 @@ export function getAnyProductConfig(
 ): ProductConfig | BundleProductConfig | undefined {
   return getProductConfig(productId) || getBundleConfig(productId);
 }
+
+/**
+ * 订阅等级排名（数字越大价值越高）
+ * 用于判断升级/降级
+ */
+export const SUBSCRIPTION_TIER_RANK: Record<string, number> = {
+  "mini-monthly": 1,      // $20/month
+  "standard-monthly": 2,  // $50/month
+  "plus-monthly": 3,      // $99/month
+  "mini-yearly": 4,       // $144/year
+  "standard-yearly": 5,   // $360/year
+  "plus-yearly": 6,       // $720/year
+};
+
+/**
+ * 获取订阅等级排名
+ * @param productId 产品ID
+ * @returns 等级排名，未找到返回 0
+ */
+export function getSubscriptionTierRank(productId: string): number {
+  return SUBSCRIPTION_TIER_RANK[productId] ?? 0;
+}
+
+/**
+ * 判断是否可以升级到目标套餐
+ * @param currentProductId 当前产品ID
+ * @param targetProductId 目标产品ID
+ * @returns true 表示可以升级
+ */
+export function canUpgradeToTier(currentProductId: string | null, targetProductId: string): boolean {
+  if (!currentProductId) {
+    // 无订阅用户可以购买任何套餐
+    return true;
+  }
+  const currentRank = getSubscriptionTierRank(currentProductId);
+  const targetRank = getSubscriptionTierRank(targetProductId);
+  // 只允许升级（目标等级 > 当前等级）
+  return targetRank > currentRank;
+}
+
+/**
+ * 判断是否为同一套餐
+ */
+export function isSameTier(currentProductId: string | null, targetProductId: string): boolean {
+  return currentProductId === targetProductId;
+}
