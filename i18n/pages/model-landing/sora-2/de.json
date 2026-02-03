@@ -27,14 +27,38 @@
     ]
   },
   "partners": [
-    { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
-    { "name": "Microsoft", "logo": "/imgs/partners/microsoft-logo.png" },
-    { "name": "Nike", "logo": "/imgs/partners/nike-logo.png" },
-    { "name": "P&G", "logo": "/imgs/partners/p-g-logo.png" },
-    { "name": "Lancome", "logo": "/imgs/partners/lancome-logo.png" },
-    { "name": "Zoom", "logo": "/imgs/partners/zoom-logo.png" },
-    { "name": "Sony", "logo": "/imgs/partners/sony-logo.png" },
-    { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
+    {
+      "name": "Coca-Cola",
+      "logo": "/imgs/partners/coca-cola-logo.png"
+    },
+    {
+      "name": "Microsoft",
+      "logo": "/imgs/partners/microsoft-logo.png"
+    },
+    {
+      "name": "Nike",
+      "logo": "/imgs/partners/nike-logo.png"
+    },
+    {
+      "name": "P&G",
+      "logo": "/imgs/partners/p-g-logo.png"
+    },
+    {
+      "name": "Lancome",
+      "logo": "/imgs/partners/lancome-logo.png"
+    },
+    {
+      "name": "Zoom",
+      "logo": "/imgs/partners/zoom-logo.png"
+    },
+    {
+      "name": "Sony",
+      "logo": "/imgs/partners/sony-logo.png"
+    },
+    {
+      "name": "Mercedes",
+      "logo": "/imgs/partners/mercedes-logo.png"
+    }
   ],
   "features": {
     "title": "Hauptmerkmale des Sora 2 AI Video Modells",
@@ -44,17 +68,24 @@
         "description": "Sora 2 simuliert präzise reale Physik, einschließlich Schwerkraft, Auftrieb, Objektkollisionen und Umweltinteraktionen. Das Modell zeigt ein fortgeschrittenes Verständnis dafür, wie physikalische Gesetze Bewegung und Objektverhalten in komplexen Szenarien steuern.",
         "type": "table",
         "data": {
-          "headers": [{ "title": "Prompt" }, { "title": "Generiertes Video" }],
+          "headers": [
+            {
+              "title": "Prompt"
+            },
+            {
+              "title": "Generiertes Video"
+            }
+          ],
           "rows": [
             {
               "cells": [
                 {
                   "type": "text",
-                  "content": "Eine Eiskunstläuferin führt einen dreifachen Axel mit einer Katze auf ihrem Kopf auf"
+                  "content": "Eine epische Seeschlacht im Dark-Fantasy-Stil, rasant und mit ununterbrochenem Schnitt, überwiegend in kühlen Farbtönen, mit Wellen, die gegen das Schiff schlagen, und Kanonendonner, der rhythmisch geschnitten ist. Unter dem Schiff rollt der Schatten eines Seeungeheuers, das Wasser schwillt an und die Tentakel schlagen aufs Deck und schleudern Fässer weg. Die Crew erstarrt und stürzt dann ins Chaos; der Kapitän kämpft erbittert gegen die Tentakel des Monsters, in vier nahtlos verbundenen Einstellungen."
                 },
                 {
                   "type": "video",
-                  "content": "https://pollo.ai/cms/1_9c5082b5d5.mp4",
+                  "content": "https://r2.veo3ai.io/intro/Sora2/Siren-War.mp4",
                   "poster": ""
                 }
               ]
@@ -80,7 +111,14 @@
         "description": "Sora 2 generiert synchronisierte Audio-Landschaften mit realistischer Sprache, Umgebungsgeräuschen und Soundeffekten, die perfekt mit Videoinhalten abgestimmt sind. Charaktere sprechen natürlich und Umgebungen erwachen mit immersiven Soundscapes zum Leben - keine zusätzliche Audio-Bearbeitung erforderlich.",
         "type": "table",
         "data": {
-          "headers": [{ "title": "Prompt" }, { "title": "Generiertes Video" }],
+          "headers": [
+            {
+              "title": "Prompt"
+            },
+            {
+              "title": "Generiertes Video"
+            }
+          ],
           "rows": [
             {
               "cells": [
@@ -99,11 +137,11 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Unterwasser-Taucher, Geräusche des Korallenriffs"
+                  "content": "Taucher schwimmen unter Wasser und erleben die Klänge von Korallenriffen sowie die Textur der Geräusche aus der Tiefsee."
                 },
                 {
                   "type": "video",
-                  "content": "https://pollo.ai/cms/4_d40976e7f1.mp4",
+                  "content": "https://r2.veo3ai.io/intro/Sora2/Deep-sea-coral.mp4",
                   "poster": ""
                 }
               ]
@@ -116,7 +154,14 @@
         "description": "Sora 2 erhält die Objektpermanenz und Szenenkontinuität über komplexe Multi-Shot-Sequenzen hinweg. Elemente wie Charaktere, Requisiten und Umgebungen bleiben logisch konsistent, ohne sich in ausgedehnten, komplizierten Sequenzen mit mehreren Szenen zu verformen oder zu verschwinden - perfekt für kinematisches, anime und realistisches Storytelling.",
         "type": "table",
         "data": {
-          "headers": [{ "title": "Prompt" }, { "title": "Generiertes Video" }],
+          "headers": [
+            {
+              "title": "Prompt"
+            },
+            {
+              "title": "Generiertes Video"
+            }
+          ],
           "rows": [
             {
               "cells": [

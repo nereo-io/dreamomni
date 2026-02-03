@@ -27,14 +27,38 @@
     ]
   },
   "partners": [
-    { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
-    { "name": "Microsoft", "logo": "/imgs/partners/microsoft-logo.png" },
-    { "name": "Nike", "logo": "/imgs/partners/nike-logo.png" },
-    { "name": "P&G", "logo": "/imgs/partners/p-g-logo.png" },
-    { "name": "Lancome", "logo": "/imgs/partners/lancome-logo.png" },
-    { "name": "Zoom", "logo": "/imgs/partners/zoom-logo.png" },
-    { "name": "Sony", "logo": "/imgs/partners/sony-logo.png" },
-    { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
+    {
+      "name": "Coca-Cola",
+      "logo": "/imgs/partners/coca-cola-logo.png"
+    },
+    {
+      "name": "Microsoft",
+      "logo": "/imgs/partners/microsoft-logo.png"
+    },
+    {
+      "name": "Nike",
+      "logo": "/imgs/partners/nike-logo.png"
+    },
+    {
+      "name": "P&G",
+      "logo": "/imgs/partners/p-g-logo.png"
+    },
+    {
+      "name": "Lancome",
+      "logo": "/imgs/partners/lancome-logo.png"
+    },
+    {
+      "name": "Zoom",
+      "logo": "/imgs/partners/zoom-logo.png"
+    },
+    {
+      "name": "Sony",
+      "logo": "/imgs/partners/sony-logo.png"
+    },
+    {
+      "name": "Mercedes",
+      "logo": "/imgs/partners/mercedes-logo.png"
+    }
   ],
   "features": {
     "title": "Ключевые функции модели Sora 2 AI Video",
@@ -44,17 +68,24 @@
         "description": "Sora 2 точно моделирует физику реального мира, включая гравитацию, плавучесть, столкновения объектов и взаимодействие с окружающей средой. Модель демонстрирует продвинутое понимание того, как законы физики управляют движением и поведением объектов в сложных сценариях.",
         "type": "table",
         "data": {
-          "headers": [{ "title": "Подсказка" }, { "title": "Созданное видео" }],
+          "headers": [
+            {
+              "title": "Подсказка"
+            },
+            {
+              "title": "Созданное видео"
+            }
+          ],
           "rows": [
             {
               "cells": [
                 {
                   "type": "text",
-                  "content": "Фигуристка выполняет тройной аксель с кошкой на голове"
+                  "content": "Эпическая морская битва в стиле тёмного фэнтези, быстрый и непрерывный монтаж, преобладают холодные тона; волны обрушиваются на корабль, а залпы пушек ритмично нарезаны. Под кораблём перекатывается тень морского чудовища, вода вздымается, и его щупальца обрушиваются на палубу, разбрасывая бочки. Команда замирает, затем погружается в хаос; капитан яростно сражается с щупальцами чудовища — четыре бесшовно соединённых кадра."
                 },
                 {
                   "type": "video",
-                  "content": "https://pollo.ai/cms/1_9c5082b5d5.mp4",
+                  "content": "https://r2.veo3ai.io/intro/Sora2/Siren-War.mp4",
                   "poster": ""
                 }
               ]
@@ -80,7 +111,14 @@
         "description": "Sora 2 генерирует синхронизированные звуковые ландшафты, включая реалистичную речь, окружающие звуки и эффекты, идеально согласованные с видеоконтентом. Персонажи говорят естественно, а окружение оживает погружающейся звуковой средой - без необходимости дополнительного редактирования звука.",
         "type": "table",
         "data": {
-          "headers": [{ "title": "Подсказка" }, { "title": "Созданное видео" }],
+          "headers": [
+            {
+              "title": "Подсказка"
+            },
+            {
+              "title": "Созданное видео"
+            }
+          ],
           "rows": [
             {
               "cells": [
@@ -99,11 +137,11 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Подводный аквалангист, звуки коралловых рифов"
+                  "content": "Дайверы плывут под водой, ощущая звуки коралловых рифов и фактуру звуков глубинного моря."
                 },
                 {
                   "type": "video",
-                  "content": "https://pollo.ai/cms/4_d40976e7f1.mp4",
+                  "content": "https://r2.veo3ai.io/intro/Sora2/Deep-sea-coral.mp4",
                   "poster": ""
                 }
               ]
@@ -116,7 +154,14 @@
         "description": "Sora 2 сохраняет постоянство объектов и согласованность сцены в сложных многосценных последовательностях. Элементы, такие как персонажи, реквизит и окружение, остаются логически согласованными без трансформаций или исчезновения в расширенных, сложных последовательностях, охватывающих несколько сцен - идеально для кинематографического, аниме и реалистичного повествования.",
         "type": "table",
         "data": {
-          "headers": [{ "title": "Подсказка" }, { "title": "Созданное видео" }],
+          "headers": [
+            {
+              "title": "Подсказка"
+            },
+            {
+              "title": "Созданное видео"
+            }
+          ],
           "rows": [
             {
               "cells": [

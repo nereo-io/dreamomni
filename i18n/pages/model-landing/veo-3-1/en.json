@@ -43,19 +43,19 @@
         "title": "First & Last Frame Control",
         "description": "Create perfectly smooth transitions by uploading a start and end image. Veo 3.1 generates the in-between motion, ideal for morphing scenes, time-lapses, or narrative continuity. This advanced feature gives creators unprecedented control over their video storytelling.",
         "type": "video",
-        "data": "https://pollo.ai/cms/first_last_frames_5b87eb9d90.mp4"
+        "data": "https://r2.veo3ai.io/intro/image-to-video/1216Material-reserves/Snow-Mountain-Lynx.mp4"
       },
       {
         "title": "Image Reference Style Matching",
         "description": "Want a specific look? Upload a reference image—a painting, photo, or mood board—and Veo 3.1 matches the style, color grading, and composition with impressive accuracy. Perfect for maintaining consistent visual aesthetics across your video projects.",
         "type": "video",
-        "data": "https://pollo.ai/cms/reference_to_video_1_57dde91dc5.mp4"
+        "data": "https://r2.veo3ai.io/intro/veo3.1/Castle-Beauty.mp4"
       },
       {
         "title": "Advanced Audio Integration",
         "description": "Veo 3.1 maintains exceptional native audio generation. The model produces synchronized, contextually appropriate soundscapes that bring your videos to life with realistic ambient sounds, effects, and atmospheres—no additional editing required.",
         "type": "video",
-        "data": "https://pollo.ai/cms/quality_2_e4d485dc0e.mp4"
+        "data": "https://r2.veo3ai.io/intro/veo3.1/sloth_on_train.mp4"
       },
       {
         "title": "Character Consistency Excellence",

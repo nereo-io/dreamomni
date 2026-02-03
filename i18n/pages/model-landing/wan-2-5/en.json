@@ -49,19 +49,19 @@
         "title": "Upgraded Motion Dynamics",
         "description": "With Wan 2.5 AI video model, users can easily define character motion via prompts and enjoy more fluid movements that simulate real-world physics. This makes it easier to generate complex, action-heavy sequences without any abrupt, unnatural, or exaggerated effects, even when dealing with multiple subjects.",
         "type": "video",
-        "data": "https://static-lib.s3.amazonaws.com/cms/wan2_05bad815a7.mp4?updated_at=2025-09-25T01:57:31.503Z"
+        "data": "https://r2.veo3ai.io/intro/Wan2.5/Robot-dancing.mp4"
       },
       {
         "title": "Precise Camera Control",
         "description": "The Wan 2.5 AI video model better caters to advanced camera choreography by enabling users to define camera focus and perspectives using simple and intuitive instructions. Whether it’s tracking shots, scene transitions, or lens specifications, it strikes a better balance of melding technical precision and creative flair.",
         "type": "video",
-        "data": "https://static-lib.s3.amazonaws.com/cms/wan3_c7c3b948a9.mp4?updated_at=2025-09-25T01:57:31.266Z"
+        "data": "https://r2.veo3ai.io/intro/Wan2.5/Camera-movement-control.mp4"
       },
       {
         "title": "Enhanced Visual Realism",
         "description": "Wan 2.5 AI video model presents a huge improvement in realism, producing videos with exceptional visual fidelity and style consistency. From emulating subtle emotional expressions to rendering cinematic-level sequences, the new AI model brings characters, objects, and environments to life with incredibly lifelike detail.",
         "type": "video",
-        "data": "https://static-lib.s3.amazonaws.com/cms/wan4_c39f7442c6.mp4?updated_at=2025-09-25T01:57:30.776Z"
+        "data": "https://r2.veo3ai.io/intro/Wan2.5/athletic-performance.mp4"
       },
       {
         "title": "Improved Contextual Understanding",
