@@ -148,14 +148,19 @@ export class SubscriptionManagementService {
         subscriptionId
       );
 
-      if (apiSuccess) {
-        logInfo(`✅ Payssion 订阅 ${subscriptionId} API 取消成功`);
-      } else {
-        // API 取消失败，但仍然更新本地状态
-        logError(`⚠️ Payssion 订阅 ${subscriptionId} API 取消失败，继续更新本地状态`);
+      if (!apiSuccess) {
+        logError(`⚠️ Payssion 订阅 ${subscriptionId} API 取消失败，跳过本地状态更新`);
+        return {
+          provider: "payssion",
+          subscriptionId,
+          success: false,
+          error: "API cancellation failed",
+        };
       }
 
-      // 更新本地数据库状态为 canceled
+      logInfo(`✅ Payssion 订阅 ${subscriptionId} API 取消成功`);
+
+      // 仅在 API 成功时更新本地数据库状态为 canceled
       await updateSubscriptionStatus(subscriptionId, "canceled");
       logInfo(`✅ Payssion 订阅 ${subscriptionId} 本地状态已更新为 canceled`);
 
@@ -166,25 +171,12 @@ export class SubscriptionManagementService {
       };
     } catch (error: any) {
       logError(`❌ 取消 Payssion 订阅 ${subscriptionId} 失败`, error.message);
-
-      // 尝试仅更新本地状态
-      try {
-        await updateSubscriptionStatus(subscriptionId, "canceled");
-        logInfo(`⚠️ Payssion 订阅 ${subscriptionId} 仅本地状态已更新`);
-        return {
-          provider: "payssion",
-          subscriptionId,
-          success: true,
-          error: `API failed but local status updated: ${error.message}`,
-        };
-      } catch (localError: any) {
-        return {
-          provider: "payssion",
-          subscriptionId,
-          success: false,
-          error: error.message,
-        };
-      }
+      return {
+        provider: "payssion",
+        subscriptionId,
+        success: false,
+        error: error.message,
+      };
     }
   }
 
@@ -206,14 +198,19 @@ export class SubscriptionManagementService {
         subscriptionId
       );
 
-      if (apiSuccess) {
-        logInfo(`✅ Creem 订阅 ${subscriptionId} API 取消成功`);
-      } else {
-        // API 取消失败（可能是 404），但仍然更新本地状态
-        logError(`⚠️ Creem 订阅 ${subscriptionId} API 取消失败，继续更新本地状态`);
+      if (!apiSuccess) {
+        logError(`⚠️ Creem 订阅 ${subscriptionId} API 取消失败，跳过本地状态更新`);
+        return {
+          provider: "creem",
+          subscriptionId,
+          success: false,
+          error: "API cancellation failed",
+        };
       }
 
-      // 更新本地数据库状态为 canceled
+      logInfo(`✅ Creem 订阅 ${subscriptionId} API 取消成功`);
+
+      // 仅在 API 成功时更新本地数据库状态为 canceled
       await updateCreemSubscriptionStatus(subscriptionId, "canceled");
       logInfo(`✅ Creem 订阅 ${subscriptionId} 本地状态已更新为 canceled`);
 
@@ -224,25 +221,12 @@ export class SubscriptionManagementService {
       };
     } catch (error: any) {
       logError(`❌ 取消 Creem 订阅 ${subscriptionId} 失败`, error.message);
-
-      // 尝试仅更新本地状态
-      try {
-        await updateCreemSubscriptionStatus(subscriptionId, "canceled");
-        logInfo(`⚠️ Creem 订阅 ${subscriptionId} 仅本地状态已更新`);
-        return {
-          provider: "creem",
-          subscriptionId,
-          success: true,
-          error: `API failed but local status updated: ${error.message}`,
-        };
-      } catch (localError: any) {
-        return {
-          provider: "creem",
-          subscriptionId,
-          success: false,
-          error: error.message,
-        };
-      }
+      return {
+        provider: "creem",
+        subscriptionId,
+        success: false,
+        error: error.message,
+      };
     }
   }
 }
