@@ -26,6 +26,10 @@ import {
 import { useTranslations } from "next-intl";
 import HighlightFeature from "./highlight-feature";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
+import CreditsBundleModal, {
+  BundleItem,
+} from "@/components/ui/credits-bundle-modal";
+import useCurrentSubscription from "@/hooks/useCurrentSubscription";
 
 interface PricingModalProps {
   isOpen: boolean;
@@ -41,7 +45,15 @@ export default function PricingModal({
   const { user, setShowSignModal } = useAppContext();
   const { loading: locationLoading, isRussia } = useGeolocation();
   const t = useTranslations("pricing_modal");
+  const tBundle = useTranslations("creditsBundle");
   const { trackPricingView, trackCheckoutStart } = useYandexTracking();
+  const {
+    subscriptionState,
+    fetchCurrentSubscription,
+    canUpgradeTo,
+    isCurrentPlan,
+    isDowngrade,
+  } = useCurrentSubscription();
 
   const [group, setGroup] = useState<string | undefined>(pricing.groups?.[0]?.name);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,6 +65,8 @@ export default function PricingModal({
   const [selectedProvider, setSelectedProvider] = useState("");
   const [hasUserSelectedGroup, setHasUserSelectedGroup] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showBundleModal, setShowBundleModal] = useState(false);
+  const [bundleLoading, setBundleLoading] = useState(false);
   const [successInfo, setSuccessInfo] = useState<{
     planName?: string;
     credits?: number;
@@ -202,6 +216,13 @@ export default function PricingModal({
     }
   }, [isOpen, trackPricingView]);
 
+  // Fetch current subscription when user is logged in and modal opens
+  useEffect(() => {
+    if (isOpen && user) {
+      fetchCurrentSubscription();
+    }
+  }, [isOpen, user]);
+
   // 检测支付成功状态（仅用于显示成功弹窗，不再上报 Metrica）
   useEffect(() => {
     if (!isOpen) {
@@ -245,6 +266,97 @@ export default function PricingModal({
     } catch (e) {
       console.log("checkout failed: ", e);
       toast.error("checkout failed");
+    }
+  };
+
+  const handleBundlePurchase = async (bundle: BundleItem) => {
+    try {
+      if (!user) {
+        setShowBundleModal(false);
+        setShowSignModal(true);
+        return;
+      }
+
+      // Track checkout start for bundle
+      trackCheckoutStart(bundle.name, bundle.amount);
+
+      setBundleLoading(true);
+
+      // Generate product name based on user region
+      const productName = isRussia
+        ? `Veo3 AI Пакет ${bundle.credits} кредитов`
+        : bundle.name;
+
+      // Build payment params for bundle
+      const params = {
+        product_id: bundle.id,
+        product_name: productName,
+        credits: bundle.credits,
+        interval: "one-time",
+        amount: bundle.amount,
+        currency: "USD",
+        valid_months: 12,
+        payment_method: selectedPaymentMethod || "creem",
+        user_preference: selectedProvider || "creem",
+      };
+
+      // Set payment pending marker
+      const paymentTimestamp = Date.now();
+      localStorage.setItem("veo3_payment_pending", "true");
+      localStorage.setItem("veo3_payment_timestamp", paymentTimestamp.toString());
+      localStorage.setItem(
+        "veo3_payment_info",
+        JSON.stringify({
+          planName: productName,
+          credits: bundle.credits,
+          timestamp: paymentTimestamp,
+        })
+      );
+
+      // Call payment API
+      const response = await fetch("/api/subscription/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(params),
+      });
+
+      if (response.status === 401) {
+        setBundleLoading(false);
+        setShowBundleModal(false);
+        setShowSignModal(true);
+        return;
+      }
+
+      const { code, message, data } = await response.json();
+      if (code !== 0) {
+        toast.error(message);
+        setBundleLoading(false);
+        return;
+      }
+
+      // Handle redirect
+      const { redirect_url, success } = data;
+      if (redirect_url) {
+        window.location.href = redirect_url;
+      } else if (success) {
+        // Payment completed without redirect (existing mandate)
+        setShowBundleModal(false);
+        const status = await checkRecentPayment();
+        if (status === "none") {
+          window.setTimeout(() => {
+            checkRecentPayment();
+          }, 2000);
+        }
+      } else {
+        toast.error("Payment link generation failed");
+      }
+    } catch (error) {
+      console.error("Bundle purchase failed:", error);
+      toast.error("Purchase failed");
+    } finally {
+      setBundleLoading(false);
     }
   };
 
@@ -454,6 +566,13 @@ export default function PricingModal({
 
                 <div className={`w-full grid gap-4 grid-cols-1 ${gridColumnsClass}`}>
                   {visiblePlans.map((item, index) => {
+                    // Calculate subscription status for this item
+                    const itemIsCurrentPlan = item.product_id ? isCurrentPlan(item.product_id) : false;
+                    const itemCanUpgrade = item.product_id ? canUpgradeTo(item.product_id) : true;
+                    const itemIsDowngrade = item.product_id ? isDowngrade(item.product_id) : false;
+                    // Free plan (amount === 0) is always purchasable
+                    const isFreeItem = item.amount === 0;
+
                     return (
                       <div
                         key={item.product_id ?? index}
@@ -472,7 +591,15 @@ export default function PricingModal({
                                 </h3>
                               )}
                               <div className="flex-1"></div>
-                              {item.label && (
+                              {itemIsCurrentPlan && (
+                                <Badge
+                                  variant="outline"
+                                  className="border-green-500 bg-green-500 px-1.5 text-white text-xs"
+                                >
+                                  Current Plan
+                                </Badge>
+                              )}
+                              {item.label && !itemIsCurrentPlan && (
                                 <Badge
                                   variant="outline"
                                   className="border-primary bg-primary px-1.5 text-primary-foreground text-xs"
@@ -615,12 +742,36 @@ export default function PricingModal({
                                     </div>
                                   )}
 
+                                {/* Buy Credits Button */}
+                                {item.amount > 0 && (
+                                  <Button
+                                    variant="outline"
+                                    className="w-full bg-white text-primary border-primary hover:bg-primary/5"
+                                    onClick={() => setShowBundleModal(true)}
+                                  >
+                                    {tBundle("buyCredits")}
+                                  </Button>
+                                )}
+
                                 <Button
-                                  className="w-full flex items-center justify-center gap-2 font-semibold relative overflow-hidden group hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200 ease-out"
-                                  disabled={isLoading || item.button.disabled}
+                                  className={`w-full flex items-center justify-center gap-2 font-semibold relative overflow-hidden group transition-transform duration-200 ease-out ${
+                                    itemIsCurrentPlan || itemIsDowngrade
+                                      ? "opacity-60 cursor-not-allowed"
+                                      : "hover:scale-[1.02] active:scale-[0.98]"
+                                  }`}
+                                  disabled={isLoading || item.button.disabled || itemIsCurrentPlan || (!isFreeItem && itemIsDowngrade)}
                                   onClick={() => {
                                     if (item.amount === 0 && item.button.url) {
                                       window.location.href = "/";
+                                      return;
+                                    }
+
+                                    // Block if current plan or downgrade
+                                    if (itemIsCurrentPlan) {
+                                      return;
+                                    }
+                                    if (itemIsDowngrade) {
+                                      toast.error("Downgrade is not allowed. Please contact support if you need to change your plan.");
                                       return;
                                     }
 
@@ -653,7 +804,13 @@ export default function PricingModal({
                                     (isLoading &&
                                       productId !== item.product_id)) && (
                                     <span className="relative z-10">
-                                      {item.button.title}
+                                      {itemIsCurrentPlan
+                                        ? "Current Plan"
+                                        : itemIsDowngrade
+                                        ? "Downgrade Not Allowed"
+                                        : itemCanUpgrade && subscriptionState?.hasActiveSubscription
+                                        ? "Upgrade"
+                                        : item.button.title}
                                     </span>
                                   )}
 
@@ -666,7 +823,7 @@ export default function PricingModal({
                                         <Loader className="relative z-10 ml-2 h-4 w-4 animate-spin" />
                                       </>
                                     )}
-                                  {item.button.icon && (
+                                  {item.button.icon && !itemIsCurrentPlan && !itemIsDowngrade && (
                                     <Icon
                                       name={item.button.icon}
                                       className="relative z-10 size-4"
@@ -742,6 +899,14 @@ export default function PricingModal({
             </div>
           </DialogContent>
       </Dialog>
+
+      {/* Credits Bundle Modal */}
+      <CreditsBundleModal
+        isOpen={showBundleModal}
+        onClose={() => setShowBundleModal(false)}
+        onPurchase={handleBundlePurchase}
+        isLoading={bundleLoading}
+      />
 
     </>
   );
