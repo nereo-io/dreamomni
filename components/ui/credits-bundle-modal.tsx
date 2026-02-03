@@ -23,15 +23,6 @@ interface CreditsBundleModalProps {
   onClose: () => void;
   onPurchase: (bundle: BundleItem) => void;
   isLoading: boolean;
-  isRussia?: boolean;
-  availablePaymentMethods?: Array<{
-    id: string;
-    name: string;
-    logo: string;
-    provider: string;
-  }>;
-  selectedPaymentMethod?: string;
-  onPaymentMethodChange?: (method: string) => void;
 }
 
 // Bundle options configuration
@@ -78,10 +69,6 @@ export default function CreditsBundleModal({
   onClose,
   onPurchase,
   isLoading,
-  isRussia = false,
-  availablePaymentMethods = [],
-  selectedPaymentMethod = "",
-  onPaymentMethodChange,
 }: CreditsBundleModalProps) {
   const [selectedBundle, setSelectedBundle] = useState<BundleItem>(
     BUNDLE_OPTIONS[1] // Default to Standard Pack ($25)
@@ -146,41 +133,6 @@ export default function CreditsBundleModal({
             ))}
           </div>
         </div>
-
-        {/* Payment Method Selection (Russia only) */}
-        {isRussia && availablePaymentMethods.length > 0 && (
-          <div className="px-4 sm:px-6 md:px-8 pb-6">
-            <div className="border-t pt-6">
-              <p className="text-sm text-muted-foreground mb-3 text-center">
-                {t("selectPaymentMethod")}
-              </p>
-              <div className="flex justify-center gap-2">
-                {availablePaymentMethods
-                  .filter((m) => m.provider === "payssion")
-                  .map((method) => (
-                    <div
-                      key={method.id}
-                      className={`flex cursor-pointer items-center justify-center rounded-lg border-2 p-2 transition-all duration-200 h-12 w-20 ${
-                        selectedPaymentMethod === method.id
-                          ? "border-primary bg-primary/10"
-                          : "border-muted bg-card hover:border-primary/50"
-                      }`}
-                      onClick={() => onPaymentMethodChange?.(method.id)}
-                    >
-                      <img
-                        src={method.logo}
-                        alt={method.name}
-                        className="h-6 w-auto object-contain"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = "none";
-                        }}
-                      />
-                    </div>
-                  ))}
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Footer with Buttons */}
         <div className="border-t bg-muted/30 px-4 sm:px-6 md:px-8 py-4">

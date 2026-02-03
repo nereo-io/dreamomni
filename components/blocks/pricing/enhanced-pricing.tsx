@@ -863,10 +863,6 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         onClose={() => setShowBundleModal(false)}
         onPurchase={handleBundlePurchase}
         isLoading={bundleLoading}
-        isRussia={isRussia}
-        availablePaymentMethods={availableMethods}
-        selectedPaymentMethod={selectedPaymentMethod}
-        onPaymentMethodChange={setSelectedPaymentMethod}
       />
     </>
   );
