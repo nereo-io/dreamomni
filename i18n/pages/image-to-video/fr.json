@@ -68,27 +68,27 @@
     "examples": [
       {
         "id": "anime-girl",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Anime-Girl-with-Braids.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Girl-Pokes-Camera.mp4",
-        "originalAlt": "Fille anime avec tresses",
-        "videoAlt": "Fille anime souriante qui touche la caméra",
-        "prompt": "La petite fille sourit à la caméra et touche l'objectif avec son doigt."
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Anime-Shooting.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Shooting.mp4",
+        "originalAlt": "Archère elfe en armure verte avec un arc long bandé",
+        "videoAlt": "Flèche verte lumineuse traversant une forêt ensoleillée",
+        "prompt": "Une archère elfe en armure verte, arc long bandé, affiche un sourire mystérieux. Ses cheveux dorés ondulent naturellement dans la brise. Un travelling vertical tourne derrière elle tandis qu’une flèche verte lumineuse est décochée en douceur. La caméra suit sa trajectoire à travers une forêt dense, la lumière du soleil filtrant entre les feuilles crée des taches de lumière dansantes. La prise de vue à l’épaule donne une sensation de poursuite dynamique."
       },
       {
-        "id": "t-rex",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Tyrannosaurus-Rex-in-Wilderness.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/TRex-Peeks-at-Camera.mp4",
-        "originalAlt": "Tyrannosaurus Rex dans la nature",
-        "videoAlt": "Tête de T-Rex regardant hors de la caméra",
-        "prompt": "La tête du T-Rex sort de la caméra."
+        "id": "pastoral-boy",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.mp4",
+        "originalAlt": "Garçon dans un champ pastoral avec de la paille",
+        "videoAlt": "La caméra tourne autour d’un garçon tandis que la paille ondule au vent",
+        "prompt": "La caméra tourne autour du garçon dans le cadre, l’environnement alentour se déplace naturellement, la paille ondule au vent et le garçon regarde au loin."
       },
       {
-        "id": "mother-son",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Mother-Son-Walking-in-Park.mp4",
-        "originalAlt": "Mère et fils marchant dans le parc",
-        "videoAlt": "Mère marchant joyeusement avec son enfant",
-        "prompt": "Une mère marche joyeusement en tenant la main de son enfant."
+        "id": "Selfie-cat",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.mp4",
+        "originalAlt": "Chat pilotant un avion de chasse",
+        "videoAlt": "Chat pilote un avion de chasse dans le ciel",
+        "prompt": "Caméra à l'épaule, légèrement tremblante, le chat pilote un avion de chasse qui plane dans le ciel, la caméra est toujours placée devant le chat."
       },
       {
         "id": "motorcycle",
@@ -96,7 +96,8 @@
         "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
         "originalAlt": "Moto prête à accélérer",
         "videoAlt": "Moto accélérant avec traînée lumineuse",
-        "prompt": "La moto accélère et le feu arrière devient une ligne."
+        "prompt": "La moto accélère et le feu arrière devient une ligne.",
+        "promptExpandable": false
       }
     ]
   },

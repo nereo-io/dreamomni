@@ -68,27 +68,27 @@
     "examples": [
       {
         "id": "anime-girl",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Anime-Girl-with-Braids.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Girl-Pokes-Camera.mp4",
-        "originalAlt": "Anime-Mädchen mit Zöpfen",
-        "videoAlt": "Anime-Mädchen lächelt und stößt Kamera an",
-        "prompt": "Das kleine Mädchen lächelt die Kamera an und stößt mit ihrem Finger gegen das Objektiv."
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Anime-Shooting.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Shooting.mp4",
+        "originalAlt": "Elfenbogenschützin in grüner Rüstung mit gespanntem Langbogen",
+        "videoAlt": "Grün leuchtender Pfeil fliegt durch einen sonnenbeschienenen Wald",
+        "prompt": "Eine Elfenbogenschützin in grüner Rüstung, Langbogen gespannt, trägt ein geheimnisvolles Lächeln. Ihr goldenes Haar wiegt sich natürlich im Wind. Eine vertikale Tracking-Einstellung kreist hinter ihr, während ein grün leuchtender Pfeil sanft abgeschossen wird. Die Kamera folgt seiner Flugbahn durch einen dichten Wald, Sonnenlicht filtert durch die Blätter und erzeugt tanzende Lichtflecken. Die Handkamera vermittelt ein dynamisches Gefühl der Verfolgung."
       },
       {
-        "id": "t-rex",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Tyrannosaurus-Rex-in-Wilderness.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/TRex-Peeks-at-Camera.mp4",
-        "originalAlt": "Tyrannosaurus Rex in der Wildnis",
-        "videoAlt": "T-Rex-Kopf schaut aus Kamera heraus",
-        "prompt": "Der Kopf des T-Rex schaut aus der Kamera heraus."
+        "id": "pastoral-boy",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.mp4",
+        "originalAlt": "Junge in einer ländlichen Wiese mit Stroh",
+        "videoAlt": "Die Kamera schwenkt um einen Jungen, während das Stroh im Wind wogt",
+        "prompt": "Die Kamera schwenkt um den Jungen im Bild, die Umgebung bewegt sich natürlich, das Stroh wogt im Wind, und der Junge blickt in die Ferne."
       },
       {
-        "id": "mother-son",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Mother-Son-Walking-in-Park.mp4",
-        "originalAlt": "Mutter und Sohn gehen im Park spazieren",
-        "videoAlt": "Mutter geht glücklich mit Kind",
-        "prompt": "Eine Mutter geht glücklich und hält die Hand ihres Kindes."
+        "id": "Selfie-cat",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.mp4",
+        "originalAlt": "Katze steuert ein Kampfflugzeug",
+        "videoAlt": "Katze fliegt mit einem Kampfflugzeug durch den Himmel",
+        "prompt": "Handkamera, leicht wackelig, die Katze steuert ein Kampfflugzeug, das durch den Himmel fliegt, die Kamera ist stets vor der Katze positioniert."
       },
       {
         "id": "motorcycle",
@@ -96,7 +96,8 @@
         "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
         "originalAlt": "Motorrad bereit zum Beschleunigen",
         "videoAlt": "Motorrad beschleunigt mit Lichtspur",
-        "prompt": "Das Motorrad beschleunigt, und das Rücklicht wird zu einer Linie."
+        "prompt": "Das Motorrad beschleunigt, und das Rücklicht wird zu einer Linie.",
+        "promptExpandable": false
       }
     ]
   },

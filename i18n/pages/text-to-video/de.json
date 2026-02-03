@@ -62,10 +62,10 @@
     "description": "Erwecken Sie jeden Text mit unserem KI-Videogenerator zum Leben! Erstellen Sie ansprechende Videos in jedem Stil mit nur einer einfachen Textbeschreibung. Beschreiben Sie Ihre Ideen mit ein paar Worten, und unsere Video-KI kann sie kreativ visualisieren.",
     "examples": [
       {
-        "id": "glass-strawberry",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
-        "alt": "Glaserdbeere zerbricht beim Schneiden",
-        "prompt": "Eine Glaserdbeere zerbricht, wenn sie mit einem Messer auf einem Holzbrett geschnitten wird."
+        "id": "Spirit-Transformation",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Spirit-Transformation.mp4",
+        "alt": "Geisterverwandlung im Mondlicht",
+        "prompt": "Unter dem stillen, mondbeschienenen Wald fiel das Mondlicht durch die ineinander verschlungenen Äste wie ein feines Tuch und warf zersplitterte Lichtflecken in die Lichtung. Ein menschliches Mädchen in einem abgetragenen Kleid stand barfuß in der Mitte der Lichtung und blickte mit erwartungsvollen, zugleich unsicheren Augen zum Mond. Der hellste Mondstrahl umhüllte sie genau. Ihr Körper begann weich weiß zu leuchten, ihre Konturen verschwammen. Ihr Haar bewegte sich ohne Wind, die Spitzen wurden transparent, als wären sie aus Licht gewebt, beginnend an den Fingerspitzen und Zehen. Sie hatte mondweißes Haar, leicht zuckende spitze Ohren und Augen in bernsteinfarbener Katzenaugen-Tönung. Sie trug ein fließendes Kleid, mit Glühwürmchen geschmückt; ihr Körper schwebte leicht, die Zehen berührten den Boden nur zart. Langsam drehte sie sich zur Kamera, ein geheimnisvolles, sanftes Lächeln auf den Lippen. Schließlich löste sie sich in einen Schwarm tanzender Lichtschmetterlinge auf, verschmolz mit dem mondhellen Himmel und verschwand."
       },
       {
         "id": "anime-rose",
@@ -74,16 +74,16 @@
         "prompt": "Eine Rose im Anime-Stil blüht vor einer Seilbrücke, mit Blütenblättern, die in der Luft tanzen."
       },
       {
-        "id": "monkey-seagull",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
-        "alt": "Affe und Möwe tanzen am mondbeschienenen Strand",
-        "prompt": "Ein Affe und eine Möwe tanzen am mondbeschienenen Strand unter einem Sternenhimmel."
+        "id": "Time-lapse",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Time-lapse-photography.mp4",
+        "alt": "Verwelkte Blume erwacht unter purpurroten Wolken",
+        "prompt": "Eine verwelkte Blume liegt am Boden und leuchtet schwach unter purpurroten und scharlachfarbenen Wolken, mit einer Aura von Verfall, Sehnsucht und zerbrechlichem Leben. In einer Zeitrafferaufnahme ziehen die Wolken vorbei und die Blume kehrt allmählich zum Leben zurück."
       },
       {
-        "id": "monarch-butterfly",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
-        "alt": "Monarchfalter flattern Flügel auf Blumen",
-        "prompt": "Ein Monarchfalter flattert mit seinen Flügeln auf bunten Blumen in einem sonnenbeschienenen Garten.",
+        "id": "Cosmic-Shuttle",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Cosmic-Shuttle.mp4",
+        "alt": "Ich-Perspektive: Sturz durch einen kosmischen Sternenstrom",
+        "prompt": "Ich-Perspektive: Sturz mit hoher Geschwindigkeit durch einen kosmischen Wasserfall aus Sternen, dann blitzschnelles Ausstrecken der Hand, um einen Planeten zu berühren, was eine explosive weiße Lichtentladung auslöst. Die Kamera stürzt vertikal mit extremer Geschwindigkeit, begleitet von heftigen Erschütterungen durch den Energieeinschlag. Der Fokus bleibt flüchtig, springt rasch zwischen Hand und Zielplanet und ist durch die Bewegung meist unscharf. Alle Sterne strecken sich zu scharfen Geschwindigkeitsstreifen, und der Moment der Berührung explodiert mit aggressiven, feuerwerksartigen Partikeln und Lens Flares.",
         "isNew": true
       }
     ]

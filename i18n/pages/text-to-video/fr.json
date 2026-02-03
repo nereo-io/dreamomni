@@ -62,10 +62,10 @@
     "description": "Donnez vie à n'importe quel texte avec notre générateur vidéo IA ! Créez des vidéos engageantes de n'importe quel style avec juste une simple description textuelle. Décrivez vos idées en quelques mots et notre IA vidéo peut les visualiser de manière créative.",
     "examples": [
       {
-        "id": "glass-strawberry",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
-        "alt": "Fraise en verre se brisant lorsqu'elle est tranchée",
-        "prompt": "Une fraise en verre se brise lorsqu'elle est tranchée avec un couteau sur une planche en bois."
+        "id": "Spirit-Transformation",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Spirit-Transformation.mp4",
+        "alt": "Transformation d’esprit au clair de lune",
+        "prompt": "Sous la forêt silencieuse au clair de lune, la lumière filtrée à travers les branches entremêlées, telle une gaze légère, projetait des taches fragmentées dans la clairière. Une jeune fille humaine, en robe usée, se tenait pieds nus au centre de la clairière, levant les yeux vers la lune avec une anticipation mêlée d’inquiétude. Le faisceau de lune le plus lumineux l’enveloppa précisément. Son corps commença à émettre une douce lueur blanche, ses contours se brouillèrent. Ses cheveux bougeaient sans vent, leurs extrémités devenant transparentes, comme tissées de lumière, en commençant par le bout de ses doigts et de ses orteils. Elle avait des cheveux blanc‑lune, des oreilles pointues qui frémissaient légèrement, et des yeux ambrés comme des pierres d’œil‑de‑chat. Elle portait une robe fluide ornée de lucioles, son corps flottait légèrement, ses orteils effleurant le sol. Elle se tourna lentement vers la caméra, un sourire mystérieux et doux aux lèvres. Enfin, elle se dissout en un essaim de papillons de lumière dansants, se fondant dans le ciel lunaire et disparaissant."
       },
       {
         "id": "anime-rose",
@@ -74,16 +74,16 @@
         "prompt": "Une rose de style anime fleurit devant un pont de corde, avec des pétales dansant dans l'air."
       },
       {
-        "id": "monkey-seagull",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
-        "alt": "Singe et mouette dansant sur une plage au clair de lune",
-        "prompt": "Un singe et une mouette dansent sur une plage au clair de lune sous un ciel étoilé."
+        "id": "Time-lapse",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Time-lapse-photography.mp4",
+        "alt": "Fleur fanée qui reprend vie sous des nuages cramoisis",
+        "prompt": "Une fleur fanée repose au sol, faiblement lumineuse sous des nuages cramoisis et écarlates, dégageant une aura de décomposition, de nostalgie et de vie fragile. En time-lapse, les nuages dérivent et la fleur revient peu à peu à la vie."
       },
       {
-        "id": "monarch-butterfly",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
-        "alt": "Papillon monarque battant des ailes sur des fleurs",
-        "prompt": "Un papillon monarque bat des ailes sur des fleurs colorées dans un jardin ensoleillé.",
+        "id": "Cosmic-Shuttle",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Cosmic-Shuttle.mp4",
+        "alt": "Plongée à la première personne dans une cascade cosmique d’étoiles",
+        "prompt": "Vue à la première personne, chute à grande vitesse à travers une cascade cosmique d’étoiles, puis la main se tend à toute vitesse pour toucher une planète, déclenchant une explosion de lumière blanche. La caméra plonge verticalement à une vitesse extrême, avec de violentes secousses dues à l’impact d’énergie. La mise au point reste insaisissable, passant rapidement de la main à la planète, la plupart du temps floutée par le mouvement. Toutes les étoiles s’étirent en traînées de vitesse nettes, et l’instant du contact éclate en particules façon feux d’artifice et en lens flares.",
         "isNew": true
       }
     ]

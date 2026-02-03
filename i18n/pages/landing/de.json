@@ -55,7 +55,7 @@
       }
     ]
   },
-    "aiModelsHero": {
+  "aiModelsHero": {
     "title": "All-in-One AI Bild zu Video Generator",
     "description": "Veo3 AI ist der ultimative All-in-One-KI-Videogenerator. Wir bieten Zugang zu branchenführenden Videomodellen wie Sora 2, Veo 3.1, Seedance und mehr, alles an einem Ort. Probieren Sie sie nahtlos aus und erstellen Sie beeindruckende Visuals, ohne zwischen mehreren Plattformen jonglieren zu müssen!",
     "models": [
@@ -89,27 +89,27 @@
     "examples": [
       {
         "id": "anime-girl",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Anime-Girl-with-Braids.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Girl-Pokes-Camera.mp4",
-        "originalAlt": "Anime-Mädchen mit Zöpfen",
-        "videoAlt": "Anime-Mädchen lächelt und stupst Kamera an",
-        "prompt": "Das kleine Mädchen lächelt weiter in die Kamera und stupst mit dem Finger auf die Linse."
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Anime-Shooting.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Shooting.mp4",
+        "originalAlt": "Elfenbogenschützin in grüner Rüstung mit gespanntem Langbogen",
+        "videoAlt": "Grün leuchtender Pfeil fliegt durch einen sonnenbeschienenen Wald",
+        "prompt": "Eine Elfenbogenschützin in grüner Rüstung, Langbogen gespannt, trägt ein geheimnisvolles Lächeln. Ihr goldenes Haar wiegt sich natürlich im Wind. Eine vertikale Tracking-Einstellung kreist hinter ihr, während ein grün leuchtender Pfeil sanft abgeschossen wird. Die Kamera folgt seiner Flugbahn durch einen dichten Wald, Sonnenlicht filtert durch die Blätter und erzeugt tanzende Lichtflecken. Die Handkamera vermittelt ein dynamisches Gefühl der Verfolgung."
       },
       {
-        "id": "t-rex",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Tyrannosaurus-Rex-in-Wilderness.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/TRex-Peeks-at-Camera.mp4",
-        "originalAlt": "Tyrannosaurus Rex in der Wildnis",
-        "videoAlt": "T-Rex-Kopf lugt aus der Kamera",
-        "prompt": "Der Kopf des T-Rex schaut aus der Kamera heraus."
+        "id": "pastoral-boy",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.mp4",
+        "originalAlt": "Junge in einer ländlichen Wiese mit Stroh",
+        "videoAlt": "Die Kamera schwenkt um einen Jungen, während das Stroh im Wind wogt",
+        "prompt": "Die Kamera schwenkt um den Jungen im Bild, die Umgebung bewegt sich natürlich, das Stroh wogt im Wind, und der Junge blickt in die Ferne."
       },
       {
-        "id": "mother-son",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Mother-Son-Walking-in-Park.mp4",
-        "originalAlt": "Mutter und Sohn spazieren im Park",
-        "videoAlt": "Mutter geht fröhlich mit Kind",
-        "prompt": "Eine Mutter geht fröhlich und hält die Hand ihres Kindes."
+        "id": "Selfie-cat",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.mp4",
+        "originalAlt": "Katze steuert ein Kampfflugzeug",
+        "videoAlt": "Katze fliegt mit einem Kampfflugzeug durch den Himmel",
+        "prompt": "Handkamera, leicht wackelig, die Katze steuert ein Kampfflugzeug, das durch den Himmel fliegt, die Kamera ist stets vor der Katze positioniert."
       },
       {
         "id": "motorcycle",
@@ -117,7 +117,8 @@
         "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
         "originalAlt": "Motorrad bereit zum Rasen",
         "videoAlt": "Motorrad rast mit Lichtspur",
-        "prompt": "Das Motorrad rast, und das Rücklicht wird zu einer Linie."
+        "prompt": "Das Motorrad rast, und das Rücklicht wird zu einer Linie.",
+        "promptExpandable": false
       }
     ]
   },
@@ -127,10 +128,10 @@
     "cta": "Veo3 AI Ausprobieren",
     "examples": [
       {
-        "id": "glass-strawberry",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
-        "alt": "Glas-Erdbeere zerbricht beim Schneiden",
-        "prompt": "Eine Glas-Erdbeere zerbricht, wenn sie mit einem Messer auf einem Holzbrett geschnitten wird."
+        "id": "Spirit-Transformation",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Spirit-Transformation.mp4",
+        "alt": "Geisterverwandlung im Mondlicht",
+        "prompt": "Unter dem stillen, mondbeschienenen Wald fiel das Mondlicht durch die ineinander verschlungenen Äste wie ein feines Tuch und warf zersplitterte Lichtflecken in die Lichtung. Ein menschliches Mädchen in einem abgetragenen Kleid stand barfuß in der Mitte der Lichtung und blickte mit erwartungsvollen, zugleich unsicheren Augen zum Mond. Der hellste Mondstrahl umhüllte sie genau. Ihr Körper begann weich weiß zu leuchten, ihre Konturen verschwammen. Ihr Haar bewegte sich ohne Wind, die Spitzen wurden transparent, als wären sie aus Licht gewebt, beginnend an den Fingerspitzen und Zehen. Sie hatte mondweißes Haar, leicht zuckende spitze Ohren und Augen in bernsteinfarbener Katzenaugen-Tönung. Sie trug ein fließendes Kleid, mit Glühwürmchen geschmückt; ihr Körper schwebte leicht, die Zehen berührten den Boden nur zart. Langsam drehte sie sich zur Kamera, ein geheimnisvolles, sanftes Lächeln auf den Lippen. Schließlich löste sie sich in einen Schwarm tanzender Lichtschmetterlinge auf, verschmolz mit dem mondhellen Himmel und verschwand."
       },
       {
         "id": "anime-rose",
@@ -139,16 +140,16 @@
         "prompt": "Eine Rose im Anime-Stil erblüht vor einer Hängebrücke, mit Blütenblättern, die in der Luft tanzen."
       },
       {
-        "id": "monkey-seagull",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
-        "alt": "Affe und Möwe tanzen am mondbeschienenen Strand",
-        "prompt": "Ein Affe und eine Möwe tanzen an einem mondbeschienenen Strand unter einem Sternenhimmel."
+        "id": "Time-lapse",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Time-lapse-photography.mp4",
+        "alt": "Verwelkte Blume erwacht unter purpurroten Wolken",
+        "prompt": "Eine verwelkte Blume liegt am Boden und leuchtet schwach unter purpurroten und scharlachfarbenen Wolken, mit einer Aura von Verfall, Sehnsucht und zerbrechlichem Leben. In einer Zeitrafferaufnahme ziehen die Wolken vorbei und die Blume kehrt allmählich zum Leben zurück."
       },
       {
-        "id": "monarch-butterfly",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
-        "alt": "Monarchfalter flattert mit Flügeln auf Blumen",
-        "prompt": "Ein Monarchfalter flattert mit seinen Flügeln auf bunten Blumen in einem sonnenbeschienenen Garten.",
+        "id": "Cosmic-Shuttle",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Cosmic-Shuttle.mp4",
+        "alt": "Ich-Perspektive: Sturz durch einen kosmischen Sternenstrom",
+        "prompt": "Ich-Perspektive: Sturz mit hoher Geschwindigkeit durch einen kosmischen Wasserfall aus Sternen, dann blitzschnelles Ausstrecken der Hand, um einen Planeten zu berühren, was eine explosive weiße Lichtentladung auslöst. Die Kamera stürzt vertikal mit extremer Geschwindigkeit, begleitet von heftigen Erschütterungen durch den Energieeinschlag. Der Fokus bleibt flüchtig, springt rasch zwischen Hand und Zielplanet und ist durch die Bewegung meist unscharf. Alle Sterne strecken sich zu scharfen Geschwindigkeitsstreifen, und der Moment der Berührung explodiert mit aggressiven, feuerwerksartigen Partikeln und Lens Flares.",
         "isNew": true
       }
     ]

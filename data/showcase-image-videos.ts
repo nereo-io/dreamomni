@@ -18,20 +18,21 @@ export const SHOWCASE_IMAGE_VIDEOS: ShowcaseVideo[] = [
     tags: ["anime", "dance", "creative", "top-view"],
   },
   {
-    id: "mother-son",
-    title: "Mother and Son Walking",
-    prompt: "A mother walks happily holding her child's hand.",
+    id: "Selfie-cat",
+    title: "Selfie Cat",
+    prompt:
+      "Handheld camera, slightly shaky, the cat pilots a fighter jet soaring through the sky, the camera always positioned in front of the cat.",
     videoUrl:
-      "https://r2.veo3ai.io/intro/image-to-video/Mother-Son-Walking-in-Park.mp4",
+      "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.mp4",
     thumbnailUrl:
-      "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
+      "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.png",
     imageUrl:
-      "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
+      "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.png",
     duration: 5,
     aspectRatio: "Auto",
     model: "doubao-seedance-1-0-pro-image-to-video",
     category: "featured",
-    tags: ["family", "walking", "happiness"],
+    tags: ["cat", "fighter-jet", "sky", "selfie"],
   },
   {
     id: "motorcycle",

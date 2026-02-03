@@ -68,27 +68,27 @@
     "examples": [
       {
         "id": "anime-girl",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Anime-Girl-with-Braids.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Girl-Pokes-Camera.mp4",
-        "originalAlt": "Anime girl with braids",
-        "videoAlt": "Anime girl smiling and poking camera",
-        "prompt": "The little girl keeps smiling at the camera and pokes the lens with her finger."
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Anime-Shooting.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Shooting.mp4",
+        "originalAlt": "Elven archer in green armor with a drawn longbow",
+        "videoAlt": "Green-glowing arrow flying through a sunlit forest",
+        "prompt": "An elven archer in green armor, longbow drawn, wears a mysterious smile. Her golden hair sways naturally in the breeze. A vertical tracking shot circles behind her as a green-glowing arrow launches smoothly. The camera follows its trajectory through dense forest, sunlight filtering through leaves to create dancing patches of light. The handheld shot creates a dynamic sense of pursuit."
       },
       {
-        "id": "t-rex",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Tyrannosaurus-Rex-in-Wilderness.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/TRex-Peeks-at-Camera.mp4",
-        "originalAlt": "Tyrannosaurus Rex in wilderness",
-        "videoAlt": "T-Rex head peeking out of camera",
-        "prompt": "The T-Rex's head pokes out of the camera."
+        "id": "pastoral-boy",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.mp4",
+        "originalAlt": "Boy in a pastoral field with straw",
+        "videoAlt": "Camera pans around a boy as straw sways in the wind",
+        "prompt": "The camera pans around the boy in the frame, the surrounding environment moves naturally, the straw sways in the wind, and the boy gazes into the distance."
       },
       {
-        "id": "mother-son",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Mother-Son-Walking-in-Park.mp4",
-        "originalAlt": "Mother and son walking in park",
-        "videoAlt": "Mother walking happily with child",
-        "prompt": "A mother walks happily holding her child's hand."
+        "id": "Selfie-cat",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.mp4",
+        "originalAlt": "Cat piloting a fighter jet",
+        "videoAlt": "Cat piloting a fighter jet in the sky",
+        "prompt": "Handheld camera, slightly shaky, the cat pilots a fighter jet soaring through the sky, the camera always positioned in front of the cat."
       },
       {
         "id": "motorcycle",
@@ -96,7 +96,8 @@
         "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
         "originalAlt": "Motorcycle ready to speed",
         "videoAlt": "Motorcycle speeding with light trail",
-        "prompt": "The motorcycle is speeding, and the tail light turns into a line."
+        "prompt": "The motorcycle is speeding, and the tail light turns into a line.",
+        "promptExpandable": false
       }
     ]
   },

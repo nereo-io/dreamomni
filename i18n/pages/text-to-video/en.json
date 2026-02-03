@@ -62,10 +62,10 @@
     "description": "Bring any text to life with our AI video generator! Create engaging videos of any style with just a simple text prompt. Describe your ideas with a few words, and our video AI can visualize it creatively.",
     "examples": [
       {
-        "id": "glass-strawberry",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
-        "alt": "Glass strawberry shattering when sliced",
-        "prompt": "A glass strawberry shatters when sliced with a knife on a wooden board."
+        "id": "Spirit-Transformation",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Spirit-Transformation.mp4",
+        "alt": "Moonlit forest spirit transformation",
+        "prompt": "Under the quiet moonlit forest, moonlight filtered through the intertwined branches like sheer gauze, casting fragmented patches of light across the clearing. A human girl in a worn dress stood barefoot at the clearing's center, gazing up at the moon with eyes brimming with anticipation yet tinged with unease. The brightest beam of moonlight enveloped her precisely. Her body began to emit a soft white glow, her outline blurring. Her hair moved without wind, its ends growing transparent as if woven from light. Starting from her fingertips and toes. She possessed moon-white hair, pointed ears that twitched slightly, and eyes the amber hue of cat's eye stones. She wore a flowing gown adorned with fireflies, her body hovering slightly as her toes lightly touched the ground. She slowly turned to face the camera, a mysterious and gentle smile curving her lips. Finally, she dissolved into a swarm of dancing light butterflies, merging into the moonlit sky and vanishing from sight."
       },
       {
         "id": "anime-rose",
@@ -74,16 +74,16 @@
         "prompt": "An anime-style rose blooms before a rope bridge, with petals dancing in the air."
       },
       {
-        "id": "monkey-seagull",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
-        "alt": "Monkey and seagull dancing on moonlit beach",
-        "prompt": "A monkey and a seagull dance on a moonlit beach under a starry sky."
+        "id": "Time-lapse",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Time-lapse-photography.mp4",
+        "alt": "Withered flower reviving beneath crimson clouds",
+        "prompt": "A withered flower lies on the ground, faintly glowing beneath the crimson and scarlet clouds, exuding an aura of decay, longing, and fragile life. In time-lapse photography, the clouds drift and the flower gradually comes back to life."
       },
       {
-        "id": "monarch-butterfly",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
-        "alt": "Monarch butterfly fluttering wings on flowers",
-        "prompt": "A monarch butterfly flutters its wings on colorful flowers in a sunlit garden.",
+        "id": "Cosmic-Shuttle",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Cosmic-Shuttle.mp4",
+        "alt": "First-person plunge through a cosmic starfall",
+        "prompt": "First-person perspective, plummeting at high speed through a cosmic waterfall of stars, then lightning-fast reaching out to touch a planet, triggering an explosive white light. The camera plunges vertically at extreme speed, accompanied by intense jolts from the energy impact. Focus remains elusive as it rapidly shifts between the hand and the target planet, mostly blurred by motion. All stars stretch into sharp streaks of speed, and the moment of contact erupts with violent, fireworks-like particle effects and lens flares.",
         "isNew": true
       }
     ]

@@ -89,27 +89,27 @@
     "examples": [
       {
         "id": "anime-girl",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Anime-Girl-with-Braids.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Girl-Pokes-Camera.mp4",
-        "originalAlt": "Fille d'anime avec des tresses",
-        "videoAlt": "Fille d'anime sourit et touche la caméra",
-        "prompt": "La petite fille continue de sourire à la caméra et tapote l'objectif avec son doigt."
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Anime-Shooting.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Shooting.mp4",
+        "originalAlt": "Archère elfe en armure verte avec un arc long bandé",
+        "videoAlt": "Flèche verte lumineuse traversant une forêt ensoleillée",
+        "prompt": "Une archère elfe en armure verte, arc long bandé, affiche un sourire mystérieux. Ses cheveux dorés ondulent naturellement dans la brise. Un travelling vertical tourne derrière elle tandis qu’une flèche verte lumineuse est décochée en douceur. La caméra suit sa trajectoire à travers une forêt dense, la lumière du soleil filtrant entre les feuilles crée des taches de lumière dansantes. La prise de vue à l’épaule donne une sensation de poursuite dynamique."
       },
       {
-        "id": "t-rex",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Tyrannosaurus-Rex-in-Wilderness.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/TRex-Peeks-at-Camera.mp4",
-        "originalAlt": "Tyrannosaurus Rex dans la nature",
-        "videoAlt": "Tête de T-Rex sort de la caméra",
-        "prompt": "La tête du T-Rex sort de la caméra."
+        "id": "pastoral-boy",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.mp4",
+        "originalAlt": "Garçon dans un champ pastoral avec de la paille",
+        "videoAlt": "La caméra tourne autour d’un garçon tandis que la paille ondule au vent",
+        "prompt": "La caméra tourne autour du garçon dans le cadre, l’environnement alentour se déplace naturellement, la paille ondule au vent et le garçon regarde au loin."
       },
       {
-        "id": "mother-son",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Mother-Son-Walking-in-Park.mp4",
-        "originalAlt": "Mère et fils marchant dans le parc",
-        "videoAlt": "Mère marchant joyeusement avec son enfant",
-        "prompt": "Une mère marche joyeusement en tenant la main de son enfant."
+        "id": "Selfie-cat",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.mp4",
+        "originalAlt": "Chat pilotant un avion de chasse",
+        "videoAlt": "Chat pilote un avion de chasse dans le ciel",
+        "prompt": "Caméra à l'épaule, légèrement tremblante, le chat pilote un avion de chasse qui plane dans le ciel, la caméra est toujours placée devant le chat."
       },
       {
         "id": "motorcycle",
@@ -117,7 +117,8 @@
         "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
         "originalAlt": "Moto prête à accélérer",
         "videoAlt": "Moto accélère avec traînée lumineuse",
-        "prompt": "La moto accélère et le feu arrière se transforme en ligne."
+        "prompt": "La moto accélère et le feu arrière se transforme en ligne.",
+        "promptExpandable": false
       }
     ]
   },
@@ -127,10 +128,10 @@
     "cta": "Essayer Veo3 AI",
     "examples": [
       {
-        "id": "glass-strawberry",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
-        "alt": "Fraise en verre se brise lorsqu'elle est coupée",
-        "prompt": "Une fraise en verre se brise lorsqu'elle est coupée avec un couteau sur une planche en bois."
+        "id": "Spirit-Transformation",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Spirit-Transformation.mp4",
+        "alt": "Transformation d’esprit au clair de lune",
+        "prompt": "Sous la forêt silencieuse au clair de lune, la lumière filtrée à travers les branches entremêlées, telle une gaze légère, projetait des taches fragmentées dans la clairière. Une jeune fille humaine, en robe usée, se tenait pieds nus au centre de la clairière, levant les yeux vers la lune avec une anticipation mêlée d’inquiétude. Le faisceau de lune le plus lumineux l’enveloppa précisément. Son corps commença à émettre une douce lueur blanche, ses contours se brouillèrent. Ses cheveux bougeaient sans vent, leurs extrémités devenant transparentes, comme tissées de lumière, en commençant par le bout de ses doigts et de ses orteils. Elle avait des cheveux blanc‑lune, des oreilles pointues qui frémissaient légèrement, et des yeux ambrés comme des pierres d’œil‑de‑chat. Elle portait une robe fluide ornée de lucioles, son corps flottait légèrement, ses orteils effleurant le sol. Elle se tourna lentement vers la caméra, un sourire mystérieux et doux aux lèvres. Enfin, elle se dissout en un essaim de papillons de lumière dansants, se fondant dans le ciel lunaire et disparaissant."
       },
       {
         "id": "anime-rose",
@@ -139,16 +140,16 @@
         "prompt": "Une rose de style anime fleurit devant un pont de corde, avec des pétales dansant dans l'air."
       },
       {
-        "id": "monkey-seagull",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
-        "alt": "Singe et mouette dansent sur une plage éclairée par la lune",
-        "prompt": "Un singe et une mouette dansent sur une plage éclairée par la lune sous un ciel étoilé."
+        "id": "Time-lapse",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Time-lapse-photography.mp4",
+        "alt": "Fleur fanée qui reprend vie sous des nuages cramoisis",
+        "prompt": "Une fleur fanée repose au sol, faiblement lumineuse sous des nuages cramoisis et écarlates, dégageant une aura de décomposition, de nostalgie et de vie fragile. En time-lapse, les nuages dérivent et la fleur revient peu à peu à la vie."
       },
       {
-        "id": "monarch-butterfly",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
-        "alt": "Papillon monarque bat des ailes sur des fleurs",
-        "prompt": "Un papillon monarque bat des ailes sur des fleurs colorées dans un jardin ensoleillé.",
+        "id": "Cosmic-Shuttle",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Cosmic-Shuttle.mp4",
+        "alt": "Plongée à la première personne dans une cascade cosmique d’étoiles",
+        "prompt": "Vue à la première personne, chute à grande vitesse à travers une cascade cosmique d’étoiles, puis la main se tend à toute vitesse pour toucher une planète, déclenchant une explosion de lumière blanche. La caméra plonge verticalement à une vitesse extrême, avec de violentes secousses dues à l’impact d’énergie. La mise au point reste insaisissable, passant rapidement de la main à la planète, la plupart du temps floutée par le mouvement. Toutes les étoiles s’étirent en traînées de vitesse nettes, et l’instant du contact éclate en particules façon feux d’artifice et en lens flares.",
         "isNew": true
       }
     ]

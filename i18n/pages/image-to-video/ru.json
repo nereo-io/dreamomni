@@ -68,27 +68,27 @@
     "examples": [
       {
         "id": "anime-girl",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Anime-Girl-with-Braids.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Girl-Pokes-Camera.mp4",
-        "originalAlt": "Девочка-аниме с косичками",
-        "videoAlt": "Девочка-аниме улыбается и тыкает в камеру",
-        "prompt": "Маленькая девочка продолжает улыбаться в камеру и тыкает пальцем в объектив."
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Anime-Shooting.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Shooting.mp4",
+        "originalAlt": "Эльфийская лучница в зелёной броне с натянутым длинным луком",
+        "videoAlt": "Зелёная светящаяся стрела летит через залитый солнцем лес",
+        "prompt": "Эльфийская лучница в зелёной броне, с натянутым длинным луком, улыбается загадочно. Её золотые волосы естественно колышутся на ветру. Вертикальный трекинговый кадр обходит её сзади, когда плавно выпускается зелёная светящаяся стрела. Камера следует за её траекторией через густой лес, солнечный свет просачивается сквозь листья и создаёт танцующие пятна света. Съёмка с рук создаёт динамичное ощущение преследования."
       },
       {
-        "id": "t-rex",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Tyrannosaurus-Rex-in-Wilderness.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/TRex-Peeks-at-Camera.mp4",
-        "originalAlt": "Тираннозавр Рекс в дикой природе",
-        "videoAlt": "Голова Т-Рекса выглядывает из камеры",
-        "prompt": "Голова Т-Рекса выглядывает из камеры."
+        "id": "pastoral-boy",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.mp4",
+        "originalAlt": "Мальчик на пасторальном поле со соломой",
+        "videoAlt": "Камера обходит мальчика, солома колышется на ветру",
+        "prompt": "Камера обходит мальчика в кадре, окружающая среда естественно движется, солома колышется на ветру, а мальчик смотрит вдаль."
       },
       {
-        "id": "mother-son",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Mother-Son-Walking-in-Park.mp4",
-        "originalAlt": "Мать и сын гуляют в парке",
-        "videoAlt": "Мать счастливо идет с ребенком",
-        "prompt": "Мать счастливо идет, держа ребенка за руку."
+        "id": "Selfie-cat",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.mp4",
+        "originalAlt": "Кот, управляющий истребителем",
+        "videoAlt": "Кот летит на истребителе по небу",
+        "prompt": "Съёмка с рук, слегка дрожащая, кот пилотирует истребитель, парящий в небе, камера всегда расположена перед котом."
       },
       {
         "id": "motorcycle",
@@ -96,7 +96,8 @@
         "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
         "originalAlt": "Мотоцикл готов к ускорению",
         "videoAlt": "Мотоцикл несется со световым следом",
-        "prompt": "Мотоцикл несется, а задний свет превращается в линию."
+        "prompt": "Мотоцикл несется, а задний свет превращается в линию.",
+        "promptExpandable": false
       }
     ]
   },

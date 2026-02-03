@@ -89,27 +89,27 @@
     "examples": [
       {
         "id": "anime-girl",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Anime-Girl-with-Braids.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Girl-Pokes-Camera.mp4",
-        "originalAlt": "Девушка аниме с косичками",
-        "videoAlt": "Девушка аниме улыбается и тычет в камеру",
-        "prompt": "Маленькая девочка продолжает улыбаться в камеру и тычет пальцем в объектив."
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Anime-Shooting.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Shooting.mp4",
+        "originalAlt": "Эльфийская лучница в зелёной броне с натянутым длинным луком",
+        "videoAlt": "Зелёная светящаяся стрела летит через залитый солнцем лес",
+        "prompt": "Эльфийская лучница в зелёной броне, с натянутым длинным луком, улыбается загадочно. Её золотые волосы естественно колышутся на ветру. Вертикальный трекинговый кадр обходит её сзади, когда плавно выпускается зелёная светящаяся стрела. Камера следует за её траекторией через густой лес, солнечный свет просачивается сквозь листья и создаёт танцующие пятна света. Съёмка с рук создаёт динамичное ощущение преследования."
       },
       {
-        "id": "t-rex",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Tyrannosaurus-Rex-in-Wilderness.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/TRex-Peeks-at-Camera.mp4",
-        "originalAlt": "Тираннозавр Рекс в дикой природе",
-        "videoAlt": "Голова Ти-Рекса выглядывает из камеры",
-        "prompt": "Голова Ти-Рекса выглядывает из камеры."
+        "id": "pastoral-boy",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.mp4",
+        "originalAlt": "Мальчик на пасторальном поле со соломой",
+        "videoAlt": "Камера обходит мальчика, солома колышется на ветру",
+        "prompt": "Камера обходит мальчика в кадре, окружающая среда естественно движется, солома колышется на ветру, а мальчик смотрит вдаль."
       },
       {
-        "id": "mother-son",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Mother-Son-Walking-in-Park.mp4",
-        "originalAlt": "Мать и сын гуляют в парке",
-        "videoAlt": "Мать счастливо идет с ребенком",
-        "prompt": "Мать счастливо идет, держа ребенка за руку."
+        "id": "Selfie-cat",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.mp4",
+        "originalAlt": "Кот, управляющий истребителем",
+        "videoAlt": "Кот летит на истребителе по небу",
+        "prompt": "Съёмка с рук, слегка дрожащая, кот пилотирует истребитель, парящий в небе, камера всегда расположена перед котом."
       },
       {
         "id": "motorcycle",
@@ -117,7 +117,8 @@
         "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
         "originalAlt": "Мотоцикл готов к скорости",
         "videoAlt": "Мотоцикл мчится со световым следом",
-        "prompt": "Мотоцикл мчится, а задний фонарь превращается в линию."
+        "prompt": "Мотоцикл мчится, а задний фонарь превращается в линию.",
+        "promptExpandable": false
       }
     ]
   },
@@ -127,10 +128,10 @@
     "cta": "Попробовать Veo3 AI",
     "examples": [
       {
-        "id": "glass-strawberry",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
-        "alt": "Стеклянная клубника разбивается при нарезке",
-        "prompt": "Стеклянная клубника разбивается при нарезке ножом на деревянной доске."
+        "id": "Spirit-Transformation",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Spirit-Transformation.mp4",
+        "alt": "Духовное превращение в лунном лесу",
+        "prompt": "Под тихим лунным лесом лунный свет, просачиваясь сквозь переплетенные ветви словно тонкая вуаль, разбрасывал по поляне рваные пятна света. Человеческая девушка в поношенном платье стояла босиком в центре поляны, глядя на луну с глазами, полными ожидания и легкой тревоги. Самый яркий луч лунного света точно накрыл ее. Ее тело начало излучать мягкое белое сияние, контуры расплывались. Ее волосы шевелились без ветра, их кончики становились прозрачными, будто сотканными из света, начиная с кончиков пальцев рук и ног. У нее были лунно-белые волосы, слегка подрагивающие заостренные уши и глаза янтарного оттенка, как камни «кошачий глаз». На ней было струящееся платье, украшенное светлячками, ее тело слегка парило, а пальцы ног едва касались земли. Она медленно повернулась к камере, и на губах появилась загадочная и мягкая улыбка. Наконец она растворилась в рое танцующих световых бабочек, слившись с лунным небом и исчезнув."
       },
       {
         "id": "anime-rose",
@@ -139,16 +140,16 @@
         "prompt": "Роза в стиле аниме расцветает перед веревочным мостом, лепестки танцуют в воздухе."
       },
       {
-        "id": "monkey-seagull",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
-        "alt": "Обезьяна и чайка танцуют на пляже в лунном свете",
-        "prompt": "Обезьяна и чайка танцуют на пляже в лунном свете под звездным небом."
+        "id": "Time-lapse",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Time-lapse-photography.mp4",
+        "alt": "Увядший цветок оживает под багровыми облаками",
+        "prompt": "Увядший цветок лежит на земле, едва светясь под багровыми и алыми облаками, излучая ауру распада, тоски и хрупкой жизни. В таймлапсе облака плывут, и цветок постепенно возвращается к жизни."
       },
       {
-        "id": "monarch-butterfly",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
-        "alt": "Бабочка-монарх машет крыльями на цветах",
-        "prompt": "Бабочка-монарх машет крыльями на разноцветных цветах в солнечном саду.",
+        "id": "Cosmic-Shuttle",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Cosmic-Shuttle.mp4",
+        "alt": "Падение сквозь космический звездопад от первого лица",
+        "prompt": "Вид от первого лица: стремительное падение через космический водопад звезд, затем молниеносно вытянутая рука касается планеты, вызывая взрыв ослепительно белого света. Камера падает вертикально с экстремальной скоростью, сопровождаемой сильными толчками от энергетического удара. Фокус постоянно ускользает, быстро перескакивая между рукой и целевой планетой, и почти все размыто движением. Все звезды вытягиваются в резкие полосы скорости, а момент касания взрывается жесткими фейерверкоподобными частицами и бликами объектива.",
         "isNew": true
       }
     ]

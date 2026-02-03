@@ -89,27 +89,27 @@
     "examples": [
       {
         "id": "anime-girl",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Anime-Girl-with-Braids.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Girl-Pokes-Camera.mp4",
-        "originalAlt": "Anime girl with braids",
-        "videoAlt": "Anime girl smiling and poking camera",
-        "prompt": "The little girl keeps smiling at the camera and pokes the lens with her finger."
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Anime-Shooting.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Shooting.mp4",
+        "originalAlt": "Elven archer in green armor with a drawn longbow",
+        "videoAlt": "Green-glowing arrow flying through a sunlit forest",
+        "prompt": "An elven archer in green armor, longbow drawn, wears a mysterious smile. Her golden hair sways naturally in the breeze. A vertical tracking shot circles behind her as a green-glowing arrow launches smoothly. The camera follows its trajectory through dense forest, sunlight filtering through leaves to create dancing patches of light. The handheld shot creates a dynamic sense of pursuit."
       },
       {
-        "id": "t-rex",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Tyrannosaurus-Rex-in-Wilderness.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/TRex-Peeks-at-Camera.mp4",
-        "originalAlt": "Tyrannosaurus Rex in wilderness",
-        "videoAlt": "T-Rex head peeking out of camera",
-        "prompt": "The T-Rex's head pokes out of the camera."
+        "id": "pastoral-boy",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.mp4",
+        "originalAlt": "Boy in a pastoral field with straw",
+        "videoAlt": "Camera pans around a boy as straw sways in the wind",
+        "prompt": "The camera pans around the boy in the frame, the surrounding environment moves naturally, the straw sways in the wind, and the boy gazes into the distance."
       },
       {
-        "id": "mother-son",
-        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Mother-and-Son-Walking-in-Park.png",
-        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Mother-Son-Walking-in-Park.mp4",
-        "originalAlt": "Mother and son walking in park",
-        "videoAlt": "Mother walking happily with child",
-        "prompt": "A mother walks happily holding her child's hand."
+        "id": "Selfie-cat",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.mp4",
+        "originalAlt": "Cat piloting a fighter jet",
+        "videoAlt": "Cat piloting a fighter jet in the sky",
+        "prompt": "Handheld camera, slightly shaky, the cat pilots a fighter jet soaring through the sky, the camera always positioned in front of the cat."
       },
       {
         "id": "motorcycle",
@@ -117,7 +117,8 @@
         "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
         "originalAlt": "Motorcycle ready to speed",
         "videoAlt": "Motorcycle speeding with light trail",
-        "prompt": "The motorcycle is speeding, and the tail light turns into a line."
+        "prompt": "The motorcycle is speeding, and the tail light turns into a line.",
+        "promptExpandable": false
       }
     ]
   },
@@ -127,10 +128,10 @@
     "cta": "Try Veo3 AI",
     "examples": [
       {
-        "id": "glass-strawberry",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
-        "alt": "Glass strawberry shattering when sliced",
-        "prompt": "A glass strawberry shatters when sliced with a knife on a wooden board."
+        "id": "Spirit-Transformation",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Spirit-Transformation.mp4",
+        "alt": "Moonlit forest spirit transformation",
+        "prompt": "Under the quiet moonlit forest, moonlight filtered through the intertwined branches like sheer gauze, casting fragmented patches of light across the clearing. A human girl in a worn dress stood barefoot at the clearing's center, gazing up at the moon with eyes brimming with anticipation yet tinged with unease. The brightest beam of moonlight enveloped her precisely. Her body began to emit a soft white glow, her outline blurring. Her hair moved without wind, its ends growing transparent as if woven from light. Starting from her fingertips and toes. She possessed moon-white hair, pointed ears that twitched slightly, and eyes the amber hue of cat's eye stones. She wore a flowing gown adorned with fireflies, her body hovering slightly as her toes lightly touched the ground. She slowly turned to face the camera, a mysterious and gentle smile curving her lips. Finally, she dissolved into a swarm of dancing light butterflies, merging into the moonlit sky and vanishing from sight."
       },
       {
         "id": "anime-rose",
@@ -139,16 +140,16 @@
         "prompt": "An anime-style rose blooms before a rope bridge, with petals dancing in the air."
       },
       {
-        "id": "monkey-seagull",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
-        "alt": "Monkey and seagull dancing on moonlit beach",
-        "prompt": "A monkey and a seagull dance on a moonlit beach under a starry sky."
+        "id": "Time-lapse",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Time-lapse-photography.mp4",
+        "alt": "Withered flower reviving beneath crimson clouds",
+        "prompt": "A withered flower lies on the ground, faintly glowing beneath the crimson and scarlet clouds, exuding an aura of decay, longing, and fragile life. In time-lapse photography, the clouds drift and the flower gradually comes back to life."
       },
       {
-        "id": "monarch-butterfly",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
-        "alt": "Monarch butterfly fluttering wings on flowers",
-        "prompt": "A monarch butterfly flutters its wings on colorful flowers in a sunlit garden.",
+        "id": "Cosmic-Shuttle",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Cosmic-Shuttle.mp4",
+        "alt": "First-person plunge through a cosmic starfall",
+        "prompt": "First-person perspective, plummeting at high speed through a cosmic waterfall of stars, then lightning-fast reaching out to touch a planet, triggering an explosive white light. The camera plunges vertically at extreme speed, accompanied by intense jolts from the energy impact. Focus remains elusive as it rapidly shifts between the hand and the target planet, mostly blurred by motion. All stars stretch into sharp streaks of speed, and the moment of contact erupts with violent, fireworks-like particle effects and lens flares.",
         "isNew": true
       }
     ]
