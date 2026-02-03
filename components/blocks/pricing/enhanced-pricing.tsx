@@ -256,10 +256,15 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
       setBundleLoading(true);
 
+      // Generate product name based on user region
+      const productName = isRussia
+        ? `Veo3 AI Пакет ${bundle.credits} кредитов`
+        : bundle.name;
+
       // Build payment params for bundle
       const params = {
         product_id: bundle.id,
-        product_name: bundle.name,
+        product_name: productName,
         credits: bundle.credits,
         interval: "one-time",
         amount: bundle.amount,
@@ -276,7 +281,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       localStorage.setItem(
         "veo3_payment_info",
         JSON.stringify({
-          planName: bundle.name,
+          planName: productName,
           credits: bundle.credits,
           timestamp: paymentTimestamp,
         })

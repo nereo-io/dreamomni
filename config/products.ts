@@ -152,7 +152,7 @@ export interface BundleProductConfig {
 export const BUNDLE_CONFIGS: BundleProductConfig[] = [
   {
     product_id: "bundle-20",
-    product_name: "Veo3 AI Credits Pack",
+    product_name: "Veo3 AI 200 Credits Pack",
     amount: 2000, // $20
     currency: "USD",
     credits: 200,
@@ -162,7 +162,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
   },
   {
     product_id: "bundle-40",
-    product_name: "Veo3 AI Credits Pack",
+    product_name: "Veo3 AI 400 Credits Pack",
     amount: 4000, // $40
     currency: "USD",
     credits: 400,
@@ -172,7 +172,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
   },
   {
     product_id: "bundle-60",
-    product_name: "Veo3 AI Credits Pack",
+    product_name: "Veo3 AI 600 Credits Pack",
     amount: 6000, // $60
     currency: "USD",
     credits: 600,
@@ -182,7 +182,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
   },
   {
     product_id: "bundle-100",
-    product_name: "Veo3 AI Credits Pack",
+    product_name: "Veo3 AI 1000 Credits Pack",
     amount: 10000, // $100
     currency: "USD",
     credits: 1000,
@@ -192,7 +192,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
   },
   {
     product_id: "bundle-200",
-    product_name: "Veo3 AI Credits Pack",
+    product_name: "Veo3 AI 2000 Credits Pack",
     amount: 20000, // $200
     currency: "USD",
     credits: 2000,
