@@ -46,6 +46,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   const { trackPricingView, trackCheckoutStart, trackPayment } =
     useYandexTracking();
   const t = useTranslations("creditsBundle");
+  const tPricing = useTranslations("pricing_modal");
   const {
     subscriptionState,
     isLoading: subscriptionLoading,
@@ -818,17 +819,17 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-center">
               <span className="text-2xl">🎉</span>
-              Payment Successful!
+              {tPricing("payment_successful")}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="text-center space-y-2">
               <p className="text-lg font-semibold text-green-600">
-                {successInfo.planName} Activated
+                {successInfo.planName} {tPricing("plan_activated")}
               </p>
               {successInfo.credits && successInfo.credits > 0 && (
                 <p className="text-sm text-muted-foreground">
-                  {successInfo.credits} credits added to your account
+                  {successInfo.credits} {tPricing("credits_added")}
                 </p>
               )}
               {/* {successInfo.nextBilling && (
@@ -845,7 +846,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                   window.location.reload(); // 刷新页面显示最新状态
                 }}
               >
-                Continue
+                {tPricing("continue")}
               </Button>
               <Button
                 variant="outline"
@@ -855,7 +856,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                   window.location.href = "/"; // 跳转到首页开始使用
                 }}
               >
-                Start Creating
+                {tPricing("start_creating")}
               </Button>
             </div>
           </div>
