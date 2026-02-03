@@ -26,7 +26,6 @@ import {
 import { useTranslations } from "next-intl";
 import HighlightFeature from "./highlight-feature";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
-import MembershipExistsModal from "@/components/ui/membership-exists-modal";
 
 interface PricingModalProps {
   isOpen: boolean;
@@ -39,8 +38,8 @@ export default function PricingModal({
   onClose,
   pricing,
 }: PricingModalProps) {
-  const { user, setShowSignModal, membership } = useAppContext();
-  const { location, loading: locationLoading, isRussia } = useGeolocation();
+  const { user, setShowSignModal } = useAppContext();
+  const { loading: locationLoading, isRussia } = useGeolocation();
   const t = useTranslations("pricing_modal");
   const { trackPricingView, trackCheckoutStart } = useYandexTracking();
 
@@ -54,8 +53,6 @@ export default function PricingModal({
   const [selectedProvider, setSelectedProvider] = useState("");
   const [hasUserSelectedGroup, setHasUserSelectedGroup] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showMembershipModal, setShowMembershipModal] = useState(false);
-  const [pendingCheckoutItem, setPendingCheckoutItem] = useState<PricingItem | null>(null);
   const [successInfo, setSuccessInfo] = useState<{
     planName?: string;
     credits?: number;
@@ -228,18 +225,10 @@ export default function PricingModal({
     };
   }, [isOpen, checkRecentPayment]);
 
-  const handleCheckout = async (item: PricingItem, cn_pay: boolean = false, skipMembershipCheck: boolean = false) => {
+  const handleCheckout = async (item: PricingItem, cn_pay: boolean = false) => {
     try {
       if (!user) {
         setShowSignModal(true);
-        return;
-      }
-
-      // Check if user is already a member (unless explicitly skipping this check)
-      if (!skipMembershipCheck && membership && membership.status === 'active') {
-        // Store the item for potential retry after membership modal
-        setPendingCheckoutItem(item);
-        setShowMembershipModal(true);
         return;
       }
 
@@ -754,30 +743,6 @@ export default function PricingModal({
           </DialogContent>
       </Dialog>
 
-      {/* 确保会员弹窗不受 pricing-modal 影响 */}
-      {showMembershipModal && (
-        <div className="fixed inset-0 z-[100]">
-          <MembershipExistsModal
-            isOpen={showMembershipModal}
-            onClose={() => {
-              setShowMembershipModal(false);
-              setPendingCheckoutItem(null);
-            }}
-            onViewSubscription={() => {
-              onClose();
-              window.location.href = '/membership';
-            }}
-            onContinuePurchase={() => {
-              setShowMembershipModal(false);
-              // Continue with the checkout that was interrupted
-              if (pendingCheckoutItem) {
-                handleCheckout(pendingCheckoutItem, false, true);
-                setPendingCheckoutItem(null);
-              }
-            }}
-          />
-        </div>
-      )}
     </>
   );
 }

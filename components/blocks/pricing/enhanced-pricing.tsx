@@ -26,7 +26,6 @@ import {
 } from "@/lib/payment-methods";
 import HighlightFeature from "./highlight-feature";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
-import MembershipExistsModal from "@/components/ui/membership-exists-modal";
 import CreditsBundleModal, {
   BundleItem,
 } from "@/components/ui/credits-bundle-modal";
@@ -42,7 +41,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     return null;
   }
 
-  const { user, setShowSignModal, membership } = useAppContext();
+  const { user, setShowSignModal } = useAppContext();
   const { loading: locationLoading, isRussia } = useGeolocation();
   const { trackPricingView, trackCheckoutStart, trackPayment } =
     useYandexTracking();
@@ -65,10 +64,8 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [selectedProvider, setSelectedProvider] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showMembershipModal, setShowMembershipModal] = useState(false);
   const [showBundleModal, setShowBundleModal] = useState(false);
   const [bundleLoading, setBundleLoading] = useState(false);
-  const [pendingCheckoutItem, setPendingCheckoutItem] = useState<PricingItem | null>(null);
   const [successInfo, setSuccessInfo] = useState<{
     planName?: string;
     credits?: number;
@@ -222,18 +219,10 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     };
   }, [checkRecentPayment]);
 
-  const handleCheckout = async (item: PricingItem, cn_pay: boolean = false, skipMembershipCheck: boolean = false) => {
+  const handleCheckout = async (item: PricingItem, cn_pay: boolean = false) => {
     try {
       if (!user) {
         setShowSignModal(true);
-        return;
-      }
-
-      // Check if user is already a member (unless explicitly skipping this check)
-      if (!skipMembershipCheck && membership && membership.status === 'active') {
-        // Store the item for potential retry after membership modal
-        setPendingCheckoutItem(item);
-        setShowMembershipModal(true);
         return;
       }
 
@@ -867,27 +856,6 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
           </div>
         </DialogContent>
       </Dialog>
-
-      {/* 确保会员弹窗不受父容器影响 */}
-      {showMembershipModal && (
-        <div className="fixed inset-0 z-[100]">
-          <MembershipExistsModal
-            isOpen={showMembershipModal}
-            onClose={() => {
-              setShowMembershipModal(false);
-              setPendingCheckoutItem(null);
-            }}
-            onContinuePurchase={() => {
-              setShowMembershipModal(false);
-              // Continue with the checkout that was interrupted
-              if (pendingCheckoutItem) {
-                handleCheckout(pendingCheckoutItem, false, true);
-                setPendingCheckoutItem(null);
-              }
-            }}
-          />
-        </div>
-      )}
 
       {/* Credits Bundle Modal */}
       <CreditsBundleModal
