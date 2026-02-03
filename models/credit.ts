@@ -68,6 +68,26 @@ export async function findCreditByOrderNoAndPaymentId(
   return data;
 }
 
+export async function findOrderPayCreditByOrderNo(
+  order_no: string
+): Promise<Credit | undefined> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("credits")
+    .select("*")
+    .eq("order_no", order_no)
+    .eq("trans_type", "order_pay")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .single();
+
+  if (error) {
+    return undefined;
+  }
+
+  return data;
+}
+
 export async function getUserValidCredits(
   user_uuid: string
 ): Promise<Credit[] | undefined> {

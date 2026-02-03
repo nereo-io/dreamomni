@@ -28,6 +28,32 @@ function logError(message: string, data?: any) {
   );
 }
 
+function resolveCheckoutPaymentId(checkoutObject: any): {
+  paymentId?: string;
+  source?: string;
+} {
+  const order = checkoutObject?.order;
+  if (order?.transaction) {
+    return { paymentId: order.transaction, source: "order.transaction" };
+  }
+  if (order?.id) {
+    return { paymentId: order.id, source: "order.id" };
+  }
+  if (checkoutObject?.id) {
+    return { paymentId: checkoutObject.id, source: "checkout.id" };
+  }
+  if (checkoutObject?.request_id) {
+    return { paymentId: checkoutObject.request_id, source: "request_id" };
+  }
+  return {};
+}
+
+async function hasOrderPayCredit(orderNo: string): Promise<boolean> {
+  const { findOrderPayCreditByOrderNo } = await import("@/models/credit");
+  const credit = await findOrderPayCreditByOrderNo(orderNo);
+  return !!credit;
+}
+
 /**
  * 验证 Creem webhook 签名
  */
@@ -124,13 +150,15 @@ async function handleCheckoutCompleted(webhookData: any) {
     const customer = checkoutObject?.customer;
 
     // 使用 transaction ID 作为唯一支付标识（与续费逻辑保持一致）
-    const transactionId = order?.transaction;
+    // 如果缺失，则按顺序 fallback 到 order.id / checkout.id / request_id
+    const { paymentId: transactionId, source: paymentIdSource } =
+      resolveCheckoutPaymentId(checkoutObject);
 
     if (!transactionId) {
-      logError("❌ Missing transaction ID", {
+      logError("❌ Missing payment identifier in checkout payload", {
         checkoutId,
         hasOrder: !!order,
-        webhookData
+        webhookData,
       });
       return;
     }
@@ -138,6 +166,7 @@ async function handleCheckoutCompleted(webhookData: any) {
     logInfo("🛒 Processing first-time checkout", {
       checkoutId,
       transactionId,
+      paymentIdSource,
       eventId: webhookData.id,
     });
 
@@ -171,68 +200,86 @@ async function handleCheckoutCompleted(webhookData: any) {
       return;
     }
 
-    // 幂等性检查 - 使用 transactionId 作为 payment_id
-    const isProcessed =
-      await PaymentProcessingService.checkPaymentAlreadyProcessed(
-        orderNo,
-        transactionId
-      );
+    let shouldProcessPayment = true;
 
-    if (isProcessed) {
-      logInfo("⚠️ Webhook already processed, skipping", {
+    const alreadyCredited = await hasOrderPayCredit(orderNo);
+    if (alreadyCredited) {
+      shouldProcessPayment = false;
+      logInfo("⚠️ Order already credited, skip payment processing", {
         transactionId,
+        paymentIdSource,
         checkoutId,
         orderNo,
-        eventType: webhookData.eventType,
         eventId: webhookData.id,
       });
-      return;
+    } else {
+      // 幂等性检查 - 使用 orderNo + transactionId 组合
+      const isProcessed =
+        await PaymentProcessingService.checkPaymentAlreadyProcessed(
+          orderNo,
+          transactionId
+        );
+
+      if (isProcessed) {
+        shouldProcessPayment = false;
+        logInfo("⚠️ Webhook already processed, skipping payment processing", {
+          transactionId,
+          paymentIdSource,
+          checkoutId,
+          orderNo,
+          eventType: webhookData.eventType,
+          eventId: webhookData.id,
+        });
+      }
     }
 
-    // 首次订阅：更新原订单的 payment_id
-    const { updateOrderPaymentId } = await import("@/models/order");
-    await updateOrderPaymentId(orderNo, transactionId);
+    if (shouldProcessPayment) {
+      // 首次订阅：更新原订单的 payment_id
+      const { updateOrderPaymentId } = await import("@/models/order");
+      await updateOrderPaymentId(orderNo, transactionId);
 
-    logInfo("✅ 首次购买订单 payment_id 已更新", {
-      orderNo,
-      paymentId: transactionId,
-      checkoutId,
-    });
+      logInfo("✅ 首次购买订单 payment_id 已更新", {
+        orderNo,
+        paymentId: transactionId,
+        paymentIdSource,
+        checkoutId,
+      });
 
-    // 使用 PaymentProcessingService 处理支付
-    const processingResult = await PaymentProcessingService.processPayment({
-      paymentId: transactionId,
-      orderId: orderNo,
-      userUuid,
-      amount: productConfig.amount.toString(),
-      userEmail: userEmail || customer?.email || "",
-      metadata: {
-        credits: productConfig.credits,
-        product_id: productId,
-        product_name: productConfig.product_name,
-        interval: productConfig.interval,
-        membershipType: productConfig.membershipType,
-        valid_months: productConfig.valid_months,
-      },
-    });
+      // 使用 PaymentProcessingService 处理支付
+      const processingResult = await PaymentProcessingService.processPayment({
+        paymentId: transactionId,
+        orderId: orderNo,
+        userUuid,
+        amount: productConfig.amount.toString(),
+        userEmail: userEmail || customer?.email || "",
+        metadata: {
+          credits: productConfig.credits,
+          product_id: productId,
+          product_name: productConfig.product_name,
+          interval: productConfig.interval,
+          membershipType: productConfig.membershipType,
+          valid_months: productConfig.valid_months,
+        },
+      });
 
-    if (!processingResult.success) {
-      logError("❌ Payment processing failed", {
+      if (!processingResult.success) {
+        logError("❌ Payment processing failed", {
+          transactionId,
+          checkoutId,
+          orderNo,
+          error: processingResult.error,
+        });
+        return;
+      }
+
+      logInfo("✅ Payment processed successfully", {
         transactionId,
         checkoutId,
         orderNo,
-        error: processingResult.error,
+        creditsAwarded: processingResult.creditsAwarded,
+        membershipUpdated: processingResult.membershipUpdated,
       });
-      return;
     }
-
-    logInfo("✅ Payment processed successfully", {
-      transactionId,
-      checkoutId,
-      orderNo,
-      creditsAwarded: processingResult.creditsAwarded,
-      membershipUpdated: processingResult.membershipUpdated,
-    });
 
     // 创建或更新 Creem 订阅记录
     try {
@@ -382,14 +429,176 @@ async function handleSubscriptionPaid(webhookData: any) {
       : null;
 
     if (!existingSubscription) {
-      // 首次订阅：订阅记录不存在，跳过 subscription.paid 处理
-      // Creem 首次订阅时会同时发送 checkout.completed 和 subscription.paid
-      // 应该让 checkout.completed 处理首次订阅
-      logInfo("ℹ️ 首次订阅的 subscription.paid 事件，跳过处理（由 checkout.completed 处理）", {
-        subscriptionId,
+      if (!originalOrderNo) {
+        logError("❌ Missing original order_no in subscription.paid metadata", {
+          subscriptionId,
+          transactionId,
+          metadata,
+        });
+        return;
+      }
+
+      const alreadyCredited = await hasOrderPayCredit(originalOrderNo);
+      if (alreadyCredited) {
+        logInfo(
+          "ℹ️ Order already credited; creating subscription record only",
+          {
+            subscriptionId,
+            transactionId,
+            originalOrderNo,
+          }
+        );
+
+        try {
+          if (subscriptionId) {
+            const existingById = await findCreemSubscriptionByCreemId(
+              subscriptionId
+            );
+            if (!existingById) {
+              await createCreemSubscription({
+                user_uuid: userUuid,
+                creem_subscription_id: subscriptionId,
+                creem_customer_id: subscriptionObject?.customer,
+                plan_type:
+                  productConfig.interval === "month" ? "monthly" : "yearly",
+                amount: productConfig.amount,
+                currency: productConfig.currency,
+                status: subscriptionObject?.status || "active",
+                current_period_start:
+                  subscriptionObject?.current_period_start_date,
+                current_period_end:
+                  subscriptionObject?.current_period_end_date,
+                product_name: productConfig.product_name,
+                product_id: productConfig.product_id,
+                creem_product_id: subscriptionObject?.product,
+                checkout_id: undefined,
+              });
+              logInfo("✅ Creem subscription record created (paid already)", {
+                subscriptionId,
+                userUuid,
+                productName: productConfig.product_name,
+              });
+            }
+          }
+        } catch (subscriptionError: any) {
+          logError(
+            "⚠️ Failed to create subscription record (paid already)",
+            subscriptionError.message
+          );
+        }
+        return;
+      }
+
+      // 首次订阅：订阅记录不存在，可能是 checkout.completed 缺 transactionId
+      logInfo(
+        "🧩 Missing subscription record, processing first payment via subscription.paid",
+        {
+          subscriptionId,
+          transactionId,
+          originalOrderNo,
+        }
+      );
+
+      // 更新原订单的 payment_id
+      const { updateOrderPaymentId } = await import("@/models/order");
+      await updateOrderPaymentId(originalOrderNo, transactionId);
+
+      // 使用 PaymentProcessingService 处理首次支付
+      const processingResult = await PaymentProcessingService.processPayment({
+        paymentId: transactionId,
+        orderId: originalOrderNo,
+        userUuid,
+        amount: productConfig.amount.toString(),
+        userEmail: userEmail || customer?.email || "",
+        metadata: {
+          credits: productConfig.credits,
+          product_id: productId,
+          product_name: productConfig.product_name,
+          interval: productConfig.interval,
+          membershipType: productConfig.membershipType,
+          valid_months: productConfig.valid_months,
+        },
+      });
+
+      if (!processingResult.success) {
+        logError("❌ First payment processing failed via subscription.paid", {
+          transactionId,
+          originalOrderNo,
+          error: processingResult.error,
+        });
+        return;
+      }
+
+      logInfo("✅ First payment processed via subscription.paid", {
         transactionId,
         originalOrderNo,
+        creditsAwarded: processingResult.creditsAwarded,
+        membershipUpdated: processingResult.membershipUpdated,
       });
+
+      // 创建或更新 Creem 订阅记录
+      try {
+        if (subscriptionId) {
+          const existingById = await findCreemSubscriptionByCreemId(
+            subscriptionId
+          );
+          if (!existingById) {
+            await createCreemSubscription({
+              user_uuid: userUuid,
+              creem_subscription_id: subscriptionId,
+              creem_customer_id: subscriptionObject?.customer,
+              plan_type:
+                productConfig.interval === "month" ? "monthly" : "yearly",
+              amount: productConfig.amount,
+              currency: productConfig.currency,
+              status: subscriptionObject?.status || "active",
+              current_period_start:
+                subscriptionObject?.current_period_start_date,
+              current_period_end: subscriptionObject?.current_period_end_date,
+              product_name: productConfig.product_name,
+              product_id: productConfig.product_id,
+              creem_product_id: subscriptionObject?.product,
+              checkout_id: undefined,
+            });
+            logInfo("✅ Creem subscription record created", {
+              subscriptionId,
+              userUuid,
+              productName: productConfig.product_name,
+            });
+          }
+        }
+      } catch (subscriptionError: any) {
+        logError(
+          "⚠️ Failed to create subscription record",
+          subscriptionError.message
+        );
+      }
+
+      // Track offline conversion for Yandex Metrica
+      try {
+        const orderData = await findOrderByOrderNo(originalOrderNo);
+        if (orderData?.client_id) {
+          const success = await offlineConversionService.trackPaymentSuccess(
+            orderData.client_id,
+            originalOrderNo,
+            orderData.amount / 100
+          );
+
+          if (success) {
+            logInfo("✅ Offline conversion tracked for Yandex Metrica", {
+              clientId: orderData.client_id,
+              originalOrderNo,
+              amount: orderData.amount / 100,
+            });
+          }
+        }
+      } catch (conversionError: any) {
+        logError(
+          "⚠️ Failed to track offline conversion",
+          conversionError.message
+        );
+      }
+
       return;
     }
 
