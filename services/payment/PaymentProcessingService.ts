@@ -90,7 +90,7 @@ export class PaymentProcessingService {
 
   /**
    * 处理支付的核心业务逻辑
-   * 包括：增加积分、更新会员、更新订单状态
+   * 包括：增加积分、更新会员（仅订阅）、更新订单状态
    */
   private static async processPaymentCore(
     data: PaymentData,
@@ -101,16 +101,24 @@ export class PaymentProcessingService {
     // 从 metadata 或 order 中获取数据
     const credits = data.metadata?.credits || order.credits || 0;
     const interval = data.metadata?.interval || order.interval;
+    const isBundle = interval === "one-time";
     const membershipType: "monthly" | "yearly" =
       interval === "year" ? "yearly" : "monthly";
 
     // 1. 增加积分
     if (credits > 0) {
       const { increaseCredits } = await import("@/services/credit");
-      
-      // 根据订阅类型计算新的有效期
+
+      // 根据类型计算新的有效期
       let expiredAt: string;
-      if (membershipType === "yearly") {
+      if (isBundle) {
+        // Bundle: 使用 valid_months（默认12个月）
+        const validMonths = data.metadata?.valid_months || 12;
+        const expireDate = new Date();
+        expireDate.setMonth(expireDate.getMonth() + validMonths);
+        expiredAt = expireDate.toISOString();
+        console.log(`📅 Bundle 积分有效期: ${expiredAt} (${validMonths} 个月)`);
+      } else if (membershipType === "yearly") {
         // 年度订阅：12个月 + 1天缓冲
         const expireDate = new Date();
         expireDate.setMonth(expireDate.getMonth() + 12);
@@ -125,7 +133,7 @@ export class PaymentProcessingService {
         expiredAt = expireDate.toISOString();
         console.log(`📅 月度订阅积分有效期: ${expiredAt}`);
       }
-      
+
       await increaseCredits({
         user_uuid: data.userUuid,
         trans_type: "order_pay",
@@ -138,13 +146,17 @@ export class PaymentProcessingService {
       console.log(`💰 Credits added: ${credits} for user ${data.userUuid}, expires at ${expiredAt}`);
     }
 
-    // 2. 更新会员状态
-    const { createOrUpdateMembership } = await import("@/services/membership");
-    await createOrUpdateMembership(data.userUuid, membershipType);
+    // 2. 更新会员状态 - 仅订阅，Bundle 不更新会员
+    if (!isBundle) {
+      const { createOrUpdateMembership } = await import("@/services/membership");
+      await createOrUpdateMembership(data.userUuid, membershipType);
 
-    console.log(
-      `👤 Membership updated: ${membershipType} for user ${data.userUuid}`
-    );
+      console.log(
+        `👤 Membership updated: ${membershipType} for user ${data.userUuid}`
+      );
+    } else {
+      console.log(`📦 Bundle purchase - skipping membership update for user ${data.userUuid}`);
+    }
 
     // 3. 更新订单状态
     const { updateOrderStatus } = await import("@/models/order");

@@ -16,6 +16,8 @@ import { Order } from "@/types/order";
 import { getSnowId } from "@/lib/hash";
 import { getPayssionConfig } from "@/config/payssion";
 import { getPaymentProvider } from "@/lib/payment-methods";
+import { findActiveSubscriptionsByUserUuid } from "@/models/subscription";
+import { findActiveCreemSubscriptionsByUserUuid } from "@/models/creem-subscription";
 
 // 日志函数 - 只输出到控制台，不写入文件
 function logInfo(message: string, data?: any) {
@@ -66,19 +68,39 @@ export async function POST(req: NextRequest) {
       return respErr("invalid params");
     }
 
-    if (!["year", "month"].includes(interval)) {
+    if (!["year", "month", "one-time"].includes(interval)) {
       logError("❌ 无效的订阅类型", { interval });
       return respErr("invalid interval");
     }
 
     const is_subscription = interval === "month" || interval === "year";
+    const is_bundle = interval === "one-time";
 
-    if (interval === "year" && valid_months !== 12) {
-      return respErr("invalid valid_months");
+    // Bundle purchase requires active subscription
+    if (is_bundle) {
+      const [payssionSubscriptions, creemSubscriptions] = await Promise.all([
+        findActiveSubscriptionsByUserUuid(user_uuid),
+        findActiveCreemSubscriptionsByUserUuid(user_uuid),
+      ]);
+
+      const hasActiveSubscription =
+        payssionSubscriptions.length > 0 || creemSubscriptions.length > 0;
+
+      if (!hasActiveSubscription) {
+        logError("❌ Bundle purchase requires active subscription", { user_uuid });
+        return respErr("Active subscription required to purchase credit bundles");
+      }
     }
 
-    if (interval === "month" && valid_months !== 1) {
-      return respErr("invalid valid_months");
+    // 仅对订阅验证 valid_months
+    if (is_subscription) {
+      if (interval === "year" && valid_months !== 12) {
+        return respErr("invalid valid_months");
+      }
+
+      if (interval === "month" && valid_months !== 1) {
+        return respErr("invalid valid_months");
+      }
     }
 
     let user_email = await getUserEmail();
@@ -142,13 +164,16 @@ export async function POST(req: NextRequest) {
 
     let expired_at = "";
 
+    // Bundle: 使用 valid_months（默认12个月），无延迟
+    // Subscription: 使用 valid_months + 24小时延迟
+    const bundleValidMonths = is_bundle ? (valid_months || 12) : valid_months;
     const timePeriod = new Date(currentDate);
-    timePeriod.setMonth(currentDate.getMonth() + valid_months);
+    timePeriod.setMonth(currentDate.getMonth() + bundleValidMonths);
 
     const timePeriodMillis = timePeriod.getTime();
     let delayTimeMillis = 0;
 
-    // subscription
+    // subscription only: add 24 hours buffer
     if (is_subscription) {
       delayTimeMillis = 24 * 60 * 60 * 1000; // delay 24 hours expired
     }
