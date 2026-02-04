@@ -3,8 +3,8 @@ import path from "node:path";
 import { parse } from "csv-parse/sync";
 
 import { getSupabaseClient } from "../../models/db";
+import { updateSubscriptionStatus } from "../../models/subscription";
 import { PayssionProvider } from "../../services/payment/PayssionProvider";
-import { createOrUpdateMembership } from "../../services/membership";
 
 type CsvRow = {
   user_uuid: string;
@@ -37,16 +37,15 @@ type Args = {
   csvPath: string;
   apply: boolean;
   skipCancel: boolean;
-  skipMembership: boolean;
   limit?: number;
   onlyUser?: string;
   sleepMs: number;
 };
 
 const DEFAULT_CSV =
-  "docs/payssion-multi-subscription-cleanup/Supabase Multi-Subscription Leaderboard (3).csv";
-const ACTIVE_STATUSES = new Set(["active", "pending", "past_due"]);
-const TERMINAL_STATUSES = new Set(["canceled", "expired"]);
+  "docs/payssion-multi-subscription-cleanup/Supabase Multi-Subscription Leaderboard.csv";
+const ACTIVE_STATUSES = new Set(["active"]);
+const TERMINAL_STATUSES = new Set(["canceled", "expired", "pending", "past_due"]);
 
 function parseArgs(): Args {
   const args = process.argv.slice(2);
@@ -54,7 +53,6 @@ function parseArgs(): Args {
     csvPath: DEFAULT_CSV,
     apply: false,
     skipCancel: false,
-    skipMembership: false,
     sleepMs: 200,
   };
 
@@ -62,7 +60,6 @@ function parseArgs(): Args {
     if (arg === "--apply") parsed.apply = true;
     else if (arg === "--dry-run") parsed.apply = false;
     else if (arg === "--skip-cancel") parsed.skipCancel = true;
-    else if (arg === "--skip-membership") parsed.skipMembership = true;
     else if (arg.startsWith("--limit=")) {
       parsed.limit = Number(arg.split("=")[1]);
     } else if (arg.startsWith("--only-user=")) {
@@ -146,15 +143,14 @@ async function main() {
   const csvPath = normalizeCsvPath(args.csvPath);
   const apply = args.apply;
   const skipCancel = args.skipCancel;
-  const skipMembership = args.skipMembership;
 
   console.log("\n== Payssion multi-subscription cleanup ==");
   console.log(`CSV: ${csvPath}`);
   console.log(`Mode: ${apply ? "APPLY" : "DRY-RUN"}`);
   console.log(`Cancel extra subscriptions: ${skipCancel ? "NO" : "YES"}`);
-  console.log(`Update membership: ${skipMembership ? "NO" : "YES"}`);
 
-  const rows = await loadCsv(csvPath);
+  const csvRows = await loadCsv(csvPath);
+  const rows = csvRows.reverse();
   const { errors, warnings } = validateCsv(rows);
   if (errors.length) {
     console.error("\nCSV validation failed:");
@@ -197,12 +193,12 @@ async function main() {
 
   let processedUsers = 0;
   let canceledCount = 0;
-  let membershipUpdated = 0;
   let cancelFailures = 0;
   let missingKeepSub = 0;
   let mismatchCounts = 0;
 
   for (const row of targets) {
+    console.log("Process User ID", row.user_uuid);
     processedUsers += 1;
     const { data: subs, error } = await supabase
       .from("subscriptions")
@@ -255,29 +251,14 @@ async function main() {
         if (ok) {
           canceledCount += 1;
           console.log(`- canceled ${sub.payssion_subscription_id}`);
+          // Update status in database
+          await updateSubscriptionStatus(sub.payssion_subscription_id, "canceled");
         } else {
           cancelFailures += 1;
           console.warn(`- cancel failed ${sub.payssion_subscription_id}`);
         }
 
         if (args.sleepMs > 0) await sleep(args.sleepMs);
-      }
-    }
-
-    if (!skipMembership) {
-      const planType =
-        (keepSub.plan_type || row.plan_type).toLowerCase() === "yearly"
-          ? "yearly"
-          : "monthly";
-
-      if (!apply) {
-        console.log(
-          `[${row.user_uuid}] DRY-RUN update membership to ${planType} (keep ${row.subscription_id})`
-        );
-      } else {
-        await createOrUpdateMembership(row.user_uuid, planType);
-        membershipUpdated += 1;
-        console.log(`[${row.user_uuid}] membership updated to ${planType}`);
       }
     }
   }
@@ -288,14 +269,15 @@ async function main() {
   console.log(`Active count mismatches: ${mismatchCounts}`);
   console.log(`Canceled subscriptions: ${canceledCount}`);
   console.log(`Cancel failures: ${cancelFailures}`);
-  console.log(`Membership updated: ${membershipUpdated}`);
 
   if (!apply) {
     console.log("\nDry-run complete. Use --apply to execute changes.");
   }
 }
 
-main().catch((error) => {
+main().then(()=>{
+  process.exit(1);
+}).catch((error) => {
   console.error("\nFatal error:", error);
   process.exit(1);
 });
