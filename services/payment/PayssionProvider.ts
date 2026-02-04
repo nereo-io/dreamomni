@@ -141,16 +141,16 @@ export class PayssionProvider extends BasePaymentProvider {
     console.log("Bundle payment with mandate result:", JSON.stringify(result, null, 2));
 
     if (result.error) {
-      // 如果 mandate 失效，fallback 到创建新 mandate
-      if (result.error.code === "mandate_invalid" || result.error.code === "mandate_expired") {
-        console.log(`⚠️ Mandate ${mandateId} invalid/expired, creating new mandate`);
-        return await this.createBundleMandateForPayment(request);
-      }
-
-      return {
-        success: false,
-        errorMessage: result.error.message || "Payment creation failed",
-      };
+      // 任何错误都 fallback 到创建新 mandate（与 subscription 逻辑一致）
+      console.error(
+        "❌ Failed to create bundle payment with existing mandate:",
+        {
+          mandateId: mandateId,
+          error: result.error.message || result.error.code,
+          willCreateNewMandate: true,
+        }
+      );
+      return await this.createBundleMandateForPayment(request);
     }
 
     console.log(`✅ Bundle payment created with mandate: ${result.id}`);
