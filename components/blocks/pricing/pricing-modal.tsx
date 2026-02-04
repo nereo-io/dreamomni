@@ -743,7 +743,7 @@ export default function PricingModal({
                                   )}
 
                                 {/* Buy Credits Button */}
-                                {item.amount > 0 && (
+                                {item.amount > 0 && subscriptionState?.hasActiveSubscription && (
                                   <Button
                                     variant="outline"
                                     className="w-full bg-white text-primary border-primary hover:bg-primary/5"

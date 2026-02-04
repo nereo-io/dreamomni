@@ -16,6 +16,8 @@ import { Order } from "@/types/order";
 import { getSnowId } from "@/lib/hash";
 import { getPayssionConfig } from "@/config/payssion";
 import { getPaymentProvider } from "@/lib/payment-methods";
+import { findActiveSubscriptionsByUserUuid } from "@/models/subscription";
+import { findActiveCreemSubscriptionsByUserUuid } from "@/models/creem-subscription";
 
 // 日志函数 - 只输出到控制台，不写入文件
 function logInfo(message: string, data?: any) {
@@ -73,6 +75,22 @@ export async function POST(req: NextRequest) {
 
     const is_subscription = interval === "month" || interval === "year";
     const is_bundle = interval === "one-time";
+
+    // Bundle purchase requires active subscription
+    if (is_bundle) {
+      const [payssionSubscriptions, creemSubscriptions] = await Promise.all([
+        findActiveSubscriptionsByUserUuid(user_uuid),
+        findActiveCreemSubscriptionsByUserUuid(user_uuid),
+      ]);
+
+      const hasActiveSubscription =
+        payssionSubscriptions.length > 0 || creemSubscriptions.length > 0;
+
+      if (!hasActiveSubscription) {
+        logError("❌ Bundle purchase requires active subscription", { user_uuid });
+        return respErr("Active subscription required to purchase credit bundles");
+      }
+    }
 
     // 仅对订阅验证 valid_months
     if (is_subscription) {
