@@ -235,14 +235,13 @@ export async function updateOrderSubscription(
 export async function getOrdersByUserUuid(
   user_uuid: string
 ): Promise<Order[] | undefined> {
-  const now = new Date().toISOString();
   const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from("orders")
     .select("*")
     .eq("user_uuid", user_uuid)
     .eq("status", "paid")
-    .order("created_at", { ascending: false });
+    .order("paid_at", { ascending: false });
   // .gte("expired_at", now);
 
   if (error) {
