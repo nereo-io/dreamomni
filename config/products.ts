@@ -157,7 +157,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     currency: "USD",
     credits: 200,
     interval: "one-time",
-    valid_months: 12,
+    valid_months: 1,
     creem_product_id: "prod_7ghfxUFOcOCn2mPBNBmX4p",
   },
   {
@@ -167,7 +167,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     currency: "USD",
     credits: 400,
     interval: "one-time",
-    valid_months: 12,
+    valid_months: 1,
     creem_product_id: "prod_64RoES8qJEg5uabqUz7xIP",
   },
   {
@@ -177,7 +177,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     currency: "USD",
     credits: 600,
     interval: "one-time",
-    valid_months: 12,
+    valid_months: 1,
     creem_product_id: "prod_pJKV9tyeuac823oQgsjs",
   },
   {
@@ -187,7 +187,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     currency: "USD",
     credits: 1000,
     interval: "one-time",
-    valid_months: 12,
+    valid_months: 1,
     creem_product_id: "prod_3eTFtTtzgWt9YIwWgShE9d",
   },
   {
@@ -197,7 +197,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     currency: "USD",
     credits: 2000,
     interval: "one-time",
-    valid_months: 12,
+    valid_months: 1,
     creem_product_id: "prod_6bmJ210nySV8uQjusW0FgD",
   },
 ];

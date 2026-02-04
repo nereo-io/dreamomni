@@ -164,9 +164,9 @@ export async function POST(req: NextRequest) {
 
     let expired_at = "";
 
-    // Bundle: 使用 valid_months（默认12个月），无延迟
+    // Bundle: 使用 valid_months（默认1个月），无延迟
     // Subscription: 使用 valid_months + 24小时延迟
-    const bundleValidMonths = is_bundle ? (valid_months || 12) : valid_months;
+    const bundleValidMonths = is_bundle ? (valid_months || 1) : valid_months;
     const timePeriod = new Date(currentDate);
     timePeriod.setMonth(currentDate.getMonth() + bundleValidMonths);
 

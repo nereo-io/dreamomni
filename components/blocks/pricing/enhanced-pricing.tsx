@@ -270,7 +270,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         interval: "one-time",
         amount: bundle.amount,
         currency: "USD",
-        valid_months: 12,
+        valid_months: 1,
         payment_method: selectedPaymentMethod || "creem",
         user_preference: selectedProvider || "creem",
       };

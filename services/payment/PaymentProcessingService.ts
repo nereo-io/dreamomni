@@ -112,8 +112,8 @@ export class PaymentProcessingService {
       // 根据类型计算新的有效期
       let expiredAt: string;
       if (isBundle) {
-        // Bundle: 使用 valid_months（默认12个月）
-        const validMonths = data.metadata?.valid_months || 12;
+        // Bundle: 使用 valid_months（默认1个月）
+        const validMonths = data.metadata?.valid_months || 1;
         const expireDate = new Date();
         expireDate.setMonth(expireDate.getMonth() + validMonths);
         expiredAt = expireDate.toISOString();
