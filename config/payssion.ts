@@ -2,7 +2,7 @@
 export interface PayssionProductConfig {
   product_id: string;
   credits: number;
-  membershipType: "monthly" | "yearly";
+  membershipType: "monthly" | "yearly" | null; // null for one-time bundles
 }
 
 export interface PayssionConfig {
@@ -26,7 +26,7 @@ export interface PayssionConfig {
   };
 }
 
-// 产品配置映射（基于金额，单位：美分）
+// 订阅产品配置映射（基于金额，单位：美分）
 export const PAYSSION_PRODUCT_CONFIG: Record<string, PayssionProductConfig> = {
   "2000": {
     product_id: "mini-monthly",
@@ -60,6 +60,20 @@ export const PAYSSION_PRODUCT_CONFIG: Record<string, PayssionProductConfig> = {
   }, // $720
 };
 
+// Bundle 产品配置（一次性购买积分包）
+export interface PayssionBundleConfig {
+  product_id: string;
+  credits: number;
+}
+
+export const PAYSSION_BUNDLE_CONFIG: Record<string, PayssionBundleConfig> = {
+  "2000": { product_id: "bundle-20", credits: 200 }, // $20
+  "4000": { product_id: "bundle-40", credits: 400 }, // $40
+  "6000": { product_id: "bundle-60", credits: 600 }, // $60
+  "10000": { product_id: "bundle-100", credits: 1000 }, // $100
+  "20000": { product_id: "bundle-200", credits: 2000 }, // $200
+};
+
 // 支付方式映射（前端 -> Payssion V2 API）
 export const PAYMENT_METHOD_MAPPING: Record<string, string> = {
   mir: "card_ru",
@@ -87,14 +101,21 @@ export function getPayssionConfig(): PayssionConfig {
   };
 }
 
-// 根据金额获取产品配置
+// 根据金额获取订阅产品配置
 export function getProductConfigByAmount(
   amountInCents: string
 ): PayssionProductConfig | null {
   return PAYSSION_PRODUCT_CONFIG[amountInCents] || null;
 }
 
-// 根据产品ID获取产品配置
+// 根据金额获取 Bundle 产品配置
+export function getBundleConfigByAmount(
+  amountInCents: string
+): PayssionBundleConfig | null {
+  return PAYSSION_BUNDLE_CONFIG[amountInCents] || null;
+}
+
+// 根据产品ID获取订阅产品配置
 export function getProductConfigByProductId(
   productId: string
 ): PayssionProductConfig | null {
@@ -103,6 +124,24 @@ export function getProductConfigByProductId(
       (config) => config.product_id === productId
     ) || null
   );
+}
+
+// 根据产品ID获取 Bundle 产品配置
+export function getBundleConfigByProductId(
+  productId: string
+): PayssionBundleConfig | null {
+  return (
+    Object.values(PAYSSION_BUNDLE_CONFIG).find(
+      (config) => config.product_id === productId
+    ) || null
+  );
+}
+
+// 根据产品ID获取任意产品配置（订阅或 Bundle）
+export function getAnyProductConfigByProductId(
+  productId: string
+): (PayssionProductConfig | PayssionBundleConfig) | null {
+  return getProductConfigByProductId(productId) || getBundleConfigByProductId(productId);
 }
 
 // 获取支付方式映射

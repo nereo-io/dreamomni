@@ -112,6 +112,7 @@ export interface MandateResponse {
   redirectUrl?: string; // 用户授权 URL
   status?: string;
   subscriptionId?: string; // 如果直接创建了订阅
+  paymentId?: string; // Bundle 直接扣款时返回
   errorMessage?: string;
   errorCode?: string;
 }

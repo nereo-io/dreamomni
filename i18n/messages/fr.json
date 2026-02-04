@@ -1002,6 +1002,17 @@
     "cancel": "Annuler",
     "continuePurchase": "Continuer l'achat"
   },
+  "creditsBundle": {
+    "title": "Acheter plus de crédits",
+    "description": "Achetez des crédits supplémentaires pour générer plus de vidéos.",
+    "expireNote": "Les crédits supplémentaires expirent 1 an après l'achat.",
+    "credits": "Crédits",
+    "selectPaymentMethod": "Sélectionner le mode de paiement",
+    "cancel": "Annuler",
+    "continueToPayment": "Continuer vers le paiement",
+    "processing": "Traitement...",
+    "buyCredits": "Acheter des crédits"
+  },
   "nano-banana": {
     "title": "Google Nano Banana AI : Essayez ce générateur d'images IA | Veo3 AI",
     "description": "Créez des images époustouflantes avec Nano Banana AI. Générez des images de haute qualité à partir de descriptions textuelles avec une technologie IA avancée.",

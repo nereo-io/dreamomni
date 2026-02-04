@@ -96,7 +96,7 @@ export default async function () {
                   {t("membership.remaining_days")}
                 </span>
                 <span className="text-sm font-medium">
-                  {Math.ceil((new Date(membership.end_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24))}{" "}
+                  {Math.max(0, Math.ceil((new Date(membership.end_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))}{" "}
                   {t("membership.days")}
                 </span>
               </div>
