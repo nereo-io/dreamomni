@@ -28,15 +28,30 @@ export async function generateMetadata({
 
 export default async function LandingPage({
   params: { locale },
+  searchParams,
 }: {
   params: { locale: string };
+  searchParams?: Record<string, string | string[] | undefined>;
 }) {
   // 在服务器端检查认证状态
   const session = await auth();
 
   // 如果已登录，直接重定向到/image-to-video
   if (session) {
-    redirect("/image-to-video");
+    const query = new URLSearchParams();
+    Object.entries(searchParams ?? {}).forEach(([key, value]) => {
+      if (typeof value === "string") {
+        query.set(key, value);
+      } else if (Array.isArray(value)) {
+        value.forEach((item) => {
+          if (item) query.append(key, item);
+        });
+      }
+    });
+    const redirectUrl = query.toString()
+      ? `/image-to-video?${query.toString()}`
+      : "/image-to-video";
+    redirect(redirectUrl);
   }
 
   const page = await getLandingPage(locale);
