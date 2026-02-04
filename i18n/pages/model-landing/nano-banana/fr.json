@@ -50,12 +50,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Un homme et une femme, positionnes de facon centrale dans l'image, s'embrassent avec les bras etendus, comme s'ils s'envolaient. La femme, aux cheveux auburn, semble etre dans la fin de la vingtaine ou debut de la trentaine. Elle a un teint pale et son expression est serene. Elle porte une robe fluide vert olive avec des details de dentelle intricats. L'homme est legerement derriere elle et son attire comprend un manteau gris fonce ou noir. Les deux sujets sont dans une pose romantique classique qui suggere la liberte et le bonheur."
+                  "content": "Une grande femme blonde, athlétique, aux yeux bleus, court joyeusement le long du littoral au coucher du soleil, ses cheveux mouillés flottant derrière elle. Elle porte un maillot une pièce minimaliste. La caméra la suit depuis un angle latéral bas, au ralenti, avec des éclaboussures d'eau partout."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page1_bfecbd5ba1.png",
-                  "altText": "Une paire de boucles d'oreilles en or"
+                  "content": "https://r2.veo3ai.io/intro/text-to-image/1209Material-reserves/Beach-photos.png",
+                  "altText": "Femme blonde courant le long du littoral au coucher du soleil"
                 }
               ]
             },
@@ -63,12 +63,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Une jeune figure feminine asiatique, positionnee au centre de l'image. Elle semble etre une adolescente, avec de longs cheveux noirs droits, coiffes en tresses. Elle porte un cardigan de couleur beige pale sur une chemise blanche au col, une jupe a carreaux mini, des chaussettes noires et des oxfords marron."
+                  "content": "Ce diagramme, illustré dans un style cartoon, présente les quatre niveaux de recherche sur les mécanismes de diffusion de l'information en sciences de la communication : le niveau descriptif consigne les données et phénomènes de base de la diffusion de l'information ; le niveau de classification identifie différents chemins et modèles de diffusion grâce à des méthodes comme le clustering et la partition structurelle ; le niveau explicatif révèle les mécanismes causaux de la diffusion en s'appuyant sur des théories telles que l'influence sociale, les liens faibles, l'agenda setting ou les algorithmes de plateforme ; et le niveau prédictif utilise des modèles et des algorithmes de diffusion pour produire des prédictions vérifiables de la popularité des contenus et de l'ampleur de la diffusion. Cette structure aide à comprendre le cadre théorique complet des phénomènes de communication, de la présentation et de l'induction à l'explication des mécanismes et à la prédiction future."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page2_6e3ffabc68.png",
-                  "altText": "Paysage avec chateau"
+                  "content": "https://r2.veo3ai.io/intro/text-to-image/1209Material-reserves/Four-layer-information-diagram.png",
+                  "altText": "Diagramme de diffusion de l'information en quatre niveaux"
                 }
               ]
             }
@@ -91,22 +91,22 @@
               "cells": [
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page3_8fd81051f4.png",
-                  "altText": "Une femme aux cheveux courts"
+                  "content": "https://r2.veo3ai.io/intro/nano/original-%20image1.webp",
+                  "altText": "Image de référence originale 1"
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page4_7e3c0b8db7.png",
-                  "altText": "Une paire de boucles d'oreilles en or"
+                  "content": "https://r2.veo3ai.io/intro/nano/original-image2.png",
+                  "altText": "Image de référence originale 2"
                 },
                 {
                   "type": "text",
-                  "content": "Placez les boucles d'oreilles de la figure 2 sur les oreilles de la femme."
+                  "content": "Combinez les personnages de Judy la lapine, Nick le renard et le chaton de compagnie en un seul selfie, avec un cadrage serré."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page5_dec9d56c7d.png",
-                  "altText": "La femme avec des boucles d'oreilles ajoutees"
+                  "content": "https://r2.veo3ai.io/images/1202add-pic/img2img/Zootopia-The-Perfect-Match.png",
+                  "altText": "Selfie combiné de Judy, Nick et d'un chaton"
                 }
               ]
             }
@@ -128,17 +128,17 @@
               "cells": [
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page6_266c7d809f.png",
-                  "altText": "Une femme aux cheveux courts"
+                  "content": "https://r2.veo3ai.io/intro/nano/original-%20person.png",
+                  "altText": "Photo de portrait originale pour l'édition Alenka"
                 },
                 {
                   "type": "text",
-                  "content": "Changez l'arriere-plan en volcan"
+                  "content": "Modifiez la photo pour qu'elle ressemble à une tablette de chocolat Alenka, mais avec un thème du Nouvel An. Gardez le visage similaire à la photo, avec des vêtements du Nouvel An et un arrière‑plan du Nouvel An."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page7_7b8cbb32e0.png",
-                  "altText": "La femme avec des boucles d'oreilles ajoutees"
+                  "content": "https://r2.veo3ai.io/intro/image-to-image/1209Material-reserves/Christmas-Costume1.png",
+                  "altText": "Portrait du Nouvel An style Alenka"
                 }
               ]
             }

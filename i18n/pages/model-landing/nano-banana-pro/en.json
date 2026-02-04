@@ -50,12 +50,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "A serene mountain lake at sunrise, mist rising from the water, vibrant autumn foliage on the surrounding hills, peaceful and detailed."
+                  "content": "An elven maiden with translucent wings chases butterflies through the enchanted forest. Her luminous long hair cascades over a pale green gown adorned with floral petals. Behind her, giant glowing mushrooms cluster, crystal trees stand tall, and floating islands drift in the sky. The ground is carpeted with blue-violet glow-in-the-dark flowers, while dandelion seeds and fireflies dance through the air. Fawns and squirrels drink from the stream."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image4_aebd7172fb.png",
-                  "altText": "Serene mountain lake at sunrise"
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+                  "altText": "Elven maiden in an enchanted forest"
                 }
               ]
             },
@@ -63,12 +63,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "A desert canyon during a sandstorm, swirling sands, dramatic shadows on rocky cliffs, vast and epic landscape."
+                  "content": "A panoramic view of a future city, featuring a cluster of white buildings in the city center, futuristic cars and drones suspended in the air, glass curtain walls reflecting soft morning light, one-point perspective enhancing the sense of spatial depth, low-saturation cinematic color tones, and ultra-high-definition 8K rendering showcasing the details of metallic and plant materials."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image3_6240b661d5.png",
-                  "altText": "Desert canyon sandstorm"
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Future-City.png",
+                  "altText": "Panoramic view of a future city"
                 }
               ]
             },
@@ -76,12 +76,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Close-up of a dewdrop-covered spider web, sunlight refracting into rainbow colors, intricate patterns and delicate textures."
+                  "content": "Presented in a dreamy anime style, the scene depicts a cozy street alley with green vines climbing the walls. There are several small cafes along the street, with warm lights shining from their windows. A girl is walking by with an ice cream, accompanied by a black and white cat and an orange cat. The lighting is soft and comes from the side, creating a warm and pleasant feeling."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image5_b157291568.png",
-                  "altText": "Dewdrop spider web"
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Coffee-Girl.png",
+                  "altText": "Anime girl with ice cream in a cozy cafe alley"
                 }
               ]
             }
@@ -103,7 +103,7 @@
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image2_224e748f8a.png",
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Four-square-grid.png",
                   "altText": "Four-panel comic strip"
                 }
               ]
@@ -112,12 +112,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "A grand library hall with high shelves, a floating infographic showing 'Top 5 Classic Novels' with text labels: 'Pride and Prejudice', 'Moby Dick', 'War and Peace', 'Great Expectations', 'Jane Eyre', warm ambient lighting, books open on tables."
+                  "content": "The heraldic emblem is divided into two parts: the left side features a solitary and graceful willow tree against a deep blue night sky and stars; the right side depicts a lush pear tree against a warm, sunlit field. In the center is a silhouette of a wolf, in a Gothic style."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image8_baeada2998.png",
-                  "altText": "Library with text infographic"
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Totem-Badge.png",
+                  "altText": "Heraldic emblem with willow, pear tree, and wolf silhouette"
                 }
               ]
             },
@@ -125,12 +125,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "A realistic Instagram post screenshot: a photo of golden sunset over mountain peaks, soft warm light bathing the scene. Top overlay text: 'Chasing Sunsets 🌄', bottom caption: 'Nature never goes out of style #travel #adventure'. Visible interface elements: profile icon, likes count 12,345, three top comments, heart and comment icons, realistic app interface, cinematic lighting, shallow depth of field for the background photo."
+                  "content": "Please create an infographic illustrating the core process, using visual elements such as a high-dimensional hypersphere, kernel matrix degradation, and spectral distribution. Please write a structured knowledge point on the topic of \"High-Dimensional Inner Product Degradation and Feature Non-Equivalence in Neural Networks\" in modern deep learning. Explanation: In high-dimensional space, the dot product of feature vectors concentrates around the expected value, making it difficult to distinguish samples of different classes in the inner product space; explain why the network can still learn to distinguish information (relying on collective statistical structure rather than pairwise similarity); demonstrate how the spectrum of the random feature matrix follows random matrix theory as the dimensionality increases; explain how this affects attention mechanisms, feature reweighting, and representation degradation; and point out why centering, projection, or low-rank modeling must be used in high dimensions to restore effective discriminative ability."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image7_7830283935.png",
-                  "altText": "Instagram post mockup"
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/flow-chart.png",
+                  "altText": "Infographic of high-dimensional inner product degradation"
                 }
               ]
             }
@@ -148,12 +148,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "A close-up of a microscopic crystalline structure, light refracting and scattering through facets, tiny particles floating, iridescent colors, realistic micro-physics and detailed lighting."
+                  "content": "The interior photography features exquisite lighting and shadow, masterful composition, orange tones, a cinematic feel, portrait photography, strong contrast between light and shadow, and close-ups of the face. Only three-quarters of the woman's profile is in the frame, with a ray of light illuminating the face of a woman resembling a European or American woman, creating an artistic atmosphere."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image12_3b5f00f563.png",
-                  "altText": "Crystalline structure with lighting"
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Female-Light-and-Shadow.png",
+                  "altText": "Portrait with dramatic light and shadow"
                 }
               ]
             },
@@ -165,7 +165,7 @@
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image1_4dcb947fd3.png",
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/underwater-lighting.png",
                   "altText": "Underwater coral reef"
                 }
               ]
@@ -184,12 +184,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "A snowy mountain valley, frozen river winding through mid-ground, hikers with colorful jackets in the foreground, towering peaks in background, clear blue sky, panoramic composition emphasizing depth and scale."
+                  "content": "In the video, a cyclist rides through a street lined with golden ginkgo leaves. Golden ginkgo trees line both sides of the road and lead ahead. The golden leaves display a variety of textures, and as the light and shadow shift, intricate patterns become clearly visible. A few falling leaves add a touch of ethereal beauty."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image13_22f457d2f2.png",
-                  "altText": "Mountain valley composition"
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Ginkgo-Street.png",
+                  "altText": "Cyclist on a ginkgo-lined street"
                 }
               ]
             },
@@ -201,7 +201,7 @@
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image11_30db6aacea.png",
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Middle-World-Street.png",
                   "altText": "Medieval marketplace scene"
                 }
               ]
@@ -224,7 +224,7 @@
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image6_c024f5fac9.png",
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/moss.png",
                   "altText": "Ultra-detailed forest floor"
                 }
               ]
@@ -233,12 +233,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "The deck of a futuristic spaceship orbiting a planet, metallic panels with detailed textures, lights and control panels glowing, reflections on polished surfaces, ultra-high-resolution clarity and crisp lighting."
+                  "content": "High-saturation green hues, wind blowing through the grass, ultra-wide-angle lens, eye-level perspective, overcast sky, deep, dark blue starry sky, the scene is quiet and lonely, healing, with a film-like feel and grainy texture, a person standing in the distance, back to the camera."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image10_8db2b3ac29.png",
-                  "altText": "Futuristic spaceship deck"
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Lonely-Grassland.png",
+                  "altText": "Lonely grassland under a starry sky"
                 }
               ]
             }
@@ -260,7 +260,7 @@
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image9_f04cd4e650.png",
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Doll-watching-TV.png",
                   "altText": "14 characters watching TV together"
                 }
               ]

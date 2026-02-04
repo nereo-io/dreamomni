@@ -50,12 +50,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Un lac de montagne serein au lever du soleil, brume s'élevant de l'eau, feuillage automnal vibrant sur les collines environnantes, paisible et détaillé."
+                  "content": "Une jeune elfe aux ailes translucides poursuit des papillons dans une forêt enchantée. Sa longue chevelure lumineuse cascade sur une robe vert pâle ornée de pétales floraux. Derrière elle, des champignons géants lumineux se rassemblent, des arbres de cristal se dressent, et des îles flottantes dérivent dans le ciel. Le sol est tapissé de fleurs bleu-violet phosphorescentes, tandis que des graines de pissenlit et des lucioles dansent dans l’air. Des faons et des écureuils boivent au ruisseau."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image4_aebd7172fb.png",
-                  "altText": "Lac de montagne serein au lever du soleil"
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+                  "altText": "Jeune elfe dans une forêt enchantée"
                 }
               ]
             },
@@ -63,12 +63,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Un canyon désertique pendant une tempête de sable, sables tourbillonnants, ombres dramatiques sur les falaises rocheuses, paysage vaste et épique."
+                  "content": "Vue panoramique d'une ville du futur, avec un groupe de bâtiments blancs au centre-ville, des voitures futuristes et des drones en suspension dans l'air, des façades vitrées reflétant la douce lumière du matin, une perspective à point de fuite accentuant la profondeur spatiale, des tonalités cinématographiques à faible saturation, et un rendu 8K en ultra‑haute définition mettant en valeur les détails des matériaux métalliques et végétaux."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image3_6240b661d5.png",
-                  "altText": "Canyon désertique tempête de sable"
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Future-City.png",
+                  "altText": "Vue panoramique d'une ville du futur"
                 }
               ]
             },
@@ -76,12 +76,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Gros plan d'une toile d'araignée couverte de rosée, lumière du soleil se réfractant en couleurs arc-en-ciel, motifs complexes et textures délicates."
+                  "content": "Présentée dans un style anime onirique, la scène montre une ruelle chaleureuse avec des vignes vertes grimpant sur les murs. Plusieurs petits cafés bordent la rue, avec des lumières chaudes qui brillent à leurs fenêtres. Une fille passe en marchant avec une glace, accompagnée d'un chat noir et blanc et d'un chat roux. L'éclairage est doux et vient de côté, créant une ambiance chaleureuse et agréable."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image5_b157291568.png",
-                  "altText": "Toile d'araignée avec gouttes de rosée"
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Coffee-Girl.png",
+                  "altText": "Fille avec une glace dans une ruelle de cafés, style anime"
                 }
               ]
             }
@@ -103,7 +103,7 @@
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image2_224e748f8a.png",
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Four-square-grid.png",
                   "altText": "Bande dessinée à quatre cases"
                 }
               ]
@@ -112,12 +112,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Une grande salle de bibliothèque avec de hautes étagères, une infographie flottante montrant 'Top 5 des romans classiques' avec des étiquettes de texte : 'Orgueil et Préjugés', 'Moby Dick', 'Guerre et Paix', 'Les Grandes Espérances', 'Jane Eyre', éclairage ambiant chaleureux, livres ouverts sur les tables."
+                  "content": "L’emblème héraldique est divisé en deux parties : le côté gauche présente un saule solitaire et gracieux sur un ciel nocturne bleu profond étoilé ; le côté droit montre un poirier luxuriant sur un champ chaud et ensoleillé. Au centre, se trouve la silhouette d’un loup, dans un style gothique."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image8_baeada2998.png",
-                  "altText": "Bibliothèque avec infographie textuelle"
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Totem-Badge.png",
+                  "altText": "Emblème héraldique avec saule, poirier et silhouette de loup"
                 }
               ]
             },
@@ -125,12 +125,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Une capture d'écran réaliste de publication Instagram : une photo de coucher de soleil doré sur des sommets montagneux, douce lumière chaude baignant la scène. Texte de superposition en haut : 'À la chasse aux couchers de soleil 🌄', légende en bas : 'La nature ne se démode jamais #voyage #aventure'. Éléments d'interface visibles : icône de profil, nombre de likes 12 345, trois meilleurs commentaires, icônes de cœur et de commentaire, interface d'application réaliste, éclairage cinématographique, faible profondeur de champ pour la photo d'arrière-plan."
+                  "content": "Veuillez créer une infographie illustrant le processus central, en utilisant des éléments visuels tels qu’une hypersphère de haute dimension, la dégradation d’une matrice noyau et une distribution spectrale. Veuillez rédiger un point de connaissance structuré sur le thème « Dégradation du produit scalaire en haute dimension et non‑équivalence des caractéristiques dans les réseaux neuronaux » en deep learning moderne. Explication : en espace de haute dimension, le produit scalaire des vecteurs de caractéristiques se concentre autour de la valeur attendue, ce qui rend difficile la distinction des échantillons de classes différentes dans l’espace des produits scalaires ; expliquer pourquoi le réseau peut néanmoins apprendre à distinguer l’information (en s’appuyant sur une structure statistique collective plutôt que sur une similarité paire à paire) ; montrer comment le spectre de la matrice de caractéristiques aléatoires suit la théorie des matrices aléatoires lorsque la dimension augmente ; expliquer comment cela affecte les mécanismes d’attention, la re‑pondération des caractéristiques et la dégradation des représentations ; et préciser pourquoi le centrage, la projection ou la modélisation de faible rang doivent être utilisés en haute dimension pour restaurer une capacité discriminante efficace."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image7_7830283935.png",
-                  "altText": "Maquette de publication Instagram"
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/flow-chart.png",
+                  "altText": "Infographie sur la dégradation du produit scalaire en haute dimension"
                 }
               ]
             }
@@ -148,12 +148,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Gros plan d'une structure cristalline microscopique, lumière se réfractant et se dispersant à travers les facettes, minuscules particules flottantes, couleurs irisées, microphysique réaliste et éclairage détaillé."
+                  "content": "La photographie d’intérieur présente une lumière et des ombres exquises, une composition maîtrisée, des tons orangés, un rendu cinématographique, un style portrait, un fort contraste entre lumière et ombre, et des gros plans du visage. Seuls les trois quarts du profil de la femme sont dans le cadre, avec un rayon de lumière éclairant le visage d’une femme aux traits européens ou américains, créant une atmosphère artistique."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image12_3b5f00f563.png",
-                  "altText": "Structure cristalline avec éclairage"
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Female-Light-and-Shadow.png",
+                  "altText": "Portrait avec lumière et ombre dramatiques"
                 }
               ]
             },
@@ -165,7 +165,7 @@
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image1_4dcb947fd3.png",
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/underwater-lighting.png",
                   "altText": "Récif corallien sous-marin"
                 }
               ]
@@ -184,12 +184,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Une vallée montagneuse enneigée, rivière gelée serpentant à travers le plan intermédiaire, randonneurs avec des vestes colorées au premier plan, sommets imposants en arrière-plan, ciel bleu clair, composition panoramique mettant l'accent sur la profondeur et l'échelle."
+                  "content": "Dans la vidéo, un cycliste roule dans une rue bordée de feuilles de ginkgo dorées. Des ginkgos dorés alignent les deux côtés de la route et guident le regard vers l'avant. Les feuilles dorées présentent une variété de textures et, à mesure que la lumière et l'ombre se déplacent, des motifs complexes deviennent clairement visibles. Quelques feuilles qui tombent ajoutent une touche de beauté éthérée."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image13_22f457d2f2.png",
-                  "altText": "Composition de vallée montagneuse"
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Ginkgo-Street.png",
+                  "altText": "Cycliste dans une rue bordée de ginkgos"
                 }
               ]
             },
@@ -197,11 +197,11 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Un marché médiéval, stands en bois au premier plan avec des marchands, acheteurs au plan intermédiaire négociant, murs du château en arrière-plan, drapeaux et bannières suspendus, composition en couches montrant la vie quotidienne animée."
+                  "content": "Un marché médiéval, des étals en bois au premier plan avec des marchands, des acheteurs au plan intermédiaire en négociation, des murs de château en arrière-plan, des drapeaux et des bannières suspendus, une composition en couches montrant une vie quotidienne animée."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image11_30db6aacea.png",
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Middle-World-Street.png",
                   "altText": "Scène de marché médiéval"
                 }
               ]
@@ -224,7 +224,7 @@
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image6_c024f5fac9.png",
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/moss.png",
                   "altText": "Sol de forêt ultra-détaillé"
                 }
               ]
@@ -233,12 +233,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Le pont d'un vaisseau spatial futuriste en orbite autour d'une planète, panneaux métalliques avec textures détaillées, lumières et panneaux de contrôle lumineux, reflets sur surfaces polies, clarté ultra haute résolution et éclairage net."
+                  "content": "Teintes vertes très saturées, vent soufflant dans l’herbe, objectif ultra grand‑angle, perspective à hauteur des yeux, ciel couvert, ciel nocturne profond bleu foncé étoilé, la scène est calme et solitaire, apaisante, avec un rendu filmique et une texture granuleuse, une personne debout au loin, dos à la caméra."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image10_8db2b3ac29.png",
-                  "altText": "Pont de vaisseau spatial futuriste"
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Lonely-Grassland.png",
+                  "altText": "Prairie solitaire sous un ciel étoilé"
                 }
               ]
             }
@@ -260,7 +260,7 @@
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/image9_f04cd4e650.png",
+                  "content": "https://r2.veo3ai.io/intro/nano-pro/Doll-watching-TV.png",
                   "altText": "14 personnages regardant la télévision ensemble"
                 }
               ]

@@ -50,12 +50,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Ein Mann und eine Frau, zentral im Bild positioniert, umarmen sich mit ausgestreckten Armen, als würde sie fliegen. Die Frau mit kastanienbraunem Haar sieht aus, als wäre sie in ihren späten Zwanzigern oder frühen Dreißigern. Sie hat einen hellen Teint und ihr Ausdruck ist ruhig. Sie trägt ein fließendes, olivgrünes Kleid mit aufwendigen Spitzendetails. Der Mann ist leicht hinter ihr und trägt einen dunkelgrauen oder schwarzen Mantel. Beide Objekte sind in einer klassischen romantischen Pose, die Freiheit und Glück suggieren."
+                  "content": "Eine große, sportliche blonde Frau mit blauen Augen läuft fröhlich bei Sonnenuntergang entlang der Küste, ihr nasses Haar weht hinter ihr. Sie trägt einen minimalistischen einteiligen Badeanzug. Die Kamera folgt ihr aus einem niedrigen Seitenwinkel in Zeitlupe, überall spritzt Wasser."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page1_bfecbd5ba1.png",
-                  "altText": "Ein Paar von Goldohrringen"
+                  "content": "https://r2.veo3ai.io/intro/text-to-image/1209Material-reserves/Beach-photos.png",
+                  "altText": "Blonde Frau, die bei Sonnenuntergang an der Küste läuft"
                 }
               ]
             },
@@ -63,12 +63,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Eine junge asiatische weibliche Figur, zentral im Bild positioniert. Sie sieht aus wie ein Teenager mit langen, geraden, dunkelschwarzen Haaren, die in Pferdeschwänzen gestylt sind. Sie trägt einen hellbeigen farbigen Cardigan-Pullover über einem weißen Hemd mit Kragen, einen karierten Minirock, schwarze Strümpfe und braune Oxfords."
+                  "content": "Dieses Diagramm, im Cartoon-Stil illustriert, zeigt die vier Ebenen der Forschung zu Informationsdiffusionsmechanismen in der Kommunikationswissenschaft: Die deskriptive Ebene erfasst Basisdaten und Phänomene der Informationsverbreitung; die Klassifikationsebene identifiziert unterschiedliche Verbreitungswege und Muster durch Methoden wie Clustering und strukturelle Partitionierung; die erklärende Ebene legt die kausalen Mechanismen der Diffusion anhand von Theorien wie sozialem Einfluss, schwachen Bindungen, Agenda-Setting oder Plattformalgorithmen offen; und die prädiktive Ebene nutzt Diffusionsmodelle und Algorithmen, um überprüfbare Vorhersagen zur Popularität von Inhalten und zum Ausmaß der Verbreitung zu treffen. Diese Struktur hilft, das vollständige theoretische Rahmenwerk von Kommunikationsphänomenen zu verstehen – von Darstellung und Induktion bis zur Mechanismuserklärung und Zukunftsprognose."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page2_6e3ffabc68.png",
-                  "altText": "Landschaft mit Schloss"
+                  "content": "https://r2.veo3ai.io/intro/text-to-image/1209Material-reserves/Four-layer-information-diagram.png",
+                  "altText": "Vierstufiges Diagramm der Informationsdiffusion"
                 }
               ]
             }
@@ -91,22 +91,22 @@
               "cells": [
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page3_8fd81051f4.png",
-                  "altText": "Eine Frau mit kurzen Haaren"
+                  "content": "https://r2.veo3ai.io/intro/nano/original-%20image1.webp",
+                  "altText": "Originales Referenzbild 1"
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page4_7e3c0b8db7.png",
-                  "altText": "Ein Paar von Goldohrringen"
+                  "content": "https://r2.veo3ai.io/intro/nano/original-image2.png",
+                  "altText": "Originales Referenzbild 2"
                 },
                 {
                   "type": "text",
-                  "content": "Platzieren Sie die Ohrringe aus Abbildung 2 an den Ohren der Frau."
+                  "content": "Kombiniere die Figuren Judy die Häsin, Nick den Fuchs und das Haustierkätzchen zu einem einzigen Selfie mit eng komponiertem Bildausschnitt."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page5_dec9d56c7d.png",
-                  "altText": "Die Frau mit hinzugefügten Ohrringen"
+                  "content": "https://r2.veo3ai.io/images/1202add-pic/img2img/Zootopia-The-Perfect-Match.png",
+                  "altText": "Kombiniertes Selfie von Judy, Nick und einem Kätzchen"
                 }
               ]
             }
@@ -128,17 +128,17 @@
               "cells": [
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page6_266c7d809f.png",
-                  "altText": "Eine Frau mit kurzen Haaren"
+                  "content": "https://r2.veo3ai.io/intro/nano/original-%20person.png",
+                  "altText": "Originales Porträtfoto für die Alenka-Bearbeitung"
                 },
                 {
                   "type": "text",
-                  "content": "Ändern Sie den Hintergrund in Vulkan"
+                  "content": "Bearbeite das Foto so, dass es wie eine Alenka-Schokoladentafel aussieht, aber mit einem Neujahrs-Thema. Behalte das Gesicht ähnlich wie auf dem Foto, mit Neujahrskleidung und einem Neujahrs-Hintergrund."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page7_7b8cbb32e0.png",
-                  "altText": "Die Frau mit hinzugefügten Ohrringen"
+                  "content": "https://r2.veo3ai.io/intro/image-to-image/1209Material-reserves/Christmas-Costume1.png",
+                  "altText": "Neujahrs-Porträt im Alenka-Stil"
                 }
               ]
             }
