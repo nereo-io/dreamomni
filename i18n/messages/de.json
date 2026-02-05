@@ -138,7 +138,12 @@
     "days": "Tage",
     "no_membership": "Keine aktiv",
     "manage_subscription": "Abonnement verwalten",
-    "loading": "Wird geladen..."
+    "loading": "Wird geladen...",
+    "next_credit_distribution": "Nächste Credit-Verteilung",
+    "monthly_credits": "Monatliche Credits",
+    "distribution_progress": "Verteilungsfortschritt",
+    "credits": "Credits",
+    "months": "Monate"
   },
   "creditPools": {
     "title": "Credit-Pools",

@@ -138,7 +138,12 @@
     "days": "days",
     "no_membership": "No Active",
     "manage_subscription": "Manage Subscription",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "next_credit_distribution": "Next Credit Distribution",
+    "monthly_credits": "Monthly Credits",
+    "distribution_progress": "Distribution Progress",
+    "credits": "credits",
+    "months": "months"
   },
   "creditPools": {
     "title": "Credit Pools",

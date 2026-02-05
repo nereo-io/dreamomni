@@ -138,7 +138,12 @@
     "days": "дней",
     "no_membership": "Не активно",
     "manage_subscription": "Управление подпиской",
-    "loading": "Загрузка..."
+    "loading": "Загрузка...",
+    "next_credit_distribution": "Следующее распределение кредитов",
+    "monthly_credits": "Ежемесячные кредиты",
+    "distribution_progress": "Прогресс распределения",
+    "credits": "кредитов",
+    "months": "месяцев"
   },
   "creditPools": {
     "title": "Пулы кредитов",

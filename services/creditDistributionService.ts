@@ -42,6 +42,29 @@ export class CreditDistributionService {
   }
 
   /**
+   * 获取用户的下一次积分发放计划
+   */
+  static async getNextScheduleForUser(userUuid: string): Promise<DistributionSchedule | null> {
+    const supabase = getSupabaseClient();
+
+    const { data, error } = await supabase
+      .from("credit_distribution_schedule")
+      .select("*")
+      .eq("user_uuid", userUuid)
+      .eq("status", "active")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Failed to query next distribution schedule:", error);
+      return null;
+    }
+
+    return data;
+  }
+
+  /**
    * 执行单个订阅的积分发放
    */
   static async distributeCreditsForSchedule(
