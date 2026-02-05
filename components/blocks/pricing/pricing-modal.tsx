@@ -71,6 +71,10 @@ export default function PricingModal({
     planName?: string;
     credits?: number;
     nextBilling?: string;
+    isMonthlyDistribution?: boolean;
+    monthlyCredits?: number;
+    totalCredits?: number;
+    remainingMonths?: number;
   }>({});
 
   const visiblePlans = useMemo(() => {
@@ -138,6 +142,10 @@ export default function PricingModal({
               paymentInfo.interval,
               paymentInfo.paidAt
             ),
+            isMonthlyDistribution: paymentInfo.isMonthlyDistribution,
+            monthlyCredits: paymentInfo.monthlyCredits,
+            totalCredits: paymentInfo.totalCredits,
+            remainingMonths: paymentInfo.remainingMonths,
           });
 
           setShowSuccessModal(true);
@@ -867,7 +875,27 @@ export default function PricingModal({
                 <p className="text-lg font-semibold text-green-600">
                   {successInfo.planName} {t("plan_activated")}
                 </p>
-                {successInfo.credits && successInfo.credits > 0 && (
+
+                {/* Monthly distribution - show first month credits */}
+                {successInfo.isMonthlyDistribution && successInfo.monthlyCredits && (
+                  <div className="space-y-2">
+                    <p className="text-sm text-muted-foreground">
+                      <span className="font-semibold text-primary">
+                        {successInfo.monthlyCredits} {t("credits_added_this_month")}
+                      </span>
+                    </p>
+                    <p className="text-xs text-muted-foreground bg-blue-50 dark:bg-blue-950 p-3 rounded-md border border-blue-200 dark:border-blue-800">
+                      📅 {t("monthly_distribution_explanation", {
+                        totalCredits: successInfo.totalCredits,
+                        monthlyCredits: successInfo.monthlyCredits,
+                        remainingMonths: successInfo.remainingMonths
+                      })}
+                    </p>
+                  </div>
+                )}
+
+                {/* Regular credits display (backward compatible) */}
+                {!successInfo.isMonthlyDistribution && successInfo.credits && successInfo.credits > 0 && (
                   <p className="text-sm text-muted-foreground">
                     {successInfo.credits} {t("credits_added")}
                   </p>

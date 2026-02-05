@@ -66,6 +66,8 @@
     "payment_successful": "Zahlung erfolgreich!",
     "plan_activated": "Aktiviert",
     "credits_added": "Credits wurden Ihrem Konto gutgeschrieben",
+    "credits_added_this_month": "Credits in diesem Monat hinzugefügt",
+    "monthly_distribution_explanation": "Sie erhalten jeden Monat {monthlyCredits} Credits für 12 Monate (insgesamt: {totalCredits} Credits). Nächste Verteilung in 30 Tagen.",
     "continue": "Fortfahren",
     "start_creating": "Erstellen beginnen",
     "please_select_payment": "Bitte wählen Sie eine Zahlungsmethode"

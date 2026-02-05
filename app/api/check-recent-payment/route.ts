@@ -33,15 +33,26 @@ export async function GET(req: NextRequest) {
       const orderCreatedTime = new Date(recentOrder.created_at).getTime();
 
       if (orderCreatedTime >= requestTimestamp - 60000) {
+        // Calculate monthly credits for yearly subscriptions with monthly distribution
+        const isMonthlyDistribution = recentOrder.is_monthly_distribution || false;
+        const monthlyCredits = isMonthlyDistribution
+          ? Math.floor(recentOrder.credits / 12)
+          : recentOrder.credits;
+
         return respData({
           hasRecentPayment: true,
           paymentInfo: {
             planName: recentOrder.product_name,
-            credits: recentOrder.credits,
+            credits: recentOrder.credits, // Keep for backward compatibility
             amount: recentOrder.amount,
             currency: recentOrder.currency,
             interval: recentOrder.interval,
             paidAt: recentOrder.paid_at,
+            // New fields for monthly distribution
+            isMonthlyDistribution,
+            monthlyCredits,
+            totalCredits: recentOrder.credits,
+            remainingMonths: isMonthlyDistribution ? 11 : 0,
           },
         });
       }
