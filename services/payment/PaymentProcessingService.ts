@@ -259,6 +259,18 @@ export class PaymentProcessingService {
     const { getSnowId } = await import("@/lib/hash");
     const supabase = getSupabaseClient();
 
+    // 幂等性检查：检查是否已存在该订单的发放计划
+    const { data: existingSchedule } = await supabase
+      .from("credit_distribution_schedule")
+      .select("id")
+      .eq("order_no", params.orderNo)
+      .single();
+
+    if (existingSchedule) {
+      console.log(`ℹ️ Distribution schedule already exists for order ${params.orderNo}, skipping creation`);
+      return;
+    }
+
     // 计算下次发放日期（1个月后）
     const nextDistributionDate = new Date();
     nextDistributionDate.setMonth(nextDistributionDate.getMonth() + 1);
