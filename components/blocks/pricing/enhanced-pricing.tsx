@@ -837,17 +837,16 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
               </p>
 
               {/* Monthly distribution - show first month credits */}
-              {successInfo.isMonthlyDistribution && successInfo.monthlyCredits && (
-                <div className="space-y-2">
+              {successInfo.isMonthlyDistribution && successInfo.monthlyCredits && successInfo.totalCredits && (
+                <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">
                     <span className="font-semibold text-primary">
-                      {successInfo.monthlyCredits} {tPricing("credits_added_this_month")}
+                      {successInfo.monthlyCredits} {tPricing("credits_added")}
                     </span>
                   </p>
-                  <p className="text-xs text-muted-foreground bg-blue-50 dark:bg-blue-950 p-3 rounded-md border border-blue-200 dark:border-blue-800">
-                    📅 {tPricing("monthly_distribution_explanation", {
-                      totalCredits: successInfo.totalCredits,
-                      monthlyCredits: successInfo.monthlyCredits,
+                  <p className="text-xs text-muted-foreground">
+                    {tPricing("remaining_credits_monthly", {
+                      remainingCredits: successInfo.totalCredits - successInfo.monthlyCredits,
                       remainingMonths: successInfo.remainingMonths
                     })}
                   </p>

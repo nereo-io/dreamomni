@@ -66,8 +66,7 @@
     "payment_successful": "Payment Successful!",
     "plan_activated": "Activated",
     "credits_added": "credits added to your account",
-    "credits_added_this_month": "credits added this month",
-    "monthly_distribution_explanation": "You'll receive {monthlyCredits} credits every month for 12 months (total: {totalCredits} credits). Next distribution in 30 days.",
+    "remaining_credits_monthly": "Remaining {remainingCredits} credits will be distributed monthly over the next {remainingMonths} months",
     "continue": "Continue",
     "start_creating": "Start Creating",
     "please_select_payment": "Please select a payment method"
