@@ -65,11 +65,15 @@
       },
       {
         "title": "Precision Prompt Understanding",
-        "description": "Veo 3.1 demonstrates remarkable comprehension of complex, nuanced prompts. Describe intricate scenes, specific camera movements, or detailed artistic styles—Veo 3.1 translates your words into stunning visuals with impressive accuracy. The system understands context, emotion, and subtle creative directions."
+        "description": "Veo 3.1 demonstrates remarkable comprehension of complex, nuanced prompts. Describe intricate scenes, specific camera movements, or detailed artistic styles—Veo 3.1 translates your words into stunning visuals with impressive accuracy. The system understands context, emotion, and subtle creative directions.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Starting-a-fire-on-paper.mp4"
       },
       {
         "title": "High-Quality Output",
-        "description": "Generate videos at 1080p resolution with exceptional visual fidelity and style consistency. From emulating subtle emotional expressions to rendering cinematic-level sequences, Veo 3.1 brings your creative vision to life with incredibly lifelike detail."
+        "description": "Generate videos at 1080p resolution with exceptional visual fidelity and style consistency. From emulating subtle emotional expressions to rendering cinematic-level sequences, Veo 3.1 brings your creative vision to life with incredibly lifelike detail.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/wool-scarf.mp4"
       }
     ]
   },

@@ -65,11 +65,15 @@
       },
       {
         "title": "Präzises Prompt-Verständnis",
-        "description": "Veo 3.1 zeigt bemerkenswerte Komprehension komplexer, nuancierter Prompts. Beschreiben Sie komplizierte Szenen, spezifische Kamerabewegungen oder detaillierte künstlerische Stile – Veo 3.1 übersetzt Ihre Worte in atemberaubende Visuals mit beeindruckender Genauigkeit. Das System versteht Kontext, Emotionen und subtile kreative Anweisungen."
+        "description": "Veo 3.1 zeigt bemerkenswerte Komprehension komplexer, nuancierter Prompts. Beschreiben Sie komplizierte Szenen, spezifische Kamerabewegungen oder detaillierte künstlerische Stile – Veo 3.1 übersetzt Ihre Worte in atemberaubende Visuals mit beeindruckender Genauigkeit. Das System versteht Kontext, Emotionen und subtile kreative Anweisungen.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Starting-a-fire-on-paper.mp4"
       },
       {
         "title": "Hochwertige Ausgabe",
-        "description": "Generieren Sie Videos in 1080p-Auflösung mit außergewöhnlicher visueller Wiedergabetreue und Stilkonsistenz. Von der Emulation subtiler emotionaler Ausdrücke bis hin zum Rendering kinoreifer Sequenzen erweckt Veo 3.1 Ihre kreative Vision mit unglaublich lebensechten Details zum Leben."
+        "description": "Generieren Sie Videos in 1080p-Auflösung mit außergewöhnlicher visueller Wiedergabetreue und Stilkonsistenz. Von der Emulation subtiler emotionaler Ausdrücke bis hin zum Rendering kinoreifer Sequenzen erweckt Veo 3.1 Ihre kreative Vision mit unglaublich lebensechten Details zum Leben.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/wool-scarf.mp4"
       }
     ]
   },

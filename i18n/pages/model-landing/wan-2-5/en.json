@@ -65,11 +65,15 @@
       },
       {
         "title": "Improved Contextual Understanding",
-        "description": "Compared to its predecessor, Wan 2.5 AI video model interprets user prompts with even greater accuracy and responsiveness than before. Even with multi-step instructions, it can understand what the user intends to generate, ensuring there is less need to keep refining prompts and regenerating videos."
+        "description": "Compared to its predecessor, Wan 2.5 AI video model interprets user prompts with even greater accuracy and responsiveness than before. Even with multi-step instructions, it can understand what the user intends to generate, ensuring there is less need to keep refining prompts and regenerating videos.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/Wan2.5/Black-and-white-film.mp4"
       },
       {
         "title": "Faster Video Generation",
-        "description": "Wan 2.5 AI video model has been developed to be more efficient than Wan 2.2 at rendering cinematic-level videos without compromising overall quality. By providing creators with far shorter waiting times, it makes rapid ideation and experimentation with visual concepts more manageable than before."
+        "description": "Wan 2.5 AI video model has been developed to be more efficient than Wan 2.2 at rendering cinematic-level videos without compromising overall quality. By providing creators with far shorter waiting times, it makes rapid ideation and experimentation with visual concepts more manageable than before.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/Wan2.5/Forest-Girl.mp4"
       }
     ]
   },
