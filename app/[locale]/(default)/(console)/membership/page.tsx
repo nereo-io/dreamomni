@@ -107,32 +107,14 @@ export default async function () {
               </div>
               {/* 年付订阅的积分发放信息 */}
               {distributionSchedule && membership.plan_type === "yearly" && (
-                <>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      {t("membership.next_credit_distribution")}
-                    </span>
-                    <span className="text-sm font-medium">
-                      <LocalTime date={distributionSchedule.next_distribution_date} format="date" />
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      {t("membership.monthly_credits")}
-                    </span>
-                    <span className="text-sm font-medium">
-                      {distributionSchedule.monthly_credits} {t("membership.credits")}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      {t("membership.distribution_progress")}
-                    </span>
-                    <span className="text-sm font-medium">
-                      {distributionSchedule.distributed_months} / {distributionSchedule.total_months} {t("membership.months")}
-                    </span>
-                  </div>
-                </>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">
+                    {t("membership.next_credit_distribution")}
+                  </span>
+                  <span className="text-sm font-medium">
+                    <LocalTime date={distributionSchedule.next_distribution_date} format="date" />
+                  </span>
+                </div>
               )}
             </div>
           ) : (

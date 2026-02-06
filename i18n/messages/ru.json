@@ -66,6 +66,7 @@
     "payment_successful": "Оплата успешна!",
     "plan_activated": "Активирован",
     "credits_added": "кредитов добавлено на ваш счёт",
+    "monthly_credits_grant": "Вы будете получать {credits} кредитов каждый месяц",
     "remaining_credits_monthly": "Оставшиеся {remainingCredits} кредитов будут распределены ежемесячно в течение следующих {remainingMonths} месяцев",
     "continue": "Продолжить",
     "start_creating": "Начать создание",

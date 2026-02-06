@@ -66,6 +66,7 @@
     "payment_successful": "Payment Successful!",
     "plan_activated": "Activated",
     "credits_added": "credits added to your account",
+    "monthly_credits_grant": "You will receive {credits} credits every month",
     "remaining_credits_monthly": "Remaining {remainingCredits} credits will be distributed monthly over the next {remainingMonths} months",
     "continue": "Continue",
     "start_creating": "Start Creating",
