@@ -3,6 +3,7 @@ import { findActiveMembershipByUserUuid } from "@/models/membership";
 import { getStripeCustomerId } from "@/models/user";
 import { findSubscriptionsByUserUuid } from "@/models/subscription";
 import { findCreemSubscriptionsByUserUuid } from "@/models/creem-subscription";
+import { CreditDistributionService } from "@/services/creditDistributionService";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 import {
@@ -29,6 +30,10 @@ export default async function () {
 
   // 获取会员信息
   const membership = await findActiveMembershipByUserUuid(user_uuid);
+  // 获取年付订阅的积分发放计划
+  const distributionSchedule = membership?.plan_type === "yearly"
+    ? await CreditDistributionService.getNextScheduleForUser(user_uuid)
+    : null;
   // 获取 Stripe Customer ID
   const stripeCustomerId = await getStripeCustomerId(user_uuid);
   // 获取 Payssion 订阅信息
@@ -100,6 +105,17 @@ export default async function () {
                   {t("membership.days")}
                 </span>
               </div>
+              {/* 年付订阅的积分发放信息 */}
+              {distributionSchedule && membership.plan_type === "yearly" && (
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">
+                    {t("membership.next_credit_distribution")}
+                  </span>
+                  <span className="text-sm font-medium">
+                    <LocalTime date={distributionSchedule.next_distribution_date} format="date" />
+                  </span>
+                </div>
+              )}
             </div>
           ) : (
             <div className="text-center py-6">

@@ -105,28 +105,61 @@ export class PaymentProcessingService {
     const membershipType: "monthly" | "yearly" =
       interval === "year" ? "yearly" : "monthly";
 
+    // 判断是否为年订阅且需要按月发放
+    const isYearlySubscription = interval === "year" && !isBundle;
+    const shouldDistributeMonthly = isYearlySubscription &&
+      order.is_monthly_distribution === true;
+
     // 1. 增加积分
     if (credits > 0) {
       const { increaseCredits } = await import("@/services/credit");
 
-      // 根据类型计算新的有效期
+      let creditsToAward: number;
       let expiredAt: string;
-      if (isBundle) {
+
+      if (shouldDistributeMonthly) {
+        // 按月发放：首次只发放 1/12
+        creditsToAward = Math.floor(credits / 12);
+
+        // 首月积分有效期：1个月 + 1天缓冲
+        const expireDate = new Date();
+        expireDate.setMonth(expireDate.getMonth() + 1);
+        expireDate.setDate(expireDate.getDate() + 1);
+        expiredAt = expireDate.toISOString();
+
+        console.log(`📅 年订阅按月发放 - 首月: ${creditsToAward} credits (总计 ${credits})`);
+
+        // 创建发放计划
+        await this.createDistributionSchedule({
+          orderNo: orderId,
+          userUuid: data.userUuid,
+          subscriptionId: data.subscriptionId,
+          paymentProvider: data.paymentMethod, // 传入支付提供商
+          totalCredits: credits,
+          monthlyCredits: creditsToAward,
+        });
+
+      } else if (isBundle) {
         // Bundle: 使用 valid_months（默认1个月）
+        creditsToAward = credits;
         const validMonths = data.metadata?.valid_months || 1;
         const expireDate = new Date();
         expireDate.setMonth(expireDate.getMonth() + validMonths);
         expiredAt = expireDate.toISOString();
         console.log(`📅 Bundle 积分有效期: ${expiredAt} (${validMonths} 个月)`);
+
       } else if (membershipType === "yearly") {
-        // 年度订阅：12个月 + 1天缓冲
+        // 旧年订阅：一次性发放全部积分
+        creditsToAward = credits;
         const expireDate = new Date();
         expireDate.setMonth(expireDate.getMonth() + 12);
         expireDate.setDate(expireDate.getDate() + 1);
         expiredAt = expireDate.toISOString();
-        console.log(`📅 年度订阅积分有效期: ${expiredAt}`);
+        console.log(`📅 年度订阅积分有效期（旧逻辑）: ${expiredAt}`);
+
       } else {
         // 月度订阅：1个月 + 1天缓冲
+        creditsToAward = credits;
         const expireDate = new Date();
         expireDate.setMonth(expireDate.getMonth() + 1);
         expireDate.setDate(expireDate.getDate() + 1);
@@ -137,13 +170,13 @@ export class PaymentProcessingService {
       await increaseCredits({
         user_uuid: data.userUuid,
         trans_type: "order_pay",
-        credits: credits,
+        credits: creditsToAward,
         order_no: orderId,
         payment_id: data.paymentId,
         expired_at: expiredAt,
       });
 
-      console.log(`💰 Credits added: ${credits} for user ${data.userUuid}, expires at ${expiredAt}`);
+      console.log(`💰 Credits added: ${creditsToAward} for user ${data.userUuid}, expires at ${expiredAt}`);
     }
 
     // 2. 更新会员状态 - 仅订阅，Bundle 不更新会员
@@ -208,6 +241,85 @@ export class PaymentProcessingService {
         error: error.message,
       });
       return false; // 异常时认为未处理，允许重试
+    }
+  }
+
+  /**
+   * 创建积分发放计划
+   */
+  private static async createDistributionSchedule(params: {
+    orderNo: string;
+    userUuid: string;
+    subscriptionId?: string;
+    paymentProvider?: string; // 新增：支付提供商
+    totalCredits: number;
+    monthlyCredits: number;
+  }): Promise<void> {
+    const { getSupabaseClient } = await import("@/models/db");
+    const { getSnowId } = await import("@/lib/hash");
+    const supabase = getSupabaseClient();
+
+    // 幂等性检查：检查是否已存在该订单的发放计划
+    const { data: existingSchedule } = await supabase
+      .from("credit_distribution_schedule")
+      .select("id")
+      .eq("order_no", params.orderNo)
+      .single();
+
+    if (existingSchedule) {
+      console.log(`ℹ️ Distribution schedule already exists for order ${params.orderNo}, skipping creation`);
+      return;
+    }
+
+    // 计算下次发放日期（1个月后）
+    const nextDistributionDate = new Date();
+    nextDistributionDate.setMonth(nextDistributionDate.getMonth() + 1);
+
+    // 创建发放计划
+    const { data: scheduleData, error: scheduleError } = await supabase
+      .from("credit_distribution_schedule")
+      .insert({
+        order_no: params.orderNo,
+        user_uuid: params.userUuid,
+        subscription_id: params.subscriptionId,
+        payment_provider: params.paymentProvider, // 新增字段
+        total_credits: params.totalCredits,
+        monthly_credits: params.monthlyCredits,
+        total_months: 12,
+        distributed_months: 1, // 首月已发放
+        next_distribution_date: nextDistributionDate.toISOString(),
+        last_distribution_date: new Date().toISOString(),
+        status: "active",
+      })
+      .select()
+      .single();
+
+    if (scheduleError) {
+      console.error("❌ Failed to create distribution schedule:", scheduleError);
+      throw new Error(`Failed to create distribution schedule: ${scheduleError.message}`);
+    }
+
+    console.log(`✅ Created distribution schedule for order ${params.orderNo}`);
+
+    // 记录首月发放历史
+    const transNo = getSnowId();
+    const { error: historyError } = await supabase
+      .from("credit_distribution_history")
+      .insert({
+        schedule_id: scheduleData.id,
+        order_no: params.orderNo,
+        user_uuid: params.userUuid,
+        month_number: 1, // 第1个月
+        credits_distributed: params.monthlyCredits,
+        distribution_date: new Date().toISOString(),
+        credit_trans_no: transNo,
+      });
+
+    if (historyError) {
+      console.error("⚠️ Failed to create first month distribution history:", historyError);
+      // 不抛出错误，因为积分已经发放，只是历史记录失败
+    } else {
+      console.log(`✅ Recorded first month distribution history for order ${params.orderNo}`);
     }
   }
 }

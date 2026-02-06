@@ -71,24 +71,30 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     planName?: string;
     credits?: number;
     nextBilling?: string;
+    isMonthlyDistribution?: boolean;
+    monthlyCredits?: number;
+    totalCredits?: number;
+    remainingMonths?: number;
   }>({});
 
   function calculateNextBilling(interval: string, paidAt: string) {
     const paidDate = new Date(paidAt);
     if (interval === "year") {
       return new Date(
-        paidDate.getTime() + 365 * 24 * 60 * 60 * 1000
+        paidDate.getTime() + 365 * 24 * 60 * 60 * 1000,
       ).toLocaleDateString();
     }
     if (interval === "month") {
       return new Date(
-        paidDate.getTime() + 30 * 24 * 60 * 60 * 1000
+        paidDate.getTime() + 30 * 24 * 60 * 60 * 1000,
       ).toLocaleDateString();
     }
     return "";
   }
 
-  const checkRecentPayment = useCallback(async (): Promise<"success" | "failure" | "none"> => {
+  const checkRecentPayment = useCallback(async (): Promise<
+    "success" | "failure" | "none"
+  > => {
     const paymentPending = localStorage.getItem("veo3_payment_pending");
     const paymentTimestamp = localStorage.getItem("veo3_payment_timestamp");
     if (!paymentPending || !paymentTimestamp) {
@@ -97,7 +103,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
     try {
       const response = await fetch(
-        `/api/check-recent-payment?timestamp=${paymentTimestamp}`
+        `/api/check-recent-payment?timestamp=${paymentTimestamp}`,
       );
       const result = await response.json();
 
@@ -110,8 +116,12 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
             credits: paymentInfo.credits,
             nextBilling: calculateNextBilling(
               paymentInfo.interval,
-              paymentInfo.paidAt
+              paymentInfo.paidAt,
             ),
+            isMonthlyDistribution: paymentInfo.isMonthlyDistribution,
+            monthlyCredits: paymentInfo.monthlyCredits,
+            totalCredits: paymentInfo.totalCredits,
+            remainingMonths: paymentInfo.remainingMonths,
           });
 
           setShowSuccessModal(true);
@@ -123,7 +133,8 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
         if (result.data.hasFailedPayment && result.data.failureInfo) {
           const failureInfo = result.data.failureInfo;
-          const message = failureInfo.message || failureInfo.code || "Payment failed";
+          const message =
+            failureInfo.message || failureInfo.code || "Payment failed";
 
           toast.error(message);
           localStorage.removeItem("veo3_payment_pending");
@@ -151,7 +162,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
           if (isRussia) {
             // 俄罗斯用户: 默认选择第一个 Payssion 支付方式（按顺序 sberpay -> yoomoney -> mir）
             const firstPayssionMethod = methods.find(
-              (m) => m.provider === "payssion"
+              (m) => m.provider === "payssion",
             );
             if (firstPayssionMethod) {
               setSelectedPaymentMethod(firstPayssionMethod.id);
@@ -278,14 +289,17 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       // Set payment pending marker
       const paymentTimestamp = Date.now();
       localStorage.setItem("veo3_payment_pending", "true");
-      localStorage.setItem("veo3_payment_timestamp", paymentTimestamp.toString());
+      localStorage.setItem(
+        "veo3_payment_timestamp",
+        paymentTimestamp.toString(),
+      );
       localStorage.setItem(
         "veo3_payment_info",
         JSON.stringify({
           planName: productName,
           credits: bundle.credits,
           timestamp: paymentTimestamp,
-        })
+        }),
       );
 
       // Call payment API
@@ -358,7 +372,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         planName: item.title || item.product_name,
         credits: item.credits,
         timestamp: paymentTimestamp,
-      })
+      }),
     );
 
     setIsLoading(true);
@@ -384,7 +398,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         isSubscription &&
         (selectedProvider === "payssion" ||
           ["mir", "yoomoney", "sberpay", "tbank"].includes(
-            selectedPaymentMethod
+            selectedPaymentMethod,
           ))
       ) {
         // Payssion V2 订阅
@@ -525,7 +539,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
             <div
               className={`md:min-w-96 mt-0 grid gap-6 md:grid-cols-${
                 pricing.items?.filter(
-                  (item) => !item.group || item.group === group
+                  (item) => !item.group || item.group === group,
                 )?.length
               }`}
             >
@@ -535,9 +549,15 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                 }
 
                 // Calculate subscription status for this item
-                const itemIsCurrentPlan = item.product_id ? isCurrentPlan(item.product_id) : false;
-                const itemCanUpgrade = item.product_id ? canUpgradeTo(item.product_id) : true;
-                const itemIsDowngrade = item.product_id ? isDowngrade(item.product_id) : false;
+                const itemIsCurrentPlan = item.product_id
+                  ? isCurrentPlan(item.product_id)
+                  : false;
+                const itemCanUpgrade = item.product_id
+                  ? canUpgradeTo(item.product_id)
+                  : true;
+                const itemIsDowngrade = item.product_id
+                  ? isDowngrade(item.product_id)
+                  : false;
                 // Free plan (amount === 0) is always purchasable
                 const isFreeItem = item.amount === 0;
 
@@ -706,15 +726,16 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                               )}
 
                             {/* Buy Credits Button */}
-                            {item.amount > 0 && subscriptionState?.hasActiveSubscription && (
-                              <Button
-                                variant="outline"
-                                className="w-full mb-3 bg-white text-primary border-primary hover:bg-primary/5"
-                                onClick={() => setShowBundleModal(true)}
-                              >
-                                {t("buyCredits")}
-                              </Button>
-                            )}
+                            {item.amount > 0 &&
+                              subscriptionState?.hasActiveSubscription && (
+                                <Button
+                                  variant="outline"
+                                  className="w-full mb-3 bg-white text-primary border-primary hover:bg-primary/5"
+                                  onClick={() => setShowBundleModal(true)}
+                                >
+                                  {t("buyCredits")}
+                                </Button>
+                              )}
 
                             <Button
                               className={`w-full flex items-center justify-center gap-2 font-semibold relative overflow-hidden group transition-transform duration-200 ease-out ${
@@ -722,7 +743,12 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                   ? "opacity-60 cursor-not-allowed"
                                   : "hover:scale-[1.02] active:scale-[0.98]"
                               }`}
-                              disabled={isLoading || item.button.disabled || itemIsCurrentPlan || (!isFreeItem && itemIsDowngrade)}
+                              disabled={
+                                isLoading ||
+                                item.button.disabled ||
+                                itemIsCurrentPlan ||
+                                (!isFreeItem && itemIsDowngrade)
+                              }
                               onClick={() => {
                                 // Handle Free Plan navigation
                                 if (item.amount === 0 && item.button.url) {
@@ -736,7 +762,9 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                   return;
                                 }
                                 if (itemIsDowngrade) {
-                                  toast.error("Downgrade is not allowed. Please contact support if you need to change your plan.");
+                                  toast.error(
+                                    "Downgrade is not allowed. Please contact support if you need to change your plan.",
+                                  );
                                   return;
                                 }
 
@@ -755,7 +783,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                         item_amount: item.amount,
                                       },
                                     ],
-                                  }
+                                  },
                                 );
                                 if (isLoading) {
                                   return;
@@ -773,10 +801,11 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                   {itemIsCurrentPlan
                                     ? "Current Plan"
                                     : itemIsDowngrade
-                                    ? "Downgrade Not Allowed"
-                                    : itemCanUpgrade && subscriptionState?.hasActiveSubscription
-                                    ? "Upgrade"
-                                    : item.button.title}
+                                      ? "Downgrade Not Allowed"
+                                      : itemCanUpgrade &&
+                                          subscriptionState?.hasActiveSubscription
+                                        ? "Upgrade"
+                                        : item.button.title}
                                 </span>
                               )}
 
@@ -788,12 +817,14 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                   <Loader className="relative z-10 ml-2 h-4 w-4 animate-spin" />
                                 </>
                               )}
-                              {item.button.icon && !itemIsCurrentPlan && !itemIsDowngrade && (
-                                <Icon
-                                  name={item.button.icon}
-                                  className="relative z-10 size-4"
-                                />
-                              )}
+                              {item.button.icon &&
+                                !itemIsCurrentPlan &&
+                                !itemIsDowngrade && (
+                                  <Icon
+                                    name={item.button.icon}
+                                    className="relative z-10 size-4"
+                                  />
+                                )}
                             </Button>
                           </div>
                         )}
@@ -827,16 +858,30 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
               <p className="text-lg font-semibold text-green-600">
                 {successInfo.planName} {tPricing("plan_activated")}
               </p>
-              {successInfo.credits && successInfo.credits > 0 && (
-                <p className="text-sm text-muted-foreground">
-                  {successInfo.credits} {tPricing("credits_added")}
-                </p>
-              )}
-              {/* {successInfo.nextBilling && (
-                <p className="text-sm text-muted-foreground">
-                  📅 Next billing: {successInfo.nextBilling}
-                </p>
-              )} */}
+
+              {/* Monthly distribution - show first month credits */}
+              {successInfo.isMonthlyDistribution &&
+                successInfo.monthlyCredits && (
+                  <div className="space-y-1 text-sm text-muted-foreground">
+                    <p>
+                      {successInfo.monthlyCredits} {tPricing("credits_added")}
+                    </p>
+                    <p className="opacity-50">
+                      {tPricing("monthly_credits_grant", {
+                        credits: successInfo.monthlyCredits,
+                      })}
+                    </p>
+                  </div>
+                )}
+
+              {/* Regular credits display (backward compatible) */}
+              {!successInfo.isMonthlyDistribution &&
+                successInfo.credits &&
+                successInfo.credits > 0 && (
+                  <p className="text-sm text-muted-foreground">
+                    {successInfo.credits} {tPricing("credits_added")}
+                  </p>
+                )}
             </div>
             <div className="flex gap-2">
               <Button

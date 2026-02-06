@@ -76,6 +76,9 @@ export async function POST(req: NextRequest) {
     const is_subscription = interval === "month" || interval === "year";
     const is_bundle = interval === "one-time";
 
+    // 新增：年订阅标记为按月发放
+    const isMonthlyDistribution = interval === "year";
+
     // Bundle purchase requires active subscription
     if (is_bundle) {
       const [payssionSubscriptions, creemSubscriptions] = await Promise.all([
@@ -204,6 +207,7 @@ export async function POST(req: NextRequest) {
       first_touch: resolvedAttribution.first_touch,
       last_touch: resolvedAttribution.last_touch,
       is_renewal: false,
+      is_monthly_distribution: isMonthlyDistribution, // 新增字段
     };
     await insertOrder(order);
 

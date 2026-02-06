@@ -15,6 +15,7 @@ import { getSnowId } from "@/lib/hash";
 export enum CreditsTransType {
   NewUser = "new_user", // initial credits for new user
   OrderPay = "order_pay", // user pay for credits
+  MonthlyDistribution = "monthly_distribution", // monthly credit distribution for yearly subscription
   SystemAdd = "system_add", // system add credits
   Ping = "ping", // cost for ping api
   Chat = "chat", // cost for chat api

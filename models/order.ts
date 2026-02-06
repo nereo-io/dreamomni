@@ -101,6 +101,18 @@ export async function updateOrderStatus(
     throw error;
   }
 
+  // 如果订单状态更新为 refunded，取消积分发放计划
+  if (status === "refunded") {
+    try {
+      const { CreditDistributionService } = await import("@/services/creditDistributionService");
+      await CreditDistributionService.cancelSchedule(order_no);
+      console.log(`🚫 Canceled credit distribution for refunded order: ${order_no}`);
+    } catch (cancelError: any) {
+      console.error(`⚠️ Failed to cancel distribution schedule for order ${order_no}:`, cancelError.message);
+      // 不抛出错误，避免影响订单状态更新
+    }
+  }
+
   return data;
 }
 

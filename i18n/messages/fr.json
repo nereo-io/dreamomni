@@ -63,6 +63,8 @@
     "payment_successful": "Paiement réussi !",
     "plan_activated": "Activé",
     "credits_added": "crédits ajoutés à votre compte",
+    "monthly_credits_grant": "Vous recevrez {credits} crédits chaque mois",
+    "remaining_credits_monthly": "Les {remainingCredits} crédits restants seront distribués mensuellement au cours des {remainingMonths} prochains mois",
     "continue": "Continuer",
     "start_creating": "Commencer à créer",
     "please_select_payment": "Veuillez sélectionner un mode de paiement"
@@ -134,7 +136,12 @@
     "days": "jours",
     "no_membership": "Aucun actif",
     "manage_subscription": "Gérer l'abonnement",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "next_credit_distribution": "Prochaine distribution de crédits",
+    "monthly_credits": "Crédits mensuels",
+    "distribution_progress": "Progression de la distribution",
+    "credits": "crédits",
+    "months": "mois"
   },
   "creditPools": {
     "title": "Pools de crédits",
