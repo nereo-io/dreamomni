@@ -515,6 +515,9 @@ export default function VideoGenerator({
   }, [isSeedanceSelected, isVeo3Selected, isMember]);
 
   // Sync generateAudio with model capability
+  // - supportsAudio + audioOptional: user can toggle (default on)
+  // - supportsAudio + !audioOptional: always on (veo3, sora2)
+  // - !supportsAudio: always off
   useEffect(() => {
     if (selectedModelConfig?.supportsAudio) {
       setGenerateAudio(true);
@@ -1142,7 +1145,7 @@ export default function VideoGenerator({
                 </div>
               </div>
 
-              {selectedModelConfig?.supportsAudio && (
+              {selectedModelConfig?.audioOptional && (
                 <div className="mb-4">
                   <AudioSelector
                     value={generateAudio}

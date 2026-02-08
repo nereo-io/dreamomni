@@ -40,6 +40,7 @@ export interface VideoModelConfig {
   maxDuration?: number;
   supportedAspectRatios?: string[];
   supportsAudio?: boolean;
+  audioOptional?: boolean; // true = user can toggle audio; false/undefined = audio always on (if supportsAudio)
   supportedDurations?: number[];
   internalSupportedDurations?: number[]; // 仅内部 API 可用的额外时长（不在前端 UI 展示）
   supportedResolutions?: string[]; // 支持的分辨率
@@ -82,6 +83,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
     supportedResolutions: ["480p", "720p", "1080p"],
     supportsAudio: true,
+    audioOptional: true,
     estimatedGenerationTime: 60,
     supportedDurations: [4, 8, 10, 12],
     internalSupportedDurations: [5],
@@ -105,6 +107,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedAspectRatios: ["Auto"],
     supportedResolutions: ["480p", "720p", "1080p"],
     supportsAudio: true,
+    audioOptional: true,
     estimatedGenerationTime: 60,
     supportedDurations: [4, 8, 10, 12],
     internalSupportedDurations: [5],
