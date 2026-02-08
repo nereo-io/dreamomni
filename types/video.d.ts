@@ -47,6 +47,8 @@ export interface VideoGeneration {
   effect_id?: string | null; // 特效ID
   is_delete?: boolean | null; // 软删除标记
   agent_shot_id?: string | null; // Python Agent 关联的 shot ID
+  model_name?: string | null; // Actual AI model (e.g., "seedance-1.5-pro", "veo3")
+  actual_provider?: string | null; // Provider that ran the job (e.g., "volcano")
   created_at: string; // timestamptz
   updated_at: string; // timestamptz
 }
@@ -75,6 +77,8 @@ export interface CreateVideoGenerationParams {
   metadata?: any; // 新增：元数据（包括积分扣费信息）
   effect_id?: string; // 新增：特效ID
   agent_shot_id?: string; // Python Agent 关联的 shot ID
+  model_name?: string; // Actual AI model
+  actual_provider?: string; // Provider that ran the job
 }
 
 export interface UpdateVideoGenerationParams {
@@ -99,6 +103,7 @@ export interface UpdateVideoGenerationParams {
   pixverse_request_id?: string; // PixVerse request ID
   sora_request_id?: string; // Sora 2 request ID
   agent_shot_id?: string; // Python Agent 关联的 shot ID
+  actual_provider?: string; // Provider that ran the job
 }
 
 // Adding types from previous video.d.ts content if they are still relevant

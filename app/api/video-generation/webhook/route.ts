@@ -29,8 +29,6 @@ export async function POST(req: Request) {
     let metrics: any = {};
     let error: string | null = null;
     let payload: any = null;
-    let isVolcanoWebhook = false;
-    let isKieAiWebhook = false;
 
     // 尝试识别webhook类型
     if (webhookData.request_id) {
@@ -41,9 +39,30 @@ export async function POST(req: Request) {
       metrics = webhookData.metrics || {};
       error = webhookData.error;
       payload = webhookData.payload;
+    } else if (webhookData.object === "video.generation.task") {
+      // Evolink format: { id, object, status, results?, model, progress }
+      request_id = webhookData.id;
+
+      const evolinkStatus = (webhookData.status || "").toLowerCase();
+      if (evolinkStatus === "completed" && Array.isArray(webhookData.results) && webhookData.results.length > 0) {
+        status = "OK";
+        payload = {
+          video: {
+            url: webhookData.results[0],
+          },
+        };
+      } else if (evolinkStatus === "failed") {
+        status = "ERROR";
+        error = webhookData.error?.message || "Evolink generation failed";
+      } else if (evolinkStatus === "processing") {
+        status = "IN_PROGRESS";
+      } else if (evolinkStatus === "pending") {
+        status = "IN_QUEUE";
+      } else {
+        status = evolinkStatus;
+      }
     } else if (webhookData.id || webhookData.task_id) {
       // Volcano Engine format (基于API文档)
-      isVolcanoWebhook = true;
       request_id = webhookData.id || webhookData.task_id;
 
       // 映射Volcano状态到标准状态
@@ -81,7 +100,6 @@ export async function POST(req: Request) {
       }
     } else if (webhookData.code !== undefined && webhookData.data?.taskId) {
       // KieAI format (Veo3 and Sora)
-      isKieAiWebhook = true;
       request_id = webhookData.data.taskId;
 
       // 根据KieAI的响应码判断状态（仅处理成功/失败回调）
@@ -295,6 +313,8 @@ export async function POST(req: Request) {
             }
           } else if (modelConfig?.provider === VideoModelProvider.APICORE) {
             updateParams.video_url_veo3 = videoUrl;
+          } else if (modelConfig?.provider === VideoModelProvider.EVOLINK) {
+            updateParams.video_url_sora = videoUrl;
           }
 
           // 使用合适的更新函数
@@ -424,8 +444,9 @@ export async function POST(req: Request) {
           await updateVideoGenerationBySoraRequestId(request_id, errorParams);
         }
 
-        // 处理视频生成失败的积分返还
-        if (isKieAiModel(videoGeneration.model_id)) {
+        // 处理视频生成失败的积分返还（KieAI 和 Evolink 模型）
+        const refundModelConfig = getVideoModel(videoGeneration.model_id);
+        if (isKieAiModel(videoGeneration.model_id) || refundModelConfig?.provider === VideoModelProvider.EVOLINK) {
           try {
             // 从 metadata 中提取原始扣费池信息
             const creditDeduction = videoGeneration.metadata?.credit_deduction;
@@ -578,6 +599,6 @@ export async function GET() {
     supported_methods: ["POST"],
     description: "处理来自 fal.ai、Volcano Engine 和 KieAI 的视频生成状态回调",
     expected_statuses: ["IN_QUEUE", "IN_PROGRESS", "COMPLETED", "FAILED"],
-    supported_providers: ["fal.ai", "volcano", "kieai", "apicore"],
+    supported_providers: ["fal.ai", "volcano", "kieai", "apicore", "evolink"],
   });
 }

@@ -33,6 +33,7 @@ import type { VideoEffect } from "@/types/video-effect";
 import { EffectSelector } from "@/components/blocks/effect-selector";
 import { CaptchaModal } from "@/components/ui/captcha-modal";
 import { CreditsCostSection } from "@/components/blocks/common/CreditsCostSection";
+import AudioSelector from "./AudioSelector";
 
 // 生成参数接口
 export interface VideoGenerationParams {
@@ -121,7 +122,7 @@ export default function VideoGenerator({
 
   // 其他内部状态
   const [selectedModel, setSelectedModel] = useState<string>("");
-  const [generateAudio] = useState(true);
+  const [generateAudio, setGenerateAudio] = useState(true);
 
   // Enhanced Prompt 开关状态：默认关闭，避免 SSR/CSR 因 localStorage 产生 hydration mismatch
   const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(false);
@@ -512,6 +513,15 @@ export default function VideoGenerator({
       setWatermarkEnabled(true);
     }
   }, [isSeedanceSelected, isVeo3Selected, isMember]);
+
+  // Sync generateAudio with model capability
+  useEffect(() => {
+    if (selectedModelConfig?.supportsAudio) {
+      setGenerateAudio(true);
+    } else {
+      setGenerateAudio(false);
+    }
+  }, [selectedModelConfig]);
 
   // 确保默认选项被选中
   useEffect(() => {
@@ -1131,6 +1141,15 @@ export default function VideoGenerator({
                   ))}
                 </div>
               </div>
+
+              {selectedModelConfig?.supportsAudio && (
+                <div className="mb-4">
+                  <AudioSelector
+                    value={generateAudio}
+                    onChange={setGenerateAudio}
+                  />
+                </div>
+              )}
 
               {(isSeedanceSelected || isVeo3Selected) && !isMember && (
                 <div className="mb-4">
