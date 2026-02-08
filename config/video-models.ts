@@ -224,7 +224,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     name: "Sora 2 Text-to-Video",
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.EVOLINK,
-    providerModelId: "sora-2",
+    providerModelId: "sora-2-beta-max",
     modelName: VideoModel.SORA2,
     displayName: "Sora 2",
     perSecondCredits: 0.6, // 10秒6积分, 15秒9积分
@@ -245,7 +245,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     name: "Sora 2 Image-to-Video",
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.EVOLINK,
-    providerModelId: "sora-2",
+    providerModelId: "sora-2-beta-max",
     modelName: VideoModel.SORA2,
     displayName: "Sora 2",
     perSecondCredits: 0.6, // 10秒6积分, 15秒9积分
