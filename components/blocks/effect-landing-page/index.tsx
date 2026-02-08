@@ -8,6 +8,7 @@ import { FAQSection } from "@/components/blocks/faq-section";
 import type { EffectLandingPageProps } from "@/types/blocks/effect-landing-page";
 
 export default function EffectLandingPage({
+  toolComponent,
   hero,
   features,
   howToUse,
@@ -22,8 +23,10 @@ export default function EffectLandingPage({
 
   return (
     <div className="flex flex-col">
-      {/* Tool placeholder — pages embed their tool above this component or target this div */}
-      <div className="w-full mb-6 sm:mb-8 lg:mb-10 lg:h-[calc(100vh-120px)]" data-effect-tool />
+      {/* Tool area — renders the effect tool or an empty placeholder for scroll targeting */}
+      <div className="w-full mb-6 sm:mb-8 lg:mb-10 lg:h-[calc(100vh-120px)]" data-effect-tool>
+        {toolComponent}
+      </div>
 
       {/* Content sections */}
       <div className="max-w-6xl mx-auto px-4">

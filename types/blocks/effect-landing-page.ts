@@ -6,6 +6,7 @@ export interface EffectMedia {
 }
 
 export interface EffectLandingPageProps {
+  toolComponent?: React.ReactNode;
   hero: {
     title: string;
     subtitle: string;

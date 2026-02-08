@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import EffectLandingPage from "@/components/blocks/effect-landing-page";
+import ImageEffectTool from "@/components/blocks/image-effect-tool";
 import type { EffectLandingPageProps } from "@/types/blocks/effect-landing-page";
+import type { EffectToolConfig } from "@/types/blocks/image-effect-tool";
 
 // Temporary preview data — will be replaced by DB-driven content
 const PREVIEW_EFFECTS: Record<string, EffectLandingPageProps> = {
@@ -140,6 +142,32 @@ const PREVIEW_EFFECTS: Record<string, EffectLandingPageProps> = {
   },
 };
 
+// Tool configurations for each effect
+const EFFECT_TOOL_CONFIGS: Record<string, EffectToolConfig> = {
+  "ghibli-style": {
+    effectId: "ghibli-style",
+    effectSlug: "ghibli-style",
+    type: "image",
+    showcaseItems: [
+      {
+        id: "ghibli-1",
+        title: "Forest Spirit",
+        imageUrl: "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+      },
+      {
+        id: "ghibli-2",
+        title: "Countryside Scene",
+        imageUrl: "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+      },
+      {
+        id: "ghibli-3",
+        title: "Portrait Transform",
+        imageUrl: "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+      },
+    ],
+  },
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -189,9 +217,14 @@ export default async function ImageEffectDetailPage({
     notFound();
   }
 
+  const toolConfig = EFFECT_TOOL_CONFIGS[slug];
+  const toolComponent = toolConfig ? (
+    <ImageEffectTool config={toolConfig} />
+  ) : undefined;
+
   return (
     <div className="min-h-screen">
-      <EffectLandingPage {...effectData} />
+      <EffectLandingPage {...effectData} toolComponent={toolComponent} />
     </div>
   );
 }
