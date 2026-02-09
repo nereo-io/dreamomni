@@ -6,12 +6,32 @@ export interface EffectShowcaseItem {
   prompt?: string;
 }
 
+export interface EffectFormSettingOption {
+  label: string;
+  value: string;
+}
+
+export interface EffectFormSetting {
+  key: string;
+  label: string;
+  options: EffectFormSettingOption[];
+  defaultValue?: string;
+}
+
+export interface EffectFormConfig {
+  title: string;
+  backgroundImage: string;
+  maxImages: number;
+  settings: EffectFormSetting[];
+  creditsPerGeneration: number;
+}
+
 export interface EffectToolConfig {
   effectId: string;
   effectSlug: string;
   type: "image" | "video";
   showcaseItems: EffectShowcaseItem[];
-  formConfig?: Record<string, unknown>;
+  formConfig?: EffectFormConfig;
 }
 
 export interface ImageEffectToolProps {

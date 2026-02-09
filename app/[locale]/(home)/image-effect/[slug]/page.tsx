@@ -165,6 +165,24 @@ const EFFECT_TOOL_CONFIGS: Record<string, EffectToolConfig> = {
         imageUrl: "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
       },
     ],
+    formConfig: {
+      title: "AI Ghibli Style Photo Effect",
+      backgroundImage: "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+      maxImages: 1,
+      creditsPerGeneration: 2,
+      settings: [
+        {
+          key: "ratio",
+          label: "Ratio",
+          options: [
+            { label: "1:1", value: "1:1" },
+            { label: "16:9", value: "16:9" },
+            { label: "9:16", value: "9:16" },
+          ],
+          defaultValue: "1:1",
+        },
+      ],
+    },
   },
 };
 
