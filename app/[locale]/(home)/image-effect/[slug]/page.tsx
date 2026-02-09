@@ -4,6 +4,7 @@ import EffectLandingPage from "@/components/blocks/effect-landing-page";
 import ImageEffectTool from "@/components/blocks/image-effect-tool";
 import type { EffectLandingPageProps } from "@/types/blocks/effect-landing-page";
 import type { EffectToolConfig } from "@/types/blocks/image-effect-tool";
+import { getEffectModel } from "@/config/effect-models";
 
 // Temporary preview data — will be replaced by DB-driven content
 const PREVIEW_EFFECTS: Record<string, EffectLandingPageProps> = {
@@ -165,24 +166,16 @@ const EFFECT_TOOL_CONFIGS: Record<string, EffectToolConfig> = {
         imageUrl: "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
       },
     ],
-    formConfig: {
-      title: "AI Ghibli Style Photo Effect",
-      backgroundImage: "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
-      maxImages: 1,
-      creditsPerGeneration: 2,
-      settings: [
-        {
-          key: "ratio",
-          label: "Ratio",
-          options: [
-            { label: "1:1", value: "1:1" },
-            { label: "16:9", value: "16:9" },
-            { label: "9:16", value: "9:16" },
-          ],
-          defaultValue: "1:1",
-        },
-      ],
-    },
+    formConfig: (() => {
+      const model = getEffectModel("ghibli-style");
+      return {
+        title: "AI Ghibli Style Photo Effect",
+        backgroundImage: "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+        maxImages: model?.maxImages ?? 1,
+        baseCredits: model?.baseCredits ?? 2,
+        settings: model?.settings ?? [],
+      };
+    })(),
   },
 };
 

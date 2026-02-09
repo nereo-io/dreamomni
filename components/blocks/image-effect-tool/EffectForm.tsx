@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { Play, ImageIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAppContext } from "@/contexts/app";
@@ -11,6 +11,7 @@ import { CreditsCostSection } from "@/components/blocks/common/CreditsCostSectio
 import { CaptchaModal } from "@/components/ui/captcha-modal";
 import { ImageSelectionModal, type SelectedImage } from "@/components/blocks/video-generator/ImageSelectionModal";
 import type { EffectFormConfig } from "@/types/blocks/image-effect-tool";
+import { calculateEffectCredits } from "@/config/effect-models";
 
 interface EffectFormProps {
   config: EffectFormConfig;
@@ -45,6 +46,12 @@ export default function EffectForm({
       return initial;
     }
   );
+
+  // Reactive credit calculation based on current settings
+  const estimatedCredits = useMemo(() => {
+    const computed = calculateEffectCredits(effectId, settingsValues);
+    return computed > 0 ? computed : config.baseCredits;
+  }, [effectId, settingsValues, config.baseCredits]);
 
   // Image upload state
   const [isDragOver, setIsDragOver] = useState(false);
@@ -149,7 +156,7 @@ export default function EffectForm({
       return;
     }
 
-    if (leftCredits !== null && leftCredits < config.creditsPerGeneration) {
+    if (leftCredits !== null && leftCredits < estimatedCredits) {
       toast.error("Insufficient credits. Please recharge.");
       return;
     }
@@ -341,7 +348,7 @@ export default function EffectForm({
           {/* 4. Credits & Cost */}
           <CreditsCostSection
             leftCredits={leftCredits}
-            estimatedCost={config.creditsPerGeneration}
+            estimatedCost={estimatedCredits}
             onShowPricing={() => setShowPricingModal(true)}
             labels={{
               credits: "Credits",
@@ -360,7 +367,7 @@ export default function EffectForm({
             isGenerating ||
             !hasImage ||
             (leftCredits !== null &&
-              leftCredits < config.creditsPerGeneration)
+              leftCredits < estimatedCredits)
           }
           className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-h-[44px]"
         >

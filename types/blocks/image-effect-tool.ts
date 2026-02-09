@@ -23,7 +23,7 @@ export interface EffectFormConfig {
   backgroundImage: string;
   maxImages: number;
   settings: EffectFormSetting[];
-  creditsPerGeneration: number;
+  baseCredits: number;
 }
 
 export interface EffectToolConfig {
