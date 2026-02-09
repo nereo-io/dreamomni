@@ -16,16 +16,36 @@ export interface EffectSettingDef {
   defaultValue?: string;
 }
 
+/**
+ * PixVerse generation mode — determines which PixVerse API endpoint to call.
+ *
+ *  image_template  → POST /image/template/generate  (returns image_id)
+ *  image_to_video  → POST /video/img/generate       (returns video_id)
+ *  transition      → POST /video/transition/generate (returns video_id, needs 2 images)
+ */
+export type PixverseMode = "image_template" | "image_to_video" | "transition";
+
+/** Output type — determines which DB table and credit type to use */
+export type EffectOutputType = "image" | "video";
+
 export interface EffectModelConfig {
   id: string;
   name: string;
   provider: EffectProvider;
+  /** What the effect produces — drives DB table and credit transaction type */
+  outputType: EffectOutputType;
   status: "active" | "inactive";
   baseCredits: number;
   maxImages: number;
   estimatedGenerationTime?: number;
   settings: EffectSettingDef[];
   calculateCredits: (settings: Record<string, string>) => number;
+  prompt: string;
+  model?: string;
+  /** PixVerse-specific: template ID passed to the API */
+  pixverseTemplateId?: number;
+  /** PixVerse-specific: which generation mode to use */
+  pixverseMode?: PixverseMode;
 }
 
 export const EFFECT_MODELS: Record<string, EffectModelConfig> = {
@@ -33,10 +53,13 @@ export const EFFECT_MODELS: Record<string, EffectModelConfig> = {
     id: "ghibli-style",
     name: "Ghibli Style",
     provider: EffectProvider.KIE,
+    outputType: "image",
     status: "active",
     baseCredits: 2,
     maxImages: 1,
     estimatedGenerationTime: 30,
+    prompt: "Transform this photo into Studio Ghibli anime style",
+    model: "google/nano-banana-edit",
     settings: [
       {
         key: "ratio",

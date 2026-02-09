@@ -8,18 +8,50 @@ import VideoHistory from "@/components/blocks/video-history";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import type { ImageEffectToolProps } from "@/types/blocks/image-effect-tool";
+import type { ImageGenerationResult } from "@/components/blocks/image-history";
 
 export default function ImageEffectTool({ config }: ImageEffectToolProps) {
   const { user } = useAppContext();
   const [isGenerating, setIsGenerating] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [newImage, setNewImage] = useState<ImageGenerationResult | null>(null);
 
   const handleGenerate = useCallback(
     async (params: EffectGenerationParams) => {
       setIsGenerating(true);
       try {
-        // TODO: Wire to actual image effect generation API
-        console.log("[ImageEffectTool] Generate:", params);
-        toast.info("Image effect generation is coming soon.");
+        const response = await fetch("/api/image-effect/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            effectId: params.effectId,
+            imageUrls: params.imageUrls,
+            settings: params.settings,
+            captchaToken: params.captchaToken,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (data.code !== 0) {
+          toast.error(data.message || "Failed to generate effect.");
+          return;
+        }
+
+        // Create placeholder for immediate display in history
+        const placeholder: ImageGenerationResult = {
+          id: data.data.id,
+          prompt: config.effectId,
+          status: "in_queue",
+          model: config.effectId,
+          quality: "standard",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          credits_used: data.data.credits || 0,
+        };
+
+        setNewImage(placeholder);
+        setRefreshTrigger((prev) => prev + 1);
       } catch (error) {
         console.error("Effect generation error:", error);
         toast.error("Failed to generate effect. Please try again.");
@@ -27,7 +59,7 @@ export default function ImageEffectTool({ config }: ImageEffectToolProps) {
         setIsGenerating(false);
       }
     },
-    []
+    [config.effectId]
   );
 
   return (
@@ -43,7 +75,11 @@ export default function ImageEffectTool({ config }: ImageEffectToolProps) {
         <EffectFormPlaceholder />
       )}
       {config.type === "image" ? (
-        <ImageHistoryForGeneration userId={user?.uuid} />
+        <ImageHistoryForGeneration
+          userId={user?.uuid}
+          refreshTrigger={refreshTrigger}
+          newImage={newImage}
+        />
       ) : (
         <VideoHistory />
       )}
