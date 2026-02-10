@@ -1,0 +1,525 @@
+{
+  "banner": {
+    "title": "Generateur d'images IA Seedream 5.0",
+    "description": "Seedream 5.0 est le generateur d'images IA le plus avance de ByteDance, offrant des resultats 4K epoustouflants en seulement 2 a 5 secondes. Avec une coherence de personnages de pointe, une sortie haute resolution et des capacites de fusion multi-images, Seedream 5.0 etablit la nouvelle reference en matiere de generation d'images par IA.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Texte vers Image",
+        "subTitle": "Prompt",
+        "value": "text-to-image",
+        "modelName": "Seedream 5.0",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Decrivez l'image que vous voulez creer...",
+        "buttonText": "Creer"
+      },
+      {
+        "type": "image",
+        "title": "Image vers Image",
+        "subTitle": "Image",
+        "value": "image-to-image",
+        "modelName": "Seedream 5.0",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Deposez des images ici ou cliquez pour selectionner",
+        "tips": "Telechargez jusqu'a 14 images de reference. Nous acceptons les formats JPEG, PNG, GIF, WEBP jusqu'a 20Mo avec des dimensions jusqu'a 4096 x 4096 pixels.",
+        "buttonText": "Creer"
+      }
+    ]
+  },
+  "partners": [
+    {
+      "name": "Coca-Cola",
+      "logo": "/imgs/partners/coca-cola-logo.png"
+    },
+    {
+      "name": "Microsoft",
+      "logo": "/imgs/partners/microsoft-logo.png"
+    },
+    {
+      "name": "Nike",
+      "logo": "/imgs/partners/nike-logo.png"
+    },
+    {
+      "name": "P&G",
+      "logo": "/imgs/partners/p-g-logo.png"
+    },
+    {
+      "name": "Lancome",
+      "logo": "/imgs/partners/lancome-logo.png"
+    },
+    {
+      "name": "Zoom",
+      "logo": "/imgs/partners/zoom-logo.png"
+    },
+    {
+      "name": "Sony",
+      "logo": "/imgs/partners/sony-logo.png"
+    },
+    {
+      "name": "Mercedes",
+      "logo": "/imgs/partners/mercedes-logo.png"
+    }
+  ],
+  "features": {
+    "title": "Fonctionnalites cles de Seedream 5.0",
+    "details": [
+      {
+        "title": "Recherche web en temps reel — Une premiere dans l'industrie",
+        "description": "Seedream 5.0 est le premier modele d'image a integrer la recherche web en temps reel. Lorsque votre prompt mentionne des sujets tendance, des celebrites, les derniers produits ou des evenements actuels, le modele recherche automatiquement des references visuelles sur le web, garantissant une generation d'images precise et a jour.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt"
+            },
+            {
+              "title": "Image de sortie"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Generez une affiche pour la mascotte des Jeux olympiques d'hiver 2026, avec des montagnes enneigees en arriere-plan et la mascotte officielle dans une pose dynamique de patinage sur glace."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/e0e56200fe3b-eef684e6ea7e4b2eb3ce948f1cff0ac4_tplv-2z.png",
+                  "altText": "Generation d'images IA connectee au web illustrant les connaissances en temps reel"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Creez un plan technique en trois vues de la voiture Geely Galaxy E8 sous plusieurs angles : avant, cote et arriere, rendu dans un style d'ingenierie epure avec des proportions precises."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/1836c00d495b-4e6016b41fe044ae82c0b6e5173670db.png",
+                  "altText": "Real-time web search generating current product blueprint"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Precision amelioree et generation intelligente",
+        "description": "Affinez vos images par une conversation naturelle. Seedream 5.0 prend en charge l'edition image-texte multi-tours — decrivez ce que vous souhaitez modifier en langage courant, examinez le resultat et continuez a iterer jusqu'a la perfection. Il comprend la physique, les relations spatiales et la logique environnementale pour des resultats qui vont au-dela de la simple correspondance de prompts.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt"
+            },
+            {
+              "title": "Image de sortie"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Une macro photo photorealiste d'une sphere en verre translucide posee sur un rocher mousse, refractant la foret automnale environnante. Une douce lumiere d'heure doree cree des reflets et des motifs caustiques a travers le verre."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/584a7624b5ef-548f82dd76cc47ebbe35656ecf5fe131_tplv-2z.png",
+                  "altText": "Precision amelioree des prompts avec raisonnement intelligent"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Une photographie editoriale haute couture d'un mannequin portant une tenue avant-gardiste en tissu metallique plie en origami, eclairage studio dramatique avec silhouette en contre-jour, details ultra-nets."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/0aa1ca769ccb-c8bfc1e0c0c94dad98d969b20abe4d4b_tplv-2z.png",
+                  "altText": "Photo editoriale haute couture generee avec Seedream 5.0"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Visualisez un concept complexe de physique quantique : le diagramme de l'experience de la double fente montrant la dualite onde-particule, avec les trajectoires des electrons, les motifs d'interference et des annotations scientifiques etiquetees."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/6fc4332147f9-c3faf7994a7d402e8acc4b91541405d0.png",
+                  "altText": "Complex scientific reasoning and diagram generation"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Une illustration de salle de biologie montrant le processus de mitose cellulaire : prophase, metaphase, anaphase et telophase avec des diagrammes annotes, style poster educatif."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/ae8b377012e7-d04f0b99-bab2-433d-8897-1196e6a2140e.web.webp",
+                  "altText": "Intelligent biological diagram with multi-step reasoning"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Creation plus rapide, plus intelligente et plus expressive",
+        "description": "Avec une architecture 10 fois plus rapide que les generations precedentes, Seedream 5.0 genere des images standard en seulement 2-3 secondes et des resultats en 4K en 5-8 secondes. Le moteur de traitement optimise offre une qualite premium a une vitesse de production dans des styles creatifs varies.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt"
+            },
+            {
+              "title": "Image de sortie"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Paysage urbain cyberpunk la nuit, enseignes neon se refletant sur les rues mouillees par la pluie, voitures volantes avec des trainées lumineuses, une silhouette solitaire avec un parapluie sous un panneau holographique, rendu ultra-detaille en 8K."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/9b60a546d45d-db3ba8c7cf4b4872b7cb9bbc4bf3f37f_tplv-2z.png",
+                  "altText": "Creation d'images IA rapide et de haute qualite"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Une illustration fantaisiste de livre pour enfants representant un petit renard portant une echarpe rouge, debout a l'entree d'un village de champignons magiques. Style aquarelle chaleureux avec des couleurs pastel douces et des textures dessinees a la main."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/cf1caea13e54-5f3e84e3b75f43c2be619262e28ee1b8_tplv-2z.png",
+                  "altText": "Generation de style artistique expressif"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Reseaux sociaux et contenu numerique",
+        "description": "Creez des visuels accrocheurs pour les reseaux sociaux, des miniatures et du contenu numerique en quelques secondes. Seedream 5.0 comprend les exigences specifiques a chaque plateforme et produit des images percutantes optimisees pour l'engagement.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Cas d'utilisation"
+            },
+            {
+              "title": "Exemple de sortie"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Contenu pour les reseaux sociaux : Creez une mise a plat vibrante style Instagram d'une routine matinale — un cappuccino avec art latte, un journal en cuir, des fleurs fraiches et des AirPods sur un plan de travail en marbre. Lumiere naturelle chaude venant de la gauche."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/bb6d9310a504-caf167d56d2b4f30a34acef684917cf3_tplv-2z.png",
+                  "altText": "Creation de contenu pour les reseaux sociaux"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Marketing, publicite et ressources de campagne",
+        "description": "Generez des visuels marketing de qualite professionnelle, des presentations de produits et des ressources de campagne. Des images produits e-commerce aux creations de campagnes de marque, Seedream 5.0 offre des resultats de qualite designer a grande echelle.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Cas d'utilisation"
+            },
+            {
+              "title": "Exemple de sortie"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Campagne marketing : Concevez une publicite premium pour un produit de soin avec un fond blanc minimaliste, un eclairage studio doux et une typographie elegante mettant en valeur le nom du produit et ses ingredients cles."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/9929654834c9-5bf63f6807104057892f9cdc838beac3_tplv-2z.png",
+                  "altText": "Ressource marketing et publicitaire"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Exploration creative et conception de concepts",
+        "description": "Explorez des directions artistiques, generez des planches d'ambiance et prototypez rapidement des concepts visuels. Seedream 5.0 prend en charge des styles varies, du photorealisme a l'art abstrait, permettant une iteration creative rapide.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Cas d'utilisation"
+            },
+            {
+              "title": "Exemple de sortie"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Conception de concept : Une visualisation architecturale d'un gratte-ciel ecologique futuriste recouvert de jardins verticaux, avec des panneaux solaires integres dans la facade en verre, sur fond de ciel bleu avec des nuages epars."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/48be32c147a6-807ad209b0cc4de6ae97ca3cbf549b55_tplv-2z.png",
+                  "altText": "Exploration de conception creative de concepts"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Edition basee sur des exemples",
+        "description": "Montrez a Seedream 5.0 une transformation avant-apres (Image A vers Image B), et il apprend automatiquement le schema d'edition et applique la meme modification a toute nouvelle image. Parfait pour le traitement par lots et les transferts de style coherents.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Image de reference"
+            },
+            {
+              "title": "Sortie generee"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/8b77f2defe7f-outfit-ref-1.png",
+                  "altText": "Fashion outfit reference input"
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/dc4da2d108f0-outfit-out.png",
+                  "altText": "Fashion outfit generated output"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/7ca074f9997d-interior-style-ref.png",
+                  "altText": "Interior design style reference"
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/577c4f3d3b7a-interior-style-out.png",
+                  "altText": "Interior design style transfer output"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/6ef1a0397dfd-horror-lineart-ref.png",
+                  "altText": "Line art reference input"
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/0e36225ccf81-horror-lineart-out.png",
+                  "altText": "Cinematic horror style output"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Edition de precision par cercle",
+        "description": "Entourez n'importe quelle zone de votre image pour cibler des modifications specifiques. Seedream 5.0 comprend la mecanique des objets et le contexte, permettant des editions precises comme le repositionnement d'elements, le changement de materiaux ou la suppression d'objets avec reconstruction automatique de l'arriere-plan.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Instruction d'edition"
+            },
+            {
+              "title": "Resultat"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Entourez les rouges a levres ouverts et donnez l'instruction : \"Remettez le capuchon et redressez-les.\" Le modele comprend la mecanique physique de l'objet et execute l'edition avec precision."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/3661b71a0a98-35866a5b83d34ddf8adb07b0d7a104ee.png",
+                  "altText": "Precision circle editing - lipstick cap demonstration"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Entourez une personne sur une photo de groupe et donnez l'instruction : \"Supprimez cette personne et remplissez l'arriere-plan naturellement.\" Seedream 5.0 reconstruit la scene de maniere transparente sans artefacts visibles."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/81ae95707b38-8628ace3-49d9-40a3-93df-6290fc2c2000.web.webp",
+                  "altText": "Precision editing with intelligent object understanding"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Comment utiliser Seedream 5.0",
+    "description": "Suivez ces etapes simples pour generer, editer et affiner des images en ligne avec le flux de travail coherent et intuitif de Seedream 5.0.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Choisir le generateur d'images Seedream 5.0",
+        "description": "Commencez par selectionner le generateur d'images Seedream 5.0. L'editeur IA Seedream 5 integre fournit tous les outils necessaires pour creer des oeuvres 4K soignees et professionnelles en un seul endroit."
+      },
+      {
+        "number": "02",
+        "title": "Telechargez une image ou entrez votre description",
+        "description": "Telechargez une photo que vous souhaitez editer ou saisissez une description textuelle. Le systeme IA Seedream 5 gere les deux options, vous permettant de transformer des photos existantes ou de generer de nouveaux visuels."
+      },
+      {
+        "number": "03",
+        "title": "Generer et telecharger",
+        "description": "Cliquez sur generer et laissez l'editeur Seedream 5.0 produire votre oeuvre en quelques secondes. Une fois l'image prete, previsualisez le resultat et telechargez-le instantanement."
+      },
+      {
+        "number": "04",
+        "title": "Affiner et perfectionner votre creation",
+        "description": "Utilisez les fonctionnalites d'edition avancees de Seedream 5.0 pour peaufiner les details, ajuster les couleurs et perfectionner votre image finale avec des resultats de qualite professionnelle."
+      }
+    ],
+    "buttonText": "Essayez Seedream 5.0 gratuitement sur Veo3 AI"
+  },
+  "youtubeCases": {
+    "title": "Videos YouTube sur Seedream 5.0",
+    "content": []
+  },
+  "redditCases": {
+    "title": "Discussions Reddit sur Seedream 5.0",
+    "content": []
+  },
+  "twitterCases": {
+    "title": "Avis X sur Seedream 5.0",
+    "content": [
+      {
+        "id": "twitter-1",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020774137070035037",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-2",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020851262997102881",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-3",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2021101216009429225",
+        "width": "550",
+        "height": "400"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Essayez Seedream 5.0 gratuitement sur Veo3 AI",
+    "buttonText": "Essayer Seedream 5.0 gratuitement"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Questions frequemment posees",
+    "description": "En savoir plus sur le generateur d'images IA Seedream 5.0",
+    "items": [
+      {
+        "title": "Qu'est-ce que Seedream 5.0 ?",
+        "description": "Seedream 5.0 est le generateur d'images IA n1 et editeur propulse par ByteDance. Il cree des resultats en environ 2 secondes, offre un guide de prompts pour les ajustements et exporte jusqu'en resolution 4K. Le modele Seedream 5 fournit des fonctionnalites avancees pour la creation d'images professionnelles."
+      },
+      {
+        "title": "Comment utiliser Seedream 5.0 ?",
+        "description": "Entrez un prompt, choisissez le style ou le rapport d'aspect, et cliquez sur generer. Utilisez le modele Seedream 5 pour affiner l'eclairage, l'ambiance ou les details du texte, puis telechargez votre sortie 4K. Essayez Seedream 5.0 gratuitement sur Veo3 AI."
+      },
+      {
+        "title": "Puis-je utiliser Seedream 5.0 sur n'importe quel appareil ?",
+        "description": "Accedez a Seedream 5.0 sur ordinateur ou mobile. Commencez gratuitement avec des credits offerts, puis passez a un abonnement superieur si vous avez besoin de plus d'exports 4K. Le modele fonctionne parfaitement sur tous les navigateurs modernes."
+      },
+      {
+        "title": "Comment Seedream 5.0 se compare-t-il aux autres outils ?",
+        "description": "Seedream 5.0 offre la creation et l'amelioration par IA avec une resolution native 4K, une vitesse de traitement de 2 a 5 secondes et des capacites de combinaison d'images. Le modele Seedream 5 met l'accent sur les fonctionnalites de niveau entreprise pour la generation texte-vers-image et l'edition photo."
+      },
+      {
+        "title": "Dans quels formats puis-je telecharger les images de Seedream 5.0 ?",
+        "description": "Seedream 5.0 cree des images IA 4K premium disponibles en telechargement aux formats PNG et JPEG. Les resultats conviennent aussi bien pour un usage personnel que professionnel."
+      },
+      {
+        "title": "Y a-t-il une limite au nombre d'images que je peux generer avec Seedream 5.0 ?",
+        "description": "Seedream 5.0 fonctionne sur la base de credits. Chaque creation IA 4K necessite 2 credits. Les utilisateurs gratuits recoivent 2 credits initialement, tandis que les abonnements offrent de 500 a 6000 credits par mois."
+      },
+      {
+        "title": "Combien de temps faut-il a Seedream 5.0 pour generer une image ?",
+        "description": "Seedream 5.0 produit des images IA 4K en 2 a 5 secondes, selon la complexite. Le systeme de traitement optimise garantit des performances ultra-rapides avec un taux de reussite de 99,5%."
+      },
+      {
+        "title": "Pourquoi utiliser Seedream 5.0 ?",
+        "description": "Seedream 5.0 accelere le flux de travail en facilitant la production IA 4K rapide en 2 a 5 secondes sans expertise complexe en design. Le modele Seedream 5 comprend les entrees textuelles, ameliore les images avec des commandes simples et fusionne plusieurs images de maniere fluide. Ideal pour le travail artistique, la publicite et le contenu visuel d'entreprise."
+      },
+      {
+        "title": "Quel est un bon generateur d'images IA gratuit en ligne ?",
+        "description": "Seedream 5.0 est un createur et ameliorateur IA en ligne fiable et complet propulse par ByteDance. Il inclut la creation texte-vers-image, l'edition photo, la fusion d'images, divers styles artistiques et des resultats en resolution 4K native. Essayez-le gratuitement sur Veo3 AI."
+      },
+      {
+        "title": "Existe-t-il une application mobile pour Seedream 5.0 ?",
+        "description": "Seedream 5.0 est un createur IA base sur navigateur accessible depuis les navigateurs mobiles. La mise en page adaptative fonctionne parfaitement sur les telephones portables. Utilisez le guide de prompts et essayez Seedream 5.0 gratuitement depuis votre navigateur mobile."
+      }
+    ]
+  }
+}

@@ -19,6 +19,11 @@
     "description": "Seedance 1.5 Pro de ByteDance offre génération audio-visuelle native, synchronisation labiale multilingue et contrôle caméra cinématique. Essayez gratuitement!",
     "keywords": "Seedance 1.5 Pro, ByteDance Seedance, texte vers vidéo, image vers vidéo, audio-vidéo IA, Veo3 AI"
   },
+  "seedance-2-0": {
+    "title": "Seedance 2.0 : Générateur Vidéo IA Multimodal ByteDance | Veo3 AI",
+    "description": "Seedance 2.0 de ByteDance intègre Image, Vidéo, Audio et Texte pour une composition précise, une réplication d'actions complexes et une haute cohérence des personnages. Essayez gratuitement !",
+    "keywords": "Seedance 2.0, ByteDance Seedance 2.0, vidéo IA multimodale, texte vers vidéo, image vers vidéo, synchronisation audio-vidéo, cohérence des personnages, Veo3 AI"
+  },
   "sora-2": {
     "title": "Sora 2 Gratuit : Essayez le modèle vidéo IA OpenAI Sora 2 maintenant | Veo3 AI",
     "description": "Découvrez Sora 2, le modèle vidéo IA avancé d'OpenAI avec physique réaliste, audio synchronisé et cohérence multi-plans. Générez de superbes vidéos HD 1080p maintenant pour les membres !",
@@ -1034,6 +1039,11 @@
     "title": "Seedream 4.5 Generateur d'images IA : Le dernier modele d'image de ByteDance | Veo3 AI",
     "description": "Creez des images epoustouflantes avec Seedream 4.5, le generateur d'images IA avance de ByteDance. Resolution 4K, jusqu'a 14 images de reference et generation par lots.",
     "keywords": "Seedream 4.5, ByteDance IA, Doubao Image, Generateur d'images IA, Texte vers image, Image vers image, Images IA 4K, Generation par lots, Images de reference IA"
+  },
+  "seedream-5-0": {
+    "title": "Seedream 5.0 Generateur d'images IA : Le modele d'image le plus avance de ByteDance | Veo3 AI",
+    "description": "Creez de superbes images 4K en 2-5 secondes avec Seedream 5.0, le generateur d'images IA le plus avance de ByteDance. Coherence des personnages, fusion multi-images et edition en langage naturel.",
+    "keywords": "Seedream 5.0, Seedream 5, Seedream V5, ByteDance IA, Generateur d'images IA, Texte vers image, Image vers image, Images IA 4K, Seedream 5.0 IA en ligne gratuit, Guide de prompts Seedream 5.0"
   },
   "trans_type": {
     "new_user": "Bonus de bienvenue",

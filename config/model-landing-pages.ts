@@ -12,9 +12,11 @@ export const MODEL_LANDING_PAGES = [
   'nano-banana-pro',
   'wan-2-5',
   'seedance-1-5',
+  'seedance-2-0',
   'veo-3-1',
   'sora-2',
   'seedream-4-5',
+  'seedream-5-0',
 ] as const;
 
 export type ModelSlug = typeof MODEL_LANDING_PAGES[number];
