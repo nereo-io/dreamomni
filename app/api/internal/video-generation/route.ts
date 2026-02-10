@@ -77,12 +77,12 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    // 部分提供商需要实际的 API 模型 ID（如 BytePlus/Volcano 使用 endpoint ID）
+    // 部分提供商需要实际的 API 模型 ID（如 BytePlus/Volcano 使用 endpoint ID，Evolink 使用 providerModelId）
     const providerModelId =
       modelConfig?.provider === VideoModelProvider.BYTEPLUS ||
       modelConfig?.provider === VideoModelProvider.VOLCANO
         ? modelConfig?.volcanoModel || modelId
-        : modelId;
+        : modelConfig?.providerModelId || modelId;
 
     const requiredCredits = calculateCredits(
       modelId,
@@ -263,6 +263,8 @@ export async function POST(req: NextRequest) {
               },
             },
         [requestIdField]: submitResult.request_id, // 动态设置 request_id 字段
+        actual_provider: modelConfig.provider,
+        model_name: modelConfig.modelName,
       });
     } catch (error) {
       console.error('创建视频生成记录失败:', error);

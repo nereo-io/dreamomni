@@ -34,6 +34,7 @@ import {
 import { ProviderFactory } from "@/services/providers";
 import { optimizeVideoPromptWithTimeout } from "@/services/promptOptimization";
 import { tryVolcanoSubmit } from "@/services/seedanceFallbackService";
+import { VideoSubmitService } from "@/services/videoSubmitService";
 import { getEffectConfigById } from "@/models/effectConfig";
 
 // 验证Cloudflare Turnstile CAPTCHA
@@ -306,6 +307,7 @@ export async function POST(req: Request) {
         requested_resolution: resolution,
       },
       effect_id: effect_id,
+      model_name: modelConfig.modelName,
     });
 
     // 7.5. 优化提示词
@@ -475,6 +477,13 @@ export async function POST(req: Request) {
       }
       // 阿里百炼使用 resolution 参数
       input.resolution = resolution;
+    } else if (modelConfig.provider === VideoModelProvider.EVOLINK) {
+      // 使用 providerModelId 覆盖 API 模型名
+      if (modelConfig.providerModelId) {
+        input.model = modelConfig.providerModelId;
+      }
+      // Evolink Sora 模型不接受 resolution 参数（固定 1080p）
+      delete input.resolution;
     }
 
     // 8. 提交任务到队列，包含webhook URL
@@ -484,50 +493,33 @@ export async function POST(req: Request) {
     try {
       let submitResponse;
       let actualProvider: string | undefined; // 记录实际使用的 provider
+      let usedModelName: string | undefined; // 降级时记录实际使用的 model_name
 
       // === Volcano 降级尝试（临时方案：优先使用便宜的 Volcano，失败后降级到 BytePlus）===
       const volcanoResponse = await tryVolcanoSubmit(finalModel, input, webhookUrl);
       if (volcanoResponse) {
         submitResponse = volcanoResponse;
         actualProvider = "volcano"; // 标记使用了 Volcano
+        usedModelName = modelConfig.modelName; // AI 模型不变，显式记录
       }
 
-      // 如果 Volcano 没有成功（未启用/不适用/失败），使用原有 Provider 逻辑
+      // 如果 Volcano 没有成功（未启用/不适用/失败），使用 VideoSubmitService（支持降级）
+      let fallbackModelId: string | undefined; // 降级使用的模型配置 ID
       if (!submitResponse) {
-        // 使用Provider Factory获取合适的provider
-        const provider = ProviderFactory.getProvider(finalModel);
-        // 重试机制：针对连接超时错误重试3次
-        for (let attempt = 1; attempt <= 3; attempt++) {
-          try {
-            submitResponse = await provider.submit(finalModel, input, webhookUrl);
-            break;
-          } catch (error) {
-            const errorMsg =
-              error instanceof Error ? error.message : String(error);
-            console.error(`视频生成提交失败 (${attempt}/3):`, errorMsg);
+        const submitResult = await VideoSubmitService.submit(
+          finalModel,
+          modelConfig,
+          input,
+          webhookUrl
+        );
+        submitResponse = submitResult.response;
 
-            // 检查是否是连接超时错误
-            const isTimeoutError =
-              errorMsg.includes("fetch failed") ||
-              errorMsg.includes("Connect Timeout Error") ||
-              errorMsg.includes("timeout") ||
-              errorMsg.includes("ETIMEDOUT");
-
-            // 如果不是超时错误，或者是最后一次重试，直接抛出错误
-            if (!isTimeoutError || attempt === 3) {
-              throw error;
-            }
-
-            // 等待后重试：第1次等1秒，第2次等2秒
-            const delay = attempt * 1000;
-            console.log(`连接超时，等待 ${delay}ms 后重试...`);
-            await new Promise((resolve) => setTimeout(resolve, delay));
-          }
+        // 如果使用了降级模型，记录实际 provider、model_name 和降级模型 ID
+        if (submitResult.usedModelId !== finalModel) {
+          actualProvider = submitResult.usedModelConfig.provider;
+          usedModelName = submitResult.usedModelConfig.modelName;
+          fallbackModelId = submitResult.usedModelId;
         }
-      }
-
-      if (!submitResponse) {
-        throw new Error("视频生成提交失败");
       }
 
       // 9. 更新数据库记录的请求ID
@@ -556,18 +548,24 @@ export async function POST(req: Request) {
       } else if (modelConfig.provider === VideoModelProvider.BYTEPLUS) {
         // BytePlus 使用 volcano_request_id 字段（API 兼容）
         updateParams.volcano_request_id = submitResponse.request_id;
+      } else if (modelConfig.provider === VideoModelProvider.EVOLINK) {
+        // Evolink Sora 使用 sora_request_id 字段
+        updateParams.sora_request_id = submitResponse.request_id;
       }
 
       // 更新请求ID和状态为 IN_QUEUE
       updateParams.status = "IN_QUEUE";
 
-      // === 保存 actual_provider 到 metadata（用于状态查询时选择正确的 Provider）===
-      if (actualProvider) {
-        updateParams.metadata = {
-          ...videoGeneration.metadata,
-          actual_provider: actualProvider,
-        };
-      }
+      // === 保存 actual_provider 和 model_name（用于状态查询时选择正确的 Provider）===
+      const finalActualProvider = actualProvider || modelConfig.provider;
+      const finalModelName = usedModelName || modelConfig.modelName;
+      updateParams.actual_provider = finalActualProvider;
+      updateParams.model_name = finalModelName;
+      updateParams.metadata = {
+        ...videoGeneration.metadata,
+        actual_provider: finalActualProvider,
+        ...(fallbackModelId ? { fallback_model_id: fallbackModelId } : {}),
+      };
 
       await import("@/models/videoGeneration").then(
         ({ updateVideoGenerationById }) =>

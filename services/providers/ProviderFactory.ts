@@ -6,6 +6,7 @@ import { Veo3Provider } from "./Veo3Provider";
 import { KieAiVeo3Provider } from "./KieAiVeo3Provider";
 import { KieAiSoraProvider } from "./KieAiSoraProvider";
 import { AliProvider } from "./AliProvider";
+import { EvolinkSoraProvider } from "./EvolinkSoraProvider";
 import {
   getVideoModel,
   VideoModelProvider,
@@ -92,6 +93,16 @@ export class ProviderFactory {
           );
         }
         provider = new AliProvider(aliApiKey);
+        break;
+
+      case VideoModelProvider.EVOLINK:
+        const evolinkApiKey = process.env.EVOLINK_API_KEY;
+        if (!evolinkApiKey) {
+          throw new Error(
+            "EVOLINK_API_KEY environment variable is required for Evolink models"
+          );
+        }
+        provider = new EvolinkSoraProvider(evolinkApiKey);
         break;
 
       default:

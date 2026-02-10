@@ -56,6 +56,8 @@ export async function createVideoGeneration(
       metadata: params.metadata || {},
       effect_id: params.effect_id,
       agent_shot_id: params.agent_shot_id,
+      model_name: params.model_name,
+      actual_provider: params.actual_provider,
     })
     .select()
     .single();

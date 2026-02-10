@@ -12,6 +12,15 @@ export enum VideoModelProvider {
   APICORE = "apicore", // APICore 提供的模型 (Veo3等)
   KIEAI = "kieai", // Kie.ai 提供的模型 (Veo3等)
   ALI = "ali", // 阿里百炼提供的模型
+  EVOLINK = "evolink", // Evolink 提供的模型
+}
+
+// 实际 AI 模型枚举（与 model_id/provider 无关）
+export enum VideoModel {
+  SEEDANCE_1_5_PRO = "seedance-1.5-pro",
+  SEEDANCE_1_0_PRO = "seedance-1.0-pro",
+  VEO3 = "veo3",
+  SORA2 = "sora2",
 }
 
 // 视频模型配置接口
@@ -23,6 +32,7 @@ export interface VideoModelConfig {
   falEndpoint?: string; // Optional for non-fal providers
   volcanoModel?: string; // Volcano Engine model ID
   aliModel?: string; // Ali Cloud model ID
+  providerModelId?: string; // Provider API 使用的模型标识（通用字段，新 provider 统一用此字段）
   displayName: string;
   perSecondCredits: number; // 每秒积分消耗
   description?: string;
@@ -30,6 +40,7 @@ export interface VideoModelConfig {
   maxDuration?: number;
   supportedAspectRatios?: string[];
   supportsAudio?: boolean;
+  audioOptional?: boolean; // true = user can toggle audio; false/undefined = audio always on (if supportsAudio)
   supportedDurations?: number[];
   internalSupportedDurations?: number[]; // 仅内部 API 可用的额外时长（不在前端 UI 展示）
   supportedResolutions?: string[]; // 支持的分辨率
@@ -43,6 +54,13 @@ export interface VideoModelConfig {
     minImages?: number; // 最小图片数量（可选）
     labels?: string[]; // 图片标签，如 ['First Frame', 'Last Frame']
   };
+  /** The actual AI model this config represents */
+  modelName?: VideoModel;
+  /**
+   * Fallback model IDs (keys in VIDEO_MODELS) tried in order when primary fails.
+   * Fallback entries should be internal models (internal: true).
+   */
+  fallbackProvider?: string[];
 }
 
 // 视频模型配置
@@ -53,6 +71,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     name: "BytePlus Seedance 1.5 Pro Text-to-Video",
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.BYTEPLUS,
+    modelName: VideoModel.SEEDANCE_1_5_PRO,
     volcanoModel: "ep-20251223205943-d8rhb", //hugeroger@gmail.com
     // volcanoModel: "ep-20251228123459-x2ccs",   //mackensonsouverain34@gmail.com
     // volcanoModel: "ep-20251230222441-b27wd",   //baziai012@gmail.com
@@ -64,6 +83,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
     supportedResolutions: ["480p", "720p", "1080p"],
     supportsAudio: true,
+    audioOptional: true,
     estimatedGenerationTime: 60,
     supportedDurations: [4, 8, 10, 12],
     internalSupportedDurations: [5],
@@ -75,6 +95,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     name: "BytePlus Seedance 1.5 Pro Image-to-Video",
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.BYTEPLUS,
+    modelName: VideoModel.SEEDANCE_1_5_PRO,
     volcanoModel: "ep-20251223205943-d8rhb", //hugeroger@gmail.com
     // volcanoModel: "ep-20251228123459-x2ccs",   //mackensonsouverain34@gmail.com
     // volcanoModel: "ep-20251230222441-b27wd",   //baziai012@gmail.com
@@ -86,6 +107,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     supportedAspectRatios: ["Auto"],
     supportedResolutions: ["480p", "720p", "1080p"],
     supportsAudio: true,
+    audioOptional: true,
     estimatedGenerationTime: 60,
     supportedDurations: [4, 8, 10, 12],
     internalSupportedDurations: [5],
@@ -101,6 +123,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     name: "Kie.ai Veo3 Text-to-Video",
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
+    modelName: VideoModel.VEO3,
     displayName: "Veo 3.1",
     perSecondCredits: 0.75,
     description: "Google's Veo3.1 model, starting at $0.36/video",
@@ -119,6 +142,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     name: "Kie.ai Veo3 Image-to-Video",
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
+    modelName: VideoModel.VEO3,
     displayName: "Veo 3.1",
     perSecondCredits: 0.75, // 与文本转视频同样的积分消耗
     description: "Google's Veo3.1 model, starting at $0.36/video",
@@ -141,6 +165,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     name: "Veo3 Reference-to-Video",
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
+    modelName: VideoModel.VEO3,
     displayName: "Veo 3.1 (Consistent Character)",
     perSecondCredits: 0.75,
     description:
@@ -196,12 +221,14 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   //   estimatedGenerationTime: 45, // Seedance 图片转视频预估45秒
   //   supportedDurations: [5, 10],
   // },
-  // Kie.ai Sora 2 文本转视频模型
+  // Sora 2 文本转视频模型 (Evolink)
   "sora-2-text-to-video": {
     id: "sora-2-text-to-video",
     name: "Sora 2 Text-to-Video",
     type: VideoModelType.TEXT_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
+    provider: VideoModelProvider.EVOLINK,
+    providerModelId: "sora-2-beta-max",
+    modelName: VideoModel.SORA2,
     displayName: "Sora 2",
     perSecondCredits: 0.6, // 10秒6积分, 15秒9积分
     description: "OpenAI's Sora 2 model",
@@ -215,12 +242,14 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     requiresMembership: true,
   },
 
-  // Kie.ai Sora 2 图片转视频模型
+  // Sora 2 图片转视频模型 (Evolink)
   "sora-2-image-to-video": {
     id: "sora-2-image-to-video",
     name: "Sora 2 Image-to-Video",
     type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
+    provider: VideoModelProvider.EVOLINK,
+    providerModelId: "sora-2-beta-max",
+    modelName: VideoModel.SORA2,
     displayName: "Sora 2",
     perSecondCredits: 0.6, // 10秒6积分, 15秒9积分
     description: "OpenAI's Sora 2 model",
@@ -242,6 +271,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     name: "BytePlus Seedance Pro Text-to-Video",
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.BYTEPLUS,
+    modelName: VideoModel.SEEDANCE_1_0_PRO,
     // volcanoModel: "seedance-1-0-pro-250528",
     volcanoModel: "ep-20250915143914-m57vr", //hugeroger@gmail.com
     //volcanoModel: "ep-20251031184345-xbr8l", //acostaandreab0@gmail.com
@@ -266,6 +296,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     name: "BytePlus Seedance Pro Image-to-Video",
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.BYTEPLUS,
+    modelName: VideoModel.SEEDANCE_1_0_PRO,
     // volcanoModel: "seedance-1-0-pro-250528",
     volcanoModel: "ep-20250915143914-m57vr", //hugeroger@gmail.com
     // volcanoModel: "ep-20251031184345-xbr8l", //acostaandreab0@gmail.com
@@ -423,6 +454,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   //   supportedDurations: [5],
   //   estimatedGenerationTime: 60,
   // },
+
 };
 
 // 辅助函数

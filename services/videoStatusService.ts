@@ -127,16 +127,26 @@ export class VideoStatusService {
     const actualProvider = videoGeneration.metadata?.actual_provider;
     const fallbackProvider = getStatusProviderForFallback(actualProvider);
 
+    // === 通用降级检查：根据 metadata.fallback_model_id 获取降级模型的 Provider ===
+    const fallbackModelId = videoGeneration.metadata?.fallback_model_id;
+
     const { ProviderFactory } = await import("@/services/providers");
-    const provider =
-      fallbackProvider || ProviderFactory.getProvider(videoGeneration.model_id);
+    let provider;
+    if (fallbackProvider) {
+      provider = fallbackProvider;
+    } else if (fallbackModelId) {
+      provider = ProviderFactory.getProvider(fallbackModelId);
+    } else {
+      provider = ProviderFactory.getProvider(videoGeneration.model_id);
+    }
 
     console.log(
-      `使用provider查询状态: ${fallbackProvider ? "volcano (fallback)" : modelConfig.provider}, requestId: ${requestId}`
+      `使用provider查询状态: ${fallbackProvider ? "volcano (fallback)" : fallbackModelId ? `fallback (${fallbackModelId})` : modelConfig.provider}, requestId: ${requestId}`
     );
 
+    const statusModelId = fallbackModelId || videoGeneration.model_id;
     const providerStatus = await provider.status(
-      videoGeneration.model_id,
+      statusModelId,
       requestId
     );
 
@@ -348,10 +358,20 @@ export class VideoStatusService {
       const actualProvider = videoGeneration.metadata?.actual_provider;
       const fallbackProvider = getStatusProviderForFallback(actualProvider);
 
+      // === 通用降级检查：根据 metadata.fallback_model_id 获取降级模型的 Provider ===
+      const fallbackModelId = videoGeneration.metadata?.fallback_model_id;
+
       const { ProviderFactory } = await import("@/services/providers");
-      const provider =
-        fallbackProvider || ProviderFactory.getProvider(videoGeneration.model_id);
-      const result = await provider.result(videoGeneration.model_id, requestId);
+      let provider;
+      if (fallbackProvider) {
+        provider = fallbackProvider;
+      } else if (fallbackModelId) {
+        provider = ProviderFactory.getProvider(fallbackModelId);
+      } else {
+        provider = ProviderFactory.getProvider(videoGeneration.model_id);
+      }
+      const resultModelId = fallbackModelId || videoGeneration.model_id;
+      const result = await provider.result(resultModelId, requestId);
 
       console.log("获取到生成结果:", result);
 
@@ -388,6 +408,11 @@ export class VideoStatusService {
         // 对于 ALI，上传到 R2
         if (modelConfig.provider === VideoModelProvider.ALI) {
           await this.uploadToR2ForAli(updateParams, result, videoGeneration);
+        }
+
+        // 对于 EVOLINK Sora，上传到 R2
+        if (modelConfig.provider === VideoModelProvider.EVOLINK && result.video_url) {
+          await this.uploadToR2(updateParams, result.video_url, videoGeneration, "Evolink Sora");
         }
       } else {
         console.error("获取结果成功但数据为空:", result);
@@ -456,6 +481,12 @@ export class VideoStatusService {
         break;
       case VideoModelProvider.ALI:
         updateParams.video_url_ali = result.video_url;
+        break;
+      case VideoModelProvider.EVOLINK:
+        // Evolink Sora 使用 video_url_sora 字段
+        if (result.video_url) {
+          updateParams.video_url_sora = result.video_url;
+        }
         break;
     }
   }
@@ -587,6 +618,39 @@ export class VideoStatusService {
     } catch (r2Error) {
       console.error("阿里百炼 R2上传失败:", r2Error);
       // R2上传失败不影响主流程，状态仍为COMPLETED
+    }
+  }
+
+  /**
+   * 通用 R2 上传（适用于只需上传 video_url 的 provider）
+   */
+  private static async uploadToR2(
+    updateParams: any,
+    videoUrl: string,
+    videoGeneration: any,
+    label: string
+  ): Promise<void> {
+    try {
+      console.log(`开始为 ${label} 上传视频到 R2`);
+      const { newStorage } = await import("@/lib/storage");
+      const storage = newStorage();
+
+      const fileName = `videos/${videoGeneration.id}-${Date.now()}.mp4`;
+
+      const uploadResult = await storage.downloadAndUpload({
+        url: videoUrl,
+        key: fileName,
+        contentType: "video/mp4",
+        cacheControl: VIDEO_CACHE_CONTROL,
+      });
+
+      if (uploadResult?.url) {
+        updateParams.video_url_r2 = uploadResult.url;
+        updateParams.status = "SAVED_TO_R2";
+        console.log(`${label} 视频已上传到R2: ${uploadResult.url}`);
+      }
+    } catch (r2Error) {
+      console.error(`${label} R2上传失败:`, r2Error);
     }
   }
 
