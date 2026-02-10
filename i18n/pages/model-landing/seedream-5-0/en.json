@@ -1,0 +1,525 @@
+{
+  "banner": {
+    "title": "Seedream 5.0 AI Image Generator",
+    "description": "Seedream 5.0 is ByteDance's most intelligent AI image generator, featuring industry-first real-time web search for trending visual references, multi-round conversational editing, and intelligent logical reasoning. With 10x faster generation speed (2-3 seconds), native 4K output, and example-based editing, Seedream 5.0 redefines what AI image generation can achieve.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Text to Image",
+        "subTitle": "Prompt",
+        "value": "text-to-image",
+        "modelName": "Seedream 5.0",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Describe the image you want to create...",
+        "buttonText": "Create"
+      },
+      {
+        "type": "image",
+        "title": "Image to Image",
+        "subTitle": "Image",
+        "value": "image-to-image",
+        "modelName": "Seedream 5.0",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Drag and drop images here, or click to select",
+        "tips": "Upload up to 14 reference images. We accept JPEG, PNG, GIF, WEBP formats up to 20MB with dimensions up to 4096 x 4096 pixels.",
+        "buttonText": "Create"
+      }
+    ]
+  },
+  "partners": [
+    {
+      "name": "Coca-Cola",
+      "logo": "/imgs/partners/coca-cola-logo.png"
+    },
+    {
+      "name": "Microsoft",
+      "logo": "/imgs/partners/microsoft-logo.png"
+    },
+    {
+      "name": "Nike",
+      "logo": "/imgs/partners/nike-logo.png"
+    },
+    {
+      "name": "P&G",
+      "logo": "/imgs/partners/p-g-logo.png"
+    },
+    {
+      "name": "Lancome",
+      "logo": "/imgs/partners/lancome-logo.png"
+    },
+    {
+      "name": "Zoom",
+      "logo": "/imgs/partners/zoom-logo.png"
+    },
+    {
+      "name": "Sony",
+      "logo": "/imgs/partners/sony-logo.png"
+    },
+    {
+      "name": "Mercedes",
+      "logo": "/imgs/partners/mercedes-logo.png"
+    }
+  ],
+  "features": {
+    "title": "Key Features of Seedream 5.0",
+    "details": [
+      {
+        "title": "Real-Time Web Search — Industry First",
+        "description": "Seedream 5.0 is the first image model to integrate real-time web search. When your prompt mentions trending topics, celebrities, latest products, or current events, the model automatically searches the web for visual references, ensuring accurate and up-to-date image generation.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt"
+            },
+            {
+              "title": "Output Image"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Generate a poster for the 2026 Winter Olympics mascot, featuring snowy mountains in the background with the official mascot in a dynamic ice-skating pose."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/e0e56200fe3b-eef684e6ea7e4b2eb3ce948f1cff0ac4_tplv-2z.png",
+                  "altText": "Web-connected AI image generation showcasing real-time knowledge"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Create a three-view technical blueprint of the Geely Galaxy E8 car from multiple angles: front, side, and rear, rendered in a clean engineering style with precise proportions."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/1836c00d495b-4e6016b41fe044ae82c0b6e5173670db.png",
+                  "altText": "Real-time web search generating current product blueprint"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Enhanced Accuracy & Intelligent Generation",
+        "description": "Refine your images through natural conversation. Seedream 5.0 supports multi-round image-text editing — describe what you want changed in plain language, review the result, and continue iterating until it's perfect. It understands physics, spatial relationships, and environmental logic for results that go beyond simple prompt matching.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt"
+            },
+            {
+              "title": "Output Image"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "A photorealistic macro shot of a translucent glass sphere resting on a mossy rock, refracting the surrounding autumn forest. Soft golden hour light creates lens flares and caustic patterns through the glass."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/584a7624b5ef-548f82dd76cc47ebbe35656ecf5fe131_tplv-2z.png",
+                  "altText": "Enhanced prompt accuracy with intelligent reasoning"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "A high-fashion editorial photograph of a model wearing an avant-garde outfit made of origami-folded metallic fabric, dramatic studio lighting with rim light silhouette, ultra-sharp details."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/0aa1ca769ccb-c8bfc1e0c0c94dad98d969b20abe4d4b_tplv-2z.png",
+                  "altText": "High-fashion editorial generated with Seedream 5.0"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Visualize a complex quantum physics concept: the double-slit experiment diagram showing wave-particle duality, with electron paths, interference patterns, and labeled scientific annotations."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/6fc4332147f9-c3faf7994a7d402e8acc4b91541405d0.png",
+                  "altText": "Complex scientific reasoning and diagram generation"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "A biology classroom illustration showing the process of cellular mitosis: prophase, metaphase, anaphase, and telophase stages with labeled diagrams, educational poster style."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/ae8b377012e7-d04f0b99-bab2-433d-8897-1196e6a2140e.web.webp",
+                  "altText": "Intelligent biological diagram with multi-step reasoning"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Faster, Smarter & More Expressive Creation",
+        "description": "With a 10x faster backbone than previous generations, Seedream 5.0 generates standard images in just 2-3 seconds and 4K upscaled results in 5-8 seconds. The optimized processing engine delivers premium quality at production speed across diverse creative styles.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt"
+            },
+            {
+              "title": "Output Image"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Cyberpunk cityscape at night, neon signs reflecting on rain-soaked streets, flying cars with light trails, a lone figure with an umbrella standing under a holographic billboard, ultra-detailed 8K rendering."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/9b60a546d45d-db3ba8c7cf4b4872b7cb9bbc4bf3f37f_tplv-2z.png",
+                  "altText": "Fast high-quality AI image creation"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "A whimsical children's book illustration of a tiny fox wearing a red scarf, standing at the entrance of a magical mushroom village. Warm watercolor style with soft pastel colors and hand-drawn textures."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/cf1caea13e54-5f3e84e3b75f43c2be619262e28ee1b8_tplv-2z.png",
+                  "altText": "Expressive artistic style generation"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Social Media & Digital Content",
+        "description": "Create scroll-stopping social media visuals, thumbnails, and digital content in seconds. Seedream 5.0 understands platform-specific requirements and delivers eye-catching images optimized for engagement.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Use Case"
+            },
+            {
+              "title": "Example Output"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Social media content: Create a vibrant Instagram-style flat lay of a morning routine — a cappuccino with latte art, a leather-bound journal, fresh flowers, and AirPods on a marble countertop. Warm natural light from the left."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/bb6d9310a504-caf167d56d2b4f30a34acef684917cf3_tplv-2z.png",
+                  "altText": "Social media content creation"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Marketing, Advertising & Campaign Assets",
+        "description": "Generate professional-grade marketing visuals, product showcases, and campaign assets. From e-commerce product images to brand campaign creatives, Seedream 5.0 delivers designer-quality results at scale.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Use Case"
+            },
+            {
+              "title": "Example Output"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Marketing campaign: Design a premium skincare product advertisement with a minimalist white background, soft studio lighting, and elegant typography showcasing the product name and key ingredients."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/9929654834c9-5bf63f6807104057892f9cdc838beac3_tplv-2z.png",
+                  "altText": "Marketing and advertising asset"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Creative Exploration & Concept Design",
+        "description": "Explore artistic directions, generate mood boards, and prototype visual concepts rapidly. Seedream 5.0 supports diverse styles from photorealism to abstract art, enabling rapid creative iteration.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Use Case"
+            },
+            {
+              "title": "Example Output"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Concept design: An architectural visualization of a futuristic eco-friendly skyscraper covered in vertical gardens, with solar panels integrated into the glass facade, set against a blue sky with scattered clouds."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/48be32c147a6-807ad209b0cc4de6ae97ca3cbf549b55_tplv-2z.png",
+                  "altText": "Creative concept design exploration"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Example-Based Editing",
+        "description": "Show Seedream 5.0 a before-and-after transformation (Image A to Image B), and it automatically learns the editing pattern and applies the same change to any new image. Perfect for batch processing and consistent style transfers.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Reference Input"
+            },
+            {
+              "title": "Generated Output"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/8b77f2defe7f-outfit-ref-1.png",
+                  "altText": "Fashion outfit reference input"
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/dc4da2d108f0-outfit-out.png",
+                  "altText": "Fashion outfit generated output"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/7ca074f9997d-interior-style-ref.png",
+                  "altText": "Interior design style reference"
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/577c4f3d3b7a-interior-style-out.png",
+                  "altText": "Interior design style transfer output"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/6ef1a0397dfd-horror-lineart-ref.png",
+                  "altText": "Line art reference input"
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/0e36225ccf81-horror-lineart-out.png",
+                  "altText": "Cinematic horror style output"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Precision Circle Editing",
+        "description": "Circle any area of your image to target specific modifications. Seedream 5.0 understands object mechanics and context, enabling precise edits like repositioning elements, changing materials, or removing objects with automatic background reconstruction.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Edit Instruction"
+            },
+            {
+              "title": "Result"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Circle the open lipsticks and instruct: \"Put the cap back on and stand them upright.\" The model understands the physical mechanics of the object and executes the edit precisely."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/3661b71a0a98-35866a5b83d34ddf8adb07b0d7a104ee.png",
+                  "altText": "Precision circle editing - lipstick cap demonstration"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Circle a person in a group photo and instruct: \"Remove this person and fill the background naturally.\" Seedream 5.0 reconstructs the scene seamlessly without visible artifacts."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/81ae95707b38-8628ace3-49d9-40a3-93df-6290fc2c2000.web.webp",
+                  "altText": "Precision editing with intelligent object understanding"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "How to Use Seedream 5.0",
+    "description": "Follow these straightforward steps to generate, edit, and refine images online with Seedream 5.0's consistent and intuitive workflow.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Choose Seedream 5.0 Image Generator",
+        "description": "Start by selecting the Seedream 5.0 image generator. The integrated Seedream 5 AI editor provides all the tools you need to create polished and professional 4K artwork in one place."
+      },
+      {
+        "number": "02",
+        "title": "Upload an Image or Enter Your Description",
+        "description": "Upload a photo you want to edit or type a text description. The Seedream 5 AI system handles both options, allowing you to transform existing photos or generate brand new visuals."
+      },
+      {
+        "number": "03",
+        "title": "Generate and Download",
+        "description": "Click generate and let the Seedream 5.0 editor produce your artwork in seconds. Once the image is ready, preview the result and download it instantly."
+      },
+      {
+        "number": "04",
+        "title": "Refine and Perfect Your Creation",
+        "description": "Use Seedream 5.0's advanced editing features to fine-tune details, adjust colors, and perfect your final image with professional-grade results."
+      }
+    ],
+    "buttonText": "Try Seedream 5.0 Free on Veo3 AI"
+  },
+  "youtubeCases": {
+    "title": "YouTube Videos About Seedream 5.0",
+    "content": []
+  },
+  "redditCases": {
+    "title": "Reddit Discussions About Seedream 5.0",
+    "content": []
+  },
+  "twitterCases": {
+    "title": "X Reviews on Seedream 5.0",
+    "content": [
+      {
+        "id": "twitter-1",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020774137070035037",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-2",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020851262997102881",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-3",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2021101216009429225",
+        "width": "550",
+        "height": "400"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Try Seedream 5.0 for Free on Veo3 AI",
+    "buttonText": "Try Seedream 5.0 Free"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Frequently Asked Questions",
+    "description": "Learn more about Seedream 5.0 AI Image Generator",
+    "items": [
+      {
+        "title": "What is Seedream 5.0?",
+        "description": "Seedream 5.0 is ByteDance's most advanced AI image generation model, launched in February 2026. It introduces breakthrough features including real-time web search for visual references, multi-round conversational editing, intelligent logical reasoning, and example-based editing. It generates 4K images in 2-3 seconds with 10x faster performance than previous generations."
+      },
+      {
+        "title": "What's new in Seedream 5.0 compared to Seedream 4.5?",
+        "description": "Seedream 5.0 introduces several 'zero-to-one' breakthroughs: real-time web search (first image model ever), multi-round image-text editing through natural conversation, intelligent reasoning for physics and spatial understanding, example-based editing (learn transformations from before/after pairs), and precision circle editing. Generation speed is 10x faster at 2-3 seconds."
+      },
+      {
+        "title": "How does real-time web search work in Seedream 5.0?",
+        "description": "When your prompt mentions trending topics, current events, celebrities, or the latest products, Seedream 5.0 automatically searches the web for up-to-date visual references. This ensures accurate generation of current subjects without relying on outdated training data. It adds approximately 2-5 seconds to generation time and can be disabled."
+      },
+      {
+        "title": "What is example-based editing?",
+        "description": "Show Seedream 5.0 a transformation pattern (e.g., Image A transformed into Image B), and it learns the editing logic and applies the same change to any new Image C. This is powerful for batch processing consistent style transfers, material changes, or artistic transformations across multiple images."
+      },
+      {
+        "title": "How to use Seedream 5.0?",
+        "description": "Select Seedream 5.0 from the model dropdown, enter a text prompt or upload reference images (up to 14), choose your preferred resolution (1K, 2K, or 4K) and aspect ratio, then click Create. Use multi-round editing to refine results through conversation. Try Seedream 5.0 for free on Veo3 AI."
+      },
+      {
+        "title": "Is Seedream 5.0 free to use?",
+        "description": "Yes, Seedream 5.0 is free to try on Veo3 AI. New users receive free credits upon registration. Each image generation costs 2 credits, with subscription plans providing 500-6000 credits monthly for high-volume creators."
+      },
+      {
+        "title": "How fast is Seedream 5.0?",
+        "description": "Seedream 5.0 generates standard images in 2-3 seconds and 4K upscaled results in 5-8 seconds, thanks to its 10x faster backbone compared to previous generations. Web search-enhanced prompts may add 2-5 seconds for real-time reference retrieval."
+      },
+      {
+        "title": "What resolutions and aspect ratios does Seedream 5.0 support?",
+        "description": "Seedream 5.0 supports 1K (standard), 2K (high definition), and 4K (ultra high definition) resolution tiers. Available aspect ratios include 1:1, 3:4, 4:3, 9:16, 16:9, 2:3, 3:2, and 21:9 (ultrawide cinematic)."
+      },
+      {
+        "title": "Can Seedream 5.0 render text accurately in images?",
+        "description": "Seedream 5.0 achieves approximately 89% text rendering accuracy, supporting both Chinese and English typography. It handles posters, product labels, signage, and branded content with clear, readable results suitable for professional design workflows."
+      },
+      {
+        "title": "How does Seedream 5.0 compare to Nano Banana Pro and GPT Image?",
+        "description": "Seedream 5.0 offers unique advantages: real-time web search (unavailable in competitors), example-based editing, and the fastest generation speed (2-3s vs 5-8s for alternatives). It excels at reasoning tasks and trending content. However, for maximum photorealism, Nano Banana Pro may still have an edge in certain portrait and product photography scenarios."
+      }
+    ]
+  }
+}

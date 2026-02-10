@@ -1,0 +1,220 @@
+{
+  "banner": {
+    "title": "Seedance 2.0 AI Video Generator",
+    "description": "Developed by ByteDance, Seedance 2.0 is the latest multimodal video generation model that integrates four input modalities — Image, Video, Audio, and Text. It delivers precise composition restoration, complex action replication, and high character consistency, solving the uncontrollability pain point in AI video generation.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Text to Video",
+        "subTitle": "Prompt",
+        "value": "text-to-video",
+        "modelName": "Seedance 2.0",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Describe the video you want to generate...",
+        "buttonText": "Generate"
+      },
+      {
+        "type": "image",
+        "title": "Image to Video",
+        "subTitle": "Image",
+        "value": "image-to-video",
+        "modelName": "Seedance 2.0",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Upload an image to animate",
+        "tips": "Upload JPG/PNG/WEBP images up to 10MB, minimum width/height of 300px.",
+        "buttonText": "Generate"
+      }
+    ]
+  },
+  "partners": [],
+  "features": {
+    "title": "Key Features of Seedance 2.0 AI Video Model",
+    "details": [
+      {
+        "title": "Multimodal Reference: From Prompt Guessing to Precise Replication",
+        "description": "Seedance 2.0 supports mixed input of up to 12 files including images, videos, and audio. Use an image to define visual style, a video to specify character action and camera movement, and audio to drive the rhythm. No more struggling with complex text prompts — simply upload reference materials and the model accurately restores composition, character details, and camera language.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/0f264b834caf-feature-2-v2.mp4"
+      },
+      {
+        "title": "Extreme Character Consistency & Stability",
+        "description": "Seedance 2.0 significantly enhances understanding of physical laws and instructions, solving the common 'character morphing' problem. Whether it's facial features, clothing details, or overall visual style, it maintains high uniformity throughout the clip. This is crucial for long-form content and brand storytelling, ensuring Character IP continuity for serious narratives and commercial advertisements.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/98b5091a7478-feature-3.mp4"
+      },
+      {
+        "title": "Video Editing & Infinite Extension",
+        "description": "Seedance 2.0 offers powerful editing capabilities, supporting character replacement and the addition or deletion of content within existing videos. It supports smooth video extension and concatenation based on prompts. Designers can reshoot or tweak scenes directly within the model without regenerating the entire clip, saving significant rendering time and computing costs.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/c347901fe7a7-feature-4.mp4"
+      },
+      {
+        "title": "Audio-Visual Sync & Beat Matching",
+        "description": "Seedance 2.0 natively supports audio input and generates visuals based on rhythm. Whether it's complex camera movements hitting the beat or syncing character lip movements and actions with reference audio, Seedance 2.0 performs with precision. This makes Music Video production and rhythmic ad editing incredibly efficient, achieving automated, high-level fusion of sight and sound.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/5789558c6ee7-feature-5.mp4"
+      },
+      {
+        "title": "2K Resolution with Film-Grade Quality",
+        "description": "Seedance 2.0 creates videos in sharp 2K resolution, capturing every detail from textures to subtle movements. It enhances colors and lighting automatically, making visuals look natural and vibrant. Supports multiple video styles from cinematic clips to marketing content without losing quality.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/6dd6f812c7a3-feature-1.mp4"
+      },
+      {
+        "title": "30% Faster Generation, 3x Longer Videos",
+        "description": "Seedance 2.0 speeds up video production by 30% using AI-driven workflows that reduce manual adjustments. It allows longer videos up to three times the usual length, perfect for tutorials, presentations, or storytelling. Maintains smooth motion and clear visuals even in extended clips.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/d8e51eff8c93-showcase-1.mp4"
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "How to Use Seedance 2.0",
+    "description": "Generate professional videos with Seedance 2.0 through our easy-to-use interface",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Add Prompts or Reference Assets",
+        "description": "Seedance 2.0 accepts text prompts, images, videos, and audio as input. Upload up to 12 reference files to define visual style, character action, camera movement, and audio rhythm. Navigate to the generation page and select 'Seedance 2.0' from the model dropdown."
+      },
+      {
+        "number": "02",
+        "title": "Customize the Output",
+        "description": "Select video mode (text-to-video or image-to-video) and configure your preferred aspect ratio (16:9, 1:1, etc.), resolution options (720p, 1080p, 2K), and duration settings. Use reference files to precisely control composition and style."
+      },
+      {
+        "number": "03",
+        "title": "Generate and Export",
+        "description": "Click 'Generate' and Seedance 2.0 renders videos in seconds with smooth motion, consistent characters, and clear visuals. Export high-quality AI-generated videos ready for sharing, marketing, or production."
+      }
+    ],
+    "buttonText": "Try Seedance 2.0 Now"
+  },
+  "youtubeCases": {
+    "title": "YouTube Videos About Seedance 2.0",
+    "content": [
+      {
+        "youtubeLink": "https://www.youtube.com/embed/HfNLk9ClULs",
+        "width": "560",
+        "height": "315"
+      }
+    ]
+  },
+  "redditCases": {
+    "title": "Reddit Discussions About Seedance 2.0",
+    "content": []
+  },
+  "twitterCases": {
+    "title": "X Reviews on Seedance 2.0",
+    "content": [
+      {
+        "id": "twitter-1",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020138768439644654",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-2",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020222850762957063",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-3",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020073509985350050",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-4",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020032467890233652",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-5",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020188101533139432",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-6",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020515607934857700",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-7",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020445794877272189",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-8",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020911900968767976",
+        "width": "550",
+        "height": "400"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Create AI Videos With Seedance 2.0",
+    "buttonText": "Try Seedance 2.0"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Frequently Asked Questions",
+    "description": "Learn more about the Seedance 2.0 multimodal AI video generation model",
+    "items": [
+      {
+        "title": "What is Seedance 2.0?",
+        "description": "Seedance 2.0 is ByteDance's latest multimodal video generation model that integrates four input modalities — Image, Video, Audio, and Text. It addresses the uncontrollability pain point in video generation, offering precise composition restoration, complex action replication, and high character consistency."
+      },
+      {
+        "title": "How does Seedance 2.0's multimodal reference work?",
+        "description": "Seedance 2.0 supports mixed input of up to 12 files including images, videos, and audio. Use an image to define the visual style, a video to specify character action and camera movement, and audio to drive the rhythm. The model accurately restores composition, character details, and camera language from your references."
+      },
+      {
+        "title": "How does Seedance 2.0 maintain character consistency?",
+        "description": "Seedance 2.0 significantly enhances understanding of physical laws and instructions, solving the common character morphing problem. Facial features, clothing details, and overall visual style maintain high uniformity throughout the clip, ensuring Character IP continuity for long-form content and brand storytelling."
+      },
+      {
+        "title": "Can Seedance 2.0 edit existing videos?",
+        "description": "Yes, Seedance 2.0 offers powerful editing capabilities, supporting character replacement and the addition or deletion of content within existing videos. It also supports smooth video extension and concatenation based on prompts, so you can reshoot or tweak scenes without regenerating the entire clip."
+      },
+      {
+        "title": "How does the audio-visual sync feature work?",
+        "description": "Seedance 2.0 natively supports audio input and generates visuals based on rhythm. It handles complex camera movements synced to the beat, character lip-sync, and action matching with reference audio. This makes Music Video production and rhythmic ad editing incredibly efficient."
+      },
+      {
+        "title": "Can Seedance 2.0 handle complex scenes or fast movement?",
+        "description": "Yes, Seedance 2.0 easily manages complex motion and crowded visuals. It can replicate ultra-long tracking shots and one-take cinematic styles while maintaining facial stability. The camera weaves through different spaces and perspectives with smooth trajectories and no tearing."
+      },
+      {
+        "title": "How can businesses use Seedance 2.0 for product marketing?",
+        "description": "Businesses can create product demos with ultimate texture reproduction, storytelling ads with precise emotional control, and launch visuals with seamless VFX. The model replicates studio-quality production — brand logos remain clear, scene transitions sync with background audio, and product details are perfectly showcased."
+      },
+      {
+        "title": "What makes Seedance 2.0 better than older AI video models?",
+        "description": "Seedance 2.0 introduces true multimodal input (Image, Video, Audio, Text), extreme character consistency, built-in video editing capabilities, and native audio-visual synchronization. It's 30% faster, supports 3x longer videos, and renders in 2K resolution — a generational leap over previous models."
+      },
+      {
+        "title": "Can Seedance 2.0 create music videos?",
+        "description": "Yes, Seedance 2.0 excels at Music Video production. Its beat-matching feature syncs camera movements and character actions precisely to the audio rhythm, achieving automated, high-level fusion of sight and sound without manual keyframing."
+      },
+      {
+        "title": "What input formats does Seedance 2.0 support?",
+        "description": "Seedance 2.0 integrates four input modalities: images (for visual style), videos (for action and camera movement reference), audio (for rhythm and lip-sync), and text prompts (for creative direction). You can mix up to 12 reference files in a single generation."
+      },
+      {
+        "title": "Can Seedance 2.0 extend or concatenate videos?",
+        "description": "Yes, Seedance 2.0 supports smooth video extension and concatenation based on prompts. You can keep extending a video seamlessly, making it ideal for long-form content creation without the usual quality degradation at boundaries."
+      },
+      {
+        "title": "Can Seedance 2.0 fix my video if I don't like the first result?",
+        "description": "Yes, you can regenerate the video with adjusted prompts or references. Seedance 2.0 also supports direct editing of existing videos — replace characters, add or remove content, and tweak scenes without starting from scratch."
+      }
+    ]
+  }
+}

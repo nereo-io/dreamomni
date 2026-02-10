@@ -19,6 +19,11 @@
     "description": "Seedance 1.5 Pro de ByteDance offre génération audio-visuelle native, synchronisation labiale multilingue et contrôle caméra cinématique. Essayez gratuitement!",
     "keywords": "Seedance 1.5 Pro, ByteDance Seedance, texte vers vidéo, image vers vidéo, audio-vidéo IA, Veo3 AI"
   },
+  "seedance-2-0": {
+    "title": "Seedance 2.0 Générateur Vidéo IA Gratuit | Veo3 AI",
+    "description": "Seedance 2.0 de ByteDance : vidéos IA multimodales (image, vidéo, audio, texte), résolution 2K, cohérence des personnages & 30% plus rapide. Essai gratuit !",
+    "keywords": "Seedance 2.0, générateur vidéo IA, texte vers vidéo, image vers vidéo, ByteDance, IA multimodale"
+  },
   "sora-2": {
     "title": "Sora 2 Gratuit : Essayez le modèle vidéo IA OpenAI Sora 2 maintenant | Veo3 AI",
     "description": "Découvrez Sora 2, le modèle vidéo IA avancé d'OpenAI avec physique réaliste, audio synchronisé et cohérence multi-plans. Générez de superbes vidéos HD 1080p maintenant pour les membres !",
@@ -1034,6 +1039,11 @@
     "title": "Seedream 4.5 Generateur d'images IA : Le dernier modele d'image de ByteDance | Veo3 AI",
     "description": "Creez des images epoustouflantes avec Seedream 4.5, le generateur d'images IA avance de ByteDance. Resolution 4K, jusqu'a 14 images de reference et generation par lots.",
     "keywords": "Seedream 4.5, ByteDance IA, Doubao Image, Generateur d'images IA, Texte vers image, Image vers image, Images IA 4K, Generation par lots, Images de reference IA"
+  },
+  "seedream-5-0": {
+    "title": "Seedream 5.0 Générateur d'Images IA Gratuit | Veo3 AI",
+    "description": "Images 4K en 2-3s avec Seedream 5.0 de ByteDance. Recherche web temps réel, édition multi-tours, transfert de style & vitesse 10x. Essayez gratuit !",
+    "keywords": "Seedream 5.0, Seedream 5, générateur d'images IA, texte vers image, images IA 4K, ByteDance"
   },
   "trans_type": {
     "new_user": "Bonus de bienvenue",

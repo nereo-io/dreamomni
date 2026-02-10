@@ -26,10 +26,7 @@
       }
     ]
   },
-  "partners": [
-    { "name": "ByteDance", "logo": "/imgs/partners/bytedance-logo.png" },
-    { "name": "Seed", "logo": "/imgs/partners/seed-logo.png" }
-  ],
+  "partners": [],
   "features": {
     "title": "Ключевые особенности видеомодели Seedance 1.5 Pro AI",
     "details": [

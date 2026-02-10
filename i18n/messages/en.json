@@ -19,6 +19,11 @@
     "description": "Seedance 1.5 Pro by ByteDance features native audio-visual generation, multilingual lip-sync, and cinematic camera control. Try it free!",
     "keywords": "Seedance 1.5 Pro, ByteDance Seedance, text to video, image to video, audio-video AI, Veo3 AI"
   },
+  "seedance-2-0": {
+    "title": "Seedance 2.0 AI Video Generator Online Free | Veo3 AI",
+    "description": "Use Seedance 2.0 by ByteDance to create AI videos. Multimodal input (image, video, audio, text), 2K resolution, character consistency & 30% faster. Try free!",
+    "keywords": "Seedance 2.0, AI video generator, text to video, image to video, ByteDance, multimodal AI, free"
+  },
   "sora-2": {
     "title": "Sora 2 Free: Try OpenAI Sora 2 AI Video Model Now | Veo3 AI",
     "description": "Experience Sora 2, OpenAI's advanced AI video model with realistic physics, synchronized audio, and multi-shot consistency. Generate stunning 1080p HD videos now for members!",
@@ -1037,6 +1042,11 @@
     "title": "Seedream 4.5 AI Image Generator: ByteDance's Latest Image Model | Veo3 AI",
     "description": "Create stunning images with Seedream 4.5, ByteDance's advanced AI image generator. Features 4K resolution, up to 14 reference images, and batch generation capabilities.",
     "keywords": "Seedream 4.5, ByteDance AI, Doubao Image, AI Image Generator, Text to Image, Image to Image, 4K AI Images, Batch Image Generation, Reference Images AI"
+  },
+  "seedream-5-0": {
+    "title": "Seedream 5.0 AI Image Generator Online Free | Veo3 AI",
+    "description": "Create 4K images in 2-3s with Seedream 5.0 by ByteDance. Real-time web search, multi-round editing, example-based style transfer & 10x faster speed. Try free!",
+    "keywords": "Seedream 5.0, Seedream 5, AI image generator, text to image, 4K AI images, ByteDance, free"
   },
   "trans_type": {
     "new_user": "Welcome Bonus",

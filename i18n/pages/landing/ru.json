@@ -277,8 +277,18 @@
               "target": "_self"
             },
             {
+              "title": "Seedance 2.0",
+              "url": "/seedance-2-0",
+              "target": "_self"
+            },
+            {
               "title": "Seedance 1.5 Pro",
               "url": "/seedance-1-5",
+              "target": "_self"
+            },
+            {
+              "title": "Seedream 5.0",
+              "url": "/seedream-5-0",
               "target": "_self"
             },
             {
