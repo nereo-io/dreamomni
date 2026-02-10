@@ -144,8 +144,9 @@ export class VideoStatusService {
       `使用provider查询状态: ${fallbackProvider ? "volcano (fallback)" : fallbackModelId ? `fallback (${fallbackModelId})` : modelConfig.provider}, requestId: ${requestId}`
     );
 
+    const statusModelId = fallbackModelId || videoGeneration.model_id;
     const providerStatus = await provider.status(
-      videoGeneration.model_id,
+      statusModelId,
       requestId
     );
 
@@ -369,7 +370,8 @@ export class VideoStatusService {
       } else {
         provider = ProviderFactory.getProvider(videoGeneration.model_id);
       }
-      const result = await provider.result(videoGeneration.model_id, requestId);
+      const resultModelId = fallbackModelId || videoGeneration.model_id;
+      const result = await provider.result(resultModelId, requestId);
 
       console.log("获取到生成结果:", result);
 
