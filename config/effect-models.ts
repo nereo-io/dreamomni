@@ -58,8 +58,9 @@ export const EFFECT_MODELS: Record<string, EffectModelConfig> = {
     baseCredits: 2,
     maxImages: 1,
     estimatedGenerationTime: 30,
-    prompt: "Transform this photo into Studio Ghibli anime style",
-    model: "google/nano-banana-edit",
+    prompt:
+      "Redraw [a photo of a landscape or person] in the style of a Studio Ghibli animated film. Nostalgic, with hand-painted backgrounds, soft colors, and lush nature.",
+    model: "nano-banana-pro",
     settings: [
       {
         key: "ratio",
@@ -77,14 +78,14 @@ export const EFFECT_MODELS: Record<string, EffectModelConfig> = {
 };
 
 export function getEffectModel(
-  effectId: string
+  effectId: string,
 ): EffectModelConfig | undefined {
   return EFFECT_MODELS[effectId];
 }
 
 export function calculateEffectCredits(
   effectId: string,
-  settings: Record<string, string>
+  settings: Record<string, string>,
 ): number {
   const model = EFFECT_MODELS[effectId];
   if (!model) return 0;
@@ -92,7 +93,7 @@ export function calculateEffectCredits(
 }
 
 export function getEffectDefaultSettings(
-  effectId: string
+  effectId: string,
 ): Record<string, string> {
   const model = EFFECT_MODELS[effectId];
   if (!model) return {};
