@@ -54,6 +54,7 @@
       "features_title": "Inclus",
       "features": [
         "<highlight>200</highlight> crédits mensuels",
+        "Les crédits sont accordés chaque mois pendant l'année",
         "Jusqu'à <highlight>25</highlight> vidéos Veo3 (8s 1080p)",
         "Jusqu'à <highlight>100</highlight> images NanoBanana Pro",
         "Sortie en résolution 1080p",
@@ -120,6 +121,7 @@
       "features_title": "Inclus",
       "features": [
         "<highlight>1000</highlight> crédits mensuels",
+        "Les crédits sont accordés chaque mois pendant l'année",
         "Jusqu'à <highlight>125</highlight> vidéos Veo3 (8s 1080p)",
         "Jusqu'à <highlight>500</highlight> images NanoBanana Pro",
         "Sortie en résolution 4K",
@@ -188,6 +190,7 @@
       "features_title": "Inclus",
       "features": [
         "<highlight>3000</highlight> crédits mensuels",
+        "Les crédits sont accordés chaque mois pendant l'année",
         "Jusqu'à <highlight>375</highlight> vidéos Veo3 (8s 1080p)",
         "Jusqu'à <highlight>1500</highlight> images NanoBanana Pro",
         "Sortie en résolution 4K",
@@ -229,7 +232,7 @@
       },
       {
         "title": "Que se passe-t-il avec les crédits non utilisés à la fin du mois ?",
-        "description": "Les crédits mensuels ne sont pas reportés au mois suivant. Nous recommandons d'utiliser vos crédits dans votre cycle de facturation. Pour les plans annuels, tous les crédits sont fournis d'avance et peuvent être utilisés tout au long de l'année."
+        "description": "Les crédits mensuels ne sont pas reportés au mois suivant. Nous recommandons d'utiliser vos crédits dans votre cycle de facturation. Pour les plans annuels, les crédits sont accordés chaque mois pendant l'année et ne sont pas reportés."
       },
       {
         "title": "Puis-je changer de plan à tout moment ?",
@@ -245,7 +248,7 @@
       },
       {
         "title": "Quelle est la différence entre la facturation mensuelle et annuelle ?",
-        "description": "La facturation annuelle offre une réduction de 40% par rapport à la facturation mensuelle. Avec les plans annuels, vous payez d'avance pour toute l'année et recevez tous vos crédits immédiatement. Les plans mensuels sont facturés chaque mois avec des crédits renouvelés à chaque cycle de facturation."
+        "description": "La facturation annuelle offre une réduction de 40% par rapport à la facturation mensuelle. Avec les plans annuels, vous payez d'avance pour toute l'année et recevez des crédits chaque mois pendant l'année. Les plans mensuels sont facturés chaque mois avec des crédits renouvelés à chaque cycle de facturation."
       },
       {
         "title": "Puis-je utiliser les vidéos générées commercialement ?",

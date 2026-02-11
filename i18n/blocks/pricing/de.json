@@ -54,6 +54,7 @@
       "features_title": "Inklusive",
       "features": [
         "<highlight>200</highlight> monatliche Credits",
+        "Credits werden im Jahresplan monatlich gutgeschrieben",
         "Bis zu <highlight>25</highlight> Veo3-Videos (8s 1080p)",
         "Bis zu <highlight>100</highlight> NanoBanana Pro Bilder",
         "1080p Auflösungsausgabe",
@@ -120,6 +121,7 @@
       "features_title": "Inklusive",
       "features": [
         "<highlight>1000</highlight> monatliche Credits",
+        "Credits werden im Jahresplan monatlich gutgeschrieben",
         "Bis zu <highlight>125</highlight> Veo3-Videos (8s 1080p)",
         "Bis zu <highlight>500</highlight> NanoBanana Pro Bilder",
         "4K Auflösungsausgabe",
@@ -188,6 +190,7 @@
       "features_title": "Inklusive",
       "features": [
         "<highlight>3000</highlight> monatliche Credits",
+        "Credits werden im Jahresplan monatlich gutgeschrieben",
         "Bis zu <highlight>375</highlight> Veo3-Videos (8s 1080p)",
         "Bis zu <highlight>1500</highlight> NanoBanana Pro Bilder",
         "4K Auflösungsausgabe",
@@ -229,7 +232,7 @@
       },
       {
         "title": "Was passiert mit ungenutzten Credits am Monatsende?",
-        "description": "Monatliche Credits werden nicht in den nächsten Monat übertragen. Wir empfehlen, Ihre Credits innerhalb Ihres Abrechnungszyklus zu nutzen. Bei Jahresplänen werden alle Credits im Voraus bereitgestellt und können das ganze Jahr über genutzt werden."
+        "description": "Monatliche Credits werden nicht in den nächsten Monat übertragen. Wir empfehlen, Ihre Credits innerhalb Ihres Abrechnungszyklus zu nutzen. Bei Jahresplänen werden Credits monatlich im Laufe des Jahres gutgeschrieben und nicht übertragen."
       },
       {
         "title": "Kann ich meinen Plan jederzeit auf- oder abwerten?",
@@ -245,7 +248,7 @@
       },
       {
         "title": "Was ist der Unterschied zwischen monatlicher und jährlicher Abrechnung?",
-        "description": "Die jährliche Abrechnung bietet einen Rabatt von 40% im Vergleich zur monatlichen Abrechnung. Bei Jahresplänen zahlen Sie im Voraus für das gesamte Jahr und erhalten alle Ihre Credits sofort. Monatliche Pläne werden jeden Monat abgerechnet, wobei die Credits in jedem Abrechnungszyklus erneuert werden."
+        "description": "Die jährliche Abrechnung bietet einen Rabatt von 40% im Vergleich zur monatlichen Abrechnung. Bei Jahresplänen zahlen Sie im Voraus für das gesamte Jahr und erhalten Credits monatlich im Laufe des Jahres. Monatliche Pläne werden jeden Monat abgerechnet, wobei die Credits in jedem Abrechnungszyklus erneuert werden."
       },
       {
         "title": "Kann ich die generierten Videos kommerziell nutzen?",

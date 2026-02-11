@@ -54,6 +54,7 @@
       "features_title": "Including",
       "features": [
         "<highlight>200</highlight> monthly credits",
+        "Credits are granted monthly throughout the year",
         "Up to <highlight>25</highlight> Veo3 videos (8s 1080p)",
         "Up to <highlight>100</highlight> NanoBanana Pro images",
         "1080p resolution output",
@@ -120,6 +121,7 @@
       "features_title": "Including",
       "features": [
         "<highlight>1000</highlight> monthly credits",
+        "Credits are granted monthly throughout the year",
         "Up to <highlight>125</highlight> Veo3 videos (8s 1080p)",
         "Up to <highlight>500</highlight> NanoBanana Pro images",
         "4K resolution output",
@@ -188,6 +190,7 @@
       "features_title": "Including",
       "features": [
         "<highlight>3000</highlight> monthly credits",
+        "Credits are granted monthly throughout the year",
         "Up to <highlight>375</highlight> Veo3 videos (8s 1080p)",
         "Up to <highlight>1500</highlight> NanoBanana Pro images",
         "4K resolution output",
@@ -229,7 +232,7 @@
       },
       {
         "title": "What happens to unused credits at the end of the month?",
-        "description": "Monthly credits do not roll over to the next month. We recommend using your credits within your billing cycle. For yearly plans, all credits are provided upfront and can be used throughout the year."
+        "description": "Monthly credits do not roll over to the next month. We recommend using your credits within your billing cycle. For yearly plans, credits are granted monthly throughout the year and do not roll over."
       },
       {
         "title": "Can I upgrade or downgrade my plan anytime?",
@@ -245,7 +248,7 @@
       },
       {
         "title": "What's the difference between monthly and yearly billing?",
-        "description": "Yearly billing offers a 40% discount compared to monthly billing. With yearly plans, you pay upfront for the entire year and receive all your credits immediately. Monthly plans are billed every month with credits refreshing at each billing cycle."
+        "description": "Yearly billing offers a 40% discount compared to monthly billing. With yearly plans, you pay upfront for the entire year and receive credits monthly throughout the year. Monthly plans are billed every month with credits refreshing at each billing cycle."
       },
       {
         "title": "Can I use the generated videos commercially?",
