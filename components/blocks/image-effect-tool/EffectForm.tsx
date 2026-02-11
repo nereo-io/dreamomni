@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useCallback, useEffect, useMemo } from "react";
-import { Play, ImageIcon, X } from "lucide-react";
+import Link from "next/link";
+import { useLocale } from "next-intl";
+import { ChevronLeft, Play, ImageIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
@@ -34,6 +36,7 @@ export default function EffectForm({
   onGenerate,
 }: EffectFormProps) {
   const { user, setShowSignModal, setShowPricingModal } = useAppContext();
+  const locale = useLocale();
   const { leftCredits, updateLeftCredits } = useCredits();
 
   // Settings state — initialize from defaults
@@ -178,12 +181,22 @@ export default function EffectForm({
 
   const slot = imageSlots[0];
   const hasImage = !!slot?.url;
+  const backHref = locale === "en" ? "/image-effect" : `/${locale}/image-effect`;
 
   return (
     <div className="bg-gray-900 rounded-xl shadow-lg flex flex-col flex-shrink-0 w-full lg:w-[420px] lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]">
       {/* Scrollable content area */}
       <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
         <div className="space-y-4 md:space-y-5 px-4 md:px-6 py-4 md:py-5">
+          <div className="flex items-center">
+            <Button variant="ghost" size="sm" asChild>
+              <Link href={backHref}>
+                <ChevronLeft className="h-4 w-4" />
+                Back to Image Effects
+              </Link>
+            </Button>
+          </div>
+
           {/* 1. Title Container with background image */}
           <div className="relative aspect-video rounded-xl overflow-hidden">
             <img

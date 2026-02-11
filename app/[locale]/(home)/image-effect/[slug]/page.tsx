@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import { getLocale } from "next-intl/server";
 import EffectLandingPage from "@/components/blocks/effect-landing-page";
 import ImageEffectTool from "@/components/blocks/image-effect-tool";
 import type { EffectLandingPageProps } from "@/types/blocks/effect-landing-page";
