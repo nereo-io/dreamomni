@@ -16,6 +16,7 @@ import {
   EffectProvider,
   type EffectModelConfig,
 } from "@/config/effect-models";
+import { getImageModel } from "@/config/image-models";
 import {
   createImageGeneration,
   updateImageGenerationById,
@@ -67,6 +68,52 @@ function mapEffectProviderToDbProvider(provider: EffectProvider): string {
     default:
       return provider;
   }
+}
+
+function resolveEffectImageModelId(effectConfig: EffectModelConfig): string {
+  const rawModel = effectConfig.model || "nano-banana-edit";
+  if (getImageModel(rawModel)) {
+    return rawModel;
+  }
+  const normalized = rawModel.includes("/") ? rawModel.split("/").pop()! : rawModel;
+  if (getImageModel(normalized)) {
+    return normalized;
+  }
+  return normalized;
+}
+
+function resolveEffectVideoModelId(effectConfig: EffectModelConfig): string {
+  if (effectConfig.model) {
+    const normalized = effectConfig.model.includes("/")
+      ? effectConfig.model.split("/").pop()!
+      : effectConfig.model;
+    if (effectConfig.provider === EffectProvider.PIXVERSE) {
+      return `pixverse-${normalized}`;
+    }
+    return normalized;
+  }
+  return mapEffectProviderToDbProvider(effectConfig.provider);
+}
+
+function buildEffectMetadata(
+  effectConfig: EffectModelConfig,
+  settings: Record<string, string>
+) {
+  const effectType =
+    effectConfig.outputType === "image" ? "image-effect" : "video-effect";
+
+  return {
+    id: effectConfig.id,
+    name: effectConfig.name,
+    provider: effectConfig.provider,
+    effect_type: effectType,
+    output_type: effectConfig.outputType,
+    model: effectConfig.model,
+    prompt: effectConfig.prompt,
+    settings,
+    pixverse_template_id: effectConfig.pixverseTemplateId,
+    pixverse_mode: effectConfig.pixverseMode,
+  };
 }
 
 async function refundCredits(
@@ -278,9 +325,10 @@ async function createImageRecord(
   deductResult: DeductResult,
   dbProvider: string
 ): Promise<DbRecord> {
+  const effectMetadata = buildEffectMetadata(effectConfig, settings);
   const createParams: CreateImageGenerationParams = {
     user_id: userId,
-    model_id: effectConfig.id,
+    model_id: resolveEffectImageModelId(effectConfig),
     prompt: effectConfig.prompt,
     mode: "image-edit",
     source: "web",
@@ -290,6 +338,9 @@ async function createImageRecord(
     credits_used: credits,
     status: "IN_PROGRESS",
     metadata: {
+      effect_type: "image-effect",
+      effect_name: effectConfig.name,
+      effect: effectMetadata,
       effect_id: effectConfig.id,
       settings,
       provider: dbProvider,
@@ -312,9 +363,10 @@ async function createVideoRecord(
   deductResult: DeductResult
 ): Promise<DbRecord> {
   const duration = parseInt(settings.duration || "5", 10);
+  const effectMetadata = buildEffectMetadata(effectConfig, settings);
   const createParams: CreateVideoGenerationParams = {
     user_id: userId,
-    model_id: effectConfig.id,
+    model_id: resolveEffectVideoModelId(effectConfig),
     prompt: effectConfig.prompt,
     aspect_ratio: settings.ratio || "16:9",
     duration_seconds: duration,
@@ -323,6 +375,9 @@ async function createVideoRecord(
     effect_id: effectConfig.id,
     image_urls: imageUrls,
     metadata: {
+      effect_type: "video-effect",
+      effect_name: effectConfig.name,
+      effect: effectMetadata,
       effect_id: effectConfig.id,
       settings,
       provider: mapEffectProviderToDbProvider(effectConfig.provider),

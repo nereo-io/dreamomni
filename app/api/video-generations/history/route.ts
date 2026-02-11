@@ -97,6 +97,8 @@ export async function GET(req: Request) {
           updated_at: video.updated_at,
           effect_id: video.effect_id,
           effect_info: video.effectInfo, // 添加特效信息
+          effect_type: video.effect_id ? "video-effect" : undefined,
+          effect_name: video.effectInfo?.title,
           // Resolution downgrade status
           is_downgraded_to_720p: isDowngradedTo720P,
           // 不返回敏感信息如logs和metrics的详细内容
