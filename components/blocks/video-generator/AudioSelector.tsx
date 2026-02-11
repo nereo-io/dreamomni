@@ -3,6 +3,7 @@
 import { Switch } from "@/components/ui/switch";
 import { Volume2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface AudioSelectorProps {
   value: boolean;
@@ -17,9 +18,11 @@ export default function AudioSelector({
   disabled = false,
   className,
 }: AudioSelectorProps) {
+  const t = useTranslations("video-generator");
+
   return (
     <div className={cn("flex items-center justify-between gap-4", className)}>
-      <span className="text-sm text-gray-300">Sound</span>
+      <span className="text-sm text-gray-300">{t("sound")}</span>
       <div className="flex items-center gap-3">
         <Volume2 className="h-3.5 w-3.5 text-gray-400" />
         <Switch

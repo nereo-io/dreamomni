@@ -375,6 +375,8 @@
     "ratio": "Verhältnis",
     "duration": "Dauer",
     "resolution": "Auflösung",
+    "sound": "Ton",
+    "promptEnhancement": "Beschreibungsverbesserung",
     "telegramBanner": {
       "text": "Treten Sie der Telegram-Gruppe bei, um über Veo3 zu diskutieren",
       "linkText": "Beitreten"
@@ -390,6 +392,7 @@
       "imageUploadFailed": "Bild-Upload fehlgeschlagen",
       "insufficientCredits": "Unzureichende Credits. Erforderlich: {required}, Verfügbar: {available}",
       "membersOnlyModel": "Nur Mitglieder können dieses Modell verwenden.",
+      "emptyPrompt": "Bitte geben Sie eine Beschreibung ein",
       "videoSubmitted": "Videogenerierungsaufgabe übermittelt, wird verarbeitet...",
       "videoCompleted": "Videogenerierung abgeschlossen!",
       "videoFailed": "Videogenerierung fehlgeschlagen"

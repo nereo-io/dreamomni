@@ -375,6 +375,8 @@
     "ratio": "Ratio",
     "duration": "Duration",
     "resolution": "Resolution",
+    "sound": "Sound",
+    "promptEnhancement": "Prompt Enhancement",
     "telegramBanner": {
       "text": "Join Telegram group to discuss Veo3",
       "linkText": "Join"
@@ -390,6 +392,7 @@
       "imageUploadFailed": "Image upload failed",
       "insufficientCredits": "Insufficient credits. Required: {required}, Available: {available}",
       "membersOnlyModel": "Only members can use this model.",
+      "emptyPrompt": "Please enter a description",
       "videoSubmitted": "Video generation task submitted, processing...",
       "videoCompleted": "Video generation completed!",
       "videoFailed": "Video generation failed"
