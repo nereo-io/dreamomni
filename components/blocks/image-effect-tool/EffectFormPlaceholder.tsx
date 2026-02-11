@@ -1,8 +1,11 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Upload } from "lucide-react";
 
 export default function EffectFormPlaceholder() {
+  const t = useTranslations("imageEffectTool");
+
   return (
     <div className="bg-gray-900 rounded-xl shadow-lg flex flex-col flex-shrink-0 w-full lg:w-[420px] lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]">
       {/* Scrollable content area */}
@@ -12,10 +15,10 @@ export default function EffectFormPlaceholder() {
           <div className="border-2 border-dashed border-gray-700 rounded-xl p-8 flex flex-col items-center justify-center text-center min-h-[200px]">
             <Upload className="h-10 w-10 text-gray-500 mb-3" />
             <p className="text-sm text-gray-400">
-              Upload an image to apply the effect
+              {t("placeholderText")}
             </p>
             <p className="text-xs text-gray-500 mt-1">
-              Coming soon
+              {t("comingSoon")}
             </p>
           </div>
         </div>
@@ -27,7 +30,7 @@ export default function EffectFormPlaceholder() {
           disabled
           className="w-full py-3 px-4 rounded-xl font-semibold text-white bg-blue-600/50 cursor-not-allowed opacity-60 transition-all"
         >
-          Generate
+          {t("generate")}
         </button>
       </div>
     </div>

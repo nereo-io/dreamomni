@@ -7,6 +7,7 @@ import { ReferenceToVideoPage } from "@/types/pages/reference-to-video";
 import { TextToImagePage } from "@/types/pages/text-to-image";
 import { ImageToImagePage } from "@/types/pages/image-to-image";
 import { ModelLandingPage } from "@/types/pages/model-landing-page";
+import { ImageEffectPage } from "@/types/pages/image-effect-page";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -45,6 +46,32 @@ export async function getModelLandingPage(
     );
     return await import(`@/i18n/pages/model-landing/${model}/en.json`).then(
       (module) => module.default as ModelLandingPage
+    );
+  }
+}
+
+/**
+ * Image effect landing page data loader
+ * @param slug - Effect slug (e.g., 'ghibli-style')
+ * @param locale - User locale
+ */
+export async function getImageEffectPage(
+  slug: string,
+  locale: string
+): Promise<ImageEffectPage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/image-effect/${slug}/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load image-effect/${slug}/${locale}.json, falling back to en.json`
+    );
+    return await import(`@/i18n/pages/image-effect/${slug}/en.json`).then(
+      (module) => module.default as ImageEffectPage
     );
   }
 }

@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ChevronLeft, Play, ImageIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAppContext } from "@/contexts/app";
@@ -37,6 +37,7 @@ export default function EffectForm({
 }: EffectFormProps) {
   const { user, setShowSignModal, setShowPricingModal } = useAppContext();
   const locale = useLocale();
+  const t = useTranslations("imageEffectTool");
   const { leftCredits, updateLeftCredits } = useCredits();
 
   // Settings state — initialize from defaults
@@ -155,12 +156,12 @@ export default function EffectForm({
       .filter((url): url is string => !!url);
 
     if (uploadedUrls.length === 0) {
-      toast.error("Please upload an image to apply the effect.");
+      toast.error(t("uploadRequired"));
       return;
     }
 
     if (leftCredits !== null && leftCredits < estimatedCredits) {
-      toast.error("Insufficient credits. Please recharge.");
+      toast.error(t("insufficientCredits"));
       return;
     }
 
@@ -192,7 +193,7 @@ export default function EffectForm({
             <Button variant="ghost" size="sm" asChild>
               <Link href={backHref}>
                 <ChevronLeft className="h-4 w-4" />
-                Back to Image Effects
+                {t("backToEffects")}
               </Link>
             </Button>
           </div>
@@ -216,7 +217,7 @@ export default function EffectForm({
           <div>
             <div className="flex items-center gap-2 mb-3">
               <span className="text-white text-lg font-semibold">
-                Upload Image
+                {t("uploadImage")}
               </span>
             </div>
 
@@ -240,14 +241,16 @@ export default function EffectForm({
                 {slot?.isUploading ? (
                   <div className="flex flex-col items-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-2 border-blue-400 border-t-transparent mb-4" />
-                    <p className="text-sm text-blue-300">Uploading image...</p>
+                    <p className="text-sm text-blue-300">
+                      {t("uploadingImage")}
+                    </p>
                   </div>
                 ) : (
                   <div className="flex items-center justify-center gap-3">
                     <ImageIcon className="h-8 w-8 text-gray-400 flex-shrink-0" />
                     <div>
                       <p className="text text-gray-300">
-                        Drag & drop or click to upload
+                        {t("dragAndDrop")}
                       </p>
                       {isAuthenticated && (
                         <button
@@ -257,7 +260,7 @@ export default function EffectForm({
                           }}
                           className="text-gray-500 underline text-sm hover:text-blue-400 mt-1"
                         >
-                          Select from My Creations
+                          {t("selectFromCreations")}
                         </button>
                       )}
                     </div>
@@ -278,7 +281,7 @@ export default function EffectForm({
 
             {!hasImage && (
               <p className="text-xs text-gray-400 mt-2">
-                Supports JPG, PNG, WebP (max 10MB)
+                {t("supportedFormats")}
               </p>
             )}
 
@@ -286,7 +289,7 @@ export default function EffectForm({
               <div className="relative">
                 <img
                   src={slot.url!}
-                  alt="Uploaded"
+                  alt={t("uploadedAlt")}
                   className="w-full h-32 object-contain rounded-lg bg-gray-800"
                 />
                 {!slot.isUploading && (
@@ -301,7 +304,9 @@ export default function EffectForm({
                   <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
                     <div className="flex flex-col items-center gap-2">
                       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white" />
-                      <span className="text-white text-sm">Uploading...</span>
+                      <span className="text-white text-sm">
+                        {t("uploading")}
+                      </span>
                     </div>
                   </div>
                 )}
@@ -313,7 +318,7 @@ export default function EffectForm({
           {config.settings.length > 0 && (
             <div>
               <div className="text-white text-lg font-semibold mb-4">
-                Settings
+                {t("settings")}
               </div>
               {config.settings.map((setting) => (
                 <div key={setting.key} className="mb-4">
@@ -364,9 +369,9 @@ export default function EffectForm({
             estimatedCost={estimatedCredits}
             onShowPricing={() => setShowPricingModal(true)}
             labels={{
-              credits: "Credits",
-              cost: "Cost",
-              recharge: "Recharge",
+              credits: t("credits"),
+              cost: t("cost"),
+              recharge: t("recharge"),
             }}
           />
         </div>
@@ -387,12 +392,12 @@ export default function EffectForm({
           {isGenerating ? (
             <>
               <Play className="mr-2 h-4 w-4 animate-spin" />
-              <span className="truncate">Generating...</span>
+              <span className="truncate">{t("generating")}</span>
             </>
           ) : (
             <>
               <Play className="mr-2 h-4 w-4" />
-              <span className="truncate">Generate</span>
+              <span className="truncate">{t("generate")}</span>
             </>
           )}
         </Button>

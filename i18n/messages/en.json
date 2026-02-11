@@ -666,6 +666,28 @@
       }
     }
   },
+  "imageEffectTool": {
+    "backToEffects": "Back to Image Effects",
+    "uploadImage": "Upload Image",
+    "dragAndDrop": "Drag & drop or click to upload",
+    "selectFromCreations": "Select from My Creations",
+    "supportedFormats": "Supports JPG, PNG, WebP (max 10MB)",
+    "uploadingImage": "Uploading image...",
+    "uploading": "Uploading...",
+    "settings": "Settings",
+    "credits": "Credits",
+    "cost": "Cost",
+    "recharge": "Recharge",
+    "generate": "Generate",
+    "generating": "Generating...",
+    "uploadRequired": "Please upload an image to apply the effect.",
+    "insufficientCredits": "Insufficient credits. Please recharge.",
+    "generateFailed": "Failed to generate effect.",
+    "generateFailedRetry": "Failed to generate effect. Please try again.",
+    "uploadedAlt": "Uploaded",
+    "placeholderText": "Upload an image to apply the effect",
+    "comingSoon": "Coming soon"
+  },
   "imageGenerator": {
     "textToImage": "Text to Image",
     "imageToImage": "Image to Image",

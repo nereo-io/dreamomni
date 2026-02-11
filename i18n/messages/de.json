@@ -666,6 +666,28 @@
       }
     }
   },
+  "imageEffectTool": {
+    "backToEffects": "Zurück zu Fotoeffekten",
+    "uploadImage": "Foto hochladen",
+    "dragAndDrop": "Per Drag & Drop oder Klick hochladen",
+    "selectFromCreations": "Aus meinen Kreationen wählen",
+    "supportedFormats": "Unterstützt JPG, PNG, WebP (max. 10 MB)",
+    "uploadingImage": "Bild wird hochgeladen...",
+    "uploading": "Wird hochgeladen...",
+    "settings": "Einstellungen",
+    "credits": "Credits",
+    "cost": "Kosten",
+    "recharge": "Aufladen",
+    "generate": "Generieren",
+    "generating": "Wird generiert...",
+    "uploadRequired": "Bitte lade ein Foto hoch, um den Effekt anzuwenden.",
+    "insufficientCredits": "Nicht genug Credits. Bitte aufladen.",
+    "generateFailed": "Effekt konnte nicht erzeugt werden.",
+    "generateFailedRetry": "Effekt konnte nicht erzeugt werden. Bitte versuch es erneut.",
+    "uploadedAlt": "Hochgeladen",
+    "placeholderText": "Foto hochladen, um den Effekt anzuwenden",
+    "comingSoon": "Kommt bald"
+  },
   "imageGenerator": {
     "textToImage": "Text zu Bild",
     "imageToImage": "Bild zu Bild",

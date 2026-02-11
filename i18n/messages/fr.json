@@ -663,6 +663,28 @@
       }
     }
   },
+  "imageEffectTool": {
+    "backToEffects": "Retour aux effets photo",
+    "uploadImage": "Téléverser une photo",
+    "dragAndDrop": "Glisser-déposer ou cliquer pour téléverser",
+    "selectFromCreations": "Choisir dans Mes créations",
+    "supportedFormats": "Formats acceptés : JPG, PNG, WebP (max 10 Mo)",
+    "uploadingImage": "Téléversement de l'image...",
+    "uploading": "Téléversement...",
+    "settings": "Paramètres",
+    "credits": "Crédits",
+    "cost": "Coût",
+    "recharge": "Recharger",
+    "generate": "Générer",
+    "generating": "Génération...",
+    "uploadRequired": "Veuillez téléverser une photo pour appliquer l'effet.",
+    "insufficientCredits": "Crédits insuffisants. Veuillez recharger.",
+    "generateFailed": "Échec de la génération de l'effet.",
+    "generateFailedRetry": "Échec de la génération de l'effet. Réessayez.",
+    "uploadedAlt": "Téléversée",
+    "placeholderText": "Téléversez une photo pour appliquer l'effet",
+    "comingSoon": "Bientôt disponible"
+  },
   "imageGenerator": {
     "textToImage": "Texte vers image",
     "imageToImage": "Image vers image",

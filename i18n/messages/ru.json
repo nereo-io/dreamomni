@@ -666,6 +666,28 @@
       }
     }
   },
+  "imageEffectTool": {
+    "backToEffects": "Назад к фотоэффектам",
+    "uploadImage": "Загрузить фото",
+    "dragAndDrop": "Перетащите файл или кликните для загрузки",
+    "selectFromCreations": "Выбрать из моих работ",
+    "supportedFormats": "Поддерживаются JPG, PNG, WebP (до 10 МБ)",
+    "uploadingImage": "Загрузка изображения...",
+    "uploading": "Загрузка...",
+    "settings": "Настройки",
+    "credits": "Кредиты",
+    "cost": "Стоимость",
+    "recharge": "Пополнить",
+    "generate": "Сгенерировать",
+    "generating": "Генерация...",
+    "uploadRequired": "Пожалуйста, загрузите фото, чтобы применить эффект.",
+    "insufficientCredits": "Недостаточно кредитов. Пополните баланс.",
+    "generateFailed": "Не удалось создать эффект.",
+    "generateFailedRetry": "Не удалось создать эффект. Попробуйте ещё раз.",
+    "uploadedAlt": "Загружено",
+    "placeholderText": "Загрузите фото, чтобы применить эффект",
+    "comingSoon": "Скоро"
+  },
   "imageGenerator": {
     "textToImage": "Текст в изображение",
     "imageToImage": "Изображение в изображение",

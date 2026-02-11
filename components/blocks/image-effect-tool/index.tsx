@@ -7,11 +7,13 @@ import ImageHistoryForGeneration from "@/components/blocks/image-history-for-gen
 import VideoHistory from "@/components/blocks/video-history";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import type { ImageEffectToolProps } from "@/types/blocks/image-effect-tool";
 import type { ImageGenerationResult } from "@/components/blocks/image-history";
 
 export default function ImageEffectTool({ config }: ImageEffectToolProps) {
   const { user } = useAppContext();
+  const t = useTranslations("imageEffectTool");
   const [isGenerating, setIsGenerating] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [newImage, setNewImage] = useState<ImageGenerationResult | null>(null);
@@ -34,7 +36,7 @@ export default function ImageEffectTool({ config }: ImageEffectToolProps) {
         const data = await response.json();
 
         if (data.code !== 0) {
-          toast.error(data.message || "Failed to generate effect.");
+          toast.error(data.message || t("generateFailed"));
           return;
         }
 
@@ -54,12 +56,12 @@ export default function ImageEffectTool({ config }: ImageEffectToolProps) {
         setRefreshTrigger((prev) => prev + 1);
       } catch (error) {
         console.error("Effect generation error:", error);
-        toast.error("Failed to generate effect. Please try again.");
+        toast.error(t("generateFailedRetry"));
       } finally {
         setIsGenerating(false);
       }
     },
-    [config.effectId]
+    [config.effectId, t]
   );
 
   return (
