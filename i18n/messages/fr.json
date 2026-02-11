@@ -1020,7 +1020,7 @@
   "creditsBundle": {
     "title": "Acheter plus de crédits",
     "description": "Achetez des crédits supplémentaires pour générer plus de vidéos.",
-    "expireNote": "Les crédits supplémentaires expirent 1 an après l'achat.",
+    "expireNote": "Les crédits supplémentaires expirent 1 mois après l'achat.",
     "credits": "Crédits",
     "selectPaymentMethod": "Sélectionner le mode de paiement",
     "cancel": "Annuler",

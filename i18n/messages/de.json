@@ -1023,7 +1023,7 @@
   "creditsBundle": {
     "title": "Mehr Credits kaufen",
     "description": "Kaufen Sie zusätzliche Credits, um mehr Videos zu generieren.",
-    "expireNote": "Zusätzliche Credits verfallen 1 Jahr nach dem Kauf.",
+    "expireNote": "Zusätzliche Credits verfallen 1 Monat nach dem Kauf.",
     "credits": "Credits",
     "selectPaymentMethod": "Zahlungsmethode auswählen",
     "cancel": "Abbrechen",

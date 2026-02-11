@@ -1023,7 +1023,7 @@
   "creditsBundle": {
     "title": "Buy More Credits",
     "description": "Purchase additional credits to generate more videos.",
-    "expireNote": "Additional credits expire 1 year after purchase.",
+    "expireNote": "Additional credits expire 1 month after purchase.",
     "credits": "Credits",
     "selectPaymentMethod": "Select payment method",
     "cancel": "Cancel",
