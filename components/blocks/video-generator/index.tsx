@@ -842,7 +842,7 @@ export default function VideoGenerator({
                 {!hidePromptEnhancement && (
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <span className="text-xs text-gray-400 whitespace-nowrap">
-                      Prompt Enhancement
+                      {t("promptEnhancement")}
                     </span>
                     <Switch
                       checked={enablePromptEnhancement}
