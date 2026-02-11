@@ -4,7 +4,7 @@
  * Each slug must have corresponding:
  * 1. JSON data files in i18n/pages/image-effect/<slug>/<locale>.json
  */
-export const IMAGE_EFFECT_PAGES = ["ghibli-style"] as const;
+export const IMAGE_EFFECT_PAGES = ["ghibli-style", "gallop-into-2026"] as const;
 
 export type ImageEffectSlug = (typeof IMAGE_EFFECT_PAGES)[number];
 

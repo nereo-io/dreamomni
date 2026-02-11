@@ -34,7 +34,7 @@ export interface PixverseUploadMediaResponse {
 // --- Image Template ---
 
 export interface PixverseImageTemplateRequest {
-  img_ids: string[];
+  img_ids: number[];
   template_id: number;
 }
 
@@ -160,7 +160,9 @@ export class PixverseProvider {
   constructor() {
     const key = process.env.PIXVERSE_API_KEY;
     if (!key) {
-      throw new Error("Pixverse: PIXVERSE_API_KEY environment variable is required");
+      throw new Error(
+        "Pixverse: PIXVERSE_API_KEY environment variable is required",
+      );
     }
     this.apiKey = key;
   }
@@ -212,7 +214,7 @@ export class PixverseProvider {
   private async makeRequest<T>(
     endpoint: string,
     method: "GET" | "POST" = "GET",
-    body?: unknown
+    body?: unknown,
   ): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
     const traceId = this.generateTraceId();
@@ -234,12 +236,14 @@ export class PixverseProvider {
       options.body = JSON.stringify(body);
     }
 
+    console.log("url", url, options);
+
     const response = await fetch(url, options);
 
     if (!response.ok) {
       const errorText = await response.text().catch(() => "");
       throw new Error(
-        `Pixverse: ${this.mapErrorMessage(response.status)} — ${errorText}`
+        `Pixverse: ${this.mapErrorMessage(response.status)} — ${errorText}`,
       );
     }
 
@@ -247,7 +251,7 @@ export class PixverseProvider {
 
     if (json.ErrCode !== 0) {
       throw new Error(
-        `Pixverse: API error ${json.ErrCode} — ${json.ErrMsg || "Unknown error"}`
+        `Pixverse: API error ${json.ErrCode} — ${json.ErrMsg || "Unknown error"}`,
       );
     }
 
@@ -259,7 +263,7 @@ export class PixverseProvider {
     endpoint: string,
     fields: Record<string, string | Buffer>,
     fileFieldName: string,
-    filename?: string
+    filename?: string,
   ): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
     const traceId = this.generateTraceId();
@@ -305,7 +309,7 @@ export class PixverseProvider {
     if (!response.ok) {
       const errorText = await response.text().catch(() => "");
       throw new Error(
-        `Pixverse: ${this.mapErrorMessage(response.status)} — ${errorText}`
+        `Pixverse: ${this.mapErrorMessage(response.status)} — ${errorText}`,
       );
     }
 
@@ -313,7 +317,7 @@ export class PixverseProvider {
 
     if (json.ErrCode !== 0) {
       throw new Error(
-        `Pixverse: API error ${json.ErrCode} — ${json.ErrMsg || "Unknown error"}`
+        `Pixverse: API error ${json.ErrCode} — ${json.ErrMsg || "Unknown error"}`,
       );
     }
 
@@ -329,7 +333,7 @@ export class PixverseProvider {
    * Provide either a binary buffer or a URL string — not both.
    */
   async uploadImage(
-    input: { image: Buffer; filename: string } | { imageUrl: string }
+    input: { image: Buffer; filename: string } | { imageUrl: string },
   ): Promise<PixverseUploadImageResponse> {
     const fields: Record<string, string | Buffer> = {};
     let filename: string | undefined;
@@ -345,7 +349,7 @@ export class PixverseProvider {
       "/openapi/v2/image/upload",
       fields,
       "image",
-      filename
+      filename,
     );
   }
 
@@ -354,7 +358,7 @@ export class PixverseProvider {
    * Provide either a binary buffer or a URL string — not both.
    */
   async uploadMedia(
-    input: { file: Buffer; filename: string } | { fileUrl: string }
+    input: { file: Buffer; filename: string } | { fileUrl: string },
   ): Promise<PixverseUploadMediaResponse> {
     const fields: Record<string, string | Buffer> = {};
     let filename: string | undefined;
@@ -370,7 +374,7 @@ export class PixverseProvider {
       "/openapi/v2/media/upload",
       fields,
       "file",
-      filename
+      filename,
     );
   }
 
@@ -379,42 +383,42 @@ export class PixverseProvider {
   // ----------------------------------------------------------
 
   async useImageTemplate(
-    request: PixverseImageTemplateRequest
+    request: PixverseImageTemplateRequest,
   ): Promise<PixverseImageTemplateResponse> {
     return this.makeRequest<PixverseImageTemplateResponse>(
       "/openapi/v2/image/template/generate",
       "POST",
-      request
+      request,
     );
   }
 
   async useImageToVideo(
-    request: PixverseImageToVideoRequest
+    request: PixverseImageToVideoRequest,
   ): Promise<PixverseVideoSubmitResponse> {
     return this.makeRequest<PixverseVideoSubmitResponse>(
       "/openapi/v2/video/img/generate",
       "POST",
-      request
+      request,
     );
   }
 
   async useTextToVideo(
-    request: PixverseTextToVideoRequest
+    request: PixverseTextToVideoRequest,
   ): Promise<PixverseVideoSubmitResponse> {
     return this.makeRequest<PixverseVideoSubmitResponse>(
       "/openapi/v2/video/text/generate",
       "POST",
-      request
+      request,
     );
   }
 
   async useTransitionGenerator(
-    request: PixverseTransitionRequest
+    request: PixverseTransitionRequest,
   ): Promise<PixverseVideoSubmitResponse> {
     return this.makeRequest<PixverseVideoSubmitResponse>(
       "/openapi/v2/video/transition/generate",
       "POST",
-      request
+      request,
     );
   }
 
@@ -424,13 +428,13 @@ export class PixverseProvider {
 
   async getVideoResult(videoId: number): Promise<PixverseVideoResult> {
     return this.makeRequest<PixverseVideoResult>(
-      `/openapi/v2/video/result/${videoId}`
+      `/openapi/v2/video/result/${videoId}`,
     );
   }
 
   async getImageResult(imageId: number): Promise<PixverseImageResult> {
     return this.makeRequest<PixverseImageResult>(
-      `/openapi/v2/image/result/${imageId}`
+      `/openapi/v2/image/result/${imageId}`,
     );
   }
 }

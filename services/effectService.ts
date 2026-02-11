@@ -88,6 +88,9 @@ function resolveEffectVideoModelId(effectConfig: EffectModelConfig): string {
       ? effectConfig.model.split("/").pop()!
       : effectConfig.model;
     if (effectConfig.provider === EffectProvider.PIXVERSE) {
+      if (normalized.startsWith("pixverse-") || normalized === "pixverse-template") {
+        return normalized;
+      }
       return `pixverse-${normalized}`;
     }
     return normalized;
@@ -241,7 +244,7 @@ async function callPixverseApi(params: {
         );
       }
       const result = await provider.useImageTemplate({
-        img_ids: imgIds.map(String),
+        img_ids: imgIds,
         template_id: templateId,
       });
       const taskId = result.image_id.toString();

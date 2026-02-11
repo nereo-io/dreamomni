@@ -75,6 +75,21 @@ export const EFFECT_MODELS: Record<string, EffectModelConfig> = {
     ],
     calculateCredits: () => 2,
   },
+  "gallop-into-2026": {
+    id: "gallop-into-2026",
+    name: "Gallop into 2026",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "image",
+    status: "active",
+    baseCredits: 30,
+    maxImages: 1,
+    model: "pixverse-template",
+    settings: [],
+    calculateCredits: () => 30,
+    prompt: "",
+    pixverseTemplateId: 378813799935040,
+    pixverseMode: "image_template",
+  },
 };
 
 export function getEffectModel(

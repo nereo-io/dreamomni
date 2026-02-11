@@ -1,0 +1,100 @@
+{
+  "page": {
+    "hero": {
+      "title": "Gallop into 2026 Photo Effect",
+      "subtitle": "Bring your photo to life with the Gallop into 2026 PixVerse template. Upload a picture and get a bold, share-ready result in seconds.",
+      "ctaText": "Try Gallop into 2026",
+      "showcaseMedia": [
+        {
+          "type": "image",
+          "src": "/placeholder-effect.svg",
+          "alt": "Gallop into 2026 effect preview"
+        }
+      ]
+    },
+    "features": [
+      {
+        "id": "template-style",
+        "title": "Template-powered transformation",
+        "description": "Apply the Gallop into 2026 PixVerse template to your photo in a single click.",
+        "ctaText": "Apply Template",
+        "media": {
+          "type": "image",
+          "src": "/placeholder-effect.svg",
+          "alt": "Template-based photo transformation"
+        }
+      },
+      {
+        "id": "one-photo",
+        "title": "One photo in, instant results",
+        "description": "Just upload one image and let the template do the heavy lifting.",
+        "ctaText": "Upload Photo",
+        "media": {
+          "type": "image",
+          "src": "/placeholder-effect.svg",
+          "alt": "Single photo input"
+        }
+      },
+      {
+        "id": "share-ready",
+        "title": "Share-ready quality",
+        "description": "Get a crisp output you can post or download right away.",
+        "ctaText": "Generate Now",
+        "media": {
+          "type": "image",
+          "src": "/placeholder-effect.svg",
+          "alt": "High quality output"
+        }
+      }
+    ],
+    "howToUse": {
+      "title": "How to use Gallop into 2026",
+      "steps": [
+        {
+          "title": "1. Upload a photo",
+          "description": "Choose a clear image from your device."
+        },
+        {
+          "title": "2. Apply the template",
+          "description": "Click generate to apply the Gallop into 2026 effect."
+        },
+        {
+          "title": "3. Download and share",
+          "description": "Save the result or share it on social media."
+        }
+      ],
+      "ctaText": "Start Now"
+    },
+    "faq": {
+      "title": "FAQ",
+      "description": "Quick answers about this effect.",
+      "items": [
+        {
+          "question": "What is Gallop into 2026?",
+          "answer": "It is a PixVerse image template that transforms your photo into a themed 2026-style visual."
+        },
+        {
+          "question": "How many credits does it cost?",
+          "answer": "Each Gallop into 2026 generation costs 30 credits."
+        },
+        {
+          "question": "Can I use the result commercially?",
+          "answer": "Yes, results can be used for personal and commercial purposes."
+        }
+      ]
+    }
+  },
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "gallop-1",
+        "title": "Gallop Preview",
+        "imageUrl": "/placeholder-effect.svg"
+      }
+    ],
+    "form": {
+      "title": "Gallop into 2026 Photo Effect",
+      "backgroundImage": "/placeholder-effect.svg"
+    }
+  }
+}
