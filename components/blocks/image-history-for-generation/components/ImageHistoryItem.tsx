@@ -37,6 +37,13 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
     isDownloading = false,
     canEdit = false,
   }) => {
+    const hasEffectInfo = !!(image.effect_type && image.effect_id && image.effect_name);
+    const effectUrl = hasEffectInfo
+      ? image.effect_type === "video-effect"
+        ? `/video-effects/${image.effect_id}`
+        : `/image-effect/${image.effect_id}`
+      : null;
+    const deleteLabel = hasEffectInfo ? image.effect_name! : image.prompt;
 
     // Delete state
     const [isDeleting, setIsDeleting] = useState(false);
@@ -146,7 +153,7 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
       setShowDeleteDialog(false);
 
       try {
-        await onDelete(image.id, image.prompt || '');
+        await onDelete(image.id, deleteLabel || "");
         toast.success("Image deleted");
       } catch (error) {
         console.error("Delete operation failed:", error);
@@ -183,19 +190,21 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
               </div>
             )}
 
-            {/* Prompt */}
+            {/* Prompt / Effect */}
             <div className="flex-1">
-              <p
-                className="text-base font-bold text-white leading-relaxed"
-                style={{
-                  display: "-webkit-box",
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                }}
-              >
-                {image.prompt}
-              </p>
+              {!hasEffectInfo && (
+                <p
+                  className="text-base font-bold text-white leading-relaxed"
+                  style={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                  }}
+                >
+                  {image.prompt}
+                </p>
+              )}
             </div>
           </div>
 
@@ -210,13 +219,15 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
 
             <div className="flex items-center gap-1">
               {/* Copy Button */}
-              <button
-                onClick={handleCopyPrompt}
-                className="p-0.5 text-gray-400 hover:text-white transition-colors rounded"
-                title="Copy prompt"
-              >
-                <Copy className="h-4 w-4" />
-              </button>
+              {!hasEffectInfo && (
+                <button
+                  onClick={handleCopyPrompt}
+                  className="p-0.5 text-gray-400 hover:text-white transition-colors rounded"
+                  title="Copy prompt"
+                >
+                  <Copy className="h-4 w-4" />
+                </button>
+              )}
 
               {/* Delete Button */}
               {onDelete && (
@@ -241,18 +252,26 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
         <ImageMetadata
           aspectRatio={image.image_size}
           resolution={image.resolution}
-          modelName={getImageModel(image.model)?.displayName || image.model}
+          effectName={hasEffectInfo ? image.effect_name : undefined}
+          effectUrl={hasEffectInfo ? effectUrl || undefined : undefined}
+          modelName={
+            hasEffectInfo
+              ? undefined
+              : getImageModel(image.model)?.displayName || image.model
+          }
           isAgentMode={image.is_agent_mode}
           agentImageCount={image.agent_image_count}
         />
 
         {/* Enhanced Prompt */}
-        <EnhancedPrompt
-          originalPrompt={image.prompt}
-          optimizedPrompt={image.optimized_prompt}
-          isExpanded={isExpanded}
-          onToggle={onToggleExpanded}
-        />
+        {!hasEffectInfo && (
+          <EnhancedPrompt
+            originalPrompt={image.prompt}
+            optimizedPrompt={image.optimized_prompt}
+            isExpanded={isExpanded}
+            onToggle={onToggleExpanded}
+          />
+        )}
 
         {/* Image Status Display */}
         <ImageStatusDisplay
@@ -281,7 +300,7 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
           isOpen={showDeleteDialog}
           onClose={() => setShowDeleteDialog(false)}
           onConfirm={handleConfirmDelete}
-          prompt={image.prompt || ''}
+          prompt={deleteLabel || ""}
           isDeleting={isDeleting}
         />
       )}
