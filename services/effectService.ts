@@ -375,7 +375,6 @@ async function createVideoRecord(
     duration_seconds: duration,
     has_audio: false,
     status: "IN_QUEUE",
-    effect_id: effectConfig.id,
     image_urls: imageUrls,
     metadata: {
       effect_type: "video-effect",

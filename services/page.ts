@@ -8,6 +8,7 @@ import { TextToImagePage } from "@/types/pages/text-to-image";
 import { ImageToImagePage } from "@/types/pages/image-to-image";
 import { ModelLandingPage } from "@/types/pages/model-landing-page";
 import { ImageEffectPage } from "@/types/pages/image-effect-page";
+import { VideoEffectPage } from "@/types/pages/video-effect-page";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -72,6 +73,32 @@ export async function getImageEffectPage(
     );
     return await import(`@/i18n/pages/image-effect/${slug}/en.json`).then(
       (module) => module.default as ImageEffectPage
+    );
+  }
+}
+
+/**
+ * Video effect landing page data loader
+ * @param slug - Effect slug (e.g., 'ai-kissing')
+ * @param locale - User locale
+ */
+export async function getVideoEffectPage(
+  slug: string,
+  locale: string
+): Promise<VideoEffectPage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/video-effect/${slug}/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load video-effect/${slug}/${locale}.json, falling back to en.json`
+    );
+    return await import(`@/i18n/pages/video-effect/${slug}/en.json`).then(
+      (module) => module.default as VideoEffectPage
     );
   }
 }

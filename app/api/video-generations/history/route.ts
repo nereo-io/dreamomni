@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { getUserInfo } from "@/services/user";
 import { getUserVideoGenerations } from "@/models/videoGeneration";
-import { getEffectConfigById } from "@/models/effectConfig";
 import { respData, respErr } from "@/lib/resp";
 
 export async function GET(req: Request) {
@@ -42,23 +41,31 @@ export async function GET(req: Request) {
     const hasNext = page < totalPages;
     const hasPrev = page > 1;
 
-    // 6. 获取每个视频关联的特效信息
-    const videoGenerationsWithEffects = await Promise.all(
-      videoGenerations.map(async (video) => {
-        let effectInfo = null;
-        if (video.effect_id) {
-          const effectConfig = await getEffectConfigById(video.effect_id);
-          if (effectConfig) {
-            effectInfo = {
-              id: effectConfig.id,
-              title: effectConfig.title,
-              slug: effectConfig.slug,
-            };
+    // 6. 从 metadata 提取特效信息（新逻辑）
+    const videoGenerationsWithEffects = videoGenerations.map((video) => {
+      const metadata = video.metadata || {};
+      const effectType =
+        metadata.effect_type || metadata.effect?.effect_type || null;
+      const effectId = metadata.effect_id || metadata.effect?.id || null;
+      const effectName =
+        metadata.effect_name || metadata.effect?.name || null;
+
+      const effectInfo = effectId
+        ? {
+            id: effectId,
+            title: effectName || effectId,
+            slug: effectId,
           }
-        }
-        return { ...video, effectInfo };
-      })
-    );
+        : null;
+
+      return {
+        ...video,
+        effectInfo,
+        effectType,
+        effectId,
+        effectName,
+      };
+    });
 
     // 7. 返回数据
     return respData({
@@ -95,10 +102,10 @@ export async function GET(req: Request) {
           error_message: video.error_message,
           created_at: video.created_at,
           updated_at: video.updated_at,
-          effect_id: video.effect_id,
+          effect_id: video.effectId || undefined,
           effect_info: video.effectInfo, // 添加特效信息
-          effect_type: video.effect_id ? "video-effect" : undefined,
-          effect_name: video.effectInfo?.title,
+          effect_type: video.effectType || undefined,
+          effect_name: video.effectName || video.effectInfo?.title,
           // Resolution downgrade status
           is_downgraded_to_720p: isDowngradedTo720P,
           // 不返回敏感信息如logs和metrics的详细内容

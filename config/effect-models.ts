@@ -37,6 +37,7 @@ export interface EffectModelConfig {
   status: "active" | "inactive";
   baseCredits: number;
   maxImages: number;
+  minImages?: number;
   estimatedGenerationTime?: number;
   settings: EffectSettingDef[];
   calculateCredits: (settings: Record<string, string>) => number;
@@ -89,6 +90,114 @@ export const EFFECT_MODELS: Record<string, EffectModelConfig> = {
     prompt: "",
     pixverseTemplateId: 378813799935040,
     pixverseMode: "image_template",
+  },
+  "ai-kissing": {
+    id: "ai-kissing",
+    name: "AI Kissing",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    estimatedGenerationTime: 60,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+          { label: "8s", value: "8" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "16:9", value: "16:9" },
+          { label: "9:16", value: "9:16" },
+        ],
+        defaultValue: "16:9",
+      },
+    ],
+    calculateCredits: (settings) => {
+      const duration = parseInt(settings.duration || "5", 10);
+      const quality = settings.quality || "540p";
+      const baseDuration = 5;
+      const baseCredits = 10; // 5s @ 540p baseline
+      const durationMultiplier = duration / baseDuration;
+      const qualityMultiplier = quality === "720p" ? 2 : 1;
+      return Math.round(baseCredits * durationMultiplier * qualityMultiplier);
+    },
+    prompt: "",
+    model: "v5.5",
+    pixverseTemplateId: 315446315336768,
+    pixverseMode: "image_to_video",
+  },
+  "image-transition": {
+    id: "image-transition",
+    name: "Image Transition",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 12,
+    maxImages: 2,
+    minImages: 2,
+    estimatedGenerationTime: 70,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+          { label: "8s", value: "8" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "16:9", value: "16:9" },
+          { label: "9:16", value: "9:16" },
+        ],
+        defaultValue: "16:9",
+      },
+    ],
+    calculateCredits: (settings) => {
+      const duration = parseInt(settings.duration || "5", 10);
+      const quality = settings.quality || "540p";
+      const baseDuration = 5;
+      const baseCredits = 12; // 5s @ 540p baseline for transitions
+      const durationMultiplier = duration / baseDuration;
+      const qualityMultiplier = quality === "720p" ? 2 : 1;
+      return Math.round(baseCredits * durationMultiplier * qualityMultiplier);
+    },
+    prompt:
+      "Smooth cinematic transition between the first and last image, natural motion, consistent lighting.",
+    model: "v5.5",
+    pixverseTemplateId: 348361261605632,
+    pixverseMode: "transition",
   },
 };
 

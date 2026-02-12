@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { useTranslations } from "next-intl";
 import { AlertTriangle } from "lucide-react";
@@ -9,6 +10,8 @@ interface VideoMetadataProps {
   hasUpsample?: boolean;
   isDowngradedTo720P?: boolean;
   modelName?: string;
+  effectName?: string;
+  effectHref?: string;
 }
 
 const VideoMetadata: React.FC<VideoMetadataProps> = React.memo(({
@@ -16,12 +19,27 @@ const VideoMetadata: React.FC<VideoMetadataProps> = React.memo(({
   durationSeconds,
   hasUpsample,
   isDowngradedTo720P,
-  modelName
+  modelName,
+  effectName,
+  effectHref,
 }) => {
   const t = useTranslations("video-history");
 
   return (
     <div className="flex items-center gap-2">
+      {effectName && (
+        effectHref ? (
+          <Link href={effectHref} className="inline-flex">
+            <Badge className="bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 text-xs px-2 py-1 rounded">
+              {effectName}
+            </Badge>
+          </Link>
+        ) : (
+          <Badge className="bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 text-xs px-2 py-1 rounded">
+            {effectName}
+          </Badge>
+        )
+      )}
       <Badge
         variant="secondary"
         className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded border-0"
