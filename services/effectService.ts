@@ -371,6 +371,7 @@ async function createVideoRecord(
     user_id: userId,
     model_id: resolveEffectVideoModelId(effectConfig),
     prompt: effectConfig.prompt,
+    input_image_url: imageUrls[0],
     aspect_ratio: settings.ratio || "16:9",
     duration_seconds: duration,
     has_audio: false,

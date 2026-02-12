@@ -5,8 +5,8 @@ import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 
 interface VideoActionButtonsProps {
   generation: VideoGenerationResult;
-  onEdit: (generation: VideoGenerationResult) => void;
-  onRegenerate: (generation: VideoGenerationResult) => void;
+  onEdit?: (generation: VideoGenerationResult) => void;
+  onRegenerate?: (generation: VideoGenerationResult) => void;
   onDelete?: (generation: VideoGenerationResult) => void;
   canEdit?: boolean;
   isDeleting?: boolean;
@@ -20,18 +20,25 @@ const VideoActionButtons: React.FC<VideoActionButtonsProps> = React.memo(({
   canEdit = true,
   isDeleting = false
 }) => {
-  if (!canEdit) {
+  const showEditActions = canEdit && !!onEdit && !!onRegenerate;
+  const showDelete = !!onDelete;
+
+  if (!showEditActions && !showDelete) {
     return null;
   }
 
   const handleEdit = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onEdit(generation);
+    if (onEdit) {
+      onEdit(generation);
+    }
   };
 
   const handleRegenerate = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onRegenerate(generation);
+    if (onRegenerate) {
+      onRegenerate(generation);
+    }
   };
 
   const handleDelete = (e: React.MouseEvent) => {
@@ -43,29 +50,33 @@ const VideoActionButtons: React.FC<VideoActionButtonsProps> = React.memo(({
 
   return (
     <div className="flex gap-2 mt-3 flex-wrap">
-      <Button
-        variant="secondary"
-        size="sm"
-        className="bg-gray-700/60 hover:bg-gray-600/80 text-white border-gray-600/50 hover:border-gray-500 px-3"
-        onClick={handleEdit}
-        disabled={isDeleting}
-      >
-        <Edit className="h-4 w-4 mr-1.5" />
-        <span className="text-xs sm:text-sm">Re-edit</span>
-      </Button>
+      {showEditActions && (
+        <>
+          <Button
+            variant="secondary"
+            size="sm"
+            className="bg-gray-700/60 hover:bg-gray-600/80 text-white border-gray-600/50 hover:border-gray-500 px-3"
+            onClick={handleEdit}
+            disabled={isDeleting}
+          >
+            <Edit className="h-4 w-4 mr-1.5" />
+            <span className="text-xs sm:text-sm">Re-edit</span>
+          </Button>
 
-      <Button
-        variant="secondary"
-        size="sm"
-        className="bg-gray-700/60 hover:bg-gray-600/80 text-white border-gray-600/50 hover:border-gray-500 px-3"
-        onClick={handleRegenerate}
-        disabled={isDeleting}
-      >
-        <RotateCcw className="h-4 w-4 mr-1.5" />
-        <span className="text-xs sm:text-sm">Regenerate</span>
-      </Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            className="bg-gray-700/60 hover:bg-gray-600/80 text-white border-gray-600/50 hover:border-gray-500 px-3"
+            onClick={handleRegenerate}
+            disabled={isDeleting}
+          >
+            <RotateCcw className="h-4 w-4 mr-1.5" />
+            <span className="text-xs sm:text-sm">Regenerate</span>
+          </Button>
+        </>
+      )}
 
-      {onDelete && (
+      {showDelete && (
         <Button
           variant="secondary"
           size="sm"

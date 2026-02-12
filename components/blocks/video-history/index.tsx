@@ -467,24 +467,33 @@ export default function VideoHistory({
       <div className="lg:flex-1 lg:overflow-y-auto video-history-scroll lg:dark-scrollbar">
         <div className="divide-y divide-gray-700">
           {(isMobile ? [...history] : [...history].reverse()).map(
-            (generation) => (
-              <VideoHistoryItem
-                key={generation.id}
-                generation={generation}
-                statusMap={STATUS_MAP}
-                isExpanded={expandedPrompts.has(generation.id)}
-                onToggleExpanded={() => togglePromptExpansion(generation.id)}
-                onDownload={handleDownload}
-                isDownloading={downloadingId === generation.id}
-                isExample={false}
-                isClient={isClient}
-                onEdit={onEditVideo}
-                onRegenerate={onRegenerateVideo}
-                onDelete={handleDelete}
-                canEdit={true} // Always true for real videos
-                isDeleting={deletingId === generation.id}
-              />
-            )
+            (generation) => {
+              const isEffectGeneration = Boolean(
+                generation.effect_type ||
+                  generation.effect_id ||
+                  generation.effect_name ||
+                  generation.effect_info
+              );
+
+              return (
+                <VideoHistoryItem
+                  key={generation.id}
+                  generation={generation}
+                  statusMap={STATUS_MAP}
+                  isExpanded={expandedPrompts.has(generation.id)}
+                  onToggleExpanded={() => togglePromptExpansion(generation.id)}
+                  onDownload={handleDownload}
+                  isDownloading={downloadingId === generation.id}
+                  isExample={false}
+                  isClient={isClient}
+                  onEdit={onEditVideo}
+                  onRegenerate={onRegenerateVideo}
+                  onDelete={handleDelete}
+                  canEdit={!isEffectGeneration}
+                  isDeleting={deletingId === generation.id}
+                />
+              );
+            }
           )}
         </div>
       </div>
