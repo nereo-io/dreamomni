@@ -12,36 +12,19 @@ import type {
 // Supabase 客户端初始化
 const supabase = getSupabaseClient();
 
-const IMAGE_GENERATIONS_SCHEMA_CACHE_TTL_MS = 5 * 60 * 1000;
-let imageGenerationsColumnsCache: {
-  columns: Set<string>;
-  fetchedAt: number;
-} | null = null;
+const IMAGE_GENERATIONS_OPTIONAL_COLUMNS = new Set([
+  "aspect_ratio",
+  "quality",
+  "style",
+  "updated_at",
+  "metadata",
+]);
 
 async function getImageGenerationsColumns(): Promise<Set<string>> {
-  const now = Date.now();
-  if (
-    imageGenerationsColumnsCache &&
-    now - imageGenerationsColumnsCache.fetchedAt < IMAGE_GENERATIONS_SCHEMA_CACHE_TTL_MS
-  ) {
-    return imageGenerationsColumnsCache.columns;
-  }
-
-  const { data: tableInfo, error } = await supabase
-    .schema("information_schema")
-    .from("columns")
-    .select("column_name")
-    .eq("table_schema", "public")
-    .eq("table_name", "image_generations");
-
-  if (error) {
-    console.warn("Failed to load image_generations schema:", error);
-    return imageGenerationsColumnsCache?.columns || new Set();
-  }
-
-  const columns = new Set(tableInfo?.map((col) => col.column_name) || []);
-  imageGenerationsColumnsCache = { columns, fetchedAt: now };
-  return columns;
+  // PostgREST schema exposure may block information_schema on production.
+  // Return a conservative optional column set and rely on runtime retry logic
+  // for backward compatibility (e.g. is_delete filter fallback).
+  return IMAGE_GENERATIONS_OPTIONAL_COLUMNS;
 }
 
 /**
