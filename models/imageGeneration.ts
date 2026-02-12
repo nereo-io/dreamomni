@@ -14,7 +14,6 @@ const supabase = getSupabaseClient();
 
 const IMAGE_GENERATIONS_OPTIONAL_COLUMNS = new Set([
   "aspect_ratio",
-  "quality",
   "style",
   "updated_at",
   "metadata",
@@ -349,7 +348,6 @@ export async function getUserImageGenerations(
   // 可选字段（可能不存在）
   const optionalFields = [
     "aspect_ratio",
-    "quality", 
     "style",
     "updated_at",
     "is_delete",
