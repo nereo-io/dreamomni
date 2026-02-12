@@ -28,7 +28,8 @@ async function getImageGenerationsColumns(): Promise<Set<string>> {
   }
 
   const { data: tableInfo, error } = await supabase
-    .from("information_schema.columns")
+    .schema("information_schema")
+    .from("columns")
     .select("column_name")
     .eq("table_schema", "public")
     .eq("table_name", "image_generations");
