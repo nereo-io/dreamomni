@@ -1,0 +1,100 @@
+{
+  "page": {
+    "hero": {
+      "title": "2026 Player Calendar Photo Effect",
+      "subtitle": "Turn one portrait into a stylish 2026 player calendar visual with this PixVerse template. Upload a photo and get a polished, share-ready result in seconds.",
+      "ctaText": "Try 2026 Player Calendar",
+      "showcaseMedia": [
+        {
+          "type": "image",
+          "src": "/placeholder-effect.svg",
+          "alt": "2026 Player Calendar effect preview"
+        }
+      ]
+    },
+    "features": [
+      {
+        "id": "template-style",
+        "title": "Template-driven calendar design",
+        "description": "Apply the 2026 Player Calendar PixVerse template to your image with one click.",
+        "ctaText": "Apply Template",
+        "media": {
+          "type": "image",
+          "src": "/placeholder-effect.svg",
+          "alt": "Template-based calendar transformation"
+        }
+      },
+      {
+        "id": "one-photo",
+        "title": "One photo, instant output",
+        "description": "Upload a single image and let the template generate the full calendar-style composition.",
+        "ctaText": "Upload Photo",
+        "media": {
+          "type": "image",
+          "src": "/placeholder-effect.svg",
+          "alt": "Single photo input for calendar effect"
+        }
+      },
+      {
+        "id": "share-ready",
+        "title": "Ready for posting or printing",
+        "description": "Get a clean, high-quality output suitable for social sharing, posters, or event promos.",
+        "ctaText": "Generate Now",
+        "media": {
+          "type": "image",
+          "src": "/placeholder-effect.svg",
+          "alt": "High-quality calendar style output"
+        }
+      }
+    ],
+    "howToUse": {
+      "title": "How to use 2026 Player Calendar",
+      "steps": [
+        {
+          "title": "1. Upload a portrait",
+          "description": "Choose a clear player photo from your device."
+        },
+        {
+          "title": "2. Run the template",
+          "description": "Click generate to apply the 2026 Player Calendar effect."
+        },
+        {
+          "title": "3. Save and share",
+          "description": "Download your result and share it with your team or community."
+        }
+      ],
+      "ctaText": "Start Now"
+    },
+    "faq": {
+      "title": "FAQ",
+      "description": "Quick answers about this effect.",
+      "items": [
+        {
+          "question": "What is 2026 Player Calendar?",
+          "answer": "It is a PixVerse image template that transforms one portrait into a 2026 player calendar themed design."
+        },
+        {
+          "question": "How many credits does it cost?",
+          "answer": "Each 2026 Player Calendar generation costs 30 credits."
+        },
+        {
+          "question": "Can I use the result commercially?",
+          "answer": "Yes, results can be used for personal and commercial purposes."
+        }
+      ]
+    }
+  },
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "player-calendar-1",
+        "title": "Player Calendar Preview",
+        "imageUrl": "/placeholder-effect.svg"
+      }
+    ],
+    "form": {
+      "title": "2026 Player Calendar Photo Effect",
+      "backgroundImage": "/placeholder-effect.svg"
+    }
+  }
+}
