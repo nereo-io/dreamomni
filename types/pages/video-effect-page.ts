@@ -7,7 +7,7 @@ export type EffectLandingPageContent = Omit<
 >;
 
 export interface VideoEffectPage {
-  page: EffectLandingPageContent;
+  page?: EffectLandingPageContent;
   tool?: {
     showcaseItems: VideoEffectShowcaseItem[];
     form: {

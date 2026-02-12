@@ -4,30 +4,35 @@ import Link from "next/link";
 import { useState } from "react";
 
 interface RelatedEffect {
-  id: string;
-  title: string;
-  slug: string;
-  image: string;
-  href: string;
+  id?: string;
+  title?: string;
+  slug?: string;
+  image?: string;
+  href?: string;
 }
 
 interface EffectRelatedGridProps {
-  title: string;
-  effects: RelatedEffect[];
+  title?: string;
+  effects?: RelatedEffect[];
 }
 
 export function EffectRelatedGrid({ title, effects }: EffectRelatedGridProps) {
-  if (!effects || effects.length === 0) return null;
+  const safeEffects =
+    effects?.filter((effect) => Boolean(effect?.title || effect?.image)) ?? [];
+
+  if (safeEffects.length === 0) return null;
 
   return (
     <section className="py-16 md:py-20">
-      <h2 className="text-4xl md:text-5xl font-bold text-white mb-12 text-center">
-        {title}
-      </h2>
+      {title && (
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-12 text-center">
+          {title}
+        </h2>
+      )}
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {effects.map((effect) => (
-          <RelatedEffectCard key={effect.id} effect={effect} />
+        {safeEffects.map((effect, index) => (
+          <RelatedEffectCard key={effect.id ?? `related-${index}`} effect={effect} />
         ))}
       </div>
     </section>
@@ -39,23 +44,25 @@ function RelatedEffectCard({ effect }: { effect: RelatedEffect }) {
 
   return (
     <Link
-      href={effect.href}
+      href={effect.href || "#"}
       className="group block"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="rounded-lg overflow-hidden bg-gray-900 border border-gray-800 group-hover:border-gray-700 transition-all duration-300">
         <div className="relative aspect-[4/3] overflow-hidden bg-gray-950">
-          <img
-            src={effect.image}
-            alt={effect.title}
-            className={`absolute inset-0 w-full h-full object-cover transition-transform duration-300 ${
-              isHovered ? "scale-105" : "scale-100"
-            }`}
-            loading="lazy"
-            decoding="async"
-            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          />
+          {effect.image && (
+            <img
+              src={effect.image}
+              alt={effect.title || "Related effect"}
+              className={`absolute inset-0 w-full h-full object-cover transition-transform duration-300 ${
+                isHovered ? "scale-105" : "scale-100"
+              }`}
+              loading="lazy"
+              decoding="async"
+              sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            />
+          )}
 
           {/* Hover overlay */}
           <div
@@ -74,7 +81,7 @@ function RelatedEffectCard({ effect }: { effect: RelatedEffect }) {
         {/* Title bar */}
         <div className="p-3 bg-gray-900 border-t border-gray-800">
           <h3 className="text-white text-sm font-medium line-clamp-1">
-            {effect.title}
+            {effect.title || "Untitled effect"}
           </h3>
         </div>
       </div>

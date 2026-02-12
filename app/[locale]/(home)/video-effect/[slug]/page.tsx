@@ -8,6 +8,7 @@ import {
 } from "@/config/video-effect-pages";
 import { locales } from "@/i18n/locale";
 import { getVideoEffectPage } from "@/services/page";
+import type { EffectLandingPageContent } from "@/types/pages/video-effect-page";
 
 type Params = {
   locale: string;
@@ -34,26 +35,24 @@ const localizeHref = (href: string, locale: string) => {
   return `/${locale}/${href}`;
 };
 
-const withLocalizedRelatedEffects = <
-  T extends {
-    relatedEffects?: { title: string; effects: Array<{ href: string }> };
-  },
->(
-  page: T,
+const withLocalizedRelatedEffects = (
+  page: EffectLandingPageContent | undefined,
   locale: string
-): T => {
-  return page.relatedEffects
-    ? ({
-        ...page,
-        relatedEffects: {
-          ...page.relatedEffects,
-          effects: page.relatedEffects.effects.map((effect) => ({
-            ...effect,
-            href: localizeHref(effect.href, locale),
-          })),
-        },
-      } as T)
-    : page;
+): EffectLandingPageContent => {
+  if (!page?.relatedEffects?.effects) {
+    return page ?? {};
+  }
+
+  return {
+    ...page,
+    relatedEffects: {
+      ...page.relatedEffects,
+      effects: page.relatedEffects.effects.map((effect) => ({
+        ...effect,
+        href: effect.href ? localizeHref(effect.href, locale) : effect.href,
+      })),
+    },
+  };
 };
 
 /**
@@ -87,17 +86,24 @@ export async function generateMetadata({
   }
 
   const { page, seo } = await getVideoEffectPage(slug, locale);
+  const heroTitle = page?.hero?.title;
+  const heroSubtitle = page?.hero?.subtitle;
+  const fallbackTitle = heroTitle
+    ? `${heroTitle} | Veo3 AI`
+    : "Video Effect | Veo3 AI";
+  const fallbackDescription =
+    heroSubtitle ?? "Create AI-powered video effects with Veo3 AI.";
 
   const canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}${
     locale !== "en" ? `/${locale}` : ""
   }/video-effect/${slug}`;
 
   return {
-    title: seo?.title ?? `${page.hero.title} | Veo3 AI`,
-    description: seo?.description ?? page.hero.subtitle,
+    title: seo?.title ?? fallbackTitle,
+    description: seo?.description ?? fallbackDescription,
     openGraph: {
-      title: seo?.title ?? page.hero.title,
-      description: seo?.description ?? page.hero.subtitle,
+      title: seo?.title ?? heroTitle ?? "Video Effect | Veo3 AI",
+      description: seo?.description ?? fallbackDescription,
       url: canonicalUrl,
       type: "article",
       siteName: "Veo3 AI",
@@ -152,9 +158,5 @@ export default async function VideoEffectDetailPage({
 
   const effectData = withLocalizedRelatedEffects(page, locale);
 
-  return (
-    <div className="min-h-screen">
-      <EffectLandingPage {...effectData} toolComponent={toolComponent} />
-    </div>
-  );
+  return <EffectLandingPage {...effectData} toolComponent={toolComponent} />;
 }

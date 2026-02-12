@@ -7,7 +7,7 @@ export type EffectLandingPageContent = Omit<
 >;
 
 export interface ImageEffectPage {
-  page: EffectLandingPageContent;
+  page?: EffectLandingPageContent;
   tool?: {
     showcaseItems: EffectShowcaseItem[];
     form: {
