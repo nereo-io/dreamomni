@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles } from "lucide-react";
 
@@ -7,8 +6,6 @@ interface ImageMetadataProps {
   aspectRatio?: string;
   resolution?: string;
   modelName?: string;
-  effectName?: string;
-  effectUrl?: string;
   isAgentMode?: boolean;
   agentImageCount?: number;
   rightSlot?: React.ReactNode; // 右侧插槽，用于放置删除按钮等
@@ -18,8 +15,6 @@ const ImageMetadata: React.FC<ImageMetadataProps> = React.memo(({
   aspectRatio,
   resolution,
   modelName,
-  effectName,
-  effectUrl,
   isAgentMode,
   agentImageCount,
   rightSlot
@@ -54,25 +49,7 @@ const ImageMetadata: React.FC<ImageMetadataProps> = React.memo(({
             {resolution}
           </Badge>
         )}
-        {effectName ? (
-          effectUrl ? (
-            <Link href={effectUrl} className="inline-flex">
-              <Badge
-                variant="secondary"
-                className="bg-emerald-500/20 text-emerald-300 text-xs px-2 py-1 rounded border border-emerald-400/40"
-              >
-                {effectName}
-              </Badge>
-            </Link>
-          ) : (
-            <Badge
-              variant="secondary"
-              className="bg-emerald-500/20 text-emerald-300 text-xs px-2 py-1 rounded border border-emerald-400/40"
-            >
-              {effectName}
-            </Badge>
-          )
-        ) : modelName ? (
+        {modelName ? (
           <div className="text-gray-300 text-sm leading-relaxed">
             {modelName}
           </div>

@@ -38,12 +38,10 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
     canEdit = false,
   }) => {
     const hasEffectInfo = !!(image.effect_type && image.effect_id && image.effect_name);
-    const effectUrl = hasEffectInfo
-      ? image.effect_type === "video-effect"
-        ? `/video-effects/${image.effect_id}`
-        : `/image-effect/${image.effect_id}`
-      : null;
     const deleteLabel = hasEffectInfo ? image.effect_name! : image.prompt;
+    const displayPrompt = hasEffectInfo
+      ? image.effect_name || image.prompt
+      : image.prompt;
 
     // Delete state
     const [isDeleting, setIsDeleting] = useState(false);
@@ -192,19 +190,17 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
 
             {/* Prompt / Effect */}
             <div className="flex-1">
-              {!hasEffectInfo && (
-                <p
-                  className="text-base font-bold text-white leading-relaxed"
-                  style={{
-                    display: "-webkit-box",
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                  }}
-                >
-                  {image.prompt}
-                </p>
-              )}
+              <p
+                className="text-base font-bold text-white leading-relaxed"
+                style={{
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
+                {displayPrompt}
+              </p>
             </div>
           </div>
 
@@ -249,19 +245,15 @@ const ImageHistoryItem: React.FC<ImageHistoryItemProps> = React.memo(
         </div>
 
         {/* Metadata tags - aspect ratio, resolution, model name, and Agent badge */}
-        <ImageMetadata
-          aspectRatio={image.image_size}
-          resolution={image.resolution}
-          effectName={hasEffectInfo ? image.effect_name : undefined}
-          effectUrl={hasEffectInfo ? effectUrl || undefined : undefined}
-          modelName={
-            hasEffectInfo
-              ? undefined
-              : getImageModel(image.model)?.displayName || image.model
-          }
-          isAgentMode={image.is_agent_mode}
-          agentImageCount={image.agent_image_count}
-        />
+        {!hasEffectInfo && (
+          <ImageMetadata
+            aspectRatio={image.image_size}
+            resolution={image.resolution}
+            modelName={getImageModel(image.model)?.displayName || image.model}
+            isAgentMode={image.is_agent_mode}
+            agentImageCount={image.agent_image_count}
+          />
+        )}
 
         {/* Enhanced Prompt */}
         {!hasEffectInfo && (
