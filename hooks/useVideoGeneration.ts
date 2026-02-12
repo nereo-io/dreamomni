@@ -52,6 +52,8 @@ interface VideoGenerationResult {
   image_url?: string;
   image_urls?: string[];
   effect_id?: string;
+  effect_type?: "image-effect" | "video-effect";
+  effect_name?: string;
   effect_info?: {
     id: string;
     title: string;

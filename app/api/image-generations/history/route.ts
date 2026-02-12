@@ -106,6 +106,9 @@ export async function GET(req: NextRequest) {
         error_message: item.error_message,
         provider: item.provider,
         mode: item.mode,
+        effect_type: item.metadata?.effect_type || item.metadata?.effect?.effect_type,
+        effect_id: item.metadata?.effect_id || item.metadata?.effect?.id,
+        effect_name: item.metadata?.effect?.name,
         // Agent 模式字段
         is_agent_mode: isAgentMode,
         agent_image_count: item.agent_image_count || item.metadata?.agent_image_count,

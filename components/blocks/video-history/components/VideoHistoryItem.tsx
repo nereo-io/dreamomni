@@ -74,9 +74,18 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
       statusMap[generation.status as keyof typeof statusMap] ||
       statusMap.submitted;
     const modelConfig = getVideoModel(generation.model_id);
-    const displayPrompt = generation.effect_info
-      ? generation.effect_info.title
-      : generation.prompt;
+    const effectName =
+      generation.effect_info?.title || generation.effect_name || undefined;
+    const displayPrompt = (() => {
+      if (!effectName) {
+        return generation.prompt;
+      }
+      const trimmedPrompt = generation.prompt?.trim();
+      if (trimmedPrompt && trimmedPrompt !== effectName) {
+        return `${effectName} · ${trimmedPrompt}`;
+      }
+      return effectName;
+    })();
 
     // Format timestamp
     const formatTimestamp = () => {
@@ -199,11 +208,11 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
           durationSeconds={generation.duration_seconds}
           hasUpsample={!!generation.upsample_video_url_veo3}
           isDowngradedTo720P={generation.is_downgraded_to_720p}
-          modelName={generation.effect_info ? undefined : (modelConfig?.displayName || generation.model_id)}
+          modelName={effectName ? undefined : (modelConfig?.displayName || generation.model_id)}
         />
 
         {/* Enhanced Prompt - Only show for non-effect videos */}
-        {!generation.effect_info && (
+        {!effectName && (
           <EnhancedPrompt
             originalPrompt={generation.prompt}
             optimizedPrompt={generation.optimized_prompt}

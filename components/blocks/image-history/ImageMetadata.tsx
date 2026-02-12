@@ -49,11 +49,11 @@ const ImageMetadata: React.FC<ImageMetadataProps> = React.memo(({
             {resolution}
           </Badge>
         )}
-        {modelName && (
+        {modelName ? (
           <div className="text-gray-300 text-sm leading-relaxed">
             {modelName}
           </div>
-        )}
+        ) : null}
       </div>
 
       {/* 右侧：插槽内容（如删除按钮） */}

@@ -1,0 +1,147 @@
+{
+  "page": {
+    "hero": {
+      "title": "KI-Fotoeffekt im Ghibli-Style",
+      "subtitle": "Mach aus deinen Fotos Bilder im Studio-Ghibli-Look. Die KI trifft warme Farben, weiches Licht und diese verträumte Atmosphäre.",
+      "ctaText": "Ghibli-Style gratis testen",
+      "showcaseMedia": [
+        {
+          "type": "video",
+          "src": "https://r2.veo3ai.io/intro/veo3.1/sloth_on_train.mp4",
+          "alt": "Beispiel einer Foto-Transformation im Ghibli-Stil"
+        }
+      ]
+    },
+    "features": [
+      {
+        "id": "authentic-style",
+        "title": "Echter Ghibli-Look",
+        "description": "Die KI trifft den typischen Stil der Studio-Ghibli-Filme - sanfte Aquarelltexturen, warme Farben und die magische Stimmung wie aus einem Filmstill.",
+        "ctaText": "Jetzt ausprobieren",
+        "media": {
+          "type": "image",
+          "src": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+          "alt": "Transformation im Ghibli-Look"
+        }
+      },
+      {
+        "id": "any-photo",
+        "title": "Funktioniert mit jedem Foto",
+        "description": "Porträts, Landschaften, Haustiere oder Alltagsszenen - der Ghibli-Style passt auf jedes Motiv und bewahrt Komposition und Details.",
+        "ctaText": "Foto hochladen",
+        "media": {
+          "type": "image",
+          "src": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+          "alt": "Verschiedene Fotos im Ghibli-Stil"
+        }
+      },
+      {
+        "id": "high-quality",
+        "title": "Hohe Auflösung",
+        "description": "Du bekommst scharfe, detailreiche Ergebnisse - perfekt zum Teilen oder Drucken.",
+        "ctaText": "Jetzt erstellen",
+        "media": {
+          "type": "image",
+          "src": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+          "alt": "Ausgabe in hoher Auflösung im Ghibli-Stil"
+        }
+      }
+    ],
+    "howToUse": {
+      "title": "So erstellst du Ghibli-Fotos",
+      "steps": [
+        {
+          "title": "1. Foto hochladen",
+          "description": "Wähle ein Foto aus - Porträt, Landschaft oder Gruppenbild, alles geht."
+        },
+        {
+          "title": "2. Ghibli-Effekt anwenden",
+          "description": "Klicke auf „Generieren“, und die KI verwandelt dein Foto in ein Ghibli-Bild."
+        },
+        {
+          "title": "3. Download & teilen",
+          "description": "Lade dein Bild in hoher Auflösung herunter und teile es sofort."
+        }
+      ],
+      "ctaText": "Loslegen"
+    },
+    "relatedEffects": {
+      "title": "Mehr Fotoeffekte",
+      "effects": [
+        {
+          "id": "anime-style",
+          "title": "Anime",
+          "slug": "anime-style",
+          "image": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+          "href": "/image-effect/anime-style"
+        },
+        {
+          "id": "watercolor",
+          "title": "Aquarell",
+          "slug": "watercolor",
+          "image": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+          "href": "/image-effect/watercolor"
+        },
+        {
+          "id": "oil-painting",
+          "title": "Ölgemälde",
+          "slug": "oil-painting",
+          "image": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+          "href": "/image-effect/oil-painting"
+        },
+        {
+          "id": "pixel-art",
+          "title": "Pixel-Art",
+          "slug": "pixel-art",
+          "image": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+          "href": "/image-effect/pixel-art"
+        }
+      ]
+    },
+    "faq": {
+      "title": "FAQ",
+      "description": "Kurz erklärt: der Ghibli-Effekt.",
+      "items": [
+        {
+          "question": "Was ist der Fotoeffekt im Ghibli-Stil?",
+          "answer": "Ein KI-Effekt, der deine Fotos in Bilder im Stil der Studio-Ghibli-Filme verwandelt - warme Farben, weiches Licht und eine malerische Textur."
+        },
+        {
+          "question": "Welche Fotos funktionieren am besten?",
+          "answer": "Die meisten Motive gehen: Porträts, Landschaften, Haustiere oder Alltagsszenen. Am besten sind gut ausgeleuchtete Fotos mit klarem Motiv."
+        },
+        {
+          "question": "Wie viel kostet das?",
+          "answer": "Eine Ghibli-Transformation kostet 2 Credits. Neue Nutzer bekommen kostenlose Credits zum Ausprobieren."
+        },
+        {
+          "question": "Darf ich die Bilder kommerziell nutzen?",
+          "answer": "Ja, die Ergebnisse sind für private und kommerzielle Zwecke nutzbar. Der Stil ist inspiriert, aber nicht offiziell mit Studio Ghibli verbunden."
+        }
+      ]
+    }
+  },
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "ghibli-1",
+        "title": "Waldgeist",
+        "imageUrl": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png"
+      },
+      {
+        "id": "ghibli-2",
+        "title": "Landschaftsszene",
+        "imageUrl": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png"
+      },
+      {
+        "id": "ghibli-3",
+        "title": "Porträt-Transformation",
+        "imageUrl": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png"
+      }
+    ],
+    "form": {
+      "title": "Ghibli-Style Fotoeffekt",
+      "backgroundImage": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png"
+    }
+  }
+}

@@ -72,13 +72,13 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
               />
             </div>
             {/* Action buttons for completed videos */}
-            {canEdit && generation && onEdit && onRegenerate && (
+            {generation && (onDelete || (canEdit && onEdit && onRegenerate)) && (
               <VideoActionButtons
                 generation={generation}
                 onEdit={onEdit}
                 onRegenerate={onRegenerate}
                 onDelete={onDelete}
-                canEdit={canDownload} // Use canDownload as indicator for non-example videos
+                canEdit={canEdit && canDownload} // Use canDownload as indicator for non-example videos
                 isDeleting={isDeleting}
               />
             )}

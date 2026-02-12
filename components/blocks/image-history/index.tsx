@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import {
@@ -69,6 +70,9 @@ export interface ImageGenerationResult {
   is_agent_mode?: boolean;
   agent_image_count?: number;
   expanded_prompts?: string[];
+  effect_type?: "image-effect" | "video-effect";
+  effect_id?: string;
+  effect_name?: string;
   metadata?: {
     agent_tasks?: Array<{
       taskId: string;
@@ -101,6 +105,16 @@ const getImageDisplayUrl = (image: ImageGenerationResult) =>
   image.image_urls_r2?.[0] ||
   image.image_urls?.[0] ||
   "";
+
+const hasEffectInfo = (image: ImageGenerationResult) =>
+  !!(image.effect_type && image.effect_id && image.effect_name);
+
+const getEffectUrl = (image: ImageGenerationResult) => {
+  if (!image.effect_type || !image.effect_id) return null;
+  return image.effect_type === "video-effect"
+    ? `/video-effects/${image.effect_id}`
+    : `/image-effect/${image.effect_id}`;
+};
 
 const getOutputImages = (image: ImageGenerationResult) =>
   image.image_urls_r2?.length
@@ -751,6 +765,8 @@ function ImageMediaCard({
   const isMobile = useIsMobile();
   const [imageLoaded, setImageLoaded] = useState(false);
   const displayUrl = getImageDisplayUrl(image);
+  const effectAvailable = hasEffectInfo(image);
+  const actionLabel = effectAvailable ? image.effect_name! : image.prompt;
   const status = image.status.toLowerCase();
   const isReady = status === "completed" || status === "saved_to_r2";
 
@@ -771,7 +787,7 @@ function ImageMediaCard({
           <>
             <img
               src={displayUrl}
-              alt={image.prompt}
+              alt={image.effect_name || image.prompt}
               className={`h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 ${
                 imageLoaded ? "opacity-100" : "opacity-0"
               }`}
@@ -810,7 +826,7 @@ function ImageMediaCard({
             size="icon"
             onClick={(event) => {
               event.stopPropagation();
-                onDownload(image.id, displayUrl, image.prompt);
+                onDownload(image.id, displayUrl, actionLabel);
               }}
               disabled={!displayUrl || downloadingId === image.id}
               className={`h-9 w-9 bg-black/60 text-white hover:bg-black/80 ${
@@ -826,12 +842,12 @@ function ImageMediaCard({
             <Button
               variant="secondary"
               size="icon"
-              onClick={(event) => {
-                event.stopPropagation();
-                onDelete(image.id, image.prompt);
-              }}
-              className={`h-9 w-9 bg-black/60 text-white hover:bg-red-500/80 ${
-                isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+            onClick={(event) => {
+              event.stopPropagation();
+              onDelete(image.id, actionLabel);
+            }}
+            className={`h-9 w-9 bg-black/60 text-white hover:bg-red-500/80 ${
+              isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100"
               } transition-opacity`}
             >
               <Trash2 className="h-4 w-4" />
@@ -879,6 +895,9 @@ function ImageDetailModal({
   const displayUrl = getImageDisplayUrl(image);
   const outputImages = getOutputImages(image);
   const inputImages = image.input_image_urls || [];
+  const effectAvailable = hasEffectInfo(image);
+  const effectUrl = getEffectUrl(image);
+  const actionLabel = effectAvailable ? image.effect_name! : image.prompt;
 
   const detailBody = (
     <div className="grid h-full grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
@@ -886,7 +905,7 @@ function ImageDetailModal({
         {displayUrl ? (
           <img
             src={displayUrl}
-            alt={image.prompt}
+            alt={image.effect_name || image.prompt}
             className="h-full w-full object-contain"
           />
         ) : (
@@ -907,34 +926,57 @@ function ImageDetailModal({
               )}
             </div>
 
-            <div className="space-y-2">
-              <div className="text-xs uppercase tracking-widest text-gray-400">
-                Prompt
+            {!effectAvailable && (
+              <div className="space-y-2">
+                <div className="text-xs uppercase tracking-widest text-gray-400">
+                  Prompt
+                </div>
+                <>
+                  <p
+                    className={`text-sm text-gray-100 ${
+                      isPromptExpanded ? "" : "line-clamp-3"
+                    }`}
+                  >
+                    {image.prompt}
+                  </p>
+                  {image.prompt && image.prompt.length > 120 && (
+                    <button
+                      type="button"
+                      onClick={() => setIsPromptExpanded((prev) => !prev)}
+                      className="text-xs font-medium text-blue-300 hover:text-blue-200"
+                    >
+                      {isPromptExpanded ? "Collapse" : "Expand"}
+                    </button>
+                  )}
+                </>
               </div>
-              <p
-                className={`text-sm text-gray-100 ${
-                  isPromptExpanded ? "" : "line-clamp-3"
-                }`}
-              >
-                {image.prompt}
-              </p>
-              {image.prompt && image.prompt.length > 120 && (
-                <button
-                  type="button"
-                  onClick={() => setIsPromptExpanded((prev) => !prev)}
-                  className="text-xs font-medium text-blue-300 hover:text-blue-200"
-                >
-                  {isPromptExpanded ? "Collapse" : "Expand"}
-                </button>
-              )}
-            </div>
+            )}
 
             <div className="space-y-3">
               <DetailRow label="Status" value={getStatusBadge(image.status)} />
-              <DetailRow
-                label="Model"
-                value={getImageModel(image.model)?.displayName || image.model}
-              />
+              {effectAvailable ? (
+                <DetailRow
+                  label="Effect"
+                  value={
+                    effectUrl ? (
+                      <Link href={effectUrl} className="inline-flex">
+                        <Badge className="bg-emerald-500/20 text-emerald-300 border border-emerald-400/40">
+                          {image.effect_name}
+                        </Badge>
+                      </Link>
+                    ) : (
+                      <Badge className="bg-emerald-500/20 text-emerald-300 border border-emerald-400/40">
+                        {image.effect_name}
+                      </Badge>
+                    )
+                  }
+                />
+              ) : (
+                <DetailRow
+                  label="Model"
+                  value={getImageModel(image.model)?.displayName || image.model}
+                />
+              )}
               <DetailRow label="Aspect ratio" value={image.image_size || "-"} />
               <DetailRow label="Resolution" value={image.resolution || "-"} />
               <DetailRow label={t("credits")} value={image.credits_used} />
@@ -1013,7 +1055,7 @@ function ImageDetailModal({
             </Button>
             <Button
               variant="secondary"
-              onClick={() => displayUrl && onDownload(image.id, displayUrl, image.prompt)}
+              onClick={() => displayUrl && onDownload(image.id, displayUrl, actionLabel)}
               disabled={!displayUrl || downloadingId === image.id}
               className="w-full bg-gray-800/80 text-gray-100 hover:bg-gray-700"
             >
@@ -1026,23 +1068,25 @@ function ImageDetailModal({
             </Button>
             <Button
               variant="secondary"
-              onClick={() => onDelete(image.id, image.prompt)}
+              onClick={() => onDelete(image.id, actionLabel)}
               className="w-full bg-red-500/20 text-red-100 hover:bg-red-500/40"
             >
               <Trash2 className="mr-2 h-4 w-4" />
               Delete
             </Button>
-            <Button
-              variant="ghost"
-              onClick={() => {
-                navigator.clipboard.writeText(image.prompt);
-                toast.success(t("promptCopied"));
-              }}
-              className="w-full border border-gray-800 bg-gray-900 text-gray-300 hover:bg-gray-800 hover:text-white"
-            >
-              <Copy className="mr-2 h-4 w-4" />
-              Copy prompt
-            </Button>
+            {!effectAvailable && (
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  navigator.clipboard.writeText(image.prompt);
+                  toast.success(t("promptCopied"));
+                }}
+                className="w-full border border-gray-800 bg-gray-900 text-gray-300 hover:bg-gray-800 hover:text-white"
+              >
+                <Copy className="mr-2 h-4 w-4" />
+                Copy prompt
+              </Button>
+            )}
           </div>
         </div>
       </div>

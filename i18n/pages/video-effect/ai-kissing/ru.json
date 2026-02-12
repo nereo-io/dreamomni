@@ -1,0 +1,116 @@
+{
+  "page": {
+    "hero": {
+      "title": "AI Kissing Video Effect",
+      "subtitle": "Turn a single photo into a short, romantic kissing video with realistic motion and lighting.",
+      "ctaText": "Try AI Kissing",
+      "showcaseMedia": [
+        {
+          "type": "video",
+          "src": "https://r2.veo3ai.io/effects/ai-kissing.mp4",
+          "poster": "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=1200&h=800&fit=crop",
+          "alt": "AI kissing video effect preview"
+        }
+      ]
+    },
+    "features": [
+      {
+        "id": "natural-motion",
+        "title": "Natural Motion and Expressions",
+        "description": "Generate smooth, lifelike motion and facial expressions from a single image while preserving the original subject identity.",
+        "ctaText": "Preview Motion",
+        "media": {
+          "type": "video",
+          "src": "https://r2.veo3ai.io/effects/ai-kissing.mp4",
+          "poster": "https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=1200&h=800&fit=crop",
+          "alt": "Natural motion preview"
+        }
+      },
+      {
+        "id": "fast-render",
+        "title": "Fast, Shareable Results",
+        "description": "Create a short video in seconds with optimized quality for social sharing.",
+        "ctaText": "Generate Video",
+        "media": {
+          "type": "image",
+          "src": "https://images.unsplash.com/photo-1542596768-5d1d21f1cf98?w=1200&h=800&fit=crop",
+          "alt": "Fast render example"
+        }
+      },
+      {
+        "id": "simple-input",
+        "title": "Simple Input, Big Impact",
+        "description": "Upload one image and let the effect do the rest. No editing skills required.",
+        "ctaText": "Upload Photo",
+        "media": {
+          "type": "image",
+          "src": "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=1200&h=800&fit=crop",
+          "alt": "Simple upload workflow"
+        }
+      }
+    ],
+    "howToUse": {
+      "title": "How to Create the AI Kissing Effect",
+      "steps": [
+        {
+          "title": "1. Upload a Photo",
+          "description": "Choose a clear image with good lighting for the best result."
+        },
+        {
+          "title": "2. Add Optional Details",
+          "description": "Describe the mood or setting to personalize the video."
+        },
+        {
+          "title": "3. Generate and Share",
+          "description": "Create your video and download it instantly."
+        }
+      ],
+      "ctaText": "Start Generating"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "description": "Common questions about the AI Kissing effect.",
+      "items": [
+        {
+          "question": "How long does it take?",
+          "answer": "Most videos generate in under a minute, depending on demand."
+        },
+        {
+          "question": "What photos work best?",
+          "answer": "Use high-resolution images with clear faces and good lighting."
+        },
+        {
+          "question": "Can I use the result commercially?",
+          "answer": "Yes, you can use the generated video for personal or commercial projects."
+        }
+      ]
+    }
+  },
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "ai-kissing-1",
+        "title": "Romantic Close-Up",
+        "imageUrl": "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&h=600&fit=crop"
+      },
+      {
+        "id": "ai-kissing-2",
+        "title": "Soft Light",
+        "imageUrl": "https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=800&h=600&fit=crop"
+      },
+      {
+        "id": "ai-kissing-3",
+        "title": "Cinematic Mood",
+        "imageUrl": "https://images.unsplash.com/photo-1542596768-5d1d21f1cf98?w=800&h=600&fit=crop"
+      }
+    ],
+    "form": {
+      "title": "AI Kissing Video Effect",
+      "backgroundImage": "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=1200&h=800&fit=crop"
+    }
+  },
+  "seo": {
+    "title": "AI Kissing Video Effect | Veo3 AI",
+    "description": "Create romantic AI kissing videos from a single photo. Generate smooth motion and share instantly."
+  }
+}

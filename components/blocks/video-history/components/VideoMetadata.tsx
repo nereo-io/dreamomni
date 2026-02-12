@@ -16,7 +16,7 @@ const VideoMetadata: React.FC<VideoMetadataProps> = React.memo(({
   durationSeconds,
   hasUpsample,
   isDowngradedTo720P,
-  modelName
+  modelName,
 }) => {
   const t = useTranslations("video-history");
 
