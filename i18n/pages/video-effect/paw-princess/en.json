@@ -1,0 +1,15 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "paw-princess-1",
+        "title": "Paw Princess",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/paw-princess_cover.webp?v=1756603090020"
+      }
+    ],
+    "form": {
+      "title": "Paw Princess",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_dresspet_250401.png"
+    }
+  }
+}

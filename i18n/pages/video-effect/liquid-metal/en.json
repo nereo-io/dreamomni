@@ -1,0 +1,15 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "liquid-metal-1",
+        "title": "Liquid Metal",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/liquid-metal_cover.webp?v=1756603081171"
+      }
+    ],
+    "form": {
+      "title": "Liquid Metal",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_metal_250606.png"
+    }
+  }
+}

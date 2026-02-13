@@ -1,0 +1,15 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "dust-me-away-1",
+        "title": "Dust Me Away",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/dust-me-away_cover.webp?v=1756603067568"
+      }
+    ],
+    "form": {
+      "title": "Dust Me Away",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_part_250618.png"
+    }
+  }
+}

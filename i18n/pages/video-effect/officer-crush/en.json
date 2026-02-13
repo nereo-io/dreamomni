@@ -1,0 +1,15 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "officer-crush-1",
+        "title": "Officer Crush",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/officer-crush_cover.webp?v=1756603087104"
+      }
+    ],
+    "form": {
+      "title": "Officer Crush",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_officer_250808.jpg"
+    }
+  }
+}

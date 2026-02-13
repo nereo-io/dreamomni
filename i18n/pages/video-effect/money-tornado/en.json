@@ -1,0 +1,15 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "money-tornado-1",
+        "title": "Money Tornado",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/money-tornado_cover.webp?v=1756603081498"
+      }
+    ],
+    "form": {
+      "title": "Money Tornado",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_money360_250326.png"
+    }
+  }
+}

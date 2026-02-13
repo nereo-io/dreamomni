@@ -1,0 +1,15 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "thunder-god-1",
+        "title": "Thunder God",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/thunder-god_cover.webp?v=1756602656668"
+      }
+    ],
+    "form": {
+      "title": "Thunder God",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_thunder_250527.png"
+    }
+  }
+}

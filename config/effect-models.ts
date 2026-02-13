@@ -49,254 +49,1254 @@ export interface EffectModelConfig {
   pixverseMode?: PixverseMode;
 }
 
-interface PixverseVideoEffectSeed {
-  id: string;
-  name: string;
-  pixverseTemplateId: number;
-  baseCredits?: number;
-  maxImages?: number;
-  durationOptions?: string[];
-  qualityOptions?: string[];
-}
-
-const DEFAULT_PIXVERSE_VIDEO_DURATIONS = ["5"];
-const DEFAULT_PIXVERSE_VIDEO_QUALITIES = ["360p", "540p", "720p", "1080p"];
-
-function normalizeSettingValues(
-  values: string[] | undefined,
-  fallback: string[],
-): string[] {
-  if (!values || values.length === 0) {
-    return [...fallback];
-  }
-
-  const normalized = values
-    .map((value) => value.trim())
-    .filter((value) => value.length > 0);
-
-  if (normalized.length === 0) {
-    return [...fallback];
-  }
-
-  return Array.from(new Set(normalized));
-}
-
-function buildPixverseVideoSettings(
-  durationOptions?: string[],
-  qualityOptions?: string[],
-): EffectSettingDef[] {
-  const durations = normalizeSettingValues(
-    durationOptions,
-    DEFAULT_PIXVERSE_VIDEO_DURATIONS,
-  );
-  const qualities = normalizeSettingValues(
-    qualityOptions,
-    DEFAULT_PIXVERSE_VIDEO_QUALITIES,
-  );
-  const defaultQuality = qualities.includes("540p")
-    ? "540p"
-    : qualities[0] || "540p";
-
-  return [
-    {
-      key: "duration",
-      label: "Duration",
-      options: durations.map((duration) => ({
-        label: `${duration}s`,
-        value: duration,
-      })),
-      defaultValue: durations[0] || "5",
-    },
-    {
-      key: "quality",
-      label: "Quality",
-      options: qualities.map((quality) => ({
-        label: quality,
-        value: quality,
-      })),
-      defaultValue: defaultQuality,
-    },
-    {
-      key: "ratio",
-      label: "Aspect Ratio",
-      options: [{ label: "Auto", value: "auto" }],
-      defaultValue: "auto",
-    },
-  ];
-}
-
-function createPixverseVideoEffect(
-  seed: PixverseVideoEffectSeed,
-): EffectModelConfig {
-  const baseCredits = seed.baseCredits ?? 10;
-
-  return {
-    id: seed.id,
-    name: seed.name,
+export const EFFECT_MODELS: Record<string, EffectModelConfig> = {
+  "my-girlfriendssss": {
+    id: "my-girlfriendssss",
+    name: "My Girlfriendssss",
     provider: EffectProvider.PIXVERSE,
     outputType: "video",
     status: "active",
-    baseCredits,
-    maxImages: seed.maxImages ?? 1,
-    settings: buildPixverseVideoSettings(
-      seed.durationOptions,
-      seed.qualityOptions,
-    ),
-    calculateCredits: () => baseCredits,
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
     prompt: "",
     model: "v5.5",
-    pixverseTemplateId: seed.pixverseTemplateId,
-    pixverseMode: "image_to_video",
-  };
-}
-
-const PIXVERSE_VIDEO_EFFECT_SEEDS: PixverseVideoEffectSeed[] = [
-  {
-    id: "my-girlfriendssss",
-    name: "My Girlfriendssss",
     pixverseTemplateId: 349232644550272,
+    pixverseMode: "image_to_video",
   },
-  {
+  "paw-princess": {
     id: "paw-princess",
     name: "Paw Princess",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 330448062595520,
+    pixverseMode: "image_to_video",
   },
-  {
+  "muscle-max-bodybuilder-champion": {
     id: "muscle-max-bodybuilder-champion",
     name: "Muscle Max: Bodybuilder Champion",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 350496364287680,
+    pixverseMode: "image_to_video",
   },
-  {
+  "kitten-hide-and-seek": {
     id: "kitten-hide-and-seek",
     name: "Kitten Hide and Seek",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "6s", value: "6" },
+        ],
+        defaultValue: "6",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 354568167143040,
-    durationOptions: ["6"],
+    pixverseMode: "image_to_video",
   },
-  {
+  "360-microwave": {
     id: "360-microwave",
     name: "360° Microwave",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 324641385496960,
+    pixverseMode: "image_to_video",
   },
-  {
+  "ride-my-porsche": {
     id: "ride-my-porsche",
     name: "Ride My Porsche",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 347130807494528,
+    pixverseMode: "image_to_video",
   },
-  {
+  "petals-of-goodbye": {
     id: "petals-of-goodbye",
     name: "Petals of Goodbye",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 352956065691584,
+    pixverseMode: "image_to_video",
   },
-  {
+  "liquid-metal": {
     id: "liquid-metal",
     name: "Liquid Metal",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 342180291926592,
+    pixverseMode: "image_to_video",
   },
-  {
+  "hi-five-emoji-twin": {
     id: "hi-five-emoji-twin",
     name: "Hi-Five Emoji Twin",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 351907687030400,
+    pixverseMode: "image_to_video",
   },
-  { id: "boom-drop", name: "BOOM DROP", pixverseTemplateId: 339133943656192 },
-  {
+  "boom-drop": {
+    id: "boom-drop",
+    name: "BOOM DROP",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
+    pixverseTemplateId: 339133943656192,
+    pixverseMode: "image_to_video",
+  },
+  "2025-oscar-winner": {
     id: "2025-oscar-winner",
     name: "2025 Oscar Winner",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 321956810449792,
+    pixverseMode: "image_to_video",
   },
-  {
+  "kiss-me-ai": {
     id: "kiss-me-ai",
     name: "Kiss Me, AI!",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 321958627120000,
+    pixverseMode: "image_to_video",
   },
-  {
+  "muscle-surge": {
     id: "muscle-surge",
     name: "Muscle Surge",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 308621408717184,
+    pixverseMode: "image_to_video",
   },
-  {
+  "thunder-god": {
     id: "thunder-god",
     name: "Thunder God",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 340383170699072,
+    pixverseMode: "image_to_video",
   },
-  {
+  "ninja-shadow-clone": {
     id: "ninja-shadow-clone",
     name: "Ninja Shadow Clone",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 354371350649280,
+    pixverseMode: "image_to_video",
   },
-  {
+  "my-boyfriendsssss": {
     id: "my-boyfriendsssss",
     name: "My Boyfriendsssss",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 349232463042176,
+    pixverseMode: "image_to_video",
   },
-  {
+  "eye-zoom-challenge": {
     id: "eye-zoom-challenge",
     name: "Eye Zoom Challenge",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 339848996187712,
+    pixverseMode: "image_to_video",
   },
-  {
+  "officer-crush": {
     id: "officer-crush",
     name: "Officer Crush",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 353279785150016,
+    pixverseMode: "image_to_video",
   },
-  {
+  "fairy-wings": {
     id: "fairy-wings",
     name: "Fairy Wings",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 341983360051008,
+    pixverseMode: "image_to_video",
   },
-  {
+  "money-tornado": {
     id: "money-tornado",
     name: "Money Tornado",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 327829606196096,
+    pixverseMode: "image_to_video",
   },
-  {
+  "middle-finger-up": {
     id: "middle-finger-up",
     name: "Middle Finger Up",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 353326100438592,
+    pixverseMode: "image_to_video",
   },
-  {
+  "earth-zoom-challenge": {
     id: "earth-zoom-challenge",
     name: "Earth Zoom Challenge",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 349110259052160,
+    pixverseMode: "image_to_video",
   },
-  { id: "kiss-kiss", name: "Kiss Kiss", pixverseTemplateId: 315446315336768 },
-  {
+  "kiss-kiss": {
+    id: "kiss-kiss",
+    name: "Kiss Kiss",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
+    pixverseTemplateId: 315446315336768,
+    pixverseMode: "image_to_video",
+  },
+  "birthday-surprise": {
     id: "birthday-surprise",
     name: "Birthday Surprise",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "4s", value: "4" },
+        ],
+        defaultValue: "4",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 352981446212096,
-    durationOptions: ["4"],
+    pixverseMode: "image_to_video",
   },
-  {
+  "private-airplane": {
     id: "private-airplane",
     name: "Private Airplane",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 347847915659136,
+    pixverseMode: "image_to_video",
   },
-  { id: "fire-roar", name: "Fire Roar", pixverseTemplateId: 326607027713088 },
-  {
+  "fire-roar": {
+    id: "fire-roar",
+    name: "Fire Roar",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
+    pixverseTemplateId: 326607027713088,
+    pixverseMode: "image_to_video",
+  },
+  "ghibli-magic": {
     id: "ghibli-magic",
     name: "Ghibli Magic",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 330688573362560,
+    pixverseMode: "image_to_video",
   },
-  {
+  "dust-me-away": {
     id: "dust-me-away",
     name: "Dust Me Away",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 344080941597120,
+    pixverseMode: "image_to_video",
   },
-  {
+  "buddha-s-blessing": {
     id: "buddha-s-blessing",
     name: "Buddha's Blessing",
+    provider: EffectProvider.PIXVERSE,
+    outputType: "video",
+    status: "active",
+    baseCredits: 10,
+    maxImages: 1,
+    settings: [
+      {
+        key: "duration",
+        label: "Duration",
+        options: [
+          { label: "5s", value: "5" },
+        ],
+        defaultValue: "5",
+      },
+      {
+        key: "quality",
+        label: "Quality",
+        options: [
+          { label: "360p", value: "360p" },
+          { label: "540p", value: "540p" },
+          { label: "720p", value: "720p" },
+          { label: "1080p", value: "1080p" },
+        ],
+        defaultValue: "540p",
+      },
+      {
+        key: "ratio",
+        label: "Aspect Ratio",
+        options: [
+          { label: "Auto", value: "auto" },
+        ],
+        defaultValue: "auto",
+      },
+    ],
+    calculateCredits: () => 10,
+    prompt: "",
+    model: "v5.5",
     pixverseTemplateId: 354340119359936,
+    pixverseMode: "image_to_video",
   },
-];
-
-const PIXVERSE_VIDEO_EFFECT_MODELS = Object.fromEntries(
-  PIXVERSE_VIDEO_EFFECT_SEEDS.map((seed) => [
-    seed.id,
-    createPixverseVideoEffect(seed),
-  ]),
-) as Record<string, EffectModelConfig>;
-
-export const EFFECT_MODELS: Record<string, EffectModelConfig> = {
-  ...PIXVERSE_VIDEO_EFFECT_MODELS,
   "ghibli-style": {
     id: "ghibli-style",
     name: "Ghibli Style",

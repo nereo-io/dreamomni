@@ -1,0 +1,15 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "fairy-wings-1",
+        "title": "Fairy Wings",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/fairy-wings_cover.webp?v=1756603070276"
+      }
+    ],
+    "form": {
+      "title": "Fairy Wings",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_sprite_250605.png"
+    }
+  }
+}

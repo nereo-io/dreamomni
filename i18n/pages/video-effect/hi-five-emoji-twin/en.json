@@ -1,0 +1,15 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "hi-five-emoji-twin-1",
+        "title": "Hi-Five Emoji Twin",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/hi-five-emoji-twin_cover.webp?v=1756603076122"
+      }
+    ],
+    "form": {
+      "title": "Hi-Five Emoji Twin",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_uandemoji_250803_2.jpg"
+    }
+  }
+}

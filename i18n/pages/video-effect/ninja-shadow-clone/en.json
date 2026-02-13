@@ -1,0 +1,15 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "ninja-shadow-clone-1",
+        "title": "Ninja Shadow Clone",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/ninja-shadow-clone_cover.webp?v=1756603087208"
+      }
+    ],
+    "form": {
+      "title": "Ninja Shadow Clone",
+      "backgroundImage": "https://media.pixverse.ai/asset/template/web_clone_250814.jpg"
+    }
+  }
+}

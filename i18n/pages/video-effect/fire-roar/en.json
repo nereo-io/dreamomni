@@ -1,0 +1,15 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "fire-roar-1",
+        "title": "Fire Roar",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/fire-roar_cover.webp?v=1756603073081"
+      }
+    ],
+    "form": {
+      "title": "Fire Roar",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_fire_250312.png"
+    }
+  }
+}
