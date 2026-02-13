@@ -13,16 +13,85 @@ import type {
 const supabase = getSupabaseClient();
 
 const IMAGE_GENERATIONS_OPTIONAL_COLUMNS = new Set([
-  "aspect_ratio",
-  "updated_at",
-  "metadata",
+  'aspect_ratio',
+  'updated_at',
+  'metadata',
+  'quality',
+  'style',
 ]);
 
-async function getImageGenerationsColumns(): Promise<Set<string>> {
-  // PostgREST schema exposure may block information_schema on production.
-  // Return a conservative optional column set and rely on runtime retry logic
-  // for backward compatibility (e.g. is_delete filter fallback).
-  return IMAGE_GENERATIONS_OPTIONAL_COLUMNS;
+let imageGenerationsOptionalColumnsCache = new Set(IMAGE_GENERATIONS_OPTIONAL_COLUMNS);
+
+function getImageGenerationsOptionalColumns(): Set<string> {
+  // Optional columns may be missing in production; cache the safe set after retries.
+  return new Set(imageGenerationsOptionalColumnsCache);
+}
+
+function updateImageGenerationsOptionalColumns(columns: Set<string>) {
+  imageGenerationsOptionalColumnsCache = new Set(columns);
+}
+
+function isMissingColumnError(error: PostgrestError | null): boolean {
+  if (!error) {
+    return false;
+  }
+  return (
+    error.code === '42703' ||
+    /does not exist/i.test(error.message || '') ||
+    /does not exist/i.test(error.details || '')
+  );
+}
+
+function extractMissingColumns(
+  error: PostgrestError | null,
+  candidates: Iterable<string>
+): string[] {
+  if (!error) {
+    return [];
+  }
+
+  const haystack = [error.message, error.details, error.hint].filter(Boolean).join(' ');
+  const missing = new Set<string>();
+  const regex = /column\s+(?:\"?[a-zA-Z0-9_]+\"?\.)?\"?([a-zA-Z0-9_]+)\"?\s+does not exist/gi;
+  let match: RegExpExecArray | null = null;
+
+  while ((match = regex.exec(haystack)) !== null) {
+    missing.add(match[1]);
+  }
+
+  if (missing.size === 0) {
+    for (const column of candidates) {
+      if (haystack.includes(column)) {
+        missing.add(column);
+      }
+    }
+  }
+
+  return Array.from(missing);
+}
+
+function buildImageGenerationsSelectFields(
+  baseFields: string[],
+  optionalColumns: Iterable<string>
+): string {
+  const seen = new Set<string>();
+  const fields: string[] = [];
+
+  for (const field of baseFields) {
+    if (!seen.has(field)) {
+      fields.push(field);
+      seen.add(field);
+    }
+  }
+
+  for (const field of optionalColumns) {
+    if (!seen.has(field)) {
+      fields.push(field);
+      seen.add(field);
+    }
+  }
+
+  return fields.join(',\n      ');
 }
 
 /**
@@ -344,93 +413,97 @@ export async function getUserImageGenerations(
     "expanded_prompts"
   ];
 
-  // 可选字段（可能不存在）
-  const optionalFields = [
-    "aspect_ratio",
-    "updated_at",
-    "is_delete",
-    "metadata"
-  ];
+  const optionalColumns = getImageGenerationsOptionalColumns();
+  let includeIsDeleteFilter = true;
+  let includeAgentShotFilter = true;
+  let lastError: PostgrestError | null = null;
 
-  // 检查哪些字段存在
-  const existingColumns = await getImageGenerationsColumns();
-  
-  // 构建查询字段列表
-  const selectFields = [
-    ...baseFields,
-    ...optionalFields.filter(field => existingColumns.has(field)),
-    // 强制包含metadata字段
-    'metadata'
-  ].join(',\n      ');
+  console.log('📋 Attempting to filter by is_delete = false');
 
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const selectFields = buildImageGenerationsSelectFields(
+      baseFields,
+      optionalColumns
+    );
 
-  // 构建查询，强制应用删除过滤
-  let query = supabase
-    .from("image_generations")
-    .select(selectFields, { count: countMode })
-    .eq("user_id", userId);
-
-  // 尝试添加 is_delete 过滤条件
-  console.log("📋 Attempting to filter by is_delete = false");
-  
-  try {
-    // 强制尝试添加 is_delete 过滤，即使字段检查说不存在
-    query = query.eq("is_delete", false);
-    console.log("✅ Successfully added is_delete filter");
-  } catch (filterError) {
-    console.log("⚠️ Could not add is_delete filter, field may not exist");
-  }
-
-  // 过滤掉 agent 生成的内容（agent_shot_id 不为空的记录）
-  query = query.is("agent_shot_id", null);
-
-  if (search?.trim()) {
-    const escapedSearch = search.trim().replace(/,/g, '\\,');
-    const pattern = `%${escapedSearch}%`;
-    query = query.or(`prompt.ilike.${pattern},optimized_prompt.ilike.${pattern}`);
-  }
-
-  const { data, error, count } = await query
-    .order("created_at", { ascending: false })
-    .range(offset, offset + limit - 1);
-
-  // 如果查询失败且是因为 is_delete 字段，则重试不带过滤条件的查询
-  if (error && error.message?.includes("is_delete")) {
-    console.log("🔄 Retrying query without is_delete filter due to field error");
-    
-    let retryQuery = supabase
-      .from("image_generations")
+    let query = supabase
+      .from('image_generations')
       .select(selectFields, { count: countMode })
-      .eq("user_id", userId)
-      .is("agent_shot_id", null)
-      .order("created_at", { ascending: false });
+      .eq('user_id', userId);
+
+    if (includeIsDeleteFilter) {
+      query = query.eq('is_delete', false);
+    }
+
+    // 过滤掉 agent 生成的内容（agent_shot_id 不为空的记录）
+    if (includeAgentShotFilter) {
+      query = query.is('agent_shot_id', null);
+    }
 
     if (search?.trim()) {
       const escapedSearch = search.trim().replace(/,/g, '\\,');
       const pattern = `%${escapedSearch}%`;
-      retryQuery = retryQuery.or(`prompt.ilike.${pattern},optimized_prompt.ilike.${pattern}`);
+      query = query.or(`prompt.ilike.${pattern},optimized_prompt.ilike.${pattern}`);
     }
 
-    const { data: retryData, error: retryError, count: retryCount } = await retryQuery.range(
-      offset,
-      offset + limit - 1
-    );
-      
-    if (retryError) {
-      handleSupabaseError(retryError, `get user image generations for user ${userId} (retry)`);
+    const { data, error, count } = await query
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
+
+    if (!error) {
+      updateImageGenerationsOptionalColumns(optionalColumns);
+      return {
+        data: (data as unknown as ImageGenerationHistoryItem[]) || [],
+        total: count || 0,
+      };
     }
-    
-    return {
-      data: (retryData as unknown as ImageGenerationHistoryItem[]) || [],
-      total: retryCount || 0,
-    };
+
+    lastError = error;
+
+    if (!isMissingColumnError(error)) {
+      break;
+    }
+
+    // Missing columns (42703): drop optional fields and retry safely.
+    const missingColumns = extractMissingColumns(
+      error,
+      new Set([...optionalColumns, 'is_delete', 'agent_shot_id'])
+    );
+    let didChange = false;
+
+    if (missingColumns.length === 0) {
+      if (optionalColumns.size > 0) {
+        optionalColumns.clear();
+        didChange = true;
+      }
+    } else {
+      for (const column of missingColumns) {
+        if (column === 'is_delete' && includeIsDeleteFilter) {
+          includeIsDeleteFilter = false;
+          console.log('⚠️ is_delete column missing, retrying without filter');
+          didChange = true;
+        }
+        if (column === 'agent_shot_id' && includeAgentShotFilter) {
+          includeAgentShotFilter = false;
+          console.log('⚠️ agent_shot_id column missing, retrying without filter');
+          didChange = true;
+        }
+        if (optionalColumns.delete(column)) {
+          didChange = true;
+        }
+      }
+    }
+
+    if (!didChange) {
+      break;
+    }
   }
 
-  handleSupabaseError(error, `get user image generations for user ${userId}`);
+  handleSupabaseError(lastError, `get user image generations for user ${userId}`);
 
   return {
-    data: (data as unknown as ImageGenerationHistoryItem[]) || [],
-    total: count || 0,
+    data: [],
+    total: 0,
   };
 }
 
