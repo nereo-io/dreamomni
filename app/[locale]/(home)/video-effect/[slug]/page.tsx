@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import EffectLandingPage from "@/components/blocks/effect-landing-page";
 import VideoEffectTool from "@/components/blocks/video-effect-tool";
-import { getEffectModel } from "@/config/effect-models";
+import { getEffectFormSettings, getEffectModel } from "@/config/effect-models";
 import {
   VIDEO_EFFECT_PAGES,
   isValidVideoEffectSlug,
@@ -136,8 +136,7 @@ export default async function VideoEffectDetailPage({
           backgroundImage: tool.form.backgroundImage,
           maxImages: effectModel.maxImages,
           minImages: effectModel.minImages ?? 1,
-          baseCredits: effectModel.baseCredits,
-          settings: effectModel.settings,
+          settings: getEffectFormSettings(slug),
         }
       : undefined;
 

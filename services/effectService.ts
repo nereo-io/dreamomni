@@ -269,7 +269,7 @@ async function callPixverseApi(params: {
         img_id: imgIds[0],
         ...(imgIds.length > 1 ? { img_ids: imgIds } : {}),
         model: modelId,
-        prompt: effectConfig.prompt,
+        prompt: effectConfig.prompt || "",
         quality,
         motion_mode: "normal",
         template_id: templateId,
@@ -292,7 +292,7 @@ async function callPixverseApi(params: {
       const modelId = effectConfig.model || "v4.5";
 
       const result = await provider.useTransitionGenerator({
-        prompt: effectConfig.prompt,
+        prompt: effectConfig.prompt || "",
         model: modelId,
         duration,
         quality,
@@ -332,7 +332,7 @@ async function createImageRecord(
   const createParams: CreateImageGenerationParams = {
     user_id: userId,
     model_id: resolveEffectImageModelId(effectConfig),
-    prompt: effectConfig.prompt,
+    prompt: effectConfig.prompt || "",
     mode: "image-edit",
     source: "web",
     provider: dbProvider,
@@ -370,7 +370,7 @@ async function createVideoRecord(
   const createParams: CreateVideoGenerationParams = {
     user_id: userId,
     model_id: resolveEffectVideoModelId(effectConfig),
-    prompt: effectConfig.prompt,
+    prompt: effectConfig.prompt || "",
     input_image_url: imageUrls[0],
     aspect_ratio: settings.ratio || "16:9",
     duration_seconds: duration,
@@ -506,7 +506,7 @@ export async function submitEffect(
     switch (effectConfig.provider) {
       case EffectProvider.KIE: {
         const result = await callKieApi({
-          prompt: effectConfig.prompt,
+          prompt: effectConfig.prompt || "",
           imageUrls,
           imageSize: settings.ratio || "1:1",
           model: effectConfig.model || "google/nano-banana-edit",

@@ -24,7 +24,6 @@ export interface VideoEffectFormConfig {
   maxImages: number;
   minImages?: number;
   settings: VideoEffectFormSetting[];
-  baseCredits: number;
 }
 
 export interface VideoEffectToolConfig {

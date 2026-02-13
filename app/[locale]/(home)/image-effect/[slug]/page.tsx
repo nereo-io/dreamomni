@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import EffectLandingPage from "@/components/blocks/effect-landing-page";
 import ImageEffectTool from "@/components/blocks/image-effect-tool";
-import { getEffectModel } from "@/config/effect-models";
+import { getEffectFormSettings, getEffectModel } from "@/config/effect-models";
 import {
   IMAGE_EFFECT_PAGES,
   isValidImageEffectSlug,
@@ -135,8 +135,7 @@ export default async function ImageEffectDetailPage({
           title: tool.form.title,
           backgroundImage: tool.form.backgroundImage,
           maxImages: effectModel.maxImages,
-          baseCredits: effectModel.baseCredits,
-          settings: effectModel.settings,
+          settings: getEffectFormSettings(slug),
         }
       : undefined;
 

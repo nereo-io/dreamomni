@@ -53,9 +53,8 @@ export default function EffectForm({
 
   // Reactive credit calculation based on current settings
   const estimatedCredits = useMemo(() => {
-    const computed = calculateEffectCredits(effectId, settingsValues);
-    return computed > 0 ? computed : config.baseCredits;
-  }, [effectId, settingsValues, config.baseCredits]);
+    return calculateEffectCredits(effectId, settingsValues);
+  }, [effectId, settingsValues]);
 
   // Image upload state
   const [isDragOver, setIsDragOver] = useState(false);
