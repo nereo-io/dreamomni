@@ -67,9 +67,11 @@ function detectCookieFlags(cookieHeader: string) {
 
 function wrapHandler(
   method: "GET" | "POST",
-  handler: (req: Request, ctx: any) => Promise<Response>
+  // NextAuth route handlers are typed with NextRequest in Next.js. Keep flexible typing
+  // while only using Request-compatible fields (headers/url).
+  handler: (req: any, ctx: any) => Promise<Response>
 ) {
-  return async (req: Request, ctx: any) => {
+  return async (req: any, ctx: any) => {
     try {
       return await handler(req, ctx);
     } catch (err: any) {
