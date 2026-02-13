@@ -5,8 +5,6 @@
  * 1. JSON data files in i18n/pages/video-effect/<slug>/<locale>.json
  */
 export const VIDEO_EFFECT_PAGES = [
-  "ai-kissing",
-  "image-transition",
   "my-girlfriendssss",
   "paw-princess",
   "muscle-max-bodybuilder-champion",
