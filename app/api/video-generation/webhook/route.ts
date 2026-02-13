@@ -8,12 +8,21 @@ import {
   updateVideoGenerationByVeo3RequestId,
   getVideoGenerationBySoraRequestId,
   updateVideoGenerationBySoraRequestId,
+  getVideoGenerationByProviderRequestId,
+  updateVideoGenerationByProviderRequestId,
 } from "@/models/videoGeneration";
 import { newStorage } from "@/lib/storage";
 import { VIDEO_CACHE_CONTROL } from "@/lib/cache-control";
-import { getVideoModel, VideoModelProvider, isKieAiModel, isSora2Model } from "@/config/video-models";
+import {
+  getVideoModel,
+  VideoModelProvider,
+  isKieAiModel,
+  isKieAiVeo3Model,
+  isSora2Model,
+} from "@/config/video-models";
 import { increaseCredits, CreditsTransType } from "@/services/credit";
 import { Veo3UpscaleService } from "@/services/veo3UpscaleService";
+import { parseVideoWebhookPayload } from "@/services/videoWebhookParser";
 
 export async function POST(req: Request) {
   try {
@@ -22,7 +31,6 @@ export async function POST(req: Request) {
     // console.log("收到 webhook 回调:", webhookData);
     console.log("收到 webhook 回调:", JSON.stringify(webhookData, null, 2));
 
-    // 确定webhook类型和数据结构
     let request_id: string;
     let status: string;
     let logs: any[] = [];
@@ -30,121 +38,18 @@ export async function POST(req: Request) {
     let error: string | null = null;
     let payload: any = null;
 
-    // 尝试识别webhook类型
-    if (webhookData.request_id) {
-      // fal.ai format
-      request_id = webhookData.request_id;
-      status = webhookData.status;
-      logs = webhookData.logs || [];
-      metrics = webhookData.metrics || {};
-      error = webhookData.error;
-      payload = webhookData.payload;
-    } else if (webhookData.object === "video.generation.task") {
-      // Evolink format: { id, object, status, results?, model, progress }
-      request_id = webhookData.id;
-
-      const evolinkStatus = (webhookData.status || "").toLowerCase();
-      if (evolinkStatus === "completed" && Array.isArray(webhookData.results) && webhookData.results.length > 0) {
-        status = "OK";
-        payload = {
-          video: {
-            url: webhookData.results[0],
-          },
-        };
-      } else if (evolinkStatus === "failed") {
-        status = "ERROR";
-        error = webhookData.error?.message || "Evolink generation failed";
-      } else if (evolinkStatus === "processing") {
-        status = "IN_PROGRESS";
-      } else if (evolinkStatus === "pending") {
-        status = "IN_QUEUE";
-      } else {
-        status = evolinkStatus;
-      }
-    } else if (webhookData.id || webhookData.task_id) {
-      // Volcano Engine format (基于API文档)
-      request_id = webhookData.id || webhookData.task_id;
-
-      // 映射Volcano状态到标准状态
-      switch (webhookData.status) {
-        case "queued":
-          status = "IN_QUEUE";
-          break;
-        case "running":
-          status = "IN_PROGRESS";
-          break;
-        case "succeeded":
-          status = "OK"; // 使用 "OK" 以便与下面的 switch 语句兼容
-          break;
-        case "failed":
-          status = "ERROR";
-          break;
-        case "cancelled":
-          status = "CANCELLED";
-          break;
-        default:
-          status = webhookData.status;
-      }
-
-      // Volcano的payload结构不同
-      if (webhookData.content?.video_url) {
-        payload = {
-          video: {
-            url: webhookData.content.video_url,
-          },
-        };
-      }
-
-      if (webhookData.error) {
-        error = webhookData.error.message || webhookData.error;
-      }
-    } else if (webhookData.code !== undefined && webhookData.data?.taskId) {
-      // KieAI format (Veo3 and Sora)
-      request_id = webhookData.data.taskId;
-
-      // 根据KieAI的响应码判断状态（仅处理成功/失败回调）
-      if (webhookData.code === 200) {
-        const resultUrls = webhookData.data.info?.resultUrls;
-
-        if (Array.isArray(resultUrls) && resultUrls.length > 0) {
-          status = "OK";
-          payload = {
-            video: {
-              url: resultUrls[0],
-            },
-          };
-        } else if (webhookData.data.resultJson) {
-          try {
-            const resultJson = JSON.parse(webhookData.data.resultJson);
-            if (Array.isArray(resultJson?.resultUrls) && resultJson.resultUrls.length > 0) {
-              status = "OK";
-              payload = {
-                video: {
-                  url: resultJson.resultUrls[0],
-                },
-              };
-            } else {
-              status = "ERROR";
-              error = webhookData.msg || "KieAI result missing video URL";
-            }
-          } catch (parseError) {
-            console.error("解析 KieAI resultJson 失败:", parseError);
-            status = "ERROR";
-            error = webhookData.msg || "KieAI resultJson parse error";
-          }
-        } else {
-          status = "ERROR";
-          error = webhookData.msg || "KieAI response missing result data";
-        }
-      } else {
-        status = "ERROR";
-        error =
-          webhookData.data?.failMsg ||
-          webhookData.msg ||
-          "KieAI generation failed";
-      }
-    } else {
-      return respErr("无效的 webhook 数据格式");
+    try {
+      const parsed = parseVideoWebhookPayload(webhookData);
+      request_id = parsed.request_id;
+      status = parsed.status;
+      logs = parsed.logs;
+      metrics = parsed.metrics;
+      error = parsed.error;
+      payload = parsed.payload;
+    } catch (parseError) {
+      return respErr(
+        parseError instanceof Error ? parseError.message : "无效的 webhook 数据格式"
+      );
     }
 
     // 查找对应的数据库记录 - 添加对veo3_request_id和sora_request_id的查找
@@ -163,6 +68,11 @@ export async function POST(req: Request) {
     if (!videoGeneration) {
       // 尝试按sora_request_id查找（Sora 2模型使用）
       videoGeneration = await getVideoGenerationBySoraRequestId(request_id);
+    }
+
+    if (!videoGeneration) {
+      // 尝试按generic provider_request_id查找（通用fallback）
+      videoGeneration = await getVideoGenerationByProviderRequestId(request_id);
     }
 
     if (!videoGeneration) {
@@ -305,17 +215,21 @@ export async function POST(req: Request) {
           } else if (modelConfig?.provider === VideoModelProvider.FAL) {
             updateParams.video_url_fal = videoUrl;
           } else if (modelConfig?.provider === VideoModelProvider.KIEAI) {
-            // 区分 Sora 2 和 Veo3
+            // Kie.ai: Sora/Veo3 继续使用专用字段，其他模型走通用字段
             if (isSora2Model(videoGeneration.model_id)) {
               updateParams.video_url_sora = videoUrl;
-            } else {
+            } else if (isKieAiVeo3Model(videoGeneration.model_id)) {
               updateParams.video_url_veo3 = videoUrl;
+            } else {
+              // Kling/Hailuo/Wan 等新模型仅写入通用字段 video_url_provider
             }
           } else if (modelConfig?.provider === VideoModelProvider.APICORE) {
             updateParams.video_url_veo3 = videoUrl;
           } else if (modelConfig?.provider === VideoModelProvider.EVOLINK) {
             updateParams.video_url_sora = videoUrl;
           }
+          // Always set generic video_url_provider for uniform access
+          updateParams.video_url_provider = videoUrl;
 
           // 使用合适的更新函数
           if (videoGeneration.volcano_request_id) {
@@ -332,6 +246,11 @@ export async function POST(req: Request) {
             );
           } else if (videoGeneration.sora_request_id) {
             await updateVideoGenerationBySoraRequestId(
+              request_id,
+              updateParams
+            );
+          } else if (videoGeneration.provider_request_id) {
+            await updateVideoGenerationByProviderRequestId(
               request_id,
               updateParams
             );
@@ -407,6 +326,11 @@ export async function POST(req: Request) {
                 request_id,
                 failureParams
               );
+            } else if (videoGeneration.provider_request_id) {
+              await updateVideoGenerationByProviderRequestId(
+                request_id,
+                failureParams
+              );
             }
           } catch (updateError) {
             console.error("更新失败状态也失败:", updateError);
@@ -442,6 +366,8 @@ export async function POST(req: Request) {
           await updateVideoGenerationByVeo3RequestId(request_id, errorParams);
         } else if (videoGeneration.sora_request_id) {
           await updateVideoGenerationBySoraRequestId(request_id, errorParams);
+        } else if (videoGeneration.provider_request_id) {
+          await updateVideoGenerationByProviderRequestId(request_id, errorParams);
         }
 
         // 处理视频生成失败的积分返还（KieAI 和 Evolink 模型）
@@ -511,6 +437,8 @@ export async function POST(req: Request) {
           await updateVideoGenerationByVeo3RequestId(request_id, queueParams);
         } else if (videoGeneration.sora_request_id) {
           await updateVideoGenerationBySoraRequestId(request_id, queueParams);
+        } else if (videoGeneration.provider_request_id) {
+          await updateVideoGenerationByProviderRequestId(request_id, queueParams);
         }
 
         return respData({
@@ -545,6 +473,11 @@ export async function POST(req: Request) {
             request_id,
             progressParams
           );
+        } else if (videoGeneration.provider_request_id) {
+          await updateVideoGenerationByProviderRequestId(
+            request_id,
+            progressParams
+          );
         }
 
         return respData({
@@ -571,6 +504,8 @@ export async function POST(req: Request) {
           await updateVideoGenerationByVeo3RequestId(request_id, unknownParams);
         } else if (videoGeneration.sora_request_id) {
           await updateVideoGenerationBySoraRequestId(request_id, unknownParams);
+        } else if (videoGeneration.provider_request_id) {
+          await updateVideoGenerationByProviderRequestId(request_id, unknownParams);
         }
 
         return respData({

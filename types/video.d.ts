@@ -18,6 +18,7 @@ export interface VideoGeneration {
   ali_request_id?: string | null; // Ali Video Generation request ID
   pixverse_request_id?: string | null; // PixVerse request ID
   sora_request_id?: string | null; // Sora 2 request ID
+  provider_request_id?: string | null; // Generic provider request ID
   model_id: string;
   prompt: string;
   optimized_prompt?: string | null; // 优化后的提示词
@@ -38,6 +39,7 @@ export interface VideoGeneration {
   video_url_ali?: string | null; // Ali Video Generation video URL
   video_url_pixverse?: string | null; // PixVerse video URL
   video_url_sora?: string | null; // Sora 2 video URL
+  video_url_provider?: string | null; // Generic provider video URL
   upsample_video_url_veo3?: string | null; // Veo3 high-quality video URL
   is_downgraded_to_720p?: boolean | null; // HD升级失败，降级为720P
   error_message?: string | null;
@@ -64,6 +66,7 @@ export interface CreateVideoGenerationParams {
   ali_request_id?: string; // Ali Video Generation request ID
   pixverse_request_id?: string; // PixVerse request ID
   sora_request_id?: string; // Sora 2 request ID
+  provider_request_id?: string; // Generic provider request ID
   input_image_url?: string; // 保留用于向后兼容
   image_urls?: string[]; // 新增：支持1-2张图片数组（首帧、尾帧）
   source_image_ids?: string[]; // 新增：来源图片ID数组（追踪"My Creations"选择）
@@ -91,6 +94,7 @@ export interface UpdateVideoGenerationParams {
   video_url_ali?: string; // Ali Video Generation video URL
   video_url_pixverse?: string; // PixVerse video URL
   video_url_sora?: string; // Sora 2 video URL
+  video_url_provider?: string; // Generic provider video URL
   upsample_video_url_veo3?: string; // Veo3 high-quality video URL
   error_message?: string;
   logs?: any;
@@ -102,6 +106,7 @@ export interface UpdateVideoGenerationParams {
   ali_request_id?: string; // Ali Video Generation request ID
   pixverse_request_id?: string; // PixVerse request ID
   sora_request_id?: string; // Sora 2 request ID
+  provider_request_id?: string; // Generic provider request ID
   agent_shot_id?: string; // Python Agent 关联的 shot ID
   actual_provider?: string; // Provider that ran the job
 }

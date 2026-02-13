@@ -21,6 +21,9 @@ export enum VideoModel {
   SEEDANCE_1_0_PRO = "seedance-1.0-pro",
   VEO3 = "veo3",
   SORA2 = "sora2",
+  KLING3 = "kling3",
+  HAILUO_2_3 = "hailuo-2.3",
+  WAN_2_5 = "wan-2.5",
 }
 
 // 视频模型配置接口
@@ -44,6 +47,7 @@ export interface VideoModelConfig {
   supportedDurations?: number[];
   internalSupportedDurations?: number[]; // 仅内部 API 可用的额外时长（不在前端 UI 展示）
   supportedResolutions?: string[]; // 支持的分辨率
+  supportedResolutionsByDuration?: Record<number, string[]>; // 各时长下支持的分辨率
   audioPremiumCredits?: number; // 音频额外费用
   estimatedGenerationTime?: number; // 预估生成时间（秒），用于前端倒计时
   requiresMembership?: boolean; // 是否需要会员才能选择
@@ -56,6 +60,8 @@ export interface VideoModelConfig {
   };
   /** The actual AI model this config represents */
   modelName?: VideoModel;
+  // Whether this model should use the signed callback route.
+  useSignedCallback?: boolean;
   /**
    * Fallback model IDs (keys in VIDEO_MODELS) tried in order when primary fails.
    * Fallback entries should be internal models (internal: true).
@@ -182,6 +188,130 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     },
     estimatedGenerationTime: 240,
     generationType: "REFERENCE_2_VIDEO", // 标识这是 Reference-to-Video 模式
+  },
+
+  // Kie.ai Kling 3.0 文本转视频模型
+  "kie-kling-3-text-to-video": {
+    id: "kie-kling-3-text-to-video",
+    name: "Kie.ai Kling 3.0 Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    providerModelId: "kling-3.0/video",
+    modelName: VideoModel.KLING3,
+    displayName: "Kling 3.0",
+    perSecondCredits: 8, // 720p std no-audio baseline
+    description: "Kling 3.0 model with realistic motion and stable prompt control.",
+    features: ["Wait 120s", "720p/1080p", "5s/10s"],
+    maxDuration: 10,
+    supportedAspectRatios: ["16:9", "9:16", "1:1"],
+    supportsAudio: true,
+    audioOptional: true,
+    estimatedGenerationTime: 120,
+    useSignedCallback: true,
+    supportedDurations: [5, 10],
+    supportedResolutions: ["720p", "1080p"],
+  },
+
+  // Kie.ai Kling 3.0 图片转视频模型
+  "kie-kling-3-image-to-video": {
+    id: "kie-kling-3-image-to-video",
+    name: "Kie.ai Kling 3.0 Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    providerModelId: "kling-3.0/video",
+    modelName: VideoModel.KLING3,
+    displayName: "Kling 3.0",
+    perSecondCredits: 8, // 720p std no-audio baseline
+    description:
+      "Kling 3.0 image-to-video with stable style retention and natural motion.",
+    features: ["Wait 120s", "Image Animation", "5s/10s"],
+    maxDuration: 10,
+    supportedAspectRatios: ["16:9", "9:16", "1:1"],
+    supportsAudio: true,
+    audioOptional: true,
+    estimatedGenerationTime: 120,
+    useSignedCallback: true,
+    supportedDurations: [5, 10],
+    supportedResolutions: ["720p", "1080p"],
+    imageCapabilities: {
+      maxImages: 1,
+      labels: ["Reference Image"],
+    },
+  },
+
+  // Kie.ai Hailuo 2.3 图片转视频模型
+  "kie-hailuo-2-3-image-to-video": {
+    id: "kie-hailuo-2-3-image-to-video",
+    name: "Kie.ai Hailuo 2.3 Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    providerModelId: "hailuo/2-3-image-to-video-standard",
+    modelName: VideoModel.HAILUO_2_3,
+    displayName: "Hailuo 2.3",
+    perSecondCredits: 2, // 768p std baseline
+    description: "MiniMax Hailuo 2.3 for expressive image-to-video generation.",
+    features: ["Wait 180s", "Instruction Following", "768p/1080p"],
+    maxDuration: 10,
+    supportedAspectRatios: ["Auto"],
+    supportsAudio: false,
+    estimatedGenerationTime: 180,
+    useSignedCallback: true,
+    supportedDurations: [6, 10],
+    supportedResolutions: ["768p", "1080p"],
+    supportedResolutionsByDuration: {
+      6: ["768p", "1080p"],
+      10: ["768p"],
+    },
+    imageCapabilities: {
+      maxImages: 1,
+      labels: ["Reference Image"],
+    },
+  },
+
+  // Kie.ai Wan 2.5 文本转视频模型
+  "kie-wan-2-5-text-to-video": {
+    id: "kie-wan-2-5-text-to-video",
+    name: "Kie.ai Wan 2.5 Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    providerModelId: "wan/2-5-text-to-video",
+    modelName: VideoModel.WAN_2_5,
+    displayName: "Wan 2.5",
+    perSecondCredits: 5, // 720p baseline
+    description: "Alibaba Wan 2.5 text-to-video with stronger prompt understanding.",
+    features: ["Wait 180s", "Prompt Expansion", "720p/1080p"],
+    maxDuration: 10,
+    supportedAspectRatios: ["16:9", "9:16", "1:1"],
+    supportsAudio: false,
+    estimatedGenerationTime: 180,
+    useSignedCallback: true,
+    supportedDurations: [5, 10],
+    supportedResolutions: ["720p", "1080p"],
+  },
+
+  // Kie.ai Wan 2.5 图片转视频模型
+  "kie-wan-2-5-image-to-video": {
+    id: "kie-wan-2-5-image-to-video",
+    name: "Kie.ai Wan 2.5 Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    providerModelId: "wan/2-5-image-to-video",
+    modelName: VideoModel.WAN_2_5,
+    displayName: "Wan 2.5",
+    perSecondCredits: 5, // 720p baseline
+    description: "Alibaba Wan 2.5 image-to-video with controllable cinematic motion.",
+    features: ["Wait 180s", "Prompt Expansion", "Image Animation"],
+    maxDuration: 10,
+    supportedAspectRatios: ["Auto"],
+    supportsAudio: false,
+    estimatedGenerationTime: 180,
+    useSignedCallback: true,
+    supportedDurations: [5, 10],
+    supportedResolutions: ["720p", "1080p"],
+    imageCapabilities: {
+      maxImages: 1,
+      labels: ["Reference Image"],
+    },
   },
 
   // Doubao-Seedance 1.0 Pro 文本转视频模型 (Volcano Engine)
@@ -467,15 +597,45 @@ export function getVideoModelsByType(type: VideoModelType): VideoModelConfig[] {
 }
 
 export function getTextToVideoModels(): VideoModelConfig[] {
-  return getVideoModelsByType(VideoModelType.TEXT_TO_VIDEO).filter(
-    (model) => !model.name.includes("Legacy") && !model.internal
-  );
+  const preferredOrder: VideoModel[] = [
+    VideoModel.SEEDANCE_1_5_PRO,
+    VideoModel.VEO3,
+    VideoModel.SORA2,
+    VideoModel.HAILUO_2_3,
+    VideoModel.KLING3,
+    VideoModel.WAN_2_5,
+  ];
+
+  return getVideoModelsByType(VideoModelType.TEXT_TO_VIDEO)
+    .filter((model) => !model.name.includes("Legacy") && !model.internal)
+    .sort((a, b) => {
+      const indexA = a.modelName ? preferredOrder.indexOf(a.modelName) : -1;
+      const indexB = b.modelName ? preferredOrder.indexOf(b.modelName) : -1;
+      const rankA = indexA === -1 ? Number.MAX_SAFE_INTEGER : indexA;
+      const rankB = indexB === -1 ? Number.MAX_SAFE_INTEGER : indexB;
+      return rankA - rankB;
+    });
 }
 
 export function getImageToVideoModels(): VideoModelConfig[] {
-  return getVideoModelsByType(VideoModelType.IMAGE_TO_VIDEO).filter(
-    (model) => !model.name.includes("Legacy") && !model.internal
-  );
+  const preferredOrder: VideoModel[] = [
+    VideoModel.SEEDANCE_1_5_PRO,
+    VideoModel.VEO3,
+    VideoModel.SORA2,
+    VideoModel.HAILUO_2_3,
+    VideoModel.KLING3,
+    VideoModel.WAN_2_5,
+  ];
+
+  return getVideoModelsByType(VideoModelType.IMAGE_TO_VIDEO)
+    .filter((model) => !model.name.includes("Legacy") && !model.internal)
+    .sort((a, b) => {
+      const indexA = a.modelName ? preferredOrder.indexOf(a.modelName) : -1;
+      const indexB = b.modelName ? preferredOrder.indexOf(b.modelName) : -1;
+      const rankA = indexA === -1 ? Number.MAX_SAFE_INTEGER : indexA;
+      const rankB = indexB === -1 ? Number.MAX_SAFE_INTEGER : indexB;
+      return rankA - rankB;
+    });
 }
 
 export function getFalModels(): VideoModelConfig[] {
@@ -529,16 +689,17 @@ export function calculateCredits(
 ): number {
   const model = getVideoModel(modelId);
   if (!model) return 0;
+  const normalizedResolution = String(resolution || "").trim().toLowerCase();
 
   // 统一按秒计费，基础积分以 480p 为基准
   let totalCredits = duration * model.perSecondCredits;
 
   // 根据分辨率调整积分（对支持多分辨率的模型生效）
   if (isSeedanceModel(modelId) || isAliModel(modelId)) {
-    if (resolution === "1080p") {
+    if (normalizedResolution === "1080p") {
       // 1080p 价格是 480p 的 4 倍
       totalCredits *= 4;
-    } else if (resolution === "720p") {
+    } else if (normalizedResolution === "720p") {
       // Seedance 1.5 Pro: 720p = 480p 的 2 倍
       totalCredits *= 2;
     }
@@ -547,7 +708,7 @@ export function calculateCredits(
 
   // MiniMax Hailuo02 图片转视频模型的分辨率定价
   if (modelId === "minimax-hailuo02-image-to-video") {
-    if (resolution === "768p") {
+    if (normalizedResolution === "768p") {
       totalCredits *= 2;
     }
   }
@@ -558,12 +719,41 @@ export function calculateCredits(
   // 1080p: 8积分 (1.33x)
   // 4K: 12积分 (2x)
   if (isKieAiVeo3Model(modelId)) {
-    if (resolution === "4k") {
+    if (normalizedResolution === "4k") {
       totalCredits *= 2; // 4K = 2x 基础价格 (12积分/8秒)
-    } else if (resolution === "1080p") {
+    } else if (normalizedResolution === "1080p") {
       totalCredits = totalCredits * 4 / 3; // 1080p = 1.33x 基础价格 (8积分/8秒)
     }
     // 720p 保持基础价格 (6积分/8秒)
+  }
+
+  // Kie.ai Kling 3.0 模型定价
+  // 720p std no-audio: 8 credits/s（基准）
+  // 1080p pro no-audio: 10 credits/s
+  // 720p std with-audio: 12 credits/s
+  // 1080p pro with-audio: 15 credits/s
+  if (isKieAiKlingModel(modelId)) {
+    const isPro = normalizedResolution === "1080p";
+    if (isPro) {
+      totalCredits = totalCredits * 5 / 4; // 10/8
+    }
+    if (hasAudio) {
+      totalCredits += duration * (isPro ? 5 : 4);
+    }
+  }
+
+  // Kie.ai Hailuo 2.3 模型定价（固定分辨率档位）
+  // 768p: 2 credits/s（基准）
+  // 1080p: 4 credits/s
+  if (isKieAiHailuoModel(modelId) && normalizedResolution === "1080p") {
+    totalCredits *= 2;
+  }
+
+  // Kie.ai Wan 2.5 模型定价
+  // 720p: 5 credits/s（基准）
+  // 1080p: 8 credits/s
+  if (isKieAiWanModel(modelId) && normalizedResolution === "1080p") {
+    totalCredits = totalCredits * 8 / 5;
   }
 
   // Veo3 模型支持音频，需要额外费用
@@ -574,6 +764,37 @@ export function calculateCredits(
   // Sora 2 固定为 1080p HD，无需额外调整（已在 perSecondCredits 中包含）
 
   return Math.round(totalCredits);
+}
+
+export function getSupportedResolutionsForDuration(
+  modelId: string,
+  duration: number
+): string[] | null {
+  const model = getVideoModel(modelId);
+  if (!model) return null;
+
+  const durationSpecificResolutions = model.supportedResolutionsByDuration?.[duration];
+  if (durationSpecificResolutions && durationSpecificResolutions.length > 0) {
+    return durationSpecificResolutions;
+  }
+
+  return model.supportedResolutions || null;
+}
+
+export function isResolutionSupportedForDuration(
+  modelId: string,
+  duration: number,
+  resolution: string
+): boolean {
+  const supportedResolutions = getSupportedResolutionsForDuration(modelId, duration);
+  if (!supportedResolutions || supportedResolutions.length === 0) {
+    return true;
+  }
+
+  const normalizedResolution = resolution.trim().toLowerCase();
+  return supportedResolutions.some(
+    (supportedResolution) => supportedResolution.toLowerCase() === normalizedResolution
+  );
 }
 
 // 获取所有支持的模型ID（用于API验证）
@@ -645,6 +866,51 @@ export function isKieAiModel(modelId: string): boolean {
 // 检查模型是否为Kie.ai Veo3模型
 export function isKieAiVeo3Model(modelId: string): boolean {
   return modelId.includes("kie-veo3-");
+}
+
+// 检查模型是否为Kie.ai Kling 3.0模型
+export function isKieAiKlingModel(modelId: string): boolean {
+  const model = getVideoModel(modelId);
+  if (model?.modelName) {
+    return model.modelName === VideoModel.KLING3;
+  }
+  return modelId.includes("kie-kling-3-");
+}
+
+// 检查模型是否为Kie.ai Hailuo 2.3模型
+export function isKieAiHailuoModel(modelId: string): boolean {
+  const model = getVideoModel(modelId);
+  if (model?.modelName) {
+    return model.modelName === VideoModel.HAILUO_2_3;
+  }
+  return modelId.includes("kie-hailuo-2-3-");
+}
+
+// 检查模型是否为Kie.ai Wan 2.5模型
+export function isKieAiWanModel(modelId: string): boolean {
+  const model = getVideoModel(modelId);
+  if (model?.modelName) {
+    return model.modelName === VideoModel.WAN_2_5;
+  }
+  return modelId.includes("kie-wan-2-5-");
+}
+
+// 检查模型是否使用新版签名回调（仅新增 Kie.ai 模型）
+export function useSignedVideoCallback(modelId: string): boolean {
+  const model = getVideoModel(modelId);
+  if (model) {
+    if (typeof model.useSignedCallback === "boolean") {
+      return model.useSignedCallback;
+    }
+    // Compatibility fallback for existing Kie.ai model families.
+    return (
+      model.modelName === VideoModel.KLING3 ||
+      model.modelName === VideoModel.HAILUO_2_3 ||
+      model.modelName === VideoModel.WAN_2_5
+    );
+  }
+
+  return false;
 }
 
 // 检查模型是否为Sora 2模型（包括 Standard 和 Pro）

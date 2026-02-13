@@ -24,6 +24,7 @@ import {
   getImageToVideoModels,
   calculateCredits,
   getVideoModel,
+  getSupportedResolutionsForDuration,
   isSeedanceModel,
   getMaxImagesForModel,
 } from "@/config/video-models";
@@ -388,6 +389,30 @@ export default function VideoGenerator({
 
   // 获取选中模型的详细信息
   const selectedModelConfig = getVideoModel(selectedModel);
+  const selectedDurationSeconds = useMemo(() => {
+    if (!selectedDuration) {
+      return null;
+    }
+
+    const parsedDuration = Number.parseInt(selectedDuration.replace("s", ""), 10);
+    return Number.isNaN(parsedDuration) ? null : parsedDuration;
+  }, [selectedDuration]);
+
+  const availableResolutions = useMemo(() => {
+    if (!selectedModelConfig) {
+      return ["480p", "1080p"];
+    }
+
+    if (selectedDurationSeconds === null) {
+      return selectedModelConfig.supportedResolutions || ["480p", "1080p"];
+    }
+
+    return (
+      getSupportedResolutionsForDuration(selectedModel, selectedDurationSeconds) ||
+      selectedModelConfig.supportedResolutions ||
+      ["480p", "1080p"]
+    );
+  }, [selectedModel, selectedModelConfig, selectedDurationSeconds]);
 
   const syncModelDefaults = useCallback((modelId: string) => {
     const modelConfig = getVideoModel(modelId);
@@ -555,10 +580,7 @@ export default function VideoGenerator({
       }
 
       // 设置默认分辨率（仅在当前选择不被支持时才设置）
-      const supportedResolutions = selectedModelConfig.supportedResolutions || [
-        "480p",
-        "1080p",
-      ];
+      const supportedResolutions = availableResolutions;
       if (!selectedResolution) {
         // 如果没有设置分辨率，使用模型支持的第一个分辨率
         setSelectedResolution(supportedResolutions[0]);
@@ -572,6 +594,7 @@ export default function VideoGenerator({
     selectedRatio,
     selectedDuration,
     selectedResolution,
+    availableResolutions,
   ]);
 
   // 获取积分消耗信息
@@ -1108,12 +1131,7 @@ export default function VideoGenerator({
                   {t("resolution")}
                 </label>
                 <div className="flex flex-wrap gap-3 sm:gap-6">
-                  {(
-                    selectedModelConfig?.supportedResolutions || [
-                      "480p",
-                      "1080p",
-                    ]
-                  ).map((resolution) => (
+                  {availableResolutions.map((resolution) => (
                     <label
                       key={resolution}
                       className="flex items-center cursor-pointer min-w-0"

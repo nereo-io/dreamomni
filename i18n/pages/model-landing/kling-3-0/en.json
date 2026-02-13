@@ -1,0 +1,291 @@
+{
+  "banner": {
+    "title": "Kling 3.0 AI Video Generator",
+    "description": "Kling 3.0 introduces an all-in-one multimodal generation framework with native audio, multi-shot storytelling, stronger subject consistency, and up to 15-second outputs. Pro-tier early access is rolling out now, with a broader release coming soon.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Text to Video",
+        "subTitle": "Prompt",
+        "value": "text-to-video",
+        "modelName": "Kling 3.0",
+        "modelLogo": "https://r2.veo3ai.io/model-landing/kling-3-0/intro-kling-logo.svg",
+        "placeholder": "Describe the video you want to generate...",
+        "buttonText": "Generate"
+      },
+      {
+        "type": "image",
+        "title": "Image to Video",
+        "subTitle": "Image",
+        "value": "image-to-video",
+        "modelName": "Kling 3.0",
+        "modelLogo": "https://r2.veo3ai.io/model-landing/kling-3-0/intro-kling-logo.svg",
+        "placeholder": "Upload an image to animate",
+        "tips": "Upload JPG/PNG/WEBP images up to 10MB, minimum width/height of 300px.",
+        "buttonText": "Generate"
+      }
+    ]
+  },
+  "partners": [],
+  "features": {
+    "title": "Key Features of Kling 3.0",
+    "details": [
+      {
+        "title": "Unified Multimodal Video Engine",
+        "description": "Kling 3.0 unifies text-to-video, image-to-video, reference workflows, and editing operations into one native multimodal model. This architecture improves prompt understanding, creative control, and output stability in complex scenes.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/kling-3-0/19009e985438-1770215360540_5zo8uf.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/kling-3-0/9ed7318e4fcd-1770215434448_gl1h12.jpg"
+      },
+      {
+        "title": "Multi-Shot Storytelling in One Generation",
+        "description": "Kling VIDEO 3.0 can interpret shot-by-shot intent from prompts and generate richer cinematic structure in a single run. It supports custom multi-shot narratives and smoother transitions without manual stitching.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/kling-3-0/3427fa91bf65-1770210919472_j4m945.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/kling-3-0/d2de4aba23c6-1770210923089_cd0hn5.jpg"
+      },
+      {
+        "title": "Element Consistency with Multi-Reference Control",
+        "description": "The model supports first frame + element references, plus stronger subject locking across camera movement and scene evolution. Characters, props, and environments stay more coherent from start to finish.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/kling-3-0/fba0a09c53fa-1770211225176_74uzl2.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/kling-3-0/d21bc66559ff-1770211227455_or1vcd.jpg"
+      },
+      {
+        "title": "Native Audio with Character-Level Voice Targeting",
+        "description": "Kling 3.0 upgrades native audio with clearer speaker assignment in multi-character scenes. It supports Chinese, English, Japanese, Korean, and Spanish, plus dialect and accent control for more realistic dialogue generation.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/kling-3-0/512f019f3010-1770211314559_1lz1nj.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/kling-3-0/925de0732660-1770211318751_h7rtiz.jpg"
+      },
+      {
+        "title": "Native-Level Text Rendering in Video",
+        "description": "Kling 3.0 improves text generation and preservation in-scene, helping maintain readable signage, labels, and branded copy. This is especially useful for ad creatives and product videos requiring clear typography.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/kling-3-0/0ff599c8436d-1770211415228_mhabei.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/kling-3-0/f89bc315b3ca-1770211418027_9vc1ev.jpg"
+      },
+      {
+        "title": "Flexible 3-15s Duration for Richer Narratives",
+        "description": "Compared with previous limits, Kling 3.0 extends maximum output duration to 15 seconds with flexible controls. Longer single-pass generations make continuous action and narrative pacing easier to produce.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/kling-3-0/532ac124f502-1770196405687_c3m5lo.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/kling-3-0/9c49ffea378a-1770196412023_m5i0dk.jpg"
+      },
+      {
+        "title": "Kling VIDEO 3.0 Capability Upgrade",
+        "description": "The upgrade from VIDEO 2.6 to VIDEO 3.0 adds multi-shot control, stronger references, multilingual native audio, and longer duration support.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Capability"
+            },
+            {
+              "title": "Kling VIDEO 2.6"
+            },
+            {
+              "title": "Kling VIDEO 3.0"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Text-to-Video"
+                },
+                {
+                  "type": "text",
+                  "content": "Yes"
+                },
+                {
+                  "type": "text",
+                  "content": "Yes"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Image-to-Video"
+                },
+                {
+                  "type": "text",
+                  "content": "Yes"
+                },
+                {
+                  "type": "text",
+                  "content": "Yes"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Start & End Frames-to-Video"
+                },
+                {
+                  "type": "text",
+                  "content": "Yes"
+                },
+                {
+                  "type": "text",
+                  "content": "Yes"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Multi-Shot"
+                },
+                {
+                  "type": "text",
+                  "content": "No"
+                },
+                {
+                  "type": "text",
+                  "content": "Yes"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Element Reference"
+                },
+                {
+                  "type": "text",
+                  "content": "No"
+                },
+                {
+                  "type": "text",
+                  "content": "Yes"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Multi-Character Coreference (3+)"
+                },
+                {
+                  "type": "text",
+                  "content": "No"
+                },
+                {
+                  "type": "text",
+                  "content": "Yes"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Multilingual Native Audio"
+                },
+                {
+                  "type": "text",
+                  "content": "No"
+                },
+                {
+                  "type": "text",
+                  "content": "Yes"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Max Duration"
+                },
+                {
+                  "type": "text",
+                  "content": "10s"
+                },
+                {
+                  "type": "text",
+                  "content": "15s"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "How to Use Kling 3.0",
+    "description": "Create cinematic AI videos with Kling 3.0 in three quick steps",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Choose Kling 3.0",
+        "description": "Open Text to Video or Image to Video and select Kling 3.0 from the model list. Use text-only mode for fresh scenes or image mode for controlled animation."
+      },
+      {
+        "number": "02",
+        "title": "Set Prompt and Creative Controls",
+        "description": "Describe shots, camera intent, dialogue, and style. Add image references when needed for subject consistency, then set aspect ratio and duration based on your target output."
+      },
+      {
+        "number": "03",
+        "title": "Generate, Review, and Export",
+        "description": "Run generation, review motion/audio coherence, and export your final clip. Iterate with prompt refinements or references to improve shot sequencing and character consistency."
+      }
+    ],
+    "buttonText": "Try Kling 3.0 Now"
+  },
+  "cta": {
+    "title": "Start Creating with Kling 3.0",
+    "buttonText": "Generate with Kling 3.0"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Frequently Asked Questions",
+    "description": "Learn more about Kling 3.0 and Kling VIDEO 3.0 Omni",
+    "items": [
+      {
+        "title": "What is Kling 3.0?",
+        "description": "Kling 3.0 is a new generation AI video model series with a unified multimodal framework. It upgrades creative control, native audio, element consistency, and shot-level storytelling compared with earlier Kling versions."
+      },
+      {
+        "title": "What is the difference between VIDEO 3.0 and VIDEO 3.0 Omni?",
+        "description": "VIDEO 3.0 is the upgraded core generation model for text/image workflows and stronger narrative control. VIDEO 3.0 Omni extends reference-based creation further with richer element workflows, including video character references and broader multimodal control."
+      },
+      {
+        "title": "Does Kling 3.0 support multi-shot generation?",
+        "description": "Yes. Kling 3.0 introduces native multi-shot storytelling so you can describe multiple shots and transitions in one prompt, reducing manual editing and clip stitching."
+      },
+      {
+        "title": "Can Kling 3.0 generate native audio?",
+        "description": "Yes. Kling 3.0 supports native audio output and improves character-level speaker control. It also expands multilingual support and handles more natural lip-sync behaviors in many scenes."
+      },
+      {
+        "title": "How long can videos be in Kling 3.0?",
+        "description": "Kling 3.0 supports flexible output durations from 3 to 15 seconds in a single generation, enabling more complete narrative progression than previous shorter limits."
+      },
+      {
+        "title": "Can I keep character consistency across shots?",
+        "description": "Yes. Kling 3.0 improves element consistency through reference inputs and upgraded subject control, helping maintain stable identities for characters and objects across scene changes."
+      },
+      {
+        "title": "Is Kling 3.0 available to everyone now?",
+        "description": "Kling 3.0 is being rolled out gradually, with early access for selected users and Pro-tier subscribers in the official release note. Wider availability is expected in subsequent rollout phases."
+      },
+      {
+        "title": "What projects is Kling 3.0 best for?",
+        "description": "Kling 3.0 is suited for short narrative videos, social content, multilingual dialogue scenes, ad creatives, and brand storytelling that need stronger shot control, continuity, and audio-visual coherence."
+      }
+    ]
+  }
+}
