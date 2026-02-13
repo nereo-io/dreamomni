@@ -7,6 +7,7 @@ import {
   isValidVideoEffectSlug,
 } from "@/config/video-effect-pages";
 import { locales } from "@/i18n/locale";
+import { getEffectConfigBySlug } from "@/models/effectConfig";
 import { getVideoEffectPage } from "@/services/page";
 import type { EffectLandingPageContent } from "@/types/pages/video-effect-page";
 
@@ -126,7 +127,10 @@ export default async function VideoEffectDetailPage({
     notFound();
   }
 
-  const { page, tool } = await getVideoEffectPage(slug, locale);
+  const [{ page, tool }, effectConfig] = await Promise.all([
+    getVideoEffectPage(slug, locale),
+    getEffectConfigBySlug(slug, locale),
+  ]);
   const effectModel = getEffectModel(slug);
 
   const formConfig =
@@ -146,7 +150,12 @@ export default async function VideoEffectDetailPage({
           effectId: slug,
           effectSlug: slug,
           type: effectModel.outputType,
-          showcaseItems: tool.showcaseItems,
+          preview_gif:
+            effectConfig?.preview_gif ?? tool.showcaseItems[0]?.preview_gif ?? null,
+          showcaseItems: tool.showcaseItems.map((item) => ({
+            ...item,
+            preview_gif: effectConfig?.preview_gif ?? item.preview_gif ?? null,
+          })),
           formConfig,
         }
       : undefined;

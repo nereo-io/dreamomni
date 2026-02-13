@@ -12,10 +12,14 @@ export async function getEffectConfigBySlug(
     .eq("slug", slug)
     .eq("locale", locale)
     .eq("status", "online")
-    .single();
+    .maybeSingle();
 
-  if (error || !data) {
+  if (error) {
     console.error("Error fetching effect config:", error);
+    return null;
+  }
+
+  if (!data) {
     return null;
   }
 

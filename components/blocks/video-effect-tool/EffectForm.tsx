@@ -152,7 +152,7 @@ export default function EffectForm({
 
   const hasRequiredImages =
     uploadedImageUrls.filter((url) => !!url).length >= minImages;
-  const backHref = locale === "en" ? "/video-effects" : `/${locale}/video-effects`;
+  const backHref = locale === "en" ? "/video-effect" : `/${locale}/video-effect`;
 
   return (
     <div className="bg-gray-900 rounded-xl shadow-lg flex flex-col flex-shrink-0 w-full lg:w-[420px] lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]">

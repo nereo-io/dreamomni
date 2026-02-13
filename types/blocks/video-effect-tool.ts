@@ -2,6 +2,7 @@ export interface VideoEffectShowcaseItem {
   id: string;
   title?: string;
   imageUrl: string;
+  preview_gif?: string | null;
   inputImageUrl?: string;
   prompt?: string;
 }
@@ -30,6 +31,7 @@ export interface VideoEffectToolConfig {
   effectId: string;
   effectSlug: string;
   type: "image" | "video";
+  preview_gif?: string | null;
   showcaseItems: VideoEffectShowcaseItem[];
   formConfig?: VideoEffectFormConfig;
 }
