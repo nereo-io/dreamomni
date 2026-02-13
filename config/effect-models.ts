@@ -166,7 +166,7 @@ function mergeEffectSettings(
 
 const DEFAULT_PIXVERSE_VIDEO_CALCULATE_CREDITS: EffectModelConfig["calculateCredits"] =
   (settings) => {
-    let baseCredits = settings.duration === "5" ? 4 : 8;
+    let baseCredits = settings.duration === "5" ? 5 : 10;
     let credits = baseCredits;
 
     switch (settings.quality) {
@@ -458,7 +458,7 @@ const IMAGE_EFFECTS: ImageEffectModelInput[] = [
     provider: EffectProvider.PIXVERSE,
     outputType: "image",
     model: "pixverse-template",
-    calculateCredits: () => 30,
+    calculateCredits: () => 2,
     pixverseTemplateId: 378813799935040,
     pixverseMode: "image_template",
   },
@@ -469,7 +469,7 @@ const IMAGE_EFFECTS: ImageEffectModelInput[] = [
     provider: EffectProvider.PIXVERSE,
     outputType: "image",
     model: "pixverse-template",
-    calculateCredits: () => 30,
+    calculateCredits: () => 2,
     pixverseTemplateId: 377378608924544,
     pixverseMode: "image_template",
   },
