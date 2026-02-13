@@ -239,34 +239,34 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     },
   },
 
-  // Kie.ai Hailuo 2.3 图片转视频模型
-  "kie-hailuo-2-3-image-to-video": {
-    id: "kie-hailuo-2-3-image-to-video",
-    name: "Kie.ai Hailuo 2.3 Image-to-Video",
-    type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    providerModelId: "hailuo/2-3-image-to-video-standard",
-    modelName: VideoModel.HAILUO_2_3,
-    displayName: "Hailuo 2.3",
-    perSecondCredits: 2, // 768p std baseline
-    description: "MiniMax Hailuo 2.3 for expressive image-to-video generation.",
-    features: ["Wait 180s", "Instruction Following", "768p/1080p"],
-    maxDuration: 10,
-    supportedAspectRatios: ["Auto"],
-    supportsAudio: false,
-    estimatedGenerationTime: 180,
-    useSignedCallback: true,
-    supportedDurations: [6, 10],
-    supportedResolutions: ["768p", "1080p"],
-    supportedResolutionsByDuration: {
-      6: ["768p", "1080p"],
-      10: ["768p"],
-    },
-    imageCapabilities: {
-      maxImages: 1,
-      labels: ["Reference Image"],
-    },
-  },
+  // // Kie.ai Hailuo 2.3 图片转视频模型
+  // "kie-hailuo-2-3-image-to-video": {
+  //   id: "kie-hailuo-2-3-image-to-video",
+  //   name: "Kie.ai Hailuo 2.3 Image-to-Video",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.KIEAI,
+  //   providerModelId: "hailuo/2-3-image-to-video-standard",
+  //   modelName: VideoModel.HAILUO_2_3,
+  //   displayName: "Hailuo 2.3",
+  //   perSecondCredits: 2, // 768p std baseline
+  //   description: "MiniMax Hailuo 2.3 for expressive image-to-video generation.",
+  //   features: ["Wait 180s", "Instruction Following", "768p/1080p"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["Auto"],
+  //   supportsAudio: false,
+  //   estimatedGenerationTime: 180,
+  //   useSignedCallback: true,
+  //   supportedDurations: [6, 10],
+  //   supportedResolutions: ["768p", "1080p"],
+  //   supportedResolutionsByDuration: {
+  //     6: ["768p", "1080p"],
+  //     10: ["768p"],
+  //   },
+  //   imageCapabilities: {
+  //     maxImages: 1,
+  //     labels: ["Reference Image"],
+  //   },
+  // },
 
   // Kie.ai Wan 2.5 文本转视频模型
   "kie-wan-2-5-text-to-video": {
