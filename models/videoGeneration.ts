@@ -43,6 +43,7 @@ export async function createVideoGeneration(
       ali_request_id: params.ali_request_id,
       pixverse_request_id: params.pixverse_request_id,
       sora_request_id: params.sora_request_id,
+      provider_request_id: params.provider_request_id,
       input_image_url: params.input_image_url,
       image_urls: params.image_urls, // 新增：支持1-2张图片数组
       source_image_ids: params.source_image_ids, // 新增：来源图片ID数组
@@ -216,6 +217,54 @@ export async function getVideoGenerationBySoraRequestId(
 }
 
 /**
+ * 根据 generic provider_request_id 获取视频生成记录。
+ */
+export async function getVideoGenerationByProviderRequestId(
+  providerRequestId: string
+): Promise<VideoGeneration | null> {
+  const { data, error } = await supabase
+    .from("video_generations")
+    .select("*")
+    .eq("provider_request_id", providerRequestId)
+    .order("created_at", { ascending: false })
+    .limit(2);
+
+  if (error) {
+    handleSupabaseError(
+      error,
+      `get video generation by provider_request_id ${providerRequestId}`
+    );
+  }
+
+  if (!data || data.length === 0) {
+    return null;
+  }
+
+  if (data.length > 1) {
+    console.warn(
+      `Multiple video generations found for provider_request_id ${providerRequestId}, using the most recent record`
+    );
+  }
+
+  return data[0] as VideoGeneration;
+}
+
+/**
+ * 根据 generic provider_request_id 更新视频生成记录。
+ */
+export async function updateVideoGenerationByProviderRequestId(
+  providerRequestId: string,
+  params: UpdateVideoGenerationParams
+): Promise<VideoGeneration | null> {
+  const matched = await getVideoGenerationByProviderRequestId(providerRequestId);
+  if (!matched) {
+    return null;
+  }
+
+  return updateVideoGenerationById(matched.id, params);
+}
+
+/**
  * 根据视频生成记录的 ID 更新记录。
  */
 export async function updateVideoGenerationById(
@@ -234,6 +283,40 @@ export async function updateVideoGenerationById(
 
   handleSupabaseError(error, `update video generation by id ${id}`);
   return data as VideoGeneration;
+}
+
+/**
+ * 仅当任务仍处于进行中状态时，将状态原子更新为 FAILED。
+ * 用于回调并发场景，避免重复退款。
+ */
+export async function markVideoGenerationFailedIfActive(
+  id: string,
+  params: UpdateVideoGenerationParams
+): Promise<VideoGeneration | null> {
+  const activeStatuses: VideoGenerationStatus[] = [
+    "PENDING",
+    "PROMPT_OPTIMIZING",
+    "IN_QUEUE",
+    "IN_PROGRESS",
+  ];
+
+  const { data, error } = await supabase
+    .from("video_generations")
+    .update({
+      ...params,
+      status: "FAILED",
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", id)
+    .in("status", activeStatuses)
+    .select()
+    .maybeSingle();
+
+  if (error) {
+    handleSupabaseError(error, `mark video generation failed by id ${id}`);
+  }
+
+  return data || null;
 }
 
 /**

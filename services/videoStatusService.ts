@@ -20,6 +20,7 @@ export interface VideoStatusResult {
   video_url_ali?: string;
   video_url_pixverse?: string;
   video_url_sora?: string;
+  video_url_provider?: string;
   upsample_video_url_veo3?: string;
   video_url_4k?: string;
   video_url_4k_r2?: string;
@@ -77,7 +78,8 @@ export class VideoStatusService {
       videoGeneration.veo3_request_id ||
       videoGeneration.ali_request_id ||
       videoGeneration.pixverse_request_id ||
-      videoGeneration.sora_request_id
+      videoGeneration.sora_request_id ||
+      videoGeneration.provider_request_id
     );
 
     // 如果正在进行分辨率升级（1080P/4K），不要从 provider 更新状态（由 webhook 处理）
@@ -236,7 +238,8 @@ export class VideoStatusService {
       videoGeneration.veo3_request_id ||
       videoGeneration.ali_request_id ||
       videoGeneration.pixverse_request_id ||
-      videoGeneration.sora_request_id
+      videoGeneration.sora_request_id ||
+      videoGeneration.provider_request_id
     );
   }
 
@@ -400,7 +403,7 @@ export class VideoStatusService {
           );
         }
 
-        // 对于 KieAI Veo3，也可以尝试上传到 R2（可选）
+        // 对于 KieAI 模型，也可以尝试上传到 R2（可选）
         if (modelConfig.provider === VideoModelProvider.KIEAI) {
           await this.uploadToR2ForKieAi(updateParams, result, videoGeneration);
         }
@@ -436,7 +439,7 @@ export class VideoStatusService {
     result: any,
     modelIdFromGeneration?: string
   ): void {
-    const { isSora2Model } = require("@/config/video-models");
+    const { isSora2Model, isKieAiVeo3Model } = require("@/config/video-models");
     const resolvedModelId =
       modelIdFromGeneration ||
       result.model ||
@@ -469,7 +472,7 @@ export class VideoStatusService {
           if (result.video_url) {
             updateParams.video_url_sora = result.video_url;
           }
-        } else {
+        } else if (resolvedModelId && isKieAiVeo3Model(resolvedModelId)) {
           // Veo3 使用原有字段
           if (result.video_url) {
             updateParams.video_url_veo3 = result.video_url;
@@ -477,6 +480,8 @@ export class VideoStatusService {
           if (result.hd_video_url) {
             updateParams.upsample_video_url_veo3 = result.hd_video_url;
           }
+        } else {
+          // Kling/Hailuo/Wan 等新模型仅走通用字段 video_url_provider
         }
         break;
       case VideoModelProvider.ALI:
@@ -488,6 +493,17 @@ export class VideoStatusService {
           updateParams.video_url_sora = result.video_url;
         }
         break;
+      default:
+        // Unknown provider — use generic field only
+        if (result.video_url) {
+          updateParams.video_url_provider = result.video_url;
+        }
+        break;
+    }
+
+    // Always set generic video_url_provider for uniform access
+    if (result.video_url) {
+      updateParams.video_url_provider = result.video_url;
     }
   }
 
@@ -548,7 +564,7 @@ export class VideoStatusService {
     videoGeneration: any
   ): Promise<void> {
     try {
-      console.log("开始为 KieAI Veo3 上传视频到 R2");
+      console.log("开始为 KieAI 上传视频到 R2");
       const { newStorage } = await import("@/lib/storage");
       const storage = newStorage();
 
@@ -574,13 +590,13 @@ export class VideoStatusService {
         updateParams.video_url_r2 = uploadResult.url;
         updateParams.status = "SAVED_TO_R2";
         console.log(
-          `KieAI Veo3 ${isHD ? "高清1080P" : "标准"}视频已上传到R2: ${
+          `KieAI ${isHD ? "高清1080P" : "标准"}视频已上传到R2: ${
             uploadResult.url
           }`
         );
       }
     } catch (r2Error) {
-      console.error("KieAI Veo3 R2上传失败:", r2Error);
+      console.error("KieAI R2上传失败:", r2Error);
       // R2上传失败不影响主流程，状态仍为COMPLETED
     }
   }
@@ -702,6 +718,7 @@ export class VideoStatusService {
       videoGeneration.video_url_pixverse ||
       videoGeneration.video_url_volcano ||
       videoGeneration.video_url_ali ||
+      videoGeneration.video_url_provider ||
       videoGeneration.video_url_fal;
 
     return {
@@ -713,7 +730,8 @@ export class VideoStatusService {
         videoGeneration.veo3_request_id ||
         videoGeneration.ali_request_id ||
         videoGeneration.pixverse_request_id ||
-        videoGeneration.sora_request_id,
+        videoGeneration.sora_request_id ||
+        videoGeneration.provider_request_id,
       model: videoGeneration.model_id,
       prompt: videoGeneration.prompt,
       optimized_prompt: videoGeneration.optimized_prompt,
@@ -723,6 +741,7 @@ export class VideoStatusService {
       video_url_volcano: videoGeneration.video_url_volcano,
       video_url_veo3: videoGeneration.video_url_veo3,
       video_url_sora: videoGeneration.video_url_sora,
+      video_url_provider: videoGeneration.video_url_provider,
       video_url_ali: videoGeneration.video_url_ali,
       video_url_pixverse: videoGeneration.video_url_pixverse,
       upsample_video_url_veo3: videoGeneration.upsample_video_url_veo3,

@@ -9,10 +9,20 @@
     "description": "Experience Wan 2.5, Wan AI's upgraded AI video model with built-in audio, improved consistency, and fluid motion technology.",
     "keywords": "N/A"
   },
+  "wan-2-6": {
+    "title": "Wan 2.6 Free: Try Alibaba Wan 2.6 AI Video Model | Veo3 AI",
+    "description": "Try Wan 2.6 with multi-shot storytelling, reference-to-video support, native audio sync, and up to 15s 1080p output on Veo3 AI.",
+    "keywords": "Wan 2.6, Wan AI, AI video generator, multi-shot video, reference-to-video, native audio, 1080p, Veo3 AI"
+  },
   "veo-3-1": {
     "title": "Veo 3.1 Free: Try Google Veo 3.1 AI Video Model Now | Veo3 AI",
     "description": "Veo 3.1 is an upgrade of Google's Veo 3 model, adding first-and-last-frame control and image reference capabilities. Experience Veo 3.1 now for free on Veo3 AI.",
     "keywords": "Veo 3.1, Google Veo 3.1, AI video generator, free Veo 3.1, video AI, text to video, image to video, Veo3 AI"
+  },
+  "kling-3-0": {
+    "title": "Kling 3.0 Free: Try Kling AI Video Model Online | Veo3 AI",
+    "description": "Try Kling 3.0 AI video generator with native audio, multi-shot storytelling, element consistency, multilingual voices, and up to 15s output. Create Kling 3.0 videos on Veo3 AI.",
+    "keywords": "Kling 3.0, Kling AI, AI video generator, text to video, image to video, native audio, multi-shot, Veo3 AI"
   },
   "seedance-1-5": {
     "title": "Seedance 1.5 Pro: ByteDance Audio-Video AI | Veo3 AI",
@@ -23,6 +33,11 @@
     "title": "Seedance 2.0 AI Video Generator Online Free | Veo3 AI",
     "description": "Use Seedance 2.0 by ByteDance to create AI videos. Multimodal input (image, video, audio, text), 2K resolution, character consistency & 30% faster. Try free!",
     "keywords": "Seedance 2.0, AI video generator, text to video, image to video, ByteDance, multimodal AI, free"
+  },
+  "hailuo-2-3": {
+    "title": "Hailuo 2.3 AI Video Generator Free Online | Veo3 AI",
+    "description": "Try MiniMax Hailuo 2.3 with improved motion control, stylized visual output, and faster iteration mode. Generate expressive AI videos on Veo3 AI.",
+    "keywords": "Hailuo 2.3, MiniMax Hailuo, AI video generator, image to video, text to video, Hailuo Fast, Veo3 AI"
   },
   "sora-2": {
     "title": "Sora 2 Free: Try OpenAI Sora 2 AI Video Model Now | Veo3 AI",

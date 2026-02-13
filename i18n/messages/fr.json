@@ -9,10 +9,20 @@
     "description": "Découvrez Wan 2.5, le modèle vidéo IA amélioré de Wan AI avec audio intégré, cohérence améliorée et technologie de mouvement fluide.",
     "keywords": "N/A"
   },
+  "wan-2-6": {
+    "title": "Wan 2.6 Gratuit : Essayez le modèle vidéo IA Wan 2.6 d'Alibaba | Veo3 AI",
+    "description": "Essayez Wan 2.6 avec narration multi-plans, support reference-to-video, synchronisation audio native et sortie jusqu'a 15s en 1080p sur Veo3 AI.",
+    "keywords": "Wan 2.6, Wan AI, generateur video IA, multi-plans, reference-to-video, audio natif, 1080p, Veo3 AI"
+  },
   "veo-3-1": {
     "title": "Veo 3.1 Gratuit : Essayez le modèle vidéo IA Google Veo 3.1 maintenant | Veo3 AI",
     "description": "Veo 3.1 est une amélioration du modèle Veo 3 de Google, ajoutant le contrôle de la première et dernière image ainsi que des capacités de référence d'image. Découvrez Veo 3.1 gratuitement maintenant sur Veo3 AI.",
     "keywords": "Veo 3.1, Google Veo 3.1, Générateur vidéo IA, Veo 3.1 gratuit, IA vidéo, texte vers vidéo, image vers vidéo, Veo3 AI"
+  },
+  "kling-3-0": {
+    "title": "Kling 3.0 Gratuit : Essayez le modèle vidéo IA Kling en ligne | Veo3 AI",
+    "description": "Essayez Kling 3.0 avec audio natif, narration multi-plans, meilleure cohérence des éléments, voix multilingues et sorties jusqu'à 15s. Créez vos vidéos sur Veo3 AI.",
+    "keywords": "Kling 3.0, Kling AI, générateur vidéo IA, texte vers vidéo, image vers vidéo, audio natif, multi-plans, Veo3 AI"
   },
   "seedance-1-5": {
     "title": "Seedance 1.5 Pro: Audio-Video IA ByteDance | Veo3 AI",
@@ -23,6 +33,11 @@
     "title": "Seedance 2.0 Générateur Vidéo IA Gratuit | Veo3 AI",
     "description": "Seedance 2.0 de ByteDance : vidéos IA multimodales (image, vidéo, audio, texte), résolution 2K, cohérence des personnages & 30% plus rapide. Essai gratuit !",
     "keywords": "Seedance 2.0, générateur vidéo IA, texte vers vidéo, image vers vidéo, ByteDance, IA multimodale"
+  },
+  "hailuo-2-3": {
+    "title": "Hailuo 2.3 Générateur Vidéo IA Gratuit en Ligne | Veo3 AI",
+    "description": "Essayez MiniMax Hailuo 2.3 avec un meilleur contrôle du mouvement, des visuels stylisés et un mode d'itération plus rapide. Créez des vidéos IA expressives sur Veo3 AI.",
+    "keywords": "Hailuo 2.3, MiniMax Hailuo, générateur vidéo IA, image vers vidéo, texte vers vidéo, Hailuo Fast, Veo3 AI"
   },
   "sora-2": {
     "title": "Sora 2 Gratuit : Essayez le modèle vidéo IA OpenAI Sora 2 maintenant | Veo3 AI",

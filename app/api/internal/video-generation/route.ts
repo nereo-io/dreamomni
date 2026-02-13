@@ -4,6 +4,8 @@ import {
   getVideoModel,
   VideoModelProvider,
   isSora2Model,
+  isKieAiVeo3Model,
+  useSignedVideoCallback,
 } from '@/config/video-models';
 import {
   CreditsTransType,
@@ -12,6 +14,7 @@ import {
   increaseCredits,
   DeductResult,
 } from '@/services/credit';
+import { buildSignedVideoCallbackUrl } from '@/services/videoCallbackSignature';
 
 /**
  * 内部 API: 视频生成
@@ -43,7 +46,9 @@ export async function POST(req: NextRequest) {
 
     // 动态导入服务
     const { ProviderFactory } = await import('@/services/providers/ProviderFactory');
-    const { createVideoGeneration } = await import('@/models/videoGeneration');
+    const { createVideoGeneration, updateVideoGenerationById } = await import(
+      '@/models/videoGeneration'
+    );
 
     // 确定模型ID (默认 kie-veo3-image-to-video)
     const modelId = model || 'kie-veo3-image-to-video';
@@ -57,23 +62,25 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+    const baseWebUrl = process.env.NEXT_PUBLIC_WEB_URL;
+    if (!baseWebUrl) {
+      return NextResponse.json(
+        { error: 'NEXT_PUBLIC_WEB_URL is not configured' },
+        { status: 500 }
+      );
+    }
+    if (
+      useSignedVideoCallback(modelId) &&
+      !process.env.VIDEO_CALLBACK_SIGNING_SECRET?.trim()
+    ) {
+      return NextResponse.json(
+        { error: 'VIDEO_CALLBACK_SIGNING_SECRET is not configured' },
+        { status: 500 }
+      );
+    }
     if (!Number.isFinite(durationSeconds) || durationSeconds <= 0) {
       return NextResponse.json(
         { error: 'Invalid duration' },
-        { status: 400 }
-      );
-    }
-    const allSupportedDurations = [
-      ...(modelConfig.supportedDurations ?? []),
-      ...(modelConfig.internalSupportedDurations ?? []),
-    ];
-    if (!allSupportedDurations.includes(durationSeconds)) {
-      return NextResponse.json(
-        {
-          error: `${modelId} 模型不支持 ${durationSeconds} 秒时长，支持的时长: ${allSupportedDurations.join(
-            ', '
-          )} 秒`,
-        },
         { status: 400 }
       );
     }
@@ -175,11 +182,64 @@ export async function POST(req: NextRequest) {
       }
     };
 
+    const initialMetadata = deductResult
+      ? {
+          credit_deduction: {
+            pools: deductResult.pools,
+            total_deducted: deductResult.totalDeducted,
+            deducted_at: new Date().toISOString(),
+          },
+        }
+      : {
+          credit_deduction: {
+            skipped: true,
+            pools: [],
+            total_deducted: 0,
+            deducted_at: new Date().toISOString(),
+          },
+        };
+
     // 获取对应的 Provider
     const provider = ProviderFactory.getProvider(modelId);
 
-    // 构建 webhook URL
-    const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
+    const shouldUseSignedCallback = useSignedVideoCallback(modelId);
+    let videoGeneration;
+
+    try {
+      videoGeneration = await createVideoGeneration({
+        model_id: modelId,
+        prompt: prompt,
+        input_image_url: imageUrl,
+        duration_seconds: durationSeconds,
+        user_id: userId,
+        status: 'IN_QUEUE',
+        aspect_ratio: resolvedAspectRatio,
+        agent_shot_id: agentShotId,
+        metadata: initialMetadata,
+        actual_provider: modelConfig.provider,
+        model_name: modelConfig.modelName,
+      });
+    } catch (error) {
+      console.error('创建视频生成记录失败:', error);
+      try {
+        await refundCredits();
+        console.log(
+          `💰 Credits refunded after record creation failure for user ${userId}`
+        );
+      } catch (refundError) {
+        console.error('返还积分失败:', refundError);
+      }
+      throw error;
+    }
+
+    const webhookUrl =
+      shouldUseSignedCallback && videoGeneration.id
+        ? buildSignedVideoCallbackUrl({
+            baseUrl: baseWebUrl,
+            provider: modelConfig.provider,
+            videoId: videoGeneration.id,
+          })
+        : `${baseWebUrl}/api/video-generation/webhook`;
 
     let submitResult;
     try {
@@ -204,6 +264,15 @@ export async function POST(req: NextRequest) {
       } catch (refundError) {
         console.error('返还积分失败:', refundError);
       }
+      try {
+        await updateVideoGenerationById(videoGeneration.id, {
+          status: 'FAILED',
+          error_message:
+            error instanceof Error ? error.message : 'Provider submission failed',
+        });
+      } catch (updateError) {
+        console.error('更新视频生成状态失败:', updateError);
+      }
       throw error;
     }
 
@@ -214,71 +283,59 @@ export async function POST(req: NextRequest) {
       } catch (refundError) {
         console.error('返还积分失败:', refundError);
       }
+      try {
+        await updateVideoGenerationById(videoGeneration.id, {
+          status: 'FAILED',
+          error_message: 'Failed to submit video generation - no request_id received',
+        });
+      } catch (updateError) {
+        console.error('更新视频生成状态失败:', updateError);
+      }
       throw new Error('Failed to submit video generation - no request_id received');
     }
 
-    // 根据模型类型确定 request_id 字段名
-    // Kie.ai Veo3 模型使用 veo3_request_id (与 APICore 共享字段)
-    // Kie.ai Sora 模型使用 sora_request_id
-    let requestIdField = "veo3_request_id";
-    if (isSora2Model(modelId)) {
-      requestIdField = "sora_request_id";
-    } else if (modelConfig?.provider === VideoModelProvider.FAL) {
-      requestIdField = "fal_request_id";
+    // 根据模型类型确定 request_id 专用字段名
+    // Kie.ai: Veo3/Sora 使用专用字段，Kling/Hailuo/Wan 等新模型只写通用字段
+    let requestIdField: string | null = null;
+    if (modelConfig?.provider === VideoModelProvider.FAL) {
+      requestIdField = 'fal_request_id';
     } else if (modelConfig?.provider === VideoModelProvider.ALI) {
-      requestIdField = "ali_request_id";
+      requestIdField = 'ali_request_id';
     } else if (
       modelConfig?.provider === VideoModelProvider.BYTEPLUS ||
       modelConfig?.provider === VideoModelProvider.VOLCANO
     ) {
-      requestIdField = "volcano_request_id";
+      requestIdField = 'volcano_request_id';
+    } else if (modelConfig?.provider === VideoModelProvider.APICORE) {
+      requestIdField = 'veo3_request_id';
+    } else if (modelConfig?.provider === VideoModelProvider.KIEAI) {
+      if (isSora2Model(modelId)) {
+        requestIdField = 'sora_request_id';
+      } else if (isKieAiVeo3Model(modelId)) {
+        requestIdField = 'veo3_request_id';
+      }
     }
 
-    // 创建视频生成记录
-    let videoGeneration;
+    // 更新视频生成记录
     try {
-      videoGeneration = await createVideoGeneration({
-        model_id: modelId,
-        prompt: prompt,
-        input_image_url: imageUrl,
-        duration_seconds: durationSeconds,
-        user_id: userId,
+      await updateVideoGenerationById(videoGeneration.id, {
+        ...(requestIdField
+          ? { [requestIdField]: submitResult.request_id }
+          : {}),
+        provider_request_id: submitResult.request_id,
         status: 'IN_PROGRESS',
-        aspect_ratio: resolvedAspectRatio,
-        agent_shot_id: agentShotId,
-        metadata: deductResult
-          ? {
-              credit_deduction: {
-                pools: deductResult.pools,
-                total_deducted: deductResult.totalDeducted,
-                deducted_at: new Date().toISOString(),
-              },
-            }
-          : {
-              credit_deduction: {
-                skipped: true,
-                pools: [],
-                total_deducted: 0,
-                deducted_at: new Date().toISOString(),
-              },
-            },
-        [requestIdField]: submitResult.request_id, // 动态设置 request_id 字段
-        actual_provider: modelConfig.provider,
-        model_name: modelConfig.modelName,
       });
     } catch (error) {
-      console.error('创建视频生成记录失败:', error);
+      console.error('保存视频生成记录失败:', error);
       try {
         await refundCredits();
-        console.log(`💰 Credits refunded after record creation failure for user ${userId}`);
+        console.log(
+          `💰 Credits refunded after record persistence failure for user ${userId}`
+        );
       } catch (refundError) {
         console.error('返还积分失败:', refundError);
       }
       throw error;
-    }
-
-    if (!videoGeneration) {
-      throw new Error('Failed to create video generation record');
     }
 
     // 返回任务信息
@@ -337,6 +394,7 @@ export async function GET(req: NextRequest) {
 
     const videoUrl =
       videoGeneration.video_url_r2 ||
+      videoGeneration.video_url_provider ||
       videoGeneration.video_url_veo3 ||
       videoGeneration.video_url_sora ||
       videoGeneration.video_url_volcano ||

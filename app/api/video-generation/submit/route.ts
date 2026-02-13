@@ -26,6 +26,8 @@ import {
   isAliModel,
   isMinimaxModel,
   isSora2Model,
+  isKieAiVeo3Model,
+  useSignedVideoCallback,
   isStoryboardModel,
   calculateCredits,
   VideoModelProvider,
@@ -36,6 +38,7 @@ import { optimizeVideoPromptWithTimeout } from "@/services/promptOptimization";
 import { tryVolcanoSubmit } from "@/services/seedanceFallbackService";
 import { VideoSubmitService } from "@/services/videoSubmitService";
 import { getEffectConfigById } from "@/models/effectConfig";
+import { buildSignedVideoCallbackUrl } from "@/services/videoCallbackSignature";
 
 // 验证Cloudflare Turnstile CAPTCHA
 async function verifyCaptcha(
@@ -196,14 +199,26 @@ export async function POST(req: Request) {
       );
     }
 
+    const baseWebUrl = process.env.NEXT_PUBLIC_WEB_URL;
+    if (!baseWebUrl) {
+      return respErr("NEXT_PUBLIC_WEB_URL is not configured");
+    }
+    if (
+      useSignedVideoCallback(finalModel) &&
+      !process.env.VIDEO_CALLBACK_SIGNING_SECRET?.trim()
+    ) {
+      return respErr("VIDEO_CALLBACK_SIGNING_SECRET is not configured");
+    }
+
     // 自动设置 generationType（如果未提供但模型配置中有）
     let finalGenerationType = generationType;
     if (!finalGenerationType && modelConfig?.generationType) {
       finalGenerationType = modelConfig.generationType;
     }
 
-    // 5. 计算所需积分并检查余额
     const durationInt = parseInt(duration);
+
+    // 5. 计算所需积分并检查余额
     const requiredCredits =
       effectCreditsOverride ||
       calculateCredits(finalModel, durationInt, generate_audio, resolution);
@@ -222,15 +237,6 @@ export async function POST(req: Request) {
 
     // 确定积分交易类型并验证时长
     let transType: CreditsTransType;
-
-    // 验证模型支持的时长
-    if (!modelConfig?.supportedDurations?.includes(durationInt)) {
-      return respErr(
-        `${model} 模型不支持 ${durationInt} 秒时长，支持的时长: ${modelConfig?.supportedDurations?.join(
-          ", "
-        )} 秒`
-      );
-    }
 
     // 根据时长确定交易类型（所有模型通用）
     if (durationInt === 4) {
@@ -291,7 +297,7 @@ export async function POST(req: Request) {
       source_image_ids: source_image_ids, // 新增：保存来源图片ID（用于追踪"My Creations"选择）
       negative_prompt,
       aspect_ratio,
-      duration_seconds: parseInt(duration),
+      duration_seconds: durationInt,
       cfg_scale,
       seed,
       has_audio: modelSupportsAudio(finalModel) && generate_audio,
@@ -405,6 +411,9 @@ export async function POST(req: Request) {
       if (duration) {
         input.duration = duration;
       }
+      if (generate_audio !== undefined && modelConfig.supportsAudio) {
+        input.generate_audio = generate_audio;
+      }
       if (negative_prompt) {
         input.negative_prompt = negative_prompt;
       }
@@ -486,11 +495,17 @@ export async function POST(req: Request) {
       delete input.resolution;
     }
 
-    // 8. 提交任务到队列，包含webhook URL
-    const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
-    // const webhookUrl = `https://d76d2707b239.ngrok-free.app/api/video-generation/webhook`;
-
     try {
+      // 8. 提交任务到队列，包含webhook URL
+      const webhookUrl = useSignedVideoCallback(finalModel)
+        ? buildSignedVideoCallbackUrl({
+            baseUrl: baseWebUrl,
+            provider: modelConfig.provider,
+            videoId: videoGeneration.id,
+          })
+        : `${baseWebUrl}/api/video-generation/webhook`;
+      // const webhookUrl = `https://d76d2707b239.ngrok-free.app/api/video-generation/webhook`;
+
       let submitResponse;
       let actualProvider: string | undefined; // 记录实际使用的 provider
       let usedModelName: string | undefined; // 降级时记录实际使用的 model_name
@@ -533,9 +548,9 @@ export async function POST(req: Request) {
       } else if (
         modelConfig.provider === VideoModelProvider.APICORE ||
         (modelConfig.provider === VideoModelProvider.KIEAI &&
-          !isSora2Model(finalModel))
+          isKieAiVeo3Model(finalModel))
       ) {
-        // APICore and KieAI Veo3 use the same veo3_request_id field
+        // APICore and KieAI Veo3 models use the same veo3_request_id field
         updateParams.veo3_request_id = submitResponse.request_id;
       } else if (
         modelConfig.provider === VideoModelProvider.KIEAI &&
@@ -552,6 +567,8 @@ export async function POST(req: Request) {
         // Evolink Sora 使用 sora_request_id 字段
         updateParams.sora_request_id = submitResponse.request_id;
       }
+      // Always set generic provider_request_id for uniform access
+      updateParams.provider_request_id = submitResponse.request_id;
 
       // 更新请求ID和状态为 IN_QUEUE
       updateParams.status = "IN_QUEUE";
@@ -600,8 +617,8 @@ export async function POST(req: Request) {
           source_image_ids: source_image_ids || null,
           aspect_ratio,
           duration,
+          resolution,
           generate_audio,
-          webhook_url: webhookUrl,
         },
       });
     } catch (providerError) {

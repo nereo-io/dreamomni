@@ -277,6 +277,16 @@
               "target": "_self"
             },
             {
+              "title": "Kling 3.0",
+              "url": "/kling-3-0",
+              "target": "_self"
+            },
+            {
+              "title": "Hailuo 2.3",
+              "url": "/hailuo-2-3",
+              "target": "_self"
+            },
+            {
               "title": "Seedance 2.0",
               "url": "/seedance-2-0",
               "target": "_self"
@@ -294,6 +304,11 @@
             {
               "title": "Seedream 4.5",
               "url": "/seedream-4-5",
+              "target": "_self"
+            },
+            {
+              "title": "Wan 2.6",
+              "url": "/wan-2-6",
               "target": "_self"
             },
             {
