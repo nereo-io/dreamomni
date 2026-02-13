@@ -28,49 +28,235 @@
   },
   "partners": [],
   "features": {
-    "title": "Official Highlights of Seedance 2.0",
+    "title": "Seedance 2.0 Official Resource Showcase",
     "details": [
       {
-        "title": "Immersive Audio-visual Experience",
-        "description": "Featuring exceptional motion stability and audio-video joint generation, Seedance 2.0 delivers an ultra-realistic immersive experience.",
+        "title": "Official Homepage Showcase · Clip 1",
+        "description": "Hero showcase clip from the official Seedance 2.0 launch page.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/be82ecd65795-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c40fae94b3d9-oMXT1or1plDeB7neAILaGuEGte2EmurIB3CUaQ_t.jpg"
+      },
+      {
+        "title": "Official Homepage Showcase · Clip 2",
+        "description": "Hero showcase clip from the official Seedance 2.0 launch page.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/c832044bab3c-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/1611df9b18d2-dc089e69c5f44590a028319de7381d0e_1770872.jpg"
+      },
+      {
+        "title": "Official Homepage Showcase · Clip 3",
+        "description": "Hero showcase clip from the official Seedance 2.0 launch page.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/e228e91c46d0-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/7fcd6dbc7965-77f77ea5aa754104b27cfe3863619a1e_1770872.jpg"
+      },
+      {
+        "title": "Official Homepage Showcase · Clip 4",
+        "description": "Hero showcase clip from the official Seedance 2.0 launch page.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/90a63780743d-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/99316385ac6e-o4PAK60dAXeRieT7iqS6NEIBNgRCxuPBEmP1X0_t.jpg"
+      },
+      {
+        "title": "Official Homepage Showcase · Clip 5",
+        "description": "Hero showcase clip from the official Seedance 2.0 launch page.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/41d649b669bf-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/5f59faf0b345-o8dEiHhYQd8fJEvXanIiDaicdWANh1vXAFAXBo_t.jpg"
+      },
+      {
+        "title": "Immersive Audio-visual Experience · Sample 1",
+        "description": "Single continuous cinematic shot, no music. From outside the glass window, the dim camera slowly pushes inward into a pizza shop. A bearded white male employee is baking pizza. He removes the pizza from the oven with a metal tray, places it into a red takeaway box, closes the lid, then hands it to a customer with a warm smile. Final...",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/400c92da553b-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/662d02a168e8-93a84c9151014697a3f917728a7903bd_1770872.jpg"
       },
       {
-        "title": "Motion Stability in Dynamic Scenes",
-        "description": "Official examples show stable camera motion, coherent action, and synchronized crowd audio in fast-paced sports scenes.",
+        "title": "Immersive Audio-visual Experience · Sample 2",
+        "description": "A women’s volleyball match segment. Background music: energetic rhythmic track throughout. Setting: spacious indoor gymnasium with arched wooden ceiling and large side windows. The stands are packed with spectators cheering and screaming loudly. Colorful banners hang on the back wall. The blue team and green team exchange intense...",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/749d48eea8fc-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/f2438c286d9b-oEK1LBCDpBXy2oBFEMvV2SE37AfNfjdgE9IXC2_t.jpg"
       },
       {
-        "title": "Create with Director-level Control",
-        "description": "Supporting images, audios and videos as references, Seedance 2.0 enables creators to transform an idea into visuals with full control over performance, lighting, shadow, and camera movement.",
+        "title": "Immersive Audio-visual Experience · Sample 3",
+        "description": "Vertical ASMR video. No music. Macro details. Shot 1: A light blue skincare gel bottle sits on glass. A pale elegant hand gently taps the glass, producing crisp fingernail tapping sounds. Shot 2: The hand picks up the bottle and slowly twists the cap. The cap rotation sound is clearly audible. Shot 3: A spoon scoops a portion of gel....",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/0c46c8d0c9b7-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/ac09098cdd62-b3c6ec3bc5fc46609be74649593f6ec1_1770872.jpg"
+      },
+      {
+        "title": "Immersive Audio-visual Experience · Sample 4",
+        "description": "Generate a 15-second cinematic, photorealistic street dance battle video. Nighttime urban street atmosphere with reflective wet pavement, neon color blocks, and a thin layer of mist. A group of young street dancers forms a semicircle for a dance battle. First 5 seconds: one dancer performs a solo featuring high-difficulty floor moves....",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/3e053874ceb1-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/743d271df4d6-03ea4375676544568f834254388b97f1_1770872.jpg"
+      },
+      {
+        "title": "Immersive Audio-visual Experience · Sample 5",
+        "description": "First-person POV handheld DV footage. Slight natural breathing shake. Occasional water droplets on lens. Subtle vignetting from headlamp. Initial scene: narrow tunnel. Camera moves close along damp moss-covered rock walls. The man’s headlamp is the only light source, illuminating only a few meters ahead. Occasionally his hand enters...",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/cb642fa11c42-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/f49d1ba30896-osi2EASFJE5pq9Agvh7j71IV5nX4DfsBCXdpeN_t.jpg"
+      },
+      {
+        "title": "Create with Director-level Control · Sample 1",
+        "description": "Make the characters from Image 1 and Image 2 fight using the movements from the green-screen reference video. Setting: abandoned parking lot. Add visual effects during combat.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/4326b3028150-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/7037c1519a25-o8idXAMaYJL3gFdBiyT1WfXAhaNvIA37d2aQEB_t.jpg"
       },
       {
-        "title": "Reference-based Editing and Video Extension",
-        "description": "Official reference-to-video examples demonstrate extending existing footage, removing unwanted elements, and preserving style continuity.",
+        "title": "Create with Director-level Control · Sample 2",
+        "description": "Extend the video. The camera tracks a man in orange riding a brown horse. He accelerates toward a large tree blooming with orange flowers ahead. He reaches up and plucks two flowers from a branch. Soon, other riders on horseback enter the frame one after another. The camera pushes in as the man in orange swiftly dismounts. The camera...",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/2adcba2f8f18-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/9511bd60c9ff-1244df68040749108fb7b4e2d6cb96fa_1770872.jpg"
       },
       {
-        "title": "Empower Creativity",
-        "description": "Seedance 2.0 delivers cinematic output aligned with industry standards, driving efficiency gains across the industry.",
+        "title": "Create with Director-level Control · Sample 3",
+        "description": "Remove any visible production mistakes from the video.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/6b6520682c90-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/eb60f04cf777-f864a1d70e0a44b184376a5301d32807_1770872.jpg"
+      },
+      {
+        "title": "Create with Director-level Control · Sample 4",
+        "description": "Based on the reference image, generate a time-lapse animation showing the living room transforming from an unfinished raw concrete interior to a fully renovated space. Final shot: all the lights switch on instantly, accompanied by a realistic light-switch sound effect.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/b79a980e12ec-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c17ef0885603-71c93e6911144b61a3e1c76e2e9fb7bd_1770872.jpg"
+      },
+      {
+        "title": "Create with Director-level Control · Sample 5",
+        "description": "Based on the four PPT slides, generate a corresponding voiceover for each slide. Normal speaking speed, male voice.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/f9104dc30e33-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/fa2044eea8e8-oIFN60VpivAqSi3yoBDElgAXI9wxBBBz7IXfe9_t.jpg"
+      },
+      {
+        "title": "Empower Creativity · Sample 1",
+        "description": "Generate a cinematic, large-scale action long take animation. Theme: A Chinese youth flies a kite through crowded streets, leaps up steps, flips and lands, dashes toward a high platform, and executes a difficult jump. The drumbeat erupts the moment he lands. One single continuous shot throughout, no cuts, fluid movements, clear weight,...",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/0ea09d4dd6d1-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/02c9e62ea59b-3e464161b080481e8ec07681bc0aadaf_1770872.jpg"
       },
       {
-        "title": "Creativity Unleashed, Explore the Possibilities",
-        "description": "Browse our curated showcase to spark your next great idea.",
+        "title": "Empower Creativity · Sample 2",
+        "description": "A car sketch on paper. The camera pushes in. The sketch lines rise off the paper, gaining dimensionality and color, transforming into a photorealistic 3D car driving on a road.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/34342fb7fdf6-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c1c585066fa3-ac1b285004504d93a53c2ff7e7718a19_1770872.jpg"
+      },
+      {
+        "title": "Empower Creativity · Sample 3",
+        "description": "Intense close-quarters combat (CQC) sequence. Subject: The short-haired female agent in tactical winter gear. Action: She is engaging in hand-to-hand combat with a mercenary in a snowy military base. The mercenary throws a punch, she dodges swiftly and counters with a brutal elbow strike to his face mask, followed by a heavy knee kick to...",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/a550b06ef8aa-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/d5d9bb0fd9a6-ow09pjEyf8PUcNCX7o13X9gEDfSnFAA0WBBpVI_t.jpg"
+      },
+      {
+        "title": "Empower Creativity · Sample 4",
+        "description": "Apes. Documentary style. English narration with subtitles.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/d8dcf0154cca-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/385e85101b2d-d1251ba7a62748faa1ba5d253d107280_1770872.jpg"
+      },
+      {
+        "title": "Empower Creativity · Sample 5",
+        "description": "360-degree panoramic camera selfie. The camera rotates counterclockwise, capturing the dessert shop interior. Then show a woman posing in different scenes, wearing different outfits and using different props. 【Note: Use of real-person image references for video generation requires live verification of the individual or prior...",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/c2063bf17c5b-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/ab4be9ca881d-34df818f16b24f3c8a1cc3cb13d357ad_1770872.jpg"
+      },
+      {
+        "title": "Creative Gallery · Showcase 1",
+        "description": "Cinematic butterfly lighting. Medium shot of a handsome pianist wearing a simple, elegant black suit. His hands move smoothly across the keys. Cut to close-up: his face immersed in music, eyes gently closed, focused and serene expression. Audio: beautiful piano music and subtle ambient audience noise from a concert hall.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/442efbbbe219-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/f2d67e8b156e-6867a9183a794734882c56d613a4fba5_1770872.jpg"
+      },
+      {
+        "title": "Creative Gallery · Showcase 2",
+        "description": "Steadicam long take. Back shot of a man leaving a warm yellow-lit café. He pushes the door open and enters a cool-toned busy street. He walks through traffic; cars create light trails. Finally, he descends into a dim subway staircase. No cuts. Lighting transitions smoothly from warm indoor lighting to natural outdoor light, then to...",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/52ac279db736-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/28a71a1b6c67-aa168a7296654990bf8b92adcb0bc3a0_1770872.jpg"
+      },
+      {
+        "title": "Creative Gallery · Showcase 3",
+        "description": "Visual: pure black background. Dramatic top light illuminates a workstation. Clean full-sized hands carefully place a miniature cutting board and a fingernail-sized knife. Audio: solemn elegant classical music (e.g., Bach cello suite). Cooking: Shot 1: Tweezers place a tiny garlic clove on board. Mini knife slices it precisely. Amplified...",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/05d1507c4a85-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c896bce297ea-oUQNfn6is1e1AIyEFBi0SXCBgiCJHAGXPqx726_t.jpg"
+      },
+      {
+        "title": "Creative Gallery · Showcase 4",
+        "description": "Realistic style, Nordic snowy night. Shot 1: close tracking shot from behind at foot level — a man running fast through snow. Shot 2: front tracking shot — a wolf chasing closely behind. Strong sense of speed in both shots. The man trips and falls, rolling in snow. Shot 3: wide shot — wolf lunges toward fallen man. Shot 4: medium shot —...",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/6bdf2c2ff308-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/69e8ab243825-owBcNXP6A7Xq0iW7Q12BSeCYixIAXEggelKDmE_t.jpg"
+      },
+      {
+        "title": "Creative Gallery · Showcase 5",
+        "description": "Cyberpunk style, game CGI, dark scene. A run-down city corner. A young assassin fights enemies. The camera rapidly pulls back, revealing the assassin surrounded by multiple enemies. The assassin wields a lightsaber and fights fluidly, defeating enemies one by one. Enemies collapse. The entire sequence is fast yet smooth. At the end, the...",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/0a71d23deef0-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/bfc7a136eaa0-b015cc7478d249ac9b87e1893543ab10_1770872.jpg"
+      },
+      {
+        "title": "Creative Gallery · Showcase 6",
+        "description": "Single continuous cinematic shot. Audio begins with daytime Shibuya street noise mixed with 8-bit video game sounds and chaotic Japanese chatter. Background music: shamisen strings. The camera pushes low along the ground. A girl’s leather shoe slams into frame — heavy first step. A Japanese schoolgirl in JK uniform sprints into frame at...",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/63865e0bf626-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/8d798a5a8153-17672aa127a947a2b8eb3f1899e5d464_1770872.jpg"
+      },
+      {
+        "title": "Creative Gallery · Showcase 7",
+        "description": "Ultra-luxury perfume commercial. Music: dreamy electronic soundscape with steady drum beats. Macro shot: a transparent rectangular glass bottle surrounded by violently swirling purple liquid. Liquid churns with bubbles and splashes, accompanied by crisp water sounds. Dissolve transition to surface ripples of purple liquid. Close-up of...",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/f6fd5a28645e-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/709a0540e1a6-12c1bf94a4b84bca8329977e1de6efab_1770872.jpg"
+      },
+      {
+        "title": "SeedVideoBench-2.0: Multi-Dimensional Evaluation",
+        "description": "Seedance 2.0 is in the leading position in various dimensions across different types of tasks.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Text-to-Video Radar Chart"
+            },
+            {
+              "title": "Image-to-Video Radar Chart"
+            },
+            {
+              "title": "Multimodal Task Radar Chart"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedance-2-0/a06f29ca8ec5-b84c519f07b811f1bbd500163e37f01f.jpeg_tp.jpg",
+                  "altText": "Text-to-Video Radar Chart"
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedance-2-0/cca428abac16-b92dbe4d07b811f187c400163e5669cc.jpeg_tp.jpg",
+                  "altText": "Image-to-Video Radar Chart"
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedance-2-0/cdc507ec7343-93a8a7c907c511f194ab1070fd7c758e.jpeg_tp.jpg",
+                  "altText": "Multimodal Task Radar Chart"
+                }
+              ]
+            }
+          ]
+        }
       }
     ]
   },

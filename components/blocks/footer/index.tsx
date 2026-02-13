@@ -1,5 +1,6 @@
 import { Footer as FooterType } from "@/types/blocks/footer";
 import Icon from "@/components/icon";
+import { cn } from "@/lib/utils";
 
 export default function Footer({ footer }: { footer: FooterType }) {
   if (footer.disabled) {
@@ -55,9 +56,10 @@ export default function Footer({ footer }: { footer: FooterType }) {
               )}
             </div>
             <div
-              className={`grid gap-6 lg:gap-8 ${
-                footer.contact ? "grid-cols-2 lg:grid-cols-3" : "grid-cols-3"
-              }`}
+              className={cn(
+                "grid gap-6 lg:gap-8",
+                "grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
+              )}
             >
               {footer.nav?.items?.map((item, i) => (
                 <div key={i}>
@@ -74,7 +76,7 @@ export default function Footer({ footer }: { footer: FooterType }) {
                 </div>
               ))}
               {footer.contact && (
-                <div className="lg:col-span-1 text-center lg:text-left">
+                <div className="text-center lg:text-left">
                   <p className="mb-4 font-bold text-base">
                     {footer.contact.title || "CONTACT"}
                   </p>

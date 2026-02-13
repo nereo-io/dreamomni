@@ -10,7 +10,6 @@
 export const MODEL_LANDING_PAGES = [
   'nano-banana',
   'nano-banana-pro',
-  'wan-2-6',
   'wan-2-5',
   'seedance-1-5',
   'seedance-2-0',
