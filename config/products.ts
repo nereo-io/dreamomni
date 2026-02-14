@@ -136,8 +136,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     credits: 200,
     interval: "one-time",
     valid_months: 1,
-    // TODO: Replace with Seedance Creem product ID.
-    creem_product_id: "prod_7ghfxUFOcOCn2mPBNBmX4p",
+    creem_product_id: "prod_66wWAsMJk3PoorpGnQYJFT",
   },
   {
     product_id: "bundle-40",
@@ -147,8 +146,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     credits: 400,
     interval: "one-time",
     valid_months: 1,
-    // TODO: Replace with Seedance Creem product ID.
-    creem_product_id: "prod_64RoES8qJEg5uabqUz7xIP",
+    creem_product_id: "prod_6ond4Axu2ZoYWIs0WRRPXo",
   },
   {
     product_id: "bundle-60",
@@ -158,8 +156,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     credits: 600,
     interval: "one-time",
     valid_months: 1,
-    // TODO: Replace with Seedance Creem product ID.
-    creem_product_id: "prod_pJKV9tyeuac823oQgsjs",
+    creem_product_id: "prod_2tD1QG4zjXTinwSSE9I79D",
   },
   {
     product_id: "bundle-100",
@@ -169,8 +166,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     credits: 1000,
     interval: "one-time",
     valid_months: 1,
-    // TODO: Replace with Seedance Creem product ID.
-    creem_product_id: "prod_3eTFtTtzgWt9YIwWgShE9d",
+    creem_product_id: "prod_2mgeAaYvFpa6b8xWvAc3lH",
   },
   {
     product_id: "bundle-200",
@@ -180,8 +176,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     credits: 2000,
     interval: "one-time",
     valid_months: 1,
-    // TODO: Replace with Seedance Creem product ID.
-    creem_product_id: "prod_6bmJ210nySV8uQjusW0FgD",
+    creem_product_id: "prod_3IFhkoxBNtR4vHNS6zsUZY",
   },
 ];
 

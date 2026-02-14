@@ -29,35 +29,35 @@ interface CreditsBundleModalProps {
 export const BUNDLE_OPTIONS: BundleItem[] = [
   {
     id: "bundle-20",
-    name: "Veo3 AI Credits Pack",
+    name: "Seedance 200 Credits Pack",
     credits: 200,
     price: "$20",
     amount: 2000,
   },
   {
     id: "bundle-40",
-    name: "Veo3 AI Credits Pack",
+    name: "Seedance 400 Credits Pack",
     credits: 400,
     price: "$40",
     amount: 4000,
   },
   {
     id: "bundle-60",
-    name: "Veo3 AI Credits Pack",
+    name: "Seedance 600 Credits Pack",
     credits: 600,
     price: "$60",
     amount: 6000,
   },
   {
     id: "bundle-100",
-    name: "Veo3 AI Credits Pack",
+    name: "Seedance 1000 Credits Pack",
     credits: 1000,
     price: "$100",
     amount: 10000,
   },
   {
     id: "bundle-200",
-    name: "Veo3 AI Credits Pack",
+    name: "Seedance 2000 Credits Pack",
     credits: 2000,
     price: "$200",
     amount: 20000,
@@ -71,7 +71,7 @@ export default function CreditsBundleModal({
   isLoading,
 }: CreditsBundleModalProps) {
   const [selectedBundle, setSelectedBundle] = useState<BundleItem>(
-    BUNDLE_OPTIONS[1] // Default to Standard Pack ($25)
+    BUNDLE_OPTIONS[1] // Default to $40 pack
   );
 
   const t = useTranslations("creditsBundle");

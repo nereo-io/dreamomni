@@ -266,7 +266,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
       // Generate product name based on user region
       const productName = isRussia
-        ? `Veo3 AI Пакет ${bundle.credits} кредитов`
+        ? `Seedance Пакет ${bundle.credits} кредитов`
         : bundle.name;
 
       // Build payment params for bundle
