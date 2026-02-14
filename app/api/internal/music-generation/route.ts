@@ -15,7 +15,14 @@ type InternalMusicGenerationSubmitBody = SubmitMusicGenerationRequest & {
 
 function assertInternalAuth(req: NextRequest) {
   const authHeader = req.headers.get('Authorization');
-  const expectedKey = `Bearer ${process.env.INTERNAL_API_KEY}`;
+  const internalKey = process.env.INTERNAL_API_KEY?.trim();
+  if (!internalKey) {
+    return NextResponse.json(
+      { error: 'INTERNAL_API_KEY is not configured' },
+      { status: 500 }
+    );
+  }
+  const expectedKey = `Bearer ${internalKey}`;
 
   if (!authHeader || authHeader !== expectedKey) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

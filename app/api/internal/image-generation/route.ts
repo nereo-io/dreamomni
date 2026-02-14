@@ -8,7 +8,14 @@ import { calculateImageCredits } from '@/config/image-models';
 export async function POST(req: NextRequest) {
   // 验证内部调用
   const authHeader = req.headers.get('Authorization');
-  const expectedKey = `Bearer ${process.env.INTERNAL_API_KEY}`;
+  const internalKey = process.env.INTERNAL_API_KEY?.trim();
+  if (!internalKey) {
+    return NextResponse.json(
+      { error: 'INTERNAL_API_KEY is not configured' },
+      { status: 500 }
+    );
+  }
+  const expectedKey = `Bearer ${internalKey}`;
 
   if (!authHeader || authHeader !== expectedKey) {
     return NextResponse.json(
@@ -192,7 +199,14 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   // 验证内部调用
   const authHeader = req.headers.get('Authorization');
-  const expectedKey = `Bearer ${process.env.INTERNAL_API_KEY}`;
+  const internalKey = process.env.INTERNAL_API_KEY?.trim();
+  if (!internalKey) {
+    return NextResponse.json(
+      { error: 'INTERNAL_API_KEY is not configured' },
+      { status: 500 }
+    );
+  }
+  const expectedKey = `Bearer ${internalKey}`;
 
   if (!authHeader || authHeader !== expectedKey) {
     return NextResponse.json(

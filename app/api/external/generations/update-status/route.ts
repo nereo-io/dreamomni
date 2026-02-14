@@ -5,8 +5,6 @@ import { getVideoGenerationById } from "@/models/videoGeneration";
 import { syncImageGenerationStatus } from "@/services/imageGenerationStatusService";
 import { VideoStatusService } from "@/services/videoStatusService";
 
-const EXPECTED_AUTH_HEADER = `Bearer ${process.env.INTERNAL_API_KEY}`;
-
 type GenerationType = "image" | "video";
 
 type UpdateRequest = {
@@ -65,8 +63,14 @@ async function updateVideoGeneration(id: string) {
 
 export async function POST(req: NextRequest) {
   try {
+    const internalKey = process.env.INTERNAL_API_KEY?.trim();
+    if (!internalKey) {
+      return respErr("INTERNAL_API_KEY is not configured");
+    }
+
+    const expectedAuthHeader = `Bearer ${internalKey}`;
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader || authHeader !== EXPECTED_AUTH_HEADER) {
+    if (!authHeader || authHeader !== expectedAuthHeader) {
       return respErr("Unauthorized");
     }
 
