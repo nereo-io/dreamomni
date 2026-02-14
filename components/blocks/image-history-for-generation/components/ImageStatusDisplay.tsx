@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Download, Edit, RotateCcw, ExternalLink, Loader2, Sparkles, Trash2 } from "lucide-react";
+import { Download, Edit, RotateCcw, ExternalLink, Loader2, Sparkles, Trash2, CheckCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import type { ImageGenerationResult } from "@/components/blocks/image-history";
@@ -8,6 +8,8 @@ import { useImageGenerationProgress } from "@/hooks/useImageGenerationProgress";
 import { useIsMobile } from "@/hooks/use-mobile";
 import ImageProgressBar from "./ImageProgressBar";
 import DeleteConfirmDialog from "./DeleteConfirmDialog";
+import { getImageModel } from "@/config/image-models";
+import { ImageCard } from "./ImageCard";
 
 interface ImageStatusDisplayProps {
   status: string;
@@ -17,6 +19,8 @@ interface ImageStatusDisplayProps {
     icon: React.ComponentType<{ className?: string }> | null;
   };
   imageUrl?: string;
+  imageUrls?: string[]; // Agent 模式多张图片
+  imageUrlsR2?: string[]; // Agent 模式多张图片 R2 URLs
   errorMessage?: string;
   createdAt?: string;
   image: ImageGenerationResult;
@@ -24,6 +28,8 @@ interface ImageStatusDisplayProps {
   onRegenerate?: (image: ImageGenerationResult) => void;
   onDelete?: (imageId: string, prompt: string) => void;
   onImageClick?: (imageUrl: string, prompt: string) => void;
+  onDownload?: (image: ImageGenerationResult) => void;
+  isDownloading?: boolean;
   canEdit?: boolean;
   pollingImages: Set<string>;
 }
@@ -32,6 +38,8 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   status,
   statusInfo,
   imageUrl,
+  imageUrls,
+  imageUrlsR2,
   errorMessage,
   createdAt,
   image,
@@ -39,44 +47,20 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   onRegenerate,
   onDelete,
   onImageClick,
+  onDownload,
+  isDownloading = false,
   canEdit,
   pollingImages,
 }) => {
-  // 根据图片比例计算显示尺寸，最长边为可显示区域宽度的一半
-  const getImageAspectClass = (image?: any) => {
-    // 从 image_size 字段读取图片比例
-    const aspectRatio = image?.image_size;
-    
-    if (!aspectRatio) return 'w-1/2 aspect-square'; // 默认正方形
-    
-    let aspectClass;
-    switch (aspectRatio) {
-      case '1:1':
-        // 正方形：宽度和高度都等于容器宽度的3/5
-        aspectClass = 'w-3/5 aspect-square';
-        break;
-      case '3:4':
-        // 竖图：宽度为容器宽度的1/3，高度按比例
-        aspectClass = 'w-1/3 aspect-[3/4]';
-        break;
-      case '4:3':
-        // 横图：宽度为容器宽度的3/5，高度按比例
-        aspectClass = 'w-3/5 aspect-[4/3]';
-        break;
-      case '9:16':
-        // 竖图：宽度为容器宽度的1/3，高度按比例
-        aspectClass = 'w-1/3 aspect-[9/16]';
-        break;
-      case '16:9':
-        // 横图：宽度为容器宽度的3/5，高度按比例
-        aspectClass = 'w-3/5 aspect-[16/9]';
-        break;
-      case 'auto':
-      default:
-        aspectClass = 'w-1/2 aspect-square'; // 默认正方形
-        break;
-    }
-    return aspectClass;
+  // Agent 模式: 使用数组中的图片，优先使用 R2 URLs
+  const isAgentMode = image.is_agent_mode || false;
+  const agentImageCount = image.agent_image_count || 0;
+  const allImageUrls = imageUrlsR2?.length ? imageUrlsR2 : (imageUrls || []);
+  const completedImageCount = allImageUrls.length;
+  // 统一使用固定高度显示，保持图片原始比例
+  const getImageContainerClass = () => {
+    // 所有图片使用统一的固定高度容器
+    return 'h-64'; // 256px 固定高度
   };
   const isCompleted = status === "completed" || status === "saved_to_r2";
   const isPromptOptimizing = status === "prompt_optimizing";
@@ -84,16 +68,21 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   const isFailed = status === "failed";
   const isPolling = pollingImages.has(image.id);
   const isMobile = useIsMobile();
-  
+
+  // Get model config to use estimated generation time
+  const modelConfig = getImageModel(image.model || 'nano-banana');
+  const estimatedTime = modelConfig?.estimatedGenerationTime || 30;
+
   // Use progress hook for processing states
   const progressData = useImageGenerationProgress({
     createdAt: image.created_at,
-    estimatedTime: 30, // 30 seconds estimated for image generation
+    estimatedTime: estimatedTime,
     status: status
   });
   
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [downloadingIndex, setDownloadingIndex] = useState<number | null>(null);
   const t = useTranslations("imageHistory");
 
   const handleDeleteClick = async (e?: React.MouseEvent) => {
@@ -108,10 +97,10 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   
   const handleConfirmDelete = async () => {
     if (!onDelete) return;
-    
+
     setIsDeleting(true);
     setShowDeleteDialog(false);
-    
+
     try {
       await onDelete(image.id, image.prompt || '');
       toast.success(t("imageDeleted"));
@@ -123,8 +112,63 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
     }
   };
 
-  // Download image to local file system - 与图片历史记录保持一致
-  const handleDownload = async () => {
+  // Download single image from Agent mode grid - uses proxy URL
+  const handleAgentImageDownload = async (imageUrl: string, prompt: string, index: number) => {
+    if (!imageUrl) {
+      toast.error("Image not available for download");
+      return;
+    }
+
+    setDownloadingIndex(index);
+
+    try {
+      // 生成文件名
+      const safePrompt = prompt.substring(0, 15).replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
+      const urlParts = imageUrl.split('.');
+      const extension = urlParts[urlParts.length - 1]?.split('?')[0]?.toLowerCase() || 'png';
+      const filename = `${safePrompt}_${image.id}_${index + 1}.${extension}`;
+
+      // 使用代理下载以绕过 CORS
+      const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(imageUrl)}&filename=${encodeURIComponent(filename)}`;
+
+      const response = await fetch(proxyUrl);
+      if (!response.ok) throw new Error("Download failed");
+
+      const blob = await response.blob();
+      if (!blob || blob.size === 0) {
+        throw new Error("Empty image blob");
+      }
+
+      const objectUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = objectUrl;
+      a.download = filename;
+      a.style.cssText = "display: none; position: absolute; top: -9999px;";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(objectUrl);
+
+      toast.success("Image downloaded");
+    } catch (error) {
+      console.error("Download failed:", error);
+      // 回退到直接下载
+      try {
+        const a = document.createElement("a");
+        a.href = imageUrl;
+        a.download = `image_${index + 1}.png`;
+        a.target = "_blank";
+        a.click();
+      } catch (fallbackError) {
+        toast.error("Download failed");
+      }
+    } finally {
+      setDownloadingIndex(null);
+    }
+  };
+
+  // Download image to local file system - 实际下载逻辑（内部使用）
+  const downloadImage = async () => {
     // 优先使用 R2 URL，如果没有则使用普通 URL
     const downloadUrl = image.image_url_r2 || image.image_url || imageUrl;
     
@@ -407,9 +451,9 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
   if (isPromptOptimizing) {
     return (
       <div className="space-y-3">
-        {/* Prompt Optimizing placeholder with Sparkles effect - 三分之二宽度，左对齐 */}
+        {/* Prompt Optimizing placeholder with Sparkles effect - 固定高度，左对齐 */}
         <div className="flex justify-start">
-          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} ${getImageAspectClass(image)} bg-gray-700 rounded-lg flex items-center justify-center`}>
+          <div className={`${getImageContainerClass()} w-80 bg-gray-700 rounded-lg flex items-center justify-center`}>
             <div className="text-center py-8">
               <div className="relative mb-4">
                 <div className="absolute inset-0 bg-purple-500/20 blur-xl rounded-full animate-pulse" />
@@ -430,37 +474,110 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
     );
   }
 
-  // Completed state
-  if (isCompleted && imageUrl) {
+  // Completed state - Agent 模式多图网格展示
+  if (isCompleted && (imageUrl || (isAgentMode && allImageUrls.length > 0))) {
+    // Agent 模式: 网格展示多张图片
+    if (isAgentMode && allImageUrls.length > 0) {
+      // 根据图片数量决定网格列数 - 一行最多 4 张
+      const getGridCols = (count: number) => {
+        if (count <= 4) return 'grid-cols-4';
+        return 'grid-cols-4'; // 超过4张也是一行4张，自动换行
+      };
+
+      return (
+        <>
+        <div className="space-y-3">
+          {/* Agent 模式进度指示 */}
+          {completedImageCount < agentImageCount && (
+            <div className="flex items-center gap-2 text-sm text-amber-400">
+              <Sparkles className="h-4 w-4" />
+              <span>Generating: {completedImageCount}/{agentImageCount} images</span>
+            </div>
+          )}
+
+          {/* 多图网格展示 - 使用复用组件 */}
+          <div className={`grid ${getGridCols(allImageUrls.length)} gap-2`}>
+            {allImageUrls.map((url, index) => (
+              <ImageCard
+                key={index}
+                imageUrl={url}
+                prompt={image.prompt}
+                index={index}
+                total={allImageUrls.length}
+                onImageClick={onImageClick}
+                onDownload={handleAgentImageDownload}
+                isDownloading={downloadingIndex === index}
+              />
+            ))}
+          </div>
+
+          {/* 删除按钮 - 右下角 */}
+          {onDelete && (
+            <div className="flex justify-end">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-gray-400 hover:text-red-400"
+                onClick={handleDeleteClick}
+                disabled={isDeleting}
+              >
+                {isDeleting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Trash2 className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {/* Delete confirmation dialog */}
+        <DeleteConfirmDialog
+          isOpen={showDeleteDialog}
+          onClose={() => setShowDeleteDialog(false)}
+          onConfirm={handleConfirmDelete}
+          prompt={image.prompt || ''}
+          isDeleting={isDeleting}
+        />
+        </>
+      );
+    }
+
+    // 普通模式: 单张图片展示
     return (
       <>
       <div className="space-y-3">
-        {/* Image preview with hover buttons - 三分之二宽度，左对齐 */}
+        {/* Image preview with hover buttons - 固定高度，左对齐 */}
         <div className="flex justify-start">
-          <div 
-            className={`${isMobile ? 'w-1/2' : 'w-1/3'} ${getImageAspectClass(image)} overflow-hidden cursor-pointer relative group`}
-            onClick={handleOpen}
-          >
-            <img
-              src={imageUrl}
-              alt={image.prompt}
-              className="w-full h-full object-contain rounded-lg"
-              loading="lazy"
-            />
-            
-            {/* Hover overlay buttons - 移动端默认显示 */}
-            <div className={`absolute top-3 right-3 ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-200 flex gap-2`}>
+          <div className={`${getImageContainerClass()} w-full max-w-md`}>
+            <div className="relative group inline-block cursor-pointer" onClick={handleOpen}>
+              <img
+                src={imageUrl}
+                alt={image.prompt}
+                className="max-h-64 object-contain rounded-lg"
+                loading="lazy"
+              />
+
+              {/* Hover overlay buttons - 移动端默认显示 */}
+              <div className={`absolute top-3 right-3 ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-200 flex gap-2 z-10`}>
               <Button
                 variant="secondary"
                 size="sm"
                 className="bg-black/60 hover:bg-black/80 text-white border-none h-8 w-8 p-0 rounded-md"
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleDownload();
+                  if (onDownload) {
+                    onDownload(image);
+                  }
                 }}
+                disabled={isDownloading}
                 title="Download image"
               >
-                <Download className="h-4 w-4" />
+                {isDownloading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Download className="h-4 w-4" />
+                )}
               </Button>
               {onDelete && (
                 <Button
@@ -481,6 +598,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
                   )}
                 </Button>
               )}
+              </div>
             </div>
           </div>
         </div>
@@ -511,7 +629,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
           </div>
         )}
       </div>
-      
+
       {/* Delete confirmation dialog */}
       <DeleteConfirmDialog
         isOpen={showDeleteDialog}
@@ -526,43 +644,113 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
 
   // Processing state
   if (isProcessing) {
+    // Agent 模式：显示多个卡片网格，每个任务独立状态
+    if (isAgentMode && agentImageCount > 0) {
+      const agentTasks = image.metadata?.agent_tasks || [];
+      const currentImageUrls = imageUrlsR2?.length ? imageUrlsR2 : (imageUrls || []);
+      const getGridCols = (count: number) => {
+        if (count <= 4) return 'grid-cols-4';
+        return 'grid-cols-4'; // 超过4张也是一行4张，自动换行
+      };
+
+      // 构建每个卡片的状态：优先用 agentTasks，否则用 currentImageUrls
+      const cardStates = Array.from({ length: agentImageCount }).map((_, index) => {
+        const task = agentTasks[index];
+        const taskImageUrl = task?.r2Url || task?.imageUrl;
+        const taskCompleted = task?.status === 'completed' || !!taskImageUrl;
+
+        // 如果 agentTasks 没数据，回退到 currentImageUrls 数组
+        const fallbackUrl = currentImageUrls[index];
+
+        return {
+          isCompleted: taskCompleted || !!fallbackUrl,
+          imageUrl: taskImageUrl || fallbackUrl,
+        };
+      });
+
+      return (
+        <>
+        <div className="space-y-3">
+          {/* Agent 模式进度指示 */}
+          <div className="flex items-center gap-2 text-sm text-amber-400">
+            <Sparkles className="h-4 w-4" />
+            <span>Generating: {cardStates.filter(c => c.isCompleted).length}/{agentImageCount} images</span>
+          </div>
+
+          {/* 多图网格展示 - 使用复用组件 */}
+          <div className={`grid ${getGridCols(agentImageCount)} gap-2`}>
+            {cardStates.map((card, index) => (
+              <ImageCard
+                key={index}
+                imageUrl={card.isCompleted ? card.imageUrl : undefined}
+                prompt={image.prompt}
+                index={index}
+                total={agentImageCount}
+                isLoading={!card.isCompleted}
+                progress={progressData.progress}
+                remainingTime={progressData.remainingTime}
+                onImageClick={onImageClick}
+                onDownload={card.isCompleted ? handleAgentImageDownload : undefined}
+                isDownloading={downloadingIndex === index}
+              />
+            ))}
+          </div>
+
+          {/* 删除按钮 */}
+          {onDelete && (
+            <div className="flex justify-end">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-gray-400 hover:text-red-400"
+                onClick={handleDeleteClick}
+                disabled={isDeleting}
+              >
+                {isDeleting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Trash2 className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+          )}
+        </div>
+
+        <DeleteConfirmDialog
+          isOpen={showDeleteDialog}
+          onClose={() => setShowDeleteDialog(false)}
+          onConfirm={handleConfirmDelete}
+          prompt={image.prompt || ''}
+          isDeleting={isDeleting}
+        />
+        </>
+      );
+    }
+
+    // 普通模式：单个进度条
     return (
       <>
       <div className="space-y-3">
-        {/* Processing placeholder with progress - 三分之二宽度，左对齐 */}
+        {/* Processing placeholder with progress - 固定高度，左对齐 */}
         <div className="flex justify-start">
-          <div className={`${isMobile ? 'w-1/2' : 'w-1/3'} ${getImageAspectClass(image)} flex items-center justify-center relative overflow-hidden rounded-lg`}>
+          <div className={`${getImageContainerClass()} w-80 flex items-center justify-center relative overflow-hidden rounded-lg bg-gray-800`}>
             {/* Background with subtle gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-lg" />
-            
+
             {/* Content */}
-            <div className="relative z-10 text-center w-full px-4">
-              {/* Status text - only for prompt optimizing */}
-              {status === "prompt_optimizing" && (
-                <p className="text-sm font-medium text-white mb-4">
-                  Optimizing Prompt...
-                </p>
-              )}
-              
-              {/* Progress bar */}
-              <div className="w-full mb-4">
-                <ImageProgressBar 
-                  progress={progressData.progress} 
+            <div className="relative z-10 text-center w-full px-6 py-4">
+              {/* Progress bar and percentage */}
+              <div className="w-full mb-2">
+                <ImageProgressBar
+                  progress={progressData.progress}
                   showPercentage={false}
                 />
               </div>
-              
-              {/* Progress percentage and remaining time */}
+
+              {/* Progress percentage only */}
               <div className="text-center">
-                <div className="text-lg font-bold text-white mb-1">
+                <div className="text-lg font-bold text-white">
                   {Math.round(progressData.progress)}%
-                </div>
-                <div className="text-xs text-gray-300">
-                  {progressData.remainingTime > 0 ? (
-                    `${Math.floor(progressData.remainingTime)}s remaining`
-                  ) : (
-                    "Almost done..."
-                  )}
                 </div>
               </div>
             </div>
@@ -571,7 +759,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
 
         {/* No action buttons during processing */}
       </div>
-      
+
       {/* Delete confirmation dialog */}
       <DeleteConfirmDialog
         isOpen={showDeleteDialog}
@@ -589,70 +777,55 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
     return (
       <>
       <div className="space-y-3">
-        {/* Error placeholder - 三分之二宽度，左对齐 */}
+        {/* Error placeholder - 固定高度，左对齐 */}
         <div className="flex justify-start">
-          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} ${getImageAspectClass(image)} bg-gray-700 rounded-lg flex items-center justify-center`}>
+          <div className={`${getImageContainerClass()} w-80 bg-gray-700 rounded-lg flex items-center justify-center relative group`}>
             <div className="text-center">
               <div className="text-red-400 mb-2">❌</div>
               <p className="text-sm text-red-400">Generation Failed</p>
               {errorMessage && (
-                <p className="text-xs text-gray-400 mt-1 max-w-xs">
+                <p className="text-xs text-gray-400 mt-1 max-w-xs line-clamp-3 break-all overflow-hidden px-2">
                   {errorMessage}
                 </p>
               )}
             </div>
+
+            {/* Delete button - hover 时显示，与成功状态保持一致 */}
+            {onDelete && (
+              <div className={`absolute top-3 right-3 ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-200`}>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="bg-black/60 hover:bg-red-600/80 text-white border-none h-8 w-8 p-0 rounded-md"
+                  onClick={handleDeleteClick}
+                  disabled={isDeleting}
+                  title="Delete image"
+                >
+                  {isDeleting ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Trash2 className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Retry and Delete buttons */}
-        <div className="flex justify-between items-center">
+        {/* Retry button */}
+        {canEdit && onRegenerate && (
           <div className="flex gap-2">
-            {canEdit && onRegenerate && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleRegenerate}
-                className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-              >
-                <RotateCcw className="mr-2 h-4 w-4" />
-                Retry
-              </Button>
-            )}
-          </div>
-          {onDelete && (
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
-              onClick={(e) => {
-                console.log("🗑️ FAILED STATE BUTTON CLICKED - Direct onClick handler");
-                handleDeleteClick(e);
-              }}
-              onMouseDown={(e) => {
-                console.log("🗑️ MOUSE DOWN on failed state button");
-              }}
-              onMouseUp={(e) => {
-                console.log("🗑️ MOUSE UP on failed state button");
-              }}
-              disabled={isDeleting}
-              className="text-gray-400 hover:text-red-400 cursor-pointer border-2 border-red-500"
-              style={{ 
-                pointerEvents: 'auto',
-                backgroundColor: 'rgba(255, 0, 0, 0.1)',
-                minWidth: '40px',
-                minHeight: '40px',
-                zIndex: 1000,
-                position: 'relative'
-              }}
-              title="Delete Failed Image - Click Me!"
+              onClick={handleRegenerate}
+              className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
             >
-              {isDeleting ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Trash2 className="h-4 w-4" />
-              )}
+              <RotateCcw className="mr-2 h-4 w-4" />
+              Retry
             </Button>
-          )}
-        </div>
+          </div>
+        )}
       </div>
       
       {/* Delete confirmation dialog */}
@@ -672,7 +845,7 @@ const ImageStatusDisplay: React.FC<ImageStatusDisplayProps> = React.memo(({
     <>
       <div className="space-y-3">
         <div className="flex justify-start">
-          <div className={`${isMobile ? 'w-2/3' : 'w-1/2'} ${getImageAspectClass(image)} bg-gray-700 rounded-lg flex items-center justify-center`}>
+          <div className={`${getImageContainerClass()} w-80 bg-gray-700 rounded-lg flex items-center justify-center`}>
             <div className="text-center">
               <p className="text-sm text-gray-400">Unknown Status</p>
             </div>

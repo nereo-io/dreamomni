@@ -6,8 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import { BannerSection, Tab } from "@/types/pages/model-landing-page";
+import { getMaxPromptLength } from "@/config/image-models";
 
-const MAX_PROMPT_LENGTH = 2000;
+// 使用默认模型的最大提示词长度（首页 banner 不选择具体模型，使用默认值）
+const MAX_PROMPT_LENGTH = getMaxPromptLength("nano-banana");
 
 export default function ModelBanner({ section }: { section: BannerSection }) {
   const [prompt, setPrompt] = useState("");
@@ -337,9 +339,9 @@ export default function ModelBanner({ section }: { section: BannerSection }) {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-wand-sparkles h-4 w-4 mr-2"
             >
               <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"></path>

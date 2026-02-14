@@ -11,10 +11,10 @@ export const getStatusMap = (t: any) => ({
     color: "bg-purple-500",
     icon: Loader2,
   },
-  IN_QUEUE: { 
-    label: t("status.inQueue"), 
-    color: "bg-yellow-500", 
-    icon: Clock 
+  IN_QUEUE: {
+    label: t("status.inQueue"),
+    color: "bg-yellow-500",
+    icon: Clock
   },
   IN_PROGRESS: {
     label: t("status.generating"),
@@ -31,10 +31,10 @@ export const getStatusMap = (t: any) => ({
     color: "bg-green-500",
     icon: CheckCircle,
   },
-  FAILED: { 
-    label: t("status.failed"), 
-    color: "bg-red-500", 
-    icon: XCircle 
+  FAILED: {
+    label: t("status.failed"),
+    color: "bg-red-500",
+    icon: XCircle
   },
 });
 

@@ -99,7 +99,7 @@ export default async function DataPage() {
           {/* Yesterday's Performance */}
           <div className="bg-card p-6 rounded-lg shadow border">
             <h3 className="text-xl font-semibold mb-4 text-center">
-              Yesterday's Performance
+              Yesterday&apos;s Performance
             </h3>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
@@ -163,7 +163,7 @@ export default async function DataPage() {
           {/* Today's Video Performance */}
           <div className="bg-card p-6 rounded-lg shadow border">
             <h3 className="text-xl font-semibold mb-4 text-center">
-              Today's Video Performance
+              Today&apos;s Video Performance
             </h3>
             <div className="space-y-4">
               <div className="flex justify-between items-center">

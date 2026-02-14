@@ -15,7 +15,7 @@ export function FeedbackSection({ isCollapsed }: FeedbackSectionProps) {
   };
 
   const handleDiscord = () => {
-    window.open("https://discord.gg/6YhsEEgX", "_blank");
+    window.open("https://discord.gg/9d6jkCRV6", "_blank");
   };
 
   if (isCollapsed) {

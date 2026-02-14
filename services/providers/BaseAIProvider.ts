@@ -3,13 +3,14 @@
  * Base AI Provider Abstract Class
  */
 
-import type { 
-  AIServiceProvider, 
-  ProviderTaskResponse, 
+import type {
+  AIServiceProvider,
+  ProviderTaskResponse,
   ProviderImageResult,
   AIProviderModel,
   AIProviderConfig
 } from "@/types/provider.d";
+import { getMaxPromptLength } from "@/config/image-models";
 
 export interface GenerateImageRequest {
   prompt: string;
@@ -23,8 +24,22 @@ export interface GenerateImageRequest {
   width?: number;
   height?: number;
   output_format?: "png" | "jpeg";
+
+  // 标准 API 宽高比字段 (兼容旧版)
+  // 注: 建议使用 aspect_ratio 字段,image_size 将来会被废弃
   image_size?: "auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9";
+
   metadata?: Record<string, any>;
+
+  // Pro 模型参数 (Nano Banana Pro 等)
+  // 注: 具体支持的值定义在 config/image-models.ts
+  aspect_ratio?: string;  // 宽高比,如 '16:9', '1:1' 等
+  resolution?: string;     // 分辨率,如 '1K', '2K', '4K' 等
+  image_input?: string[];  // 用于图生图(替代 EditImageRequest 中的 imageUrls)
+
+  // 回调相关字段
+  generationId?: string;  // 用于回调时直接查询数据库记录
+  isAgentMode?: boolean;  // 是否为 Agent 模式（Agent 模式使用异步）
 }
 
 export interface EditImageRequest {
@@ -37,6 +52,14 @@ export interface EditImageRequest {
   output_format?: "png" | "jpeg";
   image_size?: "auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9";
   metadata?: Record<string, any>;
+
+  // Pro 模型参数 (与 GenerateImageRequest 保持一致)
+  aspect_ratio?: string;  // 宽高比,如 '16:9', '1:1' 等
+  resolution?: string;     // 分辨率,如 '1K', '2K', '4K' 等
+
+  // 回调相关字段
+  generationId?: string;  // 用于回调时直接查询数据库记录
+  isAgentMode?: boolean;  // 是否为 Agent 模式（Agent 模式使用异步）
 }
 
 export interface ProviderResponse {
@@ -108,9 +131,42 @@ export abstract class BaseAIProvider {
     if (!request.prompt || request.prompt.trim().length === 0) {
       throw new Error('Prompt is required');
     }
-    
-    if (request.prompt.length > 2000) {
-      throw new Error('Prompt is too long (max 2000 characters)');
+
+    // 动态获取模型配置来验证参数
+    const modelId = 'model' in request ? request.model : undefined;
+    const modelConfig = modelId ? this.getModelById(modelId) : null;
+
+    // 根据模型配置确定提示词最大长度（从统一配置获取）
+    const maxLength = modelId ? getMaxPromptLength(modelId) : 5000;
+    if (request.prompt.length > maxLength) {
+      throw new Error(`Prompt is too long (max ${maxLength} characters)`);
+    }
+
+    // 如果有模型配置,使用配置中的限制进行验证
+    if (modelConfig && 'image_input' in request && request.image_input) {
+      // 注: 这里使用硬编码 8 是因为 AIProviderModel 接口没有 maxInputImages 字段
+      // 实际限制在 config/image-models.ts 中定义
+      const maxImages = modelId === 'nano-banana-pro' ? 8 : 5;
+      if (request.image_input.length > maxImages) {
+        throw new Error(`Model supports maximum ${maxImages} input images`);
+      }
+    }
+
+    // 宽高比验证 (如果提供了)
+    if ('aspect_ratio' in request && request.aspect_ratio && modelConfig) {
+      const validRatios = modelConfig.supportedAspectRatios || [];
+      if (validRatios.length > 0 && !validRatios.includes(request.aspect_ratio)) {
+        throw new Error(`Invalid aspect ratio. Supported: ${validRatios.join(', ')}`);
+      }
+    }
+
+    // 分辨率验证 (Pro 模型特定)
+    if ('resolution' in request && request.resolution && modelId === 'nano-banana-pro') {
+      // 注: 这里仍需硬编码,因为 AIProviderModel 没有 supportedResolutions 字段
+      const validResolutions = ['1K', '2K', '4K'];
+      if (!validResolutions.includes(request.resolution)) {
+        throw new Error(`Invalid resolution. Supported: ${validResolutions.join(', ')}`);
+      }
     }
   }
 

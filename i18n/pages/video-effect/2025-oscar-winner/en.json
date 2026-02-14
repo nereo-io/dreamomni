@@ -1,0 +1,16 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "2025-oscar-winner-1",
+        "title": "2025 Oscar Winner",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/2025-oscar-winner_cover.webp?v=1756603061907",
+        "preview_gif": "https://r2.veo3ai.io/effects-optimized/2025-oscar-winner_preview.gif?v=1756600362677"
+      }
+    ],
+    "form": {
+      "title": "2025 Oscar Winner",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_oscar_250226.png"
+    }
+  }
+}

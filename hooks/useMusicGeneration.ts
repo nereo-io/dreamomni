@@ -1,0 +1,377 @@
+import { useState, useCallback, useEffect, useRef } from "react";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
+import type {
+  MusicGenerationType,
+  MusicGenerationStatus,
+  VocalGender,
+} from "@/types/music.d";
+
+interface MusicGenerationParams {
+  generationType?: MusicGenerationType;
+  customMode?: boolean;
+  instrumental?: boolean;
+  prompt?: string;
+  title?: string;
+  style?: string;
+  negativeTags?: string;
+  vocalGender?: VocalGender;
+  uploadAudioUrl?: string;
+  modelId?: string;
+  styleWeight?: number;
+  weirdnessConstraint?: number;
+  audioWeight?: number;
+  personaId?: string;
+  captchaToken?: string;
+}
+
+interface UserCreditsInfo {
+  remainingCredits: number;
+  deductedCredits: number;
+}
+
+interface AudioFile {
+  audio_url: string | null;
+  audio_url_r2: string | null;
+  audio_url_provider: string | null;
+  image_url: string | null;
+  stream_audio_url: string | null;
+  duration_seconds: number | null;
+  prompt: string | null;
+  tags: string | null;
+}
+
+interface MusicGenerationResult {
+  id: string;
+  providerTaskId?: string;
+  provider: string;
+  model_id: string;
+  generation_type: MusicGenerationType;
+  custom_mode: boolean;
+  instrumental: boolean;
+  status: MusicGenerationStatus;
+  prompt?: string;
+  title?: string;
+  style?: string;
+  // 保留旧字段以兼容老数据
+  audio_url?: string;
+  audio_url_r2?: string;
+  audio_url_provider?: string;
+  image_url?: string;
+  stream_audio_url?: string;
+  generated_tags?: string;
+  duration_seconds?: number;
+  // 新增：多个音频文件数组
+  audio_files?: AudioFile[];
+  error_message?: string;
+  credits_cost: number;
+  created_at?: string;
+  updated_at?: string;
+  completed_at?: string;
+  userCredits?: UserCreditsInfo;
+}
+
+interface PollOptions {
+  interval?: number;
+  maxAttempts?: number;
+}
+
+export default function useMusicGeneration() {
+  const t = useTranslations("music-generator");
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentGeneration, setCurrentGeneration] =
+    useState<MusicGenerationResult | null>(null);
+  const [recentGenerations, setRecentGenerations] = useState<
+    MusicGenerationResult[]
+  >([]);
+  const [history, setHistory] = useState<MusicGenerationResult[]>([]);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
+  const [isPolling, setIsPolling] = useState(false);
+  const [pollingId, setPollingId] = useState<string | null>(null);
+
+  const pollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const pollAttemptsRef = useRef<number>(0);
+  const consecutiveErrorsRef = useRef<number>(0);
+
+  const clearPollTimeout = useCallback(() => {
+    if (pollTimeoutRef.current) {
+      clearTimeout(pollTimeoutRef.current);
+      pollTimeoutRef.current = null;
+    }
+  }, []);
+
+  const checkStatus = useCallback(
+    async (id: string): Promise<MusicGenerationResult> => {
+        const response = await fetch(`/api/music-generation/status/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const result = await response.json();
+
+        if (result.code !== 0) {
+          throw new Error(result.message || "Failed to check status");
+        }
+
+      if (!result.data) {
+        throw new Error("No data returned from status check");
+      }
+
+      // 映射字段：API 返回驼峰命名，前端使用下划线命名
+      const data = result.data;
+      return {
+        ...data,
+        audio_files: data.audioFiles || data.audio_files,
+        error_message: data.errorMessage || data.error_message,
+        created_at: data.createdAt || data.created_at,
+        updated_at: data.updatedAt || data.updated_at,
+        completed_at: data.completedAt || data.completed_at,
+      };
+    },
+    []
+  );
+
+  const updateCurrentGeneration = useCallback(
+    (updates: Partial<MusicGenerationResult>) => {
+      setCurrentGeneration((prev) => {
+        const updated = prev
+          ? { ...prev, ...updates }
+          : (updates as MusicGenerationResult);
+        return updated;
+      });
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (!isPolling || !pollingId) {
+      clearPollTimeout();
+      return;
+    }
+
+    const pollFunction = async () => {
+      // 检查最大轮询次数
+      if (pollAttemptsRef.current >= 100) {
+        setIsPolling(false);
+        setPollingId(null);
+        toast.error(t("toast.pollTimeout") || "Poll timeout, please refresh manually");
+        return;
+      }
+
+      pollAttemptsRef.current++;
+
+      try {
+        const status = await checkStatus(pollingId);
+
+        // 成功获取状态，重置连续错误计数
+        consecutiveErrorsRef.current = 0;
+
+        console.log(`[Polling] Attempt ${pollAttemptsRef.current}: Status = ${status.status}`, {
+          audioFiles: status.audio_files,
+          audioFilesCount: status.audio_files?.length || 0,
+        });
+
+        updateCurrentGeneration({
+          ...status,
+          id: status.id || pollingId,
+        });
+
+        // 直接更新历史列表中对应的任务卡片
+        setHistory((prevHistory) => {
+          const updated = prevHistory.map((item) => {
+            if (item.id === pollingId) {
+              const updatedItem = {
+                ...item,
+                ...status,
+                id: status.id || pollingId,
+              };
+              console.log(`[Polling] Updated history item:`, {
+                id: updatedItem.id,
+                status: updatedItem.status,
+                audioFiles: updatedItem.audio_files,
+                audioFilesCount: updatedItem.audio_files?.length || 0,
+              });
+              return updatedItem;
+            }
+            return item;
+          });
+          return updated;
+        });
+
+        if (status.status === "COMPLETED") {
+          console.log("[Polling] Task completed, stopping polling");
+          setIsPolling(false);
+          setPollingId(null);
+          toast.success(t("toast.musicCompleted") || "Music generation completed!");
+          return;
+        }
+
+        if (status.status === "FAILED") {
+          console.log("[Polling] Task failed, stopping polling");
+          setIsPolling(false);
+          setPollingId(null);
+          toast.error(status.error_message || t("toast.musicFailed") || "Music generation failed");
+          return;
+        }
+
+        // 继续轮询
+        const timeoutId = setTimeout(pollFunction, 5000);
+        pollTimeoutRef.current = timeoutId;
+
+      } catch (error) {
+        console.error(`[Polling] Error on attempt ${pollAttemptsRef.current}:`, error);
+        consecutiveErrorsRef.current++;
+        
+        // 连续错误5次才停止
+        if (consecutiveErrorsRef.current >= 5) {
+          console.error("[Polling] Too many consecutive errors (5+), stopping polling");
+          setIsPolling(false);
+          setPollingId(null);
+          toast.error(t("toast.statusCheckFailed") || "Status check failed, please retry");
+          return;
+        }
+
+        console.log(`[Polling] Error ${consecutiveErrorsRef.current}/5, will retry in 5 seconds...`);
+        // 继续尝试轮询
+        const timeoutId = setTimeout(pollFunction, 5000);
+        pollTimeoutRef.current = timeoutId;
+      }
+    };
+
+    // 首次立即执行
+    pollFunction();
+
+    // 清理函数
+    return () => {
+      if (pollTimeoutRef.current) {
+        clearTimeout(pollTimeoutRef.current);
+        pollTimeoutRef.current = null;
+      }
+    };
+  }, [isPolling, pollingId]);
+
+  useEffect(() => {
+    return () => {
+      clearPollTimeout();
+    };
+  }, [clearPollTimeout]);
+
+  const submitGeneration = useCallback(
+    async (
+      params: MusicGenerationParams
+    ): Promise<MusicGenerationResult | null> => {
+      setIsLoading(true);
+      try {
+        const response = await fetch("/api/music-generation/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(params),
+        });
+
+        const result = await response.json();
+
+        if (result.code !== 0) {
+          throw new Error(result.message || "Submission failed");
+        }
+
+        const newGeneration: MusicGenerationResult = {
+          id: result.data.id,
+          providerTaskId: result.data.providerTaskId,
+          provider: result.data.provider,
+          model_id: result.data.modelId,
+          generation_type: params.generationType || 'direct',
+          custom_mode: params.customMode !== undefined ? params.customMode : true,
+          instrumental: params.instrumental || false,
+          status: result.data.status,
+          prompt: params.prompt,
+          title: params.title,
+          style: params.style,
+          credits_cost: 12,
+          created_at: new Date().toISOString(),
+          userCredits: {
+            remainingCredits: result.data.userCredits,
+            deductedCredits: 12,
+          },
+        };
+
+        setCurrentGeneration(newGeneration);
+        toast.success(t("toast.musicSubmitted") || "Music generation task submitted!");
+        return newGeneration;
+      } catch (error) {
+        console.error("Failed to submit generation task:", error);
+        toast.error(error instanceof Error ? error.message : "Submission failed");
+        return null;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [t]
+  );
+
+  const pollStatus = useCallback((id: string) => {
+    console.log(`[Polling] Starting polling for task: ${id}`);
+    setPollingId(id);
+    setIsPolling(true);
+    pollAttemptsRef.current = 0;
+    consecutiveErrorsRef.current = 0;
+  }, []);
+
+  const stopPolling = useCallback(() => {
+    console.log("[Polling] Manually stopping polling");
+    setIsPolling(false);
+    setPollingId(null);
+    pollAttemptsRef.current = 0;
+    consecutiveErrorsRef.current = 0;
+    clearPollTimeout();
+  }, [clearPollTimeout]);
+
+  const fetchHistory = useCallback(
+    async (page: number = 1, limit: number = 20) => {
+      setIsLoadingHistory(true);
+      try {
+        const response = await fetch(
+          `/api/music-generation/history?page=${page}&limit=${limit}`
+        );
+        const result = await response.json();
+
+        if (result.code !== 0) {
+          throw new Error(result.message || "Failed to fetch history");
+        }
+
+        setHistory(result.data.data);
+        return result.data;
+      } catch (error) {
+        console.error("Failed to fetch history:", error);
+        toast.error(
+          error instanceof Error ? error.message : "Failed to fetch history"
+        );
+        return null;
+      } finally {
+        setIsLoadingHistory(false);
+      }
+    },
+    []
+  );
+
+  return {
+    isLoading,
+    currentGeneration,
+    recentGenerations,
+    history,
+    isLoadingHistory,
+    isPolling,
+
+    submitGeneration,
+    pollStatus,
+    stopPolling,
+    fetchHistory,
+    updateCurrentGeneration,
+    setHistory,
+  };
+}
+
+export type { MusicGenerationParams, MusicGenerationResult, AudioFile };

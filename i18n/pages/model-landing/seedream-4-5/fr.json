@@ -1,0 +1,560 @@
+{
+  "banner": {
+    "title": "Generateur d'images IA Seedream 4.5",
+    "description": "Seedream 4.5 realise une amelioration globale grace a la mise a l'echelle complete du modele. Il identifie avec precision les sujets principaux dans l'edition multi-images, preserve strictement les details des images de reference et ameliore encore les capacites de typographie et de rendu de texte dense, permettant de produire des creations visuelles professionnelles avec une haute coherence et fidelite.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Texte vers Image",
+        "subTitle": "Prompt",
+        "value": "text-to-image",
+        "modelName": "Seedream 4.5",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Decrivez l'image que vous voulez creer...",
+        "buttonText": "Creer"
+      },
+      {
+        "type": "image",
+        "title": "Image vers Image",
+        "subTitle": "Image",
+        "value": "image-to-image",
+        "modelName": "Seedream 4.5",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Deposez des images ici ou cliquez pour selectionner",
+        "tips": "Telechargez jusqu'a 14 images de reference. Nous acceptons les formats JPEG, PNG, GIF, WEBP jusqu'a 20Mo avec des dimensions jusqu'a 4096 x 4096 pixels.",
+        "buttonText": "Creer"
+      }
+    ]
+  },
+  "partners": [
+    {
+      "name": "Coca-Cola",
+      "logo": "/imgs/partners/coca-cola-logo.png"
+    },
+    {
+      "name": "Microsoft",
+      "logo": "/imgs/partners/microsoft-logo.png"
+    },
+    {
+      "name": "Nike",
+      "logo": "/imgs/partners/nike-logo.png"
+    },
+    {
+      "name": "P&G",
+      "logo": "/imgs/partners/p-g-logo.png"
+    },
+    {
+      "name": "Lancome",
+      "logo": "/imgs/partners/lancome-logo.png"
+    },
+    {
+      "name": "Zoom",
+      "logo": "/imgs/partners/zoom-logo.png"
+    },
+    {
+      "name": "Sony",
+      "logo": "/imgs/partners/sony-logo.png"
+    },
+    {
+      "name": "Mercedes",
+      "logo": "/imgs/partners/mercedes-logo.png"
+    }
+  ],
+  "features": {
+    "title": "Fonctionnalites de Seedream 4.5",
+    "details": [
+      {
+        "title": "Coherence avec l'image de reference",
+        "description": "Preserve les traits du visage, l'eclairage, les tons de couleur et autres details de l'image de reference, offrant des capacites d'edition professionnelles.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt"
+            },
+            {
+              "title": "Image de sortie"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Garder uniquement le personnage dans le contour vert et supprimer les autres personnages."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/migrated-images/d7376b6e856e0b41adc88df2d88b8e2e.webp",
+                  "overlayContent": "https://r2.veo3ai.io/migrated-images/966bfc71671b055f006f51cb1d8295e1.webp",
+                  "altText": "Resultat de suppression de personnage"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Rendu 3D, monde miniature. Scene nocturne, ciel bleu fonce, clair de lune sur l'herbe. Lumiere orange chaude brillant depuis les fenetres des yourtes."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/migrated-images/12c5160f6e8a2a8e0db3e8da37d5506c.webp",
+                  "overlayContent": "https://r2.veo3ai.io/migrated-images/f1d2d5d101c4a0931a0d731588adca7a.webp",
+                  "altText": "Scene miniature 3D de yourte"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Traduire l'image en chinois, en utilisant une police manuscrite, avec tout le reste du contenu inchange."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/migrated-images/33eec199e2ff82d6e22af966f6bcd777.webp",
+                  "overlayContent": "https://r2.veo3ai.io/migrated-images/43e6d3c7ce3eb4904c64ac770f30bc80.webp",
+                  "altText": "Resultat de traduction de texte"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Garder la pose du modele et la forme fluide de la robe liquide inchangees. Changer le materiau du vetement du metal argente en eau claire completement transparente (ou verre). A travers l'eau liquide, les details de la peau du modele sont visibles. L'eclairage passe de la reflexion a la refraction."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/migrated-images/17bc0528c81c2a1a79ee166eec88b2b5.webp",
+                  "overlayContent": "https://r2.veo3ai.io/migrated-images/d2af840e6b0bbbc1acc1cbbb15fc789c.webp",
+                  "altText": "Resultat de transformation de materiau"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Changer le mot dans la zone surlignee en rouge en texte bleu italique."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/migrated-images/4094be4881cdaaf4cbf0ce902de3ff2c.webp",
+                  "overlayContent": "https://r2.veo3ai.io/migrated-images/17ccaf620075fdfd892fff1e2f4910fb.webp",
+                  "altText": "Resultat de changement de style de texte"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Generer une image d'affichage de produit best-seller dans un style de plateforme e-commerce moderne. Titre en haut: \"Today's Hot Sale\"; produit principal au centre de l'image; prix \"$9.99\" en dessous. Arriere-plan global: un degrade vertical passant de l'orange-rose au violet-bleu clair."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/migrated-images/d53da72c8b8d0d80abee0a9d91347ca2.webp",
+                  "overlayContent": "https://r2.veo3ai.io/migrated-images/93e3d1f190a2e285a910a497d5217ee5.webp",
+                  "altText": "Affichage de produit e-commerce"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Mise en page d'affiches et conception de logos",
+        "description": "Offre une composition et une typographie de niveau designer. Avec un rendu de petit texte clair et lisible, ideal pour les affiches, les visuels de marque et autres scenarios creatifs.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt"
+            },
+            {
+              "title": "Image de sortie"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Affiche d'exposition d'art minimaliste avec un fond blanc casse. Un dessin au trait noir d'un portrait humain est positionne legerement a droite du centre. Le titre \"A/W ART FAIR\" est ecrit en police serif dans le coin superieur gauche. Trois lignes de police extremement petite dans le coin inferieur gauche indiquent la periode d'exposition, le lieu et l'histoire de l'exposition, alignees a gauche avec un espacement uniforme."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/3aa98d6f56aff1a8d2729a9bf23b8f34.webp",
+                  "altText": "Affiche minimaliste de foire d'art"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Page de detail de produit de parfum haut de gamme, principalement dans des tons vert fonce et vert clair, avec un texte concis et elegant, transmettant l'atmosphere tranquille des forets de montagne et des etendues sauvages."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/39c0952995e92cd4683a0a095ebf920e.webp",
+                  "altText": "Page produit de parfum haut de gamme"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Trois ensembles de combinaisons publicitaires creatives minimalistes: une myrtille fraiche associee a des graffitis a l'encre noire dessines a la main avec des lignes vives et dynamiques; une guimauve artisanale duveteuse associee a des graffitis a l'encre noire avec des lignes douces et ondulees; une vraie feuille de ginkgo associee a des graffitis a l'encre noire avec des lignes elegantes et fluides."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/dda1522a5b0fa0886cced73aa98e0197.webp",
+                  "altText": "Combinaisons publicitaires creatives"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Visuel cle promotionnel de salle de sport style dynamique noir-orange avec des elements de typographie en couches. Au centre se trouve la silhouette d'un athlete en course avec un effet de flou de mouvement dynamique sur les membres et une posture concentree qui amplifie la sensation de vitesse et de puissance. L'arriere-plan presente des motifs geometriques abstraits en noir, orange et gris fonce, avec des rayures lumineuses diagonales et des effets d'explosion d'energie."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/d579141896d15b4af27351a490fcae5a.webp",
+                  "altText": "Visuel promotionnel de salle de sport"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Un outil de conception de cafe complet pour entrepreneurs et designers. Il couvre les besoins essentiels incluant l'agencement du magasin, le zonage fonctionnel, le style de decoration, la selection d'equipements et l'adaptation a la clientele, soutenant la planification integree des \"attributs commerciaux + design esthetique\". Convient comme image promotionnelle pour un produit SaaS de conception de cafe, avec un format 16:9."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/ef7906b35b29a9539d49d20ffea1722c.webp",
+                  "altText": "Promotion SaaS de conception de cafe"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Un design d'invitation de mariage de style vintage europeen. La carte a une base vert fonce, avec du papier blanc texture estampe de motifs delicats par-dessus—ses bords ornes de sculptures elaborees ressemblant a de la dentelle. La carte presente une typographie elegante en feuille d'or avec les details du mariage: les noms des maries, la date, le lieu, les benedictions et le message d'invitation. Au bas de la carte, une decoupe en papier d'eglise europeenne en forme de dome vert fonce sert de decoration. Entoure d'enveloppes avec des motifs botaniques et des fleurs vertes."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/02681f298805f9442fcfae093d444a0e.webp",
+                  "altText": "Invitation de mariage europeenne"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Design KV de nouveau produit beaute avec un fond degrade rose-blanc. Le produit presente une reflexion de lumiere douce. Grand texte en haut: Revitalize Skin Foundation Multi-Effect Repair. Petit texte pour la description des ingredients a droite, dispose en sections: Sodium Hyaluronate 3% facteur hydratant; Niacinamide 2% eclaircissant; Ceramides 1,5% reparateur; Centella Asiatica + Calendula Extract 2,8% complexe."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/1e1ac2481b12fd98fcafff1c3a8c895d.webp",
+                  "altText": "Design KV produit beaute"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Edition multi-images precise",
+        "description": "Identifie avec precision les elements cibles a travers plusieurs images d'entree, permettant une generation multi-images controlable et coherente.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Entree"
+            },
+            {
+              "title": "Image de sortie"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Couverture de livre de contes: Une petite fille et un petit renard se tiennent devant une cabane de foret lumineuse. La lune est enorme et onirique, avec de la poussiere d'etoiles flottant autour d'eux; des lumieres de lucioles illuminent la prairie; de petites fleurs blanches l'ornent delicatement; la brume cree une douce sensation de profondeur; une bordure de conte de fees en bronze ornee entoure toute la scene. Le schema de couleurs presente un contraste entre bleu-violet et or chaud. Les traits du visage des personnages restent coherents avec l'image originale. Le style general est hautement onirique, doux et magique, adapte a une couverture de livre d'images pour enfants."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/88321252b53631c504c95dee0ad8200e.webp",
+                  "altText": "Couverture de livre de contes"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "A partir de cette banniere, creer 6 affiches. Maintenir le meme style et les memes elements, mais la disposition des elements peut etre ajustee. Les rapports d'aspect sont respectivement 1:1, 2:3, 4:3, 16:9, 1:2 et 9:16."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/453622b2b766782861f6d027cab9aa10.webp",
+                  "altText": "Generation d'affiches multi-ratios"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Se referer a la creativite de l'image d'entree et generer 4 images separees pour le football, le volleyball, le golf et le tennis."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/b94faa39c4bcdeeda99849e5de0606f2.webp",
+                  "altText": "Variations creatives sportives"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Generer d'autres styles de cette image: peinture a l'huile, style montagne verte et eau, aquarelle, style peinture a l'encre."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/74599ec448f6d6bb492be0b05c160fa1.webp",
+                  "altText": "Variations de style"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Image unique presentant \"une scene de carnaval d'un cirque vintage\" avec toutes les caracteristiques des personnages preservees avec precision. Scene: Un lieu de carnaval avec des tentes colorees vintage et des enseignes neon, eclaire par des lumieres de scene jaunes chaudes. Style: Style cartoon americain retro. Les personnages se rassemblent en tant qu'artistes/public, avec tous les elements reproduits avec precision."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/migrated-images/18fce288db0d15233df9b26e285206d2.webp",
+                  "altText": "Carnaval de cirque vintage"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "gallery": {
+    "title": "Creativite liberee, explorez les possibilites",
+    "description": "Parcourez notre vitrine selectionnee pour inspirer votre prochaine grande idee.",
+    "items": [
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/8af61452b3007cac32a7631acf90d500.webp",
+        "prompt": "Garder la composition et la direction de l'eclairage inchangees. Remplacer le bonsai de pin a droite par un arrangement minimaliste de branches sechees (brindilles sans feuilles). Crucial: L'ombre sur le mur doit changer pour correspondre a la forme des branches sechees, montrant des ombres lineaires eparses et solitaires."
+      },
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/72bf74b3207ed01b1dddcf3be971c31d.webp",
+        "prompt": "Seance photo nocturne en exterieur: Un jeune homme se tient dans une cabine telephonique publique, tenant un combine bleu a son oreille. Une main est negligemment enfoncee dans sa poche, et il adopte une posture detendue. Il porte un T-shirt blanc avec un motif, un pantalon brun ample et une veste drapee sur son bras. Le verre de la cabine reflete les lampadaires de la ville avec un effet bokeh, creant un style de film vintage."
+      },
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/e607e877b48997651ccc6e11b5806ded.webp",
+        "prompt": "Une scene de bureau extremement visuellement frappante: Un professionnel est assis a un poste de travail encombre de documents et deux moniteurs supplementaires, tandis que tout l'espace est densement couvert d'un grand nombre de post-it jaunes—s'etendant des murs au plafond et eparpilles sur le sol. Chaque post-it est rempli de texte manuscrit, comme representant d'innombrables taches en attente ou informations, avec le focus visuel guide par les post-it convergeant vers la position du professionnel."
+      },
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/e0a3b126209abb494533105da31a68ef.webp",
+        "prompt": "La lumiere laterale de l'apres-midi illumine la tente de camping, avec la texture rugueuse de la toile de tente clairement visible. Un berger allemand est couche a l'interieur; son proprietaire s'accroupit pour lui serrer la patte."
+      },
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/65e12d7ee5b56bce6d83d960efdf0e6e.webp",
+        "prompt": "Portrait de mouvement dynamique: Une prise de vue a longue exposition dynamique d'une personne en mouvement sur un fond rouge vif, creant un effet visuel fluide et artistique."
+      },
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/5e03d8b37605436d45573ea45c680e91.webp",
+        "prompt": "Une main tient quatre photos de portrait style polaroid en noir et blanc sur un fond blanc vierge."
+      },
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/4bcceb323c68d8f7eff53c38e2e53b4b.webp",
+        "prompt": "Design d'affiche educative style C4D pour une session de partage de forum academique. Le sujet principal est une chaine de double helice ADN en verre translucide. Composition diagonale: dans le coin inferieur droit, le texte principal est affiche en grande police gris fonce: \"Conference Subject\"; en dessous, en plus petite police: \"A major breakthrough in genetics: scientists have recently completed the most comprehensive map of human genome variation to date, propelling precision medicine and disease prevention into a new era.\""
+      },
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/e4ef0a537e10bdb5790468a949744087.webp",
+        "prompt": "Cinq poissons rouges chatoyants se faufilent entre les fissures des pierres; quatre sont rouge et blanc, tandis qu'un est blanc argente. Au bord de l'etang, un chat British Shorthair dore les observe attentivement, comptant sur sa chance. Style aquarelle."
+      },
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/c385b83d51cdfb576798f29f57bfffb7.webp",
+        "prompt": "Scene de ruelle de marche de nuit: Un marche de nuit anime avec des lumieres vives, des stands de nourriture fumants et des reflets sur la route mouillee, creant une atmosphere chaleureuse, vibrante et authentiquement animee."
+      },
+      {
+        "src": "https://r2.veo3ai.io/migrated-images/47cd138f356126f0097ef68cb9f9a1ee.webp",
+        "prompt": "Ceci est une page PPT: le cote gauche affiche trois etapes experimentales pour la photosynthese, commencant par \"Experimental Preparation: 1. Select 2 geranium leaves of similar size; 2. Leaf Treatment; 3. Starch Test\", accompagne d'explications detaillees pour chacune de ces trois etapes. Sur le cote droit, il y a un diagramme de l'appareil experimental dessine en vert clair. Dans le coin de l'arriere-plan, il y a une mini bouteille d'iode gris clair et un trombone."
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Comment utiliser Seedream 4.5 gratuitement",
+    "description": "Suivez les etapes simples ci-dessous pour essayer Seedream 4.5",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Etape 1",
+        "description": "Selectionnez le modele 'Seedream 4.5' dans notre generateur d'images IA."
+      },
+      {
+        "number": "02",
+        "title": "Etape 2",
+        "description": "Entrez votre prompt texte ou telechargez jusqu'a 14 images de reference pour la generation image-vers-image."
+      },
+      {
+        "number": "03",
+        "title": "Etape 3",
+        "description": "Choisissez votre resolution preferee (1K, 2K ou 4K) et le rapport d'aspect, puis cliquez sur Creer."
+      }
+    ],
+    "buttonText": "Essayez Seedream 4.5 gratuitement sur Veo3 AI"
+  },
+  "youtubeCases": {
+    "title": "Videos YouTube sur Seedream 4.5",
+    "content": [
+      {
+        "youtubeLink": "https://www.youtube.com/embed/Q6QbaK57f5E",
+        "width": "560",
+        "height": "315"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/yMotu2o7U8w",
+        "width": "560",
+        "height": "315"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/LRzdO0pE4dM",
+        "width": "560",
+        "height": "315"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/ppDnmrgtHBk",
+        "width": "560",
+        "height": "315"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/fYVXpDNlSVs",
+        "width": "560",
+        "height": "315"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/APoss7LymdU",
+        "width": "560",
+        "height": "315"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/Xtl_z_cGtAE",
+        "width": "560",
+        "height": "315"
+      }
+    ]
+  },
+  "redditCases": {
+    "title": "Discussions Reddit sur Seedream 4.5",
+    "content": []
+  },
+  "twitterCases": {
+    "title": "Avis X sur Seedream 4.5",
+    "content": [
+      {
+        "id": "twitter-1",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1965763685647110332",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-2",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1965709887658500443",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-3",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1965439882152821169",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-4",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1965386520053121187",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-5",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1965510447693807854",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-6",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1965503376940302740",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-7",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1966187235088413176",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-8",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1912565147773858099",
+        "width": "550",
+        "height": "400"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Essayez Seedream 4.5 gratuitement sur Veo3 AI",
+    "buttonText": "Essayer Seedream 4.5 gratuitement"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Questions frequemment posees",
+    "description": "En savoir plus sur le generateur d'images IA Seedream 4.5",
+    "items": [
+      {
+        "title": "Qu'est-ce que Seedream 4.5?",
+        "description": "Seedream 4.5 est le modele avance de generation d'images IA de ByteDance, developpe par l'equipe Doubao. Il offre une qualite d'image exceptionnelle, le support de jusqu'a 14 images de reference, une sortie en resolution 4K native et des capacites de generation par lots."
+      },
+      {
+        "title": "Qu'est-ce qui rend Seedream 4.5 unique?",
+        "description": "Seedream 4.5 se distingue par son support leader de l'industrie pour 14 images de reference en mode image-vers-image, la generation en 4K native, le traitement par lots de jusqu'a 15 images, un excellent rendu de texte et des prix competitifs."
+      },
+      {
+        "title": "Seedream 4.5 est-il gratuit?",
+        "description": "Oui, Seedream 4.5 est gratuit a essayer sur Veo3 AI. Les nouveaux utilisateurs recoivent des credits gratuits lors de l'inscription, vous permettant d'experimenter les capacites du modele sans paiement initial."
+      },
+      {
+        "title": "Quelles resolutions Seedream 4.5 prend-il en charge?",
+        "description": "Seedream 4.5 prend en charge trois niveaux de resolution: 1K (standard), 2K (haute definition) et 4K (ultra haute definition). Chaque niveau de resolution offre des tarifs de credits differents."
+      },
+      {
+        "title": "Combien d'images puis-je generer a la fois?",
+        "description": "Seedream 4.5 prend en charge la generation par lots de jusqu'a 15 images en une seule requete, ce qui le rend efficace pour explorer des variations ou creer des ensembles d'images pour vos projets."
+      },
+      {
+        "title": "Quels rapports d'aspect sont pris en charge?",
+        "description": "Seedream 4.5 prend en charge une large gamme de rapports d'aspect incluant 1:1 (carre), 3:4, 4:3, 9:16 (portrait), 16:9 (paysage), 2:3, 3:2 et 21:9 (cinematique ultra-large)."
+      }
+    ]
+  }
+}

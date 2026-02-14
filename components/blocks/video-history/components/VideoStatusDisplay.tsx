@@ -22,6 +22,7 @@ interface VideoStatusDisplayProps {
   estimatedTime?: number;
   modelName?: string;
   imageUrl?: string;
+  posterUrl?: string;
   // New props for edit/regenerate/delete functionality
   generation?: VideoGenerationResult;
   onEdit?: (generation: VideoGenerationResult) => void;
@@ -43,6 +44,7 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
   estimatedTime,
   modelName,
   imageUrl,
+  posterUrl,
   generation,
   onEdit,
   onRegenerate,
@@ -63,19 +65,20 @@ const VideoStatusDisplay: React.FC<VideoStatusDisplayProps> = React.memo(({
             <div className="w-full">
               <VideoPlayer
                 videoUrl={videoUrl}
+                posterUrl={posterUrl}
                 onDownload={onDownload}
                 canDownload={canDownload}
                 isDownloading={isDownloading}
               />
             </div>
             {/* Action buttons for completed videos */}
-            {canEdit && generation && onEdit && onRegenerate && (
+            {generation && (onDelete || (canEdit && onEdit && onRegenerate)) && (
               <VideoActionButtons
                 generation={generation}
                 onEdit={onEdit}
                 onRegenerate={onRegenerate}
                 onDelete={onDelete}
-                canEdit={canDownload} // Use canDownload as indicator for non-example videos
+                canEdit={canEdit && canDownload} // Use canDownload as indicator for non-example videos
                 isDeleting={isDeleting}
               />
             )}

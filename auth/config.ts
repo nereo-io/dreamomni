@@ -15,6 +15,11 @@ import { signInWithEmail } from "@/services/supabase-auth";
 
 let providers: Provider[] = [];
 
+const authSecret = process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET;
+if (!authSecret && process.env.NODE_ENV === "production") {
+  throw new Error("AUTH_SECRET (or NEXTAUTH_SECRET) must be set in production.");
+}
+
 // Email/Password Auth with Supabase
 if (process.env.NEXT_PUBLIC_AUTH_EMAIL_ENABLED === "true") {
   providers.push(
@@ -276,24 +281,15 @@ export const providerMap = providers
 
 export const authOptions: NextAuthConfig = {
   providers,
-  secret: process.env.NEXTAUTH_SECRET,
+  trustHost: true,
+  // Prefer AUTH_SECRET (Auth.js) but keep NEXTAUTH_SECRET for legacy envs.
+  secret: authSecret,
   session: {
     strategy: "jwt",
   },
   pages: {
     signIn: "/auth/signin",
     error: "/auth/error",
-  },
-  cookies: {
-    pkceCodeVerifier: {
-      name: "next-auth.pkce.code_verifier",
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-      },
-    },
   },
   callbacks: {
     async signIn() {

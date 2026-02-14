@@ -1,10 +1,12 @@
+import Script from "next/script";
+
 export default function Plausible() {
   if (process.env.NODE_ENV !== "production") {
     return null;
   }
 
-  const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
   const plausibleScriptUrl = "https://app.pageview.app/js/script.js";
+  const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 
   if (!plausibleDomain || !plausibleScriptUrl) {
     return null;
@@ -12,8 +14,14 @@ export default function Plausible() {
 
   return (
     <>
-      <script defer data-domain={plausibleDomain} src={plausibleScriptUrl} />
-      <script
+      <Script
+        src={plausibleScriptUrl}
+        data-domain={plausibleDomain}
+        strategy="lazyOnload"
+      />
+      <Script
+        id="plausible-init"
+        strategy="lazyOnload"
         dangerouslySetInnerHTML={{
           __html: `
             window.plausible = window.plausible || function() {

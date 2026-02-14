@@ -15,7 +15,7 @@ export interface LocationInfo {
 export function useGeolocation() {
   const [location, setLocation] = useState<LocationInfo>({
     country: "Unknown",
-    countryCode: "US",
+    countryCode: "XX",
     detected: false,
   });
   const [loading, setLoading] = useState(true);
@@ -57,15 +57,18 @@ export function useGeolocation() {
         return;
       }
 
-      // 3. 服务器端 IP 检测（最后备选，需要网络请求）
-      // const serverLocation = await detectFromServer();
-      // setLocation(serverLocation);
-      // setLoading(false);
-    } catch (error) {
-      // 默认美国
+      // 3. 非俄罗斯地区 -> 默认为"其他地区"，触发 Creem 支付
       setLocation({
-        country: "United States",
-        countryCode: "US",
+        country: "Other",
+        countryCode: "XX",
+        detected: false,
+      });
+      setLoading(false);
+    } catch (error) {
+      // 异常情况也默认为"其他地区"
+      setLocation({
+        country: "Other",
+        countryCode: "XX",
         detected: false,
       });
       setLoading(false);
@@ -99,7 +102,7 @@ export function useGeolocation() {
       console.log("Cloudflare geolocation not available:", error);
     }
 
-    return { country: "Unknown", countryCode: "US", detected: false };
+    return { country: "Unknown", countryCode: "XX", detected: false };
   };
 
   // 通过时区推测位置（备选）
@@ -137,39 +140,22 @@ export function useGeolocation() {
         };
       }
 
-      // 如果没有匹配，根据时区前缀推测
-      if (timezone.startsWith("Europe/")) {
-        return { country: "Europe", countryCode: "EU", detected: true };
-      } else if (timezone.startsWith("Asia/")) {
-        return { country: "Asia", countryCode: "AS", detected: true };
-      } else if (timezone.startsWith("America/")) {
-        return { country: "United States", countryCode: "US", detected: true };
-      }
+      // 如果没有匹配到具体时区，不要猜测，返回未检测状态
+      // 让主流程继续到下一步或使用默认值
     } catch (error) {
       console.log("Timezone detection failed:", error);
     }
 
-    return { country: "Unknown", countryCode: "US", detected: false };
+    return { country: "Unknown", countryCode: "XX", detected: false };
   };
 
-  // 通过网站 locale 推测位置（优先网站语言，备选浏览器语言）
+  // 通过网站 locale 推测位置（只检查网站语言，不检查浏览器语言）
   const detectFromLanguage = (): LocationInfo => {
     try {
-      // 优先检查网站当前语言设置
-      // console.log("网站当前语言:", currentLocale);
-      // console.log("浏览器语言:", navigator.language);
-
+      // 只检查网站当前语言设置
+      // 注意：不再检查浏览器语言，因为哈萨克斯坦等独联体国家用户
+      // 浏览器语言可能是俄语，但他们无法使用俄罗斯本土支付方式
       if (currentLocale === "ru") {
-        return {
-          country: "Russia",
-          countryCode: "RU",
-          detected: true,
-        };
-      }
-
-      // 备选：检查浏览器语言
-      const browserLocale = navigator.language || "";
-      if (browserLocale.toLowerCase().startsWith("ru")) {
         return {
           country: "Russia",
           countryCode: "RU",
@@ -180,7 +166,7 @@ export function useGeolocation() {
       console.log("Language detection failed:", error);
     }
 
-    return { country: "Unknown", countryCode: "US", detected: false };
+    return { country: "Unknown", countryCode: "XX", detected: false };
   };
 
   // 判断是否为俄罗斯

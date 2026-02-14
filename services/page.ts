@@ -4,7 +4,12 @@ import { ClaudeSonnetFeaturesBlockTranslations } from "@/types/blocks/claude-son
 import { SeedanceFeaturesBlockTranslations } from "@/types/blocks/seedance-features";
 import { TextToVideoPage } from "@/types/pages/text-to-video";
 import { ImageToVideoPage } from "@/types/pages/image-to-video";
+import { ReferenceToVideoPage } from "@/types/pages/reference-to-video";
+import { TextToImagePage } from "@/types/pages/text-to-image";
+import { ImageToImagePage } from "@/types/pages/image-to-image";
 import { ModelLandingPage } from "@/types/pages/model-landing-page";
+import { ImageEffectPage } from "@/types/pages/image-effect-page";
+import { VideoEffectPage } from "@/types/pages/video-effect-page";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -43,6 +48,58 @@ export async function getModelLandingPage(
     );
     return await import(`@/i18n/pages/model-landing/${model}/en.json`).then(
       (module) => module.default as ModelLandingPage
+    );
+  }
+}
+
+/**
+ * Image effect landing page data loader
+ * @param slug - Effect slug (e.g., 'ghibli-style')
+ * @param locale - User locale
+ */
+export async function getImageEffectPage(
+  slug: string,
+  locale: string
+): Promise<ImageEffectPage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/image-effect/${slug}/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load image-effect/${slug}/${locale}.json, falling back to en.json`
+    );
+    return await import(`@/i18n/pages/image-effect/${slug}/en.json`).then(
+      (module) => module.default as ImageEffectPage
+    );
+  }
+}
+
+/**
+ * Video effect landing page data loader
+ * @param slug - Effect slug (e.g., 'ai-kissing')
+ * @param locale - User locale
+ */
+export async function getVideoEffectPage(
+  slug: string,
+  locale: string
+): Promise<VideoEffectPage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/video-effect/${slug}/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load video-effect/${slug}/${locale}.json, falling back to en.json`
+    );
+    return await import(`@/i18n/pages/video-effect/${slug}/en.json`).then(
+      (module) => module.default as VideoEffectPage
     );
   }
 }
@@ -154,4 +211,64 @@ export async function getVideoFeatureShowcaseBlock(
     description: "",
     features: [],
   };
+}
+
+export async function getReferenceToVideoPage(
+  locale: string
+): Promise<ReferenceToVideoPage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/reference-to-video/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load reference-to-video/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/pages/reference-to-video/en.json").then(
+      (module) => module.default as ReferenceToVideoPage
+    );
+  }
+}
+
+export async function getTextToImagePage(
+  locale: string
+): Promise<TextToImagePage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/text-to-image/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load text-to-image/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/pages/text-to-image/en.json").then(
+      (module) => module.default as TextToImagePage
+    );
+  }
+}
+
+export async function getImageToImagePage(
+  locale: string
+): Promise<ImageToImagePage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/image-to-image/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load image-to-image/${locale}.json, falling back to en.json`
+    );
+    return await import("@/i18n/pages/image-to-image/en.json").then(
+      (module) => module.default as ImageToImagePage
+    );
+  }
 }

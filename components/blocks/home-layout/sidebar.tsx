@@ -16,6 +16,8 @@ import {
   ChevronRight,
   Image,
   Play,
+  Film,
+  // Music, Mic, Guitar, Upload - removed as music AI items are hidden
 } from "lucide-react";
 import { BananaEmoji } from "@/components/icons/BananaIcon";
 import { Button } from "@/components/ui/button";
@@ -24,7 +26,9 @@ import { Pricing } from "@/types/blocks/pricing";
 import { getPricingBlock } from "@/services/page";
 import { useSidebar } from "@/contexts/sidebar";
 import { useTranslations, useLocale } from "next-intl";
+import { stripLocalePrefix } from "@/utils/pathname";
 import { FeedbackSection } from "./feedback-section";
+import { BetaBadge } from "@/components/ui/beta-badge";
 
 interface SidebarItem {
   icon: any;
@@ -37,8 +41,10 @@ export function Sidebar() {
   const { isCollapsed, setIsCollapsed } = useSidebar();
   const [showPricingModal, setShowPricingModal] = useState(false);
   const [pricingData, setPricingData] = useState<Pricing | null>(null);
-  const pathname = usePathname();
+  const pathname = usePathname() || "";
   const locale = useLocale();
+  const activePathname = stripLocalePrefix(pathname, locale);
+
   const t = useTranslations("sidebar");
 
   const sidebarItems: SidebarItem[] = [
@@ -48,6 +54,7 @@ export function Sidebar() {
   const videoAIItems: SidebarItem[] = [
     { icon: ImageIcon, labelKey: "image_to_video", href: "/image-to-video" },
     { icon: Type, labelKey: "text_to_video", href: "/text-to-video" },
+    { icon: Play, labelKey: "reference_to_video", href: "/reference-to-video" },
     // { icon: Sparkles, labelKey: "ai_effects", href: "/video-effects" },
   ];
 
@@ -62,6 +69,34 @@ export function Sidebar() {
       labelKey: "image_to_image",
       href: "/image-to-image",
     },
+  ];
+
+  // Music AI items - Hidden per user request
+  // const musicAIItems: SidebarItem[] = [
+  //   {
+  //     icon: Music,
+  //     labelKey: "text_to_music",
+  //     href: "/text-to-music",
+  //   },
+  //   {
+  //     icon: Mic,
+  //     labelKey: "add_vocals",
+  //     href: "/add-vocals",
+  //   },
+  //   {
+  //     icon: Guitar,
+  //     labelKey: "add_instrumental",
+  //     href: "/add-instrumental",
+  //   },
+  //   {
+  //     icon: Upload,
+  //     labelKey: "upload_cover",
+  //     href: "/upload-cover",
+  //   },
+  // ];
+
+  const agentItems: SidebarItem[] = [
+    { icon: Film, labelKey: "agent_videos", href: "/ai-shorts" },
   ];
 
   const otherItems: SidebarItem[] = [
@@ -86,22 +121,17 @@ export function Sidebar() {
       {/* Branding */}
       <div className="border-b border-gray-800 p-4">
         <div
-          className={`flex items-center ${
-            isCollapsed ? "justify-center" : "justify-between"
-          }`}
-        >
-          <div
-            className={`flex items-center ${
-              isCollapsed ? "justify-center" : "space-x-2"
+          className={`flex items-center ${isCollapsed ? "justify-center" : "justify-between"
             }`}
+        >
+          <Link
+            href={`/${locale}`}
+            className={`flex items-center transition-opacity hover:opacity-80 ${isCollapsed ? "justify-center" : "space-x-2"
+              }`}
           >
-            <img
-              src="/logo.png"
-              alt="Seedance"
-              className="w-8 h-8"
-            />
+            <img src="/logo.png" alt="Seedance" className="w-8 h-8" />
             {!isCollapsed && <span className="text-xl font-bold">Seedance</span>}
-          </div>
+          </Link>
           {!isCollapsed && (
             <div className="flex items-center space-x-2">
               <Button
@@ -120,9 +150,8 @@ export function Sidebar() {
 
       {/* Scrollable navigation */}
       <div
-        className={`flex-1 overflow-y-auto p-4 ${
-          isCollapsed ? "space-y-2" : "space-y-6"
-        }`}
+        className={`flex-1 overflow-y-auto p-4 ${isCollapsed ? "space-y-2" : "space-y-6"
+          }`}
       >
         {/* Main */}
         <nav className={isCollapsed ? "space-y-2" : "space-y-0"}>
@@ -130,9 +159,8 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${
-                pathname === item.href ? "bg-gray-800" : ""
-              } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${activePathname === item.href ? "bg-gray-800" : ""
+                } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
             >
               <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
               {!isCollapsed && <span>{t(item.labelKey)}</span>}
@@ -146,9 +174,8 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${
-                pathname === item.href ? "bg-gray-800" : ""
-              } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${activePathname === item.href ? "bg-gray-800" : ""
+                } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
             >
               <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
               {!isCollapsed && <span>{t(item.labelKey)}</span>}
@@ -162,9 +189,8 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${
-                pathname === item.href ? "bg-gray-800" : ""
-              } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${activePathname === item.href ? "bg-gray-800" : ""
+                } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
             >
               <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
               {!isCollapsed && <span>{t(item.labelKey)}</span>}
@@ -172,15 +198,50 @@ export function Sidebar() {
           ))}
         </div>
 
+        {/* Music AI items - Hidden per user request */}
+        {/* <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
+          {musicAIItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${pathname === item.href ? "bg-gray-800" : ""
+                } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
+            >
+              <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
+              {!isCollapsed && <span>{t(item.labelKey)}</span>}
+            </Link>
+          ))}
+        </div> */}
+
+        {agentItems.length > 0 && (
+          <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
+            {agentItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${activePathname.startsWith(item.href) ? "bg-gray-800" : ""
+                  } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
+              >
+                <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
+                {!isCollapsed && (
+                  <span className="flex items-center gap-2">
+                    {t(item.labelKey)}
+                    <BetaBadge />
+                  </span>
+                )}
+              </Link>
+            ))}
+          </div>
+        )}
+
         {/* Other */}
         <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
           {otherItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${
-                pathname === item.href ? "bg-gray-800" : ""
-              } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${activePathname === item.href ? "bg-gray-800" : ""
+                } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
             >
               <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
               {!isCollapsed && <span>{t(item.labelKey)}</span>}
@@ -193,13 +254,12 @@ export function Sidebar() {
       <div className="p-4">
         <FeedbackSection isCollapsed={isCollapsed} />
         <Button
-          className={`w-full bg-primary hover:bg-primary/90 text-primary-foreground ${
-            isCollapsed ? "flex items-center justify-center p-2" : ""
-          }`}
+          className={`w-full bg-primary hover:bg-primary/90 text-primary-foreground ${isCollapsed ? "flex items-center justify-center p-2" : "whitespace-normal text-left"
+            }`}
           onClick={() => setShowPricingModal(true)}
         >
-          <Crown className={`${isCollapsed ? "h-6 w-6" : "mr-2 h-4 w-4"}`} />
-          {!isCollapsed && <span>{t("upgrade_now")}</span>}
+          <Crown className={`${isCollapsed ? "h-6 w-6" : "mr-2 h-4 w-4 flex-shrink-0"}`} />
+          {!isCollapsed && <span className="break-words">{t("upgrade_now")}</span>}
         </Button>
       </div>
     </div>
@@ -220,9 +280,8 @@ export function Sidebar() {
 
       {/* Desktop sidebar */}
       <div
-        className={`fixed left-0 top-0 z-[60] hidden h-screen transition-all duration-300 md:block ${
-          isCollapsed ? "w-16" : "w-56"
-        }`}
+        className={`fixed left-0 top-0 z-[60] hidden h-screen transition-all duration-300 md:block ${isCollapsed ? "w-16" : "w-56"
+          }`}
       >
         <SidebarContent />
 

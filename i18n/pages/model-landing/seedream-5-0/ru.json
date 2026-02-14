@@ -1,0 +1,475 @@
+{
+  "banner": {
+    "title": "ИИ-генератор изображений Seedream 5.0 Lite",
+    "description": "Seedream 5.0 Lite — самый продвинутый ИИ-генератор изображений от ByteDance, создающий потрясающие результаты в 4K всего за 2-5 секунд. Благодаря передовой согласованности персонажей, высокому разрешению и возможностям многоизображенческого слияния, Seedream 5.0 Lite устанавливает новый стандарт в ИИ-генерации изображений.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Текст в изображение",
+        "subTitle": "Промпт",
+        "value": "text-to-image",
+        "modelName": "Seedream 5.0 Lite",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Опишите изображение, которое хотите создать...",
+        "buttonText": "Создать"
+      },
+      {
+        "type": "image",
+        "title": "Изображение в изображение",
+        "subTitle": "Изображение",
+        "value": "image-to-image",
+        "modelName": "Seedream 5.0 Lite",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Перетащите изображения сюда или нажмите для выбора",
+        "tips": "Загрузите до 14 референсных изображений. Мы принимаем форматы JPEG, PNG, GIF, WEBP до 20МБ с размерами до 4096 x 4096 пикселей.",
+        "buttonText": "Создать"
+      }
+    ]
+  },
+  "partners": [
+    {
+      "name": "Coca-Cola",
+      "logo": "/imgs/partners/coca-cola-logo.png"
+    },
+    {
+      "name": "Microsoft",
+      "logo": "/imgs/partners/microsoft-logo.png"
+    },
+    {
+      "name": "Nike",
+      "logo": "/imgs/partners/nike-logo.png"
+    },
+    {
+      "name": "P&G",
+      "logo": "/imgs/partners/p-g-logo.png"
+    },
+    {
+      "name": "Lancome",
+      "logo": "/imgs/partners/lancome-logo.png"
+    },
+    {
+      "name": "Zoom",
+      "logo": "/imgs/partners/zoom-logo.png"
+    },
+    {
+      "name": "Sony",
+      "logo": "/imgs/partners/sony-logo.png"
+    },
+    {
+      "name": "Mercedes",
+      "logo": "/imgs/partners/mercedes-logo.png"
+    }
+  ],
+  "features": {
+    "title": "Официальные возможности Seedream 5.0 Lite",
+    "details": [
+      {
+        "title": "Творчество с точным контролем",
+        "description": "Управляйте разными стилями и компоновками, чтобы каждая деталь точно соответствовала вашим инструкциям.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Промпт / Инструкция"
+            },
+            {
+              "title": "Результат"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Используй сцену с изображения 4: по два человека за столиком, они пьют кофе, общаются и смеются. Нужный стиль — claymation, как у качественного рекламного ключ-визуала кофейни."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/c38bd4d43ac0-b6f577ee05ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/47b4f3a9bfb2-b6c7976e05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Пример 1"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Ориентируйся на четыре стилевых референса справа, перенеси эти стили на персонажа-мужчину и верни четыре финальных варианта — по одному на каждый стиль."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/f10f44e5f0f0-b6eebded05ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/f98ecd05ec0f-b6c4535105ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "altText": "Пример 2"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Собери композицию из цветов с изображений 1–6. Количество не ограничено, можно добавить дополнительную зелень. Помести букет в вазу с изображения 7 и поставь её на стол с изображения 8."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/f4cb509360b9-b6f58abe05ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/fc70da1c89fd-b6c716f605ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Пример 3"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Сгенерируй одно мультикадровое изображение 4×4 (16 сцен). Меняться должен только стиль щенка, а сам объект во всех кадрах остаётся тем же самым."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/8894fe22ff21-2b39d2f905b311f1a654fa163e31788f.jpeg_tp.jpg",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/c158f8b7e2df-b6c1b79105ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Пример 4"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Возьми нижнее изображение как стилевой референс и выполни стилевой перенос для верхнего изображения."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/2e98a3a08dd5-5f438bf605b611f182ceb8599fe8441c.png_tpl.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/24f5da327c19-b6b5882f05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Пример 5"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Добавь розовый стикер-кролик со «звёздными» глазами в зелёный прямоугольник; в оба красных круга помести розовые стикеры-сердца того же размера; замени две зелёные кривые на белые; добавь жёлтые стикеры-звёзды на красные прямоугольники. У всех стикеров должна быть одинаковая белая обводка."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/41858b5889fc-b6f5ab0a05ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/ac8654c250de-b6cba80205ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Пример 6"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Связь с самыми актуальными трендами",
+        "description": "Благодаря онлайн-поиску новости и тренды в реальном времени можно мгновенно визуализировать.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Промпт / Инструкция"
+            },
+            {
+              "title": "Результат"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Найди погоду, температуру и время на 4 февраля 2026 года для Пекина, Нью-Йорка, Токио, Сиднея и Мадрида. Верни одно концептуальное композитное изображение из пяти вертикальных панорамных полос, сшитых без швов: в каждой полосе локальная погода, освещение и знаковая локация (Bird’s Nest, Манхэттен, Токийская башня, Оперный театр Сиднея, San Francisco el Grande). Единый кинематографичный color grading, высокий контраст, 8K, фотореализм."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/ba4313f574cd-b6b653ff05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Пример 1"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Преобразуй «слово 2025 года» по версии Merriam-Webster в конкретный визуальный образ."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/07307289a0ac-b6c4cfaf05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Пример 2"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "На основе темы Met Gala 2025 создай уместный образ для красной дорожки для борзой, без антропоморфизации."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/5148e8881ad7-b6b5e27305ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Пример 3"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Сделай UI-карточку в стиле glassmorphism с графиком цены золота за последние 7 дней (внутренний спотовый рынок), с точными значениями и временными метками."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/6727eac1862b-d652d10006fb11f19f9a00163e5311f8.jpeg_tp.jpg",
+                  "altText": "Пример 4"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Мышление за пределами воображения",
+        "description": "Модель интеллектуально понимает намерение за словами и создаёт именно то, что вы задумали.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Промпт / Инструкция"
+            },
+            {
+              "title": "Результат"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Сделай фотореалистичный просветительский постер: дикий слон в тропической саванне, заголовок «Let elephants not rely on imagining». Под заголовком в рамке — «August 12: World Elephant Day». Слева внизу — три информационных блока о диких слонах в чёрном полупрозрачном поле, справа внизу — QR-код."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/c4a116b04255-b6ca7ad305ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Пример 1"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Создай профессиональную mind map для кампании «Kitchen Helper» (малая бытовая техника): три основные категории с hand-drawn иконками, а под каждой — по три ключевых преимущества продвигаемых товаров."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/79f2500bcd2a-b6b7979e05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Пример 2"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Определи калорийность еды на изображении и аккуратно подпиши показатели прямо на самой картинке."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/f60f3b646982-b6f7629905ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/01e054fc5895-b6cac6e405ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Пример 3"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Покажи ряд сфер при одинаковом освещении, где шероховатость поверхности плавно возрастает слева направо."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/f3d380a1ffb9-b6cbbb0605ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Пример 4"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Сгенерируй премиальный e-commerce-визуал для арома-продукта: HD-предметка, дизайн упаковки, ключевые selling points, преимущества и промо-копирайт, в палитре от тёмно-зелёного к светло-зелёному."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/0f8f8d956c1d-b6b5591b05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Пример 5"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Сделай винтажные музейные стикеры с артефактами, окаменелостями и скульптурами в тонах сепии, ржавчины и состаренного золота. Нужны многослойные коллажные элементы, зернистая фактура, чёткие белые контуры и дорогая hand-drawn эстетика."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/34ab3ec76df1-b6bbf3e105ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Пример 6"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Производительность модели",
+        "description": "Ниже приведены результаты Seedream 5.0 Lite во внутреннем бенчмарке MagicBench. Модель значительно улучшилась по ключевым метрикам, включая следование промпту и alignment.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Бенчмарк"
+            },
+            {
+              "title": "График"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Радар Text-to-Image"
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/3462b2cedb98-dff53ad107e211f194ab1070fd7c758e.jpeg_tp.jpg",
+                  "altText": "Радар Text-to-Image"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Радар редактирования одного изображения"
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/525850f704f4-e0b953eb07e211f1bcc4fa163e51863e.jpeg_tp.jpg",
+                  "altText": "Радар редактирования одного изображения"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Как использовать Seedream 5.0 Lite",
+    "description": "Следуйте этим шагам, чтобы генерировать и дорабатывать изображения в Seedream 5.0 Lite на Veo3 AI.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Выберите Seedream 5.0 Lite",
+        "description": "Перед началом выберите модель Seedream 5.0 Lite в генераторе изображений."
+      },
+      {
+        "number": "02",
+        "title": "Введите промпт или загрузите референсы",
+        "description": "Опишите желаемый результат или загрузите референсы для стилевого переноса и редактирования."
+      },
+      {
+        "number": "03",
+        "title": "Сгенерируйте и дорабатывайте",
+        "description": "Создайте изображение, затем уточняйте его дополнительными инструкциями по композиции, стилю и деталям."
+      },
+      {
+        "number": "04",
+        "title": "Скачайте итоговый результат",
+        "description": "Просмотрите результат и скачайте, когда он полностью соответствует вашей задаче."
+      }
+    ],
+    "buttonText": "Попробовать Seedream 5.0 Lite бесплатно на Veo3 AI"
+  },
+  "youtubeCases": {
+    "title": "Видео YouTube о Seedream 5.0",
+    "content": []
+  },
+  "redditCases": {
+    "title": "Обсуждения Reddit о Seedream 5.0",
+    "content": []
+  },
+  "twitterCases": {
+    "title": "Обзоры X о Seedream 5.0",
+    "content": [
+      {
+        "id": "twitter-1",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020774137070035037",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-2",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020851262997102881",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-3",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2021101216009429225",
+        "width": "550",
+        "height": "400"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Попробовать Seedream 5.0 Lite бесплатно на Veo3 AI",
+    "buttonText": "Попробовать Seedream 5.0 Lite бесплатно"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Часто задаваемые вопросы",
+    "description": "Узнайте больше о генераторе изображений Seedream 5.0 Lite",
+    "items": [
+      {
+        "title": "Что такое Seedream 5.0 Lite?",
+        "description": "Seedream 5.0 Lite — это единая мультимодальная модель генерации изображений от ByteDance Seed с улучшенными возможностями понимания, рассуждения и генерации, а также поддержкой онлайн-поиска."
+      },
+      {
+        "title": "Какие ключевые возможности отмечены на официальной странице?",
+        "description": "Официальная страница выделяет три направления: творчество с точным контролем, связь с актуальными трендами (онлайн-поиск) и понимание намерения за пределами воображения."
+      },
+      {
+        "title": "Как онлайн-поиск помогает генерации изображений?",
+        "description": "Для промптов, связанных с текущими событиями или «живой» информацией, Seedream 5.0 Lite использует контекст онлайн-поиска, чтобы выдавать более актуальные визуальные результаты."
+      },
+      {
+        "title": "Поддерживает ли Seedream 5.0 Lite редактирование и стилевой перенос?",
+        "description": "Да. Официальные примеры включают стилевой перенос, консистентность в мультикадровых сценах, редактирование по инструкциям со стикерами и аннотирование изображений."
+      },
+      {
+        "title": "Как оценивается качество модели?",
+        "description": "На официальной странице представлены графики внутреннего бенчмарка MagicBench и отмечены улучшения по ключевым метрикам, включая следование промпту и alignment."
+      },
+      {
+        "title": "Где прочитать официальное техническое введение?",
+        "description": "Официальное техническое введение доступно здесь: https://seed.bytedance.com/zh/blog/deeper-thinking-more-accurate-generation-introducing-seedream-5-0-lite"
+      },
+      {
+        "title": "Как начать использовать Seedream 5.0 Lite на Veo3 AI?",
+        "description": "Откройте страницу Seedream 5.0 Lite на Veo3 AI, введите промпт (или загрузите референсы), сгенерируйте, доработайте и скачайте итоговое изображение."
+      }
+    ]
+  }
+}

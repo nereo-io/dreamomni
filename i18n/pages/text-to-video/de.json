@@ -1,31 +1,4 @@
 {
-  "videoExamples": [
-    {
-      "id": "glass-strawberry",
-      "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
-      "alt": "Glaserdbeere zerbricht beim Schneiden",
-      "prompt": "Eine Glaserdbeere zerbricht, wenn sie mit einem Messer auf einem Holzbrett geschnitten wird."
-    },
-    {
-      "id": "anime-rose",
-      "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Anime-Rose-Blooming-Bridge.mp4",
-      "alt": "Anime-Rose blüht mit tanzenden Blütenblättern",
-      "prompt": "Eine Anime-Rose blüht vor einer Seilbrücke, mit Blütenblättern, die in der Luft tanzen."
-    },
-    {
-      "id": "monkey-seagull",
-      "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
-      "alt": "Affe und Möwe tanzen am mondscheinbeleuchteten Strand",
-      "prompt": "Ein Affe und eine Möwe tanzen an einem mondscheinbeleuchteten Strand unter einem sternenklaren Himmel."
-    },
-    {
-      "id": "monarch-butterfly",
-      "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
-      "alt": "Monarchfalter flattert mit den Flügeln auf Blumen",
-      "prompt": "Ein Monarchfalter flattert mit seinen Flügeln auf bunten Blumen in einem sonnenbeschienenen Garten.",
-      "isNew": true
-    }
-  ],
   "faq": {
     "title": "Häufig gestellte Fragen",
     "description": "Finden Sie Antworten auf häufige Fragen zu unserem KI-Text-zu-Video-Generierungsservice.",
@@ -150,5 +123,32 @@
         "badge": "Geschichtenerzähler & Autoren"
       }
     ]
-  }
+  },
+  "videoExamples": [
+    {
+      "id": "glass-strawberry",
+      "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Glass-Strawberry-Shatters.mp4",
+      "alt": "Glaserdbeere zerbricht beim Schneiden",
+      "prompt": "Eine Glaserdbeere zerbricht, wenn sie mit einem Messer auf einem Holzbrett geschnitten wird."
+    },
+    {
+      "id": "anime-rose",
+      "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Anime-Rose-Blooming-Bridge.mp4",
+      "alt": "Anime-Rose blüht mit tanzenden Blütenblättern",
+      "prompt": "Eine Anime-Rose blüht vor einer Seilbrücke, mit Blütenblättern, die in der Luft tanzen."
+    },
+    {
+      "id": "monkey-seagull",
+      "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monkey-Seagull-Moonlit-Dance.mp4",
+      "alt": "Affe und Möwe tanzen am mondscheinbeleuchteten Strand",
+      "prompt": "Ein Affe und eine Möwe tanzen an einem mondscheinbeleuchteten Strand unter einem sternenklaren Himmel."
+    },
+    {
+      "id": "monarch-butterfly",
+      "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Monarch-Butterfly-on-Flowers.mp4",
+      "alt": "Monarchfalter flattert mit den Flügeln auf Blumen",
+      "prompt": "Ein Monarchfalter flattert mit seinen Flügeln auf bunten Blumen in einem sonnenbeschienenen Garten.",
+      "isNew": true
+    }
+  ]
 }

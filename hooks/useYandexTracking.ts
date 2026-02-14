@@ -1,17 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { yandexTracking } from "@/services/analytics/yandex-tracking";
 
 export function useYandexTracking() {
   // 使用 useRef 来追踪已触发的事件，避免重复上报
   const trackedEvents = useRef<{ [key: string]: number }>({});
 
-  const trackSignup = (method: string, userId?: string) => {
-    if (typeof window !== "undefined") {
-      yandexTracking.trackUserRegistration(method, userId);
-    }
-  };
+  const trackSignup = useCallback((method: string, userId?: string) => {
+    if (typeof window === "undefined") return;
+    yandexTracking.trackUserRegistration(method, userId);
+  }, []);
 
   const trackPayment = (orderId: string, amount: number, plan: string) => {
     if (typeof window !== "undefined") {

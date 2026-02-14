@@ -192,5 +192,52 @@
       "valid_months": 12,
       "group": "yearly"
     }
-  ]
+  ],
+  "faq": {
+    "name": "faq",
+    "title": "Häufig gestellte Fragen",
+    "description": "Alles, was Sie über unsere Preise und Pläne wissen müssen",
+    "items": [
+      {
+        "title": "Was sind Credits und wie funktionieren sie?",
+        "description": "Credits werden für alle KI-Generierungen verwendet. Ein Veo3 8s 1080p Video kostet 8 Credits, ein NanoBanana Pro Bild kostet 2 Credits. Mit den 200 Credits des Mini-Plans können Sie 25 Videos oder 100 Bilder pro Monat erstellen."
+      },
+      {
+        "title": "Was passiert mit ungenutzten Credits am Monatsende?",
+        "description": "Monatliche Credits werden nicht in den nächsten Monat übertragen. Wir empfehlen, Ihre Credits innerhalb Ihres Abrechnungszyklus zu nutzen. Bei Jahresplänen werden Credits monatlich im Laufe des Jahres gutgeschrieben und nicht übertragen."
+      },
+      {
+        "title": "Kann ich meinen Plan jederzeit auf- oder abwerten?",
+        "description": "Ja! Sie können Ihren Plan jederzeit upgraden und die Änderungen treten sofort in Kraft. Bei einem Downgrade wird die Änderung zu Beginn Ihres nächsten Abrechnungszyklus wirksam. Alle ungenutzten Credits aus Ihrem aktuellen Plan stehen bis zum Ende Ihrer aktuellen Abrechnungsperiode zur Verfügung."
+      },
+      {
+        "title": "Welche Zahlungsmethoden akzeptieren Sie?",
+        "description": "Wir akzeptieren alle gängigen Kredit- und Debitkarten über unseren sicheren Zahlungsanbieter. Für Nutzer in bestimmten Regionen unterstützen wir auch lokale Zahlungsmethoden, einschließlich SberPay, YooMoney und Mir Card für russische Nutzer."
+      },
+      {
+        "title": "Gibt es eine kostenlose Testversion?",
+        "description": "Neue Nutzer erhalten bei der Registrierung 10 kostenlose Credits, um unsere Video-Generierungsfunktionen zu testen. Damit können Sie 1 Video erstellen und die Qualität unserer KI-Modelle erleben, bevor Sie abonnieren."
+      },
+      {
+        "title": "Was ist der Unterschied zwischen monatlicher und jährlicher Abrechnung?",
+        "description": "Die jährliche Abrechnung bietet einen Rabatt von 40% im Vergleich zur monatlichen Abrechnung. Bei Jahresplänen zahlen Sie im Voraus für das gesamte Jahr und erhalten Credits monatlich im Laufe des Jahres. Monatliche Pläne werden jeden Monat abgerechnet, wobei die Credits in jedem Abrechnungszyklus erneuert werden."
+      },
+      {
+        "title": "Kann ich die generierten Videos kommerziell nutzen?",
+        "description": "Ja! Alle unsere Pläne beinhalten volle kommerzielle Nutzungsrechte für die Videos, die Sie generieren. Sie besitzen den von Ihnen erstellten Inhalt und können ihn für jeden Zweck verwenden, einschließlich kommerzieller Projekte, soziale Medien, Marketing und mehr."
+      },
+      {
+        "title": "Welche Videoqualität und Auflösung erhalte ich?",
+        "description": "Alle Pläne beinhalten 1080p HD-Auflösungsausgabe, was professionelle Videos gewährleistet, die für jede Plattform geeignet sind. Wir verwenden erstklassige KI-Modelle, um qualitativ hochwertige, realistische Videos zu generieren, die professionellen Standards entsprechen."
+      },
+      {
+        "title": "Wie lange dauert die Videogenerierung?",
+        "description": "Die Videogenerierung dauert in der Regel 2-5 Minuten, abhängig von der Komplexität und der aktuellen Warteschlange. Standard- und Plus-Pläne beinhalten Priorität in der schnellen Generierungswarteschlange, was die Wartezeiten während Spitzenzeiten reduzieren kann."
+      },
+      {
+        "title": "Kann ich mein Abonnement jederzeit kündigen?",
+        "description": "Ja, Sie können Ihr Abonnement jederzeit in Ihren Kontoeinstellungen kündigen. Ihr Abonnement bleibt bis zum Ende Ihrer aktuellen Abrechnungsperiode aktiv, und Sie behalten Zugriff auf Ihre Credits bis dahin."
+      }
+    ]
+  }
 }

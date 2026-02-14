@@ -1,0 +1,146 @@
+{
+  "banner": {
+    "title": "Google Veo 3.1 KI-Videogenerator",
+    "description": "Veo 3.1 ist ein Upgrade von Googles Veo 3 Modell und führt verbesserte Kontrolle für Anfangs- und Endbilder sowie Bildreferenzfunktionen für präzisere kreative Kontrolle ein. Erleben Sie Veo 3.1 jetzt kostenlos auf Veo3 AI!",
+    "tabs": [
+      {
+        "type": "image",
+        "title": "Bild zu Video",
+        "subTitle": "Bild",
+        "value": "image-to-video",
+        "modelName": "Veo 3.1",
+        "modelLogo": "/imgs/intro/veo.svg",
+        "placeholder": "Ziehen Sie ein Bild hierher oder klicken Sie zum Auswählen",
+        "tips": "Laden Sie JPG/PNG/WEBP-Bilder bis zu 10MB hoch, mit einer Mindestbreite/-höhe von 300px.",
+        "buttonText": "Erstellen"
+      },
+      {
+        "type": "text",
+        "title": "Text zu Video",
+        "subTitle": "Prompt",
+        "value": "text-to-video",
+        "modelName": "Veo 3.1",
+        "modelLogo": "/imgs/intro/veo.svg",
+        "placeholder": "Was möchten Sie erstellen?",
+        "buttonText": "Erstellen"
+      }
+    ]
+  },
+  "partners": [
+    { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
+    { "name": "Microsoft", "logo": "/imgs/partners/microsoft-logo.png" },
+    { "name": "Nike", "logo": "/imgs/partners/nike-logo.png" },
+    { "name": "P&G", "logo": "/imgs/partners/p-g-logo.png" },
+    { "name": "Lancome", "logo": "/imgs/partners/lancome-logo.png" },
+    { "name": "Zoom", "logo": "/imgs/partners/zoom-logo.png" },
+    { "name": "Sony", "logo": "/imgs/partners/sony-logo.png" },
+    { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
+  ],
+  "features": {
+    "title": "Hauptmerkmale des Veo 3.1 KI-Videomodells",
+    "details": [
+      {
+        "title": "Anfangs- & Endbildkontrolle",
+        "description": "Erstellen Sie perfekt fließende Übergänge, indem Sie ein Start- und Endbild hochladen. Veo 3.1 generiert die dazwischenliegende Bewegung, ideal für morphende Szenen, Zeitraffer oder narrative Kontinuität. Diese fortschrittliche Funktion gibt Kreativen beispiellose Kontrolle über ihr Video-Storytelling.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/image-to-video/1216Material-reserves/Snow-Mountain-Lynx.mp4"
+      },
+      {
+        "title": "Bildreferenz-Stilanpassung",
+        "description": "Sie möchten einen bestimmten Look? Laden Sie ein Referenzbild hoch – ein Gemälde, Foto oder Moodboard – und Veo 3.1 passt Stil, Farbgebung und Komposition mit beeindruckender Genauigkeit an. Perfekt, um konsistente visuelle Ästhetik in Ihren Videoprojekten beizubehalten.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/veo3.1/Castle-Beauty.mp4"
+      },
+      {
+        "title": "Fortgeschrittene Audio-Integration",
+        "description": "Veo 3.1 bietet außergewöhnliche native Audio-Generierung. Das Modell produziert synchronisierte, kontextgerechte Klanglandschaften, die Ihre Videos mit realistischen Umgebungsgeräuschen, Effekten und Atmosphären zum Leben erwecken – ohne zusätzliche Bearbeitung.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/veo3.1/sloth_on_train.mp4"
+      },
+      {
+        "title": "Exzellente Charakterkonsistenz",
+        "description": "Eine der meist gewünschten Funktionen in der KI-Videogenerierung. Veo 3.1 zeichnet sich durch die Beibehaltung konsistenter Charakterdarstellungen in Ihren Videos aus. Ob Sie eine kurze Geschichte oder eine Serie von Clips erstellen, Ihre Charaktere bleiben erkennbar und stabil in jedem Frame.",
+        "type": "video",
+        "data": "https://pollo.ai/cms/reference_to_video_2_e99c175bf0.mp4"
+      },
+      {
+        "title": "Präzises Prompt-Verständnis",
+        "description": "Veo 3.1 zeigt bemerkenswerte Komprehension komplexer, nuancierter Prompts. Beschreiben Sie komplizierte Szenen, spezifische Kamerabewegungen oder detaillierte künstlerische Stile – Veo 3.1 übersetzt Ihre Worte in atemberaubende Visuals mit beeindruckender Genauigkeit. Das System versteht Kontext, Emotionen und subtile kreative Anweisungen.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Starting-a-fire-on-paper.mp4"
+      },
+      {
+        "title": "Hochwertige Ausgabe",
+        "description": "Generieren Sie Videos in 1080p-Auflösung mit außergewöhnlicher visueller Wiedergabetreue und Stilkonsistenz. Von der Emulation subtiler emotionaler Ausdrücke bis hin zum Rendering kinoreifer Sequenzen erweckt Veo 3.1 Ihre kreative Vision mit unglaublich lebensechten Details zum Leben.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/wool-scarf.mp4"
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "So generieren Sie Videos mit Veo 3.1 auf Veo3 AI",
+    "description": "Erstellen Sie beeindruckende KI-Videos mit Googles Veo 3.1 Modell über unsere benutzerfreundliche Oberfläche",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Wählen Sie das Veo 3.1 Modell",
+        "description": "Navigieren Sie zur Seite 'Bild zu Video' oder 'Text zu Video' und wählen Sie 'Veo 3.1' aus dem Modellauswahlmenü."
+      },
+      {
+        "number": "02",
+        "title": "Geben Sie Ihren Prompt oder Ihr Bild ein",
+        "description": "Geben Sie Ihren detaillierten Textprompt ein oder laden Sie ein Referenzbild hoch. Konfigurieren Sie Dauer, Seitenverhältnis und Audio-Einstellungen passend zu Ihrer kreativen Vision."
+      },
+      {
+        "number": "03",
+        "title": "Generieren und Herunterladen",
+        "description": "Klicken Sie auf 'Erstellen' und warten Sie etwa 3-4 Minuten, bis Ihr Video generiert wird. Nach Abschluss laden Sie Ihr hochwertiges KI-generiertes Video herunter."
+      }
+    ],
+    "buttonText": "Veo 3.1 auf Veo3 AI testen"
+  },
+  "cta": {
+    "title": "Erleben Sie Veo 3.1 auf Veo3 AI jetzt!",
+    "buttonText": "Veo 3.1 kostenlos testen"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Häufig gestellte Fragen",
+    "description": "Erfahren Sie mehr über den Google Veo 3.1 KI-Videogenerator auf Veo3 AI",
+    "items": [
+      {
+        "title": "Was ist Google Veo 3.1?",
+        "description": "Google Veo 3.1 ist die verbesserte Version des Veo 3 KI-Videomodells. Es führt erweiterte Funktionen ein, darunter Anfangs- und Endbild-Videokontrolle, Bildreferenz-Stilanpassung und schärferes Prompt-Verständnis bei gleichzeitiger Beibehaltung außergewöhnlicher Audio-Integration und Charakterkonsistenz."
+      },
+      {
+        "title": "Wie unterscheidet sich Veo 3.1 von Veo 3?",
+        "description": "Im Vergleich zu Veo 3 bietet Veo 3.1 größere kreative Kontrolle durch spezifische Start- und Endbildeinstellungen, Referenzbild-Stilanpassung und verbesserte Genauigkeit bei der Reaktion auf komplexe Prompts. Audio-Generierung und Charakterkonsistenz bleiben erstklassig, während mehr Präzisionswerkzeuge für Kreative hinzugefügt werden."
+      },
+      {
+        "title": "Kann ich Veo 3.1 kostenlos auf Veo3 AI nutzen?",
+        "description": "Ja! Veo3 AI bietet mit unserem Testplan kostenlosen Zugang zu Veo 3.1. Sie können Text-zu-Video oder Bild-zu-Video Erstellung kostenlos ausprobieren. Für unbegrenzte Generierungen sollten Sie unsere kostenpflichtigen Abonnementpläne mit zusätzlichen Credits in Betracht ziehen."
+      },
+      {
+        "title": "Unterstützt Veo 3.1 Audio-Generierung?",
+        "description": "Absolut. Veo 3.1 produziert synchronisiertes natives Audio, von Dialogen bis zu Umgebungseffekten, und schafft ein immersiveres Videoerlebnis. Das Audio wird gleichzeitig mit dem Video generiert und passt perfekt zum visuellen Inhalt."
+      },
+      {
+        "title": "Was ist die 'Anfangs- & Endbild'-Funktion in Veo 3.1?",
+        "description": "Diese Funktion ermöglicht das Hochladen eines Startbildes und eines Endbildes. Veo 3.1 generiert die dazwischenliegende Bewegung, perfekt für fließende Übergänge, morphende Visuals und Storytelling-Bögen. Es gibt Ihnen präzise Kontrolle über Anfang und Ende Ihrer Videosequenz."
+      },
+      {
+        "title": "Wie funktioniert die Bildreferenz-Funktion in Veo 3.1?",
+        "description": "Sie können jedes Bild hochladen – Foto, Gemälde oder Design-Moodboard – und Veo 3.1 passt den Stil, das Farbschema und die Komposition Ihres Videos daran an. Dies stellt sicher, dass Ihre KI-generierten Videos konsistente visuelle Ästhetik mit Ihrer Marke oder kreativen Vision beibehalten."
+      },
+      {
+        "title": "Ist Veo 3.1 für professionelle Videoproduktion geeignet?",
+        "description": "Ja. Mit präziser Bewegungskontrolle, Stilanpassung und starker Charakterkonsistenz ist Veo 3.1 ideal für Filmemacher, Vermarkter und Kreative, die professionelle KI-Videos suchen. Die 1080p-Ausgabe und natives Audio machen es produktionsreif."
+      },
+      {
+        "title": "Wie lange dauert die Generierung eines Videos mit Veo 3.1?",
+        "description": "Auf Veo3 AI benötigt Veo 3.1 typischerweise 3-4 Minuten, um ein 8-Sekunden-Video zu generieren. Die Generierungszeit kann je nach Komplexität, Auflösungseinstellungen und aktueller Serverauslastung variieren. Wir bieten Echtzeit-Fortschrittsaktualisierungen während der Generierung."
+      }
+    ]
+  }
+}

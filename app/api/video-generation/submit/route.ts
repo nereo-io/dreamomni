@@ -26,12 +26,19 @@ import {
   isAliModel,
   isMinimaxModel,
   isSora2Model,
+  isKieAiVeo3Model,
+  shouldUseSignedVideoCallback,
+  isStoryboardModel,
   calculateCredits,
   VideoModelProvider,
+  modelSupportsAudio,
 } from "@/config/video-models";
 import { ProviderFactory } from "@/services/providers";
 import { optimizeVideoPromptWithTimeout } from "@/services/promptOptimization";
+import { tryVolcanoSubmit } from "@/services/seedanceFallbackService";
+import { VideoSubmitService } from "@/services/videoSubmitService";
 import { getEffectConfigById } from "@/models/effectConfig";
+import { buildSignedVideoCallbackUrl } from "@/services/videoCallbackSignature";
 
 // 验证Cloudflare Turnstile CAPTCHA
 async function verifyCaptcha(
@@ -105,7 +112,9 @@ export async function POST(req: Request) {
     const {
       model,
       prompt,
-      image_url,
+      image_url, // 保留用于向后兼容
+      image_urls, // 新增：支持1-2张图片数组（首帧、尾帧）
+      source_image_ids, // 新增：来源图片ID数组（用于追踪"My Creations"选择）
       negative_prompt,
       aspect_ratio = "16:9",
       duration = "5",
@@ -116,9 +125,10 @@ export async function POST(req: Request) {
       seed,
       enable_safety_checker = true,
       generate_audio = false, // 新增：音频生成选项
-      enable_prompt_enhancement = true, // 新增：prompt增强开关
+      enable_prompt_enhancement = false, // 新增：prompt增强开关（默认关闭）
       effect_id, // 新增：特效ID
       captchaToken, // 新增：CAPTCHA token
+      generationType, // 新增：视频生成类型（如 REFERENCE_2_VIDEO）
       ...otherParams
     } = await req.json();
 
@@ -131,8 +141,8 @@ export async function POST(req: Request) {
     }
 
     // 4. 基于积分的CAPTCHA验证（与前端逻辑一致）
-    if (userCredits.left_credits <= 10) {
-      // 新用户（积分<=10）需要CAPTCHA验证，防止薅羊毛
+    if (userCredits.left_credits <= 12) {
+      // 新用户（积分<=12）需要CAPTCHA验证，防止薅羊毛
       if (!captchaToken) {
         return respErr("CAPTCHA verification is required for new users");
       }
@@ -189,8 +199,26 @@ export async function POST(req: Request) {
       );
     }
 
-    // 5. 计算所需积分并检查余额
+    const baseWebUrl = process.env.NEXT_PUBLIC_WEB_URL;
+    if (!baseWebUrl) {
+      return respErr("NEXT_PUBLIC_WEB_URL is not configured");
+    }
+    if (
+      shouldUseSignedVideoCallback(finalModel) &&
+      !process.env.VIDEO_CALLBACK_SIGNING_SECRET?.trim()
+    ) {
+      return respErr("VIDEO_CALLBACK_SIGNING_SECRET is not configured");
+    }
+
+    // 自动设置 generationType（如果未提供但模型配置中有）
+    let finalGenerationType = generationType;
+    if (!finalGenerationType && modelConfig?.generationType) {
+      finalGenerationType = modelConfig.generationType;
+    }
+
     const durationInt = parseInt(duration);
+
+    // 5. 计算所需积分并检查余额
     const requiredCredits =
       effectCreditsOverride ||
       calculateCredits(finalModel, durationInt, generate_audio, resolution);
@@ -210,17 +238,10 @@ export async function POST(req: Request) {
     // 确定积分交易类型并验证时长
     let transType: CreditsTransType;
 
-    // 验证模型支持的时长
-    if (!modelConfig?.supportedDurations?.includes(durationInt)) {
-      return respErr(
-        `${model} 模型不支持 ${durationInt} 秒时长，支持的时长: ${modelConfig?.supportedDurations?.join(
-          ", "
-        )} 秒`
-      );
-    }
-
     // 根据时长确定交易类型（所有模型通用）
-    if (durationInt === 5) {
+    if (durationInt === 4) {
+      transType = CreditsTransType.VideoGeneration4s;
+    } else if (durationInt === 5) {
       transType = CreditsTransType.VideoGeneration5s;
     } else if (durationInt === 6) {
       // MiniMax 模型的6秒使用5秒类型（积分计算已经按实际秒数计算）
@@ -230,21 +251,40 @@ export async function POST(req: Request) {
       transType = CreditsTransType.VideoGeneration8s;
     } else if (durationInt === 10) {
       transType = CreditsTransType.VideoGeneration10s;
+    } else if (durationInt === 12) {
+      transType = CreditsTransType.VideoGeneration12s;
+    } else if (durationInt === 15) {
+      // Sora 2/Pro 模型的15秒
+      transType = CreditsTransType.VideoGeneration15s;
+    } else if (durationInt === 25) {
+      // Storyboard 模型的25秒
+      transType = CreditsTransType.VideoGeneration25s;
     } else {
       return respErr(`不支持的时长: ${durationInt}秒`);
     }
 
     // 6. 扣除积分（在创建任务前扣除）
-    let creditInfo: { order_no: string; expired_at?: string };
+    let deductResult;
     try {
-      creditInfo = await decreaseCredits({
+      deductResult = await decreaseCredits({
         user_uuid: userInfo.uuid,
         trans_type: transType,
         credits: requiredCredits,
       });
+      console.log(
+        `💰 Credits deducted: ${deductResult.totalDeducted} from ${deductResult.pools.length} pool(s) for user ${userInfo.uuid}`
+      );
     } catch (error) {
       console.error("扣除积分失败:", error);
       return respErr("Failed to deduct credits, please try again later");
+    }
+
+    // 兼容性处理：统一转换为数组
+    let finalImageUrls: string[] | undefined;
+    if (image_urls && Array.isArray(image_urls) && image_urls.length > 0) {
+      finalImageUrls = image_urls;
+    } else if (image_url) {
+      finalImageUrls = [image_url];
     }
 
     // 7. 在数据库中创建记录（根据是否启用prompt增强设置初始状态）
@@ -252,15 +292,28 @@ export async function POST(req: Request) {
       user_id: userInfo.uuid,
       model_id: finalModel,
       prompt: effect_id ? prompt : finalPrompt, // 如果有特效，保存原始prompt
-      input_image_url: image_url,
+      input_image_url: image_url, // 保留用于向后兼容
+      image_urls: finalImageUrls, // 新增：支持1-2张图片数组
+      source_image_ids: source_image_ids, // 新增：保存来源图片ID（用于追踪"My Creations"选择）
       negative_prompt,
       aspect_ratio,
-      duration_seconds: parseInt(duration),
+      duration_seconds: durationInt,
       cfg_scale,
       seed,
-      has_audio: finalModel.includes("veo") && generate_audio, // 只有 VEO 模型有音频
+      has_audio: modelSupportsAudio(finalModel) && generate_audio,
       status: enable_prompt_enhancement ? "PROMPT_OPTIMIZING" : "IN_QUEUE",
+      metadata: {
+        // 保存积分扣费池信息，用于退款追溯
+        credit_deduction: {
+          pools: deductResult.pools,
+          total_deducted: deductResult.totalDeducted,
+          deducted_at: new Date().toISOString(),
+        },
+        // 保存用户请求的分辨率，用于4K升级判断
+        requested_resolution: resolution,
+      },
       effect_id: effect_id,
+      model_name: modelConfig.modelName,
     });
 
     // 7.5. 优化提示词
@@ -318,12 +371,38 @@ export async function POST(req: Request) {
       input.resolution = resolution;
     }
 
+    // Storyboard 参数验证
+    if (isStoryboardModel(finalModel)) {
+      if (!finalImageUrls || finalImageUrls.length < 2 || finalImageUrls.length > 8) {
+        return respErr(
+          `Storyboard requires 2-8 images, but got ${finalImageUrls?.length || 0}`
+        );
+      }
+      input.image_urls = finalImageUrls;
+    }
+
     // 根据模型类型添加相应参数
     if (isImageToVideoModel(finalModel)) {
-      if (!image_url) {
-        return respErr("Image-to-video models require an image_url parameter");
+      if (!finalImageUrls || finalImageUrls.length === 0) {
+        return respErr("Image-to-video models require at least one image");
       }
-      input.image_url = image_url;
+
+      // 验证 REFERENCE_2_VIDEO 特殊要求
+      if (finalGenerationType === "REFERENCE_2_VIDEO") {
+        const minImages = modelConfig?.imageCapabilities?.minImages || 1;
+        const maxImages = modelConfig?.imageCapabilities?.maxImages || 3;
+
+        if (finalImageUrls.length < minImages || finalImageUrls.length > maxImages) {
+          return respErr(
+            `REFERENCE_2_VIDEO requires ${minImages}-${maxImages} reference images, but got ${finalImageUrls.length}`
+          );
+        }
+      }
+
+      // 支持双图：优先使用 image_urls，向后兼容 image_url
+      input.image_urls = finalImageUrls;
+      // 向后兼容：同时设置 image_url（第一张图）
+      input.image_url = finalImageUrls[0];
     }
 
     // 按模型提供商分类处理参数
@@ -331,6 +410,9 @@ export async function POST(req: Request) {
       // Kling 模型特有参数
       if (duration) {
         input.duration = duration;
+      }
+      if (generate_audio !== undefined && modelConfig.supportsAudio) {
+        input.generate_audio = generate_audio;
       }
       if (negative_prompt) {
         input.negative_prompt = negative_prompt;
@@ -360,8 +442,9 @@ export async function POST(req: Request) {
         input.generate_audio = generate_audio;
       }
       // Veo3 APICore 支持图片输入，如果有图片则添加到输入中
-      if (image_url) {
-        input.image_url = image_url;
+      if (finalImageUrls && finalImageUrls.length > 0) {
+        input.image_urls = finalImageUrls;
+        input.image_url = finalImageUrls[0]; // 向后兼容
       }
     } else if (isVolcanoModel(finalModel)) {
       // Volcano 模型特有参数 (使用volcanoModel配置)
@@ -373,65 +456,84 @@ export async function POST(req: Request) {
       if (modelConfig.volcanoModel) {
         input.model = modelConfig.volcanoModel;
       }
-    } else if (isKieAiModel(finalModel)) {
-      // Kie.ai 模型特有参数
-      if (image_url) {
-        input.image_url = image_url;
+
+      if (generate_audio !== undefined && modelConfig.supportsAudio) {
+        input.generate_audio = generate_audio;
       }
-      // Kie.ai 支持水印
-      if (additionalParams.watermark) {
-        input.watermark = additionalParams.watermark;
+    } else if (isKieAiModel(finalModel)) {
+      // Kie.ai 模型特有参数（支持双图）
+      if (finalImageUrls && finalImageUrls.length > 0) {
+        input.image_urls = finalImageUrls;
+        input.image_url = finalImageUrls[0]; // 向后兼容
+      }
+      // Kie.ai 支持水印 - 传递前端的 watermarkEnabled 标记
+      if (watermarkEnabled) {
+        input.watermarkEnabled = true;
+      }
+      // Kie.ai 支持 generationType（如 REFERENCE_2_VIDEO）
+      if (finalGenerationType) {
+        input.generationType = finalGenerationType;
+      }
+      // Kie.ai Sora 模型不接受 resolution 参数
+      if (isSora2Model(finalModel)) {
+        delete input.resolution;
       }
     } else if (isAliModel(finalModel)) {
       // 阿里百炼模型特有参数
-      if (image_url) {
-        input.image_url = image_url;
+      if (finalImageUrls && finalImageUrls.length > 0) {
+        input.image_urls = finalImageUrls;
+        input.image_url = finalImageUrls[0]; // 向后兼容
       }
       // 阿里百炼使用 resolution 参数
       input.resolution = resolution;
+    } else if (modelConfig.provider === VideoModelProvider.EVOLINK) {
+      // 使用 providerModelId 覆盖 API 模型名
+      if (modelConfig.providerModelId) {
+        input.model = modelConfig.providerModelId;
+      }
+      // Evolink Sora 模型不接受 resolution 参数（固定 1080p）
+      delete input.resolution;
     }
 
-    // 8. 提交任务到队列，包含webhook URL
-    const webhookUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/api/video-generation/webhook`;
-    // const webhookUrl = `https://d76d2707b239.ngrok-free.app/api/video-generation/webhook`;
-
     try {
-      // 使用Provider Factory获取合适的provider
-      const provider = ProviderFactory.getProvider(finalModel);
-
-      console.log("submit input", input);
-      // 重试机制：针对连接超时错误重试3次
+      // 8. 提交任务到队列，包含webhook URL
+      const webhookUrl = shouldUseSignedVideoCallback(finalModel)
+        ? buildSignedVideoCallbackUrl({
+            baseUrl: baseWebUrl,
+            provider: modelConfig.provider,
+            videoId: videoGeneration.id,
+          })
+        : `${baseWebUrl}/api/video-generation/webhook`;
+      // const webhookUrl = `https://d76d2707b239.ngrok-free.app/api/video-generation/webhook`;
       let submitResponse;
-      for (let attempt = 1; attempt <= 3; attempt++) {
-        try {
-          submitResponse = await provider.submit(finalModel, input, webhookUrl);
-          break;
-        } catch (error) {
-          const errorMsg =
-            error instanceof Error ? error.message : String(error);
-          console.error(`视频生成提交失败 (${attempt}/3):`, errorMsg);
+      let actualProvider: string | undefined; // 记录实际使用的 provider
+      let usedModelName: string | undefined; // 降级时记录实际使用的 model_name
 
-          // 检查是否是连接超时错误
-          const isTimeoutError =
-            errorMsg.includes("fetch failed") ||
-            errorMsg.includes("Connect Timeout Error") ||
-            errorMsg.includes("timeout") ||
-            errorMsg.includes("ETIMEDOUT");
-
-          // 如果不是超时错误，或者是最后一次重试，直接抛出错误
-          if (!isTimeoutError || attempt === 3) {
-            throw error;
-          }
-
-          // 等待后重试：第1次等1秒，第2次等2秒
-          const delay = attempt * 1000;
-          console.log(`连接超时，等待 ${delay}ms 后重试...`);
-          await new Promise((resolve) => setTimeout(resolve, delay));
-        }
+      // === Volcano 降级尝试（临时方案：优先使用便宜的 Volcano，失败后降级到 BytePlus）===
+      const volcanoResponse = await tryVolcanoSubmit(finalModel, input, webhookUrl);
+      if (volcanoResponse) {
+        submitResponse = volcanoResponse;
+        actualProvider = "volcano"; // 标记使用了 Volcano
+        usedModelName = modelConfig.modelName; // AI 模型不变，显式记录
       }
 
+      // 如果 Volcano 没有成功（未启用/不适用/失败），使用 VideoSubmitService（支持降级）
+      let fallbackModelId: string | undefined; // 降级使用的模型配置 ID
       if (!submitResponse) {
-        throw new Error("视频生成提交失败");
+        const submitResult = await VideoSubmitService.submit(
+          finalModel,
+          modelConfig,
+          input,
+          webhookUrl
+        );
+        submitResponse = submitResult.response;
+
+        // 如果使用了降级模型，记录实际 provider、model_name 和降级模型 ID
+        if (submitResult.usedModelId !== finalModel) {
+          actualProvider = submitResult.usedModelConfig.provider;
+          usedModelName = submitResult.usedModelConfig.modelName;
+          fallbackModelId = submitResult.usedModelId;
+        }
       }
 
       // 9. 更新数据库记录的请求ID
@@ -445,9 +547,9 @@ export async function POST(req: Request) {
       } else if (
         modelConfig.provider === VideoModelProvider.APICORE ||
         (modelConfig.provider === VideoModelProvider.KIEAI &&
-          !isSora2Model(finalModel))
+          isKieAiVeo3Model(finalModel))
       ) {
-        // APICore and KieAI Veo3 use the same veo3_request_id field
+        // APICore and KieAI Veo3 models use the same veo3_request_id field
         updateParams.veo3_request_id = submitResponse.request_id;
       } else if (
         modelConfig.provider === VideoModelProvider.KIEAI &&
@@ -460,10 +562,26 @@ export async function POST(req: Request) {
       } else if (modelConfig.provider === VideoModelProvider.BYTEPLUS) {
         // BytePlus 使用 volcano_request_id 字段（API 兼容）
         updateParams.volcano_request_id = submitResponse.request_id;
+      } else if (modelConfig.provider === VideoModelProvider.EVOLINK) {
+        // Evolink Sora 使用 sora_request_id 字段
+        updateParams.sora_request_id = submitResponse.request_id;
       }
+      // Always set generic provider_request_id for uniform access
+      updateParams.provider_request_id = submitResponse.request_id;
 
       // 更新请求ID和状态为 IN_QUEUE
       updateParams.status = "IN_QUEUE";
+
+      // === 保存 actual_provider 和 model_name（用于状态查询时选择正确的 Provider）===
+      const finalActualProvider = actualProvider || modelConfig.provider;
+      const finalModelName = usedModelName || modelConfig.modelName;
+      updateParams.actual_provider = finalActualProvider;
+      updateParams.model_name = finalModelName;
+      updateParams.metadata = {
+        ...videoGeneration.metadata,
+        actual_provider: finalActualProvider,
+        ...(fallbackModelId ? { fallback_model_id: fallbackModelId } : {}),
+      };
 
       await import("@/models/videoGeneration").then(
         ({ updateVideoGenerationById }) =>
@@ -494,10 +612,12 @@ export async function POST(req: Request) {
           prompt,
           optimized_prompt: finalPrompt,
           image_url: image_url || null,
+          image_urls: finalImageUrls || null,
+          source_image_ids: source_image_ids || null,
           aspect_ratio,
           duration,
+          resolution,
           generate_audio,
-          webhook_url: webhookUrl,
         },
       });
     } catch (providerError) {
@@ -505,15 +625,25 @@ export async function POST(req: Request) {
 
       // 如果提交失败，我们需要退还积分
       try {
-        // 使用扣积分时的order_no和expired_at
-        await import("@/services/credit").then(({ increaseCredits }) =>
-          increaseCredits({
+        // 遍历所有扣费的池，按原扣费金额逐一退款
+        const { increaseCredits } = await import("@/services/credit");
+
+        for (const pool of deductResult.pools) {
+          await increaseCredits({
             user_uuid: userInfo.uuid!,
-            trans_type: transType,
-            credits: requiredCredits,
-            order_no: creditInfo.order_no,
-            expired_at: creditInfo.expired_at,
-          })
+            trans_type: CreditsTransType.RefundVideoGenerationFailed,
+            credits: pool.deducted,
+            order_no: pool.order_no,
+            expired_at: pool.expired_at,
+          });
+
+          console.log(
+            `💰 Credits refunded: ${pool.deducted} to pool ${pool.order_no} due to submission failure`
+          );
+        }
+
+        console.log(
+          `💰 Total refunded: ${deductResult.totalDeducted} credits across ${deductResult.pools.length} pool(s)`
         );
       } catch (refundError) {
         console.error("退还积分失败:", refundError);

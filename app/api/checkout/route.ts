@@ -4,8 +4,14 @@ import { respData, respErr } from "@/lib/resp";
 
 import { Order } from "@/types/order";
 import Stripe from "stripe";
-import { findUserByUuid } from "@/models/user";
+import { findUserByUuid, updateUserAttribution } from "@/models/user";
 import { getSnowId } from "@/lib/hash";
+import {
+  getAttributionFromCookie,
+  isDirectSnapshot,
+  isSnapshotNewer,
+  resolveAttribution,
+} from "@/lib/attribution";
 
 // 延迟初始化 Stripe 客户端，避免构建时错误
 function getStripeClient() {
@@ -62,14 +68,44 @@ export async function POST(req: Request) {
     }
 
     let user_email = await getUserEmail();
-    if (!user_email) {
-      const user = await findUserByUuid(user_uuid);
-      if (user) {
-        user_email = user.email;
-      }
+    const userRecord = await findUserByUuid(user_uuid);
+    if (!user_email && userRecord) {
+      user_email = userRecord.email;
     }
     if (!user_email) {
       return respErr("invalid user");
+    }
+
+    const cookieHeader = req.headers.get("cookie") || "";
+    const cookieAttribution = getAttributionFromCookie(cookieHeader);
+    const cookieLastTouch = cookieAttribution?.last_touch ?? null;
+    const resolvedAttribution = resolveAttribution({
+      userAttribution: {
+        first_touch: userRecord?.first_touch ?? null,
+        last_touch: userRecord?.last_touch ?? null,
+      },
+      cookieAttribution,
+      requestUrl: req.url,
+      requestReferrer: req.headers.get("referer"),
+      allowDirectFallback: false,
+    });
+
+    const shouldUpdateFirstTouch =
+      !userRecord?.first_touch &&
+      !!resolvedAttribution.first_touch &&
+      !isDirectSnapshot(resolvedAttribution.first_touch);
+    const shouldUpdateLastTouch =
+      !!cookieLastTouch &&
+      !isDirectSnapshot(cookieLastTouch) &&
+      isSnapshotNewer(cookieLastTouch, userRecord?.last_touch);
+
+    if (userRecord?.uuid && (shouldUpdateFirstTouch || shouldUpdateLastTouch)) {
+      await updateUserAttribution(userRecord.uuid, {
+        first_touch: shouldUpdateFirstTouch
+          ? resolvedAttribution.first_touch
+          : null,
+        last_touch: shouldUpdateLastTouch ? cookieLastTouch : null,
+      });
     }
 
     const order_no = getSnowId();
@@ -111,6 +147,9 @@ export async function POST(req: Request) {
       // 临时注释掉，等待数据库结构更新
       // product_type: product_type,
       valid_months: valid_months,
+      first_touch: resolvedAttribution.first_touch,
+      last_touch: resolvedAttribution.last_touch,
+      is_renewal: false,
     };
     await insertOrder(order);
 

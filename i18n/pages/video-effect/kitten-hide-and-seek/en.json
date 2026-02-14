@@ -1,0 +1,16 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "kitten-hide-and-seek-1",
+        "title": "Kitten Hide and Seek",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/kitten-hide-and-seek_cover.webp?v=1756603078623",
+        "preview_gif": "https://r2.veo3ai.io/effects-optimized/kitten-hide-and-seek_preview.gif?v=1756600362677"
+      }
+    ],
+    "form": {
+      "title": "Kitten Hide and Seek",
+      "backgroundImage": "https://media.pixverse.ai/asset/template/web_250815_2.jpg"
+    }
+  }
+}

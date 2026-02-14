@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { VIDEO_CACHE_CONTROL } from "@/lib/cache-control";
 
 export const runtime = "nodejs";
 
@@ -106,12 +107,15 @@ export async function GET(request: NextRequest) {
 
   const headers = new Headers(upstreamResponse.headers);
   const sanitizedFilename = sanitizeFilename(filenameParam);
+  const existingCacheControl = headers.get("Cache-Control");
 
   headers.set(
     "Content-Disposition",
     `attachment; filename="${sanitizedFilename}"`
   );
-  headers.set("Cache-Control", "private, max-age=0, must-revalidate");
+  if (!existingCacheControl) {
+    headers.set("Cache-Control", VIDEO_CACHE_CONTROL);
+  }
   headers.set("Access-Control-Allow-Origin", "*");
   headers.set("Access-Control-Expose-Headers", "Content-Disposition");
   headers.set("X-Content-Type-Options", "nosniff");

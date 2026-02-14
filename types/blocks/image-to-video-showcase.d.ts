@@ -5,6 +5,7 @@ export interface ImageToVideoExample {
   originalAlt: string;
   videoAlt: string;
   prompt: string;
+  promptExpandable?: boolean;
 }
 
 export interface ImageToVideoShowcase {

@@ -80,7 +80,7 @@ export default async function AdminLayout({
         },
         {
           title: "Discord",
-          url: "https://discord.gg/HQNnrzjZQS",
+          url: "https://discord.gg/pBmsgE8s",
           target: "_blank",
           icon: "RiDiscordLine",
         },

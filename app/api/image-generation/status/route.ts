@@ -1,8 +1,11 @@
 import { respData, respErr } from "@/lib/resp";
 import { auth } from "@/auth";
 import { getUserInfo } from "@/services/user";
-import { getImageGenerationById, updateImageGenerationById } from "@/models/imageGeneration";
-import { AIServiceManager } from "@/services/AIServiceManager";
+import { getImageGenerationById } from "@/models/imageGeneration";
+import {
+  shouldSyncImageGeneration,
+  syncImageGenerationStatus,
+} from "@/services/imageGenerationStatusService";
 
 import { NextRequest } from "next/server";
 
@@ -39,46 +42,21 @@ export async function POST(req: NextRequest) {
     }
 
     // 5. 尝试从AI服务提供商同步最新状态（仅当状态未完成时）
-    const incompleteStatuses = ["PENDING", "PROMPT_OPTIMIZING", "IN_QUEUE", "IN_PROGRESS"];
-    const shouldSync = incompleteStatuses.includes(imageGeneration.status.toUpperCase()) && 
-                       imageGeneration.task_id && 
-                       imageGeneration.provider;
+    const shouldSync = shouldSyncImageGeneration(imageGeneration);
 
     if (shouldSync) {
       try {
         // Nano Banana 不支持轮询，只能通过回调获取结果
-        console.log(`[Status] Note: Nano Banana only supports callback, not polling for task: ${imageGeneration.task_id}`);
-        
-        const aiServiceManager = AIServiceManager.getInstance();
-        const statusResult = await aiServiceManager.getTaskStatus(
-          imageGeneration.provider as any,
-          imageGeneration.task_id!
-        );
+        if (imageGeneration.provider === "nano_banana") {
+          console.log(
+            `[Status] Note: Nano Banana only supports callback, not polling for task: ${imageGeneration.task_id}`
+          );
+        }
 
-        // 如果从AI服务获取到新状态，更新数据库
-        if (statusResult && statusResult.status) {
-          const updateParams: any = {
-            status: statusResult.status.toUpperCase(),
-          };
-
-          // 如果有图片结果，更新图片URL
-          if (statusResult.images && statusResult.images.length > 0) {
-            const imageUrls = statusResult.images.map(img => img.url).filter(Boolean);
-            if (imageUrls.length > 0) {
-              updateParams.image_urls = imageUrls;
-            }
-          }
-
-          // 如果有错误信息，也更新
-          if (statusResult.error) {
-            updateParams.error_message = statusResult.error;
-          }
-
-          const updatedGeneration = await updateImageGenerationById(imageGeneration.id, updateParams);
-          if (updatedGeneration) {
-            imageGeneration = updatedGeneration;
-            console.log(`[Status] Updated to: ${imageGeneration.status}`);
-          }
+        const updatedGeneration = await syncImageGenerationStatus(imageGeneration);
+        if (updatedGeneration) {
+          imageGeneration = updatedGeneration;
+          console.log(`[Status] Updated to: ${imageGeneration.status}`);
         }
       } catch (error) {
         // Nano Banana 不支持轮询，这是预期的行为
@@ -94,10 +72,13 @@ export async function POST(req: NextRequest) {
       optimized_prompt: imageGeneration.optimized_prompt, // 添加优化后的提示词
       model: imageGeneration.model_id,
       mode: imageGeneration.mode,
-      image_url: imageGeneration.image_urls && imageGeneration.image_urls.length > 0 
-        ? imageGeneration.image_urls[0] 
-        : null,
+      image_url: imageGeneration.image_urls_r2 && imageGeneration.image_urls_r2.length > 0
+        ? imageGeneration.image_urls_r2[0]
+        : (imageGeneration.image_urls && imageGeneration.image_urls.length > 0
+        ? imageGeneration.image_urls[0]
+        : null),
       image_urls: imageGeneration.image_urls || [],
+      image_urls_r2: imageGeneration.image_urls_r2 || [], // Agent 模式 R2 URLs
       image_count: imageGeneration.image_count || 0,
       credits_used: imageGeneration.credits_used,
       error_message: imageGeneration.error_message,
@@ -105,6 +86,10 @@ export async function POST(req: NextRequest) {
       updated_at: imageGeneration.updated_at,
       completed_at: imageGeneration.completed_at,
       metadata: imageGeneration.metadata,
+      // Agent 模式字段
+      is_agent_mode: imageGeneration.is_agent_mode || false,
+      agent_image_count: imageGeneration.agent_image_count || 0,
+      expanded_prompts: imageGeneration.expanded_prompts || [],
     };
 
     return respData(responseData);

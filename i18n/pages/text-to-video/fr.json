@@ -1,0 +1,132 @@
+{
+  "faq": {
+    "title": "Questions fréquentes",
+    "description": "Trouvez des réponses aux questions courantes sur notre service de génération vidéo IA à partir de texte.",
+    "items": [
+      {
+        "id": "what-is-text-to-video",
+        "question": "Qu'est-ce qu'un générateur vidéo IA à partir de texte ?",
+        "answer": "Un générateur vidéo IA à partir de texte est un outil puissant qui utilise l'intelligence artificielle pour créer du contenu vidéo à partir de simples descriptions textuelles. Il analyse votre description textuelle et génère des vidéos dynamiques de haute qualité qui donnent vie à vos mots."
+      },
+      {
+        "id": "best-text-to-video-generator",
+        "question": "Quel est le meilleur générateur vidéo IA texte vers vidéo ?",
+        "answer": "Veo3 AI offre l'un des générateurs texte vers vidéo les plus avancés avec une qualité de sortie exceptionnelle, des mouvements réalistes et une compréhension sophistiquée des scènes. Nos modèles IA sont formés sur des ensembles de données diversifiés pour créer des vidéos cinématographiques de qualité professionnelle."
+      },
+      {
+        "id": "how-does-text-to-video-work",
+        "question": "Comment fonctionne la génération vidéo IA à partir de texte ?",
+        "answer": "Notre IA texte vers vidéo analyse votre description écrite, comprend le contexte, les objets, les actions et les styles mentionnés, puis génère les séquences visuelles correspondantes avec le mouvement, l'éclairage et les effets appropriés pour correspondre à votre description."
+      },
+      {
+        "id": "what-can-i-create-with-text-to-video",
+        "question": "Quels types de vidéos puis-je créer avec texte vers vidéo ?",
+        "answer": "Vous pouvez créer une grande variété de contenus, notamment des vidéos promotionnelles, du contenu pour les réseaux sociaux, des matériaux éducatifs, des visualisations de concepts, des vidéos de narration et des créations artistiques. Les possibilités ne sont limitées que par votre imagination."
+      },
+      {
+        "id": "is-text-to-video-free",
+        "question": "Le générateur texte vers vidéo de Veo3 AI est-il gratuit ?",
+        "answer": "Veo3 AI propose des options gratuites et premium. Les nouveaux utilisateurs reçoivent des crédits gratuits pour explorer le service. Pour une utilisation régulière, nous proposons des plans d'abonnement abordables avec plus de crédits et des fonctionnalités avancées comme des résolutions plus élevées et des durées de vidéo plus longues."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Créez de superbes vidéos uniquement avec du texte maintenant !",
+    "description": "Transformez vos idées en vidéos époustouflantes générées par l'IA avec juste une simple description textuelle. Commencez à créer des vidéos professionnelles en quelques secondes.",
+    "buttonText": "Essayer le générateur texte vers vidéo"
+  },
+  "aiModelsHero": {
+    "title": "Générateur texte vers vidéo IA tout-en-un",
+    "description": "Veo3 AI est le générateur vidéo AI tout-en-un ultime. Nous offrons un accès aux modèles vidéo leaders de l'industrie, y compris Sora 2, Veo3 et Seedance, le tout en un seul endroit. Essayez-les de manière transparente et créez des visuels époustouflants sans jongler entre plusieurs plateformes !",
+    "models": [
+      {
+        "id": "sora2",
+        "name": "Sora 2",
+        "logo": "/imgs/intro/sora.png"
+      },
+      {
+        "id": "veo3",
+        "name": "Veo 3",
+        "logo": "/imgs/intro/veo.svg"
+      },
+      {
+        "id": "seedance",
+        "name": "Seedance",
+        "logo": "/imgs/intro/seedance.png"
+      }
+    ],
+    "moreModels": "Plus de modèles"
+  },
+  "aiVideoShowcase": {
+    "title": "Visualisez n'importe quel texte avec notre générateur vidéo IA",
+    "description": "Donnez vie à n'importe quel texte avec notre générateur vidéo IA ! Créez des vidéos engageantes de n'importe quel style avec juste une simple description textuelle. Décrivez vos idées en quelques mots et notre IA vidéo peut les visualiser de manière créative.",
+    "examples": [
+      {
+        "id": "Spirit-Transformation",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Spirit-Transformation.mp4",
+        "alt": "Transformation d’esprit au clair de lune",
+        "prompt": "Sous la forêt silencieuse au clair de lune, la lumière filtrée à travers les branches entremêlées, telle une gaze légère, projetait des taches fragmentées dans la clairière. Une jeune fille humaine, en robe usée, se tenait pieds nus au centre de la clairière, levant les yeux vers la lune avec une anticipation mêlée d’inquiétude. Le faisceau de lune le plus lumineux l’enveloppa précisément. Son corps commença à émettre une douce lueur blanche, ses contours se brouillèrent. Ses cheveux bougeaient sans vent, leurs extrémités devenant transparentes, comme tissées de lumière, en commençant par le bout de ses doigts et de ses orteils. Elle avait des cheveux blanc‑lune, des oreilles pointues qui frémissaient légèrement, et des yeux ambrés comme des pierres d’œil‑de‑chat. Elle portait une robe fluide ornée de lucioles, son corps flottait légèrement, ses orteils effleurant le sol. Elle se tourna lentement vers la caméra, un sourire mystérieux et doux aux lèvres. Enfin, elle se dissout en un essaim de papillons de lumière dansants, se fondant dans le ciel lunaire et disparaissant."
+      },
+      {
+        "id": "anime-rose",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Anime-Rose-Blooming-Bridge.mp4",
+        "alt": "Rose anime fleurissant avec des pétales dansants",
+        "prompt": "Une rose de style anime fleurit devant un pont de corde, avec des pétales dansant dans l'air."
+      },
+      {
+        "id": "Time-lapse",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Time-lapse-photography.mp4",
+        "alt": "Fleur fanée qui reprend vie sous des nuages cramoisis",
+        "prompt": "Une fleur fanée repose au sol, faiblement lumineuse sous des nuages cramoisis et écarlates, dégageant une aura de décomposition, de nostalgie et de vie fragile. En time-lapse, les nuages dérivent et la fleur revient peu à peu à la vie."
+      },
+      {
+        "id": "Cosmic-Shuttle",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Cosmic-Shuttle.mp4",
+        "alt": "Plongée à la première personne dans une cascade cosmique d’étoiles",
+        "prompt": "Vue à la première personne, chute à grande vitesse à travers une cascade cosmique d’étoiles, puis la main se tend à toute vitesse pour toucher une planète, déclenchant une explosion de lumière blanche. La caméra plonge verticalement à une vitesse extrême, avec de violentes secousses dues à l’impact d’énergie. La mise au point reste insaisissable, passant rapidement de la main à la planète, la plupart du temps floutée par le mouvement. Toutes les étoiles s’étirent en traînées de vitesse nettes, et l’instant du contact éclate en particules façon feux d’artifice et en lens flares.",
+        "isNew": true
+      }
+    ]
+  },
+  "creatorShowcase": {
+    "title": "Responsabiliser chaque créateur texte vers vidéo",
+    "creatorTypes": [
+      {
+        "id": "content-creators",
+        "name": "Créateurs de contenu",
+        "image": "https://images.unsplash.com/photo-1493612276216-ee3925520721?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Créateur de contenu installant un équipement vidéo avec éclairage professionnel",
+        "title": "Transformez vos idées en contenu viral instantanément",
+        "description": "Transformez vos concepts créatifs en vidéos engageantes sans filmer. Décrivez simplement votre vision et regardez-la prendre vie avec une qualité professionnelle et des possibilités créatives illimitées.",
+        "badge": "Créateurs de contenu"
+      },
+      {
+        "id": "marketers",
+        "name": "Spécialistes du marketing & Agences",
+        "image": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Équipe marketing développant des stratégies de campagne créatives",
+        "title": "Développez facilement vos campagnes de marketing vidéo",
+        "description": "Créez plusieurs variations vidéo à partir de descriptions textuelles pour les tests A/B, différents publics et campagnes. Générez du contenu marketing personnalisé à grande échelle sans les contraintes de production traditionnelles.",
+        "badge": "Spécialistes du marketing & Agences"
+      },
+      {
+        "id": "educators",
+        "name": "Éducateurs & Formateurs",
+        "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Éducateur professionnel présentant du contenu engageant dans un cadre de classe moderne",
+        "title": "Créez des vidéos éducatives engageantes à partir de texte",
+        "description": "Transformez les plans de cours et les concepts éducatifs en contenu vidéo convaincant. Rendez les sujets complexes accessibles et engageants avec des visuels générés par l'IA qui améliorent les expériences d'apprentissage.",
+        "badge": "Éducateurs & Formateurs"
+      },
+      {
+        "id": "storytellers",
+        "name": "Conteurs & Écrivains",
+        "image": "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Écrivain créatif travaillant sur la narration avec des carnets et un ordinateur portable",
+        "title": "Donnez vie visuellement aux histoires écrites",
+        "description": "Convertissez vos récits, scripts et contenus écrits en histoires vidéo dynamiques. Visualisez les personnages, les scènes et les points d'intrigue sans avoir besoin d'acteurs ou d'équipement de tournage.",
+        "badge": "Conteurs & Écrivains"
+      }
+    ]
+  }
+}

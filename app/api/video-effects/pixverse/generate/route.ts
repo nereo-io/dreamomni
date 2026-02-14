@@ -64,11 +64,11 @@ export async function POST(req: Request) {
     // 处理 imgIds - 支持单个数字或数组
     let imageIds: number[] = [];
     if (Array.isArray(imgIds)) {
-      imageIds = imgIds;
-    } else if (typeof imgIds === 'number') {
+      imageIds = imgIds.map((id) => Number(id));
+    } else if (typeof imgIds === "number") {
       imageIds = [imgIds];
-    } else if (typeof imgIds === 'string') {
-      imageIds = [parseInt(imgIds)];
+    } else if (typeof imgIds === "string") {
+      imageIds = [parseInt(imgIds, 10)];
     }
 
     // 验证必需参数
@@ -86,7 +86,9 @@ export async function POST(req: Request) {
       return respErr("This effect is not a PixVerse template type");
     }
 
-    if (!effectConfig.pixverse_template_id) {
+    const templateId = effectConfig.pixverse_template_id;
+
+    if (!templateId) {
       return respErr("PixVerse template ID not configured");
     }
 
@@ -116,21 +118,29 @@ export async function POST(req: Request) {
       return respErr(`Unsupported duration: ${durationInt} seconds`);
     }
 
+    // 扣除积分
+    let deductResult;
     try {
-      await decreaseCredits({
+      deductResult = await decreaseCredits({
         user_uuid: userInfo.uuid,
         trans_type: transType,
         credits: requiredCredits,
       });
+      console.log(
+        `💰 Credits deducted: ${deductResult.totalDeducted} from ${deductResult.pools.length} pool(s)`
+      );
     } catch (error) {
       console.error("Failed to deduct credits:", error);
       return respErr("Failed to deduct credits, please try again later");
     }
 
+    // TODO: Save deductResult to video_generations.logs for refund tracking
+    // Currently video_generations schema doesn't have metadata field
+
     // 8. 在数据库中创建记录
     const videoGeneration = await createVideoGeneration({
       user_id: userInfo.uuid,
-      model_id: "pixverse-" + effectConfig.pixverse_template_id,
+      model_id: "pixverse-template",
       prompt: prompt,
       aspect_ratio: "16:9",
       duration_seconds: durationInt,
@@ -146,7 +156,7 @@ export async function POST(req: Request) {
         duration: durationInt,
         model: model,
         motion_mode: "normal",
-        template_id: Number(effectConfig.pixverse_template_id),
+        template_id: Number(templateId),
         prompt: prompt,
         quality: quality,
       };
@@ -193,9 +203,11 @@ export async function POST(req: Request) {
         );
       }
 
+      const pixverseVideoId = generateResult.Resp.video_id.toString();
+
       // 11. 更新数据库记录
       await updateVideoGenerationById(videoGeneration.id, {
-        pixverse_request_id: generateResult.Resp.video_id.toString(),
+        pixverse_request_id: pixverseVideoId,
         status: "IN_PROGRESS",
       });
 
@@ -204,7 +216,7 @@ export async function POST(req: Request) {
 
       return respData({
         id: videoGeneration.id,
-        requestId: generateResult.Resp.video_id.toString(),
+        requestId: pixverseVideoId,
         effectId: effectId,
         status: "submitted",
         message: "Video generation task submitted successfully",

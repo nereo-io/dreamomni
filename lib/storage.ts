@@ -34,6 +34,7 @@ export class Storage {
     bucket,
     onProgress,
     disposition = "inline",
+    cacheControl,
   }: {
     body: Buffer;
     key: string;
@@ -41,6 +42,7 @@ export class Storage {
     bucket?: string;
     onProgress?: (progress: number) => void;
     disposition?: "inline" | "attachment";
+    cacheControl?: string;
   }) {
     if (!bucket) {
       bucket = process.env.STORAGE_BUCKET || "";
@@ -57,6 +59,7 @@ export class Storage {
         Key: key,
         Body: body,
         ContentDisposition: disposition,
+        ...(cacheControl && { CacheControl: cacheControl }),
         ...(contentType && { ContentType: contentType }),
       },
     });
@@ -88,12 +91,14 @@ export class Storage {
     bucket,
     contentType,
     disposition = "inline",
+    cacheControl,
   }: {
     url: string;
     key: string;
     bucket?: string;
     contentType?: string;
     disposition?: "inline" | "attachment";
+    cacheControl?: string;
   }) {
     // 优先使用代理下载（如果配置了代理）
     if (process.env.PROXY_URL && process.env.PROXY_SECRET) {
@@ -107,6 +112,7 @@ export class Storage {
           bucket,
           contentType,
           disposition,
+          cacheControl,
         });
       } catch (proxyError) {
         console.warn("代理下载失败，回退到直连:", proxyError);
@@ -133,6 +139,7 @@ export class Storage {
       bucket,
       contentType,
       disposition,
+      cacheControl,
     });
   }
 }

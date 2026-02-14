@@ -1,0 +1,147 @@
+{
+  "page": {
+    "hero": {
+      "title": "Фотоэффект в стиле Ghibli с ИИ",
+      "subtitle": "Превратите фото в сцену в духе Studio Ghibli. ИИ передает теплые цвета, мягкий свет и ту самую сказочную атмосферу.",
+      "ctaText": "Попробовать Ghibli бесплатно",
+      "showcaseMedia": [
+        {
+          "type": "video",
+          "src": "https://r2.veo3ai.io/intro/veo3.1/sloth_on_train.mp4",
+          "alt": "Пример преобразования фото в стиле Ghibli"
+        }
+      ]
+    },
+    "features": [
+      {
+        "id": "authentic-style",
+        "title": "Настоящий вайб Ghibli",
+        "description": "ИИ повторяет узнаваемый стиль фильмов Studio Ghibli - мягкие акварельные текстуры, теплую палитру и атмосферу, будто это кадр из мультфильма.",
+        "ctaText": "Попробовать",
+        "media": {
+          "type": "image",
+          "src": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+          "alt": "Преобразование в стиле Ghibli"
+        }
+      },
+      {
+        "id": "any-photo",
+        "title": "Подходит для любых фото",
+        "description": "Портреты, пейзажи, питомцы или повседневные кадры - стиль Ghibli ложится на любой сюжет, сохраняя композицию и детали.",
+        "ctaText": "Загрузить фото",
+        "media": {
+          "type": "image",
+          "src": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+          "alt": "Разные фото в стиле Ghibli"
+        }
+      },
+      {
+        "id": "high-quality",
+        "title": "Четко и в высоком качестве",
+        "description": "Готовые изображения получаются детальными и четкими - можно печатать или сразу делиться в соцсетях.",
+        "ctaText": "Сделать сейчас",
+        "media": {
+          "type": "image",
+          "src": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+          "alt": "Результат в высоком качестве в стиле Ghibli"
+        }
+      }
+    ],
+    "howToUse": {
+      "title": "Как сделать фото в стиле Ghibli?",
+      "steps": [
+        {
+          "title": "1. Загрузите фото",
+          "description": "Выберите любое фото - портрет, пейзаж или групповое, все подойдет."
+        },
+        {
+          "title": "2. Примените эффект Ghibli",
+          "description": "Нажмите «Сгенерировать», и ИИ превратит фото в картинку в стиле Ghibli."
+        },
+        {
+          "title": "3. Скачайте и поделитесь",
+          "description": "Скачайте результат в высоком разрешении и делитесь где угодно."
+        }
+      ],
+      "ctaText": "Начать"
+    },
+    "relatedEffects": {
+      "title": "Еще эффекты для фото",
+      "effects": [
+        {
+          "id": "anime-style",
+          "title": "Аниме",
+          "slug": "anime-style",
+          "image": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+          "href": "/image-effect/anime-style"
+        },
+        {
+          "id": "watercolor",
+          "title": "Акварель",
+          "slug": "watercolor",
+          "image": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+          "href": "/image-effect/watercolor"
+        },
+        {
+          "id": "oil-painting",
+          "title": "Масло",
+          "slug": "oil-painting",
+          "image": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+          "href": "/image-effect/oil-painting"
+        },
+        {
+          "id": "pixel-art",
+          "title": "Пиксель-арт",
+          "slug": "pixel-art",
+          "image": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png",
+          "href": "/image-effect/pixel-art"
+        }
+      ]
+    },
+    "faq": {
+      "title": "Вопросы и ответы",
+      "description": "Коротко об эффекте Ghibli.",
+      "items": [
+        {
+          "question": "Что такое эффект фото в стиле Ghibli?",
+          "answer": "Это ИИ-эффект, который превращает ваши фото в изображения, вдохновленные фильмами Studio Ghibli: теплые цвета, мягкий свет и живописная текстура."
+        },
+        {
+          "question": "Какие фото подходят лучше всего?",
+          "answer": "Практически любые: портреты, пейзажи, питомцы и бытовые кадры. Лучше всего работают фото с хорошим светом и четким объектом."
+        },
+        {
+          "question": "Сколько это стоит?",
+          "answer": "Одна генерация в стиле Ghibli стоит 2 кредита. Новым пользователям дают бесплатные кредиты, чтобы попробовать."
+        },
+        {
+          "question": "Можно ли использовать результат коммерчески?",
+          "answer": "Да, можно использовать и для личных, и для коммерческих целей. Учтите, что это вдохновение стилем, а не официальная связь со Studio Ghibli."
+        }
+      ]
+    }
+  },
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "ghibli-1",
+        "title": "Лесной дух",
+        "imageUrl": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png"
+      },
+      {
+        "id": "ghibli-2",
+        "title": "Деревенский пейзаж",
+        "imageUrl": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png"
+      },
+      {
+        "id": "ghibli-3",
+        "title": "Портретное преображение",
+        "imageUrl": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png"
+      }
+    ],
+    "form": {
+      "title": "Фотоэффект в стиле Ghibli",
+      "backgroundImage": "https://r2.veo3ai.io/intro/nano-pro/Forest-Spirit.png"
+    }
+  }
+}

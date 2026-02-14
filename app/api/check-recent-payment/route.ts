@@ -33,21 +33,39 @@ export async function GET(req: NextRequest) {
       const orderCreatedTime = new Date(recentOrder.created_at).getTime();
 
       if (orderCreatedTime >= requestTimestamp - 60000) {
+        // Calculate monthly credits for yearly subscriptions with monthly distribution
+        const isMonthlyDistribution = recentOrder.is_monthly_distribution || false;
+        const monthlyCredits = isMonthlyDistribution
+          ? Math.floor(recentOrder.credits / 12)
+          : recentOrder.credits;
+
         return respData({
           hasRecentPayment: true,
           paymentInfo: {
             planName: recentOrder.product_name,
-            credits: recentOrder.credits,
+            credits: recentOrder.credits, // Keep for backward compatibility
             amount: recentOrder.amount,
             currency: recentOrder.currency,
             interval: recentOrder.interval,
             paidAt: recentOrder.paid_at,
+            // New fields for monthly distribution
+            isMonthlyDistribution,
+            monthlyCredits,
+            totalCredits: recentOrder.credits,
+            remainingMonths: isMonthlyDistribution ? 11 : 0,
           },
         });
       }
     }
 
     const recentFailure = await findRecentFailedPayment(user_uuid, 5);
+
+    console.log("🔍 findRecentFailedPayment result:", {
+      user_uuid,
+      found: !!recentFailure,
+      orderNo: recentFailure?.order.order_no,
+      failureCode: recentFailure?.failure.code,
+    });
 
     if (recentFailure) {
       const failureTimeStr =
@@ -56,7 +74,18 @@ export async function GET(req: NextRequest) {
         ? new Date(failureTimeStr).getTime()
         : Date.now();
 
-      if (failureTime >= requestTimestamp - 60000) {
+      console.log("⏰ Time comparison:", {
+        failureTime,
+        failureTimeStr,
+        requestTimestamp,
+        diff: failureTime - requestTimestamp,
+        threshold: requestTimestamp - 300000,
+        passes: failureTime >= requestTimestamp - 300000,
+      });
+
+      // 修改：时间窗口从 1 分钟扩大到 5 分钟（与查询窗口一致）
+      if (failureTime >= requestTimestamp - 300000) {  // 300000 毫秒 = 5 分钟
+        console.log("✅ Returning failure info to frontend");
         return respData({
           hasRecentPayment: false,
           hasFailedPayment: true,
@@ -70,7 +99,11 @@ export async function GET(req: NextRequest) {
             failureAt: failureTimeStr,
           },
         });
+      } else {
+        console.log("❌ Failure time outside 5min window");
       }
+    } else {
+      console.log("ℹ️ No recent failure found");
     }
 
     return respData({ hasRecentPayment: false });

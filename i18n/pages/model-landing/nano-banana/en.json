@@ -50,12 +50,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "A man and a woman, positioned centrally in the image, are embracing with their arms outstretched, as if soaring. The woman, with auburn hair, appears to be in her late twenties or early thirties. She has a light complexion, and her expression is serene. She is wearing a flowing, olive-green dress with intricate lace details. The man is slightly behind her, and his attire includes a dark gray or black coat. Both subjects are in a classic romantic pose that suggests freedom and happiness."
+                  "content": "A tall, fit blonde woman with blue eyes runs happily along the coastline at sunset, her wet hair flowing behind her. She wears a minimalist one-piece swimsuit. The camera follows her from a low side angle, in slow motion, with water splashing everywhere."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page1_bfecbd5ba1.png",
-                  "altText": "A pair of gold earrings"
+                  "content": "https://r2.veo3ai.io/intro/text-to-image/1209Material-reserves/Beach-photos.png",
+                  "altText": "Blonde woman running along the coastline at sunset"
                 }
               ]
             },
@@ -63,12 +63,12 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "A young Asian female figure, positioned in the center of the image. She appears to be a teenager, with long, straight, dark black hair styled in pigtails. She is wearing a light beige-colored cardigan-style sweater over a white collared shirt, a plaid mini skirt, black socks, and brown oxfords."
+                  "content": "This diagram, illustrated in a cartoon style, illustrates the four levels of research on information diffusion mechanisms in communication studies: The descriptive level records basic data and phenomena of information dissemination; the classification level identifies different dissemination paths and patterns through methods such as clustering and structural partitioning; the explanatory level reveals the causal mechanisms of diffusion based on theories such as social influence, weak ties, agenda setting, or platform algorithms; and the predictive level uses diffusion models and algorithms to make verifiable predictions of content popularity and dissemination scale. This structure helps to understand the complete theoretical framework of communication phenomena, from presentation and induction to mechanism explanation and future prediction."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page2_6e3ffabc68.png",
-                  "altText": "Landscape with castle"
+                  "content": "https://r2.veo3ai.io/intro/text-to-image/1209Material-reserves/Four-layer-information-diagram.png",
+                  "altText": "Four-layer information diffusion diagram"
                 }
               ]
             }
@@ -91,22 +91,22 @@
               "cells": [
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page3_8fd81051f4.png",
-                  "altText": "A woman with short hair"
+                  "content": "https://r2.veo3ai.io/intro/nano/original-%20image1.webp",
+                  "altText": "Original reference image 1"
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page4_7e3c0b8db7.png",
-                  "altText": "A pair of gold earrings"
+                  "content": "https://r2.veo3ai.io/intro/nano/original-image2.png",
+                  "altText": "Original reference image 2"
                 },
                 {
                   "type": "text",
-                  "content": "Place the earrings in figure 2 on the woman's ears."
+                  "content": "Combine the characters of Judy the rabbit, Nick the fox, and the pet kitten into a single selfie, with a tightly composed frame."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page5_dec9d56c7d.png",
-                  "altText": "The woman with earrings added"
+                  "content": "https://r2.veo3ai.io/images/1202add-pic/img2img/Zootopia-The-Perfect-Match.png",
+                  "altText": "Combined selfie of Judy, Nick, and a kitten"
                 }
               ]
             }
@@ -128,17 +128,17 @@
               "cells": [
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page6_266c7d809f.png",
-                  "altText": "A woman with short hair"
+                  "content": "https://r2.veo3ai.io/intro/nano/original-%20person.png",
+                  "altText": "Original portrait photo for Alenka edit"
                 },
                 {
                   "type": "text",
-                  "content": "Change the background to vocano"
+                  "content": "Edit the photo to look like an Alenka chocolate bar, but with a New Year's theme. Keep the face similar to the photo with New Year's clothes and a New Year's background."
                 },
                 {
                   "type": "image",
-                  "content": "https://pollo.ai/cms/page7_7b8cbb32e0.png",
-                  "altText": "The woman with earrings added"
+                  "content": "https://r2.veo3ai.io/intro/image-to-image/1209Material-reserves/Christmas-Costume1.png",
+                  "altText": "Alenka-style New Year portrait"
                 }
               ]
             }

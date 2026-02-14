@@ -16,8 +16,11 @@ export async function getClientIp() {
 
 // IP注册限制配置
 const IP_LIMITS = {
-  DAILY_LIMIT: 10,   // 每IP每日最多10个账号
-  HOURLY_LIMIT: 3,   // 每IP每小时最多3个账号
+  HOURLY_LIMIT: 3,    // 每IP每小时最多3个账号（2025-11-15强化：从5降到3）
+  DAILY_LIMIT: 7,     // 每IP每日最多7个账号（2025-11-15强化：从10降到7）
+  // 移除长期限制：聚焦短时间窗口防护，避免误伤学校/公司等共享IP场景
+  // WEEKLY_LIMIT: 15,   // 已删除：会误伤正常用户
+  // LIFETIME_LIMIT: 25, // 已删除：薅羊毛特征是短时间爆发，不是长期累计
 };
 
 /**
@@ -34,26 +37,26 @@ export async function checkIPRegistrationLimit(ip: string): Promise<{allowed: bo
     }
     // 检查IP是否已被明确封禁
     const ipLimit = await findIPLimitByAddress(ip);
-    
+
     // 如果IP已被明确标记为blocked
     if (ipLimit && ipLimit.is_blocked) {
       return { allowed: false, reason: 'IP address is blocked' };
     }
 
-    // 检查24小时内的注册数量（使用新的统一统计逻辑）
-    const last24h = new Date(Date.now() - 24 * 60 * 60 * 1000);
-    const dailyCount = await countIPRegistrationsSince(ip, last24h);
-
-    if (dailyCount >= IP_LIMITS.DAILY_LIMIT) {
-      return { allowed: false, reason: `Too many registrations from this IP today (${dailyCount}/${IP_LIMITS.DAILY_LIMIT})` };
-    }
-
-    // 检查1小时内的注册数量（使用新的统一统计逻辑）
+    // 检查1小时内的注册数量
     const lastHour = new Date(Date.now() - 60 * 60 * 1000);
     const hourlyCount = await countIPRegistrationsSince(ip, lastHour);
 
     if (hourlyCount >= IP_LIMITS.HOURLY_LIMIT) {
       return { allowed: false, reason: `Too many registrations from this IP in the past hour (${hourlyCount}/${IP_LIMITS.HOURLY_LIMIT})` };
+    }
+
+    // 检查24小时内的注册数量
+    const last24h = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const dailyCount = await countIPRegistrationsSince(ip, last24h);
+
+    if (dailyCount >= IP_LIMITS.DAILY_LIMIT) {
+      return { allowed: false, reason: `Too many registrations from this IP today (${dailyCount}/${IP_LIMITS.DAILY_LIMIT})` };
     }
 
     return { allowed: true };
@@ -90,4 +93,20 @@ export async function isIPBlocked(ip: string): Promise<boolean> {
     console.error('Unexpected error in isIPBlocked:', error);
     return false; // 发生错误时不阻止
   }
+}
+
+/**
+ * 获取客户端国家代码 (从Cloudflare CF-IPCountry header)
+ * @returns ISO 3166-1 alpha-2 国家代码 (如 "US", "RU", "CN") 或 null
+ */
+export async function getClientCountry(): Promise<string | null> {
+  const h = headers();
+  const country = h.get("cf-ipcountry");
+
+  // 过滤无效值: XX (未知), T1 (Tor)
+  if (!country || country === "XX" || country === "T1") {
+    return null;
+  }
+
+  return country.toUpperCase(); // ISO 3166-1 标准
 }

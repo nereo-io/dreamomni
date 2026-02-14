@@ -1,0 +1,16 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "eye-zoom-challenge-1",
+        "title": "Eye Zoom Challenge",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/eye-zoom-challenge_cover.webp?v=1756603070646",
+        "preview_gif": "https://r2.veo3ai.io/effects-optimized/eye-zoom-challenge_preview.gif?v=1756600362677"
+      }
+    ],
+    "form": {
+      "title": "Eye Zoom Challenge",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_eye_250524.png"
+    }
+  }
+}

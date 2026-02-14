@@ -6,6 +6,7 @@ import { AIVideoHeader } from "@/components/blocks/home-layout/header";
 import { SidebarProvider, useSidebar } from "@/contexts/sidebar";
 import Footer from "@/components/blocks/footer";
 import { LandingPage } from "@/types/pages/landing";
+import { useSession } from "next-auth/react";
 
 interface HomeLayoutProps {
   children: ReactNode;
@@ -22,6 +23,7 @@ function HomeLayoutContent({
   footer?: LandingPage['footer'];
 }) {
   const { isCollapsed } = useSidebar();
+  const { data: session } = useSession();
 
   return (
     <div className="min-h-screen bg-gray-950">
@@ -34,9 +36,11 @@ function HomeLayoutContent({
       >
         <AIVideoHeader />
 
-        <main className="px-2 py-6 pt-[78px]">{children}</main>
+        <main className={`px-2 pt-[78px] ${session ? 'pb-0' : 'py-6'}`}>
+          {children}
+        </main>
 
-        {footer && <Footer footer={footer} />}
+        {footer && !session && <Footer footer={footer} />}
       </div>
     </div>
   );

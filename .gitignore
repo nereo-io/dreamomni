@@ -29,6 +29,7 @@ yarn-error.log*
 .env.local
 .env.development
 .env.production
+.env.e2e.local
 
 # vercel
 .vercel
@@ -39,6 +40,9 @@ yarn-error.log*
 next-env.d.ts
 scripts/node_modules
 scripts
+!scripts/
+scripts/*
+!scripts/start-standalone.mjs
 processed-media
 
 # Makefile
@@ -49,9 +53,21 @@ magicuidesign-saas-template-12514ccfe8614a3204f886565bc3ab7b75bfded3
 .claude
 .kiro
 docs/vk
+docs/lyf
+docs/guide
+.claude
+.vscode
+
+# Playwright local auth state
+tests/e2e/.auth/
 
 # instructions
 /a_instructions/
 /a_marketing/
 /a_strategy/
 /.cursor/
+
+# Playwright 测试认证状态（包含敏感 session）
+tests/e2e/.auth/
+playwright-report/
+test-results/

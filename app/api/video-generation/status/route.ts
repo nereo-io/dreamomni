@@ -24,7 +24,10 @@ export async function POST(req: Request) {
     console.log(`检查视频生成状态，生成ID: ${id}`);
 
     // 从数据库获取视频生成记录
-    const videoGeneration = await getVideoGenerationById(id);
+    const videoGeneration = await getVideoGenerationById(
+      id,
+      session.user.uuid
+    );
     if (!videoGeneration) {
       return respErr("Video generation record not found");
     }

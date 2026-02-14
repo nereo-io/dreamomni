@@ -147,7 +147,7 @@ export class KieAiSoraProvider implements VideoProvider {
       );
 
       const requestBody: any = {
-        model: model, // "sora-2-text-to-video" or "sora-2-image-to-video"
+        model: model, // "sora-2-text-to-video", "sora-2-image-to-video", "sora-2-pro-text-to-video", "sora-2-pro-image-to-video", "sora-2-pro-storyboard"
         input: {
           prompt: input.prompt,
           aspect_ratio: aspectRatio,
@@ -156,13 +156,30 @@ export class KieAiSoraProvider implements VideoProvider {
         },
       };
 
-      // Add image URL if provided (for image-to-video)
+      // 添加时长参数（n_frames）
+      if (input.duration) {
+        requestBody.input.n_frames = String(input.duration);
+      }
+
+      // Pro 模型需要 size 参数
+      if (model.includes("sora-2-pro-")) {
+        // Pro 模型支持 standard/high,默认使用 high (最高质量)
+        requestBody.input.size = "high";
+      }
+
+      // 添加图片 URL（image-to-video 和 storyboard）
       if (input.image_url) {
         const trimmedImageUrl = input.image_url.trim();
         requestBody.input.image_url = trimmedImageUrl;
         requestBody.input.image_urls = [trimmedImageUrl];
         requestBody.input.imageUrl = trimmedImageUrl;
         requestBody.input.imageUrls = [trimmedImageUrl];
+      }
+
+      // Storyboard 支持多图
+      if (input.image_urls && Array.isArray(input.image_urls)) {
+        requestBody.input.image_urls = input.image_urls;
+        requestBody.input.imageUrls = input.image_urls;
       }
 
       // Add callback URL if provided, otherwise use default platform webhook

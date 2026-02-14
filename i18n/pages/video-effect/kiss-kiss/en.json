@@ -1,0 +1,16 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "kiss-kiss-1",
+        "title": "Kiss Kiss",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/kiss-kiss_cover.webp?v=1756603075901",
+        "preview_gif": "https://r2.veo3ai.io/effects-optimized/kiss-kiss_preview.gif?v=1756600362677"
+      }
+    ],
+    "form": {
+      "title": "Kiss Kiss",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_kisskiss_250610.png"
+    }
+  }
+}

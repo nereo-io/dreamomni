@@ -1,0 +1,291 @@
+{
+  "banner": {
+    "title": "Generateur video IA Kling 3.0",
+    "description": "Kling 3.0 introduit une architecture multimodale tout-en-un avec audio natif, narration multi-plans, meilleure coherence des sujets et sorties jusqu'a 15 secondes. L'acces anticipe Pro est en cours de deploiement, avec une sortie plus large a venir.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Texte vers Video",
+        "subTitle": "Prompt",
+        "value": "text-to-video",
+        "modelName": "Kling 3.0",
+        "modelLogo": "/imgs/intro/kling.svg",
+        "placeholder": "Decrivez la video que vous souhaitez generer...",
+        "buttonText": "Generer"
+      },
+      {
+        "type": "image",
+        "title": "Image vers Video",
+        "subTitle": "Image",
+        "value": "image-to-video",
+        "modelName": "Kling 3.0",
+        "modelLogo": "/imgs/intro/kling.svg",
+        "placeholder": "Televersez une image a animer",
+        "tips": "Televersez des images JPG/PNG/WEBP jusqu'a 10 Mo, largeur/hauteur minimale de 300 px.",
+        "buttonText": "Generer"
+      }
+    ]
+  },
+  "partners": [],
+  "features": {
+    "title": "Fonctionnalites cles de Kling 3.0",
+    "details": [
+      {
+        "title": "Moteur video multimodal unifie",
+        "description": "Kling 3.0 unifie le texte-vers-video, l'image-vers-video, les workflows par reference et les operations d'edition dans un modele multimodal natif unique. Cette architecture ameliore la comprehension des prompts, le controle creatif et la stabilite des sorties dans les scenes complexes.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/kling-3-0/19009e985438-1770215360540_5zo8uf.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/kling-3-0/9ed7318e4fcd-1770215434448_gl1h12.jpg"
+      },
+      {
+        "title": "Narration multi-plans en une seule generation",
+        "description": "Kling VIDEO 3.0 interprete les intentions plan par plan depuis les prompts et genere une structure cinematographique plus riche en un seul lancement. Il prend en charge des recits multi-plans personnalises et des transitions plus fluides sans assemblage manuel.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/kling-3-0/3427fa91bf65-1770210919472_j4m945.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/kling-3-0/d2de4aba23c6-1770210923089_cd0hn5.jpg"
+      },
+      {
+        "title": "Coherence des elements avec controle multi-references",
+        "description": "Le modele prend en charge l'image de depart plus references d'elements, avec un verrouillage renforce des sujets pendant les mouvements de camera et l'evolution des scenes. Personnages, objets et environnements restent plus coherents du debut a la fin.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/kling-3-0/fba0a09c53fa-1770211225176_74uzl2.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/kling-3-0/d21bc66559ff-1770211227455_or1vcd.jpg"
+      },
+      {
+        "title": "Audio natif avec ciblage de voix par personnage",
+        "description": "Kling 3.0 ameliore l'audio natif avec une attribution plus claire des locuteurs dans les scenes multi-personnages. Il prend en charge le chinois, l'anglais, le japonais, le coreen et l'espagnol, ainsi que les dialectes et accents pour des dialogues plus realistes.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/kling-3-0/512f019f3010-1770211314559_1lz1nj.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/kling-3-0/925de0732660-1770211318751_h7rtiz.jpg"
+      },
+      {
+        "title": "Rendu de texte natif dans la video",
+        "description": "Kling 3.0 ameliore la generation et la conservation du texte dans les scenes pour garder lisibles enseignes, etiquettes et contenus de marque. C'est particulierement utile pour les publicites et videos produit necessitant une typographie claire.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/kling-3-0/0ff599c8436d-1770211415228_mhabei.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/kling-3-0/f89bc315b3ca-1770211418027_9vc1ev.jpg"
+      },
+      {
+        "title": "Duree flexible de 3 a 15 s pour des recits plus riches",
+        "description": "Par rapport aux limites precedentes, Kling 3.0 etend la duree maximale de sortie a 15 secondes avec des controles flexibles. Des generations plus longues en un seul passage facilitent les actions continues et le rythme narratif.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/kling-3-0/532ac124f502-1770196405687_c3m5lo.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/kling-3-0/9c49ffea378a-1770196412023_m5i0dk.jpg"
+      },
+      {
+        "title": "Mise a niveau des capacites Kling VIDEO 3.0",
+        "description": "La mise a niveau de VIDEO 2.6 vers VIDEO 3.0 ajoute le controle multi-plans, des references plus robustes, l'audio natif multilingue et une duree plus longue.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Capacite"
+            },
+            {
+              "title": "Kling VIDEO 2.6"
+            },
+            {
+              "title": "Kling VIDEO 3.0"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Texte-vers-video"
+                },
+                {
+                  "type": "text",
+                  "content": "Oui"
+                },
+                {
+                  "type": "text",
+                  "content": "Oui"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Image-vers-video"
+                },
+                {
+                  "type": "text",
+                  "content": "Oui"
+                },
+                {
+                  "type": "text",
+                  "content": "Oui"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Image de debut et de fin vers video"
+                },
+                {
+                  "type": "text",
+                  "content": "Oui"
+                },
+                {
+                  "type": "text",
+                  "content": "Oui"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Multi-plans"
+                },
+                {
+                  "type": "text",
+                  "content": "Non"
+                },
+                {
+                  "type": "text",
+                  "content": "Oui"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Reference d'elements"
+                },
+                {
+                  "type": "text",
+                  "content": "Non"
+                },
+                {
+                  "type": "text",
+                  "content": "Oui"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Coreference multi-personnages (3+)"
+                },
+                {
+                  "type": "text",
+                  "content": "Non"
+                },
+                {
+                  "type": "text",
+                  "content": "Oui"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Audio natif multilingue"
+                },
+                {
+                  "type": "text",
+                  "content": "Non"
+                },
+                {
+                  "type": "text",
+                  "content": "Oui"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Duree max"
+                },
+                {
+                  "type": "text",
+                  "content": "10 s"
+                },
+                {
+                  "type": "text",
+                  "content": "15 s"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Comment utiliser Kling 3.0",
+    "description": "Creez des videos IA cinematographiques avec Kling 3.0 en trois etapes rapides",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Choisir Kling 3.0",
+        "description": "Ouvrez Texte vers Video ou Image vers Video, puis selectionnez Kling 3.0 dans la liste des modeles. Utilisez le mode texte pour creer des scenes inedites, ou le mode image pour une animation plus controlee."
+      },
+      {
+        "number": "02",
+        "title": "Definir le prompt et les controles creatifs",
+        "description": "Decrivez les plans, l'intention camera, les dialogues et le style. Ajoutez des images de reference si necessaire pour la coherence des sujets, puis definissez le format et la duree selon votre objectif."
+      },
+      {
+        "number": "03",
+        "title": "Generer, verifier et exporter",
+        "description": "Lancez la generation, verifiez la coherence mouvement/audio, puis exportez votre clip final. Iterez avec des ajustements de prompt ou des references pour ameliorer le sequencement des plans et la coherence des personnages."
+      }
+    ],
+    "buttonText": "Essayer Kling 3.0"
+  },
+  "cta": {
+    "title": "Commencez a creer avec Kling 3.0",
+    "buttonText": "Generer avec Kling 3.0"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Questions frequentes",
+    "description": "En savoir plus sur Kling 3.0 et Kling VIDEO 3.0 Omni",
+    "items": [
+      {
+        "title": "Qu'est-ce que Kling 3.0 ?",
+        "description": "Kling 3.0 est une nouvelle generation de modele video IA avec un framework multimodal unifie. Il ameliore le controle creatif, l'audio natif, la coherence des elements et la narration plan par plan par rapport aux versions precedentes."
+      },
+      {
+        "title": "Quelle est la difference entre VIDEO 3.0 et VIDEO 3.0 Omni ?",
+        "description": "VIDEO 3.0 est le modele principal ameliore pour les workflows texte/image avec un meilleur controle narratif. VIDEO 3.0 Omni va plus loin dans la creation basee sur references avec des workflows d'elements enrichis, y compris les references video de personnages et un controle multimodal plus large."
+      },
+      {
+        "title": "Kling 3.0 prend-il en charge la generation multi-plans ?",
+        "description": "Oui. Kling 3.0 introduit une narration multi-plans native pour decrire plusieurs plans et transitions dans un seul prompt, reduisant l'edition manuelle et l'assemblage de clips."
+      },
+      {
+        "title": "Kling 3.0 peut-il generer un audio natif ?",
+        "description": "Oui. Kling 3.0 prend en charge la sortie audio native et ameliore le controle des locuteurs par personnage. Il elargit aussi le support multilingue et gere une synchronisation labiale plus naturelle dans de nombreux contextes."
+      },
+      {
+        "title": "Quelle duree video Kling 3.0 peut-il generer ?",
+        "description": "Kling 3.0 prend en charge des durees flexibles de 3 a 15 secondes en une seule generation, ce qui permet une progression narrative plus complete qu'avec les limites plus courtes precedentes."
+      },
+      {
+        "title": "Puis-je conserver la coherence des personnages entre les plans ?",
+        "description": "Oui. Kling 3.0 ameliore la coherence des elements via les references et un controle renforce des sujets, afin de maintenir des identites stables pour les personnages et les objets malgre les changements de scene."
+      },
+      {
+        "title": "Kling 3.0 est-il deja disponible pour tout le monde ?",
+        "description": "Kling 3.0 est deployee progressivement, avec un acces anticipe pour certains utilisateurs et abonnes Pro selon la note officielle. Une disponibilite plus large est attendue dans les phases suivantes."
+      },
+      {
+        "title": "Pour quels projets Kling 3.0 est-il le plus adapte ?",
+        "description": "Kling 3.0 est adapte aux videos narratives courtes, contenus sociaux, scenes de dialogue multilingues, creations publicitaires et storytelling de marque necessitant davantage de controle des plans, de continuite et de coherence audio-visuelle."
+      }
+    ]
+  }
+}

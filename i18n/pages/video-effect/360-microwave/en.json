@@ -1,0 +1,16 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "360-microwave-1",
+        "title": "360° Microwave",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/360-microwave_cover.webp?v=1756603061718",
+        "preview_gif": "https://r2.veo3ai.io/effects-optimized/360-microwave_preview.gif?v=1756600362677"
+      }
+    ],
+    "form": {
+      "title": "360° Microwave",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_360_250227.png"
+    }
+  }
+}

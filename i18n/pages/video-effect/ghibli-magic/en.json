@@ -1,0 +1,16 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "ghibli-magic-1",
+        "title": "Ghibli Magic",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/ghibli-magic_cover.webp?v=1756603073086",
+        "preview_gif": "https://r2.veo3ai.io/effects-optimized/ghibli-magic_preview.gif?v=1756600362677"
+      }
+    ],
+    "form": {
+      "title": "Ghibli Magic",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_ghibli_i2i_250402.png"
+    }
+  }
+}

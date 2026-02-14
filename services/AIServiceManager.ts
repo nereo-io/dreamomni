@@ -3,9 +3,13 @@
  * 统一管理多个AI服务提供商
  */
 
-import { BaseAIProvider, ProviderFactory, GenerateImageRequest, EditImageRequest, ProviderResponse } from './providers/BaseAIProvider';
+import { BaseAIProvider, GenerateImageRequest, EditImageRequest, ProviderResponse } from './providers/BaseAIProvider';
 import { NanoBananaProvider } from './providers/NanoBananaProvider';
+import { FalImageProvider } from './providers/FalImageProvider';
+import { SeedreamProvider } from './providers/SeedreamProvider';
 import type { AIServiceProvider, AIProviderConfig } from '@/types/provider.d';
+import { ImageModelProvider } from '@/config/image-models';
+import { IMAGE_MODELS, getImageModel, calculateImageCredits } from '@/config/image-models';
 
 // 预定义的提供商配置
 const PROVIDER_CONFIGS: Record<AIServiceProvider, AIProviderConfig> = {
@@ -29,36 +33,25 @@ const PROVIDER_CONFIGS: Record<AIServiceProvider, AIProviderConfig> = {
       asyncCallback: true,
       realTimeStatus: false
     },
-    models: [
-      {
-        id: 'google/nano-banana',
-        name: 'nano-banana',
-        displayName: 'Nano Banana',
-        provider: 'nano_banana',
-        type: 'text-to-image',
-        status: 'active',
-        features: ['text-to-image', 'high-quality'],
+    // 使用配置文件中的模型定义
+    models: Object.values(IMAGE_MODELS)
+      .filter(m => m.provider === 'kie')
+      .map(m => ({
+        id: m.id === 'google/nano-banana' ? m.id : m.name, // 保持旧 ID 兼容性
+        name: m.name,
+        displayName: m.displayName,
+        provider: 'nano_banana' as const,
+        type: m.type as 'text-to-image' | 'image-edit',
+        status: (m.status === 'active' ? 'active' : 'deprecated') as 'active' | 'beta' | 'deprecated',
+        features: m.features,
         maxImageCount: 1,
-        maxResolution: { width: 1024, height: 1024 },
-        supportedAspectRatios: ['1:1', '16:9', '9:16'],
-        supportedFormats: ['jpg', 'png'],
-        credits: 1
-      },
-      {
-        id: 'nano-banana',
-        name: 'nano-banana',
-        displayName: 'Nano Banana',
-        provider: 'nano_banana',
-        type: 'image-edit',
-        status: 'active',
-        features: ['image-edit', 'high-quality'],
-        maxImageCount: 1,
-        maxResolution: { width: 1024, height: 1024 },
-        supportedAspectRatios: ['1:1'],
-        supportedFormats: ['jpg', 'png'],
-        credits: 2
-      }
-    ],
+        maxResolution: m.supportedResolutions
+          ? { width: 4096, height: 4096 } // Pro 模型支持 4K
+          : { width: 1024, height: 1024 },
+        supportedAspectRatios: m.supportedAspectRatios,
+        supportedFormats: m.supportedFormats,
+        credits: m.credits,
+      })),
     pricing: {
       baseCredits: 1,
       qualityMultiplier: {
@@ -247,6 +240,91 @@ const PROVIDER_CONFIGS: Record<AIServiceProvider, AIProviderConfig> = {
     pricing: {
       baseCredits: 1
     }
+  },
+  fal: {
+    id: 'fal',
+    name: 'fal.ai',
+    displayName: 'fal.ai',
+    description: 'fal.ai hosted image models',
+    status: 'active',
+    features: {
+      textToImage: true,
+      imageToImage: true,
+      imageEdit: true,
+      inpainting: false,
+      outpainting: false,
+      upscaling: false,
+      backgroundRemoval: false,
+      styleTransfer: false,
+      batchGeneration: false,
+      asyncCallback: false,
+      realTimeStatus: true
+    },
+    models: Object.values(IMAGE_MODELS)
+      .filter(m => m.provider === 'fal')
+      .map(m => ({
+        id: m.id,
+        name: m.name,
+        displayName: m.displayName,
+        provider: 'fal' as const,
+        type: m.type as 'text-to-image' | 'image-edit',
+        status: (m.status === 'active' ? 'active' : 'deprecated') as 'active' | 'beta' | 'deprecated',
+        features: m.features,
+        maxImageCount: m.maxInputImages || 1,
+        maxResolution: m.supportedResolutions
+          ? { width: 4096, height: 4096 }
+          : { width: 1024, height: 1024 },
+        supportedAspectRatios: m.supportedAspectRatios,
+        supportedFormats: m.supportedFormats,
+        credits: m.credits,
+      })),
+    pricing: {
+      baseCredits: 1
+    }
+  },
+  seedream: {
+    id: 'seedream',
+    name: 'seedream',
+    displayName: 'Seedream 4.5',
+    description: 'ByteDance Seedream image generation via BytePlus',
+    apiEndpoint: 'https://ark.ap-southeast.bytepluses.com/api/v3/images/generations',
+    status: 'active',
+    features: {
+      textToImage: true,
+      imageToImage: true,
+      imageEdit: true,  // Seedream 支持通过 image 参数实现图生图
+      inpainting: false,
+      outpainting: false,
+      upscaling: false,
+      backgroundRemoval: false,
+      styleTransfer: false,
+      batchGeneration: true,
+      asyncCallback: false,
+      realTimeStatus: true
+    },
+    models: Object.values(IMAGE_MODELS)
+      .filter(m => m.provider === ImageModelProvider.VOLCANO)
+      .map(m => ({
+        id: m.id,
+        name: m.name,
+        displayName: m.displayName,
+        provider: 'seedream' as const,
+        type: m.type as 'text-to-image' | 'image-edit',
+        status: (m.status === 'active' ? 'active' : 'deprecated') as 'active' | 'beta' | 'deprecated',
+        features: m.features,
+        maxImageCount: m.maxInputImages || 1,
+        // 4K 最大尺寸: 21:9 → 6048x2592, 9:16 → 2880x5120
+        maxResolution: m.supportedResolutions
+          ? { width: 6048, height: 5120 }
+          : { width: 2048, height: 2048 },
+        supportedAspectRatios: m.supportedAspectRatios,
+        supportedFormats: m.supportedFormats,
+        credits: m.credits,
+      })),
+    // 实际计费逻辑在 config/image-models.ts 的 resolutionCredits 中
+    pricing: {
+      baseCredits: 6
+    }
   }
 };
 
@@ -279,6 +357,25 @@ export class AIServiceManager {
       console.log('✅ Nano Banana provider initialized');
     } catch (error) {
       console.warn('⚠️ Nano Banana provider initialization failed:', error);
+    }
+
+    // 注册 fal 提供商
+    try {
+      const falProvider = new FalImageProvider();
+      this.providers.set('fal', falProvider);
+      console.log('✅ fal.ai provider initialized');
+    } catch (error) {
+      console.warn('⚠️ fal.ai provider initialization failed:', error);
+    }
+
+    // 注册 Seedream 提供商 (BytePlus)
+    // Seedream 使用内部回调模式，无需额外配置
+    try {
+      const seedreamProvider = new SeedreamProvider();
+      this.providers.set('seedream', seedreamProvider);
+      console.log('✅ Seedream provider initialized');
+    } catch (error) {
+      console.warn('⚠️ Seedream provider initialization failed:', error);
     }
 
     // TODO: 注册其他提供商
@@ -437,17 +534,31 @@ export class AIServiceManager {
 
     const feature = featureMap[mode];
     const availableProviders = this.getProvidersByFeature(feature);
-    
+
     // 返回第一个可用的提供商，或者根据优先级排序
     const priorityOrder: AIServiceProvider[] = ['nano_banana', 'openai', 'stable_diffusion', 'replicate'];
-    
+
     for (const provider of priorityOrder) {
       if (availableProviders.includes(provider) && this.providers.has(provider)) {
         return provider;
       }
     }
-    
+
     return availableProviders.length > 0 ? availableProviders[0] : null;
+  }
+
+  /**
+   * 从配置文件获取图片模型信息
+   */
+  getImageModelConfig(modelId: string) {
+    return getImageModel(modelId);
+  }
+
+  /**
+   * 使用配置文件计算图片生成积分
+   */
+  calculateImageCreditsFromConfig(modelId: string): number {
+    return calculateImageCredits(modelId);
   }
 }
 

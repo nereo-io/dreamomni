@@ -17,10 +17,20 @@ import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useAppContext } from "@/contexts/app";
 import { cn } from "@/lib/utils";
+import { Copy, Check } from "lucide-react";
 
 export default function SignUser({ user }: { user: User }) {
   const t = useTranslations();
   const { membership, isLoadingMembership } = useAppContext();
+  const [copied, setCopied] = React.useState(false);
+
+  const handleCopyEmail = async () => {
+    if (user?.email) {
+      await navigator.clipboard.writeText(user.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -31,20 +41,46 @@ export default function SignUser({ user }: { user: User }) {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mx-4">
-        <DropdownMenuLabel className="text-center truncate">
-          {user.nickname}
+        <DropdownMenuLabel className="p-0 font-normal">
+          <div className="flex items-center gap-3 px-2 py-2">
+            <Avatar className="h-10 w-10">
+              <AvatarImage src={user.avatar_url} alt={user.nickname} />
+              <AvatarFallback>{user.nickname}</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col flex-1 min-w-0">
+              <span className="truncate font-semibold text-sm">
+                {user.nickname}
+              </span>
+              <div className="flex items-center gap-1">
+                <span className="truncate text-xs text-muted-foreground">
+                  {user.email}
+                </span>
+                <button
+                  onClick={handleCopyEmail}
+                  className="inline-flex items-center justify-center rounded-sm p-0.5 hover:bg-accent transition-colors shrink-0"
+                  title={copied ? "Copied!" : "Copy email"}
+                >
+                  {copied ? (
+                    <Check className="h-3 w-3 text-green-500" />
+                  ) : (
+                    <Copy className="h-3 w-3 text-muted-foreground" />
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
         <DropdownMenuItem className="cursor-pointer">
           <Link
             href="/membership"
-            className="flex justify-between items-center w-full"
+            className="flex justify-center items-center w-full"
           >
             <span>{t("user.membership")}</span>
             {isLoadingMembership ? (
               <Badge variant="secondary" className="ml-2 animate-pulse">
-                加载中...
+                Loading...
               </Badge>
             ) : !membership ? (
               <Badge variant="secondary" className="ml-2">

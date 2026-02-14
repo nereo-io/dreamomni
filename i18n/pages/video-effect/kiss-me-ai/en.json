@@ -1,0 +1,16 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "kiss-me-ai-1",
+        "title": "Kiss Me, AI!",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/kiss-me-ai_cover.webp?v=1756603078946",
+        "preview_gif": "https://r2.veo3ai.io/effects-optimized/kiss-me-ai_preview.gif?v=1756600362677"
+      }
+    ],
+    "form": {
+      "title": "Kiss Me, AI!",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_ailover_250212.png"
+    }
+  }
+}

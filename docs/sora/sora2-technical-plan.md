@@ -69,11 +69,11 @@ graph TD
   type: VideoModelType.TEXT_TO_VIDEO,
   provider: VideoModelProvider.KIEAI,
   displayName: "Sora 2",
-  perSecondCredits: 2.4, // 5 秒 12 积分
+  perSecondCredits: 0.4, // 10 秒 4 积分
   features: ["HD", "高保真动作"],
-  maxDuration: 10,
+  maxDuration: 15,
   supportedAspectRatios: ["16:9", "9:16"],
-  supportedDurations: [5, 10],
+  supportedDurations: [10, 15],
   supportedResolutions: ["1080p"],
   supportsAudio: false,
   estimatedGenerationTime: 180,
@@ -217,7 +217,7 @@ graph TD
 
 ### 6.3 手工验证
 
-1. 文本转视频 5 秒默认 1080p HD 成功生成，结果分辨率符合预期。
+1. 文本转视频 10 秒默认 1080p HD 成功生成，结果分辨率符合预期。
 2. 文本转视频 10 秒请求，检查积分扣除与返回的 1080p 视频链接。
 3. 图生视频任务（上传 PNG），确认 `aspect_ratio` 选项 `16:9`、`9:16` 均可正常生成。
 4. 模拟 API 429，确保提示友好且可重试。

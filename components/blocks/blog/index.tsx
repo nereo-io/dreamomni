@@ -21,15 +21,22 @@ export default function Blog({ blog }: { blog: BlogType }) {
           </p>
         </div>
         <div className="w-full flex flex-wrap items-start">
-          {blog.items?.map((item, idx) => (
-            <a
-              key={idx}
-              href={item.url || `/${item.locale}/blog/${item.slug}`}
-              target={item.target || "_self"}
-              className="w-full md:w-1/3 p-4"
-            >
-              <div className="flex flex-col overflow-clip rounded-xl border border-border">
-                {item.cover_url && (
+          {blog.items?.map((item, idx) => {
+            const href =
+              item.url ||
+              (item.locale === "en"
+                ? `/blog/${item.slug}`
+                : `/${item.locale}/blog/${item.slug}`);
+
+            return (
+              <a
+                key={idx}
+                href={href}
+                target={item.target || "_self"}
+                className="w-full md:w-1/3 p-4"
+              >
+                <div className="flex flex-col overflow-clip rounded-xl border border-border">
+                  {item.cover_url && (
                   <div>
                     <img
                       src={item.cover_url}
@@ -53,8 +60,9 @@ export default function Blog({ blog }: { blog: BlogType }) {
                   )}
                 </div>
               </div>
-            </a>
-          ))}
+              </a>
+            );
+          })}
         </div>
       </div>
     </section>

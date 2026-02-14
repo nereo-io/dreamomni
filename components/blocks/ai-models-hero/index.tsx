@@ -1,6 +1,8 @@
 "use client";
 
 import { AIModelsHero as AIModelsHeroData } from "@/types/blocks/ai-model-hero";
+import { useInViewport } from "@/hooks/useInViewport";
+import { useEffect, useRef } from "react";
 
 interface AIModelsHeroProps {
   data: AIModelsHeroData;
@@ -9,11 +11,32 @@ interface AIModelsHeroProps {
 }
 
 export function AIModelsHero({ data, title, description }: AIModelsHeroProps) {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const shouldAutoplay = useInViewport(sectionRef, { rootMargin: "0px" });
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (!shouldAutoplay) return;
+    const video = videoRef.current;
+    if (!video) return;
+
+    const tryPlay = async () => {
+      try {
+        video.load();
+        await video.play();
+      } catch {
+        // Autoplay may be blocked; controls are available.
+      }
+    };
+
+    tryPlay();
+  }, [shouldAutoplay]);
+
   const finalTitle = title || data?.title;
   const finalDescription = description || data?.description;
 
   return (
-    <div className="w-full bg-gray-900 py-16">
+    <div ref={sectionRef} className="w-full bg-gray-900 py-16">
       <div className="max-w-6xl mx-auto px-4 text-center">
         {/* Title */}
         <h2 className="text-xl md:text-3xl font-bold text-white mb-6">
@@ -35,6 +58,11 @@ export function AIModelsHero({ data, title, description }: AIModelsHeroProps) {
                   src={model.logo}
                   alt={`${model.name} logo`}
                   className="w-full h-full object-contain"
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
+                  width={80}
+                  height={80}
                 />
               </div>
               {/* Model Name */}
@@ -62,18 +90,17 @@ export function AIModelsHero({ data, title, description }: AIModelsHeroProps) {
             style={{ paddingBottom: "56.25%" }}
           >
             <video
+              ref={videoRef}
               className="absolute inset-0 w-full h-full object-cover rounded-2xl"
               controls
-              autoPlay
+              autoPlay={shouldAutoplay}
               muted
               loop
               playsInline
-              poster="/imgs/intro/veo-cover-202508-poster.jpg"
+              poster="/imgs/intro/veo-cover-202508-poster.webp"
+              preload="none"
             >
-              <source
-                src="https://r2.veo3ai.io/intro/cover-video.mp4"
-                type="video/mp4"
-              />
+              <source src="https://r2.veo3ai.io/intro/cover-video.mp4" type="video/mp4" />
             </video>
           </div>
         </div>

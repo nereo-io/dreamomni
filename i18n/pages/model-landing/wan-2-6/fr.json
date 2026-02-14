@@ -1,0 +1,133 @@
+{
+  "banner": {
+    "title": "Generateur video IA Wan 2.6",
+    "description": "Wan 2.6 est le dernier modele video Wan AI d'Alibaba pour la creation cinematographique multi-plans. Il prend en charge texte-vers-video, image-vers-video et la generation guidee par reference, avec des sorties jusqu'a 15 secondes en 1080p, une synchronisation audio native et une meilleure coherence temporelle.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Texte vers video",
+        "subTitle": "Prompt",
+        "value": "text-to-video",
+        "modelName": "Wan 2.6",
+        "modelLogo": "https://r2.veo3ai.io/model-landing/wan-2-6/wan-logo.png",
+        "placeholder": "Decrivez votre scene multi-plans, les mouvements de camera et l'ambiance...",
+        "buttonText": "Generer"
+      },
+      {
+        "type": "image",
+        "title": "Image vers video",
+        "subTitle": "Image",
+        "value": "image-to-video",
+        "modelName": "Wan 2.6",
+        "modelLogo": "https://r2.veo3ai.io/model-landing/wan-2-6/wan-logo.png",
+        "placeholder": "Importez une image pour l'animer avec Wan 2.6",
+        "tips": "Importez des images JPG/PNG/WEBP jusqu'a 10 Mo, avec une largeur/hauteur minimale de 300 px.",
+        "buttonText": "Generer"
+      }
+    ]
+  },
+  "partners": [],
+  "features": {
+    "title": "Fonctionnalites cles de Wan 2.6",
+    "details": [
+      {
+        "title": "Reference visuelle holistique pour les workflows Starring",
+        "description": "L'introduction officielle de Wan met en avant Starring, qui permet d'integrer des personnages issus de videos de reference dans de nouvelles scenes. Avec jusqu'a 150 images de reference, Wan 2.6 preserve apparence et coherence audio avec une grande precision.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/wan-2-6/83054003156c-1765957599010_59zbAK7u.mp4"
+      },
+      {
+        "title": "Preservation precise du timbre",
+        "description": "Wan 2.6 peut reproduire fidelement le timbre d'un personnage a partir de videos de reference et maintenir la coherence multimodale entre image et son, ce qui ameliore la continuite vocale dans les recits centres sur les personnages.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/wan-2-6/b2b05857d309-1765957687576_dJtkvZYV.mp4"
+      },
+      {
+        "title": "Interaction multi-personnages",
+        "description": "Wan 2.6 prend en charge jusqu'a trois references simultanees, ce qui permet a plusieurs entites de jouer ensemble dans une sequence coherente tout en conservant identite et style d'un plan a l'autre.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/wan-2-6/4c493463ed55-1765957794838_j1gGMZc0.mp4"
+      },
+      {
+        "title": "Narration multi-plans intelligente",
+        "description": "La page officielle de Wan decrit une narration multi-plans intelligente : de simples prompts peuvent etre developpes en storyboards plan par plan, tout en conservant la coherence des personnages, des scenes et de l'ambiance.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/wan-2-6/92b4cf9c41d9-1765957624183_rgIGr8Cr.mp4"
+      },
+      {
+        "title": "Sortie cinematographique 15s en 1080p avec synchronisation audio-video native",
+        "description": "Les pages de Wan et de Kie decrivent une generation de qualite cinematographique jusqu'a 15 secondes en 1080p, avec des transitions multi-plans stables, un audio natif synchronise et un meilleur controle du mouvement de camera.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/wan-2-6/89229d07e581-1765957720227_M5HCCzSm.mp4"
+      },
+      {
+        "title": "Modes texte, image et reference-to-video",
+        "description": "Wan 2.6 prend en charge les workflows T2V, I2V et reference-to-video. Il transforme des prompts de type storyboard en sequences coherentes, anime des images fixes en preservant l'identite, et transfere les caracteristiques d'apparence et de style depuis des clips de reference.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/wan-2-6/56f44fd91a74-1765957834102_dzx0jPFN.mp4"
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Comment utiliser Wan 2.6",
+    "description": "Creez des videos IA cinematographiques avec Wan 2.6 en quelques etapes",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Choisir Wan 2.6 et le mode de generation",
+        "description": "Selectionnez Wan 2.6, puis choisissez texte-vers-video, image-vers-video ou un workflow guide par reference selon votre materiau source."
+      },
+      {
+        "number": "02",
+        "title": "Fournir prompt et entrees",
+        "description": "Redigez un prompt structure avec plans et mouvements de camera, puis importez une image ou un clip de reference si necessaire. Definissez ensuite la duree et la resolution selon votre sortie cible."
+      },
+      {
+        "number": "03",
+        "title": "Generer, verifier et telecharger",
+        "description": "Lancez la generation, puis verifiez la continuite, la synchronisation audio et le rythme des mouvements. Ajustez vos prompts ou references, puis telechargez la video finale."
+      }
+    ],
+    "buttonText": "Essayer Wan 2.6 maintenant"
+  },
+  "cta": {
+    "title": "Commencez a creer avec Wan 2.6",
+    "buttonText": "Essayer Wan 2.6"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Questions frequentes",
+    "description": "En savoir plus sur les fonctionnalites et workflows de Wan 2.6",
+    "items": [
+      {
+        "title": "Qu'est-ce que Wan 2.6 ?",
+        "description": "Wan 2.6 est le dernier modele video Wan AI d'Alibaba, concu pour la generation cinematographique multi-plans avec une meilleure continuite de scene, une identite de personnage plus stable et une synchronisation audio-video native."
+      },
+      {
+        "title": "Quels modes de generation sont pris en charge par Wan 2.6 ?",
+        "description": "Wan 2.6 prend en charge texte-vers-video (T2V), image-vers-video (I2V) et reference-to-video (R2V), ce qui permet de generer a partir de prompts, d'images fixes ou de clips de reference."
+      },
+      {
+        "title": "Quelle qualite de sortie puis-je attendre de Wan 2.6 ?",
+        "description": "Wan 2.6 peut generer des videos jusqu'a 15 secondes en 1080p, avec des transitions multi-plans plus fluides, une meilleure coherence temporelle et un audio natif synchronise."
+      },
+      {
+        "title": "Comment Wan 2.6 ameliore-t-il la coherence des personnages ?",
+        "description": "Wan 2.6 ameliore la stabilite de l'identite d'un plan a l'autre et prend en charge la generation guidee par reference, afin de conserver visages, tenues, textures et style sur plusieurs scenes."
+      },
+      {
+        "title": "Qu'est-ce que Starring dans Wan 2.6 ?",
+        "description": "L'introduction officielle de Wan decrit Starring comme la capacite a projeter des personnages de videos de reference dans de nouvelles scenes, avec reference visuelle holistique, preservation du timbre et prise en charge des interactions multi-personnages."
+      },
+      {
+        "title": "Wan 2.6 prend-il en charge l'audio natif ?",
+        "description": "Oui. Wan 2.6 combine generation visuelle et audio natif synchronise, y compris l'alignement du dialogue et de l'ambiance sonore, pour fournir des sorties video plus pretes a la production."
+      },
+      {
+        "title": "Wan 2.6 est-il adapte au storytelling multi-plans ?",
+        "description": "Oui. Wan 2.6 est concu pour des prompts de type storyboard et peut maintenir rythme, ambiance et coherence des scenes sur plusieurs plans pour un rendu plus cinematographique."
+      }
+    ]
+  }
+}

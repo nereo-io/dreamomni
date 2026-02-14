@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ImageToVideoShowcase as ImageToVideoShowcaseData } from "@/types/blocks/image-to-video-showcase";
 import { cn } from "@/lib/utils";
 import { SectionHeader } from "@/components/blocks/section-header";
+import { useInViewport } from "@/hooks/useInViewport";
 
 interface ImageToVideoShowcaseProps {
   data: ImageToVideoShowcaseData;
@@ -18,7 +19,12 @@ export function ImageToVideoShowcase({
   title,
   description,
 }: ImageToVideoShowcaseProps) {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const shouldLoadMedia = useInViewport(sectionRef, { rootMargin: "0px" });
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [expandedPrompts, setExpandedPrompts] = useState<Record<string, boolean>>(
+    {}
+  );
   const [isTransitioning, setIsTransitioning] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const startPosRef = useRef({ x: 0, y: 0 });
@@ -49,6 +55,10 @@ export function ImageToVideoShowcase({
     setIsTransitioning(true);
     setCurrentIndex(index);
     setTimeout(() => setIsTransitioning(false), 500);
+  };
+
+  const togglePrompt = (id: string) => {
+    setExpandedPrompts((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
   // 处理滑动逻辑
@@ -155,9 +165,16 @@ export function ImageToVideoShowcase({
   }
 
   const currentExample = examples[currentIndex];
+  const isPromptExpandable = currentExample.promptExpandable !== false;
+  const getExamplePoster = (exampleId: string) =>
+    `/imgs/intro/image-to-video/posters/${exampleId}.webp`;
 
   return (
-    <div className="w-full py-12 md:py-16 relative overflow-hidden">
+    <div
+      id="video-generator"
+      ref={sectionRef}
+      className="w-full py-12 md:py-16 relative overflow-hidden"
+    >
       {/* Background gradient effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
       <div className="absolute inset-0">
@@ -215,7 +232,15 @@ export function ImageToVideoShowcase({
                         <img
                           alt={currentExample.originalAlt}
                           className="w-full h-full object-contain aspect-square"
-                          src={currentExample.originalImage}
+                          src={
+                            shouldLoadMedia
+                              ? currentExample.originalImage
+                              : getExamplePoster(currentExample.id)
+                          }
+                          loading="lazy"
+                          decoding="async"
+                          width={512}
+                          height={512}
                         />
                       </div>
                     </div>
@@ -227,9 +252,29 @@ export function ImageToVideoShowcase({
                           {data.labels.prompt}
                         </span>
                       </div>
-                      <p className="text-sm text-foreground leading-relaxed flex-1 flex items-center">
-                        {currentExample.prompt}
-                      </p>
+                      <div className="flex-1 flex flex-col justify-center">
+                        <p
+                          className={cn(
+                            "text-sm text-foreground leading-relaxed",
+                            isPromptExpandable &&
+                              !expandedPrompts[currentExample.id] &&
+                              "line-clamp-2"
+                          )}
+                        >
+                          {currentExample.prompt}
+                        </p>
+                        {isPromptExpandable ? (
+                          <button
+                            type="button"
+                            onClick={() => togglePrompt(currentExample.id)}
+                            className="mt-2 text-xs text-primary hover:underline self-start"
+                          >
+                            {expandedPrompts[currentExample.id]
+                              ? "Collapse"
+                              : "Expand"}
+                          </button>
+                        ) : null}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -263,11 +308,13 @@ export function ImageToVideoShowcase({
                       controls
                       loop
                       muted
-                      autoPlay
+                      autoPlay={shouldLoadMedia}
                       playsInline
+                      preload="none"
                       className="w-full h-auto object-contain"
                       style={{ maxHeight: "60vh" }}
-                      src={currentExample.videoImage}
+                      src={shouldLoadMedia ? currentExample.videoImage : undefined}
+                      poster={getExamplePoster(currentExample.id)}
                       aria-label={currentExample.videoAlt}
                     >
                       Your browser does not support the video tag.
@@ -315,7 +362,7 @@ export function ImageToVideoShowcase({
               >
                 <div className="relative group">
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all" />
-                  <div className="relative bg-card/80 backdrop-blur-sm rounded-3xl p-6 shadow-2xl border border-border/50">
+                  <div className="relative bg-card/80 backdrop-blur-sm rounded-3xl p-6 shadow-2xl border border-border/50 w-[408px]">
                     <div className="mb-6">
                       <span className="text-base font-medium text-muted-foreground">
                         {data.labels.originalImage}
@@ -325,7 +372,15 @@ export function ImageToVideoShowcase({
                       <img
                         alt={currentExample.originalAlt}
                         className="w-[360px] max-h-[360px] object-contain"
-                        src={currentExample.originalImage}
+                        src={
+                          shouldLoadMedia
+                            ? currentExample.originalImage
+                            : getExamplePoster(currentExample.id)
+                        }
+                        loading="lazy"
+                        decoding="async"
+                        width={360}
+                        height={360}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
@@ -337,9 +392,27 @@ export function ImageToVideoShowcase({
                           {data.labels.prompt}
                         </span>
                       </div>
-                      <p className="text-foreground leading-relaxed">
+                      <p
+                        className={cn(
+                          "text-foreground leading-relaxed",
+                          isPromptExpandable &&
+                            !expandedPrompts[currentExample.id] &&
+                            "line-clamp-2"
+                        )}
+                      >
                         {currentExample.prompt}
                       </p>
+                      {isPromptExpandable ? (
+                        <button
+                          type="button"
+                          onClick={() => togglePrompt(currentExample.id)}
+                          className="mt-2 text-sm text-primary hover:underline"
+                        >
+                          {expandedPrompts[currentExample.id]
+                            ? "Collapse"
+                            : "Expand"}
+                        </button>
+                      ) : null}
                     </div>
                   </div>
                 </div>
@@ -372,10 +445,14 @@ export function ImageToVideoShowcase({
                         controls
                         loop
                         muted
-                        autoPlay
+                        autoPlay={shouldLoadMedia}
                         playsInline
+                        preload="none"
                         className="w-[640px] h-[400px] object-contain"
-                        src={currentExample.videoImage}
+                        src={
+                          shouldLoadMedia ? currentExample.videoImage : undefined
+                        }
+                        poster={getExamplePoster(currentExample.id)}
                         aria-label={currentExample.videoAlt}
                       >
                         Your browser does not support the video tag.

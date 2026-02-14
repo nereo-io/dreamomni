@@ -1,0 +1,475 @@
+{
+  "banner": {
+    "title": "Seedream 5.0 Lite AI Image Generator",
+    "description": "Seedream 5.0 Lite is a unified multimodal image generation model endowed with deep thinking and online search capabilities, featuring an all-round upgrade in its understanding, reasoning and generation capabilities.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Text to Image",
+        "subTitle": "Prompt",
+        "value": "text-to-image",
+        "modelName": "Seedream 5.0 Lite",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Describe the image you want to create...",
+        "buttonText": "Create"
+      },
+      {
+        "type": "image",
+        "title": "Image to Image",
+        "subTitle": "Image",
+        "value": "image-to-image",
+        "modelName": "Seedream 5.0 Lite",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Drag and drop images here, or click to select",
+        "tips": "Upload up to 14 reference images. We accept JPEG, PNG, GIF, WEBP formats up to 20MB with dimensions up to 4096 x 4096 pixels.",
+        "buttonText": "Create"
+      }
+    ]
+  },
+  "partners": [
+    {
+      "name": "Coca-Cola",
+      "logo": "/imgs/partners/coca-cola-logo.png"
+    },
+    {
+      "name": "Microsoft",
+      "logo": "/imgs/partners/microsoft-logo.png"
+    },
+    {
+      "name": "Nike",
+      "logo": "/imgs/partners/nike-logo.png"
+    },
+    {
+      "name": "P&G",
+      "logo": "/imgs/partners/p-g-logo.png"
+    },
+    {
+      "name": "Lancome",
+      "logo": "/imgs/partners/lancome-logo.png"
+    },
+    {
+      "name": "Zoom",
+      "logo": "/imgs/partners/zoom-logo.png"
+    },
+    {
+      "name": "Sony",
+      "logo": "/imgs/partners/sony-logo.png"
+    },
+    {
+      "name": "Mercedes",
+      "logo": "/imgs/partners/mercedes-logo.png"
+    }
+  ],
+  "features": {
+    "title": "Official Seedream 5.0 Lite Highlights",
+    "details": [
+      {
+        "title": "Creativity with Precise Control",
+        "description": "Master various styles and layouts while every detail aligns with your instructions.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt / Instruction"
+            },
+            {
+              "title": "Output Image"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "They are sitting and drinking coffee in the scene from Figure 4, two people per table, talking and laughing. The style is claymation, just like a café advertisement."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/c38bd4d43ac0-b6f577ee05ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/47b4f3a9bfb2-b6c7976e05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Creativity with Precise Control example 1"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Refer to the four images on the right, apply style transfer to the man, and return four images corresponding to those styles."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/f10f44e5f0f0-b6eebded05ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/f98ecd05ec0f-b6c4535105ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "altText": "Creativity with Precise Control example 2"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Use the flowers shown in Figure 1‑6 for flower arrangement. There is no limit to the number of flowers; you may add other foliage for matching. Arrange all the flowers in the vase shown in Figure 7, then place the vase on the table shown in Figure 8."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/f4cb509360b9-b6f58abe05ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/fc70da1c89fd-b6c716f605ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Creativity with Precise Control example 4"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Generate a multi-shot image containing 16 scenes, dividing the frame into a 4×4 grid. In this multi-shot composition, what changes is the style of the puppy, but the subject remains the same dog. Note: return only ONE image."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/8894fe22ff21-2b39d2f905b311f1a654fa163e31788f.jpeg_tp.jpg",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/c158f8b7e2df-b6c1b79105ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Creativity with Precise Control example 5"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Reference the image below, apply a style transfer to the image above."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/2e98a3a08dd5-5f438bf605b611f182ceb8599fe8441c.png_tpl.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/24f5da327c19-b6b5882f05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Creativity with Precise Control example 7"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Add a cartoon pink bunny sticker with starry eyes on the green rectangle; add cartoon pink heart stickers inside each of the two red circles, with the size of the heart stickers matching that of the red circles; change the two green curves to white curves; add yellow star stickers on the multiple red rectangles; each sticker should have the same white outline."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/41858b5889fc-b6f5ab0a05ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/ac8654c250de-b6cba80205ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Creativity with Precise Control example 8"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Connected to the Latest Trends",
+        "description": "Accompanies with online search capability, real-time news and topics can be visualized in an instant.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt / Instruction"
+            },
+            {
+              "title": "Output Image"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Search for the weather, temperature, and time on February 4, 2026, for the following locations: 1. Beijing, 2. New York, 3. Tokyo, 4. Sydney, 5. Madrid. High-concept composite photography. Note: only return ONE image. The image is composed of five seamlessly stitched vertical panoramic strips. Each strip presents the real-time weather and lighting of a specific location: Far left (Beijing): the Bird’s Nest Stadium. Left-center (New York): vertical skyscrapers of Manhattan. Center (Tokyo): Tokyo Tower. Right-center (Sydney): the Opera House. Far right (Madrid): San Francisco el Grande Cathedral. Despite different weather conditions, use cinematic color grading to unify the image. High contrast, 8K resolution, photorealistic masterpiece."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/ba4313f574cd-b6b653ff05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Connected to the Latest Trends example 1"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Based on the Word of the Year for 2025 selected by Merriam-Webster, transform this abstract word into a visual image."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/07307289a0ac-b6c4cfaf05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Connected to the Latest Trends example 2"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Based on the 2025 Met Gala costume theme, generate a red carpet look that fits the theme description, with a greyhound attending wearing the outfit. Do not anthropomorphize."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/5148e8881ad7-b6b5e27305ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Connected to the Latest Trends example 3"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Please generate a gold price trend chart for the past 7 days (priced in domestic spot gold, displaying specific values and timestamps), presented in a glassmorphism UI card style."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/6727eac1862b-d652d10006fb11f19f9a00163e5311f8.jpeg_tp.jpg",
+                  "altText": "Connected to the Latest Trends example 4"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Think Beyond Imagination",
+        "description": "The model can intelligently perceive the intentions behind words to create exactly what you envision.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt / Instruction"
+            },
+            {
+              "title": "Output Image"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Realistic photographic science poster. A wild elephant is located in a tropical savanna. At the top is the title: \"Let elephants not rely on imagining.\" Below the title, inside a framed box, it says: \"August 12: World Elephant Day.\"  In the lower-left corner, within a black semi-transparent box, there are three sections of educational text about wild elephants. In the lower-right corner, there is a QR code."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/c4a116b04255-b6ca7ad305ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Think Beyond Imagination example 1"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "I need to organize a \"Kitchen Helper\" campaign for Small Home Appliances. Please help me draw a mind map idea for the campaign plan. The mind map should show three types of home appliances as primary categories, with hand-drawn icons next to them; for each secondary category, list three main product features to promote. The picture should look professional"
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/79f2500bcd2a-b6b7979e05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Think Beyond Imagination example 2"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Identify the calorie content of the food in the image and annotate the information on the picture."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/f60f3b646982-b6f7629905ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/01e054fc5895-b6cac6e405ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Think Beyond Imagination example 3"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "A row of spheres with different levels of roughness, under uniform lighting, with roughness gradually increasing from left to right."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/f3d380a1ffb9-b6cbbb0605ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Think Beyond Imagination example 4"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "For e-commerce product detail pages of premium aromatherapy products, the images should showcase high-resolution product images, packaging design, key selling points, product advantages, and promotional copy, with a color scheme primarily consisting of dark and light green."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/0f8f8d956c1d-b6b5591b05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Think Beyond Imagination example 5"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Vintage museum–themed handbook stickers, featuring ancient artifacts, fossils, sculptures, and other elements, exquisitely captured in retro tones, illuminated by sepia, rust, and aged gold hues, full of cultural atmosphere. These stickers use the eclectic charm of museum artifacts, transforming them into designs suitable for journaling enthusiasts and culture lovers. A retro color palette and nostalgic essence, combined with grainy textures, capture the passage of time, echoing the artifacts depicted. Multi-layered stickers and collage elements surround the composition. Sticker borders feature bright white, dopamine-style aesthetics, high resolution, and a hand-drawn feel."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/34ab3ec76df1-b6bbf3e105ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Think Beyond Imagination example 6"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Model Performance",
+        "description": "Below are the results of Seedream 5.0 Lite in internal benchmark MagicBench. Seedream 5.0 Lite has significant improvement across core dimensions including prompt following and alignment.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Benchmark"
+            },
+            {
+              "title": "Chart"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Text-to-Image Radar Chart"
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/3462b2cedb98-dff53ad107e211f194ab1070fd7c758e.jpeg_tp.jpg",
+                  "altText": "Text-to-Image Radar Chart"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Single-Image Editing Radar Chart"
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/525850f704f4-e0b953eb07e211f1bcc4fa163e51863e.jpeg_tp.jpg",
+                  "altText": "Single-Image Editing Radar Chart"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "How to Use Seedream 5.0 Lite",
+    "description": "Follow these steps to generate and refine images with Seedream 5.0 Lite on Veo3 AI.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Choose Seedream 5.0 Lite",
+        "description": "Select Seedream 5.0 Lite in the image generator before starting your creation."
+      },
+      {
+        "number": "02",
+        "title": "Enter Prompt or Upload References",
+        "description": "Describe what you want, or upload reference images for style transfer and editing tasks."
+      },
+      {
+        "number": "03",
+        "title": "Generate and Iterate",
+        "description": "Generate an image, then refine with follow-up instructions for layout, style, and detail control."
+      },
+      {
+        "number": "04",
+        "title": "Download Final Result",
+        "description": "Preview the result and download once it matches your intended output."
+      }
+    ],
+    "buttonText": "Try Seedream 5.0 Lite Free on Veo3 AI"
+  },
+  "youtubeCases": {
+    "title": "YouTube Videos About Seedream 5.0",
+    "content": []
+  },
+  "redditCases": {
+    "title": "Reddit Discussions About Seedream 5.0",
+    "content": []
+  },
+  "twitterCases": {
+    "title": "X Reviews on Seedream 5.0",
+    "content": [
+      {
+        "id": "twitter-1",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020774137070035037",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-2",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020851262997102881",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-3",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2021101216009429225",
+        "width": "550",
+        "height": "400"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Try Seedream 5.0 Lite for Free on Veo3 AI",
+    "buttonText": "Try Seedream 5.0 Lite Free"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Frequently Asked Questions",
+    "description": "Learn more about Seedream 5.0 Lite AI Image Generator",
+    "items": [
+      {
+        "title": "What is Seedream 5.0 Lite?",
+        "description": "Seedream 5.0 Lite is ByteDance Seed's unified multimodal image generation model with improved understanding, reasoning, and generation capabilities, plus online search support."
+      },
+      {
+        "title": "What are the core capabilities highlighted on the official page?",
+        "description": "The official showcase highlights three areas: Creativity with Precise Control, Connected to the Latest Trends (online search), and Think Beyond Imagination (intent-level understanding)."
+      },
+      {
+        "title": "How does online search help image generation?",
+        "description": "For prompts tied to current events or live information, Seedream 5.0 Lite can use online search context to create more up-to-date visual outputs."
+      },
+      {
+        "title": "Can Seedream 5.0 Lite handle editing and style transfer tasks?",
+        "description": "Yes. Official examples include style transfer, multi-shot consistency, instruction-based sticker edits, and image annotation tasks."
+      },
+      {
+        "title": "How is model quality evaluated?",
+        "description": "The official page shows internal MagicBench benchmark charts and reports improvements in core dimensions such as prompt following and alignment."
+      },
+      {
+        "title": "Where can I read the official technical introduction?",
+        "description": "You can visit the official technical blog: https://seed.bytedance.com/zh/blog/deeper-thinking-more-accurate-generation-introducing-seedream-5-0-lite"
+      },
+      {
+        "title": "How do I start using Seedream 5.0 Lite on Veo3 AI?",
+        "description": "Open the Seedream 5.0 Lite model page on Veo3 AI, enter your prompt (or upload references), generate, iterate, and download your final image."
+      }
+    ]
+  }
+}
