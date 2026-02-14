@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { notFound } from "next/navigation";
 import { AiShortsClient } from "./AiShortsClient";
 
 export async function generateMetadata({
@@ -27,5 +28,9 @@ export default function AiShortsPage({
 }: {
   params: { locale: string };
 }) {
+  if (process.env.NEXT_PUBLIC_AI_SHORTS_ENABLED !== "true") {
+    notFound();
+  }
+
   return <AiShortsClient locale={locale} />;
 }

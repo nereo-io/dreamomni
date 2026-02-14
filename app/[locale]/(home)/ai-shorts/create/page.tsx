@@ -3,6 +3,8 @@
  * Page for creating new intelligent video orchestration jobs
  */
 
+import { notFound } from "next/navigation";
+
 // TODO: Phase 5 - Implement AgentCreateForm component
 // import { AgentCreateForm } from '@/components/blocks/agent/AgentCreateForm';
 
@@ -31,6 +33,10 @@ export default function CreateAgentJobPage({
 }: {
   params: { locale: string };
 }) {
+  if (process.env.NEXT_PUBLIC_AI_SHORTS_ENABLED !== "true") {
+    notFound();
+  }
+
   return (
     <div className="bg-gray-900 rounded-xl shadow-lg min-h-[600px] flex items-center justify-center">
       <div className="text-center text-gray-400">
