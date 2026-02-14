@@ -9,7 +9,9 @@ export const maxDuration = 300; // 5分钟
  *
  * 调用方式：
  * - Vercel Cron: 自动调用（需要配置 vercel.json）
- * - 手动测试: GET /api/cron/distribute-credits?secret=YOUR_CRON_SECRET
+ * - 手动测试:
+ *   - Header: Authorization: Bearer YOUR_CRON_SECRET
+ *   - 或 URL: GET /api/cron/distribute-credits?secret=YOUR_CRON_SECRET
  */
 export async function GET(request: NextRequest) {
   try {
@@ -19,7 +21,11 @@ export async function GET(request: NextRequest) {
 
     if (cronSecret) {
       const expectedAuth = `Bearer ${cronSecret}`;
-      if (authHeader !== expectedAuth) {
+      const querySecret = request.nextUrl.searchParams.get("secret");
+      const authorized =
+        authHeader === expectedAuth || (querySecret && querySecret === cronSecret);
+
+      if (!authorized) {
         console.error("❌ Unauthorized cron request");
         return NextResponse.json(
           { error: "Unauthorized" },

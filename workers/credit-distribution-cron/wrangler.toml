@@ -1,0 +1,12 @@
+name = "seedance-credit-distribution-cron"
+main = "src/index.ts"
+compatibility_date = "2025-02-01"
+
+# Run daily at 02:00 UTC (match vercel.json schedule).
+triggers = { crons = ["0 2 * * *"] }
+
+[vars]
+# Set these in Cloudflare dashboard per environment instead of committing secrets.
+# CRON_SECRET = "..."
+# TARGET_BASE_URL = "https://www.seedance.tv"
+
