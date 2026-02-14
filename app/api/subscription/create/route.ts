@@ -18,6 +18,7 @@ import { getPayssionConfig } from "@/config/payssion";
 import { getPaymentProvider } from "@/lib/payment-methods";
 import { findActiveSubscriptionsByUserUuid } from "@/models/subscription";
 import { findActiveCreemSubscriptionsByUserUuid } from "@/models/creem-subscription";
+import { getAnyProductConfig } from "@/config/products";
 
 // 日志函数 - 只输出到控制台，不写入文件
 function logInfo(message: string, data?: any) {
@@ -58,6 +59,21 @@ export async function POST(req: NextRequest) {
       valid_months,
       payment_method,
     } = body;
+
+    const productConfig = product_id ? getAnyProductConfig(product_id) : undefined;
+    if (!productConfig) {
+      logError("❌ Invalid product_id", { product_id });
+      return respErr("invalid product_id");
+    }
+
+    // Server-trust the product config (prevents client-side tampering).
+    credits = productConfig.credits;
+    currency = productConfig.currency;
+    amount = productConfig.amount;
+    interval = productConfig.interval;
+    valid_months = productConfig.valid_months;
+    product_name = productConfig.product_name;
+    product_type = interval === "one-time" ? "bundle" : "subscription";
 
     const config = getPayssionConfig();
     const returnUrl = config.subscription.defaultReturnUrl;
@@ -200,6 +216,7 @@ export async function POST(req: NextRequest) {
       currency: currency,
       product_id: product_id,
       product_name: product_name,
+      product_type: product_type,
       valid_months: valid_months,
       payment_provider: getPaymentProvider(payment_method),
       payment_method: payment_method,
