@@ -4,6 +4,46 @@
     "description": "無料で究極のオールインワンAI画像・動画ジェネレーター。テキストプロンプト、画像、動画でイメージ・動画を作成。アイデアを高解像度・高品質の画像や動画に変換。",
     "keywords": "Seedance, AI動画ジェネレーター, 無料動画作成, テキストから動画, 画像から動画, 4K動画, AI映画制作, 高解像度動画"
   },
+  "wan-2-5": {
+    "title": "Wan 2.5 無料: Wan AI動画モデルを今すぐ試す | Seedance",
+    "description": "Wan 2.5を体験。内蔵オーディオ、改善された一貫性、滑らかなモーション技術を備えたWan AIのアップグレード版AI動画モデル。",
+    "keywords": "N/A"
+  },
+  "wan-2-6": {
+    "title": "Wan 2.6 無料: Alibaba Wan 2.6 AI動画モデルを試す | Seedance",
+    "description": "マルチショットストーリーテリング、リファレンスから動画、ネイティブオーディオ同期、最大15秒1080p出力のWan 2.6をSeedanceで試す。",
+    "keywords": "Wan 2.6, Wan AI, AI動画ジェネレーター, マルチショット動画, リファレンスから動画, ネイティブオーディオ, 1080p, Seedance"
+  },
+  "veo-3-1": {
+    "title": "Veo 3.1 無料: Google Veo 3.1 AI動画モデルを今すぐ試す | Seedance",
+    "description": "Veo 3.1はGoogle Veo 3モデルのアップグレード版で、最初と最後のフレーム制御と画像参照機能を追加。Seedanceで無料でVeo 3.1を体験。",
+    "keywords": "Veo 3.1, Google Veo 3.1, AI動画ジェネレーター, 無料Veo 3.1, 動画AI, テキストから動画, 画像から動画, Seedance"
+  },
+  "kling-3-0": {
+    "title": "Kling 3.0 無料: Kling AI動画モデルをオンラインで試す | Seedance",
+    "description": "ネイティブオーディオ、マルチショットストーリーテリング、要素の一貫性、多言語ボイス、最大15秒出力のKling 3.0 AI動画ジェネレーターを試す。SeedanceでKling 3.0動画を作成。",
+    "keywords": "Kling 3.0, Kling AI, AI動画ジェネレーター, テキストから動画, 画像から動画, ネイティブオーディオ, マルチショット, Seedance"
+  },
+  "seedance-1-5": {
+    "title": "Seedance 1.5 Pro: ByteDanceオーディオビデオAI | Seedance",
+    "description": "ByteDanceのSeedance 1.5 Proは、ネイティブオーディオビジュアル生成、多言語リップシンク、シネマティックカメラコントロールを搭載。無料でお試しください！",
+    "keywords": "Seedance 1.5 Pro, ByteDance Seedance, テキストから動画, 画像から動画, オーディオビデオAI, Seedance"
+  },
+  "seedance-2-0": {
+    "title": "Seedance 2.0 AI動画ジェネレーター オンライン無料 | Seedance",
+    "description": "ByteDanceのSeedance 2.0でAI動画を作成。マルチモーダル入力（画像、動画、オーディオ、テキスト）、2K解像度、キャラクターの一貫性、30%高速化。無料でお試し！",
+    "keywords": "Seedance 2.0, AI動画ジェネレーター, テキストから動画, 画像から動画, ByteDance, マルチモーダルAI, 無料"
+  },
+  "hailuo-2-3": {
+    "title": "Hailuo 2.3 AI動画ジェネレーター 無料オンライン | Seedance",
+    "description": "改善されたモーションコントロール、スタイライズされたビジュアル出力、高速イテレーションモードのMiniMax Hailuo 2.3を試す。Seedanceで表現力豊かなAI動画を生成。",
+    "keywords": "Hailuo 2.3, MiniMax Hailuo, AI動画ジェネレーター, 画像から動画, テキストから動画, Hailuo Fast, Seedance"
+  },
+  "sora-2": {
+    "title": "Sora 2 無料: OpenAI Sora 2 AI動画モデルを今すぐ試す | Seedance",
+    "description": "リアルな物理演算、同期オーディオ、マルチショットの一貫性を備えたOpenAIの高度なAI動画モデルSora 2を体験。メンバー向けに1080p HD動画を生成！",
+    "keywords": "Sora 2, OpenAI Sora 2, AI動画ジェネレーター, 無料Sora 2, 動画AI, テキストから動画, 画像から動画, Seedance, soraモデル"
+  },
   "pricing": {
     "title": "動画プラン | Seedance料金",
     "description": "AI動画プランをお選びください。4K出力、無制限生成、高度なコントロール、Seedanceでの優先サポートを取得。",
@@ -29,8 +69,14 @@
     "home": "ホーム",
     "image_to_video": "画像から動画",
     "text_to_video": "テキストから動画",
+    "reference_to_video": "リファレンスから動画",
     "text_to_image": "テキストから画像",
     "image_to_image": "画像から画像",
+    "text_to_music": "テキストから音楽",
+    "add_vocals": "ボーカルを追加",
+    "add_instrumental": "インストゥルメンタルを追加",
+    "upload_cover": "カバーをアップロード",
+    "agent_videos": "AIショート",
     "ai_video_effects": "AI動画エフェクト",
     "ai_effects": "AIエフェクト",
     "my_creations": "私の作品",
@@ -44,6 +90,8 @@
     "payment_successful": "支払い成功！",
     "plan_activated": "アクティベート済み",
     "credits_added": "クレジットがアカウントに追加されました",
+    "monthly_credits_grant": "毎月{credits}クレジットを受け取ります",
+    "remaining_credits_monthly": "残り{remainingCredits}クレジットは今後{remainingMonths}ヶ月間で毎月配布されます",
     "continue": "続行",
     "start_creating": "作成開始",
     "please_select_payment": "支払い方法を選択してください"
@@ -65,8 +113,20 @@
     "google_sign_in": "Googleでログイン",
     "github_sign_in": "GitHubでログイン",
     "apple_sign_in": "Appleでログイン",
+    "vk_sign_in": "VKでログイン",
     "close_title": "閉じる",
     "cancel_title": "キャンセル"
+  },
+  "vk_login": {
+    "button_text": "VKで続行",
+    "sdk_not_loaded": "VK SDKが読み込まれていません",
+    "login_successful": "ログイン成功！",
+    "login_failed": "VKログインに失敗しました",
+    "failed_to_process": "ログイン処理に失敗しました",
+    "failed_to_exchange": "トークン交換に失敗しました",
+    "failed_to_initialize": "VKログインの初期化に失敗しました",
+    "error_unknown": "不明なエラー",
+    "error_message": "VKログインエラー: {message}"
   },
   "my_orders": {
     "title": "注文履歴",
@@ -82,6 +142,8 @@
       "product_name": "商品名",
       "amount": "金額",
       "paid_at": "支払日",
+      "invoice": "請求書",
+      "download": "ダウンロード",
       "github_username": "GitHubユーザー名",
       "status": "ステータス"
     }
@@ -101,7 +163,25 @@
     "days": "日",
     "no_membership": "アクティブでない",
     "manage_subscription": "サブスクリプション管理",
-    "loading": "読み込み中..."
+    "loading": "読み込み中...",
+    "next_credit_distribution": "次のクレジット配布",
+    "monthly_credits": "月間クレジット",
+    "distribution_progress": "配布進捗",
+    "credits": "クレジット",
+    "months": "ヶ月"
+  },
+  "creditPools": {
+    "title": "クレジットプール",
+    "description": "購入ごとのアクティブなクレジット残高",
+    "bonus": "ボーナスクレジット",
+    "table": {
+      "order_no": "注文番号",
+      "expired_at": "有効期限",
+      "balance": "残高",
+      "earned": "獲得",
+      "used": "使用済み",
+      "created_at": "作成日"
+    }
   },
   "subscription": {
     "allSubscriptions": "すべてのサブスクリプション",
@@ -127,6 +207,10 @@
     "no_credits": "クレジット記録なし",
     "recharge": "メンバーシップをアップグレード",
     "invite": "友達を招待",
+    "tabs": {
+      "records": "クレジット記録",
+      "pools": "クレジットプール"
+    },
     "table": {
       "trans_no": "取引番号",
       "trans_type": "取引タイプ",
@@ -231,7 +315,21 @@
       "completed": "完了"
     }
   },
+  "credit_history_modal": {
+    "title": "クレジット履歴",
+    "current_balance": "現在の残高",
+    "view_all": "全履歴を表示",
+    "empty": "まだクレジット記録がありません",
+    "type": "タイプ",
+    "credits": "クレジット",
+    "date": "日付",
+    "loading": "読み込み中...",
+    "error": "クレジット履歴の読み込みに失敗しました"
+  },
   "video-generator": {
+    "titleTextToVideo": "テキストから動画",
+    "titleImageToVideo": "画像から動画",
+    "titleReferenceToVideo": "リファレンスから動画",
     "videoDescription": "プロンプト",
     "referenceImage": "参照画像（オプション）",
     "videoAspectRatio": "動画アスペクト比",
@@ -244,6 +342,7 @@
     "remainingCredits": "残りクレジット",
     "cost": "コスト",
     "recharge": "チャージ",
+    "additionalOptions": "追加オプション",
     "generateVideo": "動画を生成",
     "submitting": "送信中...",
     "uploading": "アップロード中...",
@@ -252,10 +351,36 @@
     "dragAndDropImage": "クリックしてアップロードまたは画像をドラッグ",
     "supportedFormats": "JPG、PNG、GIF形式をサポート、最大10MB",
     "chooseFile": "ファイルを選択",
+    "swapFrames": "フレームを入れ替え",
+    "firstFrame": "最初のフレーム",
+    "lastFrame": "最後のフレーム",
+    "clickToUpload": "クリックしてアップロード",
+    "uploadingFirstFrame": "最初のフレームをアップロード中...",
+    "uploadingLastFrame": "最後のフレームをアップロード中...",
+    "referenceUploadGuide": "一貫したキャラクター生成のために1〜3枚の参照画像をアップロード",
+    "addMoreReferences": "参照画像を追加",
+    "clickToUploadMore": "クリックしてさらにアップロード（最大3枚）",
+    "multipleUploadHint": "オプション。複数選択、ドラッグ＆ドロップ、または貼り付け",
+    "fromMyCreations": "マイ作品から",
+    "myCreations": "マイ作品",
+    "selectFromCreations": "マイ作品から選択",
+    "noImagesYet": "まだ画像がありません",
+    "loadingImages": "画像を読み込み中...",
+    "maxImagesError": "最大{max}枚の画像が許可されています",
+    "onlyUploadingFirst": "最初の{count}枚のみアップロード（最大{max}枚）",
+    "uploadingMultiple": "{current}/{total}枚の画像をアップロード中...",
+    "addMoreImages": "画像を追加",
+    "canUpload": "あと{count}枚アップロード可能",
+    "uploadMultipleImages": "最大{max}枚の画像をアップロード",
+    "uploadMoreImagesRemaining": "さらに画像をアップロード（残り{remaining}枚）",
     "aspectRatios": {
       "landscape": "16:9 横向き",
       "portrait": "9:16 縦向き",
       "square": "1:1 正方形"
+    },
+    "watermark": {
+      "label": "ウォーターマーク",
+      "membersOnly": "メンバーのみウォーターマークを削除できます。"
     },
     "durations": {
       "5seconds": "5秒",
@@ -271,8 +396,10 @@
     "ratio": "比率",
     "duration": "長さ",
     "resolution": "解像度",
+    "sound": "サウンド",
+    "promptEnhancement": "プロンプト強化",
     "telegramBanner": {
-      "text": "TelegramグループでVeo3について議論",
+      "text": "TelegramグループでSeedanceについて議論",
       "linkText": "参加"
     },
     "toast": {
@@ -285,6 +412,8 @@
       "imageTooLarge": "画像ファイルが大きすぎます（最大10MB）",
       "imageUploadFailed": "画像アップロードに失敗",
       "insufficientCredits": "クレジットが不足しています。必要: {required}、利用可能: {available}",
+      "membersOnlyModel": "メンバーのみこのモデルを使用できます。",
+      "emptyPrompt": "説明を入力してください",
       "videoSubmitted": "動画生成タスクが送信されました、処理中...",
       "videoCompleted": "動画生成が完了しました！",
       "videoFailed": "動画生成に失敗しました"
@@ -292,6 +421,8 @@
   },
   "video-history": {
     "title": "動画生成履歴",
+    "videoDetailsTitle": "動画の詳細",
+    "downgradedTo720P": "720Pにダウングレード",
     "noVideosTitle": "動画なし",
     "noVideosDescription": "まだ動画を生成していません。最初の傑作を作成しましょう！",
     "generateVideoButton": "動画を生成",
@@ -309,13 +440,20 @@
       "duration": "長さ",
       "aspectRatio": "アスペクト比"
     },
+    "searchPromptPlaceholder": "プロンプトを検索",
+    "searchMatches": "{count}件一致",
+    "searchNoResults": "検索に一致するプロンプトがありません",
+    "searchButton": "検索",
     "toast": {
       "videoNotAvailable": "動画はまだ利用できません。",
       "downloadNotAvailable": "動画はダウンロードできません。",
       "regenerationNotImplemented": "再生成機能は実装される予定です。",
       "fetchError": "動画履歴の取得に失敗しました",
       "noDataReturned": "データが返されませんでした"
-    }
+    },
+    "pleaseSignIn": "ログインしてください",
+    "signInToViewVideos": "生成した動画を表示するにはログインしてください",
+    "signInButton": "ログイン"
   },
   "video-result": {
     "status": {
@@ -361,6 +499,122 @@
       "statusCode": "エラーが発生しました（ステータス {code}）。もう一度お試しください。"
     }
   },
+  "music-generator": {
+    "title": "音楽生成",
+    "subtitle": "AIで素晴らしい音楽を作成",
+    "generateMusic": "音楽を生成",
+    "history": "生成履歴",
+    "generating": "生成中...",
+    "prompt": "プロンプト",
+    "description": "説明",
+    "promptPlaceholder": "音楽の説明または歌詞を入力...",
+    "musicTitle": "タイトル",
+    "titlePlaceholder": "曲のタイトルを入力...",
+    "style": "スタイル",
+    "stylePlaceholder": "例: ジャズ、ロック、エレクトロニック...",
+    "negativeTags": "ネガティブタグ（オプション）",
+    "negativeTagsPlaceholder": "避けたいスタイル...",
+    "creditsRequired": "必要クレジット",
+    "yourCredits": "あなたのクレジット",
+    "generate": "音楽を生成",
+    "maxLength500": "最大500文字",
+    "maxLength5000": "最大5000文字",
+    "generationType": "生成タイプ",
+    "uploadAudio": "オーディオをアップロード",
+    "dragAndDropAudio": "オーディオファイルをここにドラッグ＆ドロップ",
+    "orClickToUpload": "またはクリックして参照",
+    "supportedAudioFormats": "対応形式: MP3, WAV, FLAC, OGG（最大50MB）",
+    "removeAudio": "オーディオを削除",
+    "audioNotSupported": "お使いのブラウザはオーディオ再生をサポートしていません。",
+    "mode": "モード",
+    "songMode": "ソング（ボーカル付き）",
+    "instrumentalMode": "インストゥルメンタル（音楽のみ）",
+    "modes": {
+      "song": {
+        "label": "ソング",
+        "description": "ボーカル付き音楽"
+      },
+      "instrumental": {
+        "label": "インストゥルメンタル",
+        "description": "音楽のみ"
+      }
+    },
+    "loadingHistory": "履歴を読み込み中...",
+    "noHistory": "まだ生成履歴がありません",
+    "startGenerating": "音楽を生成して履歴を表示",
+    "status": {
+      "pending": "保留中",
+      "textGenerated": "歌詞生成完了",
+      "firstTrack": "最初のトラック準備完了",
+      "completed": "完了",
+      "failed": "失敗"
+    },
+    "types": {
+      "direct": {
+        "label": "直接生成",
+        "description": "テキストから音楽を作成"
+      },
+      "addVocals": {
+        "label": "ボーカルを追加",
+        "description": "音楽にボイスを追加"
+      },
+      "addInstrumental": {
+        "label": "インストゥルメンタルを追加",
+        "description": "バッキングトラックを追加"
+      },
+      "uploadCover": {
+        "label": "カバーをアップロード",
+        "description": "オーディオスタイルを変換"
+      }
+    },
+    "errors": {
+      "invalidAudioFormat": "オーディオファイルをアップロードしてください",
+      "audioTooLarge": "オーディオファイルが大きすぎます（最大50MB）",
+      "uploadFailed": "アップロードに失敗しました",
+      "insufficientCredits": "クレジットが不足しています",
+      "audioRequired": "オーディオファイルをアップロードしてください",
+      "promptRequired": "プロンプトを入力してください",
+      "titleRequired": "タイトルを入力してください",
+      "styleRequired": "スタイルを入力してください",
+      "negativeTagsRequired": "ネガティブタグを入力してください"
+    },
+    "toast": {
+      "audioUploaded": "オーディオが正常にアップロードされました",
+      "musicSubmitted": "音楽生成タスクが送信されました",
+      "musicCompleted": "音楽生成が完了しました！",
+      "musicFailed": "音楽生成に失敗しました",
+      "pollTimeout": "ポーリングタイムアウト、手動で更新してください",
+      "statusCheckFailed": "ステータス確認に失敗しました、再試行してください"
+    },
+    "customMode": "カスタムモード",
+    "customModeDescription": "すべてのパラメータを詳細に制御",
+    "instrumental": "インストゥルメンタル",
+    "instrumentalDescription": "ボーカルなしで音楽を生成",
+    "lyricsAndStyle": "歌詞とボーカルスタイル",
+    "lyrics": "歌詞",
+    "promptPlaceholderAddVocals": "歌詞とボーカルスタイルを入力...",
+    "promptPlaceholderLyrics": "歌詞を入力...",
+    "promptPlaceholderDescription": "音楽の説明を入力...",
+    "tags": "タグ",
+    "tagsPlaceholder": "例: アップビート、エネルギッシュ、エレクトロニック...",
+    "maxLength": "最大",
+    "characters": "文字",
+    "track": "トラック",
+    "download": "ダウンロード",
+    "advancedOptions": "詳細オプション",
+    "optional": "オプション",
+    "styleWeight": "スタイルウェイト",
+    "styleWeightDescription": "指定されたスタイルにどれだけ厳密に従うか（0-1）。推奨: 0.65-0.80",
+    "weirdnessConstraint": "クリエイティビティレベル",
+    "weirdnessConstraintDescription": "実験的/創造的な逸脱を制御（0-1）。低い=伝統的、高い=創造的。推奨: 0.30-0.50",
+    "audioWeight": "オーディオウェイト",
+    "audioWeightDescription": "オーディオ特徴のウェイトバランス（0-1）。推奨: 0.60-0.75",
+    "vocalGender": "ボーカル性別の好み",
+    "auto": "自動",
+    "male": "男性",
+    "female": "女性",
+    "vocalGenderDescription": "注意: これは確率を上げますが、厳密な遵守を保証するものではありません"
+  },
   "pages": {
     "home": {
       "title": "Seedanceへようこそ",
@@ -392,6 +646,16 @@
       "title": "無料AI画像編集ツール：AIで画像を変換 | Seedance",
       "description": "Seedanceの強力な画像編集ツールで画像を編集・変換しましょう。写真をアップロードして、AIを使用して素晴らしいバリエーションや修正を作成できます。",
       "keywords": "AI画像エディター, 画像変換AI, 写真変換, AI画像編集, Seedance, 画像修正AI"
+    },
+    "referenceToVideo": {
+      "title": "無料Veo3リファレンスから動画: キャラクターIDをロック | Seedance",
+      "description": "1〜3枚の参照画像をアップロードしてVeo 3.1で8秒の動画を生成。ネイティブオーディオでシーン間のキャラクターの外観を保持。148秒まで延長可能。",
+      "keywords": "Veo3リファレンスから動画, 一貫したキャラクター, IDロック, Veo 3.1, キャラクターの一貫性"
+    },
+    "imageGeneration": {
+      "title": "無料AI画像ジェネレーター: テキストから素晴らしい画像を作成 | Seedance",
+      "description": "Seedanceの無料画像ジェネレーターでテキストプロンプトから高品質な画像を生成。最先端のAI技術で素晴らしいアートワーク、写真、イラストを作成。",
+      "keywords": "AI画像ジェネレーター, テキストから画像, 無料画像ジェネレーター, Seedance, AIアート, 画像作成, AIアートワーク"
     },
     "videoAffects": {
       "heroSection": {
@@ -472,6 +736,54 @@
     "cancel": "キャンセル",
     "continuePurchase": "購入を続行"
   },
+  "imageEffectTool": {
+    "backToEffects": "画像エフェクトに戻る",
+    "uploadImage": "画像をアップロード",
+    "dragAndDrop": "ドラッグ＆ドロップまたはクリックしてアップロード",
+    "selectFromCreations": "マイ作品から選択",
+    "supportedFormats": "JPG、PNG、WebP対応（最大10MB）",
+    "uploadingImage": "画像をアップロード中...",
+    "uploading": "アップロード中...",
+    "settings": "設定",
+    "credits": "クレジット",
+    "cost": "コスト",
+    "recharge": "チャージ",
+    "generate": "生成",
+    "generating": "生成中...",
+    "uploadRequired": "エフェクトを適用するには画像をアップロードしてください。",
+    "insufficientCredits": "クレジットが不足しています。チャージしてください。",
+    "generateFailed": "エフェクトの生成に失敗しました。",
+    "generateFailedRetry": "エフェクトの生成に失敗しました。もう一度お試しください。",
+    "uploadedAlt": "アップロード済み",
+    "placeholderText": "エフェクトを適用するには画像をアップロード",
+    "comingSoon": "近日公開"
+  },
+  "videoEffectTool": {
+    "backToEffects": "動画エフェクトに戻る",
+    "uploadImage": "画像をアップロード",
+    "dragAndDrop": "ドラッグ＆ドロップまたはクリックしてアップロード",
+    "selectFromCreations": "マイ作品から選択",
+    "supportedFormats": "JPG、PNG、WebP対応（最大10MB）",
+    "uploadingImage": "画像をアップロード中...",
+    "uploading": "アップロード中...",
+    "settings": "設定",
+    "credits": "クレジット",
+    "cost": "コスト",
+    "recharge": "チャージ",
+    "generate": "生成",
+    "generating": "生成中...",
+    "uploadRequired": "エフェクトを適用するには画像をアップロードしてください。",
+    "uploadRequiredCount": "エフェクトを適用するには{count}枚の画像をアップロードしてください。",
+    "insufficientCredits": "クレジットが不足しています。チャージしてください。",
+    "generateFailed": "エフェクトの生成に失敗しました。",
+    "generateFailedRetry": "エフェクトの生成に失敗しました。もう一度お試しください。",
+    "uploadedAlt": "アップロード済み",
+    "placeholderText": "エフェクトを適用するには画像をアップロード",
+    "comingSoon": "近日公開",
+    "firstFrame": "最初のフレーム",
+    "lastFrame": "最後のフレーム",
+    "imageSlot": "画像 {index}"
+  },
   "imageGenerator": {
     "textToImage": "テキストから画像",
     "imageToImage": "画像から画像",
@@ -508,14 +820,69 @@
     "nanoBananaProvider": "Kie.ai Nano Banana",
     "highQuality": "高品質",
     "fastGeneration": "高速",
+    "resolution": "解像度",
+    "ratio": "比率",
+    "images": "画像",
+    "transformMultipleImages": "{count}枚の画像を変換",
+    "clickToUploadMultiple": "クリックして複数の画像をアップロードまたはドラッグ&ドロップ",
+    "addMoreImages": "画像を追加",
+    "maxImages": "最大{max}枚",
+    "maxImagesExceeded": "あと{max}枚しか選択できません",
+    "imagesUploadedSuccessfully": "{count}枚の画像が正常にアップロードされました",
+    "canUpload": "あと{count}枚アップロード可能",
+    "promptInspirationTitle": "インスピレーションを得る",
+    "promptInspirationSubtitle": "人気のプロンプトを発見し、カードをクリックしてジェネレーターに入力してください。",
+    "useThisPrompt": "このプロンプトを使用",
+    "useThisPromptAria": "このプロンプトを使用: {prompt}",
+    "outputFormat": "出力形式",
+    "imageSize": "画像サイズ",
+    "showcaseImageLoaded": "ショーケース画像が正常に読み込まれました",
+    "failedToLoadShowcaseImage": "ショーケース画像の読み込みに失敗しました",
+    "imageAgent": "マルチショット生成",
+    "imageAgentTooltip": "複数のショットを一度に生成",
+    "imageCount": "画像数",
+    "generateMultipleImages": "複数の画像を生成",
+    "promptTooLong": "プロンプトが長すぎます",
     "pleaseSignInToGenerate": "画像を生成するにはログインしてください",
     "generationStarted": "画像生成を開始しました。",
     "generationCompleted": "画像生成が完了しました！",
     "generationInProgress": "生成中...",
     "generationStatusChecking": "ステータス確認中..."
   },
+  "myCreations": {
+    "title": "マイ作品",
+    "description": "AI生成した動画と画像をすべて表示",
+    "videoTab": "動画",
+    "jobsTab": "ジョブ",
+    "imageTab": "画像"
+  },
+  "media-detail": {
+    "title": "メディア詳細",
+    "audio": "オーディオ",
+    "prompt": "プロンプト",
+    "inputImages": "入力画像",
+    "expand": "展開",
+    "collapse": "折りたたむ",
+    "actions": {
+      "open": "開く",
+      "download": "ダウンロード",
+      "delete": "削除",
+      "copyPrompt": "プロンプトをコピー",
+      "promptCopied": "プロンプトをコピーしました"
+    }
+  },
   "imageHistory": {
+    "discoveryTab": "発見",
+    "historyTab": "履歴",
+    "discoveryHeading": "厳選プロンプトギャラリー",
+    "discoverySubtitle": "厳選されたプロンプトを閲覧し、ジェネレーターに直接入力できます。",
+    "discoveryDescription": "カードをタップすると、テキストから画像ツールのプロンプトフィールドに即座に入力されます。",
+    "historySubtitle": "最近の生成を確認し、ステータス更新を追跡し、出力を管理します。",
     "title": "画像履歴",
+    "searchPromptPlaceholder": "プロンプトを検索",
+    "searchMatches": "{count}件一致",
+    "searchNoResults": "検索に一致するプロンプトがありません",
+    "searchButton": "検索",
     "noImagesTitle": "画像がありません",
     "noImagesDescription": "画像の作成を開始すると、生成された画像がここに表示されます。",
     "completed": "完了",
@@ -552,10 +919,162 @@
     "tryRemovingFilters": "より多くの結果を表示するにはフィルターを一部削除してみてください",
     "loadMore": "もっと読み込む",
     "retryGeneration": "生成を再試行",
-    "viewDetails": "詳細を表示"
+    "viewDetails": "詳細を表示",
+    "downloadImage": "画像をダウンロード",
+    "copyPrompt": "プロンプトをコピー",
+    "credits": "クレジット",
+    "signInToView": "表示するにはログイン",
+    "generatingComplete": "生成完了",
+    "generatingFailed": "生成失敗",
+    "deleteImage": "画像を削除",
+    "addToFavorites": "お気に入りに追加",
+    "inQueue": "キュー待ち",
+    "textToImageModel": "テキストから画像モデル",
+    "imageToImageModel": "画像から画像モデル"
+  },
+  "videoHistory": {
+    "exploreExamples": "サンプルを探索",
+    "recentGenerations": "最近の生成",
+    "videoDeleted": "動画が正常に削除されました",
+    "deleteFailed": "動画の削除に失敗しました",
+    "deleteVideo": "動画を削除",
+    "deleteConfirmDescription": "この動画を削除してもよろしいですか？"
+  },
+  "common": {
+    "useThisEffect": "このエフェクトを使用",
+    "loading": "読み込み中...",
+    "error": "エラー"
+  },
+  "components": {
+    "heroSection": {
+      "defaultTitle": "AI動画エフェクト",
+      "defaultDescription": "AIパワードエフェクトで動画を変換",
+      "defaultButtonText": "始める"
+    },
+    "categoryTabs": {
+      "all": "すべて",
+      "trending": "トレンド",
+      "new": "新着",
+      "popular": "人気",
+      "interaction": "インタラクション",
+      "appearance": "外見",
+      "emotions": "感情",
+      "entertainment": "エンターテイメント",
+      "herovillain": "ヒーロー/ヴィラン",
+      "horrorFantasy": "ホラー/ファンタジー",
+      "xmas": "クリスマス",
+      "others": "その他",
+      "newLabel": "新着"
+    },
+    "categoryEffectSection": {
+      "defaultDescription": "このカテゴリのエフェクトを探索"
+    },
+    "effectCard": {
+      "useEffect": "エフェクトを使用",
+      "preview": "プレビュー"
+    },
+    "effectGrid": {
+      "noEffects": "エフェクトが見つかりません",
+      "loadMore": "もっと読み込む"
+    }
+  },
+  "creditsBundle": {
+    "title": "クレジットを追加購入",
+    "description": "追加クレジットを購入してより多くの動画を生成。",
+    "expireNote": "追加クレジットは購入後1ヶ月で期限切れになります。",
+    "credits": "クレジット",
+    "selectPaymentMethod": "支払い方法を選択",
+    "cancel": "キャンセル",
+    "continueToPayment": "支払いに進む",
+    "processing": "処理中...",
+    "buyCredits": "クレジットを購入"
+  },
+  "nano-banana": {
+    "title": "Nano Banana AI: AI画像ジェネレーターを試す | Seedance",
+    "description": "Nano Banana AIで素晴らしい画像を作成。高度なAI技術でテキストプロンプトから高品質な画像を生成。",
+    "keywords": "Nano Banana, AI画像ジェネレーター, テキストから画像, 画像作成, AIアート, AI画像"
+  },
+  "nano-banana-pro": {
+    "title": "Nano Banana Pro AI: プロフェッショナルAI画像ジェネレーター | Seedance",
+    "description": "Google Gemini 2.5 Flash Imageのプレミアム版Nano Banana Proを体験。強化された精度、優れた品質、高度な編集機能を備えたプロフェッショナルグレードのAI画像生成。",
+    "keywords": "Nano Banana Pro, Google Nano Banana Pro, Gemini 2.5 Flash Pro, AI画像ジェネレーター, プロフェッショナルAI画像, テキストから画像Pro, 画像編集AI, 高度なAIアート, プロフェッショナル画像生成"
+  },
+  "seedream-4-5": {
+    "title": "Seedream 4.5: ByteDance AI画像ジェネレーター | Seedance",
+    "description": "ByteDanceのSeedream 4.5で高品質なAI画像を生成。テキストプロンプトから美しい画像を作成。",
+    "keywords": "Seedream 4.5, ByteDance, AI画像ジェネレーター, テキストから画像, AI画像"
+  },
+  "seedream-5-0": {
+    "title": "Seedream 5.0: 最新ByteDance AI画像ジェネレーター | Seedance",
+    "description": "ByteDanceの最新Seedream 5.0で次世代AI画像生成を体験。より高品質で詳細な画像を作成。",
+    "keywords": "Seedream 5.0, ByteDance, AI画像ジェネレーター, テキストから画像, 高品質AI画像"
+  },
+  "trans_type": {
+    "new_user": "ウェルカムボーナス",
+    "order_pay": "購入",
+    "system_add": "システムクレジット",
+    "ping": "API Ping",
+    "chat": "チャット",
+    "refund_non_response": "無応答返金",
+    "video_generation_4s": "動画 (4秒)",
+    "video_generation_5s": "動画 (5秒)",
+    "video_generation_6s": "動画 (6秒)",
+    "video_generation_8s": "動画 (8秒)",
+    "video_generation_10s": "動画 (10秒)",
+    "video_generation_12s": "動画 (12秒)",
+    "video_generation_15s": "動画 (15秒)",
+    "video_generation_25s": "動画 (25秒)",
+    "refund_video_generation_failed": "動画返金",
+    "image_generation": "画像生成",
+    "refund_image_generation_failed": "画像返金",
+    "agent_shot_analysis": "エージェント分析",
+    "agent_plan_reserve": "エージェントプラン",
+    "agent_plan_refund": "エージェントプラン返金",
+    "agent_keyframe": "エージェントキーフレーム",
+    "agent_keyframe_reserve": "エージェントキーフレーム",
+    "agent_keyframe_refund": "エージェントキーフレーム返金",
+    "agent_video_clip": "エージェントクリップ",
+    "agent_video_reserve": "エージェント動画",
+    "agent_video_refund": "エージェント動画返金",
+    "agent_bgm_reserve": "エージェントBGM",
+    "agent_bgm_refund": "エージェントBGM返金",
+    "agent_video_splicing": "エージェント結合",
+    "agent_splice": "エージェントスプライス",
+    "agent_splice_refund": "エージェントスプライス返金",
+    "agent_scene_ref_reserve": "エージェントシーン参照",
+    "agent_scene_ref_refund": "エージェントシーン参照返金",
+    "agent_character_ref_reserve": "エージェントキャラクター参照",
+    "agent_character_ref_refund": "エージェントキャラクター参照返金"
   },
   "footer": {
     "popularEffects": "人気のエフェクト",
     "moreEffects": "もっと見る →"
+  },
+  "effects": {
+    "ai-kissing": "AIキス動画ジェネレーター",
+    "kiss-me-ai": "キスミーAI",
+    "ai-twerk": "AIトワーク動画ジェネレーター",
+    "ai-hug": "AIハグ",
+    "ai-muscle": "AI筋肉ジェネレーター",
+    "ai-french-kissing": "AIフレンチキス",
+    "ai-360-rotation": "AI 360°回転動画ジェネレーター",
+    "ai-cloud-ride": "AIクラウドライド動画ジェネレーター",
+    "dance-party": "ダンスパーティージェネレーター",
+    "magic-tricks": "マジックトリックエフェクト",
+    "time-travel": "タイムトラベルエフェクト",
+    "vampire-transformation": "ヴァンパイア変身",
+    "ghost-effect": "ゴースト出現エフェクト",
+    "gender-swap": "性別スワップエフェクト",
+    "hair-color-change": "ヘアカラーチェンジャー",
+    "makeup-artist": "AIメイクアップアーティスト",
+    "body-transformation": "ボディ変身",
+    "halloween-spooky": "ハロウィンスプーキーエフェクト",
+    "valentine-romance": "バレンタインロマンスエフェクト",
+    "new-year-celebration": "新年お祝い",
+    "summer-beach": "サマービーチバイブス",
+    "happiness-boost": "ハピネスブーストエフェクト",
+    "surprise-reaction": "サプライズリアクションエフェクト",
+    "anger-expression": "怒り表現エフェクト",
+    "love-struck": "恋に落ちたエフェクト"
   }
 }
