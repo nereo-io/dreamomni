@@ -1,4 +1,3 @@
-import { IMAGE_CACHE_CONTROL } from "@/lib/cache-control";
 import { respData, respErr } from "@/lib/resp";
 import { auth } from "@/auth";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
@@ -58,7 +57,6 @@ export async function POST(req: Request) {
       Bucket: bucket,
       Key: key,
       ContentType: contentType,
-      CacheControl: IMAGE_CACHE_CONTROL,
     });
 
     const presignedUrl = await getSignedUrl(s3Client, command, {

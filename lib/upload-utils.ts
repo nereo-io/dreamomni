@@ -8,8 +8,6 @@
  * - Saves Vercel bandwidth
  */
 
-import { IMAGE_CACHE_CONTROL } from "@/lib/cache-control";
-
 const AUDIO_CACHE_CONTROL = "public, max-age=31536000, immutable";
 
 export interface UploadResult {
@@ -54,7 +52,6 @@ export async function uploadImageToR2(file: File): Promise<string> {
     method: "PUT",
     headers: {
       "Content-Type": file.type,
-      "Cache-Control": IMAGE_CACHE_CONTROL,
     },
     body: file,
   });
