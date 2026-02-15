@@ -15,13 +15,6 @@ export async function generateMetadata({
 }: {
   params: { slug: string; locale: string };
 }) {
-  if (process.env.NEXT_PUBLIC_EFFECTS_ENABLED !== "true") {
-    return {
-      title: "Not Found",
-      robots: "noindex,nofollow",
-    };
-  }
-
   const locale = await getLocale();
   const effect = await getEffectConfigBySlug(params.slug, locale);
 
@@ -81,10 +74,6 @@ export default async function EffectDetailPage({
 }: {
   params: { slug: string };
 }) {
-  if (process.env.NEXT_PUBLIC_EFFECTS_ENABLED !== "true") {
-    notFound();
-  }
-
   const session = await auth();
   const locale = await getLocale();
   const effect = await getEffectConfigBySlug(params.slug, locale);

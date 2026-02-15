@@ -49,9 +49,6 @@ export function Sidebar() {
   const activePathname = stripLocalePrefix(pathname, locale);
 
   const t = useTranslations("sidebar");
-  const aiShortsEnabled = process.env.NEXT_PUBLIC_AI_SHORTS_ENABLED === "true";
-  const effectsEnabled = process.env.NEXT_PUBLIC_EFFECTS_ENABLED === "true";
-  const musicEnabled = process.env.NEXT_PUBLIC_MUSIC_ENABLED === "true";
 
   const sidebarItems: SidebarItem[] = [
     // { icon: Home, labelKey: "home", href: "/home" }, // 暂时隐藏
@@ -61,9 +58,7 @@ export function Sidebar() {
     { icon: ImageIcon, labelKey: "image_to_video", href: "/image-to-video" },
     { icon: Type, labelKey: "text_to_video", href: "/text-to-video" },
     { icon: Play, labelKey: "reference_to_video", href: "/reference-to-video" },
-    ...(effectsEnabled
-      ? [{ icon: Sparkles, labelKey: "ai_effects", href: "/video-effects" }]
-      : []),
+    { icon: Sparkles, labelKey: "ai_effects", href: "/video-effects" },
   ];
 
   const imageAIItems: SidebarItem[] = [
@@ -79,31 +74,30 @@ export function Sidebar() {
     },
   ];
 
-  const musicAIItems: SidebarItem[] = musicEnabled
-    ? [
-        {
-          icon: Music,
-          labelKey: "text_to_music",
-          href: "/text-to-music",
-        },
-        {
-          icon: Mic,
-          labelKey: "add_vocals",
-          href: "/add-vocals",
-        },
-        {
-          icon: Guitar,
-          labelKey: "add_instrumental",
-          href: "/add-instrumental",
-        },
-        {
-          icon: Upload,
-          labelKey: "upload_cover",
-          href: "/upload-cover",
-        },
-      ]
-    : [];
+  const musicAIItems: SidebarItem[] = [
+    {
+      icon: Music,
+      labelKey: "text_to_music",
+      href: "/text-to-music",
+    },
+    {
+      icon: Mic,
+      labelKey: "add_vocals",
+      href: "/add-vocals",
+    },
+    {
+      icon: Guitar,
+      labelKey: "add_instrumental",
+      href: "/add-instrumental",
+    },
+    {
+      icon: Upload,
+      labelKey: "upload_cover",
+      href: "/upload-cover",
+    },
+  ];
 
+  const aiShortsEnabled = process.env.NEXT_PUBLIC_AI_SHORTS_ENABLED === "true";
   const agentItems: SidebarItem[] = aiShortsEnabled
     ? [{ icon: Film, labelKey: "agent_videos", href: "/ai-shorts" }]
     : [];
@@ -208,22 +202,20 @@ export function Sidebar() {
         </div>
 
         {/* Music AI items */}
-        {musicAIItems.length > 0 && (
-          <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
-            {musicAIItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${
-                  activePathname === item.href ? "bg-gray-800" : ""
-                } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
-              >
-                <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
-                {!isCollapsed && <span>{t(item.labelKey)}</span>}
-              </Link>
-            ))}
-          </div>
-        )}
+        <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
+          {musicAIItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-center rounded-lg transition-colors hover:bg-gray-800 ${
+                activePathname === item.href ? "bg-gray-800" : ""
+              } ${isCollapsed ? "justify-center p-2" : "space-x-3 px-3 py-2"}`}
+            >
+              <item.icon className={isCollapsed ? "h-6 w-6" : "h-5 w-5"} />
+              {!isCollapsed && <span>{t(item.labelKey)}</span>}
+            </Link>
+          ))}
+        </div>
 
         {agentItems.length > 0 && (
           <div className={isCollapsed ? "space-y-2" : "space-y-0"}>
