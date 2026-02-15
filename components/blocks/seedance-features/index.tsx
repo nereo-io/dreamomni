@@ -10,14 +10,14 @@ interface SeedanceFeaturesBlockProps {
   translations: SeedanceFeaturesBlockTranslations;
 }
 
-// Video mapping for each feature - using existing R2 CDN videos
+// Video mapping for each feature - Seedance 2.0 official videos
 const videoMapping: Record<string, string> = {
-  "structure-control": "https://r2.seedance.tv/intro/professional-1080.mp4",
-  "multi-modal-reference": "https://r2.seedance.tv/intro/storytelling.mp4",
-  "perfect-consistency": "https://r2.seedance.tv/intro/versatility.mp4",
-  "realistic-physics": "https://r2.seedance.tv/intro/prompt-understanding.mp4",
-  "seamless-extension": "https://r2.seedance.tv/intro/camera.mp4",
-  "cinematic-aesthetics": "https://r2.seedance.tv/intro/dynamic-range.mp4",
+  "structure-control": "https://r2.seedance.tv/intro/seedance2-structure.mp4",
+  "multi-modal-reference": "https://r2.seedance.tv/intro/seedance2-brand.mp4",
+  "perfect-consistency": "https://r2.seedance.tv/intro/seedance2-case1.mp4",
+  "realistic-physics": "https://r2.seedance.tv/intro/seedance2-motion.mp4",
+  "seamless-extension": "https://r2.seedance.tv/intro/seedance2-case2.mp4",
+  "cinematic-aesthetics": "https://r2.seedance.tv/intro/seedance2-documentary.mp4",
 };
 
 
