@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 const HERO_POSTER_SRC = "/imgs/intro/veo-cover-202508-poster.webp";
-const HERO_VIDEO_SRC = "https://r2.veo3ai.io/intro/Veo-Cover-202508.mp4";
+const HERO_VIDEO_SRC = "https://r2.seedance.tv/intro/seedance2-documentary.mp4";
 
 export default function HeroBg() {
   const hasInteracted = useHasInteracted();
