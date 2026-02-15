@@ -27,35 +27,26 @@ export interface PayssionConfig {
 }
 
 // 订阅产品配置映射（基于金额，单位：美分）
+// 必须与 config/products.ts 中的 PRODUCT_CONFIGS 保持一致
 export const PAYSSION_PRODUCT_CONFIG: Record<string, PayssionProductConfig> = {
-  "2000": {
+  "3000": {
     product_id: "mini-monthly",
-    credits: 200,
+    credits: 400,
     membershipType: "monthly",
-  }, // $20
-  "14400": {
+  }, // $30
+  "21600": {
     product_id: "mini-yearly",
-    credits: 2400,
+    credits: 4800,
     membershipType: "yearly",
-  }, // $144
-  "5000": {
+  }, // $216
+  "10000": {
     product_id: "standard-monthly",
-    credits: 1000,
+    credits: 2000,
     membershipType: "monthly",
-  }, // $50
-  "36000": {
-    product_id: "standard-yearly",
-    credits: 12000,
-    membershipType: "yearly",
-  }, // $360
-  "9900": {
-    product_id: "plus-monthly",
-    credits: 3000,
-    membershipType: "monthly",
-  }, // $99
+  }, // $100
   "72000": {
-    product_id: "plus-yearly",
-    credits: 36000,
+    product_id: "standard-yearly",
+    credits: 24000,
     membershipType: "yearly",
   }, // $720
 };
@@ -94,8 +85,7 @@ export function getPayssionConfig(): PayssionConfig {
     paymentMethods: PAYMENT_METHOD_MAPPING,
     subscription: {
       defaultReturnUrl:
-        process.env.NEXTAUTH_URL + "/subscription/success" ||
-        "https://veo3ai.io/subscription/success",
+        (process.env.NEXTAUTH_URL || "") + "/subscription/success",
       webhookUrl: process.env.NEXTAUTH_URL + "/api/payssion/v2-webhook" || "",
     },
   };
