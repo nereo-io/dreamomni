@@ -10,15 +10,14 @@ interface SeedanceFeaturesBlockProps {
   translations: SeedanceFeaturesBlockTranslations;
 }
 
-// Video mapping for each feature - Seedance 2.0 official videos from Volcano Engine CDN
-const SEEDANCE_CDN_BASE = "https://ark-common-storage-prod-cn-beijing.tos-cn-beijing.volces.com/presets/experience/gen_video/model-promotion/seedance-2-0";
+// Video mapping for each feature - using existing R2 CDN videos
 const videoMapping: Record<string, string> = {
-  "structure-control": `${SEEDANCE_CDN_BASE}/firstScreen/group4/output.mp4`,
-  "multi-modal-reference": `${SEEDANCE_CDN_BASE}/firstScreen/group2/output1.mp4`,
-  "perfect-consistency": `${SEEDANCE_CDN_BASE}/firstScreen/group3/output.mp4`,
-  "realistic-physics": `${SEEDANCE_CDN_BASE}/firstScreen/group1/output.mp4`,
-  "seamless-extension": `${SEEDANCE_CDN_BASE}/firstScreen/group5/output.mp4`,
-  "cinematic-aesthetics": `${SEEDANCE_CDN_BASE}/firstScreen/group6/output.mp4`,
+  "structure-control": "https://r2.seedance.tv/intro/professional-1080.mp4",
+  "multi-modal-reference": "https://r2.seedance.tv/intro/storytelling.mp4",
+  "perfect-consistency": "https://r2.seedance.tv/intro/versatility.mp4",
+  "realistic-physics": "https://r2.seedance.tv/intro/prompt-understanding.mp4",
+  "seamless-extension": "https://r2.seedance.tv/intro/camera.mp4",
+  "cinematic-aesthetics": "https://r2.seedance.tv/intro/dynamic-range.mp4",
 };
 
 

@@ -189,24 +189,24 @@
   "faq": {
     "name": "faq",
     "label": "Häufige Fragen",
-    "title": "Häufig gestellte Fragen zu Seedance 1.0",
-    "description": "Erfahren Sie mehr über Seedance 1.0s erweiterte KI-Video-Generierungs-Fähigkeiten, Multi-Shot-Storytelling und professionelle Video-Erstellungs-Features.",
+    "title": "Häufig gestellte Fragen zu Seedance 2.0",
+    "description": "Erfahren Sie mehr über Seedance 2.0s erweiterte KI-Video-Generierungs-Fähigkeiten, Multi-Shot-Storytelling und professionelle Video-Erstellungs-Features.",
     "items": [
       {
-        "title": "Was ist der Seedance 1.0 KI-Video-Generator und wie funktioniert er?",
-        "description": "Seedance 1.0 gibt Ihnen Zugang zu bahnbrechender KI-Video-Erstellungs-Technologie mit nativem Multi-Shot-Storytelling. Beschreiben Sie einfach Ihre Video-Idee in Text, und Seedance wird hochqualitative 1080p-Videos mit kinematischer Ästhetik, flüssigen Bewegungen und vielfältigem Stilausdruck generieren. Seedances erweiterte semantische Verstehen gewährleistet präzises Prompt-Following für professionelle Ergebnisse."
+        "title": "Was ist der Seedance 2.0 KI-Video-Generator und wie funktioniert er?",
+        "description": "Seedance 2.0 gibt Ihnen Zugang zu bahnbrechender KI-Video-Erstellungs-Technologie mit nativem Multi-Shot-Storytelling. Beschreiben Sie einfach Ihre Video-Idee in Text, und Seedance wird hochqualitative 1080p-Videos mit kinematischer Ästhetik, flüssigen Bewegungen und vielfältigem Stilausdruck generieren. Seedances erweiterte semantische Verstehen gewährleistet präzises Prompt-Following für professionelle Ergebnisse."
       },
       {
-        "title": "Was macht Seedance 1.0 anders als andere KI-Video-Tools?",
-        "description": "Seedance 1.0 bietet bahnbrechende Features, die es abhebt: native Multi-Shot-Narrativ-Generierung, visuelle Konsistenz über Shot-Übergänge hinweg, breite Dynamikrange für das Erfassen subtiler Ausdrücke, vielfältige Stilunterstützung vom Fotorealismus bis Cyberpunk, und präzise Kontrolle über Multi-Agent-Interaktionen. Seedances erweiterte semantische Verstehen und Kamerabewegungssteuerung liefern professionelle Ergebnisse, die von anderen Plattformen unübertroffen sind."
+        "title": "Was macht Seedance 2.0 anders als andere KI-Video-Tools?",
+        "description": "Seedance 2.0 bietet bahnbrechende Features, die es abhebt: native Multi-Shot-Narrativ-Generierung, visuelle Konsistenz über Shot-Übergänge hinweg, breite Dynamikrange für das Erfassen subtiler Ausdrücke, vielfältige Stilunterstützung vom Fotorealismus bis Cyberpunk, und präzise Kontrolle über Multi-Agent-Interaktionen. Seedances erweiterte semantische Verstehen und Kamerabewegungssteuerung liefern professionelle Ergebnisse, die von anderen Plattformen unübertroffen sind."
       },
       {
-        "title": "Welche Arten von Videos kann ich mit Seedance 1.0 erstellen?",
-        "description": "Seedance 1.0 unterstützt eine breite Palette von Video-Typen: Marketing-Videos, Social-Media-Content, Bildungsmaterialien, Produktdemonstrationen, animierte Geschichten, Musikvideos, Konzeptkunst und kinematische Szenen. Mit Seedances Multi-Shot-Storytelling und 1080p-Qualität passt sich die KI jeder kreativen Vision an. Vom Fotorealismus bis zur Cyberpunk-Ästhetik liefert Seedance professionelle Ergebnisse für jedes Projekt."
+        "title": "Welche Arten von Videos kann ich mit Seedance 2.0 erstellen?",
+        "description": "Seedance 2.0 unterstützt eine breite Palette von Video-Typen: Marketing-Videos, Social-Media-Content, Bildungsmaterialien, Produktdemonstrationen, animierte Geschichten, Musikvideos, Konzeptkunst und kinematische Szenen. Mit Seedances Multi-Shot-Storytelling und 1080p-Qualität passt sich die KI jeder kreativen Vision an. Vom Fotorealismus bis zur Cyberpunk-Ästhetik liefert Seedance professionelle Ergebnisse für jedes Projekt."
       },
       {
-        "title": "Gibt es Beschränkungen für den kostenlosen Seedance 1.0 Video-Generator?",
-        "description": "Während kostenlose Seedance 1.0 Zugang zu erweiterten 1080p-Video-Generierung und Multi-Shot-Storytelling-Fähigkeiten bietet, genießen Premium-Seedance-Nutzer unbegrenzte Generierungen, längere Video-Dauern, prioritäre Verarbeitung und zusätzliche Features wie benutzerdefinierte Stile und Batch-Verarbeitung. Kostenlose Seedance-Nutzer können kinematische Videos mit angemessenen Nutzungslimits erstellen, während sie die volle Kraft der Seedance KI-Technologie erleben."
+        "title": "Gibt es Beschränkungen für den kostenlosen Seedance 2.0 Video-Generator?",
+        "description": "Während kostenlose Seedance 2.0 Zugang zu erweiterten 1080p-Video-Generierung und Multi-Shot-Storytelling-Fähigkeiten bietet, genießen Premium-Seedance-Nutzer unbegrenzte Generierungen, längere Video-Dauern, prioritäre Verarbeitung und zusätzliche Features wie benutzerdefinierte Stile und Batch-Verarbeitung. Kostenlose Seedance-Nutzer können kinematische Videos mit angemessenen Nutzungslimits erstellen, während sie die volle Kraft der Seedance KI-Technologie erleben."
       },
       {
         "title": "Wie lange dauert es, Videos mit Seedance zu generieren?",
@@ -237,7 +237,7 @@
   "cta": [
     {
       "name": "cta-generate",
-      "title": "Beginnen Sie mit der Video-Erstellung mit Seedance 1.0",
+      "title": "Beginnen Sie mit der Video-Erstellung mit Seedance 2.0",
       "buttons": [
         {
           "title": "Video Generieren",
@@ -249,7 +249,7 @@
     },
     {
       "name": "cta-features",
-      "title": "Erkunden Sie Seedance 1.0 Features",
+      "title": "Erkunden Sie Seedance 2.0 Features",
       "description": "Professionelle 1080p-Video-Generierung mit nativem Multi-Shot-Storytelling, vielfältigem Stilausdruck & erweiterte Seedance KI-Technologie",
       "buttons": [
         {
@@ -263,7 +263,7 @@
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "Seedance 1.0",
+      "title": "Seedance 2.0",
       "description": "Verwandeln Sie Text und Bilder mit Seedances fortschrittlicher Multi-Shot-Technologie in beeindruckende 1080p KI-Videos.",
       "logo": {
         "src": "/logo.png",
@@ -432,9 +432,9 @@
   },
   "introduce": {
     "name": "introduce",
-    "title": "Was ist der Seedance 1.0 KI-Video-Generator",
+    "title": "Was ist der Seedance 2.0 KI-Video-Generator",
     "label": "Einführung",
-    "description": "Seedance 1.0 ist ein revolutionärer KI-Video-Generator von ByteDance, der Textbeschreibungen in professionelle 1080p-Videos verwandelt. Dieser erweiterte KI-Video-Generator verfügt über bahnbrechende Multi-Shot-Storytelling-Fähigkeiten und kinematische Qualität, was Seedance ByteDance zur besten Wahl für Ersteller macht.",
+    "description": "Seedance 2.0 ist ein revolutionärer KI-Video-Generator von ByteDance, der Textbeschreibungen in professionelle 1080p-Videos verwandelt. Dieser erweiterte KI-Video-Generator verfügt über bahnbrechende Multi-Shot-Storytelling-Fähigkeiten und kinematische Qualität, was Seedance ByteDance zur besten Wahl für Ersteller macht.",
     "image": {
       "src": "https://r2.seedance.tv/intro/generator-intro.mp4"
     },
@@ -446,7 +446,7 @@
       },
       {
         "title": "Professionelle 1080p KI-Video-Generator-Qualität",
-        "description": "Generieren Sie scharfe High-Definition-Videos mit kinematischer Ästhetik, flüssigen Bewegungen und reichen visuellen Details, perfekt für professionelle Nutzung. Der KI-Video-Generator Seedance 1.0 liefert unübertroffene Qualität.",
+        "description": "Generieren Sie scharfe High-Definition-Videos mit kinematischer Ästhetik, flüssigen Bewegungen und reichen visuellen Details, perfekt für professionelle Nutzung. Der KI-Video-Generator Seedance 2.0 liefert unübertroffene Qualität.",
         "icon": "RiHdLine"
       },
       {
@@ -468,7 +468,7 @@
       },
       {
         "title": "Text-zu-Video KI-Video-Generator-Innovation",
-        "description": "Verwandeln Sie einfache Textbeschreibungen in atemberaubende visuelle Inhalte mit Seedance 1.0. Unser fortschrittlicher KI-Video-Generator versteht komplexe Narrative, visuelle Stile und kreative Richtungen mit bemerkenswerter Präzision, angetrieben von Seedance ByteDance-Technologie.",
+        "description": "Verwandeln Sie einfache Textbeschreibungen in atemberaubende visuelle Inhalte mit Seedance 2.0. Unser fortschrittlicher KI-Video-Generator versteht komplexe Narrative, visuelle Stile und kreative Richtungen mit bemerkenswerter Präzision, angetrieben von Seedance ByteDance-Technologie.",
         "icon": "RiQuillPenLine"
       },
       {
@@ -483,7 +483,7 @@
       },
       {
         "title": "Unbegrenzte kreative Möglichkeiten mit KI-Video-Generator",
-        "description": "Von Unternehmenspräsentationen bis zu künstlerischen Meisterwerken - generieren Sie jeden erdenklichen Videostil mit Seedance 1.0. Keine kreativen Grenzen, keine technischen Einschränkungen mit unserer fortschrittlichen KI-Video-Generator-Plattform.",
+        "description": "Von Unternehmenspräsentationen bis zu künstlerischen Meisterwerken - generieren Sie jeden erdenklichen Videostil mit Seedance 2.0. Keine kreativen Grenzen, keine technischen Einschränkungen mit unserer fortschrittlichen KI-Video-Generator-Plattform.",
         "icon": "RiInfinityLine"
       },
       {
@@ -496,14 +496,14 @@
   "testimonial": {
     "name": "testimonial",
     "label": "Kundenstimmen",
-    "title": "Was Kreative über den Seedance 1.0 Video-Generator sagen",
-    "description": "Entdecken Sie, wie Seedance 1.0 die Videoerstellung mit bahnbrechender KI-Technologie revolutioniert hat. Von Multi-Shot-Storytelling bis zu vielfältigem Stilausdruck vertrauen Kreative weltweit auf Seedance für professionelle Videogenerierung mit Kinoqualität und nahtloser Workflow-Integration.",
+    "title": "Was Kreative über den Seedance 2.0 Video-Generator sagen",
+    "description": "Entdecken Sie, wie Seedance 2.0 die Videoerstellung mit bahnbrechender KI-Technologie revolutioniert hat. Von Multi-Shot-Storytelling bis zu vielfältigem Stilausdruck vertrauen Kreative weltweit auf Seedance für professionelle Videogenerierung mit Kinoqualität und nahtloser Workflow-Integration.",
     "icon": "GoThumbsup",
     "items": [
       {
         "title": "Sarah Johnson",
         "label": "Content Creator",
-        "description": "Seedance 1.0 hat meinen Content-Erstellungs-Workflow komplett transformiert. Seedances fortschrittliche KI versteht meine Prompts perfekt und generiert kinoreife 1080p-Videos mit flüssigen Bewegungen und reichen Details. Die Multi-Shot-Storytelling-Funktion von Seedance ist revolutionär für Kreative.",
+        "description": "Seedance 2.0 hat meinen Content-Erstellungs-Workflow komplett transformiert. Seedances fortschrittliche KI versteht meine Prompts perfekt und generiert kinoreife 1080p-Videos mit flüssigen Bewegungen und reichen Details. Die Multi-Shot-Storytelling-Funktion von Seedance ist revolutionär für Kreative.",
         "image": {
           "src": "/imgs/users/1.png"
         }
@@ -511,7 +511,7 @@
       {
         "title": "Michael Chen",
         "label": "Marketing-Direktor",
-        "description": "Seedance 1.0 ist unglaublich für Marketing-Kampagnen. Seedances Kinoqualität ist herausragend, und die Multi-Agent-Interaktions-Features ermöglichen komplexes Storytelling. Mit Seedance kann ich mühelos mehrere Video-Variationen mit verschiedenen Stilen erstellen - vom Fotorealismus bis zur Cyberpunk-Ästhetik.",
+        "description": "Seedance 2.0 ist unglaublich für Marketing-Kampagnen. Seedances Kinoqualität ist herausragend, und die Multi-Agent-Interaktions-Features ermöglichen komplexes Storytelling. Mit Seedance kann ich mühelos mehrere Video-Variationen mit verschiedenen Stilen erstellen - vom Fotorealismus bis zur Cyberpunk-Ästhetik.",
         "image": {
           "src": "/imgs/users/2.png"
         }
@@ -519,7 +519,7 @@
       {
         "title": "Emily Rodriguez",
         "label": "Social Media Managerin",
-        "description": "Die Konsistenz und Qualität der Videos von Seedance 1.0 ist erstaunlich. Mit Seedances nativem Multi-Shot-Storytelling kann ich visuelle Konsistenz über komplexe Sequenzen hinweg beibehalten und täglich frischen Content erstellen. Seedances Stilvielfalt und Prompt-Following-Genauigkeit ist in der Branche unübertroffen.",
+        "description": "Die Konsistenz und Qualität der Videos von Seedance 2.0 ist erstaunlich. Mit Seedances nativem Multi-Shot-Storytelling kann ich visuelle Konsistenz über komplexe Sequenzen hinweg beibehalten und täglich frischen Content erstellen. Seedances Stilvielfalt und Prompt-Following-Genauigkeit ist in der Branche unübertroffen.",
         "image": {
           "src": "/imgs/users/3.png"
         }
@@ -527,7 +527,7 @@
       {
         "title": "David Kumar",
         "label": "YouTuber & Pädagoge",
-        "description": "Seedance 1.0 hilft mir dabei, Bildungsinhalte zu erstellen, die mein Publikum fesseln. Von fotorealistischen Demonstrationen bis zu animierten Erklärungen behandelt Seedances fortschrittliche KI alles mit kinematischer Ästhetik. Die flüssigen Bewegungen und reichen Details in Seedance-Videos halten die Zuschauer durchgehend engagiert.",
+        "description": "Seedance 2.0 hilft mir dabei, Bildungsinhalte zu erstellen, die mein Publikum fesseln. Von fotorealistischen Demonstrationen bis zu animierten Erklärungen behandelt Seedances fortschrittliche KI alles mit kinematischer Ästhetik. Die flüssigen Bewegungen und reichen Details in Seedance-Videos halten die Zuschauer durchgehend engagiert.",
         "image": {
           "src": "/imgs/users/4.png"
         }
@@ -535,7 +535,7 @@
       {
         "title": "Lisa Wang",
         "label": "Unabhängige Filmemacherin",
-        "description": "Seedance 1.0 hat mein kreatives Potenzial als Filmemacherin freigesetzt. Mit Seedances bahnbrechender Technologie kann ich Szenen prototypisieren, Konzeptvideos mit Multi-Shot-Narrativen erstellen und mit visuellem Storytelling experimentieren. Seedances präzise Kamerabewegungssteuerung und breite Dynamikrange ist perfekt für professionelles Filmemachen.",
+        "description": "Seedance 2.0 hat mein kreatives Potenzial als Filmemacherin freigesetzt. Mit Seedances bahnbrechender Technologie kann ich Szenen prototypisieren, Konzeptvideos mit Multi-Shot-Narrativen erstellen und mit visuellem Storytelling experimentieren. Seedances präzise Kamerabewegungssteuerung und breite Dynamikrange ist perfekt für professionelles Filmemachen.",
         "image": {
           "src": "/imgs/users/5.png"
         }
@@ -543,7 +543,7 @@
       {
         "title": "Alex Thompson",
         "label": "Digital Artist",
-        "description": "Die Präzision und künstlerische Qualität von Seedance 1.0 ist bemerkenswert. Seedance versteht komplexe künstlerische Anweisungen und erstellt Videos, die perfekt zu meiner kreativen Vision passen. Von Cyberpunk bis zu Illustrationsstilen ermöglichen Seedances vielfältige Stilausdrucks-Fähigkeiten unbegrenzte kreative Erkundung mit professionellen Ergebnissen.",
+        "description": "Die Präzision und künstlerische Qualität von Seedance 2.0 ist bemerkenswert. Seedance versteht komplexe künstlerische Anweisungen und erstellt Videos, die perfekt zu meiner kreativen Vision passen. Von Cyberpunk bis zu Illustrationsstilen ermöglichen Seedances vielfältige Stilausdrucks-Fähigkeiten unbegrenzte kreative Erkundung mit professionellen Ergebnissen.",
         "image": {
           "src": "/imgs/users/6.png"
         }
