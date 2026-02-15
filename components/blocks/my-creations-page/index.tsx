@@ -4,9 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import VideoTab from "./VideoTab";
 import ImageTab from "./ImageTab";
-import JobsTab from "./JobsTab";
-
-type TabType = "video" | "image" | "jobs";
+type TabType = "video" | "image";
 
 export default function MyCreationsPage() {
   const t = useTranslations("myCreations");
@@ -20,10 +18,6 @@ export default function MyCreationsPage() {
     {
       id: "image" as TabType,
       name: t("imageTab"),
-    },
-    {
-      id: "jobs" as TabType,
-      name: t("jobsTab"),
     },
   ];
 
@@ -56,7 +50,6 @@ export default function MyCreationsPage() {
       <div className="lg:h-[calc(100vh-180px)]">
         {activeTab === "video" && <VideoTab />}
         {activeTab === "image" && <ImageTab />}
-        {activeTab === "jobs" && <JobsTab />}
       </div>
     </div>
   );
