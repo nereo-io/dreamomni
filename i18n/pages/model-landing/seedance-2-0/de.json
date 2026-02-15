@@ -1,7 +1,14 @@
 {
+  "breadcrumb": {
+    "items": [
+      { "label": "Startseite", "href": "/" },
+      { "label": "KI-Videogenerator", "href": "/ai-video" },
+      { "label": "Seedance 2.0" }
+    ]
+  },
   "banner": {
     "title": "Seedance 2.0 KI-Videogenerator",
-    "description": "Entwickelt von ByteDance, ist Seedance 2.0 das neueste multimodale Videogenerierungsmodell, das vier Eingabemodalitäten integriert — Bild, Video, Audio und Text. Es liefert präzise Kompositionswiederherstellung, komplexe Aktionsreplikation und hohe Charakterkonsistenz und löst das Unkontrollierbarkeitsproblem der KI-Videogenerierung.",
+    "description": "Seedance 2.0 verwendet eine einheitliche multimodale Audio-Video-Generierungsarchitektur, die Text-, Bild-, Audio- und Videoeingaben unterstützt und branchenweit führende multimodale Inhaltsreferenz- und Bearbeitungsfunktionen bietet.",
     "tabs": [
       {
         "type": "text",
@@ -10,7 +17,7 @@
         "value": "text-to-video",
         "modelName": "Seedance 2.0",
         "modelLogo": "/imgs/intro/seedance.png",
-        "placeholder": "Beschreiben Sie das Video, das Sie erstellen möchten...",
+        "placeholder": "Beschreiben Sie das Video, das Sie generieren möchten...",
         "buttonText": "Generieren"
       },
       {
@@ -21,376 +28,227 @@
         "modelName": "Seedance 2.0",
         "modelLogo": "/imgs/intro/seedance.png",
         "placeholder": "Laden Sie ein Bild zum Animieren hoch",
-        "tips": "Laden Sie JPG/PNG/WEBP-Bilder bis zu 10 MB hoch, mindestens 300 px Breite/Höhe.",
+        "tips": "Laden Sie JPG/PNG/WEBP-Bilder bis zu 10 MB hoch, Mindestbreite/-höhe von 300 px.",
         "buttonText": "Generieren"
       }
     ]
   },
   "partners": [],
   "features": {
-    "title": "Offizieller Ressourcen-Showcase von Seedance 2.0",
+    "title": "Seedance 2.0 Hauptfunktionen und Fähigkeiten",
     "details": [
       {
-        "title": "Offizielles Startseiten-Showcase · Clip 1",
-        "description": "Offizieller Hero-Showcase-Clip von der Seedance-2.0-Produktseite.",
+        "title": "Einheitliche multimodale Architektur für kreative Freiheit",
+        "description": "Seedance 2.0 führt eine bahnbrechende einheitliche multimodale Audio-Video-Generierungsarchitektur ein, die die Arbeitsweise von Kreativen mit KI-Videogenerierung grundlegend verändert. Im Gegensatz zu herkömmlichen Einzeleingabemodellen akzeptiert Seedance 2.0 Textprompts, Referenzbilder, Audioclips und Videosegmente gleichzeitig in einem einzigen Generierungsworkflow. Dieser einheitliche Ansatz eliminiert die Notwendigkeit mehrerer Tools und komplexer Postproduktions-Pipelines. Ob Sie Marketinginhalte, Social-Media-Videos oder filmische Kurzfilme erstellen – die multimodale Architektur stellt sicher, dass Ihre kreative Vision präzise in das Endergebnis übertragen wird, mit beispielloser Kontrolle über jeden Aspekt des Generierungsprozesses.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/be82ecd65795-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c40fae94b3d9-oMXT1or1plDeB7neAILaGuEGte2EmurIB3CUaQ_t.jpg"
       },
       {
-        "title": "Offizielles Startseiten-Showcase · Clip 2",
-        "description": "Offizieller Hero-Showcase-Clip von der Seedance-2.0-Produktseite.",
+        "title": "Native Audio-Video-Simultangenerierungstechnologie",
+        "description": "Erleben Sie echte Audio-Video-Synchronisation mit der nativen Simultangenerierungstechnologie von Seedance 2.0. Das Modell generiert synchronisiertes Audio und Video in einem einzigen Durchgang und gewährleistet perfekte Lippensynchronisation für Dialoge, natürliche Umgebungsgeräusche, die zur visuellen Umgebung passen, und nahtlose Integration von Hintergrundmusik mit Szenenwechseln. Dies eliminiert den traditionellen Workflow, bei dem zuerst Video generiert und später Audio hinzugefügt wird, was zu kohärenteren und professionelleren Ergebnissen führt. Die Technologie zeichnet sich durch die Erstellung realistischer Klanglandschaften aus, die die immersive Qualität der generierten Videos verbessern.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/c832044bab3c-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/1611df9b18d2-dc089e69c5f44590a028319de7381d0e_1770872.jpg"
       },
       {
-        "title": "Offizielles Startseiten-Showcase · Clip 3",
-        "description": "Offizieller Hero-Showcase-Clip von der Seedance-2.0-Produktseite.",
+        "title": "Branchenführende Bewegungsstabilität und Konsistenz",
+        "description": "Seedance 2.0 liefert außergewöhnliche Bewegungsstabilität, die einen neuen Standard für KI-Videogenerierung setzt. Das Modell behält konsistente Charakteridentität, Lichtverhältnisse und Szenenkohärenz während der gesamten Videodauer bei. Komplexe Kamerabewegungen, dynamische Actionsequenzen und Interaktionen mehrerer Charaktere werden mit flüssiger, natürlicher Bewegung gerendert, die die üblichen Artefakte und Ruckler anderer KI-Videomodelle vermeidet. Diese Stabilität macht Seedance 2.0 ideal für professionelle Inhaltserstellung, bei der Qualität und Konsistenz von größter Bedeutung sind.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/e228e91c46d0-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/7fcd6dbc7965-77f77ea5aa754104b27cfe3863619a1e_1770872.jpg"
       },
       {
-        "title": "Offizielles Startseiten-Showcase · Clip 4",
-        "description": "Offizieller Hero-Showcase-Clip von der Seedance-2.0-Produktseite.",
+        "title": "Regisseur-Level kreative Kontrolle mit Referenzeingaben",
+        "description": "Übernehmen Sie die volle kreative Kontrolle mit dem fortschrittlichen Referenzeingabesystem von Seedance 2.0. Laden Sie Charakterbilder hoch, um eine konsistente Identität über Szenen hinweg zu gewährleisten, stellen Sie Audiotracks bereit, um Lippenbewegungen und Umgebungsgeräusche zu steuern, oder verwenden Sie Videoclips, um bestimmte Bewegungsmuster und Kamerastile zu übertragen. Diese Kontrolle auf Regisseur-Niveau ermöglicht es Kreativen, präzise Ergebnisse zu erzielen, die ihrer kreativen Vision entsprechen, ohne umfangreiche Postproduktionsarbeit. Das Referenzsystem unterstützt mehrere gleichzeitige Eingaben und ermöglicht komplexe kreative Workflows, die mit KI-Videogenerierung zuvor unmöglich waren.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/90a63780743d-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/99316385ac6e-o4PAK60dAXeRieT7iqS6NEIBNgRCxuPBEmP1X0_t.jpg"
       },
       {
-        "title": "Offizielles Startseiten-Showcase · Clip 5",
-        "description": "Offizieller Hero-Showcase-Clip von der Seedance-2.0-Produktseite.",
+        "title": "Erweiterte Dauerunterstützung bis zu 30 Sekunden",
+        "description": "Seedance 2.0 unterstützt Videogenerierung bis zu 30 Sekunden Länge und bietet ausreichend Dauer für Storytelling, Produktdemonstrationen und kreative Erzählungen. Die erweiterte Dauerfähigkeit behält konsistente Qualität während des gesamten Videos bei, ohne Verschlechterung der Bewegungsstabilität oder visuellen Wiedergabetreue im Verlauf des Videos. Dies macht Seedance 2.0 geeignet für die Erstellung vollständiger Kurzform-Inhalte ohne die Notwendigkeit mehrerer Generierungen und manueller Zusammenfügung.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/41d649b669bf-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/5f59faf0b345-o8dEiHhYQd8fJEvXanIiDaicdWANh1vXAFAXBo_t.jpg"
       },
       {
-        "title": "Immersives audio-visuelles Erlebnis · Beispiel 1",
-        "description": "Offizielles Beispiel aus dem Modul „Immersives audio-visuelles Erlebnis“. Fokus: Bewegungsstabilität, audiovisuelle Kohärenz und realistische Qualität.",
+        "title": "Immersives filmisches Audio-Video-Erlebnis",
+        "description": "Seedance 2.0 schafft wirklich immersive Audio-Video-Erlebnisse, die mit professioneller Videoproduktion konkurrieren. Das Modell versteht filmische Sprache und generiert angemessene Kamerabewegungen, Lichtübergänge und Audio-Cues, die das Storytelling verbessern. Von intimen Nahaufnahmen mit subtilen Umgebungsgeräuschen bis hin zu weitläufigen Establishing Shots mit dynamischen Klanglandschaften liefert Seedance 2.0 professionelle Ausgabequalität, die Industriestandards für Broadcast und digitale Distribution erfüllt.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/400c92da553b-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/662d02a168e8-93a84c9151014697a3f917728a7903bd_1770872.jpg"
-      },
-      {
-        "title": "Immersives audio-visuelles Erlebnis · Beispiel 2",
-        "description": "Offizielles Beispiel aus dem Modul „Immersives audio-visuelles Erlebnis“. Fokus: Bewegungsstabilität, audiovisuelle Kohärenz und realistische Qualität.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/749d48eea8fc-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/f2438c286d9b-oEK1LBCDpBXy2oBFEMvV2SE37AfNfjdgE9IXC2_t.jpg"
-      },
-      {
-        "title": "Immersives audio-visuelles Erlebnis · Beispiel 3",
-        "description": "Offizielles Beispiel aus dem Modul „Immersives audio-visuelles Erlebnis“. Fokus: Bewegungsstabilität, audiovisuelle Kohärenz und realistische Qualität.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/0c46c8d0c9b7-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/ac09098cdd62-b3c6ec3bc5fc46609be74649593f6ec1_1770872.jpg"
-      },
-      {
-        "title": "Immersives audio-visuelles Erlebnis · Beispiel 4",
-        "description": "Offizielles Beispiel aus dem Modul „Immersives audio-visuelles Erlebnis“. Fokus: Bewegungsstabilität, audiovisuelle Kohärenz und realistische Qualität.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/3e053874ceb1-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/743d271df4d6-03ea4375676544568f834254388b97f1_1770872.jpg"
-      },
-      {
-        "title": "Immersives audio-visuelles Erlebnis · Beispiel 5",
-        "description": "Offizielles Beispiel aus dem Modul „Immersives audio-visuelles Erlebnis“. Fokus: Bewegungsstabilität, audiovisuelle Kohärenz und realistische Qualität.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/cb642fa11c42-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/f49d1ba30896-osi2EASFJE5pq9Agvh7j71IV5nX4DfsBCXdpeN_t.jpg"
-      },
-      {
-        "title": "Erstellung mit Regie-Kontrolle · Beispiel 1",
-        "description": "Offizielles Referenzbeispiel aus dem Modul „Erstellung mit Regie-Kontrolle“ für präzise Steuerung von Performance, Licht und Kameraführung.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/4326b3028150-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/7037c1519a25-o8idXAMaYJL3gFdBiyT1WfXAhaNvIA37d2aQEB_t.jpg"
-      },
-      {
-        "title": "Erstellung mit Regie-Kontrolle · Beispiel 2",
-        "description": "Offizielles Referenzbeispiel aus dem Modul „Erstellung mit Regie-Kontrolle“ für präzise Steuerung von Performance, Licht und Kameraführung.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/2adcba2f8f18-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/9511bd60c9ff-1244df68040749108fb7b4e2d6cb96fa_1770872.jpg"
-      },
-      {
-        "title": "Erstellung mit Regie-Kontrolle · Beispiel 3",
-        "description": "Offizielles Referenzbeispiel aus dem Modul „Erstellung mit Regie-Kontrolle“ für präzise Steuerung von Performance, Licht und Kameraführung.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/6b6520682c90-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/eb60f04cf777-f864a1d70e0a44b184376a5301d32807_1770872.jpg"
-      },
-      {
-        "title": "Erstellung mit Regie-Kontrolle · Beispiel 4",
-        "description": "Offizielles Referenzbeispiel aus dem Modul „Erstellung mit Regie-Kontrolle“ für präzise Steuerung von Performance, Licht und Kameraführung.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/b79a980e12ec-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c17ef0885603-71c93e6911144b61a3e1c76e2e9fb7bd_1770872.jpg"
-      },
-      {
-        "title": "Erstellung mit Regie-Kontrolle · Beispiel 5",
-        "description": "Offizielles Referenzbeispiel aus dem Modul „Erstellung mit Regie-Kontrolle“ für präzise Steuerung von Performance, Licht und Kameraführung.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/f9104dc30e33-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/fa2044eea8e8-oIFN60VpivAqSi3yoBDElgAXI9wxBBBz7IXfe9_t.jpg"
-      },
-      {
-        "title": "Kreativität stärken · Beispiel 1",
-        "description": "Offizielles Beispiel aus dem Modul „Kreativität stärken“, ausgerichtet auf Produktionsqualität und kreative Effizienz.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/0ea09d4dd6d1-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/02c9e62ea59b-3e464161b080481e8ec07681bc0aadaf_1770872.jpg"
-      },
-      {
-        "title": "Kreativität stärken · Beispiel 2",
-        "description": "Offizielles Beispiel aus dem Modul „Kreativität stärken“, ausgerichtet auf Produktionsqualität und kreative Effizienz.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/34342fb7fdf6-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c1c585066fa3-ac1b285004504d93a53c2ff7e7718a19_1770872.jpg"
-      },
-      {
-        "title": "Kreativität stärken · Beispiel 3",
-        "description": "Offizielles Beispiel aus dem Modul „Kreativität stärken“, ausgerichtet auf Produktionsqualität und kreative Effizienz.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/a550b06ef8aa-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/d5d9bb0fd9a6-ow09pjEyf8PUcNCX7o13X9gEDfSnFAA0WBBpVI_t.jpg"
-      },
-      {
-        "title": "Kreativität stärken · Beispiel 4",
-        "description": "Offizielles Beispiel aus dem Modul „Kreativität stärken“, ausgerichtet auf Produktionsqualität und kreative Effizienz.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/d8dcf0154cca-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/385e85101b2d-d1251ba7a62748faa1ba5d253d107280_1770872.jpg"
-      },
-      {
-        "title": "Kreativität stärken · Beispiel 5",
-        "description": "Offizielles Beispiel aus dem Modul „Kreativität stärken“, ausgerichtet auf Produktionsqualität und kreative Effizienz.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/c2063bf17c5b-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/ab4be9ca881d-34df818f16b24f3c8a1cc3cb13d357ad_1770872.jpg"
-      },
-      {
-        "title": "Kreativgalerie · Showcase 1",
-        "description": "Ausgewähltes offizielles Galeriebeispiel zur Inspiration für kreative Videoideen.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/442efbbbe219-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/f2d67e8b156e-6867a9183a794734882c56d613a4fba5_1770872.jpg"
-      },
-      {
-        "title": "Kreativgalerie · Showcase 2",
-        "description": "Ausgewähltes offizielles Galeriebeispiel zur Inspiration für kreative Videoideen.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/52ac279db736-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/28a71a1b6c67-aa168a7296654990bf8b92adcb0bc3a0_1770872.jpg"
-      },
-      {
-        "title": "Kreativgalerie · Showcase 3",
-        "description": "Ausgewähltes offizielles Galeriebeispiel zur Inspiration für kreative Videoideen.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/05d1507c4a85-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c896bce297ea-oUQNfn6is1e1AIyEFBi0SXCBgiCJHAGXPqx726_t.jpg"
-      },
-      {
-        "title": "Kreativgalerie · Showcase 4",
-        "description": "Ausgewähltes offizielles Galeriebeispiel zur Inspiration für kreative Videoideen.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/6bdf2c2ff308-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/69e8ab243825-owBcNXP6A7Xq0iW7Q12BSeCYixIAXEggelKDmE_t.jpg"
-      },
-      {
-        "title": "Kreativgalerie · Showcase 5",
-        "description": "Ausgewähltes offizielles Galeriebeispiel zur Inspiration für kreative Videoideen.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/0a71d23deef0-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/bfc7a136eaa0-b015cc7478d249ac9b87e1893543ab10_1770872.jpg"
-      },
-      {
-        "title": "Kreativgalerie · Showcase 6",
-        "description": "Ausgewähltes offizielles Galeriebeispiel zur Inspiration für kreative Videoideen.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/63865e0bf626-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/8d798a5a8153-17672aa127a947a2b8eb3f1899e5d464_1770872.jpg"
-      },
-      {
-        "title": "Kreativgalerie · Showcase 7",
-        "description": "Ausgewähltes offizielles Galeriebeispiel zur Inspiration für kreative Videoideen.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/f6fd5a28645e-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/709a0540e1a6-12c1bf94a4b84bca8329977e1de6efab_1770872.jpg"
-      },
-      {
-        "title": "SeedVideoBench-2.0: Mehrdimensionale Bewertung",
-        "description": "Offizielle Benchmark-Ergebnisse von Seedance 2.0 über Text-zu-Video, Bild-zu-Video und multimodale Aufgaben.",
-        "type": "table",
-        "data": {
-          "headers": [
-            {
-              "title": "Text-zu-Video Radar-Diagramm"
-            },
-            {
-              "title": "Bild-zu-Video Radar-Diagramm"
-            },
-            {
-              "title": "Radar-Diagramm für multimodale Aufgaben"
-            }
-          ],
-          "rows": [
-            {
-              "cells": [
-                {
-                  "type": "image",
-                  "content": "https://r2.veo3ai.io/model-landing/seedance-2-0/a06f29ca8ec5-b84c519f07b811f1bbd500163e37f01f.jpeg_tp.jpg",
-                  "altText": "Text-zu-Video Radar-Diagramm"
-                },
-                {
-                  "type": "image",
-                  "content": "https://r2.veo3ai.io/model-landing/seedance-2-0/cca428abac16-b92dbe4d07b811f187c400163e5669cc.jpeg_tp.jpg",
-                  "altText": "Bild-zu-Video Radar-Diagramm"
-                },
-                {
-                  "type": "image",
-                  "content": "https://r2.veo3ai.io/model-landing/seedance-2-0/cdc507ec7343-93a8a7c907c511f194ab1070fd7c758e.jpeg_tp.jpg",
-                  "altText": "Radar-Diagramm für multimodale Aufgaben"
-                }
-              ]
-            }
-          ]
-        }
       }
     ]
   },
   "usageGuide": {
-    "title": "Verwendung von Seedance 2.0",
-    "description": "Erstellen Sie hochwertige Videos mit multimodalen Referenzen und gemeinsamer Audio-Video-Generierung.",
+    "title": "So verwenden Sie den Seedance 2.0 KI-Videogenerator",
+    "description": "Erstellen Sie beeindruckende KI-generierte Videos mit Seedance 2.0 in nur wenigen einfachen Schritten. Unsere Plattform macht professionelle Videogenerierung für jeden zugänglich.",
     "steps": [
       {
-        "number": "01",
-        "title": "Eingaben und Referenzen vorbereiten",
-        "description": "Starten Sie mit einem Text-Prompt und ergänzen Sie bei Bedarf Bild-, Audio- oder Video-Referenzen, um Stil, Aktion und Rhythmus gezielt vorzugeben."
+        "number": "1",
+        "title": "Wählen Sie Ihren Eingabemodus",
+        "description": "Wählen Sie zwischen Text-zu-Video für promptbasierte Generierung oder Bild-zu-Video, um vorhandene Bilder zu animieren. Die multimodale Architektur von Seedance 2.0 unterstützt beide Workflows nahtlos."
       },
       {
-        "number": "02",
-        "title": "Die Szene gezielt steuern",
-        "description": "Nutzen Sie multimodale Referenzen, um Performance, Licht, Kamerabewegung und Timing zu kontrollieren, und verfeinern Sie bei Bedarf mit Reference-to-Video-Bearbeitung."
+        "number": "2",
+        "title": "Erstellen Sie Ihren Prompt oder laden Sie Medien hoch",
+        "description": "Schreiben Sie eine detaillierte Beschreibung Ihrer gewünschten Videoszene, einschließlich Kamerabewegungen, Beleuchtung und Audioelemente. Für Bild-zu-Video laden Sie Ihr Referenzbild hoch und beschreiben Sie die gewünschte Bewegung."
       },
       {
-        "number": "03",
-        "title": "Generieren und iterieren",
-        "description": "Rendern Sie das Video, prüfen Sie Bewegungs- und Audioabgleich und iterieren Sie schnell mit zusätzlichen Referenzen oder Anpassungen bis zum produktionsreifen Ergebnis."
+        "number": "3",
+        "title": "Generieren und herunterladen",
+        "description": "Klicken Sie auf Generieren und lassen Sie Seedance 2.0 Ihr Video mit synchronisiertem Audio erstellen. Sehen Sie sich das Ergebnis in der Vorschau an und laden Sie es in hoher Qualität für Ihre Projekte herunter."
       }
     ],
-    "buttonText": "Seedance 2.0 jetzt ausprobieren"
+    "buttonText": "Jetzt mit dem Erstellen beginnen"
   },
   "youtubeCases": {
     "title": "YouTube-Videos über Seedance 2.0",
     "content": [
       {
-        "youtubeLink": "https://www.youtube.com/embed/HfNLk9ClULs",
-        "width": "560",
-        "height": "315"
+        "youtubeLink": "https://www.youtube.com/embed/nTOjyxlOlps?si=equ54yaKbc27f8q6",
+        "width": "525",
+        "height": "296"
       }
     ]
   },
   "redditCases": {
     "title": "Reddit-Diskussionen über Seedance 2.0",
-    "content": []
+    "content": [
+      {
+        "id": "reddit-1",
+        "src": "https://embed.reddit.com/r/singularity/comments/1qyiusp/upcoming_seedance_2_demo_video_bytedances_new/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "526"
+      },
+      {
+        "id": "reddit-2",
+        "src": "https://embed.reddit.com/r/GoogleGeminiAI/comments/1qzrhgd/has_anyone_used_seedance_20_yet/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "506"
+      },
+      {
+        "id": "reddit-3",
+        "src": "https://embed.reddit.com/r/AIHubSpace/comments/1qzp15w/another_video_of_seedance_20/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "407"
+      },
+      {
+        "id": "reddit-4",
+        "src": "https://embed.reddit.com/r/IndianArtAI/comments/1qz8vb5/beta_testing_seedance_20_model_this_is_amazing/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "427"
+      },
+      {
+        "id": "reddit-5",
+        "src": "https://embed.reddit.com/r/aivideos/comments/1qzf81x/mars_space_boy_i_generated_a_music_mv_with/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "447"
+      }
+    ]
   },
   "twitterCases": {
-    "title": "X-Bewertungen zu Seedance 2.0",
+    "title": "X-Beiträge über Seedance 2.0",
     "content": [
       {
         "id": "twitter-1",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020138768439644654",
-        "width": "550",
-        "height": "400"
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020125869637824845&dnt=false",
+        "width": "352",
+        "height": "554"
       },
       {
         "id": "twitter-2",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020222850762957063",
-        "width": "550",
-        "height": "400"
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1879893893693866024&dnt=false",
+        "width": "352",
+        "height": "554"
       },
       {
         "id": "twitter-3",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020073509985350050",
-        "width": "550",
-        "height": "400"
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=1879893893693866024&dnt=false",
+        "width": "352",
+        "height": "554"
+      }
+    ]
+  },
+  "faq": {
+    "title": "Häufig gestellte Fragen zu Seedance 2.0",
+    "questions": [
+      {
+        "title": "Was ist Seedance 2.0 und wie unterscheidet es sich von anderen KI-Videogeneratoren?",
+        "description": "Seedance 2.0 ist ByteDances fortschrittlichstes KI-Videogenerierungsmodell mit einer einheitlichen multimodalen Audio-Video-Generierungsarchitektur. Im Gegensatz zu herkömmlichen KI-Videogeneratoren, die nur Texteingaben akzeptieren, unterstützt Seedance 2.0 gleichzeitig Text, Bilder, Audio und Video als Eingaben. Diese multimodale Fähigkeit ermöglicht eine präzisere kreative Kontrolle und professionellere Ergebnisse. Das Modell zeichnet sich auch durch native Audio-Video-Simultangenerierung aus, die perfekte Synchronisation zwischen visuellen Elementen und Ton gewährleistet."
       },
       {
-        "id": "twitter-4",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020032467890233652",
-        "width": "550",
-        "height": "400"
+        "title": "Welche Eingabemodalitäten unterstützt Seedance 2.0?",
+        "description": "Seedance 2.0 unterstützt vier Eingabemodalitäten: Textprompts, Referenzbilder, Audioclips und Videosegmente. Sie können Textprompts verwenden, um Ihre gewünschte Szene detailliert zu beschreiben, Referenzbilder hochladen, um Charakterkonsistenz zu gewährleisten oder visuelle Stilführung zu bieten, Audioclips einbinden, um den Soundtrack und die Lippensynchronisation zu steuern, oder Videosegmente für Bewegungsreferenz und Stilübertragung bereitstellen. Das Modell kann mehrere Eingabetypen gleichzeitig verarbeiten und gibt Ihnen beispiellose kreative Kontrolle über den Generierungsprozess."
       },
       {
-        "id": "twitter-5",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020188101533139432",
-        "width": "550",
-        "height": "400"
+        "title": "Was bedeutet 'Immersives Audio-Video-Erlebnis' bei Seedance 2.0?",
+        "description": "Das 'Immersive Audio-Video-Erlebnis' bezieht sich auf die native Audio-Video-Simultangenerierungsfähigkeit von Seedance 2.0. Anstatt zuerst Video zu generieren und später Audio hinzuzufügen, erstellt Seedance 2.0 beides gleichzeitig und gewährleistet perfekte Synchronisation. Dies umfasst präzise Lippensynchronisation für Dialoge, natürliche Umgebungsgeräusche, die zur visuellen Umgebung passen, und nahtlose Integration von Hintergrundmusik mit Szenenwechseln. Das Ergebnis ist eine kohärente, professionelle Ausgabe, die sich natürlich produziert anfühlt, anstatt künstlich zusammengesetzt."
       },
       {
-        "id": "twitter-6",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020515607934857700",
-        "width": "550",
-        "height": "400"
+        "title": "Wie bietet Seedance 2.0 kreative Kontrolle auf Regisseur-Niveau?",
+        "description": "Seedance 2.0 ermöglicht Kontrolle auf Regisseur-Niveau durch sein umfassendes Referenzeingabesystem. Sie können Charakterbilder hochladen, um eine konsistente Identität über mehrere Szenen hinweg zu gewährleisten, Audiotracks bereitstellen, um Lippenbewegungen und Umgebungsgeräusche zu steuern, oder Videoclips verwenden, um bestimmte Bewegungsmuster und Kamerastile zu übertragen. Das Modell versteht filmische Sprache und ermöglicht es Ihnen, Kamerabewegungen, Lichtverhältnisse und Szenenkomposition durch natürlichsprachliche Prompts zu spezifizieren. Diese Kombination aus Referenzeingaben und detailliertem Prompting gibt Kreativen präzise Kontrolle über jeden Aspekt des generierten Videos."
       },
       {
-        "id": "twitter-7",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020445794877272189",
-        "width": "550",
-        "height": "400"
+        "title": "Kann Seedance 2.0 zum Bearbeiten oder Erweitern vorhandener Videos verwendet werden?",
+        "description": "Ja, Seedance 2.0 unterstützt Videobearbeitungs- und Erweiterungsfunktionen. Sie können das Modell verwenden, um vorhandene Videoclips zu erweitern und dabei Stil- und Bewegungskonsistenz mit dem Originalmaterial beizubehalten. Die Referenz-zu-Video-Funktion ermöglicht Aufgaben wie Szenenbereinigung, kontrollierte Aktualisierungen bestimmter Elemente und nahtlose Übergänge zwischen generiertem und vorhandenem Inhalt. Dies macht Seedance 2.0 wertvoll nicht nur für die Erstellung neuer Inhalte von Grund auf, sondern auch für die Verbesserung und Erweiterung bestehender Videoprojekte."
       },
       {
-        "id": "twitter-8",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020911900968767976",
-        "width": "550",
-        "height": "400"
+        "title": "Für welche Arten von Projekten ist Seedance 2.0 am besten geeignet?",
+        "description": "Seedance 2.0 eignet sich hervorragend für eine breite Palette von Videoproduktionsaufgaben, einschließlich Marketinginhalte, Social-Media-Videos, Produktdemonstrationen, filmische Kurzfilme und kreatives Storytelling. Die erweiterte Dauerunterstützung des Modells (bis zu 30 Sekunden) macht es geeignet für vollständige Kurzform-Inhalte ohne manuelles Zusammenfügen. Die professionelle Ausgabequalität erfüllt Industriestandards für Broadcast und digitale Distribution und macht es für kommerzielle Projekte geeignet. Die multimodale Eingabeunterstützung ist besonders wertvoll für Projekte, die konsistente Charakteridentität oder spezifische Audio-Video-Synchronisation erfordern."
+      },
+      {
+        "title": "Wie wird Seedance 2.0 bewertet und verglichen?",
+        "description": "Seedance 2.0 wurde mit SeedVideoBench-2.0 bewertet, ByteDances interner Benchmark-Suite für KI-Videogenerierung. Das Modell zeigt führende Leistung in mehreren Dimensionen, einschließlich Bewegungsstabilität, Audio-Video-Synchronisation, Charakterkonsistenz und visueller Qualität. In vergleichenden Bewertungen zeigt Seedance 2.0 besondere Stärke bei der Verarbeitung multimodaler Eingaben und der Generierung erweiterter Dauer, Bereiche, in denen viele konkurrierende Modelle Schwierigkeiten haben, Qualität und Konsistenz aufrechtzuerhalten."
+      },
+      {
+        "title": "Wo kann ich weitere offizielle Beispiele der Seedance 2.0-Ausgabe sehen?",
+        "description": "Sie können unsere kuratierte Showcase von Seedance 2.0-Beispielen auf dieser Seite erkunden, mit offiziellen Demonstrationsvideos aus ByteDances Einführungsmaterialien. Diese Beispiele zeigen die Fähigkeiten des Modells in verschiedenen Anwendungsfällen, einschließlich filmischer Szenen, Charakteranimationen und Audio-Video-Synchronisation. Für die neuesten Beispiele und Updates folgen Sie unserer Plattform für neue Showcase-Inhalte, sobald sie verfügbar werden."
+      }
+    ]
+  },
+  "comparison": {
+    "title": "Seedance 2.0 vs Sora 2 vs Veo 3: Funktionsvergleich",
+    "description": "Sehen Sie, wie Seedance 2.0 im Vergleich zu anderen führenden KI-Videogenerierungsmodellen in Bezug auf Schlüsselfunktionen und Fähigkeiten abschneidet.",
+    "models": ["Seedance 2.0", "Sora 2", "Veo 3"],
+    "features": [
+      { "name": "Multimodale Eingabe (Text/Bild/Audio/Video)", "values": [true, false, true] },
+      { "name": "Native Audiogenerierung", "values": [true, true, true] },
+      { "name": "Maximale Videodauer", "values": ["30s", "20s", "8s"] },
+      { "name": "Maximale Auflösung", "values": ["2K", "1080p", "1080p"] },
+      { "name": "Charakterkonsistenz", "values": [true, false, true] },
+      { "name": "Audio-Video-Synchronisation", "values": [true, true, true] },
+      { "name": "Referenzbild-Unterstützung", "values": [true, false, true] },
+      { "name": "Videoerweiterung/-bearbeitung", "values": [true, true, false] }
+    ]
+  },
+  "relatedModels": {
+    "title": "Entdecken Sie andere KI-Videomodelle",
+    "models": [
+      {
+        "name": "Seedance 1.5 Pro",
+        "slug": "seedance-1-5",
+        "description": "Vorherige Generation des Seedance-Modells mit bewährter Stabilität und Zuverlässigkeit für Standard-Videogenerierungsaufgaben.",
+        "logo": "/imgs/intro/seedance.png"
+      },
+      {
+        "name": "Kling 3.0",
+        "slug": "kling-3-0",
+        "description": "Kuaishous fortschrittliches KI-Videomodell mit starker Bewegungsdynamik und kreativen Ausdrucksfähigkeiten.",
+        "logo": "/imgs/intro/kling-logo.svg"
+      },
+      {
+        "name": "Hailuo 2.3",
+        "slug": "hailuo-2-3",
+        "description": "MiniMax' Videogenerierungsmodell, bekannt für hochwertige Ausgabe und effiziente Generierungsgeschwindigkeit.",
+        "logo": "/imgs/intro/hailuo.webp"
       }
     ]
   },
   "cta": {
-    "title": "Erstellen Sie KI-Videos mit Seedance 2.0",
-    "buttonText": "Seedance 2.0 ausprobieren"
-  },
-  "faq": {
-    "name": "faq",
-    "label": "FAQ",
-    "title": "Häufig gestellte Fragen",
-    "description": "Erfahren Sie mehr über Seedance 2.0 und seine offiziellen Fähigkeiten.",
-    "items": [
-      {
-        "title": "Was ist Seedance 2.0?",
-        "description": "Seedance 2.0 verwendet eine einheitliche multimodale Audio-Video-Generierungsarchitektur mit Text-, Bild-, Audio- und Videoeingaben und bietet branchenweit besonders umfassende Referenz- und Bearbeitungsfunktionen."
-      },
-      {
-        "title": "Welche Eingabemodalitäten unterstützt Seedance 2.0?",
-        "description": "Seedance 2.0 unterstützt Text, Bild, Audio und Video in einem einheitlichen multimodalen Generierungs-Workflow."
-      },
-      {
-        "title": "Was bedeutet „Immersives audio-visuelles Erlebnis“?",
-        "description": "Dank hoher Bewegungsstabilität und gemeinsamer Audio-Video-Generierung liefert Seedance 2.0 ein äußerst realistisches, immersives Ergebnis."
-      },
-      {
-        "title": "Wie bietet Seedance 2.0 Kontrolle auf Regie-Niveau?",
-        "description": "Mit Bild-, Audio- und Video-Referenzen können Kreative Ideen präzise in visuelle Szenen umsetzen und Performance, Licht, Schatten sowie Kameraführung gezielt steuern."
-      },
-      {
-        "title": "Kann Seedance 2.0 Videos bearbeiten oder verlängern?",
-        "description": "Ja. Offizielle Reference-to-Video-Beispiele zeigen Erweiterung, Bereinigung und kontrollierte Szenenanpassungen bei gleichzeitig konsistentem Stil."
-      },
-      {
-        "title": "Für welche Projekte ist Seedance 2.0 geeignet?",
-        "description": "Seedance 2.0 liefert filmische Ausgabequalität auf Industriestandard-Niveau und steigert die Effizienz in unterschiedlichen Produktionsszenarien."
-      },
-      {
-        "title": "Wie wird Seedance 2.0 offiziell bewertet?",
-        "description": "Die offiziellen Ergebnisse basieren auf internen Benchmarks mit SeedVideoBench-2.0. Seedance 2.0 liegt dabei in mehreren Dimensionen und Aufgabentypen im Spitzenfeld."
-      },
-      {
-        "title": "Wo finde ich mehr offizielle Beispiele?",
-        "description": "Entdecken Sie die kuratierte Showcase-Galerie für weitere offizielle Beispiele und neue kreative Impulse."
-      }
-    ]
+    "title": "Bereit, mit Seedance 2.0 zu erstellen?",
+    "description": "Erleben Sie die Kraft der einheitlichen multimodalen KI-Videogenerierung. Beginnen Sie noch heute mit der Erstellung professioneller Videos mit synchronisiertem Audio.",
+    "buttonText": "Seedance 2.0 kostenlos testen"
   }
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import Breadcrumb from "./breadcrumb";
 import ModelBanner from "./model-banner";
 import PartnersScroll from "./partners-scroll";
 import ModelKeyFeatures from "./model-key-features";
@@ -7,6 +8,8 @@ import ModelUsageGuide from "./model-usage-guide";
 import YoutubeCaseShow from "./youtube-case-show";
 import RedditCaseShow from "./reddit-case-show";
 import TwitterCaseShow from "./twitter-case-show";
+import ModelComparison from "./model-comparison";
+import RelatedModels from "./related-models";
 import FAQ from "@/components/blocks/faq";
 import ModelCta from "./model-cta";
 import type { ModelLandingPage } from "@/types/pages/model-landing-page";
@@ -22,6 +25,8 @@ interface ModelLandingPageProps {
 export default function ModelLandingPage({ page }: ModelLandingPageProps) {
   return (
     <div className="flex flex-col">
+      {/* breadcrumb */}
+      {page.breadcrumb && <Breadcrumb section={page.breadcrumb} />}
       {/* banner */}
       {page.banner && <ModelBanner section={page.banner} />}
       {/* partners */}
@@ -38,6 +43,10 @@ export default function ModelLandingPage({ page }: ModelLandingPageProps) {
       {page.redditCases && <RedditCaseShow section={page.redditCases} />}
       {/* Twitter案例展示 */}
       {page.twitterCases && <TwitterCaseShow section={page.twitterCases} />}
+      {/* Model Comparison */}
+      {page.comparison && <ModelComparison section={page.comparison} />}
+      {/* Related Models */}
+      {page.relatedModels && <RelatedModels section={page.relatedModels} />}
       {/* FAQs */}
       {page.faq && <FAQ section={page.faq} />}
       {/* CTA */}

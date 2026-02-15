@@ -116,7 +116,7 @@ export default function YoutubeCaseShow({ section }: YouTubeCaseShowProps) {
           {/* 视频卡片容器 */}
           <div
             ref={containerRef}
-            className="flex overflow-hidden snap-x snap-mandatory gap-3 md:gap-4"
+            className="flex justify-center overflow-hidden snap-x snap-mandatory gap-3 md:gap-4"
             style={{
               scrollbarWidth: "none", // Firefox
               msOverflowStyle: "none", // IE/Edge

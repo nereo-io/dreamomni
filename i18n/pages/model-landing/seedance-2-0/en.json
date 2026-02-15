@@ -1,4 +1,11 @@
 {
+  "breadcrumb": {
+    "items": [
+      { "label": "Home", "href": "/" },
+      { "label": "AI Video Generator", "href": "/ai-video" },
+      { "label": "Seedance 2.0" }
+    ]
+  },
   "banner": {
     "title": "Seedance 2.0 AI Video Generator",
     "description": "Seedance 2.0 adopts a unified multimodal audio-video joint generation architecture that supports text, image, audio, and video inputs, leading to the most comprehensive multimodal content reference and editing capabilities in the industry.",
@@ -28,369 +35,225 @@
   },
   "partners": [],
   "features": {
-    "title": "Seedance 2.0 Official Resource Showcase",
+    "title": "Seedance 2.0 Key Features and Capabilities",
     "details": [
       {
-        "title": "Official Homepage Showcase · Clip 1",
-        "description": "Hero showcase clip from the official Seedance 2.0 launch page.",
+        "title": "Unified Multimodal Architecture for Creative Freedom",
+        "description": "Seedance 2.0 introduces a groundbreaking unified multimodal audio-video joint generation architecture that fundamentally transforms how creators work with AI video generation. Unlike traditional single-input models, Seedance 2.0 accepts text prompts, reference images, audio clips, and video segments simultaneously within a single generation workflow. This unified approach eliminates the need for multiple tools and complex post-production pipelines. Whether you're creating marketing content, social media videos, or cinematic shorts, the multimodal architecture ensures your creative vision translates accurately to the final output with unprecedented control over every aspect of the generation process.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/be82ecd65795-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c40fae94b3d9-oMXT1or1plDeB7neAILaGuEGte2EmurIB3CUaQ_t.jpg"
       },
       {
-        "title": "Official Homepage Showcase · Clip 2",
-        "description": "Hero showcase clip from the official Seedance 2.0 launch page.",
+        "title": "Native Audio-Video Joint Generation Technology",
+        "description": "Experience true audio-video synchronization with Seedance 2.0's native joint generation technology. The model generates synchronized audio and video in a single pass, ensuring perfect lip-sync for dialogue, natural ambient sounds that match the visual environment, and seamless integration of background music with scene transitions. This eliminates the traditional workflow of generating video first and adding audio later, resulting in more cohesive and professional-quality outputs. The technology excels at creating realistic soundscapes that enhance the immersive quality of generated videos.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/c832044bab3c-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/1611df9b18d2-dc089e69c5f44590a028319de7381d0e_1770872.jpg"
       },
       {
-        "title": "Official Homepage Showcase · Clip 3",
-        "description": "Hero showcase clip from the official Seedance 2.0 launch page.",
+        "title": "Industry-Leading Motion Stability and Consistency",
+        "description": "Seedance 2.0 delivers exceptional motion stability that sets a new standard for AI video generation. The model maintains consistent character identity, lighting conditions, and scene coherence throughout the entire video duration. Complex camera movements, dynamic action sequences, and multi-character interactions are rendered with smooth, natural motion that avoids the common artifacts and jitter found in other AI video models. This stability makes Seedance 2.0 ideal for professional content creation where quality and consistency are paramount.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/e228e91c46d0-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/7fcd6dbc7965-77f77ea5aa754104b27cfe3863619a1e_1770872.jpg"
       },
       {
-        "title": "Official Homepage Showcase · Clip 4",
-        "description": "Hero showcase clip from the official Seedance 2.0 launch page.",
+        "title": "Director-Level Creative Control with Reference Inputs",
+        "description": "Take full creative control with Seedance 2.0's advanced reference input system. Upload character images to maintain consistent identity across scenes, provide audio tracks to guide lip movements and ambient sounds, or use video clips to transfer specific motion patterns and camera styles. This director-level control enables creators to achieve precise results that match their creative vision without extensive post-production work. The reference system supports multiple simultaneous inputs, allowing for complex creative workflows that were previously impossible with AI video generation.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/90a63780743d-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/99316385ac6e-o4PAK60dAXeRieT7iqS6NEIBNgRCxuPBEmP1X0_t.jpg"
       },
       {
-        "title": "Official Homepage Showcase · Clip 5",
-        "description": "Hero showcase clip from the official Seedance 2.0 launch page.",
+        "title": "Extended Duration Support Up to 30 Seconds",
+        "description": "Seedance 2.0 supports video generation up to 30 seconds in length, providing ample duration for storytelling, product demonstrations, and creative narratives. The extended duration capability maintains consistent quality throughout the entire video, with no degradation in motion stability or visual fidelity as the video progresses. This makes Seedance 2.0 suitable for creating complete short-form content without the need for multiple generations and manual stitching.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/41d649b669bf-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/5f59faf0b345-o8dEiHhYQd8fJEvXanIiDaicdWANh1vXAFAXBo_t.jpg"
       },
       {
-        "title": "Immersive Audio-visual Experience · Sample 1",
-        "description": "Single continuous cinematic shot, no music. From outside the glass window, the dim camera slowly pushes inward into a pizza shop. A bearded white male employee is baking pizza. He removes the pizza from the oven with a metal tray, places it into a red takeaway box, closes the lid, then hands it to a customer with a warm smile. Final...",
+        "title": "Immersive Cinematic Audio-Visual Experience",
+        "description": "Seedance 2.0 creates truly immersive audio-visual experiences that rival professional video production. The model understands cinematic language, generating appropriate camera movements, lighting transitions, and audio cues that enhance storytelling. From intimate close-ups with subtle ambient sounds to sweeping establishing shots with dynamic soundscapes, Seedance 2.0 delivers professional-grade output that meets industry standards for broadcast and digital distribution.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/400c92da553b-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/662d02a168e8-93a84c9151014697a3f917728a7903bd_1770872.jpg"
-      },
-      {
-        "title": "Immersive Audio-visual Experience · Sample 2",
-        "description": "A women’s volleyball match segment. Background music: energetic rhythmic track throughout. Setting: spacious indoor gymnasium with arched wooden ceiling and large side windows. The stands are packed with spectators cheering and screaming loudly. Colorful banners hang on the back wall. The blue team and green team exchange intense...",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/749d48eea8fc-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/f2438c286d9b-oEK1LBCDpBXy2oBFEMvV2SE37AfNfjdgE9IXC2_t.jpg"
-      },
-      {
-        "title": "Immersive Audio-visual Experience · Sample 3",
-        "description": "Vertical ASMR video. No music. Macro details. Shot 1: A light blue skincare gel bottle sits on glass. A pale elegant hand gently taps the glass, producing crisp fingernail tapping sounds. Shot 2: The hand picks up the bottle and slowly twists the cap. The cap rotation sound is clearly audible. Shot 3: A spoon scoops a portion of gel....",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/0c46c8d0c9b7-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/ac09098cdd62-b3c6ec3bc5fc46609be74649593f6ec1_1770872.jpg"
-      },
-      {
-        "title": "Immersive Audio-visual Experience · Sample 4",
-        "description": "Generate a 15-second cinematic, photorealistic street dance battle video. Nighttime urban street atmosphere with reflective wet pavement, neon color blocks, and a thin layer of mist. A group of young street dancers forms a semicircle for a dance battle. First 5 seconds: one dancer performs a solo featuring high-difficulty floor moves....",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/3e053874ceb1-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/743d271df4d6-03ea4375676544568f834254388b97f1_1770872.jpg"
-      },
-      {
-        "title": "Immersive Audio-visual Experience · Sample 5",
-        "description": "First-person POV handheld DV footage. Slight natural breathing shake. Occasional water droplets on lens. Subtle vignetting from headlamp. Initial scene: narrow tunnel. Camera moves close along damp moss-covered rock walls. The man’s headlamp is the only light source, illuminating only a few meters ahead. Occasionally his hand enters...",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/cb642fa11c42-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/f49d1ba30896-osi2EASFJE5pq9Agvh7j71IV5nX4DfsBCXdpeN_t.jpg"
-      },
-      {
-        "title": "Create with Director-level Control · Sample 1",
-        "description": "Make the characters from Image 1 and Image 2 fight using the movements from the green-screen reference video. Setting: abandoned parking lot. Add visual effects during combat.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/4326b3028150-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/7037c1519a25-o8idXAMaYJL3gFdBiyT1WfXAhaNvIA37d2aQEB_t.jpg"
-      },
-      {
-        "title": "Create with Director-level Control · Sample 2",
-        "description": "Extend the video. The camera tracks a man in orange riding a brown horse. He accelerates toward a large tree blooming with orange flowers ahead. He reaches up and plucks two flowers from a branch. Soon, other riders on horseback enter the frame one after another. The camera pushes in as the man in orange swiftly dismounts. The camera...",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/2adcba2f8f18-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/9511bd60c9ff-1244df68040749108fb7b4e2d6cb96fa_1770872.jpg"
-      },
-      {
-        "title": "Create with Director-level Control · Sample 3",
-        "description": "Remove any visible production mistakes from the video.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/6b6520682c90-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/eb60f04cf777-f864a1d70e0a44b184376a5301d32807_1770872.jpg"
-      },
-      {
-        "title": "Create with Director-level Control · Sample 4",
-        "description": "Based on the reference image, generate a time-lapse animation showing the living room transforming from an unfinished raw concrete interior to a fully renovated space. Final shot: all the lights switch on instantly, accompanied by a realistic light-switch sound effect.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/b79a980e12ec-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c17ef0885603-71c93e6911144b61a3e1c76e2e9fb7bd_1770872.jpg"
-      },
-      {
-        "title": "Create with Director-level Control · Sample 5",
-        "description": "Based on the four PPT slides, generate a corresponding voiceover for each slide. Normal speaking speed, male voice.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/f9104dc30e33-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/fa2044eea8e8-oIFN60VpivAqSi3yoBDElgAXI9wxBBBz7IXfe9_t.jpg"
-      },
-      {
-        "title": "Empower Creativity · Sample 1",
-        "description": "Generate a cinematic, large-scale action long take animation. Theme: A Chinese youth flies a kite through crowded streets, leaps up steps, flips and lands, dashes toward a high platform, and executes a difficult jump. The drumbeat erupts the moment he lands. One single continuous shot throughout, no cuts, fluid movements, clear weight,...",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/0ea09d4dd6d1-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/02c9e62ea59b-3e464161b080481e8ec07681bc0aadaf_1770872.jpg"
-      },
-      {
-        "title": "Empower Creativity · Sample 2",
-        "description": "A car sketch on paper. The camera pushes in. The sketch lines rise off the paper, gaining dimensionality and color, transforming into a photorealistic 3D car driving on a road.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/34342fb7fdf6-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c1c585066fa3-ac1b285004504d93a53c2ff7e7718a19_1770872.jpg"
-      },
-      {
-        "title": "Empower Creativity · Sample 3",
-        "description": "Intense close-quarters combat (CQC) sequence. Subject: The short-haired female agent in tactical winter gear. Action: She is engaging in hand-to-hand combat with a mercenary in a snowy military base. The mercenary throws a punch, she dodges swiftly and counters with a brutal elbow strike to his face mask, followed by a heavy knee kick to...",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/a550b06ef8aa-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/d5d9bb0fd9a6-ow09pjEyf8PUcNCX7o13X9gEDfSnFAA0WBBpVI_t.jpg"
-      },
-      {
-        "title": "Empower Creativity · Sample 4",
-        "description": "Apes. Documentary style. English narration with subtitles.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/d8dcf0154cca-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/385e85101b2d-d1251ba7a62748faa1ba5d253d107280_1770872.jpg"
-      },
-      {
-        "title": "Empower Creativity · Sample 5",
-        "description": "360-degree panoramic camera selfie. The camera rotates counterclockwise, capturing the dessert shop interior. Then show a woman posing in different scenes, wearing different outfits and using different props. 【Note: Use of real-person image references for video generation requires live verification of the individual or prior...",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/c2063bf17c5b-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/ab4be9ca881d-34df818f16b24f3c8a1cc3cb13d357ad_1770872.jpg"
-      },
-      {
-        "title": "Creative Gallery · Showcase 1",
-        "description": "Cinematic butterfly lighting. Medium shot of a handsome pianist wearing a simple, elegant black suit. His hands move smoothly across the keys. Cut to close-up: his face immersed in music, eyes gently closed, focused and serene expression. Audio: beautiful piano music and subtle ambient audience noise from a concert hall.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/442efbbbe219-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/f2d67e8b156e-6867a9183a794734882c56d613a4fba5_1770872.jpg"
-      },
-      {
-        "title": "Creative Gallery · Showcase 2",
-        "description": "Steadicam long take. Back shot of a man leaving a warm yellow-lit café. He pushes the door open and enters a cool-toned busy street. He walks through traffic; cars create light trails. Finally, he descends into a dim subway staircase. No cuts. Lighting transitions smoothly from warm indoor lighting to natural outdoor light, then to...",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/52ac279db736-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/28a71a1b6c67-aa168a7296654990bf8b92adcb0bc3a0_1770872.jpg"
-      },
-      {
-        "title": "Creative Gallery · Showcase 3",
-        "description": "Visual: pure black background. Dramatic top light illuminates a workstation. Clean full-sized hands carefully place a miniature cutting board and a fingernail-sized knife. Audio: solemn elegant classical music (e.g., Bach cello suite). Cooking: Shot 1: Tweezers place a tiny garlic clove on board. Mini knife slices it precisely. Amplified...",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/05d1507c4a85-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c896bce297ea-oUQNfn6is1e1AIyEFBi0SXCBgiCJHAGXPqx726_t.jpg"
-      },
-      {
-        "title": "Creative Gallery · Showcase 4",
-        "description": "Realistic style, Nordic snowy night. Shot 1: close tracking shot from behind at foot level — a man running fast through snow. Shot 2: front tracking shot — a wolf chasing closely behind. Strong sense of speed in both shots. The man trips and falls, rolling in snow. Shot 3: wide shot — wolf lunges toward fallen man. Shot 4: medium shot —...",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/6bdf2c2ff308-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/69e8ab243825-owBcNXP6A7Xq0iW7Q12BSeCYixIAXEggelKDmE_t.jpg"
-      },
-      {
-        "title": "Creative Gallery · Showcase 5",
-        "description": "Cyberpunk style, game CGI, dark scene. A run-down city corner. A young assassin fights enemies. The camera rapidly pulls back, revealing the assassin surrounded by multiple enemies. The assassin wields a lightsaber and fights fluidly, defeating enemies one by one. Enemies collapse. The entire sequence is fast yet smooth. At the end, the...",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/0a71d23deef0-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/bfc7a136eaa0-b015cc7478d249ac9b87e1893543ab10_1770872.jpg"
-      },
-      {
-        "title": "Creative Gallery · Showcase 6",
-        "description": "Single continuous cinematic shot. Audio begins with daytime Shibuya street noise mixed with 8-bit video game sounds and chaotic Japanese chatter. Background music: shamisen strings. The camera pushes low along the ground. A girl’s leather shoe slams into frame — heavy first step. A Japanese schoolgirl in JK uniform sprints into frame at...",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/63865e0bf626-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/8d798a5a8153-17672aa127a947a2b8eb3f1899e5d464_1770872.jpg"
-      },
-      {
-        "title": "Creative Gallery · Showcase 7",
-        "description": "Ultra-luxury perfume commercial. Music: dreamy electronic soundscape with steady drum beats. Macro shot: a transparent rectangular glass bottle surrounded by violently swirling purple liquid. Liquid churns with bubbles and splashes, accompanied by crisp water sounds. Dissolve transition to surface ripples of purple liquid. Close-up of...",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/f6fd5a28645e-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/709a0540e1a6-12c1bf94a4b84bca8329977e1de6efab_1770872.jpg"
-      },
-      {
-        "title": "SeedVideoBench-2.0: Multi-Dimensional Evaluation",
-        "description": "Seedance 2.0 is in the leading position in various dimensions across different types of tasks.",
-        "type": "table",
-        "data": {
-          "headers": [
-            {
-              "title": "Text-to-Video Radar Chart"
-            },
-            {
-              "title": "Image-to-Video Radar Chart"
-            },
-            {
-              "title": "Multimodal Task Radar Chart"
-            }
-          ],
-          "rows": [
-            {
-              "cells": [
-                {
-                  "type": "image",
-                  "content": "https://r2.veo3ai.io/model-landing/seedance-2-0/a06f29ca8ec5-b84c519f07b811f1bbd500163e37f01f.jpeg_tp.jpg",
-                  "altText": "Text-to-Video Radar Chart"
-                },
-                {
-                  "type": "image",
-                  "content": "https://r2.veo3ai.io/model-landing/seedance-2-0/cca428abac16-b92dbe4d07b811f187c400163e5669cc.jpeg_tp.jpg",
-                  "altText": "Image-to-Video Radar Chart"
-                },
-                {
-                  "type": "image",
-                  "content": "https://r2.veo3ai.io/model-landing/seedance-2-0/cdc507ec7343-93a8a7c907c511f194ab1070fd7c758e.jpeg_tp.jpg",
-                  "altText": "Multimodal Task Radar Chart"
-                }
-              ]
-            }
-          ]
-        }
       }
     ]
   },
   "usageGuide": {
-    "title": "How to Use Seedance 2.0",
-    "description": "Create high-quality videos with multimodal references and audio-video joint generation.",
+    "title": "How to Use Seedance 2.0 AI Video Generator",
+    "description": "Create stunning AI-generated videos with Seedance 2.0 in just a few simple steps. Our platform makes professional video generation accessible to everyone.",
     "steps": [
       {
-        "number": "01",
-        "title": "Prepare Inputs and References",
-        "description": "Start with text prompts, then add optional image, audio, or video references to guide visual style, action, and rhythm."
+        "number": "1",
+        "title": "Choose Your Input Mode",
+        "description": "Select between Text-to-Video for prompt-based generation or Image-to-Video to animate existing images. Seedance 2.0's multimodal architecture supports both workflows seamlessly."
       },
       {
-        "number": "02",
-        "title": "Direct the Scene",
-        "description": "Use multimodal references to control performance, lighting, camera movement, and timing, then refine with reference-to-video editing when needed."
+        "number": "2",
+        "title": "Craft Your Prompt or Upload Media",
+        "description": "Write a detailed description of your desired video scene, including camera movements, lighting, and audio elements. For image-to-video, upload your reference image and describe the motion you want."
       },
       {
-        "number": "03",
-        "title": "Generate and Iterate",
-        "description": "Render your video, review motion and audio alignment, then iterate quickly with additional references or edits for production-ready results."
+        "number": "3",
+        "title": "Generate and Download",
+        "description": "Click Generate and let Seedance 2.0 create your video with synchronized audio. Preview the result and download in high quality for your projects."
       }
     ],
-    "buttonText": "Try Seedance 2.0 Now"
+    "buttonText": "Start Creating Now"
   },
   "youtubeCases": {
     "title": "YouTube Videos About Seedance 2.0",
     "content": [
       {
-        "youtubeLink": "https://www.youtube.com/embed/HfNLk9ClULs",
-        "width": "560",
-        "height": "315"
+        "youtubeLink": "https://www.youtube.com/embed/nTOjyxlOlps?si=equ54yaKbc27f8q6",
+        "width": "525",
+        "height": "296"
       }
     ]
   },
   "redditCases": {
     "title": "Reddit Discussions About Seedance 2.0",
-    "content": []
+    "content": [
+      {
+        "id": "reddit-1",
+        "src": "https://embed.reddit.com/r/singularity/comments/1qyiusp/upcoming_seedance_2_demo_video_bytedances_new/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "526"
+      },
+      {
+        "id": "reddit-2",
+        "src": "https://embed.reddit.com/r/GoogleGeminiAI/comments/1qzrhgd/has_anyone_used_seedance_20_yet/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "506"
+      },
+      {
+        "id": "reddit-3",
+        "src": "https://embed.reddit.com/r/AIHubSpace/comments/1qzp15w/another_video_of_seedance_20/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "407"
+      },
+      {
+        "id": "reddit-4",
+        "src": "https://embed.reddit.com/r/IndianArtAI/comments/1qz8vb5/beta_testing_seedance_20_model_this_is_amazing/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "427"
+      },
+      {
+        "id": "reddit-5",
+        "src": "https://embed.reddit.com/r/aivideos/comments/1qzf81x/mars_space_boy_i_generated_a_music_mv_with/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "447"
+      }
+    ]
   },
   "twitterCases": {
-    "title": "X Reviews on Seedance 2.0",
+    "title": "X Posts About Seedance 2.0",
     "content": [
       {
         "id": "twitter-1",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020138768439644654",
-        "width": "550",
-        "height": "400"
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020125869637824845&dnt=false",
+        "width": "352",
+        "height": "554"
       },
       {
         "id": "twitter-2",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020222850762957063",
-        "width": "550",
-        "height": "400"
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020169879442399593&dnt=false",
+        "width": "352",
+        "height": "496"
       },
       {
         "id": "twitter-3",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020073509985350050",
-        "width": "550",
-        "height": "400"
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020015660483649991&dnt=false",
+        "width": "352",
+        "height": "654"
       },
       {
         "id": "twitter-4",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020032467890233652",
-        "width": "550",
-        "height": "400"
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020364735334752438&dnt=false",
+        "width": "352",
+        "height": "497"
+      }
+    ]
+  },
+  "faq": {
+    "title": "Frequently Asked Questions About Seedance 2.0",
+    "items": [
+      {
+        "title": "What is Seedance 2.0 and how does it differ from other AI video generators?",
+        "description": "Seedance 2.0 is ByteDance's latest AI video generation model featuring a unified multimodal audio-video joint generation architecture. Unlike traditional AI video generators that process text, image, and audio inputs separately, Seedance 2.0 handles all modalities simultaneously in a single unified workflow. This results in better synchronization between audio and video, more consistent character identity across frames, and superior motion stability. The model supports up to 30 seconds of video generation with native audio, making it one of the most capable AI video generators available today."
       },
       {
-        "id": "twitter-5",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020188101533139432",
-        "width": "550",
-        "height": "400"
+        "title": "What input modalities does Seedance 2.0 support?",
+        "description": "Seedance 2.0 supports four input modalities: text prompts, reference images, audio clips, and video segments. You can use text prompts to describe your desired scene in detail, upload reference images to maintain character consistency or provide visual style guidance, include audio clips to guide the soundtrack and lip-sync, or provide video segments for motion reference and style transfer. The model can process multiple input types simultaneously, giving you unprecedented creative control over the generation process."
       },
       {
-        "id": "twitter-6",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020515607934857700",
-        "width": "550",
-        "height": "400"
+        "title": "What does 'Immersive Audio-visual Experience' mean in Seedance 2.0?",
+        "description": "The 'Immersive Audio-visual Experience' refers to Seedance 2.0's native audio-video joint generation capability. Instead of generating video first and adding audio later, Seedance 2.0 creates both simultaneously, ensuring perfect synchronization. This includes accurate lip-sync for dialogue, natural ambient sounds that match the visual environment, and seamless integration of background music with scene transitions. The result is a cohesive, professional-quality output that feels naturally produced rather than artificially assembled."
       },
       {
-        "id": "twitter-7",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020445794877272189",
-        "width": "550",
-        "height": "400"
+        "title": "How does Seedance 2.0 provide director-level creative control?",
+        "description": "Seedance 2.0 enables director-level control through its comprehensive reference input system. You can upload character images to maintain consistent identity across multiple scenes, provide audio tracks to guide lip movements and ambient sounds, or use video clips to transfer specific motion patterns and camera styles. The model understands cinematic language, allowing you to specify camera movements, lighting conditions, and scene composition through natural language prompts. This combination of reference inputs and detailed prompting gives creators precise control over every aspect of the generated video."
       },
       {
-        "id": "twitter-8",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020911900968767976",
-        "width": "550",
-        "height": "400"
+        "title": "Can Seedance 2.0 be used for editing or extending existing videos?",
+        "description": "Yes, Seedance 2.0 supports video editing and extension capabilities. You can use the model to extend existing video clips, maintaining style and motion consistency with the original footage. The reference-to-video feature allows for tasks such as scene cleanup, controlled updates to specific elements, and seamless transitions between generated and existing content. This makes Seedance 2.0 valuable not just for creating new content from scratch, but also for enhancing and extending existing video projects."
+      },
+      {
+        "title": "What types of projects is Seedance 2.0 best suited for?",
+        "description": "Seedance 2.0 excels at a wide range of video production tasks including marketing content, social media videos, product demonstrations, cinematic shorts, and creative storytelling. The model's extended duration support (up to 30 seconds) makes it suitable for complete short-form content without manual stitching. Its professional-grade output quality meets industry standards for broadcast and digital distribution, making it appropriate for commercial projects. The multimodal input support is particularly valuable for projects requiring consistent character identity or specific audio-visual synchronization."
+      },
+      {
+        "title": "How is Seedance 2.0 evaluated and benchmarked?",
+        "description": "Seedance 2.0 has been evaluated using SeedVideoBench-2.0, ByteDance's internal benchmark suite for AI video generation. The model demonstrates leading performance across multiple dimensions including motion stability, audio-video synchronization, character consistency, and visual quality. In comparative evaluations, Seedance 2.0 shows particular strength in multimodal input handling and extended duration generation, areas where many competing models struggle to maintain quality and consistency."
+      },
+      {
+        "title": "Where can I see more official examples of Seedance 2.0 output?",
+        "description": "You can explore our curated showcase of Seedance 2.0 examples on this page, featuring official demonstration videos from ByteDance's launch materials. These examples showcase the model's capabilities across different use cases including cinematic scenes, character animations, and audio-visual synchronization. For the latest examples and updates, follow our platform for new showcase content as it becomes available."
+      }
+    ]
+  },
+  "comparison": {
+    "title": "Seedance 2.0 vs Sora 2 vs Veo 3: Feature Comparison",
+    "models": ["Seedance 2.0", "Sora 2", "Veo 3"],
+    "features": [
+      { "name": "Multimodal Input (Text/Image/Audio/Video)", "values": [true, false, true] },
+      { "name": "Native Audio Generation", "values": [true, true, true] },
+      { "name": "Maximum Video Duration", "values": ["30s", "20s", "8s"] },
+      { "name": "Maximum Resolution", "values": ["2K", "1080p", "1080p"] },
+      { "name": "Character Consistency", "values": [true, false, true] },
+      { "name": "Audio-Video Sync", "values": [true, true, true] },
+      { "name": "Reference Image Support", "values": [true, false, true] },
+      { "name": "Video Extension/Editing", "values": [true, true, false] }
+    ]
+  },
+  "relatedModels": {
+    "title": "Explore Other AI Video Models",
+    "models": [
+      {
+        "name": "Seedance 1.5 Pro",
+        "slug": "seedance-1-5",
+        "description": "Previous generation Seedance model with proven stability and reliability for standard video generation tasks.",
+        "logo": "/imgs/intro/seedance.png"
+      },
+      {
+        "name": "Kling 3.0",
+        "slug": "kling-3-0",
+        "description": "Kuaishou's advanced AI video model with strong motion dynamics and creative expression capabilities.",
+        "logo": "/imgs/intro/kling-logo.svg"
+      },
+      {
+        "name": "Hailuo 2.3",
+        "slug": "hailuo-2-3",
+        "description": "MiniMax's video generation model known for high-quality output and efficient generation speed.",
+        "logo": "/imgs/intro/hailuo.webp"
       }
     ]
   },
   "cta": {
-    "title": "Create AI Videos With Seedance 2.0",
-    "buttonText": "Try Seedance 2.0"
-  },
-  "faq": {
-    "name": "faq",
-    "label": "FAQ",
-    "title": "Frequently Asked Questions",
-    "description": "Learn more about Seedance 2.0 and its official capabilities.",
-    "items": [
-      {
-        "title": "What is Seedance 2.0?",
-        "description": "Seedance 2.0 adopts a unified multimodal audio-video joint generation architecture that supports text, image, audio, and video inputs, leading to the most comprehensive multimodal content reference and editing capabilities in the industry."
-      },
-      {
-        "title": "What input modalities does Seedance 2.0 support?",
-        "description": "Seedance 2.0 supports text, image, audio, and video inputs in a unified multimodal generation workflow."
-      },
-      {
-        "title": "What does “Immersive Audio-visual Experience” mean?",
-        "description": "Featuring exceptional motion stability and audio-video joint generation, Seedance 2.0 delivers an ultra-realistic immersive experience."
-      },
-      {
-        "title": "How does Seedance 2.0 provide director-level control?",
-        "description": "Supporting images, audios and videos as references, Seedance 2.0 enables creators to transform an idea into visuals with full control over performance, lighting, shadow, and camera movement."
-      },
-      {
-        "title": "Can Seedance 2.0 be used for editing or extending videos?",
-        "description": "Yes. Official reference-to-video examples show tasks such as extension, cleanup, and controlled scene updates while preserving style consistency."
-      },
-      {
-        "title": "What types of projects can it support?",
-        "description": "Seedance 2.0 delivers cinematic output aligned with industry standards, driving efficiency gains across the industry."
-      },
-      {
-        "title": "How is Seedance 2.0 evaluated officially?",
-        "description": "Below are the results of Seedance 2.0 in internal benchmarks using SeedVideoBench-2.0. Seedance 2.0 is in the leading position in various dimensions across different types of tasks."
-      },
-      {
-        "title": "Where can I see more official examples?",
-        "description": "Browse our curated showcase to spark your next great idea."
-      }
-    ]
+    "title": "Ready to Create with Seedance 2.0?",
+    "description": "Experience the power of unified multimodal AI video generation. Start creating professional-quality videos with synchronized audio today.",
+    "buttonText": "Try Seedance 2.0 Free"
   }
 }

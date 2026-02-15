@@ -1,11 +1,18 @@
 {
+  "breadcrumb": {
+    "items": [
+      { "label": "Accueil", "href": "/" },
+      { "label": "Générateur de vidéos IA", "href": "/ai-video" },
+      { "label": "Seedance 2.0" }
+    ]
+  },
   "banner": {
-    "title": "Générateur Vidéo IA Seedance 2.0",
-    "description": "Développé par ByteDance, Seedance 2.0 est le dernier modèle multimodal de génération vidéo intégrant quatre modalités d'entrée — Image, Vidéo, Audio et Texte. Il offre une restauration précise de la composition, une réplication d'actions complexes et une haute consistance des personnages, résolvant le problème d'incontrôlabilité dans la génération vidéo IA.",
+    "title": "Générateur de vidéos IA Seedance 2.0",
+    "description": "Seedance 2.0 adopte une architecture unifiée de génération conjointe audio-vidéo multimodale qui prend en charge les entrées texte, image, audio et vidéo, offrant les capacités de référence et d'édition de contenu multimodal les plus complètes du secteur.",
     "tabs": [
       {
         "type": "text",
-        "title": "Texte vers Vidéo",
+        "title": "Texte vers vidéo",
         "subTitle": "Prompt",
         "value": "text-to-video",
         "modelName": "Seedance 2.0",
@@ -15,382 +22,227 @@
       },
       {
         "type": "image",
-        "title": "Image vers Vidéo",
+        "title": "Image vers vidéo",
         "subTitle": "Image",
         "value": "image-to-video",
         "modelName": "Seedance 2.0",
         "modelLogo": "/imgs/intro/seedance.png",
-        "placeholder": "Téléchargez une image pour l'animer",
-        "tips": "Téléchargez des images JPG/PNG/WEBP jusqu'à 10 Mo, avec une largeur/hauteur minimale de 300 px.",
+        "placeholder": "Téléchargez une image à animer",
+        "tips": "Téléchargez des images JPG/PNG/WEBP jusqu'à 10 Mo, largeur/hauteur minimale de 300 px.",
         "buttonText": "Générer"
       }
     ]
   },
   "partners": [],
   "features": {
-    "title": "Vitrine officielle des ressources Seedance 2.0",
+    "title": "Fonctionnalités et capacités clés de Seedance 2.0",
     "details": [
       {
-        "title": "Vitrine officielle de la page d’accueil · Clip 1",
-        "description": "Clip hero officiel de démonstration issu de la page produit Seedance 2.0.",
+        "title": "Architecture multimodale unifiée pour une liberté créative",
+        "description": "Seedance 2.0 introduit une architecture révolutionnaire de génération conjointe audio-vidéo multimodale unifiée qui transforme fondamentalement la façon dont les créateurs travaillent avec la génération vidéo IA. Contrairement aux modèles traditionnels à entrée unique, Seedance 2.0 accepte simultanément des prompts textuels, des images de référence, des clips audio et des segments vidéo dans un seul flux de travail de génération. Cette approche unifiée élimine le besoin de multiples outils et de pipelines de post-production complexes. Que vous créiez du contenu marketing, des vidéos pour les réseaux sociaux ou des courts métrages cinématographiques, l'architecture multimodale garantit que votre vision créative se traduit fidèlement dans le résultat final avec un contrôle sans précédent sur chaque aspect du processus de génération.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/be82ecd65795-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c40fae94b3d9-oMXT1or1plDeB7neAILaGuEGte2EmurIB3CUaQ_t.jpg"
       },
       {
-        "title": "Vitrine officielle de la page d’accueil · Clip 2",
-        "description": "Clip hero officiel de démonstration issu de la page produit Seedance 2.0.",
+        "title": "Technologie native de génération conjointe audio-vidéo",
+        "description": "Découvrez une véritable synchronisation audio-vidéo avec la technologie de génération conjointe native de Seedance 2.0. Le modèle génère l'audio et la vidéo synchronisés en une seule passe, assurant une synchronisation labiale parfaite pour les dialogues, des sons ambiants naturels correspondant à l'environnement visuel, et une intégration fluide de la musique de fond avec les transitions de scènes. Cela élimine le flux de travail traditionnel consistant à générer d'abord la vidéo puis à ajouter l'audio ensuite, résultant en des productions plus cohérentes et de qualité professionnelle. La technologie excelle dans la création de paysages sonores réalistes qui renforcent la qualité immersive des vidéos générées.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/c832044bab3c-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/1611df9b18d2-dc089e69c5f44590a028319de7381d0e_1770872.jpg"
       },
       {
-        "title": "Vitrine officielle de la page d’accueil · Clip 3",
-        "description": "Clip hero officiel de démonstration issu de la page produit Seedance 2.0.",
+        "title": "Stabilité et cohérence de mouvement leaders du secteur",
+        "description": "Seedance 2.0 offre une stabilité de mouvement exceptionnelle qui établit une nouvelle norme pour la génération vidéo IA. Le modèle maintient une identité de personnage cohérente, des conditions d'éclairage constantes et une cohérence de scène tout au long de la durée de la vidéo. Les mouvements de caméra complexes, les séquences d'action dynamiques et les interactions multi-personnages sont rendus avec un mouvement fluide et naturel qui évite les artefacts courants et les saccades présents dans d'autres modèles vidéo IA. Cette stabilité fait de Seedance 2.0 l'outil idéal pour la création de contenu professionnel où la qualité et la cohérence sont primordiales.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/e228e91c46d0-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/7fcd6dbc7965-77f77ea5aa754104b27cfe3863619a1e_1770872.jpg"
       },
       {
-        "title": "Vitrine officielle de la page d’accueil · Clip 4",
-        "description": "Clip hero officiel de démonstration issu de la page produit Seedance 2.0.",
+        "title": "Contrôle créatif niveau réalisateur avec entrées de référence",
+        "description": "Prenez le contrôle créatif total avec le système avancé d'entrées de référence de Seedance 2.0. Téléchargez des images de personnages pour maintenir une identité cohérente entre les scènes, fournissez des pistes audio pour guider les mouvements des lèvres et les sons ambiants, ou utilisez des clips vidéo pour transférer des motifs de mouvement et des styles de caméra spécifiques. Ce contrôle niveau réalisateur permet aux créateurs d'obtenir des résultats précis correspondant à leur vision créative sans travail de post-production extensif. Le système de référence prend en charge plusieurs entrées simultanées, permettant des flux de travail créatifs complexes qui étaient auparavant impossibles avec la génération vidéo IA.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/90a63780743d-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/99316385ac6e-o4PAK60dAXeRieT7iqS6NEIBNgRCxuPBEmP1X0_t.jpg"
       },
       {
-        "title": "Vitrine officielle de la page d’accueil · Clip 5",
-        "description": "Clip hero officiel de démonstration issu de la page produit Seedance 2.0.",
+        "title": "Prise en charge de durée étendue jusqu'à 30 secondes",
+        "description": "Seedance 2.0 prend en charge la génération vidéo jusqu'à 30 secondes, offrant une durée suffisante pour la narration, les démonstrations de produits et les récits créatifs. La capacité de durée étendue maintient une qualité constante tout au long de la vidéo, sans dégradation de la stabilité du mouvement ou de la fidélité visuelle au fil de la progression. Cela rend Seedance 2.0 adapté à la création de contenu court complet sans nécessiter de multiples générations et d'assemblage manuel.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/41d649b669bf-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/5f59faf0b345-o8dEiHhYQd8fJEvXanIiDaicdWANh1vXAFAXBo_t.jpg"
       },
       {
-        "title": "Expérience audiovisuelle immersive · Exemple 1",
-        "description": "Exemple officiel du module « Expérience audiovisuelle immersive », mettant en avant la stabilité du mouvement et la cohérence audio‑vidéo.",
+        "title": "Expérience audiovisuelle cinématographique immersive",
+        "description": "Seedance 2.0 crée des expériences audiovisuelles véritablement immersives qui rivalisent avec la production vidéo professionnelle. Le modèle comprend le langage cinématographique, générant des mouvements de caméra appropriés, des transitions d'éclairage et des indices audio qui enrichissent la narration. Des gros plans intimes avec des sons ambiants subtils aux plans d'ensemble panoramiques avec des paysages sonores dynamiques, Seedance 2.0 produit des résultats de qualité professionnelle répondant aux standards de l'industrie pour la diffusion et la distribution numérique.",
         "type": "video",
         "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/400c92da553b-video.mp4",
         "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/662d02a168e8-93a84c9151014697a3f917728a7903bd_1770872.jpg"
-      },
-      {
-        "title": "Expérience audiovisuelle immersive · Exemple 2",
-        "description": "Exemple officiel du module « Expérience audiovisuelle immersive », mettant en avant la stabilité du mouvement et la cohérence audio‑vidéo.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/749d48eea8fc-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/f2438c286d9b-oEK1LBCDpBXy2oBFEMvV2SE37AfNfjdgE9IXC2_t.jpg"
-      },
-      {
-        "title": "Expérience audiovisuelle immersive · Exemple 3",
-        "description": "Exemple officiel du module « Expérience audiovisuelle immersive », mettant en avant la stabilité du mouvement et la cohérence audio‑vidéo.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/0c46c8d0c9b7-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/ac09098cdd62-b3c6ec3bc5fc46609be74649593f6ec1_1770872.jpg"
-      },
-      {
-        "title": "Expérience audiovisuelle immersive · Exemple 4",
-        "description": "Exemple officiel du module « Expérience audiovisuelle immersive », mettant en avant la stabilité du mouvement et la cohérence audio‑vidéo.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/3e053874ceb1-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/743d271df4d6-03ea4375676544568f834254388b97f1_1770872.jpg"
-      },
-      {
-        "title": "Expérience audiovisuelle immersive · Exemple 5",
-        "description": "Exemple officiel du module « Expérience audiovisuelle immersive », mettant en avant la stabilité du mouvement et la cohérence audio‑vidéo.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/cb642fa11c42-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/f49d1ba30896-osi2EASFJE5pq9Agvh7j71IV5nX4DfsBCXdpeN_t.jpg"
-      },
-      {
-        "title": "Création avec contrôle de niveau réalisateur · Exemple 1",
-        "description": "Exemple officiel du module de contrôle créatif, pour piloter précisément la performance, la lumière et les mouvements de caméra.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/4326b3028150-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/7037c1519a25-o8idXAMaYJL3gFdBiyT1WfXAhaNvIA37d2aQEB_t.jpg"
-      },
-      {
-        "title": "Création avec contrôle de niveau réalisateur · Exemple 2",
-        "description": "Exemple officiel du module de contrôle créatif, pour piloter précisément la performance, la lumière et les mouvements de caméra.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/2adcba2f8f18-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/9511bd60c9ff-1244df68040749108fb7b4e2d6cb96fa_1770872.jpg"
-      },
-      {
-        "title": "Création avec contrôle de niveau réalisateur · Exemple 3",
-        "description": "Exemple officiel du module de contrôle créatif, pour piloter précisément la performance, la lumière et les mouvements de caméra.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/6b6520682c90-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/eb60f04cf777-f864a1d70e0a44b184376a5301d32807_1770872.jpg"
-      },
-      {
-        "title": "Création avec contrôle de niveau réalisateur · Exemple 4",
-        "description": "Exemple officiel du module de contrôle créatif, pour piloter précisément la performance, la lumière et les mouvements de caméra.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/b79a980e12ec-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c17ef0885603-71c93e6911144b61a3e1c76e2e9fb7bd_1770872.jpg"
-      },
-      {
-        "title": "Création avec contrôle de niveau réalisateur · Exemple 5",
-        "description": "Exemple officiel du module de contrôle créatif, pour piloter précisément la performance, la lumière et les mouvements de caméra.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/f9104dc30e33-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/fa2044eea8e8-oIFN60VpivAqSi3yoBDElgAXI9wxBBBz7IXfe9_t.jpg"
-      },
-      {
-        "title": "Propulser la créativité · Exemple 1",
-        "description": "Exemple officiel du module « Propulser la créativité », orienté qualité de production et efficacité créative.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/0ea09d4dd6d1-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/02c9e62ea59b-3e464161b080481e8ec07681bc0aadaf_1770872.jpg"
-      },
-      {
-        "title": "Propulser la créativité · Exemple 2",
-        "description": "Exemple officiel du module « Propulser la créativité », orienté qualité de production et efficacité créative.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/34342fb7fdf6-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c1c585066fa3-ac1b285004504d93a53c2ff7e7718a19_1770872.jpg"
-      },
-      {
-        "title": "Propulser la créativité · Exemple 3",
-        "description": "Exemple officiel du module « Propulser la créativité », orienté qualité de production et efficacité créative.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/a550b06ef8aa-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/d5d9bb0fd9a6-ow09pjEyf8PUcNCX7o13X9gEDfSnFAA0WBBpVI_t.jpg"
-      },
-      {
-        "title": "Propulser la créativité · Exemple 4",
-        "description": "Exemple officiel du module « Propulser la créativité », orienté qualité de production et efficacité créative.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/d8dcf0154cca-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/385e85101b2d-d1251ba7a62748faa1ba5d253d107280_1770872.jpg"
-      },
-      {
-        "title": "Propulser la créativité · Exemple 5",
-        "description": "Exemple officiel du module « Propulser la créativité », orienté qualité de production et efficacité créative.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/c2063bf17c5b-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/ab4be9ca881d-34df818f16b24f3c8a1cc3cb13d357ad_1770872.jpg"
-      },
-      {
-        "title": "Galerie créative · Vitrine 1",
-        "description": "Exemple officiel sélectionné de la galerie pour inspirer vos prochaines créations vidéo.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/442efbbbe219-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/f2d67e8b156e-6867a9183a794734882c56d613a4fba5_1770872.jpg"
-      },
-      {
-        "title": "Galerie créative · Vitrine 2",
-        "description": "Exemple officiel sélectionné de la galerie pour inspirer vos prochaines créations vidéo.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/52ac279db736-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/28a71a1b6c67-aa168a7296654990bf8b92adcb0bc3a0_1770872.jpg"
-      },
-      {
-        "title": "Galerie créative · Vitrine 3",
-        "description": "Exemple officiel sélectionné de la galerie pour inspirer vos prochaines créations vidéo.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/05d1507c4a85-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c896bce297ea-oUQNfn6is1e1AIyEFBi0SXCBgiCJHAGXPqx726_t.jpg"
-      },
-      {
-        "title": "Galerie créative · Vitrine 4",
-        "description": "Exemple officiel sélectionné de la galerie pour inspirer vos prochaines créations vidéo.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/6bdf2c2ff308-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/69e8ab243825-owBcNXP6A7Xq0iW7Q12BSeCYixIAXEggelKDmE_t.jpg"
-      },
-      {
-        "title": "Galerie créative · Vitrine 5",
-        "description": "Exemple officiel sélectionné de la galerie pour inspirer vos prochaines créations vidéo.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/0a71d23deef0-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/bfc7a136eaa0-b015cc7478d249ac9b87e1893543ab10_1770872.jpg"
-      },
-      {
-        "title": "Galerie créative · Vitrine 6",
-        "description": "Exemple officiel sélectionné de la galerie pour inspirer vos prochaines créations vidéo.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/63865e0bf626-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/8d798a5a8153-17672aa127a947a2b8eb3f1899e5d464_1770872.jpg"
-      },
-      {
-        "title": "Galerie créative · Vitrine 7",
-        "description": "Exemple officiel sélectionné de la galerie pour inspirer vos prochaines créations vidéo.",
-        "type": "video",
-        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/f6fd5a28645e-video.mp4",
-        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/709a0540e1a6-12c1bf94a4b84bca8329977e1de6efab_1770872.jpg"
-      },
-      {
-        "title": "SeedVideoBench-2.0 : Évaluation multidimensionnelle",
-        "description": "Résultats officiels des benchmarks Seedance 2.0 sur les tâches texte‑vers‑vidéo, image‑vers‑vidéo et multimodales.",
-        "type": "table",
-        "data": {
-          "headers": [
-            {
-              "title": "Radar texte-vers-vidéo"
-            },
-            {
-              "title": "Radar image-vers-vidéo"
-            },
-            {
-              "title": "Radar des tâches multimodales"
-            }
-          ],
-          "rows": [
-            {
-              "cells": [
-                {
-                  "type": "image",
-                  "content": "https://r2.veo3ai.io/model-landing/seedance-2-0/a06f29ca8ec5-b84c519f07b811f1bbd500163e37f01f.jpeg_tp.jpg",
-                  "altText": "Radar texte-vers-vidéo"
-                },
-                {
-                  "type": "image",
-                  "content": "https://r2.veo3ai.io/model-landing/seedance-2-0/cca428abac16-b92dbe4d07b811f187c400163e5669cc.jpeg_tp.jpg",
-                  "altText": "Radar image-vers-vidéo"
-                },
-                {
-                  "type": "image",
-                  "content": "https://r2.veo3ai.io/model-landing/seedance-2-0/cdc507ec7343-93a8a7c907c511f194ab1070fd7c758e.jpeg_tp.jpg",
-                  "altText": "Radar des tâches multimodales"
-                }
-              ]
-            }
-          ]
-        }
       }
     ]
   },
   "usageGuide": {
-    "title": "Comment utiliser Seedance 2.0",
-    "description": "Créez des vidéos de haute qualité grâce aux références multimodales et à la génération audio-vidéo conjointe.",
+    "title": "Comment utiliser le générateur vidéo IA Seedance 2.0",
+    "description": "Créez des vidéos IA époustouflantes avec Seedance 2.0 en quelques étapes simples. Notre plateforme rend la génération vidéo professionnelle accessible à tous.",
     "steps": [
       {
-        "number": "01",
-        "title": "Préparer les entrées et les références",
-        "description": "Commencez avec un prompt texte, puis ajoutez si besoin des références image, audio ou vidéo pour guider le style visuel, l’action et le rythme."
+        "number": "1",
+        "title": "Choisissez votre mode d'entrée",
+        "description": "Sélectionnez Texte vers vidéo pour la génération basée sur des prompts ou Image vers vidéo pour animer des images existantes. L'architecture multimodale de Seedance 2.0 prend en charge les deux flux de travail de manière fluide."
       },
       {
-        "number": "02",
-        "title": "Diriger précisément la scène",
-        "description": "Utilisez les références multimodales pour contrôler la performance, la lumière, les mouvements de caméra et le timing, puis affinez avec l’édition reference-to-video si nécessaire."
+        "number": "2",
+        "title": "Rédigez votre prompt ou téléchargez un média",
+        "description": "Écrivez une description détaillée de la scène vidéo souhaitée, incluant les mouvements de caméra, l'éclairage et les éléments audio. Pour image vers vidéo, téléchargez votre image de référence et décrivez le mouvement souhaité."
       },
       {
-        "number": "03",
-        "title": "Générer et itérer",
-        "description": "Lancez le rendu, vérifiez l’alignement mouvement/audio, puis itérez rapidement avec des références ou ajustements supplémentaires jusqu’au résultat prêt pour la production."
+        "number": "3",
+        "title": "Générez et téléchargez",
+        "description": "Cliquez sur Générer et laissez Seedance 2.0 créer votre vidéo avec audio synchronisé. Prévisualisez le résultat et téléchargez en haute qualité pour vos projets."
       }
     ],
-    "buttonText": "Essayer Seedance 2.0 maintenant"
+    "buttonText": "Commencer à créer"
   },
   "youtubeCases": {
     "title": "Vidéos YouTube sur Seedance 2.0",
     "content": [
       {
-        "youtubeLink": "https://www.youtube.com/embed/HfNLk9ClULs",
-        "width": "560",
-        "height": "315"
+        "youtubeLink": "https://www.youtube.com/embed/nTOjyxlOlps?si=equ54yaKbc27f8q6",
+        "width": "525",
+        "height": "296"
       }
     ]
   },
   "redditCases": {
     "title": "Discussions Reddit sur Seedance 2.0",
-    "content": []
+    "content": [
+      {
+        "id": "reddit-1",
+        "src": "https://embed.reddit.com/r/singularity/comments/1qyiusp/upcoming_seedance_2_demo_video_bytedances_new/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "526"
+      },
+      {
+        "id": "reddit-2",
+        "src": "https://embed.reddit.com/r/GoogleGeminiAI/comments/1qzrhgd/has_anyone_used_seedance_20_yet/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "506"
+      },
+      {
+        "id": "reddit-3",
+        "src": "https://embed.reddit.com/r/AIHubSpace/comments/1qzp15w/another_video_of_seedance_20/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "407"
+      },
+      {
+        "id": "reddit-4",
+        "src": "https://embed.reddit.com/r/IndianArtAI/comments/1qz8vb5/beta_testing_seedance_20_model_this_is_amazing/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "427"
+      },
+      {
+        "id": "reddit-5",
+        "src": "https://embed.reddit.com/r/aivideos/comments/1qzf81x/mars_space_boy_i_generated_a_music_mv_with/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "447"
+      }
+    ]
   },
   "twitterCases": {
-    "title": "Avis X sur Seedance 2.0",
+    "title": "Publications X sur Seedance 2.0",
     "content": [
       {
         "id": "twitter-1",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020138768439644654",
-        "width": "550",
-        "height": "400"
+        "tweetId": "1879893893893893893"
       },
       {
         "id": "twitter-2",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020222850762957063",
-        "width": "550",
-        "height": "400"
+        "tweetId": "1879893893893893894"
       },
       {
         "id": "twitter-3",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020073509985350050",
-        "width": "550",
-        "height": "400"
+        "tweetId": "1879893893893893895"
+      }
+    ]
+  },
+  "comparison": {
+    "title": "Seedance 2.0 vs Sora 2 vs Veo 3",
+    "description": "Comparez Seedance 2.0 avec d'autres modèles vidéo IA leaders pour comprendre les forces et capacités de chaque modèle.",
+    "models": ["Seedance 2.0", "Sora 2", "Veo 3"],
+    "features": [
+      { "name": "Entrée multimodale", "values": [true, true, true] },
+      { "name": "Génération audio native", "values": [true, true, true] },
+      { "name": "Durée vidéo maximale", "values": ["30s", "20s", "8s"] },
+      { "name": "Résolution maximale", "values": ["2K", "1080p", "1080p"] },
+      { "name": "Cohérence des personnages", "values": [true, false, true] },
+      { "name": "Synchronisation audio-vidéo", "values": [true, true, true] },
+      { "name": "Support image de référence", "values": [true, false, true] },
+      { "name": "Extension/édition vidéo", "values": [true, true, false] }
+    ]
+  },
+  "relatedModels": {
+    "title": "Découvrez d'autres modèles vidéo IA",
+    "models": [
+      {
+        "name": "Seedance 1.5 Pro",
+        "slug": "seedance-1-5",
+        "description": "Modèle Seedance de génération précédente avec une stabilité et une fiabilité éprouvées pour les tâches de génération vidéo standard.",
+        "logo": "/imgs/intro/seedance.png"
       },
       {
-        "id": "twitter-4",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020032467890233652",
-        "width": "550",
-        "height": "400"
+        "name": "Kling 3.0",
+        "slug": "kling-3-0",
+        "description": "Modèle vidéo IA avancé de Kuaishou avec une dynamique de mouvement puissante et des capacités d'expression créative.",
+        "logo": "/imgs/intro/kling-logo.svg"
       },
       {
-        "id": "twitter-5",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020188101533139432",
-        "width": "550",
-        "height": "400"
+        "name": "Hailuo 2.3",
+        "slug": "hailuo-2-3",
+        "description": "Modèle de génération vidéo de MiniMax reconnu pour sa sortie de haute qualité et sa vitesse de génération efficace.",
+        "logo": "/imgs/intro/hailuo.webp"
+      }
+    ]
+  },
+  "faq": {
+    "title": "Questions fréquentes sur Seedance 2.0",
+    "items": [
+      {
+        "title": "Qu'est-ce que Seedance 2.0 ?",
+        "description": "Seedance 2.0 est le dernier modèle de génération vidéo IA de ByteDance qui utilise une architecture unifiée de génération conjointe audio-vidéo multimodale. Il prend en charge les entrées texte, image, audio et vidéo, offrant les capacités de référence et d'édition de contenu multimodal les plus complètes du secteur."
       },
       {
-        "id": "twitter-6",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020515607934857700",
-        "width": "550",
-        "height": "400"
+        "title": "Quelle est la durée maximale des vidéos générées par Seedance 2.0 ?",
+        "description": "Seedance 2.0 prend en charge la génération vidéo jusqu'à 30 secondes, ce qui est significativement plus long que de nombreux autres modèles vidéo IA. Cette durée étendue permet une narration complète, des démonstrations de produits et des récits créatifs sans nécessiter de multiples générations."
       },
       {
-        "id": "twitter-7",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020445794877272189",
-        "width": "550",
-        "height": "400"
+        "title": "Seedance 2.0 génère-t-il l'audio automatiquement ?",
+        "description": "Oui, Seedance 2.0 dispose d'une technologie native de génération conjointe audio-vidéo. Le modèle génère l'audio et la vidéo synchronisés en une seule passe, assurant une synchronisation labiale parfaite, des sons ambiants naturels et une intégration fluide de la musique de fond."
       },
       {
-        "id": "twitter-8",
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020911900968767976",
-        "width": "550",
-        "height": "400"
+        "title": "Quelles modalités d'entrée Seedance 2.0 prend-il en charge ?",
+        "description": "Seedance 2.0 prend en charge quatre modalités d'entrée : prompts textuels, images de référence, clips audio et segments vidéo. Vous pouvez utiliser des prompts textuels pour décrire votre scène souhaitée en détail, télécharger des images de référence pour maintenir la cohérence des personnages ou fournir une direction de style visuel, inclure des clips audio pour guider la bande sonore et la synchronisation labiale, ou fournir des segments vidéo pour la référence de mouvement et le transfert de style. Le modèle peut traiter plusieurs types d'entrées simultanément, vous donnant un contrôle créatif sans précédent sur le processus de génération."
+      },
+      {
+        "title": "Que signifie 'Expérience audiovisuelle immersive' dans Seedance 2.0 ?",
+        "description": "L'« Expérience audiovisuelle immersive » fait référence à la capacité native de génération conjointe audio-vidéo de Seedance 2.0. Au lieu de générer d'abord la vidéo puis d'ajouter l'audio ensuite, Seedance 2.0 crée les deux simultanément, assurant une synchronisation parfaite. Cela inclut une synchronisation labiale précise pour les dialogues, des sons ambiants naturels correspondant à l'environnement visuel, et une intégration fluide de la musique de fond avec les transitions de scènes. Le résultat est une sortie cohérente et de qualité professionnelle qui semble naturellement produite plutôt qu'artificiellement assemblée."
+      },
+      {
+        "title": "Comment Seedance 2.0 offre-t-il un contrôle créatif niveau réalisateur ?",
+        "description": "Seedance 2.0 permet un contrôle niveau réalisateur grâce à son système complet d'entrées de référence. Vous pouvez télécharger des images de personnages pour maintenir une identité cohérente entre plusieurs scènes, fournir des pistes audio pour guider les mouvements des lèvres et les sons ambiants, ou utiliser des clips vidéo pour transférer des motifs de mouvement et des styles de caméra spécifiques. Le modèle comprend le langage cinématographique, vous permettant de spécifier les mouvements de caméra, les conditions d'éclairage et la composition de scène via des prompts en langage naturel. Cette combinaison d'entrées de référence et de prompts détaillés donne aux créateurs un contrôle précis sur chaque aspect de la vidéo générée."
+      },
+      {
+        "title": "Seedance 2.0 peut-il être utilisé pour éditer ou étendre des vidéos existantes ?",
+        "description": "Oui, Seedance 2.0 prend en charge les capacités d'édition et d'extension vidéo. Vous pouvez utiliser le modèle pour étendre des clips vidéo existants, en maintenant la cohérence du style et du mouvement avec le métrage original. La fonctionnalité référence vers vidéo permet des tâches telles que le nettoyage de scène, les mises à jour contrôlées d'éléments spécifiques, et des transitions fluides entre le contenu généré et existant. Cela rend Seedance 2.0 précieux non seulement pour créer du nouveau contenu à partir de zéro, mais aussi pour améliorer et étendre des projets vidéo existants."
+      },
+      {
+        "title": "Pour quels types de projets Seedance 2.0 est-il le mieux adapté ?",
+        "description": "Seedance 2.0 excelle dans une large gamme de tâches de production vidéo incluant le contenu marketing, les vidéos pour réseaux sociaux, les démonstrations de produits, les courts métrages cinématographiques et la narration créative. La prise en charge de durée étendue du modèle (jusqu'à 30 secondes) le rend adapté à la création de contenu court complet sans assemblage manuel. Sa qualité de sortie professionnelle répond aux standards de l'industrie pour la diffusion et la distribution numérique, le rendant approprié pour les projets commerciaux."
       }
     ]
   },
   "cta": {
-    "title": "Créez des vidéos IA avec Seedance 2.0",
-    "buttonText": "Essayer Seedance 2.0"
-  },
-  "faq": {
-    "name": "faq",
-    "label": "FAQ",
-    "title": "Questions fréquemment posées",
-    "description": "En savoir plus sur Seedance 2.0 et ses capacités officielles.",
-    "items": [
-      {
-        "title": "Qu’est-ce que Seedance 2.0 ?",
-        "description": "Seedance 2.0 s’appuie sur une architecture unifiée de génération audio-vidéo multimodale prenant en charge texte, image, audio et vidéo, avec des capacités de référence et d’édition parmi les plus complètes du secteur."
-      },
-      {
-        "title": "Quelles modalités d’entrée sont prises en charge ?",
-        "description": "Seedance 2.0 prend en charge texte, image, audio et vidéo dans un workflow multimodal unifié."
-      },
-      {
-        "title": "Que signifie « Expérience audiovisuelle immersive » ?",
-        "description": "Grâce à une excellente stabilité de mouvement et à la génération audio-vidéo conjointe, Seedance 2.0 offre un rendu immersif ultra-réaliste."
-      },
-      {
-        "title": "Comment Seedance 2.0 offre-t-il un contrôle de niveau réalisateur ?",
-        "description": "Avec des références image, audio et vidéo, les créateurs peuvent transformer une idée en visuel en contrôlant finement la performance, la lumière, les ombres et les mouvements de caméra."
-      },
-      {
-        "title": "Peut-on éditer ou prolonger des vidéos avec Seedance 2.0 ?",
-        "description": "Oui. Les exemples officiels de reference-to-video montrent l’extension, le nettoyage et des modifications de scène contrôlées tout en conservant la cohérence du style."
-      },
-      {
-        "title": "Quels types de projets peut-il couvrir ?",
-        "description": "Seedance 2.0 fournit une qualité cinématographique alignée sur les standards de l’industrie et améliore l’efficacité sur de nombreux scénarios de production."
-      },
-      {
-        "title": "Comment Seedance 2.0 est-il évalué officiellement ?",
-        "description": "Les résultats officiels reposent sur des benchmarks internes SeedVideoBench-2.0. Seedance 2.0 y occupe une position de premier plan sur plusieurs dimensions et types de tâches."
-      },
-      {
-        "title": "Où voir davantage d’exemples officiels ?",
-        "description": "Parcourez la galerie showcase sélectionnée pour découvrir davantage d’exemples officiels et nourrir vos prochaines idées."
-      }
-    ]
+    "title": "Prêt à créer avec Seedance 2.0 ?",
+    "description": "Découvrez la puissance de la génération vidéo IA multimodale unifiée. Commencez à créer des vidéos de qualité professionnelle avec audio synchronisé dès aujourd'hui.",
+    "buttonText": "Essayer Seedance 2.0 gratuitement"
   }
 }

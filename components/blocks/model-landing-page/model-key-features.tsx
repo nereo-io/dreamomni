@@ -381,12 +381,12 @@ export default function ModelKeyFeatures({ section }: ModelKeyFeaturesProps) {
 
         {safeSection.details.map((item, index) => (
           <section id={`detail-${index}`} key={index} className="py-20">
-            <h3
+            <h2
               className="text-3xl md:text-4xl font-bold mb-6 text-foreground"
               id={`detail-title-${index}`}
             >
               {item.title}
-            </h3>
+            </h2>
             <p className="text-foreground/90 text-lg mb-12 leading-relaxed">
               {item.description}
             </p>

@@ -159,14 +159,52 @@ export interface ModelCtaProps {
   section: CtaSection;
 }
 
+// Breadcrumb
+export interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+export interface BreadcrumbSection {
+  items: BreadcrumbItem[];
+}
+
+// Model Comparison
+export interface ComparisonFeature {
+  name: string;
+  values: (boolean | string)[];
+}
+
+export interface ComparisonSection {
+  title: string;
+  models: string[];
+  features: ComparisonFeature[];
+}
+
+// Related Models
+export interface RelatedModel {
+  name: string;
+  slug: string;
+  description: string;
+  logo: string;
+}
+
+export interface RelatedModelsSection {
+  title: string;
+  models: RelatedModel[];
+}
+
 export interface ModelLandingPage {
   banner?: BannerSection;
   partners?: Partner[];
+  breadcrumb?: BreadcrumbSection;
   features?: KeyFeaturesSection;
   usageGuide?: UsageGuideSection;
   youtubeCases?: YoutubeCasesSection;
   redditCases?: RedditCasesSection;
   twitterCases?: TwitterCasesSection;
+  comparison?: ComparisonSection;
+  relatedModels?: RelatedModelsSection;
   faq?: Section;
   cta?: CtaSection;
 }
