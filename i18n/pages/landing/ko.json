@@ -256,7 +256,7 @@
     "nav": {
       "items": [
         {
-          "title": "AI 비디오 도구",
+          "title": "비디오 도구",
           "children": [
             {
               "title": "텍스트를 비디오로",
@@ -269,19 +269,14 @@
               "target": "_self"
             },
             {
-              "title": "AI 비디오 효과",
-              "url": "/video-effects",
-              "target": "_self"
-            },
-            {
-              "title": "내 창작물",
-              "url": "/history",
+              "title": "레퍼런스를 비디오로",
+              "url": "/reference-to-video",
               "target": "_self"
             }
           ]
         },
         {
-          "title": "AI 이미지 도구",
+          "title": "이미지 도구",
           "children": [
             {
               "title": "텍스트를 이미지로",
@@ -296,11 +291,71 @@
           ]
         },
         {
+          "title": "AI 모델",
+          "children": [
+            {
+              "title": "Sora 2",
+              "url": "/sora-2",
+              "target": "_self"
+            },
+            {
+              "title": "Veo 3.1",
+              "url": "/veo-3-1",
+              "target": "_self"
+            },
+            {
+              "title": "Kling 3.0",
+              "url": "/kling-3-0",
+              "target": "_self"
+            },
+            {
+              "title": "Hailuo 2.3",
+              "url": "/hailuo-2-3",
+              "target": "_self"
+            },
+            {
+              "title": "Seedance 2.0",
+              "url": "/seedance-2-0",
+              "target": "_self"
+            },
+            {
+              "title": "Seedance 1.5 Pro",
+              "url": "/seedance-1-5",
+              "target": "_self"
+            },
+            {
+              "title": "Seedream 5.0",
+              "url": "/seedream-5-0",
+              "target": "_self"
+            },
+            {
+              "title": "Seedream 4.5",
+              "url": "/seedream-4-5",
+              "target": "_self"
+            },
+            {
+              "title": "Wan 2.5",
+              "url": "/wan-2-5",
+              "target": "_self"
+            },
+            {
+              "title": "Nano Banana Pro",
+              "url": "/nano-banana-pro",
+              "target": "_self"
+            },
+            {
+              "title": "Nano Banana",
+              "url": "/nano-banana",
+              "target": "_self"
+            }
+          ]
+        },
+        {
           "title": "리소스",
           "children": [
             {
-              "title": "홈",
-              "url": "/home",
+              "title": "내 창작물",
+              "url": "/history",
               "target": "_self"
             },
             {

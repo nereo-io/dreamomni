@@ -275,7 +275,7 @@
     "nav": {
       "items": [
         {
-          "title": "ИИ Видео Инструменты",
+          "title": "Видео инструменты",
           "children": [
             {
               "title": "Текст в видео",
@@ -285,6 +285,11 @@
             {
               "title": "Изображение в видео",
               "url": "/image-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "Референс в видео",
+              "url": "/reference-to-video",
               "target": "_self"
             }
           ]
@@ -308,33 +313,58 @@
           "title": "ИИ Модели",
           "children": [
             {
+              "title": "Sora 2",
+              "url": "/sora-2",
+              "target": "_self"
+            },
+            {
               "title": "Veo 3.1",
               "url": "/veo-3-1",
               "target": "_self"
             },
             {
-              "title": "WAN-2.5",
+              "title": "Kling 3.0",
+              "url": "/kling-3-0",
+              "target": "_self"
+            },
+            {
+              "title": "Hailuo 2.3",
+              "url": "/hailuo-2-3",
+              "target": "_self"
+            },
+            {
+              "title": "Seedance 2.0",
+              "url": "/seedance-2-0",
+              "target": "_self"
+            },
+            {
+              "title": "Seedance 1.5 Pro",
+              "url": "/seedance-1-5",
+              "target": "_self"
+            },
+            {
+              "title": "Seedream 5.0",
+              "url": "/seedream-5-0",
+              "target": "_self"
+            },
+            {
+              "title": "Seedream 4.5",
+              "url": "/seedream-4-5",
+              "target": "_self"
+            },
+            {
+              "title": "Wan 2.5",
               "url": "/wan-2-5",
+              "target": "_self"
+            },
+            {
+              "title": "Nano Banana Pro",
+              "url": "/nano-banana-pro",
               "target": "_self"
             },
             {
               "title": "Nano Banana",
               "url": "/nano-banana",
-              "target": "_self"
-            }
-          ]
-        },
-        {
-          "title": "ИИ Фото Инструменты",
-          "children": [
-            {
-              "title": "Текст в Изображение",
-              "url": "/text-to-image",
-              "target": "_self"
-            },
-            {
-              "title": "Изображение в Изображение",
-              "url": "/image-to-image",
               "target": "_self"
             }
           ]

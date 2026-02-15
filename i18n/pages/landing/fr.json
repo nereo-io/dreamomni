@@ -217,15 +217,15 @@
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "Veo3",
+      "title": "Seedance 1.0",
       "description": "Transformez vos idées en chefs-d'œuvre cinématographiques en quelques minutes.",
       "logo": {
         "src": "/logo.png",
-        "alt": "Veo3"
+        "alt": "Seedance"
       },
       "url": "/"
     },
-    "copyright": " 2025 • Veo3 Tous droits réservés.",
+    "copyright": " 2025 • Seedance Tous droits réservés.",
     "nav": {
       "items": [
         {

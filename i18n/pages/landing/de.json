@@ -275,7 +275,7 @@
     "nav": {
       "items": [
         {
-          "title": "KI-Video-Tools",
+          "title": "Video-Tools",
           "children": [
             {
               "title": "Text zu Video",
@@ -288,19 +288,14 @@
               "target": "_self"
             },
             {
-              "title": "KI-Videoeffekte",
-              "url": "/video-effects",
-              "target": "_self"
-            },
-            {
-              "title": "Meine Kreationen",
-              "url": "/history",
+              "title": "Referenz zu Video",
+              "url": "/reference-to-video",
               "target": "_self"
             }
           ]
         },
         {
-          "title": "KI-Bild-Tools",
+          "title": "Bild-Tools",
           "children": [
             {
               "title": "Text zu Bild",
@@ -315,11 +310,71 @@
           ]
         },
         {
+          "title": "KI-Modelle",
+          "children": [
+            {
+              "title": "Sora 2",
+              "url": "/sora-2",
+              "target": "_self"
+            },
+            {
+              "title": "Veo 3.1",
+              "url": "/veo-3-1",
+              "target": "_self"
+            },
+            {
+              "title": "Kling 3.0",
+              "url": "/kling-3-0",
+              "target": "_self"
+            },
+            {
+              "title": "Hailuo 2.3",
+              "url": "/hailuo-2-3",
+              "target": "_self"
+            },
+            {
+              "title": "Seedance 2.0",
+              "url": "/seedance-2-0",
+              "target": "_self"
+            },
+            {
+              "title": "Seedance 1.5 Pro",
+              "url": "/seedance-1-5",
+              "target": "_self"
+            },
+            {
+              "title": "Seedream 5.0",
+              "url": "/seedream-5-0",
+              "target": "_self"
+            },
+            {
+              "title": "Seedream 4.5",
+              "url": "/seedream-4-5",
+              "target": "_self"
+            },
+            {
+              "title": "Wan 2.5",
+              "url": "/wan-2-5",
+              "target": "_self"
+            },
+            {
+              "title": "Nano Banana Pro",
+              "url": "/nano-banana-pro",
+              "target": "_self"
+            },
+            {
+              "title": "Nano Banana",
+              "url": "/nano-banana",
+              "target": "_self"
+            }
+          ]
+        },
+        {
           "title": "Ressourcen",
           "children": [
             {
-              "title": "Startseite",
-              "url": "/home",
+              "title": "Meine Kreationen",
+              "url": "/history",
               "target": "_self"
             },
             {
