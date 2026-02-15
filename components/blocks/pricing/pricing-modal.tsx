@@ -736,11 +736,14 @@ export default function PricingModal({
                                                 ? "border-primary bg-primary/10"
                                                 : "border-gray-200/80 bg-card dark:border-gray-600/50 hover:border-primary/50"
                                             }`}
-                                            onClick={() =>
+                                            onClick={() => {
                                               setSelectedPaymentMethod(
                                                 method.id,
-                                              )
-                                            }
+                                              );
+                                              setSelectedProvider(
+                                                method.provider,
+                                              );
+                                            }}
                                           >
                                             <div
                                               className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 transition-colors duration-200 ${

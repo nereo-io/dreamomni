@@ -280,22 +280,23 @@ export async function POST(req: NextRequest) {
 
     const result = await paymentRouter.createMandate(mandateRequest);
 
-    if (result.success) {
-      // 更新订单详情 - 与 Stripe 保持一致
-      const { updateOrderSession } = await import("@/models/order");
-      const order_detail = JSON.stringify(mandateRequest);
-
-      await updateOrderSession(order_no, result.mandateId || "", order_detail);
+    if (!result.success) {
+      logError("❌ 支付创建失败", { errorMessage: result.errorMessage, payment_method });
+      return respErr(result.errorMessage || "Payment creation failed");
     }
 
+    // 更新订单详情 - 与 Stripe 保持一致
+    const { updateOrderSession } = await import("@/models/order");
+    const order_detail = JSON.stringify(mandateRequest);
+    await updateOrderSession(order_no, result.mandateId || "", order_detail);
+
     return respData({
-      success: result.success,
+      success: true,
       order_no: order_no,
       mandateId: result.mandateId,
       redirect_url: result.redirectUrl, // 用户需要访问的授权 URL
       subscriptionId: result.subscriptionId, // 如果直接创建了订阅
       status: result.status, // 用于判断是否需要跳转
-      errorMessage: result.errorMessage,
     });
   } catch (error: any) {
     logError("🚨 订阅创建异常", error.message);
