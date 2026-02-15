@@ -62,14 +62,14 @@
     "show_locale": true
   },
   "hero": {
-    "title": "Seedance - Революционный AI генератор видео",
-    "highlight_text": "Seedance",
+    "title": "Бесплатный Seedance 2.0 Генератор Видео",
+    "highlight_text": "Seedance 2.0",
     "announcement": {
-      "title": "🎬 Veo 3 AI теперь доступен!",
+      "title": "🎬 Seedance 2.0 Уже Доступен!",
       "label": "Новое!",
       "url": "#video-generator"
     },
-    "description": "Превратите свои идеи в визуальные истории за считанные секунды",
+    "description": "Создавайте кинематографические AI-видео с превосходным контролем структуры и реалистичной физикой. Превосходит Sora 2 и Veo 3.",
     "show_happy_users": false,
     "show_badge": false,
     "buttons": [

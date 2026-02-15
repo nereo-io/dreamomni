@@ -62,14 +62,14 @@
     "show_locale": true
   },
   "hero": {
-    "title": "Seedance 1.0 - 革命的なAI動画ジェネレーター",
-    "highlight_text": "Seedance 1.0",
+    "title": "無料 Seedance 2.0 動画ジェネレーター",
+    "highlight_text": "Seedance 2.0",
     "announcement": {
-      "title": "🚀 Seedance 1.0 ローンチ - 高度なマルチショットAI動画作成！",
+      "title": "🎬 Seedance 2.0 登場！",
       "label": "新機能!",
       "url": "#video-generator"
     },
-    "description": "あなたのアイデアを数秒でビジュアルストーリーに変える",
+    "description": "優れた構造制御とリアルな物理でシネマティックAI動画を作成。Sora 2とVeo 3を凌駕。",
     "show_happy_users": false,
     "show_badge": false
   },

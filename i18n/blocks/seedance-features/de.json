@@ -1,107 +1,107 @@
 {
-  "mainTitle": "Seedance 1.0: Erweiterte KI-Video-Generierungs-Modell",
+  "mainTitle": "Seedance 2.0: KI-Video-Generator der nächsten Generation von ByteDance",
   "features": [
     {
-      "id": "1080p-quality",
-      "title": "Professionelle 1080p Video-Generierung",
-      "description": "Seedance 1.0 liefert beeindruckende 1080p-Video-Qualität mit flüssigen Bewegungen, reichen Details und kinematischer Ästhetik. Erstellen Sie professionelle Videos mit Seedances erweiterte Rendering-Technologie.",
-      "imageUrl": "/intro/quality.mp4",
-      "imageAlt": "Seedance 1.0s professionelle 1080p Video-Qualität",
+      "id": "structure-control",
+      "title": "Überlegene Strukturkontrolle",
+      "description": "Seedance 2.0 liefert branchenführende Strukturkontrolle, die Sora 2 und Veo 3 übertrifft. Behalten Sie präzise räumliche Beziehungen, Objektpositionierung und Szenenkomposition während Ihres gesamten Videos mit unübertroffener Genauigkeit bei.",
+      "imageUrl": "/intro/structure.mp4",
+      "imageAlt": "Seedance 2.0 überlegene Strukturkontrolle Demonstration",
       "subPoints": [
         {
-          "title": "Hochauflösende Exzellenz",
-          "text": "Generieren Sie gestochen scharfe 1080p-Auflösungs-Videos mit außergewöhnlichen Details und Klarheit, perfekt für professionelle Content-Erstellung und kommerzielle Anwendungen."
+          "title": "Präzise räumliche Beziehungen",
+          "text": "Fortschrittliche Algorithmen erhalten genaue Objektpositionierung und räumliche Beziehungen während der gesamten Videogenerierung und gewährleisten konsistente Szenenkomposition."
         },
         {
-          "title": "Kinematische Ästhetik",
-          "text": "Erweiterte Rendering-Technologie erstellt flüssige Bewegungen und reiche visuelle Details, die kinematische Qualitätsergebnisse mit professioneller Ästhetik liefern."
+          "title": "Übertrifft die Konkurrenz",
+          "text": "Benchmark-Tests zeigen, dass Seedance 2.0 im Vergleich zu Sora 2 und Veo 3 eine überlegene Strukturerhaltung erreicht, besonders in komplexen Multi-Objekt-Szenen."
         }
       ],
-      "buttonText": "1080p Video Generieren",
+      "buttonText": "Strukturkontrolle testen",
       "buttonUrl": "#video-generator"
     },
     {
-      "id": "multi-shot-storytelling",
-      "title": "Natives Multi-Shot-Storytelling",
-      "description": "Seedance 1.0s bahnbrechendes Multi-Shot-Storytelling erstellt kohärente Narrative mit nahtlosen Übergängen. Generieren Sie komplexe Video-Geschichten mit Seedances erweiterte Charakter- und Szenen-Konsistenz-Technologie.",
-      "imageUrl": "/intro/cretive.mp4",
-      "imageAlt": "Seedance 1.0s Multi-Shot-Storytelling-Fähigkeiten",
+      "id": "multi-modal-reference",
+      "title": "Multi-Modale Referenzeingabe",
+      "description": "Seedance 2.0 akzeptiert Text, Bilder, Videoclips und Audio als Referenzeingaben. Kombinieren Sie mehrere Modalitäten, um Ihre Videogenerierung mit beispielloser kreativer Kontrolle und Präzision zu steuern.",
+      "imageUrl": "/intro/multimodal.mp4",
+      "imageAlt": "Seedance 2.0 multi-modale Referenzfähigkeiten",
       "subPoints": [
         {
-          "title": "Visuelle Konsistenz",
-          "text": "Behalten Sie perfekte visuelle Kohärenz über mehrere Shots hinweg mit erweiterten Charakter-Erkennungs- und Umgebungs-Konsistenz-Algorithmen bei."
+          "title": "Flexible Eingabeoptionen",
+          "text": "Verwenden Sie Textprompts, Referenzbilder, Videoclips oder Audiospuren als kreative Anleitung - oder kombinieren Sie alle für maximale Kontrolle."
         },
         {
-          "title": "Narrativer Fluss",
-          "text": "Erstellen Sie komplexe Multi-Szenen-Geschichten mit flüssigen Übergängen und logischer Progression, die raffinierte Storytelling-Fähigkeiten ermöglichen."
+          "title": "Intelligentes Referenzverständnis",
+          "text": "Fortschrittliche KI versteht die Essenz Ihrer Referenzen und übersetzt sie in kohärente Videoausgabe unter Beibehaltung der kreativen Absicht."
         }
       ]
     },
     {
-      "id": "style-versatility",
-      "title": "Vielfältiger Stilausdruck",
-      "description": "Vom Fotorealismus bis Cyberpunk, Illustration bis Animation - Seedance 1.0 unterstützt unglaubliche visuelle Vielfalt. Erleben Sie Seedances präzise Stilkontrolle für jede kreative Vision.",
-      "imageUrl": "/intro/prompt.mp4",
-      "imageAlt": "Seedance 1.0s vielfältige Stil-Fähigkeiten",
+      "id": "perfect-consistency",
+      "title": "Perfekte Charakter- & Szenenkonsistenz",
+      "description": "Erreichen Sie makellose Konsistenz über Charaktere, Szenen und visuelle Stile während Ihres gesamten Videos. Seedance 2.0s fortschrittliche Konsistenz-Engine stellt sicher, dass Ihre Motive von Anfang bis Ende identisch bleiben.",
+      "imageUrl": "/intro/consistency.mp4",
+      "imageAlt": "Seedance 2.0 perfekte Konsistenz Demonstration",
       "subPoints": [
         {
-          "title": "Fotorealistisches Rendering",
-          "text": "Generieren Sie ultra-realistische Videos, die praktisch nicht von echten Aufnahmen zu unterscheiden sind, mit natürlicher Beleuchtung und authentischen Texturen."
+          "title": "Charakter-Identitätserhaltung",
+          "text": "Behalten Sie exaktes Charakteraussehen, Kleidung und Merkmale über alle Frames bei - keine Identitätsdrift oder inkonsistente Gesichter mehr."
         },
         {
-          "title": "Künstlerische Stile",
-          "text": "Drücken Sie Kreativität durch Cyberpunk-Ästhetik, Illustrations-Stile, Animations-Looks und andere künstlerische Interpretationen mit präziser Kontrolle aus."
+          "title": "Stilkohärenz",
+          "text": "Visueller Stil, Beleuchtung und Farbkorrektur bleiben während des gesamten Videos perfekt konsistent und erzeugen professionelle Qualitätsausgabe."
         }
       ]
     },
     {
-      "id": "complex-prompts",
-      "title": "Präzise Prompt-Befolgung",
-      "description": "Seedance 1.0 zeichnet sich durch die Interpretation komplexer natürlicher Sprache mit bemerkenswerter Genauigkeit aus. Beschreiben Sie komplizierte Szenen und kreative Konzepte - Seedance versteht und führt Ihre Vision mit Präzision aus.",
-      "imageUrl": "/intro/motion.mp4",
-      "imageAlt": "Seedance 1.0s überlegene Prompt-Interpretation",
+      "id": "realistic-physics",
+      "title": "Realistische Physiksimulation",
+      "description": "Seedance 2.0 generiert Videos mit physikalisch korrekter Bewegung, Schwerkraft, Kollisionen und Materialinteraktionen. Objekte bewegen sich natürlich mit realistischem Gewicht, Impuls und Umgebungsreaktionen.",
+      "imageUrl": "/intro/physics.mp4",
+      "imageAlt": "Seedance 2.0 realistische Physik Demonstration",
       "subPoints": [
         {
-          "title": "Natürliche Sprach-Meisterschaft",
-          "text": "Erweiterte Sprachverständnis interpretiert komplexe kreative Briefs mit nuanciertem Verständnis für künstlerische Absicht und technische Spezifikationen."
+          "title": "Natürliche Bewegungsdynamik",
+          "text": "Objekte zeigen realistische Beschleunigung, Verzögerung und Impuls - von fallenden Blättern über fließendes Wasser bis zu gehenden Charakteren."
         },
         {
-          "title": "Kreative Anweisung",
-          "text": "Übersetzen Sie detaillierte Beschreibungen in genaue visuelle Darstellungen und verstehen Sie Kontext, Emotion und künstlerische Richtung mit minimaler Iteration."
+          "title": "Materialinteraktionen",
+          "text": "Genaue Simulation, wie verschiedene Materialien interagieren - Stoffdrapierung, Flüssigkeitsspritzer, Starrkörperkollisionen und mehr."
         }
       ]
     },
     {
-      "id": "multi-agent-control",
-      "title": "Multi-Agent-Interaktionen & Kamera-Kontrolle",
-      "description": "Seedance 1.0 ermöglicht komplexe Multi-Charakter-Szenen mit natürlichen Interaktionen und professioneller Kamera-Kontrolle. Erstellen Sie dynamische Kinematografie mit Seedances erweiterte Charakter- und Kamera-Bewegungs-Technologie.",
-      "imageUrl": "/intro/sound.mp4",
-      "imageAlt": "Seedance 1.0s Multi-Agent- und Kamera-Kontroll-Features",
+      "id": "seamless-extension",
+      "title": "Nahtlose Videoverlängerung",
+      "description": "Verlängern Sie Ihre Videos nahtlos ohne sichtbare Übergänge oder Qualitätsverlust. Seedance 2.0s Verlängerungstechnologie erhält perfekte Kontinuität in Bewegung, Stil und narrativem Fluss.",
+      "imageUrl": "/intro/extension.mp4",
+      "imageAlt": "Seedance 2.0 nahtlose Videoverlängerung",
       "subPoints": [
         {
-          "title": "Charakter-Interaktionen",
-          "text": "Orchestrieren Sie natürliche Multi-Charakter-Szenen mit realistischer Körpersprache, Gesichtsausdrücken und sozialer Dynamik, die authentisch und ansprechend wirken."
+          "title": "Unsichtbare Übergänge",
+          "text": "Verlängerte Segmente verschmelzen perfekt mit dem Originalmaterial - keine störenden Schnitte, Stilwechsel oder zeitliche Inkonsistenzen."
         },
         {
-          "title": "Dynamische Kamera-Arbeit",
-          "text": "Erzielen Sie professionelle Kinematografie mit flüssigen Kamera-Bewegungen, Tracking-Aufnahmen und dynamischen Perspektiven, die den Storytelling-Impact verstärken."
+          "title": "Narrative Kontinuität",
+          "text": "KI versteht den Story-Kontext und verlängert Videos auf Weise, die logische narrative Progression und visuelle Kohärenz beibehalten."
         }
       ]
     },
     {
-      "id": "wide-dynamic-range",
-      "title": "Breite Dynamikrange & Flüssige Bewegung",
-      "description": "Seedance 1.0s breite Dynamikrange erfasst subtile Ausdrücke und dynamische Action mit außergewöhnlicher Qualität. Von intimen Momenten bis zu hochenergetischen Sequenzen zeichnet sich Seedance durch das Rendern flüssiger Bewegungen und authentischer Emotionen aus.",
-      "imageUrl": "/intro/audio.mp4",
-      "imageAlt": "Seedance 1.0s breite Dynamikrange-Fähigkeiten",
+      "id": "cinematic-aesthetics",
+      "title": "Kinematische Ästhetik & Qualität",
+      "description": "Seedance 2.0 produziert Hollywood-Qualität mit professioneller Kinematografie, dynamischer Beleuchtung und filmischer Farbkorrektur. Jedes Bild ist mit kinematischer Exzellenz gefertigt.",
+      "imageUrl": "/intro/cinematic.mp4",
+      "imageAlt": "Seedance 2.0 kinematische Ästhetik Showcase",
       "subPoints": [
         {
-          "title": "Subtile Ausdrucks-Erfassung",
-          "text": "Rendern Sie delikate Gesichtsausdrücke, Mikro-Bewegungen und nuancierte emotionale Zustände mit bemerkenswerter Sensibilität und Authentizität."
+          "title": "Professionelle Kinematografie",
+          "text": "Dynamische Kamerabewegungen, Tiefenschärfe-Effekte und professionelles Framing, das traditionellen Filmtechniken ebenbürtig ist."
         },
         {
-          "title": "Action-Szenen-Exzellenz",
-          "text": "Generieren Sie dynamische Action-Sequenzen mit flüssiger Bewegung, realistischer Physik und überzeugender visueller Energie, die Klarheit und Impact beibehält."
+          "title": "Filmreife Farbwissenschaft",
+          "text": "Fortschrittliche Farbkorrektur und Beleuchtungssimulation erzeugt die reiche, nuancierte visuelle Palette, die in professionellen Produktionen erwartet wird."
         }
       ]
     }

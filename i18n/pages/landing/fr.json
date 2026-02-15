@@ -35,14 +35,14 @@
     "show_locale": true
   },
   "hero": {
-    "title": "Générateur Vidéo IA Veo 3 Gratuit",
-    "highlight_text": "Veo 3 AI",
+    "title": "Générateur Vidéo Seedance 2.0 Gratuit",
+    "highlight_text": "Seedance 2.0",
     "announcement": {
-      "title": "🎬 Veo 3 AI Maintenant Disponible !",
+      "title": "🎬 Seedance 2.0 Maintenant Disponible !",
       "label": "Nouveau !",
       "url": "#video-generator"
     },
-    "description": "Transformez Vos Idées en Vidéos Professionnelles en Quelques Minutes",
+    "description": "Créez des vidéos IA cinématiques avec un contrôle de structure supérieur et une physique réaliste. Surpasse Sora 2 et Veo 3.",
     "show_happy_users": false,
     "show_badge": false,
     "buttons": [

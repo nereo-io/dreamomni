@@ -62,14 +62,14 @@
     "show_locale": true
   },
   "hero": {
-    "title": "Seedance 1.0 - Revolutionärer KI-Video-Generator",
-    "highlight_text": "Seedance 1.0",
+    "title": "Kostenloser Seedance 2.0 Video-Generator",
+    "highlight_text": "Seedance 2.0",
     "announcement": {
-      "title": "🚀 Seedance 1.0 Launch - Erweiterte Multi-Shot KI-Video-Erstellung!",
+      "title": "🎬 Seedance 2.0 Jetzt Verfügbar!",
       "label": "Neu!",
       "url": "#video-generator"
     },
-    "description": "Verwandeln Sie Ihre Ideen in Sekundenschnelle in visuelle Geschichten",
+    "description": "Erstellen Sie kinematische KI-Videos mit überlegener Strukturkontrolle und realistischer Physik. Übertrifft Sora 2 und Veo 3.",
     "show_happy_users": false,
     "show_badge": false,
     "buttons": [

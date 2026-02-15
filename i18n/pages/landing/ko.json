@@ -62,14 +62,14 @@
     "show_locale": true
   },
   "hero": {
-    "title": "Seedance 1.0 - 혁신적인 AI 비디오 생성기",
-    "highlight_text": "Seedance 1.0",
+    "title": "무료 Seedance 2.0 비디오 생성기",
+    "highlight_text": "Seedance 2.0",
     "announcement": {
-      "title": "🚀 Seedance 1.0 출시 - 고급 멀티샷 AI 비디오 제작!",
+      "title": "🎬 Seedance 2.0 출시!",
       "label": "신기능!",
       "url": "#video-generator"
     },
-    "description": "아이디어를 몇 초 만에 시각적 스토리로 변환하세요",
+    "description": "우수한 구조 제어와 사실적인 물리로 시네마틱 AI 비디오를 제작하세요. Sora 2와 Veo 3를 능가합니다.",
     "show_happy_users": false,
     "show_badge": false
   },

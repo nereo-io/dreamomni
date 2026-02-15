@@ -62,14 +62,14 @@
     "show_locale": true
   },
   "hero": {
-    "title": "Seedance AI Video Generator",
-    "highlight_text": "Seedance",
+    "title": "Free Seedance 2.0 Video Generator",
+    "highlight_text": "Seedance 2.0",
     "announcement": {
-      "title": "🎬 Veo 3 AI Now Available!",
+      "title": "🎬 Seedance 2.0 Now Available!",
       "label": "New!",
       "url": "#video-generator"
     },
-    "description": "Turn your ideas into visual stories in seconds",
+    "description": "Create cinematic AI videos with superior structure control and realistic physics. Outperforms Sora 2 and Veo 3.",
     "show_happy_users": false,
     "show_badge": false,
     "buttons": [
@@ -189,7 +189,7 @@
   "faq": {
     "name": "faq",
     "label": "FAQ",
-    "title": "Frequently Asked Questions About Seedance 1.0 AI Video Generator",
+    "title": "Frequently Asked Questions About Seedance 2.0 AI Video Generator",
     "description": "Learn more about Seedance 1.0 AI video generator's advanced capabilities, multi-shot storytelling, and professional video creation features. Get answers about Seedance ByteDance technology and our cutting-edge video generator platform.",
     "items": [
       {
@@ -197,16 +197,24 @@
         "description": "Seedance 1.0 AI video generator gives you access to breakthrough video creation technology with native multi-shot storytelling. Simply describe your video idea in text, and Seedance ByteDance will generate high-quality 1080p videos with cinematic aesthetics, smooth motion, and diverse style expression. Seedance AI video generator's advanced semantic understanding ensures precise prompt following for professional results using our revolutionary video generator technology."
       },
       {
-        "title": "What makes Seedance 1.0 AI video generator different from other video tools?",
-        "description": "Seedance 1.0 AI video generator offers breakthrough features that set it apart: native multi-shot narrative generation, visual consistency across shot transitions, wide dynamic range for capturing subtle expressions, diverse style support from photorealism to cyberpunk, and precise control over multi-agent interactions. Seedance ByteDance's advanced semantic understanding and camera movement control deliver professional-grade results unmatched by other AI video generator platforms."
+        "title": "What's new in Seedance 2.0?",
+        "description": "Seedance 2.0 introduces six major upgrades: Superior Structure Control for precise spatial relationships, Multi-Modal Reference Input (text/image/video/audio), Perfect Character & Scene Consistency, Realistic Physics Simulation, Seamless Video Extension, and enhanced Cinematic Aesthetics. These improvements make Seedance 2.0 the most advanced AI video generator available."
       },
       {
-        "title": "What types of videos can I create with Seedance 1.0 AI video generator?",
-        "description": "Seedance 1.0 AI video generator supports a wide range of video types: marketing videos, social media content, educational materials, product demonstrations, animated stories, music videos, concept art, and cinematic scenes. With Seedance ByteDance's multi-shot storytelling and 1080p quality, the AI video generator adapts to any creative vision. From photorealism to cyberpunk aesthetics, Seedance delivers professional-grade results for every project using advanced video generator technology."
+        "title": "How does Seedance 2.0 compare to Sora 2 and Veo 3?",
+        "description": "Seedance 2.0 outperforms both Sora 2 and Veo 3 in structure control benchmarks, maintaining more accurate object positioning and spatial relationships throughout video generation. It also offers superior physics simulation and character consistency, making it the preferred choice for professional video creators."
       },
       {
-        "title": "Are there any limitations to the free Seedance 1.0 AI video generator?",
-        "description": "While free Seedance 1.0 AI video generator provides access to advanced 1080p video generation and multi-shot storytelling capabilities, premium Seedance ByteDance users enjoy unlimited generations, longer video durations, priority processing, and additional features like custom styles and batch processing. Free Seedance AI video generator users can create cinematic videos with reasonable usage limits while experiencing the full power of our video generator technology."
+        "title": "What makes Seedance 2.0 AI video generator different from other video tools?",
+        "description": "Seedance 2.0 AI video generator offers breakthrough features that set it apart: superior structure control, multi-modal reference input, perfect consistency across characters and scenes, realistic physics simulation, seamless video extension, and cinematic aesthetics. Seedance ByteDance's advanced technology delivers professional-grade results unmatched by other AI video generator platforms including Sora 2 and Veo 3."
+      },
+      {
+        "title": "What types of videos can I create with Seedance 2.0 AI video generator?",
+        "description": "Seedance 2.0 AI video generator supports a wide range of video types: marketing videos, social media content, educational materials, product demonstrations, animated stories, music videos, concept art, and cinematic scenes. With Seedance ByteDance's superior structure control and 1080p quality, the AI video generator adapts to any creative vision with realistic physics and perfect consistency."
+      },
+      {
+        "title": "Are there any limitations to the free Seedance 2.0 AI video generator?",
+        "description": "While free Seedance 2.0 AI video generator provides access to advanced 1080p video generation and superior structure control capabilities, premium Seedance ByteDance users enjoy unlimited generations, longer video durations, priority processing, and additional features like custom styles and batch processing. Free Seedance AI video generator users can create cinematic videos with reasonable usage limits while experiencing the full power of our video generator technology."
       },
       {
         "title": "How long does it take to generate videos with Seedance AI video generator?",
@@ -237,7 +245,7 @@
   "cta": [
     {
       "name": "cta-generate",
-      "title": "Start Creating Videos with Seedance 1.0 AI Video Generator",
+      "title": "Start Creating Videos with Seedance 2.0 AI Video Generator",
       "buttons": [
         {
           "title": "Generate Video",
@@ -249,8 +257,8 @@
     },
     {
       "name": "cta-features",
-      "title": "Explore Seedance 1.0 AI Video Generator Features",
-      "description": "Professional 1080p Video Generation with Native Multi-Shot Storytelling, Diverse Style Expression & Advanced Seedance ByteDance AI Video Generator Technology",
+      "title": "Explore Seedance 2.0 AI Video Generator Features",
+      "description": "Superior Structure Control, Multi-Modal Reference, Perfect Consistency, Realistic Physics & Advanced Seedance ByteDance AI Video Generator Technology",
       "buttons": [
         {
           "title": "Learn More",
@@ -263,8 +271,8 @@
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "Seedance 1.0 AI Video Generator",
-      "description": "Transform text and images into stunning 1080p AI videos with Seedance's advanced multi-shot storytelling technology.",
+      "title": "Seedance 2.0 AI Video Generator",
+      "description": "Transform text and images into stunning AI videos with Seedance 2.0's superior structure control and realistic physics.",
       "logo": {
         "src": "/logo.png",
         "alt": "Seedance AI Video Generator"
