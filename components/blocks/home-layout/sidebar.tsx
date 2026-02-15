@@ -58,7 +58,7 @@ export function Sidebar() {
     { icon: ImageIcon, labelKey: "image_to_video", href: "/image-to-video" },
     { icon: Type, labelKey: "text_to_video", href: "/text-to-video" },
     { icon: Play, labelKey: "reference_to_video", href: "/reference-to-video" },
-    { icon: Sparkles, labelKey: "ai_effects", href: "/video-effects" },
+    // { icon: Sparkles, labelKey: "ai_effects", href: "/video-effects" }, // 暂时隐藏
   ];
 
   const imageAIItems: SidebarItem[] = [
@@ -75,26 +75,26 @@ export function Sidebar() {
   ];
 
   const musicAIItems: SidebarItem[] = [
-    {
-      icon: Music,
-      labelKey: "text_to_music",
-      href: "/text-to-music",
-    },
-    {
-      icon: Mic,
-      labelKey: "add_vocals",
-      href: "/add-vocals",
-    },
-    {
-      icon: Guitar,
-      labelKey: "add_instrumental",
-      href: "/add-instrumental",
-    },
-    {
-      icon: Upload,
-      labelKey: "upload_cover",
-      href: "/upload-cover",
-    },
+    // {
+    //   icon: Music,
+    //   labelKey: "text_to_music",
+    //   href: "/text-to-music",
+    // },
+    // {
+    //   icon: Mic,
+    //   labelKey: "add_vocals",
+    //   href: "/add-vocals",
+    // },
+    // {
+    //   icon: Guitar,
+    //   labelKey: "add_instrumental",
+    //   href: "/add-instrumental",
+    // },
+    // {
+    //   icon: Upload,
+    //   labelKey: "upload_cover",
+    //   href: "/upload-cover",
+    // },
   ];
 
   const aiShortsEnabled = process.env.NEXT_PUBLIC_AI_SHORTS_ENABLED === "true";
