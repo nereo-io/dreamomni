@@ -8,6 +8,7 @@ import { HowToUse } from "@/components/blocks/how-to-use";
 import { TechnicalSpecs } from "@/components/blocks/technical-specs";
 import { EffectTips } from "@/components/blocks/effect-tips";
 import CTA from "@/components/blocks/cta";
+import { auth } from "@/auth";
 
 export async function generateMetadata({
   params,
@@ -19,7 +20,7 @@ export async function generateMetadata({
 
   if (!effect) {
     return {
-      title: "Effect Not Found | Veo3 AI",
+      title: "Effect Not Found | Seedance",
       description: "The requested video effect could not be found.",
       robots: "noindex,nofollow",
     };
@@ -49,11 +50,11 @@ export async function generateMetadata({
           alt: `${effect.title} - AI Video Effect Preview`,
         },
       ],
-      siteName: "Veo3 AI",
+      siteName: "Seedance",
     },
     twitter: {
       card: "summary_large_image",
-      site: "@veo3ai",
+      site: "@seedance",
       title: effect.page_title,
       description,
       images: [
@@ -73,6 +74,7 @@ export default async function EffectDetailPage({
 }: {
   params: { slug: string };
 }) {
+  const session = await auth();
   const locale = await getLocale();
   const effect = await getEffectConfigBySlug(params.slug, locale);
 
@@ -104,17 +106,19 @@ export default async function EffectDetailPage({
     video: effect.preview_video || null,
     creator: {
       "@type": "Organization",
-      name: "Veo3 AI",
+      name: "Seedance",
       url: process.env.NEXT_PUBLIC_WEB_URL,
     },
   };
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      {!session && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+      )}
 
       {/* Video Generation Tool with simplified interface */}
       <div data-video-generation-tool>
@@ -126,45 +130,49 @@ export default async function EffectDetailPage({
         />
       </div>
 
-      <VideoEffectHero effect={effect} />
+      {!session && (
+        <>
+          <VideoEffectHero effect={effect} />
 
-      {/* How To Use Section */}
-      <HowToUse effect={effect} />
+          {/* How To Use Section */}
+          <HowToUse effect={effect} />
 
-      {/* Technical Specifications */}
-      {/* <TechnicalSpecs effect={effect} /> */}
+          {/* Technical Specifications */}
+          {/* <TechnicalSpecs effect={effect} /> */}
 
-      {/* Effect Tips */}
-      {/* <EffectTips /> */}
+          {/* Effect Tips */}
+          {/* <EffectTips /> */}
 
-      {/* FAQ Section */}
-      {effect.content?.faq && effect.content.faq.length > 0 && (
-        <FAQSection
-          faqItems={effect.content.faq.map((item, index) => ({
-            id: `faq-${index}`,
-            question: item.question,
-            answer: item.answer,
-          }))}
-        />
-      )}
+          {/* FAQ Section */}
+          {effect.content?.faq && effect.content.faq.length > 0 && (
+            <FAQSection
+              faqItems={effect.content.faq.map((item, index) => ({
+                id: `faq-${index}`,
+                question: item.question,
+                answer: item.answer,
+              }))}
+            />
+          )}
 
-      {/* CTA Section */}
-      {effect.content?.cta && (
-        <CTA
-          section={{
-            name: "cta",
-            title: effect.content.cta.title || `Ready to Try ${effect.title}?`,
-            disabled: false,
-            buttons: [
-              {
-                title:
-                  effect.content.cta.buttonText || `Try ${effect.title} Free`,
-                url: "#",
-                type: "button" as const,
-              },
-            ],
-          }}
-        />
+          {/* CTA Section */}
+          {effect.content?.cta && (
+            <CTA
+              section={{
+                name: "cta",
+                title: effect.content.cta.title || `Ready to Try ${effect.title}?`,
+                disabled: false,
+                buttons: [
+                  {
+                    title:
+                      effect.content.cta.buttonText || `Try ${effect.title} Free`,
+                    url: "#",
+                    type: "button" as const,
+                  },
+                ],
+              }}
+            />
+          )}
+        </>
       )}
     </>
   );

@@ -4,6 +4,46 @@
     "description": "The free, ultimate, all-in-one AI image & video generator, to create images/videos with text prompts, images or videos. Turn your ideas to images and videos with high resolution and quality.",
     "keywords": "Seedance, AI Video Generator, Free Video Creation, Text to Video, Image to Video, 4K Videos, AI Filmmaking, High Resolution Videos"
   },
+  "wan-2-5": {
+    "title": "Wan 2.5 Free: Try This Wan AI Video Model Now | Seedance",
+    "description": "Experience Wan 2.5, Wan AI's upgraded AI video model with built-in audio, improved consistency, and fluid motion technology.",
+    "keywords": "N/A"
+  },
+  "wan-2-6": {
+    "title": "Wan 2.6 Free: Try Alibaba Wan 2.6 AI Video Model | Seedance",
+    "description": "Try Wan 2.6 with multi-shot storytelling, reference-to-video support, native audio sync, and up to 15s 1080p output on Seedance.",
+    "keywords": "Wan 2.6, Wan AI, AI video generator, multi-shot video, reference-to-video, native audio, 1080p, Seedance"
+  },
+  "veo-3-1": {
+    "title": "Veo 3.1 Free: Try Google Veo 3.1 AI Video Model Now | Seedance",
+    "description": "Veo 3.1 is an upgrade of Google's Veo 3 model, adding first-and-last-frame control and image reference capabilities. Experience Veo 3.1 now for free on Seedance.",
+    "keywords": "Veo 3.1, Google Veo 3.1, AI video generator, free Veo 3.1, video AI, text to video, image to video, Seedance"
+  },
+  "kling-3-0": {
+    "title": "Kling 3.0 Free: Try Kling AI Video Model Online | Seedance",
+    "description": "Try Kling 3.0 AI video generator with native audio, multi-shot storytelling, element consistency, multilingual voices, and up to 15s output. Create Kling 3.0 videos on Seedance.",
+    "keywords": "Kling 3.0, Kling AI, AI video generator, text to video, image to video, native audio, multi-shot, Seedance"
+  },
+  "seedance-1-5": {
+    "title": "Seedance 1.5 Pro: ByteDance Audio-Video AI | Seedance",
+    "description": "Seedance 1.5 Pro by ByteDance features native audio-visual generation, multilingual lip-sync, and cinematic camera control. Try it free!",
+    "keywords": "Seedance 1.5 Pro, ByteDance Seedance, text to video, image to video, audio-video AI, Seedance"
+  },
+  "seedance-2-0": {
+    "title": "Seedance 2.0 AI Video Generator Online Free | Seedance",
+    "description": "Use Seedance 2.0 by ByteDance to create AI videos. Multimodal input (image, video, audio, text), 2K resolution, character consistency & 30% faster. Try free!",
+    "keywords": "Seedance 2.0, AI video generator, text to video, image to video, ByteDance, multimodal AI, free"
+  },
+  "hailuo-2-3": {
+    "title": "Hailuo 2.3 AI Video Generator Free Online | Seedance",
+    "description": "Try MiniMax Hailuo 2.3 with improved motion control, stylized visual output, and faster iteration mode. Generate expressive AI videos on Seedance.",
+    "keywords": "Hailuo 2.3, MiniMax Hailuo, AI video generator, image to video, text to video, Hailuo Fast, Seedance"
+  },
+  "sora-2": {
+    "title": "Sora 2 Free: Try OpenAI Sora 2 AI Video Model Now | Seedance",
+    "description": "Experience Sora 2, OpenAI's advanced AI video model with realistic physics, synchronized audio, and multi-shot consistency. Generate stunning 1080p HD videos now for members!",
+    "keywords": "Sora 2, OpenAI Sora 2, AI video generator, free Sora 2, video AI, text to video, image to video, Seedance, sora model"
+  },
   "pricing": {
     "title": "Video Plans | Seedance Pricing",
     "description": "Choose your AI video plan. Get 4K output, unlimited generations, advanced controls, and priority support with Seedance.",
@@ -21,16 +61,18 @@
     "my_orders": "My Orders",
     "membership": "Membership"
   },
-  "header": {
-    "video_effects": "Video Effects",
-    "more_effects": "More Effects"
-  },
   "sidebar": {
     "home": "Home",
     "image_to_video": "Image to Video",
     "text_to_video": "Text to Video",
+    "reference_to_video": "Reference to Video",
     "text_to_image": "Text to Image",
     "image_to_image": "Image to Image",
+    "text_to_music": "Text to Music",
+    "add_vocals": "Add Vocals",
+    "add_instrumental": "Add Instrumental",
+    "upload_cover": "Upload Cover",
+    "agent_videos": "AI Shorts",
     "ai_video_effects": "AI Video Effects",
     "ai_effects": "AI Effects",
     "my_creations": "My Creations",
@@ -44,6 +86,8 @@
     "payment_successful": "Payment Successful!",
     "plan_activated": "Activated",
     "credits_added": "credits added to your account",
+    "monthly_credits_grant": "You will receive {credits} credits every month",
+    "remaining_credits_monthly": "Remaining {remainingCredits} credits will be distributed monthly over the next {remainingMonths} months",
     "continue": "Continue",
     "start_creating": "Start Creating",
     "please_select_payment": "Please select a payment method"
@@ -94,6 +138,8 @@
       "product_name": "Product Name",
       "amount": "Amount",
       "paid_at": "Paid At",
+      "invoice": "Invoice",
+      "download": "Download",
       "github_username": "GitHub Username",
       "status": "Status"
     }
@@ -113,7 +159,25 @@
     "days": "days",
     "no_membership": "No Active",
     "manage_subscription": "Manage Subscription",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "next_credit_distribution": "Next Credit Distribution",
+    "monthly_credits": "Monthly Credits",
+    "distribution_progress": "Distribution Progress",
+    "credits": "credits",
+    "months": "months"
+  },
+  "creditPools": {
+    "title": "Credit Pools",
+    "description": "Your active credit balances by purchase",
+    "bonus": "Bonus Credits",
+    "table": {
+      "order_no": "Order No",
+      "expired_at": "Expires",
+      "balance": "Balance",
+      "earned": "Earned",
+      "used": "Used",
+      "created_at": "Created"
+    }
   },
   "subscription": {
     "allSubscriptions": "All Subscriptions",
@@ -139,6 +203,10 @@
     "no_credits": "No credits records",
     "recharge": "Upgrade Membership",
     "invite": "Invite friends",
+    "tabs": {
+      "records": "Credit Records",
+      "pools": "Credit Pools"
+    },
     "table": {
       "trans_no": "Trans No",
       "trans_type": "Trans Type",
@@ -175,6 +243,17 @@
   "survey_banner": {
     "message": "👋 Quick feedback needed - help shape Seedance!",
     "close": "Close"
+  },
+  "credit_history_modal": {
+    "title": "Credit History",
+    "current_balance": "Current Balance",
+    "view_all": "View Full History",
+    "empty": "No credit records yet",
+    "type": "Type",
+    "credits": "Credits",
+    "date": "Date",
+    "loading": "Loading...",
+    "error": "Failed to load credit history"
   },
   "credit_exhausted_modal": {
     "title": "Out of Conversation Credits",
@@ -244,13 +323,13 @@
     }
   },
   "video-generator": {
+    "titleTextToVideo": "Text to Video",
+    "titleImageToVideo": "Image to Video",
+    "titleReferenceToVideo": "Reference to Video",
     "videoDescription": "Prompt",
-    "referenceImage": "Reference Image (Optional)",
     "videoAspectRatio": "Video Aspect Ratio",
     "videoDuration": "Video Duration",
     "videoModel": "Model",
-    "videoEffect": "Video Effect",
-    "chooseVideoEffect": "Choose Video Effect",
     "credits": "Credits",
     "creditsRequired": "Credits Required",
     "remainingCredits": "Remaining Credits",
@@ -265,6 +344,29 @@
     "dragAndDropImage": "Click to upload or drag image here",
     "supportedFormats": "Supports JPG, PNG, GIF formats, max 10MB",
     "chooseFile": "Choose File",
+    "swapFrames": "Swap Frames",
+    "firstFrame": "First Frame",
+    "lastFrame": "Last Frame",
+    "clickToUpload": "Click to upload",
+    "uploadingFirstFrame": "Uploading first frame...",
+    "uploadingLastFrame": "Uploading last frame...",
+    "referenceUploadGuide": "Upload 1-3 reference images for consistent character generation",
+    "addMoreReferences": "Add more reference images",
+    "referenceImage": "Reference Image (Optional)",
+    "clickToUploadMore": "Click to upload more (up to 3)",
+    "multipleUploadHint": "Optional. Multi-select, drag & drop, or paste",
+    "fromMyCreations": "from my creations",
+    "myCreations": "My Creations",
+    "selectFromCreations": "Select from My Creations",
+    "noImagesYet": "No images generated yet",
+    "loadingImages": "Loading images...",
+    "maxImagesError": "Maximum {max} images allowed",
+    "onlyUploadingFirst": "Only uploading first {count} images (max {max})",
+    "uploadingMultiple": "Uploading {current}/{total} images...",
+    "addMoreImages": "Add more images",
+    "canUpload": "Can upload {count} more",
+    "uploadMultipleImages": "Upload up to {max} images",
+    "uploadMoreImagesRemaining": "Upload more images ({remaining} remaining)",
     "aspectRatios": {
       "landscape": "16:9 Landscape",
       "portrait": "9:16 Portrait",
@@ -288,6 +390,8 @@
     "ratio": "Ratio",
     "duration": "Duration",
     "resolution": "Resolution",
+    "sound": "Sound",
+    "promptEnhancement": "Prompt Enhancement",
     "telegramBanner": {
       "text": "Join Telegram group to discuss Seedance",
       "linkText": "Join"
@@ -303,13 +407,18 @@
       "imageUploadFailed": "Image upload failed",
       "insufficientCredits": "Insufficient credits. Required: {required}, Available: {available}",
       "membersOnlyModel": "Only members can use this model.",
+      "emptyPrompt": "Please enter a description",
       "videoSubmitted": "Video generation task submitted, processing...",
       "videoCompleted": "Video generation completed!",
       "videoFailed": "Video generation failed"
-    }
+    },
+    "videoEffect": "Video Effect",
+    "chooseVideoEffect": "Choose Video Effect"
   },
   "video-history": {
     "title": "Video Generation History",
+    "videoDetailsTitle": "Video details",
+    "downgradedTo720P": "Downgraded to 720P",
     "noVideosTitle": "No Videos Yet",
     "noVideosDescription": "You haven't generated any videos. Start creating your first masterpiece!",
     "generateVideoButton": "Generate Video",
@@ -327,6 +436,10 @@
       "duration": "Duration",
       "aspectRatio": "Aspect Ratio"
     },
+    "searchPromptPlaceholder": "Search prompts",
+    "searchMatches": "{count} matches",
+    "searchNoResults": "No prompts match your search",
+    "searchButton": "Search",
     "toast": {
       "videoNotAvailable": "Video is not available yet.",
       "downloadNotAvailable": "Video not available for download.",
@@ -382,6 +495,122 @@
       "statusCode": "An error occurred (Status {code}). Please try again."
     }
   },
+  "music-generator": {
+    "title": "Music Generation",
+    "subtitle": "Create amazing music with AI",
+    "generateMusic": "Generate Music",
+    "history": "Generation History",
+    "generating": "Generating...",
+    "prompt": "Prompt",
+    "description": "Description",
+    "promptPlaceholder": "Enter your music description or lyrics...",
+    "musicTitle": "Title",
+    "titlePlaceholder": "Enter song title...",
+    "style": "Style",
+    "stylePlaceholder": "e.g., Jazz, Rock, Electronic...",
+    "negativeTags": "Negative Tags (Optional)",
+    "negativeTagsPlaceholder": "Styles to avoid...",
+    "creditsRequired": "Credits Required",
+    "yourCredits": "Your Credits",
+    "generate": "Generate Music",
+    "maxLength500": "Max 500 characters",
+    "maxLength5000": "Max 5000 characters",
+    "generationType": "Generation Type",
+    "uploadAudio": "Upload Audio",
+    "dragAndDropAudio": "Drag and drop audio file here",
+    "orClickToUpload": "or click to browse",
+    "supportedAudioFormats": "Supported formats: MP3, WAV, FLAC, OGG (max 50MB)",
+    "removeAudio": "Remove audio",
+    "audioNotSupported": "Your browser does not support audio playback.",
+    "mode": "Mode",
+    "songMode": "Song (with vocals)",
+    "instrumentalMode": "Instrumental (music only)",
+    "modes": {
+      "song": {
+        "label": "Song",
+        "description": "Music with vocals"
+      },
+      "instrumental": {
+        "label": "Instrumental",
+        "description": "Music only"
+      }
+    },
+    "loadingHistory": "Loading history...",
+    "noHistory": "No generation history yet",
+    "startGenerating": "Start generating music to see your history here",
+    "status": {
+      "pending": "Pending",
+      "textGenerated": "Lyrics Generated",
+      "firstTrack": "First Track Ready",
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "types": {
+      "direct": {
+        "label": "Direct Generation",
+        "description": "Create music from text"
+      },
+      "addVocals": {
+        "label": "Add Vocals",
+        "description": "Add voice to music"
+      },
+      "addInstrumental": {
+        "label": "Add Instrumental",
+        "description": "Add backing track"
+      },
+      "uploadCover": {
+        "label": "Upload Cover",
+        "description": "Transform audio style"
+      }
+    },
+    "errors": {
+      "invalidAudioFormat": "Please upload an audio file",
+      "audioTooLarge": "Audio file is too large (max 50MB)",
+      "uploadFailed": "Upload failed",
+      "insufficientCredits": "Insufficient credits",
+      "audioRequired": "Please upload an audio file",
+      "promptRequired": "Please enter a prompt",
+      "titleRequired": "Please enter a title",
+      "styleRequired": "Please enter a style",
+      "negativeTagsRequired": "Please enter negative tags"
+    },
+    "toast": {
+      "audioUploaded": "Audio uploaded successfully",
+      "musicSubmitted": "Music generation task submitted",
+      "musicCompleted": "Music generation completed!",
+      "musicFailed": "Music generation failed",
+      "pollTimeout": "Poll timeout, please refresh manually",
+      "statusCheckFailed": "Status check failed, please retry"
+    },
+    "customMode": "Custom Mode",
+    "customModeDescription": "Enable detailed control over all parameters",
+    "instrumental": "Instrumental",
+    "instrumentalDescription": "Generate music without vocals",
+    "lyricsAndStyle": "Lyrics & Vocal Style",
+    "lyrics": "Lyrics",
+    "promptPlaceholderAddVocals": "Enter lyrics and vocal style...",
+    "promptPlaceholderLyrics": "Enter your lyrics...",
+    "promptPlaceholderDescription": "Enter music description...",
+    "tags": "Tags",
+    "tagsPlaceholder": "e.g., upbeat, energetic, electronic...",
+    "maxLength": "Max",
+    "characters": "characters",
+    "track": "Track",
+    "download": "Download",
+    "advancedOptions": "Advanced Options",
+    "optional": "Optional",
+    "styleWeight": "Style Weight",
+    "styleWeightDescription": "How strictly to follow the specified style (0-1). Recommended: 0.65-0.80",
+    "weirdnessConstraint": "Creativity Level",
+    "weirdnessConstraintDescription": "Control experimental/creative deviation (0-1). Lower=traditional, Higher=creative. Recommended: 0.30-0.50",
+    "audioWeight": "Audio Weight",
+    "audioWeightDescription": "Balance audio feature weight (0-1). Recommended: 0.60-0.75",
+    "vocalGender": "Vocal Gender Preference",
+    "auto": "Auto",
+    "male": "Male",
+    "female": "Female",
+    "vocalGenderDescription": "Note: This increases probability but does not guarantee strict adherence"
+  },
   "pages": {
     "home": {
       "title": "Welcome to Seedance",
@@ -413,6 +642,11 @@
       "title": "Free Image to Video AI Generator: Turn Photos to Videos",
       "description": "Use the image to video AI generator of Seedance for free. Convert photos to videos with high-quality and captivating results. Try our image to video AI now!",
       "keywords": "image to video AI, photo to video converter, free image to video, Seedance, AI video from image, image animation"
+    },
+    "referenceToVideo": {
+      "title": "Free Veo3 Reference to Video: Lock Character Identity | Seedance",
+      "description": "Upload 1-3 reference images and generate 8s videos with Veo 3.1. Preserve character appearance across scenes with native audio. Extend to 148s.",
+      "keywords": "Veo3 reference to video, consistent character, identity lock, Veo 3.1, character consistency"
     },
     "imageGeneration": {
       "title": "Free AI Image Generator: Create Stunning Images from Text | Seedance",
@@ -457,12 +691,62 @@
       }
     }
   },
+  "imageEffectTool": {
+    "backToEffects": "Back to Image Effects",
+    "uploadImage": "Upload Image",
+    "dragAndDrop": "Drag & drop or click to upload",
+    "selectFromCreations": "Select from My Creations",
+    "supportedFormats": "Supports JPG, PNG, WebP (max 10MB)",
+    "uploadingImage": "Uploading image...",
+    "uploading": "Uploading...",
+    "settings": "Settings",
+    "credits": "Credits",
+    "cost": "Cost",
+    "recharge": "Recharge",
+    "generate": "Generate",
+    "generating": "Generating...",
+    "uploadRequired": "Please upload an image to apply the effect.",
+    "insufficientCredits": "Insufficient credits. Please recharge.",
+    "generateFailed": "Failed to generate effect.",
+    "generateFailedRetry": "Failed to generate effect. Please try again.",
+    "uploadedAlt": "Uploaded",
+    "placeholderText": "Upload an image to apply the effect",
+    "comingSoon": "Coming soon"
+  },
+  "videoEffectTool": {
+    "backToEffects": "Back to Video Effects",
+    "uploadImage": "Upload Image",
+    "dragAndDrop": "Drag & drop or click to upload",
+    "selectFromCreations": "Select from My Creations",
+    "supportedFormats": "Supports JPG, PNG, WebP (max 10MB)",
+    "uploadingImage": "Uploading image...",
+    "uploading": "Uploading...",
+    "settings": "Settings",
+    "credits": "Credits",
+    "cost": "Cost",
+    "recharge": "Recharge",
+    "generate": "Generate",
+    "generating": "Generating...",
+    "uploadRequired": "Please upload an image to apply the effect.",
+    "uploadRequiredCount": "Please upload {count} images to apply the effect.",
+    "insufficientCredits": "Insufficient credits. Please recharge.",
+    "generateFailed": "Failed to generate effect.",
+    "generateFailedRetry": "Failed to generate effect. Please try again.",
+    "uploadedAlt": "Uploaded",
+    "placeholderText": "Upload an image to apply the effect",
+    "comingSoon": "Coming soon",
+    "firstFrame": "First Frame",
+    "lastFrame": "Last Frame",
+    "imageSlot": "Image {index}"
+  },
   "imageGenerator": {
     "textToImage": "Text to Image",
     "imageToImage": "Image to Image",
     "prompt": "Prompt",
     "settings": "Settings",
     "model": "Model",
+    "resolution": "Resolution",
+    "ratio": "Ratio",
     "image": "Image",
     "images": "Images",
     "credits": "Credits",
@@ -470,6 +754,7 @@
     "recharge": "Recharge",
     "generateImage": "Generate Image",
     "transformImage": "Transform Image",
+    "transformMultipleImages": "Transform {count} Images",
     "generating": "Generating...",
     "uploading": "Uploading...",
     "clickToUpload": "Click to upload or drag and drop",
@@ -512,13 +797,189 @@
     "generationInProgress": "Generating...",
     "generationStatusChecking": "Checking status...",
     "showcaseImageLoaded": "Showcase image loaded successfully",
-    "failedToLoadShowcaseImage": "Failed to load showcase image"
+    "failedToLoadShowcaseImage": "Failed to load showcase image",
+    "imageAgent": "Multi-Shot Generation",
+    "imageAgentTooltip": "AI expands your prompt into multiple angles, scenes, and lighting variations. Perfect for product photography, comic storyboards, and creative exploration.",
+    "imageCount": "Outputs",
+    "generateMultipleImages": "Generate {count} Images",
+    "promptTooLong": "Character limit exceeded by {count}"
   },
   "myCreations": {
     "title": "My Creations",
     "description": "View all your AI-generated videos and images",
     "videoTab": "Videos",
+    "jobsTab": "Jobs",
     "imageTab": "Images"
+  },
+  "media-detail": {
+    "title": "Media details",
+    "audio": "Audio",
+    "prompt": "Prompt",
+    "inputImages": "Input images",
+    "expand": "Expand",
+    "collapse": "Collapse",
+    "actions": {
+      "open": "Open",
+      "download": "Download",
+      "delete": "Delete",
+      "copyPrompt": "Copy prompt",
+      "promptCopied": "Prompt copied"
+    }
+  },
+  "agentJobs": {
+    "pleaseSignIn": "Please sign in",
+    "signInToViewJobs": "Sign in to view your jobs",
+    "signInButton": "Sign In",
+    "tabs": {
+      "history": "History",
+      "discover": "Discover"
+    },
+    "modal": {
+      "title": "Job details",
+      "labels": {
+        "videoModel": "Video model",
+        "imageModel": "Image model",
+        "aspectRatio": "Aspect ratio",
+        "duration": "Duration",
+        "shots": "Shots",
+        "created": "Created"
+      },
+      "actions": {
+        "open": "Open",
+        "download": "Download",
+        "copyPrompt": "Copy prompt"
+      }
+    },
+    "empty": {
+      "noJobsTitle": "No Agent Jobs Yet",
+      "noJobsDescription": "Create your first intelligent video orchestration job to get started",
+      "checkExamples": "Check out examples",
+      "noShowcase": "No showcase items available."
+    },
+    "auth": {
+      "required": "Authentication Required",
+      "description": "Please log in to view your Agent jobs",
+      "viewShowcase": "View Showcase"
+    },
+    "toast": {
+      "deleteSuccess": "Agent job deleted successfully",
+      "deleteError": "Failed to delete job",
+      "downloadError": "Failed to download video",
+      "fetchError": "Failed to load Agent jobs",
+      "copyError": "Failed to copy"
+    },
+    "item": {
+      "finalVideo": "Final Video",
+      "finalVideoNoBgm": "Spliced Video",
+      "finalVideoWithBgm": "Final Video (With BGM)",
+      "reEdit": "Re-edit",
+      "delete": "Delete",
+      "deleting": "Deleting...",
+      "story": "Story",
+      "theme": "Theme",
+      "tone": "Tone",
+      "acts": "Acts",
+      "characters": "Characters",
+      "scene": "Scene",
+      "logs": "Agent Logs",
+      "show": "Show",
+      "hide": "Hide",
+      "deleteTitle": "Delete Agent Job?",
+      "deleteConfirm": "Are you sure you want to delete \"{prompt}\"? This action cannot be undone.",
+      "shots": "shots",
+      "failed": "Generation failed",
+      "copyPrompt": "Copy prompt",
+      "promptCopied": "Prompt copied",
+      "failedShots": "Failed shots",
+      "estimatedCost": "Estimated cost to resume: {cost} credits",
+      "resume": "Resume",
+      "resumeStarted": "Resume started",
+      "resumeFailed": "Resume failed",
+      "retryStarted": "Retry started",
+      "retryFailed": "Retry failed",
+      "retryFromStart": "Retry from Start"
+    },
+    "steps": {
+      "plan_story_and_shots": "Story Planning",
+      "generate_prompts": "Prompt Generation",
+      "submit_background_music": "BGM Submission",
+      "design_characters": "Character Design",
+      "generate_scene_ref": "Scene Reference",
+      "generate_keyframes": "Keyframe Generation",
+      "generate_video_prompts": "Video Prompts",
+      "orchestrate_videos": "Video Generation",
+      "check_quality": "Quality Check",
+      "wait_for_background_music": "Waiting for BGM",
+      "splice_videos": "Video Splicing"
+    },
+    "assets": {
+      "script": "Script",
+      "image": "Image",
+      "video": "Video",
+      "storyScript": "Story & Script",
+      "characterRefs": "Character Refs",
+      "sceneRef": "Scene Ref",
+      "backgroundMusic": "Background Music",
+      "shot": "Shot",
+      "ref": "Ref",
+      "more": "more",
+      "finalVideo": "Final Video"
+    },
+    "assetModal": {
+      "shots": "Shots",
+      "acts": "Acts",
+      "characters": "Characters",
+      "scene": "Scene",
+      "storyOutline": "Story Outline",
+      "logline": "Logline",
+      "conflict": "Conflict",
+      "ending": "Ending",
+      "soundBed": "Sound bed",
+      "theme": "Theme",
+      "tone": "Tone",
+      "actsUpper": "ACTS",
+      "elementsUpper": "ELEMENTS",
+      "character": "Character",
+      "storyboard": "Storyboard",
+      "startFrame": "Start frame",
+      "story": "Story",
+      "keyframePrompt": "Keyframe Prompt",
+      "shotPrompt": "Shot Prompt",
+      "videoRouting": "Video Routing",
+      "copy": "Copy",
+      "copied": "Copied",
+      "download": "Download",
+      "copyAttempts": "Copy Attempts",
+      "keyboardHint": "Press Space to pause/play • ESC to close",
+      "videoNotSupported": "Your browser does not support the video tag.",
+      "done": "Done",
+      "failed": "Failed",
+      "generating": "Generating",
+      "skipped": "Skipped",
+      "model": "Model"
+    },
+    "gallery": {
+      "promptLabel": "Prompt",
+      "usedResources": "Resources",
+      "resourceLabel": "Resource"
+    },
+    "createPanel": {
+      "title": "Create Agent Job",
+      "description": "Description",
+      "descriptionPlaceholder": "Describe your video concept, e.g., A cinematic journey through a futuristic city at sunset...",
+      "aspectRatio": "Aspect Ratio",
+      "duration": "Duration",
+      "videoModel": "Video Model",
+      "credits": "Credits",
+      "cost": "Cost",
+      "recharge": "Recharge",
+      "generate": "Generate",
+      "creating": "Creating...",
+      "errorNoDescription": "Please enter a video description",
+      "errorMinLength": "Description must be at least 10 characters",
+      "errorMaxLength": "Description must not exceed 2000 characters",
+      "toastSuccess": "Agent job created!"
+    }
   },
   "imageHistory": {
     "discoveryTab": "Discover",
@@ -528,6 +989,10 @@
     "discoveryDescription": "Tap any card to instantly populate the prompt field in the text-to-image tool.",
     "historySubtitle": "Review your recent generations, track status updates, and manage outputs.",
     "title": "Image History",
+    "searchPromptPlaceholder": "Search prompts",
+    "searchMatches": "{count} matches",
+    "searchNoResults": "No prompts match your search",
+    "searchButton": "Search",
     "noImagesTitle": "No images yet",
     "noImagesDescription": "Your generated images will appear here once you start creating.",
     "completed": "Completed",
@@ -572,6 +1037,8 @@
     "imageToImageModel": "nano-banana"
   },
   "videoHistory": {
+    "exploreExamples": "Explore Examples",
+    "recentGenerations": "Recent Generations",
     "videoDeleted": "Video deleted successfully",
     "deleteFailed": "Failed to delete video",
     "deleteVideo": "Delete video",
@@ -618,6 +1085,78 @@
     "cancel": "Cancel",
     "continuePurchase": "Continue Purchase"
   },
+  "creditsBundle": {
+    "title": "Buy More Credits",
+    "description": "Purchase additional credits to generate more videos.",
+    "expireNote": "Additional credits expire 1 month after purchase.",
+    "credits": "Credits",
+    "selectPaymentMethod": "Select payment method",
+    "cancel": "Cancel",
+    "continueToPayment": "Continue to Payment",
+    "processing": "Processing...",
+    "buyCredits": "Buy Credits"
+  },
+  "nano-banana": {
+    "title": "Google Nano Banana AI: Try This AI Image Generator | Seedance",
+    "description": "Create stunning images with Nano Banana AI. Generate high-quality images from text prompts with advanced AI technology.",
+    "keywords": "Nano Banana, AI Image Generator, Text to Image, Image Creation, AI Art, AI Images"
+  },
+  "nano-banana-pro": {
+    "title": "Google Nano Banana Pro AI: Professional AI Image Generator | Seedance",
+    "description": "Experience Nano Banana Pro, the premium version of Google's Gemini 2.5 Flash Image. Professional-grade AI image generation with enhanced precision, superior quality, and advanced editing capabilities.",
+    "keywords": "Nano Banana Pro, Google Nano Banana Pro, Gemini 2.5 Flash Pro, AI Image Generator, Professional AI Images, Text to Image Pro, Image Editing AI, Advanced AI Art, Professional Image Generation"
+  },
+  "seedream-4-5": {
+    "title": "Seedream 4.5 AI Image Generator: ByteDance's Latest Image Model | Seedance",
+    "description": "Create stunning images with Seedream 4.5, ByteDance's advanced AI image generator. Features 4K resolution, up to 14 reference images, and batch generation capabilities.",
+    "keywords": "Seedream 4.5, ByteDance AI, Doubao Image, AI Image Generator, Text to Image, Image to Image, 4K AI Images, Batch Image Generation, Reference Images AI"
+  },
+  "seedream-5-0": {
+    "title": "Seedream 5.0 AI Image Generator Online Free | Seedance",
+    "description": "Create 4K images in 2-3s with Seedream 5.0 by ByteDance. Real-time web search, multi-round editing, example-based style transfer & 10x faster speed. Try free!",
+    "keywords": "Seedream 5.0, Seedream 5, AI image generator, text to image, 4K AI images, ByteDance, free"
+  },
+  "trans_type": {
+    "new_user": "Welcome Bonus",
+    "order_pay": "Purchase",
+    "system_add": "System Credit",
+    "ping": "API Ping",
+    "chat": "Chat",
+    "refund_non_response": "No Response Refund",
+    "video_generation_4s": "Video (4s)",
+    "video_generation_5s": "Video (5s)",
+    "video_generation_6s": "Video (6s)",
+    "video_generation_8s": "Video (8s)",
+    "video_generation_10s": "Video (10s)",
+    "video_generation_12s": "Video (12s)",
+    "video_generation_15s": "Video (15s)",
+    "video_generation_25s": "Video (25s)",
+    "refund_video_generation_failed": "Video Refund",
+    "image_generation": "Image Generation",
+    "refund_image_generation_failed": "Image Refund",
+    "agent_shot_analysis": "Agent Analysis",
+    "agent_plan_reserve": "Agent Plan",
+    "agent_plan_refund": "Agent Plan Refund",
+    "agent_keyframe": "Agent Keyframe",
+    "agent_keyframe_reserve": "Agent Keyframe",
+    "agent_keyframe_refund": "Agent Keyframe Refund",
+    "agent_video_clip": "Agent Clip",
+    "agent_video_reserve": "Agent Video",
+    "agent_video_refund": "Agent Video Refund",
+    "agent_bgm_reserve": "Agent BGM",
+    "agent_bgm_refund": "Agent BGM Refund",
+    "agent_video_splicing": "Agent Splicing",
+    "agent_splice": "Agent Splice",
+    "agent_splice_refund": "Agent Splice Refund",
+    "agent_scene_ref_reserve": "Agent Scene Ref",
+    "agent_scene_ref_refund": "Agent Scene Ref Refund",
+    "agent_character_ref_reserve": "Agent Character Ref",
+    "agent_character_ref_refund": "Agent Character Ref Refund"
+  },
+  "header": {
+    "video_effects": "Video Effects",
+    "more_effects": "More Effects"
+  },
   "effects": {
     "ai-kissing": "AI Kissing Video Generator",
     "kiss-me-ai": "Kiss Me AI",
@@ -648,10 +1187,5 @@
   "footer": {
     "popularEffects": "Popular Effects",
     "moreEffects": "More Effects →"
-  },
-  "nano-banana": {
-    "title": "Google Nano Banana AI: Try This AI Image Generator | Veo3 AI",
-    "description": "Create stunning images with Nano Banana AI. Generate high-quality images from text prompts with advanced AI technology.",
-    "keywords": "Nano Banana, AI Image Generator, Text to Image, Image Creation, AI Art, AI Images"
   }
 }

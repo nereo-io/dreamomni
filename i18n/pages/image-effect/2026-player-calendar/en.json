@@ -1,0 +1,15 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "player-calendar-1",
+        "title": "Player Calendar Preview",
+        "imageUrl": "/placeholder-effect.svg"
+      }
+    ],
+    "form": {
+      "title": "2026 Player Calendar Photo Effect",
+      "backgroundImage": "/placeholder-effect.svg"
+    }
+  }
+}

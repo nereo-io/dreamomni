@@ -13,6 +13,7 @@ import { ThemeProvider } from "@/providers/theme";
 import { cn } from "@/lib/utils";
 import StructuredData from "@/components/seo/structured-data";
 import { SignupTracker } from "@/components/analytics/signup-tracker";
+import AttributionTracker from "@/components/analytics/attribution-tracker";
 import YandexMetrica from "@/components/analytics/yandex-metrica";
 // import { SpeedInsights } from '@vercel/speed-insights/next';
 // import { Analytics } from "@vercel/analytics/react";
@@ -97,7 +98,7 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning className="dark">
       <head>
         <StructuredData
           type="organization"
@@ -126,6 +127,7 @@ export default async function RootLayout({
             <AppContextProvider>
               <ThemeProvider attribute="class" disableTransitionOnChange>
                 <SignupTracker />
+                <AttributionTracker />
                 {children}
               </ThemeProvider>
             </AppContextProvider>

@@ -18,10 +18,13 @@ export interface VideoGeneration {
   ali_request_id?: string | null; // Ali Video Generation request ID
   pixverse_request_id?: string | null; // PixVerse request ID
   sora_request_id?: string | null; // Sora 2 request ID
+  provider_request_id?: string | null; // Generic provider request ID
   model_id: string;
   prompt: string;
   optimized_prompt?: string | null; // 优化后的提示词
-  input_image_url?: string | null;
+  input_image_url?: string | null; // 保留用于向后兼容
+  image_urls?: string[] | null; // 新增：支持1-2张图片数组（首帧、尾帧）
+  source_image_ids?: string[] | null; // 新增：来源图片ID数组（追踪"My Creations"选择）
   negative_prompt?: string | null;
   aspect_ratio: string;
   duration_seconds: number;
@@ -36,12 +39,18 @@ export interface VideoGeneration {
   video_url_ali?: string | null; // Ali Video Generation video URL
   video_url_pixverse?: string | null; // PixVerse video URL
   video_url_sora?: string | null; // Sora 2 video URL
+  video_url_provider?: string | null; // Generic provider video URL
   upsample_video_url_veo3?: string | null; // Veo3 high-quality video URL
+  is_downgraded_to_720p?: boolean | null; // HD升级失败，降级为720P
   error_message?: string | null;
   logs?: any | null; // jsonb
   metrics?: any | null; // jsonb
+  metadata?: any | null; // jsonb - stores credit_deduction and other metadata
   effect_id?: string | null; // 特效ID
   is_delete?: boolean | null; // 软删除标记
+  agent_shot_id?: string | null; // Python Agent 关联的 shot ID
+  model_name?: string | null; // Actual AI model (e.g., "seedance-1.5-pro", "veo3")
+  actual_provider?: string | null; // Provider that ran the job (e.g., "volcano")
   created_at: string; // timestamptz
   updated_at: string; // timestamptz
 }
@@ -57,7 +66,10 @@ export interface CreateVideoGenerationParams {
   ali_request_id?: string; // Ali Video Generation request ID
   pixverse_request_id?: string; // PixVerse request ID
   sora_request_id?: string; // Sora 2 request ID
-  input_image_url?: string;
+  provider_request_id?: string; // Generic provider request ID
+  input_image_url?: string; // 保留用于向后兼容
+  image_urls?: string[]; // 新增：支持1-2张图片数组（首帧、尾帧）
+  source_image_ids?: string[]; // 新增：来源图片ID数组（追踪"My Creations"选择）
   negative_prompt?: string;
   aspect_ratio?: string;
   duration_seconds?: number;
@@ -65,7 +77,11 @@ export interface CreateVideoGenerationParams {
   seed?: number;
   has_audio?: boolean; // 新增：是否包含音频
   status?: VideoGenerationStatus; // 允许在创建时指定初始状态
+  metadata?: any; // 新增：元数据（包括积分扣费信息）
   effect_id?: string; // 新增：特效ID
+  agent_shot_id?: string; // Python Agent 关联的 shot ID
+  model_name?: string; // Actual AI model
+  actual_provider?: string; // Provider that ran the job
 }
 
 export interface UpdateVideoGenerationParams {
@@ -78,16 +94,21 @@ export interface UpdateVideoGenerationParams {
   video_url_ali?: string; // Ali Video Generation video URL
   video_url_pixverse?: string; // PixVerse video URL
   video_url_sora?: string; // Sora 2 video URL
+  video_url_provider?: string; // Generic provider video URL
   upsample_video_url_veo3?: string; // Veo3 high-quality video URL
   error_message?: string;
   logs?: any;
   metrics?: any;
+  metadata?: any; // 元数据更新
   fal_request_id?: string; // 有时可能在创建后才知道 fal_request_id
   volcano_request_id?: string; // Volcano Engine request ID
   veo3_request_id?: string; // Veo3 APICore request ID
   ali_request_id?: string; // Ali Video Generation request ID
   pixverse_request_id?: string; // PixVerse request ID
   sora_request_id?: string; // Sora 2 request ID
+  provider_request_id?: string; // Generic provider request ID
+  agent_shot_id?: string; // Python Agent 关联的 shot ID
+  actual_provider?: string; // Provider that ran the job
 }
 
 // Adding types from previous video.d.ts content if they are still relevant

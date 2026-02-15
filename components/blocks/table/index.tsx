@@ -27,7 +27,7 @@ export default function ({
   }
 
   return (
-    <Table className="w-full">
+    <Table className="w-full tabular-nums">
       <TableHeader>
         <TableRow>
           {columns &&

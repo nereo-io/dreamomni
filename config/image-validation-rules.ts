@@ -25,7 +25,7 @@ const DEFAULT_RULE: ImageValidationRule = {
   maxHeight: 6000,
   minAspectRatio: 0.4,
   maxAspectRatio: 2.5,
-  maxFileSize: 10 * 1024 * 1024, // 10MB
+  maxFileSize: 20 * 1024 * 1024, // 20MB
   supportedFormats: [
     "image/jpeg",
     "image/jpg",
@@ -37,7 +37,7 @@ const DEFAULT_RULE: ImageValidationRule = {
     tooSmall: "Image too small. Minimum size is 300x300 pixels.",
     tooLarge: "Image too large. Maximum size is 6000x6000 pixels.",
     aspectRatio: "Invalid aspect ratio. Please use an image with aspect ratio between 0.4 and 2.5.",
-    fileSize: "File too large. Maximum size is 10MB.",
+    fileSize: "File too large. Maximum size is 20MB.",
     format: "Unsupported format. Please use JPEG, PNG, WEBP, or BMP.",
   },
 };
@@ -94,8 +94,45 @@ const ALI_WAN_RULE: ImageValidationRule = {
   },
 };
 
+// Seedream 图片生成模型规则
+const SEEDREAM_IMAGE_RULE: ImageValidationRule = {
+  ...DEFAULT_RULE,
+  maxFileSize: 10 * 1024 * 1024, // 10MB
+  errorMessages: {
+    ...DEFAULT_RULE.errorMessages,
+    fileSize: "File too large. Maximum size is 10MB.",
+  },
+};
+
+// Kie.ai Hailuo 2.3 图片转视频规则
+const KIE_HAILUO_23_RULE: ImageValidationRule = {
+  ...DEFAULT_RULE,
+  maxFileSize: 10 * 1024 * 1024, // 10MB
+  supportedFormats: ["image/jpeg", "image/jpg", "image/png", "image/webp"],
+  errorMessages: {
+    ...DEFAULT_RULE.errorMessages,
+    fileSize: "File too large. Maximum size is 10MB.",
+    format: "Unsupported format. Please use JPEG, PNG, or WEBP.",
+  },
+};
+
+// Kie.ai Wan 2.5 图片转视频规则
+const KIE_WAN_25_RULE: ImageValidationRule = {
+  ...DEFAULT_RULE,
+  maxFileSize: 10 * 1024 * 1024, // 10MB
+  supportedFormats: ["image/jpeg", "image/jpg", "image/png", "image/webp"],
+  errorMessages: {
+    ...DEFAULT_RULE.errorMessages,
+    fileSize: "File too large. Maximum size is 10MB.",
+    format: "Unsupported format. Please use JPEG, PNG, or WEBP.",
+  },
+};
+
 // 模型ID到验证规则的映射
 export const MODEL_IMAGE_VALIDATION_RULES: Record<string, ImageValidationRule> = {
+  // Seedream 图片生成模型
+  "seedream-4-5": SEEDREAM_IMAGE_RULE,
+
   // Seedance 模型（火山引擎）
   "doubao-seedance-1-0-pro-image-to-video": SEEDANCE_RULE,
   
@@ -104,9 +141,18 @@ export const MODEL_IMAGE_VALIDATION_RULES: Record<string, ImageValidationRule> =
   
   // Kie.ai Veo3 模型（使用默认规则）
   "kie-veo3-image-to-video": DEFAULT_RULE,
+
+  // Kie.ai Kling 3.0 模型（使用默认规则）
+  "kie-kling-3-image-to-video": DEFAULT_RULE,
   
   // MiniMax Hailuo 模型（使用默认规则）
   "minimax-hailuo02-image-to-video": DEFAULT_RULE,
+
+  // Kie.ai Hailuo 2.3 模型
+  "kie-hailuo-2-3-image-to-video": KIE_HAILUO_23_RULE,
+
+  // Kie.ai Wan 2.5 模型
+  "kie-wan-2-5-image-to-video": KIE_WAN_25_RULE,
   
   // 其他未明确定义的模型使用默认规则
 };

@@ -71,7 +71,309 @@
     },
     "description": "Verwandeln Sie Ihre Ideen in Sekundenschnelle in visuelle Geschichten",
     "show_happy_users": false,
-    "show_badge": false
+    "show_badge": false,
+    "buttons": [
+      {
+        "title": "Videos Erstellen",
+        "url": "/image-to-video",
+        "target": "_self",
+        "variant": "default",
+        "icon": "GoArrowUpRight"
+      }
+    ]
+  },
+  "aiModelsHero": {
+    "title": "All-in-One AI Bild zu Video Generator",
+    "description": "Seedance ist der ultimative All-in-One-KI-Videogenerator. Wir bieten Zugang zu branchenführenden Videomodellen wie Sora 2, Veo 3.1, Seedance und mehr, alles an einem Ort. Probieren Sie sie nahtlos aus und erstellen Sie beeindruckende Visuals, ohne zwischen mehreren Plattformen jonglieren zu müssen!",
+    "models": [
+      {
+        "id": "sora2",
+        "name": "Sora 2",
+        "logo": "/imgs/intro/sora.png"
+      },
+      {
+        "id": "veo3",
+        "name": "Veo 3",
+        "logo": "/imgs/intro/veo.svg"
+      },
+      {
+        "id": "seedance",
+        "name": "Seedance",
+        "logo": "/imgs/intro/seedance.png"
+      }
+    ],
+    "moreModels": "Weitere Modelle"
+  },
+  "imageToVideoShowcase": {
+    "title": "Bild zu Video AI",
+    "description": "Erwecken Sie Ihre Bilder mit unserem Bild-zu-Video AI Generator zum Leben",
+    "cta": "Seedance Ausprobieren",
+    "labels": {
+      "originalImage": "Originalbild",
+      "prompt": "Prompt",
+      "video": "Video"
+    },
+    "examples": [
+      {
+        "id": "anime-girl",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Anime-Shooting.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Shooting.mp4",
+        "originalAlt": "Elfenbogenschützin in grüner Rüstung mit gespanntem Langbogen",
+        "videoAlt": "Grün leuchtender Pfeil fliegt durch einen sonnenbeschienenen Wald",
+        "prompt": "Eine Elfenbogenschützin in grüner Rüstung, Langbogen gespannt, trägt ein geheimnisvolles Lächeln. Ihr goldenes Haar wiegt sich natürlich im Wind. Eine vertikale Tracking-Einstellung kreist hinter ihr, während ein grün leuchtender Pfeil sanft abgeschossen wird. Die Kamera folgt seiner Flugbahn durch einen dichten Wald, Sonnenlicht filtert durch die Blätter und erzeugt tanzende Lichtflecken. Die Handkamera vermittelt ein dynamisches Gefühl der Verfolgung."
+      },
+      {
+        "id": "pastoral-boy",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.mp4",
+        "originalAlt": "Junge in einer ländlichen Wiese mit Stroh",
+        "videoAlt": "Die Kamera schwenkt um einen Jungen, während das Stroh im Wind wogt",
+        "prompt": "Die Kamera schwenkt um den Jungen im Bild, die Umgebung bewegt sich natürlich, das Stroh wogt im Wind, und der Junge blickt in die Ferne."
+      },
+      {
+        "id": "Selfie-cat",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.mp4",
+        "originalAlt": "Katze steuert ein Kampfflugzeug",
+        "videoAlt": "Katze fliegt mit einem Kampfflugzeug durch den Himmel",
+        "prompt": "Handkamera, leicht wackelig, die Katze steuert ein Kampfflugzeug, das durch den Himmel fliegt, die Kamera ist stets vor der Katze positioniert."
+      },
+      {
+        "id": "motorcycle",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Astronaut-Looking-at-Earth.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
+        "originalAlt": "Motorrad bereit zum Rasen",
+        "videoAlt": "Motorrad rast mit Lichtspur",
+        "prompt": "Das Motorrad rast, und das Rücklicht wird zu einer Linie.",
+        "promptExpandable": false
+      }
+    ]
+  },
+  "aiVideoShowcase": {
+    "title": "Visualize Any Text with Our AI Video Generator",
+    "description": "Bring any text to life with our AI video generator! Create engaging videos of any style with just a simple text prompt.",
+    "cta": "Start Creating",
+    "examples": [
+      {
+        "id": "1",
+        "image": "/intro/camera.mp4",
+        "alt": "Camera movement demonstration",
+        "prompt": "Dynamic camera angles showcasing cinematic movements"
+      },
+      {
+        "id": "2",
+        "image": "/intro/storytelling.mp4",
+        "alt": "Storytelling capabilities",
+        "prompt": "Multi-scene narrative with consistent characters"
+      },
+      {
+        "id": "3",
+        "image": "/intro/versatility.mp4",
+        "alt": "Style versatility",
+        "prompt": "Transform scenes into different artistic styles"
+      },
+      {
+        "id": "4",
+        "image": "/intro/dynamic-range.mp4",
+        "alt": "Dynamic range",
+        "prompt": "From subtle animations to explosive action"
+      },
+      {
+        "id": "5",
+        "image": "/intro/professional-1080.mp4",
+        "alt": "Professional quality",
+        "prompt": "Crystal clear 1080p with smooth motion"
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "label": "Häufige Fragen",
+    "title": "Häufig gestellte Fragen zu Seedance 1.0",
+    "description": "Erfahren Sie mehr über Seedance 1.0s erweiterte KI-Video-Generierungs-Fähigkeiten, Multi-Shot-Storytelling und professionelle Video-Erstellungs-Features.",
+    "items": [
+      {
+        "title": "Was ist der Seedance 1.0 KI-Video-Generator und wie funktioniert er?",
+        "description": "Seedance 1.0 gibt Ihnen Zugang zu bahnbrechender KI-Video-Erstellungs-Technologie mit nativem Multi-Shot-Storytelling. Beschreiben Sie einfach Ihre Video-Idee in Text, und Seedance wird hochqualitative 1080p-Videos mit kinematischer Ästhetik, flüssigen Bewegungen und vielfältigem Stilausdruck generieren. Seedances erweiterte semantische Verstehen gewährleistet präzises Prompt-Following für professionelle Ergebnisse."
+      },
+      {
+        "title": "Was macht Seedance 1.0 anders als andere KI-Video-Tools?",
+        "description": "Seedance 1.0 bietet bahnbrechende Features, die es abhebt: native Multi-Shot-Narrativ-Generierung, visuelle Konsistenz über Shot-Übergänge hinweg, breite Dynamikrange für das Erfassen subtiler Ausdrücke, vielfältige Stilunterstützung vom Fotorealismus bis Cyberpunk, und präzise Kontrolle über Multi-Agent-Interaktionen. Seedances erweiterte semantische Verstehen und Kamerabewegungssteuerung liefern professionelle Ergebnisse, die von anderen Plattformen unübertroffen sind."
+      },
+      {
+        "title": "Welche Arten von Videos kann ich mit Seedance 1.0 erstellen?",
+        "description": "Seedance 1.0 unterstützt eine breite Palette von Video-Typen: Marketing-Videos, Social-Media-Content, Bildungsmaterialien, Produktdemonstrationen, animierte Geschichten, Musikvideos, Konzeptkunst und kinematische Szenen. Mit Seedances Multi-Shot-Storytelling und 1080p-Qualität passt sich die KI jeder kreativen Vision an. Vom Fotorealismus bis zur Cyberpunk-Ästhetik liefert Seedance professionelle Ergebnisse für jedes Projekt."
+      },
+      {
+        "title": "Gibt es Beschränkungen für den kostenlosen Seedance 1.0 Video-Generator?",
+        "description": "Während kostenlose Seedance 1.0 Zugang zu erweiterten 1080p-Video-Generierung und Multi-Shot-Storytelling-Fähigkeiten bietet, genießen Premium-Seedance-Nutzer unbegrenzte Generierungen, längere Video-Dauern, prioritäre Verarbeitung und zusätzliche Features wie benutzerdefinierte Stile und Batch-Verarbeitung. Kostenlose Seedance-Nutzer können kinematische Videos mit angemessenen Nutzungslimits erstellen, während sie die volle Kraft der Seedance KI-Technologie erleben."
+      },
+      {
+        "title": "Wie lange dauert es, Videos mit Seedance zu generieren?",
+        "description": "Seedance Video-Generierung dauert typischerweise 2-5 Minuten für Standard-1080p-Videos, abhängig von Komplexität und Multi-Shot-Anforderungen. Die KI verarbeitet Ihren Prompt, erstellt die Video-Sequenz mit kinematischer Ästhetik und wendet erweiterte Renderung für professionelle Ergebnisse an. Premium-Nutzer erhalten prioritäre Verarbeitung für schnellere Generierung."
+      },
+      {
+        "title": "Kann ich Stil und Qualität der generierten Videos anpassen?",
+        "description": "Ja! Seedance bietet umfangreiche Anpassungsoptionen mit Stilvielfalt vom Fotorealismus bis zur Cyberpunk-Ästhetik. Sie können Video-Stil, Kamerawinkel, Beleuchtung, Stimmung, Farbpalette und Bewegungscharakteristiken in Ihren Prompts spezifizieren. Die KI versteht detaillierte kreative Anweisungen und produziert 1080p-Videos mit Kinoqualität, die Ihrer exakten Vision entsprechen."
+      },
+      {
+        "title": "Ist mein Content sicher bei der Nutzung von Seedance?",
+        "description": "Absolut. Seedance setzt branchenführende Sicherheitsmaßnahmen ein, um Ihren Content und Ihre Prompts zu schützen. Wir folgen strengen Datenschutzprotokollen und verwenden nie Ihre persönlichen Projekte zum Trainieren von Modellen oder teilen Content mit Dritten. Ihre kreative Arbeit und Multi-Shot-Video-Projekte bleiben vollständig privat."
+      },
+      {
+        "title": "Wie fange ich mit Seedance an?",
+        "description": "Der Einstieg in Seedance ist einfach! Klicken Sie einfach den 'Video Generieren' Button, beschreiben Sie Ihre Video-Idee in der Prompt-Box und schauen Sie zu, wie KI Ihr professionelles 1080p-Video mit kinematischer Ästhetik erstellt. Keine komplexe Einrichtung erforderlich - beginnen Sie sofort mit der Erstellung erstaunlicher Multi-Shot-Videos."
+      },
+      {
+        "title": "Welche Video-Formate und Auflösungen unterstützt Seedance?",
+        "description": "Seedance unterstützt mehrere Formate einschließlich MP4, MOV und WebM. Videos werden standardmäßig in professioneller 1080p-Auflösung generiert und liefern Kinoqualität mit Multi-Shot-Storytelling-Fähigkeiten. Alle Videos sind optimiert für Web-Sharing, Social Media und professionelle Nutzung mit breiter Dynamikrange und Stilvielfalt."
+      },
+      {
+        "title": "Kann ich mit Seedance generierte Videos für kommerzielle Zwecke verwenden?",
+        "description": "Ja! Videos, die mit Seedance erstellt wurden, können für kommerzielle Zwecke verwendet werden, einschließlich Marketing, Werbung, Social Media und Geschäftspräsentationen. Mit professioneller 1080p-Qualität und kinematischer Ästhetik sind Ihre Videos für jede kommerzielle Anwendung bereit. Premium-Pläne bieten erweiterte kommerzielle Lizenzierung und zusätzliche Nutzungsrechte für Unternehmensanwendungen."
+      }
+    ]
+  },
+  "cta": [
+    {
+      "name": "cta-generate",
+      "title": "Beginnen Sie mit der Video-Erstellung mit Seedance 1.0",
+      "buttons": [
+        {
+          "title": "Video Generieren",
+          "url": "#video-generator",
+          "target": "_self",
+          "icon": "GoArrowUpRight"
+        }
+      ]
+    },
+    {
+      "name": "cta-features",
+      "title": "Erkunden Sie Seedance 1.0 Features",
+      "description": "Professionelle 1080p-Video-Generierung mit nativem Multi-Shot-Storytelling, vielfältigem Stilausdruck & erweiterte Seedance KI-Technologie",
+      "buttons": [
+        {
+          "title": "Mehr Erfahren",
+          "url": "#features",
+          "target": "_self"
+        }
+      ]
+    }
+  ],
+  "footer": {
+    "name": "footer",
+    "brand": {
+      "title": "Seedance 1.0",
+      "description": "Verwandeln Sie Text und Bilder mit Seedances fortschrittlicher Multi-Shot-Technologie in beeindruckende 1080p KI-Videos.",
+      "logo": {
+        "src": "/logo.png",
+        "alt": "Seedance AI Video Generator"
+      },
+      "url": "/"
+    },
+    "copyright": " 2025 • Seedance Alle Rechte vorbehalten.",
+    "nav": {
+      "items": [
+        {
+          "title": "KI-Video-Tools",
+          "children": [
+            {
+              "title": "Text zu Video",
+              "url": "/text-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "Bild zu Video",
+              "url": "/image-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "KI-Videoeffekte",
+              "url": "/video-effects",
+              "target": "_self"
+            },
+            {
+              "title": "Meine Kreationen",
+              "url": "/history",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "KI-Bild-Tools",
+          "children": [
+            {
+              "title": "Text zu Bild",
+              "url": "/text-to-image",
+              "target": "_self"
+            },
+            {
+              "title": "Bild zu Bild",
+              "url": "/image-to-image",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "Ressourcen",
+          "children": [
+            {
+              "title": "Startseite",
+              "url": "/home",
+              "target": "_self"
+            },
+            {
+              "title": "Preise",
+              "url": "/pricing",
+              "target": "_self"
+            },
+            {
+              "title": "Blog",
+              "url": "/blog",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    "agreement": {
+      "items": [
+        {
+          "title": "Datenschutzerklärung",
+          "url": "/privacy-policy"
+        },
+        {
+          "title": "Rückerstattungsrichtlinie",
+          "url": "/refund-policy"
+        },
+        {
+          "title": "Nutzungsbedingungen",
+          "url": "/terms-of-service"
+        }
+      ]
+    },
+    "contact": {
+      "title": "KONTAKT",
+      "items": [
+        {
+          "title": "E-Mail Support",
+          "value": "support@seedance.tv",
+          "icon": "RiMailFill",
+          "url": "mailto:support@seedance.tv",
+          "target": "_self"
+        },
+        {
+          "title": "Unternehmen",
+          "value": "ASTROINSPIRE LTD",
+          "icon": "RiBuildingFill"
+        },
+        {
+          "title": "Adresse",
+          "value": "71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM",
+          "icon": "RiMapPinFill"
+        }
+      ]
+    }
   },
   "introduce": {
     "name": "introduce",
@@ -190,232 +492,6 @@
         "image": {
           "src": "/imgs/users/6.png"
         }
-      }
-    ]
-  },
-  "faq": {
-    "name": "faq",
-    "label": "Häufige Fragen",
-    "title": "Häufig gestellte Fragen zu Seedance 1.0",
-    "description": "Erfahren Sie mehr über Seedance 1.0s erweiterte KI-Video-Generierungs-Fähigkeiten, Multi-Shot-Storytelling und professionelle Video-Erstellungs-Features.",
-    "items": [
-      {
-        "title": "Was ist der Seedance 1.0 KI-Video-Generator und wie funktioniert er?",
-        "description": "Seedance 1.0 gibt Ihnen Zugang zu bahnbrechender KI-Video-Erstellungs-Technologie mit nativem Multi-Shot-Storytelling. Beschreiben Sie einfach Ihre Video-Idee in Text, und Seedance wird hochqualitative 1080p-Videos mit kinematischer Ästhetik, flüssigen Bewegungen und vielfältigem Stilausdruck generieren. Seedances erweiterte semantische Verstehen gewährleistet präzises Prompt-Following für professionelle Ergebnisse."
-      },
-      {
-        "title": "Was macht Seedance 1.0 anders als andere KI-Video-Tools?",
-        "description": "Seedance 1.0 bietet bahnbrechende Features, die es abhebt: native Multi-Shot-Narrativ-Generierung, visuelle Konsistenz über Shot-Übergänge hinweg, breite Dynamikrange für das Erfassen subtiler Ausdrücke, vielfältige Stilunterstützung vom Fotorealismus bis Cyberpunk, und präzise Kontrolle über Multi-Agent-Interaktionen. Seedances erweiterte semantische Verstehen und Kamerabewegungssteuerung liefern professionelle Ergebnisse, die von anderen Plattformen unübertroffen sind."
-      },
-      {
-        "title": "Welche Arten von Videos kann ich mit Seedance 1.0 erstellen?",
-        "description": "Seedance 1.0 unterstützt eine breite Palette von Video-Typen: Marketing-Videos, Social-Media-Content, Bildungsmaterialien, Produktdemonstrationen, animierte Geschichten, Musikvideos, Konzeptkunst und kinematische Szenen. Mit Seedances Multi-Shot-Storytelling und 1080p-Qualität passt sich die KI jeder kreativen Vision an. Vom Fotorealismus bis zur Cyberpunk-Ästhetik liefert Seedance professionelle Ergebnisse für jedes Projekt."
-      },
-      {
-        "title": "Gibt es Beschränkungen für den kostenlosen Seedance 1.0 Video-Generator?",
-        "description": "Während kostenlose Seedance 1.0 Zugang zu erweiterten 1080p-Video-Generierung und Multi-Shot-Storytelling-Fähigkeiten bietet, genießen Premium-Seedance-Nutzer unbegrenzte Generierungen, längere Video-Dauern, prioritäre Verarbeitung und zusätzliche Features wie benutzerdefinierte Stile und Batch-Verarbeitung. Kostenlose Seedance-Nutzer können kinematische Videos mit angemessenen Nutzungslimits erstellen, während sie die volle Kraft der Seedance KI-Technologie erleben."
-      },
-      {
-        "title": "Wie lange dauert es, Videos mit Seedance zu generieren?",
-        "description": "Seedance Video-Generierung dauert typischerweise 2-5 Minuten für Standard-1080p-Videos, abhängig von Komplexität und Multi-Shot-Anforderungen. Die KI verarbeitet Ihren Prompt, erstellt die Video-Sequenz mit kinematischer Ästhetik und wendet erweiterte Renderung für professionelle Ergebnisse an. Premium-Nutzer erhalten prioritäre Verarbeitung für schnellere Generierung."
-      },
-      {
-        "title": "Kann ich Stil und Qualität der generierten Videos anpassen?",
-        "description": "Ja! Seedance bietet umfangreiche Anpassungsoptionen mit Stilvielfalt vom Fotorealismus bis zur Cyberpunk-Ästhetik. Sie können Video-Stil, Kamerawinkel, Beleuchtung, Stimmung, Farbpalette und Bewegungscharakteristiken in Ihren Prompts spezifizieren. Die KI versteht detaillierte kreative Anweisungen und produziert 1080p-Videos mit Kinoqualität, die Ihrer exakten Vision entsprechen."
-      },
-      {
-        "title": "Ist mein Content sicher bei der Nutzung von Seedance?",
-        "description": "Absolut. Seedance setzt branchenführende Sicherheitsmaßnahmen ein, um Ihren Content und Ihre Prompts zu schützen. Wir folgen strengen Datenschutzprotokollen und verwenden nie Ihre persönlichen Projekte zum Trainieren von Modellen oder teilen Content mit Dritten. Ihre kreative Arbeit und Multi-Shot-Video-Projekte bleiben vollständig privat."
-      },
-      {
-        "title": "Wie fange ich mit Seedance an?",
-        "description": "Der Einstieg in Seedance ist einfach! Klicken Sie einfach den 'Video Generieren' Button, beschreiben Sie Ihre Video-Idee in der Prompt-Box und schauen Sie zu, wie KI Ihr professionelles 1080p-Video mit kinematischer Ästhetik erstellt. Keine komplexe Einrichtung erforderlich - beginnen Sie sofort mit der Erstellung erstaunlicher Multi-Shot-Videos."
-      },
-      {
-        "title": "Welche Video-Formate und Auflösungen unterstützt Seedance?",
-        "description": "Seedance unterstützt mehrere Formate einschließlich MP4, MOV und WebM. Videos werden standardmäßig in professioneller 1080p-Auflösung generiert und liefern Kinoqualität mit Multi-Shot-Storytelling-Fähigkeiten. Alle Videos sind optimiert für Web-Sharing, Social Media und professionelle Nutzung mit breiter Dynamikrange und Stilvielfalt."
-      },
-      {
-        "title": "Kann ich mit Seedance generierte Videos für kommerzielle Zwecke verwenden?",
-        "description": "Ja! Videos, die mit Seedance erstellt wurden, können für kommerzielle Zwecke verwendet werden, einschließlich Marketing, Werbung, Social Media und Geschäftspräsentationen. Mit professioneller 1080p-Qualität und kinematischer Ästhetik sind Ihre Videos für jede kommerzielle Anwendung bereit. Premium-Pläne bieten erweiterte kommerzielle Lizenzierung und zusätzliche Nutzungsrechte für Unternehmensanwendungen."
-      }
-    ]
-  },
-  "footer": {
-    "name": "footer",
-    "brand": {
-      "title": "Seedance 1.0",
-      "description": "Verwandeln Sie Text und Bilder mit Seedances fortschrittlicher Multi-Shot-Technologie in beeindruckende 1080p KI-Videos.",
-      "logo": {
-        "src": "/logo.png",
-        "alt": "Seedance AI Video Generator"
-      },
-      "url": "/"
-    },
-    "copyright": " 2025 • Seedance Alle Rechte vorbehalten.",
-    "nav": {
-      "items": [
-        {
-          "title": "KI-Video-Tools",
-          "children": [
-            {
-              "title": "Text zu Video",
-              "url": "/text-to-video",
-              "target": "_self"
-            },
-            {
-              "title": "Bild zu Video",
-              "url": "/image-to-video",
-              "target": "_self"
-            },
-            {
-              "title": "KI-Videoeffekte",
-              "url": "/video-effects",
-              "target": "_self"
-            },
-            {
-              "title": "Meine Kreationen",
-              "url": "/history",
-              "target": "_self"
-            }
-          ]
-        },
-        {
-          "title": "KI-Bild-Tools",
-          "children": [
-            {
-              "title": "Text zu Bild",
-              "url": "/text-to-image",
-              "target": "_self"
-            },
-            {
-              "title": "Bild zu Bild",
-              "url": "/image-to-image",
-              "target": "_self"
-            }
-          ]
-        },
-        {
-          "title": "Ressourcen",
-          "children": [
-            {
-              "title": "Startseite",
-              "url": "/home",
-              "target": "_self"
-            },
-            {
-              "title": "Preise",
-              "url": "/pricing",
-              "target": "_self"
-            },
-            {
-              "title": "Blog",
-              "url": "/blog",
-              "target": "_self"
-            }
-          ]
-        }
-      ]
-    },
-    "agreement": {
-      "items": [
-        {
-          "title": "Datenschutzerklärung",
-          "url": "/privacy-policy"
-        },
-        {
-          "title": "Rückerstattungsrichtlinie",
-          "url": "/refund-policy"
-        },
-        {
-          "title": "Nutzungsbedingungen",
-          "url": "/terms-of-service"
-        }
-      ]
-    },
-    "contact": {
-      "title": "KONTAKT",
-      "items": [
-        {
-          "title": "E-Mail Support",
-          "value": "support@seedance.tv",
-          "icon": "RiMailFill",
-          "url": "mailto:support@seedance.tv",
-          "target": "_self"
-        },
-        {
-          "title": "Unternehmen",
-          "value": "ASTROINSPIRE LTD",
-          "icon": "RiBuildingFill"
-        },
-        {
-          "title": "Adresse",
-          "value": "71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM",
-          "icon": "RiMapPinFill"
-        }
-      ]
-    }
-  },
-  "cta": [
-    {
-      "name": "cta-generate",
-      "title": "Beginnen Sie mit der Video-Erstellung mit Seedance 1.0",
-      "buttons": [
-        {
-          "title": "Video Generieren",
-          "url": "#video-generator",
-          "target": "_self",
-          "icon": "GoArrowUpRight"
-        }
-      ]
-    },
-    {
-      "name": "cta-features",
-      "title": "Erkunden Sie Seedance 1.0 Features",
-      "description": "Professionelle 1080p-Video-Generierung mit nativem Multi-Shot-Storytelling, vielfältigem Stilausdruck & erweiterte Seedance KI-Technologie",
-      "buttons": [
-        {
-          "title": "Mehr Erfahren",
-          "url": "#features",
-          "target": "_self"
-        }
-      ]
-    }
-  ],
-  "aiVideoShowcase": {
-    "title": "Visualize Any Text with Our AI Video Generator",
-    "description": "Bring any text to life with our AI video generator! Create engaging videos of any style with just a simple text prompt.",
-    "cta": "Start Creating",
-    "examples": [
-      {
-        "id": "1",
-        "image": "/intro/camera.mp4",
-        "alt": "Camera movement demonstration",
-        "prompt": "Dynamic camera angles showcasing cinematic movements"
-      },
-      {
-        "id": "2",
-        "image": "/intro/storytelling.mp4",
-        "alt": "Storytelling capabilities",
-        "prompt": "Multi-scene narrative with consistent characters"
-      },
-      {
-        "id": "3",
-        "image": "/intro/versatility.mp4",
-        "alt": "Style versatility",
-        "prompt": "Transform scenes into different artistic styles"
-      },
-      {
-        "id": "4",
-        "image": "/intro/dynamic-range.mp4",
-        "alt": "Dynamic range",
-        "prompt": "From subtle animations to explosive action"
-      },
-      {
-        "id": "5",
-        "image": "/intro/professional-1080.mp4",
-        "alt": "Professional quality",
-        "prompt": "Crystal clear 1080p with smooth motion"
       }
     ]
   },

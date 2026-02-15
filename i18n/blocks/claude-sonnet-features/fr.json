@@ -1,0 +1,109 @@
+{
+  "mainTitle": "Veo 3 : Modèle de génération vidéo de pointe",
+  "features": [
+    {
+      "id": "greater-realism",
+      "title": "Redessiné pour un réalisme accru",
+      "description": "Veo 3 offre un réalisme et une fidélité sans précédent, y compris une sortie 4K époustouflante et la simulation physique avancée du monde réel de Veo 3 avec génération audio native. Découvrez une qualité visuelle sans précédent qui donne vie à votre vision créative.",
+      "imageUrl": "/imgs/intro/veo3-realism.png",
+      "imageAlt": "Réalisme amélioré de Veo 3 avec sortie 4K et physique du monde réel",
+      "subPoints": [
+        {
+          "title": "4K Ultra Haute Définition",
+          "text": "Générez des vidéos 4K époustouflantes avec des détails et une clarté exceptionnels, parfaites pour le cinéma professionnel et la création de contenu haut de gamme."
+        },
+        {
+          "title": "Physique réelle et audio",
+          "text": "Une simulation physique avancée avec génération audio synchronisée crée des mouvements, un éclairage et des paysages sonores authentiques qui reflètent la réalité."
+        }
+      ],
+      "buttonText": "Générer une vidéo 4K",
+      "buttonUrl": "#video-generator"
+    },
+    {
+      "id": "prompt-following",
+      "title": "Suit les prompts comme jamais auparavant",
+      "description": "Une meilleure adhésion aux prompts signifie des réponses plus précises à vos instructions créatives. Veo 3 comprend les directions créatives complexes et fournit précisément ce que vous envisagez, réduisant les itérations et maximisant l'efficacité créative.",
+      "imageUrl": "/imgs/intro/veo3-prompts.png",
+      "imageAlt": "Suivi de prompt supérieur et précision des instructions de Veo 3",
+      "subPoints": [
+        {
+          "title": "Compréhension améliorée",
+          "text": "Le traitement avancé du langage naturel interprète des briefs créatifs complexes avec une compréhension nuancée de l'intention artistique et des exigences techniques."
+        },
+        {
+          "title": "Exécution de précision",
+          "text": "Livrez exactement ce que vous décrivez avec un minimum d'allers-retours, traduisant des prompts détaillés en représentations visuelles précises."
+        }
+      ]
+    },
+    {
+      "id": "creative-control",
+      "title": "Contrôle créatif amélioré",
+      "description": "De nouvelles capacités pour atteindre des niveaux de contrôle, de cohérence et de créativité sans précédent. Veo 3 donne aux créateurs des outils de niveau professionnel pour une direction artistique précise et des flux de travail créatifs fluides.",
+      "imageUrl": "/imgs/intro/veo3-creative.png",
+      "imageAlt": "Contrôle créatif avancé et fonctionnalités de cohérence de Veo 3",
+      "subPoints": [
+        {
+          "title": "Cohérence améliorée",
+          "text": "Maintenez la cohérence visuelle entre les scènes avec une reconnaissance améliorée des personnages et des objets, assurant une continuité narrative fluide."
+        },
+        {
+          "title": "Contrôle professionnel",
+          "text": "Accédez à des contrôles de qualité cinéaste pour les mouvements de caméra, l'éclairage, la composition et le rythme afin d'atteindre votre vision créative exacte."
+        }
+      ]
+    },
+    {
+      "id": "motion-master",
+      "title": "Motion Master : Définissez le mouvement exact",
+      "description": "La fonctionnalité révolutionnaire Motion Master vous permet de définir le mouvement exact des objets dans votre vidéo. Sélectionnez n'importe quel objet et définissez son chemin, et Veo 3 les animera avec un mouvement précis et contrôlé qui correspond à votre intention créative.",
+      "imageUrl": "/imgs/intro/veo3-motion.png",
+      "imageAlt": "Contrôle précis du mouvement des objets de Motion Master dans Veo 3",
+      "subPoints": [
+        {
+          "title": "Animation guidée par chemin",
+          "text": "Dessinez des trajectoires de mouvement personnalisées pour n'importe quel objet ou personnage, créant des animations fluides et délibérées avec une précision image par image."
+        },
+        {
+          "title": "Travail de caméra cinématographique",
+          "text": "Orchestrez des mouvements de caméra complexes, y compris des plans de suivi, des révélations et des perspectives dynamiques conformes aux normes de cinématographie professionnelle."
+        }
+      ]
+    },
+    {
+      "id": "native-audio",
+      "title": "La vidéo rencontre l'audio : Génération sonore native",
+      "description": "Veo 3 est conçu pour donner aux cinéastes et aux conteurs une génération audio native. Ajoutez des effets sonores, du bruit ambiant et même des dialogues à vos créations – en générant tout l'audio nativement pour des expériences multimédias véritablement immersives.",
+      "imageUrl": "/imgs/intro/veo3-audio.png",
+      "imageAlt": "Capacités révolutionnaires de génération audio native de Veo 3",
+      "subPoints": [
+        {
+          "title": "Design sonore synchronisé",
+          "text": "Générez automatiquement des effets sonores contextuellement appropriés, de l'audio ambiant et des sons environnementaux qui correspondent parfaitement à votre contenu visuel."
+        },
+        {
+          "title": "Création de dialogue naturel",
+          "text": "Créez des dialogues parlés réalistes avec une synchronisation appropriée, donnant vie aux personnages avec des performances vocales authentiques et des schémas de parole naturels."
+        }
+      ]
+    },
+    {
+      "id": "best-in-class",
+      "title": "Qualité et performances de premier ordre",
+      "description": "Veo 3 offre une qualité exceptionnelle, excellant dans la simulation physique, le rendu photoréaliste et l'adhésion précise aux prompts. Obtenez des résultats de pointe dans les comparaisons directes avec les principaux modèles de génération vidéo.",
+      "imageUrl": "/imgs/intro/veo3-quality.png",
+      "imageAlt": "Qualité supérieure et performances de référence de Veo 3",
+      "subPoints": [
+        {
+          "title": "Leadership des benchmarks",
+          "text": "Atteint des résultats de pointe dans les évaluations humaines, surpassant constamment les autres modèles de génération vidéo en qualité et en précision."
+        },
+        {
+          "title": "Excellence physique",
+          "text": "Une compréhension physique supérieure crée des interactions d'objets naturelles, des effets d'éclairage réalistes et une dynamique environnementale crédible."
+        }
+      ]
+    }
+  ]
+}

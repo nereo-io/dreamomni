@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 export default function Clarity() {
   if (process.env.NODE_ENV !== "production") {
     return null;
@@ -10,7 +12,9 @@ export default function Clarity() {
   }
 
   return (
-    <script
+    <Script
+      id="clarity"
+      strategy="lazyOnload"
       dangerouslySetInnerHTML={{
         __html: `
           (function(c,l,a,r,i,t,y){

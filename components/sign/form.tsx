@@ -35,7 +35,7 @@ export default function SignForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const t = useTranslations();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || undefined;
+  const callbackUrl = searchParams?.get("callbackUrl") || undefined;
 
   const [mode, setMode] = useState<"signin" | "signup" | "forgot">("signin");
   const [showEmailAuth, setShowEmailAuth] = useState(false);
@@ -194,7 +194,7 @@ export default function SignForm({
                 <AlertDescription>
                   <div className="space-y-2">
                     <p>
-                      Account created successfully! We've sent a verification
+                      Account created successfully! We&apos;ve sent a verification
                       email to your inbox. Please check your email and click the
                       verification link to activate your account before signing
                       in.

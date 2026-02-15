@@ -24,6 +24,7 @@ export async function GET(req: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '20');
     const status = searchParams.get('status'); // 可选的状态筛选
+    const search = searchParams.get('search')?.trim();
 
     // 验证参数
     if (page < 1) {
@@ -38,7 +39,7 @@ export async function GET(req: NextRequest) {
     console.log(`📊 Fetching image history for user ${userInfo.uuid}, page ${page}, limit ${limit}`);
 
     // 查询数据库
-    const result = await getUserImageGenerations(userInfo.uuid, limit, offset);
+    const result = await getUserImageGenerations(userInfo.uuid, limit, offset, search);
     let historyItems = result.data;
     
     let total = result.total;
@@ -58,27 +59,62 @@ export async function GET(req: NextRequest) {
     console.log(`✅ Found ${historyItems.length} history items (total: ${total})`);
 
     // 格式化响应数据 - 直接返回数组以匹配组件期望
-    const formattedData = historyItems.map(item => ({
-      id: item.id,
-      prompt: item.prompt,
-      optimized_prompt: item.optimized_prompt,
-      image_url: Array.isArray(item.image_urls) && item.image_urls.length > 0 
-        ? item.image_urls[0] 
-        : undefined,
-      image_url_r2: Array.isArray(item.image_urls_r2) && item.image_urls_r2.length > 0 
-        ? item.image_urls_r2[0]
-        : undefined,
-      input_image_urls: item.input_image_urls, // 添加输入图片URLs
-      status: item.status.toLowerCase(),
-      model: item.model_id,
-      image_size: item.metadata?.image_size || '1:1', // 解析metadata中的image_size
-      created_at: item.created_at,
-      updated_at: item.updated_at || item.created_at,
-      credits_used: item.credits_used,
-      error_message: item.error_message,
-      provider: item.provider,
-      mode: item.mode,
-    }));
+    const formattedData = historyItems.map(item => {
+      // 自动推算分辨率(如果metadata中没有)
+      let resolution = item.metadata?.resolution || item.metadata?.quality;
+
+      // 如果没有显式的resolution,根据图片尺寸和aspect_ratio推算
+      if (!resolution && item.metadata?.image_size) {
+        const aspectRatio = item.metadata.image_size;
+        // 标准版 Nano Banana 固定生成 1024x1024 (1:1)
+        if (item.model_id === 'nano-banana' || item.model_id === 'nano-banana-edit') {
+          resolution = '1K';
+        }
+        // Pro 版本默认推算为 1K(如果没有明确指定)
+        else if (item.model_id === 'nano-banana-pro') {
+          resolution = resolution || '1K'; // 默认 1K
+        }
+      }
+
+      // Agent 模式也默认为 1K（如果没有指定分辨率）
+      const isAgentMode = item.is_agent_mode || item.metadata?.is_agent_mode || false;
+      if (isAgentMode && !resolution) {
+        resolution = '1K';
+      }
+      const imageUrls = Array.isArray(item.image_urls) ? item.image_urls : [];
+      const imageUrlsR2 = Array.isArray(item.image_urls_r2) ? item.image_urls_r2 : [];
+
+      return {
+        id: item.id,
+        prompt: item.prompt,
+        optimized_prompt: item.optimized_prompt,
+        // 普通模式: 返回第一张图片; Agent 模式: 也返回第一张作为封面
+        image_url: imageUrls.length > 0 ? imageUrls[0] : undefined,
+        image_url_r2: imageUrlsR2.length > 0 ? imageUrlsR2[0] : undefined,
+        // Agent 模式: 返回完整的图片数组
+        image_urls: isAgentMode ? imageUrls : undefined,
+        image_urls_r2: isAgentMode ? imageUrlsR2 : undefined,
+        input_image_urls: item.input_image_urls, // 添加输入图片URLs
+        status: item.status.toLowerCase(),
+        model: item.model_id,
+        // 优先使用数据库的 aspect_ratio 字段，回退到 metadata
+        image_size: item.aspect_ratio || item.metadata?.image_size || item.metadata?.aspect_ratio || '1:1',
+        resolution, // 分辨率 (1K, 2K, 4K)
+        created_at: item.created_at,
+        updated_at: item.updated_at || item.created_at,
+        credits_used: item.credits_used,
+        error_message: item.error_message,
+        provider: item.provider,
+        mode: item.mode,
+        effect_type: item.metadata?.effect_type || item.metadata?.effect?.effect_type,
+        effect_id: item.metadata?.effect_id || item.metadata?.effect?.id,
+        effect_name: item.metadata?.effect?.name,
+        // Agent 模式字段
+        is_agent_mode: isAgentMode,
+        agent_image_count: item.agent_image_count || item.metadata?.agent_image_count,
+        expanded_prompts: item.expanded_prompts || item.metadata?.expanded_prompts,
+      };
+    });
 
     // 返回包含分页信息的标准格式
     return respData({

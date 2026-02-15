@@ -4,6 +4,46 @@
     "description": "Der kostenlose, ultimative, alles-in-einem AI Bild & Video Generator, um Bilder/Videos mit Textanweisungen, Bildern oder Videos zu erstellen. Verwandeln Sie Ihre Ideen in Bilder und Videos mit hoher Auflösung und Qualität.",
     "keywords": "Seedance, AI Video Generator, Kostenlose Videoerstellung, Text zu Video, Bild zu Video, 4K Videos, AI Filmemachen, Hochauflösende Videos"
   },
+  "wan-2-5": {
+    "title": "Wan 2.5 Kostenlos: Testen Sie dieses Wan AI Videomodell jetzt | Seedance",
+    "description": "Erleben Sie Wan 2.5, Wan AIs verbessertes KI-Videomodell mit integriertem Audio, verbesserter Konsistenz und flüssiger Bewegungstechnologie.",
+    "keywords": "N/A"
+  },
+  "wan-2-6": {
+    "title": "Wan 2.6 Kostenlos: Testen Sie Alibabas Wan 2.6 KI-Videomodell | Seedance",
+    "description": "Testen Sie Wan 2.6 mit Multi-Shot-Storytelling, Reference-to-Video, nativer Audio-Synchronisierung und bis zu 15s in 1080p auf Seedance.",
+    "keywords": "Wan 2.6, Wan AI, KI-Videogenerator, Multi-Shot, Reference-to-Video, natives Audio, 1080p, Seedance"
+  },
+  "veo-3-1": {
+    "title": "Veo 3.1 Kostenlos: Testen Sie Google Veo 3.1 KI-Videomodell jetzt | Seedance",
+    "description": "Veo 3.1 ist ein Upgrade von Googles Veo 3 Modell mit Steuerung des ersten und letzten Frames sowie Bildreferenzfunktionen. Erleben Sie Veo 3.1 jetzt kostenlos auf Seedance.",
+    "keywords": "Veo 3.1, Google Veo 3.1, KI-Videogenerator, kostenlos Veo 3.1, Video-KI, Text zu Video, Bild zu Video, Seedance"
+  },
+  "kling-3-0": {
+    "title": "Kling 3.0 Kostenlos: Kling KI-Videomodell online testen | Seedance",
+    "description": "Testen Sie Kling 3.0 mit nativem Audio, Multi-Shot-Storytelling, stärkerer Element-Konsistenz, mehrsprachigen Stimmen und bis zu 15s Ausgabe auf Seedance.",
+    "keywords": "Kling 3.0, Kling AI, KI-Videogenerator, Text zu Video, Bild zu Video, natives Audio, Multi-Shot, Seedance"
+  },
+  "seedance-1-5": {
+    "title": "Seedance 1.5 Pro: ByteDance Audio-Video KI | Seedance",
+    "description": "Seedance 1.5 Pro von ByteDance bietet native Audio-Visual-Generierung, mehrsprachige Lippen-Synchronisierung und filmische Kamerasteuerung. Kostenlos testen!",
+    "keywords": "Seedance 1.5 Pro, ByteDance Seedance, Text zu Video, Bild zu Video, Audio-Video KI, Seedance"
+  },
+  "seedance-2-0": {
+    "title": "Seedance 2.0 KI-Videogenerator Online Kostenlos | Seedance",
+    "description": "Seedance 2.0 von ByteDance: KI-Videos mit multimodalem Input (Bild, Video, Audio, Text), 2K-Auflösung, Charakterkonsistenz & 30% schneller. Kostenlos testen!",
+    "keywords": "Seedance 2.0, KI-Videogenerator, Text zu Video, Bild zu Video, ByteDance, multimodal KI, kostenlos"
+  },
+  "hailuo-2-3": {
+    "title": "Hailuo 2.3 KI-Videogenerator Kostenlos Online | Seedance",
+    "description": "Testen Sie MiniMax Hailuo 2.3 mit verbesserter Bewegungssteuerung, stilisierten Visuals und schnellerem Iterationsmodus. Erstellen Sie ausdrucksstarke KI-Videos auf Seedance.",
+    "keywords": "Hailuo 2.3, MiniMax Hailuo, KI-Videogenerator, Bild zu Video, Text zu Video, Hailuo Fast, Seedance"
+  },
+  "sora-2": {
+    "title": "Sora 2 Kostenlos: Testen Sie OpenAI Sora 2 KI-Videomodell jetzt | Seedance",
+    "description": "Erleben Sie Sora 2, OpenAIs fortschrittliches KI-Videomodell mit realistischer Physik, synchronisiertem Audio und Multi-Shot-Konsistenz. Erstellen Sie jetzt beeindruckende 1080p HD-Videos für Mitglieder!",
+    "keywords": "Sora 2, OpenAI Sora 2, KI-Videogenerator, kostenlos Sora 2, Video-KI, Text zu Video, Bild zu Video, Seedance, Sora-Modell"
+  },
   "pricing": {
     "title": "Video Pläne | Seedance Preise",
     "description": "Wählen Sie Ihren AI Video Plan. Erhalten Sie 4K-Ausgabe, unbegrenzte Generierungen, erweiterte Kontrollen und prioritären Support mit Seedance.",
@@ -21,16 +61,18 @@
     "my_orders": "Meine Bestellungen",
     "membership": "Mitgliedschaft"
   },
-  "header": {
-    "video_effects": "Video-Effekte",
-    "more_effects": "Mehr Effekte"
-  },
   "sidebar": {
     "home": "Startseite",
     "image_to_video": "Bild zu Video",
     "text_to_video": "Text zu Video",
+    "reference_to_video": "Referenz zu Video",
     "text_to_image": "Text zu Bild",
     "image_to_image": "Bild zu Bild",
+    "text_to_music": "Text zu Musik",
+    "add_vocals": "Gesang hinzufügen",
+    "add_instrumental": "Instrumental hinzufügen",
+    "upload_cover": "Cover hochladen",
+    "agent_videos": "AI Shorts",
     "ai_video_effects": "AI Video-Effekte",
     "ai_effects": "AI-Effekte",
     "my_creations": "Meine Kreationen",
@@ -44,6 +86,8 @@
     "payment_successful": "Zahlung erfolgreich!",
     "plan_activated": "Aktiviert",
     "credits_added": "Credits zu Ihrem Konto hinzugefügt",
+    "monthly_credits_grant": "Sie erhalten jeden Monat {credits} Credits",
+    "remaining_credits_monthly": "Die verbleibenden {remainingCredits} Credits werden in den nächsten {remainingMonths} Monaten monatlich verteilt",
     "continue": "Fortfahren",
     "start_creating": "Mit Erstellen beginnen",
     "please_select_payment": "Bitte wählen Sie eine Zahlungsmethode"
@@ -63,14 +107,26 @@
     "no_account": "Haben Sie kein Konto?",
     "email_sign_in": "Mit E-Mail anmelden",
     "google_sign_in": "Mit Google anmelden",
+    "vk_sign_in": "Mit VK anmelden",
     "github_sign_in": "Mit GitHub anmelden",
     "apple_sign_in": "Mit Apple anmelden",
     "close_title": "Schließen",
     "cancel_title": "Abbrechen"
   },
+  "vk_login": {
+    "button_text": "Mit VK fortfahren",
+    "sdk_not_loaded": "VK SDK ist nicht geladen",
+    "login_successful": "Anmeldung erfolgreich!",
+    "login_failed": "VK-Anmeldung fehlgeschlagen",
+    "failed_to_process": "Anmeldung konnte nicht verarbeitet werden",
+    "failed_to_exchange": "Fehler beim Austausch von Code gegen Tokens",
+    "failed_to_initialize": "VK-Anmeldung konnte nicht initialisiert werden",
+    "error_unknown": "Unbekannter Fehler",
+    "error_message": "VK-Anmeldefehler: {message}"
+  },
   "my_orders": {
     "title": "Meine Bestellungen",
-    "description": "Mit Veo3AI bezahlte Bestellungen.",
+    "description": "Mit Seedance bezahlte Bestellungen.",
     "no_orders": "Keine Bestellungen gefunden",
     "activate_order": "Bestellung aktivieren",
     "actived": "Aktiviert",
@@ -82,6 +138,8 @@
       "product_name": "Produktname",
       "amount": "Betrag",
       "paid_at": "Bezahlt am",
+      "invoice": "Rechnung",
+      "download": "Herunterladen",
       "github_username": "GitHub Benutzername",
       "status": "Status"
     }
@@ -101,7 +159,25 @@
     "days": "Tage",
     "no_membership": "Keine aktive Mitgliedschaft",
     "manage_subscription": "Abonnement verwalten",
-    "loading": "Lädt..."
+    "loading": "Lädt...",
+    "next_credit_distribution": "Nächste Credit-Verteilung",
+    "monthly_credits": "Monatliche Credits",
+    "distribution_progress": "Verteilungsfortschritt",
+    "credits": "Credits",
+    "months": "Monate"
+  },
+  "creditPools": {
+    "title": "Credit-Pools",
+    "description": "Ihre aktiven Credit-Guthaben nach Kauf",
+    "bonus": "Bonus-Credits",
+    "table": {
+      "order_no": "Bestellnr.",
+      "expired_at": "Läuft ab",
+      "balance": "Guthaben",
+      "earned": "Erhalten",
+      "used": "Verwendet",
+      "created_at": "Erstellt"
+    }
   },
   "subscription": {
     "allSubscriptions": "Alle Abonnements",
@@ -127,6 +203,10 @@
     "no_credits": "Keine Credit-Aufzeichnungen",
     "recharge": "Mitgliedschaft upgraden",
     "invite": "Freunde einladen",
+    "tabs": {
+      "records": "Credit-Verlauf",
+      "pools": "Credit-Pools"
+    },
     "table": {
       "trans_no": "Transaktionsnummer",
       "trans_type": "Transaktionstyp",
@@ -163,6 +243,17 @@
   "survey_banner": {
     "message": "👋 Schnelles Feedback benötigt - helfen Sie, Seedance zu gestalten!",
     "close": "Schließen"
+  },
+  "credit_history_modal": {
+    "title": "Kreditverlauf",
+    "current_balance": "Aktuelles Guthaben",
+    "view_all": "Vollständigen Verlauf anzeigen",
+    "empty": "Noch keine Krediteinträge vorhanden",
+    "type": "Typ",
+    "credits": "Credits",
+    "date": "Datum",
+    "loading": "Wird geladen...",
+    "error": "Fehler beim Laden des Kreditverlaufs"
   },
   "credit_exhausted_modal": {
     "title": "Gesprächs-Credits aufgebraucht",
@@ -232,18 +323,19 @@
     }
   },
   "video-generator": {
+    "titleTextToVideo": "Text zu Video",
+    "titleImageToVideo": "Bild zu Video",
+    "titleReferenceToVideo": "Referenz zu Video",
     "videoDescription": "Eingabeaufforderung",
-    "referenceImage": "Referenzbild (Optional)",
     "videoAspectRatio": "Video-Seitenverhältnis",
     "videoDuration": "Video-Dauer",
     "videoModel": "Modell",
-    "videoEffect": "Video-Effekt",
-    "chooseVideoEffect": "Video-Effekt wählen",
     "credits": "Credits",
     "creditsRequired": "Benötigte Credits",
     "remainingCredits": "Verbleibende Credits",
     "cost": "Kosten",
     "recharge": "Aufladen",
+    "additionalOptions": "Zusätzliche Optionen",
     "generateVideo": "Video generieren",
     "submitting": "Wird übermittelt...",
     "uploading": "Wird hochgeladen...",
@@ -252,10 +344,37 @@
     "dragAndDropImage": "Klicken zum Hochladen oder Bild hierher ziehen",
     "supportedFormats": "Unterstützt JPG, PNG, GIF Formate, max. 10MB",
     "chooseFile": "Datei wählen",
+    "swapFrames": "Frames tauschen",
+    "firstFrame": "Erster Frame",
+    "lastFrame": "Letzter Frame",
+    "clickToUpload": "Klicken zum Hochladen",
+    "uploadingFirstFrame": "Erster Frame wird hochgeladen...",
+    "uploadingLastFrame": "Letzter Frame wird hochgeladen...",
+    "referenceUploadGuide": "Laden Sie 1-3 Referenzbilder für konsistente Charaktergenerierung hoch",
+    "addMoreReferences": "Weitere Referenzbilder hinzufügen",
+    "referenceImage": "Referenzbild (Optional)",
+    "clickToUploadMore": "Klicken Sie zum Hochladen weiterer (bis zu 3)",
+    "multipleUploadHint": "Optional. Unterstützt Mehrfachauswahl, Drag & Drop oder Einfügen (Strg+V)",
+    "fromMyCreations": "aus meinen Kreationen",
+    "myCreations": "Meine Kreationen",
+    "selectFromCreations": "Aus meinen Kreationen auswählen",
+    "noImagesYet": "Noch keine Bilder generiert",
+    "loadingImages": "Bilder werden geladen...",
+    "maxImagesError": "Maximal {max} Bilder erlaubt",
+    "onlyUploadingFirst": "Es werden nur die ersten {count} Bilder hochgeladen (max. {max})",
+    "uploadingMultiple": "{current}/{total} Bilder werden hochgeladen...",
+    "addMoreImages": "Weitere Bilder hinzufügen",
+    "canUpload": "Können noch {count} hochladen",
+    "uploadMultipleImages": "Bis zu {max} Bilder hochladen",
+    "uploadMoreImagesRemaining": "Weitere Bilder hochladen ({remaining} verbleibend)",
     "aspectRatios": {
       "landscape": "16:9 Querformat",
       "portrait": "9:16 Hochformat",
       "square": "1:1 Quadrat"
+    },
+    "watermark": {
+      "label": "Wasserzeichen",
+      "membersOnly": "Nur Mitglieder können das Wasserzeichen entfernen."
     },
     "durations": {
       "5seconds": "5 Sekunden",
@@ -271,6 +390,8 @@
     "ratio": "Verhältnis",
     "duration": "Dauer",
     "resolution": "Auflösung",
+    "sound": "Ton",
+    "promptEnhancement": "Beschreibungsverbesserung",
     "telegramBanner": {
       "text": "Telegram-Gruppe beitreten, um über Veo3 zu diskutieren",
       "linkText": "Beitreten"
@@ -285,13 +406,19 @@
       "imageTooLarge": "Bilddatei ist zu groß (max. 10MB)",
       "imageUploadFailed": "Bild-Upload fehlgeschlagen",
       "insufficientCredits": "Unzureichende Credits. Benötigt: {required}, Verfügbar: {available}",
+      "membersOnlyModel": "Nur Mitglieder können dieses Modell verwenden.",
+      "emptyPrompt": "Bitte geben Sie eine Beschreibung ein",
       "videoSubmitted": "Video-Generierungs-Aufgabe übermittelt, wird verarbeitet...",
       "videoCompleted": "Video-Generierung abgeschlossen!",
       "videoFailed": "Video-Generierung fehlgeschlagen"
-    }
+    },
+    "videoEffect": "Video-Effekt",
+    "chooseVideoEffect": "Video-Effekt wählen"
   },
   "video-history": {
     "title": "Video-Generierungs-Verlauf",
+    "videoDetailsTitle": "Videodetails",
+    "downgradedTo720P": "Herabgestuft auf 720P",
     "noVideosTitle": "Noch keine Videos",
     "noVideosDescription": "Sie haben noch keine Videos generiert. Beginnen Sie mit der Erstellung Ihres ersten Meisterwerks!",
     "generateVideoButton": "Video generieren",
@@ -309,13 +436,20 @@
       "duration": "Dauer",
       "aspectRatio": "Seitenverhältnis"
     },
+    "searchPromptPlaceholder": "Prompts durchsuchen",
+    "searchMatches": "{count} Treffer",
+    "searchNoResults": "Keine Prompts passen zu deiner Suche",
+    "searchButton": "Suchen",
     "toast": {
       "videoNotAvailable": "Video ist noch nicht verfügbar.",
       "downloadNotAvailable": "Video nicht zum Download verfügbar.",
       "regenerationNotImplemented": "Neugenerierungs-Funktionalität wird implementiert.",
       "fetchError": "Fehler beim Abrufen des Video-Verlaufs",
       "noDataReturned": "Keine Daten zurückgegeben"
-    }
+    },
+    "pleaseSignIn": "Bitte anmelden",
+    "signInToViewVideos": "Melden Sie sich an, um Ihre generierten Videos anzusehen",
+    "signInButton": "Anmelden"
   },
   "video-result": {
     "status": {
@@ -361,6 +495,122 @@
       "statusCode": "Ein Fehler ist aufgetreten (Status {code}). Bitte versuchen Sie es erneut."
     }
   },
+  "music-generator": {
+    "title": "Musikgenerierung",
+    "subtitle": "Erstellen Sie erstaunliche Musik mit KI",
+    "generateMusic": "Musik generieren",
+    "history": "Generierungshistorie",
+    "generating": "Generiere...",
+    "prompt": "Eingabe",
+    "description": "Beschreibung",
+    "promptPlaceholder": "Geben Sie Ihre Musikbeschreibung oder Texte ein...",
+    "musicTitle": "Titel",
+    "titlePlaceholder": "Songtitel eingeben...",
+    "style": "Stil",
+    "stylePlaceholder": "z.B. Jazz, Rock, Elektronisch...",
+    "negativeTags": "Negative Tags (Optional)",
+    "negativeTagsPlaceholder": "Zu vermeidende Stile...",
+    "creditsRequired": "Benötigte Credits",
+    "yourCredits": "Ihre Credits",
+    "generate": "Musik generieren",
+    "maxLength500": "Maximal 500 Zeichen",
+    "maxLength5000": "Maximal 5000 Zeichen",
+    "generationType": "Generierungstyp",
+    "uploadAudio": "Audio hochladen",
+    "dragAndDropAudio": "Audiodatei hierher ziehen und ablegen",
+    "orClickToUpload": "oder klicken zum Durchsuchen",
+    "supportedAudioFormats": "Unterstützte Formate: MP3, WAV, FLAC, OGG (max. 50MB)",
+    "removeAudio": "Audio entfernen",
+    "audioNotSupported": "Ihr Browser unterstützt keine Audiowiedergabe.",
+    "mode": "Modus",
+    "songMode": "Song (mit Gesang)",
+    "instrumentalMode": "Instrumental (nur Musik)",
+    "modes": {
+      "song": {
+        "label": "Song",
+        "description": "Musik mit Gesang"
+      },
+      "instrumental": {
+        "label": "Instrumental",
+        "description": "Nur Musik"
+      }
+    },
+    "loadingHistory": "Historie wird geladen...",
+    "noHistory": "Noch keine Generierungshistorie",
+    "startGenerating": "Beginnen Sie mit der Musikgenerierung, um Ihre Historie hier zu sehen",
+    "status": {
+      "pending": "Ausstehend",
+      "textGenerated": "Texte generiert",
+      "firstTrack": "Erster Track fertig",
+      "completed": "Abgeschlossen",
+      "failed": "Fehlgeschlagen"
+    },
+    "types": {
+      "direct": {
+        "label": "Direkte Generierung",
+        "description": "Musik aus Text erstellen"
+      },
+      "addVocals": {
+        "label": "Gesang hinzufügen",
+        "description": "Stimme zu Musik hinzufügen"
+      },
+      "addInstrumental": {
+        "label": "Instrumental hinzufügen",
+        "description": "Begleittrack hinzufügen"
+      },
+      "uploadCover": {
+        "label": "Cover hochladen",
+        "description": "Audiostil transformieren"
+      }
+    },
+    "errors": {
+      "invalidAudioFormat": "Bitte laden Sie eine Audiodatei hoch",
+      "audioTooLarge": "Audiodatei ist zu groß (max. 50MB)",
+      "uploadFailed": "Upload fehlgeschlagen",
+      "insufficientCredits": "Nicht genügend Credits",
+      "audioRequired": "Bitte laden Sie eine Audiodatei hoch",
+      "promptRequired": "Bitte geben Sie eine Eingabe ein",
+      "titleRequired": "Bitte geben Sie einen Titel ein",
+      "styleRequired": "Bitte geben Sie einen Stil ein",
+      "negativeTagsRequired": "Bitte geben Sie negative Tags ein"
+    },
+    "toast": {
+      "audioUploaded": "Audio erfolgreich hochgeladen",
+      "musicSubmitted": "Musikgenerierungsaufgabe eingereicht",
+      "musicCompleted": "Musikgenerierung abgeschlossen!",
+      "musicFailed": "Musikgenerierung fehlgeschlagen",
+      "pollTimeout": "Abfrage-Timeout, bitte manuell aktualisieren",
+      "statusCheckFailed": "Statusprüfung fehlgeschlagen, bitte erneut versuchen"
+    },
+    "customMode": "Benutzerdefinierter Modus",
+    "customModeDescription": "Detaillierte Kontrolle über alle Parameter aktivieren",
+    "instrumental": "Instrumental",
+    "instrumentalDescription": "Musik ohne Gesang erzeugen",
+    "lyricsAndStyle": "Text & Gesangsstil",
+    "lyrics": "Text",
+    "promptPlaceholderAddVocals": "Geben Sie Text und Gesangsstil ein...",
+    "promptPlaceholderLyrics": "Geben Sie Ihren Text ein...",
+    "promptPlaceholderDescription": "Geben Sie die Musikbeschreibung ein...",
+    "tags": "Tags",
+    "tagsPlaceholder": "z.B. lebhaft, energiegeladen, elektronisch...",
+    "maxLength": "Max",
+    "characters": "Zeichen",
+    "track": "Track",
+    "download": "Herunterladen",
+    "advancedOptions": "Erweiterte Optionen",
+    "optional": "Optional",
+    "styleWeight": "Stilgewicht",
+    "styleWeightDescription": "Wie strikt dem angegebenen Stil gefolgt werden soll (0-1). Empfohlen: 0,65-0,80",
+    "weirdnessConstraint": "Kreativitätsstufe",
+    "weirdnessConstraintDescription": "Steuerung experimenteller/kreativer Abweichung (0-1). Niedriger=traditionell, Höher=kreativ. Empfohlen: 0,30-0,50",
+    "audioWeight": "Audiogewicht",
+    "audioWeightDescription": "Audio-Merkmalgewicht ausbalancieren (0-1). Empfohlen: 0,60-0,75",
+    "vocalGender": "Stimmgeschlecht-Präferenz",
+    "auto": "Automatisch",
+    "male": "Männlich",
+    "female": "Weiblich",
+    "vocalGenderDescription": "Hinweis: Dies erhöht die Wahrscheinlichkeit, garantiert jedoch keine strikte Einhaltung"
+  },
   "pages": {
     "home": {
       "title": "Willkommen bei Seedance",
@@ -378,11 +628,6 @@
       "description": "Entdecken Sie den Seedance Video Generator, eine hochmoderne, kostenlose Lösung, die mühelos eine Textanweisung in ein ansprechendes Video verwandelt. Probieren Sie noch heute unsere Text-zu-Video AI!",
       "keywords": "AI Video Generator, Text zu Video, kostenloser Video Generator, Seedance, AI Video-Erstellung, Text zu Video online"
     },
-    "imageToVideo": {
-      "title": "Kostenloser Bild zu Video AI Generator: Fotos zu Videos verwandeln",
-      "description": "Verwenden Sie den Bild-zu-Video AI Generator von Seedance kostenlos. Konvertieren Sie Fotos zu Videos mit hochwertigen und fesselnden Ergebnissen. Probieren Sie jetzt unsere Bild-zu-Video AI!",
-      "keywords": "Bild zu Video AI, Foto zu Video Konverter, kostenloses Bild zu Video, Seedance, AI Video aus Bild, Bild-Animation"
-    },
     "textToImage": {
       "title": "Kostenloser AI Text zu Bild Generator: Bilder aus Text erstellen | Seedance",
       "description": "Verwandeln Sie Ihre Worte mit Seedances kostenlosem Text-zu-Bild-Generator in atemberaubende Visuals. Erstellen Sie hochwertige Bilder aus detaillierten Textbeschreibungen mit modernster AI-Technologie.",
@@ -392,6 +637,21 @@
       "title": "Kostenloser AI Bild zu Bild Editor: Bilder mit AI transformieren | Seedance",
       "description": "Bearbeiten und transformieren Sie Ihre Bilder mit Seedances leistungsstarkem Bild-zu-Bild-Editor. Laden Sie Ihre Fotos hoch und verwenden Sie AI, um atemberaubende Variationen und Modifikationen zu erstellen.",
       "keywords": "AI Bild Editor, Bild zu Bild AI, Foto-Transformation, AI Bildbearbeitung, Seedance, Bild-Modifikations-AI"
+    },
+    "imageToVideo": {
+      "title": "Kostenloser Bild zu Video AI Generator: Fotos zu Videos verwandeln",
+      "description": "Verwenden Sie den Bild-zu-Video AI Generator von Seedance kostenlos. Konvertieren Sie Fotos zu Videos mit hochwertigen und fesselnden Ergebnissen. Probieren Sie jetzt unsere Bild-zu-Video AI!",
+      "keywords": "Bild zu Video AI, Foto zu Video Konverter, kostenloses Bild zu Video, Seedance, AI Video aus Bild, Bild-Animation"
+    },
+    "referenceToVideo": {
+      "title": "Kostenlos Veo3 Referenz zu Video: Charakteridentität sperren | Seedance",
+      "description": "Laden Sie 1-3 Referenzbilder hoch und generieren Sie 8s-Videos mit Veo 3.1. Bewahren Sie das Aussehen von Charakteren über Szenen hinweg mit nativem Audio. Erweitern Sie auf 148s.",
+      "keywords": "Veo3 Referenz zu Video, konsistenter Charakter, Identitätssperre, Veo 3.1, Charakterkonsistenz"
+    },
+    "imageGeneration": {
+      "title": "Kostenloser KI-Bildgenerator: Erstellen Sie atemberaubende Bilder aus Text | Seedance",
+      "description": "Generieren Sie hochwertige Bilder aus Textbeschreibungen mit dem kostenlosen Bildgenerator von Seedance. Erstellen Sie atemberaubende Kunstwerke, Fotos und Illustrationen mit modernster KI-Technologie.",
+      "keywords": "KI-Bildgenerator, Text zu Bild, kostenloser Bildgenerator, Seedance, KI-Kunst, Bildkreation, KI-Kunstwerk"
     },
     "videoAffects": {
       "heroSection": {
@@ -431,46 +691,53 @@
       }
     }
   },
-  "effects": {
-    "ai-kissing": "AI Kuss Video Generator",
-    "kiss-me-ai": "Küss mich AI",
-    "ai-twerk": "AI Twerk Video Generator",
-    "ai-hug": "AI Umarmung",
-    "ai-muscle": "AI Muskel-Generator",
-    "ai-french-kissing": "AI französisches Küssen",
-    "ai-360-rotation": "AI 360° Rotations Video Generator",
-    "ai-cloud-ride": "AI Wolkenfahrt Video Generator",
-    "dance-party": "Tanzparty Generator",
-    "magic-tricks": "Zauberkunst-Effekt",
-    "time-travel": "Zeitreise-Effekt",
-    "vampire-transformation": "Vampir-Transformation",
-    "ghost-effect": "Geist-Erscheinungs-Effekt",
-    "gender-swap": "Geschlechtertausch-Effekt",
-    "hair-color-change": "Haarfarben-Wechsler",
-    "makeup-artist": "AI Makeup-Künstler",
-    "body-transformation": "Körper-Transformation",
-    "halloween-spooky": "Halloween gruseliger Effekt",
-    "valentine-romance": "Valentinstag Romantik-Effekt",
-    "new-year-celebration": "Neujahrs-Feier",
-    "summer-beach": "Sommer-Strand-Vibes",
-    "happiness-boost": "Glücks-Boost-Effekt",
-    "surprise-reaction": "Überraschungs-Reaktions-Effekt",
-    "anger-expression": "Wut-Ausdrucks-Effekt",
-    "love-struck": "Verliebt-Effekt"
+  "imageEffectTool": {
+    "backToEffects": "Zurück zu Fotoeffekten",
+    "uploadImage": "Foto hochladen",
+    "dragAndDrop": "Per Drag & Drop oder Klick hochladen",
+    "selectFromCreations": "Aus meinen Kreationen wählen",
+    "supportedFormats": "Unterstützt JPG, PNG, WebP (max. 10 MB)",
+    "uploadingImage": "Bild wird hochgeladen...",
+    "uploading": "Wird hochgeladen...",
+    "settings": "Einstellungen",
+    "credits": "Credits",
+    "cost": "Kosten",
+    "recharge": "Aufladen",
+    "generate": "Generieren",
+    "generating": "Wird generiert...",
+    "uploadRequired": "Bitte lade ein Foto hoch, um den Effekt anzuwenden.",
+    "insufficientCredits": "Nicht genug Credits. Bitte aufladen.",
+    "generateFailed": "Effekt konnte nicht erzeugt werden.",
+    "generateFailedRetry": "Effekt konnte nicht erzeugt werden. Bitte versuch es erneut.",
+    "uploadedAlt": "Hochgeladen",
+    "placeholderText": "Foto hochladen, um den Effekt anzuwenden",
+    "comingSoon": "Kommt bald"
   },
-  "captcha": {
-    "title": "Sicherheitsüberprüfung",
-    "description": "Um Missbrauch zu verhindern, schließen Sie bitte die Sicherheitsüberprüfung ab, um mit der Videogenerierung fortzufahren",
-    "verifying": "Überprüfung läuft...",
-    "verificationFailed": "Überprüfung fehlgeschlagen, bitte versuchen Sie es erneut",
-    "verificationExpired": "Überprüfung abgelaufen, bitte verifizieren Sie sich erneut"
-  },
-  "membershipModal": {
-    "description": "Sie sind bereits Mitglied.",
-    "explanation": "Sie können Ihre aktuellen Abonnementdetails einsehen und verwalten.",
-    "viewSubscription": "Abonnement anzeigen",
-    "cancel": "Abbrechen",
-    "continuePurchase": "Kauf fortsetzen"
+  "videoEffectTool": {
+    "backToEffects": "Back to Video Effects",
+    "uploadImage": "Upload Image",
+    "dragAndDrop": "Drag & drop or click to upload",
+    "selectFromCreations": "Select from My Creations",
+    "supportedFormats": "Supports JPG, PNG, WebP (max 10MB)",
+    "uploadingImage": "Uploading image...",
+    "uploading": "Uploading...",
+    "settings": "Settings",
+    "credits": "Credits",
+    "cost": "Cost",
+    "recharge": "Recharge",
+    "generate": "Generate",
+    "generating": "Generating...",
+    "uploadRequired": "Please upload an image to apply the effect.",
+    "uploadRequiredCount": "Please upload {count} images to apply the effect.",
+    "insufficientCredits": "Insufficient credits. Please recharge.",
+    "generateFailed": "Failed to generate effect.",
+    "generateFailedRetry": "Failed to generate effect. Please try again.",
+    "uploadedAlt": "Uploaded",
+    "placeholderText": "Upload an image to apply the effect",
+    "comingSoon": "Coming soon",
+    "firstFrame": "First Frame",
+    "lastFrame": "Last Frame",
+    "imageSlot": "Image {index}"
   },
   "imageGenerator": {
     "textToImage": "Text zu Bild",
@@ -478,15 +745,25 @@
     "prompt": "Eingabeaufforderung",
     "settings": "Einstellungen",
     "model": "Modell",
+    "resolution": "Auflösung",
+    "ratio": "Verhältnis",
     "image": "Bild",
+    "images": "Bilder",
     "credits": "Credits",
     "cost": "Kosten",
     "recharge": "Aufladen",
     "generateImage": "Bild generieren",
     "transformImage": "Bild transformieren",
+    "transformMultipleImages": "{count} Bilder transformieren",
     "generating": "Wird generiert...",
     "uploading": "Wird hochgeladen...",
     "clickToUpload": "Klicken zum Hochladen oder Drag & Drop",
+    "clickToUploadMultiple": "Klicken Sie zum Hochladen mehrerer Bilder oder Drag & Drop",
+    "addMoreImages": "Weitere Bilder hinzufügen",
+    "maxImages": "Maximal {max} Bilder",
+    "maxImagesExceeded": "Sie können nur noch {max} Bilder auswählen",
+    "imagesUploadedSuccessfully": "{count} Bilder erfolgreich hochgeladen",
+    "canUpload": "Können noch {count} hochladen",
     "supportedFormats": "Unterstützte Formate: JPEG, PNG, WEBP",
     "textToImagePlaceholder": "Beschreiben Sie das Bild, das Sie erstellen möchten, z.B. Ein majestätischer Adler, der bei goldener Stunde über Berggipfel schwebt...",
     "imageToImagePlaceholder": "Beschreiben Sie, wie Sie das Bild bearbeiten möchten, z.B. Hintergrund zu einer Sonnenuntergangs-Szene ändern, mehr Kontrast hinzufügen...",
@@ -504,18 +781,218 @@
     "unknownError": "Unbekannter Fehler",
     "promptEnhancement": "Eingabeaufforderungs-Verbesserung",
     "promptEnhancementDescription": "AI wird Ihre Eingabeaufforderung für bessere Bildqualität verbessern",
+    "promptInspirationTitle": "Inspirieren lassen",
+    "promptInspirationSubtitle": "Entdecken Sie beliebte Beschreibungen und klicken Sie auf eine Karte, um sie in den Generator einzufügen.",
+    "useThisPrompt": "Diese Beschreibung verwenden",
+    "useThisPromptAria": "Diese Beschreibung verwenden: {prompt}",
     "nanoBananaDisplayName": "Nano Banana",
     "nanoBananaProvider": "Kie.ai Nano Banana",
     "highQuality": "Hohe Qualität",
     "fastGeneration": "Schnell",
+    "outputFormat": "Ausgabeformat",
+    "imageSize": "Bildgröße",
     "pleaseSignInToGenerate": "Bitte melden Sie sich an, um Bilder zu generieren",
     "generationStarted": "Bildgenerierung gestartet.",
     "generationCompleted": "Bildgenerierung abgeschlossen!",
     "generationInProgress": "Wird generiert...",
-    "generationStatusChecking": "Status wird überprüft..."
+    "generationStatusChecking": "Status wird überprüft...",
+    "showcaseImageLoaded": "Showcase-Bild erfolgreich geladen",
+    "failedToLoadShowcaseImage": "Fehler beim Laden des Showcase-Bildes",
+    "imageAgent": "Mehrfachaufnahme-Generierung",
+    "imageAgentTooltip": "KI erweitert Ihre Eingabe in mehrere Blickwinkel, Szenen und Beleuchtungsvariationen. Perfekt für Produktfotografie, Comic-Storyboards und kreative Erkundungen.",
+    "imageCount": "Ausgaben",
+    "generateMultipleImages": "{count} Bilder generieren",
+    "promptTooLong": "Zeichenlimit um {count} überschritten"
+  },
+  "myCreations": {
+    "title": "Meine Kreationen",
+    "description": "Sehen Sie alle Ihre KI-generierten Videos und Bilder an",
+    "videoTab": "Videos",
+    "jobsTab": "Jobs",
+    "imageTab": "Bilder"
+  },
+  "media-detail": {
+    "title": "Medien-Details",
+    "audio": "Audio",
+    "prompt": "Prompt",
+    "inputImages": "Eingabebilder",
+    "expand": "Erweitern",
+    "collapse": "Einklappen",
+    "actions": {
+      "open": "Öffnen",
+      "download": "Herunterladen",
+      "delete": "Löschen",
+      "copyPrompt": "Beschreibung kopieren",
+      "promptCopied": "Beschreibung kopiert"
+    }
+  },
+  "agentJobs": {
+    "pleaseSignIn": "Bitte anmelden",
+    "signInToViewJobs": "Melde dich an, um deine Jobs zu sehen",
+    "signInButton": "Anmelden",
+    "tabs": {
+      "history": "Verlauf",
+      "discover": "Entdecken"
+    },
+    "modal": {
+      "title": "Job-Details",
+      "labels": {
+        "videoModel": "Videomodell",
+        "imageModel": "Bildmodell",
+        "aspectRatio": "Seitenverhältnis",
+        "duration": "Dauer",
+        "shots": "Aufnahmen",
+        "created": "Erstellt"
+      },
+      "actions": {
+        "open": "Öffnen",
+        "download": "Herunterladen",
+        "copyPrompt": "Beschreibung kopieren"
+      }
+    },
+    "empty": {
+      "noJobsTitle": "Noch keine Agent-Jobs",
+      "noJobsDescription": "Erstellen Sie Ihren ersten intelligenten Video-Orchestrierungsjob, um loszulegen",
+      "checkExamples": "Beispiele ansehen",
+      "noShowcase": "Keine Showcase-Elemente verfügbar."
+    },
+    "auth": {
+      "required": "Authentifizierung erforderlich",
+      "description": "Bitte melden Sie sich an, um Ihre Agent-Jobs zu sehen",
+      "viewShowcase": "Showcase ansehen"
+    },
+    "toast": {
+      "deleteSuccess": "Agent-Job erfolgreich gelöscht",
+      "deleteError": "Fehler beim Löschen des Jobs",
+      "downloadError": "Fehler beim Herunterladen des Videos",
+      "fetchError": "Fehler beim Laden der Agent-Jobs",
+      "copyError": "Kopieren fehlgeschlagen"
+    },
+    "item": {
+      "finalVideo": "Finales Video",
+      "finalVideoNoBgm": "Zusammengefügtes Video",
+      "finalVideoWithBgm": "Finales Video (mit BGM)",
+      "reEdit": "Neu bearbeiten",
+      "delete": "Löschen",
+      "deleting": "Wird gelöscht...",
+      "story": "Geschichte",
+      "theme": "Thema",
+      "tone": "Ton",
+      "acts": "Akte",
+      "characters": "Charaktere",
+      "scene": "Szene",
+      "logs": "Agenten-Logs",
+      "show": "Anzeigen",
+      "hide": "Ausblenden",
+      "deleteTitle": "Agent-Job löschen?",
+      "deleteConfirm": "Sind Sie sicher, dass Sie \"{prompt}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "shots": "Aufnahmen",
+      "failed": "Generierung fehlgeschlagen",
+      "copyPrompt": "Prompt kopieren",
+      "promptCopied": "Prompt kopiert",
+      "failedShots": "Fehlgeschlagene Aufnahmen",
+      "estimatedCost": "Geschätzte Kosten für Fortsetzung: {cost} Credits",
+      "resume": "Fortsetzen",
+      "resumeStarted": "Fortsetzung gestartet",
+      "resumeFailed": "Fortsetzung fehlgeschlagen",
+      "retryStarted": "Neustart gestartet",
+      "retryFailed": "Neustart fehlgeschlagen",
+      "retryFromStart": "Von vorne beginnen"
+    },
+    "steps": {
+      "plan_story_and_shots": "Story-Planung",
+      "generate_prompts": "Prompt-Generierung",
+      "submit_background_music": "BGM-Übermittlung",
+      "design_characters": "Charakter-Design",
+      "generate_scene_ref": "Szenenreferenz",
+      "generate_keyframes": "Keyframe-Generierung",
+      "generate_video_prompts": "Video-Prompts",
+      "orchestrate_videos": "Videogenerierung",
+      "check_quality": "Qualitätsprüfung",
+      "wait_for_background_music": "Warten auf BGM",
+      "splice_videos": "Videozusammenführung"
+    },
+    "assets": {
+      "script": "Skript",
+      "image": "Bild",
+      "video": "Video",
+      "storyScript": "Geschichte & Skript",
+      "characterRefs": "Charakter-Refs",
+      "sceneRef": "Szenen-Ref",
+      "backgroundMusic": "Hintergrundmusik",
+      "shot": "Aufnahme",
+      "ref": "Ref",
+      "more": "mehr",
+      "finalVideo": "Finales Video"
+    },
+    "assetModal": {
+      "shots": "Aufnahmen",
+      "acts": "Akte",
+      "characters": "Charaktere",
+      "scene": "Szene",
+      "storyOutline": "Story-Zusammenfassung",
+      "logline": "Logline",
+      "conflict": "Konflikt",
+      "ending": "Ende",
+      "soundBed": "Soundtrack",
+      "theme": "Thema",
+      "tone": "Ton",
+      "actsUpper": "AKTE",
+      "elementsUpper": "ELEMENTE",
+      "character": "Charakter",
+      "storyboard": "Storyboard",
+      "startFrame": "Anfangsbild",
+      "story": "Geschichte",
+      "keyframePrompt": "Keyframe-Prompt",
+      "shotPrompt": "Aufnahme-Prompt",
+      "videoRouting": "Video-Routing",
+      "copy": "Kopieren",
+      "copied": "Kopiert",
+      "download": "Herunterladen",
+      "copyAttempts": "Versuche kopieren",
+      "keyboardHint": "Leertaste für Pause/Wiedergabe • ESC zum Schließen",
+      "videoNotSupported": "Ihr Browser unterstützt das Video-Tag nicht.",
+      "done": "Fertig",
+      "failed": "Fehlgeschlagen",
+      "generating": "Wird generiert",
+      "skipped": "Übersprungen",
+      "model": "Modell"
+    },
+    "gallery": {
+      "promptLabel": "Prompt",
+      "usedResources": "Ressourcen",
+      "resourceLabel": "Ressource"
+    },
+    "createPanel": {
+      "title": "Agenten-Job erstellen",
+      "description": "Beschreibung",
+      "descriptionPlaceholder": "Beschreiben Sie Ihr Videokonzept, z. B. Eine filmische Reise durch eine futuristische Stadt bei Sonnenuntergang...",
+      "aspectRatio": "Seitenverhältnis",
+      "duration": "Dauer",
+      "videoModel": "Videomodell",
+      "credits": "Credits",
+      "cost": "Kosten",
+      "recharge": "Aufladen",
+      "generate": "Generieren",
+      "creating": "Wird erstellt...",
+      "errorNoDescription": "Bitte geben Sie eine Videobeschreibung ein",
+      "errorMinLength": "Die Beschreibung muss mindestens 10 Zeichen lang sein",
+      "errorMaxLength": "Die Beschreibung darf 2000 Zeichen nicht überschreiten",
+      "toastSuccess": "Agenten-Job erstellt!"
+    }
   },
   "imageHistory": {
+    "discoveryTab": "Entdecken",
+    "historyTab": "Verlauf",
+    "discoveryHeading": "Kuratierte Beschreibungsgalerie",
+    "discoverySubtitle": "Durchsuchen Sie kuratierte Beschreibungen und übernehmen Sie sie direkt in den Generator.",
+    "discoveryDescription": "Tippen Sie auf eine Karte, um das Beschreibungsfeld im Text-zu-Bild-Tool sofort zu füllen.",
+    "historySubtitle": "Überprüfen Sie Ihre letzten Generierungen, verfolgen Sie Statusaktualisierungen und verwalten Sie Ausgaben.",
     "title": "Bild-Verlauf",
+    "searchPromptPlaceholder": "Prompts durchsuchen",
+    "searchMatches": "{count} Treffer",
+    "searchNoResults": "Keine Prompts passen zu deiner Suche",
+    "searchButton": "Suchen",
     "noImagesTitle": "Noch keine Bilder",
     "noImagesDescription": "Ihre generierten Bilder werden hier angezeigt, sobald Sie mit der Erstellung beginnen.",
     "completed": "Abgeschlossen",
@@ -547,12 +1024,171 @@
     "pleaseSignIn": "Bitte melden Sie sich an",
     "signInToViewImages": "Melden Sie sich an, um Ihre generierten Bilder anzuzeigen",
     "signInButton": "Anmelden",
+    "downloadImage": "Bild herunterladen",
+    "copyPrompt": "Beschreibung kopieren",
+    "credits": "Credits",
+    "signInToView": "Melden Sie sich an, um Ihre generierten Bilder anzusehen und neue zu erstellen.",
+    "generatingComplete": "Bildgenerierung abgeschlossen!",
+    "generatingFailed": "Bildgenerierung fehlgeschlagen: {error}",
+    "deleteImage": "Bild löschen",
+    "addToFavorites": "Zu Favoriten hinzufügen",
+    "inQueue": "In Warteschlange...",
+    "textToImageModel": "nano-banana",
+    "imageToImageModel": "nano-banana",
     "pleaseSignInDescription": "Melden Sie sich an, um Ihren Bildgenerierungs-Verlauf zu sehen und zu verwalten",
     "noFilteredImages": "Keine Bilder entsprechen Ihrem aktuellen Filter",
     "tryRemovingFilters": "Versuchen Sie, einige Filter zu entfernen, um mehr Ergebnisse zu sehen",
     "loadMore": "Mehr laden",
     "retryGeneration": "Generierung wiederholen",
     "viewDetails": "Details anzeigen"
+  },
+  "videoHistory": {
+    "exploreExamples": "Beispiele erkunden",
+    "recentGenerations": "Neueste Generierungen",
+    "videoDeleted": "Video erfolgreich gelöscht",
+    "deleteFailed": "Fehler beim Löschen des Videos",
+    "deleteVideo": "Video löschen",
+    "deleteConfirmDescription": "Sind Sie sicher, dass Sie dieses Video löschen möchten?"
+  },
+  "common": {
+    "useThisEffect": "Diesen Effekt verwenden",
+    "loading": "Wird geladen...",
+    "error": "Fehler"
+  },
+  "components": {
+    "heroSection": {
+      "defaultTitle": "KI-Videoeffekte",
+      "defaultDescription": "Transformieren Sie Ihre Videos mit KI-gestützten Effekten",
+      "defaultButtonText": "Jetzt starten"
+    },
+    "categoryTabs": {
+      "all": "Alle",
+      "interaction": "Interaktion",
+      "appearance": "Aussehen",
+      "emotions": "Emotionen",
+      "entertainment": "Unterhaltung",
+      "herovillain": "Held/Schurke",
+      "horrorFantasy": "Horror/Fantasy",
+      "xmas": "Weihnachten",
+      "others": "Andere",
+      "newLabel": "Neu"
+    },
+    "categoryEffectSection": {
+      "defaultDescription": "Entdecken Sie erstaunliche {categoryName} Effekte für Ihre Videos"
+    }
+  },
+  "captcha": {
+    "title": "Sicherheitsüberprüfung",
+    "description": "Um Missbrauch zu verhindern, schließen Sie bitte die Sicherheitsüberprüfung ab, um mit der Videogenerierung fortzufahren",
+    "verifying": "Überprüfung läuft...",
+    "verificationFailed": "Überprüfung fehlgeschlagen, bitte versuchen Sie es erneut",
+    "verificationExpired": "Überprüfung abgelaufen, bitte verifizieren Sie sich erneut"
+  },
+  "membershipModal": {
+    "description": "Sie sind bereits Mitglied.",
+    "explanation": "Sie können Ihre aktuellen Abonnementdetails einsehen und verwalten.",
+    "viewSubscription": "Abonnement anzeigen",
+    "cancel": "Abbrechen",
+    "continuePurchase": "Kauf fortsetzen"
+  },
+  "creditsBundle": {
+    "title": "Mehr Credits kaufen",
+    "description": "Kaufen Sie zusätzliche Credits, um mehr Videos zu generieren.",
+    "expireNote": "Zusätzliche Credits verfallen 1 Monat nach dem Kauf.",
+    "credits": "Credits",
+    "selectPaymentMethod": "Zahlungsmethode auswählen",
+    "cancel": "Abbrechen",
+    "continueToPayment": "Weiter zur Zahlung",
+    "processing": "Verarbeitung...",
+    "buyCredits": "Credits kaufen"
+  },
+  "nano-banana": {
+    "title": "Google Nano Banana AI: Testen Sie diesen KI-Bildgenerator | Seedance",
+    "description": "Erstellen Sie atemberaubende Bilder mit Nano Banana AI. Generieren Sie hochwertige Bilder aus Textbeschreibungen mit fortschrittlicher KI-Technologie.",
+    "keywords": "Nano Banana, KI-Bildgenerator, Text zu Bild, Bildkreation, KI-Kunst, KI-Bilder"
+  },
+  "nano-banana-pro": {
+    "title": "Google Nano Banana Pro AI: Professioneller KI-Bildgenerator | Seedance",
+    "description": "Erleben Sie Nano Banana Pro, die Premium-Version von Googles Gemini 2.5 Flash Image. Professionelle KI-Bildgenerierung mit verbesserter Präzision, überlegener Qualität und erweiterten Bearbeitungsfunktionen.",
+    "keywords": "Nano Banana Pro, Google Nano Banana Pro, Gemini 2.5 Flash Pro, KI-Bildgenerator, Professionelle KI-Bilder, Text zu Bild Pro, Bildbearbeitung KI, Fortgeschrittene KI-Kunst"
+  },
+  "seedream-4-5": {
+    "title": "Seedream 4.5 KI-Bildgenerator: ByteDances neuestes Bildmodell | Seedance",
+    "description": "Erstellen Sie atemberaubende Bilder mit Seedream 4.5, ByteDances fortschrittlichem KI-Bildgenerator. Mit 4K-Aufloesung, bis zu 14 Referenzbildern und Batch-Generierung.",
+    "keywords": "Seedream 4.5, ByteDance KI, Doubao Bild, KI-Bildgenerator, Text zu Bild, Bild zu Bild, 4K KI-Bilder, Batch-Bildgenerierung, Referenzbilder KI"
+  },
+  "seedream-5-0": {
+    "title": "Seedream 5.0 KI-Bildgenerator Online Kostenlos | Seedance",
+    "description": "4K-Bilder in 2-3s mit Seedream 5.0 von ByteDance. Echtzeit-Websuche, mehrstufige Bearbeitung, beispielbasierter Stiltransfer & 10x schneller. Kostenlos testen!",
+    "keywords": "Seedream 5.0, Seedream 5, KI-Bildgenerator, Text zu Bild, 4K KI-Bilder, ByteDance, kostenlos"
+  },
+  "trans_type": {
+    "new_user": "Willkommensbonus",
+    "order_pay": "Kauf",
+    "system_add": "System-Credits",
+    "ping": "API-Anfrage",
+    "chat": "Chat",
+    "refund_non_response": "Rückerstattung ohne Antwort",
+    "video_generation_4s": "Video (4s)",
+    "video_generation_5s": "Video (5s)",
+    "video_generation_6s": "Video (6s)",
+    "video_generation_8s": "Video (8s)",
+    "video_generation_10s": "Video (10s)",
+    "video_generation_12s": "Video (12s)",
+    "video_generation_15s": "Video (15s)",
+    "video_generation_25s": "Video (25s)",
+    "refund_video_generation_failed": "Video-Rückerstattung",
+    "image_generation": "Bildgenerierung",
+    "refund_image_generation_failed": "Bild-Rückerstattung",
+    "agent_shot_analysis": "Agentenanalyse",
+    "agent_plan_reserve": "Agent Plan",
+    "agent_plan_refund": "Agent Plan Rückerstattung",
+    "agent_keyframe": "Agenten-Keyframe",
+    "agent_keyframe_reserve": "Agenten-Keyframe",
+    "agent_keyframe_refund": "Agenten-Keyframe Rückerstattung",
+    "agent_video_clip": "Agenten-Clip",
+    "agent_video_reserve": "Agenten-Video",
+    "agent_video_refund": "Agenten-Video Rückerstattung",
+    "agent_bgm_reserve": "Agent BGM",
+    "agent_bgm_refund": "Agent BGM Rückerstattung",
+    "agent_video_splicing": "Agenten-Zusammenführung",
+    "agent_splice": "Agenten-Zusammenfügung",
+    "agent_splice_refund": "Agenten-Zusammenfügung Rückerstattung",
+    "agent_scene_ref_reserve": "Agenten-Szenenreferenz",
+    "agent_scene_ref_refund": "Agenten-Szenenreferenz Rückerstattung",
+    "agent_character_ref_reserve": "Agenten-Charakterreferenz",
+    "agent_character_ref_refund": "Agenten-Charakterreferenz Rückerstattung"
+  },
+  "header": {
+    "video_effects": "Video-Effekte",
+    "more_effects": "Mehr Effekte"
+  },
+  "effects": {
+    "ai-kissing": "AI Kuss Video Generator",
+    "kiss-me-ai": "Küss mich AI",
+    "ai-twerk": "AI Twerk Video Generator",
+    "ai-hug": "AI Umarmung",
+    "ai-muscle": "AI Muskel-Generator",
+    "ai-french-kissing": "AI französisches Küssen",
+    "ai-360-rotation": "AI 360° Rotations Video Generator",
+    "ai-cloud-ride": "AI Wolkenfahrt Video Generator",
+    "dance-party": "Tanzparty Generator",
+    "magic-tricks": "Zauberkunst-Effekt",
+    "time-travel": "Zeitreise-Effekt",
+    "vampire-transformation": "Vampir-Transformation",
+    "ghost-effect": "Geist-Erscheinungs-Effekt",
+    "gender-swap": "Geschlechtertausch-Effekt",
+    "hair-color-change": "Haarfarben-Wechsler",
+    "makeup-artist": "AI Makeup-Künstler",
+    "body-transformation": "Körper-Transformation",
+    "halloween-spooky": "Halloween gruseliger Effekt",
+    "valentine-romance": "Valentinstag Romantik-Effekt",
+    "new-year-celebration": "Neujahrs-Feier",
+    "summer-beach": "Sommer-Strand-Vibes",
+    "happiness-boost": "Glücks-Boost-Effekt",
+    "surprise-reaction": "Überraschungs-Reaktions-Effekt",
+    "anger-expression": "Wut-Ausdrucks-Effekt",
+    "love-struck": "Verliebt-Effekt"
   },
   "footer": {
     "popularEffects": "Beliebte Effekte",

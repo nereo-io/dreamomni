@@ -1,0 +1,271 @@
+{
+  "name": "pricing",
+  "label": "Plans de génération vidéo",
+  "title": "Plans d'abonnement Veo3 AI",
+  "description": "Choisissez votre plan et commencez à créer",
+  "groups": [
+    {
+      "name": "monthly",
+      "title": "Mensuel",
+      "description": "Facturation mensuelle"
+    },
+    {
+      "name": "yearly",
+      "title": "Annuel",
+      "description": "Facturation annuelle"
+    }
+  ],
+  "items": [
+    {
+      "title": "Plan Mini",
+      "label": "",
+      "features_title": "Inclus",
+      "features": [
+        "<highlight>200</highlight> crédits mensuels",
+        "Jusqu'à <highlight>25</highlight> vidéos Veo3 (8s 1080p)",
+        "Jusqu'à <highlight>100</highlight> images NanoBanana Pro",
+        "Sortie en résolution 1080p",
+        "Modèles vidéo de haute qualité",
+        "Image et Texte vers Vidéo",
+        "Droits d'utilisation commerciale"
+      ],
+      "interval": "month",
+      "amount": 2000,
+      "currency": "USD",
+      "price": "$20.00",
+      "original_price": "",
+      "unit": "/mois",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "S'abonner à Mini",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "mini-monthly",
+      "product_name": "Veo3 AI Mini",
+      "credits": 200,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Plan Mini",
+      "label": "",
+      "features_title": "Inclus",
+      "features": [
+        "<highlight>200</highlight> crédits mensuels",
+        "Les crédits sont accordés chaque mois pendant l'année",
+        "Jusqu'à <highlight>25</highlight> vidéos Veo3 (8s 1080p)",
+        "Jusqu'à <highlight>100</highlight> images NanoBanana Pro",
+        "Sortie en résolution 1080p",
+        "Modèles vidéo de haute qualité",
+        "Image et Texte vers Vidéo",
+        "Droits d'utilisation commerciale"
+      ],
+      "interval": "year",
+      "amount": 14400,
+      "currency": "USD",
+      "price": "$12.00",
+      "original_price": "$20.00",
+      "unit": "/mois",
+      "is_featured": false,
+      "discount_label": "40% DE RÉDUCTION",
+      "tip": "Abonnement à $144.00 par an",
+      "button": {
+        "title": "S'abonner à Mini",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "mini-yearly",
+      "product_name": "Veo3 AI Mini Yearly",
+      "credits": 2400,
+      "valid_months": 12,
+      "group": "yearly"
+    },
+    {
+      "title": "Plan Standard",
+      "label": "POPULAIRE",
+      "features_title": "Inclus",
+      "features": [
+        "<highlight>1000</highlight> crédits mensuels",
+        "Jusqu'à <highlight>125</highlight> vidéos Veo3 (8s 1080p)",
+        "Jusqu'à <highlight>500</highlight> images NanoBanana Pro",
+        "Sortie en résolution 4K",
+        "Modèles vidéo de haute qualité",
+        "Image et Texte vers Vidéo",
+        "File de génération rapide",
+        "Droits d'utilisation commerciale"
+      ],
+      "interval": "month",
+      "amount": 5000,
+      "currency": "USD",
+      "price": "$50.00",
+      "original_price": "",
+      "unit": "/mois",
+      "is_featured": true,
+      "discount_label": "",
+      "button": {
+        "title": "S'abonner à Standard",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "standard-monthly",
+      "product_name": "Veo3 AI Standard",
+      "credits": 1000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Plan Standard",
+      "label": "POPULAIRE",
+      "features_title": "Inclus",
+      "features": [
+        "<highlight>1000</highlight> crédits mensuels",
+        "Les crédits sont accordés chaque mois pendant l'année",
+        "Jusqu'à <highlight>125</highlight> vidéos Veo3 (8s 1080p)",
+        "Jusqu'à <highlight>500</highlight> images NanoBanana Pro",
+        "Sortie en résolution 4K",
+        "Modèles vidéo de haute qualité",
+        "Image et Texte vers Vidéo",
+        "File de génération rapide",
+        "Droits d'utilisation commerciale"
+      ],
+      "interval": "year",
+      "amount": 36000,
+      "currency": "USD",
+      "price": "$30.00",
+      "original_price": "$50.00",
+      "unit": "/mois",
+      "is_featured": true,
+      "discount_label": "40% DE RÉDUCTION",
+      "tip": "Abonnement à $360.00 par an",
+      "button": {
+        "title": "S'abonner à Standard",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "standard-yearly",
+      "product_name": "Veo3 AI Standard Yearly",
+      "credits": 12000,
+      "valid_months": 12,
+      "group": "yearly"
+    },
+    {
+      "title": "Plan Plus",
+      "label": "",
+      "features_title": "Inclus",
+      "features": [
+        "<highlight>3000</highlight> crédits mensuels",
+        "Jusqu'à <highlight>375</highlight> vidéos Veo3 (8s 1080p)",
+        "Jusqu'à <highlight>1500</highlight> images NanoBanana Pro",
+        "Sortie en résolution 4K",
+        "Modèles vidéo de haute qualité",
+        "Image et Texte vers Vidéo",
+        "File de génération rapide",
+        "Droits d'utilisation commerciale",
+        "Support prioritaire"
+      ],
+      "interval": "month",
+      "amount": 9900,
+      "currency": "USD",
+      "price": "$99.00",
+      "original_price": "",
+      "unit": "/mois",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "S'abonner à Plus",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-monthly",
+      "product_name": "Veo3 AI Plus",
+      "credits": 3000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Plan Plus",
+      "label": "",
+      "features_title": "Inclus",
+      "features": [
+        "<highlight>3000</highlight> crédits mensuels",
+        "Les crédits sont accordés chaque mois pendant l'année",
+        "Jusqu'à <highlight>375</highlight> vidéos Veo3 (8s 1080p)",
+        "Jusqu'à <highlight>1500</highlight> images NanoBanana Pro",
+        "Sortie en résolution 4K",
+        "Modèles vidéo de haute qualité",
+        "Image et Texte vers Vidéo",
+        "File de génération rapide",
+        "Droits d'utilisation commerciale",
+        "Support prioritaire"
+      ],
+      "interval": "year",
+      "amount": 72000,
+      "currency": "USD",
+      "price": "$60.00",
+      "original_price": "$99.00",
+      "unit": "/mois",
+      "is_featured": false,
+      "discount_label": "40% DE RÉDUCTION",
+      "tip": "Abonnement à $720.00 par an",
+      "button": {
+        "title": "S'abonner à Plus",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-yearly",
+      "product_name": "Veo3 AI Plus Yearly",
+      "credits": 36000,
+      "valid_months": 12,
+      "group": "yearly"
+    }
+  ],
+  "faq": {
+    "name": "faq",
+    "title": "Questions fréquemment posées",
+    "description": "Tout ce que vous devez savoir sur nos tarifs et nos plans",
+    "items": [
+      {
+        "title": "Que sont les crédits et comment fonctionnent-ils ?",
+        "description": "Les crédits sont utilisés pour toutes les générations IA. Une vidéo Veo3 8s 1080p coûte 8 crédits, une image NanoBanana Pro coûte 2 crédits. Avec les 200 crédits du plan Mini, vous pouvez créer 25 vidéos ou 100 images par mois."
+      },
+      {
+        "title": "Que se passe-t-il avec les crédits non utilisés à la fin du mois ?",
+        "description": "Les crédits mensuels ne sont pas reportés au mois suivant. Nous recommandons d'utiliser vos crédits dans votre cycle de facturation. Pour les plans annuels, les crédits sont accordés chaque mois pendant l'année et ne sont pas reportés."
+      },
+      {
+        "title": "Puis-je changer de plan à tout moment ?",
+        "description": "Oui ! Vous pouvez mettre à niveau votre plan à tout moment et les modifications prendront effet immédiatement. En cas de rétrogradation, le changement prendra effet au début de votre prochain cycle de facturation. Tous les crédits non utilisés de votre plan actuel seront disponibles jusqu'à la fin de votre période de facturation actuelle."
+      },
+      {
+        "title": "Quels moyens de paiement acceptez-vous ?",
+        "description": "Nous acceptons toutes les principales cartes de crédit et de débit via notre processeur de paiement sécurisé. Pour les utilisateurs de régions spécifiques, nous prenons également en charge les méthodes de paiement locales, notamment SberPay, YooMoney et Mir Card pour les utilisateurs russes."
+      },
+      {
+        "title": "Y a-t-il un essai gratuit disponible ?",
+        "description": "Les nouveaux utilisateurs reçoivent 10 crédits gratuits lors de l'inscription pour tester nos capacités de génération vidéo. Cela vous permet de créer 1 vidéo et de découvrir la qualité de nos modèles IA avant de vous abonner."
+      },
+      {
+        "title": "Quelle est la différence entre la facturation mensuelle et annuelle ?",
+        "description": "La facturation annuelle offre une réduction de 40% par rapport à la facturation mensuelle. Avec les plans annuels, vous payez d'avance pour toute l'année et recevez des crédits chaque mois pendant l'année. Les plans mensuels sont facturés chaque mois avec des crédits renouvelés à chaque cycle de facturation."
+      },
+      {
+        "title": "Puis-je utiliser les vidéos générées commercialement ?",
+        "description": "Oui ! Tous nos plans incluent des droits d'utilisation commerciale complets pour les vidéos que vous générez. Vous possédez le contenu que vous créez et pouvez l'utiliser à n'importe quelle fin, y compris des projets commerciaux, les médias sociaux, le marketing et plus encore."
+      },
+      {
+        "title": "Quelle qualité et résolution vidéo est-ce que j'obtiens ?",
+        "description": "Tous les plans incluent une sortie en résolution 1080p HD, garantissant des vidéos de qualité professionnelle adaptées à n'importe quelle plateforme. Nous utilisons des modèles IA de premier ordre pour générer des vidéos de haute qualité et réalistes qui répondent aux normes professionnelles."
+      },
+      {
+        "title": "Combien de temps prend la génération vidéo ?",
+        "description": "La génération vidéo prend généralement 2-5 minutes selon la complexité et la file d'attente actuelle. Les plans Standard et Plus incluent la priorité dans la file de génération rapide, ce qui peut réduire les temps d'attente pendant les périodes d'utilisation maximale."
+      },
+      {
+        "title": "Puis-je annuler mon abonnement à tout moment ?",
+        "description": "Oui, vous pouvez annuler votre abonnement à tout moment depuis vos paramètres de compte. Votre abonnement restera actif jusqu'à la fin de votre période de facturation actuelle, et vous conserverez l'accès à vos crédits jusqu'à cette date."
+      }
+    ]
+  }
+}

@@ -26,21 +26,31 @@ import {
 } from "@/lib/payment-methods";
 import HighlightFeature from "./highlight-feature";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
-import MembershipExistsModal from "@/components/ui/membership-exists-modal";
+import CreditsBundleModal, {
+  BundleItem,
+} from "@/components/ui/credits-bundle-modal";
+import { useTranslations } from "next-intl";
+import useCurrentSubscription from "@/hooks/useCurrentSubscription";
 
 interface EnhancedPricingProps {
   pricing: PricingType;
 }
 
 export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
-  if (pricing.disabled) {
-    return null;
-  }
-
-  const { user, setShowSignModal, membership } = useAppContext();
+  const { user, setShowSignModal } = useAppContext();
   const { loading: locationLoading, isRussia } = useGeolocation();
   const { trackPricingView, trackCheckoutStart, trackPayment } =
     useYandexTracking();
+  const t = useTranslations("creditsBundle");
+  const tPricing = useTranslations("pricing_modal");
+  const {
+    subscriptionState,
+    isLoading: subscriptionLoading,
+    fetchCurrentSubscription,
+    canUpgradeTo,
+    isCurrentPlan,
+    isDowngrade,
+  } = useCurrentSubscription();
 
   const [group, setGroup] = useState("yearly");
   const [isLoading, setIsLoading] = useState(false);
@@ -51,30 +61,36 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [selectedProvider, setSelectedProvider] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showMembershipModal, setShowMembershipModal] = useState(false);
-  const [pendingCheckoutItem, setPendingCheckoutItem] = useState<PricingItem | null>(null);
+  const [showBundleModal, setShowBundleModal] = useState(false);
+  const [bundleLoading, setBundleLoading] = useState(false);
   const [successInfo, setSuccessInfo] = useState<{
     planName?: string;
     credits?: number;
     nextBilling?: string;
+    isMonthlyDistribution?: boolean;
+    monthlyCredits?: number;
+    totalCredits?: number;
+    remainingMonths?: number;
   }>({});
 
   function calculateNextBilling(interval: string, paidAt: string) {
     const paidDate = new Date(paidAt);
     if (interval === "year") {
       return new Date(
-        paidDate.getTime() + 365 * 24 * 60 * 60 * 1000
+        paidDate.getTime() + 365 * 24 * 60 * 60 * 1000,
       ).toLocaleDateString();
     }
     if (interval === "month") {
       return new Date(
-        paidDate.getTime() + 30 * 24 * 60 * 60 * 1000
+        paidDate.getTime() + 30 * 24 * 60 * 60 * 1000,
       ).toLocaleDateString();
     }
     return "";
   }
 
-  const checkRecentPayment = useCallback(async (): Promise<"success" | "failure" | "none"> => {
+  const checkRecentPayment = useCallback(async (): Promise<
+    "success" | "failure" | "none"
+  > => {
     const paymentPending = localStorage.getItem("veo3_payment_pending");
     const paymentTimestamp = localStorage.getItem("veo3_payment_timestamp");
     if (!paymentPending || !paymentTimestamp) {
@@ -83,7 +99,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
     try {
       const response = await fetch(
-        `/api/check-recent-payment?timestamp=${paymentTimestamp}`
+        `/api/check-recent-payment?timestamp=${paymentTimestamp}`,
       );
       const result = await response.json();
 
@@ -96,8 +112,12 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
             credits: paymentInfo.credits,
             nextBilling: calculateNextBilling(
               paymentInfo.interval,
-              paymentInfo.paidAt
+              paymentInfo.paidAt,
             ),
+            isMonthlyDistribution: paymentInfo.isMonthlyDistribution,
+            monthlyCredits: paymentInfo.monthlyCredits,
+            totalCredits: paymentInfo.totalCredits,
+            remainingMonths: paymentInfo.remainingMonths,
           });
 
           setShowSuccessModal(true);
@@ -109,7 +129,8 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
         if (result.data.hasFailedPayment && result.data.failureInfo) {
           const failureInfo = result.data.failureInfo;
-          const message = failureInfo.message || failureInfo.code || "Payment failed";
+          const message =
+            failureInfo.message || failureInfo.code || "Payment failed";
 
           toast.error(message);
           localStorage.removeItem("veo3_payment_pending");
@@ -137,7 +158,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
           if (isRussia) {
             // 俄罗斯用户: 默认选择第一个 Payssion 支付方式（按顺序 sberpay -> yoomoney -> mir）
             const firstPayssionMethod = methods.find(
-              (m) => m.provider === "payssion"
+              (m) => m.provider === "payssion",
             );
             if (firstPayssionMethod) {
               setSelectedPaymentMethod(firstPayssionMethod.id);
@@ -178,6 +199,13 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     trackPricingView();
   }, []);
 
+  // Fetch current subscription when user is logged in
+  useEffect(() => {
+    if (user) {
+      fetchCurrentSubscription();
+    }
+  }, [user]);
+
   // 检测支付成功状态（仅用于显示成功弹窗，不再上报 Metrica）
   useEffect(() => {
     checkRecentPayment();
@@ -199,18 +227,10 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     };
   }, [checkRecentPayment]);
 
-  const handleCheckout = async (item: PricingItem, cn_pay: boolean = false, skipMembershipCheck: boolean = false) => {
+  const handleCheckout = async (item: PricingItem, cn_pay: boolean = false) => {
     try {
       if (!user) {
         setShowSignModal(true);
-        return;
-      }
-
-      // Check if user is already a member (unless explicitly skipping this check)
-      if (!skipMembershipCheck && membership && membership.status === 'active') {
-        // Store the item for potential retry after membership modal
-        setPendingCheckoutItem(item);
-        setShowMembershipModal(true);
         return;
       }
 
@@ -228,6 +248,100 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     } catch (e) {
       console.log("checkout failed: ", e);
       toast.error("checkout failed");
+    }
+  };
+
+  const handleBundlePurchase = async (bundle: BundleItem) => {
+    try {
+      if (!user) {
+        setShowBundleModal(false);
+        setShowSignModal(true);
+        return;
+      }
+
+      // Track checkout start for bundle
+      trackCheckoutStart(bundle.name, bundle.amount);
+
+      setBundleLoading(true);
+
+      // Generate product name based on user region
+      const productName = isRussia
+        ? `Seedance Пакет ${bundle.credits} кредитов`
+        : bundle.name;
+
+      // Build payment params for bundle
+      const params = {
+        product_id: bundle.id,
+        product_name: productName,
+        credits: bundle.credits,
+        interval: "one-time",
+        amount: bundle.amount,
+        currency: "USD",
+        valid_months: 1,
+        payment_method: selectedPaymentMethod || "creem",
+        user_preference: selectedProvider || "creem",
+      };
+
+      // Set payment pending marker
+      const paymentTimestamp = Date.now();
+      localStorage.setItem("veo3_payment_pending", "true");
+      localStorage.setItem(
+        "veo3_payment_timestamp",
+        paymentTimestamp.toString(),
+      );
+      localStorage.setItem(
+        "veo3_payment_info",
+        JSON.stringify({
+          planName: productName,
+          credits: bundle.credits,
+          timestamp: paymentTimestamp,
+        }),
+      );
+
+      // Call payment API
+      const response = await fetch("/api/subscription/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(params),
+      });
+
+      if (response.status === 401) {
+        setBundleLoading(false);
+        setShowBundleModal(false);
+        setShowSignModal(true);
+        return;
+      }
+
+      const { code, message, data } = await response.json();
+      if (code !== 0) {
+        toast.error(message);
+        setBundleLoading(false);
+        return;
+      }
+
+      // Handle redirect
+      const { redirect_url, success } = data;
+      if (redirect_url) {
+        window.location.href = redirect_url;
+      } else if (success) {
+        // Payment completed without redirect (existing mandate)
+        setShowBundleModal(false);
+        const status = await checkRecentPayment();
+        if (status === "none") {
+          window.setTimeout(() => {
+            checkRecentPayment();
+          }, 2000);
+        }
+      } else {
+        toast.error("Payment link generation failed");
+      }
+    } catch (error) {
+      console.error("Bundle purchase failed:", error);
+      toast.error("Purchase failed");
+    } finally {
+      setBundleLoading(false);
     }
   };
 
@@ -254,7 +368,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         planName: item.title || item.product_name,
         credits: item.credits,
         timestamp: paymentTimestamp,
-      })
+      }),
     );
 
     setIsLoading(true);
@@ -280,7 +394,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         isSubscription &&
         (selectedProvider === "payssion" ||
           ["mir", "yoomoney", "sberpay", "tbank"].includes(
-            selectedPaymentMethod
+            selectedPaymentMethod,
           ))
       ) {
         // Payssion V2 订阅
@@ -354,6 +468,10 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     }
   };
 
+  if (pricing.disabled) {
+    return null;
+  }
+
   return (
     <>
       <section id={pricing.name} className="py-16">
@@ -421,7 +539,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
             <div
               className={`md:min-w-96 mt-0 grid gap-6 md:grid-cols-${
                 pricing.items?.filter(
-                  (item) => !item.group || item.group === group
+                  (item) => !item.group || item.group === group,
                 )?.length
               }`}
             >
@@ -429,6 +547,19 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                 if (item.group && item.group !== group) {
                   return null;
                 }
+
+                // Calculate subscription status for this item
+                const itemIsCurrentPlan = item.product_id
+                  ? isCurrentPlan(item.product_id)
+                  : false;
+                const itemCanUpgrade = item.product_id
+                  ? canUpgradeTo(item.product_id)
+                  : true;
+                const itemIsDowngrade = item.product_id
+                  ? isDowngrade(item.product_id)
+                  : false;
+                // Free plan (amount === 0) is always purchasable
+                const isFreeItem = item.amount === 0;
 
                 return (
                   <div
@@ -448,7 +579,15 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                             </h3>
                           )}
                           <div className="flex-1"></div>
-                          {item.label && (
+                          {itemIsCurrentPlan && (
+                            <Badge
+                              variant="outline"
+                              className="border-green-500 bg-green-500 px-1.5 text-white"
+                            >
+                              Current Plan
+                            </Badge>
+                          )}
+                          {item.label && !itemIsCurrentPlan && (
                             <Badge
                               variant="outline"
                               className="border-primary bg-primary px-1.5 text-primary-foreground"
@@ -526,12 +665,12 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
                         {/* 主要支付按钮 */}
                         {item.button && (
-                          <div className="space-y-3">
+                          <div>
                             {/* 支付方式选择器 */}
                             {isRussia &&
                               availableMethods.length > 0 &&
                               item.amount > 0 && (
-                                <div className="space-y-3">
+                                <div className="space-y-3 mb-3">
                                   <div>
                                     <span className="text-sm text-muted-foreground">
                                       Выберите способ оплаты
@@ -586,14 +725,46 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                 </div>
                               )}
 
+                            {/* Buy Credits Button */}
+                            {item.amount > 0 &&
+                              subscriptionState?.hasActiveSubscription && (
+                                <Button
+                                  variant="outline"
+                                  className="w-full mb-3 bg-white text-primary border-primary hover:bg-primary/5"
+                                  onClick={() => setShowBundleModal(true)}
+                                >
+                                  {t("buyCredits")}
+                                </Button>
+                              )}
+
                             <Button
-                              className="w-full flex items-center justify-center gap-2 font-semibold relative overflow-hidden group hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200 ease-out"
-                              disabled={isLoading || item.button.disabled}
+                              className={`w-full flex items-center justify-center gap-2 font-semibold relative overflow-hidden group transition-transform duration-200 ease-out ${
+                                itemIsCurrentPlan || itemIsDowngrade
+                                  ? "opacity-60 cursor-not-allowed"
+                                  : "hover:scale-[1.02] active:scale-[0.98]"
+                              }`}
+                              disabled={
+                                isLoading ||
+                                item.button.disabled ||
+                                itemIsCurrentPlan ||
+                                (!isFreeItem && itemIsDowngrade)
+                              }
                               onClick={() => {
                                 // Handle Free Plan navigation
                                 if (item.amount === 0 && item.button.url) {
                                   // Navigate to homepage for free plan
                                   window.location.href = "/";
+                                  return;
+                                }
+
+                                // Block if current plan or downgrade
+                                if (itemIsCurrentPlan) {
+                                  return;
+                                }
+                                if (itemIsDowngrade) {
+                                  toast.error(
+                                    "Downgrade is not allowed. Please contact support if you need to change your plan.",
+                                  );
                                   return;
                                 }
 
@@ -612,7 +783,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                         item_amount: item.amount,
                                       },
                                     ],
-                                  }
+                                  },
                                 );
                                 if (isLoading) {
                                   return;
@@ -627,7 +798,14 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                 (isLoading &&
                                   productId !== item.product_id)) && (
                                 <span className="relative z-10">
-                                  {item.button.title}
+                                  {itemIsCurrentPlan
+                                    ? "Current Plan"
+                                    : itemIsDowngrade
+                                      ? "Downgrade Not Allowed"
+                                      : itemCanUpgrade &&
+                                          subscriptionState?.hasActiveSubscription
+                                        ? "Upgrade"
+                                        : item.button.title}
                                 </span>
                               )}
 
@@ -639,18 +817,20 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                   <Loader className="relative z-10 ml-2 h-4 w-4 animate-spin" />
                                 </>
                               )}
-                              {item.button.icon && (
-                                <Icon
-                                  name={item.button.icon}
-                                  className="relative z-10 size-4"
-                                />
-                              )}
+                              {item.button.icon &&
+                                !itemIsCurrentPlan &&
+                                !itemIsDowngrade && (
+                                  <Icon
+                                    name={item.button.icon}
+                                    className="relative z-10 size-4"
+                                  />
+                                )}
                             </Button>
                           </div>
                         )}
 
                         {item.tip && (
-                          <p className="text-muted-foreground text-sm mt-2">
+                          <p className="text-muted-foreground text-sm mt-2 text-center">
                             {item.tip}
                           </p>
                         )}
@@ -670,24 +850,38 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-center">
               <span className="text-2xl">🎉</span>
-              Payment Successful!
+              {tPricing("payment_successful")}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="text-center space-y-2">
               <p className="text-lg font-semibold text-green-600">
-                {successInfo.planName} Activated
+                {successInfo.planName} {tPricing("plan_activated")}
               </p>
-              {successInfo.credits && successInfo.credits > 0 && (
-                <p className="text-sm text-muted-foreground">
-                  {successInfo.credits} credits added to your account
-                </p>
-              )}
-              {/* {successInfo.nextBilling && (
-                <p className="text-sm text-muted-foreground">
-                  📅 Next billing: {successInfo.nextBilling}
-                </p>
-              )} */}
+
+              {/* Monthly distribution - show first month credits */}
+              {successInfo.isMonthlyDistribution &&
+                successInfo.monthlyCredits && (
+                  <div className="space-y-1 text-sm text-muted-foreground">
+                    <p>
+                      {successInfo.monthlyCredits} {tPricing("credits_added")}
+                    </p>
+                    <p className="opacity-50">
+                      {tPricing("monthly_credits_grant", {
+                        credits: successInfo.monthlyCredits,
+                      })}
+                    </p>
+                  </div>
+                )}
+
+              {/* Regular credits display (backward compatible) */}
+              {!successInfo.isMonthlyDistribution &&
+                successInfo.credits &&
+                successInfo.credits > 0 && (
+                  <p className="text-sm text-muted-foreground">
+                    {successInfo.credits} {tPricing("credits_added")}
+                  </p>
+                )}
             </div>
             <div className="flex gap-2">
               <Button
@@ -697,7 +891,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                   window.location.reload(); // 刷新页面显示最新状态
                 }}
               >
-                Continue
+                {tPricing("continue")}
               </Button>
               <Button
                 variant="outline"
@@ -707,33 +901,20 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                   window.location.href = "/"; // 跳转到首页开始使用
                 }}
               >
-                Start Creating
+                {tPricing("start_creating")}
               </Button>
             </div>
           </div>
         </DialogContent>
       </Dialog>
 
-      {/* 确保会员弹窗不受父容器影响 */}
-      {showMembershipModal && (
-        <div className="fixed inset-0 z-[100]">
-          <MembershipExistsModal
-            isOpen={showMembershipModal}
-            onClose={() => {
-              setShowMembershipModal(false);
-              setPendingCheckoutItem(null);
-            }}
-            onContinuePurchase={() => {
-              setShowMembershipModal(false);
-              // Continue with the checkout that was interrupted
-              if (pendingCheckoutItem) {
-                handleCheckout(pendingCheckoutItem, false, true);
-                setPendingCheckoutItem(null);
-              }
-            }}
-          />
-        </div>
-      )}
+      {/* Credits Bundle Modal */}
+      <CreditsBundleModal
+        isOpen={showBundleModal}
+        onClose={() => setShowBundleModal(false)}
+        onPurchase={handleBundlePurchase}
+        isLoading={bundleLoading}
+      />
     </>
   );
 }

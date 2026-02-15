@@ -1,0 +1,16 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "ride-my-porsche-1",
+        "title": "Ride My Porsche",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/ride-my-porsche_cover.webp?v=1756603092246",
+        "preview_gif": "https://r2.veo3ai.io/effects-optimized/ride-my-porsche_preview.gif?v=1756600362677"
+      }
+    ],
+    "form": {
+      "title": "Ride My Porsche",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_car_250706.png"
+    }
+  }
+}

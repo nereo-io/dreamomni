@@ -14,29 +14,37 @@ export async function getEffectConfigBySlug(
     .eq("slug", slug)
     .eq("locale", locale)
     .eq("status", "online")
-    .single();
+    .maybeSingle();
 
-  if (!error && data) {
+  if (error) {
+    console.error("Error fetching effect config:", error);
+  }
+
+  if (data) {
     return data as VideoEffect;
   }
 
   // 如果目标语言没有找到且不是英语，降级到英语
   if (locale !== "en") {
-    console.log(`No effect config found for locale ${locale}, falling back to English`);
+    console.log(
+      `No effect config found for locale ${locale}, falling back to English`
+    );
     const { data: enData, error: enError } = await supabase
       .from("effect_configs")
       .select("*")
       .eq("slug", slug)
       .eq("locale", "en")
       .eq("status", "online")
-      .single();
+      .maybeSingle();
 
-    if (!enError && enData) {
-      return enData as VideoEffect;
+    if (enError) {
+      console.error("Error fetching English effect config fallback:", enError);
+      return null;
     }
+
+    return enData ? (enData as VideoEffect) : null;
   }
 
-  console.error("Error fetching effect config:", error);
   return null;
 }
 

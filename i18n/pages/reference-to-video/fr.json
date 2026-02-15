@@ -1,0 +1,116 @@
+{
+  "hero": {
+    "title": "Veo3 Référence vers Vidéo : Verrouiller l'Identité des Personnages Entre les Scènes",
+    "description": "Téléchargez 1 à 3 images de référence et générez des vidéos de 8 secondes avec la technologie de cohérence des personnages de Veo 3.1. Préservez l'apparence du sujet dans plusieurs scènes avec synchronisation audio native.",
+    "cta": {
+      "buttonText": "Essayer Veo3 R2V Maintenant",
+      "scrollTarget": "[data-video-generation-tool]"
+    },
+    "media": {
+      "type": "video",
+      "src": "https://r2.veo3ai.io/intro/reference-to-video/Reference-to-video-intro-new.mp4",
+      "alt": "Démonstration de la cohérence des personnages Veo3 référence vers vidéo"
+    }
+  },
+  "features": {
+    "title": "Pourquoi Choisir Veo3 Référence vers Vidéo ?",
+    "features": [
+      {
+        "id": "character-consistency",
+        "title": "Cohérence des Personnages Entre les Scènes",
+        "description": "Téléchargez 1 à 3 images de référence sous différents angles. L'IA de Veo 3.1 préserve l'apparence du sujet dans toutes les images, maintenant les traits du visage, les vêtements et l'identité tout au long de votre vidéo. L'utilisation de 2 à 3 images offre une meilleure cohérence qu'une seule image."
+      },
+      {
+        "id": "native-audio",
+        "title": "Synchronisation Audio Native",
+        "description": "Veo 3.1 génère automatiquement l'audio synchronisé. Les dialogues, les sons environnementaux et les effets correspondent naturellement à l'action à l'écran, éliminant les coûts de post-production pour la voix off et améliorant le réalisme."
+      },
+      {
+        "id": "scene-flexibility",
+        "title": "Narration Multi-Scènes",
+        "description": "Verrouillez l'identité du personnage, puis placez-le dans n'importe quelle scène. Utilisez la fonction Extend de Veo 3.1 pour créer des récits plus longs en enchaînant des clips de 8 secondes tout en maintenant la cohérence du personnage. Construisez des histoires complexes avec un minimum d'entrées."
+      },
+      {
+        "id": "precision-control",
+        "title": "Contrôle de Niveau Cinématographique",
+        "description": "Contrôlez les images de début/fin, les mouvements de caméra et les positions d'objets. Veo 3.1 génère des transitions fluides entre les images fournies avec audio synchronisé. Prend en charge 720p/1080p en 16:9 ou 9:16."
+      }
+    ],
+    "cta": {
+      "buttonText": "Commencer à Créer Maintenant",
+      "scrollTarget": "[data-video-generation-tool]"
+    }
+  },
+  "usageGuide": {
+    "title": "Comment Utiliser Veo3 Référence vers Vidéo ?",
+    "description": "Trois étapes simples pour créer des vidéos avec une identité de personnage cohérente en utilisant Veo 3.1",
+    "steps": [
+      {
+        "number": "1",
+        "title": "Téléchargez 1-3 Images de Référence",
+        "description": "JPEG/PNG, 720p+, plusieurs angles, éclairage clair fonctionnent mieux."
+      },
+      {
+        "number": "2",
+        "title": "Écrivez Votre Prompt",
+        "description": "Décrivez la scène, l'action, l'audio. Obtenez une vidéo de 8 secondes avec audio."
+      },
+      {
+        "number": "3",
+        "title": "Générer et Prolonger",
+        "description": "60-120s de génération. Extend ajoute +7s par extension."
+      }
+    ],
+    "buttonText": "Essayer Veo3 R2V Maintenant"
+  },
+  "faq": {
+    "title": "FAQ Veo3 Référence vers Vidéo",
+    "description": "Questions fréquentes sur la fonction référence vers vidéo de Veo 3.1 pour la génération cohérente de personnages",
+    "items": [
+      {
+        "id": "what-is-reference-to-video",
+        "question": "Qu'est-ce que la référence vers vidéo Veo3 ?",
+        "answer": "La référence vers vidéo Veo3 utilise 1 à 3 images de référence comme « contraintes d'actifs » pour préserver l'apparence du sujet dans les images vidéo. Contrairement à l'image vers vidéo qui anime une seule image de départ, R2V traite les images de référence comme des ancres d'identité, générant des scènes entièrement nouvelles tout en maintenant la cohérence du personnage."
+      },
+      {
+        "id": "consistency-guarantee",
+        "question": "Veo3 garantit-il une cohérence de personnage à 100% ?",
+        "answer": "Veo 3.1 vise à « préserver l'apparence du sujet » mais ne garantit pas une cohérence pixel par pixel à 100%. L'utilisation de 2 à 3 images de référence de haute qualité sous différents angles (vues de face/côté) améliore considérablement la stabilité par rapport à une seule image."
+      },
+      {
+        "id": "how-many-reference-images",
+        "question": "Combien d'images de référence dois-je télécharger ?",
+        "answer": "Vous pouvez télécharger 1 à 3 images de référence. Bien qu'une image fonctionne, l'utilisation de 2 à 3 images sous différents angles offre une meilleure couverture des traits du visage, des détails vestimentaires et de l'apparence globale, résultant en un rendu de personnage plus cohérent."
+      },
+      {
+        "id": "what-makes-it-different",
+        "question": "En quoi cela diffère-t-il de l'image vers vidéo ordinaire ?",
+        "answer": "L'image vers vidéo (I2V) anime une seule image comme image de départ. La référence vers vidéo (R2V) utilise 1 à 3 images comme contraintes d'identité sans les utiliser comme images de départ, vous permettant de générer des vidéos dans des scènes et des poses complètement nouvelles tout en maintenant l'apparence du personnage."
+      },
+      {
+        "id": "video-length-extend",
+        "question": "Les vidéos sont-elles limitées à 8 secondes ?",
+        "answer": "Veo3 R2V génère des clips de base de 8 secondes. Utilisez la fonction Extend de Veo 3.1 pour ajouter +7 secondes par extension (jusqu'à 20 fois) pour des vidéos jusqu'à ~148 secondes. Extend ne fonctionne qu'avec les vidéos générées par Veo en 16:9 ou 9:16 à 720p, de moins de 141 secondes."
+      },
+      {
+        "id": "what-images-work-best",
+        "question": "Quelles exigences d'image fonctionnent le mieux ?",
+        "answer": "Utilisez le format JPEG ou PNG à une résolution de 720p ou supérieure. Visibilité claire du sujet, bon éclairage, arrière-plans simples et obstructions minimales améliorent la cohérence. Combinez des plans de face/côté/mi-corps pour de meilleurs résultats. Maximum 10 Mo par image."
+      },
+      {
+        "id": "aspect-ratio-resolution",
+        "question": "Quels formats d'image et résolutions sont pris en charge ?",
+        "answer": "Veo3 R2V prend en charge les formats d'image 16:9 (paysage) et 9:16 (vertical). La résolution de sortie peut être définie à 720p ou 1080p. Les formats d'image non standard peuvent être recadrés ou mis à l'échelle pendant la génération."
+      },
+      {
+        "id": "reference-to-video-cost",
+        "question": "Combien coûte la référence vers vidéo Veo3 ?",
+        "answer": "La référence vers vidéo utilise les mêmes tarifs de crédits que l'image vers vidéo. Le coût dépend de la durée et de la résolution de la vidéo. Vous pouvez vérifier le coût exact en crédits avant de générer chaque vidéo. Le tarif standard s'applique par seconde générée."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Commencez à Créer avec Veo3 Référence vers Vidéo !",
+    "buttonText": "Essayer Veo3 R2V Maintenant"
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "faq": {
+    "title": "Questions fréquentes",
+    "description": "En savoir plus sur notre service de transformation d'images IA.",
+    "items": [
+      {
+        "id": "what-is-image-to-image",
+        "question": "Qu'est-ce que la transformation d'images IA ?",
+        "answer": "La transformation d'images IA vous permet de modifier des images existantes en utilisant des descriptions textuelles. Vous pouvez changer de styles, ajouter ou supprimer des éléments, modifier les arrière-plans et créer des variations tout en préservant la structure de base de votre image originale."
+      },
+      {
+        "id": "how-does-it-work",
+        "question": "Comment fonctionne l'IA image vers image ?",
+        "answer": "Notre IA analyse votre image téléchargée ainsi que votre description textuelle, en comprenant les modifications que vous souhaitez apporter. Elle génère ensuite une nouvelle image qui intègre vos modifications demandées tout en maintenant les éléments essentiels de l'original."
+      },
+      {
+        "id": "what-can-i-change",
+        "question": "Que puis-je changer dans mes images ?",
+        "answer": "Vous pouvez modifier les styles (réaliste en artistique), changer les arrière-plans, modifier les couleurs et l'éclairage, ajouter ou supprimer des objets, transformer les saisons ou l'heure de la journée, changer les vêtements ou les accessoires, et bien plus encore."
+      },
+      {
+        "id": "supported-formats",
+        "question": "Quels formats d'image sont pris en charge ?",
+        "answer": "Nous prenons en charge les formats d'image les plus courants, notamment JPEG, PNG et WebP. Les images doivent faire moins de 10 Mo pour un traitement optimal."
+      },
+      {
+        "id": "preserve-quality",
+        "question": "La qualité de mon image sera-t-elle préservée ?",
+        "answer": "Oui, notre IA maintient une haute qualité dans les images transformées. La résolution de sortie correspond ou dépasse l'entrée, garantissant que vos images modifiées sont adaptées à un usage professionnel."
+      },
+      {
+        "id": "use-cases",
+        "question": "Quels sont les cas d'usage courants pour image vers image ?",
+        "answer": "Les utilisations populaires incluent les variations de produits pour le commerce électronique, les transferts de style pour les projets artistiques, les remplacements d'arrière-plan pour les photos, les itérations de concept pour le travail de design et le remix créatif d'œuvres d'art existantes."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Transformez vos images avec l'IA aujourd'hui",
+    "description": "Téléchargez une image et décrivez votre vision. Regardez l'IA la transformer en quelque chose de nouveau.",
+    "buttonText": "Essayer l'éditeur image vers image"
+  },
+  "aiModelsHero": {
+    "title": "Transformation d'images IA puissante",
+    "description": "Tirant parti du modèle IA Nano Banana Edit avancé, Seedance fournit des transformations image vers image précises. Modifiez, transférez le style et réinventez vos images avec un contrôle et une qualité inégalés.",
+    "models": [
+      {
+        "id": "nano-banana-edit",
+        "name": "Nano Banana Edit",
+        "logo": "/imgs/intro/nano-banana.svg"
+      }
+    ],
+    "moreModels": "Plus de modèles à venir"
+  },
+  "creatorShowcase": {
+    "title": "Vitrine de transformation d'images",
+    "creatorTypes": [
+      {
+        "id": "artists",
+        "name": "Artistes numériques",
+        "image": "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Artiste numérique travaillant sur des transformations créatives",
+        "title": "Transformez des photos en chefs-d'œuvre artistiques",
+        "description": "Transformez des images ordinaires en peintures, croquis ou art numérique. Appliquez des styles artistiques et créez des variations uniques de vos photos avec des transformations alimentées par l'IA.",
+        "badge": "Artistes numériques"
+      },
+      {
+        "id": "designers",
+        "name": "Designers de produits",
+        "image": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Designer de produits créant des variations",
+        "title": "Créez instantanément des variations de produits infinies",
+        "description": "Générez plusieurs versions d'images de produits avec différentes couleurs, matériaux et paramètres. Parfait pour le commerce électronique, les maquettes et les présentations de design.",
+        "badge": "Designers de produits"
+      },
+      {
+        "id": "photographers",
+        "name": "Photographes",
+        "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Photographe éditant des scènes et des arrière-plans",
+        "title": "Modifiez facilement les scènes et les arrière-plans",
+        "description": "Remplacez les arrière-plans, changez les saisons, modifiez les conditions d'éclairage ou modifiez les environnements. Transformez vos photos sans logiciel d'édition complexe.",
+        "badge": "Photographes"
+      },
+      {
+        "id": "creators",
+        "name": "Créateurs de contenu",
+        "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Créateur de contenu remixant des images",
+        "title": "Remixez et réinventez le contenu existant",
+        "description": "Transformez des images existantes dans de nouvelles directions créatives. Générez des variations pour les médias sociaux, les matériaux marketing et les projets créatifs.",
+        "badge": "Créateurs de contenu"
+      }
+    ]
+  }
+}

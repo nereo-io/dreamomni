@@ -86,13 +86,15 @@ export function getPaymentMethodLogo(paymentMethod: string): string {
 
 /**
  * 根据国家代码判断是否支持Payssion
- * TODO: 临时注释掉俄罗斯支付，等开通后取消注释
+ * 注意：Payssion 提供的 SberPay、YooMoney、Mir Card 是俄罗斯本土支付方式，
+ * 只有持有俄罗斯银行账户的用户才能使用。
+ * 其他独联体国家（哈萨克斯坦、乌克兰等）应使用 Creem 国际信用卡支付。
+ *
+ * Seedance: 当前暂时关闭 Payssion，统一使用 Creem/Stripe（避免产品金额映射不一致导致错配）。
  */
 export function shouldUsePayssion(countryCode: string): boolean {
-  // 临时注释掉俄罗斯支付逻辑，改用 Stripe
-  // const payssionCountries = ['RU', 'BY', 'KZ', 'UA', 'AM', 'AZ', 'GE', 'KG', 'MD', 'TJ', 'TM', 'UZ'];
-  // return payssionCountries.includes(countryCode.toUpperCase());
-  return false; // 临时返回 false，强制使用 Stripe
+  void countryCode;
+  return false;
 }
 
 /**

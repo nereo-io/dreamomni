@@ -1,0 +1,16 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "private-airplane-1",
+        "title": "Private Airplane",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/private-airplane_cover.webp?v=1756603090046",
+        "preview_gif": "https://r2.veo3ai.io/effects-optimized/private-airplane_preview.gif?v=1756600362677"
+      }
+    ],
+    "form": {
+      "title": "Private Airplane",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_jet_250708.png"
+    }
+  }
+}

@@ -1,15 +1,24 @@
 import { NextRequest } from "next/server";
 import { respErr, respJson, respData } from "@/lib/resp";
 import { getUserUuid, getUserEmail } from "@/services/user";
-import { findUserByUuid } from "@/models/user";
+import { findUserByUuid, updateUserAttribution } from "@/models/user";
 import { getPaymentRouter } from "@/services/payment";
 import { MandateRequest } from "@/services/payment/types";
 import { insertOrder } from "@/models/order";
 import { getClientIdFromCookie } from "@/lib/yandex-metrica";
+import {
+  getAttributionFromCookie,
+  isDirectSnapshot,
+  isSnapshotNewer,
+  resolveAttribution,
+} from "@/lib/attribution";
 import { Order } from "@/types/order";
 import { getSnowId } from "@/lib/hash";
 import { getPayssionConfig } from "@/config/payssion";
 import { getPaymentProvider } from "@/lib/payment-methods";
+import { findActiveSubscriptionsByUserUuid } from "@/models/subscription";
+import { findActiveCreemSubscriptionsByUserUuid } from "@/models/creem-subscription";
+import { getAnyProductConfig } from "@/config/products";
 
 // 日志函数 - 只输出到控制台，不写入文件
 function logInfo(message: string, data?: any) {
@@ -51,6 +60,21 @@ export async function POST(req: NextRequest) {
       payment_method,
     } = body;
 
+    const productConfig = product_id ? getAnyProductConfig(product_id) : undefined;
+    if (!productConfig) {
+      logError("❌ Invalid product_id", { product_id });
+      return respErr("invalid product_id");
+    }
+
+    // Server-trust the product config (prevents client-side tampering).
+    credits = productConfig.credits;
+    currency = productConfig.currency;
+    amount = productConfig.amount;
+    interval = productConfig.interval;
+    valid_months = productConfig.valid_months;
+    product_name = productConfig.product_name;
+    product_type = interval === "one-time" ? "bundle" : "subscription";
+
     const config = getPayssionConfig();
     const returnUrl = config.subscription.defaultReturnUrl;
 
@@ -60,27 +84,48 @@ export async function POST(req: NextRequest) {
       return respErr("invalid params");
     }
 
-    if (!["year", "month"].includes(interval)) {
+    if (!["year", "month", "one-time"].includes(interval)) {
       logError("❌ 无效的订阅类型", { interval });
       return respErr("invalid interval");
     }
 
     const is_subscription = interval === "month" || interval === "year";
+    const is_bundle = interval === "one-time";
 
-    if (interval === "year" && valid_months !== 12) {
-      return respErr("invalid valid_months");
+    // 新增：年订阅标记为按月发放
+    const isMonthlyDistribution = interval === "year";
+
+    // Bundle purchase requires active subscription
+    if (is_bundle) {
+      const [payssionSubscriptions, creemSubscriptions] = await Promise.all([
+        findActiveSubscriptionsByUserUuid(user_uuid),
+        findActiveCreemSubscriptionsByUserUuid(user_uuid),
+      ]);
+
+      const hasActiveSubscription =
+        payssionSubscriptions.length > 0 || creemSubscriptions.length > 0;
+
+      if (!hasActiveSubscription) {
+        logError("❌ Bundle purchase requires active subscription", { user_uuid });
+        return respErr("Active subscription required to purchase credit bundles");
+      }
     }
 
-    if (interval === "month" && valid_months !== 1) {
-      return respErr("invalid valid_months");
+    // 仅对订阅验证 valid_months
+    if (is_subscription) {
+      if (interval === "year" && valid_months !== 12) {
+        return respErr("invalid valid_months");
+      }
+
+      if (interval === "month" && valid_months !== 1) {
+        return respErr("invalid valid_months");
+      }
     }
 
     let user_email = await getUserEmail();
-    if (!user_email) {
-      const user = await findUserByUuid(user_uuid);
-      if (user) {
-        user_email = user.email;
-      }
+    const userRecord = await findUserByUuid(user_uuid);
+    if (!user_email && userRecord) {
+      user_email = userRecord.email;
     }
     if (!user_email) {
       logError("❌ 用户邮箱不存在");
@@ -90,6 +135,40 @@ export async function POST(req: NextRequest) {
     // Extract clientID from cookies for Yandex Metrica offline conversion tracking
     const cookieHeader = req.headers.get('cookie') || '';
     const clientId = getClientIdFromCookie(cookieHeader);
+    const cookieAttribution = getAttributionFromCookie(cookieHeader);
+    const cookieLastTouch = cookieAttribution?.last_touch ?? null;
+    const resolvedAttribution = resolveAttribution({
+      userAttribution: {
+        first_touch: userRecord?.first_touch ?? null,
+        last_touch: userRecord?.last_touch ?? null,
+      },
+      cookieAttribution,
+      requestUrl: req.url,
+      requestReferrer: req.headers.get("referer"),
+      allowDirectFallback: false,
+    });
+
+    const shouldUpdateFirstTouch =
+      !userRecord?.first_touch &&
+      !!resolvedAttribution.first_touch &&
+      !isDirectSnapshot(resolvedAttribution.first_touch);
+    const shouldUpdateLastTouch =
+      !!cookieLastTouch &&
+      !isDirectSnapshot(cookieLastTouch) &&
+      isSnapshotNewer(cookieLastTouch, userRecord?.last_touch);
+
+    if (userRecord?.uuid && (shouldUpdateFirstTouch || shouldUpdateLastTouch)) {
+      await updateUserAttribution(userRecord.uuid, {
+        first_touch: shouldUpdateFirstTouch
+          ? resolvedAttribution.first_touch
+          : null,
+        last_touch: shouldUpdateLastTouch ? cookieLastTouch : null,
+      });
+    }
+    const requestHost =
+      req.headers.get("x-forwarded-host") || req.headers.get("host");
+    const requestReferer = req.headers.get("referer");
+    const requestUserAgent = req.headers.get("user-agent");
 
     // 创建订单号
     const order_no = getSnowId();
@@ -104,13 +183,16 @@ export async function POST(req: NextRequest) {
 
     let expired_at = "";
 
+    // Bundle: 使用 valid_months（默认1个月），无延迟
+    // Subscription: 使用 valid_months + 24小时延迟
+    const bundleValidMonths = is_bundle ? (valid_months || 1) : valid_months;
     const timePeriod = new Date(currentDate);
-    timePeriod.setMonth(currentDate.getMonth() + valid_months);
+    timePeriod.setMonth(currentDate.getMonth() + bundleValidMonths);
 
     const timePeriodMillis = timePeriod.getTime();
     let delayTimeMillis = 0;
 
-    // subscription
+    // subscription only: add 24 hours buffer
     if (is_subscription) {
       delayTimeMillis = 24 * 60 * 60 * 1000; // delay 24 hours expired
     }
@@ -134,12 +216,40 @@ export async function POST(req: NextRequest) {
       currency: currency,
       product_id: product_id,
       product_name: product_name,
+      product_type: product_type,
       valid_months: valid_months,
       payment_provider: getPaymentProvider(payment_method),
       payment_method: payment_method,
       client_id: clientId, // Add clientID for offline conversion tracking
+      first_touch: resolvedAttribution.first_touch,
+      last_touch: resolvedAttribution.last_touch,
+      is_renewal: false,
+      is_monthly_distribution: isMonthlyDistribution, // 新增字段
     };
     await insertOrder(order);
+
+    // TEMP: audit tracking for client_id gaps; remove after data collection.
+    try {
+      const { insertOrderTrackingAudit } = await import(
+        "@/models/orderTrackingAudit"
+      );
+
+      await insertOrderTrackingAudit({
+        order_no: order_no,
+        user_uuid: user_uuid,
+        payment_provider: order.payment_provider,
+        payment_method: payment_method,
+        has_client_id: !!clientId,
+        request_host: requestHost || undefined,
+        request_referer: requestReferer || undefined,
+        request_user_agent: requestUserAgent || undefined,
+      });
+    } catch (auditError: any) {
+      logError("⚠️ 订单追踪审计写入失败", {
+        order_no,
+        error: auditError?.message || String(auditError),
+      });
+    }
 
     // 直接使用 PaymentRouter 创建订阅
     const paymentRouter = getPaymentRouter();

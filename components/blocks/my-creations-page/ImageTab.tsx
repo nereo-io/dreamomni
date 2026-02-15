@@ -16,7 +16,7 @@ export default function ImageTab() {
   if (!user?.uuid) {
     return (
       <div className="flex flex-col lg:flex-row gap-2 h-full">
-        <div className="bg-gray-900 rounded-xl shadow-lg flex flex-col w-full lg:overflow-hidden lg:h-full ">
+        <div className="bg-gray-900 min-h-[calc(100vh-180px)] rounded-xl shadow-lg flex flex-col w-full lg:overflow-hidden lg:h-full ">
           <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
             <div className="p-4 md:p-6 text-center py-12">
               <AlertTriangle className="mx-auto h-16 w-16 text-gray-400 mb-4" />
@@ -43,7 +43,7 @@ export default function ImageTab() {
       {/* Image History Component */}
       <ImageHistory
         refreshTrigger={refreshTrigger}
-        className="bg-gray-900 rounded-xl shadow-lg flex flex-col flex-1 w-full lg:overflow-hidden lg:h-full"
+        className="bg-gray-900 min-h-[calc(100vh-180px)] rounded-xl shadow-lg flex flex-col flex-1 w-full lg:overflow-hidden lg:h-full"
         userId={user?.uuid}
         filterMode="all" // Show all images (both text-to-image and image-to-image)
         showEmptyState={true}

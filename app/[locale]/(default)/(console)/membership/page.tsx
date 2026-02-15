@@ -3,6 +3,7 @@ import { findActiveMembershipByUserUuid } from "@/models/membership";
 import { getStripeCustomerId } from "@/models/user";
 import { findSubscriptionsByUserUuid } from "@/models/subscription";
 import { findCreemSubscriptionsByUserUuid } from "@/models/creem-subscription";
+import { CreditDistributionService } from "@/services/creditDistributionService";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 import {
@@ -13,11 +14,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { ManageSubscriptionButton } from "@/components/subscription/manage-subscription-button";
 import { SubscriptionCard } from "@/components/subscription/subscription-card";
 import { CreemSubscriptionCard } from "@/components/subscription/creem-subscription-card";
-import moment from "moment";
+import { LocalTime } from "@/components/ui/local-time";
 
 export default async function () {
   const t = await getTranslations();
@@ -30,6 +30,10 @@ export default async function () {
 
   // 获取会员信息
   const membership = await findActiveMembershipByUserUuid(user_uuid);
+  // 获取年付订阅的积分发放计划
+  const distributionSchedule = membership?.plan_type === "yearly"
+    ? await CreditDistributionService.getNextScheduleForUser(user_uuid)
+    : null;
   // 获取 Stripe Customer ID
   const stripeCustomerId = await getStripeCustomerId(user_uuid);
   // 获取 Payssion 订阅信息
@@ -81,7 +85,7 @@ export default async function () {
                   {t("membership.start_date")}
                 </span>
                 <span className="text-sm font-medium">
-                  {moment(membership.start_date).format("YYYY-MM-DD HH:mm")}
+                  <LocalTime date={membership.start_date} format="date" />
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -89,7 +93,7 @@ export default async function () {
                   {t("membership.end_date")}
                 </span>
                 <span className="text-sm font-medium">
-                  {moment(membership.end_date).format("YYYY-MM-DD HH:mm")}
+                  <LocalTime date={membership.end_date} format="date" />
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -97,10 +101,21 @@ export default async function () {
                   {t("membership.remaining_days")}
                 </span>
                 <span className="text-sm font-medium">
-                  {moment(membership.end_date).diff(moment(), "days")}{" "}
+                  {Math.max(0, Math.ceil((new Date(membership.end_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))}{" "}
                   {t("membership.days")}
                 </span>
               </div>
+              {/* 年付订阅的积分发放信息 */}
+              {distributionSchedule && membership.plan_type === "yearly" && (
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">
+                    {t("membership.next_credit_distribution")}
+                  </span>
+                  <span className="text-sm font-medium">
+                    <LocalTime date={distributionSchedule.next_distribution_date} format="date" />
+                  </span>
+                </div>
+              )}
             </div>
           ) : (
             <div className="text-center py-6">

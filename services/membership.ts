@@ -52,15 +52,8 @@ export async function createOrUpdateMembership(
   // 查询用户是否有会员记录(不限制状态)
   const membership = await findMembershipByUserUuid(userUuid);
 
-  // 计算结束时间
-  let endDate = new Date(now);
-  if (membership?.end_date) {
-    const membershipEndDate = new Date(membership.end_date);
-    // 判断会员结束时间是否晚于当前时间，如果是则使用会员结束时间作为基准
-    endDate = membershipEndDate > now ? membershipEndDate : new Date(now);
-  }
-
-  // const endDate = new Date(now);
+  // 计算结束时间（基于当前时间，不叠加）
+  const endDate = new Date(now);
   if (planType === "monthly") {
     endDate.setMonth(endDate.getMonth() + 1);
   } else if (planType === "yearly") {

@@ -12,23 +12,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Play, ImageIcon, X, Coins, Crown } from "lucide-react";
+import { Play, Coins, Crown, ChevronRight } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import { useTranslations, useLocale } from "next-intl";
 import useCredits from "@/hooks/useCredits";
+import { ImageUploader } from "./ImageUploader";
+import { ImageGridUploader } from "./ImageGridUploader";
 import {
   getTextToVideoModels,
   getImageToVideoModels,
   calculateCredits,
   getVideoModel,
+  getSupportedResolutionsForDuration,
   isSeedanceModel,
+  getMaxImagesForModel,
 } from "@/config/video-models";
 import { validateImage } from "@/config/image-validation-rules";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 import type { VideoEffect } from "@/types/video-effect";
 import { EffectSelector } from "@/components/blocks/effect-selector";
 import { CaptchaModal } from "@/components/ui/captcha-modal";
+import { CreditsCostSection } from "@/components/blocks/common/CreditsCostSection";
+import AudioSelector from "./AudioSelector";
 
 // 生成参数接口
 export interface VideoGenerationParams {
@@ -40,10 +46,13 @@ export interface VideoGenerationParams {
   generate_audio: boolean;
   enable_prompt_enhancement: boolean;
   image_url?: string;
+  image_urls?: string[]; // 新增：支持1-2张图片数组（首帧、尾帧）
+  source_image_ids?: string[]; // 新增：来源图片ID数组（追踪"My Creations"选择）
   effect_id?: string;
   pixverse_img_id?: number;
   captchaToken?: string;
   watermarkEnabled?: boolean;
+  generationType?: string; // For Reference-to-Video feature (e.g., "REFERENCE_2_VIDEO")
 }
 
 interface VideoGeneratorProps {
@@ -71,9 +80,15 @@ interface VideoGeneratorProps {
   effect?: VideoEffect;
   forceModel?: string;
   creditsOverride?: number;
+
+  // Optional: Specify generation type to filter available models
+  generationType?: string;
+
+  // Optional: Hide prompt enhancement toggle
+  hidePromptEnhancement?: boolean;
 }
 
-type VideoDuration = "5" | "6" | "8" | "10";
+type VideoDuration = "5" | "6" | "8" | "10" | "12" | "15" | "25";
 type VideoResolution = "480p" | "512p" | "720p" | "768p" | "1080p";
 
 export default function VideoGenerator({
@@ -90,6 +105,8 @@ export default function VideoGenerator({
   effect,
   forceModel,
   creditsOverride,
+  generationType,
+  hidePromptEnhancement = false,
 }: VideoGeneratorProps) {
   const t = useTranslations("video-generator");
   const locale = useLocale();
@@ -100,20 +117,27 @@ export default function VideoGenerator({
 
   // 组件内部状态管理
   const [description, setDescription] = useState("");
-  const [selectedRatio, setSelectedRatio] = useState("16:9");
+  const [selectedRatio, setSelectedRatio] = useState("");
   const [selectedDuration, setSelectedDuration] = useState("");
   const [selectedResolution, setSelectedResolution] = useState("");
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   // 其他内部状态
   const [selectedModel, setSelectedModel] = useState<string>("");
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [isDragOver, setIsDragOver] = useState(false);
-  const [generateAudio] = useState(true);
-  const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(true);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
-  const [isUploadingImage, setIsUploadingImage] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const [generateAudio, setGenerateAudio] = useState(true);
+
+  // Enhanced Prompt 开关状态：默认关闭，避免 SSR/CSR 因 localStorage 产生 hydration mismatch
+  const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(false);
+  const promptEnhancementPrefLoadedRef = useRef(false);
+
+  // 图片上传状态（通过 ImageUploader 组件管理）
+  const [uploadedImageUrls, setUploadedImageUrls] = useState<(string | null)[]>(
+    []
+  );
+  const [sourceImageIds, setSourceImageIds] = useState<(string | null)[]>([]); // 来源图片ID（追踪"My Creations"选择）
+
+  // 向后兼容：保留旧状态供其他逻辑使用
+  const uploadedImageUrl =
+    uploadedImageUrls.find((url): url is string => !!url) || null;
   const [isSubmitting] = useState(false);
   const [currentEffect, setCurrentEffect] = useState<VideoEffect | null>(
     effect || null
@@ -134,6 +158,14 @@ export default function VideoGenerator({
   const { leftCredits, updateLeftCredits } = useCredits();
   const isMember = membership?.status === "active";
   const isSeedanceSelected = isSeedanceModel(selectedModel);
+  const isVeo3Selected = selectedModel.includes('kie-veo3-');
+
+  // 当前模型支持的最大图片数（从配置中获取）
+  const maxImages = useMemo(
+    () => getMaxImagesForModel(selectedModel),
+    [selectedModel]
+  );
+  const supportsDualImages = maxImages >= 2;
 
   // 用户登录时获取积分
   useEffect(() => {
@@ -142,10 +174,58 @@ export default function VideoGenerator({
     }
   }, [user?.uuid, updateLeftCredits]);
 
+  // 读取 Enhanced Prompt 偏好（仅在客户端）
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('video-prompt-enhancement-enabled');
+      if (stored !== null) {
+        setEnablePromptEnhancement(stored === 'true');
+      }
+    } catch (error) {
+      console.error('Failed to read from localStorage:', error);
+    } finally {
+      promptEnhancementPrefLoadedRef.current = true;
+    }
+  }, []);
+
+  // 自动保存 Enhanced Prompt 偏好到 localStorage
+  useEffect(() => {
+    if (!promptEnhancementPrefLoadedRef.current) return;
+
+    try {
+      localStorage.setItem('video-prompt-enhancement-enabled', String(enablePromptEnhancement));
+    } catch (error) {
+      console.error('Failed to save prompt enhancement preference:', error);
+    }
+  }, [enablePromptEnhancement]);
+
+  // 模型切换时的兼容性处理
+  useEffect(() => {
+    if (supportsDualImages) {
+      return;
+    }
+
+    const firstUrl = uploadedImageUrls[0] || null;
+    const firstSourceId = sourceImageIds[0] || null;
+    const nextUrls = firstUrl ? [firstUrl] : [];
+    const nextSourceIds = firstSourceId ? [firstSourceId] : [];
+    const isSame =
+      uploadedImageUrls.length === nextUrls.length &&
+      uploadedImageUrls[0] === nextUrls[0] &&
+      sourceImageIds.length === nextSourceIds.length &&
+      sourceImageIds[0] === nextSourceIds[0];
+
+    if (!isSame) {
+      setUploadedImageUrls(nextUrls);
+      setSourceImageIds(nextSourceIds);
+      // Dropping non-first frames should be silent.
+    }
+  }, [supportsDualImages, uploadedImageUrls, sourceImageIds]);
+
   // 检查是否需要CAPTCHA验证（基于积分）
   const needsCaptcha = useCallback(() => {
-    // 新用户（积分<=10）需要CAPTCHA验证，防止薅羊毛
-    return user?.uuid && leftCredits !== null && leftCredits <= 10;
+    // 新用户（积分<=12）需要CAPTCHA验证，防止薅羊毛
+    return user?.uuid && leftCredits !== null && leftCredits <= 12;
   }, [user?.uuid, leftCredits]);
 
   // Populate form fields when showcase video params are provided
@@ -162,9 +242,7 @@ export default function VideoGenerator({
 
       // Set image if provided (for image-to-video mode)
       if (showcaseVideoParams.imageUrl && mode === "image-to-video") {
-        setSelectedImage(showcaseVideoParams.imageUrl);
-        setImagePreview(showcaseVideoParams.imageUrl);
-        setUploadedImageUrl(showcaseVideoParams.imageUrl);
+        setUploadedImageUrls([showcaseVideoParams.imageUrl]);
 
         // If using pixverse_template effect, upload to Pixverse
         if (effect?.effect_type === "pixverse_template") {
@@ -213,9 +291,7 @@ export default function VideoGenerator({
 
       // If it's image-to-video mode and has image_url, set the image
       if (mode === "image-to-video" && editVideoData.image_url) {
-        setSelectedImage(editVideoData.image_url);
-        setImagePreview(editVideoData.image_url);
-        setUploadedImageUrl(editVideoData.image_url);
+        setUploadedImageUrls([editVideoData.image_url]);
 
         // If using pixverse_template effect, upload to Pixverse
         if (effect?.effect_type === "pixverse_template") {
@@ -264,14 +340,21 @@ export default function VideoGenerator({
     }
   }, [isGenerating, user?.uuid, updateLeftCredits]);
 
-  // 获取所有可用模型 - 基于mode参数，而不是图片状态
-  const availableModels = useMemo(
-    () =>
+  // 获取所有可用模型 - 基于mode参数和generationType筛选
+  const availableModels = useMemo(() => {
+    const allModels =
       mode === "image-to-video"
         ? getImageToVideoModels()
-        : getTextToVideoModels(),
-    [mode]
-  );
+        : getTextToVideoModels();
+
+    // 如果指定了 generationType，只显示匹配的模型
+    if (generationType) {
+      return allModels.filter((m) => m.generationType === generationType);
+    }
+
+    // 否则返回该模式下所有通用模型（排除有 generationType 标记的特殊模型）
+    return allModels.filter((m) => !m.generationType);
+  }, [mode, generationType]);
 
   const memberOnlyModelIds = useMemo(
     () =>
@@ -305,6 +388,30 @@ export default function VideoGenerator({
 
   // 获取选中模型的详细信息
   const selectedModelConfig = getVideoModel(selectedModel);
+  const selectedDurationSeconds = useMemo(() => {
+    if (!selectedDuration) {
+      return null;
+    }
+
+    const parsedDuration = Number.parseInt(selectedDuration.replace("s", ""), 10);
+    return Number.isNaN(parsedDuration) ? null : parsedDuration;
+  }, [selectedDuration]);
+
+  const availableResolutions = useMemo(() => {
+    if (!selectedModelConfig) {
+      return ["480p", "1080p"];
+    }
+
+    if (selectedDurationSeconds === null) {
+      return selectedModelConfig.supportedResolutions || ["480p", "1080p"];
+    }
+
+    return (
+      getSupportedResolutionsForDuration(selectedModel, selectedDurationSeconds) ||
+      selectedModelConfig.supportedResolutions ||
+      ["480p", "1080p"]
+    );
+  }, [selectedModel, selectedModelConfig, selectedDurationSeconds]);
 
   const syncModelDefaults = useCallback((modelId: string) => {
     const modelConfig = getVideoModel(modelId);
@@ -410,40 +517,49 @@ export default function VideoGenerator({
     isMemberOnlyModel,
   ]);
 
-  // 同步 selectedImage 和 imagePreview
-  useEffect(() => {
-    setImagePreview(selectedImage);
-  }, [selectedImage]);
-
   // 同步 effect prop 到 currentEffect
   useEffect(() => {
     setCurrentEffect(effect || null);
   }, [effect]);
 
-  // Seedance 模型水印开关默认行为
+  // Seedance 和 Veo3 模型水印开关默认行为
   useEffect(() => {
-    if (!isSeedanceSelected) {
+    // 只有 Seedance 和 Veo3 需要水印控制
+    if (!isSeedanceSelected && !isVeo3Selected) {
       setWatermarkEnabled(false);
       return;
     }
 
+    // 会员用户无水印，非会员强制水印
     if (isMember) {
       setWatermarkEnabled(false);
     } else {
       setWatermarkEnabled(true);
     }
-  }, [isSeedanceSelected, isMember]);
+  }, [isSeedanceSelected, isVeo3Selected, isMember]);
+
+  // Sync generateAudio with model capability
+  // - supportsAudio + audioOptional: user can toggle (default on)
+  // - supportsAudio + !audioOptional: always on (veo3, sora2)
+  // - !supportsAudio: always off
+  useEffect(() => {
+    if (selectedModelConfig?.supportsAudio) {
+      setGenerateAudio(true);
+    } else {
+      setGenerateAudio(false);
+    }
+  }, [selectedModelConfig]);
 
   // 确保默认选项被选中
   useEffect(() => {
     if (selectedModelConfig) {
-      // 设置默认比例（如果当前选择不在支持列表中）
+      // 设置默认比例（如果当前选择不在支持列表中或未设置）
       const supportedRatios = selectedModelConfig.supportedAspectRatios || [
         "16:9",
         "9:16",
         "1:1",
       ];
-      if (!supportedRatios.includes(selectedRatio)) {
+      if (!selectedRatio || !supportedRatios.includes(selectedRatio)) {
         setSelectedRatio(supportedRatios[0]);
       }
 
@@ -463,10 +579,7 @@ export default function VideoGenerator({
       }
 
       // 设置默认分辨率（仅在当前选择不被支持时才设置）
-      const supportedResolutions = selectedModelConfig.supportedResolutions || [
-        "480p",
-        "1080p",
-      ];
+      const supportedResolutions = availableResolutions;
       if (!selectedResolution) {
         // 如果没有设置分辨率，使用模型支持的第一个分辨率
         setSelectedResolution(supportedResolutions[0]);
@@ -480,6 +593,7 @@ export default function VideoGenerator({
     selectedRatio,
     selectedDuration,
     selectedResolution,
+    availableResolutions,
   ]);
 
   // 获取积分消耗信息
@@ -527,22 +641,25 @@ export default function VideoGenerator({
 
   const handleWatermarkToggle = useCallback(
     (nextValue: boolean) => {
-      if (!isSeedanceSelected) {
+      // 非 Seedance/Veo3 模型直接允许切换
+      if (!isSeedanceSelected && !isVeo3Selected) {
         setWatermarkEnabled(nextValue);
         return;
       }
 
+      // 会员用户可以自由切换
       if (isMember) {
         setWatermarkEnabled(nextValue);
         return;
       }
 
+      // 非会员尝试关闭水印时提示
       if (!nextValue) {
         toast.info(t("watermark.membersOnly"));
       }
       setWatermarkEnabled(true);
     },
-    [isSeedanceSelected, isMember, t]
+    [isSeedanceSelected, isVeo3Selected, isMember, t]
   );
 
   // 初始化 textarea 高度
@@ -575,127 +692,42 @@ export default function VideoGenerator({
     if (mode === "image-to-video") {
       const savedImage = localStorage.getItem("modelLandingPageImage");
       if (savedImage) {
-        setSelectedImage(savedImage);
-        setImagePreview(savedImage);
-        setUploadedImageUrl(savedImage);
+        setUploadedImageUrls([savedImage]);
         // 获取后清空 localStorage 中的数据，避免重复填充
         localStorage.removeItem("modelLandingPageImage");
       }
     }
   }, []);
 
-  // Handle image upload with enhanced validation
-  const handleImageUpload = useCallback(
-    async (file: File) => {
-      // 验证用户登录
-      if (!user?.uuid) {
-        setShowSignModal(true);
-        return;
-      }
-
-      // 使用基于模型的图片验证规则
-      const validationResult = await validateImage(file, selectedModel);
-
-      if (!validationResult.valid) {
-        toast.error(validationResult.error || "Invalid image file.");
-        return;
-      }
-
-      setUploadedImage(file);
-
-      // Convert to base64 for preview
-      const reader = new FileReader();
-      reader.onload = () => {
-        const result = reader.result as string;
-        setSelectedImage(result);
-        setImagePreview(result);
-      };
-      reader.readAsDataURL(file);
-
-      // 立即上传到 R2
-      const formData = new FormData();
-      formData.append("file", file);
-
-      try {
-        setIsUploadingImage(true);
-        const uploadResponse = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
-
-        const uploadResult = await uploadResponse.json();
-        if (uploadResult.code !== 0) {
-          throw new Error(uploadResult.message || "Image upload failed");
-        }
-
-        setUploadedImageUrl(uploadResult.data.url);
-
-        // If using pixverse_template effect, also upload to Pixverse
-        if (effect?.effect_type === "pixverse_template") {
-          try {
-            const pixverseUploadResponse = await fetch(
-              "/api/video-effects/pixverse/upload",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ imageUrl: uploadResult.data.url }),
-              }
-            );
-
-            const pixverseResult = await pixverseUploadResponse.json();
-
-            if (pixverseResult.code === 0 && pixverseResult.data?.imgId) {
-              setPixverseImgId(pixverseResult.data.imgId);
-              toast.success("Image uploaded successfully!");
-            } else {
-              throw new Error("Failed to upload image to Pixverse");
-            }
-          } catch (pixverseError) {
-            console.error("Pixverse upload error:", pixverseError);
-            toast.error("Failed to upload image for effect. Please try again.");
-            removeImage();
-            return;
-          }
-        } else {
-          toast.success("Image uploaded successfully!");
-        }
-      } catch (error) {
-        console.error("Image upload error:", error);
-        toast.error("Failed to upload image. Please try again.");
-        // 上传失败时清除图片
-        removeImage();
-      } finally {
-        setIsUploadingImage(false);
-      }
-    },
-    [t, user?.uuid, setShowSignModal, selectedModel]
-  );
-
-  // Handle file input change
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      handleImageUpload(file);
-    }
-  };
-
-  // Remove uploaded image
-  const removeImage = () => {
-    setUploadedImage(null);
-    setSelectedImage(null);
-    setImagePreview(null);
-    setUploadedImageUrl(null);
-    setIsUploadingImage(false);
-    setPixverseImgId(null);
-  };
+  // 图片URL变化回调
+  const handleImagesChange = useCallback((
+    imageUrls: (string | null)[],
+    sourceIds?: (string | null)[]
+  ) => {
+    setUploadedImageUrls(imageUrls);
+    setSourceImageIds(
+      sourceIds ?? imageUrls.map(() => null)
+    ); // 保存来源图片ID
+  }, []);
 
   // 构建生成参数的辅助函数
-  const buildGenerationParams = (): VideoGenerationParams => {
-    let imageUrl = uploadedImageUrl || undefined;
+  const buildGenerationParams = (): VideoGenerationParams & {
+    image_urls?: string[];
+    generationType?: string;
+  } => {
+    // 过滤掉 undefined/null，避免稀疏数组问题
+    const filteredImageUrls = uploadedImageUrls.filter(
+      (url): url is string => url != null && url !== ""
+    );
+    const finalImageUrls =
+      filteredImageUrls.length > 0 ? filteredImageUrls : undefined;
+    const imageUrl = uploadedImageUrl || undefined;
+    const filteredSourceIds = sourceImageIds.filter(
+      (id): id is string => id != null && id !== ""
+    );
+    const finalGenerationType = selectedModelConfig?.generationType;
 
-    return {
+    const params = {
       model: selectedModel,
       prompt: description.trim(),
       duration: selectedDuration.replace("s", ""),
@@ -704,10 +736,23 @@ export default function VideoGenerator({
       generate_audio: generateAudio,
       enable_prompt_enhancement: enablePromptEnhancement,
       effect_id: currentEffect?.id,
+      // 双图支持：优先使用 image_urls，向后兼容 image_url
+      image_urls: finalImageUrls,
       image_url: imageUrl,
+      source_image_ids:
+        filteredSourceIds.length > 0 ? filteredSourceIds : undefined, // 包含来源图片ID
       pixverse_img_id: pixverseImgId || undefined,
-      watermarkEnabled: isSeedanceSelected ? watermarkEnabled : false,
+      watermarkEnabled: (isSeedanceSelected || isVeo3Selected) ? watermarkEnabled : false,
+      generationType: finalGenerationType,
     };
+
+    console.log('[VideoGenerator] buildGenerationParams:', {
+      sourceImageIds,
+      finalSourceImageIds: params.source_image_ids,
+      imageUrls: finalImageUrls?.map(u => u.substring(0, 50) + '...'),
+    });
+
+    return params;
   };
 
   // 处理CAPTCHA验证完成
@@ -748,7 +793,9 @@ export default function VideoGenerator({
     }
 
     // 验证图片转视频模式下必须上传图片
-    if (mode === "image-to-video" && !uploadedImageUrl) {
+    const hasImages =
+      uploadedImageUrls.some((url) => !!url) || !!uploadedImageUrl;
+    if (mode === "image-to-video" && !hasImages) {
       toast.error(t("toast.uploadImageRequired"));
       return;
     }
@@ -774,27 +821,6 @@ export default function VideoGenerator({
     await onGenerate(params);
   };
 
-  // 拖拽处理
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-
-    const files = e.dataTransfer.files;
-    if (files && files[0]) {
-      handleImageUpload(files[0]);
-    }
-  };
-
   return (
     <div className="bg-gray-900 rounded-xl shadow-lg video-generator-container flex flex-col flex-shrink-0 w-full lg:w-[420px] lg:overflow-hidden lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)]">
       {/* Scrollable content area */}
@@ -805,9 +831,11 @@ export default function VideoGenerator({
             <h1 className="text-white text-xl font-semibold">
               {effect
                 ? effect.title
+                : generationType === "REFERENCE_2_VIDEO"
+                ? t("titleReferenceToVideo")
                 : mode === "image-to-video"
-                ? "Image to Video"
-                : "Text to Video"}
+                ? t("titleImageToVideo")
+                : t("titleTextToVideo")}
             </h1>
           </div>
 
@@ -828,21 +856,23 @@ export default function VideoGenerator({
           {/* Description Input - hide in effect mode */}
           {!effect && (
             <div>
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-2 mb-4">
+              <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-4">
                 <div className="text-white text-lg font-semibold">
                   {finalDescriptionLabel}
                 </div>
                 {/* Prompt Enhancement Toggle */}
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <span className="text-xs text-gray-400 whitespace-nowrap">
-                    Prompt Enhancement
-                  </span>
-                  <Switch
-                    checked={enablePromptEnhancement}
-                    onCheckedChange={setEnablePromptEnhancement}
-                    className="data-[state=checked]:bg-primary scale-75"
-                  />
-                </div>
+                {!hidePromptEnhancement && (
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <span className="text-xs text-gray-400 whitespace-nowrap">
+                      {t("promptEnhancement")}
+                    </span>
+                    <Switch
+                      checked={enablePromptEnhancement}
+                      onCheckedChange={setEnablePromptEnhancement}
+                      className="data-[state=checked]:bg-primary scale-75"
+                    />
+                  </div>
+                )}
               </div>
               <Textarea
                 ref={textareaRef}
@@ -857,74 +887,29 @@ export default function VideoGenerator({
           )}
 
           {/* Image Upload Section (for image-to-video mode) */}
-          {mode === "image-to-video" && (
-            <div>
-              <div className="text-white text-lg font-semibold mb-4">
-                {t("uploadImage")}
-              </div>
-              {!imagePreview ? (
-                <div
-                  className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
-                    isUploadingImage
-                      ? "cursor-not-allowed opacity-50"
-                      : "cursor-pointer"
-                  } ${
-                    isDragOver
-                      ? "border-blue-400 bg-blue-900/50"
-                      : "border-gray-600 hover:border-gray-500"
-                  }`}
-                  onDragOver={!isUploadingImage ? handleDragOver : undefined}
-                  onDragLeave={!isUploadingImage ? handleDragLeave : undefined}
-                  onDrop={!isUploadingImage ? handleDrop : undefined}
-                  onClick={() =>
-                    !isUploadingImage &&
-                    document.getElementById("image-upload")?.click()
-                  }
-                >
-                  <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                  <div className="space-y-2">
-                    <p className="text-sm text-gray-300 px-2 text-center">
-                      {t("dragAndDropImage")}
-                    </p>
-                    <p className="text-xs text-gray-400 px-2 text-center">
-                      {t("supportedFormats")}
-                    </p>
-                  </div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileInputChange}
-                    className="hidden"
-                    id="image-upload"
-                  />
-                </div>
-              ) : (
-                <div className="relative">
-                  <img
-                    src={imagePreview}
-                    alt="Uploaded"
-                    className="w-full h-32 object-contain rounded-lg bg-gray-800"
-                  />
-                  {!isUploadingImage && (
-                    <button
-                      onClick={removeImage}
-                      className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  )}
-                  {isUploadingImage && (
-                    <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
-                      <div className="flex flex-col items-center gap-2">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                        <span className="text-white text-sm">Uploading...</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
+          {mode === "image-to-video" &&
+            (generationType === "REFERENCE_2_VIDEO" ? (
+              <ImageGridUploader
+                maxImages={3}
+                selectedModel={selectedModel}
+                onImagesChange={handleImagesChange}
+                isAuthenticated={!!user?.uuid}
+                onShowSignModal={() => setShowSignModal(true)}
+              />
+            ) : (
+              <ImageUploader
+                selectedModel={selectedModel}
+                maxImages={maxImages}
+                onImagesChange={handleImagesChange}
+                imageUrls={uploadedImageUrls}
+                sourceImageIds={sourceImageIds}
+                effect={currentEffect}
+                onPixverseImgIdChange={setPixverseImgId}
+                isAuthenticated={!!user?.uuid}
+                onShowSignModal={() => setShowSignModal(true)}
+                generationType={generationType}
+              />
+            ))}
 
           {/* Video Settings - hide in effect mode */}
           {!effect && (
@@ -1145,12 +1130,7 @@ export default function VideoGenerator({
                   {t("resolution")}
                 </label>
                 <div className="flex flex-wrap gap-3 sm:gap-6">
-                  {(
-                    selectedModelConfig?.supportedResolutions || [
-                      "480p",
-                      "1080p",
-                    ]
-                  ).map((resolution) => (
+                  {availableResolutions.map((resolution) => (
                     <label
                       key={resolution}
                       className="flex items-center cursor-pointer min-w-0"
@@ -1182,7 +1162,16 @@ export default function VideoGenerator({
                 </div>
               </div>
 
-              {isSeedanceSelected && !isMember && (
+              {selectedModelConfig?.audioOptional && (
+                <div className="mb-4">
+                  <AudioSelector
+                    value={generateAudio}
+                    onChange={setGenerateAudio}
+                  />
+                </div>
+              )}
+
+              {(isSeedanceSelected || isVeo3Selected) && !isMember && (
                 <div className="mb-4">
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-sm text-gray-300">
@@ -1203,26 +1192,17 @@ export default function VideoGenerator({
           )}
 
           {/* Credits and Cost - always visible */}
-          <div className="bg-gray-800 rounded-lg p-4 mb-4">
-            <div className="flex justify-between items-center">
-              <div>
-                <div className="text-gray-300 mb-1">
-                  {t("credits")}: {leftCredits !== null ? leftCredits : "-"}
-                </div>
-                <div className="text-gray-300">
-                  {t("cost")}: {currentCreditsRequired} ⚡
-                </div>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-transparent border-gray-600 text-gray-300 hover:bg-gray-700"
-                onClick={() => setShowPricingModal(true)}
-              >
-                {t("recharge")}
-              </Button>
-            </div>
-          </div>
+          <CreditsCostSection
+            leftCredits={leftCredits}
+            estimatedCost={currentCreditsRequired}
+            onShowPricing={() => setShowPricingModal(true)}
+            labels={{
+              credits: t("credits"),
+              cost: t("cost"),
+              recharge: t("recharge"),
+            }}
+            className="mb-4"
+          />
         </div>
       </div>
 
@@ -1233,10 +1213,8 @@ export default function VideoGenerator({
           disabled={
             isGenerating ||
             isSubmitting ||
-            isUploadingImage ||
             (!description.trim() && (!effect || !effect.prompt_template)) ||
             !selectedModel ||
-            (mode === "image-to-video" && !uploadedImageUrl) ||
             (leftCredits !== null && leftCredits < currentCreditsRequired)
           }
           className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-h-[44px]"

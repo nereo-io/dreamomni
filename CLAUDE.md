@@ -2,6 +2,29 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Meta Rules
+
+### Thinking
+
+1. **Infer before asking** — Use available data to reason; only ask when inference is impossible
+2. **Analysis must close the loop** — Cause → Conclusion → Solution → Verification, all required
+3. **State assumptions, don't block** — Document assumptions and proceed; never stop to ask
+
+### Execution
+
+4. **Change only what's necessary** — No "drive-by" optimizations outside the request
+5. **Clarify ambiguity first** — Restate understanding before acting on unclear requirements
+6. **Verify before assuming** — External interfaces must be validated, never guess field names
+7. **Follow project conventions** — Search existing code patterns before modifying
+8. **Proactively diagnose root causes** — When user reports issues, provide debug steps and ranked causes
+
+### Forbidden
+
+- ❌ Assuming API field names
+- ❌ Hardcoding configuration values
+- ❌ Ignoring race conditions in multi-source state updates
+- ❌ Outputting incomplete analysis
+
 ## Project Overview
 
 **Seedance** is an advanced AI video generation platform that transforms text and image inputs into high-quality, cinematic videos. Built on Next.js 14, the platform leverages ByteDance's Seedance 1.0 model to deliver professional-grade video generation with smooth motion, rich details, and cinematic aesthetics. The platform includes multi-shot video storytelling, and a complete user management system with credits and subscriptions.

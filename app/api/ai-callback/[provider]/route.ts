@@ -5,17 +5,20 @@
 
 import { respData, respErr } from "@/lib/resp";
 import { aiServiceManager } from "@/services/AIServiceManager";
-import { 
+import {
   updateImageGenerationById,
-  getImageGenerationByProviderTaskId 
+  getImageGenerationByProviderTaskId,
+  getImageGenerationByAgentTaskId,
 } from "@/models/imageGeneration";
 import {
   increaseCredits,
   CreditsTransType,
 } from "@/services/credit";
 import { ImageStorageService } from "@/services/imageStorageService";
+import { handleAgentModeCallback } from "@/services/agentImageCallbackService";
 
 import type { AIServiceProvider } from "@/types/provider.d";
+import type { ImageGeneration } from "@/types/image.d";
 import { NextRequest } from "next/server";
 
 /**
@@ -28,33 +31,65 @@ export async function POST(
 ) {
   try {
     const provider = params.provider as AIServiceProvider;
-    
-    console.log(`📥 [Callback] Received from ${provider} at ${new Date().toISOString()}`);
+    console.log(
+      `📥 [Callback] Received from ${provider} at ${new Date().toISOString()}`
+    );
 
     // 验证提供商是否支持
     const providerInstance = aiServiceManager.getProvider(provider);
     if (!providerInstance) {
-      console.error(`[Callback] Unsupported provider: ${provider}`);
+      console.error(`[Callback] ❌ Unsupported provider: ${provider}`);
       return respErr(`Unsupported provider: ${provider}`);
     }
 
     // 解析回调数据
-    const callbackData = await req.json();
-    console.log(`[Callback] Task: ${callbackData.data?.taskId}, State: ${callbackData.data?.state}, Code: ${callbackData.code}`);
-
+    let callbackData;
+    if (provider === "fal") {
+      const rawBody = await req.text();
+      callbackData = JSON.parse(rawBody);
+    } else {
+      callbackData = await req.json();
+    }
+    console.log(
+      `[Callback] Task: ${callbackData?.data?.taskId}, State: ${callbackData?.data?.state}, Code: ${callbackData?.code}`
+    );
     // 使用提供商特定的处理逻辑
     const processedResult = await providerInstance.handleCallback(callbackData);
 
     // 查找对应的图片生成记录
-    const imageGeneration = await getImageGenerationByProviderTaskId(
+    // 1. 首先尝试用 provider_task_id 查找（常规模式）
+    let imageGeneration = await getImageGenerationByProviderTaskId(
       processedResult.taskId
     );
 
+    // 2. 如果找不到，尝试用 agent_task_id 查找（Agent 模式）
+    let isAgentModeCallback = false;
     if (!imageGeneration) {
-      console.error(`[Callback] Image generation not found for task: ${processedResult.taskId}`);
+      imageGeneration = await getImageGenerationByAgentTaskId(processedResult.taskId);
+      if (imageGeneration) {
+        isAgentModeCallback = true;
+      }
+    }
+
+    if (!imageGeneration) {
+      console.error(`[Callback] ❌ Image generation NOT FOUND for task: ${processedResult.taskId}`);
+      console.error(`[Callback] This callback will be ignored. Possible reasons:`);
+      console.error(`[Callback]   1. Record not in database yet (timing issue)`);
+      console.error(`[Callback]   2. Task ID mismatch`);
+      console.error(`[Callback]   3. Record status not in [IN_PROGRESS, PENDING, IN_QUEUE]`);
       return respErr(`Image generation not found for task: ${processedResult.taskId}`);
     }
 
+    // ============ Agent 模式回调处理 ============
+    if (isAgentModeCallback || imageGeneration.is_agent_mode || imageGeneration.metadata?.is_agent_mode) {
+      const result = await handleAgentModeCallback(
+        imageGeneration,
+        processedResult,
+        provider
+      );
+      return respData(result);
+    }
+    // ============ Agent 模式回调处理结束 ============
 
     // 映射 ProviderResponse 状态到数据库状态
     const mapStatusToDb = (providerStatus: string): string => {
@@ -85,9 +120,10 @@ export async function POST(
         updateData.image_urls = processedResult.images.map(img => img.url);
         updateData.image_count = processedResult.images.length;
         updateData.completed_at = new Date().toISOString();
-        
-        console.log(`[Callback] Completed with ${processedResult.images.length} images`);
-        
+
+        // 记录回调成功的图片 URL（provider 返回）
+        console.log(`[Callback] Images received: ${updateData.image_urls.join(", ")}`);
+
         // 使用 ImageStorageService 上传图片到 R2
         const uploadResult = await ImageStorageService.uploadImagesToR2(
           processedResult.images,
@@ -96,8 +132,11 @@ export async function POST(
         
         if (uploadResult.success && uploadResult.r2Urls) {
           updateData.image_urls_r2 = uploadResult.r2Urls;
+          console.log(`[Callback] R2 uploaded: ${uploadResult.r2Urls.join(", ")}`);
           if (uploadResult.failedCount > 0) {
-            console.warn(`[Callback] R2 upload partial: ${uploadResult.r2Urls.length} OK, ${uploadResult.failedCount} failed`);
+            console.warn(
+              `[Callback] R2 upload partial: ${uploadResult.r2Urls.length} OK, ${uploadResult.failedCount} failed`
+            );
           }
         }
       } else {
@@ -121,21 +160,35 @@ export async function POST(
         failed_at: new Date().toISOString(), // 移到metadata中，因为数据库表中没有failed_at字段
       };
 
-      // 图片生成失败，返还积分
+      // 图片生成失败，返还积分到原池
       try {
-        const creditsToRefund = imageGeneration.credits_used || 2; // 默认2个积分
-        const oneMonthFromNow = new Date();
-        oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
-        const expiredAt = oneMonthFromNow.toISOString();
+        // 从 metadata 中提取原始扣费池信息
+        const creditDeduction = imageGeneration.metadata?.credit_deduction;
 
-        await increaseCredits({
-          user_uuid: imageGeneration.user_id,
-          trans_type: CreditsTransType.RefundImageGenerationFailed,
-          credits: creditsToRefund,
-          expired_at: expiredAt,
-        });
+        if (!creditDeduction || !creditDeduction.pools || creditDeduction.pools.length === 0) {
+          console.error("[Callback] ❌ Missing credit_deduction metadata for generation:", imageGeneration.id);
+          console.error("[Callback] Cannot refund credits - pool information lost");
+          throw new Error("Missing credit pool information for refund. This is a data integrity issue.");
+        }
 
-        console.log(`[Callback] Credits refunded: ${creditsToRefund}`);
+        // 遍历所有扣费的池，按原扣费金额逐一退款
+        for (const pool of creditDeduction.pools) {
+          await increaseCredits({
+            user_uuid: imageGeneration.user_id,
+            trans_type: CreditsTransType.RefundImageGenerationFailed,
+            credits: pool.deducted,
+            order_no: pool.order_no,
+            expired_at: pool.expired_at,
+          });
+
+          console.log(
+            `[Callback] ✅ Credits refunded: ${pool.deducted} to pool ${pool.order_no} for failed generation ${imageGeneration.id}`
+          );
+        }
+
+        console.log(
+          `[Callback] ✅ Total refunded: ${creditDeduction.totalDeducted} credits across ${creditDeduction.pools.length} pool(s) for image generation ${imageGeneration.id}`
+        );
       } catch (refundError) {
         console.error("[Callback] Credit refund failed");
         // 不阻止回调处理，继续执行
@@ -152,7 +205,7 @@ export async function POST(
 
     // 更新数据库记录
     const updatedRecord = await updateImageGenerationById(imageGeneration.id, updateData);
-    console.log(`[Callback] Task ${processedResult.taskId} updated to: ${updateData.status}`);
+    console.log(`[Callback] DB updated for ${imageGeneration.id}, status -> ${updateData.status}`);
 
     // 返回成功响应
     return respData({
@@ -167,27 +220,6 @@ export async function POST(
     console.error("[Callback] Processing error:", error);
     return respErr(error instanceof Error ? error.message : "Internal server error");
   }
-}
-
-/**
- * 处理回调完成的任务
- */
-async function handleCompletedCallback(callbackData: any): Promise<void> {
-  // 额外的完成后处理逻辑
-}
-
-/**
- * 处理回调失败的任务
- */
-async function handleFailedCallback(callbackData: any): Promise<void> {
-  // 额外的失败处理逻辑
-}
-
-/**
- * 处理回调中的任务
- */
-async function handleProcessingCallback(callbackData: any): Promise<void> {
-  // 额外的处理中逻辑
 }
 
 // 不支持其他 HTTP 方法

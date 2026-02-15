@@ -12,7 +12,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { getStatusMap, INCOMPLETE_STATUSES } from "./components/constants";
 import VideoHistoryItem from "./components/VideoHistoryItem";
 import VideoHistorySkeleton from "./components/VideoHistorySkeleton";
-import VideoShowcase from "../video-showcase";
+// import VideoShowcase from "../video-showcase";
+import IntroVideoPlayer from "./components/IntroVideoPlayer";
 import type { ShowcaseVideo } from "@/types/showcase";
 import DeleteConfirmDialog from "@/components/blocks/image-history-for-generation/components/DeleteConfirmDialog";
 import { toast } from "sonner";
@@ -34,6 +35,8 @@ interface VideoHistoryProps {
   onRegenerateVideo?: (generation: VideoGenerationResult) => void;
   // Custom showcase data for effect preview
   showcaseData?: any;
+  // Intro video URL for simple video display
+  introVideoUrl?: string;
 }
 
 export default function VideoHistory({
@@ -45,6 +48,7 @@ export default function VideoHistory({
   onEditVideo,
   onRegenerateVideo,
   showcaseData,
+  introVideoUrl = "https://r2.veo3ai.io/intro/cover-video.mp4",
 }: VideoHistoryProps) {
   const t = useTranslations("video-result");
   const tVideo = useTranslations("videoHistory");
@@ -57,11 +61,15 @@ export default function VideoHistory({
     new Set()
   );
   const containerRef = useRef<HTMLDivElement>(null);
+  const isUpdatingStatusRef = useRef(false);
   const [isClient, setIsClient] = useState(false);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [videoToDelete, setVideoToDelete] = useState<VideoGenerationResult | null>(null);
+  const HISTORY_PAGE_SIZE = 20;
+  const MAX_POLLING_VIDEOS = 5;
+  const POLLING_INTERVAL_MS = 8000;
 
   // 客户端检测
   useEffect(() => {
@@ -91,10 +99,10 @@ export default function VideoHistory({
       // 用户未登录，不发送请求
       return;
     }
-    await fetchHistory(1, 5);
+    await fetchHistory(1, HISTORY_PAGE_SIZE);
     // 加载完成后滚动到底部显示最新内容
     setScrollToBottom(true);
-  }, [fetchHistory, user?.uuid]);
+  }, [fetchHistory, user?.uuid, HISTORY_PAGE_SIZE]);
 
   // 初始加载
   useEffect(() => {
@@ -105,8 +113,7 @@ export default function VideoHistory({
   const getIncompleteVideos = useCallback(() => {
     if (!history || history.length === 0) return [];
 
-    // 返回所有未完成状态的视频，最多轮询5个（与历史记录获取数量一致）
-    const MAX_POLLING_VIDEOS = 5;
+    // 返回所有未完成状态的视频，最多轮询5个（避免过多轮询压力）
     const TEN_MINUTES = 10 * 60 * 1000; // 10分钟毫秒数
     const now = Date.now();
 
@@ -121,7 +128,7 @@ export default function VideoHistory({
         return isIncomplete && isRecent;
       })
       .slice(0, MAX_POLLING_VIDEOS);
-  }, [history]);
+  }, [history, MAX_POLLING_VIDEOS]);
 
   // 检查是否有未完成的视频需要轮询
   const hasIncompleteVideos = useCallback(() => {
@@ -130,37 +137,46 @@ export default function VideoHistory({
 
   // 更新所有未完成视频的状态
   const updateIncompleteVideosStatus = useCallback(async () => {
+    if (isUpdatingStatusRef.current) {
+      return;
+    }
+
     const incompleteVideos = getIncompleteVideos();
     if (incompleteVideos.length === 0) return;
 
+    isUpdatingStatusRef.current = true;
     console.log(`Updating status for ${incompleteVideos.length} incomplete videos (max 5)...`);
 
     // 使用串行请求减少服务器压力，每个请求间隔100ms
     const results: Array<{ id: string; data: any }> = [];
-    for (const video of incompleteVideos) {
-      try {
-        const response = await fetch("/api/video-generation/status", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id: video.id }),
-        });
+    try {
+      for (const video of incompleteVideos) {
+        try {
+          const response = await fetch("/api/video-generation/status", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id: video.id }),
+          });
 
-        if (response.ok) {
-          const result = await response.json();
-          if (result.code === 0 && result.data) {
-            results.push({ id: video.id, data: result.data });
+          if (response.ok) {
+            const result = await response.json();
+            if (result.code === 0 && result.data) {
+              results.push({ id: video.id, data: result.data });
+            }
           }
+          
+          // 添加短暂延迟，避免请求过于密集
+          if (incompleteVideos.indexOf(video) < incompleteVideos.length - 1) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+          }
+        } catch (error) {
+          console.error(`更新视频 ${video.id} 状态失败:`, error);
         }
-        
-        // 添加短暂延迟，避免请求过于密集
-        if (incompleteVideos.indexOf(video) < incompleteVideos.length - 1) {
-          await new Promise(resolve => setTimeout(resolve, 100));
-        }
-      } catch (error) {
-        console.error(`更新视频 ${video.id} 状态失败:`, error);
       }
+    } finally {
+      isUpdatingStatusRef.current = false;
     }
     
     // 批量更新本地状态
@@ -185,7 +201,7 @@ export default function VideoHistory({
     const pollInterval = setInterval(() => {
       console.log("Polling video status...");
       updateIncompleteVideosStatus();
-    }, 3000); // 每3秒轮询一次
+    }, POLLING_INTERVAL_MS);
 
     return () => {
       console.log("Stopping polling...");
@@ -368,17 +384,18 @@ export default function VideoHistory({
         <header className="py-3 px-4 md:px-5 flex justify-between items-center border-b border-gray-700">
           <div className="text-lg md:text-xl font-semibold flex items-center text-white">
             <Sparkles className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3" />
-            <span className="truncate">Explore Examples</span>
+            <span className="truncate">{tVideo("exploreExamples")}</span>
           </div>
         </header>
 
         {/* Showcase Content - No overflow, full height */}
         <div className="flex-1 min-h-0 flex flex-col p-4 md:p-6">
-          <VideoShowcase 
-          mode={mode} 
+          {/* <VideoShowcase
+          mode={mode}
           onSelectVideo={handleShowcaseVideoSelect}
           showcaseData={showcaseData}
-        />
+        /> */}
+          <IntroVideoPlayer videoUrl={introVideoUrl} />
         </div>
       </div>
     );
@@ -402,17 +419,18 @@ export default function VideoHistory({
         <header className="py-3 px-4 md:px-5 flex justify-between items-center border-b border-gray-700">
           <div className="text-lg md:text-xl font-semibold flex items-center text-white">
             <Sparkles className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3" />
-            <span className="truncate">Explore Examples</span>
+            <span className="truncate">{tVideo("exploreExamples")}</span>
           </div>
         </header>
 
         {/* Showcase Content - No overflow, full height */}
         <div className="flex-1 min-h-0 flex flex-col p-4 md:p-6">
-          <VideoShowcase 
-          mode={mode} 
+          {/* <VideoShowcase
+          mode={mode}
           onSelectVideo={handleShowcaseVideoSelect}
           showcaseData={showcaseData}
-        />
+        /> */}
+          <IntroVideoPlayer videoUrl={introVideoUrl} />
         </div>
       </div>
     );
@@ -431,7 +449,7 @@ export default function VideoHistory({
       <header className="py-3 px-4 md:px-5 flex justify-between items-center border-b border-gray-700">
         <div className="text-lg md:text-xl font-semibold flex items-center text-white min-w-0">
           <History className="h-4 w-4 md:h-5 md:w-5 mr-2 md:mr-3 flex-shrink-0" />
-          <span className="truncate">Recent Generations</span>
+          <span className="truncate">{tVideo("recentGenerations")}</span>
         </div>
         <Button
           variant="ghost"
@@ -449,24 +467,33 @@ export default function VideoHistory({
       <div className="lg:flex-1 lg:overflow-y-auto video-history-scroll lg:dark-scrollbar">
         <div className="divide-y divide-gray-700">
           {(isMobile ? [...history] : [...history].reverse()).map(
-            (generation) => (
-              <VideoHistoryItem
-                key={generation.id}
-                generation={generation}
-                statusMap={STATUS_MAP}
-                isExpanded={expandedPrompts.has(generation.id)}
-                onToggleExpanded={() => togglePromptExpansion(generation.id)}
-                onDownload={handleDownload}
-                isDownloading={downloadingId === generation.id}
-                isExample={false}
-                isClient={isClient}
-                onEdit={onEditVideo}
-                onRegenerate={onRegenerateVideo}
-                onDelete={handleDelete}
-                canEdit={true} // Always true for real videos
-                isDeleting={deletingId === generation.id}
-              />
-            )
+            (generation) => {
+              const isEffectGeneration = Boolean(
+                generation.effect_type ||
+                  generation.effect_id ||
+                  generation.effect_name ||
+                  generation.effect_info
+              );
+
+              return (
+                <VideoHistoryItem
+                  key={generation.id}
+                  generation={generation}
+                  statusMap={STATUS_MAP}
+                  isExpanded={expandedPrompts.has(generation.id)}
+                  onToggleExpanded={() => togglePromptExpansion(generation.id)}
+                  onDownload={handleDownload}
+                  isDownloading={downloadingId === generation.id}
+                  isExample={false}
+                  isClient={isClient}
+                  onEdit={onEditVideo}
+                  onRegenerate={onRegenerateVideo}
+                  onDelete={handleDelete}
+                  canEdit={!isEffectGeneration}
+                  isDeleting={deletingId === generation.id}
+                />
+              );
+            }
           )}
         </div>
       </div>

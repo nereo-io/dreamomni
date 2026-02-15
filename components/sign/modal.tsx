@@ -251,7 +251,7 @@ function ProfileForm({ className, mode, setMode, showEmailAuth, setShowEmailAuth
         <Alert>
           <AlertDescription>
             <div className="space-y-2">
-              <p>Account created successfully! We've sent a verification email to your inbox. Please check your email and click the verification link to activate your account before signing in.</p>
+              <p>Account created successfully! We&apos;ve sent a verification email to your inbox. Please check your email and click the verification link to activate your account before signing in.</p>
               <button
                 type="button"
                 onClick={handleResendVerification}

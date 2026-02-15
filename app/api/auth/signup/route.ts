@@ -3,6 +3,7 @@ import { respJson, respErr } from "@/lib/resp";
 import { signUpWithEmail } from "@/services/supabase-auth";
 import { yandexTracking } from "@/services/analytics/yandex-tracking";
 import { getClientIp, checkIPRegistrationLimit, updateIPRegistrationCount } from "@/lib/ip";
+import { getEmailDomain, isBlockedEmailDomain } from "@/lib/blocked-email-domains";
 import { z } from "zod";
 
 // 验证Cloudflare Turnstile CAPTCHA
@@ -33,120 +34,6 @@ async function verifyCaptcha(token: string, clientIP: string): Promise<boolean> 
   }
 }
 
-// 攻击邮箱域名黑名单（屏蔽已知临时邮箱服务）
-const BLOCKED_EMAIL_DOMAINS = [
-  // 主要攻击域名
-  'drmail.in',      // 主要攻击域名 (4407个账号)
-  'mriscan.live',   // 攻击域名 (9个账号)
-  'powerscrews.com', // 攻击域名 (2个账号)
-  // 新发现的攻击域名
-  'moakt.ws',       // 临时邮箱服务 (5个账号)
-  'moakt.cc',       // 临时邮箱服务 (5个账号)
-  'moakt.co',       // 临时邮箱服务 (3个账号)
-  'bareed.ws',      // 临时邮箱服务 (7个账号)
-  'tmails.net',     // 临时邮箱服务 (3个账号)
-  'teml.net',       // 临时邮箱服务 (2个账号)
-  'disbox.org',     // 临时邮箱服务 (3个账号)
-  'tmpbox.net',     // 临时邮箱服务
-  'tmpmail.net',    // 临时邮箱服务
-  'tmpmail.org',    // 临时邮箱服务
-  'mailshan.com',   // 临时邮箱服务 (11个账号)
-  'aminating.com',  // 临时邮箱服务 (13个账号)
-  'noidem.com',     // 临时邮箱服务 (15个账号)
-  'skateru.com',    // 临时邮箱服务 (12个账号)
-  'tmail.ws',       // 临时邮箱服务
-  'tmpeml.com',     // 临时邮箱服务
-  // 2025-09-27 紧急封锁 - 大规模攻击域名
-  'qqveo.online',   // 针对veo3的钓鱼域名 (3个账号)
-  'ablyd.com',      // 207个虚假账号，197个视频
-  'pzejw.com',      // 194个虚假账号，183个视频
-  'wbmta.com',      // 182个虚假账号，180个视频
-  'atomicmail.io',  // 102个虚假账号，91个视频
-  'atminmail.com',  // 113个虚假账号，106个视频
-  'tiffincrane.com',// 99个虚假账号，98个视频
-  'allfreemail.net',// 66个虚假账号，67个视频
-  'usiver.com',     // 8个虚假账号
-  'tlexes.com',     // 6个虚假账号
-  'hiepth.com',     // 7个虚假账号
-  'etenx.com',      // 7个虚假账号
-  'bitmens.com',    // 4个虚假账号
-  'rograc.com',     // 14个虚假账号
-  '10minmail.pro',  // 临时邮箱服务 (8个账号)
-  '10minutes.email',// 临时邮箱服务 (22个账号)
-  'gddcorp.com',    // 8个虚假账号
-  'concu.net',      // 临时邮箱服务
-  'heheee.com',     // 临时邮箱服务
-  'mailba.uk',      // 临时邮箱服务
-  'onmailflare.com',// 临时邮箱服务
-  'tiksofi.uk',     // 临时邮箱服务
-  'priyo.ovh',      // 临时邮箱服务
-  'forexnews.bg',   // 临时邮箱服务
-  'forexzig.com',   // 临时邮箱服务
-  'ro.ru',          // 临时邮箱服务
-  // 2025-10-16 新增 - 最近7天批量注册攻击域名（安全审计发现）
-  'webxios.pro',       // 136个账户，65个IP（大规模分布式攻击）
-  'yopmail.com',       // 59个账户（知名临时邮箱，无需密码）
-  'quiet-branch.com',  // 61个账户
-  'radiant-flow.org',  // 47个账户
-  'uiemail.com',       // 41个账户
-  'wtwtt.com',         // 25个账户
-  'lorkex.com',        // 28个账户
-  'fanlvr.com',        // 30个账户
-  'gamegta.com',       // 29个账户（游戏主题临时邮箱）
-  'gta5hx.com',        // 21个账户（游戏主题临时邮箱）
-  'djkux.com',         // 23个账户
-  'no.vsmailpro.com',  // 25个账户（VSMailPro临时邮箱）
-  'suvvs.com',         // 16个账户
-  'bbcvt.com',         // 14个账户
-  'koletter.com',      // 22个账户
-  'jstmail.com',       // 11个账户
-  'f1t.online',        // 11个账户
-  'arqsis.com',        // 14个账户
-  'fontfee.com',       // 20个账户
-  'capiena.com',       // 17个账户
-  'opemails.com',      // 17个账户
-  'bdnets.com',        // 9个账户
-  'trashlify.com',     // 14个账户（明确的"垃圾邮箱"服务）
-  '0ut.online',        // 18个账户
-  're146.dev',         // 12个账户（4个IP，集中式滥用）
-  'necub.com',         // 11个账户
-  'easymailer.live',   // 11个账户（2个IP，高度集中滥用）
-  'audince.com',       // 12个账户
-  'moonfee.com',       // 10个账户
-  'sharklasers.com',   // 8个账户
-  'dunefee.com',       // 5个账户
-  'picoaxis.com',      // 8个账户
-  'faraby.net',        // 8个账户
-  'priyo-mail.com',    // 3个账户
-  'priyomail.in',      // 1个账户
-  'priyomail.net',     // 1个账户
-  'nrehi.com',         // 4个账户
-  'usm.ovh',           // 2个账户
-  'mailp.org',         // 2个账户
-  'omailo.top',        // 1个账户
-  'xenta.cfd',         // 1个账户
-  'scopevps.com',      // 2个账户
-  'basefast.net',      // 1个账户
-  'hivespark.net',     // 2个账户
-  'tempzulu.com',      // 3个账户
-  'orbitfast.net',     // 4个账户
-  'vectorsonata.com',  // 2个账户（企业域名伪装）
-  'chaossonata.com',   // 1个账户
-  'spaceeclipse.com',  // 5个账户
-  'hubbeta.org',       // 3个账户
-  'orbitcomet.org',    // 2个账户
-  'sourcesigma.net',   // 3个账户（企业域名伪装）
-  'briefinnovation.com', // 2个账户
-  'primepixel.org',    // 2个账户
-  'scalarnova.org',    // 6个账户（企业域名伪装）
-  'spaceblink.net',    // 2个账户
-  'pidelta.net',       // 1个账户
-  'vaultcortex.com',   // 5个账户
-  'pispectrum.org',    // 2个账户
-  'portalforge.org',   // 1个账户
-  'asyncpioneer.com',  // 1个账户
-  'autorambler.ru'     // 6个账户
-];
 
 const signupSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -168,8 +55,8 @@ export async function POST(request: NextRequest) {
     const { email, password, name, captchaToken } = validation.data;
 
     // 检查1：屏蔽已知攻击邮箱域名
-    const emailDomain = email.split('@')[1]?.toLowerCase();
-    if (BLOCKED_EMAIL_DOMAINS.includes(emailDomain)) {
+    const emailDomain = getEmailDomain(email);
+    if (emailDomain && isBlockedEmailDomain(emailDomain)) {
       console.warn(`Registration blocked for attack domain: ${emailDomain}`);
       return respErr("This email provider is not supported");
     }

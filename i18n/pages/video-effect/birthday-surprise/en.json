@@ -1,0 +1,16 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "birthday-surprise-1",
+        "title": "Birthday Surprise",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/birthday-surprise_cover.webp?v=1756603065084",
+        "preview_gif": "https://r2.veo3ai.io/effects-optimized/birthday-surprise_preview.gif?v=1756600362677"
+      }
+    ],
+    "form": {
+      "title": "Birthday Surprise",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_birthday_250806.jpg"
+    }
+  }
+}

@@ -6,6 +6,7 @@ import { FAQSection } from "@/components/blocks/faq-section";
 import CTA from "@/components/blocks/cta";
 import { getImageToVideoPage } from "@/services/page";
 import { getTranslations } from "next-intl/server";
+import { auth } from "@/auth";
 
 export async function generateMetadata({
   params: { locale },
@@ -34,6 +35,7 @@ export default async function ImageToVideoPage({
 }: {
   params: { locale: string };
 }) {
+  const session = await auth();
   const pageData = await getImageToVideoPage(locale);
 
   return (
@@ -41,34 +43,38 @@ export default async function ImageToVideoPage({
       {/* Video Generation Tool */}
       <VideoGenerationTool mode="image-to-video" />
 
-      {/* AI Models Hero */}
-      <AIModelsHero data={pageData.aiModelsHero} />
+      {!session && (
+        <>
+          {/* AI Models Hero */}
+          <AIModelsHero data={pageData.aiModelsHero} />
 
-      {/* Hero Section with H1 title */}
-      <ImageToVideoShowcase data={pageData.imageToVideoShowcase} />
+          {/* Hero Section with H1 title */}
+          <ImageToVideoShowcase data={pageData.imageToVideoShowcase} />
 
-      {/* Creator Showcase - Use Cases */}
-      <CreatorShowcase data={pageData.creatorShowcase} />
+          {/* Creator Showcase - Use Cases */}
+          <CreatorShowcase data={pageData.creatorShowcase} />
 
-      {/* FAQ Section */}
-      <FAQSection
-        title={pageData.faq.title}
-        description={pageData.faq.description}
-        faqItems={pageData.faq.items}
-      />
+          {/* FAQ Section */}
+          <FAQSection
+            title={pageData.faq.title}
+            description={pageData.faq.description}
+            faqItems={pageData.faq.items}
+          />
 
-      {/* CTA Section */}
-      <CTA
-        section={{
-          title: pageData.cta.title,
-          buttons: [
-            {
-              title: pageData.cta.buttonText,
-              url: "/image-to-video",
-            },
-          ],
-        }}
-      />
+          {/* CTA Section */}
+          <CTA
+            section={{
+              title: pageData.cta.title,
+              buttons: [
+                {
+                  title: pageData.cta.buttonText,
+                  url: "/image-to-video",
+                },
+              ],
+            }}
+          />
+        </>
+      )}
     </>
   );
 }

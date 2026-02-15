@@ -19,6 +19,12 @@ interface VideoGenerationToolProps {
   descriptionPlaceholder?: string;
   // Simplified: Just pass the complete effect object
   effect?: VideoEffect;
+  // Optional: Specify generation type to filter available models
+  generationType?: string;
+  // Optional: Hide prompt enhancement toggle
+  hidePromptEnhancement?: boolean;
+  // Optional: Intro video URL for simple video display
+  introVideoUrl?: string;
 }
 
 export function VideoGenerationTool({
@@ -26,6 +32,9 @@ export function VideoGenerationTool({
   descriptionLabel,
   descriptionPlaceholder,
   effect,
+  generationType,
+  hidePromptEnhancement = false,
+  introVideoUrl,
 }: VideoGenerationToolProps) {
   const { submitGeneration, pollStatus, fetchHistory } = useVideoGeneration();
   const { trackVideoGeneration, trackFirstVideo } = useYandexTracking();
@@ -159,18 +168,18 @@ export function VideoGenerationTool({
     // Apply effect modifications if present
     let finalParams = { ...params };
     let pixverseImgIds: number[] | undefined;
-    
+
     if (effectConfig) {
       // Override model if specified
       if (effectConfig.forceModel) {
         finalParams.model = effectConfig.forceModel;
       }
-      
-      // Apply prompt template if provided  
+
+      // Apply prompt template if provided
       if (effectConfig.promptTemplate) {
         finalParams.prompt = effectConfig.promptTemplate.replace('{{USER_PROMPT}}', params.prompt);
       }
-      
+
       // Handle PixVerse template effects
       if (effectConfig.effectType === 'pixverse_template' && params.pixverse_img_id) {
         // Use pixverse_img_id from video-generator component
@@ -187,11 +196,14 @@ export function VideoGenerationTool({
       resolution: finalParams.resolution,
       generate_audio: finalParams.generate_audio,
       enable_prompt_enhancement: finalParams.enable_prompt_enhancement,
-      image_url: finalParams.image_url,
+      image_url: finalParams.image_url, // 保留用于向后兼容
+      image_urls: finalParams.image_urls, // 新增：支持1-2张图片数组（首帧、尾帧）
+      source_image_ids: finalParams.source_image_ids, // 新增：来源图片ID追踪（My Creations）
       captchaToken: finalParams.captchaToken, // Pass CAPTCHA token
       watermarkEnabled: finalParams.watermarkEnabled,
+      generationType: finalParams.generationType, // Pass generationType if present
       // Pass effect-related params
-      ...(effect && { 
+      ...(effect && {
         effect_id: effect.id,
         effect_type: effectConfig?.effectType,
         pixverse_img_ids: pixverseImgIds
@@ -236,6 +248,10 @@ export function VideoGenerationTool({
           effect={effect}
           forceModel={effectConfig?.forceModel}
           creditsOverride={effectConfig?.creditsRequired}
+          // Pass generationType for model filtering
+          generationType={generationType}
+          // Pass hidePromptEnhancement to hide the toggle
+          hidePromptEnhancement={hidePromptEnhancement}
         />
 
         <VideoHistory
@@ -246,6 +262,7 @@ export function VideoGenerationTool({
           onEditVideo={handleEditVideo}
           onRegenerateVideo={handleRegenerateVideo}
           showcaseData={effectConfig?.showcaseData}
+          introVideoUrl={introVideoUrl}
         />
       </div>
     </div>

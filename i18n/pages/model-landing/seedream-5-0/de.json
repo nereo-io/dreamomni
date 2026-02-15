@@ -1,0 +1,475 @@
+{
+  "banner": {
+    "title": "Seedream 5.0 Lite KI-Bildgenerator",
+    "description": "Seedream 5.0 Lite ist ByteDances fortschrittlichster KI-Bildgenerator und liefert beeindruckende 4K-Ergebnisse in nur 2-5 Sekunden. Mit modernster Charakterkonsistenz, hochaufloesender Ausgabe und Mehrbildfusions-Faehigkeiten setzt Seedream 5.0 Lite den neuen Standard fuer KI-Bildgenerierung.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Text zu Bild",
+        "subTitle": "Prompt",
+        "value": "text-to-image",
+        "modelName": "Seedream 5.0 Lite",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Beschreiben Sie das Bild, das Sie erstellen moechten...",
+        "buttonText": "Erstellen"
+      },
+      {
+        "type": "image",
+        "title": "Bild zu Bild",
+        "subTitle": "Bild",
+        "value": "image-to-image",
+        "modelName": "Seedream 5.0 Lite",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Bilder hier ablegen oder klicken zum Auswaehlen",
+        "tips": "Laden Sie bis zu 14 Referenzbilder hoch. Wir akzeptieren JPEG, PNG, GIF, WEBP Formate bis 20MB mit Abmessungen bis 4096 x 4096 Pixel.",
+        "buttonText": "Erstellen"
+      }
+    ]
+  },
+  "partners": [
+    {
+      "name": "Coca-Cola",
+      "logo": "/imgs/partners/coca-cola-logo.png"
+    },
+    {
+      "name": "Microsoft",
+      "logo": "/imgs/partners/microsoft-logo.png"
+    },
+    {
+      "name": "Nike",
+      "logo": "/imgs/partners/nike-logo.png"
+    },
+    {
+      "name": "P&G",
+      "logo": "/imgs/partners/p-g-logo.png"
+    },
+    {
+      "name": "Lancome",
+      "logo": "/imgs/partners/lancome-logo.png"
+    },
+    {
+      "name": "Zoom",
+      "logo": "/imgs/partners/zoom-logo.png"
+    },
+    {
+      "name": "Sony",
+      "logo": "/imgs/partners/sony-logo.png"
+    },
+    {
+      "name": "Mercedes",
+      "logo": "/imgs/partners/mercedes-logo.png"
+    }
+  ],
+  "features": {
+    "title": "Offizielle Highlights von Seedream 5.0 Lite",
+    "details": [
+      {
+        "title": "Kreativität mit präziser Kontrolle",
+        "description": "Beherrsche verschiedene Stile und Layouts, während jedes Detail deinen Anweisungen entspricht.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt / Anweisung"
+            },
+            {
+              "title": "Ausgabebild"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Nutze die Szene aus Bild 4: Zwei Personen sitzen pro Tisch bei einem Kaffee, unterhalten sich und lachen. Gewünschter Look: Claymation, wie ein hochwertiges Café-Key-Visual."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/c38bd4d43ac0-b6f577ee05ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/47b4f3a9bfb2-b6c7976e05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Beispiel 1"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Orientiere dich an den vier Stil-Referenzen rechts, übertrage diese Looks auf den Mann und liefere vier Ergebnisse – jeweils ein Bild pro Stil."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/f10f44e5f0f0-b6eebded05ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/f98ecd05ec0f-b6c4535105ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "altText": "Beispiel 2"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Verwende die Blumen aus Bild 1–6 für ein neues Arrangement. Anzahl frei wählbar, ergänzendes Blattwerk erlaubt. Platziere den Strauß in die Vase aus Bild 7 und stelle sie auf den Tisch aus Bild 8."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/f4cb509360b9-b6f58abe05ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/fc70da1c89fd-b6c716f605ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Beispiel 3"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Erzeuge ein einziges 4×4-Multipanel mit 16 Motiven. Variiere ausschließlich den Stil des Welpen, das Motiv selbst bleibt in allen Panels derselbe Hund."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/8894fe22ff21-2b39d2f905b311f1a654fa163e31788f.jpeg_tp.jpg",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/c158f8b7e2df-b6c1b79105ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Beispiel 4"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Nutze das untere Bild als Stilreferenz und führe einen Stiltransfer auf das obere Bild aus."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/2e98a3a08dd5-5f438bf605b611f182ceb8599fe8441c.png_tpl.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/24f5da327c19-b6b5882f05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Beispiel 5"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Füge einen rosa Bunny-Sticker mit Sternenaugen ins grüne Rechteck ein; setze in beide roten Kreise jeweils gleich große rosa Herz-Sticker; ändere die zwei grünen Kurven in weiße; ergänze gelbe Stern-Sticker auf den roten Rechtecken. Alle Sticker mit identischer weißer Kontur."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/41858b5889fc-b6f5ab0a05ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/ac8654c250de-b6cba80205ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Beispiel 6"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Mit den neuesten Trends verbunden",
+        "description": "Mit Online-Suche lassen sich Echtzeit-Nachrichten und aktuelle Themen sofort visualisieren.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt / Anweisung"
+            },
+            {
+              "title": "Ausgabebild"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Ermittle Wetter, Temperatur und Uhrzeit für den 4. Februar 2026 in Peking, New York, Tokio, Sydney und Madrid. Liefere ein einziges High-Concept-Composing aus fünf nahtlos verbundenen vertikalen Panoramastreifen – je Stadt ein Streifen mit lokaler Lichtstimmung und Landmarke (Vogelnest-Stadion, Manhattan-Skyline, Tokio-Turm, Opernhaus Sydney, San Francisco el Grande). Einheitlicher cineastischer Color-Grading-Look, hoher Kontrast, 8K, fotorealistisch."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/ba4313f574cd-b6b653ff05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Beispiel 1"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Visualisiere das von Merriam-Webster gewählte „Word of the Year 2025“ als konkretes Bildmotiv."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/07307289a0ac-b6c4cfaf05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Beispiel 2"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Entwerfe auf Basis des Met-Gala-Mottos 2025 einen thematisch passenden Red-Carpet-Look für einen Windhund – ohne Vermenschlichung."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/5148e8881ad7-b6b5e27305ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Beispiel 3"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Erstelle ein 7-Tage-Goldpreis-Chart (inländischer Spotpreis) mit klaren Zeitstempeln und Werten, gestaltet als moderne Glassmorphism-UI-Karte."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/6727eac1862b-d652d10006fb11f19f9a00163e5311f8.jpeg_tp.jpg",
+                  "altText": "Beispiel 4"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Denken über die Vorstellung hinaus",
+        "description": "Das Modell erkennt die Absicht hinter Worten intelligent und erstellt genau das, was du dir vorstellst.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt / Anweisung"
+            },
+            {
+              "title": "Ausgabebild"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Gestalte ein realistisch fotografiertes Awareness-Poster: Ein wilder Elefant in der tropischen Savanne, Headline „Let elephants not rely on imagining“. Darunter im Kasten „August 12: World Elephant Day“. Unten links drei Wissensblöcke über wilde Elefanten in einem schwarzen halbtransparenten Feld, unten rechts ein QR-Code."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/c4a116b04255-b6ca7ad305ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Beispiel 1"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Erstelle eine professionelle Mindmap-Idee für die Kampagne „Kitchen Helper“ (Kleingeräte): drei Hauptkategorien mit handgezeichneten Icons, darunter jeweils drei zentrale Produktvorteile pro Unterkategorie."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/79f2500bcd2a-b6b7979e05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Beispiel 2"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Erkenne die Kalorien der Speisen im Bild und trage die Werte als klare Annotationen direkt in die Grafik ein."
+                },
+                {
+                  "type": "compareImage",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/f60f3b646982-b6f7629905ad11f19e281ec899fb5ef5_tplv-d7.png",
+                  "overlayContent": "https://r2.veo3ai.io/model-landing/seedream-5-0/01e054fc5895-b6cac6e405ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Beispiel 3"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Zeige eine Reihe von Kugeln unter identischer Beleuchtung, deren Oberflächenrauheit von links nach rechts stufenweise zunimmt."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/f3d380a1ffb9-b6cbbb0605ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Beispiel 4"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Erzeuge ein Premium-E-Commerce-Visual für Aromaprodukte mit hochauflösender Produktdarstellung, Packaging, USP-Highlights, Vorteilsargumenten und Promo-Text – in einer dunkel- bis hellgrünen Farbwelt."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/0f8f8d956c1d-b6b5591b05ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Beispiel 5"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Generiere Vintage-Museum-Sticker mit Artefakten, Fossilien und Skulpturen in Sepia-, Rost- und Altgoldtönen. Gewünscht sind mehrlagige Collage-Elemente, feine Körnung, prägnante weiße Stickerkonturen und ein hochwertiger handgezeichneter Look."
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/34ab3ec76df1-b6bbf3e105ad11f19e281ec899fb5ef5_tplv-d7.jpg",
+                  "altText": "Beispiel 6"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Modellleistung",
+        "description": "Nachfolgend die Ergebnisse von Seedream 5.0 Lite im internen MagicBench-Benchmark. Seedream 5.0 Lite zeigt deutliche Verbesserungen in Kerndimensionen wie Prompt-Befolgung und Alignment.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Benchmark"
+            },
+            {
+              "title": "Diagramm"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Text-zu-Bild-Radardiagramm"
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/3462b2cedb98-dff53ad107e211f194ab1070fd7c758e.jpeg_tp.jpg",
+                  "altText": "Text-zu-Bild-Radardiagramm"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Radardiagramm für Einzelbild-Bearbeitung"
+                },
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/seedream-5-0/525850f704f4-e0b953eb07e211f1bcc4fa163e51863e.jpeg_tp.jpg",
+                  "altText": "Radardiagramm für Einzelbild-Bearbeitung"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "So verwendest du Seedream 5.0 Lite",
+    "description": "Folge diesen Schritten, um mit Seedream 5.0 Lite auf Seedance Bilder zu erzeugen und zu verfeinern.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Seedream 5.0 Lite auswählen",
+        "description": "Wähle Seedream 5.0 Lite im Bildgenerator, bevor du startest."
+      },
+      {
+        "number": "02",
+        "title": "Prompt eingeben oder Referenzen hochladen",
+        "description": "Beschreibe dein Zielbild oder lade Referenzbilder für Stiltransfer und Bearbeitung hoch."
+      },
+      {
+        "number": "03",
+        "title": "Generieren und iterieren",
+        "description": "Erzeuge ein Bild und verfeinere es anschließend mit weiteren Anweisungen zu Layout, Stil und Details."
+      },
+      {
+        "number": "04",
+        "title": "Finales Ergebnis herunterladen",
+        "description": "Prüfe das Ergebnis und lade es herunter, sobald es deinem Ziel entspricht."
+      }
+    ],
+    "buttonText": "Seedream 5.0 Lite kostenlos auf Seedance testen"
+  },
+  "youtubeCases": {
+    "title": "YouTube-Videos ueber Seedream 5.0",
+    "content": []
+  },
+  "redditCases": {
+    "title": "Reddit-Diskussionen ueber Seedream 5.0",
+    "content": []
+  },
+  "twitterCases": {
+    "title": "X-Bewertungen zu Seedream 5.0",
+    "content": [
+      {
+        "id": "twitter-1",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020774137070035037",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-2",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020851262997102881",
+        "width": "550",
+        "height": "400"
+      },
+      {
+        "id": "twitter-3",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2021101216009429225",
+        "width": "550",
+        "height": "400"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Seedream 5.0 Lite kostenlos auf Seedance testen",
+    "buttonText": "Seedream 5.0 Lite kostenlos testen"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Häufig gestellte Fragen",
+    "description": "Mehr über den KI-Bildgenerator Seedream 5.0 Lite erfahren",
+    "items": [
+      {
+        "title": "Was ist Seedream 5.0 Lite?",
+        "description": "Seedream 5.0 Lite ist ein einheitliches multimodales Bildgenerierungsmodell von ByteDance Seed mit verbesserten Fähigkeiten in Verständnis, Schlussfolgerung und Generierung sowie Online-Suchunterstützung."
+      },
+      {
+        "title": "Welche Kernfähigkeiten werden auf der offiziellen Seite hervorgehoben?",
+        "description": "Die offizielle Präsentation fokussiert drei Bereiche: Kreativität mit präziser Kontrolle, Verbindung zu den neuesten Trends (Online-Suche) und Denken über die Vorstellung hinaus (Intent-Verständnis)."
+      },
+      {
+        "title": "Wie hilft Online-Suche bei der Bildgenerierung?",
+        "description": "Bei Prompts mit aktuellen Ereignissen oder Live-Informationen kann Seedream 5.0 Lite Online-Suchkontext nutzen, um aktuellere visuelle Ergebnisse zu erzeugen."
+      },
+      {
+        "title": "Kann Seedream 5.0 Lite Bearbeitung und Stiltransfer?",
+        "description": "Ja. Offizielle Beispiele zeigen Stiltransfer, konsistente Multi-Shot-Generierung, stickerbasierte Instruktionsbearbeitung und Bildannotation."
+      },
+      {
+        "title": "Wie wird die Modellqualität bewertet?",
+        "description": "Die offizielle Seite zeigt interne MagicBench-Diagramme und berichtet Verbesserungen in Kerndimensionen wie Prompt-Befolgung und Alignment."
+      },
+      {
+        "title": "Wo finde ich die offizielle technische Einführung?",
+        "description": "Die offizielle technische Einführung findest du hier: https://seed.bytedance.com/zh/blog/deeper-thinking-more-accurate-generation-introducing-seedream-5-0-lite"
+      },
+      {
+        "title": "Wie starte ich mit Seedream 5.0 Lite auf Seedance?",
+        "description": "Öffne die Seedream-5.0-Lite-Seite auf Seedance, gib deinen Prompt ein (oder lade Referenzen hoch), generiere, iteriere und lade dein finales Bild herunter."
+      }
+    ]
+  }
+}

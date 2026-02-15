@@ -5,9 +5,12 @@ import { ChevronLeft, ChevronRight, Film } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AIVideoShowcase as AIVideoShowcaseType } from "@/types/blocks/ai-video-showcase";
 import { SectionHeader } from "@/components/blocks/section-header";
+import { useInViewport } from "@/hooks/useInViewport";
 
 export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
   const { title, description, cta, examples } = data;
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const shouldAutoplay = useInViewport(sectionRef, { rootMargin: "0px" });
 
   const [currentIndex, setCurrentIndex] = useState(1); // Start with middle item
   const [aspectRatio, setAspectRatio] = useState(16 / 9); // Default aspect ratio
@@ -25,8 +28,8 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
   const [translateX, setTranslateX] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
+  const desktopVideoRef = useRef<HTMLVideoElement>(null);
+  const mobileVideoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const mobileContainerRef = useRef<HTMLDivElement>(null);
 
@@ -161,31 +164,53 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handlePrevious, handleNext]);
 
-  // Calculate aspect ratio when media loads
-  const handleMediaLoad = () => {
-    const currentExample = examples[currentIndex];
-    if (!currentExample) return;
-
-    if (currentExample.image.endsWith(".mp4") && videoRef.current) {
-      const video = videoRef.current;
-      const ratio = video.videoWidth / video.videoHeight;
-      setAspectRatio(ratio || 16 / 9);
-    } else if (imageRef.current) {
-      const img = imageRef.current;
-      const ratio = img.naturalWidth / img.naturalHeight;
-      setAspectRatio(ratio || 16 / 9);
-    }
-  };
-
   // Update aspect ratio when currentIndex changes
   useEffect(() => {
     // Reset to default and let media load event update it
     setAspectRatio(16 / 9);
   }, [currentIndex]);
 
+  useEffect(() => {
+    if (!shouldAutoplay) return;
+    const currentExample = examples[currentIndex];
+    if (!currentExample?.image.endsWith(".mp4")) return;
+
+    const tryPlay = async () => {
+      const videos = [desktopVideoRef.current, mobileVideoRef.current].filter(
+        Boolean
+      ) as HTMLVideoElement[];
+
+      await Promise.all(
+        videos.map(async (video) => {
+          try {
+            await video.play();
+          } catch {
+            // Autoplay may be blocked; controls are available.
+          }
+        })
+      );
+    };
+
+    void tryPlay();
+  }, [currentIndex, examples, shouldAutoplay]);
+
   if (!examples || examples.length === 0) {
     return null;
   }
+
+  const getExamplePoster = (exampleId: string) =>
+    `/imgs/intro/text-to-video/posters/${exampleId}.webp`;
+
+  const getExampleThumbSrc = (example: (typeof examples)[number] | undefined) => {
+    if (!example) return undefined;
+    if (example.image.endsWith(".mp4")) {
+      return getExamplePoster(example.id);
+    }
+    return example.image;
+  };
+
+  const previousIndex = (currentIndex - 1 + examples.length) % examples.length;
+  const nextIndex = (currentIndex + 1) % examples.length;
 
   // Video placeholder component - shown as background layer
   const VideoPlaceholder = ({ className }: { className?: string }) => (
@@ -210,7 +235,7 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
   };
 
   return (
-    <div className="w-full py-16">
+    <div ref={sectionRef} className="w-full py-16">
       <div className="mb-8 md:mb-12 px-4 md:px-0">
         <SectionHeader
           title={finalTitle}
@@ -243,60 +268,25 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
           <div className="opacity-50 transform scale-90 transition-all duration-300">
             <div className="relative w-full h-full overflow-hidden rounded-lg shadow-lg">
               {mediaErrorStates[
-                (currentIndex - 1 + examples.length) % examples.length
+                previousIndex
               ] === true && (
                 <VideoPlaceholder className="absolute inset-0 z-0" />
               )}
-              {examples[
-                (currentIndex - 1 + examples.length) % examples.length
-              ]?.image.endsWith(".mp4") ? (
-                <video
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover object-center"
-                  src={
-                    examples[
-                      (currentIndex - 1 + examples.length) % examples.length
-                    ]?.image || ""
-                  }
-                  onLoadStart={() =>
-                    handleMediaLoadStart(
-                      (currentIndex - 1 + examples.length) % examples.length
-                    )
-                  }
-                  onLoadedData={() =>
-                    handleMediaLoadComplete(
-                      (currentIndex - 1 + examples.length) % examples.length
-                    )
-                  }
-                >
-                  Your browser does not support the video tag.
-                </video>
-              ) : (
-                <img
-                  alt={
-                    examples[
-                      (currentIndex - 1 + examples.length) % examples.length
-                    ]?.alt || ""
-                  }
-                  className="w-full h-full object-cover object-center"
-                  src={
-                    examples[
-                      (currentIndex - 1 + examples.length) % examples.length
-                    ]?.image || ""
-                  }
-                  onLoad={() =>
-                    handleMediaLoadComplete(
-                      (currentIndex - 1 + examples.length) % examples.length
-                    )
-                  }
-                  onError={() =>
-                    handleMediaError(
-                      (currentIndex - 1 + examples.length) % examples.length
-                    )
-                  }
-                />
-              )}
+              <img
+                alt={examples[previousIndex]?.alt || ""}
+                className="w-full h-full object-cover object-center"
+                src={
+                  shouldAutoplay
+                    ? getExampleThumbSrc(examples[previousIndex])
+                    : undefined
+                }
+                loading="lazy"
+                decoding="async"
+                width={480}
+                height={270}
+                onLoad={() => handleMediaLoadComplete(previousIndex)}
+                onError={() => handleMediaError(previousIndex)}
+              />
             </div>
           </div>
 
@@ -313,21 +303,31 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
                 )}
                 {examples[currentIndex]?.image.endsWith(".mp4") ? (
                   <video
-                    ref={videoRef}
+                    ref={desktopVideoRef}
                     controls
-                    autoPlay
+                    autoPlay={shouldAutoplay}
                     muted
                     loop
                     playsInline
+                    preload="none"
+                    poster={
+                      shouldAutoplay && examples[currentIndex]?.id
+                        ? getExamplePoster(examples[currentIndex].id)
+                        : undefined
+                    }
                     className="rounded-xl shadow-2xl border-2 border-border w-full object-cover select-none"
                     style={{ 
                       aspectRatio: aspectRatio,
                       pointerEvents: isDragging ? "none" : "auto"
                     }}
-                    src={examples[currentIndex]?.image || ""}
+                    src={
+                      shouldAutoplay ? examples[currentIndex]?.image || "" : undefined
+                    }
                     onLoadStart={() => handleMediaLoadStart(currentIndex)}
                     onLoadedMetadata={(e) => {
-                      handleMediaLoad();
+                      const video = e.currentTarget;
+                      const ratio = video.videoWidth / video.videoHeight;
+                      setAspectRatio(ratio || 16 / 9);
                       handleMediaLoadComplete(currentIndex);
                     }}
                     draggable={false}
@@ -336,16 +336,21 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
                   </video>
                 ) : (
                   <img
-                    ref={imageRef}
                     alt={examples[currentIndex]?.alt || ""}
                     className="rounded-xl shadow-2xl border-2 border-border w-full object-cover select-none"
                     style={{ 
                       aspectRatio: aspectRatio,
                       pointerEvents: isDragging ? "none" : "auto"
                     }}
-                    src={examples[currentIndex]?.image || ""}
+                    src={shouldAutoplay ? examples[currentIndex]?.image : undefined}
+                    loading="lazy"
+                    decoding="async"
+                    width={1280}
+                    height={720}
                     onLoad={(e) => {
-                      handleMediaLoad();
+                      const img = e.currentTarget;
+                      const ratio = img.naturalWidth / img.naturalHeight;
+                      setAspectRatio(ratio || 16 / 9);
                       handleMediaLoadComplete(currentIndex);
                     }}
                     onError={() => handleMediaError(currentIndex)}
@@ -387,49 +392,21 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
           {/* Next Image */}
           <div className="opacity-50 transform scale-90 transition-all duration-300 relative">
             <div className="relative w-full h-full overflow-hidden rounded-lg shadow-lg">
-              {mediaErrorStates[(currentIndex + 1) % examples.length] ===
-                true && <VideoPlaceholder className="absolute inset-0 z-0" />}
-              {examples[(currentIndex + 1) % examples.length]?.image.endsWith(
-                ".mp4"
-              ) ? (
-                <video
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover object-center"
-                  src={
-                    examples[(currentIndex + 1) % examples.length]?.image || ""
-                  }
-                  onLoadStart={() =>
-                    handleMediaLoadStart((currentIndex + 1) % examples.length)
-                  }
-                  onLoadedData={() =>
-                    handleMediaLoadComplete(
-                      (currentIndex + 1) % examples.length
-                    )
-                  }
-                >
-                  Your browser does not support the video tag.
-                </video>
-              ) : (
-                <img
-                  alt={
-                    examples[(currentIndex + 1) % examples.length]?.alt || ""
-                  }
-                  className="w-full h-full object-cover object-center"
-                  src={
-                    examples[(currentIndex + 1) % examples.length]?.image || ""
-                  }
-                  onLoad={() =>
-                    handleMediaLoadComplete(
-                      (currentIndex + 1) % examples.length
-                    )
-                  }
-                  onError={() =>
-                    handleMediaError((currentIndex + 1) % examples.length)
-                  }
-                />
+              {mediaErrorStates[nextIndex] === true && (
+                <VideoPlaceholder className="absolute inset-0 z-0" />
               )}
-              {examples[(currentIndex + 1) % examples.length]?.isNew && (
+              <img
+                alt={examples[nextIndex]?.alt || ""}
+                className="w-full h-full object-cover object-center"
+                src={shouldAutoplay ? getExampleThumbSrc(examples[nextIndex]) : undefined}
+                loading="lazy"
+                decoding="async"
+                width={480}
+                height={270}
+                onLoad={() => handleMediaLoadComplete(nextIndex)}
+                onError={() => handleMediaError(nextIndex)}
+              />
+              {examples[nextIndex]?.isNew && (
                 <div className="absolute bottom-2 right-2 bg-primary rounded-full h-6 w-6 flex items-center justify-center text-primary-foreground text-xs font-bold z-20">
                   AI
                 </div>
@@ -463,21 +440,31 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
                 )}
                 {examples[currentIndex]?.image.endsWith(".mp4") ? (
                   <video
-                    ref={videoRef}
+                    ref={mobileVideoRef}
                     controls
-                    autoPlay
+                    autoPlay={shouldAutoplay}
                     muted
                     loop
                     playsInline
+                    preload="none"
+                    poster={
+                      shouldAutoplay && examples[currentIndex]?.id
+                        ? getExamplePoster(examples[currentIndex].id)
+                        : undefined
+                    }
                     className="rounded-xl shadow-2xl border-2 border-border w-full object-cover select-none"
                     style={{ 
                       aspectRatio: aspectRatio,
                       pointerEvents: isDragging ? "none" : "auto"
                     }}
-                    src={examples[currentIndex]?.image || ""}
+                    src={
+                      shouldAutoplay ? examples[currentIndex]?.image || "" : undefined
+                    }
                     onLoadStart={() => handleMediaLoadStart(currentIndex)}
                     onLoadedMetadata={(e) => {
-                      handleMediaLoad();
+                      const video = e.currentTarget;
+                      const ratio = video.videoWidth / video.videoHeight;
+                      setAspectRatio(ratio || 16 / 9);
                       handleMediaLoadComplete(currentIndex);
                     }}
                     draggable={false}
@@ -486,16 +473,21 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
                   </video>
                 ) : (
                   <img
-                    ref={imageRef}
                     alt={examples[currentIndex]?.alt || ""}
                     className="rounded-xl shadow-2xl border-2 border-border w-full object-cover select-none"
                     style={{ 
                       aspectRatio: aspectRatio,
                       pointerEvents: isDragging ? "none" : "auto"
                     }}
-                    src={examples[currentIndex]?.image || ""}
+                    src={shouldAutoplay ? examples[currentIndex]?.image : undefined}
+                    loading="lazy"
+                    decoding="async"
+                    width={1280}
+                    height={720}
                     onLoad={(e) => {
-                      handleMediaLoad();
+                      const img = e.currentTarget;
+                      const ratio = img.naturalWidth / img.naturalHeight;
+                      setAspectRatio(ratio || 16 / 9);
                       handleMediaLoadComplete(currentIndex);
                     }}
                     onError={() => handleMediaError(currentIndex)}
@@ -542,22 +534,15 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
                     : "opacity-60 hover:opacity-80"
                 } transition-all duration-200`}
               >
-                {example.image.endsWith(".mp4") ? (
-                  <video
-                    muted
-                    playsInline
-                    className="w-16 h-12 rounded-md object-cover"
-                    src={example.image}
-                  >
-                    Your browser does not support the video tag.
-                  </video>
-                ) : (
-                  <img
-                    alt={example.alt}
-                    className="w-16 h-12 rounded-md object-cover"
-                    src={example.image}
-                  />
-                )}
+                <img
+                  alt={example.alt}
+                  className="w-16 h-12 rounded-md object-cover"
+                  src={shouldAutoplay ? getExampleThumbSrc(example) : undefined}
+                  loading="lazy"
+                  decoding="async"
+                  width={64}
+                  height={48}
+                />
                 {example.isNew && (
                   <div className="absolute -top-1 -right-1 bg-primary rounded-full h-4 w-4 flex items-center justify-center text-primary-foreground text-xs font-bold">
                     AI

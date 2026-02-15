@@ -176,69 +176,34 @@ export default function VideoResult({
   const TOTAL_WAIT_TIME_SECONDS =
     modelConfig?.estimatedGenerationTime || DEFAULT_WAIT_TIME_SECONDS;
 
-  // 如果没有generation数据，使用简化模式
-  if (!generation) {
-    return (
-      <div className={cn("bg-gray-900 rounded-lg p-6", className)}>
-        <h2 className="text-white text-lg font-semibold mb-3">Generated Video</h2>
-        
-        <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden relative">
-          {videoUrl ? (
-            <>
-              <video
-                className="w-full h-full object-cover"
-                controls
-                preload="metadata"
-                onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
-              >
-                <source src={videoUrl} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </>
-          ) : isGenerating ? (
-            <div className="flex flex-col items-center justify-center h-full text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500 mb-4"></div>
-              <p className="text-gray-400">Generating your video...</p>
-              <p className="text-gray-500 text-sm mt-2">This may take a few minutes</p>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center h-full text-center">
-              {placeholderIcon}
-              <p className="text-gray-400">{placeholderText}</p>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
-
   const STATUS_MAP = getStatusMap(t);
+  const genStatus = generation?.status;
   const status =
-    STATUS_MAP[generation.status as keyof typeof STATUS_MAP] ||
+    (genStatus && STATUS_MAP[genStatus as keyof typeof STATUS_MAP]) ||
     STATUS_MAP.submitted;
-  const isCompleted =
-    generation.status === "COMPLETED" || generation.status === "SAVED_TO_R2";
-  const isFailed = generation.status === "FAILED";
+  const isCompleted = genStatus === "COMPLETED" || genStatus === "SAVED_TO_R2";
+  const isFailed = genStatus === "FAILED";
   const isProcessing =
-    generation.status === "IN_PROGRESS" ||
-    generation.status === "IN_QUEUE" ||
-    generation.status === "submitted" ||
-    generation.status === "PROMPT_OPTIMIZING";
+    genStatus === "IN_PROGRESS" ||
+    genStatus === "IN_QUEUE" ||
+    genStatus === "submitted" ||
+    genStatus === "PROMPT_OPTIMIZING";
 
   // 定时器更新当前时间
   useEffect(() => {
-    if (!isProcessing) return;
+    if (!generation || !isProcessing) return;
 
     const timer = setInterval(() => {
       setCurrentTime(Date.now());
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isProcessing]);
+  }, [generation?.id, isProcessing]);
 
   // 当状态为完成但没有视频URL时，主动获取结果
   useEffect(() => {
+    if (!generation) return;
+
     const fetchVideoResult = async () => {
       if (
         isCompleted &&
@@ -260,9 +225,7 @@ export default function VideoResult({
             if (result.code === 0 && result.data?.video_url) {
               const newVideoUrl = result.data.video_url;
               setVideoUrl(newVideoUrl);
-              if (onVideoUrlUpdate) {
-                onVideoUrlUpdate(newVideoUrl);
-              }
+              onVideoUrlUpdate?.(newVideoUrl);
             }
           }
         } catch (error) {
@@ -275,13 +238,49 @@ export default function VideoResult({
 
     fetchVideoResult();
   }, [
+    generation?.id,
     isCompleted,
     videoUrl,
-    generation.requestId,
-    generation.model,
+    generation?.requestId,
+    generation?.model,
     isLoadingVideo,
     onVideoUrlUpdate,
   ]);
+
+  // 如果没有generation数据，使用简化模式
+  if (!generation) {
+    return (
+      <div className={cn("bg-gray-900 rounded-lg p-6", className)}>
+        <h2 className="text-white text-lg font-semibold mb-3">Generated Video</h2>
+
+        <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden relative">
+          {videoUrl ? (
+            <video
+              className="w-full h-full object-cover"
+              controls
+              preload="metadata"
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
+            >
+              <source src={videoUrl} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          ) : isGenerating ? (
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500 mb-4"></div>
+              <p className="text-gray-400">Generating your video...</p>
+              <p className="text-gray-500 text-sm mt-2">This may take a few minutes</p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              {placeholderIcon}
+              <p className="text-gray-400">{placeholderText}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   // 计算已等待时间和剩余时间
   const getWaitTimeInfo = () => {

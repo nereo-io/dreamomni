@@ -1,0 +1,179 @@
+{
+  "banner": {
+    "title": "Générateur vidéo IA MiniMax Hailuo 2.3",
+    "description": "Hailuo 2.3 est le dernier modèle vidéo de MiniMax, avec une meilleure compréhension des actions physiques, une stylisation plus riche et de meilleures performances faciales. Dans la même annonce officielle, MiniMax a fait évoluer Hailuo Video Agent en Media Agent pour la création multimodale en un clic et a introduit Hailuo 2.3 Fast pour réduire les coûts de génération en lot.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Texte vers vidéo",
+        "subTitle": "Prompt",
+        "value": "text-to-video",
+        "modelName": "Hailuo 2.3",
+        "modelLogo": "/imgs/intro/hailuo.webp",
+        "placeholder": "Décrivez en détail le mouvement, la caméra, le style et l'ambiance...",
+        "buttonText": "Générer"
+      },
+      {
+        "type": "image",
+        "title": "Image vers vidéo",
+        "subTitle": "Image",
+        "value": "image-to-video",
+        "modelName": "Hailuo 2.3",
+        "modelLogo": "/imgs/intro/hailuo.webp",
+        "placeholder": "Importez une image à animer avec Hailuo 2.3",
+        "tips": "Importez des images JPG/PNG/WEBP jusqu'à 10 Mo, largeur/hauteur minimale de 300 px.",
+        "buttonText": "Générer"
+      }
+    ]
+  },
+  "partners": [],
+  "features": {
+    "title": "Fonctionnalités clés de Hailuo 2.3",
+    "details": [
+      {
+        "title": "Meilleure intelligence de mouvement et suivi des prompts",
+        "description": "MiniMax met en avant des améliorations notables de la compréhension physique et du contrôle du mouvement. Hailuo 2.3 interprète mieux les consignes complexes et génère des séquences d'action plus cohérentes pour la danse, le sport et les scènes cinématographiques dynamiques.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/hailuo-2-3/b4b8df103e4b-e94762a5-63b6-4106-be71-167fc0f1360b.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/hailuo-2-3/227ec02dd34b-5482aa17-b1de-4e49-8b3d-27ea8cc6ec02.png"
+      },
+      {
+        "title": "Palette de styles visuels plus large",
+        "description": "D'après la publication officielle, Hailuo 2.3 améliore la stylisation pour les rendus anime, illustration, encre et game-CG, ce qui permet d'utiliser un seul modèle pour des directions réalistes comme artistiques.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/hailuo-2-3/e1815479a1e3-102f39c7-955f-40b2-9e11-feb3e4bc9deb.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/hailuo-2-3/532e54be180a-587a95a6-22d4-4556-ae00-17a35df7d518.png"
+      },
+      {
+        "title": "Expressions humaines et jeu facial améliorés",
+        "description": "Le modèle est optimisé pour les détails du visage et les micro-expressions émotionnelles, ce qui rend les personnages plus crédibles dans les gros plans et les scènes narratives.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/hailuo-2-3/39a2ddde14be-5c4c2282-ec25-4032-a784-ecec9a52f0dd.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/hailuo-2-3/5530e647daa4-ea125c90-5af9-4f1e-bb95-9cf802e56397.png"
+      },
+      {
+        "title": "Mouvements d'objets et de produits plus stables",
+        "description": "Hailuo 2.3 améliore la cohérence des mouvements d'objets, utile pour les présentations produit et les scènes publicitaires où la stabilité de trajectoire et la lisibilité visuelle sont essentielles.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/hailuo-2-3/86ed25eaa789-db704730-84e2-4bc2-bd91-11a9f3628b4e.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/hailuo-2-3/9986e98696fa-eeed1f2a-489d-4c5e-bbcd-6b92a279b0e5.png"
+      },
+      {
+        "title": "Mode Fast pour itérer à moindre coût",
+        "description": "MiniMax a lancé le mode Hailuo 2.3 Fast pour réduire le coût des générations en lot (jusqu'à 50 % selon les workflows pris en charge) et accélérer les cycles d'itération.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/hailuo-2-3/72c1db6f96fa-85088dbf-0e7e-4a1d-974d-ccf9506c6d28.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/hailuo-2-3/8b7960f647f7-10ae2089-662b-4e7d-9ccd-049631aac420.jpg"
+      },
+      {
+        "title": "Options pratiques de résolution et de durée",
+        "description": "Les pages de capacité officielles indiquent des sorties 768p et 1080p avec des durées courtes adaptées aux contenus sociaux et publicitaires. En image-vers-vidéo, les presets courants incluent 6s et 10s.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/hailuo-2-3/a005270f8a30-a2f91708-5a9b-441f-9662-b97b70ea115f.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/hailuo-2-3/76ab5ab47464-46f9da90-9796-43e6-875e-064f407879ed.png"
+      },
+      {
+        "title": "Démo officielle News : actions corporelles complexes",
+        "description": "Dans la vitrine officielle MiniMax, Hailuo 2.3 montre des mouvements corporels plus fluides avec caméra dynamique et un meilleur réalisme physique.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/hailuo-2-3/203d702673ab-2d150cc9-6ef4-427d-86bb-b19d97771498.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/hailuo-2-3/f110a7626df8-4a25c486-f4be-43d0-80b7-b19b047d4ead.gif"
+      },
+      {
+        "title": "Démo officielle News : stylisation renforcée",
+        "description": "La démonstration officielle met également en avant une meilleure stabilité des rendus stylisés, notamment pour les directions visuelles de type anime et illustration.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/hailuo-2-3/5d4ed4692528-2fbddcf3-2527-414d-ab01-6e9cd39b18bd.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/hailuo-2-3/d951d6b8cf8f-a770623c-baa5-47b4-8558-7e8c6a24a672.gif"
+      },
+      {
+        "title": "Démo officielle News : micro-expressions plus naturelles",
+        "description": "Les exemples officiels MiniMax montrent des détails faciaux plus naturels et des transitions de micro-expressions émotionnelles plus convaincantes.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/hailuo-2-3/7a41c27404f9-83df51ff-ba2a-48ff-82b8-969e851b4baf.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/hailuo-2-3/42173c68a09b-10e1ebf4-8f82-4094-ba6f-efd9962d4aad.gif"
+      },
+      {
+        "title": "Démo officielle News : publicité en un clic via Media Agent",
+        "description": "Le billet de lancement inclut un exemple de publicité générée en un clic avec Media Agent, illustrant une création multimodale basée sur scène, ton, caméra et musique.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/hailuo-2-3/07659cd515ee-4535e623-138e-43d6-ad17-74cb02ed3f7d.mov",
+        "poster": "https://r2.veo3ai.io/model-landing/hailuo-2-3/59683a1f6951-889bb8c5-8bc9-4376-9b22-15b6e4202c31.web.webp"
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Comment utiliser Hailuo 2.3 sur Seedance",
+    "description": "Créez des vidéos expressives avec Hailuo 2.3 et Media Agent en trois étapes simples",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Choisissez Hailuo 2.3 (ou 2.3 Fast) et un workflow",
+        "description": "Ouvrez Texte vers vidéo, Image vers vidéo ou le mode Agent. Utilisez Hailuo 2.3 pour la meilleure qualité, ou Hailuo 2.3 Fast pour des itérations image-vers-vidéo plus rapides et moins coûteuses."
+      },
+      {
+        "number": "02",
+        "title": "Définissez l'objectif, puis ajoutez des références si nécessaire",
+        "description": "Vous pouvez générer en un clic en décrivant la scène, le style, la caméra et la musique, ou passer à un contrôle étape par étape en important des références image, vidéo ou audio."
+      },
+      {
+        "number": "03",
+        "title": "Générez, vérifiez, puis itérez",
+        "description": "Générez la vidéo, vérifiez la qualité des mouvements et des expressions, puis affinez le prompt ou les références pour améliorer la cohérence avant l'export."
+      }
+    ],
+    "buttonText": "Essayer Hailuo 2.3"
+  },
+  "cta": {
+    "title": "Créez avec Hailuo 2.3 dès maintenant",
+    "buttonText": "Générer avec Hailuo 2.3"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Questions fréquentes",
+    "description": "En savoir plus sur MiniMax Hailuo 2.3",
+    "items": [
+      {
+        "title": "Qu'est-ce que Hailuo 2.3 ?",
+        "description": "Hailuo 2.3 est un modèle de génération vidéo MiniMax amélioré, axé sur un meilleur contrôle du mouvement, un suivi des instructions plus précis, une stylisation plus riche et de meilleures performances des personnages."
+      },
+      {
+        "title": "Quelles nouveautés par rapport aux versions précédentes de Hailuo ?",
+        "description": "La mise à jour officielle met l'accent sur une meilleure compréhension des actions physiques, une plus grande précision sur les prompts de mouvement, de meilleures micro-expressions faciales et des mouvements d'objets plus stables pour les scènes commerciales."
+      },
+      {
+        "title": "Qu'est-ce que le mode Hailuo 2.3 Fast ?",
+        "description": "Le mode Fast est une option officielle d'accélération pensée pour réduire le coût des générations en lot et accélérer l'itération. MiniMax annonce jusqu'à 50 % d'économie selon les scénarios pris en charge."
+      },
+      {
+        "title": "Quelles résolutions et durées sont généralement prises en charge ?",
+        "description": "Les pages officielles indiquent des presets courts autour de 6s et 10s avec des options 768p et 1080p. La disponibilité exacte peut varier selon le type de workflow (texte-vers-vidéo vs image-vers-vidéo) et le mode."
+      },
+      {
+        "title": "L'image-vers-vidéo prend-il en charge first-and-last-frame ou les références multi-images ?",
+        "description": "La FAQ officielle actuelle de l'outil Hailuo 2.3 décrit l'image-vers-vidéo comme un workflow centré sur une image clé et précise que les fonctions first-and-last-frame et multi-références sont déployées progressivement."
+      },
+      {
+        "title": "Quelle longueur de prompt est autorisée ?",
+        "description": "La page officielle de l'outil Hailuo 2.3 indique une longueur de prompt pouvant aller jusqu'à 2000 mots."
+      },
+      {
+        "title": "Puis-je utiliser Hailuo 2.3 pour la publicité et les réseaux sociaux ?",
+        "description": "Oui. Hailuo 2.3 est optimisé pour les vidéos courtes expressives, les scènes de mouvement produit et le storytelling stylisé, ce qui le rend adapté au marketing et à la production social media."
+      },
+      {
+        "title": "Où puis-je accéder à Hailuo 2.3 ?",
+        "description": "MiniMax indique que Hailuo 2.3 est disponible via Hailuo Web, App, Open Platform API et Agent mode. Vous pouvez aussi utiliser les workflows Hailuo 2.3 directement sur Seedance."
+      },
+      {
+        "title": "Qu'est-ce que Media Agent dans la mise à jour Hailuo 2.3 ?",
+        "description": "MiniMax a annoncé que Hailuo Video Agent évoluait en Media Agent. Il prend en charge la création multimodale en un clic via des instructions en langage naturel, ainsi que des workflows étape par étape avec des références image, vidéo et audio importées."
+      },
+      {
+        "title": "Le lancement officiel mentionne-t-il des crédits d'essai gratuits ?",
+        "description": "Oui. L'article de lancement officiel indique que des crédits d'essai gratuits quotidiens étaient proposés pendant la période de lancement pour découvrir Hailuo 2.3 et les nouveaux workflows de création."
+      }
+    ]
+  }
+}

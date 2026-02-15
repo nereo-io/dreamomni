@@ -1,0 +1,131 @@
+{
+  "banner": {
+    "title": "Générateur vidéo IA Seedance 1.5 Pro de Byteplus",
+    "description": "Seedance 1.5 Pro est un modèle audio-vidéo conjoints qui suit avec précision des instructions complexes. Il peut générer des voix diverses et des effets sonores spatiaux qui se coordonnent avec les visuels pour offrir une narration plus fluide. Supporte une large gamme de langues et de dialectes avec une excellente synchronisation labiale et un alignement des mouvements.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Texte vers Vidéo",
+        "subTitle": "Prompt",
+        "value": "text-to-video",
+        "modelName": "Seedance 1.5 Pro",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Décrivez la vidéo que vous souhaitez générer...",
+        "buttonText": "Générer"
+      },
+      {
+        "type": "image",
+        "title": "Image vers Vidéo",
+        "subTitle": "Image",
+        "value": "image-to-video",
+        "modelName": "Seedance 1.5 Pro",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Téléchargez une image pour l'animer",
+        "tips": "Téléchargez des images JPG/PNG/WEBP jusqu'à 10 Mo, avec une largeur/hauteur minimale de 300 px.",
+        "buttonText": "Générer"
+      }
+    ]
+  },
+  "partners": [],
+  "features": {
+    "title": "Fonctionnalités Clés du Modèle Vidéo IA Seedance 1.5 Pro",
+    "details": [
+      {
+        "title": "Génération Audio Native",
+        "description": "Peut générer des voix diverses et des effets sonores spatiaux qui se coordonnent avec les visuels pour offrir une narration plus fluide. Supporte une large gamme de langues et de dialectes avec une excellente synchronisation labiale et un alignement des mouvements.",
+        "type": "video",
+        "data": "https://cysource.jxp.com/seedance-1-5-pro/features/NativeAudio1.mp4"
+      },
+      {
+        "title": "Cinématographie de Niveau Film et Qualité Visuelle",
+        "description": "Capable de mouvements de caméra complexes, des gros plans avec des expressions faciales subtiles et des émotions aux plans larges avec des détails, une composition et une atmosphère de niveau cinématographique.",
+        "type": "video",
+        "data": "https://cysource.jxp.com/seedance-1-5-pro/features/film1.mp4"
+      },
+      {
+        "title": "Fort Storytelling et Expression Émotionnelle",
+        "description": "Basé sur l'intention du prompt, Seedance 1.5 Pro peut remplir automatiquement les récits et maintenir le contenu cohérent à travers diverses émotions, expressions et actions de personnages, adapté pour les courts métrages, la publicité et les médias sociaux.",
+        "type": "video",
+        "data": "https://cysource.jxp.com/seedance-1-5-pro/demo4.mp4"
+      },
+      {
+        "title": "Suivi Précis des Instructions",
+        "description": "Seedance 1.5 Pro suit des instructions complexes avec précision et comprend les prompts nuancés, idéal pour les courts métrages, la publicité et le contenu des réseaux sociaux."
+      },
+      {
+        "title": "Vitesse d'Inférence 10× Accélérée",
+        "description": "Vitesse prête pour la production sans compromis sur la qualité. Notre framework d'accélération optimisé livre une inférence plus de 10 fois plus rapide que les modèles de génération précédente, permettant une itération rapide et des flux de travail de production de contenu à haut volume."
+      },
+      {
+        "title": "Qualité Professionnelle",
+        "description": "Optimisation post-entraînement minutieuse par Fine-Tuning supervisé sur des ensembles de données de haute qualité et Reinforcement Learning from Human Feedback avec des modèles de récompense multidimensionnels. Chaque sortie répond aux standards de création de contenu professionnelle."
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Comment Utiliser Seedance 1.5 Pro",
+    "description": "Générez des vidéos professionnelles avec Seedance 1.5 Pro via notre interface facile à utiliser",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Sélectionner le Modèle Seedance 1.5 Pro",
+        "description": "Naviguez vers la page 'Texte vers Vidéo' ou 'Image vers Vidéo' et sélectionnez 'Seedance 1.5 Pro' dans le menu déroulant du modèle."
+      },
+      {
+        "number": "02",
+        "title": "Entrez Votre Prompt ou Téléchargez une Image",
+        "description": "Décrivez en détail ce que vous souhaitez créer, ou téléchargez une image pour image-vers-vidéo. Configurez votre format d'image, durée et paramètres de langue pour la précision de la synchronisation labiale."
+      },
+      {
+        "number": "03",
+        "title": "Générer et Télécharger",
+        "description": "Cliquez sur 'Générer' et attendez la génération de votre vidéo. Une fois terminé, téléchargez votre vidéo haute qualité avec l'audio synchronisé."
+      }
+    ],
+    "buttonText": "Essayer Seedance 1.5 Pro Maintenant"
+  },
+  "cta": {
+    "title": "Découvrez Seedance 1.5 Pro Maintenant!",
+    "buttonText": "Essayez Seedance 1.5 Pro"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Questions Fréquemment Posées",
+    "description": "En savoir plus sur le modèle audio-vidéo conjoints Seedance 1.5 Pro",
+    "items": [
+      {
+        "title": "Qu'est-ce que Seedance 1.5 Pro?",
+        "description": "Seedance 1.5 Pro est un modèle audio-vidéo conjoints qui suit des instructions complexes avec précision. Il dispose d'une génération audio native, d'une cinématographie de niveau film et de capacités de storytelling fortes pour la création de contenu professionnelle."
+      },
+      {
+        "title": "Comment Seedance 1.5 Pro réalise-t-il la synchronisation labiale multilingue?",
+        "description": "Seedance 1.5 Pro supporte une large gamme de langues et de dialectes avec une excellente synchronisation labiale et un alignement des mouvements. Le modèle génère audio et visuels simultanément, assurant une synchronisation parfaite."
+      },
+      {
+        "title": "Qu'est-ce qui distingue Seedance 1.5 Pro des autres générateurs vidéo IA?",
+        "description": "Seedance 1.5 Pro est construit à partir de zéro pour la génération audio-vidéo conjointe avec synchronisation native. Contrairement aux modèles traditionnels qui génèrent vidéo et audio séparément, Seedance 1.5 Pro utilise une architecture spécialisée assurant une coordination parfaite. Il dispose également d'une cinématographie de niveau film, d'un storytelling fort et d'une inférence 10× plus rapide."
+      },
+      {
+        "title": "Puis-je utiliser Seedance 1.5 Pro pour des projets commerciaux?",
+        "description": "Oui, Seedance 1.5 Pro est conçu pour la création de contenu professionnelle avec une qualité visuelle de niveau film et une sortie professionnelle. Il est idéal pour les cinéastes, les spécialistes du marketing, les agences publicitaires et les créateurs de contenu nécessitant des vidéos de haute qualité avec des capacités multilingues."
+      },
+      {
+        "title": "Quels types de contenu Seedance 1.5 Pro peut-il créer?",
+        "description": "Seedance 1.5 Pro convient aux courts métrages, à la publicité et au contenu des réseaux sociaux. Basé sur l'intention du prompt, il peut remplir automatiquement les récits et maintenir le contenu cohérent à travers diverses émotions, expressions et actions de personnages."
+      },
+      {
+        "title": "Quelles langues et dialectes Seedance 1.5 Pro prend-il en charge?",
+        "description": "Seedance 1.5 Pro supporte une large gamme de langues et de dialectes avec une excellente synchronisation labiale et un alignement des mouvements."
+      },
+      {
+        "title": "À quel point Seedance 1.5 Pro est-il rapide par rapport aux autres modèles?",
+        "description": "Seedance 1.5 Pro livre une inférence plus de 10× plus rapide que les modèles de génération précédents grâce à son framework d'accélération optimisé, permettant une itération rapide et des flux de travail de production de contenu à haut volume."
+      },
+      {
+        "title": "Où Seedance 1.5 Pro est-il disponible?",
+        "description": "Seedance 1.5 Pro est disponible sur notre plateforme pour les créateurs de contenu professionnels. Vous pouvez l'essayer maintenant via nos interfaces texte-vers-vidéo et image-vers-vidéo."
+      }
+    ]
+  }
+}

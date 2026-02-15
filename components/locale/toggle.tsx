@@ -13,9 +13,9 @@ import { localeNames } from "@/i18n/locale";
 
 export default function ({ isIcon = false }: { isIcon?: boolean }) {
   const params = useParams();
-  const locale = params.locale as string;
+  const locale = (params?.locale as string) || "en";
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname() || "";
 
   const handleSwitchLanguage = (value: string) => {
     if (value !== locale) {

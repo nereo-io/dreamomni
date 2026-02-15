@@ -1,6 +1,5 @@
 // Payssion V2 支付提供商实现
 
-import * as crypto from "crypto";
 import { BasePaymentProvider } from "./PaymentProvider";
 import {
   MandateRequest,
@@ -14,13 +13,36 @@ import { getPayssionConfig, PayssionConfig } from "@/config/payssion";
 import {
   insertPayssionMandate,
   updatePayssionMandateStatus,
+  findActivePayssionMandateByUserUuid,
 } from "@/models/payssionMandate";
 import { PaymentProcessingService } from "./PaymentProcessingService";
+import { SubscriptionManagementService } from "./SubscriptionManagementService";
 
 export class PayssionProvider extends BasePaymentProvider {
   name = "payssion";
 
   private config: PayssionConfig;
+
+  private normalizeMandateStatus(
+    status: unknown
+  ): "pending" | "authorized" | "expired" | "canceled" | "created" {
+    if (typeof status !== "string") return "pending";
+
+    const normalized = status.toLowerCase();
+    if (
+      normalized === "pending" ||
+      normalized === "authorized" ||
+      normalized === "expired" ||
+      normalized === "canceled" ||
+      normalized === "created"
+    ) {
+      return normalized;
+    }
+
+    if (normalized === "cancelled") return "canceled";
+
+    return "pending";
+  }
 
   constructor() {
     super();
@@ -79,27 +101,182 @@ export class PayssionProvider extends BasePaymentProvider {
   }
 
   /**
+   * 使用现有 mandate 直接创建 Bundle 支付（无需跳转）
+   */
+  private async createBundlePaymentWithMandate(
+    request: MandateRequest,
+    mandateId: string
+  ): Promise<MandateResponse> {
+    const metadata = request.metadata;
+
+    if (!metadata?.amount) {
+      return {
+        success: false,
+        errorMessage: "Missing required metadata for bundle payment",
+      };
+    }
+
+    const requestBody = {
+      payment_method: this.config.paymentMethods[request.paymentMethod] || request.paymentMethod,
+      amount: parseFloat(metadata.amount) / 100, // 美分转美元
+      currency: metadata.currency || "USD",
+      terminal_type: "web",
+      mandate_id: mandateId, // 关键：传入 mandate_id 实现直接扣款
+      return_url: request.returnUrl,
+      metadata: metadata,
+    };
+
+    console.log("📦 Creating bundle payment with mandate:", JSON.stringify(requestBody, null, 2));
+
+    const response = await fetch(`${this.config.v2.baseUrl}/v2/payments`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.config.v2.apiKey}`,
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    const result = await response.json();
+    console.log("Bundle payment with mandate result:", JSON.stringify(result, null, 2));
+
+    if (result.error) {
+      // 任何错误都 fallback 到创建新 mandate（与 subscription 逻辑一致）
+      console.error(
+        "❌ Failed to create bundle payment with existing mandate:",
+        {
+          mandateId: mandateId,
+          error: result.error.message || result.error.code,
+          willCreateNewMandate: true,
+        }
+      );
+      return await this.createBundleMandateForPayment(request);
+    }
+
+    console.log(`✅ Bundle payment created with mandate: ${result.id}`);
+
+    return {
+      success: true,
+      paymentId: result.id,
+      mandateId: mandateId,
+      redirectUrl: "", // 不需要跳转
+      status: "payment_created",
+    };
+  }
+
+  /**
+   * 为 Bundle 创建新 mandate（授权成功后自动扣款）
+   */
+  private async createBundleMandateForPayment(request: MandateRequest): Promise<MandateResponse> {
+    try {
+      // 1. 创建 customer
+      const customerId = await this.createCustomer(request.userEmail, request.userUuid);
+
+      // 2. 创建 mandate（metadata 包含 interval="one-time" 标识为 Bundle）
+      const requestBody = {
+        payment_method: this.config.paymentMethods[request.paymentMethod] || request.paymentMethod,
+        terminal_type: "web",
+        return_url: request.returnUrl,
+        metadata: request.metadata || {},
+      };
+
+      console.log("📦 Creating bundle mandate:", JSON.stringify(requestBody, null, 2));
+
+      const response = await fetch(
+        `${this.config.v2.baseUrl}/v2/customers/${customerId}/mandates`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${this.config.v2.apiKey}`,
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
+
+      const result = await response.json();
+      console.log("Bundle mandate creation result:", JSON.stringify(result, null, 2));
+
+      if (result.error) {
+        return {
+          success: false,
+          errorMessage: result.error.message || "Mandate creation failed",
+        };
+      }
+
+      // 获取重定向URL
+      const redirectUrl = result.action?.redirect_to_url?.url;
+      const mandateStatus = this.normalizeMandateStatus(result.status);
+
+      // 3. 保存 mandate 到数据库
+      await insertPayssionMandate({
+        user_uuid: request.userUuid,
+        user_email: request.userEmail,
+        mandate_id: result.id,
+        status: mandateStatus,
+        payment_method: request.paymentMethod,
+        authorization_url: redirectUrl,
+      });
+
+      console.log(`📦 Bundle mandate created: ${result.id}, redirecting to authorization`);
+
+      // 4. 返回授权 URL
+      return {
+        success: true,
+        mandateId: result.id,
+        redirectUrl: redirectUrl,
+        status: mandateStatus,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        errorMessage: error.message || "Bundle mandate creation failed",
+      };
+    }
+  }
+
+  /**
    * 创建授权 (V2 API)
    */
   async createMandate(request: MandateRequest): Promise<MandateResponse> {
     try {
+      // 检查是否为 Bundle（一次性购买）
+      const isBundle = request.metadata?.interval === "one-time";
+
+      if (isBundle) {
+        // Bundle: 检查是否有现有 mandate
+        const existingMandate = await findActivePayssionMandateByUserUuid(
+          request.userUuid,
+          request.paymentMethod
+        );
+
+        if (existingMandate) {
+          // 有有效 mandate，直接扣款
+          console.log(`📦 Bundle purchase with existing mandate: ${existingMandate.mandate_id}`);
+          return await this.createBundlePaymentWithMandate(request, existingMandate.mandate_id);
+        }
+
+        // 无有效 mandate，创建新 mandate（授权成功后自动扣款）
+        console.log(`📦 Bundle purchase: creating new mandate for authorization`);
+        return await this.createBundleMandateForPayment(request);
+      }
+
+      // 以下是订阅 mandate 逻辑
+
       // 首先检查是否已有有效的授权记录
-      const { findActivePayssionMandateByUserUuid } = await import(
-        "@/models/payssionMandate"
-      );
-      const existingMandate = await findActivePayssionMandateByUserUuid(
+      const existingMandateForSubscription = await findActivePayssionMandateByUserUuid(
         request.userUuid,
         request.paymentMethod
       );
 
-      if (existingMandate) {
+      if (existingMandateForSubscription) {
         console.log(
           "Found existing active mandate:",
-          existingMandate.mandate_id,
+          existingMandateForSubscription.mandate_id,
           "Status:",
-          existingMandate.status,
+          existingMandateForSubscription.status,
           "Created:",
-          existingMandate.created_at
+          existingMandateForSubscription.created_at
         );
 
         // 直接使用现有授权创建订阅
@@ -111,7 +288,7 @@ export class PayssionProvider extends BasePaymentProvider {
           const subscriptionRequest: SubscriptionRequest = {
             userUuid: metadata.user_uuid,
             userEmail: metadata.user_email,
-            mandateId: existingMandate.mandate_id,
+            mandateId: existingMandateForSubscription.mandate_id,
             amount: parseFloat(metadata.amount) / 100, // 美分转美元
             currency: metadata.currency,
             interval: metadata.interval,
@@ -128,7 +305,7 @@ export class PayssionProvider extends BasePaymentProvider {
           console.log(
             "Attempting to create subscription with existing mandate:",
             {
-              mandateId: existingMandate.mandate_id,
+              mandateId: existingMandateForSubscription.mandate_id,
               amount: subscriptionRequest.amount,
               currency: subscriptionRequest.currency,
               interval: subscriptionRequest.interval,
@@ -142,7 +319,7 @@ export class PayssionProvider extends BasePaymentProvider {
           if (subscriptionResult.success) {
             return {
               success: true,
-              mandateId: existingMandate.mandate_id,
+              mandateId: existingMandateForSubscription.mandate_id,
               subscriptionId: subscriptionResult.subscriptionId,
               redirectUrl: "", // 不需要跳转
               status: "subscription_created",
@@ -151,7 +328,7 @@ export class PayssionProvider extends BasePaymentProvider {
             console.error(
               "❌ Failed to create subscription with existing mandate:",
               {
-                mandateId: existingMandate.mandate_id,
+                mandateId: existingMandateForSubscription.mandate_id,
                 error: subscriptionResult.errorMessage,
                 willCreateNewMandate: true,
               }
@@ -194,11 +371,20 @@ export class PayssionProvider extends BasePaymentProvider {
       // 获取重定向URL
       const redirectUrl = result.action?.redirect_to_url?.url;
 
+      const mandateStatus = this.normalizeMandateStatus(result.status);
+      if (result.status !== mandateStatus) {
+        console.log("Normalized mandate status:", {
+          from: result.status,
+          to: mandateStatus,
+          mandateId: result.id,
+        });
+      }
+
       await insertPayssionMandate({
         user_uuid: request.userUuid,
         user_email: request.userEmail,
         mandate_id: result.id,
-        status: result.status || "pending",
+        status: mandateStatus,
         payment_method: request.paymentMethod,
         authorization_url: redirectUrl,
       });
@@ -207,7 +393,7 @@ export class PayssionProvider extends BasePaymentProvider {
         success: true,
         mandateId: result.id,
         redirectUrl: redirectUrl,
-        status: result.status || "pending",
+        status: mandateStatus,
       };
     } catch (error: any) {
       return {
@@ -381,14 +567,16 @@ export class PayssionProvider extends BasePaymentProvider {
   }
 
   /**
-   * 处理授权成功事件 - 更新状态并自动创建订阅
+   * 处理授权成功事件 - 更新状态并自动创建订阅或 Bundle 支付
    */
   private async handleMandateSucceeded(data: any) {
     // V2 API webhook数据结构: data.object.id 才是mandate ID
     const mandateId = data.object?.id;
     const paymentMethod = data.object?.payment_method;
     const metadata = data.object?.metadata;
-    console.log("Mandate succeeded:", mandateId, paymentMethod);
+    const interval = metadata?.interval;
+
+    console.log("Mandate succeeded:", mandateId, paymentMethod, "interval:", interval);
 
     try {
       // 1. 更新授权状态和过期时间
@@ -400,38 +588,90 @@ export class PayssionProvider extends BasePaymentProvider {
         }`
       );
 
-      // 2. 根据 metadata 中的 interval 确定计划类型
-      const planType: "monthly" | "yearly" =
-        metadata.interval === "year" ? "yearly" : "monthly";
+      // 2. 根据 interval 判断是 Bundle 还是订阅
+      if (interval === "one-time") {
+        // Bundle：使用 mandate 直接扣款
+        console.log(`📦 Bundle mandate authorized, creating payment...`);
+        await this.createBundlePaymentAfterMandateAuthorized(mandateId, metadata, paymentMethod);
+      } else {
+        // 订阅：创建订阅
+        const planType: "monthly" | "yearly" =
+          interval === "year" ? "yearly" : "monthly";
 
-      const subscriptionRequest: SubscriptionRequest = {
-        userUuid: metadata.user_uuid,
-        userEmail: metadata.user_email,
-        mandateId: mandateId,
-        amount: parseFloat(metadata.amount) / 100, // 美分转美元
-        currency: metadata.currency,
-        interval: metadata.interval,
-        planType: planType,
-        paymentMethod: paymentMethod,
-        description: `Subscription for ${
-          metadata.product_name || metadata.product_id
-        }`,
-        returnUrl: this.config.subscription.defaultReturnUrl,
-        notifyUrl: this.config.subscription.webhookUrl,
-        metadata: metadata, // 传递完整的 metadata
-      };
+        const subscriptionRequest: SubscriptionRequest = {
+          userUuid: metadata.user_uuid,
+          userEmail: metadata.user_email,
+          mandateId: mandateId,
+          amount: parseFloat(metadata.amount) / 100, // 美分转美元
+          currency: metadata.currency,
+          interval: interval,
+          planType: planType,
+          paymentMethod: paymentMethod,
+          description: `Subscription for ${
+            metadata.product_name || metadata.product_id
+          }`,
+          returnUrl: this.config.subscription.defaultReturnUrl,
+          notifyUrl: this.config.subscription.webhookUrl,
+          metadata: metadata, // 传递完整的 metadata
+        };
 
-      const subscriptionResult = await this.createSubscription(
-        subscriptionRequest
-      );
+        const subscriptionResult = await this.createSubscription(
+          subscriptionRequest
+        );
 
-      console.log(
-        "Subscription creation result:",
-        JSON.stringify(subscriptionResult, null, 2)
-      );
+        console.log(
+          "Subscription creation result:",
+          JSON.stringify(subscriptionResult, null, 2)
+        );
+      }
     } catch (error: any) {
       console.error("Error handling mandate succeeded:", error);
     }
+  }
+
+  /**
+   * Mandate 授权成功后自动为 Bundle 创建支付
+   */
+  private async createBundlePaymentAfterMandateAuthorized(
+    mandateId: string,
+    metadata: any,
+    paymentMethod: string
+  ): Promise<void> {
+    const requestBody = {
+      payment_method: this.config.paymentMethods[paymentMethod] || paymentMethod,
+      amount: parseFloat(metadata.amount) / 100, // 美分转美元
+      currency: metadata.currency || "USD",
+      terminal_type: "web",
+      mandate_id: mandateId,
+      return_url: this.config.subscription.defaultReturnUrl,
+      metadata: metadata,
+    };
+
+    console.log("📦 Creating bundle payment after mandate authorized:", JSON.stringify(requestBody, null, 2));
+
+    const response = await fetch(`${this.config.v2.baseUrl}/v2/payments`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.config.v2.apiKey}`,
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    const result = await response.json();
+    console.log("Bundle payment after mandate result:", JSON.stringify(result, null, 2));
+
+    if (result.error) {
+      console.error(`❌ Bundle payment creation failed: ${result.error.message}`);
+      throw new PaymentError(
+        "BUNDLE_PAYMENT_FAILED",
+        result.error.message || "Bundle payment creation failed",
+        this.name
+      );
+    }
+
+    console.log(`✅ Bundle payment created: ${result.id}`);
+    // 支付创建后，Payssion 会发送 payment.succeeded webhook
   }
 
   /**
@@ -517,12 +757,120 @@ export class PayssionProvider extends BasePaymentProvider {
     if (subscription && subscription.status === "pending") {
       await updateSubscriptionStatus(subscriptionId, "active");
       console.log(`✅ Subscription ${subscriptionId} activated`);
+
+      // 取消用户其他订阅的自动续费（新订阅首次激活时）
+      try {
+        const cancelResult = await SubscriptionManagementService.cancelOtherSubscriptions(
+          subscription.user_uuid,
+          subscriptionId,
+          "payssion"
+        );
+        console.log(`✅ 其他订阅取消结果: canceled=${cancelResult.canceledCount}, failed=${cancelResult.failedCount}`);
+      } catch (cancelError: any) {
+        console.error("⚠️ 取消其他订阅失败（不影响新订阅）:", cancelError.message);
+      }
+    }
+
+    // 检测是否为续费支付
+    const isRenewal = subscription && subscription.status === "active";
+    let finalOrderNo = metadata.order_no;
+
+    if (isRenewal) {
+      // 创建续费订单
+      const renewalOrderNo = `RNW_${paymentId}`;
+
+      console.log("🔄 检测到续费支付，创建续费订单", {
+        originalOrderNo: metadata.order_no,
+        renewalOrderNo,
+        subscriptionId,
+      });
+
+      // 检查续费订单是否已创建（幂等性）
+      const { findOrderByOrderNo } = await import("@/models/order");
+      const renewalOrder = await findOrderByOrderNo(renewalOrderNo);
+
+      if (!renewalOrder) {
+        const { insertOrder } = await import("@/models/order");
+        const { getProductConfig } = await import("@/config/products");
+
+        if (!subscription.product_id) {
+          console.error("❌ 续费订单缺少 product_id", { subscription });
+          throw new Error("Renewal order missing product_id");
+        }
+
+        const productConfig = getProductConfig(subscription.product_id);
+
+        // 获取原订单的 client_id（用于 Yandex Metrica 追踪）
+        let clientId: string | undefined;
+        let originalFirstTouch = null;
+        let originalLastTouch = null;
+        if (metadata.order_no) {
+          const originalOrder = await findOrderByOrderNo(metadata.order_no);
+          clientId = originalOrder?.client_id || undefined; // 将 null 转换为 undefined
+          originalFirstTouch = originalOrder?.first_touch || null;
+          originalLastTouch = originalOrder?.last_touch || null;
+
+          if (!clientId) {
+            console.error("⚠️ 原订单缺少 client_id，续费订单将无法追踪转化", {
+              originalOrderNo: metadata.order_no,
+              renewalOrderNo,
+            });
+          }
+        }
+
+        // 计算到期时间
+        const currentDate = new Date();
+        const expiredDate = new Date(currentDate);
+        const validMonths = subscription.plan_type === "yearly" ? 12 : 1;
+        expiredDate.setMonth(currentDate.getMonth() + validMonths);
+        expiredDate.setTime(expiredDate.getTime() + 24 * 60 * 60 * 1000); // 延迟24小时
+
+        await insertOrder({
+          order_no: renewalOrderNo,
+          user_uuid: subscription.user_uuid,
+          user_email: metadata.user_email || "",
+          amount: subscription.amount,
+          currency: subscription.currency,
+          product_id: subscription.product_id,
+          product_name: subscription.product_name,
+          interval: subscription.plan_type === "yearly" ? "year" : "month",
+          expired_at: expiredDate.toISOString(),
+          status: "paid",
+          is_renewal: true,
+          payment_id: paymentId,
+          payment_provider: "payssion",
+          credits: productConfig?.credits || 0,
+          client_id: clientId, // 从原订单复制 client_id
+          first_touch: originalFirstTouch,
+          last_touch: originalLastTouch,
+          paid_at: new Date().toISOString(),
+          created_at: new Date().toISOString(),
+        });
+
+        console.log(`✅ 续费订单创建成功`, {
+          renewalOrderNo,
+          credits: productConfig?.credits || 0,
+        });
+      } else {
+        console.log(`ℹ️ 续费订单已存在，跳过创建`, { renewalOrderNo });
+      }
+
+      finalOrderNo = renewalOrderNo;
+    } else {
+      // 首次购买：更新原订单的 payment_id
+      const { updateOrderPaymentId } = await import("@/models/order");
+      await updateOrderPaymentId(metadata.order_no, paymentId);
+
+      console.log("✅ 首次购买订单 payment_id 已更新", {
+        orderNo: metadata.order_no,
+        paymentId: paymentId,
+      });
     }
 
     // 2. 处理支付并发放积分
     const processingResult = await PaymentProcessingService.processPayment({
       paymentId, // 实际的支付ID，不是 order_no
-      orderId: metadata.order_no, // 订单号
+      orderId: finalOrderNo, // 使用 finalOrderNo（续费时为 RNW_ 开头）
       userUuid: metadata.user_uuid,
       amount: amount.toString(),
       subscriptionId,
@@ -550,21 +898,28 @@ export class PayssionProvider extends BasePaymentProvider {
       );
       const { findOrderByOrderNo } = await import("@/models/order");
 
-      const order = await findOrderByOrderNo(metadata.order_no);
-      if (order?.client_id) {
+      // 使用 finalOrderNo（续费时为 RNW_xxx，首次购买为原订单号）
+      const orderToTrack = await findOrderByOrderNo(finalOrderNo);
+      if (orderToTrack?.client_id) {
         const success = await offlineConversionService.trackPaymentSuccess(
-          order.client_id,
-          metadata.order_no,
+          orderToTrack.client_id,
+          finalOrderNo, // 使用实际的订单号
           amount
         );
 
         if (success) {
           console.log(`✅ Offline conversion tracked for Yandex Metrica`, {
-            clientId: order.client_id,
-            orderNo: metadata.order_no,
+            clientId: orderToTrack.client_id,
+            orderNo: finalOrderNo,
             amount,
+            isRenewal,
           });
         }
+      } else {
+        console.error("⚠️ 订单缺少 client_id，无法追踪转化", {
+          orderNo: finalOrderNo,
+          isRenewal,
+        });
       }
     } catch (conversionError: any) {
       console.error(
@@ -698,6 +1053,16 @@ export class PayssionProvider extends BasePaymentProvider {
     const orderNo = metadata?.order_no;
     const failureCode = paymentObject?.failure_code || "unknown_error";
 
+    // 调试日志：检查 metadata 内容
+    console.log("🔍 handlePaymentFailed debug:", {
+      paymentId: paymentObject?.id,
+      subscriptionId,
+      orderNo,
+      metadataKeys: Object.keys(metadata),
+      hasOrderNo: !!orderNo,
+      failureCode,
+    });
+
     // Payssion 的 failure_message 形如 "insufficient_funds|payment_network"
     const rawFailureMessage = paymentObject?.failure_message || "";
     const [primaryMessage = failureCode] = rawFailureMessage.split("|");
@@ -741,6 +1106,8 @@ export class PayssionProvider extends BasePaymentProvider {
 
     if (orderNo) {
       try {
+        console.log(`📝 Recording payment failure for order: ${orderNo}`);
+
         const { recordOrderPaymentFailure } = await import("@/models/order");
         await recordOrderPaymentFailure(orderNo, {
           code: failureCode,
@@ -750,12 +1117,19 @@ export class PayssionProvider extends BasePaymentProvider {
           failureAt: paymentObject?.time_created,
           eventId: data.id,
         });
+
+        console.log(`✅ Payment failure recorded successfully for order: ${orderNo}`);
       } catch (error) {
         console.error("Failed to record payment failure on order", {
           orderNo,
           error,
         });
       }
+    } else {
+      console.error("❌ No orderNo found in metadata", {
+        subscriptionId,
+        metadataKeys: Object.keys(metadata),
+      });
     }
   }
 }

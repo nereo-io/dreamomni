@@ -11,11 +11,26 @@ import { useAppContext } from "@/contexts/app";
 import { CaptchaModal } from "@/components/ui/captcha-modal";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Image as ImageIcon, Coins, Wand2, X } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Coins, Wand2, ChevronRight } from "lucide-react";
 import useCredits from "@/hooks/useCredits";
-import { validateImage } from "@/config/image-validation-rules";
+import { ImageGridUploader } from "@/components/blocks/video-generator/ImageGridUploader";
+import {
+  IMAGE_MODELS,
+  getImageModel,
+  calculateImageCredits,
+  getMaxPromptLength,
+} from "@/config/image-models";
+import ImageAgentSection from "./ImageAgentSection";
+import { CreditsCostSection } from "@/components/blocks/common/CreditsCostSection";
 
-import type { ImageGenerationParams } from "../image-generator";
+import type { ImageGenerationParams } from "@/types/image.d";
 import type { ImageGenerationResult } from "@/hooks/useImageGeneration";
 import type { ImageGenerationResult as HistoryImageResult } from "../image-history";
 
@@ -26,8 +41,6 @@ interface ImageGenerationTabProps {
   promptValue?: string;
   onPromptChange?: (value: string) => void;
 }
-
-const MAX_PROMPT_LENGTH = 2000;
 
 // Helper function to map statuses between different types
 const mapStatusForHistory = (
@@ -84,14 +97,9 @@ export default function ImageGenerationTab({
   const [internalPrompt, setInternalPrompt] = useState("");
   const prompt = isControlledPrompt ? promptValue ?? "" : internalPrompt;
 
-  // Image upload states (only for image-to-image mode)
-  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  // Image upload state (only for image-to-image mode)
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  const [uploadingImages, setUploadingImages] = useState<Set<number>>(
-    new Set()
-  );
-  const [isDragOver, setIsDragOver] = useState(false);
+  const [sourceImageIds, setSourceImageIds] = useState<string[]>([]); // 来源图片ID追踪（My Creations）
 
   // CAPTCHA related states
   const [showCaptchaModal, setShowCaptchaModal] = useState(false);
@@ -100,24 +108,60 @@ export default function ImageGenerationTab({
 
   // Image generation settings
   const [outputFormat] = useState<"png" | "jpeg">("png"); // 默认使用 PNG，暂时不显示选择器
-  const [imageSize, setImageSize] = useState<
-    "auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9"
-  >("auto");
+  const [imageSize, setImageSize] = useState<string>("Auto"); // 默认 Auto
+
+  // Agent mode state
+  const [agentMode, setAgentMode] = useState(false);
+  const [agentImageCount, setAgentImageCount] = useState<6 | 9 | 12>(6);
+
+  // Model selection state
+  const isImageToImage = mode === "image-to-image";
+
+  // Get available models based on mode
+  const availableModels = Object.values(IMAGE_MODELS).filter((m) => {
+    if (isImageToImage) {
+      return (
+        m.features.includes("image-to-image") ||
+        m.features.includes("image-edit")
+      );
+    } else {
+      return m.features.includes("text-to-image");
+    }
+  });
+
+  const [selectedModel, setSelectedModel] = useState<string>(
+    () => availableModels[0]?.id || "nano-banana-pro"
+  );
+
+  // Pro model specific settings
+  const [aspectRatio, setAspectRatio] = useState<string>("1:1"); // Pro 模型默认 Auto
+  const [resolution, setResolution] = useState<string>("1K"); // Pro 模型默认 1K
 
   const cleanupFunctionsRef = useRef<Map<string, () => void>>(new Map());
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Mode-specific configuration
-  const isImageToImage = mode === "image-to-image";
-  const selectedModel = isImageToImage
-    ? "nano-banana-edit"
-    : "google/nano-banana";
-  const requiredCredits = 2;
+  // Get current model config
+  const currentModelConfig = getImageModel(selectedModel);
+
+  // Check if current model supports resolution selection (Pro models, Seedream, etc.)
+  const hasResolutionSupport =
+    currentModelConfig?.supportedResolutions &&
+    currentModelConfig.supportedResolutions.length > 0;
+
+  // Calculate required credits dynamically from config (支持分辨率的模型根据分辨率计费)
+  // Agent 模式下按图片数量计费
+  const creditsPerImage = calculateImageCredits(
+    selectedModel,
+    hasResolutionSupport ? resolution : undefined
+  );
+  const requiredCredits = agentMode
+    ? creditsPerImage * agentImageCount
+    : creditsPerImage;
 
   // 检查是否需要CAPTCHA验证（基于积分）
   const needsCaptcha = useCallback(() => {
-    // 新用户（积分<=10）需要CAPTCHA验证，防止薅羊毛
-    return user?.uuid && leftCredits !== null && leftCredits <= 10;
+    // 新用户（积分<=12）需要CAPTCHA验证，防止薅羊毛
+    return user?.uuid && leftCredits !== null && leftCredits <= 12;
   }, [user?.uuid, leftCredits]);
 
   // 页面加载时主动查询积分
@@ -151,12 +195,29 @@ export default function ImageGenerationTab({
     adjustTextareaHeight();
   }, [prompt]);
 
+  // 当模型切换时，确保分辨率和宽高比是当前模型支持的值
+  useEffect(() => {
+    // 同步分辨率
+    if (currentModelConfig?.supportedResolutions?.length) {
+      if (!currentModelConfig.supportedResolutions.includes(resolution)) {
+        setResolution(currentModelConfig.supportedResolutions[0]);
+      }
+    }
+    // 同步宽高比
+    if (currentModelConfig?.supportedAspectRatios?.length) {
+      if (!currentModelConfig.supportedAspectRatios.includes(aspectRatio)) {
+        setAspectRatio(currentModelConfig.supportedAspectRatios[0]);
+      }
+    }
+  }, [selectedModel, currentModelConfig?.supportedResolutions, currentModelConfig?.supportedAspectRatios, resolution, aspectRatio]);
+
+  // 获取当前模型的最大提示词长度
+  const maxPromptLength = getMaxPromptLength(selectedModel);
+  const isOverLimit = prompt.length > maxPromptLength;
+
   const handlePromptChange = useCallback(
     (value: string) => {
-      if (value.length > MAX_PROMPT_LENGTH) {
-        return;
-      }
-
+      // Allow typing over the limit to show error state
       if (isControlledPrompt) {
         onPromptChange?.(value);
       } else {
@@ -175,34 +236,8 @@ export default function ImageGenerationTab({
     ) => {
       handlePromptChange(value);
 
-      // For image-to-image mode, also load the image if provided
-      if (isImageToImage && imageUrl) {
-        try {
-          // Download the image through proxy to avoid CORS issues
-          const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(
-            imageUrl
-          )}`;
-          const response = await fetch(proxyUrl);
-          const blob = await response.blob();
-
-          // Create a File object from the blob
-          const fileName = imageUrl.split("/").pop() || "showcase-image.jpg";
-          const file = new File([blob], fileName, { type: blob.type });
-
-          // Create preview URL
-          const previewUrl = URL.createObjectURL(blob);
-
-          // Clear existing images and set the new one
-          setUploadedImages([file]);
-          setImagePreviews([previewUrl]);
-          setUploadedImageUrls([imageUrl]);
-
-          // toast.success(t("showcaseImageLoaded"));
-        } catch (error) {
-          console.error("Failed to load showcase image:", error);
-          toast.error(t("failedToLoadShowcaseImage"));
-        }
-      }
+      // Note: Image loading from showcase is now handled by ImageGridUploader
+      // For image-to-image mode, users need to manually upload the image
 
       requestAnimationFrame(() => {
         const textarea = textareaRef.current;
@@ -213,269 +248,36 @@ export default function ImageGenerationTab({
         }
       });
     },
-    [handlePromptChange, isImageToImage, t]
+    [handlePromptChange]
   );
 
-  // Handle image upload - support up to 5 images
-  const handleImageUpload = async (files: FileList) => {
-    if (!user?.uuid) {
-      setShowSignModal(true);
-      return;
-    }
-
-    const fileArray = Array.from(files);
-    const maxImages = 5;
-    const remainingSlots = maxImages - uploadedImages.length;
-
-    // Check if adding these files would exceed the limit
-    if (fileArray.length > remainingSlots) {
-      toast.error(t("maxImagesExceeded", { max: remainingSlots }));
-      return;
-    }
-
-    // Validate each file
-    for (const file of fileArray) {
-      const validationResult = await validateImage(file, selectedModel);
-      if (!validationResult.valid) {
-        toast.error(
-          validationResult.error || `Invalid image file: ${file.name}`
-        );
-        return;
-      }
-    }
-
-    // Start upload process
-    console.log("🔄 Starting image upload...");
-
-    // Add new images to state immediately for preview
-    const newImageIndices: number[] = [];
-    const newFiles: File[] = [];
-    const newPreviews: string[] = [];
-
-    for (let i = 0; i < fileArray.length; i++) {
-      const file = fileArray[i];
-      const newIndex = uploadedImages.length + i;
-      newImageIndices.push(newIndex);
-      newFiles.push(file);
-
-      // Generate preview immediately
-      const reader = new FileReader();
-      const preview = await new Promise<string>((resolve) => {
-        reader.onload = () => resolve(reader.result as string);
-        reader.readAsDataURL(file);
-      });
-      newPreviews.push(preview);
-    }
-
-    // Add new images to state
-    setUploadedImages((prev) => [...prev, ...newFiles]);
-    setImagePreviews((prev) => [...prev, ...newPreviews]);
-    setUploadingImages((prev) => new Set([...prev, ...newImageIndices]));
-
-    try {
-      const uploadPromises = fileArray.map(async (file, index) => {
-        const actualIndex = uploadedImages.length + index;
-
-        try {
-          const formData = new FormData();
-          formData.append("file", file);
-
-          const uploadResponse = await fetch("/api/upload", {
-            method: "POST",
-            body: formData,
-          });
-
-          const uploadResult = await uploadResponse.json();
-          if (uploadResult.code === 0) {
-            return { file, url: uploadResult.data.url, index: actualIndex };
-          } else {
-            throw new Error(uploadResult.message || "Upload failed");
-          }
-        } catch (error) {
-          // Remove from uploading state on error
-          setUploadingImages((prev) => {
-            const newSet = new Set(prev);
-            newSet.delete(actualIndex);
-            return newSet;
-          });
-          throw error;
-        }
-      });
-
-      const uploadResults = await Promise.all(uploadPromises);
-
-      // Update URLs
-      const newUrls = new Array(
-        uploadedImageUrls.length + fileArray.length
-      ).fill(null);
-      uploadResults.forEach((result) => {
-        newUrls[result.index] = result.url;
-      });
-
-      // Fill existing URLs
-      uploadedImageUrls.forEach((url, index) => {
-        if (url) newUrls[index] = url;
-      });
-
-      setUploadedImageUrls(newUrls.filter((url) => url !== null));
-
-      // Remove from uploading state
-      setUploadingImages((prev) => {
-        const newSet = new Set(prev);
-        newImageIndices.forEach((index) => newSet.delete(index));
-        return newSet;
-      });
-
-      toast.success(
-        t("imagesUploadedSuccessfully", { count: uploadResults.length })
+  // Handle image changes from ImageGridUploader
+  const handleImagesChange = useCallback(
+    (imageUrls: (string | null)[], sourceIds?: (string | null)[]) => {
+      const nextUrls = imageUrls.filter((url): url is string => !!url);
+      const nextSourceIds = (sourceIds || []).filter(
+        (id): id is string => !!id
       );
-    } catch (error) {
-      console.error("Upload error:", error);
-      toast.error(t("uploadFailed"));
+      setUploadedImageUrls(nextUrls);
+      setSourceImageIds(nextSourceIds); // 保存来源图片ID
+    },
+    []
+  );
 
-      // Remove failed images from state
-      setUploadedImages((prev) => prev.slice(0, uploadedImages.length));
-      setImagePreviews((prev) => prev.slice(0, imagePreviews.length));
-      setUploadingImages((prev) => {
-        const newSet = new Set(prev);
-        newImageIndices.forEach((index) => newSet.delete(index));
-        return newSet;
-      });
-    }
-  };
-
-  // Load data from localStorage on component mount
+  // Load prompt from localStorage on component mount
   useEffect(() => {
-    // Check if we're in a browser environment
-    if (typeof window !== "undefined") {
-      // For text-to-image mode
-      if (mode === "text-to-image") {
-        const savedPrompt = localStorage.getItem("modelLandingPagePrompt");
-        if (savedPrompt && !prompt.trim()) {
-          // Only set the prompt if it's empty
-          handlePromptChange(savedPrompt);
-          // Clear the saved data after using it
-          localStorage.removeItem("modelLandingPagePrompt");
-        }
-      }
-      // For image-to-image mode
-      else if (mode === "image-to-image") {
-        const savedImageData = localStorage.getItem("modelLandingPageImage");
-        console.log(
-          "Loading image from localStorage:",
-          !!savedImageData,
-          "Uploaded images count:",
-          uploadedImages.length
-        );
+    // Only run on client-side mount, not during SSR or hydration
+    if (typeof window === "undefined" || mode !== "text-to-image") return;
 
-        if (savedImageData) {
-          try {
-            // Create a Blob from the base64 data
-            console.log("Processing image data...");
-            const base64Part = savedImageData.split(",")[1];
-            const byteCharacters = atob(base64Part);
-            const byteNumbers = new Array(byteCharacters.length);
-            for (let i = 0; i < byteCharacters.length; i++) {
-              byteNumbers[i] = byteCharacters.charCodeAt(i);
-            }
-            const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], { type: "image/jpeg" });
-
-            // Create a File object from the blob
-            const file = new File([blob], "nano-banana-image.jpg", {
-              type: "image/jpeg",
-            });
-
-            console.log("Image file created:", file.name, file.size);
-
-            // Check if user is logged in before uploading
-            if (!user?.uuid) {
-              console.log("User not logged in, showing sign modal...");
-              // Just show preview without uploading
-              const previewUrl = URL.createObjectURL(blob);
-              setUploadedImages([file]);
-              setImagePreviews([previewUrl]);
-              setShowSignModal(true);
-            } else {
-              console.log("User logged in, creating FileList...");
-              // Create a FileList-like object
-              const fileList = new DataTransfer();
-              fileList.items.add(file);
-              console.log("User logged in, creating FileList...");
-              // Upload the image
-              console.log("Uploading image...");
-              handleImageUpload(fileList.files);
-            }
-
-            // Clear the saved data after using it
-            localStorage.removeItem("modelLandingPageImage");
-          } catch (error) {
-            console.error("Error processing image from localStorage:", error);
-            // Clear the invalid data
-            localStorage.removeItem("modelLandingPageImage");
-          }
-        }
-      }
+    const savedPrompt = localStorage.getItem("modelLandingPagePrompt");
+    if (savedPrompt && !internalPrompt.trim() && !promptValue?.trim()) {
+      // Only set the prompt if it's empty
+      handlePromptChange(savedPrompt);
+      // Clear the saved data after using it
+      localStorage.removeItem("modelLandingPagePrompt");
     }
-  }, [
-    mode,
-    user?.uuid,
-    prompt,
-    uploadedImages.length,
-    handlePromptChange,
-    handleImageUpload,
-  ]);
-
-  // Remove uploaded image
-  const removeImage = (index: number) => {
-    setUploadedImages((prev) => prev.filter((_, i) => i !== index));
-    setUploadedImageUrls((prev) => prev.filter((_, i) => i !== index));
-    setImagePreviews((prev) => prev.filter((_, i) => i !== index));
-    setUploadingImages((prev) => {
-      const newSet = new Set(prev);
-      newSet.delete(index);
-      // Adjust indices for remaining items
-      const adjustedSet = new Set<number>();
-      newSet.forEach((idx) => {
-        if (idx > index) {
-          adjustedSet.add(idx - 1);
-        } else if (idx < index) {
-          adjustedSet.add(idx);
-        }
-      });
-      return adjustedSet;
-    });
-  };
-
-  // Handle file input change
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      handleImageUpload(files);
-    }
-    // Clear the input value to allow selecting the same file again
-    e.target.value = "";
-  };
-
-  // Drag and drop handlers
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    const files = e.dataTransfer.files;
-    if (files && files.length > 0) {
-      handleImageUpload(files);
-    }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount
 
   // 处理CAPTCHA验证完成
   const handleCaptchaComplete = async (captchaToken: string) => {
@@ -510,6 +312,21 @@ export default function ImageGenerationTab({
 
       // Submit generation request
       const response = await submitGeneration(params);
+
+      // 超时处理：视为成功，刷新 history 获取最新状态
+      if (response.timeout) {
+        console.log("Request timed out, treating as success and refreshing history...");
+        toast.info(t("generationStarted"));
+        // 刷新 history 获取最新数据
+        setGenerationTrigger((prev) => prev + 1);
+        // 更新积分显示
+        try {
+          await updateLeftCredits();
+        } catch (error) {
+          console.error("Failed to update credits:", error);
+        }
+        return; // 正常结束
+      }
 
       if (!response?.success) {
         throw new Error(
@@ -617,9 +434,28 @@ export default function ImageGenerationTab({
         isImageToImage && uploadedImageUrls.length > 0
           ? uploadedImageUrls
           : undefined,
+      source_image_ids: sourceImageIds.length > 0 ? sourceImageIds : undefined, // 来源图片ID追踪
       enable_prompt_enhancement: false,
       output_format: outputFormat,
-      image_size: imageSize,
+      // 支持分辨率的模型使用 aspect_ratio 和 resolution，标准模型使用 image_size
+      ...(hasResolutionSupport
+        ? {
+            aspect_ratio: aspectRatio,
+            resolution: resolution,
+            image_input: isImageToImage ? uploadedImageUrls : [],
+          }
+        : {
+            image_size: imageSize.toLowerCase() as
+              | "auto"
+              | "1:1"
+              | "3:4"
+              | "9:16"
+              | "4:3"
+              | "16:9",
+          }),
+      // Agent 模式参数
+      agent_mode: agentMode,
+      agent_image_count: agentMode ? agentImageCount : undefined,
     };
 
     // 基于积分的CAPTCHA判断
@@ -653,6 +489,13 @@ export default function ImageGenerationTab({
       credits_used: requiredCredits,
       created_at: result.created_at || new Date().toISOString(),
       updated_at: result.updated_at || new Date().toISOString(),
+      // Agent 模式字段
+      is_agent_mode: result.is_agent_mode ?? params.agent_mode ?? false,
+      agent_image_count:
+        result.agent_image_count ?? params.agent_image_count ?? 0,
+      image_urls: result.image_urls || [],
+      image_urls_r2: result.image_urls_r2 || [],
+      metadata: result.metadata,
     };
 
     setNewImage(completedImageObj);
@@ -687,6 +530,11 @@ export default function ImageGenerationTab({
       credits_used: requiredCredits,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
+      // Agent 模式字段
+      is_agent_mode: params.agent_mode || false,
+      agent_image_count: params.agent_image_count || 0,
+      image_urls: [],
+      image_urls_r2: [],
     };
 
     setNewImage(pendingImageObj);
@@ -710,6 +558,13 @@ export default function ImageGenerationTab({
           credits_used: requiredCredits,
           created_at: result.created_at || new Date().toISOString(),
           updated_at: result.updated_at || new Date().toISOString(),
+          // Agent 模式字段 - 从轮询结果或原始参数获取
+          is_agent_mode: result.is_agent_mode ?? params.agent_mode ?? false,
+          agent_image_count:
+            result.agent_image_count ?? params.agent_image_count ?? 0,
+          image_urls: result.image_urls || [],
+          image_urls_r2: result.image_urls_r2 || [],
+          metadata: result.metadata,
         };
 
         setNewImage(updatedImageObj);
@@ -742,6 +597,13 @@ export default function ImageGenerationTab({
           credits_used: requiredCredits,
           created_at: result.created_at || new Date().toISOString(),
           updated_at: result.updated_at || new Date().toISOString(),
+          // Agent 模式字段
+          is_agent_mode: result.is_agent_mode ?? params.agent_mode ?? false,
+          agent_image_count:
+            result.agent_image_count ?? params.agent_image_count ?? 0,
+          image_urls: result.image_urls || [],
+          image_urls_r2: result.image_urls_r2 || [],
+          metadata: result.metadata,
         };
 
         setNewImage(completedImageObj);
@@ -786,6 +648,11 @@ export default function ImageGenerationTab({
           credits_used: 0, // No credits used on failure
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
+          // Agent 模式字段
+          is_agent_mode: params.agent_mode || false,
+          agent_image_count: params.agent_image_count || 0,
+          image_urls: [],
+          image_urls_r2: [],
         };
 
         setNewImage(errorImageObj);
@@ -829,150 +696,30 @@ export default function ImageGenerationTab({
           <div className="space-y-4 md:space-y-5 px-4 md:px-6 py-4 md:py-5">
             {/* Image Upload Section (only for image-to-image) */}
             {isImageToImage && (
-              <div>
-                <div className="text-white text-lg font-semibold mb-4">
-                  {t("images")} ({uploadedImages.length}/5)
-                </div>
-                {uploadedImages.length === 0 ? (
-                  <div
-                    className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer ${
-                      isDragOver
-                        ? "border-blue-400 bg-blue-900/50"
-                        : "border-gray-600 hover:border-gray-500"
-                    }`}
-                    onDragOver={handleDragOver}
-                    onDragLeave={handleDragLeave}
-                    onDrop={handleDrop}
-                    onClick={() => {
-                      const input = document.getElementById(
-                        "image-upload"
-                      ) as HTMLInputElement;
-                      if (input) {
-                        const remainingSlots = 5 - uploadedImages.length;
-                        input.setAttribute(
-                          "data-max-files",
-                          remainingSlots.toString()
-                        );
-                        input.click();
-                      }
-                    }}
-                  >
-                    <input
-                      id="image-upload"
-                      type="file"
-                      accept="image/*"
-                      multiple
-                      onChange={handleFileInputChange}
-                      className="hidden"
-                    />
-                    <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                    <div className="space-y-2">
-                      <p className="text-sm text-gray-300 px-2 text-center">
-                        {t("clickToUploadMultiple")}
-                      </p>
-                      <p className="text-xs text-gray-400 px-2 text-center">
-                        {t("maxImages", { max: 5 })} -{" "}
-                        {t("canUpload", { count: 5 })}
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      {uploadedImages.map((image, index) => {
-                        const isUploading = uploadingImages.has(index);
-                        return (
-                          <div key={index} className="relative">
-                            <img
-                              src={imagePreviews[index] || ""}
-                              alt={`Uploaded ${index + 1}`}
-                              className="w-full h-32 object-contain rounded-lg bg-gray-800"
-                            />
-                            {!isUploading && (
-                              <button
-                                onClick={() => removeImage(index)}
-                                className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
-                              >
-                                <X className="h-4 w-4" />
-                              </button>
-                            )}
-                            {isUploading && (
-                              <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
-                                <div className="flex flex-col items-center gap-2">
-                                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                                  <span className="text-white text-sm">
-                                    {t("uploading")}
-                                  </span>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                    {uploadedImages.length < 5 && (
-                      <div
-                        className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors cursor-pointer ${
-                          isDragOver
-                            ? "border-blue-400 bg-blue-900/50"
-                            : "border-gray-600 hover:border-gray-500"
-                        }`}
-                        onDragOver={handleDragOver}
-                        onDragLeave={handleDragLeave}
-                        onDrop={handleDrop}
-                        onClick={() => {
-                          const input = document.getElementById(
-                            "image-upload-more"
-                          ) as HTMLInputElement;
-                          if (input) {
-                            const remainingSlots = 5 - uploadedImages.length;
-                            input.setAttribute(
-                              "data-max-files",
-                              remainingSlots.toString()
-                            );
-                            input.click();
-                          }
-                        }}
-                      >
-                        <input
-                          id="image-upload-more"
-                          type="file"
-                          accept="image/*"
-                          multiple
-                          onChange={handleFileInputChange}
-                          className="hidden"
-                        />
-                        <div className="flex flex-col items-center space-y-2">
-                          <ImageIcon className="h-6 w-6 text-gray-400" />
-                          <p className="text-gray-400 text-sm">
-                            {t("addMoreImages")}
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            {t("canUpload", {
-                              count: 5 - uploadedImages.length,
-                            })}
-                            {uploadingImages.size > 0 && (
-                              <span className="ml-2 text-blue-400">
-                                ({uploadingImages.size} {t("uploading")})
-                              </span>
-                            )}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+              <ImageGridUploader
+                maxImages={currentModelConfig?.maxInputImages || 5}
+                selectedModel={selectedModel}
+                onImagesChange={handleImagesChange}
+                isAuthenticated={!!user?.uuid}
+                onShowSignModal={() => setShowSignModal(true)}
+              />
             )}
 
             {/* Prompt Input */}
             <div>
-              <div className="flex justify-between items-center text-white text-lg font-semibold mb-4">
+              <div className="flex justify-between items-center text-white text-lg font-semibold mb-3">
                 <span>{t("prompt")}</span>
-                {prompt.length > 900 && (
-                  <span className="text-sm font-normal text-gray-400">
-                    {prompt.length}/{MAX_PROMPT_LENGTH}
-                  </span>
+                {prompt.length > 0 && (
+                  <div className="flex items-center text-sm font-normal gap-0.5">
+                    <span
+                      className={
+                        isOverLimit ? "text-red-500 font-bold" : "text-gray-400"
+                      }
+                    >
+                      {prompt.length}
+                    </span>
+                    <span className="text-gray-500">/{maxPromptLength}</span>
+                  </div>
                 )}
               </div>
               <Textarea
@@ -986,11 +733,23 @@ export default function ImageGenerationTab({
                     ? t("imageToImagePlaceholder")
                     : t("textToImagePlaceholder"))
                 }
-                className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
-                style={{ minHeight: "150px", maxHeight: "300px" }}
+                className={`resize-none bg-gray-800 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto ${
+                  isOverLimit
+                    ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-0"
+                    : "border-gray-600"
+                }`}
+                style={{ minHeight: "128px", maxHeight: "255px" }}
                 disabled={isGenerating}
-                maxLength={MAX_PROMPT_LENGTH}
+                // maxLength limit removed to allow user to perceive the overflow
               />
+              {isOverLimit && (
+                <div className="text-red-500 text-xs mt-1.5 font-medium flex justify-end items-center gap-1">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500" />
+                  {t("promptTooLong", {
+                    count: prompt.length - maxPromptLength,
+                  })}
+                </div>
+              )}
             </div>
 
             {/* Settings */}
@@ -999,27 +758,63 @@ export default function ImageGenerationTab({
                 {t("settings")}
               </div>
 
-              {/* AI Model Display */}
+              {/* Model Selection - Dropdown Style */}
               <div className="mb-4">
                 <label className="text-gray-300 text-sm mb-2 block">
                   {t("model")}
                 </label>
-                <div className="bg-gray-800 border border-gray-700 rounded-md px-3 py-2">
-                  <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 flex-shrink-0 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                      <span className="text-sm font-bold text-white">🍌</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium text-gray-100">
-                        {t("nanoBananaDisplayName")}
-                        {isImageToImage ? " Edit" : ""}
-                      </span>
-                      <div className="flex items-center gap-1 text-xs text-blue-300">
-                        <Coins className="h-3 w-3" />2 credits
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Select value={selectedModel} onValueChange={setSelectedModel}>
+                  <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                    <SelectValue placeholder={t("model")}>
+                      {currentModelConfig && (
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 h-5 flex-shrink-0 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                            <span className="text-xs">🍌</span>
+                          </div>
+                          <span className="font-medium">
+                            {currentModelConfig.displayName}
+                          </span>
+                          {currentModelConfig.id === "nano-banana-pro" && (
+                            <span className="text-xs bg-gradient-to-r from-red-500 to-orange-500 text-white px-1.5 py-0.5 rounded">
+                              HOT
+                            </span>
+                          )}
+                          <div className="flex items-center gap-1 text-xs text-blue-300 ml-auto">
+                            <Coins className="h-3 w-3" />
+                            {currentModelConfig.credits}
+                          </div>
+                        </div>
+                      )}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableModels.map((model) => (
+                      <SelectItem key={model.id} value={model.id}>
+                        <div className="flex items-center gap-3 w-full py-1">
+                          <div className="w-5 h-5 flex-shrink-0 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                            <span className="text-xs">🍌</span>
+                          </div>
+                          <div className="flex flex-col">
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium text-gray-100">
+                                {model.displayName}
+                              </span>
+                              {model.id === "nano-banana-pro" && (
+                                <span className="text-xs bg-gradient-to-r from-red-500 to-orange-500 text-white px-1.5 py-0.5 rounded">
+                                  HOT
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-1 text-xs text-blue-300">
+                              <Coins className="h-3 w-3" />
+                              {model.credits} credits
+                            </div>
+                          </div>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Output Format - 暂时注释掉，默认使用 PNG */}
@@ -1058,74 +853,124 @@ export default function ImageGenerationTab({
                 </div>
               </div> */}
 
-              {/* Image Size Ratio - 暂时隐藏，用户不能选择图片比例 */}
+              {/* Resolution Selector for models that support it */}
+              {hasResolutionSupport && (
+                <div className="mb-4">
+                  <label className="text-gray-300 text-sm mb-2 block">
+                    {t("resolution")}
+                  </label>
+                  <div className="flex flex-wrap gap-3">
+                    {currentModelConfig?.supportedResolutions?.map((res) => (
+                      <label
+                        key={res}
+                        className="flex items-center cursor-pointer min-w-0"
+                      >
+                        <input
+                          type="radio"
+                          name="resolution"
+                          value={res}
+                          checked={resolution === res}
+                          onChange={(e) => setResolution(e.target.value)}
+                          className="sr-only"
+                        />
+                        <div
+                          className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
+                            resolution === res
+                              ? "border-primary bg-primary"
+                              : "border-gray-500"
+                          }`}
+                        >
+                          {resolution === res && (
+                            <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                          )}
+                        </div>
+                        <span className="text-gray-300 text-sm font-medium">
+                          {res}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Ratio Selector - all from config */}
               <div className="mb-4">
                 <label className="text-gray-300 text-sm mb-2 block">
-                  {t("imageSize")}
+                  {t("ratio")}
                 </label>
-                <div className="flex flex-wrap gap-3 sm:gap-6">
-                  {[
-                    { value: "auto", label: "Auto" },
-                    { value: "1:1", label: "1:1" },
-                    { value: "3:4", label: "3:4" },
-                    { value: "9:16", label: "9:16" },
-                    { value: "4:3", label: "4:3" },
-                    { value: "16:9", label: "16:9" },
-                  ].map((size) => (
+                <div className="flex flex-wrap gap-x-6 gap-y-3">
+                  {currentModelConfig?.supportedAspectRatios.map((ratio) => (
                     <label
-                      key={size.value}
+                      key={ratio}
                       className="flex items-center cursor-pointer min-w-0"
                     >
                       <input
                         type="radio"
-                        name="imageSize"
-                        value={size.value}
-                        checked={imageSize === size.value}
-                        onChange={(e) =>
-                          setImageSize(e.target.value as typeof imageSize)
+                        name="ratio"
+                        value={ratio}
+                        checked={
+                          hasResolutionSupport
+                            ? aspectRatio === ratio
+                            : imageSize === ratio
                         }
+                        onChange={(e) => {
+                          if (hasResolutionSupport) {
+                            setAspectRatio(e.target.value);
+                          } else {
+                            setImageSize(e.target.value as typeof imageSize);
+                          }
+                        }}
                         className="sr-only"
                       />
                       <div
                         className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
-                          imageSize === size.value
+                          (
+                            hasResolutionSupport
+                              ? aspectRatio === ratio
+                              : imageSize === ratio
+                          )
                             ? "border-primary bg-primary"
                             : "border-gray-500"
                         }`}
                       >
-                        {imageSize === size.value && (
+                        {(hasResolutionSupport
+                          ? aspectRatio === ratio
+                          : imageSize === ratio) && (
                           <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
                         )}
                       </div>
-                      <span className="text-gray-300 text-sm">
-                        {size.label}
-                      </span>
+                      <span className="text-gray-300 text-sm">{ratio}</span>
                     </label>
                   ))}
                 </div>
               </div>
 
-              {/* Credits and Cost */}
-              <div className="bg-gray-800 rounded-lg p-4 mb-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <div className="text-gray-300 mb-1">
-                      {t("credits")}: {leftCredits !== null ? leftCredits : "-"}
-                    </div>
-                    <div className="text-gray-300">
-                      {t("cost")}: {requiredCredits} ⚡
-                    </div>
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="bg-transparent border-gray-600 text-gray-300 hover:bg-gray-700"
-                    onClick={() => setShowPricingModal(true)}
-                  >
-                    {t("recharge")}
-                  </Button>
-                </div>
+              {/* Image Agent - 多角度批量生成 */}
+              <div className="mb-4">
+                <ImageAgentSection
+                  agentMode={agentMode}
+                  onAgentModeChange={setAgentMode}
+                  imageCount={agentImageCount}
+                  onImageCountChange={(count) =>
+                    setAgentImageCount(count as 6 | 9 | 12)
+                  }
+                  creditsPerImage={creditsPerImage}
+                  disabled={isGenerating}
+                />
               </div>
+
+              {/* Credits and Cost */}
+              <CreditsCostSection
+                leftCredits={leftCredits}
+                estimatedCost={requiredCredits}
+                onShowPricing={() => setShowPricingModal(true)}
+                labels={{
+                  credits: t("credits"),
+                  cost: t("cost"),
+                  recharge: t("recharge"),
+                }}
+                className="mb-4"
+              />
             </div>
           </div>
         </div>
@@ -1137,6 +982,7 @@ export default function ImageGenerationTab({
             disabled={
               isGenerating ||
               !prompt.trim() ||
+              isOverLimit ||
               (isImageToImage && uploadedImageUrls.length === 0) ||
               (leftCredits !== null && leftCredits < requiredCredits)
             }
@@ -1151,7 +997,13 @@ export default function ImageGenerationTab({
               <>
                 <Wand2 className="h-4 w-4 mr-2" />
                 <span className="truncate">
-                  {isImageToImage ? t("transformImage") : t("generateImage")}
+                  {agentMode
+                    ? isImageToImage
+                      ? t("transformMultipleImages", { count: agentImageCount })
+                      : t("generateMultipleImages", { count: agentImageCount })
+                    : isImageToImage
+                    ? t("transformImage")
+                    : t("generateImage")}
                 </span>
               </>
             )}

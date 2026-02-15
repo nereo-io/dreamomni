@@ -37,10 +37,17 @@ export interface ImageGeneration {
   negative_prompt?: string | null;     // 负面提示词
   mode: ImageGenerationMode;           // 生成模式
   source: ImageGenerationSource;       // 创建来源
+
+  // Agent 模式相关字段
+  is_agent_mode?: boolean;             // 是否为 Agent 模式（多角度批量生成）
+  agent_image_count?: number | null;   // Agent 模式生成数量 (6, 9, 12)
+  expanded_prompts?: string[] | null;  // Agent 模式扩展后的提示词数组
+  agent_shot_id?: string | null;       // Python Agent 关联的 shot ID
   
   // 输入图片相关 (for image-edit, image-to-image modes)
   input_image_urls?: string[] | null;  // 输入图片URL数组 (JSONB)
   input_image_count?: number | null;   // 输入图片数量
+  source_image_ids?: string[] | null;  // 来源图片ID数组（追踪"My Creations"选择）
   
   // 生成参数
   aspect_ratio?: string | null;        // 宽高比 "1:1", "16:9", "9:16"
@@ -96,6 +103,7 @@ export interface CreateImageGenerationParams {
   provider_task_id?: string;
   provider: string;
   input_image_urls?: string[];
+  source_image_ids?: string[]; // 新增：来源图片ID数组（追踪"My Creations"选择）
   aspect_ratio?: string;
   quality?: string;
   style?: string;
@@ -110,9 +118,15 @@ export interface CreateImageGenerationParams {
   is_delete?: boolean;
   metadata?: any;
   tags?: string[];
+  // Agent 模式相关
+  is_agent_mode?: boolean;
+  agent_image_count?: number;
+  expanded_prompts?: string[];
+  agent_shot_id?: string;
 }
 
 export interface UpdateImageGenerationParams {
+  provider?: string;
   provider_task_id?: string;
   status?: ImageGenerationStatus;
   optimized_prompt?: string;
@@ -125,6 +139,12 @@ export interface UpdateImageGenerationParams {
   metrics?: any;
   metadata?: any;
   completed_at?: string;
+  credits_used?: number;
+  // Agent 模式相关
+  is_agent_mode?: boolean;
+  agent_image_count?: number;
+  expanded_prompts?: string[];
+  agent_shot_id?: string;
 }
 
 // 图片生成统计
@@ -153,6 +173,31 @@ export interface ImageGenerationRequest {
   height?: number;
 }
 
+// 前端图片生成参数 - 支持多AI服务提供商
+export interface ImageGenerationParams {
+  model: string;
+  prompt: string;
+  mode: "text-to-image" | "image-edit";
+  provider?: string;                    // AI服务提供商
+  image_urls?: string[];                // 仅在 image-edit 模式下使用
+  source_image_ids?: string[];          // 来源图片ID追踪（从 My Creations 选择的图片）
+  negative_prompt?: string;
+  aspect_ratio?: string;
+  resolution?: string;                  // Pro 模型分辨率 (1K, 2K, 4K)
+  quality?: string;
+  style?: string;
+  seed?: number;
+  // Nano Banana API支持的新参数
+  output_format?: "png" | "jpeg";       // 输出格式
+  image_size?: "auto" | "1:1" | "3:4" | "9:16" | "4:3" | "16:9"; // 图片尺寸比例
+  image_input?: string[];               // Pro 模型图生图输入
+  enable_prompt_enhancement?: boolean;  // Prompt Enhancement 开关
+  captchaToken?: string;                // CAPTCHA验证令牌
+  // Agent 模式参数
+  agent_mode?: boolean;                 // 是否开启 Agent 模式
+  agent_image_count?: number;           // Agent 模式生成数量 (6, 9, 12)
+}
+
 // 历史记录显示接口
 export interface ImageGenerationHistoryItem {
   id: string;
@@ -166,11 +211,16 @@ export interface ImageGenerationHistoryItem {
   mode: ImageGenerationMode;
   source: ImageGenerationSource;
   provider: string;
+  aspect_ratio?: string; // 图片宽高比 (如 "1:1", "4:3", "16:9")
   credits_used: number;
   created_at: string;
   updated_at: string;
   error_message?: string;
   metadata?: any; // 元数据
+  // Agent 模式相关
+  is_agent_mode?: boolean;
+  agent_image_count?: number;
+  expanded_prompts?: string[];
 }
 
 // 提供商专用扩展接口（示例）

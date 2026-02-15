@@ -1,0 +1,145 @@
+{
+  "faq": {
+    "title": "Questions fréquentes",
+    "description": "Trouvez des réponses aux questions courantes sur notre service de génération vidéo IA à partir d'images.",
+    "items": [
+      {
+        "id": "what-is-image-to-video",
+        "question": "Qu'est-ce qu'un générateur vidéo IA à partir d'images ?",
+        "answer": "Un générateur vidéo IA à partir d'images est un outil qui utilise l'intelligence artificielle pour animer des images statiques et créer de courts clips vidéo. Il analyse votre image téléchargée et la transforme en mouvement dynamique basé sur vos descriptions textuelles ou sur la compréhension automatique de la scène."
+      },
+      {
+        "id": "best-image-to-video-generator",
+        "question": "Quel est le meilleur générateur vidéo IA image vers vidéo ?",
+        "answer": "Seedance offre l'un des générateurs image vers vidéo les plus avancés avec une sortie de haute qualité, un mouvement réaliste et la prise en charge de divers formats d'image. Nos modèles IA sont formés sur des millions de vidéos pour garantir des animations d'apparence naturelle et des transitions fluides."
+      },
+      {
+        "id": "what-makes-us-stand-out",
+        "question": "Qu'est-ce qui distingue le générateur image vers vidéo de Seedance ?",
+        "answer": "Notre générateur se distingue par ses modèles IA avancés, sa sortie haute résolution jusqu'à 1080p, sa physique de mouvement naturelle et sa capacité à comprendre des descriptions complexes. Nous offrons également des temps de traitement rapides, des droits d'usage commercial et la prise en charge de divers styles d'images."
+      },
+      {
+        "id": "what-images-can-work-with",
+        "question": "Quels types d'images fonctionnent le mieux avec Seedance ?",
+        "answer": "Seedance fonctionne avec la plupart des formats d'image, y compris JPG, PNG et WEBP. Nous prenons en charge les photos de personnes, d'animaux, de paysages, d'objets et d'œuvres d'art. Pour de meilleurs résultats, utilisez des images de haute qualité avec des sujets clairs et un bon éclairage."
+      },
+      {
+        "id": "is-image-to-video-free",
+        "question": "Le générateur image vers vidéo de Seedance est-il gratuit ?",
+        "answer": "Seedance propose des options gratuites et premium. Les nouveaux utilisateurs reçoivent des crédits gratuits pour essayer le service. Pour une utilisation régulière, nous proposons des plans d'abonnement abordables avec plus de crédits et des fonctionnalités avancées comme des résolutions plus élevées et des vidéos plus longues."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Donnez vie à vos images statiques !",
+    "description": "Transformez n'importe quelle photo en une vidéo époustouflante avec notre générateur vidéo IA à partir d'images. Téléchargez votre image et regardez-la prendre vie en quelques secondes.",
+    "buttonText": "Essayer le générateur image vers vidéo"
+  },
+  "aiModelsHero": {
+    "title": "Générateur image vers vidéo IA tout-en-un",
+    "description": "Seedance est le générateur vidéo AI tout-en-un ultime. Nous offrons un accès aux modèles vidéo leaders de l'industrie, y compris Sora 2, Veo3 et Seedance, le tout en un seul endroit. Essayez-les de manière transparente et créez des visuels époustouflants sans jongler entre plusieurs plateformes !",
+    "models": [
+      {
+        "id": "sora2",
+        "name": "Sora 2",
+        "logo": "/imgs/intro/sora.png"
+      },
+      {
+        "id": "veo3",
+        "name": "Veo 3",
+        "logo": "/imgs/intro/veo.svg"
+      },
+      {
+        "id": "seedance",
+        "name": "Seedance",
+        "logo": "/imgs/intro/seedance.png"
+      }
+    ],
+    "moreModels": "Plus de modèles"
+  },
+  "imageToVideoShowcase": {
+    "title": "Animez vos images avec notre générateur vidéo IA à partir d'images",
+    "description": "Transformez n'importe quelle image statique en une histoire vivante avec Seedance ! Générez des vidéos créatives à partir de vos photos téléchargées avec notre générateur intelligent image vers vidéo IA. Que vous souhaitiez créer une scène réaliste ou une animation, Seedance peut la produire rapidement et comme vous le souhaitez.",
+    "labels": {
+      "originalImage": "Image originale",
+      "prompt": "Description",
+      "video": "Vidéo"
+    },
+    "examples": [
+      {
+        "id": "anime-girl",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Anime-Shooting.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Shooting.mp4",
+        "originalAlt": "Archère elfe en armure verte avec un arc long bandé",
+        "videoAlt": "Flèche verte lumineuse traversant une forêt ensoleillée",
+        "prompt": "Une archère elfe en armure verte, arc long bandé, affiche un sourire mystérieux. Ses cheveux dorés ondulent naturellement dans la brise. Un travelling vertical tourne derrière elle tandis qu’une flèche verte lumineuse est décochée en douceur. La caméra suit sa trajectoire à travers une forêt dense, la lumière du soleil filtrant entre les feuilles crée des taches de lumière dansantes. La prise de vue à l’épaule donne une sensation de poursuite dynamique."
+      },
+      {
+        "id": "pastoral-boy",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.mp4",
+        "originalAlt": "Garçon dans un champ pastoral avec de la paille",
+        "videoAlt": "La caméra tourne autour d’un garçon tandis que la paille ondule au vent",
+        "prompt": "La caméra tourne autour du garçon dans le cadre, l’environnement alentour se déplace naturellement, la paille ondule au vent et le garçon regarde au loin."
+      },
+      {
+        "id": "Selfie-cat",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.mp4",
+        "originalAlt": "Chat pilotant un avion de chasse",
+        "videoAlt": "Chat pilote un avion de chasse dans le ciel",
+        "prompt": "Caméra à l'épaule, légèrement tremblante, le chat pilote un avion de chasse qui plane dans le ciel, la caméra est toujours placée devant le chat."
+      },
+      {
+        "id": "motorcycle",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Astronaut-Looking-at-Earth.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
+        "originalAlt": "Moto prête à accélérer",
+        "videoAlt": "Moto accélérant avec traînée lumineuse",
+        "prompt": "La moto accélère et le feu arrière devient une ligne.",
+        "promptExpandable": false
+      }
+    ]
+  },
+  "creatorShowcase": {
+    "title": "Parfait pour chaque créateur image vers vidéo",
+    "creatorTypes": [
+      {
+        "id": "photographers",
+        "name": "Photographes",
+        "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Photographe professionnel avec appareil photo capturant des moments créatifs",
+        "title": "Transformez des photos en histoires cinématographiques",
+        "description": "Donnez vie à votre portfolio de photographie en animant des images statiques. Créez de superbes récits visuels et présentez votre travail de nouvelles manières dynamiques qui captivent les audiences.",
+        "badge": "Photographes"
+      },
+      {
+        "id": "social-media-managers",
+        "name": "Gestionnaires de médias sociaux",
+        "image": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Professionnel des médias sociaux gérant du contenu sur plusieurs plateformes",
+        "title": "Créez du contenu social engageant à partir d'images",
+        "description": "Transformez les publications statiques en vidéos accrocheuses qui augmentent les taux d'engagement. Convertissez les ressources d'images existantes en contenu dynamique qui se démarque dans les flux sociaux encombrés.",
+        "badge": "Gestionnaires de médias sociaux"
+      },
+      {
+        "id": "e-commerce",
+        "name": "Marques E-commerce",
+        "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Professionnel du commerce électronique présentant des produits dans un environnement de vente au détail moderne",
+        "title": "Présentez des produits avec des vidéos dynamiques",
+        "description": "Convertissez les photos de produits en démonstrations vidéo convaincantes. Augmentez les taux de conversion en montrant les produits en action et en créant des expériences d'achat immersives.",
+        "badge": "Marques E-commerce"
+      },
+      {
+        "id": "artists",
+        "name": "Artistes numériques",
+        "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=600&h=400&fit=crop&q=80",
+        "imageAlt": "Artiste numérique travaillant sur des projets créatifs avec des outils de conception avancés",
+        "title": "Animez des œuvres d'art et des illustrations",
+        "description": "Donnez vie à l'art numérique et aux illustrations avec du mouvement. Créez des portfolios animés, présentez des processus créatifs et ajoutez du mouvement aux créations artistiques statiques.",
+        "badge": "Artistes numériques"
+      }
+    ]
+  }
+}

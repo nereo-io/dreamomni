@@ -1,0 +1,16 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "boom-drop-1",
+        "title": "BOOM DROP",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/boom-drop_cover.webp?v=1756603064796",
+        "preview_gif": "https://r2.veo3ai.io/effects-optimized/boom-drop_preview.gif?v=1756600362677"
+      }
+    ],
+    "form": {
+      "title": "BOOM DROP",
+      "backgroundImage": "https://media.pixverse.ai/asset%2Ftemplate%2Fweb_explode_250520.png"
+    }
+  }
+}

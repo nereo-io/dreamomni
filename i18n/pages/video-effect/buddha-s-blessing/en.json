@@ -1,0 +1,16 @@
+{
+  "tool": {
+    "showcaseItems": [
+      {
+        "id": "buddha-s-blessing-1",
+        "title": "Buddha's Blessing",
+        "imageUrl": "https://r2.veo3ai.io/effects-optimized/buddha-s-blessing_cover.webp?v=1756603067548",
+        "preview_gif": "https://r2.veo3ai.io/effects-optimized/buddha-s-blessing_preview.gif?v=1756600362677"
+      }
+    ],
+    "form": {
+      "title": "Buddha's Blessing",
+      "backgroundImage": "https://media.pixverse.ai/asset/template/web_buddha_250814.jpg"
+    }
+  }
+}

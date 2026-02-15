@@ -1,0 +1,261 @@
+{
+  "banner": {
+    "title": "Wan 2.5 AI Video Modell",
+    "description": "Wan 2.5 ist das Wan AI Video-Modell, jetzt auf Seedance Video Generator. Seine bemerkenswertesten Verbesserungen liegen in der Einführung der nativen Audio-Generierung und des benutzerdefinierten Audio-Uploads, gepaart mit verbesserter Motion-Physik, Prompt-Bewusstsein und visueller Reichhaltigkeit. Probieren Sie Wan 2.5 kostenlos!",
+    "tabs": [
+      {
+        "type": "image",
+        "title": "Bild zu Video",
+        "subTitle": "Bild",
+        "value": "image-to-video",
+        "modelName": "Wan 2.5",
+        "modelLogo": "https://videocdn.pollo.ai/model-icon/svg/Group.svg",
+        "placeholder": "Ziehen Sie ein Bild hierher oder klicken Sie zum Auswählen",
+        "tips": "Laden Sie JPG/PNG/WEBP-Bilder bis 10 MB mit einer Mindestbreite/-höhe von 300 px hoch.",
+        "buttonText": "Erstellen"
+      },
+      {
+        "type": "text",
+        "title": "Text zu Video",
+        "subTitle": "Prompt",
+        "value": "text-to-video",
+        "modelName": "Wan 2.5",
+        "modelLogo": "https://videocdn.pollo.ai/model-icon/svg/Group.svg",
+        "placeholder": "Was möchten Sie erstellen?",
+        "buttonText": "Erstellen"
+      }
+    ]
+  },
+  "partners": [
+    { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
+    { "name": "Microsoft", "logo": "/imgs/partners/microsoft-logo.png" },
+    { "name": "Nike", "logo": "/imgs/partners/nike-logo.png" },
+    { "name": "P&G", "logo": "/imgs/partners/p-g-logo.png" },
+    { "name": "Lancome", "logo": "/imgs/partners/lancome-logo.png" },
+    { "name": "Zoom", "logo": "/imgs/partners/zoom-logo.png" },
+    { "name": "Sony", "logo": "/imgs/partners/sony-logo.png" },
+    { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
+  ],
+  "features": {
+    "title": "Hauptmerkmale des Wan 2.5 AI Video Modells",
+    "details": [
+      {
+        "title": "Native Audio-Integration",
+        "description": "Wan 2.5 hebt die Videogenerierung auf das nächste Level, indem es Bilder mit organisch erzeugtem Audio direkt aus beschreibenden Prompts rendert. Von Umgebungseffekten bis Hintergrundmusik stellt das Wan 2.5 AI Video-Modell sicher, dass Benutzer keine zusätzlichen Bearbeitungswerkzeuge oder Drittanbieter-Software mehr benötigen, um vollständige Videos mit synchronisierten Sounds zu erstellen.",
+        "type": "video",
+        "data": "https://static-lib.s3.amazonaws.com/cms/wan1_9aea3142cb.mp4?updated_at=2025-09-25T01:57:31.206Z"
+      },
+      {
+        "title": "Verbesserte Motion-Dynamik",
+        "description": "Mit dem Wan 2.5 AI Video-Modell können Benutzer die Bewegung von Charakteren einfach über Prompts definieren und flüssigere Bewegungen genießen, die reale Physik simulieren. Dies erleichtert die Erstellung komplexer, actionreicher Sequenzen ohne abrupte, unnatürliche oder übertriebene Effekte, auch bei mehreren Objekten.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/Wan2.5/Robot-dancing.mp4"
+      },
+      {
+        "title": "Präzise Kamerakontrolle",
+        "description": "Das Wan 2.5 AI Video-Modell entspricht erweiterten Kamera-Choreografien besser, indem es Benutzern ermöglicht, Kamerafokus und Perspektiven mit einfachen und intuitiven Anweisungen zu definieren. Ob Verfolgungsaufnahmen, Szenenwechsel oder Linsenspezifikationen - es vereint technische Präzision mit kreativer Vielfalt.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/Wan2.5/Camera-movement-control.mp4"
+      },
+      {
+        "title": "Verbesserte visuelle Realität",
+        "description": "Das Wan 2.5 AI Video-Modell zeigt eine enorme Verbesserung der Realität und produziert Videos mit außergewöhnlicher visueller Treue und Stilkonsistenz. Von der Emulation subtiler emotionaler Ausdrücke bis zur Wiedergabe cinematischer Sequenzen bringt das neue AI-Modell Charaktere, Objekte und Umgebungen mit unglaublich realistischen Details zum Leben.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/Wan2.5/athletic-performance.mp4"
+      },
+      {
+        "title": "Verbessertes kontextuelles Verständnis",
+        "description": "Im Vergleich zum Vorgänger interpretiert das Wan 2.5 AI Video-Modell Benutzer-Prompts mit noch größerer Genauigkeit und Reaktionsfähigkeit als zuvor. Selbst mit mehrstufigen Anweisungen kann es verstehen, was der Benutzer generieren möchte, wodurch die Notwendigkeit, Prompts ständig zu verfeinern und Videos neu zu generieren, minimiert wird.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/Wan2.5/Black-and-white-film.mp4"
+      },
+      {
+        "title": "Schnellere Videogenerierung",
+        "description": "Das Wan 2.5 AI Video-Modell wurde entwickelt, um effizienter als Wan 2.2 beim Rendern cinematischer Videos zu sein, ohne die Gesamtqualität zu beeinträchtigen. Durch Bereitstellung von viel kürzeren Wartezeiten für Kreatoren wird es einfacher, mit visuellen Konzepten schnell Ideen zu entwickeln und zu experimentieren.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/Wan2.5/Forest-Girl.mp4"
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "So generieren Sie Videos mit Wan 2.5 auf Seedance",
+    "description": "Generieren Sie atemberaubende AI-Bilder mit Googles Nano Banana Modell über unsere benutzerfreundliche Schnittstelle",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Wählen Sie das Wan 2.5 Modell",
+        "description": "Gehen Sie zur Seite 'Bild zu Video' und wählen Sie 'Wan 2.5' aus dem Modell-Menü des Tools."
+      },
+      {
+        "number": "02",
+        "title": "Eingabe von Prompt/Bild/Audio",
+        "description": "Geben Sie Ihren Prompt und/oder Referenzbild ein, konfigurieren Sie dann das Audio und andere Einstellungen."
+      },
+      {
+        "number": "03",
+        "title": "Generieren Sie Ihr Video",
+        "description": "Klicken Sie auf 'Erstellen' und seien Sie geduldig, während Ihr Video generiert wird, bevor Sie es herunterladen."
+      }
+    ],
+    "buttonText": "Probieren Sie Wan 2.5 auf Seedance"
+  },
+  "youtubeCases": {
+    "title": "YouTube Videos zu Wan 2.5",
+    "content": [
+      {
+        "youtubeLink": "https://www.youtube.com/embed/U1_xNqmCotU",
+        "id": "(無id)",
+        "name": "(無name)",
+        "width": "524",
+        "height": "296"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/E3el3QZrpos",
+        "id": "(無id)",
+        "name": "(無name)",
+        "width": "524",
+        "height": "296"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/heOorg3kcHk",
+        "id": "(無id)",
+        "name": "(無name)",
+        "width": "524",
+        "height": "296"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/AISs6TFa29U",
+        "id": "(無id)",
+        "name": "(無name)",
+        "width": "524",
+        "height": "296"
+      }
+    ]
+  },
+  "redditCases": {
+    "title": "Reddit Beiträge zu Wan 2.5",
+    "content": [
+      {
+        "src": "https://embed.reddit.com/r/aicuriosity/comments/1npgln0/alibaba_previews_wan_25_nextlevel_ai_video/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed&embed_host_url=https%3A%2F%2Fpollo.ai%2Fm%2Fwanx-ai%2Fwan-2-5",
+        "id": "(無id)",
+        "name": "(無name)",
+        "width": "640",
+        "height": "411"
+      },
+      {
+        "src": "https://embed.reddit.com/r/nanobanana/comments/1np1gqx/new_ai_video_model_wan_25_ai_the_nextgen_ai_video/?utm_source=embedv2&utm_medium=post_embed&utm_content=post_title&embed_host_url=https://pollo.ai/m/wanx-ai/wan-2-5",
+        "id": "(無id)",
+        "name": "(無name)",
+        "width": "640",
+        "height": "316"
+      }
+    ]
+  },
+  "twitterCases": {
+    "title": "X Videos zu Wan 2.5",
+    "content": [
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-8&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1970758230885232939&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fm%2Fwanx-ai&sessionId=ec0f9f48b3a6ed1cb5f42500f7da0c37f83c59ca&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-0",
+        "name": "(無name)",
+        "width": "318",
+        "height": "623"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-9&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1950559935038644611&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fm%2Fwanx-ai&sessionId=ec0f9f48b3a6ed1cb5f42500f7da0c37f83c59ca&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-1",
+        "name": "(無name)",
+        "width": "318",
+        "height": "623"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-10&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1970836258617532561&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fm%2Fwanx-ai&sessionId=ec0f9f48b3a6ed1cb5f42500f7da0c37f83c59ca&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-2",
+        "name": "(無name)",
+        "width": "318",
+        "height": "623"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-11&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1970713575447765037&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fm%2Fwanx-ai&sessionId=ec0f9f48b3a6ed1cb5f42500f7da0c37f83c59ca&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-3",
+        "name": "(無name)",
+        "width": "318",
+        "height": "623"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-12&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1970773935680602143&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fm%2Fwanx-ai&sessionId=ec0f9f48b3a6ed1cb5f42500f7da0c37f83c59ca&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-4",
+        "name": "(無name)",
+        "width": "318",
+        "height": "623"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-13&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1970951345646846166&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fm%2Fwanx-ai&sessionId=ec0f9f48b3a6ed1cb5f42500f7da0c37f83c59ca&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-5",
+        "name": "(無name)",
+        "width": "318",
+        "height": "623"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-14&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1970918152826748988&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fm%2Fwanx-ai&sessionId=ec0f9f48b3a6ed1cb5f42500f7da0c37f83c59ca&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-6",
+        "name": "(無name)",
+        "width": "318",
+        "height": "623"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-15&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1971032311853707594&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fm%2Fwanx-ai&sessionId=ec0f9f48b3a6ed1cb5f42500f7da0c37f83c59ca&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-7",
+        "name": "(無name)",
+        "width": "318",
+        "height": "623"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-16&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1970684821300207796&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fm%2Fwanx-ai&sessionId=ec0f9f48b3a6ed1cb5f42500f7da0c37f83c59ca&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-8",
+        "name": "(無name)",
+        "width": "318",
+        "height": "623"
+      },
+      {
+        "src": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-17&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19yZWZzcmNfc2Vzc2lvbiI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfZm9zbnJfc29mdF9pbnRlcnZlbnRpb25zX2VuYWJsZWQiOnsiYnVja2V0Ijoib24iLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X21peGVkX21lZGlhXzE1ODk3Ijp7ImJ1Y2tldCI6InRyZWF0bWVudCIsInZlcnNpb24iOm51bGx9LCJ0ZndfZXhwZXJpbWVudHNfY29va2llX2V4cGlyYXRpb24iOnsiYnVja2V0IjoxMjA5NjAwLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X3Nob3dfYmlyZHdhdGNoX3Bpdm90c19lbmFibGVkIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbiI6bnVsbH0sInRmd19kdXBsaWNhdGVfc2NyaWJlc190b19zZXR0aW5ncyI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdXNlX3Byb2ZpbGVfaW1hZ2Vfc2hhcGVfZW5hYmxlZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9LCJ0ZndfdmlkZW9faGxzX2R5bmFtaWNfbWFuaWZlc3RzXzE1MDgyIjp7ImJ1Y2tldCI6InRydWVfYml0cmF0ZSIsInZlcnNpb24iOm51bGx9LCJ0ZndfbGVnYWN5X3RpbWVsaW5lX3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9mcm9udGVuZCI6eyJidWNrZXQiOiJvbiIsInZlcnNpb24iOm51bGx9fQ%3D%3D&frame=false&hideCard=false&hideThread=false&id=1970893318281199679&lang=en&origin=https%3A%2F%2Fpollo.ai%2Fm%2Fwanx-ai&sessionId=ec0f9f48b3a6ed1cb5f42500f7da0c37f83c59ca&theme=light&widgetsVersion=2615f7e52b7e0%3A1702314776716&width=550px",
+        "id": "twitter-widget-9",
+        "name": "(無name)",
+        "width": "318",
+        "height": "623"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Probieren Sie Wan 2.5 auf Seedance jetzt!",
+    "buttonText": "Probieren Sie Wan 2.5 auf Seedance"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "Häufig gestellte Fragen",
+    "title": "Häufig gestellte Fragen",
+    "description": "Erfahren Sie mehr über kostenlosen Veo 3 AI Video Generator",
+    "items": [
+      {
+        "title": "Was ist Wan 2.5?",
+        "description": "Wan 2.5 ist die neueste Ergänzung zur Wan AI Model Familie. Fähig zur Text-zu-Video und Bild-zu-Video Generierung, bringt diese Version bedeutende Verbesserungen mit, um Kreativen zu helfen, dynamischere visuelle Szenen mit größerer Szenenkomplexität und Charakterdetail zu produzieren."
+      },
+      {
+        "title": "Wodurch ist Wan 2.5 AI Video Modell besser als Wan 2.2?",
+        "description": "Im Vergleich zu Wan 2.2 simuliert dieses neue AI Video Modell besser Echtzeit-Charakterbewegung, während Stilkonsistenz und visuelle Treue über Szenen hinweg bewahrt bleiben. Dies, gepaart mit seinen nativen Audio-Generierungsfähigkeiten und schnellem Video-Rendering, macht es noch besser für kreatives Storytelling geeignet."
+      },
+      {
+        "title": "Kann ich das Wan 2.5 AI Video Modell kostenlos nutzen?",
+        "description": "Absolut. Mit Seedance können Sie das Wan 2.5 Modell kostenlos über unseren kostenlosen Test-Plan zur Video-Generierung verwenden. Beachten Sie jedoch, dass es nur begrenzte Credits bietet. Wenn Sie weiterhin erstellen möchten, benötigen Sie eventuell einen bezahlten Plan."
+      },
+      {
+        "title": "Beste Praktiken für Prompts auf Wan 2.5 AI Video Modell?",
+        "description": "Wan 2.5 kommt mit verbessertem semantischem Verständnis, das es intuitiv ermöglicht, Ihre Anweisungen zu verstehen und detaillierte visuelle Sequenzen genauer zu generieren. Mit weniger Wiederholung erforderlich, brauchen Sie keine übermäßig komplexen Sätze. Seien Sie stattdessen direkt bei der Szenenbe schreibung und versuchen Sie, widersprüchliche Anweisungen zu vermeiden."
+      },
+      {
+        "title": "Wie funktioniert die Audio-Funktion des Wan 2.5 AI Video Modells?",
+        "description": "Sie haben zwei Optionen. Die KI kann automatisch einen geeigneten Soundtrack oder Soundeffekte für Ihr Video basierend auf Ihrem Video generieren. Sie können auch Ihre eigene Audio- oder Videodatei hochladen, um die Audio-Tracks (wie Musik oder ein Voice-Over) für Ihr Video zu extrahieren."
+      }
+    ]
+  }
+}

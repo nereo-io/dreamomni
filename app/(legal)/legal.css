@@ -5,8 +5,8 @@
   color: #333;
   font-size: 16px;
   line-height: 1.6;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* 标题样式 */
@@ -135,51 +135,49 @@
 }
 
 /* 针对暗色模式的调整 */
-@media (prefers-color-scheme: dark) {
-  .legal-markdown {
-    color: #e5e7eb;
-  }
+.dark .legal-markdown {
+  color: #e5e7eb;
+}
 
-  .legal-markdown h1 {
-    color: #f3f4f6;
-  }
+.dark .legal-markdown h1 {
+  color: #f3f4f6;
+}
 
-  .legal-markdown h2,
-  .legal-markdown h3 {
-    color: #e5e7eb;
-  }
+.dark .legal-markdown h2,
+.dark .legal-markdown h3 {
+  color: #e5e7eb;
+}
 
-  .legal-markdown a {
-    color: #3b82f6;
-  }
+.dark .legal-markdown a {
+  color: #3b82f6;
+}
 
-  .legal-markdown a:hover {
-    color: #60a5fa;
-  }
+.dark .legal-markdown a:hover {
+  color: #60a5fa;
+}
 
-  .legal-markdown blockquote {
-    border-left-color: #4b5563;
-    background-color: #1f2937;
-  }
+.dark .legal-markdown blockquote {
+  border-left-color: #4b5563;
+  background-color: #1f2937;
+}
 
-  .legal-markdown code {
-    background-color: #1e293b;
-  }
+.dark .legal-markdown code {
+  background-color: #1e293b;
+}
 
-  .legal-markdown pre {
-    background-color: #0f172a;
-  }
+.dark .legal-markdown pre {
+  background-color: #0f172a;
+}
 
-  .legal-markdown th,
-  .legal-markdown td {
-    border-color: #4b5563;
-  }
+.dark .legal-markdown th,
+.dark .legal-markdown td {
+  border-color: #4b5563;
+}
 
-  .legal-markdown th {
-    background-color: #1f2937;
-  }
+.dark .legal-markdown th {
+  background-color: #1f2937;
+}
 
-  .legal-markdown hr {
-    border-top-color: #4b5563;
-  }
+.dark .legal-markdown hr {
+  border-top-color: #4b5563;
 }

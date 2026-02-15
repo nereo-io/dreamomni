@@ -24,14 +24,7 @@ export function RainbowButton({
     >
       {/* Animated rainbow gradient border */}
       <span className="absolute inset-0 w-full h-full rounded-xl">
-        <span 
-          className="absolute inset-0 w-full h-full rounded-xl opacity-75 blur-sm"
-          style={{
-            background: "linear-gradient(90deg, #ff0080, #ff8c00, #ffd700, #00ff00, #00ffff, #0080ff, #8000ff)",
-            backgroundSize: "200% 100%",
-            animation: "gradient 3s ease infinite",
-          }}
-        />
+        <span className="absolute inset-0 w-full h-full rounded-xl opacity-75 blur-sm rainbow-gradient" />
       </span>
       
       {/* Inner black background */}
@@ -43,14 +36,7 @@ export function RainbowButton({
       </span>
       
       {/* Hover glow effect */}
-      <span 
-        className="absolute inset-0 w-full h-full rounded-xl opacity-0 group-hover:opacity-30 transition-opacity duration-300"
-        style={{
-          background: "linear-gradient(90deg, #ff0080, #ff8c00, #ffd700, #00ff00, #00ffff, #0080ff, #8000ff)",
-          backgroundSize: "200% 100%",
-          animation: "gradient 3s ease infinite",
-        }}
-      />
+      <span className="absolute inset-0 w-full h-full rounded-xl opacity-0 group-hover:opacity-30 transition-opacity duration-300 rainbow-gradient" />
     </button>
   );
 }

@@ -1,0 +1,387 @@
+{
+  "template": "luckbox-template",
+  "theme": "light",
+  "header": {
+    "brand": {
+      "title": "Veo3",
+      "logo": {
+        "src": "/logo.png",
+        "alt": "Veo3"
+      },
+      "url": "/"
+    },
+    "nav": {
+      "items": [
+        {
+          "title": "Image vers Vidéo",
+          "url": "/image-to-video"
+        },
+        {
+          "title": "Texte vers Vidéo",
+          "url": "/text-to-video"
+        },
+        {
+          "title": "Mes Créations",
+          "url": "/history"
+        },
+        {
+          "title": "Tarifs",
+          "url": "/pricing"
+        }
+      ]
+    },
+    "show_sign": true,
+    "show_theme": false,
+    "show_locale": true
+  },
+  "hero": {
+    "title": "Générateur Vidéo IA Veo 3 Gratuit",
+    "highlight_text": "Veo 3 AI",
+    "announcement": {
+      "title": "🎬 Veo 3 AI Maintenant Disponible !",
+      "label": "Nouveau !",
+      "url": "#video-generator"
+    },
+    "description": "Transformez Vos Idées en Vidéos Professionnelles en Quelques Minutes",
+    "show_happy_users": false,
+    "show_badge": false,
+    "buttons": [
+      {
+        "title": "Commencer à Créer des Vidéos",
+        "url": "/image-to-video",
+        "target": "_self",
+        "variant": "default",
+        "icon": "GoArrowUpRight"
+      }
+    ]
+  },
+  "aiModelsHero": {
+    "title": "Générateur Image vers Vidéo IA Tout-en-Un",
+    "description": "Seedance est le générateur vidéo IA tout-en-un ultime. Nous offrons un accès aux modèles vidéo leaders de l'industrie, y compris Sora 2, Veo 3.1, Seedance et plus, le tout en un seul endroit. Essayez-les de manière transparente et créez des visuels époustouflants sans jongler entre plusieurs plateformes !",
+    "models": [
+      {
+        "id": "sora2",
+        "name": "Sora 2",
+        "logo": "/imgs/intro/sora.png"
+      },
+      {
+        "id": "veo3",
+        "name": "Veo 3",
+        "logo": "/imgs/intro/veo.svg"
+      },
+      {
+        "id": "seedance",
+        "name": "Seedance",
+        "logo": "/imgs/intro/seedance.png"
+      }
+    ],
+    "moreModels": "Plus de Modèles"
+  },
+  "imageToVideoShowcase": {
+    "title": "Image vers Vidéo IA",
+    "description": "Animez Vos Images avec Notre Générateur IA Image vers Vidéo",
+    "cta": "Essayer Seedance",
+    "labels": {
+      "originalImage": "Image d'origine",
+      "prompt": "Prompt",
+      "video": "Vidéo"
+    },
+    "examples": [
+      {
+        "id": "anime-girl",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Anime-Shooting.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Shooting.mp4",
+        "originalAlt": "Archère elfe en armure verte avec un arc long bandé",
+        "videoAlt": "Flèche verte lumineuse traversant une forêt ensoleillée",
+        "prompt": "Une archère elfe en armure verte, arc long bandé, affiche un sourire mystérieux. Ses cheveux dorés ondulent naturellement dans la brise. Un travelling vertical tourne derrière elle tandis qu’une flèche verte lumineuse est décochée en douceur. La caméra suit sa trajectoire à travers une forêt dense, la lumière du soleil filtrant entre les feuilles crée des taches de lumière dansantes. La prise de vue à l’épaule donne une sensation de poursuite dynamique."
+      },
+      {
+        "id": "pastoral-boy",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.mp4",
+        "originalAlt": "Garçon dans un champ pastoral avec de la paille",
+        "videoAlt": "La caméra tourne autour d’un garçon tandis que la paille ondule au vent",
+        "prompt": "La caméra tourne autour du garçon dans le cadre, l’environnement alentour se déplace naturellement, la paille ondule au vent et le garçon regarde au loin."
+      },
+      {
+        "id": "Selfie-cat",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.mp4",
+        "originalAlt": "Chat pilotant un avion de chasse",
+        "videoAlt": "Chat pilote un avion de chasse dans le ciel",
+        "prompt": "Caméra à l'épaule, légèrement tremblante, le chat pilote un avion de chasse qui plane dans le ciel, la caméra est toujours placée devant le chat."
+      },
+      {
+        "id": "motorcycle",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Astronaut-Looking-at-Earth.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
+        "originalAlt": "Moto prête à accélérer",
+        "videoAlt": "Moto accélère avec traînée lumineuse",
+        "prompt": "La moto accélère et le feu arrière se transforme en ligne.",
+        "promptExpandable": false
+      }
+    ]
+  },
+  "aiVideoShowcase": {
+    "title": "Texte vers Vidéo IA",
+    "description": "Visualisez N'importe Quel Texte avec Notre Générateur Vidéo IA",
+    "cta": "Essayer Seedance",
+    "examples": [
+      {
+        "id": "Spirit-Transformation",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Spirit-Transformation.mp4",
+        "alt": "Transformation d’esprit au clair de lune",
+        "prompt": "Sous la forêt silencieuse au clair de lune, la lumière filtrée à travers les branches entremêlées, telle une gaze légère, projetait des taches fragmentées dans la clairière. Une jeune fille humaine, en robe usée, se tenait pieds nus au centre de la clairière, levant les yeux vers la lune avec une anticipation mêlée d’inquiétude. Le faisceau de lune le plus lumineux l’enveloppa précisément. Son corps commença à émettre une douce lueur blanche, ses contours se brouillèrent. Ses cheveux bougeaient sans vent, leurs extrémités devenant transparentes, comme tissées de lumière, en commençant par le bout de ses doigts et de ses orteils. Elle avait des cheveux blanc‑lune, des oreilles pointues qui frémissaient légèrement, et des yeux ambrés comme des pierres d’œil‑de‑chat. Elle portait une robe fluide ornée de lucioles, son corps flottait légèrement, ses orteils effleurant le sol. Elle se tourna lentement vers la caméra, un sourire mystérieux et doux aux lèvres. Enfin, elle se dissout en un essaim de papillons de lumière dansants, se fondant dans le ciel lunaire et disparaissant."
+      },
+      {
+        "id": "anime-rose",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Anime-Rose-Blooming-Bridge.mp4",
+        "alt": "Rose d'anime fleurit avec des pétales dansants",
+        "prompt": "Une rose de style anime fleurit devant un pont de corde, avec des pétales dansant dans l'air."
+      },
+      {
+        "id": "Time-lapse",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Time-lapse-photography.mp4",
+        "alt": "Fleur fanée qui reprend vie sous des nuages cramoisis",
+        "prompt": "Une fleur fanée repose au sol, faiblement lumineuse sous des nuages cramoisis et écarlates, dégageant une aura de décomposition, de nostalgie et de vie fragile. En time-lapse, les nuages dérivent et la fleur revient peu à peu à la vie."
+      },
+      {
+        "id": "Cosmic-Shuttle",
+        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Cosmic-Shuttle.mp4",
+        "alt": "Plongée à la première personne dans une cascade cosmique d’étoiles",
+        "prompt": "Vue à la première personne, chute à grande vitesse à travers une cascade cosmique d’étoiles, puis la main se tend à toute vitesse pour toucher une planète, déclenchant une explosion de lumière blanche. La caméra plonge verticalement à une vitesse extrême, avec de violentes secousses dues à l’impact d’énergie. La mise au point reste insaisissable, passant rapidement de la main à la planète, la plupart du temps floutée par le mouvement. Toutes les étoiles s’étirent en traînées de vitesse nettes, et l’instant du contact éclate en particules façon feux d’artifice et en lens flares.",
+        "isNew": true
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Questions Fréquemment Posées",
+    "description": "En savoir plus sur le générateur vidéo IA Veo 3 gratuit",
+    "items": [
+      {
+        "title": "Qu'est-ce que le générateur vidéo IA Veo 3 gratuit et comment fonctionne-t-il ?",
+        "description": "Le générateur vidéo IA Veo 3 gratuit vous donne accès gratuitement à la technologie de création vidéo IA la plus avancée au monde. Décrivez simplement votre idée de vidéo en texte, et Veo 3 AI générera des vidéos professionnelles de haute qualité jusqu'à 2 minutes avec des effets visuels époustouflants et des mouvements fluides."
+      },
+      {
+        "title": "Qu'est-ce qui différencie le générateur vidéo IA Veo 3 des autres outils vidéo IA ?",
+        "description": "Veo 3 AI offre des fonctionnalités uniques : génération vidéo ultra-réaliste, compréhension avancée des mouvements, qualité cinématographique, suivi précis des prompts et prise en charge de divers styles vidéo, du photoréaliste à l'animé. C'est l'IA la plus performante pour créer des vidéos de qualité professionnelle."
+      },
+      {
+        "title": "Quels types de vidéos puis-je créer avec le générateur IA Veo 3 gratuit ?",
+        "description": "Le générateur vidéo IA Veo 3 gratuit prend en charge une large gamme de types de vidéos : vidéos marketing, contenu pour réseaux sociaux, matériel éducatif, démonstrations de produits, histoires animées, vidéos musicales, concept art et scènes cinématographiques. L'IA s'adapte à toute vision créative."
+      },
+      {
+        "title": "Y a-t-il des limitations au générateur vidéo IA Veo 3 gratuit ?",
+        "description": "Bien que le générateur vidéo IA Veo 3 gratuit offre l'accès à des fonctionnalités avancées, les utilisateurs premium bénéficient de générations illimitées, de durées vidéo plus longues, de traitement prioritaire et de fonctionnalités supplémentaires comme des styles personnalisés et le traitement par lots. Les utilisateurs gratuits peuvent créer des vidéos étonnantes avec des limites d'utilisation raisonnables."
+      },
+      {
+        "title": "Combien de temps faut-il pour générer des vidéos avec Veo 3 AI ?",
+        "description": "La génération vidéo Veo 3 AI prend généralement 2 à 5 minutes pour les vidéos standard, selon la complexité et la longueur. L'IA traite votre prompt, crée la séquence vidéo et applique un rendu avancé pour des résultats de qualité professionnelle. Les utilisateurs premium bénéficient d'un traitement prioritaire pour une génération plus rapide."
+      },
+      {
+        "title": "Puis-je personnaliser le style et la qualité des vidéos générées ?",
+        "description": "Oui ! Le générateur vidéo IA Veo 3 offre de nombreuses options de personnalisation. Vous pouvez spécifier le style vidéo, les angles de caméra, l'éclairage, l'ambiance, la palette de couleurs et les caractéristiques de mouvement dans vos prompts. L'IA comprend les directions créatives détaillées et produit des vidéos correspondant exactement à votre vision."
+      },
+      {
+        "title": "Mon contenu est-il sécurisé lorsque j'utilise le générateur vidéo IA Veo 3 gratuit ?",
+        "description": "Absolument. Le générateur vidéo IA Veo 3 gratuit utilise des mesures de sécurité de pointe pour protéger votre contenu et vos prompts. Nous suivons des protocoles de confidentialité stricts et n'utilisons jamais vos projets personnels pour entraîner des modèles ou partager du contenu avec des tiers. Votre travail créatif reste privé."
+      },
+      {
+        "title": "Comment démarrer avec le générateur vidéo IA Veo 3 gratuit ?",
+        "description": "Démarrer avec le générateur vidéo IA Veo 3 gratuit est simple ! Cliquez simplement sur le bouton 'Générer une vidéo', décrivez votre idée de vidéo dans la zone de prompt et regardez l'IA créer votre vidéo professionnelle. Aucune configuration complexe requise - commencez à créer des vidéos étonnantes immédiatement."
+      },
+      {
+        "title": "Quels formats et résolutions vidéo Veo 3 AI prend-il en charge ?",
+        "description": "Le générateur vidéo IA Veo 3 prend en charge plusieurs formats, notamment MP4, MOV et WebM. Les vidéos sont générées en haute définition (1080p) par défaut, avec des options de résolution 4K pour les utilisateurs premium. Toutes les vidéos sont optimisées pour le partage Web et l'utilisation professionnelle."
+      },
+      {
+        "title": "Puis-je utiliser les vidéos générées par Veo 3 AI à des fins commerciales ?",
+        "description": "Oui ! Les vidéos créées avec le générateur vidéo IA Veo 3 gratuit peuvent être utilisées à des fins commerciales, y compris le marketing, la publicité, les réseaux sociaux et les présentations professionnelles. Les plans premium offrent une licence commerciale étendue et des droits d'utilisation supplémentaires pour les applications d'entreprise."
+      }
+    ]
+  },
+  "cta": {
+    "name": "cta-generate",
+    "title": "Commencez à Créer des Vidéos avec Veo 3 AI Gratuit",
+    "buttons": [
+      {
+        "title": "Essayer Seedance",
+        "url": "#video-generator",
+        "target": "_self",
+        "icon": "GoArrowUpRight"
+      }
+    ]
+  },
+  "footer": {
+    "name": "footer",
+    "brand": {
+      "title": "Veo3",
+      "description": "Transformez vos idées en chefs-d'œuvre cinématographiques en quelques minutes.",
+      "logo": {
+        "src": "/logo.png",
+        "alt": "Veo3"
+      },
+      "url": "/"
+    },
+    "copyright": " 2025 • Veo3 Tous droits réservés.",
+    "nav": {
+      "items": [
+        {
+          "title": "Outils Vidéo",
+          "children": [
+            {
+              "title": "Texte vers Vidéo",
+              "url": "/text-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "Image vers Vidéo",
+              "url": "/image-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "Référence vers Vidéo",
+              "url": "/reference-to-video",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "Outils Image",
+          "children": [
+            {
+              "title": "Texte vers Image",
+              "url": "/text-to-image",
+              "target": "_self"
+            },
+            {
+              "title": "Image vers Image",
+              "url": "/image-to-image",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "Modèles IA",
+          "children": [
+            {
+              "title": "Sora 2",
+              "url": "/sora-2",
+              "target": "_self"
+            },
+            {
+              "title": "Veo 3.1",
+              "url": "/veo-3-1",
+              "target": "_self"
+            },
+            {
+              "title": "Kling 3.0",
+              "url": "/kling-3-0",
+              "target": "_self"
+            },
+            {
+              "title": "Hailuo 2.3",
+              "url": "/hailuo-2-3",
+              "target": "_self"
+            },
+            {
+              "title": "Seedance 2.0",
+              "url": "/seedance-2-0",
+              "target": "_self"
+            },
+            {
+              "title": "Seedance 1.5 Pro",
+              "url": "/seedance-1-5",
+              "target": "_self"
+            },
+            {
+              "title": "Seedream 5.0",
+              "url": "/seedream-5-0",
+              "target": "_self"
+            },
+            {
+              "title": "Seedream 4.5",
+              "url": "/seedream-4-5",
+              "target": "_self"
+            },
+            {
+              "title": "Wan 2.5",
+              "url": "/wan-2-5",
+              "target": "_self"
+            },
+            {
+              "title": "Nano Banana Pro",
+              "url": "/nano-banana-pro",
+              "target": "_self"
+            },
+            {
+              "title": "Nano Banana",
+              "url": "/nano-banana",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "Ressources",
+          "children": [
+            {
+              "title": "Mes Créations",
+              "url": "/history",
+              "target": "_self"
+            },
+            {
+              "title": "Tarifs",
+              "url": "/pricing",
+              "target": "_self"
+            },
+            {
+              "title": "Blog",
+              "url": "/blog",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    "agreement": {
+      "items": [
+        {
+          "title": "Politique de Confidentialité",
+          "url": "/privacy-policy"
+        },
+        {
+          "title": "Conditions d'Utilisation",
+          "url": "/terms-of-service"
+        },
+        {
+          "title": "Politique de Remboursement",
+          "url": "/refund-policy"
+        }
+      ]
+    },
+    "contact": {
+      "title": "CONTACT",
+      "items": [
+        {
+          "title": "Support Email",
+          "value": "support@seedance.tv",
+          "icon": "RiMailFill",
+          "url": "mailto:support@seedance.tv",
+          "target": "_self"
+        },
+        {
+          "title": "Société",
+          "value": "ASTROINSPIRE LTD",
+          "icon": "RiBuildingFill"
+        },
+        {
+          "title": "Adresse",
+          "value": "71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM",
+          "icon": "RiMapPinFill"
+        }
+      ]
+    }
+  }
+}

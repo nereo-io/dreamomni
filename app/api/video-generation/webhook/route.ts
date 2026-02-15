@@ -8,10 +8,21 @@ import {
   updateVideoGenerationByVeo3RequestId,
   getVideoGenerationBySoraRequestId,
   updateVideoGenerationBySoraRequestId,
+  getVideoGenerationByProviderRequestId,
+  updateVideoGenerationByProviderRequestId,
 } from "@/models/videoGeneration";
 import { newStorage } from "@/lib/storage";
-import { getVideoModel, VideoModelProvider, calculateCredits, isKieAiModel, isSora2Model } from "@/config/video-models";
+import { VIDEO_CACHE_CONTROL } from "@/lib/cache-control";
+import {
+  getVideoModel,
+  VideoModelProvider,
+  isKieAiModel,
+  isKieAiVeo3Model,
+  isSora2Model,
+} from "@/config/video-models";
 import { increaseCredits, CreditsTransType } from "@/services/credit";
+import { Veo3UpscaleService } from "@/services/veo3UpscaleService";
+import { parseVideoWebhookPayload } from "@/services/videoWebhookParser";
 
 export async function POST(req: Request) {
   try {
@@ -20,111 +31,25 @@ export async function POST(req: Request) {
     // console.log("收到 webhook 回调:", webhookData);
     console.log("收到 webhook 回调:", JSON.stringify(webhookData, null, 2));
 
-    // 确定webhook类型和数据结构
     let request_id: string;
     let status: string;
     let logs: any[] = [];
     let metrics: any = {};
     let error: string | null = null;
     let payload: any = null;
-    let isVolcanoWebhook = false;
-    let isKieAiWebhook = false;
 
-    // 尝试识别webhook类型
-    if (webhookData.request_id) {
-      // fal.ai format
-      request_id = webhookData.request_id;
-      status = webhookData.status;
-      logs = webhookData.logs || [];
-      metrics = webhookData.metrics || {};
-      error = webhookData.error;
-      payload = webhookData.payload;
-    } else if (webhookData.id || webhookData.task_id) {
-      // Volcano Engine format (基于API文档)
-      isVolcanoWebhook = true;
-      request_id = webhookData.id || webhookData.task_id;
-
-      // 映射Volcano状态到标准状态
-      switch (webhookData.status) {
-        case "queued":
-          status = "IN_QUEUE";
-          break;
-        case "running":
-          status = "IN_PROGRESS";
-          break;
-        case "succeeded":
-          status = "OK"; // 使用 "OK" 以便与下面的 switch 语句兼容
-          break;
-        case "failed":
-          status = "ERROR";
-          break;
-        case "cancelled":
-          status = "CANCELLED";
-          break;
-        default:
-          status = webhookData.status;
-      }
-
-      // Volcano的payload结构不同
-      if (webhookData.content?.video_url) {
-        payload = {
-          video: {
-            url: webhookData.content.video_url,
-          },
-        };
-      }
-
-      if (webhookData.error) {
-        error = webhookData.error.message || webhookData.error;
-      }
-    } else if (webhookData.code !== undefined && webhookData.data?.taskId) {
-      // KieAI format (Veo3 and Sora)
-      isKieAiWebhook = true;
-      request_id = webhookData.data.taskId;
-
-      // 根据KieAI的响应码判断状态（仅处理成功/失败回调）
-      if (webhookData.code === 200) {
-        const resultUrls = webhookData.data.info?.resultUrls;
-
-        if (Array.isArray(resultUrls) && resultUrls.length > 0) {
-          status = "OK";
-          payload = {
-            video: {
-              url: resultUrls[0],
-            },
-          };
-        } else if (webhookData.data.resultJson) {
-          try {
-            const resultJson = JSON.parse(webhookData.data.resultJson);
-            if (Array.isArray(resultJson?.resultUrls) && resultJson.resultUrls.length > 0) {
-              status = "OK";
-              payload = {
-                video: {
-                  url: resultJson.resultUrls[0],
-                },
-              };
-            } else {
-              status = "ERROR";
-              error = webhookData.msg || "KieAI result missing video URL";
-            }
-          } catch (parseError) {
-            console.error("解析 KieAI resultJson 失败:", parseError);
-            status = "ERROR";
-            error = webhookData.msg || "KieAI resultJson parse error";
-          }
-        } else {
-          status = "ERROR";
-          error = webhookData.msg || "KieAI response missing result data";
-        }
-      } else {
-        status = "ERROR";
-        error =
-          webhookData.data?.failMsg ||
-          webhookData.msg ||
-          "KieAI generation failed";
-      }
-    } else {
-      return respErr("无效的 webhook 数据格式");
+    try {
+      const parsed = parseVideoWebhookPayload(webhookData);
+      request_id = parsed.request_id;
+      status = parsed.status;
+      logs = parsed.logs;
+      metrics = parsed.metrics;
+      error = parsed.error;
+      payload = parsed.payload;
+    } catch (parseError) {
+      return respErr(
+        parseError instanceof Error ? parseError.message : "无效的 webhook 数据格式"
+      );
     }
 
     // 查找对应的数据库记录 - 添加对veo3_request_id和sora_request_id的查找
@@ -146,6 +71,11 @@ export async function POST(req: Request) {
     }
 
     if (!videoGeneration) {
+      // 尝试按generic provider_request_id查找（通用fallback）
+      videoGeneration = await getVideoGenerationByProviderRequestId(request_id);
+    }
+
+    if (!videoGeneration) {
       console.warn(`未找到对应的视频生成记录: ${request_id}`);
       return respData({
         message: "记录未找到，但webhook已处理",
@@ -157,6 +87,10 @@ export async function POST(req: Request) {
     switch (status) {
       case "OK":
         console.log(`视频生成完成，请求ID: ${request_id}`);
+
+        // 在 try 块外声明升级相关变量，以便 catch 块访问进行补偿退款
+        let needs1080PUpscaleOK = false;
+        let refund1080PDoneOK = false;
 
         try {
           // 1. 获取视频URL
@@ -179,6 +113,7 @@ export async function POST(req: Request) {
                 url: videoUrl,
                 key: fileName,
                 contentType: "video/mp4",
+                cacheControl: VIDEO_CACHE_CONTROL,
               });
 
               r2VideoUrl = uploadResult.url;
@@ -201,13 +136,76 @@ export async function POST(req: Request) {
             }
           }
 
-          // 3. 更新数据库
+          // 3. 检查分辨率升级需求（仅对Kie.ai Veo3模型）
+          const upscaleRequirement = Veo3UpscaleService.checkUpscaleRequirement(
+            videoGeneration.model_id,
+            videoGeneration.metadata?.requested_resolution
+          );
+          const { needs1080PUpscale, needs4KUpscale } = upscaleRequirement;
+          needs1080PUpscaleOK = needs1080PUpscale; // 同步到外部变量
+
+          // 4. 处理1080p升级（同步轮询）
+          let upscale1080PResult;
+          if (needs1080PUpscale) {
+            // 在开始升级前，更新状态为 IN_PROGRESS，让前端显示"处理中"
+            await Veo3UpscaleService.markUpscaleInProgress(
+              request_id,
+              videoGeneration,
+              videoUrl,
+              r2VideoUrl,
+              "1080p"
+            );
+
+            // 同步轮询1080P（约5分钟超时）
+            upscale1080PResult = await Veo3UpscaleService.process1080PUpscale(
+              request_id,
+              videoGeneration.id
+            );
+
+            // 如果1080P升级失败，退还升级费用
+            if (!upscale1080PResult.success) {
+              await Veo3UpscaleService.refund1080PUpgradeCost(videoGeneration);
+              refund1080PDoneOK = true; // 标记已退款
+            }
+          }
+
+          // 5. 确定最终状态和视频URL
+          const finalResult = Veo3UpscaleService.determineFinalResult({
+            needs4KUpscale,
+            needs1080PUpscale,
+            upscale1080PResult,
+            baseR2Url: r2VideoUrl,
+          });
+
+          // 6. 构建更新参数
           const updateParams: any = {
-            status: r2VideoUrl ? "SAVED_TO_R2" : "COMPLETED",
-            video_url_r2: r2VideoUrl || undefined,
+            status: finalResult.status,
             logs,
             metrics,
           };
+
+          // 设置 video_url_r2（4K 时不设置，等回调）
+          if (finalResult.videoUrlR2) {
+            updateParams.video_url_r2 = finalResult.videoUrlR2;
+          }
+
+          // 构建升级相关的 metadata
+          if (needs4KUpscale) {
+            updateParams.metadata = Veo3UpscaleService.buildUpscaleMetadata(
+              videoGeneration.metadata,
+              { type: "4k_processing", baseVideoUrl: videoUrl, baseR2Url: r2VideoUrl }
+            );
+          } else if (needs1080PUpscale) {
+            updateParams.metadata = Veo3UpscaleService.buildUpscaleMetadata(
+              videoGeneration.metadata,
+              {
+                type: upscale1080PResult?.success ? "1080p_completed" : "1080p_failed",
+                baseVideoUrl: videoUrl,
+                baseR2Url: r2VideoUrl,
+                video1080PUrl: upscale1080PResult?.r2Url,
+              }
+            );
+          }
 
           // 根据provider类型设置对应的video URL字段
           const modelConfig = getVideoModel(videoGeneration.model_id);
@@ -217,15 +215,21 @@ export async function POST(req: Request) {
           } else if (modelConfig?.provider === VideoModelProvider.FAL) {
             updateParams.video_url_fal = videoUrl;
           } else if (modelConfig?.provider === VideoModelProvider.KIEAI) {
-            // 区分 Sora 2 和 Veo3
+            // Kie.ai: Sora/Veo3 继续使用专用字段，其他模型走通用字段
             if (isSora2Model(videoGeneration.model_id)) {
               updateParams.video_url_sora = videoUrl;
-            } else {
+            } else if (isKieAiVeo3Model(videoGeneration.model_id)) {
               updateParams.video_url_veo3 = videoUrl;
+            } else {
+              // Kling/Hailuo/Wan 等新模型仅写入通用字段 video_url_provider
             }
           } else if (modelConfig?.provider === VideoModelProvider.APICORE) {
             updateParams.video_url_veo3 = videoUrl;
+          } else if (modelConfig?.provider === VideoModelProvider.EVOLINK) {
+            updateParams.video_url_sora = videoUrl;
           }
+          // Always set generic video_url_provider for uniform access
+          updateParams.video_url_provider = videoUrl;
 
           // 使用合适的更新函数
           if (videoGeneration.volcano_request_id) {
@@ -245,21 +249,49 @@ export async function POST(req: Request) {
               request_id,
               updateParams
             );
+          } else if (videoGeneration.provider_request_id) {
+            await updateVideoGenerationByProviderRequestId(
+              request_id,
+              updateParams
+            );
           } else {
             console.error("No valid request ID field found for update");
             throw new Error("No valid request ID field found for update");
           }
 
+          // 7. 如果需要4K升级，触发4K升级请求（异步）
+          if (needs4KUpscale) {
+            await Veo3UpscaleService.trigger4KUpscale(
+              request_id,
+              videoGeneration,
+              videoUrl,
+              r2VideoUrl
+            );
+          }
+
+          // 8. 返回结果
           return respData({
-            message: "视频生成完成并已保存",
+            message: finalResult.responseMessage,
             request_id,
             video_url: r2VideoUrl || videoUrl,
             r2_uploaded: !!r2VideoUrl,
             processing_time: metrics?.inference_time || null,
             provider: modelConfig?.provider,
+            upscale_4k_processing: needs4KUpscale,
           });
         } catch (processError) {
           console.error("处理完成状态失败:", processError);
+
+          // 如果是 1080P 升级场景且还没退款，则补偿退款
+          // 场景：1080P 升级成功，但后续数据库更新等操作失败
+          if (needs1080PUpscaleOK && !refund1080PDoneOK) {
+            console.log("🔄 1080P 升级后续处理失败，执行补偿退款");
+            try {
+              await Veo3UpscaleService.refund1080PUpgradeCost(videoGeneration);
+            } catch (refundError) {
+              console.error("补偿退款失败:", refundError);
+            }
+          }
 
           // 更新为失败状态
           const failureParams = {
@@ -273,26 +305,35 @@ export async function POST(req: Request) {
           };
 
           // 使用合适的更新函数
-          if (videoGeneration.volcano_request_id) {
-            await updateVideoGenerationByVolcanoRequestId(
-              request_id,
-              failureParams
-            );
-          } else if (videoGeneration.fal_request_id) {
-            await updateVideoGenerationByFalRequestId(
-              request_id,
-              failureParams
-            );
-          } else if (videoGeneration.veo3_request_id) {
-            await updateVideoGenerationByVeo3RequestId(
-              request_id,
-              failureParams
-            );
-          } else if (videoGeneration.sora_request_id) {
-            await updateVideoGenerationBySoraRequestId(
-              request_id,
-              failureParams
-            );
+          try {
+            if (videoGeneration.volcano_request_id) {
+              await updateVideoGenerationByVolcanoRequestId(
+                request_id,
+                failureParams
+              );
+            } else if (videoGeneration.fal_request_id) {
+              await updateVideoGenerationByFalRequestId(
+                request_id,
+                failureParams
+              );
+            } else if (videoGeneration.veo3_request_id) {
+              await updateVideoGenerationByVeo3RequestId(
+                request_id,
+                failureParams
+              );
+            } else if (videoGeneration.sora_request_id) {
+              await updateVideoGenerationBySoraRequestId(
+                request_id,
+                failureParams
+              );
+            } else if (videoGeneration.provider_request_id) {
+              await updateVideoGenerationByProviderRequestId(
+                request_id,
+                failureParams
+              );
+            }
+          } catch (updateError) {
+            console.error("更新失败状态也失败:", updateError);
           }
 
           return respErr(
@@ -325,34 +366,44 @@ export async function POST(req: Request) {
           await updateVideoGenerationByVeo3RequestId(request_id, errorParams);
         } else if (videoGeneration.sora_request_id) {
           await updateVideoGenerationBySoraRequestId(request_id, errorParams);
+        } else if (videoGeneration.provider_request_id) {
+          await updateVideoGenerationByProviderRequestId(request_id, errorParams);
         }
 
-        // 处理 veo3 模型的积分返还
-        if (isKieAiModel(videoGeneration.model_id)) {
+        // 处理视频生成失败的积分返还（KieAI 和 Evolink 模型）
+        const refundModelConfig = getVideoModel(videoGeneration.model_id);
+        if (isKieAiModel(videoGeneration.model_id) || refundModelConfig?.provider === VideoModelProvider.EVOLINK) {
           try {
-            // 计算需要返还的积分
-            const requiredCredits = calculateCredits(
-              videoGeneration.model_id,
-              videoGeneration.duration_seconds || 5,
-              videoGeneration.has_audio || false,
-              "1080p" // 默认分辨率，因为数据库中可能没有存储分辨率信息
-            );
+            // 从 metadata 中提取原始扣费池信息
+            const creditDeduction = videoGeneration.metadata?.credit_deduction;
 
-            // 为退还的积分设置一个合理的过期时间（1个月后）
-            const oneMonthFromNow = new Date();
-            oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
-            const expiredAt = oneMonthFromNow.toISOString();
+            if (creditDeduction?.skipped) {
+              console.log(`ℹ️ Skip refund: agent precharged for video generation ${videoGeneration.id}`);
+              break;
+            }
+            if (!creditDeduction || !creditDeduction.pools || creditDeduction.pools.length === 0) {
+              console.error(`❌ Missing credit_deduction metadata for video generation: ${videoGeneration.id}`);
+              console.error("Cannot refund credits - pool information lost");
+              throw new Error("Missing credit pool information for refund. This is a data integrity issue.");
+            }
 
-            // 返还积分
-            await increaseCredits({
-              user_uuid: videoGeneration.user_id,
-              trans_type: CreditsTransType.RefundVideoGenerationFailed,
-              credits: requiredCredits,
-              expired_at: expiredAt,
-            });
+            // 遍历所有扣费的池，按原扣费金额逐一退款
+            for (const pool of creditDeduction.pools) {
+              await increaseCredits({
+                user_uuid: videoGeneration.user_id,
+                trans_type: CreditsTransType.RefundVideoGenerationFailed,
+                credits: pool.deducted,
+                order_no: pool.order_no,
+                expired_at: pool.expired_at,
+              });
+
+              console.log(
+                `✅ Credits refunded: ${pool.deducted} to pool ${pool.order_no} for failed video generation ${videoGeneration.id}`
+              );
+            }
 
             console.log(
-              `已返还用户 ${videoGeneration.user_id} 的 ${requiredCredits} 积分（veo3 生成失败）`
+              `✅ Total refunded: ${creditDeduction.totalDeducted} credits across ${creditDeduction.pools.length} pool(s) for video generation ${videoGeneration.id}`
             );
           } catch (refundError) {
             console.error("返还积分失败:", refundError);
@@ -386,6 +437,8 @@ export async function POST(req: Request) {
           await updateVideoGenerationByVeo3RequestId(request_id, queueParams);
         } else if (videoGeneration.sora_request_id) {
           await updateVideoGenerationBySoraRequestId(request_id, queueParams);
+        } else if (videoGeneration.provider_request_id) {
+          await updateVideoGenerationByProviderRequestId(request_id, queueParams);
         }
 
         return respData({
@@ -420,6 +473,11 @@ export async function POST(req: Request) {
             request_id,
             progressParams
           );
+        } else if (videoGeneration.provider_request_id) {
+          await updateVideoGenerationByProviderRequestId(
+            request_id,
+            progressParams
+          );
         }
 
         return respData({
@@ -446,6 +504,8 @@ export async function POST(req: Request) {
           await updateVideoGenerationByVeo3RequestId(request_id, unknownParams);
         } else if (videoGeneration.sora_request_id) {
           await updateVideoGenerationBySoraRequestId(request_id, unknownParams);
+        } else if (videoGeneration.provider_request_id) {
+          await updateVideoGenerationByProviderRequestId(request_id, unknownParams);
         }
 
         return respData({
@@ -474,6 +534,6 @@ export async function GET() {
     supported_methods: ["POST"],
     description: "处理来自 fal.ai、Volcano Engine 和 KieAI 的视频生成状态回调",
     expected_statuses: ["IN_QUEUE", "IN_PROGRESS", "COMPLETED", "FAILED"],
-    supported_providers: ["fal.ai", "volcano", "kieai", "apicore"],
+    supported_providers: ["fal.ai", "volcano", "kieai", "apicore", "evolink"],
   });
 }

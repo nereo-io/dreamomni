@@ -1,22 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { VIDEO_CACHE_CONTROL } from "@/lib/cache-control";
 
 export const runtime = "nodejs";
 
-const DEFAULT_ALLOWED_HOSTS = ["r2.veo3ai.io", "static-lib.s3.amazonaws.com"];
-
 function getAllowedHosts(): Set<string> {
   const hosts = new Set<string>();
-
-  DEFAULT_ALLOWED_HOSTS.forEach((host) => hosts.add(host));
-
-  const envAllowed = process.env.VIDEO_PROXY_ALLOWED_HOSTS;
-  if (envAllowed) {
-    envAllowed
-      .split(",")
-      .map((host) => host.trim().toLowerCase())
-      .filter(Boolean)
-      .forEach((host) => hosts.add(host));
-  }
 
   const storageDomain = process.env.STORAGE_DOMAIN;
   if (storageDomain) {
@@ -106,12 +94,15 @@ export async function GET(request: NextRequest) {
 
   const headers = new Headers(upstreamResponse.headers);
   const sanitizedFilename = sanitizeFilename(filenameParam);
+  const existingCacheControl = headers.get("Cache-Control");
 
   headers.set(
     "Content-Disposition",
     `attachment; filename="${sanitizedFilename}"`
   );
-  headers.set("Cache-Control", "private, max-age=0, must-revalidate");
+  if (!existingCacheControl) {
+    headers.set("Cache-Control", VIDEO_CACHE_CONTROL);
+  }
   headers.set("Access-Control-Allow-Origin", "*");
   headers.set("Access-Control-Expose-Headers", "Content-Disposition");
   headers.set("X-Content-Type-Options", "nosniff");

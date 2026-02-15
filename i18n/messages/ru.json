@@ -5,14 +5,44 @@
     "keywords": "Seedance, Генератор AI видео, Бесплатное создание видео, Текст в видео, Изображение в видео, 4K видео, ИИ кинопроизводство, Видео высокого разрешения"
   },
   "wan-2-5": {
-    "title": "Wan 2.5 бесплатно: попробуйте эту Wan AI видео модель теперь | Veo3 AI",
+    "title": "Wan 2.5 бесплатно: попробуйте эту Wan AI видео модель теперь | Seedance",
     "description": "Опыт Wan 2.5, усовершенствованная видеомодель Wan AI со встроенным аудио, улучшенной последовательностью и технологией движения жидкости.",
     "keywords": "N/A"
   },
+  "wan-2-6": {
+    "title": "Wan 2.6 бесплатно: попробуйте AI видеомодель Alibaba Wan 2.6 | Seedance",
+    "description": "Попробуйте Wan 2.6 с multi-shot повествованием, поддержкой reference-to-video, нативной синхронизацией аудио и выводом до 15 секунд в 1080p на Seedance.",
+    "keywords": "Wan 2.6, Wan AI, AI видеогенератор, multi-shot, reference-to-video, нативное аудио, 1080p, Seedance"
+  },
   "veo-3-1": {
-    "title": "Veo 3.1 бесплатно: попробуйте Google Veo 3.1 AI видео модель сейчас | Veo3 AI",
-    "description": "Veo 3.1 — это улучшение модели Google Veo 3, добавляющее управление первым и последним кадром и возможности ссылок на изображения. Испытайте Veo 3.1 бесплатно на Veo3 AI.",
-    "keywords": "Veo 3.1, Google Veo 3.1, AI видеогенератор, бесплатный Veo 3.1, видео AI, текст в видео, изображение в видео, Veo3 AI"
+    "title": "Veo 3.1 бесплатно: попробуйте Google Veo 3.1 AI видео модель сейчас | Seedance",
+    "description": "Veo 3.1 — это улучшение модели Google Veo 3, добавляющее управление первым и последним кадром и возможности ссылок на изображения. Испытайте Veo 3.1 бесплатно на Seedance.",
+    "keywords": "Veo 3.1, Google Veo 3.1, AI видеогенератор, бесплатный Veo 3.1, видео AI, текст в видео, изображение в видео, Seedance"
+  },
+  "kling-3-0": {
+    "title": "Kling 3.0 бесплатно: попробуйте AI видеомодель Kling онлайн | Seedance",
+    "description": "Попробуйте Kling 3.0: нативное аудио, мультикадровое повествование, улучшенная согласованность элементов, многоязычные голоса и видео до 15 секунд на Seedance.",
+    "keywords": "Kling 3.0, Kling AI, AI видеогенератор, текст в видео, изображение в видео, нативное аудио, multi-shot, Seedance"
+  },
+  "seedance-1-5": {
+    "title": "Seedance 1.5 Pro: Аудио-видео ИИ ByteDance | Seedance",
+    "description": "Seedance 1.5 Pro от ByteDance: нативная аудио-визуальная генерация, многоязычная синхронизация губ и кинематографическая камера. Попробуйте бесплатно!",
+    "keywords": "Seedance 1.5 Pro, ByteDance Seedance, текст в видео, изображение в видео, аудио-видео ИИ, Seedance"
+  },
+  "seedance-2-0": {
+    "title": "Seedance 2.0 ИИ-видеогенератор бесплатно | Seedance",
+    "description": "Seedance 2.0 от ByteDance: ИИ-видео с мультимодальным вводом (изображение, видео, аудио, текст), 2K, согласованность персонажей, на 30% быстрее. Бесплатно!",
+    "keywords": "Seedance 2.0, ИИ-видеогенератор, текст в видео, изображение в видео, ByteDance, мультимодальный ИИ"
+  },
+  "hailuo-2-3": {
+    "title": "Hailuo 2.3 ИИ-видеогенератор бесплатно онлайн | Seedance",
+    "description": "Попробуйте MiniMax Hailuo 2.3 с улучшенным контролем движения, более выразительной стилизацией и быстрым режимом итераций. Создавайте AI-видео на Seedance.",
+    "keywords": "Hailuo 2.3, MiniMax Hailuo, ИИ-видеогенератор, изображение в видео, текст в видео, Hailuo Fast, Seedance"
+  },
+  "sora-2": {
+    "title": "Sora 2 бесплатно: попробуйте модель OpenAI Sora 2 AI видео сейчас | Seedance",
+    "description": "Испытайте Sora 2, передовую AI видео модель от OpenAI с реалистичной физикой, синхронизированным звуком и согласованностью сцен. Создавайте потрясающие видео 1080p HD для членов!",
+    "keywords": "Sora 2, OpenAI Sora 2, AI видеогенератор, бесплатный Sora 2, видео AI, текст в видео, изображение в видео, Seedance, модель sora"
   },
   "pricing": {
     "title": "Видео планы | Цены Seedance",
@@ -31,16 +61,18 @@
     "my_orders": "Мои заказы",
     "membership": "Членство"
   },
-  "header": {
-    "video_effects": "Видеоэффекты",
-    "more_effects": "Ещё эффекты"
-  },
   "sidebar": {
     "home": "Главная",
     "image_to_video": "Изображение в видео",
     "text_to_video": "Текст в видео",
+    "reference_to_video": "Референс в видео",
     "text_to_image": "Текст в изображение",
     "image_to_image": "Изображение в изображение",
+    "text_to_music": "Текст в музыку",
+    "add_vocals": "Добавить вокал",
+    "add_instrumental": "Добавить инструментал",
+    "upload_cover": "Загрузить кавер",
+    "agent_videos": "AI Shorts",
     "ai_video_effects": "ИИ видео эффекты",
     "ai_effects": "ИИ эффекты",
     "my_creations": "Мои творения",
@@ -54,6 +86,8 @@
     "payment_successful": "Оплата успешна!",
     "plan_activated": "Активирован",
     "credits_added": "кредитов добавлено на ваш счёт",
+    "monthly_credits_grant": "Вы будете получать {credits} кредитов каждый месяц",
+    "remaining_credits_monthly": "Оставшиеся {remainingCredits} кредитов будут распределены ежемесячно в течение следующих {remainingMonths} месяцев",
     "continue": "Продолжить",
     "start_creating": "Начать создание",
     "please_select_payment": "Пожалуйста, выберите способ оплаты"
@@ -104,6 +138,8 @@
       "product_name": "Название продукта",
       "amount": "Сумма",
       "paid_at": "Оплачено",
+      "invoice": "Счет",
+      "download": "Скачать",
       "github_username": "GitHub имя пользователя",
       "status": "Статус"
     }
@@ -123,7 +159,25 @@
     "days": "дней",
     "no_membership": "Не активно",
     "manage_subscription": "Управление подпиской",
-    "loading": "Загрузка..."
+    "loading": "Загрузка...",
+    "next_credit_distribution": "Следующее распределение кредитов",
+    "monthly_credits": "Ежемесячные кредиты",
+    "distribution_progress": "Прогресс распределения",
+    "credits": "кредитов",
+    "months": "месяцев"
+  },
+  "creditPools": {
+    "title": "Пулы кредитов",
+    "description": "Ваши активные балансы кредитов по покупкам",
+    "bonus": "Бонусные кредиты",
+    "table": {
+      "order_no": "Номер заказа",
+      "expired_at": "Истекает",
+      "balance": "Баланс",
+      "earned": "Получено",
+      "used": "Использовано",
+      "created_at": "Создано"
+    }
   },
   "subscription": {
     "allSubscriptions": "Все подписки",
@@ -149,6 +203,10 @@
     "no_credits": "Нет записей кредитов",
     "recharge": "Улучшить членство",
     "invite": "Пригласить друзей",
+    "tabs": {
+      "records": "История кредитов",
+      "pools": "Пулы кредитов"
+    },
     "table": {
       "trans_no": "Номер транзакции",
       "trans_type": "Тип транзакции",
@@ -185,6 +243,17 @@
   "survey_banner": {
     "message": "👋 Нужна быстрая обратная связь - помогите сформировать Seedance!",
     "close": "Закрыть"
+  },
+  "credit_history_modal": {
+    "title": "История кредитов",
+    "current_balance": "Текущий баланс",
+    "view_all": "Посмотреть всю историю",
+    "empty": "Пока нет записей о кредитах",
+    "type": "Тип",
+    "credits": "Кредиты",
+    "date": "Дата",
+    "loading": "Загрузка...",
+    "error": "Не удалось загрузить историю кредитов"
   },
   "credit_exhausted_modal": {
     "title": "Закончились кредиты диалога",
@@ -254,13 +323,13 @@
     }
   },
   "video-generator": {
+    "titleTextToVideo": "Текст в видео",
+    "titleImageToVideo": "Изображение в видео",
+    "titleReferenceToVideo": "Референс в видео",
     "videoDescription": "Промпт",
-    "referenceImage": "Референсное изображение (необязательно)",
     "videoAspectRatio": "Соотношение сторон видео",
     "videoDuration": "Длительность видео",
     "videoModel": "Модель",
-    "videoEffect": "Видеоэффект",
-    "chooseVideoEffect": "Выбрать видеоэффект",
     "credits": "Кредиты",
     "creditsRequired": "Необходимо кредитов",
     "remainingCredits": "Осталось кредитов",
@@ -274,6 +343,29 @@
     "dragAndDropImage": "Нажмите для загрузки или перетащите изображение сюда",
     "supportedFormats": "Поддерживаются форматы JPG, PNG, GIF, максимум 10МБ",
     "chooseFile": "Выбрать файл",
+    "swapFrames": "Поменять кадры",
+    "firstFrame": "Первый кадр",
+    "lastFrame": "Последний кадр",
+    "clickToUpload": "Нажмите для загрузки",
+    "uploadingFirstFrame": "Загрузка первого кадра...",
+    "uploadingLastFrame": "Загрузка последнего кадра...",
+    "referenceUploadGuide": "Загрузите 1-3 референсных изображения для генерации с консистентным персонажем",
+    "addMoreReferences": "Добавить больше референсных изображений",
+    "referenceImage": "Референсное изображение (необязательно)",
+    "clickToUploadMore": "Нажмите, чтобы загрузить больше (до 3)",
+    "multipleUploadHint": "Необязательно. Поддержка мультивыбора, перетаскивания или вставки (Ctrl+V)",
+    "fromMyCreations": "из моих работ",
+    "myCreations": "Мои работы",
+    "selectFromCreations": "Выбрать из моих работ",
+    "noImagesYet": "Изображения еще не созданы",
+    "loadingImages": "Загрузка изображений...",
+    "maxImagesError": "Максимум {max} изображений",
+    "onlyUploadingFirst": "Загружаются только первые {count} изображения (макс. {max})",
+    "uploadingMultiple": "Загрузка {current}/{total} изображений...",
+    "addMoreImages": "Добавить больше изображений",
+    "canUpload": "Можно загрузить еще {count}",
+    "uploadMultipleImages": "Загрузите до {max} изображений",
+    "uploadMoreImagesRemaining": "Загрузите больше изображений (осталось {remaining})",
     "aspectRatios": {
       "landscape": "16:9 Альбомная",
       "portrait": "9:16 Портретная",
@@ -297,6 +389,8 @@
     "ratio": "Соотношение сторон",
     "duration": "Длительность",
     "resolution": "Разрешение",
+    "sound": "Звук",
+    "promptEnhancement": "Улучшение промпта",
     "telegramBanner": {
       "text": "Присоединяйтесь к группе Telegram для обсуждения Seedance",
       "linkText": "Присоединиться"
@@ -312,13 +406,18 @@
       "imageTooLarge": "Размер изображения не может превышать 10МБ",
       "imageUploadFailed": "Не удалось загрузить изображение",
       "membersOnlyModel": "Модель доступна только подписчикам.",
+      "emptyPrompt": "Пожалуйста, введите описание",
       "videoSubmitted": "Задача генерации видео отправлена, обработка...",
       "videoCompleted": "Генерация видео завершена!",
       "videoFailed": "Генерация видео не удалась"
-    }
+    },
+    "videoEffect": "Видеоэффект",
+    "chooseVideoEffect": "Выбрать видеоэффект"
   },
   "video-history": {
     "title": "История генерации видео",
+    "videoDetailsTitle": "Детали видео",
+    "downgradedTo720P": "Понижено до 720P",
     "noVideosTitle": "Видео пока нет",
     "noVideosDescription": "Вы ещё не создали ни одного видео. Начните создавать свой первый шедевр!",
     "generateVideoButton": "Генерировать видео",
@@ -336,6 +435,10 @@
       "duration": "Длительность",
       "aspectRatio": "Соотношение сторон"
     },
+    "searchPromptPlaceholder": "Поиск по промптам",
+    "searchMatches": "{count} совпадений",
+    "searchNoResults": "Нет промптов, соответствующих поиску",
+    "searchButton": "Найти",
     "toast": {
       "videoNotAvailable": "Видео пока недоступно.",
       "downloadNotAvailable": "Видео недоступно для скачивания.",
@@ -391,6 +494,122 @@
       "statusCode": "Произошла ошибка (Статус {code}). Попробуйте снова."
     }
   },
+  "music-generator": {
+    "title": "Генерация музыки",
+    "subtitle": "Создавайте удивительную музыку с ИИ",
+    "generateMusic": "Сгенерировать музыку",
+    "history": "История генерации",
+    "generating": "Генерация...",
+    "prompt": "Запрос",
+    "description": "Описание",
+    "promptPlaceholder": "Введите описание музыки или текст песни...",
+    "musicTitle": "Название",
+    "titlePlaceholder": "Введите название песни...",
+    "style": "Стиль",
+    "stylePlaceholder": "напр., Джаз, Рок, Электроника...",
+    "negativeTags": "Негативные теги (по желанию)",
+    "negativeTagsPlaceholder": "Стили которых следует избегать...",
+    "creditsRequired": "Требуемые кредиты",
+    "yourCredits": "Ваши кредиты",
+    "generate": "Сгенерировать музыку",
+    "maxLength500": "Максимум 500 символов",
+    "maxLength5000": "Максимум 5000 символов",
+    "generationType": "Тип генерации",
+    "uploadAudio": "Загрузить аудио",
+    "dragAndDropAudio": "Перетащите аудиофайл сюда",
+    "orClickToUpload": "или нажмите для выбора",
+    "supportedAudioFormats": "Поддерживаемые форматы: MP3, WAV, FLAC, OGG (макс. 50МБ)",
+    "removeAudio": "Удалить аудио",
+    "audioNotSupported": "Ваш браузер не поддерживает воспроизведение аудио.",
+    "mode": "Режим",
+    "songMode": "Песня (с вокалом)",
+    "instrumentalMode": "Инструментальная (только музыка)",
+    "modes": {
+      "song": {
+        "label": "Песня",
+        "description": "Музыка с вокалом"
+      },
+      "instrumental": {
+        "label": "Инструментальная",
+        "description": "Только музыка"
+      }
+    },
+    "loadingHistory": "Загрузка истории...",
+    "noHistory": "История генерации пуста",
+    "startGenerating": "Начните генерировать музыку, чтобы увидеть историю здесь",
+    "status": {
+      "pending": "Ожидание",
+      "textGenerated": "Текст сгенерирован",
+      "firstTrack": "Первый трек готов",
+      "completed": "Завершено",
+      "failed": "Не удалось"
+    },
+    "types": {
+      "direct": {
+        "label": "Прямая генерация",
+        "description": "Создать музыку из текста"
+      },
+      "addVocals": {
+        "label": "Добавить вокал",
+        "description": "Добавить голос к музыке"
+      },
+      "addInstrumental": {
+        "label": "Добавить инструментал",
+        "description": "Добавить аккомпанемент"
+      },
+      "uploadCover": {
+        "label": "Загрузить кавер",
+        "description": "Изменить стиль аудио"
+      }
+    },
+    "errors": {
+      "invalidAudioFormat": "Пожалуйста, загрузите аудиофайл",
+      "audioTooLarge": "Аудиофайл слишком большой (максимум 50 МБ)",
+      "uploadFailed": "Загрузка не удалась",
+      "insufficientCredits": "Недостаточно кредитов",
+      "audioRequired": "Пожалуйста, загрузите аудиофайл",
+      "promptRequired": "Пожалуйста, введите запрос",
+      "titleRequired": "Пожалуйста, введите название",
+      "styleRequired": "Пожалуйста, введите стиль",
+      "negativeTagsRequired": "Пожалуйста, введите негативные теги"
+    },
+    "toast": {
+      "audioUploaded": "Аудиофайл успешно загружен",
+      "musicSubmitted": "Задача генерации музыки отправлена",
+      "musicCompleted": "Генерация музыки завершена!",
+      "musicFailed": "Генерация музыки не удалась",
+      "pollTimeout": "Тайм-аут опроса, обновите вручную",
+      "statusCheckFailed": "Проверка статуса не удалась, попробуйте еще раз"
+    },
+    "customMode": "Пользовательский режим",
+    "customModeDescription": "Включить детальный контроль всех параметров",
+    "instrumental": "Инструментальная",
+    "instrumentalDescription": "Генерировать музыку без вокала",
+    "lyricsAndStyle": "Текст и вокальный стиль",
+    "lyrics": "Текст песни",
+    "promptPlaceholderAddVocals": "Введите текст и вокальный стиль...",
+    "promptPlaceholderLyrics": "Введите текст песни...",
+    "promptPlaceholderDescription": "Введите описание музыки...",
+    "tags": "Теги",
+    "tagsPlaceholder": "напр., бодрый, энергичный, электронный...",
+    "maxLength": "Макс",
+    "characters": "символов",
+    "track": "Трек",
+    "download": "Скачать",
+    "advancedOptions": "Расширенные Настройки",
+    "optional": "Опционально",
+    "styleWeight": "Вес Стиля",
+    "styleWeightDescription": "Насколько строго следовать указанному стилю (0-1). Рекомендуется: 0,65-0,80",
+    "weirdnessConstraint": "Уровень Креативности",
+    "weirdnessConstraintDescription": "Контроль экспериментального/креативного отклонения (0-1). Ниже=традиционный, Выше=креативный. Рекомендуется: 0,30-0,50",
+    "audioWeight": "Вес Аудио",
+    "audioWeightDescription": "Баланс веса аудио характеристик (0-1). Рекомендуется: 0,60-0,75",
+    "vocalGender": "Предпочтение Пола Вокала",
+    "auto": "Авто",
+    "male": "Мужской",
+    "female": "Женский",
+    "vocalGenderDescription": "Примечание: Это увеличивает вероятность, но не гарантирует строгое соблюдение"
+  },
   "pages": {
     "home": {
       "title": "Добро пожаловать в Seedance",
@@ -402,19 +621,18 @@
       "keywords": "AI генератор видео, текст в видео, бесплатный генератор видео, Seedance, AI создание видео, текст в видео онлайн"
     },
     "textToImage": {
-      "title": "Бесплатный AI генератор изображений: Создание картинок из текста | Veo3 AI",
-      "description": "Превратите ваши слова в потрясающие визуальные образы с помощью бесплатного генератора текст-в-изображение от Veo3 AI. Создавайте высококачественные изображения из подробных текстовых описаний с передовой AI технологией.",
-      "keywords": "AI текст в изображение, генератор текст в картинку, бесплатный AI создатель изображений, Veo3 AI, AI арт из текста, генерация изображений из текста"
+      "title": "Бесплатный AI генератор изображений: Создание картинок из текста | Seedance",
+      "description": "Превратите ваши слова в потрясающие визуальные образы с помощью бесплатного генератора текст-в-изображение от Seedance. Создавайте высококачественные изображения из подробных текстовых описаний с передовой AI технологией.",
+      "keywords": "AI текст в изображение, генератор текст в картинку, бесплатный AI создатель изображений, Seedance, AI арт из текста, генерация изображений из текста"
     },
     "imageToImage": {
-      "title": "Бесплатный AI редактор изображений: Трансформация картинок с AI | Veo3 AI",
-      "description": "Редактируйте и трансформируйте ваши изображения с помощью мощного редактора изображение-в-изображение от Veo3 AI. Загружайте ваши фото и используйте AI для создания потрясающих вариаций и модификаций.",
-      "keywords": "AI редактор изображений, изображение в изображение AI, трансформация фото, AI редактирование изображений, Veo3 AI, AI модификация изображений"
+      "title": "Бесплатный AI редактор изображений: Трансформация картинок с AI | Seedance",
+      "description": "Редактируйте и трансформируйте ваши изображения с помощью мощного редактора изображение-в-изображение от Seedance. Загружайте ваши фото и используйте AI для создания потрясающих вариаций и модификаций.",
+      "keywords": "AI редактор изображений, изображение в изображение AI, трансформация фото, AI редактирование изображений, Seedance, AI модификация изображений"
     },
     "imageToVideo": {
       "title": "Бесплатный AI генератор изображения в видео: Превращение фото в видео",
       "description": "Используйте генератор AI изображения в видео Seedance бесплатно. Конвертируйте фотографии в видео с высоким качеством и захватывающими результатами. Попробуйте наш AI изображения в видео сейчас!",
-      "keywords": "изображение в видео AI, конвертер фото в видео, бесплатное изображение в видео, Seedance, AI видео из изображения, анимация изображения",
       "placeholderText": "Загрузите изображение и нажмите генерировать для создания видео",
       "seo": {
         "title": "Бесплатный AI генератор изображения в видео: Превращение фото в видео | Seedance",
@@ -423,7 +641,13 @@
       },
       "ctaTitle": "Вдохните жизнь в ваши статичные изображения!",
       "ctaDescription": "Превратите любую фотографию в потрясающее видео с нашим AI генератором изображения в видео. Загрузите изображение и наблюдайте, как оно оживает за секунды.",
-      "ctaButtonText": "Попробовать генератор изображения в видео"
+      "ctaButtonText": "Попробовать генератор изображения в видео",
+      "keywords": "изображение в видео AI, конвертер фото в видео, бесплатное изображение в видео, Seedance, AI видео из изображения, анимация изображения"
+    },
+    "referenceToVideo": {
+      "title": "Бесплатный Veo3 Референс в видео: Фиксация идентичности персонажа | Seedance",
+      "description": "Загрузите 1-3 референса и создавайте 8с видео с Veo 3.1. Сохраняйте внешность персонажа в сценах с нативным звуком. Расширение до 148с.",
+      "keywords": "Veo3 референсное видео, согласованность персонажа, блокировка идентичности, Veo 3.1"
     },
     "videoEffects": {
       "title": "AI видеоэффекты - Трансформируйте ваши видео",
@@ -468,12 +692,62 @@
       }
     }
   },
+  "imageEffectTool": {
+    "backToEffects": "Назад к фотоэффектам",
+    "uploadImage": "Загрузить фото",
+    "dragAndDrop": "Перетащите файл или кликните для загрузки",
+    "selectFromCreations": "Выбрать из моих работ",
+    "supportedFormats": "Поддерживаются JPG, PNG, WebP (до 10 МБ)",
+    "uploadingImage": "Загрузка изображения...",
+    "uploading": "Загрузка...",
+    "settings": "Настройки",
+    "credits": "Кредиты",
+    "cost": "Стоимость",
+    "recharge": "Пополнить",
+    "generate": "Сгенерировать",
+    "generating": "Генерация...",
+    "uploadRequired": "Пожалуйста, загрузите фото, чтобы применить эффект.",
+    "insufficientCredits": "Недостаточно кредитов. Пополните баланс.",
+    "generateFailed": "Не удалось создать эффект.",
+    "generateFailedRetry": "Не удалось создать эффект. Попробуйте ещё раз.",
+    "uploadedAlt": "Загружено",
+    "placeholderText": "Загрузите фото, чтобы применить эффект",
+    "comingSoon": "Скоро"
+  },
+  "videoEffectTool": {
+    "backToEffects": "Back to Video Effects",
+    "uploadImage": "Upload Image",
+    "dragAndDrop": "Drag & drop or click to upload",
+    "selectFromCreations": "Select from My Creations",
+    "supportedFormats": "Supports JPG, PNG, WebP (max 10MB)",
+    "uploadingImage": "Uploading image...",
+    "uploading": "Uploading...",
+    "settings": "Settings",
+    "credits": "Credits",
+    "cost": "Cost",
+    "recharge": "Recharge",
+    "generate": "Generate",
+    "generating": "Generating...",
+    "uploadRequired": "Please upload an image to apply the effect.",
+    "uploadRequiredCount": "Please upload {count} images to apply the effect.",
+    "insufficientCredits": "Insufficient credits. Please recharge.",
+    "generateFailed": "Failed to generate effect.",
+    "generateFailedRetry": "Failed to generate effect. Please try again.",
+    "uploadedAlt": "Uploaded",
+    "placeholderText": "Upload an image to apply the effect",
+    "comingSoon": "Coming soon",
+    "firstFrame": "First Frame",
+    "lastFrame": "Last Frame",
+    "imageSlot": "Image {index}"
+  },
   "imageGenerator": {
     "textToImage": "Текст в изображение",
     "imageToImage": "Изображение в изображение",
     "prompt": "Промпт",
     "settings": "Настройки",
     "model": "Модель",
+    "resolution": "Разрешение",
+    "ratio": "Соотношение сторон",
     "image": "Изображение",
     "images": "Изображения",
     "credits": "Кредиты",
@@ -481,6 +755,7 @@
     "recharge": "Пополнить",
     "generateImage": "Создать изображение",
     "transformImage": "Трансформировать изображение",
+    "transformMultipleImages": "Трансформировать {count} изображений",
     "generating": "Генерация...",
     "uploading": "Загрузка...",
     "clickToUploadMultiple": "Нажмите для загрузки нескольких изображений или перетащите их",
@@ -521,13 +796,189 @@
     "generationStarted": "Генерация изображения начата.",
     "generationCompleted": "Генерация изображения завершена!",
     "generationInProgress": "Генерация...",
-    "generationStatusChecking": "Проверяем статус..."
+    "generationStatusChecking": "Проверяем статус...",
+    "imageAgent": "Мультикадровая генерация",
+    "imageAgentTooltip": "ИИ расширяет ваш запрос на множество ракурсов, сцен и вариантов освещения. Идеально для товарной фотографии, комиксов и творческих экспериментов.",
+    "imageCount": "Результаты",
+    "generateMultipleImages": "Сгенерировать {count} изображений",
+    "promptTooLong": "Лимит символов превышен на {count}"
   },
   "myCreations": {
     "title": "Мои Творения",
     "description": "Просмотрите все ваши видео и изображения, созданные ИИ",
     "videoTab": "Видео",
+    "jobsTab": "Задания",
     "imageTab": "Изображения"
+  },
+  "media-detail": {
+    "title": "Детали медиа",
+    "audio": "Аудио",
+    "prompt": "Промпт",
+    "inputImages": "Входные изображения",
+    "expand": "Развернуть",
+    "collapse": "Свернуть",
+    "actions": {
+      "open": "Открыть",
+      "download": "Скачать",
+      "delete": "Удалить",
+      "copyPrompt": "Копировать промпт",
+      "promptCopied": "Промпт скопирован"
+    }
+  },
+  "agentJobs": {
+    "pleaseSignIn": "Пожалуйста, войдите",
+    "signInToViewJobs": "Войдите, чтобы просмотреть свои задания",
+    "signInButton": "Войти",
+    "tabs": {
+      "history": "История",
+      "discover": "Подборка"
+    },
+    "modal": {
+      "title": "Детали задания",
+      "labels": {
+        "videoModel": "Видео модель",
+        "imageModel": "Имидж модель",
+        "aspectRatio": "Соотношение сторон",
+        "duration": "Длительность",
+        "shots": "Кадры",
+        "created": "Создано"
+      },
+      "actions": {
+        "open": "Открыть",
+        "download": "Скачать",
+        "copyPrompt": "Копировать промпт"
+      }
+    },
+    "empty": {
+      "noJobsTitle": "Заданий агента пока нет",
+      "noJobsDescription": "Создайте свое первое задание по интеллектуальной оркестровке видео, чтобы начать",
+      "checkExamples": "Посмотрите примеры",
+      "noShowcase": "Нет доступных элементов витрины."
+    },
+    "auth": {
+      "required": "Требуется аутентификация",
+      "description": "Пожалуйста, войдите, чтобы просмотреть свои задания агента",
+      "viewShowcase": "Посмотреть витрину"
+    },
+    "toast": {
+      "deleteSuccess": "Задание агента успешно удалено",
+      "deleteError": "Не удалось удалить задание",
+      "downloadError": "Не удалось скачать видео",
+      "fetchError": "Не удалось загрузить задания агента",
+      "copyError": "Не удалось скопировать"
+    },
+    "item": {
+      "finalVideo": "Итоговое видео",
+      "finalVideoNoBgm": "Склеенное видео",
+      "finalVideoWithBgm": "Итоговое видео (с BGM)",
+      "reEdit": "Перередактировать",
+      "delete": "Удалить",
+      "deleting": "Удаление...",
+      "story": "История",
+      "theme": "Тема",
+      "tone": "Тон",
+      "acts": "Акты",
+      "characters": "Персонажи",
+      "scene": "Сцена",
+      "logs": "Логи агента",
+      "show": "Показать",
+      "hide": "Скрыть",
+      "deleteTitle": "Удалить задание агента?",
+      "deleteConfirm": "Вы уверены, что хотите удалить \"{prompt}\"? Это действие нельзя отменить.",
+      "shots": "кадров",
+      "failed": "Генерация не удалась",
+      "copyPrompt": "Копировать промпт",
+      "promptCopied": "Промпт скопирован",
+      "failedShots": "Неудачные кадры",
+      "estimatedCost": "Примерная стоимость продолжения: {cost} кредитов",
+      "resume": "Продолжить",
+      "resumeStarted": "Продолжение начато",
+      "resumeFailed": "Ошибка продолжения",
+      "retryStarted": "Перезапуск начат",
+      "retryFailed": "Ошибка перезапуска",
+      "retryFromStart": "Начать сначала"
+    },
+    "steps": {
+      "plan_story_and_shots": "Планирование сюжета",
+      "generate_prompts": "Генерация промптов",
+      "submit_background_music": "Отправка BGM",
+      "design_characters": "Дизайн персонажей",
+      "generate_scene_ref": "Референс сцены",
+      "generate_keyframes": "Генерация ключевых кадров",
+      "generate_video_prompts": "Промпты видео",
+      "orchestrate_videos": "Генерация видео",
+      "check_quality": "Проверка качества",
+      "wait_for_background_music": "Ожидание BGM",
+      "splice_videos": "Склейка видео"
+    },
+    "assets": {
+      "script": "Сценарий",
+      "image": "Изображение",
+      "video": "Видео",
+      "storyScript": "История и сценарий",
+      "characterRefs": "Персонажи",
+      "sceneRef": "Сцена",
+      "backgroundMusic": "Фоновая музыка",
+      "shot": "Кадр",
+      "ref": "Реф",
+      "more": "еще",
+      "finalVideo": "Итоговое видео"
+    },
+    "assetModal": {
+      "shots": "Кадры",
+      "acts": "Акты",
+      "characters": "Персонажи",
+      "scene": "Сцена",
+      "storyOutline": "Сюжетная линия",
+      "logline": "Логлайн",
+      "conflict": "Конфликт",
+      "ending": "Концовка",
+      "soundBed": "Звуковой фон",
+      "theme": "Тема",
+      "tone": "Тон",
+      "actsUpper": "АКТЫ",
+      "elementsUpper": "ЭЛЕМЕНТЫ",
+      "character": "Персонаж",
+      "storyboard": "Раскадровка",
+      "startFrame": "Начальный кадр",
+      "story": "История",
+      "keyframePrompt": "Промпт ключевого кадра",
+      "shotPrompt": "Промпт кадра",
+      "videoRouting": "Маршрутизация видео",
+      "copy": "Копировать",
+      "copied": "Скопировано",
+      "download": "Скачать",
+      "copyAttempts": "Копировать попытки",
+      "keyboardHint": "Нажмите Пробел для паузы/воспроизведения • ESC для закрытия",
+      "videoNotSupported": "Ваш браузер не поддерживает тег видео.",
+      "done": "Готово",
+      "failed": "Ошибка",
+      "generating": "Генерация",
+      "skipped": "Пропущено",
+      "model": "Модель"
+    },
+    "gallery": {
+      "promptLabel": "Промпт",
+      "usedResources": "Ресурсы",
+      "resourceLabel": "Ресурс"
+    },
+    "createPanel": {
+      "title": "Создать задачу агента",
+      "description": "Описание",
+      "descriptionPlaceholder": "Опишите концепцию вашего видео, например: Кинематографическое путешествие по футуристическому городу на закате...",
+      "aspectRatio": "Соотношение сторон",
+      "duration": "Продолжительность",
+      "videoModel": "Модель видео",
+      "credits": "Кредиты",
+      "cost": "Стоимость",
+      "recharge": "Пополнить",
+      "generate": "Создать",
+      "creating": "Создание...",
+      "errorNoDescription": "Пожалуйста, введите описание видео",
+      "errorMinLength": "Описание должно содержать не менее 10 символов",
+      "errorMaxLength": "Описание не должно превышать 2000 символов",
+      "toastSuccess": "Задача агента создана!"
+    }
   },
   "imageHistory": {
     "discoveryTab": "Подборка",
@@ -537,6 +988,10 @@
     "discoveryDescription": "Нажмите на любую карточку, чтобы мгновенно заполнить поле промпта в инструменте текст-в-изображение.",
     "historySubtitle": "Отслеживайте свои последние генерации, их статусы и управляйте результатами.",
     "title": "История изображений",
+    "searchPromptPlaceholder": "Поиск по промптам",
+    "searchMatches": "{count} совпадений",
+    "searchNoResults": "Нет промптов, соответствующих поиску",
+    "searchButton": "Найти",
     "noImagesTitle": "Изображений пока нет",
     "noImagesDescription": "Ваши сгенерированные изображения появятся здесь после создания.",
     "completed": "Завершено",
@@ -576,6 +1031,8 @@
     "imageToImageModel": "nano-banana"
   },
   "videoHistory": {
+    "exploreExamples": "Примеры",
+    "recentGenerations": "Недавние генерации",
     "videoDeleted": "Видео успешно удалено",
     "deleteFailed": "Не удалось удалить видео",
     "deleteVideo": "Удалить видео",
@@ -622,13 +1079,80 @@
     "cancel": "Отмена",
     "continuePurchase": "Продолжить покупку"
   },
+  "creditsBundle": {
+    "title": "Купить кредиты",
+    "description": "Приобретите дополнительные кредиты для генерации видео.",
+    "expireNote": "Дополнительные кредиты действительны 1 месяц после покупки.",
+    "credits": "Кредиты",
+    "selectPaymentMethod": "Выберите способ оплаты",
+    "cancel": "Отмена",
+    "continueToPayment": "Перейти к оплате",
+    "processing": "Обработка...",
+    "buyCredits": "Купить кредиты"
+  },
+  "nano-banana": {
+    "title": "Google Nano Banana AI: Попробуйте этот генератор AI-изображений | Seedance",
+    "description": "Создать потрясающие изображения с нано банана AI. Генерировать высококачественные изображения из текстовых подсказки с помощью передовых технологий ии.",
+    "keywords": "Нано банана, AI Image Generator, Text to Image, создание изображений, AI Art, AI Images"
+  },
+  "nano-banana-pro": {
+    "title": "Google Nano Banana Pro AI: Профессиональный генератор AI-изображений | Seedance",
+    "description": "Откройте для себя Nano Banana Pro, премиум-версию Gemini 2.5 Flash Image от Google. Профессиональная генерация AI-изображений с улучшенной точностью, превосходным качеством и расширенными возможностями редактирования.",
+    "keywords": "Nano Banana Pro, Google Nano Banana Pro, Gemini 2.5 Flash Pro, Генератор AI-изображений, Профессиональные AI-изображения, Text to Image Pro, Редактирование изображений AI, Продвинутое AI искусство"
+  },
+  "seedream-4-5": {
+    "title": "Seedream 4.5 ИИ-генератор изображений: Новейшая модель ByteDance | Seedance",
+    "description": "Создавайте потрясающие изображения с Seedream 4.5, продвинутым ИИ-генератором от ByteDance. Разрешение 4K, до 14 референсных изображений и пакетная генерация.",
+    "keywords": "Seedream 4.5, ByteDance ИИ, Doubao изображения, ИИ генератор изображений, Текст в изображение, Изображение в изображение, 4K ИИ изображения, Пакетная генерация, Референсные изображения ИИ"
+  },
+  "seedream-5-0": {
+    "title": "Seedream 5.0 ИИ-генератор изображений бесплатно | Seedance",
+    "description": "4K-изображения за 2-3с с Seedream 5.0 от ByteDance. Веб-поиск в реальном времени, многоэтапное редактирование, перенос стиля & скорость 10x. Бесплатно!",
+    "keywords": "Seedream 5.0, Seedream 5, ИИ-генератор изображений, текст в изображение, 4K ИИ, ByteDance"
+  },
+  "trans_type": {
+    "new_user": "Приветственный бонус",
+    "order_pay": "Покупка",
+    "system_add": "Системные кредиты",
+    "ping": "API запрос",
+    "chat": "Чат",
+    "refund_non_response": "Возврат за отсутствие ответа",
+    "video_generation_4s": "Видео (4с)",
+    "video_generation_5s": "Видео (5с)",
+    "video_generation_6s": "Видео (6с)",
+    "video_generation_8s": "Видео (8с)",
+    "video_generation_10s": "Видео (10с)",
+    "video_generation_12s": "Видео (12с)",
+    "video_generation_15s": "Видео (15с)",
+    "video_generation_25s": "Видео (25с)",
+    "refund_video_generation_failed": "Возврат за видео",
+    "image_generation": "Генерация изображения",
+    "refund_image_generation_failed": "Возврат за изображение",
+    "agent_shot_analysis": "Анализ агента",
+    "agent_plan_reserve": "План агента",
+    "agent_plan_refund": "Возврат за план агента",
+    "agent_keyframe": "Ключевой кадр агента",
+    "agent_keyframe_reserve": "Ключевой кадр агента",
+    "agent_keyframe_refund": "Возврат за ключевой кадр агента",
+    "agent_video_clip": "Клип агента",
+    "agent_video_reserve": "Видео агента",
+    "agent_video_refund": "Возврат за видео агента",
+    "agent_bgm_reserve": "BGM агента",
+    "agent_bgm_refund": "Возврат за BGM агента",
+    "agent_video_splicing": "Склейка агента",
+    "agent_splice": "Склейка агента",
+    "agent_splice_refund": "Возврат за склейку агента",
+    "agent_scene_ref_reserve": "Ссылка на сцену агента",
+    "agent_scene_ref_refund": "Возврат за ссылку на сцену агента",
+    "agent_character_ref_reserve": "Ссылка на персонажа агента",
+    "agent_character_ref_refund": "Возврат за ссылку на персонажа агента"
+  },
+  "header": {
+    "video_effects": "Видеоэффекты",
+    "more_effects": "Ещё эффекты"
+  },
   "footer": {
     "popularEffects": "Популярные эффекты",
     "moreEffects": "Больше эффектов →"
-  },
-  "nano-banana": {
-    "title": "Google Nano Banana AI: Попробуйте этот генератор AI-изображений | Veo3 AI",
-    "description": "Создать потрясающие изображения с нано банана AI. Генерировать высококачественные изображения из текстовых подсказки с помощью передовых технологий ии.",
-    "keywords": "Нано банана, AI Image Generator, Text to Image, создание изображений, AI Art, AI Images"
   }
 }

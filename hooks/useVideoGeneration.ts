@@ -5,7 +5,9 @@ import { useTranslations } from "next-intl";
 interface VideoGenerationParams {
   model: string;
   prompt: string;
-  image_url?: string;
+  image_url?: string; // 保留用于向后兼容
+  image_urls?: string[]; // 新增：支持1-2张图片数组（首帧、尾帧）
+  source_image_ids?: string[]; // 新增：来源图片ID追踪（My Creations）
   negative_prompt?: string;
   aspect_ratio?: string;
   duration?: string;
@@ -19,6 +21,7 @@ interface VideoGenerationParams {
   pixverse_img_ids?: number[]; // For pixverse template effects
   captchaToken?: string; // For CAPTCHA verification
   watermarkEnabled?: boolean; // Frontend flag for Seedance watermark control
+  generationType?: string; // For Reference-to-Video feature (e.g., "REFERENCE_2_VIDEO")
 }
 
 interface UserCreditsInfo {
@@ -40,13 +43,17 @@ interface VideoGenerationResult {
   video_url_veo3?: string;
   video_url_sora?: string;
   upsample_video_url_veo3?: string;
+  is_downgraded_to_720p?: boolean;
   error_message?: string;
   created_at?: string;
   aspect_ratio?: string;
   duration_seconds?: number;
   userCredits?: UserCreditsInfo;
   image_url?: string;
+  image_urls?: string[];
   effect_id?: string;
+  effect_type?: "image-effect" | "video-effect";
+  effect_name?: string;
   effect_info?: {
     id: string;
     title: string;

@@ -38,10 +38,11 @@ import { useAppContext } from "@/contexts/app";
 import DeleteConfirmDialog from "@/components/blocks/image-history-for-generation/components/DeleteConfirmDialog";
 
 const ITEMS_PER_PAGE = 12;
+const MAX_BACKGROUND_STATUS_UPDATES = 5;
 
 export default function VideoHistoryPageClient() {
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname() || "";
   const searchParams = useSearchParams();
   const t = useTranslations("video-history");
   const { user, setShowSignModal } = useAppContext();
@@ -77,31 +78,29 @@ export default function VideoHistoryPageClient() {
           activeStatuses.includes(video.status)
       );
 
-      if (allActiveTasks.length === 0) {
+      const limitedActiveTasks = allActiveTasks.slice(0, MAX_BACKGROUND_STATUS_UPDATES);
+
+      if (limitedActiveTasks.length === 0) {
         return;
       }
 
-      console.log(`后台更新 ${allActiveTasks.length} 个进行中任务的状态...`);
+      console.log(`后台更新 ${limitedActiveTasks.length} 个进行中任务的状态...`);
 
       try {
-        // 并行触发状态更新（不阻塞UI）
-        const statusPromises = allActiveTasks.map(
-          async (video: VideoGeneration) => {
-            try {
-              await fetch("/api/video-generation/status", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ id: video.id }),
-              });
-            } catch (error) {
-              console.error(`更新任务 ${video.id} 状态失败:`, error);
-            }
+        // 串行触发状态更新，降低瞬时压力
+        for (const video of limitedActiveTasks) {
+          try {
+            await fetch("/api/video-generation/status", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ id: video.id }),
+            });
+          } catch (error) {
+            console.error(`更新任务 ${video.id} 状态失败:`, error);
           }
-        );
-
-        await Promise.all(statusPromises);
+        }
         console.log(`后台状态更新完成`);
 
         // 静默刷新历史记录以显示最新状态
@@ -170,7 +169,7 @@ export default function VideoHistoryPageClient() {
   );
 
   useEffect(() => {
-    const pageFromUrl = parseInt(searchParams.get("page") || "1");
+    const pageFromUrl = parseInt(searchParams?.get("page") || "1");
     fetchHistory(pageFromUrl);
   }, [searchParams, fetchHistory]);
 

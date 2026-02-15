@@ -4,6 +4,7 @@ import {
   updateVideoGenerationByAliRequestId,
 } from "@/models/videoGeneration";
 import { newStorage } from "@/lib/storage";
+import { VIDEO_CACHE_CONTROL } from "@/lib/cache-control";
 import { getVideoModel, VideoModelProvider, calculateCredits } from "@/config/video-models";
 import { increaseCredits, CreditsTransType } from "@/services/credit";
 
@@ -62,6 +63,7 @@ export async function POST(req: Request) {
                 url: result.video_url,
                 key: fileName,
                 contentType: "video/mp4",
+                cacheControl: VIDEO_CACHE_CONTROL,
               });
               
               r2VideoUrl = uploadResult.url;

@@ -1,7 +1,7 @@
 {
   "banner": {
     "title": "Google Veo 3.1 AI Video Generator",
-    "description": "Veo 3.1 is an upgrade of Google's Veo 3 model, introducing enhanced first-and-last-frame control and image reference capabilities for more precise creative control. Experience Veo 3.1 now for free on Veo3 AI!",
+    "description": "Veo 3.1 is an upgrade of Google's Veo 3 model, introducing enhanced first-and-last-frame control and image reference capabilities for more precise creative control. Experience Veo 3.1 now for free on Seedance!",
     "tabs": [
       {
         "type": "image",
@@ -43,19 +43,19 @@
         "title": "First & Last Frame Control",
         "description": "Create perfectly smooth transitions by uploading a start and end image. Veo 3.1 generates the in-between motion, ideal for morphing scenes, time-lapses, or narrative continuity. This advanced feature gives creators unprecedented control over their video storytelling.",
         "type": "video",
-        "data": "https://pollo.ai/cms/first_last_frames_5b87eb9d90.mp4"
+        "data": "https://r2.veo3ai.io/intro/image-to-video/1216Material-reserves/Snow-Mountain-Lynx.mp4"
       },
       {
         "title": "Image Reference Style Matching",
         "description": "Want a specific look? Upload a reference image—a painting, photo, or mood board—and Veo 3.1 matches the style, color grading, and composition with impressive accuracy. Perfect for maintaining consistent visual aesthetics across your video projects.",
         "type": "video",
-        "data": "https://pollo.ai/cms/reference_to_video_1_57dde91dc5.mp4"
+        "data": "https://r2.veo3ai.io/intro/veo3.1/Castle-Beauty.mp4"
       },
       {
         "title": "Advanced Audio Integration",
         "description": "Veo 3.1 maintains exceptional native audio generation. The model produces synchronized, contextually appropriate soundscapes that bring your videos to life with realistic ambient sounds, effects, and atmospheres—no additional editing required.",
         "type": "video",
-        "data": "https://pollo.ai/cms/quality_2_e4d485dc0e.mp4"
+        "data": "https://r2.veo3ai.io/intro/veo3.1/sloth_on_train.mp4"
       },
       {
         "title": "Character Consistency Excellence",
@@ -65,16 +65,20 @@
       },
       {
         "title": "Precision Prompt Understanding",
-        "description": "Veo 3.1 demonstrates remarkable comprehension of complex, nuanced prompts. Describe intricate scenes, specific camera movements, or detailed artistic styles—Veo 3.1 translates your words into stunning visuals with impressive accuracy. The system understands context, emotion, and subtle creative directions."
+        "description": "Veo 3.1 demonstrates remarkable comprehension of complex, nuanced prompts. Describe intricate scenes, specific camera movements, or detailed artistic styles—Veo 3.1 translates your words into stunning visuals with impressive accuracy. The system understands context, emotion, and subtle creative directions.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Starting-a-fire-on-paper.mp4"
       },
       {
         "title": "High-Quality Output",
-        "description": "Generate videos at 1080p resolution with exceptional visual fidelity and style consistency. From emulating subtle emotional expressions to rendering cinematic-level sequences, Veo 3.1 brings your creative vision to life with incredibly lifelike detail."
+        "description": "Generate videos at 1080p resolution with exceptional visual fidelity and style consistency. From emulating subtle emotional expressions to rendering cinematic-level sequences, Veo 3.1 brings your creative vision to life with incredibly lifelike detail.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/wool-scarf.mp4"
       }
     ]
   },
   "usageGuide": {
-    "title": "How To Generate Videos with Veo 3.1 on Veo3 AI",
+    "title": "How To Generate Videos with Veo 3.1 on Seedance",
     "description": "Create stunning AI videos with Google's Veo 3.1 model through our easy-to-use interface",
     "steps": [
       {
@@ -93,17 +97,17 @@
         "description": "Click 'Create' and wait approximately 3-4 minutes for your video to generate. Once complete, download your high-quality AI-generated video."
       }
     ],
-    "buttonText": "Try Veo 3.1 on Veo3 AI"
+    "buttonText": "Try Veo 3.1 on Seedance"
   },
   "cta": {
-    "title": "Experience Veo 3.1 on Veo3 AI Now!",
+    "title": "Experience Veo 3.1 on Seedance Now!",
     "buttonText": "Try Veo 3.1 Free"
   },
   "faq": {
     "name": "faq",
     "label": "FAQ",
     "title": "Frequently Asked Questions",
-    "description": "Learn more about Google Veo 3.1 AI video generator on Veo3 AI",
+    "description": "Learn more about Google Veo 3.1 AI video generator on Seedance",
     "items": [
       {
         "title": "What is Google Veo 3.1?",
@@ -114,8 +118,8 @@
         "description": "Compared to Veo 3, Veo 3.1 provides greater creative control through specific start and end frame settings, reference image style matching, and improved accuracy in responding to complex prompts. Audio generation and character consistency remain top-tier while adding more precision tools for creators."
       },
       {
-        "title": "Can I use Veo 3.1 for free on Veo3 AI?",
-        "description": "Yes! Veo3 AI offers access to Veo 3.1 for free with our trial plan. You can try text-to-video or image-to-video creation at no cost. For unlimited generations, consider our paid subscription plans with additional credits."
+        "title": "Can I use Veo 3.1 for free on Seedance?",
+        "description": "Yes! Seedance offers access to Veo 3.1 for free with our trial plan. You can try text-to-video or image-to-video creation at no cost. For unlimited generations, consider our paid subscription plans with additional credits."
       },
       {
         "title": "Does Veo 3.1 support audio generation?",
@@ -135,7 +139,7 @@
       },
       {
         "title": "How long does it take to generate a video with Veo 3.1?",
-        "description": "On Veo3 AI, Veo 3.1 typically takes 3-4 minutes to generate an 8-second video. Generation time may vary based on complexity, resolution settings, and current server load. We provide real-time progress updates during generation."
+        "description": "On Seedance, Veo 3.1 typically takes 3-4 minutes to generate an 8-second video. Generation time may vary based on complexity, resolution settings, and current server load. We provide real-time progress updates during generation."
       }
     ]
   }

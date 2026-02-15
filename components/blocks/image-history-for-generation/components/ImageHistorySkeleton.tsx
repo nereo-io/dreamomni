@@ -10,10 +10,10 @@ export default function ImageHistorySkeleton({ className }: ImageHistorySkeleton
         {Array.from({ length: 3 }).map((_, index) => (
           <div 
             key={index} 
-            className="p-5 space-y-4 animate-pulse"
+            className="px-4 py-5 space-y-4 animate-pulse"
           >
             {/* 提示词 + 时间戳 */}
-            <div className="flex justify-between items-start gap-3">
+            <div className="flex justify-between items-start gap-2">
               <div className="flex-1 space-y-2">
                 <div className="h-4 bg-gray-700 rounded w-3/4" />
                 <div className="h-4 bg-gray-700 rounded w-1/2" />

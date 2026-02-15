@@ -1,10 +1,14 @@
 import React from "react";
+import { Copy } from "lucide-react";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import { getVideoModel } from "@/config/video-models";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
-import StatusBadge from "./StatusBadge";
 import VideoMetadata from "./VideoMetadata";
 import EnhancedPrompt from "./EnhancedPrompt";
 import VideoStatusDisplay from "./VideoStatusDisplay";
+import ReferenceImagesThumbnails from "./ReferenceImagesThumbnails";
+import ImagePreviewModal from "@/components/blocks/image-history-for-generation/components/ImagePreviewModal";
 
 interface VideoHistoryItemProps {
   generation: VideoGenerationResult;
@@ -46,6 +50,11 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
     canEdit = false,
     isDeleting = false,
   }) => {
+    const tImage = useTranslations("imageHistory");
+    // State for image preview modal
+    const [selectedImageUrl, setSelectedImageUrl] = React.useState<string | null>(null);
+    const [selectedImageIndex, setSelectedImageIndex] = React.useState<number>(0);
+
     // Get video URL from various sources
     const getVideoUrl = (gen: VideoGenerationResult) => {
       return (
@@ -65,6 +74,18 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
       statusMap[generation.status as keyof typeof statusMap] ||
       statusMap.submitted;
     const modelConfig = getVideoModel(generation.model_id);
+    const effectName =
+      generation.effect_info?.title || generation.effect_name || undefined;
+    const displayPrompt = (() => {
+      if (!effectName) {
+        return generation.prompt;
+      }
+      const trimmedPrompt = generation.prompt?.trim();
+      if (trimmedPrompt && trimmedPrompt !== effectName) {
+        return `${effectName} · ${trimmedPrompt}`;
+      }
+      return effectName;
+    })();
 
     // Format timestamp
     const formatTimestamp = () => {
@@ -87,6 +108,48 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
       }
     };
 
+    // Get image array (unified handling of single and multiple images)
+    const getImageArray = (): string[] => {
+      if (generation.image_urls && generation.image_urls.length > 0) {
+        return generation.image_urls;
+      }
+      if (generation.image_url) {
+        return [generation.image_url];
+      }
+      return [];
+    };
+
+    const imageArray = getImageArray();
+    const hasImages = imageArray.length > 0;
+    const posterUrl = imageArray[0];
+
+    // Modal navigation functions
+    const handlePrevious = () => {
+      if (selectedImageIndex > 0) {
+        const newIndex = selectedImageIndex - 1;
+        setSelectedImageIndex(newIndex);
+        setSelectedImageUrl(imageArray[newIndex]);
+      }
+    };
+
+    const handleNext = () => {
+      if (selectedImageIndex < imageArray.length - 1) {
+        const newIndex = selectedImageIndex + 1;
+        setSelectedImageIndex(newIndex);
+        setSelectedImageUrl(imageArray[newIndex]);
+      }
+    };
+
+    const handleCopyPrompt = async () => {
+      if (!displayPrompt) return;
+      try {
+        await navigator.clipboard.writeText(displayPrompt);
+        toast.success(tImage("promptCopied"));
+      } catch (error) {
+        console.error("Failed to copy prompt:", error);
+      }
+    };
+
     // console.log("Video generation data:", {
     //   id: generation.id,
     //   prompt: generation.prompt,
@@ -96,11 +159,21 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
     // });
 
     return (
-      <div className="p-5 space-y-4">
-        {/* Header: Status + Prompt/Effect Title + Timestamp */}
+      <div className="px-4 py-5 space-y-4">
+        {/* Header: Status/Images + Prompt/Effect Title + Timestamp */}
         <div className="flex justify-between items-start gap-3">
           <div className="flex items-start gap-3 flex-1">
-            <StatusBadge status={generation.status} statusMap={statusMap} />
+            {/* Show reference images if available, otherwise hide status badge */}
+            {hasImages && (
+              <ReferenceImagesThumbnails
+                images={imageArray}
+                onImageClick={(url, index) => {
+                  setSelectedImageUrl(url);
+                  setSelectedImageIndex(index);
+                }}
+                maxDisplay={3}
+              />
+            )}
             <p
               className="text-base font-bold text-white leading-relaxed flex-1"
               style={{
@@ -110,14 +183,23 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
                 overflow: "hidden",
               }}
             >
-              {generation.effect_info ? generation.effect_info.title : generation.prompt}
+              {displayPrompt}
             </p>
           </div>
-          {formatTimestamp() && (
-            <span className="text-sm text-gray-400 flex-shrink-0 mt-0.5">
-              {formatTimestamp()}
-            </span>
-          )}
+          <div className="flex flex-col items-end gap-1 flex-shrink-0">
+            {formatTimestamp() && (
+              <span className="text-sm text-gray-400">
+                {formatTimestamp()}
+              </span>
+            )}
+            <button
+              onClick={handleCopyPrompt}
+              className="p-0.5 text-gray-400 hover:text-white transition-colors rounded"
+              title={tImage("copyPrompt")}
+            >
+              <Copy className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
         {/* Metadata tags */}
@@ -125,11 +207,12 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
           aspectRatio={generation.aspect_ratio}
           durationSeconds={generation.duration_seconds}
           hasUpsample={!!generation.upsample_video_url_veo3}
-          modelName={generation.effect_info ? undefined : (modelConfig?.displayName || generation.model_id)}
+          isDowngradedTo720P={generation.is_downgraded_to_720p}
+          modelName={effectName ? undefined : (modelConfig?.displayName || generation.model_id)}
         />
 
         {/* Enhanced Prompt - Only show for non-effect videos */}
-        {!generation.effect_info && (
+        {!effectName && (
           <EnhancedPrompt
             originalPrompt={generation.prompt}
             optimizedPrompt={generation.optimized_prompt}
@@ -143,6 +226,7 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
           status={generation.status}
           statusInfo={status}
           videoUrl={videoUrl}
+          posterUrl={posterUrl}
           onDownload={() => onDownload(generation)}
           canDownload={!isExample}
           isDownloading={isDownloading}
@@ -158,6 +242,25 @@ const VideoHistoryItem: React.FC<VideoHistoryItemProps> = React.memo(
           canEdit={canEdit && !isExample}
           isDeleting={isDeleting}
         />
+
+        {/* Image Preview Modal */}
+        {selectedImageUrl && (
+          <ImagePreviewModal
+            isOpen={!!selectedImageUrl}
+            onClose={() => {
+              setSelectedImageUrl(null);
+              setSelectedImageIndex(0);
+            }}
+            imageUrl={selectedImageUrl}
+            prompt={displayPrompt}
+            currentIndex={selectedImageIndex}
+            totalImages={imageArray.length}
+            hasPrevious={selectedImageIndex > 0}
+            hasNext={selectedImageIndex < imageArray.length - 1}
+            onPrevious={handlePrevious}
+            onNext={handleNext}
+          />
+        )}
       </div>
     );
   }

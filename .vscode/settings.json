@@ -12,5 +12,8 @@
   ],
   "i18n-ally.keystyle": "nested",
   "claudeCodeChat.permissions.yoloMode": true,
-  "chatgpt.openOnStartup": false
+  "chatgpt.openOnStartup": false,
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
 }
