@@ -198,17 +198,6 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
     return null;
   }
 
-  const getExamplePoster = (exampleId: string) =>
-    `/imgs/intro/text-to-video/posters/${exampleId}.webp`;
-
-  const getExampleThumbSrc = (example: (typeof examples)[number] | undefined) => {
-    if (!example) return undefined;
-    if (example.image.endsWith(".mp4")) {
-      return getExamplePoster(example.id);
-    }
-    return example.image;
-  };
-
   const previousIndex = (currentIndex - 1 + examples.length) % examples.length;
   const nextIndex = (currentIndex + 1) % examples.length;
 
@@ -272,19 +261,13 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
               ] === true && (
                 <VideoPlaceholder className="absolute inset-0 z-0" />
               )}
-              <img
-                alt={examples[previousIndex]?.alt || ""}
+              <video
                 className="w-full h-full object-cover object-center"
-                src={
-                  shouldAutoplay
-                    ? getExampleThumbSrc(examples[previousIndex])
-                    : undefined
-                }
-                loading="lazy"
-                decoding="async"
-                width={480}
-                height={270}
-                onLoad={() => handleMediaLoadComplete(previousIndex)}
+                src={examples[previousIndex]?.image || ""}
+                muted
+                playsInline
+                preload="metadata"
+                onLoadedMetadata={() => handleMediaLoadComplete(previousIndex)}
                 onError={() => handleMediaError(previousIndex)}
               />
             </div>
@@ -298,31 +281,21 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
             >
               {/* Video/Image */}
               <div className="relative">
-                {mediaErrorStates[currentIndex] === true && (
-                  <VideoPlaceholder className="absolute inset-0 z-0 rounded-xl border-2 border-border" />
-                )}
                 {examples[currentIndex]?.image.endsWith(".mp4") ? (
                   <video
                     ref={desktopVideoRef}
                     controls
-                    autoPlay={shouldAutoplay}
+                    autoPlay
                     muted
                     loop
                     playsInline
-                    preload="none"
-                    poster={
-                      shouldAutoplay && examples[currentIndex]?.id
-                        ? getExamplePoster(examples[currentIndex].id)
-                        : undefined
-                    }
+                    preload="auto"
                     className="rounded-xl shadow-2xl border-2 border-border w-full object-cover select-none"
-                    style={{ 
+                    style={{
                       aspectRatio: aspectRatio,
                       pointerEvents: isDragging ? "none" : "auto"
                     }}
-                    src={
-                      shouldAutoplay ? examples[currentIndex]?.image || "" : undefined
-                    }
+                    src={examples[currentIndex]?.image || ""}
                     onLoadStart={() => handleMediaLoadStart(currentIndex)}
                     onLoadedMetadata={(e) => {
                       const video = e.currentTarget;
@@ -395,15 +368,13 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
               {mediaErrorStates[nextIndex] === true && (
                 <VideoPlaceholder className="absolute inset-0 z-0" />
               )}
-              <img
-                alt={examples[nextIndex]?.alt || ""}
+              <video
                 className="w-full h-full object-cover object-center"
-                src={shouldAutoplay ? getExampleThumbSrc(examples[nextIndex]) : undefined}
-                loading="lazy"
-                decoding="async"
-                width={480}
-                height={270}
-                onLoad={() => handleMediaLoadComplete(nextIndex)}
+                src={examples[nextIndex]?.image || ""}
+                muted
+                playsInline
+                preload="metadata"
+                onLoadedMetadata={() => handleMediaLoadComplete(nextIndex)}
                 onError={() => handleMediaError(nextIndex)}
               />
               {examples[nextIndex]?.isNew && (
@@ -426,7 +397,7 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
       >
         <div className="space-y-6">
           {/* Current Video/Image - Full width on mobile */}
-          <div 
+          <div
             className="w-full transition-transform"
             style={{
               transform: `translateX(${translateX}px)`,
@@ -435,31 +406,21 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
           >
             <div className="space-y-4">
               <div className="relative">
-                {mediaErrorStates[currentIndex] === true && (
-                  <VideoPlaceholder className="absolute inset-0 z-0 rounded-xl border-2 border-border" />
-                )}
                 {examples[currentIndex]?.image.endsWith(".mp4") ? (
                   <video
                     ref={mobileVideoRef}
                     controls
-                    autoPlay={shouldAutoplay}
+                    autoPlay
                     muted
                     loop
                     playsInline
-                    preload="none"
-                    poster={
-                      shouldAutoplay && examples[currentIndex]?.id
-                        ? getExamplePoster(examples[currentIndex].id)
-                        : undefined
-                    }
+                    preload="auto"
                     className="rounded-xl shadow-2xl border-2 border-border w-full object-cover select-none"
-                    style={{ 
+                    style={{
                       aspectRatio: aspectRatio,
                       pointerEvents: isDragging ? "none" : "auto"
                     }}
-                    src={
-                      shouldAutoplay ? examples[currentIndex]?.image || "" : undefined
-                    }
+                    src={examples[currentIndex]?.image || ""}
                     onLoadStart={() => handleMediaLoadStart(currentIndex)}
                     onLoadedMetadata={(e) => {
                       const video = e.currentTarget;
@@ -534,14 +495,12 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
                     : "opacity-60 hover:opacity-80"
                 } transition-all duration-200`}
               >
-                <img
-                  alt={example.alt}
+                <video
                   className="w-16 h-12 rounded-md object-cover"
-                  src={shouldAutoplay ? getExampleThumbSrc(example) : undefined}
-                  loading="lazy"
-                  decoding="async"
-                  width={64}
-                  height={48}
+                  src={example.image}
+                  muted
+                  playsInline
+                  preload="metadata"
                 />
                 {example.isNew && (
                   <div className="absolute -top-1 -right-1 bg-primary rounded-full h-4 w-4 flex items-center justify-center text-primary-foreground text-xs font-bold">
