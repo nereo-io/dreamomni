@@ -1,13 +1,8 @@
 import FAQ from "@/components/blocks/faq";
 import Hero from "@/components/blocks/hero";
-import Testimonial from "@/components/blocks/testimonial";
-import VideoGenerator from "@/components/blocks/video-generator";
 import SeedanceFeaturesBlock from "@/components/blocks/seedance-features";
-import VideoFeatureShowcase from "@/components/blocks/video-feature-showcase";
 import GettingStarted from "@/components/blocks/getting-started";
 import StructuredData from "@/components/seo/structured-data";
-import Feature1 from "@/components/blocks/feature1";
-import Feature from "@/components/blocks/feature";
 import AuthRedirect from "@/components/auth/auth-redirect";
 import { ImageToVideoShowcase } from "@/components/blocks/image-to-video-showcase";
 import { AIModelsHero } from "@/components/blocks/ai-models-hero";
@@ -17,7 +12,6 @@ import CTA from "@/components/blocks/cta";
 import {
   getLandingPage,
   getSeedanceFeaturesBlock,
-  getVideoFeatureShowcaseBlock,
 } from "@/services/page";
 
 export async function generateMetadata({
@@ -50,19 +44,17 @@ export default async function LandingPage({
     <>
       <AuthRedirect />
       {page.hero && <Hero hero={page.hero} />}
-      {/* <VideoFeatureShowcase data={videoFeatureShowcase} /> */}
-      <SeedanceFeaturesBlock translations={seedanceFeatures} />
-      {page.introduce && <Feature1 section={page.introduce} />}
-      {page.feature && <Feature section={page.feature} />}
-      {page.gettingStarted && <GettingStarted data={page.gettingStarted} />}
 
-      {/* {page.testimonial && <Testimonial section={page.testimonial} />} */}
-
+      {/* 核心功能展示 - Hero 下方 */}
       {page.aiModelsHero && <AIModelsHero data={page.aiModelsHero} />}
       {page.imageToVideoShowcase && (
         <ImageToVideoShowcase data={page.imageToVideoShowcase} />
       )}
       {page.aiVideoShowcase && <AIVideoShowcase data={page.aiVideoShowcase} />}
+
+      {/* 功能介绍 */}
+      <SeedanceFeaturesBlock translations={seedanceFeatures} />
+      {page.gettingStarted && <GettingStarted data={page.gettingStarted} />}
 
       {page.faq && (
         <>
