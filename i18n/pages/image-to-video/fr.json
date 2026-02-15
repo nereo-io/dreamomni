@@ -11,22 +11,22 @@
       {
         "id": "best-image-to-video-generator",
         "question": "Quel est le meilleur générateur vidéo IA image vers vidéo ?",
-        "answer": "Veo3 AI offre l'un des générateurs image vers vidéo les plus avancés avec une sortie de haute qualité, un mouvement réaliste et la prise en charge de divers formats d'image. Nos modèles IA sont formés sur des millions de vidéos pour garantir des animations d'apparence naturelle et des transitions fluides."
+        "answer": "Seedance offre l'un des générateurs image vers vidéo les plus avancés avec une sortie de haute qualité, un mouvement réaliste et la prise en charge de divers formats d'image. Nos modèles IA sont formés sur des millions de vidéos pour garantir des animations d'apparence naturelle et des transitions fluides."
       },
       {
         "id": "what-makes-us-stand-out",
-        "question": "Qu'est-ce qui distingue le générateur image vers vidéo de Veo3 AI ?",
+        "question": "Qu'est-ce qui distingue le générateur image vers vidéo de Seedance ?",
         "answer": "Notre générateur se distingue par ses modèles IA avancés, sa sortie haute résolution jusqu'à 1080p, sa physique de mouvement naturelle et sa capacité à comprendre des descriptions complexes. Nous offrons également des temps de traitement rapides, des droits d'usage commercial et la prise en charge de divers styles d'images."
       },
       {
         "id": "what-images-can-work-with",
-        "question": "Quels types d'images fonctionnent le mieux avec Veo3 AI ?",
-        "answer": "Veo3 AI fonctionne avec la plupart des formats d'image, y compris JPG, PNG et WEBP. Nous prenons en charge les photos de personnes, d'animaux, de paysages, d'objets et d'œuvres d'art. Pour de meilleurs résultats, utilisez des images de haute qualité avec des sujets clairs et un bon éclairage."
+        "question": "Quels types d'images fonctionnent le mieux avec Seedance ?",
+        "answer": "Seedance fonctionne avec la plupart des formats d'image, y compris JPG, PNG et WEBP. Nous prenons en charge les photos de personnes, d'animaux, de paysages, d'objets et d'œuvres d'art. Pour de meilleurs résultats, utilisez des images de haute qualité avec des sujets clairs et un bon éclairage."
       },
       {
         "id": "is-image-to-video-free",
-        "question": "Le générateur image vers vidéo de Veo3 AI est-il gratuit ?",
-        "answer": "Veo3 AI propose des options gratuites et premium. Les nouveaux utilisateurs reçoivent des crédits gratuits pour essayer le service. Pour une utilisation régulière, nous proposons des plans d'abonnement abordables avec plus de crédits et des fonctionnalités avancées comme des résolutions plus élevées et des vidéos plus longues."
+        "question": "Le générateur image vers vidéo de Seedance est-il gratuit ?",
+        "answer": "Seedance propose des options gratuites et premium. Les nouveaux utilisateurs reçoivent des crédits gratuits pour essayer le service. Pour une utilisation régulière, nous proposons des plans d'abonnement abordables avec plus de crédits et des fonctionnalités avancées comme des résolutions plus élevées et des vidéos plus longues."
       }
     ]
   },
@@ -37,7 +37,7 @@
   },
   "aiModelsHero": {
     "title": "Générateur image vers vidéo IA tout-en-un",
-    "description": "Veo3 AI est le générateur vidéo AI tout-en-un ultime. Nous offrons un accès aux modèles vidéo leaders de l'industrie, y compris Sora 2, Veo3 et Seedance, le tout en un seul endroit. Essayez-les de manière transparente et créez des visuels époustouflants sans jongler entre plusieurs plateformes !",
+    "description": "Seedance est le générateur vidéo AI tout-en-un ultime. Nous offrons un accès aux modèles vidéo leaders de l'industrie, y compris Sora 2, Veo3 et Seedance, le tout en un seul endroit. Essayez-les de manière transparente et créez des visuels époustouflants sans jongler entre plusieurs plateformes !",
     "models": [
       {
         "id": "sora2",
@@ -59,7 +59,7 @@
   },
   "imageToVideoShowcase": {
     "title": "Animez vos images avec notre générateur vidéo IA à partir d'images",
-    "description": "Transformez n'importe quelle image statique en une histoire vivante avec Veo3 AI ! Générez des vidéos créatives à partir de vos photos téléchargées avec notre générateur intelligent image vers vidéo IA. Que vous souhaitiez créer une scène réaliste ou une animation, Veo3 AI peut la produire rapidement et comme vous le souhaitez.",
+    "description": "Transformez n'importe quelle image statique en une histoire vivante avec Seedance ! Générez des vidéos créatives à partir de vos photos téléchargées avec notre générateur intelligent image vers vidéo IA. Que vous souhaitiez créer une scène réaliste ou une animation, Seedance peut la produire rapidement et comme vous le souhaitez.",
     "labels": {
       "originalImage": "Image originale",
       "prompt": "Description",

@@ -3,21 +3,8 @@ import { VIDEO_CACHE_CONTROL } from "@/lib/cache-control";
 
 export const runtime = "nodejs";
 
-const DEFAULT_ALLOWED_HOSTS = ["r2.veo3ai.io", "static-lib.s3.amazonaws.com"];
-
 function getAllowedHosts(): Set<string> {
   const hosts = new Set<string>();
-
-  DEFAULT_ALLOWED_HOSTS.forEach((host) => hosts.add(host));
-
-  const envAllowed = process.env.VIDEO_PROXY_ALLOWED_HOSTS;
-  if (envAllowed) {
-    envAllowed
-      .split(",")
-      .map((host) => host.trim().toLowerCase())
-      .filter(Boolean)
-      .forEach((host) => hosts.add(host));
-  }
 
   const storageDomain = process.env.STORAGE_DOMAIN;
   if (storageDomain) {

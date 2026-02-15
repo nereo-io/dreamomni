@@ -103,7 +103,7 @@
     ]
   },
   "usageGuide": {
-    "title": "Как использовать Hailuo 2.3 на Veo3 AI",
+    "title": "Как использовать Hailuo 2.3 на Seedance",
     "description": "Создавайте выразительные видео с Hailuo 2.3 и Media Agent за три простых шага",
     "steps": [
       {
@@ -164,7 +164,7 @@
       },
       {
         "title": "Где доступен Hailuo 2.3?",
-        "description": "MiniMax указывает, что Hailuo 2.3 доступен в Hailuo Web, App, Open Platform API и Agent mode. Также вы можете использовать workflow Hailuo 2.3 прямо на Veo3 AI."
+        "description": "MiniMax указывает, что Hailuo 2.3 доступен в Hailuo Web, App, Open Platform API и Agent mode. Также вы можете использовать workflow Hailuo 2.3 прямо на Seedance."
       },
       {
         "title": "Что такое Media Agent в обновлении Hailuo 2.3?",

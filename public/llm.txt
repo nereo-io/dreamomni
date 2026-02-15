@@ -1,8 +1,8 @@
-# Veo3 AI - Advanced AI Video Generation Platform
+# Seedance - Advanced AI Video Generation Platform
 
 ## Project Overview
 
-Veo3 AI (veo3ai.io) is a comprehensive AI-powered video generation platform that enables users to create professional-quality videos from text prompts or images. The platform offers multiple AI video generation providers and a complete credit-based subscription system with global payment processing.
+Seedance (seedance.tv) is a comprehensive AI-powered video generation platform that enables users to create professional-quality videos from text prompts or images. The platform offers multiple AI video generation providers and a complete credit-based subscription system with global payment processing.
 
 ## Core Features & Capabilities
 

@@ -1,7 +1,7 @@
 {
   "banner": {
     "title": "Wan 2.5 AI Video Model",
-    "description": "Wan 2.5 is the Wan AI video model, now on Veo3 AI video generator. Its most notable improvements lie in the introduction of native audio generation and custom audio uploading, paired with enhanced motion physics, prompt awareness, and visual richness. Try Wan 2.5 for free!",
+    "description": "Wan 2.5 is the Wan AI video model, now on Seedance video generator. Its most notable improvements lie in the introduction of native audio generation and custom audio uploading, paired with enhanced motion physics, prompt awareness, and visual richness. Try Wan 2.5 for free!",
     "tabs": [
       {
         "type": "image",
@@ -78,7 +78,7 @@
     ]
   },
   "usageGuide": {
-    "title": "How To Generate Videos with Wan 2.5 on Veo3 AI",
+    "title": "How To Generate Videos with Wan 2.5 on Seedance",
     "description": "Generate stunning AI images with Google's Nano Banana model through our easy-to-use interface",
     "steps": [
       {
@@ -97,7 +97,7 @@
         "description": "Click ‘Create’ and be patient while your video is generated, before downloading it."
       }
     ],
-    "buttonText": "Try Wan 2.5 on Veo3 AI"
+    "buttonText": "Try Wan 2.5 on Seedance"
   },
   "youtubeCases": {
     "title": "YouTube Videos on Wan 2.5",
@@ -227,8 +227,8 @@
     ]
   },
   "cta": {
-    "title": "Try Wan 2.5 on Veo3 AI Now!",
-    "buttonText": "Try Wan 2.5 on Veo3 AI"
+    "title": "Try Wan 2.5 on Seedance Now!",
+    "buttonText": "Try Wan 2.5 on Seedance"
   },
   "faq": {
     "name": "faq",
@@ -246,7 +246,7 @@
       },
       {
         "title": "Can I access the Wan 2.5 AI video model for free?",
-        "description": "Absolutely. Using Veo3 AI, you can start using the Wan 2.5 model to generate videos at no cost via our free trial plan. Just keep in mind that it only offers limited credits, so if you want to keep creating, then you will eventually need a paid plan."
+        "description": "Absolutely. Using Seedance, you can start using the Wan 2.5 model to generate videos at no cost via our free trial plan. Just keep in mind that it only offers limited credits, so if you want to keep creating, then you will eventually need a paid plan."
       },
       {
         "title": "Best practices for prompting on Wan 2.5 AI video model?",

@@ -80,7 +80,7 @@ export async function generateMetadata({
 
   if (!isValidVideoEffectSlug(slug)) {
     return {
-      title: "Effect Not Found | Veo3 AI",
+      title: "Effect Not Found | Seedance",
       description: "The requested video effect could not be found.",
       robots: "noindex,nofollow",
     };
@@ -90,10 +90,10 @@ export async function generateMetadata({
   const heroTitle = page?.hero?.title;
   const heroSubtitle = page?.hero?.subtitle;
   const fallbackTitle = heroTitle
-    ? `${heroTitle} | Veo3 AI`
-    : "Video Effect | Veo3 AI";
+    ? `${heroTitle} | Seedance`
+    : "Video Effect | Seedance";
   const fallbackDescription =
-    heroSubtitle ?? "Create AI-powered video effects with Veo3 AI.";
+    heroSubtitle ?? "Create AI-powered video effects with Seedance.";
 
   const canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}${
     locale !== "en" ? `/${locale}` : ""
@@ -103,11 +103,11 @@ export async function generateMetadata({
     title: seo?.title ?? fallbackTitle,
     description: seo?.description ?? fallbackDescription,
     openGraph: {
-      title: seo?.title ?? heroTitle ?? "Video Effect | Veo3 AI",
+      title: seo?.title ?? heroTitle ?? "Video Effect | Seedance",
       description: seo?.description ?? fallbackDescription,
       url: canonicalUrl,
       type: "article",
-      siteName: "Veo3 AI",
+      siteName: "Seedance",
     },
     alternates: {
       canonical: canonicalUrl,

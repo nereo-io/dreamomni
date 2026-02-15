@@ -20,7 +20,7 @@ export async function generateMetadata({
 
   if (!effect) {
     return {
-      title: "Effect Not Found | Veo3 AI",
+      title: "Effect Not Found | Seedance",
       description: "The requested video effect could not be found.",
       robots: "noindex,nofollow",
     };
@@ -50,11 +50,11 @@ export async function generateMetadata({
           alt: `${effect.title} - AI Video Effect Preview`,
         },
       ],
-      siteName: "Veo3 AI",
+      siteName: "Seedance",
     },
     twitter: {
       card: "summary_large_image",
-      site: "@veo3ai",
+      site: "@seedance",
       title: effect.page_title,
       description,
       images: [
@@ -106,7 +106,7 @@ export default async function EffectDetailPage({
     video: effect.preview_video || null,
     creator: {
       "@type": "Organization",
-      name: "Veo3 AI",
+      name: "Seedance",
       url: process.env.NEXT_PUBLIC_WEB_URL,
     },
   };

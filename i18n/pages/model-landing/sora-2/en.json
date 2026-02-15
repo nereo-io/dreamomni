@@ -1,7 +1,7 @@
 {
   "banner": {
     "title": "OpenAI Sora 2 AI Video Generator",
-    "description": "Sora 2 is OpenAI's latest video generation model featuring advanced physics simulation, synchronized audio generation, and remarkable multi-shot consistency. Experience Sora 2 for free on Veo3 AI - now available exclusively for members!",
+    "description": "Sora 2 is OpenAI's latest video generation model featuring advanced physics simulation, synchronized audio generation, and remarkable multi-shot consistency. Experience Sora 2 for free on Seedance - now available exclusively for members!",
     "tabs": [
       {
         "type": "text",
@@ -205,7 +205,7 @@
     ]
   },
   "usageGuide": {
-    "title": "How To Use Sora 2 AI Video Generator on Veo3 AI",
+    "title": "How To Use Sora 2 AI Video Generator on Seedance",
     "description": "Generate stunning videos with OpenAI's Sora 2 model through our easy-to-use interface. Members only!",
     "steps": [
       {
@@ -224,7 +224,7 @@
         "description": "Click 'Create' and wait for your video to generate (typically 2-3 minutes). Once complete, download your 1080p HD video or share it directly."
       }
     ],
-    "buttonText": "Try Sora 2 on Veo3 AI"
+    "buttonText": "Try Sora 2 on Seedance"
   },
   "youtubeCases": {
     "title": "YouTube Videos About Sora 2 AI Video Model",
@@ -355,7 +355,7 @@
     "name": "faq",
     "label": "FAQ",
     "title": "Frequently Asked Questions",
-    "description": "Learn more about Sora 2 on Veo3 AI",
+    "description": "Learn more about Sora 2 on Seedance",
     "items": [
       {
         "title": "What is Sora 2 by OpenAI?",
@@ -366,8 +366,8 @@
         "description": "Sora 2 represents a major leap forward with stronger physics simulation, accurate object permanence, multi-scene storytelling capabilities, synchronized sound generation, and the new Cameos feature that lets you insert your own likeness into videos. These improvements make it superior for advanced creative projects."
       },
       {
-        "title": "Can I use Sora 2 for free on Veo3 AI?",
-        "description": "Sora 2 is available exclusively for Veo3 AI members. Members get access to high-quality video generation at competitive credit rates. Sign up for a membership to unlock this premium model and enjoy unlimited generation possibilities!"
+        "title": "Can I use Sora 2 for free on Seedance?",
+        "description": "Sora 2 is available exclusively for Seedance members. Members get access to high-quality video generation at competitive credit rates. Sign up for a membership to unlock this premium model and enjoy unlimited generation possibilities!"
       },
       {
         "title": "What quality is Sora 2 output?",
@@ -375,7 +375,7 @@
       },
       {
         "title": "How long can Sora 2 videos be?",
-        "description": "On Veo3 AI, Sora 2 supports video generation up to 10 seconds in duration. This gives creators enough time to tell compelling stories while maintaining the high quality and coherence the model is known for."
+        "description": "On Seedance, Sora 2 supports video generation up to 10 seconds in duration. This gives creators enough time to tell compelling stories while maintaining the high quality and coherence the model is known for."
       },
       {
         "title": "Can I use Sora 2 for professional or commercial projects?",
@@ -392,7 +392,7 @@
     ]
   },
   "cta": {
-    "title": "Generate Stunning Videos with Sora 2 on Veo3 AI Now!",
+    "title": "Generate Stunning Videos with Sora 2 on Seedance Now!",
     "buttonText": "Try Sora 2 (Members Only)"
   }
 }

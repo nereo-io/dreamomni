@@ -70,7 +70,7 @@
   },
   "my_orders": {
     "title": "注文履歴",
-    "description": "Veo3AIで支払われた注文。",
+    "description": "Seedanceで支払われた注文。",
     "no_orders": "注文が見つかりません",
     "activate_order": "注文をアクティベート",
     "actived": "アクティベート済み",

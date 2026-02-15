@@ -376,7 +376,7 @@
   },
   "usageGuide": {
     "title": "Как использовать Seedream 5.0 Lite",
-    "description": "Следуйте этим шагам, чтобы генерировать и дорабатывать изображения в Seedream 5.0 Lite на Veo3 AI.",
+    "description": "Следуйте этим шагам, чтобы генерировать и дорабатывать изображения в Seedream 5.0 Lite на Seedance.",
     "steps": [
       {
         "number": "01",
@@ -399,7 +399,7 @@
         "description": "Просмотрите результат и скачайте, когда он полностью соответствует вашей задаче."
       }
     ],
-    "buttonText": "Попробовать Seedream 5.0 Lite бесплатно на Veo3 AI"
+    "buttonText": "Попробовать Seedream 5.0 Lite бесплатно на Seedance"
   },
   "youtubeCases": {
     "title": "Видео YouTube о Seedream 5.0",
@@ -433,7 +433,7 @@
     ]
   },
   "cta": {
-    "title": "Попробовать Seedream 5.0 Lite бесплатно на Veo3 AI",
+    "title": "Попробовать Seedream 5.0 Lite бесплатно на Seedance",
     "buttonText": "Попробовать Seedream 5.0 Lite бесплатно"
   },
   "faq": {
@@ -467,8 +467,8 @@
         "description": "Официальное техническое введение доступно здесь: https://seed.bytedance.com/zh/blog/deeper-thinking-more-accurate-generation-introducing-seedream-5-0-lite"
       },
       {
-        "title": "Как начать использовать Seedream 5.0 Lite на Veo3 AI?",
-        "description": "Откройте страницу Seedream 5.0 Lite на Veo3 AI, введите промпт (или загрузите референсы), сгенерируйте, доработайте и скачайте итоговое изображение."
+        "title": "Как начать использовать Seedream 5.0 Lite на Seedance?",
+        "description": "Откройте страницу Seedream 5.0 Lite на Seedance, введите промпт (или загрузите референсы), сгенерируйте, доработайте и скачайте итоговое изображение."
       }
     ]
   }

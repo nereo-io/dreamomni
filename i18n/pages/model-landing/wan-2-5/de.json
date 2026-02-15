@@ -1,7 +1,7 @@
 {
   "banner": {
     "title": "Wan 2.5 AI Video Modell",
-    "description": "Wan 2.5 ist das Wan AI Video-Modell, jetzt auf Veo3 AI Video Generator. Seine bemerkenswertesten Verbesserungen liegen in der Einführung der nativen Audio-Generierung und des benutzerdefinierten Audio-Uploads, gepaart mit verbesserter Motion-Physik, Prompt-Bewusstsein und visueller Reichhaltigkeit. Probieren Sie Wan 2.5 kostenlos!",
+    "description": "Wan 2.5 ist das Wan AI Video-Modell, jetzt auf Seedance Video Generator. Seine bemerkenswertesten Verbesserungen liegen in der Einführung der nativen Audio-Generierung und des benutzerdefinierten Audio-Uploads, gepaart mit verbesserter Motion-Physik, Prompt-Bewusstsein und visueller Reichhaltigkeit. Probieren Sie Wan 2.5 kostenlos!",
     "tabs": [
       {
         "type": "image",
@@ -78,7 +78,7 @@
     ]
   },
   "usageGuide": {
-    "title": "So generieren Sie Videos mit Wan 2.5 auf Veo3 AI",
+    "title": "So generieren Sie Videos mit Wan 2.5 auf Seedance",
     "description": "Generieren Sie atemberaubende AI-Bilder mit Googles Nano Banana Modell über unsere benutzerfreundliche Schnittstelle",
     "steps": [
       {
@@ -97,7 +97,7 @@
         "description": "Klicken Sie auf 'Erstellen' und seien Sie geduldig, während Ihr Video generiert wird, bevor Sie es herunterladen."
       }
     ],
-    "buttonText": "Probieren Sie Wan 2.5 auf Veo3 AI"
+    "buttonText": "Probieren Sie Wan 2.5 auf Seedance"
   },
   "youtubeCases": {
     "title": "YouTube Videos zu Wan 2.5",
@@ -227,8 +227,8 @@
     ]
   },
   "cta": {
-    "title": "Probieren Sie Wan 2.5 auf Veo3 AI jetzt!",
-    "buttonText": "Probieren Sie Wan 2.5 auf Veo3 AI"
+    "title": "Probieren Sie Wan 2.5 auf Seedance jetzt!",
+    "buttonText": "Probieren Sie Wan 2.5 auf Seedance"
   },
   "faq": {
     "name": "faq",
@@ -246,7 +246,7 @@
       },
       {
         "title": "Kann ich das Wan 2.5 AI Video Modell kostenlos nutzen?",
-        "description": "Absolut. Mit Veo3 AI können Sie das Wan 2.5 Modell kostenlos über unseren kostenlosen Test-Plan zur Video-Generierung verwenden. Beachten Sie jedoch, dass es nur begrenzte Credits bietet. Wenn Sie weiterhin erstellen möchten, benötigen Sie eventuell einen bezahlten Plan."
+        "description": "Absolut. Mit Seedance können Sie das Wan 2.5 Modell kostenlos über unseren kostenlosen Test-Plan zur Video-Generierung verwenden. Beachten Sie jedoch, dass es nur begrenzte Credits bietet. Wenn Sie weiterhin erstellen möchten, benötigen Sie eventuell einen bezahlten Plan."
       },
       {
         "title": "Beste Praktiken für Prompts auf Wan 2.5 AI Video Modell?",

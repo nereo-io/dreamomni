@@ -1,7 +1,7 @@
 {
   "banner": {
     "title": "Générateur vidéo IA Google Veo 3.1",
-    "description": "Veo 3.1 est une mise à niveau du modèle Veo 3 de Google, introduisant un contrôle amélioré des images de début et de fin et des capacités de référence d'image pour un contrôle créatif plus précis. Découvrez Veo 3.1 gratuitement sur Veo3 AI !",
+    "description": "Veo 3.1 est une mise à niveau du modèle Veo 3 de Google, introduisant un contrôle amélioré des images de début et de fin et des capacités de référence d'image pour un contrôle créatif plus précis. Découvrez Veo 3.1 gratuitement sur Seedance !",
     "tabs": [
       {
         "type": "image",
@@ -78,7 +78,7 @@
     ]
   },
   "usageGuide": {
-    "title": "Comment générer des vidéos avec Veo 3.1 sur Veo3 AI",
+    "title": "Comment générer des vidéos avec Veo 3.1 sur Seedance",
     "description": "Créez de superbes vidéos IA avec le modèle Veo 3.1 de Google via notre interface facile à utiliser",
     "steps": [
       {
@@ -97,17 +97,17 @@
         "description": "Cliquez sur 'Créer' et attendez environ 3 à 4 minutes pour que votre vidéo soit générée. Une fois terminé, téléchargez votre vidéo de haute qualité générée par IA."
       }
     ],
-    "buttonText": "Essayer Veo 3.1 sur Veo3 AI"
+    "buttonText": "Essayer Veo 3.1 sur Seedance"
   },
   "cta": {
-    "title": "Découvrez Veo 3.1 sur Veo3 AI maintenant !",
+    "title": "Découvrez Veo 3.1 sur Seedance maintenant !",
     "buttonText": "Essayer Veo 3.1 gratuitement"
   },
   "faq": {
     "name": "faq",
     "label": "FAQ",
     "title": "Questions fréquemment posées",
-    "description": "En savoir plus sur le générateur vidéo IA Google Veo 3.1 sur Veo3 AI",
+    "description": "En savoir plus sur le générateur vidéo IA Google Veo 3.1 sur Seedance",
     "items": [
       {
         "title": "Qu'est-ce que Google Veo 3.1 ?",
@@ -118,8 +118,8 @@
         "description": "Par rapport à Veo 3, Veo 3.1 offre un contrôle créatif plus important grâce à des paramètres d'images de début et de fin spécifiques, la correspondance de style par image de référence et une précision améliorée dans la réponse aux prompts complexes. La génération audio et la cohérence des personnages restent de premier ordre tout en ajoutant des outils de précision supplémentaires pour les créateurs."
       },
       {
-        "title": "Puis-je utiliser Veo 3.1 gratuitement sur Veo3 AI ?",
-        "description": "Oui ! Veo3 AI offre un accès à Veo 3.1 gratuitement avec notre plan d'essai. Vous pouvez essayer la création texte-vidéo ou image-vidéo sans frais. Pour des générations illimitées, envisagez nos plans d'abonnement payants avec des crédits supplémentaires."
+        "title": "Puis-je utiliser Veo 3.1 gratuitement sur Seedance ?",
+        "description": "Oui ! Seedance offre un accès à Veo 3.1 gratuitement avec notre plan d'essai. Vous pouvez essayer la création texte-vidéo ou image-vidéo sans frais. Pour des générations illimitées, envisagez nos plans d'abonnement payants avec des crédits supplémentaires."
       },
       {
         "title": "Veo 3.1 prend-il en charge la génération audio ?",
@@ -139,7 +139,7 @@
       },
       {
         "title": "Combien de temps faut-il pour générer une vidéo avec Veo 3.1 ?",
-        "description": "Sur Veo3 AI, Veo 3.1 prend généralement 3 à 4 minutes pour générer une vidéo de 8 secondes. Le temps de génération peut varier en fonction de la complexité, des paramètres de résolution et de la charge actuelle du serveur. Nous fournissons des mises à jour de progression en temps réel pendant la génération."
+        "description": "Sur Seedance, Veo 3.1 prend généralement 3 à 4 minutes pour générer une vidéo de 8 secondes. Le temps de génération peut varier en fonction de la complexité, des paramètres de résolution et de la charge actuelle du serveur. Nous fournissons des mises à jour de progression en temps réel pendant la génération."
       }
     ]
   }

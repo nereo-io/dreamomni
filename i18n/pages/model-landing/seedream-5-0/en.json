@@ -376,7 +376,7 @@
   },
   "usageGuide": {
     "title": "How to Use Seedream 5.0 Lite",
-    "description": "Follow these steps to generate and refine images with Seedream 5.0 Lite on Veo3 AI.",
+    "description": "Follow these steps to generate and refine images with Seedream 5.0 Lite on Seedance.",
     "steps": [
       {
         "number": "01",
@@ -399,7 +399,7 @@
         "description": "Preview the result and download once it matches your intended output."
       }
     ],
-    "buttonText": "Try Seedream 5.0 Lite Free on Veo3 AI"
+    "buttonText": "Try Seedream 5.0 Lite Free on Seedance"
   },
   "youtubeCases": {
     "title": "YouTube Videos About Seedream 5.0",
@@ -433,7 +433,7 @@
     ]
   },
   "cta": {
-    "title": "Try Seedream 5.0 Lite for Free on Veo3 AI",
+    "title": "Try Seedream 5.0 Lite for Free on Seedance",
     "buttonText": "Try Seedream 5.0 Lite Free"
   },
   "faq": {
@@ -467,8 +467,8 @@
         "description": "You can visit the official technical blog: https://seed.bytedance.com/zh/blog/deeper-thinking-more-accurate-generation-introducing-seedream-5-0-lite"
       },
       {
-        "title": "How do I start using Seedream 5.0 Lite on Veo3 AI?",
-        "description": "Open the Seedream 5.0 Lite model page on Veo3 AI, enter your prompt (or upload references), generate, iterate, and download your final image."
+        "title": "How do I start using Seedream 5.0 Lite on Seedance?",
+        "description": "Open the Seedream 5.0 Lite model page on Seedance, enter your prompt (or upload references), generate, iterate, and download your final image."
       }
     ]
   }

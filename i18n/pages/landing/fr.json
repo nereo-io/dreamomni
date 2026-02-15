@@ -57,7 +57,7 @@
   },
   "aiModelsHero": {
     "title": "Générateur Image vers Vidéo IA Tout-en-Un",
-    "description": "Veo3 AI est le générateur vidéo IA tout-en-un ultime. Nous offrons un accès aux modèles vidéo leaders de l'industrie, y compris Sora 2, Veo 3.1, Seedance et plus, le tout en un seul endroit. Essayez-les de manière transparente et créez des visuels époustouflants sans jongler entre plusieurs plateformes !",
+    "description": "Seedance est le générateur vidéo IA tout-en-un ultime. Nous offrons un accès aux modèles vidéo leaders de l'industrie, y compris Sora 2, Veo 3.1, Seedance et plus, le tout en un seul endroit. Essayez-les de manière transparente et créez des visuels époustouflants sans jongler entre plusieurs plateformes !",
     "models": [
       {
         "id": "sora2",
@@ -80,7 +80,7 @@
   "imageToVideoShowcase": {
     "title": "Image vers Vidéo IA",
     "description": "Animez Vos Images avec Notre Générateur IA Image vers Vidéo",
-    "cta": "Essayer Veo3 AI",
+    "cta": "Essayer Seedance",
     "labels": {
       "originalImage": "Image d'origine",
       "prompt": "Prompt",
@@ -125,7 +125,7 @@
   "aiVideoShowcase": {
     "title": "Texte vers Vidéo IA",
     "description": "Visualisez N'importe Quel Texte avec Notre Générateur Vidéo IA",
-    "cta": "Essayer Veo3 AI",
+    "cta": "Essayer Seedance",
     "examples": [
       {
         "id": "Spirit-Transformation",
@@ -207,7 +207,7 @@
     "title": "Commencez à Créer des Vidéos avec Veo 3 AI Gratuit",
     "buttons": [
       {
-        "title": "Essayer Veo3 AI",
+        "title": "Essayer Seedance",
         "url": "#video-generator",
         "target": "_self",
         "icon": "GoArrowUpRight"
@@ -366,9 +366,9 @@
       "items": [
         {
           "title": "Support Email",
-          "value": "support@veo3ai.io",
+          "value": "support@seedance.tv",
           "icon": "RiMailFill",
-          "url": "mailto:support@veo3ai.io",
+          "url": "mailto:support@seedance.tv",
           "target": "_self"
         },
         {

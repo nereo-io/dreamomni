@@ -1,7 +1,7 @@
 {
   "banner": {
     "title": "Google Nano Banana AI Image Generator",
-    "description": "Google Nano Banana AI, also called Gemini 2.5 Flash Image, is an SOTA AI image generation and editing model developed by Google DeepMind. It has been rolled out to the Gemini app, praised for its unparalleled ability to achieve ultra-high character consistency, the model's popularity has skyrocketed on social media. Try Nano Banana for free in Veo3 AI image generator!",
+    "description": "Google Nano Banana AI, also called Gemini 2.5 Flash Image, is an SOTA AI image generation and editing model developed by Google DeepMind. It has been rolled out to the Gemini app, praised for its unparalleled ability to achieve ultra-high character consistency, the model's popularity has skyrocketed on social media. Try Nano Banana for free in Seedance image generator!",
     "tabs": [
       {
         "type": "text",
@@ -158,13 +158,13 @@
     ]
   },
   "usageGuide": {
-    "title": "How To Use Google Nano Banana AI on Veo3 AI for Free",
+    "title": "How To Use Google Nano Banana AI on Seedance for Free",
     "description": "Generate stunning AI images with Google's Nano Banana model through our easy-to-use interface",
     "steps": [
       {
         "number": "01",
         "title": "Pick Google Nano Banana AI model",
-        "description": "Head to Veo3 AI image generator and select the \"Nano Banana\" AI image model."
+        "description": "Head to Seedance image generator and select the \"Nano Banana\" AI image model."
       },
       {
         "number": "02",
@@ -177,7 +177,7 @@
         "description": "Click 'Create' and wait for your image request to be processed."
       }
     ],
-    "buttonText": "Try Google Nano Banana AI on Veo3 AI"
+    "buttonText": "Try Google Nano Banana AI on Seedance"
   },
   "youtubeCases": {
     "title": "YouTube Videos About Nano Banana (Gemini 2.5 Flash Image)",
@@ -370,7 +370,7 @@
     ]
   },
   "cta": {
-    "title": "Try Google Nano Banana AI on Veo3 AI Now!",
+    "title": "Try Google Nano Banana AI on Seedance Now!",
     "buttonText": "Try Nano Banana for Free"
   },
   "faq": {
@@ -389,7 +389,7 @@
       },
       {
         "title": "Can I use Google Nano Banana (Gemini 2.5 Flash Image) for free?",
-        "description": "Yes. You can use Google Nano Banana AI to generate images via Veo3 AI at no cost at all. Simply sign up for an account, and with our free trial plan, you can explore the AI model's extensive features and capabilities to produce all kinds of professional-grade imagery fast."
+        "description": "Yes. You can use Google Nano Banana AI to generate images via Seedance at no cost at all. Simply sign up for an account, and with our free trial plan, you can explore the AI model's extensive features and capabilities to produce all kinds of professional-grade imagery fast."
       },
       {
         "title": "What projects is Gemini 2.5 Flash Image best-suited for?",

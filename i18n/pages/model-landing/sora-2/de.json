@@ -1,7 +1,7 @@
 {
   "banner": {
     "title": "OpenAI Sora 2 AI Video Generator",
-    "description": "Sora 2 ist OpenAIs neuestes Video-Generierungsmodell mit fortschrittlicher Physik-Simulation, synchronisierter Audio-Generierung und beeindruckender Multi-Shot-Konsistenz. Probieren Sie Sora 2 kostenlos auf Veo3 AI aus - jetzt exklusiv für Mitglieder verfügbar!",
+    "description": "Sora 2 ist OpenAIs neuestes Video-Generierungsmodell mit fortschrittlicher Physik-Simulation, synchronisierter Audio-Generierung und beeindruckender Multi-Shot-Konsistenz. Probieren Sie Sora 2 kostenlos auf Seedance aus - jetzt exklusiv für Mitglieder verfügbar!",
     "tabs": [
       {
         "type": "text",
@@ -205,7 +205,7 @@
     ]
   },
   "usageGuide": {
-    "title": "So verwenden Sie Sora 2 AI Video Generator auf Veo3 AI",
+    "title": "So verwenden Sie Sora 2 AI Video Generator auf Seedance",
     "description": "Generieren Sie atemberaubende Videos mit OpenAIs Sora 2 Modell über unsere benutzerfreundliche Schnittstelle. Nur für Mitglieder!",
     "steps": [
       {
@@ -224,7 +224,7 @@
         "description": "Klicken Sie auf 'Erstellen' und warten Sie auf die Generierung Ihres Videos (normalerweise 2-3 Minuten). Nach Abschluss können Sie Ihr 1080p HD-Video herunterladen oder direkt teilen."
       }
     ],
-    "buttonText": "Probieren Sie Sora 2 auf Veo3 AI"
+    "buttonText": "Probieren Sie Sora 2 auf Seedance"
   },
   "youtubeCases": {
     "title": "YouTube Videos über Sora 2 AI Video Modell",
@@ -355,7 +355,7 @@
     "name": "faq",
     "label": "Häufig gestellte Fragen",
     "title": "Häufig gestellte Fragen",
-    "description": "Erfahren Sie mehr über Sora 2 auf Veo3 AI",
+    "description": "Erfahren Sie mehr über Sora 2 auf Seedance",
     "items": [
       {
         "title": "Was ist Sora 2 von OpenAI?",
@@ -366,8 +366,8 @@
         "description": "Sora 2 stellt einen großen Sprung nach vorn dar mit stärkerer Physik-Simulation, präziser Objektpermanenz, Multi-Szenen-Storytelling-Fähigkeiten, synchronisierter Soundgenerierung und der neuen Cameos-Funktion, mit der Sie Ihr eigenes Aussehen in Videos einfügen können. Diese Verbesserungen machen es für fortgeschrittene kreative Projekte überlegen."
       },
       {
-        "title": "Kann ich Sora 2 kostenlos auf Veo3 AI verwenden?",
-        "description": "Sora 2 ist exklusiv für Veo3 AI Mitglieder verfügbar. Mitglieder erhalten Zugriff auf hochwertige Videogenerierung zu wettbewerbsfähigen Credit-Raten. Melden Sie sich für eine Mitgliedschaft an, um dieses Premium-Modell freizuschalten und unbegrenzte Generierungsmöglichkeiten zu genießen!"
+        "title": "Kann ich Sora 2 kostenlos auf Seedance verwenden?",
+        "description": "Sora 2 ist exklusiv für Seedance Mitglieder verfügbar. Mitglieder erhalten Zugriff auf hochwertige Videogenerierung zu wettbewerbsfähigen Credit-Raten. Melden Sie sich für eine Mitgliedschaft an, um dieses Premium-Modell freizuschalten und unbegrenzte Generierungsmöglichkeiten zu genießen!"
       },
       {
         "title": "Welche Qualität hat Sora 2-Ausgabe?",
@@ -375,7 +375,7 @@
       },
       {
         "title": "Wie lang können Sora 2 Videos sein?",
-        "description": "Auf Veo3 AI unterstützt Sora 2 die Videogenerierung bis zu einer Dauer von 10 Sekunden. Dies gibt Kreativen genug Zeit, um überraschende Geschichten zu erzählen und dabei die hohe Qualität und Kohärenz beizubehalten, für die das Modell bekannt ist."
+        "description": "Auf Seedance unterstützt Sora 2 die Videogenerierung bis zu einer Dauer von 10 Sekunden. Dies gibt Kreativen genug Zeit, um überraschende Geschichten zu erzählen und dabei die hohe Qualität und Kohärenz beizubehalten, für die das Modell bekannt ist."
       },
       {
         "title": "Kann ich Sora 2 für professionelle oder kommerzielle Projekte verwenden?",
@@ -392,7 +392,7 @@
     ]
   },
   "cta": {
-    "title": "Generieren Sie jetzt beeindruckende Videos mit Sora 2 auf Veo3 AI!",
+    "title": "Generieren Sie jetzt beeindruckende Videos mit Sora 2 auf Seedance!",
     "buttonText": "Probieren Sie Sora 2 (Nur Mitglieder)"
   }
 }

@@ -376,7 +376,7 @@
   },
   "usageGuide": {
     "title": "So verwendest du Seedream 5.0 Lite",
-    "description": "Folge diesen Schritten, um mit Seedream 5.0 Lite auf Veo3 AI Bilder zu erzeugen und zu verfeinern.",
+    "description": "Folge diesen Schritten, um mit Seedream 5.0 Lite auf Seedance Bilder zu erzeugen und zu verfeinern.",
     "steps": [
       {
         "number": "01",
@@ -399,7 +399,7 @@
         "description": "Prüfe das Ergebnis und lade es herunter, sobald es deinem Ziel entspricht."
       }
     ],
-    "buttonText": "Seedream 5.0 Lite kostenlos auf Veo3 AI testen"
+    "buttonText": "Seedream 5.0 Lite kostenlos auf Seedance testen"
   },
   "youtubeCases": {
     "title": "YouTube-Videos ueber Seedream 5.0",
@@ -433,7 +433,7 @@
     ]
   },
   "cta": {
-    "title": "Seedream 5.0 Lite kostenlos auf Veo3 AI testen",
+    "title": "Seedream 5.0 Lite kostenlos auf Seedance testen",
     "buttonText": "Seedream 5.0 Lite kostenlos testen"
   },
   "faq": {
@@ -467,8 +467,8 @@
         "description": "Die offizielle technische Einführung findest du hier: https://seed.bytedance.com/zh/blog/deeper-thinking-more-accurate-generation-introducing-seedream-5-0-lite"
       },
       {
-        "title": "Wie starte ich mit Seedream 5.0 Lite auf Veo3 AI?",
-        "description": "Öffne die Seedream-5.0-Lite-Seite auf Veo3 AI, gib deinen Prompt ein (oder lade Referenzen hoch), generiere, iteriere und lade dein finales Bild herunter."
+        "title": "Wie starte ich mit Seedream 5.0 Lite auf Seedance?",
+        "description": "Öffne die Seedream-5.0-Lite-Seite auf Seedance, gib deinen Prompt ein (oder lade Referenzen hoch), generiere, iteriere und lade dein finales Bild herunter."
       }
     ]
   }

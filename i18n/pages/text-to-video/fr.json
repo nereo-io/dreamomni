@@ -11,7 +11,7 @@
       {
         "id": "best-text-to-video-generator",
         "question": "Quel est le meilleur générateur vidéo IA texte vers vidéo ?",
-        "answer": "Veo3 AI offre l'un des générateurs texte vers vidéo les plus avancés avec une qualité de sortie exceptionnelle, des mouvements réalistes et une compréhension sophistiquée des scènes. Nos modèles IA sont formés sur des ensembles de données diversifiés pour créer des vidéos cinématographiques de qualité professionnelle."
+        "answer": "Seedance offre l'un des générateurs texte vers vidéo les plus avancés avec une qualité de sortie exceptionnelle, des mouvements réalistes et une compréhension sophistiquée des scènes. Nos modèles IA sont formés sur des ensembles de données diversifiés pour créer des vidéos cinématographiques de qualité professionnelle."
       },
       {
         "id": "how-does-text-to-video-work",
@@ -25,8 +25,8 @@
       },
       {
         "id": "is-text-to-video-free",
-        "question": "Le générateur texte vers vidéo de Veo3 AI est-il gratuit ?",
-        "answer": "Veo3 AI propose des options gratuites et premium. Les nouveaux utilisateurs reçoivent des crédits gratuits pour explorer le service. Pour une utilisation régulière, nous proposons des plans d'abonnement abordables avec plus de crédits et des fonctionnalités avancées comme des résolutions plus élevées et des durées de vidéo plus longues."
+        "question": "Le générateur texte vers vidéo de Seedance est-il gratuit ?",
+        "answer": "Seedance propose des options gratuites et premium. Les nouveaux utilisateurs reçoivent des crédits gratuits pour explorer le service. Pour une utilisation régulière, nous proposons des plans d'abonnement abordables avec plus de crédits et des fonctionnalités avancées comme des résolutions plus élevées et des durées de vidéo plus longues."
       }
     ]
   },
@@ -37,7 +37,7 @@
   },
   "aiModelsHero": {
     "title": "Générateur texte vers vidéo IA tout-en-un",
-    "description": "Veo3 AI est le générateur vidéo AI tout-en-un ultime. Nous offrons un accès aux modèles vidéo leaders de l'industrie, y compris Sora 2, Veo3 et Seedance, le tout en un seul endroit. Essayez-les de manière transparente et créez des visuels époustouflants sans jongler entre plusieurs plateformes !",
+    "description": "Seedance est le générateur vidéo AI tout-en-un ultime. Nous offrons un accès aux modèles vidéo leaders de l'industrie, y compris Sora 2, Veo3 et Seedance, le tout en un seul endroit. Essayez-les de manière transparente et créez des visuels époustouflants sans jongler entre plusieurs plateformes !",
     "models": [
       {
         "id": "sora2",

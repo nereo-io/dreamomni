@@ -1,7 +1,7 @@
 {
   "banner": {
     "title": "Generateur de videos AI OpenAI Sora 2",
-    "description": "Sora 2 est le dernier modele de generation de videos d'OpenAI avec simulation physique avancee, generation audio synchronisee et coherence multi-plans remarquable. Essayez Sora 2 gratuitement sur Veo3 AI - disponible exclusivement pour les membres!",
+    "description": "Sora 2 est le dernier modele de generation de videos d'OpenAI avec simulation physique avancee, generation audio synchronisee et coherence multi-plans remarquable. Essayez Sora 2 gratuitement sur Seedance - disponible exclusivement pour les membres!",
     "tabs": [
       {
         "type": "text",
@@ -205,7 +205,7 @@
     ]
   },
   "usageGuide": {
-    "title": "Comment utiliser Sora 2 AI Video Generator sur Veo3 AI",
+    "title": "Comment utiliser Sora 2 AI Video Generator sur Seedance",
     "description": "Generez des videos epoustouflantes avec le modele Sora 2 d'OpenAI via notre interface facile a utiliser. Membres uniquement!",
     "steps": [
       {
@@ -224,7 +224,7 @@
         "description": "Cliquez sur 'Creer' et attendez que votre video soit generee (generalement 2-3 minutes). Une fois termis, telechargez votre video HD 1080p ou partagez-la directement."
       }
     ],
-    "buttonText": "Essayez Sora 2 sur Veo3 AI"
+    "buttonText": "Essayez Sora 2 sur Seedance"
   },
   "youtubeCases": {
     "title": "Videos YouTube sur le modele video AI Sora 2",
@@ -355,7 +355,7 @@
     "name": "faq",
     "label": "FAQ",
     "title": "Questions frequemment posees",
-    "description": "En savoir plus sur Sora 2 sur Veo3 AI",
+    "description": "En savoir plus sur Sora 2 sur Seedance",
     "items": [
       {
         "title": "Qu'est-ce que Sora 2 d'OpenAI?",
@@ -366,8 +366,8 @@
         "description": "Sora 2 represente un grand saut en avant avec une simulation physique plus forte, une permanence d'objet precise, des capacites de narration multi-scenes, une generation sonore synchronisee et la nouvelle fonction Cameos qui vous permet d'inserer votre propre ressemblance dans les videos. Ces ameliorations la rendent superieure pour les projets creatifs avances."
       },
       {
-        "title": "Puis-je utiliser Sora 2 gratuitement sur Veo3 AI?",
-        "description": "Sora 2 est disponible exclusivement pour les membres de Veo3 AI. Les membres obtiennent l'acces a la generation video de haute qualite a des tarifs credits competitifs. Inscrivez-vous a une adhesion pour deverrouiller ce modele premium et profiter de possibilites de generation illimitees!"
+        "title": "Puis-je utiliser Sora 2 gratuitement sur Seedance?",
+        "description": "Sora 2 est disponible exclusivement pour les membres de Seedance. Les membres obtiennent l'acces a la generation video de haute qualite a des tarifs credits competitifs. Inscrivez-vous a une adhesion pour deverrouiller ce modele premium et profiter de possibilites de generation illimitees!"
       },
       {
         "title": "Quelle est la qualite de la sortie Sora 2?",
@@ -375,7 +375,7 @@
       },
       {
         "title": "Combien de temps peuvent durer les videos Sora 2?",
-        "description": "Sur Veo3 AI, Sora 2 supporte la generation de videos jusqu'a une duree de 10 secondes. Cela donne aux createurs assez de temps pour raconter des histoires captivantes tout en maintenant la qualite elevee et la coherence pour laquelle le modele est connu."
+        "description": "Sur Seedance, Sora 2 supporte la generation de videos jusqu'a une duree de 10 secondes. Cela donne aux createurs assez de temps pour raconter des histoires captivantes tout en maintenant la qualite elevee et la coherence pour laquelle le modele est connu."
       },
       {
         "title": "Puis-je utiliser Sora 2 pour des projets professionnels ou commerciaux?",
@@ -392,7 +392,7 @@
     ]
   },
   "cta": {
-    "title": "Generez maintenant des videos epoustouflantes avec Sora 2 sur Veo3 AI!",
+    "title": "Generez maintenant des videos epoustouflantes avec Sora 2 sur Seedance!",
     "buttonText": "Essayez Sora 2 (Membres uniquement)"
   }
 }

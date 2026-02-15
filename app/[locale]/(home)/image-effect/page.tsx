@@ -52,7 +52,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: 'AI Image Effects - Transform Your Photos | Veo3 AI',
+    title: 'AI Image Effects - Transform Your Photos | Seedance',
     description:
       'Create stunning AI photo effects with one click. Browse templates and transform your images instantly.',
     keywords: 'AI image effects, photo effects, AI filters, image transformation',

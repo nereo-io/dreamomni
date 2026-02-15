@@ -1,7 +1,7 @@
 {
   "banner": {
     "title": "Google Veo 3.1 KI-Videogenerator",
-    "description": "Veo 3.1 ist ein Upgrade von Googles Veo 3 Modell und führt verbesserte Kontrolle für Anfangs- und Endbilder sowie Bildreferenzfunktionen für präzisere kreative Kontrolle ein. Erleben Sie Veo 3.1 jetzt kostenlos auf Veo3 AI!",
+    "description": "Veo 3.1 ist ein Upgrade von Googles Veo 3 Modell und führt verbesserte Kontrolle für Anfangs- und Endbilder sowie Bildreferenzfunktionen für präzisere kreative Kontrolle ein. Erleben Sie Veo 3.1 jetzt kostenlos auf Seedance!",
     "tabs": [
       {
         "type": "image",
@@ -78,7 +78,7 @@
     ]
   },
   "usageGuide": {
-    "title": "So generieren Sie Videos mit Veo 3.1 auf Veo3 AI",
+    "title": "So generieren Sie Videos mit Veo 3.1 auf Seedance",
     "description": "Erstellen Sie beeindruckende KI-Videos mit Googles Veo 3.1 Modell über unsere benutzerfreundliche Oberfläche",
     "steps": [
       {
@@ -97,17 +97,17 @@
         "description": "Klicken Sie auf 'Erstellen' und warten Sie etwa 3-4 Minuten, bis Ihr Video generiert wird. Nach Abschluss laden Sie Ihr hochwertiges KI-generiertes Video herunter."
       }
     ],
-    "buttonText": "Veo 3.1 auf Veo3 AI testen"
+    "buttonText": "Veo 3.1 auf Seedance testen"
   },
   "cta": {
-    "title": "Erleben Sie Veo 3.1 auf Veo3 AI jetzt!",
+    "title": "Erleben Sie Veo 3.1 auf Seedance jetzt!",
     "buttonText": "Veo 3.1 kostenlos testen"
   },
   "faq": {
     "name": "faq",
     "label": "FAQ",
     "title": "Häufig gestellte Fragen",
-    "description": "Erfahren Sie mehr über den Google Veo 3.1 KI-Videogenerator auf Veo3 AI",
+    "description": "Erfahren Sie mehr über den Google Veo 3.1 KI-Videogenerator auf Seedance",
     "items": [
       {
         "title": "Was ist Google Veo 3.1?",
@@ -118,8 +118,8 @@
         "description": "Im Vergleich zu Veo 3 bietet Veo 3.1 größere kreative Kontrolle durch spezifische Start- und Endbildeinstellungen, Referenzbild-Stilanpassung und verbesserte Genauigkeit bei der Reaktion auf komplexe Prompts. Audio-Generierung und Charakterkonsistenz bleiben erstklassig, während mehr Präzisionswerkzeuge für Kreative hinzugefügt werden."
       },
       {
-        "title": "Kann ich Veo 3.1 kostenlos auf Veo3 AI nutzen?",
-        "description": "Ja! Veo3 AI bietet mit unserem Testplan kostenlosen Zugang zu Veo 3.1. Sie können Text-zu-Video oder Bild-zu-Video Erstellung kostenlos ausprobieren. Für unbegrenzte Generierungen sollten Sie unsere kostenpflichtigen Abonnementpläne mit zusätzlichen Credits in Betracht ziehen."
+        "title": "Kann ich Veo 3.1 kostenlos auf Seedance nutzen?",
+        "description": "Ja! Seedance bietet mit unserem Testplan kostenlosen Zugang zu Veo 3.1. Sie können Text-zu-Video oder Bild-zu-Video Erstellung kostenlos ausprobieren. Für unbegrenzte Generierungen sollten Sie unsere kostenpflichtigen Abonnementpläne mit zusätzlichen Credits in Betracht ziehen."
       },
       {
         "title": "Unterstützt Veo 3.1 Audio-Generierung?",
@@ -139,7 +139,7 @@
       },
       {
         "title": "Wie lange dauert die Generierung eines Videos mit Veo 3.1?",
-        "description": "Auf Veo3 AI benötigt Veo 3.1 typischerweise 3-4 Minuten, um ein 8-Sekunden-Video zu generieren. Die Generierungszeit kann je nach Komplexität, Auflösungseinstellungen und aktueller Serverauslastung variieren. Wir bieten Echtzeit-Fortschrittsaktualisierungen während der Generierung."
+        "description": "Auf Seedance benötigt Veo 3.1 typischerweise 3-4 Minuten, um ein 8-Sekunden-Video zu generieren. Die Generierungszeit kann je nach Komplexität, Auflösungseinstellungen und aktueller Serverauslastung variieren. Wir bieten Echtzeit-Fortschrittsaktualisierungen während der Generierung."
       }
     ]
   }
