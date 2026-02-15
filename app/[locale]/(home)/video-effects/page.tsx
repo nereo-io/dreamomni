@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getAllEffectConfigs } from "@/models/effectConfig";
 import { VideoEffectsGrid } from "@/components/blocks/video-effects-grid";
@@ -30,6 +31,10 @@ export default async function Page({
 }: {
   params: { locale: string };
 }) {
+  if (process.env.NEXT_PUBLIC_EFFECTS_ENABLED !== "true") {
+    notFound();
+  }
+
   const effects = await getAllEffectConfigs(locale);
 
   return (

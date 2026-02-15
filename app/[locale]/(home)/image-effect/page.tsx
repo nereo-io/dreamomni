@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { EffectRelatedGrid } from '@/components/blocks/effect-landing-page/effect-related-grid';
 import { IMAGE_EFFECT_PAGES } from '@/config/image-effect-pages';
 import { getImageEffectPage } from '@/services/page';
@@ -67,6 +68,10 @@ export default async function ImageEffectPage({
 }: {
   params: PageParams;
 }) {
+  if (process.env.NEXT_PUBLIC_EFFECTS_ENABLED !== 'true') {
+    notFound();
+  }
+
   const effects = await Promise.all(
     IMAGE_EFFECT_PAGES.map(async (slug): Promise<ImageEffectCard> => {
       const effect = await getStaticEffectPreview(slug, locale);

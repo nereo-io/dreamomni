@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { EffectRelatedGrid } from '@/components/blocks/effect-landing-page/effect-related-grid';
 import { VIDEO_EFFECT_PAGES } from '@/config/video-effect-pages';
@@ -71,6 +72,10 @@ export default async function VideoEffectPage({
 }: {
   params: PageParams;
 }) {
+  if (process.env.NEXT_PUBLIC_EFFECTS_ENABLED !== 'true') {
+    notFound();
+  }
+
   const effectConfigs = await getAllEffectConfigs(locale);
   const effectConfigMap = new Map(
     effectConfigs.map((effect) => [effect.slug, effect])

@@ -59,6 +59,10 @@ const withLocalizedRelatedEffects = (
  * Generate static params for all effect × locale combinations
  */
 export async function generateStaticParams(): Promise<Params[]> {
+  if (process.env.NEXT_PUBLIC_EFFECTS_ENABLED !== "true") {
+    return [];
+  }
+
   const params: Params[] = [];
 
   for (const slug of IMAGE_EFFECT_PAGES) {
@@ -75,6 +79,13 @@ export async function generateMetadata({
 }: {
   params: Params;
 }) {
+  if (process.env.NEXT_PUBLIC_EFFECTS_ENABLED !== "true") {
+    return {
+      title: "Not Found",
+      robots: "noindex,nofollow",
+    };
+  }
+
   const { slug, locale } = params;
 
   if (!isValidImageEffectSlug(slug)) {
@@ -120,6 +131,10 @@ export default async function ImageEffectDetailPage({
 }: {
   params: Params;
 }) {
+  if (process.env.NEXT_PUBLIC_EFFECTS_ENABLED !== "true") {
+    notFound();
+  }
+
   const { slug, locale } = params;
 
   if (!isValidImageEffectSlug(slug)) {

@@ -60,6 +60,10 @@ const withLocalizedRelatedEffects = (
  * Generate static params for all effect × locale combinations
  */
 export async function generateStaticParams(): Promise<Params[]> {
+  if (process.env.NEXT_PUBLIC_EFFECTS_ENABLED !== "true") {
+    return [];
+  }
+
   const params: Params[] = [];
 
   for (const slug of VIDEO_EFFECT_PAGES) {
@@ -76,6 +80,13 @@ export async function generateMetadata({
 }: {
   params: Params;
 }) {
+  if (process.env.NEXT_PUBLIC_EFFECTS_ENABLED !== "true") {
+    return {
+      title: "Not Found",
+      robots: "noindex,nofollow",
+    };
+  }
+
   const { slug, locale } = params;
 
   if (!isValidVideoEffectSlug(slug)) {
@@ -121,6 +132,10 @@ export default async function VideoEffectDetailPage({
 }: {
   params: Params;
 }) {
+  if (process.env.NEXT_PUBLIC_EFFECTS_ENABLED !== "true") {
+    notFound();
+  }
+
   const { slug, locale } = params;
 
   if (!isValidVideoEffectSlug(slug)) {
