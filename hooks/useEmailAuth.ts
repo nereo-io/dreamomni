@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useYandexTracking } from "@/hooks/useYandexTracking";
 
 interface SignupData {
   email: string;
@@ -20,6 +21,7 @@ export function useEmailAuth() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const { trackSignup } = useYandexTracking();
 
   const login = async (data: LoginData, callbackUrl?: string): Promise<boolean | { error: string; email?: string }> => {
     setIsLoading(true);
@@ -89,6 +91,10 @@ export function useEmailAuth() {
       if (!response.ok) {
         setError(result.message || "Registration failed");
         return false;
+      }
+
+      if (result?.data?.user?.id) {
+        trackSignup("email", result.data.user.id);
       }
 
       // 返回完整结果对象，包括消息

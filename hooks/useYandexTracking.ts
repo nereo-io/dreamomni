@@ -43,8 +43,7 @@ export function useYandexTracking() {
 
   const trackImageGeneration = (model: string, prompt?: string) => {
     if (typeof window !== "undefined") {
-      // Image generation tracking - using video generation tracking for now
-      yandexTracking.trackVideoGenerated(model, undefined, model);
+      yandexTracking.trackImageGenerated(model, prompt?.length);
     }
   };
 

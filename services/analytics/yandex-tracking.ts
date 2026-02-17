@@ -85,6 +85,14 @@ class YandexTracking {
     });
   }
 
+  trackImageGenerated(model: string, promptLength?: number) {
+    this.reachGoal('IMAGE_GENERATED', {
+      model,
+      prompt_length: promptLength,
+      timestamp: new Date().toISOString()
+    });
+  }
+
   trackFirstVideoCreated(userId: string) {
     this.reachGoal('FIRST_VIDEO_CREATED', {
       user_id: userId,

@@ -3,6 +3,37 @@
  * Simple functions for handling ClientID - no over-engineering
  */
 
+const CLIENT_ID_COOKIE_NAME = 'ym_client_id';
+const YM_UID_COOKIE_NAME = '_ym_uid';
+const CLIENT_ID_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
+const CLIENT_ID_RETRY_INTERVAL_MS = 300;
+const CLIENT_ID_MAX_RETRY_MS = 60 * 1000;
+
+function readCookie(name: string): string | null {
+  if (typeof document === 'undefined') return null;
+  const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
+  if (!match?.[1]) return null;
+  try {
+    return decodeURIComponent(match[1]);
+  } catch {
+    return match[1];
+  }
+}
+
+function writeClientIdCookie(clientId: string): void {
+  if (typeof document === 'undefined') return;
+  const secure = window.location.protocol === 'https:' ? ';secure' : '';
+  document.cookie = `${CLIENT_ID_COOKIE_NAME}=${encodeURIComponent(clientId)};max-age=${CLIENT_ID_COOKIE_MAX_AGE_SECONDS};path=/;samesite=lax${secure}`;
+}
+
+function saveClientId(clientId: string | null | undefined): boolean {
+  if (!clientId) return false;
+  const normalized = clientId.trim();
+  if (!normalized) return false;
+  writeClientIdCookie(normalized);
+  return true;
+}
+
 /**
  * Initialize and save ClientID to cookie
  * Called once when YandexMetrica component mounts
@@ -10,18 +41,34 @@
 export function initClientId(): void {
   const metricaId = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID;
   if (!metricaId || typeof window === 'undefined') return;
-  
-  const tryGetClientId = (attempts = 0) => {
-    if (window.ym) {
+
+  if (readCookie(CLIENT_ID_COOKIE_NAME)) {
+    return;
+  }
+
+  const startedAt = Date.now();
+
+  const tryGetClientId = () => {
+    if (readCookie(CLIENT_ID_COOKIE_NAME)) {
+      return;
+    }
+
+    const ymUidCookie = readCookie(YM_UID_COOKIE_NAME);
+    if (saveClientId(ymUidCookie)) {
+      return;
+    }
+
+    if (typeof window.ym === 'function') {
       window.ym(Number(metricaId), 'getClientID', (clientID: string) => {
-        document.cookie = `ym_client_id=${clientID};max-age=2592000;path=/;samesite=lax`;
-        console.log('[YandexMetrica] ClientID saved:', clientID);
+        saveClientId(clientID);
       });
-    } else if (attempts < 50) {
-      setTimeout(() => tryGetClientId(attempts + 1), 100);
+    }
+
+    if (Date.now() - startedAt < CLIENT_ID_MAX_RETRY_MS) {
+      window.setTimeout(tryGetClientId, CLIENT_ID_RETRY_INTERVAL_MS);
     }
   };
-  
+
   tryGetClientId();
 }
 
@@ -30,6 +77,13 @@ export function initClientId(): void {
  * Used server-side when processing orders
  */
 export function getClientIdFromCookie(cookieString: string): string | null {
-  const match = cookieString.match(/ym_client_id=([^;]+)/);
-  return match ? match[1] : null;
+  const match = cookieString.match(
+    new RegExp(`(?:^|;)\\s*${CLIENT_ID_COOKIE_NAME}=([^;]+)`)
+  );
+  if (!match?.[1]) return null;
+  try {
+    return decodeURIComponent(match[1]);
+  } catch {
+    return match[1];
+  }
 }

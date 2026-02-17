@@ -900,9 +900,15 @@ export class PayssionProvider extends BasePaymentProvider {
 
       // 使用 finalOrderNo（续费时为 RNW_xxx，首次购买为原订单号）
       const orderToTrack = await findOrderByOrderNo(finalOrderNo);
-      if (orderToTrack?.client_id) {
+      const yclid =
+        orderToTrack?.last_touch?.yclid || orderToTrack?.first_touch?.yclid;
+
+      if (orderToTrack?.client_id || yclid) {
         const success = await offlineConversionService.trackPaymentSuccess(
-          orderToTrack.client_id,
+          {
+            clientId: orderToTrack?.client_id,
+            yclid,
+          },
           finalOrderNo, // 使用实际的订单号
           amount
         );
@@ -916,7 +922,7 @@ export class PayssionProvider extends BasePaymentProvider {
           });
         }
       } else {
-        console.error("⚠️ 订单缺少 client_id，无法追踪转化", {
+        console.error("⚠️ 订单缺少 client_id/yclid，无法追踪转化", {
           orderNo: finalOrderNo,
           isRenewal,
         });

@@ -369,9 +369,14 @@ async function handleCheckoutCompleted(webhookData: any) {
     // Track offline conversion for Yandex Metrica
     try {
       const orderData = await findOrderByOrderNo(orderNo);
-      if (orderData?.client_id) {
+      const yclid = orderData?.last_touch?.yclid || orderData?.first_touch?.yclid;
+
+      if (orderData?.client_id || yclid) {
         const success = await offlineConversionService.trackPaymentSuccess(
-          orderData.client_id,
+          {
+            clientId: orderData?.client_id,
+            yclid,
+          },
           orderNo,
           orderData.amount / 100
         );
@@ -383,6 +388,10 @@ async function handleCheckoutCompleted(webhookData: any) {
             amount: orderData.amount / 100,
           });
         }
+      } else {
+        logError("⚠️ 订单缺少 client_id/yclid，无法追踪转化", {
+          orderNo,
+        });
       }
     } catch (conversionError: any) {
       logError(
@@ -605,9 +614,15 @@ async function handleSubscriptionPaid(webhookData: any) {
       // Track offline conversion for Yandex Metrica
       try {
         const orderData = await findOrderByOrderNo(originalOrderNo);
-        if (orderData?.client_id) {
+        const yclid =
+          orderData?.last_touch?.yclid || orderData?.first_touch?.yclid;
+
+        if (orderData?.client_id || yclid) {
           const success = await offlineConversionService.trackPaymentSuccess(
-            orderData.client_id,
+            {
+              clientId: orderData?.client_id,
+              yclid,
+            },
             originalOrderNo,
             orderData.amount / 100
           );
@@ -619,6 +634,10 @@ async function handleSubscriptionPaid(webhookData: any) {
               amount: orderData.amount / 100,
             });
           }
+        } else {
+          logError("⚠️ 订单缺少 client_id/yclid，无法追踪转化", {
+            originalOrderNo,
+          });
         }
       } catch (conversionError: any) {
         logError(
@@ -782,9 +801,15 @@ async function handleSubscriptionPaid(webhookData: any) {
     try {
       // 直接从续费订单获取 client_id（已从原订单复制）
       const renewalOrder = await findOrderByOrderNo(renewalOrderNo);
-      if (renewalOrder?.client_id) {
+      const yclid =
+        renewalOrder?.last_touch?.yclid || renewalOrder?.first_touch?.yclid;
+
+      if (renewalOrder?.client_id || yclid) {
         const success = await offlineConversionService.trackPaymentSuccess(
-          renewalOrder.client_id,
+          {
+            clientId: renewalOrder?.client_id,
+            yclid,
+          },
           renewalOrderNo,
           productConfig.amount / 100
         );
@@ -797,7 +822,7 @@ async function handleSubscriptionPaid(webhookData: any) {
           });
         }
       } else {
-        logError("⚠️ 续费订单缺少 client_id，无法追踪转化", {
+        logError("⚠️ 续费订单缺少 client_id/yclid，无法追踪转化", {
           renewalOrderNo,
         });
       }

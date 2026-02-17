@@ -1,7 +1,6 @@
 import { NextRequest } from "next/server";
 import { respJson, respErr } from "@/lib/resp";
 import { signUpWithEmail } from "@/services/supabase-auth";
-import { yandexTracking } from "@/services/analytics/yandex-tracking";
 import { getClientIp, checkIPRegistrationLimit, updateIPRegistrationCount } from "@/lib/ip";
 import { getEmailDomain, isBlockedEmailDomain } from "@/lib/blocked-email-domains";
 import { z } from "zod";

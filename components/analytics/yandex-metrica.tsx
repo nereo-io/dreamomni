@@ -1,27 +1,43 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import Script from 'next/script';
 import { initClientId } from '@/lib/yandex-metrica';
-import { useHasInteracted } from "@/hooks/useHasInteracted";
+import { usePathname, useSearchParams } from 'next/navigation';
 
 export default function YandexMetrica() {
-  const hasInteracted = useHasInteracted();
+  const metricaId = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID;
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const hasBootstrappedRef = useRef(false);
+  const search = searchParams?.toString() || '';
 
   useEffect(() => {
-    if (!hasInteracted) return;
+    if (!metricaId) return;
     initClientId();
-  }, [hasInteracted]);
+  }, [metricaId]);
 
-  if (process.env.NODE_ENV !== "production") {
+  useEffect(() => {
+    if (!metricaId || typeof window === 'undefined') return;
+    if (typeof window.ym !== 'function') return;
+
+    if (!hasBootstrappedRef.current) {
+      hasBootstrappedRef.current = true;
+      return;
+    }
+
+    const path = pathname || window.location.pathname;
+    const query = search ? `?${search}` : '';
+    const url = `${window.location.origin}${path}${query}`;
+
+    window.ym(Number(metricaId), 'hit', url, {
+      title: document.title,
+    });
+  }, [metricaId, pathname, search]);
+
+  if (process.env.NODE_ENV !== 'production') {
     return null;
   }
-
-  if (!hasInteracted) {
-    return null;
-  }
-
-  const metricaId = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID;
 
   if (!metricaId) {
     return null;
@@ -31,9 +47,10 @@ export default function YandexMetrica() {
     <>
       <Script
         id="yandex-metrica"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
+            window.dataLayer = window.dataLayer || [];
             (function(m,e,t,r,i,k,a){
               m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
               m[i].l=1*new Date();

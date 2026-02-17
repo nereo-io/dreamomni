@@ -12,6 +12,7 @@ import {
   isSnapshotNewer,
   resolveAttribution,
 } from "@/lib/attribution";
+import { getClientIdFromCookie } from "@/lib/yandex-metrica";
 
 // 延迟初始化 Stripe 客户端，避免构建时错误
 function getStripeClient() {
@@ -77,6 +78,7 @@ export async function POST(req: Request) {
     }
 
     const cookieHeader = req.headers.get("cookie") || "";
+    const clientId = getClientIdFromCookie(cookieHeader);
     const cookieAttribution = getAttributionFromCookie(cookieHeader);
     const cookieLastTouch = cookieAttribution?.last_touch ?? null;
     const resolvedAttribution = resolveAttribution({
@@ -147,6 +149,7 @@ export async function POST(req: Request) {
       // 临时注释掉，等待数据库结构更新
       // product_type: product_type,
       valid_months: valid_months,
+      client_id: clientId,
       first_touch: resolvedAttribution.first_touch,
       last_touch: resolvedAttribution.last_touch,
       is_renewal: false,

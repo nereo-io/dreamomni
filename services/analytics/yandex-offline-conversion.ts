@@ -10,16 +10,27 @@
  */
 
 interface OfflineConversionRow {
-  clientId: string; // Yandex Metrica Client ID (required)
-  target: string; // Goal ID (numeric)
+  clientId?: string;
+  userId?: string;
+  yclid?: string;
+  purchaseId?: string;
+  target: string;
   dateTime: number; // Unix timestamp
   price?: number; // Goal value
   currency?: string; // ISO 4217 currency code
 }
 
+interface PaymentConversionIdentifier {
+  clientId?: string | null;
+  userId?: string | null;
+  yclid?: string | null;
+  purchaseId?: string | null;
+}
+
 class YandexOfflineConversionService {
   private counterId: string = "";
   private oauthToken: string = "";
+  private paymentGoalTarget: string = "PAYMENT_SUCCESS";
   private apiBaseUrl = "https://api-metrica.yandex.net/management/v1";
   private isDevelopment: boolean;
 
@@ -31,7 +42,14 @@ class YandexOfflineConversionService {
 
   private reloadConfig() {
     this.counterId = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID || "";
-    this.oauthToken = process.env.YANDEX_METRICA_OAUTH_TOKEN || "";
+    this.oauthToken =
+      process.env.YANDEX_METRICA_OAUTH_TOKEN ||
+      process.env.YANDEX_OFFLINE_CONVERSION_TOKEN ||
+      "";
+    this.paymentGoalTarget =
+      process.env.YANDEX_METRICA_PAYMENT_GOAL_TARGET ||
+      process.env.YANDEX_METRICA_PAYMENT_GOAL_ID ||
+      "PAYMENT_SUCCESS";
   }
 
   /**
@@ -56,13 +74,16 @@ class YandexOfflineConversionService {
       return { success: false, error: "Not configured" };
     }
 
-    if (conversions.length === 0) {
+    const validConversions = conversions.filter((conversion) =>
+      this.hasAnyIdentifier(conversion)
+    );
+
+    if (validConversions.length === 0) {
       return { success: false, error: "No conversions to upload" };
     }
 
     try {
-      // Create CSV content for YCLID conversions
-      const csvContent = this.createCSV(conversions);
+      const csvContent = this.createCSV(validConversions);
 
       if (this.isDevelopment) {
         console.log(
@@ -79,9 +100,6 @@ class YandexOfflineConversionService {
       // Build URL with query parameters
       let url = `${this.apiBaseUrl}/counter/${this.counterId}/offline_conversions/upload`;
       const params = new URLSearchParams();
-
-      // Always use CLIENT_ID type
-      params.append("client_id_type", "CLIENT_ID");
 
       if (comment) {
         params.append("comment", comment.substring(0, 255)); // Max 255 chars
@@ -129,14 +147,27 @@ class YandexOfflineConversionService {
   }
 
   /**
-   * Create CSV content for CLIENT_ID conversions
+   * Create CSV content for offline conversions.
+   * At least one of ClientId/UserId/Yclid/PurchaseId is required per row.
    */
   private createCSV(conversions: OfflineConversionRow[]): string {
-    const headers = ["ClientId", "Target", "DateTime", "Price", "Currency"];
+    const headers = [
+      "ClientId",
+      "UserId",
+      "Yclid",
+      "PurchaseId",
+      "Target",
+      "DateTime",
+      "Price",
+      "Currency",
+    ];
 
     const rows = conversions.map((conv) => {
       return [
-        conv.clientId,
+        conv.clientId || "",
+        conv.userId || "",
+        conv.yclid || "",
+        conv.purchaseId || "",
         conv.target,
         conv.dateTime.toString(),
         conv.price?.toString() || "",
@@ -151,15 +182,29 @@ class YandexOfflineConversionService {
    * Upload a single payment conversion (convenience method)
    */
   async trackPaymentSuccess(
-    clientId: string,
+    identifierOrClientId: string | PaymentConversionIdentifier,
     orderId: string,
     amount: number
   ): Promise<boolean> {
-    // Note: In production, use numeric goal ID ('PAYMENT_SUCCESS') instead of string
-    // The goal must be created first in Yandex Metrica
+    this.reloadConfig();
+
+    const identifier = this.normalizeIdentifier(identifierOrClientId);
+    if (!this.hasAnyIdentifier(identifier)) {
+      if (this.isDevelopment) {
+        console.log(
+          "[YandexOfflineConversion] Skip conversion: missing identifiers",
+          { orderId }
+        );
+      }
+      return false;
+    }
+
     const conversion: OfflineConversionRow = {
-      clientId,
-      target: "PAYMENT_SUCCESS", // Numeric ID for PAYMENT_SUCCESS goal
+      clientId: identifier.clientId || undefined,
+      userId: identifier.userId || undefined,
+      yclid: identifier.yclid || undefined,
+      purchaseId: identifier.purchaseId || orderId,
+      target: this.paymentGoalTarget,
       dateTime: Math.floor(Date.now() / 1000), // Current Unix timestamp
       price: amount,
       currency: "USD",
@@ -171,6 +216,19 @@ class YandexOfflineConversionService {
     );
 
     return result.success;
+  }
+
+  private normalizeIdentifier(
+    identifierOrClientId: string | PaymentConversionIdentifier
+  ): PaymentConversionIdentifier {
+    if (typeof identifierOrClientId === "string") {
+      return { clientId: identifierOrClientId };
+    }
+    return identifierOrClientId || {};
+  }
+
+  private hasAnyIdentifier(conversion: PaymentConversionIdentifier): boolean {
+    return !!(conversion.clientId || conversion.userId || conversion.yclid);
   }
 }
 
