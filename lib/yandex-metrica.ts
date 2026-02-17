@@ -77,8 +77,23 @@ export function initClientId(): void {
  * Used server-side when processing orders
  */
 export function getClientIdFromCookie(cookieString: string): string | null {
+  const clientId = readCookieFromHeader(cookieString, CLIENT_ID_COOKIE_NAME);
+  if (clientId) return clientId;
+
+  // Fallback: use Yandex native uid cookie when custom client cookie is missing.
+  return readCookieFromHeader(cookieString, YM_UID_COOKIE_NAME);
+}
+
+function readCookieFromHeader(
+  cookieString: string,
+  cookieName: string
+): string | null {
+  const escapedCookieName = cookieName.replace(
+    /[.*+?^${}()|[\]\\]/g,
+    '\\$&'
+  );
   const match = cookieString.match(
-    new RegExp(`(?:^|;)\\s*${CLIENT_ID_COOKIE_NAME}=([^;]+)`)
+    new RegExp(`(?:^|;)\\s*${escapedCookieName}=([^;]+)`)
   );
   if (!match?.[1]) return null;
   try {
