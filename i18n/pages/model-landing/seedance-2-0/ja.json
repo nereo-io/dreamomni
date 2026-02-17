@@ -1,0 +1,259 @@
+{
+  "breadcrumb": {
+    "items": [
+      { "label": "ホーム", "href": "/" },
+      { "label": "AI動画生成", "href": "/ai-video" },
+      { "label": "Seedance 2.0" }
+    ]
+  },
+  "banner": {
+    "title": "Seedance 2.0 AI動画生成",
+    "description": "Seedance 2.0は、テキスト、画像、音声、動画入力をサポートする統合マルチモーダル音声・映像同時生成アーキテクチャを採用し、業界最高水準のマルチモーダルコンテンツ参照・編集機能を実現しています。",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "テキストから動画",
+        "subTitle": "プロンプト",
+        "value": "text-to-video",
+        "modelName": "Seedance 2.0",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "生成したい動画の内容を入力してください...",
+        "buttonText": "生成"
+      },
+      {
+        "type": "image",
+        "title": "画像から動画",
+        "subTitle": "画像",
+        "value": "image-to-video",
+        "modelName": "Seedance 2.0",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "アニメーション化する画像をアップロード",
+        "tips": "JPG/PNG/WEBP形式、最大10MB、最小幅/高さ300pxの画像をアップロードしてください。",
+        "buttonText": "生成"
+      }
+    ]
+  },
+  "partners": [],
+  "features": {
+    "title": "Seedance 2.0の主な機能と特徴",
+    "details": [
+      {
+        "title": "創造の自由を実現する統合マルチモーダルアーキテクチャ",
+        "description": "Seedance 2.0は、AI動画生成におけるクリエイターの作業方法を根本から変革する、画期的な統合マルチモーダル音声・映像同時生成アーキテクチャを導入しています。従来の単一入力モデルとは異なり、Seedance 2.0は単一の生成ワークフロー内でテキストプロンプト、参照画像、音声クリップ、動画セグメントを同時に受け付けます。この統合アプローチにより、複数のツールや複雑なポストプロダクションパイプラインが不要になります。マーケティングコンテンツ、SNS動画、シネマティックショートフィルムなど、どのような制作でも、マルチモーダルアーキテクチャにより、生成プロセスのあらゆる側面を前例のないレベルでコントロールしながら、クリエイティブビジョンを最終出力に正確に反映できます。",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/be82ecd65795-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/c40fae94b3d9-oMXT1or1plDeB7neAILaGuEGte2EmurIB3CUaQ_t.jpg"
+      },
+      {
+        "title": "ネイティブ音声・映像同時生成技術",
+        "description": "Seedance 2.0のネイティブ同時生成技術で、真の音声・映像同期を体験してください。このモデルは、同期された音声と映像を一度のパスで生成し、会話の完璧なリップシンク、視覚環境に合った自然な環境音、シーン遷移とシームレスに統合されたBGMを実現します。これにより、従来の「まず動画を生成してから音声を追加する」というワークフローが不要になり、より一貫性のあるプロフェッショナル品質の出力が得られます。この技術は、生成された動画の没入感を高めるリアルなサウンドスケープの作成に優れています。",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/c832044bab3c-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/1611df9b18d2-dc089e69c5f44590a028319de7381d0e_1770872.jpg"
+      },
+      {
+        "title": "業界最高水準のモーション安定性と一貫性",
+        "description": "Seedance 2.0は、AI動画生成の新基準となる卓越したモーション安定性を提供します。このモデルは、動画全体を通じてキャラクターのアイデンティティ、照明条件、シーンの一貫性を維持します。複雑なカメラワーク、ダイナミックなアクションシーケンス、複数キャラクターのインタラクションは、他のAI動画モデルによく見られるアーティファクトやジッターを回避し、滑らかで自然な動きでレンダリングされます。この安定性により、Seedance 2.0は品質と一貫性が最重要視されるプロフェッショナルなコンテンツ制作に最適です。",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/e228e91c46d0-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/7fcd6dbc7965-77f77ea5aa754104b27cfe3863619a1e_1770872.jpg"
+      },
+      {
+        "title": "参照入力によるディレクターレベルのクリエイティブコントロール",
+        "description": "Seedance 2.0の高度な参照入力システムで、完全なクリエイティブコントロールを手に入れましょう。キャラクター画像をアップロードしてシーン間で一貫したアイデンティティを維持したり、音声トラックを提供してリップの動きや環境音をガイドしたり、動画クリップを使用して特定のモーションパターンやカメラスタイルを転送したりできます。このディレクターレベルのコントロールにより、クリエイターは大規模なポストプロダクション作業なしに、クリエイティブビジョンに合った正確な結果を達成できます。参照システムは複数の同時入力をサポートし、従来のAI動画生成では不可能だった複雑なクリエイティブワークフローを可能にします。",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/90a63780743d-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/99316385ac6e-o4PAK60dAXeRieT7iqS6NEIBNgRCxuPBEmP1X0_t.jpg"
+      },
+      {
+        "title": "最大30秒の長尺動画生成をサポート",
+        "description": "Seedance 2.0は最大30秒の動画生成をサポートし、ストーリーテリング、製品デモンストレーション、クリエイティブなナラティブに十分な尺を提供します。長尺対応機能は、動画全体を通じて一貫した品質を維持し、動画が進行してもモーション安定性や視覚的忠実度が低下しません。これにより、Seedance 2.0は複数回の生成や手動のつなぎ合わせなしに、完全なショートフォームコンテンツを作成するのに適しています。",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/41d649b669bf-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/5f59faf0b345-o8dEiHhYQd8fJEvXanIiDaicdWANh1vXAFAXBo_t.jpg"
+      },
+      {
+        "title": "没入感のあるシネマティック視聴覚体験",
+        "description": "Seedance 2.0は、プロの映像制作に匹敵する真に没入感のある視聴覚体験を創出します。このモデルは映画的言語を理解し、ストーリーテリングを強化する適切なカメラワーク、照明遷移、音声キューを生成します。繊細な環境音を伴う親密なクローズアップから、ダイナミックなサウンドスケープを伴う壮大なエスタブリッシングショットまで、Seedance 2.0は放送およびデジタル配信の業界標準を満たすプロフェッショナルグレードの出力を提供します。",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/400c92da553b-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/662d02a168e8-93a84c9151014697a3f917728a7903bd_1770872.jpg"
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Seedance 2.0 AI動画生成の使い方",
+    "description": "Seedance 2.0を使って、簡単な数ステップで素晴らしいAI生成動画を作成できます。当プラットフォームは、プロフェッショナルな動画生成を誰でも利用できるようにします。",
+    "steps": [
+      {
+        "number": "1",
+        "title": "入力モードを選択",
+        "description": "プロンプトベースの生成にはテキストから動画を、既存の画像をアニメーション化するには画像から動画を選択してください。Seedance 2.0のマルチモーダルアーキテクチャは両方のワークフローをシームレスにサポートします。"
+      },
+      {
+        "number": "2",
+        "title": "プロンプトを作成またはメディアをアップロード",
+        "description": "カメラワーク、照明、音声要素を含む、希望する動画シーンの詳細な説明を書いてください。画像から動画の場合は、参照画像をアップロードし、希望するモーションを説明してください。"
+      },
+      {
+        "number": "3",
+        "title": "生成してダウンロード",
+        "description": "生成をクリックすると、Seedance 2.0が同期音声付きの動画を作成します。結果をプレビューし、プロジェクト用に高品質でダウンロードしてください。"
+      }
+    ],
+    "buttonText": "今すぐ作成を開始"
+  },
+  "youtubeCases": {
+    "title": "Seedance 2.0に関するYouTube動画",
+    "content": [
+      {
+        "youtubeLink": "https://www.youtube.com/embed/nTOjyxlOlps?si=equ54yaKbc27f8q6",
+        "width": "525",
+        "height": "296"
+      }
+    ]
+  },
+  "redditCases": {
+    "title": "Seedance 2.0に関するRedditディスカッション",
+    "content": [
+      {
+        "id": "reddit-1",
+        "src": "https://embed.reddit.com/r/singularity/comments/1qyiusp/upcoming_seedance_2_demo_video_bytedances_new/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "526"
+      },
+      {
+        "id": "reddit-2",
+        "src": "https://embed.reddit.com/r/GoogleGeminiAI/comments/1qzrhgd/has_anyone_used_seedance_20_yet/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "506"
+      },
+      {
+        "id": "reddit-3",
+        "src": "https://embed.reddit.com/r/AIHubSpace/comments/1qzp15w/another_video_of_seedance_20/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "407"
+      },
+      {
+        "id": "reddit-4",
+        "src": "https://embed.reddit.com/r/IndianArtAI/comments/1qz8vb5/beta_testing_seedance_20_model_this_is_amazing/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "427"
+      },
+      {
+        "id": "reddit-5",
+        "src": "https://embed.reddit.com/r/aivideos/comments/1qzf81x/mars_space_boy_i_generated_a_music_mv_with/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "447"
+      }
+    ]
+  },
+  "twitterCases": {
+    "title": "Seedance 2.0に関するXの投稿",
+    "content": [
+      {
+        "id": "twitter-1",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020125869637824845&dnt=false",
+        "width": "352",
+        "height": "554"
+      },
+      {
+        "id": "twitter-2",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020169879442399593&dnt=false",
+        "width": "352",
+        "height": "496"
+      },
+      {
+        "id": "twitter-3",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020015660483649991&dnt=false",
+        "width": "352",
+        "height": "654"
+      },
+      {
+        "id": "twitter-4",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020364735334752438&dnt=false",
+        "width": "352",
+        "height": "497"
+      }
+    ]
+  },
+  "comparison": {
+    "title": "Seedance 2.0 vs Sora 2 vs Veo 3：機能比較",
+    "models": ["Seedance 2.0", "Sora 2", "Veo 3"],
+    "features": [
+      { "name": "マルチモーダル入力（テキスト/画像/音声/動画）", "values": [true, false, true] },
+      { "name": "ネイティブ音声生成", "values": [true, true, true] },
+      { "name": "最大動画長", "values": ["30s", "20s", "8s"] },
+      { "name": "最大解像度", "values": ["2K", "1080p", "1080p"] },
+      { "name": "キャラクター一貫性", "values": [true, false, true] },
+      { "name": "参照画像サポート", "values": [true, true, true] },
+      { "name": "音声参照サポート", "values": [true, false, false] },
+      { "name": "動画拡張・編集", "values": [true, true, false] }
+    ]
+  },
+  "relatedModels": {
+    "title": "他のAI動画モデルを探索",
+    "models": [
+      {
+        "name": "Seedance 1.5 Pro",
+        "slug": "seedance-1-5",
+        "description": "標準的な動画生成タスクに実績のある安定性と信頼性を持つ前世代のSeedanceモデル。",
+        "logo": "/imgs/intro/seedance.png"
+      },
+      {
+        "name": "Kling 2.0",
+        "slug": "kling-2-0",
+        "description": "優れたモーション品質とクリエイティブコントロール機能を備えたKuaishouの先進的なAI動画モデル。",
+        "logo": "/imgs/intro/kling.png"
+      },
+      {
+        "name": "Hailuo AI",
+        "slug": "hailuo",
+        "description": "自然なモーションと多様なスタイルにわたる高品質出力で知られるMiniMaxの動画生成モデル。",
+        "logo": "/imgs/intro/hailuo.png"
+      }
+    ]
+  },
+  "faq": {
+    "title": "Seedance 2.0に関するよくある質問",
+    "items": [
+      {
+        "title": "Seedance 2.0とは何ですか？他のAI動画生成ツールとの違いは？",
+        "description": "Seedance 2.0は、統合マルチモーダル音声・映像同時生成アーキテクチャを特徴とするByteDanceの最新AI動画生成モデルです。テキスト、画像、音声入力を別々に処理する従来のAI動画生成ツールとは異なり、Seedance 2.0はすべてのモダリティを単一の統合ワークフローで同時に処理します。これにより、音声と映像のより良い同期、フレーム間でのより一貫したキャラクターアイデンティティ、優れたモーション安定性が実現します。このモデルはネイティブ音声付きで最大30秒の動画生成をサポートし、現在利用可能な最も高性能なAI動画生成ツールの一つです。"
+      },
+      {
+        "title": "Seedance 2.0はどのような入力モダリティをサポートしていますか？",
+        "description": "Seedance 2.0は4つの入力モダリティをサポートしています：テキストプロンプト、参照画像、音声クリップ、動画セグメント。テキストプロンプトを使用して希望するシーンを詳細に説明したり、参照画像をアップロードしてキャラクターの一貫性を維持したり視覚スタイルのガイダンスを提供したり、音声クリップを含めてサウンドトラックとリップシンクをガイドしたり、動画セグメントを提供してモーション参照やスタイル転送を行ったりできます。このモデルは複数の入力タイプを同時に処理でき、生成プロセスに対する前例のないクリエイティブコントロールを提供します。"
+      },
+      {
+        "title": "Seedance 2.0の「没入型視聴覚体験」とは何を意味しますか？",
+        "description": "Seedance 2.0の没入型視聴覚体験とは、視覚コンテンツと音声コンテンツを同時に生成し、完璧に同期させるモデルの能力を指します。これには、会話シーンでの正確なリップシンク、視覚環境に合った環境音、シーン遷移に合わせたBGMが含まれます。このモデルは映画的言語を理解し、ストーリーテリングを強化する適切なカメラワーク、照明遷移、音声キューを生成します。その結果、プロの映像制作に匹敵する、より魅力的で映画的な品質の出力が得られます。"
+      },
+      {
+        "title": "Seedance 2.0でディレクターレベルのコントロールを実現するにはどうすればよいですか？",
+        "description": "Seedance 2.0は、包括的な参照入力システムを通じてディレクターレベルのコントロールを可能にします。キャラクター画像をアップロードして複数のシーン間で一貫したアイデンティティを維持したり、音声トラックを提供してリップの動きや環境音をガイドしたり、動画クリップを使用して特定のモーションパターンやカメラスタイルを転送したりできます。このモデルは映画的言語を理解し、自然言語プロンプトを通じてカメラワーク、照明条件、シーン構成を指定できます。この参照入力と詳細なプロンプティングの組み合わせにより、クリエイターは生成される動画のあらゆる側面を正確にコントロールできます。"
+      },
+      {
+        "title": "Seedance 2.0は既存の動画の編集や拡張に使用できますか？",
+        "description": "はい、Seedance 2.0は動画編集と拡張機能をサポートしています。このモデルを使用して既存の動画クリップを拡張し、元の映像とのスタイルとモーションの一貫性を維持できます。参照から動画への機能により、シーンのクリーンアップ、特定の要素への制御された更新、生成されたコンテンツと既存のコンテンツ間のシームレスな遷移などのタスクが可能になります。これにより、Seedance 2.0はゼロから新しいコンテンツを作成するだけでなく、既存の動画プロジェクトの強化と拡張にも価値があります。"
+      },
+      {
+        "title": "Seedance 2.0はどのようなプロジェクトに最適ですか？",
+        "description": "Seedance 2.0は、マーケティングコンテンツ、SNS動画、製品デモンストレーション、シネマティックショートフィルム、クリエイティブなストーリーテリングなど、幅広い動画制作タスクに優れています。このモデルの長尺サポート（最大30秒）により、手動のつなぎ合わせなしに完全なショートフォームコンテンツを作成するのに適しています。プロフェッショナルグレードの出力品質は放送およびデジタル配信の業界標準を満たし、商業プロジェクトに適しています。マルチモーダル入力サポートは、一貫したキャラクターアイデンティティや特定の音声・映像同期を必要とするプロジェクトに特に価値があります。"
+      },
+      {
+        "title": "Seedance 2.0はどのように評価・ベンチマークされていますか？",
+        "description": "Seedance 2.0は、ByteDanceのAI動画生成用内部ベンチマークスイートであるSeedVideoBench-2.0を使用して評価されています。このモデルは、モーション安定性、音声・映像同期、キャラクター一貫性、視覚品質など、複数の次元で業界をリードするパフォーマンスを示しています。比較評価では、Seedance 2.0は特にマルチモーダル入力処理と長尺生成において強みを発揮しており、これらは多くの競合モデルが品質と一貫性を維持するのに苦労する領域です。"
+      },
+      {
+        "title": "Seedance 2.0の公式出力例はどこで見られますか？",
+        "description": "このページで、ByteDanceのローンチ資料からの公式デモンストレーション動画を含む、厳選されたSeedance 2.0の例のショーケースをご覧いただけます。これらの例は、シネマティックシーン、キャラクターアニメーション、音声・映像同期など、さまざまなユースケースにわたるモデルの機能を紹介しています。最新の例と更新については、新しいショーケースコンテンツが利用可能になり次第、当プラットフォームをフォローしてください。"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Seedance 2.0で制作を始めませんか？",
+    "description": "統合マルチモーダルAI動画生成のパワーを体験してください。今すぐ同期音声付きのプロフェッショナル品質の動画制作を始めましょう。",
+    "buttonText": "Seedance 2.0を無料で試す"
+  }
+}
