@@ -1,0 +1,2 @@
+[   51364ms] [ERROR] WebSocket connection to 'wss://mc.yandex.ru/solid.ws' failed: Error during WebSocket handshake: Unexpected response code: 504 @ https://mc.yandex.ru/metrika/tag.js:484
+[  138717ms] [WARNING] @next/third-parties: GA has not been initialized @ https://www.seedance.tv/_next/static/chunks/3021-b13b0f5874dad89b.js?dpl=dpl_HtRQeQ61qABdbq9xkQZLUSsTe6z7:0

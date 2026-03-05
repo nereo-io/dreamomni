@@ -156,20 +156,13 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         // 根据用户位置自动选择支付方式
         if (methods.length > 0) {
           if (isRussia) {
-            // 俄罗斯用户: 默认选择 SberPay（优先级最高）
-            const sberPayMethod = methods.find((m) => m.id === "sberpay");
-            if (sberPayMethod) {
-              setSelectedPaymentMethod(sberPayMethod.id);
+            // 俄罗斯用户: 默认选择第一个 Payssion 支付方式（按顺序 sberpay -> yoomoney -> mir）
+            const firstPayssionMethod = methods.find(
+              (m) => m.provider === "payssion",
+            );
+            if (firstPayssionMethod) {
+              setSelectedPaymentMethod(firstPayssionMethod.id);
               setSelectedProvider("payssion");
-            } else {
-              // Fallback: 如果没有 SberPay，选择第一个 Payssion 支付方式
-              const firstPayssionMethod = methods.find(
-                (m) => m.provider === "payssion",
-              );
-              if (firstPayssionMethod) {
-                setSelectedPaymentMethod(firstPayssionMethod.id);
-                setSelectedProvider("payssion");
-              }
             }
           } else {
             // 非俄罗斯用户: 默认选择 Creem

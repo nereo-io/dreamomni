@@ -1,0 +1,5 @@
+Total messages: 3 (Errors: 0, Warnings: 1)
+
+[WARNING] @next/third-parties: GA has not been initialized @ https://www.seedance.tv/_next/static/chunks/3021-b13b0f5874dad89b.js?dpl=dpl_HtRQeQ61qABdbq9xkQZLUSsTe6z7:0
+[LOG] Payment Debug Info: {isRussia: true, selectedPaymentMethod: sberpay, selectedProvider: payssion, availableMethods: Array(4)} @ https://www.seedance.tv/_next/static/chunks/app/%5Blocale%5D/(default)/pricing/page-76c668cb44bf923e.js?dpl=dpl_HtRQeQ61qABdbq9xkQZLUSsTe6z7:0
+[LOG] Using endpoint: /api/subscription/create @ https://www.seedance.tv/_next/static/chunks/app/%5Blocale%5D/(default)/pricing/page-76c668cb44bf923e.js?dpl=dpl_HtRQeQ61qABdbq9xkQZLUSsTe6z7:0
