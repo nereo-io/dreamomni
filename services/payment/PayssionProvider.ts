@@ -366,19 +366,18 @@ export class PayssionProvider extends BasePaymentProvider {
       );
 
       const result = await response.json();
-      console.log("Mandate creation result:", JSON.stringify(result, null, 2));
+
+      if (result.error) {
+        return {
+          success: false,
+          errorMessage: result.error.message || "Mandate creation failed",
+        };
+      }
 
       // 获取重定向URL
       const redirectUrl = result.action?.redirect_to_url?.url;
 
       const mandateStatus = this.normalizeMandateStatus(result.status);
-      if (result.status !== mandateStatus) {
-        console.log("Normalized mandate status:", {
-          from: result.status,
-          to: mandateStatus,
-          mandateId: result.id,
-        });
-      }
 
       await insertPayssionMandate({
         user_uuid: request.userUuid,
@@ -426,7 +425,7 @@ export class PayssionProvider extends BasePaymentProvider {
         description:
           request.description || `Subscription for ${request.userEmail}`,
         interval_unit: request.interval,
-        times: 5, // 测试环境Payssion V2 要求必须为 1；正式环境为 5
+        times: 1, // 测试环境Payssion V2 要求必须为 1；正式环境为 5
         metadata: request.metadata || {},
       };
 
@@ -448,13 +447,6 @@ export class PayssionProvider extends BasePaymentProvider {
       );
 
       const result = await response.json();
-
-      // 添加详细的响应日志
-      console.log("Payssion V2 subscription API response:", {
-        status: response.status,
-        ok: response.ok,
-        result: JSON.stringify(result, null, 2),
-      });
 
       // 检查响应状态和结果
       if (!response.ok || !result.id) {
@@ -507,18 +499,15 @@ export class PayssionProvider extends BasePaymentProvider {
 
       switch (eventType) {
         case "mandate.succeeded":
-          console.log("V2 subscription webhook received:", data);
           await this.handleMandateSucceeded(webhookData);
 
           break;
 
         case "subscription.created":
-          console.log("V2 subscription webhook received:", data);
           await this.handleSubscriptionCreated(webhookData);
           break;
 
         case "payment.succeeded":
-          console.log("V2 subscription webhook received:", data);
           await this.handlePaymentSucceeded(webhookData);
           break;
 
@@ -607,9 +596,7 @@ export class PayssionProvider extends BasePaymentProvider {
           interval: interval,
           planType: planType,
           paymentMethod: paymentMethod,
-          description: `Subscription for ${
-            metadata.product_name || metadata.product_id
-          }`,
+          description: `Subscription for ${metadata.product_id}`,
           returnUrl: this.config.subscription.defaultReturnUrl,
           notifyUrl: this.config.subscription.webhookUrl,
           metadata: metadata, // 传递完整的 metadata
@@ -619,10 +606,9 @@ export class PayssionProvider extends BasePaymentProvider {
           subscriptionRequest
         );
 
-        console.log(
-          "Subscription creation result:",
-          JSON.stringify(subscriptionResult, null, 2)
-        );
+        if (!subscriptionResult.success) {
+          console.error("❌ Subscription creation failed:", subscriptionResult.errorMessage);
+        }
       }
     } catch (error: any) {
       console.error("Error handling mandate succeeded:", error);
@@ -647,8 +633,6 @@ export class PayssionProvider extends BasePaymentProvider {
       metadata: metadata,
     };
 
-    console.log("📦 Creating bundle payment after mandate authorized:", JSON.stringify(requestBody, null, 2));
-
     const response = await fetch(`${this.config.v2.baseUrl}/v2/payments`, {
       method: "POST",
       headers: {
@@ -659,7 +643,6 @@ export class PayssionProvider extends BasePaymentProvider {
     });
 
     const result = await response.json();
-    console.log("Bundle payment after mandate result:", JSON.stringify(result, null, 2));
 
     if (result.error) {
       console.error(`❌ Bundle payment creation failed: ${result.error.message}`);
