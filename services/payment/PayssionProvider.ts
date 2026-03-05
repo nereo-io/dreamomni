@@ -425,7 +425,7 @@ export class PayssionProvider extends BasePaymentProvider {
         description:
           request.description || `Subscription for ${request.userEmail}`,
         interval_unit: request.interval,
-        times: 1, // 测试环境Payssion V2 要求必须为 1；正式环境为 5
+        times: 5, // 测试环境Payssion V2 要求必须为 1；正式环境为 5
         metadata: request.metadata || {},
       };
 
@@ -667,7 +667,7 @@ export class PayssionProvider extends BasePaymentProvider {
 
     console.log("Subscription created:", subscriptionId, "mandate:", mandateId);
 
-    // 幂等性检查：检查订阅是否已存在
+    // 幂等性检查：检查订阅是否已存在（mandate.succeeded 阶段已创建）
     const { findSubscriptionByPayssionId, createSubscription } = await import(
       "@/models/subscription"
     );
@@ -680,21 +680,45 @@ export class PayssionProvider extends BasePaymentProvider {
         "✅ Subscription already exists, skipping creation:",
         subscriptionId
       );
-      return; // 订阅已存在，直接返回成功（幂等处理）
+      // 仍然尝试更新 order 的 sub_id
+      if (metadata?.order_no) {
+        const { updateOrderSubId } = await import("@/models/order");
+        try {
+          await updateOrderSubId(metadata.order_no, subscriptionId);
+        } catch (error) {
+          console.error("Failed to update order sub_id:", error);
+        }
+      }
+      return;
+    }
+
+    // metadata 可能为空（Payssion subscription.created 事件不一定携带完整 metadata）
+    if (!metadata || !metadata.user_uuid) {
+      console.log(
+        "⚠️ No metadata in subscription.created event, skipping DB creation (handled by mandate.succeeded):",
+        subscriptionId
+      );
+      return;
     }
 
     // 创建订阅记录 - 初始状态为 pending，等待首次支付成功后激活
-    await createSubscription({
-      user_uuid: metadata.user_uuid,
-      mandate_id: mandateId,
-      payssion_subscription_id: subscriptionId,
-      plan_type: metadata.interval === "year" ? "yearly" : "monthly",
-      amount: parseFloat(metadata.amount),
-      currency: metadata.currency,
-      status: "pending",
-      product_name: metadata.product_name,
-      product_id: metadata.product_id,
-    });
+    try {
+      await createSubscription({
+        user_uuid: metadata.user_uuid,
+        mandate_id: mandateId,
+        payssion_subscription_id: subscriptionId,
+        plan_type: metadata.interval === "year" ? "yearly" : "monthly",
+        amount: parseFloat(metadata.amount),
+        currency: metadata.currency,
+        status: "pending",
+        product_name: metadata.product_name,
+        product_id: metadata.product_id,
+      });
+    } catch (error) {
+      // 可能是唯一约束冲突（mandate.succeeded 已创建），忽略
+      console.log("⚠️ createSubscription failed (likely already exists):", subscriptionId, error);
+      return;
+    }
 
     // 更新订单的订阅ID
     if (metadata.order_no) {
