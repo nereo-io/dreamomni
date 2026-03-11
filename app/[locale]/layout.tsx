@@ -15,6 +15,7 @@ import StructuredData from "@/components/seo/structured-data";
 import { SignupTracker } from "@/components/analytics/signup-tracker";
 import AttributionTracker from "@/components/analytics/attribution-tracker";
 import YandexMetrica from "@/components/analytics/yandex-metrica";
+import BingUET from "@/components/analytics/bing-uet";
 // import { SpeedInsights } from '@vercel/speed-insights/next';
 // import { Analytics } from "@vercel/analytics/react";
 
@@ -122,6 +123,7 @@ export default async function RootLayout({
         )}
       >
         <YandexMetrica />
+        <BingUET />
         <NextIntlClientProvider messages={messages}>
           <NextAuthSessionProvider>
             <AppContextProvider>
