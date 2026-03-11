@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
+import { trackUetEvent } from "@/lib/bing-uet";
 
 interface SignupData {
   email: string;
@@ -95,6 +96,17 @@ export function useEmailAuth() {
 
       if (result?.data?.user?.id) {
         trackSignup("email", result.data.user.id);
+        trackUetEvent(
+          "register_success",
+          {
+            event_category: "auth",
+            event_label: "email",
+          },
+          {
+            dedupeKey: `register_success:${result.data.user.id}`,
+            dedupeStorage: "local",
+          }
+        );
       }
 
       // 返回完整结果对象，包括消息

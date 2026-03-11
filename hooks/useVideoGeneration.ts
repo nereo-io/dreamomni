@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { trackUetEvent } from "@/lib/bing-uet";
 
 interface VideoGenerationParams {
   model: string;
@@ -249,6 +250,13 @@ export default function useVideoGeneration() {
         if (result.code !== 0) {
           throw new Error(result.message || "提交失败");
         }
+
+        trackUetEvent("video_generation_started", {
+          event_category: "generation",
+          event_label: params.model,
+          generation_type: params.generationType || params.effect_type || "standard",
+          duration: params.duration,
+        });
 
         // 构建更新数据，包含积分信息
         const updates: Partial<VideoGenerationResult> = {

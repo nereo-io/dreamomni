@@ -31,6 +31,7 @@ import CreditsBundleModal, {
 } from "@/components/ui/credits-bundle-modal";
 import { useTranslations } from "next-intl";
 import useCurrentSubscription from "@/hooks/useCurrentSubscription";
+import { trackUetEvent } from "@/lib/bing-uet";
 
 interface EnhancedPricingProps {
   pricing: PricingType;
@@ -39,7 +40,7 @@ interface EnhancedPricingProps {
 export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   const { user, setShowSignModal } = useAppContext();
   const { loading: locationLoading, isRussia } = useGeolocation();
-  const { trackPricingView, trackCheckoutStart, trackPayment } =
+  const { trackPricingView, trackCheckoutStart } =
     useYandexTracking();
   const t = useTranslations("creditsBundle");
   const tPricing = useTranslations("pricing_modal");
@@ -106,6 +107,23 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       if (result.code === 0 && result.data) {
         if (result.data.hasRecentPayment) {
           const paymentInfo = result.data.paymentInfo;
+
+          if (paymentInfo.interval !== "one-time") {
+            trackUetEvent(
+              "subscription_purchase",
+              {
+                event_category: "subscription",
+                event_label: paymentInfo.planName,
+                event_value: paymentInfo.amount,
+                revenue_value: paymentInfo.amount,
+                currency: paymentInfo.currency,
+              },
+              {
+                dedupeKey: `${paymentTimestamp}:${paymentInfo.planName}:${paymentInfo.amount}`,
+                dedupeStorage: "local",
+              }
+            );
+          }
 
           setSuccessInfo({
             planName: paymentInfo.planName,

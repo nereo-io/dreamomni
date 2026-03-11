@@ -30,6 +30,7 @@ import CreditsBundleModal, {
   BundleItem,
 } from "@/components/ui/credits-bundle-modal";
 import useCurrentSubscription from "@/hooks/useCurrentSubscription";
+import { trackUetEvent } from "@/lib/bing-uet";
 
 interface PricingModalProps {
   isOpen: boolean;
@@ -138,6 +139,23 @@ export default function PricingModal({
       if (result.code === 0 && result.data) {
         if (result.data.hasRecentPayment) {
           const paymentInfo = result.data.paymentInfo;
+
+          if (paymentInfo.interval !== "one-time") {
+            trackUetEvent(
+              "subscription_purchase",
+              {
+                event_category: "subscription",
+                event_label: paymentInfo.planName,
+                event_value: paymentInfo.amount,
+                revenue_value: paymentInfo.amount,
+                currency: paymentInfo.currency,
+              },
+              {
+                dedupeKey: `${paymentTimestamp}:${paymentInfo.planName}:${paymentInfo.amount}`,
+                dedupeStorage: "local",
+              }
+            );
+          }
 
           setSuccessInfo({
             planName: paymentInfo.planName,

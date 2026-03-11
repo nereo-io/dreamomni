@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
-import { toast } from "sonner";
 import type { ImageGenerationParams } from "@/types/image.d";
+import { trackUetEvent } from "@/lib/bing-uet";
 
 export interface ImageGenerationResult {
   id: string;
@@ -84,6 +84,13 @@ export default function useImageGeneration() {
       }
 
       if (result.code === 0) {
+        trackUetEvent("image_generation_started", {
+          event_category: "generation",
+          event_label: params.model,
+          generation_mode: params.mode,
+          provider: params.provider,
+        });
+
         return {
           success: true,
           data: result.data,

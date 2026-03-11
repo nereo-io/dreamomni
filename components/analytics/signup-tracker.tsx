@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
+import { trackUetEvent } from "@/lib/bing-uet";
 
 export function SignupTracker() {
   const { data: session } = useSession();
@@ -17,6 +18,19 @@ export function SignupTracker() {
       
       console.log("Tracking new user registration:", provider, userId);
       trackSignup(provider, userId);
+      trackUetEvent(
+        "register_success",
+        {
+          event_category: "auth",
+          event_label: provider,
+        },
+        {
+          dedupeKey: userId
+            ? `register_success:${userId}`
+            : `register_success:${provider}`,
+          dedupeStorage: "local",
+        }
+      );
       hasTracked.current = true;
     }
   }, [session, trackSignup]);
