@@ -79,8 +79,8 @@
       "label": "",
       "features_title": "含まれる機能",
       "features": [
-        "月間400クレジット",
-        "~40 Seedance動画または~33 Veo3動画",
+        "月間300クレジット",
+        "~30 Seedance動画または~25 Veo3動画",
         "最大10秒の動画",
         "1080p解像度出力"
       ],
@@ -99,7 +99,7 @@
       },
       "product_id": "mini-monthly",
       "product_name": "Seedance AI ミニ",
-      "credits": 400,
+      "credits": 300,
       "valid_months": 1,
       "group": "monthly"
     },
@@ -108,8 +108,8 @@
       "label": "40% オフ",
       "features_title": "含まれる機能",
       "features": [
-        "年間4800クレジット（月400）",
-        "~480 Seedance動画または~400 Veo3動画",
+        "年間3600クレジット（月300）",
+        "~360 Seedance動画または~300 Veo3動画",
         "最大10秒の動画",
         "1080p解像度出力"
       ],
@@ -129,7 +129,7 @@
       },
       "product_id": "mini-yearly",
       "product_name": "Seedance AI ミニ 年額",
-      "credits": 4800,
+      "credits": 3600,
       "valid_months": 12,
       "group": "yearly"
     },
