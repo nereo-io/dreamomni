@@ -66,3 +66,41 @@
   max-width: 100%;
   box-sizing: border-box;
 }
+
+.markdown-table-wrapper {
+  margin-bottom: 16px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.markdown table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  border: 1px solid hsl(var(--border));
+  font-size: 0.95rem;
+}
+
+.markdown th,
+.markdown td {
+  border: 1px solid hsl(var(--border) / 0.7);
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.markdown thead tr {
+  background-color: hsl(var(--muted) / 0.8);
+}
+
+.markdown tbody tr:nth-child(even) {
+  background-color: hsl(var(--muted) / 0.35);
+}
+
+.dark .markdown thead tr {
+  background-color: hsl(var(--muted) / 0.45);
+}
+
+.dark .markdown tbody tr:nth-child(even) {
+  background-color: hsl(var(--muted) / 0.18);
+}

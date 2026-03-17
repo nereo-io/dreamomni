@@ -1,16 +1,13 @@
-import { PostStatus, findPostBySlug } from "@/models/post";
+import { PostStatus, findPostBySlug, getPostsByLocale } from "@/models/post";
 
 import BlogDetail from "@/components/blocks/blog-detail";
 import Empty from "@/components/blocks/empty";
-import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({
   params,
 }: {
   params: { locale: string; slug: string };
 }) {
-  const t = await getTranslations();
-
   const post = await findPostBySlug(params.slug, params.locale);
 
   let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/blog/${params.slug}`;
@@ -33,11 +30,18 @@ export default async function ({
 }: {
   params: { locale: string; slug: string };
 }) {
-  const post = await findPostBySlug(params.slug, params.locale);
+  const [post, localePosts] = await Promise.all([
+    findPostBySlug(params.slug, params.locale),
+    getPostsByLocale(params.locale, 1, 12),
+  ]);
 
   if (!post || post.status !== PostStatus.Online) {
     return <Empty message="Post not found" />;
   }
 
-  return <BlogDetail post={post} />;
+  const relatedPosts = localePosts
+    .filter((localePost) => localePost.slug !== post.slug)
+    .slice(0, 3);
+
+  return <BlogDetail post={post} relatedPosts={relatedPosts} />;
 }
