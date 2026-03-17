@@ -51,6 +51,18 @@ export async function generateMetadata({
     },
     description: description,
     keywords: t("metadata.keywords") || "",
+    alternates: {
+      canonical: locale === "en" ? baseUrl : `${baseUrl}/${locale}`,
+      languages: {
+        "x-default": baseUrl,
+        en: baseUrl,
+        ru: `${baseUrl}/ru`,
+        ja: `${baseUrl}/ja`,
+        ko: `${baseUrl}/ko`,
+        de: `${baseUrl}/de`,
+        fr: `${baseUrl}/fr`,
+      },
+    },
     openGraph: {
       title: title,
       description: description,
