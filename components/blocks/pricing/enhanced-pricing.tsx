@@ -495,9 +495,9 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       <section id={pricing.name} className="py-16">
         <div className="container">
           <div className="mx-auto mb-12 text-center">
-            <h2 className="mb-4 text-4xl font-semibold lg:text-5xl">
+            <h1 className="mb-4 text-4xl font-semibold lg:text-5xl">
               {pricing.title}
-            </h2>
+            </h1>
             <p className="text-muted-foreground lg:text-lg">
               {pricing.description}
             </p>

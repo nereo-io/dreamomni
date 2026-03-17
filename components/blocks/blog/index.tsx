@@ -13,9 +13,9 @@ export default function Blog({ blog }: { blog: BlogType }) {
           <p className="mb-6 text-xs font-medium uppercase tracking-wider">
             {blog.label}
           </p>
-          <h2 className="mb-3 text-pretty text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-6 lg:max-w-3xl lg:text-5xl">
+          <h1 className="mb-3 text-pretty text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-6 lg:max-w-3xl lg:text-5xl">
             {blog.title}
-          </h2>
+          </h1>
           <p className="mb-8 text-muted-foreground md:text-base lg:max-w-2xl lg:text-lg">
             {blog.description}
           </p>
