@@ -41,7 +41,7 @@ function getHeadingText(token?: MarkdownTokenLike) {
   }
 
   return token.children
-    .map((child) => child.content)
+    .map((child: { content: string }) => child.content)
     .join('')
     .trim();
 }
