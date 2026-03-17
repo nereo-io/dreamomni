@@ -269,50 +269,50 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   // },
 
   // Kie.ai Wan 2.5 文本转视频模型
-  "kie-wan-2-5-text-to-video": {
-    id: "kie-wan-2-5-text-to-video",
-    name: "Kie.ai Wan 2.5 Text-to-Video",
-    type: VideoModelType.TEXT_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    providerModelId: "wan/2-5-text-to-video",
-    modelName: VideoModel.WAN_2_5,
-    displayName: "Wan 2.5",
-    perSecondCredits: 5, // 720p baseline
-    description: "Alibaba Wan 2.5 text-to-video with stronger prompt understanding.",
-    features: ["Wait 180s", "Prompt Expansion", "720p/1080p"],
-    maxDuration: 10,
-    supportedAspectRatios: ["16:9", "9:16", "1:1"],
-    supportsAudio: false,
-    estimatedGenerationTime: 180,
-    useSignedCallback: true,
-    supportedDurations: [5, 10],
-    supportedResolutions: ["720p", "1080p"],
-  },
+  // "kie-wan-2-5-text-to-video": {
+  //   id: "kie-wan-2-5-text-to-video",
+  //   name: "Kie.ai Wan 2.5 Text-to-Video",
+  //   type: VideoModelType.TEXT_TO_VIDEO,
+  //   provider: VideoModelProvider.KIEAI,
+  //   providerModelId: "wan/2-5-text-to-video",
+  //   modelName: VideoModel.WAN_2_5,
+  //   displayName: "Wan 2.5",
+  //   perSecondCredits: 5, // 720p baseline
+  //   description: "Alibaba Wan 2.5 text-to-video with stronger prompt understanding.",
+  //   features: ["Wait 180s", "Prompt Expansion", "720p/1080p"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["16:9", "9:16", "1:1"],
+  //   supportsAudio: false,
+  //   estimatedGenerationTime: 180,
+  //   useSignedCallback: true,
+  //   supportedDurations: [5, 10],
+  //   supportedResolutions: ["720p", "1080p"],
+  // },
 
-  // Kie.ai Wan 2.5 图片转视频模型
-  "kie-wan-2-5-image-to-video": {
-    id: "kie-wan-2-5-image-to-video",
-    name: "Kie.ai Wan 2.5 Image-to-Video",
-    type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    providerModelId: "wan/2-5-image-to-video",
-    modelName: VideoModel.WAN_2_5,
-    displayName: "Wan 2.5",
-    perSecondCredits: 5, // 720p baseline
-    description: "Alibaba Wan 2.5 image-to-video with controllable cinematic motion.",
-    features: ["Wait 180s", "Prompt Expansion", "Image Animation"],
-    maxDuration: 10,
-    supportedAspectRatios: ["Auto"],
-    supportsAudio: false,
-    estimatedGenerationTime: 180,
-    useSignedCallback: true,
-    supportedDurations: [5, 10],
-    supportedResolutions: ["720p", "1080p"],
-    imageCapabilities: {
-      maxImages: 1,
-      labels: ["Reference Image"],
-    },
-  },
+  // // Kie.ai Wan 2.5 图片转视频模型
+  // "kie-wan-2-5-image-to-video": {
+  //   id: "kie-wan-2-5-image-to-video",
+  //   name: "Kie.ai Wan 2.5 Image-to-Video",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.KIEAI,
+  //   providerModelId: "wan/2-5-image-to-video",
+  //   modelName: VideoModel.WAN_2_5,
+  //   displayName: "Wan 2.5",
+  //   perSecondCredits: 5, // 720p baseline
+  //   description: "Alibaba Wan 2.5 image-to-video with controllable cinematic motion.",
+  //   features: ["Wait 180s", "Prompt Expansion", "Image Animation"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["Auto"],
+  //   supportsAudio: false,
+  //   estimatedGenerationTime: 180,
+  //   useSignedCallback: true,
+  //   supportedDurations: [5, 10],
+  //   supportedResolutions: ["720p", "1080p"],
+  //   imageCapabilities: {
+  //     maxImages: 1,
+  //     labels: ["Reference Image"],
+  //   },
+  // },
 
   // Doubao-Seedance 1.0 Pro 文本转视频模型 (Volcano Engine)
   // "doubao-seedance-1-0-pro-text-to-video": {
