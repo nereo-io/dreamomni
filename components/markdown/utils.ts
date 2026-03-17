@@ -49,7 +49,7 @@ function getHeadingText(token?: MarkdownTokenLike) {
 }
 
 export function createMarkdownRenderer() {
-  const md = new MarkdownIt({
+  const md: MarkdownIt = new MarkdownIt({
     highlight: function (str: string, lang: string) {
       if (lang && hljs.getLanguage(lang)) {
         try {
@@ -59,7 +59,7 @@ export function createMarkdownRenderer() {
         } catch {}
       }
 
-      return `<pre class="hljs"><code>${md.utils.escapeHtml(str)}</code></pre>`;
+      return `<pre class="hljs"><code>${MarkdownIt().utils.escapeHtml(str)}</code></pre>`;
     },
   });
 
