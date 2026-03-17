@@ -6,10 +6,8 @@ export interface TocHeading {
   text: string;
 }
 
-interface MarkdownTokenLike {
-  content: string;
-  children?: Array<{ content: string }>;
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type MarkdownTokenLike = any;
 
 function createSlug(text: string) {
   return text
