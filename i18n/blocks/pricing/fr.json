@@ -22,7 +22,7 @@
       "features_title": "Inclus",
       "features": [
         "<highlight>300</highlight> crédits mensuels",
-        "~30 vidéos Seedance ou ~25 vidéos Veo3",
+        "~30 vidéos Seedance ou ~37 vidéos Veo3",
         "Sortie en résolution 1080p",
         "Modèles vidéo de haute qualité",
         "Image et Texte vers Vidéo",
@@ -54,7 +54,7 @@
       "features": [
         "<highlight>300</highlight> crédits mensuels",
         "Les crédits sont accordés chaque mois pendant l'année",
-        "~30 vidéos Seedance ou ~25 vidéos Veo3",
+        "~30 vidéos Seedance ou ~37 vidéos Veo3",
         "Sortie en résolution 1080p",
         "Modèles vidéo de haute qualité",
         "Image et Texte vers Vidéo",
@@ -86,7 +86,7 @@
       "features_title": "Inclus",
       "features": [
         "<highlight>2000</highlight> crédits mensuels",
-        "~200 vidéos Seedance ou ~166 vidéos Veo3",
+        "~200 vidéos Seedance ou ~250 vidéos Veo3",
         "Jusqu'à 10 secondes par vidéo",
         "Sortie en résolution 1080p",
         "Modèles vidéo de haute qualité",
@@ -120,7 +120,7 @@
       "features": [
         "<highlight>2000</highlight> crédits mensuels",
         "Les crédits sont accordés chaque mois pendant l'année",
-        "~200 vidéos Seedance ou ~166 vidéos Veo3",
+        "~200 vidéos Seedance ou ~250 vidéos Veo3",
         "Jusqu'à 10 secondes par vidéo",
         "Sortie en résolution 1080p",
         "Modèles vidéo de haute qualité",
@@ -156,7 +156,7 @@
     "items": [
       {
         "title": "Que sont les crédits et comment fonctionnent-ils ?",
-        "description": "Les crédits sont utilisés pour toutes les générations IA. Par exemple, une vidéo Veo3 8s en 1080p coûte 12 crédits, et une image Nano Banana Pro en 1K coûte 3 crédits. Avec les 300 crédits du plan Mini, vous pouvez créer environ 25 vidéos Veo3 ou 100 images par mois."
+        "description": "Les crédits sont utilisés pour toutes les générations IA. Par exemple, une vidéo Veo3 8s en 1080p coûte 8 crédits, et une image Nano Banana Pro en 1K coûte 3 crédits. Avec les 300 crédits du plan Mini, vous pouvez créer environ 37 vidéos Veo3 ou 100 images par mois."
       },
       {
         "title": "Que se passe-t-il avec les crédits non utilisés à la fin du mois ?",

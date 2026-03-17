@@ -131,7 +131,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     provider: VideoModelProvider.KIEAI,
     modelName: VideoModel.VEO3,
     displayName: "Veo 3.1",
-    perSecondCredits: 1,
+    perSecondCredits: 0.75,
     description: "Google's Veo3.1 model, starting at $0.36/video",
     features: ["Wait 120s", "Audio"],
     maxDuration: 8, // Kie.ai Veo3 默认5秒
@@ -150,7 +150,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     provider: VideoModelProvider.KIEAI,
     modelName: VideoModel.VEO3,
     displayName: "Veo 3.1",
-    perSecondCredits: 1, // 与文本转视频同样的积分消耗
+    perSecondCredits: 0.75, // 与文本转视频同样的积分消耗
     description: "Google's Veo3.1 model, starting at $0.36/video",
     features: ["Wait 120s", "Audio", "Support 2 images"],
     maxDuration: 8, // Kie.ai Veo3 默认5秒
@@ -173,7 +173,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     provider: VideoModelProvider.KIEAI,
     modelName: VideoModel.VEO3,
     displayName: "Veo 3.1 (Consistent Character)",
-    perSecondCredits: 1,
+    perSecondCredits: 0.75,
     description:
       "Create videos with consistent character identity using 1-3 reference images",
     features: ["Wait 240s", "Character Consistency", "1-3 Reference Images"],
@@ -714,17 +714,17 @@ export function calculateCredits(
   }
 
   // Kie.ai Veo3 模型的分辨率定价
-  // 基础价格: 1积分/秒，8秒 = 8积分 (720p)
-  // 720p: 8积分 (1x)
-  // 1080p: 12积分 (1.5x)
-  // 4K: 16积分 (2x)
+  // 基础价格: 0.75积分/秒，8秒 = 6积分 (720p)
+  // 720p: 6积分 (1x)
+  // 1080p: 8积分 (1.33x)
+  // 4K: 12积分 (2x)
   if (isKieAiVeo3Model(modelId)) {
     if (normalizedResolution === "4k") {
-      totalCredits *= 2; // 4K = 2x 基础价格 (16积分/8秒)
+      totalCredits *= 2; // 4K = 2x 基础价格 (12积分/8秒)
     } else if (normalizedResolution === "1080p") {
-      totalCredits = (totalCredits * 3) / 2; // 1080p = 1.5x 基础价格 (12积分/8秒)
+      totalCredits = totalCredits * 4 / 3; // 1080p = 1.33x 基础价格 (8积分/8秒)
     }
-    // 720p 保持基础价格 (8积分/8秒)
+    // 720p 保持基础价格 (6积分/8秒)
   }
 
   // Kie.ai Kling 3.0 模型定价
