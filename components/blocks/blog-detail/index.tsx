@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import StructuredData from "@/components/seo/structured-data";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { ArrowRight } from "lucide-react";
@@ -148,15 +149,13 @@ function RelatedArticles({ posts }: { posts: Post[] }) {
             className="group overflow-hidden rounded-2xl border border-border/70 bg-card/40 transition-colors hover:border-primary/40 hover:bg-card"
           >
             {relatedPost.cover_url ? (
-              <div className="overflow-hidden">
-                <img
+              <div className="relative aspect-[16/9] overflow-hidden">
+                <Image
                   src={relatedPost.cover_url}
                   alt={relatedPost.title || ""}
-                  className="aspect-[16/9] h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                  loading="lazy"
-                  decoding="async"
-                  width={640}
-                  height={360}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                 />
               </div>
             ) : (
