@@ -42,6 +42,10 @@ export default function Blog({ blog }: { blog: BlogType }) {
                       src={item.cover_url}
                       alt={item.title || ""}
                       className="aspect-[16/9] h-full w-full object-cover object-center"
+                      loading="lazy"
+                      decoding="async"
+                      width={640}
+                      height={360}
                     />
                   </div>
                 )}

@@ -153,6 +153,10 @@ function RelatedArticles({ posts }: { posts: Post[] }) {
                   src={relatedPost.cover_url}
                   alt={relatedPost.title || ""}
                   className="aspect-[16/9] h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                  loading="lazy"
+                  decoding="async"
+                  width={640}
+                  height={360}
                 />
               </div>
             ) : (
