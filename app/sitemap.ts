@@ -1,3 +1,4 @@
+import { execSync } from "child_process";
 import { MetadataRoute } from "next";
 import { getPostsByLocale } from "@/models/post";
 import { locales } from "@/i18n/locale";
@@ -18,6 +19,34 @@ type StaticPageDefinition = {
   changeFrequency: ChangeFrequency;
   priority: number;
 };
+
+const DEFAULT_LAST_MODIFIED = "2026-03-18T00:00:00.000Z";
+
+const STATIC_PAGE_SOURCE_FILES: Record<string, string> = {
+  "/": "app/[locale]/(default)/page.tsx",
+  "/image-to-video": "app/[locale]/(home)/image-to-video/page.tsx",
+  "/text-to-video": "app/[locale]/(home)/text-to-video/page.tsx",
+  "/text-to-image": "app/[locale]/(home)/text-to-image/page.tsx",
+  "/image-to-image": "app/[locale]/(home)/image-to-image/page.tsx",
+  "/blog": "app/[locale]/(default)/blog/page.tsx",
+  "/privacy-policy": "app/(legal)/privacy-policy/page.mdx",
+  "/terms-of-service": "app/(legal)/terms-of-service/page.mdx",
+  "/refund-policy": "app/(legal)/refund-policy/page.mdx",
+  "/home": "app/[locale]/(home)/home/page.tsx",
+};
+
+function getGitLastModified(filePath: string): string {
+  try {
+    const date = execSync(`git log -1 --format=%cI -- "${filePath}"`, {
+      encoding: "utf-8",
+      timeout: 5000,
+    }).trim();
+
+    return date || DEFAULT_LAST_MODIFIED;
+  } catch {
+    return DEFAULT_LAST_MODIFIED;
+  }
+}
 
 function buildLocalizedUrl(baseUrl: string, locale: string, path: string) {
   const normalizedPath = path === "/" ? "" : path;
@@ -56,22 +85,9 @@ function createSitemapEntry(
   };
 }
 
-const STATIC_PAGE_LAST_MODIFIED: Record<string, string> = {
-  "/": "2026-03-18T00:00:00.000Z",
-  "/home": "2026-03-18T00:00:00.000Z",
-  "/image-to-video": "2026-03-18T00:00:00.000Z",
-  "/text-to-video": "2026-03-18T00:00:00.000Z",
-  "/text-to-image": "2026-03-18T00:00:00.000Z",
-  "/image-to-image": "2026-03-18T00:00:00.000Z",
-  "/blog": "2026-03-18T00:00:00.000Z",
-  "/privacy-policy": "2026-03-18T00:00:00.000Z",
-  "/terms-of-service": "2026-03-18T00:00:00.000Z",
-  "/refund-policy": "2026-03-18T00:00:00.000Z",
-};
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "";
-  const fallbackDate = "2026-03-18T00:00:00.000Z";
+  const fallbackDate = DEFAULT_LAST_MODIFIED;
 
   console.log("开始生成 sitemap...");
 
@@ -135,7 +151,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         baseUrl,
         "en",
         page.path,
-        STATIC_PAGE_LAST_MODIFIED[page.path] || fallbackDate,
+        getGitLastModified(STATIC_PAGE_SOURCE_FILES[page.path] || ""),
         page.changeFrequency,
         page.priority
       )
@@ -152,7 +168,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           baseUrl,
           locale,
           page.path,
-          STATIC_PAGE_LAST_MODIFIED[page.path] || fallbackDate,
+          getGitLastModified(STATIC_PAGE_SOURCE_FILES[page.path] || ""),
           page.changeFrequency,
           page.priority
         )
