@@ -1,5 +1,6 @@
 "use client";
 
+import StructuredData from "@/components/seo/structured-data";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { ArrowRight } from "lucide-react";
 
@@ -118,6 +119,26 @@ function RelatedArticles({ posts }: { posts: Post[] }) {
         <p className="mt-2 text-sm text-muted-foreground md:text-base">
           More posts in the same locale you may want to read next.
         </p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Link
+            href="/blog"
+            className="inline-flex items-center rounded-full border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-accent"
+          >
+            Browse more blog posts
+          </Link>
+          <Link
+            href="/image-to-video"
+            className="inline-flex items-center rounded-full border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-accent"
+          >
+            Image to Video
+          </Link>
+          <Link
+            href="/text-to-video"
+            className="inline-flex items-center rounded-full border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-accent"
+          >
+            Text to Video
+          </Link>
+        </div>
       </div>
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {posts.map((relatedPost) => (
@@ -169,6 +190,15 @@ export default function BlogDetail({
 }) {
   return (
     <section className="py-16">
+      <StructuredData
+        type="article"
+        data={{
+          title: post.title,
+          description: post.description,
+          publishedDate: post.created_at,
+          modifiedDate: post.updated_at || post.created_at,
+        }}
+      />
       <div className="container">
         <Crumb post={post} />
         <h1 className="mb-7 mt-9 max-w-3xl text-2xl font-bold md:mb-10 md:text-4xl">
@@ -196,6 +226,37 @@ export default function BlogDetail({
         <div className="relative mt-0 grid max-w-screen-xl gap-4 lg:mt-0 lg:grid lg:grid-cols-12 lg:gap-6">
           <div className="order-2 lg:order-none lg:col-span-8">
             {post.content && <Markdown content={post.content} />}
+
+            <div className="mt-12 rounded-2xl border border-primary/20 bg-primary/5 p-6 md:p-8">
+              <h2 className="text-2xl font-bold md:text-3xl">
+                Ready to create your own AI video?
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground md:text-base">
+                Turn ideas, text prompts, and images into polished videos with Seedance.
+                If this article helped, the fastest next step is to try the product.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link
+                  href="/image-to-video"
+                  className="inline-flex items-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                >
+                  Try Image to Video
+                </Link>
+                <Link
+                  href="/text-to-video"
+                  className="inline-flex items-center rounded-lg border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
+                >
+                  Try Text to Video
+                </Link>
+                <Link
+                  href="/video-effects"
+                  className="inline-flex items-center rounded-lg border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
+                >
+                  Explore Video Effects
+                </Link>
+              </div>
+            </div>
+
             <RelatedArticles posts={relatedPosts} />
           </div>
           <div className="order-1 hidden h-fit flex-col text-sm lg:order-none lg:col-span-3 lg:col-start-10 lg:flex lg:text-xs">

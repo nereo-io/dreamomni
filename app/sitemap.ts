@@ -56,9 +56,22 @@ function createSitemapEntry(
   };
 }
 
+const STATIC_PAGE_LAST_MODIFIED: Record<string, string> = {
+  "/": "2026-03-18T00:00:00.000Z",
+  "/home": "2026-03-18T00:00:00.000Z",
+  "/image-to-video": "2026-03-18T00:00:00.000Z",
+  "/text-to-video": "2026-03-18T00:00:00.000Z",
+  "/text-to-image": "2026-03-18T00:00:00.000Z",
+  "/image-to-image": "2026-03-18T00:00:00.000Z",
+  "/blog": "2026-03-18T00:00:00.000Z",
+  "/privacy-policy": "2026-03-18T00:00:00.000Z",
+  "/terms-of-service": "2026-03-18T00:00:00.000Z",
+  "/refund-policy": "2026-03-18T00:00:00.000Z",
+};
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "";
-  const currentDate = new Date().toISOString();
+  const fallbackDate = "2026-03-18T00:00:00.000Z";
 
   console.log("开始生成 sitemap...");
 
@@ -122,7 +135,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         baseUrl,
         "en",
         page.path,
-        currentDate,
+        STATIC_PAGE_LAST_MODIFIED[page.path] || fallbackDate,
         page.changeFrequency,
         page.priority
       )
@@ -139,7 +152,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           baseUrl,
           locale,
           page.path,
-          currentDate,
+          STATIC_PAGE_LAST_MODIFIED[page.path] || fallbackDate,
           page.changeFrequency,
           page.priority
         )
@@ -160,7 +173,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             baseUrl,
             locale,
             `/blog/${post.slug}`,
-            post.updated_at || post.created_at || currentDate,
+            post.updated_at || post.created_at || fallbackDate,
             "monthly",
             0.6
           )
@@ -188,7 +201,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("生成 sitemap 时出错:", error);
     // 返回一个基本的 sitemap，确保即使出错也能返回一些内容
     return [
-      createSitemapEntry(baseUrl, "en", "/", currentDate, "daily", 1.0),
+      createSitemapEntry(baseUrl, "en", "/", fallbackDate, "daily", 1.0),
     ];
   }
 }
