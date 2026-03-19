@@ -15,7 +15,7 @@ export default function BingUET() {
   return (
     <Script
       id="bing-uet"
-      strategy="afterInteractive"
+      strategy="lazyOnload"
       dangerouslySetInnerHTML={{
         __html: `
           (function(w, d, t, u, o) {
