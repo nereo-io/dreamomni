@@ -32,7 +32,7 @@ const STATIC_PAGE_SOURCE_FILES: Record<string, string> = {
   "/privacy-policy": "app/(legal)/privacy-policy/page.mdx",
   "/terms-of-service": "app/(legal)/terms-of-service/page.mdx",
   "/refund-policy": "app/(legal)/refund-policy/page.mdx",
-  "/home": "app/[locale]/(home)/home/page.tsx",
+  // "/home" removed: blocked by robots.txt
 };
 
 function getGitLastModified(filePath: string): string {
@@ -98,11 +98,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "daily",
         priority: 1.0,
       },
-      {
-        path: "/home",
-        changeFrequency: "daily",
-        priority: 0.9,
-      },
+      // /home removed: blocked by robots.txt (logged-in page, not for SEO)
+
       {
         path: "/image-to-video",
         changeFrequency: "daily",
