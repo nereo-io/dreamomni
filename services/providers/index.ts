@@ -8,4 +8,5 @@ export * from "./KieAiHailuoProvider";
 export * from "./KieAiWanProvider";
 export * from "./AliProvider";
 export * from "./EvolinkSoraProvider";
+export * from "./MaxApiProvider";
 export * from "./ProviderFactory";

@@ -198,6 +198,7 @@ export function VideoGenerationTool({
       enable_prompt_enhancement: finalParams.enable_prompt_enhancement,
       image_url: finalParams.image_url, // 保留用于向后兼容
       image_urls: finalParams.image_urls, // 新增：支持1-2张图片数组（首帧、尾帧）
+      media_urls: finalParams.media_urls,
       source_image_ids: finalParams.source_image_ids, // 新增：来源图片ID追踪（My Creations）
       captchaToken: finalParams.captchaToken, // Pass CAPTCHA token
       watermarkEnabled: finalParams.watermarkEnabled,

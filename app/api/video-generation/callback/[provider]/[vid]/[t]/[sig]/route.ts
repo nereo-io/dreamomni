@@ -180,7 +180,7 @@ export async function POST(
 
     let parsed;
     try {
-      parsed = parseVideoWebhookPayload(webhookData);
+      parsed = parseVideoWebhookPayload(webhookData, normalizedProvider);
     } catch (parseError) {
       return respErr(
         parseError instanceof Error ? parseError.message : "无效的 webhook 数据格式"

@@ -12,13 +12,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Play, Coins, Crown, ChevronRight } from "lucide-react";
+import { Play, Coins, Crown, ChevronRight, Clock3 } from "lucide-react";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import { useTranslations, useLocale } from "next-intl";
 import useCredits from "@/hooks/useCredits";
 import { ImageUploader } from "./ImageUploader";
 import { ImageGridUploader } from "./ImageGridUploader";
+import { MediaGridUploader, type MediaItem } from "./MediaGridUploader";
+import { PromptWithMentions } from "./PromptWithMentions";
 import {
   getTextToVideoModels,
   getImageToVideoModels,
@@ -27,8 +29,8 @@ import {
   getSupportedResolutionsForDuration,
   isSeedanceModel,
   getMaxImagesForModel,
+  isMaxApiModel,
 } from "@/config/video-models";
-import { validateImage } from "@/config/image-validation-rules";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 import type { VideoEffect } from "@/types/video-effect";
 import { EffectSelector } from "@/components/blocks/effect-selector";
@@ -47,6 +49,7 @@ export interface VideoGenerationParams {
   enable_prompt_enhancement: boolean;
   image_url?: string;
   image_urls?: string[]; // 新增：支持1-2张图片数组（首帧、尾帧）
+  media_urls?: string[]; // 混合素材URLs（图片/视频/音频）
   source_image_ids?: string[]; // 新增：来源图片ID数组（追踪"My Creations"选择）
   effect_id?: string;
   pixverse_img_id?: number;
@@ -91,6 +94,10 @@ interface VideoGeneratorProps {
 type VideoDuration = "5" | "6" | "8" | "10" | "12" | "15" | "25";
 type VideoResolution = "480p" | "512p" | "720p" | "768p" | "1080p";
 
+function getWaitTimeLabel(features?: string[]) {
+  return features?.find((feature) => feature.toLowerCase().startsWith("wait"));
+}
+
 export default function VideoGenerator({
   mode,
   onGenerate,
@@ -134,6 +141,8 @@ export default function VideoGenerator({
     []
   );
   const [sourceImageIds, setSourceImageIds] = useState<(string | null)[]>([]); // 来源图片ID（追踪"My Creations"选择）
+  const [uploadedMediaUrls, setUploadedMediaUrls] = useState<string[]>([]);
+  const [uploadedMediaItems, setUploadedMediaItems] = useState<MediaItem[]>([]);
 
   // 向后兼容：保留旧状态供其他逻辑使用
   const uploadedImageUrl =
@@ -158,7 +167,10 @@ export default function VideoGenerator({
   const { leftCredits, updateLeftCredits } = useCredits();
   const isMember = membership?.status === "active";
   const isSeedanceSelected = isSeedanceModel(selectedModel);
+  const isMaxApiSeedanceSelected = isMaxApiModel(selectedModel);
   const isVeo3Selected = selectedModel.includes('kie-veo3-');
+  const usesMixedMediaInput =
+    generationType === "REFERENCE_2_VIDEO" && isMaxApiSeedanceSelected;
 
   // 当前模型支持的最大图片数（从配置中获取）
   const maxImages = useMemo(
@@ -710,6 +722,14 @@ export default function VideoGenerator({
     ); // 保存来源图片ID
   }, []);
 
+  const handleMediaChange = useCallback(
+    (mediaUrls: string[], mediaItems: MediaItem[]) => {
+      setUploadedMediaUrls(mediaUrls);
+      setUploadedMediaItems(mediaItems);
+    },
+    []
+  );
+
   // 构建生成参数的辅助函数
   const buildGenerationParams = (): VideoGenerationParams & {
     image_urls?: string[];
@@ -744,6 +764,10 @@ export default function VideoGenerator({
       pixverse_img_id: pixverseImgId || undefined,
       watermarkEnabled: (isSeedanceSelected || isVeo3Selected) ? watermarkEnabled : false,
       generationType: finalGenerationType,
+      media_urls:
+        usesMixedMediaInput && uploadedMediaUrls.length > 0
+          ? uploadedMediaUrls
+          : undefined,
     };
 
     console.log('[VideoGenerator] buildGenerationParams:', {
@@ -793,9 +817,9 @@ export default function VideoGenerator({
     }
 
     // 验证图片转视频模式下必须上传图片
-    const hasImages =
-      uploadedImageUrls.some((url) => !!url) || !!uploadedImageUrl;
-    if (mode === "image-to-video" && !hasImages) {
+    const hasImages = uploadedImageUrls.some((url) => !!url) || !!uploadedImageUrl;
+    const hasMedia = usesMixedMediaInput && uploadedMediaUrls.length > 0;
+    if (mode === "image-to-video" && !hasImages && !hasMedia) {
       toast.error(t("toast.uploadImageRequired"));
       return;
     }
@@ -874,21 +898,38 @@ export default function VideoGenerator({
                   </div>
                 )}
               </div>
-              <Textarea
-                ref={textareaRef}
-                value={description}
-                onChange={handleDescriptionChange}
-                placeholder={descriptionPlaceholder}
-                className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
-                style={{ minHeight: "150px", maxHeight: "300px" }}
-                disabled={isGenerating}
-              />
+              {usesMixedMediaInput ? (
+                <PromptWithMentions
+                  value={description}
+                  onChange={setDescription}
+                  placeholder={t("mediaPromptPlaceholder")}
+                  disabled={isGenerating}
+                  mediaItems={uploadedMediaItems}
+                />
+              ) : (
+                <Textarea
+                  ref={textareaRef}
+                  value={description}
+                  onChange={handleDescriptionChange}
+                  placeholder={descriptionPlaceholder}
+                  className="resize-none bg-gray-800 border-gray-600 text-gray-100 placeholder:text-gray-400 mt-0 overflow-y-auto"
+                  style={{ minHeight: "150px", maxHeight: "300px" }}
+                  disabled={isGenerating}
+                />
+              )}
             </div>
           )}
 
           {/* Image Upload Section (for image-to-video mode) */}
           {mode === "image-to-video" &&
-            (generationType === "REFERENCE_2_VIDEO" ? (
+            (usesMixedMediaInput ? (
+              <MediaGridUploader
+                maxMedia={12}
+                onMediaChange={handleMediaChange}
+                isAuthenticated={!!user?.uuid}
+                onShowSignModal={() => setShowSignModal(true)}
+              />
+            ) : generationType === "REFERENCE_2_VIDEO" ? (
               <ImageGridUploader
                 maxImages={3}
                 selectedModel={selectedModel}
@@ -966,6 +1007,7 @@ export default function VideoGenerator({
                     <SelectContent>
                       {availableModels.map((model) => {
                         const isMemberOnly = model.requiresMembership;
+                        const waitTimeLabel = getWaitTimeLabel(model.features);
 
                         return (
                           <SelectItem
@@ -1005,33 +1047,29 @@ export default function VideoGenerator({
                                 className="w-5 h-5 flex-shrink-0 mt-0.5"
                               />
                               <div className="flex flex-col flex-1 min-w-0">
-                                <div className="flex items-center gap-2 mb-1">
-                                  <span className="font-medium text-gray-100">
+                                <div className="flex items-center gap-1.5 mb-0.5">
+                                  <span className="font-medium text-sm text-gray-100">
                                     {model.displayName}
                                   </span>
                                   {isMemberOnly && (
-                                    <Crown className="h-3.5 w-3.5 text-amber-300" />
+                                    <Crown className="h-3 w-3 text-amber-300" />
                                   )}
-                                  <div className="flex items-center gap-1 text-xs text-blue-300">
-                                    <Coins className="h-3 w-3" />
+                                  <div className="flex items-center gap-0.5 text-[11px] text-blue-300/80">
+                                    <Coins className="h-2.5 w-2.5" />
                                     {model.perSecondCredits}/s
                                   </div>
                                 </div>
-                                <span className="text-xs text-gray-400 mb-1 line-clamp-2">
-                                  {model.description}
-                                </span>
-                                {model.features && (
-                                  <div className="flex flex-wrap gap-1">
-                                    {model.features.map((feature, index) => (
-                                      <span
-                                        key={index}
-                                        className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full"
-                                      >
-                                        {feature}
-                                      </span>
-                                    ))}
-                                  </div>
-                                )}
+                                <div className="flex items-center gap-1.5">
+                                  {waitTimeLabel && (
+                                    <span className="inline-flex shrink-0 items-center gap-0.5 rounded bg-blue-500/25 px-1.5 py-px text-xs text-gray-300">
+                                      <Clock3 className="h-2.5 w-2.5" />
+                                      {waitTimeLabel.replace(/^wait\s*/i, "")}
+                                    </span>
+                                  )}
+                                  <span className="flex-1 truncate text-xs text-gray-400">
+                                    {model.description}
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           </SelectItem>
