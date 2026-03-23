@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import type { ImageGenerationParams } from "@/types/image.d";
 import { trackUetEvent } from "@/lib/bing-uet";
+import { trackGAGenerateImage } from "@/services/analytics/google-tracking";
 
 export interface ImageGenerationResult {
   id: string;
@@ -89,6 +90,15 @@ export default function useImageGeneration() {
           event_label: params.model,
           generation_mode: params.mode,
           provider: params.provider,
+        });
+        trackGAGenerateImage({
+          model: params.model,
+          stage:
+            result.data?.status === "completed" ? "completed" : "started",
+          mode: params.mode,
+          provider: params.provider,
+          agentMode: params.agent_mode,
+          imageCount: params.agent_mode ? params.agent_image_count : 1,
         });
 
         return {

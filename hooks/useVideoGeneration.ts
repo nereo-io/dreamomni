@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { trackUetEvent } from "@/lib/bing-uet";
+import { trackGAGenerateVideo } from "@/services/analytics/google-tracking";
 
 interface VideoGenerationParams {
   model: string;
@@ -256,6 +257,17 @@ export default function useVideoGeneration() {
           event_label: params.model,
           generation_type: params.generationType || params.effect_type || "standard",
           duration: params.duration,
+        });
+        trackGAGenerateVideo({
+          model: params.model,
+          stage:
+            result.data.status === "COMPLETED" ||
+            result.data.status === "SAVED_TO_R2"
+              ? "completed"
+              : "started",
+          duration: params.duration,
+          generationType:
+            params.generationType || params.effect_type || "standard",
         });
 
         // 构建更新数据，包含积分信息

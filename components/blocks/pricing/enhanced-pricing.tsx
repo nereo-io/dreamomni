@@ -32,6 +32,10 @@ import CreditsBundleModal, {
 import { useTranslations } from "next-intl";
 import useCurrentSubscription from "@/hooks/useCurrentSubscription";
 import { trackUetEvent } from "@/lib/bing-uet";
+import {
+  trackGABeginCheckout,
+  trackGAPurchase,
+} from "@/services/analytics/google-tracking";
 
 interface EnhancedPricingProps {
   pricing: PricingType;
@@ -107,6 +111,19 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       if (result.code === 0 && result.data) {
         if (result.data.hasRecentPayment) {
           const paymentInfo = result.data.paymentInfo;
+
+          trackGAPurchase({
+            transactionId:
+              paymentInfo.orderNo ||
+              `${paymentInfo.paidAt}:${paymentInfo.planName}:${paymentInfo.amount}`,
+            itemId: paymentInfo.productId,
+            itemName: paymentInfo.planName,
+            amountCents: paymentInfo.amount,
+            currency: paymentInfo.currency,
+            interval: paymentInfo.interval,
+            credits: paymentInfo.credits,
+            paidAt: paymentInfo.paidAt,
+          });
 
           if (paymentInfo.interval !== "one-time") {
             trackUetEvent(
@@ -247,6 +264,17 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
   const handleCheckout = async (item: PricingItem, cn_pay: boolean = false) => {
     try {
+      const amount = cn_pay ? item.cn_amount : item.amount;
+      trackGABeginCheckout({
+        itemId: item.product_id,
+        itemName: item.title || item.product_name || item.product_id,
+        amountCents: amount || 0,
+        currency: cn_pay ? "CNY" : item.currency,
+        quantity: 1,
+        interval: item.interval,
+        credits: item.credits,
+      });
+
       if (!user) {
         setShowSignModal(true);
         return;
@@ -259,7 +287,6 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       }
 
       // Track checkout start
-      const amount = cn_pay ? item.cn_amount : item.amount;
       trackCheckoutStart(item.product_name || item.product_id, amount || 0);
 
       await processPayment(item, cn_pay);
@@ -271,6 +298,16 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
   const handleBundlePurchase = async (bundle: BundleItem) => {
     try {
+      trackGABeginCheckout({
+        itemId: bundle.id,
+        itemName: bundle.name,
+        amountCents: bundle.amount,
+        currency: "USD",
+        quantity: 1,
+        interval: "one-time",
+        credits: bundle.credits,
+      });
+
       if (!user) {
         setShowBundleModal(false);
         setShowSignModal(true);
