@@ -10,6 +10,7 @@ import { KieAiHailuoProvider } from "./KieAiHailuoProvider";
 import { KieAiWanProvider } from "./KieAiWanProvider";
 import { AliProvider } from "./AliProvider";
 import { EvolinkSoraProvider } from "./EvolinkSoraProvider";
+import { MaxApiProvider } from "./MaxApiProvider";
 import {
   getVideoModel,
   VideoModel,
@@ -116,6 +117,16 @@ export class ProviderFactory {
           );
         }
         provider = new EvolinkSoraProvider(evolinkApiKey);
+        break;
+
+      case VideoModelProvider.MAXAPI:
+        const maxApiKey = process.env.MAXAPI_API_KEY;
+        if (!maxApiKey) {
+          throw new Error(
+            "MAXAPI_API_KEY environment variable is required for MaxAPI models"
+          );
+        }
+        provider = new MaxApiProvider(maxApiKey);
         break;
 
       default:

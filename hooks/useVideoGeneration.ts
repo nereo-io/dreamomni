@@ -8,6 +8,7 @@ interface VideoGenerationParams {
   prompt: string;
   image_url?: string; // 保留用于向后兼容
   image_urls?: string[]; // 新增：支持1-2张图片数组（首帧、尾帧）
+  media_urls?: string[]; // 混合素材URLs（图片/视频/音频）
   source_image_ids?: string[]; // 新增：来源图片ID追踪（My Creations）
   negative_prompt?: string;
   aspect_ratio?: string;
