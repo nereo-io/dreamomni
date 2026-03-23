@@ -325,7 +325,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     providerModelId: "kling-3.0/video",
     modelName: VideoModel.KLING3,
     displayName: "Kling 3.0",
-    perSecondCredits: 8, // 720p std no-audio baseline
+    perSecondCredits: 6, // 720p std no-audio baseline
     description: "Kling 3.0 model with realistic motion and stable prompt control.",
     features: ["Wait 120s", "720p/1080p", "5s/10s"],
     maxDuration: 10,
@@ -347,7 +347,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     providerModelId: "kling-3.0/video",
     modelName: VideoModel.KLING3,
     displayName: "Kling 3.0",
-    perSecondCredits: 8, // 720p std no-audio baseline
+    perSecondCredits: 6, // 720p std no-audio baseline
     description:
       "Kling 3.0 image-to-video with stable style retention and natural motion.",
     features: ["Wait 120s", "Image Animation", "5s/10s"],
@@ -810,14 +810,14 @@ export function calculateCredits(
   }
 
   // Kie.ai Kling 3.0 模型定价
-  // 720p std no-audio: 8 credits/s（基准）
-  // 1080p pro no-audio: 10 credits/s
-  // 720p std with-audio: 12 credits/s
-  // 1080p pro with-audio: 15 credits/s
+  // 720p std no-audio: 6 credits/s（基准）
+  // 1080p pro no-audio: 8 credits/s
+  // 720p std with-audio: 10 credits/s
+  // 1080p pro with-audio: 13 credits/s
   if (isKieAiKlingModel(modelId)) {
     const isPro = normalizedResolution === "1080p";
     if (isPro) {
-      totalCredits = totalCredits * 5 / 4; // 10/8
+      totalCredits = totalCredits * 4 / 3; // 8/6
     }
     if (hasAudio) {
       totalCredits += duration * (isPro ? 5 : 4);
