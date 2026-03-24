@@ -15,18 +15,18 @@ export default function Analytics() {
     return null;
   }
 
-  if (!hasInteracted) {
-    return null;
-  }
-
   return (
     <>
       {/* <OpenPanelAnalytics /> */}
       {/* <YandexMetrica /> */}
       <GoogleAnalytics />
-      {/* <GoogleTagManager /> */}
-      <Plausible />
-      <Clarity />
+      {hasInteracted ? (
+        <>
+          {/* <GoogleTagManager /> */}
+          <Plausible />
+          <Clarity />
+        </>
+      ) : null}
     </>
   );
 }
