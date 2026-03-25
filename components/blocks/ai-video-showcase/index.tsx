@@ -500,7 +500,7 @@ export function AIVideoShowcase({ data }: { data: AIVideoShowcaseType }) {
                   src={example.image}
                   muted
                   playsInline
-                  preload="metadata"
+                  preload="none"
                 />
                 {example.isNew && (
                   <div className="absolute -top-1 -right-1 bg-primary rounded-full h-4 w-4 flex items-center justify-center text-primary-foreground text-xs font-bold">

@@ -30,9 +30,88 @@ function extractKieResultUrl(kieData: any): string | null {
   return null;
 }
 
+const MAXAPI_STATUSES = new Set([
+  "PENDING",
+  "SUBMITTED",
+  "PROCESSING",
+  "SUCCESS",
+  "FAILURE",
+  "TIMEOUT",
+  "CANCELLED",
+]);
+
+function parseMaxApiPayload(webhookData: any): ParsedVideoWebhookPayload {
+  const data = webhookData.data || {};
+  const request_id = data.taskId;
+  if (!request_id) {
+    throw new Error("MaxAPI webhook missing taskId");
+  }
+
+  let status = "ERROR";
+  let payload: any = null;
+  let error: string | null = null;
+
+  switch (data.status) {
+    case "PENDING":
+    case "SUBMITTED":
+      status = "IN_QUEUE";
+      break;
+    case "PROCESSING":
+      status = "IN_PROGRESS";
+      break;
+    case "SUCCESS":
+      if (
+        data.result?.type === "video" &&
+        Array.isArray(data.result?.urls) &&
+        data.result.urls.length > 0
+      ) {
+        status = "OK";
+        payload = {
+          video: {
+            url: data.result.urls[0],
+          },
+        };
+      } else {
+        error = "MaxAPI result missing video URL";
+      }
+      break;
+    case "FAILURE":
+      error = data.failure_reason || webhookData.msg || "MaxAPI generation failed";
+      break;
+    case "TIMEOUT":
+      error = "MaxAPI generation timed out";
+      break;
+    case "CANCELLED":
+      status = "CANCELLED";
+      break;
+    default:
+      error = webhookData.msg || "Unknown MaxAPI webhook status";
+      break;
+  }
+
+  return {
+    request_id,
+    status,
+    logs: [],
+    metrics: {},
+    error,
+    payload,
+  };
+}
+
 export function parseVideoWebhookPayload(
-  webhookData: any
+  webhookData: any,
+  provider?: string
 ): ParsedVideoWebhookPayload {
+  if (
+    provider === "maxapi" ||
+    (webhookData.data?.taskId &&
+      typeof webhookData.data?.status === "string" &&
+      MAXAPI_STATUSES.has(webhookData.data.status))
+  ) {
+    return parseMaxApiPayload(webhookData);
+  }
+
   // fal.ai format
   if (webhookData.request_id) {
     return {

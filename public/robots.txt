@@ -1,15 +1,36 @@
 User-agent: *
 Allow: /
 Disallow: /api/
-Disallow: /*/*/admin/
+Disallow: /admin/
+Disallow: /*/admin/
+Disallow: /auth/
 Disallow: /*/auth/
-Disallow: /*?*q=
 Disallow: /pay-success/
+Disallow: /*/pay-success/
+Disallow: /home/
+Disallow: /*/home/
+Disallow: /history/
+Disallow: /*/history/
+Disallow: /my-credits/
+Disallow: /*/my-credits/
+Disallow: /my-orders/
+Disallow: /*/my-orders/
+Disallow: /my-invites/
+Disallow: /*/my-invites/
+Disallow: /membership/
+Disallow: /*/membership/
 
 # Allow important pages for SEO
 Allow: /privacy-policy
 Allow: /terms-of-service
+Allow: /refund-policy
 Allow: /blog/
 Allow: /pricing
+Allow: /image-to-video
+Allow: /text-to-video
+Allow: /text-to-image
+Allow: /image-to-image
+Allow: /video-effects
+Allow: /video-effects/
 
 Sitemap: https://www.seedance.tv/sitemap.xml

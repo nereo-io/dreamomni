@@ -1,6 +1,6 @@
+import { execSync } from "child_process";
 import { MetadataRoute } from "next";
 import { getPostsByLocale } from "@/models/post";
-import { getAllEffectConfigs } from "@/models/effectConfig";
 import { locales } from "@/i18n/locale";
 
 type ChangeFrequency =
@@ -12,134 +12,147 @@ type ChangeFrequency =
   | "yearly"
   | "never";
 
+type SitemapEntry = MetadataRoute.Sitemap[number];
+
+type StaticPageDefinition = {
+  path: string;
+  changeFrequency: ChangeFrequency;
+  priority: number;
+};
+
+const DEFAULT_LAST_MODIFIED = "2026-03-18T00:00:00.000Z";
+
+const STATIC_PAGE_SOURCE_FILES: Record<string, string> = {
+  "/": "app/[locale]/(default)/page.tsx",
+  "/image-to-video": "app/[locale]/(home)/image-to-video/page.tsx",
+  "/text-to-video": "app/[locale]/(home)/text-to-video/page.tsx",
+  "/text-to-image": "app/[locale]/(home)/text-to-image/page.tsx",
+  "/image-to-image": "app/[locale]/(home)/image-to-image/page.tsx",
+  "/blog": "app/[locale]/(default)/blog/page.tsx",
+  "/privacy-policy": "app/(legal)/privacy-policy/page.mdx",
+  "/terms-of-service": "app/(legal)/terms-of-service/page.mdx",
+  "/refund-policy": "app/(legal)/refund-policy/page.mdx",
+  // "/home" removed: blocked by robots.txt
+};
+
+function getGitLastModified(filePath: string): string {
+  try {
+    const date = execSync(`git log -1 --format=%cI -- "${filePath}"`, {
+      encoding: "utf-8",
+      timeout: 5000,
+    }).trim();
+
+    return date || DEFAULT_LAST_MODIFIED;
+  } catch {
+    return DEFAULT_LAST_MODIFIED;
+  }
+}
+
+function buildLocalizedUrl(baseUrl: string, locale: string, path: string) {
+  const normalizedPath = path === "/" ? "" : path;
+  return locale === "en"
+    ? `${baseUrl}${normalizedPath}`
+    : `${baseUrl}/${locale}${normalizedPath}`;
+}
+
+function buildAlternates(baseUrl: string, path: string) {
+  const languages = locales.reduce<Record<string, string>>((acc, locale) => {
+    acc[locale] = buildLocalizedUrl(baseUrl, locale, path);
+    return acc;
+  }, {});
+
+  languages["x-default"] = buildLocalizedUrl(baseUrl, "en", path);
+
+  return {
+    languages,
+  };
+}
+
+function createSitemapEntry(
+  baseUrl: string,
+  locale: string,
+  path: string,
+  lastModified: string,
+  changeFrequency: ChangeFrequency,
+  priority: number
+): SitemapEntry {
+  return {
+    url: buildLocalizedUrl(baseUrl, locale, path),
+    lastModified,
+    changeFrequency,
+    priority,
+    alternates: buildAlternates(baseUrl, path),
+  };
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "";
-  const currentDate = new Date().toISOString();
+  const fallbackDate = DEFAULT_LAST_MODIFIED;
 
   console.log("开始生成 sitemap...");
 
   try {
-    // 基础静态页面
-    const staticPages = [
+    const publicStaticPages: StaticPageDefinition[] = [
       {
-        url: `${baseUrl}`,
-        lastModified: currentDate,
-        changeFrequency: "daily" as ChangeFrequency,
+        path: "/",
+        changeFrequency: "daily",
         priority: 1.0,
       },
+      // /home removed: blocked by robots.txt (logged-in page, not for SEO)
+
       {
-        url: `${baseUrl}/home`,
-        lastModified: currentDate,
-        changeFrequency: "daily" as ChangeFrequency,
+        path: "/image-to-video",
+        changeFrequency: "daily",
         priority: 0.9,
       },
       {
-        url: `${baseUrl}/image-to-video`,
-        lastModified: currentDate,
-        changeFrequency: "daily" as ChangeFrequency,
+        path: "/text-to-video",
+        changeFrequency: "daily",
         priority: 0.9,
       },
+
       {
-        url: `${baseUrl}/text-to-video`,
-        lastModified: currentDate,
-        changeFrequency: "daily" as ChangeFrequency,
-        priority: 0.9,
-      },
-      {
-        url: `${baseUrl}/video-effects`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
-        priority: 0.7,
-      },
-      // 新增图片生成页面
-      {
-        url: `${baseUrl}/text-to-image`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
+        path: "/text-to-image",
+        changeFrequency: "weekly",
         priority: 0.8,
       },
       {
-        url: `${baseUrl}/image-to-image`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
+        path: "/image-to-image",
+        changeFrequency: "weekly",
         priority: 0.8,
       },
       {
-        url: `${baseUrl}/video-effects`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
+        path: "/blog",
+        changeFrequency: "weekly",
         priority: 0.7,
       },
       {
-        url: `${baseUrl}/history`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
-        priority: 0.7,
-      },
-      {
-        url: `${baseUrl}/blog`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
-        priority: 0.7,
-      },
-      // Console 页面
-      {
-        url: `${baseUrl}/membership`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
-        priority: 0.6,
-      },
-      {
-        url: `${baseUrl}/my-credits`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
-        priority: 0.6,
-      },
-      {
-        url: `${baseUrl}/my-orders`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
-        priority: 0.6,
-      },
-      {
-        url: `${baseUrl}/my-invites`,
-        lastModified: currentDate,
-        changeFrequency: "weekly" as ChangeFrequency,
-        priority: 0.6,
-      },
-      // 认证页面
-      {
-        url: `${baseUrl}/auth/signin`,
-        lastModified: currentDate,
-        changeFrequency: "monthly" as ChangeFrequency,
+        path: "/privacy-policy",
+        changeFrequency: "monthly",
         priority: 0.5,
       },
       {
-        url: `${baseUrl}/auth/reset-password`,
-        lastModified: currentDate,
-        changeFrequency: "monthly" as ChangeFrequency,
-        priority: 0.4,
-      },
-      // 法律条款页面
-      {
-        url: `${baseUrl}/privacy-policy`,
-        lastModified: currentDate,
-        changeFrequency: "monthly" as ChangeFrequency,
+        path: "/terms-of-service",
+        changeFrequency: "monthly",
         priority: 0.5,
       },
       {
-        url: `${baseUrl}/terms-of-service`,
-        lastModified: currentDate,
-        changeFrequency: "monthly" as ChangeFrequency,
-        priority: 0.5,
-      },
-      {
-        url: `${baseUrl}/refund-policy`,
-        lastModified: currentDate,
-        changeFrequency: "monthly" as ChangeFrequency,
+        path: "/refund-policy",
+        changeFrequency: "monthly",
         priority: 0.5,
       },
     ];
+
+    const staticPages = publicStaticPages.map((page) =>
+      createSitemapEntry(
+        baseUrl,
+        "en",
+        page.path,
+        getGitLastModified(STATIC_PAGE_SOURCE_FILES[page.path] || ""),
+        page.changeFrequency,
+        page.priority
+      )
+    );
 
     console.log(`添加了 ${staticPages.length} 个基础页面`);
 
@@ -147,120 +160,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const localizedStaticPages = locales.flatMap((locale) => {
       if (locale === "en") return []; // 英文已经包含在基础页面中
 
-      return [
-        {
-          url: `${baseUrl}/${locale}`,
-          lastModified: currentDate,
-          changeFrequency: "daily" as ChangeFrequency,
-          priority: 1.0,
-        },
-        {
-          url: `${baseUrl}/${locale}/home`,
-          lastModified: currentDate,
-          changeFrequency: "daily" as ChangeFrequency,
-          priority: 0.9,
-        },
-        {
-          url: `${baseUrl}/${locale}/image-to-video`,
-          lastModified: currentDate,
-          changeFrequency: "daily" as ChangeFrequency,
-          priority: 0.9,
-        },
-        {
-          url: `${baseUrl}/${locale}/text-to-video`,
-          lastModified: currentDate,
-          changeFrequency: "daily" as ChangeFrequency,
-          priority: 0.9,
-        },
-        // 新增图片生成页面
-        {
-          url: `${baseUrl}/${locale}/text-to-image`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.8,
-        },
-        {
-          url: `${baseUrl}/${locale}/image-to-image`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.8,
-        },
-        {
-          url: `${baseUrl}/${locale}/video-effects`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.7,
-        },
-        {
-          url: `${baseUrl}/${locale}/history`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.7,
-        },
-        {
-          url: `${baseUrl}/${locale}/blog`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.7,
-        },
-        // Console 页面
-        {
-          url: `${baseUrl}/${locale}/membership`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.6,
-        },
-        {
-          url: `${baseUrl}/${locale}/my-credits`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.6,
-        },
-        {
-          url: `${baseUrl}/${locale}/my-orders`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.6,
-        },
-        {
-          url: `${baseUrl}/${locale}/my-invites`,
-          lastModified: currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.6,
-        },
-        // 认证页面
-        {
-          url: `${baseUrl}/${locale}/auth/signin`,
-          lastModified: currentDate,
-          changeFrequency: "monthly" as ChangeFrequency,
-          priority: 0.5,
-        },
-        {
-          url: `${baseUrl}/${locale}/auth/reset-password`,
-          lastModified: currentDate,
-          changeFrequency: "monthly" as ChangeFrequency,
-          priority: 0.4,
-        },
-        // 法律条款页面
-        {
-          url: `${baseUrl}/${locale}/privacy-policy`,
-          lastModified: currentDate,
-          changeFrequency: "monthly" as ChangeFrequency,
-          priority: 0.5,
-        },
-        {
-          url: `${baseUrl}/${locale}/terms-of-service`,
-          lastModified: currentDate,
-          changeFrequency: "monthly" as ChangeFrequency,
-          priority: 0.5,
-        },
-        {
-          url: `${baseUrl}/${locale}/refund-policy`,
-          lastModified: currentDate,
-          changeFrequency: "monthly" as ChangeFrequency,
-          priority: 0.5,
-        },
-      ];
+      return publicStaticPages.map((page) =>
+        createSitemapEntry(
+          baseUrl,
+          locale,
+          page.path,
+          getGitLastModified(STATIC_PAGE_SOURCE_FILES[page.path] || ""),
+          page.changeFrequency,
+          page.priority
+        )
+      );
     });
 
     console.log(`添加了 ${localizedStaticPages.length} 个本地化基础页面`);
@@ -272,15 +181,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       try {
         const posts = await getPostsByLocale(locale, 1, 1000); // 获取所有博客文章
 
-        const blogUrls = posts.map((post) => ({
-          url:
-            locale === "en"
-              ? `${baseUrl}/blog/${post.slug}`
-              : `${baseUrl}/${locale}/blog/${post.slug}`,
-          lastModified: post.updated_at || post.created_at || currentDate,
-          changeFrequency: "monthly" as ChangeFrequency,
-          priority: 0.6,
-        }));
+        const blogUrls = posts.map((post) =>
+          createSitemapEntry(
+            baseUrl,
+            locale,
+            `/blog/${post.slug}`,
+            post.updated_at || post.created_at || fallbackDate,
+            "monthly",
+            0.6
+          )
+        );
 
         console.log(`为 ${locale} 语言添加了 ${blogUrls.length} 个博客页面`);
         blogPages.push(...blogUrls);
@@ -291,40 +201,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     console.log(`总共添加了 ${blogPages.length} 个博客页面`);
 
-    // 获取所有 video effect 页面
-    const videoEffectPages = [];
-
-    for (const locale of locales) {
-      try {
-        const effects = await getAllEffectConfigs(locale);
-
-        const effectUrls = effects.map((effect) => ({
-          url:
-            locale === "en"
-              ? `${baseUrl}/video-effects/${effect.slug}`
-              : `${baseUrl}/${locale}/video-effects/${effect.slug}`,
-          lastModified: effect.updated_at || effect.created_at || currentDate,
-          changeFrequency: "weekly" as ChangeFrequency,
-          priority: 0.7,
-        }));
-
-        console.log(
-          `为 ${locale} 语言添加了 ${effectUrls.length} 个 video effect 页面`
-        );
-        videoEffectPages.push(...effectUrls);
-      } catch (error) {
-        console.error(`获取 ${locale} 语言的 video effects 时出错:`, error);
-      }
-    }
-
-    console.log(`总共添加了 ${videoEffectPages.length} 个 video effect 页面`);
-
     // 合并所有页面
     const allPages = [
       ...staticPages,
       ...localizedStaticPages,
       ...blogPages,
-      ...videoEffectPages,
     ];
 
     console.log(`sitemap 生成完成，总共包含 ${allPages.length} 个页面`);
@@ -333,12 +214,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("生成 sitemap 时出错:", error);
     // 返回一个基本的 sitemap，确保即使出错也能返回一些内容
     return [
-      {
-        url: baseUrl,
-        lastModified: currentDate,
-        changeFrequency: "daily" as ChangeFrequency,
-        priority: 1.0,
-      },
+      createSitemapEntry(baseUrl, "en", "/", fallbackDate, "daily", 1.0),
     ];
   }
 }

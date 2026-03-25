@@ -1,19 +1,20 @@
-import FAQ from "@/components/blocks/faq";
 import Hero from "@/components/blocks/hero";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
-import SeedanceFeaturesBlock from "@/components/blocks/seedance-features";
-import GettingStarted from "@/components/blocks/getting-started";
 import StructuredData from "@/components/seo/structured-data";
-import { ImageToVideoShowcase } from "@/components/blocks/image-to-video-showcase";
 import { AIModelsHero } from "@/components/blocks/ai-models-hero";
-import { AIVideoShowcase } from "@/components/blocks/ai-video-showcase";
-import CTA from "@/components/blocks/cta";
+import AuthRedirect from "@/components/auth/auth-redirect";
+import DeferredHomepageSections from "@/components/blocks/homepage/deferred-sections";
+import { locales } from "@/i18n/locale";
 
 import {
   getLandingPage,
   getSeedanceFeaturesBlock,
 } from "@/services/page";
+
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
 
 export async function generateMetadata({
   params: { locale },
@@ -35,68 +36,21 @@ export async function generateMetadata({
 
 export default async function LandingPage({
   params: { locale },
-  searchParams,
 }: {
   params: { locale: string };
-  searchParams?: Record<string, string | string[] | undefined>;
 }) {
-  // 在服务器端检查认证状态
-  const session = await auth();
-
-  // 如果已登录，直接重定向到/image-to-video
-  if (session) {
-    const query = new URLSearchParams();
-    Object.entries(searchParams ?? {}).forEach(([key, value]) => {
-      if (typeof value === "string") {
-        query.set(key, value);
-      } else if (Array.isArray(value)) {
-        value.forEach((item) => {
-          if (item) query.append(key, item);
-        });
-      }
-    });
-    const redirectUrl = query.toString()
-      ? `/image-to-video?${query.toString()}`
-      : "/image-to-video";
-    redirect(redirectUrl);
-  }
   const page = await getLandingPage(locale);
   const seedanceFeatures = await getSeedanceFeaturesBlock(locale);
 
   return (
     <>
+      <AuthRedirect preserveSearchParams />
       {page.hero && <Hero hero={page.hero} />}
-
-      {/* 核心功能展示 - Hero 下方 */}
       {page.aiModelsHero && <AIModelsHero data={page.aiModelsHero} />}
-      {page.imageToVideoShowcase && (
-        <ImageToVideoShowcase data={page.imageToVideoShowcase} />
-      )}
-      {page.aiVideoShowcase && <AIVideoShowcase data={page.aiVideoShowcase} />}
-
-      {/* 功能介绍 */}
-      <SeedanceFeaturesBlock translations={seedanceFeatures} />
-      {page.gettingStarted && <GettingStarted data={page.gettingStarted} />}
-
-      {page.faq && (
-        <>
-          <FAQ section={page.faq} />
-          <StructuredData
-            type="faq"
-            data={{
-              questions:
-                page.faq.items?.map((item: any) => ({
-                  question: item.title,
-                  answer: item.description,
-                })) || [],
-            }}
-          />
-        </>
-      )}
-
-      {page.cta && Array.isArray(page.cta) && page.cta.length > 0 && (
-        <CTA section={page.cta[0]} />
-      )}
+      <DeferredHomepageSections
+        page={page}
+        seedanceFeatures={seedanceFeatures}
+      />
 
       {/* There's An AI For That verification embed - 保留Seedance品牌 */}
       <div className="flex justify-center py-8">
@@ -118,6 +72,18 @@ export default async function LandingPage({
           Bytedance.
         </p>
       </div>
+      {page.faq && (
+        <StructuredData
+          type="faq"
+          data={{
+            questions:
+              page.faq.items?.map((item: any) => ({
+                question: item.title,
+                answer: item.description,
+              })) || [],
+          }}
+        />
+      )}
     </>
   );
 }

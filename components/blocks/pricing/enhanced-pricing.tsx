@@ -31,6 +31,11 @@ import CreditsBundleModal, {
 } from "@/components/ui/credits-bundle-modal";
 import { useTranslations } from "next-intl";
 import useCurrentSubscription from "@/hooks/useCurrentSubscription";
+import { trackUetEvent } from "@/lib/bing-uet";
+import {
+  trackGABeginCheckout,
+  trackGAPurchase,
+} from "@/services/analytics/google-tracking";
 
 interface EnhancedPricingProps {
   pricing: PricingType;
@@ -39,7 +44,7 @@ interface EnhancedPricingProps {
 export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   const { user, setShowSignModal } = useAppContext();
   const { loading: locationLoading, isRussia } = useGeolocation();
-  const { trackPricingView, trackCheckoutStart, trackPayment } =
+  const { trackPricingView, trackCheckoutStart } =
     useYandexTracking();
   const t = useTranslations("creditsBundle");
   const tPricing = useTranslations("pricing_modal");
@@ -106,6 +111,36 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       if (result.code === 0 && result.data) {
         if (result.data.hasRecentPayment) {
           const paymentInfo = result.data.paymentInfo;
+
+          trackGAPurchase({
+            transactionId:
+              paymentInfo.orderNo ||
+              `${paymentInfo.paidAt}:${paymentInfo.planName}:${paymentInfo.amount}`,
+            itemId: paymentInfo.productId,
+            itemName: paymentInfo.planName,
+            amountCents: paymentInfo.amount,
+            currency: paymentInfo.currency,
+            interval: paymentInfo.interval,
+            credits: paymentInfo.credits,
+            paidAt: paymentInfo.paidAt,
+          });
+
+          if (paymentInfo.interval !== "one-time") {
+            trackUetEvent(
+              "subscription_purchase",
+              {
+                event_category: "subscription",
+                event_label: paymentInfo.planName,
+                event_value: paymentInfo.amount,
+                revenue_value: paymentInfo.amount,
+                currency: paymentInfo.currency,
+              },
+              {
+                dedupeKey: `${paymentTimestamp}:${paymentInfo.planName}:${paymentInfo.amount}`,
+                dedupeStorage: "local",
+              }
+            );
+          }
 
           setSuccessInfo({
             planName: paymentInfo.planName,
@@ -229,6 +264,17 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
   const handleCheckout = async (item: PricingItem, cn_pay: boolean = false) => {
     try {
+      const amount = cn_pay ? item.cn_amount : item.amount;
+      trackGABeginCheckout({
+        itemId: item.product_id,
+        itemName: item.title || item.product_name || item.product_id,
+        amountCents: amount || 0,
+        currency: cn_pay ? "CNY" : item.currency,
+        quantity: 1,
+        interval: item.interval,
+        credits: item.credits,
+      });
+
       if (!user) {
         setShowSignModal(true);
         return;
@@ -241,7 +287,6 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       }
 
       // Track checkout start
-      const amount = cn_pay ? item.cn_amount : item.amount;
       trackCheckoutStart(item.product_name || item.product_id, amount || 0);
 
       await processPayment(item, cn_pay);
@@ -253,6 +298,16 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
 
   const handleBundlePurchase = async (bundle: BundleItem) => {
     try {
+      trackGABeginCheckout({
+        itemId: bundle.id,
+        itemName: bundle.name,
+        amountCents: bundle.amount,
+        currency: "USD",
+        quantity: 1,
+        interval: "one-time",
+        credits: bundle.credits,
+      });
+
       if (!user) {
         setShowBundleModal(false);
         setShowSignModal(true);
@@ -477,9 +532,9 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       <section id={pricing.name} className="py-16">
         <div className="container">
           <div className="mx-auto mb-12 text-center">
-            <h2 className="mb-4 text-4xl font-semibold lg:text-5xl">
+            <h1 className="mb-4 text-4xl font-semibold lg:text-5xl">
               {pricing.title}
-            </h2>
+            </h1>
             <p className="text-muted-foreground lg:text-lg">
               {pricing.description}
             </p>

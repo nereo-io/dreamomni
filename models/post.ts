@@ -69,6 +69,27 @@ export async function findPostBySlug(
   return data;
 }
 
+export async function getPostLocalesBySlug(slug: string): Promise<string[]> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("posts")
+    .select("locale")
+    .eq("slug", slug)
+    .eq("status", PostStatus.Online);
+
+  if (error || !data) {
+    return [];
+  }
+
+  return Array.from(
+    new Set(
+      data
+        .map((post) => post.locale)
+        .filter((locale): locale is string => Boolean(locale))
+    )
+  );
+}
+
 export async function getAllPosts(
   page: number = 1,
   limit: number = 50

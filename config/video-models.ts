@@ -13,12 +13,14 @@ export enum VideoModelProvider {
   KIEAI = "kieai", // Kie.ai 提供的模型 (Veo3等)
   ALI = "ali", // 阿里百炼提供的模型
   EVOLINK = "evolink", // Evolink 提供的模型
+  MAXAPI = "maxapi", // MaxAPI 提供的模型 (Seedance 2.0)
 }
 
 // 实际 AI 模型枚举（与 model_id/provider 无关）
 export enum VideoModel {
+  SEEDANCE_2_0 = "seedance-2.0",
+  SEEDANCE_2_0_FAST = "seedance-2.0-fast",
   SEEDANCE_1_5_PRO = "seedance-1.5-pro",
-  SEEDANCE_1_0_PRO = "seedance-1.0-pro",
   VEO3 = "veo3",
   SORA2 = "sora2",
   KLING3 = "kling3",
@@ -71,6 +73,130 @@ export interface VideoModelConfig {
 
 // 视频模型配置
 export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
+  // MaxAPI Seedance 2.0 文本转视频模型
+  "maxapi-seedance-2-0-text-to-video": {
+    id: "maxapi-seedance-2-0-text-to-video",
+    name: "MaxAPI Seedance 2.0 Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.MAXAPI,
+    modelName: VideoModel.SEEDANCE_2_0,
+    providerModelId: "seedance-2.0",
+    displayName: "Seedance 2.0",
+    perSecondCredits: 6,
+    description: "ByteDance's latest Seedance 2.0 model",
+    features: ["Wait 20min", "Audio"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4"],
+    supportedResolutions: ["480p", "720p", "1080p"],
+    supportsAudio: true,
+    estimatedGenerationTime: 1200,
+    supportedDurations: [5, 10, 15],
+    requiresMembership: true,
+    useSignedCallback: true,
+  },
+
+  // MaxAPI Seedance 2.0 图片转视频模型
+  "maxapi-seedance-2-0-image-to-video": {
+    id: "maxapi-seedance-2-0-image-to-video",
+    name: "MaxAPI Seedance 2.0 Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.MAXAPI,
+    modelName: VideoModel.SEEDANCE_2_0,
+    providerModelId: "seedance-2.0",
+    displayName: "Seedance 2.0",
+    perSecondCredits: 6,
+    description: "ByteDance's latest Seedance 2.0 model",
+    features: ["Wait 20min", "Audio", "Support 2 images"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4"],
+    supportedResolutions: ["480p", "720p", "1080p"],
+    supportsAudio: true,
+    estimatedGenerationTime: 1200,
+    supportedDurations: [5, 10, 15],
+    imageCapabilities: {
+      maxImages: 2,
+      labels: ["First Frame", "Last Frame"],
+    },
+    requiresMembership: true,
+    useSignedCallback: true,
+  },
+
+  // MaxAPI Seedance 2.0 Fast 文本转视频模型
+  "maxapi-seedance-2-0-fast-text-to-video": {
+    id: "maxapi-seedance-2-0-fast-text-to-video",
+    name: "MaxAPI Seedance 2.0 Fast Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.MAXAPI,
+    modelName: VideoModel.SEEDANCE_2_0_FAST,
+    providerModelId: "seedance-2.0-fast",
+    displayName: "Seedance 2.0 Fast",
+    perSecondCredits: 3,
+    description: "ByteDance's latest video model, WORLD No.1",
+    features: ["Wait 19min", "Audio", "Fast"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4"],
+    supportedResolutions: ["480p", "720p", "1080p"],
+    supportsAudio: true,
+    estimatedGenerationTime: 1148,
+    supportedDurations: [5, 10, 15],
+    requiresMembership: true,
+    useSignedCallback: true,
+  },
+
+  // MaxAPI Seedance 2.0 Fast 图片转视频模型
+  "maxapi-seedance-2-0-fast-image-to-video": {
+    id: "maxapi-seedance-2-0-fast-image-to-video",
+    name: "MaxAPI Seedance 2.0 Fast Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.MAXAPI,
+    modelName: VideoModel.SEEDANCE_2_0_FAST,
+    providerModelId: "seedance-2.0-fast",
+    displayName: "Seedance 2.0 Fast",
+    perSecondCredits: 3,
+    description: "ByteDance's latest video model, WORLD No.1",
+    features: ["Wait 22min", "Audio", "Fast", "Support 2 images"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4"],
+    supportedResolutions: ["480p", "720p", "1080p"],
+    supportsAudio: true,
+    estimatedGenerationTime: 1299,
+    supportedDurations: [5, 10, 15],
+    imageCapabilities: {
+      maxImages: 2,
+      labels: ["First Frame", "Last Frame"],
+    },
+    requiresMembership: true,
+    useSignedCallback: true,
+  },
+
+  // MaxAPI Seedance 2.0 Fast Media-to-Video（Reference-to-Video 页面）
+  "maxapi-seedance-2-0-fast-reference-to-video": {
+    id: "maxapi-seedance-2-0-fast-reference-to-video",
+    name: "MaxAPI Seedance 2.0 Fast Media-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.MAXAPI,
+    modelName: VideoModel.SEEDANCE_2_0_FAST,
+    providerModelId: "seedance-2.0-fast",
+    displayName: "Seedance 2.0 Fast (Media)",
+    perSecondCredits: 6,
+    description:
+      "Fast video generation from mixed media: images, videos, and audio",
+    features: ["Wait 9min", "Audio", "Fast", "Multi-Media"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4"],
+    supportedResolutions: ["480p", "720p", "1080p"],
+    supportsAudio: true,
+    estimatedGenerationTime: 520,
+    supportedDurations: [5, 10, 15],
+    imageCapabilities: {
+      maxImages: 12,
+      minImages: 1,
+    },
+    generationType: "REFERENCE_2_VIDEO",
+    requiresMembership: true,
+    useSignedCallback: true,
+  },
+
   // BytePlus Seedance 1.5 Pro 文本转视频模型 (Southeast Asia)
   "byteplus-seedance-1-5-pro-text-to-video": {
     id: "byteplus-seedance-1-5-pro-text-to-video",
@@ -199,7 +325,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     providerModelId: "kling-3.0/video",
     modelName: VideoModel.KLING3,
     displayName: "Kling 3.0",
-    perSecondCredits: 8, // 720p std no-audio baseline
+    perSecondCredits: 6, // 720p std no-audio baseline
     description: "Kling 3.0 model with realistic motion and stable prompt control.",
     features: ["Wait 120s", "720p/1080p", "5s/10s"],
     maxDuration: 10,
@@ -221,7 +347,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     providerModelId: "kling-3.0/video",
     modelName: VideoModel.KLING3,
     displayName: "Kling 3.0",
-    perSecondCredits: 8, // 720p std no-audio baseline
+    perSecondCredits: 6, // 720p std no-audio baseline
     description:
       "Kling 3.0 image-to-video with stable style retention and natural motion.",
     features: ["Wait 120s", "Image Animation", "5s/10s"],
@@ -269,50 +395,50 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   // },
 
   // Kie.ai Wan 2.5 文本转视频模型
-  "kie-wan-2-5-text-to-video": {
-    id: "kie-wan-2-5-text-to-video",
-    name: "Kie.ai Wan 2.5 Text-to-Video",
-    type: VideoModelType.TEXT_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    providerModelId: "wan/2-5-text-to-video",
-    modelName: VideoModel.WAN_2_5,
-    displayName: "Wan 2.5",
-    perSecondCredits: 5, // 720p baseline
-    description: "Alibaba Wan 2.5 text-to-video with stronger prompt understanding.",
-    features: ["Wait 180s", "Prompt Expansion", "720p/1080p"],
-    maxDuration: 10,
-    supportedAspectRatios: ["16:9", "9:16", "1:1"],
-    supportsAudio: false,
-    estimatedGenerationTime: 180,
-    useSignedCallback: true,
-    supportedDurations: [5, 10],
-    supportedResolutions: ["720p", "1080p"],
-  },
+  // "kie-wan-2-5-text-to-video": {
+  //   id: "kie-wan-2-5-text-to-video",
+  //   name: "Kie.ai Wan 2.5 Text-to-Video",
+  //   type: VideoModelType.TEXT_TO_VIDEO,
+  //   provider: VideoModelProvider.KIEAI,
+  //   providerModelId: "wan/2-5-text-to-video",
+  //   modelName: VideoModel.WAN_2_5,
+  //   displayName: "Wan 2.5",
+  //   perSecondCredits: 5, // 720p baseline
+  //   description: "Alibaba Wan 2.5 text-to-video with stronger prompt understanding.",
+  //   features: ["Wait 180s", "Prompt Expansion", "720p/1080p"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["16:9", "9:16", "1:1"],
+  //   supportsAudio: false,
+  //   estimatedGenerationTime: 180,
+  //   useSignedCallback: true,
+  //   supportedDurations: [5, 10],
+  //   supportedResolutions: ["720p", "1080p"],
+  // },
 
-  // Kie.ai Wan 2.5 图片转视频模型
-  "kie-wan-2-5-image-to-video": {
-    id: "kie-wan-2-5-image-to-video",
-    name: "Kie.ai Wan 2.5 Image-to-Video",
-    type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    providerModelId: "wan/2-5-image-to-video",
-    modelName: VideoModel.WAN_2_5,
-    displayName: "Wan 2.5",
-    perSecondCredits: 5, // 720p baseline
-    description: "Alibaba Wan 2.5 image-to-video with controllable cinematic motion.",
-    features: ["Wait 180s", "Prompt Expansion", "Image Animation"],
-    maxDuration: 10,
-    supportedAspectRatios: ["Auto"],
-    supportsAudio: false,
-    estimatedGenerationTime: 180,
-    useSignedCallback: true,
-    supportedDurations: [5, 10],
-    supportedResolutions: ["720p", "1080p"],
-    imageCapabilities: {
-      maxImages: 1,
-      labels: ["Reference Image"],
-    },
-  },
+  // // Kie.ai Wan 2.5 图片转视频模型
+  // "kie-wan-2-5-image-to-video": {
+  //   id: "kie-wan-2-5-image-to-video",
+  //   name: "Kie.ai Wan 2.5 Image-to-Video",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.KIEAI,
+  //   providerModelId: "wan/2-5-image-to-video",
+  //   modelName: VideoModel.WAN_2_5,
+  //   displayName: "Wan 2.5",
+  //   perSecondCredits: 5, // 720p baseline
+  //   description: "Alibaba Wan 2.5 image-to-video with controllable cinematic motion.",
+  //   features: ["Wait 180s", "Prompt Expansion", "Image Animation"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["Auto"],
+  //   supportsAudio: false,
+  //   estimatedGenerationTime: 180,
+  //   useSignedCallback: true,
+  //   supportedDurations: [5, 10],
+  //   supportedResolutions: ["720p", "1080p"],
+  //   imageCapabilities: {
+  //     maxImages: 1,
+  //     labels: ["Reference Image"],
+  //   },
+  // },
 
   // Doubao-Seedance 1.0 Pro 文本转视频模型 (Volcano Engine)
   // "doubao-seedance-1-0-pro-text-to-video": {
@@ -360,7 +486,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     providerModelId: "sora-2-beta-max",
     modelName: VideoModel.SORA2,
     displayName: "Sora 2",
-    perSecondCredits: 0.6, // 10秒6积分, 15秒9积分
+    perSecondCredits: 1, // 10秒10积分, 15秒15积分
     description: "OpenAI's Sora 2 model",
     features: ["Wait 300s", "Audio"],
     maxDuration: 10,
@@ -381,7 +507,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     providerModelId: "sora-2-beta-max",
     modelName: VideoModel.SORA2,
     displayName: "Sora 2",
-    perSecondCredits: 0.6, // 10秒6积分, 15秒9积分
+    perSecondCredits: 1, // 10秒10积分, 15秒15积分
     description: "OpenAI's Sora 2 model",
     features: ["Wait 300s", "Audio"],
     maxDuration: 10,
@@ -395,56 +521,6 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
       maxImages: 1, // 目前只支持单张图片
     },
   },
-  // BytePlus Seedance 1.0 Pro 文本转视频模型 (Southeast Asia) - legacy ordering
-  "byteplus-seedance-pro-text-to-video": {
-    id: "byteplus-seedance-pro-text-to-video",
-    name: "BytePlus Seedance Pro Text-to-Video",
-    type: VideoModelType.TEXT_TO_VIDEO,
-    provider: VideoModelProvider.BYTEPLUS,
-    modelName: VideoModel.SEEDANCE_1_0_PRO,
-    // volcanoModel: "seedance-1-0-pro-250528",
-    volcanoModel: "ep-20250915143914-m57vr", //hugeroger@gmail.com
-    //volcanoModel: "ep-20251031184345-xbr8l", //acostaandreab0@gmail.com
-    // volcanoModel: "ep-20251122104716-5krl8", //mackensonsouverain34@gmail.com
-    // volcanoModel: "ep-20251230222856-s5ln9", //baziai012@gmail.com
-    displayName: "Seedance 1.0 Pro",
-    perSecondCredits: 2,
-    description: "ByteDance's video model, starting at $0.3/video",
-    features: ["Wait 30s", "Direct Access"],
-    maxDuration: 10,
-    supportedAspectRatios: ["16:9", "9:16", "1:1"],
-    supportedResolutions: ["480p", "1080p"],
-    supportsAudio: false,
-    estimatedGenerationTime: 30,
-    supportedDurations: [5, 10],
-    // requiresMembership: true,
-  },
-
-  // BytePlus Seedance Pro 图片转视频模型 (Southeast Asia)
-  "byteplus-seedance-pro-image-to-video": {
-    id: "byteplus-seedance-pro-image-to-video",
-    name: "BytePlus Seedance Pro Image-to-Video",
-    type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.BYTEPLUS,
-    modelName: VideoModel.SEEDANCE_1_0_PRO,
-    // volcanoModel: "seedance-1-0-pro-250528",
-    volcanoModel: "ep-20250915143914-m57vr", //hugeroger@gmail.com
-    // volcanoModel: "ep-20251031184345-xbr8l", //acostaandreab0@gmail.com
-    // volcanoModel: "ep-20251122104716-5krl8", //mackensonsouverain34@gmail.com
-    // volcanoModel: "ep-20251230222856-s5ln9", //baziai012@gmail.com
-    displayName: "Seedance 1.0 Pro",
-    perSecondCredits: 2,
-    description: "ByteDance's video model, starting at $0.3/video",
-    features: ["Wait 30s", "Direct Access"],
-    maxDuration: 10,
-    supportedAspectRatios: ["Auto"],
-    supportedResolutions: ["480p", "1080p"],
-    supportsAudio: false,
-    estimatedGenerationTime: 30,
-    supportedDurations: [5, 10],
-    // requiresMembership: true,
-  },
-
   // Kie.ai Sora 2 Pro 文本转视频模型
   // "sora-2-pro-text-to-video": {
   //   id: "sora-2-pro-text-to-video",
@@ -600,6 +676,8 @@ export function getTextToVideoModels(): VideoModelConfig[] {
   const preferredOrder: VideoModel[] = [
     VideoModel.SEEDANCE_1_5_PRO,
     VideoModel.VEO3,
+    VideoModel.SEEDANCE_2_0_FAST,
+    VideoModel.SEEDANCE_2_0,
     VideoModel.SORA2,
     VideoModel.HAILUO_2_3,
     VideoModel.KLING3,
@@ -621,6 +699,8 @@ export function getImageToVideoModels(): VideoModelConfig[] {
   const preferredOrder: VideoModel[] = [
     VideoModel.SEEDANCE_1_5_PRO,
     VideoModel.VEO3,
+    VideoModel.SEEDANCE_2_0_FAST,
+    VideoModel.SEEDANCE_2_0,
     VideoModel.SORA2,
     VideoModel.HAILUO_2_3,
     VideoModel.KLING3,
@@ -695,6 +775,8 @@ export function calculateCredits(
   let totalCredits = duration * model.perSecondCredits;
 
   // 根据分辨率调整积分（对支持多分辨率的模型生效）
+  // Seedance 系列统一与 Seedance 1.5 Pro / Seedance 2.0 Fast 对齐：
+  // 480p/720p/1080p = 1x/2x/4x
   if (isSeedanceModel(modelId) || isAliModel(modelId)) {
     if (normalizedResolution === "1080p") {
       // 1080p 价格是 480p 的 4 倍
@@ -728,14 +810,14 @@ export function calculateCredits(
   }
 
   // Kie.ai Kling 3.0 模型定价
-  // 720p std no-audio: 8 credits/s（基准）
-  // 1080p pro no-audio: 10 credits/s
-  // 720p std with-audio: 12 credits/s
-  // 1080p pro with-audio: 15 credits/s
+  // 720p std no-audio: 6 credits/s（基准）
+  // 1080p pro no-audio: 8 credits/s
+  // 720p std with-audio: 10 credits/s
+  // 1080p pro with-audio: 13 credits/s
   if (isKieAiKlingModel(modelId)) {
     const isPro = normalizedResolution === "1080p";
     if (isPro) {
-      totalCredits = totalCredits * 5 / 4; // 10/8
+      totalCredits = totalCredits * 4 / 3; // 8/6
     }
     if (hasAudio) {
       totalCredits += duration * (isPro ? 5 : 4);
@@ -761,7 +843,7 @@ export function calculateCredits(
     totalCredits += duration * model.audioPremiumCredits;
   }
 
-  // Sora 2 固定为 1080p HD，无需额外调整（已在 perSecondCredits 中包含）
+  // Sora 2 的单价已直接体现在 perSecondCredits 中
 
   return Math.round(totalCredits);
 }
@@ -861,6 +943,12 @@ export function isVeo3ApicoreModel(modelId: string): boolean {
 export function isKieAiModel(modelId: string): boolean {
   const model = getVideoModel(modelId);
   return model?.provider === VideoModelProvider.KIEAI;
+}
+
+// 检查模型是否为 MaxAPI 模型
+export function isMaxApiModel(modelId: string): boolean {
+  const model = getVideoModel(modelId);
+  return model?.provider === VideoModelProvider.MAXAPI;
 }
 
 // 检查模型是否为Kie.ai Veo3模型

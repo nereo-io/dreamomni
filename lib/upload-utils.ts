@@ -3,10 +3,12 @@
  *
  * Benefits:
  * - Bypasses Vercel 4.5MB limit
- * - Supports up to 20MB for images, 50MB for audio
+ * - Supports larger media files via direct-to-R2 uploads
  * - Faster (no intermediate proxy)
  * - Saves Vercel bandwidth
  */
+
+import { IMAGE_CACHE_CONTROL } from "@/lib/cache-control";
 
 const AUDIO_CACHE_CONTROL = "public, max-age=31536000, immutable";
 
@@ -52,6 +54,7 @@ export async function uploadImageToR2(file: File): Promise<string> {
     method: "PUT",
     headers: {
       "Content-Type": file.type,
+      "Cache-Control": IMAGE_CACHE_CONTROL,
     },
     body: file,
   });
@@ -93,6 +96,96 @@ export async function uploadMultipleImagesToR2(files: File[]): Promise<string[]>
   }
 
   return urls;
+}
+
+/**
+ * Upload media file (image/video/audio) to R2 using presigned URL
+ */
+export async function uploadMediaToR2(file: File): Promise<string> {
+  if (
+    !file.type ||
+    (!file.type.startsWith("image/") &&
+      !file.type.startsWith("video/") &&
+      !file.type.startsWith("audio/"))
+  ) {
+    const error = new Error(
+      `Unsupported file type: ${file.type || "unknown"}`
+    ) as UploadError;
+    error.code = "UNSUPPORTED_TYPE";
+    throw error;
+  }
+
+  let presignResult;
+  try {
+    const presignResponse = await fetch("/api/upload/media", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        filename: file.name,
+        contentType: file.type,
+        fileSize: file.size,
+      }),
+    });
+    presignResult = await presignResponse.json();
+  } catch {
+    const error = new Error(
+      "Network error, please check your connection and try again"
+    ) as UploadError;
+    error.code = "NETWORK_ERROR";
+    throw error;
+  }
+
+  if (presignResult.code !== 0) {
+    const error = new Error(
+      presignResult.message || "Failed to get upload URL"
+    ) as UploadError;
+    error.code = "PRESIGN_FAILED";
+    throw error;
+  }
+
+  const { presignedUrl, publicUrl } = presignResult.data;
+  const cacheControl = file.type.startsWith("image/")
+    ? IMAGE_CACHE_CONTROL
+    : AUDIO_CACHE_CONTROL;
+
+  let uploadResponse;
+  try {
+    uploadResponse = await fetch(presignedUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": file.type,
+        "Cache-Control": cacheControl,
+      },
+      body: file,
+    });
+  } catch {
+    const sizeMB = Math.round(file.size / 1024 / 1024);
+    const error = new Error(
+      `Upload failed (${sizeMB}MB). Please check your connection or try a smaller file`
+    ) as UploadError;
+    error.code = "NETWORK_ERROR";
+    throw error;
+  }
+
+  if (!uploadResponse.ok) {
+    const sizeMB = Math.round(file.size / 1024 / 1024);
+    const error = new Error(
+      `Upload failed (${uploadResponse.status}). File: ${sizeMB}MB ${file.type}`
+    ) as UploadError;
+    error.code = "UPLOAD_FAILED";
+    throw error;
+  }
+
+  return publicUrl;
+}
+
+export type MediaType = "image" | "video" | "audio" | "unknown";
+
+export function getMediaType(file: File): MediaType {
+  if (file.type.startsWith("image/")) return "image";
+  if (file.type.startsWith("video/")) return "video";
+  if (file.type.startsWith("audio/")) return "audio";
+  return "unknown";
 }
 
 /**

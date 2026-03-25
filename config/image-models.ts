@@ -79,15 +79,15 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
       "high-quality",
       "4k-resolution",
     ],
-    credits: 2, // 基础积分 (1K 分辨率)
+    credits: 3, // 基础积分 (1K 分辨率)
     maxInputImages: 5, // 支持最多 8 张参考图
     maxPromptLength: 10000, // Pro 版本支持更长的提示词
     supportedAspectRatios: ["Auto","1:1", "2:3", "3:2", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9"],
     supportedResolutions: ["1K", "2K", "4K"],
     resolutionCredits: {
-      "1K": 2,
-      "2K": 2,
-      "4K": 4,
+      "1K": 3,
+      "2K": 4,
+      "4K": 5,
     },
     supportedFormats: ["jpg", "png"],
     estimatedGenerationTime: 80, // 实测平均 130 秒,留 20 秒余量
@@ -111,7 +111,7 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
       "high-quality",
       "4k-resolution",
     ],
-    credits: 1, // 基础积分 (2K 分辨率)
+    credits: 2, // 基础积分 (2K 分辨率)
     maxInputImages: 5, // 支持最多 14 张参考图 (实际 API 支持 14 张，但 UI 统一为 5)
     maxPromptLength: 1000, // 支持较长的提示词
     // 官方推荐的所有宽高比 (顺序: 正方形 → 竖屏 → 横屏)
@@ -120,8 +120,8 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
     // 像素映射 (2K): 1:1→2048x2048, 4:3→2304x1728, 16:9→2560x1440, 21:9→3024x1296 等
     // 像素映射 (4K): 1:1→4096x4096, 4:3→4608x3456, 16:9→5120x2880, 21:9→6048x2592 等
     resolutionCredits: {
-      "2K": 1,
-      "4K": 2,
+      "2K": 2,
+      "4K": 3,
     },
     supportedFormats: ["jpeg"], // Seedream 输出格式
     estimatedGenerationTime: 30, // 单图预估时间

@@ -15,6 +15,7 @@ import StructuredData from "@/components/seo/structured-data";
 import { SignupTracker } from "@/components/analytics/signup-tracker";
 import AttributionTracker from "@/components/analytics/attribution-tracker";
 import YandexMetrica from "@/components/analytics/yandex-metrica";
+import BingUET from "@/components/analytics/bing-uet";
 // import { SpeedInsights } from '@vercel/speed-insights/next';
 // import { Analytics } from "@vercel/analytics/react";
 
@@ -50,6 +51,18 @@ export async function generateMetadata({
     },
     description: description,
     keywords: t("metadata.keywords") || "",
+    alternates: {
+      canonical: locale === "en" ? baseUrl : `${baseUrl}/${locale}`,
+      languages: {
+        "x-default": baseUrl,
+        en: baseUrl,
+        ru: `${baseUrl}/ru`,
+        ja: `${baseUrl}/ja`,
+        ko: `${baseUrl}/ko`,
+        de: `${baseUrl}/de`,
+        fr: `${baseUrl}/fr`,
+      },
+    },
     openGraph: {
       title: title,
       description: description,
@@ -122,6 +135,7 @@ export default async function RootLayout({
         )}
       >
         <YandexMetrica />
+        <BingUET />
         <NextIntlClientProvider messages={messages}>
           <NextAuthSessionProvider>
             <AppContextProvider>

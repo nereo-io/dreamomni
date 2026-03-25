@@ -1,12 +1,15 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { trackUetEvent } from "@/lib/bing-uet";
+import { trackGAGenerateVideo } from "@/services/analytics/google-tracking";
 
 interface VideoGenerationParams {
   model: string;
   prompt: string;
   image_url?: string; // 保留用于向后兼容
   image_urls?: string[]; // 新增：支持1-2张图片数组（首帧、尾帧）
+  media_urls?: string[]; // 混合素材URLs（图片/视频/音频）
   source_image_ids?: string[]; // 新增：来源图片ID追踪（My Creations）
   negative_prompt?: string;
   aspect_ratio?: string;
@@ -249,6 +252,24 @@ export default function useVideoGeneration() {
         if (result.code !== 0) {
           throw new Error(result.message || "提交失败");
         }
+
+        trackUetEvent("video_generation_started", {
+          event_category: "generation",
+          event_label: params.model,
+          generation_type: params.generationType || params.effect_type || "standard",
+          duration: params.duration,
+        });
+        trackGAGenerateVideo({
+          model: params.model,
+          stage:
+            result.data.status === "COMPLETED" ||
+            result.data.status === "SAVED_TO_R2"
+              ? "completed"
+              : "started",
+          duration: params.duration,
+          generationType:
+            params.generationType || params.effect_type || "standard",
+        });
 
         // 构建更新数据，包含积分信息
         const updates: Partial<VideoGenerationResult> = {

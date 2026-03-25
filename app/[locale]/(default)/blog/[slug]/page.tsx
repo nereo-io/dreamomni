@@ -1,22 +1,43 @@
-import { PostStatus, findPostBySlug } from "@/models/post";
+import {
+  PostStatus,
+  findPostBySlug,
+  getPostLocalesBySlug,
+  getPostsByLocale,
+} from "@/models/post";
 
 import BlogDetail from "@/components/blocks/blog-detail";
 import Empty from "@/components/blocks/empty";
-import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({
   params,
 }: {
   params: { locale: string; slug: string };
 }) {
-  const t = await getTranslations();
+  const [post, availableLocales] = await Promise.all([
+    findPostBySlug(params.slug, params.locale),
+    getPostLocalesBySlug(params.slug),
+  ]);
 
-  const post = await findPostBySlug(params.slug, params.locale);
-
-  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/blog/${params.slug}`;
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://www.seedance.tv";
+  let canonicalUrl = `${baseUrl}/blog/${params.slug}`;
 
   if (params.locale !== "en") {
-    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${params.locale}/blog/${params.slug}`;
+    canonicalUrl = `${baseUrl}/${params.locale}/blog/${params.slug}`;
+  }
+
+  const languages = availableLocales.reduce<Record<string, string>>(
+    (acc, locale) => {
+      acc[locale] =
+        locale === "en"
+          ? `${baseUrl}/blog/${params.slug}`
+          : `${baseUrl}/${locale}/blog/${params.slug}`;
+      return acc;
+    },
+    {}
+  );
+
+  if (availableLocales.includes("en")) {
+    languages["x-default"] = `${baseUrl}/blog/${params.slug}`;
   }
 
   return {
@@ -24,6 +45,24 @@ export async function generateMetadata({
     description: post?.description,
     alternates: {
       canonical: canonicalUrl,
+      languages,
+    },
+    openGraph: {
+      type: "article",
+      title: post?.title,
+      description: post?.description,
+      url: canonicalUrl,
+      images: post?.cover_url
+        ? [{ url: post.cover_url, alt: post.title || "" }]
+        : undefined,
+      publishedTime: post?.created_at,
+      modifiedTime: post?.updated_at || post?.created_at,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post?.title,
+      description: post?.description,
+      images: post?.cover_url ? [post.cover_url] : undefined,
     },
   };
 }
@@ -33,11 +72,18 @@ export default async function ({
 }: {
   params: { locale: string; slug: string };
 }) {
-  const post = await findPostBySlug(params.slug, params.locale);
+  const [post, localePosts] = await Promise.all([
+    findPostBySlug(params.slug, params.locale),
+    getPostsByLocale(params.locale, 1, 12),
+  ]);
 
   if (!post || post.status !== PostStatus.Online) {
     return <Empty message="Post not found" />;
   }
 
-  return <BlogDetail post={post} />;
+  const relatedPosts = localePosts
+    .filter((localePost) => localePost.slug !== post.slug)
+    .slice(0, 3);
+
+  return <BlogDetail post={post} relatedPosts={relatedPosts} />;
 }

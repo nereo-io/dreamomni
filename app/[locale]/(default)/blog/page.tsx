@@ -3,24 +3,33 @@ import { Blog as BlogType } from "@/types/blocks/blog";
 import { getPostsByLocale } from "@/models/post";
 import { getTranslations } from "next-intl/server";
 import Crumb from "@/components/blocks/crumb";
+import { locales } from "@/i18n/locale";
+
 export async function generateMetadata({
   params: { locale },
 }: {
   params: { locale: string };
 }) {
   const t = await getTranslations();
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://www.seedance.tv";
 
-  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/blog`;
-
+  let canonicalUrl = `${baseUrl}/blog`;
   if (locale !== "en") {
-    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/blog`;
+    canonicalUrl = `${baseUrl}/${locale}/blog`;
   }
+
+  const languages = locales.reduce<Record<string, string>>((acc, loc) => {
+    acc[loc] = loc === "en" ? `${baseUrl}/blog` : `${baseUrl}/${loc}/blog`;
+    return acc;
+  }, {});
+  languages["x-default"] = `${baseUrl}/blog`;
 
   return {
     title: t("blog.title"),
     description: t("blog.description"),
     alternates: {
       canonical: canonicalUrl,
+      languages,
     },
   };
 }

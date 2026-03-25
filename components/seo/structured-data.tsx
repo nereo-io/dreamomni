@@ -34,11 +34,6 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
         name: "Seedance",
         url: "https://www.seedance.tv",
         description: data.description,
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://www.seedance.tv/search?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
       };
       break;
 

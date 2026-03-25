@@ -31,12 +31,12 @@ export interface PayssionConfig {
 export const PAYSSION_PRODUCT_CONFIG: Record<string, PayssionProductConfig> = {
   "3000": {
     product_id: "mini-monthly",
-    credits: 400,
+    credits: 300,
     membershipType: "monthly",
   }, // $30
   "21600": {
     product_id: "mini-yearly",
-    credits: 4800,
+    credits: 3600,
     membershipType: "yearly",
   }, // $216
   "10000": {

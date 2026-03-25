@@ -42,6 +42,8 @@ export async function GET(req: NextRequest) {
         return respData({
           hasRecentPayment: true,
           paymentInfo: {
+            orderNo: recentOrder.order_no,
+            productId: recentOrder.product_id,
             planName: recentOrder.product_name,
             credits: recentOrder.credits, // Keep for backward compatibility
             amount: recentOrder.amount,

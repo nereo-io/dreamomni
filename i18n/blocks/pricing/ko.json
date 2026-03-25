@@ -79,8 +79,8 @@
       "label": "",
       "features_title": "포함 기능",
       "features": [
-        "월 400크레딧",
-        "~40 Seedance 비디오 또는 ~33 Veo3 비디오",
+        "월 300크레딧",
+        "~30 Seedance 비디오 또는 ~37 Veo3 비디오",
         "최대 10초 비디오",
         "1080p 해상도 출력"
       ],
@@ -99,7 +99,7 @@
       },
       "product_id": "mini-monthly",
       "product_name": "Seedance AI 미니",
-      "credits": 400,
+      "credits": 300,
       "valid_months": 1,
       "group": "monthly"
     },
@@ -108,8 +108,8 @@
       "label": "40% 할인",
       "features_title": "포함 기능",
       "features": [
-        "연간 4800크레딧 (월 400개)",
-        "~480 Seedance 비디오 또는 ~400 Veo3 비디오",
+        "연간 3600크레딧 (월 300개)",
+        "~360 Seedance 비디오 또는 ~450 Veo3 비디오",
         "최대 10초 비디오",
         "1080p 해상도 출력"
       ],
@@ -129,7 +129,7 @@
       },
       "product_id": "mini-yearly",
       "product_name": "Seedance AI 미니 연간",
-      "credits": 4800,
+      "credits": 3600,
       "valid_months": 12,
       "group": "yearly"
     },
@@ -139,7 +139,7 @@
       "features_title": "포함 기능",
       "features": [
         "월 2000크레딧",
-        "~200 Seedance 비디오 또는 ~166 Veo3 비디오",
+        "~200 Seedance 비디오 또는 ~250 Veo3 비디오",
         "최대 10초 비디오",
         "1080p 해상도 출력"
       ],
@@ -168,7 +168,7 @@
       "features_title": "포함 기능",
       "features": [
         "연간 24000크레딧 (월 2000개)",
-        "~2400 Seedance 비디오 또는 ~2000 Veo3 비디오",
+        "~2400 Seedance 비디오 또는 ~3000 Veo3 비디오",
         "최대 10초 비디오",
         "1080p 해상도 출력"
       ],

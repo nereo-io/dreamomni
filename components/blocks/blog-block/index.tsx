@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Blog } from "@/types/blocks/blog";
 import { ArrowRight } from "lucide-react";
 
@@ -13,11 +14,13 @@ export default function BlogBlock({ blog }: { blog: Blog }) {
         >
           <div className="flex flex-col overflow-clip rounded-xl border border-border">
             {item.cover_url && (
-              <div>
-                <img
+              <div className="relative aspect-[16/9]">
+                <Image
                   src={item.cover_url}
                   alt={item.title || ""}
-                  className="aspect-[16/9] h-full w-full object-cover object-center"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover object-center"
                 />
               </div>
             )}

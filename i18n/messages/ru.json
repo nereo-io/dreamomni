@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "Бесплатный генератор видео Seedance 2.0 | Создание AI видео",
-    "description": "Создавайте кинематографические AI видео с Seedance 2.0 - превосходный контроль структуры, реалистичная физика и мультимодальные референсы. Превосходит Sora 2 и Veo 3. Бесплатно.",
-    "keywords": "Seedance 2.0, Бесплатный генератор видео Seedance 2.0, AI генератор видео, Текст в видео, Изображение в видео, ByteDance Seedance, Кинематографические AI видео"
+    "title": "Seedance — Бесплатный ИИ Генератор Видео | Официальный Сайт",
+    "description": "500 000+ создателей используют Seedance для создания AI видео бесплатно. Sora 2, Veo 3, Seedance 2.0 и другие модели — 1080p, без водяных знаков, без регистрации. Попробуйте сейчас →",
+    "keywords": "Seedance, Seedance 2.0, сиденс, бесплатный генератор видео, ИИ генератор видео, нейросеть видео, текст в видео, изображение в видео, сиденс 2.0, seedance официальный сайт"
   },
   "wan-2-5": {
     "title": "Wan 2.5 бесплатно: попробуйте эту Wan AI видео модель теперь | Seedance",
@@ -30,7 +30,7 @@
     "keywords": "Seedance 1.5 Pro, ByteDance Seedance, текст в видео, изображение в видео, аудио-видео ИИ, Seedance"
   },
   "seedance-2-0": {
-    "title": "Seedance 2.0 ИИ-видеогенератор бесплатно | Seedance",
+    "title": "Seedance 2.0 AI Генератор Видео — Бесплатно Онлайн",
     "description": "Seedance 2.0 от ByteDance: ИИ-видео с мультимодальным вводом (изображение, видео, аудио, текст), 2K, согласованность персонажей, на 30% быстрее. Бесплатно!",
     "keywords": "Seedance 2.0, ИИ-видеогенератор, текст в видео, изображение в видео, ByteDance, мультимодальный ИИ"
   },
@@ -45,7 +45,7 @@
     "keywords": "Sora 2, OpenAI Sora 2, AI видеогенератор, бесплатный Sora 2, видео AI, текст в видео, изображение в видео, Seedance, модель sora"
   },
   "pricing": {
-    "title": "Видео планы | Цены Seedance",
+    "title": "Тарифы | Seedance",
     "description": "Выберите свой план AI видео. Получите 4K вывод, неограниченные генерации, расширенные настройки и приоритетную поддержку с Seedance.",
     "keywords": "Цены Seedance, планы генерации видео, 4K видео, подписка AI видео"
   },
@@ -366,6 +366,23 @@
     "canUpload": "Можно загрузить еще {count}",
     "uploadMultipleImages": "Загрузите до {max} изображений",
     "uploadMoreImagesRemaining": "Загрузите больше изображений (осталось {remaining})",
+    "mediaUploadTitle": "Reference Materials",
+    "mediaUploadHint": "Upload 1-12 reference materials. Use @ in your prompt to reference them, e.g.: @1 mimics @2's motion, with @3 as background music.",
+    "mediaUploadPrompt": "Upload up to {max} materials (images, videos, audio)",
+    "mediaUploadSecondaryHint": "Optional. Multi-select or drag & drop",
+    "mediaUploadMore": "Upload more materials ({remaining} remaining)",
+    "mediaSupportedTypes": "Supports images, videos (.mp4, .mov) and audio (.mp3, .wav). Videos and audio must be under 15s",
+    "mediaUploading": "Uploading {current}/{total}...",
+    "mediaUploadFailed": "Failed to upload",
+    "mediaMaxError": "Maximum {max} materials allowed",
+    "mediaOnlyUploadingFirst": "Only uploading first {count} materials",
+    "mediaUnsupportedType": "Unsupported file type: {name}",
+    "mediaTypeImage": "Image",
+    "mediaTypeVideo": "Video",
+    "mediaTypeAudio": "Audio",
+    "mediaTypeFile": "File",
+    "mediaMentionDropdownTitle": "Select a reference material",
+    "mediaPromptPlaceholder": "Describe the video you want. Use @ to reference uploaded materials, e.g.: @1 mimics the motion of @2, with @3 as background music.",
     "aspectRatios": {
       "landscape": "16:9 Альбомная",
       "portrait": "9:16 Портретная",
