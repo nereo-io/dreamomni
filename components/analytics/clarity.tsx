@@ -1,29 +1,37 @@
-import Script from "next/script";
+"use client";
+
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import ClarityLib from "@microsoft/clarity";
 
 export default function Clarity() {
-  if (process.env.NODE_ENV !== "production") {
-    return null;
-  }
-
+  const { data: session } = useSession();
   const clarityProjectId = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
+  const userId = session?.user?.uuid;
 
-  if (!clarityProjectId) {
-    return null;
-  }
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      return;
+    }
 
-  return (
-    <Script
-      id="clarity"
-      strategy="lazyOnload"
-      dangerouslySetInnerHTML={{
-        __html: `
-          (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-          })(window, document, "clarity", "script", "${clarityProjectId}");
-        `,
-      }}
-    />
-  );
+    if (!clarityProjectId) {
+      return;
+    }
+
+    ClarityLib.init(clarityProjectId);
+  }, [clarityProjectId]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      return;
+    }
+
+    if (!clarityProjectId || !userId) {
+      return;
+    }
+
+    ClarityLib.identify(userId);
+  }, [clarityProjectId, userId]);
+
+  return null;
 }
