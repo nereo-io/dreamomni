@@ -17,13 +17,9 @@ export default function Analytics() {
       {/* <OpenPanelAnalytics /> */}
       {/* <YandexMetrica /> */}
       <GoogleAnalytics />
-      {hasInteracted ? (
-        <>
-          {/* <GoogleTagManager /> */}
-          <Plausible />
-          <Clarity />
-        </>
-      ) : null}
+      {/* <GoogleTagManager /> */}
+      <Plausible />
+      <Clarity />
     </>
   );
 }
