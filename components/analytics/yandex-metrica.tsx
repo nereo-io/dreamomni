@@ -97,7 +97,7 @@ export default function YandexMetrica() {
     <>
       <Script
         id="yandex-metrica"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];

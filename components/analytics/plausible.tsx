@@ -17,11 +17,11 @@ export default function Plausible() {
       <Script
         src={plausibleScriptUrl}
         data-domain={plausibleDomain}
-        strategy="lazyOnload"
+        strategy="afterInteractive"
       />
       <Script
         id="plausible-init"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
             window.plausible = window.plausible || function() {
