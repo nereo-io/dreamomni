@@ -240,7 +240,10 @@
     "description": "Seedance 비디오 생성에 대한 뉴스, 리소스 및 업데이트",
     "read_more_text": "더 읽기",
     "load_more": "더 불러오기",
-    "loading_more": "불러오는 중..."
+    "loading_more": "불러오는 중...",
+    "featured": "추천 글",
+    "search_placeholder": "제목 또는 설명으로 글 검색",
+    "no_results": "검색과 일치하는 글이 없습니다."
   },
   "chat": {
     "title": "차세대 - Seedance 비디오 플랫폼",
@@ -1104,6 +1107,10 @@
     "imageToVideo": "이미지로 비디오",
     "textToVideo": "텍스트로 비디오",
     "readArticle": "글 읽기",
+    "copyLink": "링크 복사",
+    "linkCopied": "링크가 복사되었습니다",
+    "shareOnX": "X에 공유",
+    "readTime": "{minutes}분 읽기",
     "cta": {
       "pricing": "가입 시 무료 크레딧 제공. 요금제는 월 $9.9부터.",
       "inlineButton": "Seedance 무료로 사용해보기",

@@ -238,7 +238,10 @@
     "description": "Actualités, ressources et mises à jour sur la génération vidéo Seedance",
     "read_more_text": "Lire la suite",
     "load_more": "Charger plus",
-    "loading_more": "Chargement..."
+    "loading_more": "Chargement...",
+    "featured": "Article à la une",
+    "search_placeholder": "Rechercher par titre ou description",
+    "no_results": "Aucun article ne correspond à votre recherche."
   },
   "chat": {
     "title": "Nouvelle génération - Plateforme vidéo Seedance",
@@ -1180,6 +1183,10 @@
     "imageToVideo": "Image vers vidéo",
     "textToVideo": "Texte vers vidéo",
     "readArticle": "Lire l'article",
+    "copyLink": "Copier le lien",
+    "linkCopied": "Lien copié",
+    "shareOnX": "Partager sur X",
+    "readTime": "{minutes} min de lecture",
     "cta": {
       "pricing": "Crédits offerts à l'inscription. Forfaits à partir de $9.9/mois.",
       "inlineButton": "Essayer Seedance gratuitement",

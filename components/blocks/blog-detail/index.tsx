@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import StructuredData from "@/components/seo/structured-data";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { ArrowRight } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ArrowRight, Check, Copy, Twitter } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import Crumb from "./crumb";
@@ -34,6 +34,12 @@ function getLocaleHref(path: string, locale?: string) {
   }
 
   return `/${locale}${path}`;
+}
+
+function getAbsolutePostHref(post: Post) {
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://www.seedance.tv";
+
+  return new URL(getPostHref(post), baseUrl).toString();
 }
 
 function includesAny(value: string, keywords: string[]) {
@@ -131,6 +137,24 @@ function splitContentForInlineCta(content: string) {
     introContent: lines.slice(0, splitLine).join("\n").trim(),
     remainingContent: lines.slice(splitLine).join("\n").trim(),
   };
+}
+
+function getReadingTimeMinutes(content: string) {
+  const plainText = content
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`[^`]*`/g, " ")
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, " ")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/[#>*_~|-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!plainText) {
+    return 1;
+  }
+
+  return Math.max(1, Math.ceil(plainText.split(/\s+/).length / 200));
 }
 
 function TableOfContents({ content }: { content: string }) {
@@ -388,11 +412,45 @@ export default function BlogDetail({
   post: Post;
   relatedPosts: Post[];
 }) {
+  const t = useTranslations("blogDetail");
   const ctaVariant = useMemo(() => getBlogCtaVariant(post), [post]);
   const { introContent, remainingContent } = useMemo(
     () => splitContentForInlineCta(post.content || ""),
     [post.content]
   );
+  const readingTime = useMemo(
+    () => getReadingTimeMinutes(post.content || ""),
+    [post.content]
+  );
+  const shareUrl = useMemo(() => getAbsolutePostHref(post), [post]);
+  const shareText = useMemo(
+    () => `${post.title || ""} ${shareUrl}`.trim(),
+    [post.title, shareUrl]
+  );
+  const [copied, setCopied] = useState(false);
+
+  const metaItems = [
+    post.author_name?.trim(),
+    t("readTime", { minutes: readingTime }),
+    post.created_at ? moment(post.created_at).fromNow() : undefined,
+  ].filter(Boolean);
+
+  const authorInitial = (post.author_name || "?").trim().charAt(0).toUpperCase();
+
+  function handleCopyLink() {
+    const urlToCopy =
+      typeof window !== "undefined" ? window.location.href : shareUrl;
+
+    navigator.clipboard
+      .writeText(urlToCopy)
+      .then(() => {
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 2000);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   return (
     <section className="py-16">
@@ -407,29 +465,74 @@ export default function BlogDetail({
       />
       <div className="container">
         <Crumb post={post} />
-        <h1 className="mb-7 mt-9 max-w-3xl text-2xl font-bold md:mb-10 md:text-4xl">
-          {post.title}
-        </h1>
-        <div className="flex items-center gap-3 text-sm md:text-base">
-          {post.author_avatar_url && (
-            <Avatar className="h-8 w-8 border">
-              <AvatarImage
-                src={post.author_avatar_url}
-                alt={post.author_name}
-              />
-            </Avatar>
-          )}
-          <div>
-            {post.author_name && (
-              <span className="font-medium">{post.author_name}</span>
-            )}
-
-            <span className="ml-2 text-muted-foreground">
-              on {post.created_at && moment(post.created_at).fromNow()}
-            </span>
+        <div className="mx-auto mt-9 max-w-4xl">
+          <h1 className="max-w-3xl text-3xl font-bold tracking-tight md:text-5xl">
+            {post.title}
+          </h1>
+          <div className="mt-7 flex flex-col gap-4 rounded-2xl border border-border/60 bg-card/40 p-4 shadow-sm backdrop-blur sm:flex-row sm:items-center sm:justify-between md:p-5">
+            <div className="flex items-center gap-3">
+              {(post.author_name || post.author_avatar_url) && (
+                <Avatar className="h-10 w-10 border border-border/60">
+                  <AvatarImage
+                    src={post.author_avatar_url}
+                    alt={post.author_name}
+                  />
+                  <AvatarFallback className="bg-primary/15 text-sm font-semibold text-primary">
+                    {authorInitial}
+                  </AvatarFallback>
+                </Avatar>
+              )}
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm md:text-base">
+                {metaItems.map((item, index) => (
+                  <span
+                    key={`${item}-${index}`}
+                    className={cn(
+                      "text-muted-foreground",
+                      index === 0 && "font-medium text-foreground"
+                    )}
+                  >
+                    {index > 0 && (
+                      <span className="mr-2 text-border">·</span>
+                    )}
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={handleCopyLink}
+                className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+              >
+                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copied ? t("linkCopied") : t("copyLink")}
+              </button>
+              <a
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+              >
+                <Twitter className="h-4 w-4" />
+                {t("shareOnX")}
+              </a>
+            </div>
           </div>
+          {post.cover_url && (
+            <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl shadow-[0_20px_50px_-24px_rgba(15,23,42,0.45)]">
+              <Image
+                src={post.cover_url}
+                alt={post.title || ""}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 960px"
+                className="object-cover"
+              />
+            </div>
+          )}
         </div>
-        <div className="relative mt-0 grid max-w-screen-xl gap-4 lg:mt-0 lg:grid lg:grid-cols-12 lg:gap-6">
+        <div className="relative mx-auto mt-10 grid max-w-screen-xl gap-4 lg:grid lg:grid-cols-12 lg:gap-6">
           <div className="order-2 lg:order-none lg:col-span-8">
             {introContent && <Markdown content={introContent} />}
             {post.content && (

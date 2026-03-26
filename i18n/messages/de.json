@@ -241,7 +241,10 @@
     "description": "Neuigkeiten, Ressourcen und Updates über Seedance Video-Generierung",
     "read_more_text": "Mehr lesen",
     "load_more": "Mehr laden",
-    "loading_more": "Wird geladen..."
+    "loading_more": "Wird geladen...",
+    "featured": "Empfohlener Artikel",
+    "search_placeholder": "Artikel nach Titel oder Beschreibung suchen",
+    "no_results": "Keine Artikel passen zu Ihrer Suche."
   },
   "chat": {
     "title": "Neue Generation - Seedance Video Plattform",
@@ -1226,6 +1229,10 @@
     "imageToVideo": "Bild zu Video",
     "textToVideo": "Text zu Video",
     "readArticle": "Artikel lesen",
+    "copyLink": "Link kopieren",
+    "linkCopied": "Link kopiert",
+    "shareOnX": "Auf X teilen",
+    "readTime": "{minutes} Min. Lesezeit",
     "cta": {
       "pricing": "Kostenlose Credits bei der Anmeldung. Tarife ab $9.9/Monat.",
       "inlineButton": "Seedance kostenlos testen",

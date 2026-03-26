@@ -57,14 +57,53 @@
 
 .markdown ul,
 .markdown ol {
-  padding-left: 1em;
-  margin-bottom: 16px;
+  padding-left: 1.25em;
+  margin: 20px 0 24px;
   list-style-type: square;
 }
 
+.markdown li + li {
+  margin-top: 10px;
+}
+
+.markdown li > ul,
+.markdown li > ol {
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
 .markdown img {
+  display: block;
   max-width: 100%;
   box-sizing: border-box;
+  margin: 24px 0;
+  border-radius: 12px;
+}
+
+.dark .markdown img {
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
+.markdown blockquote {
+  margin: 24px 0;
+  border-left: 3px solid hsl(var(--primary));
+  border-radius: 0 12px 12px 0;
+  background: hsl(var(--muted) / 0.45);
+  padding: 16px 20px;
+  color: hsl(var(--muted-foreground));
+  font-style: italic;
+}
+
+.markdown hr {
+  margin: 32px 0;
+  border: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(var(--border)),
+    transparent
+  );
 }
 
 .markdown-table-wrapper {

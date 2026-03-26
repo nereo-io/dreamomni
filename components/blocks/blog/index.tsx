@@ -1,12 +1,15 @@
 'use client';
 
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
 import { Blog as BlogType } from "@/types/blocks/blog";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { useDeferredValue, useEffect, useState } from "react";
 
 const DEFAULT_PAGE_SIZE = 24;
+
+type BlogItem = NonNullable<BlogType["items"]>[number];
 
 interface BlogPostsResponse {
   code: number;
@@ -28,6 +31,51 @@ function getPostHref(item: NonNullable<BlogType["items"]>[number]) {
   return `/${item.locale}/blog/${item.slug}`;
 }
 
+function ArticleCard({
+  item,
+  ctaText,
+}: {
+  item: BlogItem;
+  ctaText?: string;
+}) {
+  return (
+    <a
+      href={getPostHref(item)}
+      target={item.target || "_self"}
+      rel={item.target === "_blank" ? "noreferrer" : undefined}
+      className="group block h-full"
+    >
+      <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/40 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg">
+        {item.cover_url && (
+          <div className="relative aspect-[16/9] overflow-hidden">
+            <Image
+              src={item.cover_url}
+              alt={item.title || ""}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+              className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
+            />
+          </div>
+        )}
+        <div className="flex flex-1 flex-col px-5 py-5">
+          <h3 className="text-lg font-semibold leading-tight text-foreground md:text-xl">
+            {item.title}
+          </h3>
+          <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground md:text-base">
+            {item.description}
+          </p>
+          {ctaText && (
+            <p className="mt-6 inline-flex items-center text-sm font-medium text-foreground">
+              {ctaText}
+              <ArrowRight className="ml-2 size-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </p>
+          )}
+        </div>
+      </div>
+    </a>
+  );
+}
+
 export default function Blog({
   blog,
   locale,
@@ -35,6 +83,9 @@ export default function Blog({
   pageSize = DEFAULT_PAGE_SIZE,
   loadMoreText = "Load more",
   loadingText = "Loading...",
+  featuredLabel = "Featured article",
+  searchPlaceholder = "Search articles",
+  emptyText = "No articles match your search.",
 }: {
   blog: BlogType;
   locale: string;
@@ -42,22 +93,39 @@ export default function Blog({
   pageSize?: number;
   loadMoreText?: string;
   loadingText?: string;
+  featuredLabel?: string;
+  searchPlaceholder?: string;
+  emptyText?: string;
 }) {
   const [items, setItems] = useState(blog.items || []);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(initialHasMore);
   const [isLoading, setIsLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const deferredSearchQuery = useDeferredValue(searchQuery);
 
   useEffect(() => {
     setItems(blog.items || []);
     setPage(1);
     setHasMore(initialHasMore);
     setIsLoading(false);
+    setSearchQuery("");
   }, [blog.items, initialHasMore, locale]);
 
   if (blog.disabled) {
     return null;
   }
+
+  const normalizedSearchQuery = deferredSearchQuery.trim().toLowerCase();
+  const filteredItems = normalizedSearchQuery
+    ? items.filter((item) => {
+        const searchableText = `${item.title || ""} ${item.description || ""}`.toLowerCase();
+
+        return searchableText.includes(normalizedSearchQuery);
+      })
+    : items;
+  const featuredItem = filteredItems[0];
+  const gridItems = filteredItems.slice(1);
 
   async function handleLoadMore() {
     if (isLoading || !hasMore) {
@@ -101,45 +169,82 @@ export default function Blog({
             {blog.description}
           </p>
         </div>
-        <div className="w-full flex flex-wrap items-start">
-          {items?.map((item, idx) => {
-            return (
+        <div className="w-full">
+          <div className="mb-8 rounded-3xl border border-border/60 bg-card/30 p-4 shadow-sm sm:p-5">
+            <div className="relative mx-auto max-w-2xl">
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                type="search"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder={searchPlaceholder}
+                className="h-12 rounded-full border-border/60 bg-background pl-11 pr-4"
+              />
+            </div>
+          </div>
+
+          {featuredItem ? (
+            <div className="mb-8">
+              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+                {featuredLabel}
+              </p>
               <a
-                key={`${item.slug || "post"}-${idx}`}
-                href={getPostHref(item)}
-                target={item.target || "_self"}
-                className="w-full md:w-1/3 p-4"
+                href={getPostHref(featuredItem)}
+                target={featuredItem.target || "_self"}
+                rel={featuredItem.target === "_blank" ? "noreferrer" : undefined}
+                className="group grid overflow-hidden rounded-[2rem] border border-border/70 bg-card/40 shadow-[0_20px_60px_-32px_rgba(15,23,42,0.45)] transition-all duration-300 hover:border-primary/40 hover:shadow-[0_24px_70px_-32px_rgba(15,23,42,0.55)] lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]"
               >
-                <div className="flex flex-col overflow-clip rounded-xl border border-border">
-                  {item.cover_url && (
-                    <div className="relative aspect-[16/9]">
-                      <Image
-                        src={item.cover_url}
-                        alt={item.title || ""}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                        className="object-cover object-center"
-                      />
+                <div className="relative aspect-[16/10] overflow-hidden lg:min-h-[420px] lg:aspect-auto">
+                  {featuredItem.cover_url ? (
+                    <Image
+                      src={featuredItem.cover_url}
+                      alt={featuredItem.title || ""}
+                      fill
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 60vw"
+                      className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.03]"
+                    />
+                  ) : (
+                    <div className="flex h-full items-end bg-muted/50 p-8">
+                      <h2 className="text-2xl font-semibold text-foreground md:text-3xl">
+                        {featuredItem.title}
+                      </h2>
                     </div>
                   )}
-                  <div className="px-4 py-4 md:px-4 md:py-4 lg:px-4 lg:py-4">
-                    <h3 className="mb-3 text-lg font-semibold md:mb-4 md:text-xl lg:mb-6">
-                      {item.title}
-                    </h3>
-                    <p className="mb-3 text-muted-foreground md:mb-4 lg:mb-6">
-                      {item.description}
+                </div>
+                <div className="flex flex-col justify-center p-6 md:p-8 lg:p-10">
+                  <h2 className="text-2xl font-semibold leading-tight text-foreground md:text-3xl lg:text-4xl">
+                    {featuredItem.title}
+                  </h2>
+                  <p className="mt-4 text-sm leading-7 text-muted-foreground md:text-base">
+                    {featuredItem.description}
+                  </p>
+                  {blog.read_more_text && (
+                    <p className="mt-8 inline-flex items-center text-sm font-medium text-foreground">
+                      {blog.read_more_text}
+                      <ArrowRight className="ml-2 size-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </p>
-                    {blog.read_more_text && (
-                      <p className="flex items-center hover:underline">
-                        {blog.read_more_text}
-                        <ArrowRight className="ml-2 size-4" />
-                      </p>
-                    )}
-                  </div>
+                  )}
                 </div>
               </a>
-            );
-          })}
+            </div>
+          ) : (
+            <div className="rounded-3xl border border-dashed border-border/70 bg-muted/20 px-6 py-16 text-center text-muted-foreground">
+              {emptyText}
+            </div>
+          )}
+
+          {gridItems.length > 0 && (
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {gridItems.map((item, idx) => (
+                <ArticleCard
+                  key={`${item.slug || "post"}-${idx}`}
+                  item={item}
+                  ctaText={blog.read_more_text}
+                />
+              ))}
+            </div>
+          )}
         </div>
         {hasMore && (
           <Button

@@ -241,7 +241,10 @@
     "description": "News, resources, and updates about Seedance video generation",
     "read_more_text": "Read More",
     "load_more": "Load More",
-    "loading_more": "Loading..."
+    "loading_more": "Loading...",
+    "featured": "Featured article",
+    "search_placeholder": "Search articles by title or description",
+    "no_results": "No articles match your search yet."
   },
   "chat": {
     "title": "New Generation - Seedance Video Platform",
@@ -1220,6 +1223,10 @@
     "imageToVideo": "Image to Video",
     "textToVideo": "Text to Video",
     "readArticle": "Read article",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied",
+    "shareOnX": "Share on X",
+    "readTime": "{minutes} min read",
     "cta": {
       "pricing": "Free credits on signup. Plans from $9.9/month.",
       "inlineButton": "Try Seedance free",

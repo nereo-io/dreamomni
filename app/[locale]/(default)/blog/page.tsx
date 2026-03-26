@@ -69,6 +69,9 @@ export default async function ({ params }: { params: { locale: string } }) {
         pageSize={BLOG_PAGE_SIZE}
         loadMoreText={t("blog.load_more")}
         loadingText={t("blog.loading_more")}
+        featuredLabel={t("blog.featured")}
+        searchPlaceholder={t("blog.search_placeholder")}
+        emptyText={t("blog.no_results")}
       />
     </>
   );

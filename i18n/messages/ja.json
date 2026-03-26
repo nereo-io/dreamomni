@@ -240,7 +240,10 @@
     "description": "Seedance動画生成に関するニュース、リソース、アップデート",
     "read_more_text": "続きを読む",
     "load_more": "さらに読み込む",
-    "loading_more": "読み込み中..."
+    "loading_more": "読み込み中...",
+    "featured": "注目の記事",
+    "search_placeholder": "タイトルまたは説明で記事を検索",
+    "no_results": "検索に一致する記事がありません。"
   },
   "chat": {
     "title": "新世代 - Seedance動画プラットフォーム",
@@ -1104,6 +1107,10 @@
     "imageToVideo": "画像から動画",
     "textToVideo": "テキストから動画",
     "readArticle": "記事を読む",
+    "copyLink": "リンクをコピー",
+    "linkCopied": "リンクをコピーしました",
+    "shareOnX": "Xで共有",
+    "readTime": "読む時間: 約{minutes}分",
     "cta": {
       "pricing": "登録で無料クレジット。プランは月額$9.9から。",
       "inlineButton": "無料でSeedanceを試す",
