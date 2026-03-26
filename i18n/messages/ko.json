@@ -238,7 +238,9 @@
   "blog": {
     "title": "블로그",
     "description": "Seedance 비디오 생성에 대한 뉴스, 리소스 및 업데이트",
-    "read_more_text": "더 읽기"
+    "read_more_text": "더 읽기",
+    "load_more": "더 불러오기",
+    "loading_more": "불러오는 중..."
   },
   "chat": {
     "title": "차세대 - Seedance 비디오 플랫폼",

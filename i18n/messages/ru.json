@@ -239,7 +239,9 @@
   "blog": {
     "title": "Блог",
     "description": "Новости, ресурсы и обновления о генерации видео Seedance",
-    "read_more_text": "Читать далее"
+    "read_more_text": "Читать далее",
+    "load_more": "Загрузить еще",
+    "loading_more": "Загрузка..."
   },
   "chat": {
     "title": "Новое поколение - платформа Seedance видео",

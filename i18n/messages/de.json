@@ -239,7 +239,9 @@
   "blog": {
     "title": "Blog",
     "description": "Neuigkeiten, Ressourcen und Updates über Seedance Video-Generierung",
-    "read_more_text": "Mehr lesen"
+    "read_more_text": "Mehr lesen",
+    "load_more": "Mehr laden",
+    "loading_more": "Wird geladen..."
   },
   "chat": {
     "title": "Neue Generation - Seedance Video Plattform",

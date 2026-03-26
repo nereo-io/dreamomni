@@ -239,7 +239,9 @@
   "blog": {
     "title": "Seedance Blog: AI Video Tutorials & Guides",
     "description": "News, resources, and updates about Seedance video generation",
-    "read_more_text": "Read More"
+    "read_more_text": "Read More",
+    "load_more": "Load More",
+    "loading_more": "Loading..."
   },
   "chat": {
     "title": "New Generation - Seedance Video Platform",

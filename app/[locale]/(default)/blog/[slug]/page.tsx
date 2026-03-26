@@ -7,6 +7,7 @@ import {
 
 import BlogDetail from "@/components/blocks/blog-detail";
 import Empty from "@/components/blocks/empty";
+import { locales } from "@/i18n/locale";
 
 export async function generateMetadata({
   params,
@@ -15,7 +16,7 @@ export async function generateMetadata({
 }) {
   const [post, availableLocales] = await Promise.all([
     findPostBySlug(params.slug, params.locale),
-    getPostLocalesBySlug(params.slug),
+    getPostLocalesBySlug(params.slug, locales),
   ]);
 
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://www.seedance.tv";
@@ -25,7 +26,10 @@ export async function generateMetadata({
     canonicalUrl = `${baseUrl}/${params.locale}/blog/${params.slug}`;
   }
 
-  const languages = availableLocales.reduce<Record<string, string>>(
+  const localeSet = new Set(availableLocales);
+  localeSet.add(params.locale);
+
+  const languages = Array.from(localeSet).reduce<Record<string, string>>(
     (acc, locale) => {
       acc[locale] =
         locale === "en"
@@ -36,7 +40,7 @@ export async function generateMetadata({
     {}
   );
 
-  if (availableLocales.includes("en")) {
+  if (localeSet.has("en")) {
     languages["x-default"] = `${baseUrl}/blog/${params.slug}`;
   }
 

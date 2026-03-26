@@ -1,5 +1,6 @@
 import { Post } from "@/types/post";
 import { getSupabaseClient } from "./db";
+import { locales } from "@/i18n/locale";
 
 export enum PostStatus {
   Created = "created",
@@ -7,6 +8,22 @@ export enum PostStatus {
   Online = "online",
   Offline = "offline",
 }
+
+const POST_LIST_SELECT = [
+  "uuid",
+  "slug",
+  "title",
+  "description",
+  "created_at",
+  "updated_at",
+  "status",
+  "cover_url",
+  "author_name",
+  "author_avatar_url",
+  "locale",
+  "category",
+  "tags",
+].join(", ");
 
 export async function insertPost(post: Post) {
   const supabase = getSupabaseClient();
@@ -69,13 +86,17 @@ export async function findPostBySlug(
   return data;
 }
 
-export async function getPostLocalesBySlug(slug: string): Promise<string[]> {
+export async function getPostLocalesBySlug(
+  slug: string,
+  supportedLocales: string[] = locales
+): Promise<string[]> {
   const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from("posts")
     .select("locale")
     .eq("slug", slug)
-    .eq("status", PostStatus.Online);
+    .eq("status", PostStatus.Online)
+    .in("locale", supportedLocales);
 
   if (error || !data) {
     return [];
@@ -113,20 +134,40 @@ export async function getPostsByLocale(
   page: number = 1,
   limit: number = 50
 ): Promise<Post[]> {
+  const { posts } = await getPostsPageByLocale(locale, page, limit);
+
+  return posts;
+}
+
+export async function getPostsPageByLocale(
+  locale: string,
+  page: number = 1,
+  limit: number = 50
+): Promise<{ posts: Post[]; hasMore: boolean }> {
   const supabase = getSupabaseClient();
+  const offset = (page - 1) * limit;
   const { data, error } = await supabase
     .from("posts")
-    .select("*")
+    .select(POST_LIST_SELECT)
     .eq("locale", locale)
     .eq("status", PostStatus.Online)
     .order("created_at", { ascending: false })
-    .range((page - 1) * limit, page * limit - 1);
+    .range(offset, offset + limit);
 
   if (error) {
-    return [];
+    return {
+      posts: [],
+      hasMore: false,
+    };
   }
 
-  return data;
+  const rows = (data || []) as unknown as Post[];
+  const posts = rows.slice(0, limit);
+
+  return {
+    posts,
+    hasMore: rows.length > limit,
+  };
 }
 
 export async function findPostByOutrankId(

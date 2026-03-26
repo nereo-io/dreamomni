@@ -236,7 +236,9 @@
   "blog": {
     "title": "Blog",
     "description": "Actualités, ressources et mises à jour sur la génération vidéo Seedance",
-    "read_more_text": "Lire la suite"
+    "read_more_text": "Lire la suite",
+    "load_more": "Charger plus",
+    "loading_more": "Chargement..."
   },
   "chat": {
     "title": "Nouvelle génération - Plateforme vidéo Seedance",

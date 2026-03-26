@@ -1,10 +1,90 @@
+'use client';
+
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Blog as BlogType } from "@/types/blocks/blog";
+import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 
-export default function Blog({ blog }: { blog: BlogType }) {
+const DEFAULT_PAGE_SIZE = 24;
+
+interface BlogPostsResponse {
+  code: number;
+  data?: {
+    items: BlogType["items"];
+    hasMore: boolean;
+  };
+}
+
+function getPostHref(item: NonNullable<BlogType["items"]>[number]) {
+  if (item.url) {
+    return item.url;
+  }
+
+  if (!item.locale || item.locale === "en") {
+    return `/blog/${item.slug}`;
+  }
+
+  return `/${item.locale}/blog/${item.slug}`;
+}
+
+export default function Blog({
+  blog,
+  locale,
+  initialHasMore = false,
+  pageSize = DEFAULT_PAGE_SIZE,
+  loadMoreText = "Load more",
+  loadingText = "Loading...",
+}: {
+  blog: BlogType;
+  locale: string;
+  initialHasMore?: boolean;
+  pageSize?: number;
+  loadMoreText?: string;
+  loadingText?: string;
+}) {
+  const [items, setItems] = useState(blog.items || []);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(initialHasMore);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setItems(blog.items || []);
+    setPage(1);
+    setHasMore(initialHasMore);
+    setIsLoading(false);
+  }, [blog.items, initialHasMore, locale]);
+
   if (blog.disabled) {
     return null;
+  }
+
+  async function handleLoadMore() {
+    if (isLoading || !hasMore) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const nextPage = page + 1;
+      const response = await fetch(
+        `/api/blog/posts?locale=${encodeURIComponent(locale)}&page=${nextPage}&limit=${pageSize}`
+      );
+      const result = (await response.json()) as BlogPostsResponse;
+
+      if (!response.ok || result.code !== 0 || !result.data) {
+        throw new Error("Failed to load more posts");
+      }
+
+      setItems((currentItems) => [...currentItems, ...(result.data?.items || [])]);
+      setPage(nextPage);
+      setHasMore(result.data.hasMore);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -22,17 +102,11 @@ export default function Blog({ blog }: { blog: BlogType }) {
           </p>
         </div>
         <div className="w-full flex flex-wrap items-start">
-          {blog.items?.map((item, idx) => {
-            const href =
-              item.url ||
-              (item.locale === "en"
-                ? `/blog/${item.slug}`
-                : `/${item.locale}/blog/${item.slug}`);
-
+          {items?.map((item, idx) => {
             return (
               <a
-                key={idx}
-                href={href}
+                key={`${item.slug || "post"}-${idx}`}
+                href={getPostHref(item)}
                 target={item.target || "_self"}
                 className="w-full md:w-1/3 p-4"
               >
@@ -67,6 +141,18 @@ export default function Blog({ blog }: { blog: BlogType }) {
             );
           })}
         </div>
+        {hasMore && (
+          <Button
+            type="button"
+            variant="outline"
+            size="lg"
+            className="min-w-40"
+            onClick={handleLoadMore}
+            disabled={isLoading}
+          >
+            {isLoading ? loadingText : loadMoreText}
+          </Button>
+        )}
       </div>
     </section>
   );

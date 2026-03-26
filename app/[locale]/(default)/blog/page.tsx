@@ -1,9 +1,11 @@
 import Blog from "@/components/blocks/blog";
 import { Blog as BlogType } from "@/types/blocks/blog";
-import { getPostsByLocale } from "@/models/post";
+import { getPostsPageByLocale } from "@/models/post";
 import { getTranslations } from "next-intl/server";
 import Crumb from "@/components/blocks/crumb";
 import { locales } from "@/i18n/locale";
+
+const BLOG_PAGE_SIZE = 24;
 
 export async function generateMetadata({
   params: { locale },
@@ -37,7 +39,11 @@ export async function generateMetadata({
 export default async function ({ params }: { params: { locale: string } }) {
   const t = await getTranslations();
 
-  const posts = await getPostsByLocale(params.locale);
+  const { posts, hasMore } = await getPostsPageByLocale(
+    params.locale,
+    1,
+    BLOG_PAGE_SIZE
+  );
 
   const blog: BlogType = {
     title: t("blog.title"),
@@ -56,7 +62,14 @@ export default async function ({ params }: { params: { locale: string } }) {
           ]}
         />
       </div>
-      <Blog blog={blog} />
+      <Blog
+        blog={blog}
+        locale={params.locale}
+        initialHasMore={hasMore}
+        pageSize={BLOG_PAGE_SIZE}
+        loadMoreText={t("blog.load_more")}
+        loadingText={t("blog.loading_more")}
+      />
     </>
   );
 }
