@@ -1,0 +1,332 @@
+{
+  "breadcrumb": {
+    "items": [
+      { "label": "Главная", "href": "/" },
+      { "label": "ИИ-генератор видео", "href": "/ai-video" },
+      { "label": "Альтернатива Sora" }
+    ]
+  },
+  "banner": {
+    "title": "Лучшая альтернатива Sora в 2026 году - Seedance Video Generator",
+    "description": "OpenAI закрыла Sora 24 марта 2026 года. Seedance - ваш основной заменитель: бесплатный AI видеогенератор с передовыми моделями, включая Seedance 2.0. Создавайте впечатляющие видео из текста или изображений за секунды.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Текст в видео",
+        "subTitle": "Промпт",
+        "value": "text-to-video",
+        "modelName": "Seedance 2.0",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Опишите видео, которое хотите создать...",
+        "buttonText": "Создать"
+      },
+      {
+        "type": "image",
+        "title": "Изображение в видео",
+        "subTitle": "Изображение",
+        "value": "image-to-video",
+        "modelName": "Seedance 2.0",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Загрузите изображение для анимации",
+        "tips": "Загружайте изображения JPG/PNG/WEBP до 10 МБ, минимальная ширина/высота - 300 пикселей.",
+        "buttonText": "Создать"
+      }
+    ]
+  },
+  "partners": [],
+  "features": {
+    "title": "Почему авторы переходят на Seedance",
+    "details": [
+      {
+        "title": "Несколько AI моделей на одной платформе",
+        "description": "Seedance Video Generator - это не ставка на одну модель. Вы можете переключаться между Seedance 2.0, Seedance 1.5, Veo 3.1, Kling 3.0 и другими вариантами, не перестраивая рабочий процесс с нуля.",
+        "type": "table",
+        "data": {
+          "headers": [
+            { "title": "Модель" },
+            { "title": "Сильная сторона" },
+            { "title": "Сценарий использования" }
+          ],
+          "rows": [
+            {
+              "cells": [
+                { "type": "text", "content": "Seedance 2.0" },
+                { "type": "text", "content": "Премиальное кинематографичное качество" },
+                { "type": "text", "content": "Лучший стандартный выбор для авторов, которые заменяют Sora." }
+              ]
+            },
+            {
+              "cells": [
+                { "type": "text", "content": "Seedance 1.5" },
+                { "type": "text", "content": "Быстрые и надежные генерации" },
+                { "type": "text", "content": "Подходит для быстрых итераций и ежедневного продакшна." }
+              ]
+            },
+            {
+              "cells": [
+                { "type": "text", "content": "Veo 3.1" },
+                { "type": "text", "content": "Управление через референсы" },
+                { "type": "text", "content": "Полезно тем, кто хочет еще одну топовую модель внутри той же платформы." }
+              ]
+            },
+            {
+              "cells": [
+                { "type": "text", "content": "Kling 3.0" },
+                { "type": "text", "content": "Динамика движения и вариативность" },
+                { "type": "text", "content": "Сильный резервный вариант для альтернативной пластики движения и контента для соцсетей." }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Бесплатный старт",
+        "description": "Чтобы начать, не нужна дорогая подписка. Seedance Video Generator дает бесплатные кредиты, поэтому авторы могут проверить реальные проекты до оплаты расширенного использования.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/e228e91c46d0-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/7fcd6dbc7965-77f77ea5aa754104b27cfe3863619a1e_1770872.jpg"
+      },
+      {
+        "title": "Текст в видео, изображение в видео и работа с референсами",
+        "description": "Можно начать с /text-to-video, перейти в /image-to-video, а затем использовать /seedance-2-0, когда нужен более глубокий мультимодальный контроль. Seedance закрывает те сценарии, которые бывшим пользователям Sora действительно нужны каждый день.",
+        "type": "table",
+        "data": {
+          "headers": [
+            { "title": "Сценарий" },
+            { "title": "Пример результата" }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Текст в видео: введите подробный промпт с движением камеры, светом и действием, чтобы быстро получить качественный ролик."
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/seedance-2-0/c832044bab3c-video.mp4",
+                  "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/1611df9b18d2-dc089e69c5f44590a028319de7381d0e_1770872.jpg"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Изображение в видео и референсы: загрузите статичные кадры или направляющие ассеты, чтобы точнее контролировать объект, стиль и движение."
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/seedance-2-0/90a63780743d-video.mp4",
+                  "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/99316385ac6e-o4PAK60dAXeRieT7iqS6NEIBNgRCxuPBEmP1X0_t.jpg"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Вывод в 1080p HD",
+        "description": "Seedance делает замену практичной, потому что результат не просто доступен - он готов к реальной работе. Вы получаете чистое 1080p HD-видео для маркетинга, соцсетей, презентаций и клиентских задач.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/400c92da553b-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/662d02a168e8-93a84c9151014697a3f917728a7903bd_1770872.jpg"
+      },
+      {
+        "title": "Без листа ожидания, мгновенный доступ",
+        "description": "Sora уже не вернется в рабочем виде, поэтому ждать нечего. Seedance Video Generator дает мгновенный доступ, живые инструменты генерации и платформу, которая уже создана для активных авторов.",
+        "type": "table",
+        "data": {
+          "headers": [
+            { "title": "Что вы получаете" },
+            { "title": "Почему это важно" }
+          ],
+          "rows": [
+            {
+              "cells": [
+                { "type": "text", "content": "Мгновенная регистрация" },
+                { "type": "text", "content": "Начинайте создавать сразу после регистрации аккаунта." }
+              ]
+            },
+            {
+              "cells": [
+                { "type": "text", "content": "Бесплатные кредиты" },
+                { "type": "text", "content": "Проверяйте промпты и рабочие сценарии до оплаты." }
+              ]
+            },
+            {
+              "cells": [
+                { "type": "text", "content": "Выбор моделей" },
+                { "type": "text", "content": "Сравнивайте результаты, а не оставайтесь привязанными к одному закрытому инструменту." }
+              ]
+            },
+            {
+              "cells": [
+                { "type": "text", "content": "API-поддержка" },
+                { "type": "text", "content": "Используйте API keys, если вам нужен программный доступ наряду с интерфейсом." }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "comparison": {
+    "title": "Seedance vs Sora - сравнение возможностей",
+    "models": ["Seedance Video Generator", "Sora 2"],
+    "features": [
+      { "name": "Доступность", "values": ["✅ Доступен сейчас", "❌ Закрыт"] },
+      { "name": "Бесплатный план", "values": ["✅ Да", "❌ Нет"] },
+      { "name": "Текст в видео", "values": ["✅ Да", "❌ Закрыт"] },
+      { "name": "Изображение в видео", "values": ["✅ Да", "❌ Закрыт"] },
+      { "name": "Управление через референсы", "values": ["✅ Да, в сценариях Seedance 2.0", "❌ Закрыт"] },
+      { "name": "Вывод 1080p HD", "values": ["✅ Да", "❌ Сервис недоступен"] },
+      { "name": "Аудио", "values": ["✅ Поддерживается в Seedance 2.0", "❌ Закрыт"] },
+      { "name": "API-доступ", "values": ["✅ Доступен через API keys", "❌ Закрыт"] },
+      { "name": "Выбор моделей", "values": ["✅ Несколько AI моделей на одной платформе", "❌ Один продукт, который уже закрыт"] }
+    ]
+  },
+  "youtubeCases": {
+    "title": "Что говорят пользователи на YouTube",
+    "content": [
+      {
+        "youtubeLink": "https://www.youtube.com/embed/nTOjyxlOlps?si=equ54yaKbc27f8q6",
+        "width": "525",
+        "height": "296"
+      },
+      {
+        "youtubeLink": "https://www.youtube.com/embed/pNMMFov2f_c?si=YZlkPQCl4_ApQLCn",
+        "width": "525",
+        "height": "296"
+      }
+    ]
+  },
+  "redditCases": {
+    "title": "Что говорят пользователи на Reddit",
+    "content": [
+      {
+        "id": "reddit-1",
+        "src": "https://embed.reddit.com/r/singularity/comments/1qyiusp/upcoming_seedance_2_demo_video_bytedances_new/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "526"
+      },
+      {
+        "id": "reddit-2",
+        "src": "https://embed.reddit.com/r/GoogleGeminiAI/comments/1qzrhgd/has_anyone_used_seedance_20_yet/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "506"
+      },
+      {
+        "id": "reddit-3",
+        "src": "https://embed.reddit.com/r/aivideos/comments/1qzf81x/mars_space_boy_i_generated_a_music_mv_with/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
+        "width": "640",
+        "height": "447"
+      }
+    ]
+  },
+  "twitterCases": {
+    "title": "Что говорят пользователи в X",
+    "content": [
+      {
+        "id": "twitter-1",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020125869637824845&dnt=false",
+        "width": "352",
+        "height": "554"
+      },
+      {
+        "id": "twitter-2",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020169879442399593&dnt=false",
+        "width": "352",
+        "height": "496"
+      },
+      {
+        "id": "twitter-3",
+        "src": "https://platform.twitter.com/embed/Tweet.html?id=2020015660483649991&dnt=false",
+        "width": "352",
+        "height": "654"
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Как использовать Seedance как замену Sora",
+    "description": "Если вы пользовались Sora до закрытия 24 марта 2026 года, переход прост. Seedance Video Generator дает те же базовые сценарии с более быстрым доступом и большим выбором моделей.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Создайте бесплатный аккаунт Seedance",
+        "description": "Зарегистрируйтесь на seedance.tv, получите бесплатные кредиты и сразу откройте рабочее пространство."
+      },
+      {
+        "number": "02",
+        "title": "Выберите Seedance 2.0 или другую модель",
+        "description": "Подберите модель под задачу, затем используйте text-to-video или image-to-video, чтобы задать сцену."
+      },
+      {
+        "number": "03",
+        "title": "Сгенерируйте, проверьте и скачайте",
+        "description": "Создайте видео, при необходимости сравните несколько версий и скачайте 1080p HD-файл для публикации или монтажа."
+      }
+    ],
+    "buttonText": "Попробовать лучшую альтернативу Sora бесплатно"
+  },
+  "relatedModels": {
+    "title": "Другие модели для изучения",
+    "models": [
+      {
+        "name": "Seedance 2.0",
+        "slug": "seedance-2-0",
+        "description": "Главная рекомендация, если вам нужна самая сильная замена Sora на платформе.",
+        "logo": "/imgs/intro/seedance.png"
+      },
+      {
+        "name": "Veo 3.1",
+        "slug": "veo-3-1",
+        "description": "Премиальный альтернативный сценарий для создателей, которые хотят сравнить вторую топовую модель с Seedance.",
+        "logo": "/imgs/intro/veo.svg"
+      },
+      {
+        "name": "Kling 3.0",
+        "slug": "kling-3-0",
+        "description": "Сильный выбор для быстрого темпа, динамичных идей и коротких итерационных циклов.",
+        "logo": "/imgs/intro/kling.svg"
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Частые вопросы об альтернативах Sora",
+    "description": "Короткие ответы для авторов, которые ищут лучшую замену Sora.",
+    "items": [
+      {
+        "title": "Какая лучшая бесплатная альтернатива Sora?",
+        "description": "Seedance Video Generator - лучшая бесплатная альтернатива Sora, если вам нужен живой продукт, бесплатные кредиты, качество Seedance 2.0 и сценарии text-to-video и image-to-video."
+      },
+      {
+        "title": "Какой AI видеогенератор заменил Sora?",
+        "description": "У OpenAI нет прямой замены один в один, но Seedance Video Generator - практичная замена, потому что сервис доступен сейчас и закрывает те сценарии, для которых авторы использовали Sora."
+      },
+      {
+        "title": "Seedance лучше, чем была Sora?",
+        "description": "Для активных авторов - да. Seedance доступен, его можно попробовать бесплатно, он поддерживает несколько моделей и дает больше практических сценариев, чем закрытый продукт."
+      },
+      {
+        "title": "Может ли Seedance делать все, что умела Sora?",
+        "description": "Seedance закрывает ключевые задачи большинства пользователей Sora: text-to-video, image-to-video, качественный 1080p-вывод, мультимодальный контроль в Seedance 2.0 и API-доступ."
+      },
+      {
+        "title": "Сколько стоит Seedance по сравнению с Sora?",
+        "description": "Seedance Video Generator можно начать использовать бесплатно, тогда как Sora до закрытия ассоциировалась с премиальным доступом."
+      },
+      {
+        "title": "Поддерживает ли Seedance text-to-video, как Sora?",
+        "description": "Да. Seedance поддерживает text-to-video, image-to-video и более продвинутые сценарии с референсами, поэтому это сильная замена для авторов, которые зависели от Sora."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Начните создавать - попробуйте лучшую альтернативу Sora бесплатно",
+    "description": "Запускайте следующий проект через /text-to-video, /image-to-video или сразу переходите в /seedance-2-0 для флагманского сценария.",
+    "buttonText": "Попробовать лучшую альтернативу Sora бесплатно"
+  }
+}

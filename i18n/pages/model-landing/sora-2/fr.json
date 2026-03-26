@@ -1,87 +1,57 @@
 {
+  "breadcrumb": {
+    "items": [
+      { "label": "Accueil", "href": "/" },
+      { "label": "Generateur de videos IA", "href": "/ai-video" },
+      { "label": "Alternative a Sora 2" }
+    ]
+  },
   "banner": {
-    "title": "Generateur de videos AI OpenAI Sora 2",
-    "description": "Sora 2 est le dernier modele de generation de videos d'OpenAI avec simulation physique avancee, generation audio synchronisee et coherence multi-plans remarquable. Essayez Sora 2 gratuitement sur Seedance - disponible exclusivement pour les membres!",
+    "title": "OpenAI Sora a disparu - voici votre nouveau generateur video IA",
+    "description": "OpenAI a officiellement ferme Sora le 24 mars 2026. Vous cherchez la meilleure alternative a Sora ? Seedance Video Generator offre tout ce que Sora promettait, et plus encore. Essayez Seedance 2.0 gratuitement des aujourd'hui.",
     "tabs": [
       {
         "type": "text",
         "title": "Texte vers video",
         "subTitle": "Prompt",
         "value": "text-to-video",
-        "modelName": "Sora 2",
-        "modelLogo": "/imgs/intro/sora.png",
+        "modelName": "Seedance 2.0",
+        "modelLogo": "/imgs/intro/seedance.png",
         "placeholder": "Decrivez la video que vous souhaitez generer...",
-        "buttonText": "Creer"
+        "buttonText": "Generer"
       },
       {
         "type": "image",
         "title": "Image vers video",
         "subTitle": "Image",
         "value": "image-to-video",
-        "modelName": "Sora 2",
-        "modelLogo": "/imgs/intro/sora.png",
-        "placeholder": "Televersez une image pour l'animer",
-        "tips": "Televersez des images JPG/PNG/WEBP jusqu'a 10 Mo, avec une largeur/hauteur minimale de 300 px.",
-        "buttonText": "Creer"
+        "modelName": "Seedance 2.0",
+        "modelLogo": "/imgs/intro/seedance.png",
+        "placeholder": "Telechargez une image a animer",
+        "tips": "Telechargez des images JPG/PNG/WEBP jusqu'a 10 Mo, largeur/hauteur minimale de 300 px.",
+        "buttonText": "Generer"
       }
     ]
   },
-  "partners": [
-    {
-      "name": "Coca-Cola",
-      "logo": "/imgs/partners/coca-cola-logo.png"
-    },
-    {
-      "name": "Microsoft",
-      "logo": "/imgs/partners/microsoft-logo.png"
-    },
-    {
-      "name": "Nike",
-      "logo": "/imgs/partners/nike-logo.png"
-    },
-    {
-      "name": "P&G",
-      "logo": "/imgs/partners/p-g-logo.png"
-    },
-    {
-      "name": "Lancome",
-      "logo": "/imgs/partners/lancome-logo.png"
-    },
-    {
-      "name": "Zoom",
-      "logo": "/imgs/partners/zoom-logo.png"
-    },
-    {
-      "name": "Sony",
-      "logo": "/imgs/partners/sony-logo.png"
-    },
-    {
-      "name": "Mercedes",
-      "logo": "/imgs/partners/mercedes-logo.png"
-    }
-  ],
+  "partners": [],
   "features": {
-    "title": "Caracteristiques principales du modele video AI Sora 2",
+    "title": "Pourquoi Seedance est la meilleure alternative a Sora",
     "details": [
       {
-        "title": "Physique realiste et comprehension du monde",
-        "description": "Sora 2 simule avec precision la physique du monde reel, y compris la gravite, la flottabilite, les collisions d'objets et les interactions environnementales. Le modele demontre une comprehension avancee de la facon dont les lois physiques gouvernent le mouvement et le comportement des objets dans des scenarios complexes.",
+        "title": "Une qualite video superieure avec Seedance 2.0",
+        "description": "Seedance 2.0 offre aux anciens utilisateurs de Sora des mouvements cinematographiques, une meilleure coherence de scene et une constance plus fiable des personnages dans un rendu 1080p de haute qualite. Vous gardez l'ambition qui rendait Sora interessant, mais avec une plateforme encore disponible aujourd'hui.",
         "type": "table",
         "data": {
           "headers": [
-            {
-              "title": "Prompt"
-            },
-            {
-              "title": "Video generee"
-            }
+            { "title": "Prompt" },
+            { "title": "Video generee" }
           ],
           "rows": [
             {
               "cells": [
                 {
                   "type": "text",
-                  "content": "Une bataille navale épique dans un style dark fantasy, montage rapide et ininterrompu, dominé par des tons froids, avec des vagues qui s’écrasent contre le navire et des tirs de canon découpés de façon rythmée. Sous le navire, l’ombre d’un monstre marin ondule, l’eau enfle et ses tentacules frappent le pont, projetant des tonneaux. L’équipage se fige puis sombre dans le chaos ; le capitaine combat férocement les tentacules du monstre, en quatre plans reliés sans coupure."
+                  "content": "An epic naval battle in a dark fantasy style, fast-paced and non-stop editing, predominantly in cool tones, with waves crashing against the ship and cannon fire cutting in rhythmically. Beneath the ship, the shadow of a sea monster rolls, the water swells, and the monster's tentacles slam into the deck, knocking away barrels. The crew freezes, then descends into chaos; the captain battles fiercely against the monster's tentacles, with four seamlessly connected shots."
                 },
                 {
                   "type": "video",
@@ -94,11 +64,11 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Une gymnaste fait une cabriole sur une poutre. Eclairage cinematique."
+                  "content": "In the style of Japanese anime, the hero with white hair awakens his dormant powers. His body is enveloped in a blue and black fiery aura and markings grow to cover his face and body, a deep ancient power finally awakened."
                 },
                 {
                   "type": "video",
-                  "content": "https://pollo.ai/cms/2_a16ddfcaaf.mp4",
+                  "content": "https://pollo.ai/cms/6_8f4b0e2607.mp4",
                   "poster": ""
                 }
               ]
@@ -107,24 +77,20 @@
         }
       },
       {
-        "title": "Son synchronise et dialogue",
-        "description": "Sora 2 genere des paysages sonores synchronises incluant la parole realiste, les sons ambiants et les effets sonores parfaitement chronometres avec le contenu video. Les personnages parlent naturellement et les environnements prennent vie avec des soundscapes immersives - aucune edition audio supplementaire requise.",
+        "title": "Texte vers video et image vers video",
+        "description": "Commencez sur /text-to-video pour une generation basee sur un prompt ou passez a /image-to-video lorsque vous voulez animer une image fixe. Seedance 2.0 reunit les deux flux dans un seul outil, donc quitter Sora ne signifie pas perdre le controle.",
         "type": "table",
         "data": {
           "headers": [
-            {
-              "title": "Prompt"
-            },
-            {
-              "title": "Video generee"
-            }
+            { "title": "Workflow" },
+            { "title": "Exemple de resultat" }
           ],
           "rows": [
             {
               "cells": [
                 {
                   "type": "text",
-                  "content": "Deux explorateurs de montagne en equipement technique brillant, visages croutes de glace, yeux plisses par l'urgence, criant dans la neige"
+                  "content": "Texte vers video : decrivez une scene, choisissez le ratio et obtenez un clip propre en quelques secondes."
                 },
                 {
                   "type": "video",
@@ -137,50 +103,7 @@
               "cells": [
                 {
                   "type": "text",
-                  "content": "Des plongeurs nagent sous l'eau, découvrant les sons des récifs coralliens et la texture des sons des profondeurs."
-                },
-                {
-                  "type": "video",
-                  "content": "https://r2.veo3ai.io/intro/Sora2/Deep-sea-coral.mp4",
-                  "poster": ""
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "title": "Coherence a long terme precise et narration multi-plans",
-        "description": "Sora 2 maintient la permanence des objets et la continuite des scenes a travers des sequences multi-plans complexes. Les elements tels que les personnages, les accessoires et les environnements restent logiquement coherents sans se deformer ou disparaitre dans des sequences etendues et compliquees couvrant plusieurs scenes - ideal pour la narration cinematique, anime et realiste.",
-        "type": "table",
-        "data": {
-          "headers": [
-            {
-              "title": "Prompt"
-            },
-            {
-              "title": "Video generee"
-            }
-          ],
-          "rows": [
-            {
-              "cells": [
-                {
-                  "type": "text",
-                  "content": "Dans le style de l'anime japonais, le heros aux cheveux blancs reveille ses pouvoirs dormants. Son corps est enveloppe dans une aura de feu bleu et noir et des marques s'etendent sur son visage et son corps, une puissance ancienne profonde finalement reveille"
-                },
-                {
-                  "type": "video",
-                  "content": "https://pollo.ai/cms/6_8f4b0e2607.mp4",
-                  "poster": ""
-                }
-              ]
-            },
-            {
-              "cells": [
-                {
-                  "type": "text",
-                  "content": "Dans le style de Studio Ghibli, un garcon et son chien courent vers le haut d'une montagne pittoresque verdoyante avec de magnifiques nuages, dominant un village a l'arriere-plan lointain"
+                  "content": "Image vers video : telechargez une image fixe, guidez le mouvement et transformez-la en courte sequence cinematographique."
                 },
                 {
                   "type": "video",
@@ -193,41 +116,117 @@
         }
       },
       {
-        "title": "\"Cameos\": Inserez-vous realistically dans des videos",
-        "description": "Pour la premiere fois, vous pouvez telecharger une courte video de vous-meme et fournir un echantillon vocal pour creer un cameo personnel dans des videos generees. Sora 2 apprend votre apparence et votre voix, puis peut vous inserer de facon realiste dans n'importe quel scenario genere avec une fidelite impressionnante et un comportement naturel - ideal pour le marketing personnalise, les projets creatifs et la narration.",
+        "title": "Essai gratuit - sans mur d'abonnement",
+        "description": "Sora etait reserve a une couche d'acces couteuse. Seedance Video Generator offre des credits gratuits aux nouveaux utilisateurs, une prise en main immediate et un moyen rapide de tester de vrais workflows avant de payer plus.",
         "type": "video",
-        "data": "https://pollo.ai/cms/5_415e112471.mp4"
+        "data": "https://r2.veo3ai.io/model-landing/seedance-2-0/41d649b669bf-video.mp4",
+        "poster": "https://r2.veo3ai.io/model-landing/seedance-2-0/5f59faf0b345-o8dEiHhYQd8fJEvXanIiDaicdWANh1vXAFAXBo_t.jpg"
       },
       {
-        "title": "Qualite HD 1080p - Sortie haute resolution fixe",
-        "description": "Sora 2 genere des videos avec une resolution HD 1080p coherente et une fidelite visuelle exceptionnelle. Que vous creiez des sequences cinematiques, des demonstrations de produits ou du contenu creatif, vos videos conservent une clarte et des details de qualite professionnelle tout au long."
+        "title": "Plusieurs modeles IA sur une seule plateforme",
+        "description": "Si un modele ne convient pas a votre idee, vous pouvez changer instantanement. Seedance rassemble Seedance 1.5, Seedance 2.0, Veo 3.1, Kling 3.0 et d'autres modeles dans un seul workflow au lieu de vous obliger a chercher des outils separes apres la fermeture de Sora.",
+        "type": "table",
+        "data": {
+          "headers": [
+            { "title": "Modele" },
+            { "title": "Le plus adapte pour" },
+            { "title": "Pourquoi les anciens utilisateurs de Sora s'y interessent" }
+          ],
+          "rows": [
+            {
+              "cells": [
+                { "type": "text", "content": "Seedance 1.5" },
+                { "type": "text", "content": "Generations rapides du quotidien" },
+                { "type": "text", "content": "Une option fiable quand vous voulez des resultats stables rapidement." }
+              ]
+            },
+            {
+              "cells": [
+                { "type": "text", "content": "Seedance 2.0" },
+                { "type": "text", "content": "Sortie cinematographique premium" },
+                { "type": "text", "content": "Le remplacement direct le plus solide pour des projets video ambitieux a la maniere de Sora." }
+              ]
+            },
+            {
+              "cells": [
+                { "type": "text", "content": "Veo 3.1" },
+                { "type": "text", "content": "Creation basee sur des references" },
+                { "type": "text", "content": "Utile lorsque vous voulez une autre interpretation visuelle sans quitter la plateforme." }
+              ]
+            },
+            {
+              "cells": [
+                { "type": "text", "content": "Kling 3.0" },
+                { "type": "text", "content": "Contenu social riche en mouvement" },
+                { "type": "text", "content": "Une bonne option secondaire pour les plans dynamiques et l'iteration rapide." }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Qu'est-il arrive a Sora ?",
+        "description": "OpenAI a annonce le 24 mars 2026 que Sora serait abandonne. Les informations autour de cette fermeture pointaient vers un virage plus fort vers la robotique, la fin de l'application autonome, de l'experience mobile et de l'API, ainsi que l'abandon de l'accord Disney tres commente.",
+        "type": "table",
+        "data": {
+          "headers": [
+            { "title": "Sujet" },
+            { "title": "Details" }
+          ],
+          "rows": [
+            {
+              "cells": [
+                { "type": "text", "content": "Date de fermeture" },
+                { "type": "text", "content": "OpenAI a indique le 24 mars 2026 que Sora etait abandonne." }
+              ]
+            },
+            {
+              "cells": [
+                { "type": "text", "content": "Raison" },
+                { "type": "text", "content": "Les rapports liaient ce choix a un recentrage plus fort sur la robotique et d'autres priorites produit." }
+              ]
+            },
+            {
+              "cells": [
+                { "type": "text", "content": "Ce qui s'arrete" },
+                { "type": "text", "content": "L'application autonome Sora, l'experience mobile et l'API sont toutes arretees." }
+              ]
+            },
+            {
+              "cells": [
+                { "type": "text", "content": "Impact business" },
+                { "type": "text", "content": "L'accord Disney a 1 Md$, largement commente autour de Sora, aurait egalement ete annule." }
+              ]
+            }
+          ]
+        }
       }
     ]
   },
   "usageGuide": {
-    "title": "Comment utiliser Sora 2 AI Video Generator sur Seedance",
-    "description": "Generez des videos epoustouflantes avec le modele Sora 2 d'OpenAI via notre interface facile a utiliser. Membres uniquement!",
+    "title": "Comment passer de Sora a Seedance",
+    "description": "Passer d'un outil abandonne est simple. Seedance Video Generator fournit un remplacement actif avec demarrage gratuit, acces direct a Seedance 2.0 et workflows flexibles via /text-to-video, /image-to-video et /seedance-2-0.",
     "steps": [
       {
         "number": "01",
-        "title": "Selectionnez le modele Sora 2",
-        "description": "Accedez a la page 'Texte vers video' ou 'Image vers video' et selectionnez 'Sora 2' dans le menu deroulant du modele."
+        "title": "Allez sur seedance.tv et inscrivez-vous gratuitement",
+        "description": "Creez votre compte, recuperez vos credits gratuits et ouvrez l'espace video sans attente."
       },
       {
         "number": "02",
-        "title": "Entrez votre prompt ou televersez une image",
-        "description": "Decrivez en detail ce que vous souhaitez generer, ou televersez une image pour image-to-video. Configurez votre rapport d'aspect prefere (16:9 ou 9:16) et selectionnez une duree de 10 secondes."
+        "title": "Choisissez Seedance 2.0 et saisissez votre prompt",
+        "description": "Utilisez texte-vers-video ou image-vers-video, choisissez Seedance 2.0 et decrivez la scene que vous voulez generer."
       },
       {
         "number": "03",
-        "title": "Generez et telechargez",
-        "description": "Cliquez sur 'Creer' et attendez que votre video soit generee (generalement 2-3 minutes). Une fois termis, telechargez votre video HD 1080p ou partagez-la directement."
+        "title": "Generez et telechargez votre video en 1080p HD",
+        "description": "Creez votre clip, verifiez le resultat et telechargez un fichier 1080p propre pour publication, montage ou livraison client."
       }
     ],
-    "buttonText": "Essayez Sora 2 sur Seedance"
+    "buttonText": "Essayer Seedance Video Generator gratuitement"
   },
   "youtubeCases": {
-    "title": "Videos YouTube sur le modele video AI Sora 2",
+    "title": "Videos sur la fermeture de Sora et le passage aux alternatives",
     "content": [
       {
         "youtubeLink": "https://www.youtube.com/embed/pNMMFov2f_c?si=YZlkPQCl4_ApQLCn",
@@ -248,21 +247,11 @@
         "youtubeLink": "https://www.youtube.com/embed/xyOP5eCQgUI?si=CqEgllwVQg7wasC",
         "width": "525",
         "height": "296"
-      },
-      {
-        "youtubeLink": "https://www.youtube.com/embed/YEkXyoO2UeE?si=gignm1DQuUag6kwm",
-        "width": "525",
-        "height": "296"
-      },
-      {
-        "youtubeLink": "https://www.youtube.com/embed/sUXFBQjjkgA?si=cJksHYIkgVwPzWvI",
-        "width": "525",
-        "height": "296"
       }
     ]
   },
   "redditCases": {
-    "title": "Discussions Reddit sur le modele video AI Sora 2",
+    "title": "Discussions Reddit sur la fin de Sora et ses remplaçants",
     "content": [
       {
         "src": "https://embed.reddit.com/r/OpenAI/comments/1o15m6z/what_is_the_point_of_sora_2/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
@@ -278,16 +267,11 @@
         "src": "https://embed.reddit.com/r/SoraAi/comments/1nxja66/sora_2_is_already_dead/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
         "width": "640",
         "height": "316"
-      },
-      {
-        "src": "https://embed.reddit.com/r/singularity/comments/1nvmr4a/sora_2_is_a_paradigm_shift_i_have_been_browsing/?embed=true&ref_source=embed&ref=share&utm_medium=widgets&utm_source=embedv2&utm_term=23&utm_name=post_embed",
-        "width": "640",
-        "height": "316"
       }
     ]
   },
   "twitterCases": {
-    "title": "Publications X sur le modele video AI Sora 2",
+    "title": "Publications X sur la fin de Sora",
     "content": [
       {
         "src": "https://platform.twitter.com/embed/Tweet.html?id=1973363399234052232&dnt=false",
@@ -308,91 +292,81 @@
         "src": "https://platform.twitter.com/embed/Tweet.html?id=1974173242014249314&dnt=false",
         "width": "318",
         "height": "400"
+      }
+    ]
+  },
+  "comparison": {
+    "title": "Sora 2 vs Seedance Video Generator",
+    "models": ["Seedance Video Generator", "Sora 2"],
+    "features": [
+      { "name": "Disponibilite", "values": ["✅ Disponible maintenant", "❌ Ferme"] },
+      { "name": "Prix", "values": ["✅ Essai gratuit", "❌ Plus disponible"] },
+      { "name": "Qualite video", "values": ["✅ 1080p HD avec mouvement cinematographique", "❌ Service indisponible"] },
+      { "name": "Duree maximale", "values": ["✅ Jusqu'a 30 secondes avec Seedance 2.0", "❌ Ferme"] },
+      { "name": "Texte vers video", "values": ["✅ Oui", "❌ Ferme"] },
+      { "name": "Image vers video", "values": ["✅ Oui", "❌ Ferme"] },
+      { "name": "Audio", "values": ["✅ Pris en charge dans les workflows Seedance 2.0", "❌ Ferme"] },
+      { "name": "Acces API", "values": ["✅ Disponible avec des API keys", "❌ Ferme"] }
+    ]
+  },
+  "relatedModels": {
+    "title": "Autres options video IA",
+    "models": [
+      {
+        "name": "Seedance 2.0",
+        "slug": "seedance-2-0",
+        "description": "Le meilleur remplacement direct de Sora si vous voulez une qualite premium, un audio synchronise et des generations plus longues.",
+        "logo": "/imgs/intro/seedance.png"
       },
       {
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=1975015404524474485&dnt=false",
-        "width": "318",
-        "height": "380"
+        "name": "Veo 3.1",
+        "slug": "veo-3-1",
+        "description": "Une alternative solide pour les createurs qui veulent un autre modele haut de gamme avec controle par images de reference.",
+        "logo": "/imgs/intro/veo.svg"
       },
       {
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=1975131720333857170&dnt=false",
-        "width": "398",
-        "height": "420"
-      },
-      {
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=1975499455035220353&dnt=false",
-        "width": "318",
-        "height": "380"
-      },
-      {
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=1973715367252520560&dnt=false",
-        "width": "318",
-        "height": "400"
-      },
-      {
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=1973424740133179667&dnt=false",
-        "width": "318",
-        "height": "350"
-      },
-      {
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=1975940358526623953&dnt=false",
-        "width": "398",
-        "height": "420"
-      },
-      {
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=1974144279955325191&dnt=false",
-        "width": "318",
-        "height": "380"
-      },
-      {
-        "src": "https://platform.twitter.com/embed/Tweet.html?id=1973916657471918583&dnt=false",
-        "width": "318",
-        "height": "350"
+        "name": "Kling 3.0",
+        "slug": "kling-3-0",
+        "description": "Utile pour les experiences rapides et les contenus riches en mouvement quand vous voulez plusieurs options creatives.",
+        "logo": "/imgs/intro/kling.svg"
       }
     ]
   },
   "faq": {
     "name": "faq",
     "label": "FAQ",
-    "title": "Questions frequemment posees",
-    "description": "En savoir plus sur Sora 2 sur Seedance",
+    "title": "FAQ sur l'arret de Sora",
+    "description": "Reponses pour les createurs qui remplacent Sora par Seedance Video Generator.",
     "items": [
       {
-        "title": "Qu'est-ce que Sora 2 d'OpenAI?",
-        "description": "Sora 2 est le dernier modele de generation de videos d'OpenAI capable de produire des videos hautement realistes, physiquement precises et controlables. Il excelle dans la creation de styles cinematiques, anime et realistes tout en maintenant une coherence a long terme a travers les sequences multi-plans avec generation audio integree."
+        "title": "Qu'est-il arrive a OpenAI Sora ?",
+        "description": "OpenAI a annonce le 24 mars 2026 que Sora etait abandonne. Cela concerne l'application autonome, l'experience mobile et l'API."
       },
       {
-        "title": "En quoi Sora 2 differe-t-il du precedent modele Sora?",
-        "description": "Sora 2 represente un grand saut en avant avec une simulation physique plus forte, une permanence d'objet precise, des capacites de narration multi-scenes, une generation sonore synchronisee et la nouvelle fonction Cameos qui vous permet d'inserer votre propre ressemblance dans les videos. Ces ameliorations la rendent superieure pour les projets creatifs avances."
+        "title": "Sora va-t-il revenir ?",
+        "description": "Aucun retour officiel n'est prevu. La derniere mise a jour publique indique une fermeture et non une pause."
       },
       {
-        "title": "Puis-je utiliser Sora 2 gratuitement sur Seedance?",
-        "description": "Sora 2 est disponible exclusivement pour les membres de Seedance. Les membres obtiennent l'acces a la generation video de haute qualite a des tarifs credits competitifs. Inscrivez-vous a une adhesion pour deverrouiller ce modele premium et profiter de possibilites de generation illimitees!"
+        "title": "Quelle est la meilleure alternative a Sora ?",
+        "description": "Seedance Video Generator est le remplacement le plus solide si vous voulez un acces gratuit, la qualite de Seedance 2.0, le texte-vers-video, l'image-vers-video et plusieurs modeles sur une meme plateforme."
       },
       {
-        "title": "Quelle est la qualite de la sortie Sora 2?",
-        "description": "Sora 2 genere des videos a une resolution HD 1080p fixe avec une fidelite visuelle exceptionnelle. Le modele produit des videos de qualite professionnelle adaptees a la creation de contenu, au marketing, a la realisation de films et aux projets creatifs sans necessiter de traitement supplementaire."
+        "title": "Puis-je encore utiliser Sora 2 ?",
+        "description": "Non. L'application et l'API Sora sont abandonnees, donc les createurs ont besoin d'une alternative active plutot que d'un contournement."
       },
       {
-        "title": "Combien de temps peuvent durer les videos Sora 2?",
-        "description": "Sur Seedance, Sora 2 supporte la generation de videos jusqu'a une duree de 10 secondes. Cela donne aux createurs assez de temps pour raconter des histoires captivantes tout en maintenant la qualite elevee et la coherence pour laquelle le modele est connu."
+        "title": "Seedance est-il gratuit ?",
+        "description": "Oui. Seedance Video Generator est gratuit a essayer et fournit assez de credits gratuits pour evaluer le workflow avant un upgrade."
       },
       {
-        "title": "Puis-je utiliser Sora 2 pour des projets professionnels ou commerciaux?",
-        "description": "Oui! La simulation physique precise de Sora 2, la coherence multi-plans et l'audio synchronise en font un excellent choix pour les cinemastes, animateurs, createurs de contenu et professionnels du marketing. La sortie HD 1080p est prete pour la production a usage professionnel."
-      },
-      {
-        "title": "Comment fonctionne la fonction Cameos de Sora 2?",
-        "description": "Cameos vous permet d'enregistrer une courte video de vous-meme et de fournir un echantillon vocal. Sora 2 apprend votre apparence et votre voix, puis peut vous inserer realistically dans n'importe quel scenario video genere - ideal pour le contenu personnalise, les temoignages ou le marketing creatif."
-      },
-      {
-        "title": "Combien coute la generation avec Sora 2?",
-        "description": "Les credits Sora 2 sont competitivement tarifes dans le cadre des avantages d'adhesion. Les membres jouissent d'une consommation de credits efficace avec la possibilite de generer des videos de 10 secondes a grande valeur. Verifiez les details de votre adhesion pour les tarifs specifiques et les allocations de generation incluses."
+        "title": "Comment Seedance se compare-t-il a Sora 2 ?",
+        "description": "Seedance est toujours disponible, gratuit au depart, prend en charge le texte-vers-video et l'image-vers-video, offre un acces API via des cles et propose plusieurs modeles au lieu d'un produit unique abandonne."
       }
     ]
   },
   "cta": {
-    "title": "Generez maintenant des videos epoustouflantes avec Sora 2 sur Seedance!",
-    "buttonText": "Essayez Sora 2 (Membres uniquement)"
+    "title": "Pret a remplacer Sora ? Essayez Seedance gratuitement",
+    "description": "Commencez avec /text-to-video ou /image-to-video et passez a /seedance-2-0 si vous voulez le workflow le plus fort.",
+    "buttonText": "Essayer Seedance Video Generator gratuitement"
   }
 }

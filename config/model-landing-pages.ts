@@ -17,6 +17,7 @@ export const MODEL_LANDING_PAGES = [
   'kling-3-0',
   'veo-3-1',
   'sora-2',
+  'sora-alternative',
   'seedream-4-5',
   'seedream-5-0',
 ] as const;
