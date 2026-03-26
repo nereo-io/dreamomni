@@ -17,64 +17,6 @@
   ],
   "items": [
     {
-      "title": "무료 플랜",
-      "features_title": "포함 기능",
-      "features": [
-        "가입 시 10크레딧 제공",
-        "최대 5초 비디오",
-        "720p 해상도 출력",
-        "텍스트-비디오 생성",
-        "기본 비디오 스타일",
-        "워터마크 포함 출력"
-      ],
-      "interval": "one-time",
-      "amount": 0,
-      "currency": "USD",
-      "price": "무료",
-      "original_price": "",
-      "is_featured": false,
-      "discount_label": "",
-      "button": {
-        "title": "무료로 시작",
-        "url": "/#video-generator",
-        "icon": "RiPlayLine"
-      },
-      "product_id": "free-plan",
-      "product_name": "Seedance AI 무료",
-      "credits": 10,
-      "valid_months": 0,
-      "group": "monthly"
-    },
-    {
-      "title": "무료 플랜",
-      "features_title": "포함 기능",
-      "features": [
-        "가입 시 10크레딧 제공",
-        "최대 5초 비디오",
-        "720p 해상도 출력",
-        "텍스트-비디오 생성",
-        "기본 비디오 스타일",
-        "워터마크 포함 출력"
-      ],
-      "interval": "one-time",
-      "amount": 0,
-      "currency": "USD",
-      "price": "무료",
-      "original_price": "",
-      "is_featured": false,
-      "discount_label": "",
-      "button": {
-        "title": "무료로 시작",
-        "url": "/#video-generator",
-        "icon": "RiPlayLine"
-      },
-      "product_id": "free-plan",
-      "product_name": "Seedance AI 무료",
-      "credits": 10,
-      "valid_months": 0,
-      "group": "yearly"
-    },
-    {
       "title": "미니 플랜",
       "label": "",
       "features_title": "포함 기능",
@@ -189,6 +131,65 @@
       "product_id": "standard-yearly",
       "product_name": "Seedance AI 스탠다드 연간",
       "credits": 24000,
+      "valid_months": 12,
+      "group": "yearly"
+    },
+    {
+      "title": "플러스 플랜",
+      "label": "",
+      "features_title": "포함 기능",
+      "features": [
+        "월 6000크레딧",
+        "~600 Seedance 비디오 또는 ~750 Veo3 비디오",
+        "최대 10초 비디오",
+        "1080p 해상도 출력"
+      ],
+      "interval": "month",
+      "amount": 19900,
+      "currency": "USD",
+      "price": "$199.00",
+      "original_price": "",
+      "unit": "/월",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "플러스로 업그레이드",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-monthly",
+      "product_name": "Seedance AI 플러스",
+      "credits": 6000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "플러스 플랜",
+      "label": "40% 할인",
+      "features_title": "포함 기능",
+      "features": [
+        "연간 72000크레딧 (월 6000개)",
+        "~7200 Seedance 비디오 또는 ~9000 Veo3 비디오",
+        "최대 10초 비디오",
+        "1080p 해상도 출력"
+      ],
+      "interval": "year",
+      "amount": 144000,
+      "currency": "USD",
+      "price": "$120.00",
+      "original_price": "$199.00",
+      "unit": "/월",
+      "is_featured": false,
+      "discount_label": "40% 할인",
+      "tip": "연간 $1440.00 청구",
+      "button": {
+        "title": "플러스로 업그레이드",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-yearly",
+      "product_name": "Seedance AI 플러스 연간",
+      "credits": 72000,
       "valid_months": 12,
       "group": "yearly"
     }

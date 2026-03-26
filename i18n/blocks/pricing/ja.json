@@ -17,64 +17,6 @@
   ],
   "items": [
     {
-      "title": "無料プラン",
-      "features_title": "含まれる機能",
-      "features": [
-        "登録時に10クレジット付与",
-        "最大5秒の動画",
-        "720p解像度出力",
-        "テキストから動画生成",
-        "基本動画スタイル",
-        "ウォーターマーク付き出力"
-      ],
-      "interval": "one-time",
-      "amount": 0,
-      "currency": "USD",
-      "price": "無料",
-      "original_price": "",
-      "is_featured": false,
-      "discount_label": "",
-      "button": {
-        "title": "無料で始める",
-        "url": "/#video-generator",
-        "icon": "RiPlayLine"
-      },
-      "product_id": "free-plan",
-      "product_name": "Seedance AI 無料",
-      "credits": 10,
-      "valid_months": 0,
-      "group": "monthly"
-    },
-    {
-      "title": "無料プラン",
-      "features_title": "含まれる機能",
-      "features": [
-        "登録時に10クレジット付与",
-        "最大5秒の動画",
-        "720p解像度出力",
-        "テキストから動画生成",
-        "基本動画スタイル",
-        "ウォーターマーク付き出力"
-      ],
-      "interval": "one-time",
-      "amount": 0,
-      "currency": "USD",
-      "price": "無料",
-      "original_price": "",
-      "is_featured": false,
-      "discount_label": "",
-      "button": {
-        "title": "無料で始める",
-        "url": "/#video-generator",
-        "icon": "RiPlayLine"
-      },
-      "product_id": "free-plan",
-      "product_name": "Seedance AI 無料",
-      "credits": 10,
-      "valid_months": 0,
-      "group": "yearly"
-    },
-    {
       "title": "ミニプラン",
       "label": "",
       "features_title": "含まれる機能",
@@ -189,6 +131,65 @@
       "product_id": "standard-yearly",
       "product_name": "Seedance AI スタンダード 年額",
       "credits": 24000,
+      "valid_months": 12,
+      "group": "yearly"
+    },
+    {
+      "title": "プラスプラン",
+      "label": "",
+      "features_title": "含まれる機能",
+      "features": [
+        "月間6000クレジット",
+        "~600 Seedance動画または~750 Veo3動画",
+        "最大10秒の動画",
+        "1080p解像度出力"
+      ],
+      "interval": "month",
+      "amount": 19900,
+      "currency": "USD",
+      "price": "$199.00",
+      "original_price": "",
+      "unit": "/月",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "プラスにアップグレード",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-monthly",
+      "product_name": "Seedance AI プラス",
+      "credits": 6000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "プラスプラン",
+      "label": "40% オフ",
+      "features_title": "含まれる機能",
+      "features": [
+        "年間72000クレジット（月6000）",
+        "~7200 Seedance動画または~9000 Veo3動画",
+        "最大10秒の動画",
+        "1080p解像度出力"
+      ],
+      "interval": "year",
+      "amount": 144000,
+      "currency": "USD",
+      "price": "$120.00",
+      "original_price": "$199.00",
+      "unit": "/月",
+      "is_featured": false,
+      "discount_label": "40% オフ",
+      "tip": "年額$1440.00で請求",
+      "button": {
+        "title": "プラスにアップグレード",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-yearly",
+      "product_name": "Seedance AI プラス 年額",
+      "credits": 72000,
       "valid_months": 12,
       "group": "yearly"
     }

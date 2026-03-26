@@ -17,64 +17,6 @@
   ],
   "items": [
     {
-      "title": "Free Plan",
-      "features_title": "Including",
-      "features": [
-        "10 one-time credits upon registration",
-        "Up to 5 seconds per video",
-        "720p resolution output",
-        "Text-to-video generation",
-        "Basic video styles",
-        "Watermarked output"
-      ],
-      "interval": "one-time",
-      "amount": 0,
-      "currency": "USD",
-      "price": "Free",
-      "original_price": "",
-      "is_featured": false,
-      "discount_label": "",
-      "button": {
-        "title": "Get Started Free",
-        "url": "/#video-generator",
-        "icon": "RiPlayLine"
-      },
-      "product_id": "free-plan",
-      "product_name": "Seedance AI Free",
-      "credits": 10,
-      "valid_months": 0,
-      "group": "monthly"
-    },
-    {
-      "title": "Free Plan",
-      "features_title": "Including",
-      "features": [
-        "10 one-time credits upon registration",
-        "Up to 5 seconds per video",
-        "720p resolution output",
-        "Text-to-video generation",
-        "Basic video styles",
-        "Watermarked output"
-      ],
-      "interval": "one-time",
-      "amount": 0,
-      "currency": "USD",
-      "price": "Free",
-      "original_price": "",
-      "is_featured": false,
-      "discount_label": "",
-      "button": {
-        "title": "Get Started Free",
-        "url": "/#video-generator",
-        "icon": "RiPlayLine"
-      },
-      "product_id": "free-plan",
-      "product_name": "Seedance AI Free",
-      "credits": 10,
-      "valid_months": 0,
-      "group": "yearly"
-    },
-    {
       "title": "Mini Plan",
       "label": "",
       "features_title": "Including",
@@ -203,6 +145,73 @@
       "product_id": "standard-yearly",
       "product_name": "Seedance AI Standard Yearly",
       "credits": 24000,
+      "valid_months": 12,
+      "group": "yearly"
+    },
+    {
+      "title": "Plus Plan",
+      "label": "",
+      "features_title": "Including",
+      "features": [
+        "<highlight>6000</highlight> monthly credits",
+        "~600 Seedance videos or ~750 Veo3 videos",
+        "Up to 10 seconds per video",
+        "1080p resolution output",
+        "Top-Quality Video Models",
+        "Image & Text-to-Video",
+        "Fast generation queue",
+        "Commercial usage rights"
+      ],
+      "interval": "month",
+      "amount": 19900,
+      "currency": "USD",
+      "price": "$199.00",
+      "original_price": "",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "Subscribe to Plus",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-monthly",
+      "product_name": "Seedance AI Plus",
+      "credits": 6000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Plus Plan",
+      "label": "",
+      "features_title": "Including",
+      "features": [
+        "<highlight>6000</highlight> monthly credits",
+        "~600 Seedance videos or ~750 Veo3 videos",
+        "Up to 10 seconds per video",
+        "1080p resolution output",
+        "Top-Quality Video Models",
+        "Image & Text-to-Video",
+        "Fast generation queue",
+        "Commercial usage rights"
+      ],
+      "interval": "year",
+      "amount": 144000,
+      "currency": "USD",
+      "price": "$120.00",
+      "original_price": "$199.00",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "40% OFF",
+      "tip": "Subscription at $1440.00 yearly",
+      "button": {
+        "title": "Subscribe to Plus",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-yearly",
+      "product_name": "Seedance AI Plus Yearly",
+      "credits": 72000,
       "valid_months": 12,
       "group": "yearly"
     }

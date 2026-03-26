@@ -69,6 +69,28 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     membershipType: "yearly",
     creem_product_id: "prod_6Jg7ySsDYHBBYDzIjml96Y", // Creem 年付费产品ID
   },
+  {
+    product_id: "plus-monthly",
+    product_name: "Seedance Plus",
+    amount: 19900,
+    currency: "USD",
+    credits: 6000,
+    interval: "month",
+    valid_months: 1,
+    membershipType: "monthly",
+    creem_product_id: "prod_7GjxcCpy3AfjhpdG3kzxic", // 复用 Standard 月付产品ID
+  },
+  {
+    product_id: "plus-yearly",
+    product_name: "Seedance Plus Yearly",
+    amount: 144000,
+    currency: "USD",
+    credits: 72000,
+    interval: "year",
+    valid_months: 12,
+    membershipType: "yearly",
+    creem_product_id: "prod_6Jg7ySsDYHBBYDzIjml96Y", // 复用 Standard 年付产品ID
+  },
 ];
 
 /**
@@ -215,6 +237,8 @@ export const SUBSCRIPTION_TIER_RANK: Record<string, number> = {
   "standard-monthly": 2, // $100/month
   "mini-yearly": 3, // $216/year
   "standard-yearly": 4, // $720/year
+  "plus-monthly": 5, // $199/month
+  "plus-yearly": 6, // $1440/year
 };
 
 /**

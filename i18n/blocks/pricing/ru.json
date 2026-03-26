@@ -17,64 +17,6 @@
   ],
   "items": [
     {
-      "title": "Бесплатный план",
-      "features_title": "Включает",
-      "features": [
-        "10 одноразовых кредитов при регистрации",
-        "До 5 секунд на видео",
-        "Разрешение 720p",
-        "Генерация текста в видео",
-        "Базовые стили видео",
-        "Вывод с водяным знаком"
-      ],
-      "interval": "one-time",
-      "amount": 0,
-      "currency": "USD",
-      "price": "Бесплатно",
-      "original_price": "",
-      "is_featured": false,
-      "discount_label": "",
-      "button": {
-        "title": "Начать бесплатно",
-        "url": "/#video-generator",
-        "icon": "RiPlayLine"
-      },
-      "product_id": "free-plan",
-      "product_name": "Seedance AI Бесплатно",
-      "credits": 10,
-      "valid_months": 0,
-      "group": "monthly"
-    },
-    {
-      "title": "Бесплатный план",
-      "features_title": "Включает",
-      "features": [
-        "10 одноразовых кредитов при регистрации",
-        "До 5 секунд на видео",
-        "Разрешение 720p",
-        "Генерация текста в видео",
-        "Базовые стили видео",
-        "Вывод с водяным знаком"
-      ],
-      "interval": "one-time",
-      "amount": 0,
-      "currency": "USD",
-      "price": "Бесплатно",
-      "original_price": "",
-      "is_featured": false,
-      "discount_label": "",
-      "button": {
-        "title": "Начать бесплатно",
-        "url": "/#video-generator",
-        "icon": "RiPlayLine"
-      },
-      "product_id": "free-plan",
-      "product_name": "Seedance AI Бесплатно",
-      "credits": 10,
-      "valid_months": 0,
-      "group": "yearly"
-    },
-    {
       "title": "Мини план",
       "label": "",
       "features_title": "Включает",
@@ -189,6 +131,65 @@
       "product_id": "standard-yearly",
       "product_name": "Seedance AI Стандартный Годовой",
       "credits": 24000,
+      "valid_months": 12,
+      "group": "yearly"
+    },
+    {
+      "title": "Плюс план",
+      "label": "",
+      "features_title": "Включает",
+      "features": [
+        "6000 месячных кредитов",
+        "~600 Seedance видео или ~750 Veo3 видео",
+        "До 10 секунд на видео",
+        "Разрешение 1080p"
+      ],
+      "interval": "month",
+      "amount": 19900,
+      "currency": "USD",
+      "price": "$199.00",
+      "original_price": "",
+      "unit": "/месяц",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "Подписаться на Плюс",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-monthly",
+      "product_name": "Seedance AI Плюс",
+      "credits": 6000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Плюс план",
+      "label": "СКИДКА 40%",
+      "features_title": "Включает",
+      "features": [
+        "72000 годовых кредитов (6000/месяц)",
+        "~7200 Seedance видео или ~9000 Veo3 видео",
+        "До 10 секунд на видео",
+        "Разрешение 1080p"
+      ],
+      "interval": "year",
+      "amount": 144000,
+      "currency": "USD",
+      "price": "$120.00",
+      "original_price": "$199.00",
+      "unit": "/месяц",
+      "is_featured": false,
+      "discount_label": "СКИДКА 40%",
+      "tip": "Подписка на $1440.00 в год",
+      "button": {
+        "title": "Подписаться на Плюс",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-yearly",
+      "product_name": "Seedance AI Плюс Годовой",
+      "credits": 72000,
       "valid_months": 12,
       "group": "yearly"
     }

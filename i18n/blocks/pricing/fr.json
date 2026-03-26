@@ -147,6 +147,74 @@
       "credits": 24000,
       "valid_months": 12,
       "group": "yearly"
+    },
+    {
+      "title": "Plan Plus",
+      "label": "",
+      "features_title": "Inclus",
+      "features": [
+        "<highlight>6000</highlight> crédits mensuels",
+        "~600 vidéos Seedance ou ~750 vidéos Veo3",
+        "Jusqu'à 10 secondes par vidéo",
+        "Sortie en résolution 1080p",
+        "Modèles vidéo de haute qualité",
+        "Image et Texte vers Vidéo",
+        "File de génération rapide",
+        "Droits d'utilisation commerciale"
+      ],
+      "interval": "month",
+      "amount": 19900,
+      "currency": "USD",
+      "price": "$199.00",
+      "original_price": "",
+      "unit": "/mois",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "S'abonner à Plus",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-monthly",
+      "product_name": "Seedance AI Plus",
+      "credits": 6000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Plan Plus",
+      "label": "",
+      "features_title": "Inclus",
+      "features": [
+        "<highlight>6000</highlight> crédits mensuels",
+        "Les crédits sont accordés chaque mois pendant l'année",
+        "~600 vidéos Seedance ou ~750 vidéos Veo3",
+        "Jusqu'à 10 secondes par vidéo",
+        "Sortie en résolution 1080p",
+        "Modèles vidéo de haute qualité",
+        "Image et Texte vers Vidéo",
+        "File de génération rapide",
+        "Droits d'utilisation commerciale"
+      ],
+      "interval": "year",
+      "amount": 144000,
+      "currency": "USD",
+      "price": "$120.00",
+      "original_price": "$199.00",
+      "unit": "/mois",
+      "is_featured": false,
+      "discount_label": "40% DE RÉDUCTION",
+      "tip": "Abonnement à $1440.00 par an",
+      "button": {
+        "title": "S'abonner à Plus",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-yearly",
+      "product_name": "Seedance AI Plus Yearly",
+      "credits": 72000,
+      "valid_months": 12,
+      "group": "yearly"
     }
   ],
   "faq": {

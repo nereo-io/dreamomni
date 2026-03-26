@@ -5,7 +5,7 @@
 import { Check, Loader } from "lucide-react";
 import { PricingItem, Pricing as PricingType } from "@/types/blocks/pricing";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import {
   Dialog,
   DialogContent,
@@ -77,6 +77,22 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
     totalCredits?: number;
     remainingMonths?: number;
   }>({});
+
+  const visiblePlans = useMemo(() => {
+    if (!pricing.items?.length) {
+      return [] as PricingItem[];
+    }
+
+    return pricing.items.filter((item) => {
+      if (item.group && item.group !== group) {
+        return false;
+      }
+      if (item.amount === 0 || item.product_id === "free-plan") {
+        return false;
+      }
+      return true;
+    });
+  }, [pricing.items, group]);
 
   function calculateNextBilling(interval: string, paidAt: string) {
     const paidDate = new Date(paidAt);
@@ -592,16 +608,9 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
             )}
 
             <div
-              className={`md:min-w-96 mt-0 grid gap-6 md:grid-cols-${
-                pricing.items?.filter(
-                  (item) => !item.group || item.group === group,
-                )?.length
-              }`}
+              className={`md:min-w-96 mt-0 grid gap-6 md:grid-cols-${visiblePlans.length}`}
             >
-              {pricing.items?.map((item, index) => {
-                if (item.group && item.group !== group) {
-                  return null;
-                }
+              {visiblePlans.map((item, index) => {
 
                 // Calculate subscription status for this item
                 const itemIsCurrentPlan = item.product_id

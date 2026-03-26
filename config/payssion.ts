@@ -49,6 +49,16 @@ export const PAYSSION_PRODUCT_CONFIG: Record<string, PayssionProductConfig> = {
     credits: 24000,
     membershipType: "yearly",
   }, // $720
+  "19900": {
+    product_id: "plus-monthly",
+    credits: 6000,
+    membershipType: "monthly",
+  }, // $199
+  "144000": {
+    product_id: "plus-yearly",
+    credits: 72000,
+    membershipType: "yearly",
+  }, // $1440
 };
 
 // Bundle 产品配置（一次性购买积分包）
