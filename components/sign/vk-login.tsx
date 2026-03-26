@@ -35,7 +35,7 @@ export function VKLoginButton() {
         const baseUrl = window.location.origin; // 使用当前域名，支持ngrok测试
         
         // 确保App ID是数字类型（移除引号）
-        const appId = 54107692; // VK要求必须是数字
+        const appId = Number(process.env.NEXT_PUBLIC_AUTH_VK_ID) || 54508106; // VK要求必须是数字
         
         VKID.Config.init({
           app: appId,
@@ -64,7 +64,7 @@ export function VKLoginButton() {
     
     const VKID = window.VKIDSDK;
     console.log('[VK Login] Starting login process...');
-    console.log('[VK Login] App ID:', 54107692);
+    console.log('[VK Login] App ID:', Number(process.env.NEXT_PUBLIC_AUTH_VK_ID) || 54508106);
     console.log('[VK Login] Redirect URL:', `${window.location.origin}/api/auth/vk-sdk/callback`);
     
     try {

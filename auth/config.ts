@@ -154,7 +154,7 @@ if (process.env.NEXT_PUBLIC_AUTH_VK_ENABLED === "true") {
           console.log("[VK Auth] Authorizing VK user with credentials");
           
           // 获取用户信息
-          const clientId = process.env.AUTH_VK_ID || process.env.NEXT_PUBLIC_AUTH_VK_ID || '54107692';
+          const clientId = process.env.AUTH_VK_ID || process.env.NEXT_PUBLIC_AUTH_VK_ID || '54508106';
           const userResponse = await fetch('https://id.vk.com/oauth2/user_info', {
             method: 'POST',
             headers: { 
