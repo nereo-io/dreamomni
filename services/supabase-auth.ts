@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { logger, Logger, LogCategory } from "@/lib/logger";
+import { getSupabaseErrorMessage } from "@/lib/supabase-error-codes";
 
 // 创建Supabase客户端，用于认证
 function getSupabaseAuthClient() {
@@ -30,6 +31,15 @@ export async function signInWithEmail(email: string, password: string) {
     });
 
     if (error) {
+      const normalizedCode =
+        error.code ||
+        (error.message?.includes("Email not confirmed") ||
+        error.message?.includes("confirm your account") ||
+        error.message?.includes("verify your account") ||
+        error.message?.includes("verification")
+          ? "email_not_confirmed"
+          : undefined);
+
       // 根据错误类型决定日志级别
       if (Logger.isSystemError(error)) {
         logger.error(LogCategory.AUTH, "Supabase authentication system error", 
@@ -41,32 +51,33 @@ export async function signInWithEmail(email: string, password: string) {
       } else {
         // 用户错误（密码错误等）只记录INFO级别
         logger.info(LogCategory.AUTH, "Authentication attempt failed", 
-          { email, action: "signin", metadata: { reason: error.code || "invalid_credentials" } });
+          {
+            email,
+            action: "signin",
+            metadata: {
+              reason: normalizedCode || "invalid_credentials",
+              rawMessage: error.message,
+            },
+          });
       }
-      
-      // 处理邮箱未验证错误
-      if (
-        error.message?.includes("Email not confirmed") ||
-        error.message?.includes("confirm your account") ||
-        error.message?.includes("verify your account") ||
-        error.message?.includes("verification") ||
-        error.code === "email_not_confirmed"
-      ) {
-        throw new Error("EMAIL_NOT_CONFIRMED");
-      }
-      
-      // 处理频率限制错误
-      if (
-        error.message?.includes("rate limit") ||
-        error.message?.includes("too many") ||
-        error.code === "too_many_requests" ||
-        error.code === "over_request_rate_limit"
-      ) {
-        throw new Error("Too many login attempts. Please wait a moment and try again.");
-      }
-      
-      // 对于所有其他错误（包括 invalid_credentials），返回通用的友好消息
-      throw new Error("Invalid email or password. Please check your credentials and try again.");
+
+      const mappedCode =
+        normalizedCode ||
+        (error.message?.includes("rate limit") || error.message?.includes("too many")
+          ? "too_many_requests"
+          : "invalid_credentials");
+
+      const authError = new Error(
+        getSupabaseErrorMessage(mappedCode, error.message)
+      ) as Error & {
+        code?: string;
+        originalMessage?: string;
+      };
+
+      authError.code = mappedCode;
+      authError.originalMessage = error.message;
+
+      throw authError;
     }
 
     if (!data.user) {
@@ -277,6 +288,11 @@ export async function resendVerificationEmail(email: string) {
     const { error } = await supabase.auth.resend({
       type: "signup",
       email: email,
+      options: {
+        emailRedirectTo: `${
+          process.env.NEXTAUTH_URL || "http://localhost:3000"
+        }/auth/signin?verified=true`,
+      },
     });
 
     if (error) {

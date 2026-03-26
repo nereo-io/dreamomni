@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { signInWithEmail } from "@/services/supabase-auth";
 import { z } from "zod";
+import { getSupabaseErrorMessage } from "@/lib/supabase-error-codes";
 
 const signinSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -39,21 +40,46 @@ export async function POST(request: NextRequest) {
 
   } catch (error: any) {
     // Service层已经记录了日志，这里只处理响应
-    if (error.message === "EMAIL_NOT_CONFIRMED") {
+    if (error.code === "email_not_confirmed") {
       return NextResponse.json(
         { 
           error: "email_not_confirmed",
-          message: "Please check your email and click the verification link to activate your account before signing in.",
+          message: getSupabaseErrorMessage("email_not_confirmed"),
           email: email
         },
         { status: 403 }
       );
     }
+
+    if (
+      error.code === "too_many_requests" ||
+      error.code === "over_request_rate_limit"
+    ) {
+      return NextResponse.json(
+        {
+          error: error.code,
+          message: getSupabaseErrorMessage(error.code),
+        },
+        { status: 429 }
+      );
+    }
+
+    if (error.code === "user_not_found") {
+      return NextResponse.json(
+        {
+          error: error.code,
+          message: getSupabaseErrorMessage(error.code),
+        },
+        { status: 404 }
+      );
+    }
     
     return NextResponse.json(
       { 
-        error: "invalid_credentials",
-        message: error.message || "Invalid email or password. Please check your credentials and try again."
+        error: error.code || "invalid_credentials",
+        message:
+          error.message ||
+          getSupabaseErrorMessage("invalid_credentials"),
       },
       { status: 401 }
     );

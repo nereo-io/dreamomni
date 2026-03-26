@@ -89,8 +89,10 @@ export function useEmailAuth() {
 
       const result = await response.json();
 
-      if (!response.ok) {
-        setError(result.message || "Registration failed");
+      if (!response.ok || result?.code !== 0) {
+        setError(
+          result?.message || result?.msg || "Registration failed"
+        );
         return false;
       }
 
@@ -138,8 +140,10 @@ export function useEmailAuth() {
 
       const result = await response.json();
 
-      if (!response.ok) {
-        setError(result.message || "Failed to send reset email");
+      if (!response.ok || result?.code !== 0) {
+        setError(
+          result?.message || result?.msg || "Failed to send reset email"
+        );
         return false;
       }
 
@@ -168,8 +172,10 @@ export function useEmailAuth() {
 
       const result = await response.json();
 
-      if (!response.ok) {
-        setError(result.message || "Failed to send verification email");
+      if (!response.ok || result?.code !== 0) {
+        setError(
+          result?.message || result?.msg || "Failed to send verification email"
+        );
         return false;
       }
 
