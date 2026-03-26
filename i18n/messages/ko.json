@@ -1093,5 +1093,33 @@
     "surprise-reaction": "서프라이즈 리액션 효과",
     "anger-expression": "분노 표현 효과",
     "love-struck": "사랑에 빠진 효과"
+  },
+  "blogDetail": {
+    "tocTitle": "목차",
+    "relatedTitle": "관련 글",
+    "relatedDescription": "같은 언어로 된 다음 추천 글입니다.",
+    "browseMore": "블로그 글 더 보기",
+    "imageToVideo": "이미지로 비디오",
+    "textToVideo": "텍스트로 비디오",
+    "readArticle": "글 읽기",
+    "cta": {
+      "pricing": "가입 시 무료 크레딧 제공. 요금제는 월 $9.9부터.",
+      "inlineButton": "Seedance 무료로 사용해보기",
+      "primaryButton": "이미지로 비디오 사용하기",
+      "secondaryButton": "텍스트로 비디오 사용하기",
+      "tertiaryButton": "비디오 효과 살펴보기",
+      "headlines": {
+        "sora": "Sora 대안을 찾고 계신가요? Seedance를 무료로 사용해보세요",
+        "pricing": "무료로 생성 시작하기 - 신용카드 필요 없음",
+        "tutorial": "직접 해볼 준비가 되셨나요?",
+        "default": "나만의 AI 비디오를 만들 준비가 되셨나요?"
+      },
+      "descriptions": {
+        "sora": "Sora 대신 Seedance로 빠른 text-to-video와 image-to-video 워크플로를 경험해보세요. 무료로 시작하고 결과를 직접 비교할 수 있습니다.",
+        "pricing": "가입 시 제공되는 무료 크레딧으로 영상을 만들고, 더 많은 생성이 필요할 때 합리적인 요금제로 확장하세요.",
+        "tutorial": "이 가이드의 단계를 Seedance에서 바로 적용해 프롬프트나 이미지를 몇 분 안에 완성도 높은 영상으로 바꿔보세요.",
+        "default": "아이디어, 텍스트 프롬프트, 이미지를 Seedance로 완성도 높은 영상으로 바꿔보세요. 이 글이 도움이 됐다면 가장 빠른 다음 단계는 직접 써보는 것입니다."
+      }
+    }
   }
 }

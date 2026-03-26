@@ -1215,5 +1215,33 @@
   "footer": {
     "popularEffects": "Beliebte Effekte",
     "moreEffects": "Mehr Effekte →"
+  },
+  "blogDetail": {
+    "tocTitle": "Inhaltsverzeichnis",
+    "relatedTitle": "Verwandte Artikel",
+    "relatedDescription": "Weitere Beiträge in derselben Sprache, die Sie als Nächstes lesen könnten.",
+    "browseMore": "Mehr Blogbeiträge ansehen",
+    "imageToVideo": "Bild zu Video",
+    "textToVideo": "Text zu Video",
+    "readArticle": "Artikel lesen",
+    "cta": {
+      "pricing": "Kostenlose Credits bei der Anmeldung. Tarife ab $9.9/Monat.",
+      "inlineButton": "Seedance kostenlos testen",
+      "primaryButton": "Bild zu Video testen",
+      "secondaryButton": "Text zu Video testen",
+      "tertiaryButton": "Video-Effekte entdecken",
+      "headlines": {
+        "sora": "Suchen Sie eine Sora-Alternative? Testen Sie Seedance kostenlos",
+        "pricing": "Starten Sie kostenlos mit der Generierung - keine Kreditkarte erforderlich",
+        "tutorial": "Bereit, es selbst auszuprobieren?",
+        "default": "Bereit, Ihr eigenes KI-Video zu erstellen?"
+      },
+      "descriptions": {
+        "sora": "Wechseln Sie von Sora zu Seedance für schnelle Text-zu-Video- und Bild-zu-Video-Workflows. Starten Sie kostenlos und vergleichen Sie die Ergebnisse selbst.",
+        "pricing": "Erstellen Sie Videos mit kostenlosen Start-Credits und skalieren Sie mit günstigen Tarifen, sobald Sie mehr Generationen brauchen.",
+        "tutorial": "Setzen Sie die Schritte aus diesem Leitfaden direkt in Seedance um und verwandeln Sie Prompts oder Bilder in wenigen Minuten in fertige Videos.",
+        "default": "Verwandeln Sie Ideen, Text-Prompts und Bilder mit Seedance in hochwertige Videos. Wenn dieser Artikel geholfen hat, ist der schnellste nächste Schritt, das Produkt selbst auszuprobieren."
+      }
+    }
   }
 }

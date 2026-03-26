@@ -4,15 +4,21 @@ import Image from "next/image";
 import StructuredData from "@/components/seo/structured-data";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import Crumb from "./crumb";
 import Markdown from "@/components/markdown";
-import { extractH2Headings } from "@/components/markdown/utils";
+import {
+  createMarkdownRenderer,
+  extractH2Headings,
+} from "@/components/markdown/utils";
 import { cn } from "@/lib/utils";
 import { Post } from "@/types/post";
 import moment from "moment";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+
+type BlogCtaVariant = "default" | "pricing" | "sora" | "tutorial";
 
 function getPostHref(post: Post) {
   if (!post.locale || post.locale === "en") {
@@ -22,7 +28,113 @@ function getPostHref(post: Post) {
   return `/${post.locale}/blog/${post.slug}`;
 }
 
+function getLocaleHref(path: string, locale?: string) {
+  if (!locale || locale === "en") {
+    return path;
+  }
+
+  return `/${locale}${path}`;
+}
+
+function includesAny(value: string, keywords: string[]) {
+  return keywords.some((keyword) => value.includes(keyword));
+}
+
+function getBlogCtaVariant(post: Post): BlogCtaVariant {
+  const slug = (post.slug || "").toLowerCase();
+  const tags = (post.tags || []).map((tag) => tag.toLowerCase());
+  const category = (post.category || "").toLowerCase();
+  const searchableValues = [slug, category, ...tags].filter(Boolean);
+  const searchableText = searchableValues.join(" ");
+
+  if (includesAny(searchableText, ["sora"])) {
+    return "sora";
+  }
+
+  if (
+    includesAny(searchableText, [
+      "pricing",
+      "price",
+      "prices",
+      "plan",
+      "plans",
+      "cost",
+      "costs",
+      "credit",
+      "credits",
+      "subscription",
+      "subscriptions",
+      "billing",
+      "free-plan",
+      "free-trial",
+      "no-credit-card",
+    ])
+  ) {
+    return "pricing";
+  }
+
+  if (
+    includesAny(searchableText, [
+      "tutorial",
+      "guide",
+      "how-to",
+      "howto",
+      "tips",
+      "walkthrough",
+      "step-by-step",
+      "prompt-guide",
+    ])
+  ) {
+    return "tutorial";
+  }
+
+  return "default";
+}
+
+function splitContentForInlineCta(content: string) {
+  if (!content.trim()) {
+    return {
+      introContent: "",
+      remainingContent: "",
+    };
+  }
+
+  const md = createMarkdownRenderer();
+  const tokens = md.parse(content, {});
+  const topLevelParagraphs = tokens.filter(
+    (token) =>
+      token.type === "paragraph_open" &&
+      token.level === 0 &&
+      Array.isArray(token.map)
+  );
+
+  if (!topLevelParagraphs.length) {
+    return {
+      introContent: content,
+      remainingContent: "",
+    };
+  }
+
+  const splitAfterParagraph = topLevelParagraphs[Math.min(topLevelParagraphs.length, 3) - 1];
+  const splitLine = splitAfterParagraph.map?.[1];
+
+  if (typeof splitLine !== "number") {
+    return {
+      introContent: content,
+      remainingContent: "",
+    };
+  }
+
+  const lines = content.split("\n");
+
+  return {
+    introContent: lines.slice(0, splitLine).join("\n").trim(),
+    remainingContent: lines.slice(splitLine).join("\n").trim(),
+  };
+}
+
 function TableOfContents({ content }: { content: string }) {
+  const t = useTranslations("blogDetail");
   const headings = useMemo(() => extractH2Headings(content), [content]);
   const [activeHeading, setActiveHeading] = useState(headings[0]?.id ?? "");
 
@@ -83,7 +195,7 @@ function TableOfContents({ content }: { content: string }) {
   return (
     <div className="sticky top-8 rounded-2xl border border-border/60 bg-background/80 p-5 backdrop-blur supports-[backdrop-filter]:bg-background/70">
       <p className="mb-4 text-sm font-semibold text-foreground">
-        Table of Contents
+        {t("tocTitle")}
       </p>
       <nav aria-label="Table of Contents">
         <ul className="space-y-2">
@@ -108,7 +220,15 @@ function TableOfContents({ content }: { content: string }) {
   );
 }
 
-function RelatedArticles({ posts }: { posts: Post[] }) {
+function RelatedArticles({
+  posts,
+  locale,
+}: {
+  posts: Post[];
+  locale?: string;
+}) {
+  const t = useTranslations("blogDetail");
+
   if (!posts.length) {
     return null;
   }
@@ -116,28 +236,30 @@ function RelatedArticles({ posts }: { posts: Post[] }) {
   return (
     <div className="mt-16 border-t border-border/60 pt-12">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold md:text-3xl">Related Articles</h2>
+        <h2 className="text-2xl font-bold md:text-3xl">
+          {t("relatedTitle")}
+        </h2>
         <p className="mt-2 text-sm text-muted-foreground md:text-base">
-          More posts in the same locale you may want to read next.
+          {t("relatedDescription")}
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           <Link
-            href="/blog"
+            href={getLocaleHref("/blog", locale)}
             className="inline-flex items-center rounded-full border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-accent"
           >
-            Browse more blog posts
+            {t("browseMore")}
           </Link>
           <Link
-            href="/image-to-video"
+            href={getLocaleHref("/image-to-video", locale)}
             className="inline-flex items-center rounded-full border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-accent"
           >
-            Image to Video
+            {t("imageToVideo")}
           </Link>
           <Link
-            href="/text-to-video"
+            href={getLocaleHref("/text-to-video", locale)}
             className="inline-flex items-center rounded-full border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-accent"
           >
-            Text to Video
+            {t("textToVideo")}
           </Link>
         </div>
       </div>
@@ -173,12 +295,87 @@ function RelatedArticles({ posts }: { posts: Post[] }) {
                 {relatedPost.description}
               </p>
               <span className="mt-5 inline-flex items-center text-sm font-medium text-foreground">
-                Read article
+                {t("readArticle")}
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </span>
             </div>
           </Link>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function InlineBlogCta({
+  locale,
+  variant,
+}: {
+  locale?: string;
+  variant: BlogCtaVariant;
+}) {
+  const t = useTranslations("blogDetail");
+
+  return (
+    <div className="my-8 rounded-2xl border border-primary/20 bg-primary/5 p-4 md:p-5">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="min-w-0">
+          <p className="text-sm font-semibold text-foreground">
+            {t(`cta.headlines.${variant}`)}
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {t("cta.pricing")}
+          </p>
+        </div>
+        <Link
+          href={getLocaleHref("/text-to-video", locale)}
+          className="inline-flex w-fit items-center rounded-lg border border-primary/30 bg-background px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+        >
+          {t("cta.inlineButton")}
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function PrimaryBlogCta({
+  locale,
+  variant,
+}: {
+  locale?: string;
+  variant: BlogCtaVariant;
+}) {
+  const t = useTranslations("blogDetail");
+
+  return (
+    <div className="mt-12 rounded-2xl border border-primary/20 bg-primary/5 p-6 md:p-8">
+      <h2 className="text-2xl font-bold md:text-3xl">
+        {t(`cta.headlines.${variant}`)}
+      </h2>
+      <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground md:text-base">
+        {t(`cta.descriptions.${variant}`)}
+      </p>
+      <p className="mt-3 text-sm font-medium text-foreground md:text-base">
+        {t("cta.pricing")}
+      </p>
+      <div className="mt-6 flex flex-wrap gap-3">
+        <Link
+          href={getLocaleHref("/image-to-video", locale)}
+          className="inline-flex items-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+        >
+          {t("cta.primaryButton")}
+        </Link>
+        <Link
+          href={getLocaleHref("/text-to-video", locale)}
+          className="inline-flex items-center rounded-lg border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
+        >
+          {t("cta.secondaryButton")}
+        </Link>
+        <Link
+          href={getLocaleHref("/video-effects", locale)}
+          className="inline-flex items-center rounded-lg border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
+        >
+          {t("cta.tertiaryButton")}
+        </Link>
       </div>
     </div>
   );
@@ -191,6 +388,12 @@ export default function BlogDetail({
   post: Post;
   relatedPosts: Post[];
 }) {
+  const ctaVariant = useMemo(() => getBlogCtaVariant(post), [post]);
+  const { introContent, remainingContent } = useMemo(
+    () => splitContentForInlineCta(post.content || ""),
+    [post.content]
+  );
+
   return (
     <section className="py-16">
       <StructuredData
@@ -228,39 +431,15 @@ export default function BlogDetail({
         </div>
         <div className="relative mt-0 grid max-w-screen-xl gap-4 lg:mt-0 lg:grid lg:grid-cols-12 lg:gap-6">
           <div className="order-2 lg:order-none lg:col-span-8">
-            {post.content && <Markdown content={post.content} />}
+            {introContent && <Markdown content={introContent} />}
+            {post.content && (
+              <InlineBlogCta locale={post.locale} variant={ctaVariant} />
+            )}
+            {remainingContent && <Markdown content={remainingContent} />}
 
-            <div className="mt-12 rounded-2xl border border-primary/20 bg-primary/5 p-6 md:p-8">
-              <h2 className="text-2xl font-bold md:text-3xl">
-                Ready to create your own AI video?
-              </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground md:text-base">
-                Turn ideas, text prompts, and images into polished videos with Seedance.
-                If this article helped, the fastest next step is to try the product.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link
-                  href="/image-to-video"
-                  className="inline-flex items-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-                >
-                  Try Image to Video
-                </Link>
-                <Link
-                  href="/text-to-video"
-                  className="inline-flex items-center rounded-lg border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
-                >
-                  Try Text to Video
-                </Link>
-                <Link
-                  href="/video-effects"
-                  className="inline-flex items-center rounded-lg border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
-                >
-                  Explore Video Effects
-                </Link>
-              </div>
-            </div>
+            <PrimaryBlogCta locale={post.locale} variant={ctaVariant} />
 
-            <RelatedArticles posts={relatedPosts} />
+            <RelatedArticles posts={relatedPosts} locale={post.locale} />
           </div>
           <div className="order-1 hidden h-fit flex-col text-sm lg:order-none lg:col-span-3 lg:col-start-10 lg:flex lg:text-xs">
             {post.content && <TableOfContents content={post.content} />}

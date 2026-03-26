@@ -1093,5 +1093,33 @@
     "surprise-reaction": "サプライズリアクションエフェクト",
     "anger-expression": "怒り表現エフェクト",
     "love-struck": "恋に落ちたエフェクト"
+  },
+  "blogDetail": {
+    "tocTitle": "目次",
+    "relatedTitle": "関連記事",
+    "relatedDescription": "同じ言語で次に読みたい記事です。",
+    "browseMore": "ブログ記事をもっと見る",
+    "imageToVideo": "画像から動画",
+    "textToVideo": "テキストから動画",
+    "readArticle": "記事を読む",
+    "cta": {
+      "pricing": "登録で無料クレジット。プランは月額$9.9から。",
+      "inlineButton": "無料でSeedanceを試す",
+      "primaryButton": "画像から動画を試す",
+      "secondaryButton": "テキストから動画を試す",
+      "tertiaryButton": "動画エフェクトを見る",
+      "headlines": {
+        "sora": "Soraの代替をお探しですか？Seedanceを無料で試す",
+        "pricing": "無料で生成を始めましょう - クレジットカードは不要です",
+        "tutorial": "自分でも試してみますか？",
+        "default": "自分だけのAI動画を作ってみませんか？"
+      },
+      "descriptions": {
+        "sora": "SoraからSeedanceに切り替えて、高速なtext-to-videoとimage-to-videoを体験してください。無料で始めて違いを確かめられます。",
+        "pricing": "登録時の無料クレジットで動画を作成し、さらに必要になったら手頃なプランで拡張できます。",
+        "tutorial": "このガイドの手順をSeedanceでそのまま試し、プロンプトや画像を数分で完成度の高い動画に変えましょう。",
+        "default": "アイデア、テキストプロンプト、画像をSeedanceで洗練された動画に変えましょう。この記事が役立ったなら、次は実際に試すのが最短です。"
+      }
+    }
   }
 }

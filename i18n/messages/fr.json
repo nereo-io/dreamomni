@@ -1169,5 +1169,33 @@
     "agent_scene_ref_refund": "Remboursement référence de scène de l'agent",
     "agent_character_ref_reserve": "Référence de personnage de l'agent",
     "agent_character_ref_refund": "Remboursement référence de personnage de l'agent"
+  },
+  "blogDetail": {
+    "tocTitle": "Sommaire",
+    "relatedTitle": "Articles associés",
+    "relatedDescription": "D'autres articles dans la même langue à lire ensuite.",
+    "browseMore": "Voir plus d'articles du blog",
+    "imageToVideo": "Image vers vidéo",
+    "textToVideo": "Texte vers vidéo",
+    "readArticle": "Lire l'article",
+    "cta": {
+      "pricing": "Crédits offerts à l'inscription. Forfaits à partir de $9.9/mois.",
+      "inlineButton": "Essayer Seedance gratuitement",
+      "primaryButton": "Essayer Image to Video",
+      "secondaryButton": "Essayer Text to Video",
+      "tertiaryButton": "Découvrir les effets vidéo",
+      "headlines": {
+        "sora": "Vous cherchez une alternative à Sora ? Essayez Seedance gratuitement",
+        "pricing": "Commencez à générer gratuitement - sans carte bancaire",
+        "tutorial": "Prêt à essayer par vous-même ?",
+        "default": "Prêt à créer votre propre vidéo IA ?"
+      },
+      "descriptions": {
+        "sora": "Passez de Sora à Seedance pour des workflows rapides de texte vers vidéo et d'image vers vidéo. Commencez gratuitement et comparez le résultat vous-même.",
+        "pricing": "Créez des vidéos avec les crédits offerts à l'inscription, puis passez à un forfait abordable quand vous avez besoin de plus de générations.",
+        "tutorial": "Mettez en pratique les étapes de ce guide dans Seedance et transformez vos prompts ou images en vidéos abouties en quelques minutes.",
+        "default": "Transformez vos idées, prompts texte et images en vidéos abouties avec Seedance. Si cet article vous a aidé, l'étape la plus rapide est maintenant d'essayer le produit."
+      }
+    }
   }
 }

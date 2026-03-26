@@ -1209,5 +1209,33 @@
   "footer": {
     "popularEffects": "Popular Effects",
     "moreEffects": "More Effects →"
+  },
+  "blogDetail": {
+    "tocTitle": "Table of Contents",
+    "relatedTitle": "Related Articles",
+    "relatedDescription": "More posts in the same locale you may want to read next.",
+    "browseMore": "Browse more blog posts",
+    "imageToVideo": "Image to Video",
+    "textToVideo": "Text to Video",
+    "readArticle": "Read article",
+    "cta": {
+      "pricing": "Free credits on signup. Plans from $9.9/month.",
+      "inlineButton": "Try Seedance free",
+      "primaryButton": "Try Image to Video",
+      "secondaryButton": "Try Text to Video",
+      "tertiaryButton": "Explore Video Effects",
+      "headlines": {
+        "sora": "Looking for a Sora alternative? Try Seedance free",
+        "pricing": "Start generating for free - no credit card required",
+        "tutorial": "Ready to try it yourself?",
+        "default": "Ready to create your own AI video?"
+      },
+      "descriptions": {
+        "sora": "Switch from Sora to Seedance for fast text-to-video and image-to-video workflows. Start free and compare the results yourself.",
+        "pricing": "Create videos with free signup credits, then scale with affordable plans whenever you need more generations.",
+        "tutorial": "Put the steps from this guide into practice with Seedance and turn prompts or images into polished videos in minutes.",
+        "default": "Turn ideas, text prompts, and images into polished videos with Seedance. If this article helped, the fastest next step is to try the product."
+      }
+    }
   }
 }
