@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { getModelLandingPage } from "@/services/page";
 import ModelLandingPage from "@/components/blocks/model-landing-page";
 import {
@@ -66,6 +66,10 @@ export default async function ModelPage({
 }: {
   params: Params;
 }) {
+  if (model === "wan-2-5") {
+    permanentRedirect(locale === "en" ? "/image-to-video" : `/${locale}/image-to-video`);
+  }
+
   // Validate model slug
   if (!isValidModelSlug(model)) {
     notFound();
