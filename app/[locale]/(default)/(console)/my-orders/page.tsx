@@ -1,4 +1,5 @@
-import { getOrdersByPaidEmail, getOrdersByUserUuid } from "@/models/order";
+import { getOrdersByUserUuid } from "@/models/order";
+import { findUserByUuid } from "@/models/user";
 import { getUserEmail, getUserUuid } from "@/services/user";
 
 import { TableColumn } from "@/types/blocks/table";
@@ -7,7 +8,7 @@ import { Table as TableSlotType } from "@/types/slots/table";
 import { getTranslations } from "next-intl/server";
 import { LocalTime } from "@/components/ui/local-time";
 import { redirect } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { InvoiceDownloadButton } from "./invoice-download-button";
 
 export default async function () {
   const t = await getTranslations();
@@ -22,6 +23,7 @@ export default async function () {
 
   // 获取订单信息
   let orders = await getOrdersByUserUuid(user_uuid);
+  const user = await findUserByUuid(user_uuid);
 
   const columns: TableColumn[] = [
     { name: "order_no", title: t("my_orders.table.order_no") },
@@ -48,16 +50,17 @@ export default async function () {
         if (!orderNo) {
           return "-";
         }
-        const safeOrderNo = orderNo.replace(/[^a-zA-Z0-9_-]/g, "_");
-        const invoiceUrl = `/api/orders/${encodeURIComponent(
-          orderNo
-        )}/invoice`;
+
+        const defaultTitle =
+          user?.nickname || item.paid_email || item.user_email || user_email;
+        const defaultEmail = item.paid_email || item.user_email || user_email;
+
         return (
-          <Button variant="outline" size="sm" asChild>
-            <a href={invoiceUrl} download={`invoice-${safeOrderNo}.pdf`}>
-              {t("my_orders.table.download")}
-            </a>
-          </Button>
+          <InvoiceDownloadButton
+            orderNo={orderNo}
+            defaultTitle={defaultTitle || ""}
+            defaultEmail={defaultEmail || ""}
+          />
         );
       },
     },

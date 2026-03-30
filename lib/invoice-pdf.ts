@@ -1,4 +1,4 @@
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { PDFDocument, PDFFont, PDFPage, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 import * as fs from 'fs/promises';
 import * as path from 'path';
@@ -16,6 +16,7 @@ export type InvoiceData = {
   balanceDue: number;
   customerName?: string;
   customerEmail: string;
+  customerAddress?: string;
   items: InvoiceItem[];
   subtotal: number;
   taxRate: number;
@@ -44,6 +45,89 @@ const formatDate = (dateValue: string): string => {
   if (Number.isNaN(date.getTime())) return dateValue;
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+};
+
+const wrapText = (
+  text: string,
+  font: PDFFont,
+  size: number,
+  maxWidth: number
+): string[] => {
+  const normalizedParagraphs = text.replace(/\r\n/g, '\n').split('\n');
+  const lines: string[] = [];
+
+  for (const paragraph of normalizedParagraphs) {
+    const words = paragraph.trim().split(/\s+/).filter(Boolean);
+
+    if (words.length === 0) {
+      if (lines.length > 0) {
+        lines.push('');
+      }
+      continue;
+    }
+
+    let currentLine = '';
+
+    for (const word of words) {
+      const nextLine = currentLine ? `${currentLine} ${word}` : word;
+      const nextLineWidth = font.widthOfTextAtSize(nextLine, size);
+
+      if (nextLineWidth <= maxWidth || !currentLine) {
+        currentLine = nextLine;
+        continue;
+      }
+
+      lines.push(currentLine);
+      currentLine = word;
+    }
+
+    if (currentLine) {
+      lines.push(currentLine);
+    }
+  }
+
+  return lines;
+};
+
+const drawWrappedText = ({
+  page,
+  text,
+  x,
+  y,
+  maxWidth,
+  size,
+  font,
+  color,
+  lineHeight,
+}: {
+  page: PDFPage;
+  text?: string;
+  x: number;
+  y: number;
+  maxWidth: number;
+  size: number;
+  font: PDFFont;
+  color: ReturnType<typeof rgb>;
+  lineHeight: number;
+}) => {
+  if (!text) {
+    return y;
+  }
+
+  const lines = wrapText(text, font, size, maxWidth);
+
+  for (const line of lines) {
+    page.drawText(line, {
+      x,
+      y,
+      size,
+      font,
+      color,
+    });
+    y -= lineHeight;
+  }
+
+  return y;
 };
 
 export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> => {
@@ -274,26 +358,46 @@ export const buildInvoicePdf = async (data: InvoiceData): Promise<Uint8Array> =>
   y -= 18;
 
   if (data.customerName) {
-    // 俄语名字，使用 boldFont (NotoSans-Bold 支持 Cyrillic)
-    page.drawText(data.customerName, {
+    y = drawWrappedText({
+      page,
+      text: data.customerName,
       x: leftContentX,
       y,
+      maxWidth: 220,
       size: 11,
       font: boldFont,
       color: black,
+      lineHeight: 15,
     });
-    y -= 15;
   }
 
-  page.drawText(`(${data.customerEmail})`, {
+  y = drawWrappedText({
+    page,
+    text: `(${data.customerEmail})`,
     x: leftContentX,
     y,
+    maxWidth: 220,
     size: 10,
     font: regularFont,
-    color: gray, // 邮箱颜色偏灰
+    color: gray,
+    lineHeight: 14,
   });
 
-  y -= 40;
+  if (data.customerAddress) {
+    y = drawWrappedText({
+      page,
+      text: data.customerAddress,
+      x: leftContentX,
+      y,
+      maxWidth: 220,
+      size: 10,
+      font: regularFont,
+      color: black,
+      lineHeight: 14,
+    });
+  }
+
+  y -= 26;
 
   // ==========================
   // Items Table

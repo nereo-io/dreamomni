@@ -147,6 +147,23 @@
       "download": "Download",
       "github_username": "GitHub Username",
       "status": "Status"
+    },
+    "invoice_dialog": {
+      "download": "Download",
+      "title": "Confirm invoice details",
+      "description": "Review and update the invoice title, email, and address before downloading. Address is not stored and needs to be entered each time.",
+      "name_label": "Invoice title",
+      "name_placeholder": "Enter invoice title",
+      "name_required": "Invoice title is required",
+      "email_label": "Email",
+      "email_placeholder": "Enter email",
+      "email_required": "Email is required",
+      "address_label": "Address",
+      "address_placeholder": "Enter invoice address",
+      "address_hint": "Address is optional and is not saved after download.",
+      "confirm": "Confirm",
+      "downloading": "Downloading...",
+      "download_failed": "Failed to download invoice"
     }
   },
   "membership": {

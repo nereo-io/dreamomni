@@ -144,6 +144,23 @@
       "download": "Télécharger",
       "github_username": "Nom d'utilisateur GitHub",
       "status": "Statut"
+    },
+    "invoice_dialog": {
+      "download": "Télécharger",
+      "title": "Confirmer les informations de la facture",
+      "description": "Vérifiez et modifiez l'intitulé, l'email et l'adresse avant le téléchargement. L'adresse n'est pas enregistrée et doit être saisie à chaque fois.",
+      "name_label": "Intitulé de la facture",
+      "name_placeholder": "Saisissez l'intitulé de la facture",
+      "name_required": "L'intitulé de la facture est requis",
+      "email_label": "E-mail",
+      "email_placeholder": "Saisissez l'e-mail",
+      "email_required": "L'e-mail est requis",
+      "address_label": "Adresse",
+      "address_placeholder": "Saisissez l'adresse de facturation",
+      "address_hint": "L'adresse est facultative et n'est pas enregistrée après le téléchargement.",
+      "confirm": "Confirmer",
+      "downloading": "Téléchargement...",
+      "download_failed": "Échec du téléchargement de la facture"
     }
   },
   "membership": {

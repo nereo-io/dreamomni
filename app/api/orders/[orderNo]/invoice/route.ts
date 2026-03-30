@@ -23,7 +23,7 @@ const getPaymentMethod = (order: Order): string => {
 };
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: { orderNo: string } }
 ) {
   const userUuid = await getUserUuid();
@@ -40,7 +40,7 @@ export async function GET(
   }
 
   const order = await findOrderByOrderNo(orderNo);
-  const user = await findUserByUuid(userUuid)
+  const user = await findUserByUuid(userUuid);
 
   if (!order) {
     return NextResponse.json({ error: 'Order not found' }, { status: 404 });
@@ -50,7 +50,26 @@ export async function GET(
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
+  const searchParams = new URL(request.url).searchParams;
+  const requestedTitle = searchParams.get('title')?.trim() || '';
+  const requestedEmail = searchParams.get('email')?.trim() || '';
+  const requestedAddress = searchParams.get('address')?.trim() || '';
 
+  const customerName =
+    requestedTitle ||
+    user.nickname ||
+    order.paid_email ||
+    order.user_email ||
+    undefined;
+  const customerEmail = requestedEmail || order.paid_email || order.user_email || '';
+  const customerAddress = requestedAddress || '';
+
+  if (!customerEmail) {
+    return NextResponse.json(
+      { error: 'Customer email is required' },
+      { status: 400 }
+    );
+  }
 
   // Convert amount from cents to dollars
   const amountInDollars = (order.amount || 0) / 100;
@@ -79,8 +98,9 @@ export async function GET(
     balanceDue: 0,
 
     // Customer information
-    customerEmail: order.paid_email || order.user_email || '',
-    customerName: user.nickname,
+    customerEmail,
+    customerName,
+    customerAddress,
 
     // Order items
     items: [

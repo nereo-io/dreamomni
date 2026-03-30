@@ -146,6 +146,23 @@
       "download": "ダウンロード",
       "github_username": "GitHubユーザー名",
       "status": "ステータス"
+    },
+    "invoice_dialog": {
+      "download": "ダウンロード",
+      "title": "請求書情報を確認",
+      "description": "ダウンロード前に請求書の宛名、メールアドレス、住所を確認または修正してください。住所は保存されず、毎回入力が必要です。",
+      "name_label": "請求書の宛名",
+      "name_placeholder": "請求書の宛名を入力",
+      "name_required": "請求書の宛名は必須です",
+      "email_label": "メールアドレス",
+      "email_placeholder": "メールアドレスを入力",
+      "email_required": "メールアドレスは必須です",
+      "address_label": "住所",
+      "address_placeholder": "請求先住所を入力",
+      "address_hint": "住所は任意で、ダウンロード後に保存されません。",
+      "confirm": "確認",
+      "downloading": "ダウンロード中...",
+      "download_failed": "請求書のダウンロードに失敗しました"
     }
   },
   "membership": {

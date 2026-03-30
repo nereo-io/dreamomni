@@ -147,6 +147,23 @@
       "download": "Herunterladen",
       "github_username": "GitHub Benutzername",
       "status": "Status"
+    },
+    "invoice_dialog": {
+      "download": "Herunterladen",
+      "title": "Rechnungsdaten bestätigen",
+      "description": "Prüfen und aktualisieren Sie Rechnungstitel, E-Mail und Adresse vor dem Download. Die Adresse wird nicht gespeichert und muss jedes Mal neu eingegeben werden.",
+      "name_label": "Rechnungstitel",
+      "name_placeholder": "Rechnungstitel eingeben",
+      "name_required": "Der Rechnungstitel ist erforderlich",
+      "email_label": "E-Mail",
+      "email_placeholder": "E-Mail eingeben",
+      "email_required": "Die E-Mail ist erforderlich",
+      "address_label": "Adresse",
+      "address_placeholder": "Rechnungsadresse eingeben",
+      "address_hint": "Die Adresse ist optional und wird nach dem Download nicht gespeichert.",
+      "confirm": "Bestätigen",
+      "downloading": "Wird heruntergeladen...",
+      "download_failed": "Rechnung konnte nicht heruntergeladen werden"
     }
   },
   "membership": {

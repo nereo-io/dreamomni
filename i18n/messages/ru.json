@@ -147,6 +147,23 @@
       "download": "Скачать",
       "github_username": "GitHub имя пользователя",
       "status": "Статус"
+    },
+    "invoice_dialog": {
+      "download": "Скачать",
+      "title": "Подтвердите данные счета",
+      "description": "Проверьте и при необходимости измените название, email и адрес перед скачиванием. Адрес не сохраняется, поэтому его нужно вводить каждый раз.",
+      "name_label": "Название счета",
+      "name_placeholder": "Введите название счета",
+      "name_required": "Название счета обязательно",
+      "email_label": "Email",
+      "email_placeholder": "Введите email",
+      "email_required": "Email обязателен",
+      "address_label": "Адрес",
+      "address_placeholder": "Введите адрес для счета",
+      "address_hint": "Адрес необязателен и не сохраняется после скачивания.",
+      "confirm": "Подтвердить",
+      "downloading": "Скачивание...",
+      "download_failed": "Не удалось скачать счет"
     }
   },
   "membership": {

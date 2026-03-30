@@ -146,6 +146,23 @@
       "download": "다운로드",
       "github_username": "GitHub 사용자명",
       "status": "상태"
+    },
+    "invoice_dialog": {
+      "download": "다운로드",
+      "title": "청구서 정보 확인",
+      "description": "다운로드 전에 청구서 제목, 이메일, 주소를 확인하거나 수정하세요. 주소는 저장되지 않으며 매번 다시 입력해야 합니다.",
+      "name_label": "청구서 제목",
+      "name_placeholder": "청구서 제목 입력",
+      "name_required": "청구서 제목은 필수입니다",
+      "email_label": "이메일",
+      "email_placeholder": "이메일 입력",
+      "email_required": "이메일은 필수입니다",
+      "address_label": "주소",
+      "address_placeholder": "청구서 주소 입력",
+      "address_hint": "주소는 선택 사항이며 다운로드 후 저장되지 않습니다.",
+      "confirm": "확인",
+      "downloading": "다운로드 중...",
+      "download_failed": "청구서 다운로드에 실패했습니다"
     }
   },
   "membership": {
