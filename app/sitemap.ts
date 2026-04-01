@@ -3,6 +3,10 @@ import { MetadataRoute } from "next";
 import { getPostsByLocale } from "@/models/post";
 import { locales } from "@/i18n/locale";
 
+// 禁用 Vercel Edge 缓存，确保每次访问都重新查 Supabase 获取最新文章
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 type ChangeFrequency =
   | "daily"
   | "weekly"
