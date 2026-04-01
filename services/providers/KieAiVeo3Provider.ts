@@ -119,8 +119,7 @@ export class KieAiVeo3Provider implements VideoProvider {
       // Build request body according to Kie.ai API format
       const requestBody: any = {
         prompt: input.prompt,
-        model: "veo3_fast",
-        // model: input.model || "veo3_fast", // Use input.model if available, fallback to veo3
+        model: input.model || "veo3_fast",
       };
 
       // Handle generationType (e.g., REFERENCE_2_VIDEO)

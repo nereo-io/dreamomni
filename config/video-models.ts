@@ -316,6 +316,52 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     generationType: "REFERENCE_2_VIDEO", // 标识这是 Reference-to-Video 模式
   },
 
+  // Kie.ai Veo3.1 Lite 文本转视频模型
+  "kie-veo3-lite-text-to-video": {
+    id: "kie-veo3-lite-text-to-video",
+    name: "Kie.ai Veo3.1 Lite Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    modelName: VideoModel.VEO3,
+    providerModelId: "veo3_lite",
+    displayName: "Veo 3.1 Lite",
+    sortOrder: 151, // 紧跟在 Veo 3.1 后面
+    perSecondCredits: 0.5,
+    description: "Google's Veo3.1 Lite model, most cost-effective for high-volume generation",
+    features: ["Wait 120s", "Audio"],
+    maxDuration: 8,
+    supportedAspectRatios: ["Auto", "16:9", "9:16"],
+    supportsAudio: true,
+    estimatedGenerationTime: 120,
+    supportedDurations: [8],
+    supportedResolutions: ["720p", "1080p", "4k"],
+  },
+
+  // Kie.ai Veo3.1 Lite 图片转视频模型
+  "kie-veo3-lite-image-to-video": {
+    id: "kie-veo3-lite-image-to-video",
+    name: "Kie.ai Veo3.1 Lite Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    modelName: VideoModel.VEO3,
+    providerModelId: "veo3_lite",
+    displayName: "Veo 3.1 Lite",
+    sortOrder: 151,
+    perSecondCredits: 0.5,
+    description: "Google's Veo3.1 Lite model, most cost-effective for high-volume generation",
+    features: ["Wait 160s", "Audio", "Support 2 images"],
+    maxDuration: 8,
+    supportedAspectRatios: ["Auto", "16:9", "9:16"],
+    supportsAudio: true,
+    estimatedGenerationTime: 160,
+    supportedDurations: [8],
+    supportedResolutions: ["720p", "1080p", "4k"],
+    imageCapabilities: {
+      maxImages: 2,
+      labels: ["First Frame", "Last Frame"],
+    },
+  },
+
   // Kie.ai Kling 3.0 文本转视频模型
   "kie-kling-3-text-to-video": {
     id: "kie-kling-3-text-to-video",
@@ -796,17 +842,20 @@ export function calculateCredits(
   }
 
   // Kie.ai Veo3 模型的分辨率定价
-  // 基础价格: 0.75积分/秒，8秒 = 6积分 (720p)
-  // 720p: 6积分 (1x)
-  // 1080p: 8积分 (1.33x)
-  // 4K: 12积分 (2x)
+  // Veo 3.1 (Quality/Fast): 基础 0.75积分/秒，720p=6, 1080p=8, 4K=12
+  // Veo 3.1 Lite: 基础 0.5积分/秒，720p=4, 1080p=?, 4K=10 (720p+6)
   if (isKieAiVeo3Model(modelId)) {
+    const isLite = modelId.includes("veo3-lite");
     if (normalizedResolution === "4k") {
-      totalCredits *= 2; // 4K = 2x 基础价格 (12积分/8秒)
+      if (isLite) {
+        totalCredits += 6; // Lite 4K = 基础价格 + 6 credits
+      } else {
+        totalCredits *= 2; // 4K = 2x 基础价格 (12积分/8秒)
+      }
     } else if (normalizedResolution === "1080p") {
-      totalCredits = totalCredits * 4 / 3; // 1080p = 1.33x 基础价格 (8积分/8秒)
+      totalCredits = (totalCredits * 4) / 3; // 1080p = 1.33x 基础价格 (8积分/8秒)
     }
-    // 720p 保持基础价格 (6积分/8秒)
+    // 720p 保持基础价格
   }
 
   // Kie.ai Kling 3.0 模型定价

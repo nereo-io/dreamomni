@@ -490,6 +490,10 @@ export async function POST(req: Request) {
         input.image_urls = finalImageUrls;
         input.image_url = finalImageUrls[0]; // 向后兼容
       }
+      // 使用 providerModelId 覆盖 API 模型名（如 veo3_lite）
+      if (modelConfig.providerModelId) {
+        input.model = modelConfig.providerModelId;
+      }
       // Kie.ai 支持水印 - 传递前端的 watermarkEnabled 标记
       if (watermarkEnabled) {
         input.watermarkEnabled = true;
