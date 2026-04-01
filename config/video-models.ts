@@ -256,6 +256,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
     modelName: VideoModel.VEO3,
+    providerModelId: "veo3_fast",
     displayName: "Veo 3.1",
     perSecondCredits: 0.75,
     description: "Google's Veo3.1 model, starting at $0.36/video",
@@ -275,6 +276,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
     modelName: VideoModel.VEO3,
+    providerModelId: "veo3_fast",
     displayName: "Veo 3.1",
     perSecondCredits: 0.75, // 与文本转视频同样的积分消耗
     description: "Google's Veo3.1 model, starting at $0.36/video",
@@ -298,6 +300,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.KIEAI,
     modelName: VideoModel.VEO3,
+    providerModelId: "veo3_fast",
     displayName: "Veo 3.1 (Consistent Character)",
     perSecondCredits: 0.75,
     description:
@@ -843,7 +846,7 @@ export function calculateCredits(
 
   // Kie.ai Veo3 模型的分辨率定价
   // Veo 3.1 (Quality/Fast): 基础 0.75积分/秒，720p=6, 1080p=8, 4K=12
-  // Veo 3.1 Lite: 基础 0.5积分/秒，720p=4, 1080p=?, 4K=10 (720p+6)
+  // Veo 3.1 Lite: 基础 0.5积分/秒，720p=4, 1080p=6 (720p+2), 4K=10 (720p+6)
   if (isKieAiVeo3Model(modelId)) {
     const isLite = modelId.includes("veo3-lite");
     if (normalizedResolution === "4k") {
@@ -853,7 +856,11 @@ export function calculateCredits(
         totalCredits *= 2; // 4K = 2x 基础价格 (12积分/8秒)
       }
     } else if (normalizedResolution === "1080p") {
-      totalCredits = (totalCredits * 4) / 3; // 1080p = 1.33x 基础价格 (8积分/8秒)
+      if (isLite) {
+        totalCredits += 2; // Lite 1080p = 基础价格 + 2 credits (6积分/8秒)
+      } else {
+        totalCredits = (totalCredits * 4) / 3; // 1080p = 1.33x 基础价格 (8积分/8秒)
+      }
     }
     // 720p 保持基础价格
   }
