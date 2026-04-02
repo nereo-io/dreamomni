@@ -21,15 +21,15 @@
       "label": "",
       "features_title": "Включает",
       "features": [
-        "300 месячных кредитов",
-        "~30 Seedance видео или ~37 Veo3 видео",
+        "200 месячных кредитов",
+        "~20 Seedance видео или ~25 Veo3 видео",
         "До 10 секунд на видео",
         "Разрешение 1080p"
       ],
       "interval": "month",
-      "amount": 3000,
+      "amount": 2000,
       "currency": "USD",
-      "price": "$30.00",
+      "price": "$20.00",
       "original_price": "",
       "unit": "/месяц",
       "is_featured": false,
@@ -41,7 +41,7 @@
       },
       "product_id": "mini-monthly",
       "product_name": "Seedance AI Мини",
-      "credits": 300,
+      "credits": 200,
       "valid_months": 1,
       "group": "monthly"
     },
@@ -50,20 +50,20 @@
       "label": "СКИДКА 40%",
       "features_title": "Включает",
       "features": [
-        "3600 годовых кредитов (300/месяц)",
-        "~360 Seedance видео или ~450 Veo3 видео",
+        "2400 годовых кредитов (200/месяц)",
+        "~240 Seedance видео или ~300 Veo3 видео",
         "До 10 секунд на видео",
         "Разрешение 1080p"
       ],
       "interval": "year",
-      "amount": 21600,
+      "amount": 14400,
       "currency": "USD",
-      "price": "$18.00",
-      "original_price": "$30.00",
+      "price": "$12.00",
+      "original_price": "$20.00",
       "unit": "/месяц",
       "is_featured": false,
       "discount_label": "СКИДКА 40%",
-      "tip": "Подписка на $216.00 в год",
+      "tip": "Подписка на $144.00 в год",
       "button": {
         "title": "Подписаться на Мини",
         "url": "/#pricing",
@@ -71,7 +71,7 @@
       },
       "product_id": "mini-yearly",
       "product_name": "Seedance AI Мини Годовой",
-      "credits": 3600,
+      "credits": 2400,
       "valid_months": 12,
       "group": "yearly"
     },
@@ -80,15 +80,15 @@
       "label": "ПОПУЛЯРНЫЙ",
       "features_title": "Включает",
       "features": [
-        "2000 месячных кредитов",
-        "~200 Seedance видео или ~250 Veo3 видео",
+        "1000 месячных кредитов",
+        "~100 Seedance видео или ~125 Veo3 видео",
         "До 10 секунд на видео",
         "Разрешение 1080p"
       ],
       "interval": "month",
-      "amount": 10000,
+      "amount": 5000,
       "currency": "USD",
-      "price": "$100.00",
+      "price": "$50.00",
       "original_price": "",
       "unit": "/месяц",
       "is_featured": true,
@@ -100,7 +100,7 @@
       },
       "product_id": "standard-monthly",
       "product_name": "Seedance AI Стандартный",
-      "credits": 2000,
+      "credits": 1000,
       "valid_months": 1,
       "group": "monthly"
     },
@@ -109,20 +109,20 @@
       "label": "СКИДКА 40%",
       "features_title": "Включает",
       "features": [
-        "24000 годовых кредитов (2000/месяц)",
-        "~2400 Seedance видео или ~3000 Veo3 видео",
+        "12000 годовых кредитов (1000/месяц)",
+        "~1200 Seedance видео или ~1500 Veo3 видео",
         "До 10 секунд на видео",
         "Разрешение 1080p"
       ],
       "interval": "year",
-      "amount": 72000,
+      "amount": 36000,
       "currency": "USD",
-      "price": "$60.00",
-      "original_price": "$100.00",
+      "price": "$30.00",
+      "original_price": "$50.00",
       "unit": "/месяц",
       "is_featured": true,
       "discount_label": "СКИДКА 40%",
-      "tip": "Подписка на $720.00 в год",
+      "tip": "Подписка на $360.00 в год",
       "button": {
         "title": "Подписаться на Стандартный",
         "url": "/#pricing",
@@ -130,7 +130,7 @@
       },
       "product_id": "standard-yearly",
       "product_name": "Seedance AI Стандартный Годовой",
-      "credits": 24000,
+      "credits": 12000,
       "valid_months": 12,
       "group": "yearly"
     },
@@ -139,15 +139,15 @@
       "label": "",
       "features_title": "Включает",
       "features": [
-        "6000 месячных кредитов",
-        "~600 Seedance видео или ~750 Veo3 видео",
+        "3000 месячных кредитов",
+        "~300 Seedance видео или ~375 Veo3 видео",
         "До 10 секунд на видео",
         "Разрешение 1080p"
       ],
       "interval": "month",
-      "amount": 19900,
+      "amount": 9900,
       "currency": "USD",
-      "price": "$199.00",
+      "price": "$99.00",
       "original_price": "",
       "unit": "/месяц",
       "is_featured": false,
@@ -159,7 +159,7 @@
       },
       "product_id": "plus-monthly",
       "product_name": "Seedance AI Плюс",
-      "credits": 6000,
+      "credits": 3000,
       "valid_months": 1,
       "group": "monthly"
     },
@@ -168,20 +168,20 @@
       "label": "СКИДКА 40%",
       "features_title": "Включает",
       "features": [
-        "72000 годовых кредитов (6000/месяц)",
-        "~7200 Seedance видео или ~9000 Veo3 видео",
+        "36000 годовых кредитов (3000/месяц)",
+        "~3600 Seedance видео или ~4500 Veo3 видео",
         "До 10 секунд на видео",
         "Разрешение 1080p"
       ],
       "interval": "year",
-      "amount": 144000,
+      "amount": 72000,
       "currency": "USD",
-      "price": "$120.00",
-      "original_price": "$199.00",
+      "price": "$60.00",
+      "original_price": "$99.00",
       "unit": "/месяц",
       "is_featured": false,
       "discount_label": "СКИДКА 40%",
-      "tip": "Подписка на $1440.00 в год",
+      "tip": "Подписка на $720.00 в год",
       "button": {
         "title": "Подписаться на Плюс",
         "url": "/#pricing",
@@ -189,7 +189,7 @@
       },
       "product_id": "plus-yearly",
       "product_name": "Seedance AI Плюс Годовой",
-      "credits": 72000,
+      "credits": 36000,
       "valid_months": 12,
       "group": "yearly"
     }
@@ -201,7 +201,7 @@
     "items": [
       {
         "title": "Что такое кредиты и как они работают?",
-        "description": "Кредиты используются для всех AI-генераций. Например, 8-секундное видео Veo3 в 1080p стоит 8 кредитов, а изображение Nano Banana Pro в 1K стоит 3 кредита. С 300 кредитами плана Мини вы можете создавать около 37 видео Veo3 или 100 изображений в месяц."
+        "description": "Кредиты используются для всех AI-генераций. Например, 8-секундное видео Veo3 в 1080p стоит 8 кредитов, а изображение Nano Banana Pro в 1K стоит 3 кредита. С 200 кредитами плана Мини вы можете создавать около 25 видео Veo3 или 66 изображений в месяц."
       },
       {
         "title": "Что происходит с неиспользованными кредитами в конце месяца?",

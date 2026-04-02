@@ -21,17 +21,17 @@
       "label": "",
       "features_title": "Inclus",
       "features": [
-        "<highlight>300</highlight> crédits mensuels",
-        "~30 vidéos Seedance ou ~37 vidéos Veo3",
+        "<highlight>200</highlight> crédits mensuels",
+        "~20 vidéos Seedance ou ~25 vidéos Veo3",
         "Sortie en résolution 1080p",
         "Modèles vidéo de haute qualité",
         "Image et Texte vers Vidéo",
         "Droits d'utilisation commerciale"
       ],
       "interval": "month",
-      "amount": 3000,
+      "amount": 2000,
       "currency": "USD",
-      "price": "$30.00",
+      "price": "$20.00",
       "original_price": "",
       "unit": "/mois",
       "is_featured": false,
@@ -43,7 +43,7 @@
       },
       "product_id": "mini-monthly",
       "product_name": "Seedance AI Mini",
-      "credits": 300,
+      "credits": 200,
       "valid_months": 1,
       "group": "monthly"
     },
@@ -52,23 +52,23 @@
       "label": "",
       "features_title": "Inclus",
       "features": [
-        "<highlight>300</highlight> crédits mensuels",
+        "<highlight>200</highlight> crédits mensuels",
         "Les crédits sont accordés chaque mois pendant l'année",
-        "~30 vidéos Seedance ou ~37 vidéos Veo3",
+        "~20 vidéos Seedance ou ~25 vidéos Veo3",
         "Sortie en résolution 1080p",
         "Modèles vidéo de haute qualité",
         "Image et Texte vers Vidéo",
         "Droits d'utilisation commerciale"
       ],
       "interval": "year",
-      "amount": 21600,
+      "amount": 14400,
       "currency": "USD",
-      "price": "$18.00",
-      "original_price": "$30.00",
+      "price": "$12.00",
+      "original_price": "$20.00",
       "unit": "/mois",
       "is_featured": false,
       "discount_label": "40% DE RÉDUCTION",
-      "tip": "Abonnement à $216.00 par an",
+      "tip": "Abonnement à $144.00 par an",
       "button": {
         "title": "S'abonner à Mini",
         "url": "/#pricing",
@@ -76,7 +76,7 @@
       },
       "product_id": "mini-yearly",
       "product_name": "Seedance AI Mini Yearly",
-      "credits": 3600,
+      "credits": 2400,
       "valid_months": 12,
       "group": "yearly"
     },
@@ -85,8 +85,8 @@
       "label": "POPULAIRE",
       "features_title": "Inclus",
       "features": [
-        "<highlight>2000</highlight> crédits mensuels",
-        "~200 vidéos Seedance ou ~250 vidéos Veo3",
+        "<highlight>1000</highlight> crédits mensuels",
+        "~100 vidéos Seedance ou ~125 vidéos Veo3",
         "Jusqu'à 10 secondes par vidéo",
         "Sortie en résolution 1080p",
         "Modèles vidéo de haute qualité",
@@ -95,9 +95,9 @@
         "Droits d'utilisation commerciale"
       ],
       "interval": "month",
-      "amount": 10000,
+      "amount": 5000,
       "currency": "USD",
-      "price": "$100.00",
+      "price": "$50.00",
       "original_price": "",
       "unit": "/mois",
       "is_featured": true,
@@ -109,7 +109,7 @@
       },
       "product_id": "standard-monthly",
       "product_name": "Seedance AI Standard",
-      "credits": 2000,
+      "credits": 1000,
       "valid_months": 1,
       "group": "monthly"
     },
@@ -118,9 +118,9 @@
       "label": "POPULAIRE",
       "features_title": "Inclus",
       "features": [
-        "<highlight>2000</highlight> crédits mensuels",
+        "<highlight>1000</highlight> crédits mensuels",
         "Les crédits sont accordés chaque mois pendant l'année",
-        "~200 vidéos Seedance ou ~250 vidéos Veo3",
+        "~100 vidéos Seedance ou ~125 vidéos Veo3",
         "Jusqu'à 10 secondes par vidéo",
         "Sortie en résolution 1080p",
         "Modèles vidéo de haute qualité",
@@ -129,14 +129,14 @@
         "Droits d'utilisation commerciale"
       ],
       "interval": "year",
-      "amount": 72000,
+      "amount": 36000,
       "currency": "USD",
-      "price": "$60.00",
-      "original_price": "$100.00",
+      "price": "$30.00",
+      "original_price": "$50.00",
       "unit": "/mois",
       "is_featured": true,
       "discount_label": "40% DE RÉDUCTION",
-      "tip": "Abonnement à $720.00 par an",
+      "tip": "Abonnement à $360.00 par an",
       "button": {
         "title": "S'abonner à Standard",
         "url": "/#pricing",
@@ -144,7 +144,7 @@
       },
       "product_id": "standard-yearly",
       "product_name": "Seedance AI Standard Yearly",
-      "credits": 24000,
+      "credits": 12000,
       "valid_months": 12,
       "group": "yearly"
     },
@@ -153,8 +153,8 @@
       "label": "",
       "features_title": "Inclus",
       "features": [
-        "<highlight>6000</highlight> crédits mensuels",
-        "~600 vidéos Seedance ou ~750 vidéos Veo3",
+        "<highlight>3000</highlight> crédits mensuels",
+        "~300 vidéos Seedance ou ~375 vidéos Veo3",
         "Jusqu'à 10 secondes par vidéo",
         "Sortie en résolution 1080p",
         "Modèles vidéo de haute qualité",
@@ -163,9 +163,9 @@
         "Droits d'utilisation commerciale"
       ],
       "interval": "month",
-      "amount": 19900,
+      "amount": 9900,
       "currency": "USD",
-      "price": "$199.00",
+      "price": "$99.00",
       "original_price": "",
       "unit": "/mois",
       "is_featured": false,
@@ -177,7 +177,7 @@
       },
       "product_id": "plus-monthly",
       "product_name": "Seedance AI Plus",
-      "credits": 6000,
+      "credits": 3000,
       "valid_months": 1,
       "group": "monthly"
     },
@@ -186,9 +186,9 @@
       "label": "",
       "features_title": "Inclus",
       "features": [
-        "<highlight>6000</highlight> crédits mensuels",
+        "<highlight>3000</highlight> crédits mensuels",
         "Les crédits sont accordés chaque mois pendant l'année",
-        "~600 vidéos Seedance ou ~750 vidéos Veo3",
+        "~300 vidéos Seedance ou ~375 vidéos Veo3",
         "Jusqu'à 10 secondes par vidéo",
         "Sortie en résolution 1080p",
         "Modèles vidéo de haute qualité",
@@ -197,14 +197,14 @@
         "Droits d'utilisation commerciale"
       ],
       "interval": "year",
-      "amount": 144000,
+      "amount": 72000,
       "currency": "USD",
-      "price": "$120.00",
-      "original_price": "$199.00",
+      "price": "$60.00",
+      "original_price": "$99.00",
       "unit": "/mois",
       "is_featured": false,
       "discount_label": "40% DE RÉDUCTION",
-      "tip": "Abonnement à $1440.00 par an",
+      "tip": "Abonnement à $720.00 par an",
       "button": {
         "title": "S'abonner à Plus",
         "url": "/#pricing",
@@ -212,7 +212,7 @@
       },
       "product_id": "plus-yearly",
       "product_name": "Seedance AI Plus Yearly",
-      "credits": 72000,
+      "credits": 36000,
       "valid_months": 12,
       "group": "yearly"
     }
@@ -224,7 +224,7 @@
     "items": [
       {
         "title": "Que sont les crédits et comment fonctionnent-ils ?",
-        "description": "Les crédits sont utilisés pour toutes les générations IA. Par exemple, une vidéo Veo3 8s en 1080p coûte 8 crédits, et une image Nano Banana Pro en 1K coûte 3 crédits. Avec les 300 crédits du plan Mini, vous pouvez créer environ 37 vidéos Veo3 ou 100 images par mois."
+        "description": "Les crédits sont utilisés pour toutes les générations IA. Par exemple, une vidéo Veo3 8s en 1080p coûte 8 crédits, et une image Nano Banana Pro en 1K coûte 3 crédits. Avec les 200 crédits du plan Mini, vous pouvez créer environ 25 vidéos Veo3 ou 66 images par mois."
       },
       {
         "title": "Que se passe-t-il avec les crédits non utilisés à la fin du mois ?",
