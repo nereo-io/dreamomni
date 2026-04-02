@@ -27,69 +27,68 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   {
     product_id: "mini-monthly",
     product_name: "Seedance Mini",
-    amount: 3000,
+    amount: 2000,
     currency: "USD",
-    credits: 300,
+    credits: 200,
     interval: "month",
     valid_months: 1,
     membershipType: "monthly",
-    creem_product_id: "prod_1iCxFQWC7uzwKmYeadoPVe", // Creem 月付费产品ID
-    // creem_product_id: "prod_3anPiH9opJYivargJPlZTV",
+    creem_product_id: "prod_1de8ncVJXQK8BpcTFbL6d8", // Creem 月付费产品ID
   },
   {
     product_id: "mini-yearly",
     product_name: "Seedance Mini Yearly",
-    amount: 21600,
+    amount: 14400,
     currency: "USD",
-    credits: 3600,
+    credits: 2400,
     interval: "year",
     valid_months: 12,
     membershipType: "yearly",
-    creem_product_id: "prod_4rJVXFIlYdYJMVYpP0V8r1", // Creem 年付费产品ID
+    creem_product_id: "prod_1Q0klNKuDopmTMhnf3ieA1", // Creem 年付费产品ID
   },
   {
     product_id: "standard-monthly",
     product_name: "Seedance Standard",
-    amount: 10000,
+    amount: 5000,
     currency: "USD",
-    credits: 2000,
+    credits: 1000,
     interval: "month",
     valid_months: 1,
     membershipType: "monthly",
-    creem_product_id: "prod_h8tmfBKxI7oxP86ANclMw", // Creem 月付费产品ID
+    creem_product_id: "prod_37XoZpr2IrZWrl9ftTq54p", // Creem 月付费产品ID
   },
   {
     product_id: "standard-yearly",
     product_name: "Seedance Standard Yearly",
-    amount: 72000,
+    amount: 36000,
     currency: "USD",
-    credits: 24000,
+    credits: 12000,
     interval: "year",
     valid_months: 12,
     membershipType: "yearly",
-    creem_product_id: "prod_6fsuOEz1qCnUa5oLXy3nqj", // Creem 年付费产品ID
+    creem_product_id: "prod_7IsFFUhgP3iAsTshXBgZWr", // Creem 年付费产品ID
   },
   {
     product_id: "plus-monthly",
     product_name: "Seedance Plus",
-    amount: 19900,
+    amount: 9900,
     currency: "USD",
-    credits: 6000,
+    credits: 3000,
     interval: "month",
     valid_months: 1,
     membershipType: "monthly",
-    creem_product_id: "prod_1wwLNHvzNhoC9Ezv2Bw6S6", // 复用 Standard 月付产品ID
+    creem_product_id: "prod_P2djJgeDOPjnpXZLEz8pt", // 复用 Standard 月付产品ID
   },
   {
     product_id: "plus-yearly",
     product_name: "Seedance Plus Yearly",
-    amount: 144000,
+    amount: 72000,
     currency: "USD",
-    credits: 72000,
+    credits: 36000,
     interval: "year",
     valid_months: 12,
     membershipType: "yearly",
-    creem_product_id: "prod_5cJGTMuS6m5Zyrki3nVkc7", // 复用 Standard 年付产品ID
+    creem_product_id: "prod_5siauowmaPRU4A0lKPseNC", // 复用 Standard 年付产品ID
   },
 ];
 
@@ -105,7 +104,7 @@ export function getProductConfig(productId: string): ProductConfig | undefined {
  */
 export function getProviderProductId(
   productId: string,
-  provider: "creem"
+  provider: "creem",
 ): string | undefined {
   const config = getAnyProductConfig(productId);
   if (!config) return undefined;
@@ -206,7 +205,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
  * 根据产品ID获取 Bundle 配置
  */
 export function getBundleConfig(
-  productId: string
+  productId: string,
 ): BundleProductConfig | undefined {
   return BUNDLE_CONFIGS.find((config) => config.product_id === productId);
 }
@@ -222,7 +221,7 @@ export function isBundle(productId: string): boolean {
  * 获取任意产品配置（订阅或 Bundle）
  */
 export function getAnyProductConfig(
-  productId: string
+  productId: string,
 ): ProductConfig | BundleProductConfig | undefined {
   return getProductConfig(productId) || getBundleConfig(productId);
 }
@@ -256,7 +255,10 @@ export function getSubscriptionTierRank(productId: string): number {
  * @param targetProductId 目标产品ID
  * @returns true 表示可以升级
  */
-export function canUpgradeToTier(currentProductId: string | null, targetProductId: string): boolean {
+export function canUpgradeToTier(
+  currentProductId: string | null,
+  targetProductId: string,
+): boolean {
   if (!currentProductId) {
     // 无订阅用户可以购买任何套餐
     return true;
@@ -270,6 +272,9 @@ export function canUpgradeToTier(currentProductId: string | null, targetProductI
 /**
  * 判断是否为同一套餐
  */
-export function isSameTier(currentProductId: string | null, targetProductId: string): boolean {
+export function isSameTier(
+  currentProductId: string | null,
+  targetProductId: string,
+): boolean {
   return currentProductId === targetProductId;
 }

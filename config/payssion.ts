@@ -29,36 +29,36 @@ export interface PayssionConfig {
 // 订阅产品配置映射（基于金额，单位：美分）
 // 必须与 config/products.ts 中的 PRODUCT_CONFIGS 保持一致
 export const PAYSSION_PRODUCT_CONFIG: Record<string, PayssionProductConfig> = {
-  "3000": {
+  "2000": {
     product_id: "mini-monthly",
-    credits: 300,
+    credits: 200,
     membershipType: "monthly",
-  }, // $30
-  "21600": {
+  }, // $20
+  "14400": {
     product_id: "mini-yearly",
-    credits: 3600,
+    credits: 2400,
     membershipType: "yearly",
-  }, // $216
-  "10000": {
+  }, // $144
+  "5000": {
     product_id: "standard-monthly",
-    credits: 2000,
+    credits: 1000,
     membershipType: "monthly",
-  }, // $100
-  "72000": {
+  }, // $50
+  "36000": {
     product_id: "standard-yearly",
-    credits: 24000,
+    credits: 12000,
+    membershipType: "yearly",
+  }, // $360
+  "9900": {
+    product_id: "plus-monthly",
+    credits: 3000,
+    membershipType: "monthly",
+  }, // $99
+  "72000": {
+    product_id: "plus-yearly",
+    credits: 36000,
     membershipType: "yearly",
   }, // $720
-  "19900": {
-    product_id: "plus-monthly",
-    credits: 6000,
-    membershipType: "monthly",
-  }, // $199
-  "144000": {
-    product_id: "plus-yearly",
-    credits: 72000,
-    membershipType: "yearly",
-  }, // $1440
 };
 
 // Bundle 产品配置（一次性购买积分包）
@@ -103,45 +103,48 @@ export function getPayssionConfig(): PayssionConfig {
 
 // 根据金额获取订阅产品配置
 export function getProductConfigByAmount(
-  amountInCents: string
+  amountInCents: string,
 ): PayssionProductConfig | null {
   return PAYSSION_PRODUCT_CONFIG[amountInCents] || null;
 }
 
 // 根据金额获取 Bundle 产品配置
 export function getBundleConfigByAmount(
-  amountInCents: string
+  amountInCents: string,
 ): PayssionBundleConfig | null {
   return PAYSSION_BUNDLE_CONFIG[amountInCents] || null;
 }
 
 // 根据产品ID获取订阅产品配置
 export function getProductConfigByProductId(
-  productId: string
+  productId: string,
 ): PayssionProductConfig | null {
   return (
     Object.values(PAYSSION_PRODUCT_CONFIG).find(
-      (config) => config.product_id === productId
+      (config) => config.product_id === productId,
     ) || null
   );
 }
 
 // 根据产品ID获取 Bundle 产品配置
 export function getBundleConfigByProductId(
-  productId: string
+  productId: string,
 ): PayssionBundleConfig | null {
   return (
     Object.values(PAYSSION_BUNDLE_CONFIG).find(
-      (config) => config.product_id === productId
+      (config) => config.product_id === productId,
     ) || null
   );
 }
 
 // 根据产品ID获取任意产品配置（订阅或 Bundle）
 export function getAnyProductConfigByProductId(
-  productId: string
+  productId: string,
 ): (PayssionProductConfig | PayssionBundleConfig) | null {
-  return getProductConfigByProductId(productId) || getBundleConfigByProductId(productId);
+  return (
+    getProductConfigByProductId(productId) ||
+    getBundleConfigByProductId(productId)
+  );
 }
 
 // 获取支付方式映射
