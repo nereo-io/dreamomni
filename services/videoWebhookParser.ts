@@ -184,6 +184,10 @@ export function parseVideoWebhookPayload(
       case "cancelled":
         status = "CANCELLED";
         break;
+      case "expired":
+        status = "ERROR";
+        error = "任务超时过期";
+        break;
       default:
         status = webhookData.status;
         break;

@@ -73,6 +73,81 @@ export interface VideoModelConfig {
 
 // 视频模型配置
 export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
+  // Volcano Engine 官方 Seedance 2.0 文生视频
+  "volcano-seedance-2-0-text-to-video": {
+    id: "volcano-seedance-2-0-text-to-video",
+    name: "Volcano Seedance 2.0 Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.VOLCANO,
+    modelName: VideoModel.SEEDANCE_2_0,
+    volcanoModel: "doubao-seedance-2-0-fast-260128",
+    displayName: "Seedance 2.0",
+    perSecondCredits: 10,
+    description: "ByteDance's latest Seedance 2.0 model",
+    features: ["Wait 20min", "Audio"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
+    supportedResolutions: ["480p", "720p"],
+    supportsAudio: true,
+    audioOptional: true,
+    estimatedGenerationTime: 120,
+    supportedDurations: [5, 8, 10, 15],
+    useSignedCallback: true,
+  },
+
+  // Volcano Engine 官方 Seedance 2.0 图生视频
+  "volcano-seedance-2-0-image-to-video": {
+    id: "volcano-seedance-2-0-image-to-video",
+    name: "Volcano Seedance 2.0 Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.VOLCANO,
+    modelName: VideoModel.SEEDANCE_2_0,
+    volcanoModel: "doubao-seedance-2-0-fast-260128",
+    displayName: "Seedance 2.0",
+    perSecondCredits: 10,
+    description: "ByteDance's latest Seedance 2.0 model",
+    features: ["Wait 20min", "Audio", "Support 2 images"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
+    supportedResolutions: ["480p", "720p"],
+    supportsAudio: true,
+    audioOptional: true,
+    estimatedGenerationTime: 120,
+    supportedDurations: [5, 8, 10, 15],
+    imageCapabilities: {
+      maxImages: 2,
+      labels: ["First Frame", "Last Frame"],
+    },
+    useSignedCallback: true,
+  },
+
+  // Volcano Engine 官方 Seedance 2.0 多模态参考生视频 (Reference-to-Video 页面使用)
+  "volcano-seedance-2-0-reference-to-video": {
+    id: "volcano-seedance-2-0-reference-to-video",
+    name: "Volcano Seedance 2.0 Media-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.VOLCANO,
+    modelName: VideoModel.SEEDANCE_2_0,
+    volcanoModel: "doubao-seedance-2-0-fast-260128",
+    displayName: "Seedance 2.0 (Media)",
+    perSecondCredits: 25,
+    description: "Generate videos from mixed media: images, videos, and audio",
+    features: ["Wait 20min", "Audio", "Multi-Media"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
+    supportedResolutions: ["480p", "720p"],
+    supportsAudio: true,
+    audioOptional: true,
+    estimatedGenerationTime: 180,
+    supportedDurations: [5, 8, 10, 15],
+    imageCapabilities: {
+      maxImages: 12,
+      minImages: 1,
+    },
+    generationType: "REFERENCE_2_VIDEO",
+    useSignedCallback: true,
+  },
+
   // MaxAPI Seedance 2.0 文本转视频模型
   "maxapi-seedance-2-0-text-to-video": {
     id: "maxapi-seedance-2-0-text-to-video",
@@ -824,9 +899,21 @@ export function calculateCredits(
   let totalCredits = duration * model.perSecondCredits;
 
   // 根据分辨率调整积分（对支持多分辨率的模型生效）
-  // Seedance 系列统一与 Seedance 1.5 Pro / Seedance 2.0 Fast 对齐：
-  // 480p/720p/1080p = 1x/2x/4x
-  if (isSeedanceModel(modelId) || isAliModel(modelId)) {
+  // Seedance 2.0 Fast 继续与 Seedance 1.5 Pro / Ali 对齐：480p/720p/1080p = 1x/2x/4x
+  // Volcano Seedance 2.0（官方）：480p/720p = 1x/2.2x
+  // 其他 Seedance 2.0 系列仍维持各自基础定价
+  const isSeedance20 = modelId.includes("seedance-2-0");
+  const isSeedance20Fast = modelId.includes("seedance-2-0-fast");
+  const isVolcanoSeedance20 = modelId.startsWith("volcano-seedance-2-0");
+  if (isVolcanoSeedance20) {
+    if (normalizedResolution === "720p") {
+      // Volcano Seedance 2.0: 720p = 480p 的 2.2 倍
+      totalCredits = Math.round(totalCredits * 2.2);
+    }
+  } else if (
+    (isSeedanceModel(modelId) && (!isSeedance20 || isSeedance20Fast)) ||
+    isAliModel(modelId)
+  ) {
     if (normalizedResolution === "1080p") {
       // 1080p 价格是 480p 的 4 倍
       totalCredits *= 4;
@@ -975,7 +1062,7 @@ export function isSeedanceModel(modelId: string): boolean {
 
 // 检查模型是否为Volcano Engine模型
 export function isVolcanoModel(modelId: string): boolean {
-  return modelId.includes("doubao-");
+  return modelId.includes("doubao-") || modelId.startsWith("volcano-");
 }
 
 // 检查模型是否为BytePlus模型

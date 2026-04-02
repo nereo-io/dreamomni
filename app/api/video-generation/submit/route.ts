@@ -355,7 +355,8 @@ export async function POST(req: Request) {
       }
     }
 
-    if (watermarkEnabled && isSeedanceModel(finalModel)) {
+    if (watermarkEnabled && isSeedanceModel(finalModel) && !finalModel.startsWith("volcano-seedance-2-0")) {
+      // Legacy Seedance 模型使用 prompt 注入水印；Volcano Seedance 2.0 使用 body 参数
       const trimmed = enhancedPrompt.trim();
       if (!/--wm\s+true\b/i.test(trimmed)) {
         enhancedPrompt = `${trimmed} --wm true`.trim();
@@ -474,6 +475,18 @@ export async function POST(req: Request) {
       // Volcano 模型特有参数 (使用volcanoModel配置)
       if (modelConfig.volcanoModel) {
         input.model = modelConfig.volcanoModel;
+      }
+      // Seedance 2.0 支持音频控制
+      if (generate_audio !== undefined && modelConfig.supportsAudio) {
+        input.generate_audio = generate_audio;
+      }
+      // Seedance 2.0 水印控制（使用 body 参数，非 prompt 注入）
+      if (watermarkEnabled) {
+        input.watermark = true;
+      }
+      // Seedance 2.0 多模态参考生视频 - 透传 media_urls
+      if (media_urls && Array.isArray(media_urls) && media_urls.length > 0) {
+        input.media_urls = media_urls;
       }
     } else if (isBytePlusModel(finalModel)) {
       // BytePlus 模型特有参数 (使用volcanoModel配置)

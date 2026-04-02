@@ -8,7 +8,7 @@ import {
 import { volcengineClient } from "@/utils/volcengine-client";
 
 export class VolcanoProvider implements VideoProvider {
-  private baseUrl = "https://ark.cn-beijing.volces.com/api/v3";
+  private baseUrl = "https://ark.cn-beijing.volces.com";
   private apiKey: string;
   private useProxy: boolean;
 
@@ -69,6 +69,20 @@ export class VolcanoProvider implements VideoProvider {
     return response.json();
   }
 
+  private isSeedance2Model(modelId: string): boolean {
+    return modelId.includes("seedance-2-0");
+  }
+
+  /**
+   * 根据 URL 后缀推断媒体类型
+   */
+  private inferMediaType(url: string): "image" | "video" | "audio" {
+    const lower = url.toLowerCase().split("?")[0]; // 去掉 query string
+    if (/\.(mp4|mov|avi|mkv|webm)$/.test(lower)) return "video";
+    if (/\.(mp3|wav|ogg|flac|aac|m4a)$/.test(lower)) return "audio";
+    return "image";
+  }
+
   async submit(
     model: string,
     input: VideoGenerationRequest,
@@ -76,51 +90,145 @@ export class VolcanoProvider implements VideoProvider {
   ): Promise<VideoGenerationResponse> {
     const endpoint = "/api/v3/contents/generations/tasks";
 
+    const useSeedance2Style = this.isSeedance2Model(model);
+
     // Build request body according to Volcano Engine API format
     let promptText = input.prompt;
 
-    // Add aspect ratio to prompt if specified
-    if (input.aspect_ratio) {
-      // For Seedance image-to-video models, always use 'adaptive' to follow image dimensions
-      // Frontend uses 'Auto', but Volcano API requires 'adaptive'
-      if (model.includes("seedance") && model.includes("image-to-video")) {
-        promptText += ` --rt adaptive`;
-      } else {
-        // For text-to-video and other models, use the specified aspect ratio
-        // Convert frontend 'Auto' to API 'adaptive' if needed
-        const apiAspectRatio = input.aspect_ratio === "Auto" ? "adaptive" : input.aspect_ratio;
-        promptText += ` --rt ${apiAspectRatio}`;
+    // Seedance 2.0 多模态参考：将前端 @N 格式转为官方 [图N] 格式
+    if (useSeedance2Style) {
+      promptText = promptText.replace(/@(\d+)/g, "[图$1]");
+    }
+
+    if (!useSeedance2Style) {
+      // Legacy style: append parameters to prompt text
+      if (input.aspect_ratio) {
+        if (model.includes("seedance") && model.includes("image-to-video")) {
+          promptText += ` --rt adaptive`;
+        } else {
+          const apiAspectRatio = input.aspect_ratio === "Auto" ? "adaptive" : input.aspect_ratio;
+          promptText += ` --rt ${apiAspectRatio}`;
+        }
+      }
+      if (input.duration) {
+        promptText += ` --dur ${input.duration}`;
+      }
+      if (input.resolution) {
+        promptText += ` --rs ${input.resolution.toLowerCase()}`;
       }
     }
 
-    // Add duration to prompt if specified
-    if (input.duration) {
-      promptText += ` --dur ${input.duration}`;
-    }
-
-    // Add resolution to prompt if specified
-    if (input.resolution) {
-      promptText += ` --rs ${input.resolution.toLowerCase()}`;
-    }
-
     const requestBody: any = {
-      model: input.model, // Use input.model if available (for Volcano models), fallback to original model
-      content: [
-        {
-          type: "text",
-          text: promptText,
-        },
-      ],
+      model: input.model,
+      content: [],
     };
 
-    // Add image content if provided
-    if (input.image_url) {
-      requestBody.content.unshift({
-        type: "image_url",
-        image_url: {
-          url: input.image_url,
-        },
-      });
+    // Build content array
+    const mediaUrls = (
+      Array.isArray(input.media_urls) ? input.media_urls : []
+    ).filter((url): url is string => Boolean(url));
+    const imageUrls = (
+      Array.isArray(input.image_urls) ? input.image_urls : []
+    ).filter((url): url is string => Boolean(url));
+
+    if (useSeedance2Style) {
+      if (mediaUrls.length > 0) {
+        // 校验多模态参考素材限制：图片 0~9, 视频 0~3, 音频 0~3, 不可单独音频
+        const counts = { image: 0, video: 0, audio: 0 };
+        for (const url of mediaUrls) {
+          counts[this.inferMediaType(url)]++;
+        }
+        if (counts.image > 9) {
+          throw new Error(`Too many reference images: ${counts.image}, max 9`);
+        }
+        if (counts.video > 3) {
+          throw new Error(`Too many reference videos: ${counts.video}, max 3`);
+        }
+        if (counts.audio > 3) {
+          throw new Error(`Too many reference audios: ${counts.audio}, max 3`);
+        }
+        if (counts.audio > 0 && counts.image === 0 && counts.video === 0) {
+          throw new Error("Cannot use audio alone, at least 1 image or video is required");
+        }
+
+        // 按 URL 后缀推断类型，使用 reference_* role
+        for (const url of mediaUrls) {
+          const mediaType = this.inferMediaType(url);
+          if (mediaType === "video") {
+            requestBody.content.push({
+              type: "video_url",
+              role: "reference_video",
+              video_url: { url },
+            });
+          } else if (mediaType === "audio") {
+            requestBody.content.push({
+              type: "audio_url",
+              role: "reference_audio",
+              audio_url: { url },
+            });
+          } else {
+            requestBody.content.push({
+              type: "image_url",
+              role: "reference_image",
+              image_url: { url },
+            });
+          }
+        }
+      } else if (imageUrls.length > 1) {
+        // 首尾帧图生视频
+        requestBody.content.push({
+          type: "image_url",
+          role: "first_frame",
+          image_url: { url: imageUrls[0] },
+        });
+        requestBody.content.push({
+          type: "image_url",
+          role: "last_frame",
+          image_url: { url: imageUrls[imageUrls.length - 1] },
+        });
+      } else if (imageUrls.length === 1 || input.image_url) {
+        // 单图首帧图生视频
+        const singleImage = imageUrls[0] || input.image_url;
+        requestBody.content.push({
+          type: "image_url",
+          role: "first_frame",
+          image_url: { url: singleImage },
+        });
+      }
+    } else {
+      // Legacy: single image without role
+      if (input.image_url) {
+        requestBody.content.unshift({
+          type: "image_url",
+          image_url: { url: input.image_url },
+        });
+      }
+    }
+
+    // Add text content
+    requestBody.content.push({
+      type: "text",
+      text: promptText,
+    });
+
+    if (useSeedance2Style) {
+      // Seedance 2.0: use top-level body parameters (new style)
+      if (input.resolution) {
+        requestBody.resolution = input.resolution.toLowerCase();
+      }
+      if (input.aspect_ratio) {
+        const apiRatio = input.aspect_ratio === "Auto" ? "adaptive" : input.aspect_ratio;
+        requestBody.ratio = apiRatio;
+      }
+      if (input.duration) {
+        requestBody.duration = parseInt(String(input.duration), 10);
+      }
+      if (typeof input.generate_audio === "boolean") {
+        requestBody.generate_audio = input.generate_audio;
+      }
+      if (input.watermark === true) {
+        requestBody.watermark = true;
+      }
     }
 
     // Add webhook callback URL if provided
@@ -168,6 +276,9 @@ export class VolcanoProvider implements VideoProvider {
         break;
       case "cancelled":
         standardStatus = "CANCELLED";
+        break;
+      case "expired":
+        standardStatus = "FAILED";
         break;
       default:
         standardStatus = response.status;

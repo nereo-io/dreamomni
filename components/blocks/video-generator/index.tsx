@@ -168,9 +168,12 @@ export default function VideoGenerator({
   const isMember = membership?.status === "active";
   const isSeedanceSelected = isSeedanceModel(selectedModel);
   const isMaxApiSeedanceSelected = isMaxApiModel(selectedModel);
+  const isMediaToVideoModel =
+    isMaxApiSeedanceSelected ||
+    selectedModel === "volcano-seedance-2-0-reference-to-video";
   const isVeo3Selected = selectedModel.includes('kie-veo3-');
   const usesMixedMediaInput =
-    generationType === "REFERENCE_2_VIDEO" && isMaxApiSeedanceSelected;
+    generationType === "REFERENCE_2_VIDEO" && isMediaToVideoModel;
 
   // 当前模型支持的最大图片数（从配置中获取）
   const maxImages = useMemo(
