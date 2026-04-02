@@ -1,0 +1,146 @@
+{
+  "banner": {
+    "title": "Gerador de video AI Google Veo 3.1 Lite",
+    "description": "Veo 3.1 Lite e o modelo de video AI mais economico do Google e oferece geracao de video de alta qualidade com custo menor. E ideal para criadores com alto volume de producao. Experimente o Veo 3.1 Lite gratis no Veo3 AI.",
+    "tabs": [
+      {
+        "type": "image",
+        "title": "Imagem para video",
+        "subTitle": "Imagem",
+        "value": "image-to-video",
+        "modelName": "Veo 3.1 Lite",
+        "modelLogo": "/imgs/intro/veo.svg",
+        "placeholder": "Arraste e solte uma imagem aqui ou clique para selecionar",
+        "tips": "Envie imagens JPG/PNG/WEBP de ate 10 MB, com largura/altura minima de 300 px.",
+        "buttonText": "Criar"
+      },
+      {
+        "type": "text",
+        "title": "Texto para video",
+        "subTitle": "Prompt",
+        "value": "text-to-video",
+        "modelName": "Veo 3.1 Lite",
+        "modelLogo": "/imgs/intro/veo.svg",
+        "placeholder": "O que voce quer criar?",
+        "buttonText": "Criar"
+      }
+    ]
+  },
+  "partners": [
+    { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
+    { "name": "Microsoft", "logo": "/imgs/partners/microsoft-logo.png" },
+    { "name": "Nike", "logo": "/imgs/partners/nike-logo.png" },
+    { "name": "P&G", "logo": "/imgs/partners/p-g-logo.png" },
+    { "name": "Lancome", "logo": "/imgs/partners/lancome-logo.png" },
+    { "name": "Zoom", "logo": "/imgs/partners/zoom-logo.png" },
+    { "name": "Sony", "logo": "/imgs/partners/sony-logo.png" },
+    { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
+  ],
+  "features": {
+    "title": "Principais recursos do modelo de video AI Veo 3.1 Lite",
+    "details": [
+      {
+        "title": "Preco mais acessivel",
+        "description": "Veo 3.1 Lite foi feito para criadores que precisam de boa qualidade sem pagar custo premium. Ele comeca com menos creditos que o Veo 3.1, sendo ideal para producao em lote, testes frequentes e equipes com foco em economia.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/image-to-video/1216Material-reserves/Snow-Mountain-Lynx.mp4"
+      },
+      {
+        "title": "Geracao mais rapida",
+        "description": "Se voce precisa de retorno rapido, o Veo 3.1 Lite foi otimizado para gerar mais depressa. Assim, voce pode iterar conceitos, pecas publicitarias e conteudo curto com mais eficiencia sem abrir mao de boa qualidade visual.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/veo3.1/Castle-Beauty.mp4"
+      },
+      {
+        "title": "Criacao de texto para video",
+        "description": "Transforme prompts em videos AI bem acabados, com boa compreensao de cena, movimento convincente e composicao cinematografica. O Veo 3.1 Lite e uma escolha pratica para roteiros, conteudo social e ideias de marketing geradas a partir de texto.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/veo3.1/sloth_on_train.mp4"
+      },
+      {
+        "title": "Conversao de imagem para video",
+        "description": "Envie uma imagem estatica e transforme-a em um clipe dinamico. O Veo 3.1 Lite ajuda a converter rapidamente fotos, ilustracoes e visuais de produto em conteudo com movimento, tornando fluxos de imagem para video mais acessiveis em escala.",
+        "type": "video",
+        "data": "https://pollo.ai/cms/reference_to_video_2_e99c175bf0.mp4"
+      },
+      {
+        "title": "Integracao de audio",
+        "description": "O Veo 3.1 Lite suporta geracao de audio nativo sincronizado, adicionando ambiente, efeitos sonoros e um resultado mais rico em um unico fluxo. Isso reduz o tempo de edicao e torna pipelines leves mais eficientes.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Starting-a-fire-on-paper.mp4"
+      },
+      {
+        "title": "Qualidade de saida em 1080p",
+        "description": "Mesmo com custo menor, o Veo 3.1 Lite continua oferecendo saida nitida em 1080p. Voce recebe visuais claros para redes sociais, demos de produto, campanhas criativas e muitos casos de uso do dia a dia.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/wool-scarf.mp4"
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Como gerar videos com Veo 3.1 Lite no Veo3 AI",
+    "description": "Crie videos AI impressionantes com o modelo Veo 3.1 Lite do Google por meio da nossa interface facil de usar",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Selecione o modelo Veo 3.1 Lite",
+        "description": "Acesse a pagina 'Imagem para video' ou 'Texto para video' e escolha 'Veo 3.1 Lite' no menu de selecao de modelos."
+      },
+      {
+        "number": "02",
+        "title": "Insira seu prompt ou imagem",
+        "description": "Digite um prompt detalhado ou envie uma imagem de referencia. Ajuste duracao, proporcao e audio de acordo com seu objetivo criativo."
+      },
+      {
+        "number": "03",
+        "title": "Gerar e baixar",
+        "description": "Clique em 'Criar' e espere cerca de 2 a 3 minutos para o video ser gerado. Quando estiver pronto, baixe seu video AI de alta qualidade."
+      }
+    ],
+    "buttonText": "Experimente Veo 3.1 Lite no Veo3 AI"
+  },
+  "cta": {
+    "title": "Experimente o Veo 3.1 Lite no Veo3 AI agora",
+    "buttonText": "Testar Veo 3.1 Lite gratis"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Perguntas frequentes",
+    "description": "Saiba mais sobre o gerador de video AI Google Veo 3.1 Lite no Veo3 AI",
+    "items": [
+      {
+        "title": "O que e Google Veo 3.1 Lite?",
+        "description": "Google Veo 3.1 Lite e uma versao mais acessivel do modelo de video AI Veo 3.1 do Google. Ele foi criado para quem quer boa qualidade de video, mais velocidade e menor custo de geracao em trabalhos cotidianos de texto para video e imagem para video."
+      },
+      {
+        "title": "Como o Veo 3.1 Lite se diferencia do Veo 3.1?",
+        "description": "O Veo 3.1 Lite e a opcao mais economica e voltada a maior volume. Ele preserva a experiencia principal de geracao de video da linha Veo, mas comeca com menos creditos e geralmente gera mais rapido do que o Veo 3.1."
+      },
+      {
+        "title": "O Veo 3.1 Lite e gratis?",
+        "description": "Sim. O Veo3 AI permite testar o Veo 3.1 Lite gratuitamente com um plano de avaliacao. Se voce precisar de mais geracoes, pode fazer upgrade para um plano pago com creditos extras e limites maiores."
+      },
+      {
+        "title": "Qual resolucao o Veo 3.1 Lite suporta?",
+        "description": "O Veo 3.1 Lite suporta saida de ate 1080p, oferecendo resultados HD nitidos para redes sociais, videos de marketing, demos e outros conteudos online."
+      },
+      {
+        "title": "Quanto custa o Veo 3.1 Lite?",
+        "description": "O Veo 3.1 Lite comeca com menos creditos que o Veo 3.1, tornando-se uma opcao de gerador de video AI mais barata para criadores que desejam produzir mais videos com menor custo."
+      },
+      {
+        "title": "O Veo 3.1 Lite suporta geracao de audio?",
+        "description": "Sim. O Veo 3.1 Lite suporta audio nativo, ajudando voce a criar videos com efeitos sincronizados, ambiencia e um resultado mais imersivo em um unico fluxo de trabalho."
+      },
+      {
+        "title": "Que tipos de videos posso criar com o Veo 3.1 Lite?",
+        "description": "Com o Veo 3.1 Lite, voce pode criar varios tipos de video, incluindo conceitos publicitarios, videos de produto, clipes para redes sociais, cenas cinematograficas, visuais explicativos e conteudo estilizado a partir de texto ou imagens."
+      },
+      {
+        "title": "Quanto tempo leva para gerar um video com o Veo 3.1 Lite?",
+        "description": "No Veo3 AI, o Veo 3.1 Lite normalmente gera um video em cerca de 2 a 3 minutos, dependendo da complexidade do prompt, das configuracoes escolhidas e da carga atual do servidor. Tarefas mais simples podem terminar ainda mais rapido."
+      }
+    ]
+  }
+}

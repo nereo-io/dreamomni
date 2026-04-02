@@ -16,6 +16,7 @@ export const MODEL_LANDING_PAGES = [
   'hailuo-2-3',
   'kling-3-0',
   'veo-3-1',
+  'veo-3-1-lite',
   'sora-2',
   'sora-alternative',
   'seedream-4-5',

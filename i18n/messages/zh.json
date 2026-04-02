@@ -1,0 +1,1281 @@
+{
+  "metadata": {
+    "title": "Veo3 AI - 免费 AI 视频生成器",
+    "description": "用AI生成令人惊叹的4K视频。通过现实物理和原生音频从文本提示创建专业视频。今天开始免费体验。",
+    "keywords": "Veo3 AI，AI 视频生成器，免费视频创作，文本到视频，4K 视频，AI 影视制作"
+  },
+  "wan-2-5": {
+    "title": "Wan 2.5免费版：现在就尝试这个Wan AI视频模型 | Veo3 AI",
+    "description": "体验 Wan 2.5，Wan AI 升级的 AI 视频模型，内置音频、改进的一致性和流畅运动技术。",
+    "keywords": "无"
+  },
+  "wan-2-6": {
+    "title": "Wan 2.6 免费试用：尝试阿里巴巴 Wan 2.6 AI 视频模型 | Veo3 AI",
+    "description": "在 Veo3 AI 上尝试 Wan 2.6，支持多镜头叙事、参考视频支持、原生音频同步，并可输出长达 15 秒的 1080p 视频。",
+    "keywords": "Wan 2.6, Wan AI, AI 视频生成器, 多镜头视频, 参考到视频, 原生音频, 1080p, Veo3 AI"
+  },
+  "veo-3-1": {
+    "title": "Veo 3.1 免费版：现在尝试 Google Veo 3.1 AI 视频模型 | Veo3 AI",
+    "description": "Veo 3.1 是 Google 的 Veo 3 模型的升级版，增加了首帧和末帧控制以及图像参考功能。现在在 Veo3 AI 上免费体验 Veo 3.1。",
+    "keywords": "Veo 3.1, Google Veo 3.1, AI 视频生成器, 免费 Veo 3.1, 视频 AI, 文本到视频, 图像到视频, Veo3 AI"
+  },
+  "veo-3-1-lite": {
+    "title": "Veo 3.1 Lite 免费体验：谷歌最具性价比的AI视频模型 | Veo3 AI",
+    "description": "Veo 3.1 Lite 是 Google 最实惠的 AI 视频模型，以更低成本提供高质量视频生成效果。现在就在 Veo3 AI 免费体验 Veo 3.1 Lite，支持文本到视频和图像到视频创作。",
+    "keywords": "veo 3.1 lite, google veo 3.1 lite, veo 3.1 lite AI 视频生成器, 免费 veo 3.1 lite, veo 3.1 lite 文本到视频, veo 3.1 lite 图像到视频, 便宜的 AI 视频生成器"
+  },
+  "kling-3-0": {
+    "title": "Kling 3.0 免费：在线试用 Kling AI 视频模型 | Veo3 AI",
+    "description": "立即尝试Kling 3.0 AI视频生成器，支持原生音频、多镜头叙事、元素一致性、多语言语音，并支持最长15秒的输出。在Veo3 AI上创建Kling 3.0视频。",
+    "keywords": "Kling VIDEO 3.0, Kling AI, AI 视频生成器, 文本到视频, 图像到视频, 原生音频, 多镜头, Veo3 AI"
+  },
+  "seedance-1-5": {
+    "title": "Seedance 1.5 Pro: ByteDance 音频视频AI | Veo3 AI",
+    "description": "ByteDance的Seedance 1.5 Pro具有原生音视频生成、多语言唇形同步和电影级摄像控制功能。现在免费试用！",
+    "keywords": "Seedance 1.5 Pro, ByteDance Seedance, 文本到视频, 图像到视频, 音频视频AI, Veo3 AI"
+  },
+  "seedance-2-0": {
+    "title": "Seedance 2.0 AI 视频生成器在线免费 | Veo3 AI",
+    "description": "使用字节跳动的 Seedance 2.0 创建 AI 视频。多模态输入（图像、视频、音频、文本），2K 分辨率，角色一致性 & 30% 更快。免费试用！",
+    "keywords": "Seedance 2.0，AI 视频生成器，文本到视频，图像到视频，字节跳动，多模态 AI，免费"
+  },
+  "hailuo-2-3": {
+    "title": "Hailuo 2.3 AI视频生成器免费在线 | Veo3 AI",
+    "description": "尝试MiniMax Hailuo 2.3，改进的运动控制、风格化视觉输出和更快的迭代模式。在Veo3 AI上生成富有表现力的AI视频。",
+    "keywords": "Hailuo 2.3, MiniMax Hailuo, AI 视频生成器, 图像到视频, 文本到视频, Hailuo Fast, Veo3 AI"
+  },
+  "sora-2": {
+    "title": "Sora 2 已关闭 — 2026 年最佳 Sora 替代方案 | Veo3 AI",
+    "description": "OpenAI 已于 2026 年 3 月关闭 Sora。立即试用 Veo3 AI，这是一款基于 Google Veo 3 的最佳 Sora 替代方案，提供免费的 text-to-video 和 image-to-video 生成功能。",
+    "keywords": "Sora 替代, Sora 替换, Sora 关闭, 2026 最佳 Sora 替代, Veo3, AI 视频生成器, text to video, image to video, OpenAI Sora 关闭"
+  },
+  "pricing": {
+    "title": "视频订阅方案 | Veo3 AI 价格详情",
+    "description": "选择您的 AI 视频订阅方案。通过 Veo3 AI 获取 4K 输出、无限生成、高级控制功能及优先支持。",
+    "keywords": "Veo3 AI 定价, AI 视频生成方案, 4K 视频制作, AI 视频订阅服务"
+  },
+  "history": {
+    "title": "视频生成历史",
+    "description": "查看您的视频生成历史"
+  },
+  "user": {
+    "sign_in": "登录",
+    "sign_out": "退出",
+    "credits": "积分",
+    "api_keys": "API 密钥",
+    "my_orders": "我的订单",
+    "membership": "会员"
+  },
+  "sidebar": {
+    "home": "主页",
+    "image_to_video": "图像到视频",
+    "text_to_video": "文本转视频",
+    "reference_to_video": "参考视频",
+    "text_to_image": "文本到图像",
+    "image_to_image": "图像到图像",
+    "text_to_music": "文本到音乐",
+    "add_vocals": "添加人声",
+    "add_instrumental": "添加伴奏",
+    "upload_cover": "上传封面",
+    "agent_videos": "AI 短视频",
+    "ai_video_effects": "AI 视频效果",
+    "ai_effects": "AI 效果",
+    "image_effects": "图像效果",
+    "video_effects": "视频效果",
+    "my_creations": "我的创作",
+    "upgrade_now": "立即升级",
+    "feedback_title": "社区与奖励",
+    "feedback_telegram_channel": "电报频道",
+    "feedback_telegram_group": "电报群组",
+    "feedback_telegram": "加入 Telegram",
+    "feedback_discord": "加入 Telegram",
+    "earn_credits": "赚取积分"
+  },
+  "pricing_modal": {
+    "select_payment_method": "选择支付方式",
+    "payment_successful": "支付成功！",
+    "plan_activated": "已激活",
+    "credits_added": "积分已添加到您的账户",
+    "monthly_credits_grant": "您每月将获得{credits}个积分",
+    "remaining_credits_monthly": "剩余 {remainingCredits} 积分将在接下来的 {remainingMonths} 个月内按月发放",
+    "continue": "继续",
+    "start_creating": "开始创作",
+    "please_select_payment": "请选择支付方式",
+    "current_plan": "当前方案",
+    "downgrade_not_allowed": "不允许降级",
+    "upgrade": "升级"
+  },
+  "sign_modal": {
+    "sign_in_title": "登录",
+    "sign_in_description": "登录您的账户",
+    "sign_up_title": "注册",
+    "sign_up_description": "创建账户",
+    "email_title": "电子邮件",
+    "email_placeholder": "在此处输入您的电子邮件",
+    "password_title": "密码",
+    "password_placeholder": "在此处输入您的密码",
+    "forgot_password": "忘记密码？",
+    "or": "或",
+    "continue": "继续",
+    "no_account": "没有账户？",
+    "email_sign_in": "使用电子邮件登录",
+    "google_sign_in": "使用 Google 登录",
+    "vk_sign_in": "使用 VK 登录",
+    "github_sign_in": "使用 GitHub 登录",
+    "apple_sign_in": "使用 Apple 登录",
+    "close_title": "关闭",
+    "cancel_title": "取消"
+  },
+  "vk_login": {
+    "button_text": "继续使用 VK",
+    "sdk_not_loaded": "VK SDK 未加载",
+    "login_successful": "登录成功！",
+    "login_failed": "VK 登录失败",
+    "failed_to_process": "处理登录失败",
+    "failed_to_exchange": "无法用代码兑换令牌",
+    "failed_to_initialize": "初始化VK登录失败",
+    "error_unknown": "未知错误",
+    "error_message": "VK 登录错误: {message}"
+  },
+  "my_orders": {
+    "title": "我的订单",
+    "description": "用Veo3AI支付的订单。",
+    "no_orders": "未找到订单",
+    "activate_order": "激活订单",
+    "actived": "已激活",
+    "join_discord": "加入 Telegram",
+    "read_docs": "阅读文档",
+    "table": {
+      "order_no": "订单号",
+      "email": "电子邮件",
+      "product_name": "产品名称",
+      "amount": "金额",
+      "paid_at": "支付时间",
+      "invoice": "发票",
+      "download": "下载",
+      "github_username": "GitHub用户名",
+      "status": "状态"
+    },
+    "invoice_dialog": {
+      "download": "下载",
+      "title": "确认发票信息",
+      "description": "下载前请确认并修改抬头、邮箱和地址。地址不会被保存，每次下载都需要重新填写。",
+      "name_label": "发票抬头",
+      "name_placeholder": "请输入发票抬头",
+      "name_required": "发票抬头不能为空",
+      "email_label": "邮箱",
+      "email_placeholder": "请输入邮箱",
+      "email_required": "邮箱不能为空",
+      "address_label": "地址",
+      "address_placeholder": "请输入发票地址",
+      "address_hint": "地址为选填，下载后不会保存。",
+      "confirm": "确认",
+      "downloading": "下载中...",
+      "download_failed": "发票下载失败"
+    }
+  },
+  "membership": {
+    "title": "会员",
+    "description": "查看您的会员信息和有效期",
+    "status": "状态",
+    "status_active": "活动",
+    "status_expired": "已过期",
+    "type": "类型",
+    "type_monthly": "月度计划",
+    "type_yearly": "年度计划",
+    "start_date": "开始日期",
+    "end_date": "结束日期",
+    "remaining_days": "剩余天数",
+    "days": "天",
+    "no_membership": "无活动",
+    "manage_subscription": "管理订阅",
+    "loading": "加载中...",
+    "next_credit_distribution": "下次积分发放",
+    "monthly_credits": "月度积分",
+    "distribution_progress": "分发进度",
+    "credits": "积分",
+    "months": "个月"
+  },
+  "creditPools": {
+    "title": "积分池",
+    "description": "按购买方式显示的活跃积分余额",
+    "bonus": "额外积分",
+    "table": {
+      "order_no": "订单号",
+      "expired_at": "到期",
+      "balance": "平衡",
+      "earned": "已获得",
+      "used": "已使用",
+      "created_at": "已创建"
+    }
+  },
+  "subscription": {
+    "allSubscriptions": "所有订阅",
+    "subscriptionHistory": "您的Payssion订阅历史",
+    "cancelTitle": "取消订阅",
+    "cancelDescription": "您确定要取消吗？您将在计费周期结束前保留访问权限。",
+    "keepSubscription": "保持订阅",
+    "confirmCancel": "是的，取消",
+    "canceling": "正在取消...",
+    "cancel": "取消",
+    "cancelSuccess": "订阅已取消",
+    "cancelSuccessDescription": "您将不会再次被收费。",
+    "cancelFailed": "取消失败",
+    "cancelFailedDescription": "请再试一次。",
+    "networkError": "网络错误",
+    "networkErrorDescription": "检查您的连接并重试。"
+  },
+  "my_credits": {
+    "title": "我的积分",
+    "rules_title": "规则",
+    "rules": "1. 免费用户每天可进行3次对话，每24小时重置一次。每邀请一位注册的好友，您将额外获得3次对话。\n2. 升级到Pro版，享受无限对话和高级功能。",
+    "left_tip": "当前余额：{left_credits}",
+    "no_credits": "暂无积分记录",
+    "recharge": "升级会员",
+    "invite": "邀请朋友",
+    "tabs": {
+      "records": "积分记录",
+      "pools": "积分池"
+    },
+    "table": {
+      "trans_no": "交易编号",
+      "trans_type": "交易类型",
+      "credits": "积分",
+      "updated_at": "更新时间",
+      "status": "状态"
+    }
+  },
+  "api_keys": {
+    "title": "API 密钥",
+    "tip": "请妥善保管您的 apikey 以避免泄露",
+    "no_api_keys": "无 API 密钥",
+    "create_api_key": "创建API密钥",
+    "table": {
+      "name": "名称",
+      "key": "关键",
+      "created_at": "创建时间"
+    },
+    "form": {
+      "name": "名称",
+      "name_placeholder": "API 密钥名称",
+      "submit": "提交"
+    }
+  },
+  "blog": {
+    "title": "博客",
+    "description": "关于 Veo3 AI 视频生成的新闻、资源和更新",
+    "read_more_text": "阅读更多"
+  },
+  "chat": {
+    "title": "新一代 - Veo3 AI 视频平台",
+    "description": "使用 Veo3 AI 开始创作专业视频，以增强视觉内容、4K 生成和创意叙事"
+  },
+  "survey_banner": {
+    "message": "👋 需要快速反馈 - 帮助塑造 Veo3 AI！",
+    "close": "关闭"
+  },
+  "credit_history_modal": {
+    "title": "积分历史",
+    "current_balance": "当前余额",
+    "view_all": "查看完整历史记录",
+    "empty": "暂无积分记录",
+    "type": "类型",
+    "credits": "积分",
+    "date": "日期",
+    "loading": "加载中...",
+    "error": "无法加载积分历史"
+  },
+  "credit_exhausted_modal": {
+    "title": "对话积分用尽",
+    "description": "高级AI对话、编码辅助、数据分析——立即解锁全部功能",
+    "lifetime_analysis": {
+      "title": "个人AI助手",
+      "description1": "需要帮助解决复杂问题或创意项目吗？Claude 4 提供智能见解和解决方案，满足您的特定需求。",
+      "description2": "在重要任务（如编程、写作、分析、规划）中，配备一款先进的AI助手可显著提升您的工作效率。"
+    },
+    "dual_chart": {
+      "title": "团队协作",
+      "description": "与团队成员分享对话并协作进行项目，获得人工智能的帮助。"
+    },
+    "use_cases": {
+      "relationship": "个人：获取智能建议以进行个人决策和生活规划？",
+      "family": "教育：帮助学习、研究和学术项目 - 对学生和专业人士非常完美？",
+      "career": "专业用户：需要帮助进行编码、写作、数据分析或商业计划吗？"
+    },
+    "choice_section": {
+      "title": "👇 选择您的下一个 AI 对话路径：",
+      "premium": {
+        "title": "🔓 解锁无限对话",
+        "description": "升级会员"
+      },
+      "share": {
+        "title": "🎁 与朋友分享",
+        "description": "免费对话",
+        "tips": "邀请1人 = 获得3次额外对话"
+      }
+    },
+    "footer_text": "已经是会员？请重新登录以恢复您的权限。\n邀请仅对未注册用户有效。积分不能多次领取。"
+  },
+  "my_invites": {
+    "title": "我的邀请",
+    "description": "查看您的邀请记录",
+    "no_invites": "未找到邀请记录",
+    "my_invite_link": "我的邀请链接",
+    "edit_invite_link": "编辑邀请链接",
+    "copy_invite_link": "复制邀请链接",
+    "invite_code": "邀请码",
+    "invite_tip": "与朋友分享您的邀请链接，帮助他们发现我们的平台。",
+    "invite_balance": "邀请奖励余额",
+    "total_invite_count": "总邀请人数",
+    "total_paid_count": "总付费人数",
+    "total_award_amount": "总奖金金额",
+    "update_invite_code": "设置邀请码",
+    "update_invite_code_tip": "输入您的自定义邀请码",
+    "update_invite_button": "保存",
+    "no_orders": "在您购买Veo3 AI高级版之前，您无法邀请他人。",
+    "no_affiliates": "您不允许邀请他人，请联系我们申请权限。",
+    "invite_templates": "邀请模板",
+    "copy": "复制",
+    "template1_title": "🎬 AI 视频创作",
+    "template2_title": "🚀 内容创作",
+    "template3_title": "💼 专业视频",
+    "template1": "嘿朋友们！我刚刚发现了 Veo3 AI —— 最先进的 AI 视频生成器，可以从文本提示创建令人惊叹的视频。质量绝对令人惊叹！非常适合社交媒体、营销或创意项目。立即注册并探索可能的奇迹！\n👉 现在尝试 Veo3 AI",
+    "template2": "想不用拍摄就制作精彩的视频吗？Veo3 AI 从简单的文本描述生成专业质量的视频。我一直在用它做我的内容创作，结果令人惊叹——节省了很多时间和金钱！今天就来试试吧。\n🚀 在这里发现 Veo3 AI",
+    "template3": "需要专业的视频用于您的业务吗？Veo3 AI 使用先进的 AI 创建高质量的宣传视频、产品演示和营销内容。无需相机，无需编辑技能——只需描述您想要的内容！今天就试试看。\n💼 立即探索 Veo3 AI",
+    "table": {
+      "invite_time": "邀请时间",
+      "invite_user": "邀请用户",
+      "status": "状态",
+      "reward_percent": "奖励百分比",
+      "reward_amount": "奖励积分",
+      "pending": "待处理",
+      "completed": "完成"
+    }
+  },
+  "video-generator": {
+    "titleTextToVideo": "文本转视频",
+    "titleImageToVideo": "图像到视频",
+    "titleReferenceToVideo": "参考视频",
+    "videoDescription": "提示",
+    "videoAspectRatio": "视频宽高比",
+    "videoDuration": "视频时长",
+    "videoModel": "模型",
+    "credits": "积分",
+    "creditsRequired": "所需积分",
+    "remainingCredits": "剩余积分",
+    "cost": "成本",
+    "recharge": "充电",
+    "additionalOptions": "更多选项",
+    "generateVideo": "生成视频",
+    "submitting": "正在提交...",
+    "uploading": "上传中...",
+    "generating": "生成中...",
+    "uploadImage": "图片",
+    "dragAndDropImage": "点击上传",
+    "supportedFormats": "支持JPG、PNG、GIF格式，最大10MB",
+    "chooseFile": "选择文件",
+    "swapFrames": "交换帧",
+    "firstFrame": "第一帧",
+    "lastFrame": "最后一帧",
+    "clickToUpload": "点击上传",
+    "uploadingFirstFrame": "上传第一帧中...",
+    "uploadingLastFrame": "上传最后一帧中...",
+    "referenceUploadGuide": "上传1-3张参考图片以实现角色的一致性生成",
+    "addMoreReferences": "添加更多参考图片",
+    "referenceImage": "参考图像",
+    "clickToUploadMore": "点击上传更多（最多3个）",
+    "multipleUploadHint": "可选。多选、拖放或粘贴",
+    "fromMyCreations": "来自我的创作",
+    "myCreations": "我的创作",
+    "selectFromCreations": "从我的创作中选择",
+    "noImagesYet": "暂无生成的图像",
+    "loadingImages": "加载图片...",
+    "maxImagesError": "最多允许{max}张图片",
+    "onlyUploadingFirst": "仅上传前{count}张图片（最多{max}）",
+    "uploadingMultiple": "上传 {current}/{total} 张图片中...",
+    "addMoreImages": "添加更多图片",
+    "canUpload": "再上传 {count} 个",
+    "uploadMultipleImages": "上传最多 {max} 张图片",
+    "uploadMoreImagesRemaining": "上传更多图片（{remaining} 剩余）",
+    "aspectRatios": {
+      "landscape": "16:9横向",
+      "portrait": "9:16 纵向",
+      "square": "1:1正方形"
+    },
+    "watermark": {
+      "label": "水印",
+      "membersOnly": "只有会员才能移除水印。"
+    },
+    "durations": {
+      "5seconds": "5秒",
+      "10seconds": "10秒"
+    },
+    "characterCount": "最少字符数",
+    "uploadInstructions": {
+      "clickToUpload": "点击上传或拖放图片到这里",
+      "supportedFormats": "支持JPG、PNG、GIF格式，最大10MB"
+    },
+    "selectModel": "选择一个模型",
+    "videoSettings": "设置",
+    "ratio": "比例",
+    "duration": "时长",
+    "resolution": "分辨率",
+    "sound": "声音",
+    "promptEnhancement": "提示增强",
+    "promptTooLong": "字符限制超出 {count}",
+    "promptLength": "{current}/{max} 字符",
+    "telegramBanner": {
+      "text": "加入 Telegram 群组以讨论 Veo3",
+      "linkText": "加入"
+    },
+    "toast": {
+      "signInFirst": "请先登录",
+      "enterDescription": "请输入视频描述",
+      "descriptionTooShort": "视频描述必须至少包含30个字符",
+      "uploadImageFile": "请上传一张图片文件",
+      "uploadImageRequired": "请上传一张图片",
+      "imageUploaded": "图像上传成功",
+      "imageTooLarge": "图像文件太大（最大10MB）",
+      "imageUploadFailed": "图像上传失败",
+      "insufficientCredits": "积分不足。所需：{required}，可用：{available}",
+      "membersOnlyModel": "只有会员可以使用此模型。",
+      "emptyPrompt": "请输入描述",
+      "promptTooLong": "提示词过长，最多 {max} 个字符。",
+      "videoSubmitted": "视频生成任务已提交，正在处理中...",
+      "videoCompleted": "视频生成完成！",
+      "videoFailed": "视频生成失败"
+    },
+    "mediaUploadTitle": "参考素材",
+    "mediaUploadHint": "上传1-12个参考素材，在提示词中使用@引用素材，例如：@图片1 模仿 @视频1 的动作，音色参考 @音频1。",
+    "mediaUploadPrompt": "上传最多{max}个素材（图片、视频、音频）",
+    "mediaUploadSecondaryHint": "可选。支持多选或拖放",
+    "mediaUploadMore": "继续上传素材（还可上传{remaining}个）",
+    "mediaSupportedTypes": "支持图片、视频(.mp4, .mov)和音频(.mp3, .wav)。视频和音频不超过15秒",
+    "mediaUploading": "上传中 {current}/{total}...",
+    "mediaUploadFailed": "上传失败",
+    "mediaMaxError": "最多允许{max}个素材",
+    "mediaOnlyUploadingFirst": "仅上传前{count}个素材",
+    "mediaUnsupportedType": "不支持的文件类型：{name}",
+    "mediaTypeImage": "图片",
+    "mediaTypeVideo": "视频",
+    "mediaTypeAudio": "音频",
+    "mediaTypeFile": "文件",
+    "mediaMentionHint": "输入 @ 引用已上传的素材",
+    "mediaMentionDropdownTitle": "选择参考素材",
+    "mediaPromptPlaceholder": "描述你想要的视频。使用 @ 引用已上传的素材，例如：@1 模仿 @2 的动作，音色参考 @3。"
+  },
+  "video-history": {
+    "title": "视频生成历史",
+    "videoDetailsTitle": "视频详情",
+    "downgradedTo720P": "降级为 720P",
+    "noVideosTitle": "暂无视频",
+    "noVideosDescription": "您尚未生成任何视频。开始创作您的第一件杰作吧！",
+    "generateVideoButton": "生成视频",
+    "playButton": "播放",
+    "downloadButton": "下载",
+    "regenerateButton": "重新生成",
+    "status": {
+      "completed": "完成",
+      "processing": "处理中",
+      "pending": "待处理",
+      "failed": "失败"
+    },
+    "labels": {
+      "model": "模型",
+      "duration": "时长",
+      "aspectRatio": "宽高比"
+    },
+    "searchPromptPlaceholder": "搜索提示",
+    "searchMatches": "{count} 个匹配项",
+    "searchNoResults": "没有与您的搜索匹配的提示",
+    "searchButton": "搜索",
+    "toast": {
+      "videoNotAvailable": "视频尚未可用。",
+      "downloadNotAvailable": "视频无法下载。",
+      "regenerationNotImplemented": "重新生成功能将被实现。",
+      "fetchError": "无法获取视频历史记录",
+      "noDataReturned": "未返回数据"
+    },
+    "pleaseSignIn": "请登录",
+    "signInToViewVideos": "登录以查看您的生成视频",
+    "signInButton": "登录"
+  },
+  "video-result": {
+    "status": {
+      "submitted": "已提交",
+      "optimizingPrompt": "优化提示",
+      "inQueue": "队列中",
+      "generating": "生成中",
+      "completed": "完成",
+      "failed": "失败"
+    },
+    "videoCompleted": "视频生成完成！",
+    "videoFailed": "视频生成失败",
+    "processing": "处理中...",
+    "taskSubmitted": "任务已提交，预计剩余时间：{time}",
+    "optimizingPrompt": "正在优化您的提示以获得更好的结果，预计剩余时间：{time}",
+    "taskInQueue": "任务在队列中，预计剩余时间：{time}",
+    "generatingVideo": "生成视频，预计剩余时间：{time}",
+    "processingGeneral": "处理中，预计剩余时间：{time}",
+    "viewHistory": "查看历史记录",
+    "retry": "重试",
+    "successMessage": "🎉 您的视频已准备就绪！您可以下载它或查看历史记录中的所有创作。",
+    "prompt": "提示",
+    "originalPrompt": "原始提示",
+    "optimizedPrompt": "增强提示",
+    "enhanced": "增强型",
+    "optimizing": "正在优化...",
+    "browserNotSupported": "您的浏览器不支持视频播放。",
+    "download": "下载",
+    "downloading": "正在下载...",
+    "openInNewTab": "在新标签页中打开",
+    "loadingVideo": "加载视频",
+    "videoLoadingMessage": "视频生成已完成。正在获取视频URL...",
+    "videoProcessing": "视频处理",
+    "videoNotAvailableMessage": "视频生成已完成，但视频尚未可用。请稍等片刻。",
+    "generationProgress": "生成进度",
+    "generationFailed": "生成失败",
+    "errorMessages": {
+      "unexpected": "发生了意外错误。请再试一次。",
+      "externalService": "外部服务出现了一个问题。请稍后再试。",
+      "inputIssue": "您的输入或设置有问题。请检查后重试。",
+      "serverError": "我们的端发生了意外错误。请稍后再试。",
+      "timeout": "请求耗时过长并超时。请重试。",
+      "statusCode": "发生错误（状态 {code}）。请再试一次。"
+    }
+  },
+  "music-generator": {
+    "title": "音乐生成",
+    "subtitle": "用AI创作美妙的音乐",
+    "generateMusic": "生成音乐",
+    "history": "生成历史记录",
+    "generating": "生成中...",
+    "prompt": "提示",
+    "description": "描述",
+    "promptPlaceholder": "输入您的音乐描述或歌词...",
+    "musicTitle": "标题",
+    "titlePlaceholder": "输入歌曲标题...",
+    "style": "风格",
+    "stylePlaceholder": "例如，爵士、摇滚、电子...",
+    "negativeTags": "负面标签（可选）",
+    "negativeTagsPlaceholder": "要避免的风格...",
+    "creditsRequired": "所需积分",
+    "yourCredits": "您的积分",
+    "generate": "生成音乐",
+    "maxLength500": "最多500个字符",
+    "maxLength5000": "最多5000个字符",
+    "generationType": "生成类型",
+    "uploadAudio": "上传音频",
+    "dragAndDropAudio": "将音频文件拖放到此处",
+    "orClickToUpload": "或点击浏览",
+    "supportedAudioFormats": "支持的格式：MP3、WAV、FLAC、OGG（最大50MB）",
+    "removeAudio": "移除音频",
+    "audioNotSupported": "您的浏览器不支持音频播放。",
+    "mode": "模式",
+    "songMode": "歌曲（带人声）",
+    "instrumentalMode": "器乐（仅音乐）",
+    "modes": {
+      "song": {
+        "label": "歌曲",
+        "description": "带人声的音乐"
+      },
+      "instrumental": {
+        "label": "器乐",
+        "description": "仅限音乐"
+      }
+    },
+    "loadingHistory": "加载历史记录...",
+    "noHistory": "暂无生成历史",
+    "startGenerating": "开始生成音乐，以便在此查看您的历史记录",
+    "status": {
+      "pending": "待处理",
+      "textGenerated": "生成的歌词",
+      "firstTrack": "第一轨准备就绪",
+      "completed": "完成",
+      "failed": "失败"
+    },
+    "types": {
+      "direct": {
+        "label": "直接生成",
+        "description": "从文本创建音乐"
+      },
+      "addVocals": {
+        "label": "添加人声",
+        "description": "为音乐添加声音"
+      },
+      "addInstrumental": {
+        "label": "添加伴奏",
+        "description": "添加背景音乐"
+      },
+      "uploadCover": {
+        "label": "上传封面",
+        "description": "转换音频风格"
+      }
+    },
+    "errors": {
+      "invalidAudioFormat": "请上传音频文件",
+      "audioTooLarge": "音频文件过大（最大50MB）",
+      "uploadFailed": "上传失败",
+      "insufficientCredits": "积分不足",
+      "audioRequired": "请上传音频文件",
+      "promptRequired": "请输入提示",
+      "titleRequired": "请输入标题",
+      "styleRequired": "请输入风格",
+      "negativeTagsRequired": "请输入负面标签"
+    },
+    "toast": {
+      "audioUploaded": "音频上传成功",
+      "musicSubmitted": "音乐生成任务已提交",
+      "musicCompleted": "音乐生成已完成！",
+      "musicFailed": "音乐生成失败",
+      "pollTimeout": "投票超时，请手动刷新",
+      "statusCheckFailed": "状态检查失败，请重试"
+    },
+    "customMode": "自定义模式",
+    "customModeDescription": "启用对所有参数的详细控制",
+    "instrumental": "器乐",
+    "instrumentalDescription": "生成无伴奏音乐",
+    "lyricsAndStyle": "歌词与演唱风格",
+    "lyrics": "歌词",
+    "promptPlaceholderAddVocals": "输入歌词和演唱风格...",
+    "promptPlaceholderLyrics": "输入您的歌词...",
+    "promptPlaceholderDescription": "输入音乐描述...",
+    "tags": "标签",
+    "tagsPlaceholder": "例如，欢快、充满活力、电子...",
+    "maxLength": "最大",
+    "characters": "字符",
+    "track": "轨道",
+    "download": "下载",
+    "advancedOptions": "高级选项",
+    "optional": "可选",
+    "styleWeight": "风格权重",
+    "styleWeightDescription": "对指定风格的遵循程度（0-1）。推荐：0.65-0.80",
+    "weirdnessConstraint": "创造力等级",
+    "weirdnessConstraintDescription": "控制实验/创意偏差 (0-1)。较低=传统，较高=创意。推荐：0.30-0.50",
+    "audioWeight": "音频权重",
+    "audioWeightDescription": "平衡音频功能权重 (0-1)。推荐值：0.60-0.75",
+    "vocalGender": "语音性别偏好",
+    "auto": "自动",
+    "male": "男性",
+    "female": "女性",
+    "vocalGenderDescription": "注意：这会增加概率，但不能保证严格遵守"
+  },
+  "pages": {
+    "home": {
+      "title": "欢迎使用 Veo3 AI",
+      "description": "使用我们先进的AI技术，将您的想法转化为令人惊叹的视频。选择文本到视频、图像到视频，或探索我们的创意视频效果。"
+    },
+    "videoEffects": {
+      "title": "AI 视频效果 - 改变你的视频",
+      "description": "使用AI创建令人惊叹的视频效果。选择数十种模板，立即转换您的视频。",
+      "keywords": "AI 视频效果，视频转换，AI 模板，视频编辑，视觉效果，AI 滤镜",
+      "gridTitle": "免费提供100+款AI视频模板与特效",
+      "useThisEffect": "使用此效果",
+      "exploreAll": "探索所有 AI 视频效果"
+    },
+    "imageEffects": {
+      "exploreAll": "探索所有 AI 图像效果",
+      "title": "AI 图片特效 - 转换您的照片 | Veo3 AI",
+      "description": "一键创建惊艳的 AI 照片特效。浏览模板并即时转换您的图片。",
+      "keywords": "AI 图片特效, 照片特效, AI 滤镜, 图片转换"
+    },
+    "textToVideo": {
+      "title": "免费AI视频生成器：在线文字转视频AI | Veo3 AI",
+      "description": "发现 Veo3 AI 视频生成器，这是一款尖端的免费解决方案，可以轻松地将文本提示转化为引人入胜的视频。今天就尝试我们的文本到视频 AI！",
+      "keywords": "AI 视频生成器，文本到视频，免费视频生成器，Veo3 AI，AI 视频创作，在线文本到视频"
+    },
+    "textToImage": {
+      "title": "免费AI文生图生成器：通过文字生成图像 | Veo3 AI",
+      "description": "通过Veo3 AI免费的文字到图像生成器，将您的文字转化为令人惊叹的视觉效果。使用尖端AI技术从详细的文字描述中创建高质量图像。",
+      "keywords": "AI 文本到图像，文本到图像生成器，免费 AI 图像创建者，Veo3 AI，从文本生成 AI 艺术，从文本生成图像"
+    },
+    "imageToImage": {
+      "title": "免费AI图像转图像编辑器：用AI重塑图像 | Veo3 AI",
+      "description": "使用Veo3 AI的强大图像到图像编辑器编辑和转换您的图片。上传您的照片，并使用AI创建令人惊叹的变体和修改。",
+      "keywords": "AI 图像编辑器，图像到图像 AI，照片转换，AI 图像编辑，Veo3 AI，图像修改 AI"
+    },
+    "imageToVideo": {
+      "title": "免费AI图像转视频生成器：将照片转为视频 | Veo3 AI",
+      "description": "使用 Veo3 AI 的图像到视频 AI 生成器免费。将照片转换为高质量且引人入胜的视频。现在尝试我们的图像到视频 AI！",
+      "keywords": "图像到视频AI，照片到视频转换器，免费图像到视频，Veo3 AI，从图像生成AI视频，图像动画"
+    },
+    "referenceToVideo": {
+      "title": "免费 Veo3 参考视频：锁定角色身份 | Veo3 AI",
+      "description": "上传1-3张参考图片，使用Veo 3.1生成8秒视频。通过原生音频在场景中保持角色外观。可扩展至148秒。",
+      "keywords": "Veo3 参考到视频，一致的角色，身份锁定，Veo 3.1，角色一致性"
+    },
+    "imageGeneration": {
+      "title": "免费AI图像生成器：通过文字生成惊艳图像 | Veo3 AI",
+      "description": "使用Veo3 AI的免费图像生成器从文本提示生成高质量图像。利用尖端AI技术创作令人惊叹的艺术作品、照片和插画。",
+      "keywords": "AI 图像生成器，文本到图像，免费图像生成器，Veo3 AI，AI 艺术，图像创作，AI 艺术作品"
+    },
+    "videoAffects": {
+      "heroSection": {
+        "title": "让任何人变得肌肉发达",
+        "description": "尝试 Veo3 AI 的强大 AI 肌肉生成器！上传任何人的图片，生成一个展示被增肌的、强壮的受试者的令人惊叹的视频。",
+        "buttonText": "免费试用"
+      },
+      "effectsTitle": "AI 视频效果 & 模板",
+      "categoryEffects": {
+        "funAndCreative": "趣味创意特效",
+        "horrorAndFantasy": "恐怖与幻想效果",
+        "appearanceChanging": "外观变化效果",
+        "seasonalSpecial": "季节性特效",
+        "emotionalExpression": "情感表达效果"
+      }
+    },
+    "effectDetail": {
+      "defaultTitle": "AI 视频效果",
+      "defaultDescription": "用AI驱动的视频效果转换您的照片",
+      "tryButtonText": "试用此效果",
+      "placeholderText": "上传一张图片以应用此效果",
+      "effectDescriptionLabel": "效果描述（可选）",
+      "effectDescriptionPlaceholder": "描述效果的其他细节...",
+      "imageAlt": "肌肉转变",
+      "effectsMap": {
+        "ai-kissing": {
+          "title": "AI 接吻视频生成器",
+          "description": "使用AI技术创建浪漫的亲吻视频"
+        },
+        "ai-muscle": {
+          "title": "AI 肌肉生成器",
+          "description": "用AI将任何人转换为肌肉版本"
+        }
+      },
+      "howToUse": {
+        "title": "如何使用此效果"
+      }
+    }
+  },
+  "imageEffectTool": {
+    "backToEffects": "返回图像特效",
+    "uploadImage": "上传图片",
+    "dragAndDrop": "拖放或点击上传",
+    "selectFromCreations": "从我的创作中选择",
+    "supportedFormats": "支持JPG、PNG、WebP（最大10MB）",
+    "uploadingImage": "上传图片中...",
+    "uploading": "上传中...",
+    "settings": "设置",
+    "credits": "积分",
+    "cost": "成本",
+    "recharge": "充电",
+    "generate": "生成",
+    "generating": "生成中...",
+    "uploadRequired": "请上传一张图片以应用效果。",
+    "insufficientCredits": "积分不足。请充值。",
+    "generateFailed": "生成效果失败。",
+    "generateFailedRetry": "生成效果失败。请重试。",
+    "uploadedAlt": "已上传",
+    "placeholderText": "上传一张图片以应用效果",
+    "comingSoon": "即将推出"
+  },
+  "videoEffectTool": {
+    "backToEffects": "返回视频特效",
+    "uploadImage": "上传图片",
+    "dragAndDrop": "拖放或点击上传",
+    "selectFromCreations": "从我的创作中选择",
+    "supportedFormats": "支持JPG、PNG、WebP（最大10MB）",
+    "uploadingImage": "上传图片中...",
+    "uploading": "上传中...",
+    "settings": "设置",
+    "credits": "积分",
+    "cost": "成本",
+    "recharge": "充电",
+    "generate": "生成",
+    "generating": "生成中...",
+    "uploadRequired": "请上传一张图片以应用效果。",
+    "uploadRequiredCount": "请上传 {count} 张图片以应用效果。",
+    "insufficientCredits": "积分不足。请充值。",
+    "generateFailed": "生成效果失败。",
+    "generateFailedRetry": "生成效果失败。请重试。",
+    "uploadedAlt": "已上传",
+    "placeholderText": "上传一张图片以应用效果",
+    "comingSoon": "即将推出",
+    "firstFrame": "第一帧",
+    "lastFrame": "最后一帧",
+    "imageSlot": "图像{index}"
+  },
+  "imageGenerator": {
+    "textToImage": "文本到图像",
+    "imageToImage": "图像到图像",
+    "prompt": "提示",
+    "settings": "设置",
+    "model": "模型",
+    "resolution": "分辨率",
+    "ratio": "比例",
+    "image": "图片",
+    "images": "图像",
+    "credits": "积分",
+    "cost": "成本",
+    "recharge": "充电",
+    "generateImage": "生成图片",
+    "transformImage": "转换图像",
+    "transformMultipleImages": "转换 {count} 张图片",
+    "generating": "生成中...",
+    "uploading": "上传中...",
+    "clickToUpload": "点击上传或拖放",
+    "clickToUploadMultiple": "点击上传多个图片或拖放",
+    "addMoreImages": "添加更多图片",
+    "maxImages": "最多{max}张图片",
+    "maxImagesExceeded": "您只能再选择{max}张图片",
+    "imagesUploadedSuccessfully": "{count} 张图片已成功上传",
+    "canUpload": "再上传 {count} 个",
+    "supportedFormats": "支持的格式：JPEG、PNG、WEBP",
+    "textToImagePlaceholder": "描述您想要创建的图像，例如，一只雄伟的鹰在金色时刻穿越山峰...",
+    "imageToImagePlaceholder": "描述您想要如何编辑图像，例如，将背景改为日落场景，增加更多对比度...",
+    "pleaseEnterDescription": "为您的图像输入描述",
+    "pleaseUploadImage": "请上传至少一张图片进行编辑",
+    "insufficientCredits": "积分不足。使用此模型生成需要 {credits} 个积分。",
+    "imageUploadedSuccessfully": "图像上传成功",
+    "uploadFailed": "无法上传图片",
+    "invalidImageFile": "{filename} 不是一个有效的图像文件",
+    "fileSizeExceeded": "{filename} 超过 10MB 的大小限制",
+    "generationSuccessful": "图像生成成功",
+    "accountSyncSuccessful": "账户已成功同步。请重试。",
+    "pleaseSignInAgain": "请退出登录并重新登录以同步您的账户。",
+    "generationFailed": "生成失败：{error}",
+    "unknownError": "未知错误",
+    "promptEnhancement": "提示增强",
+    "promptEnhancementDescription": "AI 将增强您的提示以获得更好的图像质量",
+    "promptInspirationTitle": "获取灵感",
+    "promptInspirationSubtitle": "发现流行的提示，并点击任何卡片将其填充到生成器中。",
+    "useThisPrompt": "使用此提示",
+    "useThisPromptAria": "使用此提示: {prompt}",
+    "nanoBananaDisplayName": "纳米香蕉",
+    "nanoBananaProvider": "Kie.ai Nano Banana",
+    "highQuality": "高质量",
+    "fastGeneration": "快速",
+    "outputFormat": "输出格式",
+    "imageSize": "图片尺寸",
+    "pleaseSignInToGenerate": "请登录以生成图像",
+    "generationStarted": "图像生成开始。",
+    "generationCompleted": "图像生成完成！",
+    "generationInProgress": "生成中...",
+    "generationStatusChecking": "正在检查状态...",
+    "showcaseImageLoaded": "展示图片加载成功",
+    "failedToLoadShowcaseImage": "无法加载展示图片",
+    "imageAgent": "多镜头生成",
+    "imageAgentTooltip": "AI 可将你的提示扩展为多个角度、场景和光照变化。非常适合产品摄影、漫画分镜脚本和创意探索。",
+    "imageCount": "输出",
+    "generateMultipleImages": "生成 {count} 张图像",
+    "promptTooLong": "字符限制超出 {count}"
+  },
+  "myCreations": {
+    "title": "我的创作",
+    "description": "查看您所有AI生成的视频和图片",
+    "videoTab": "视频",
+    "jobsTab": "工作",
+    "imageTab": "图像"
+  },
+  "media-detail": {
+    "title": "媒体详情",
+    "audio": "音频",
+    "prompt": "提示",
+    "inputImages": "输入图片",
+    "expand": "展开",
+    "collapse": "折叠",
+    "actions": {
+      "open": "打开",
+      "download": "下载",
+      "delete": "删除",
+      "copyPrompt": "复制提示",
+      "promptCopied": "提示已复制"
+    }
+  },
+  "agentJobs": {
+    "pleaseSignIn": "请登录",
+    "signInToViewJobs": "登录以查看您的任务",
+    "signInButton": "登录",
+    "tabs": {
+      "history": "历史",
+      "discover": "发现"
+    },
+    "modal": {
+      "title": "工作详情",
+      "labels": {
+        "videoModel": "视频模型",
+        "imageModel": "图像模型",
+        "aspectRatio": "宽高比",
+        "duration": "时长",
+        "shots": "镜头",
+        "created": "已创建"
+      },
+      "actions": {
+        "open": "打开",
+        "download": "下载",
+        "copyPrompt": "复制提示"
+      }
+    },
+    "empty": {
+      "noJobsTitle": "尚无代理任务",
+      "noJobsDescription": "创建您的第一个智能视频编排任务以开始",
+      "checkExamples": "查看示例",
+      "noShowcase": "暂无展示项目。"
+    },
+    "auth": {
+      "required": "需要身份验证",
+      "description": "请登录以查看您的 Agent 任务",
+      "viewShowcase": "查看展示"
+    },
+    "toast": {
+      "deleteSuccess": "代理任务成功删除",
+      "deleteError": "无法删除任务",
+      "downloadError": "无法下载视频",
+      "fetchError": "无法加载代理任务",
+      "copyError": "复制失败"
+    },
+    "item": {
+      "finalVideo": "最终视频",
+      "finalVideoNoBgm": "拼接视频",
+      "finalVideoWithBgm": "最终视频（带背景音乐）",
+      "reEdit": "重新编辑",
+      "delete": "删除",
+      "deleting": "正在删除...",
+      "story": "故事",
+      "theme": "主题",
+      "tone": "语气",
+      "acts": "动作",
+      "characters": "角色",
+      "scene": "场景",
+      "logs": "代理日志",
+      "show": "显示",
+      "hide": "隐藏",
+      "deleteTitle": "删除代理任务？",
+      "deleteConfirm": "您确定要删除“{prompt}”吗？此操作无法撤销。",
+      "shots": "镜头",
+      "failed": "生成失败",
+      "copyPrompt": "复制提示",
+      "promptCopied": "提示已复制",
+      "failedShots": "失败的镜头",
+      "estimatedCost": "恢复预计费用: {cost} 积分",
+      "resume": "继续",
+      "resumeStarted": "继续开始",
+      "resumeFailed": "继续失败",
+      "retryStarted": "重试开始",
+      "retryFailed": "重试失败",
+      "retryFromStart": "从头开始重试"
+    },
+    "steps": {
+      "plan_story_and_shots": "故事规划",
+      "generate_prompts": "提示生成",
+      "submit_background_music": "背景音乐提交",
+      "design_characters": "角色设计",
+      "generate_scene_ref": "场景参考",
+      "generate_keyframes": "关键帧生成",
+      "generate_video_prompts": "视频提示",
+      "orchestrate_videos": "视频生成",
+      "check_quality": "质量检查",
+      "wait_for_background_music": "等待背景音乐",
+      "splice_videos": "视频拼接"
+    },
+    "assets": {
+      "script": "剧本",
+      "image": "图片",
+      "video": "视频",
+      "storyScript": "故事与剧本",
+      "characterRefs": "角色参考",
+      "sceneRef": "场景参考",
+      "backgroundMusic": "背景音乐",
+      "shot": "镜头",
+      "ref": "参考",
+      "more": "更多",
+      "finalVideo": "最终视频"
+    },
+    "assetModal": {
+      "shots": "镜头",
+      "acts": "动作",
+      "characters": "角色",
+      "scene": "场景",
+      "storyOutline": "故事大纲",
+      "logline": "剧情简介",
+      "conflict": "冲突",
+      "ending": "结束",
+      "soundBed": "音景",
+      "theme": "主题",
+      "tone": "语气",
+      "actsUpper": "ACTS",
+      "elementsUpper": "元素",
+      "character": "角色",
+      "storyboard": "分镜脚本",
+      "startFrame": "起始帧",
+      "story": "故事",
+      "keyframePrompt": "关键帧提示",
+      "shotPrompt": "镜头提示",
+      "videoRouting": "视频路由",
+      "copy": "复制",
+      "copied": "已复制",
+      "download": "下载",
+      "copyAttempts": "复制尝试",
+      "keyboardHint": "按空格键暂停/播放 • 按 ESC 关闭",
+      "videoNotSupported": "您的浏览器不支持视频标签。",
+      "done": "完成",
+      "failed": "失败",
+      "generating": "生成中",
+      "skipped": "跳过",
+      "model": "模型"
+    },
+    "gallery": {
+      "promptLabel": "提示",
+      "usedResources": "资源",
+      "resourceLabel": "资源"
+    },
+    "createPanel": {
+      "title": "创建代理作业",
+      "description": "描述",
+      "descriptionPlaceholder": "描述您的视频概念，例如：夕阳下穿越未来城市的电影之旅...",
+      "aspectRatio": "宽高比",
+      "duration": "时长",
+      "videoModel": "视频模型",
+      "credits": "积分",
+      "cost": "成本",
+      "recharge": "充电",
+      "generate": "生成",
+      "creating": "正在创建...",
+      "errorNoDescription": "请输入视频描述",
+      "errorMinLength": "描述必须至少包含 10 个字符",
+      "errorMaxLength": "描述不得超过 2000 个字符",
+      "toastSuccess": "代理任务已创建！"
+    }
+  },
+  "imageHistory": {
+    "discoveryTab": "发现",
+    "historyTab": "历史",
+    "discoveryHeading": "精选提示画廊",
+    "discoverySubtitle": "浏览精选提示并直接将其拖入生成器中。",
+    "discoveryDescription": "点击任何卡片以立即填充文本到图像工具的提示字段。",
+    "historySubtitle": "查看您的最近生成，跟踪状态更新并管理输出。",
+    "title": "图片历史",
+    "searchPromptPlaceholder": "搜索提示",
+    "searchMatches": "{count} 个匹配项",
+    "searchNoResults": "没有与您的搜索匹配的提示",
+    "searchButton": "搜索",
+    "noImagesTitle": "暂无图像",
+    "noImagesDescription": "您开始创作后，生成的图片将显示在此处。",
+    "completed": "完成",
+    "processing": "处理中",
+    "pending": "待处理",
+    "failed": "失败",
+    "optimizingPrompt": "优化提示",
+    "optimizingPromptTitle": "优化提示...",
+    "optimizingPromptDescription": "AI 正在优化你的提示以获得更好的结果",
+    "imageDeleted": "图片已成功删除",
+    "deleteSuccess": "图片已成功删除",
+    "deleteFailed": "无法删除图片",
+    "deleteConfirmTitle": "删除图像",
+    "deleteConfirmDescription": "您确定要删除这张图片吗？此操作无法撤销。",
+    "deleteConfirmCancel": "取消",
+    "deleteConfirmConfirm": "删除",
+    "generationFailed": "生成失败",
+    "generatingImage": "正在生成图像...",
+    "waitingInQueue": "正在排队中...",
+    "addedToFavorites": "已添加到收藏夹",
+    "removedFromFavorites": "已从收藏夹中移除",
+    "imageDownloaded": "图片已下载",
+    "downloadFailed": "无法下载图片",
+    "promptCopied": "提示已复制到剪贴板",
+    "urlCopied": "图片 URL 已复制到剪贴板",
+    "copyFailed": "无法复制图片链接",
+    "openInNewTab": "在新标签页中打开图像",
+    "copyImageUrl": "复制图片 URL",
+    "pleaseSignIn": "请登录",
+    "signInToViewImages": "登录以查看您生成的图像",
+    "signInButton": "登录",
+    "downloadImage": "下载图片",
+    "copyPrompt": "复制提示",
+    "credits": "积分",
+    "signInToView": "登录以查看您生成的图像并创建新图像。",
+    "generatingComplete": "图像生成完成！",
+    "generatingFailed": "图像生成失败：{error}",
+    "deleteImage": "删除图像",
+    "addToFavorites": "添加到收藏夹",
+    "inQueue": "正在排队...",
+    "textToImageModel": "纳米香蕉",
+    "imageToImageModel": "纳米香蕉",
+    "inspirationTab": "灵感",
+    "inspirationLoading": "正在加载灵感内容...",
+    "inspirationEmptyTitle": "暂无灵感内容",
+    "inspirationEmptySubtitle": "稍后再来查看更多灵感作品"
+  },
+  "videoHistory": {
+    "exploreExamples": "探索示例",
+    "recentGenerations": "最近几代",
+    "videoDeleted": "视频已成功删除",
+    "deleteFailed": "无法删除视频",
+    "deleteVideo": "删除视频",
+    "deleteConfirmDescription": "您确定要删除这个视频吗？",
+    "inspirationTab": "灵感",
+    "historyTab": "历史",
+    "inspirationLoading": "正在加载灵感内容...",
+    "inspirationEmptyTitle": "暂无灵感内容",
+    "inspirationEmptySubtitle": "稍后再来查看更多灵感作品"
+  },
+  "common": {
+    "useThisEffect": "使用此效果",
+    "loading": "加载中...",
+    "error": "错误"
+  },
+  "components": {
+    "heroSection": {
+      "defaultTitle": "AI 视频效果",
+      "defaultDescription": "用AI驱动的效果转换您的视频",
+      "defaultButtonText": "开始使用"
+    },
+    "categoryTabs": {
+      "all": "全部",
+      "interaction": "交互",
+      "appearance": "外观",
+      "emotions": "情感",
+      "entertainment": "娱乐",
+      "herovillain": "英雄/反派",
+      "horrorFantasy": "恐怖/幻想",
+      "xmas": "圣诞节",
+      "others": "其他",
+      "newLabel": "新"
+    },
+    "categoryEffectSection": {
+      "defaultDescription": "发现令人惊叹的 {categoryName} 效果，为您的视频增添色彩"
+    }
+  },
+  "captcha": {
+    "title": "安全验证",
+    "description": "为防止滥用，请完成安全验证以继续生成您的视频",
+    "verifying": "正在验证...",
+    "verificationFailed": "验证失败，请重试",
+    "verificationExpired": "验证已过期，请重新验证"
+  },
+  "membershipModal": {
+    "description": "您已经是会员。",
+    "explanation": "您可以查看和管理当前的订阅详情。",
+    "viewSubscription": "查看订阅",
+    "cancel": "取消",
+    "continuePurchase": "继续购买"
+  },
+  "creditsBundle": {
+    "title": "购买更多积分",
+    "description": "购买更多积分以生成更多视频。",
+    "expireNote": "加购积分有效期为购买后 <highlight>1 个月</highlight>。",
+    "credits": "积分",
+    "selectPaymentMethod": "选择支付方式",
+    "cancel": "取消",
+    "continueToPayment": "继续支付",
+    "processing": "处理中...",
+    "buyCredits": "购买积分",
+    "bonusCredits": "赠送 +{credits} 积分",
+    "bonusMiniPlan": "Mini 套餐",
+    "bonusStandardPlan": "Standard 套餐",
+    "bonusPlusPlan": "Plus 套餐",
+    "bonusCreditsShort": "+{credits} 赠送积分"
+  },
+  "nano-banana": {
+    "title": "Google Nano Banana AI：尝试这个AI图像生成器 | Veo3 AI",
+    "description": "使用Nano Banana AI创建令人惊叹的图像。通过先进的AI技术从文本提示生成高质量图像。",
+    "keywords": "纳米香蕉，AI图像生成器，文本到图像，图像创作，AI艺术，AI图像"
+  },
+  "nano-banana-pro": {
+    "title": "Google Nano Banana Pro AI：专业AI图像生成器 | Veo3 AI",
+    "description": "体验 Nano Banana Pro，Google 的 Gemini 2.5 Flash Image 高级版本。专业级别的 AI 图像生成，具有增强的精度、卓越的质量和高级编辑功能。",
+    "keywords": "纳米香蕉专业版，谷歌纳米香蕉专业版，Gemini 2.5 Flash Pro，AI图像生成器，专业AI图像，文本到图像专业版，图像编辑AI，高级AI艺术，专业图像生成"
+  },
+  "nano-banana-2": {
+    "title": "Google Nano Banana 2 AI：新一代AI图像生成器 | Veo3 AI",
+    "description": "体验 Nano Banana 2，Google 新一代 AI 图像模型，融合 Pro 级能力与 Flash 极速。先进的世界知识、专业级品质，支持多达 14 张参考图。",
+    "keywords": "Nano Banana 2，谷歌 Nano Banana 2，AI图像生成器，新一代AI图像，文本生成图像，AI图像编辑，风格迁移，多图融合，4K AI图像"
+  },
+  "seedream-4-5": {
+    "title": "Seedream 4.5 AI 图像生成器：字节跳动最新图像模型 | Veo3 AI",
+    "description": "使用Seedream 4.5创建令人惊叹的图像，这是字节跳动的先进AI图像生成器。具有4K分辨率、最多14张参考图像和批量生成功能。",
+    "keywords": "Seedream 4.5，字节跳动 AI，斗鱼图像，AI 图像生成器，文本到图像，图像到图像，4K AI 图像，批量图像生成，参考图像 AI"
+  },
+  "seedream-5-0": {
+    "title": "Seedream 5.0 AI 图像生成器在线免费 | Veo3 AI",
+    "description": "通过字节跳动的Seedream 5.0在2-3秒内创建4K图像。实时网络搜索、多轮编辑、基于示例的风格迁移以及10倍更快的速度。免费试用！",
+    "keywords": "Seedream 5.0，Seedream 5，AI 图像生成器，文本到图像，4K AI 图像，字节跳动，免费"
+  },
+  "trans_type": {
+    "new_user": "欢迎奖金",
+    "order_pay": "购买",
+    "system_add": "系统积分",
+    "ping": "API Ping",
+    "chat": "聊天",
+    "refund_non_response": "无退款",
+    "video_generation_4s": "视频 (4s)",
+    "video_generation_5s": "视频 (5s)",
+    "video_generation_6s": "视频（6秒）",
+    "video_generation_8s": "视频（8秒）",
+    "video_generation_10s": "视频 (10s)",
+    "video_generation_12s": "视频 (12s)",
+    "video_generation_15s": "视频 (15s)",
+    "video_generation_25s": "视频 (25s)",
+    "refund_video_generation_failed": "视频退款",
+    "image_generation": "图片生成",
+    "refund_image_generation_failed": "图片退款",
+    "agent_shot_analysis": "代理分析",
+    "agent_plan_reserve": "代理计划",
+    "agent_plan_refund": "代理计划退款",
+    "agent_keyframe": "代理关键帧",
+    "agent_keyframe_reserve": "代理关键帧",
+    "agent_keyframe_refund": "代理关键帧退款",
+    "agent_video_clip": "代理片段",
+    "agent_video_reserve": "代理视频",
+    "agent_video_refund": "代理视频退款",
+    "agent_bgm_reserve": "代理背景音乐",
+    "agent_bgm_refund": "代理背景音乐退款",
+    "agent_video_splicing": "代理拼接",
+    "agent_splice": "代理拼接",
+    "agent_splice_refund": "代理拼接退款",
+    "agent_scene_ref_reserve": "代理场景引用",
+    "agent_scene_ref_refund": "代理场景引用退款",
+    "agent_character_ref_reserve": "代理角色参考",
+    "agent_character_ref_refund": "代理角色参考退款"
+  },
+  "effectSwitcher": {
+    "changeTrigger": "切换",
+    "title": "切换特效",
+    "tabs": {
+      "all": "全部",
+      "video": "视频",
+      "image": "图片"
+    },
+    "empty": "暂无可用特效。"
+  },
+  "refer_friend": {
+    "dropdown_cta": "邀请好友",
+    "invite_button": "邀请",
+    "title": "邀请好友",
+    "description": "可获得被邀请用户购买积分数量的 {rewardPercent}% 奖励积分。奖励有效期为 {months} 个月。",
+    "guidelines_label": "奖励规则",
+    "guidelines_title": "邀请奖励规则",
+    "guideline_1": "邀请好友订阅任意付费 Veo3 AI 套餐后，你将获得该套餐积分的 {rewardPercent}% 作为奖励积分。",
+    "guideline_2": "邀请奖励积分自发放起 {months} 个月后过期。",
+    "guideline_3": "你的好友需要在 {hours} 小时内完成注册并与你的邀请建立绑定关系。",
+    "guideline_4": "好友一旦与你的邀请绑定，其后续符合条件的购买你都可继续获得邀请奖励积分。",
+    "guideline_5": "作弊行为、自我邀请、重复账号或其他滥用行为不发放奖励。",
+    "link_placeholder": "你的邀请链接将显示在这里",
+    "copy": "复制",
+    "copied": "已复制",
+    "toast_link_unavailable": "邀请链接暂不可用",
+    "toast_link_copied": "邀请链接已复制",
+    "toast_copy_failed": "复制邀请链接失败",
+    "total_credits": "累计奖励积分",
+    "friends_invited": "邀请好友数",
+    "total_paid": "付费好友数",
+    "image_alt": "邀请奖励",
+    "page_subtitle": "分享你的邀请链接，追踪奖励并查看邀请历史。",
+    "back_to_membership": "返回会员页",
+    "section_link_title": "获取你的邀请链接",
+    "section_link_description": "复制并分享你的专属邀请链接。",
+    "section_rewards_title": "奖励统计",
+    "section_rewards_description": "你通过邀请获得的奖励概览。",
+    "section_history_title": "邀请历史",
+    "section_history_description": "你邀请的用户以及他们为你贡献的奖励积分。",
+    "history_email": "邮箱",
+    "history_earned_credits": "获得积分",
+    "history_time": "时间",
+    "history_empty": "暂无邀请记录"
+  },
+  "sora-alternative": {
+    "title": "2026 年最佳 Sora 替代方案 — 免费 AI 视频生成器 | Veo3 AI",
+    "description": "在 OpenAI 关闭 Sora 之后寻找替代方案？Veo3 AI 是基于 Google Veo 3 的最佳免费 AI 视频生成器，支持 text-to-video 和 image-to-video。",
+    "keywords": "Sora 替代, 最佳 Sora 替代, Sora 替换, 免费 Sora 替代, AI 视频生成器, Veo3 AI, text to video, image to video"
+  }
+}

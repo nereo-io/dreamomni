@@ -1,0 +1,146 @@
+{
+  "banner": {
+    "title": "Google Veo 3.1 Lite KI-Videogenerator",
+    "description": "Veo 3.1 Lite ist Googles kosteneffizientestes KI-Videomodell und liefert hochwertige Videogenerierung zu einem niedrigeren Preis. Perfekt fuer Creator mit hohem Volumen. Testen Sie Veo 3.1 Lite kostenlos auf Veo3 AI!",
+    "tabs": [
+      {
+        "type": "image",
+        "title": "Bild zu Video",
+        "subTitle": "Bild",
+        "value": "image-to-video",
+        "modelName": "Veo 3.1 Lite",
+        "modelLogo": "/imgs/intro/veo.svg",
+        "placeholder": "Ziehen Sie ein Bild hierher oder klicken Sie zum Auswaehlen",
+        "tips": "Laden Sie JPG/PNG/WEBP-Bilder bis 10 MB mit einer Mindestbreite/-hoehe von 300 px hoch.",
+        "buttonText": "Erstellen"
+      },
+      {
+        "type": "text",
+        "title": "Text zu Video",
+        "subTitle": "Prompt",
+        "value": "text-to-video",
+        "modelName": "Veo 3.1 Lite",
+        "modelLogo": "/imgs/intro/veo.svg",
+        "placeholder": "Was moechten Sie erstellen?",
+        "buttonText": "Erstellen"
+      }
+    ]
+  },
+  "partners": [
+    { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
+    { "name": "Microsoft", "logo": "/imgs/partners/microsoft-logo.png" },
+    { "name": "Nike", "logo": "/imgs/partners/nike-logo.png" },
+    { "name": "P&G", "logo": "/imgs/partners/p-g-logo.png" },
+    { "name": "Lancome", "logo": "/imgs/partners/lancome-logo.png" },
+    { "name": "Zoom", "logo": "/imgs/partners/zoom-logo.png" },
+    { "name": "Sony", "logo": "/imgs/partners/sony-logo.png" },
+    { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
+  ],
+  "features": {
+    "title": "Hauptmerkmale des KI-Videomodells Veo 3.1 Lite",
+    "details": [
+      {
+        "title": "Kosteneffiziente Preise",
+        "description": "Veo 3.1 Lite wurde fuer Creator entwickelt, die starke Videoqualitaet ohne Premium-Kosten brauchen. Es startet mit weniger Credits als Veo 3.1 und eignet sich dadurch ideal fuer Serienproduktion, haeufige Tests und budgetbewusste Teams.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/image-to-video/1216Material-reserves/Snow-Mountain-Lynx.mp4"
+      },
+      {
+        "title": "Schnelle Generierung",
+        "description": "Wenn Sie schnelle Ergebnisse brauchen, ist Veo 3.1 Lite auf kuerzere Generierungszeiten optimiert. So koennen Sie Konzepte, Anzeigen-Creatives und Kurzvideo-Inhalte effizienter iterieren und trotzdem hohe visuelle Qualitaet beibehalten.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/veo3.1/Castle-Beauty.mp4"
+      },
+      {
+        "title": "Text-zu-Video-Erstellung",
+        "description": "Verwandeln Sie Prompts in ausgearbeitete KI-Videos mit gutem Szenenverstaendnis, ueberzeugender Bewegung und filmischer Komposition. Veo 3.1 Lite ist eine praktische Wahl fuer Skripte, Social Content und Marketingideen direkt aus Text.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/veo3.1/sloth_on_train.mp4"
+      },
+      {
+        "title": "Bild-zu-Video-Umwandlung",
+        "description": "Laden Sie ein statisches Bild hoch und animieren Sie es zu einem dynamischen Videoclip. Veo 3.1 Lite hilft dabei, Produktbilder, Illustrationen und Fotos schnell in Bewegtbild zu verwandeln und macht Bild-zu-Video-Workflows im grossen Massstab guenstiger.",
+        "type": "video",
+        "data": "https://pollo.ai/cms/reference_to_video_2_e99c175bf0.mp4"
+      },
+      {
+        "title": "Audio-Integration",
+        "description": "Veo 3.1 Lite unterstuetzt synchronisierte native Audiogenerierung und fuegt Atmosphaere, Soundeffekte und reichhaltigere Ergebnisse in einem einzigen Workflow hinzu. Das spart Bearbeitungszeit und macht schlanke Produktionsablaeufe effizienter.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Starting-a-fire-on-paper.mp4"
+      },
+      {
+        "title": "1080p-Ausgabequalitaet",
+        "description": "Trotz des niedrigeren Preises unterstuetzt Veo 3.1 Lite weiterhin gestochen scharfe 1080p-Videowiedergabe. Sie erhalten klare Bilder fuer Social Media, Produktdemos, kreative Kampagnen und viele alltaegliche Produktionsfaelle.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/wool-scarf.mp4"
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "So erstellen Sie Videos mit Veo 3.1 Lite auf Veo3 AI",
+    "description": "Erstellen Sie beeindruckende KI-Videos mit Googles Veo 3.1 Lite ueber unsere benutzerfreundliche Oberflaeche",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Waehlen Sie das Modell Veo 3.1 Lite",
+        "description": "Gehen Sie zur Seite 'Bild zu Video' oder 'Text zu Video' und waehlen Sie 'Veo 3.1 Lite' im Modellauswahlmenue."
+      },
+      {
+        "number": "02",
+        "title": "Geben Sie Ihren Prompt oder Ihr Bild ein",
+        "description": "Geben Sie einen detaillierten Textprompt ein oder laden Sie ein Referenzbild hoch. Stellen Sie Dauer, Seitenverhaeltnis und Audio passend zu Ihrem kreativen Ziel ein."
+      },
+      {
+        "number": "03",
+        "title": "Generieren und herunterladen",
+        "description": "Klicken Sie auf 'Erstellen' und warten Sie etwa 2 bis 3 Minuten, bis Ihr Video fertig ist. Laden Sie anschliessend Ihr hochwertiges KI-generiertes Video herunter."
+      }
+    ],
+    "buttonText": "Veo 3.1 Lite auf Veo3 AI testen"
+  },
+  "cta": {
+    "title": "Erleben Sie Veo 3.1 Lite jetzt auf Veo3 AI!",
+    "buttonText": "Veo 3.1 Lite kostenlos testen"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Haeufig gestellte Fragen",
+    "description": "Erfahren Sie mehr ueber den Google Veo 3.1 Lite KI-Videogenerator auf Veo3 AI",
+    "items": [
+      {
+        "title": "Was ist Google Veo 3.1 Lite?",
+        "description": "Google Veo 3.1 Lite ist eine guenstigere Version von Googles KI-Videomodell Veo 3.1. Es richtet sich an Creator, die starke Videoqualitaet, schnellere Ergebnisse und niedrigere Generierungskosten fuer alltaegliche Text-zu-Video- und Bild-zu-Video-Projekte suchen."
+      },
+      {
+        "title": "Worin unterscheidet sich Veo 3.1 Lite von Veo 3.1?",
+        "description": "Veo 3.1 Lite ist die budgetfreundlichere Option mit hoeherem Durchsatz. Es behaelt das Kernerlebnis der Veo-Videogenerierung bei, startet aber mit weniger Credits und bietet in der Regel schnellere Generierung als Veo 3.1."
+      },
+      {
+        "title": "Ist Veo 3.1 Lite kostenlos?",
+        "description": "Ja. Auf Veo3 AI koennen Sie Veo 3.1 Lite mit einem Testplan kostenlos ausprobieren. Wenn Sie mehr Generierungen benoetigen, koennen Sie auf einen kostenpflichtigen Tarif mit zusaetzlichen Credits und hoeheren Limits upgraden."
+      },
+      {
+        "title": "Welche Aufloesung unterstuetzt Veo 3.1 Lite?",
+        "description": "Veo 3.1 Lite unterstuetzt Ausgaben bis 1080p. Damit erhalten Sie scharfe HD-Ergebnisse, die sich gut fuer Social Media, Marketingvideos, Demos und andere Online-Inhalte eignen."
+      },
+      {
+        "title": "Wie viel kostet Veo 3.1 Lite?",
+        "description": "Veo 3.1 Lite startet mit weniger Credits als Veo 3.1 und ist damit ein guenstigerer KI-Videogenerator fuer Creator, die mehr Videos zu niedrigeren Kosten produzieren moechten."
+      },
+      {
+        "title": "Unterstuetzt Veo 3.1 Lite Audiogenerierung?",
+        "description": "Ja. Veo 3.1 Lite unterstuetzt native Audiogenerierung, sodass Sie Videos mit synchronisierten Soundeffekten, Atmosphaeren und immersiverem Ergebnis in einem einzigen Workflow erstellen koennen."
+      },
+      {
+        "title": "Welche Arten von Videos kann ich mit Veo 3.1 Lite erstellen?",
+        "description": "Mit Veo 3.1 Lite koennen Sie viele Videoarten erstellen, darunter Werbekonzepte, Produktvideos, Social Clips, filmische Szenen, Erklaervideos und stilisierte Inhalte, entweder aus Textprompts oder aus Ausgangsbildern."
+      },
+      {
+        "title": "Wie lange dauert es, ein Video mit Veo 3.1 Lite zu generieren?",
+        "description": "Auf Veo3 AI benoetigt Veo 3.1 Lite typischerweise etwa 2 bis 3 Minuten pro Video. Die Dauer haengt von Prompt-Komplexitaet, Einstellungen und aktueller Serverauslastung ab. Einfache Jobs koennen noch schneller fertig sein."
+      }
+    ]
+  }
+}

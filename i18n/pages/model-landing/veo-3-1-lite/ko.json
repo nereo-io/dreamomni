@@ -1,0 +1,146 @@
+{
+  "banner": {
+    "title": "Google Veo 3.1 Lite AI 비디오 생성기",
+    "description": "Veo 3.1 Lite는 Google의 가장 가성비 좋은 AI 비디오 모델로, 더 낮은 비용으로 고품질 비디오 생성을 제공합니다. 대량 제작이 필요한 크리에이터에게 적합합니다. 지금 Veo3 AI에서 Veo 3.1 Lite를 무료로 사용해 보세요.",
+    "tabs": [
+      {
+        "type": "image",
+        "title": "이미지에서 비디오",
+        "subTitle": "이미지",
+        "value": "image-to-video",
+        "modelName": "Veo 3.1 Lite",
+        "modelLogo": "/imgs/intro/veo.svg",
+        "placeholder": "여기에 이미지를 드래그 앤 드롭하거나 클릭해 선택하세요",
+        "tips": "최대 10MB의 JPG/PNG/WEBP 이미지를 업로드할 수 있으며 최소 너비/높이는 300px입니다.",
+        "buttonText": "생성"
+      },
+      {
+        "type": "text",
+        "title": "텍스트에서 비디오",
+        "subTitle": "프롬프트",
+        "value": "text-to-video",
+        "modelName": "Veo 3.1 Lite",
+        "modelLogo": "/imgs/intro/veo.svg",
+        "placeholder": "무엇을 만들고 싶으신가요?",
+        "buttonText": "생성"
+      }
+    ]
+  },
+  "partners": [
+    { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
+    { "name": "Microsoft", "logo": "/imgs/partners/microsoft-logo.png" },
+    { "name": "Nike", "logo": "/imgs/partners/nike-logo.png" },
+    { "name": "P&G", "logo": "/imgs/partners/p-g-logo.png" },
+    { "name": "Lancome", "logo": "/imgs/partners/lancome-logo.png" },
+    { "name": "Zoom", "logo": "/imgs/partners/zoom-logo.png" },
+    { "name": "Sony", "logo": "/imgs/partners/sony-logo.png" },
+    { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
+  ],
+  "features": {
+    "title": "Veo 3.1 Lite AI 비디오 모델의 주요 기능",
+    "details": [
+      {
+        "title": "합리적인 가격",
+        "description": "Veo 3.1 Lite는 프리미엄 수준의 비용 없이 좋은 품질을 원하는 크리에이터를 위해 설계되었습니다. Veo 3.1보다 더 적은 크레딧으로 시작할 수 있어 대량 제작, 반복 테스트, 예산을 중시하는 팀에 적합합니다.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/image-to-video/1216Material-reserves/Snow-Mountain-Lynx.mp4"
+      },
+      {
+        "title": "빠른 생성 속도",
+        "description": "빠른 결과가 필요하다면 Veo 3.1 Lite가 적합합니다. 더 짧은 생성 시간에 최적화되어 있어 콘셉트, 광고 크리에이티브, 짧은 형식의 콘텐츠를 높은 시각 품질을 유지하면서 더 효율적으로 반복 제작할 수 있습니다.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/veo3.1/Castle-Beauty.mp4"
+      },
+      {
+        "title": "텍스트 투 비디오 생성",
+        "description": "프롬프트를 장면 이해, 자연스러운 움직임, 시네마틱 구성을 갖춘 완성도 높은 AI 비디오로 바꿔보세요. Veo 3.1 Lite는 대본, 소셜 콘텐츠, 마케팅 아이디어를 텍스트만으로 영상화하기에 실용적입니다.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/veo3.1/sloth_on_train.mp4"
+      },
+      {
+        "title": "이미지 투 비디오 변환",
+        "description": "정지 이미지를 업로드해 역동적인 비디오 클립으로 변환할 수 있습니다. Veo 3.1 Lite는 제품 이미지, 일러스트, 사진을 빠르게 모션 콘텐츠로 바꿔주므로 이미지 투 비디오 작업을 더 저렴하게 대규모로 운영할 수 있습니다.",
+        "type": "video",
+        "data": "https://pollo.ai/cms/reference_to_video_2_e99c175bf0.mp4"
+      },
+      {
+        "title": "오디오 통합",
+        "description": "Veo 3.1 Lite는 동기화된 네이티브 오디오 생성을 지원하여 분위기, 효과음, 더 풍부한 결과물을 하나의 워크플로에서 제공합니다. 편집 시간을 줄이고 가벼운 제작 파이프라인을 더 효율적으로 만들어 줍니다.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Starting-a-fire-on-paper.mp4"
+      },
+      {
+        "title": "1080p 출력 품질",
+        "description": "비용이 더 낮아도 Veo 3.1 Lite는 선명한 1080p 비디오 출력을 지원합니다. 소셜 미디어, 제품 데모, 크리에이티브 캠페인 등 다양한 일상적 제작 용도에 적합한 선명한 결과를 제공합니다.",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/wool-scarf.mp4"
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Veo3 AI에서 Veo 3.1 Lite로 비디오를 생성하는 방법",
+    "description": "사용하기 쉬운 인터페이스를 통해 Google의 Veo 3.1 Lite 모델로 인상적인 AI 비디오를 만들어 보세요",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Veo 3.1 Lite 모델 선택",
+        "description": "'이미지에서 비디오' 또는 '텍스트에서 비디오' 페이지로 이동한 뒤 모델 선택 메뉴에서 'Veo 3.1 Lite'를 선택하세요."
+      },
+      {
+        "number": "02",
+        "title": "프롬프트 또는 이미지 입력",
+        "description": "상세한 텍스트 프롬프트를 입력하거나 참고 이미지를 업로드하세요. 길이, 화면비, 오디오 설정을 원하는 제작 목표에 맞게 조정할 수 있습니다."
+      },
+      {
+        "number": "03",
+        "title": "생성 후 다운로드",
+        "description": "'생성'을 클릭한 뒤 비디오가 만들어질 때까지 약 2~3분 정도 기다리세요. 완료되면 고품질 AI 생성 비디오를 다운로드할 수 있습니다."
+      }
+    ],
+    "buttonText": "Veo3 AI에서 Veo 3.1 Lite 사용해 보기"
+  },
+  "cta": {
+    "title": "지금 Veo3 AI에서 Veo 3.1 Lite를 경험해 보세요",
+    "buttonText": "Veo 3.1 Lite 무료 체험"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "자주 묻는 질문",
+    "description": "Veo3 AI의 Google Veo 3.1 Lite AI 비디오 생성기에 대해 더 알아보세요",
+    "items": [
+      {
+        "title": "Google Veo 3.1 Lite란 무엇인가요?",
+        "description": "Google Veo 3.1 Lite는 Google Veo 3.1 AI 비디오 모델의 더 저렴한 버전입니다. 일상적인 텍스트 투 비디오와 이미지 투 비디오 작업에서 높은 영상 품질, 더 빠른 처리 속도, 더 낮은 생성 비용을 원하는 크리에이터를 위해 설계되었습니다."
+      },
+      {
+        "title": "Veo 3.1 Lite는 Veo 3.1과 어떻게 다른가요?",
+        "description": "Veo 3.1 Lite는 더 저렴하고 대량 생성에 적합한 옵션입니다. Veo의 핵심 비디오 생성 경험은 유지하면서 Veo 3.1보다 더 적은 크레딧으로 시작할 수 있고 일반적으로 생성 속도도 더 빠릅니다."
+      },
+      {
+        "title": "Veo 3.1 Lite는 무료인가요?",
+        "description": "예. Veo3 AI에서는 체험 플랜으로 Veo 3.1 Lite를 무료로 사용해 볼 수 있습니다. 더 많은 생성이 필요하면 추가 크레딧과 높은 사용 한도를 제공하는 유료 플랜으로 업그레이드할 수 있습니다."
+      },
+      {
+        "title": "Veo 3.1 Lite는 어떤 해상도를 지원하나요?",
+        "description": "Veo 3.1 Lite는 최대 1080p 출력을 지원하므로 소셜 미디어, 마케팅 영상, 데모, 기타 온라인 콘텐츠에 적합한 선명한 HD 결과를 얻을 수 있습니다."
+      },
+      {
+        "title": "Veo 3.1 Lite의 가격은 얼마인가요?",
+        "description": "Veo 3.1 Lite는 Veo 3.1보다 더 적은 크레딧으로 시작하므로 더 낮은 비용으로 더 많은 영상을 만들고 싶은 사용자에게 적합한 저렴한 AI 비디오 생성기 옵션입니다."
+      },
+      {
+        "title": "Veo 3.1 Lite는 오디오 생성을 지원하나요?",
+        "description": "예. Veo 3.1 Lite는 네이티브 오디오 생성을 지원하므로 동기화된 효과음과 분위기 있는 사운드를 포함한 더 몰입감 있는 비디오를 하나의 워크플로에서 만들 수 있습니다."
+      },
+      {
+        "title": "Veo 3.1 Lite로 어떤 유형의 비디오를 만들 수 있나요?",
+        "description": "Veo 3.1 Lite로 광고 콘셉트, 제품 영상, 소셜 클립, 시네마틱 장면, 설명용 비주얼, 스타일화된 콘텐츠 등 다양한 비디오를 텍스트 프롬프트나 원본 이미지에서 생성할 수 있습니다."
+      },
+      {
+        "title": "Veo 3.1 Lite로 비디오를 생성하는 데 얼마나 걸리나요?",
+        "description": "Veo3 AI에서 Veo 3.1 Lite는 보통 약 2~3분 안에 비디오를 생성합니다. 실제 시간은 프롬프트 복잡도, 설정, 현재 서버 부하에 따라 달라지며, 간단한 작업은 더 빨리 끝날 수 있습니다."
+      }
+    ]
+  }
+}

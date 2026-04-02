@@ -1,0 +1,146 @@
+{
+  "banner": {
+    "title": "Google Veo 3.1 Lite AI视频生成器",
+    "description": "Veo 3.1 Lite 是 Google 最具性价比的 AI 视频模型，以更低成本提供高质量视频生成效果。非常适合高频、大批量创作需求。现在就在 Veo3 AI 免费体验 Veo 3.1 Lite。",
+    "tabs": [
+      {
+        "type": "image",
+        "title": "图像到视频",
+        "subTitle": "图片",
+        "value": "image-to-video",
+        "modelName": "Veo 3.1 Lite",
+        "modelLogo": "/imgs/intro/veo.svg",
+        "placeholder": "将图片拖放到此处，或点击选择",
+        "tips": "支持上传 JPG/PNG/WEBP 图片，最大 10MB，最小宽度和高度为 300px。",
+        "buttonText": "创建"
+      },
+      {
+        "type": "text",
+        "title": "文本转视频",
+        "subTitle": "提示词",
+        "value": "text-to-video",
+        "modelName": "Veo 3.1 Lite",
+        "modelLogo": "/imgs/intro/veo.svg",
+        "placeholder": "您想创建什么？",
+        "buttonText": "创建"
+      }
+    ]
+  },
+  "partners": [
+    { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
+    { "name": "Microsoft", "logo": "/imgs/partners/microsoft-logo.png" },
+    { "name": "Nike", "logo": "/imgs/partners/nike-logo.png" },
+    { "name": "P&G", "logo": "/imgs/partners/p-g-logo.png" },
+    { "name": "Lancome", "logo": "/imgs/partners/lancome-logo.png" },
+    { "name": "Zoom", "logo": "/imgs/partners/zoom-logo.png" },
+    { "name": "Sony", "logo": "/imgs/partners/sony-logo.png" },
+    { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
+  ],
+  "features": {
+    "title": "Veo 3.1 Lite AI 视频模型的核心特性",
+    "details": [
+      {
+        "title": "高性价比定价",
+        "description": "Veo 3.1 Lite 面向希望兼顾质量与成本的创作者。它比 Veo 3.1 起步所需积分更少，因此非常适合批量生成、频繁测试和预算敏感型团队。",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/image-to-video/1216Material-reserves/Snow-Mountain-Lynx.mp4"
+      },
+      {
+        "title": "更快的生成速度",
+        "description": "如果你需要更快出片，Veo 3.1 Lite 针对生成效率进行了优化。它可以帮助你更高效地迭代创意概念、广告素材和短视频内容，同时保持出色的画面质量。",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/veo3.1/Castle-Beauty.mp4"
+      },
+      {
+        "title": "文本到视频创作",
+        "description": "将提示词快速转换为具备场景理解、自然运动和电影感构图的 AI 视频。Veo 3.1 Lite 非常适合用于脚本演绎、社媒内容和营销创意的文本生成视频工作流。",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/veo3.1/sloth_on_train.mp4"
+      },
+      {
+        "title": "图像到视频转换",
+        "description": "上传静态图片，即可将其转化为动态视频片段。Veo 3.1 Lite 能快速为产品图、插画和照片赋予运动感，让图像到视频创作在大规模使用时也更加划算。",
+        "type": "video",
+        "data": "https://pollo.ai/cms/reference_to_video_2_e99c175bf0.mp4"
+      },
+      {
+        "title": "音频集成",
+        "description": "Veo 3.1 Lite 支持同步原生音频生成，可在单一工作流中加入环境音、音效和更丰富的听觉层次。这能减少后期编辑时间，并让轻量化制作流程更高效。",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Starting-a-fire-on-paper.mp4"
+      },
+      {
+        "title": "1080p 输出质量",
+        "description": "即使成本更低，Veo 3.1 Lite 依然支持清晰的 1080p 视频输出。你可以获得适用于社交媒体、产品演示、创意营销和日常内容制作的高清画面。",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/wool-scarf.mp4"
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "如何在 Veo3 AI 上使用 Veo 3.1 Lite 生成视频",
+    "description": "通过简单易用的界面，使用 Google Veo 3.1 Lite 模型创建高质量 AI 视频",
+    "steps": [
+      {
+        "number": "01",
+        "title": "选择 Veo 3.1 Lite 模型",
+        "description": "进入“图像到视频”或“文本转视频”页面，并在模型选择菜单中选择“Veo 3.1 Lite”。"
+      },
+      {
+        "number": "02",
+        "title": "输入提示词或上传图片",
+        "description": "输入详细的文本提示词，或上传参考图片。根据你的创作目标设置时长、画幅比例和音频选项。"
+      },
+      {
+        "number": "03",
+        "title": "生成并下载",
+        "description": "点击“创建”，等待约 2 到 3 分钟生成视频。完成后即可下载你的高质量 AI 生成视频。"
+      }
+    ],
+    "buttonText": "在 Veo3 AI 上试用 Veo 3.1 Lite"
+  },
+  "cta": {
+    "title": "立即在 Veo3 AI 上体验 Veo 3.1 Lite",
+    "buttonText": "免费试用 Veo 3.1 Lite"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "常见问题",
+    "title": "常见问题解答",
+    "description": "了解更多关于 Veo3 AI 上 Google Veo 3.1 Lite AI 视频生成器的信息",
+    "items": [
+      {
+        "title": "什么是 Google Veo 3.1 Lite？",
+        "description": "Google Veo 3.1 Lite 是 Google Veo 3.1 AI 视频模型的更实惠版本，面向希望在日常文本到视频和图像到视频创作中兼顾画质、速度与成本的创作者。"
+      },
+      {
+        "title": "Veo 3.1 Lite 与 Veo 3.1 有什么不同？",
+        "description": "Veo 3.1 Lite 定位为更低成本、更适合高频生成的版本。它保留了 Veo 系列核心的视频生成体验，同时起步积分低于 Veo 3.1，通常生成速度也更快。"
+      },
+      {
+        "title": "Veo 3.1 Lite 可以免费使用吗？",
+        "description": "可以。Veo3 AI 提供试用方案，让你免费体验 Veo 3.1 Lite。如果你需要更多生成次数，可以升级到包含更多积分和更高额度的付费方案。"
+      },
+      {
+        "title": "Veo 3.1 Lite 支持什么分辨率？",
+        "description": "Veo 3.1 Lite 支持最高 1080p 输出，可为社交媒体、营销视频、演示内容和其他在线用途提供清晰的高清画质。"
+      },
+      {
+        "title": "Veo 3.1 Lite 的价格是多少？",
+        "description": "Veo 3.1 Lite 的起步积分低于 Veo 3.1，因此对于希望以更低成本生成更多视频的创作者来说，它是更便宜的 AI 视频生成器选择。"
+      },
+      {
+        "title": "Veo 3.1 Lite 支持音频生成吗？",
+        "description": "支持。Veo 3.1 Lite 支持原生音频生成，帮助你在同一工作流中生成带有同步音效、环境声和更强沉浸感的视频。"
+      },
+      {
+        "title": "我可以用 Veo 3.1 Lite 制作哪些类型的视频？",
+        "description": "你可以用 Veo 3.1 Lite 制作多种类型的视频，包括广告创意、产品演示、社媒短片、电影感场景、说明性视觉内容以及风格化视频，既支持文本提示词也支持图片输入。"
+      },
+      {
+        "title": "使用 Veo 3.1 Lite 生成一个视频需要多久？",
+        "description": "在 Veo3 AI 上，Veo 3.1 Lite 通常大约需要 2 到 3 分钟生成一个视频。实际时间会根据提示词复杂度、设置和当前服务器负载有所变化，简单任务可能会更快。"
+      }
+    ]
+  }
+}

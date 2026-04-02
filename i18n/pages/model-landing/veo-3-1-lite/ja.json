@@ -1,0 +1,146 @@
+{
+  "banner": {
+    "title": "Google Veo 3.1 Lite AI動画生成ツール",
+    "description": "Veo 3.1 Lite は、Google の中で最もコスト効率に優れた AI 動画モデルです。より低い価格で高品質な動画生成を実現し、大量制作を行うクリエイターに最適です。Veo3 AI で Veo 3.1 Lite を無料でお試しください。",
+    "tabs": [
+      {
+        "type": "image",
+        "title": "画像から動画",
+        "subTitle": "画像",
+        "value": "image-to-video",
+        "modelName": "Veo 3.1 Lite",
+        "modelLogo": "/imgs/intro/veo.svg",
+        "placeholder": "ここに画像をドラッグ＆ドロップするか、クリックして選択してください",
+        "tips": "JPG/PNG/WEBP 画像を最大 10MB までアップロードできます。最小幅・高さは 300px です。",
+        "buttonText": "作成"
+      },
+      {
+        "type": "text",
+        "title": "テキストから動画",
+        "subTitle": "プロンプト",
+        "value": "text-to-video",
+        "modelName": "Veo 3.1 Lite",
+        "modelLogo": "/imgs/intro/veo.svg",
+        "placeholder": "何を作成しますか？",
+        "buttonText": "作成"
+      }
+    ]
+  },
+  "partners": [
+    { "name": "Coca-Cola", "logo": "/imgs/partners/coca-cola-logo.png" },
+    { "name": "Microsoft", "logo": "/imgs/partners/microsoft-logo.png" },
+    { "name": "Nike", "logo": "/imgs/partners/nike-logo.png" },
+    { "name": "P&G", "logo": "/imgs/partners/p-g-logo.png" },
+    { "name": "Lancome", "logo": "/imgs/partners/lancome-logo.png" },
+    { "name": "Zoom", "logo": "/imgs/partners/zoom-logo.png" },
+    { "name": "Sony", "logo": "/imgs/partners/sony-logo.png" },
+    { "name": "Mercedes", "logo": "/imgs/partners/mercedes-logo.png" }
+  ],
+  "features": {
+    "title": "Veo 3.1 Lite AI動画モデルの主な特長",
+    "details": [
+      {
+        "title": "高いコストパフォーマンス",
+        "description": "Veo 3.1 Lite は、プレミアム級のコストをかけずに高品質な映像を作りたいクリエイター向けのモデルです。Veo 3.1 より少ないクレジットから始められるため、大量制作、頻繁なテスト、予算重視のチームに適しています。",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/image-to-video/1216Material-reserves/Snow-Mountain-Lynx.mp4"
+      },
+      {
+        "title": "高速な生成スピード",
+        "description": "スピードが必要な場合、Veo 3.1 Lite はより短い生成時間に最適化されています。コンセプト、広告クリエイティブ、短尺コンテンツを、画質を保ちながら効率よく反復できます。",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/veo3.1/Castle-Beauty.mp4"
+      },
+      {
+        "title": "テキストから動画を生成",
+        "description": "プロンプトから、シーン理解、自然な動き、映画的な構図を備えた完成度の高い AI 動画を作成できます。Veo 3.1 Lite は、脚本、SNS コンテンツ、マーケティング用アイデアをテキストから動画化するのに実用的です。",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/veo3.1/sloth_on_train.mp4"
+      },
+      {
+        "title": "画像から動画への変換",
+        "description": "静止画像をアップロードして、動きのある動画クリップに変換できます。Veo 3.1 Lite は、商品画像、イラスト、写真を素早く映像化できるため、画像から動画への制作を大規模でも手頃に行えます。",
+        "type": "video",
+        "data": "https://pollo.ai/cms/reference_to_video_2_e99c175bf0.mp4"
+      },
+      {
+        "title": "音声統合",
+        "description": "Veo 3.1 Lite は同期したネイティブ音声生成に対応しており、環境音や効果音を含むリッチな映像を 1 つのワークフローで作成できます。編集時間を短縮し、軽量な制作フローを効率化します。",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Starting-a-fire-on-paper.mp4"
+      },
+      {
+        "title": "1080p 出力品質",
+        "description": "コストを抑えながらも、Veo 3.1 Lite は鮮明な 1080p 動画出力に対応しています。SNS、商品デモ、クリエイティブキャンペーンなど、多くの日常的な制作用途で使いやすい品質です。",
+        "type": "video",
+        "data": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/wool-scarf.mp4"
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Veo3 AI で Veo 3.1 Lite を使って動画を生成する方法",
+    "description": "使いやすいインターフェースで Google の Veo 3.1 Lite モデルを使った高品質な AI 動画を作成できます",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Veo 3.1 Lite モデルを選択",
+        "description": "『画像から動画』または『テキストから動画』ページに移動し、モデル選択メニューから『Veo 3.1 Lite』を選びます。"
+      },
+      {
+        "number": "02",
+        "title": "プロンプトまたは画像を入力",
+        "description": "詳細なテキストプロンプトを入力するか、参照画像をアップロードします。長さ、アスペクト比、音声設定を目的に合わせて調整します。"
+      },
+      {
+        "number": "03",
+        "title": "生成してダウンロード",
+        "description": "『作成』をクリックし、動画の生成が完了するまで約 2〜3 分待ちます。完了後、高品質な AI 生成動画をダウンロードできます。"
+      }
+    ],
+    "buttonText": "Veo3 AI で Veo 3.1 Lite を試す"
+  },
+  "cta": {
+    "title": "今すぐ Veo3 AI で Veo 3.1 Lite を体験",
+    "buttonText": "Veo 3.1 Lite を無料で試す"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "よくある質問",
+    "description": "Veo3 AI の Google Veo 3.1 Lite AI 動画生成ツールについて詳しく見る",
+    "items": [
+      {
+        "title": "Google Veo 3.1 Lite とは何ですか？",
+        "description": "Google Veo 3.1 Lite は、Google の Veo 3.1 AI 動画モデルをより手頃にしたバージョンです。日常的なテキストから動画、画像から動画の制作で、高い画質、より速い処理、より低い生成コストを求めるクリエイター向けです。"
+      },
+      {
+        "title": "Veo 3.1 Lite と Veo 3.1 の違いは何ですか？",
+        "description": "Veo 3.1 Lite は、より低コストで大量生成向きのモデルです。Veo の基本的な動画生成体験を保ちながら、Veo 3.1 より少ないクレジットから始められ、一般的に生成速度も速くなります。"
+      },
+      {
+        "title": "Veo 3.1 Lite は無料ですか？",
+        "description": "はい。Veo3 AI では、トライアルプランで Veo 3.1 Lite を無料で試せます。さらに多く生成したい場合は、追加クレジットと高い利用上限を含む有料プランにアップグレードできます。"
+      },
+      {
+        "title": "Veo 3.1 Lite はどの解像度に対応していますか？",
+        "description": "Veo 3.1 Lite は最大 1080p 出力に対応しており、SNS、マーケティング動画、デモ、各種オンラインコンテンツに適した鮮明な HD 映像を生成できます。"
+      },
+      {
+        "title": "Veo 3.1 Lite の料金はいくらですか？",
+        "description": "Veo 3.1 Lite は Veo 3.1 より少ないクレジットから利用できるため、より多くの動画を低コストで制作したいクリエイターにとって、より安価な AI 動画生成オプションです。"
+      },
+      {
+        "title": "Veo 3.1 Lite は音声生成に対応していますか？",
+        "description": "はい。Veo 3.1 Lite はネイティブ音声生成に対応しているため、同期した効果音や環境音を含む、没入感のある動画を 1 つのワークフローで作成できます。"
+      },
+      {
+        "title": "Veo 3.1 Lite ではどんな動画を作れますか？",
+        "description": "Veo 3.1 Lite では、広告コンセプト、商品動画、SNS クリップ、映画風シーン、説明用ビジュアル、スタイライズされた映像など、テキストプロンプトや元画像から幅広い動画を作成できます。"
+      },
+      {
+        "title": "Veo 3.1 Lite で動画を生成するのにどれくらい時間がかかりますか？",
+        "description": "Veo3 AI では、Veo 3.1 Lite は通常 2〜3 分ほどで動画を生成します。実際の時間は、プロンプトの複雑さ、設定、現在のサーバー負荷によって変わります。簡単なジョブならさらに速い場合もあります。"
+      }
+    ]
+  }
+}
