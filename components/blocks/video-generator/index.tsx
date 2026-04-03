@@ -170,6 +170,7 @@ export default function VideoGenerator({
   const isMaxApiSeedanceSelected = isMaxApiModel(selectedModel);
   const isMediaToVideoModel =
     isMaxApiSeedanceSelected ||
+    selectedModel === "volcano-seedance-2-0-fast-reference-to-video" ||
     selectedModel === "volcano-seedance-2-0-reference-to-video";
   const isVeo3Selected = selectedModel.includes('kie-veo3-');
   const usesMixedMediaInput =
@@ -928,6 +929,10 @@ export default function VideoGenerator({
             (usesMixedMediaInput ? (
               <MediaGridUploader
                 maxMedia={12}
+                maxImages={9}
+                maxVideos={3}
+                maxAudios={3}
+                requireVisualForAudio
                 onMediaChange={handleMediaChange}
                 isAuthenticated={!!user?.uuid}
                 onShowSignModal={() => setShowSignModal(true)}

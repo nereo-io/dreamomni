@@ -135,6 +135,8 @@ export const MODEL_IMAGE_VALIDATION_RULES: Record<string, ImageValidationRule> =
 
   // Seedance 模型（火山引擎）
   "doubao-seedance-1-0-pro-image-to-video": SEEDANCE_RULE,
+  "volcano-seedance-2-0-fast-image-to-video": SEEDANCE_RULE,
+  "volcano-seedance-2-0-fast-reference-to-video": SEEDANCE_RULE,
   "volcano-seedance-2-0-image-to-video": SEEDANCE_RULE,
   "volcano-seedance-2-0-reference-to-video": SEEDANCE_RULE,
   

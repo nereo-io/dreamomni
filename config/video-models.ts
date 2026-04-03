@@ -73,18 +73,18 @@ export interface VideoModelConfig {
 
 // 视频模型配置
 export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
-  // Volcano Engine 官方 Seedance 2.0 文生视频
-  "volcano-seedance-2-0-text-to-video": {
-    id: "volcano-seedance-2-0-text-to-video",
-    name: "Volcano Seedance 2.0 Text-to-Video",
+  // Volcano Engine 官方 Seedance 2.0 Fast 文生视频
+  "volcano-seedance-2-0-fast-text-to-video": {
+    id: "volcano-seedance-2-0-fast-text-to-video",
+    name: "Volcano Seedance 2.0 Fast Text-to-Video",
     type: VideoModelType.TEXT_TO_VIDEO,
     provider: VideoModelProvider.VOLCANO,
-    modelName: VideoModel.SEEDANCE_2_0,
+    modelName: VideoModel.SEEDANCE_2_0_FAST,
     volcanoModel: "doubao-seedance-2-0-fast-260128",
-    displayName: "Seedance 2.0",
+    displayName: "Seedance 2.0 Fast",
     perSecondCredits: 4,
-    description: "ByteDance's latest Seedance 2.0 model",
-    features: ["Wait 20min", "Audio"],
+    description: "ByteDance's latest Seedance 2.0 Fast model",
+    features: ["Wait 2min", "Audio"],
     maxDuration: 15,
     supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
     supportedResolutions: ["480p", "720p"],
@@ -95,18 +95,18 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     useSignedCallback: true,
   },
 
-  // Volcano Engine 官方 Seedance 2.0 图生视频
-  "volcano-seedance-2-0-image-to-video": {
-    id: "volcano-seedance-2-0-image-to-video",
-    name: "Volcano Seedance 2.0 Image-to-Video",
+  // Volcano Engine 官方 Seedance 2.0 Fast 图生视频
+  "volcano-seedance-2-0-fast-image-to-video": {
+    id: "volcano-seedance-2-0-fast-image-to-video",
+    name: "Volcano Seedance 2.0 Fast Image-to-Video",
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.VOLCANO,
-    modelName: VideoModel.SEEDANCE_2_0,
+    modelName: VideoModel.SEEDANCE_2_0_FAST,
     volcanoModel: "doubao-seedance-2-0-fast-260128",
-    displayName: "Seedance 2.0",
+    displayName: "Seedance 2.0 Fast",
     perSecondCredits: 4,
-    description: "ByteDance's latest Seedance 2.0 model",
-    features: ["Wait 20min", "Audio", "Support 2 images"],
+    description: "ByteDance's latest Seedance 2.0 Fast model",
+    features: ["Wait 2min", "Audio", "Support 2 images"],
     maxDuration: 15,
     supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
     supportedResolutions: ["480p", "720p"],
@@ -121,18 +121,93 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     useSignedCallback: true,
   },
 
-  // Volcano Engine 官方 Seedance 2.0 多模态参考生视频 (Reference-to-Video 页面使用)
+  // Volcano Engine 官方 Seedance 2.0 Fast 多模态参考生视频 (Reference-to-Video 页面使用)
+  "volcano-seedance-2-0-fast-reference-to-video": {
+    id: "volcano-seedance-2-0-fast-reference-to-video",
+    name: "Volcano Seedance 2.0 Fast Media-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.VOLCANO,
+    modelName: VideoModel.SEEDANCE_2_0_FAST,
+    volcanoModel: "doubao-seedance-2-0-fast-260128",
+    displayName: "Seedance 2.0 Fast (Media)",
+    perSecondCredits: 12,
+    description: "Generate videos from mixed media: images, videos, and audio",
+    features: ["Wait 3min", "Audio", "Multi-Media"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
+    supportedResolutions: ["480p", "720p"],
+    supportsAudio: true,
+    audioOptional: true,
+    estimatedGenerationTime: 180,
+    supportedDurations: [5, 8, 10, 15],
+    imageCapabilities: {
+      maxImages: 12,
+      minImages: 1,
+    },
+    generationType: "REFERENCE_2_VIDEO",
+    useSignedCallback: true,
+  },
+
+  // Volcano Engine 官方 Seedance 2.0 文生视频（非 Fast，更高质量）
+  "volcano-seedance-2-0-text-to-video": {
+    id: "volcano-seedance-2-0-text-to-video",
+    name: "Volcano Seedance 2.0 Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.VOLCANO,
+    modelName: VideoModel.SEEDANCE_2_0,
+    volcanoModel: "doubao-seedance-2-0-260128",
+    displayName: "Seedance 2.0",
+    perSecondCredits: 5,
+    description: "ByteDance's Seedance 2.0 model - highest quality",
+    features: ["Wait 3min", "Audio"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
+    supportedResolutions: ["480p", "720p"],
+    supportsAudio: true,
+    audioOptional: true,
+    estimatedGenerationTime: 120,
+    supportedDurations: [5, 8, 10, 15],
+    useSignedCallback: true,
+  },
+
+  // Volcano Engine 官方 Seedance 2.0 图生视频（非 Fast，更高质量）
+  "volcano-seedance-2-0-image-to-video": {
+    id: "volcano-seedance-2-0-image-to-video",
+    name: "Volcano Seedance 2.0 Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.VOLCANO,
+    modelName: VideoModel.SEEDANCE_2_0,
+    volcanoModel: "doubao-seedance-2-0-260128",
+    displayName: "Seedance 2.0",
+    perSecondCredits: 5,
+    description: "ByteDance's Seedance 2.0 model - highest quality",
+    features: ["Wait 3min", "Audio", "Support 2 images"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
+    supportedResolutions: ["480p", "720p"],
+    supportsAudio: true,
+    audioOptional: true,
+    estimatedGenerationTime: 120,
+    supportedDurations: [5, 8, 10, 15],
+    imageCapabilities: {
+      maxImages: 2,
+      labels: ["First Frame", "Last Frame"],
+    },
+    useSignedCallback: true,
+  },
+
+  // Volcano Engine 官方 Seedance 2.0 多模态参考生视频（非 Fast，更高质量）
   "volcano-seedance-2-0-reference-to-video": {
     id: "volcano-seedance-2-0-reference-to-video",
     name: "Volcano Seedance 2.0 Media-to-Video",
     type: VideoModelType.IMAGE_TO_VIDEO,
     provider: VideoModelProvider.VOLCANO,
     modelName: VideoModel.SEEDANCE_2_0,
-    volcanoModel: "doubao-seedance-2-0-fast-260128",
+    volcanoModel: "doubao-seedance-2-0-260128",
     displayName: "Seedance 2.0 (Media)",
-    perSecondCredits: 12,
+    perSecondCredits: 15,
     description: "Generate videos from mixed media: images, videos, and audio",
-    features: ["Wait 20min", "Audio", "Multi-Media"],
+    features: ["Wait 3min", "Audio", "Multi-Media"],
     maxDuration: 15,
     supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
     supportedResolutions: ["480p", "720p"],
@@ -899,15 +974,15 @@ export function calculateCredits(
   let totalCredits = duration * model.perSecondCredits;
 
   // 根据分辨率调整积分（对支持多分辨率的模型生效）
-  // Seedance 2.0 Fast 继续与 Seedance 1.5 Pro / Ali 对齐：480p/720p/1080p = 1x/2x/4x
-  // Volcano Seedance 2.0（官方）：480p/720p = 1x/2.2x
-  // 其他 Seedance 2.0 系列仍维持各自基础定价
+  // Seedance 2.0 Fast 改为与 Seedance 1.5 Pro 对齐：480p/720p/1080p = 1x/2x/4x
+  // Volcano Seedance 2.0 & 2.0 Fast（官方）：480p/720p = 1x/2.2x（不支持1080p）
+  // 其他 Seedance 2.0 系列仍维持统一定价
   const isSeedance20 = modelId.includes("seedance-2-0");
   const isSeedance20Fast = modelId.includes("seedance-2-0-fast");
   const isVolcanoSeedance20 = modelId.startsWith("volcano-seedance-2-0");
   if (isVolcanoSeedance20) {
     if (normalizedResolution === "720p") {
-      // Volcano Seedance 2.0: 720p = 480p 的 2.2 倍
+      // Volcano Seedance 2.0 & 2.0 Fast: 720p = 480p 的 2.2 倍
       totalCredits = Math.round(totalCredits * 2.2);
     }
   } else if (
