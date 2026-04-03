@@ -29,8 +29,7 @@ interface MediaGridUploaderProps {
   onShowSignModal: () => void;
 }
 
-const ACCEPTED_TYPES =
-  "image/*,video/mp4,video/quicktime,video/x-m4v,video/webm,audio/mpeg,audio/wav,audio/mp4,audio/ogg";
+const ACCEPTED_TYPES = "image/*,video/mp4,video/quicktime,audio/mpeg,audio/wav";
 
 function getMediaIcon(type: MediaType) {
   switch (type) {

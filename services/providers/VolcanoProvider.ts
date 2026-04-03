@@ -78,8 +78,8 @@ export class VolcanoProvider implements VideoProvider {
    */
   private inferMediaType(url: string): "image" | "video" | "audio" {
     const lower = url.toLowerCase().split("?")[0]; // 去掉 query string
-    if (/\.(mp4|mov|avi|mkv|webm)$/.test(lower)) return "video";
-    if (/\.(mp3|wav|ogg|flac|aac|m4a)$/.test(lower)) return "audio";
+    if (/\.(mp4|mov)$/.test(lower)) return "video";
+    if (/\.(mp3|wav)$/.test(lower)) return "audio";
     return "image";
   }
 
