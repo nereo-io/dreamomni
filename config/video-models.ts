@@ -898,8 +898,8 @@ export function getImageToVideoModels(): VideoModelConfig[] {
   const preferredOrder: VideoModel[] = [
     VideoModel.SEEDANCE_1_5_PRO,
     VideoModel.VEO3,
-    VideoModel.SEEDANCE_2_0_FAST,
     VideoModel.SEEDANCE_2_0,
+    VideoModel.SEEDANCE_2_0_FAST,
     VideoModel.SORA2,
     VideoModel.HAILUO_2_3,
     VideoModel.KLING3,
