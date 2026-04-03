@@ -170,6 +170,91 @@ export async function getPostsPageByLocale(
   };
 }
 
+export async function getPostCountByLocale(locale: string): Promise<number> {
+  const supabase = getSupabaseClient();
+  const { count, error } = await supabase
+    .from("posts")
+    .select("*", { count: "exact", head: true })
+    .eq("locale", locale)
+    .eq("status", PostStatus.Online);
+
+  if (error) {
+    return 0;
+  }
+
+  return count || 0;
+}
+
+export async function getRelatedPosts(
+  post: Pick<Post, "category" | "locale" | "slug" | "uuid">,
+  limit: number = 3
+): Promise<Post[]> {
+  const supabase = getSupabaseClient();
+
+  async function runQuery(category?: string) {
+    let query = supabase
+      .from("posts")
+      .select("*")
+      .eq("status", PostStatus.Online)
+      .order("created_at", { ascending: false })
+      .range(0, limit - 1);
+
+    if (post.locale) {
+      query = query.eq("locale", post.locale);
+    }
+
+    if (post.uuid) {
+      query = query.neq("uuid", post.uuid);
+    } else if (post.slug) {
+      query = query.neq("slug", post.slug);
+    }
+
+    if (category) {
+      query = query.eq("category", category);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      return [];
+    }
+
+    return normalizePosts(data);
+  }
+
+  const category = post.category?.trim();
+  const categoryMatches = category ? await runQuery(category) : [];
+
+  if (categoryMatches.length >= limit) {
+    return categoryMatches.slice(0, limit);
+  }
+
+  const fallbackMatches = await runQuery();
+  const mergedPosts = [...categoryMatches];
+
+  for (const item of fallbackMatches) {
+    const exists = mergedPosts.some((existingPost) => {
+      if (existingPost.uuid && item.uuid) {
+        return existingPost.uuid === item.uuid;
+      }
+
+      return existingPost.slug === item.slug;
+    });
+
+    if (exists) {
+      continue;
+    }
+
+    mergedPosts.push(item);
+
+    if (mergedPosts.length === limit) {
+      break;
+    }
+  }
+
+  return normalizePosts(mergedPosts);
+}
+
 export async function findPostByOutrankId(
   outrankId: string
 ): Promise<Post | undefined> {

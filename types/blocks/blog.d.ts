@@ -27,4 +27,9 @@ export interface Blog {
   buttons?: Button[];
   items?: BlogItem[];
   read_more_text?: string;
+  base_path?: string;
+  current_page?: number;
+  page_size?: number;
+  total_items?: number;
+  total_pages?: number;
 }

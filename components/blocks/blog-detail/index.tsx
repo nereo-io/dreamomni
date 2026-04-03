@@ -157,8 +157,12 @@ function getReadingTimeMinutes(content: string) {
   return Math.max(1, Math.ceil(plainText.split(/\s+/).length / 200));
 }
 
+function getStableDateLabel(date?: string) {
+  return date ? moment.utc(date).format('MMM D, YYYY') : '';
+}
+
 function TableOfContents({ content }: { content: string }) {
-  const t = useTranslations("blogDetail");
+  const t = useTranslations('blogDetail');
   const headings = useMemo(() => extractH2Headings(content), [content]);
   const [activeHeading, setActiveHeading] = useState(headings[0]?.id ?? "");
 
@@ -412,7 +416,7 @@ export default function BlogDetail({
   post: Post;
   relatedPosts: Post[];
 }) {
-  const t = useTranslations("blogDetail");
+  const t = useTranslations('blogDetail');
   const ctaVariant = useMemo(() => getBlogCtaVariant(post), [post]);
   const { introContent, remainingContent } = useMemo(
     () => splitContentForInlineCta(post.content || ""),
@@ -428,11 +432,19 @@ export default function BlogDetail({
     [post.title, shareUrl]
   );
   const [copied, setCopied] = useState(false);
+  const publishedDate = post.created_at || post.updated_at;
+  const [publishedFromNow, setPublishedFromNow] = useState(
+    getStableDateLabel(publishedDate)
+  );
+
+  useEffect(() => {
+    setPublishedFromNow(publishedDate ? moment(publishedDate).fromNow() : "");
+  }, [publishedDate]);
 
   const metaItems = [
     post.author_name?.trim(),
     t("readTime", { minutes: readingTime }),
-    post.created_at ? moment(post.created_at).fromNow() : undefined,
+    publishedFromNow || undefined,
   ].filter(Boolean);
 
   const authorInitial = (post.author_name || "?").trim().charAt(0).toUpperCase();

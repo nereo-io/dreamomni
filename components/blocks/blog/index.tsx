@@ -1,34 +1,66 @@
 'use client';
 
-import Image from "next/image";
-import { ArrowRight, Search } from "lucide-react";
-import { Blog as BlogType } from "@/types/blocks/blog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useDeferredValue, useEffect, useState } from "react";
+import Image from 'next/image';
+import { ArrowRight, Search } from 'lucide-react';
+import moment from 'moment';
+import { useDeferredValue, useEffect, useState } from 'react';
 
-const DEFAULT_PAGE_SIZE = 24;
+import { Input } from '@/components/ui/input';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
+import { Blog as BlogType } from '@/types/blocks/blog';
+import { buildPaginationItems } from '@/utils/pagination';
 
-type BlogItem = NonNullable<BlogType["items"]>[number];
+type BlogItem = NonNullable<BlogType['items']>[number];
 
-interface BlogPostsResponse {
-  code: number;
-  data?: {
-    items: BlogType["items"];
-    hasMore: boolean;
-  };
-}
-
-function getPostHref(item: NonNullable<BlogType["items"]>[number]) {
+function getPostHref(item: BlogItem) {
   if (item.url) {
     return item.url;
   }
 
-  if (!item.locale || item.locale === "en") {
+  if (!item.locale || item.locale === 'en') {
     return `/blog/${item.slug}`;
   }
 
   return `/${item.locale}/blog/${item.slug}`;
+}
+
+function getRelativeDate(date?: string) {
+  return date ? moment(date).fromNow() : null;
+}
+
+function getStableDateLabel(date?: string) {
+  return date ? moment.utc(date).format('MMM D, YYYY') : null;
+}
+
+function useRelativeDateLabel(date?: string) {
+  const fallbackLabel = getStableDateLabel(date);
+  const [label, setLabel] = useState<string | null>(fallbackLabel);
+
+  useEffect(() => {
+    setLabel(getRelativeDate(date));
+  }, [date]);
+
+  return label;
+}
+
+function getPaginationHref(basePath?: string, page: number = 1) {
+  if (!basePath) {
+    return '#';
+  }
+
+  if (page <= 1) {
+    return basePath;
+  }
+
+  return `${basePath}?page=${page}`;
 }
 
 function ArticleCard({
@@ -38,38 +70,52 @@ function ArticleCard({
   item: BlogItem;
   ctaText?: string;
 }) {
+  const relativeDate = useRelativeDateLabel(item.created_at);
+
   return (
     <a
       href={getPostHref(item)}
-      target={item.target || "_self"}
-      rel={item.target === "_blank" ? "noreferrer" : undefined}
+      target={item.target || '_self'}
+      rel={item.target === '_blank' ? 'noreferrer' : undefined}
       className="group block h-full"
     >
       <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/40 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg">
-        {item.cover_url && (
+        {item.cover_url ? (
           <div className="relative aspect-[16/9] overflow-hidden">
             <Image
               src={item.cover_url}
-              alt={item.title || ""}
+              alt={item.title || ''}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
               className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
             />
           </div>
+        ) : (
+          <div className="aspect-[16/9] bg-gradient-to-br from-primary/10 via-background to-cyan-500/10" />
         )}
         <div className="flex flex-1 flex-col px-5 py-5">
-          <h3 className="text-lg font-semibold leading-tight text-foreground md:text-xl">
+          {relativeDate ? (
+            <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              {relativeDate}
+            </p>
+          ) : null}
+          <h3 className="mt-3 text-lg font-semibold leading-tight text-foreground md:text-xl">
             {item.title}
           </h3>
-          <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground md:text-base">
-            {item.description}
-          </p>
-          {ctaText && (
-            <p className="mt-6 inline-flex items-center text-sm font-medium text-foreground">
-              {ctaText}
-              <ArrowRight className="ml-2 size-4 transition-transform duration-300 group-hover:translate-x-1" />
+          {item.description ? (
+            <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground">
+              {item.description}
             </p>
-          )}
+          ) : null}
+          <div className="mt-6 flex items-center justify-between gap-3">
+            <span className="text-sm text-muted-foreground">{item.author_name || ''}</span>
+            {ctaText ? (
+              <span className="inline-flex items-center text-sm font-medium text-foreground">
+                {ctaText}
+                <ArrowRight className="ml-2 size-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </span>
+            ) : null}
+          </div>
         </div>
       </div>
     </a>
@@ -78,81 +124,44 @@ function ArticleCard({
 
 export default function Blog({
   blog,
-  locale,
-  initialHasMore = false,
-  pageSize = DEFAULT_PAGE_SIZE,
-  loadMoreText = "Load more",
-  loadingText = "Loading...",
-  featuredLabel = "Featured article",
-  searchPlaceholder = "Search articles",
-  emptyText = "No articles match your search.",
+  featuredLabel = 'Featured article',
+  searchPlaceholder = 'Search articles',
+  emptyText = 'No articles match your search.',
 }: {
   blog: BlogType;
-  locale: string;
-  initialHasMore?: boolean;
-  pageSize?: number;
-  loadMoreText?: string;
-  loadingText?: string;
   featuredLabel?: string;
   searchPlaceholder?: string;
   emptyText?: string;
 }) {
-  const [items, setItems] = useState(blog.items || []);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(initialHasMore);
-  const [isLoading, setIsLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const deferredSearchQuery = useDeferredValue(searchQuery);
+  const [query, setQuery] = useState('');
+  const deferredQuery = useDeferredValue(query.trim().toLowerCase());
+  const items = blog.items || [];
+  const currentPage = blog.current_page || 1;
+  const pageSize = blog.page_size || items.length || 1;
+  const totalItems = blog.total_items || items.length;
+  const totalPages = blog.total_pages || 1;
 
-  useEffect(() => {
-    setItems(blog.items || []);
-    setPage(1);
-    setHasMore(initialHasMore);
-    setIsLoading(false);
-    setSearchQuery("");
-  }, [blog.items, initialHasMore, locale]);
+  const filteredItems = deferredQuery
+    ? items.filter((item) => {
+        const searchableText = `${item.title || ''} ${item.description || ''}`.toLowerCase();
+        return searchableText.includes(deferredQuery);
+      })
+    : items;
+
+  const featuredItem = filteredItems[0];
+  const gridItems = filteredItems.slice(1);
+  const paginationItems =
+    totalPages > 1 ? buildPaginationItems(currentPage, totalPages, 7) : [];
+  const pageStart = totalItems === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+  const pageEnd = totalItems === 0 ? 0 : pageStart + items.length - 1;
+  const resultSummary = deferredQuery
+    ? `${filteredItems.length} match${filteredItems.length === 1 ? '' : 'es'} on this page`
+    : `Showing ${pageStart}-${pageEnd} of ${totalItems} article${
+        totalItems === 1 ? '' : 's'
+      }`;
 
   if (blog.disabled) {
     return null;
-  }
-
-  const normalizedSearchQuery = deferredSearchQuery.trim().toLowerCase();
-  const filteredItems = normalizedSearchQuery
-    ? items.filter((item) => {
-        const searchableText = `${item.title || ""} ${item.description || ""}`.toLowerCase();
-
-        return searchableText.includes(normalizedSearchQuery);
-      })
-    : items;
-  const featuredItem = filteredItems[0];
-  const gridItems = filteredItems.slice(1);
-
-  async function handleLoadMore() {
-    if (isLoading || !hasMore) {
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      const nextPage = page + 1;
-      const response = await fetch(
-        `/api/blog/posts?locale=${encodeURIComponent(locale)}&page=${nextPage}&limit=${pageSize}`
-      );
-      const result = (await response.json()) as BlogPostsResponse;
-
-      if (!response.ok || result.code !== 0 || !result.data) {
-        throw new Error("Failed to load more posts");
-      }
-
-      setItems((currentItems) => [...currentItems, ...(result.data?.items || [])]);
-      setPage(nextPage);
-      setHasMore(result.data.hasMore);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
   }
 
   return (
@@ -169,17 +178,24 @@ export default function Blog({
             {blog.description}
           </p>
         </div>
+
         <div className="w-full">
           <div className="mb-8 rounded-3xl border border-border/60 bg-card/30 p-4 shadow-sm sm:p-5">
-            <div className="relative mx-auto max-w-2xl">
-              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                type="search"
-                value={searchQuery}
-                onChange={(event) => setSearchQuery(event.target.value)}
-                placeholder={searchPlaceholder}
-                className="h-12 rounded-full border-border/60 bg-background pl-11 pr-4"
-              />
+            <div className="flex flex-col gap-3">
+              <label className="relative mx-auto block w-full max-w-2xl">
+                <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  type="search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder={searchPlaceholder}
+                  aria-label="Search blog articles on this page"
+                  className="h-12 rounded-full border-border/60 bg-background pl-11 pr-4"
+                />
+              </label>
+              <p className="text-center text-sm text-muted-foreground">
+                {resultSummary}
+              </p>
             </div>
           </div>
 
@@ -190,15 +206,15 @@ export default function Blog({
               </p>
               <a
                 href={getPostHref(featuredItem)}
-                target={featuredItem.target || "_self"}
-                rel={featuredItem.target === "_blank" ? "noreferrer" : undefined}
+                target={featuredItem.target || '_self'}
+                rel={featuredItem.target === '_blank' ? 'noreferrer' : undefined}
                 className="group grid overflow-hidden rounded-[2rem] border border-border/70 bg-card/40 shadow-[0_20px_60px_-32px_rgba(15,23,42,0.45)] transition-all duration-300 hover:border-primary/40 hover:shadow-[0_24px_70px_-32px_rgba(15,23,42,0.55)] lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]"
               >
                 <div className="relative aspect-[16/10] overflow-hidden lg:min-h-[420px] lg:aspect-auto">
                   {featuredItem.cover_url ? (
                     <Image
                       src={featuredItem.cover_url}
-                      alt={featuredItem.title || ""}
+                      alt={featuredItem.title || ''}
                       fill
                       priority
                       sizes="(max-width: 1024px) 100vw, 60vw"
@@ -219,12 +235,12 @@ export default function Blog({
                   <p className="mt-4 text-sm leading-7 text-muted-foreground md:text-base">
                     {featuredItem.description}
                   </p>
-                  {blog.read_more_text && (
+                  {blog.read_more_text ? (
                     <p className="mt-8 inline-flex items-center text-sm font-medium text-foreground">
                       {blog.read_more_text}
                       <ArrowRight className="ml-2 size-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </p>
-                  )}
+                  ) : null}
                 </div>
               </a>
             </div>
@@ -234,30 +250,59 @@ export default function Blog({
             </div>
           )}
 
-          {gridItems.length > 0 && (
+          {gridItems.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {gridItems.map((item, idx) => (
+              {gridItems.map((item, index) => (
                 <ArticleCard
-                  key={`${item.slug || "post"}-${idx}`}
+                  key={item.slug || item.title || index}
                   item={item}
                   ctaText={blog.read_more_text}
                 />
               ))}
             </div>
-          )}
+          ) : null}
         </div>
-        {hasMore && (
-          <Button
-            type="button"
-            variant="outline"
-            size="lg"
-            className="min-w-40"
-            onClick={handleLoadMore}
-            disabled={isLoading}
-          >
-            {isLoading ? loadingText : loadMoreText}
-          </Button>
-        )}
+
+        {totalPages > 1 ? (
+          <Pagination className="mt-2">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href={getPaginationHref(blog.base_path, currentPage - 1)}
+                  className={
+                    currentPage === 1 ? 'pointer-events-none opacity-50' : undefined
+                  }
+                />
+              </PaginationItem>
+              {paginationItems.map((item, index) =>
+                item === 'ellipsis' ? (
+                  <PaginationItem key={`ellipsis-${index}`}>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                ) : (
+                  <PaginationItem key={item}>
+                    <PaginationLink
+                      href={getPaginationHref(blog.base_path, item)}
+                      isActive={currentPage === item}
+                    >
+                      {item}
+                    </PaginationLink>
+                  </PaginationItem>
+                )
+              )}
+              <PaginationItem>
+                <PaginationNext
+                  href={getPaginationHref(blog.base_path, currentPage + 1)}
+                  className={
+                    currentPage === totalPages
+                      ? 'pointer-events-none opacity-50'
+                      : undefined
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        ) : null}
       </div>
     </section>
   );
