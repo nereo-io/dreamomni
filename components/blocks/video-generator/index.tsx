@@ -929,10 +929,6 @@ export default function VideoGenerator({
             (usesMixedMediaInput ? (
               <MediaGridUploader
                 maxMedia={12}
-                maxImages={9}
-                maxVideos={3}
-                maxAudios={3}
-                requireVisualForAudio
                 onMediaChange={handleMediaChange}
                 isAuthenticated={!!user?.uuid}
                 onShowSignModal={() => setShowSignModal(true)}
