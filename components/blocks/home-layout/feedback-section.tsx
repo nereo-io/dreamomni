@@ -11,7 +11,7 @@ export function FeedbackSection({ isCollapsed }: FeedbackSectionProps) {
   const t = useTranslations("sidebar");
 
   const handleTelegram = () => {
-    window.open("https://t.me/+DTuDWzTfCfc3OWJl", "_blank");
+    window.open("https://t.me/+h6CuPio61cI3ZDc9", "_blank");
   };
 
   const handleDiscord = () => {
