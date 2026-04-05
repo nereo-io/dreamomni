@@ -29,7 +29,31 @@ interface MediaGridUploaderProps {
   onShowSignModal: () => void;
 }
 
-const ACCEPTED_TYPES = "image/*,video/mp4,video/quicktime,audio/mpeg,audio/wav";
+const SUPPORTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+  "image/bmp",
+  "image/tiff",
+  "image/gif",
+] as const;
+
+const SUPPORTED_VIDEO_TYPES = ["video/mp4", "video/quicktime"] as const;
+
+const SUPPORTED_AUDIO_TYPES = ["audio/mpeg", "audio/wav", "audio/x-wav"] as const;
+
+const SUPPORTED_MEDIA_TYPES = [
+  ...SUPPORTED_IMAGE_TYPES,
+  ...SUPPORTED_VIDEO_TYPES,
+  ...SUPPORTED_AUDIO_TYPES,
+] as const;
+
+const ACCEPTED_TYPES = SUPPORTED_MEDIA_TYPES.join(",");
+
+function isSupportedMediaFile(file: File) {
+  return SUPPORTED_MEDIA_TYPES.includes(file.type as (typeof SUPPORTED_MEDIA_TYPES)[number]);
+}
 
 function getMediaIcon(type: MediaType) {
   switch (type) {
@@ -98,7 +122,7 @@ export function MediaGridUploader({
 
       const validFiles = files.filter((file) => {
         const type = getMediaType(file);
-        if (type === "unknown") {
+        if (type === "unknown" || !isSupportedMediaFile(file)) {
           toast.error(t("mediaUnsupportedType", { name: file.name }));
           return false;
         }

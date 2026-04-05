@@ -87,6 +87,9 @@ interface VideoGeneratorProps {
   // Optional: Specify generation type to filter available models
   generationType?: string;
 
+  // Optional: Preferred default model when no selection has been made yet
+  defaultModel?: string;
+
   // Optional: Hide prompt enhancement toggle
   hidePromptEnhancement?: boolean;
 }
@@ -113,6 +116,7 @@ export default function VideoGenerator({
   forceModel,
   creditsOverride,
   generationType,
+  defaultModel,
   hidePromptEnhancement = false,
 }: VideoGeneratorProps) {
   const t = useTranslations("video-generator");
@@ -392,6 +396,18 @@ export default function VideoGenerator({
       return undefined;
     }
 
+    if (defaultModel) {
+      const preferredModel = availableModels.find(
+        (model) =>
+          model.id === defaultModel &&
+          (isMember || !model.requiresMembership)
+      );
+
+      if (preferredModel) {
+        return preferredModel;
+      }
+    }
+
     if (isMember) {
       return availableModels[0];
     }
@@ -400,7 +416,7 @@ export default function VideoGenerator({
       availableModels.find((model) => !model.requiresMembership) ||
       availableModels[0]
     );
-  }, [availableModels, isMember]);
+  }, [availableModels, defaultModel, isMember]);
 
   // 获取选中模型的详细信息
   const selectedModelConfig = getVideoModel(selectedModel);

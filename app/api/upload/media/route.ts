@@ -6,18 +6,40 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const MEDIA_CACHE_CONTROL = "public, max-age=31536000, immutable";
 
-const ALLOWED_MEDIA_TYPES: Record<
-  string,
-  { maxSize: number; folder: string }
-> = {
-  "image/": { maxSize: 30 * 1024 * 1024, folder: "images" },
-  "video/": { maxSize: 100 * 1024 * 1024, folder: "videos" },
-  "audio/": { maxSize: 50 * 1024 * 1024, folder: "audio" },
-};
+const ALLOWED_MEDIA_TYPES = {
+  image: {
+    maxSize: 30 * 1024 * 1024,
+    folder: "images",
+    mimeTypes: [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/webp",
+      "image/bmp",
+      "image/tiff",
+      "image/gif",
+    ],
+  },
+  video: {
+    maxSize: 100 * 1024 * 1024,
+    folder: "videos",
+    mimeTypes: ["video/mp4", "video/quicktime"],
+  },
+  audio: {
+    maxSize: 50 * 1024 * 1024,
+    folder: "audio",
+    mimeTypes: ["audio/mpeg", "audio/wav", "audio/x-wav"],
+  },
+} satisfies Record<string, { maxSize: number; folder: string; mimeTypes: string[] }>;
+
+const MEDIA_TYPE_ERROR_MESSAGE =
+  "Unsupported file type. Supported formats: JPEG, PNG, WEBP, BMP, TIFF, GIF, MP4, MOV, MP3, WAV.";
 
 function getMediaConfig(contentType: string) {
-  for (const [prefix, config] of Object.entries(ALLOWED_MEDIA_TYPES)) {
-    if (contentType.startsWith(prefix)) {
+  const normalizedContentType = contentType.trim().toLowerCase();
+
+  for (const config of Object.values(ALLOWED_MEDIA_TYPES)) {
+    if (config.mimeTypes.includes(normalizedContentType)) {
       return config;
     }
   }
@@ -52,9 +74,7 @@ export async function POST(req: Request) {
 
     const mediaConfig = getMediaConfig(contentType);
     if (!mediaConfig) {
-      return respErr(
-        "Unsupported file type. Only image, video, and audio files are supported."
-      );
+      return respErr(MEDIA_TYPE_ERROR_MESSAGE);
     }
 
     if (fileSize && fileSize > mediaConfig.maxSize) {

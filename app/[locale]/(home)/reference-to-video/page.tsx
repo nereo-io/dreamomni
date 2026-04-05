@@ -45,6 +45,7 @@ export default async function ReferenceToVideoPage({
       <VideoGenerationTool
         mode="image-to-video"
         generationType="REFERENCE_2_VIDEO"
+        defaultModel="kie-veo3-reference-to-video"
         hidePromptEnhancement
         introVideoUrl="https://r2.veo3ai.io/intro/reference-to-video/Reference-to-video-intro-new.mp4"
       />

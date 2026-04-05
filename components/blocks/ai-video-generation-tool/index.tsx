@@ -21,6 +21,7 @@ interface VideoGenerationToolProps {
   effect?: VideoEffect;
   // Optional: Specify generation type to filter available models
   generationType?: string;
+  defaultModel?: string;
   // Optional: Hide prompt enhancement toggle
   hidePromptEnhancement?: boolean;
   // Optional: Intro video URL for simple video display
@@ -33,6 +34,7 @@ export function VideoGenerationTool({
   descriptionPlaceholder,
   effect,
   generationType,
+  defaultModel,
   hidePromptEnhancement = false,
   introVideoUrl,
 }: VideoGenerationToolProps) {
@@ -251,6 +253,7 @@ export function VideoGenerationTool({
           creditsOverride={effectConfig?.creditsRequired}
           // Pass generationType for model filtering
           generationType={generationType}
+          defaultModel={defaultModel}
           // Pass hidePromptEnhancement to hide the toggle
           hidePromptEnhancement={hidePromptEnhancement}
         />
