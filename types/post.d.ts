@@ -19,4 +19,5 @@ export interface Post {
   content_markdown?: string;
   meta_description?: string;
   image_url?: string;
+  faq_schema?: Array<{ q: string; a: string }>;
 }

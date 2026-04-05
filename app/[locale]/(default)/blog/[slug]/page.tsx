@@ -89,5 +89,31 @@ export default async function ({
     .filter((localePost) => localePost.slug !== post.slug)
     .slice(0, 3);
 
-  return <BlogDetail post={post} relatedPosts={relatedPosts} />;
+  const faqJsonLd =
+    post.faq_schema && post.faq_schema.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: post.faq_schema.map((item) => ({
+            "@type": "Question",
+            name: item.q,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: item.a,
+            },
+          })),
+        }
+      : null;
+
+  return (
+    <>
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
+      <BlogDetail post={post} relatedPosts={relatedPosts} />
+    </>
+  );
 }
