@@ -39,6 +39,7 @@ export interface VideoModelConfig {
   aliModel?: string; // Ali Cloud model ID
   providerModelId?: string; // Provider API 使用的模型标识（通用字段，新 provider 统一用此字段）
   displayName: string;
+  sortOrder?: number; // 前端模型展示排序，数值越小越靠前
   perSecondCredits: number; // 每秒积分消耗
   description?: string;
   features?: string[];

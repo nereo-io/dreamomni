@@ -25,6 +25,13 @@ const POST_LIST_SELECT = [
   "tags",
 ].join(", ");
 
+function normalizePosts(posts: Post[] | null | undefined): Post[] {
+  return (posts || []).map((post) => ({
+    ...post,
+    tags: Array.isArray(post.tags) ? post.tags : [],
+  }));
+}
+
 export async function insertPost(post: Post) {
   const supabase = getSupabaseClient();
   const { data, error } = await supabase.from("posts").insert(post);
