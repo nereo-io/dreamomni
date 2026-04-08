@@ -294,10 +294,6 @@ export async function POST(req: Request) {
           .filter(Boolean)
       : undefined;
 
-    const isMaxApiMediaReferenceModel =
-      modelConfig.provider === VideoModelProvider.MAXAPI &&
-      modelConfig.generationType === "REFERENCE_2_VIDEO";
-
     // 7. 在数据库中创建记录（根据是否启用prompt增强设置初始状态）
     const videoGeneration = await createVideoGeneration({
       user_id: userInfo.uuid,
@@ -322,9 +318,19 @@ export async function POST(req: Request) {
         },
         // 保存用户请求的分辨率，用于4K升级判断
         requested_resolution: resolution,
-        ...(finalMediaUrls && finalMediaUrls.length > 0
-          ? { input_media_urls: finalMediaUrls }
-          : {}),
+        // 保存完整请求参数，用于追溯和重试
+        request_params: {
+          ...(media_urls && Array.isArray(media_urls) && media_urls.length > 0
+            ? { media_urls }
+            : {}),
+          ...(generate_audio !== undefined ? { generate_audio } : {}),
+          ...(watermarkEnabled ? { watermark_enabled: true } : {}),
+          ...(enable_prompt_enhancement
+            ? { enable_prompt_enhancement: true }
+            : {}),
+          ...(effect_id ? { effect_id } : {}),
+          ...(finalGenerationType ? { generation_type: finalGenerationType } : {}),
+        },
       },
       effect_id: effect_id,
       model_name: modelConfig.modelName,
@@ -397,12 +403,10 @@ export async function POST(req: Request) {
     }
 
     // 根据模型类型添加相应参数
-    if (isImageToVideoModel(finalModel)) {
-      const referenceInputCount = isMaxApiMediaReferenceModel
-        ? finalMediaUrls?.length || finalImageUrls?.length || 0
-        : finalImageUrls?.length || 0;
+    const hasMediaUrls = media_urls && Array.isArray(media_urls) && media_urls.length > 0;
 
-      if (referenceInputCount === 0) {
+    if (isImageToVideoModel(finalModel) && !hasMediaUrls) {
+      if (!finalImageUrls || finalImageUrls.length === 0) {
         return respErr("Image-to-video models require at least one image");
       }
 
@@ -411,23 +415,17 @@ export async function POST(req: Request) {
         const minImages = modelConfig?.imageCapabilities?.minImages || 1;
         const maxImages = modelConfig?.imageCapabilities?.maxImages || 3;
 
-        if (referenceInputCount < minImages || referenceInputCount > maxImages) {
+        if (finalImageUrls.length < minImages || finalImageUrls.length > maxImages) {
           return respErr(
-            `REFERENCE_2_VIDEO requires ${minImages}-${maxImages} reference materials, but got ${referenceInputCount}`
+            `REFERENCE_2_VIDEO requires ${minImages}-${maxImages} reference materials, but got ${finalImageUrls.length}`
           );
         }
       }
 
       // 支持双图：优先使用 image_urls，向后兼容 image_url
-      if (finalImageUrls && finalImageUrls.length > 0) {
-        input.image_urls = finalImageUrls;
-        // 向后兼容：同时设置 image_url（第一张图）
-        input.image_url = finalImageUrls[0];
-      }
-
-      if (isMaxApiMediaReferenceModel && finalMediaUrls && finalMediaUrls.length > 0) {
-        input.media_urls = finalMediaUrls;
-      }
+      input.image_urls = finalImageUrls;
+      // 向后兼容：同时设置 image_url（第一张图）
+      input.image_url = finalImageUrls[0];
     }
 
     // 按模型提供商分类处理参数
@@ -531,6 +529,11 @@ export async function POST(req: Request) {
       // 使用 providerModelId 覆盖 API 模型名
       if (modelConfig.providerModelId) {
         input.model = modelConfig.providerModelId;
+      }
+      // 通用透传：Evolink 模型统一使用 quality 表达清晰度档位，
+      // 具体是否消费由 provider 内部策略决定（如 Sora 忽略，Hailuo 使用）。
+      if (input.resolution) {
+        input.quality = input.resolution;
       }
       // Evolink Sora 模型不接受 resolution 参数（固定 1080p）
       delete input.resolution;
