@@ -89,12 +89,23 @@ export default async function ({
     .filter((localePost) => localePost.slug !== post.slug)
     .slice(0, 3);
 
+  const faqSchemaData = (() => {
+    if (!post.faq_schema) return null;
+    if (Array.isArray(post.faq_schema)) return post.faq_schema;
+    try {
+      const parsed = JSON.parse(post.faq_schema as unknown as string);
+      return Array.isArray(parsed) ? parsed : null;
+    } catch {
+      return null;
+    }
+  })();
+
   const faqJsonLd =
-    post.faq_schema && post.faq_schema.length > 0
+    faqSchemaData && faqSchemaData.length > 0
       ? {
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          mainEntity: post.faq_schema.map((item) => ({
+          mainEntity: faqSchemaData.map((item) => ({
             "@type": "Question",
             name: item.q,
             acceptedAnswer: {
