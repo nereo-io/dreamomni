@@ -49,6 +49,11 @@
     "description": "リアルな物理演算、同期オーディオ、マルチショットの一貫性を備えたOpenAIの高度なAI動画モデルSora 2を体験。メンバー向けに1080p HD動画を生成！",
     "keywords": "Sora 2, OpenAI Sora 2, AI動画ジェネレーター, 無料Sora 2, 動画AI, テキストから動画, 画像から動画, Seedance, soraモデル"
   },
+  "sora-alternative": {
+    "title": "最高のSora代替 2026 — 無料AI動画ジェネレーター | Seedance",
+    "description": "OpenAIの終了後にSoraの代替をお探しですか？Seedance Video Generatorは、テキストから動画、画像から動画、Seedance 2.0モデルを備えた最高の無料AI動画ツールです。",
+    "keywords": "Sora代替, 最高のSora代替, Sora代替ツール, 無料Sora代替, AI動画ジェネレーター, Seedance, テキストから動画AI, 画像から動画AI"
+  },
   "pricing": {
     "title": "動画プラン | Seedance料金",
     "description": "AI動画プランをお選びください。4K出力、無制限生成、高度なコントロール、Seedanceでの優先サポートを取得。",
@@ -913,6 +918,161 @@
       "delete": "削除",
       "copyPrompt": "プロンプトをコピー",
       "promptCopied": "プロンプトをコピーしました"
+    }
+  },
+  "agentJobs": {
+    "pleaseSignIn": "ログインしてください",
+    "signInToViewJobs": "ジョブを表示するにはログインしてください",
+    "signInButton": "ログイン",
+    "tabs": {
+      "history": "履歴",
+      "discover": "発見"
+    },
+    "modal": {
+      "title": "ジョブ詳細",
+      "labels": {
+        "videoModel": "動画モデル",
+        "imageModel": "画像モデル",
+        "aspectRatio": "アスペクト比",
+        "duration": "尺",
+        "shots": "ショット",
+        "created": "作成日時"
+      },
+      "actions": {
+        "open": "開く",
+        "download": "ダウンロード",
+        "copyPrompt": "プロンプトをコピー"
+      }
+    },
+    "empty": {
+      "noJobsTitle": "Agentジョブはまだありません",
+      "noJobsDescription": "最初のインテリジェント動画オーケストレーションジョブを作成して始めましょう",
+      "checkExamples": "作例を見る",
+      "noShowcase": "ショーケース項目はありません。"
+    },
+    "auth": {
+      "required": "認証が必要です",
+      "description": "Agentジョブを表示するにはログインしてください",
+      "viewShowcase": "ショーケースを見る"
+    },
+    "toast": {
+      "deleteSuccess": "Agentジョブを削除しました",
+      "deleteError": "ジョブの削除に失敗しました",
+      "downloadError": "動画のダウンロードに失敗しました",
+      "fetchError": "Agentジョブの読み込みに失敗しました",
+      "copyError": "コピーに失敗しました"
+    },
+    "item": {
+      "finalVideo": "完成動画",
+      "finalVideoNoBgm": "結合済み動画",
+      "finalVideoWithBgm": "完成動画（BGMあり）",
+      "reEdit": "再編集",
+      "delete": "削除",
+      "deleting": "削除中...",
+      "story": "ストーリー",
+      "theme": "テーマ",
+      "tone": "トーン",
+      "acts": "幕",
+      "characters": "キャラクター",
+      "scene": "シーン",
+      "logs": "Agentログ",
+      "show": "表示",
+      "hide": "非表示",
+      "deleteTitle": "Agentジョブを削除しますか？",
+      "deleteConfirm": "「{prompt}」を削除してもよろしいですか？この操作は元に戻せません。",
+      "shots": "ショット",
+      "failed": "生成に失敗しました",
+      "copyPrompt": "プロンプトをコピー",
+      "promptCopied": "プロンプトをコピーしました",
+      "failedShots": "失敗したショット",
+      "estimatedCost": "再開に必要な推定コスト: {cost} クレジット",
+      "resume": "再開",
+      "resumeStarted": "再開を開始しました",
+      "resumeFailed": "再開に失敗しました",
+      "retryStarted": "再試行を開始しました",
+      "retryFailed": "再試行に失敗しました",
+      "retryFromStart": "最初から再試行"
+    },
+    "steps": {
+      "plan_story_and_shots": "ストーリー設計",
+      "generate_prompts": "プロンプト生成",
+      "submit_background_music": "BGM送信",
+      "design_characters": "キャラクター設計",
+      "generate_scene_ref": "シーン参照生成",
+      "generate_keyframes": "キーフレーム生成",
+      "generate_video_prompts": "動画プロンプト生成",
+      "orchestrate_videos": "動画生成",
+      "check_quality": "品質チェック",
+      "wait_for_background_music": "BGM待機",
+      "splice_videos": "動画結合"
+    },
+    "assets": {
+      "script": "台本",
+      "image": "画像",
+      "video": "動画",
+      "storyScript": "ストーリーと台本",
+      "characterRefs": "キャラクター参照",
+      "sceneRef": "シーン参照",
+      "backgroundMusic": "背景音楽",
+      "shot": "ショット",
+      "ref": "参照",
+      "more": "さらに",
+      "finalVideo": "完成動画"
+    },
+    "assetModal": {
+      "shots": "ショット",
+      "acts": "幕",
+      "characters": "キャラクター",
+      "scene": "シーン",
+      "storyOutline": "ストーリー概要",
+      "logline": "ログライン",
+      "conflict": "対立",
+      "ending": "結末",
+      "soundBed": "サウンドベッド",
+      "theme": "テーマ",
+      "tone": "トーン",
+      "actsUpper": "幕",
+      "elementsUpper": "要素",
+      "character": "キャラクター",
+      "storyboard": "絵コンテ",
+      "startFrame": "開始フレーム",
+      "story": "ストーリー",
+      "keyframePrompt": "キーフレーム用プロンプト",
+      "shotPrompt": "ショット用プロンプト",
+      "videoRouting": "動画ルーティング",
+      "copy": "コピー",
+      "copied": "コピー済み",
+      "download": "ダウンロード",
+      "copyAttempts": "試行内容をコピー",
+      "keyboardHint": "スペースで再生/一時停止 • ESCで閉じる",
+      "videoNotSupported": "お使いのブラウザは動画タグをサポートしていません。",
+      "done": "完了",
+      "failed": "失敗",
+      "generating": "生成中",
+      "skipped": "スキップ済み",
+      "model": "モデル"
+    },
+    "gallery": {
+      "promptLabel": "プロンプト",
+      "usedResources": "使用リソース",
+      "resourceLabel": "リソース"
+    },
+    "createPanel": {
+      "title": "Agentジョブを作成",
+      "description": "説明",
+      "descriptionPlaceholder": "動画コンセプトを説明してください。例: 夕暮れの未来都市を旅するシネマティックな映像...",
+      "aspectRatio": "アスペクト比",
+      "duration": "尺",
+      "videoModel": "動画モデル",
+      "credits": "クレジット",
+      "cost": "費用",
+      "recharge": "チャージ",
+      "generate": "生成",
+      "creating": "作成中...",
+      "errorNoDescription": "動画の説明を入力してください",
+      "errorMinLength": "説明は10文字以上で入力してください",
+      "errorMaxLength": "説明は2000文字以内で入力してください",
+      "toastSuccess": "Agentジョブを作成しました！"
     }
   },
   "imageHistory": {

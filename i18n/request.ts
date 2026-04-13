@@ -1,5 +1,10 @@
 import { getRequestConfig } from "next-intl/server";
+import { mergeMessages } from "./message-utils";
 import { routing } from "./routing";
+
+async function loadMessages(locale: string) {
+  return (await import(`./messages/${locale.toLowerCase()}.json`)).default;
+}
 
 export default getRequestConfig(async ({ requestLocale }) => {
   let locale = await requestLocale;
@@ -15,17 +20,31 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale = "en";
   }
 
+  const englishMessages = await loadMessages("en");
+
   try {
-    const messages = (await import(`./messages/${locale.toLowerCase()}.json`))
-      .default;
+    if (locale === "en") {
+      return {
+        locale,
+        messages: englishMessages,
+      };
+    }
+
+    const localeMessages = await loadMessages(locale);
+
     return {
-      locale: locale,
-      messages: messages,
+      locale,
+      messages: mergeMessages(englishMessages, localeMessages),
     };
-  } catch (e) {
+  } catch (error) {
+    console.warn(
+      `Failed to load messages for locale ${locale}, falling back to English messages`,
+      error
+    );
+
     return {
-      locale: "en",
-      messages: (await import(`./messages/en.json`)).default,
+      locale,
+      messages: englishMessages,
     };
   }
 });

@@ -19,28 +19,7 @@ export const localeDetection =
   process.env.NEXT_PUBLIC_LOCALE_DETECTION === "true";
 
 export const pathnames = {
-  en: {
-    "privacy-policy": "/privacy-policy",
-    "terms-of-service": "/terms-of-service",
-  },
-  ru: {
-    "privacy-policy": "/privacy-policy",
-    "terms-of-service": "/terms-of-service",
-  },
-  ja: {
-    "privacy-policy": "/privacy-policy",
-    "terms-of-service": "/terms-of-service",
-  },
-  ko: {
-    "privacy-policy": "/privacy-policy",
-    "terms-of-service": "/terms-of-service",
-  },
-  de: {
-    "privacy-policy": "/privacy-policy",
-    "terms-of-service": "/terms-of-service",
-  },
-  fr: {
-    "privacy-policy": "/privacy-policy",
-    "terms-of-service": "/terms-of-service",
-  },
+  "/privacy-policy": "/privacy-policy",
+  "/terms-of-service": "/terms-of-service",
+  "/refund-policy": "/refund-policy",
 } satisfies Pathnames<typeof locales>;

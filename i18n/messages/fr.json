@@ -79,6 +79,9 @@
     "text_to_image": "Texte vers image",
     "image_to_image": "Image vers image",
     "text_to_music": "Texte vers musique",
+    "add_vocals": "Ajouter des voix",
+    "add_instrumental": "Ajouter un instrumental",
+    "upload_cover": "Téléverser une reprise",
     "agent_videos": "AI Shorts",
     "ai_video_effects": "Effets vidéo IA",
     "ai_effects": "Effets IA",
@@ -413,6 +416,8 @@
     "mediaTypeFile": "File",
     "mediaMentionDropdownTitle": "Select a reference material",
     "mediaPromptPlaceholder": "Describe the video you want. Use @ to reference uploaded materials, e.g.: @1 mimics the motion of @2, with @3 as background music.",
+    "videoEffect": "Effet vidéo",
+    "chooseVideoEffect": "Choisir un effet vidéo",
     "aspectRatios": {
       "landscape": "16:9 Paysage",
       "portrait": "9:16 Portrait",
@@ -1196,6 +1201,41 @@
     "agent_scene_ref_refund": "Remboursement référence de scène de l'agent",
     "agent_character_ref_reserve": "Référence de personnage de l'agent",
     "agent_character_ref_refund": "Remboursement référence de personnage de l'agent"
+  },
+  "header": {
+    "video_effects": "Effets vidéo",
+    "more_effects": "Plus d'effets"
+  },
+  "effects": {
+    "ai-kissing": "Générateur de vidéo de baiser IA",
+    "kiss-me-ai": "Kiss Me AI",
+    "ai-twerk": "Générateur de twerk IA",
+    "ai-hug": "Câlin IA",
+    "ai-muscle": "Générateur de muscles IA",
+    "ai-french-kissing": "French kiss IA",
+    "ai-360-rotation": "Générateur de vidéo de rotation IA à 360°",
+    "ai-cloud-ride": "Générateur de balade sur les nuages IA",
+    "dance-party": "Générateur de soirée dansante",
+    "magic-tricks": "Effet tours de magie",
+    "time-travel": "Effet voyage dans le temps",
+    "vampire-transformation": "Transformation en vampire",
+    "ghost-effect": "Effet apparition fantôme",
+    "gender-swap": "Effet changement de genre",
+    "hair-color-change": "Changement de couleur de cheveux",
+    "makeup-artist": "Maquilleur IA",
+    "body-transformation": "Transformation du corps",
+    "halloween-spooky": "Effet Halloween effrayant",
+    "valentine-romance": "Effet romance de Saint-Valentin",
+    "new-year-celebration": "Célébration du Nouvel An",
+    "summer-beach": "Ambiance plage d'été",
+    "happiness-boost": "Effet boost de bonheur",
+    "surprise-reaction": "Effet réaction de surprise",
+    "anger-expression": "Effet expression de colère",
+    "love-struck": "Effet coup de foudre"
+  },
+  "footer": {
+    "popularEffects": "Effets populaires",
+    "moreEffects": "Plus d'effets →"
   },
   "blogDetail": {
     "tocTitle": "Sommaire",
