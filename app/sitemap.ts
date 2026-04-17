@@ -1,4 +1,6 @@
 import { execSync } from "child_process";
+import { existsSync } from "node:fs";
+import path from "node:path";
 import { MetadataRoute } from "next";
 import { getPostsByLocale } from "@/models/post";
 import { locales } from "@/i18n/locale";
@@ -25,6 +27,9 @@ type StaticPageDefinition = {
 };
 
 const DEFAULT_LAST_MODIFIED = "2026-03-18T00:00:00.000Z";
+const gitLastModifiedCache = new Map<string, string>();
+
+let gitHistoryAvailable: boolean | undefined;
 
 const STATIC_PAGE_SOURCE_FILES: Record<string, string> = {
   "/": "app/[locale]/(default)/page.tsx",
@@ -40,14 +45,36 @@ const STATIC_PAGE_SOURCE_FILES: Record<string, string> = {
 };
 
 function getGitLastModified(filePath: string): string {
+  if (!filePath) {
+    return DEFAULT_LAST_MODIFIED;
+  }
+
+  const cachedDate = gitLastModifiedCache.get(filePath);
+
+  if (cachedDate) {
+    return cachedDate;
+  }
+
+  if (gitHistoryAvailable === undefined) {
+    gitHistoryAvailable = existsSync(path.join(process.cwd(), ".git"));
+  }
+
+  if (!gitHistoryAvailable) {
+    return DEFAULT_LAST_MODIFIED;
+  }
+
   try {
     const date = execSync(`git log -1 --format=%cI -- "${filePath}"`, {
       encoding: "utf-8",
       timeout: 5000,
     }).trim();
 
-    return date || DEFAULT_LAST_MODIFIED;
+    const resolvedDate = date || DEFAULT_LAST_MODIFIED;
+    gitLastModifiedCache.set(filePath, resolvedDate);
+
+    return resolvedDate;
   } catch {
+    gitHistoryAvailable = false;
     return DEFAULT_LAST_MODIFIED;
   }
 }
