@@ -9,6 +9,7 @@ import {
   PaymentError,
 } from "./types";
 import { getProviderProductId } from "@/config/products";
+import { parseCreemWebhookSecrets } from "@/lib/creem-webhook";
 
 interface CreemConfig {
   apiKey: string;
@@ -52,9 +53,11 @@ export class CreemProvider implements PaymentProvider {
   private loadConfig(): CreemConfig {
     const apiKey = process.env.CREEM_API_KEY;
     const apiSecret = process.env.CREEM_API_SECRET;
-    const webhookSecret = process.env.CREEM_WEBHOOK_SECRET;
+    const webhookSecrets = parseCreemWebhookSecrets(
+      process.env.CREEM_WEBHOOK_SECRET
+    );
 
-    if (!apiKey || !webhookSecret) {
+    if (!apiKey || webhookSecrets.length === 0) {
       throw new PaymentError(
         "CONFIG_ERROR",
         "Creem configuration is incomplete. Please check CREEM_API_KEY and CREEM_WEBHOOK_SECRET environment variables.",
@@ -65,7 +68,7 @@ export class CreemProvider implements PaymentProvider {
     return {
       apiKey,
       apiSecret,
-      webhookSecret,
+      webhookSecret: webhookSecrets[0],
       baseUrl: process.env.CREEM_BASE_URL || "https://api.creem.io",
     };
   }

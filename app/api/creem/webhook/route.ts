@@ -4,7 +4,7 @@ import { findOrderByOrderNo } from "@/models/order";
 import { findUserByUuid } from "@/models/user";
 import { getProductConfig, getBundleConfig, getAnyProductConfig } from "@/config/products";
 import { getCreemConfig } from "@/config/creem";
-import * as crypto from "crypto";
+import { findMatchingCreemWebhookSecretIndex } from "@/lib/creem-webhook";
 import {
   createCreemSubscription,
   findCreemSubscriptionByCreemId,
@@ -56,30 +56,6 @@ async function hasOrderPayCredit(orderNo: string): Promise<boolean> {
 }
 
 /**
- * 验证 Creem webhook 签名
- */
-function verifyWebhookSignature(
-  payload: string,
-  signature: string,
-  secret: string
-): boolean {
-  try {
-    const hmac = crypto.createHmac("sha256", secret);
-    hmac.update(payload, "utf8");
-    const expectedSignature = hmac.digest("hex");
-
-    // 使用 timingSafeEqual 防止时序攻击
-    return crypto.timingSafeEqual(
-      Buffer.from(signature, "hex"),
-      Buffer.from(expectedSignature, "hex")
-    );
-  } catch (error) {
-    logError("❌ Signature verification error", error);
-    return false;
-  }
-}
-
-/**
  * Creem Webhook 处理器
  * 处理 Creem 支付相关的 webhook 事件
  */
@@ -87,13 +63,6 @@ export async function POST(req: NextRequest) {
   try {
     // 获取原始请求体用于签名验证
     const rawBody = await req.text();
-    const body = JSON.parse(rawBody);
-
-    logInfo("🔔 Received Creem webhook", {
-      eventType: body.eventType,
-      eventId: body.id,
-      hasObject: !!body.object,
-    });
 
     // 验证 webhook 签名
     const signature =
@@ -107,15 +76,43 @@ export async function POST(req: NextRequest) {
 
     try {
       const config = getCreemConfig();
-      if (!verifyWebhookSignature(rawBody, signature, config.webhookSecret)) {
-        logError("❌ Invalid webhook signature");
+      const matchedSecretIndex = findMatchingCreemWebhookSecretIndex(
+        rawBody,
+        signature,
+        config.webhookSecrets
+      );
+
+      if (matchedSecretIndex === -1) {
+        logError("❌ Invalid webhook signature", {
+          configuredSecretCount: config.webhookSecrets.length,
+        });
         return respErr("Invalid webhook signature");
       }
-      logInfo("✅ Webhook signature verified");
+      logInfo("✅ Webhook signature verified", {
+        matchedSecretIndex,
+        configuredSecretCount: config.webhookSecrets.length,
+      });
     } catch (error) {
       logError("❌ Signature verification failed", error);
       return respErr("Signature verification failed");
     }
+
+    let body: any;
+
+    try {
+      body = JSON.parse(rawBody);
+    } catch (error) {
+      logError("❌ Invalid webhook JSON payload", {
+        error: error instanceof Error ? error.message : String(error),
+      });
+      return respErr("Invalid webhook payload");
+    }
+
+    logInfo("🔔 Received Creem webhook", {
+      eventType: body.eventType,
+      eventId: body.id,
+      hasObject: !!body.object,
+    });
 
     // 根据不同的事件类型处理业务逻辑
     switch (body.eventType) {
