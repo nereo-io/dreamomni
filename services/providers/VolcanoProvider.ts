@@ -30,43 +30,46 @@ export class VolcanoProvider implements VideoProvider {
     method: "GET" | "POST" = "GET",
     body?: any
   ): Promise<any> {
-    // Use proxy if configured
-    if (this.useProxy) {
-      try {
+    try {
+      // Use proxy if configured
+      if (this.useProxy) {
         return await volcengineClient.call(endpoint, body, method);
-      } catch (error) {
-        console.error("Proxy request failed, error:", error);
-        throw error;
       }
-    }
 
-    // Fallback to direct connection if proxy is not configured
-    const url = `${this.baseUrl}${endpoint}`;
+      // Fallback to direct connection if proxy is not configured
+      const url = `${this.baseUrl}${endpoint}`;
 
-    const headers = {
-      Authorization: `Bearer ${this.apiKey}`,
-      "Content-Type": "application/json",
-    };
+      const headers = {
+        Authorization: `Bearer ${this.apiKey}`,
+        "Content-Type": "application/json",
+      };
 
-    const options: RequestInit = {
-      method,
-      headers,
-    };
+      const options: RequestInit = {
+        method,
+        headers,
+      };
 
-    if (body && method === "POST") {
-      options.body = JSON.stringify(body);
-    }
+      if (body && method === "POST") {
+        options.body = JSON.stringify(body);
+      }
 
-    const response = await fetch(url, options);
+      const response = await fetch(url, options);
 
-    if (!response.ok) {
-      const errorData = await response.text();
-      throw new Error(
-        `Volcano API request failed: ${response.status} ${response.statusText} - ${errorData}`
+      if (!response.ok) {
+        const errorData = await response.text();
+        throw new Error(
+          `Volcano API request failed: ${response.status} ${response.statusText} - ${errorData}`
+        );
+      }
+
+      return response.json();
+    } catch (error) {
+      console.error(
+        `🔥 火山引擎接口异常 [${method} ${endpoint}]:`,
+        error instanceof Error ? error.stack || error.message : error
       );
+      throw error;
     }
-
-    return response.json();
   }
 
   private isSeedance2Model(modelId: string): boolean {
@@ -235,11 +238,6 @@ export class VolcanoProvider implements VideoProvider {
     if (webhookUrl) {
       requestBody.callback_url = webhookUrl;
     }
-
-    console.log(
-      "🔥 火山引擎视频生成请求参数:",
-      JSON.stringify(requestBody, null, 2)
-    );
 
     const response = await this.makeRequest(endpoint, "POST", requestBody);
 

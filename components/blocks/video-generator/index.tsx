@@ -38,7 +38,7 @@ import {
   getSupportedResolutionsForDuration,
   isSeedanceModel,
   getMaxImagesForModel,
-  isMaxApiModel,
+  VideoModel,
 } from "@/config/video-models";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 import type { VideoEffect } from "@/types/video-effect";
@@ -191,12 +191,11 @@ export default function VideoGenerator({
   const { leftCredits, updateLeftCredits } = useCredits();
   const isMember = membership?.status === "active";
   const isSeedanceSelected = isSeedanceModel(selectedModel);
-  const isMaxApiSeedanceSelected = isMaxApiModel(selectedModel);
-  const isMediaToVideoModel =
-    isMaxApiSeedanceSelected ||
-    selectedModel === "volcano-seedance-2-0-fast-reference-to-video" ||
-    selectedModel === "volcano-seedance-2-0-reference-to-video";
   const isVeo3Selected = selectedModel.includes('kie-veo3-');
+  const selectedModelConfigForMediaCheck = getVideoModel(selectedModel);
+  const isMediaToVideoModel =
+    selectedModelConfigForMediaCheck?.generationType === "REFERENCE_2_VIDEO" &&
+    (selectedModelConfigForMediaCheck?.imageCapabilities?.maxImages ?? 0) > 3;
   const usesMixedMediaInput =
     generationType === "REFERENCE_2_VIDEO" && isMediaToVideoModel;
 
@@ -440,6 +439,37 @@ export default function VideoGenerator({
 
   // 获取选中模型的详细信息
   const selectedModelConfig = getVideoModel(selectedModel);
+  const promptMaxLength = useMemo(() => {
+    const modelName = selectedModelConfig?.modelName;
+    if (modelName === VideoModel.KLING3) {
+      return 2500;
+    }
+    if (modelName === VideoModel.HAILUO_2_3) {
+      return 2000;
+    }
+    if (modelName === VideoModel.WAN_2_6) {
+      return 5000;
+    }
+
+    // Backward compatibility for legacy IDs
+    if (selectedModel.includes("kling-3")) {
+      return 2500;
+    }
+    if (selectedModel.includes("hailuo-2-3")) {
+      return 2000;
+    }
+    if (
+      selectedModel.includes("kie-wan-2-5") ||
+      selectedModel.includes("kie-wan-2-6")
+    ) {
+      return 5000;
+    }
+
+    return undefined;
+  }, [selectedModel, selectedModelConfig?.modelName]);
+  const promptLength = description.length;
+  const isPromptTooLong =
+    typeof promptMaxLength === "number" && promptLength > promptMaxLength;
   const selectedDurationSeconds = useMemo(() => {
     if (!selectedDuration) {
       return null;

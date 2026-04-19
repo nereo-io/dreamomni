@@ -3,9 +3,9 @@
  *
  * Uses ProviderFactory.getProvider(modelId) exactly like the original code.
  * Fallback models are normal entries in VIDEO_MODELS (internal: true),
- * referenced by fallbackProvider[] in the primary model config.
+ * referenced by fallbackModelIds[] in the primary model config.
  *
- * Adding a fallback = add an internal model entry + set fallbackProvider in video-models.ts.
+ * Adding a fallback = add an internal model entry + set fallbackModelIds in video-models.ts.
  */
 
 import {
@@ -29,7 +29,7 @@ export interface SubmitResult {
 export class VideoSubmitService {
   /**
    * Submit a video generation request.
-   * Tries the primary model first, then falls back to fallbackProvider models in order.
+   * Tries the primary model first, then falls back to fallbackModelIds models in order.
    */
   static async submit(
     modelId: string,
@@ -49,12 +49,12 @@ export class VideoSubmitService {
       );
 
       // 2. No fallback configured — rethrow
-      if (!modelConfig.fallbackProvider?.length) {
+      if (!modelConfig.fallbackModelIds?.length) {
         throw primaryError;
       }
 
       // 3. Try fallback models in order
-      for (const fallbackModelId of modelConfig.fallbackProvider) {
+      for (const fallbackModelId of modelConfig.fallbackModelIds) {
         const fallbackConfig = getVideoModel(fallbackModelId);
         if (!fallbackConfig) {
           console.warn(

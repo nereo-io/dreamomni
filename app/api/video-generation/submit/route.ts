@@ -430,6 +430,18 @@ export async function POST(req: Request) {
       input.image_url = finalImageUrls[0];
     }
 
+    // 通用字段统一透传：放在 provider 分支之前，保证 fallback 到其他 provider 时
+    // 用户原始参数不会因为主模型的分支未运行而丢失（下游 provider 自行转换字段名/形状）。
+    if (hasMediaUrls) {
+      input.media_urls = media_urls;
+    }
+    if (generate_audio !== undefined && modelConfig.supportsAudio) {
+      input.generate_audio = generate_audio;
+    }
+    if (watermarkEnabled) {
+      input.watermark = true;
+    }
+
     // 按模型提供商分类处理参数
     if (isKlingModel(finalModel)) {
       // Kling 模型特有参数
@@ -553,6 +565,13 @@ export async function POST(req: Request) {
       }
       // Evolink Sora 模型不接受 resolution 参数（固定 1080p）
       delete input.resolution;
+      // Evolink Seedance 2.0: 透传 media_urls（混合素材）和 generate_audio
+      if (media_urls && Array.isArray(media_urls) && media_urls.length > 0) {
+        input.media_urls = media_urls;
+      }
+      if (generate_audio !== undefined && modelConfig.supportsAudio) {
+        input.generate_audio = generate_audio;
+      }
     } else if (modelConfig.provider === VideoModelProvider.MAXAPI) {
       if (modelConfig.providerModelId) {
         input.model = modelConfig.providerModelId;
@@ -647,6 +666,8 @@ export async function POST(req: Request) {
       updateParams.metadata = {
         ...videoGeneration.metadata,
         actual_provider: finalActualProvider,
+        // 审计：保存提交到 provider 的完整请求参数
+        request_input: input,
         ...(fallbackModelId ? { fallback_model_id: fallbackModelId } : {}),
       };
 
@@ -691,9 +712,11 @@ export async function POST(req: Request) {
     } catch (providerError) {
       console.error("提交到provider失败:", providerError);
 
-      // 如果提交失败，我们需要退还积分
+      // 如果提交失败，我们需要退还积分（同时收集明细用于审计）
+      const refundedPools: Array<{ order_no: string; refunded: number }> = [];
+      let totalRefunded = 0;
+      let refundErrorMessage: string | null = null;
       try {
-        // 遍历所有扣费的池，按原扣费金额逐一退款
         const { increaseCredits } = await import("@/services/credit");
 
         for (const pool of deductResult.pools) {
@@ -705,28 +728,48 @@ export async function POST(req: Request) {
             expired_at: pool.expired_at,
           });
 
+          refundedPools.push({ order_no: pool.order_no, refunded: pool.deducted });
+          totalRefunded += pool.deducted;
+
           console.log(
             `💰 Credits refunded: ${pool.deducted} to pool ${pool.order_no} due to submission failure`
           );
         }
 
         console.log(
-          `💰 Total refunded: ${deductResult.totalDeducted} credits across ${deductResult.pools.length} pool(s)`
+          `💰 Total refunded: ${totalRefunded} credits across ${refundedPools.length} pool(s)`
         );
       } catch (refundError) {
+        refundErrorMessage =
+          refundError instanceof Error ? refundError.message : String(refundError);
         console.error("退还积分失败:", refundError);
       }
 
-      // 更新数据库状态为FAILED
+      // 更新数据库状态为 FAILED，并补全 actual_provider 与审计 metadata
       try {
+        const errorMsg =
+          providerError instanceof Error
+            ? providerError.message
+            : "Provider submission failed";
+
         await import("@/models/videoGeneration").then(
           ({ updateVideoGenerationById }) =>
             updateVideoGenerationById(videoGeneration.id, {
               status: "FAILED",
-              error_message:
-                providerError instanceof Error
-                  ? providerError.message
-                  : "Provider submission failed",
+              actual_provider: modelConfig.provider,
+              error_message: errorMsg,
+              metadata: {
+                ...videoGeneration.metadata,
+                actual_provider: modelConfig.provider,
+                // 审计：保存提交到 provider 的完整请求参数
+                request_input: input,
+                credit_refund: {
+                  pools: refundedPools,
+                  total_refunded: totalRefunded,
+                  refunded_at: new Date().toISOString(),
+                  ...(refundErrorMessage ? { error: refundErrorMessage } : {}),
+                },
+              },
             })
         );
       } catch (updateError) {

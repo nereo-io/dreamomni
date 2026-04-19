@@ -490,8 +490,8 @@ export class VideoStatusService {
         updateParams.video_url_ali = result.video_url;
         break;
       case VideoModelProvider.EVOLINK:
-        // Evolink Sora 使用 video_url_sora 字段
-        if (result.video_url) {
+        // Evolink Sora 使用 video_url_sora 字段，Seedance 2.0 仅走通用 video_url_provider
+        if (result.video_url && resolvedModelId && isSora2Model(resolvedModelId)) {
           updateParams.video_url_sora = result.video_url;
         }
         break;
