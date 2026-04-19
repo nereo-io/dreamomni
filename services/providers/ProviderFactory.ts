@@ -9,7 +9,7 @@ import { KieAiKlingProvider } from "./KieAiKlingProvider";
 import { KieAiHailuoProvider } from "./KieAiHailuoProvider";
 import { KieAiWanProvider } from "./KieAiWanProvider";
 import { AliProvider } from "./AliProvider";
-import { EvolinkSoraProvider } from "./EvolinkSoraProvider";
+import { EvolinkProvider } from "./EvolinkProvider";
 import { MaxApiProvider } from "./MaxApiProvider";
 import {
   getVideoModel,
@@ -116,7 +116,7 @@ export class ProviderFactory {
             "EVOLINK_API_KEY environment variable is required for Evolink models"
           );
         }
-        provider = new EvolinkSoraProvider(evolinkApiKey);
+        provider = new EvolinkProvider(evolinkApiKey);
         break;
 
       case VideoModelProvider.MAXAPI:
