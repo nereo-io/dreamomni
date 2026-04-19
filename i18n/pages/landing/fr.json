@@ -3,30 +3,57 @@
   "theme": "light",
   "header": {
     "brand": {
-      "title": "Veo3",
+      "title": "Seedance",
       "logo": {
         "src": "/logo.png",
-        "alt": "Veo3"
+        "alt": "Générateur vidéo IA Seedance"
       },
       "url": "/"
     },
     "nav": {
       "items": [
         {
-          "title": "Image vers Vidéo",
-          "url": "/image-to-video"
+          "title": "Vidéo IA",
+          "children": [
+            {
+              "title": "Image en vidéo",
+              "description": "Transformez vos images en vidéos époustouflantes",
+              "url": "/image-to-video"
+            },
+            {
+              "title": "Texte en vidéo",
+              "description": "Générez des vidéos à partir de descriptions textuelles",
+              "url": "/text-to-video"
+            },
+            {
+              "title": "Effets vidéo",
+              "description": "Appliquez des effets IA à vos vidéos",
+              "url": "/video-effects"
+            }
+          ]
         },
         {
-          "title": "Texte vers Vidéo",
-          "url": "/text-to-video"
-        },
-        {
-          "title": "Mes Créations",
-          "url": "/history"
+          "title": "Image IA",
+          "children": [
+            {
+              "title": "Texte vers Image",
+              "description": "Créez des images à partir de prompts textuels",
+              "url": "/text-to-image"
+            },
+            {
+              "title": "Image vers Image",
+              "description": "Transformez et améliorez vos images",
+              "url": "/image-to-image"
+            }
+          ]
         },
         {
           "title": "Tarifs",
           "url": "/pricing"
+        },
+        {
+          "title": "Blog",
+          "url": "/blog"
         }
       ]
     },
@@ -35,19 +62,19 @@
     "show_locale": true
   },
   "hero": {
-    "title": "Générateur Vidéo Seedance 2.0 Gratuit",
+    "title": "Générateur vidéo Seedance 2.0 gratuit",
     "highlight_text": "Seedance 2.0",
     "announcement": {
-      "title": "🎬 Seedance 2.0 Maintenant Disponible !",
+      "title": "🎬 Seedance 2.0 maintenant disponible !",
       "label": "Nouveau !",
       "url": "#video-generator"
     },
-    "description": "Créez des vidéos IA cinématiques avec un contrôle de structure supérieur et une physique réaliste. Surpasse Sora 2 et Veo 3.",
+    "description": "Créez des vidéos IA cinématographiques avec un contrôle structurel supérieur et une physique réaliste. Surpasse Sora 2 et Veo 3.",
     "show_happy_users": false,
     "show_badge": false,
     "buttons": [
       {
-        "title": "Commencer à Créer des Vidéos",
+        "title": "Commencer à créer des vidéos",
         "url": "/image-to-video",
         "target": "_self",
         "variant": "default",
@@ -56,8 +83,8 @@
     ]
   },
   "aiModelsHero": {
-    "title": "Générateur Image vers Vidéo IA Tout-en-Un",
-    "description": "Seedance est le générateur vidéo IA tout-en-un ultime. Nous offrons un accès aux modèles vidéo leaders de l'industrie, y compris Sora 2, Veo 3.1, Seedance et plus, le tout en un seul endroit. Essayez-les de manière transparente et créez des visuels époustouflants sans jongler entre plusieurs plateformes !",
+    "title": "Générateur d'IA image en vidéo tout-en-un",
+    "description": "Seedance est le générateur IA image en vidéo tout-en-un ultime. Nous offrons un accès aux modèles vidéo leaders du marché, tels que Sora 2, Veo3, Seedance et bien d'autres, réunis en un seul endroit. Testez-les en toute simplicité et créez des visuels époustouflants sans jongler entre les plateformes !",
     "models": [
       {
         "id": "sora2",
@@ -75,11 +102,11 @@
         "logo": "/imgs/intro/seedance.png"
       }
     ],
-    "moreModels": "Plus de Modèles"
+    "moreModels": "Plus de modèles"
   },
   "imageToVideoShowcase": {
-    "title": "Image vers Vidéo IA",
-    "description": "Animez Vos Images avec Notre Générateur IA Image vers Vidéo",
+    "title": "IA Image en vidéo",
+    "description": "Animez vos images avec notre générateur IA Image en vidéo",
     "cta": "Essayer Seedance",
     "labels": {
       "originalImage": "Image d'origine",
@@ -123,127 +150,159 @@
     ]
   },
   "aiVideoShowcase": {
-    "title": "Texte vers Vidéo IA",
-    "description": "Visualisez N'importe Quel Texte avec Notre Générateur Vidéo IA",
-    "cta": "Essayer Seedance",
+    "title": "Visualisez n'importe quel texte avec notre générateur vidéo IA",
+    "description": "Donnez vie à n'importe quel texte avec notre générateur vidéo IA ! Créez des vidéos captivantes de tout style avec un simple prompt textuel.",
+    "cta": "Commencer à créer",
     "examples": [
       {
-        "id": "Spirit-Transformation",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Spirit-Transformation.mp4",
-        "alt": "Transformation d’esprit au clair de lune",
-        "prompt": "Sous la forêt silencieuse au clair de lune, la lumière filtrée à travers les branches entremêlées, telle une gaze légère, projetait des taches fragmentées dans la clairière. Une jeune fille humaine, en robe usée, se tenait pieds nus au centre de la clairière, levant les yeux vers la lune avec une anticipation mêlée d’inquiétude. Le faisceau de lune le plus lumineux l’enveloppa précisément. Son corps commença à émettre une douce lueur blanche, ses contours se brouillèrent. Ses cheveux bougeaient sans vent, leurs extrémités devenant transparentes, comme tissées de lumière, en commençant par le bout de ses doigts et de ses orteils. Elle avait des cheveux blanc‑lune, des oreilles pointues qui frémissaient légèrement, et des yeux ambrés comme des pierres d’œil‑de‑chat. Elle portait une robe fluide ornée de lucioles, son corps flottait légèrement, ses orteils effleurant le sol. Elle se tourna lentement vers la caméra, un sourire mystérieux et doux aux lèvres. Enfin, elle se dissout en un essaim de papillons de lumière dansants, se fondant dans le ciel lunaire et disparaissant."
+        "id": "1",
+        "image": "/intro/camera.mp4",
+        "alt": "Démonstration de mouvements de caméra",
+        "prompt": "Angles de caméra dynamiques mettant en valeur des mouvements cinématographiques"
       },
       {
-        "id": "anime-rose",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/t2v-Anime-Rose-Blooming-Bridge.mp4",
-        "alt": "Rose d'anime fleurit avec des pétales dansants",
-        "prompt": "Une rose de style anime fleurit devant un pont de corde, avec des pétales dansant dans l'air."
+        "id": "2",
+        "image": "/intro/storytelling.mp4",
+        "alt": "Capacités de narration",
+        "prompt": "Récit multi-scènes avec personnages cohérents"
       },
       {
-        "id": "Time-lapse",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/1216Material-reserves/Time-lapse-photography.mp4",
-        "alt": "Fleur fanée qui reprend vie sous des nuages cramoisis",
-        "prompt": "Une fleur fanée repose au sol, faiblement lumineuse sous des nuages cramoisis et écarlates, dégageant une aura de décomposition, de nostalgie et de vie fragile. En time-lapse, les nuages dérivent et la fleur revient peu à peu à la vie."
+        "id": "3",
+        "image": "/intro/versatility.mp4",
+        "alt": "Polyvalence de style",
+        "prompt": "Transformez des scènes en différents styles artistiques"
       },
       {
-        "id": "Cosmic-Shuttle",
-        "image": "https://r2.veo3ai.io/intro/text-to-video/1202Replacement-material/Cosmic-Shuttle.mp4",
-        "alt": "Plongée à la première personne dans une cascade cosmique d’étoiles",
-        "prompt": "Vue à la première personne, chute à grande vitesse à travers une cascade cosmique d’étoiles, puis la main se tend à toute vitesse pour toucher une planète, déclenchant une explosion de lumière blanche. La caméra plonge verticalement à une vitesse extrême, avec de violentes secousses dues à l’impact d’énergie. La mise au point reste insaisissable, passant rapidement de la main à la planète, la plupart du temps floutée par le mouvement. Toutes les étoiles s’étirent en traînées de vitesse nettes, et l’instant du contact éclate en particules façon feux d’artifice et en lens flares.",
-        "isNew": true
+        "id": "4",
+        "image": "/intro/dynamic-range.mp4",
+        "alt": "Plage dynamique",
+        "prompt": "Des animations subtiles aux actions explosives"
+      },
+      {
+        "id": "5",
+        "image": "/intro/professional-1080.mp4",
+        "alt": "Qualité professionnelle",
+        "prompt": "Un 1080p d'une clarté cristalline avec des mouvements fluides"
       }
     ]
   },
   "faq": {
     "name": "faq",
     "label": "FAQ",
-    "title": "Questions Fréquemment Posées",
-    "description": "En savoir plus sur le générateur vidéo IA Veo 3 gratuit",
+    "title": "Questions fréquentes sur le générateur vidéo IA Seedance 2.0",
+    "description": "En savoir plus sur les capacités avancées du générateur vidéo IA Seedance 2.0, la narration multi-plans et les fonctionnalités de création vidéo professionnelle. Obtenez des réponses sur la technologie Seedance ByteDance et notre plateforme de générateur vidéo de pointe.",
     "items": [
       {
-        "title": "Qu'est-ce que le générateur vidéo IA Veo 3 gratuit et comment fonctionne-t-il ?",
-        "description": "Le générateur vidéo IA Veo 3 gratuit vous donne accès gratuitement à la technologie de création vidéo IA la plus avancée au monde. Décrivez simplement votre idée de vidéo en texte, et Veo 3 AI générera des vidéos professionnelles de haute qualité jusqu'à 2 minutes avec des effets visuels époustouflants et des mouvements fluides."
+        "title": "Qu'est-ce que le générateur vidéo IA Seedance 2.0 et comment fonctionne-t-il ?",
+        "description": "Le générateur vidéo IA Seedance 2.0 vous donne accès à une technologie révolutionnaire de création vidéo avec une narration multi-plans native. Décrivez simplement votre idée de vidéo en texte, et Seedance ByteDance générera des vidéos 1080p de haute qualité avec une esthétique cinématographique, des mouvements fluides et une expression stylistique diversifiée. La compréhension sémantique avancée du générateur vidéo IA Seedance garantit un suivi précis des prompts pour des résultats professionnels grâce à notre technologie révolutionnaire de générateur vidéo."
       },
       {
-        "title": "Qu'est-ce qui différencie le générateur vidéo IA Veo 3 des autres outils vidéo IA ?",
-        "description": "Veo 3 AI offre des fonctionnalités uniques : génération vidéo ultra-réaliste, compréhension avancée des mouvements, qualité cinématographique, suivi précis des prompts et prise en charge de divers styles vidéo, du photoréaliste à l'animé. C'est l'IA la plus performante pour créer des vidéos de qualité professionnelle."
+        "title": "Quoi de neuf dans Seedance 2.0 ?",
+        "description": "Seedance 2.0 apporte six améliorations majeures : un contrôle structurel supérieur pour des relations spatiales précises, une entrée de référence multi-modale (texte/image/vidéo/audio), une cohérence parfaite des personnages et des scènes, une simulation physique réaliste, une extension vidéo fluide et une esthétique cinématographique renforcée. Ces améliorations font de Seedance 2.0 le générateur vidéo IA le plus avancé disponible."
       },
       {
-        "title": "Quels types de vidéos puis-je créer avec le générateur IA Veo 3 gratuit ?",
-        "description": "Le générateur vidéo IA Veo 3 gratuit prend en charge une large gamme de types de vidéos : vidéos marketing, contenu pour réseaux sociaux, matériel éducatif, démonstrations de produits, histoires animées, vidéos musicales, concept art et scènes cinématographiques. L'IA s'adapte à toute vision créative."
+        "title": "Comment Seedance 2.0 se compare-t-il à Sora 2 et Veo 3 ?",
+        "description": "Seedance 2.0 surpasse à la fois Sora 2 et Veo 3 sur les benchmarks de contrôle structurel, en maintenant un positionnement d'objets et des relations spatiales plus précis tout au long de la génération vidéo. Il offre également une simulation physique et une cohérence des personnages supérieures, ce qui en fait le choix privilégié des créateurs vidéo professionnels."
       },
       {
-        "title": "Y a-t-il des limitations au générateur vidéo IA Veo 3 gratuit ?",
-        "description": "Bien que le générateur vidéo IA Veo 3 gratuit offre l'accès à des fonctionnalités avancées, les utilisateurs premium bénéficient de générations illimitées, de durées vidéo plus longues, de traitement prioritaire et de fonctionnalités supplémentaires comme des styles personnalisés et le traitement par lots. Les utilisateurs gratuits peuvent créer des vidéos étonnantes avec des limites d'utilisation raisonnables."
+        "title": "Qu'est-ce qui différencie le générateur vidéo IA Seedance 2.0 des autres outils vidéo ?",
+        "description": "Le générateur vidéo IA Seedance 2.0 propose des fonctionnalités révolutionnaires qui le distinguent : contrôle structurel supérieur, entrée de référence multi-modale, cohérence parfaite entre personnages et scènes, simulation physique réaliste, extension vidéo fluide et esthétique cinématographique. La technologie avancée de Seedance ByteDance offre des résultats de qualité professionnelle inégalés par les autres plateformes de générateur vidéo IA, y compris Sora 2 et Veo 3."
       },
       {
-        "title": "Combien de temps faut-il pour générer des vidéos avec Veo 3 AI ?",
-        "description": "La génération vidéo Veo 3 AI prend généralement 2 à 5 minutes pour les vidéos standard, selon la complexité et la longueur. L'IA traite votre prompt, crée la séquence vidéo et applique un rendu avancé pour des résultats de qualité professionnelle. Les utilisateurs premium bénéficient d'un traitement prioritaire pour une génération plus rapide."
+        "title": "Quels types de vidéos puis-je créer avec le générateur vidéo IA Seedance 2.0 ?",
+        "description": "Le générateur vidéo IA Seedance 2.0 prend en charge une large gamme de types de vidéos : vidéos marketing, contenu pour réseaux sociaux, matériel éducatif, démonstrations de produits, histoires animées, clips musicaux, concept art et scènes cinématographiques. Grâce au contrôle structurel supérieur de Seedance ByteDance et à la qualité 1080p, le générateur vidéo IA s'adapte à toute vision créative avec une physique réaliste et une cohérence parfaite."
       },
       {
-        "title": "Puis-je personnaliser le style et la qualité des vidéos générées ?",
-        "description": "Oui ! Le générateur vidéo IA Veo 3 offre de nombreuses options de personnalisation. Vous pouvez spécifier le style vidéo, les angles de caméra, l'éclairage, l'ambiance, la palette de couleurs et les caractéristiques de mouvement dans vos prompts. L'IA comprend les directions créatives détaillées et produit des vidéos correspondant exactement à votre vision."
+        "title": "Y a-t-il des limitations au générateur vidéo IA Seedance 2.0 gratuit ?",
+        "description": "Bien que le générateur vidéo IA Seedance 2.0 gratuit donne accès à la génération vidéo 1080p avancée et aux capacités de contrôle structurel supérieures, les utilisateurs premium de Seedance ByteDance bénéficient de générations illimitées, de durées vidéo plus longues, d'un traitement prioritaire et de fonctionnalités supplémentaires comme des styles personnalisés et le traitement par lots. Les utilisateurs gratuits du générateur vidéo IA Seedance peuvent créer des vidéos cinématographiques avec des limites d'utilisation raisonnables tout en profitant de toute la puissance de notre technologie de générateur vidéo."
       },
       {
-        "title": "Mon contenu est-il sécurisé lorsque j'utilise le générateur vidéo IA Veo 3 gratuit ?",
-        "description": "Absolument. Le générateur vidéo IA Veo 3 gratuit utilise des mesures de sécurité de pointe pour protéger votre contenu et vos prompts. Nous suivons des protocoles de confidentialité stricts et n'utilisons jamais vos projets personnels pour entraîner des modèles ou partager du contenu avec des tiers. Votre travail créatif reste privé."
+        "title": "Combien de temps faut-il pour générer des vidéos avec le générateur vidéo IA Seedance ?",
+        "description": "Le générateur vidéo IA Seedance prend généralement 2 à 5 minutes pour les vidéos 1080p standard, selon la complexité et les exigences multi-plans. L'IA Seedance ByteDance traite votre prompt, crée la séquence vidéo avec une esthétique cinématographique et applique un rendu avancé pour des résultats de qualité professionnelle grâce à notre système de générateur vidéo optimisé. Les utilisateurs premium bénéficient d'un traitement prioritaire pour des performances de générateur vidéo plus rapides."
       },
       {
-        "title": "Comment démarrer avec le générateur vidéo IA Veo 3 gratuit ?",
-        "description": "Démarrer avec le générateur vidéo IA Veo 3 gratuit est simple ! Cliquez simplement sur le bouton 'Générer une vidéo', décrivez votre idée de vidéo dans la zone de prompt et regardez l'IA créer votre vidéo professionnelle. Aucune configuration complexe requise - commencez à créer des vidéos étonnantes immédiatement."
+        "title": "Puis-je personnaliser le style et la qualité des vidéos générées avec le générateur vidéo IA Seedance ?",
+        "description": "Oui ! Le générateur vidéo IA Seedance propose de nombreuses options de personnalisation avec une polyvalence stylistique allant du photoréalisme aux esthétiques cyberpunk. Vous pouvez spécifier le style vidéo, les angles de caméra, l'éclairage, l'ambiance, la palette de couleurs et les caractéristiques de mouvement dans vos prompts. Le générateur vidéo IA Seedance ByteDance comprend les directions créatives détaillées et produit des vidéos 1080p d'une qualité cinématographique correspondant exactement à votre vision grâce à des algorithmes avancés de générateur vidéo."
       },
       {
-        "title": "Quels formats et résolutions vidéo Veo 3 AI prend-il en charge ?",
-        "description": "Le générateur vidéo IA Veo 3 prend en charge plusieurs formats, notamment MP4, MOV et WebM. Les vidéos sont générées en haute définition (1080p) par défaut, avec des options de résolution 4K pour les utilisateurs premium. Toutes les vidéos sont optimisées pour le partage Web et l'utilisation professionnelle."
+        "title": "Mon contenu est-il sécurisé lorsque j'utilise le générateur vidéo IA Seedance ?",
+        "description": "Absolument. Le générateur vidéo IA Seedance emploie des mesures de sécurité de pointe pour protéger votre contenu et vos prompts. Nous suivons des protocoles de confidentialité stricts et n'utilisons jamais vos projets personnels pour entraîner des modèles ou partager du contenu avec des tiers. Votre travail créatif et vos projets vidéo multi-plans restent entièrement privés grâce à l'infrastructure sécurisée du générateur vidéo Seedance ByteDance."
       },
       {
-        "title": "Puis-je utiliser les vidéos générées par Veo 3 AI à des fins commerciales ?",
-        "description": "Oui ! Les vidéos créées avec le générateur vidéo IA Veo 3 gratuit peuvent être utilisées à des fins commerciales, y compris le marketing, la publicité, les réseaux sociaux et les présentations professionnelles. Les plans premium offrent une licence commerciale étendue et des droits d'utilisation supplémentaires pour les applications d'entreprise."
+        "title": "Comment démarrer avec le générateur vidéo IA Seedance ?",
+        "description": "Démarrer avec le générateur vidéo IA Seedance est simple ! Cliquez simplement sur le bouton « Générer une vidéo », décrivez votre idée de vidéo dans la zone de prompt et regardez notre générateur vidéo IA créer votre vidéo professionnelle 1080p avec une esthétique cinématographique. Aucune configuration complexe requise avec Seedance ByteDance - commencez à créer immédiatement d'incroyables vidéos multi-plans grâce à notre interface de générateur vidéo intuitive."
+      },
+      {
+        "title": "Quels formats et résolutions vidéo le générateur vidéo IA Seedance prend-il en charge ?",
+        "description": "Le générateur vidéo IA Seedance prend en charge plusieurs formats, notamment MP4, MOV et WebM. Les vidéos sont générées en résolution professionnelle 1080p par défaut, offrant une qualité cinématographique avec des capacités de narration multi-plans. Toutes les vidéos Seedance ByteDance sont optimisées pour le partage web, les réseaux sociaux et l'usage professionnel avec une large plage dynamique et une polyvalence stylistique grâce à notre technologie avancée de générateur vidéo."
+      },
+      {
+        "title": "Puis-je utiliser les vidéos créées avec le générateur vidéo IA Seedance à des fins commerciales ?",
+        "description": "Oui ! Les vidéos créées avec le générateur vidéo IA Seedance peuvent être utilisées à des fins commerciales, y compris le marketing, la publicité, les réseaux sociaux et les présentations professionnelles. Avec une qualité 1080p de niveau professionnel et une esthétique cinématographique, vos vidéos Seedance ByteDance sont prêtes pour toute application commerciale. Les plans premium offrent une licence commerciale étendue et des droits d'utilisation supplémentaires pour les applications d'entreprise grâce à notre plateforme de générateur vidéo."
       }
     ]
   },
-  "cta": {
-    "name": "cta-generate",
-    "title": "Commencez à Créer des Vidéos avec Veo 3 AI Gratuit",
-    "buttons": [
-      {
-        "title": "Essayer Seedance",
-        "url": "#video-generator",
-        "target": "_self",
-        "icon": "GoArrowUpRight"
-      }
-    ]
-  },
+  "cta": [
+    {
+      "name": "cta-generate",
+      "title": "Commencez à créer des vidéos avec le générateur vidéo IA Seedance 2.0",
+      "buttons": [
+        {
+          "title": "Générer une vidéo",
+          "url": "#video-generator",
+          "target": "_self",
+          "icon": "GoArrowUpRight"
+        }
+      ]
+    },
+    {
+      "name": "cta-features",
+      "title": "Découvrez les fonctionnalités du générateur vidéo IA Seedance 2.0",
+      "description": "Contrôle structurel supérieur, référence multi-modale, cohérence parfaite, physique réaliste et technologie avancée du générateur vidéo IA Seedance ByteDance",
+      "buttons": [
+        {
+          "title": "En savoir plus",
+          "url": "#features",
+          "target": "_self"
+        }
+      ]
+    }
+  ],
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "Seedance 2.0",
-      "description": "Transformez vos idées en chefs-d'œuvre cinématographiques en quelques minutes.",
+      "title": "Générateur vidéo IA Seedance 2.0",
+      "description": "Transformez textes et images en vidéos IA époustouflantes grâce au contrôle structurel supérieur et à la physique réaliste de Seedance 2.0.",
       "logo": {
         "src": "/logo.png",
-        "alt": "Seedance"
+        "alt": "Générateur vidéo IA Seedance"
       },
       "url": "/"
     },
-    "copyright": " 2026 • Seedance Tous droits réservés.",
+    "copyright": " 2026 • Générateur vidéo IA Seedance Tous droits réservés.",
     "nav": {
       "items": [
         {
           "title": "Outils Vidéo",
           "children": [
             {
-              "title": "Texte vers Vidéo",
+              "title": "Texte en vidéo",
               "url": "/text-to-video",
               "target": "_self"
             },
             {
-              "title": "Image vers Vidéo",
+              "title": "Image en vidéo",
               "url": "/image-to-video",
               "target": "_self"
             },
             {
-              "title": "Référence vers Vidéo",
+              "title": "Référence en vidéo",
               "url": "/reference-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "Motion Control",
+              "url": "/motion-control",
               "target": "_self"
             }
           ]
@@ -279,6 +338,11 @@
             {
               "title": "Kling 3.0",
               "url": "/kling-3-0",
+              "target": "_self"
+            },
+            {
+              "title": "Kling Motion Control",
+              "url": "/kling-3-motion-control",
               "target": "_self"
             },
             {
@@ -352,12 +416,12 @@
           "url": "/privacy-policy"
         },
         {
-          "title": "Conditions d'Utilisation",
-          "url": "/terms-of-service"
-        },
-        {
           "title": "Politique de Remboursement",
           "url": "/refund-policy"
+        },
+        {
+          "title": "Conditions d'Utilisation",
+          "url": "/terms-of-service"
         }
       ]
     },
@@ -365,7 +429,7 @@
       "title": "CONTACT",
       "items": [
         {
-          "title": "Support Email",
+          "title": "Support par e-mail",
           "value": "support@seedance.tv",
           "icon": "RiMailFill",
           "url": "mailto:support@seedance.tv",
@@ -382,6 +446,245 @@
           "icon": "RiMapPinFill"
         }
       ]
+    }
+  },
+  "introduce": {
+    "name": "introduce",
+    "title": "Qu'est-ce que le générateur vidéo IA Seedance 2.0",
+    "label": "Présentation",
+    "description": "Seedance 2.0 est un générateur vidéo IA révolutionnaire signé ByteDance qui transforme des descriptions textuelles en vidéos professionnelles 1080p. Ce générateur vidéo IA avancé dispose de capacités révolutionnaires de narration multi-plans et d'une qualité cinématographique, faisant de Seedance ByteDance le choix privilégié des créateurs.",
+    "image": {
+      "src": "https://r2.seedance.tv/intro/generator-intro.mp4"
+    },
+    "items": [
+      {
+        "title": "Générateur vidéo IA de narration multi-plans",
+        "description": "Créez des récits complexes avec des transitions de scènes fluides et une cohérence des personnages sur plusieurs plans. Seedance ByteDance permet une narration vidéo sophistiquée grâce à notre technologie avancée de générateur vidéo IA.",
+        "icon": "RiFilmLine"
+      },
+      {
+        "title": "Qualité 1080p professionnelle du générateur vidéo IA",
+        "description": "Générez des vidéos nettes en haute définition avec une esthétique cinématographique, des mouvements fluides et des détails visuels riches, parfaits pour un usage professionnel. Le générateur vidéo IA Seedance 2.0 offre une qualité inégalée.",
+        "icon": "RiHdLine"
+      },
+      {
+        "title": "Expression stylistique diversifiée",
+        "description": "Du photoréalisme aux esthétiques cyberpunk, le générateur vidéo IA Seedance ByteDance s'adapte à toute vision créative avec un contrôle artistique précis et une polyvalence stylistique grâce à une technologie avancée de générateur vidéo.",
+        "icon": "RiPaletteLine"
+      }
+    ]
+  },
+  "feature": {
+    "name": "feature",
+    "title": "Le générateur vidéo IA révolutionnaire Seedance ByteDance",
+    "description": "Découvrez la technologie révolutionnaire qui transforme la création vidéo. Seedance ByteDance représente la nouvelle génération de la technologie de générateur vidéo IA, offrant des résultats professionnels qui rivalisent avec les méthodes traditionnelles de production vidéo grâce à des capacités avancées de générateur vidéo IA.",
+    "items": [
+      {
+        "title": "Technologie révolutionnaire du générateur vidéo IA Seedance",
+        "description": "Propulsé par des modèles d'intelligence artificielle de pointe spécifiquement conçus pour la génération vidéo. Le générateur vidéo IA Seedance ByteDance offre une qualité et un contrôle créatif sans précédent pour la création de contenu professionnel avec notre système avancé de générateur vidéo.",
+        "icon": "RiRobot2Line"
+      },
+      {
+        "title": "Innovation du générateur vidéo IA texte-vers-vidéo",
+        "description": "Transformez de simples descriptions textuelles en un contenu visuel époustouflant avec Seedance 2.0. Notre générateur vidéo IA avancé comprend les récits complexes, les styles visuels et la direction créative avec une précision remarquable grâce à la technologie Seedance ByteDance.",
+        "icon": "RiQuillPenLine"
+      },
+      {
+        "title": "Sortie de qualité professionnelle du générateur vidéo",
+        "description": "Générez des vidéos 1080p de qualité cinéma avec des mouvements fluides, des détails riches et une esthétique cinématographique qui répondent aux normes professionnelles. Le générateur vidéo IA Seedance produit du contenu de qualité commerciale à chaque génération.",
+        "icon": "RiVideoLine"
+      },
+      {
+        "title": "Création instantanée avec le générateur vidéo IA",
+        "description": "Créez des vidéos professionnelles en quelques minutes, et non en quelques heures, avec Seedance ByteDance. Notre générateur vidéo IA révolutionnaire élimine le besoin d'équipement coûteux, d'équipes ou de logiciels de montage complexes grâce à une automatisation avancée du générateur vidéo.",
+        "icon": "RiTimerLine"
+      },
+      {
+        "title": "Possibilités créatives illimitées avec le générateur vidéo IA",
+        "description": "Des présentations d'entreprise aux chefs-d'œuvre artistiques, générez n'importe quel style vidéo imaginable avec Seedance 2.0. Aucune frontière créative, aucune limite technique grâce à notre plateforme avancée de générateur vidéo IA.",
+        "icon": "RiInfinityLine"
+      },
+      {
+        "title": "Fonctionnalités de générateur vidéo IA nouvelle génération",
+        "description": "La narration multi-plans, la cohérence des personnages et le contrôle de caméra avancé représentent l'avenir de la technologie de générateur vidéo IA. Seedance ByteDance offre ces fonctionnalités dès aujourd'hui grâce à une innovation de pointe en matière de générateur vidéo.",
+        "icon": "RiStarLine"
+      }
+    ]
+  },
+  "testimonial": {
+    "name": "testimonial",
+    "label": "Témoignages",
+    "title": "Ce que les créateurs disent du générateur vidéo IA Seedance 2.0",
+    "description": "Découvrez comment le générateur vidéo IA Seedance 2.0 a révolutionné la création vidéo grâce à une technologie révolutionnaire. De la narration multi-plans à l'expression stylistique diversifiée, les créateurs du monde entier font confiance à Seedance ByteDance pour la génération vidéo professionnelle avec une qualité cinématographique et une intégration de flux de travail fluide grâce à notre plateforme avancée de générateur vidéo IA.",
+    "icon": "GoThumbsup",
+    "items": [
+      {
+        "title": "Sarah Johnson",
+        "label": "Créatrice de contenu",
+        "description": "Le générateur vidéo IA Seedance 2.0 a complètement transformé mon flux de création de contenu. Le générateur vidéo IA avancé de Seedance ByteDance comprend parfaitement mes prompts et génère des vidéos 1080p de qualité cinématographique avec des mouvements fluides et des détails riches. La fonctionnalité de narration multi-plans du générateur vidéo IA Seedance est révolutionnaire pour les créateurs qui utilisent cette technologie avancée de générateur vidéo.",
+        "image": {
+          "src": "/imgs/users/1.png"
+        }
+      },
+      {
+        "title": "Michael Chen",
+        "label": "Directeur marketing",
+        "description": "Le générateur vidéo IA Seedance 2.0 est incroyable pour les campagnes marketing. La qualité cinématographique de Seedance ByteDance est exceptionnelle, et les fonctionnalités d'interaction multi-agents permettent une narration complexe. Avec le générateur vidéo IA Seedance, je peux créer sans effort plusieurs variantes de vidéos avec différents styles - du photoréalisme aux esthétiques cyberpunk - grâce à ce puissant générateur vidéo.",
+        "image": {
+          "src": "/imgs/users/2.png"
+        }
+      },
+      {
+        "title": "Emily Rodriguez",
+        "label": "Gestionnaire de réseaux sociaux",
+        "description": "La cohérence et la qualité des vidéos du générateur vidéo IA Seedance 2.0 sont impressionnantes. Avec la narration multi-plans native de Seedance ByteDance, je peux maintenir une cohérence visuelle sur des séquences complexes tout en créant du contenu frais au quotidien. La polyvalence stylistique et la précision du suivi de prompts du générateur vidéo IA Seedance sont inégalées dans l'industrie du générateur vidéo IA.",
+        "image": {
+          "src": "/imgs/users/3.png"
+        }
+      },
+      {
+        "title": "David Kumar",
+        "label": "YouTubeur et formateur",
+        "description": "Le générateur vidéo IA Seedance 2.0 m'aide à créer du contenu éducatif qui captive mon audience. Des démonstrations photoréalistes aux explications animées, le générateur vidéo IA avancé de Seedance ByteDance gère tout avec une esthétique cinématographique. Les mouvements fluides et les détails riches des vidéos Seedance maintiennent l'attention des spectateurs tout au long grâce à cette technologie supérieure de générateur vidéo.",
+        "image": {
+          "src": "/imgs/users/4.png"
+        }
+      },
+      {
+        "title": "Lisa Wang",
+        "label": "Réalisatrice indépendante",
+        "description": "Le générateur vidéo IA Seedance 2.0 a libéré mon potentiel créatif en tant que réalisatrice. Avec la technologie révolutionnaire de Seedance ByteDance, je peux prototyper des scènes, créer des vidéos conceptuelles avec des récits multi-plans et expérimenter la narration visuelle. Le contrôle précis des mouvements de caméra et la large plage dynamique du générateur vidéo IA Seedance sont parfaits pour le cinéma professionnel grâce à des capacités avancées de générateur vidéo.",
+        "image": {
+          "src": "/imgs/users/5.png"
+        }
+      },
+      {
+        "title": "Alex Thompson",
+        "label": "Artiste numérique",
+        "description": "La précision et la qualité artistique du générateur vidéo IA Seedance 2.0 sont remarquables. Seedance ByteDance comprend les directions artistiques complexes et crée des vidéos qui correspondent parfaitement à ma vision créative. Du cyberpunk aux styles d'illustration, les capacités d'expression stylistique diversifiée du générateur vidéo IA Seedance permettent une exploration créative illimitée avec des résultats professionnels grâce à cette plateforme de générateur vidéo de pointe.",
+        "image": {
+          "src": "/imgs/users/6.png"
+        }
+      }
+    ]
+  },
+  "gettingStarted": {
+    "title": "Comment créer des vidéos avec le générateur vidéo IA Seedance",
+    "description": "Commencez à générer des vidéos 1080p professionnelles en quelques minutes avec Seedance ByteDance. Simple, rapide et puissant.",
+    "steps": [
+      {
+        "step": 1,
+        "title": "Décrivez votre vision",
+        "description": "Rédigez un prompt textuel détaillé décrivant votre concept vidéo. Le générateur vidéo IA Seedance comprend les instructions complexes et les styles artistiques.",
+        "icon": "RiEditLine"
+      },
+      {
+        "step": 2,
+        "title": "Choisissez vos paramètres",
+        "description": "Sélectionnez la durée de la vidéo, le format d'image et les préférences de style. Choisissez parmi une qualité 1080p avec des expressions artistiques diversifiées.",
+        "icon": "RiSettings3Line"
+      },
+      {
+        "step": 3,
+        "title": "Générez votre vidéo",
+        "description": "Regardez le générateur vidéo IA Seedance transformer vos idées en vidéos de qualité professionnelle avec une esthétique cinématographique.",
+        "icon": "RiPlayLine"
+      },
+      {
+        "step": 4,
+        "title": "Téléchargez et partagez",
+        "description": "Accédez à votre vidéo terminée en haute définition. Utilisez-la pour le marketing, les réseaux sociaux ou à toute fin commerciale.",
+        "icon": "RiDownloadLine"
+      }
+    ],
+    "cta": {
+      "title": "Commencez à créer avec le générateur vidéo IA Seedance",
+      "url": "#video-generator"
+    }
+  },
+  "questionExamples": {
+    "title": "Idées pour le générateur vidéo IA : ",
+    "examples": [
+      {
+        "text": "Créez une prise de vue cinématographique au drone survolant une ville futuriste au coucher du soleil avec des néons se reflétant sur des bâtiments de verre grâce au générateur vidéo IA Seedance",
+        "label": "Cityscape cinématographique avec le générateur vidéo IA",
+        "type": "single"
+      },
+      {
+        "text": "Générez une vidéo de démonstration de produit montrant un smartphone avec des mouvements de caméra fluides et un éclairage professionnel grâce à la technologie Seedance ByteDance",
+        "label": "Démo produit avec le générateur vidéo IA",
+        "type": "single"
+      },
+      {
+        "text": "Réalisez une vidéo animée explicative sur les énergies renouvelables avec des graphismes colorés et des transitions fluides grâce au générateur vidéo IA Seedance 2.0",
+        "label": "Animation éducative avec le générateur vidéo",
+        "type": "single"
+      },
+      {
+        "text": "Créez une vidéo de type documentaire animalier d'une forêt avec sa faune, une brume matinale et la lumière de l'heure dorée grâce à la technologie du générateur vidéo IA Seedance",
+        "label": "Documentaire nature avec le générateur vidéo IA",
+        "type": "single"
+      }
+    ]
+  },
+  "questionSuggestions": {
+    "disabled": true,
+    "categories": {
+      "all": "Tout"
+    },
+    "questions": {
+      "marketing1": {
+        "text": "Créez une vidéo marketing dynamique mettant en valeur notre produit avec des mouvements de caméra professionnels et des visuels engageants grâce au générateur vidéo IA Seedance",
+        "reading_type": "single",
+        "category": "marketing",
+        "tag": "new"
+      },
+      "social1": {
+        "text": "Générez une vidéo tendance pour les réseaux sociaux avec des couleurs vives et des transitions fluides, parfaite pour Instagram et TikTok, grâce au générateur vidéo IA Seedance ByteDance",
+        "reading_type": "single",
+        "category": "social",
+        "tag": "new"
+      },
+      "education1": {
+        "text": "Réalisez une vidéo éducative expliquant des concepts complexes avec des animations claires et une narration visuelle captivante grâce au générateur vidéo Seedance 2.0",
+        "reading_type": "single",
+        "category": "education"
+      },
+      "creative1": {
+        "text": "Créez une vidéo artistique avec des visuels abstraits, des angles de caméra créatifs et des effets visuels expérimentaux grâce au générateur vidéo IA Seedance",
+        "reading_type": "single",
+        "category": "creative"
+      },
+      "business1": {
+        "text": "Générez une vidéo de présentation professionnelle avec des graphiques épurés et un style d'entreprise grâce au générateur vidéo Seedance ByteDance",
+        "reading_type": "single",
+        "category": "business"
+      },
+      "entertainment1": {
+        "text": "Créez une vidéo divertissante avec des séquences d'action dynamiques et des éléments de narration cinématographique grâce à la technologie du générateur vidéo IA Seedance",
+        "reading_type": "single",
+        "category": "entertainment"
+      },
+      "tutorial1": {
+        "text": "Réalisez une vidéo tutoriel étape par étape avec des démonstrations claires et des guides visuels utiles grâce au générateur vidéo IA Seedance 2.0",
+        "reading_type": "single",
+        "category": "tutorial"
+      },
+      "lifestyle1": {
+        "text": "Générez une vidéo lifestyle avec une belle esthétique, un éclairage naturel et des visuels inspirants grâce au générateur vidéo IA Seedance ByteDance",
+        "reading_type": "single",
+        "category": "lifestyle"
+      },
+      "tech1": {
+        "text": "Créez une vidéo de présentation technologique avec des éléments futuristes et un design visuel épuré grâce à la plateforme du générateur vidéo IA Seedance",
+        "reading_type": "single",
+        "category": "technology"
+      },
+      "travel1": {
+        "text": "Générez une vidéo de voyage capturant des paysages à couper le souffle avec des mouvements de caméra cinématographiques et des couleurs vives grâce au générateur vidéo Seedance 2.0",
+        "reading_type": "single",
+        "category": "travel"
+      }
     }
   }
 }

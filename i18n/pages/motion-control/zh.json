@@ -1,0 +1,96 @@
+{
+  "hero": {
+    "title": "Kling 3.0 动作参考：通过参考视频让您的角色动起来",
+    "description": "使用参考视频将静态角色图片转换为动态动画。由 Kling 3.0 动作参考驱动，实现逼真的动作和完美的人物一致性。",
+    "cta": {
+      "buttonText": "立即体验动作参考",
+      "scrollTarget": "[data-video-generation-tool]"
+    },
+    "media": {
+      "type": "video",
+      "src": "https://static.aiquickdraw.com/tools/example/1773121010602_52OaDTvR.mp4",
+      "alt": "Kling 3.0 动作参考演示"
+    }
+  },
+  "features": {
+    "title": "为什么选择 Kling 3.0 动作参考？",
+    "features": [
+      {
+        "id": "perfect-motion",
+        "title": "逼真的动作传递",
+        "description": "将参考视频中的动作精确映射到您的角色图像上。无论是跳舞、行走还是复杂的动作，Kling 3.0 都能以流畅、真实的物理效果捕捉每一个细节。"
+      },
+      {
+        "id": "identity-preservation",
+        "title": "卓越的人物一致性",
+        "description": "在执行新动作的同时，保持角色的面部特征、服装和独特风格。我们的 AI 确保您的角色在整个动画中保持可识别性和一致性。"
+      },
+      {
+        "id": "length-flexibility",
+        "title": "长达 30 秒的动画",
+        "description": "生成长篇角色动画。参考视频朝向可获得长达 30 秒的一致动作，或使用图片朝向获得 10 秒的高质量片段。"
+      },
+      {
+        "id": "high-def-output",
+        "title": "1080p 专业质量",
+        "description": "支持普通 (720p) 和专业 (1080p) 模式。获得适用于专业项目、社交媒体和电影级叙事的清晰视频输出。"
+      }
+    ],
+    "cta": {
+      "buttonText": "立即开始创作",
+      "scrollTarget": "[data-video-generation-tool]"
+    }
+  },
+  "usageGuide": {
+    "title": "如何使用 Kling 动作参考？",
+    "description": "按照以下简单步骤，使用 Kling 3.0 赋予您的角色生命",
+    "steps": [
+      {
+        "number": "1",
+        "title": "上传角色图片",
+        "description": "上传一张您想要制作动画的角色清晰图片。支持 PNG/JPG，最大 10MB。"
+      },
+      {
+        "number": "2",
+        "title": "上传参考视频",
+        "description": "上传一段包含您想要模拟的动作的视频。支持 MP4/MOV，最大 100MB。"
+      },
+      {
+        "number": "3",
+        "title": "生成动画",
+        "description": "选择朝向和质量，然后点击生成。几分钟内即可获得结果。"
+      }
+    ],
+    "buttonText": "立即体验动作参考"
+  },
+  "faq": {
+    "title": "Kling 动作参考常见问题",
+    "description": "关于使用参考视频制作角色动画的常见问题",
+    "items": [
+      {
+        "id": "what-is-motion-control",
+        "question": "什么是 Kling 3.0 动作参考？",
+        "answer": "Kling 3.0 动作参考是一项先进的 AI 功能，允许您使用参考视频驱动静态角色图片的动作。它能有效地将视频中的“动作”传递给图片中的“主体”。"
+      },
+      {
+        "id": "orientation-difference",
+        "question": "图片朝向和视频朝向有什么区别？",
+        "answer": "角色朝向决定了主要的姿势参考。“图片朝向”使人物保持与照片相同的朝向（最长 10 秒）。“视频朝向”使角色遵循参考视频的朝向（最长 30 秒）。"
+      },
+      {
+        "id": "video-requirements",
+        "question": "参考视频有什么要求？",
+        "answer": "参考视频应为 MP4 或 MOV 格式，大小不超过 100MB。为了获得最佳效果，视频中的动作应清晰且主体构图良好。"
+      },
+      {
+        "id": "cost",
+        "question": "需要消耗多少积分？",
+        "answer": "动作参考的成本取决于最终视频的时长和质量模式（720p/1080p）。您可以在点击创建之前在生成器中查看确切的积分消耗。"
+      }
+    ]
+  },
+  "cta": {
+    "title": "准备好让您的角色动起来了吗？",
+    "buttonText": "立即体验动作参考"
+  }
+}

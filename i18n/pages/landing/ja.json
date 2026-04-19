@@ -6,7 +6,7 @@
       "title": "Seedance",
       "logo": {
         "src": "/logo.png",
-        "alt": "Seedance AI動画生成"
+        "alt": "Seedance AI 動画生成ツール"
       },
       "url": "/"
     },
@@ -17,17 +17,17 @@
           "children": [
             {
               "title": "画像から動画",
-              "description": "画像を魅力的な動画に変換",
+              "description": "画像を素晴らしい動画に変換",
               "url": "/image-to-video"
             },
             {
               "title": "テキストから動画",
-              "description": "テキスト記述から動画を生成",
+              "description": "テキストの説明から動画を生成",
               "url": "/text-to-video"
             },
             {
               "title": "動画エフェクト",
-              "description": "AIパワーのエフェクトを動画に適用",
+              "description": "AIによるエフェクトを動画に適用",
               "url": "/video-effects"
             }
           ]
@@ -48,7 +48,7 @@
           ]
         },
         {
-          "title": "料金",
+          "title": "価格",
           "url": "/pricing"
         },
         {
@@ -62,197 +62,224 @@
     "show_locale": true
   },
   "hero": {
-    "title": "無料 Seedance 2.0 動画ジェネレーター",
+    "title": "無料 Seedance 2.0 動画生成ツール",
     "highlight_text": "Seedance 2.0",
     "announcement": {
-      "title": "🎬 Seedance 2.0 登場！",
-      "label": "新機能!",
+      "title": "🎬 Seedance 2.0 が登場！",
+      "label": "新登場！",
       "url": "#video-generator"
     },
-    "description": "優れた構造制御とリアルな物理でシネマティックAI動画を作成。Sora 2とVeo 3を凌駕。",
+    "description": "優れた構造制御とリアルな物理表現で、映画のようなAI動画を作成。Sora 2 や Veo 3 を凌駕するクオリティ。",
     "show_happy_users": false,
-    "show_badge": false
+    "show_badge": false,
+    "buttons": [
+      {
+        "title": "動画作成を開始",
+        "url": "/image-to-video",
+        "target": "_self",
+        "variant": "default",
+        "icon": "GoArrowUpRight"
+      }
+    ]
   },
-  "introduce": {
-    "name": "introduce",
-    "title": "Seedance 2.0 AI動画ジェネレーターとは",
-    "label": "紹介",
-    "description": "Seedance 2.0は、テキスト記述をプロフェッショナルな1080p動画に変換するByteDanceの革命的なAI動画ジェネレーターです。この高度なAI動画ジェネレーターは、画期的なマルチショット動画生成機能と映画品質を備えており、Seedance ByteDanceをクリエイターの最高の選択にしています。",
-    "image": {
-      "src": "https://r2.seedance.tv/intro/generator-intro.mp4"
+  "aiModelsHero": {
+    "title": "オールインワン AI 画像から動画生成ツール",
+    "description": "Seedance は究極のオールインワン AI 画像から動画生成ツールです。Sora 2、Veo3、Seedance など業界をリードする動画モデルにひとつの場所からアクセスできます。複数のプラットフォームを行き来することなく、シームレスに試して魅力的なビジュアルを作成しましょう！",
+    "models": [
+      {
+        "id": "sora2",
+        "name": "Sora 2",
+        "logo": "/imgs/intro/sora.png"
+      },
+      {
+        "id": "veo3",
+        "name": "Veo 3",
+        "logo": "/imgs/intro/veo.svg"
+      },
+      {
+        "id": "seedance",
+        "name": "Seedance",
+        "logo": "/imgs/intro/seedance.png"
+      }
+    ],
+    "moreModels": "その他のモデル"
+  },
+  "imageToVideoShowcase": {
+    "title": "画像から動画 AI",
+    "description": "画像から動画を生成する AI で、静止画をアニメーションに",
+    "cta": "Seedance を試す",
+    "labels": {
+      "originalImage": "オリジナル画像",
+      "prompt": "プロンプト",
+      "video": "動画"
     },
-    "items": [
+    "examples": [
       {
-        "title": "マルチショット動画生成AI動画ジェネレーター",
-        "description": "複数のフレームにわたって流動的なショット遷移とキャラクターの一貫性で複雑なナラティブを作成。Seedance ByteDanceは、私たちの高度なAI動画ジェネレーター技術で洗練された動画ストーリーテリングを可能にします。",
-        "icon": "RiFilmLine"
+        "id": "anime-girl",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Anime-Shooting.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Shooting.mp4",
+        "originalAlt": "緑のアーマーを着たエルフの弓使いが長弓を引いている",
+        "videoAlt": "太陽光が差し込む森を通過する緑色の発光矢印",
+        "prompt": "緑の鎧を着たエルフの弓使い、長弓を引いており、不思議な笑みを浮かべている。彼女の金色の髪は風に自然に揺れている。垂直トラッキングショットが彼女の後ろを回り、緑色の光を放つ矢が滑らかに発射される。カメラはその軌跡を森の中を追いかける。陽光が葉の間を通り抜け、跳ねる光の模様を作る。ハンドヘルドショットによって動的な追跡感が生まれる。"
       },
       {
-        "title": "プロフェッショナル1080p AI動画ジェネレーター品質",
-        "description": "映画美学、滑らかな動き、豊富な視覚詳細で鮮明な高精細動画を生成。プロフェッショナル使用に最適。AI動画ジェネレーターSeedance 2.0は比類のない品質を提供します。",
-        "icon": "RiHdLine"
+        "id": "pastoral-boy",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.mp4",
+        "originalAlt": "田園風景の男の子とわら",
+        "videoAlt": "風に揺れるわらの間を男の子を一周するカメラ",
+        "prompt": "カメラはフレーム内の男の子を回転し、周囲の環境は自然に動き、麦は風に揺れ、男の子は遠くを見つめています。"
       },
       {
-        "title": "多様なスタイル表現",
-        "description": "フォトリアリズムからサイバーパンク美学まで、AI動画ジェネレーターSeedance ByteDanceは、高度な動画ジェネレーター技術によって駆動され、精密な芸術的制御とスタイリスティックな汎用性ですべての創造的ビジョンに適応します。",
-        "icon": "RiPaletteLine"
+        "id": "Selfie-cat",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.mp4",
+        "originalAlt": "猫が戦闘機を操縦している",
+        "videoAlt": "空を飛ぶ戦闘機を操縦する猫",
+        "prompt": "ハンドヘルドカメラ、わずかに揺れ、猫が戦闘機を操縦して空を飛ぶ、カメラは常に猫の前に配置されている。"
+      },
+      {
+        "id": "motorcycle",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Astronaut-Looking-at-Earth.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
+        "originalAlt": "バイクがスピードを上げる準備ができている",
+        "videoAlt": "ライトトレールでスピードを出すバイク",
+        "prompt": "バイクがスピードを上げ、テールランプが線になります。",
+        "promptExpandable": false
       }
     ]
   },
-  "feature": {
-    "name": "feature",
-    "title": "革命的なSeedance ByteDance AI動画ジェネレーター",
-    "description": "動画作成を変革する画期的な技術を体験してください。Seedance ByteDanceは、高度なAI動画ジェネレーター機能を通じて従来の動画制作方法と競合できるプロフェッショナルな結果を提供する次世代AI動画ジェネレーター技術を提示します。",
-    "items": [
+  "aiVideoShowcase": {
+    "title": "AI 動画生成ツールであらゆるテキストを映像化",
+    "description": "AI動画生成ツールで、どんなテキストでも映像に！シンプルなプロンプトだけで、あらゆるスタイルの魅力的な動画を作成できます。",
+    "cta": "作成を開始",
+    "examples": [
       {
-        "title": "画期的なSeedance AI動画ジェネレーター技術",
-        "description": "動画生成専用に設計された最先端の人工知能モデルによって駆動。AI動画ジェネレーターSeedance ByteDanceは、高度な動画ジェネレーターシステムでプロフェッショナルコンテンツ作成のための前例のない品質とクリエイティブコントロールを提供します。",
-        "icon": "RiRobot2Line"
+        "id": "1",
+        "image": "/intro/camera.mp4",
+        "alt": "カメラワークのデモンストレーション",
+        "prompt": "映画のようなカメラワークを見せるダイナミックなアングル"
       },
       {
-        "title": "テキストから動画AI動画ジェネレーターイノベーション",
-        "description": "Seedance 2.0で簡単なテキスト記述を素晴らしい視覚コンテンツに変換。私たちの高度なAI動画ジェネレーターは、Seedance ByteDance技術によって駆動され、驚くべき精度で複雑なナラティブ、視覚スタイル、クリエイティブディレクションを理解します。",
-        "icon": "RiQuillPenLine"
+        "id": "2",
+        "image": "/intro/storytelling.mp4",
+        "alt": "ストーリーテリング機能",
+        "prompt": "キャラクターの一貫性を保ったマルチシーン物語"
       },
       {
-        "title": "プロフェッショナル動画ジェネレーター出力品質",
-        "description": "プロフェッショナル基準に適合する滑らかな動き、豊富な詳細、映画美学を持つ映画品質1080p動画を生成。AI動画ジェネレーターSeedanceは毎回商業品質のコンテンツを制作します。",
-        "icon": "RiVideoLine"
+        "id": "3",
+        "image": "/intro/versatility.mp4",
+        "alt": "多彩なスタイル",
+        "prompt": "シーンをさまざまな芸術スタイルに変換"
       },
       {
-        "title": "即座のAI動画ジェネレーター作成",
-        "description": "Seedance ByteDanceで時間ではなく分でプロフェッショナル動画を作成。私たちの革命的なAI動画ジェネレーターは、高度な動画ジェネレーター自動化を通じて高価な機器、撮影クルー、複雑な編集ソフトウェアの必要性を排除します。",
-        "icon": "RiTimerLine"
+        "id": "4",
+        "image": "/intro/dynamic-range.mp4",
+        "alt": "ダイナミックレンジ",
+        "prompt": "繊細なアニメーションから迫力のアクションまで"
       },
       {
-        "title": "AI動画ジェネレーターで無限のクリエイティブ可能性",
-        "description": "企業プレゼンテーションから芸術的傑作まで - Seedance 2.0で想像できるあらゆる動画スタイルを生成。私たちの高度なAI動画ジェネレータープラットフォームでクリエイティブな境界も技術的制限もありません。",
-        "icon": "RiInfinityLine"
-      },
-      {
-        "title": "次世代AI動画ジェネレーター機能",
-        "description": "マルチショット動画生成、キャラクター一貫性、高度なカメラ制御はAI動画ジェネレーター技術の未来を表します。Seedance ByteDanceは高度な動画ジェネレーターイノベーションを通じてこれらの機能を今日提供します。",
-        "icon": "RiStarLine"
-      }
-    ]
-  },
-  "testimonial": {
-    "name": "testimonial",
-    "label": "お客様の声",
-    "title": "クリエイターが語るSeedance 2.0動画ジェネレーター",
-    "description": "Seedance 2.0が画期的なAI技術でどのように動画作成を革新したかご覧ください。マルチショット動画生成から多様なスタイル表現まで、世界中のクリエイターが映画品質とシームレスなワークフロー統合でSeedanceを信頼しています。",
-    "icon": "GoThumbsup",
-    "items": [
-      {
-        "title": "サラ・ジョンソン",
-        "label": "コンテンツクリエイター",
-        "description": "Seedance 2.0は私のコンテンツ制作ワークフローを完全に変革しました。Seedanceの高度なAIは私のプロンプトを完璧に理解し、滑らかな動きと豊富な詳細を持つ映画品質の1080p動画を生成します。SeedanceのマルチショットAI動画生成機能はクリエイターにとって革命的です。",
-        "image": {
-          "src": "/imgs/users/1.png"
-        }
-      },
-      {
-        "title": "マイケル・チェン",
-        "label": "マーケティングディレクター",
-        "description": "Seedance 2.0はマーケティングキャンペーンに素晴らしいです。Seedanceの映画品質は優秀で、マルチエージェント相互作用機能により複雑な動画生成が可能です。Seedanceでは、フォトリアリズムからサイバーパンク美学まで、異なるスタイルの複数の動画バリエーションを簡単に作成できます。",
-        "image": {
-          "src": "/imgs/users/2.png"
-        }
-      },
-      {
-        "title": "エミリー・ロドリゲス",
-        "label": "ソーシャルメディアマネージャー",
-        "description": "Seedance 2.0から生成される動画の一貫性と品質は驚くべきものです。Seedanceのネイティブマルチショット動画生成により、複雑なシーケンス全体で視覚的一貫性を維持しながら、毎日新鮮なコンテンツを作成できます。Seedanceのスタイルの多様性とプロンプト追従精度は業界で比類なきものです。",
-        "image": {
-          "src": "/imgs/users/3.png"
-        }
-      },
-      {
-        "title": "デビッド・クマール",
-        "label": "YouTuber & 教育者",
-        "description": "Seedance 2.0は、視聴者を魅了する教育コンテンツの作成を支援してくれます。フォトリアリスティックなデモンストレーションからアニメーションによる説明まで、Seedanceの高度なAIは映画美学ですべてを処理します。Seedance動画の滑らかな動きと豊富な詳細により、視聴者は最後まで集中し続けます。",
-        "image": {
-          "src": "/imgs/users/4.png"
-        }
-      },
-      {
-        "title": "リサ・ワン",
-        "label": "独立系映画制作者",
-        "description": "Seedance 2.0は映画制作者としての私の創造的な可能性を解き放ちました。Seedanceの画期的技術により、シーンのプロトタイプ作成、マルチショット物語を持つコンセプト動画の作成、視覚的動画生成の実験が可能です。Seedanceの精密なカメラ動作制御と広いダイナミックレンジは、プロフェッショナル映画制作に最適です。",
-        "image": {
-          "src": "/imgs/users/5.png"
-        }
-      },
-      {
-        "title": "アレックス・トンプソン",
-        "label": "デジタルアーティスト",
-        "description": "Seedance 2.0の精密さと芸術的品質は卓越しています。Seedanceは複雑な芸術的指示を理解し、私の創造的ビジョンに完璧に合致する動画を作成します。サイバーパンクからイラストスタイルまで、Seedanceの多様なスタイル表現機能により、プロフェッショナルな結果で無限の創造的探求が可能です。",
-        "image": {
-          "src": "/imgs/users/6.png"
-        }
+        "id": "5",
+        "image": "/intro/professional-1080.mp4",
+        "alt": "プロフェッショナル品質",
+        "prompt": "なめらかな動きの鮮明な 1080p"
       }
     ]
   },
   "faq": {
     "name": "faq",
-    "label": "よくある質問",
-    "title": "Seedance 2.0についてのよくある質問",
-    "description": "Seedance 2.0の高度なAI動画生成機能、マルチショット動画生成、プロフェッショナル動画作成機能について詳しく学びましょう。",
+    "label": "FAQ",
+    "title": "Seedance 2.0 AI 動画生成ツールに関するよくある質問",
+    "description": "Seedance 2.0 AI 動画生成ツールの先進機能、マルチショットストーリーテリング、プロフェッショナル向けの動画制作機能について詳しくご紹介します。Seedance ByteDance の技術と最先端の動画生成プラットフォームに関する疑問にお答えします。",
     "items": [
       {
-        "title": "Seedance 2.0 AI動画ジェネレーターとは何ですか？どのように動作しますか？",
-        "description": "Seedance 2.0は、ネイティブマルチショット動画生成を備えた画期的なAI動画作成技術へのアクセスを提供します。動画のアイデアをテキストで記述するだけで、Seedanceが映画美学、滑らかな動き、多様なスタイル表現を持つ高品質1080p動画を生成します。Seedanceの高度な意味理解により、プロフェッショナルな結果のための精密なプロンプト追従が保証されます。"
+        "title": "Seedance 2.0 AI 動画生成ツールとは？その仕組みについて",
+        "description": "Seedance 2.0 AI 動画生成ツールは、ネイティブなマルチショットストーリーテリングを備えた画期的な動画制作技術にアクセスできます。動画のアイデアをテキストで説明するだけで、Seedance ByteDance が映画のような美しさ、なめらかな動き、多彩なスタイル表現を備えた高品質な 1080p 動画を生成します。Seedance AI 動画生成ツールの高度な意味理解により、プロフェッショナルな結果のための正確なプロンプト追従を実現します。"
       },
       {
-        "title": "Seedance 2.0が他のAI動画ツールと異なる点は何ですか？",
-        "description": "Seedance 2.0は、他とは一線を画す画期的な機能を提供します：ネイティブマルチショット物語生成、ショット間の視覚的一貫性、微細な表現を捉える広いダイナミックレンジ、フォトリアリズムからサイバーパンクまでの多様なスタイルサポート、マルチエージェント相互作用の精密制御。Seedanceの高度な意味理解とカメラ動作制御により、他のプラットフォームでは比類のないプロフェッショナルグレードの結果を提供します。"
+        "title": "Seedance 2.0 の新機能は何ですか？",
+        "description": "Seedance 2.0 は 6 つの大きなアップグレードを導入しました：正確な空間関係のための優れた構造制御、マルチモーダル参照入力（テキスト/画像/動画/音声）、完璧なキャラクターとシーンの一貫性、リアルな物理シミュレーション、シームレスな動画拡張、そして強化された映画的美学です。これらの改良により、Seedance 2.0 は最も先進的な AI 動画生成ツールになりました。"
       },
       {
-        "title": "Seedance 2.0でどのような種類の動画を作成できますか？",
-        "description": "Seedance 2.0は幅広い動画タイプをサポートします：マーケティング動画、ソーシャルメディアコンテンツ、教育資料、製品デモンストレーション、アニメーションストーリー、ミュージックビデオ、コンセプトアート、映画シーン。Seedanceのマルチショット動画生成と1080p品質により、AIはあらゆる創造的ビジョンに適応します。フォトリアリズムからサイバーパンク美学まで、Seedanceはあらゆるプロジェクトでプロフェッショナルグレードの結果を提供します。"
+        "title": "Seedance 2.0 は Sora 2 や Veo 3 と比べてどうですか？",
+        "description": "Seedance 2.0 は構造制御ベンチマークにおいて Sora 2 と Veo 3 の両方を上回り、動画生成全体を通してより正確なオブジェクト位置と空間関係を維持します。また、優れた物理シミュレーションとキャラクターの一貫性を提供し、プロの動画クリエイターに選ばれる存在です。"
       },
       {
-        "title": "無料のSeedance 2.0動画ジェネレーターに制限はありますか？",
-        "description": "無料のSeedance 2.0は高度な1080p動画生成とマルチショット動画生成機能へのアクセスを提供しますが、プレミアムSeedanceユーザーは無制限の生成、より長い動画時間、優先処理、カスタムスタイルやバッチ処理などの追加機能をお楽しみいただけます。無料Seedanceユーザーは、Seedance AI技術の全機能を体験しながら、合理的な使用制限内で映画品質の動画を作成できます。"
+        "title": "Seedance 2.0 AI 動画生成ツールが他のツールと異なる点は？",
+        "description": "Seedance 2.0 AI 動画生成ツールには他にはない画期的な機能があります：優れた構造制御、マルチモーダル参照入力、キャラクターとシーン間の完璧な一貫性、リアルな物理シミュレーション、シームレスな動画拡張、そして映画的美学です。Seedance ByteDance の先進技術は、Sora 2 や Veo 3 を含む他の AI 動画生成プラットフォームでは得られないプロ品質の結果をもたらします。"
       },
       {
-        "title": "Seedanceで動画を生成するのにどのくらい時間がかかりますか？",
-        "description": "Seedance動画生成は、複雑さとマルチショット要件に応じて、標準1080p動画で通常2-5分かかります。AIがプロンプトを処理し、映画美学で動画シーケンスを作成し、プロフェッショナルグレードの結果のための高度なレンダリングを適用します。プレミアムユーザーは高速生成のための優先処理を受けられます。"
+        "title": "Seedance 2.0 AI 動画生成ツールでどんな動画を作成できますか？",
+        "description": "Seedance 2.0 AI 動画生成ツールは幅広い動画タイプをサポートしています：マーケティング動画、SNS向けコンテンツ、教育資料、製品デモ、アニメーションストーリー、ミュージックビデオ、コンセプトアート、映画的シーンなど。Seedance ByteDance の優れた構造制御と 1080p 品質により、リアルな物理表現と完璧な一貫性であらゆる創造的ビジョンに対応します。"
       },
       {
-        "title": "生成動画のスタイルと品質をカスタマイズできますか？",
-        "description": "はい！Seedanceは、フォトリアリズムからサイバーパンク美学まで、スタイルの多様性を持つ豊富なカスタマイズオプションを提供します。プロンプトで動画スタイル、カメラアングル、照明、ムード、カラーパレット、動作特性を指定できます。AIは詳細な創造的指示を理解し、あなたの正確なビジョンに合致する映画品質の1080p動画を制作します。"
+        "title": "無料版 Seedance 2.0 AI 動画生成ツールに制限はありますか？",
+        "description": "無料版 Seedance 2.0 AI 動画生成ツールでも先進的な 1080p 動画生成と優れた構造制御にアクセスできますが、プレミアム Seedance ByteDance ユーザーは無制限の生成、より長い動画時間、優先処理、カスタムスタイルやバッチ処理などの追加機能を利用できます。無料ユーザーは合理的な使用制限内で、動画生成技術のフルパワーを体験しながら映画のような動画を作成できます。"
       },
       {
-        "title": "Seedanceを使用する際、私のコンテンツは安全ですか？",
-        "description": "絶対に安全です。Seedanceは、あなたのコンテンツとプロンプトを保護するために業界最先端のセキュリティ対策を採用しています。私たちは厳格なプライバシープロトコルに従い、あなたの個人プロジェクトをモデルの訓練に使用したり、第三者とコンテンツを共有することは決してありません。あなたの創造的作品とマルチショット動画プロジェクトは完全にプライベートのまま保持されます。"
+        "title": "Seedance AI 動画生成ツールで動画の生成にはどのくらい時間がかかりますか？",
+        "description": "Seedance AI 動画生成ツールは、標準的な 1080p 動画で通常 2〜5 分かかります（複雑さやマルチショットの要件により異なります）。Seedance ByteDance の AI がプロンプトを処理し、映画のような美学でシーケンスを作成し、最適化された動画生成システムで高度なレンダリングを適用してプロ品質の結果を生み出します。プレミアムユーザーは優先処理でより高速な生成が可能です。"
       },
       {
-        "title": "Seedanceを始めるにはどうすればよいですか？",
-        "description": "Seedanceを始めるのは簡単です！「動画生成」ボタンをクリックし、プロンプトボックスで動画のアイデアを記述し、AIが映画美学を持つプロフェッショナル1080p動画を作成するのを見るだけです。複雑な設定は不要 - 素晴らしいマルチショット動画の作成をすぐに始められます。"
+        "title": "Seedance AI 動画生成ツールで動画のスタイルや品質をカスタマイズできますか？",
+        "description": "はい！Seedance AI 動画生成ツールは、写実的表現からサイバーパンクまで、豊富なスタイルのカスタマイズオプションを提供します。プロンプトで動画スタイル、カメラアングル、照明、雰囲気、カラーパレット、モーション特性を指定できます。Seedance ByteDance の AI 動画生成ツールは詳細なクリエイティブディレクションを理解し、高度なアルゴリズムにより、あなたのビジョンに正確にマッチした映画品質の 1080p 動画を生成します。"
       },
       {
-        "title": "Seedanceはどのような動画フォーマットと解像度をサポートしますか？",
-        "description": "SeedanceはMP4、MOV、WebMを含む複数のフォーマットをサポートします。動画はデフォルトでプロフェッショナル1080p解像度で生成され、マルチショット動画生成機能を備えた映画品質を提供します。すべての動画は、広いダイナミックレンジとスタイルの多様性を持つウェブ共有、ソーシャルメディア、プロフェッショナル用途に最適化されています。"
+        "title": "Seedance AI 動画生成ツールを使う際、コンテンツの安全性は確保されますか？",
+        "description": "もちろんです。Seedance AI 動画生成ツールは業界最高水準のセキュリティ対策でコンテンツとプロンプトを保護しています。厳格なプライバシー規約に従い、個人プロジェクトをモデルのトレーニングに使用したり、第三者と共有することはありません。Seedance ByteDance の安全な動画生成インフラにより、クリエイティブな作品とマルチショット動画プロジェクトは完全にプライベートに保たれます。"
       },
       {
-        "title": "Seedanceで生成した動画を商用目的で使用できますか？",
-        "description": "はい！Seedanceで作成した動画は、マーケティング、広告、ソーシャルメディア、ビジネスプレゼンテーションなど、商用目的で使用できます。プロフェッショナルグレードの1080p品質と映画美学により、あなたの動画はあらゆる商用アプリケーションに対応できます。プレミアムプランでは、企業アプリケーション向けの拡張商用ライセンスと追加使用権を提供します。"
+        "title": "Seedance AI 動画生成ツールの使い方は？",
+        "description": "Seedance AI 動画生成ツールの利用は簡単です！「動画を生成」ボタンをクリックし、プロンプトボックスに動画のアイデアを記述するだけで、AI 動画生成ツールが映画のような美学を備えたプロフェッショナルな 1080p 動画を作成します。Seedance ByteDance なら複雑な設定は不要—直感的なインターフェースを使って、今すぐ素晴らしいマルチショット動画を作成しましょう。"
+      },
+      {
+        "title": "Seedance AI 動画生成ツールはどの動画形式と解像度をサポートしていますか？",
+        "description": "Seedance AI 動画生成ツールは MP4、MOV、WebM など複数の形式をサポートしています。動画はデフォルトでプロフェッショナルな 1080p 解像度で生成され、マルチショットストーリーテリング機能により映画品質を実現します。すべての Seedance ByteDance 動画は、先進的な動画生成技術を用いて、広いダイナミックレンジと多彩なスタイル表現でウェブ共有、SNS、プロ用途に最適化されています。"
+      },
+      {
+        "title": "Seedance AI 動画生成ツールで作成した動画を商用利用できますか？",
+        "description": "はい！Seedance AI 動画生成ツールで作成した動画は、マーケティング、広告、SNS、ビジネスプレゼンテーションなど商用目的で使用できます。プロ品質の 1080p と映画のような美学を備えた Seedance ByteDance の動画は、あらゆる商用用途に対応します。プレミアムプランでは拡張された商用ライセンスとエンタープライズ向けの追加利用権が提供されます。"
       }
     ]
   },
+  "cta": [
+    {
+      "name": "cta-generate",
+      "title": "Seedance 2.0 AI 動画生成ツールで動画作成を始める",
+      "buttons": [
+        {
+          "title": "動画を生成",
+          "url": "#video-generator",
+          "target": "_self",
+          "icon": "GoArrowUpRight"
+        }
+      ]
+    },
+    {
+      "name": "cta-features",
+      "title": "Seedance 2.0 AI 動画生成ツールの機能を探る",
+      "description": "優れた構造制御、マルチモーダル参照、完璧な一貫性、リアルな物理表現、そして先進的な Seedance ByteDance AI 動画生成ツールテクノロジー",
+      "buttons": [
+        {
+          "title": "詳しく見る",
+          "url": "#features",
+          "target": "_self"
+        }
+      ]
+    }
+  ],
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "Seedance 2.0",
-      "description": "テキストと画像をSeedanceの高度なマルチショット技術で魅力的な1080p AI動画に変換します。",
+      "title": "Seedance 2.0 AI 動画生成ツール",
+      "description": "Seedance 2.0 の優れた構造制御とリアルな物理表現で、テキストや画像を素晴らしい AI 動画に変換。",
       "logo": {
         "src": "/logo.png",
-        "alt": "Seedance AI動画生成"
+        "alt": "Seedance AI 動画生成ツール"
       },
       "url": "/"
     },
-    "copyright": " 2026 • Seedance 全著作権所有。",
+    "copyright": " 2026 • Seedance AI 動画生成ツール All rights reserved.",
     "nav": {
       "items": [
         {
@@ -269,8 +296,13 @@
               "target": "_self"
             },
             {
-              "title": "リファレンスから動画",
+              "title": "リファレンス動画生成",
               "url": "/reference-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "モーションコントロール",
+              "url": "/motion-control",
               "target": "_self"
             }
           ]
@@ -306,6 +338,11 @@
             {
               "title": "Kling 3.0",
               "url": "/kling-3-0",
+              "target": "_self"
+            },
+            {
+              "title": "Kling Motion Control",
+              "url": "/kling-3-motion-control",
               "target": "_self"
             },
             {
@@ -354,12 +391,12 @@
           "title": "リソース",
           "children": [
             {
-              "title": "マイクリエーション",
+              "title": "マイクリエイション",
               "url": "/history",
               "target": "_self"
             },
             {
-              "title": "料金",
+              "title": "価格",
               "url": "/pricing",
               "target": "_self"
             },
@@ -411,124 +448,181 @@
       ]
     }
   },
-  "cta": [
-    {
-      "name": "cta-generate",
-      "title": "Seedance 2.0で動画作成を始める",
-      "buttons": [
-        {
-          "title": "動画を生成",
-          "url": "#video-generator",
-          "target": "_self",
-          "icon": "GoArrowUpRight"
-        }
-      ]
+  "introduce": {
+    "name": "introduce",
+    "title": "Seedance 2.0 AI 動画生成ツールとは",
+    "label": "紹介",
+    "description": "Seedance 2.0 は ByteDance が開発した革新的な AI 動画生成ツールで、テキストの説明をプロフェッショナルな 1080p 動画に変換します。この先進的な AI 動画生成ツールは画期的なマルチショットストーリーテリング機能と映画品質を備え、Seedance ByteDance をクリエイターに選ばれる存在にしています。",
+    "image": {
+      "src": "https://r2.seedance.tv/intro/generator-intro.mp4"
     },
-    {
-      "name": "cta-features",
-      "title": "Seedance 2.0機能を探索",
-      "description": "ネイティブマルチショット動画生成、多様なスタイル表現、高度なSeedance AI技術を備えたプロフェッショナル1080p動画生成",
-      "buttons": [
-        {
-          "title": "詳細を見る",
-          "url": "#features",
-          "target": "_self"
+    "items": [
+      {
+        "title": "マルチショットストーリーテリング AI 動画生成ツール",
+        "description": "シームレスなシーン切替と複数ショット間のキャラクター一貫性で複雑な物語を作成。Seedance ByteDance は先進的な AI 動画生成技術により、洗練された動画ストーリーテリングを可能にします。",
+        "icon": "RiFilmLine"
+      },
+      {
+        "title": "プロフェッショナル 1080p AI 動画生成ツール品質",
+        "description": "映画のような美学、なめらかな動き、豊かなビジュアル詳細を備えた鮮明な高精細動画を生成。プロ用途に最適です。Seedance 2.0 AI 動画生成ツールは他に類を見ない品質を実現します。",
+        "icon": "RiHdLine"
+      },
+      {
+        "title": "多彩なスタイル表現",
+        "description": "写実的表現からサイバーパンクまで、Seedance ByteDance AI 動画生成ツールは先進的な技術で、精密な芸術的制御とスタイルの多様性を備え、あらゆるクリエイティブビジョンに対応します。",
+        "icon": "RiPaletteLine"
+      }
+    ]
+  },
+  "feature": {
+    "name": "feature",
+    "title": "革新的な Seedance ByteDance AI 動画生成ツール",
+    "description": "動画制作を変える画期的な技術を体験してください。Seedance ByteDance は次世代の AI 動画生成技術を代表し、先進的な AI 動画生成機能により、従来の動画制作手法に匹敵するプロフェッショナルな結果を提供します。",
+    "items": [
+      {
+        "title": "画期的な Seedance AI 動画生成ツール技術",
+        "description": "動画生成のために特別に設計された最先端の人工知能モデルにより駆動されます。Seedance ByteDance AI 動画生成ツールは、先進的な動画生成システムでプロフェッショナルなコンテンツ制作に前例のない品質と創造的コントロールを提供します。",
+        "icon": "RiRobot2Line"
+      },
+      {
+        "title": "テキストから動画への AI イノベーション",
+        "description": "Seedance 2.0 でシンプルなテキストの説明を驚くべきビジュアルコンテンツに変換。先進的な AI 動画生成ツールは、Seedance ByteDance 技術により、複雑な物語、ビジュアルスタイル、クリエイティブディレクションを驚くほど正確に理解します。",
+        "icon": "RiQuillPenLine"
+      },
+      {
+        "title": "プロ品質の動画生成出力",
+        "description": "プロ基準を満たす、なめらかな動き、豊かなディテール、映画のような美学を備えた映画品質の 1080p 動画を生成。Seedance AI 動画生成ツールは毎回の生成で商用品質のコンテンツを生み出します。",
+        "icon": "RiVideoLine"
+      },
+      {
+        "title": "即時の AI 動画生成",
+        "description": "Seedance ByteDance で、数時間ではなく数分でプロフェッショナルな動画を作成。革新的な AI 動画生成ツールは、先進的な自動化により、高価な機材、クルー、複雑な編集ソフトウェアを不要にします。",
+        "icon": "RiTimerLine"
+      },
+      {
+        "title": "AI 動画生成ツールによる無限のクリエイティブ可能性",
+        "description": "企業プレゼンテーションから芸術的傑作まで、Seedance 2.0 で想像できるあらゆる動画スタイルを生成。先進的な AI 動画生成プラットフォームでクリエイティブな境界も技術的な制限もありません。",
+        "icon": "RiInfinityLine"
+      },
+      {
+        "title": "次世代 AI 動画生成ツール機能",
+        "description": "マルチショットストーリーテリング、キャラクターの一貫性、高度なカメラコントロールは AI 動画生成技術の未来を代表します。Seedance ByteDance は、最先端の動画生成イノベーションにより、これらの機能を今日提供します。",
+        "icon": "RiStarLine"
+      }
+    ]
+  },
+  "testimonial": {
+    "name": "testimonial",
+    "label": "お客様の声",
+    "title": "クリエイターが語る Seedance 2.0 AI 動画生成ツール",
+    "description": "Seedance 2.0 AI 動画生成ツールが画期的な技術でどのように動画制作を革新したかをご覧ください。マルチショットストーリーテリングから多彩なスタイル表現まで、世界中のクリエイターが Seedance ByteDance を映画品質とシームレスなワークフロー統合を備えたプロフェッショナルな動画生成に信頼しています。",
+    "icon": "GoThumbsup",
+    "items": [
+      {
+        "title": "Sarah Johnson",
+        "label": "コンテンツクリエイター",
+        "description": "Seedance 2.0 AI 動画生成ツールは私のコンテンツ制作ワークフローを完全に変えました。Seedance ByteDance の先進的な AI 動画生成ツールは私のプロンプトを完璧に理解し、なめらかな動きと豊かなディテールを備えた映画品質の 1080p 動画を生成します。マルチショットストーリーテリング機能は、この先進的な動画生成技術を使うクリエイターにとって革命的です。",
+        "image": {
+          "src": "/imgs/users/1.png"
         }
-      ]
-    }
-  ],
-  "aiVideoShowcase": {
-    "title": "Visualize Any Text with Our AI Video Generator",
-    "description": "Bring any text to life with our AI video generator! Create engaging videos of any style with just a simple text prompt.",
-    "cta": "Start Creating",
-    "examples": [
-      {
-        "id": "1",
-        "image": "/intro/camera.mp4",
-        "alt": "Camera movement demonstration",
-        "prompt": "Dynamic camera angles showcasing cinematic movements"
       },
       {
-        "id": "2",
-        "image": "/intro/storytelling.mp4",
-        "alt": "Storytelling capabilities",
-        "prompt": "Multi-scene narrative with consistent characters"
+        "title": "Michael Chen",
+        "label": "マーケティングディレクター",
+        "description": "Seedance 2.0 AI 動画生成ツールはマーケティングキャンペーンに素晴らしい効果を発揮します。Seedance ByteDance の映画品質は傑出しており、マルチエージェントインタラクション機能により複雑なストーリーテリングが可能です。Seedance AI 動画生成ツールを使えば、写実的表現からサイバーパンクまで、異なるスタイルの複数の動画バリエーションを容易に作成できます。",
+        "image": {
+          "src": "/imgs/users/2.png"
+        }
       },
       {
-        "id": "3",
-        "image": "/intro/versatility.mp4",
-        "alt": "Style versatility",
-        "prompt": "Transform scenes into different artistic styles"
+        "title": "Emily Rodriguez",
+        "label": "SNSマネージャー",
+        "description": "Seedance 2.0 AI 動画生成ツールの動画の一貫性と品質は驚異的です。Seedance ByteDance のネイティブマルチショットストーリーテリングにより、複雑なシーケンス全体でビジュアルの一貫性を保ちながら毎日新鮮なコンテンツを作成できます。Seedance AI 動画生成ツールのスタイルの多様性とプロンプト追従精度は AI 動画生成業界で比類ないものです。",
+        "image": {
+          "src": "/imgs/users/3.png"
+        }
       },
       {
-        "id": "4",
-        "image": "/intro/dynamic-range.mp4",
-        "alt": "Dynamic range",
-        "prompt": "From subtle animations to explosive action"
+        "title": "David Kumar",
+        "label": "YouTuber & 教育者",
+        "description": "Seedance 2.0 AI 動画生成ツールは視聴者を魅了する教育コンテンツの制作に役立っています。写実的なデモンストレーションからアニメーションの解説まで、Seedance ByteDance の先進的な AI 動画生成ツールは映画的美学ですべてをこなします。Seedance 動画のなめらかな動きと豊かなディテールが、この優れた動画生成技術で視聴者を最後まで引き込みます。",
+        "image": {
+          "src": "/imgs/users/4.png"
+        }
       },
       {
-        "id": "5",
-        "image": "/intro/professional-1080.mp4",
-        "alt": "Professional quality",
-        "prompt": "Crystal clear 1080p with smooth motion"
+        "title": "Lisa Wang",
+        "label": "インディペンデント映画監督",
+        "description": "Seedance 2.0 AI 動画生成ツールは映画監督としての創造的可能性を解き放ちました。Seedance ByteDance の画期的な技術により、シーンのプロトタイプ作成、マルチショット物語のコンセプト動画制作、ビジュアルストーリーテリングの実験ができます。Seedance AI 動画生成ツールの精密なカメラ動作制御と広いダイナミックレンジは、プロの映画制作に最適です。",
+        "image": {
+          "src": "/imgs/users/5.png"
+        }
+      },
+      {
+        "title": "Alex Thompson",
+        "label": "デジタルアーティスト",
+        "description": "Seedance 2.0 AI 動画生成ツールの精度と芸術的品質は驚くべきものです。Seedance ByteDance は複雑な芸術的方向性を理解し、私のクリエイティブビジョンに完璧に合う動画を作成します。サイバーパンクからイラストスタイルまで、Seedance AI 動画生成ツールの多彩なスタイル表現機能により、この最先端の動画生成プラットフォームでプロの結果を得ながら無限の創造的探求が可能です。",
+        "image": {
+          "src": "/imgs/users/6.png"
+        }
       }
     ]
   },
   "gettingStarted": {
-    "title": "Seedance AI動画ジェネレーターで動画を作成する方法",
-    "description": "Seedance ByteDanceで数分でプロフェッショナルな1080p動画の生成を開始。シンプル、高速、そして強力。",
+    "title": "Seedance AI 動画生成ツールで動画を作成する方法",
+    "description": "Seedance ByteDance でプロフェッショナルな 1080p 動画を数分で生成開始。シンプルで、速く、パワフル。",
     "steps": [
       {
         "step": 1,
-        "title": "ビジョンを説明",
-        "description": "動画コンセプトを説明する詳細なテキストプロンプトを書きます。Seedance AI動画ジェネレーターは複雑な指示と芸術的スタイルを理解します。",
+        "title": "ビジョンを記述する",
+        "description": "動画のコンセプトを詳細なテキストプロンプトで記述。Seedance AI 動画生成ツールは複雑な指示と芸術スタイルを理解します。",
         "icon": "RiEditLine"
       },
       {
         "step": 2,
-        "title": "設定を選択",
-        "description": "動画の長さ、アスペクト比、スタイル設定を選択します。多様な芸術的表現を持つ1080p品質から選択。",
+        "title": "設定を選択する",
+        "description": "動画の長さ、アスペクト比、スタイルを選択。多彩な芸術表現を備えた 1080p 品質から選べます。",
         "icon": "RiSettings3Line"
       },
       {
         "step": 3,
-        "title": "動画を生成",
-        "description": "Seedance AI動画ジェネレーターがアイデアを映画的美学を持つプロフェッショナル品質の動画に変換するのを見守ります。",
+        "title": "動画を生成する",
+        "description": "Seedance AI 動画生成ツールがあなたのアイデアを映画のような美学を備えたプロ品質の動画に変換する様子をご覧ください。",
         "icon": "RiPlayLine"
       },
       {
         "step": 4,
-        "title": "ダウンロード&シェア",
-        "description": "高精細品質で完成した動画にアクセス。マーケティング、ソーシャルメディア、または任意の商業目的で使用。",
+        "title": "ダウンロード＆シェア",
+        "description": "完成した動画を高精細品質でダウンロード。マーケティング、SNS、あらゆる商用目的にお使いいただけます。",
         "icon": "RiDownloadLine"
       }
     ],
     "cta": {
-      "title": "Seedance AI動画ジェネレーターで作成を開始",
+      "title": "Seedance AI 動画生成ツールで作成を開始",
       "url": "#video-generator"
     }
   },
   "questionExamples": {
-    "title": "動画アイデア: ",
+    "title": "AI 動画生成アイデア：",
     "examples": [
       {
-        "text": "夕日時にネオンライトがガラス建物に反射する未来都市を飛行する映画的ドローンショットを作成",
-        "label": "映画的都市風景",
+        "text": "Seedance AI 動画生成ツールで、夕暮れの未来都市をネオンの光がガラスのビルに反射する中、映画のようなドローンショットで撮影",
+        "label": "AI 動画生成ツールによる映画的都市景観",
         "type": "single"
       },
       {
-        "text": "滑らかなカメラ動作とプロフェッショナル照明でスマートフォンを見せる製品デモ動画を生成",
-        "label": "製品デモ",
+        "text": "Seedance ByteDance 技術で、なめらかなカメラワークとプロの照明で撮影したスマートフォンの製品デモ動画を生成",
+        "label": "製品デモ AI 動画生成ツール",
         "type": "single"
       },
       {
-        "text": "カラフルなグラフィックと滑らかなトランジションで再生可能エネルギーについてのアニメーション説明動画を作成",
-        "label": "教育アニメーション",
+        "text": "Seedance 2.0 AI 動画生成ツールで、カラフルなグラフィックとなめらかな遷移を備えた再生可能エネルギーについてのアニメ解説動画を作成",
+        "label": "教育アニメーション動画生成ツール",
         "type": "single"
       },
       {
-        "text": "野生動物、朝霧、ゴールデンアワー照明を含む森のネイチャードキュメンタリースタイル動画を作成",
-        "label": "ネイチャードキュメンタリー",
+        "text": "Seedance AI 動画生成ツールの技術で、野生動物、朝の霧、ゴールデンアワーの光を備えた森のネイチャードキュメンタリー風動画を作成",
+        "label": "ネイチャードキュメンタリー AI 動画生成ツール",
         "type": "single"
       }
     ]
@@ -540,54 +634,54 @@
     },
     "questions": {
       "marketing1": {
-        "text": "プロフェッショナルなカメラ動作と魅力的なビジュアルで製品を紹介するダイナミックなマーケティング動画を作成",
+        "text": "Seedance AI 動画生成ツールで、プロのカメラワークと魅力的なビジュアルを備えた製品紹介のダイナミックなマーケティング動画を作成",
         "reading_type": "single",
         "category": "marketing",
         "tag": "new"
       },
       "social1": {
-        "text": "InstagramとTikTokに最適な鮮やかな色と滑らかなトランジションを持つトレンディなソーシャルメディア動画を生成",
+        "text": "Seedance ByteDance AI 動画生成ツールで、Instagram や TikTok に最適な鮮やかな色となめらかな遷移のトレンディな SNS 動画を生成",
         "reading_type": "single",
         "category": "social",
         "tag": "new"
       },
       "education1": {
-        "text": "明確なアニメーションと魅力的な視覚的動画生成で複雑なコンセプトを説明する教育動画を作成",
+        "text": "Seedance 2.0 動画生成ツールで、明快なアニメーションと魅力的なビジュアルストーリーテリングで複雑な概念を説明する教育動画を作成",
         "reading_type": "single",
         "category": "education"
       },
       "creative1": {
-        "text": "抽象的なビジュアル、創造的なカメラアングル、実験的視覚効果を持つアーティスティック動画を作成",
+        "text": "Seedance AI 動画生成ツールで、抽象的なビジュアル、クリエイティブなカメラアングル、実験的なビジュアルエフェクトを備えた芸術的な動画を作成",
         "reading_type": "single",
         "category": "creative"
       },
       "business1": {
-        "text": "清潔なグラフィックと企業スタイリングを持つプロフェッショナルなビジネスプレゼンテーション動画を生成",
+        "text": "Seedance ByteDance 動画生成ツールで、洗練されたグラフィックとコーポレートスタイリングのプロフェッショナルなビジネスプレゼンテーション動画を生成",
         "reading_type": "single",
         "category": "business"
       },
       "entertainment1": {
-        "text": "ダイナミックなアクションシーケンスと映画的動画生成要素を持つエンターテイメント動画を作成",
+        "text": "Seedance AI 動画生成ツール技術で、ダイナミックなアクションシーケンスと映画のようなストーリーテリング要素を備えたエンターテイメント動画を作成",
         "reading_type": "single",
         "category": "entertainment"
       },
       "tutorial1": {
-        "text": "明確なデモンストレーションと役立つ視覚ガイドを持つステップバイステップチュートリアル動画を作成",
+        "text": "Seedance 2.0 AI 動画生成ツールで、わかりやすいデモンストレーションと役立つビジュアルガイドを備えたステップバイステップのチュートリアル動画を作成",
         "reading_type": "single",
         "category": "tutorial"
       },
       "lifestyle1": {
-        "text": "美しい美学、自然な照明、憧れのビジュアルを持つライフスタイル動画を生成",
+        "text": "Seedance ByteDance AI 動画生成ツールで、美しい美学、自然光、憧れを誘うビジュアルを備えたライフスタイル動画を生成",
         "reading_type": "single",
         "category": "lifestyle"
       },
       "tech1": {
-        "text": "未来的要素と洗練された視覚デザインを持つテクノロジーショーケース動画を作成",
+        "text": "Seedance AI 動画生成プラットフォームで、未来的な要素と洗練されたビジュアルデザインを備えた技術ショーケース動画を作成",
         "reading_type": "single",
         "category": "technology"
       },
       "travel1": {
-        "text": "映画的カメラ動作と鮮やかな色で素晴らしい風景を捉える旅行動画を生成",
+        "text": "Seedance 2.0 動画生成ツールで、映画のようなカメラワークと鮮やかな色で魅力的な風景を捉えた旅行動画を生成",
         "reading_type": "single",
         "category": "travel"
       }

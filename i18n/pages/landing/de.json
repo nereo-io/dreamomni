@@ -22,11 +22,11 @@
             },
             {
               "title": "Text zu Video",
-              "description": "Generieren Sie Videos aus Textbeschreibungen",
+              "description": "Erstellen Sie Videos aus Textbeschreibungen",
               "url": "/text-to-video"
             },
             {
-              "title": "Videoeffekte",
+              "title": "Video-Effekte",
               "description": "Wenden Sie KI-gestützte Effekte auf Ihre Videos an",
               "url": "/video-effects"
             }
@@ -37,12 +37,12 @@
           "children": [
             {
               "title": "Text zu Bild",
-              "description": "Erstellen Sie Bilder aus Textbeschreibungen",
+              "description": "Erstellen Sie Bilder aus Text-Prompts",
               "url": "/text-to-image"
             },
             {
               "title": "Bild zu Bild",
-              "description": "Transformieren und verbessern Sie Ihre Bilder",
+              "description": "Verwandeln und verbessern Sie Ihre Bilder",
               "url": "/image-to-image"
             }
           ]
@@ -62,19 +62,19 @@
     "show_locale": true
   },
   "hero": {
-    "title": "Kostenloser Seedance 2.0 Video-Generator",
+    "title": "Kostenloser Seedance 2.0 Video Generator",
     "highlight_text": "Seedance 2.0",
     "announcement": {
-      "title": "🎬 Seedance 2.0 Jetzt Verfügbar!",
+      "title": "🎬 Seedance 2.0 jetzt verfügbar!",
       "label": "Neu!",
       "url": "#video-generator"
     },
-    "description": "Erstellen Sie kinematische KI-Videos mit überlegener Strukturkontrolle und realistischer Physik. Übertrifft Sora 2 und Veo 3.",
+    "description": "Erstellen Sie kinoreife KI-Videos mit überlegener Strukturkontrolle und realistischer Physik. Übertrifft Sora 2 und Veo 3.",
     "show_happy_users": false,
     "show_badge": false,
     "buttons": [
       {
-        "title": "Videos Erstellen",
+        "title": "Videos erstellen",
         "url": "/image-to-video",
         "target": "_self",
         "variant": "default",
@@ -83,8 +83,8 @@
     ]
   },
   "aiModelsHero": {
-    "title": "All-in-One AI Bild zu Video Generator",
-    "description": "Seedance ist der ultimative All-in-One-KI-Videogenerator. Wir bieten Zugang zu branchenführenden Videomodellen wie Sora 2, Veo 3.1, Seedance und mehr, alles an einem Ort. Probieren Sie sie nahtlos aus und erstellen Sie beeindruckende Visuals, ohne zwischen mehreren Plattformen jonglieren zu müssen!",
+    "title": "All-in-One AI Bild-zu-Video-Generator",
+    "description": "Seedance ist der ultimative All-in-One-KI-Bild-zu-Video-Generator. Wir bieten Zugang zu branchenführenden Videomodellen wie Sora 2, Veo3, Seedance und mehr – alles an einem Ort. Testen Sie sie nahtlos und erstellen Sie beeindruckende Visuals, ohne zwischen mehreren Plattformen zu wechseln!",
     "models": [
       {
         "id": "sora2",
@@ -107,7 +107,7 @@
   "imageToVideoShowcase": {
     "title": "Bild zu Video AI",
     "description": "Erwecken Sie Ihre Bilder mit unserem Bild-zu-Video AI Generator zum Leben",
-    "cta": "Seedance Ausprobieren",
+    "cta": "Seedance ausprobieren",
     "labels": {
       "originalImage": "Originalbild",
       "prompt": "Prompt",
@@ -150,97 +150,105 @@
     ]
   },
   "aiVideoShowcase": {
-    "title": "Visualize Any Text with Our AI Video Generator",
-    "description": "Bring any text to life with our AI video generator! Create engaging videos of any style with just a simple text prompt.",
-    "cta": "Start Creating",
+    "title": "Visualisieren Sie jeden Text mit unserem KI-Videogenerator",
+    "description": "Erwecken Sie jeden Text mit unserem KI-Videogenerator zum Leben! Erstellen Sie ansprechende Videos in jedem Stil mit nur einem einfachen Text-Prompt.",
+    "cta": "Jetzt starten",
     "examples": [
       {
         "id": "1",
         "image": "/intro/camera.mp4",
-        "alt": "Camera movement demonstration",
-        "prompt": "Dynamic camera angles showcasing cinematic movements"
+        "alt": "Demonstration von Kamerabewegungen",
+        "prompt": "Dynamische Kamerawinkel mit kinoreifen Bewegungen"
       },
       {
         "id": "2",
         "image": "/intro/storytelling.mp4",
-        "alt": "Storytelling capabilities",
-        "prompt": "Multi-scene narrative with consistent characters"
+        "alt": "Erzählerische Fähigkeiten",
+        "prompt": "Mehrszenige Erzählung mit konsistenten Charakteren"
       },
       {
         "id": "3",
         "image": "/intro/versatility.mp4",
-        "alt": "Style versatility",
-        "prompt": "Transform scenes into different artistic styles"
+        "alt": "Stilvielfalt",
+        "prompt": "Verwandeln Sie Szenen in verschiedene Kunststile"
       },
       {
         "id": "4",
         "image": "/intro/dynamic-range.mp4",
-        "alt": "Dynamic range",
-        "prompt": "From subtle animations to explosive action"
+        "alt": "Dynamikumfang",
+        "prompt": "Von subtilen Animationen bis zu explosiver Action"
       },
       {
         "id": "5",
         "image": "/intro/professional-1080.mp4",
-        "alt": "Professional quality",
-        "prompt": "Crystal clear 1080p with smooth motion"
+        "alt": "Professionelle Qualität",
+        "prompt": "Kristallklare 1080p-Qualität mit flüssiger Bewegung"
       }
     ]
   },
   "faq": {
     "name": "faq",
-    "label": "Häufige Fragen",
-    "title": "Häufig gestellte Fragen zu Seedance 2.0",
-    "description": "Erfahren Sie mehr über Seedance 2.0s erweiterte KI-Video-Generierungs-Fähigkeiten, Multi-Shot-Storytelling und professionelle Video-Erstellungs-Features.",
+    "label": "FAQ",
+    "title": "Häufig gestellte Fragen zum Seedance 2.0 KI-Videogenerator",
+    "description": "Erfahren Sie mehr über die fortschrittlichen Fähigkeiten, das Multi-Shot-Storytelling und die professionellen Videoerstellungsfunktionen des Seedance 2.0 KI-Videogenerators. Erhalten Sie Antworten zur Seedance ByteDance-Technologie und unserer innovativen Videogenerator-Plattform.",
     "items": [
       {
-        "title": "Was ist der Seedance 2.0 KI-Video-Generator und wie funktioniert er?",
-        "description": "Seedance 2.0 gibt Ihnen Zugang zu bahnbrechender KI-Video-Erstellungs-Technologie mit nativem Multi-Shot-Storytelling. Beschreiben Sie einfach Ihre Video-Idee in Text, und Seedance wird hochqualitative 1080p-Videos mit kinematischer Ästhetik, flüssigen Bewegungen und vielfältigem Stilausdruck generieren. Seedances erweiterte semantische Verstehen gewährleistet präzises Prompt-Following für professionelle Ergebnisse."
+        "title": "Was ist der Seedance 2.0 KI-Videogenerator und wie funktioniert er?",
+        "description": "Der Seedance 2.0 KI-Videogenerator bietet Ihnen Zugang zu bahnbrechender Videoerstellungstechnologie mit nativem Multi-Shot-Storytelling. Beschreiben Sie einfach Ihre Videoidee in Text, und Seedance ByteDance generiert hochwertige 1080p-Videos mit kinoreifer Ästhetik, flüssiger Bewegung und vielfältigem Stilausdruck. Das fortschrittliche semantische Verständnis des Seedance KI-Videogenerators sorgt für präzise Prompt-Umsetzung und professionelle Ergebnisse dank unserer revolutionären Videogenerator-Technologie."
       },
       {
-        "title": "Was macht Seedance 2.0 anders als andere KI-Video-Tools?",
-        "description": "Seedance 2.0 bietet bahnbrechende Features, die es abhebt: native Multi-Shot-Narrativ-Generierung, visuelle Konsistenz über Shot-Übergänge hinweg, breite Dynamikrange für das Erfassen subtiler Ausdrücke, vielfältige Stilunterstützung vom Fotorealismus bis Cyberpunk, und präzise Kontrolle über Multi-Agent-Interaktionen. Seedances erweiterte semantische Verstehen und Kamerabewegungssteuerung liefern professionelle Ergebnisse, die von anderen Plattformen unübertroffen sind."
+        "title": "Was ist neu in Seedance 2.0?",
+        "description": "Seedance 2.0 bringt sechs wichtige Upgrades: überlegene Strukturkontrolle für präzise räumliche Beziehungen, multimodale Referenzeingabe (Text/Bild/Video/Audio), perfekte Charakter- und Szenenkonsistenz, realistische Physiksimulation, nahtlose Videoerweiterung und verbesserte kinoreife Ästhetik. Diese Verbesserungen machen Seedance 2.0 zum fortschrittlichsten verfügbaren KI-Videogenerator."
       },
       {
-        "title": "Welche Arten von Videos kann ich mit Seedance 2.0 erstellen?",
-        "description": "Seedance 2.0 unterstützt eine breite Palette von Video-Typen: Marketing-Videos, Social-Media-Content, Bildungsmaterialien, Produktdemonstrationen, animierte Geschichten, Musikvideos, Konzeptkunst und kinematische Szenen. Mit Seedances Multi-Shot-Storytelling und 1080p-Qualität passt sich die KI jeder kreativen Vision an. Vom Fotorealismus bis zur Cyberpunk-Ästhetik liefert Seedance professionelle Ergebnisse für jedes Projekt."
+        "title": "Wie schneidet Seedance 2.0 im Vergleich zu Sora 2 und Veo 3 ab?",
+        "description": "Seedance 2.0 übertrifft sowohl Sora 2 als auch Veo 3 in Strukturkontroll-Benchmarks, indem es während der Videogenerierung eine genauere Objektpositionierung und räumliche Beziehungen beibehält. Außerdem bietet es überlegene Physiksimulation und Charakterkonsistenz und ist damit die bevorzugte Wahl für professionelle Videoersteller."
       },
       {
-        "title": "Gibt es Beschränkungen für den kostenlosen Seedance 2.0 Video-Generator?",
-        "description": "Während kostenlose Seedance 2.0 Zugang zu erweiterten 1080p-Video-Generierung und Multi-Shot-Storytelling-Fähigkeiten bietet, genießen Premium-Seedance-Nutzer unbegrenzte Generierungen, längere Video-Dauern, prioritäre Verarbeitung und zusätzliche Features wie benutzerdefinierte Stile und Batch-Verarbeitung. Kostenlose Seedance-Nutzer können kinematische Videos mit angemessenen Nutzungslimits erstellen, während sie die volle Kraft der Seedance KI-Technologie erleben."
+        "title": "Was unterscheidet den Seedance 2.0 KI-Videogenerator von anderen Video-Tools?",
+        "description": "Der Seedance 2.0 KI-Videogenerator bietet bahnbrechende Funktionen, die ihn abheben: überlegene Strukturkontrolle, multimodale Referenzeingabe, perfekte Konsistenz über Charaktere und Szenen hinweg, realistische Physiksimulation, nahtlose Videoerweiterung und kinoreife Ästhetik. Die fortschrittliche Technologie von Seedance ByteDance liefert professionelle Ergebnisse, die von anderen KI-Videogenerator-Plattformen wie Sora 2 und Veo 3 nicht erreicht werden."
       },
       {
-        "title": "Wie lange dauert es, Videos mit Seedance zu generieren?",
-        "description": "Seedance Video-Generierung dauert typischerweise 2-5 Minuten für Standard-1080p-Videos, abhängig von Komplexität und Multi-Shot-Anforderungen. Die KI verarbeitet Ihren Prompt, erstellt die Video-Sequenz mit kinematischer Ästhetik und wendet erweiterte Renderung für professionelle Ergebnisse an. Premium-Nutzer erhalten prioritäre Verarbeitung für schnellere Generierung."
+        "title": "Welche Arten von Videos kann ich mit dem Seedance 2.0 KI-Videogenerator erstellen?",
+        "description": "Der Seedance 2.0 KI-Videogenerator unterstützt eine breite Palette von Videotypen: Marketing-Videos, Social-Media-Inhalte, Bildungsmaterialien, Produktdemonstrationen, animierte Geschichten, Musikvideos, Concept Art und kinematografische Szenen. Mit Seedance ByteDances überlegener Strukturkontrolle und 1080p-Qualität passt sich der KI-Videogenerator jeder kreativen Vision mit realistischer Physik und perfekter Konsistenz an."
       },
       {
-        "title": "Kann ich Stil und Qualität der generierten Videos anpassen?",
-        "description": "Ja! Seedance bietet umfangreiche Anpassungsoptionen mit Stilvielfalt vom Fotorealismus bis zur Cyberpunk-Ästhetik. Sie können Video-Stil, Kamerawinkel, Beleuchtung, Stimmung, Farbpalette und Bewegungscharakteristiken in Ihren Prompts spezifizieren. Die KI versteht detaillierte kreative Anweisungen und produziert 1080p-Videos mit Kinoqualität, die Ihrer exakten Vision entsprechen."
+        "title": "Gibt es Einschränkungen beim kostenlosen Seedance 2.0 KI-Videogenerator?",
+        "description": "Während der kostenlose Seedance 2.0 KI-Videogenerator Zugang zu fortgeschrittener 1080p-Videogenerierung und überlegenen Strukturkontrollfunktionen bietet, genießen Premium-Nutzer von Seedance ByteDance unbegrenzte Generierungen, längere Videodauern, Prioritätsverarbeitung und zusätzliche Funktionen wie benutzerdefinierte Stile und Batch-Verarbeitung. Kostenlose Seedance KI-Videogenerator-Nutzer können kinoreife Videos mit angemessenen Nutzungsgrenzen erstellen und dabei die volle Leistung unserer Videogenerator-Technologie erleben."
       },
       {
-        "title": "Ist mein Content sicher bei der Nutzung von Seedance?",
-        "description": "Absolut. Seedance setzt branchenführende Sicherheitsmaßnahmen ein, um Ihren Content und Ihre Prompts zu schützen. Wir folgen strengen Datenschutzprotokollen und verwenden nie Ihre persönlichen Projekte zum Trainieren von Modellen oder teilen Content mit Dritten. Ihre kreative Arbeit und Multi-Shot-Video-Projekte bleiben vollständig privat."
+        "title": "Wie lange dauert es, Videos mit dem Seedance KI-Videogenerator zu erstellen?",
+        "description": "Der Seedance KI-Videogenerator benötigt in der Regel 2–5 Minuten für Standard-1080p-Videos, je nach Komplexität und Multi-Shot-Anforderungen. Die Seedance ByteDance KI verarbeitet Ihren Prompt, erstellt die Videosequenz mit kinoreifer Ästhetik und wendet fortschrittliches Rendering für professionelle Ergebnisse mit unserem optimierten Videogenerator-System an. Premium-Nutzer erhalten Prioritätsverarbeitung für schnellere Videogenerator-Leistung."
       },
       {
-        "title": "Wie fange ich mit Seedance an?",
-        "description": "Der Einstieg in Seedance ist einfach! Klicken Sie einfach den 'Video Generieren' Button, beschreiben Sie Ihre Video-Idee in der Prompt-Box und schauen Sie zu, wie KI Ihr professionelles 1080p-Video mit kinematischer Ästhetik erstellt. Keine komplexe Einrichtung erforderlich - beginnen Sie sofort mit der Erstellung erstaunlicher Multi-Shot-Videos."
+        "title": "Kann ich Stil und Qualität der generierten Videos mit dem Seedance KI-Videogenerator anpassen?",
+        "description": "Ja! Der Seedance KI-Videogenerator bietet umfangreiche Anpassungsoptionen mit Stilvielfalt von Fotorealismus bis Cyberpunk-Ästhetik. Sie können Videostil, Kamerawinkel, Beleuchtung, Stimmung, Farbpalette und Bewegungseigenschaften in Ihren Prompts angeben. Der Seedance ByteDance KI-Videogenerator versteht detaillierte kreative Anweisungen und produziert 1080p-Videos in Kinoqualität, die genau Ihrer Vision entsprechen – dank fortschrittlicher Videogenerator-Algorithmen."
       },
       {
-        "title": "Welche Video-Formate und Auflösungen unterstützt Seedance?",
-        "description": "Seedance unterstützt mehrere Formate einschließlich MP4, MOV und WebM. Videos werden standardmäßig in professioneller 1080p-Auflösung generiert und liefern Kinoqualität mit Multi-Shot-Storytelling-Fähigkeiten. Alle Videos sind optimiert für Web-Sharing, Social Media und professionelle Nutzung mit breiter Dynamikrange und Stilvielfalt."
+        "title": "Sind meine Inhalte beim Seedance KI-Videogenerator sicher?",
+        "description": "Absolut. Der Seedance KI-Videogenerator setzt branchenführende Sicherheitsmaßnahmen ein, um Ihre Inhalte und Prompts zu schützen. Wir befolgen strenge Datenschutzprotokolle und verwenden Ihre persönlichen Projekte niemals zum Trainieren von Modellen oder geben Inhalte an Dritte weiter. Ihre kreative Arbeit und Multi-Shot-Videoprojekte bleiben mit der sicheren Videogenerator-Infrastruktur von Seedance ByteDance vollständig privat."
       },
       {
-        "title": "Kann ich mit Seedance generierte Videos für kommerzielle Zwecke verwenden?",
-        "description": "Ja! Videos, die mit Seedance erstellt wurden, können für kommerzielle Zwecke verwendet werden, einschließlich Marketing, Werbung, Social Media und Geschäftspräsentationen. Mit professioneller 1080p-Qualität und kinematischer Ästhetik sind Ihre Videos für jede kommerzielle Anwendung bereit. Premium-Pläne bieten erweiterte kommerzielle Lizenzierung und zusätzliche Nutzungsrechte für Unternehmensanwendungen."
+        "title": "Wie fange ich mit dem Seedance KI-Videogenerator an?",
+        "description": "Der Einstieg in den Seedance KI-Videogenerator ist einfach! Klicken Sie einfach auf die Schaltfläche „Video generieren“, beschreiben Sie Ihre Videoidee im Prompt-Feld und sehen Sie zu, wie unser KI-Videogenerator Ihr professionelles 1080p-Video mit kinoreifer Ästhetik erstellt. Keine komplizierte Einrichtung mit Seedance ByteDance erforderlich – beginnen Sie sofort mit der Erstellung beeindruckender Multi-Shot-Videos über unsere intuitive Videogenerator-Oberfläche."
+      },
+      {
+        "title": "Welche Videoformate und Auflösungen unterstützt der Seedance KI-Videogenerator?",
+        "description": "Der Seedance KI-Videogenerator unterstützt mehrere Formate wie MP4, MOV und WebM. Videos werden standardmäßig in professioneller 1080p-Auflösung generiert und liefern kinoreife Qualität mit Multi-Shot-Storytelling-Fähigkeiten. Alle Seedance ByteDance-Videos sind für Web-Sharing, soziale Medien und den professionellen Einsatz optimiert – mit hohem Dynamikumfang und Stilvielfalt dank unserer fortschrittlichen Videogenerator-Technologie."
+      },
+      {
+        "title": "Kann ich mit dem Seedance KI-Videogenerator erstellte Videos für kommerzielle Zwecke nutzen?",
+        "description": "Ja! Mit dem Seedance KI-Videogenerator erstellte Videos können für kommerzielle Zwecke verwendet werden, einschließlich Marketing, Werbung, soziale Medien und Geschäftspräsentationen. Mit professioneller 1080p-Qualität und kinoreifer Ästhetik sind Ihre Seedance ByteDance-Videos bereit für jede kommerzielle Anwendung. Premium-Pläne bieten erweiterte kommerzielle Lizenzen und zusätzliche Nutzungsrechte für Unternehmensanwendungen auf unserer Videogenerator-Plattform."
       }
     ]
   },
   "cta": [
     {
       "name": "cta-generate",
-      "title": "Beginnen Sie mit der Video-Erstellung mit Seedance 2.0",
+      "title": "Erstellen Sie Videos mit dem Seedance 2.0 KI-Videogenerator",
       "buttons": [
         {
-          "title": "Video Generieren",
+          "title": "Video generieren",
           "url": "#video-generator",
           "target": "_self",
           "icon": "GoArrowUpRight"
@@ -249,11 +257,11 @@
     },
     {
       "name": "cta-features",
-      "title": "Erkunden Sie Seedance 2.0 Features",
-      "description": "Professionelle 1080p-Video-Generierung mit nativem Multi-Shot-Storytelling, vielfältigem Stilausdruck & erweiterte Seedance KI-Technologie",
+      "title": "Entdecken Sie die Funktionen des Seedance 2.0 KI-Videogenerators",
+      "description": "Überlegene Strukturkontrolle, multimodale Referenz, perfekte Konsistenz, realistische Physik und fortschrittliche Seedance ByteDance KI-Videogenerator-Technologie",
       "buttons": [
         {
-          "title": "Mehr Erfahren",
+          "title": "Mehr erfahren",
           "url": "#features",
           "target": "_self"
         }
@@ -263,33 +271,38 @@
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "Seedance 2.0",
-      "description": "Verwandeln Sie Text und Bilder mit Seedances fortschrittlicher Multi-Shot-Technologie in beeindruckende 1080p KI-Videos.",
+      "title": "Seedance 2.0 KI-Videogenerator",
+      "description": "Verwandeln Sie Text und Bilder in beeindruckende KI-Videos mit der überlegenen Strukturkontrolle und realistischen Physik von Seedance 2.0.",
       "logo": {
         "src": "/logo.png",
         "alt": "Seedance AI Video Generator"
       },
       "url": "/"
     },
-    "copyright": " 2026 • Seedance Alle Rechte vorbehalten.",
+    "copyright": " 2026 • Seedance AI Video Generator Alle Rechte vorbehalten.",
     "nav": {
       "items": [
         {
           "title": "Video-Tools",
           "children": [
             {
-              "title": "Text zu Video",
+              "title": "Text-zu-Video",
               "url": "/text-to-video",
               "target": "_self"
             },
             {
-              "title": "Bild zu Video",
+              "title": "Bild-zu-Video",
               "url": "/image-to-video",
               "target": "_self"
             },
             {
-              "title": "Referenz zu Video",
+              "title": "Referenz-zu-Video",
               "url": "/reference-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "Motion Control",
+              "url": "/motion-control",
               "target": "_self"
             }
           ]
@@ -325,6 +338,11 @@
             {
               "title": "Kling 3.0",
               "url": "/kling-3-0",
+              "target": "_self"
+            },
+            {
+              "title": "Kling Motion Control",
+              "url": "/kling-3-motion-control",
               "target": "_self"
             },
             {
@@ -411,7 +429,7 @@
       "title": "KONTAKT",
       "items": [
         {
-          "title": "E-Mail Support",
+          "title": "E-Mail-Support",
           "value": "support@seedance.tv",
           "icon": "RiMailFill",
           "url": "mailto:support@seedance.tv",
@@ -432,110 +450,110 @@
   },
   "introduce": {
     "name": "introduce",
-    "title": "Was ist der Seedance 2.0 KI-Video-Generator",
+    "title": "Was ist der Seedance 2.0 KI-Videogenerator",
     "label": "Einführung",
-    "description": "Seedance 2.0 ist ein revolutionärer KI-Video-Generator von ByteDance, der Textbeschreibungen in professionelle 1080p-Videos verwandelt. Dieser erweiterte KI-Video-Generator verfügt über bahnbrechende Multi-Shot-Storytelling-Fähigkeiten und kinematische Qualität, was Seedance ByteDance zur besten Wahl für Ersteller macht.",
+    "description": "Seedance 2.0 ist ein revolutionärer KI-Videogenerator von ByteDance, der Textbeschreibungen in professionelle 1080p-Videos verwandelt. Dieser fortschrittliche KI-Videogenerator bietet bahnbrechende Multi-Shot-Storytelling-Fähigkeiten und kinoreife Qualität und macht Seedance ByteDance zur ersten Wahl für Kreative.",
     "image": {
       "src": "https://r2.seedance.tv/intro/generator-intro.mp4"
     },
     "items": [
       {
-        "title": "KI-Video-Generator mit Multi-Shot-Storytelling",
-        "description": "Erstellen Sie komplexe Narrative mit flüssigen Shot-Übergängen und Charakterkonsistenz über mehrere Frames hinweg. Seedance ByteDance ermöglicht anspruchsvolles Video-Storytelling mit unserer fortschrittlichen KI-Video-Generator-Technologie.",
+        "title": "Multi-Shot-Storytelling KI-Videogenerator",
+        "description": "Erstellen Sie komplexe Erzählungen mit nahtlosen Szenenübergängen und Charakterkonsistenz über mehrere Aufnahmen hinweg. Seedance ByteDance ermöglicht anspruchsvolles Video-Storytelling mit unserer fortschrittlichen KI-Videogenerator-Technologie.",
         "icon": "RiFilmLine"
       },
       {
-        "title": "Professionelle 1080p KI-Video-Generator-Qualität",
-        "description": "Generieren Sie scharfe High-Definition-Videos mit kinematischer Ästhetik, flüssigen Bewegungen und reichen visuellen Details, perfekt für professionelle Nutzung. Der KI-Video-Generator Seedance 2.0 liefert unübertroffene Qualität.",
+        "title": "Professionelle 1080p-Qualität des KI-Videogenerators",
+        "description": "Erzeugen Sie gestochen scharfe hochauflösende Videos mit kinoreifer Ästhetik, flüssiger Bewegung und reichen visuellen Details – perfekt für den professionellen Einsatz. Der Seedance 2.0 KI-Videogenerator liefert unvergleichliche Qualität.",
         "icon": "RiHdLine"
       },
       {
-        "title": "Vielfältige Stilausdrücke",
-        "description": "Vom Fotorealismus bis zur Cyberpunk-Ästhetik passt sich der KI-Video-Generator Seedance ByteDance jeder kreativen Vision mit präziser künstlerischer Kontrolle und stilistischer Vielseitigkeit an, angetrieben von fortschrittlicher Video-Generator-Technologie.",
+        "title": "Vielfältiger Stilausdruck",
+        "description": "Von Fotorealismus bis Cyberpunk-Ästhetik – der Seedance ByteDance KI-Videogenerator passt sich jeder kreativen Vision mit präziser künstlerischer Kontrolle und Stilvielfalt an und nutzt dabei fortschrittliche Videogenerator-Technologie.",
         "icon": "RiPaletteLine"
       }
     ]
   },
   "feature": {
     "name": "feature",
-    "title": "Revolutionärer Seedance ByteDance KI-Video-Generator",
-    "description": "Erleben Sie bahnbrechende Technologie, die die Videoerstellung transformiert. Seedance ByteDance stellt die nächste Generation der KI-Video-Generator-Technologie vor und liefert professionelle Ergebnisse, die mit traditionellen Videoproduktionsmethoden konkurrieren können, durch fortschrittliche KI-Video-Generator-Fähigkeiten.",
+    "title": "Revolutionärer Seedance ByteDance KI-Videogenerator",
+    "description": "Erleben Sie die bahnbrechende Technologie, die die Videoerstellung verändert. Seedance ByteDance steht für die nächste Generation der KI-Videogenerator-Technologie und liefert professionelle Ergebnisse, die mit traditionellen Videoproduktionsmethoden mithalten – dank fortschrittlicher KI-Videogenerator-Fähigkeiten.",
     "items": [
       {
-        "title": "Bahnbrechende Seedance KI-Video-Generator-Technologie",
-        "description": "Angetrieben von hochmodernen künstlichen Intelligenz-Modellen, die speziell für die Videogenerierung entwickelt wurden. Der KI-Video-Generator Seedance ByteDance bietet beispiellose Qualität und kreative Kontrolle für die professionelle Inhaltserstellung mit unserem fortschrittlichen Video-Generator-System.",
+        "title": "Bahnbrechende Seedance KI-Videogenerator-Technologie",
+        "description": "Angetrieben von modernsten KI-Modellen, die speziell für die Videogenerierung entwickelt wurden. Der Seedance ByteDance KI-Videogenerator liefert beispiellose Qualität und kreative Kontrolle für professionelle Inhaltserstellung mit unserem fortschrittlichen Videogenerator-System.",
         "icon": "RiRobot2Line"
       },
       {
-        "title": "Text-zu-Video KI-Video-Generator-Innovation",
-        "description": "Verwandeln Sie einfache Textbeschreibungen in atemberaubende visuelle Inhalte mit Seedance 2.0. Unser fortschrittlicher KI-Video-Generator versteht komplexe Narrative, visuelle Stile und kreative Richtungen mit bemerkenswerter Präzision, angetrieben von Seedance ByteDance-Technologie.",
+        "title": "Innovation beim Text-zu-Video KI-Videogenerator",
+        "description": "Verwandeln Sie einfache Textbeschreibungen mit Seedance 2.0 in beeindruckende visuelle Inhalte. Unser fortschrittlicher KI-Videogenerator versteht komplexe Erzählungen, visuelle Stile und kreative Anweisungen mit bemerkenswerter Präzision dank Seedance ByteDance-Technologie.",
         "icon": "RiQuillPenLine"
       },
       {
-        "title": "Professionelle Video-Generator-Ausgabequalität",
-        "description": "Generieren Sie kinematische 1080p-Videos mit flüssigen Bewegungen, reichen Details und kinematischer Ästhetik, die professionellen Standards entsprechen. Der KI-Video-Generator Seedance produziert kommerzielle Qualitätsinhalte bei jeder Generierung.",
+        "title": "Professionelle Videogenerator-Ausgabequalität",
+        "description": "Erzeugen Sie kinoreife 1080p-Videos mit flüssiger Bewegung, reichen Details und kinoreifer Ästhetik, die professionellen Standards entsprechen. Der Seedance KI-Videogenerator produziert bei jeder Generierung Inhalte in kommerzieller Qualität.",
         "icon": "RiVideoLine"
       },
       {
-        "title": "Sofortige KI-Video-Generator-Erstellung",
-        "description": "Erstellen Sie professionelle Videos in Minuten statt Stunden mit Seedance ByteDance. Unser revolutionärer KI-Video-Generator eliminiert die Notwendigkeit für teure Ausrüstung, Filmcrews oder komplexe Bearbeitungssoftware durch fortschrittliche Video-Generator-Automatisierung.",
+        "title": "Sofortige Erstellung mit dem KI-Videogenerator",
+        "description": "Erstellen Sie mit Seedance ByteDance professionelle Videos in Minuten statt in Stunden. Unser revolutionärer KI-Videogenerator macht teure Ausrüstung, Teams oder komplexe Schnittsoftware überflüssig – dank fortschrittlicher Videogenerator-Automatisierung.",
         "icon": "RiTimerLine"
       },
       {
-        "title": "Unbegrenzte kreative Möglichkeiten mit KI-Video-Generator",
-        "description": "Von Unternehmenspräsentationen bis zu künstlerischen Meisterwerken - generieren Sie jeden erdenklichen Videostil mit Seedance 2.0. Keine kreativen Grenzen, keine technischen Einschränkungen mit unserer fortschrittlichen KI-Video-Generator-Plattform.",
+        "title": "Unbegrenzte kreative Möglichkeiten mit dem KI-Videogenerator",
+        "description": "Von Unternehmenspräsentationen bis zu künstlerischen Meisterwerken – erzeugen Sie mit Seedance 2.0 jeden erdenklichen Videostil. Keine kreativen Grenzen, keine technischen Einschränkungen mit unserer fortschrittlichen KI-Videogenerator-Plattform.",
         "icon": "RiInfinityLine"
       },
       {
-        "title": "Nächste Generation KI-Video-Generator-Features",
-        "description": "Multi-Shot-Storytelling, Charakterkonsistenz und erweiterte Kamerakontrolle stellen die Zukunft der KI-Video-Generator-Technologie dar. Seedance ByteDance stellt diese Features heute durch fortschrittliche Video-Generator-Innovation zur Verfügung.",
+        "title": "Funktionen der nächsten Generation des KI-Videogenerators",
+        "description": "Multi-Shot-Storytelling, Charakterkonsistenz und fortschrittliche Kamerasteuerung stehen für die Zukunft der KI-Videogenerator-Technologie. Seedance ByteDance liefert diese Funktionen schon heute – dank modernster Videogenerator-Innovation.",
         "icon": "RiStarLine"
       }
     ]
   },
   "testimonial": {
     "name": "testimonial",
-    "label": "Kundenstimmen",
-    "title": "Was Kreative über den Seedance 2.0 Video-Generator sagen",
-    "description": "Entdecken Sie, wie Seedance 2.0 die Videoerstellung mit bahnbrechender KI-Technologie revolutioniert hat. Von Multi-Shot-Storytelling bis zu vielfältigem Stilausdruck vertrauen Kreative weltweit auf Seedance für professionelle Videogenerierung mit Kinoqualität und nahtloser Workflow-Integration.",
+    "label": "Testimonial",
+    "title": "Was Kreative über den Seedance 2.0 KI-Videogenerator sagen",
+    "description": "Entdecken Sie, wie der Seedance 2.0 KI-Videogenerator die Videoerstellung mit bahnbrechender Technologie revolutioniert hat. Von Multi-Shot-Storytelling bis zu vielfältigem Stilausdruck – Kreative weltweit vertrauen auf Seedance ByteDance für professionelle Videogenerierung mit kinoreifer Qualität und nahtloser Workflow-Integration über unsere fortschrittliche KI-Videogenerator-Plattform.",
     "icon": "GoThumbsup",
     "items": [
       {
         "title": "Sarah Johnson",
         "label": "Content Creator",
-        "description": "Seedance 2.0 hat meinen Content-Erstellungs-Workflow komplett transformiert. Seedances fortschrittliche KI versteht meine Prompts perfekt und generiert kinoreife 1080p-Videos mit flüssigen Bewegungen und reichen Details. Die Multi-Shot-Storytelling-Funktion von Seedance ist revolutionär für Kreative.",
+        "description": "Der Seedance 2.0 KI-Videogenerator hat meinen Content-Creation-Workflow komplett verändert. Der fortschrittliche KI-Videogenerator von Seedance ByteDance versteht meine Prompts perfekt und erzeugt 1080p-Videos in Kinoqualität mit flüssiger Bewegung und reichen Details. Die Multi-Shot-Storytelling-Funktion des Seedance KI-Videogenerators ist revolutionär für Kreative, die diese fortschrittliche Videogenerator-Technologie nutzen.",
         "image": {
           "src": "/imgs/users/1.png"
         }
       },
       {
         "title": "Michael Chen",
-        "label": "Marketing-Direktor",
-        "description": "Seedance 2.0 ist unglaublich für Marketing-Kampagnen. Seedances Kinoqualität ist herausragend, und die Multi-Agent-Interaktions-Features ermöglichen komplexes Storytelling. Mit Seedance kann ich mühelos mehrere Video-Variationen mit verschiedenen Stilen erstellen - vom Fotorealismus bis zur Cyberpunk-Ästhetik.",
+        "label": "Marketing Director",
+        "description": "Der Seedance 2.0 KI-Videogenerator ist für Marketingkampagnen großartig. Die Kinoqualität von Seedance ByteDance ist herausragend, und die Multi-Agent-Interaktionsfunktionen ermöglichen komplexes Storytelling. Mit dem Seedance KI-Videogenerator kann ich mühelos mehrere Videovarianten in unterschiedlichen Stilen erstellen – von Fotorealismus bis Cyberpunk-Ästhetik – mit diesem leistungsstarken Videogenerator.",
         "image": {
           "src": "/imgs/users/2.png"
         }
       },
       {
         "title": "Emily Rodriguez",
-        "label": "Social Media Managerin",
-        "description": "Die Konsistenz und Qualität der Videos von Seedance 2.0 ist erstaunlich. Mit Seedances nativem Multi-Shot-Storytelling kann ich visuelle Konsistenz über komplexe Sequenzen hinweg beibehalten und täglich frischen Content erstellen. Seedances Stilvielfalt und Prompt-Following-Genauigkeit ist in der Branche unübertroffen.",
+        "label": "Social Media Manager",
+        "description": "Die Konsistenz und Qualität der Videos des Seedance 2.0 KI-Videogenerators sind erstaunlich. Mit dem nativen Multi-Shot-Storytelling von Seedance ByteDance kann ich über komplexe Sequenzen hinweg visuelle Konsistenz bewahren, während ich täglich neue Inhalte erstelle. Die Stilvielfalt und die Genauigkeit der Prompt-Umsetzung des Seedance KI-Videogenerators sind in der KI-Videogenerator-Branche unübertroffen.",
         "image": {
           "src": "/imgs/users/3.png"
         }
       },
       {
         "title": "David Kumar",
-        "label": "YouTuber & Pädagoge",
-        "description": "Seedance 2.0 hilft mir dabei, Bildungsinhalte zu erstellen, die mein Publikum fesseln. Von fotorealistischen Demonstrationen bis zu animierten Erklärungen behandelt Seedances fortschrittliche KI alles mit kinematischer Ästhetik. Die flüssigen Bewegungen und reichen Details in Seedance-Videos halten die Zuschauer durchgehend engagiert.",
+        "label": "YouTuber & Educator",
+        "description": "Der Seedance 2.0 KI-Videogenerator hilft mir, Bildungsinhalte zu erstellen, die mein Publikum fesseln. Von fotorealistischen Demonstrationen bis zu animierten Erklärungen – der fortschrittliche KI-Videogenerator von Seedance ByteDance meistert alles mit kinoreifer Ästhetik. Die flüssige Bewegung und die reichen Details in Seedance-Videos halten die Zuschauer durchgehend engagiert – dank dieser überlegenen Videogenerator-Technologie.",
         "image": {
           "src": "/imgs/users/4.png"
         }
       },
       {
         "title": "Lisa Wang",
-        "label": "Unabhängige Filmemacherin",
-        "description": "Seedance 2.0 hat mein kreatives Potenzial als Filmemacherin freigesetzt. Mit Seedances bahnbrechender Technologie kann ich Szenen prototypisieren, Konzeptvideos mit Multi-Shot-Narrativen erstellen und mit visuellem Storytelling experimentieren. Seedances präzise Kamerabewegungssteuerung und breite Dynamikrange ist perfekt für professionelles Filmemachen.",
+        "label": "Independent Filmmaker",
+        "description": "Der Seedance 2.0 KI-Videogenerator hat mein kreatives Potenzial als Filmemacherin entfesselt. Mit der bahnbrechenden Technologie von Seedance ByteDance kann ich Szenen prototypisieren, Konzeptvideos mit Multi-Shot-Erzählungen erstellen und mit visuellem Storytelling experimentieren. Die präzise Kamerabewegungssteuerung und der breite Dynamikumfang des Seedance KI-Videogenerators sind perfekt für professionelles Filmemachen mit fortschrittlichen Videogenerator-Fähigkeiten.",
         "image": {
           "src": "/imgs/users/5.png"
         }
@@ -543,7 +561,7 @@
       {
         "title": "Alex Thompson",
         "label": "Digital Artist",
-        "description": "Die Präzision und künstlerische Qualität von Seedance 2.0 ist bemerkenswert. Seedance versteht komplexe künstlerische Anweisungen und erstellt Videos, die perfekt zu meiner kreativen Vision passen. Von Cyberpunk bis zu Illustrationsstilen ermöglichen Seedances vielfältige Stilausdrucks-Fähigkeiten unbegrenzte kreative Erkundung mit professionellen Ergebnissen.",
+        "description": "Die Präzision und künstlerische Qualität des Seedance 2.0 KI-Videogenerators sind bemerkenswert. Seedance ByteDance versteht komplexe künstlerische Anweisungen und erstellt Videos, die meiner kreativen Vision perfekt entsprechen. Von Cyberpunk- bis Illustrationsstilen – die vielfältigen Stilausdrucksfähigkeiten des Seedance KI-Videogenerators ermöglichen unbegrenzte kreative Erkundung mit professionellen Ergebnissen auf dieser modernen Videogenerator-Plattform.",
         "image": {
           "src": "/imgs/users/6.png"
         }
@@ -551,60 +569,60 @@
     ]
   },
   "gettingStarted": {
-    "title": "Wie Sie Videos mit Seedance AI Video Generator erstellen",
-    "description": "Beginnen Sie in Minuten mit der Generierung professioneller 1080p-Videos mit Seedance ByteDance. Einfach, schnell und kraftvoll.",
+    "title": "So erstellen Sie Videos mit dem Seedance KI-Videogenerator",
+    "description": "Beginnen Sie mit Seedance ByteDance in Minuten mit der Erstellung professioneller 1080p-Videos. Einfach, schnell und leistungsstark.",
     "steps": [
       {
         "step": 1,
         "title": "Beschreiben Sie Ihre Vision",
-        "description": "Schreiben Sie einen detaillierten Text-Prompt, der Ihr Video-Konzept beschreibt. Seedance AI Video Generator versteht komplexe Anweisungen und künstlerische Stile.",
+        "description": "Verfassen Sie einen detaillierten Text-Prompt, der Ihr Videokonzept beschreibt. Der Seedance KI-Videogenerator versteht komplexe Anweisungen und künstlerische Stile.",
         "icon": "RiEditLine"
       },
       {
         "step": 2,
         "title": "Wählen Sie Ihre Einstellungen",
-        "description": "Wählen Sie Video-Dauer, Seitenverhältnis und Stil-Präferenzen. Wählen Sie aus 1080p-Qualität mit vielfältigen künstlerischen Ausdrücken.",
+        "description": "Wählen Sie Videodauer, Seitenverhältnis und Stilpräferenzen. Wählen Sie aus 1080p-Qualität mit vielfältigen künstlerischen Ausdrucksformen.",
         "icon": "RiSettings3Line"
       },
       {
         "step": 3,
         "title": "Generieren Sie Ihr Video",
-        "description": "Schauen Sie zu, wie Seedance AI Video Generator Ihre Ideen in professionell-qualitative Videos mit kinematischer Ästhetik verwandelt.",
+        "description": "Sehen Sie zu, wie der Seedance KI-Videogenerator Ihre Ideen in professionelle Videos mit kinoreifer Ästhetik verwandelt.",
         "icon": "RiPlayLine"
       },
       {
         "step": 4,
         "title": "Herunterladen & Teilen",
-        "description": "Greifen Sie auf Ihr fertiges Video in High-Definition-Qualität zu. Verwenden Sie es für Marketing, Social Media oder jeden kommerziellen Zweck.",
+        "description": "Greifen Sie auf Ihr fertiges Video in hochauflösender Qualität zu. Nutzen Sie es für Marketing, soziale Medien oder jeden kommerziellen Zweck.",
         "icon": "RiDownloadLine"
       }
     ],
     "cta": {
-      "title": "Beginnen Sie mit der Erstellung mit Seedance AI Video Generator",
+      "title": "Jetzt mit dem Seedance KI-Videogenerator loslegen",
       "url": "#video-generator"
     }
   },
   "questionExamples": {
-    "title": "Video-Ideen: ",
+    "title": "Ideen für den KI-Videogenerator: ",
     "examples": [
       {
-        "text": "Erstelle eine kinematische Drohnenaufnahme, die bei Sonnenuntergang über eine futuristische Stadt fliegt, mit Neonlichtern, die sich in Glasgebäuden spiegeln",
-        "label": "Kinematische Stadtlandschaft",
+        "text": "Erstellen Sie eine kinoreife Drohnenaufnahme über eine futuristische Stadt bei Sonnenuntergang mit Neonlichtern, die sich in Glasgebäuden spiegeln, mit dem Seedance KI-Videogenerator",
+        "label": "Kinoreife Stadtlandschaft mit KI-Videogenerator",
         "type": "single"
       },
       {
-        "text": "Generiere ein Produktdemonstrations-Video, das ein Smartphone mit flüssigen Kamerabewegungen und professioneller Beleuchtung zeigt",
-        "label": "Produkt-Demo",
+        "text": "Erzeugen Sie ein Produktdemovideo eines Smartphones mit flüssigen Kamerabewegungen und professioneller Beleuchtung mithilfe der Seedance ByteDance-Technologie",
+        "label": "Produktdemo-KI-Videogenerator",
         "type": "single"
       },
       {
-        "text": "Erstelle ein animiertes Erklärvideo über erneuerbare Energien mit bunten Grafiken und flüssigen Übergängen",
-        "label": "Bildungsanimation",
+        "text": "Erstellen Sie ein animiertes Erklärvideo über erneuerbare Energien mit farbenfrohen Grafiken und flüssigen Übergängen mit dem Seedance 2.0 KI-Videogenerator",
+        "label": "Bildungsanimation Videogenerator",
         "type": "single"
       },
       {
-        "text": "Erstelle ein Naturdokumentations-Video eines Waldes mit Wildtieren, Morgennebel und Golden-Hour-Beleuchtung",
-        "label": "Naturdokumentation",
+        "text": "Erstellen Sie ein Naturdokumentationsvideo eines Waldes mit Wildtieren, Morgennebel und Goldener-Stunden-Beleuchtung mithilfe der Seedance KI-Videogenerator-Technologie",
+        "label": "Naturdokumentation KI-Videogenerator",
         "type": "single"
       }
     ]
@@ -616,54 +634,54 @@
     },
     "questions": {
       "marketing1": {
-        "text": "Erstelle ein dynamisches Marketing-Video, das unser Produkt mit professionellen Kamerabewegungen und ansprechenden Visuals präsentiert",
+        "text": "Erstellen Sie ein dynamisches Marketingvideo, das unser Produkt mit professionellen Kamerabewegungen und ansprechenden Visuals präsentiert – mit dem Seedance KI-Videogenerator",
         "reading_type": "single",
         "category": "marketing",
         "tag": "new"
       },
       "social1": {
-        "text": "Generiere ein trendiges Social-Media-Video mit lebendigen Farben und flüssigen Übergängen, perfekt für Instagram und TikTok",
+        "text": "Erzeugen Sie ein angesagtes Social-Media-Video mit lebendigen Farben und flüssigen Übergängen, perfekt für Instagram und TikTok, mit dem Seedance ByteDance KI-Videogenerator",
         "reading_type": "single",
         "category": "social",
         "tag": "new"
       },
       "education1": {
-        "text": "Erstelle ein Bildungsvideo, das komplexe Konzepte mit klaren Animationen und ansprechendem visuellen Storytelling erklärt",
+        "text": "Erstellen Sie ein Lehrvideo, das komplexe Konzepte mit klaren Animationen und ansprechendem visuellen Storytelling erklärt, mit dem Seedance 2.0 Videogenerator",
         "reading_type": "single",
         "category": "education"
       },
       "creative1": {
-        "text": "Erstelle ein künstlerisches Video mit abstrakten Visuals, kreativen Kamerawinkeln und experimentellen visuellen Effekten",
+        "text": "Erstellen Sie ein künstlerisches Video mit abstrakten Visuals, kreativen Kamerawinkeln und experimentellen visuellen Effekten mit dem Seedance KI-Videogenerator",
         "reading_type": "single",
         "category": "creative"
       },
       "business1": {
-        "text": "Generiere ein professionelles Business-Präsentations-Video mit sauberen Grafiken und Corporate-Styling",
+        "text": "Erzeugen Sie ein professionelles Business-Präsentationsvideo mit klaren Grafiken und Corporate-Design mit dem Seedance ByteDance Videogenerator",
         "reading_type": "single",
         "category": "business"
       },
       "entertainment1": {
-        "text": "Erstelle ein unterhaltsames Video mit dynamischen Action-Sequenzen und kinematischen Storytelling-Elementen",
+        "text": "Erstellen Sie ein unterhaltsames Video mit dynamischen Actionsequenzen und kinoreifen Storytelling-Elementen mit der Seedance KI-Videogenerator-Technologie",
         "reading_type": "single",
         "category": "entertainment"
       },
       "tutorial1": {
-        "text": "Erstelle ein Schritt-für-Schritt-Tutorial-Video mit klaren Demonstrationen und hilfreichen visuellen Anleitungen",
+        "text": "Erstellen Sie ein Schritt-für-Schritt-Tutorialvideo mit klaren Demonstrationen und hilfreichen visuellen Leitfäden mit dem Seedance 2.0 KI-Videogenerator",
         "reading_type": "single",
         "category": "tutorial"
       },
       "lifestyle1": {
-        "text": "Generiere ein Lifestyle-Video mit schöner Ästhetik, natürlicher Beleuchtung und inspirierenden Visuals",
+        "text": "Erzeugen Sie ein Lifestyle-Video mit schöner Ästhetik, natürlichem Licht und inspirierenden Visuals mit dem Seedance ByteDance KI-Videogenerator",
         "reading_type": "single",
         "category": "lifestyle"
       },
       "tech1": {
-        "text": "Erstelle ein Technologie-Showcase-Video mit futuristischen Elementen und schlankem Visual Design",
+        "text": "Erstellen Sie ein Technologie-Showcase-Video mit futuristischen Elementen und elegantem Design mit der Seedance KI-Videogenerator-Plattform",
         "reading_type": "single",
         "category": "technology"
       },
       "travel1": {
-        "text": "Generiere ein Reise-Video, das atemberaubende Landschaften mit kinematischen Kamerabewegungen und lebendigen Farben einfängt",
+        "text": "Erzeugen Sie ein Reisevideo, das atemberaubende Landschaften mit kinoreifen Kamerabewegungen und lebendigen Farben einfängt, mit dem Seedance 2.0 Videogenerator",
         "reading_type": "single",
         "category": "travel"
       }

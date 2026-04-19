@@ -158,6 +158,8 @@ export class ProviderFactory {
     switch (modelConfig?.modelName) {
       case VideoModel.SORA2:
         return "sora2";
+      case VideoModel.KLING3_MOTION_CONTROL:
+        return "kling3";
       case VideoModel.KLING3:
         return "kling3";
       case VideoModel.HAILUO_2_3:

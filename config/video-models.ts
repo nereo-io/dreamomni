@@ -24,6 +24,7 @@ export enum VideoModel {
   VEO3 = "veo3",
   SORA2 = "sora2",
   KLING3 = "kling3",
+  KLING3_MOTION_CONTROL = "kling3-motion-control",
   HAILUO_2_3 = "hailuo-2.3",
   WAN_2_5 = "wan-2.5",
 }
@@ -60,6 +61,10 @@ export interface VideoModelConfig {
     maxImages: number; // 支持的最大图片数量（1-3）
     minImages?: number; // 最小图片数量（可选）
     labels?: string[]; // 图片标签，如 ['First Frame', 'Last Frame']
+  };
+  characterOrientationConfig?: {
+    image: { maxDuration: number };
+    video: { maxDuration: number };
   };
   /** The actual AI model this config represents */
   modelName?: VideoModel;
@@ -565,6 +570,31 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     },
   },
 
+  // Kie.ai Kling 3.0 Motion Control 模型
+  "kie-kling-3-motion-control": {
+    id: "kie-kling-3-motion-control",
+    name: "Kie.ai Kling 3.0 Motion Control",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    providerModelId: "kling-3.0/motion-control",
+    modelName: VideoModel.KLING3_MOTION_CONTROL,
+    displayName: "Kling 3.0 Motion",
+    perSecondCredits: 6, // 720p std baseline
+    description: "Control character movement with a reference video",
+    features: ["Motion Control", "Up to 30s", "720p/1080p"],
+    supportedAspectRatios: ["Auto"],
+    supportsAudio: false, // Motion control documentation doesn't mention audio support
+    estimatedGenerationTime: 360,
+    useSignedCallback: true,
+    supportedResolutions: ["720p", "1080p"],
+    generationType: "MOTION_CONTROL",
+    imageCapabilities: {
+      maxImages: 1,
+      labels: ["Character Image"],
+    },
+    characterOrientationConfig: { image: { maxDuration: 10 }, video: { maxDuration: 30 } },
+  },
+
   // // Kie.ai Hailuo 2.3 图片转视频模型
   // "kie-hailuo-2-3-image-to-video": {
   //   id: "kie-hailuo-2-3-image-to-video",
@@ -1029,16 +1059,18 @@ export function calculateCredits(
   }
 
   // Kie.ai Kling 3.0 模型定价
-  // 720p std no-audio: 6 credits/s（基准）
-  // 1080p pro no-audio: 8 credits/s
-  // 720p std with-audio: 10 credits/s
-  // 1080p pro with-audio: 13 credits/s
+  // 标准 Kling: 720p std 6cr/s, 1080p pro 8cr/s, +audio 720p +4cr/s, 1080p +5cr/s
+  // Motion Control: 720p 6cr/s, 1080p 8.1cr/s（+35%）
   if (isKieAiKlingModel(modelId)) {
     const isPro = normalizedResolution === "1080p";
+    const isMotionControl =
+      getVideoModel(modelId)?.modelName === VideoModel.KLING3_MOTION_CONTROL;
     if (isPro) {
-      totalCredits = totalCredits * 4 / 3; // 8/6
+      totalCredits = isMotionControl
+        ? Math.round(totalCredits * 1.35) // Motion Control 1080p = 720p * 1.35
+        : (totalCredits * 4) / 3; // 标准 Kling 1080p = 8/6
     }
-    if (hasAudio) {
+    if (hasAudio && !isMotionControl) {
       totalCredits += duration * (isPro ? 5 : 4);
     }
   }
@@ -1179,7 +1211,10 @@ export function isKieAiVeo3Model(modelId: string): boolean {
 export function isKieAiKlingModel(modelId: string): boolean {
   const model = getVideoModel(modelId);
   if (model?.modelName) {
-    return model.modelName === VideoModel.KLING3;
+    return (
+      model.modelName === VideoModel.KLING3 ||
+      model.modelName === VideoModel.KLING3_MOTION_CONTROL
+    );
   }
   return modelId.includes("kie-kling-3-");
 }

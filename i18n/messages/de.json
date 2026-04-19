@@ -29,6 +29,11 @@
     "description": "Testen Sie Kling 3.0 mit nativem Audio, Multi-Shot-Storytelling, stärkerer Element-Konsistenz, mehrsprachigen Stimmen und bis zu 15s Ausgabe auf Seedance.",
     "keywords": "Kling 3.0, Kling AI, KI-Videogenerator, Text zu Video, Bild zu Video, natives Audio, Multi-Shot, Seedance"
   },
+  "kling-3-motion-control": {
+    "title": "Kling Motion Control kostenlos: KI-Motion-Transfer online | Veo3 AI",
+    "description": "Nutze Kling Motion Control kostenlos auf Veo3 AI. Lade ein Referenzvideo hoch und übertrage die Bewegung auf jeden Charakter – ohne Wasserzeichen, ohne Kreditkarte.",
+    "keywords": "Kling Motion Control, Kling AI motion control, motion control AI video, free motion control, Kling motion transfer, Veo3 AI"
+  },
   "seedance-1-5": {
     "title": "Seedance 1.5 Pro: ByteDance Audio-Video KI | Seedance",
     "description": "Seedance 1.5 Pro von ByteDance bietet native Audio-Visual-Generierung, mehrsprachige Lippen-Synchronisierung und filmische Kamerasteuerung. Kostenlos testen!",
@@ -76,6 +81,7 @@
     "image_to_video": "Bild zu Video",
     "text_to_video": "Text zu Video",
     "reference_to_video": "Referenz zu Video",
+    "motion_control": "Bewegungssteuerung",
     "text_to_image": "Text zu Bild",
     "image_to_image": "Bild zu Bild",
     "text_to_music": "Text zu Musik",
@@ -459,10 +465,37 @@
       "emptyPrompt": "Bitte geben Sie eine Beschreibung ein",
       "videoSubmitted": "Video-Generierungs-Aufgabe übermittelt, wird verarbeitet...",
       "videoCompleted": "Video-Generierung abgeschlossen!",
-      "videoFailed": "Video-Generierung fehlgeschlagen"
+      "videoFailed": "Video-Generierung fehlgeschlagen",
+      "uploadVideoRequired": "Bitte laden Sie ein Referenzvideo hoch"
     },
     "videoEffect": "Video-Effekt",
-    "chooseVideoEffect": "Video-Effekt wählen"
+    "chooseVideoEffect": "Video-Effekt wählen",
+    "motionControlHelpVideoTitle": "Referenzvideo",
+    "motionControlHelpVideoDesc": "Der Charakter im generierten Video führt dieselben Aktionen wie in diesem Video aus. Stellen Sie sicher, dass der Oberkörper oder Ganzkörper deutlich sichtbar ist und die Bewegungen ruhig und gleichmäßig sind.",
+    "motionControlHelpImageTitle": "Referenzbild",
+    "motionControlHelpImageDesc": "Aussehen, Kleidung und Hintergrund des Charakters im generierten Video basieren auf diesem Bild. Die Körperproportionen sollten dem Referenzvideo ähneln.",
+    "motionControlHelpOrientationNote": "Ausrichtung auf \"Video\" unterstützt bis zu 30 Sek. Auf \"Bild\" bis zu 10 Sek.",
+    "motionControlTip": "Stellen Sie sicher, dass der Oberkörper in Bild und Video deutlich sichtbar ist. Bild: JPG/PNG, max. 10 MB. Video: MP4/MOV, 3-30 Sek.",
+    "mediaMentionHint": "Tippen Sie @, um hochgeladene Materialien zu referenzieren",
+    "titleMotionControl": "Bewegungssteuerung",
+    "uploadVideo": "Video",
+    "characterImage": "Charakterbild",
+    "referenceVideo": "Referenzvideo",
+    "motionMode": "Generierungsmodus",
+    "motionModeStd": "Standard (720p)",
+    "motionModePro": "Professionell (1080p)",
+    "characterOrientation": "Charakterausrichtung",
+    "addVideoToMimic": "Video für Bewegungsreferenz hinzufügen",
+    "addCharacterImage": "Charakterbild-Referenz hinzufügen",
+    "motionLibrary": "Bewegungsbibliothek",
+    "historyCreations": "Bisherige Kreationen",
+    "orientationImage": "Konsistent mit Bild",
+    "orientationVideo": "Konsistent mit Video",
+    "backgroundSource": "Hintergrundquelle",
+    "bgSourceVideo": "Eingabevideo",
+    "bgSourceImage": "Eingabebild",
+    "helpVideo": "Referenzvideo für Charakterbewegung. Der generierte Charakter imitiert Bewegungen aus diesem Video. MP4/MOV, 3-30s, Oberkörper muss klar sichtbar sein.",
+    "helpImage": "Referenzbild des Charakters. Das generierte Video behält das Aussehen bei. JPG/PNG, max 10MB, min 300px, Verhältnis 2:5 bis 5:2."
   },
   "video-history": {
     "title": "Video-Generierungs-Verlauf",
@@ -696,6 +729,11 @@
       "title": "Kostenlos Veo3 Referenz zu Video: Charakteridentität sperren | Seedance",
       "description": "Laden Sie 1-3 Referenzbilder hoch und generieren Sie 8s-Videos mit Veo 3.1. Bewahren Sie das Aussehen von Charakteren über Szenen hinweg mit nativem Audio. Erweitern Sie auf 148s.",
       "keywords": "Veo3 Referenz zu Video, konsistenter Charakter, Identitätssperre, Veo 3.1, Charakterkonsistenz"
+    },
+    "motionControl": {
+      "title": "Kling Bewegungssteuerung - Referenzvideo-Charakteranimation | Veo3 AI",
+      "description": "Animieren Sie Ihre Charakterbilder mit Referenzvideos und Kling 3.0 Bewegungssteuerung. Perfekte Charakterbewegung und Konsistenz.",
+      "keywords": "Kling Bewegungssteuerung, Kling 3.0, Charakteranimation, Video zu Video, Referenzvideo-Animation, KI-Videogenerator, Veo3 AI"
     },
     "imageGeneration": {
       "title": "Kostenloser KI-Bildgenerator: Erstellen Sie atemberaubende Bilder aus Text | Seedance",

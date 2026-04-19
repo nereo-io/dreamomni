@@ -130,6 +130,8 @@ export async function POST(req: Request) {
       effect_id, // 新增：特效ID
       captchaToken, // 新增：CAPTCHA token
       generationType, // 新增：视频生成类型（如 REFERENCE_2_VIDEO）
+      character_orientation, // 新增：角色方向（用于 Kling Motion Control）
+      background_source, // 新增：背景来源（用于 Kling Motion Control）
       ...otherParams
     } = await req.json();
 
@@ -495,7 +497,9 @@ export async function POST(req: Request) {
       if (generate_audio !== undefined && modelConfig.supportsAudio) {
         input.generate_audio = generate_audio;
       }
-    } else if (isKieAiModel(finalModel)) {
+    }
+    // Kie.ai 独立分支（不与上方互斥，Kie.ai Kling 等模型可同时命中 isKlingModel + isKieAiModel）
+    if (isKieAiModel(finalModel)) {
       // Kie.ai 模型特有参数（支持双图）
       if (finalImageUrls && finalImageUrls.length > 0) {
         input.image_urls = finalImageUrls;
@@ -517,7 +521,19 @@ export async function POST(req: Request) {
       if (isSora2Model(finalModel)) {
         delete input.resolution;
       }
-    } else if (isAliModel(finalModel)) {
+      // Kie.ai media_urls（混合素材：图片/视频）— Provider 负责按模型变体映射
+      if (media_urls && Array.isArray(media_urls) && media_urls.length > 0) {
+        input.media_urls = media_urls;
+      }
+      if (character_orientation) {
+        input.character_orientation = character_orientation;
+      }
+      if (background_source) {
+        input.background_source = background_source;
+      }
+    }
+
+    if (isAliModel(finalModel)) {
       // 阿里百炼模型特有参数
       if (finalImageUrls && finalImageUrls.length > 0) {
         input.image_urls = finalImageUrls;

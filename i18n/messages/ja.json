@@ -29,6 +29,11 @@
     "description": "ネイティブオーディオ、マルチショットストーリーテリング、要素の一貫性、多言語ボイス、最大15秒出力のKling 3.0 AI動画ジェネレーターを試す。SeedanceでKling 3.0動画を作成。",
     "keywords": "Kling 3.0, Kling AI, AI動画ジェネレーター, テキストから動画, 画像から動画, ネイティブオーディオ, マルチショット, Seedance"
   },
+  "kling-3-motion-control": {
+    "title": "Kling Motion Control無料：AIモーション転送オンライン | Veo3 AI",
+    "description": "Veo3 AIでKling Motion Controlを無料で利用。参照動画をアップロードし、あらゆるキャラクターに動きを適用 — 透かしなし、クレジットカード不要。",
+    "keywords": "Kling Motion Control, Kling AI モーションコントロール, モーション転送 AI 動画, 無料 モーションコントロール, Kling motion transfer, Veo3 AI"
+  },
   "seedance-1-5": {
     "title": "Seedance 1.5 Pro: ByteDanceオーディオビデオAI | Seedance",
     "description": "ByteDanceのSeedance 1.5 Proは、ネイティブオーディオビジュアル生成、多言語リップシンク、シネマティックカメラコントロールを搭載。無料でお試しください！",
@@ -80,6 +85,7 @@
     "image_to_video": "画像から動画",
     "text_to_video": "テキストから動画",
     "reference_to_video": "リファレンスから動画",
+    "motion_control": "モーションコントロール",
     "text_to_image": "テキストから画像",
     "image_to_image": "画像から画像",
     "text_to_music": "テキストから音楽",
@@ -465,8 +471,35 @@
       "emptyPrompt": "説明を入力してください",
       "videoSubmitted": "動画生成タスクが送信されました、処理中...",
       "videoCompleted": "動画生成が完了しました！",
-      "videoFailed": "動画生成に失敗しました"
-    }
+      "videoFailed": "動画生成に失敗しました",
+      "uploadVideoRequired": "参照動画をアップロードしてください"
+    },
+    "motionControlHelpVideoTitle": "参照動画",
+    "motionControlHelpVideoDesc": "生成動画のキャラクターがこの動画と同じ動作を行います。上半身または全身がはっきり見え、滑らかで安定した動きであることを確認してください。",
+    "motionControlHelpImageTitle": "参照画像",
+    "motionControlHelpImageDesc": "生成動画のキャラクターの外見、衣装、背景はこの画像に基づきます。体のプロポーションは参照動画と近いものにしてください。",
+    "motionControlHelpOrientationNote": "向きを「動画」に設定すると最大30秒、「画像」に設定すると最大10秒まで対応します。",
+    "motionControlTip": "画像と動画の両方で上半身がはっきり見えるようにしてください。画像：JPG/PNG、最大10MB。動画：MP4/MOV、3-30秒。",
+    "mediaMentionHint": "@を入力してアップロード済み素材を参照",
+    "titleMotionControl": "モーションコントロール",
+    "uploadVideo": "動画",
+    "characterImage": "キャラクター画像",
+    "referenceVideo": "参照動画",
+    "motionMode": "生成モード",
+    "motionModeStd": "スタンダード (720p)",
+    "motionModePro": "プロフェッショナル (1080p)",
+    "characterOrientation": "キャラクターの向き",
+    "addVideoToMimic": "モーション参照用の動画を追加",
+    "addCharacterImage": "キャラクター参照画像を追加",
+    "motionLibrary": "モーションライブラリ",
+    "historyCreations": "過去の作品",
+    "orientationImage": "画像と一致",
+    "orientationVideo": "動画と一致",
+    "backgroundSource": "背景ソース",
+    "bgSourceVideo": "入力動画",
+    "bgSourceImage": "入力画像",
+    "helpVideo": "キャラクターモーションの参照動画。生成されるキャラクターはこの動画の動きを模倣します。MP4/MOV、3-30秒、上半身が明確に映っている必要があります。",
+    "helpImage": "キャラクター参照画像。生成される動画はこのキャラクターの外観を維持します。JPG/PNG、最大10MB、最小300px、比率2:5〜5:2。"
   },
   "video-history": {
     "title": "動画生成履歴",
@@ -700,6 +733,11 @@
       "title": "無料Veo3リファレンスから動画: キャラクターIDをロック | Seedance",
       "description": "1〜3枚の参照画像をアップロードしてVeo 3.1で8秒の動画を生成。ネイティブオーディオでシーン間のキャラクターの外観を保持。148秒まで延長可能。",
       "keywords": "Veo3リファレンスから動画, 一貫したキャラクター, IDロック, Veo 3.1, キャラクターの一貫性"
+    },
+    "motionControl": {
+      "title": "Kling モーションコントロール - 参照動画キャラクターアニメーション | Veo3 AI",
+      "description": "Kling 3.0 モーションコントロールで参照動画を使用してキャラクター画像をアニメーション化。完璧なキャラクターの動きと一貫性。",
+      "keywords": "Kling モーションコントロール, Kling 3.0, キャラクターアニメーション, 動画から動画, 参照動画アニメーション, AI動画ジェネレーター, Veo3 AI"
     },
     "imageGeneration": {
       "title": "無料AI画像ジェネレーター: テキストから素晴らしい画像を作成 | Seedance",

@@ -1,0 +1,354 @@
+{
+  "breadcrumb": {
+    "items": [
+      {
+        "label": "Home",
+        "href": "/"
+      },
+      {
+        "label": "AI Models",
+        "href": "/"
+      },
+      {
+        "label": "Kling 3.0",
+        "href": "/kling-3-0"
+      },
+      {
+        "label": "Motion Control"
+      }
+    ]
+  },
+  "banner": {
+    "title": "Kling Motion Control: Transfer Any Motion to Your Videos Free",
+    "description": "Use Kling Motion Control free on Veo3 AI. Upload a reference image plus a motion reference video, and apply that motion to your character — no watermark, no credit card, powered by Kling 3.0.",
+    "tabs": [
+      {
+        "type": "image",
+        "title": "Motion Control",
+        "subTitle": "Reference Image",
+        "value": "reference-to-video",
+        "modelName": "Kling 3.0 Motion Control",
+        "modelLogo": "/imgs/intro/kling-logo.svg",
+        "placeholder": "Upload a character image to animate",
+        "tips": "Upload JPG/PNG up to 10MB, min 300px. You'll add a motion reference video on the next step.",
+        "buttonText": "Try Kling Motion Control Free"
+      }
+    ]
+  },
+  "partners": [],
+  "features": {
+    "title": "What Is Kling Motion Control?",
+    "details": [
+      {
+        "_intro": true,
+        "title": "What's New in Kling 3.0 Motion Control",
+        "description": "The newly released Kling 3.0 Motion Control builds upon the motion control AI video capability introduced in Kling 2.6, delivering key upgrades. Version 3.0 enhances facial consistency across scenarios, keeping facial features stable and expressions smooth even in complex, multi-angle, long-duration motion. This upgrade expands the kling AI motion reference video workflow into cinematic performance, high-precision motion capture, and diverse entertainment scenarios — making every generation more powerful and reliable."
+      },
+      {
+        "_kling_showcase": true,
+        "title": "Consistent Facial Identity from Any Angle",
+        "description": "Kling 3.0 Motion Control locks character identity even under extreme camera rotation and complex multi-angle motion. Facial features stay sharp and recognizable across the entire shot — compare the binding-on output with the binding-off variant to see how identity preservation strengthens the result.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Reference Image"
+            },
+            {
+              "title": "Output A"
+            },
+            {
+              "title": "Output B"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s1-ref-soccer-boy.png",
+                  "altText": "Consistent Facial Identity from Any Angle"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s1-soccer-boy-with-binding.mp4"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s1-soccer-boy-without-binding.mp4"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "_kling_showcase": true,
+        "title": "Complex Emotions, Faithfully Reproduced",
+        "description": "Subtle micro-expressions, eye contact and blink timing from the motion reference video are transferred onto the character with high fidelity, so emotional performances feel real rather than animated. Two output samples below show different expression sets driven from the same reference image.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Reference Image"
+            },
+            {
+              "title": "Output A"
+            },
+            {
+              "title": "Output B"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s2-ref-fresh-girl.png",
+                  "altText": "Complex Emotions, Faithfully Reproduced"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s2-fresh-girl-expression-1.mp4"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s2-fresh-girl-expression-2.mp4"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "_kling_showcase": true,
+        "title": "Face Occlusion, High-Fidelity Restoration",
+        "description": "When hands, props or hair partially cover the face, Kling 3.0 reconstructs the occluded regions cleanly so the character's identity remains stable across the entire performance — particularly useful for dance, prop work and martial-arts scenes.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Reference Image"
+            },
+            {
+              "title": "Output A"
+            },
+            {
+              "title": "Output B"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s3-ref-occlusion.jpg",
+                  "altText": "Face Occlusion, High-Fidelity Restoration"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s3-occlusion-with-binding.mp4"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s3-occlusion-without-binding.mp4"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "_kling_showcase": true,
+        "title": "Consistent Facial Clarity Across Dynamic Framing",
+        "description": "Even with aggressive camera moves — orbits, push-ins, whip pans — Kling 3.0 keeps facial details crisp and identity-locked, making it ideal for cinematic, performance and dance shots that switch between full-body and close-up framing.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Reference Image"
+            },
+            {
+              "title": "Output A"
+            },
+            {
+              "title": "Output B"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s4-ref-dynamic-framing.png",
+                  "altText": "Consistent Facial Clarity Across Dynamic Framing"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s4-dynamic-with-binding.mp4"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s4-dynamic-without-binding.mp4"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "How to Use Kling Motion Control on Veo3 AI",
+    "description": "Transfer motion from any reference video to your character in four steps",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Open Kling Motion Control",
+        "description": "Go to veo3ai.io and select Kling 3.0 Motion Control from the model list on the Reference-to-Video page."
+      },
+      {
+        "number": "02",
+        "title": "Upload Your Character Image",
+        "description": "Upload a clear reference image of the character or subject you want to animate (JPEG/PNG, up to 10MB, 300px+, aspect ratio between 2:5 and 5:2)."
+      },
+      {
+        "number": "03",
+        "title": "Upload a Motion Reference Video",
+        "description": "Add an MP4 or MOV motion reference video (3–30 seconds, up to 100MB). For best results use single-person footage with moderate motion amplitude and minimal positional drift, and match the framing (full-body vs half-body) to your character image."
+      },
+      {
+        "number": "04",
+        "title": "Generate — Free, No Watermark",
+        "description": "Write a short prompt covering only background and lighting (do not describe the action — the motion comes from your reference video), then generate. No credit card required."
+      }
+    ],
+    "buttonText": "Try Kling Motion Control Free"
+  },
+  "comparison": {
+    "title": "Kling Motion Control Free vs Paid Alternatives",
+    "models": [
+      "Veo3 AI",
+      "klingai.com (Official)",
+      "kie.ai (API)"
+    ],
+    "features": [
+      {
+        "name": "Free Access",
+        "values": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "name": "No Credit Card Required",
+        "values": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "name": "Built on Kling 3.0",
+        "values": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "name": "Web UI (No Code)",
+        "values": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "name": "Max Output Duration",
+        "values": [
+          "15s",
+          "15s",
+          "15s"
+        ]
+      },
+      {
+        "name": "1080p Output",
+        "values": [
+          true,
+          true,
+          true
+        ]
+      }
+    ]
+  },
+  "relatedModels": {
+    "title": "Explore More Kling & AI Video Tools",
+    "models": [
+      {
+        "name": "Kling 3.0",
+        "slug": "kling-3-0",
+        "description": "The full Kling 3.0 video model — text-to-video, image-to-video, native audio, multi-shot storytelling, and up to 15 seconds of output.",
+        "logo": "/imgs/intro/kling-logo.svg"
+      },
+      {
+        "name": "Image to Video",
+        "slug": "image-to-video",
+        "description": "Animate any image with AI — choose between Kling, Veo, Seedance, Hailuo, and more from a single generator.",
+        "logo": "/imgs/intro/kling-logo.svg"
+      },
+      {
+        "name": "Hailuo 2.3",
+        "slug": "hailuo-2-3",
+        "description": "MiniMax Hailuo 2.3 for expressive motion, stylized visuals, and fast iteration on character animation.",
+        "logo": "/imgs/intro/hailuo.webp"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Start Creating with Kling Motion Control",
+    "description": "Free Kling 3.0 motion transfer on Veo3 AI — no watermark, no credit card.",
+    "buttonText": "Generate with Kling Motion Control"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Frequently Asked Questions",
+    "description": "Everything you need to know about Kling Motion Control and Kling motion transfer",
+    "items": [
+      {
+        "title": "Is Kling Motion Control free on Veo3 AI?",
+        "description": "Yes. Kling Motion Control is free on Veo3 AI — no subscription and no credit card required. It runs on Kling 3.0, the latest Kling AI motion control model."
+      },
+      {
+        "title": "What is the best reference video for Kling motion control?",
+        "description": "The best Kling motion reference video features a single person, moderate motion amplitude, and minimal positional drift. Match the framing (full-body vs half-body) of your reference video to your character image for the most stable motion transfer."
+      },
+      {
+        "title": "Can I use Kling Motion Control without an account?",
+        "description": "You need to sign up for a free Veo3 AI account to generate videos, but no credit card is required."
+      },
+      {
+        "title": "How long can the reference video be?",
+        "description": "Kling 3.0 Motion Control accepts reference videos from 3 to 30 seconds (MP4/MOV, up to 100MB). Output can be 720p or 1080p."
+      },
+      {
+        "title": "Does Kling Motion Control work on animals or non-human subjects?",
+        "description": "Kling Motion Control is optimized for human characters and performs best on identity-locked human motion transfer. Non-human subjects may work but results are less predictable."
+      },
+      {
+        "title": "What is the difference between Kling Motion Control and Kling motion transfer?",
+        "description": "They refer to the same capability. Kling Motion Control (sometimes called Kling motion transfer or copy motion AI video generator) transfers motion from a reference video onto a reference character image using Kling 3.0."
+      },
+      {
+        "title": "How does Kling Motion Control compare to Runway Motion Brush?",
+        "description": "Kling Motion Control transfers full-body motion from a reference video onto a character, while Runway Motion Brush lets you paint motion onto regions of an image. They solve different problems: Kling for dance and performance transfer; Motion Brush for directed scene motion."
+      },
+      {
+        "title": "Can I use Kling Motion Control outputs commercially?",
+        "description": "Outputs generated on Veo3 AI can be used per the Veo3 AI terms of service — check the terms page for the current commercial-use policy before publishing."
+      }
+    ]
+  }
+}

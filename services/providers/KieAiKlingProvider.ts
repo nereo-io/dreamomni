@@ -7,7 +7,8 @@ import {
   VideoGenerationResult,
 } from "./types";
 
-type KlingGenerationMode = "std" | "pro";
+const DEFAULT_MOTION_CONTROL_PROMPT =
+  "No distortion, the character's movements are consistent with the video.";
 
 export class KieAiKlingProvider implements VideoProvider {
   private baseUrl: string;
@@ -25,75 +26,141 @@ export class KieAiKlingProvider implements VideoProvider {
     return "kie-ai-kling3";
   }
 
-  private resolveMode(input: VideoGenerationRequest): KlingGenerationMode {
-    // UX 只暴露分辨率，provider 内部负责把 resolution 映射为 mode。
+  private resolveImageUrls(input: VideoGenerationRequest): string[] {
+    if (Array.isArray(input.image_urls) && input.image_urls.length > 0) {
+      const urls = input.image_urls
+        .map((u) => (typeof u === "string" ? u.trim() : ""))
+        .filter(Boolean);
+      if (urls.length > 0) return urls;
+    }
+    const single = input.image_url?.trim();
+    return single ? [single] : [];
+  }
+
+  private filterVideoUrls(urls: string[]): string[] {
+    return urls.filter(
+      (u) => typeof u === "string" && /\.(mp4|mov|webm)(\?|$)/i.test(u)
+    );
+  }
+
+  private buildStandardInput(
+    input: VideoGenerationRequest
+  ): Record<string, any> {
+    const prompt = input.prompt?.trim();
+    if (!prompt) {
+      throw new Error("Kling prompt is required");
+    }
+
+    const result: Record<string, any> = {
+      mode: this.resolveStandardMode(input),
+      prompt,
+    };
+
+    // multi_shots 必须显式传递，API 不接受缺失；默认 false
+    if (typeof input.multi_shots === "boolean") {
+      result.multi_shots = input.multi_shots;
+    } else if (typeof input.multiShots === "boolean") {
+      result.multi_shots = input.multiShots;
+    } else {
+      result.multi_shots = false;
+    }
+
+    const imageUrls = this.resolveImageUrls(input);
+    if (imageUrls.length > 0) {
+      result.image_urls = imageUrls;
+      result.image_url = imageUrls[0];
+    }
+
+    this.applyCommonFields(result, input);
+
+    return result;
+  }
+
+  private buildMotionControlInput(
+    input: VideoGenerationRequest
+  ): Record<string, any> {
+    const result: Record<string, any> = {
+      mode: this.resolveMotionControlMode(input),
+      prompt: input.prompt?.trim() || DEFAULT_MOTION_CONTROL_PROMPT,
+    };
+
+    const imageUrls = this.resolveImageUrls(input);
+    if (imageUrls.length > 0) {
+      result.input_urls = imageUrls;
+    }
+
+    const videoUrls =
+      Array.isArray(input.video_urls) && input.video_urls.length > 0
+        ? input.video_urls
+        : this.filterVideoUrls(input.media_urls ?? []);
+
+    if (videoUrls.length === 0) {
+      throw new Error(
+        "Kling Motion Control requires at least one reference video"
+      );
+    }
+    result.video_urls = videoUrls;
+
+    if (input.character_orientation) {
+      result.character_orientation = input.character_orientation;
+    }
+
+    if (input.background_source) {
+      result.background_source = input.background_source;
+    }
+
+    // Motion Control API 仅支持 prompt/input_urls/video_urls/character_orientation/background_source/mode
+    // 不调用 applyCommonFields，避免注入 duration/sound/aspect_ratio 等不支持的字段
+
+    return result;
+  }
+
+  private resolveStandardMode(input: VideoGenerationRequest): string {
     const resolution = input.resolution?.toString().trim().toLowerCase();
     if (resolution && ["1080p", "2k", "4k"].includes(resolution)) {
       return "pro";
     }
-
     return "std";
   }
 
-  private resolveImageUrl(input: VideoGenerationRequest): string | null {
-    if (Array.isArray(input.image_urls) && input.image_urls.length > 0) {
-      const firstUrl = input.image_urls[0]?.trim();
-      if (firstUrl) {
-        return firstUrl;
-      }
-    }
-
-    if (input.image_url?.trim()) {
-      return input.image_url.trim();
-    }
-
-    return null;
+  private resolveMotionControlMode(input: VideoGenerationRequest): string {
+    const resolution = input.resolution?.toString().trim().toLowerCase();
+    return resolution === "1080p" ? "1080p" : "720p";
   }
 
-  private resolveImageUrls(input: VideoGenerationRequest): string[] {
-    if (Array.isArray(input.image_urls) && input.image_urls.length > 0) {
-      const normalizedUrls = input.image_urls
-        .map((url) => (typeof url === "string" ? url.trim() : ""))
-        .filter(Boolean);
-      if (normalizedUrls.length > 0) {
-        return normalizedUrls;
-      }
+  private applyCommonFields(
+    result: Record<string, any>,
+    input: VideoGenerationRequest
+  ): void {
+    if (input.aspect_ratio?.trim()) {
+      result.aspect_ratio = input.aspect_ratio.trim();
     }
 
-    const imageUrl = this.resolveImageUrl(input);
-    return imageUrl ? [imageUrl] : [];
-  }
-
-  private resolveMultiShots(input: VideoGenerationRequest): boolean {
-    if (typeof input.multi_shots === "boolean") {
-      return input.multi_shots;
+    const normalizedDuration = input.duration
+      ?.toString()
+      .replace(/s$/i, "")
+      .trim();
+    if (normalizedDuration) {
+      result.duration = normalizedDuration;
     }
 
-    if (typeof input.multiShots === "boolean") {
-      return input.multiShots;
-    }
-
-    return false;
-  }
-
-  private resolveSound(input: VideoGenerationRequest): boolean | undefined {
     if (typeof input.sound === "boolean") {
-      return input.sound;
+      result.sound = input.sound;
+    } else if (typeof input.generate_audio === "boolean") {
+      result.sound = input.generate_audio;
     }
 
-    if (typeof input.generate_audio === "boolean") {
-      return input.generate_audio;
+    if (input.negative_prompt?.trim()) {
+      result.negative_prompt = input.negative_prompt.trim();
     }
 
-    return undefined;
-  }
-
-  private normalizeDuration(duration?: string): string | undefined {
-    if (!duration?.toString().trim()) {
-      return undefined;
+    if (typeof input.cfg_scale === "number" && Number.isFinite(input.cfg_scale)) {
+      result.cfg_scale = input.cfg_scale;
     }
 
-    return duration.toString().replace(/s$/i, "").trim();
+    if (typeof input.seed === "number" && Number.isFinite(input.seed)) {
+      result.seed = input.seed;
+    }
   }
 
   private buildCreateTaskBody(
@@ -103,53 +170,16 @@ export class KieAiKlingProvider implements VideoProvider {
   ) {
     const modelConfig = getVideoModel(model);
     const providerModelId = modelConfig?.providerModelId || "kling-3.0/video";
-    const prompt = input.prompt?.trim();
 
-    if (!prompt) {
-      throw new Error("Kling prompt is required");
-    }
+    const isMotionControl = providerModelId === "kling-3.0/motion-control";
+    const apiInput = isMotionControl
+      ? this.buildMotionControlInput(input)
+      : this.buildStandardInput(input);
 
     const requestBody: any = {
       model: providerModelId,
-      input: {
-        mode: this.resolveMode(input),
-        prompt,
-        multi_shots: this.resolveMultiShots(input),
-      },
+      input: apiInput,
     };
-
-    const imageUrls = this.resolveImageUrls(input);
-    if (imageUrls.length > 0) {
-      requestBody.input.image_urls = imageUrls;
-      // Keep legacy single-image field for compatibility.
-      requestBody.input.image_url = imageUrls[0];
-    }
-
-    if (input.aspect_ratio?.trim()) {
-      requestBody.input.aspect_ratio = input.aspect_ratio.trim();
-    }
-
-    const normalizedDuration = this.normalizeDuration(input.duration);
-    if (normalizedDuration) {
-      requestBody.input.duration = normalizedDuration;
-    }
-
-    const sound = this.resolveSound(input);
-    if (typeof sound === "boolean") {
-      requestBody.input.sound = sound;
-    }
-
-    if (input.negative_prompt?.trim()) {
-      requestBody.input.negative_prompt = input.negative_prompt.trim();
-    }
-
-    if (typeof input.cfg_scale === "number" && Number.isFinite(input.cfg_scale)) {
-      requestBody.input.cfg_scale = input.cfg_scale;
-    }
-
-    if (typeof input.seed === "number" && Number.isFinite(input.seed)) {
-      requestBody.input.seed = input.seed;
-    }
 
     if (webhookUrl) {
       requestBody.callBackUrl = webhookUrl;

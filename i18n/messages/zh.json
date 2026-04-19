@@ -29,6 +29,11 @@
     "description": "立即尝试Kling 3.0 AI视频生成器，支持原生音频、多镜头叙事、元素一致性、多语言语音，并支持最长15秒的输出。在Veo3 AI上创建Kling 3.0视频。",
     "keywords": "Kling VIDEO 3.0, Kling AI, AI 视频生成器, 文本到视频, 图像到视频, 原生音频, 多镜头, Veo3 AI"
   },
+  "kling-3-motion-control": {
+    "title": "Kling Motion Control 免费：AI 动作迁移在线生成 | Veo3 AI",
+    "description": "在 Veo3 AI 免费使用 Kling Motion Control。上传参考视频，将动作应用到任意角色或图像 — 无水印、无需信用卡。",
+    "keywords": "Kling Motion Control, Kling AI 动作控制, 动作迁移 AI 视频, 免费 motion control, Kling motion transfer, Veo3 AI"
+  },
   "seedance-1-5": {
     "title": "Seedance 1.5 Pro: ByteDance 音频视频AI | Veo3 AI",
     "description": "ByteDance的Seedance 1.5 Pro具有原生音视频生成、多语言唇形同步和电影级摄像控制功能。现在免费试用！",
@@ -71,6 +76,7 @@
     "image_to_video": "图像到视频",
     "text_to_video": "文本转视频",
     "reference_to_video": "参考视频",
+    "motion_control": "动作参考",
     "text_to_image": "文本到图像",
     "image_to_image": "图像到图像",
     "text_to_music": "文本到音乐",
@@ -356,6 +362,7 @@
     "titleTextToVideo": "文本转视频",
     "titleImageToVideo": "图像到视频",
     "titleReferenceToVideo": "参考视频",
+    "titleMotionControl": "动作参考",
     "videoDescription": "提示",
     "videoAspectRatio": "视频宽高比",
     "videoDuration": "视频时长",
@@ -371,6 +378,22 @@
     "uploading": "上传中...",
     "generating": "生成中...",
     "uploadImage": "图片",
+    "uploadVideo": "视频",
+    "characterImage": "角色图片",
+    "referenceVideo": "参考视频",
+    "motionMode": "生成模式",
+    "motionModeStd": "普通 (720p)",
+    "motionModePro": "专业 (1080p)",
+    "characterOrientation": "人物朝向",
+    "addVideoToMimic": "添加 要模仿人物动作的视频",
+    "addCharacterImage": "添加 人物图",
+    "motionLibrary": "动作库",
+    "historyCreations": "历史创作",
+    "orientationImage": "人物朝向与图片一致",
+    "orientationVideo": "人物朝向与视频一致",
+    "backgroundSource": "背景来源",
+    "bgSourceVideo": "参考视频",
+    "bgSourceImage": "参考图片",
     "dragAndDropImage": "点击上传",
     "supportedFormats": "支持JPG、PNG、GIF格式，最大10MB",
     "chooseFile": "选择文件",
@@ -389,7 +412,9 @@
     "myCreations": "我的创作",
     "selectFromCreations": "从我的创作中选择",
     "noImagesYet": "暂无生成的图像",
+    "noVideosYet": "暂无生成的视频",
     "loadingImages": "加载图片...",
+    "loadingVideos": "加载视频...",
     "maxImagesError": "最多允许{max}张图片",
     "onlyUploadingFirst": "仅上传前{count}张图片（最多{max}）",
     "uploadingMultiple": "上传 {current}/{total} 张图片中...",
@@ -443,9 +468,16 @@
       "promptTooLong": "提示词过长，最多 {max} 个字符。",
       "videoSubmitted": "视频生成任务已提交，正在处理中...",
       "videoCompleted": "视频生成完成！",
-      "videoFailed": "视频生成失败"
+      "videoFailed": "视频生成失败",
+      "uploadVideoRequired": "请上传参考视频"
     },
     "mediaUploadTitle": "参考素材",
+    "motionControlHelpVideoTitle": "参考视频",
+    "motionControlHelpVideoDesc": "生成视频中的角色将执行与参考视频相同的动作。请确保人物上半身或全身清晰可见，动作平稳流畅。",
+    "motionControlHelpImageTitle": "参考图像",
+    "motionControlHelpImageDesc": "生成视频中角色的外观、服装和背景均以参考图为准。人物比例应与参考视频保持一致。",
+    "motionControlHelpOrientationNote": "朝向选择「视频」最长支持 30 秒，选择「图片」最长支持 10 秒。",
+    "motionControlTip": "请确保图片和视频中人物上半身清晰可见。图片：JPG/PNG，最大 10MB。视频：MP4/MOV，3-30 秒。",
     "mediaUploadHint": "上传1-12个参考素材，在提示词中使用@引用素材，例如：@图片1 模仿 @视频1 的动作，音色参考 @音频1。",
     "mediaUploadPrompt": "上传最多{max}个素材（图片、视频、音频）",
     "mediaUploadSecondaryHint": "可选。支持多选或拖放",
@@ -462,7 +494,9 @@
     "mediaTypeFile": "文件",
     "mediaMentionHint": "输入 @ 引用已上传的素材",
     "mediaMentionDropdownTitle": "选择参考素材",
-    "mediaPromptPlaceholder": "描述你想要的视频。使用 @ 引用已上传的素材，例如：@1 模仿 @2 的动作，音色参考 @3。"
+    "mediaPromptPlaceholder": "描述你想要的视频。使用 @ 引用已上传的素材，例如：@1 模仿 @2 的动作，音色参考 @3。",
+    "helpVideo": "人物动作参考视频。生成的角色会模仿该视频中的动作。MP4/MOV格式，3-30秒，需清晰展示上半身。",
+    "helpImage": "人物参考图片。生成的视频将保持该角色的外观。JPG/PNG格式，最大10MB，最小300px，比例2:5到5:2。"
   },
   "video-history": {
     "title": "视频生成历史",
@@ -703,6 +737,11 @@
       "title": "免费 Veo3 参考视频：锁定角色身份 | Veo3 AI",
       "description": "上传1-3张参考图片，使用Veo 3.1生成8秒视频。通过原生音频在场景中保持角色外观。可扩展至148秒。",
       "keywords": "Veo3 参考到视频，一致的角色，身份锁定，Veo 3.1，角色一致性"
+    },
+    "motionControl": {
+      "title": "Kling 动作参考 - 参考视频角色动画 | Veo3 AI",
+      "description": "使用 Kling 3.0 动作参考，通过参考视频让您的角色图片动起来。完美的角色动作和一致性。",
+      "keywords": "Kling 动作参考, Kling 3.0, 角色动画, 视频转视频, 参考视频动画, AI 视频生成器, Veo3 AI"
     },
     "imageGeneration": {
       "title": "免费AI图像生成器：通过文字生成惊艳图像 | Veo3 AI",

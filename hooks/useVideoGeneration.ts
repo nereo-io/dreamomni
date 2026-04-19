@@ -25,6 +25,8 @@ interface VideoGenerationParams {
   captchaToken?: string; // For CAPTCHA verification
   watermarkEnabled?: boolean; // Frontend flag for Seedance watermark control
   generationType?: string; // For Reference-to-Video feature (e.g., "REFERENCE_2_VIDEO")
+  character_orientation?: string; // 'image' | 'video' — used by Motion Control
+  background_source?: string; // 'input_video' | 'input_image' — used by Motion Control
 }
 
 interface UserCreditsInfo {

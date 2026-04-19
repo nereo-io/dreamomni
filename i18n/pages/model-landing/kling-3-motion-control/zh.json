@@ -1,0 +1,354 @@
+{
+  "breadcrumb": {
+    "items": [
+      {
+        "label": "首页",
+        "href": "/"
+      },
+      {
+        "label": "AI 模型",
+        "href": "/"
+      },
+      {
+        "label": "可灵 3.0",
+        "href": "/kling-3-0"
+      },
+      {
+        "label": "动作控制"
+      }
+    ]
+  },
+  "banner": {
+    "title": "可灵动作控制：免费将任意动作迁移到你的视频",
+    "description": "在 Veo3 AI 上免费使用可灵动作控制。上传一张参考图片和一段动作参考视频，将该动作迁移到你的角色身上——无水印、无需信用卡，由可灵 3.0 驱动。",
+    "tabs": [
+      {
+        "type": "image",
+        "title": "动作控制",
+        "subTitle": "参考图片",
+        "value": "reference-to-video",
+        "modelName": "可灵 3.0 动作控制",
+        "modelLogo": "/imgs/intro/kling-logo.svg",
+        "placeholder": "上传需要驱动的角色图片",
+        "tips": "上传 JPG/PNG，最大 10MB，最小 300px。下一步可上传动作参考视频。",
+        "buttonText": "免费体验可灵动作控制"
+      }
+    ]
+  },
+  "partners": [],
+  "features": {
+    "title": "什么是可灵动作控制？",
+    "details": [
+      {
+        "_intro": true,
+        "title": "可灵 3.0 动作控制：能力升级一览",
+        "description": "全新发布的 Kling 3.0 Motion Control 在 Kling 2.6 的 motion control AI video 能力基础上完成关键升级：3.0 版本显著提升了多场景下的面部一致性，即使在复杂、多角度、长时长的动作中，也能保持面部特征稳定、表情自然。此次升级将 kling AI motion reference video 工作流拓展到电影级表演、高精度动作捕捉与多样化娱乐场景，让每一次生成都更强大、更可靠。"
+      },
+      {
+        "_kling_showcase": true,
+        "title": "任意角度下保持一致的面部身份",
+        "description": "可灵 3.0 动作控制即使在极端的镜头旋转与复杂的多角度运动下，仍能锁定角色身份，全程保持面部特征清晰可辨。可对比启用元素绑定与未启用绑定的输出，直观感受身份保持对结果的增强。",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "参考图片"
+            },
+            {
+              "title": "输出 A"
+            },
+            {
+              "title": "输出 B"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s1-ref-soccer-boy.png",
+                  "altText": "任意角度下保持一致的面部身份"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s1-soccer-boy-with-binding.mp4"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s1-soccer-boy-without-binding.mp4"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "_kling_showcase": true,
+        "title": "复杂情绪的高保真还原",
+        "description": "动作参考视频中的细微微表情、眼神交流和眨眼节奏会被高保真地迁移到角色身上，使情感表演更接近真人而非动画。下方两段输出展示了基于同一张参考图所驱动的不同表情组合。",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "参考图片"
+            },
+            {
+              "title": "输出 A"
+            },
+            {
+              "title": "输出 B"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s2-ref-fresh-girl.png",
+                  "altText": "复杂情绪的高保真还原"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s2-fresh-girl-expression-1.mp4"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s2-fresh-girl-expression-2.mp4"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "_kling_showcase": true,
+        "title": "面部遮挡的高保真还原",
+        "description": "当手部、道具或头发部分遮挡面部时，可灵 3.0 能干净地重建被遮挡区域，使角色身份在整段表演中保持稳定，尤其适用于舞蹈、道具表演与武打场景。",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "参考图片"
+            },
+            {
+              "title": "输出 A"
+            },
+            {
+              "title": "输出 B"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s3-ref-occlusion.jpg",
+                  "altText": "面部遮挡的高保真还原"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s3-occlusion-with-binding.mp4"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s3-occlusion-without-binding.mp4"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "_kling_showcase": true,
+        "title": "动态构图下的一致面部清晰度",
+        "description": "即使在环绕、推近、快速摇移等剧烈镜头运动下，可灵 3.0 仍能保持面部细节锐利且身份锁定，非常适合在全身与特写之间切换的电影、表演与舞蹈镜头。",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "参考图片"
+            },
+            {
+              "title": "输出 A"
+            },
+            {
+              "title": "输出 B"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s4-ref-dynamic-framing.png",
+                  "altText": "动态构图下的一致面部清晰度"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s4-dynamic-with-binding.mp4"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s4-dynamic-without-binding.mp4"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "如何在 Veo3 AI 上使用可灵动作控制",
+    "description": "四步将任意参考视频中的动作迁移到你的角色上",
+    "steps": [
+      {
+        "number": "01",
+        "title": "打开可灵动作控制",
+        "description": "访问 veo3ai.io，在 Reference-to-Video 页面的模型列表中选择「可灵 3.0 动作控制」。"
+      },
+      {
+        "number": "02",
+        "title": "上传你的角色图片",
+        "description": "上传一张清晰的角色或主体参考图（JPEG/PNG，最大 10MB，300px 以上，宽高比 2:5 到 5:2 之间）。"
+      },
+      {
+        "number": "03",
+        "title": "上传动作参考视频",
+        "description": "添加一段 MP4 或 MOV 格式的动作参考视频（3–30 秒，最大 100MB）。为获得最佳效果，建议使用单人画面、动作幅度适中、位置漂移较小，并使参考视频的取景（全身/半身）与你的角色图片相匹配。"
+      },
+      {
+        "number": "04",
+        "title": "立即生成——免费、无水印",
+        "description": "撰写一段仅描述背景和光线的简短提示词（不要描述动作——动作由参考视频提供），然后开始生成。无需信用卡。"
+      }
+    ],
+    "buttonText": "免费体验可灵动作控制"
+  },
+  "comparison": {
+    "title": "可灵动作控制免费版 vs 付费方案",
+    "models": [
+      "Veo3 AI",
+      "klingai.com (Official)",
+      "kie.ai (API)"
+    ],
+    "features": [
+      {
+        "name": "免费使用",
+        "values": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "name": "无需信用卡",
+        "values": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "name": "基于可灵 3.0",
+        "values": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "name": "网页界面（无需代码）",
+        "values": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "name": "最长输出时长",
+        "values": [
+          "15s",
+          "15s",
+          "15s"
+        ]
+      },
+      {
+        "name": "1080p 输出",
+        "values": [
+          true,
+          true,
+          true
+        ]
+      }
+    ]
+  },
+  "relatedModels": {
+    "title": "探索更多可灵与 AI 视频工具",
+    "models": [
+      {
+        "name": "可灵 3.0",
+        "slug": "kling-3-0",
+        "description": "完整的可灵 3.0 视频模型——支持文生视频、图生视频、原生音频、多镜头叙事，以及最长 15 秒的输出。",
+        "logo": "/imgs/intro/kling-logo.svg"
+      },
+      {
+        "name": "图生视频",
+        "slug": "image-to-video",
+        "description": "用 AI 让任意图片动起来——在同一个生成器中选择可灵、Veo、Seedance、Hailuo 等多种模型。",
+        "logo": "/imgs/intro/kling-logo.svg"
+      },
+      {
+        "name": "海螺 2.3",
+        "slug": "hailuo-2-3",
+        "description": "MiniMax 海螺 2.3，提供富有表现力的动作、风格化画面，以及在角色动画上的快速迭代。",
+        "logo": "/imgs/intro/hailuo.webp"
+      }
+    ]
+  },
+  "cta": {
+    "title": "立即开始使用可灵动作控制创作",
+    "description": "在 Veo3 AI 上免费使用可灵 3.0 动作迁移——无水印，无需信用卡。",
+    "buttonText": "使用可灵动作控制生成"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "常见问题",
+    "title": "常见问题",
+    "description": "关于可灵动作控制与可灵动作迁移你需要了解的一切",
+    "items": [
+      {
+        "title": "在 Veo3 AI 上使用可灵动作控制是免费的吗？",
+        "description": "是的。在 Veo3 AI 上，可灵动作控制完全免费，无需订阅和信用卡。它运行在最新的可灵 3.0 动作控制模型之上。"
+      },
+      {
+        "title": "什么样的视频最适合作为可灵动作控制的参考视频？",
+        "description": "最适合的参考视频为单人出镜、动作幅度适中、位置漂移较小，并应使参考视频的取景（全身或半身）与你的角色图片保持一致，以获得最稳定的动作迁移效果。"
+      },
+      {
+        "title": "不注册账号能否使用可灵动作控制？",
+        "description": "生成视频需要注册一个免费的 Veo3 AI 账号，但无需提供信用卡信息。"
+      },
+      {
+        "title": "参考视频可以有多长？",
+        "description": "可灵 3.0 动作控制支持 3–30 秒的参考视频（MP4/MOV，最大 100MB），输出可选 720p 或 1080p。"
+      },
+      {
+        "title": "可灵动作控制能否应用于动物或非人类主体？",
+        "description": "可灵动作控制针对人类角色进行了优化，在身份锁定的人物动作迁移上表现最佳。非人类主体也可尝试，但结果稳定性较低。"
+      },
+      {
+        "title": "可灵动作控制与可灵动作迁移有什么区别？",
+        "description": "二者指的是同一能力。可灵动作控制（也被称为可灵动作迁移或动作复制 AI 视频生成器）使用可灵 3.0 将参考视频中的动作迁移到参考角色图片上。"
+      },
+      {
+        "title": "可灵动作控制与 Runway Motion Brush 有什么区别？",
+        "description": "可灵动作控制将参考视频中的全身动作迁移到角色身上，而 Runway Motion Brush 则让你在图像区域上「涂抹」动作。两者解决的问题不同：可灵更适合舞蹈与表演的动作迁移，Motion Brush 更适合定向的场景运动。"
+      },
+      {
+        "title": "可灵动作控制生成的内容可以商用吗？",
+        "description": "在 Veo3 AI 上生成的内容可按照 Veo3 AI 的服务条款使用——发布前请查看条款页面，了解最新的商用政策。"
+      }
+    ]
+  }
+}
