@@ -139,6 +139,12 @@ export const MODEL_IMAGE_VALIDATION_RULES: Record<string, ImageValidationRule> =
   "volcano-seedance-2-0-fast-reference-to-video": SEEDANCE_RULE,
   "volcano-seedance-2-0-image-to-video": SEEDANCE_RULE,
   "volcano-seedance-2-0-reference-to-video": SEEDANCE_RULE,
+
+  // Evolink Seedance 2.0 模型
+  "evolink-seedance-2-0-image-to-video": SEEDANCE_RULE,
+  "evolink-seedance-2-0-reference-to-video": SEEDANCE_RULE,
+  "evolink-seedance-2-0-fast-image-to-video": SEEDANCE_RULE,
+  "evolink-seedance-2-0-fast-reference-to-video": SEEDANCE_RULE,
   
   // 阿里 WAN 模型 - 使用实际的模型ID
   "ali-video-generation-image-to-video": ALI_WAN_RULE,

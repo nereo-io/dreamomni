@@ -9,7 +9,7 @@ import { KieAiKlingProvider } from "./KieAiKlingProvider";
 import { KieAiHailuoProvider } from "./KieAiHailuoProvider";
 import { KieAiWanProvider } from "./KieAiWanProvider";
 import { AliProvider } from "./AliProvider";
-import { EvolinkSoraProvider } from "./EvolinkSoraProvider";
+import { EvolinkProvider } from "./EvolinkProvider";
 import { MaxApiProvider } from "./MaxApiProvider";
 import {
   getVideoModel,
@@ -116,7 +116,7 @@ export class ProviderFactory {
             "EVOLINK_API_KEY environment variable is required for Evolink models"
           );
         }
-        provider = new EvolinkSoraProvider(evolinkApiKey);
+        provider = new EvolinkProvider(evolinkApiKey);
         break;
 
       case VideoModelProvider.MAXAPI:
@@ -158,6 +158,8 @@ export class ProviderFactory {
     switch (modelConfig?.modelName) {
       case VideoModel.SORA2:
         return "sora2";
+      case VideoModel.KLING3_MOTION_CONTROL:
+        return "kling3";
       case VideoModel.KLING3:
         return "kling3";
       case VideoModel.HAILUO_2_3:

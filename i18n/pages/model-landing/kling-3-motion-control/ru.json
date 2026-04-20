@@ -1,0 +1,354 @@
+{
+  "breadcrumb": {
+    "items": [
+      {
+        "label": "Главная",
+        "href": "/"
+      },
+      {
+        "label": "AI Модели",
+        "href": "/"
+      },
+      {
+        "label": "Kling 3.0",
+        "href": "/kling-3-0"
+      },
+      {
+        "label": "Motion Control"
+      }
+    ]
+  },
+  "banner": {
+    "title": "Kling Motion Control: перенесите любое движение на ваши видео бесплатно",
+    "description": "Используйте Kling Motion Control бесплатно на Veo3 AI. Загрузите референсное изображение персонажа и референсное видео движения — и примените это движение к своему персонажу. Без водяных знаков, без банковской карты, на базе Kling 3.0.",
+    "tabs": [
+      {
+        "type": "image",
+        "title": "Motion Control",
+        "subTitle": "Референсное изображение",
+        "value": "reference-to-video",
+        "modelName": "Kling 3.0 Motion Control",
+        "modelLogo": "/imgs/intro/kling-logo.svg",
+        "placeholder": "Загрузите изображение персонажа для анимации",
+        "tips": "Загрузите JPG/PNG до 10 МБ, минимум 300 пикселей. Референсное видео движения добавляется на следующем шаге.",
+        "buttonText": "Попробовать Kling Motion Control бесплатно"
+      }
+    ]
+  },
+  "partners": [],
+  "features": {
+    "title": "Что такое Kling Motion Control?",
+    "details": [
+      {
+        "_intro": true,
+        "title": "Что нового в Kling 3.0 Motion Control",
+        "description": "Только что выпущенный Kling 3.0 Motion Control развивает возможности motion control AI video, представленные в Kling 2.6, и включает ключевые обновления. Версия 3.0 улучшает согласованность лица во всех сценариях, сохраняя стабильные черты и плавную мимику даже при сложных, многоракурсных и продолжительных движениях. Это обновление расширяет рабочий процесс kling AI motion reference video до кинематографических постановок, высокоточного motion capture и разнообразных развлекательных сценариев — обеспечивая более мощную и надёжную генерацию видео."
+      },
+      {
+        "_kling_showcase": true,
+        "title": "Стабильная идентичность лица под любым углом",
+        "description": "Kling 3.0 Motion Control сохраняет идентичность персонажа даже при экстремальных поворотах камеры и сложных многоракурсных движениях, оставляя черты лица чёткими и узнаваемыми на протяжении всего кадра.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Референсное изображение"
+            },
+            {
+              "title": "Результат A"
+            },
+            {
+              "title": "Результат B"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s1-ref-soccer-boy.png",
+                  "altText": "Стабильная идентичность лица под любым углом"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s1-soccer-boy-with-binding.mp4"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s1-soccer-boy-without-binding.mp4"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "_kling_showcase": true,
+        "title": "Сложные эмоции, переданные точно",
+        "description": "Тонкие микровыражения, контакт взгляда и тайминг моргания из референсного видео переносятся на персонажа с высокой точностью, поэтому эмоциональная игра выглядит живой, а не анимированной.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Референсное изображение"
+            },
+            {
+              "title": "Результат A"
+            },
+            {
+              "title": "Результат B"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s2-ref-fresh-girl.png",
+                  "altText": "Сложные эмоции, переданные точно"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s2-fresh-girl-expression-1.mp4"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s2-fresh-girl-expression-2.mp4"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "_kling_showcase": true,
+        "title": "Перекрытие лица — высококачественное восстановление",
+        "description": "Когда руки, реквизит или волосы частично закрывают лицо, Kling 3.0 чисто реконструирует перекрытые области, и идентичность персонажа остаётся стабильной на протяжении всей сцены.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Референсное изображение"
+            },
+            {
+              "title": "Результат A"
+            },
+            {
+              "title": "Результат B"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s3-ref-occlusion.jpg",
+                  "altText": "Перекрытие лица — высококачественное восстановление"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s3-occlusion-with-binding.mp4"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s3-occlusion-without-binding.mp4"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "_kling_showcase": true,
+        "title": "Чёткость лица при динамичной композиции кадра",
+        "description": "Даже при агрессивных движениях камеры — облёт, наезд, быстрые панорамы — Kling 3.0 удерживает детали лица резкими, а идентичность зафиксированной, что идеально подходит для кинематографичных, перформанс- и танцевальных сцен.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Референсное изображение"
+            },
+            {
+              "title": "Результат A"
+            },
+            {
+              "title": "Результат B"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s4-ref-dynamic-framing.png",
+                  "altText": "Чёткость лица при динамичной композиции кадра"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s4-dynamic-with-binding.mp4"
+                },
+                {
+                  "type": "video",
+                  "content": "https://r2.veo3ai.io/model-landing/kling-3-motion-control/s4-dynamic-without-binding.mp4"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Как использовать Kling Motion Control на Veo3 AI",
+    "description": "Перенос движения с любого референсного видео на вашего персонажа за четыре шага",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Откройте Kling Motion Control",
+        "description": "Перейдите на veo3ai.io и выберите Kling 3.0 Motion Control в списке моделей на странице Reference-to-Video."
+      },
+      {
+        "number": "02",
+        "title": "Загрузите изображение персонажа",
+        "description": "Загрузите чёткое референсное изображение персонажа (JPEG/PNG, до 10 МБ, от 300 пикселей, соотношение сторон 2:5–5:2)."
+      },
+      {
+        "number": "03",
+        "title": "Загрузите референсное видео движения",
+        "description": "Добавьте видео MP4 или MOV (3–30 секунд, до 100 МБ). Для лучших результатов используйте одиночного человека в кадре с умеренной амплитудой движения и минимальным смещением, и согласуйте кадрирование (в полный рост или по пояс) с вашим изображением."
+      },
+      {
+        "number": "04",
+        "title": "Генерируйте — бесплатно, без водяных знаков",
+        "description": "Напишите короткий промпт только о фоне и освещении (не описывайте действие — движение задаётся вашим референсным видео) и запустите генерацию. Банковская карта не требуется."
+      }
+    ],
+    "buttonText": "Попробовать Kling Motion Control бесплатно"
+  },
+  "comparison": {
+    "title": "Kling Motion Control бесплатно vs платные альтернативы",
+    "models": [
+      "Veo3 AI",
+      "klingai.com (Официальный)",
+      "kie.ai (API)"
+    ],
+    "features": [
+      {
+        "name": "Бесплатный доступ",
+        "values": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "name": "Без банковской карты",
+        "values": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "name": "На базе Kling 3.0",
+        "values": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "name": "Веб-интерфейс без кода",
+        "values": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "name": "Максимальная длительность",
+        "values": [
+          "15с",
+          "15с",
+          "15с"
+        ]
+      },
+      {
+        "name": "1080p на выходе",
+        "values": [
+          true,
+          true,
+          true
+        ]
+      }
+    ]
+  },
+  "relatedModels": {
+    "title": "Другие инструменты Kling и AI-видео",
+    "models": [
+      {
+        "name": "Kling 3.0",
+        "slug": "kling-3-0",
+        "description": "Полная модель Kling 3.0 — text-to-video, image-to-video, нативное аудио, мультикадровое повествование, до 15 секунд на выходе.",
+        "logo": "/imgs/intro/kling-logo.svg"
+      },
+      {
+        "name": "Image to Video",
+        "slug": "image-to-video",
+        "description": "Анимируйте любое изображение ИИ — Kling, Veo, Seedance, Hailuo и другие в одном генераторе.",
+        "logo": "/imgs/intro/kling-logo.svg"
+      },
+      {
+        "name": "Hailuo 2.3",
+        "slug": "hailuo-2-3",
+        "description": "MiniMax Hailuo 2.3 для выразительной динамики и быстрой итерации анимации персонажей.",
+        "logo": "/imgs/intro/hailuo.webp"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Начните создавать с Kling Motion Control",
+    "description": "Бесплатный перенос движения Kling 3.0 на Veo3 AI — без водяных знаков, без банковской карты.",
+    "buttonText": "Сгенерировать с Kling Motion Control"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Часто задаваемые вопросы",
+    "description": "Всё, что нужно знать о Kling Motion Control и Kling motion transfer",
+    "items": [
+      {
+        "title": "Kling Motion Control бесплатный на Veo3 AI?",
+        "description": "Да. Kling Motion Control доступен бесплатно на Veo3 AI — без подписки и банковской карты. Работает на базе Kling 3.0, последней модели Kling AI motion control."
+      },
+      {
+        "title": "Какое референсное видео лучше всего для Kling motion control?",
+        "description": "Лучшее Kling motion reference video — с одним человеком в кадре, умеренной амплитудой движения и минимальным смещением. Подберите кадрирование (в полный рост или по пояс) так, чтобы оно совпадало с вашим изображением персонажа."
+      },
+      {
+        "title": "Можно ли использовать Kling Motion Control без аккаунта?",
+        "description": "Для генерации видео нужен бесплатный аккаунт Veo3 AI, но банковская карта не требуется."
+      },
+      {
+        "title": "Какой максимальной длины может быть референсное видео?",
+        "description": "Kling 3.0 Motion Control принимает видео от 3 до 30 секунд (MP4/MOV, до 100 МБ). Результат — 720p или 1080p."
+      },
+      {
+        "title": "Работает ли Kling Motion Control с животными и нечеловеческими субъектами?",
+        "description": "Kling Motion Control оптимизирован под людей и лучше всего справляется с переносом человеческого движения. Нечеловеческие субъекты могут работать, но результат менее предсказуем."
+      },
+      {
+        "title": "Чем отличаются Kling Motion Control и Kling motion transfer?",
+        "description": "Это одно и то же. Kling Motion Control (также — Kling motion transfer или copy motion AI video generator) переносит движение с референсного видео на изображение персонажа с помощью Kling 3.0."
+      },
+      {
+        "title": "Чем Kling Motion Control отличается от Runway Motion Brush?",
+        "description": "Kling Motion Control переносит полное движение с референсного видео на персонажа, а Motion Brush позволяет рисовать движение на участках изображения. Это разные задачи: Kling — танцы и перформанс, Motion Brush — направленное движение в сцене."
+      },
+      {
+        "title": "Можно ли использовать результаты Kling Motion Control в коммерческих целях?",
+        "description": "Результаты, созданные на Veo3 AI, используются в соответствии с условиями обслуживания Veo3 AI — проверьте актуальную политику коммерческого использования на странице с условиями."
+      }
+    ]
+  }
+}

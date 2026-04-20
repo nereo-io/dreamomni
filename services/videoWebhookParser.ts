@@ -149,6 +149,9 @@ export function parseVideoWebhookPayload(
       status = "IN_PROGRESS";
     } else if (evolinkStatus === "pending") {
       status = "IN_QUEUE";
+    } else if (evolinkStatus === "cancelled") {
+      status = "ERROR";
+      error = "Generation was cancelled";
     }
 
     return {

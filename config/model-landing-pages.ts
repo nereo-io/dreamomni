@@ -15,6 +15,7 @@ export const MODEL_LANDING_PAGES = [
   'seedance-2-0',
   'hailuo-2-3',
   'kling-3-0',
+  'kling-3-motion-control',
   'veo-3-1',
   'veo-3-1-lite',
   'sora-2',

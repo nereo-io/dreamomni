@@ -1,0 +1,685 @@
+{
+  "template": "luckbox-template",
+  "theme": "light",
+  "header": {
+    "brand": {
+      "title": "Seedance",
+      "logo": {
+        "src": "/logo.png",
+        "alt": "Seedance AI 视频生成器"
+      },
+      "url": "/"
+    },
+    "nav": {
+      "items": [
+        {
+          "title": "AI 视频",
+          "children": [
+            {
+              "title": "图生视频",
+              "description": "将您的图片转化为震撼的视频",
+              "url": "/image-to-video"
+            },
+            {
+              "title": "文生视频",
+              "description": "根据文字描述生成视频",
+              "url": "/text-to-video"
+            },
+            {
+              "title": "视频特效",
+              "description": "为您的视频应用 AI 驱动的特效",
+              "url": "/video-effects"
+            }
+          ]
+        },
+        {
+          "title": "AI 图像",
+          "children": [
+            {
+              "title": "文生图",
+              "description": "根据文字提示创建图像",
+              "url": "/text-to-image"
+            },
+            {
+              "title": "图生图",
+              "description": "转换并增强您的图像",
+              "url": "/image-to-image"
+            }
+          ]
+        },
+        {
+          "title": "定价",
+          "url": "/pricing"
+        },
+        {
+          "title": "博客",
+          "url": "/blog"
+        }
+      ]
+    },
+    "show_sign": true,
+    "show_theme": false,
+    "show_locale": true
+  },
+  "hero": {
+    "title": "免费 Seedance 2.0 视频生成器",
+    "highlight_text": "Seedance 2.0",
+    "announcement": {
+      "title": "🎬 Seedance 2.0 现已上线！",
+      "label": "全新发布",
+      "url": "#video-generator"
+    },
+    "description": "使用卓越的结构控制与真实物理模拟打造电影级 AI 视频，表现超越 Sora 2 与 Veo 3。",
+    "show_happy_users": false,
+    "show_badge": false,
+    "buttons": [
+      {
+        "title": "开始创作视频",
+        "url": "/image-to-video",
+        "target": "_self",
+        "variant": "default",
+        "icon": "GoArrowUpRight"
+      }
+    ]
+  },
+  "aiModelsHero": {
+    "title": "一站式 AI 图生视频生成器",
+    "description": "Seedance 是一款顶尖的一站式 AI 图生视频生成器。我们集成了 Sora 2、Veo3、Seedance 等行业领先的视频模型，汇聚于同一平台。无需切换平台，即可无缝体验并创作震撼的视觉效果！",
+    "models": [
+      {
+        "id": "sora2",
+        "name": "Sora 2",
+        "logo": "/imgs/intro/sora.png"
+      },
+      {
+        "id": "veo3",
+        "name": "Veo 3",
+        "logo": "/imgs/intro/veo.svg"
+      },
+      {
+        "id": "seedance",
+        "name": "Seedance",
+        "logo": "/imgs/intro/seedance.png"
+      }
+    ],
+    "moreModels": "更多模型"
+  },
+  "imageToVideoShowcase": {
+    "title": "图生视频 AI",
+    "description": "使用我们的图生视频 AI 生成器，让您的静态图片焕发生机",
+    "cta": "试用 Seedance",
+    "labels": {
+      "originalImage": "原始图像",
+      "prompt": "提示词",
+      "video": "视频"
+    },
+    "examples": [
+      {
+        "id": "anime-girl",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Anime-Shooting.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Anime-Shooting.mp4",
+        "originalAlt": "身穿绿色盔甲的精灵弓箭手，拉满长弓",
+        "videoAlt": "绿色发光箭矢穿过阳光明媚的森林",
+        "prompt": "一位身着绿色盔甲的精灵弓箭手，长弓拉满，面带神秘微笑。她的金发在微风中自然飘动。一个垂直跟踪镜头环绕她身后，一支带有绿色光芒的箭矢平稳发射。摄像机跟随箭矢轨迹穿过茂密的森林，阳光透过树叶形成跳跃的光斑。手持拍摄营造出动态的追逐感。"
+      },
+      {
+        "id": "pastoral-boy",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/pastoral-boy.mp4",
+        "originalAlt": "田野里手持麦秆的男孩",
+        "videoAlt": "相机环绕男孩，麦秆随风摆动",
+        "prompt": "相机在画面中环绕男孩，周围环境自然移动，麦秆随风摆动，男孩凝视远方。"
+      },
+      {
+        "id": "Selfie-cat",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/1202Replacement%20material/Selfie-cat.mp4",
+        "originalAlt": "驾驶战斗机的猫",
+        "videoAlt": "猫在天空中驾驶战斗机",
+        "prompt": "手持摄像机，略微抖动，猫驾驶战斗机在天空中翱翔，摄像机始终位于猫的前方。"
+      },
+      {
+        "id": "motorcycle",
+        "originalImage": "https://r2.veo3ai.io/intro/image-to-video/img/Astronaut-Looking-at-Earth.png",
+        "videoImage": "https://r2.veo3ai.io/intro/image-to-video/Motorcycle-Speeds-with-Light-Trail.mp4",
+        "originalAlt": "摩托车准备加速",
+        "videoAlt": "摩托车快速行驶留下光轨",
+        "prompt": "摩托车飞速行驶，尾灯化作一道光线。",
+        "promptExpandable": false
+      }
+    ]
+  },
+  "aiVideoShowcase": {
+    "title": "通过 AI 视频生成器将任何文字可视化",
+    "description": "通过我们的 AI 视频生成器将文字创意转化为生动画面！只需一条简单的提示词，即可创作任意风格的精彩视频。",
+    "cta": "开始创作",
+    "examples": [
+      {
+        "id": "1",
+        "image": "/intro/camera.mp4",
+        "alt": "镜头运动演示",
+        "prompt": "动态镜头角度展现电影级运镜"
+      },
+      {
+        "id": "2",
+        "image": "/intro/storytelling.mp4",
+        "alt": "叙事能力",
+        "prompt": "多场景叙事，角色保持一致性"
+      },
+      {
+        "id": "3",
+        "image": "/intro/versatility.mp4",
+        "alt": "风格多样性",
+        "prompt": "将场景转化为不同的艺术风格"
+      },
+      {
+        "id": "4",
+        "image": "/intro/dynamic-range.mp4",
+        "alt": "动态表现",
+        "prompt": "从细腻的动画到爆炸性的动作场面"
+      },
+      {
+        "id": "5",
+        "image": "/intro/professional-1080.mp4",
+        "alt": "专业画质",
+        "prompt": "清晰的 1080p 画质，动作流畅自然"
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "label": "常见问题",
+    "title": "关于 Seedance 2.0 AI 视频生成器的常见问题",
+    "description": "了解更多关于 Seedance 2.0 AI 视频生成器的先进能力、多镜头叙事与专业视频创作功能。获取关于 Seedance ByteDance 技术与我们前沿视频生成平台的答案。",
+    "items": [
+      {
+        "title": "什么是 Seedance 2.0 AI 视频生成器？它是如何工作的？",
+        "description": "Seedance 2.0 AI 视频生成器为您提供突破性的视频创作技术，支持原生多镜头叙事。只需用文字描述您的视频构想，Seedance ByteDance 即可生成具备电影级美学、流畅运动与多样风格表达的高质量 1080p 视频。Seedance AI 视频生成器先进的语义理解能力可确保精准的提示词遵循，借助我们革命性的视频生成技术带来专业级效果。"
+      },
+      {
+        "title": "Seedance 2.0 有哪些新功能？",
+        "description": "Seedance 2.0 带来六大升级：精准空间关系的卓越结构控制、多模态参考输入（文本/图像/视频/音频）、完美的角色与场景一致性、真实的物理模拟、无缝视频延展，以及增强的电影级美学。这些改进让 Seedance 2.0 成为当下最先进的 AI 视频生成器。"
+      },
+      {
+        "title": "Seedance 2.0 相比 Sora 2 与 Veo 3 表现如何？",
+        "description": "在结构控制基准测试中，Seedance 2.0 的表现超越 Sora 2 与 Veo 3，可在整个视频生成过程中保持更精确的物体定位与空间关系。它还拥有更出色的物理模拟与角色一致性，是专业视频创作者的首选。"
+      },
+      {
+        "title": "Seedance 2.0 AI 视频生成器与其他视频工具有什么不同？",
+        "description": "Seedance 2.0 AI 视频生成器拥有独树一帜的突破性功能：卓越的结构控制、多模态参考输入、跨角色与场景的完美一致性、真实的物理模拟、无缝视频延展与电影级美学。Seedance ByteDance 的先进技术带来的专业级成果，是包括 Sora 2 与 Veo 3 在内的其他 AI 视频生成平台所无法比拟的。"
+      },
+      {
+        "title": "使用 Seedance 2.0 AI 视频生成器可以创建哪些类型的视频？",
+        "description": "Seedance 2.0 AI 视频生成器支持多种视频类型：营销视频、社交媒体内容、教育素材、产品演示、动画故事、音乐视频、概念艺术与电影级场景。凭借 Seedance ByteDance 卓越的结构控制与 1080p 画质，AI 视频生成器能以真实的物理表现与完美的一致性适配任何创意愿景。"
+      },
+      {
+        "title": "免费的 Seedance 2.0 AI 视频生成器有什么限制吗？",
+        "description": "免费的 Seedance 2.0 AI 视频生成器可让您体验先进的 1080p 视频生成与卓越结构控制能力，而 Seedance ByteDance 付费用户可享受无限生成、更长视频时长、优先处理，以及自定义风格与批量处理等额外功能。免费用户可在合理的使用额度内创作电影级视频，充分体验我们视频生成技术的强大。"
+      },
+      {
+        "title": "使用 Seedance AI 视频生成器生成视频需要多长时间？",
+        "description": "Seedance AI 视频生成器通常需要 2-5 分钟生成标准 1080p 视频，具体取决于复杂度与多镜头要求。Seedance ByteDance AI 会处理您的提示词，构建具备电影级美学的视频序列，并通过我们优化的视频生成系统进行高级渲染以获得专业成果。付费用户可享受优先处理，体验更快的视频生成性能。"
+      },
+      {
+        "title": "我能自定义 Seedance AI 视频生成器生成视频的风格与质量吗？",
+        "description": "当然可以！Seedance AI 视频生成器提供丰富的自定义选项，从照片级写实到赛博朋克美学，风格多样。您可以在提示词中指定视频风格、镜头角度、光照、氛围、色调与运动特征。Seedance ByteDance AI 视频生成器能够理解详尽的创意指导，借助先进的视频生成算法输出符合您精确愿景的电影级 1080p 视频。"
+      },
+      {
+        "title": "使用 Seedance AI 视频生成器时，我的内容是否安全？",
+        "description": "完全安全。Seedance AI 视频生成器采用行业领先的安全措施保护您的内容与提示词。我们遵循严格的隐私协议，绝不使用您的个人项目训练模型或与第三方分享内容。借助 Seedance ByteDance 安全的视频生成基础设施，您的创意作品与多镜头视频项目将完全保密。"
+      },
+      {
+        "title": "我该如何开始使用 Seedance AI 视频生成器？",
+        "description": "开始使用 Seedance AI 视频生成器非常简单！只需点击「生成视频」按钮，在提示词框中描述您的视频构想，然后观看 AI 视频生成器为您打造具备电影级美学的专业 1080p 视频。Seedance ByteDance 无需任何复杂设置——通过我们直观的视频生成界面，即刻开始创作精彩的多镜头视频。"
+      },
+      {
+        "title": "Seedance AI 视频生成器支持哪些视频格式与分辨率？",
+        "description": "Seedance AI 视频生成器支持 MP4、MOV 与 WebM 等多种格式。视频默认以专业的 1080p 分辨率生成，借助多镜头叙事能力呈现电影级品质。所有 Seedance ByteDance 视频均针对网络分享、社交媒体与专业用途进行优化，具备宽广的动态范围与多样的风格表达，凝聚我们先进的视频生成技术。"
+      },
+      {
+        "title": "我可以将 Seedance AI 视频生成器生成的视频用于商业用途吗？",
+        "description": "可以！使用 Seedance AI 视频生成器创作的视频可用于商业用途，包括营销、广告、社交媒体与商业演示。凭借专业级 1080p 画质与电影级美学，您的 Seedance ByteDance 视频可直接应用于任何商业场景。付费套餐提供扩展的商业授权与面向企业应用的附加使用权益。"
+      }
+    ]
+  },
+  "cta": [
+    {
+      "name": "cta-generate",
+      "title": "使用 Seedance 2.0 AI 视频生成器开始创作视频",
+      "buttons": [
+        {
+          "title": "生成视频",
+          "url": "#video-generator",
+          "target": "_self",
+          "icon": "GoArrowUpRight"
+        }
+      ]
+    },
+    {
+      "name": "cta-features",
+      "title": "探索 Seedance 2.0 AI 视频生成器的功能",
+      "description": "卓越结构控制、多模态参考、完美一致性、真实物理模拟与先进的 Seedance ByteDance AI 视频生成技术",
+      "buttons": [
+        {
+          "title": "了解更多",
+          "url": "#features",
+          "target": "_self"
+        }
+      ]
+    }
+  ],
+  "footer": {
+    "name": "footer",
+    "brand": {
+      "title": "Seedance 2.0 AI 视频生成器",
+      "description": "使用 Seedance 2.0 卓越的结构控制与真实物理模拟，将文字与图像转化为震撼的 AI 视频。",
+      "logo": {
+        "src": "/logo.png",
+        "alt": "Seedance AI 视频生成器"
+      },
+      "url": "/"
+    },
+    "copyright": " 2026 • Seedance AI 视频生成器 保留所有权利。",
+    "nav": {
+      "items": [
+        {
+          "title": "视频工具",
+          "children": [
+            {
+              "title": "文生视频",
+              "url": "/text-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "图生视频",
+              "url": "/image-to-video",
+              "target": "_self"
+            },
+            {
+              "title": "参考生视频",
+              "url": "/reference-to-video",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "图像工具",
+          "children": [
+            {
+              "title": "文生图",
+              "url": "/text-to-image",
+              "target": "_self"
+            },
+            {
+              "title": "图生图",
+              "url": "/image-to-image",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "AI 模型",
+          "children": [
+            {
+              "title": "Sora 2",
+              "url": "/sora-2",
+              "target": "_self"
+            },
+            {
+              "title": "Veo 3.1",
+              "url": "/veo-3-1",
+              "target": "_self"
+            },
+            {
+              "title": "Kling 3.0",
+              "url": "/kling-3-0",
+              "target": "_self"
+            },
+            {
+              "title": "Kling Motion Control",
+              "url": "/kling-3-motion-control",
+              "target": "_self"
+            },
+            {
+              "title": "Hailuo 2.3",
+              "url": "/hailuo-2-3",
+              "target": "_self"
+            },
+            {
+              "title": "Seedance 2.0",
+              "url": "/seedance-2-0",
+              "target": "_self"
+            },
+            {
+              "title": "Seedance 1.5 Pro",
+              "url": "/seedance-1-5",
+              "target": "_self"
+            },
+            {
+              "title": "Seedream 5.0",
+              "url": "/seedream-5-0",
+              "target": "_self"
+            },
+            {
+              "title": "Seedream 4.5",
+              "url": "/seedream-4-5",
+              "target": "_self"
+            },
+            {
+              "title": "Wan 2.5",
+              "url": "/wan-2-5",
+              "target": "_self"
+            },
+            {
+              "title": "Nano Banana Pro",
+              "url": "/nano-banana-pro",
+              "target": "_self"
+            },
+            {
+              "title": "Nano Banana",
+              "url": "/nano-banana",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "资源",
+          "children": [
+            {
+              "title": "我的创作",
+              "url": "/history",
+              "target": "_self"
+            },
+            {
+              "title": "定价",
+              "url": "/pricing",
+              "target": "_self"
+            },
+            {
+              "title": "博客",
+              "url": "/blog",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    "agreement": {
+      "items": [
+        {
+          "title": "隐私政策",
+          "url": "/privacy-policy"
+        },
+        {
+          "title": "退款政策",
+          "url": "/refund-policy"
+        },
+        {
+          "title": "服务条款",
+          "url": "/terms-of-service"
+        }
+      ]
+    },
+    "contact": {
+      "title": "联系方式",
+      "items": [
+        {
+          "title": "邮件支持",
+          "value": "support@seedance.tv",
+          "icon": "RiMailFill",
+          "url": "mailto:support@seedance.tv",
+          "target": "_self"
+        },
+        {
+          "title": "公司",
+          "value": "ASTROINSPIRE LTD",
+          "icon": "RiBuildingFill"
+        },
+        {
+          "title": "地址",
+          "value": "71-75, Shelton Street, Covent Garden, London, WC2H 9JQ, UNITED KINGDOM",
+          "icon": "RiMapPinFill"
+        }
+      ]
+    }
+  },
+  "introduce": {
+    "name": "introduce",
+    "title": "什么是 Seedance 2.0 AI 视频生成器",
+    "label": "介绍",
+    "description": "Seedance 2.0 是来自字节跳动的革命性 AI 视频生成器，可将文字描述转化为专业的 1080p 视频。这款先进的 AI 视频生成器拥有突破性的多镜头叙事能力与电影级画质，让 Seedance ByteDance 成为创作者的首选。",
+    "image": {
+      "src": "https://r2.seedance.tv/intro/generator-intro.mp4"
+    },
+    "items": [
+      {
+        "title": "多镜头叙事 AI 视频生成器",
+        "description": "跨多个镜头创作复杂叙事，场景过渡无缝、角色保持一致。Seedance ByteDance 借助我们先进的 AI 视频生成技术，赋能复杂的视频叙事。",
+        "icon": "RiFilmLine"
+      },
+      {
+        "title": "专业 1080p AI 视频生成质量",
+        "description": "生成清晰的高清视频，具备电影级美学、流畅的运动与丰富的视觉细节，完美适合专业用途。Seedance 2.0 AI 视频生成器带来无与伦比的画质。",
+        "icon": "RiHdLine"
+      },
+      {
+        "title": "多样的风格表达",
+        "description": "从照片级写实到赛博朋克美学，Seedance ByteDance AI 视频生成器凭借先进的视频生成技术，以精准的艺术控制与多样的风格表达适配任何创意愿景。",
+        "icon": "RiPaletteLine"
+      }
+    ]
+  },
+  "feature": {
+    "name": "feature",
+    "title": "革命性的 Seedance ByteDance AI 视频生成器",
+    "description": "体验正在变革视频创作的突破性技术。Seedance ByteDance 代表了下一代 AI 视频生成技术，借助先进的 AI 视频生成能力，呈现可媲美传统视频制作方法的专业成果。",
+    "items": [
+      {
+        "title": "突破性的 Seedance AI 视频生成技术",
+        "description": "由专为视频生成设计的尖端人工智能模型驱动。Seedance ByteDance AI 视频生成器通过我们先进的视频生成系统，为专业内容创作带来前所未有的画质与创作掌控。",
+        "icon": "RiRobot2Line"
+      },
+      {
+        "title": "文生视频 AI 视频生成创新",
+        "description": "使用 Seedance 2.0 将简单的文字描述转化为震撼的视觉内容。借助 Seedance ByteDance 技术，我们先进的 AI 视频生成器能以出色的精度理解复杂叙事、视觉风格与创意方向。",
+        "icon": "RiQuillPenLine"
+      },
+      {
+        "title": "专业画质的视频生成输出",
+        "description": "生成电影级的 1080p 视频，具备流畅运动、丰富细节与符合专业标准的电影级美学。Seedance AI 视频生成器每次生成都能输出商业级内容。",
+        "icon": "RiVideoLine"
+      },
+      {
+        "title": "即时 AI 视频创作",
+        "description": "使用 Seedance ByteDance，几分钟即可创作专业视频，无需数小时。通过先进的视频生成自动化，我们革命性的 AI 视频生成器无需昂贵的设备、团队或复杂的剪辑软件。",
+        "icon": "RiTimerLine"
+      },
+      {
+        "title": "AI 视频生成器带来的无限创作可能",
+        "description": "从企业演示到艺术杰作，Seedance 2.0 可以生成任何可以想象的视频风格。借助我们先进的 AI 视频生成平台，创意无界、技术无限。",
+        "icon": "RiInfinityLine"
+      },
+      {
+        "title": "下一代 AI 视频生成功能",
+        "description": "多镜头叙事、角色一致性与先进的镜头控制代表着 AI 视频生成技术的未来。Seedance ByteDance 通过前沿的视频生成创新，今日即可交付这些功能。",
+        "icon": "RiStarLine"
+      }
+    ]
+  },
+  "testimonial": {
+    "name": "testimonial",
+    "label": "用户评价",
+    "title": "创作者如何评价 Seedance 2.0 AI 视频生成器",
+    "description": "探索 Seedance 2.0 AI 视频生成器如何以突破性技术革新视频创作。从多镜头叙事到多样的风格表达，世界各地的创作者都信赖 Seedance ByteDance，借助我们先进的 AI 视频生成平台，打造具备电影级品质并无缝融入工作流的专业视频。",
+    "icon": "GoThumbsup",
+    "items": [
+      {
+        "title": "Sarah Johnson",
+        "label": "内容创作者",
+        "description": "Seedance 2.0 AI 视频生成器彻底改变了我的内容创作流程。Seedance ByteDance 先进的 AI 视频生成器能完美理解我的提示词，生成具备流畅运动与丰富细节的电影级 1080p 视频。Seedance AI 视频生成器的多镜头叙事功能，借助这项先进的视频生成技术为创作者带来了革命性的体验。",
+        "image": {
+          "src": "/imgs/users/1.png"
+        }
+      },
+      {
+        "title": "Michael Chen",
+        "label": "市场总监",
+        "description": "Seedance 2.0 AI 视频生成器在营销活动中表现卓越。Seedance ByteDance 的电影级画质出类拔萃，多智能体互动功能让复杂叙事成为可能。借助 Seedance AI 视频生成器，我可以轻松创作多种不同风格的视频——从照片级写实到赛博朋克美学，全都得益于这款强大的视频生成工具。",
+        "image": {
+          "src": "/imgs/users/2.png"
+        }
+      },
+      {
+        "title": "Emily Rodriguez",
+        "label": "社交媒体经理",
+        "description": "Seedance 2.0 AI 视频生成器输出的视频在一致性与画质上都令人惊艳。凭借 Seedance ByteDance 原生的多镜头叙事能力，我能在复杂序列中保持视觉一致，同时每日产出新鲜内容。Seedance AI 视频生成器在风格多样性与提示词遵循精度上，在整个 AI 视频生成行业中无可匹敌。",
+        "image": {
+          "src": "/imgs/users/3.png"
+        }
+      },
+      {
+        "title": "David Kumar",
+        "label": "YouTuber 与教育工作者",
+        "description": "Seedance 2.0 AI 视频生成器帮助我创作能吸引观众的教学内容。从写实演示到动画讲解，Seedance ByteDance 先进的 AI 视频生成器以电影级美学轻松应对。借助这款卓越的视频生成技术，Seedance 视频流畅的运动与丰富的细节让观众全程沉浸其中。",
+        "image": {
+          "src": "/imgs/users/4.png"
+        }
+      },
+      {
+        "title": "Lisa Wang",
+        "label": "独立电影制作人",
+        "description": "Seedance 2.0 AI 视频生成器释放了我作为电影人的创作潜力。借助 Seedance ByteDance 的突破性技术，我可以制作场景原型、用多镜头叙事创作概念视频，并尝试各种视觉叙事。Seedance AI 视频生成器精准的镜头运动控制与宽广的动态范围，配合先进的视频生成能力，非常适合专业电影创作。",
+        "image": {
+          "src": "/imgs/users/5.png"
+        }
+      },
+      {
+        "title": "Alex Thompson",
+        "label": "数字艺术家",
+        "description": "Seedance 2.0 AI 视频生成器的精度与艺术品质令人惊叹。Seedance ByteDance 能理解复杂的艺术指导，生成的视频与我的创意愿景完美契合。从赛博朋克到插画风格，Seedance AI 视频生成器多样的风格表达能力让无尽的创意探索成为可能，借助这一前沿的视频生成平台带来专业成果。",
+        "image": {
+          "src": "/imgs/users/6.png"
+        }
+      }
+    ]
+  },
+  "gettingStarted": {
+    "title": "如何使用 Seedance AI 视频生成器创作视频",
+    "description": "借助 Seedance ByteDance，几分钟即可开始生成专业级 1080p 视频。简单、快速、强大。",
+    "steps": [
+      {
+        "step": 1,
+        "title": "描述您的创意",
+        "description": "撰写详细的文字提示词，描述您的视频构想。Seedance AI 视频生成器能理解复杂的指令与艺术风格。",
+        "icon": "RiEditLine"
+      },
+      {
+        "step": 2,
+        "title": "选择您的设置",
+        "description": "选择视频时长、宽高比与风格偏好。从 1080p 画质中挑选并搭配多样的艺术表达。",
+        "icon": "RiSettings3Line"
+      },
+      {
+        "step": 3,
+        "title": "生成您的视频",
+        "description": "见证 Seedance AI 视频生成器将您的创意转化为具备电影级美学的专业级视频。",
+        "icon": "RiPlayLine"
+      },
+      {
+        "step": 4,
+        "title": "下载与分享",
+        "description": "获取高清成片视频，可用于营销、社交媒体或任何商业用途。",
+        "icon": "RiDownloadLine"
+      }
+    ],
+    "cta": {
+      "title": "使用 Seedance AI 视频生成器开始创作",
+      "url": "#video-generator"
+    }
+  },
+  "questionExamples": {
+    "title": "AI 视频生成器创意：",
+    "examples": [
+      {
+        "text": "使用 Seedance AI 视频生成器，创作日落时分飞越未来都市的电影级航拍镜头，霓虹灯光倒映在玻璃幕墙上",
+        "label": "电影级城市景观 AI 视频生成器",
+        "type": "single"
+      },
+      {
+        "text": "使用 Seedance ByteDance 技术，生成一段手机产品演示视频，镜头运动流畅、灯光专业",
+        "label": "产品演示 AI 视频生成器",
+        "type": "single"
+      },
+      {
+        "text": "使用 Seedance 2.0 AI 视频生成器，制作一段关于可再生能源的动画解说视频，配以丰富色彩与流畅转场",
+        "label": "教育动画视频生成器",
+        "type": "single"
+      },
+      {
+        "text": "使用 Seedance AI 视频生成器技术，创作一段自然纪录片风格的森林视频，带有野生动物、清晨薄雾与黄金时刻光影",
+        "label": "自然纪录片 AI 视频生成器",
+        "type": "single"
+      }
+    ]
+  },
+  "questionSuggestions": {
+    "disabled": true,
+    "categories": {
+      "all": "全部"
+    },
+    "questions": {
+      "marketing1": {
+        "text": "使用 Seedance AI 视频生成器，创作一段展现我们产品的动感营销视频，配以专业镜头运动与吸睛视觉效果",
+        "reading_type": "single",
+        "category": "marketing",
+        "tag": "new"
+      },
+      "social1": {
+        "text": "使用 Seedance ByteDance AI 视频生成器，生成一段色彩鲜艳、过渡流畅的潮流社交媒体视频，完美适配 Instagram 与 TikTok",
+        "reading_type": "single",
+        "category": "social",
+        "tag": "new"
+      },
+      "education1": {
+        "text": "使用 Seedance 2.0 视频生成器，制作一段教学视频，用清晰的动画与生动的视觉叙事讲解复杂概念",
+        "reading_type": "single",
+        "category": "education"
+      },
+      "creative1": {
+        "text": "使用 Seedance AI 视频生成器，创作一段艺术视频，融入抽象视觉、创新镜头角度与实验性视觉特效",
+        "reading_type": "single",
+        "category": "creative"
+      },
+      "business1": {
+        "text": "使用 Seedance ByteDance 视频生成器，生成一段专业的商业演示视频，配以简洁图形与企业级设计",
+        "reading_type": "single",
+        "category": "business"
+      },
+      "entertainment1": {
+        "text": "使用 Seedance AI 视频生成器技术，创作一段娱乐视频，包含动感动作序列与电影级叙事元素",
+        "reading_type": "single",
+        "category": "entertainment"
+      },
+      "tutorial1": {
+        "text": "使用 Seedance 2.0 AI 视频生成器，制作一段分步教程视频，配以清晰的演示与实用的可视化指引",
+        "reading_type": "single",
+        "category": "tutorial"
+      },
+      "lifestyle1": {
+        "text": "使用 Seedance ByteDance AI 视频生成器，生成一段生活方式视频，呈现美感十足的画面、自然光影与令人向往的视觉",
+        "reading_type": "single",
+        "category": "lifestyle"
+      },
+      "tech1": {
+        "text": "使用 Seedance AI 视频生成平台，创作一段科技展示视频，融入未来感元素与精致的视觉设计",
+        "reading_type": "single",
+        "category": "technology"
+      },
+      "travel1": {
+        "text": "使用 Seedance 2.0 视频生成器，生成一段旅行视频，捕捉令人惊叹的风景、电影级的镜头运动与鲜艳的色彩",
+        "reading_type": "single",
+        "category": "travel"
+      }
+    }
+  }
+}

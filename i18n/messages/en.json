@@ -29,6 +29,11 @@
     "description": "Try Kling 3.0 AI video generator with native audio, multi-shot storytelling, element consistency, multilingual voices, and up to 15s output. Create Kling 3.0 videos on Seedance.",
     "keywords": "Kling 3.0, Kling AI, AI video generator, text to video, image to video, native audio, multi-shot, Seedance"
   },
+  "kling-3-motion-control": {
+    "title": "Kling Motion Control Free: AI Motion Transfer Online | Veo3 AI",
+    "description": "Use Kling Motion Control free on Veo3 AI. Upload a reference video, apply motion to any character or image — no watermark, no credit card. Try it now.",
+    "keywords": "Kling Motion Control, Kling AI motion control, motion control AI video, free motion control, Kling motion transfer, Veo3 AI"
+  },
   "seedance-1-5": {
     "title": "Seedance 1.5 Pro: ByteDance Audio-Video AI | Seedance",
     "description": "Seedance 1.5 Pro by ByteDance features native audio-visual generation, multilingual lip-sync, and cinematic camera control. Try it free!",
@@ -76,6 +81,7 @@
     "image_to_video": "Image to Video",
     "text_to_video": "Text to Video",
     "reference_to_video": "Reference to Video",
+    "motion_control": "Motion Control",
     "text_to_image": "Text to Image",
     "image_to_image": "Image to Image",
     "text_to_music": "Text to Music",
@@ -358,6 +364,7 @@
     "titleTextToVideo": "Text to Video",
     "titleImageToVideo": "Image to Video",
     "titleReferenceToVideo": "Reference to Video",
+    "titleMotionControl": "Motion Control",
     "videoDescription": "Prompt",
     "videoAspectRatio": "Video Aspect Ratio",
     "videoDuration": "Video Duration",
@@ -373,6 +380,22 @@
     "uploading": "Uploading...",
     "generating": "Generating...",
     "uploadImage": "Image",
+    "uploadVideo": "Video",
+    "characterImage": "Character Image",
+    "referenceVideo": "Reference Video",
+    "motionMode": "Generation Mode",
+    "motionModeStd": "Standard (720p)",
+    "motionModePro": "Professional (1080p)",
+    "characterOrientation": "Character Orientation",
+    "addVideoToMimic": "Add video for motion reference",
+    "addCharacterImage": "Add character image reference",
+    "motionLibrary": "Motion Library",
+    "historyCreations": "History Creations",
+    "orientationImage": "Consistent with Image",
+    "orientationVideo": "Consistent with Video",
+    "backgroundSource": "Background Source",
+    "bgSourceVideo": "Input Video",
+    "bgSourceImage": "Input Image",
     "dragAndDropImage": "Click to upload or drag image here",
     "supportedFormats": "Supports JPG, PNG, GIF formats, max 10MB",
     "chooseFile": "Choose File",
@@ -391,7 +414,9 @@
     "myCreations": "My Creations",
     "selectFromCreations": "Select from My Creations",
     "noImagesYet": "No images generated yet",
+    "noVideosYet": "No videos generated yet",
     "loadingImages": "Loading images...",
+    "loadingVideos": "Loading videos...",
     "maxImagesError": "Maximum {max} images allowed",
     "onlyUploadingFirst": "Only uploading first {count} images (max {max})",
     "uploadingMultiple": "Uploading {current}/{total} images...",
@@ -400,6 +425,12 @@
     "uploadMultipleImages": "Upload up to {max} images",
     "uploadMoreImagesRemaining": "Upload more images ({remaining} remaining)",
     "mediaUploadTitle": "Reference Materials",
+    "motionControlHelpVideoTitle": "Reference Video",
+    "motionControlHelpVideoDesc": "The character in the generated video will perform the same actions as in this video. Make sure the person's upper body or full body is clearly visible with smooth, steady movements.",
+    "motionControlHelpImageTitle": "Reference Image",
+    "motionControlHelpImageDesc": "The character's look, outfit, and background in the generated video will be based on this image. Keep the body proportions similar to the reference video.",
+    "motionControlHelpOrientationNote": "Orientation set to \"video\" supports up to 30s. Set to \"image\" supports up to 10s.",
+    "motionControlTip": "Ensure the upper body is clearly visible in both the image and video. Image: JPG/PNG, max 10MB. Video: MP4/MOV, 3-30s.",
     "mediaUploadHint": "Upload 1-12 reference materials. Use @ in your prompt to reference them, e.g.: @1 mimics @2's motion, with @3 as background music.",
     "mediaUploadPrompt": "Upload up to {max} materials (images, videos, audio)",
     "mediaUploadSecondaryHint": "Optional. Multi-select or drag & drop",
@@ -459,10 +490,13 @@
       "emptyPrompt": "Please enter a description",
       "videoSubmitted": "Video generation task submitted, processing...",
       "videoCompleted": "Video generation completed!",
-      "videoFailed": "Video generation failed"
+      "videoFailed": "Video generation failed",
+      "uploadVideoRequired": "Please upload a reference video"
     },
     "videoEffect": "Video Effect",
-    "chooseVideoEffect": "Choose Video Effect"
+    "chooseVideoEffect": "Choose Video Effect",
+    "helpVideo": "Reference video for character motion. The generated character will mimic movements from this video. MP4/MOV, 3-30s, upper body must be clearly visible.",
+    "helpImage": "Character reference image. The generated video will preserve this character's appearance. JPG/PNG, max 10MB, min 300px, ratio 2:5 to 5:2."
   },
   "video-history": {
     "title": "Video Generation History",
@@ -696,6 +730,11 @@
       "title": "Free Veo3 Reference to Video: Lock Character Identity | Seedance",
       "description": "Upload 1-3 reference images and generate 8s videos with Veo 3.1. Preserve character appearance across scenes with native audio. Extend to 148s.",
       "keywords": "Veo3 reference to video, consistent character, identity lock, Veo 3.1, character consistency"
+    },
+    "motionControl": {
+      "title": "Kling Motion Control - Reference Video Character Animation | Veo3 AI",
+      "description": "Animate your character images using reference videos with Kling 3.0 Motion Control. Perfect character movement and consistency.",
+      "keywords": "Kling Motion Control, Kling 3.0, character animation, video to video, reference video animation, AI video generator, Veo3 AI"
     },
     "imageGeneration": {
       "title": "Free AI Image Generator: Create Stunning Images from Text | Seedance",

@@ -29,6 +29,11 @@
     "description": "네이티브 오디오, 멀티샷 스토리텔링, 요소 일관성, 다국어 음성, 최대 15초 출력의 Kling 3.0 AI 비디오 생성기를 사용해보세요. Seedance에서 Kling 3.0 비디오를 만드세요.",
     "keywords": "Kling 3.0, Kling AI, AI 비디오 생성기, 텍스트에서 비디오, 이미지에서 비디오, 네이티브 오디오, 멀티샷, Seedance"
   },
+  "kling-3-motion-control": {
+    "title": "Kling Motion Control 무료: AI 모션 전송 온라인 | Veo3 AI",
+    "description": "Veo3 AI에서 Kling Motion Control을 무료로 사용하세요. 참조 영상을 업로드하여 어떤 캐릭터에도 모션을 적용 — 워터마크 없음, 신용카드 불필요.",
+    "keywords": "Kling Motion Control, Kling AI 모션 컨트롤, 모션 컨트롤 AI 영상, 무료 모션 컨트롤, Kling motion transfer, Veo3 AI"
+  },
   "seedance-1-5": {
     "title": "Seedance 1.5 Pro: ByteDance 오디오-비디오 AI | Seedance",
     "description": "ByteDance의 Seedance 1.5 Pro는 네이티브 오디오-비주얼 생성, 다국어 립싱크, 시네마틱 카메라 제어를 제공합니다. 무료로 사용해보세요!",
@@ -80,6 +85,7 @@
     "image_to_video": "이미지에서 비디오",
     "text_to_video": "텍스트에서 비디오",
     "reference_to_video": "레퍼런스에서 비디오",
+    "motion_control": "모션 컨트롤",
     "text_to_image": "텍스트에서 이미지",
     "image_to_image": "이미지에서 이미지",
     "text_to_music": "텍스트에서 음악",
@@ -465,8 +471,35 @@
       "emptyPrompt": "설명을 입력하세요",
       "videoSubmitted": "비디오 생성 작업이 제출되었습니다, 처리 중...",
       "videoCompleted": "비디오 생성이 완료되었습니다!",
-      "videoFailed": "비디오 생성 실패"
-    }
+      "videoFailed": "비디오 생성 실패",
+      "uploadVideoRequired": "참조 영상을 업로드해 주세요"
+    },
+    "motionControlHelpVideoTitle": "참조 영상",
+    "motionControlHelpVideoDesc": "생성된 영상의 캐릭터가 이 영상과 동일한 동작을 수행합니다. 상반신 또는 전신이 선명하게 보이고 부드러운 움직임이어야 합니다.",
+    "motionControlHelpImageTitle": "참조 이미지",
+    "motionControlHelpImageDesc": "생성된 영상의 캐릭터 외모, 의상 및 배경이 이 이미지를 기반으로 합니다. 신체 비율이 참조 영상과 유사해야 합니다.",
+    "motionControlHelpOrientationNote": "방향을 \"영상\"으로 설정하면 최대 30초, \"이미지\"로 설정하면 최대 10초까지 지원됩니다.",
+    "motionControlTip": "이미지와 영상 모두에서 상반신이 선명하게 보여야 합니다. 이미지: JPG/PNG, 최대 10MB. 영상: MP4/MOV, 3-30초.",
+    "mediaMentionHint": "@를 입력하여 업로드한 자료를 참조하세요",
+    "titleMotionControl": "모션 컨트롤",
+    "uploadVideo": "영상",
+    "characterImage": "캐릭터 이미지",
+    "referenceVideo": "참조 영상",
+    "motionMode": "생성 모드",
+    "motionModeStd": "표준 (720p)",
+    "motionModePro": "프로페셔널 (1080p)",
+    "characterOrientation": "캐릭터 방향",
+    "addVideoToMimic": "모션 참조용 영상 추가",
+    "addCharacterImage": "캐릭터 참조 이미지 추가",
+    "motionLibrary": "모션 라이브러리",
+    "historyCreations": "이전 작품",
+    "orientationImage": "이미지와 일치",
+    "orientationVideo": "영상과 일치",
+    "backgroundSource": "배경 소스",
+    "bgSourceVideo": "입력 영상",
+    "bgSourceImage": "입력 이미지",
+    "helpVideo": "캐릭터 모션 참조 영상. 생성된 캐릭터가 이 영상의 움직임을 모방합니다. MP4/MOV, 3-30초, 상체가 명확히 보여야 합니다.",
+    "helpImage": "캐릭터 참조 이미지. 생성된 영상은 이 캐릭터의 외형을 유지합니다. JPG/PNG, 최대 10MB, 최소 300px, 비율 2:5~5:2."
   },
   "video-history": {
     "title": "비디오 생성 이력",
@@ -700,6 +733,11 @@
       "title": "무료 Veo3 레퍼런스에서 비디오: 캐릭터 ID 잠금 | Seedance",
       "description": "1-3장의 참조 이미지를 업로드하고 Veo 3.1로 8초 비디오를 생성하세요. 네이티브 오디오로 씬 간 캐릭터 외모를 유지합니다. 148초까지 확장 가능.",
       "keywords": "Veo3 레퍼런스에서 비디오, 일관된 캐릭터, ID 잠금, Veo 3.1, 캐릭터 일관성"
+    },
+    "motionControl": {
+      "title": "Kling 모션 컨트롤 - 참조 영상 캐릭터 애니메이션 | Veo3 AI",
+      "description": "Kling 3.0 모션 컨트롤로 참조 영상을 사용하여 캐릭터 이미지를 애니메이션화하세요. 완벽한 캐릭터 움직임과 일관성.",
+      "keywords": "Kling 모션 컨트롤, Kling 3.0, 캐릭터 애니메이션, 영상 변환, 참조 영상 애니메이션, AI 영상 생성기, Veo3 AI"
     },
     "imageGeneration": {
       "title": "무료 AI 이미지 생성기: 텍스트에서 멋진 이미지 생성 | Seedance",

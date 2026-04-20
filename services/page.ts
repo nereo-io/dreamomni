@@ -233,6 +233,25 @@ export async function getReferenceToVideoPage(
   }
 }
 
+export async function getMotionControlPage(
+  locale: string
+): Promise<ReferenceToVideoPage> {
+  try {
+    if (locale === "zh-CN") {
+      locale = "zh";
+    }
+    return await import(
+      `@/i18n/pages/motion-control/${locale.toLowerCase()}.json`
+    ).then((module) => module.default);
+  } catch (error) {
+    console.warn(
+      `Failed to load motion-control/${locale}.json, falling back to en.json`
+    );
+    // Fallback to reference-to-video en.json if motion-control en.json doesn't exist yet
+    return await getReferenceToVideoPage("en");
+  }
+}
+
 export async function getTextToImagePage(
   locale: string
 ): Promise<TextToImagePage> {

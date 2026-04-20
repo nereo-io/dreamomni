@@ -12,13 +12,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Play, Coins, Crown, ChevronRight, Clock3 } from "lucide-react";
+import { Play, Coins, Crown, ChevronRight, Clock3, HelpCircle } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useAppContext } from "@/contexts/app";
 import { toast } from "sonner";
 import { useTranslations, useLocale } from "next-intl";
 import useCredits from "@/hooks/useCredits";
 import { ImageUploader } from "./ImageUploader";
+import { MotionControlUpload } from "./MotionControlUpload";
 import { ImageGridUploader } from "./ImageGridUploader";
+import { ImageSelectionModal } from "./ImageSelectionModal";
+import { VideoSelectionModal } from "./VideoSelectionModal";
 import { MediaGridUploader, type MediaItem } from "./MediaGridUploader";
 import { PromptWithMentions } from "./PromptWithMentions";
 import {
@@ -29,7 +38,7 @@ import {
   getSupportedResolutionsForDuration,
   isSeedanceModel,
   getMaxImagesForModel,
-  isMaxApiModel,
+  VideoModel,
 } from "@/config/video-models";
 import type { VideoGenerationResult } from "@/hooks/useVideoGeneration";
 import type { VideoEffect } from "@/types/video-effect";
@@ -56,6 +65,10 @@ export interface VideoGenerationParams {
   captchaToken?: string;
   watermarkEnabled?: boolean;
   generationType?: string; // For Reference-to-Video feature (e.g., "REFERENCE_2_VIDEO")
+  // Motion Control params
+  video_urls?: string[];
+  character_orientation?: "video" | "image";
+  background_source?: "input_video" | "input_image";
 }
 
 interface VideoGeneratorProps {
@@ -148,6 +161,11 @@ export default function VideoGenerator({
   const [uploadedMediaUrls, setUploadedMediaUrls] = useState<string[]>([]);
   const [uploadedMediaItems, setUploadedMediaItems] = useState<MediaItem[]>([]);
 
+  // Motion Control states
+  const [uploadedVideoUrls, setUploadedVideoUrls] = useState<string[]>([]);
+  const [characterOrientation, setCharacterOrientation] = useState<"video" | "image">("video");
+  const [backgroundSource, setBackgroundSource] = useState<"input_video" | "input_image">("input_video");
+
   // 向后兼容：保留旧状态供其他逻辑使用
   const uploadedImageUrl =
     uploadedImageUrls.find((url): url is string => !!url) || null;
@@ -160,6 +178,8 @@ export default function VideoGenerator({
 
   // CAPTCHA related states
   const [showCaptchaModal, setShowCaptchaModal] = useState(false);
+  const [showImageSelectionModal, setShowImageSelectionModal] = useState(false);
+  const [showVideoSelectionModal, setShowVideoSelectionModal] = useState(false);
   const [pendingCaptchaParams, setPendingCaptchaParams] =
     useState<VideoGenerationParams | null>(null);
 
@@ -171,12 +191,11 @@ export default function VideoGenerator({
   const { leftCredits, updateLeftCredits } = useCredits();
   const isMember = membership?.status === "active";
   const isSeedanceSelected = isSeedanceModel(selectedModel);
-  const isMaxApiSeedanceSelected = isMaxApiModel(selectedModel);
-  const isMediaToVideoModel =
-    isMaxApiSeedanceSelected ||
-    selectedModel === "volcano-seedance-2-0-fast-reference-to-video" ||
-    selectedModel === "volcano-seedance-2-0-reference-to-video";
   const isVeo3Selected = selectedModel.includes('kie-veo3-');
+  const selectedModelConfigForMediaCheck = getVideoModel(selectedModel);
+  const isMediaToVideoModel =
+    selectedModelConfigForMediaCheck?.generationType === "REFERENCE_2_VIDEO" &&
+    (selectedModelConfigForMediaCheck?.imageCapabilities?.maxImages ?? 0) > 3;
   const usesMixedMediaInput =
     generationType === "REFERENCE_2_VIDEO" && isMediaToVideoModel;
 
@@ -420,6 +439,37 @@ export default function VideoGenerator({
 
   // 获取选中模型的详细信息
   const selectedModelConfig = getVideoModel(selectedModel);
+  const promptMaxLength = useMemo(() => {
+    const modelName = selectedModelConfig?.modelName;
+    if (modelName === VideoModel.KLING3) {
+      return 2500;
+    }
+    if (modelName === VideoModel.HAILUO_2_3) {
+      return 2000;
+    }
+    if (modelName === VideoModel.WAN_2_5) {
+      return 5000;
+    }
+
+    // Backward compatibility for legacy IDs
+    if (selectedModel.includes("kling-3")) {
+      return 2500;
+    }
+    if (selectedModel.includes("hailuo-2-3")) {
+      return 2000;
+    }
+    if (
+      selectedModel.includes("kie-wan-2-5") ||
+      selectedModel.includes("kie-wan-2-6")
+    ) {
+      return 5000;
+    }
+
+    return undefined;
+  }, [selectedModel, selectedModelConfig?.modelName]);
+  const promptLength = description.length;
+  const isPromptTooLong =
+    typeof promptMaxLength === "number" && promptLength > promptMaxLength;
   const selectedDurationSeconds = useMemo(() => {
     if (!selectedDuration) {
       return null;
@@ -785,9 +835,14 @@ export default function VideoGenerator({
       watermarkEnabled: (isSeedanceSelected || isVeo3Selected) ? watermarkEnabled : false,
       generationType: finalGenerationType,
       media_urls:
-        usesMixedMediaInput && uploadedMediaUrls.length > 0
-          ? uploadedMediaUrls
-          : undefined,
+        finalGenerationType === "MOTION_CONTROL"
+          ? uploadedVideoUrls
+          : usesMixedMediaInput && uploadedMediaUrls.length > 0
+            ? uploadedMediaUrls
+            : undefined,
+      // Motion Control params
+      character_orientation: finalGenerationType === "MOTION_CONTROL" ? characterOrientation : undefined,
+      background_source: finalGenerationType === "MOTION_CONTROL" ? backgroundSource : undefined,
     };
 
     console.log('[VideoGenerator] buildGenerationParams:', {
@@ -839,7 +894,17 @@ export default function VideoGenerator({
     // 验证图片转视频模式下必须上传图片
     const hasImages = uploadedImageUrls.some((url) => !!url) || !!uploadedImageUrl;
     const hasMedia = usesMixedMediaInput && uploadedMediaUrls.length > 0;
-    if (mode === "image-to-video" && !hasImages && !hasMedia) {
+
+    if (generationType === "MOTION_CONTROL") {
+      if (!hasImages) {
+        toast.error(t("toast.uploadImageRequired"));
+        return;
+      }
+      if (uploadedVideoUrls.length === 0) {
+        toast.error(t("toast.uploadVideoRequired"));
+        return;
+      }
+    } else if (mode === "image-to-video" && !hasImages && !hasMedia) {
       toast.error(t("toast.uploadImageRequired"));
       return;
     }
@@ -875,6 +940,8 @@ export default function VideoGenerator({
             <h1 className="text-white text-xl font-semibold">
               {effect
                 ? effect.title
+                : generationType === "MOTION_CONTROL"
+                ? t("titleMotionControl")
                 : generationType === "REFERENCE_2_VIDEO"
                 ? t("titleReferenceToVideo")
                 : mode === "image-to-video"
@@ -940,37 +1007,84 @@ export default function VideoGenerator({
             </div>
           )}
 
-          {/* Image Upload Section (for image-to-video mode) */}
-          {mode === "image-to-video" &&
-            (usesMixedMediaInput ? (
-              <MediaGridUploader
-                maxMedia={12}
-                onMediaChange={handleMediaChange}
-                isAuthenticated={!!user?.uuid}
-                onShowSignModal={() => setShowSignModal(true)}
-              />
-            ) : generationType === "REFERENCE_2_VIDEO" ? (
-              <ImageGridUploader
-                maxImages={3}
-                selectedModel={selectedModel}
-                onImagesChange={handleImagesChange}
-                isAuthenticated={!!user?.uuid}
-                onShowSignModal={() => setShowSignModal(true)}
-              />
-            ) : (
-              <ImageUploader
-                selectedModel={selectedModel}
-                maxImages={maxImages}
-                onImagesChange={handleImagesChange}
-                imageUrls={uploadedImageUrls}
-                sourceImageIds={sourceImageIds}
-                effect={currentEffect}
-                onPixverseImgIdChange={setPixverseImgId}
-                isAuthenticated={!!user?.uuid}
-                onShowSignModal={() => setShowSignModal(true)}
-                generationType={generationType}
-              />
-            ))}
+          {/* Image/Media Upload Section (for image-to-video mode) */}
+          {mode === "image-to-video" && (
+            <div className="space-y-4">
+              {generationType === "MOTION_CONTROL" && (
+                <div className="flex items-center gap-2">
+                  <span className="text-white text-lg font-semibold">
+                    {t("mediaUploadTitle")}
+                  </span>
+                  <TooltipProvider delayDuration={200}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button type="button" className="text-gray-400 hover:text-gray-200 transition-colors">
+                          <HelpCircle className="w-4 h-4" />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent side="right" className="max-w-[280px] p-3 space-y-2.5 text-xs leading-relaxed">
+                        <div>
+                          <p className="font-semibold text-white mb-1">{t("motionControlHelpVideoTitle")}</p>
+                          <p>{t("motionControlHelpVideoDesc")}</p>
+                        </div>
+                        <div>
+                          <p className="font-semibold text-white mb-1">{t("motionControlHelpImageTitle")}</p>
+                          <p>{t("motionControlHelpImageDesc")}</p>
+                        </div>
+                        <div className="border-t border-gray-600 pt-2 text-gray-400">
+                          <p>{t("motionControlHelpOrientationNote")}</p>
+                        </div>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+              )}
+              {generationType === "MOTION_CONTROL" ? (
+                <MotionControlUpload
+                  videoUrl={uploadedVideoUrls[0] || null}
+                  imageUrl={uploadedImageUrls[0] || null}
+                  orientation={characterOrientation}
+                  onVideoChange={(url) => setUploadedVideoUrls(url ? [url] : [])}
+                  onImageChange={(url) => setUploadedImageUrls(url ? [url] : [])}
+                  onOrientationChange={setCharacterOrientation}
+                  onSelectFromCreations={() => setShowImageSelectionModal(true)}
+                  onSelectVideoFromCreations={() =>
+                    setShowVideoSelectionModal(true)
+                  }
+                  isAuthenticated={!!user?.uuid}
+                  onShowSignModal={() => setShowSignModal(true)}
+                />
+              ) : usesMixedMediaInput ? (
+                <MediaGridUploader
+                  maxMedia={12}
+                  onMediaChange={handleMediaChange}
+                  isAuthenticated={!!user?.uuid}
+                  onShowSignModal={() => setShowSignModal(true)}
+                />
+              ) : generationType === "REFERENCE_2_VIDEO" ? (
+                <ImageGridUploader
+                  maxImages={3}
+                  selectedModel={selectedModel}
+                  onImagesChange={handleImagesChange}
+                  isAuthenticated={!!user?.uuid}
+                  onShowSignModal={() => setShowSignModal(true)}
+                />
+              ) : (
+                <ImageUploader
+                  selectedModel={selectedModel}
+                  maxImages={maxImages}
+                  onImagesChange={handleImagesChange}
+                  imageUrls={uploadedImageUrls}
+                  sourceImageIds={sourceImageIds}
+                  effect={currentEffect}
+                  onPixverseImgIdChange={setPixverseImgId}
+                  isAuthenticated={!!user?.uuid}
+                  onShowSignModal={() => setShowSignModal(true)}
+                  generationType={generationType}
+                />
+              )}
+            </div>
+          )}
 
           {/* Video Settings - hide in effect mode */}
           {!effect && (
@@ -978,7 +1092,6 @@ export default function VideoGenerator({
               <div className="text-white text-lg font-semibold mb-4">
                 {t("videoSettings")}
               </div>
-
               {/* Video Model Selection - always hidden in effect mode */}
               {!effect && (
                 <div className="mb-4">
@@ -1101,86 +1214,90 @@ export default function VideoGenerator({
               )}
 
               {/* Ratio */}
-              <div className="mb-4">
-                <label className="text-gray-300 text-sm mb-2 block">
-                  {t("ratio")}
-                </label>
-                <div className="flex flex-wrap gap-3 sm:gap-6">
-                  {(
-                    selectedModelConfig?.supportedAspectRatios || [
-                      "16:9",
-                      "9:16",
-                      "1:1",
-                    ]
-                  ).map((ratio) => (
-                    <label
-                      key={ratio}
-                      className="flex items-center cursor-pointer min-w-0"
-                    >
-                      <input
-                        type="radio"
-                        name="ratio"
-                        value={ratio}
-                        checked={selectedRatio === ratio}
-                        onChange={(e) => setSelectedRatio(e.target.value)}
-                        className="sr-only"
-                      />
-                      <div
-                        className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
-                          selectedRatio === ratio
-                            ? "border-primary bg-primary"
-                            : "border-gray-500"
-                        }`}
-                      >
-                        {selectedRatio === ratio && (
-                          <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
-                        )}
-                      </div>
-                      <span className="text-gray-300 text-sm">{ratio}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* Duration */}
-              <div className="mb-4">
-                <label className="text-gray-300 text-sm mb-2 block">
-                  {t("duration")}
-                </label>
-                <div className="flex flex-wrap gap-3 sm:gap-6">
-                  {(selectedModelConfig?.supportedDurations || [5, 10]).map(
-                    (duration) => (
+              {generationType !== "MOTION_CONTROL" && (
+                <div className="mb-4">
+                  <label className="text-gray-300 text-sm mb-2 block">
+                    {t("ratio")}
+                  </label>
+                  <div className="flex flex-wrap gap-3 sm:gap-6">
+                    {(
+                      selectedModelConfig?.supportedAspectRatios || [
+                        "16:9",
+                        "9:16",
+                        "1:1",
+                      ]
+                    ).map((ratio) => (
                       <label
-                        key={duration}
+                        key={ratio}
                         className="flex items-center cursor-pointer min-w-0"
                       >
                         <input
                           type="radio"
-                          name="duration"
-                          value={`${duration}s`}
-                          checked={selectedDuration === `${duration}s`}
-                          onChange={(e) => setSelectedDuration(e.target.value)}
+                          name="ratio"
+                          value={ratio}
+                          checked={selectedRatio === ratio}
+                          onChange={(e) => setSelectedRatio(e.target.value)}
                           className="sr-only"
                         />
                         <div
                           className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
-                            selectedDuration === `${duration}s`
+                            selectedRatio === ratio
                               ? "border-primary bg-primary"
                               : "border-gray-500"
                           }`}
                         >
-                          {selectedDuration === `${duration}s` && (
+                          {selectedRatio === ratio && (
                             <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
                           )}
                         </div>
-                        <span className="text-gray-300 text-sm">
-                          {duration}s
-                        </span>
+                        <span className="text-gray-300 text-sm">{ratio}</span>
                       </label>
-                    )
-                  )}
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {/* Duration */}
+              {generationType !== "MOTION_CONTROL" && (
+                <div className="mb-4">
+                  <label className="text-gray-300 text-sm mb-2 block">
+                    {t("duration")}
+                  </label>
+                  <div className="flex flex-wrap gap-3 sm:gap-6">
+                    {(selectedModelConfig?.supportedDurations || [5, 10]).map(
+                      (duration) => (
+                        <label
+                          key={duration}
+                          className="flex items-center cursor-pointer min-w-0"
+                        >
+                          <input
+                            type="radio"
+                            name="duration"
+                            value={`${duration}s`}
+                            checked={selectedDuration === `${duration}s`}
+                            onChange={(e) => setSelectedDuration(e.target.value)}
+                            className="sr-only"
+                          />
+                          <div
+                            className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
+                              selectedDuration === `${duration}s`
+                                ? "border-primary bg-primary"
+                                : "border-gray-500"
+                            }`}
+                          >
+                            {selectedDuration === `${duration}s` && (
+                              <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                            )}
+                          </div>
+                          <span className="text-gray-300 text-sm">
+                            {duration}s
+                          </span>
+                        </label>
+                      )
+                    )}
+                  </div>
+                </div>
+              )}
 
               {/* Resolution */}
               <div className="mb-4">
@@ -1220,7 +1337,27 @@ export default function VideoGenerator({
                 </div>
               </div>
 
-              {selectedModelConfig?.audioOptional && (
+              {/* Background Source (Motion Control only) - hidden: API not yet effective */}
+              {/* {generationType === "MOTION_CONTROL" && (
+                <div className="mb-4">
+                  <label className="text-gray-300 text-sm mb-2 block">
+                    {t("backgroundSource")}
+                  </label>
+                  <div className="flex flex-wrap gap-3 sm:gap-6">
+                    {([["input_video", t("bgSourceVideo")], ["input_image", t("bgSourceImage")]] as const).map(([val, label]) => (
+                      <label key={val} className="flex items-center cursor-pointer min-w-0">
+                        <input type="radio" name="bg_source" value={val} checked={backgroundSource === val} onChange={() => setBackgroundSource(val)} className="sr-only" />
+                        <div className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${backgroundSource === val ? "border-primary bg-primary" : "border-gray-500"}`}>
+                          {backgroundSource === val && <div className="w-2 h-2 bg-white rounded-full m-0.5" />}
+                        </div>
+                        <span className="text-gray-300 text-sm">{label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )} */}
+
+              {selectedModelConfig?.audioOptional && generationType !== "MOTION_CONTROL" && (
                 <div className="mb-4">
                   <AudioSelector
                     value={generateAudio}
@@ -1299,6 +1436,33 @@ export default function VideoGenerator({
         onClose={handleCaptchaModalClose}
         onCaptchaComplete={handleCaptchaComplete}
         isSubmitting={isGenerating}
+      />
+
+      {/* 历史作品选择模态框 (for Motion Control etc) */}
+      <ImageSelectionModal
+        isOpen={showImageSelectionModal}
+        onClose={() => setShowImageSelectionModal(false)}
+        onSelect={(selections) => {
+          if (selections.length > 0) {
+            setUploadedImageUrls([selections[0].url]);
+            setSourceImageIds([selections[0].id]);
+          }
+        }}
+        maxSelection={1}
+        currentCount={uploadedImageUrls.length}
+      />
+
+      {/* 历史作品选择模态框 (for Videos) */}
+      <VideoSelectionModal
+        isOpen={showVideoSelectionModal}
+        onClose={() => setShowVideoSelectionModal(false)}
+        onSelect={(selections) => {
+          if (selections.length > 0) {
+            setUploadedVideoUrls([selections[0].url]);
+          }
+        }}
+        maxSelection={1}
+        currentCount={uploadedVideoUrls.length}
       />
     </div>
   );

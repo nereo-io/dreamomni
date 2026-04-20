@@ -24,6 +24,7 @@ export enum VideoModel {
   VEO3 = "veo3",
   SORA2 = "sora2",
   KLING3 = "kling3",
+  KLING3_MOTION_CONTROL = "kling3-motion-control",
   HAILUO_2_3 = "hailuo-2.3",
   WAN_2_5 = "wan-2.5",
 }
@@ -61,6 +62,10 @@ export interface VideoModelConfig {
     minImages?: number; // 最小图片数量（可选）
     labels?: string[]; // 图片标签，如 ['First Frame', 'Last Frame']
   };
+  characterOrientationConfig?: {
+    image: { maxDuration: number };
+    video: { maxDuration: number };
+  };
   /** The actual AI model this config represents */
   modelName?: VideoModel;
   // Whether this model should use the signed callback route.
@@ -69,7 +74,7 @@ export interface VideoModelConfig {
    * Fallback model IDs (keys in VIDEO_MODELS) tried in order when primary fails.
    * Fallback entries should be internal models (internal: true).
    */
-  fallbackProvider?: string[];
+  fallbackModelIds?: string[];
 }
 
 // 视频模型配置
@@ -94,6 +99,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     estimatedGenerationTime: 120,
     supportedDurations: [5, 8, 10, 15],
     useSignedCallback: true,
+    fallbackModelIds: ["evolink-seedance-2-0-fast-text-to-video"],
   },
 
   // Volcano Engine 官方 Seedance 2.0 Fast 图生视频
@@ -120,9 +126,10 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
       labels: ["First Frame", "Last Frame"],
     },
     useSignedCallback: true,
+    fallbackModelIds: ["evolink-seedance-2-0-fast-image-to-video"],
   },
 
-  // Volcano Engine 官方 Seedance 2.0 Fast 多模态参考生视频 (Reference-to-Video 页面使用)
+  // Volcano Engine 官方 Seedance 2.0 Fast 多模态参考生视频
   "volcano-seedance-2-0-fast-reference-to-video": {
     id: "volcano-seedance-2-0-fast-reference-to-video",
     name: "Volcano Seedance 2.0 Fast Media-to-Video",
@@ -147,9 +154,10 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     },
     generationType: "REFERENCE_2_VIDEO",
     useSignedCallback: true,
+    fallbackModelIds: ["evolink-seedance-2-0-fast-reference-to-video"],
   },
 
-  // Volcano Engine 官方 Seedance 2.0 文生视频（非 Fast，更高质量）
+  // Volcano Engine 官方 Seedance 2.0 文生视频
   "volcano-seedance-2-0-text-to-video": {
     id: "volcano-seedance-2-0-text-to-video",
     name: "Volcano Seedance 2.0 Text-to-Video",
@@ -169,9 +177,10 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     estimatedGenerationTime: 120,
     supportedDurations: [5, 8, 10, 15],
     useSignedCallback: true,
+    fallbackModelIds: ["evolink-seedance-2-0-text-to-video"],
   },
 
-  // Volcano Engine 官方 Seedance 2.0 图生视频（非 Fast，更高质量）
+  // Volcano Engine 官方 Seedance 2.0 图生视频
   "volcano-seedance-2-0-image-to-video": {
     id: "volcano-seedance-2-0-image-to-video",
     name: "Volcano Seedance 2.0 Image-to-Video",
@@ -195,9 +204,10 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
       labels: ["First Frame", "Last Frame"],
     },
     useSignedCallback: true,
+    fallbackModelIds: ["evolink-seedance-2-0-image-to-video"],
   },
 
-  // Volcano Engine 官方 Seedance 2.0 多模态参考生视频（非 Fast，更高质量）
+  // Volcano Engine 官方 Seedance 2.0 多模态参考生视频
   "volcano-seedance-2-0-reference-to-video": {
     id: "volcano-seedance-2-0-reference-to-video",
     name: "Volcano Seedance 2.0 Media-to-Video",
@@ -222,6 +232,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     },
     generationType: "REFERENCE_2_VIDEO",
     useSignedCallback: true,
+    fallbackModelIds: ["evolink-seedance-2-0-reference-to-video"],
   },
 
   // MaxAPI Seedance 2.0 文本转视频模型
@@ -526,7 +537,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     modelName: VideoModel.KLING3,
     displayName: "Kling 3.0",
     perSecondCredits: 6, // 720p std no-audio baseline
-    description: "Kling 3.0 model with realistic motion and stable prompt control.",
+    description: "Kling 3.0 model with realistic motion and stable prompt control. 6/s no sound, 10/s with sound",
     features: ["Wait 120s", "720p/1080p", "5s/10s"],
     maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16", "1:1"],
@@ -549,7 +560,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     displayName: "Kling 3.0",
     perSecondCredits: 6, // 720p std no-audio baseline
     description:
-      "Kling 3.0 image-to-video with stable style retention and natural motion.",
+      "Kling 3.0 image-to-video with stable style retention and natural motion. · 6/s no sound, 10/s with sound",
     features: ["Wait 120s", "Image Animation", "5s/10s"],
     maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16", "1:1"],
@@ -563,6 +574,31 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
       maxImages: 1,
       labels: ["Reference Image"],
     },
+  },
+
+  // Kie.ai Kling 3.0 Motion Control 模型
+  "kie-kling-3-motion-control": {
+    id: "kie-kling-3-motion-control",
+    name: "Kie.ai Kling 3.0 Motion Control",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    providerModelId: "kling-3.0/motion-control",
+    modelName: VideoModel.KLING3_MOTION_CONTROL,
+    displayName: "Kling 3.0 Motion",
+    perSecondCredits: 6, // 720p std baseline
+    description: "Control character movement with a reference video",
+    features: ["Motion Control", "Up to 30s", "720p/1080p"],
+    supportedAspectRatios: ["Auto"],
+    supportsAudio: false, // Motion control documentation doesn't mention audio support
+    estimatedGenerationTime: 360,
+    useSignedCallback: true,
+    supportedResolutions: ["720p", "1080p"],
+    generationType: "MOTION_CONTROL",
+    imageCapabilities: {
+      maxImages: 1,
+      labels: ["Character Image"],
+    },
+    characterOrientationConfig: { image: { maxDuration: 10 }, video: { maxDuration: 30 } },
   },
 
   // // Kie.ai Hailuo 2.3 图片转视频模型
@@ -593,6 +629,162 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   //     labels: ["Reference Image"],
   //   },
   // },
+
+  // Evolink Seedance 2.0 文生视频
+  "evolink-seedance-2-0-text-to-video": {
+    id: "evolink-seedance-2-0-text-to-video",
+    name: "Evolink Seedance 2.0 Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.EVOLINK,
+    modelName: VideoModel.SEEDANCE_2_0,
+    providerModelId: "seedance-2.0-text-to-video",
+    displayName: "Seedance 2.0",
+    perSecondCredits: 5,
+    description: "ByteDance's Seedance 2.0 model - highest quality",
+    features: ["Wait 3min", "Audio"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
+    supportedResolutions: ["480p", "720p"],
+    supportsAudio: true,
+    audioOptional: true,
+    estimatedGenerationTime: 165,
+    supportedDurations: [4, 5, 8, 10, 15],
+    useSignedCallback: true,
+    internal: true,
+  },
+
+  // Evolink Seedance 2.0 图生视频
+  "evolink-seedance-2-0-image-to-video": {
+    id: "evolink-seedance-2-0-image-to-video",
+    name: "Evolink Seedance 2.0 Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.EVOLINK,
+    modelName: VideoModel.SEEDANCE_2_0,
+    providerModelId: "seedance-2.0-image-to-video",
+    displayName: "Seedance 2.0",
+    perSecondCredits: 5,
+    description: "ByteDance's Seedance 2.0 model - highest quality",
+    features: ["Wait 3min", "Audio", "Support 2 images"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
+    supportedResolutions: ["480p", "720p"],
+    supportsAudio: true,
+    audioOptional: true,
+    estimatedGenerationTime: 165,
+    supportedDurations: [4, 5, 8, 10, 15],
+    imageCapabilities: {
+      maxImages: 2,
+      labels: ["First Frame", "Last Frame"],
+    },
+    useSignedCallback: true,
+    internal: true,
+  },
+
+  // Evolink Seedance 2.0 多模态参考生视频
+  "evolink-seedance-2-0-reference-to-video": {
+    id: "evolink-seedance-2-0-reference-to-video",
+    name: "Evolink Seedance 2.0 Media-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.EVOLINK,
+    modelName: VideoModel.SEEDANCE_2_0,
+    providerModelId: "seedance-2.0-reference-to-video",
+    displayName: "Seedance 2.0 (Media)",
+    perSecondCredits: 15,
+    description: "Generate videos from mixed media: images, videos, and audio",
+    features: ["Wait 3min", "Audio", "Multi-Media"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
+    supportedResolutions: ["480p", "720p"],
+    supportsAudio: true,
+    audioOptional: true,
+    estimatedGenerationTime: 165,
+    supportedDurations: [4, 5, 8, 10, 15],
+    imageCapabilities: {
+      maxImages: 12,
+      minImages: 1,
+    },
+    generationType: "REFERENCE_2_VIDEO",
+    useSignedCallback: true,
+    internal: true,
+  },
+
+  // Evolink Seedance 2.0 Fast 文生视频
+  "evolink-seedance-2-0-fast-text-to-video": {
+    id: "evolink-seedance-2-0-fast-text-to-video",
+    name: "Evolink Seedance 2.0 Fast Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.EVOLINK,
+    modelName: VideoModel.SEEDANCE_2_0_FAST,
+    providerModelId: "seedance-2.0-fast-text-to-video",
+    displayName: "Seedance 2.0 Fast",
+    perSecondCredits: 4,
+    description: "ByteDance's latest Seedance 2.0 Fast model",
+    features: ["Wait 2min", "Audio"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
+    supportedResolutions: ["480p", "720p"],
+    supportsAudio: true,
+    audioOptional: true,
+    estimatedGenerationTime: 120,
+    supportedDurations: [4, 5, 8, 10, 15],
+    useSignedCallback: true,
+    internal: true,
+  },
+
+  // Evolink Seedance 2.0 Fast 图生视频
+  "evolink-seedance-2-0-fast-image-to-video": {
+    id: "evolink-seedance-2-0-fast-image-to-video",
+    name: "Evolink Seedance 2.0 Fast Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.EVOLINK,
+    modelName: VideoModel.SEEDANCE_2_0_FAST,
+    providerModelId: "seedance-2.0-fast-image-to-video",
+    displayName: "Seedance 2.0 Fast",
+    perSecondCredits: 4,
+    description: "ByteDance's latest Seedance 2.0 Fast model",
+    features: ["Wait 2min", "Audio", "Support 2 images"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
+    supportedResolutions: ["480p", "720p"],
+    supportsAudio: true,
+    audioOptional: true,
+    estimatedGenerationTime: 120,
+    supportedDurations: [4, 5, 8, 10, 15],
+    imageCapabilities: {
+      maxImages: 2,
+      labels: ["First Frame", "Last Frame"],
+    },
+    useSignedCallback: true,
+    internal: true,
+  },
+
+  // Evolink Seedance 2.0 Fast 多模态参考生视频
+  "evolink-seedance-2-0-fast-reference-to-video": {
+    id: "evolink-seedance-2-0-fast-reference-to-video",
+    name: "Evolink Seedance 2.0 Fast Media-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.EVOLINK,
+    modelName: VideoModel.SEEDANCE_2_0_FAST,
+    providerModelId: "seedance-2.0-fast-reference-to-video",
+    displayName: "Seedance 2.0 Fast (Media)",
+    perSecondCredits: 12,
+    description: "Fast video generation from mixed media: images, videos, and audio",
+    features: ["Wait 2min", "Audio", "Fast", "Multi-Media"],
+    maxDuration: 15,
+    supportedAspectRatios: ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"],
+    supportedResolutions: ["480p", "720p"],
+    supportsAudio: true,
+    audioOptional: true,
+    estimatedGenerationTime: 120,
+    supportedDurations: [4, 5, 8, 10, 15],
+    imageCapabilities: {
+      maxImages: 12,
+      minImages: 1,
+    },
+    generationType: "REFERENCE_2_VIDEO",
+    useSignedCallback: true,
+    internal: true,
+  },
 
   // Kie.ai Wan 2.5 文本转视频模型
   // "kie-wan-2-5-text-to-video": {
@@ -981,9 +1173,10 @@ export function calculateCredits(
   const isSeedance20 = modelId.includes("seedance-2-0");
   const isSeedance20Fast = modelId.includes("seedance-2-0-fast");
   const isVolcanoSeedance20 = modelId.startsWith("volcano-seedance-2-0");
-  if (isVolcanoSeedance20) {
+  const isEvolinkSeedance20 = modelId.startsWith("evolink-seedance-2-0");
+  if (isVolcanoSeedance20 || isEvolinkSeedance20) {
     if (normalizedResolution === "720p") {
-      // Volcano Seedance 2.0 & 2.0 Fast: 720p = 480p 的 2.2 倍
+      // Volcano/Evolink Seedance 2.0 & 2.0 Fast: 720p = 480p 的 2.2 倍
       totalCredits = Math.round(totalCredits * 2.2);
     }
   } else if (
@@ -1029,16 +1222,18 @@ export function calculateCredits(
   }
 
   // Kie.ai Kling 3.0 模型定价
-  // 720p std no-audio: 6 credits/s（基准）
-  // 1080p pro no-audio: 8 credits/s
-  // 720p std with-audio: 10 credits/s
-  // 1080p pro with-audio: 13 credits/s
+  // 标准 Kling: 720p std 6cr/s, 1080p pro 8cr/s, +audio 720p +4cr/s, 1080p +5cr/s
+  // Motion Control: 720p 6cr/s, 1080p 8.1cr/s（+35%）
   if (isKieAiKlingModel(modelId)) {
     const isPro = normalizedResolution === "1080p";
+    const isMotionControl =
+      getVideoModel(modelId)?.modelName === VideoModel.KLING3_MOTION_CONTROL;
     if (isPro) {
-      totalCredits = totalCredits * 4 / 3; // 8/6
+      totalCredits = isMotionControl
+        ? Math.round(totalCredits * 1.35) // Motion Control 1080p = 720p * 1.35
+        : (totalCredits * 4) / 3; // 标准 Kling 1080p = 8/6
     }
-    if (hasAudio) {
+    if (hasAudio && !isMotionControl) {
       totalCredits += duration * (isPro ? 5 : 4);
     }
   }
@@ -1179,7 +1374,10 @@ export function isKieAiVeo3Model(modelId: string): boolean {
 export function isKieAiKlingModel(modelId: string): boolean {
   const model = getVideoModel(modelId);
   if (model?.modelName) {
-    return model.modelName === VideoModel.KLING3;
+    return (
+      model.modelName === VideoModel.KLING3 ||
+      model.modelName === VideoModel.KLING3_MOTION_CONTROL
+    );
   }
   return modelId.includes("kie-kling-3-");
 }

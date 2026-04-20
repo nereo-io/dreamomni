@@ -1,103 +1,93 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Check } from "lucide-react";
+import { Check, Play } from "lucide-react";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
-interface ImageItem {
+interface VideoItem {
   id: string;
-  image_url?: string;  // API返回字段名
-  image_url_r2?: string;  // R2存储的URL(如有)
+  video_url?: string;
   prompt?: string;
   created_at: string;
+  status: string;
 }
 
-export interface SelectedImage {
+export interface SelectedVideo {
   id: string;
   url: string;
 }
 
-interface ImageSelectionModalProps {
+interface VideoSelectionModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelect: (images: SelectedImage[]) => void;
+  onSelect: (videos: SelectedVideo[]) => void;
   maxSelection: number;
   currentCount: number;
 }
 
-export function ImageSelectionModal({
+export function VideoSelectionModal({
   isOpen,
   onClose,
   onSelect,
   maxSelection,
   currentCount,
-}: ImageSelectionModalProps) {
+}: VideoSelectionModalProps) {
   const t = useTranslations("video-generator");
-  const [images, setImages] = useState<ImageItem[]>([]);
-  const [selectedImages, setSelectedImages] = useState<SelectedImage[]>([]);
+  const [videos, setVideos] = useState<VideoItem[]>([]);
+  const [selectedVideos, setSelectedVideos] = useState<SelectedVideo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
 
   const remainingSlots = maxSelection - currentCount;
 
-  // Fetch user generated images (only once per session)
+  // Fetch user generated videos
   useEffect(() => {
-    // Skip if modal is closed or data already fetched
     if (!isOpen || hasFetched) return;
 
-    const fetchImages = async () => {
+    const fetchVideos = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch("/api/image-generations/history?limit=50&status=COMPLETED");
+        const response = await fetch("/api/video-generations/history?limit=50");
         const result = await response.json();
 
         if (result.code === 0) {
-          // API返回格式: { code: 0, data: { data: [...], pagination: {...} } }
-          setImages(result.data.data || []);
-          setHasFetched(true); // Mark as fetched to prevent future requests
+          // Filter out items without video_url and handle case-insensitive status
+          const completedVideos = (result.data.data || []).filter((v: VideoItem) => 
+            v.video_url && 
+            (v.status?.toUpperCase() === "COMPLETED" || v.status?.toUpperCase() === "SAVED_TO_R2")
+          );
+          setVideos(completedVideos);
+          setHasFetched(true);
         }
       } catch (error) {
-        console.error("Failed to fetch images:", error);
+        console.error("Failed to fetch videos:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchImages();
+    fetchVideos();
   }, [isOpen, hasFetched]);
 
-  const toggleSelection = (image: ImageItem) => {
-    const imageUrl = image.image_url_r2 || image.image_url;
-    if (!imageUrl) return;
+  const toggleSelection = (video: VideoItem) => {
+    const videoUrl = video.video_url;
+    if (!videoUrl) return;
 
-    setSelectedImages((prev) => {
-      const existingIndex = prev.findIndex((img) => img.id === image.id);
+    setSelectedVideos((prev) => {
+      const existingIndex = prev.findIndex((v) => v.id === video.id);
       if (existingIndex !== -1) {
-        // Remove if already selected
         return prev.filter((_, idx) => idx !== existingIndex);
       } else if (prev.length < remainingSlots) {
-        // Add if within limit
-        return [...prev, { id: image.id, url: imageUrl }];
+        return [...prev, { id: video.id, url: videoUrl }];
       }
       return prev;
     });
   };
 
   const handleConfirm = () => {
-    // Send analytics event
-    if (typeof window !== "undefined" && (window as any).plausible) {
-      (window as any).plausible("Image Selection", {
-        props: {
-          count: selectedImages.length,
-          source: "my_creations",
-        },
-      });
-    }
-
-    onSelect(selectedImages);
-    setSelectedImages([]);
+    onSelect(selectedVideos);
+    setSelectedVideos([]);
     onClose();
   };
 
@@ -112,44 +102,47 @@ export function ImageSelectionModal({
           {isLoading ? (
             <div className="flex items-center justify-center h-40">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-              <p className="ml-3 text-gray-400">{t("loadingImages")}</p>
+              <p className="ml-3 text-gray-400">{t("loadingVideos")}</p>
             </div>
-          ) : images.length === 0 ? (
+          ) : videos.length === 0 ? (
             <div className="flex items-center justify-center h-40">
-              <p className="text-gray-400">{t("noImagesYet")}</p>
+              <p className="text-gray-400">{t("noVideosYet")}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 p-3 sm:p-4">
-              {images.map((image) => {
-                // 优先使用R2存储的URL,回退到原始URL
-                const imageUrl = image.image_url_r2 || image.image_url;
-                if (!imageUrl) return null;
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 p-3 sm:p-4">
+              {videos.map((video) => {
+                const videoUrl = video.video_url;
+                if (!videoUrl) return null;
 
-                const isSelected = selectedImages.some((img) => img.id === image.id);
-                const canSelect = selectedImages.length < remainingSlots;
+                const isSelected = selectedVideos.some((v) => v.id === video.id);
+                const canSelect = selectedVideos.length < remainingSlots;
 
                 return (
                   <div
-                    key={image.id}
-                    className={`relative aspect-square rounded-lg overflow-hidden cursor-pointer transition-all ${
+                    key={video.id}
+                    className={`relative aspect-video rounded-lg overflow-hidden cursor-pointer transition-all bg-black/40 ${
                       isSelected
                         ? "ring-2 ring-blue-500"
                         : canSelect
                         ? "hover:ring-2 hover:ring-gray-400"
                         : "opacity-50 cursor-not-allowed"
                     }`}
-                    onClick={() => (canSelect || isSelected) && toggleSelection(image)}
+                    onClick={() => (canSelect || isSelected) && toggleSelection(video)}
                   >
-                    <Image
-                      src={imageUrl}
-                      alt={image.prompt || "Generated image"}
-                      fill
-                      sizes="(max-width: 768px) 33vw, 25vw"
-                      className="object-cover"
-                      loading="lazy"
-                      quality={85}
-                      unoptimized={false}
+                    <video
+                      src={videoUrl}
+                      className="w-full h-full object-cover"
+                      muted
+                      onMouseOver={(e) => (e.target as HTMLVideoElement).play()}
+                      onMouseOut={(e) => {
+                        const v = e.target as HTMLVideoElement;
+                        v.pause();
+                        v.currentTime = 0;
+                      }}
                     />
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <Play className="w-8 h-8 text-white/50" />
+                    </div>
                     {isSelected && (
                       <>
                         <div className="absolute inset-0 bg-blue-500/20" />
@@ -167,16 +160,13 @@ export function ImageSelectionModal({
 
         <div className="flex items-center justify-between border-t border-gray-800 pt-3 sm:pt-4 px-0">
           <div className="text-xs sm:text-sm text-gray-400">
-            {selectedImages.length > 0 && (
+            {selectedVideos.length > 0 && (
               <span>
-                {selectedImages.length} selected · {remainingSlots - selectedImages.length} remaining
+                {selectedVideos.length} selected · {remainingSlots - selectedVideos.length} remaining
               </span>
             )}
-            {selectedImages.length === 0 && (
-              <>
-                <span className="hidden sm:inline">Select up to {remainingSlots} images</span>
-                <span className="sm:hidden">Select up to {remainingSlots}</span>
-              </>
+            {selectedVideos.length === 0 && (
+              <span>{t("canUpload", { count: remainingSlots })}</span>
             )}
           </div>
           <div className="flex gap-2">
@@ -188,10 +178,10 @@ export function ImageSelectionModal({
             </button>
             <button
               onClick={handleConfirm}
-              disabled={selectedImages.length === 0}
+              disabled={selectedVideos.length === 0}
               className="px-3 sm:px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
-              Add {selectedImages.length > 0 && `(${selectedImages.length})`}
+              Add {selectedVideos.length > 0 && `(${selectedVideos.length})`}
             </button>
           </div>
         </div>

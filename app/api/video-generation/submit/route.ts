@@ -130,6 +130,8 @@ export async function POST(req: Request) {
       effect_id, // 新增：特效ID
       captchaToken, // 新增：CAPTCHA token
       generationType, // 新增：视频生成类型（如 REFERENCE_2_VIDEO）
+      character_orientation, // 新增：角色方向（用于 Kling Motion Control）
+      background_source, // 新增：背景来源（用于 Kling Motion Control）
       ...otherParams
     } = await req.json();
 
@@ -428,6 +430,18 @@ export async function POST(req: Request) {
       input.image_url = finalImageUrls[0];
     }
 
+    // 通用字段统一透传：放在 provider 分支之前，保证 fallback 到其他 provider 时
+    // 用户原始参数不会因为主模型的分支未运行而丢失（下游 provider 自行转换字段名/形状）。
+    if (hasMediaUrls) {
+      input.media_urls = media_urls;
+    }
+    if (generate_audio !== undefined && modelConfig.supportsAudio) {
+      input.generate_audio = generate_audio;
+    }
+    if (watermarkEnabled) {
+      input.watermark = true;
+    }
+
     // 按模型提供商分类处理参数
     if (isKlingModel(finalModel)) {
       // Kling 模型特有参数
@@ -495,7 +509,9 @@ export async function POST(req: Request) {
       if (generate_audio !== undefined && modelConfig.supportsAudio) {
         input.generate_audio = generate_audio;
       }
-    } else if (isKieAiModel(finalModel)) {
+    }
+    // Kie.ai 独立分支（不与上方互斥，Kie.ai Kling 等模型可同时命中 isKlingModel + isKieAiModel）
+    if (isKieAiModel(finalModel)) {
       // Kie.ai 模型特有参数（支持双图）
       if (finalImageUrls && finalImageUrls.length > 0) {
         input.image_urls = finalImageUrls;
@@ -517,7 +533,19 @@ export async function POST(req: Request) {
       if (isSora2Model(finalModel)) {
         delete input.resolution;
       }
-    } else if (isAliModel(finalModel)) {
+      // Kie.ai media_urls（混合素材：图片/视频）— Provider 负责按模型变体映射
+      if (media_urls && Array.isArray(media_urls) && media_urls.length > 0) {
+        input.media_urls = media_urls;
+      }
+      if (character_orientation) {
+        input.character_orientation = character_orientation;
+      }
+      if (background_source) {
+        input.background_source = background_source;
+      }
+    }
+
+    if (isAliModel(finalModel)) {
       // 阿里百炼模型特有参数
       if (finalImageUrls && finalImageUrls.length > 0) {
         input.image_urls = finalImageUrls;
@@ -537,6 +565,13 @@ export async function POST(req: Request) {
       }
       // Evolink Sora 模型不接受 resolution 参数（固定 1080p）
       delete input.resolution;
+      // Evolink Seedance 2.0: 透传 media_urls（混合素材）和 generate_audio
+      if (media_urls && Array.isArray(media_urls) && media_urls.length > 0) {
+        input.media_urls = media_urls;
+      }
+      if (generate_audio !== undefined && modelConfig.supportsAudio) {
+        input.generate_audio = generate_audio;
+      }
     } else if (modelConfig.provider === VideoModelProvider.MAXAPI) {
       if (modelConfig.providerModelId) {
         input.model = modelConfig.providerModelId;
@@ -631,6 +666,8 @@ export async function POST(req: Request) {
       updateParams.metadata = {
         ...videoGeneration.metadata,
         actual_provider: finalActualProvider,
+        // 审计：保存提交到 provider 的完整请求参数
+        request_input: input,
         ...(fallbackModelId ? { fallback_model_id: fallbackModelId } : {}),
       };
 
@@ -675,9 +712,11 @@ export async function POST(req: Request) {
     } catch (providerError) {
       console.error("提交到provider失败:", providerError);
 
-      // 如果提交失败，我们需要退还积分
+      // 如果提交失败，我们需要退还积分（同时收集明细用于审计）
+      const refundedPools: Array<{ order_no: string; refunded: number }> = [];
+      let totalRefunded = 0;
+      let refundErrorMessage: string | null = null;
       try {
-        // 遍历所有扣费的池，按原扣费金额逐一退款
         const { increaseCredits } = await import("@/services/credit");
 
         for (const pool of deductResult.pools) {
@@ -689,28 +728,48 @@ export async function POST(req: Request) {
             expired_at: pool.expired_at,
           });
 
+          refundedPools.push({ order_no: pool.order_no, refunded: pool.deducted });
+          totalRefunded += pool.deducted;
+
           console.log(
             `💰 Credits refunded: ${pool.deducted} to pool ${pool.order_no} due to submission failure`
           );
         }
 
         console.log(
-          `💰 Total refunded: ${deductResult.totalDeducted} credits across ${deductResult.pools.length} pool(s)`
+          `💰 Total refunded: ${totalRefunded} credits across ${refundedPools.length} pool(s)`
         );
       } catch (refundError) {
+        refundErrorMessage =
+          refundError instanceof Error ? refundError.message : String(refundError);
         console.error("退还积分失败:", refundError);
       }
 
-      // 更新数据库状态为FAILED
+      // 更新数据库状态为 FAILED，并补全 actual_provider 与审计 metadata
       try {
+        const errorMsg =
+          providerError instanceof Error
+            ? providerError.message
+            : "Provider submission failed";
+
         await import("@/models/videoGeneration").then(
           ({ updateVideoGenerationById }) =>
             updateVideoGenerationById(videoGeneration.id, {
               status: "FAILED",
-              error_message:
-                providerError instanceof Error
-                  ? providerError.message
-                  : "Provider submission failed",
+              actual_provider: modelConfig.provider,
+              error_message: errorMsg,
+              metadata: {
+                ...videoGeneration.metadata,
+                actual_provider: modelConfig.provider,
+                // 审计：保存提交到 provider 的完整请求参数
+                request_input: input,
+                credit_refund: {
+                  pools: refundedPools,
+                  total_refunded: totalRefunded,
+                  refunded_at: new Date().toISOString(),
+                  ...(refundErrorMessage ? { error: refundErrorMessage } : {}),
+                },
+              },
             })
         );
       } catch (updateError) {

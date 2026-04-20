@@ -33,7 +33,8 @@ export async function GET(req: Request) {
       session?.user?.uuid,
       limit,
       offset,
-      search
+      search,
+      status || undefined
     );
 
     // 5. 计算分页信息

@@ -336,6 +336,11 @@
               "target": "_self"
             },
             {
+              "title": "Kling Motion Control",
+              "url": "/kling-3-motion-control",
+              "target": "_self"
+            },
+            {
               "title": "Hailuo 2.3",
               "url": "/hailuo-2-3",
               "target": "_self"

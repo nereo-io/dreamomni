@@ -1,0 +1,96 @@
+{
+  "hero": {
+    "title": "Kling 3.0 Motion Control: Animate Your Characters with Reference Videos",
+    "description": "Transform character images into dynamic animations using reference videos. Powered by Kling 3.0 Motion Control for realistic movement and perfect character consistency.",
+    "cta": {
+      "buttonText": "Try Motion Control Now",
+      "scrollTarget": "[data-video-generation-tool]"
+    },
+    "media": {
+      "type": "video",
+      "src": "https://static.aiquickdraw.com/tools/example/1773121010602_52OaDTvR.mp4",
+      "alt": "Kling 3.0 motion control demonstration"
+    }
+  },
+  "features": {
+    "title": "Why Choose Kling 3.0 Motion Control?",
+    "features": [
+      {
+        "id": "perfect-motion",
+        "title": "Realistic Motion Transfer",
+        "description": "Precisely map the movement from a reference video onto your character image. Whether it's dancing, walking, or complex actions, Kling 3.0 captures every detail with fluid, realistic physics."
+      },
+      {
+        "id": "identity-preservation",
+        "title": "Superior Identity Preservation",
+        "description": "Maintain your character's facial features, clothing, and unique style while they perform new actions. Our AI ensures that your character remains recognizable and consistent throughout the animation."
+      },
+      {
+        "id": "length-flexibility",
+        "title": "Up to 30s Animations",
+        "description": "Generate long-form character animations. Refer to video orientation for up to 30 seconds of consistent movement, or use image orientation for high-quality 10-second clips."
+      },
+      {
+        "id": "high-def-output",
+        "title": "1080p Professional Quality",
+        "description": "Support for both Standard (720p) and Professional (1080p) modes. Get crisp, clear video output suitable for professional projects, social media, and cinematic storytelling."
+      }
+    ],
+    "cta": {
+      "buttonText": "Start Creating Now",
+      "scrollTarget": "[data-video-generation-tool]"
+    }
+  },
+  "usageGuide": {
+    "title": "How to Use Kling Motion Control?",
+    "description": "Follow these simple steps to bring your character to life with Kling 3.0",
+    "steps": [
+      {
+        "number": "1",
+        "title": "Upload Character Image",
+        "description": "Upload a clear image of the character you want to animate. PNG/JPG, max 10MB."
+      },
+      {
+        "number": "2",
+        "title": "Upload Reference Video",
+        "description": "Upload a video containing the motion you want to mimic. MP4/MOV, max 100MB."
+      },
+      {
+        "number": "3",
+        "title": "Generate Animation",
+        "description": "Choose orientation and quality, then click generate. Get your result in minutes."
+      }
+    ],
+    "buttonText": "Try Motion Control Now"
+  },
+  "faq": {
+    "title": "Kling Motion Control FAQs",
+    "description": "Common questions about animating characters with reference videos",
+    "items": [
+      {
+        "id": "what-is-motion-control",
+        "question": "What is Kling 3.0 Motion Control?",
+        "answer": "Kling 3.0 Motion Control is an advanced AI feature that allows you to drive the movement of a static character image using a reference video. It effectively transfers the 'motion' from the video to the 'subject' in the image."
+      },
+      {
+        "id": "orientation-difference",
+        "question": "What is the difference between Image and Video orientation?",
+        "answer": "Character Orientation determines the main pose reference. 'Image' keeps the person in the same orientation as the photo (max 10s). 'Video' makes the character follow the orientation of the reference video (max 30s)."
+      },
+      {
+        "id": "video-requirements",
+        "question": "What are the reference video requirements?",
+        "answer": "Reference videos should be in MP4 or MOV format, up to 100MB in size. For best results, the movement in the video should be clear and the subject well-framed."
+      },
+      {
+        "id": "cost",
+        "question": "How many credits does it cost?",
+        "answer": "Motion Control cost is based on the final video duration and quality mode (720p/1080p). You can see the exact cost in the generator before you click create."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready to Animate Your Characters?",
+    "buttonText": "Try Motion Control Now"
+  }
+}

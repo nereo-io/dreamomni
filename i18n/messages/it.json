@@ -29,6 +29,11 @@
     "description": "Prova il generatore di video AI Kling 3.0 con audio nativo, narrazione multishot, coerenza degli elementi, voci multilingue e output fino a 15 secondi. Crea video Kling 3.0 su Veo3 AI.",
     "keywords": "Kling VIDEO 3.0, Kling AI, Generatore di video AI, Testo a video, Immagine a video, Audio nativo, Multi-shot, Veo3 AI"
   },
+  "kling-3-motion-control": {
+    "title": "Kling Motion Control gratis: trasferimento di movimento AI online | Veo3 AI",
+    "description": "Usa Kling Motion Control gratis su Veo3 AI. Carica un video di riferimento e applica il movimento a qualsiasi personaggio — senza watermark, senza carta di credito.",
+    "keywords": "Kling Motion Control, Kling AI motion control, motion control AI video, free motion control, Kling motion transfer, Veo3 AI"
+  },
   "seedance-1-5": {
     "title": "Seedance 1.5 Pro: IA Audio-Video di ByteDance | AI Veo3",
     "description": "Seedance 1.5 Pro di ByteDance offre generazione nativa di audio e video, sincronizzazione dei labbri multilingue e controllo cinematografico della fotocamera. Provalo gratis ora!",
@@ -71,6 +76,7 @@
     "image_to_video": "Immagine a video",
     "text_to_video": "Testo in video",
     "reference_to_video": "Riferimento al video",
+    "motion_control": "Controllo del Movimento",
     "text_to_image": "Testo a immagine",
     "image_to_image": "Immagine a immagine",
     "text_to_music": "Testo a musica",
@@ -440,9 +446,16 @@
       "emptyPrompt": "Inserisci una descrizione",
       "videoSubmitted": "La task di generazione video è stata inviata, in elaborazione...",
       "videoCompleted": "Generazione video completata!",
-      "videoFailed": "Generazione video fallita"
+      "videoFailed": "Generazione video fallita",
+      "uploadVideoRequired": "Carica un video di riferimento"
     },
     "mediaUploadTitle": "Materiali di riferimento",
+    "motionControlHelpVideoTitle": "Video di riferimento",
+    "motionControlHelpVideoDesc": "Il personaggio nel video generato eseguirà le stesse azioni di questo video. Assicurati che la parte superiore del corpo o il corpo intero sia chiaramente visibile con movimenti fluidi e stabili.",
+    "motionControlHelpImageTitle": "Immagine di riferimento",
+    "motionControlHelpImageDesc": "L'aspetto, l'abbigliamento e lo sfondo del personaggio nel video generato saranno basati su questa immagine. Le proporzioni del corpo devono essere simili a quelle del video di riferimento.",
+    "motionControlHelpOrientationNote": "Orientamento impostato su \"video\" supporta fino a 30s. Su \"immagine\" fino a 10s.",
+    "motionControlTip": "Assicurati che la parte superiore del corpo sia chiaramente visibile sia nell'immagine che nel video. Immagine: JPG/PNG, max 10MB. Video: MP4/MOV, 3-30s.",
     "mediaUploadHint": "Carica 1-12 materiali di riferimento. Usa @ nel prompt, es.: @Immagine1 imita il movimento di @Video1, con @Audio1 come musica di sottofondo.",
     "mediaUploadPrompt": "Carica fino a {max} materiali (immagini, video, audio)",
     "mediaUploadSecondaryHint": "Facoltativo. Selezione multipla o trascina e rilascia",
@@ -459,7 +472,28 @@
     "mediaTypeFile": "File",
     "mediaMentionHint": "Digita @ per riferire i materiali caricati",
     "mediaMentionDropdownTitle": "Seleziona materiale di riferimento",
-    "mediaPromptPlaceholder": "Descrivi il video desiderato. Usa @ per riferire i materiali caricati, es.: @1 imita il movimento di @2, con @3 come musica di sottofondo."
+    "mediaPromptPlaceholder": "Descrivi il video desiderato. Usa @ per riferire i materiali caricati, es.: @1 imita il movimento di @2, con @3 come musica di sottofondo.",
+    "titleMotionControl": "Controllo del Movimento",
+    "uploadVideo": "Video",
+    "characterImage": "Immagine del Personaggio",
+    "referenceVideo": "Video di Riferimento",
+    "motionMode": "Modalità di Generazione",
+    "motionModeStd": "Standard (720p)",
+    "motionModePro": "Professionale (1080p)",
+    "characterOrientation": "Orientamento del Personaggio",
+    "addVideoToMimic": "Aggiungi video di riferimento per il movimento",
+    "addCharacterImage": "Aggiungi immagine di riferimento del personaggio",
+    "motionLibrary": "Libreria dei Movimenti",
+    "historyCreations": "Creazioni Precedenti",
+    "orientationImage": "Coerente con l'Immagine",
+    "orientationVideo": "Coerente con il Video",
+    "backgroundSource": "Fonte dello Sfondo",
+    "bgSourceVideo": "Video di Input",
+    "bgSourceImage": "Immagine di Input",
+    "noVideosYet": "Nessun video generato ancora",
+    "loadingVideos": "Caricamento video...",
+    "helpVideo": "Video di riferimento per il movimento del personaggio. Il personaggio generato imiterà i movimenti di questo video. MP4/MOV, 3-30s, la parte superiore del corpo deve essere chiaramente visibile.",
+    "helpImage": "Immagine di riferimento del personaggio. Il video generato preserverà l'aspetto di questo personaggio. JPG/PNG, max 10MB, min 300px, rapporto 2:5 a 5:2."
   },
   "video-history": {
     "title": "Storico della generazione video",
@@ -700,6 +734,11 @@
       "title": "Riferimento video gratuito Veo3: blocca l’identità del personaggio | Veo3 AI",
       "description": "Carica 1-3 immagini di riferimento e genera video di 8 secondi con Veo 3.1. Mantieni l'aspetto del personaggio nelle scene con audio nativo. Estendi fino a 148 secondi.",
       "keywords": "Referenza al video di Veo3, personaggio coerente, blocco dell'identità, Veo 3.1, coerenza del personaggio"
+    },
+    "motionControl": {
+      "title": "Kling Controllo del Movimento - Animazione Personaggi con Video di Riferimento | Veo3 AI",
+      "description": "Anima le tue immagini di personaggi usando video di riferimento con Kling 3.0 Controllo del Movimento. Movimento e coerenza perfetti.",
+      "keywords": "Kling Controllo del Movimento, Kling 3.0, animazione personaggi, video a video, animazione con video di riferimento, generatore video IA, Veo3 AI"
     },
     "imageGeneration": {
       "title": "Generatore gratuito di immagini AI: crea immagini straordinarie da testo | Veo3 AI",

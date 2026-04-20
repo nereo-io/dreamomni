@@ -482,7 +482,8 @@ export async function getUserVideoGenerations(
   userId: string,
   limit: number = 10,
   offset: number = 0,
-  search?: string
+  search?: string,
+  status?: string
 ): Promise<{ data: VideoGeneration[]; total: number }> {
   const countMode = search?.trim() ? "estimated" : "exact";
   let query = supabase
@@ -492,6 +493,10 @@ export async function getUserVideoGenerations(
     .eq("is_delete", false)
     .is("agent_shot_id", null)
     .order("created_at", { ascending: false });
+
+  if (status) {
+    query = query.eq("status", status);
+  }
 
   if (search?.trim()) {
     const escapedSearch = search.trim().replace(/,/g, '\\,');
