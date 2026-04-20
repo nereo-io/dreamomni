@@ -348,7 +348,6 @@ export class EvolinkProvider implements VideoProvider {
 
   private strategies: Partial<Record<VideoModel, EvolinkModelStrategy>> = {
     [VideoModel.SORA2]: sora2Strategy,
-    [VideoModel.SORA2_PREVIEW]: sora2PreviewStrategy,
     [VideoModel.HAILUO_2_3]: hailuo23Strategy,
     [VideoModel.SEEDANCE_2_0]: seedance20Strategy,
     [VideoModel.SEEDANCE_2_0_FAST]: seedance20Strategy,

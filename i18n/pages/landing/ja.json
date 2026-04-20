@@ -299,11 +299,6 @@
               "title": "リファレンス動画生成",
               "url": "/reference-to-video",
               "target": "_self"
-            },
-            {
-              "title": "モーションコントロール",
-              "url": "/motion-control",
-              "target": "_self"
             }
           ]
         },

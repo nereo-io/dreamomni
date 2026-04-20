@@ -447,7 +447,7 @@ export default function VideoGenerator({
     if (modelName === VideoModel.HAILUO_2_3) {
       return 2000;
     }
-    if (modelName === VideoModel.WAN_2_6) {
+    if (modelName === VideoModel.WAN_2_5) {
       return 5000;
     }
 

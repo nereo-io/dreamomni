@@ -127,7 +127,7 @@ export function MotionControlUpload({
             }`}>
               {orientation === "video" && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
             </div>
-            <span className={`text-sm font-bold whitespace-nowrap transition-colors ${
+            <span className={`text-xs font-medium whitespace-nowrap transition-colors ${
               orientation === "video" ? "text-gray-200" : "text-gray-500 group-hover/bar:text-gray-400"
             }`}>{t("orientationVideo")}</span>
           </div>
@@ -183,7 +183,7 @@ export function MotionControlUpload({
             }`}>
               {orientation === "image" && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
             </div>
-            <span className={`text-sm font-bold whitespace-nowrap transition-colors ${
+            <span className={`text-xs font-medium whitespace-nowrap transition-colors ${
               orientation === "image" ? "text-gray-200" : "text-gray-500 group-hover/bar:text-gray-400"
             }`}>{t("orientationImage")}</span>
           </div>

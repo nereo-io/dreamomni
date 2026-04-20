@@ -299,11 +299,6 @@
               "title": "Видео по референсу",
               "url": "/reference-to-video",
               "target": "_self"
-            },
-            {
-              "title": "Управление движением",
-              "url": "/motion-control",
-              "target": "_self"
             }
           ]
         },

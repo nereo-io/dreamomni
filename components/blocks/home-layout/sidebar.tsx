@@ -60,7 +60,7 @@ export function Sidebar() {
     { icon: Type, labelKey: "text_to_video", href: "/text-to-video" },
     { icon: Play, labelKey: "reference_to_video", href: "/reference-to-video" },
     // { icon: Sparkles, labelKey: "ai_effects", href: "/video-effects" }, // 暂时隐藏
-    { icon: MotionControlIcon, labelKey: "motion_control", href: "/motion-control" },
+    // { icon: MotionControlIcon, labelKey: "motion_control", href: "/motion-control" }, // 暂时隐藏
   ];
 
   const imageAIItems: SidebarItem[] = [

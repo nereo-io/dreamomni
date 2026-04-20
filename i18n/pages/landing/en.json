@@ -299,11 +299,6 @@
               "title": "Reference to Video",
               "url": "/reference-to-video",
               "target": "_self"
-            },
-            {
-              "title": "Motion Control",
-              "url": "/motion-control",
-              "target": "_self"
             }
           ]
         },

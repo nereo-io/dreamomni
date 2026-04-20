@@ -299,11 +299,6 @@
               "title": "参考生视频",
               "url": "/reference-to-video",
               "target": "_self"
-            },
-            {
-              "title": "动作控制",
-              "url": "/motion-control",
-              "target": "_self"
             }
           ]
         },
