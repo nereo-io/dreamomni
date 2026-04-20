@@ -537,7 +537,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     modelName: VideoModel.KLING3,
     displayName: "Kling 3.0",
     perSecondCredits: 6, // 720p std no-audio baseline
-    description: "Kling 3.0 model with realistic motion and stable prompt control.",
+    description: "Kling 3.0 model with realistic motion and stable prompt control. 6/s no sound, 10/s with sound",
     features: ["Wait 120s", "720p/1080p", "5s/10s"],
     maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16", "1:1"],
@@ -560,7 +560,7 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     displayName: "Kling 3.0",
     perSecondCredits: 6, // 720p std no-audio baseline
     description:
-      "Kling 3.0 image-to-video with stable style retention and natural motion.",
+      "Kling 3.0 image-to-video with stable style retention and natural motion. · 6/s no sound, 10/s with sound",
     features: ["Wait 120s", "Image Animation", "5s/10s"],
     maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16", "1:1"],
