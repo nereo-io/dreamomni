@@ -869,50 +869,49 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
   //   estimatedGenerationTime: 45, // Seedance 图片转视频预估45秒
   //   supportedDurations: [5, 10],
   // },
-  // Sora 2 文本转视频模型 (Evolink)
-  "sora-2-text-to-video": {
-    id: "sora-2-text-to-video",
-    name: "Sora 2 Text-to-Video",
-    type: VideoModelType.TEXT_TO_VIDEO,
-    provider: VideoModelProvider.EVOLINK,
-    providerModelId: "sora-2-beta-max",
-    modelName: VideoModel.SORA2,
-    displayName: "Sora 2",
-    perSecondCredits: 1, // 10秒10积分, 15秒15积分
-    description: "OpenAI's Sora 2 model",
-    features: ["Wait 300s", "Audio"],
-    maxDuration: 10,
-    supportedAspectRatios: ["16:9", "9:16"],
-    supportsAudio: true,
-    estimatedGenerationTime: 300, // 预估5分钟
-    supportedDurations: [10, 15],
-    supportedResolutions: ["1080p"], // 固定1080p HD
-    requiresMembership: true,
-  },
+  // Sora 2 已下线，先保留配置注释，避免前端/接口继续暴露不可用模型。
+  // "sora-2-text-to-video": {
+  //   id: "sora-2-text-to-video",
+  //   name: "Sora 2 Text-to-Video",
+  //   type: VideoModelType.TEXT_TO_VIDEO,
+  //   provider: VideoModelProvider.EVOLINK,
+  //   providerModelId: "sora-2-beta-max",
+  //   modelName: VideoModel.SORA2,
+  //   displayName: "Sora 2",
+  //   perSecondCredits: 1,
+  //   description: "OpenAI's Sora 2 model",
+  //   features: ["Wait 300s", "Audio"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["16:9", "9:16"],
+  //   supportsAudio: true,
+  //   estimatedGenerationTime: 300,
+  //   supportedDurations: [10, 15],
+  //   supportedResolutions: ["1080p"],
+  //   requiresMembership: true,
+  // },
 
-  // Sora 2 图片转视频模型 (Evolink)
-  "sora-2-image-to-video": {
-    id: "sora-2-image-to-video",
-    name: "Sora 2 Image-to-Video",
-    type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.EVOLINK,
-    providerModelId: "sora-2-beta-max",
-    modelName: VideoModel.SORA2,
-    displayName: "Sora 2",
-    perSecondCredits: 1, // 10秒10积分, 15秒15积分
-    description: "OpenAI's Sora 2 model",
-    features: ["Wait 300s", "Audio"],
-    maxDuration: 10,
-    supportedAspectRatios: ["16:9", "9:16"],
-    supportsAudio: true,
-    estimatedGenerationTime: 300, // 预估5分钟
-    supportedDurations: [10, 15],
-    supportedResolutions: ["1080p"], // 固定1080p HD
-    requiresMembership: true,
-    imageCapabilities: {
-      maxImages: 1, // 目前只支持单张图片
-    },
-  },
+  // "sora-2-image-to-video": {
+  //   id: "sora-2-image-to-video",
+  //   name: "Sora 2 Image-to-Video",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.EVOLINK,
+  //   providerModelId: "sora-2-beta-max",
+  //   modelName: VideoModel.SORA2,
+  //   displayName: "Sora 2",
+  //   perSecondCredits: 1,
+  //   description: "OpenAI's Sora 2 model",
+  //   features: ["Wait 300s", "Audio"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["16:9", "9:16"],
+  //   supportsAudio: true,
+  //   estimatedGenerationTime: 300,
+  //   supportedDurations: [10, 15],
+  //   supportedResolutions: ["1080p"],
+  //   requiresMembership: true,
+  //   imageCapabilities: {
+  //     maxImages: 1,
+  //   },
+  // },
   // Kie.ai Sora 2 Pro 文本转视频模型
   // "sora-2-pro-text-to-video": {
   //   id: "sora-2-pro-text-to-video",
@@ -1070,7 +1069,6 @@ export function getTextToVideoModels(): VideoModelConfig[] {
     VideoModel.SEEDANCE_2_0_FAST,
     VideoModel.SEEDANCE_2_0,
     VideoModel.VEO3,
-    VideoModel.SORA2,
     VideoModel.HAILUO_2_3,
     VideoModel.KLING3,
     VideoModel.WAN_2_5,
@@ -1093,7 +1091,6 @@ export function getImageToVideoModels(): VideoModelConfig[] {
     VideoModel.SEEDANCE_2_0,
     VideoModel.SEEDANCE_2_0_FAST,
     VideoModel.VEO3,
-    VideoModel.SORA2,
     VideoModel.HAILUO_2_3,
     VideoModel.KLING3,
     VideoModel.WAN_2_5,
