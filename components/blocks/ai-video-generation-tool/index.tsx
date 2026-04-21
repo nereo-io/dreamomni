@@ -114,7 +114,7 @@ export function VideoGenerationTool({
         aspect_ratio: generation.aspect_ratio || "16:9",
         resolution: "480p", // Default resolution, could be extracted if stored
         generate_audio: true, // Default value, could be extracted if stored
-        enable_prompt_enhancement: !!generation.optimized_prompt,
+        enable_prompt_enhancement: false,
         image_url: generation.image_url,
       };
 
@@ -197,7 +197,7 @@ export function VideoGenerationTool({
       aspect_ratio: finalParams.aspect_ratio,
       resolution: finalParams.resolution,
       generate_audio: finalParams.generate_audio,
-      enable_prompt_enhancement: finalParams.enable_prompt_enhancement,
+      enable_prompt_enhancement: false,
       image_url: finalParams.image_url, // 保留用于向后兼容
       image_urls: finalParams.image_urls, // 新增：支持1-2张图片数组（首帧、尾帧）
       media_urls: finalParams.media_urls,

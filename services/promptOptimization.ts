@@ -9,6 +9,74 @@ const qwenClientIntl = createDeepSeek({
   baseURL: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
 });
 
+const ANIMATION_STYLE_PATTERN =
+  /\b(?:2d|3d|animated|animation|anime|cartoon|comic|manga|stylized|stylised|illustrated|illustration|toon|cel[- ]shaded|pixar|ghibli|cgi)\b/i;
+const REALISM_STYLE_PATTERN =
+  /\b(?:photorealistic|photo-realistic|live action|live-action|realistic human)\b/i;
+const TEXT_LOCK_PATTERN =
+  /\b(?:on[- ]screen text|text on screen|english text|english words|english letters|subtitle|caption|logo|wordmark|typography|lettering|title card|text reads|text says)\b/i;
+const QUOTED_TEXT_PATTERN = /["“]([^"”]{1,120})["”]/g;
+
+function normalizePrompt(value: string): string {
+  return value.replace(/\s+/g, " ").trim();
+}
+
+function extractQuotedLatinSegments(prompt: string): string[] {
+  return Array.from(prompt.matchAll(QUOTED_TEXT_PATTERN))
+    .map((match) => match[1]?.trim())
+    .filter((segment): segment is string => Boolean(segment && /[A-Za-z]/.test(segment)));
+}
+
+export function shouldBypassVideoPromptOptimization(originalPrompt: string): boolean {
+  const normalizedPrompt = normalizePrompt(originalPrompt);
+  const hasAnimationStyle = ANIMATION_STYLE_PATTERN.test(normalizedPrompt);
+  const hasExplicitTextConstraint =
+    TEXT_LOCK_PATTERN.test(normalizedPrompt) ||
+    extractQuotedLatinSegments(normalizedPrompt).length > 0;
+
+  return hasAnimationStyle && hasExplicitTextConstraint;
+}
+
+export function sanitizeOptimizedVideoPrompt(
+  originalPrompt: string,
+  optimizedPrompt: string
+): string {
+  const trimmedOptimized = optimizedPrompt.trim();
+  const normalizedOriginal = normalizePrompt(originalPrompt);
+  const normalizedOptimized = normalizePrompt(trimmedOptimized);
+
+  if (!trimmedOptimized) {
+    return originalPrompt;
+  }
+
+  if (shouldBypassVideoPromptOptimization(originalPrompt)) {
+    return originalPrompt;
+  }
+
+  const quotedSegments = extractQuotedLatinSegments(normalizedOriginal);
+  if (quotedSegments.length > 0) {
+    const optimizedLower = normalizedOptimized.toLowerCase();
+    const lostQuotedText = quotedSegments.some(
+      (segment) => !optimizedLower.includes(segment.toLowerCase())
+    );
+
+    if (lostQuotedText) {
+      return originalPrompt;
+    }
+  }
+
+  if (ANIMATION_STYLE_PATTERN.test(normalizedOriginal)) {
+    const keepsAnimationStyle = ANIMATION_STYLE_PATTERN.test(normalizedOptimized);
+    const introducesRealism = REALISM_STYLE_PATTERN.test(normalizedOptimized);
+
+    if (!keepsAnimationStyle || introducesRealism) {
+      return originalPrompt;
+    }
+  }
+
+  return trimmedOptimized;
+}
+
 /**
  * 优化视频生成提示词（支持可选的图片输入）
  * @param originalPrompt 原始提示词
@@ -22,6 +90,13 @@ export async function optimizeVideoPrompt(
   imageUrl?: string
 ): Promise<string> {
   try {
+    if (shouldBypassVideoPromptOptimization(originalPrompt)) {
+      console.log(
+        "[PromptOptimization] Bypassing optimization for animation + text fidelity prompt"
+      );
+      return originalPrompt;
+    }
+
     // 根据是否有图片选择不同的系统提示词和模型
     if (imageUrl) {
       // 构建多模态消息
@@ -53,7 +128,7 @@ export async function optimizeVideoPrompt(
         temperature: 0.7,
       });
 
-      return result.text.trim();
+      return sanitizeOptimizedVideoPrompt(originalPrompt, result.text);
     } else {
       // 无图片时使用纯文本提示词
       const result = await generateText({
@@ -66,7 +141,7 @@ export async function optimizeVideoPrompt(
         temperature: 0.7,
       });
 
-      return result.text.trim();
+      return sanitizeOptimizedVideoPrompt(originalPrompt, result.text);
     }
   } catch (error) {
     console.error("视频提示词优化失败:", error);

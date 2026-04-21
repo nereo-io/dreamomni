@@ -130,7 +130,6 @@ export default function VideoGenerator({
   creditsOverride,
   generationType,
   defaultModel,
-  hidePromptEnhancement = false,
 }: VideoGeneratorProps) {
   const t = useTranslations("video-generator");
   const locale = useLocale();
@@ -148,10 +147,6 @@ export default function VideoGenerator({
   // 其他内部状态
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [generateAudio, setGenerateAudio] = useState(true);
-
-  // Enhanced Prompt 开关状态：默认关闭，避免 SSR/CSR 因 localStorage 产生 hydration mismatch
-  const [enablePromptEnhancement, setEnablePromptEnhancement] = useState(false);
-  const promptEnhancementPrefLoadedRef = useRef(false);
 
   // 图片上传状态（通过 ImageUploader 组件管理）
   const [uploadedImageUrls, setUploadedImageUrls] = useState<(string | null)[]>(
@@ -212,31 +207,6 @@ export default function VideoGenerator({
       updateLeftCredits().catch(console.error);
     }
   }, [user?.uuid, updateLeftCredits]);
-
-  // 读取 Enhanced Prompt 偏好（仅在客户端）
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem('video-prompt-enhancement-enabled');
-      if (stored !== null) {
-        setEnablePromptEnhancement(stored === 'true');
-      }
-    } catch (error) {
-      console.error('Failed to read from localStorage:', error);
-    } finally {
-      promptEnhancementPrefLoadedRef.current = true;
-    }
-  }, []);
-
-  // 自动保存 Enhanced Prompt 偏好到 localStorage
-  useEffect(() => {
-    if (!promptEnhancementPrefLoadedRef.current) return;
-
-    try {
-      localStorage.setItem('video-prompt-enhancement-enabled', String(enablePromptEnhancement));
-    } catch (error) {
-      console.error('Failed to save prompt enhancement preference:', error);
-    }
-  }, [enablePromptEnhancement]);
 
   // 模型切换时的兼容性处理
   useEffect(() => {
@@ -824,7 +794,7 @@ export default function VideoGenerator({
       aspect_ratio: selectedRatio,
       resolution: selectedResolution,
       generate_audio: generateAudio,
-      enable_prompt_enhancement: enablePromptEnhancement,
+      enable_prompt_enhancement: false,
       effect_id: currentEffect?.id,
       // 双图支持：优先使用 image_urls，向后兼容 image_url
       image_urls: finalImageUrls,
@@ -971,19 +941,6 @@ export default function VideoGenerator({
                 <div className="text-white text-lg font-semibold">
                   {finalDescriptionLabel}
                 </div>
-                {/* Prompt Enhancement Toggle */}
-                {!hidePromptEnhancement && (
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <span className="text-xs text-gray-400 whitespace-nowrap">
-                      {t("promptEnhancement")}
-                    </span>
-                    <Switch
-                      checked={enablePromptEnhancement}
-                      onCheckedChange={setEnablePromptEnhancement}
-                      className="data-[state=checked]:bg-primary scale-75"
-                    />
-                  </div>
-                )}
               </div>
               {usesMixedMediaInput ? (
                 <PromptWithMentions

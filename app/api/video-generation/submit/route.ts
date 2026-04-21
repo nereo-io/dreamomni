@@ -33,8 +33,7 @@ import {
   VideoModelProvider,
   modelSupportsAudio,
 } from "@/config/video-models";
-import { ProviderFactory } from "@/services/providers";
-import { optimizeVideoPromptWithTimeout } from "@/services/promptOptimization";
+import { normalizeVideoPromptEnhancementRequest } from "@/config/video-prompt-enhancement";
 import { tryVolcanoSubmit } from "@/services/seedanceFallbackService";
 import { VideoSubmitService } from "@/services/videoSubmitService";
 import { getEffectConfigById } from "@/models/effectConfig";
@@ -126,7 +125,7 @@ export async function POST(req: Request) {
       seed,
       enable_safety_checker = true,
       generate_audio = false, // 新增：音频生成选项
-      enable_prompt_enhancement = false, // 新增：prompt增强开关（默认关闭）
+      enable_prompt_enhancement: requestedPromptEnhancement = false,
       effect_id, // 新增：特效ID
       captchaToken, // 新增：CAPTCHA token
       generationType, // 新增：视频生成类型（如 REFERENCE_2_VIDEO）
@@ -135,8 +134,10 @@ export async function POST(req: Request) {
       ...otherParams
     } = await req.json();
 
-    const { watermarkEnabled = false, ...additionalParams } =
-      otherParams || {};
+    const { watermarkEnabled = false } = otherParams || {};
+    const enablePromptEnhancement = normalizeVideoPromptEnhancementRequest(
+      requestedPromptEnhancement
+    );
 
     // 验证必需参数
     if (!model || !prompt) {
@@ -296,7 +297,7 @@ export async function POST(req: Request) {
           .filter(Boolean)
       : undefined;
 
-    // 7. 在数据库中创建记录（根据是否启用prompt增强设置初始状态）
+    // 7. 在数据库中创建记录
     const videoGeneration = await createVideoGeneration({
       user_id: userInfo.uuid,
       model_id: finalModel,
@@ -310,7 +311,7 @@ export async function POST(req: Request) {
       cfg_scale,
       seed,
       has_audio: modelSupportsAudio(finalModel) && generate_audio,
-      status: enable_prompt_enhancement ? "PROMPT_OPTIMIZING" : "IN_QUEUE",
+      status: enablePromptEnhancement ? "PROMPT_OPTIMIZING" : "IN_QUEUE",
       metadata: {
         // 保存积分扣费池信息，用于退款追溯
         credit_deduction: {
@@ -327,7 +328,7 @@ export async function POST(req: Request) {
             : {}),
           ...(generate_audio !== undefined ? { generate_audio } : {}),
           ...(watermarkEnabled ? { watermark_enabled: true } : {}),
-          ...(enable_prompt_enhancement
+          ...(enablePromptEnhancement
             ? { enable_prompt_enhancement: true }
             : {}),
           ...(effect_id ? { effect_id } : {}),
@@ -338,30 +339,7 @@ export async function POST(req: Request) {
       model_name: modelConfig.modelName,
     });
 
-    // 7.5. 优化提示词
     let enhancedPrompt = finalPrompt;
-    if (enable_prompt_enhancement) {
-      try {
-        const optimizedPrompt = await optimizeVideoPromptWithTimeout(
-          finalPrompt,
-          finalModel,
-          30000,
-          image_url // 传递图片URL（如果有）
-        );
-        enhancedPrompt = optimizedPrompt;
-
-        // 更新记录保存优化后的提示词
-        await import("@/models/videoGeneration").then(
-          ({ updateVideoGenerationById }) =>
-            updateVideoGenerationById(videoGeneration.id, {
-              optimized_prompt: optimizedPrompt,
-            })
-        );
-      } catch (error) {
-        console.error("提示词优化失败，使用原始提示词:", error);
-        // 如果优化失败，继续使用原始提示词
-      }
-    }
 
     if (watermarkEnabled && isSeedanceModel(finalModel) && !finalModel.startsWith("volcano-seedance-2-0")) {
       // Legacy Seedance 模型使用 prompt 注入水印；Volcano Seedance 2.0 使用 body 参数
@@ -459,7 +437,7 @@ export async function POST(req: Request) {
       }
     } else if (isMinimaxModel(finalModel)) {
       // MiniMax 支持 prompt_optimizer（根据用户选择）
-      input.prompt_optimizer = enable_prompt_enhancement;
+      input.prompt_optimizer = enablePromptEnhancement;
 
       // 图片转视频模型支持分辨率选择
       if (finalModel === "minimax-hailuo02-image-to-video") {

@@ -1,11 +1,16 @@
 import { NextRequest } from "next/server";
 import { respData, respErr } from "@/lib/resp";
 import { auth } from "@/auth";
+import { VIDEO_PROMPT_ENHANCEMENT_ENABLED } from "@/config/video-prompt-enhancement";
 import { optimizeVideoPromptWithTimeout } from "@/services/promptOptimization";
 import { updateVideoGenerationById } from "@/models/videoGeneration";
 
 export async function POST(req: NextRequest) {
   try {
+    if (!VIDEO_PROMPT_ENHANCEMENT_ENABLED) {
+      return respErr("Video prompt enhancement is disabled");
+    }
+
     // 1. 用户认证检查
     const session = await auth();
     if (!session?.user?.uuid) {
