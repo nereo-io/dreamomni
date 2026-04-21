@@ -29,11 +29,10 @@ import { useTranslations } from 'next-intl';
 import { CreditsCostSection } from '@/components/blocks/common/CreditsCostSection';
 
 const VIDEO_MODELS = [
-  { value: 'auto', label: 'Auto (Sora → Seedance → Veo3)' },
-  { value: 'sora-2-image-to-video', label: 'Sora 2' },
-  { value: 'kie-veo3-image-to-video', label: 'Veo3' },
   { value: 'byteplus-seedance-1-5-pro-image-to-video', label: 'Seedance Pro' },
+  { value: 'kie-veo3-image-to-video', label: 'Veo3' },
 ];
+const DEFAULT_VIDEO_MODEL = VIDEO_MODELS[0].value;
 
 const COST_CONFIG = {
   planReserve: 2, // plan_story_and_shots_node
@@ -59,6 +58,12 @@ interface AgentCreatePanelProps {
   };
 }
 
+function normalizeVideoModel(model?: string): string {
+  return model && VIDEO_MODELS.some((option) => option.value === model)
+    ? model
+    : DEFAULT_VIDEO_MODEL;
+}
+
 export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanelProps) {
   const t = useTranslations("agentJobs.createPanel");
   const { user, setShowSignModal, setShowPricingModal } = useAppContext();
@@ -69,7 +74,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
   const [duration, setDuration] = useState<number>(60);
   const [aspectRatio, setAspectRatio] = useState<string>('16:9');
   const [imageModel, setImageModel] = useState('auto');
-  const [videoModel, setVideoModel] = useState('auto');
+  const [videoModel, setVideoModel] = useState(DEFAULT_VIDEO_MODEL);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handleReferenceImagesChange = useCallback(
     (imageUrls: (string | null)[]) => {
@@ -93,15 +98,13 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
       setDuration(initialData.durationSeconds || 60);
       setAspectRatio(initialData.aspectRatio || '16:9');
       setImageModel(initialData.imageModel || 'auto');
-      setVideoModel(initialData.videoModel || 'auto');
+      setVideoModel(normalizeVideoModel(initialData.videoModel));
     }
   }, [initialData]);
 
   const getEstimatedVideoDurationPerShot = (selected: string) => {
     if (selected === 'kie-veo3-image-to-video') return 8;
     if (selected === 'byteplus-seedance-1-5-pro-image-to-video') return 10;
-    if (selected === 'sora-2-image-to-video') return 10;
-    if (selected === 'auto') return 10;
     return 10; // unknown
   };
 
@@ -121,7 +124,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
     const roleSceneReferenceCost = perImageCost * 3;
     const keyframeCredits = estimatedShots * perImageCost;
 
-    const resolvedVideoModel = videoModel === 'auto' ? 'sora-2-image-to-video' : videoModel;
+    const resolvedVideoModel = normalizeVideoModel(videoModel);
     const modelConfig = getVideoModel(resolvedVideoModel);
     const perSecondCredits = modelConfig?.perSecondCredits ?? 1.5;
     const perShotDuration = getEstimatedVideoDurationPerShot(resolvedVideoModel);
@@ -167,7 +170,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
         keyframes_enabled: true,
         prompt_variant: 'current',
         image_model: imageModel,
-        video_model: videoModel,
+        video_model: normalizeVideoModel(videoModel),
       };
 
       const response = await fetch('/api/agent/jobs', {
@@ -193,6 +196,7 @@ export function AgentCreatePanel({ onJobCreated, initialData }: AgentCreatePanel
       setDuration(60);
       setAspectRatio('16:9');
       setImageModel('auto');
+      setVideoModel(DEFAULT_VIDEO_MODEL);
 
       // Notify parent to refresh job list
       onJobCreated?.();
