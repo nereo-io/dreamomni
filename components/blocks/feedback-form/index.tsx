@@ -51,7 +51,7 @@ export interface FeedbackFormProps {
 export default function FeedbackForm({
   translations,
   onSubmitSuccess,
-  urgentEmail = "jasper@bazi-ai.com",
+  urgentEmail = "support@seedance.tv",
 }: FeedbackFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { user, setShowSignModal } = useAppContext();
