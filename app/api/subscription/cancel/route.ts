@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
 
     const remoteDetails = await provider.querySubscription(subscriptionId);
     const remoteStatus = remoteDetails?.status?.toLowerCase?.();
-    const canceledStatuses = ["canceled", "cancelled", "terminated"];
+    const canceledStatuses = ["canceled", "cancelled", "terminated", "complete"];
 
     if (remoteStatus && canceledStatuses.includes(remoteStatus)) {
       const { updateSubscriptionStatus } = await import("@/models/subscription");
