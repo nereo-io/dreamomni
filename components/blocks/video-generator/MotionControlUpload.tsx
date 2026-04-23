@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Film, ImageIcon, X, CheckCircle2, Plus, Library, History } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
