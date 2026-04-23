@@ -7,6 +7,7 @@ export enum ImageModelType {
 // 图片模型提供商
 export enum ImageModelProvider {
   KIE = "kie", // Kie.ai (提供 Nano Banana 等模型)
+  KIE_GPT = "kie_gpt", // Kie.ai 上托管的 GPT Image 2 模型 (与 KIE 共用 KIE_AI_API_KEY)
   FAL = "fal", // fal.ai 托管的模型
   VOLCANO = "volcano", // 火山引擎/BytePlus (提供 Seedream 等模型)
 }
@@ -33,6 +34,66 @@ export interface ImageModelConfig {
 
 // 图片模型配置
 export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
+  // GPT Image 2 (Kie.ai) - 文生图
+  // Endpoint: POST https://api.kie.ai/api/v1/jobs/createTask
+  // Model identifier in API: "gpt-image-2-text-to-image"
+  // 文档: https://docs.kie.ai/market/gpt/gpt-image-2-text-to-image
+  // 注: Kie.ai 未公开标价，credits 值需根据实际调用成本调整
+  "gpt-image-2-text-to-image": {
+    id: "gpt-image-2-text-to-image",
+    name: "gpt-image-2-text-to-image",
+    displayName: "GPT Image 2",
+    provider: ImageModelProvider.KIE_GPT,
+    type: ImageModelType.TEXT_TO_IMAGE,
+    status: "active",
+    features: ["text-to-image", "high-quality"],
+    credits: 3,
+    maxPromptLength: 20000,
+    supportedAspectRatios: [
+      "Auto",
+      "1:1",
+      "2:3",
+      "3:2",
+      "3:4",
+      "4:3",
+      "9:16",
+      "16:9",
+      "21:9",
+    ],
+    supportedFormats: ["jpg", "png"],
+    estimatedGenerationTime: 60,
+  },
+
+  // GPT Image 2 (Kie.ai) - 图生图
+  // Endpoint: POST https://api.kie.ai/api/v1/jobs/createTask
+  // Model identifier in API: "gpt-image-2-image-to-image"
+  // 文档: https://docs.kie.ai/market/gpt/gpt-image-2-image-to-image
+  "gpt-image-2-image-to-image": {
+    id: "gpt-image-2-image-to-image",
+    name: "gpt-image-2-image-to-image",
+    displayName: "GPT Image 2 Edit",
+    provider: ImageModelProvider.KIE_GPT,
+    type: ImageModelType.IMAGE_TO_IMAGE,
+    status: "active",
+    features: ["image-to-image", "high-quality"],
+    credits: 3,
+    maxInputImages: 16,
+    maxPromptLength: 20000,
+    supportedAspectRatios: [
+      "Auto",
+      "1:1",
+      "2:3",
+      "3:2",
+      "3:4",
+      "4:3",
+      "9:16",
+      "16:9",
+      "21:9",
+    ],
+    supportedFormats: ["jpg", "png"],
+    estimatedGenerationTime: 60,
+  },
+
   // Nano Banana 标准版 - 文生图
   "nano-banana": {
     id: "nano-banana",

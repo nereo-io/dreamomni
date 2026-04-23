@@ -5,6 +5,7 @@
 
 export type AIServiceProvider =
   | "nano_banana"     // Kie.ai Nano Banana
+  | "gpt_image_2"     // Kie.ai GPT Image 2 (OpenAI-hosted via Kie.ai)
   | "openai"          // OpenAI DALL-E
   | "midjourney"      // Midjourney
   | "stable_diffusion" // Stability AI
