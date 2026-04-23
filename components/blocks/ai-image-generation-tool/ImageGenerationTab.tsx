@@ -34,6 +34,10 @@ import type { ImageGenerationParams } from "@/types/image.d";
 import type { ImageGenerationResult } from "@/hooks/useImageGeneration";
 import type { ImageGenerationResult as HistoryImageResult } from "../image-history";
 
+// Legacy 模型使用老的 image_size 字段；其他所有模型均使用新的 aspect_ratio 字段。
+// 这里与 `supportedResolutions`(分辨率) 完全正交 —— 比例和分辨率是两个独立维度。
+const LEGACY_IMAGE_SIZE_MODELS = new Set(["nano-banana", "nano-banana-edit"]);
+
 interface ImageGenerationTabProps {
   mode: "text-to-image" | "image-to-image";
   descriptionLabel?: string;
@@ -65,6 +69,77 @@ const mapStatusForHistory = (
     default:
       return "pending";
   }
+};
+
+const getModelIconConfig = (modelId: string) => {
+  if (modelId.startsWith("seedream")) {
+    return {
+      src: "/imgs/intro/seedream-v2.png",
+      bgClassName: "bg-transparent",
+      iconClassName: "h-4 w-4",
+    };
+  }
+
+  if (modelId.startsWith("nano-banana")) {
+    return {
+      src: "/imgs/intro/nano-banana.svg",
+      bgClassName: "bg-gradient-to-br from-yellow-400 to-orange-500",
+      iconClassName: "h-3.5 w-3.5",
+    };
+  }
+
+  if (modelId.startsWith("gpt-image-2")) {
+    return {
+      label: "G2",
+      bgClassName: "bg-gradient-to-br from-emerald-500 to-teal-600",
+      textClassName: "text-[10px] font-semibold text-white",
+    };
+  }
+
+  return null;
+};
+
+const ModelIcon: React.FC<{ modelId: string; modelName: string }> = ({
+  modelId,
+  modelName,
+}) => {
+  const config = getModelIconConfig(modelId);
+
+  if (!config) {
+    return (
+      <div className="w-5 h-5 flex-shrink-0 rounded-full bg-gray-600 flex items-center justify-center">
+        <span className="text-xs">✨</span>
+      </div>
+    );
+  }
+
+  // Text-label variant (for models without a brand asset, e.g. GPT Image 2)
+  if ("label" in config) {
+    return (
+      <div
+        className={`w-5 h-5 flex-shrink-0 rounded-full flex items-center justify-center ${config.bgClassName}`}
+        aria-label={`${modelName} icon`}
+      >
+        <span className={config.textClassName}>{config.label}</span>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={`w-5 h-5 flex-shrink-0 rounded-full flex items-center justify-center overflow-hidden ${config.bgClassName}`}
+    >
+      <img
+        src={config.src}
+        alt={`${modelName} icon`}
+        className={`${config.iconClassName} object-contain`}
+        loading="lazy"
+        decoding="async"
+        width={14}
+        height={14}
+      />
+    </div>
+  );
 };
 
 export default function ImageGenerationTab({
@@ -143,10 +218,15 @@ export default function ImageGenerationTab({
   // Get current model config
   const currentModelConfig = getImageModel(selectedModel);
 
-  // Check if current model supports resolution selection (Pro models, Seedream, etc.)
+  // 是否展示分辨率选择器 —— 只与 supportedResolutions 是否存在相关
   const hasResolutionSupport =
     currentModelConfig?.supportedResolutions &&
     currentModelConfig.supportedResolutions.length > 0;
+
+  // 比例参数走 aspect_ratio 还是 legacy image_size —— 仅由模型本身决定,与 resolution 无关
+  const usesAspectRatioParam =
+    !!currentModelConfig &&
+    !LEGACY_IMAGE_SIZE_MODELS.has(currentModelConfig.id);
 
   // Calculate required credits dynamically from config (支持分辨率的模型根据分辨率计费)
   // Agent 模式下按图片数量计费
@@ -437,11 +517,14 @@ export default function ImageGenerationTab({
       source_image_ids: sourceImageIds.length > 0 ? sourceImageIds : undefined, // 来源图片ID追踪
       enable_prompt_enhancement: false,
       output_format: outputFormat,
-      // 支持分辨率的模型使用 aspect_ratio 和 resolution，标准模型使用 image_size
-      ...(hasResolutionSupport
+      // 比例字段路由:
+      //   - 新版 API (Pro / Seedream / GPT Image 2) 使用 aspect_ratio
+      //   - 传统 Nano Banana 使用 image_size
+      // 分辨率仅在 hasResolutionSupport 为 true 时传递(GPT Image 2 无分辨率选项)
+      ...(usesAspectRatioParam
         ? {
             aspect_ratio: aspectRatio,
-            resolution: resolution,
+            ...(hasResolutionSupport && { resolution }),
             image_input: isImageToImage ? uploadedImageUrls : [],
           }
         : {
@@ -768,17 +851,13 @@ export default function ImageGenerationTab({
                     <SelectValue placeholder={t("model")}>
                       {currentModelConfig && (
                         <div className="flex items-center gap-2">
-                          <div className="w-5 h-5 flex-shrink-0 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                            <span className="text-xs">🍌</span>
-                          </div>
+                          <ModelIcon
+                            modelId={currentModelConfig.id}
+                            modelName={currentModelConfig.displayName}
+                          />
                           <span className="font-medium">
                             {currentModelConfig.displayName}
                           </span>
-                          {currentModelConfig.id === "nano-banana-pro" && (
-                            <span className="text-xs bg-gradient-to-r from-red-500 to-orange-500 text-white px-1.5 py-0.5 rounded">
-                              HOT
-                            </span>
-                          )}
                           <div className="flex items-center gap-1 text-xs text-blue-300 ml-auto">
                             <Coins className="h-3 w-3" />
                             {currentModelConfig.credits}
@@ -791,19 +870,15 @@ export default function ImageGenerationTab({
                     {availableModels.map((model) => (
                       <SelectItem key={model.id} value={model.id}>
                         <div className="flex items-center gap-3 w-full py-1">
-                          <div className="w-5 h-5 flex-shrink-0 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                            <span className="text-xs">🍌</span>
-                          </div>
+                          <ModelIcon
+                            modelId={model.id}
+                            modelName={model.displayName}
+                          />
                           <div className="flex flex-col">
                             <div className="flex items-center gap-2">
                               <span className="font-medium text-gray-100">
                                 {model.displayName}
                               </span>
-                              {model.id === "nano-banana-pro" && (
-                                <span className="text-xs bg-gradient-to-r from-red-500 to-orange-500 text-white px-1.5 py-0.5 rounded">
-                                  HOT
-                                </span>
-                              )}
                             </div>
                             <div className="flex items-center gap-1 text-xs text-blue-300">
                               <Coins className="h-3 w-3" />
@@ -909,12 +984,12 @@ export default function ImageGenerationTab({
                         name="ratio"
                         value={ratio}
                         checked={
-                          hasResolutionSupport
+                          usesAspectRatioParam
                             ? aspectRatio === ratio
                             : imageSize === ratio
                         }
                         onChange={(e) => {
-                          if (hasResolutionSupport) {
+                          if (usesAspectRatioParam) {
                             setAspectRatio(e.target.value);
                           } else {
                             setImageSize(e.target.value as typeof imageSize);
@@ -925,7 +1000,7 @@ export default function ImageGenerationTab({
                       <div
                         className={`w-4 h-4 rounded-full border-2 mr-2 flex-shrink-0 ${
                           (
-                            hasResolutionSupport
+                            usesAspectRatioParam
                               ? aspectRatio === ratio
                               : imageSize === ratio
                           )
@@ -933,7 +1008,7 @@ export default function ImageGenerationTab({
                             : "border-gray-500"
                         }`}
                       >
-                        {(hasResolutionSupport
+                        {(usesAspectRatioParam
                           ? aspectRatio === ratio
                           : imageSize === ratio) && (
                           <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>

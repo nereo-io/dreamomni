@@ -5,6 +5,7 @@
 
 import { BaseAIProvider, GenerateImageRequest, EditImageRequest, ProviderResponse } from './providers/BaseAIProvider';
 import { NanoBananaProvider } from './providers/NanoBananaProvider';
+import { KieAiGptImage2Provider } from './providers/KieAiGptImage2Provider';
 import { FalImageProvider } from './providers/FalImageProvider';
 import { SeedreamProvider } from './providers/SeedreamProvider';
 import type { AIServiceProvider, AIProviderConfig } from '@/types/provider.d';
@@ -59,6 +60,46 @@ const PROVIDER_CONFIGS: Record<AIServiceProvider, AIProviderConfig> = {
         high: 1.5,
         ultra: 2
       }
+    }
+  },
+  gpt_image_2: {
+    id: 'gpt_image_2',
+    name: 'gpt-image-2',
+    displayName: 'Kie.ai GPT Image 2',
+    description: 'OpenAI GPT Image 2 hosted on Kie.ai (high-precision image generation)',
+    apiEndpoint: 'https://api.kie.ai',
+    status: 'active',
+    features: {
+      textToImage: true,
+      imageToImage: true,
+      imageEdit: true,
+      inpainting: false,
+      outpainting: false,
+      upscaling: false,
+      backgroundRemoval: false,
+      styleTransfer: false,
+      batchGeneration: false,
+      asyncCallback: true,
+      realTimeStatus: false
+    },
+    models: Object.values(IMAGE_MODELS)
+      .filter(m => m.provider === ImageModelProvider.KIE_GPT)
+      .map(m => ({
+        id: m.id,
+        name: m.name,
+        displayName: m.displayName,
+        provider: 'gpt_image_2' as const,
+        type: m.type as 'text-to-image' | 'image-edit',
+        status: (m.status === 'active' ? 'active' : 'deprecated') as 'active' | 'beta' | 'deprecated',
+        features: m.features,
+        maxImageCount: m.maxInputImages || 1,
+        maxResolution: { width: 4096, height: 4096 },
+        supportedAspectRatios: m.supportedAspectRatios,
+        supportedFormats: m.supportedFormats,
+        credits: m.credits,
+      })),
+    pricing: {
+      baseCredits: 4
     }
   },
   openai: {
@@ -357,6 +398,15 @@ export class AIServiceManager {
       console.log('✅ Nano Banana provider initialized');
     } catch (error) {
       console.warn('⚠️ Nano Banana provider initialization failed:', error);
+    }
+
+    // 注册 Kie.ai GPT Image 2 提供商 (与 Nano Banana 共用 KIE_AI_API_KEY)
+    try {
+      const gptImage2Provider = new KieAiGptImage2Provider();
+      this.providers.set('gpt_image_2', gptImage2Provider);
+      console.log('✅ Kie.ai GPT Image 2 provider initialized');
+    } catch (error) {
+      console.warn('⚠️ Kie.ai GPT Image 2 provider initialization failed:', error);
     }
 
     // 注册 fal 提供商

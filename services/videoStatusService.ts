@@ -125,8 +125,8 @@ export class VideoStatusService {
       throw new Error(`不支持的模型: ${videoGeneration.model_id}`);
     }
 
-    // === Volcano 降级检查：根据 metadata.actual_provider 判断实际使用的 Provider ===
-    const actualProvider = videoGeneration.metadata?.actual_provider;
+    // === Volcano 降级检查：根据 actual_provider 判断实际使用的 Provider ===
+    const actualProvider = videoGeneration.actual_provider;
     const fallbackProvider = getStatusProviderForFallback(actualProvider);
 
     // === 通用降级检查：根据 metadata.fallback_model_id 获取降级模型的 Provider ===
@@ -359,8 +359,8 @@ export class VideoStatusService {
     requestId: string
   ): Promise<void> {
     try {
-      // === Volcano 降级检查：根据 metadata.actual_provider 判断实际使用的 Provider ===
-      const actualProvider = videoGeneration.metadata?.actual_provider;
+      // === Volcano 降级检查：根据 actual_provider 判断实际使用的 Provider ===
+      const actualProvider = videoGeneration.actual_provider;
       const fallbackProvider = getStatusProviderForFallback(actualProvider);
 
       // === 通用降级检查：根据 metadata.fallback_model_id 获取降级模型的 Provider ===
@@ -383,10 +383,15 @@ export class VideoStatusService {
       const hasVideoData =
         result && (result.video_url || (result as any).upsample_video_url);
 
+      // 降级场景下（如 Volcano→Evolink），modelConfig.provider 是原始 provider，
+      // 实际生成方是 actual_provider，字段归属和 R2 上传都应按实际 provider 判断。
+      const effectiveProvider = (actualProvider ||
+        modelConfig.provider) as VideoModelProvider;
+
       if (hasVideoData) {
         this.setVideoUrlByProvider(
           updateParams,
-          modelConfig.provider,
+          effectiveProvider,
           result,
           videoGeneration.model_id
         );
@@ -397,7 +402,7 @@ export class VideoStatusService {
         }
 
         // 对于 APICore Veo3，尝试上传到 R2
-        if (modelConfig.provider === VideoModelProvider.APICORE) {
+        if (effectiveProvider === VideoModelProvider.APICORE) {
           await this.uploadToR2ForApiCore(
             updateParams,
             result,
@@ -406,18 +411,18 @@ export class VideoStatusService {
         }
 
         // 对于 KieAI 模型，也可以尝试上传到 R2（可选）
-        if (modelConfig.provider === VideoModelProvider.KIEAI) {
+        if (effectiveProvider === VideoModelProvider.KIEAI) {
           await this.uploadToR2ForKieAi(updateParams, result, videoGeneration);
         }
 
         // 对于 ALI，上传到 R2
-        if (modelConfig.provider === VideoModelProvider.ALI) {
+        if (effectiveProvider === VideoModelProvider.ALI) {
           await this.uploadToR2ForAli(updateParams, result, videoGeneration);
         }
 
-        // 对于 EVOLINK Sora，上传到 R2
-        if (modelConfig.provider === VideoModelProvider.EVOLINK && result.video_url) {
-          await this.uploadToR2(updateParams, result.video_url, videoGeneration, "Evolink Sora");
+        // 对于 EVOLINK（含 Seedance 降级场景），上传到 R2
+        if (effectiveProvider === VideoModelProvider.EVOLINK && result.video_url) {
+          await this.uploadToR2(updateParams, result.video_url, videoGeneration, "Evolink");
         }
       } else {
         console.error("获取结果成功但数据为空:", result);

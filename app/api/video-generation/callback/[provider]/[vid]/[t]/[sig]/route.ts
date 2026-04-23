@@ -151,17 +151,9 @@ export async function POST(
       );
     }
 
-    const expectedProvider =
-      (
-        videoGeneration.actual_provider ||
-        modelConfig.provider ||
-        ""
-      ).toString().toLowerCase();
-    if (expectedProvider !== normalizedProvider) {
-      return respErr(
-        `Provider mismatch: expected ${expectedProvider}, got ${normalizedProvider}`
-      );
-    }
+    // URL 里的 provider 与 actual_provider 可能不一致（例如 Volcano→Evolink 降级时，
+    // webhookUrl 在 submit 阶段就用原始 provider 签名，之后不再重签）。
+    // 签名已绑定 provider+videoId+timestamp，伪造需要泄露密钥，这里不再做强制一致校验。
 
     const webhookData = await req.json();
     console.log(
