@@ -22,6 +22,7 @@ export const MODEL_LANDING_PAGES = [
   'sora-alternative',
   'seedream-4-5',
   'seedream-5-0',
+  'gpt-image-2',
 ] as const;
 
 export type ModelSlug = typeof MODEL_LANDING_PAGES[number];

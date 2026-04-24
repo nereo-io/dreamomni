@@ -1,0 +1,298 @@
+{
+  "banner": {
+    "title": "GPT Image 2 AI 图像生成器",
+    "description": "GPT Image 2 是 OpenAI 面向快速、高质量图像生成与编辑的先进模型。你可以用文本创建精美视觉，用自然语言修改已有图片，并为海报、产品标签、UI Mockup、广告和本地化创意工作流生成更清晰的图中文字。",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "文生图",
+        "subTitle": "提示词",
+        "value": "text-to-image",
+        "modelName": "GPT Image 2",
+        "modelId": "gpt-image-2-text-to-image",
+        "modelLogo": "/imgs/intro/gpt-image-2.svg",
+        "placeholder": "描述你想创建的画面、布局、文字、风格和格式...",
+        "buttonText": "创建"
+      },
+      {
+        "type": "image",
+        "title": "图生图",
+        "subTitle": "图片",
+        "value": "image-to-image",
+        "modelName": "GPT Image 2 Edit",
+        "modelId": "gpt-image-2-image-to-image",
+        "modelLogo": "/imgs/intro/gpt-image-2.svg",
+        "placeholder": "拖拽图片到这里，或点击选择",
+        "tips": "上传参考图，用 GPT Image 2 进行图像编辑。支持 JPEG、PNG、GIF、WEBP、JPG，最大 20MB。",
+        "buttonText": "创建"
+      }
+    ]
+  },
+  "features": {
+    "title": "为什么使用 GPT Image 2",
+    "details": [
+      {
+        "title": "适合真实设计工作的清晰文字",
+        "description": "当图片本身需要准确文字时，GPT Image 2 很有价值，例如店招、产品标签、社媒广告、活动海报、UI Mockup、幻灯片图和多语言营销视觉。",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt"
+            },
+            {
+              "title": "Original Example Asset"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "创建一张春季花市海报，准确包含标题 FRESH FLOWERS、营业时间 OPEN 8 AM - 7 PM 和优惠 TODAY ONLY 25% OFF。整体干净现代，适合本地店铺使用。"
+                },
+                {
+                  "type": "image",
+                  "content": "/imgs/model-landing/gpt-image-2/typography-poster.png",
+                  "altText": "Original Seedance example showing GPT Image 2 style text-ready poster generation"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "不重建整张图的精准编辑",
+        "description": "产品和营销团队常常只需要小范围修改：替换标签、换背景、改包装颜色或做本地化，同时保持光影、构图和产品质感。",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Before"
+            },
+            {
+              "title": "Instruction"
+            },
+            {
+              "title": "After"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "/imgs/model-landing/gpt-image-2/local-edit-before.png",
+                  "altText": "Original Seedance product package before GPT Image 2 edit"
+                },
+                {
+                  "type": "text",
+                  "content": "把朴素的燕麦饮料标签替换成绿色 NOVA OAT LATTE 设计，同时保持瓶身形状、棚拍光线、相机角度和阴影。"
+                },
+                {
+                  "type": "image",
+                  "content": "/imgs/model-landing/gpt-image-2/local-edit-after.png",
+                  "altText": "Original Seedance product package after GPT Image 2 style localized label edit"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "高保真参考图输入",
+        "description": "GPT Image 2 支持文本和图片输入，适合在保留主体、产品轮廓、角色概念或视觉方向的同时改变风格和构图。",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Reference Workflow"
+            },
+            {
+              "title": "Original Example Asset"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "把简单的橙色吉祥物作为主角，改造成精致的蓝色编辑风格卡片，同时保留头部形状、暖色和友好表情。"
+                },
+                {
+                  "type": "image",
+                  "content": "/imgs/model-landing/gpt-image-2/reference-fidelity.png",
+                  "altText": "Original Seedance reference fidelity example for GPT Image 2 style workflows"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "面向营销和电商的生产素材",
+        "description": "GPT Image 2 适合需要持续产出素材的流程：广告变体、发布图、商品图、店铺横幅、演示图、博客配图和社媒创意。",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Use Case"
+            },
+            {
+              "title": "Original Example Asset"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "基于一个 brief 生成一组统一的营销素材：社媒促销卡、发布 hero 图和内部演示文档封面。"
+                },
+                {
+                  "type": "image",
+                  "content": "/imgs/model-landing/gpt-image-2/commercial-workflow.png",
+                  "altText": "Original Seedance commercial workflow example for GPT Image 2 campaign assets"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "如何使用 GPT Image 2",
+    "description": "从提示词开始，或上传一张图片，然后用 GPT Image 2 生成或编辑出更精致的结果。",
+    "steps": [
+      {
+        "number": "01",
+        "title": "选择 GPT Image 2",
+        "description": "用 text-to-image 创建新视觉，或用 GPT Image 2 Edit 修改上传图片。"
+      },
+      {
+        "number": "02",
+        "title": "清楚描述结果",
+        "description": "写明主体、场景、必须出现的文字、格式、比例，以及需要保持不变的细节。"
+      },
+      {
+        "number": "03",
+        "title": "生成并微调",
+        "description": "先生成第一版，再针对文字、颜色、构图或局部编辑继续迭代。"
+      }
+    ],
+    "buttonText": "试用 GPT Image 2"
+  },
+  "comparison": {
+    "title": "GPT Image 2 与其他图像模型对比",
+    "models": [
+      "GPT Image 2",
+      "Nano Banana 2",
+      "Seedream 5.0"
+    ],
+    "features": [
+      {
+        "name": "最适合文字丰富的视觉",
+        "values": [
+          "优秀",
+          "强",
+          "强"
+        ]
+      },
+      {
+        "name": "文生图生成",
+        "values": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "name": "图生图编辑",
+        "values": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "name": "参考图保真度",
+        "values": [
+          "高",
+          "高",
+          "高"
+        ]
+      },
+      {
+        "name": "商业创意工作流",
+        "values": [
+          "海报、标签、广告、UI、产品编辑",
+          "多图融合和高分辨率素材",
+          "趋势创意和多轮编辑"
+        ]
+      }
+    ],
+    "featureLabel": "功能"
+  },
+  "relatedModels": {
+    "title": "探索更多 AI 图像模型",
+    "models": [
+      {
+        "name": "Nano Banana 2",
+        "slug": "nano-banana-2",
+        "description": "用于快速生成、编辑和多图融合的新一代图像模型。",
+        "logo": "/imgs/intro/nano-banana.svg"
+      },
+      {
+        "name": "Seedream 5.0",
+        "slug": "seedream-5-0",
+        "description": "用于推理式生成、编辑和趋势视觉的多模态图像模型。",
+        "logo": "/imgs/intro/seedream-v2.png"
+      },
+      {
+        "name": "Nano Banana Pro",
+        "slug": "nano-banana-pro",
+        "description": "面向高质量创意和编辑流程的专业 AI 图像生成器。",
+        "logo": "/imgs/intro/nano-banana.svg"
+      }
+    ],
+    "buttonText": "立即试用"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "常见问题",
+    "description": "了解 GPT Image 2 图像生成和编辑。",
+    "items": [
+      {
+        "title": "GPT Image 2 是什么？",
+        "description": "GPT Image 2 是 OpenAI 的先进图像模型，可基于文本和图片输入创建与编辑图像。"
+      },
+      {
+        "title": "GPT Image 2 擅长什么？",
+        "description": "它适合文字型图片、商业创意、产品标签、海报、UI Mockup、社媒广告、参考图生成和精准编辑。"
+      },
+      {
+        "title": "GPT Image 2 可以编辑已有图片吗？",
+        "description": "可以。上传图片并描述要修改的内容，例如换色、换标签、换背景或局部优化。"
+      },
+      {
+        "title": "GPT Image 2 能生成图片里的清晰文字吗？",
+        "description": "可以。更清晰的标签、标题、招牌、按钮和短营销文案是 GPT Image 2 的重要优势。"
+      },
+      {
+        "title": "可以免费试用 GPT Image 2 吗？",
+        "description": "登录后可以试用 GPT Image 2。根据工作流和账户套餐，生成可能会消耗积分。"
+      },
+      {
+        "title": "支持哪些 GPT Image 2 模式？",
+        "description": "图像生成器支持 GPT Image 2 文生图和 GPT Image 2 图生图编辑。"
+      }
+    ]
+  },
+  "cta": {
+    "title": "在 Seedance 上使用 GPT Image 2 创作",
+    "description": "在线生成文字清晰的营销图、产品编辑图、参考图创作和精致创意素材。",
+    "buttonText": "免费试用 GPT Image 2"
+  }
+}

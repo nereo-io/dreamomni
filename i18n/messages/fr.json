@@ -1308,5 +1308,10 @@
         "default": "Transformez vos idées, prompts texte et images en vidéos abouties avec Seedance. Si cet article vous a aidé, l'étape la plus rapide est maintenant d'essayer le produit."
       }
     }
+  },
+  "gpt-image-2": {
+    "title": "Generateur d images IA GPT Image 2 en ligne | Seedance",
+    "description": "Essayez GPT Image 2 sur Seedance pour generer et modifier des images. Creez des affiches lisibles, etiquettes produit, maquettes UI, publicites et visuels creatifs.",
+    "keywords": "GPT Image 2, generateur image IA, texte en image, edition image, modele image OpenAI, affiche IA, etiquette produit IA"
   }
 }

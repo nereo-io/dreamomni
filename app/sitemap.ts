@@ -4,6 +4,7 @@ import path from "node:path";
 import { MetadataRoute } from "next";
 import { getPostsByLocale } from "@/models/post";
 import { locales } from "@/i18n/locale";
+import { MODEL_LANDING_PAGES } from "@/config/model-landing-pages";
 
 // 禁用 Vercel Edge 缓存，确保每次访问都重新查 Supabase 获取最新文章
 export const dynamic = "force-dynamic";
@@ -205,6 +206,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     console.log(`添加了 ${localizedStaticPages.length} 个本地化基础页面`);
 
+    // 模型落地页
+    const modelLandingPages = locales.flatMap((locale) =>
+      MODEL_LANDING_PAGES.map((model) =>
+        createSitemapEntry(
+          baseUrl,
+          locale,
+          `/${model}`,
+          getGitLastModified(`i18n/pages/model-landing/${model}/en.json`),
+          "weekly",
+          0.75
+        )
+      )
+    );
+
+    console.log(`添加了 ${modelLandingPages.length} 个模型落地页`);
+
     // 获取所有博客文章页面
     const blogPages = [];
 
@@ -236,6 +253,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const allPages = [
       ...staticPages,
       ...localizedStaticPages,
+      ...modelLandingPages,
       ...blogPages,
     ];
 

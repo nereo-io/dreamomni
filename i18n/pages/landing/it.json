@@ -366,6 +366,11 @@
               "target": "_self"
             },
             {
+              "title": "GPT Image 2",
+              "url": "/gpt-image-2",
+              "target": "_self"
+            },
+            {
               "title": "Nano Banana Pro",
               "url": "/nano-banana-pro",
               "target": "_self"

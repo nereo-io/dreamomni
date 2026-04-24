@@ -1,0 +1,298 @@
+{
+  "banner": {
+    "title": "Gerador de imagens IA GPT Image 2",
+    "description": "GPT Image 2 e o modelo avancado da OpenAI para geracao e edicao rapida de imagens de alta qualidade. Crie visuais refinados a partir de texto, edite imagens existentes com linguagem natural e produza tipografia mais clara para posters, rotulos de produto, mockups de UI, anuncios e fluxos criativos localizados.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Texto para imagem",
+        "subTitle": "Prompt",
+        "value": "text-to-image",
+        "modelName": "GPT Image 2",
+        "modelId": "gpt-image-2-text-to-image",
+        "modelLogo": "/imgs/intro/gpt-image-2.svg",
+        "placeholder": "Descreva a imagem, layout, texto, estilo e formato que deseja criar...",
+        "buttonText": "Criar"
+      },
+      {
+        "type": "image",
+        "title": "Imagem para imagem",
+        "subTitle": "Imagem",
+        "value": "image-to-image",
+        "modelName": "GPT Image 2 Edit",
+        "modelId": "gpt-image-2-image-to-image",
+        "modelLogo": "/imgs/intro/gpt-image-2.svg",
+        "placeholder": "Arraste uma imagem aqui ou clique para selecionar",
+        "tips": "Envie uma imagem de referencia para edicao com GPT Image 2. Aceitamos JPEG, PNG, GIF, WEBP e JPG ate 20MB.",
+        "buttonText": "Criar"
+      }
+    ]
+  },
+  "features": {
+    "title": "Por que usar GPT Image 2",
+    "details": [
+      {
+        "title": "Texto legivel para design real",
+        "description": "GPT Image 2 e util quando a imagem precisa conter palavras exatas: placas, rotulos, anuncios sociais, posters, mockups de UI, graficos de apresentacao e campanhas multilingues.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt"
+            },
+            {
+              "title": "Original Example Asset"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Crie um poster de mercado de flores da primavera com o titulo exato FRESH FLOWERS, horario OPEN 8 AM - 7 PM e oferta TODAY ONLY 25% OFF. O design deve ser limpo, moderno e pronto para uma loja local."
+                },
+                {
+                  "type": "image",
+                  "content": "/imgs/model-landing/gpt-image-2/typography-poster.png",
+                  "altText": "Original Seedance example showing GPT Image 2 style text-ready poster generation"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Edicao precisa sem reconstruir a cena",
+        "description": "Para equipes de produto e marketing, a mudanca importante costuma ser pequena: trocar um rotulo, fundo, cor de embalagem ou localizar um visual mantendo luz, sombras e enquadramento.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Before"
+            },
+            {
+              "title": "Instruction"
+            },
+            {
+              "title": "After"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "/imgs/model-landing/gpt-image-2/local-edit-before.png",
+                  "altText": "Original Seedance product package before GPT Image 2 edit"
+                },
+                {
+                  "type": "text",
+                  "content": "Substitua o rotulo simples da bebida de aveia por um design verde NOVA OAT LATTE. Mantenha a forma da garrafa, luz de estudio, angulo da camera e sombra."
+                },
+                {
+                  "type": "image",
+                  "content": "/imgs/model-landing/gpt-image-2/local-edit-after.png",
+                  "altText": "Original Seedance product package after GPT Image 2 style localized label edit"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Entradas de referencia em alta fidelidade",
+        "description": "GPT Image 2 aceita texto e imagens, ideal para preservar um sujeito, silhueta de produto, personagem ou direcao visual enquanto muda estilo ou composicao.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Reference Workflow"
+            },
+            {
+              "title": "Original Example Asset"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Use o mascote laranja simples como personagem principal e transforme-o em um card editorial azul polido, mantendo formato, cor quente e expressao amigavel."
+                },
+                {
+                  "type": "image",
+                  "content": "/imgs/model-landing/gpt-image-2/reference-fidelity.png",
+                  "altText": "Original Seedance reference fidelity example for GPT Image 2 style workflows"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Assets de producao para marketing e comercio",
+        "description": "GPT Image 2 apoia variantes de anuncios, graficos de lancamento, imagens de produto, banners, apresentacoes, imagens de blog e conceitos sociais que precisam de iteracao rapida.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Use Case"
+            },
+            {
+              "title": "Original Example Asset"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Gere um kit de campanha coordenado: card de promocao para paid social, hero de lancamento e capa limpa para uma apresentacao interna."
+                },
+                {
+                  "type": "image",
+                  "content": "/imgs/model-landing/gpt-image-2/commercial-workflow.png",
+                  "altText": "Original Seedance commercial workflow example for GPT Image 2 campaign assets"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "Como usar GPT Image 2",
+    "description": "Comece com um prompt ou envie uma imagem, depois gere ou edite um resultado refinado com GPT Image 2.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Escolha GPT Image 2",
+        "description": "Use text-to-image para novos visuais ou GPT Image 2 Edit para modificar uma imagem enviada."
+      },
+      {
+        "number": "02",
+        "title": "Descreva o resultado com clareza",
+        "description": "Inclua sujeito, cena, texto necessario, formato, proporcao e detalhes que devem permanecer iguais."
+      },
+      {
+        "number": "03",
+        "title": "Gere e refine",
+        "description": "Crie o primeiro resultado e depois refine com instrucoes sobre texto, cor, composicao ou edicoes locais."
+      }
+    ],
+    "buttonText": "Experimentar GPT Image 2"
+  },
+  "comparison": {
+    "title": "GPT Image 2 comparado com outros modelos de imagem",
+    "models": [
+      "GPT Image 2",
+      "Nano Banana 2",
+      "Seedream 5.0"
+    ],
+    "features": [
+      {
+        "name": "Melhor para visuais com muito texto",
+        "values": [
+          "Excelente",
+          "Forte",
+          "Forte"
+        ]
+      },
+      {
+        "name": "Geracao texto-para-imagem",
+        "values": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "name": "Edicao imagem-para-imagem",
+        "values": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "name": "Fidelidade da referencia",
+        "values": [
+          "Alta",
+          "Alta",
+          "Alta"
+        ]
+      },
+      {
+        "name": "Fluxo criativo comercial",
+        "values": [
+          "Posters, rotulos, anuncios, UI e edicoes de produto",
+          "Fusao multi-imagem e assets em alta resolucao",
+          "Criacao baseada em tendencias e edicoes em varias rodadas"
+        ]
+      }
+    ],
+    "featureLabel": "Recurso"
+  },
+  "relatedModels": {
+    "title": "Explore mais modelos de imagem IA",
+    "models": [
+      {
+        "name": "Nano Banana 2",
+        "slug": "nano-banana-2",
+        "description": "Modelo de nova geracao para geracao rapida, edicao e fusao multi-imagem.",
+        "logo": "/imgs/intro/nano-banana.svg"
+      },
+      {
+        "name": "Seedream 5.0",
+        "slug": "seedream-5-0",
+        "description": "Modelo multimodal para geracao com raciocinio, edicao e visuais ligados a tendencias.",
+        "logo": "/imgs/intro/seedream-v2.png"
+      },
+      {
+        "name": "Nano Banana Pro",
+        "slug": "nano-banana-pro",
+        "description": "Gerador profissional para fluxos criativos e edicoes de alta qualidade.",
+        "logo": "/imgs/intro/nano-banana.svg"
+      }
+    ],
+    "buttonText": "Testar agora"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Perguntas frequentes",
+    "description": "Saiba mais sobre geracao e edicao de imagens com GPT Image 2.",
+    "items": [
+      {
+        "title": "O que e GPT Image 2?",
+        "description": "GPT Image 2 e o modelo avancado da OpenAI para criar e editar imagens a partir de texto e imagens."
+      },
+      {
+        "title": "No que GPT Image 2 se destaca?",
+        "description": "E ideal para imagens com texto, criativos comerciais, rotulos, posters, mockups de UI, anuncios, referencias e edicoes precisas."
+      },
+      {
+        "title": "GPT Image 2 pode editar imagens existentes?",
+        "description": "Sim. Envie uma imagem e descreva a alteracao, como cor, rotulo, fundo ou refinamento local."
+      },
+      {
+        "title": "GPT Image 2 consegue criar texto legivel em imagens?",
+        "description": "Sim. Ele pode gerar rotulos, titulos, placas, botoes e textos curtos de marketing com mais clareza."
+      },
+      {
+        "title": "Posso testar GPT Image 2 gratis?",
+        "description": "Voce pode testar GPT Image 2 depois de entrar. A geracao pode usar creditos conforme o fluxo e o plano."
+      },
+      {
+        "title": "Quais modos de GPT Image 2 sao suportados?",
+        "description": "O gerador suporta GPT Image 2 text-to-image e GPT Image 2 image-to-image editing."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Crie com GPT Image 2 no Seedance",
+    "description": "Gere visuais de campanha com texto claro, edicoes de produto, arte baseada em referencias e assets criativos refinados online.",
+    "buttonText": "Experimentar GPT Image 2 gratis"
+  }
+}

@@ -1312,5 +1312,10 @@
         "default": "Verwandeln Sie Ideen, Text-Prompts und Bilder mit Seedance in hochwertige Videos. Wenn dieser Artikel geholfen hat, ist der schnellste nächste Schritt, das Produkt selbst auszuprobieren."
       }
     }
+  },
+  "gpt-image-2": {
+    "title": "GPT Image 2 AI Bildgenerator Online | Seedance",
+    "description": "Teste GPT Image 2 auf Seedance fuer Text-zu-Bild und Bildbearbeitung. Erstelle lesbare Poster, Produktetiketten, UI-Mockups, Anzeigen und hochwertige Creative Assets.",
+    "keywords": "GPT Image 2, AI Bildgenerator, Text zu Bild, Bildbearbeitung, OpenAI Bildmodell, AI Poster Generator, Produktetiketten AI"
   }
 }

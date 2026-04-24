@@ -1,0 +1,1 @@
+Generated local PNG visual assets for the GPT Image 2 model landing page. Created with SVG source and macOS Quick Look rasterization on 2026-04-24. These are original Veo3 AI illustrative assets, not copied from Pollo AI or third-party pages.

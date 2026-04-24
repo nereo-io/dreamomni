@@ -786,7 +786,7 @@
   },
   "effects": {
     "ai-kissing": "AIキス動画ジェネレーター",
-    "kiss-me-ai": "Kiss Me AI",
+    "kiss-me-ai": "キスミーAI",
     "ai-twerk": "AIトワーク動画ジェネレーター",
     "ai-hug": "AIハグ",
     "ai-muscle": "AI筋肉ジェネレーター",
@@ -796,17 +796,17 @@
     "dance-party": "ダンスパーティージェネレーター",
     "magic-tricks": "マジックトリックエフェクト",
     "time-travel": "タイムトラベルエフェクト",
-    "vampire-transformation": "バンパイア変身",
+    "vampire-transformation": "ヴァンパイア変身",
     "ghost-effect": "ゴースト出現エフェクト",
     "gender-swap": "性別スワップエフェクト",
-    "hair-color-change": "髪色チェンジャー",
+    "hair-color-change": "ヘアカラーチェンジャー",
     "makeup-artist": "AIメイクアップアーティスト",
-    "body-transformation": "体型変換",
-    "halloween-spooky": "ハロウィン不気味エフェクト",
+    "body-transformation": "ボディ変身",
+    "halloween-spooky": "ハロウィンスプーキーエフェクト",
     "valentine-romance": "バレンタインロマンスエフェクト",
-    "new-year-celebration": "新年祝賀",
-    "summer-beach": "夏のビーチバイブ",
-    "happiness-boost": "幸福ブーストエフェクト",
+    "new-year-celebration": "新年お祝い",
+    "summer-beach": "サマービーチバイブス",
+    "happiness-boost": "ハピネスブーストエフェクト",
     "surprise-reaction": "サプライズリアクションエフェクト",
     "anger-expression": "怒り表現エフェクト",
     "love-struck": "恋に落ちたエフェクト"
@@ -1294,33 +1294,6 @@
     "popularEffects": "人気のエフェクト",
     "moreEffects": "もっと見る →"
   },
-  "effects": {
-    "ai-kissing": "AIキス動画ジェネレーター",
-    "kiss-me-ai": "キスミーAI",
-    "ai-twerk": "AIトワーク動画ジェネレーター",
-    "ai-hug": "AIハグ",
-    "ai-muscle": "AI筋肉ジェネレーター",
-    "ai-french-kissing": "AIフレンチキス",
-    "ai-360-rotation": "AI 360°回転動画ジェネレーター",
-    "ai-cloud-ride": "AIクラウドライド動画ジェネレーター",
-    "dance-party": "ダンスパーティージェネレーター",
-    "magic-tricks": "マジックトリックエフェクト",
-    "time-travel": "タイムトラベルエフェクト",
-    "vampire-transformation": "ヴァンパイア変身",
-    "ghost-effect": "ゴースト出現エフェクト",
-    "gender-swap": "性別スワップエフェクト",
-    "hair-color-change": "ヘアカラーチェンジャー",
-    "makeup-artist": "AIメイクアップアーティスト",
-    "body-transformation": "ボディ変身",
-    "halloween-spooky": "ハロウィンスプーキーエフェクト",
-    "valentine-romance": "バレンタインロマンスエフェクト",
-    "new-year-celebration": "新年お祝い",
-    "summer-beach": "サマービーチバイブス",
-    "happiness-boost": "ハピネスブーストエフェクト",
-    "surprise-reaction": "サプライズリアクションエフェクト",
-    "anger-expression": "怒り表現エフェクト",
-    "love-struck": "恋に落ちたエフェクト"
-  },
   "blogDetail": {
     "tocTitle": "目次",
     "relatedTitle": "関連記事",
@@ -1352,5 +1325,10 @@
         "default": "アイデア、テキストプロンプト、画像をSeedanceで洗練された動画に変えましょう。この記事が役立ったなら、次は実際に試すのが最短です。"
       }
     }
+  },
+  "gpt-image-2": {
+    "title": "GPT Image 2 AI画像生成ツール | Seedance",
+    "description": "SeedanceでGPT Image 2のテキスト画像生成と画像編集を体験。読みやすいポスター、商品ラベル、UIモックアップ、広告、商用クリエイティブを作成できます。",
+    "keywords": "GPT Image 2, AI画像生成, テキストから画像, 画像編集, OpenAI画像モデル, ポスター生成, 商品ラベルAI"
   }
 }

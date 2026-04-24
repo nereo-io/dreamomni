@@ -1,0 +1,298 @@
+{
+  "banner": {
+    "title": "GPT Image 2 AI画像生成ツール",
+    "description": "GPT Image 2は、OpenAIの高速で高品質な画像生成・編集向けモデルです。テキストから完成度の高いビジュアルを作成し、自然な言葉で既存画像を編集し、ポスター、商品ラベル、UIモックアップ、広告、ローカライズ制作に使える読みやすい文字表現を生成できます。",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "テキストから画像",
+        "subTitle": "プロンプト",
+        "value": "text-to-image",
+        "modelName": "GPT Image 2",
+        "modelId": "gpt-image-2-text-to-image",
+        "modelLogo": "/imgs/intro/gpt-image-2.svg",
+        "placeholder": "作りたい画像、レイアウト、文字、スタイル、形式を説明してください...",
+        "buttonText": "作成"
+      },
+      {
+        "type": "image",
+        "title": "画像から画像",
+        "subTitle": "画像",
+        "value": "image-to-image",
+        "modelName": "GPT Image 2 Edit",
+        "modelId": "gpt-image-2-image-to-image",
+        "modelLogo": "/imgs/intro/gpt-image-2.svg",
+        "placeholder": "画像をドラッグするか、クリックして選択",
+        "tips": "GPT Image 2で編集する参考画像をアップロードしてください。JPEG、PNG、GIF、WEBP、JPG、最大20MBに対応しています。",
+        "buttonText": "作成"
+      }
+    ]
+  },
+  "features": {
+    "title": "GPT Image 2を使う理由",
+    "details": [
+      {
+        "title": "実用的なデザイン向けの読みやすい文字",
+        "description": "GPT Image 2は、画像内に正確な文字が必要な場面に向いています。店舗サイン、商品ラベル、SNS広告、イベントポスター、UIモックアップ、スライド画像、多言語キャンペーンなどに活用できます。",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt"
+            },
+            {
+              "title": "Original Example Asset"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "春の花市場ポスターを作成。正確な見出し FRESH FLOWERS、営業時間 OPEN 8 AM - 7 PM、オファー TODAY ONLY 25% OFF を含め、地元店舗向けの清潔で現代的なデザインにする。"
+                },
+                {
+                  "type": "image",
+                  "content": "/imgs/model-landing/gpt-image-2/typography-poster.png",
+                  "altText": "Original Seedance example showing GPT Image 2 style text-ready poster generation"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "シーン全体を作り直さない精密編集",
+        "description": "商品やマーケティング制作では、重要な修正は小さな範囲であることが多いです。ラベル、背景、包装色、ローカライズを変更しながら、光、影、構図、商品の印象を保てます。",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Before"
+            },
+            {
+              "title": "Instruction"
+            },
+            {
+              "title": "After"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "image",
+                  "content": "/imgs/model-landing/gpt-image-2/local-edit-before.png",
+                  "altText": "Original Seedance product package before GPT Image 2 edit"
+                },
+                {
+                  "type": "text",
+                  "content": "シンプルなオーツドリンクのラベルを、緑色の NOVA OAT LATTE デザインに変更。ボトル形状、スタジオ照明、カメラ角度、影は維持する。"
+                },
+                {
+                  "type": "image",
+                  "content": "/imgs/model-landing/gpt-image-2/local-edit-after.png",
+                  "altText": "Original Seedance product package after GPT Image 2 style localized label edit"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "高忠実度の参考画像入力",
+        "description": "GPT Image 2はテキストと画像入力に対応し、被写体、商品の形、キャラクター案、ビジュアル方向性を保ちながら、スタイルや構図を変える用途に適しています。",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Reference Workflow"
+            },
+            {
+              "title": "Original Example Asset"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "シンプルなオレンジ色のマスコットを主役にし、頭の形、暖かい色、親しみやすい表情を保ちながら、洗練された青い編集風カードに変換する。"
+                },
+                {
+                  "type": "image",
+                  "content": "/imgs/model-landing/gpt-image-2/reference-fidelity.png",
+                  "altText": "Original Seedance reference fidelity example for GPT Image 2 style workflows"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "マーケティングとEC向けの制作素材",
+        "description": "GPT Image 2は、広告バリエーション、ローンチ画像、商品画像、ストアバナー、プレゼン画像、ブログ用アート、SNS企画など、継続的な素材制作に向いています。",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Use Case"
+            },
+            {
+              "title": "Original Example Asset"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "1つのブリーフから統一感のあるキャンペーンキットを生成。SNS広告用セールカード、ローンチ用ヒーロー画像、社内資料用の表紙を作る。"
+                },
+                {
+                  "type": "image",
+                  "content": "/imgs/model-landing/gpt-image-2/commercial-workflow.png",
+                  "altText": "Original Seedance commercial workflow example for GPT Image 2 campaign assets"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "GPT Image 2の使い方",
+    "description": "プロンプトから始めるか画像をアップロードし、GPT Image 2で完成度の高い結果を生成・編集します。",
+    "steps": [
+      {
+        "number": "01",
+        "title": "GPT Image 2を選択",
+        "description": "新しい画像にはtext-to-image、アップロード画像の編集にはGPT Image 2 Editを使います。"
+      },
+      {
+        "number": "02",
+        "title": "結果を明確に説明",
+        "description": "被写体、場面、必要な文字、形式、比率、維持したい要素を書きます。"
+      },
+      {
+        "number": "03",
+        "title": "生成して調整",
+        "description": "最初の結果を作成し、文字、色、構図、局所編集について絞った指示で改善します。"
+      }
+    ],
+    "buttonText": "GPT Image 2を試す"
+  },
+  "comparison": {
+    "title": "GPT Image 2と他の画像モデルの比較",
+    "models": [
+      "GPT Image 2",
+      "Nano Banana 2",
+      "Seedream 5.0"
+    ],
+    "features": [
+      {
+        "name": "文字が多いビジュアルに最適",
+        "values": [
+          "優秀",
+          "強い",
+          "強い"
+        ]
+      },
+      {
+        "name": "テキストから画像生成",
+        "values": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "name": "画像から画像編集",
+        "values": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "name": "参考画像の忠実度",
+        "values": [
+          "高い",
+          "高い",
+          "高い"
+        ]
+      },
+      {
+        "name": "商用クリエイティブワークフロー",
+        "values": [
+          "ポスター、ラベル、広告、UI、商品編集",
+          "複数画像の融合と高解像度素材",
+          "トレンド対応の制作と複数回編集"
+        ]
+      }
+    ],
+    "featureLabel": "機能"
+  },
+  "relatedModels": {
+    "title": "他のAI画像モデルを見る",
+    "models": [
+      {
+        "name": "Nano Banana 2",
+        "slug": "nano-banana-2",
+        "description": "高速生成、編集、複数画像融合向けの次世代画像モデル。",
+        "logo": "/imgs/intro/nano-banana.svg"
+      },
+      {
+        "name": "Seedream 5.0",
+        "slug": "seedream-5-0",
+        "description": "推論型生成、編集、トレンドに沿ったビジュアル向けのマルチモーダル画像モデル。",
+        "logo": "/imgs/intro/seedream-v2.png"
+      },
+      {
+        "name": "Nano Banana Pro",
+        "slug": "nano-banana-pro",
+        "description": "高品質な制作と編集ワークフロー向けのプロ向けAI画像生成ツール。",
+        "logo": "/imgs/intro/nano-banana.svg"
+      }
+    ],
+    "buttonText": "今すぐ試す"
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "よくある質問",
+    "description": "GPT Image 2の画像生成と編集について。",
+    "items": [
+      {
+        "title": "GPT Image 2とは？",
+        "description": "GPT Image 2は、テキストと画像入力から画像を作成・編集するOpenAIの高度な画像モデルです。"
+      },
+      {
+        "title": "GPT Image 2は何が得意ですか？",
+        "description": "文字入り画像、商用クリエイティブ、商品ラベル、ポスター、UIモックアップ、SNS広告、参考画像ベースの生成、精密編集に向いています。"
+      },
+      {
+        "title": "既存画像を編集できますか？",
+        "description": "はい。画像をアップロードし、色、ラベル、背景、局所的な調整など変更内容を説明できます。"
+      },
+      {
+        "title": "画像内に読みやすい文字を生成できますか？",
+        "description": "はい。ラベル、見出し、サイン、ボタン、短い広告文などをより読みやすく生成できます。"
+      },
+      {
+        "title": "無料で試せますか？",
+        "description": "ログイン後にGPT Image 2を試せます。ワークフローやプランによってクレジットを使用する場合があります。"
+      },
+      {
+        "title": "どのモードに対応していますか？",
+        "description": "GPT Image 2のtext-to-image生成とimage-to-image編集に対応しています。"
+      }
+    ]
+  },
+  "cta": {
+    "title": "SeedanceでGPT Image 2を使って作成",
+    "description": "読みやすい文字入りキャンペーン画像、商品編集、参考画像ベースのアート、高品質な制作素材をオンラインで生成できます。",
+    "buttonText": "GPT Image 2を無料で試す"
+  }
+}

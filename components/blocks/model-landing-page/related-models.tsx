@@ -10,7 +10,7 @@ interface RelatedModelsProps {
 }
 
 export default function RelatedModels({ section }: RelatedModelsProps) {
-  const { title, models } = section;
+  const { title, models, buttonText = "Try Now" } = section;
 
   return (
     <section className="w-full py-16 px-4">
@@ -31,6 +31,7 @@ export default function RelatedModels({ section }: RelatedModelsProps) {
                     src={model.logo}
                     alt={`${model.name} logo`}
                     fill
+                    sizes="48px"
                     className="object-cover"
                   />
                 </div>
@@ -42,7 +43,7 @@ export default function RelatedModels({ section }: RelatedModelsProps) {
                 {model.description}
               </p>
               <div className="flex items-center text-primary text-sm font-medium">
-                Try Now
+                {buttonText}
                 <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
               </div>
             </Link>

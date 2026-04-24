@@ -10,6 +10,7 @@ export interface Tab {
   buttonText: string;
   modelName: string;
   modelLogo: string;
+  modelId?: string;
   tips?: string;
 }
 
@@ -177,6 +178,7 @@ export interface ComparisonFeature {
 
 export interface ComparisonSection {
   title: string;
+  featureLabel?: string;
   models: string[];
   features: ComparisonFeature[];
 }
@@ -191,6 +193,7 @@ export interface RelatedModel {
 
 export interface RelatedModelsSection {
   title: string;
+  buttonText?: string;
   models: RelatedModel[];
 }
 

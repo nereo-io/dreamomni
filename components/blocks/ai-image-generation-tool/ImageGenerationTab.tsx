@@ -347,7 +347,18 @@ export default function ImageGenerationTab({
   // Load prompt from localStorage on component mount
   useEffect(() => {
     // Only run on client-side mount, not during SSR or hydration
-    if (typeof window === "undefined" || mode !== "text-to-image") return;
+    if (typeof window === "undefined") return;
+
+    const savedModel = localStorage.getItem("modelLandingPageImageModel");
+    if (
+      savedModel &&
+      availableModels.some((model) => model.id === savedModel)
+    ) {
+      setSelectedModel(savedModel);
+      localStorage.removeItem("modelLandingPageImageModel");
+    }
+
+    if (mode !== "text-to-image") return;
 
     const savedPrompt = localStorage.getItem("modelLandingPagePrompt");
     if (savedPrompt && !internalPrompt.trim() && !promptValue?.trim()) {

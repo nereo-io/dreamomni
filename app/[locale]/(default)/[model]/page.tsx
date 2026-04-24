@@ -6,12 +6,16 @@ import {
   MODEL_LANDING_PAGES,
   isValidModelSlug,
 } from "@/config/model-landing-pages";
-import { locales } from "@/i18n/locale";
+import { defaultLocale, locales } from "@/i18n/locale";
 
 type Params = {
   locale: string;
   model: string;
 };
+
+function getModelPath(locale: string, model: string): string {
+  return locale === defaultLocale ? `/${model}` : `/${locale}/${model}`;
+}
 
 /**
  * Generate static params for all model × locale combinations
@@ -42,18 +46,40 @@ export async function generateMetadata({
 
   const t = await getTranslations();
 
-  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${model}`;
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "";
+  const title = t(`${model}.title`);
+  const description = t(`${model}.description`);
+  const languages = Object.fromEntries(
+    locales.map((item) => [item, `${baseUrl}${getModelPath(item, model)}`])
+  );
+
+  languages["x-default"] = `${baseUrl}${getModelPath(defaultLocale, model)}`;
+
+  let canonicalUrl = `${baseUrl}/${model}`;
 
   if (locale !== "en") {
-    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/${model}`;
+    canonicalUrl = `${baseUrl}/${locale}/${model}`;
   }
 
   return {
-    title: t(`${model}.title`),
-    description: t(`${model}.description`),
+    title,
+    description,
     keywords: t(`${model}.keywords`),
     alternates: {
       canonical: canonicalUrl,
+      languages,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      siteName: "Seedance",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
     },
   };
 }

@@ -8,9 +8,6 @@ import { useRouter } from "next/navigation";
 import { BannerSection, Tab } from "@/types/pages/model-landing-page";
 import { getMaxPromptLength } from "@/config/image-models";
 
-// 使用默认模型的最大提示词长度（首页 banner 不选择具体模型，使用默认值）
-const MAX_PROMPT_LENGTH = getMaxPromptLength("nano-banana");
-
 export default function ModelBanner({ section }: { section: BannerSection }) {
   const [prompt, setPrompt] = useState("");
   const [activeTab, setActiveTab] = useState<string>(
@@ -31,6 +28,9 @@ export default function ModelBanner({ section }: { section: BannerSection }) {
 
     if (currentTab.type === "text" && prompt.trim()) {
       localStorage.setItem("modelLandingPagePrompt", prompt);
+      if (currentTab.modelId) {
+        localStorage.setItem("modelLandingPageImageModel", currentTab.modelId);
+      }
       router.push(`/${activeTab}`);
     } else if (currentTab.type === "image" && imageFile) {
       // 对于图像文件，我们需要先转换为base64字符串才能存储
@@ -38,6 +38,12 @@ export default function ModelBanner({ section }: { section: BannerSection }) {
       reader.onload = (e) => {
         if (e.target && typeof e.target.result === "string") {
           localStorage.setItem("modelLandingPageImage", e.target.result);
+          if (currentTab.modelId) {
+            localStorage.setItem(
+              "modelLandingPageImageModel",
+              currentTab.modelId
+            );
+          }
           router.push(`/${activeTab}`);
         }
       };
@@ -126,6 +132,8 @@ export default function ModelBanner({ section }: { section: BannerSection }) {
   // 渲染标签页内容
   const renderTabContent = (tab: Tab) => {
     if (tab.type === "text") {
+      const maxPromptLength = getMaxPromptLength(tab.modelId || "nano-banana");
+
       return (
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-4 text-card-foreground">
@@ -155,24 +163,24 @@ export default function ModelBanner({ section }: { section: BannerSection }) {
             className="resize-none bg-input border-border text-foreground placeholder:text-muted-foreground mt-0 overflow-y-auto min-h-[150px] max-h-[300px]"
             value={prompt}
             onChange={(e) => {
-              if (e.target.value.length <= MAX_PROMPT_LENGTH) {
+              if (e.target.value.length <= maxPromptLength) {
                 setPrompt(e.target.value);
               }
             }}
-            maxLength={MAX_PROMPT_LENGTH}
+            maxLength={maxPromptLength}
           />
 
           <div className="flex justify-end mt-3 text-sm text-muted-foreground">
             <div
               className={`transition-colors duration-300 ${
-                prompt.length > 1800
-                  ? "text-amber-400"
-                  : prompt.length > 1900
+                prompt.length > maxPromptLength * 0.95
                   ? "text-destructive"
+                  : prompt.length > maxPromptLength * 0.9
+                  ? "text-amber-400"
                   : ""
               }`}
             >
-              {prompt.length} / {MAX_PROMPT_LENGTH}
+              {prompt.length} / {maxPromptLength}
             </div>
           </div>
         </div>
@@ -307,9 +315,10 @@ export default function ModelBanner({ section }: { section: BannerSection }) {
 
   // 渲染创建按钮
   const renderCreateButton = (tab: Tab) => {
+    const maxPromptLength = getMaxPromptLength(tab.modelId || "nano-banana");
     const isDisabled =
       tab.type === "text"
-        ? !prompt.trim() || prompt.trim().length > MAX_PROMPT_LENGTH
+        ? !prompt.trim() || prompt.trim().length > maxPromptLength
         : !imageFile;
 
     return (

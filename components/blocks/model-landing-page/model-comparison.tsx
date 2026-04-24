@@ -8,7 +8,7 @@ interface ModelComparisonProps {
 }
 
 export default function ModelComparison({ section }: ModelComparisonProps) {
-  const { title, models, features } = section;
+  const { title, models, features, featureLabel = "Feature" } = section;
 
   const renderValue = (value: boolean | string) => {
     if (typeof value === "boolean") {
@@ -32,7 +32,7 @@ export default function ModelComparison({ section }: ModelComparisonProps) {
             <thead>
               <tr className="border-b border-border">
                 <th className="text-left py-4 px-4 text-muted-foreground font-medium">
-                  Feature
+                  {featureLabel}
                 </th>
                 {models.map((model, index) => (
                   <th
