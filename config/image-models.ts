@@ -38,7 +38,10 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
   // Endpoint: POST https://api.kie.ai/api/v1/jobs/createTask
   // Model identifier in API: "gpt-image-2-text-to-image"
   // 文档: https://docs.kie.ai/market/gpt/gpt-image-2-text-to-image
-  // 注: Kie.ai 未公开标价，credits 值需根据实际调用成本调整
+  // Resolution 业务约束 (由 Kie.ai 限制, 见 getValidResolutionsForAspectRatio):
+  //   - aspect_ratio = "Auto" / 未指定 → 仅允许 1K
+  //   - aspect_ratio = "1:1"          → 不允许 4K (最高 2K)
+  //   - 其他比例                      → 1K / 2K / 4K 全量
   "gpt-image-2-text-to-image": {
     id: "gpt-image-2-text-to-image",
     name: "gpt-image-2-text-to-image",
@@ -46,7 +49,7 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
     provider: ImageModelProvider.KIE_GPT,
     type: ImageModelType.TEXT_TO_IMAGE,
     status: "active",
-    features: ["text-to-image", "high-quality"],
+    features: ["text-to-image", "high-quality", "4k-resolution"],
     credits: 3,
     maxPromptLength: 20000,
     supportedAspectRatios: [
@@ -60,6 +63,12 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
       "16:9",
       "21:9",
     ],
+    supportedResolutions: ["1K", "2K", "4K"],
+    resolutionCredits: {
+      "1K": 3,
+      "2K": 5,
+      "4K": 8,
+    },
     supportedFormats: ["jpg", "png"],
     estimatedGenerationTime: 60,
   },
@@ -68,6 +77,7 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
   // Endpoint: POST https://api.kie.ai/api/v1/jobs/createTask
   // Model identifier in API: "gpt-image-2-image-to-image"
   // 文档: https://docs.kie.ai/market/gpt/gpt-image-2-image-to-image
+  // Resolution 约束同文生图, 见 getValidResolutionsForAspectRatio
   "gpt-image-2-image-to-image": {
     id: "gpt-image-2-image-to-image",
     name: "gpt-image-2-image-to-image",
@@ -75,7 +85,7 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
     provider: ImageModelProvider.KIE_GPT,
     type: ImageModelType.IMAGE_TO_IMAGE,
     status: "active",
-    features: ["image-to-image", "high-quality"],
+    features: ["image-to-image", "high-quality", "4k-resolution"],
     credits: 3,
     maxInputImages: 16,
     maxPromptLength: 20000,
@@ -90,6 +100,12 @@ export const IMAGE_MODELS: Record<string, ImageModelConfig> = {
       "16:9",
       "21:9",
     ],
+    supportedResolutions: ["1K", "2K", "4K"],
+    resolutionCredits: {
+      "1K": 3,
+      "2K": 5,
+      "4K": 8,
+    },
     supportedFormats: ["jpg", "png"],
     estimatedGenerationTime: 60,
   },
@@ -221,4 +237,37 @@ export function calculateImageCredits(
 export function getMaxPromptLength(modelId: string): number {
   const model = getImageModel(modelId);
   return model?.maxPromptLength ?? 5000; // 默认 5000 字符
+}
+
+/**
+ * 根据模型与 aspect_ratio 推导允许的分辨率列表
+ *
+ * 目前只有 GPT Image 2 (KIE_GPT) 家族有 aspect_ratio × resolution 的交叉约束:
+ *   - aspect_ratio = "Auto" / undefined → 仅允许 1K
+ *   - aspect_ratio = "1:1"              → 不允许 4K
+ *   - 其他比例                          → 全量支持
+ *
+ * 该规则同时被前端(禁用/自动回退)和后端(提交前校验)使用,
+ * 以避免用户提交必然失败的参数组合。
+ */
+export function getValidResolutionsForAspectRatio(
+  modelId: string,
+  aspectRatio: string | undefined,
+): string[] {
+  const model = getImageModel(modelId);
+  if (!model?.supportedResolutions?.length) return [];
+
+  // 仅 GPT Image 2 家族有此约束
+  if (model.provider !== ImageModelProvider.KIE_GPT) {
+    return model.supportedResolutions;
+  }
+
+  const normalised = (aspectRatio || "auto").trim().toLowerCase();
+  if (!normalised || normalised === "auto") {
+    return model.supportedResolutions.filter((r) => r === "1K");
+  }
+  if (normalised === "1:1") {
+    return model.supportedResolutions.filter((r) => r !== "4K");
+  }
+  return model.supportedResolutions;
 }

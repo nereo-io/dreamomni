@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import type React from "react";
 import ImageHistoryForGeneration from "../image-history-for-generation";
 import useImageGeneration from "@/hooks/useImageGeneration";
@@ -26,6 +26,7 @@ import {
   getImageModel,
   calculateImageCredits,
   getMaxPromptLength,
+  getValidResolutionsForAspectRatio,
 } from "@/config/image-models";
 import ImageAgentSection from "./ImageAgentSection";
 import { CreditsCostSection } from "@/components/blocks/common/CreditsCostSection";
@@ -275,21 +276,41 @@ export default function ImageGenerationTab({
     adjustTextareaHeight();
   }, [prompt]);
 
-  // 当模型切换时，确保分辨率和宽高比是当前模型支持的值
+  // 允许的分辨率集合 (根据当前 aspect_ratio 动态计算)
+  // GPT Image 2 有交叉约束:
+  //   - aspect_ratio = "Auto" → 仅允许 1K
+  //   - aspect_ratio = "1:1"  → 不允许 4K
+  const allowedResolutions = useMemo(
+    () =>
+      hasResolutionSupport
+        ? getValidResolutionsForAspectRatio(selectedModel, aspectRatio)
+        : [],
+    [hasResolutionSupport, selectedModel, aspectRatio],
+  );
+
+  // 当模型或 aspect_ratio 切换时, 确保 resolution / aspectRatio 始终合法
   useEffect(() => {
-    // 同步分辨率
-    if (currentModelConfig?.supportedResolutions?.length) {
-      if (!currentModelConfig.supportedResolutions.includes(resolution)) {
-        setResolution(currentModelConfig.supportedResolutions[0]);
-      }
-    }
-    // 同步宽高比
+    // 同步宽高比: 模型不再支持当前比例时回退到第一项
     if (currentModelConfig?.supportedAspectRatios?.length) {
       if (!currentModelConfig.supportedAspectRatios.includes(aspectRatio)) {
         setAspectRatio(currentModelConfig.supportedAspectRatios[0]);
+        return;
       }
     }
-  }, [selectedModel, currentModelConfig?.supportedResolutions, currentModelConfig?.supportedAspectRatios, resolution, aspectRatio]);
+    // 同步分辨率: 当前分辨率不在"比例允许集合"中时自动降档到第一项
+    if (currentModelConfig?.supportedResolutions?.length) {
+      if (allowedResolutions.length && !allowedResolutions.includes(resolution)) {
+        setResolution(allowedResolutions[0]);
+      }
+    }
+  }, [
+    selectedModel,
+    currentModelConfig?.supportedResolutions,
+    currentModelConfig?.supportedAspectRatios,
+    resolution,
+    aspectRatio,
+    allowedResolutions,
+  ]);
 
   // 获取当前模型的最大提示词长度
   const maxPromptLength = getMaxPromptLength(selectedModel);
@@ -946,7 +967,7 @@ export default function ImageGenerationTab({
                     {t("resolution")}
                   </label>
                   <div className="flex flex-wrap gap-3">
-                    {currentModelConfig?.supportedResolutions?.map((res) => (
+                    {allowedResolutions.map((res) => (
                       <label
                         key={res}
                         className="flex items-center cursor-pointer min-w-0"
