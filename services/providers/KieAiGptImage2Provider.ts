@@ -244,6 +244,7 @@ export class KieAiGptImage2Provider extends BaseAIProvider {
           imageUrls: request.image_input!,
           model: IMAGE_TO_IMAGE_MODEL,
           aspect_ratio: request.aspect_ratio,
+          resolution: request.resolution,
           output_format: request.output_format as "png" | "jpeg" | undefined,
           generationId: request.generationId,
           isAgentMode: request.isAgentMode,
@@ -258,6 +259,9 @@ export class KieAiGptImage2Provider extends BaseAIProvider {
         aspect_ratio: this.normaliseAspectRatio(request.aspect_ratio),
         nsfw_checker: true,
       };
+      if (request.resolution) {
+        input.resolution = request.resolution;
+      }
 
       const result = await this.submitJob(apiModel, input);
 
@@ -271,6 +275,7 @@ export class KieAiGptImage2Provider extends BaseAIProvider {
           api_version: "jobs",
           recordId: result.recordId,
           aspect_ratio: input.aspect_ratio,
+          resolution: input.resolution,
           raw_response: result,
         },
       };
@@ -312,6 +317,9 @@ export class KieAiGptImage2Provider extends BaseAIProvider {
         aspect_ratio: this.normaliseAspectRatio(request.aspect_ratio),
         nsfw_checker: true,
       };
+      if (request.resolution) {
+        input.resolution = request.resolution;
+      }
 
       const result = await this.submitJob(apiModel, input);
 
@@ -325,6 +333,7 @@ export class KieAiGptImage2Provider extends BaseAIProvider {
           api_version: "jobs",
           recordId: result.recordId,
           aspect_ratio: input.aspect_ratio,
+          resolution: input.resolution,
           input_image_count: request.imageUrls.length,
           raw_response: result,
         },
@@ -589,6 +598,16 @@ export class KieAiGptImage2Provider extends BaseAIProvider {
       } else if (msg && msg !== "success") {
         errorMessage = msg;
       }
+
+      console.error("[GPT Image 2] Task failed:", {
+        taskId,
+        state,
+        api_code: code,
+        api_message: msg,
+        failCode,
+        failMsg,
+        model,
+      });
 
       return {
         ...baseResult,
