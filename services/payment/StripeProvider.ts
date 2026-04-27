@@ -134,7 +134,7 @@ export class StripeProvider extends BasePaymentProvider {
   ): Promise<SubscriptionWebhookResult> {
     throw new PaymentError(
       "NOT_SUPPORTED",
-      "Stripe webhooks are handled by /api/stripe-notify directly",
+      "Stripe webhooks are handled by /api/stripe/webhook directly",
       this.name
     );
   }

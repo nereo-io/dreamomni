@@ -10,7 +10,7 @@ export interface CurrentSubscription {
   amount: number;
   credits: number;
   interval: "month" | "year";
-  provider: "payssion" | "creem";
+  provider: "payssion" | "creem" | "stripe";
   status: string;
   current_period_end?: string;
 }

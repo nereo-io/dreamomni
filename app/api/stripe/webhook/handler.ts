@@ -30,7 +30,7 @@ export async function handleStripeWebhook(req: Request) {
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object;
-        await handleOrderSession(session);
+        await handleOrderSession(session, stripe);
         break;
       }
 
