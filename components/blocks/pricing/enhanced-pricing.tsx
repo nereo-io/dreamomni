@@ -216,13 +216,13 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
               setSelectedProvider("payssion");
             }
           } else {
-            // 非俄罗斯用户: 默认选择 Creem
-            const creemMethod = methods.find((m) => m.provider === "creem");
-            if (creemMethod) {
-              setSelectedPaymentMethod(creemMethod.id);
-              setSelectedProvider("creem");
+            // 非俄罗斯用户: 默认选择 Stripe
+            const stripeMethod = methods.find((m) => m.provider === "stripe");
+            if (stripeMethod) {
+              setSelectedPaymentMethod(stripeMethod.id);
+              setSelectedProvider("stripe");
             } else if (methods.length > 0) {
-              // Fallback: 如果没有Creem，选择列表中的第一个
+              // Fallback: 如果没有Stripe，选择列表中的第一个
               setSelectedPaymentMethod(methods[0].id);
               setSelectedProvider(methods[0].provider);
             }
@@ -233,14 +233,14 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         // 设置默认的支付方式
         setAvailableMethods([
           {
-            id: "creem",
+            id: "stripe",
             name: "Credit Card",
-            logo: "/payment-logos/creem.svg",
-            provider: "creem",
+            logo: "/payment-logos/stripe.png",
+            provider: "stripe",
           },
         ]);
-        setSelectedPaymentMethod("creem");
-        setSelectedProvider("creem");
+        setSelectedPaymentMethod("stripe");
+        setSelectedProvider("stripe");
       }
     }
   }, [locationLoading, isRussia]);
@@ -349,8 +349,8 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         amount: bundle.amount,
         currency: "USD",
         valid_months: 1,
-        payment_method: selectedPaymentMethod || "creem",
-        user_preference: selectedProvider || "creem",
+        payment_method: selectedPaymentMethod || "stripe",
+        user_preference: selectedProvider || "stripe",
       };
 
       // Set payment pending marker
@@ -459,7 +459,12 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         item.interval === "month" || item.interval === "year";
       let endpoint;
 
-      if (selectedProvider === "creem" || selectedPaymentMethod === "creem") {
+      if (
+        selectedProvider === "creem" ||
+        selectedPaymentMethod === "creem" ||
+        selectedProvider === "stripe" ||
+        selectedPaymentMethod === "stripe"
+      ) {
         endpoint = "/api/subscription/create";
       } else if (
         isSubscription &&
@@ -498,8 +503,13 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         return;
       }
 
-      if (selectedProvider === "creem" || selectedPaymentMethod === "creem") {
-        // Creem 支付流程
+      if (
+        selectedProvider === "creem" ||
+        selectedPaymentMethod === "creem" ||
+        selectedProvider === "stripe" ||
+        selectedPaymentMethod === "stripe"
+      ) {
+        // Card payment flow
         const { redirect_url, success, subscriptionId } = data;
         if (redirect_url) {
           window.location.href = redirect_url;
