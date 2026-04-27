@@ -270,7 +270,12 @@
   "blog": {
     "title": "Blog",
     "description": "Notícias, recursos e atualizações sobre a geração de vídeos da Veo3 AI",
-    "read_more_text": "Leia Mais"
+    "read_more_text": "Leia Mais",
+    "load_more": "Carregar mais",
+    "loading_more": "Carregando mais...",
+    "featured": "Destaque",
+    "search_placeholder": "Pesquisar artigos...",
+    "no_results": "Nenhum artigo encontrado"
   },
   "chat": {
     "title": "Nova Geração - Plataforma de Vídeo Veo3 AI",
@@ -1318,5 +1323,76 @@
     "title": "Gerador de imagens IA GPT Image 2 online | Seedance",
     "description": "Experimente GPT Image 2 no Seedance para gerar e editar imagens. Crie posters legiveis, rotulos de produto, mockups UI, anuncios e assets criativos de alta qualidade.",
     "keywords": "GPT Image 2, gerador de imagens IA, texto para imagem, editor de imagem, modelo de imagem OpenAI, poster IA, rotulo de produto IA"
+  },
+  "video": {
+    "videoEffect": "Efeito de vídeo",
+    "chooseVideoEffect": "Escolha um efeito de vídeo"
+  },
+  "header": {
+    "video_effects": "Efeitos de vídeo",
+    "more_effects": "Mais efeitos"
+  },
+  "effects": {
+    "ai-kissing": "Beijo com IA",
+    "kiss-me-ai": "Beije-me IA",
+    "ai-twerk": "Twerk com IA",
+    "ai-hug": "Abraço com IA",
+    "ai-muscle": "Músculos com IA",
+    "ai-french-kissing": "Beijo francês com IA",
+    "ai-360-rotation": "Rotação 360 com IA",
+    "ai-cloud-ride": "Passeio nas nuvens com IA",
+    "dance-party": "Festa de dança",
+    "magic-tricks": "Truques de mágica",
+    "time-travel": "Efeito de viagem no tempo",
+    "vampire-transformation": "Transformação em vampiro",
+    "ghost-effect": "Efeito de aparição fantasma",
+    "gender-swap": "Troca de gênero",
+    "hair-color-change": "Alterador de cor do cabelo",
+    "makeup-artist": "Maquiador com IA",
+    "body-transformation": "Transformação corporal",
+    "halloween-spooky": "Efeito assustador de Halloween",
+    "valentine-romance": "Efeito romântico de Dia dos Namorados",
+    "new-year-celebration": "Celebração de Ano Novo",
+    "summer-beach": "Clima de praia no verão",
+    "happiness-boost": "Efeito de alegria",
+    "surprise-reaction": "Efeito de surpresa",
+    "anger-expression": "Efeito de raiva",
+    "love-struck": "Efeito apaixonado"
+  },
+  "footer": {
+    "popularEffects": "Efeitos populares",
+    "moreEffects": "Mais efeitos →"
+  },
+  "blogDetail": {
+    "tocTitle": "Índice",
+    "relatedTitle": "Artigos relacionados",
+    "relatedDescription": "Mais posts no mesmo idioma que talvez você queira ler a seguir.",
+    "browseMore": "Ver mais posts do blog",
+    "imageToVideo": "Imagem para vídeo",
+    "textToVideo": "Texto para vídeo",
+    "readArticle": "Ler artigo",
+    "copyLink": "Copiar link",
+    "linkCopied": "Link copiado",
+    "shareOnX": "Compartilhar no X",
+    "readTime": "{minutes} min de leitura",
+    "cta": {
+      "pricing": "Créditos grátis ao se cadastrar. Planos a partir de US$20/mês.",
+      "inlineButton": "Experimente o Seedance grátis",
+      "primaryButton": "Testar Imagem para vídeo",
+      "secondaryButton": "Testar Texto para vídeo",
+      "tertiaryButton": "Explorar efeitos de vídeo",
+      "headlines": {
+        "sora": "Procurando uma alternativa ao Sora? Experimente o Seedance grátis",
+        "pricing": "Comece a gerar grátis, sem cartão de crédito",
+        "tutorial": "Pronto para testar por conta própria?",
+        "default": "Pronto para criar seu próprio vídeo com IA?"
+      },
+      "descriptions": {
+        "sora": "Troque o Sora pelo Seedance para fluxos rápidos de texto para vídeo e imagem para vídeo. Comece grátis e compare os resultados.",
+        "pricing": "Crie vídeos com créditos grátis no cadastro e escale com planos acessíveis quando precisar de mais gerações.",
+        "tutorial": "Coloque os passos desta guia em prática com Seedance e transforme prompts ou imagens em vídeos polidos em minutos.",
+        "default": "Transforme ideias, prompts de texto e imagens em vídeos polidos com o Seedance. Se este artigo ajudou, o próximo passo mais rápido é testar o produto."
+      }
+    }
   }
 }
