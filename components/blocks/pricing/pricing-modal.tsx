@@ -231,10 +231,10 @@ export default function PricingModal({
               setSelectedProvider("payssion");
             }
           } else {
-            const creemMethod = methods.find((m) => m.provider === "creem");
-            if (creemMethod) {
-              setSelectedPaymentMethod(creemMethod.id);
-              setSelectedProvider("creem");
+            const stripeMethod = methods.find((m) => m.provider === "stripe");
+            if (stripeMethod) {
+              setSelectedPaymentMethod(stripeMethod.id);
+              setSelectedProvider("stripe");
             } else if (methods.length > 0) {
               setSelectedPaymentMethod(methods[0].id);
               setSelectedProvider(methods[0].provider);
@@ -245,14 +245,14 @@ export default function PricingModal({
         console.error("Failed to get payment methods:", error);
         setAvailableMethods([
           {
-            id: "creem",
+            id: "stripe",
             name: "Credit Card",
-            logo: "/payment-logos/creem.svg",
-            provider: "creem",
+            logo: "/payment-logos/stripe.png",
+            provider: "stripe",
           },
         ]);
-        setSelectedPaymentMethod("creem");
-        setSelectedProvider("creem");
+        setSelectedPaymentMethod("stripe");
+        setSelectedProvider("stripe");
       }
     }
   }, [locationLoading, isRussia]);
@@ -364,8 +364,8 @@ export default function PricingModal({
         amount: bundle.amount,
         currency: "USD",
         valid_months: 1,
-        payment_method: selectedPaymentMethod || "creem",
-        user_preference: selectedProvider || "creem",
+        payment_method: selectedPaymentMethod || "stripe",
+        user_preference: selectedProvider || "stripe",
       };
 
       // Set payment pending marker
@@ -465,7 +465,12 @@ export default function PricingModal({
         item.interval === "month" || item.interval === "year";
       let endpoint;
 
-      if (selectedProvider === "creem" || selectedPaymentMethod === "creem") {
+      if (
+        selectedProvider === "creem" ||
+        selectedPaymentMethod === "creem" ||
+        selectedProvider === "stripe" ||
+        selectedPaymentMethod === "stripe"
+      ) {
         endpoint = "/api/subscription/create";
       } else if (
         isSubscription &&
@@ -500,7 +505,12 @@ export default function PricingModal({
         return;
       }
 
-      if (selectedProvider === "creem" || selectedPaymentMethod === "creem") {
+      if (
+        selectedProvider === "creem" ||
+        selectedPaymentMethod === "creem" ||
+        selectedProvider === "stripe" ||
+        selectedPaymentMethod === "stripe"
+      ) {
         const { redirect_url, success, subscriptionId } = data;
         if (redirect_url) {
           window.location.href = redirect_url;

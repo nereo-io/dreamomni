@@ -18,6 +18,7 @@ import { getPayssionConfig } from "@/config/payssion";
 import { getPaymentProvider } from "@/lib/payment-methods";
 import { findActiveSubscriptionsByUserUuid } from "@/models/subscription";
 import { findActiveCreemSubscriptionsByUserUuid } from "@/models/creem-subscription";
+import { findActiveStripeSubscriptionsByUserUuid } from "@/models/stripe-subscription";
 import { getAnyProductConfig } from "@/config/products";
 
 // 日志函数 - 只输出到控制台，不写入文件
@@ -97,13 +98,17 @@ export async function POST(req: NextRequest) {
 
     // Bundle purchase requires active subscription
     if (is_bundle) {
-      const [payssionSubscriptions, creemSubscriptions] = await Promise.all([
-        findActiveSubscriptionsByUserUuid(user_uuid),
-        findActiveCreemSubscriptionsByUserUuid(user_uuid),
-      ]);
+      const [payssionSubscriptions, creemSubscriptions, stripeSubscriptions] =
+        await Promise.all([
+          findActiveSubscriptionsByUserUuid(user_uuid),
+          findActiveCreemSubscriptionsByUserUuid(user_uuid),
+          findActiveStripeSubscriptionsByUserUuid(user_uuid),
+        ]);
 
       const hasActiveSubscription =
-        payssionSubscriptions.length > 0 || creemSubscriptions.length > 0;
+        payssionSubscriptions.length > 0 ||
+        creemSubscriptions.length > 0 ||
+        stripeSubscriptions.length > 0;
 
       if (!hasActiveSubscription) {
         logError("❌ Bundle purchase requires active subscription", { user_uuid });

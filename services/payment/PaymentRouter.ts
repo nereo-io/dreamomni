@@ -51,14 +51,14 @@ export class PaymentRouter {
       return this.getPayssionMethods();
     }
     
-    // 非俄罗斯地区优先使用 Creem
-    if (this.providers.has("creem")) {
-      return this.getCreemMethods();
-    }
-    
-    // 回退到 Stripe
+    // 非俄罗斯地区优先使用 Stripe
     if (this.providers.has("stripe")) {
       return this.getStripeMethods();
+    }
+
+    // 回退到 Creem
+    if (this.providers.has("creem")) {
+      return this.getCreemMethods();
     }
     
     return [];

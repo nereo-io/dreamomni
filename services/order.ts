@@ -8,9 +8,89 @@ import { createOrUpdateMembership } from "./membership";
 import { getIsoTimestr, getOneYearLaterTimestr } from "@/lib/time";
 import Stripe from "stripe";
 // import { updateAffiliateForOrder } from "./affiliate"; // 已移除邀请奖励功能
-import { getAnyProductConfigByProductId } from "@/config/payssion";
+import { getAnyProductConfig } from "@/config/products";
+import { Order } from "@/types/order";
 
-export async function handleOrderSession(session: Stripe.Checkout.Session) {
+function getStripeId(value: string | { id?: string } | null | undefined) {
+  if (!value) return undefined;
+  return typeof value === "string" ? value : value.id;
+}
+
+function toIsoFromStripeTimestamp(timestamp?: number | null) {
+  return timestamp ? new Date(timestamp * 1000).toISOString() : undefined;
+}
+
+function normalizeStripeSubscriptionStatus(status?: string) {
+  switch (status) {
+    case "active":
+    case "trialing":
+    case "past_due":
+    case "canceled":
+    case "incomplete":
+    case "unpaid":
+      return status;
+    default:
+      return "active";
+  }
+}
+
+async function syncStripeSubscriptionFromSession(
+  session: Stripe.Checkout.Session,
+  order: Order,
+  stripe?: Stripe
+) {
+  const subscriptionId = getStripeId(session.subscription as any);
+  if (!subscriptionId || order.interval === "one-time") {
+    return;
+  }
+
+  try {
+    const { upsertStripeSubscription } = await import(
+      "@/models/stripe-subscription"
+    );
+
+    let subscription: any = null;
+    if (stripe) {
+      try {
+        subscription = await stripe.subscriptions.retrieve(subscriptionId);
+      } catch (error) {
+        console.error("retrieve stripe subscription failed:", error);
+      }
+    }
+    const currentPeriodStart =
+      toIsoFromStripeTimestamp(subscription?.current_period_start) ||
+      order.paid_at ||
+      order.created_at;
+    const currentPeriodEnd =
+      toIsoFromStripeTimestamp(subscription?.current_period_end) ||
+      order.expired_at;
+
+    await upsertStripeSubscription({
+      user_uuid: order.user_uuid,
+      stripe_subscription_id: subscriptionId,
+      stripe_customer_id: getStripeId(session.customer as any),
+      stripe_session_id: session.id,
+      plan_type: order.interval === "year" ? "yearly" : "monthly",
+      amount: order.amount,
+      currency: order.currency,
+      status: normalizeStripeSubscriptionStatus(subscription?.status),
+      current_period_start: currentPeriodStart,
+      current_period_end: currentPeriodEnd,
+      canceled_at: subscription?.canceled_at
+        ? toIsoFromStripeTimestamp(subscription.canceled_at)
+        : undefined,
+      product_name: order.product_name,
+      product_id: order.product_id,
+    });
+  } catch (error) {
+    console.error("sync stripe subscription failed:", error);
+  }
+}
+
+export async function handleOrderSession(
+  session: Stripe.Checkout.Session,
+  stripe?: Stripe
+) {
   try {
     if (
       !session ||
@@ -37,13 +117,24 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
 
     const order = await findOrderByOrderNo(order_no);
 
-    // console.log("order", order);
-    if (!order || order.status !== "created") {
-      throw new Error("invalid order");
+    if (!order) {
+      throw new Error("order not found");
+    }
+
+    // 已处理过，幂等返回
+    if (order.status !== "created") {
+      await syncStripeSubscriptionFromSession(session, order, stripe);
+      console.log("Order already processed, skipping:", order_no);
+      return;
     }
 
     const paid_at = getIsoTimestr();
     await updateOrderStatus(order_no, "paid", paid_at, paid_email, paid_detail);
+    await syncStripeSubscriptionFromSession(
+      session,
+      { ...order, status: "paid", paid_at },
+      stripe
+    );
 
     // 处理订单类型
     const interval = order.interval;
@@ -60,7 +151,7 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
     console.log("Processing membership/credits purchase for user:", user_uuid);
 
     const config = product_id
-      ? getAnyProductConfigByProductId(product_id)
+      ? getAnyProductConfig(product_id)
       : undefined;
     let actualCreditsToIncrease = 0;
 
@@ -185,7 +276,7 @@ export async function handleInvoicePayment(
 
     // 产品配置映射
     const renewalConfig = productIdFromInvoice
-      ? getAnyProductConfigByProductId(productIdFromInvoice)
+      ? getAnyProductConfig(productIdFromInvoice)
       : undefined;
     let actualCreditsToIncreaseForRenewal = 0;
 
@@ -206,10 +297,11 @@ export async function handleInvoicePayment(
     if (actualCreditsToIncreaseForRenewal > 0) {
       await increaseCredits({
         user_uuid: user_uuid,
-        trans_type: CreditsTransType.OrderPay, // 或者 "subscription_renewal"
+        trans_type: CreditsTransType.OrderPay,
         credits: actualCreditsToIncreaseForRenewal,
         order_no: order_no || invoice.id,
         expired_at: getOneYearLaterTimestr(),
+        payment_id: invoice.id, // 用 invoice.id 做幂等
       });
       console.log(
         `Increased ${actualCreditsToIncreaseForRenewal} credits for user ${user_uuid} due to invoice ${invoice.id} (Product ID: ${productIdFromInvoice})`

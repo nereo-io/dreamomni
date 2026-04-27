@@ -3,6 +3,7 @@ import { respErr, respJson } from "@/lib/resp";
 import { getUserUuid } from "@/services/user";
 import { findActiveSubscriptionsByUserUuid } from "@/models/subscription";
 import { findActiveCreemSubscriptionsByUserUuid } from "@/models/creem-subscription";
+import { findActiveStripeSubscriptionsByUserUuid } from "@/models/stripe-subscription";
 import {
   getProductConfig,
   getSubscriptionTierRank,
@@ -18,7 +19,7 @@ export interface CurrentSubscriptionResponse {
     amount: number;
     credits: number;
     interval: "month" | "year";
-    provider: "payssion" | "creem";
+    provider: "payssion" | "creem" | "stripe";
     status: string;
     current_period_end?: string;
   } | null;
@@ -31,11 +32,13 @@ export async function GET(req: NextRequest) {
       return respErr("Unauthorized");
     }
 
-    // 并行查询 Payssion 和 Creem 的活跃订阅
-    const [payssionSubscriptions, creemSubscriptions] = await Promise.all([
-      findActiveSubscriptionsByUserUuid(user_uuid),
-      findActiveCreemSubscriptionsByUserUuid(user_uuid),
-    ]);
+    // 并行查询所有支付提供商的活跃订阅
+    const [payssionSubscriptions, creemSubscriptions, stripeSubscriptions] =
+      await Promise.all([
+        findActiveSubscriptionsByUserUuid(user_uuid),
+        findActiveCreemSubscriptionsByUserUuid(user_uuid),
+        findActiveStripeSubscriptionsByUserUuid(user_uuid),
+      ]);
 
     // 合并所有订阅并过滤有效的 product_id
     const allSubscriptions: Array<{
@@ -45,7 +48,7 @@ export async function GET(req: NextRequest) {
       amount: number;
       credits: number;
       interval: "month" | "year";
-      provider: "payssion" | "creem";
+      provider: "payssion" | "creem" | "stripe";
       status: string;
       current_period_end?: string;
     }> = [];
@@ -87,6 +90,27 @@ export async function GET(req: NextRequest) {
         credits: productConfig.credits,
         interval: productConfig.interval,
         provider: "creem",
+        status: sub.status,
+        current_period_end: sub.current_period_end,
+      });
+    }
+
+    // 处理 Stripe 订阅
+    for (const sub of stripeSubscriptions) {
+      if (!sub.product_id || !(sub.product_id in SUBSCRIPTION_TIER_RANK)) {
+        continue;
+      }
+      const productConfig = getProductConfig(sub.product_id);
+      if (!productConfig) continue;
+
+      allSubscriptions.push({
+        product_id: sub.product_id,
+        product_name: sub.product_name || productConfig.product_name,
+        tier_rank: getSubscriptionTierRank(sub.product_id),
+        amount: sub.amount || productConfig.amount,
+        credits: productConfig.credits,
+        interval: productConfig.interval,
+        provider: "stripe",
         status: sub.status,
         current_period_end: sub.current_period_end,
       });

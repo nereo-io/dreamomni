@@ -33,7 +33,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     interval: "month",
     valid_months: 1,
     membershipType: "monthly",
-    creem_product_id: "prod_1de8ncVJXQK8BpcTFbL6d8", // Creem 月付费产品ID
+    creem_product_id: "prod_1de8ncVJXQK8BpcTFbL6d8",
   },
   {
     product_id: "mini-yearly",
@@ -44,7 +44,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     interval: "year",
     valid_months: 12,
     membershipType: "yearly",
-    creem_product_id: "prod_1Q0klNKuDopmTMhnf3ieA1", // Creem 年付费产品ID
+    creem_product_id: "prod_1Q0klNKuDopmTMhnf3ieA1",
   },
   {
     product_id: "standard-monthly",
@@ -55,7 +55,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     interval: "month",
     valid_months: 1,
     membershipType: "monthly",
-    creem_product_id: "prod_37XoZpr2IrZWrl9ftTq54p", // Creem 月付费产品ID
+    creem_product_id: "prod_37XoZpr2IrZWrl9ftTq54p",
   },
   {
     product_id: "standard-yearly",
@@ -66,7 +66,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     interval: "year",
     valid_months: 12,
     membershipType: "yearly",
-    creem_product_id: "prod_7IsFFUhgP3iAsTshXBgZWr", // Creem 年付费产品ID
+    creem_product_id: "prod_7IsFFUhgP3iAsTshXBgZWr",
   },
   {
     product_id: "plus-monthly",
@@ -77,7 +77,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     interval: "month",
     valid_months: 1,
     membershipType: "monthly",
-    creem_product_id: "prod_P2djJgeDOPjnpXZLEz8pt", // 复用 Standard 月付产品ID
+    creem_product_id: "prod_P2djJgeDOPjnpXZLEz8pt",
   },
   {
     product_id: "plus-yearly",
@@ -88,7 +88,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     interval: "year",
     valid_months: 12,
     membershipType: "yearly",
-    creem_product_id: "prod_5siauowmaPRU4A0lKPseNC", // 复用 Standard 年付产品ID
+    creem_product_id: "prod_5siauowmaPRU4A0lKPseNC",
   },
 ];
 

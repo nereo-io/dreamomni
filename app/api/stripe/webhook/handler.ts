@@ -1,8 +1,8 @@
 import Stripe from "stripe";
-import { handleOrderSession, handleInvoicePayment } from "@/services/order";
 import { respOk } from "@/lib/resp";
+import { handleInvoicePayment, handleOrderSession } from "@/services/order";
 
-export async function POST(req: Request) {
+export async function handleStripeWebhook(req: Request) {
   try {
     const stripePrivateKey = process.env.STRIPE_PRIVATE_KEY;
     const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -25,12 +25,12 @@ export async function POST(req: Request) {
       stripeWebhookSecret
     );
 
-    console.log("stripe notify event: ", event);
+    console.log("stripe webhook event: ", event);
 
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object;
-        await handleOrderSession(session);
+        await handleOrderSession(session, stripe);
         break;
       }
 
@@ -55,9 +55,9 @@ export async function POST(req: Request) {
 
     return respOk();
   } catch (e: any) {
-    console.log("stripe notify failed: ", e);
+    console.log("stripe webhook failed: ", e);
     return Response.json(
-      { error: `handle stripe notify failed: ${e.message}` },
+      { error: `handle stripe webhook failed: ${e.message}` },
       { status: 500 }
     );
   }
