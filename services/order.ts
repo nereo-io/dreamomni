@@ -8,7 +8,7 @@ import { createOrUpdateMembership } from "./membership";
 import { getIsoTimestr, getOneYearLaterTimestr } from "@/lib/time";
 import Stripe from "stripe";
 // import { updateAffiliateForOrder } from "./affiliate"; // 已移除邀请奖励功能
-import { getAnyProductConfigByProductId } from "@/config/payssion";
+import { getAnyProductConfig } from "@/config/products";
 
 export async function handleOrderSession(session: Stripe.Checkout.Session) {
   try {
@@ -37,9 +37,14 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
 
     const order = await findOrderByOrderNo(order_no);
 
-    // console.log("order", order);
-    if (!order || order.status !== "created") {
-      throw new Error("invalid order");
+    if (!order) {
+      throw new Error("order not found");
+    }
+
+    // 已处理过，幂等返回
+    if (order.status !== "created") {
+      console.log("Order already processed, skipping:", order_no);
+      return;
     }
 
     const paid_at = getIsoTimestr();
@@ -60,7 +65,7 @@ export async function handleOrderSession(session: Stripe.Checkout.Session) {
     console.log("Processing membership/credits purchase for user:", user_uuid);
 
     const config = product_id
-      ? getAnyProductConfigByProductId(product_id)
+      ? getAnyProductConfig(product_id)
       : undefined;
     let actualCreditsToIncrease = 0;
 
@@ -185,7 +190,7 @@ export async function handleInvoicePayment(
 
     // 产品配置映射
     const renewalConfig = productIdFromInvoice
-      ? getAnyProductConfigByProductId(productIdFromInvoice)
+      ? getAnyProductConfig(productIdFromInvoice)
       : undefined;
     let actualCreditsToIncreaseForRenewal = 0;
 
@@ -206,10 +211,11 @@ export async function handleInvoicePayment(
     if (actualCreditsToIncreaseForRenewal > 0) {
       await increaseCredits({
         user_uuid: user_uuid,
-        trans_type: CreditsTransType.OrderPay, // 或者 "subscription_renewal"
+        trans_type: CreditsTransType.OrderPay,
         credits: actualCreditsToIncreaseForRenewal,
         order_no: order_no || invoice.id,
         expired_at: getOneYearLaterTimestr(),
+        payment_id: invoice.id, // 用 invoice.id 做幂等
       });
       console.log(
         `Increased ${actualCreditsToIncreaseForRenewal} credits for user ${user_uuid} due to invoice ${invoice.id} (Product ID: ${productIdFromInvoice})`

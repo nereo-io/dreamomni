@@ -15,9 +15,6 @@ export interface ProductConfig {
   // Creem 产品ID映射
   creem_product_id: string; // Creem 产品ID（需要在 Creem 后台创建）
 
-  // Stripe 价格ID映射
-  stripe_price_id: string; // Stripe Price ID
-
   // 会员类型
   membershipType: "monthly" | "yearly";
 }
@@ -37,7 +34,6 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     valid_months: 1,
     membershipType: "monthly",
     creem_product_id: "prod_1de8ncVJXQK8BpcTFbL6d8",
-    stripe_price_id: "price_1TOwNtJ9L3yVeSk72mSul9uP",
   },
   {
     product_id: "mini-yearly",
@@ -49,7 +45,6 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     valid_months: 12,
     membershipType: "yearly",
     creem_product_id: "prod_1Q0klNKuDopmTMhnf3ieA1",
-    stripe_price_id: "price_1TOwNuJ9L3yVeSk7QDfOAnV5",
   },
   {
     product_id: "standard-monthly",
@@ -61,7 +56,6 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     valid_months: 1,
     membershipType: "monthly",
     creem_product_id: "prod_37XoZpr2IrZWrl9ftTq54p",
-    stripe_price_id: "price_1TOwNuJ9L3yVeSk7ZuDB10Sg",
   },
   {
     product_id: "standard-yearly",
@@ -73,7 +67,6 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     valid_months: 12,
     membershipType: "yearly",
     creem_product_id: "prod_7IsFFUhgP3iAsTshXBgZWr",
-    stripe_price_id: "price_1TOwNvJ9L3yVeSk7AiuKGMD5",
   },
   {
     product_id: "plus-monthly",
@@ -85,7 +78,6 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     valid_months: 1,
     membershipType: "monthly",
     creem_product_id: "prod_P2djJgeDOPjnpXZLEz8pt",
-    stripe_price_id: "price_1TOwNwJ9L3yVeSk77OoP676W",
   },
   {
     product_id: "plus-yearly",
@@ -97,7 +89,6 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     valid_months: 12,
     membershipType: "yearly",
     creem_product_id: "prod_5siauowmaPRU4A0lKPseNC",
-    stripe_price_id: "price_1TOwNwJ9L3yVeSk77TiX969f",
   },
 ];
 
@@ -151,7 +142,6 @@ export interface BundleProductConfig {
   interval: "one-time";
   valid_months: number; // 积分有效期（月）
   creem_product_id: string; // Creem 产品ID（需要在 Creem 后台创建）
-  stripe_price_id: string; // Stripe Price ID
 }
 
 /**
@@ -168,7 +158,6 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     interval: "one-time",
     valid_months: 1,
     creem_product_id: "prod_51ucODXluyiolcCSmwT8K9",
-    stripe_price_id: "price_1TOwNxJ9L3yVeSk74XroTrxZ",
   },
   {
     product_id: "bundle-40",
@@ -179,7 +168,6 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     interval: "one-time",
     valid_months: 1,
     creem_product_id: "prod_4EVxqIeK6j9OCuwrPg3jI0",
-    stripe_price_id: "price_1TOwNxJ9L3yVeSk7hlfZhLAS",
   },
   {
     product_id: "bundle-60",
@@ -190,7 +178,6 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     interval: "one-time",
     valid_months: 1,
     creem_product_id: "prod_6nAuHMjCqwmKlIgJDA860D",
-    stripe_price_id: "price_1TOwNyJ9L3yVeSk77pUivQib",
   },
   {
     product_id: "bundle-100",
@@ -201,7 +188,6 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     interval: "one-time",
     valid_months: 1,
     creem_product_id: "prod_6daDvaiC7cDnnd0meBwECE",
-    stripe_price_id: "price_1TOwNyJ9L3yVeSk79v8oTTvT",
   },
   {
     product_id: "bundle-200",
@@ -212,7 +198,6 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     interval: "one-time",
     valid_months: 1,
     creem_product_id: "prod_23MINso2fWo2TbWwZtP9Ln",
-    stripe_price_id: "price_1TOwNzJ9L3yVeSk7iVewYDO9",
   },
 ];
 

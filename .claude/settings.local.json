@@ -112,7 +112,9 @@
       "Bash(lsof:*)",
       "Bash(kill:*)",
       "Read(//private/tmp/**)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "mcp__plugin_stripe_stripe__create_product",
+      "mcp__plugin_stripe_stripe__create_price"
     ],
     "deny": [],
     "ask": [],
