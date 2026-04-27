@@ -2,6 +2,13 @@
 
 import { sendGAEvent } from '@next/third-parties/google';
 
+const GOOGLE_ADS_SIGN_UP_SEND_TO = 'AW-18089132023/KzuXCOTHr58cEPf_yLFD';
+const GOOGLE_ADS_GENERATE_VIDEO_SEND_TO =
+  'AW-18089132023/tOuvCOfHr58cEPf_yLFD';
+const GOOGLE_ADS_BEGIN_CHECKOUT_SEND_TO =
+  'AW-18089132023/34DaCOrHr58cEPf_yLFD';
+const GOOGLE_ADS_PURCHASE_SEND_TO = 'AW-18089132023/b1pYCPPR3ZscEPf_yLFD';
+
 interface GAItem {
   itemId?: string;
   itemName: string;
@@ -51,6 +58,25 @@ function buildItem(item: GAItem) {
   };
 }
 
+function trackGoogleAdsConversion(
+  sendTo: string,
+  params?: Record<string, string | number | boolean | undefined>
+) {
+  if (!canTrack()) {
+    return;
+  }
+
+  const callback = function () {
+    return undefined;
+  };
+
+  sendGAEvent('event', 'conversion', {
+    send_to: sendTo,
+    ...params,
+    event_callback: callback,
+  });
+}
+
 function markTracked(key: string): boolean {
   if (!canTrack()) {
     return false;
@@ -77,6 +103,7 @@ export function trackGASignUp(method: string, userId?: string) {
     method,
     ...(userId ? { user_id: userId } : {}),
   });
+  trackGoogleAdsConversion(GOOGLE_ADS_SIGN_UP_SEND_TO);
 }
 
 export function trackGABeginCheckout(item: GAItem) {
@@ -90,6 +117,7 @@ export function trackGABeginCheckout(item: GAItem) {
     items: [buildItem(item)],
     ...(item.interval ? { plan_interval: item.interval } : {}),
   });
+  trackGoogleAdsConversion(GOOGLE_ADS_BEGIN_CHECKOUT_SEND_TO);
 }
 
 export function trackGAPurchase(info: GAPurchaseInfo) {
@@ -116,6 +144,11 @@ export function trackGAPurchase(info: GAPurchaseInfo) {
 
   sendGAEvent('event', 'purchase', payload);
   sendGAEvent('event', 'payment_success', payload);
+  trackGoogleAdsConversion(GOOGLE_ADS_PURCHASE_SEND_TO, {
+    value: payload.value,
+    currency: payload.currency,
+    transaction_id: payload.transaction_id,
+  });
 }
 
 export function trackGAGenerateVideo(info: GAGenerationInfo) {
@@ -129,6 +162,7 @@ export function trackGAGenerateVideo(info: GAGenerationInfo) {
     ...(info.duration !== undefined ? { duration: String(info.duration) } : {}),
     ...(info.generationType ? { generation_type: info.generationType } : {}),
   });
+  trackGoogleAdsConversion(GOOGLE_ADS_GENERATE_VIDEO_SEND_TO);
 }
 
 export function trackGAGenerateImage(info: GAGenerationInfo) {
