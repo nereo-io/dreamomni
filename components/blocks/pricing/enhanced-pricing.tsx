@@ -576,7 +576,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   return (
     <>
       <section id={pricing.name} className="py-16">
-        <div className="container">
+        <div className="max-w-[1280px] mx-auto px-4">
           <div className="mx-auto mb-12 text-center">
             <h1 className="mb-4 text-4xl font-semibold lg:text-5xl">
               {pricing.title}
@@ -641,7 +641,6 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
               className="md:min-w-96 mt-0 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
               {visiblePlans.map((item, index) => {
-
                 // Calculate subscription status for this item
                 const itemIsCurrentPlan = item.product_id
                   ? isCurrentPlan(item.product_id)
@@ -656,88 +655,97 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                 const isFreeItem = item.amount === 0;
                 const isMaxItem = item.product_id?.startsWith("max-");
 
-                return (
-                  <div
-                    key={index}
-                    className={`rounded-lg p-6 ${
-                      isMaxItem ? "md:col-span-2 lg:col-span-3 lg:p-8" : ""
-                    } ${
-                      item.is_featured
-                        ? "border-primary border-2 bg-card text-card-foreground"
-                        : "border-muted border"
-                    }`}
-                  >
-                    <div className="flex h-full flex-col justify-between gap-5">
-                      <div>
-                        <div className="flex items-center gap-2 mb-4">
-                          {item.title && (
-                            <h3 className="text-xl font-semibold">
-                              {item.title}
-                            </h3>
-                          )}
-                          <div className="flex-1"></div>
-                          {itemIsCurrentPlan && (
-                            <Badge
-                              variant="outline"
-                              className="border-green-500 bg-green-500 px-1.5 text-white"
-                            >
-                              Current Plan
-                            </Badge>
-                          )}
-                          {item.label && !itemIsCurrentPlan && (
-                            <Badge
-                              variant="outline"
-                              className="border-primary bg-primary px-1.5 text-primary-foreground"
-                            >
-                              {item.label}
-                            </Badge>
-                          )}
-                        </div>
-                        <div className="flex items-end gap-2 mb-4">
-                          {item.original_price && (
-                            <span className="text-xl text-muted-foreground font-semibold line-through">
-                              {item.original_price}
-                            </span>
-                          )}
-                          {item.price && (
-                            <span className="text-5xl font-semibold">
-                              {item.price}
-                            </span>
-                          )}
-                          {item.unit && (
-                            <span className="block font-semibold">
-                              {item.unit}
-                            </span>
-                          )}
-                        </div>
-                        {item.description && (
-                          <p className="text-muted-foreground">
-                            {item.description}
-                          </p>
-                        )}
-                        {item.features_title && (
-                          <p className="mb-3 mt-6 font-semibold">
-                            {item.features_title}
-                          </p>
-                        )}
-                        {item.features && (
-                          <ul className="flex flex-col gap-3">
-                            {item.features.map((feature, fi) => {
-                              return (
-                                <li
-                                  className="flex gap-2"
-                                  key={`feature-${fi}`}
-                                >
-                                  <Check className="mt-1 size-4 shrink-0" />
-                                  <HighlightFeature feature={feature} />
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        )}
-                      </div>
+                const titlePriceBlock = (
+                  <div>
+                    <div
+                      className={`flex items-center gap-2 ${
+                        isMaxItem ? "mb-1" : "mb-3"
+                      }`}
+                    >
+                      {item.title && (
+                        <h3 className="text-xl font-semibold">{item.title}</h3>
+                      )}
+                      <div className={isMaxItem ? "" : "flex-1"}></div>
+                      {itemIsCurrentPlan && (
+                        <Badge
+                          variant="outline"
+                          className="border-green-500 bg-green-500 px-1.5 text-white"
+                        >
+                          Current Plan
+                        </Badge>
+                      )}
+                      {item.label && !itemIsCurrentPlan && (
+                        <Badge
+                          variant="outline"
+                          className="border-primary bg-primary px-1.5 text-primary-foreground"
+                        >
+                          {item.label}
+                        </Badge>
+                      )}
+                    </div>
+                    {isMaxItem && item.description && (
+                      <p className="text-muted-foreground text-sm mb-3">
+                        {item.description}
+                      </p>
+                    )}
+                    <div className="flex items-end gap-2 mb-4">
+                      {item.original_price && (
+                        <span className="text-base text-muted-foreground font-semibold line-through">
+                          {item.original_price}
+                        </span>
+                      )}
+                      {item.price && (
+                        <span className="text-3xl font-semibold">
+                          {item.price}
+                        </span>
+                      )}
+                      {item.unit && (
+                        <span className="block font-semibold">
+                          {item.unit}
+                        </span>
+                      )}
+                    </div>
+                    {!isMaxItem && item.description && (
+                      <p className="text-muted-foreground">
+                        {item.description}
+                      </p>
+                    )}
+                  </div>
+                );
 
-                      <div className="flex flex-col gap-2">
+                const featuresBlock = (
+                  <div>
+                    {item.features_title && (
+                      <p
+                        className={`mb-3 font-semibold ${
+                          isMaxItem ? "" : "mt-6"
+                        }`}
+                      >
+                        {item.features_title}
+                      </p>
+                    )}
+                    {item.features && (
+                      <ul className="flex flex-col gap-3">
+                        {item.features.map((feature, fi) => {
+                          return (
+                            <li
+                              className="flex gap-2 text-sm"
+                              key={`feature-${fi}`}
+                            >
+                              <Check className="mt-0.5 size-4 shrink-0 text-primary" />
+                              <p>
+                                <HighlightFeature feature={feature} />
+                              </p>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </div>
+                );
+
+                const buttonsBlock = (
+                  <div className="flex flex-col gap-2">
                         {/* 中国支付 */}
                         {item.cn_amount && item.cn_amount > 0 ? (
                           <div className="flex items-center gap-x-2 mt-2">
@@ -931,8 +939,37 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                             {item.tip}
                           </p>
                         )}
+                  </div>
+                );
+
+                return (
+                  <div
+                    key={index}
+                    className={`rounded-lg p-5 ${
+                      isMaxItem ? "lg:col-span-3 lg:py-8" : "lg:w-96"
+                    } ${
+                      item.is_featured
+                        ? "border-primary border-2 bg-card text-card-foreground"
+                        : "border-muted border"
+                    }`}
+                  >
+                    {isMaxItem ? (
+                      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 items-center">
+                        {titlePriceBlock}
+                        {featuresBlock}
+                        <div className="w-full lg:max-w-72 lg:ml-auto">
+                          {buttonsBlock}
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="flex h-full flex-col justify-between gap-5">
+                        <div>
+                          {titlePriceBlock}
+                          {featuresBlock}
+                        </div>
+                        {buttonsBlock}
+                      </div>
+                    )}
                   </div>
                 );
               })}
