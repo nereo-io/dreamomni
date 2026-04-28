@@ -1169,13 +1169,14 @@
   "creditsBundle": {
     "title": "Купить кредиты",
     "description": "Приобретите дополнительные кредиты для генерации видео.",
-    "expireNote": "Дополнительные кредиты действительны 1 месяц после покупки.",
+    "expireNote": "Дополнительные кредиты действительны <highlight>1 месяц</highlight> после покупки.",
     "credits": "Кредиты",
     "selectPaymentMethod": "Выберите способ оплаты",
     "cancel": "Отмена",
     "continueToPayment": "Перейти к оплате",
     "processing": "Обработка...",
-    "buyCredits": "Купить кредиты"
+    "buyCredits": "Купить кредиты",
+    "bonusCreditsShort": "+{credits} бонусных кредитов"
   },
   "nano-banana": {
     "title": "Google Nano Banana AI: Попробуйте этот генератор AI-изображений | Seedance",

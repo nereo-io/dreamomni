@@ -1,0 +1,327 @@
+{
+  "name": "pricing",
+  "label": "Planos de Geração de Vídeo",
+  "title": "Planos de assinatura do Seedance AI",
+  "description": "Escolha seu plano e comece a criar",
+  "groups": [
+    {
+      "name": "monthly",
+      "title": "Mensal",
+      "description": "Cobrança mensal"
+    },
+    {
+      "name": "yearly",
+      "title": "Anual",
+      "description": "Cobrança anual"
+    }
+  ],
+  "items": [
+    {
+      "title": "Plano Mini",
+      "label": "",
+      "features_title": "Inclui",
+      "features": [
+        "<highlight>200</highlight> créditos mensais",
+        "Até <highlight>25</highlight> vídeos Veo3 (8s 1080p)",
+        "Até <highlight>100</highlight> imagens NanoBanana Pro",
+        "Saída em resolução 1080p",
+        "Direitos de uso comercial"
+      ],
+      "interval": "month",
+      "amount": 2000,
+      "currency": "USD",
+      "price": "$20.00",
+      "original_price": "",
+      "unit": "/mês",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "Assinar Mini",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "mini-monthly",
+      "product_name": "Seedance AI Mini",
+      "credits": 200,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Plano Mini",
+      "label": "",
+      "features_title": "Incluindo",
+      "features": [
+        "<highlight>200</highlight> créditos mensais",
+        "Até <highlight>25</highlight> vídeos Veo3 (8s 1080p)",
+        "Até <highlight>100</highlight> imagens NanoBanana Pro",
+        "Saída em resolução 1080p",
+        "Direitos de uso comercial"
+      ],
+      "interval": "year",
+      "amount": 14400,
+      "currency": "USD",
+      "price": "$12.00",
+      "original_price": "$20.00",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "40% DE DESCONTO",
+      "tip": "Assinatura anual de $144.00",
+      "button": {
+        "title": "Assinar Mini",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "mini-yearly",
+      "product_name": "Seedance AI Mini Yearly",
+      "credits": 2400,
+      "valid_months": 12,
+      "group": "yearly"
+    },
+    {
+      "title": "Plano Standard",
+      "label": "POPULAR",
+      "features_title": "Incluindo",
+      "features": [
+        "<highlight>1000</highlight> créditos mensais",
+        "Até <highlight>125</highlight> vídeos Veo3 (8s 1080p)",
+        "Até <highlight>500</highlight> imagens NanoBanana Pro",
+        "Saída de resolução 4K",
+        "Fila de geração rápida",
+        "Direitos de uso comercial"
+      ],
+      "interval": "month",
+      "amount": 5000,
+      "currency": "USD",
+      "price": "$50.00",
+      "original_price": "",
+      "unit": "/month",
+      "is_featured": true,
+      "discount_label": "",
+      "button": {
+        "title": "Assinar Standard",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "standard-monthly",
+      "product_name": "Seedance AI Standard",
+      "credits": 1000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Plano Padrão",
+      "label": "POPULAR",
+      "features_title": "Incluindo",
+      "features": [
+        "<highlight>1000</highlight> créditos mensais",
+        "Até <highlight>125</highlight> vídeos Veo3 (8s 1080p)",
+        "Até <highlight>500</highlight> imagens NanoBanana Pro",
+        "Saída de resolução 4K",
+        "Fila de geração rápida",
+        "Direitos de uso comercial"
+      ],
+      "interval": "year",
+      "amount": 36000,
+      "currency": "USD",
+      "price": "$30.00",
+      "original_price": "$50.00",
+      "unit": "/month",
+      "is_featured": true,
+      "discount_label": "40% DE DESCONTO",
+      "tip": "Assinatura por $360,00 anual",
+      "button": {
+        "title": "Assinar Standard",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "standard-yearly",
+      "product_name": "Seedance AI Standard Yearly",
+      "credits": 12000,
+      "valid_months": 12,
+      "group": "yearly"
+    },
+    {
+      "title": "Plano Plus",
+      "label": "",
+      "features_title": "Incluindo",
+      "features": [
+        "<highlight>3000</highlight> créditos mensais",
+        "Até <highlight>375</highlight> vídeos Veo3 (8s 1080p)",
+        "Até <highlight>1500</highlight> imagens NanoBanana Pro",
+        "Saída de resolução 4K",
+        "Fila de geração rápida",
+        "Direitos de uso comercial",
+        "Suporte Prioritário",
+        "Conta corporativa (até 5 assentos)"
+      ],
+      "interval": "month",
+      "amount": 9900,
+      "currency": "USD",
+      "price": "$99.00",
+      "original_price": "",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "Assinar Plus",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-monthly",
+      "product_name": "Seedance AI Plus",
+      "credits": 3000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Plano Plus",
+      "label": "",
+      "features_title": "Incluindo",
+      "features": [
+        "<highlight>3000</highlight> créditos mensais",
+        "Até <highlight>375</highlight> vídeos Veo3 (8s 1080p)",
+        "Até <highlight>1500</highlight> imagens NanoBanana Pro",
+        "Saída de resolução 4K",
+        "Fila de geração rápida",
+        "Direitos de uso comercial",
+        "Suporte Prioritário",
+        "Conta corporativa (até 5 assentos)"
+      ],
+      "interval": "year",
+      "amount": 72000,
+      "currency": "USD",
+      "price": "$60.00",
+      "original_price": "$99.00",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "40% DE DESCONTO",
+      "tip": "Assinatura por $720,00 anual",
+      "button": {
+        "title": "Assinar Plus",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "plus-yearly",
+      "product_name": "Seedance AI Plus Yearly",
+      "credits": 36000,
+      "valid_months": 12,
+      "group": "yearly"
+    },
+    {
+      "title": "Plano Max",
+      "label": "MELHOR VALOR",
+      "description": "Para agências, equipes e criadores de alto volume",
+      "features_title": "Inclui",
+      "features": [
+        "<highlight>12.000</highlight> créditos mensais",
+        "Até <highlight>1.500</highlight> vídeos Veo3 (8s 1080p)",
+        "Até <highlight>6.000</highlight> imagens NanoBanana Pro",
+        "Saída em resolução 4K",
+        "Direitos de uso comercial",
+        "Fila de prioridade máxima",
+        "Gerente de conta dedicado",
+        "Conta corporativa (até 20 assentos)"
+      ],
+      "interval": "month",
+      "amount": 36000,
+      "currency": "USD",
+      "price": "$360.00",
+      "original_price": "",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "Assinar Max",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "max-monthly",
+      "product_name": "Seedance AI Max",
+      "credits": 12000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Plano Max",
+      "label": "MELHOR VALOR",
+      "description": "Para agências, equipes e criadores de alto volume",
+      "features_title": "Inclui",
+      "features": [
+        "<highlight>12.000</highlight> créditos mensais",
+        "Até <highlight>1.500</highlight> vídeos Veo3 (8s 1080p)",
+        "Até <highlight>6.000</highlight> imagens NanoBanana Pro",
+        "Saída em resolução 4K",
+        "Direitos de uso comercial",
+        "Fila de prioridade máxima",
+        "Gerente de conta dedicado",
+        "Conta corporativa (até 20 assentos)"
+      ],
+      "interval": "year",
+      "amount": 259200,
+      "currency": "USD",
+      "price": "$216.00",
+      "original_price": "$360.00",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "40% DE DESCONTO",
+      "tip": "Assinatura por $2592,00 anuais",
+      "button": {
+        "title": "Assinar Max",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "max-yearly",
+      "product_name": "Seedance AI Max Yearly",
+      "credits": 144000,
+      "valid_months": 12,
+      "group": "yearly"
+    }
+  ],
+  "faq": {
+    "name": "faq",
+    "title": "Perguntas frequentes",
+    "description": "Tudo o que você precisa saber sobre nossos preços e planos",
+    "items": [
+      {
+        "title": "O que são créditos e como eles funcionam?",
+        "description": "Os créditos são usados para todas as gerações de IA. Um vídeo Veo3 de 8s em 1080p custa 8 créditos, e uma imagem NanoBanana Pro 1K custa 3 créditos. Com os 200 créditos do plano Mini, você pode criar 25 vídeos ou 66 imagens por mês."
+      },
+      {
+        "title": "O que acontece com os créditos não usados no final do mês?",
+        "description": "Os créditos mensais não acumulam para o mês seguinte. Recomendamos usar seus créditos dentro do seu ciclo de faturamento. Para planos anuais, os créditos são concedidos mensalmente ao longo do ano e não acumulam."
+      },
+      {
+        "title": "Posso fazer upgrade ou downgrade do meu plano a qualquer momento?",
+        "description": "Sim! Você pode fazer o upgrade do seu plano a qualquer momento e as mudanças entrarão em vigor imediatamente. Ao fazer um downgrade, a mudança entrará em vigor no início do próximo ciclo de faturamento. Os créditos não utilizados do seu plano atual estarão disponíveis até o final do seu período de cobrança atual."
+      },
+      {
+        "title": "Quais métodos de pagamento vocês aceitam?",
+        "description": "Aceitamos todos os principais cartões de crédito e débito através de nosso processador de pagamento seguro. Para usuários em regiões específicas, também oferecemos métodos de pagamento locais, incluindo SberPay, YooMoney e Mir Card para usuários russos."
+      },
+      {
+        "title": "Existe um período de teste grátis disponível?",
+        "description": "Novos usuários recebem 10 créditos gratuitos ao se registrar para testar nossas capacidades de geração de vídeos. Isso permite que você crie 1 vídeo e experimente a qualidade dos nossos modelos de IA antes de assinar."
+      },
+      {
+        "title": "Qual a diferença entre cobrança mensal e anual?",
+        "description": "Os planos anuais oferecem um desconto de 40% em comparação com os planos mensais. Com planos anuais, você paga antecipadamente pelo ano inteiro e recebe créditos mensalmente durante o ano. Os planos mensais são cobrados mensalmente, com créditos renovados a cada ciclo de cobrança."
+      },
+      {
+        "title": "Posso usar os vídeos gerados para fins comerciais?",
+        "description": "Sim! Todos os nossos planos incluem direitos completos de uso comercial para os vídeos que você gera. Você possui o conteúdo que cria e pode usá-lo para qualquer propósito, incluindo projetos comerciais, redes sociais, marketing e mais."
+      },
+      {
+        "title": "Qual é a qualidade e a resolução de vídeo que eu recebo?",
+        "description": "Todos os planos incluem resolução de saída HD 1080p, garantindo vídeos de qualidade profissional para qualquer plataforma. Usamos modelos de IA de ponta para gerar vídeos realistas e de alta qualidade que atendem aos padrões profissionais."
+      },
+      {
+        "title": "Quanto tempo leva a geração de vídeos?",
+        "description": "A geração de vídeo geralmente leva de 2 a 5 minutos, dependendo da complexidade e da fila atual. Os planos Standard e Plus incluem prioridade na fila de geração rápida, o que pode reduzir o tempo de espera durante picos de uso."
+      },
+      {
+        "title": "Posso cancelar minha assinatura a qualquer momento?",
+        "description": "Sim, você pode cancelar sua assinatura a qualquer momento nas configurações da sua conta. Sua assinatura permanecerá ativa até o final do seu período de cobrança atual, e você terá acesso aos seus créditos até então."
+      }
+    ]
+  }
+}

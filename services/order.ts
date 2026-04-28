@@ -1,15 +1,22 @@
 import {
   CreditsTransType,
   increaseCredits,
-  updateCreditForOrder,
 } from "./credit";
-import { findOrderByOrderNo, updateOrderStatus } from "@/models/order";
+import {
+  findOrderByOrderNo,
+  updateOrderCredits,
+  updateOrderStatus,
+} from "@/models/order";
 import { createOrUpdateMembership } from "./membership";
 import { getIsoTimestr, getOneYearLaterTimestr } from "@/lib/time";
 import Stripe from "stripe";
 // import { updateAffiliateForOrder } from "./affiliate"; // 已移除邀请奖励功能
-import { getAnyProductConfig } from "@/config/products";
+import {
+  getAnyProductConfig,
+  getBundleBonusCreditsForTier,
+} from "@/config/products";
 import { Order } from "@/types/order";
+import { getUserHighestSubscriptionTier } from "@/services/subscriptionTier";
 
 function getStripeId(value: string | { id?: string } | null | undefined) {
   if (!value) return undefined;
@@ -167,6 +174,21 @@ export async function handleOrderSession(
           throw e;
         }
       }
+    }
+
+    if (interval === "one-time" && product_id && actualCreditsToIncrease > 0) {
+      const tier = await getUserHighestSubscriptionTier(user_uuid);
+      const bonusCredits = getBundleBonusCreditsForTier(product_id, tier);
+      actualCreditsToIncrease += bonusCredits;
+
+      if (bonusCredits > 0) {
+        await updateOrderCredits(order.order_no, actualCreditsToIncrease);
+        order.credits = actualCreditsToIncrease;
+      }
+
+      console.log(
+        `🎁 Stripe bundle bonus applied: +${bonusCredits} (tier=${tier}, product=${product_id})`
+      );
     }
 
     // 1. 增加积分 (如果根据product_id确定了数量)

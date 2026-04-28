@@ -192,6 +192,75 @@
       "credits": 36000,
       "valid_months": 12,
       "group": "yearly"
+    },
+    {
+      "title": "Max-Plan",
+      "label": "BESTER WERT",
+      "description": "Für Agenturen, Teams und Vielnutzer",
+      "features_title": "Enthält",
+      "features": [
+        "<highlight>12.000</highlight> monatliche Credits",
+        "Bis zu <highlight>1.500</highlight> Veo3-Videos (8s 1080p)",
+        "Bis zu <highlight>6.000</highlight> NanoBanana Pro Bilder",
+        "4K-Auflösung",
+        "Kommerzielle Nutzungsrechte",
+        "Höchste Prioritätswarteschlange",
+        "Persönlicher Account Manager",
+        "Enterprise-Konto (bis zu 20 Plätze)"
+      ],
+      "interval": "month",
+      "amount": 36000,
+      "currency": "USD",
+      "price": "$360.00",
+      "original_price": "",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "Max abonnieren",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "max-monthly",
+      "product_name": "Seedance AI Max",
+      "credits": 12000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Max-Plan",
+      "label": "BESTER WERT",
+      "description": "Für Agenturen, Teams und Vielnutzer",
+      "features_title": "Enthält",
+      "features": [
+        "<highlight>12.000</highlight> monatliche Credits",
+        "Bis zu <highlight>1.500</highlight> Veo3-Videos (8s 1080p)",
+        "Bis zu <highlight>6.000</highlight> NanoBanana Pro Bilder",
+        "4K-Auflösung",
+        "Kommerzielle Nutzungsrechte",
+        "Höchste Prioritätswarteschlange",
+        "Persönlicher Account Manager",
+        "Enterprise-Konto (bis zu 20 Plätze)"
+      ],
+      "interval": "year",
+      "amount": 259200,
+      "currency": "USD",
+      "price": "$216.00",
+      "original_price": "$360.00",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "40% RABATT",
+      "tip": "Jahresabonnement für $2592.00",
+      "button": {
+        "title": "Max abonnieren",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "max-yearly",
+      "product_name": "Seedance AI Max Yearly",
+      "credits": 144000,
+      "valid_months": 12,
+      "group": "yearly"
     }
   ],
   "faq": {

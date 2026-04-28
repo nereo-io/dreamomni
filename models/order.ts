@@ -577,3 +577,17 @@ export async function updateOrderPaymentId(
 
   return data;
 }
+
+export async function updateOrderCredits(order_no: string, credits: number) {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("orders")
+    .update({ credits })
+    .eq("order_no", order_no);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}

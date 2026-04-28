@@ -59,6 +59,18 @@ export const PAYSSION_PRODUCT_CONFIG: Record<string, PayssionProductConfig> = {
     credits: 36000,
     membershipType: "yearly",
   }, // $720
+  // max-monthly shares the same cents amount as standard-yearly, so this
+  // suffixed key keeps product_id lookups unambiguous.
+  "36000_max_monthly": {
+    product_id: "max-monthly",
+    credits: 12000,
+    membershipType: "monthly",
+  }, // $360/month
+  "259200": {
+    product_id: "max-yearly",
+    credits: 144000,
+    membershipType: "yearly",
+  }, // $2592
 };
 
 // Bundle 产品配置（一次性购买积分包）
@@ -70,9 +82,10 @@ export interface PayssionBundleConfig {
 export const PAYSSION_BUNDLE_CONFIG: Record<string, PayssionBundleConfig> = {
   "2000": { product_id: "bundle-20", credits: 200 }, // $20
   "4000": { product_id: "bundle-40", credits: 400 }, // $40
-  "6000": { product_id: "bundle-60", credits: 600 }, // $60
   "10000": { product_id: "bundle-100", credits: 1000 }, // $100
   "20000": { product_id: "bundle-200", credits: 2000 }, // $200
+  "50000": { product_id: "bundle-500", credits: 5000 }, // $500
+  "100000": { product_id: "bundle-1000", credits: 10000 }, // $1000
 };
 
 // 支付方式映射（前端 -> Payssion V2 API）

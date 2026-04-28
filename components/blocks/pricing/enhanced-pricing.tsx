@@ -41,6 +41,22 @@ interface EnhancedPricingProps {
   pricing: PricingType;
 }
 
+function resolveBonusPlanLabels(items?: PricingItem[]) {
+  const findLabel = (
+    prefix: "mini" | "standard" | "plus" | "max",
+    fallback: string,
+  ) =>
+    items?.find((item) => item.product_id?.startsWith(`${prefix}-`) && item.title)
+      ?.title || fallback;
+
+  return {
+    mini: findLabel("mini", "Mini Plan"),
+    standard: findLabel("standard", "Standard Plan"),
+    plus: findLabel("plus", "Plus Plan"),
+    max: findLabel("max", "Max Plan"),
+  };
+}
+
 export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
   const { user, setShowSignModal } = useAppContext();
   const { loading: locationLoading, isRussia } = useGeolocation();
@@ -93,6 +109,10 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
       return true;
     });
   }, [pricing.items, group]);
+  const bonusPlanLabels = useMemo(
+    () => resolveBonusPlanLabels(pricing.items),
+    [pricing.items],
+  );
 
   function calculateNextBilling(interval: string, paidAt: string) {
     const paidDate = new Date(paidAt);
@@ -618,7 +638,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
             )}
 
             <div
-              className={`md:min-w-96 mt-0 grid gap-6 md:grid-cols-${visiblePlans.length}`}
+              className="md:min-w-96 mt-0 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
               {visiblePlans.map((item, index) => {
 
@@ -634,11 +654,14 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                   : false;
                 // Free plan (amount === 0) is always purchasable
                 const isFreeItem = item.amount === 0;
+                const isMaxItem = item.product_id?.startsWith("max-");
 
                 return (
                   <div
                     key={index}
                     className={`rounded-lg p-6 ${
+                      isMaxItem ? "md:col-span-2 lg:col-span-3 lg:p-8" : ""
+                    } ${
                       item.is_featured
                         ? "border-primary border-2 bg-card text-card-foreground"
                         : "border-muted border"
@@ -988,6 +1011,7 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         onClose={() => setShowBundleModal(false)}
         onPurchase={handleBundlePurchase}
         isLoading={bundleLoading}
+        bonusPlanLabels={bonusPlanLabels}
       />
     </>
   );

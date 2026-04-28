@@ -1,5 +1,7 @@
 // 支付处理业务逻辑服务
 import { PaymentError } from "./types";
+import { getBundleBonusCreditsForTier } from "@/config/products";
+import { getUserHighestSubscriptionTier } from "@/services/subscriptionTier";
 
 export interface PaymentProcessingResult {
   success: boolean;
@@ -66,17 +68,14 @@ export class PaymentProcessingService {
       }
 
       // 3. 处理支付核心逻辑
-      await this.processPaymentCore(data, order);
-
-      // 从 data 中获取积分数量用于返回
-      const credits = data.metadata?.credits || order.credits || 0;
+      const creditsAwarded = await this.processPaymentCore(data, order);
 
       console.log(
-        `✅ Payment processed: ${data.paymentId} → ${credits} credits awarded`
+        `✅ Payment processed: ${data.paymentId} → ${creditsAwarded} credits awarded`
       );
       return {
         success: true,
-        creditsAwarded: credits,
+        creditsAwarded,
         membershipUpdated: true,
       };
     } catch (error: any) {
@@ -95,8 +94,9 @@ export class PaymentProcessingService {
   private static async processPaymentCore(
     data: PaymentData,
     order: any
-  ): Promise<void> {
+  ): Promise<number> {
     const orderId = data.orderId || data.paymentId;
+    let creditsAwarded = 0;
 
     // 从 metadata 或 order 中获取数据
     const credits = data.metadata?.credits || order.credits || 0;
@@ -146,6 +146,21 @@ export class PaymentProcessingService {
         const expireDate = new Date();
         expireDate.setMonth(expireDate.getMonth() + validMonths);
         expiredAt = expireDate.toISOString();
+
+        const bundleProductId = data.metadata?.product_id || order.product_id;
+        const tier = await getUserHighestSubscriptionTier(data.userUuid);
+        const bonusCredits = getBundleBonusCreditsForTier(bundleProductId, tier);
+        creditsToAward += bonusCredits;
+
+        if (bonusCredits > 0) {
+          const { updateOrderCredits } = await import("@/models/order");
+          await updateOrderCredits(orderId, creditsToAward);
+          order.credits = creditsToAward;
+        }
+
+        console.log(
+          `🎁 Bundle bonus applied: +${bonusCredits} (tier=${tier}, product=${bundleProductId})`
+        );
         console.log(`📅 Bundle 积分有效期: ${expiredAt} (${validMonths} 个月)`);
 
       } else if (membershipType === "yearly") {
@@ -177,6 +192,7 @@ export class PaymentProcessingService {
       });
 
       console.log(`💰 Credits added: ${creditsToAward} for user ${data.userUuid}, expires at ${expiredAt}`);
+      creditsAwarded = creditsToAward;
     }
 
     // 2. 更新会员状态 - 仅订阅，Bundle 不更新会员
@@ -202,6 +218,7 @@ export class PaymentProcessingService {
     );
 
     console.log(`📝 Order status updated to paid: ${orderId}`);
+    return creditsAwarded;
   }
 
   /**

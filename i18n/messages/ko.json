@@ -1225,13 +1225,14 @@
   "creditsBundle": {
     "title": "크레딧 추가 구매",
     "description": "추가 크레딧을 구매하여 더 많은 비디오를 생성하세요.",
-    "expireNote": "추가 크레딧은 구매 후 1개월 후에 만료됩니다.",
+    "expireNote": "추가 크레딧은 구매 후 <highlight>1개월</highlight> 후에 만료됩니다.",
     "credits": "크레딧",
     "selectPaymentMethod": "결제 방법 선택",
     "cancel": "취소",
     "continueToPayment": "결제 진행",
     "processing": "처리 중...",
-    "buyCredits": "크레딧 구매"
+    "buyCredits": "크레딧 구매",
+    "bonusCreditsShort": "+{credits} 보너스 크레딧"
   },
   "nano-banana": {
     "title": "Nano Banana AI: AI 이미지 생성기 사용해보기 | Seedance",

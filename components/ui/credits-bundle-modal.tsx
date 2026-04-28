@@ -1,14 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { X, Loader } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogClose,
-} from "@/components/ui/dialog";
+import { Crown, Loader } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+import { getBundleBonusCreditsForTier } from "@/config/products";
+
+type BonusTier = "mini" | "standard" | "plus" | "max";
+type BonusRow = {
+  id: string;
+  tiers: BonusTier[];
+  label: string;
+  credits: number;
+};
 
 export interface BundleItem {
   id: string;
@@ -23,58 +28,126 @@ interface CreditsBundleModalProps {
   onClose: () => void;
   onPurchase: (bundle: BundleItem) => void;
   isLoading: boolean;
+  bonusPlanLabels?: {
+    mini?: string;
+    standard?: string;
+    plus?: string;
+    max?: string;
+  };
 }
 
-// Bundle options configuration
 export const BUNDLE_OPTIONS: BundleItem[] = [
   {
     id: "bundle-20",
-    name: "Seedance 200 Credits Pack",
+    name: "Seedance Credits Pack",
     credits: 200,
     price: "$20",
     amount: 2000,
   },
   {
     id: "bundle-40",
-    name: "Seedance 400 Credits Pack",
+    name: "Seedance Credits Pack",
     credits: 400,
     price: "$40",
     amount: 4000,
   },
   {
-    id: "bundle-60",
-    name: "Seedance 600 Credits Pack",
-    credits: 600,
-    price: "$60",
-    amount: 6000,
-  },
-  {
     id: "bundle-100",
-    name: "Seedance 1000 Credits Pack",
+    name: "Seedance Credits Pack",
     credits: 1000,
     price: "$100",
     amount: 10000,
   },
   {
     id: "bundle-200",
-    name: "Seedance 2000 Credits Pack",
+    name: "Seedance Credits Pack",
     credits: 2000,
     price: "$200",
     amount: 20000,
   },
+  {
+    id: "bundle-500",
+    name: "Seedance Credits Pack",
+    credits: 5000,
+    price: "$500",
+    amount: 50000,
+  },
+  {
+    id: "bundle-1000",
+    name: "Seedance Credits Pack",
+    credits: 10000,
+    price: "$1000",
+    amount: 100000,
+  },
 ];
+
+function combinePlanLabels(firstLabel: string, secondLabel: string) {
+  const suffixMatch = firstLabel.match(/\s+Plan$/i);
+
+  if (!suffixMatch || !secondLabel.match(/\s+Plan$/i)) {
+    return `${firstLabel} & ${secondLabel}`;
+  }
+
+  const firstName = firstLabel.replace(/\s+Plan$/i, "").trim();
+  const secondName = secondLabel.replace(/\s+Plan$/i, "").trim();
+
+  return `${firstName} & ${secondName} Plan`;
+}
 
 export default function CreditsBundleModal({
   isOpen,
   onClose,
   onPurchase,
   isLoading,
+  bonusPlanLabels,
 }: CreditsBundleModalProps) {
   const [selectedBundle, setSelectedBundle] = useState<BundleItem>(
-    BUNDLE_OPTIONS[1] // Default to $40 pack
+    BUNDLE_OPTIONS[1],
   );
 
   const t = useTranslations("creditsBundle");
+  const standardLabel = bonusPlanLabels?.standard || "Standard Plan";
+  const plusLabel = bonusPlanLabels?.plus || "Plus Plan";
+  const maxLabel = bonusPlanLabels?.max || "Max Plan";
+  const plusCredits = getBundleBonusCreditsForTier(selectedBundle.id, "plus");
+  const maxCredits = getBundleBonusCreditsForTier(selectedBundle.id, "max");
+  const bonusRows: BonusRow[] = [
+    {
+      id: "standard",
+      tiers: ["standard"] as BonusTier[],
+      label: standardLabel,
+      credits: getBundleBonusCreditsForTier(selectedBundle.id, "standard"),
+    },
+    ...(plusCredits === maxCredits
+      ? [
+          {
+            id: "plus-max",
+            tiers: ["plus", "max"] as BonusTier[],
+            label: combinePlanLabels(plusLabel, maxLabel),
+            credits: plusCredits,
+          },
+        ]
+      : [
+          { id: "plus", tiers: ["plus"] as BonusTier[], label: plusLabel },
+          { id: "max", tiers: ["max"] as BonusTier[], label: maxLabel },
+        ].map((item) => ({
+          ...item,
+          credits: getBundleBonusCreditsForTier(
+            selectedBundle.id,
+            item.tiers[0],
+          ),
+        }))),
+  ].filter((item) => item.credits > 0);
+
+  const miniCredits = getBundleBonusCreditsForTier(selectedBundle.id, "mini");
+  if (miniCredits > 0) {
+    bonusRows.unshift({
+      id: "mini",
+      tiers: ["mini"] as BonusTier[],
+      label: bonusPlanLabels?.mini || "Mini Plan",
+      credits: miniCredits,
+    });
+  }
 
   const handlePurchase = () => {
     if (selectedBundle && !isLoading) {
@@ -84,28 +157,25 @@ export default function CreditsBundleModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-xl p-0 gap-0 overflow-hidden z-[10000]" overlayClassName="z-[10000]">
-        <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground z-10">
-          <X className="h-4 w-4" />
-          <span className="sr-only">Close</span>
-        </DialogClose>
-
-        {/* Main Content Area */}
+      <DialogContent
+        className="sm:max-w-xl p-0 gap-0 overflow-hidden z-[10000]"
+        overlayClassName="z-[10000]"
+      >
         <div className="p-4 sm:p-6 md:p-8">
-          {/* Title */}
           <h2 className="text-2xl font-bold text-center mb-4">
             {t("title")}
           </h2>
 
-          {/* Description */}
-          <p className="text-center text-muted-foreground text-base line-clamp-2 mb-8">
-            {t("description")}{" "}
-            <span className="font-semibold text-foreground">
-              {t("expireNote")}
-            </span>
+          <p className="text-center text-base text-muted-foreground mb-8">
+            {t.rich("expireNote", {
+              highlight: (chunks) => (
+                <span className="text-foreground font-semibold">
+                  {chunks}
+                </span>
+              ),
+            })}
           </p>
 
-          {/* Credits Amount Display */}
           <div className="text-center mb-8">
             <span className="text-4xl sm:text-4xl md:text-5xl font-bold tracking-tight">
               {selectedBundle.credits.toLocaleString()}
@@ -113,14 +183,39 @@ export default function CreditsBundleModal({
             <span className="text-4xl sm:text-4xl md:text-5xl font-bold tracking-tight ml-2">
               {t("credits")}
             </span>
+
+            {bonusRows.length > 0 && (
+              <div className="mx-auto mt-4 max-w-sm text-left">
+                <div className="mb-2 border-t border-white/10" />
+                <div className="mt-4 space-y-2">
+                  {bonusRows.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex items-center justify-between gap-2 text-sm"
+                    >
+                      <div className="flex items-center gap-1.5 text-foreground">
+                        <Crown className="h-4 w-4 text-amber-500" />
+                        <span>{item.label}</span>
+                      </div>
+                      <span className="text-primary">
+                        {t("bonusCreditsShort", {
+                          credits: item.credits.toLocaleString(),
+                        })}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Price Buttons */}
-          <div className="grid grid-cols-5 gap-2">
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
             {BUNDLE_OPTIONS.map((bundle) => (
               <Button
                 key={bundle.id}
-                variant={selectedBundle.id === bundle.id ? "default" : "outline"}
+                variant={
+                  selectedBundle.id === bundle.id ? "default" : "outline"
+                }
                 className={`w-full ${
                   selectedBundle.id === bundle.id
                     ? "bg-primary text-primary-foreground"
@@ -134,14 +229,9 @@ export default function CreditsBundleModal({
           </div>
         </div>
 
-        {/* Footer with Buttons */}
         <div className="border-t bg-muted/30 px-4 sm:px-6 md:px-8 py-4">
           <div className="flex justify-end gap-3">
-            <Button
-              variant="outline"
-              onClick={onClose}
-              disabled={isLoading}
-            >
+            <Button variant="outline" onClick={onClose} disabled={isLoading}>
               {t("cancel")}
             </Button>
             <Button
@@ -155,7 +245,7 @@ export default function CreditsBundleModal({
                   {t("processing")}
                 </>
               ) : (
-                t("continueToPayment")
+                t("buyCredits")
               )}
             </Button>
           </div>

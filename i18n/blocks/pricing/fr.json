@@ -215,6 +215,75 @@
       "credits": 36000,
       "valid_months": 12,
       "group": "yearly"
+    },
+    {
+      "title": "Plan Max",
+      "label": "MEILLEURE VALEUR",
+      "description": "Pour les agences, équipes et créateurs à fort volume",
+      "features_title": "Inclus",
+      "features": [
+        "<highlight>12 000</highlight> crédits mensuels",
+        "Jusqu'à <highlight>1 500</highlight> vidéos Veo3 (8s 1080p)",
+        "Jusqu'à <highlight>6 000</highlight> images NanoBanana Pro",
+        "Sortie en résolution 4K",
+        "Droits d'usage commercial",
+        "File d'attente prioritaire maximale",
+        "Gestionnaire de compte dédié",
+        "Compte entreprise (jusqu'à 20 sièges)"
+      ],
+      "interval": "month",
+      "amount": 36000,
+      "currency": "USD",
+      "price": "$360.00",
+      "original_price": "",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "S'abonner à Max",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "max-monthly",
+      "product_name": "Seedance AI Max",
+      "credits": 12000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Plan Max",
+      "label": "MEILLEURE VALEUR",
+      "description": "Pour les agences, équipes et créateurs à fort volume",
+      "features_title": "Inclus",
+      "features": [
+        "<highlight>12 000</highlight> crédits mensuels",
+        "Jusqu'à <highlight>1 500</highlight> vidéos Veo3 (8s 1080p)",
+        "Jusqu'à <highlight>6 000</highlight> images NanoBanana Pro",
+        "Sortie en résolution 4K",
+        "Droits d'usage commercial",
+        "File d'attente prioritaire maximale",
+        "Gestionnaire de compte dédié",
+        "Compte entreprise (jusqu'à 20 sièges)"
+      ],
+      "interval": "year",
+      "amount": 259200,
+      "currency": "USD",
+      "price": "$216.00",
+      "original_price": "$360.00",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "40% DE RÉDUCTION",
+      "tip": "Abonnement à 2592,00 $ par an",
+      "button": {
+        "title": "S'abonner à Max",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "max-yearly",
+      "product_name": "Seedance AI Max Yearly",
+      "credits": 144000,
+      "valid_months": 12,
+      "group": "yearly"
     }
   ],
   "faq": {
@@ -228,7 +297,7 @@
       },
       {
         "title": "Que se passe-t-il avec les crédits non utilisés à la fin du mois ?",
-        "description": "Les crédits mensuels ne sont pas reportés au mois suivant. Nous recommandons d'utiliser vos crédits dans votre cycle de facturation. Pour les plans annuels, les crédits sont accordés chaque mois pendant l'année et ne sont pas reportés."
+        "description": "Les crédits mensuels ne sont pas reportés d'un mois à l'autre. Nous vous recommandons d'utiliser vos crédits au cours de votre cycle de facturation. Pour les forfaits annuels, les crédits sont octroyés mensuellement et ne sont pas cumulables."
       },
       {
         "title": "Puis-je changer de plan à tout moment ?",

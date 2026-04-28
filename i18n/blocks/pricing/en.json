@@ -214,6 +214,75 @@
       "credits": 36000,
       "valid_months": 12,
       "group": "yearly"
+    },
+    {
+      "title": "Max Plan",
+      "label": "BEST VALUE",
+      "description": "For agencies, teams and high-volume creators",
+      "features_title": "Including",
+      "features": [
+        "<highlight>12,000</highlight> monthly credits",
+        "Up to <highlight>1,500</highlight> Veo3 videos (8s 1080p)",
+        "Up to <highlight>6,000</highlight> NanoBanana Pro images",
+        "4K resolution output",
+        "Commercial usage rights",
+        "Highest-priority queue",
+        "Dedicated account manager",
+        "Enterprise account (up to 20 seats)"
+      ],
+      "interval": "month",
+      "amount": 36000,
+      "currency": "USD",
+      "price": "$360.00",
+      "original_price": "",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "Subscribe to Max",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "max-monthly",
+      "product_name": "Seedance AI Max",
+      "credits": 12000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Max Plan",
+      "label": "BEST VALUE",
+      "description": "For agencies, teams and high-volume creators",
+      "features_title": "Including",
+      "features": [
+        "<highlight>12,000</highlight> monthly credits",
+        "Up to <highlight>1,500</highlight> Veo3 videos (8s 1080p)",
+        "Up to <highlight>6,000</highlight> NanoBanana Pro images",
+        "4K resolution output",
+        "Commercial usage rights",
+        "Highest-priority queue",
+        "Dedicated account manager",
+        "Enterprise account (up to 20 seats)"
+      ],
+      "interval": "year",
+      "amount": 259200,
+      "currency": "USD",
+      "price": "$216.00",
+      "original_price": "$360.00",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "40% OFF",
+      "tip": "Subscription at $2592.00 yearly",
+      "button": {
+        "title": "Subscribe to Max",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "max-yearly",
+      "product_name": "Seedance AI Max Yearly",
+      "credits": 144000,
+      "valid_months": 12,
+      "group": "yearly"
     }
   ],
   "faq": {
@@ -227,7 +296,7 @@
       },
       {
         "title": "What happens to unused credits at the end of the month?",
-        "description": "Monthly credits do not roll over to the next month. We recommend using your credits within your billing cycle. For yearly plans, all credits are provided upfront and can be used throughout the year."
+        "description": "Monthly credits do not roll over to the next month. We recommend using your credits within your billing cycle. For yearly plans, credits are granted monthly throughout the year and do not roll over."
       },
       {
         "title": "Can I upgrade or downgrade my plan anytime?",
@@ -243,7 +312,7 @@
       },
       {
         "title": "What's the difference between monthly and yearly billing?",
-        "description": "Yearly billing offers a 40% discount compared to monthly billing. With yearly plans, you pay upfront for the entire year and receive all your credits immediately. Monthly plans are billed every month with credits refreshing at each billing cycle."
+        "description": "Yearly billing offers a 40% discount compared to monthly billing. With yearly plans, you pay upfront for the entire year and receive credits monthly throughout the year. Monthly plans are billed every month with credits refreshing at each billing cycle."
       },
       {
         "title": "Can I use the generated videos commercially?",

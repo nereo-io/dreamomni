@@ -90,6 +90,28 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     membershipType: "yearly",
     creem_product_id: "prod_5siauowmaPRU4A0lKPseNC",
   },
+  {
+    product_id: "max-monthly",
+    product_name: "Seedance Max",
+    amount: 36000,
+    currency: "USD",
+    credits: 12000,
+    interval: "month",
+    valid_months: 1,
+    membershipType: "monthly",
+    creem_product_id: "prod_10kRKBhnXiLIKCXKcS5IZ8",
+  },
+  {
+    product_id: "max-yearly",
+    product_name: "Seedance Max Yearly",
+    amount: 259200,
+    currency: "USD",
+    credits: 144000,
+    interval: "year",
+    valid_months: 12,
+    membershipType: "yearly",
+    creem_product_id: "prod_66X7TZMnXlj5tznQbJrGBa",
+  },
 ];
 
 /**
@@ -170,16 +192,6 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     creem_product_id: "prod_4EVxqIeK6j9OCuwrPg3jI0",
   },
   {
-    product_id: "bundle-60",
-    product_name: "Seedance 600 Credits Pack",
-    amount: 6000, // $60
-    currency: "USD",
-    credits: 600,
-    interval: "one-time",
-    valid_months: 1,
-    creem_product_id: "prod_6nAuHMjCqwmKlIgJDA860D",
-  },
-  {
     product_id: "bundle-100",
     product_name: "Seedance 1000 Credits Pack",
     amount: 10000, // $100
@@ -198,6 +210,26 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     interval: "one-time",
     valid_months: 1,
     creem_product_id: "prod_23MINso2fWo2TbWwZtP9Ln",
+  },
+  {
+    product_id: "bundle-500",
+    product_name: "Seedance 5000 Credits Pack",
+    amount: 50000, // $500
+    currency: "USD",
+    credits: 5000,
+    interval: "one-time",
+    valid_months: 1,
+    creem_product_id: "prod_19tk9NXTFGQMNPGHeEAovS",
+  },
+  {
+    product_id: "bundle-1000",
+    product_name: "Seedance 10000 Credits Pack",
+    amount: 100000, // $1000
+    currency: "USD",
+    credits: 10000,
+    interval: "one-time",
+    valid_months: 1,
+    creem_product_id: "prod_6L0UaSlyGSjFxdHamfL7fF",
   },
 ];
 
@@ -231,13 +263,57 @@ export function getAnyProductConfig(
  * 用于判断升级/降级
  */
 export const SUBSCRIPTION_TIER_RANK: Record<string, number> = {
-  // Seedance current tiers (keep in sync with PRODUCT_CONFIGS).
-  "mini-monthly": 1, // $30/month
-  "standard-monthly": 2, // $100/month
-  "mini-yearly": 3, // $216/year
-  "standard-yearly": 4, // $720/year
-  "plus-monthly": 5, // $199/month
-  "plus-yearly": 6, // $1440/year
+  "mini-monthly": 1, // $20/month
+  "mini-yearly": 2, // $144/year
+  "standard-monthly": 3, // $50/month
+  "standard-yearly": 4, // $360/year
+  "plus-monthly": 5, // $99/month
+  "plus-yearly": 6, // $720/year
+  "max-monthly": 7, // $360/month
+  "max-yearly": 8, // $2592/year
+};
+
+export type SubscriptionTier = "mini" | "standard" | "plus" | "max" | "none";
+
+type BundleBonusByTier = Record<Exclude<SubscriptionTier, "none">, number>;
+
+export const BUNDLE_BONUS_BY_PRODUCT_ID: Record<string, BundleBonusByTier> = {
+  "bundle-20": {
+    mini: 0,
+    standard: 0,
+    plus: 200,
+    max: 200,
+  },
+  "bundle-40": {
+    mini: 0,
+    standard: 100,
+    plus: 300,
+    max: 300,
+  },
+  "bundle-100": {
+    mini: 0,
+    standard: 300,
+    plus: 1000,
+    max: 1000,
+  },
+  "bundle-200": {
+    mini: 0,
+    standard: 600,
+    plus: 2000,
+    max: 2000,
+  },
+  "bundle-500": {
+    mini: 0,
+    standard: 1600,
+    plus: 5000,
+    max: 5000,
+  },
+  "bundle-1000": {
+    mini: 0,
+    standard: 3300,
+    plus: 20000,
+    max: 20000,
+  },
 };
 
 /**
@@ -247,6 +323,65 @@ export const SUBSCRIPTION_TIER_RANK: Record<string, number> = {
  */
 export function getSubscriptionTierRank(productId: string): number {
   return SUBSCRIPTION_TIER_RANK[productId] ?? 0;
+}
+
+/**
+ * 根据订阅产品 ID 解析用户订阅档位
+ */
+export function getSubscriptionTierByProductId(
+  productId?: string | null,
+): SubscriptionTier {
+  if (!productId) {
+    return "none";
+  }
+
+  if (productId.startsWith("max-")) {
+    return "max";
+  }
+
+  if (productId.startsWith("plus-")) {
+    return "plus";
+  }
+
+  if (productId.startsWith("standard-")) {
+    return "standard";
+  }
+
+  if (productId.startsWith("mini-")) {
+    return "mini";
+  }
+
+  return "none";
+}
+
+/**
+ * 计算积分包赠送积分
+ */
+export function getBundleBonusCreditsForTier(
+  bundleProductId: string | undefined | null,
+  tier: SubscriptionTier,
+): number {
+  if (!bundleProductId || tier === "none") {
+    return 0;
+  }
+
+  const bonusByTier = BUNDLE_BONUS_BY_PRODUCT_ID[bundleProductId];
+  if (!bonusByTier) {
+    return 0;
+  }
+
+  return bonusByTier[tier] ?? 0;
+}
+
+/**
+ * 计算积分包最终到账积分（基础 + 加赠）
+ */
+export function getTotalBundleCredits(
+  baseCredits: number,
+  bundleProductId: string | undefined | null,
+  tier: SubscriptionTier,
+): number {
+  return baseCredits + getBundleBonusCreditsForTier(bundleProductId, tier);
 }
 
 /**

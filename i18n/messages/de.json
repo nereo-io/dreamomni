@@ -1181,13 +1181,14 @@
   "creditsBundle": {
     "title": "Mehr Credits kaufen",
     "description": "Kaufen Sie zusätzliche Credits, um mehr Videos zu generieren.",
-    "expireNote": "Zusätzliche Credits verfallen 1 Monat nach dem Kauf.",
+    "expireNote": "Zusätzliche Credits verfallen <highlight>1 Monat</highlight> nach dem Kauf.",
     "credits": "Credits",
     "selectPaymentMethod": "Zahlungsmethode auswählen",
     "cancel": "Abbrechen",
     "continueToPayment": "Weiter zur Zahlung",
     "processing": "Verarbeitung...",
-    "buyCredits": "Credits kaufen"
+    "buyCredits": "Credits kaufen",
+    "bonusCreditsShort": "+{credits} Bonus-Credits"
   },
   "nano-banana": {
     "title": "Google Nano Banana AI: Testen Sie diesen KI-Bildgenerator | Seedance",

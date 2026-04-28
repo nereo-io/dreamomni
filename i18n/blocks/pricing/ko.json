@@ -192,6 +192,75 @@
       "credits": 36000,
       "valid_months": 12,
       "group": "yearly"
+    },
+    {
+      "title": "Max 플랜",
+      "label": "최고의 가치",
+      "description": "에이전시, 팀 및 대량 제작자를 위한",
+      "features_title": "포함 내용",
+      "features": [
+        "월 <highlight>12,000</highlight> 크레딧",
+        "최대 <highlight>1,500</highlight>개 Veo3 비디오 (8초 1080p)",
+        "최대 <highlight>6,000</highlight>개 NanoBanana Pro 이미지",
+        "4K 해상도 출력",
+        "상업적 사용 권한",
+        "최우선 처리 대기열",
+        "전담 계정 매니저",
+        "엔터프라이즈 계정 (최대 20개 좌석)"
+      ],
+      "interval": "month",
+      "amount": 36000,
+      "currency": "USD",
+      "price": "$360.00",
+      "original_price": "",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "",
+      "button": {
+        "title": "Max 구독",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "max-monthly",
+      "product_name": "Seedance AI Max",
+      "credits": 12000,
+      "valid_months": 1,
+      "group": "monthly"
+    },
+    {
+      "title": "Max 플랜",
+      "label": "최고의 가치",
+      "description": "에이전시, 팀 및 대량 제작자를 위한",
+      "features_title": "포함 내용",
+      "features": [
+        "월 <highlight>12,000</highlight> 크레딧",
+        "최대 <highlight>1,500</highlight>개 Veo3 비디오 (8초 1080p)",
+        "최대 <highlight>6,000</highlight>개 NanoBanana Pro 이미지",
+        "4K 해상도 출력",
+        "상업적 사용 권한",
+        "최우선 처리 대기열",
+        "전담 계정 매니저",
+        "엔터프라이즈 계정 (최대 20개 좌석)"
+      ],
+      "interval": "year",
+      "amount": 259200,
+      "currency": "USD",
+      "price": "$216.00",
+      "original_price": "$360.00",
+      "unit": "/month",
+      "is_featured": false,
+      "discount_label": "40% 할인",
+      "tip": "연간 $2592.00 구독",
+      "button": {
+        "title": "Max 구독",
+        "url": "/#pricing",
+        "icon": "RiVipCrownLine"
+      },
+      "product_id": "max-yearly",
+      "product_name": "Seedance AI Max Yearly",
+      "credits": 144000,
+      "valid_months": 12,
+      "group": "yearly"
     }
   ]
 }
