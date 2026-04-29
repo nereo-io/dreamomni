@@ -78,19 +78,24 @@ export async function findPostBySlug(
   locale: string
 ): Promise<Post | undefined> {
   const supabase = getSupabaseClient();
+  // Filter by online status to avoid returning offline/duplicate records.
+  // Use order + limit instead of .single() to handle cases where multiple
+  // rows share the same slug+locale (e.g. old offline duplicates).
   const { data, error } = await supabase
     .from("posts")
     .select("*")
     .eq("slug", slug)
     .eq("locale", locale)
+    .eq("status", PostStatus.Online)
+    .order("created_at", { ascending: false })
     .limit(1)
-    .single();
+    .maybeSingle();
 
   if (error) {
     return undefined;
   }
 
-  return data;
+  return data ?? undefined;
 }
 
 export async function getPostLocalesBySlug(
