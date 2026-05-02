@@ -23,7 +23,7 @@ import {
   Upload,
 } from "lucide-react";
 import { BananaEmoji } from "@/components/icons/BananaIcon";
-import { MotionControlIcon } from "@/components/icons/MotionControlIcon";
+// import { MotionControlIcon } from "@/components/icons/MotionControlIcon";
 import { Button } from "@/components/ui/button";
 import PricingModal from "@/components/blocks/pricing/pricing-modal";
 import { Pricing } from "@/types/blocks/pricing";

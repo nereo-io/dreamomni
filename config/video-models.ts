@@ -527,79 +527,79 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     },
   },
 
-  // Kie.ai Kling 3.0 文本转视频模型
-  "kie-kling-3-text-to-video": {
-    id: "kie-kling-3-text-to-video",
-    name: "Kie.ai Kling 3.0 Text-to-Video",
-    type: VideoModelType.TEXT_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    providerModelId: "kling-3.0/video",
-    modelName: VideoModel.KLING3,
-    displayName: "Kling 3.0",
-    perSecondCredits: 6, // 720p std no-audio baseline
-    description: "Kling 3.0 model with realistic motion and stable prompt control. 6/s no sound, 10/s with sound",
-    features: ["Wait 120s", "720p/1080p", "5s/10s"],
-    maxDuration: 10,
-    supportedAspectRatios: ["16:9", "9:16", "1:1"],
-    supportsAudio: true,
-    audioOptional: true,
-    estimatedGenerationTime: 120,
-    useSignedCallback: true,
-    supportedDurations: [5, 10],
-    supportedResolutions: ["720p", "1080p"],
-  },
+  // // Kie.ai Kling 3.0 文本转视频模型
+  // "kie-kling-3-text-to-video": {
+  //   id: "kie-kling-3-text-to-video",
+  //   name: "Kie.ai Kling 3.0 Text-to-Video",
+  //   type: VideoModelType.TEXT_TO_VIDEO,
+  //   provider: VideoModelProvider.KIEAI,
+  //   providerModelId: "kling-3.0/video",
+  //   modelName: VideoModel.KLING3,
+  //   displayName: "Kling 3.0",
+  //   perSecondCredits: 6, // 720p std no-audio baseline
+  //   description: "Kling 3.0 model with realistic motion and stable prompt control. 6/s no sound, 10/s with sound",
+  //   features: ["Wait 120s", "720p/1080p", "5s/10s"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["16:9", "9:16", "1:1"],
+  //   supportsAudio: true,
+  //   audioOptional: true,
+  //   estimatedGenerationTime: 120,
+  //   useSignedCallback: true,
+  //   supportedDurations: [5, 10],
+  //   supportedResolutions: ["720p", "1080p"],
+  // },
 
-  // Kie.ai Kling 3.0 图片转视频模型
-  "kie-kling-3-image-to-video": {
-    id: "kie-kling-3-image-to-video",
-    name: "Kie.ai Kling 3.0 Image-to-Video",
-    type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    providerModelId: "kling-3.0/video",
-    modelName: VideoModel.KLING3,
-    displayName: "Kling 3.0",
-    perSecondCredits: 6, // 720p std no-audio baseline
-    description:
-      "Kling 3.0 image-to-video with stable style retention and natural motion. · 6/s no sound, 10/s with sound",
-    features: ["Wait 120s", "Image Animation", "5s/10s"],
-    maxDuration: 10,
-    supportedAspectRatios: ["16:9", "9:16", "1:1"],
-    supportsAudio: true,
-    audioOptional: true,
-    estimatedGenerationTime: 120,
-    useSignedCallback: true,
-    supportedDurations: [5, 10],
-    supportedResolutions: ["720p", "1080p"],
-    imageCapabilities: {
-      maxImages: 1,
-      labels: ["Reference Image"],
-    },
-  },
+  // // Kie.ai Kling 3.0 图片转视频模型
+  // "kie-kling-3-image-to-video": {
+  //   id: "kie-kling-3-image-to-video",
+  //   name: "Kie.ai Kling 3.0 Image-to-Video",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.KIEAI,
+  //   providerModelId: "kling-3.0/video",
+  //   modelName: VideoModel.KLING3,
+  //   displayName: "Kling 3.0",
+  //   perSecondCredits: 6, // 720p std no-audio baseline
+  //   description:
+  //     "Kling 3.0 image-to-video with stable style retention and natural motion. · 6/s no sound, 10/s with sound",
+  //   features: ["Wait 120s", "Image Animation", "5s/10s"],
+  //   maxDuration: 10,
+  //   supportedAspectRatios: ["16:9", "9:16", "1:1"],
+  //   supportsAudio: true,
+  //   audioOptional: true,
+  //   estimatedGenerationTime: 120,
+  //   useSignedCallback: true,
+  //   supportedDurations: [5, 10],
+  //   supportedResolutions: ["720p", "1080p"],
+  //   imageCapabilities: {
+  //     maxImages: 1,
+  //     labels: ["Reference Image"],
+  //   },
+  // },
 
-  // Kie.ai Kling 3.0 Motion Control 模型
-  "kie-kling-3-motion-control": {
-    id: "kie-kling-3-motion-control",
-    name: "Kie.ai Kling 3.0 Motion Control",
-    type: VideoModelType.IMAGE_TO_VIDEO,
-    provider: VideoModelProvider.KIEAI,
-    providerModelId: "kling-3.0/motion-control",
-    modelName: VideoModel.KLING3_MOTION_CONTROL,
-    displayName: "Kling 3.0 Motion",
-    perSecondCredits: 6, // 720p std baseline
-    description: "Control character movement with a reference video",
-    features: ["Motion Control", "Up to 30s", "720p/1080p"],
-    supportedAspectRatios: ["Auto"],
-    supportsAudio: false, // Motion control documentation doesn't mention audio support
-    estimatedGenerationTime: 360,
-    useSignedCallback: true,
-    supportedResolutions: ["720p", "1080p"],
-    generationType: "MOTION_CONTROL",
-    imageCapabilities: {
-      maxImages: 1,
-      labels: ["Character Image"],
-    },
-    characterOrientationConfig: { image: { maxDuration: 10 }, video: { maxDuration: 30 } },
-  },
+  // // Kie.ai Kling 3.0 Motion Control 模型
+  // "kie-kling-3-motion-control": {
+  //   id: "kie-kling-3-motion-control",
+  //   name: "Kie.ai Kling 3.0 Motion Control",
+  //   type: VideoModelType.IMAGE_TO_VIDEO,
+  //   provider: VideoModelProvider.KIEAI,
+  //   providerModelId: "kling-3.0/motion-control",
+  //   modelName: VideoModel.KLING3_MOTION_CONTROL,
+  //   displayName: "Kling 3.0 Motion",
+  //   perSecondCredits: 6, // 720p std baseline
+  //   description: "Control character movement with a reference video",
+  //   features: ["Motion Control", "Up to 30s", "720p/1080p"],
+  //   supportedAspectRatios: ["Auto"],
+  //   supportsAudio: false, // Motion control documentation doesn't mention audio support
+  //   estimatedGenerationTime: 360,
+  //   useSignedCallback: true,
+  //   supportedResolutions: ["720p", "1080p"],
+  //   generationType: "MOTION_CONTROL",
+  //   imageCapabilities: {
+  //     maxImages: 1,
+  //     labels: ["Character Image"],
+  //   },
+  //   characterOrientationConfig: { image: { maxDuration: 10 }, video: { maxDuration: 30 } },
+  // },
 
   // // Kie.ai Hailuo 2.3 图片转视频模型
   // "kie-hailuo-2-3-image-to-video": {
@@ -1070,7 +1070,7 @@ export function getTextToVideoModels(): VideoModelConfig[] {
     VideoModel.SEEDANCE_2_0,
     VideoModel.VEO3,
     VideoModel.HAILUO_2_3,
-    VideoModel.KLING3,
+    // VideoModel.KLING3,
     VideoModel.WAN_2_5,
   ];
 
@@ -1092,7 +1092,7 @@ export function getImageToVideoModels(): VideoModelConfig[] {
     VideoModel.SEEDANCE_2_0_FAST,
     VideoModel.VEO3,
     VideoModel.HAILUO_2_3,
-    VideoModel.KLING3,
+    // VideoModel.KLING3,
     VideoModel.WAN_2_5,
   ];
 
