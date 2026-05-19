@@ -77,6 +77,23 @@ export async function findStripeSubscriptionsByUserUuid(
   return data || [];
 }
 
+export async function findStripeSubscriptionByStripeId(
+  stripeSubscriptionId: string
+): Promise<StripeSubscription | undefined> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("stripe_subscriptions")
+    .select("*")
+    .eq("stripe_subscription_id", stripeSubscriptionId)
+    .single();
+
+  if (error) {
+    return undefined;
+  }
+
+  return data;
+}
+
 export async function findActiveStripeSubscriptionsByUserUuid(
   userUuid: string
 ): Promise<StripeSubscription[]> {
@@ -93,4 +110,37 @@ export async function findActiveStripeSubscriptionsByUserUuid(
   }
 
   return data || [];
+}
+
+export async function updateStripeSubscriptionStatus(
+  stripeSubscriptionId: string,
+  status: StripeSubscription["status"],
+  additionalData?: Partial<StripeSubscription>
+) {
+  const supabase = getSupabaseClient();
+  const updateData: any = {
+    status,
+    updated_at: new Date().toISOString(),
+  };
+
+  if (status === "canceled") {
+    updateData.canceled_at = new Date().toISOString();
+  }
+
+  if (additionalData) {
+    Object.assign(updateData, additionalData);
+  }
+
+  const { data, error } = await supabase
+    .from("stripe_subscriptions")
+    .update(updateData)
+    .eq("stripe_subscription_id", stripeSubscriptionId)
+    .select()
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
 }

@@ -523,9 +523,7 @@ export class PayssionProvider extends BasePaymentProvider {
 
         case "subscription.canceled":
           console.log("V2 subscription webhook received:", data);
-          console.log(
-            `⚠️ Subscription canceled: ${webhookData.subscription_id}`
-          );
+          await this.handleSubscriptionCanceled(webhookData);
           break;
 
         case "mandate.canceled":
@@ -553,6 +551,42 @@ export class PayssionProvider extends BasePaymentProvider {
         error: error.message,
       };
     }
+  }
+
+  private async handleSubscriptionCanceled(data: any) {
+    const subscriptionId = data.object?.id || data.subscription_id;
+
+    if (!subscriptionId) {
+      console.error("❌ Missing Payssion subscription ID in cancellation event", {
+        data,
+      });
+      return;
+    }
+
+    const { findSubscriptionByPayssionId, updateSubscriptionStatus } =
+      await import("@/models/subscription");
+    const subscription = await findSubscriptionByPayssionId(subscriptionId);
+
+    if (!subscription) {
+      console.error("⚠️ Payssion subscription not found for cancellation", {
+        subscriptionId,
+      });
+      return;
+    }
+
+    if (subscription.status !== "canceled") {
+      await updateSubscriptionStatus(subscriptionId, "canceled");
+      const { trackFirstPromoterCancellation } = await import(
+        "@/services/analytics/first-promoter"
+      );
+      await trackFirstPromoterCancellation({
+        paymentProvider: "payssion",
+        subscriptionId,
+        userUuid: subscription.user_uuid,
+      });
+    }
+
+    console.log(`✅ Payssion subscription cancellation handled: ${subscriptionId}`);
   }
 
   /**

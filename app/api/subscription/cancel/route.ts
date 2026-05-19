@@ -3,6 +3,7 @@ import { respErr, respJson } from "@/lib/resp";
 import { getUserEmail, getUserUuid } from "@/services/user";
 import { getPaymentRouter } from "@/services/payment";
 import { LogCategory, logger } from "@/lib/logger";
+import { trackFirstPromoterCancellation } from "@/services/analytics/first-promoter";
 
 export async function POST(req: NextRequest) {
   try {
@@ -52,6 +53,12 @@ export async function POST(req: NextRequest) {
       const { updateSubscriptionStatus } = await import("@/models/subscription");
       if (subscription.status !== "canceled") {
         await updateSubscriptionStatus(subscriptionId, "canceled");
+        await trackFirstPromoterCancellation({
+          paymentProvider: "payssion",
+          subscriptionId,
+          userUuid: subscription.user_uuid,
+          email: user_email,
+        });
       }
       return respJson(0, "Subscription already canceled", {
         success: true,
@@ -81,6 +88,13 @@ export async function POST(req: NextRequest) {
     );
 
     if (success) {
+      await trackFirstPromoterCancellation({
+        paymentProvider: "payssion",
+        subscriptionId,
+        userUuid: subscription.user_uuid,
+        email: user_email,
+      });
+
       return respJson(0, "Subscription cancelled successfully", {
         success: true,
         subscriptionId,

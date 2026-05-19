@@ -10,6 +10,7 @@ import {
   findCreemSubscriptionByCreemId,
   updateCreemSubscriptionStatus,
 } from "@/models/creem-subscription";
+import { trackFirstPromoterCancellation } from "@/services/analytics/first-promoter";
 import { offlineConversionService } from "@/services/analytics/yandex-offline-conversion";
 import { PaymentProcessingService } from "@/services/payment/PaymentProcessingService";
 import { SubscriptionManagementService } from "@/services/payment/SubscriptionManagementService";
@@ -122,6 +123,10 @@ export async function POST(req: NextRequest) {
       case "subscription.paid":
         await handleSubscriptionPaid(body);
         break;
+      case "subscription.canceled":
+      case "subscription.cancelled":
+        await handleSubscriptionCanceled(body);
+        break;
       default:
         logInfo("ℹ️ Unhandled event type", { eventType: body.eventType });
     }
@@ -130,6 +135,44 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     logError("🚨 Webhook processing error", error.message);
     return respErr("Webhook processing failed: " + error.message);
+  }
+}
+
+async function handleSubscriptionCanceled(webhookData: any) {
+  try {
+    const subscriptionObject = webhookData.object;
+    const subscriptionId =
+      subscriptionObject?.id || webhookData.subscription_id || webhookData.id;
+
+    if (!subscriptionId) {
+      logError("❌ Missing subscription ID in cancellation payload", {
+        webhookData,
+      });
+      return;
+    }
+
+    const subscription = await findCreemSubscriptionByCreemId(subscriptionId);
+    if (!subscription) {
+      logError("⚠️ Creem subscription not found for cancellation", {
+        subscriptionId,
+      });
+      return;
+    }
+
+    if (subscription.status !== "canceled") {
+      await updateCreemSubscriptionStatus(subscriptionId, "canceled");
+      await trackFirstPromoterCancellation({
+        paymentProvider: "creem",
+        subscriptionId,
+        userUuid: subscription.user_uuid,
+      });
+    }
+
+    logInfo("✅ Creem subscription cancellation handled", {
+      subscriptionId,
+    });
+  } catch (error: any) {
+    logError("❌ Error processing subscription cancellation", error.message);
   }
 }
 

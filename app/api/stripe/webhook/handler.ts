@@ -1,6 +1,10 @@
 import Stripe from "stripe";
 import { respOk } from "@/lib/resp";
-import { handleInvoicePayment, handleOrderSession } from "@/services/order";
+import {
+  handleInvoicePayment,
+  handleOrderSession,
+  handleStripeSubscriptionCanceled,
+} from "@/services/order";
 import { getTrimmedEnv } from "@/lib/env";
 
 export async function handleStripeWebhook(req: Request) {
@@ -46,6 +50,20 @@ export async function handleStripeWebhook(req: Request) {
             invoice.id,
             invoice.billing_reason
           );
+        }
+        break;
+      }
+
+      case "customer.subscription.deleted": {
+        const subscription = event.data.object;
+        await handleStripeSubscriptionCanceled(subscription);
+        break;
+      }
+
+      case "customer.subscription.updated": {
+        const subscription = event.data.object;
+        if (subscription.status === "canceled") {
+          await handleStripeSubscriptionCanceled(subscription);
         }
         break;
       }

@@ -34,6 +34,13 @@
   - Creem / Payssion 调用 `processPayment` 时传入 `paymentProvider`，统一上报使用本地订单金额作为最小货币单位。
   - 已运行 `pnpm lint --file services/payment/PaymentProcessingService.ts --file services/order.ts --file app/api/creem/webhook/route.ts --file services/payment/PayssionProvider.ts --file services/analytics/first-promoter.ts` 通过。
   - 额外运行 `tsc --noEmit --pretty false` 确认 Task 4 代码无 TS 错误；当前剩余 TS 错误来自 `.next/types` 引用尚未创建的 refund route。
+- [x] Phase 2 / Task 5：已实现订阅取消事件上报。
+  - Payssion 本地取消接口、Creem 本地取消接口在取消成功后调用 `trackFirstPromoterCancellation`。
+  - `SubscriptionManagementService.cancelOtherSubscriptions` 自动取消旧订阅成功后也会上报 cancellation。
+  - Creem / Payssion 远端 cancellation webhook 成功更新本地状态后上报 cancellation。
+  - Stripe `customer.subscription.deleted` / canceled `customer.subscription.updated` webhook 会更新本地 Stripe subscription 状态并上报 cancellation。
+  - 已运行 `pnpm lint --file app/api/subscription/cancel/route.ts --file app/api/creem/subscription/cancel/route.ts --file app/api/creem/webhook/route.ts --file app/api/stripe/webhook/handler.ts --file services/order.ts --file services/payment/SubscriptionManagementService.ts --file services/payment/PayssionProvider.ts --file models/stripe-subscription.ts --file services/analytics/first-promoter.ts` 通过。
+  - 额外运行 `tsc --noEmit --pretty false` 确认 Task 5 代码无 TS 错误；当前剩余 TS 错误来自 `.next/types` 引用尚未创建的 refund route。
 
 ---
 
@@ -400,7 +407,7 @@ Sale 上报只使用 webhook/服务端流程可得字段：`uid=user_uuid`、`em
 - Modify: `app/api/creem/subscription/cancel/route.ts`
 - Optional Modify: provider webhook handlers if remote cancellation can arrive outside local cancel route
 
-- [ ] **Step 1: 确认取消来源**
+- [x] **Step 1: 确认取消来源**
 
 评估并记录这些入口是否都会经过本项目：
 
@@ -412,8 +419,12 @@ Decision:
 
 - 项目内取消成功后立即上报 cancellation。
 - 后台直取消如果有 webhook 支持，再在 webhook 成功更新本地 subscription status 后补充上报。
+- 自动取消旧订阅走 `SubscriptionManagementService.cancelOtherSubscriptions`，取消成功后同样上报 cancellation。
+- Stripe 后台或 Customer Portal 取消走 `customer.subscription.deleted` 或 canceled `customer.subscription.updated` webhook。
+- Creem 后台取消走 `subscription.canceled` / `subscription.cancelled` webhook。
+- Payssion 后台取消走 `subscription.canceled` webhook。
 
-- [ ] **Step 2: 本地取消成功后上报**
+- [x] **Step 2: 本地取消成功后上报**
 
 Add after provider cancellation and local status update:
 
@@ -421,13 +432,16 @@ Add after provider cancellation and local status update:
 await trackFirstPromoterCancellation({
   paymentProvider: 'creem',
   subscriptionId: subscription_id,
-  userUuid,
-  email: subscription.user_email,
+  userUuid: subscription.user_uuid,
 });
 ```
 
 Payssion route uses `paymentProvider: 'payssion'` and `subscriptionId` from body.
 Cancellation 上报只依赖本地 subscription 记录中的 `userUuid/email/subscriptionId`，不读取浏览器 cookie。
+
+- [x] **Step 3: 远端取消 webhook 补充上报**
+
+Stripe、Creem、Payssion 的远端取消 webhook 在成功更新本地 subscription status 后调用 `trackFirstPromoterCancellation`。
 
 ### Task 6: 外部退款上报接口
 

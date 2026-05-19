@@ -17,7 +17,10 @@ import {
 } from "@/config/products";
 import { Order } from "@/types/order";
 import { getUserHighestSubscriptionTier } from "@/services/subscriptionTier";
-import { trackFirstPromoterSale } from "@/services/analytics/first-promoter";
+import {
+  trackFirstPromoterCancellation,
+  trackFirstPromoterSale,
+} from "@/services/analytics/first-promoter";
 
 function getStripeId(value: string | { id?: string } | null | undefined) {
   if (!value) return undefined;
@@ -357,5 +360,40 @@ export async function handleInvoicePayment(
   } catch (e) {
     console.log("handle invoice payment failed:", e);
     throw e;
+  }
+}
+
+export async function handleStripeSubscriptionCanceled(
+  subscription: Stripe.Subscription
+) {
+  const subscriptionId = subscription.id;
+
+  try {
+    const {
+      findStripeSubscriptionByStripeId,
+      updateStripeSubscriptionStatus,
+    } = await import("@/models/stripe-subscription");
+    const localSubscription =
+      await findStripeSubscriptionByStripeId(subscriptionId);
+
+    if (!localSubscription) {
+      console.log("stripe subscription not found for cancellation:", {
+        subscriptionId,
+      });
+      return;
+    }
+
+    if (localSubscription.status === "canceled") {
+      return;
+    }
+
+    await updateStripeSubscriptionStatus(subscriptionId, "canceled");
+    await trackFirstPromoterCancellation({
+      paymentProvider: "stripe",
+      subscriptionId,
+      userUuid: localSubscription.user_uuid,
+    });
+  } catch (error) {
+    console.error("handle stripe subscription cancellation failed:", error);
   }
 }

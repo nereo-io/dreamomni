@@ -11,6 +11,7 @@ import {
   updateCreemSubscriptionStatus,
   type CreemSubscription,
 } from "@/models/creem-subscription";
+import { trackFirstPromoterCancellation } from "@/services/analytics/first-promoter";
 
 // 日志函数
 function logInfo(message: string, data?: any) {
@@ -163,6 +164,11 @@ export class SubscriptionManagementService {
       // 仅在 API 成功时更新本地数据库状态为 canceled
       await updateSubscriptionStatus(subscriptionId, "canceled");
       logInfo(`✅ Payssion 订阅 ${subscriptionId} 本地状态已更新为 canceled`);
+      await trackFirstPromoterCancellation({
+        paymentProvider: "payssion",
+        subscriptionId,
+        userUuid: subscription.user_uuid,
+      });
 
       return {
         provider: "payssion",
@@ -213,6 +219,11 @@ export class SubscriptionManagementService {
       // 仅在 API 成功时更新本地数据库状态为 canceled
       await updateCreemSubscriptionStatus(subscriptionId, "canceled");
       logInfo(`✅ Creem 订阅 ${subscriptionId} 本地状态已更新为 canceled`);
+      await trackFirstPromoterCancellation({
+        paymentProvider: "creem",
+        subscriptionId,
+        userUuid: subscription.user_uuid,
+      });
 
       return {
         provider: "creem",
