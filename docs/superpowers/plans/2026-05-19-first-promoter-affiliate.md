@@ -1,0 +1,549 @@
+# First Promoter Affiliate Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** 接入 FirstPromoter affiliate 追踪链路，覆盖 click、signup、sale、subscription cancellation、refund。
+
+**Architecture:** 前端只负责加载 fpr.js 和触发已登录后的 signup 上报入口；signup 阶段读取 FirstPromoter cookie，并同时上报项目内 `user_uuid` 作为 FirstPromoter `uid`。支付成功、取消订阅、退款都来自服务端 webhook 或内部接口，只依赖 `uid/email/event_id` 等服务端可得字段，不依赖浏览器 cookie。
+
+**Tech Stack:** Next.js App Router、NextAuth、Supabase、Stripe/Creem/Payssion webhook、FirstPromoter fpr.js、FirstPromoter V2 Tracking API、Jest/ts-jest。
+
+---
+
+## 背景与官方接口
+
+- fpr.js click 追踪：页面加载 FirstPromoter 脚本后，FirstPromoter 会处理 referral click，并落下 `_fprom_ref`、`_fprom_tid` 等 cookie；这些 cookie 只在 signup 阶段读取，用来把新用户归因到 promoter。
+- V2 API 鉴权：服务端请求 FirstPromoter API 时使用 `Authorization: Bearer <API_KEY>` 和 `Account-ID: <ACCOUNT_ID>`。
+- V2 signup：`POST https://api.firstpromoter.com/api/v2/track/signup`。
+- V2 sale：`POST https://api.firstpromoter.com/api/v2/track/sale`，金额使用最小货币单位，例如 USD 10.00 传 `1000`；sale webhook 阶段用 signup 已登记的 `uid/email` 匹配 referral，不读取 `_fprom_tid`。
+- V2 cancellation：`POST https://api.firstpromoter.com/api/v2/track/cancellation`。项目里可把“cancelled 接口”统一映射到这个 V2 cancellation endpoint。
+- V2 refund：`POST https://api.firstpromoter.com/api/v2/track/refund`。
+
+参考：
+- [Tracking with fpr.js](https://docs.firstpromoter.com/guides/tracking-with-fprjs)
+- [Create signup with V2 API](https://docs.firstpromoter.com/api-reference-v2/api-admin/tracking-api/create-a-new-signup)
+- [Create sale with V2 API](https://docs.firstpromoter.com/api-reference-v2/api-admin/tracking-api/create-a-sale)
+- [Create cancellation with V2 API](https://docs.firstpromoter.com/api-reference-v2/api-admin/tracking-api/create-a-cancellation)
+- [Create refund with V2 API](https://docs.firstpromoter.com/api-reference-v2/api-admin/tracking-api/create-a-refund)
+
+## 现有代码落点
+
+- 全局 analytics 挂载：`app/[locale]/layout.tsx`，当前已挂载 `SignupTracker`、`AttributionTracker`、Yandex、GA、Plausible、Bing。
+- 新用户识别：`components/analytics/signup-tracker.tsx` 读取 `session.isNewUser`，目前用于 Yandex/GA/Bing 注册事件。
+- NextAuth 注册保存：`auth/config.ts` 的 `jwt` callback 调用 `saveUser`，并把 `savedUser.isNewUser` 写入 token/session。
+- 订单创建：`app/api/checkout/route.ts` 已保存 first/last touch 和 Yandex client id。
+- Stripe 首次支付/续费：`services/order.ts` 的 `handleOrderSession`、`handleInvoicePayment`。
+- Creem 首次支付/续费：`app/api/creem/webhook/route.ts` 的 `handleCheckoutCompleted`、`handleSubscriptionPaid`。
+- Payssion V2 webhook：`app/api/payssion/v2-webhook/route.ts` 委托到 payment provider，sale 上报需要在 provider 完成订单入账后接入。
+- 订阅取消：`app/api/subscription/cancel/route.ts`、`app/api/creem/subscription/cancel/route.ts`。
+- 内部 Authorization 模式参考：`app/api/internal/credits/refund/route.ts` 使用 `Authorization: Bearer ${INTERNAL_API_KEY}`。
+
+## 环境变量
+
+- [ ] `NEXT_PUBLIC_FIRST_PROMOTER_ACCOUNT_ID=<FirstPromoter account id>`
+- [ ] `FIRST_PROMOTER_API_KEY=<FirstPromoter V2 API key>`
+
+说明：
+
+- `NEXT_PUBLIC_FIRST_PROMOTER_ACCOUNT_ID` 同时用于前端 fpr.js 初始化，以及服务端 V2 API 的 `Account-ID` header。
+- FirstPromoter V2 endpoint 固定写在 `services/analytics/first-promoter.ts` 中，例如 `https://api.firstpromoter.com/api/v2/track/sale`，不额外增加 `BASE_URL` 配置。
+- 不增加单独的 enabled flag；缺少 `NEXT_PUBLIC_FIRST_PROMOTER_ACCOUNT_ID` 或 `FIRST_PROMOTER_API_KEY` 时，服务端上报自动跳过并记录原因。
+- 外部 refund 上报接口的 `Authorization` 校验复用项目现有 `INTERNAL_API_KEY` 模式，除非后续明确要为 affiliate refund 单独拆 secret。
+
+
+## 归因字段策略
+
+- Signup 上报负责建立 referral/customer 关系，payload 包含 `email`、`uid=user_uuid`，并尽量带上 `tid` 或 `ref_id`。
+- Sale、refund、cancellation 上报发生在支付 webhook、取消订阅接口或外部 refund 接口中，这些请求通常没有浏览器 cookie，所以只传 `uid=user_uuid`、`email`、`event_id/payment_id/subscription_id`、金额等服务端字段。
+- 不在 sale/refund/cancellation 逻辑中解析 `_fprom_tid` 或 `_fprom_ref`；FirstPromoter 应通过 signup 阶段保存的 `uid/email` 找到对应 referral。
+
+## 文件结构计划
+
+- Create: `lib/first-promoter/config.ts`，集中读取、校验 FirstPromoter 环境变量。
+- Create: `lib/first-promoter/cookies.ts`，只供 signup route 解析 `_fprom_tid`、`_fprom_ref`。
+- Create: `lib/first-promoter/types.ts`，定义 signup/sale/cancellation/refund request 类型。
+- Create: `services/analytics/first-promoter.ts`，封装 V2 API 请求和日志。
+- Create: `components/analytics/first-promoter-tracker.tsx`，加载 fpr.js。
+- Create: `app/api/first-promoter/signup/route.ts`，客户端 signup tracker 调用的服务端入口。
+- Create: `app/api/first-promoter/refund/route.ts`，提供给外部系统调用的退款上报入口。
+- Modify: `app/[locale]/layout.tsx`，挂载 `FirstPromoterTracker`。
+- Modify: `components/analytics/signup-tracker.tsx`，新用户登录后调用 signup 上报 API。
+- Modify: `services/order.ts`，Stripe 首次支付和续费成功后调用 sale 上报。
+- Modify: `app/api/creem/webhook/route.ts`，Creem 首次支付和续费成功后调用 sale 上报。
+- Modify: `services/payment/PayssionProvider.ts`，Payssion 首次支付和续费成功入账后调用 sale 上报。
+- Modify: `app/api/subscription/cancel/route.ts`、`app/api/creem/subscription/cancel/route.ts`，取消成功后调用 cancellation 上报。
+- Test: `services/analytics/__tests__/first-promoter.test.ts`。
+- Test: `components/analytics/__tests__/first-promoter-tracker.test.tsx`。
+- Test: `app/api/first-promoter/__tests__/signup.test.ts`。
+- Test: `app/api/first-promoter/__tests__/refund.test.ts`。
+
+---
+
+## Phase 1: Click、Sign In、Sales
+
+### Task 1: fpr.js Click Tracking
+
+**Files:**
+- Create: `components/analytics/first-promoter-tracker.tsx`
+- Modify: `app/[locale]/layout.tsx`
+- Test: `components/analytics/__tests__/first-promoter-tracker.test.tsx`
+
+- [ ] **Step 1: 编写组件测试**
+
+```tsx
+import { render } from '@testing-library/react';
+import FirstPromoterTracker from '@/components/analytics/first-promoter-tracker';
+
+it('renders no script when disabled', () => {
+  delete process.env.NEXT_PUBLIC_FIRST_PROMOTER_ACCOUNT_ID;
+
+  const { container } = render(<FirstPromoterTracker />);
+
+  expect(container.querySelector('script')).toBeNull();
+});
+
+it('renders FirstPromoter fpr.js when enabled', () => {
+  process.env.NEXT_PUBLIC_FIRST_PROMOTER_ACCOUNT_ID = 'seedance';
+
+  const { container } = render(<FirstPromoterTracker />);
+
+  expect(container.innerHTML).toContain('fpr.js');
+  expect(container.innerHTML).toContain('seedance');
+});
+```
+
+- [ ] **Step 2: 实现 fpr.js loader**
+
+```tsx
+'use client';
+
+import Script from 'next/script';
+
+export default function FirstPromoterTracker() {
+  const accountId = process.env.NEXT_PUBLIC_FIRST_PROMOTER_ACCOUNT_ID;
+
+  if (!accountId) {
+    return null;
+  }
+
+  return (
+    <Script id="first-promoter" strategy="afterInteractive">
+      {`
+        (function(w){w.fpr=w.fpr||function(){w.fpr.q = w.fpr.q||[];w.fpr.q[arguments[0]=='set'?'unshift':'push'](arguments);};})(window);
+        fpr("init", { cid: "${accountId}" });
+        fpr("click");
+      `}
+    </Script>
+  );
+}
+```
+
+- [ ] **Step 3: 挂载到全局 layout**
+
+Add import in `app/[locale]/layout.tsx`:
+
+```tsx
+import FirstPromoterTracker from '@/components/analytics/first-promoter-tracker';
+```
+
+Add before existing analytics trackers:
+
+```tsx
+<FirstPromoterTracker />
+```
+
+- [ ] **Step 4: 验证**
+
+Run: `pnpm test -- components/analytics/__tests__/first-promoter-tracker.test.tsx`
+
+Expected: FirstPromoter tracker tests pass.
+
+### Task 2: FirstPromoter Service 基础设施
+
+**Files:**
+- Create: `lib/first-promoter/config.ts`
+- Create: `lib/first-promoter/cookies.ts`
+- Create: `lib/first-promoter/types.ts`
+- Create: `services/analytics/first-promoter.ts`
+- Test: `services/analytics/__tests__/first-promoter.test.ts`
+
+- [ ] **Step 1: 定义类型**
+
+```ts
+export type FirstPromoterEventType = 'signup' | 'sale' | 'cancellation' | 'refund';
+
+export interface FirstPromoterSignupInput {
+  userUuid: string;
+  email: string;
+  firstName?: string;
+  trackingId?: string | null;
+  refId?: string | null;
+}
+
+export interface FirstPromoterSaleInput {
+  orderNo: string;
+  paymentProvider: string;
+  paymentId?: string | null;
+  userUuid: string;
+  email: string;
+  amount: number;
+  currency: string;
+}
+
+export interface FirstPromoterCancellationInput {
+  paymentProvider: string;
+  subscriptionId: string;
+  userUuid?: string;
+  email?: string;
+}
+
+export interface FirstPromoterRefundInput {
+  paymentProvider: string;
+  orderNo?: string;
+  paymentId?: string;
+  userUuid?: string;
+  email?: string;
+  amount: number;
+  currency: string;
+  reason?: string;
+}
+```
+
+- [ ] **Step 2: 实现 cookie 解析**
+
+This helper is signup-only. Do not use it from sale, refund, or cancellation webhook flows.
+
+```ts
+export function getFirstPromoterCookies(cookieHeader: string | null) {
+  const cookies = new Map<string, string>();
+  for (const pair of (cookieHeader || '').split(';')) {
+    const [rawKey, ...rest] = pair.trim().split('=');
+    if (rawKey) cookies.set(rawKey, decodeURIComponent(rest.join('=') || ''));
+  }
+
+  return {
+    trackingId: cookies.get('_fprom_tid') || null,
+    refId: cookies.get('_fprom_ref') || null,
+  };
+}
+```
+
+- [ ] **Step 3: 实现 API client**
+
+Service method signatures:
+
+```ts
+export async function trackFirstPromoterSignup(input: FirstPromoterSignupInput) {}
+export async function trackFirstPromoterSale(input: FirstPromoterSaleInput) {}
+export async function trackFirstPromoterCancellation(input: FirstPromoterCancellationInput) {}
+export async function trackFirstPromoterRefund(input: FirstPromoterRefundInput) {}
+```
+
+Rules:
+
+- 缺少 `NEXT_PUBLIC_FIRST_PROMOTER_ACCOUNT_ID` 或 `FIRST_PROMOTER_API_KEY` 时，直接返回 `{ success: true, skipped: true, reason: 'missing_config' }`，不发外部请求。
+- Signup payload maps `userUuid` to FirstPromoter `uid`; include `tid` from `_fprom_tid` when present, otherwise include `ref_id` from `_fprom_ref` when present.
+- Sale payload maps `paymentId || orderNo` to `event_id`, maps `userUuid` to `uid`, and includes `email`; it must not include `tid` or `ref_id`.
+- Cancellation and refund payloads use `uid/email` plus subscription/payment identifiers available on the server; they must not depend on browser cookies.
+- 发送 V2 API 失败时只打 `console.error`，返回 `{ success: false }`，不得 throw 到支付 webhook 顶层。
+
+- [ ] **Step 4: 验证**
+
+Run: `pnpm test -- services/analytics/__tests__/first-promoter.test.ts`
+
+Expected: missing config skip、API success、API failure 三类 case 通过。
+
+### Task 3: Sign In / Signup 上报
+
+**Files:**
+- Create: `app/api/first-promoter/signup/route.ts`
+- Modify: `components/analytics/signup-tracker.tsx`
+- Test: `app/api/first-promoter/__tests__/signup.test.ts`
+
+- [ ] **Step 1: 实现服务端 route**
+
+Route behavior:
+
+- 只接受已登录用户。
+- 只在 session 有 `isNewUser === true` 时上报。
+- 从 request cookie 读取 `_fprom_tid`、`_fprom_ref`。
+- 调用 `trackFirstPromoterSignup`，其中 `session.user.uuid` 会作为 FirstPromoter `uid` 上报。
+
+```ts
+export async function POST(req: NextRequest) {
+  const session = await auth();
+  if (!session?.user?.uuid || !session.user.email) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  if (session.isNewUser !== true) {
+    return NextResponse.json({ skipped: true, reason: 'not_new_user' });
+  }
+
+  const { trackingId, refId } = getFirstPromoterCookies(
+    req.headers.get('cookie')
+  );
+
+  const result = await trackFirstPromoterSignup({
+    userUuid: session.user.uuid,
+    email: session.user.email,
+    firstName: session.user.nickname,
+    trackingId,
+    refId,
+  });
+
+  return NextResponse.json(result);
+}
+```
+
+- [ ] **Step 2: 更新 `SignupTracker`**
+
+When `session.isNewUser` is true, call:
+
+```ts
+await fetch('/api/first-promoter/signup', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+});
+```
+
+Do not block existing Yandex/GA/Bing tracking.
+
+- [ ] **Step 3: 验证**
+
+Run: `pnpm test -- app/api/first-promoter/__tests__/signup.test.ts`
+
+Expected:
+
+- unauthenticated returns 401。
+- existing user returns skipped。
+- new user with `_fprom_tid` calls `trackFirstPromoterSignup` once, with `userUuid` mapped to FirstPromoter `uid`。
+
+### Task 4: Sales 销售事件上报
+
+**Files:**
+- Modify: `services/order.ts`
+- Modify: `app/api/creem/webhook/route.ts`
+- Modify: `services/payment/PayssionProvider.ts`
+- Test: `services/analytics/__tests__/first-promoter.test.ts`
+
+- [ ] **Step 1: Stripe 首次支付**
+
+After `increaseCredits` and order status update in `handleOrderSession`, call:
+
+```ts
+await trackFirstPromoterSale({
+  orderNo: order.order_no,
+  paymentProvider: 'stripe',
+  paymentId: session.payment_intent?.toString() || session.id,
+  userUuid: order.user_uuid,
+  email: paid_email || order.user_email,
+  amount: order.amount,
+  currency: order.currency,
+});
+```
+
+- [ ] **Step 2: Stripe 续费**
+
+After renewal credits are increased in `handleInvoicePayment`, call:
+
+```ts
+await trackFirstPromoterSale({
+  orderNo: order_no || invoice.id,
+  paymentProvider: 'stripe',
+  paymentId: invoice.id,
+  userUuid: user_uuid,
+  email: invoice.customer_email || '',
+  amount: invoice.amount_paid,
+  currency: invoice.currency,
+});
+```
+
+- [ ] **Step 3: Creem 首次支付和续费**
+
+In `handleCheckoutCompleted` and `handleSubscriptionPaid`, after `PaymentProcessingService.processPayment` succeeds, call:
+
+```ts
+await trackFirstPromoterSale({
+  orderNo,
+  paymentProvider: 'creem',
+  paymentId: transactionId,
+  userUuid,
+  email: userEmail || customer?.email || '',
+  amount: productConfig.amount,
+  currency: productConfig.currency,
+});
+```
+
+For renewal, use `renewalOrderNo`.
+
+- [ ] **Step 4: Payssion 支付成功**
+
+In `services/payment/PayssionProvider.ts`, after `PaymentProcessingService.processPayment` succeeds and before/around the existing Yandex offline conversion tracking, add:
+
+```ts
+await trackFirstPromoterSale({
+  orderNo: finalOrderNo,
+  paymentProvider: 'payssion',
+  paymentId,
+  userUuid: metadata.user_uuid,
+  email: metadata.user_email,
+  amount,
+  currency: subscription.currency,
+});
+```
+
+Acceptance rule: sale 上报必须发生在项目确认支付已经入账之后，不能在收到 webhook 但业务处理失败时上报。
+Sale 上报只使用 webhook/服务端流程可得字段：`uid=user_uuid`、`email`、`event_id=paymentId || orderNo`、`amount`、`currency`。不要在 sale 上报中读取或要求 `_fprom_tid` / `_fprom_ref`。
+
+- [ ] **Step 5: 验证**
+
+Run:
+
+```bash
+pnpm test -- services/analytics/__tests__/first-promoter.test.ts
+pnpm test -- services/__tests__ app/__tests__ --runInBand
+```
+
+Expected: sale payload uses `uid/email/event_id`, uses cents/minor units.
+
+---
+
+## Phase 2: Cancellation 与 Refund
+
+### Task 5: 订阅取消事件上报评估与接入
+
+**Files:**
+- Modify: `app/api/subscription/cancel/route.ts`
+- Modify: `app/api/creem/subscription/cancel/route.ts`
+- Optional Modify: provider webhook handlers if remote cancellation can arrive outside local cancel route
+- Test: `services/analytics/__tests__/first-promoter.test.ts`
+
+- [ ] **Step 1: 确认取消来源**
+
+评估并记录这些入口是否都会经过本项目：
+
+- 用户在本项目点击取消 Payssion 订阅：`app/api/subscription/cancel/route.ts`。
+- 用户在本项目点击取消 Creem 订阅：`app/api/creem/subscription/cancel/route.ts`。
+- 用户在 Stripe/Creem/Payssion 后台直接取消后，是否有 webhook 回到本项目。
+
+Decision:
+
+- 项目内取消成功后立即上报 cancellation。
+- 后台直取消如果有 webhook 支持，再在 webhook 成功更新本地 subscription status 后补充上报。
+
+- [ ] **Step 2: 本地取消成功后上报**
+
+Add after provider cancellation and local status update:
+
+```ts
+await trackFirstPromoterCancellation({
+  paymentProvider: 'creem',
+  subscriptionId: subscription_id,
+  userUuid,
+  email: subscription.user_email,
+});
+```
+
+Payssion route uses `paymentProvider: 'payssion'` and `subscriptionId` from body.
+Cancellation 上报只依赖本地 subscription 记录中的 `userUuid/email/subscriptionId`，不读取浏览器 cookie。
+
+- [ ] **Step 3: 验证**
+
+Run:
+
+```bash
+pnpm test -- services/analytics/__tests__/first-promoter.test.ts
+pnpm test -- app/api/subscription app/api/creem --runInBand
+```
+
+Expected:
+
+- cancellation endpoint failures are logged but do not make user cancellation fail。
+
+### Task 6: 外部退款上报接口
+
+**Files:**
+- Create: `app/api/first-promoter/refund/route.ts`
+- Test: `app/api/first-promoter/__tests__/refund.test.ts`
+
+- [ ] **Step 1: 定义外部调用 contract**
+
+Endpoint:
+
+```http
+POST /api/first-promoter/refund
+Authorization: Bearer ${INTERNAL_API_KEY}
+Content-Type: application/json
+```
+
+Body:
+
+```json
+{
+  "payment_provider": "stripe",
+  "order_no": "123456",
+  "payment_id": "pi_xxx",
+  "user_uuid": "user_uuid_from_seedance",
+  "email": "customer@example.com",
+  "amount": 1000,
+  "currency": "usd",
+  "reason": "customer_refund"
+}
+```
+
+- [ ] **Step 2: 实现 Authorization 校验**
+
+Rules:
+
+- Missing `INTERNAL_API_KEY` returns 500。
+- Missing or mismatched `Authorization` returns 401。
+- `amount <= 0` returns 400。
+- `currency` normalized to lowercase。
+- `payment_provider` allowed values: `stripe`、`creem`、`payssion`、`external`。
+
+- [ ] **Step 3: 调用 refund 上报**
+
+```ts
+const result = await trackFirstPromoterRefund({
+  paymentProvider: body.payment_provider,
+  orderNo: body.order_no,
+  paymentId: body.payment_id,
+  userUuid: body.user_uuid,
+  email: body.email,
+  amount: body.amount,
+  currency: body.currency,
+  reason: body.reason,
+});
+```
+
+Refund 上报优先使用 `user_uuid` 作为 FirstPromoter `uid`；如果外部调用方暂时只能提供 email，则仍发送 email，但推荐后续外部系统传入 `user_uuid`。
+
+- [ ] **Step 4: 验证**
+
+Run: `pnpm test -- app/api/first-promoter/__tests__/refund.test.ts`
+
+Expected:
+
+- invalid Authorization returns 401。
+- valid request calls `trackFirstPromoterRefund` once。
+
+---
+
+
+## Rollout Checklist
+
+- [ ] Staging 环境配置 FirstPromoter env。
+- [ ] 用 FirstPromoter 测试推广链接访问站点，确认 `_fprom_tid` / `_fprom_ref` cookie 存在。
+- [ ] 新用户登录后确认 FirstPromoter dashboard 出现 signup。
+- [ ] Stripe 测试支付后确认 FirstPromoter dashboard 出现 sale。
+- [ ] Creem 测试支付后确认 FirstPromoter dashboard 出现 sale。
+- [ ] Payssion sandbox 支付后确认 FirstPromoter dashboard 出现 sale。
+- [ ] 本项目取消订阅后确认 FirstPromoter dashboard 出现 cancellation。
+- [ ] 外部系统调用 refund endpoint 后确认 FirstPromoter dashboard 出现 refund。
+
+## 风险与确认项
+
+- [ ] Payssion 成功入账的最准确代码落点需要在实现时沿 provider 调用链确认。
+- [ ] 如果 FirstPromoter signup 必须在服务端读取 `_fprom_tid`，signup route 必须由浏览器发起，不能只放在 NextAuth server callback。
+- [ ] Refund endpoint 暴露给外部调用时先复用现有 `INTERNAL_API_KEY` 鉴权；如果后续安全策略要求隔离，再单独拆 secret。
+- [ ] FirstPromoter API 失败不能阻塞登录、支付、取消订阅和退款主流程。
