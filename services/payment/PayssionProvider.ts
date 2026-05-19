@@ -8,6 +8,8 @@ import {
   SubscriptionResponse,
   SubscriptionWebhookResult,
   PaymentError,
+  RefundRequest,
+  RefundResult,
 } from "./types";
 import { getPayssionConfig, PayssionConfig } from "@/config/payssion";
 import {
@@ -63,6 +65,70 @@ export class PayssionProvider extends BasePaymentProvider {
       this.config.v2.secretKey &&
       this.config.v2.baseUrl
     );
+  }
+
+  async refundPayment(request: RefundRequest): Promise<RefundResult> {
+    try {
+      const body: Record<string, any> = {
+        payment_id: request.transactionId,
+        amount: request.amount.toFixed(2),
+        currency: request.currency || "USD",
+        reference: request.orderNo ? `refund_${request.orderNo}` : undefined,
+        description:
+          request.reason ||
+          (request.orderNo ? `Refund for order ${request.orderNo}` : "Refund"),
+        metadata: {
+          order_no: request.orderNo,
+          reason: request.reason,
+          ...request.metadata,
+        },
+      };
+
+      Object.keys(body).forEach((key) => {
+        if (body[key] === undefined) {
+          delete body[key];
+        }
+      });
+
+      const response = await fetch(`${this.config.v2.baseUrl}/v2/refunds`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.config.v2.apiKey}`,
+        },
+        body: JSON.stringify(body),
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok || result.error) {
+        return {
+          success: false,
+          paymentProvider: this.name,
+          errorCode: result.error?.code || `HTTP_${response.status}`,
+          errorMessage:
+            result.error?.message ||
+            result.message ||
+            `Payssion refund failed with HTTP ${response.status}`,
+          raw: result,
+        };
+      }
+
+      return {
+        success: true,
+        refundId: result.id,
+        paymentProvider: this.name,
+        raw: result,
+      };
+    } catch (error: any) {
+      console.error("Payssion refund failed:", error);
+      return {
+        success: false,
+        paymentProvider: this.name,
+        errorCode: error?.code || "PAYSSION_REFUND_FAILED",
+        errorMessage: error?.message || "Failed to refund Payssion payment",
+      };
+    }
   }
 
   /**

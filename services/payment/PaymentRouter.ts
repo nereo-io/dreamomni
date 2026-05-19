@@ -13,6 +13,8 @@ import {
   SubscriptionResponse,
   MandateRequest,
   MandateResponse,
+  RefundRequest,
+  RefundResult,
 } from "./types";
 
 export class PaymentRouter {
@@ -290,6 +292,33 @@ export class PaymentRouter {
     }
 
     return await provider.querySubscription(subscriptionId);
+  }
+
+  /**
+   * 发起退款
+   */
+  async refundPayment(
+    providerName: string,
+    request: RefundRequest
+  ): Promise<RefundResult> {
+    const provider = this.providers.get(providerName);
+    if (!provider) {
+      throw new PaymentError(
+        "PROVIDER_NOT_FOUND",
+        `Payment provider ${providerName} not found`,
+        "router"
+      );
+    }
+
+    if (!provider.refundPayment) {
+      throw new PaymentError(
+        "REFUND_NOT_SUPPORTED",
+        `Provider ${providerName} does not support refunds`,
+        providerName
+      );
+    }
+
+    return await provider.refundPayment(request);
   }
 
 }

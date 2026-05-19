@@ -41,7 +41,15 @@
   - Stripe `customer.subscription.deleted` / canceled `customer.subscription.updated` webhook 会更新本地 Stripe subscription 状态并上报 cancellation。
   - 已运行 `pnpm lint --file app/api/subscription/cancel/route.ts --file app/api/creem/subscription/cancel/route.ts --file app/api/creem/webhook/route.ts --file app/api/stripe/webhook/handler.ts --file services/order.ts --file services/payment/SubscriptionManagementService.ts --file services/payment/PayssionProvider.ts --file models/stripe-subscription.ts --file services/analytics/first-promoter.ts` 通过。
   - 额外运行 `tsc --noEmit --pretty false` 确认 Task 5 代码无 TS 错误；当时剩余 TS 错误来自 `.next/types` 引用尚未创建的 refund route。
-- [ ] Phase 2 / Task 6：方案已调整为项目内部订单退款接口，待确认后实施。
+- [x] Phase 2 / Task 6：已实现内部订单退款接口与退款事件上报。
+  - 新增 `app/api/internal/orders/refund/route.ts`，使用 `Authorization: Bearer ${INTERNAL_API_KEY}` 鉴权，只接受 `order_no` 和可选 `reason`。
+  - 新增 `lib/refund-utils.ts`，按支付渠道和支付方式计算真实退款金额。
+  - 新增 `services/payment/PaymentRefundService.ts`，负责查订单、推导 provider/transaction id、计算真实退款金额、调用 provider 退款、更新订单 refund 字段，并在退款成功后上报 FirstPromoter refund。
+  - Stripe / Creem 固定按 92% 计算真实退款金额；Payssion 按 `payment_method` 区分 95% / 92%。
+  - `orders.refund_amount` 写入真实退给用户的金额；FirstPromoter refund 上报使用订单原金额 `order.amount`。
+  - 已在 `.env.example` 增加 `INTERNAL_API_KEY`。
+  - 已运行 `pnpm lint --file app/api/internal/orders/refund/route.ts --file lib/refund-utils.ts --file services/payment/PaymentRefundService.ts --file models/order.ts --file services/payment/types.ts --file services/payment/PaymentRouter.ts --file services/payment/StripeProvider.ts --file services/payment/PayssionProvider.ts --file services/payment/CreemProvider.ts --file types/order.d.ts` 通过。
+  - 已运行 `pnpm exec tsc --noEmit --pretty false` 通过。
 
 ---
 
@@ -77,7 +85,7 @@
 
 - [x] `NEXT_PUBLIC_FIRST_PROMOTER_ACCOUNT_ID=<FirstPromoter account id>`
 - [x] `FIRST_PROMOTER_API_KEY=<FirstPromoter V2 API key>`
-- [ ] `INTERNAL_API_KEY=<internal API bearer token>`（Task 6 实施时补到 `.env.example`）
+- [x] `INTERNAL_API_KEY=<internal API bearer token>`
 
 说明：
 
@@ -459,7 +467,7 @@ Stripe、Creem、Payssion 的远端取消 webhook 在成功更新本地 subscrip
 - Modify: `services/payment/CreemProvider.ts`
 - Modify: `.env.example`
 
-- [ ] **Step 1: 定义内部调用 contract**
+- [x] **Step 1: 定义内部调用 contract**
 
 Endpoint:
 
@@ -480,7 +488,7 @@ Body:
 
 接口只处理当前项目订单，不支持也不需要 `project` 参数。
 
-- [ ] **Step 2: 实现 Authorization 校验**
+- [x] **Step 2: 实现 Authorization 校验**
 
 Rules:
 
@@ -488,7 +496,7 @@ Rules:
 - Missing or mismatched `Authorization` returns 401。
 - Missing `order_no` returns 400。
 
-- [ ] **Step 3: 查询订单并计算真实退款金额**
+- [x] **Step 3: 查询订单并计算真实退款金额**
 
 退款入口只接受 `order_no`，服务端查询当前项目 `orders` 表后，从本地订单推导：
 
@@ -547,7 +555,7 @@ export function calculateRefundAmount(
 
 92% / 95% 是扣除渠道成本后的实际退款金额，不是利润留存。
 
-- [ ] **Step 4: 调用实际支付渠道退款接口**
+- [x] **Step 4: 调用实际支付渠道退款接口**
 
 `PaymentRouter.refundPayment(provider, request)` 负责分发到 provider：
 
@@ -569,7 +577,7 @@ export function calculateRefundAmount(
 
 `orders.refund_amount` 写入真实退给用户的金额。
 
-- [ ] **Step 5: 成功退款后上报 FirstPromoter refund**
+- [x] **Step 5: 成功退款后上报 FirstPromoter refund**
 
 FirstPromoter refund 上报金额必须使用订单原金额 `order.amount`，不是真实退款金额 `refundAmount`。真实退款按 92% / 95% 扣除渠道成本，但 affiliate 佣金冲销要按原始 sale 金额处理。
 

@@ -42,14 +42,19 @@ export interface WebhookResult {
 
 export interface RefundRequest {
   transactionId: string;
-  amount?: number;
+  orderNo?: string;
+  amount: number;
   currency: string;
   reason?: string;
+  metadata?: Record<string, any>;
 }
 
 export interface RefundResult {
   success: boolean;
   refundId?: string;
+  paymentProvider?: string;
+  raw?: any;
+  errorCode?: string;
   errorMessage?: string;
 }
 
@@ -156,6 +161,11 @@ export interface PaymentProvider {
    * 处理订阅 Webhook (订阅功能)
    */
   handleSubscriptionWebhook(data: any): Promise<SubscriptionWebhookResult>;
+
+  /**
+   * 发起退款
+   */
+  refundPayment?(request: RefundRequest): Promise<RefundResult>;
 
   /**
    * 验证配置

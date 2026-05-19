@@ -39,6 +39,10 @@ export interface Order {
   // 续费订单支持
   is_renewal: boolean;
   payment_id?: string | null;
+  refund_status?: string | null;
+  refund_amount?: number | null;
+  refunded_at?: string | null;
+  refund_detail?: any;
   // 按月发放积分标记（仅年订阅）
   is_monthly_distribution?: boolean;
 }

@@ -10,6 +10,13 @@ interface PaymentFailureInfo {
   eventId?: string;
 }
 
+interface OrderRefundUpdate {
+  refund_status: string;
+  refund_amount: number;
+  refunded_at: string;
+  refund_detail: any;
+}
+
 export enum OrderStatus {
   Created = "created",
   Paid = "paid",
@@ -111,6 +118,42 @@ export async function updateOrderStatus(
       console.error(`⚠️ Failed to cancel distribution schedule for order ${order_no}:`, cancelError.message);
       // 不抛出错误，避免影响订单状态更新
     }
+  }
+
+  return data;
+}
+
+export async function updateOrderRefundStatus(
+  order_no: string,
+  refund: OrderRefundUpdate
+) {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("orders")
+    .update({
+      status: "refunded",
+      refund_status: refund.refund_status,
+      refund_amount: refund.refund_amount,
+      refunded_at: refund.refunded_at,
+      refund_detail: refund.refund_detail,
+    })
+    .eq("order_no", order_no);
+
+  if (error) {
+    throw error;
+  }
+
+  try {
+    const { CreditDistributionService } = await import(
+      "@/services/creditDistributionService"
+    );
+    await CreditDistributionService.cancelSchedule(order_no);
+    console.log(`🚫 Canceled credit distribution for refunded order: ${order_no}`);
+  } catch (cancelError: any) {
+    console.error(
+      `⚠️ Failed to cancel distribution schedule for order ${order_no}:`,
+      cancelError.message
+    );
   }
 
   return data;
