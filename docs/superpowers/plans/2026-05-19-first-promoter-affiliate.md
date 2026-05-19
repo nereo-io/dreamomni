@@ -23,6 +23,11 @@
   - 已修复 `services/analytics/first-promoter.ts` 的 TypeScript 隐式 `any` 问题，四个 tracking 函数均显式返回 `Promise<FirstPromoterTrackResult>`。
   - 已运行 `pnpm lint --file lib/first-promoter/config.ts --file lib/first-promoter/cookies.ts --file lib/first-promoter/types.ts --file services/analytics/first-promoter.ts` 通过。
   - 额外运行 `tsc --noEmit --pretty false` 确认 Task 2 service 已无 TS 错误；当前剩余 TS 错误来自 `.next/types` 引用尚未创建的后续 route 文件。
+- [x] Phase 1 / Task 3：已实现 Sign In / Signup 上报。
+  - 新增 `app/api/first-promoter/signup/route.ts`，只允许已登录新用户上报 signup。
+  - 已在 `services/analytics/first-promoter.ts` 封装 `trackFPRSignUp()`，新用户注册追踪时由 `SignupTracker` 调用该方法。
+  - 已运行 `pnpm lint --file app/api/first-promoter/signup/route.ts --file components/analytics/signup-tracker.tsx --file lib/first-promoter/cookies.ts --file services/analytics/first-promoter.ts` 通过。
+  - 额外运行 `tsc --noEmit --pretty false` 确认 Task 3 代码无 TS 错误；当前剩余 TS 错误来自 `.next/types` 引用尚未创建的 refund route。
 
 ---
 
@@ -261,7 +266,7 @@ Expected: FirstPromoter service infrastructure lint passes.
 - Create: `app/api/first-promoter/signup/route.ts`
 - Modify: `components/analytics/signup-tracker.tsx`
 
-- [ ] **Step 1: 实现服务端 route**
+- [x] **Step 1: 实现服务端 route**
 
 Route behavior:
 
@@ -294,15 +299,12 @@ export async function POST(req: NextRequest) {
 }
 ```
 
-- [ ] **Step 2: 更新 `SignupTracker`**
+- [x] **Step 2: 更新 `SignupTracker`**
 
 When `session.isNewUser` is true, call:
 
 ```ts
-await fetch('/api/first-promoter/signup', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-});
+trackFPRSignUp();
 ```
 
 Do not block existing Yandex/GA/Bing tracking.

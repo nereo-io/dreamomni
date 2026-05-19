@@ -6,6 +6,7 @@ import { useYandexTracking } from "@/hooks/useYandexTracking";
 import { trackUetEvent } from "@/lib/bing-uet";
 import { trackGASignUp } from "@/services/analytics/google-tracking";
 import { trackTikTokSignUp } from "@/services/analytics/tiktok-tracking";
+import { trackFPRSignUp } from "@/services/analytics/first-promoter";
 
 export function SignupTracker() {
   const { data: session } = useSession();
@@ -20,6 +21,7 @@ export function SignupTracker() {
       
       console.log("Tracking new user registration:", provider, userId);
       trackSignup(provider, userId);
+      trackFPRSignUp();
       if (provider === "google") {
         trackGASignUp(provider, userId);
       }

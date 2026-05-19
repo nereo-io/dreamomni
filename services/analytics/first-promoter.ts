@@ -10,6 +10,19 @@ import {
 const FIRST_PROMOTER_TRACKING_API_BASE =
   'https://api.firstpromoter.com/api/v2/track';
 
+export function trackFPRSignUp() {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  fetch('/api/first-promoter/signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+  }).catch((error) => {
+    console.error('Failed to track FirstPromoter signup:', error);
+  });
+}
+
 function normalizeCurrency(currency: string) {
   return (currency || '').trim().toLowerCase();
 }
