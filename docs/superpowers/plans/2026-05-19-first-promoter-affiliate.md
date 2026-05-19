@@ -8,6 +8,22 @@
 
 **Tech Stack:** Next.js App Router、NextAuth、Supabase、Stripe/Creem/Payssion webhook、FirstPromoter fpr.js、FirstPromoter V2 Tracking API、Jest/ts-jest。
 
+## 当前进度
+
+- [x] 2026-05-19：已撤回上一版一次性实现 commit，重新按任务逐项推进。
+- [x] Phase 1 / Task 1：已实现 FirstPromoter fpr.js click tracking。
+  - 新增 `components/analytics/first-promoter-tracker.tsx`。
+  - 已在 `app/[locale]/layout.tsx` 全局挂载 `<FirstPromoterTracker />`。
+  - 已在 `.env.example` 增加 `NEXT_PUBLIC_FIRST_PROMOTER_ACCOUNT_ID`、`FIRST_PROMOTER_API_KEY`。
+  - 按当前验收要求，Task 1 暂不新增/运行测试；已运行 `pnpm lint --file components/analytics/first-promoter-tracker.tsx` 通过。
+- [x] Phase 1 / Task 2：已实现 FirstPromoter service 基础设施。
+  - 新增 `lib/first-promoter/config.ts`、`lib/first-promoter/cookies.ts`、`lib/first-promoter/types.ts`。
+  - 新增 `services/analytics/first-promoter.ts`，封装 signup/sale/cancellation/refund V2 Tracking API。
+  - `getFirstPromoterCookies` 使用 Next.js `req.cookies` 这类结构化 cookie store，不手写解析 raw `Cookie` header。
+  - 已修复 `services/analytics/first-promoter.ts` 的 TypeScript 隐式 `any` 问题，四个 tracking 函数均显式返回 `Promise<FirstPromoterTrackResult>`。
+  - 按当前验收要求，Task 2 暂不新增/运行测试；已运行 `pnpm lint --file lib/first-promoter/config.ts --file lib/first-promoter/cookies.ts --file lib/first-promoter/types.ts --file services/analytics/first-promoter.ts` 通过。
+  - 额外运行 `tsc --noEmit --pretty false` 确认 Task 2 service 已无 TS 错误；当前剩余 TS 错误来自 `.next/types` 引用尚未创建的后续 route 文件。
+
 ---
 
 ## 背景与官方接口
@@ -40,8 +56,8 @@
 
 ## 环境变量
 
-- [ ] `NEXT_PUBLIC_FIRST_PROMOTER_ACCOUNT_ID=<FirstPromoter account id>`
-- [ ] `FIRST_PROMOTER_API_KEY=<FirstPromoter V2 API key>`
+- [x] `NEXT_PUBLIC_FIRST_PROMOTER_ACCOUNT_ID=<FirstPromoter account id>`
+- [x] `FIRST_PROMOTER_API_KEY=<FirstPromoter V2 API key>`
 
 说明：
 
@@ -88,7 +104,7 @@
 - Modify: `app/[locale]/layout.tsx`
 - Test: `components/analytics/__tests__/first-promoter-tracker.test.tsx`
 
-- [ ] **Step 1: 编写组件测试**
+- [ ] **Step 1: 编写组件测试**（本轮按验收要求跳过，未新增测试文件）
 
 ```tsx
 import { render } from '@testing-library/react';
@@ -112,7 +128,7 @@ it('renders FirstPromoter fpr.js when enabled', () => {
 });
 ```
 
-- [ ] **Step 2: 实现 fpr.js loader**
+- [x] **Step 2: 实现 fpr.js loader**
 
 ```tsx
 'use client';
@@ -127,18 +143,29 @@ export default function FirstPromoterTracker() {
   }
 
   return (
-    <Script id="first-promoter" strategy="afterInteractive">
-      {`
-        (function(w){w.fpr=w.fpr||function(){w.fpr.q = w.fpr.q||[];w.fpr.q[arguments[0]=='set'?'unshift':'push'](arguments);};})(window);
-        fpr("init", { cid: "${accountId}" });
-        fpr("click");
-      `}
-    </Script>
+    <>
+      <Script
+        id="first-promoter-init"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function(w){w.fpr=w.fpr||function(){w.fpr.q=w.fpr.q||[];w.fpr.q[arguments[0]=='set'?'unshift':'push'](arguments);};})(window);
+            fpr("init", { cid: "${accountId}" });
+            fpr("click");
+          `,
+        }}
+      />
+      <Script
+        id="first-promoter-fpr-js"
+        src="https://cdn.firstpromoter.com/fpr.js"
+        strategy="afterInteractive"
+      />
+    </>
   );
 }
 ```
 
-- [ ] **Step 3: 挂载到全局 layout**
+- [x] **Step 3: 挂载到全局 layout**
 
 Add import in `app/[locale]/layout.tsx`:
 
@@ -152,11 +179,11 @@ Add before existing analytics trackers:
 <FirstPromoterTracker />
 ```
 
-- [ ] **Step 4: 验证**
+- [x] **Step 4: 验证**
 
-Run: `pnpm test -- components/analytics/__tests__/first-promoter-tracker.test.tsx`
+Run: `pnpm lint --file components/analytics/first-promoter-tracker.tsx`
 
-Expected: FirstPromoter tracker tests pass.
+Expected: FirstPromoter tracker lint passes.
 
 ### Task 2: FirstPromoter Service 基础设施
 
@@ -167,7 +194,7 @@ Expected: FirstPromoter tracker tests pass.
 - Create: `services/analytics/first-promoter.ts`
 - Test: `services/analytics/__tests__/first-promoter.test.ts`
 
-- [ ] **Step 1: 定义类型**
+- [x] **Step 1: 定义类型**
 
 ```ts
 export type FirstPromoterEventType = 'signup' | 'sale' | 'cancellation' | 'refund';
@@ -209,34 +236,40 @@ export interface FirstPromoterRefundInput {
 }
 ```
 
-- [ ] **Step 2: 实现 cookie 解析**
+- [x] **Step 2: 实现 cookie 解析**
 
 This helper is signup-only. Do not use it from sale, refund, or cancellation webhook flows.
 
 ```ts
-export function getFirstPromoterCookies(cookieHeader: string | null) {
-  const cookies = new Map<string, string>();
-  for (const pair of (cookieHeader || '').split(';')) {
-    const [rawKey, ...rest] = pair.trim().split('=');
-    if (rawKey) cookies.set(rawKey, decodeURIComponent(rest.join('=') || ''));
-  }
+interface FirstPromoterCookieStore {
+  get(name: string): { value?: string } | undefined;
+}
 
+export function getFirstPromoterCookies(cookieStore: FirstPromoterCookieStore) {
   return {
-    trackingId: cookies.get('_fprom_tid') || null,
-    refId: cookies.get('_fprom_ref') || null,
+    trackingId: cookieStore.get('_fprom_tid')?.value || null,
+    refId: cookieStore.get('_fprom_ref')?.value || null,
   };
 }
 ```
 
-- [ ] **Step 3: 实现 API client**
+- [x] **Step 3: 实现 API client**
 
 Service method signatures:
 
 ```ts
-export async function trackFirstPromoterSignup(input: FirstPromoterSignupInput) {}
-export async function trackFirstPromoterSale(input: FirstPromoterSaleInput) {}
-export async function trackFirstPromoterCancellation(input: FirstPromoterCancellationInput) {}
-export async function trackFirstPromoterRefund(input: FirstPromoterRefundInput) {}
+export async function trackFirstPromoterSignup(
+  input: FirstPromoterSignupInput
+): Promise<FirstPromoterTrackResult> {}
+export async function trackFirstPromoterSale(
+  input: FirstPromoterSaleInput
+): Promise<FirstPromoterTrackResult> {}
+export async function trackFirstPromoterCancellation(
+  input: FirstPromoterCancellationInput
+): Promise<FirstPromoterTrackResult> {}
+export async function trackFirstPromoterRefund(
+  input: FirstPromoterRefundInput
+): Promise<FirstPromoterTrackResult> {}
 ```
 
 Rules:
@@ -247,11 +280,11 @@ Rules:
 - Cancellation and refund payloads use `uid/email` plus subscription/payment identifiers available on the server; they must not depend on browser cookies.
 - 发送 V2 API 失败时只打 `console.error`，返回 `{ success: false }`，不得 throw 到支付 webhook 顶层。
 
-- [ ] **Step 4: 验证**
+- [x] **Step 4: 验证**
 
-Run: `pnpm test -- services/analytics/__tests__/first-promoter.test.ts`
+Run: `pnpm lint --file lib/first-promoter/config.ts --file lib/first-promoter/cookies.ts --file lib/first-promoter/types.ts --file services/analytics/first-promoter.ts`
 
-Expected: missing config skip、API success、API failure 三类 case 通过。
+Expected: FirstPromoter service infrastructure lint passes.
 
 ### Task 3: Sign In / Signup 上报
 
@@ -279,9 +312,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ skipped: true, reason: 'not_new_user' });
   }
 
-  const { trackingId, refId } = getFirstPromoterCookies(
-    req.headers.get('cookie')
-  );
+  const { trackingId, refId } = getFirstPromoterCookies(req.cookies);
 
   const result = await trackFirstPromoterSignup({
     userUuid: session.user.uuid,
