@@ -18,9 +18,22 @@ export function SignupTracker() {
     if (session && session.isNewUser && !hasTracked.current) {
       const provider = session.user?.provider || "unknown";
       const userId = session.user?.uuid;
-      
+      const email = session.user?.email;
+
       console.log("Tracking new user registration:", provider, userId);
       trackSignup(provider, userId);
+      if (email || userId) {
+        const fpr = (
+          window as Window & {
+            fpr?: (event: string, payload?: Record<string, unknown>) => void;
+          }
+        ).fpr;
+
+        fpr?.("referral", {
+          email,
+          userId,
+        });
+      }
       trackFPRSignUp();
       if (provider === "google") {
         trackGASignUp(provider, userId);
@@ -37,7 +50,7 @@ export function SignupTracker() {
             ? `register_success:${userId}`
             : `register_success:${provider}`,
           dedupeStorage: "local",
-        }
+        },
       );
       hasTracked.current = true;
     }
