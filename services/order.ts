@@ -17,6 +17,7 @@ import {
 } from "@/config/products";
 import { Order } from "@/types/order";
 import { getUserHighestSubscriptionTier } from "@/services/subscriptionTier";
+import { trackFirstPromoterSale } from "@/services/analytics/first-promoter";
 
 function getStripeId(value: string | { id?: string } | null | undefined) {
   if (!value) return undefined;
@@ -210,6 +211,16 @@ export async function handleOrderSession(
       );
     }
 
+    await trackFirstPromoterSale({
+      orderNo: order.order_no,
+      paymentProvider: "stripe",
+      paymentId: getStripeId(session.payment_intent as any) || session.id,
+      userUuid: order.user_uuid,
+      email: paid_email || order.user_email,
+      amount: order.amount,
+      currency: order.currency,
+    });
+
     console.log(
       "handle order session successed: ",
       order_no,
@@ -333,6 +344,15 @@ export async function handleInvoicePayment(
         `No specific credit increase rule for renewal (invoice ${invoice.id}) based on product_id ${productIdFromInvoice}. Only membership might be updated.`
       );
     }
+    await trackFirstPromoterSale({
+      orderNo: order_no || invoice.id,
+      paymentProvider: "stripe",
+      paymentId: invoice.id,
+      userUuid: user_uuid,
+      email: invoice.customer_email || "",
+      amount: invoice.amount_paid,
+      currency: invoice.currency,
+    });
     console.log("Invoice payment processed successfully:", invoice.id);
   } catch (e) {
     console.log("handle invoice payment failed:", e);

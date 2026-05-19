@@ -252,6 +252,7 @@ async function handleCheckoutCompleted(webhookData: any) {
       userUuid,
       amount: productConfig.amount.toString(),
       userEmail: userEmail || customer?.email || "",
+      paymentProvider: "creem",
       metadata: {
         credits: productConfig.credits,
         product_id: productId,
@@ -282,6 +283,7 @@ async function handleCheckoutCompleted(webhookData: any) {
         creditsAwarded: processingResult.creditsAwarded,
         membershipUpdated: processingResult.membershipUpdated,
       });
+
     }
 
     // 创建或更新 Creem 订阅记录 - 仅订阅，Bundle 不创建订阅记录
@@ -544,6 +546,7 @@ async function handleSubscriptionPaid(webhookData: any) {
         userUuid,
         amount: productConfig.amount.toString(),
         userEmail: userEmail || customer?.email || "",
+        paymentProvider: "creem",
         metadata: {
           credits: productConfig.credits,
           product_id: productId,
@@ -743,6 +746,7 @@ async function handleSubscriptionPaid(webhookData: any) {
       userUuid,
       amount: productConfig.amount.toString(),
       userEmail: userEmail || customer?.email || "",
+      paymentProvider: "creem",
       metadata: {
         credits: productConfig.credits,
         product_id: productId,

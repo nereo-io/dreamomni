@@ -28,6 +28,12 @@
   - 已在 `services/analytics/first-promoter.ts` 封装 `trackFPRSignUp()`，新用户注册追踪时由 `SignupTracker` 调用该方法。
   - 已运行 `pnpm lint --file app/api/first-promoter/signup/route.ts --file components/analytics/signup-tracker.tsx --file lib/first-promoter/cookies.ts --file services/analytics/first-promoter.ts` 通过。
   - 额外运行 `tsc --noEmit --pretty false` 确认 Task 3 代码无 TS 错误；当前剩余 TS 错误来自 `.next/types` 引用尚未创建的 refund route。
+- [x] Phase 1 / Task 4：已实现销售事件上报。
+  - Stripe 首次支付和续费成功后调用 `trackFirstPromoterSale`。
+  - Creem / Payssion 通过 `PaymentProcessingService.processPayment` 成功路径统一调用 `trackFirstPromoterSale`。
+  - Creem / Payssion 调用 `processPayment` 时传入 `paymentProvider`，统一上报使用本地订单金额作为最小货币单位。
+  - 已运行 `pnpm lint --file services/payment/PaymentProcessingService.ts --file services/order.ts --file app/api/creem/webhook/route.ts --file services/payment/PayssionProvider.ts --file services/analytics/first-promoter.ts` 通过。
+  - 额外运行 `tsc --noEmit --pretty false` 确认 Task 4 代码无 TS 错误；当前剩余 TS 错误来自 `.next/types` 引用尚未创建的 refund route。
 
 ---
 
@@ -316,7 +322,7 @@ Do not block existing Yandex/GA/Bing tracking.
 - Modify: `app/api/creem/webhook/route.ts`
 - Modify: `services/payment/PayssionProvider.ts`
 
-- [ ] **Step 1: Stripe 首次支付**
+- [x] **Step 1: Stripe 首次支付**
 
 After `increaseCredits` and order status update in `handleOrderSession`, call:
 
@@ -332,7 +338,7 @@ await trackFirstPromoterSale({
 });
 ```
 
-- [ ] **Step 2: Stripe 续费**
+- [x] **Step 2: Stripe 续费**
 
 After renewal credits are increased in `handleInvoicePayment`, call:
 
@@ -348,37 +354,35 @@ await trackFirstPromoterSale({
 });
 ```
 
-- [ ] **Step 3: Creem 首次支付和续费**
+- [x] **Step 3: Creem 首次支付和续费**
 
-In `handleCheckoutCompleted` and `handleSubscriptionPaid`, after `PaymentProcessingService.processPayment` succeeds, call:
+In `handleCheckoutCompleted` and `handleSubscriptionPaid`, pass `paymentProvider: 'creem'` to `PaymentProcessingService.processPayment`:
 
 ```ts
-await trackFirstPromoterSale({
-  orderNo,
-  paymentProvider: 'creem',
+await PaymentProcessingService.processPayment({
   paymentId: transactionId,
+  orderId: orderNo,
   userUuid,
-  email: userEmail || customer?.email || '',
-  amount: productConfig.amount,
-  currency: productConfig.currency,
+  amount: productConfig.amount.toString(),
+  userEmail: userEmail || customer?.email || "",
+  paymentProvider: 'creem',
 });
 ```
 
 For renewal, use `renewalOrderNo`.
 
-- [ ] **Step 4: Payssion 支付成功**
+- [x] **Step 4: Payssion 支付成功**
 
-In `services/payment/PayssionProvider.ts`, after `PaymentProcessingService.processPayment` succeeds and before/around the existing Yandex offline conversion tracking, add:
+In `services/payment/PayssionProvider.ts`, pass `paymentProvider: 'payssion'` to `PaymentProcessingService.processPayment`:
 
 ```ts
-await trackFirstPromoterSale({
-  orderNo: finalOrderNo,
-  paymentProvider: 'payssion',
+await PaymentProcessingService.processPayment({
   paymentId,
+  orderId: finalOrderNo,
   userUuid: metadata.user_uuid,
-  email: metadata.user_email,
-  amount,
-  currency: subscription.currency,
+  amount: amount.toString(),
+  userEmail: metadata.user_email,
+  paymentProvider: 'payssion',
 });
 ```
 

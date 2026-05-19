@@ -883,6 +883,7 @@ export class PayssionProvider extends BasePaymentProvider {
       subscriptionId,
       userEmail: metadata.user_email,
       paymentMethod: metadata.payment_method,
+      paymentProvider: "payssion",
     });
 
     if (!processingResult.success) {
