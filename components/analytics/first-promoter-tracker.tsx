@@ -11,13 +11,17 @@ export default function FirstPromoterTracker() {
 
   return (
     <>
-      <Script id="first-promoter-init" strategy="afterInteractive">
-        {`
-          (function(w){w.fpr=w.fpr||function(){w.fpr.q=w.fpr.q||[];w.fpr.q[arguments[0]=='set'?'unshift':'push'](arguments);};})(window);
-          fpr("init", { cid: "${accountId}" });
-          fpr("click");
-        `}
-      </Script>
+      <Script
+        id="first-promoter-init"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function(w){w.fpr=w.fpr||function(){w.fpr.q=w.fpr.q||[];w.fpr.q[arguments[0]=='set'?'unshift':'push'](arguments);};})(window);
+            fpr("init", { cid: "${accountId}" });
+            fpr("click");
+          `,
+        }}
+      />
       <Script
         id="first-promoter-fpr-js"
         src="https://cdn.firstpromoter.com/fpr.js"
