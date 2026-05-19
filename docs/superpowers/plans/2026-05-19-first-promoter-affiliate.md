@@ -15,13 +15,13 @@
   - 新增 `components/analytics/first-promoter-tracker.tsx`。
   - 已在 `app/[locale]/layout.tsx` 全局挂载 `<FirstPromoterTracker />`。
   - 已在 `.env.example` 增加 `NEXT_PUBLIC_FIRST_PROMOTER_ACCOUNT_ID`、`FIRST_PROMOTER_API_KEY`。
-  - 按当前验收要求，Task 1 暂不新增/运行测试；已运行 `pnpm lint --file components/analytics/first-promoter-tracker.tsx` 通过。
+  - 已运行 `pnpm lint --file components/analytics/first-promoter-tracker.tsx` 通过。
 - [x] Phase 1 / Task 2：已实现 FirstPromoter service 基础设施。
   - 新增 `lib/first-promoter/config.ts`、`lib/first-promoter/cookies.ts`、`lib/first-promoter/types.ts`。
   - 新增 `services/analytics/first-promoter.ts`，封装 signup/sale/cancellation/refund V2 Tracking API。
   - `getFirstPromoterCookies` 使用 Next.js `req.cookies` 这类结构化 cookie store，不手写解析 raw `Cookie` header。
   - 已修复 `services/analytics/first-promoter.ts` 的 TypeScript 隐式 `any` 问题，四个 tracking 函数均显式返回 `Promise<FirstPromoterTrackResult>`。
-  - 按当前验收要求，Task 2 暂不新增/运行测试；已运行 `pnpm lint --file lib/first-promoter/config.ts --file lib/first-promoter/cookies.ts --file lib/first-promoter/types.ts --file services/analytics/first-promoter.ts` 通过。
+  - 已运行 `pnpm lint --file lib/first-promoter/config.ts --file lib/first-promoter/cookies.ts --file lib/first-promoter/types.ts --file services/analytics/first-promoter.ts` 通过。
   - 额外运行 `tsc --noEmit --pretty false` 确认 Task 2 service 已无 TS 错误；当前剩余 TS 错误来自 `.next/types` 引用尚未创建的后续 route 文件。
 
 ---
@@ -88,10 +88,6 @@
 - Modify: `app/api/creem/webhook/route.ts`，Creem 首次支付和续费成功后调用 sale 上报。
 - Modify: `services/payment/PayssionProvider.ts`，Payssion 首次支付和续费成功入账后调用 sale 上报。
 - Modify: `app/api/subscription/cancel/route.ts`、`app/api/creem/subscription/cancel/route.ts`，取消成功后调用 cancellation 上报。
-- Test: `services/analytics/__tests__/first-promoter.test.ts`。
-- Test: `components/analytics/__tests__/first-promoter-tracker.test.tsx`。
-- Test: `app/api/first-promoter/__tests__/signup.test.ts`。
-- Test: `app/api/first-promoter/__tests__/refund.test.ts`。
 
 ---
 
@@ -102,33 +98,7 @@
 **Files:**
 - Create: `components/analytics/first-promoter-tracker.tsx`
 - Modify: `app/[locale]/layout.tsx`
-- Test: `components/analytics/__tests__/first-promoter-tracker.test.tsx`
-
-- [ ] **Step 1: 编写组件测试**（本轮按验收要求跳过，未新增测试文件）
-
-```tsx
-import { render } from '@testing-library/react';
-import FirstPromoterTracker from '@/components/analytics/first-promoter-tracker';
-
-it('renders no script when disabled', () => {
-  delete process.env.NEXT_PUBLIC_FIRST_PROMOTER_ACCOUNT_ID;
-
-  const { container } = render(<FirstPromoterTracker />);
-
-  expect(container.querySelector('script')).toBeNull();
-});
-
-it('renders FirstPromoter fpr.js when enabled', () => {
-  process.env.NEXT_PUBLIC_FIRST_PROMOTER_ACCOUNT_ID = 'seedance';
-
-  const { container } = render(<FirstPromoterTracker />);
-
-  expect(container.innerHTML).toContain('fpr.js');
-  expect(container.innerHTML).toContain('seedance');
-});
-```
-
-- [x] **Step 2: 实现 fpr.js loader**
+- [x] **Step 1: 实现 fpr.js loader**
 
 ```tsx
 'use client';
@@ -165,7 +135,7 @@ export default function FirstPromoterTracker() {
 }
 ```
 
-- [x] **Step 3: 挂载到全局 layout**
+- [x] **Step 2: 挂载到全局 layout**
 
 Add import in `app/[locale]/layout.tsx`:
 
@@ -179,7 +149,7 @@ Add before existing analytics trackers:
 <FirstPromoterTracker />
 ```
 
-- [x] **Step 4: 验证**
+- [x] **Step 3: 验证**
 
 Run: `pnpm lint --file components/analytics/first-promoter-tracker.tsx`
 
@@ -192,7 +162,6 @@ Expected: FirstPromoter tracker lint passes.
 - Create: `lib/first-promoter/cookies.ts`
 - Create: `lib/first-promoter/types.ts`
 - Create: `services/analytics/first-promoter.ts`
-- Test: `services/analytics/__tests__/first-promoter.test.ts`
 
 - [x] **Step 1: 定义类型**
 
@@ -291,7 +260,6 @@ Expected: FirstPromoter service infrastructure lint passes.
 **Files:**
 - Create: `app/api/first-promoter/signup/route.ts`
 - Modify: `components/analytics/signup-tracker.tsx`
-- Test: `app/api/first-promoter/__tests__/signup.test.ts`
 
 - [ ] **Step 1: 实现服务端 route**
 
@@ -339,23 +307,12 @@ await fetch('/api/first-promoter/signup', {
 
 Do not block existing Yandex/GA/Bing tracking.
 
-- [ ] **Step 3: 验证**
-
-Run: `pnpm test -- app/api/first-promoter/__tests__/signup.test.ts`
-
-Expected:
-
-- unauthenticated returns 401。
-- existing user returns skipped。
-- new user with `_fprom_tid` calls `trackFirstPromoterSignup` once, with `userUuid` mapped to FirstPromoter `uid`。
-
 ### Task 4: Sales 销售事件上报
 
 **Files:**
 - Modify: `services/order.ts`
 - Modify: `app/api/creem/webhook/route.ts`
 - Modify: `services/payment/PayssionProvider.ts`
-- Test: `services/analytics/__tests__/first-promoter.test.ts`
 
 - [ ] **Step 1: Stripe 首次支付**
 
@@ -426,17 +383,6 @@ await trackFirstPromoterSale({
 Acceptance rule: sale 上报必须发生在项目确认支付已经入账之后，不能在收到 webhook 但业务处理失败时上报。
 Sale 上报只使用 webhook/服务端流程可得字段：`uid=user_uuid`、`email`、`event_id=paymentId || orderNo`、`amount`、`currency`。不要在 sale 上报中读取或要求 `_fprom_tid` / `_fprom_ref`。
 
-- [ ] **Step 5: 验证**
-
-Run:
-
-```bash
-pnpm test -- services/analytics/__tests__/first-promoter.test.ts
-pnpm test -- services/__tests__ app/__tests__ --runInBand
-```
-
-Expected: sale payload uses `uid/email/event_id`, uses cents/minor units.
-
 ---
 
 ## Phase 2: Cancellation 与 Refund
@@ -447,7 +393,6 @@ Expected: sale payload uses `uid/email/event_id`, uses cents/minor units.
 - Modify: `app/api/subscription/cancel/route.ts`
 - Modify: `app/api/creem/subscription/cancel/route.ts`
 - Optional Modify: provider webhook handlers if remote cancellation can arrive outside local cancel route
-- Test: `services/analytics/__tests__/first-promoter.test.ts`
 
 - [ ] **Step 1: 确认取消来源**
 
@@ -478,24 +423,10 @@ await trackFirstPromoterCancellation({
 Payssion route uses `paymentProvider: 'payssion'` and `subscriptionId` from body.
 Cancellation 上报只依赖本地 subscription 记录中的 `userUuid/email/subscriptionId`，不读取浏览器 cookie。
 
-- [ ] **Step 3: 验证**
-
-Run:
-
-```bash
-pnpm test -- services/analytics/__tests__/first-promoter.test.ts
-pnpm test -- app/api/subscription app/api/creem --runInBand
-```
-
-Expected:
-
-- cancellation endpoint failures are logged but do not make user cancellation fail。
-
 ### Task 6: 外部退款上报接口
 
 **Files:**
 - Create: `app/api/first-promoter/refund/route.ts`
-- Test: `app/api/first-promoter/__tests__/refund.test.ts`
 
 - [ ] **Step 1: 定义外部调用 contract**
 
@@ -548,15 +479,6 @@ const result = await trackFirstPromoterRefund({
 ```
 
 Refund 上报优先使用 `user_uuid` 作为 FirstPromoter `uid`；如果外部调用方暂时只能提供 email，则仍发送 email，但推荐后续外部系统传入 `user_uuid`。
-
-- [ ] **Step 4: 验证**
-
-Run: `pnpm test -- app/api/first-promoter/__tests__/refund.test.ts`
-
-Expected:
-
-- invalid Authorization returns 401。
-- valid request calls `trackFirstPromoterRefund` once。
 
 ---
 
