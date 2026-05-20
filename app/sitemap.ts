@@ -39,6 +39,7 @@ const STATIC_PAGE_SOURCE_FILES: Record<string, string> = {
   "/text-to-video": "app/[locale]/(home)/text-to-video/page.tsx",
   "/text-to-image": "app/[locale]/(home)/text-to-image/page.tsx",
   "/image-to-image": "app/[locale]/(home)/image-to-image/page.tsx",
+  "/affiliate": "app/[locale]/(default)/affiliate/page.tsx",
   "/blog": "app/[locale]/(default)/blog/page.tsx",
   "/privacy-policy": "app/(legal)/privacy-policy/page.mdx",
   "/terms-of-service": "app/(legal)/terms-of-service/page.mdx",
@@ -164,6 +165,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         path: "/image-to-image",
         changeFrequency: "weekly",
         priority: 0.8,
+      },
+      {
+        path: "/affiliate",
+        changeFrequency: "monthly",
+        priority: 0.6,
       },
       {
         path: "/blog",
