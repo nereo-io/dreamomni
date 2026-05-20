@@ -73,7 +73,7 @@ export async function generateMetadata({
       title,
       description,
       url: canonicalUrl,
-      siteName: "Seedance",
+      siteName: "GeminiOmni",
       type: "website",
     },
     twitter: {

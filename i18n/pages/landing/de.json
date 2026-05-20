@@ -3,10 +3,10 @@
   "theme": "light",
   "header": {
     "brand": {
-      "title": "Seedance",
+      "title": "GeminiOmni",
       "logo": {
-        "src": "/logo.png",
-        "alt": "Seedance AI Video Generator"
+        "src": "",
+        "alt": "GeminiOmni AI Video Generator"
       },
       "url": "/"
     },
@@ -271,15 +271,15 @@
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "Seedance 2.0 KI-Videogenerator",
-      "description": "Verwandeln Sie Text und Bilder in beeindruckende KI-Videos mit der überlegenen Strukturkontrolle und realistischen Physik von Seedance 2.0.",
+      "title": "GeminiOmni AI Video Generator",
+      "description": "Track Gemini Omni availability and create AI videos with available video models.",
       "logo": {
-        "src": "/logo.png",
-        "alt": "Seedance AI Video Generator"
+        "src": "",
+        "alt": "GeminiOmni AI Video Generator"
       },
       "url": "/"
     },
-    "copyright": " 2026 • Seedance AI Video Generator Alle Rechte vorbehalten.",
+    "copyright": " 2026 • GeminiOmni AI Video Generator All rights reserved.",
     "nav": {
       "items": [
         {
@@ -425,9 +425,9 @@
       "items": [
         {
           "title": "E-Mail-Support",
-          "value": "support@seedance.tv",
+          "value": "support@geminiomni.tv",
           "icon": "RiMailFill",
-          "url": "mailto:support@seedance.tv",
+          "url": "mailto:support@geminiomni.tv",
           "target": "_self"
         },
         {

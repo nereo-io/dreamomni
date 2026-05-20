@@ -1,131 +1,56 @@
-# Seedance - Advanced AI Video Generation Platform
+# GeminiOmni - Gemini Omni Video Generator and Model Tracker
 
 ## Project Overview
 
-Seedance (seedance.tv) is a comprehensive AI-powered video generation platform that enables users to create professional-quality videos from text prompts or images. The platform offers multiple AI video generation providers and a complete credit-based subscription system with global payment processing.
+GeminiOmni (geminiomni.tv) is an independent AI video platform focused on Gemini Omni news, model availability, and practical video generation workflows. The site tracks Gemini Omni rollout status while offering text-to-video and image-to-video creation through currently available providers.
 
-## Core Features & Capabilities
+GeminiOmni.tv is not affiliated with Google, Gemini, or Google DeepMind.
+
+## Gemini Omni Status
+
+Google announced Gemini Omni at Google I/O 2026 as a new multimodal video generation family. The first announced model is Gemini Omni Flash, designed to create or edit video from combinations of text, image, audio, and video inputs.
+
+Native Gemini Omni generation is not enabled on GeminiOmni.tv until an integrated provider exposes a real Gemini Omni endpoint. Public KIE.ai docs and market pages checked during launch preparation did not list Gemini Omni support.
+
+## Core Features
 
 ### Video Generation
-- **Text-to-Video**: Generate videos from detailed text descriptions with cinematic quality
-- **Image-to-Video**: Animate static images into dynamic video content
-- **AI Video Effects**: Specialized effects including muscle transformation, kissing videos, 360° rotation
-- **Multiple AI Providers**: Veo3, Seedance, and other leading AI video models
-- **High-Quality Output**: Up to 1080p resolution with professional motion physics
-- **Customizable Settings**: Aspect ratios (16:9, 9:16, 1:1), durations (5-10 seconds), various resolutions
+- **Text-to-Video**: Generate videos from text prompts through supported models
+- **Image-to-Video**: Animate images into dynamic video content
+- **Model Availability Tracking**: Follow Gemini Omni provider status and rollout updates
+- **Multiple Available Models**: Use supported video models while Gemini Omni integration is pending
+- **Configurable Output**: Choose aspect ratio, duration, quality, and model settings where supported
 
 ### User Experience
-- **Intuitive Interface**: Clean, modern design with easy-to-use video generation tools
-- **Real-time Progress**: Live status tracking for video generation with estimated completion times
-- **Video History**: Complete generation history with playback, download, and regeneration options
-- **Multi-language Support**: English and Russian localization
-- **Responsive Design**: Optimized for desktop and mobile devices
+- **Fast Landing Page**: Gemini Omni-focused product page for launch traffic
+- **Video History**: Track, play, download, and manage generated videos
+- **Authentication**: Google and email sign-in flows are planned for production launch
+- **Multi-language Foundation**: Locale-aware routing for international landing pages
 
-### Credit & Payment System
-- **Credit-based Pricing**: 0.25 USD = 10 credits, with dynamic pricing based on model and settings
-- **Multiple Payment Providers**: Creem (primary), Stripe (international), Payssion V2 (Russian market)
-- **Subscription Plans**: Monthly and yearly memberships with automatic credit distribution
-- **Free Trial**: New users receive free credits to explore the platform
-
-### Authentication & User Management
-- **Multiple Sign-in Options**: Google, GitHub, Apple, Email authentication
-- **User Dashboard**: Credits management, subscription details, order history
-- **Invite System**: Referral program with bonus credits for successful invites
-- **API Access**: API keys for developers and integrations
+### Payment System
+- Stripe support is planned. Paid plans and credit packages should only be promoted after production Stripe configuration is completed.
 
 ## Technical Architecture
 
-### Frontend Technology
-- **Next.js 14**: Modern React framework with App Router and Server Components
-- **TypeScript**: Full type safety throughout the application
-- **Tailwind CSS**: Utility-first CSS framework with custom animations
-- **Shadcn/ui & Radix**: High-quality UI components and primitives
-- **Framer Motion**: Advanced animations and micro-interactions
+### Frontend
+- **Next.js 14** with App Router and Server Components
+- **TypeScript** for type safety
+- **Tailwind CSS** for responsive UI
+- **shadcn/ui and Radix** for interface primitives
 
-### Backend & Infrastructure
-- **Supabase**: PostgreSQL database with Row Level Security
-- **NextAuth.js 5.0**: Secure authentication with multiple providers
-- **Cloudflare Pages**: Global deployment with edge optimization
-- **Webhooks**: Real-time status updates from video generation providers
+### Backend and Infrastructure
+- **Supabase** for PostgreSQL and auth-related storage
+- **Vercel** for production deployment
+- **Cloudflare DNS** for geminiomni.tv
+- **Provider Webhooks** for generation status updates
 
 ### AI Integration
-- **Kie.ai (Veo3)**: Premium video generation with 3 credits/second, 8-second max
-- **Volcano Engine (Seedance)**: High-quality video generation with 2 credits/second, 10-second max
-- **Provider Factory Pattern**: Unified interface for multiple AI video providers
-- **Intelligent Routing**: Automatic provider selection based on requirements
+- Existing generation flows support currently integrated providers.
+- Gemini Omni should remain clearly marked as pending until a real provider endpoint is live.
 
-### Security & Compliance
-- **Row Level Security**: Database-level access control
-- **Webhook Verification**: HMAC-SHA256 signature validation for payments
-- **Input Validation**: Zod schemas for all API requests
-- **Content Filtering**: Automatic sensitive data filtering in logs
+## Launch Priorities
 
-## User Journey & Workflows
-
-### Video Creation Process
-1. **Authentication**: Sign in with preferred provider (Google, GitHub, Apple, Email)
-2. **Generation Type Selection**: Choose text-to-video, image-to-video, or video effects
-3. **Content Input**: Provide text prompt (30+ characters) or upload image (JPG/PNG, max 10MB)
-4. **Configuration**: Select model, aspect ratio, duration, and quality settings
-5. **Credit Calculation**: System calculates required credits based on settings
-6. **Generation**: AI processes request with real-time status updates
-7. **Result**: Download, view, or regenerate completed videos
-
-### Subscription & Payment Flow
-1. **Plan Selection**: Choose from available subscription tiers
-2. **Payment Processing**: Intelligent routing to appropriate payment provider based on location
-3. **Credit Distribution**: Automatic credit allocation upon successful payment
-4. **Subscription Management**: Cancel, modify, or upgrade plans through user dashboard
-
-## Content Categories & Use Cases
-
-### Professional Applications
-- **Marketing Videos**: Product demonstrations, promotional content, brand storytelling
-- **Educational Content**: Tutorial videos, concept explanations, training materials
-- **Social Media**: Instagram Reels, TikTok content, YouTube videos
-- **Business Presentations**: Corporate videos, pitch decks, announcement videos
-
-### Creative Applications
-- **Artistic Projects**: Abstract visuals, creative storytelling, experimental films
-- **Entertainment**: Character animations, fantasy scenes, action sequences
-- **Personal Content**: Family videos, vacation memories, creative photo animations
-- **Portfolio Work**: Showcase projects for photographers, artists, and content creators
-
-### Specialized Effects
-- **Transformation Effects**: Muscle enhancement, gender swap, body modifications
-- **Emotional Expressions**: Happiness boost, surprise reactions, love effects
-- **Seasonal Content**: Halloween spooky, Valentine romance, New Year celebrations
-- **Fantasy Elements**: Vampire transformation, magic tricks, time travel effects
-
-## Platform Benefits
-
-### For Content Creators
-- **No Equipment Needed**: Create professional videos without cameras or studios
-- **Rapid Prototyping**: Test concepts and ideas quickly with AI generation
-- **Scalable Production**: Generate multiple video variations for A/B testing
-- **Cost Effective**: Affordable alternative to traditional video production
-
-### For Businesses
-- **Marketing Efficiency**: Create campaign content at scale without production teams
-- **Brand Consistency**: Maintain visual style across all generated content
-- **Global Reach**: Multi-language support for international markets
-- **Commercial Rights**: Full commercial usage rights for generated content
-
-### For Educators & Trainers
-- **Visual Learning**: Transform text-based content into engaging video materials
-- **Concept Visualization**: Make complex topics accessible through visual storytelling
-- **Interactive Content**: Create dynamic educational experiences
-- **Time Saving**: Generate lesson videos without extensive preparation
-
-## Competitive Advantages
-
-- **Multi-Provider Architecture**: Access to multiple AI models in one platform
-- **Global Payment Support**: Comprehensive payment solutions for worldwide users
-- **High-Quality Output**: Professional-grade video generation with advanced AI models
-- **User-Friendly Interface**: Intuitive design that requires no technical expertise
-- **Comprehensive Features**: End-to-end solution from generation to management
-- **Scalable Infrastructure**: Built for high-volume usage with global deployment
-
-## Future Roadmap
-
-The platform continues to evolve with new AI model integrations, enhanced features, and improved user experience based on community feedback and technological advances in AI video generation.
+1. Publish geminiomni.tv with accurate Gemini Omni positioning.
+2. Avoid falsely claiming Gemini Omni API access before provider support exists.
+3. Configure Supabase, Vercel, Cloudflare DNS, Google Auth, and email auth for production.
+4. Submit sitemap and property to Google Search Console as soon as DNS and deployment are live.

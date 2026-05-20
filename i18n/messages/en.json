@@ -696,8 +696,8 @@
   },
   "pages": {
     "home": {
-      "title": "Welcome to Seedance",
-      "description": "Transform your ideas into stunning videos with our advanced AI technology. Choose from text-to-video, image-to-video, or explore our creative video effects."
+      "title": "Welcome to GeminiOmni",
+      "description": "Track Gemini Omni availability and create AI videos with supported text-to-video and image-to-video models."
     },
     "videoEffects": {
       "title": "AI Video Effects - Transform Your Videos",
@@ -707,27 +707,27 @@
       "useThisEffect": "Use This Effect"
     },
     "textToVideo": {
-      "title": "Free AI Video Generator: Text to Video AI Online",
-      "description": "Discover the Seedance video generator, a cutting-edge, free solution that effortlessly turns a text prompt into an engaging video. Try our text to video AI today!",
-      "keywords": "AI video generator, text to video, free video generator, Seedance, AI video creation, text to video online"
+      "title": "GeminiOmni Text to Video AI Generator",
+      "description": "Create AI videos from text prompts with GeminiOmni while tracking native Gemini Omni model availability.",
+      "keywords": "Gemini Omni, GeminiOmni, AI video generator, text to video, free video generator, Gemini Omni video"
     },
     "textToImage": {
-      "title": "Free AI Text to Image Generator: Create Images from Text | Seedance",
-      "description": "Transform your words into stunning visuals with Seedance's free text-to-image generator. Create high-quality images from detailed text descriptions with cutting-edge AI technology.",
-      "keywords": "AI text to image, text to image generator, free AI image creator, Seedance, AI art from text, image generation from text"
+      "title": "Free AI Text to Image Generator | GeminiOmni",
+      "description": "Transform prompts into images with GeminiOmni's AI image generation tools.",
+      "keywords": "AI text to image, text to image generator, free AI image creator, GeminiOmni, AI art from text"
     },
     "imageToImage": {
-      "title": "Free AI Image to Image Editor: Transform Images with AI | Seedance",
-      "description": "Edit and transform your images with Seedance's powerful image-to-image editor. Upload your photos and use AI to create stunning variations and modifications.",
-      "keywords": "AI image editor, image to image AI, photo transformation, AI image editing, Seedance, image modification AI"
+      "title": "Free AI Image to Image Editor | GeminiOmni",
+      "description": "Edit and transform images with GeminiOmni's AI image-to-image tools.",
+      "keywords": "AI image editor, image to image AI, photo transformation, AI image editing, GeminiOmni"
     },
     "imageToVideo": {
-      "title": "Free Image to Video AI Generator: Turn Photos to Videos",
-      "description": "Use the image to video AI generator of Seedance for free. Convert photos to videos with high-quality and captivating results. Try our image to video AI now!",
-      "keywords": "image to video AI, photo to video converter, free image to video, Seedance, AI video from image, image animation"
+      "title": "GeminiOmni Image to Video AI Generator",
+      "description": "Animate photos into videos with GeminiOmni while tracking native Gemini Omni model availability.",
+      "keywords": "Gemini Omni, GeminiOmni, image to video AI, photo to video converter, AI video from image"
     },
     "referenceToVideo": {
-      "title": "Free Veo3 Reference to Video: Lock Character Identity | Seedance",
+      "title": "Reference to Video AI Generator | GeminiOmni",
       "description": "Upload 1-3 reference images and generate 8s videos with Veo 3.1. Preserve character appearance across scenes with native audio. Extend to 148s.",
       "keywords": "Veo3 reference to video, consistent character, identity lock, Veo 3.1, character consistency"
     },
@@ -737,9 +737,9 @@
       "keywords": "Kling Motion Control, Kling 3.0, character animation, video to video, reference video animation, AI video generator, Veo3 AI"
     },
     "imageGeneration": {
-      "title": "Free AI Image Generator: Create Stunning Images from Text | Seedance",
-      "description": "Generate high-quality images from text prompts with Seedance's free image generator. Create stunning artwork, photos, and illustrations with cutting-edge AI technology.",
-      "keywords": "AI image generator, text to image, free image generator, Seedance, AI art, image creation, AI artwork"
+      "title": "Free AI Image Generator | GeminiOmni",
+      "description": "Generate images from text prompts with GeminiOmni's AI image generation tools.",
+      "keywords": "AI image generator, text to image, free image generator, GeminiOmni, AI art"
     },
     "videoAffects": {
       "heroSection": {

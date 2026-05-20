@@ -1,99 +1,25 @@
-import FAQ from "@/components/blocks/faq";
-import Hero from "@/components/blocks/hero";
-import SeedanceFeaturesBlock from "@/components/blocks/seedance-features";
-import GettingStarted from "@/components/blocks/getting-started";
-import StructuredData from "@/components/seo/structured-data";
-import AuthRedirect from "@/components/auth/auth-redirect";
-import { ImageToVideoShowcase } from "@/components/blocks/image-to-video-showcase";
-import { AIModelsHero } from "@/components/blocks/ai-models-hero";
-import { AIVideoShowcase } from "@/components/blocks/ai-video-showcase";
-import CTA from "@/components/blocks/cta";
-
-import {
-  getLandingPage,
-  getSeedanceFeaturesBlock,
-} from "@/services/page";
+import { redirect } from "next/navigation";
 
 export async function generateMetadata({
   params: { locale },
 }: {
   params: { locale: string };
 }) {
-  let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}`;
-
-  if (locale !== "en") {
-    canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}`;
-  }
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://geminiomni.tv";
+  const canonicalUrl = locale === "en" ? baseUrl : `${baseUrl}/${locale}`;
 
   return {
     alternates: {
       canonical: canonicalUrl,
     },
+    robots: "noindex,follow",
   };
 }
 
-export default async function LandingPage({
+export default function HomeAliasPage({
   params: { locale },
 }: {
   params: { locale: string };
 }) {
-  const page = await getLandingPage(locale);
-  const seedanceFeatures = await getSeedanceFeaturesBlock(locale);
-
-  return (
-    <>
-      <AuthRedirect />
-      {page.hero && <Hero hero={page.hero} />}
-
-      {/* 核心功能展示 - Hero 下方 */}
-      {page.aiModelsHero && <AIModelsHero data={page.aiModelsHero} />}
-      {page.imageToVideoShowcase && (
-        <ImageToVideoShowcase data={page.imageToVideoShowcase} />
-      )}
-      {page.aiVideoShowcase && <AIVideoShowcase data={page.aiVideoShowcase} />}
-
-      {/* 功能介绍 */}
-      <SeedanceFeaturesBlock translations={seedanceFeatures} />
-      {page.gettingStarted && <GettingStarted data={page.gettingStarted} />}
-
-      {page.faq && (
-        <>
-          <FAQ section={page.faq} />
-          <StructuredData
-            type="faq"
-            data={{
-              questions:
-                page.faq.items?.map((item: any) => ({
-                  question: item.title,
-                  answer: item.description,
-                })) || [],
-            }}
-          />
-        </>
-      )}
-
-      {page.cta && <CTA section={page.cta} />}
-
-      {/* There's An AI For That verification embed - 保留Seedance品牌 */}
-      <div className="flex justify-center py-8">
-        <a
-          href="https://theresanaiforthat.com/ai/seedance/?ref=featured&v=4601560"
-          target="_blank"
-          rel="nofollow"
-        >
-          <img
-            width="300"
-            src="https://media.theresanaiforthat.com/featured-on-taaft.png?width=600"
-            alt="Featured on There's An AI For That"
-          />
-        </a>
-      </div>
-      <div className="max-w-7xl mx-auto px-8 py-3">
-        <p className="text-sm text-muted-foreground text-center font-medium">
-          This platform is an independent product and is not affiliated with
-          Bytedance.
-        </p>
-      </div>
-    </>
-  );
+  redirect(locale === "en" ? "/" : `/${locale}`);
 }

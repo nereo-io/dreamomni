@@ -79,7 +79,7 @@ export async function generateMetadata({
 
   if (!isValidImageEffectSlug(slug)) {
     return {
-      title: "Effect Not Found | Seedance",
+      title: "Effect Not Found | GeminiOmni",
       description: "The requested photo effect could not be found.",
       robots: "noindex,nofollow",
     };
@@ -89,10 +89,10 @@ export async function generateMetadata({
   const heroTitle = page?.hero?.title;
   const heroSubtitle = page?.hero?.subtitle;
   const fallbackTitle = heroTitle
-    ? `${heroTitle} | Seedance`
-    : "Image Effect | Seedance";
+    ? `${heroTitle} | GeminiOmni`
+    : "Image Effect | GeminiOmni";
   const fallbackDescription =
-    heroSubtitle ?? "Create AI-powered image effects with Seedance.";
+    heroSubtitle ?? "Create AI-powered image effects with GeminiOmni.";
 
   const canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}${
     locale !== "en" ? `/${locale}` : ""
@@ -102,11 +102,11 @@ export async function generateMetadata({
     title: seo?.title ?? fallbackTitle,
     description: seo?.description ?? fallbackDescription,
     openGraph: {
-      title: seo?.title ?? heroTitle ?? "Image Effect | Seedance",
+      title: seo?.title ?? heroTitle ?? "Image Effect | GeminiOmni",
       description: seo?.description ?? fallbackDescription,
       url: canonicalUrl,
       type: "article",
-      siteName: "Seedance",
+      siteName: "GeminiOmni",
     },
     alternates: {
       canonical: canonicalUrl,

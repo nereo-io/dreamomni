@@ -3,10 +3,10 @@
   "theme": "light",
   "header": {
     "brand": {
-      "title": "Seedance",
+      "title": "GeminiOmni",
       "logo": {
-        "src": "/logo.png",
-        "alt": "Générateur vidéo IA Seedance"
+        "src": "",
+        "alt": "GeminiOmni AI Video Generator"
       },
       "url": "/"
     },
@@ -271,15 +271,15 @@
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "Générateur vidéo IA Seedance 2.0",
-      "description": "Transformez textes et images en vidéos IA époustouflantes grâce au contrôle structurel supérieur et à la physique réaliste de Seedance 2.0.",
+      "title": "GeminiOmni AI Video Generator",
+      "description": "Track Gemini Omni availability and create AI videos with available video models.",
       "logo": {
-        "src": "/logo.png",
-        "alt": "Générateur vidéo IA Seedance"
+        "src": "",
+        "alt": "GeminiOmni AI Video Generator"
       },
       "url": "/"
     },
-    "copyright": " 2026 • Générateur vidéo IA Seedance Tous droits réservés.",
+    "copyright": " 2026 • GeminiOmni AI Video Generator All rights reserved.",
     "nav": {
       "items": [
         {
@@ -425,9 +425,9 @@
       "items": [
         {
           "title": "Support par e-mail",
-          "value": "support@seedance.tv",
+          "value": "support@geminiomni.tv",
           "icon": "RiMailFill",
-          "url": "mailto:support@seedance.tv",
+          "url": "mailto:support@geminiomni.tv",
           "target": "_self"
         },
         {

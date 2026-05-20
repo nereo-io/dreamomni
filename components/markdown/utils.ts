@@ -6,7 +6,6 @@ export interface TocHeading {
   text: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MarkdownTokenLike = any;
 
 function createSlug(text: string) {

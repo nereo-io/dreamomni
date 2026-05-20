@@ -124,9 +124,9 @@ export default async function LandingPage({
                 Gemini Omni AI Video Generator
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-200 sm:text-xl">
-                Follow Google's new Gemini Omni video model and create AI videos
-                today with available generation models while native Gemini Omni
-                API access is monitored.
+                Follow Google&apos;s new Gemini Omni video model and create AI
+                videos today with available generation models while native
+                Gemini Omni API access is monitored.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button
@@ -179,7 +179,7 @@ export default async function LandingPage({
                 Gemini Omni news
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-normal text-white sm:text-4xl">
-                Google's new multimodal video model is the trend to watch.
+                Google&apos;s new multimodal video model is the trend to watch.
               </h2>
             </div>
             <p className="text-base leading-8 text-slate-300">

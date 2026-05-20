@@ -134,8 +134,13 @@ export function Sidebar() {
             className={`flex items-center transition-opacity hover:opacity-80 ${isCollapsed ? "justify-center" : "space-x-2"
               }`}
           >
-            <img src="/logo.png" alt="Seedance" className="w-8 h-8" />
-            {!isCollapsed && <span className="text-xl font-bold">Seedance</span>}
+            <span
+              className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-sm font-bold text-gray-900"
+              aria-hidden="true"
+            >
+              GO
+            </span>
+            {!isCollapsed && <span className="text-xl font-bold">GeminiOmni</span>}
           </Link>
           {!isCollapsed && (
             <div className="flex items-center space-x-2">

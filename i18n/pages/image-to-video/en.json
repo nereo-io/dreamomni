@@ -11,22 +11,22 @@
       {
         "id": "best-image-to-video-generator",
         "question": "What is the best image to video AI generator?",
-        "answer": "Seedance offers one of the most advanced image to video generators with high-quality output, realistic motion, and support for various image formats. Our AI models are trained on millions of videos to ensure natural-looking animations and smooth transitions."
+        "answer": "GeminiOmni gives creators one place to animate images with available AI video models while tracking Gemini Omni provider availability."
       },
       {
         "id": "what-makes-us-stand-out",
-        "question": "What makes Seedance's image to video generator stand out?",
-        "answer": "Our generator stands out with its advanced AI models, high-resolution output up to 1080p, natural motion physics, and ability to understand complex prompts. We also offer fast processing times, commercial usage rights, and support for diverse image styles."
+        "question": "What makes GeminiOmni's image to video generator stand out?",
+        "answer": "GeminiOmni pairs practical image-to-video generation with clear Gemini Omni status updates, so users know what is available today and what is still pending provider support."
       },
       {
         "id": "what-images-can-work-with",
-        "question": "What types of images work best with Seedance?",
-        "answer": "Seedance works with most image formats including JPG, PNG, and WEBP. We support photos of people, animals, landscapes, objects, and artwork. For best results, use high-quality images with clear subjects and good lighting."
+        "question": "What types of images work best with GeminiOmni?",
+        "answer": "GeminiOmni works with common image formats including JPG, PNG, and WEBP. For best results, use high-quality images with clear subjects and good lighting."
       },
       {
         "id": "is-image-to-video-free",
-        "question": "Is Seedance's image to video generator free?",
-        "answer": "Seedance offers both free and premium options. New users get free credits to try the service. For regular use, we offer affordable subscription plans with more credits and advanced features like higher resolutions and longer videos."
+        "question": "Is GeminiOmni's image to video generator free?",
+        "answer": "GeminiOmni offers free trial credits and paid options for supported generation models. Gemini Omni-specific generation is pending until a provider endpoint is available."
       }
     ]
   },
@@ -37,7 +37,7 @@
   },
   "aiModelsHero": {
     "title": "All-in-One AI Image to Video Generator",
-    "description": "Seedance is the ultimate, all-in-one AI image to video generator. We offer access to industry-leading video models including Veo3, Seedance, Hailuo, and Wan2.2, all in one single place. Try them seamlessly and create stunning visuals without juggling multiple platforms!",
+    "description": "GeminiOmni is an all-in-one AI image to video generator and Gemini Omni availability tracker. Animate images with currently available video models while we monitor native Gemini Omni API support.",
     "models": [
       {
         "id": "sora2",
@@ -64,7 +64,7 @@
   },
   "imageToVideoShowcase": {
     "title": "Animate Your Images with Our Image to Video AI Generator",
-    "description": "Turn any static image into a vivid story with Seedance! Generate creative videos from your uploaded photos with our smart AI image to video generator. Whether it's a realistic scene or animation you want to create, Seedance can produce it quickly, and the way you want.",
+    "description": "Turn any static image into a vivid story with GeminiOmni. Generate creative videos from uploaded photos using supported AI video models while native Gemini Omni support is monitored.",
     "labels": {
       "originalImage": "Original image",
       "prompt": "Prompt",
