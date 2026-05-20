@@ -224,7 +224,10 @@ export default async function LandingPage({
           </div>
         </section>
 
-        <section className="bg-white px-5 py-20 text-slate-950 sm:px-8">
+        <section
+          id="gemini-omni-status"
+          className="bg-white px-5 py-20 text-slate-950 sm:px-8"
+        >
           <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_1fr] lg:items-start">
             <div>
               <p className="text-sm font-semibold uppercase text-cyan-700">

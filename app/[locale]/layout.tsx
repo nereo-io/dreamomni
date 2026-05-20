@@ -18,6 +18,7 @@ import YandexMetrica from "@/components/analytics/yandex-metrica";
 import BingUET from "@/components/analytics/bing-uet";
 import GoogleAnalytics from "@/components/analytics/google-analytics";
 import Plausible from "@/components/analytics/plausible";
+import { prepareGeminiOmniClientMessages } from "@/config/geminiomni-messages";
 // import { SpeedInsights } from '@vercel/speed-insights/next';
 // import { Analytics } from "@vercel/analytics/react";
 
@@ -111,6 +112,7 @@ export default async function RootLayout({
   params: { locale: string };
 }>) {
   const messages = await getMessages();
+  const clientMessages = prepareGeminiOmniClientMessages(messages);
 
   return (
     <html lang={locale} suppressHydrationWarning className="dark">
@@ -140,7 +142,7 @@ export default async function RootLayout({
         <GoogleAnalytics />
         <Plausible />
         <BingUET />
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider messages={clientMessages}>
           <NextAuthSessionProvider>
             <AppContextProvider>
               <ThemeProvider attribute="class" disableTransitionOnChange>

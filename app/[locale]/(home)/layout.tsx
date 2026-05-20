@@ -7,6 +7,7 @@ import { SidebarProvider, useSidebar } from "@/contexts/sidebar";
 import Footer from "@/components/blocks/footer";
 import { LandingPage } from "@/types/pages/landing";
 import { useSession } from "next-auth/react";
+import { buildGeminiOmniFooter } from "@/config/geminiomni-footer";
 
 interface HomeLayoutProps {
   children: ReactNode;
@@ -57,7 +58,7 @@ export default function HomeLayout({
       try {
         const { getLandingPage } = await import("@/services/page");
         const page = await getLandingPage(locale);
-        setFooter(page.footer);
+        setFooter(page.footer ? buildGeminiOmniFooter(page.footer) : undefined);
       } catch (error) {
         console.error("Failed to load footer:", error);
       }
