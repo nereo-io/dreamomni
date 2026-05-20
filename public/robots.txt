@@ -33,4 +33,4 @@ Allow: /image-to-image
 Allow: /video-effects
 Allow: /video-effects/
 
-Sitemap: https://www.seedance.tv/sitemap.xml
+Sitemap: https://geminiomni.tv/sitemap.xml

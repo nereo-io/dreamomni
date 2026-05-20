@@ -3,6 +3,13 @@ interface StructuredDataProps {
   data: any;
 }
 
+const site = {
+  name: 'GeminiOmni',
+  url: 'https://geminiomni.tv',
+  logo: 'https://geminiomni.tv/logo.png',
+  supportEmail: 'support@geminiomni.tv',
+};
+
 export default function StructuredData({ type, data }: StructuredDataProps) {
   let structuredData = {};
 
@@ -11,15 +18,15 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
       structuredData = {
         "@context": "https://schema.org",
         "@type": "Organization",
-        name: "Seedance",
-        url: "https://www.seedance.tv",
-        logo: "https://www.seedance.tv/logo.png",
-        description: data.description || "Professional AI Video Generator - Create stunning 1080p videos with advanced AI technology",
+        name: site.name,
+        url: site.url,
+        logo: site.logo,
+        description: data.description || "Gemini Omni AI video generator and model tracker for creators monitoring Google's latest multimodal video model.",
         foundingDate: "2024",
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer service",
-          email: "support@seedance.tv"
+          email: site.supportEmail
         },
         sameAs: [
           // Add social media URLs when available
@@ -31,8 +38,8 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
       structuredData = {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        name: "Seedance",
-        url: "https://www.seedance.tv",
+        name: site.name,
+        url: site.url,
         description: data.description,
       };
       break;
@@ -41,10 +48,10 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
       structuredData = {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        name: "Seedance AI Video Generator",
+        name: "GeminiOmni AI Video Generator",
         applicationCategory: "MultimediaApplication",
         operatingSystem: "Web Browser",
-        url: "https://www.seedance.tv",
+        url: site.url,
         description: data.description,
         offers: {
           "@type": "Offer",
@@ -83,14 +90,14 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
         description: data.description,
         author: {
           "@type": "Organization",
-          name: "Seedance"
+          name: site.name
         },
         publisher: {
           "@type": "Organization",
-          name: "Seedance",
+          name: site.name,
           logo: {
             "@type": "ImageObject",
-            url: "https://www.seedance.tv/logo.png"
+            url: site.logo
           }
         },
         datePublished: data.publishedDate,
