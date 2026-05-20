@@ -233,6 +233,9 @@ export default function VideoGenerator({
 
   // 检查是否需要CAPTCHA验证（基于积分）
   const needsCaptcha = useCallback(() => {
+    if (!process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) {
+      return false;
+    }
     // 新用户（积分<=12）需要CAPTCHA验证，防止薅羊毛
     return user?.uuid && leftCredits !== null && leftCredits <= 12;
   }, [user?.uuid, leftCredits]);

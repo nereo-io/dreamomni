@@ -99,6 +99,9 @@ export default function EffectForm({
   }, [isGenerating, user?.uuid, updateLeftCredits]);
 
   const needsCaptcha = useCallback(() => {
+    if (!process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) {
+      return false;
+    }
     return user?.uuid && leftCredits !== null && leftCredits <= 12;
   }, [user?.uuid, leftCredits]);
 

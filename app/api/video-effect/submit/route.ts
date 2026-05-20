@@ -85,13 +85,13 @@ export async function POST(req: NextRequest) {
     }
 
     // 6. CAPTCHA verification for low-credit users
-    if (userCredits.left_credits <= 12 && captchaToken) {
+    if (process.env.TURNSTILE_SECRET_KEY && userCredits.left_credits <= 12 && captchaToken) {
       const clientIP = await getClientIp();
       const captchaValid = await verifyCaptcha(captchaToken, clientIP);
       if (!captchaValid) {
         return respErr("CAPTCHA verification failed, please try again");
       }
-    } else if (userCredits.left_credits <= 12 && !captchaToken) {
+    } else if (process.env.TURNSTILE_SECRET_KEY && userCredits.left_credits <= 12 && !captchaToken) {
       return respErr("CAPTCHA verification required");
     }
 

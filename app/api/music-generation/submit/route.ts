@@ -74,7 +74,7 @@ export async function POST(req: Request) {
 
     const params: SubmitMusicGenerationRequest = await req.json();
 
-    if (userCredits.left_credits <= 12) {
+    if (process.env.TURNSTILE_SECRET_KEY && userCredits.left_credits <= 12) {
       if (!params.captchaToken) {
         return respErr("CAPTCHA verification is required for new users");
       }
