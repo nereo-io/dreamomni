@@ -7,7 +7,14 @@ import { unstable_cache } from "next/cache";
 import { getTranslations } from "next-intl/server";
 
 const getCachedHotEffectConfigs = unstable_cache(
-  async (locale: string) => getHotEffectConfigs(locale, 5),
+  async (locale: string) => {
+    try {
+      return await getHotEffectConfigs(locale, 5);
+    } catch (error) {
+      console.warn("Failed to load hot effect configs:", error);
+      return [];
+    }
+  },
   ["default-layout-hot-effects"],
   { revalidate: 3600 }
 );
