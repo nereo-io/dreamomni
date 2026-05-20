@@ -22,19 +22,7 @@ export function SignupTracker() {
 
       console.log("Tracking new user registration:", provider, userId);
       trackSignup(provider, userId);
-      if (email || userId) {
-        const fpr = (
-          window as Window & {
-            fpr?: (event: string, payload?: Record<string, unknown>) => void;
-          }
-        ).fpr;
-
-        fpr?.("referral", {
-          email,
-          userId,
-        });
-      }
-      trackFPRSignUp();
+      trackFPRSignUp({ email, userId });
       if (provider === "google") {
         trackGASignUp(provider, userId);
       }

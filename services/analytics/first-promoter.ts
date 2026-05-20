@@ -10,16 +10,34 @@ import {
 const FIRST_PROMOTER_TRACKING_API_BASE =
   'https://api.firstpromoter.com/api/v2/track';
 
-export function trackFPRSignUp() {
+type FPRSignUpPayload = {
+  email?: string | null;
+  userId?: string | null;
+};
+
+export function trackFPRSignUp({ email, userId }: FPRSignUpPayload = {}) {
   if (typeof window === 'undefined') {
     return;
   }
 
-  fetch('/api/first-promoter/signup', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-  }).catch((error) => {
-    console.error('Failed to track FirstPromoter signup:', error);
+  if (!email && !userId) {
+    return;
+  }
+
+  const fpr = (
+    window as Window & {
+      fpr?: (event: string, payload?: Record<string, unknown>) => void;
+    }
+  ).fpr;
+
+  console.log('[FirstPromoter] Tracking signup referral', {
+    email,
+    userId,
+  });
+
+  fpr?.('referral', {
+    email,
+    userId,
   });
 }
 
