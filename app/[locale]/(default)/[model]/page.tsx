@@ -65,6 +65,10 @@ export async function generateMetadata({
     title,
     description,
     keywords: t(`${model}.keywords`),
+    robots: {
+      index: false,
+      follow: false,
+    },
     alternates: {
       canonical: canonicalUrl,
       languages,
