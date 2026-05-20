@@ -4,22 +4,23 @@ This project is forked from Seedance and adapted for `geminiomni.tv`.
 
 ## Current Verified State
 
-Last checked: 2026-05-20 21:15 Asia/Shanghai.
+Last checked: 2026-05-20 22:15 Asia/Shanghai.
 
 - GitHub repository: `liuweifly/geminiomni`
 - Current branch: `main`
-- Latest commit: `a97b5b0b docs: capture geminiomni launch blockers`
+- Latest pushed code/docs commit before this status update: `30340f12 docs: update geminiomni infra status`
 - Vercel project: `geminiomni`
-- Current production deployment: `dpl_9EdssrgZx5pa24RM1W7iLoTWGVb1`
-- Current protected Vercel deployment URL: `https://geminiomni-4vw114nhl-liuweiflys-projects.vercel.app`
-- Custom domain is not live yet: `geminiomni.tv` still resolves to Spaceship default DNS.
-- Current nameservers:
-  - `launch1.spaceship.net`
-  - `launch2.spaceship.net`
-- Current apex A record: `198.18.1.154`
-- Cloudflare Wrangler login works for `liuweifly@yahoo.com`, but the OAuth token only has `zone:read`; API zone creation failed because it requires `com.cloudflare.api.account.zone.create`.
-- Cloudflare Dashboard login was attempted in Chrome and is blocked at the Turnstile human verification step. Complete the CAPTCHA/login in Chrome, then continue adding `geminiomni.tv`.
-- Cloudflare API currently returns no zone for `geminiomni.tv`.
+- Current production deployment: `dpl_B7Jw4TCKGPQubBYhf8GxRTSKhZuZ`
+- Current production deployment URL: `https://geminiomni-6deu0mdgj-liuweiflys-projects.vercel.app`
+- Custom domains are live on Vercel:
+  - `https://geminiomni.tv`
+  - `https://www.geminiomni.tv`
+- Current Cloudflare nameservers:
+  - `aiden.ns.cloudflare.com`
+  - `leanna.ns.cloudflare.com`
+- Current apex A record: `76.76.21.21`
+- Current `www` record: `cname.vercel-dns.com`
+- Google Search Console domain property is verified and `https://geminiomni.tv/sitemap.xml` is submitted successfully.
 - Supabase project `geminiomni` now exists in `AstroInspire` / `ap-southeast-1`: `kqqiwlzkewkarouqsyds`.
 - Supabase project creation cost for the Seedance org (`AstroInspire`, `dvfbclegobhmojgbpkpr`) is `$10/month`.
 
@@ -50,13 +51,13 @@ Last checked: 2026-05-20 21:15 Asia/Shanghai.
   - `SUPABASE_ANON_KEY`
   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
   - `NEXT_PUBLIC_AUTH_EMAIL_ENABLED=true`
-- Required production environment variables before Google auth:
-  - `SUPABASE_SERVICE_ROLE_KEY` (recommended; currently not available through the exposed tools, so server DB access falls back to anon key)
   - `NEXT_PUBLIC_AUTH_GOOGLE_ENABLED=true`
   - `AUTH_GOOGLE_ID`
   - `AUTH_GOOGLE_SECRET`
   - `NEXT_PUBLIC_AUTH_GOOGLE_ID`
-  - `NEXT_PUBLIC_AUTH_GOOGLE_ONE_TAP_ENABLED`
+  - `NEXT_PUBLIC_AUTH_GOOGLE_ONE_TAP_ENABLED=false`
+- Recommended production environment variables still pending:
+  - `SUPABASE_SERVICE_ROLE_KEY` (recommended; currently not available through the exposed tools, so server DB access falls back to anon key)
 - Required production environment variables before enabling generation:
   - `STORAGE_ENDPOINT`
   - `STORAGE_REGION`
@@ -76,38 +77,32 @@ Last checked: 2026-05-20 21:15 Asia/Shanghai.
 
 ## Cloudflare DNS
 
-Set the domain nameservers at Spaceship to the nameservers assigned by Cloudflare after adding `geminiomni.tv` as a Cloudflare zone.
+Cloudflare zone is created and active enough for authoritative DNS checks.
 
-Current blocker:
+- Zone ID: `5809b67ce74104495284706a9814438f`
+- Nameservers assigned by Cloudflare:
+  - `aiden.ns.cloudflare.com`
+  - `leanna.ns.cloudflare.com`
+- Spaceship nameservers were updated from `launch1.spaceship.net` / `launch2.spaceship.net` to Cloudflare.
+- WHOIS reflected the Cloudflare nameservers after the Spaceship update.
+- Cloudflare DNS records:
+  - `A` `geminiomni.tv` -> `76.76.21.21`, DNS-only
+  - `CNAME` `www` -> `cname.vercel-dns.com`, DNS-only
+  - `TXT` `geminiomni.tv` -> `google-site-verification=fFeCY_k7aAdeKjZG8qESms6sZYkajBbA8gjLdANVCOI`
 
-- The logged-in Wrangler token cannot create zones.
-- The Cloudflare Dashboard page is open in Chrome, but login is blocked by Turnstile human verification.
-- Complete the human verification/login in Chrome, add `geminiomni.tv` in Cloudflare Dashboard, or provide a Cloudflare API token with account zone creation and DNS edit permissions.
-- After Cloudflare assigns nameservers, update the Spaceship nameservers from `launch1.spaceship.net` / `launch2.spaceship.net` to Cloudflare's pair.
-
-Minimum token capability needed if using an API token instead of the Dashboard:
-
-- Account-level permission to create zones for account `037a0c886060490ecda55ce7bd76ce10`
-- Zone DNS edit permission for `geminiomni.tv` after the zone exists
-- Zone read permission for verification
-
-Verification commands after adding the zone:
+Verification commands:
 
 ```bash
-TOKEN=$(pnpm dlx wrangler auth token | tail -n 1)
-curl -sS -H "Authorization: Bearer ${TOKEN}" \
-  "https://api.cloudflare.com/client/v4/zones?name=geminiomni.tv" | jq
 dig +short NS geminiomni.tv
 dig +short A geminiomni.tv
 curl -sSI https://geminiomni.tv/ | head
 ```
 
-Use DNS records that satisfy Vercel domain verification:
+Google DNS-over-HTTPS confirmed:
 
-- `A` record for `geminiomni.tv` pointing to `76.76.21.21`
-- `A` record for `www.geminiomni.tv` pointing to `76.76.21.21`
-
-Start with DNS-only records until Vercel TLS and domain verification are green.
+- `A geminiomni.tv` -> `76.76.21.21`
+- `CNAME www.geminiomni.tv` -> `cname.vercel-dns.com.`
+- `TXT geminiomni.tv` includes the GSC verification token.
 
 ## Supabase
 
@@ -129,10 +124,10 @@ Completed sequence:
 4. Pulled project URL and anon keys.
 5. Wrote Supabase URL/anon env vars and `NEXT_PUBLIC_AUTH_EMAIL_ENABLED=true` to Vercel production.
 6. Redeployed production to `dpl_9EdssrgZx5pa24RM1W7iLoTWGVb1`.
+7. Configured Supabase Auth site URL and redirect URLs for the production domain.
 
 Still pending:
 
-- Configure Supabase Auth site URL and redirect URLs for `https://geminiomni.tv` once dashboard/auth config access is available.
 - Retrieve/write `SUPABASE_SERVICE_ROLE_KEY` if dashboard/API access exposes it.
 
 Seedance source project:
@@ -208,7 +203,13 @@ Verification:
 
 ## Google Auth
 
-Create a Google OAuth web client after the custom domain resolves.
+Google OAuth is configured in Google Cloud project `GeminiOmni` (`geminiomni-496913`).
+
+- OAuth app name: `GeminiOmni`
+- User type: `External`
+- Publishing status: `In production`
+- OAuth client name: `GeminiOmni Web`
+- OAuth client type: `Web application`
 
 Authorized JavaScript origins:
 
@@ -226,18 +227,26 @@ Vercel env after Google OAuth client creation:
 - `NEXT_PUBLIC_AUTH_GOOGLE_ID=<client id>`
 - `AUTH_GOOGLE_SECRET=<client secret>`
 - `NEXT_PUBLIC_AUTH_GOOGLE_ENABLED=true`
-- `NEXT_PUBLIC_AUTH_GOOGLE_ONE_TAP_ENABLED=false` initially, unless One Tap is explicitly tested
+- `NEXT_PUBLIC_AUTH_GOOGLE_ONE_TAP_ENABLED=false`
+
+Verification:
+
+- `https://geminiomni.tv/auth/signin` shows `Sign in with Google`.
+- Clicking Google redirects to `accounts.google.com` with the production client ID and redirect URI `https://geminiomni.tv/api/auth/callback/google`.
+- A production OAuth smoke test completed successfully and returned to the signed-in `https://geminiomni.tv/image-to-video` page.
 
 ## Google Search Console
 
-Submit only after DNS and HTTPS are live.
+Domain property is verified and the sitemap is submitted.
 
-- Property: `https://geminiomni.tv`
+- Property: `sc-domain:geminiomni.tv`
 - Sitemap: `https://geminiomni.tv/sitemap.xml`
+- Verification method: DNS TXT through Cloudflare
+- Sitemap submission result: `Success`
+- First successful read: 2026-05-20
+- Discovered pages reported by GSC: `81`
 
-Verify that `robots.txt` points to the same sitemap and that the sitemap returns HTTP 200 on the custom domain before submitting.
-
-Pre-submit checks:
+Latest checks:
 
 ```bash
 curl -sSI https://geminiomni.tv/ | head
