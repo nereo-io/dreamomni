@@ -6,6 +6,9 @@
   "description": "GeminiOmni.tv - Gemini Omni AI video generator and model tracker.",
   "homepage": "https://geminiomni.tv",
   "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "NODE_NO_WARNINGS=1 next dev",
     "build": "next build",
