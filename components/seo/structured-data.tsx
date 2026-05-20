@@ -21,7 +21,7 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
         name: site.name,
         url: site.url,
         logo: site.logo,
-        description: data.description || "Gemini Omni AI video generator and model tracker for creators monitoring Google's latest multimodal video model.",
+        description: data.description || "GeminiOmni is an independent AI video generator for creating cinematic videos from prompts and images.",
         foundingDate: "2024",
         contactPoint: {
           "@type": "ContactPoint",

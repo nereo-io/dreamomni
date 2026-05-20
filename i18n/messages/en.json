@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "Gemini Omni AI Video Generator and Model Tracker",
-    "description": "Track Google Gemini Omni availability and create AI videos today with available video models while native Gemini Omni API support is monitored.",
-    "keywords": "Gemini Omni, Gemini Omni Flash, Google Gemini Omni, AI video generator, multimodal video model, Gemini video AI"
+    "title": "Free Gemini Omni AI Video Generator",
+    "description": "Create cinematic AI videos online with GeminiOmni. Turn text prompts and images into videos with a free Gemini Omni-style AI video generator.",
+    "keywords": "Gemini Omni, Gemini Omni AI video generator, free AI video generator, Google Gemini Omni, text to video AI, image to video AI"
   },
   "wan-2-5": {
     "title": "Wan 2.5 Free: Try This Wan AI Video Model Now | Seedance",
@@ -697,7 +697,7 @@
   "pages": {
     "home": {
       "title": "Welcome to GeminiOmni",
-      "description": "Track Gemini Omni availability and create AI videos with supported text-to-video and image-to-video models."
+      "description": "Create Gemini Omni-style AI videos with supported text-to-video and image-to-video tools."
     },
     "videoEffects": {
       "title": "AI Video Effects - Transform Your Videos",
@@ -708,7 +708,7 @@
     },
     "textToVideo": {
       "title": "GeminiOmni Text to Video AI Generator",
-      "description": "Create AI videos from text prompts with GeminiOmni while tracking native Gemini Omni model availability.",
+      "description": "Create AI videos from text prompts with GeminiOmni's fast online text-to-video generator.",
       "keywords": "Gemini Omni, GeminiOmni, AI video generator, text to video, free video generator, Gemini Omni video"
     },
     "textToImage": {
@@ -723,7 +723,7 @@
     },
     "imageToVideo": {
       "title": "GeminiOmni Image to Video AI Generator",
-      "description": "Animate photos into videos with GeminiOmni while tracking native Gemini Omni model availability.",
+      "description": "Animate photos into videos with GeminiOmni's fast online image-to-video generator.",
       "keywords": "Gemini Omni, GeminiOmni, image to video AI, photo to video converter, AI video from image"
     },
     "referenceToVideo": {

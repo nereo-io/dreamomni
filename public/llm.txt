@@ -1,23 +1,21 @@
-# GeminiOmni - Gemini Omni Video Generator and Model Tracker
+# GeminiOmni - Free Gemini Omni AI Video Generator
 
 ## Project Overview
 
-GeminiOmni (geminiomni.tv) is an independent AI video platform focused on Gemini Omni news, model availability, and practical video generation workflows. The site tracks Gemini Omni rollout status while offering text-to-video and image-to-video creation through currently available providers.
+GeminiOmni (geminiomni.tv) is an independent AI video platform focused on practical Gemini Omni-style video generation workflows. The site helps creators turn prompts and images into cinematic AI videos online.
 
 GeminiOmni.tv is not affiliated with Google, Gemini, or Google DeepMind.
 
-## Gemini Omni Status
+## Gemini Omni Model Context
 
 Google announced Gemini Omni at Google I/O 2026 as a new multimodal video generation family. The first announced model is Gemini Omni Flash, designed to create or edit video from combinations of text, image, audio, and video inputs.
-
-Native Gemini Omni generation is not enabled on GeminiOmni.tv until an integrated provider exposes a real Gemini Omni endpoint. Public KIE.ai docs and market pages checked during launch preparation did not list Gemini Omni support.
 
 ## Core Features
 
 ### Video Generation
 - **Text-to-Video**: Generate videos from text prompts through supported models
 - **Image-to-Video**: Animate images into dynamic video content
-- **Model Availability Tracking**: Follow Gemini Omni provider status and rollout updates
+- **Gemini Omni-Style Workflows**: Create cinematic clips with prompts, references, camera direction, and scene descriptions
 - **Multiple Available Models**: Use supported video models while Gemini Omni integration is pending
 - **Configurable Output**: Choose aspect ratio, duration, quality, and model settings where supported
 
@@ -46,11 +44,11 @@ Native Gemini Omni generation is not enabled on GeminiOmni.tv until an integrate
 
 ### AI Integration
 - Existing generation flows support currently integrated providers.
-- Gemini Omni should remain clearly marked as pending until a real provider endpoint is live.
+- GeminiOmni should avoid claiming Google affiliation or unavailable provider capabilities.
 
 ## Launch Priorities
 
-1. Publish geminiomni.tv with accurate Gemini Omni positioning.
-2. Avoid falsely claiming Gemini Omni API access before provider support exists.
+1. Publish geminiomni.tv with product-forward Gemini Omni AI video generator positioning.
+2. Avoid falsely claiming Google affiliation or unavailable provider capabilities.
 3. Configure Supabase, Vercel, Cloudflare DNS, Google Auth, and email auth for production.
 4. Submit sitemap and property to Google Search Console as soon as DNS and deployment are live.

@@ -11,12 +11,12 @@
       {
         "id": "best-image-to-video-generator",
         "question": "What is the best image to video AI generator?",
-        "answer": "GeminiOmni gives creators one place to animate images with available AI video models while tracking Gemini Omni provider availability."
+        "answer": "GeminiOmni gives creators one place to animate images into cinematic videos with fast online AI video tools."
       },
       {
         "id": "what-makes-us-stand-out",
         "question": "What makes GeminiOmni's image to video generator stand out?",
-        "answer": "GeminiOmni pairs practical image-to-video generation with clear Gemini Omni status updates, so users know what is available today and what is still pending provider support."
+        "answer": "GeminiOmni pairs practical image-to-video generation with Gemini Omni-style prompt guidance, reference control, and creator-friendly video workflows."
       },
       {
         "id": "what-images-can-work-with",
@@ -26,7 +26,7 @@
       {
         "id": "is-image-to-video-free",
         "question": "Is GeminiOmni's image to video generator free?",
-        "answer": "GeminiOmni offers free trial credits and paid options for supported generation models. Gemini Omni-specific generation is pending until a provider endpoint is available."
+        "answer": "GeminiOmni offers free trial credits and paid options for supported AI video generation models."
       }
     ]
   },
@@ -37,7 +37,7 @@
   },
   "aiModelsHero": {
     "title": "All-in-One AI Image to Video Generator",
-    "description": "GeminiOmni is an all-in-one AI image to video generator and Gemini Omni availability tracker. Animate images with currently available video models while we monitor native Gemini Omni API support.",
+    "description": "GeminiOmni is an all-in-one AI image to video generator. Animate images with cinematic motion, prompt control, and creator-friendly AI video workflows.",
     "models": [
       {
         "id": "sora2",
@@ -64,7 +64,7 @@
   },
   "imageToVideoShowcase": {
     "title": "Animate Your Images with Our Image to Video AI Generator",
-    "description": "Turn any static image into a vivid story with GeminiOmni. Generate creative videos from uploaded photos using supported AI video models while native Gemini Omni support is monitored.",
+    "description": "Turn any static image into a vivid story with GeminiOmni. Generate creative videos from uploaded photos using supported AI video models.",
     "labels": {
       "originalImage": "Original image",
       "prompt": "Prompt",

@@ -45,11 +45,11 @@ export async function generateMetadata({
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://geminiomni.tv";
   const title = sanitizeGeminiOmniString(
     t("metadata.title") ||
-      "Gemini Omni AI Video Generator and Model Tracker"
+      "Free Gemini Omni AI Video Generator"
   );
   const description = sanitizeGeminiOmniString(
     t("metadata.description") ||
-      "Track Google Gemini Omni availability and create AI videos today with available video models while native Gemini Omni API support is monitored."
+      "Create cinematic AI videos online with GeminiOmni. Turn text prompts and images into videos with a free Gemini Omni-style AI video generator."
   );
 
   return {
@@ -126,14 +126,14 @@ export default async function RootLayout({
           type="organization"
           data={{
             description:
-              "Gemini Omni AI video generator and model tracker for creators monitoring Google's latest multimodal video model.",
+              "GeminiOmni is an independent AI video generator for creating cinematic videos from prompts and images.",
           }}
         />
         <StructuredData
           type="website"
           data={{
             description:
-              "Track Google Gemini Omni availability and create AI videos today with available video models.",
+              "Create cinematic AI videos online with GeminiOmni's free AI video generator.",
           }}
         />
       </head>

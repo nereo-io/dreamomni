@@ -1,11 +1,15 @@
 import Link from "next/link";
 import {
   ArrowRight,
-  Bell,
-  CheckCircle2,
+  AudioLines,
+  BadgeCheck,
+  Camera,
+  Download,
   Film,
+  Images,
   Layers3,
-  Radio,
+  MessageSquareText,
+  PlayCircle,
   Sparkles,
   Wand2,
 } from "lucide-react";
@@ -18,48 +22,105 @@ export const revalidate = 3600;
 
 const geminiOmniFaq = [
   {
-    question: "Is Gemini Omni available through KIE right now?",
+    question: "What is the Gemini Omni AI Video Generator?",
     answer:
-      "No. Gemini Omni is not currently listed in KIE public docs or market pages. GeminiOmni.tv is monitoring provider availability.",
+      "GeminiOmni is an independent online AI video generator inspired by Google Gemini Omni's multimodal video direction. It helps creators turn prompts and images into cinematic videos with a fast, browser-based workflow.",
   },
   {
-    question: "Can I generate AI videos on GeminiOmni.tv today?",
+    question: "What can I create with Gemini Omni-style video tools?",
     answer:
-      "Yes. The first release offers available AI video generation paths while native Gemini Omni support is monitored.",
+      "You can create social clips, product demos, cinematic scene concepts, educational explainers, avatar-style videos, and image-to-video animations from simple prompts and references.",
   },
   {
-    question: "Is GeminiOmni.tv affiliated with Google?",
+    question: "Can I start for free?",
+    answer:
+      "Yes. GeminiOmni offers a free starting path so you can try AI video generation before choosing a paid plan or larger credit package.",
+  },
+  {
+    question: "Is GeminiOmni affiliated with Google?",
     answer:
       "No. GeminiOmni.tv is an independent product and is not affiliated with Google, Gemini, or Google DeepMind.",
+  },
+];
+
+const heroHighlights = [
+  {
+    icon: Images,
+    title: "Prompt with images",
+    description: "Use visual references to guide characters, products, style, and composition.",
+  },
+  {
+    icon: AudioLines,
+    title: "Plan scenes with sound",
+    description: "Write dialogue, ambience, music direction, and beat-driven motion into the prompt.",
+  },
+  {
+    icon: MessageSquareText,
+    title: "Edit by describing changes",
+    description: "Refine camera motion, actions, lighting, and story details in plain language.",
+  },
+  {
+    icon: Download,
+    title: "Generate and download",
+    description: "Create videos online, review your history, and download finished results.",
   },
 ];
 
 const capabilityItems = [
   {
     icon: Layers3,
-    title: "Any-input video creation",
+    title: "Any-input creative direction",
     description:
-      "Gemini Omni was introduced for combining text, image, audio, and video inputs into grounded video outputs.",
+      "Gemini Omni's official direction centers on combining text, image, audio, and video inputs into one coherent video creation flow.",
   },
   {
     icon: Wand2,
-    title: "Conversational editing",
+    title: "Natural language video editing",
     description:
-      "Google positions Omni around natural-language video edits that build on the same scene across turns.",
+      "Describe the scene, then refine the action, camera, subjects, style, and effects conversationally instead of rebuilding the whole idea from scratch.",
   },
   {
     icon: Film,
-    title: "Cinematic creator workflows",
+    title: "Cinematic world-aware output",
     description:
-      "The first public rollout starts with video creation and editing in Gemini, Flow, and YouTube Shorts.",
+      "Use prompts for realistic physics, historical context, product details, explainers, and camera language to create more structured videos.",
+  },
+];
+
+const workflowSteps = [
+  {
+    icon: Sparkles,
+    title: "Describe the video",
+    description:
+      "Start with a prompt that covers subject, setting, motion, camera angle, style, dialogue, and mood.",
+  },
+  {
+    icon: Images,
+    title: "Add a reference",
+    description:
+      "Upload an image when you need stronger control over identity, layout, product appearance, or visual style.",
+  },
+  {
+    icon: Camera,
+    title: "Choose generation settings",
+    description:
+      "Pick a video workflow, aspect ratio, duration, quality, and model options available in the generator.",
+  },
+  {
+    icon: Download,
+    title: "Download the result",
+    description:
+      "Preview the output, keep it in your creation history, download the video, and iterate on the next version.",
   },
 ];
 
 const useCases = [
-  "Short-form campaign concepts",
-  "Creator B-roll and scene variants",
-  "Product explainers and visual demos",
-  "Prompt research for multimodal video",
+  "Short-form ads and UGC concepts",
+  "Product demos and launch videos",
+  "Image-to-video character moments",
+  "Educational and training explainers",
+  "Music video and storyboards",
+  "Social clips for Reels, Shorts, and TikTok",
 ];
 
 function getLocalizedPath(locale: string, path: string) {
@@ -79,11 +140,11 @@ export async function generateMetadata({
   const canonicalUrl = locale === defaultLocale ? baseUrl : `${baseUrl}/${locale}`;
 
   return {
-    title: "Gemini Omni AI Video Generator and Model Tracker",
+    title: "Free Gemini Omni AI Video Generator",
     description:
-      "Track Google Gemini Omni availability and create AI videos today with available video models while native Gemini Omni API support is monitored.",
+      "Create cinematic AI videos with GeminiOmni. Turn text prompts and images into videos online with a free Gemini Omni-style AI video generator.",
     keywords:
-      "Gemini Omni, Gemini Omni Flash, Google Gemini Omni, AI video generator, multimodal video model, Gemini video AI",
+      "Gemini Omni, Gemini Omni AI video generator, free AI video generator, Google Gemini Omni, text to video AI, image to video AI, multimodal video generator",
     alternates: {
       canonical: canonicalUrl,
     },
@@ -95,11 +156,8 @@ export default async function LandingPage({
 }: {
   params: { locale: string };
 }) {
-  const primaryCtaHref = getLocalizedPath(locale, "/text-to-video");
-  const secondaryCtaHref = "#gemini-omni-updates";
-  const omniStatus = "Gemini Omni API status: monitoring";
-  const unsupportedNotice =
-    "Gemini Omni is not currently listed in KIE public docs or market pages. GeminiOmni.tv will add native Gemini Omni support only after a real provider endpoint is available.";
+  const textToVideoHref = getLocalizedPath(locale, "/text-to-video");
+  const imageToVideoHref = getLocalizedPath(locale, "/image-to-video");
   const independentNotice =
     "GeminiOmni.tv is an independent product and is not affiliated with Google, Gemini, or Google DeepMind.";
 
@@ -111,22 +169,24 @@ export default async function LandingPage({
           className="relative flex min-h-[88vh] items-center overflow-hidden bg-cover bg-center"
           style={{ backgroundImage: "url('/video-intro-poster.jpg')" }}
         >
-          <div className="absolute inset-0 bg-black/60 lg:hidden" />
+          <div className="absolute inset-0 bg-black/55 lg:hidden" />
           <div className="absolute inset-y-0 left-0 hidden w-2/3 bg-black/80 lg:block" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#07090f] to-transparent" />
 
           <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-5 py-24 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
             <div className="max-w-3xl">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-sm font-medium text-cyan-100">
-                <Radio className="h-4 w-4" />
-                {omniStatus}
+                <BadgeCheck className="h-4 w-4" />
+                Free online AI video generator
               </div>
               <h1 className="max-w-4xl text-5xl font-semibold leading-tight tracking-normal text-white sm:text-6xl lg:text-7xl">
-                Gemini Omni AI Video Generator
+                Free Gemini Omni AI Video Generator
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-200 sm:text-xl">
-                Follow Google&apos;s new Gemini Omni video model and create AI
-                videos today with available generation models while native
-                Gemini Omni API access is monitored.
+                Create cinematic AI videos from text prompts and images.
+                GeminiOmni brings the Gemini Omni-style multimodal creation
+                experience into a fast online generator for creators, marketers,
+                educators, and storytellers.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button
@@ -134,8 +194,8 @@ export default async function LandingPage({
                   size="lg"
                   className="h-12 rounded-md bg-cyan-300 px-6 text-base font-semibold text-slate-950 hover:bg-cyan-200"
                 >
-                  <Link href={primaryCtaHref}>
-                    Try AI Video Generator
+                  <Link href={textToVideoHref}>
+                    Generate AI Video Free
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
@@ -145,29 +205,34 @@ export default async function LandingPage({
                   size="lg"
                   className="h-12 rounded-md border-white/25 bg-white/10 px-6 text-base font-semibold text-white hover:bg-white/15 hover:text-white"
                 >
-                  <a href={secondaryCtaHref}>
-                    Get Gemini Omni Updates
-                    <Bell className="h-4 w-4" />
-                  </a>
+                  <Link href={imageToVideoHref}>
+                    Image to Video
+                    <Images className="h-4 w-4" />
+                  </Link>
                 </Button>
               </div>
             </div>
 
             <div className="grid gap-3 text-sm text-slate-100">
-              {[
-                "Google I/O 2026 announcement",
-                "Omni Flash rollout tracking",
-                "KIE provider status monitoring",
-                "Available AI video generation today",
-              ].map((item) => (
-                <div
-                  key={item}
-                  className="flex items-center gap-3 rounded-md border border-white/15 bg-white/10 p-4 backdrop-blur"
-                >
-                  <CheckCircle2 className="h-5 w-5 text-cyan-200" />
-                  <span>{item}</span>
-                </div>
-              ))}
+              {heroHighlights.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <article
+                    key={item.title}
+                    className="rounded-md border border-white/15 bg-white/10 p-4 backdrop-blur"
+                  >
+                    <div className="flex items-center gap-3">
+                      <Icon className="h-5 w-5 text-cyan-200" />
+                      <h2 className="text-base font-semibold text-white">
+                        {item.title}
+                      </h2>
+                    </div>
+                    <p className="mt-2 leading-6 text-slate-200">
+                      {item.description}
+                    </p>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -176,18 +241,19 @@ export default async function LandingPage({
           <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
               <p className="text-sm font-semibold uppercase text-cyan-200">
-                Gemini Omni news
+                Gemini Omni model
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-normal text-white sm:text-4xl">
-                Google&apos;s new multimodal video model is the trend to watch.
+                A new model direction for multimodal AI video creation.
               </h2>
             </div>
             <p className="text-base leading-8 text-slate-300">
-              Google introduced Gemini Omni Flash as the first model in the
-              Gemini Omni family on May 19, 2026. The announcement focuses on
-              creating and editing video from combinations of text, images,
-              audio, and video. GeminiOmni.tv tracks this rollout and turns the
-              demand into a practical video creation entry point.
+              Google describes Gemini Omni as a model that can create from many
+              input types, starting with video. The headline capabilities are
+              natural-language editing, references from images, text, audio, and
+              video, and scene generation grounded in world knowledge. GeminiOmni
+              turns that intent into an approachable generator workflow for
+              people who want to create videos now.
             </p>
           </div>
         </section>
@@ -196,10 +262,10 @@ export default async function LandingPage({
           <div className="mx-auto max-w-7xl">
             <div className="max-w-3xl">
               <p className="text-sm font-semibold uppercase text-cyan-200">
-                What Omni changes
+                What you can make
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-normal text-white sm:text-4xl">
-                Built around multimodal video creation and editing.
+                Build Gemini Omni-style videos from prompt to final clip.
               </h2>
             </div>
             <div className="mt-10 grid gap-4 md:grid-cols-3">
@@ -224,47 +290,70 @@ export default async function LandingPage({
           </div>
         </section>
 
-        <section
-          id="gemini-omni-status"
-          className="bg-white px-5 py-20 text-slate-950 sm:px-8"
-        >
-          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_1fr] lg:items-start">
+        <section className="bg-white px-5 py-20 text-slate-950 sm:px-8">
+          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
             <div>
               <p className="text-sm font-semibold uppercase text-cyan-700">
-                Current model support
+                How it works
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-normal sm:text-4xl">
-                Gemini Omni support will wait for a real provider endpoint.
+                Create AI videos online in four simple steps.
               </h2>
-            </div>
-            <div className="rounded-md border border-slate-200 bg-slate-50 p-6">
-              <p className="leading-8 text-slate-700">{unsupportedNotice}</p>
+              <p className="mt-5 leading-8 text-slate-700">
+                No filming equipment, editing timeline, or production team is
+                required. Start from a prompt or a reference image, generate a
+                video, and keep iterating until the scene feels right.
+              </p>
               <Button
                 asChild
                 className="mt-6 rounded-md bg-slate-950 text-white hover:bg-slate-800"
               >
-                <Link href={primaryCtaHref}>
-                  Create with available video models
+                <Link href={textToVideoHref}>
+                  Start Creating
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
             </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {workflowSteps.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <article
+                    key={item.title}
+                    className="rounded-md border border-slate-200 bg-slate-50 p-5"
+                  >
+                    <div className="flex items-center justify-between gap-4">
+                      <Icon className="h-6 w-6 text-cyan-700" />
+                      <span className="text-sm font-semibold text-slate-400">
+                        0{index + 1}
+                      </span>
+                    </div>
+                    <h3 className="mt-4 text-lg font-semibold text-slate-950">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 leading-7 text-slate-700">
+                      {item.description}
+                    </p>
+                  </article>
+                );
+              })}
+            </div>
           </div>
         </section>
 
-        <section id="gemini-omni-updates" className="px-5 py-20 sm:px-8">
+        <section className="px-5 py-20 sm:px-8">
           <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
               <p className="text-sm font-semibold uppercase text-cyan-200">
                 Creator workflows
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-normal text-white sm:text-4xl">
-                Use the hype window for real video output now.
+                One generator for campaigns, explainers, concepts, and social clips.
               </h2>
               <p className="mt-5 leading-8 text-slate-300">
-                Start with available text-to-video and image-to-video tools,
-                then switch to native Gemini Omni generation after provider
-                access becomes reliable.
+                Use GeminiOmni to move quickly from an idea to a polished AI
+                video draft. It is built for creators who need output, not a
+                passive news page.
               </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -273,7 +362,7 @@ export default async function LandingPage({
                   key={item}
                   className="flex items-center gap-3 rounded-md border border-white/10 bg-white/[0.04] p-4"
                 >
-                  <Sparkles className="h-5 w-5 text-cyan-200" />
+                  <PlayCircle className="h-5 w-5 text-cyan-200" />
                   <span className="text-slate-100">{item}</span>
                 </div>
               ))}
@@ -285,7 +374,7 @@ export default async function LandingPage({
           <div className="mx-auto max-w-4xl">
             <p className="text-sm font-semibold uppercase text-cyan-200">FAQ</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-normal text-white sm:text-4xl">
-              Gemini Omni availability questions.
+              Gemini Omni AI video generator questions.
             </h2>
             <div className="mt-8 divide-y divide-white/10 rounded-md border border-white/10">
               {geminiOmniFaq.map((item) => (

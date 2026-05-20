@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "author": "jasper",
-  "description": "GeminiOmni.tv - Gemini Omni AI video generator and model tracker.",
+  "description": "GeminiOmni.tv - Free Gemini Omni AI video generator.",
   "homepage": "https://geminiomni.tv",
   "type": "module",
   "engines": {

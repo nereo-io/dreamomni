@@ -272,7 +272,7 @@
     "name": "footer",
     "brand": {
       "title": "GeminiOmni AI Video Generator",
-      "description": "Track Gemini Omni availability and create AI videos with available video models.",
+      "description": "Create Gemini Omni-style AI videos online with text-to-video and image-to-video tools.",
       "logo": {
         "src": "",
         "alt": "GeminiOmni AI Video Generator"

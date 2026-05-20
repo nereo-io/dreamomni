@@ -24,9 +24,9 @@ export function buildGeminiOmniFooter(footer: Footer): Footer {
         {
           title: 'Gemini Omni',
           children: [
-            { title: 'Gemini Omni News', url: '/' },
-            { title: 'API Status', url: '/#gemini-omni-status' },
-            { title: 'KIE Support Monitor', url: '/#gemini-omni-updates' },
+            { title: 'AI Video Generator', url: '/' },
+            { title: 'Text to Video', url: '/text-to-video' },
+            { title: 'Image to Video', url: '/image-to-video' },
           ],
         },
         {
