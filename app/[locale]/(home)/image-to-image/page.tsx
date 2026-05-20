@@ -6,6 +6,7 @@ import ImageToImageTab from "@/components/blocks/ai-image-generation-tool/ImageT
 import { getTranslations } from "next-intl/server";
 import { auth } from "@/auth";
 import { getImageToImagePage } from "@/services/page";
+import { sanitizeGeminiOmniString } from "@/config/geminiomni-messages";
 
 export async function generateMetadata({
   params: { locale },
@@ -21,8 +22,8 @@ export async function generateMetadata({
   }
 
   return {
-    title: t("pages.imageToImage.title"),
-    description: t("pages.imageToImage.description"),
+    title: sanitizeGeminiOmniString(t("pages.imageToImage.title")),
+    description: sanitizeGeminiOmniString(t("pages.imageToImage.description")),
     alternates: {
       canonical: canonicalUrl,
     },

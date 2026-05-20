@@ -6,6 +6,7 @@ import { FAQSection } from "@/components/blocks/faq-section";
 import CTA from "@/components/blocks/cta";
 import { getPostsByLocale } from "@/models/post";
 import { getTextToVideoPage } from "@/services/page";
+import { sanitizeGeminiOmniString } from "@/config/geminiomni-messages";
 import { getTranslations } from "next-intl/server";
 import { auth } from "@/auth";
 
@@ -23,9 +24,9 @@ export async function generateMetadata({
   }
 
   return {
-    title: t("pages.textToVideo.title"),
-    description: t("pages.textToVideo.description"),
-    keywords: t("pages.textToVideo.keywords"),
+    title: sanitizeGeminiOmniString(t("pages.textToVideo.title")),
+    description: sanitizeGeminiOmniString(t("pages.textToVideo.description")),
+    keywords: sanitizeGeminiOmniString(t("pages.textToVideo.keywords")),
     alternates: {
       canonical: canonicalUrl,
     },

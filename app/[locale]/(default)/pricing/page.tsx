@@ -3,6 +3,7 @@ import { getPricingBlock } from "@/services/page";
 import { getTranslations } from "next-intl/server";
 import Crumb from "@/components/blocks/crumb";
 import FAQ from "@/components/blocks/faq";
+import { sanitizeGeminiOmniString } from "@/config/geminiomni-messages";
 
 export async function generateMetadata({
   params: { locale },
@@ -18,8 +19,8 @@ export async function generateMetadata({
   }
 
   return {
-    title: t("pricing.title"),
-    description: t("pricing.description"),
+    title: sanitizeGeminiOmniString(t("pricing.title")),
+    description: sanitizeGeminiOmniString(t("pricing.description")),
     alternates: {
       canonical: canonicalUrl,
     },

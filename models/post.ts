@@ -25,6 +25,15 @@ const POST_LIST_SELECT = [
   "tags",
 ].join(", ");
 
+function hasSupabaseConfig(): boolean {
+  const hasUrl = Boolean(process.env.SUPABASE_URL);
+  const hasKey = Boolean(
+    process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY
+  );
+
+  return hasUrl && hasKey;
+}
+
 function normalizePosts(posts: Post[] | null | undefined): Post[] {
   return (posts || []).map((post) => ({
     ...post,
@@ -77,6 +86,10 @@ export async function findPostBySlug(
   slug: string,
   locale: string
 ): Promise<Post | undefined> {
+  if (!hasSupabaseConfig()) {
+    return undefined;
+  }
+
   const supabase = getSupabaseClient();
   // Filter by online status to avoid returning offline/duplicate records.
   // Use order + limit instead of .single() to handle cases where multiple
@@ -102,6 +115,10 @@ export async function getPostLocalesBySlug(
   slug: string,
   supportedLocales: string[] = locales
 ): Promise<string[]> {
+  if (!hasSupabaseConfig()) {
+    return [];
+  }
+
   const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from("posts")
@@ -127,6 +144,10 @@ export async function getAllPosts(
   page: number = 1,
   limit: number = 50
 ): Promise<Post[]> {
+  if (!hasSupabaseConfig()) {
+    return [];
+  }
+
   const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from("posts")
@@ -156,6 +177,13 @@ export async function getPostsPageByLocale(
   page: number = 1,
   limit: number = 50
 ): Promise<{ posts: Post[]; hasMore: boolean }> {
+  if (!hasSupabaseConfig()) {
+    return {
+      posts: [],
+      hasMore: false,
+    };
+  }
+
   const supabase = getSupabaseClient();
   const offset = (page - 1) * limit;
   const { data, error } = await supabase
@@ -183,6 +211,10 @@ export async function getPostsPageByLocale(
 }
 
 export async function getPostCountByLocale(locale: string): Promise<number> {
+  if (!hasSupabaseConfig()) {
+    return 0;
+  }
+
   const supabase = getSupabaseClient();
   const { count, error } = await supabase
     .from("posts")
@@ -201,6 +233,10 @@ export async function getRelatedPosts(
   post: Pick<Post, "category" | "locale" | "slug" | "uuid">,
   limit: number = 3
 ): Promise<Post[]> {
+  if (!hasSupabaseConfig()) {
+    return [];
+  }
+
   const supabase = getSupabaseClient();
 
   async function runQuery(category?: string) {

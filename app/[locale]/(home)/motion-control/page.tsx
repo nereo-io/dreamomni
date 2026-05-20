@@ -5,6 +5,7 @@ import ModelUsageGuide from "@/components/blocks/model-landing-page/model-usage-
 import { FAQSection } from "@/components/blocks/faq-section";
 import CTA from "@/components/blocks/cta";
 import { getMotionControlPage } from "@/services/page";
+import { sanitizeGeminiOmniString } from "@/config/geminiomni-messages";
 import { getTranslations } from "next-intl/server";
 import { auth } from "@/auth";
 
@@ -22,9 +23,9 @@ export async function generateMetadata({
   }
 
   return {
-    title: t("pages.motionControl.title"),
-    description: t("pages.motionControl.description"),
-    keywords: t("pages.motionControl.keywords"),
+    title: sanitizeGeminiOmniString(t("pages.motionControl.title")),
+    description: sanitizeGeminiOmniString(t("pages.motionControl.description")),
+    keywords: sanitizeGeminiOmniString(t("pages.motionControl.keywords")),
     alternates: {
       canonical: canonicalUrl,
     },

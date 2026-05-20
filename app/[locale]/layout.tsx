@@ -18,7 +18,10 @@ import YandexMetrica from "@/components/analytics/yandex-metrica";
 import BingUET from "@/components/analytics/bing-uet";
 import GoogleAnalytics from "@/components/analytics/google-analytics";
 import Plausible from "@/components/analytics/plausible";
-import { prepareGeminiOmniClientMessages } from "@/config/geminiomni-messages";
+import {
+  prepareGeminiOmniClientMessages,
+  sanitizeGeminiOmniString,
+} from "@/config/geminiomni-messages";
 // import { SpeedInsights } from '@vercel/speed-insights/next';
 // import { Analytics } from "@vercel/analytics/react";
 
@@ -40,12 +43,14 @@ export async function generateMetadata({
   const t = await getTranslations();
 
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://geminiomni.tv";
-  const title =
+  const title = sanitizeGeminiOmniString(
     t("metadata.title") ||
-    "Gemini Omni AI Video Generator and Model Tracker";
-  const description =
+      "Gemini Omni AI Video Generator and Model Tracker"
+  );
+  const description = sanitizeGeminiOmniString(
     t("metadata.description") ||
-    "Track Google Gemini Omni availability and create AI videos today with available video models while native Gemini Omni API support is monitored.";
+      "Track Google Gemini Omni availability and create AI videos today with available video models while native Gemini Omni API support is monitored."
+  );
 
   return {
     title: {
@@ -53,7 +58,7 @@ export async function generateMetadata({
       default: title,
     },
     description: description,
-    keywords: t("metadata.keywords") || "",
+    keywords: sanitizeGeminiOmniString(t("metadata.keywords") || ""),
     alternates: {
       canonical: locale === "en" ? baseUrl : `${baseUrl}/${locale}`,
       languages: {
