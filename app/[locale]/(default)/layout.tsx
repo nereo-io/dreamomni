@@ -5,7 +5,10 @@ import { getLandingPage } from "@/services/page";
 import { getHotEffectConfigs } from "@/models/effectConfig";
 import { unstable_cache } from "next/cache";
 import { getTranslations } from "next-intl/server";
-import { buildGeminiOmniFooter } from "@/config/geminiomni-footer";
+import {
+  buildGeminiOmniFooter,
+  buildGeminiOmniHeader,
+} from "@/config/geminiomni-footer";
 
 const getCachedHotEffectConfigs = unstable_cache(
   async (locale: string) => {
@@ -49,7 +52,7 @@ export default async function DefaultLayout({
 
   return (
     <>
-      {page.header && <Header header={page.header} />}
+      {page.header && <Header header={buildGeminiOmniHeader(page.header)} />}
       <main className="overflow-x-hidden">{children}</main>
       {page.footer && <Footer footer={page.footer} />}
     </>

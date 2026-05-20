@@ -5,7 +5,7 @@
     "brand": {
       "title": "GeminiOmni",
       "logo": {
-        "src": "",
+        "src": "/logo.png",
         "alt": "GeminiOmni AI Video Generator"
       },
       "url": "/"
@@ -274,7 +274,7 @@
       "title": "GeminiOmni AI Video Generator",
       "description": "Create Gemini Omni-style AI videos online with text-to-video and image-to-video tools.",
       "logo": {
-        "src": "",
+        "src": "/logo.png",
         "alt": "GeminiOmni AI Video Generator"
       },
       "url": "/"

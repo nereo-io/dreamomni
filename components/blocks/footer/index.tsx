@@ -16,11 +16,11 @@ export default function Footer({ footer }: { footer: FooterType }) {
               {footer.brand && (
                 <div>
                   <div className="flex items-center justify-center gap-2 lg:justify-start">
-                    {footer.brand.logo && (
+                    {footer.brand.logo?.src && (
                       <img
                         src={footer.brand.logo.src}
                         alt={footer.brand.logo.alt || footer.brand.title}
-                        className="h-11"
+                        className="h-11 w-11 rounded-md object-cover"
                         loading="lazy"
                         decoding="async"
                         fetchPriority="low"

@@ -2,8 +2,8 @@ import Link from "next/link";
 import {
   ArrowRight,
   AudioLines,
-  BadgeCheck,
   Camera,
+  Check,
   Download,
   Film,
   Images,
@@ -44,26 +44,9 @@ const geminiOmniFaq = [
 ];
 
 const heroHighlights = [
-  {
-    icon: Images,
-    title: "Prompt with images",
-    description: "Use visual references to guide characters, products, style, and composition.",
-  },
-  {
-    icon: AudioLines,
-    title: "Plan scenes with sound",
-    description: "Write dialogue, ambience, music direction, and beat-driven motion into the prompt.",
-  },
-  {
-    icon: MessageSquareText,
-    title: "Edit by describing changes",
-    description: "Refine camera motion, actions, lighting, and story details in plain language.",
-  },
-  {
-    icon: Download,
-    title: "Generate and download",
-    description: "Create videos online, review your history, and download finished results.",
-  },
+  "Text-to-video for cinematic prompt ideas",
+  "Image-to-video for visual references",
+  "History, playback, and download when outputs are ready",
 ];
 
 const capabilityItems = [
@@ -90,27 +73,27 @@ const capabilityItems = [
 const workflowSteps = [
   {
     icon: Sparkles,
-    title: "Describe the video",
+    title: "Describe the scene",
     description:
-      "Start with a prompt that covers subject, setting, motion, camera angle, style, dialogue, and mood.",
+      "Write the subject, setting, motion, camera angle, style, dialogue, and mood in one clear prompt.",
   },
   {
     icon: Images,
-    title: "Add a reference",
+    title: "Add a reference image",
     description:
-      "Upload an image when you need stronger control over identity, layout, product appearance, or visual style.",
+      "Guide identity, composition, product appearance, or style with an uploaded visual reference.",
   },
   {
     icon: Camera,
-    title: "Choose generation settings",
+    title: "Tune generation settings",
     description:
-      "Pick a video workflow, aspect ratio, duration, quality, and model options available in the generator.",
+      "Choose the available workflow, aspect ratio, duration, quality, and model options for your clip.",
   },
   {
     icon: Download,
-    title: "Download the result",
+    title: "Preview and download",
     description:
-      "Preview the output, keep it in your creation history, download the video, and iterate on the next version.",
+      "Keep finished outputs in your creation history, download the video, and iterate on the next cut.",
   },
 ];
 
@@ -118,9 +101,9 @@ const useCases = [
   "Short-form ads and UGC concepts",
   "Product demos and launch videos",
   "Image-to-video character moments",
-  "Educational and training explainers",
-  "Music video and storyboards",
-  "Social clips for Reels, Shorts, and TikTok",
+  "Educational explainers",
+  "Music video storyboards",
+  "Reels, Shorts, and TikTok clips",
 ];
 
 function getLocalizedPath(locale: string, path: string) {
@@ -158,41 +141,34 @@ export default async function LandingPage({
 }) {
   const textToVideoHref = getLocalizedPath(locale, "/text-to-video");
   const imageToVideoHref = getLocalizedPath(locale, "/image-to-video");
-  const independentNotice =
-    "GeminiOmni.tv is an independent product and is not affiliated with Google, Gemini, or Google DeepMind.";
 
   return (
     <>
       <AuthRedirect preserveSearchParams />
-      <main className="min-h-screen bg-[#07090f] text-white">
+      <main className="min-h-screen bg-[#020712] text-white">
         <section
-          className="relative flex min-h-[88vh] items-center overflow-hidden bg-cover bg-center"
-          style={{ backgroundImage: "url('/video-intro-poster.jpg')" }}
+          className="relative isolate min-h-[84vh] overflow-hidden bg-cover bg-center"
+          style={{ backgroundImage: "url('/geminiomni-hero.jpg')" }}
         >
-          <div className="absolute inset-0 bg-black/55 lg:hidden" />
-          <div className="absolute inset-y-0 left-0 hidden w-2/3 bg-black/80 lg:block" />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#07090f] to-transparent" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,#020712_0%,rgba(2,7,18,0.96)_31%,rgba(2,7,18,0.58)_62%,rgba(2,7,18,0.25)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#020712] to-transparent" />
 
-          <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-5 py-24 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div className="relative mx-auto grid min-h-[84vh] w-full max-w-7xl items-center gap-12 px-5 pb-16 pt-24 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="max-w-3xl">
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-sm font-medium text-cyan-100">
-                <BadgeCheck className="h-4 w-4" />
-                Free online AI video generator
-              </div>
-              <h1 className="max-w-4xl text-5xl font-semibold leading-tight tracking-normal text-white sm:text-6xl lg:text-7xl">
+              <h1 className="text-5xl font-semibold leading-[1.02] tracking-normal text-white sm:text-6xl lg:text-7xl">
                 Free Gemini Omni AI Video Generator
               </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-200 sm:text-xl">
+              <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-200 sm:text-xl">
                 Create cinematic AI videos from text prompts and images.
-                GeminiOmni brings the Gemini Omni-style multimodal creation
-                experience into a fast online generator for creators, marketers,
-                educators, and storytellers.
+                GeminiOmni turns Gemini Omni-style multimodal creation into a
+                fast online generator for creators, marketers, educators, and
+                storytellers.
               </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Button
                   asChild
                   size="lg"
-                  className="h-12 rounded-md bg-cyan-300 px-6 text-base font-semibold text-slate-950 hover:bg-cyan-200"
+                  className="h-[52px] rounded-md bg-cyan-300 px-7 text-base font-semibold text-slate-950 shadow-[0_0_32px_rgba(103,232,249,0.28)] hover:bg-cyan-200"
                 >
                   <Link href={textToVideoHref}>
                     Generate AI Video Free
@@ -203,7 +179,7 @@ export default async function LandingPage({
                   asChild
                   variant="outline"
                   size="lg"
-                  className="h-12 rounded-md border-white/25 bg-white/10 px-6 text-base font-semibold text-white hover:bg-white/15 hover:text-white"
+                  className="h-[52px] rounded-md border-white/25 bg-white/10 px-7 text-base font-semibold text-white backdrop-blur hover:bg-white/15 hover:text-white"
                 >
                   <Link href={imageToVideoHref}>
                     Image to Video
@@ -211,39 +187,54 @@ export default async function LandingPage({
                   </Link>
                 </Button>
               </div>
+
+              <div className="mt-10 grid gap-3 text-sm text-slate-200">
+                {heroHighlights.map((item) => (
+                  <div key={item} className="flex items-center gap-3">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-cyan-300 text-slate-950">
+                      <Check className="h-3.5 w-3.5" />
+                    </span>
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="grid gap-3 text-sm text-slate-100">
-              {heroHighlights.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <article
-                    key={item.title}
-                    className="rounded-md border border-white/15 bg-white/10 p-4 backdrop-blur"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Icon className="h-5 w-5 text-cyan-200" />
-                      <h2 className="text-base font-semibold text-white">
-                        {item.title}
-                      </h2>
+            <div className="hidden lg:flex lg:justify-end">
+              <div className="w-full max-w-md rounded-md border border-white/15 bg-slate-950/55 p-5 shadow-2xl shadow-cyan-950/30 backdrop-blur-xl">
+                <div className="aspect-video overflow-hidden rounded-md border border-white/10 bg-black/40">
+                  <img
+                    src="/geminiomni-hero.jpg"
+                    alt="GeminiOmni AI video generator visual"
+                    className="h-full w-full object-cover object-right"
+                    loading="eager"
+                    decoding="async"
+                  />
+                </div>
+                <div className="mt-5 grid gap-3">
+                  {[
+                    ["Prompt", "A cinematic reveal of a glass AI filmmaker shaping light into video"],
+                    ["Reference", "Image, camera direction, scene mood"],
+                    ["Output", "Playable AI video ready for download"],
+                  ].map(([label, value]) => (
+                    <div
+                      key={label}
+                      className="grid grid-cols-[88px_1fr] gap-4 rounded-md border border-white/10 bg-white/[0.04] p-3 text-sm"
+                    >
+                      <span className="font-medium text-cyan-200">{label}</span>
+                      <span className="text-slate-200">{value}</span>
                     </div>
-                    <p className="mt-2 leading-6 text-slate-200">
-                      {item.description}
-                    </p>
-                  </article>
-                );
-              })}
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        <section className="border-y border-white/10 bg-slate-950 px-5 py-14 sm:px-8">
-          <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+        <section className="px-5 py-20 sm:px-8">
+          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
             <div>
-              <p className="text-sm font-semibold uppercase text-cyan-200">
-                Gemini Omni model
-              </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-normal text-white sm:text-4xl">
+              <h2 className="text-3xl font-semibold tracking-normal text-white sm:text-4xl">
                 A new model direction for multimodal AI video creation.
               </h2>
             </div>
@@ -252,29 +243,21 @@ export default async function LandingPage({
               input types, starting with video. The headline capabilities are
               natural-language editing, references from images, text, audio, and
               video, and scene generation grounded in world knowledge. GeminiOmni
-              turns that intent into an approachable generator workflow for
+              turns that direction into an approachable generator workflow for
               people who want to create videos now.
             </p>
           </div>
         </section>
 
-        <section className="px-5 py-20 sm:px-8">
+        <section className="px-5 pb-20 sm:px-8">
           <div className="mx-auto max-w-7xl">
-            <div className="max-w-3xl">
-              <p className="text-sm font-semibold uppercase text-cyan-200">
-                What you can make
-              </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-normal text-white sm:text-4xl">
-                Build Gemini Omni-style videos from prompt to final clip.
-              </h2>
-            </div>
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-3">
               {capabilityItems.map((item) => {
                 const Icon = item.icon;
                 return (
                   <article
                     key={item.title}
-                    className="rounded-md border border-white/10 bg-white/[0.04] p-6"
+                    className="rounded-md border border-white/10 bg-white/[0.045] p-6 shadow-lg shadow-black/10"
                   >
                     <Icon className="h-6 w-6 text-cyan-200" />
                     <h3 className="mt-5 text-xl font-semibold text-white">
@@ -290,13 +273,10 @@ export default async function LandingPage({
           </div>
         </section>
 
-        <section className="bg-white px-5 py-20 text-slate-950 sm:px-8">
-          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+        <section className="bg-[#eaf7ff] px-5 py-20 text-slate-950 sm:px-8">
+          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
             <div>
-              <p className="text-sm font-semibold uppercase text-cyan-700">
-                How it works
-              </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-normal sm:text-4xl">
+              <h2 className="text-3xl font-semibold tracking-normal sm:text-4xl">
                 Create AI videos online in four simple steps.
               </h2>
               <p className="mt-5 leading-8 text-slate-700">
@@ -306,7 +286,7 @@ export default async function LandingPage({
               </p>
               <Button
                 asChild
-                className="mt-6 rounded-md bg-slate-950 text-white hover:bg-slate-800"
+                className="mt-7 rounded-md bg-slate-950 text-white hover:bg-slate-800"
               >
                 <Link href={textToVideoHref}>
                   Start Creating
@@ -314,13 +294,13 @@ export default async function LandingPage({
                 </Link>
               </Button>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-2">
               {workflowSteps.map((item, index) => {
                 const Icon = item.icon;
                 return (
                   <article
                     key={item.title}
-                    className="rounded-md border border-slate-200 bg-slate-50 p-5"
+                    className="rounded-md border border-cyan-950/10 bg-white p-5 shadow-sm"
                   >
                     <div className="flex items-center justify-between gap-4">
                       <Icon className="h-6 w-6 text-cyan-700" />
@@ -344,10 +324,7 @@ export default async function LandingPage({
         <section className="px-5 py-20 sm:px-8">
           <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
-              <p className="text-sm font-semibold uppercase text-cyan-200">
-                Creator workflows
-              </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-normal text-white sm:text-4xl">
+              <h2 className="text-3xl font-semibold tracking-normal text-white sm:text-4xl">
                 One generator for campaigns, explainers, concepts, and social clips.
               </h2>
               <p className="mt-5 leading-8 text-slate-300">
@@ -372,11 +349,10 @@ export default async function LandingPage({
 
         <section className="border-t border-white/10 px-5 py-20 sm:px-8">
           <div className="mx-auto max-w-4xl">
-            <p className="text-sm font-semibold uppercase text-cyan-200">FAQ</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-normal text-white sm:text-4xl">
+            <h2 className="text-3xl font-semibold tracking-normal text-white sm:text-4xl">
               Gemini Omni AI video generator questions.
             </h2>
-            <div className="mt-8 divide-y divide-white/10 rounded-md border border-white/10">
+            <div className="mt-8 divide-y divide-white/10 rounded-md border border-white/10 bg-white/[0.03]">
               {geminiOmniFaq.map((item) => (
                 <div key={item.question} className="p-6">
                   <h3 className="text-lg font-semibold text-white">
@@ -388,12 +364,12 @@ export default async function LandingPage({
                 </div>
               ))}
             </div>
+            <p className="mt-8 text-sm leading-6 text-slate-500">
+              GeminiOmni.tv is an independent product and is not affiliated with
+              Google, Gemini, or Google DeepMind.
+            </p>
           </div>
         </section>
-
-        <footer className="border-t border-white/10 px-5 py-8 text-center text-sm text-slate-400 sm:px-8">
-          {independentNotice}
-        </footer>
       </main>
 
       <StructuredData type="faq" data={{ questions: geminiOmniFaq }} />
