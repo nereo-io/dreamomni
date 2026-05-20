@@ -7,8 +7,6 @@ import type {
   UpdateMusicGenerationParams,
 } from "@/types/music.d";
 
-const supabase = getSupabaseClient();
-
 /**
  * 统一处理 Supabase 查询错误
  */
@@ -27,7 +25,7 @@ function handleSupabaseError(error: PostgrestError | null, context: string) {
 export async function createMusicGeneration(
   params: CreateMusicGenerationParams
 ): Promise<MusicGeneration> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("music_generations")
     .insert({
       user_id: params.user_id,
@@ -64,7 +62,7 @@ export async function getMusicGenerationById(
   id: string,
   userId?: string
 ): Promise<MusicGeneration | null> {
-  let query = supabase.from("music_generations").select("*").eq("id", id);
+  let query = getSupabaseClient().from("music_generations").select("*").eq("id", id);
 
   if (userId) {
     query = query.eq("user_id", userId);
@@ -84,7 +82,7 @@ export async function getMusicGenerationById(
 export async function getMusicGenerationByProviderTaskId(
   providerTaskId: string
 ): Promise<MusicGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("music_generations")
     .select("*")
     .eq("provider_task_id", providerTaskId)
@@ -106,7 +104,7 @@ export async function updateMusicGeneration(
   id: string,
   params: UpdateMusicGenerationParams
 ): Promise<MusicGeneration> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("music_generations")
     .update({
       ...params,
@@ -127,7 +125,7 @@ export async function updateMusicGenerationByProviderTaskId(
   providerTaskId: string,
   params: UpdateMusicGenerationParams
 ): Promise<MusicGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("music_generations")
     .update({
       ...params,
@@ -157,7 +155,7 @@ export async function getMusicGenerationsByUserId(
 ): Promise<{ items: MusicGeneration[]; total: number }> {
   const offset = (page - 1) * limit;
 
-  let query = supabase
+  let query = getSupabaseClient()
     .from("music_generations")
     .select("*", { count: "exact" })
     .eq("user_id", userId)
@@ -187,7 +185,7 @@ export async function deleteMusicGeneration(
   id: string,
   userId?: string
 ): Promise<boolean> {
-  let query = supabase.from("music_generations").delete().eq("id", id);
+  let query = getSupabaseClient().from("music_generations").delete().eq("id", id);
 
   if (userId) {
     query = query.eq("user_id", userId);
@@ -212,7 +210,7 @@ export async function softDeleteMusicGeneration(
   try {
     console.log(`🗑️ Soft deleting music: ${musicId} for user: ${userId}`);
 
-    const { data: existingRecord, error: checkError } = await supabase
+    const { data: existingRecord, error: checkError } = await getSupabaseClient()
       .from("music_generations")
       .select("id, user_id, is_delete")
       .eq("id", musicId)
@@ -238,7 +236,7 @@ export async function softDeleteMusicGeneration(
       return true;
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from("music_generations")
       .update({ is_delete: true })
       .eq("id", musicId)
@@ -274,7 +272,7 @@ export async function getMusicGenerationStats(userId: string): Promise<{
   pending: number;
   processing: number;
 }> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("music_generations")
     .select("status")
     .eq("user_id", userId)

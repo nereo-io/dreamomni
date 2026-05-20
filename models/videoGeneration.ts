@@ -7,9 +7,6 @@ import type {
   UpdateVideoGenerationParams,
 } from "@/types/video.d"; // Added import for types
 
-// Supabase 客户端初始化
-const supabase = getSupabaseClient(); // Changed
-
 /**
  * 统一处理 Supabase 查询错误。
  * @param error PostgrestError | null
@@ -30,7 +27,7 @@ function handleSupabaseError(error: PostgrestError | null, context: string) {
 export async function createVideoGeneration(
   params: CreateVideoGenerationParams
 ): Promise<VideoGeneration> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .insert({
       user_id: params.user_id,
@@ -75,7 +72,7 @@ export async function getVideoGenerationById(
   id: string,
   userId?: string // 可选，因为RLS应该处理权限
 ): Promise<VideoGeneration | null> {
-  let query = supabase.from("video_generations").select("*").eq("id", id);
+  let query = getSupabaseClient().from("video_generations").select("*").eq("id", id);
 
   if (userId) {
     query = query.eq("user_id", userId);
@@ -96,7 +93,7 @@ export async function getVideoGenerationById(
 export async function getVideoGenerationByFalRequestId(
   falRequestId: string
 ): Promise<VideoGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .select("*")
     .eq("fal_request_id", falRequestId)
@@ -117,7 +114,7 @@ export async function getVideoGenerationByFalRequestId(
 export async function getVideoGenerationByVolcanoRequestId(
   volcanoRequestId: string
 ): Promise<VideoGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .select("*")
     .eq("volcano_request_id", volcanoRequestId)
@@ -138,7 +135,7 @@ export async function getVideoGenerationByVolcanoRequestId(
 export async function getVideoGenerationByVeo3RequestId(
   veo3RequestId: string
 ): Promise<VideoGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .select("*")
     .eq("veo3_request_id", veo3RequestId)
@@ -159,7 +156,7 @@ export async function getVideoGenerationByVeo3RequestId(
 export async function getVideoGenerationByAliRequestId(
   aliRequestId: string
 ): Promise<VideoGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .select("*")
     .eq("ali_request_id", aliRequestId)
@@ -180,7 +177,7 @@ export async function getVideoGenerationByAliRequestId(
 export async function getVideoGenerationByPixVerseRequestId(
   pixverseRequestId: string
 ): Promise<VideoGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .select("*")
     .eq("pixverse_request_id", pixverseRequestId)
@@ -201,7 +198,7 @@ export async function getVideoGenerationByPixVerseRequestId(
 export async function getVideoGenerationBySoraRequestId(
   soraRequestId: string
 ): Promise<VideoGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .select("*")
     .eq("sora_request_id", soraRequestId)
@@ -222,7 +219,7 @@ export async function getVideoGenerationBySoraRequestId(
 export async function getVideoGenerationByProviderRequestId(
   providerRequestId: string
 ): Promise<VideoGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .select("*")
     .eq("provider_request_id", providerRequestId)
@@ -271,7 +268,7 @@ export async function updateVideoGenerationById(
   id: string,
   params: UpdateVideoGenerationParams
 ): Promise<VideoGeneration> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .update({
       ...params,
@@ -300,7 +297,7 @@ export async function markVideoGenerationFailedIfActive(
     "IN_PROGRESS",
   ];
 
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .update({
       ...params,
@@ -326,7 +323,7 @@ export async function updateVideoGenerationByFalRequestId(
   falRequestId: string,
   params: UpdateVideoGenerationParams
 ): Promise<VideoGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .update({
       ...params,
@@ -352,7 +349,7 @@ export async function updateVideoGenerationByVolcanoRequestId(
   volcanoRequestId: string,
   params: UpdateVideoGenerationParams
 ): Promise<VideoGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .update({
       ...params,
@@ -378,7 +375,7 @@ export async function updateVideoGenerationByVeo3RequestId(
   veo3RequestId: string,
   params: UpdateVideoGenerationParams
 ): Promise<VideoGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .update({
       ...params,
@@ -404,7 +401,7 @@ export async function updateVideoGenerationByAliRequestId(
   aliRequestId: string,
   params: UpdateVideoGenerationParams
 ): Promise<VideoGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .update({
       ...params,
@@ -430,7 +427,7 @@ export async function updateVideoGenerationByPixVerseRequestId(
   pixverseRequestId: string,
   params: UpdateVideoGenerationParams
 ): Promise<VideoGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .update({
       ...params,
@@ -456,7 +453,7 @@ export async function updateVideoGenerationBySoraRequestId(
   soraRequestId: string,
   params: UpdateVideoGenerationParams
 ): Promise<VideoGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .update({
       ...params,
@@ -486,7 +483,7 @@ export async function getUserVideoGenerations(
   status?: string
 ): Promise<{ data: VideoGeneration[]; total: number }> {
   const countMode = search?.trim() ? "estimated" : "exact";
-  let query = supabase
+  let query = getSupabaseClient()
     .from("video_generations")
     .select("*", { count: countMode })
     .eq("user_id", userId)
@@ -522,7 +519,7 @@ export async function deleteVideoGeneration(
   id: string,
   userId?: string // 可选，RLS应处理
 ): Promise<boolean> {
-  let query = supabase.from("video_generations").delete().eq("id", id);
+  let query = getSupabaseClient().from("video_generations").delete().eq("id", id);
 
   if (userId) {
     query = query.eq("user_id", userId);
@@ -549,7 +546,7 @@ export async function getUserVideoGenerationStats(userId: string): Promise<{
   pending: number;
   processing: number; // IN_QUEUE or IN_PROGRESS
 }> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("video_generations")
     .select("status")
     .eq("user_id", userId);
@@ -603,7 +600,7 @@ export async function softDeleteVideoGeneration(
     // 首先检查记录是否存在
     console.log(`🔍 Checking if video exists: ${videoId} for user: ${userId}`);
 
-    const { data: existingRecord, error: checkError } = await supabase
+    const { data: existingRecord, error: checkError } = await getSupabaseClient()
       .from("video_generations")
       .select("id, user_id, is_delete")
       .eq("id", videoId)
@@ -615,7 +612,7 @@ export async function softDeleteVideoGeneration(
       if (checkError.message?.includes("is_delete")) {
         console.log("⚠️ is_delete field doesn't exist, trying without it...");
 
-        const { data: simpleRecord, error: simpleError } = await supabase
+        const { data: simpleRecord, error: simpleError } = await getSupabaseClient()
           .from("video_generations")
           .select("id, user_id")
           .eq("id", videoId)
@@ -632,7 +629,7 @@ export async function softDeleteVideoGeneration(
         }
 
         // 尝试添加 is_delete 字段并更新
-        const { data, error } = await supabase
+        const { data, error } = await getSupabaseClient()
           .from("video_generations")
           .update({ is_delete: true })
           .eq("id", videoId)
@@ -671,7 +668,7 @@ export async function softDeleteVideoGeneration(
 
     // 执行软删除
     console.log(`🗑️ Executing soft delete for video: ${videoId}`);
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from("video_generations")
       .update({ is_delete: true })
       .eq("id", videoId)
@@ -686,7 +683,7 @@ export async function softDeleteVideoGeneration(
     if (!data || data.length === 0) {
       console.warn(`❌ No records updated for video: ${videoId}, but deletion may have succeeded`);
       // 即使没有更新记录，我们也检查一下是否实际上已经被删除了
-      const { data: checkData, error: checkError } = await supabase
+      const { data: checkData, error: checkError } = await getSupabaseClient()
         .from("video_generations")
         .select("is_delete")
         .eq("id", videoId)

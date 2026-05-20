@@ -9,9 +9,6 @@ import type {
   ImageGenerationHistoryItem,
 } from "@/types/image.d";
 
-// Supabase 客户端初始化
-const supabase = getSupabaseClient();
-
 const IMAGE_GENERATIONS_OPTIONAL_COLUMNS = new Set([
   'aspect_ratio',
   'updated_at',
@@ -152,7 +149,7 @@ export async function createImageGeneration(
     insertData.agent_shot_id = params.agent_shot_id;
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("image_generations")
     .insert(insertData)
     .select()
@@ -169,7 +166,7 @@ export async function getImageGenerationById(
   id: string,
   userId?: string
 ): Promise<ImageGeneration | null> {
-  let query = supabase.from("image_generations").select("*").eq("id", id);
+  let query = getSupabaseClient().from("image_generations").select("*").eq("id", id);
 
   if (userId) {
     query = query.eq("user_id", userId);
@@ -190,7 +187,7 @@ export async function getImageGenerationById(
 export async function getImageGenerationByTaskId(
   taskId: string
 ): Promise<ImageGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("image_generations")
     .select("*")
     .eq("task_id", taskId)
@@ -211,7 +208,7 @@ export async function getImageGenerationByTaskId(
 export async function getImageGenerationByProviderTaskId(
   providerTaskId: string
 ): Promise<ImageGeneration | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("image_generations")
     .select("*")
     .eq("provider_task_id", providerTaskId)
@@ -234,7 +231,7 @@ export async function getImageGenerationByAgentTaskId(
   taskId: string
 ): Promise<ImageGeneration | null> {
   // 策略1: 先尝试用 is_agent_mode 列查询
-  const { data: agentRecordsByColumn, error: columnError } = await supabase
+  const { data: agentRecordsByColumn, error: columnError } = await getSupabaseClient()
     .from("image_generations")
     .select("*")
     .eq("is_agent_mode", true)
@@ -245,7 +242,7 @@ export async function getImageGenerationByAgentTaskId(
   }
 
   // 策略2: 也用 metadata.is_agent_mode 查询（兼容旧数据）
-  const { data: agentRecordsByMetadata, error: metadataError } = await supabase
+  const { data: agentRecordsByMetadata, error: metadataError } = await getSupabaseClient()
     .from("image_generations")
     .select("*")
     .eq("metadata->>is_agent_mode", "true")
@@ -294,7 +291,7 @@ export async function updateImageGenerationById(
     updateData.image_count = params.image_urls.length;
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("image_generations")
     .update(updateData)
     .eq("id", id)
@@ -327,7 +324,7 @@ export async function updateImageGenerationByTaskId(
     updateData.image_count = params.image_urls.length;
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("image_generations")
     .update(updateData)
     .eq("task_id", taskId)
@@ -365,7 +362,7 @@ export async function updateImageGenerationByProviderTaskId(
     updateData.image_count = params.image_urls.length;
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("image_generations")
     .update(updateData)
     .eq("provider_task_id", providerTaskId)
@@ -426,8 +423,8 @@ export async function getUserImageGenerations(
       optionalColumns
     );
 
-    let query = supabase
-      .from('image_generations')
+    let query = getSupabaseClient()
+    .from('image_generations')
       .select(selectFields, { count: countMode })
       .eq('user_id', userId);
 
@@ -518,7 +515,7 @@ export async function softDeleteImageGeneration(
     // 首先检查记录是否存在
     console.log(`🔍 Checking if image exists: ${imageId} for user: ${userId}`);
     
-    const { data: existingRecord, error: checkError } = await supabase
+    const { data: existingRecord, error: checkError } = await getSupabaseClient()
       .from("image_generations")
       .select("id, user_id, is_delete")
       .eq("id", imageId)
@@ -530,7 +527,7 @@ export async function softDeleteImageGeneration(
       if (checkError.message?.includes("is_delete")) {
         console.log("⚠️ is_delete field doesn't exist, trying without it...");
         
-        const { data: simpleRecord, error: simpleError } = await supabase
+        const { data: simpleRecord, error: simpleError } = await getSupabaseClient()
           .from("image_generations")
           .select("id, user_id")
           .eq("id", imageId)
@@ -547,7 +544,7 @@ export async function softDeleteImageGeneration(
         }
         
         // 尝试添加 is_delete 字段并更新
-        const { data, error } = await supabase
+        const { data, error } = await getSupabaseClient()
           .from("image_generations")
           .update({ is_delete: true })
           .eq("id", imageId)
@@ -586,7 +583,7 @@ export async function softDeleteImageGeneration(
 
     // 执行软删除
     console.log(`🗑️ Executing soft delete for image: ${imageId}`);
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from("image_generations")
       .update({ is_delete: true })
       .eq("id", imageId)
@@ -601,7 +598,7 @@ export async function softDeleteImageGeneration(
     if (!data || data.length === 0) {
       console.warn(`❌ No records updated for image: ${imageId}, but deletion may have succeeded`);
       // 即使没有更新记录，我们也检查一下是否实际上已经被删除了
-      const { data: checkData, error: checkError } = await supabase
+      const { data: checkData, error: checkError } = await getSupabaseClient()
         .from("image_generations")
         .select("is_delete")
         .eq("id", imageId)
@@ -629,7 +626,7 @@ export async function softDeleteImageGeneration(
  * 获取用户图片生成统计
  */
 export async function getUserImageGenerationStats(userId: string): Promise<ImageGenerationStats> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("image_generations")
     .select("status")
     .eq("user_id", userId);
@@ -678,7 +675,7 @@ export async function deleteImageGeneration(
   id: string,
   userId?: string
 ): Promise<boolean> {
-  let query = supabase.from("image_generations").delete().eq("id", id);
+  let query = getSupabaseClient().from("image_generations").delete().eq("id", id);
 
   if (userId) {
     query = query.eq("user_id", userId);
@@ -699,7 +696,7 @@ export async function deleteImageGeneration(
 export async function getPendingImageGenerations(
   limit: number = 50
 ): Promise<ImageGeneration[]> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("image_generations")
     .select("*")
     .in("status", ["PENDING", "IN_QUEUE"])
@@ -731,7 +728,7 @@ export async function batchUpdateImageGenerationStatus(
     updateData.completed_at = new Date().toISOString();
   }
 
-  const { count, error } = await supabase
+  const { count, error } = await getSupabaseClient()
     .from("image_generations")
     .update(updateData)
     .in("id", ids);
@@ -752,7 +749,7 @@ export async function getImageGenerationCreditsStats(
   total_generations: number;
   avg_credits_per_generation: number;
 }> {
-  let query = supabase
+  let query = getSupabaseClient()
     .from("image_generations")
     .select("credits_used")
     .eq("user_id", userId)
