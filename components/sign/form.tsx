@@ -44,6 +44,8 @@ export default function SignForm({
     string | null
   >(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+  const requiresCaptcha = mode === "signup" && !!turnstileSiteKey;
 
   const {
     login,
@@ -82,12 +84,15 @@ export default function SignForm({
       }
     } else if (mode === "signup") {
       // 注册时检查CAPTCHA
-      if (!captchaToken) {
+      if (requiresCaptcha && !captchaToken) {
         setMessage("Please complete the CAPTCHA verification");
         return;
       }
       
-      const result = await signup({ ...data, captchaToken });
+      const result = await signup({
+        ...data,
+        captchaToken: captchaToken || undefined,
+      });
       if (result) {
         if (result.requiresVerification) {
           // 注册成功需要验证时，显示验证提示
@@ -345,10 +350,10 @@ export default function SignForm({
                   )}
 
                   {/* Turnstile CAPTCHA - Only for signup */}
-                  {mode === "signup" && process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+                  {requiresCaptcha && turnstileSiteKey && (
                     <div className="flex justify-center">
                       <Turnstile
-                        siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                        siteKey={turnstileSiteKey}
                         onSuccess={(token) => {
                           setCaptchaToken(token);
                           setMessage(null); // Clear CAPTCHA error message
@@ -364,7 +369,11 @@ export default function SignForm({
                     </div>
                   )}
 
-                  <Button type="submit" className="w-full" disabled={isLoading || (mode === "signup" && !captchaToken)}>
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={isLoading || (requiresCaptcha && !captchaToken)}
+                  >
                     {isLoading
                       ? "Loading..."
                       : mode === "signin"
