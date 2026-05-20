@@ -26,7 +26,7 @@ export interface ProductConfig {
 export const PRODUCT_CONFIGS: ProductConfig[] = [
   {
     product_id: "mini-monthly",
-    product_name: "Seedance Mini",
+    product_name: "GeminiOmni Mini",
     amount: 2000,
     currency: "USD",
     credits: 200,
@@ -37,7 +37,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   },
   {
     product_id: "mini-yearly",
-    product_name: "Seedance Mini Yearly",
+    product_name: "GeminiOmni Mini Yearly",
     amount: 14400,
     currency: "USD",
     credits: 2400,
@@ -48,7 +48,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   },
   {
     product_id: "standard-monthly",
-    product_name: "Seedance Standard",
+    product_name: "GeminiOmni Standard",
     amount: 5000,
     currency: "USD",
     credits: 1000,
@@ -59,7 +59,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   },
   {
     product_id: "standard-yearly",
-    product_name: "Seedance Standard Yearly",
+    product_name: "GeminiOmni Standard Yearly",
     amount: 36000,
     currency: "USD",
     credits: 12000,
@@ -70,7 +70,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   },
   {
     product_id: "plus-monthly",
-    product_name: "Seedance Plus",
+    product_name: "GeminiOmni Plus",
     amount: 9900,
     currency: "USD",
     credits: 3000,
@@ -81,7 +81,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   },
   {
     product_id: "plus-yearly",
-    product_name: "Seedance Plus Yearly",
+    product_name: "GeminiOmni Plus Yearly",
     amount: 72000,
     currency: "USD",
     credits: 36000,
@@ -92,7 +92,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   },
   {
     product_id: "max-monthly",
-    product_name: "Seedance Max",
+    product_name: "GeminiOmni Max",
     amount: 36000,
     currency: "USD",
     credits: 12000,
@@ -103,7 +103,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   },
   {
     product_id: "max-yearly",
-    product_name: "Seedance Max Yearly",
+    product_name: "GeminiOmni Max Yearly",
     amount: 259200,
     currency: "USD",
     credits: 144000,
@@ -173,7 +173,7 @@ export interface BundleProductConfig {
 export const BUNDLE_CONFIGS: BundleProductConfig[] = [
   {
     product_id: "bundle-20",
-    product_name: "Seedance 200 Credits Pack",
+    product_name: "GeminiOmni 200 Credits Pack",
     amount: 2000, // $20
     currency: "USD",
     credits: 200,
@@ -183,7 +183,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
   },
   {
     product_id: "bundle-40",
-    product_name: "Seedance 400 Credits Pack",
+    product_name: "GeminiOmni 400 Credits Pack",
     amount: 4000, // $40
     currency: "USD",
     credits: 400,
@@ -193,7 +193,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
   },
   {
     product_id: "bundle-100",
-    product_name: "Seedance 1000 Credits Pack",
+    product_name: "GeminiOmni 1000 Credits Pack",
     amount: 10000, // $100
     currency: "USD",
     credits: 1000,
@@ -203,7 +203,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
   },
   {
     product_id: "bundle-200",
-    product_name: "Seedance 2000 Credits Pack",
+    product_name: "GeminiOmni 2000 Credits Pack",
     amount: 20000, // $200
     currency: "USD",
     credits: 2000,
@@ -213,7 +213,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
   },
   {
     product_id: "bundle-500",
-    product_name: "Seedance 5000 Credits Pack",
+    product_name: "GeminiOmni 5000 Credits Pack",
     amount: 50000, // $500
     currency: "USD",
     credits: 5000,
@@ -223,7 +223,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
   },
   {
     product_id: "bundle-1000",
-    product_name: "Seedance 10000 Credits Pack",
+    product_name: "GeminiOmni 10000 Credits Pack",
     amount: 100000, // $1000
     currency: "USD",
     credits: 10000,

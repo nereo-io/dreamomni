@@ -128,8 +128,8 @@ export default function PricingModal({
   const checkRecentPayment = useCallback(async (): Promise<
     "success" | "failure" | "none"
   > => {
-    const paymentPending = localStorage.getItem("veo3_payment_pending");
-    const paymentTimestamp = localStorage.getItem("veo3_payment_timestamp");
+    const paymentPending = localStorage.getItem("geminiomni_payment_pending");
+    const paymentTimestamp = localStorage.getItem("geminiomni_payment_timestamp");
     if (!paymentPending || !paymentTimestamp) {
       return "none";
     }
@@ -188,9 +188,9 @@ export default function PricingModal({
           });
 
           setShowSuccessModal(true);
-          localStorage.removeItem("veo3_payment_pending");
-          localStorage.removeItem("veo3_payment_timestamp");
-          localStorage.removeItem("veo3_payment_info");
+          localStorage.removeItem("geminiomni_payment_pending");
+          localStorage.removeItem("geminiomni_payment_timestamp");
+          localStorage.removeItem("geminiomni_payment_info");
           return "success";
         }
 
@@ -200,9 +200,9 @@ export default function PricingModal({
             failureInfo.message || failureInfo.code || "Payment failed";
 
           toast.error(message);
-          localStorage.removeItem("veo3_payment_pending");
-          localStorage.removeItem("veo3_payment_timestamp");
-          localStorage.removeItem("veo3_payment_info");
+          localStorage.removeItem("geminiomni_payment_pending");
+          localStorage.removeItem("geminiomni_payment_timestamp");
+          localStorage.removeItem("geminiomni_payment_info");
           return "failure";
         }
       }
@@ -352,7 +352,7 @@ export default function PricingModal({
 
       // Generate product name based on user region
       const productName = isRussia
-        ? `Seedance Пакет ${bundle.credits} кредитов`
+        ? `GeminiOmni Пакет ${bundle.credits} кредитов`
         : bundle.name;
 
       // Build payment params for bundle
@@ -370,13 +370,13 @@ export default function PricingModal({
 
       // Set payment pending marker
       const paymentTimestamp = Date.now();
-      localStorage.setItem("veo3_payment_pending", "true");
+      localStorage.setItem("geminiomni_payment_pending", "true");
       localStorage.setItem(
-        "veo3_payment_timestamp",
+        "geminiomni_payment_timestamp",
         paymentTimestamp.toString(),
       );
       localStorage.setItem(
-        "veo3_payment_info",
+        "geminiomni_payment_info",
         JSON.stringify({
           planName: productName,
           credits: bundle.credits,
@@ -446,10 +446,10 @@ export default function PricingModal({
 
     // 设置支付等待标记（仅用于显示成功弹窗）
     const paymentTimestamp = Date.now();
-    localStorage.setItem("veo3_payment_pending", "true");
-    localStorage.setItem("veo3_payment_timestamp", paymentTimestamp.toString());
+    localStorage.setItem("geminiomni_payment_pending", "true");
+    localStorage.setItem("geminiomni_payment_timestamp", paymentTimestamp.toString());
     localStorage.setItem(
-      "veo3_payment_info",
+      "geminiomni_payment_info",
       JSON.stringify({
         planName: item.title || item.product_name,
         credits: item.credits,
