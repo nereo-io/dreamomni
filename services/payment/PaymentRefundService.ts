@@ -55,10 +55,11 @@ function resolveTransactionId(order: Order, paymentProvider: string) {
 
   if (paymentProvider === "stripe") {
     return (
+      order.payment_id ||
       getNestedId(paidDetail?.payment_intent) ||
       getNestedId(paidDetail?.charge) ||
+      getNestedId(paidDetail?.invoice) ||
       order.stripe_session_id ||
-      order.payment_id ||
       getNestedId(paidDetail?.id) ||
       null
     );
