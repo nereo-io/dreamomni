@@ -11,6 +11,11 @@ import {
   updateCreemSubscriptionStatus,
   type CreemSubscription,
 } from "@/models/creem-subscription";
+import {
+  findActiveStripeSubscriptionsByUserUuid,
+  updateStripeSubscriptionStatus,
+  type StripeSubscription,
+} from "@/models/stripe-subscription";
 import { trackFirstPromoterCancellation } from "@/services/analytics/first-promoter";
 
 // 日志函数
@@ -33,7 +38,7 @@ export interface CancelResult {
   canceledCount: number;
   failedCount: number;
   details: {
-    provider: "payssion" | "creem";
+    provider: "payssion" | "creem" | "stripe";
     subscriptionId: string;
     success: boolean;
     error?: string;
@@ -52,7 +57,7 @@ export class SubscriptionManagementService {
   static async cancelOtherSubscriptions(
     userUuid: string,
     excludeSubscriptionId: string,
-    excludeProvider: "payssion" | "creem"
+    excludeProvider: "payssion" | "creem" | "stripe"
   ): Promise<CancelResult> {
     const result: CancelResult = {
       success: true,
@@ -76,7 +81,11 @@ export class SubscriptionManagementService {
       const creemSubscriptions = await findActiveCreemSubscriptionsByUserUuid(userUuid);
       logInfo(`📋 找到 ${creemSubscriptions.length} 个活跃的 Creem 订阅`);
 
-      // 3. 取消 Payssion 订阅（排除新订阅）
+      // 3. 获取用户所有活跃的 Stripe 订阅
+      const stripeSubscriptions = await findActiveStripeSubscriptionsByUserUuid(userUuid);
+      logInfo(`📋 找到 ${stripeSubscriptions.length} 个活跃的 Stripe 订阅`);
+
+      // 4. 取消 Payssion 订阅（排除新订阅）
       for (const subscription of payssionSubscriptions) {
         // 排除新订阅
         if (
@@ -97,7 +106,7 @@ export class SubscriptionManagementService {
         }
       }
 
-      // 4. 取消 Creem 订阅（排除新订阅）
+      // 5. 取消 Creem 订阅（排除新订阅）
       for (const subscription of creemSubscriptions) {
         // 排除新订阅
         if (
@@ -109,6 +118,26 @@ export class SubscriptionManagementService {
         }
 
         const cancelResult = await this.cancelCreemSubscription(subscription);
+        result.details.push(cancelResult);
+
+        if (cancelResult.success) {
+          result.canceledCount++;
+        } else {
+          result.failedCount++;
+        }
+      }
+
+      // 6. 取消 Stripe 订阅（排除新订阅）
+      for (const subscription of stripeSubscriptions) {
+        if (
+          excludeProvider === "stripe" &&
+          subscription.stripe_subscription_id === excludeSubscriptionId
+        ) {
+          logInfo(`⏭️ 跳过新订阅: ${subscription.stripe_subscription_id}`);
+          continue;
+        }
+
+        const cancelResult = await this.cancelStripeSubscription(subscription);
         result.details.push(cancelResult);
 
         if (cancelResult.success) {
@@ -234,6 +263,59 @@ export class SubscriptionManagementService {
       logError(`❌ 取消 Creem 订阅 ${subscriptionId} 失败`, error.message);
       return {
         provider: "creem",
+        subscriptionId,
+        success: false,
+        error: error.message,
+      };
+    }
+  }
+
+  /**
+   * 取消单个 Stripe 订阅
+   */
+  private static async cancelStripeSubscription(
+    subscription: StripeSubscription
+  ): Promise<CancelResult["details"][0]> {
+    const subscriptionId = subscription.stripe_subscription_id;
+
+    logInfo(`🚫 正在取消 Stripe 订阅: ${subscriptionId}`);
+
+    try {
+      const paymentRouter = getPaymentRouter();
+      const apiSuccess = await paymentRouter.cancelSubscription(
+        "stripe",
+        subscriptionId
+      );
+
+      if (!apiSuccess) {
+        logError(`⚠️ Stripe 订阅 ${subscriptionId} API 取消失败，跳过本地状态更新`);
+        return {
+          provider: "stripe",
+          subscriptionId,
+          success: false,
+          error: "API cancellation failed",
+        };
+      }
+
+      logInfo(`✅ Stripe 订阅 ${subscriptionId} API 取消成功`);
+
+      await updateStripeSubscriptionStatus(subscriptionId, "canceled");
+      logInfo(`✅ Stripe 订阅 ${subscriptionId} 本地状态已更新为 canceled`);
+      await trackFirstPromoterCancellation({
+        paymentProvider: "stripe",
+        subscriptionId,
+        userUuid: subscription.user_uuid,
+      });
+
+      return {
+        provider: "stripe",
+        subscriptionId,
+        success: true,
+      };
+    } catch (error: any) {
+      logError(`❌ 取消 Stripe 订阅 ${subscriptionId} 失败`, error.message);
+      return {
+        provider: "stripe",
         subscriptionId,
         success: false,
         error: error.message,

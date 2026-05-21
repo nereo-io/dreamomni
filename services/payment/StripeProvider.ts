@@ -158,6 +158,26 @@ export class StripeProvider extends BasePaymentProvider {
     );
   }
 
+  async cancelSubscription(subscriptionId: string): Promise<boolean> {
+    try {
+      const stripe = this.getStripe();
+
+      await stripe.subscriptions.update(subscriptionId, {
+        cancel_at_period_end: true,
+      });
+
+      return true;
+    } catch (error: any) {
+      console.error("Stripe subscription cancellation failed:", error);
+      throw new PaymentError(
+        "SUBSCRIPTION_CANCEL_FAILED",
+        error.message || "Failed to cancel Stripe subscription",
+        this.name,
+        error
+      );
+    }
+  }
+
   async refundPayment(request: RefundRequest): Promise<RefundResult> {
     if (!process.env.STRIPE_PRIVATE_KEY) {
       return {

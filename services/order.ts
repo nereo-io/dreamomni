@@ -1,26 +1,22 @@
 import {
-  CreditsTransType,
-  increaseCredits,
-} from "./credit";
-import {
   findOrderByOrderNo,
-  updateOrderCredits,
-  updateOrderStatus,
+  updateOrderPaymentId,
+  insertOrder,
 } from "@/models/order";
-import { createOrUpdateMembership } from "./membership";
-import { getIsoTimestr, getOneYearLaterTimestr } from "@/lib/time";
+import { getIsoTimestr } from "@/lib/time";
 import Stripe from "stripe";
 // import { updateAffiliateForOrder } from "./affiliate"; // 已移除邀请奖励功能
-import {
-  getAnyProductConfig,
-  getBundleBonusCreditsForTier,
-} from "@/config/products";
+import { getAnyProductConfig } from "@/config/products";
 import { Order } from "@/types/order";
-import { getUserHighestSubscriptionTier } from "@/services/subscriptionTier";
 import {
   trackFirstPromoterCancellation,
-  trackFirstPromoterSale,
 } from "@/services/analytics/first-promoter";
+import {
+  resolveStripePaymentIdFromInvoice,
+  resolveStripePaymentIdFromSession,
+} from "@/lib/stripe-payment";
+import { PaymentProcessingService } from "@/services/payment/PaymentProcessingService";
+import { SubscriptionManagementService } from "@/services/payment/SubscriptionManagementService";
 
 function getStripeId(value: string | { id?: string } | null | undefined) {
   if (!value) return undefined;
@@ -98,6 +94,40 @@ async function syncStripeSubscriptionFromSession(
   }
 }
 
+async function syncStripeOrderPaymentIdFromSession(
+  session: Stripe.Checkout.Session,
+  order: Order,
+  stripe?: Stripe
+) {
+  if (order.payment_id) {
+    return order.payment_id;
+  }
+
+  try {
+    const paymentId = await resolveStripePaymentIdFromSession(session, stripe);
+    if (paymentId) {
+      await updateOrderPaymentId(order.order_no, paymentId);
+      return paymentId;
+    }
+  } catch (error) {
+    console.error("sync stripe order payment id failed:", error);
+  }
+
+  return undefined;
+}
+
+async function resolveStripePaymentIdFromWebhookInvoice(
+  invoice: Stripe.Invoice,
+  stripe: Stripe
+) {
+  try {
+    return await resolveStripePaymentIdFromInvoice(invoice, stripe);
+  } catch (error) {
+    console.error("resolve stripe invoice payment id failed:", error);
+    return undefined;
+  }
+}
+
 export async function handleOrderSession(
   session: Stripe.Checkout.Session,
   stripe?: Stripe
@@ -134,95 +164,67 @@ export async function handleOrderSession(
 
     // 已处理过，幂等返回
     if (order.status !== "created") {
+      await syncStripeOrderPaymentIdFromSession(session, order, stripe);
       await syncStripeSubscriptionFromSession(session, order, stripe);
       console.log("Order already processed, skipping:", order_no);
       return;
     }
 
+    const paymentId = await syncStripeOrderPaymentIdFromSession(
+      session,
+      order,
+      stripe
+    );
+    const stripePaymentId =
+      paymentId || getStripeId(session.payment_intent as any) || session.id;
     const paid_at = getIsoTimestr();
-    await updateOrderStatus(order_no, "paid", paid_at, paid_email, paid_detail);
+    const subscriptionId = getStripeId(session.subscription as any);
+
+    const processingResult = await PaymentProcessingService.processPayment({
+      paymentId: stripePaymentId,
+      orderId: order_no,
+      userUuid: user_uuid,
+      amount: String(order.amount),
+      subscriptionId,
+      userEmail: paid_email || order.user_email,
+      paymentMethod: "stripe",
+      paymentProvider: "stripe",
+      metadata: {
+        credits: order.credits,
+        product_id: order.product_id,
+        product_name: order.product_name,
+        interval: order.interval,
+        valid_months: order.valid_months,
+        stripe_session_id: session.id,
+      },
+    });
+
+    if (!processingResult.success) {
+      throw new Error(
+        `stripe payment processing failed: ${processingResult.error}`
+      );
+    }
+
     await syncStripeSubscriptionFromSession(
       session,
       { ...order, status: "paid", paid_at },
       stripe
     );
 
-    // 处理订单类型
-    const interval = order.interval;
-    const product_id = order.product_id;
-    const credits = session.metadata.credits; // 保留原始用法，用于会员类型判断
-
-    console.log("Order details:", {
-      interval,
-      product_id,
-      credits,
-    });
-
-    // 处理会员订阅或积分包购买
-    console.log("Processing membership/credits purchase for user:", user_uuid);
-
-    const config = product_id
-      ? getAnyProductConfig(product_id)
-      : undefined;
-    let actualCreditsToIncrease = 0;
-
-    if (config) {
-      actualCreditsToIncrease = config.credits;
-      // Only update membership for subscriptions (not bundles)
-      // Bundle config doesn't have membershipType field
-      if ('membershipType' in config && config.membershipType) {
-        try {
-          await createOrUpdateMembership(user_uuid, config.membershipType as "monthly" | "yearly");
-        } catch (e) {
-          console.log("update membership failed: ", e);
-          throw e;
-        }
+    if (subscriptionId && order.interval !== "one-time") {
+      try {
+        await SubscriptionManagementService.cancelOtherSubscriptions(
+          user_uuid,
+          subscriptionId,
+          "stripe"
+        );
+      } catch (cancelError: any) {
+        console.error(
+          "cancel other subscriptions after stripe purchase failed:",
+          cancelError.message
+        );
       }
     }
-
-    if (interval === "one-time" && product_id && actualCreditsToIncrease > 0) {
-      const tier = await getUserHighestSubscriptionTier(user_uuid);
-      const bonusCredits = getBundleBonusCreditsForTier(product_id, tier);
-      actualCreditsToIncrease += bonusCredits;
-
-      if (bonusCredits > 0) {
-        await updateOrderCredits(order.order_no, actualCreditsToIncrease);
-        order.credits = actualCreditsToIncrease;
-      }
-
-      console.log(
-        `🎁 Stripe bundle bonus applied: +${bonusCredits} (tier=${tier}, product=${product_id})`
-      );
-    }
-
-    // 1. 增加积分 (如果根据product_id确定了数量)
-    if (actualCreditsToIncrease > 0) {
-      await increaseCredits({
-        user_uuid: user_uuid,
-        trans_type: CreditsTransType.OrderPay,
-        credits: actualCreditsToIncrease,
-        order_no: order.order_no,
-        expired_at: order.expired_at || getOneYearLaterTimestr(),
-        payment_id: session.metadata.payment_id, // 从 metadata 获取 payment_id
-      });
-      console.log(
-        `Increased ${actualCreditsToIncrease} credits for user ${user_uuid} for order ${order.order_no} (Product ID: ${product_id})`
-      );
-    } else {
-      console.log(
-        `No specific credit increase rule based on product_id ${product_id} for order ${order.order_no}. Only membership might be updated.`
-      );
-    }
-
-    await trackFirstPromoterSale({
-      orderNo: order.order_no,
-      paymentProvider: "stripe",
-      paymentId: getStripeId(session.payment_intent as any) || session.id,
-      userUuid: order.user_uuid,
-      email: paid_email || order.user_email,
-      amount: order.amount,
-      currency: order.currency,
-    });
 
     console.log(
       "handle order session successed: ",
@@ -286,76 +288,105 @@ export async function handleInvoicePayment(
       billing_reason: invoice.billing_reason,
     });
 
-    // 更新订单状态（如果有订单号）
-    if (order_no) {
-      const paid_email = invoice.customer_email || "";
-      const paid_detail = JSON.stringify(invoice);
-      const paid_at = getIsoTimestr();
-
-      // 尝试更新订单状态（如果存在）
-      try {
-        const order = await findOrderByOrderNo(order_no);
-        if (order) {
-          await updateOrderStatus(
-            order_no,
-            "paid",
-            paid_at,
-            paid_email,
-            paid_detail
-          );
-        }
-      } catch (err) {
-        console.log("更新订单状态失败，可能是续费没有对应订单:", err);
-        // 续费可能没有对应的订单，继续处理会员更新
-      }
-    }
-
-    // 产品配置映射
     const renewalConfig = productIdFromInvoice
       ? getAnyProductConfig(productIdFromInvoice)
       : undefined;
-    let actualCreditsToIncreaseForRenewal = 0;
 
-    if (renewalConfig) {
-      actualCreditsToIncreaseForRenewal = renewalConfig.credits;
-      // Only update membership for subscriptions (not bundles)
-      if ('membershipType' in renewalConfig && renewalConfig.membershipType) {
-        try {
-          await createOrUpdateMembership(user_uuid, renewalConfig.membershipType as "monthly" | "yearly");
-        } catch (e) {
-          console.log("update membership failed for renewal: ", e);
-          throw e;
-        }
-      }
-    }
-
-    // 优先处理增加积分的逻辑
-    if (actualCreditsToIncreaseForRenewal > 0) {
-      await increaseCredits({
-        user_uuid: user_uuid,
-        trans_type: CreditsTransType.OrderPay,
-        credits: actualCreditsToIncreaseForRenewal,
-        order_no: order_no || invoice.id,
-        expired_at: getOneYearLaterTimestr(),
-        payment_id: invoice.id, // 用 invoice.id 做幂等
-      });
-      console.log(
-        `Increased ${actualCreditsToIncreaseForRenewal} credits for user ${user_uuid} due to invoice ${invoice.id} (Product ID: ${productIdFromInvoice})`
-      );
-    } else {
+    if (!renewalConfig) {
       console.log(
         `No specific credit increase rule for renewal (invoice ${invoice.id}) based on product_id ${productIdFromInvoice}. Only membership might be updated.`
       );
+      return;
     }
-    await trackFirstPromoterSale({
-      orderNo: order_no || invoice.id,
-      paymentProvider: "stripe",
-      paymentId: invoice.id,
+
+    const resolvedPaymentId = await resolveStripePaymentIdFromWebhookInvoice(
+      invoice,
+      stripe
+    );
+    const paymentId = resolvedPaymentId || invoice.id;
+    const renewalOrderNo = `RNW_${paymentId}`;
+    const subscriptionId = getStripeId(invoice.subscription as any);
+
+    const isProcessed =
+      await PaymentProcessingService.checkPaymentAlreadyProcessed(
+        renewalOrderNo,
+        paymentId
+      );
+
+    if (isProcessed) {
+      console.log("Stripe renewal already processed, skipping:", {
+        invoiceId: invoice.id,
+        paymentId,
+        renewalOrderNo,
+      });
+      return;
+    }
+
+    const originalOrder = order_no
+      ? await findOrderByOrderNo(order_no)
+      : undefined;
+    const existingRenewalOrder = await findOrderByOrderNo(renewalOrderNo);
+
+    if (!existingRenewalOrder) {
+      const currentDate = new Date();
+      const expiredDate = new Date(currentDate);
+      expiredDate.setMonth(
+        currentDate.getMonth() + renewalConfig.valid_months
+      );
+      expiredDate.setTime(expiredDate.getTime() + 24 * 60 * 60 * 1000);
+
+      await insertOrder({
+        order_no: renewalOrderNo,
+        user_uuid,
+        user_email:
+          invoice.customer_email || originalOrder?.user_email || "",
+        amount: renewalConfig.amount,
+        currency: renewalConfig.currency,
+        product_id: renewalConfig.product_id,
+        product_name: renewalConfig.product_name,
+        interval: renewalConfig.interval,
+        expired_at: expiredDate.toISOString(),
+        status: "paid",
+        is_renewal: true,
+        payment_id: paymentId,
+        payment_provider: "stripe",
+        credits: renewalConfig.credits,
+        client_id: originalOrder?.client_id || undefined,
+        first_touch: originalOrder?.first_touch || null,
+        last_touch: originalOrder?.last_touch || null,
+        paid_at: new Date().toISOString(),
+        created_at: new Date().toISOString(),
+        is_monthly_distribution:
+          originalOrder?.is_monthly_distribution ??
+          renewalConfig.interval === "year",
+      });
+    }
+
+    const processingResult = await PaymentProcessingService.processPayment({
+      paymentId,
+      orderId: renewalOrderNo,
       userUuid: user_uuid,
-      email: invoice.customer_email || "",
-      amount: invoice.amount_paid,
-      currency: invoice.currency,
+      amount: String(renewalConfig.amount),
+      subscriptionId,
+      userEmail: invoice.customer_email || originalOrder?.user_email || "",
+      paymentMethod: "stripe",
+      paymentProvider: "stripe",
+      metadata: {
+        credits: renewalConfig.credits,
+        product_id: renewalConfig.product_id,
+        product_name: renewalConfig.product_name,
+        interval: renewalConfig.interval,
+        valid_months: renewalConfig.valid_months,
+        stripe_invoice_id: invoice.id,
+      },
     });
+
+    if (!processingResult.success) {
+      throw new Error(
+        `stripe renewal processing failed: ${processingResult.error}`
+      );
+    }
+
     console.log("Invoice payment processed successfully:", invoice.id);
   } catch (e) {
     console.log("handle invoice payment failed:", e);
