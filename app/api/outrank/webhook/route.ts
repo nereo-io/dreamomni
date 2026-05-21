@@ -1,7 +1,6 @@
 import { NextRequest } from "next/server";
 import { respData, respErr } from "@/lib/resp";
 import { upsertPostFromOutrank, PostStatus } from "@/models/post";
-import { v4 as uuidv4 } from "uuid";
 
 interface OutrankArticle {
   id: string;
@@ -17,7 +16,6 @@ interface OutrankArticle {
 
 async function saveArticle(article: OutrankArticle) {
   const post = {
-    uuid: uuidv4(),
     outrank_id: article.id,
     slug: article.slug,
     title: article.title,

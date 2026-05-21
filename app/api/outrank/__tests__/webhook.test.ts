@@ -72,6 +72,9 @@ describe('Outrank webhook', () => {
         locale: 'en',
       })
     );
+    expect(upsertPostFromOutrankMock.mock.calls[0][0]).not.toHaveProperty(
+      'uuid'
+    );
   });
 
   it('stores updated articles from Outrank', async () => {
