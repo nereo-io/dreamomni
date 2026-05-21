@@ -179,18 +179,18 @@ export default async function LandingPage({
           </div>
         </section>
 
-        <section className="bg-[#eaf7ff] px-5 py-20 text-slate-950 sm:px-8">
+        <section className="border-y border-white/10 bg-slate-950 px-5 py-20 text-white sm:px-8">
           <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
             <div>
-              <h2 className="text-3xl font-semibold tracking-normal sm:text-4xl">
+              <h2 className="text-3xl font-semibold tracking-normal text-white sm:text-4xl">
                 {copy.workflow.title}
               </h2>
-              <p className="mt-5 leading-8 text-slate-700">
+              <p className="mt-5 leading-8 text-slate-300">
                 {copy.workflow.description}
               </p>
               <Button
                 asChild
-                className="mt-7 rounded-md bg-slate-950 text-white hover:bg-slate-800"
+                className="mt-7 rounded-md bg-cyan-300 text-slate-950 shadow-[0_0_28px_rgba(103,232,249,0.22)] hover:bg-cyan-200"
               >
                 <Link href={textToVideoHref}>
                   {copy.workflow.cta}
@@ -204,18 +204,18 @@ export default async function LandingPage({
                 return (
                   <article
                     key={item.title}
-                    className="rounded-md border border-cyan-950/10 bg-white p-5 shadow-sm"
+                    className="rounded-md border border-white/10 bg-white/[0.045] p-5 shadow-lg shadow-black/10"
                   >
                     <div className="flex items-center justify-between gap-4">
-                      <Icon className="h-6 w-6 text-cyan-700" />
-                      <span className="text-sm font-semibold text-slate-400">
+                      <Icon className="h-6 w-6 text-cyan-200" />
+                      <span className="text-sm font-semibold text-slate-500">
                         0{index + 1}
                       </span>
                     </div>
-                    <h3 className="mt-4 text-lg font-semibold text-slate-950">
+                    <h3 className="mt-4 text-lg font-semibold text-white">
                       {item.title}
                     </h3>
-                    <p className="mt-2 leading-7 text-slate-700">
+                    <p className="mt-2 leading-7 text-slate-300">
                       {item.description}
                     </p>
                   </article>
