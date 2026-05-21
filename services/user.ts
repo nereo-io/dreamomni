@@ -100,11 +100,11 @@ export async function saveUser(user: User) {
       }
 
       // 新用户赠送积分，1个月后过期
-      // 已有IP限制和用户验证防护，恢复10积分赠送
+      // 已有IP限制和用户验证防护，赠送 6 积分（见 CreditsAmount.NewUserGet）
       await increaseCredits({
         user_uuid: user.uuid || "",
         trans_type: CreditsTransType.NewUser,
-        credits: CreditsAmount.NewUserGet, // 恢复为10积分
+        credits: CreditsAmount.NewUserGet, // 6 积分
         expired_at: getOneMonthLaterTimestr(),
       });
     } else {
