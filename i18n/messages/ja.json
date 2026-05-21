@@ -82,6 +82,7 @@
   },
   "sidebar": {
     "home": "ホーム",
+    "omni_studio": "Omni Studio",
     "image_to_video": "画像から動画",
     "text_to_video": "テキストから動画",
     "reference_to_video": "リファレンスから動画",

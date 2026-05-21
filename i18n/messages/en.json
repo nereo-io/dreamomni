@@ -78,6 +78,7 @@
   },
   "sidebar": {
     "home": "Home",
+    "omni_studio": "Omni Studio",
     "image_to_video": "Image to Video",
     "text_to_video": "Text to Video",
     "reference_to_video": "Reference to Video",

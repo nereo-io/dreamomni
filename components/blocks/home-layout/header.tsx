@@ -12,7 +12,7 @@ export function AIVideoHeader() {
   const locale = useLocale()
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900 border-b border-gray-800 px-6 py-3">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900 border-b border-gray-800 px-4 py-3 sm:px-6">
       <div className="flex items-center justify-between">
         <Link
           href={locale === "en" ? "/" : `/${locale}`}
@@ -27,7 +27,7 @@ export function AIVideoHeader() {
           />
           <span>GeminiOmni</span>
         </Link>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <LocaleToggle />
           {user ? (
             <SignToggle />
@@ -35,13 +35,13 @@ export function AIVideoHeader() {
             <>
               <Button 
                 variant="ghost" 
-                className="text-white hover:bg-gray-800"
+                className="px-2 text-white hover:bg-gray-800 sm:px-4"
                 onClick={() => setShowSignModal(true)}
               >
                 Login
               </Button>
               <Button 
-                className="bg-primary text-primary-foreground hover:bg-primary/90"
+                className="hidden bg-primary text-primary-foreground hover:bg-primary/90 sm:inline-flex"
                 onClick={() => setShowSignModal(true)}
               >
                 Start for Free

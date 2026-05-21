@@ -42,7 +42,7 @@ describe('sitemap', () => {
     mockExistsSync.mockReturnValue(false);
 
     const entries = await sitemap();
-    const expectedStaticPageCount = 9 * locales.length;
+    const expectedStaticPageCount = 10 * locales.length;
 
     expect(mockExecSync).not.toHaveBeenCalled();
     expect(entries).toHaveLength(expectedStaticPageCount);

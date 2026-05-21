@@ -114,6 +114,9 @@ export async function POST(req: Request) {
       image_url, // 保留用于向后兼容
       image_urls, // 新增：支持1-2张图片数组（首帧、尾帧）
       media_urls, // 新增：混合素材URLs（图片/视频/音频）
+      video_list, // Gemini Omni: source video clips
+      audio_ids, // Gemini Omni: audio references created upstream by KIE
+      character_ids, // Gemini Omni: character consistency references
       source_image_ids, // 新增：来源图片ID数组（用于追踪"My Creations"选择）
       negative_prompt,
       aspect_ratio = "16:9",
@@ -296,6 +299,30 @@ export async function POST(req: Request) {
           .map((url) => (typeof url === "string" ? url.trim() : ""))
           .filter(Boolean)
       : undefined;
+    const finalVideoList = Array.isArray(video_list)
+      ? video_list
+          .map((item) => ({
+            url: typeof item?.url === "string" ? item.url.trim() : "",
+            start: Number.isFinite(Number(item?.start)) ? Number(item.start) : 0,
+            ends: Number.isFinite(Number(item?.ends))
+              ? Number(item.ends)
+              : durationInt,
+          }))
+          .filter((item) => item.url)
+          .slice(0, 1)
+      : undefined;
+    const finalAudioIds = Array.isArray(audio_ids)
+      ? audio_ids
+          .map((id) => (typeof id === "string" ? id.trim() : ""))
+          .filter(Boolean)
+          .slice(0, 1)
+      : undefined;
+    const finalCharacterIds = Array.isArray(character_ids)
+      ? character_ids
+          .map((id) => (typeof id === "string" ? id.trim() : ""))
+          .filter(Boolean)
+          .slice(0, 3)
+      : undefined;
 
     // 7. 在数据库中创建记录
     const videoGeneration = await createVideoGeneration({
@@ -325,6 +352,15 @@ export async function POST(req: Request) {
         request_params: {
           ...(media_urls && Array.isArray(media_urls) && media_urls.length > 0
             ? { media_urls }
+            : {}),
+          ...(finalVideoList && finalVideoList.length > 0
+            ? { video_list: finalVideoList }
+            : {}),
+          ...(finalAudioIds && finalAudioIds.length > 0
+            ? { audio_ids: finalAudioIds }
+            : {}),
+          ...(finalCharacterIds && finalCharacterIds.length > 0
+            ? { character_ids: finalCharacterIds }
             : {}),
           ...(generate_audio !== undefined ? { generate_audio } : {}),
           ...(watermarkEnabled ? { watermark_enabled: true } : {}),
@@ -384,8 +420,11 @@ export async function POST(req: Request) {
 
     // 根据模型类型添加相应参数
     const hasMediaUrls = media_urls && Array.isArray(media_urls) && media_urls.length > 0;
+    const hasGeminiOmniStructuredInput =
+      (finalVideoList && finalVideoList.length > 0) ||
+      (finalCharacterIds && finalCharacterIds.length > 0);
 
-    if (isImageToVideoModel(finalModel) && !hasMediaUrls) {
+    if (isImageToVideoModel(finalModel) && !hasMediaUrls && !hasGeminiOmniStructuredInput) {
       if (!finalImageUrls || finalImageUrls.length === 0) {
         return respErr("Image-to-video models require at least one image");
       }
@@ -412,6 +451,15 @@ export async function POST(req: Request) {
     // 用户原始参数不会因为主模型的分支未运行而丢失（下游 provider 自行转换字段名/形状）。
     if (hasMediaUrls) {
       input.media_urls = media_urls;
+    }
+    if (finalVideoList && finalVideoList.length > 0) {
+      input.video_list = finalVideoList;
+    }
+    if (finalAudioIds && finalAudioIds.length > 0) {
+      input.audio_ids = finalAudioIds;
+    }
+    if (finalCharacterIds && finalCharacterIds.length > 0) {
+      input.character_ids = finalCharacterIds;
     }
     if (generate_audio !== undefined && modelConfig.supportsAudio) {
       input.generate_audio = generate_audio;
@@ -680,6 +728,9 @@ export async function POST(req: Request) {
           image_url: image_url || null,
           image_urls: finalImageUrls || null,
           media_urls: finalMediaUrls || null,
+          video_list: finalVideoList || null,
+          audio_ids: finalAudioIds || null,
+          character_ids: finalCharacterIds || null,
           source_image_ids: source_image_ids || null,
           aspect_ratio,
           duration,

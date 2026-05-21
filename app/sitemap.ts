@@ -33,6 +33,7 @@ let gitHistoryAvailable: boolean | undefined;
 
 const STATIC_PAGE_SOURCE_FILES: Record<string, string> = {
   "/": "app/[locale]/(default)/page.tsx",
+  "/omni-studio": "app/[locale]/(home)/omni-studio/page.tsx",
   "/image-to-video": "app/[locale]/(home)/image-to-video/page.tsx",
   "/text-to-video": "app/[locale]/(home)/text-to-video/page.tsx",
   "/text-to-image": "app/[locale]/(home)/text-to-image/page.tsx",
@@ -131,6 +132,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       },
       // /home removed: blocked by robots.txt (logged-in page, not for SEO)
 
+      {
+        path: "/omni-studio",
+        changeFrequency: "daily",
+        priority: 0.9,
+      },
       {
         path: "/image-to-video",
         changeFrequency: "daily",

@@ -55,6 +55,7 @@ export function Sidebar() {
   ];
 
   const videoAIItems: SidebarItem[] = [
+    { icon: Sparkles, labelKey: "omni_studio", href: "/omni-studio" },
     { icon: ImageIcon, labelKey: "image_to_video", href: "/image-to-video" },
     { icon: Type, labelKey: "text_to_video", href: "/text-to-video" },
     { icon: Play, labelKey: "reference_to_video", href: "/reference-to-video" },

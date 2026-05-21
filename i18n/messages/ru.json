@@ -78,6 +78,7 @@
   },
   "sidebar": {
     "home": "Главная",
+    "omni_studio": "Omni Studio",
     "image_to_video": "Изображение в видео",
     "text_to_video": "Текст в видео",
     "reference_to_video": "Референс в видео",

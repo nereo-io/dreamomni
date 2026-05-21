@@ -6,6 +6,7 @@ export * from "./KieAiVeo3Provider";
 export * from "./KieAiKlingProvider";
 export * from "./KieAiHailuoProvider";
 export * from "./KieAiWanProvider";
+export * from "./KieAiGeminiOmniProvider";
 export * from "./AliProvider";
 export * from "./EvolinkSoraProvider";
 export * from "./MaxApiProvider";

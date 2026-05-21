@@ -27,6 +27,7 @@ export enum VideoModel {
   KLING3_MOTION_CONTROL = "kling3-motion-control",
   HAILUO_2_3 = "hailuo-2.3",
   WAN_2_5 = "wan-2.5",
+  GEMINI_OMNI = "gemini-omni",
 }
 
 // 视频模型配置接口
@@ -525,6 +526,57 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
       maxImages: 2,
       labels: ["First Frame", "Last Frame"],
     },
+  },
+
+  // Kie.ai Gemini Omni Video 文本转视频模型
+  "kie-gemini-omni-video-text-to-video": {
+    id: "kie-gemini-omni-video-text-to-video",
+    name: "Kie.ai Gemini Omni Video Text-to-Video",
+    type: VideoModelType.TEXT_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    modelName: VideoModel.GEMINI_OMNI,
+    providerModelId: "gemini-omni-video",
+    displayName: "Gemini Omni",
+    sortOrder: 140,
+    perSecondCredits: 2,
+    description: "Gemini Omni Video generation via Kie.ai",
+    features: ["Wait 180s", "Audio", "720p Beta"],
+    maxDuration: 10,
+    supportedAspectRatios: ["16:9", "9:16"],
+    supportsAudio: true,
+    estimatedGenerationTime: 180,
+    supportedDurations: [4, 6, 8, 10],
+    supportedResolutions: ["720p"],
+    useSignedCallback: true,
+    internal: true,
+  },
+
+  // Kie.ai Gemini Omni Video 图片转视频模型
+  "kie-gemini-omni-video-image-to-video": {
+    id: "kie-gemini-omni-video-image-to-video",
+    name: "Kie.ai Gemini Omni Video Image-to-Video",
+    type: VideoModelType.IMAGE_TO_VIDEO,
+    provider: VideoModelProvider.KIEAI,
+    modelName: VideoModel.GEMINI_OMNI,
+    providerModelId: "gemini-omni-video",
+    displayName: "Gemini Omni",
+    sortOrder: 140,
+    perSecondCredits: 2,
+    description: "Gemini Omni Video generation from image references via Kie.ai",
+    features: ["Wait 180s", "Audio", "720p Beta"],
+    maxDuration: 10,
+    supportedAspectRatios: ["16:9", "9:16"],
+    supportsAudio: true,
+    estimatedGenerationTime: 180,
+    supportedDurations: [4, 6, 8, 10],
+    supportedResolutions: ["720p"],
+    imageCapabilities: {
+      maxImages: 7,
+      minImages: 1,
+      labels: ["Reference Image"],
+    },
+    useSignedCallback: true,
+    internal: true,
   },
 
   // // Kie.ai Kling 3.0 文本转视频模型
@@ -1069,6 +1121,7 @@ export function getTextToVideoModels(): VideoModelConfig[] {
     VideoModel.SEEDANCE_2_0_FAST,
     VideoModel.SEEDANCE_2_0,
     VideoModel.VEO3,
+    VideoModel.GEMINI_OMNI,
     VideoModel.HAILUO_2_3,
     // VideoModel.KLING3,
     VideoModel.WAN_2_5,
@@ -1091,6 +1144,7 @@ export function getImageToVideoModels(): VideoModelConfig[] {
     VideoModel.SEEDANCE_2_0,
     VideoModel.SEEDANCE_2_0_FAST,
     VideoModel.VEO3,
+    VideoModel.GEMINI_OMNI,
     VideoModel.HAILUO_2_3,
     // VideoModel.KLING3,
     VideoModel.WAN_2_5,
@@ -1395,6 +1449,15 @@ export function isKieAiWanModel(modelId: string): boolean {
     return model.modelName === VideoModel.WAN_2_5;
   }
   return modelId.includes("kie-wan-2-5-");
+}
+
+// 检查模型是否为 Kie.ai Gemini Omni Video 模型
+export function isKieAiGeminiOmniModel(modelId: string): boolean {
+  const model = getVideoModel(modelId);
+  if (model?.modelName) {
+    return model.modelName === VideoModel.GEMINI_OMNI;
+  }
+  return modelId.includes("kie-gemini-omni-video-");
 }
 
 // Check whether a model should use the signed callback webhook flow.

@@ -8,6 +8,7 @@ import { KieAiSoraProvider } from "./KieAiSoraProvider";
 import { KieAiKlingProvider } from "./KieAiKlingProvider";
 import { KieAiHailuoProvider } from "./KieAiHailuoProvider";
 import { KieAiWanProvider } from "./KieAiWanProvider";
+import { KieAiGeminiOmniProvider } from "./KieAiGeminiOmniProvider";
 import { AliProvider } from "./AliProvider";
 import { EvolinkProvider } from "./EvolinkProvider";
 import { MaxApiProvider } from "./MaxApiProvider";
@@ -91,6 +92,9 @@ export class ProviderFactory {
           case "wan25":
             provider = new KieAiWanProvider(kieaiApiKey);
             break;
+          case "geminiomni":
+            provider = new KieAiGeminiOmniProvider(kieaiApiKey);
+            break;
           case "veo3":
           default:
             // Default to Veo3 for backward compatibility
@@ -152,7 +156,7 @@ export class ProviderFactory {
 
   private static getKieProviderVariant(
     modelId: string
-  ): "sora2" | "veo3" | "kling3" | "hailuo23" | "wan25" | string {
+  ): "sora2" | "veo3" | "kling3" | "hailuo23" | "wan25" | "geminiomni" | string {
     const modelConfig = getVideoModel(modelId);
 
     switch (modelConfig?.modelName) {
@@ -166,6 +170,8 @@ export class ProviderFactory {
         return "hailuo23";
       case VideoModel.WAN_2_5:
         return "wan25";
+      case VideoModel.GEMINI_OMNI:
+        return "geminiomni";
       case VideoModel.VEO3:
         return "veo3";
       default:
