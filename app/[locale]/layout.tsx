@@ -59,6 +59,16 @@ export async function generateMetadata({
     },
     description: description,
     keywords: sanitizeGeminiOmniString(t("metadata.keywords") || ""),
+    icons: {
+      icon: [
+        {
+          url: "/favicon.ico?v=geminiomni-20260521",
+          type: "image/png",
+        },
+      ],
+      shortcut: "/favicon.ico?v=geminiomni-20260521",
+      apple: "/favicon.ico?v=geminiomni-20260521",
+    },
     alternates: {
       canonical: locale === "en" ? baseUrl : `${baseUrl}/${locale}`,
       languages: {
