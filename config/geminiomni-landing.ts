@@ -115,7 +115,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
       },
     ],
     workflow: {
-      title: "How to create Gemini Omni-style AI videos online.",
+      title: "Create Gemini Omni videos in four simple steps.",
       description:
         "No filming equipment, editing timeline, or production team is required. Start with a prompt or reference image, generate a video, then keep iterating until the scene fits your idea.",
       cta: "Start Creating",
