@@ -38,6 +38,18 @@ async function saveArticle(article: OutrankArticle) {
   await upsertPostFromOutrank(post);
 }
 
+function getArticlesFromPayload(body: any): OutrankArticle[] {
+  if (body.event_type === "publish_articles") {
+    return body.data?.articles || [];
+  }
+
+  if (body.event_type === "update_article" && body.data?.article) {
+    return [body.data.article];
+  }
+
+  return [];
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -51,13 +63,10 @@ export async function POST(req: NextRequest) {
       return respErr("Unauthorized");
     }
     
-    // Process articles
-    if (body.event_type === "publish_articles") {
-      const articles = body.data?.articles || [];
-      if (articles.length > 0) {
-        console.log(`[OUTRANK] Processing ${articles.length} articles`);
-        await Promise.all(articles.map((a: OutrankArticle) => saveArticle(a)));
-      }
+    const articles = getArticlesFromPayload(body);
+    if (articles.length > 0) {
+      console.log(`[OUTRANK] Processing ${articles.length} articles`);
+      await Promise.all(articles.map((a: OutrankArticle) => saveArticle(a)));
     }
     
     return respData({ received: true });
