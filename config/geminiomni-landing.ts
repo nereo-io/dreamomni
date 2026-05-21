@@ -68,13 +68,13 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     hero: {
       title: "Free Gemini Omni AI Video Generator",
       description:
-        "Create cinematic AI videos from text prompts and images. GeminiOmni turns Gemini Omni-style multimodal creation into a fast online generator for creators, marketers, educators, and storytellers.",
+        "Create cinematic AI videos from text prompts and images. GeminiOmni brings Gemini Omni-style multimodal video creation into a simple online generator for creators, marketers, educators, and storytellers.",
       primaryCta: "Generate AI Video Free",
       secondaryCta: "Image to Video",
       highlights: [
-        "Text-to-video for cinematic prompt ideas",
-        "Image-to-video for visual references",
-        "History, playback, and download when outputs are ready",
+        "Turn text prompts into cinematic video concepts",
+        "Use image references to guide subjects, style, and composition",
+        "Preview, save, and download finished AI videos when outputs are ready",
       ],
       imageAlt: "GeminiOmni AI video generator visual",
       preview: [
@@ -84,40 +84,40 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         },
         {
           label: "Reference",
-          value: "Image, camera direction, scene mood",
+          value: "Image, camera direction, subject style, and scene mood",
         },
         {
           label: "Output",
-          value: "Playable AI video ready for download",
+          value: "Playable AI video ready to save or download",
         },
       ],
     },
     model: {
-      title: "A new model direction for multimodal AI video creation.",
+      title: "What is Gemini Omni for AI video creation?",
       description:
-        "Google describes Gemini Omni as a model that can create from many input types, starting with video. The headline capabilities are natural-language editing, references from images, text, audio, and video, and scene generation grounded in world knowledge. GeminiOmni turns that direction into an approachable generator workflow for people who want to create videos now.",
+        "Gemini Omni points toward a multimodal creation model that can understand text, images, video, voice, camera language, and real-world context together. GeminiOmni turns that idea into a practical generator experience for people who want to create videos online now.",
     },
     capabilities: [
       {
-        title: "Any-input creative direction",
+        title: "Text-to-video creative direction",
         description:
-          "Gemini Omni's official direction centers on combining text, image, audio, and video inputs into one coherent video creation flow.",
+          "Describe the scene, subject, motion, lens, lighting, style, and mood in natural language, then use GeminiOmni to turn the idea into a video draft.",
       },
       {
-        title: "Natural language video editing",
+        title: "Image-to-video references",
         description:
-          "Describe the scene, then refine the action, camera, subjects, style, and effects conversationally instead of rebuilding the whole idea from scratch.",
+          "Upload an image to guide character identity, product appearance, composition, art direction, or a still moment that should become motion.",
       },
       {
-        title: "Cinematic world-aware output",
+        title: "Cinematic, world-aware prompts",
         description:
-          "Use prompts for realistic physics, historical context, product details, explainers, and camera language to create more structured videos.",
+          "Add realistic physical details, product context, educational concepts, or storyboard order so generated clips feel more intentional.",
       },
     ],
     workflow: {
-      title: "Create AI videos online in four simple steps.",
+      title: "How to create Gemini Omni-style AI videos online.",
       description:
-        "No filming equipment, editing timeline, or production team is required. Start from a prompt or a reference image, generate a video, and keep iterating until the scene feels right.",
+        "No filming equipment, editing timeline, or production team is required. Start with a prompt or reference image, generate a video, then keep iterating until the scene fits your idea.",
       cta: "Start Creating",
       steps: [
         {
@@ -128,24 +128,24 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         {
           title: "Add a reference image",
           description:
-            "Guide identity, composition, product appearance, or style with an uploaded visual reference.",
+            "Guide identity, composition, product appearance, or visual style with an uploaded image.",
         },
         {
-          title: "Tune generation settings",
+          title: "Choose video settings",
           description:
-            "Choose the available workflow, aspect ratio, duration, quality, and model options for your clip.",
+            "Select the available generation mode, aspect ratio, duration, quality, and model options for your clip.",
         },
         {
           title: "Preview and download",
           description:
-            "Keep finished outputs in your creation history, download the video, and iterate on the next cut.",
+            "Keep finished outputs in your creation history, play the result, download it, and iterate on the next version.",
         },
       ],
     },
     useCases: {
-      title: "One generator for campaigns, explainers, concepts, and social clips.",
+      title: "Practical ways to use a Gemini Omni AI video generator.",
       description:
-        "Use GeminiOmni to move quickly from an idea to a polished AI video draft. It is built for creators who need output, not a passive news page.",
+        "GeminiOmni is built for people who need usable videos, not a passive model news page. Move from an idea, image, product, or storyboard into a polished AI video draft.",
       items: [
         "Short-form ads and UGC concepts",
         "Product demos and launch videos",
@@ -174,6 +174,11 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
           question: "Can I start for free?",
           answer:
             "Yes. GeminiOmni offers a free starting path so you can try AI video generation before choosing a paid plan or larger credit package.",
+        },
+        {
+          question: "Can GeminiOmni create videos from images?",
+          answer:
+            "Yes. You can start from a text prompt, upload a reference image, or combine both to guide subject identity, composition, style, and motion.",
         },
         {
           question: "Is GeminiOmni affiliated with Google?",

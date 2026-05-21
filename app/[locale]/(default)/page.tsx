@@ -1,31 +1,139 @@
-import Link from "next/link";
+import Link from 'next/link';
+import type React from 'react';
 import {
   ArrowRight,
-  AudioLines,
   Camera,
   Check,
   Download,
   Film,
+  ImageIcon,
   Images,
   Layers3,
-  MessageSquareText,
   PlayCircle,
+  ShieldCheck,
   Sparkles,
   Wand2,
-} from "lucide-react";
-import AuthRedirect from "@/components/auth/auth-redirect";
-import StructuredData from "@/components/seo/structured-data";
-import { Button } from "@/components/ui/button";
+  Zap,
+} from 'lucide-react';
+import AuthRedirect from '@/components/auth/auth-redirect';
+import StructuredData from '@/components/seo/structured-data';
+import { Button } from '@/components/ui/button';
 import {
   getGeminiOmniIntentLinks,
   getGeminiOmniLandingCopy,
-} from "@/config/geminiomni-landing";
-import { defaultLocale, locales } from "@/i18n/locale";
+} from '@/config/geminiomni-landing';
+import { defaultLocale, locales } from '@/i18n/locale';
 
 export const revalidate = 3600;
 
-const capabilityIcons = [Layers3, Wand2, Film];
-const workflowIcons = [Sparkles, Images, Camera, Download];
+const exampleVideos = [
+  'https://r2.seedance.tv/showcase/gemini-omni/hero.webm',
+  'https://r2.seedance.tv/showcase/gemini-omni/fern-harp.webm',
+  'https://r2.seedance.tv/showcase/gemini-omni/puppet-transform.webm',
+  'https://r2.seedance.tv/showcase/gemini-omni/marble-physics.webm',
+];
+
+const featureVideos = [
+  {
+    title: 'Text prompts become cinematic scenes',
+    description:
+      'Describe the subject, action, camera move, lighting, and mood. GeminiOmni helps turn that creative brief into a watchable AI video draft.',
+    src: 'https://r2.seedance.tv/showcase/gemini-omni/zoom-action.webm',
+  },
+  {
+    title: 'Images guide identity and style',
+    description:
+      'Use a product shot, character image, artwork, or reference frame to help the generated video preserve the visual direction you care about.',
+    src: 'https://r2.seedance.tv/showcase/gemini-omni/protein-folding.webm',
+  },
+  {
+    title: 'Natural language keeps iteration simple',
+    description:
+      'Adjust the action, scene, tone, object, or camera language in words, then regenerate until the clip fits the story you want to tell.',
+    src: 'https://r2.seedance.tv/showcase/gemini-omni/alphabet-sync.webm',
+  },
+  {
+    title: 'Outputs fit creator workflows',
+    description:
+      'Preview finished clips, keep generation history, download usable outputs, and turn the best results into ads, demos, explainers, or social videos.',
+    src: 'https://r2.seedance.tv/showcase/gemini-omni/text-sync.webm',
+  },
+];
+
+const productUseCases = [
+  {
+    title: 'Product and launch videos',
+    description:
+      'Turn product images, campaign concepts, or launch ideas into short video drafts for ads, websites, and social posts.',
+    src: 'https://r2.seedance.tv/showcase/gemini-omni/sailor-combine.webm',
+  },
+  {
+    title: 'Visual learning and explainers',
+    description:
+      'Convert a lesson, workflow, or abstract concept into a short visual sequence that is easier to understand and share.',
+    src: 'https://r2.seedance.tv/showcase/gemini-omni/crystal-rose.webm',
+  },
+  {
+    title: 'Character moments from images',
+    description:
+      'Start from a still image and create expressive motion, scene atmosphere, and a clearer character-led video moment.',
+    src: 'https://r2.seedance.tv/showcase/gemini-omni/anime-swap.webm',
+  },
+  {
+    title: 'Storyboard and music-video ideas',
+    description:
+      'Write a shot-by-shot prompt, preserve the important details, and create quick video drafts before investing in production.',
+    src: 'https://r2.seedance.tv/showcase/gemini-omni/fish-drawing.webm',
+  },
+];
+
+const promptTips = [
+  {
+    label: '01',
+    title: 'Start with the main video elements',
+    description:
+      'Name the subject, setting, action, framing, camera movement, style, lighting, and mood before adding advanced effects.',
+  },
+  {
+    label: '02',
+    title: 'Use references with a clear purpose',
+    description:
+      'When uploading an image, say whether it should control character identity, product appearance, composition, color, or overall art direction.',
+  },
+  {
+    label: '03',
+    title: 'Write camera direction clearly',
+    description:
+      'Use phrases like wide shot, close-up, locked camera, handheld motion, push-in, tilt-up, or continuous shot to shape the final clip.',
+  },
+  {
+    label: '04',
+    title: 'Add consistency rules',
+    description:
+      'For explainers, storyboards, and product videos, specify what must stay consistent and how the idea should unfold over time.',
+  },
+];
+
+const platformReasons = [
+  {
+    title: 'Free starting path',
+    description:
+      'Try Gemini Omni-style video generation online before deciding whether you need a larger credit package or paid plan.',
+  },
+  {
+    title: 'Built for creators',
+    description:
+      'The homepage leads users to real text-to-video and image-to-video workflows before anything else.',
+  },
+  {
+    title: 'Clear model overview',
+    description:
+      'GeminiOmni explains what the model direction means, then gives search visitors examples, use cases, prompt advice, and creation routes.',
+  },
+];
+
+const capabilityIcons = [Layers3, Images, Wand2];
+const workflowIcons = [Sparkles, ImageIcon, Camera, Download];
 
 function getLocalizedPath(locale: string, path: string) {
   return locale === defaultLocale ? path : `/${locale}${path}`;
@@ -40,7 +148,7 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://geminiomni.tv";
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || 'https://geminiomni.tv';
   const canonicalUrl = locale === defaultLocale ? baseUrl : `${baseUrl}/${locale}`;
   const copy = getGeminiOmniLandingCopy(locale);
 
@@ -59,58 +167,57 @@ export default async function LandingPage({
 }: {
   params: { locale: string };
 }) {
-  const textToVideoHref = getLocalizedPath(locale, "/text-to-video");
-  const imageToVideoHref = getLocalizedPath(locale, "/image-to-video");
+  const textToVideoHref = getLocalizedPath(locale, '/text-to-video');
+  const imageToVideoHref = getLocalizedPath(locale, '/image-to-video');
   const copy = getGeminiOmniLandingCopy(locale);
   const intentLinks = getGeminiOmniIntentLinks(locale);
+  const relatedIntentLinks = intentLinks.filter(
+    (item) => !item.href.includes('api')
+  );
 
   return (
     <>
       <AuthRedirect preserveSearchParams />
-      <main className="min-h-screen bg-[#020712] text-white">
-        <section
-          className="relative isolate min-h-[84vh] overflow-hidden bg-cover bg-center"
-          style={{ backgroundImage: "url('/geminiomni-hero.jpg')" }}
-        >
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,#020712_0%,rgba(2,7,18,0.96)_31%,rgba(2,7,18,0.58)_62%,rgba(2,7,18,0.25)_100%)]" />
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#020712] to-transparent" />
-
-          <div className="relative mx-auto grid min-h-[84vh] w-full max-w-7xl items-center gap-12 px-5 pb-16 pt-24 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
-            <div className="max-w-3xl">
-              <h1 className="text-5xl font-semibold leading-[1.02] tracking-normal text-white sm:text-6xl lg:text-7xl">
+      <main className="min-h-screen bg-slate-950 text-white">
+        <section className="relative isolate overflow-hidden bg-[radial-gradient(circle_at_20%_18%,rgba(34,211,238,0.20),transparent_34%),linear-gradient(135deg,#f8fafc_0%,#eaf4ff_45%,#dbeafe_100%)] px-5 pb-16 pt-24 text-slate-950 sm:px-8">
+          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+            <div>
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600 text-white shadow-lg shadow-blue-500/20">
+                <Sparkles className="h-6 w-6" />
+              </div>
+              <h1 className="mt-6 text-4xl font-semibold leading-tight tracking-normal text-slate-950 sm:text-5xl lg:text-6xl">
                 {copy.hero.title}
               </h1>
-              <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-200 sm:text-xl">
+              <p className="mt-6 max-w-3xl text-base leading-8 text-slate-700 sm:text-lg">
                 {copy.hero.description}
               </p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button
                   asChild
                   size="lg"
-                  className="h-[52px] rounded-md bg-cyan-300 px-7 text-base font-semibold text-slate-950 shadow-[0_0_32px_rgba(103,232,249,0.28)] hover:bg-cyan-200"
+                  className="h-12 rounded-md bg-blue-600 px-6 text-white shadow-lg shadow-blue-500/20 hover:bg-blue-700"
                 >
                   <Link href={textToVideoHref}>
+                    <Zap className="h-4 w-4" />
                     {copy.hero.primaryCta}
-                    <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
                 <Button
                   asChild
                   variant="outline"
                   size="lg"
-                  className="h-[52px] rounded-md border-white/25 bg-white/10 px-7 text-base font-semibold text-white backdrop-blur hover:bg-white/15 hover:text-white"
+                  className="h-12 rounded-md border-slate-300 bg-white/80 px-6 text-slate-900 hover:bg-white"
                 >
                   <Link href={imageToVideoHref}>
+                    <ImageIcon className="h-4 w-4" />
                     {copy.hero.secondaryCta}
-                    <Images className="h-4 w-4" />
                   </Link>
                 </Button>
               </div>
-
-              <div className="mt-10 grid gap-3 text-sm text-slate-200">
+              <div className="mt-8 grid gap-3 text-sm text-slate-700">
                 {copy.hero.highlights.map((item) => (
                   <div key={item} className="flex items-center gap-3">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-cyan-300 text-slate-950">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
                       <Check className="h-3.5 w-3.5" />
                     </span>
                     <span>{item}</span>
@@ -119,107 +226,129 @@ export default async function LandingPage({
               </div>
             </div>
 
-            <div className="hidden lg:flex lg:justify-end">
-              <div className="w-full max-w-md rounded-md border border-white/15 bg-slate-950/55 p-5 shadow-2xl shadow-cyan-950/30 backdrop-blur-xl">
-                <div className="aspect-video overflow-hidden rounded-md border border-white/10 bg-black/40">
-                  <img
-                    src="/geminiomni-hero.jpg"
-                    alt={copy.hero.imageAlt}
-                    className="h-full w-full object-cover object-right"
-                    loading="eager"
-                    decoding="async"
+            <div className="rounded-md border border-slate-200 bg-white/80 p-4 shadow-2xl shadow-blue-200/40 backdrop-blur">
+              <div className="grid gap-3 sm:grid-cols-[1.15fr_0.85fr]">
+                <div className="overflow-hidden rounded-md bg-black">
+                  <video
+                    className="aspect-video h-full w-full object-cover"
+                    src={exampleVideos[0]}
+                    controls
+                    muted
+                    playsInline
+                    preload="metadata"
                   />
                 </div>
-                <div className="mt-5 grid gap-3">
+                <div className="grid gap-3">
                   {copy.hero.preview.map(({ label, value }) => (
                     <div
                       key={label}
-                      className="grid grid-cols-[88px_1fr] gap-4 rounded-md border border-white/10 bg-white/[0.04] p-3 text-sm"
+                      className="rounded-md border border-slate-200 bg-white p-3 text-sm"
                     >
-                      <span className="font-medium text-cyan-200">{label}</span>
-                      <span className="text-slate-200">{value}</span>
+                      <div className="font-semibold text-blue-700">{label}</div>
+                      <div className="mt-1 leading-6 text-slate-600">{value}</div>
                     </div>
                   ))}
                 </div>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2 text-sm font-medium">
+                {['Text to Video', 'Image to Video', 'Prompt Editing', 'Creator Workflow'].map(
+                  (item) => (
+                    <span
+                      key={item}
+                      className="rounded-md border border-blue-200 bg-blue-50 px-3 py-1.5 text-blue-700"
+                    >
+                      {item}
+                    </span>
+                  )
+                )}
               </div>
             </div>
           </div>
         </section>
 
-        <section className="px-5 py-20 sm:px-8">
-          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
-            <div>
-              <h2 className="text-3xl font-semibold tracking-normal text-white sm:text-4xl">
-                {copy.model.title}
-              </h2>
-            </div>
-            <p className="text-base leading-8 text-slate-300">
-              {copy.model.description}
-            </p>
-          </div>
-        </section>
-
-        <section className="px-5 pb-20 sm:px-8">
+        <section className="bg-white px-5 py-16 text-slate-950 sm:px-8">
           <div className="mx-auto max-w-7xl">
-            <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-              {intentLinks.map((item) => (
-                <Link
-                  key={item.href}
-                  href={getLocalizedPath(locale, item.href)}
-                  className="group rounded-md border border-cyan-200/20 bg-cyan-200/[0.06] p-5 transition hover:border-cyan-200/45 hover:bg-cyan-200/[0.1]"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <h3 className="text-base font-semibold text-white">
-                      {item.title}
-                    </h3>
-                    <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-cyan-200 transition group-hover:translate-x-0.5" />
-                  </div>
-                  <p className="mt-3 text-sm leading-6 text-slate-300">
-                    {item.description}
-                  </p>
+            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+              <div>
+                <h2 className="text-3xl font-semibold tracking-normal sm:text-4xl">
+                  Gemini Omni video examples
+                </h2>
+                <p className="mt-4 max-w-2xl leading-7 text-slate-600">
+                  Explore sample clips, then create your own.
+                </p>
+              </div>
+              <Button asChild className="rounded-md bg-blue-600 text-white hover:bg-blue-700">
+                <Link href={textToVideoHref}>
+                  Start creating
+                  <ArrowRight className="h-4 w-4" />
                 </Link>
+              </Button>
+            </div>
+            <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {exampleVideos.map((src, index) => (
+                <video
+                  key={src}
+                  className="aspect-[9/16] w-full rounded-md border border-slate-200 bg-black object-cover shadow-lg shadow-slate-200"
+                  src={src}
+                  controls
+                  muted
+                  playsInline
+                  preload="metadata"
+                  aria-label={`Gemini Omni sample video ${index + 1}`}
+                />
               ))}
             </div>
           </div>
         </section>
 
-        <section className="px-5 pb-20 sm:px-8">
-          <div className="mx-auto max-w-7xl">
-            <div className="grid gap-4 md:grid-cols-3">
-              {copy.capabilities.map((item, index) => {
-                const Icon = capabilityIcons[index] || Sparkles;
-                return (
-                  <article
-                    key={item.title}
-                    className="rounded-md border border-white/10 bg-white/[0.045] p-6 shadow-lg shadow-black/10"
-                  >
-                    <Icon className="h-6 w-6 text-cyan-200" />
-                    <h3 className="mt-5 text-xl font-semibold text-white">
-                      {item.title}
-                    </h3>
-                    <p className="mt-3 leading-7 text-slate-300">
-                      {item.description}
-                    </p>
-                  </article>
-                );
-              })}
-            </div>
+        <ArticleSection
+          title={copy.model.title}
+          description={copy.model.description}
+          className="bg-slate-950 text-white"
+        >
+          <div className="grid gap-4 md:grid-cols-3">
+            {copy.capabilities.map((item, index) => {
+              const Icon = capabilityIcons[index] || Film;
+              return (
+                <article
+                  key={item.title}
+                  className="rounded-md border border-white/10 bg-white/[0.045] p-6"
+                >
+                  <Icon className="h-6 w-6 text-cyan-200" />
+                  <h3 className="mt-5 text-xl font-semibold text-white">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 leading-7 text-slate-300">
+                    {item.description}
+                  </p>
+                </article>
+              );
+            })}
           </div>
-        </section>
+        </ArticleSection>
 
-        <section className="border-y border-white/10 bg-slate-950 px-5 py-20 text-white sm:px-8">
-          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
+        <ArticleSection
+          title="Key features of the Gemini Omni AI video generator"
+          description="The page now borrows the SEO depth of model overview pages while staying focused on creators: prompts, images, natural-language iteration, examples, history, and downloads."
+          className="bg-slate-900 text-white"
+        >
+          <div className="grid gap-5 md:grid-cols-2">
+            {featureVideos.map((item) => (
+              <VideoFeatureCard key={item.title} item={item} />
+            ))}
+          </div>
+        </ArticleSection>
+
+        <section className="bg-slate-100 px-5 py-16 text-slate-950 sm:px-8">
+          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.82fr_1.18fr]">
             <div>
-              <h2 className="text-3xl font-semibold tracking-normal text-white sm:text-4xl">
+              <h2 className="text-3xl font-semibold tracking-normal sm:text-4xl">
                 {copy.workflow.title}
               </h2>
-              <p className="mt-5 leading-8 text-slate-300">
+              <p className="mt-5 leading-8 text-slate-600">
                 {copy.workflow.description}
               </p>
-              <Button
-                asChild
-                className="mt-7 rounded-md bg-cyan-300 text-slate-950 shadow-[0_0_28px_rgba(103,232,249,0.22)] hover:bg-cyan-200"
-              >
+              <Button asChild className="mt-7 rounded-md bg-blue-600 text-white hover:bg-blue-700">
                 <Link href={textToVideoHref}>
                   {copy.workflow.cta}
                   <ArrowRight className="h-4 w-4" />
@@ -232,18 +361,18 @@ export default async function LandingPage({
                 return (
                   <article
                     key={item.title}
-                    className="rounded-md border border-white/10 bg-white/[0.045] p-5 shadow-lg shadow-black/10"
+                    className="rounded-md border border-slate-200 bg-white p-5 shadow-sm"
                   >
                     <div className="flex items-center justify-between gap-4">
-                      <Icon className="h-6 w-6 text-cyan-200" />
-                      <span className="text-sm font-semibold text-slate-500">
+                      <Icon className="h-6 w-6 text-blue-600" />
+                      <span className="text-sm font-semibold text-slate-400">
                         0{index + 1}
                       </span>
                     </div>
-                    <h3 className="mt-4 text-lg font-semibold text-white">
+                    <h3 className="mt-4 text-lg font-semibold text-slate-950">
                       {item.title}
                     </h3>
-                    <p className="mt-2 leading-7 text-slate-300">
+                    <p className="mt-2 leading-7 text-slate-600">
                       {item.description}
                     </p>
                   </article>
@@ -253,33 +382,98 @@ export default async function LandingPage({
           </div>
         </section>
 
-        <section className="px-5 py-20 sm:px-8">
-          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-            <div>
-              <h2 className="text-3xl font-semibold tracking-normal text-white sm:text-4xl">
-                {copy.useCases.title}
-              </h2>
-              <p className="mt-5 leading-8 text-slate-300">
-                {copy.useCases.description}
-              </p>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {copy.useCases.items.map((item) => (
-                <div
-                  key={item}
-                  className="flex items-center gap-3 rounded-md border border-white/10 bg-white/[0.04] p-4"
+        <ArticleSection
+          title={copy.useCases.title}
+          description={copy.useCases.description}
+          className="bg-white text-slate-950"
+        >
+          <div className="grid gap-5 md:grid-cols-2">
+            {productUseCases.map((item) => (
+              <VideoFeatureCard key={item.title} item={item} />
+            ))}
+          </div>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {copy.useCases.items.map((item) => (
+              <div
+                key={item}
+                className="flex items-center gap-3 rounded-md border border-slate-200 bg-slate-50 p-4"
+              >
+                <PlayCircle className="h-5 w-5 text-blue-600" />
+                <span className="text-slate-700">{item}</span>
+              </div>
+            ))}
+          </div>
+        </ArticleSection>
+
+        <section className="bg-slate-950 px-5 py-16 text-white sm:px-8">
+          <div className="mx-auto max-w-7xl">
+            <h2 className="text-3xl font-semibold tracking-normal sm:text-4xl">
+              How to create better video results with Gemini Omni
+            </h2>
+            <div className="mt-8 grid gap-4 md:grid-cols-2">
+              {promptTips.map((item) => (
+                <article
+                  key={item.title}
+                  className="rounded-md border border-white/10 bg-white/[0.045] p-5"
                 >
-                  <PlayCircle className="h-5 w-5 text-cyan-200" />
-                  <span className="text-slate-100">{item}</span>
-                </div>
+                  <span className="text-sm font-semibold text-cyan-200">
+                    {item.label}
+                  </span>
+                  <h3 className="mt-3 text-xl font-semibold text-white">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 leading-7 text-slate-300">
+                    {item.description}
+                  </p>
+                </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="border-t border-white/10 px-5 py-20 sm:px-8">
+        <ArticleSection
+          title="Why choose GeminiOmni for Gemini Omni-style video creation"
+          description="GeminiOmni keeps the product promise simple: free starting access, creator-friendly workflows, and enough SEO content to answer search intent without changing the site into a developer platform."
+          className="bg-slate-100 text-slate-950"
+        >
+          <div className="grid gap-4 md:grid-cols-3">
+            {platformReasons.map((item) => (
+              <article
+                key={item.title}
+                className="rounded-md border border-slate-200 bg-white p-6 shadow-sm"
+              >
+                <ShieldCheck className="h-6 w-6 text-blue-600" />
+                <h3 className="mt-5 text-xl font-semibold">{item.title}</h3>
+                <p className="mt-3 leading-7 text-slate-600">
+                  {item.description}
+                </p>
+              </article>
+            ))}
+          </div>
+          <div className="mt-8 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {relatedIntentLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={getLocalizedPath(locale, item.href)}
+                className="group rounded-md border border-blue-200 bg-blue-50 p-5 transition hover:border-blue-400 hover:bg-blue-100"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="text-base font-semibold text-slate-950">
+                    {item.title}
+                  </h3>
+                  <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-blue-600 transition group-hover:translate-x-0.5" />
+                </div>
+                <p className="mt-3 text-sm leading-6 text-slate-600">
+                  {item.description}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </ArticleSection>
+
+        <section className="border-t border-white/10 bg-slate-950 px-5 py-16 text-white sm:px-8">
           <div className="mx-auto max-w-4xl">
-            <h2 className="text-3xl font-semibold tracking-normal text-white sm:text-4xl">
+            <h2 className="text-3xl font-semibold tracking-normal sm:text-4xl">
               {copy.faq.title}
             </h2>
             <div className="mt-8 divide-y divide-white/10 rounded-md border border-white/10 bg-white/[0.03]">
@@ -303,5 +497,59 @@ export default async function LandingPage({
 
       <StructuredData type="faq" data={{ questions: copy.faq.items }} />
     </>
+  );
+}
+
+function ArticleSection({
+  title,
+  description,
+  className,
+  children,
+}: {
+  title: string;
+  description: string;
+  className: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className={`px-5 py-16 sm:px-8 ${className}`}>
+      <div className="mx-auto max-w-7xl">
+        <div className="max-w-3xl">
+          <h2 className="text-3xl font-semibold tracking-normal sm:text-4xl">
+            {title}
+          </h2>
+          <p className="mt-5 leading-8 opacity-80">{description}</p>
+        </div>
+        <div className="mt-8">{children}</div>
+      </div>
+    </section>
+  );
+}
+
+function VideoFeatureCard({
+  item,
+}: {
+  item: {
+    title: string;
+    description: string;
+    src: string;
+  };
+}) {
+  return (
+    <article className="overflow-hidden rounded-md border border-slate-200 bg-white text-slate-950 shadow-sm">
+      <video
+        className="aspect-video w-full bg-black object-cover"
+        src={item.src}
+        controls
+        muted
+        playsInline
+        preload="metadata"
+      />
+      <div className="p-5">
+        <Film className="h-5 w-5 text-blue-600" />
+        <h3 className="mt-4 text-xl font-semibold">{item.title}</h3>
+        <p className="mt-3 leading-7 text-slate-600">{item.description}</p>
+      </div>
+    </article>
   );
 }
