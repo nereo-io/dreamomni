@@ -58,7 +58,7 @@ export default function HomeLayout({
       try {
         const { getLandingPage } = await import("@/services/page");
         const page = await getLandingPage(locale);
-        setFooter(page.footer ? buildGeminiOmniFooter(page.footer) : undefined);
+        setFooter(page.footer ? buildGeminiOmniFooter(page.footer, locale) : undefined);
       } catch (error) {
         console.error("Failed to load footer:", error);
       }

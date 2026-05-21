@@ -38,7 +38,7 @@ export default async function DefaultLayout({
   
   // Add effects to footer if footer exists
   if (page.footer) {
-    page.footer = buildGeminiOmniFooter(page.footer);
+    page.footer = buildGeminiOmniFooter(page.footer, locale);
     page.footer.effects = {
       title: t("footer.popularEffects"),
       items: hotEffects.map(effect => ({

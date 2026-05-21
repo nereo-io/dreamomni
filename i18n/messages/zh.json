@@ -71,6 +71,10 @@
     "my_orders": "我的订单",
     "membership": "会员"
   },
+  "header": {
+    "video_effects": "视频效果",
+    "more_effects": "更多效果"
+  },
   "sidebar": {
     "home": "主页",
     "image_to_video": "图像到视频",
