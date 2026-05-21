@@ -24,183 +24,170 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Seedance** is an AI video generation platform built on Next.js 14. Supports text/image-to-video with multiple providers (Volcano Engine, Kie.ai, fal.ai). Includes image generation (Nano Banana), multi-language support (en/de/ja/ko/ru), and payment processing (Creem/Stripe/Payssion).
+**GeminiOmni.tv** is an AI media generation platform built on Next.js 14 (App Router). It generates **video, image, music, and effects**, plus an agentic multi-modal composition UI ("Omni Studio") built around the flagship **Gemini Omni** video model (served via Kie.ai). Multiple providers back each media type, with location-based payment processing and 9-locale i18n.
 
-**Key Info**:
-- Rebranded from "Veo3 AI" to "Seedance"
-- Credits: 0.25 USD = 10 credits
-- Image generation: 2 credits (fixed)
-- Git repo name: veo3
-- Database: Supabase (project name: Seedance)
+**Rebrand lineage** (important — naming is inconsistent across layers): `Veo3 AI` → `Seedance` → `Gemini Omni`. As a result:
+- Git repo / remote name is still `veo3`; the README still says "Veo3 AI" (stale).
+- Supabase project is named `Seedance`; some env/config still references `seedance`.
+- `config/geminiomni-messages.ts` actively sanitizes leftover `seedance`/old-URL strings → `geminiomni` at runtime.
+- When adding user-facing copy, use "Gemini Omni" / "GeminiOmni.tv". Don't "fix" internal `veo3`/`seedance` identifiers unless that's the task.
+
+**Credits** are pool-based (not a flat USD rate). New users get **6 credits** (`CreditsAmount.NewUserGet`, `services/credit.ts`). Cost is computed per-model — see [Credits & Pricing](#credits--pricing).
 
 ## Commands
 
 ```bash
 # Development
-pnpm dev         # Start dev (port 3000)
-pnpm dev:clean   # Clean cache + start
+pnpm dev         # next dev (defaults to port 3000; use 3000 for ngrok webhooks)
+pnpm dev:clean   # clean .next cache + node_modules/.cache, then dev
 pnpm build       # Production build
-pnpm lint        # ESLint
+pnpm lint        # next lint (ESLint)
+pnpm analyze     # Bundle analyzer (ANALYZE=true build)
 
 # Testing
-pnpm test        # Jest tests
-pnpm ts          # Run ts/test.ts
-jest path/to/test.test.ts  # Specific test
+pnpm test                    # Jest (ts-jest, ESM). Tests live in **/__tests__/**/*.test.ts
+jest path/to/file.test.ts    # Run a single test file
+pnpm exec playwright test    # Playwright E2E (config: playwright.config.ts, specs in tests/)
+pnpm ts                      # Run ad-hoc script ts/test.ts via tsx
 
-# SEO
-pnpm seo:generate   # Generate SEO content
-pnpm seo:all        # Run all SEO tasks
+# SEO / content
+pnpm seo:all          # Run all SEO content tasks (generate/fix-i18n/shorten-buttons/validate)
+pnpm seo:generate     # Generate SEO content only
+pnpm translate:blog   # Translate blog posts (scripts/translate-blog-aiplatform.ts)
 
-# Deployment
-pnpm cf:build    # Cloudflare build
-pnpm cf:deploy   # Deploy to CF
-
-# Cleanup
-rm -rf .next     # Clear cache
-pnpm clean       # Full clean
+# Deploy (Cloudflare Pages via next-on-pages)
+pnpm cf:build    # Build for CF Pages
+pnpm cf:deploy   # Build + deploy
 ```
+
+**Per user preference (`CLAUDE.local.md`): only run `pnpm lint` / `pnpm build` when necessary, to save dev time.** Prefer exercising the changed behavior directly (see Code Conventions → Workflow).
 
 ## Architecture
 
 ### Tech Stack
-- **Framework**: Next.js 14 App Router, TypeScript
-- **UI**: Tailwind CSS, Shadcn/ui, Radix UI
-- **Database**: Supabase (PostgreSQL + RLS)
-- **Auth**: NextAuth.js 5.0 (Google, GitHub, Apple, Email)
-- **Payments**: Creem (primary), Stripe, Payssion V2 (Russia)
-- **Video**: ProviderFactory (Volcano/Kie.ai/Ali/fal.ai)
-- **Image**: AIServiceManager (Nano Banana/Kie.ai)
-- **i18n**: next-intl with locale routing
-- **Analytics**: Plausible, Yandex Metrica
+- **Framework**: Next.js 14 App Router, TypeScript, deployed to Cloudflare Pages (`@cloudflare/next-on-pages`)
+- **UI**: Tailwind CSS, Shadcn/ui, Radix UI, Framer Motion
+- **DB/Auth**: Supabase (PostgreSQL + RLS); NextAuth.js 5 (Google, GitHub, Apple, VK, Email)
+- **Payments**: Creem (primary), Stripe (fallback), Payssion V2 (Russia)
+- **AI SDK**: Vercel AI SDK (`ai`) with Anthropic/OpenAI/Azure/DeepSeek/Replicate/OpenRouter adapters; `@google/generative-ai`
+- **Storage**: S3-compatible (AWS SDK) via `services/imageStorageService.ts` (`STORAGE_ACCESS_KEY`/`STORAGE_SECRET_KEY`)
+- **i18n**: next-intl, locales `en, ru, ja, ko, de, fr, es, pt, zh` (message JSON in `i18n/messages/`)
+- **Analytics**: Plausible, Yandex Metrica, Microsoft Clarity, OpenPanel, Vercel Analytics
 
-### Patterns
-- **Model-Service-Component**: `models/` (DB) → `services/` (logic) → `components/` (UI)
-- **Provider Pattern**: Unified interfaces for payments, video, image generation
+### Pattern: Model–Service–Component
+`models/` (Supabase table accessors) → `services/` (business logic, provider orchestration, side effects) → `components/` (UI). Contracts/types in `models/` and `types/`. Keep side effects out of components.
 
-### Key Flows
+### Route groups (`app/[locale]/`)
+Locale-prefixed App Router. **API routes are NOT localized — they live at top-level `app/api/`.**
+- `(home)` — the creation tools: `text-to-video`, `image-to-video`, `text-to-image`, `image-to-image`, `text-to-music`, `add-vocals`/`add-instrumental`, `video-effect`, `image-effect`, `ai-shorts`, `motion-control`, `reference-to-video`, `omni-studio`, `history`.
+- `(default)` — marketing + logged-in console: landing page, per-model SEO landing pages (`[model]`), `blog/[slug]`, referral links (`i/[code]`), and `(console)` (`membership`, `my-credits`, `my-invites`, `my-orders`).
+- `(admin)` — admin-only (e.g. blog post editor).
+- `(legal)` — terms/privacy. `auth` — NextAuth pages. `pay-success/[session_id]` — post-payment.
 
-**Video Generation**:
-1. `/api/video-generation/submit` → ProviderFactory selects provider
-2. Provider submits to external API
-3. `videoStatusService` tracks progress
-4. Webhook updates at `/api/video-generation/webhook/*`
+### Generation types
+Each media type has its own submit route + service + status mechanism. Status is **hybrid**: webhooks for async providers, polling where webhooks aren't available.
 
-**Image Generation**:
-1. `/api/image-generation/submit` → AIServiceManager
-2. Optional prompt optimization
-3. Provider API call (sync/async)
-4. Status via `/api/ai-callback/[provider]`
-5. Auto-refund on failure
+| Type | Submit route (`app/api/...`) | Key service | Status |
+|------|------------------------------|-------------|--------|
+| Video | `video-generation/submit` | `videoSubmitService` → `ProviderFactory` → provider | Webhook `video-generation/webhook/*`; some use signed callbacks |
+| Image | `image-generation/submit` | `AIServiceManager` → image provider | Polling (`imagePollingService`) + `ai-callback/[provider]`; auto-refund on failure |
+| Agent image | `agent/*` (+ image-generation) | `agentImageService`, `agentImageCallbackService` | Expands 1 prompt → multiple multi-angle images, concurrent (p-limit) |
+| Music | `music-generation/submit` | `musicGenerationService` (Suno via Kie.ai) | Webhook (`musicWebhookService`) |
+| Effects | `video-effect/submit`, `image-effect/submit` | `effectService` | Webhook/polling depending on provider (PixVerse/Hailuo) |
 
-**Payment**:
-1. PaymentRouter selects provider (location-based)
-2. Russian regions → Payssion, Others → Creem/Stripe
-3. Webhook verification (HMAC-SHA256)
-4. Auto credit distribution
+### Providers
+- **Video**: `services/providers/ProviderFactory.ts` is a cached singleton factory. It resolves `modelId` → `VIDEO_MODELS[modelId].provider` (enum `VideoModelProvider`: `fal`/`volcano`/`byteplus`/`apicore`/`kieai`/`ali`/`evolink`/`maxapi`), then instantiates the matching provider with that provider's API key. For `kieai`, it further dispatches by `modelName` (`geminiomni`/`sora2`/`kling3`/`hailuo23`/`wan25`/`veo3`) to the right `KieAi*Provider`.
+- **Image**: `services/AIServiceManager.ts` selects image providers (`NanoBananaProvider`, `KieAiGptImage2Provider`, `SeedreamProvider`, `FalImageProvider`). Image providers extend `BaseAIProvider` (`generateImage`/`editImage`/`checkImageStatus`/`getCostEstimate`/`buildCallbackUrl`).
+- **Fallbacks**: video models can declare `fallbackModelIds` (tried in order on failure); image gen can fall back to fal.ai (`seedanceFallbackService`, `FALLBACK_TO_FAL_ENABLED`). Fallback entries are usually `internal: true` models hidden from the UI.
+- Adding a video model = add an entry to `config/video-models.ts` (set `provider` + `modelName` + pricing fields); the factory routes it automatically. Adding a *new* provider also requires a `switch` case in `ProviderFactory`.
 
-### Database Schema
-- `users` - Auth + credits balance
-- `subscriptions` - Multi-provider subscriptions
-- `video_generations` - Video tracking
-- `image_generations` - Image tracking
-- `orders` - Payment tracking
-- `credits` - Transaction history
+### Payments
+- `services/payment/PaymentRouter.ts` picks methods by geolocation. **`shouldUsePayssion(countryCode)` is `=== 'RU'`** → Russia gets Payssion; everyone else gets Creem (primary) with Stripe fallback.
+- Providers: `CreemProvider`, `StripeProvider`, `PayssionProvider` (all implement `PaymentProvider`). Orchestration in `PaymentProcessingService` / `SubscriptionManagementService`.
+- Webhooks verify HMAC-SHA256 signatures, then distribute credits (`creditDistributionService`).
+
+### Database (Supabase, accessors in `models/`)
+`user`, `credit` (pool-based balance + transaction history), `videoGeneration`, `imageGeneration`, `musicGeneration`, `effectConfig`, `order`, `orderTrackingAudit`, `subscription` + `creem-subscription` + `stripe-subscription` (multi-provider), `membership`, `affiliate`, `payssionMandate`, `ipLimit`, `post` (blog), `statistics`. RLS on all tables.
+
+## Code Conventions
+(from `AGENTS.md` — follow these)
+- **TypeScript**, 2-space indent, **single quotes in code, double quotes in JSX**.
+- Components `PascalCase`; hooks start with `use`; utilities `camelCase`.
+- Guard browser-only code with `if (typeof window !== 'undefined')`.
+- Tests in `__tests__/` named `feature.test.ts`; **mock AI providers, Stripe, and Supabase clients**.
+- **Workflow — verify before claiming done**: after any change, exercise the changed behavior. Frontend → test the route in a browser (Chrome MCP for logged-in/dashboard flows, Playwright for repeatable/CI/multi-viewport). Backend → call the real endpoint with a realistic payload and check status + side effects. For AI providers, Stripe, Supabase, auth, credits, webhooks, generation flows → decide whether a full smoke/E2E path is warranted. If something can't be tested, say exactly what wasn't tested and why.
+- **Git**: commit only after self-tests pass; stage only files you edited (not unrelated user work); don't push unless explicitly asked; never commit secrets, `.env.local`, or `.next/`.
 
 ## Key Files
 
-### Config
-- `config/video-models.ts` - Model definitions + pricing
-- `config/products.ts` - Product config
-- `i18n/request.ts` - Locale config
+### Config (`config/`)
+- `video-models.ts` — `VIDEO_MODELS` registry + `calculateCredits()`; the source of truth for video pricing/capabilities.
+- `image-models.ts`, `music-models.ts`, `effect-models.ts` — registries for the other media types.
+- `model-landing-pages.ts`, `video-effect-pages.ts`, `image-effect-pages.ts` — slugs/content for SEO landing & effect-template pages.
+- `geminiomni-landing.ts`, `geminiomni-footer.ts`, `geminiomni-messages.ts` — homepage copy + rebrand string sanitization.
+- `products.ts` — subscription tiers (mini/standard/plus/max, monthly/yearly). `aiProviders.ts`, `creem.ts`, `payssion.ts`.
 
-### Services
-- `services/payment/PaymentRouter.ts` - Payment routing
-- `services/providers/ProviderFactory.ts` - Video provider selection
-- `services/AIServiceManager.ts` - Image provider management
-- `services/videoStatusService.ts` - Status tracking
-- `services/creditsService.ts` - Credit management
+### Services (`services/`)
+- `providers/ProviderFactory.ts`, `providers/BaseAIProvider.ts` — video factory + image provider base.
+- `AIServiceManager.ts` — image provider selection. `videoSubmitService.ts`, `videoStatusService.ts`, `videoWebhookParser.ts`, `videoCallbackSignature.ts` — video lifecycle.
+- `agentImageService.ts` / `agentImageCallbackService.ts` — Omni Studio agent images. `musicGenerationService.ts` (+ `musicParamsBuilder`/`musicParamsValidator`/`musicWebhookService`). `effectService.ts`.
+- `credit.ts` (credit balance/deduction — **not** `creditsService.ts`), `creditDistributionService.ts`, `membership.ts`, `membershipCache.ts`, `subscriptionTier.ts`, `affiliate.ts`.
+- `payment/PaymentRouter.ts` and sibling providers/services.
 
-### API Routes
-- `app/api/video-generation/` - Video endpoints
-- `app/api/image-generation/` - Image endpoints
-- `app/api/creem/webhook/` - Creem webhooks
-- `app/api/payssion/v2-webhook/` - Payssion webhooks
-- `app/api/stripe-notify/` - Stripe notifications
-
-### Providers
-- `services/providers/VolcanoProvider.ts` - Seedance
-- `services/providers/KieAiVeo3Provider.ts` - Veo3
-- `services/providers/NanoBananaProvider.ts` - Image (Kie.ai)
-- `services/providers/AliProvider.ts` - Ali Cloud
-- `services/providers/FalProvider.ts` - fal.ai
-
-## Development Tips
-
-- Check if dev server running before `pnpm dev` (use port 3000 for ngrok)
-- Cache issues: `rm -rf .next` or `pnpm dev:clean`
-- Debug logging: `pnpm dev 2>&1 | tee dev.log`
-- Run specific test: `jest path/to/test.test.ts`
-- UI redesign uses `(home)` route group, see `docs/DEVELOPMENT.md`
-
-## Environment Variables
-
-### Core
-```bash
-SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
-AUTH_SECRET
-```
-
-### Payments
-```bash
-STRIPE_PUBLIC_KEY, STRIPE_PRIVATE_KEY, STRIPE_WEBHOOK_SECRET
-PAYSSION_API_KEY, PAYSSION_WEBHOOK_SECRET
-CREEM_API_KEY, CREEM_WEBHOOK_SECRET
-```
-
-### AI Providers
-```bash
-ARK_API_KEY           # Volcano Engine
-KIE_AI_API_KEY        # Kie.ai (video + image)
-ALI_API_KEY           # Ali Cloud
-FAL_KEY               # fal.ai
-OPENAI_API_KEY        # DALL-E
-REPLICATE_API_TOKEN   # Replicate
-HF_TOKEN              # Hugging Face
-```
-
-### Security & Analytics
-```bash
-TURNSTILE_SECRET_KEY  # Cloudflare Turnstile
-NEXT_PUBLIC_YANDEX_METRICA_ID
-YANDEX_OFFLINE_CONVERSION_TOKEN
-NEXT_PUBLIC_PLAUSIBLE_DOMAIN
-```
+### Other
+- `services/imageStorageService.ts` — S3-compatible uploads. `middleware.ts` — locale routing.
+- `docs/DEVELOPMENT.md` — development history & UI-redesign notes.
 
 ## Important Notes
 
-### Video Models
-- Defined in `config/video-models.ts`
-- Credit calculation: `calculateCredits(modelId, duration, hasAudio, resolution)`
-- Seedance: 480p/1080p with 5x price difference
+### Credits & Pricing
+- **Video**: `calculateCredits(modelId, duration, hasAudio?, resolution?)` in `config/video-models.ts`. Base = `duration × perSecondCredits` (anchored at 480p), then a **resolution multiplier that varies per model family** (e.g. Seedance 1.5 Pro 480p/720p/1080p = 1×/2×/4×; Volcano Seedance 2.0 720p = 2.2×; Kie Veo3 / Kling / Gemini Omni have their own 720p/1080p/4K rules). Audio can add `audioPremiumCredits`. **Don't assume a flat per-resolution rate — read the function.**
+- **Image / Music**: fixed credits per model (from `image-models.ts` / `music-models.ts`). **Effects**: dynamic via a per-effect `calculateCredits(settings)` callback in `effect-models.ts`.
+- Deduction is atomic and pool-based via the `deduct_credits_v2` Supabase RPC (tracks per-pool expiry for refunds). Failed generations auto-refund.
 
-### Image Generation
-- Fixed 2 credits per generation
-- Supports text-to-image + image-to-image
-- CAPTCHA required for new users (10 credits balance)
-- Auto-refund on failure
-
-### Payment Flow
-1. Location detection → payment method selection
-2. Russian regions → Payssion
-3. Others → Creem (primary) or Stripe (fallback)
-4. Webhook verification → credit distribution
+### Omni Studio
+Multi-modal composition UI (`components/blocks/omni-studio/`, route `(home)/omni-studio`) for the Gemini Omni video model. Accepts text + image refs + video clips + audio refs + character refs. Inputs are counted as "units" (image = 1, video = 2, capped); supports 720p/1080p/4K with resolution-based pricing and an audio toggle. Backed by `KieAiGeminiOmniProvider` + `agentImageService`.
 
 ### Security
-- RLS on all Supabase tables
-- Webhook signature verification (HMAC-SHA256)
-- Zod schemas for API validation
-- Cloudflare Turnstile for bot protection
+- RLS on all Supabase tables; webhook HMAC-SHA256 verification; Zod schemas for API validation.
+- Cloudflare Turnstile (`TURNSTILE_SECRET_KEY` / `NEXT_PUBLIC_TURNSTILE_SITE_KEY`) for bot protection; CAPTCHA gating for new low-balance users on image gen.
+- Signed video callbacks for models with `useSignedCallback: true` (`VIDEO_CALLBACK_SIGNING_SECRET`).
+
+## Environment Variables
+
+Provider keys are read via `process.env` in `ProviderFactory` / services (some are **not** in `.env.example`):
+
+```bash
+# Core
+SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
+AUTH_SECRET, NEXTAUTH_URL, NEXT_PUBLIC_WEB_URL
+STORAGE_ACCESS_KEY, STORAGE_SECRET_KEY        # S3-compatible storage
+VIDEO_CALLBACK_SIGNING_SECRET                 # signed video callbacks
+CRON_SECRET
+
+# Payments
+CREEM_API_KEY, CREEM_API_SECRET, CREEM_WEBHOOK_SECRET, CREEM_BASE_URL
+STRIPE_PUBLIC_KEY, STRIPE_PRIVATE_KEY, STRIPE_WEBHOOK_SECRET
+PAYSSION_API_KEY, PAYSSION_*                  # Payssion V2 (Russia)
+
+# AI providers (video/image/music)
+KIE_AI_API_KEY, KIE_AI_BASE_URL               # Kie.ai (Gemini Omni, Veo3, Sora2, Kling, Hailuo, Wan, music, GPT-Image-2)
+ARK_API_KEY                                   # Volcano Engine (Seedance)
+FAL_KEY                                        # fal.ai
+BYTEPLUS_API_KEY, APICORE_API_KEY
+ALI_API_KEY, ALI_API_KEY_INTL                 # Ali Cloud
+EVOLINK_API_KEY, EVOLINK_BASE_URL
+MAXAPI_API_KEY, MAXAPI_BASE_URL
+FALLBACK_TO_FAL_ENABLED                       # image gen fal.ai fallback toggle
+
+# Auth providers
+AUTH_GOOGLE_ID, AUTH_GOOGLE_SECRET, AUTH_GITHUB_SECRET, AUTH_APPLE_SECRET, AUTH_VK_SECRET
+
+# Analytics & security
+TURNSTILE_SECRET_KEY, NEXT_PUBLIC_TURNSTILE_SITE_KEY
+NEXT_PUBLIC_YANDEX_METRICA_ID, NEXT_PUBLIC_PLAUSIBLE_DOMAIN, NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
+```
 
 ---
 
-**For detailed development history and UI redesign docs, see `docs/DEVELOPMENT.md`**
+**For detailed development history and UI-redesign docs, see `docs/DEVELOPMENT.md`. Repository contribution rules are in `AGENTS.md`.**
