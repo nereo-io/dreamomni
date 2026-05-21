@@ -1,8 +1,11 @@
 import Stripe from "stripe";
 import { respOk } from "@/lib/resp";
 import {
+  handleStripeCheckoutSessionExpired,
+  handleStripeCheckoutSessionFailure,
   handleInvoicePayment,
   handleOrderSession,
+  handleStripeInvoicePaymentFailed,
   handleStripeSubscriptionCanceled,
 } from "@/services/order";
 import { getTrimmedEnv } from "@/lib/env";
@@ -51,6 +54,27 @@ export async function handleStripeWebhook(req: Request) {
             invoice.billing_reason
           );
         }
+        break;
+      }
+
+      case "invoice.payment_failed": {
+        const invoice = event.data.object;
+        await handleStripeInvoicePaymentFailed(invoice);
+        break;
+      }
+
+      case "checkout.session.expired": {
+        const session = event.data.object;
+        await handleStripeCheckoutSessionExpired(session);
+        break;
+      }
+
+      case "checkout.session.async_payment_failed": {
+        const session = event.data.object;
+        await handleStripeCheckoutSessionFailure(session, {
+          code: "checkout_async_payment_failed",
+          message: "Stripe checkout asynchronous payment failed",
+        });
         break;
       }
 

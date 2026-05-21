@@ -138,7 +138,8 @@ export class PaymentProcessingService {
           orderNo: orderId,
           userUuid: data.userUuid,
           subscriptionId: data.subscriptionId,
-          paymentProvider: data.paymentMethod, // 传入支付提供商
+          paymentProvider:
+            data.paymentProvider || order.payment_provider || data.paymentMethod,
           totalCredits: credits,
           monthlyCredits: creditsToAward,
         });

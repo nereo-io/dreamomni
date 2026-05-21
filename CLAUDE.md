@@ -148,6 +148,12 @@ Each media type has its own submit route + service + status mechanism. Status is
 ### Omni Studio
 Multi-modal composition UI (`components/blocks/omni-studio/`, route `(home)/omni-studio`) for the Gemini Omni video model. Accepts text + image refs + video clips + audio refs + character refs. Inputs are counted as "units" (image = 1, video = 2, capped); supports 720p/1080p/4K with resolution-based pricing and an audio toggle. Backed by `KieAiDreamOmniProvider` + `agentImageService`.
 
+### Payment Flow
+1. Location detection → payment method selection.
+2. Russian regions → Payssion.
+3. Other regions → Creem primary, Stripe fallback where configured.
+4. Webhook verification → unified payment processing → credit distribution / subscription sync.
+
 ### Security
 - RLS on all Supabase tables; webhook HMAC-SHA256 verification; Zod schemas for API validation.
 - Cloudflare Turnstile (`TURNSTILE_SECRET_KEY` / `NEXT_PUBLIC_TURNSTILE_SITE_KEY`) for bot protection; CAPTCHA gating for new low-balance users on image gen.

@@ -25,8 +25,17 @@ Google announced Gemini Omni at Google I/O 2026 as a new multimodal video genera
 - **Authentication**: Google and email sign-in flows are planned for production launch
 - **Multi-language Foundation**: Locale-aware routing for international landing pages
 
-### Payment System
-- Stripe support is planned. Paid plans and credit packages should only be promoted after production Stripe configuration is completed.
+### Credit & Payment System
+- **Credit-based Pricing**: Dynamic credit pricing based on model and settings
+- **Multiple Payment Providers**: Creem primary, Stripe fallback, and Payssion V2 for the Russian market
+- **Subscription Plans**: Monthly and yearly memberships with automatic credit distribution
+- **Free Trial**: New users receive free credits to explore the platform
+
+### Authentication & User Management
+- **Multiple Sign-in Options**: Google, GitHub, Apple, Email authentication
+- **User Dashboard**: Credits management, subscription details, order history
+- **Invite System**: Referral program with bonus credits for successful invites
+- **API Access**: API keys for developers and integrations
 
 ## Technical Architecture
 

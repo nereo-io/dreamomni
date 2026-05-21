@@ -2,6 +2,7 @@ import {
   findOrderByOrderNo,
   updateOrderPaymentId,
   insertOrder,
+  recordOrderPaymentFailure,
 } from "@/models/order";
 import { getIsoTimestr } from "@/lib/time";
 import Stripe from "stripe";
@@ -39,6 +40,23 @@ function normalizeStripeSubscriptionStatus(status?: string) {
     default:
       return "active";
   }
+}
+
+function resolveStripeInvoiceMetadata(invoice: Stripe.Invoice) {
+  let metadata = invoice.subscription_details?.metadata || {};
+
+  if (!metadata || Object.keys(metadata).length === 0) {
+    if (invoice.metadata && Object.keys(invoice.metadata).length > 0) {
+      metadata = invoice.metadata;
+    } else {
+      const lineItem = invoice.lines.data[0];
+      if (lineItem && lineItem.metadata) {
+        metadata = lineItem.metadata;
+      }
+    }
+  }
+
+  return metadata || {};
 }
 
 async function syncStripeSubscriptionFromSession(
@@ -94,6 +112,60 @@ async function syncStripeSubscriptionFromSession(
   }
 }
 
+async function syncStripeSubscriptionFromInvoice(
+  invoice: Stripe.Invoice,
+  order: Order | undefined,
+  productConfig: NonNullable<ReturnType<typeof getAnyProductConfig>>,
+  stripe: Stripe
+) {
+  const subscriptionId = getStripeId(invoice.subscription as any);
+  if (!subscriptionId || productConfig.interval === "one-time") {
+    return;
+  }
+
+  try {
+    const { upsertStripeSubscription } = await import(
+      "@/models/stripe-subscription"
+    );
+
+    let subscription: any = null;
+    if (stripe.subscriptions?.retrieve) {
+      try {
+        subscription = await stripe.subscriptions.retrieve(subscriptionId);
+      } catch (error) {
+        console.error("retrieve stripe subscription from invoice failed:", error);
+      }
+    }
+
+    await upsertStripeSubscription({
+      user_uuid:
+        order?.user_uuid || invoice.subscription_details?.metadata?.user_uuid || "",
+      stripe_subscription_id: subscriptionId,
+      stripe_customer_id:
+        getStripeId((invoice as any).customer) ||
+        getStripeId(subscription?.customer),
+      plan_type: productConfig.interval === "year" ? "yearly" : "monthly",
+      amount: productConfig.amount,
+      currency: productConfig.currency,
+      status: normalizeStripeSubscriptionStatus(subscription?.status),
+      current_period_start:
+        toIsoFromStripeTimestamp(subscription?.current_period_start) ||
+        order?.paid_at ||
+        order?.created_at,
+      current_period_end:
+        toIsoFromStripeTimestamp(subscription?.current_period_end) ||
+        order?.expired_at,
+      canceled_at: subscription?.canceled_at
+        ? toIsoFromStripeTimestamp(subscription.canceled_at)
+        : undefined,
+      product_name: productConfig.product_name,
+      product_id: productConfig.product_id,
+    });
+  } catch (error) {
+    console.error("sync stripe subscription from invoice failed:", error);
+  }
+}
+
 async function syncStripeOrderPaymentIdFromSession(
   session: Stripe.Checkout.Session,
   order: Order,
@@ -114,6 +186,41 @@ async function syncStripeOrderPaymentIdFromSession(
   }
 
   return undefined;
+}
+
+async function trackStripeOfflineConversion(
+  orderNo: string,
+  order:
+    | Pick<Order, "client_id" | "first_touch" | "last_touch">
+    | undefined,
+  amountCents: number
+) {
+  try {
+    const { offlineConversionService } = await import(
+      "@/services/analytics/yandex-offline-conversion"
+    );
+    const yclid = order?.last_touch?.yclid || order?.first_touch?.yclid;
+
+    if (order?.client_id || yclid) {
+      await offlineConversionService.trackPaymentSuccess(
+        {
+          clientId: order?.client_id || undefined,
+          yclid,
+        },
+        orderNo,
+        amountCents / 100
+      );
+    } else {
+      console.error("stripe order missing client_id/yclid for conversion", {
+        orderNo,
+      });
+    }
+  } catch (error: any) {
+    console.error(
+      "track stripe offline conversion failed:",
+      error?.message || error
+    );
+  }
 }
 
 async function resolveStripePaymentIdFromWebhookInvoice(
@@ -226,6 +333,8 @@ export async function handleOrderSession(
       }
     }
 
+    await trackStripeOfflineConversion(order_no, order, order.amount);
+
     console.log(
       "handle order session successed: ",
       order_no,
@@ -248,24 +357,10 @@ export async function handleInvoicePayment(
     console.log("Processing invoice payment:", invoice.id);
 
     // 获取元数据 - 优先从subscription_details获取
-    let metadata = invoice.subscription_details?.metadata || {};
+    let metadata = resolveStripeInvoiceMetadata(invoice);
     let user_uuid, order_no;
     let creditsIdentifierFromInvoice: string | undefined = undefined; // 用于会员类型判断
     let productIdFromInvoice: string | undefined = undefined;
-
-    // 如果subscription_details中没有元数据，尝试其他位置
-    if (!metadata || Object.keys(metadata).length === 0) {
-      // 尝试invoice.metadata
-      if (invoice.metadata && Object.keys(invoice.metadata).length > 0) {
-        metadata = invoice.metadata;
-      } else {
-        // 最后尝试从行项目中获取
-        const lineItem = invoice.lines.data[0];
-        if (lineItem && lineItem.metadata) {
-          metadata = lineItem.metadata;
-        }
-      }
-    }
 
     // 从元数据中提取必要信息
     if (metadata) {
@@ -387,11 +482,88 @@ export async function handleInvoicePayment(
       );
     }
 
+    await syncStripeSubscriptionFromInvoice(
+      invoice,
+      originalOrder,
+      renewalConfig,
+      stripe
+    );
+    await trackStripeOfflineConversion(
+      renewalOrderNo,
+      originalOrder,
+      renewalConfig.amount
+    );
+
     console.log("Invoice payment processed successfully:", invoice.id);
   } catch (e) {
     console.log("handle invoice payment failed:", e);
     throw e;
   }
+}
+
+export async function handleStripeInvoicePaymentFailed(invoice: Stripe.Invoice) {
+  try {
+    const metadata = resolveStripeInvoiceMetadata(invoice);
+    const orderNo = metadata.order_no;
+
+    if (!orderNo) {
+      throw new Error(`stripe invoice ${invoice.id} missing order_no metadata`);
+    }
+
+    const paymentIntent =
+      typeof invoice.payment_intent === "string" ? null : invoice.payment_intent;
+    const paymentError = (paymentIntent as any)?.last_payment_error || {};
+    const failureCode =
+      paymentError.code ||
+      paymentError.decline_code ||
+      invoice.status ||
+      "payment_failed";
+    const failureMessage =
+      paymentError.message || "Stripe invoice payment failed";
+
+    await recordOrderPaymentFailure(orderNo, {
+      code: failureCode,
+      message: failureMessage,
+      rawMessage: paymentError.message,
+      provider: "stripe",
+      failureAt: new Date().toISOString(),
+      eventId: invoice.id,
+    });
+  } catch (e) {
+    console.log("handle stripe invoice payment failed event failed:", e);
+    throw e;
+  }
+}
+
+export async function handleStripeCheckoutSessionFailure(
+  session: Stripe.Checkout.Session,
+  failure: { code: string; message: string; rawMessage?: string }
+) {
+  const orderNo = session.metadata?.order_no;
+
+  if (!orderNo) {
+    throw new Error(
+      `stripe checkout session ${session.id} missing order_no metadata`
+    );
+  }
+
+  await recordOrderPaymentFailure(orderNo, {
+    code: failure.code,
+    message: failure.message,
+    rawMessage: failure.rawMessage,
+    provider: "stripe",
+    failureAt: new Date().toISOString(),
+    eventId: session.id,
+  });
+}
+
+export async function handleStripeCheckoutSessionExpired(
+  session: Stripe.Checkout.Session
+) {
+  await handleStripeCheckoutSessionFailure(session, {
+    code: "checkout_expired",
+    message: "Stripe checkout session expired before payment completed",
+  });
 }
 
 export async function handleStripeSubscriptionCanceled(

@@ -831,6 +831,52 @@ export class PayssionProvider extends BasePaymentProvider {
     }
   }
 
+  private normalizePayssionPeriodDate(value: any): string | undefined {
+    if (!value) return undefined;
+    if (typeof value === "number") return new Date(value * 1000).toISOString();
+    if (typeof value !== "string") return undefined;
+
+    const numericValue = Number(value);
+    if (Number.isFinite(numericValue) && value.trim() !== "") {
+      return new Date(numericValue * 1000).toISOString();
+    }
+
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
+  }
+
+  private resolvePayssionPeriodUpdate(paymentObject: any) {
+    const period =
+      paymentObject?.billing_period ||
+      paymentObject?.period ||
+      paymentObject?.subscription_period ||
+      {};
+
+    const currentPeriodStart = this.normalizePayssionPeriodDate(
+      paymentObject?.current_period_start ||
+        paymentObject?.period_start ||
+        paymentObject?.billing_period_start ||
+        period.start ||
+        period.current_period_start
+    );
+    const currentPeriodEnd = this.normalizePayssionPeriodDate(
+      paymentObject?.current_period_end ||
+        paymentObject?.period_end ||
+        paymentObject?.billing_period_end ||
+        period.end ||
+        period.current_period_end
+    );
+
+    if (!currentPeriodStart && !currentPeriodEnd) {
+      return undefined;
+    }
+
+    return {
+      ...(currentPeriodStart ? { current_period_start: currentPeriodStart } : {}),
+      ...(currentPeriodEnd ? { current_period_end: currentPeriodEnd } : {}),
+    };
+  }
+
   /**
    * 处理支付成功事件 - 激活订阅并发放积分
    */
@@ -911,11 +957,14 @@ export class PayssionProvider extends BasePaymentProvider {
         let clientId: string | undefined;
         let originalFirstTouch = null;
         let originalLastTouch = null;
+        let originalIsMonthlyDistribution: boolean | undefined;
         if (metadata.order_no) {
           const originalOrder = await findOrderByOrderNo(metadata.order_no);
           clientId = originalOrder?.client_id || undefined; // 将 null 转换为 undefined
           originalFirstTouch = originalOrder?.first_touch || null;
           originalLastTouch = originalOrder?.last_touch || null;
+          originalIsMonthlyDistribution =
+            originalOrder?.is_monthly_distribution ?? undefined;
 
           if (!clientId) {
             console.error("⚠️ 原订单缺少 client_id，续费订单将无法追踪转化", {
@@ -952,6 +1001,8 @@ export class PayssionProvider extends BasePaymentProvider {
           last_touch: originalLastTouch,
           paid_at: new Date().toISOString(),
           created_at: new Date().toISOString(),
+          is_monthly_distribution:
+            originalIsMonthlyDistribution ?? subscription.plan_type === "yearly",
         });
 
         console.log(`✅ 续费订单创建成功`, {
@@ -998,6 +1049,22 @@ export class PayssionProvider extends BasePaymentProvider {
     console.log(
       `✅ Payment completed: ${processingResult.creditsAwarded} credits awarded`
     );
+
+    const periodUpdate = this.resolvePayssionPeriodUpdate(data.object);
+    if (subscriptionId && periodUpdate) {
+      try {
+        await updateSubscriptionStatus(subscriptionId, "active", periodUpdate);
+        console.log("✅ Payssion subscription period synced", {
+          subscriptionId,
+          ...periodUpdate,
+        });
+      } catch (periodError: any) {
+        console.error("⚠️ Failed to sync Payssion subscription period", {
+          subscriptionId,
+          error: periodError.message,
+        });
+      }
+    }
 
     // 3. Track offline conversion for Yandex Metrica
     try {
