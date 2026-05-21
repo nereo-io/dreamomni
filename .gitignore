@@ -81,3 +81,10 @@ tests/e2e/.auth/
 playwright-report/
 test-results/
 .env*.local
+
+# local drafts / debug artifacts / data exports (kept locally, not tracked)
+/seo-drafts-temp/
+/debug/
+/prototype-agent-ui.html
+/best-ai-video-generator-for-youtube.md
+/effect_configs_rows.csv
