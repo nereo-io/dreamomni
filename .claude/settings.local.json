@@ -114,7 +114,8 @@
       "Read(//private/tmp/**)",
       "Bash(cat:*)",
       "mcp__plugin_stripe_stripe__create_product",
-      "mcp__plugin_stripe_stripe__create_price"
+      "mcp__plugin_stripe_stripe__create_price",
+      "WebFetch(domain:claude.com)"
     ],
     "deny": [],
     "ask": [],
