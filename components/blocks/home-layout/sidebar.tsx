@@ -31,7 +31,6 @@ import { getPricingBlock } from "@/services/page";
 import { useSidebar } from "@/contexts/sidebar";
 import { useTranslations, useLocale } from "next-intl";
 import { stripLocalePrefix } from "@/utils/pathname";
-import { FeedbackSection } from "./feedback-section";
 import { BetaBadge } from "@/components/ui/beta-badge";
 
 interface SidebarItem {
@@ -262,9 +261,8 @@ export function Sidebar() {
         </div>
       </div>
 
-      {/* Footer actions - Feedback and Upgrade Now button */}
+      {/* Footer actions */}
       <div className="p-4">
-        <FeedbackSection isCollapsed={isCollapsed} />
         <Button
           className={`w-full bg-primary hover:bg-primary/90 text-primary-foreground ${isCollapsed ? "flex items-center justify-center p-2" : "whitespace-normal text-left"
             }`}
